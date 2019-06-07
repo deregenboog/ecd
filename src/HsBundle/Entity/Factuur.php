@@ -70,7 +70,7 @@ class Factuur
 
     /**
      * @var ArrayCollection|Registratie[]
-     * @ORM\OneToMany(targetEntity="Registratie", mappedBy="factuur")
+     * @ORM\OneToMany(targetEntity="Registratie", mappedBy="factuur", cascade={"persist"})
      * @ORM\JoinColumn(onDelete="SET NULL")
      * @ORM\OrderBy({"datum": "desc", "id": "desc"})
      */
@@ -78,7 +78,7 @@ class Factuur
 
     /**
      * @var ArrayCollection|Declaratie[]
-     * @ORM\OneToMany(targetEntity="Declaratie", mappedBy="factuur")
+     * @ORM\OneToMany(targetEntity="Declaratie", mappedBy="factuur", cascade={"persist"})
      * @ORM\JoinColumn(onDelete="SET NULL")
      * @ORM\OrderBy({"datum": "desc", "id": "desc"})
      */
@@ -198,6 +198,7 @@ class Factuur
         $registratie->setFactuur($this);
 
         $this->updateDatum();
+        $this->calculateBedrag();
 
         return $this;
     }
@@ -212,6 +213,7 @@ class Factuur
         $registratie->setFactuur(null);
 
         $this->updateDatum();
+        $this->calculateBedrag();
 
         return $this;
     }
@@ -235,6 +237,7 @@ class Factuur
         $declaratie->setFactuur($this);
 
         $this->updateDatum();
+        $this->calculateBedrag();
 
         return $this;
     }
@@ -249,6 +252,7 @@ class Factuur
         $declaratie->setFactuur(null);
 
         $this->updateDatum();
+        $this->calculateBedrag();
 
         return $this;
     }
@@ -343,19 +347,38 @@ class Factuur
         return $this;
     }
 
+    public function calculateBedrag()
+    {
+        $bedrag = 0.0;
+
+        foreach ($this->declaraties as $declaratie) {
+            $bedrag += $declaratie->getBedrag();
+        }
+
+        foreach ($this->registraties as $registratie) {
+            $bedrag += 2.5 * $registratie->getUren();
+        }
+
+        $this->bedrag = $bedrag;
+
+        return $this;
+    }
+
     /**
      * Sets the date to the last day of the month of the most recent declaration/registration.
      */
     private function updateDatum()
     {
-        $datum = $this->datum;
+        if (0 === count($this->declaraties) && 0 === count($this->registraties)) {
+            return;
+        }
 
+        $datum = null;
         foreach ($this->declaraties as $declaratie) {
             if (!$datum || $declaratie->getDatum() > $datum) {
                 $datum = $declaratie->getDatum();
             }
         }
-
         foreach ($this->registraties as $registratie) {
             if (!$datum || $registratie->getDatum() > $datum) {
                 $datum = $registratie->getDatum();

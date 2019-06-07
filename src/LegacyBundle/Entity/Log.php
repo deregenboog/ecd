@@ -1,6 +1,6 @@
 <?php
 
-namespace AppBundle\Entity;
+namespace LegacyBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
@@ -9,12 +9,11 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(
  *     name="logs",
  *     indexes={
- *         @ORM\Index(name="idx_logs_model_foreign_key_created", columns={"model", "foreign_key", "created"}),
- *         @ORM\Index(name="idx_logs_model_foreign_key", columns={"model", "foreign_key"}),
- *         @ORM\Index(name="idx_logs_medewerker_id", columns={"medewerker_id"})
+ *         @ORM\Index(columns={"model", "foreign_key", "created"}),
+ *         @ORM\Index(columns={"model", "foreign_key"}),
+ *         @ORM\Index(columns={"medewerker_id"})
  *     }
  * )
- * @ORM\HasLifecycleCallbacks
  */
 class Log
 {
@@ -28,49 +27,47 @@ class Log
     /**
      * @var \DateTime
      *
-     * @ORM\Column(type="datetime")
+     * @ORM\Column(type="datetime", nullable=true)
      */
     private $created;
 
     /**
      * @var string
      *
-     * @ORM\Column(length=50)
+     * @ORM\Column(length=50, nullable=true)
      */
     private $model;
 
     /**
      * @var string
      *
-     * @ORM\Column(length=36)
+     * @ORM\Column(length=36, nullable=true)
      */
     private $foreign_key;
 
     /**
-     * @var Medewerker
-     *
-     * @ORM\ManyToOne(targetEntity="Medewerker")
+     * @ORM\Column(length=36, nullable=true)
      */
-    private $medewerker;
+    private $medewerker_id;
 
     /**
      * @var string
      *
-     * @ORM\Column(length=15)
+     * @ORM\Column(length=15, nullable=true)
      */
     private $ip;
 
     /**
      * @var string
      *
-     * @ORM\Column()
+     * @ORM\Column(nullable=true)
      */
     private $action;
 
     /**
      * @var string
      *
-     * @ORM\Column(type="text")
+     * @ORM\Column(type="text", nullable=true)
      */
     private $change;
 }

@@ -59,18 +59,13 @@ class FactuurTest extends TestCase
         $this->assertEquals($lastDayOfThisMonth->format('Y-m-d'), $factuur->getDatum()->format('Y-m-d'));
 
         $declaratie = new Declaratie();
-        $declaratie->setDatum(new \DateTime('yesterday'));
+        $declaratie->setDatum(new \DateTime('first day of this month'));
         $factuur->addDeclaratie($declaratie);
         $this->assertEquals($lastDayOfThisMonth->format('Y-m-d'), $factuur->getDatum()->format('Y-m-d'));
 
         $registratie = new Registratie();
         $registratie->setDatum(new \DateTime('first day of next month'));
         $factuur->addRegistratie($registratie);
-        $this->assertEquals($lastDayOfNextMonth->format('Y-m-d'), $factuur->getDatum()->format('Y-m-d'));
-
-        $declaratie = new Declaratie();
-        $declaratie->setDatum(new \DateTime('tomorrow'));
-        $factuur->addDeclaratie($declaratie);
         $this->assertEquals($lastDayOfNextMonth->format('Y-m-d'), $factuur->getDatum()->format('Y-m-d'));
     }
 }

@@ -67,3 +67,6 @@
 
 # PHPUnit
 /coverage/*
+
+# SCIP
+/scip*

@@ -1,0 +1,22 @@
+{% extends '::base.html.twig' %}
+{% import '::html.macro.twig' as html %}
+
+{% block title %}
+    SCIP | {{ title }}
+{% endblock %}
+
+{% block subnavigation %}
+    {% include '@Scip/subnavigation.html.twig' %}
+{% endblock %}
+
+{% block content %}
+    <h1>{{ title }}</h1>
+    <h2>Projecten</h2>
+    <ul>
+        {% for project in projecten if is_granted('access', project) %}
+            <li>
+                <a href="{{ path('scip_projecten_view', {id: project.id}) }}">{{ project }}</a>
+            </li>
+        {% endfor %}
+    </ul>
+{% endblock %}

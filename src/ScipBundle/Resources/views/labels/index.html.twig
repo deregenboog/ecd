@@ -1,0 +1,44 @@
+{% extends '::base.html.twig' %}
+{% import '::html.macro.twig' as html %}
+
+{% block title %}
+    SCIP | {{ title }}
+{% endblock %}
+
+{% block subnavigation %}
+    {% include '@Scip/subnavigation.html.twig' %}
+{% endblock %}
+
+{% block content %}
+    <h1>{{ title }}</h1>
+    <p>
+        {{ html.link(entity_name|capitalize~' toevoegen', path(route_base~'add'), 'add') }}
+    </p>
+    {% include '@Scip/labels/_filter.html.twig' %}
+    <table class="table table-hover">
+        {{ colgroup(3) }}
+        <thead>
+            <tr>
+                <th>
+                    {{ knp_pagination_sortable(pagination, '#', 'label.id') }}
+                </th>
+                <th>
+                    {{ knp_pagination_sortable(pagination, 'Naam', 'label.naam') }}
+                </th>
+                <th>
+                    {{ knp_pagination_sortable(pagination, 'Actief', 'label.actief') }}
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for entity in pagination %}
+                <tr data-href="{{ path(route_base~'edit', {id: entity.id}) }}" class="{{ not entity.actief ? 'danger' }}">
+                    <td>{{ entity.id }}</td>
+                    <td>{{ entity }}</td>
+                    <td>{{ entity.actief|ja_nee }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {{ knp_pagination_render(pagination) }}
+{% endblock %}

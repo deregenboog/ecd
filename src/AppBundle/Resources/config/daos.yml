@@ -1,7 +1,7 @@
 services:
     app.dao.abstract:
         abstract: true
-#        public: true
+        public: true
         arguments:
             - '@doctrine.orm.entity_manager'
             - '@knp_paginator'

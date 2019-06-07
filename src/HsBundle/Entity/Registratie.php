@@ -258,6 +258,10 @@ class Registratie implements FactuurSubjectInterface
 
     public function getUren()
     {
+        if (!$this->start || !$this->eind) {
+            return 0;
+        }
+
         $seconds = $this->eind->getTimestamp() - $this->start->getTimestamp();
 
         return $seconds / 3600;

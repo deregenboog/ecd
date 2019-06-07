@@ -70,6 +70,7 @@ security:
             - CONTROLLER_APP_VRIJWILLIGERS
             - CONTROLLER_ATTACHMENTS
         ROLE_IZ:
+            - ROLE_EROPUIT
             - CONTROLLER_APP_KLANTEN
             - CONTROLLER_APP_VRIJWILLIGERS
             - CONTROLLER_APP_ZRMS
@@ -102,6 +103,13 @@ security:
             - ROLE_OEK
         ROLE_WERKBEGELEIDER: []
         ROLE_ADMINISTRATIEBEDRIJF: []
+        ROLE_SCIP: []
+        ROLE_SCIP_BEHEER:
+            - ROLE_SCIP
+            - CONTROLLER_APP_KLANTEN
+        ROLE_SKIP_BEHEER:
+            - ROLE_SCIP_BEHEER
+        ROLE_EROPUIT: []
         ROLE_ADMIN:
             - ROLE_MW
             - ROLE_MW_BEHEER
@@ -134,6 +142,8 @@ security:
             - ROLE_IZ_BEHEER
             - ROLE_GA
             - ROLE_GA_BEHEER
+            - ROLE_SCIP
+            - ROLE_SCIP_BEHEER
             - CONTROLLER_ADMIN
             - CONTROLLER_APP_KLANTEN
             - CONTROLLER_APP_RAPPORTAGES
@@ -177,3 +187,7 @@ ldap_tools:
             ROLE_CLIP_BEHEER: "CN=ECD CLIP Beheer,CN=Users,DC=cluster,DC=deregenboog"
             ROLE_HOMESERVICE: "CN=ECD Homeservice,CN=Users,DC=cluster,DC=deregenboog"
             ROLE_HOMESERVICE_BEHEER: "CN=ECD Homeservice Beheer,CN=Users,DC=cluster,DC=deregenboog"
+            ROLE_SCIP: "CN=ECD SCIP,CN=Users,DC=cluster,DC=deregenboog"
+            ROLE_SCIP_BEHEER: "CN=ECD SCIP Beheer,CN=Users,DC=cluster,DC=deregenboog"
+            ROLE_SKIP_BEHEER: "CN=ECD SKIP Beheer,CN=Users,DC=cluster,DC=deregenboog" # because of typo in LDAP-group
+            ROLE_EROPUIT: "CN=ECD ErOpUit,CN=Users,DC=cluster,DC=deregenboog"

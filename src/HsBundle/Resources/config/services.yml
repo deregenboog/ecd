@@ -4,12 +4,14 @@ imports:
     - { resource: reports.yml }
 
 services:
+    # Twig extensions
     hs.twig.hs_extension:
         class: HsBundle\Twig\HsExtension
         public: false
         tags:
             - { name: twig.extension }
 
+    # Form types
     hs.form.type.klant:
         class: HsBundle\Form\KlantType
         arguments:
@@ -17,28 +19,12 @@ services:
         tags:
             - { name: form.type }
             
-    hs.event_subscriber.klant:
-        class: HsBundle\Event\KlantUpdater
-        tags:
-            - { name: doctrine.event_subscriber }
-    
-    hs.event_subscriber.factuur:
-        class: HsBundle\Event\FactuurSubscriber
-#        arguments:
-#            - '@HsBundle\Service\FactuurDao'
-        tags:
-            - { name: doctrine.event_subscriber }
-
-    hs.factory.factuur:
-        class: HsBundle\Service\FactuurFactory
-        arguments:
-            - '@HsBundle\Service\FactuurDao'
-
     hs.form.rapportage:
         class: HsBundle\Form\RapportageType
         tags:
             - { name: form.type }
 
+    # Event subscribers
     hs.event.diensten_lookup_subscriber:
         class: HsBundle\Event\DienstenLookupSubscriber
         arguments:
@@ -46,3 +32,19 @@ services:
             - '@router'
         tags:
             - { name: kernel.event_subscriber }
+
+    hs.event_subscriber.factuur:
+        class: HsBundle\Event\FactuurSubscriber
+        tags:
+            - { name: doctrine.event_subscriber }
+
+    hs.event_subscriber.klant:
+        class: HsBundle\Event\KlantUpdater
+        tags:
+            - { name: doctrine.event_subscriber }
+    
+    # Other services
+    hs.factory.factuur:
+        class: HsBundle\Service\FactuurFactory
+        arguments:
+            - '@HsBundle\Service\FactuurDao'

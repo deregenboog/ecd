@@ -1,0 +1,9 @@
+scip_annotations:
+    resource: "@ScipBundle/Controller"
+    type: annotation
+
+scip_index:
+    path: /
+    defaults:
+        _controller: FrameworkBundle:Redirect:redirect
+        route: scip_dashboard_index

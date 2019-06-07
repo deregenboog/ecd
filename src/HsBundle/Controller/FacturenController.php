@@ -122,6 +122,10 @@ class FacturenController extends AbstractChildController
     {
         $entity = $this->dao->find($id);
 
+        if (!$entity) {
+            return $this->redirectToIndex();
+        }
+
         if ('pdf' == $this->getRequest()->get('_format')) {
             return $this->viewPdf($entity);
         }
