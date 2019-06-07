@@ -43,5 +43,8 @@ RUN touch /var/www/html/var/logs/dev/dev.log
 RUN chown -R 1000:www-data /var/www/html/var
 RUN chmod 775 /var/www/html/var
 
+#somehow php composer.phar install looks for console in the app directory.
+RUN ln -s /var/www/html/bin/console /var/www/html/app/console
+
 COPY docker/init.sh /init.sh
 RUN chmod +x /init.sh
