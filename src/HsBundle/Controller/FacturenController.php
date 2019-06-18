@@ -358,7 +358,8 @@ class FacturenController extends AbstractChildController
         $pdf = $this->createPdf($entity);
         $response = new Response($pdf->Output(null, 'S'));
 
-        $filename = sprintf('homeservice-factuur-%s.pdf', $entity);
+//        $filename = sprintf('homeservice-factuur-%s.pdf', $entity);
+        $filename = sprintf('homeservice-factuur-%s-%s.pdf', $entity, $entity->getKlant());
         $response->headers->set('Content-type', 'application/pdf');
         $response->headers->set('Content-Disposition', sprintf('attachment; filename="%s";', $filename));
         $response->headers->set('Content-Transfer-Encoding', 'binary');
