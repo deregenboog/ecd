@@ -6,8 +6,15 @@ php:
 env:
   - DB=sqlite
 
+before_install:
+  - wget --no-check-certificate https://www.apache.org/dist/ant/binaries/apache-ant-1.10.6-bin.tar.gz
+  - tar -xzvf apache-ant-1.10.6-bin.tar.gz
+  - export PATH=`pwd`/apache-ant-1.10.6/bin:$PATH
+  - echo $(ant -version)
+
 before_script:
   - sudo locale-gen nl_NL.UTF-8 && sudo update-locale
+  - sudo apt-get install ant
   - echo 'memory_limit=2G' >> ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/travis.ini
   - composer install --no-scripts
   - cp app/config/parameters.yml.dist app/config/parameters.yml

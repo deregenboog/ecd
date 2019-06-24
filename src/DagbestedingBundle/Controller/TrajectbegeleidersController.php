@@ -24,7 +24,7 @@ class TrajectbegeleidersController extends AbstractController
     /**
      * @var TrajectbegeleiderDaoInterface
      *
-     * @DI\Inject("DagbestedingBundle\Service\TrajectafsluitingDao")
+     * @DI\Inject("DagbestedingBundle\Service\TrajectbegeleiderDao")
      */
     protected $dao;
 

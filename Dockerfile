@@ -17,8 +17,11 @@ RUN apt-get update && apt-get install -y \
 
 RUN pecl install xdebug && docker-php-ext-enable xdebug
 COPY docker/xdebug.ini /tmp/xdebug.ini
+
 RUN cat /tmp/xdebug.ini >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini \
     && rm /tmp/xdebug.ini
+#RUN echo "xdebug.remote_host=host.docker.internal" >> usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
+
 
 RUN docker-php-ext-configure ldap --with-libdir=lib/x86_64-linux-gnu \
     && docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ \
