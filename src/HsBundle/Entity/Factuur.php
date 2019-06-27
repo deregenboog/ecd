@@ -366,9 +366,14 @@ class Factuur
 
     /**
      * Sets the date to the last day of the month of the most recent declaration/registration.
+     *
+     * Krijg vragen hierover; is ongewenst. Alleen de factuurdatum moet op laatste dag van de maand; niet de interne factuurregels (#824, ingetreden sinds #641)
+     *
      */
     private function updateDatum()
     {
+        return;
+
         if (0 === count($this->declaraties) && 0 === count($this->registraties)) {
             return;
         }
