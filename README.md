@@ -15,6 +15,9 @@ The [Docker Compose configuration file](docker-compose.yml) in this project refe
  - clone the repository: `git clone git@github.com:deregenboog/ecd.git`
  - cd into the project directory: `cd ecd`
  - build the image: `bin/docker-build.sh`
+ - For MacOS: install docker-sync (see http://docker-sync.io)
+ - Check configuration in docker-sync.yml
+ - start docker-sync container: `docker-sync start`
  - start the Docker-containers and start a Bash shell on the web container: `bin/docker-up.sh`
  - install PHP related dependencies using Composer: `./composer.phar install`
  - migrate database: `bin/console doctrine:migrations:migrate --no-interaction`

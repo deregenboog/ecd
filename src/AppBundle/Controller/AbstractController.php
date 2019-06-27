@@ -96,7 +96,6 @@ abstract class AbstractController extends SymfonyController
         } else {
             $filter = null;
         }
-
         $page = $request->get('page', 1);
         $pagination = $this->dao->findAll($page, $filter);
 

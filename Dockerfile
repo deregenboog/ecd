@@ -3,6 +3,7 @@ FROM php:7.1-apache
 COPY docker/php.ini /usr/local/etc/php/
 
 EXPOSE 80
+#RUN usermod -u 1000 www-data
 
 RUN apt-get update && apt-get install -y \
     g++ \
@@ -33,6 +34,13 @@ RUN echo "Europe/Amsterdam" > /etc/timezone && dpkg-reconfigure -f noninteractiv
 # install locale
 RUN echo "nl_NL.UTF-8 UTF-8" > /etc/locale.gen
 RUN locale-gen
+
+#since docker-sync is not syncing this folder, prepare manually.
+RUN mkdir -p /var/www/html/var/cache
+RUN mkdir -p /var/www/html/var/logs/dev
+RUN touch /var/www/html/var/logs/dev/dev.log
+RUN chown -R 1000:www-data /var/www/html/var
+RUN chmod 775 /var/www/html/var
 
 # configure apache
 COPY docker/vhost.conf /etc/apache2/sites-available/app.conf

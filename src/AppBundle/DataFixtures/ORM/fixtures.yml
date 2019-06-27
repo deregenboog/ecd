@@ -639,11 +639,11 @@ AppBundle\Entity\Nationaliteit:
 AppBundle\Entity\Medewerker:
     medewerker_bhuttinga:
         ldapGuid (unique): '<randomNumber()>'
-        username: 'bhuttinga'
+        username: 'admin'
         roles: ['ROLE_ADMIN']
         email: '<email()>'
-        voornaam: 'Bart'
-        achternaam: 'Huttinga'
+        voornaam: '<firstname()>'
+        achternaam: '<lastname()>'
         eersteBezoek: '<dateTimeThisDecade()>'
         laatsteBezoek: '<dateTimeThisDecade()>'
     medewerker_clip:
