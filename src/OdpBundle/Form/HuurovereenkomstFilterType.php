@@ -93,6 +93,7 @@ class HuurovereenkomstFilterType extends AbstractType
             $builder->add('actief', CheckboxType::class, [
                 'required' => false,
                 'label' => 'Actieve koppelingen',
+                'data' => false,
             ]);
         }
 

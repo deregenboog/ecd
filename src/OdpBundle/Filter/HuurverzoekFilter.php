@@ -27,7 +27,7 @@ class HuurverzoekFilter implements FilterInterface
     /**
      * @var bool
      */
-    public $actief = true;
+    public $actief;
 
     /**
      * @var KlantFilter

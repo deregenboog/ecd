@@ -53,6 +53,7 @@ class VerhuurderFilterType extends AbstractType
             $builder->add('actief', CheckboxType::class, [
                 'label' => 'Alleen actieve dossiers',
                 'required' => false,
+                'data' => false,
             ]);
         }
 

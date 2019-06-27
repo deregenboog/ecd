@@ -46,6 +46,7 @@ class HuurverzoekFilterType extends AbstractType
             $builder->add('actief', CheckboxType::class, [
                 'required' => false,
                 'label' => 'Actieve huurverzoeken',
+                'data' => false,
             ]);
         }
 

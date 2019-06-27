@@ -41,7 +41,7 @@ class HuurderFilter implements FilterInterface
     /**
      * @var bool
      */
-    public $actief = true;
+    public $actief;
 
     /**
      * @var KlantFilter
@@ -117,10 +117,11 @@ class HuurderFilter implements FilterInterface
         }
 
         if ($this->actief) {
+
             $builder
                 ->andWhere('huurder.aanmelddatum <= :today')
-                ->andWhere('huurder.afsluitdatum > :today OR huurder.afsluitdatum IS NULL')
-                ->setParameter('today', new \DateTime('today'))
+                 ->andWhere('huurder.afsluitdatum > :today OR huurder.afsluitdatum IS NULL')
+                 ->setParameter('today', new \DateTime('today'))
             ;
         }
 
