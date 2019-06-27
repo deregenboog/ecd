@@ -135,6 +135,7 @@ class DeelnemerFilter implements FilterInterface
                 ->andWhere('afsluiting.datum > :today OR afsluiting.datum IS NULL')
                 ->setParameter('today', new \DateTime('today'))
             ;
+
         }
 
         if ($this->klant) {
