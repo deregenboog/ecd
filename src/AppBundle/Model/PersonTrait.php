@@ -3,8 +3,11 @@
 namespace AppBundle\Model;
 
 use AppBundle\Entity\Geslacht;
+use AppBundle\Service\NameFormatter;
+use Doctrine\ORM\EntityNotFoundException;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
+use Symfony\Component\Debug\Exception\FatalErrorException;
 
 trait PersonTrait
 {
@@ -33,7 +36,13 @@ trait PersonTrait
 
     public function __toString()
     {
-        return $this->getNaam();
+        try {
+            return $this->getNaam();
+        } catch (EntityNotFoundException $e) {
+            return '';
+        } catch (FatalErrorException $e) {
+            return '';
+        }
     }
 
     public function getNaam()

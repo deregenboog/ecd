@@ -41,6 +41,15 @@ class WebTestCase extends BaseWebTestCase
 
     protected function tearDown()
     {
+        //see https://stackoverflow.com/questions/36032168/symfony-and-phpunit-memory-leak
+        // Remove properties defined during the test
+        $refl = new \ReflectionObject($this);
+        foreach ($refl->getProperties() as $prop) {
+            if (!$prop->isStatic() && 0 !== strpos($prop->getDeclaringClass()->getName(), 'PHPUnit_')) {
+                $prop->setAccessible(true);
+                $prop->setValue($this, null);
+            }
+        }
         $this->client = null;
         parent::tearDown();
     }

@@ -101,13 +101,15 @@
     <dl class="dl-horizontal">
         <dt>Vrijwilligers</dt>
         <dd>
+            {% if entity.vrijwilligers|length > 0 %}
             <ul>
-                {% for vrijwilliger in entity.vrijwilligers %}
+                {% for vrijwilliger in entity.vrijwilligers if vrijwilliger.vrijwilliger is not null%}
                     <li>
                         {{ html.link(vrijwilliger.vrijwilliger, path('hs_vrijwilligers_view', {'id': vrijwilliger.id})) }}
                     </li>
                 {% endfor %}
             </ul>
+            {% endif %}
         </dd>
     </dl>
 {% endblock %}

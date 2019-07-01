@@ -5,6 +5,7 @@ namespace AppBundle\Entity;
 use AppBundle\Model\DocumentSubjectTrait;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
+use Symfony\Component\Debug\Exception\FatalErrorException;
 
 /**
  * @ORM\Entity

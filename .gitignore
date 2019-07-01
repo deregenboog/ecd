@@ -66,4 +66,5 @@
 /app/config/.env
 
 # PHPUnit
+phpunit
 /coverage/*

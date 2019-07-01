@@ -8,6 +8,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityNotFoundException;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
+use Symfony\Component\Debug\Exception\FatalErrorException;
 
 /**
  * @ORM\Entity
@@ -45,10 +46,15 @@ class Vrijwilliger extends Arbeider implements MemoSubjectInterface, DocumentSub
 
     public function __toString()
     {
+
         try {
             return NameFormatter::formatFormal($this->vrijwilliger);
         } catch (EntityNotFoundException $e) {
-            return '';
+            return '(verwijderd)';
+        }
+        catch(FatalErrorException $e)
+        {
+            return '(verwijderd)';
         }
     }
 
@@ -59,7 +65,16 @@ class Vrijwilliger extends Arbeider implements MemoSubjectInterface, DocumentSub
 
     public function getVrijwilliger()
     {
-        return $this->vrijwilliger;
+        try
+        {
+            $this->vrijwilliger->getCreated();
+        }
+        catch(\Doctrine\ORM\EntityNotFoundException $e)
+        {
+            return null;
+        }
+
+        return null;
     }
 
     public function setVrijwilliger(AppVrijwilliger $vrijwilliger)

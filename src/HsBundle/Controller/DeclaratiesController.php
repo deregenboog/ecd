@@ -3,8 +3,12 @@
 namespace HsBundle\Controller;
 
 use AppBundle\Controller\AbstractChildController;
+use AppBundle\Exception\AppException;
+use HsBundle\Entity\Arbeider;
 use HsBundle\Entity\Declaratie;
 use HsBundle\Entity\Factuur;
+use HsBundle\Entity\Klus;
+use HsBundle\Entity\Registratie;
 use HsBundle\Form\DeclaratieType;
 use HsBundle\Service\DeclaratieDaoInterface;
 use JMS\DiExtraBundle\Annotation as DI;
@@ -81,5 +85,47 @@ class DeclaratiesController extends AbstractChildController
         }
 
         return parent::deleteAction($request, $id);
+    }
+
+    /**
+     * @Route("/add")
+     */
+    public function addAction(Request $request)
+    {
+        list($parentEntity) = $this->getParentConfig($request);
+        if (!$parentEntity && !$this->allowEmpty) {
+            throw new AppException(sprintf('Kan geen %s aan deze entiteit toevoegen', $this->entityName));
+        }
+
+        if ($parentEntity instanceof Klus) {
+            $entity = new Declaratie($parentEntity);
+        } elseif ($parentEntity instanceof Arbeider) {
+            $entity = new Declaratie(null, $parentEntity);
+        }
+
+        $form = $this->createForm($this->formClass, $entity);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            try {
+                $this->dao->create($entity);
+                $this->addFlash('success', ucfirst($this->entityName).' is toegevoegd.');
+            } catch (\Exception $e) {
+                $message = $this->container->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
+                $this->addFlash('danger', $message);
+            }
+
+            if ($url = $request->get('redirect')) {
+                return $this->redirect($url);
+            }
+
+            return $this->redirectToView($parentEntity);
+        }
+
+        return [
+            'entity' => $entity,
+            'parent_entity' => $parentEntity,
+            'form' => $form->createView(),
+        ];
     }
 }
