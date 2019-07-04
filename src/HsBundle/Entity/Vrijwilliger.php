@@ -65,6 +65,12 @@ class Vrijwilliger extends Arbeider implements MemoSubjectInterface, DocumentSub
 
     public function getVrijwilliger()
     {
+        /**
+         * Because vrijwilliger can be disabled and this is implemented via an SQL filter. Doctrine just gets an empty object somehow so it seems.
+         * Thus, all goes well until the point a field of vrijwilliger is called (in a template for example).
+         * But then its too late to catch exceptions.
+         * Thus, try a field here (since vrijwilliger is not null) and catch exception. If so, return nul..
+         */
         try
         {
             $this->vrijwilliger->getCreated();
@@ -74,7 +80,7 @@ class Vrijwilliger extends Arbeider implements MemoSubjectInterface, DocumentSub
             return null;
         }
 
-        return null;
+       return $this->vrijwilliger;
     }
 
     public function setVrijwilliger(AppVrijwilliger $vrijwilliger)
