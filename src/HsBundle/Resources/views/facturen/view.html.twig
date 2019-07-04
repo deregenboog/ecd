@@ -22,6 +22,9 @@
         {% else %}
             {% if is_granted('ROLE_HOMESERVICE_BEHEER') %}
                 {{ html.link('Factuur definitief maken', path('hs_facturen_lock', {id: entity.id}), 'ok') }}
+                {% if entity is instanceof ('HsBundle\\Entity\\Creditfactuur') %}
+                    {{ html.link('Factuur bewerken', path('hs_facturen_edit', {id: entity.id}), 'edit') }}
+                {% endif %}
             {% endif %}
         {% endif %}
     </p>

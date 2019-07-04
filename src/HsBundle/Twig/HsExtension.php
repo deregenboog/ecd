@@ -37,4 +37,16 @@ class HsExtension extends \Twig_Extension
 
         return sprintf('<span style="color: %s;">%s</span>', $color, $value);
     }
+
+    public function getTests()
+    {
+        return array (
+          new \Twig_SimpleTest("instanceof",array($this,"isInstanceOf")),
+        );
+    }
+
+    public function isInstanceOf($var,$instance) {
+        $reflectionClass = new \ReflectionClass($instance);
+        return $reflectionClass->isInstance($var);
+    }
 }
