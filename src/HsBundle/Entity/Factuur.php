@@ -366,27 +366,35 @@ class Factuur
 
     /**
      * Sets the date to the last day of the month of the most recent declaration/registration.
-     *
+     * #824
      * Krijg vragen hierover; is ongewenst. Alleen de factuurdatum moet op laatste dag van de maand; niet de interne factuurregels (#824, ingetreden sinds #641)
+     * Volgens mij kan dit ook anders door dit alleen te doen wanneer de factuur definitief gemaakt wordt. En in concept dan gewoon een tekstveld maken waarin dat gezegd wordt.
      *
+     * @TODO Anders implementeren zie boven.
      */
     private function updateDatum()
     {
-        return;
-
         if (0 === count($this->declaraties) && 0 === count($this->registraties)) {
             return;
         }
 
-        $datum = null;
+        $datum = new \DateTime();
         foreach ($this->declaraties as $declaratie) {
             if (!$datum || $declaratie->getDatum() > $datum) {
-                $datum = $declaratie->getDatum();
+                $datum->setDate(
+                    $declaratie->getDatum()->format("Y"),
+                    $declaratie->getDatum()->format("m"),
+                    $declaratie->getDatum()->format("d")
+                );
             }
         }
         foreach ($this->registraties as $registratie) {
             if (!$datum || $registratie->getDatum() > $datum) {
-                $datum = $registratie->getDatum();
+                $datum->setDate(
+                    $registratie->getDatum()->format("Y"),
+                    $registratie->getDatum()->format("m"),
+                    $registratie->getDatum()->format("d")
+                );
             }
         }
 
