@@ -67,6 +67,7 @@ class KlantenController extends AbstractController
 
         return [
             'diensten' => $event->getDiensten(),
+            'tbc_countries' => $this->container->getParameter('tbc_countries')
         ];
     }
 }

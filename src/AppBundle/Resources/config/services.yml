@@ -55,7 +55,9 @@ services:
             - { name: form.type }
 
     AppBundle\Form\KlantType:
-        arguments: ["@doctrine.orm.entity_manager"]
+        arguments:
+          - "@doctrine.orm.entity_manager"
+          - $tbc_countries: '%tbc_countries%'
         tags:
             - { name: form.type }
 

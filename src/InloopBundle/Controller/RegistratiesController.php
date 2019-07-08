@@ -77,6 +77,16 @@ class RegistratiesController extends AbstractController
     protected $export;
 
     /**
+     * @var array TBC_Countries from config.
+     */
+    protected $tbc_countries;
+
+//    public function __construct(Array $tbc_countries)
+//    {
+//
+//       $this->tbc_countries = $tbc_countries;
+//    }
+    /**
      * @Route("/")
      */
     public function locationSelectAction(Request $request)
@@ -248,7 +258,11 @@ class RegistratiesController extends AbstractController
             }
         }
 
-        if ($locatie->isGebruikersruimte()
+        /**
+         * 20190708
+         *tbcCheck hoeft niet meer van GGD voor gebruikersruimte. Nu allleen voor klanten uit tbc_countries voor alle locaties.
+         */
+        if (false && $locatie->isGebruikersruimte()
             && $klant->getLaatsteIntake()->isMagGebruiken()
             && !$klant->getLaatsteTbcControle()
         ) {
@@ -307,7 +321,11 @@ class RegistratiesController extends AbstractController
                 $jsonVar['confirm'] = true;
             }
 
-            if ($locatie->isTbcCheck()) {
+            /**
+             * TBC check hoeft niet meer voor alle klanten. Alleen voor klanten uit bepaalde landen (tbc_countries) voor alle locaties.
+             */
+            if (false && $locatie->isTbcCheck()) {
+
                 $tbcValid = $this->getParameter('tbc_months_period') * 30;
                 $newTbcCheckNeeded = (!$klant->getLaatsteTbcControle() || $klant->getLaatsteTbcControle()->diff(new \DateTime())->days > $tbcValid);
                 if ($newTbcCheckNeeded) {
@@ -315,6 +333,17 @@ class RegistratiesController extends AbstractController
                     $jsonVar['confirm'] = true;
                     $sep = $separator;
                 }
+            }
+            $tbc_countries = $this->container->getParameter('tbc_countries');
+            $tbcValid = $this->getParameter('tbc_months_period') * 30;
+
+
+            if( in_array($klant->getLand()->getNaam(),$tbc_countries)
+                && $klant->getLaatsteTbcControle()->diff(new \DateTime() )->days > $tbcValid
+            ){
+                $jsonVar['message'] .= $sep.'Let op: deze persoon komt uit een risico land en heeft een nieuwe TBC-check nodig. Toch inchecken?';
+                $jsonVar['confirm'] = true;
+                $sep = $separator;
             }
 
             if (count($klant->getOpenstaandeOpmerkingen()) > 0) {

@@ -313,6 +313,8 @@ class KlantenController extends AbstractController
     {
         return [
             'amoc_landen' => $this->getAmocLanden(),
+            'tbc_countries' => $this->container->getParameter('tbc_countries'),
+
         ];
     }
 

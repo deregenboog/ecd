@@ -22,9 +22,16 @@ class KlantType extends AbstractType
      */
     private $entityManager;
 
-    public function __construct(EntityManager $entityManager)
+    /**
+     * @var Array TBC Countries from config parameter.
+     */
+    private $tbcCountries;
+
+    public function __construct(EntityManager $entityManager,Array $args)
     {
         $this->entityManager = $entityManager;
+        $this->tbc_countries = $args['$tbc_countries'];
+
     }
 
     /**
@@ -60,7 +67,13 @@ class KlantType extends AbstractType
             ->add('opmerking', AppTextareaType::class, ['required' => false])
             ->add('geenPost', null, ['label' => 'Geen post'])
             ->add('geenEmail')
-            ->add('submit', SubmitType::class)
+        ;
+
+        if(in_array((string)$builder->getData()->getLand(),$this->tbc_countries))
+        {
+            $builder->add('laatste_TBC_controle', AppDateType::class, ['required'=>true]);
+        }
+        $builder->add('submit', SubmitType::class)
             ->addEventListener(FormEvents::SUBMIT, function (FormEvent $event) {
                 /* @var Klant $data */
                 $data = $event->getData();
@@ -81,6 +94,7 @@ class KlantType extends AbstractType
                 }
             })
         ;
+
     }
 
     /**
@@ -91,6 +105,7 @@ class KlantType extends AbstractType
         $resolver->setDefaults([
             'data_class' => Klant::class,
             'data' => null,
+
         ]);
     }
 

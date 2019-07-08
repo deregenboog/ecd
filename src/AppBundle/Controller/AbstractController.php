@@ -152,7 +152,6 @@ abstract class AbstractController extends SymfonyController
         $params = ['entity' => $entity];
 
         $params = array_merge($params, $this->addParams($entity, $request));
-
         return $params;
     }
 

@@ -10,6 +10,9 @@
             {{ form_row(form.geboortedatum) }}
             {{ form_row(form.land) }}
             {{ form_row(form.nationaliteit) }}
+            {%  if form.laatste_TBC_controle is defined %}
+                {{ form_row(form.laatste_TBC_controle) }}
+            {% endif %}
             {{ form_row(form.bsn) }}
             {{ form_row(form.overleden) }}
         </div>
