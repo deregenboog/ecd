@@ -16,6 +16,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class KlantType extends AbstractType
 {
+
     /**
      * {@inheritdoc}
      */
@@ -40,11 +41,13 @@ class KlantType extends AbstractType
         ])
         ->add('nationaliteit', NationaliteitSelectType::class)
         ->add('bsn', null, ['label' => 'BSN'])
-        ->add('laatsteTbcControle', AppDateType::class, [
+        ;
+
+        $builder->add('laatsteTbcControle', AppDateType::class, [
             'label' => 'Laatste TBC-controle',
             'required' => false,
-        ])
-        ->add('medewerker', MedewerkerType::class, ['required' => true])
+        ]);
+        $builder->add('medewerker', MedewerkerType::class, ['required' => true])
         ->add('submit', SubmitType::class)
         ;
     }

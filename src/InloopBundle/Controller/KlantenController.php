@@ -234,6 +234,11 @@ class KlantenController extends AbstractController
         $klant = $this->dao->find($id);
         $aanmelding = new Aanmelding($klant, $this->getMedewerker());
 
+        if(in_array($klant->getLand()->getNaam(),$this->getParameter('tbc_countries') ) )
+        {
+            $this->addFlash("danger","Let op: klant uit risicoland. Doorverwijzen naar GGD voor TBC controle.");
+        }
+
         $form = $this->createForm(AanmeldingType::class, $aanmelding);
         $form->handleRequest($this->getRequest());
         if ($form->isSubmitted() && $form->isValid()) {
@@ -360,9 +365,12 @@ class KlantenController extends AbstractController
 
     private function doAdd(Request $request)
     {
+        $tbc_countries = $this->getParameter('tbc_countries');
+        $tbc_countries_string = implode(", ",$tbc_countries);
         $klantId = $request->get('klant');
         if ('new' === $klantId) {
             $klant = new Klant();
+            $this->addFlash("danger","Let op: wanneer klant uit $tbc_countries_string komt, doorverwijzen naar GGD voor TBC controle.");
         } else {
             $klant = $this->klantDao->find($klantId);
             if ($klant) {
@@ -382,6 +390,10 @@ class KlantenController extends AbstractController
             try {
                 $this->dao->create($inloopKlant);
                 $this->addFlash('success', ucfirst($this->entityName).' is opgeslagen.');
+                if(in_array($inloopKlant->getLand()->getNaam(),$tbc_countries))
+                {
+                    $this->addFlash("danger","Let op: klant uit risicoland. Doorverwijzen naar GGD voor TBC controle.");
+                }
 
                 return $this->redirectToView($inloopKlant);
             } catch (\Exception $e) {
