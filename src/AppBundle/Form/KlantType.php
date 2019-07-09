@@ -7,6 +7,7 @@ use AppBundle\Entity\Postcode;
 use AppBundle\Util\PostcodeFormatter;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
+use Symfony\Component\Debug\Exception\FatalThrowableError;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -25,12 +26,16 @@ class KlantType extends AbstractType
     /**
      * @var Array TBC Countries from config parameter.
      */
-    private $tbcCountries;
+    private $tbcCountries = [];
 
     public function __construct(EntityManager $entityManager,Array $args)
     {
         $this->entityManager = $entityManager;
-        $this->tbc_countries = $args['$tbc_countries'];
+        if(is_array($args['$tbc_countries']))
+        {
+            $this->tbc_countries = $args['$tbc_countries'];
+        }
+
 
     }
 
@@ -66,18 +71,25 @@ class KlantType extends AbstractType
             ->add('telefoon')
             ->add('opmerking', AppTextareaType::class, ['required' => false])
             ->add('geenPost', null, ['label' => 'Geen post'])
-            ->add('geenEmail')
-        ;
+            ->add('geenEmail');
 
-        if(in_array((string)$builder->getData()->getLand(),$this->tbc_countries))
+        try
         {
-            $builder->add('laatste_TBC_controle', AppDateType::class,
-                [
-                    'label' => 'TBC-check?',
-                    'required' => false,
-                ]
-            );
+            if(null !== ($builder->getData()) && in_array((string)$builder->getData()->getLand(),$this->tbc_countries))
+            {
+                $builder->add('laatste_TBC_controle', AppDateType::class,
+                    [
+                        'label' => 'TBC-check?',
+                        'required' => false,
+                    ]
+                );
+            }
         }
+        catch(FatalThrowableError $e)
+        {
+
+        }
+
         $builder->add('submit', SubmitType::class)
             ->addEventListener(FormEvents::SUBMIT, function (FormEvent $event) {
                 /* @var Klant $data */
