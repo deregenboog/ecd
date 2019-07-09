@@ -21,8 +21,8 @@
     <dt>BSN</dt>
     <dd>{{ klant.bsn }}</dd>
     {% if tbc_countries is defined and klant.land.getNaam() in tbc_countries %}
-        <dt>Laatste TBC-check</dt>
-        <dd>{{ klant.laatsteTbcControle|date('d-m-Y') }}</dd>
+        <dt>TBC-check?</dt>
+        <dd>{{ klant.laatsteTbcControle is empty ? "" : klant.laatsteTbcControle|date('d-m-Y') }}</dd>
     {% endif %}
     <dt>Medewerker</dt>
     <dd>{{ klant.medewerker }}</dd>

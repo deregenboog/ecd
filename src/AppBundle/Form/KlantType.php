@@ -71,7 +71,12 @@ class KlantType extends AbstractType
 
         if(in_array((string)$builder->getData()->getLand(),$this->tbc_countries))
         {
-            $builder->add('laatste_TBC_controle', AppDateType::class, ['required'=>true]);
+            $builder->add('laatste_TBC_controle', AppDateType::class,
+                [
+                    'label' => 'TBC-check?',
+                    'required' => false,
+                ]
+            );
         }
         $builder->add('submit', SubmitType::class)
             ->addEventListener(FormEvents::SUBMIT, function (FormEvent $event) {

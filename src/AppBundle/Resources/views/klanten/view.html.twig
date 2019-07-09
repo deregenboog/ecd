@@ -35,7 +35,7 @@
         <dt>BSN</dt>
         <dd>{{ entity.bsn }}</dd>
         {% if entity.land.getNaam() in tbc_countries %}
-            <dt>Laatste TBC-check</dt>
+            <dt>TBC-check?</dt>
             <dd>{{ entity.laatsteTbcControle|date('d-m-Y') }}</dd>
         {% endif %}
         {% if entity.overleden %}

@@ -97,6 +97,7 @@ class IntakesController extends AbstractController
         return [
             'entity' => $entity,
             'form' => $form->createView(),
+            'tbc_countries'=>$this->container->getParameter('tbc_countries'),
         ];
     }
 
@@ -154,5 +155,13 @@ class IntakesController extends AbstractController
         $response->headers->set('Content-Transfer-Encoding', 'binary');
 
         return $response;
+    }
+
+    protected function addParams($entity, Request $request)
+    {
+        return [
+            'tbc_countries' => $this->container->getParameter('tbc_countries'),
+
+        ];
     }
 }

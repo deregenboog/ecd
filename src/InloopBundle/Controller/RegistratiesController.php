@@ -335,13 +335,12 @@ class RegistratiesController extends AbstractController
                 }
             }
             $tbc_countries = $this->container->getParameter('tbc_countries');
-            $tbcValid = $this->getParameter('tbc_months_period') * 30;
 
 
             if( in_array($klant->getLand()->getNaam(),$tbc_countries)
-                && $klant->getLaatsteTbcControle()->diff(new \DateTime() )->days > $tbcValid
+                && $klant->getLaatsteTbcControle() == null
             ){
-                $jsonVar['message'] .= $sep.'Let op: deze persoon komt uit een risico land en heeft een nieuwe TBC-check nodig. Toch inchecken?';
+                $jsonVar['message'] .= $sep.'Let op: deze persoon komt uit een risico land en heeft een TBC-check nodig. Toch inchecken?';
                 $jsonVar['confirm'] = true;
                 $sep = $separator;
             }

@@ -370,7 +370,6 @@ class KlantenController extends AbstractController
         $klantId = $request->get('klant');
         if ('new' === $klantId) {
             $klant = new Klant();
-            $this->addFlash("danger","Let op: wanneer klant uit $tbc_countries_string komt, doorverwijzen naar GGD voor TBC controle.");
         } else {
             $klant = $this->klantDao->find($klantId);
             if ($klant) {
@@ -408,6 +407,7 @@ class KlantenController extends AbstractController
             'entity' => $inloopKlant,
             'creationForm' => $creationForm->createView(),
             'amoc_landen' => $this->getAmocLanden(),
+            'tbc_countries' => $tbc_countries,
         ];
     }
 }
