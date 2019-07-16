@@ -5,6 +5,7 @@ parameters:
     database_name: ecd
     database_user: ecd
     database_password: ecd
+    database_server_version:5.7.26
     secret: 0ac758a6a8664bb4e2e89fb90e80ac668ea89ea6
     email_policy: prod
     locale: nl_NL
@@ -25,6 +26,11 @@ parameters:
         - Estland
         - Letland
         - Litouwen
+    amoc_locaties:
+        - 'AMOC'
+        - 'Nachtopvang DRG'
+        - 'Amoc Gebruikersruimte'
+    verblijfsstatus_niet_rechthebbend_id: 7
     informele_zorg_mail: ''
     dagbesteding_mail: ''
     inloophuis_mail: ''

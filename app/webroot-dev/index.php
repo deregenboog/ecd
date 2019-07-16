@@ -13,9 +13,14 @@ umask(0002);
 // Feel free to remove this, extend it, or make something more sophisticated.
 if (isset($_SERVER['HTTP_CLIENT_IP'])
     || isset($_SERVER['HTTP_X_FORWARDED_FOR'])
-    || !('192.168.' === substr(@$_SERVER['REMOTE_ADDR'], 0, 8) || '172.18.' === substr(@$_SERVER['REMOTE_ADDR'], 0, 7) || 'cli-server' === PHP_SAPI)
+    || !(
+        '192.168.' === substr(@$_SERVER['REMOTE_ADDR'], 0, 8)
+        || '172.18.' === substr(@$_SERVER['REMOTE_ADDR'], 0, 7)
+        || 'cli-server' === PHP_SAPI
+        || '127.0.0.1' === $_SERVER['REMOTE_ADDR'])
 ) {
     header('HTTP/1.0 403 Forbidden');
+
     exit('You are not allowed to access this file. Check '.basename(__FILE__).' for more information.');
 }
 

@@ -30,8 +30,8 @@ class VerblijfsstatusStrategy implements StrategyInterface
                 $builder->expr()->andX(
                     'laatsteIntake.verblijfsstatus = :niet_rechthebbend_id',
                     'laatsteIntake.overigenToegangVan <= :today',
-                    "klant.eersteIntakeDatum < '2017-06-01'",
-                    'klant.eersteIntakeDatum < :three_months_ago'
+                    "klant.eersteIntakeDatum < '2017-06-01'"
+//                    .'klant.eersteIntakeDatum < :three_months_ago' //JTB: is redundand. drie maanden kleiner dan nu is het sowieso wanneer < 2017 6 1 is.
                 ),
                 $builder->expr()->andX(
                     'laatsteIntake.verblijfsstatus = :niet_rechthebbend_id',
@@ -43,7 +43,7 @@ class VerblijfsstatusStrategy implements StrategyInterface
             ->setParameters([
                 'niet_rechthebbend_id' => $this->verblijfsstatusIdNietRechthebbend,
                 'today' => new \DateTime('today'),
-                'three_months_ago' => new \DateTime('-3 months'),
+//                'three_months_ago' => new \DateTime('-3 months'),
                 'six_months_ago' => new \DateTime('-6 months'),
             ])
         ;

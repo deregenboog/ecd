@@ -52,6 +52,7 @@ doctrine:
         user: "%database_user%"
         password: "%database_password%"
         charset: "utf8"
+        server_version: "%database_server_version%"
         default_table_options:
             charset: "utf8"
             collate: "utf8_general_ci"

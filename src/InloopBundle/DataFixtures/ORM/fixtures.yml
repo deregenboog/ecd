@@ -43,7 +43,7 @@ InloopBundle\Entity\Locatie:
         datuMTot: '<dateTimeThisDecade()>'
         maatschappelijkWerk: false
     locatie_Nachtopvang De Regenboog Groep:
-        naam: 'Nachtopvang De Regenboog Groep'
+        naam: 'Nachtopvang DRG'
         nachtopvang: true
         gebruikersruimte: false
         datumVan: '<dateTimeThisDecade()>'
