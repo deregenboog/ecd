@@ -44,6 +44,8 @@ class DeelnemerTest extends TestCase
         $deelnemer->addAanmelding($this->getAanmelding());
         $deelnemer->addAfsluiting($this->getAfsluiting());
         $deelnemer->addAanmelding($this->getAanmelding());
+
+        $this->assertInstanceOf(Aanmelding::class, $deelnemer->getDossierStatus());
     }
 
     /**
