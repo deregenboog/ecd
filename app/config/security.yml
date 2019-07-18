@@ -54,6 +54,7 @@ security:
 
     access_control:
         - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/admin/klanten, roles: ROLE_TEAMLEIDERS }
         - { path: ^/admin, roles: ROLE_ADMIN }
         - { path: ^/medewerkers, roles: ROLE_ADMIN }
         - { path: ^/buurtboerderij, roles: CONTROLLER_APP_VRIJWILLIGERS }

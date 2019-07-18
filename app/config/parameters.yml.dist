@@ -5,7 +5,7 @@ parameters:
     database_name: ecd
     database_user: ecd
     database_password: ecd
-    database_server_version:5.7.26
+    database_server_version: '5.7.26'
     secret: 0ac758a6a8664bb4e2e89fb90e80ac668ea89ea6
     email_policy: prod
     locale: nl_NL
