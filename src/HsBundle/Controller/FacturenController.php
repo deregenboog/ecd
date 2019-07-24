@@ -11,6 +11,7 @@ use HsBundle\Entity\Creditfactuur;
 use HsBundle\Entity\Factuur;
 use HsBundle\Entity\Klant;
 use HsBundle\Exception\HsException;
+use HsBundle\Exception\InvoiceLockedException;
 use HsBundle\Form\CreditfactuurType;
 use HsBundle\Form\FactuurFilterType;
 use HsBundle\Form\FactuurType;
@@ -144,9 +145,33 @@ class FacturenController extends AbstractChildController
      */
     public function editAction(Request $request, $id)
     {
+        $this->denyAccessUnlessGranted("ROLE_HOMESERVICE_BEHEER");
         $this->formClass = CreditfactuurType::class;
+        $entity = $this->dao->find($id);
+        if($entity->isLocked())
+        {
+            throw new InvoiceLockedException("Een definitieve factuur kan niet meer bewerkt worden");
+        }
 
         return parent::editAction($request, $id);
+    }
+
+    /**
+     * @Route("/{id}/delete")
+     */
+    public function deleteAction(Request $request, $id)
+    {
+
+        $this->denyAccessUnlessGranted("ROLE_HOMESERVICE_BEHEER");
+
+        $entity = $this->dao->find($id);
+        if($entity->isLocked())
+        {
+            throw new InvoiceLockedException("Een definitieve factuur kan niet meer verwijderd worden");
+        }
+        return parent::deleteAction($request, $id);
+
+
     }
 
     /**

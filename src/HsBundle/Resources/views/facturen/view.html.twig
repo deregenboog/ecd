@@ -25,6 +25,9 @@
                 {% if entity is instanceof ('HsBundle\\Entity\\Creditfactuur') %}
                     {{ html.link('Factuur bewerken', path('hs_facturen_edit', {id: entity.id}), 'edit') }}
                 {% endif %}
+                {% if entity is instanceof ('HsBundle\\Entity\\Creditfactuur') %}
+                    {{ html.link('Factuur verwijderen', path('hs_facturen_delete', {id: entity.id}), 'delete') }}
+                {% endif %}
             {% endif %}
         {% endif %}
     </p>
