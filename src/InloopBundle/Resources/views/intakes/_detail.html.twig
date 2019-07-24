@@ -51,7 +51,7 @@
 {% else %}
     {% include 'InloopBundle:intakes:_verslaving_v2.html.twig' %}
 {% endif %}
-<h2>Inkomen en woonsituatie</h2>
+<h2>Inkomen</h2>
 <dl class="dl-horizontal">
     <dt>Inkomen</dt>
     <dd>
@@ -64,6 +64,9 @@
             {% endif %}
         </ul>
     </dd>
+</dl>
+<h2>Woonsituatie</h2>
+<dl class="dl-horizontal">
     <dt>Woonsituatie</dt>
     <dd>{{ entity.woonsituatie }}</dd>
 </dl>

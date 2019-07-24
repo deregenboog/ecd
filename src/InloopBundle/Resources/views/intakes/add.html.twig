@@ -57,9 +57,13 @@
         {{ form_errors(form.verslaving) }}
     {% endif %}
 
-    <h2>Inkomen en woonsituatie</h2>
-    {{ form_widget(form.inkomenWoonsituatie) }}
-    {{ form_errors(form.inkomenWoonsituatie) }}
+    <h2>Inkomen</h2>
+    {{ form_widget(form.inkomen) }}
+    {{ form_errors(form.inkomen) }}
+
+    <h2>Woonsituatie</h2>
+    {{ form_widget(form.woonsituatie) }}
+    {{ form_errors(form.woonsituatie) }}
 
     <h2>Overige hulpverlening</h2>
     {{ form_widget(form.overigeHulpverlening) }}

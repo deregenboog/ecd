@@ -32,7 +32,8 @@ class IntakeType extends AbstractType
             ->add($this->createToegang($builder, $options))
             ->add($this->createLegitimatiebewijs($builder, $options))
             ->add($this->createVerslaving($builder, $options))
-            ->add($this->createInkomenWoonsituatie($builder, $options))
+            ->add($this->createInkomen($builder, $options))
+            ->add($this->createWoonsituatie($builder, $options))
             ->add($this->createOverigeHulpverlening($builder, $options))
             ->add($this->createVerwachtingenPlannen($builder, $options))
             ->add($this->createIndrukDoelgroep($builder, $options))
@@ -213,10 +214,10 @@ class IntakeType extends AbstractType
         return $verslaving;
     }
 
-    private function createInkomenWoonsituatie(FormBuilderInterface $builder, array $options)
+    private function createInkomen(FormBuilderInterface $builder, array $options)
     {
         return $builder
-            ->create('inkomenWoonsituatie', null, [
+            ->create('inkomen', null, [
                 'required' => true,
                 'compound' => true,
                 'inherit_data' => true,
@@ -228,12 +229,25 @@ class IntakeType extends AbstractType
                 'required' => true,
             ])
             ->add('inkomenOverig', null, ['required' => false])
+
+        ;
+    }
+
+    private function createWoonsituatie(FormBuilderInterface $builder, array $options)
+    {
+        return $builder
+            ->create('woonsituatie', null, [
+                'required' => true,
+                'compound' => true,
+                'inherit_data' => true,
+            ])
             ->add('woonsituatie', EntityType::class, [
                 'class' => Woonsituatie::class,
+                'label'=>'Woonsituatie',
                 'required' => true,
                 'placeholder' => '',
             ])
-        ;
+            ;
     }
 
     private function createOverigeHulpverlening(FormBuilderInterface $builder, array $options)
