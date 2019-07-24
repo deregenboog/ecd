@@ -236,14 +236,13 @@ class IntakeType extends AbstractType
     private function createWoonsituatie(FormBuilderInterface $builder, array $options)
     {
         return $builder
-            ->create('woonsituatie', null, [
+            ->create('woonsituaties', null, [
                 'required' => true,
                 'compound' => true,
                 'inherit_data' => true,
             ])
             ->add('woonsituatie', EntityType::class, [
                 'class' => Woonsituatie::class,
-                'label'=>'Woonsituatie',
                 'required' => true,
                 'placeholder' => '',
             ])
