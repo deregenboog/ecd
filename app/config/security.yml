@@ -88,7 +88,7 @@ security:
         - { path: ^/oek/admin, roles: ROLE_OEK_BEHEER }
         - { path: ^/oek, roles: ROLE_OEK }
         - { path: ^/pfo/admin, roles: ROLE_PFO_BEHEER }
-        - { path: ^/pfo, roles: ROLE_PFO }
+        - { path: ^/pfo, roles: [ROLE_PFO,ROLE_PFO_BEPERKT] }
         - { path: ^/scip/admin, roles: ROLE_SCIP_BEHEER }
         - { path: ^/scip, roles: ROLE_SCIP }
         - { path: ^/, roles: CONTROLLER_ACCESS_VOTER }

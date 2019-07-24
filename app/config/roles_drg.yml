@@ -53,6 +53,7 @@ security:
             - CONTROLLER_APP_ZRMS
             - ROLE_INLOOP_INTAKES
             - ROLE_INLOOP_REGISTRATIES
+        ROLE_PFO_BEPERKT: []
         ROLE_PFO: []
         ROLE_TEAMLEIDERS:
             - ROLE_GA
@@ -136,6 +137,7 @@ security:
             - ROLE_BACK_ON_TRACK_COACH
             - ROLE_VOLUNTEERS
             - ROLE_STAGE
+            - ROLE_PFO_BEPERKT
             - ROLE_PFO
             - ROLE_TRAJECTBEGELEIDER
             - ROLE_TEAMLEIDERS
@@ -169,6 +171,7 @@ ldap_tools:
             ROLE_TRAJECTBEGELEIDER: "CN=ECD Trajectbegeleider,CN=Users,DC=cluster,DC=deregenboog"
             ROLE_WERKBEGELEIDER: "CN=ECD Werkbegeleider,CN=Users,DC=cluster,DC=deregenboog"
             ROLE_TEAMLEIDERS: "CN=ECD Teamleiders,CN=Users,DC=cluster,DC=deregenboog"
+            ROLE_PFO_BEPERKT: "CN=ECD PFO Beperkt,CNUsers,DC=cluster,DC=deregenboog"
             ROLE_PFO: "CN=ECD PFO,CN=Users,DC=cluster,DC=deregenboog"
             ROLE_BACK_ON_TRACK_COORDINATOR: "CN=ECD Back On Track Coordinator,CN=Users,DC=cluster,DC=deregenboog"
             ROLE_BACK_ON_TRACK_COACH: "CN=ECD Back on Track Coach,CN=Users,DC=cluster,DC=deregenboog"

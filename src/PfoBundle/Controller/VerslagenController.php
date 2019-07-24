@@ -19,7 +19,7 @@ class VerslagenController extends AbstractChildController
     protected $entityClass = Verslag::class;
     protected $formClass = VerslagType::class;
     protected $addMethod = 'addVerslag';
-    protected $baseRouteName = 'oek_verslagen_';
+    protected $baseRouteName = 'pfo_verslagen_'; //JTB 20190724 hier stond oek_verslagen_ ??
     protected $disabledActions = ['deleted'];
 
     /**

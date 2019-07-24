@@ -145,9 +145,10 @@ class KlantFilter implements FilterInterface
         }
 
         if ($this->bsn) {
+            $tmpBsn = substr($this->bsn,1,strlen($this->bsn)-2);
             $builder
                 ->andWhere("{$alias}.bsn LIKE :{$alias}_bsn")
-                ->setParameter("{$alias}_bsn", "%{$this->bsn}%")
+                ->setParameter("{$alias}_bsn", "%{$tmpBsn}%")
             ;
         }
 
