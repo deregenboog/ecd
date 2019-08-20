@@ -2,6 +2,7 @@
 
 namespace HsBundle\Entity;
 
+use AppBundle\Form\Model\AppDateRangeModel;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
@@ -98,7 +99,7 @@ class Factuur
      */
     private $herinneringen;
 
-    public function __construct(Klant $klant, $nummer = null, $betreft = null)
+    public function __construct(Klant $klant, $nummer = null, $betreft = null, AppDateRangeModel $dateRange = null)
     {
         $klant->addFactuur($this);
 
@@ -110,7 +111,20 @@ class Factuur
         $this->registraties = new ArrayCollection();
         $this->herinneringen = new ArrayCollection();
 
-        $this->datum = new \DateTime('last day of this month');
+        /**
+         * When an invoice is made during registraties, see if there is a daterange available and if so, set invoice to last date of that month instead of the current month.
+         *
+         */
+        if(null !== $dateRange)
+        {
+            $this->datum = new \DateTime('last day of '.$dateRange->getEnd()->format("M Y") );
+        }
+        else
+        {
+            $this->datum = new \DateTime('last day of this month');
+        }
+
+
     }
 
     public function __toString()
@@ -370,7 +384,7 @@ class Factuur
      * Krijg vragen hierover; is ongewenst. Alleen de factuurdatum moet op laatste dag van de maand; niet de interne factuurregels (#824, ingetreden sinds #641)
      * Volgens mij kan dit ook anders door dit alleen te doen wanneer de factuur definitief gemaakt wordt. En in concept dan gewoon een tekstveld maken waarin dat gezegd wordt.
      *
-     * @TODO Anders implementeren zie boven.
+     *
      */
     private function updateDatum()
     {
@@ -378,32 +392,44 @@ class Factuur
             return;
         }
 
-        $datum = new \DateTime();
+        //#873 dit werd op 'vandaag' gezet. Dus bij registratie in het verleden leverde dat soms (andere maand)
+        // problemen op. Want huidig > registratie. En dan kon hij geen facturen vinden binnen de daterange en
+        // maakte telkens een nieuwe aan met foute factuurdatum. Daarom een datum in het verleden.
+        $datum = new \DateTime("1970-01-01");
+
+
         foreach ($this->declaraties as $declaratie) {
-            if (!$datum || $declaratie->getDatum() > $datum) {
-                $datum->setDate(
-                    $declaratie->getDatum()->format("Y"),
-                    $declaratie->getDatum()->format("m"),
-                    $declaratie->getDatum()->format("d")
-                );
+            if ($declaratie->getDatum() > $datum) {
+                //190820 even laten staan voor als blijkt dat ik toch te kort doorde bocht ben gegaan.
+//                $datum->setDate(
+//                    $declaratie->getDatum()->format("Y"),
+//                    $declaratie->getDatum()->format("m"),
+//                    $declaratie->getDatum()->format("d")
+//                );
+
+                //update datum to most advanced datum.
+                $datum = $declaratie->getDatum();
             }
         }
         foreach ($this->registraties as $registratie) {
-            if (!$datum || $registratie->getDatum() > $datum) {
-                $datum->setDate(
-                    $registratie->getDatum()->format("Y"),
-                    $registratie->getDatum()->format("m"),
-                    $registratie->getDatum()->format("d")
-                );
+            if ($registratie->getDatum() > $datum) {
+//                $datum->setDate(
+//                    $registratie->getDatum()->format("Y"),
+//                    $registratie->getDatum()->format("m"),
+//                    $registratie->getDatum()->format("d")
+//                );
+                $datum = $registratie->getDatum();
             }
         }
 
-        $yearMonth = $datum->format('Y-m');
-        while ($yearMonth == $datum->format('Y-m')) {
-            $datum->modify('+1 day');
-        }
-        $datum->modify('-1 day');
+        //Deze manier om laatste dag van die maand te berekenen vervangen door last day of ...
+//        $yearMonth = $datum->format('Y-m');
+//        while ($yearMonth == $datum->format('Y-m')) {
+//            $datum->modify('+1 day');
+//        }
+//        $datum->modify('-1 day');
 
-        $this->datum = $datum;
+
+        $this->datum = new \DateTime("last day of ".$datum->format("M Y"));
     }
 }

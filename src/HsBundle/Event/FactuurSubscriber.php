@@ -161,7 +161,7 @@ class FactuurSubscriber implements EventSubscriber
         // ...or create one
         $nummer = $this->getNummer($klant, $dateRange, $entityManager);
         $betreft = $this->getBetreft($klant, $nummer, $dateRange);
-        $factuur = new Factuur($klant, $nummer, $betreft);
+        $factuur = new Factuur($klant, $nummer, $betreft, $dateRange);
         $entityManager->persist($factuur);
 
         return $factuur;
