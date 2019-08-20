@@ -42,7 +42,7 @@ class VerblijfsstatusStrategy implements StrategyInterface
             ))
             ->setParameters([
                 'niet_rechthebbend_id' => $this->verblijfsstatusIdNietRechthebbend,
-                'today' => new \DateTime('today'),
+//                'today' => new \DateTime('today'),
 //                'three_months_ago' => new \DateTime('-3 months'),
                 'six_months_ago' => new \DateTime('-6 months'),
             ])
