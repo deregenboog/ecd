@@ -33,7 +33,7 @@ class KlantDao extends AbstractDao implements KlantDaoInterface
     public function findAll($page = null, FilterInterface $filter = null)
     {
         $builder = $this->repository->createQueryBuilder($this->alias)
-            ->select($this->alias.', intake, geslacht, laatsteIntake, laatsteIntakeLocatie, gebruikersruimte')
+            ->select($this->alias.', intake , geslacht, laatsteIntake, laatsteIntakeLocatie, gebruikersruimte')
             ->addSelect('MAX(verslag.datum) AS datumLaatsteVerslag')
             ->addSelect('COUNT(DISTINCT verslag.id) AS aantalVerslagen')
             ->leftJoin($this->alias.'.huidigeStatus', 'status')
@@ -43,7 +43,17 @@ class KlantDao extends AbstractDao implements KlantDaoInterface
             ->leftJoin($this->alias.'.laatsteIntake', 'laatsteIntake')
             ->leftJoin('laatsteIntake.intakelocatie', 'laatsteIntakeLocatie')
             ->leftJoin('laatsteIntake.gebruikersruimte', 'gebruikersruimte')
-            ->groupBy($this->alias.'.id');
+            ->groupBy($this->alias.'.id')
+            ->addGroupBy('intake')
+            ->addGroupBy('verslag')
+            ->addGroupBy('laatsteIntake')
+            ->addGroupBy('laatsteIntakeLocatie')
+            ->addGroupBy('gebruikersruimte')
+        ;
+        /**
+         * Sinds MySQL 5.7 is het verplicht alle select vleden in de group by te noemen. google: ONLY_FULL_GROUP_BY
+         */
+
 
         if ($filter) {
             $filter->applyTo($builder);
