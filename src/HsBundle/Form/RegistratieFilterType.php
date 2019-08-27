@@ -9,6 +9,8 @@ use HsBundle\Entity\Activiteit;
 use HsBundle\Entity\Arbeider;
 use HsBundle\Entity\Dienstverlener;
 use HsBundle\Entity\Vrijwilliger;
+use HsBundle\Entity\Klus;
+
 use HsBundle\Filter\RegistratieFilter;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
@@ -47,7 +49,15 @@ class RegistratieFilterType extends AbstractType
                 },
             ]);
         }
+        if(in_array('klus',$options['enabled_filters'])) {
+            $builder
+                ->add('klus', EntityType::class, [
+                   'required'=>false,
+                    'label'=>'Klus',
+                    'class'=> Klus::class
 
+                ]);
+        }
         if (in_array('datum', $options['enabled_filters'])) {
             $builder->add('datum', AppDateRangeType::class, [
                 'required' => false,
@@ -59,7 +69,8 @@ class RegistratieFilterType extends AbstractType
                 ->add('klant', KlantFilterType::class, [
                     'enabled_filters' => $options['enabled_filters']['klant'],
                 ])
-                ->get('klant')->addEventListener(FormEvents::POST_SUBMIT, function (FormEvent $event) {
+//                ->get('klant')
+                ->addEventListener(FormEvents::POST_SUBMIT, function (FormEvent $event) {
                     $data = $event->getData();
                     $data->status = null;
                     $event->setData($data);
@@ -84,6 +95,7 @@ class RegistratieFilterType extends AbstractType
             'data_class' => RegistratieFilter::class,
             'data' => new RegistratieFilter(),
             'enabled_filters' => [
+                'klus',
                 'arbeider',
                 'datum',
                 'activiteit',

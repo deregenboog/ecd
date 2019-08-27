@@ -11,6 +11,10 @@
             {% set url = path('hs_registraties_add', {klus: entity.id}) %}
             {{ html.addLink(url) }}
             {{ html.link('Uren toevoegen', url) }}
+            {% set filterUrl = path('hs_registraties_index', {'registratie_filter[klus]': entity.id }) %}
+
+            {{ html.viewLink(filterUrl) }}
+            {{ html.link('Bekijken uren (details)',filterUrl) }}
         {% endif %}
     {% elseif dienstverlener is defined %}
         {% set entity = dienstverlener %}
@@ -36,7 +40,7 @@
             <th>Activiteit</th>
             <th>Datum/Tijd</th>
             <th>Dagdelen</th>
-            {#<th>Reiskosten</th>#}
+            <th>Reiskosten</th>
             <th>Factuur</th>
             <th></th>
         </tr>

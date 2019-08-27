@@ -7,9 +7,15 @@ use AppBundle\Form\Model\AppDateRangeModel;
 use Doctrine\ORM\QueryBuilder;
 use HsBundle\Entity\Activiteit;
 use HsBundle\Entity\Arbeider;
+use HsBundle\Entity\Klus;
 
 class RegistratieFilter implements FilterInterface
 {
+    /**
+     * @var Klus
+     */
+    public $klus;
+
     /**
      * @var Arbeider
      */
@@ -32,6 +38,14 @@ class RegistratieFilter implements FilterInterface
 
     public function applyTo(QueryBuilder $builder)
     {
+        if($this->klus)
+        {
+            $builder
+                ->andWhere('registratie.klus = :klus')
+                ->setParameter('klus',$this->klus)
+                ;
+        }
+
         if ($this->arbeider) {
             $builder
                 ->andWhere('registratie.arbeider = :arbeider')
