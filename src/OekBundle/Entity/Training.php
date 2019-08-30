@@ -154,13 +154,20 @@ class Training
 
     public function getDeelnames()
     {
-        return $this->deelnames;
+        $deelnames = Array();
+        foreach($this->deelnames as $dn)
+        {
+            if($dn->getStatus() == DeelnameStatus::STATUS_VERWIJDERD) continue;
+            $deelnames[] = $dn;
+        }
+        return $deelnames;
     }
 
     public function getDeelnemers()
     {
         $deelnemers = new ArrayCollection();
         foreach ($this->deelnames as $deelname) {
+            if($deelname->getStatus() == DeelnameStatus::STATUS_VERWIJDERD) continue;
             $deelnemers[] = $deelname->getDeelnemer();
         }
 

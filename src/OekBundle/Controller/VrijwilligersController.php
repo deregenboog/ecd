@@ -5,6 +5,7 @@ namespace OekBundle\Controller;
 use AppBundle\Controller\AbstractController;
 use AppBundle\Entity\Vrijwilliger as AppVrijwilliger;
 use AppBundle\Export\ExportInterface;
+use AppBundle\Form\ConfirmationType;
 use AppBundle\Form\VrijwilligerFilterType as AppVrijwilligerFilterType;
 use JMS\DiExtraBundle\Annotation as DI;
 use OekBundle\Entity\Vrijwilliger;
@@ -14,6 +15,7 @@ use OekBundle\Service\VrijwilligerDaoInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -137,5 +139,52 @@ class VrijwilligersController extends AbstractController
         return [
             'creationForm' => $creationForm->createView(),
         ];
+    }
+
+    /**
+     * @Route("/{id}/Delete")
+     */
+    public function ddddeleteAction(Request $request, $id)
+    {
+        if (in_array('delete', $this->disabledActions)) {
+            throw new AccessDeniedHttpException();
+        }
+
+        $entity = $this->dao->find($id);
+
+        $form = $this->createForm(ConfirmationType::class);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            if ($form->get('yes')->isClicked()) {
+                $url = $request->get('redirect');
+                $viewUrl = $this->generateUrl($this->baseRouteName.'view', ['id' => $entity->getId()]);
+
+                //$this->dao->delete($entity);
+//                $entity->setStatus($entity::STATUS_VERWIJDERD);
+                $entity->flush();
+                $this->addFlash('success', ucfirst($this->entityName).' is verwijderd.');
+
+                if (!$this->forceRedirect) {
+                    if ($url && false === strpos($viewUrl, $url)) {
+                        return $this->redirect($url);
+                    }
+                }
+
+                return $this->redirectToIndex();
+            } else {
+                if (isset($url)) {
+                    return $this->redirect($url);
+                }
+
+                return $this->redirectToView($entity);
+            }
+        }
+
+        return [
+            'entity' => $entity,
+            'form' => $form->createView(),
+        ];
+
     }
 }

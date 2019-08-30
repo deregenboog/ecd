@@ -17,6 +17,7 @@ class DeelnameStatus
     const STATUS_GESTART = 'Gestart';
     const STATUS_GEVOLGD = 'Gevolgd';
     const STATUS_AFGEROND = 'Afgerond';
+    const STATUS_VERWIJDERD = 'Verwijderd';
 
     /**
      * @ORM\Id

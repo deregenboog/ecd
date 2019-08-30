@@ -4,8 +4,10 @@ namespace OekBundle\Form;
 
 use AppBundle\Form\FilterType;
 use AppBundle\Form\VrijwilligerFilterType as AppVrijwilligerFilterType;
+use OekBundle\Entity\Vrijwilliger;
 use OekBundle\Filter\VrijwilligerFilter;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -19,6 +21,12 @@ class VrijwilligerFilterType extends AbstractType
         if (key_exists('vrijwilliger', $options['enabled_filters'])) {
             $builder->add('vrijwilliger', AppVrijwilligerFilterType::class, [
                 'enabled_filters' => $options['enabled_filters']['vrijwilliger'],
+            ]);
+        }
+        if (in_array('actief', $options['enabled_filters'])) {
+            $builder->add('actief', CheckboxType::class, [
+                'label' => 'Alleen actieve vrijwilligers',
+                'required' => false,
             ]);
         }
     }
@@ -35,6 +43,7 @@ class VrijwilligerFilterType extends AbstractType
                 'vrijwilliger' => ['id', 'naam', 'stadsdeel'],
                 'filter',
                 'download',
+                'actief'
             ],
         ]);
     }

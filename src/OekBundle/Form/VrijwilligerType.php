@@ -42,6 +42,7 @@ class VrijwilligerType extends AbstractType
 
         $builder
             ->add('medewerker', MedewerkerType::class)
+            ->add('actief')
             ->add('submit', SubmitType::class)
         ;
     }

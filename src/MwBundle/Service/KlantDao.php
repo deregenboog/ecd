@@ -44,13 +44,14 @@ class KlantDao extends AbstractDao implements KlantDaoInterface
             ->leftJoin('laatsteIntake.intakelocatie', 'laatsteIntakeLocatie')
             ->leftJoin('laatsteIntake.gebruikersruimte', 'gebruikersruimte')
             ->groupBy($this->alias.'.id')
-            ->addGroupBy('intake')
-            ->addGroupBy('verslag')
-            ->addGroupBy('laatsteIntake')
-            ->addGroupBy('laatsteIntakeLocatie')
-            ->addGroupBy('gebruikersruimte')
+//            ->addGroupBy('intake')
+//            ->addGroupBy('verslag')
+//            ->addGroupBy('laatsteIntake')
+//            ->addGroupBy('laatsteIntakeLocatie')
+//            ->addGroupBy('gebruikersruimte')
         ;
         /**
+         * !!! LET OP TESTEN want live levert het een probleem op.
          * Sinds MySQL 5.7 is het verplicht alle select vleden in de group by te noemen. google: ONLY_FULL_GROUP_BY
          */
 

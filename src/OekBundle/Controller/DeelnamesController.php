@@ -2,14 +2,20 @@
 
 namespace OekBundle\Controller;
 
+use AppBundle\Controller\AbstractChildController;
 use AppBundle\Controller\SymfonyController;
 use AppBundle\Form\ConfirmationType;
 use OekBundle\Entity\Deelname;
 use OekBundle\Entity\Deelnemer;
 use OekBundle\Entity\Training;
+use OekBundle\Entity\DeelnameStatus;
 use OekBundle\Form\DeelnameType;
+use OekBundle\Form\DeelnemerFilterType;
+use OekBundle\Form\DeelnemerType;
+use OekBundle\Service\DeelnemerDaoInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * @Route("/deelnames")
@@ -17,8 +23,11 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class DeelnamesController extends SymfonyController
 {
+
+
     /**
      * @Route("/add")
+     * @Template
      */
     public function addAction()
     {
@@ -78,6 +87,7 @@ class DeelnamesController extends SymfonyController
      */
     public function deleteAction($id)
     {
+
         $entityManager = $this->getEntityManager();
 
         $deelname = $entityManager->find(Deelname::class, $id);
@@ -86,7 +96,8 @@ class DeelnamesController extends SymfonyController
         $form->handleRequest($this->getRequest());
         if ($form->isSubmitted() && $form->isValid()) {
             if ($form->get('yes')->isClicked()) {
-                $entityManager->remove($deelname);
+                $deelname->setStatus(DeelnameStatus::STATUS_VERWIJDERD);
+                //$entityManager->remove($deelname);
                 $entityManager->flush();
 
                 $this->addFlash('success', 'Deelnemer is van training verwijderd.');
