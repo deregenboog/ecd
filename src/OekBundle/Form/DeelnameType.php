@@ -74,8 +74,8 @@ class DeelnameType extends AbstractType
                     $builder = $repository->createQueryBuilder('deelnemer')
                         ->select('deelnemer, klant')
                         ->innerJoin('deelnemer.klant', 'klant')
-                        ->orderBy('klant.voornaam')
-                        ->addOrderBy('klant.achternaam')
+                        ->orderBy('klant.achternaam')
+                        ->addOrderBy('klant.voornaam')
                     ;
 
                     if (count($deelname->getTraining()->getDeelnemers()) > 0) {
