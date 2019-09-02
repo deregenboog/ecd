@@ -21,8 +21,3 @@ services:
         tags:
             - { name: inloop.rapportage }
 
-    InloopBundle\Report\RepatrieringenPerLand:
-        arguments:
-            - "@doctrine.orm.entity_manager"
-        tags:
-            - { name: inloop.rapportage }

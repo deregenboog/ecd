@@ -1,6 +1,6 @@
 <?php
 
-namespace InloopBundle\Report;
+namespace MwBundle\Report;
 
 use AppBundle\Entity\Klant;
 use AppBundle\Report\AbstractReport;

@@ -6,6 +6,7 @@ use AppBundle\Entity\Klant;
 use AppBundle\Filter\FilterInterface;
 use AppBundle\Service\AbstractDao;
 use InloopBundle\Entity\Aanmelding;
+use Doctrine\DBAL\Platforms\MySQL57Platform;
 
 class KlantDao extends AbstractDao implements KlantDaoInterface
 {
@@ -44,16 +45,25 @@ class KlantDao extends AbstractDao implements KlantDaoInterface
             ->leftJoin('laatsteIntake.intakelocatie', 'laatsteIntakeLocatie')
             ->leftJoin('laatsteIntake.gebruikersruimte', 'gebruikersruimte')
             ->groupBy($this->alias.'.id')
-//            ->addGroupBy('intake')
-//            ->addGroupBy('verslag')
-//            ->addGroupBy('laatsteIntake')
-//            ->addGroupBy('laatsteIntakeLocatie')
-//            ->addGroupBy('gebruikersruimte')
-        ;
+            ;
         /**
          * !!! LET OP TESTEN want live levert het een probleem op.
          * Sinds MySQL 5.7 is het verplicht alle select vleden in de group by te noemen. google: ONLY_FULL_GROUP_BY
+         *
+         * Live draait nog 5.6.x
+         * Dit is niet compatible. Vandaar de versie check hier... Kan weg wanneer live naar 5.7 gaat.
          */
+        $platform = $this->entityManager->getConnection()->getDatabasePlatform();
+        if($platform instanceof MySQL57Platform)
+        {
+            $builder
+                ->addGroupBy('intake')
+                ->addGroupBy('verslag')
+                ->addGroupBy('laatsteIntake')
+                ->addGroupBy('laatsteIntakeLocatie')
+                ->addGroupBy('gebruikersruimte')
+            ;
+        }
 
 
         if ($filter) {
