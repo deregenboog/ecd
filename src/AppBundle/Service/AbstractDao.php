@@ -3,14 +3,18 @@
 namespace AppBundle\Service;
 
 use AppBundle\Filter\FilterInterface;
+use AppBundle\Service\AbstractDaoInterface;
+use AppBundle\Model\UsesKlantTrait;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\EntityNotFoundException;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\QueryBuilder;
 use Knp\Component\Pager\PaginatorInterface;
 
-abstract class AbstractDao
+abstract class AbstractDao implements AbstractDaoInterface
 {
+    use UsesKlantTrait;
     /**
      * @var EntityManagerInterface
      */
@@ -36,6 +40,15 @@ abstract class AbstractDao
     protected $class = '';
 
     protected $alias = '';
+
+    /**
+     * @var string Sets the propertyname of a relation to Klant. Klant is special entity which can be lazy loaded
+     * and cause errors when accessing it because a special filter clause due to poor implementation.
+     * This causes errors later on. Fix it beforehand by filling this field so it gets probed during load time instead of view.
+     *
+     * @TODO Should be solved properly thus at the root cause of it.
+     */
+    protected $klantPropertyName = '';
 
     public function __construct(EntityManager $entityManager, PaginatorInterface $paginator, $itemsPerPage)
     {
@@ -75,7 +88,9 @@ abstract class AbstractDao
 
     public function find($id)
     {
-        return $this->repository->find($id);
+        $entity = $this->repository->find($id);
+        $this->tryLoadKlant($entity);
+        return $entity;
     }
 
     public function setItemsPerPage(int $itemsPerPage)

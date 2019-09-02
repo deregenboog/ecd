@@ -68,3 +68,5 @@
 # PHPUnit
 phpunit
 /coverage/*
+
+/app/webroot-dev/php_errors.log

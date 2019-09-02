@@ -27,6 +27,8 @@ class DeelnemerDao extends AbstractDao implements DeelnemerDaoInterface
 
     protected $alias = 'deelnemer';
 
+    protected $klantPropertyName = 'Klant';
+
     /**
      * {inheritdoc}.
      */
