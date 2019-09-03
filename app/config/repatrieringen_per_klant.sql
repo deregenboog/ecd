@@ -11,8 +11,7 @@ LEFT JOIN landen AS hl ON hl.id = k.land_id
 LEFT JOIN landen AS vl ON vl.id = ids.land_id
 WHERE
 ids.class = "Afsluiting"
--- AND ids.reden_id = 2
--- only repatriering has land_id. Thus no need to double define this. Beware when new reden will be added with land != null...
+AND ids.reden_id = 2
 AND
 --ids.datum BETWEEN '2019-01-01' AND '2019-12-31'
 ids.datum BETWEEN :from AND :until

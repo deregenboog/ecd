@@ -8,6 +8,7 @@ use AppBundle\Filter\FilterInterface;
 use AppBundle\Form\ConfirmationType;
 use AppBundle\Model\MedewerkerSubjectInterface;
 use AppBundle\Service\AbstractDao;
+use Doctrine\ORM\EntityNotFoundException;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
@@ -142,7 +143,26 @@ abstract class AbstractController extends SymfonyController
         }
 
         $this->beforeFind($id);
-        $entity = $this->dao->find($id);
+        $entity = false;
+        $message = null;
+        try
+        {
+            $entity = $this->dao->find($id);
+        }
+        catch(EntityNotFoundException $entityNotFoundException)
+        {
+            $message = $this->container->getParameter('kernel.debug') ? $entityNotFoundException->getMessage() : 'Kan deelnemer niet inladen. Waarschijnlijk omdat deze verwijderd of inactief is.';
+
+        }
+        catch(\Exception $exception){
+            $message = $this->container->getParameter('kernel.debug') ? $exception->getMessage() : 'Kan deelnemer niet inladen. Onbekende fout.';
+
+        }
+        if($message){
+            $this->addFlash('danger', $message);
+            return $this->redirect($request->get("redirect"));
+        }
+
         $this->afterFind($entity);
 
         if (!$entity) {

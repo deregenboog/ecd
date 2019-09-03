@@ -52,18 +52,19 @@ class KlantDao extends AbstractDao implements KlantDaoInterface
          *
          * Live draait nog 5.6.x
          * Dit is niet compatible. Vandaar de versie check hier... Kan weg wanneer live naar 5.7 gaat.
+         * -- werkt niet live. raar.
          */
         $platform = $this->entityManager->getConnection()->getDatabasePlatform();
         if($platform instanceof MySQL57Platform)
-        {
-            $builder
-                ->addGroupBy('intake')
-                ->addGroupBy('verslag')
-                ->addGroupBy('laatsteIntake')
-                ->addGroupBy('laatsteIntakeLocatie')
-                ->addGroupBy('gebruikersruimte')
-            ;
-        }
+//        {
+//            $builder
+//                ->addGroupBy('intake')
+//                ->addGroupBy('verslag')
+//                ->addGroupBy('laatsteIntake')
+//                ->addGroupBy('laatsteIntakeLocatie')
+//                ->addGroupBy('gebruikersruimte')
+//            ;
+//        }
 
 
         if ($filter) {

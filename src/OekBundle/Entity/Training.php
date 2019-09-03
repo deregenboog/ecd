@@ -2,6 +2,7 @@
 
 namespace OekBundle\Entity;
 
+use AppBundle\Model\KlantRelationInterface;
 use AppBundle\Model\TimestampableTrait;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
@@ -13,7 +14,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
  * @ORM\HasLifecycleCallbacks
  * @Gedmo\Loggable
  */
-class Training
+class Training implements KlantRelationInterface
 {
     use TimestampableTrait;
 
@@ -154,13 +155,13 @@ class Training
 
     public function getDeelnames()
     {
-        $deelnames = Array();
+
         foreach($this->deelnames as $dn)
         {
             if($dn->getStatus() == DeelnameStatus::STATUS_VERWIJDERD) continue;
-            $deelnames[] = $dn;
+            $this->deelnames->removeElement($dn);
         }
-        return $deelnames;
+        return $this->deelnames;
     }
 
     public function getDeelnemers()
@@ -168,7 +169,7 @@ class Training
         $deelnemers = new ArrayCollection();
         foreach ($this->deelnames as $deelname) {
             if($deelname->getStatus() == DeelnameStatus::STATUS_VERWIJDERD) continue;
-            $deelnemers[] = $deelname->getDeelnemer();
+            $deelnemers->add($deelname->getDeelnemer());
         }
 
         return $deelnemers;
@@ -189,5 +190,14 @@ class Training
     public function isDeletable()
     {
         return 0 == $this->deelnames->count();
+    }
+
+    public function getKlant()
+    {
+        return $this->getDeelnames();
+    }
+    public function getKlantFieldName()
+    {
+        return "Deelnames";
     }
 }

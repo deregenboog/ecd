@@ -5,6 +5,7 @@ namespace OekBundle\Entity;
 use AppBundle\Entity\Klant;
 use AppBundle\Model\RequiredMedewerkerTrait;
 use AppBundle\Model\TimestampableTrait;
+use AppBundle\Model\KlantRelationInterface;
 use AppBundle\Service\NameFormatter;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityNotFoundException;
@@ -17,7 +18,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
  * @ORM\HasLifecycleCallbacks
  * @Gedmo\Loggable
  */
-class Deelnemer
+class Deelnemer implements KlantRelationInterface
 {
     use TimestampableTrait, RequiredMedewerkerTrait;
 
@@ -298,5 +299,10 @@ class Deelnemer
         }
 
         return $trainingen;
+    }
+
+    public function getKlantFieldName()
+    {
+        return "klant";
     }
 }

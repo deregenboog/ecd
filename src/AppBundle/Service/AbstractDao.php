@@ -41,15 +41,6 @@ abstract class AbstractDao implements AbstractDaoInterface
 
     protected $alias = '';
 
-    /**
-     * @var string Sets the propertyname of a relation to Klant. Klant is special entity which can be lazy loaded
-     * and cause errors when accessing it because a special filter clause due to poor implementation.
-     * This causes errors later on. Fix it beforehand by filling this field so it gets probed during load time instead of view.
-     *
-     * @TODO Should be solved properly thus at the root cause of it.
-     */
-    protected $klantPropertyName = '';
-
     public function __construct(EntityManager $entityManager, PaginatorInterface $paginator, $itemsPerPage)
     {
         if (!$this->class) {

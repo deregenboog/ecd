@@ -39,6 +39,10 @@
                     {{ form_errors(filter.groep) }}
                 </th>
                 <th>
+                    {{ form_widget(filter.heeftAfgerondeTraining) }}
+                    {{ form_errors(filter.heeftAfgerondeTraining) }}
+                </th>
+                <th>
                     {{ form_widget(filter.aanmelddatum.start) }}
                     {{ form_errors(filter.aanmelddatum.start) }}
                     {{ form_widget(filter.aanmelddatum.end) }}
@@ -58,6 +62,9 @@
             </th>
             <th>
                 {{ knp_pagination_sortable(pagination, 'Groep(en)', 'groep.naam') }}
+            </th>
+            <th>
+                Heeft afgeronde training?
             </th>
             <th>
                 {{ knp_pagination_sortable(pagination, 'Aanmelddatum', 'aanmelding.datum') }}
@@ -80,6 +87,9 @@
                             <li>{{ groep.naam }}</li>
                         {% endfor %}
                     </ul>
+                </td>
+                <td>
+                    {{ deelnemer.deelnameStatus.status }}
                 </td>
                 <td>
                     {{ deelnemer.aanmelding ? deelnemer.aanmelding.datum|date('d-m-Y') }}
