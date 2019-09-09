@@ -23,18 +23,22 @@ class VrijwilligerFilter implements FilterInterface
 
     public function applyTo(QueryBuilder $builder)
     {
-        if ($this->vrijwilliger) {
-            if($this->actief)
-            {
-                $builder->andWhere("vrijwilliger.actief = :actief")
-                    ->setParameter(":actief",$this->actief);
-            }
-            else
-            {
-                $builder->andWhere("vrijwilliger.actief = false")
-                    ;
-            }
+
+        if($this->actief == true)
+        {
+            $builder->andWhere("vrijwilliger.actief = 1")
+               ;
+        }
+        else
+        {
+            $builder->andWhere("vrijwilliger.actief = 0 OR vrijwilliger.actief = 1")
+                ;
+        }
+        if($this->vrijwilliger)
+        {
             $this->vrijwilliger->applyTo($builder, 'appVrijwilliger');
         }
+
+
     }
 }

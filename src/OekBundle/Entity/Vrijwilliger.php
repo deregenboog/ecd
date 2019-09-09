@@ -23,8 +23,8 @@ class Vrijwilliger implements MemoSubjectInterface, DocumentSubjectInterface
 {
     use IdentifiableTrait, TimestampableTrait, RequiredMedewerkerTrait, MemoSubjectTrait, DocumentSubjectTrait;
 
-    const STATUS_ACTIEF = true;
-    const STATUS_VERWIJDERD = false;
+    const STATUS_ACTIEF = 1;
+    const STATUS_VERWIJDERD = 0;
 
     /**
      * @var Vrijwilliger
@@ -38,7 +38,7 @@ class Vrijwilliger implements MemoSubjectInterface, DocumentSubjectInterface
 
     /**
      * @var bool
-     * @ORM\Column
+     * @ORM\Column(type="boolean")
      * @Gedmo\Versioned
      */
     protected $actief = self::STATUS_ACTIEF;
@@ -58,7 +58,7 @@ class Vrijwilliger implements MemoSubjectInterface, DocumentSubjectInterface
 
     public function isDeletable()
     {
-        return self::STATUS_ACTIEF === $this->getStatus();
+        return self::STATUS_ACTIEF == $this->getActief();
     }
 
     public function getId()

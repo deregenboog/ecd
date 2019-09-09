@@ -31,7 +31,7 @@
         <dt>Naam</dt>
         <dd>{{ entity }}</dd>
         <dt>Status</dt>
-        <dd>{{ entity.status }}</dd>
+        <dd>{{ entity.actief == 1 ? "Actief" : "Verwijderd" }}</dd>
         <dt>Medewerker</dt>
         <dd>{{ entity.medewerker }}</dd>
     </dl>

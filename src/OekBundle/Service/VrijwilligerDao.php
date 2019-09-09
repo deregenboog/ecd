@@ -42,6 +42,10 @@ class VrijwilligerDao extends AbstractDao implements VrijwilligerDaoInterface
             $filter->vrijwilliger->alias = 'appVrijwilliger';
             $filter->applyTo($builder);
         }
+        else if($filter)
+        {
+            $filter->applyTo($builder);
+        }
 
         if ($page <= 0) {
             return $builder->getQuery()->getResult();
@@ -90,7 +94,7 @@ class VrijwilligerDao extends AbstractDao implements VrijwilligerDaoInterface
     public function delete(Vrijwilliger $entity)
     {
 
-        $entity->setStatus($entity::STATUS_VERWIJDERD);
+        $entity->setActief((int)$entity::STATUS_VERWIJDERD);
         $this->doUpdate($entity);
         //$this->doDelete($entity);
     }
