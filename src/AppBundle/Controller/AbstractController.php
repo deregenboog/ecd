@@ -7,6 +7,8 @@ use AppBundle\Export\ExportInterface;
 use AppBundle\Filter\FilterInterface;
 use AppBundle\Form\ConfirmationType;
 use AppBundle\Model\MedewerkerSubjectInterface;
+
+
 use AppBundle\Service\AbstractDao;
 use Doctrine\ORM\EntityNotFoundException;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -262,7 +264,10 @@ abstract class AbstractController extends SymfonyController
                 $url = $request->get('redirect');
                 $viewUrl = $this->generateUrl($this->baseRouteName.'view', ['id' => $entity->getId()]);
 
+
                 $this->dao->delete($entity);
+
+
                 $this->addFlash('success', ucfirst($this->entityName).' is verwijderd.');
 
                 if (!$this->forceRedirect) {

@@ -2,6 +2,7 @@
 
 namespace AppBundle\Model;
 
+use AppBundle\Report\Activering;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 
@@ -16,13 +17,18 @@ trait ActivatableTrait
 
     public function isActief()
     {
-        return $this->actief;
+        return (bool) $this->actief;
     }
 
-    public function setActief($actief)
+    public function getActief()
     {
-        $this->actief = (bool) $actief;
+        return $this->actief;
+    }
+    public function setActief(bool $actief)
+    {
+        $this->actief = $actief;
 
         return $this;
     }
+
 }

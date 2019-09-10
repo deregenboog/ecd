@@ -3,6 +3,8 @@
 namespace OekBundle\Entity;
 
 use AppBundle\Entity\Vrijwilliger as AppVrijwilliger;
+use AppBundle\Model\ActivatableInterface;
+use AppBundle\Model\ActivatableTrait;
 use AppBundle\Model\DocumentSubjectInterface;
 use AppBundle\Model\DocumentSubjectTrait;
 use AppBundle\Model\IdentifiableTrait;
@@ -19,9 +21,9 @@ use Gedmo\Mapping\Annotation as Gedmo;
  * @ORM\HasLifecycleCallbacks
  * @Gedmo\Loggable
  */
-class Vrijwilliger implements MemoSubjectInterface, DocumentSubjectInterface
+class Vrijwilliger implements MemoSubjectInterface, DocumentSubjectInterface, ActivatableInterface
 {
-    use IdentifiableTrait, TimestampableTrait, RequiredMedewerkerTrait, MemoSubjectTrait, DocumentSubjectTrait;
+    use IdentifiableTrait, TimestampableTrait, RequiredMedewerkerTrait, MemoSubjectTrait, DocumentSubjectTrait, ActivatableTrait;
 
     const STATUS_ACTIEF = 1;
     const STATUS_VERWIJDERD = 0;
@@ -36,14 +38,6 @@ class Vrijwilliger implements MemoSubjectInterface, DocumentSubjectInterface
     protected $vrijwilliger;
 
 
-    /**
-     * @var bool
-     * @ORM\Column(type="boolean")
-     * @Gedmo\Versioned
-     */
-    protected $actief = self::STATUS_ACTIEF;
-
-
     public function __construct(AppVrijwilliger $vrijwilliger = null)
     {
         if ($vrijwilliger) {
@@ -56,10 +50,10 @@ class Vrijwilliger implements MemoSubjectInterface, DocumentSubjectInterface
         return (string) $this->vrijwilliger;
     }
 
-    public function isDeletable()
-    {
-        return self::STATUS_ACTIEF == $this->getActief();
-    }
+//    public function isDeletable()
+//    {
+//        return self::STATUS_ACTIEF == $this->getActief();
+//    }
 
     public function getId()
     {

@@ -3,6 +3,7 @@
 namespace ClipBundle\Entity;
 
 use AppBundle\Entity\Medewerker;
+use AppBundle\Model\ActivatableInterface;
 use AppBundle\Model\ActivatableTrait;
 use AppBundle\Model\IdentifiableTrait;
 use AppBundle\Model\OptionalMedewerkerTrait;
@@ -18,7 +19,7 @@ use Symfony\Component\Validator\Context\ExecutionContextInterface;
  * @ORM\HasLifecycleCallbacks
  * @Gedmo\Loggable
  */
-class Behandelaar
+class Behandelaar implements ActivatableInterface
 {
     use IdentifiableTrait, OptionalMedewerkerTrait, ActivatableTrait;
 

@@ -3,8 +3,12 @@
 namespace AppBundle\Service;
 
 use AppBundle\Filter\FilterInterface;
+use AppBundle\Model\ActivatableInterface;
 use AppBundle\Service\AbstractDaoInterface;
 use AppBundle\Model\UsesKlantTrait;
+
+
+use Doctrine\DBAL\Exception\ForeignKeyConstraintViolationException;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityNotFoundException;
@@ -104,7 +108,28 @@ abstract class AbstractDao implements AbstractDaoInterface
 
     protected function doDelete($entity)
     {
-        $this->entityManager->remove($entity);
+        if($entity instanceof ActivatableInterface)// && $entity->isDeletable() === false
+        {
+            $entity->setActief(false);
+        }
+        else if($entity instanceof ActivatableInterface && $entity->isDeletable() !== false)
+        {
+            try
+            {
+                $this->entityManager->remove($entity);
+            }
+            catch(ForeignKeyConstraintViolationException $e)
+            {
+                //ondanks dat ie isDeletable wel true zet, moet ie toch echt inactief worden gezet.
+                //Dubbele interpretatie van ' is deletable'....: mag de verwijder knop worden laten zien of niet....
+            }
+
+        }
+        else
+        {
+            $this->entityManager->remove($entity);
+        }
+//        $this->entityManager->remove($entity);
         $this->entityManager->flush();
     }
 }
