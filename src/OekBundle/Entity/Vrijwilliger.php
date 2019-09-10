@@ -5,6 +5,7 @@ namespace OekBundle\Entity;
 use AppBundle\Entity\Vrijwilliger as AppVrijwilliger;
 use AppBundle\Model\ActivatableInterface;
 use AppBundle\Model\ActivatableTrait;
+use AppBundle\Model\NotDeletableTrait;
 use AppBundle\Model\DocumentSubjectInterface;
 use AppBundle\Model\DocumentSubjectTrait;
 use AppBundle\Model\IdentifiableTrait;
@@ -23,7 +24,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
  */
 class Vrijwilliger implements MemoSubjectInterface, DocumentSubjectInterface, ActivatableInterface
 {
-    use IdentifiableTrait, TimestampableTrait, RequiredMedewerkerTrait, MemoSubjectTrait, DocumentSubjectTrait, ActivatableTrait;
+    use IdentifiableTrait, TimestampableTrait, RequiredMedewerkerTrait, MemoSubjectTrait, DocumentSubjectTrait, ActivatableTrait, NotDeletableTrait;
 
     const STATUS_ACTIEF = 1;
     const STATUS_VERWIJDERD = 0;
