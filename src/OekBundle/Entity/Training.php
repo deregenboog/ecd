@@ -158,8 +158,9 @@ class Training implements KlantRelationInterface
 
         foreach($this->deelnames as $dn)
         {
-            if($dn->getStatus() == DeelnameStatus::STATUS_VERWIJDERD) continue;
-            $this->deelnames->removeElement($dn);
+            if($dn->getStatus() == DeelnameStatus::STATUS_VERWIJDERD) {
+                $this->deelnames->removeElement($dn);
+            }
         }
         return $this->deelnames;
     }

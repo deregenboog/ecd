@@ -153,11 +153,11 @@ abstract class AbstractController extends SymfonyController
         }
         catch(EntityNotFoundException $entityNotFoundException)
         {
-            $message = $this->container->getParameter('kernel.debug') ? $entityNotFoundException->getMessage() : 'Kan deelnemer niet inladen. Waarschijnlijk omdat deze verwijderd of inactief is.';
+            $message = $this->container->getParameter('kernel.debug') ? $entityNotFoundException->getMessage() : 'Kan '.$this->entityClass.' niet inladen. Waarschijnlijk omdat deze verwijderd of inactief is.';
 
         }
         catch(\Exception $exception){
-            $message = $this->container->getParameter('kernel.debug') ? $exception->getMessage() : 'Kan deelnemer niet inladen. Onbekende fout.';
+            $message = $this->container->getParameter('kernel.debug') ? $exception->getMessage() : 'Kan '.$this->entityClass.' niet inladen. Onbekende fout.';
 
         }
         if($message){

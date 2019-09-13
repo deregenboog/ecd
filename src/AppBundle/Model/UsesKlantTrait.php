@@ -8,6 +8,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityNotFoundException;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\PersistentCollection;
 use Gedmo\Mapping\Annotation as Gedmo;
 
 trait UsesKlantTrait
@@ -38,25 +39,36 @@ trait UsesKlantTrait
                 $res = $entity->getKlant();
 
                 //When single, it gives an arrayCollection.
-                if($res instanceof ArrayCollection)
+                if($res instanceof ArrayCollection or $res instanceof PersistentCollection)
                 {
                     foreach($res as $e)
                     {
-                        if(!$this->tryLoadKlant($e)) $entity->{"get".$entity->getKlantFieldName()."()"}->removeElement($e);
+                        try
+                        {
+                            $methodName = "get".$entity->getKlantFieldName();
+                            if(!$this->tryLoadKlant($e)){
+
+                                $entity->{$methodName}()->removeElement($e);
+                            }
+                        }catch(EntityNotFoundException $exception)
+                        {
+                            $entity->{$methodName}()->removeElement($e);
+                        }
                     }
 
                 }
                 //If not, it can be the Klant object we want to probe.
                 else if ($res instanceof Klant)
                 {
-                    $res->getDisabled();
+                    //will always throw exception due to poor constraint implementation. Non disabled will properly return...
+                   return $res->getDisabled();
                 }
                 //Or, it refers to another relation which has perhaps has a relation to Klant. So keep trying!
                 else
                 {
                     $this->tryLoadKlant($res);
                 }
-                return false;
+                return true;
 
             }
             catch(EntityNotFoundException $e)
