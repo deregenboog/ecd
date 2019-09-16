@@ -20,6 +20,19 @@ class HulpvraagRepository extends EntityRepository
         return $builder->getQuery()->getResult();
     }
 
+    public function countDoelgroepenByHulpvraagsoort(\DateTime $startDate, \DateTime $endDate)
+    {
+        $builder = $this->getKoppelingenCountBuilder()
+            ->addSelect('hulpvraagsoort.naam AS hulpvraagsoortnaam')
+            ->addSelect('doelgroepen.naam AS doelgroepnaam')
+            ->innerJoin('hulpvraag.hulpvraagsoort', 'hulpvraagsoort')
+            ->innerJoin('hulpvraag.doelgroepen', 'doelgroepen')
+            ->groupBy('doelgroepen', 'hulpvraagsoort');
+        $this->applyKoppelingenReportFilter($builder, 'afgesloten', $startDate, $endDate);
+
+        return $builder->getQuery()->getResult();
+    }
+
     public function countHulpvragenByProjectAndStadsdeel($report, \DateTime $startDate, \DateTime $endDate)
     {
         $builder = $this->getHulpvragenCountBuilder()

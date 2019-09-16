@@ -160,6 +160,48 @@ class IzKlantRepository extends EntityRepository
         return $builder->getQuery()->getResult();
     }
 
+    public function countByDoelgroepAndHulpvraagsoort($report, \DateTime $startDate, \DateTime $endDate)
+    {
+        $builder = $this->getCountBuilder()
+            ->addSelect('project.naam AS projectnaam')
+            ->addSelect('werkgebied.naam AS stadsdeel')
+            ->leftJoin('klant.werkgebied', 'werkgebied')
+            ->innerJoin('hulpvraag.project', 'project')
+            ->addGroupBy('project', 'stadsdeel');
+        $this->applyReportFilter($builder, $report, $startDate, $endDate);
+
+        switch ($report) {
+            case self::REPORT_GESTART:
+                // exclude beginstand
+                $beginstandBuilder = $this->getCountBuilder()
+                    ->select("CONCAT_WS('-', izKlant.id, project.naam, werkgebied.naam)")
+                    ->leftJoin('klant.werkgebied', 'werkgebied')
+                    ->innerJoin('hulpvraag.project', 'project')
+                ;
+                $this->applyReportFilter($beginstandBuilder, 'beginstand', $startDate, $endDate);
+                $beginstand = $this->flatten($beginstandBuilder->getQuery()->getResult());
+                if ($beginstand) {
+                    $builder->andWhere($builder->expr()->notIn("CONCAT_WS('-', izKlant.id, project.naam, werkgebied.naam)", $beginstand));
+                }
+                break;
+            case self::REPORT_AFGESLOTEN:
+                // exclude eindstand
+                $eindstandBuilder = $this->getCountBuilder()
+                    ->select("CONCAT_WS('-', izKlant.id, project.naam, werkgebied.naam)")
+                    ->leftJoin('klant.werkgebied', 'werkgebied')
+                    ->innerJoin('hulpvraag.project', 'project')
+                ;
+                $this->applyReportFilter($eindstandBuilder, 'eindstand', $startDate, $endDate);
+                $einstand = $this->flatten($eindstandBuilder->getQuery()->getResult());
+                if ($eindstand) {
+                    $builder->andWhere($builder->expr()->notIn("CONCAT_WS('-', izKlant.id, project.naam, werkgebied.naam)", $einstand));
+                }
+
+                break;
+        }
+
+        return $builder->getQuery()->getResult();
+    }
     private function getCountBuilder()
     {
         return $this->createQueryBuilder('izKlant')

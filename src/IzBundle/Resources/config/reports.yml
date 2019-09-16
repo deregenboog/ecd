@@ -125,6 +125,12 @@ services:
         tags:
             - { name: iz.rapportage, category: Deelnemers }
 
+    IzBundle\Report\KlantenDoelgroepPerHulpvraagsoort:
+        arguments:
+            - "@iz.repository.iz_hulpvraag"
+        tags:
+            - { name: iz.rapportage, category: Deelnemers }
+
     IzBundle\Report\SuccesindicatorenPerHulpvraagsoort:
         arguments:
             - "@iz.repository.iz_hulpvraag"
