@@ -2,14 +2,15 @@
 
 namespace OdpBundle\Entity;
 
-use AppBundle\Model\RequiredMedewerkerTrait;
-use AppBundle\Model\TimestampableTrait;
+
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 /**
  * @ORM\Entity
  */
-class Verslag extends SuperVerslag
+class FinancieelDocument extends SuperDocument
 {
+
 }

@@ -46,6 +46,21 @@ class HuurovereenkomstenController extends AbstractController
      */
     protected $export;
 
+    public function dafterFind($entity)
+    {
+        $verslagen = $entity->getDocumenten();
+        foreach($verslagen as $v)
+        {
+            $title = $v->getId();
+
+        }
+        $fv = $entity->getFinancieleverslagen();
+        foreach($fv as $v)
+        {
+            $id = $v->getId();
+        }
+    }
+
     /**
      * @Route("/add")
      */

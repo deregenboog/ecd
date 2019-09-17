@@ -6,6 +6,10 @@ services:
         arguments:
             - '@doctrine.orm.entity_manager'
 
+    OdpBundle\Service\FinancieelDocumentDao:
+        arguments:
+            - '@doctrine.orm.entity_manager'
+            -
     OdpBundle\Service\HuuraanbodAfsluitingDao:
         parent: app.dao.abstract
 
@@ -31,6 +35,10 @@ services:
         parent: app.dao.abstract
 
     OdpBundle\Service\VerslagDao:
+        arguments:
+            - '@doctrine.orm.entity_manager'
+
+    OdpBundle\Service\FinancieelVerslagDao:
         arguments:
             - '@doctrine.orm.entity_manager'
 

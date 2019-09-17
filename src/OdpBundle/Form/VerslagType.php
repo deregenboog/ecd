@@ -5,6 +5,7 @@ namespace OdpBundle\Form;
 use AppBundle\Form\AppDateType;
 use AppBundle\Form\AppTextareaType;
 use AppBundle\Form\BaseType;
+use OdpBundle\Entity\SuperVerslag;
 use OdpBundle\Entity\Verslag;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -32,7 +33,7 @@ class VerslagType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => Verslag::class,
+            'data_class' => SuperVerslag::class,
         ]);
     }
 

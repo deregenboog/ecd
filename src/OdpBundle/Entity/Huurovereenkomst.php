@@ -98,20 +98,45 @@ class Huurovereenkomst
     /**
      * @var ArrayCollection|Verslag[]
      *
-     * @ORM\ManyToMany(targetEntity="Verslag", cascade={"persist"})
-     * @ORM\JoinTable(name="odp_huurovereenkomst_verslag")
-     * @ORM\OrderBy({"datum" = "DESC", "id" = "DESC"})
+     * @ORM\ManyToMany(targetEntity="Verslag", cascade={"persist"},fetch="LAZY")
      */
     private $verslagen;
 
     /**
+     * @var ArrayCollection|FinancieelVerslag[]
+     *
+     * @ORM\ManyToMany(targetEntity="FinancieelVerslag", cascade={"persist"}, fetch="LAZY")
+     * @ORM\JoinTable(name="odp_huurovereenkomst_verslag",
+     *      joinColumns={@ORM\JoinColumn(name="huurovereenkomst_id", referencedColumnName="id")},
+     *     inverseJoinColumns={@ORM\JoinColumn(name="verslag_id", referencedColumnName="id")}
+     *     )
+     */
+    private $financieleverslagen;
+
+    /**
      * @var ArrayCollection|Document[]
      *
-     * @ORM\ManyToMany(targetEntity="Document", cascade={"persist"})
-     * @ORM\JoinTable(name="odp_huurovereenkomst_document")
-     * @ORM\OrderBy({"datum" = "DESC", "id" = "DESC"})
+     * @ORM\ManyToMany(targetEntity="Document", cascade={"persist"}, fetch="EAGER")
+     * @ORM\JoinTable(name="odp_huurovereenkomst_document",
+     *      joinColumns={@ORM\JoinColumn(name="huurovereenkomst_id", referencedColumnName="id")},
+     *     inverseJoinColumns={@ORM\JoinColumn(name="document_id", referencedColumnName="id")}
+     *     )
      */
     private $documenten;
+
+    /**
+     * @var ArrayCollection|FinancieelDocument[]
+     *
+     * @ORM\ManyToMany(targetEntity="FinancieelDocument", cascade={"persist"})
+     * @ORM\JoinTable(name="odp_huurovereenkomst_document",
+     *      joinColumns={@ORM\JoinColumn(name="huurovereenkomst_id", referencedColumnName="id")},
+     *     inverseJoinColumns={@ORM\JoinColumn(name="document_id", referencedColumnName="id")}
+     *     )
+     */
+    private $financieledocumenten;
+
+
+
 
     public function __construct()
     {
@@ -228,6 +253,51 @@ class Huurovereenkomst
     {
         $this->documenten[] = $document;
 
+        return $this;
+    }
+
+    /**
+     * @return ArrayCollection|FinancieelDocument[]
+     */
+    public function getFinancieledocumenten()
+    {
+        return $this->financieledocumenten;
+    }
+
+    /**
+     * @param ArrayCollection|FinancieelDocument[] $financieledocumenten
+     */
+    public function setFinancieledocumenten($financieledocumenten): void
+    {
+        $this->financieledocumenten = $financieledocumenten;
+    }
+
+    public function addFinancieelDocument(FinancieelDocument $document)
+    {
+        $this->financieledocumenten[] = $document;
+        return $this;
+
+    }
+
+    /**
+     * @return ArrayCollection|FinancieelVerslag[]
+     */
+    public function getFinancieleverslagen()
+    {
+        return $this->financieleverslagen;
+    }
+
+    /**
+     * @param ArrayCollection|FinancieelVerslag[] $financieleverslagen
+     */
+    public function setFinancieleverslagen($financieleverslagen): void
+    {
+        $this->financieleverslagen = $financieleverslagen;
+    }
+
+    public function addFinancieelVerslag(FinancieelVerslag $verslag)
+    {
+        $this->financieleverslagen[] = $verslag;
         return $this;
     }
 

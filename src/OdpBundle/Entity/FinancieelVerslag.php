@@ -9,7 +9,9 @@ use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Entity
+ * @Gedmo\Loggable
  */
-class Verslag extends SuperVerslag
+class FinancieelVerslag extends SuperVerslag
 {
+
 }

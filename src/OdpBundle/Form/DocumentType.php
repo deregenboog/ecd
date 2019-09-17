@@ -5,6 +5,7 @@ namespace OdpBundle\Form;
 use AppBundle\Form\AppDateType;
 use AppBundle\Form\BaseType;
 use OdpBundle\Entity\Document;
+use OdpBundle\Entity\SuperDocument;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -39,7 +40,7 @@ class DocumentType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => Document::class,
+            'data_class' => SuperDocument::class,
         ]);
     }
 
