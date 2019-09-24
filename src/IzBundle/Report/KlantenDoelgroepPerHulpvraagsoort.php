@@ -6,7 +6,7 @@ use AppBundle\Report\Table;
 
 class KlantenDoelgroepPerHulpvraagsoort extends AbstractKoppelingenReport
 {
-    protected $title = 'Deelnemers per doelgroep per hulpvraagsoort';
+    protected $title = 'Aantal deelnemers per doelgroep per hulpvraagsoort';
 
     protected $xPath = 'doelgroepnaam';
 
@@ -25,15 +25,17 @@ class KlantenDoelgroepPerHulpvraagsoort extends AbstractKoppelingenReport
 
     protected function build()
     {
-        $afgeslotenTable = new Table($this->doelgroepen, $this->xPath, $this->yPath, $this->nPath);
-        $afgeslotenTable->setStartDate($this->startDate)->setEndDate($this->endDate);
+
+        //gestart
+        $gestart = new Table($this->doelgroepen, $this->xPath, $this->yPath, $this->nPath);
+        $gestart->setStartDate($this->startDate)->setEndDate($this->endDate);
 
         $this->reports = [
             [
-                'title' => 'Doelgroepen',
+                'title' => 'Gestartte koppelingen',
                 'xDescription' => $this->xDescription,
                 'yDescription' => $this->yDescription,
-                'data' => $afgeslotenTable->render(),
+                'data' => $gestart->render(),
             ],
         ];
     }

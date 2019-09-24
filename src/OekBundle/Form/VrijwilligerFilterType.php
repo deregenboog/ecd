@@ -2,6 +2,7 @@
 
 namespace OekBundle\Form;
 
+use AppBundle\Form\AppDateRangeType;
 use AppBundle\Form\FilterType;
 use AppBundle\Form\VrijwilligerFilterType as AppVrijwilligerFilterType;
 use OekBundle\Entity\Vrijwilliger;
@@ -29,6 +30,17 @@ class VrijwilligerFilterType extends AbstractType
                 'required' => false,
             ]);
         }
+        if (in_array('aanmelddatum', $options['enabled_filters'])) {
+            $builder->add('aanmelddatum', AppDateRangeType::class, [
+                'required' => false,
+            ]);
+        }
+
+        if (in_array('afsluitdatum', $options['enabled_filters'])) {
+            $builder->add('afsluitdatum', AppDateRangeType::class, [
+                'required' => false,
+            ]);
+        }
     }
 
     /**
@@ -41,6 +53,8 @@ class VrijwilligerFilterType extends AbstractType
             'data' => new VrijwilligerFilter(),
             'enabled_filters' => [
                 'vrijwilliger' => ['id', 'naam', 'stadsdeel'],
+//                'aanmelddatum',
+//                'afsluitdatum',
                 'filter',
                 'download',
                 'actief'

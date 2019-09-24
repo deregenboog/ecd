@@ -28,7 +28,7 @@ class HulpvraagRepository extends EntityRepository
             ->innerJoin('hulpvraag.hulpvraagsoort', 'hulpvraagsoort')
             ->innerJoin('hulpvraag.doelgroepen', 'doelgroepen')
             ->groupBy('doelgroepen', 'hulpvraagsoort');
-        $this->applyKoppelingenReportFilter($builder, 'afgesloten', $startDate, $endDate);
+        $this->applyKoppelingenReportFilter($builder, 'gestart', $startDate, $endDate);
 
         return $builder->getQuery()->getResult();
     }
@@ -243,14 +243,14 @@ class HulpvraagRepository extends EntityRepository
 
         switch ($report) {
             case 'beginstand':
-                $builder->andWhere("{$startdatumDql} < :startdatum")
-                    ->andWhere($builder->expr()->orX(
-                        "{$einddatumIsNullDql} = 0",
-                        "{$einddatumDql} = '0000-00-00'",
-                        "{$einddatumDql} >= :startdatum"
-                    ))
-                    ->setParameter('startdatum', $startDate);
-                break;
+            $builder->andWhere("{$startdatumDql} < :startdatum")
+                ->andWhere($builder->expr()->orX(
+                    "{$einddatumIsNullDql} = 0",
+                    "{$einddatumDql} = '0000-00-00'",
+                    "{$einddatumDql} >= :startdatum"
+                ))
+                ->setParameter('startdatum', $startDate);
+            break;
             case 'gestart':
                 $builder->andWhere("{$startdatumDql} >= :startdatum")
                     ->andWhere("{$startdatumDql} <= :einddatum")

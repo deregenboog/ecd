@@ -19,7 +19,7 @@
         {% if entity.actief == 1 %}
             {% set delete_link = path('oek_vrijwilligers_delete', {id: entity.id}) %}
             {{ html.deleteLink(delete_link) }}
-            {{ html.link(entity_name|capitalize~' verwijderen', delete_link) }}
+            {{ html.link(entity_name|capitalize~' inactief maken', delete_link) }}
         {% endif %}
     </p>
 {% endblock %}
@@ -31,7 +31,7 @@
         <dt>Naam</dt>
         <dd>{{ entity }}</dd>
         <dt>Status</dt>
-        <dd>{{ entity.actief == 1? "Actief" : "Verwijderd" }}</dd>
+        <dd>{{ entity.actief == 1? "Actief" : "Inactief" }}</dd>
         <dt>Medewerker</dt>
         <dd>{{ entity.medewerker }}</dd>
     </dl>
