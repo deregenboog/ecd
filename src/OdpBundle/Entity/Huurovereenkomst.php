@@ -99,6 +99,10 @@ class Huurovereenkomst
      * @var ArrayCollection|Verslag[]
      *
      * @ORM\ManyToMany(targetEntity="Verslag", cascade={"persist"},fetch="LAZY")
+     * @ORM\JoinTable(name="odp_huurovereenkomst_verslag",
+     *      joinColumns={@ORM\JoinColumn(name="huurovereenkomst_id", referencedColumnName="id")},
+     *     inverseJoinColumns={@ORM\JoinColumn(name="verslag_id", referencedColumnName="id")}
+     *     )
      */
     private $verslagen;
 
@@ -106,7 +110,7 @@ class Huurovereenkomst
      * @var ArrayCollection|FinancieelVerslag[]
      *
      * @ORM\ManyToMany(targetEntity="FinancieelVerslag", cascade={"persist"}, fetch="LAZY")
-     * @ORM\JoinTable(name="odp_huurovereenkomst_verslag",
+     * @ORM\JoinTable(name="odp_huurovereenkomst_finverslag",
      *      joinColumns={@ORM\JoinColumn(name="huurovereenkomst_id", referencedColumnName="id")},
      *     inverseJoinColumns={@ORM\JoinColumn(name="verslag_id", referencedColumnName="id")}
      *     )
@@ -116,7 +120,7 @@ class Huurovereenkomst
     /**
      * @var ArrayCollection|Document[]
      *
-     * @ORM\ManyToMany(targetEntity="Document", cascade={"persist"}, fetch="EAGER")
+     * @ORM\ManyToMany(targetEntity="Document", cascade={"persist"}, fetch="LAZY")
      * @ORM\JoinTable(name="odp_huurovereenkomst_document",
      *      joinColumns={@ORM\JoinColumn(name="huurovereenkomst_id", referencedColumnName="id")},
      *     inverseJoinColumns={@ORM\JoinColumn(name="document_id", referencedColumnName="id")}
@@ -128,7 +132,7 @@ class Huurovereenkomst
      * @var ArrayCollection|FinancieelDocument[]
      *
      * @ORM\ManyToMany(targetEntity="FinancieelDocument", cascade={"persist"})
-     * @ORM\JoinTable(name="odp_huurovereenkomst_document",
+     * @ORM\JoinTable(name="odp_huurovereenkomst_findocument",
      *      joinColumns={@ORM\JoinColumn(name="huurovereenkomst_id", referencedColumnName="id")},
      *     inverseJoinColumns={@ORM\JoinColumn(name="document_id", referencedColumnName="id")}
      *     )

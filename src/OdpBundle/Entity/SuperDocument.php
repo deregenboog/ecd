@@ -11,11 +11,11 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 /**
  * @ORM\Entity
- * @ORM\Table(name="odp_documenten")
+ * @ORM\Table(name="odp_superdocumenten")
  * @ORM\HasLifecycleCallbacks
  * @ORM\InheritanceType("SINGLE_TABLE")
  * @ORM\DiscriminatorColumn(name="class", type="string", length=12)
- * @ORM\DiscriminatorMap({"document" = "Document", "financieel" = "FinancieelDocument"})
+ * @ORM\DiscriminatorMap({"superdocument" = "SuperDocument", "document" = "Document", "financieel" = "FinancieelDocument"})
  * @Gedmo\Loggable
  * @Vich\Uploadable
  */

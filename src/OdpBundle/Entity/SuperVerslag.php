@@ -9,11 +9,11 @@ use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Entity()
- * @ORM\Table(name="odp_verslagen")
+ * @ORM\Table(name="odp_superverslagen")
  * @ORM\HasLifecycleCallbacks
  * @ORM\InheritanceType("SINGLE_TABLE")
  * @ORM\DiscriminatorColumn(name="class", type="string",length=12)
- * @ORM\DiscriminatorMap({"verslag" = "Verslag", "financieel" = "FinancieelVerslag"})
+ * @ORM\DiscriminatorMap({"superverslag" = "SuperVerslag", "verslag" = "Verslag", "financieel" = "FinancieelVerslag"})
  * @Gedmo\Loggable()
  */
 abstract class SuperVerslag
