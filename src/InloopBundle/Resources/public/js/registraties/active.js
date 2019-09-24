@@ -74,7 +74,7 @@ function checkoutAll(locatie_id) {
     var confirmed = confirm('Weet u zeker dat u iedereen wilt uitchecken?');
     if (confirmed) {
         $.post({
-            url: `/inloop/registraties/checkoutAll/${locatie_id}`,
+            url: '/inloop/registraties/checkoutAll/'+locatie_id,
         }).done(function(data) {
             init();
             resetFilter();
@@ -86,7 +86,7 @@ function checkoutAll(locatie_id) {
 
 function checkout(registratie_id) {
     $.post({
-        url: `/inloop/registraties/registratieCheckOut/${registratie_id}`,
+        url: '/inloop/registraties/registratieCheckOut/'+registratie_id,
     }).done(function(data) {
         init();
         resetFilter();
@@ -99,7 +99,7 @@ function remove(registratie_id) {
     var confirmed = confirm('Weet u zeker dat u deze registratie wilt verwijderen?');
     if (confirmed) {
         $.post({
-            url: `/inloop/registraties/${registratie_id}/delete`,
+            url: '/inloop/registraties/'+registratie_id+'/delete',
         }).done(function(data) {
             init();
             resetFilter();
