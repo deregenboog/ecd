@@ -2,10 +2,12 @@
 
 namespace DagbestedingBundle\Service;
 
+use AppBundle\Entity\Klant;
 use AppBundle\Filter\FilterInterface;
 use AppBundle\Service\AbstractDao;
 use DagbestedingBundle\Entity\Deelnemer;
 use Doctrine\ORM\QueryBuilder;
+use IzBundle\Entity\IzKlant;
 
 class DeelnemerDao extends AbstractDao implements DeelnemerDaoInterface
 {
@@ -43,6 +45,16 @@ class DeelnemerDao extends AbstractDao implements DeelnemerDaoInterface
         }
 
         return $builder->getQuery()->getResult();
+    }
+
+    /**
+     * @param Klant $klant
+     *
+     * @return Deelnemer
+     */
+    public function findOneByKlant(Klant $klant)
+    {
+        return $this->repository->findOneBy(['klant' => $klant]);
     }
 
     public function create(Deelnemer $deelnemer)

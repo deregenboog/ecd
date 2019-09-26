@@ -13,9 +13,11 @@ use DagbestedingBundle\Form\DeelnemerReopenType;
 use DagbestedingBundle\Form\DeelnemerSelectType;
 use DagbestedingBundle\Form\DeelnemerType;
 use DagbestedingBundle\Service\DeelnemerDaoInterface;
+use IzBundle\Service\KlantDaoInterface;
 use JMS\DiExtraBundle\Annotation as DI;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
@@ -46,14 +48,68 @@ class DeelnemersController extends AbstractController
     protected $export;
 
     /**
+     * @var KlantDaoInterface
+     *
+     * @DI\Inject("AppBundle\Service\KlantDao")
+     */
+    private $klantDao;
+
+    /**
      * @Route("/add")
      */
     public function addAction(Request $request)
     {
-        if ($request->query->has('klantId')) {
+        if ($request->get('klant')) {
+            return $this->doAdd($request);
+        }
+
+        return $this->doSearch($request);
+    }
+
+    private function doSearch(Request $request)
+    {
+        $filterForm = $this->createForm(KlantFilterType::class, null, [
+            'enabled_filters' => ['id', 'naam', 'bsn', 'geboortedatum'],
+        ]);
+        $filterForm->handleRequest($request);
+
+        if ($filterForm->isSubmitted() && $filterForm->isValid()) {
+            $count = (int) $this->klantDao->countAll($filterForm->getData());
+            if (0 === $count) {
+                $this->addFlash('info', sprintf('De zoekopdracht leverde geen resultaten op. Maak een nieuwe %s aan.', $this->entityName));
+
+                return $this->redirectToRoute($this->baseRouteName.'add', ['klant' => 'new']);
+            }
+
+            if ($count > 100) {
+                $filterForm->addError(new FormError('De zoekopdracht leverde teveel resultaten op. Probeer het opnieuw met een specifiekere zoekopdracht.'));
+            }
+
+            return [
+                'filterForm' => $filterForm->createView(),
+                'deelnemers' => $this->klantDao->findAll(null, $filterForm->getData()),
+            ];
+        }
+
+        return [
+            'filterForm' => $filterForm->createView(),
+        ];
+    }
+
+
+    public function doAdd(Request $request)
+    {
+        if ($request->query->has('klant')) {
             $klant = new Klant();
-            if ('new' !== $request->query->get('klantId')) {
-                $klant = $this->getEntityManager()->find(Klant::class, $request->query->get('klantId'));
+            if ('new' !== $request->query->get('klant')) {
+                $klant = $this->getEntityManager()->find(Klant::class, $request->query->get('klant'));
+                if ($klant) {
+                    // redirect if already exists
+                    $deelnemer = $this->dao->findOneByKlant($klant);
+                    if ($deelnemer) {
+                        return $this->redirectToView($deelnemer);
+                    }
+                }
             }
 
             $entity = new Deelnemer();
@@ -79,37 +135,11 @@ class DeelnemersController extends AbstractController
 
             return [
                 'creationForm' => $creationForm->createView(),
+                'klant'=>$klant,
             ];
         }
 
-        $filterForm = $this->createForm(KlantFilterType::class, null, [
-            'enabled_filters' => ['naam', 'bsn', 'geboortedatum'],
-        ]);
-        $filterForm->handleRequest($request);
 
-        $selectionForm = $this->createForm(DeelnemerSelectType::class, null, [
-            'filter' => $filterForm->getData(),
-        ]);
-        $selectionForm->handleRequest($request);
-
-        if ($filterForm->isSubmitted() && $filterForm->isValid()) {
-            return ['selectionForm' => $selectionForm->createView()];
-        }
-
-        if ($selectionForm->isSubmitted() && $selectionForm->isValid()) {
-            $entity = $selectionForm->getData();
-            if ($entity->getKlant() instanceof Klant) {
-                $id = $entity->getKlant()->getId();
-            } else {
-                $id = 'new';
-            }
-
-            return $this->redirectToRoute($this->baseRouteName.'add', ['klantId' => $id]);
-        }
-
-        return [
-            'filterForm' => $filterForm->createView(),
-        ];
     }
 
     /**

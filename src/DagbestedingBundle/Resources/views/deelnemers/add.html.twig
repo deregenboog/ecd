@@ -10,22 +10,40 @@
 {% endblock %}
 
 {% block content %}
-    <h1>Deelnemer toevoegen</h1>
-
-    {% if filterForm is defined %}
-        Zoek een bestaande deelnemer op naam, BSN of geboortedatum.
+    <h1>{{ entity_name|capitalize }} toevoegen</h1>
+    {% if deelnemers is defined and filterForm.vars.errors|length == 0 %}
+        <p>
+            Selecteer de gewenste {{ entity_name }} in onderstaande lijst of klik op
+            "Nieuwe {{ entity_name }}" als deze niet in de lijst voorkomt.
+        </p>
+        <p>
+            {{ html.link('Nieuwe '~entity_name, path('dagbesteding_deelnemers_add', {klant: 'new'}), 'plus') }}
+        </p>
+        <table class="table table-hover">
+            <thead>
+            <tr>
+                <th>#</th>
+                <th>Naam</th>
+                <th>BSN</th>
+                <th>Geboortedatum</th>
+            </tr>
+            </thead>
+            {% for entity in deelnemers %}
+                <tr data-href="{{ path('dagbesteding_deelnemers_add', {klant: entity.id}) }}">
+                    <td>{{ entity.id }}</td>
+                    <td>{{ entity }}</td>
+                    <td>{{ entity.bsn }}</td>
+                    <td>{{ entity.geboortedatum ? entity.geboortedatum|date('d-m-Y') }}</td>
+                </tr>
+            {% endfor %}
+        </table>
+    {% elseif filterForm is defined %}
+        <p>Zoek een bestaande {{ entity_name }} op naam, BSN of geboortedatum.</p>
         {{ form(filterForm) }}
     {% endif %}
 
-    {% if selectionForm is defined %}
-        <p>
-            Selecteer een bestaande deelnemer en klik op "Verder".<br>
-            Selecteer niks en klik op "Verder" om een nieuwe deelnemer aan te maken.
-        </p>
-        {{ form(selectionForm) }}
-    {% endif %}
-
     {% if creationForm is defined %}
+        <h2>{{ klant.naam }}</h2>
         {{ form(creationForm) }}
     {% endif %}
 {% endblock %}

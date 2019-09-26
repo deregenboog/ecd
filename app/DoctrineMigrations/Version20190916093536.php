@@ -38,6 +38,7 @@ final class Version20190916093536 extends AbstractMigration
 
         $this->addSql('ALTER TABLE odp_superverslagen RENAME TO odp_verslagen');
         $this->addSql('ALTER TABLE odp_superdocumenten RENAME TO odp_documenten');
-
+        $this->addSql('DROP TABLE odp_huurovereenkomst_findocument');
+        $this->addSql('DROP TABLE odp_huurovereenkomst_finverslag');
     }
 }
