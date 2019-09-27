@@ -3,10 +3,10 @@
 namespace MwBundle\Form;
 
 use AppBundle\Form\RapportageType as BaseRapportageType;
-use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
-use InloopBundle\Entity\Locatie;
 use Doctrine\ORM\EntityRepository;
+use InloopBundle\Entity\Locatie;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\Form\FormBuilderInterface;
 
 class RapportageType extends BaseRapportageType
 {
@@ -19,7 +19,7 @@ class RapportageType extends BaseRapportageType
             'placeholder' => 'Alle locaties',
             'required' => false,
             'class' => Locatie::class,
-            'query_builder' => function(EntityRepository $repository) {
+            'query_builder' => function (EntityRepository $repository) {
                 return $repository->createQueryBuilder('locatie')
                     ->orderBy('locatie.naam');
             },

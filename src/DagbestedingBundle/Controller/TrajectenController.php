@@ -2,23 +2,25 @@
 
 namespace DagbestedingBundle\Controller;
 
-use AppBundle\Controller\AbstractController;
-use DagbestedingBundle\Entity\Deelnemer;
-use DagbestedingBundle\Entity\Traject;
-use DagbestedingBundle\Form\TrajectFilterType;
-use DagbestedingBundle\Form\TrajectType;
-use JMS\DiExtraBundle\Annotation as DI;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Symfony\Component\HttpFoundation\Request;
-use DagbestedingBundle\Service\TrajectDaoInterface;
+use AppBundle\Controller\AbstractChildController;
+use AppBundle\Export\GenericExport;
+use AppBundle\Form\ConfirmationType;
 use AppBundle\Form\Model\AppDateRangeModel;
 use DagbestedingBundle\Entity\Project;
-use DagbestedingBundle\Form\DagdelenRangeType;
+use DagbestedingBundle\Entity\Traject;
 use DagbestedingBundle\Form\DagdelenRangeModel;
-use AppBundle\Controller\AbstractChildController;
+use DagbestedingBundle\Form\DagdelenRangeType;
+use DagbestedingBundle\Form\TrajectFilterType;
+use DagbestedingBundle\Form\TrajectType;
+use DagbestedingBundle\Service\TrajectDaoInterface;
+use JMS\DiExtraBundle\Annotation as DI;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * @Route("/trajecten")
+ * @Template
  */
 class TrajectenController extends AbstractChildController
 {
@@ -33,7 +35,7 @@ class TrajectenController extends AbstractChildController
     /**
      * @var TrajectDaoInterface
      *
-     * @DI\Inject("dagbesteding.dao.traject")
+     * @DI\Inject("DagbestedingBundle\Service\TrajectDao")
      */
     protected $dao;
 
@@ -56,7 +58,7 @@ class TrajectenController extends AbstractChildController
      */
     public function addAction(Request $request)
     {
-        if (!array_key_exists(GROUP_DAGBESTEDING, $this->userGroups)) {
+        if (!$this->isGranted('ROLE_DAGBESTEDING')) {
             $this->addFlash('danger', 'U bent niet bevoegd trajecten aan te maken.');
 
             return $this->redirectToRoute('dagbesteding_trajecten_index');
@@ -70,7 +72,7 @@ class TrajectenController extends AbstractChildController
      */
     public function editAction(Request $request, $id)
     {
-        if (!array_key_exists(GROUP_DAGBESTEDING, $this->userGroups)) {
+        if (!$this->isGranted('ROLE_DAGBESTEDING')) {
             $this->addFlash('danger', 'U bent niet bevoegd trajecten te wijzigen.');
 
             return $this->redirectToRoute('dagbesteding_trajecten_index');
@@ -84,7 +86,7 @@ class TrajectenController extends AbstractChildController
      */
     public function deleteAction(Request $request, $id)
     {
-        if (!array_key_exists(GROUP_DAGBESTEDING, $this->userGroups)) {
+        if (!$this->isGranted('ROLE_DAGBESTEDING')) {
             $this->addFlash('danger', 'U bent niet bevoegd trajecten te verwijderen.');
 
             return $this->redirectToRoute('dagbesteding_trajecten_index');
@@ -98,13 +100,19 @@ class TrajectenController extends AbstractChildController
      */
     public function closeAction(Request $request, Traject $id)
     {
-        if (!array_key_exists(GROUP_DAGBESTEDING, $this->userGroups)) {
+        if (!$this->isGranted('ROLE_DAGBESTEDING')) {
             $this->addFlash('danger', 'U bent niet bevoegd trajecten af te sluiten.');
 
             return $this->redirectToRoute('dagbesteding_trajecten_index');
         }
 
         $entity = $id;
+
+        if (!$entity->isActief() && !$this->isGranted('ROLE_ADMIN')) {
+            $this->addFlash('danger', 'U bent niet bevoegd de afsluiting van dit traject te wijzigen.');
+
+            return $this->redirectToRoute('dagbesteding_trajecten_index');
+        }
 
         $form = $this->createForm($this->formClass, $entity, [
             'mode' => 'close',
@@ -113,8 +121,8 @@ class TrajectenController extends AbstractChildController
 
         if ($form->isSubmitted() && $form->isValid()) {
             try {
-                $this->dao->create($entity);
-                $this->addFlash('success', $this->entityName.' is opgeslagen.');
+                $this->dao->update($entity);
+                $this->addFlash('success', $this->entityName.' is afgesloten.');
             } catch (\Exception $e) {
                 $message = $this->container->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
                 $this->addFlash('danger', $message);
@@ -125,6 +133,43 @@ class TrajectenController extends AbstractChildController
 
         return [
             'form' => $form->createView(),
+        ];
+    }
+
+    /**
+     * @Route("/open/{id}")
+     */
+    public function openAction(Request $request, Traject $id)
+    {
+        if (!$this->isGranted('ROLE_ADMIN')) {
+            $this->addFlash('danger', 'U bent niet bevoegd trajecten af te heropenen.');
+
+            return $this->redirectToRoute('dagbesteding_trajecten_index');
+        }
+
+        $entity = $id;
+
+        $form = $this->createForm(ConfirmationType::class);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            if ($form->get('yes')->isClicked()) {
+                try {
+                    $entity->open();
+                    $this->dao->update($entity);
+                    $this->addFlash('success', $this->entityName.' is heropend.');
+                } catch (\Exception $e) {
+                    $message = $this->container->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
+                    $this->addFlash('danger', $message);
+                }
+            }
+
+            return $this->redirectToView($entity);
+        }
+
+        return [
+            'form' => $form->createView(),
+            'entity' => $entity,
         ];
     }
 

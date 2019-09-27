@@ -3,11 +3,11 @@
 namespace IzBundle\Controller;
 
 use AppBundle\Controller\AbstractController;
+use IzBundle\Entity\AfsluitredenKoppeling;
+use IzBundle\Form\AfsluitredenKoppelingType;
+use IzBundle\Service\AfsluitredenKoppelingDaoInterface;
 use JMS\DiExtraBundle\Annotation as DI;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use IzBundle\Entity\EindeKoppeling;
-use IzBundle\Service\EindeKoppelingDaoInterface;
-use IzBundle\Form\EindeKoppelingType;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
@@ -17,14 +17,14 @@ class AfsluitredenenKoppelingController extends AbstractController
 {
     protected $title = 'Afsluitredenen koppelingen';
     protected $entityName = 'afsluitreden koppeling';
-    protected $entityClass = EindeKoppeling::class;
-    protected $formClass = EindeKoppelingType::class;
+    protected $entityClass = AfsluitredenKoppeling::class;
+    protected $formClass = AfsluitredenKoppelingType::class;
     protected $baseRouteName = 'iz_afsluitredenenkoppeling_';
 
     /**
-     * @var EindeKoppelingDaoInterface
+     * @var AfsluitredenKoppelingDaoInterface
      *
-     * @DI\Inject("IzBundle\Service\EindeKoppelingDao")
+     * @DI\Inject("IzBundle\Service\AfsluitredenKoppelingDao")
      */
     protected $dao;
 

@@ -2,10 +2,10 @@
 
 namespace HsBundle\Report;
 
+use AppBundle\Report\AbstractReport;
 use AppBundle\Report\Table;
 use HsBundle\Service\DienstverlenerDaoInterface;
 use HsBundle\Service\VrijwilligerDaoInterface;
-use AppBundle\Report\AbstractReport;
 
 class ArbeidersPerStadsdeel extends AbstractReport
 {

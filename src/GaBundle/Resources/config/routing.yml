@@ -3,3 +3,14 @@ groepsactiviteiten_klanten_index:
 
 groepsactiviteiten_vrijwilligers_index:
     path: groepsactiviteiten_vrijwilligers
+
+ga_annotations:
+    resource: "@GaBundle/Controller"
+    type: annotation
+    prefix: /ga
+
+ga_index:
+    path: /ga/
+    defaults:
+        _controller: FrameworkBundle:Redirect:redirect
+        route: ga_klantdossiers_index

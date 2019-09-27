@@ -4,6 +4,7 @@ namespace HsBundle\Service;
 
 use AppBundle\Entity\Vrijwilliger as AppVrijwilliger;
 use AppBundle\Filter\FilterInterface;
+use HsBundle\Entity\Dienstverlener;
 use HsBundle\Entity\Vrijwilliger;
 use Knp\Component\Pager\Pagination\PaginationInterface;
 
@@ -48,5 +49,9 @@ interface VrijwilligerDaoInterface
 
     public function countByStadsdeel(\DateTime $start = null, \DateTime $end = null);
 
+    public function countByGgwGebied(\DateTime $start = null, \DateTime $end = null);
+
     public function countNewByStadsdeel(\DateTime $start = null, \DateTime $end = null);
+
+    public function countNewByGgwGebied(\DateTime $start = null, \DateTime $end = null);
 }

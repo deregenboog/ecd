@@ -2,15 +2,18 @@
 
 namespace HsBundle\Controller;
 
+use AppBundle\Controller\AbstractController;
 use HsBundle\Entity\Activiteit;
 use HsBundle\Form\ActiviteitType;
 use HsBundle\Service\ActiviteitDaoInterface;
 use JMS\DiExtraBundle\Annotation as DI;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
-use AppBundle\Controller\AbstractController;
 
 /**
  * @Route("/admin/activiteiten")
+ * @Template
  */
 class ActiviteitenController extends AbstractController
 {
@@ -23,14 +26,14 @@ class ActiviteitenController extends AbstractController
     /**
      * @var ActiviteitDaoInterface
      *
-     * @DI\Inject("hs.dao.activiteit")
+     * @DI\Inject("HsBundle\Service\ActiviteitDao")
      */
     protected $dao;
 
     /**
      * @Route("/{id}/view")
      */
-    public function viewAction($id)
+    public function viewAction(Request $request, $id)
     {
         return $this->redirectToIndex();
     }

@@ -2,11 +2,11 @@
 
 namespace HsBundle\Command;
 
+use Doctrine\ORM\EntityManager;
+use HsBundle\Entity\Klus;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use HsBundle\Entity\Klus;
-use Doctrine\ORM\EntityManager;
 
 class KlantUpdateCommand extends ContainerAwareCommand
 {
@@ -17,7 +17,7 @@ class KlantUpdateCommand extends ContainerAwareCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        /** @var $entityManager EntityManager */
+        /* @var $entityManager EntityManager */
         $entityManager = $this->getContainer()->get('doctrine.orm.entity_manager');
 
         // find klussen

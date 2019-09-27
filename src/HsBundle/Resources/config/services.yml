@@ -4,45 +4,47 @@ imports:
     - { resource: reports.yml }
 
 services:
+    # Twig extensions
     hs.twig.hs_extension:
         class: HsBundle\Twig\HsExtension
         public: false
         tags:
             - { name: twig.extension }
 
+    # Form types
     hs.form.type.klant:
         class: HsBundle\Form\KlantType
         arguments:
-            - "@doctrine.orm.entity_manager"
+            - '@doctrine.orm.entity_manager'
         tags:
             - { name: form.type }
+            
+    hs.form.rapportage:
+        class: HsBundle\Form\RapportageType
+        tags:
+            - { name: form.type }
+
+    # Event subscribers
+    hs.event.diensten_lookup_subscriber:
+        class: HsBundle\Event\DienstenLookupSubscriber
+        arguments:
+            - '@HsBundle\Service\DienstverlenerDao'
+            - '@router'
+        tags:
+            - { name: kernel.event_subscriber }
+
+    hs.event_subscriber.factuur:
+        class: HsBundle\Event\FactuurSubscriber
+        tags:
+            - { name: doctrine.event_subscriber }
 
     hs.event_subscriber.klant:
         class: HsBundle\Event\KlantUpdater
         tags:
             - { name: doctrine.event_subscriber }
     
-    hs.event_subscriber.factuur:
-        class: HsBundle\Event\FactuurSubscriber
-#        arguments:
-#            - "@hs.dao.factuur"
-        tags:
-            - { name: doctrine.event_subscriber }
-
+    # Other services
     hs.factory.factuur:
         class: HsBundle\Service\FactuurFactory
         arguments:
-            - "@hs.dao.factuur"
-
-    hs.form.rapportage:
-        class: HsBundle\Form\RapportageType
-        tags:
-            - { name: form.type }
-
-    hs.event.diensten_lookup_subscriber:
-        class: HsBundle\Event\DienstenLookupSubscriber
-        arguments:
-            - "@hs.dao.dienstverlener"
-            - "@router"
-        tags:
-            - { name: kernel.event_subscriber }
+            - '@HsBundle\Service\FactuurDao'

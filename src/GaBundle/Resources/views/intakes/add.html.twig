@@ -1,0 +1,28 @@
+{% extends '::base-2-col.html.twig' %}
+{% import '::html.macro.twig' as html %}
+
+{% block title %}
+    Groepsactiviteiten | {{ title }}
+{% endblock %}
+
+{% block subnavigation %}
+    {% include '@Ga/subnavigation.html.twig' %}
+{% endblock %}
+
+{% block content_top %}
+    <h1>{{ entity_name|capitalize }} {{ entity }}</h1>
+{% endblock %}
+
+{% block content_left %}
+    {% include '::klant_basis.html.twig' with {klant: entity.dossier.klant} %}
+{% endblock %}
+
+{% block content_right %}
+    {#% include 'GaBundle:klantdossiers:_tabs.html.twig' with {dossier: entity.dossier, current: 'intake'} %#}
+    <div class="tab-content">
+        <div id="intakes" class="tab-pane active">
+            <h1>{{ entity_name|capitalize }} toevoegen</h1>
+            {{ form(form) }}
+        </div>
+    </div>
+{% endblock %}

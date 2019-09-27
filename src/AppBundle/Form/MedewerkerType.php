@@ -2,15 +2,15 @@
 
 namespace AppBundle\Form;
 
-use Symfony\Component\Form\AbstractType;
-use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use AppBundle\Entity\Medewerker;
-use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\FormEvent;
+use Symfony\Component\Form\FormEvents;
+use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 class MedewerkerType extends AbstractType
 {
@@ -19,21 +19,20 @@ class MedewerkerType extends AbstractType
      */
     private $medewerker;
 
-    public function __construct(EntityManager $entityManager)
+    public function __construct(TokenStorageInterface $tokenStorage)
     {
-        if (isset($_SESSION['Auth']['Medewerker']['id'])) {
-            $medewerkId = $_SESSION['Auth']['Medewerker']['id'];
-            $this->medewerker = $entityManager->find(Medewerker::class, $medewerkId);
-        }
+        $this->medewerker = $tokenStorage->getToken()->getUser();
     }
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->addEventListener(FormEvents::POST_SET_DATA, function (FormEvent $event) {
-            if (!$event->getData()) {
-                $event->getForm()->setData($this->medewerker);
-            }
-        });
+        if ($options['preset']) {
+            $builder->addEventListener(FormEvents::POST_SET_DATA, function (FormEvent $event) {
+                if (!$event->getData()) {
+                    $event->getForm()->setData($this->medewerker);
+                }
+            });
+        }
     }
 
     /**
@@ -49,6 +48,7 @@ class MedewerkerType extends AbstractType
                     ->where('medewerker.actief = true')
                     ->orderBy('medewerker.voornaam');
             },
+            'preset' => true,
         ]);
     }
 

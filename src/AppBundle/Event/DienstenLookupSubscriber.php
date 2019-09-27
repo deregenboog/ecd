@@ -2,9 +2,9 @@
 
 namespace AppBundle\Event;
 
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use AppBundle\Entity\Klant;
 use AppBundle\Service\KlantDaoInterface;
+use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 class DienstenLookupSubscriber implements EventSubscriberInterface
 {
@@ -16,7 +16,7 @@ class DienstenLookupSubscriber implements EventSubscriberInterface
     public static function getSubscribedEvents()
     {
         return [
-            Events::DIENSTEN_LOOKUP => ['lookupKlant' => 1024],
+            Events::DIENSTEN_LOOKUP => ['lookupKlant', 1024],
         ];
     }
 

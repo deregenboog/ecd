@@ -5,12 +5,14 @@ define('WWW_ROOT', dirname(__FILE__).'/');
 
 use Symfony\Component\HttpFoundation\Request;
 
-// https://symfony.com/doc/3.4/setup/file_permissions.html
+
 umask(0002);
 
-/** @var \Composer\Autoload\ClassLoader $loader */
-$loader = require __DIR__.'/../autoload.php';
-include_once __DIR__.'/../bootstrap.php.cache';
+require __DIR__.'/../../vendor/autoload.php';
+if (PHP_VERSION_ID < 70000) {
+    include_once __DIR__.'/../../var/bootstrap.php.cache';
+}
+
 
 $kernel = new AppKernel('prod', false);
 if (PHP_VERSION_ID < 70000) {

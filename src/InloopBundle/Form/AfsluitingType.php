@@ -2,17 +2,19 @@
 
 namespace InloopBundle\Form;
 
-use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolver;
-use InloopBundle\Entity\Afsluiting;
-use AppBundle\Form\BaseType;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use AppBundle\Form\AppDateType;
+use AppBundle\Form\BaseType;
+use AppBundle\Form\LandSelectType;
 use Doctrine\ORM\EntityRepository;
+use InloopBundle\Entity\Afsluiting;
+use InloopBundle\Entity\RedenAfsluiting;
+use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\FormError;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
-use Symfony\Component\Form\FormError;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class AfsluitingType extends AbstractType
 {
@@ -32,31 +34,26 @@ class AfsluitingType extends AbstractType
                         ->orderBy('reden.gewicht, reden.naam')
                     ;
                 },
+                'choice_attr' => function (RedenAfsluiting $reden, $key, $value) {
+                    // adds a class land_0 or land_1
+                    return ['class' => 'land_'.(int) $reden->isLand()];
+                },
             ])
-        ;
-
-        $builder->get('reden')->addEventListener(FormEvents::POST_SUBMIT, function (FormEvent $event) {
-            $form = $event->getForm();
-            if ($form->getData() && $form->getData()->isLand()) {
-                $form->getParent()->add('land', null, [
-                    'required' => true,
-                    'placeholder' => '',
-                    'label' => 'Land van bestemming',
-                ]);
-            }
-        });
-
-        $builder->addEventListener(FormEvents::POST_SUBMIT, function (FormEvent $event) {
-            $form = $event->getForm();
-            if ($form->has('land') && !$form->get('land')->getData()) {
-                $form->get('land')->addError(new FormError('Selecteer een land'));
-            }
-        });
-
-        $builder
+            ->add('land', LandSelectType::class, [
+                'required' => false,
+                'placeholder' => '',
+                'label' => 'Land van bestemming',
+            ])
             ->add('toelichting')
             ->add('submit', SubmitType::class, ['label' => 'Opslaan'])
         ;
+
+        $builder->addEventListener(FormEvents::POST_SUBMIT, function (FormEvent $event) {
+            $form = $event->getForm();
+            if ($form->get('reden')->getData()->isLand() && !$form->get('land')->getData()) {
+                $form->get('land')->addError(new FormError('Selecteer een land'));
+            }
+        });
     }
 
     /**

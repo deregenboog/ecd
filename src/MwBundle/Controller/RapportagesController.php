@@ -2,15 +2,11 @@
 
 namespace MwBundle\Controller;
 
-use Symfony\Component\Routing\Annotation\Route;
+use AppBundle\Controller\AbstractRapportagesController;
+use AppBundle\Export\ExportInterface;
 use JMS\DiExtraBundle\Annotation as DI;
 use MwBundle\Form\RapportageType;
-use AppBundle\Export\ExportInterface;
-use AppBundle\Controller\AbstractRapportagesController;
-use Symfony\Component\HttpFoundation\Request;
-use MwBundle\Entity\Verslaginventarisatie;
-use MwBundle\Entity\Inventarisatie;
-use Gedmo\Tree\Entity\Repository\NestedTreeRepository;
+use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * @Route("/rapportages")
@@ -25,12 +21,4 @@ class RapportagesController extends AbstractRapportagesController
      * @DI\Inject("mw.export.report")
      */
     protected $export;
-
-    /**
-     * @Route("/")
-     */
-    public function indexAction(Request $request)
-    {
-        return parent::indexAction($request);
-    }
 }

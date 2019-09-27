@@ -2,22 +2,24 @@
 
 namespace OdpBundle\Controller;
 
-use OdpBundle\Entity\Huurder;
-use OdpBundle\Entity\Verhuurder;
-use OdpBundle\Entity\Huurovereenkomst;
-use OdpBundle\Entity\Document;
-use OdpBundle\Form\DocumentType;
-use OdpBundle\Exception\OdpException;
-use Doctrine\ORM\EntityManager;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use AppBundle\Controller\SymfonyController;
-use JMS\DiExtraBundle\Annotation as DI;
-use OdpBundle\Service\DocumentDaoInterface;
-use Symfony\Component\HttpFoundation\Request;
 use AppBundle\Form\ConfirmationType;
+use Doctrine\ORM\EntityManager;
+use JMS\DiExtraBundle\Annotation as DI;
+use OdpBundle\Entity\Document;
+use OdpBundle\Entity\Huurder;
+use OdpBundle\Entity\Huurovereenkomst;
+use OdpBundle\Entity\Verhuurder;
+use OdpBundle\Exception\OdpException;
+use OdpBundle\Form\DocumentType;
+use OdpBundle\Service\DocumentDaoInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * @Route("/documenten")
+ * @Template
  */
 class DocumentenController extends SymfonyController
 {
@@ -26,7 +28,7 @@ class DocumentenController extends SymfonyController
     /**
      * @var DocumentDaoInterface
      *
-     * @DI\Inject("odp.dao.document")
+     * @DI\Inject("OdpBundle\Service\DocumentDao")
      */
     private $dao;
 

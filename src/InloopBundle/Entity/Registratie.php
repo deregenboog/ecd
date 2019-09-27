@@ -2,10 +2,10 @@
 
 namespace InloopBundle\Entity;
 
+use AppBundle\Entity\Klant;
+use AppBundle\Model\TimestampableTrait;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
-use AppBundle\Model\TimestampableTrait;
-use AppBundle\Entity\Klant;
 
 /**
  * @ORM\Entity
@@ -82,6 +82,8 @@ class Registratie
     private $mw = 0;
 
     /**
+     * @deprecated
+     *
      * @var int
      * @ORM\Column(type="integer", nullable=false)
      * @Gedmo\Versioned
@@ -123,12 +125,19 @@ class Registratie
      */
     private $closed = false;
 
+    public function __construct(Klant $klant, Locatie $locatie)
+    {
+        $this->setKlant($klant);
+        $this->setLocatie($locatie);
+        $this->binnen = new \DateTime();
+    }
+
     public function __toString()
     {
         $parts = [
             (string) $this->klant,
             (string) $this->locatie,
-            $this->binnen->format('d-m-Y H:i')
+            $this->binnen->format('d-m-Y H:i'),
         ];
 
         if ($this->buiten) {
@@ -148,7 +157,7 @@ class Registratie
         return $this->locatie;
     }
 
-    public function setLocatie(Locatie $locatie)
+    private function setLocatie(Locatie $locatie)
     {
         $this->locatie = $locatie;
 
@@ -160,9 +169,10 @@ class Registratie
         return $this->klant;
     }
 
-    public function setKlant(Klant $klant)
+    private function setKlant(Klant $klant)
     {
         $this->klant = $klant;
+//         $klant->setLaatsteRegistratie($this);
 
         return $this;
     }
@@ -187,6 +197,7 @@ class Registratie
     public function setBuiten(\DateTime $buiten)
     {
         $this->buiten = $buiten;
+        $this->closed = true;
 
         return $this;
     }
@@ -215,18 +226,6 @@ class Registratie
         return $this;
     }
 
-    public function getGbrv()
-    {
-        return $this->gbrv;
-    }
-
-    public function setGbrv($gbrv)
-    {
-        $this->gbrv = $gbrv;
-
-        return $this;
-    }
-
     public function isVeegploeg()
     {
         return $this->veegploeg;
@@ -234,7 +233,7 @@ class Registratie
 
     public function setVeegploeg($veegploeg)
     {
-        $this->veegploeg = $veegploeg;
+        $this->veegploeg = (bool) $veegploeg;
 
         return $this;
     }
@@ -246,7 +245,7 @@ class Registratie
 
     public function setKleding($kleding)
     {
-        $this->kleding = $kleding;
+        $this->kleding = (bool) $kleding;
 
         return $this;
     }
@@ -258,7 +257,7 @@ class Registratie
 
     public function setMaaltijd($maaltijd)
     {
-        $this->maaltijd = $maaltijd;
+        $this->maaltijd = (bool) $maaltijd;
 
         return $this;
     }
@@ -270,17 +269,17 @@ class Registratie
 
     public function setActivering($activering)
     {
-        $this->activering = $activering;
+        $this->activering = (bool) $activering;
 
         return $this;
     }
 
-    public function getClosed()
+    public function isClosed()
     {
         return $this->closed;
     }
 
-    public function isClosed($closed)
+    public function setClosed($closed)
     {
         $this->closed = $closed;
 

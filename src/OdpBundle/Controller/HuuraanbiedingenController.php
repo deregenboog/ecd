@@ -3,21 +3,21 @@
 namespace OdpBundle\Controller;
 
 use AppBundle\Controller\SymfonyController;
-use AppBundle\Entity\Klant;
 use AppBundle\Export\ExportInterface;
 use AppBundle\Form\ConfirmationType;
 use Doctrine\ORM\QueryBuilder;
 use OdpBundle\Entity\Huuraanbod;
-use OdpBundle\Entity\Huurovereenkomst;
 use OdpBundle\Entity\Verhuurder;
 use OdpBundle\Form\HuuraanbodCloseType;
 use OdpBundle\Form\HuuraanbodFilterType;
 use OdpBundle\Form\HuuraanbodType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\Form\FormError;
 
 /**
  * @Route("/huuraanbiedingen")
+ * @Template
  */
 class HuuraanbiedingenController extends SymfonyController
 {
@@ -51,11 +51,9 @@ class HuuraanbiedingenController extends SymfonyController
 
         $filter = $this->createForm(HuuraanbodFilterType::class);
         $filter->handleRequest($this->getRequest());
-        if ($filter->isSubmitted() && $filter->isValid()) {
-            $filter->getData()->applyTo($builder);
-            if ($filter->get('download')->isClicked()) {
-                return $this->download($builder);
-            }
+        $filter->getData()->applyTo($builder);
+        if ($filter->get('download')->isClicked()) {
+            return $this->download($builder);
         }
 
         $pagination = $this->getPaginator()->paginate($builder, $this->getRequest()->get('page', 1), 20, [
@@ -79,7 +77,7 @@ class HuuraanbiedingenController extends SymfonyController
         $this->autoRender = false;
         $filename = sprintf('onder-de-pannen-huuraanbiedingen-%s.xlsx', (new \DateTime())->format('d-m-Y'));
 
-        /** @var $export ExportInterface */
+        /* @var $export ExportInterface */
         $export = $this->container->get('odp.export.huuraanbiedingen');
 
         return $export->create($huuraanbiedingen)->getResponse($filename);

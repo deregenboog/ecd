@@ -2,15 +2,18 @@
 
 namespace DagbestedingBundle\Controller;
 
-use JMS\DiExtraBundle\Annotation as DI;
-use DagbestedingBundle\Entity\Deelnemerafsluiting;
-use DagbestedingBundle\Service\DeelnemerafsluitingDaoInterface;
-use Symfony\Component\Routing\Annotation\Route;
 use AppBundle\Controller\AbstractController;
+use DagbestedingBundle\Entity\Deelnemerafsluiting;
 use DagbestedingBundle\Form\DeelnemerafsluitingType;
+use DagbestedingBundle\Service\DeelnemerafsluitingDaoInterface;
+use JMS\DiExtraBundle\Annotation as DI;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * @Route("/admin/deelnemerafsluitingen")
+ * @Template
  */
 class DeelnemerafsluitingenController extends AbstractController
 {
@@ -24,14 +27,14 @@ class DeelnemerafsluitingenController extends AbstractController
     /**
      * @var DeelnemerafsluitingDaoInterface
      *
-     * @DI\Inject("dagbesteding.dao.deelnemerafsluiting")
+     * @DI\Inject("DagbestedingBundle\Service\DeelnemerafsluitingDao")
      */
     protected $dao;
 
     /**
      * @Route("/{id}/view")
      */
-    public function viewAction($id)
+    public function viewAction(Request $request, $id)
     {
         return $this->redirectToIndex();
     }

@@ -10,7 +10,8 @@
 {% endblock %}
 
 {% block content %}
-    <h1>Deelnemer wijzigen</h1>
+    <h1>{{ entity_name|capitalize }} wijzigen</h1>
+    {{ html.link('Annuleren', path(route_base~'view', {id: entity.id}), 'cancel') }}
     <p>
         Hier kunt u alleen de Inloophuizen-gegevens voor deze {{ entity_name }} wijzigen.
         Klik {{ html.link('hier', path('inloop_vrijwilligers_view', {id: entity.vrijwilliger.id })) }}

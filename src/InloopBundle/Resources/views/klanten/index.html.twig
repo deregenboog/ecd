@@ -12,8 +12,7 @@
 {% block content %}
     <h1>{{ title }}</h1>
     <p>
-        {{ html.addLink(path('app_klanten_add')) }}
-        {{ html.link('Klant toevoegen', path('app_klanten_add')) }}
+        {{ html.link('Klant toevoegen', path('inloop_klanten_add'), 'add') }}
     </p>
     <table class="table table-hover">
         <thead>
@@ -24,12 +23,18 @@
                     {{ form_errors(filter.klant.id) }}
                 </th>
                 <th>
-                    {{ form_widget(filter.klant.naam) }}
-                    {{ form_errors(filter.klant.naam) }}
+                    {{ form_widget(filter.klant.voornaam) }}
+                    {{ form_errors(filter.klant.voornaam) }}
                 </th>
                 <th>
-                    {{ form_widget(filter.klant.geboortedatum) }}
-                    {{ form_errors(filter.klant.geboortedatum) }}
+                    {{ form_widget(filter.klant.achternaam) }}
+                    {{ form_errors(filter.klant.achternaam) }}
+                </th>
+                <th>
+                    {{ form_widget(filter.klant.geboortedatumRange.start) }}
+                    {{ form_errors(filter.klant.geboortedatumRange.start) }}
+                    {{ form_widget(filter.klant.geboortedatumRange.end) }}
+                    {{ form_errors(filter.klant.geboortedatumRange.end) }}
                 </th>
                 <th>
                     {{ form_widget(filter.klant.geslacht) }}
@@ -44,14 +49,16 @@
                     {{ form_errors(filter.laatsteIntakeLocatie) }}
                 </th>
                 <th>
-                    {{ form_widget(filter.laatsteIntakeDatum) }}
-                    {{ form_errors(filter.laatsteIntakeDatum) }}
+                    {{ form_widget(filter.laatsteIntakeDatum.start) }}
+                    {{ form_errors(filter.laatsteIntakeDatum.start) }}
+                    {{ form_widget(filter.laatsteIntakeDatum.end) }}
+                    {{ form_errors(filter.laatsteIntakeDatum.end) }}
                 </th>
                 <th>
                     {{ form_widget(filter.huidigeStatus) }}
                     {{ form_errors(filter.huidigeStatus) }}
                 </th>
-                <th colspan="2">
+                <th>
                     {{ form_widget(filter.filter) }}
                 </th>
                 {{ form_end(filter) }}
@@ -61,7 +68,10 @@
                     {{ knp_pagination_sortable(pagination, '#', 'klant.id') }}
                 </th>
                 <th>
-                    {{ knp_pagination_sortable(pagination, 'Naam', 'klant.achternaam') }}
+                    {{ knp_pagination_sortable(pagination, 'Voornaam', 'klant.voornaam') }}
+                </th>
+                <th>
+                    {{ knp_pagination_sortable(pagination, 'Achternaam', 'klant.achternaam') }}
                 </th>
                 <th>
                     {{ knp_pagination_sortable(pagination, 'Geboortedatum', 'klant.geboortedatum') }}
@@ -84,44 +94,43 @@
                 <th>
                     Aantal intakes
                 </th>
-                <th>
-                </th>
             </tr>
         </thead>
         <tbody>
             {% for klant in pagination %}
-            <tr>
-                <td>
-                    {{ html.link(klant.id, path('app_klanten_view', {id: klant.id})) }}
-                </td>
-                <td>
-                    {{ klant }}
-                </td>
-                <td>
-                    {{ klant.geboortedatum ? klant.geboortedatum|date('d-m-Y') }}
-                </td>
-                <td>
-                    {{ klant.geslacht }}
-                </td>
-                <td>
-                    {{ klant.laatsteIntake ? klant.laatsteIntake.gebruikersruimte }}
-                </td>
-                <td>
-                    {{ klant.laatsteIntake ? klant.laatsteIntake.intakelocatie }}
-                </td>
-                <td>
-                    {{ klant.laatsteIntake ? klant.laatsteIntake.intakedatum|date('d-m-Y') }}
-                </td>
-                <td>
-                    {{ klant.huidigeStatus }}
-                </td>
-                <td>
-                    {{ klant.intakes|length }}
-                </td>
-                <td>
-                    {{ html.viewLink(path('app_klanten_view', {id: klant.id})) }}
-                </td>
-            </tr>
+                <tr data-href="{{ path('inloop_klanten_view', {id: klant.id}) }}">
+                    <td>
+                        {{ klant.id }}
+                    </td>
+                    <td>
+                        {{ klant.voornaam }}
+                        {% if klant.roepnaam %}({{ klant.roepnaam }}){% endif %}
+                    </td>
+                    <td>
+                        {{ klant.tussenvoegsel }} {{ klant.achternaam }}
+                    </td>
+                    <td>
+                        {{ klant.geboortedatum ? klant.geboortedatum|date('d-m-Y') }}
+                    </td>
+                    <td>
+                        {{ klant.geslacht }}
+                    </td>
+                    <td>
+                        {{ klant.laatsteIntake ? klant.laatsteIntake.gebruikersruimte }}
+                    </td>
+                    <td>
+                        {{ klant.laatsteIntake ? klant.laatsteIntake.intakelocatie }}
+                    </td>
+                    <td>
+                        {{ klant.laatsteIntake ? klant.laatsteIntake.intakedatum|date('d-m-Y') }}
+                    </td>
+                    <td>
+                        {{ klant.huidigeStatus }}
+                    </td>
+                    <td>
+                        {{ klant.intakes|length }}
+                    </td>
+                </tr>
             {% endfor %}
         </tbody>
     </table>

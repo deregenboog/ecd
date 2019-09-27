@@ -2,16 +2,13 @@
 
 namespace InloopBundle\Form;
 
+use AppBundle\Form\AppDateRangeType;
+use AppBundle\Form\FilterType;
+use AppBundle\Form\KlantFilterType as AppKlantFilterType;
+use InloopBundle\Filter\SchorsingFilter;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use AppBundle\Entity\Klant;
-use AppBundle\Form\FilterType;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use AppBundle\Form\AppDateRangeType;
-use AppBundle\Form\KlantFilterType as AppKlantFilterType;
-use InloopBundle\Entity\Locatie;
-use InloopBundle\Filter\SchorsingFilter;
 
 class SchorsingFilterType extends AbstractType
 {
@@ -43,11 +40,6 @@ class SchorsingFilterType extends AbstractType
                 'required' => false,
             ]);
         }
-
-        $builder
-            ->add('filter', SubmitType::class, ['label' => 'Filteren'])
-//             ->add('download', SubmitType::class, ['label' => 'Downloaden'])
-        ;
     }
 
     /**
@@ -70,6 +62,8 @@ class SchorsingFilterType extends AbstractType
                 'locatie',
                 'datumVan',
                 'datumTot',
+                'filter',
+                'download',
             ],
         ]);
     }

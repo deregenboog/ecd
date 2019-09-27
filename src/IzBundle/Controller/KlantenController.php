@@ -3,24 +3,28 @@
 namespace IzBundle\Controller;
 
 use AppBundle\Controller\AbstractController;
+use AppBundle\Entity\Klant;
+use AppBundle\Event\DienstenLookupEvent;
+use AppBundle\Event\Events;
+use AppBundle\Export\AbstractExport;
+use AppBundle\Form\ConfirmationType;
+use AppBundle\Form\KlantFilterType;
+use IzBundle\Entity\IzKlant;
+use IzBundle\Form\IzDeelnemerCloseType;
+use IzBundle\Form\IzKlantFilterType;
+use IzBundle\Form\IzKlantType;
+use IzBundle\Service\KlantDaoInterface;
 use JMS\DiExtraBundle\Annotation as DI;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use IzBundle\Entity\IzKlant;
-use IzBundle\Service\KlantDaoInterface;
-use AppBundle\Export\AbstractExport;
-use IzBundle\Form\IzKlantFilterType;
-use Symfony\Component\HttpFoundation\Request;
-use AppBundle\Form\KlantFilterType;
-use AppBundle\Entity\Klant;
-use IzBundle\Form\IzKlantType;
-use AppBundle\Event\Events;
-use AppBundle\Event\DienstenLookupEvent;
-use IzBundle\Entity\IzVrijwilliger;
-use IzBundle\Form\IzDeelnemerCloseType;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Symfony\Component\EventDispatcher\GenericEvent;
 use Symfony\Component\Form\FormError;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * @Route("/klanten")
+ * @Template
  */
 class KlantenController extends AbstractController
 {
@@ -53,19 +57,6 @@ class KlantenController extends AbstractController
     private $klantDao;
 
     /**
-     * @Route("/{id}/view")
-     */
-    public function viewAction(Request $request, $id)
-    {
-        $entity = $this->dao->find($id);
-
-        return $this->redirectToRoute('cake_iz_klanten_toon_aanmelding', [
-            'klant_id' => $entity->getKlant()->getId(),
-            'id' => $entity->getId(),
-        ]);
-    }
-
-    /**
      * @Route("/add")
      */
     public function addAction(Request $request)
@@ -85,7 +76,52 @@ class KlantenController extends AbstractController
         $entity = $this->dao->find($id);
         $this->formClass = IzDeelnemerCloseType::class;
 
-        return $this->processForm($request, $entity);
+        if (!$entity) {
+            return $this->redirectToIndex();
+        }
+
+        if (!$entity->isCloseable()) {
+            $this->addFlash('danger', 'Dit dossier kan niet worden afgesloten omdat er nog open hulpvragen en/of actieve koppelingen zijn.');
+
+            return $this->redirectToView($entity);
+        }
+
+        $response = $this->processForm($request, $entity);
+        if ($response instanceof Response) {
+            return $response;
+        }
+
+        $event = new GenericEvent($entity->getKlant(), ['messages' => []]);
+        $this->get('event_dispatcher')->dispatch(Events::BEFORE_CLOSE, $event);
+
+        return array_merge($response, ['messages' => $event->getArgument('messages')]);
+    }
+
+    /**
+     * @Route("/{id}/reopen")
+     */
+    public function reopenAction(Request $request, $id)
+    {
+        $entity = $this->dao->find($id);
+
+        $form = $this->createForm(ConfirmationType::class);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            if ($form->get('yes')->isClicked()) {
+                $entity->reopen();
+                $this->dao->update($entity);
+
+                $this->addFlash('success', ucfirst($this->entityName).' is heropend.');
+            }
+
+            return $this->redirectToView($entity);
+        }
+
+        return [
+            'entity' => $entity,
+            'form' => $form->createView(),
+        ];
     }
 
     private function doSearch(Request $request)
@@ -158,10 +194,14 @@ class KlantenController extends AbstractController
         ];
     }
 
-    protected function addParams(IzKlant $entity)
+    protected function addParams($entity, Request $request)
     {
+        assert($entity instanceof IzKlant);
+
         $event = new DienstenLookupEvent($entity->getKlant()->getId(), []);
-        $this->get('event_dispatcher')->dispatch(Events::DIENSTEN_LOOKUP, $event);
+        if ($event->getKlantId()) {
+            $this->get('event_dispatcher')->dispatch(Events::DIENSTEN_LOOKUP, $event);
+        }
 
         return [
             'diensten' => $event->getDiensten(),

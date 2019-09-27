@@ -2,13 +2,15 @@
 
 namespace AppBundle\Model;
 
+use Doctrine\ORM\Mapping as ORM;
+
 trait DocumentSubjectTrait
 {
     /**
      * @var DocumentInterface[]
      *
      * @ORM\ManyToMany(targetEntity="Document", cascade={"persist"})
-     * @ORM\JoinTable(inverseJoinColumns={@ORM\JoinColumn(unique=true)})
+     * @ORM\JoinTable(inverseJoinColumns={@ORM\JoinColumn(unique=true, onDelete="CASCADE")})
      */
     protected $documenten;
 
@@ -33,7 +35,7 @@ trait DocumentSubjectTrait
     }
 
     /**
-     * @param Document $document
+     * @param DocumentInterface $document
      *
      * @return self
      */

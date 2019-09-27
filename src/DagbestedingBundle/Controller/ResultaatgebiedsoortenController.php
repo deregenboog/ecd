@@ -3,11 +3,12 @@
 namespace DagbestedingBundle\Controller;
 
 use AppBundle\Controller\AbstractController;
-use JMS\DiExtraBundle\Annotation as DI;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use DagbestedingBundle\Entity\Resultaatgebiedsoort;
 use DagbestedingBundle\Form\ResultaatgebiedsoortType;
 use DagbestedingBundle\Service\ResultaatgebiedsoortDaoInterface;
+use JMS\DiExtraBundle\Annotation as DI;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * @Route("/admin/resultaatgebiedsoorten")
@@ -23,14 +24,14 @@ class ResultaatgebiedsoortenController extends AbstractController
     /**
      * @var ResultaatgebiedsoortDaoInterface
      *
-     * @DI\Inject("dagbesteding.dao.resultaatgebiedsoort")
+     * @DI\Inject("DagbestedingBundle\Service\ResultaatgebiedsoortDao")
      */
     protected $dao;
 
     /**
      * @Route("/{id}/view")
      */
-    public function viewAction($id)
+    public function viewAction(Request $request, $id)
     {
         return $this->redirectToIndex();
     }

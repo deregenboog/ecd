@@ -1,6 +1,6 @@
 {{ form_start(filter) }}
     <tr>
-        <th colspan="6">
+        <th colspan="8">
             <span class="pull-right">
                 {{ form_widget(filter.filter) }}
                 {{ form_widget(filter.download) }}
@@ -15,6 +15,14 @@
         <th>
             {{ form_widget(filter.vrijwilliger.naam) }}
             {{ form_errors(filter.vrijwilliger.naam) }}
+        </th>
+        <th>
+            {{ form_widget(filter.hulpverlener) }}
+            {{ form_errors(filter.hulpverlener) }}
+        </th>
+        <th>
+            {{ form_widget(filter.vrijwilliger.adres) }}
+            {{ form_errors(filter.vrijwilliger.adres) }}
         </th>
         <th>
             {{ form_widget(filter.vrijwilliger.geboortedatumRange.start) }}

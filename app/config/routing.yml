@@ -1,5 +1,23 @@
+login:
+    path: /login
+    defaults:
+        _controller: AppBundle:Security:login
+
+login_check:
+    path: /login_check
+
+logout:
+    path: /logout
+    defaults:
+        _controller: FrameworkBundle:Redirect:redirect
+        route: login
+
 _app:
     resource: "@AppBundle/Resources/config/routing.yml"
+
+_buurtboerderij:
+    resource: "@BuurtboerderijBundle/Resources/config/routing.yml"
+    prefix: /buurtboerderij
 
 _clip:
     resource: "@ClipBundle/Resources/config/routing.yml"
@@ -8,6 +26,10 @@ _clip:
 _dagbesteding:
     resource: "@DagbestedingBundle/Resources/config/routing.yml"
     prefix: /dagbesteding
+
+_eropuit:
+    resource: "@ErOpUitBundle/Resources/config/routing.yml"
+    prefix: /eropuit
 
 _ga:
     resource: "@GaBundle/Resources/config/routing.yml"
@@ -22,6 +44,7 @@ _inloop:
 
 _iz:
     resource: "@IzBundle/Resources/config/routing.yml"
+    prefix: /iz
 
 _mw:
     resource: "@MwBundle/Resources/config/routing.yml"
@@ -38,6 +61,10 @@ _oek:
 _pfo:
     resource: "@PfoBundle/Resources/config/routing.yml"
     prefix: /pfo
+
+_scip:
+    resource: "@ScipBundle/Resources/config/routing.yml"
+    prefix: /scip
 
 mw_rapportage_redirect:
     path: /maatschappelijk_werk/rapportage

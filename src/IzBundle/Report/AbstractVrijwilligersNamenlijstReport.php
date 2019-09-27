@@ -38,19 +38,19 @@ abstract class AbstractVrijwilligersNamenlijstReport extends AbstractVrijwillige
             ],
             [
                 'title' => 'Gestart',
-                'xDescription' => 'Vrijwilligers dat binnen de periode een koppeling startte en op startdatum geen lopende koppeling had.',
+                'xDescription' => 'Vrijwilligers die binnen de periode een koppeling startten en op startdatum geen lopende koppeling hadden.',
                 'yDescription' => $this->yDescription,
                 'data' => $gestartListing->render(),
             ],
             [
                 'title' => 'Nieuw gestart',
-                'xDescription' => 'Vrijwilligers dat binnen de periode voor het eerst een koppeling startte.',
+                'xDescription' => 'Vrijwilligers die binnen de periode voor het eerst een koppeling startten.',
                 'yDescription' => $this->yDescription,
                 'data' => $nieuwGestartListing->render(),
             ],
             [
                 'title' => 'Afgesloten',
-                'xDescription' => 'Vrijwilligers dat binnen de periode een koppeling afsloot en op einddatum geen lopende koppeling had.',
+                'xDescription' => 'Vrijwilligers die binnen de periode een koppeling afsloten en op einddatum geen lopende koppeling hadden.',
                 'yDescription' => $this->yDescription,
                 'data' => $afgeslotenListing->render(),
             ],

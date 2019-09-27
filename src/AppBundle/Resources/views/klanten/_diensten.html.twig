@@ -1,0 +1,47 @@
+{% import '::html.macro.twig' as html %}
+{% import _self as macro %}
+
+{% if diensten is defined %}
+    <h2>Diensten</h2>
+    <table class="table">
+        {% if diensten|length > 0 %}
+            {% for dienst in diensten %}
+                <tr>
+                    <th>
+                        {{ dienst.naam }}
+                    </th>
+                    <td>
+                        {% if dienst.url %}
+                            {{ html.link(macro.dienst(dienst), dienst.url, 'view') }}
+                        {% else %}
+                            {{ macro.dienst(dienst) }}
+                        {% endif %}
+                    </td>
+                </tr>
+            {% endfor %}
+        {% else %}
+            <tr>
+                <td>Geen diensten</td>
+            </tr>
+        {% endif %}
+    </table>
+{% endif %}
+
+{% macro dienst(dienst) %}
+    {% if dienst.van %}
+        {% if dienst.tot %}
+            {{ dienst.van|date('d-m-Y') }} tot
+            {{ dienst.tot|date('d-m-Y') }}
+        {% else %}
+            sinds {{ dienst.van|date('d-m-Y') }}
+        {% endif %}
+    {% endif %}
+    {% if dienst.medewerker %}
+        {% if dienst.titelMedewerker %}
+            ({{ dienst.titelMedewerker }}: {{ dienst.medewerker }})
+        {% else %}
+            ({{ dienst.medewerker }})
+        {% endif %}
+    {% endif %}
+    {{ dienst.omschrijving }}
+{% endmacro %}

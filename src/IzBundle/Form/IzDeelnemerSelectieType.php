@@ -2,19 +2,19 @@
 
 namespace IzBundle\Form;
 
-use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
-use IzBundle\Entity\Project;
-use AppBundle\Form\StadsdeelSelectType;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use IzBundle\Filter\IzDeelnemerSelectie;
-use Doctrine\ORM\EntityRepository;
 use AppBundle\Form\FilterType;
+use AppBundle\Form\StadsdeelSelectType;
+use Doctrine\ORM\EntityRepository;
+use IzBundle\Entity\Project;
+use IzBundle\Filter\IzDeelnemerSelectie;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
-use Symfony\Component\Form\FormEvents;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
+use Symfony\Component\Form\FormEvents;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class IzDeelnemerSelectieType extends AbstractType
 {
@@ -72,8 +72,8 @@ class IzDeelnemerSelectieType extends AbstractType
                 'multiple' => true,
                 'expanded' => true,
                 'choices' => [
-                    'Geen email' => 'geen_email',
-                    'Geen post' => 'geen_post',
+                    'E-mail' => 'geen_email',
+                    'Post' => 'geen_post',
                 ],
             ])
             ->addEventListener(FormEvents::PRE_SUBMIT, function (FormEvent $event) {

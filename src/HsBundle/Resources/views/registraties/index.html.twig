@@ -19,6 +19,9 @@
             {% include '@Hs/registraties/_filter.html.twig' %}
             <tr>
                 <th>
+                    {{ knp_pagination_sortable(pagination, 'Klus', 'registratie.klus') }}
+                </th>
+                <th>
                     {{ knp_pagination_sortable(pagination, 'Dienstverlener/vrijwilliger', 'basisklant.achternaam+basisvrijwilliger.achternaam') }}
                 </th>
                 <th>
@@ -45,11 +48,17 @@
                 <th>
                     Dagdelen
                 </th>
+                <th>
+                    [Edit/Del]
+                </th>
             </tr>
         </thead>
         <tbody>
             {% for entity in pagination %}
                 <tr data-href="{{ path('hs_klussen_view', {id: entity.klus.id, _fragment: 'registraties'}) }}">
+                    <td>
+                        {{ entity.klus }}
+                    </td>
                     <td>
                         {{ entity.arbeider }}
                     </td>
@@ -76,6 +85,12 @@
                     </td>
                     <td>
                         {{ entity.dagdelen }}
+                    </td>
+                    <td>
+                        {% if entity.klus.id is not null and entity.factuur and not entity.factuur.locked %}
+                            {{ html.editLink(path('hs_registraties_edit', {id: entity.id, })) }}
+                            {{ html.deleteLink(path('hs_registraties_delete', {id: entity.id,  })) }}
+                        {% endif %}
                     </td>
                 </tr>
             {% endfor %}

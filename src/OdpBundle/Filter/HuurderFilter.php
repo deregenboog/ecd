@@ -2,9 +2,9 @@
 
 namespace OdpBundle\Filter;
 
-use Doctrine\ORM\QueryBuilder;
-use AppBundle\Filter\KlantFilter;
 use AppBundle\Filter\FilterInterface;
+use AppBundle\Filter\KlantFilter;
+use Doctrine\ORM\QueryBuilder;
 
 class HuurderFilter implements FilterInterface
 {
@@ -19,6 +19,16 @@ class HuurderFilter implements FilterInterface
     public $automatischeIncasso;
 
     /**
+     * @var int
+     */
+    public $inschrijvingWoningnet;
+
+    /**
+     * @var int
+     */
+    public $waPolis;
+
+    /**
      * @var \DateTime
      */
     public $aanmelddatum;
@@ -27,6 +37,11 @@ class HuurderFilter implements FilterInterface
      * @var \DateTime
      */
     public $afsluitdatum;
+
+    /**
+     * @var bool
+     */
+    public $actief;
 
     /**
      * @var KlantFilter
@@ -48,15 +63,27 @@ class HuurderFilter implements FilterInterface
         }
 
         if (is_int($this->automatischeIncasso)) {
-            switch ($this->automatischeIncasso) {
-                case 0:
-                    $builder->andWhere('huurder.automatischeIncasso IS NULL OR huurder.automatischeIncasso = :automatische_incasso');
-                    break;
-                case 1:
-                    $builder->andWhere('huurder.automatischeIncasso = :automatische_incasso');
-                    break;
+            if ((bool) $this->automatischeIncasso) {
+                $builder->andWhere('huurder.automatischeIncasso = true');
+            } else {
+                $builder->andWhere('huurder.automatischeIncasso IS NULL OR huurder.automatischeIncasso = false');
             }
-            $builder->setParameter('automatische_incasso', $this->automatischeIncasso);
+        }
+
+        if (is_int($this->inschrijvingWoningnet)) {
+            if ((bool) $this->inschrijvingWoningnet) {
+                $builder->andWhere('huurder.inschrijvingWoningnet = true');
+            } else {
+                $builder->andWhere('huurder.inschrijvingWoningnet IS NULL OR huurder.inschrijvingWoningnet = false');
+            }
+        }
+
+        if (is_int($this->waPolis)) {
+            if ((bool) $this->waPolis) {
+                $builder->andWhere('huurder.waPolis = true');
+            } else {
+                $builder->andWhere('huurder.waPolis IS NULL OR huurder.waPolis = false');
+            }
         }
 
         if ($this->aanmelddatum) {
@@ -87,6 +114,15 @@ class HuurderFilter implements FilterInterface
                     ->setParameter('afsluitdatum_tot', $this->afsluitdatum->getEnd())
                 ;
             }
+        }
+
+        if ($this->actief) {
+
+            $builder
+                ->andWhere('huurder.aanmelddatum <= :today')
+                 ->andWhere('huurder.afsluitdatum > :today OR huurder.afsluitdatum IS NULL')
+                 ->setParameter('today', new \DateTime('today'))
+            ;
         }
 
         if ($this->wpi) {

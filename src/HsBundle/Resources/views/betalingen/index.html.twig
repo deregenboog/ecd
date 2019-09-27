@@ -16,36 +16,40 @@
     </p>
     <table class="table table-hover">
         <thead>
-            <tr>
-                {{ form_start(filter) }}
-                <th>
-                    {{ form_widget(filter.datum.start) }}
-                    {{ form_errors(filter.datum.start) }}
-                    {{ form_widget(filter.datum.end) }}
-                    {{ form_errors(filter.datum.end) }}
-                </th>
-                <th>
-                    {{ form_widget(filter.referentie) }}
-                    {{ form_errors(filter.referentie) }}
-                </th>
-                <th>
-                    {{ form_widget(filter.factuur.nummer) }}
-                    {{ form_errors(filter.factuur.nummer) }}
-                </th>
-                <th>
-                    {{ form_widget(filter.klant.naam) }}
-                    {{ form_errors(filter.klant.naam) }}
-                </th>
-                <th>
-                    {{ form_widget(filter.bedrag) }}
-                    {{ form_errors(filter.bedrag) }}
-                </th>
-                <th>
-                    {{ form_widget(filter.filter) }}
-                    {{ form_widget(filter.download) }}
-                </th>
-                {{ form_end(filter) }}
-            </tr>
+            {{ form_start(filter) }}
+                <tr>
+                    <th colspan="5">
+                        <span class="pull-right">
+                            {{ form_widget(filter.filter) }}
+                            {{ form_widget(filter.download) }}
+                        </span>
+                    </th>
+                </tr>
+                <tr>
+                    <th>
+                        {{ form_widget(filter.datum.start) }}
+                        {{ form_errors(filter.datum.start) }}
+                        {{ form_widget(filter.datum.end) }}
+                        {{ form_errors(filter.datum.end) }}
+                    </th>
+                    <th>
+                        {{ form_widget(filter.referentie) }}
+                        {{ form_errors(filter.referentie) }}
+                    </th>
+                    <th>
+                        {{ form_widget(filter.factuur.nummer) }}
+                        {{ form_errors(filter.factuur.nummer) }}
+                    </th>
+                    <th>
+                        {{ form_widget(filter.klant.naam) }}
+                        {{ form_errors(filter.klant.naam) }}
+                    </th>
+                    <th>
+                        {{ form_widget(filter.bedrag) }}
+                        {{ form_errors(filter.bedrag) }}
+                    </th>
+                </tr>
+            {{ form_end(filter) }}
             <tr>
                 <th>
                     {{ knp_pagination_sortable(pagination, 'Datum', 'betaling.datum') }}
@@ -62,8 +66,6 @@
                 <th>
                     {{ knp_pagination_sortable(pagination, 'Bedrag', 'betaling.bedrag') }}
                 </th>
-                <th>
-                </th>
             </tr>
         </thead>
         <tbody>
@@ -74,8 +76,6 @@
                     <td>{{ html.link(betaling.factuur.nummer, path('hs_facturen_view', {id: betaling.factuur.id})) }}</td>
                     <td>{{ betaling.factuur.klant }}</td>
                     <td>{{ betaling.bedrag|money }}</td>
-                    <td>
-                    </td>
                 </tr>
             {% endfor %}
         </tbody>

@@ -2,11 +2,9 @@
 
 namespace MwBundle\Entity;
 
-use Doctrine\ORM\Mapping as ORM;
-use Doctrine\Common\Collections\ArrayCollection;
-use Gedmo\Mapping\Annotation as Gedmo;
-use AppBundle\Model\TimestampableTrait;
 use AppBundle\Model\IdentifiableTrait;
+use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Entity(repositoryClass="Gedmo\Tree\Entity\Repository\NestedTreeRepository")
@@ -22,7 +20,7 @@ class Inventarisatie
     /**
      * @var int
      *
-     * @ORM\Column(type="integer", nullable=false)
+     * @ORM\Column(type="integer", nullable=true)
      * @Gedmo\Versioned
      */
     private $order;
@@ -113,7 +111,7 @@ class Inventarisatie
     /**
      * @var int
      *
-     * @ORM\Column(type="integer", nullable=true)
+     * @ORM\Column(type="integer", length=3, nullable=true)
      * @Gedmo\TreeLevel
      * @Gedmo\Versioned
      */
@@ -125,6 +123,11 @@ class Inventarisatie
      * @ORM\OneToMany(targetEntity="Verslaginventarisatie", mappedBy="inventarisatie")
      */
     private $verslaginventarisaties;
+
+    public function __toString()
+    {
+        return (string) $this->titel;
+    }
 
     /**
      * @return int
@@ -155,7 +158,7 @@ class Inventarisatie
     /**
      * @param Inventarisatie $parent
      */
-    public function setParent(Inventarisatie $parent)
+    public function setParent(self $parent)
     {
         $this->parent = $parent;
 
@@ -179,7 +182,7 @@ class Inventarisatie
     }
 
     /**
-     * @return boolean
+     * @return bool
      */
     public function getActief()
     {
@@ -187,7 +190,7 @@ class Inventarisatie
     }
 
     /**
-     * @param boolean $actief
+     * @param bool $actief
      */
     public function setActief($actief)
     {
@@ -338,5 +341,36 @@ class Inventarisatie
         $this->depth = $depth;
 
         return $this;
+    }
+
+    public function isRoot()
+    {
+        return is_null($this->parent);
+    }
+
+    public function getRoot()
+    {
+        $current = $this;
+        while ($parent = $current->getParent()) {
+            $current = $parent;
+        }
+
+        return $current;
+    }
+
+    public function getPath($minDepth = 0)
+    {
+        $current = $this;
+
+        $parts = [$current->getTitel()];
+        while ($parent = $current->getParent()) {
+            if ($parent->getDepth() < $minDepth) {
+                break;
+            }
+            $parts[] = $parent->getTitel();
+            $current = $parent;
+        }
+
+        return $parts;
     }
 }

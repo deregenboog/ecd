@@ -2,23 +2,23 @@
 
 namespace IzBundle\Form;
 
-use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
-use Doctrine\ORM\EntityRepository;
-use AppBundle\Form\FilterType;
 use AppBundle\Entity\Medewerker;
+use AppBundle\Form\AppDateRangeType;
+use AppBundle\Form\FilterType;
+use AppBundle\Form\VrijwilligerFilterType;
+use Doctrine\ORM\EntityRepository;
+use IzBundle\Entity\Hulpaanbod;
+use IzBundle\Entity\Intake;
+use IzBundle\Entity\IzDeelnemer;
 use IzBundle\Entity\Project;
 use IzBundle\Filter\IzVrijwilligerFilter;
-use IzBundle\Entity\Hulpaanbod;
-use AppBundle\Entity\Vrijwilliger;
-use AppBundle\Form\VrijwilligerFilterType;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
-use AppBundle\Form\AppDateRangeType;
-use IzBundle\Entity\Intake;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class IzVrijwilligerFilterType extends AbstractType
 {
@@ -67,6 +67,23 @@ class IzVrijwilligerFilterType extends AbstractType
                         ->where('project.einddatum IS NULL OR project.einddatum >= :now')
                         ->orderBy('project.naam', 'ASC')
                         ->setParameter('now', new \DateTime());
+                },
+            ]);
+        }
+
+        if (in_array('aanmeldingMedewerker', $options['enabled_filters'])) {
+            $builder->add('aanmeldingMedewerker', EntityType::class, [
+                'required' => false,
+                'class' => Medewerker::class,
+                'label' => 'Medewerker aanmelding',
+                'query_builder' => function (EntityRepository $repo) {
+                    return $repo->createQueryBuilder('medewerker')
+                        ->select('DISTINCT medewerker')
+                        ->innerJoin(IzDeelnemer::class, 'deelnemer', 'WITH', 'deelnemer.medewerker = medewerker')
+                        ->where('medewerker.actief = :true')
+                        ->setParameter('true', true)
+                        ->orderBy('medewerker.voornaam', 'ASC')
+                    ;
                 },
             ]);
         }
@@ -132,12 +149,14 @@ class IzVrijwilligerFilterType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => IzVrijwilligerFilter::class,
+            'data' => new IzVrijwilligerFilter(),
             'enabled_filters' => [
                 'afsluitDatum',
                 'openDossiers',
                 'vrijwilliger' => ['id', 'voornaam', 'achternaam', 'geboortedatumRange', 'stadsdeel'],
                 'actief',
                 'project',
+                'aanmeldingMedewerker',
                 'intakeMedewerker',
                 'hulpaanbodMedewerker',
                 'zonderActiefHulpaanbod',

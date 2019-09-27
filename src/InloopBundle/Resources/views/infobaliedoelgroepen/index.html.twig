@@ -1,0 +1,49 @@
+{% extends '::base.html.twig' %}
+{% import '::html.macro.twig' as html %}
+
+{% block title %}
+    Inloophuizen | {{ title }}
+{% endblock %}
+
+{% block subnavigation %}
+    {% include '@Inloop/subnavigation.html.twig' %}
+{% endblock %}
+
+{% block content %}
+    <h1>{{ title }}</h1>
+    <p>
+        {{ html.addLink(path(route_base ~ 'add')) }}
+        {{ html.link(entity_name|capitalize~' toevoegen', path(route_base ~ 'add')) }}
+    </p>
+    <table class="table table-hover">
+        <tr>
+            <th>
+                {{ knp_pagination_sortable(pagination, '#', 'infobaliedoelgroep.id') }}
+            </th>
+            <th>
+                {{ knp_pagination_sortable(pagination, 'Naam', 'infobaliedoelgroep.naam') }}
+            </th>
+            <th>
+            </th>
+        </tr>
+        {% for entity in pagination %}
+            <tr>
+                <td>
+                    {{ entity.id }}
+                </td>
+                <td>
+                    {{ entity }}
+                </td>
+                <td>
+                    {{ html.editLink(path(route_base ~ 'edit', {'id': entity.id})) }}
+                    {% if entity.deletable %}
+                        {{ html.deleteLink(path(route_base ~ 'delete', {'id': entity.id})) }}
+                    {% endif %}
+                </td>
+            </tr>
+        {% endfor %}
+    </table>
+    <p>
+        {{ knp_pagination_render(pagination) }}
+    </p>
+{% endblock %}

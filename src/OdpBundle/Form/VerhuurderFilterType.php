@@ -2,16 +2,15 @@
 
 namespace OdpBundle\Form;
 
+use AppBundle\Form\AppDateRangeType;
 use AppBundle\Form\FilterType;
-use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolver;
-use AppBundle\Entity\Klant;
 use AppBundle\Form\KlantFilterType;
 use OdpBundle\Filter\VerhuurderFilter;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use AppBundle\Form\AppDateRangeType;
+use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class VerhuurderFilterType extends AbstractType
 {
@@ -50,6 +49,14 @@ class VerhuurderFilterType extends AbstractType
             ]);
         }
 
+        if (in_array('actief', $options['enabled_filters'])) {
+            $builder->add('actief', CheckboxType::class, [
+                'label' => 'Alleen actieve dossiers',
+                'required' => false,
+                'data' => false,
+            ]);
+        }
+
         $builder
             ->add('filter', SubmitType::class, ['label' => 'Filteren'])
             ->add('download', SubmitType::class, ['label' => 'Downloaden'])
@@ -71,10 +78,12 @@ class VerhuurderFilterType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => VerhuurderFilter::class,
+            'data' => new VerhuurderFilter(),
             'enabled_filters' => [
                 'klant' => ['id', 'naam', 'stadsdeel'],
                 'aanmelddatum',
                 'afsluitdatum',
+                'actief',
                 'wpi',
                 'ksgw',
             ],

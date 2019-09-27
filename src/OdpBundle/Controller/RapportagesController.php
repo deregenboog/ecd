@@ -2,15 +2,16 @@
 
 namespace OdpBundle\Controller;
 
-use Symfony\Component\Routing\Annotation\Route;
+use AppBundle\Controller\AbstractRapportagesController;
+use AppBundle\Export\ExportInterface;
 use JMS\DiExtraBundle\Annotation as DI;
 use OdpBundle\Form\RapportageType;
-use AppBundle\Export\ExportInterface;
-use AppBundle\Controller\AbstractRapportagesController;
-use Symfony\Component\HttpFoundation\Request;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * @Route("/rapportages")
+ * @Template
  */
 class RapportagesController extends AbstractRapportagesController
 {
@@ -22,12 +23,4 @@ class RapportagesController extends AbstractRapportagesController
      * @DI\Inject("odp.export.report")
      */
     protected $export;
-
-    /**
-     * @Route("/")
-     */
-    public function indexAction(Request $request)
-    {
-        return parent::indexAction($request);
-    }
 }

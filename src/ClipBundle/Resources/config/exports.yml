@@ -4,55 +4,79 @@ services:
         arguments:
             - ClipBundle\Entity\Client
             -
-                Nummer: { expression: 'entity.getId()' }
-                Geslacht: { expression: 'entity.getGeslacht()' }
-                Voornaam: { expression: 'entity.getVoornaam()' }
-                Tussenvoegsel: { expression: 'entity.getTussenvoegsel()' }
-                Achternaam: { expression: 'entity.getAchternaam()' }
-                Geboortedatum: { expression: 'entity.getGeboortedatum()', type: 'date' }
-                E-mail: { expression: 'entity.getEmail()' }
-                Adres: { expression: 'entity.getAdres()' }
-                Postcode: { expression: 'entity.getPostcode()' }
-                Woonplaats: { expression: 'entity.getPlaats()' }
-                Mobiel: { expression: 'entity.getMobiel()' }
-                Telefoon: { expression: 'entity.getTelefoon()' }
-                Werkgebied: { expression: 'entity.getWerkgebied()' }
-                Aanmelddatum: { expression: 'entity.getAanmelddatum()', type: 'date' }
+                # client
+                Nummer client: { expression: 'entity.getId()' }
+                Geslacht client: { expression: 'entity.getGeslacht()' }
+                Voornaam client: { expression: 'entity.getVoornaam()' }
+                Tussenvoegsel client: { expression: 'entity.getTussenvoegsel()' }
+                Achternaam client: { expression: 'entity.getAchternaam()' }
+                Geboortedatum client: { expression: 'entity.getGeboortedatum()', type: 'date' }
+                E-mail client: { expression: 'entity.getEmail()' }
+                Adres client: { expression: 'entity.getAdres()' }
+                Postcode client: { expression: 'entity.getPostcode()' }
+                Woonplaats client: { expression: 'entity.getPlaats()' }
+                Mobiel client: { expression: 'entity.getMobiel()' }
+                Telefoon client: { expression: 'entity.getTelefoon()' }
+                Werkgebied client: { expression: 'entity.getWerkgebied()' }
+                Aanmelddatum client: { expression: 'entity.getAanmelddatum()', type: 'date' }
 
     clip.export.vragen:
         class: AppBundle\Export\GenericExport
         arguments:
             - ClipBundle\Entity\Vraag
             -
-                Nummer: { expression: 'entity.getId()' }
-                Onderwerp: { expression: 'entity.getSoort()' }
-                Medewerker: { expression: 'entity.getBehandelaar()' }
-                Startdatum: { expression: 'entity.getStartdatum()', type: 'date' }
-                Afsluitdatum: { expression: 'entity.getAfsluitdatum()', type: 'date' }
-                Geslacht: { expression: 'entity.getClient().getGeslacht()' }
-                Voornaam: { expression: 'entity.getClient().getVoornaam()' }
-                Tussenvoegsel: { expression: 'entity.getClient().getTussenvoegsel()' }
-                Achternaam: { expression: 'entity.getClient().getAchternaam()' }
-                Geboortedatum: { expression: 'entity.getClient().getGeboortedatum()', type: 'date' }
-                E-mail: { expression: 'entity.getClient().getEmail()' }
-                Adres: { expression: 'entity.getClient().getAdres()' }
-                Postcode: { expression: 'entity.getClient().getPostcode()' }
-                Woonplaats: { expression: 'entity.getClient().getPlaats()' }
-                Mobiel: { expression: 'entity.getClient().getMobiel()' }
-                Telefoon: { expression: 'entity.getClient().getTelefoon()' }
-                Werkgebied: { expression: 'entity.getClient().getWerkgebied()' }
-                Aanmelddatum: { expression: 'entity.getClient().getAanmelddatum()', type: 'date' }
+                # vraag
+                Nummer vraag: { expression: 'entity.getId()' }
+                Onderwerp vraag: { expression: 'entity.getSoort()' }
+                Medewerker vraag: { expression: 'entity.getBehandelaar()' }
+                Startdatum vraag: { expression: 'entity.getStartdatum()', type: 'date' }
+                Afsluitdatum vraag: { expression: 'entity.getAfsluitdatum()', type: 'date' }
+                # client
+                Nummer client: { expression: 'entity.getClient().getId()' }
+                Geslacht client: { expression: 'entity.getClient().getGeslacht()' }
+                Voornaam client: { expression: 'entity.getClient().getVoornaam()' }
+                Tussenvoegsel client: { expression: 'entity.getClient().getTussenvoegsel()' }
+                Achternaam client: { expression: 'entity.getClient().getAchternaam()' }
+                Geboortedatum client: { expression: 'entity.getClient().getGeboortedatum()', type: 'date' }
+                E-mail client: { expression: 'entity.getClient().getEmail()' }
+                Adres client: { expression: 'entity.getClient().getAdres()' }
+                Postcode client: { expression: 'entity.getClient().getPostcode()' }
+                Woonplaats client: { expression: 'entity.getClient().getPlaats()' }
+                Mobiel client: { expression: 'entity.getClient().getMobiel()' }
+                Telefoon client: { expression: 'entity.getClient().getTelefoon()' }
+                Werkgebied client: { expression: 'entity.getClient().getWerkgebied()' }
+                Aanmelddatum client: { expression: 'entity.getClient().getAanmelddatum()', type: 'date' }
 
     clip.export.contactmomenten:
         class: AppBundle\Export\GenericExport
         arguments:
             - ClipBundle\Entity\Contactmoment
             -
-                Vraagnummer: { expression: 'entity.getVraag().getId()' }
-                Onderwerp: { expression: 'entity.getVraag().getSoort()' }
-                Medewerker: { expression: 'entity.getBehandelaar()' }
-                Datum: { expression: 'entity.getDatum()', type: 'date' }
-                Verslag: { expression: 'entity.getOpmerking()' }
+                # contactmoment
+                Medewerker contactmoment: { expression: 'entity.getBehandelaar()' }
+                Datum contactmoment: { expression: 'entity.getDatum()', type: 'date' }
+                Verslag contactmoment: { expression: 'entity.getOpmerking()' }
+                # vraag
+                Nummer vraag: { expression: 'entity.getVraag().getId()' }
+                Onderwerp vraag: { expression: 'entity.getVraag().getSoort()' }
+                Medewerker vraag: { expression: 'entity.getVraag().getBehandelaar()' }
+                Startdatum vraag: { expression: 'entity.getVraag().getStartdatum()', type: 'date' }
+                Afsluitdatum vraag: { expression: 'entity.getVraag().getAfsluitdatum()', type: 'date' }
+                # client
+                Nummer client: { expression: 'entity.getVraag().getClient().getId()' }
+                Geslacht client: { expression: 'entity.getVraag().getClient().getGeslacht()' }
+                Voornaam client: { expression: 'entity.getVraag().getClient().getVoornaam()' }
+                Tussenvoegsel client: { expression: 'entity.getVraag().getClient().getTussenvoegsel()' }
+                Achternaam client: { expression: 'entity.getVraag().getClient().getAchternaam()' }
+                Geboortedatum client: { expression: 'entity.getVraag().getClient().getGeboortedatum()', type: 'date' }
+                E-mail client: { expression: 'entity.getVraag().getClient().getEmail()' }
+                Adres client: { expression: 'entity.getVraag().getClient().getAdres()' }
+                Postcode client: { expression: 'entity.getVraag().getClient().getPostcode()' }
+                Woonplaats client: { expression: 'entity.getVraag().getClient().getPlaats()' }
+                Mobiel client: { expression: 'entity.getVraag().getClient().getMobiel()' }
+                Telefoon client: { expression: 'entity.getVraag().getClient().getTelefoon()' }
+                Werkgebied client: { expression: 'entity.getVraag().getClient().getWerkgebied()' }
+                Aanmelddatum client: { expression: 'entity.getVraag().getClient().getAanmelddatum()', type: 'date' }
 
     clip.export.report:
         class: AppBundle\Export\ReportExport

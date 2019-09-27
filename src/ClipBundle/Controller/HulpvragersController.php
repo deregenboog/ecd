@@ -5,12 +5,15 @@ namespace ClipBundle\Controller;
 use AppBundle\Controller\AbstractController;
 use ClipBundle\Entity\Hulpvrager;
 use ClipBundle\Form\HulpvragerType;
+use ClipBundle\Service\HulpvragerDaoInterface;
 use JMS\DiExtraBundle\Annotation as DI;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use ClipBundle\Service\HulpvragerDaoInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * @Route("/admin/hulpvragers")
+ * @Template
  */
 class HulpvragersController extends AbstractController
 {
@@ -23,14 +26,14 @@ class HulpvragersController extends AbstractController
     /**
      * @var HulpvragerDaoInterface
      *
-     * @DI\Inject("clip.dao.hulpvrager")
+     * @DI\Inject("ClipBundle\Service\HulpvragerDao")
      */
     protected $dao;
 
     /**
      * @Route("/{id}/view")
      */
-    public function viewAction($id)
+    public function viewAction(Request $request, $id)
     {
         return $this->redirectToIndex();
     }

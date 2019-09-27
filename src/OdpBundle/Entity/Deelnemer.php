@@ -2,11 +2,13 @@
 
 namespace OdpBundle\Entity;
 
-use Doctrine\ORM\Mapping as ORM;
-use Doctrine\Common\Collections\ArrayCollection;
 use AppBundle\Entity\Klant;
-use AppBundle\Model\TimestampableTrait;
 use AppBundle\Model\RequiredMedewerkerTrait;
+use AppBundle\Model\TimestampableTrait;
+use AppBundle\Service\NameFormatter;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\ORM\EntityNotFoundException;
+use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
@@ -113,10 +115,22 @@ abstract class Deelnemer
         $this->verslagen = new ArrayCollection();
         $this->documenten = new ArrayCollection();
     }
+    /*
+     * Dit gaf een exceptie bij koppelingen maken in de view van een huurverzoek. Onderstaande __toString code uit de OekBundle gehaald. Lijkt me prima.
+     * @190627 Laat dit even staan voor de zekerheid. jtborger
+     */
+//    public function __toString()
+//    {
+//        return (string) $this->klant;
+//    }
 
     public function __toString()
     {
-        return (string) $this->klant;
+        try {
+            return NameFormatter::formatFormal($this->klant);
+        } catch (EntityNotFoundException $e) {
+            return '';
+        }
     }
 
     public function getId()

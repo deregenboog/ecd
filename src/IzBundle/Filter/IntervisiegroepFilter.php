@@ -2,10 +2,10 @@
 
 namespace IzBundle\Filter;
 
-use Doctrine\ORM\QueryBuilder;
 use AppBundle\Entity\Medewerker;
 use AppBundle\Filter\FilterInterface;
 use AppBundle\Form\Model\AppDateRangeModel;
+use Doctrine\ORM\QueryBuilder;
 
 class IntervisiegroepFilter implements FilterInterface
 {
@@ -23,6 +23,11 @@ class IntervisiegroepFilter implements FilterInterface
      * @var AppDateRangeModel
      */
     public $startdatum;
+
+    /**
+     * @var bool
+     */
+    public $actief = true;
 
     /**
      * @var AppDateRangeModel
@@ -63,6 +68,10 @@ class IntervisiegroepFilter implements FilterInterface
                     ->setParameter('startdatum_tot', $this->startdatum->getEnd())
                 ;
             }
+        }
+
+        if ($this->actief) {
+            $builder->andWhere('NOW() BETWEEN intervisiegroep.startdatum AND intervisiegroep.einddatum OR intervisiegroep.startdatum IS NULL OR intervisiegroep.einddatum IS NULL');
         }
 
         if ($this->einddatum) {

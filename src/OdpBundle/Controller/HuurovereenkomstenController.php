@@ -2,8 +2,11 @@
 
 namespace OdpBundle\Controller;
 
+use AppBundle\Controller\AbstractController;
 use AppBundle\Export\ExportInterface;
+use AppBundle\Form\ConfirmationType;
 use Doctrine\ORM\EntityManager;
+use JMS\DiExtraBundle\Annotation as DI;
 use OdpBundle\Entity\Huuraanbod;
 use OdpBundle\Entity\Huurovereenkomst;
 use OdpBundle\Entity\Huurverzoek;
@@ -11,15 +14,14 @@ use OdpBundle\Exception\OdpException;
 use OdpBundle\Form\HuurovereenkomstCloseType;
 use OdpBundle\Form\HuurovereenkomstFilterType;
 use OdpBundle\Form\HuurovereenkomstType;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use AppBundle\Form\ConfirmationType;
 use OdpBundle\Service\HuurovereenkomstDao;
-use AppBundle\Controller\AbstractController;
-use JMS\DiExtraBundle\Annotation as DI;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
  * @Route("/huurovereenkomsten")
+ * @Template
  */
 class HuurovereenkomstenController extends AbstractController
 {
@@ -33,7 +35,7 @@ class HuurovereenkomstenController extends AbstractController
     /**
      * @var HuurovereenkomstDao
      *
-     * @DI\Inject("odp.dao.huurovereenkomst")
+     * @DI\Inject("OdpBundle\Service\HuurovereenkomstDao")
      */
     protected $dao;
 
@@ -43,6 +45,21 @@ class HuurovereenkomstenController extends AbstractController
      * @DI\Inject("odp.export.koppelingen")
      */
     protected $export;
+
+    public function dafterFind($entity)
+    {
+        $verslagen = $entity->getDocumenten();
+        foreach($verslagen as $v)
+        {
+            $title = $v->getId();
+
+        }
+        $fv = $entity->getFinancieleverslagen();
+        foreach($fv as $v)
+        {
+            $id = $v->getId();
+        }
+    }
 
     /**
      * @Route("/add")

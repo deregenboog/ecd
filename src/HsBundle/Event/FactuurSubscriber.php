@@ -2,32 +2,31 @@
 
 namespace HsBundle\Event;
 
-use Doctrine\Common\EventSubscriber;
-use Doctrine\ORM\Events;
-use HsBundle\Entity\FactuurSubjectInterface;
 use AppBundle\Form\Model\AppDateRangeModel;
-use HsBundle\Entity\Factuur;
-use HsBundle\Entity\Klant;
-use HsBundle\Entity\Declaratie;
-use HsBundle\Entity\Registratie;
-use Doctrine\ORM\Event\OnFlushEventArgs;
+use Doctrine\Common\EventSubscriber;
 use Doctrine\ORM\EntityManager;
-use Doctrine\ORM\Event\PostFlushEventArgs;
+use Doctrine\ORM\Events;
 use HsBundle\Entity\Creditfactuur;
+use HsBundle\Entity\Declaratie;
+use HsBundle\Entity\Factuur;
+use HsBundle\Entity\FactuurSubjectInterface;
+use HsBundle\Entity\Klant;
+use HsBundle\Entity\Registratie;
 use HsBundle\Exception\InvoiceLockedException;
+use Doctrine\ORM\Event\LifecycleEventArgs;
 
 class FactuurSubscriber implements EventSubscriber
 {
     public function getSubscribedEvents()
     {
         return [
-            Events::postPersist,
-            Events::postUpdate,
-            Events::postRemove,
+            Events::prePersist,
+            Events::preUpdate,
+            Events::preRemove,
         ];
     }
 
-    public function postPersist($args)
+    public function prePersist(LifecycleEventArgs $args)
     {
         $entity = $args->getEntity();
         $entityManager = $args->getEntityManager();
@@ -37,7 +36,7 @@ class FactuurSubscriber implements EventSubscriber
         }
     }
 
-    public function postUpdate($args)
+    public function preUpdate(LifecycleEventArgs $args)
     {
         $entity = $args->getEntity();
         $entityManager = $args->getEntityManager();
@@ -47,21 +46,21 @@ class FactuurSubscriber implements EventSubscriber
         }
     }
 
-    public function postRemove($args)
+    public function preRemove($args)
     {
         $entity = $args->getEntity();
         $entityManager = $args->getEntityManager();
 
         if ($entity instanceof FactuurSubjectInterface) {
             $factuur = $entity->getFactuur();
-            if ($factuur->isLocked()) {
-                throw new InvoiceLockedException();
+            if ($entity instanceof Declaratie) {
+                $factuur->removeDeclaratie($entity);
+            } elseif ($entity instanceof Registratie) {
+                $factuur->removeRegistratie($entity);
             }
-            $this->calculateBedrag($factuur);
             if ($factuur->isEmpty()) {
                 $entityManager->remove($factuur);
             }
-            $entityManager->flush();
         }
     }
 
@@ -76,24 +75,7 @@ class FactuurSubscriber implements EventSubscriber
 
         $dateRange = $this->getDateRange($entity->getDatum());
         $oudeFactuur = $entity->getFactuur();
-
-        // find non-locked invoice within date range...
-        $facturen = $entityManager->getRepository(Factuur::class)->findNonLockedByKlantAndDateRange($klant, $dateRange);
-        $factuur = null;
-        foreach ($facturen as $factuur) {
-            if (!$factuur instanceof Creditfactuur) {
-                break;
-            }
-            $factuur = null;
-        }
-
-        // ...or create one
-        if (!$factuur) {
-            $nummer = $this->getNummer($klant, $dateRange, $entityManager);
-            $betreft = $this->getBetreft($nummer, $dateRange);
-            $factuur = new Factuur($klant, $nummer, $betreft);
-            $entityManager->persist($factuur);
-        }
+        $factuur = $this->findOrCreateFactuur($klant, $dateRange, $entityManager);
 
         switch (true) {
             case $entity instanceof Declaratie:
@@ -103,18 +85,14 @@ class FactuurSubscriber implements EventSubscriber
                 $factuur->addRegistratie($entity);
                 break;
             default:
-                throw new \InvalidArgumentException('Unsupported class '.get_class($subject));
+                throw new \InvalidArgumentException('Unsupported class '.get_class($entity));
         }
 
-        $this->calculateBedrag($factuur);
-        if ($oudeFactuur) {
-            $this->calculateBedrag($oudeFactuur);
+        if ($oudeFactuur && $oudeFactuur->getId() !== $factuur->getId()) {
             if ($oudeFactuur->isDeletable()) {
                 $entityManager->remove($oudeFactuur);
             }
         }
-
-        $entityManager->flush();
     }
 
     private function getDateRange(\DateTime $date)
@@ -154,30 +132,38 @@ class FactuurSubscriber implements EventSubscriber
         }
     }
 
-    private function getBetreft($nummer, AppDateRangeModel $dateRange)
+    private function getBetreft(Klant $klant, $nummer, AppDateRangeModel $dateRange): string
     {
         return sprintf(
-            'Factuurnr: %s van %s t/m %s',
+            'factuurnummer %s (%s, periode %s t/m %s)',
             $nummer,
+            $klant->getAchternaamCompleet(),
             $dateRange->getStart()->format('d-m-Y'),
             $dateRange->getEnd()->format('d-m-Y')
         );
     }
 
-    private function calculateBedrag(Factuur $factuur)
-    {
-        $bedrag = 0.0;
+    private function findOrCreateFactuur(
+        Klant $klant,
+        AppDateRangeModel $dateRange,
+        EntityManager $entityManager
+    ) {
+        // find non-locked invoice within date range...
+        $facturen = $entityManager->getRepository(Factuur::class)
+            ->findNonLockedByKlantAndDateRange($klant, $dateRange);
 
-        foreach ($factuur->getDeclaraties() as $declaratie) {
-            $bedrag += $declaratie->getBedrag();
+        foreach ($facturen as $factuur) {
+            if (!$factuur instanceof Creditfactuur) {
+                return $factuur;
+            }
         }
 
-        foreach ($factuur->getRegistraties() as $registratie) {
-            $bedrag += 2.5 * $registratie->getUren();
-        }
+        // ...or create one
+        $nummer = $this->getNummer($klant, $dateRange, $entityManager);
+        $betreft = $this->getBetreft($klant, $nummer, $dateRange);
+        $factuur = new Factuur($klant, $nummer, $betreft, $dateRange);
+        $entityManager->persist($factuur);
 
-        $factuur->setBedrag($bedrag);
-
-        return $this;
+        return $factuur;
     }
 }

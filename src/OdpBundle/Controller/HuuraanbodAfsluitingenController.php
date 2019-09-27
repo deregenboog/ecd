@@ -4,20 +4,22 @@ namespace OdpBundle\Controller;
 
 use JMS\DiExtraBundle\Annotation as DI;
 use OdpBundle\Entity\HuuraanbodAfsluiting;
-use OdpBundle\Service\HuuraanbodAfsluitingDaoInterface;
+use OdpBundle\Service\AfsluitingDaoInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * @Route("/admin/huuraanbodafsluitingen")
+ * @Template
  */
 class HuuraanbodAfsluitingenController extends AfsluitingenController
 {
     public $title = 'Afsluitingen huuraanbiedingen';
 
     /**
-     * @var HuuraanbodAfsluitingDaoInterface
+     * @var AfsluitingDaoInterface
      *
-     * @DI\Inject("odp.dao.huuraanbodafsluiting")
+     * @DI\Inject("OdpBundle\Service\HuuraanbodafsluitingDao")
      */
     protected $dao;
 

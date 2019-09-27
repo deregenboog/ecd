@@ -2,17 +2,20 @@
 
 namespace ClipBundle\Controller;
 
-use ClipBundle\Entity\Contactmoment;
-use JMS\DiExtraBundle\Annotation as DI;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use AppBundle\Controller\AbstractChildController;
+use AppBundle\Export\ExportInterface;
+use ClipBundle\Entity\Contactmoment;
+use ClipBundle\Form\ContactmomentFilterType;
 use ClipBundle\Form\ContactmomentType;
 use ClipBundle\Service\ContactmomentDaoInterface;
-use ClipBundle\Form\ContactmomentFilterType;
-use AppBundle\Export\ExportInterface;
+use JMS\DiExtraBundle\Annotation as DI;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * @Route("/contactmomenten")
+ * @Template
  */
 class ContactmomentenController extends AbstractChildController
 {
@@ -27,7 +30,7 @@ class ContactmomentenController extends AbstractChildController
     /**
      * @var ContactmomentDaoInterface
      *
-     * @DI\Inject("clip.dao.contactmoment")
+     * @DI\Inject("ClipBundle\Service\ContactmomentDao")
      */
     protected $dao;
 
@@ -48,7 +51,7 @@ class ContactmomentenController extends AbstractChildController
     /**
      * @Route("/{id}/view")
      */
-    public function viewAction($id)
+    public function viewAction(Request $request, $id)
     {
         $entity = $this->dao->find($id);
 

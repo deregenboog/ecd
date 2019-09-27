@@ -2,18 +2,19 @@
 
 namespace DagbestedingBundle\Entity;
 
-use Doctrine\ORM\Mapping as ORM;
-use Doctrine\Common\Collections\ArrayCollection;
-use Gedmo\Mapping\Annotation as Gedmo;
 use AppBundle\Form\Model\AppDateRangeModel;
-use Doctrine\Common\Collections\Criteria;
 use DagbestedingBundle\Form\DagdelenRangeModel;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Criteria;
+use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Entity
  * @ORM\Table(name="dagbesteding_trajecten")
  * @ORM\HasLifecycleCallbacks
  * @Gedmo\Loggable
+ * @Gedmo\SoftDeleteable
  */
 class Traject
 {
@@ -127,7 +128,7 @@ class Traject
     private $documenten;
 
     /**
-     * @var ArrayCollection|Werklocatie[]
+     * @var ArrayCollection|Locatie[]
      *
      * @ORM\ManyToMany(targetEntity="Locatie")
      * @ORM\JoinTable(name="dagbesteding_traject_locatie")
@@ -136,13 +137,28 @@ class Traject
     private $locaties;
 
     /**
-     * @var ArrayCollection|Document[]
+     * @var ArrayCollection|Project[]
      *
      * @ORM\ManyToMany(targetEntity="Project")
      * @ORM\JoinTable(name="dagbesteding_traject_project")
      * @ORM\OrderBy({"naam" = "ASC"})
      */
     private $projecten;
+
+    /**
+     * @var bool
+     *
+     * @ORM\Column(type="boolean", nullable=true)
+     * @Gedmo\Versioned
+     */
+    private $ondersteuningsplanVerwerkt;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="deleted", type="datetime", nullable=true)
+     */
+    protected $deletedAt;
 
     public function __construct()
     {
@@ -238,9 +254,18 @@ class Traject
         return $this;
     }
 
-    public function isDeletable()
+    public function isDeletable(): bool
     {
-        return false;
+        foreach ($this->rapportages as $rapportage) {
+            if (count($rapportage->getDocumenten()) > 0) {
+                return false;
+            }
+        }
+
+        return 0 === count($this->dagdelen)
+            && 0 === count($this->documenten)
+            && 0 === count($this->verslagen)
+        ;
     }
 
     public function isActief()
@@ -565,6 +590,32 @@ class Traject
                 $this->addDagdeel($newDagdeel);
             }
         }
+
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isOndersteuningsplanVerwerkt()
+    {
+        return $this->ondersteuningsplanVerwerkt;
+    }
+
+    /**
+     * @param bool $ondersteuningsplanVerwerkt
+     */
+    public function setOndersteuningsplanVerwerkt($ondersteuningsplanVerwerkt)
+    {
+        $this->ondersteuningsplanVerwerkt = (bool) $ondersteuningsplanVerwerkt;
+
+        return $this;
+    }
+
+    public function open()
+    {
+        $this->afsluitdatum = null;
+        $this->afsluiting = null;
 
         return $this;
     }

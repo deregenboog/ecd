@@ -2,18 +2,31 @@
 
 namespace InloopBundle\Filter;
 
-use Doctrine\ORM\QueryBuilder;
-use AppBundle\Filter\KlantFilter as AppKlantFilter;
 use AppBundle\Filter\FilterInterface;
-use InloopBundle\Entity\Locatie;
+use AppBundle\Filter\KlantFilter as AppKlantFilter;
 use AppBundle\Form\Model\AppDateRangeModel;
+use Doctrine\ORM\QueryBuilder;
+use InloopBundle\Entity\Aanmelding;
+use InloopBundle\Entity\Locatie;
+use InloopBundle\Entity\Toegang;
+use InloopBundle\Strategy\StrategyInterface;
 
 class KlantFilter implements FilterInterface
 {
     /**
+     * @var StrategyInterface
+     */
+    public $strategy;
+
+    /**
      * @var int
      */
     public $id;
+
+    /**
+     * @var Locatie
+     */
+    public $locatie;
 
     /**
      * @var Locatie
@@ -40,8 +53,34 @@ class KlantFilter implements FilterInterface
      */
     public $huidigeStatus;
 
+    public function __construct(StrategyInterface $strategy = null)
+    {
+        $this->strategy = $strategy;
+    }
+
     public function applyTo(QueryBuilder $builder)
     {
+        $builder
+            ->addSelect('schorsing')
+            ->leftJoin('klant.schorsingen', 'schorsing')
+        ;
+
+        if ($this->strategy) {
+            $builder
+                ->addSelect('huidigeStatus')
+                ->innerJoin('klant.huidigeStatus', 'huidigeStatus', 'WITH', 'huidigeStatus INSTANCE OF '.Aanmelding::class)
+                ->andWhere('laatsteIntake.toegangInloophuis = true')
+            ;
+            $this->strategy->buildQuery($builder);
+        }
+
+        if ($this->locatie) {
+            $builder
+                ->innerJoin(Toegang::class, 'toegang', 'WITH', 'toegang.klant = klant AND toegang.locatie = :locatie')
+                ->setParameter('locatie', $this->locatie)
+            ;
+        }
+
         if ($this->id) {
             $builder
                 ->andWhere('klant.id = :id')
@@ -51,7 +90,7 @@ class KlantFilter implements FilterInterface
 
         if ($this->gebruikersruimte) {
             $builder
-                ->andWhere('klant.gebruikersruimte = :gebruikersruimte')
+                ->andWhere('laatsteIntake.gebruikersruimte = :gebruikersruimte')
                 ->setParameter('gebruikersruimte', $this->gebruikersruimte)
             ;
         }
@@ -79,7 +118,7 @@ class KlantFilter implements FilterInterface
         }
 
         if ($this->huidigeStatus) {
-            $builder->innerJoin('klant.huidigeStatus', 'status', 'WITH', $builder->expr()->isInstanceOf('status', $this->huidigeStatus));
+            $builder->andWhere($builder->expr()->isInstanceOf('status', $this->huidigeStatus));
         }
 
         if ($this->klant) {

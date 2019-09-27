@@ -2,9 +2,9 @@
 
 namespace OdpBundle\Service;
 
-use OdpBundle\Entity\Coordinator;
-use AppBundle\Service\AbstractDao;
 use AppBundle\Filter\FilterInterface;
+use AppBundle\Service\AbstractDao;
+use OdpBundle\Entity\Coordinator;
 
 class CoordinatorDao extends AbstractDao implements CoordinatorDaoInterface
 {

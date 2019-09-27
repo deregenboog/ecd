@@ -1,0 +1,64 @@
+OdpBundle\Entity\HuuraanbodAfsluiting:
+    odp_afsluiting_huuraanbod_{1..5}:
+        naam: 'Reden <current()> afsluiting huuraanbod'
+
+OdpBundle\Entity\HuurderAfsluiting:
+    odp_afsluiting_huurder_{1..5}:
+        naam: 'Reden <current()> afsluiting huurder'
+
+OdpBundle\Entity\HuurovereenkomstAfsluiting:
+    odp_afsluiting_huurovereenkomst_{1..5}:
+        naam: 'Reden <current()> afsluiting koppeling'
+
+OdpBundle\Entity\HuurverzoekAfsluiting:
+    odp_afsluiting_huurverzoek_{1..5}:
+        naam: 'Reden <current()> afsluiting huurverzoek'
+
+OdpBundle\Entity\VerhuurderAfsluiting:
+    odp_afsluiting_verhuurder_{1..5}:
+        naam: 'Reden <current()> afsluiting verhuurder'
+
+OdpBundle\Entity\Woningbouwcorporatie:
+    odp_woningbouwcorporatie_{1..5}:
+        naam: '<word()>'
+    odp_woningbouwcorporatie_{6..7}:
+        naam: '<word()>'
+        actief: false
+
+OdpBundle\Entity\Coordinator:
+    odp_coordinator_{1..5}:
+        medewerker (unique): '@medewerker_*'
+
+OdpBundle\Entity\Huurder:
+    odp_huurder_{1..100}:
+        klant (unique): '@klant_*'
+        medewerker: '@medewerker_*'
+        aanmelddatum: '<dateTimeThisDecade()>'
+
+OdpBundle\Entity\Verhuurder:
+    odp_verhuurder_{1..100}:
+        klant (unique): '@klant_*'
+        medewerker: '@medewerker_*'
+        aanmelddatum: '<dateTimeThisDecade()>'
+
+OdpBundle\Entity\Huuraanbod:
+    odp_huuraanbod_{1..75}:
+        verhuurder (unique): '@odp_verhuurder_*'
+        medewerker: '@medewerker_*'
+        startdatum: '<dateTimeThisDecade()>'
+        afsluitdatum: '10%? <afsluitdatum($startdatum)>'
+
+OdpBundle\Entity\Huurverzoek:
+    odp_huurverzoek_{1..75}:
+        huurder (unique): '@odp_huurder_*'
+        medewerker: '@medewerker_*'
+        startdatum: '<dateTimeThisDecade()>'
+        afsluitdatum: '10%? <afsluitdatum($startdatum)>'
+        
+OdpBundle\Entity\Huurovereenkomst:
+    odp_huurovereenkomst_{1..50}:
+        huurverzoek (unique): '@odp_huurverzoek_*'
+        huuraanbod (unique): '@odp_huuraanbod_*'
+        medewerker: '@medewerker_*'
+        startdatum: '<dateTimeThisDecade()>'
+        einddatum: '50%? <afsluitdatum($startdatum)>'

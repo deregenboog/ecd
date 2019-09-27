@@ -3,15 +3,18 @@
 namespace OekBundle\Entity;
 
 use AppBundle\Entity\Vrijwilliger as AppVrijwilliger;
+use AppBundle\Model\ActivatableInterface;
+use AppBundle\Model\ActivatableTrait;
+use AppBundle\Model\NotDeletableTrait;
+use AppBundle\Model\DocumentSubjectInterface;
+use AppBundle\Model\DocumentSubjectTrait;
+use AppBundle\Model\IdentifiableTrait;
+use AppBundle\Model\MemoSubjectInterface;
+use AppBundle\Model\MemoSubjectTrait;
+use AppBundle\Model\RequiredMedewerkerTrait;
+use AppBundle\Model\TimestampableTrait;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
-use AppBundle\Model\IdentifiableTrait;
-use AppBundle\Model\MemoSubjectTrait;
-use AppBundle\Model\DocumentSubjectTrait;
-use AppBundle\Model\MemoSubjectInterface;
-use AppBundle\Model\DocumentSubjectInterface;
-use AppBundle\Model\TimestampableTrait;
-use AppBundle\Model\RequiredMedewerkerTrait;
 
 /**
  * @ORM\Entity
@@ -19,9 +22,12 @@ use AppBundle\Model\RequiredMedewerkerTrait;
  * @ORM\HasLifecycleCallbacks
  * @Gedmo\Loggable
  */
-class Vrijwilliger implements MemoSubjectInterface, DocumentSubjectInterface
+class Vrijwilliger implements MemoSubjectInterface, DocumentSubjectInterface, ActivatableInterface
 {
-    use IdentifiableTrait, TimestampableTrait, RequiredMedewerkerTrait, MemoSubjectTrait, DocumentSubjectTrait;
+    use IdentifiableTrait, TimestampableTrait, RequiredMedewerkerTrait, MemoSubjectTrait, DocumentSubjectTrait, ActivatableTrait, NotDeletableTrait;
+
+    const STATUS_ACTIEF = 1;
+    const STATUS_VERWIJDERD = 0;
 
     /**
      * @var Vrijwilliger
@@ -31,6 +37,7 @@ class Vrijwilliger implements MemoSubjectInterface, DocumentSubjectInterface
      * @Gedmo\Versioned
      */
     protected $vrijwilliger;
+
 
     public function __construct(AppVrijwilliger $vrijwilliger = null)
     {
@@ -44,10 +51,10 @@ class Vrijwilliger implements MemoSubjectInterface, DocumentSubjectInterface
         return (string) $this->vrijwilliger;
     }
 
-    public function isDeletable()
-    {
-        return true;
-    }
+//    public function isDeletable()
+//    {
+//        return self::STATUS_ACTIEF == $this->getActief();
+//    }
 
     public function getId()
     {
@@ -65,4 +72,22 @@ class Vrijwilliger implements MemoSubjectInterface, DocumentSubjectInterface
 
         return $this;
     }
+
+    /**
+     * @return bool
+     */
+    public function getActief(): bool
+    {
+        return $this->actief;
+    }
+
+    /**
+     * @param bool $status
+     */
+    public function setActief(bool $status): void
+    {
+        $this->actief = $status;
+    }
+
+
 }

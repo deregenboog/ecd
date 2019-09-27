@@ -1,0 +1,121 @@
+{% extends '::add.html.twig' %}
+{% import '::html.macro.twig' as html %}
+
+{% block title %}
+    Inloophuizen | {{ title }}
+{% endblock %}
+
+{% block subnavigation %}
+    {% include '@Inloop/subnavigation.html.twig' %}
+{% endblock %}
+
+{% block content_top %}
+    <h1>{{ entity_name|capitalize }} aanmelden</h1>
+{% endblock %}
+
+{% block content %}
+    {% if klanten is defined and filterForm.vars.errors|length == 0 %}
+        <p>
+            Selecteer de gewenste {{ entity_name }} in onderstaande lijst of klik op
+            "Nieuwe {{ entity_name }}" als deze niet in de lijst voorkomt.
+        </p>
+        <p>
+            {{ html.link('Nieuwe '~entity_name, path('inloop_klanten_add', {klant: 'new'}), 'plus') }}
+        </p>
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Naam</th>
+                    <th>BSN</th>
+                    <th>Geboortedatum</th>
+                </tr>
+            </thead>
+            {% for entity in klanten %}
+                <tr data-href="{{ path('inloop_klanten_add', {klant: entity.id}) }}">
+                    <td>{{ entity.id }}</td>
+                    <td>{{ entity }}</td>
+                    <td>{{ entity.bsn }}</td>
+                    <td>{{ entity.geboortedatum ? entity.geboortedatum|date('d-m-Y') }}</td>
+                </tr>
+            {% endfor %}
+        </table>
+    {% elseif filterForm is defined %}
+        <p>Zoek een bestaande {{ entity_name }} op naam, BSN of geboortedatum.</p>
+        {{ form(filterForm) }}
+    {% endif %}
+
+    {% if creationForm is defined %}
+        {% if entity.id %}
+            <div class="col-xs-4">
+                {% include '::klant_basis.html.twig' with {klant: entity, module: 'Intake'} %}
+            </div>
+            <div class="col-xs-8">
+                <h2>Aanmelding</h2>
+                {{ form(creationForm) }}
+            </div>
+        {% else %}
+            {{ form(creationForm) }}
+        {% endif %}
+    {% endif %}
+{% endblock %}
+
+{% block scripts %}
+    {% if amoc_landen is defined %}
+        <script>
+            $(function() {
+                var amoc_landen = [];
+                {% for land in amoc_landen %}
+                    amoc_landen.push({{ land.id }});
+                {% endfor %}
+
+                var checkAmoc = function() {
+                    var selected = parseInt($('select#klant_land').val());
+                    if (amoc_landen.indexOf(selected) != -1) {
+                        console.log($('select#klant_land'));
+                        $('select#klant_land').closest('div').append('<p>Personen uit dit land worden doorgestuurd naar AMOC. Op het volgende scherm is een verwijsbrief uit te printen.</p>');
+                    }
+                };
+
+                $('select#klant_land').on('change', function() {
+                    checkAmoc();
+                });
+
+                checkAmoc();
+            });
+        </script>
+    {% endif %}
+    {% if tbc_countries is defined %}
+        <script>
+                $(function(){
+                    var tbc_countries = [];
+                    {% for country in tbc_countries %}
+                        tbc_countries.push("{{ country }}");
+                    {% endfor %}
+
+                    var checkTbc = function(tbc_countries,selectedCountry){
+                        if(jQuery.inArray(selectedCountry,tbc_countries) !== -1)
+                        {
+                            alert("Klant uit risicoland voor TBC besmetting. Naar GGD sturen voor TBC controle.");
+                            $('#klant_laatsteTbcControle').removeClass("hidden");
+                            $("label[for='klant_laatsteTbcControle']").removeClass("hidden");
+
+                        }
+                        else {
+                            $('#klant_laatsteTbcControle').addClass("hidden");
+                            $("label[for='klant_laatsteTbcControle']").addClass("hidden");
+
+                        }
+                        // console.log(event.data.tbc_countries,$(this).find("option:selected").text());
+                    };
+
+                    $('select#klant_land').change({'tbc_countries':tbc_countries},function(event){
+                        checkTbc(event.data.tbc_countries,$(this).find("option:selected").text() );
+                    });
+
+                    checkTbc(tbc_countries,$('select#klant_land option:selected').text())
+                });
+
+        </script>
+    {% endif %}
+{% endblock %}

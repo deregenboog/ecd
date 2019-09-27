@@ -3,9 +3,12 @@
 namespace HsBundle\Entity;
 
 use AppBundle\Entity\Vrijwilliger as AppVrijwilliger;
+use AppBundle\Service\NameFormatter;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\ORM\EntityNotFoundException;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
+use Symfony\Component\Debug\Exception\FatalErrorException;
 
 /**
  * @ORM\Entity
@@ -43,7 +46,16 @@ class Vrijwilliger extends Arbeider implements MemoSubjectInterface, DocumentSub
 
     public function __toString()
     {
-        return (string) $this->vrijwilliger;
+
+        try {
+            return NameFormatter::formatFormal($this->vrijwilliger);
+        } catch (EntityNotFoundException $e) {
+            return '(verwijderd)';
+        }
+        catch(FatalErrorException $e)
+        {
+            return '(verwijderd)';
+        }
     }
 
     public function getId()
@@ -53,7 +65,22 @@ class Vrijwilliger extends Arbeider implements MemoSubjectInterface, DocumentSub
 
     public function getVrijwilliger()
     {
-        return $this->vrijwilliger;
+        /**
+         * Because vrijwilliger can be disabled and this is implemented via an SQL filter. Doctrine just gets an empty object somehow so it seems.
+         * Thus, all goes well until the point a field of vrijwilliger is called (in a template for example).
+         * But then its too late to catch exceptions.
+         * Thus, try a field here (since vrijwilliger is not null) and catch exception. If so, return nul..
+         */
+        try
+        {
+            $this->vrijwilliger->getCreated();
+        }
+        catch(\Doctrine\ORM\EntityNotFoundException $e)
+        {
+            return null;
+        }
+
+       return $this->vrijwilliger;
     }
 
     public function setVrijwilliger(AppVrijwilliger $vrijwilliger)

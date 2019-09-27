@@ -2,9 +2,9 @@
 
 namespace OdpBundle;
 
-use Symfony\Component\HttpKernel\Bundle\Bundle;
-use Symfony\Component\DependencyInjection\ContainerBuilder;
 use OdpBundle\DependencyInjection\Compiler\ReportsCompilerPass;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\HttpKernel\Bundle\Bundle;
 
 class OdpBundle extends Bundle
 {

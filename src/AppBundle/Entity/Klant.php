@@ -2,27 +2,38 @@
 
 namespace AppBundle\Entity;
 
+use AppBundle\Model\DocumentSubjectTrait;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
-use InloopBundle\Entity\Intake;
-use Doctrine\Common\Collections\ArrayCollection;
-use InloopBundle\Entity\Registratie;
 use InloopBundle\Entity\DossierStatus;
-use Doctrine\Common\Collections\Criteria;
+use InloopBundle\Entity\Intake;
+use InloopBundle\Entity\Locatie;
+use InloopBundle\Entity\Registratie;
+use InloopBundle\Entity\Schorsing;
+use MwBundle\Entity\Verslag;
 
 /**
  * @ORM\Entity
  * @ORM\Table(
  *     name="klanten",
+ *     uniqueConstraints={
+ *         @ORM\UniqueConstraint(columns={"huidigeStatus_id", "deleted"})
+ *      },
  *     indexes={
  *         @ORM\Index(name="idx_klanten_werkgebied", columns={"werkgebied"}),
- *         @ORM\Index(name="idx_klanten_postcodegebied", columns={"postcodegebied"})
+ *         @ORM\Index(name="idx_klanten_postcodegebied", columns={"postcodegebied"}),
+ *         @ORM\Index(name="idx_klanten_geboortedatum", columns={"geboortedatum"}),
+ *         @ORM\Index(name="idx_klanten_first_intake_date", columns={"first_intake_date"})
  *     }
  * )
  * @Gedmo\Loggable
  */
 class Klant extends Persoon
 {
+    use DocumentSubjectTrait;
+
     /**
      * @ORM\Column(name="MezzoID", type="integer")
      * @Gedmo\Versioned
@@ -38,12 +49,36 @@ class Klant extends Persoon
     private $intakes;
 
     /**
-     * @var Intake[]
+     * @var Zrm[]
+     *
+     * @ORM\OneToMany(targetEntity="Zrm", mappedBy="klant",cascade={"persist"})
+     * @ORM\OrderBy({"created" = "DESC", "id" = "DESC"})
+     */
+    private $zrms;
+
+    /**
+     * @var Verslag[]
+     *
+     * @ORM\OneToMany(targetEntity="MwBundle\Entity\Verslag", mappedBy="klant")
+     * @ORM\OrderBy({"datum" = "DESC", "id" = "DESC"})
+     */
+    private $verslagen;
+
+    /**
+     * @var Registratie[]
      *
      * @ORM\OneToMany(targetEntity="InloopBundle\Entity\Registratie", mappedBy="klant")
      * @ORM\OrderBy({"id" = "DESC"})
      */
     private $registraties;
+
+    /**
+     * @var Schorsing[]
+     *
+     * @ORM\OneToMany(targetEntity="InloopBundle\Entity\Schorsing", mappedBy="klant")
+     * @ORM\OrderBy({"id" = "DESC"})
+     */
+    private $schorsingen;
 
     /**
      * @ORM\Column(name="laatste_TBC_controle", type="date", nullable=true)
@@ -52,9 +87,17 @@ class Klant extends Persoon
     private $laatsteTbcControle;
 
     /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="first_intake_date", type="date", nullable=true)
+     * @Gedmo\Versioned
+     */
+    private $eersteIntakeDatum;
+
+    /**
      * @var Intake
      *
-     * @ORM\OneToOne(targetEntity="InloopBundle\Entity\Intake")
+     * @ORM\ManyToOne(targetEntity="InloopBundle\Entity\Intake")
      * @ORM\JoinColumn(name="laste_intake_id")
      * @Gedmo\Versioned
      */
@@ -63,11 +106,19 @@ class Klant extends Persoon
     /**
      * @var DossierStatus
      *
-     * @ORM\OneToOne(targetEntity="InloopBundle\Entity\DossierStatus")
+     * @ORM\OneToOne(targetEntity="InloopBundle\Entity\DossierStatus", cascade={"persist"})
      * @ORM\JoinColumn(nullable=true)
      * @Gedmo\Versioned
      */
     private $huidigeStatus;
+
+    /**
+     * @var DossierStatus[]
+     *
+     * @ORM\OneToMany(targetEntity="InloopBundle\Entity\DossierStatus", mappedBy="klant")
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $statussen;
 
     /**
      * @var Registratie
@@ -90,10 +141,65 @@ class Klant extends Persoon
      */
     private $overleden = false;
 
+    /**
+     * @var bool
+     *
+     * @ORM\Column(name="doorverwijzen_naar_amoc", type="boolean")
+     * @Gedmo\Versioned
+     */
+    private $doorverwijzenNaarAmoc = false;
+
+    /**
+     * @var Klant
+     *
+     * @ORM\ManyToOne(targetEntity="Klant")
+     * @Gedmo\Versioned
+     */
+    private $merged;
+
+    /**
+     * @var Opmerking[]
+     *
+     * @ORM\OneToMany(targetEntity="Opmerking", mappedBy="klant")
+     * @ORM\OrderBy({"id" = "DESC"})
+     */
+    private $opmerkingen;
+
+    /**
+     * @return bool
+     */
+    public function isDoorverwijzenNaarAmoc()
+    {
+        return $this->doorverwijzenNaarAmoc;
+    }
+
+    /**
+     * @param bool $doorverwijzenNaarAmoc
+     */
+    public function setDoorverwijzenNaarAmoc($doorverwijzenNaarAmoc)
+    {
+        $this->doorverwijzenNaarAmoc = $doorverwijzenNaarAmoc;
+
+        return $this;
+    }
+
     public function __construct()
     {
         $this->intakes = new ArrayCollection();
         $this->registraties = new ArrayCollection();
+        $this->zrms = new ArrayCollection();
+        $this->verslagen = new ArrayCollection();
+        $this->opmerkingen = new ArrayCollection();
+    }
+
+    /**
+     * @see https://www.doctrine-project.org/projects/doctrine-orm/en/2.5/cookbook/implementing-wakeup-or-clone.html#safely-implementing-clone
+     */
+    public function __clone()
+    {
+        if ($this->id) {
+            $this->id = null;
+        }
     }
 
     public function getLaatsteZrm()
@@ -125,11 +231,114 @@ class Klant extends Persoon
         return $this->registraties;
     }
 
-    public function getRecenteRegistraties()
+    public function getRecenteRegistraties($n = 50)
     {
-        $criteria = Criteria::create()->orderBy(['id' => 'DESC'])->setMaxResults(20);
+        $criteria = Criteria::create()
+            ->orderBy(['id' => 'DESC'])
+            ->setMaxResults((int) $n)
+        ;
 
         return $this->registraties->matching($criteria);
+    }
+
+    public function getRegistratiesSinds(\DateTime $date)
+    {
+        $criteria = Criteria::create()
+            ->where(Criteria::expr()->gte('buiten', $date))
+            ->orderBy(['id' => 'DESC'])
+        ;
+
+        return $this->registraties->matching($criteria);
+    }
+
+    public function getLaatsteRegistratie()
+    {
+        $registraties = $this->getRecenteRegistraties(1);
+
+        return count($registraties) > 0 ? $registraties[0] : null;
+    }
+
+    public function getSchorsingen()
+    {
+        return $this->schorsingen;
+    }
+
+    public function getHuidigeSchorsingen(?Locatie $locatie = null)
+    {
+        $today = new \DateTime('today');
+        $criteria = Criteria::create()
+            ->where(Criteria::expr()->lte('datumVan', $today))
+            ->andWhere(Criteria::expr()->gte('datumTot', $today))
+            ->orderBy(['id' => 'DESC'])
+        ;
+        $huidigeSchorsingen = $this->schorsingen->matching($criteria);
+
+        if ($locatie) {
+            $schorsingenLocatie = $this->getSchorsingenVoorLocatie($locatie);
+
+            return new ArrayCollection(array_intersect($schorsingenLocatie->toArray(), $huidigeSchorsingen->toArray()));
+        }
+
+        return $huidigeSchorsingen;
+    }
+
+    public function getVerlopenSchorsingen()
+    {
+        $today = new \DateTime('today');
+        $criteria = Criteria::create()
+            ->where(Criteria::expr()->gt('datumVan', $today))
+            ->orWhere(Criteria::expr()->lt('datumTot', $today))
+            ->orderBy(['id' => 'DESC'])
+        ;
+
+        return $this->schorsingen->matching($criteria);
+    }
+
+    public function getRecenteSchorsingen($n = 50)
+    {
+        $criteria = Criteria::create()
+            ->orderBy(['id' => 'DESC'])
+            ->setMaxResults((int) $n)
+        ;
+
+        return $this->schorsingen->matching($criteria);
+    }
+
+    public function getLaatsteSchorsing()
+    {
+        $registraties = $this->getRecenteSchorsingen(1);
+
+        return count($registraties) > 0 ? $registraties[0] : null;
+    }
+
+    public function getOngezieneSchorsingen(?Locatie $locatie = null)
+    {
+        $criteria = Criteria::create()
+            ->where(Criteria::expr()->eq('gezien', false))
+            ->orderBy(['id' => 'DESC'])
+        ;
+        $ongezieneSchorsingen = $this->schorsingen->matching($criteria);
+
+        if ($locatie) {
+            $schorsingenLocatie = $this->getSchorsingenVoorLocatie($locatie);
+
+            return new ArrayCollection(array_intersect($schorsingenLocatie->toArray(), $ongezieneSchorsingen->toArray()));
+        }
+
+        return $ongezieneSchorsingen;
+    }
+
+    public function getSchorsingenVoorLocatie(Locatie $locatie)
+    {
+        $schorsingen = [];
+
+        foreach ($this->schorsingen as $schorsing) {
+            if ($schorsing->getLocaties()->contains($locatie)) {
+                $schorsingen[] = $schorsing;
+            }
+        }
+
+        return new ArrayCollection($schorsingen);
     }
 
     public function getIntakes()
@@ -139,6 +348,9 @@ class Klant extends Persoon
 
     public function addIntake(Intake $intake)
     {
+        if (0 === count($this->intakes)) {
+            $this->eersteIntakeDatum = $intake->getIntakedatum();
+        }
         $this->intakes->add($intake);
         $intake->setKlant($this);
         $this->laatsteIntake = $intake;
@@ -158,6 +370,30 @@ class Klant extends Persoon
         return $this;
     }
 
+//     public function addRegistratie(Registratie $registratie)
+//     {
+//         $this->registraties->add($registratie);
+//         $registratie->setKlant($this);
+//         $this->laatsteRegistratie = $registratie;
+
+//         return $this;
+//     }
+
+//     public function removeRegistratie(Registratie $registratie)
+//     {
+//         $this->registraties->removeElement($registratie);
+//         $this->laatsteRegistratie = count($this->registraties) > 0 ? $this->registraties[0] : null;
+
+//         return $this;
+//     }
+
+//     public function setLaatsteRegistratie(Registratie $laatsteRegistratie)
+//     {
+//         $this->laatsteRegistratie = $laatsteRegistratie;
+
+//         return $this;
+//     }
+
     public function getHuidigeStatus()
     {
         return $this->huidigeStatus;
@@ -170,8 +406,101 @@ class Klant extends Persoon
         return $this;
     }
 
-    public function getLaatsteRegistratie()
+    public function getStatussen()
     {
-        return $this->laatsteRegistratie;
+        return $this->statussen;
+    }
+
+    public function getZrms()
+    {
+        return $this->zrms;
+    }
+
+    public function addZrm(Zrm $zrm)
+    {
+        $this->zrms[] = $zrm;
+        $this->laatsteZrm = $zrm->getCreated();
+        $zrm->setKlant($this);
+
+        return $this;
+    }
+
+    public function getVerslagen()
+    {
+        return $this->verslagen;
+    }
+
+    public function addVerslag(Verslag $verslag)
+    {
+        $this->verslagen[] = $verslag;
+        $verslag->setKlant($this);
+
+        return $this;
+    }
+
+    public function getOpmerkingen()
+    {
+        return $this->opmerkingen;
+    }
+
+    public function getOpenstaandeOpmerkingen()
+    {
+        $criteria = Criteria::create()
+            ->where(Criteria::expr()->eq('gezien', false))
+            ->orderBy(['id' => 'DESC'])
+        ;
+
+        return $this->opmerkingen->matching($criteria);
+    }
+
+    public function setMerged(Klant $newKlant)
+    {
+        $this->merged = $newKlant;
+        $this->disabled = true;
+        $this->deletedAt = new \DateTime();
+    }
+
+    public function getEersteIntakeDatum()
+    {
+        return $this->eersteIntakeDatum;
+    }
+
+    public function updateCalculatedFields()
+    {
+        if (count($this->registraties) > 0) {
+            $this->laatsteRegistratie = $this->registraties[0];
+        }
+        if (count($this->intakes) > 0) {
+            $this->laatsteIntake = $this->intakes[0];
+            $this->eersteIntakeDatum = $this->intakes[count($this->intakes) - 1]->getIntakeDatum();
+        }
+    }
+
+    public function isOverleden()
+    {
+        return $this->overleden;
+    }
+
+    public function setOverleden($overleden)
+    {
+        $this->overleden = (bool) $overleden;
+
+        return $this;
+    }
+
+    public function getToestemmingsformulier(): ?Toestemmingsformulier
+    {
+        foreach ($this->documenten as $document) {
+            if ($document instanceof Toestemmingsformulier) {
+                return $document;
+            }
+        }
+
+        return null;
+    }
+
+    public function setToestemmingsformulier(Toestemmingsformulier $toestemmingsformulier): self
+    {
+        return $this->addDocument($toestemmingsformulier);
     }
 }

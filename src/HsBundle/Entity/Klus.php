@@ -2,12 +2,12 @@
 
 namespace HsBundle\Entity;
 
-use Doctrine\ORM\Mapping as ORM;
-use Doctrine\Common\Collections\ArrayCollection;
 use AppBundle\Entity\Medewerker;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Component\Validator\Constraints as Assert;
-use Doctrine\Common\Collections\Collection;
 
 /**
  * @ORM\Entity
@@ -22,6 +22,7 @@ class Klus implements MemoSubjectInterface
     const STATUS_IN_BEHANDELING = 'In behandeling';
     const STATUS_ON_HOLD = 'On hold';
     const STATUS_AFGEROND = 'Afgerond';
+    const STATUS_GEANNULEERD = 'Geannuleerd';
 
     /**
      * @ORM\Id
@@ -45,6 +46,13 @@ class Klus implements MemoSubjectInterface
     private $einddatum;
 
     /**
+     * @var \DateTime
+     * @ORM\Column(type="date", nullable=true)
+     * @Gedmo\Versioned
+     */
+    private $annuleringsdatum;
+
+    /**
      * @var bool
      * @ORM\Column(type="boolean", nullable=false)
      * @Gedmo\Versioned
@@ -59,7 +67,8 @@ class Klus implements MemoSubjectInterface
      *     Klus::STATUS_OPENSTAAND,
      *     Klus::STATUS_IN_BEHANDELING,
      *     Klus::STATUS_ON_HOLD,
-     *     Klus::STATUS_AFGEROND
+     *     Klus::STATUS_AFGEROND,
+     *     Klus::STATUS_GEANNULEERD
      * })
      */
     private $status = self::STATUS_OPENSTAAND;
@@ -115,7 +124,7 @@ class Klus implements MemoSubjectInterface
     {
         $this->klant = $klant;
         $this->medewerker = $medewerker;
-        $this->activiteitn = new ArrayCollection();
+        $this->activiteiten = new ArrayCollection();
         $this->dienstverleners = new ArrayCollection();
         $this->vrijwilligers = new ArrayCollection();
         $this->registraties = new ArrayCollection();
@@ -341,6 +350,20 @@ class Klus implements MemoSubjectInterface
         return $this;
     }
 
+    public function getAnnuleringsdatum()
+    {
+        return $this->annuleringsdatum;
+    }
+
+    public function setAnnuleringsdatum(\DateTime $annuleringsdatum = null)
+    {
+        $this->annuleringsdatum = $annuleringsdatum;
+
+        $this->updateStatus();
+
+        return $this;
+    }
+
     public function getGefactureerd()
     {
         $bedrag = 0.0;
@@ -387,7 +410,9 @@ class Klus implements MemoSubjectInterface
 
     private function updateStatus()
     {
-        if ($this->einddatum instanceof \DateTime && $this->einddatum <= new \DateTime('today')) {
+        if ($this->annuleringsdatum instanceof \DateTime && $this->annuleringsdatum <= new \DateTime('today')) {
+            $this->status = self::STATUS_GEANNULEERD;
+        } elseif ($this->einddatum instanceof \DateTime && $this->einddatum <= new \DateTime('today')) {
             $this->status = self::STATUS_AFGEROND;
         } elseif ($this->isOnHold()) {
             $this->status = self::STATUS_ON_HOLD;

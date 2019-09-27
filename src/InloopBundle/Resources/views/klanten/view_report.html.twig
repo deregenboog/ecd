@@ -1,0 +1,84 @@
+{% extends '::base-2-col.html.twig' %}
+{% import '::html.macro.twig' as html %}
+
+{% block title %}
+    {{ title }}
+{% endblock %}
+
+{% block subnavigation %}
+    {% include 'InloopBundle::subnavigation.html.twig' %}
+{% endblock %}
+
+{% block content_top %}
+    <h1>{{ entity_name|capitalize }} {{ klant }}</h1>
+    <p>
+        {{ html.link('Terug', path(route_base~'view', {id: klant.id}), 'view') }}
+    </p>
+{% endblock %}
+
+{% block content_left %}
+    <h1>Rapportage</h1>
+    {{ form(form) }}
+    {% include '::klant_basis.html.twig' with {klant: klant, module: 'Intake'} %}
+{% endblock %}
+
+{% block content_right %}
+    {% if data is defined %}
+        <h2>Klantrapportage</h2>
+        <p>
+            Rapportage van {{ startDate|date('d-m-Y') }} t/m {{ endDate|date('d-m-Y') }}
+        </p>
+        <h4>Basisstatistieken</h4>
+        <table class="table">
+            <tr>
+                <th>Bezoeken aan inloophuizen</th>
+                <td>{{ data.bezoeken }}</td>
+            </tr>
+            <tr>
+                <th>Aantal schorsingen</th>
+                <td>{{ data.schorsingen }}</td>
+            </tr>
+        </table>
+        <h4>Faciliteiten van inloophuizen</h4>
+        <table class="table">
+            <tr>
+                <th>Faciliteit</th>
+                <th>Aantal</th>
+            </tr>
+            <tr>
+                <td>Maaltijd</td>
+                <td>{{ data.maaltijd }}</td>
+            </tr>
+            <tr>
+                <td>Kleding</td>
+                <td>{{ data.kleding }}</td>
+            </tr>
+            <tr>
+                <td>Douche</td>
+                <td>{{ data.douche }}</td>
+            </tr>
+            <tr>
+                <td>Activering</td>
+                <td>{{ data.activering }}</td>
+            </tr>
+        </table>
+        <h4>Bezoeken aan inloophuizen</h4>
+        <table class="table">
+            <tr>
+                <th>Locatie</th>
+                <th>Aantal</th>
+            </tr>
+            {% for row in data.bezoekenPerLocatie %}
+                <tr>
+                    <td>{{ row.locatienaam }}</td>
+                    <td>{{ row.aantal }}</td>
+                </tr>
+            {% endfor %}
+        </table>
+        <p>
+            Laatste bezoek aan inloophuis:
+            {{ klant.laatsteRegistratie.binnen|date('d-m-Y') }}
+            ({{ klant.laatsteRegistratie.locatie }})
+        </p>
+    {% endif %}
+{% endblock %}

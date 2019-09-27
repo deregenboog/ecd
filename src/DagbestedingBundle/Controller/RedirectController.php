@@ -2,8 +2,8 @@
 
 namespace DagbestedingBundle\Controller;
 
-use Symfony\Component\Routing\Annotation\Route;
 use AppBundle\Controller\SymfonyController;
+use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * @Route
@@ -15,10 +15,10 @@ class RedirectController extends SymfonyController
      */
     public function indexAction()
     {
-        if (!array_key_exists(GROUP_DAGBESTEDING, $this->userGroups)) {
+        if (!$this->isGranted('ROLE_DAGBESTEDING')) {
             return $this->redirectToRoute('dagbesteding_trajecten_index');
         }
 
-        return $this->redirectToRoute('dagbesteding_deelnemers_index');
+        return $this->redirectToRoute('dagbesteding_dashboard_index');
     }
 }

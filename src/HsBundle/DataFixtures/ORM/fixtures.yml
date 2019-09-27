@@ -52,15 +52,15 @@ HsBundle\Entity\Klus:
         addDienstverlener: ['@hs_dienstverlener_*']
         addVrijwilliger: ['@hs_vrijwilliger_*']
 
-HsBundle\Entity\Registratie:
-    hs_registratie_{1..50}:
-        __construct: ['@hs_klus_*']
-        activiteit: '@hs_activiteit_*'
-        medewerker: '@medewerker_*'
-        datum: '<dateTimeThisYear()>'
-        start: '10:00'
-        eind: '13:00'
-
+#HsBundle\Entity\Registratie:
+#    hs_registratie_{1..50}:
+#        __construct: ['@hs_klus_*']
+#        activiteit: '@hs_activiteit_*'
+#        medewerker: '@medewerker_*'
+#        datum: '<dateTimeThisYear()>'
+#        start: '<dateTimeThisYear()>'
+#        eind: '<dateTimeThisYear()>'
+#
 #HsBundle\Entity\Declaratie:
 #    hs_declaratie_{1..200}:
 #        __construct: ['@medewerker_*']

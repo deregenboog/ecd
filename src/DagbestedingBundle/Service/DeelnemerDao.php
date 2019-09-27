@@ -2,9 +2,9 @@
 
 namespace DagbestedingBundle\Service;
 
+use AppBundle\Filter\FilterInterface;
 use AppBundle\Service\AbstractDao;
 use DagbestedingBundle\Entity\Deelnemer;
-use AppBundle\Filter\FilterInterface;
 use Doctrine\ORM\QueryBuilder;
 
 class DeelnemerDao extends AbstractDao implements DeelnemerDaoInterface
@@ -18,6 +18,7 @@ class DeelnemerDao extends AbstractDao implements DeelnemerDaoInterface
             'werkgebied.naam',
             'deelnemer.aanmelddatum',
             'deelnemer.afsluitdatum',
+            'medewerker.voornaam',
         ],
     ];
 
@@ -29,6 +30,7 @@ class DeelnemerDao extends AbstractDao implements DeelnemerDaoInterface
     {
         $builder = $this->repository->createQueryBuilder($this->alias)
             ->innerJoin('deelnemer.klant', 'klant')
+            ->leftJoin('deelnemer.medewerker', 'medewerker')
             ->leftJoin('klant.werkgebied', 'werkgebied')
         ;
 

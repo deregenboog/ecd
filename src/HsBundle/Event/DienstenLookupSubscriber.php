@@ -2,11 +2,12 @@
 
 namespace HsBundle\Event;
 
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-use AppBundle\Event\Events;
 use AppBundle\Event\DienstenLookupEvent;
-use HsBundle\Service\DienstverlenerDaoInterface;
+use AppBundle\Event\Events;
+use AppBundle\Model\Dienst;
 use HsBundle\Entity\Dienstverlener;
+use HsBundle\Service\DienstverlenerDaoInterface;
+use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class DienstenLookupSubscriber implements EventSubscriberInterface
@@ -41,14 +42,16 @@ class DienstenLookupSubscriber implements EventSubscriberInterface
         $dienstverlener = $this->dienstverlenerDao->findOneByKlant($event->getKlant());
 
         if ($dienstverlener instanceof Dienstverlener) {
-            $event->addDienst([
-                'name' => 'Homeservice',
-                'url' => $this->generator->generate('hs_dienstverleners_view', ['id' => $dienstverlener->getId()]),
-                'from' => $dienstverlener->getInschrijving() ? $dienstverlener->getInschrijving()->format('Y-m-d') : null,
-                'to' => null,
-                'type' => 'date',
-                'value' => '',
-            ]);
+            $dienst = new Dienst(
+                'Homeservice',
+                $this->generator->generate('hs_dienstverleners_view', ['id' => $dienstverlener->getId()])
+            );
+
+            if ($dienstverlener->getInschrijving()) {
+                $dienst->setVan($dienstverlener->getInschrijving());
+            }
+
+            $event->addDienst($dienst);
         }
     }
 }

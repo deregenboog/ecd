@@ -3,15 +3,17 @@
 namespace OekBundle\Controller;
 
 use AppBundle\Controller\SymfonyController;
-use OekBundle\Entity\Groep;
 use AppBundle\Form\ConfirmationType;
-use OekBundle\Form\LidmaatschapType;
-use OekBundle\Entity\Lidmaatschap;
 use OekBundle\Entity\Deelnemer;
+use OekBundle\Entity\Groep;
+use OekBundle\Entity\Lidmaatschap;
+use OekBundle\Form\LidmaatschapType;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * @Route("/lidmaatschappen")
+ * @Template
  */
 class LidmaatschappenController extends SymfonyController
 {

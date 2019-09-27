@@ -1,0 +1,15 @@
+{% extends '::base.html.twig' %}
+{% import '::html.macro.twig' as html %}
+
+{% block _title %}
+    Geen toegang
+{% endblock %}
+
+{% block content %}
+    <h1>Geen toegang</h1>
+    <p>
+        Neem contact op met {{ administrator_name }}
+        (<a href="mailto:{{ administrator_email }}?subject=ECD%20foutmelding">{{ administrator_email }}</a>)
+        als je denkt dat je wel toegang tot deze pagina zou moeten hebben.
+    </p>
+{% endblock %}

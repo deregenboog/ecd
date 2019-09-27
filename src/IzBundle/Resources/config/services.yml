@@ -46,3 +46,14 @@ services:
         class: IzBundle\Form\IzRapportageType
         tags:
             - { name: form.type }
+
+    IzBundle\Twig\IzExtension:
+        public: false
+        tags:
+            - { name: twig.extension }
+
+    IzBundle\Event\IntakeEventSubscriber:
+        arguments:
+            - '@event_dispatcher'
+        tags:
+            - { name: doctrine.event_subscriber }

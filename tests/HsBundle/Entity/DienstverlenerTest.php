@@ -3,23 +3,24 @@
 namespace Tests\HsBundle\Entity;
 
 use AppBundle\Entity\Klant as AppKlant;
+use AppBundle\Entity\Medewerker;
 use HsBundle\Entity\Dienstverlener;
 use HsBundle\Entity\Document;
-use HsBundle\Entity\Memo;
-use HsBundle\Entity\Klus;
 use HsBundle\Entity\Klant;
-use AppBundle\Entity\Medewerker;
+use HsBundle\Entity\Klus;
+use HsBundle\Entity\Memo;
 use HsBundle\Entity\Registratie;
+use PHPUnit\Framework\TestCase;
 
-class DienstverlenerTest extends \PHPUnit_Framework_TestCase
+class DienstverlenerTest extends TestCase
 {
     public function testToString()
     {
-        $appKlant = $this->createMock(AppKlant::class);
-        $appKlant->method('__toString')->willReturn('Piet Jansen');
+        $appKlant = new AppKlant();
+        $appKlant->setVoornaam('Piet')->setAchternaam('Jansen');
 
         $dienstverlener = new Dienstverlener($appKlant);
-        $this->assertEquals('Piet Jansen', (string) $dienstverlener);
+        $this->assertEquals('Jansen, Piet', (string) $dienstverlener);
     }
 
     public function testIsDeletable()

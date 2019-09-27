@@ -16,9 +16,8 @@ class AppDateRangeModel
 
     public function __construct(\DateTime $start = null, \DateTime $end = null)
     {
-        $this->start = $start;
-        $this->end = $end;
-        $this->validate();
+        $this->setStart($start);
+        $this->setEnd($end);
     }
 
     public function hasData()

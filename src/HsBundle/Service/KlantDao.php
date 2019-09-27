@@ -2,11 +2,9 @@
 
 namespace HsBundle\Service;
 
-use HsBundle\Entity\Klant;
-use AppBundle\Service\AbstractDao;
 use AppBundle\Filter\FilterInterface;
-use AppBundle\Form\Model\AppDateRangeModel;
-use Doctrine\ORM\NoResultException;
+use AppBundle\Service\AbstractDao;
+use HsBundle\Entity\Klant;
 
 class KlantDao extends AbstractDao implements KlantDaoInterface
 {
@@ -110,12 +108,57 @@ class KlantDao extends AbstractDao implements KlantDaoInterface
     /**
      * {inheritdoc}.
      */
+    public function countByGgwGebied(\DateTime $start = null, \DateTime $end = null)
+    {
+        $builder = $this->repository->createQueryBuilder('klant')
+            ->select('COUNT(DISTINCT(klant.id)) AS aantal, postcodegebied.naam AS ggwgebied')
+            ->innerJoin('klant.klussen', 'klus')
+            ->leftJoin('klant.postcodegebied', 'postcodegebied')
+            ->groupBy('postcodegebied')
+        ;
+
+        if ($start) {
+            $builder->andWhere('klus.startdatum >= :start')->setParameter('start', $start);
+        }
+
+        if ($end) {
+            $builder->andWhere('klus.startdatum <= :end')->setParameter('end', $end);
+        }
+
+        return $builder->getQuery()->getResult();
+    }
+
+    /**
+     * {inheritdoc}.
+     */
     public function countNewByStadsdeel(\DateTime $start = null, \DateTime $end = null)
     {
         $builder = $this->repository->createQueryBuilder('klant')
             ->select('COUNT(DISTINCT(klant.id)) AS aantal, werkgebied.naam AS stadsdeel')
             ->leftJoin('klant.werkgebied', 'werkgebied')
             ->groupBy('stadsdeel')
+        ;
+
+        if ($start) {
+            $builder->andWhere('klant.inschrijving >= :start')->setParameter('start', $start);
+        }
+
+        if ($end) {
+            $builder->andWhere('klant.inschrijving <= :end')->setParameter('end', $end);
+        }
+
+        return $builder->getQuery()->getResult();
+    }
+
+    /**
+     * {inheritdoc}.
+     */
+    public function countNewByGgwGebied(\DateTime $start = null, \DateTime $end = null)
+    {
+        $builder = $this->repository->createQueryBuilder('klant')
+            ->select('COUNT(DISTINCT(klant.id)) AS aantal, postcodegebied.naam AS ggwgebied')
+            ->leftJoin('klant.postcodegebied', 'postcodegebied')
+            ->groupBy('postcodegebied')
         ;
 
         if ($start) {

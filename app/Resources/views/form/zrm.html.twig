@@ -1,0 +1,35 @@
+{% block zrm_widget %}
+    <table class="table table-hover">
+        <tr>
+            <th>&nbsp;</th>
+            {% for choice in (form.children|first).vars.choices %}
+                <th>{{ choice.label }}</th>
+            {% endfor %}
+        </tr>
+        {%- for child in form if child.vars.name not in ['requestModule', 'medewerker', 'submit'] %}
+            {{ form_row(child) }}
+        {%- endfor -%}
+    </table>
+    {%- for child in form %}
+        {{ form_row(child) }}
+    {%- endfor -%}
+{% endblock %}
+
+{% block zrm_item_row %}
+    <tr>
+        <th>{{ form_label(form) }}</th>
+        {%- for child in form %}
+            <td>
+                {{- form_widget(child, {
+                    label: false,
+                    parent_label_class: label_attr.class|default('')
+                }) -}}
+            </td>
+        {% endfor -%}
+    </tr>
+{% endblock %}
+
+{% block container_label -%}
+    <h2>{{ form.vars.label ? form.vars.label : form.vars.name|humanize }}</h2>
+    <div class="{{ block('form_label_class') }}"></div>
+{%- endblock %}

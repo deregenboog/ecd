@@ -3,8 +3,8 @@
 namespace ClipBundle\Report;
 
 use AppBundle\Report\AbstractReport;
-use ClipBundle\Service\VraagDaoInterface;
 use ClipBundle\Service\ContactmomentDaoInterface;
+use ClipBundle\Service\VraagDaoInterface;
 
 class VragenPerEtniciteit extends AbstractReport
 {

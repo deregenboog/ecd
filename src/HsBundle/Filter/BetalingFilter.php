@@ -3,9 +3,8 @@
 namespace HsBundle\Filter;
 
 use AppBundle\Filter\FilterInterface;
-use Doctrine\ORM\QueryBuilder;
-use HsBundle\Filter\KlantFilter;
 use AppBundle\Form\Model\AppDateRangeModel;
+use Doctrine\ORM\QueryBuilder;
 
 class BetalingFilter implements FilterInterface
 {

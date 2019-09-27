@@ -1,0 +1,48 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-xs-6">
+            <h2>Persoonsgegevens</h2>
+            {{ form_row(form.voornaam) }}
+            {{ form_row(form.tussenvoegsel) }}
+            {{ form_row(form.achternaam) }}
+            {{ form_row(form.roepnaam) }}
+            {{ form_row(form.geslacht) }}
+            {{ form_row(form.geboortedatum) }}
+            {{ form_row(form.land) }}
+            {{ form_row(form.nationaliteit) }}
+            {{ form_row(form.bsn) }}
+        </div>
+        <div class="col-xs-6">
+            <h2>Contactgegevens</h2>
+            {{ form_row(form.adres) }}
+            {{ form_row(form.postcode) }}
+            {{ form_row(form.plaats) }}
+            {{ form_row(form.email) }}
+            {{ form_row(form.telefoon) }}
+            {{ form_row(form.mobiel) }}
+            {{ form_row(form.geenPost) }}
+            {{ form_row(form.geenEmail) }}
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-6">
+            <h2>Opmerking</h2>
+            {{ form_row(form.opmerking, {label: false}) }}
+        </div>
+        <div class="col-xs-6">
+            <h2>Medewerker</h2>
+            {{ form_row(form.medewerker, {label: false}) }}
+        </div>
+        <div class="col-xs-6">
+            <h2>Documenten</h2>
+            {{ form_row(form.vogAangevraagd) }}
+            {{ form.vog is defined ? form_row(form.vog) }}
+            {{ form.overeenkomst is defined ? form_row(form.overeenkomst) }}
+            {% if form.submit is defined %}
+                <span class="pull-right">
+                    {{ form_row(form.submit) }}
+                </span>
+            {% endif %}
+        </div>
+    </div>
+</div>

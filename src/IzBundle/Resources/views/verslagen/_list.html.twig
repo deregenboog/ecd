@@ -1,22 +1,48 @@
 <h2>Verslagen</h2>
 {% if form is defined and 'verslag' == form.vars.name %}
     <p>
-        {{ html.cancelLink(path('iz_klanten_view', {id: deelnemer.id, _fragment: 'verslagen'})) }}
-        {{ html.link('Annuleren', path('iz_klanten_view', {id: deelnemer.id, _fragment: 'verslagen'})) }}
+        {{ html.cancelLink(redirect_uri) }}
+        {{ html.link('Annuleren', redirect_uri~'#verslagen') }}
     </p>
     {{ form(form) }}
 {% else %}
+    {% if hulpvraag is defined %}
+        {% set verslagen = entity.verslagen(false) %}
+        {% set add_url = path('iz_verslagen_add', {hulpvraag: hulpvraag.id}) %}
+    {% elseif hulpaanbod is defined %}
+        {% set verslagen = entity.verslagen(false) %}
+        {% set add_url = path('iz_verslagen_add', {hulpaanbod: hulpaanbod.id}) %}
+    {% elseif koppeling is defined %}
+        {% set verslagen = entity.verslagen %}
+        {% set add_url = path('iz_verslagen_add', {koppeling: koppeling.id}) %}
+    {% elseif deelnemer is defined %}
+        {% set verslagen = entity.verslagen %}
+        {% set add_url = path('iz_verslagen_add', {deelnemer: deelnemer.id}) %}
+    {% endif %}
     <p>
-        {{ html.addLink(path('iz_verslagen_add', {deelnemer: deelnemer.id})) }}
-        {{ html.link('Verslag toevoegen', path('iz_verslagen_add', {deelnemer: deelnemer.id})) }}
+        {{ html.link('Verslag toevoegen', add_url, 'add') }}
+        {% if koppeling is defined %}
+            {% if koppeling.tussenevaluatie %}
+                {{ html.link('Tussenevaluatie bekijken', '#verslag-'~koppeling.tussenevaluatie.id, 'view') }}
+            {% else %}
+                {{ html.link('Tussenevaluatie toevoegen', path('iz_tussenevaluaties_add', {koppeling: koppeling.id}), 'add') }}
+            {% endif %}
+            {% if koppeling.eindevaluatie %}
+                {{ html.link('Eindevaluatie bekijken', '#verslag-'~koppeling.eindevaluatie.id, 'view') }}
+            {% else %}
+                {{ html.link('Eindevaluatie toevoegen', path('iz_eindevaluaties_add', {koppeling: koppeling.id}), 'add') }}
+            {% endif %}
+        {% endif %}
     </p>
-    {% for verslag in entity.verslagen %}
-        <h3>{{ verslag.created|date('d-m-Y - H:i')~' uur' }}</h3>
-        <dl class="dl-horizontal">
-            <dt>Medewerker</dt>
-            <dd>{{ verslag.medewerker }}</dd>
-            <dt>Verslag</dt>
-            <dd>{{ verslag.opmerking|nl2br }}</dd>
-        </dl>
+    {% for verslag in verslagen %}
+        <h3 id="verslag-{{ verslag.id }}">
+            {{ class(verslag, false) }} {{ verslag.created|date('d-m-Y - H:i')~' uur' }} | {{ verslag.medewerker }}
+        </h3>
+        <p>
+            {% set edit_url = path('iz_verslagen_edit', {id: verslag.id}) %}
+            {{ html.editLink(edit_url) }}
+            {{ html.link('Verslag bewerken', edit_url) }}
+        </p>
+        <div class="well">{{ verslag.opmerking|nl2br }}</div>
     {% endfor %}
 {% endif %}

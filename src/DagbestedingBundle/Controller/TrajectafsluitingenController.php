@@ -2,12 +2,13 @@
 
 namespace DagbestedingBundle\Controller;
 
-use JMS\DiExtraBundle\Annotation as DI;
-use Symfony\Component\Routing\Annotation\Route;
-use DagbestedingBundle\Service\TrajectafsluitingDaoInterface;
-use DagbestedingBundle\Entity\Trajectafsluiting;
 use AppBundle\Controller\AbstractController;
+use DagbestedingBundle\Entity\Trajectafsluiting;
 use DagbestedingBundle\Form\TrajectafsluitingType;
+use DagbestedingBundle\Service\TrajectafsluitingDaoInterface;
+use JMS\DiExtraBundle\Annotation as DI;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * @Route("/admin/trajectafsluitingen")
@@ -24,14 +25,14 @@ class TrajectafsluitingenController extends AbstractController
     /**
      * @var TrajectafsluitingDaoInterface
      *
-     * @DI\Inject("dagbesteding.dao.trajectafsluiting")
+     * @DI\Inject("DagbestedingBundle\Service\TrajectafsluitingDao")
      */
     protected $dao;
 
     /**
      * @Route("/{id}/view")
      */
-    public function viewAction($id)
+    public function viewAction(Request $request, $id)
     {
         return $this->redirectToIndex();
     }

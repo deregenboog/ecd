@@ -1,6 +1,24 @@
 services:
+    MwBundle\Service\DocumentDao:
+        parent: app.dao.abstract
+    
+    MwBundle\Service\DoorverwijzingDao:
+        parent: app.dao.abstract
+    
     MwBundle\Service\InventarisatieDao:
         parent: app.dao.abstract
 
     MwBundle\Service\KlantDao:
         parent: app.dao.abstract
+
+    MwBundle\Service\TrajecthouderDao:
+        parent: app.dao.abstract
+    
+    MwBundle\Service\VerslagDao:
+        parent: app.dao.abstract
+
+    mw.document.entities:
+        class: ArrayObject
+        arguments:
+            -
+              - { key: klant, dao: '@MwBundle\Service\KlantDao' }

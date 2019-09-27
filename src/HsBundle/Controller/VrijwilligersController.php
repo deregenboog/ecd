@@ -2,21 +2,23 @@
 
 namespace HsBundle\Controller;
 
+use AppBundle\Controller\AbstractController;
 use AppBundle\Entity\Vrijwilliger as AppVrijwilliger;
+use AppBundle\Export\ExportInterface;
 use AppBundle\Form\VrijwilligerFilterType as AppVrijwilligerFilterType;
 use HsBundle\Entity\Vrijwilliger;
 use HsBundle\Form\VrijwilligerFilterType;
 use HsBundle\Form\VrijwilligerType;
 use HsBundle\Service\VrijwilligerDaoInterface;
 use JMS\DiExtraBundle\Annotation as DI;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
-use AppBundle\Controller\AbstractController;
-use AppBundle\Export\ExportInterface;
-use Symfony\Component\Form\FormError;
 
 /**
  * @Route("/vrijwilligers")
+ * @Template
  */
 class VrijwilligersController extends AbstractController
 {
@@ -30,7 +32,7 @@ class VrijwilligersController extends AbstractController
     /**
      * @var VrijwilligerDaoInterface
      *
-     * @DI\Inject("hs.dao.vrijwilliger")
+     * @DI\Inject("HsBundle\Service\VrijwilligerDao")
      */
     protected $dao;
 
@@ -77,6 +79,10 @@ class VrijwilligersController extends AbstractController
 
             if ($count > 100) {
                 $filterForm->addError(new FormError('De zoekopdracht leverde teveel resultaten op. Probeer het opnieuw met een specifiekere zoekopdracht.'));
+
+                return [
+                    'filterForm' => $filterForm->createView(),
+                ];
             }
 
             return [

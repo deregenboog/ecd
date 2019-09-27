@@ -2,9 +2,9 @@
 
 namespace OekBundle\Entity;
 
+use AppBundle\Model\InitialStateInterface;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
-use AppBundle\Model\InitialStateInterface;
 
 /**
  * @ORM\Entity

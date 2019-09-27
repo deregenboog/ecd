@@ -1,6 +1,5 @@
 services:
-    mw.form.rapportage:
-        class: MwBundle\Form\RapportageType
+    MwBundle\Form\RapportageType:
         tags:
             - { name: form.type }
 
@@ -9,3 +8,16 @@ services:
             - '@MwBundle\Service\InventarisatieDao'
         tags:
             - { name: mw.rapportage, category: Inventarisaties }
+
+    MwBundle\Report\RepatrieringenPerLand:
+        arguments:
+            - "@doctrine.orm.entity_manager"
+        tags:
+            - { name: mw.rapportage, category: Repatriëring }
+
+    MwBundle\Report\RepatrieringenPerKlant:
+        arguments:
+            - "@doctrine.orm.entity_manager"
+            - "%kernel.root_dir%/config/repatrieringen_per_klant.sql"
+        tags:
+            - { name: mw.rapportage, category: Repatriëring }

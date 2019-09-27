@@ -2,17 +2,17 @@
 
 namespace InloopBundle\Command;
 
+use AppBundle\Entity\Klant;
+use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\NonUniqueResultException;
+use Doctrine\ORM\NoResultException;
+use InloopBundle\Entity\Afsluiting;
+use InloopBundle\Entity\RedenAfsluiting;
+use InloopBundle\Entity\Registratie;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Doctrine\ORM\EntityManager;
-use AppBundle\Entity\Klant;
-use InloopBundle\Entity\Registratie;
-use InloopBundle\Entity\Afsluiting;
-use InloopBundle\Entity\RedenAfsluiting;
-use Doctrine\ORM\NonUniqueResultException;
-use Doctrine\ORM\NoResultException;
 
 class AutoCloseCommand extends ContainerAwareCommand
 {
@@ -26,7 +26,7 @@ class AutoCloseCommand extends ContainerAwareCommand
     {
         $this
             ->setName('inloop:automatisch-afsluiten')
-            ->setHelp(sprintf('Sluit inloop-dossiers automatisch af als er %d jaar geen inloophuis bezocht is.', $this->years))
+            ->setHelp(sprintf('Sluit inloopdossiers automatisch af als er %d jaar geen inloophuis bezocht is.', $this->years))
             ->addArgument('batch-size', InputArgument::OPTIONAL, 'Batch size', 100)
             ->addOption('dry-run')
         ;

@@ -3,16 +3,16 @@
 namespace InloopBundle\Entity;
 
 use AppBundle\Entity\Vrijwilliger as AppVrijwilliger;
+use AppBundle\Model\DocumentSubjectInterface;
+use AppBundle\Model\DocumentSubjectTrait;
+use AppBundle\Model\IdentifiableTrait;
+use AppBundle\Model\MemoSubjectInterface;
+use AppBundle\Model\MemoSubjectTrait;
+use AppBundle\Model\RequiredMedewerkerTrait;
+use AppBundle\Model\TimestampableTrait;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
-use AppBundle\Model\IdentifiableTrait;
-use AppBundle\Model\MemoSubjectTrait;
-use AppBundle\Model\DocumentSubjectTrait;
-use AppBundle\Model\MemoSubjectInterface;
-use AppBundle\Model\DocumentSubjectInterface;
-use AppBundle\Model\TimestampableTrait;
-use AppBundle\Model\RequiredMedewerkerTrait;
 
 /**
  * @ORM\Entity
@@ -54,6 +54,20 @@ class Vrijwilliger implements MemoSubjectInterface, DocumentSubjectInterface
      * @ORM\Column(type="date")
      */
     protected $aanmelddatum;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(type="date", nullable=true)
+     */
+    protected $afsluitdatum;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\ManyToOne(targetEntity="Afsluitreden")
+     */
+    protected $afsluitreden;
 
     public function __construct(AppVrijwilliger $vrijwilliger = null)
     {
@@ -102,6 +116,30 @@ class Vrijwilliger implements MemoSubjectInterface, DocumentSubjectInterface
         return $this;
     }
 
+    public function getAfsluitdatum()
+    {
+        return $this->afsluitdatum;
+    }
+
+    public function setAfsluitdatum(\DateTime $afsluitdatum)
+    {
+        $this->afsluitdatum = $afsluitdatum;
+
+        return $this;
+    }
+
+    public function getAfsluitreden()
+    {
+        return $this->afsluitreden;
+    }
+
+    public function setAfsluitreden(Afsluitreden $afsluitreden)
+    {
+        $this->afsluitreden = $afsluitreden;
+
+        return $this;
+    }
+
     public function getBinnenVia()
     {
         return $this->binnenVia;
@@ -131,5 +169,10 @@ class Vrijwilliger implements MemoSubjectInterface, DocumentSubjectInterface
         $this->locaties->removeElement($locatie);
 
         return $this;
+    }
+
+    public function isActief()
+    {
+        return null === $this->afsluitdatum || $this->afsluitdatum > new \DateTime('today');
     }
 }

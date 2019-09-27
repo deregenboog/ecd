@@ -2,10 +2,11 @@
 
 namespace HsBundle\Service;
 
-use HsBundle\Entity\Registratie;
-use AppBundle\Service\AbstractDao;
 use AppBundle\Filter\FilterInterface;
+use AppBundle\Service\AbstractDao;
+use Doctrine\DBAL\Exception\DriverException;
 use HsBundle\Entity\Dienstverlener;
+use HsBundle\Entity\Registratie;
 use HsBundle\Entity\Vrijwilliger;
 
 class RegistratieDao extends AbstractDao implements RegistratieDaoInterface
@@ -34,6 +35,7 @@ class RegistratieDao extends AbstractDao implements RegistratieDaoInterface
     public function findAll($page = null, FilterInterface $filter = null)
     {
         $builder = $this->repository->createQueryBuilder($this->alias)
+            ->select($this->alias.', klus, klant, werkgebied')
             ->innerJoin($this->alias.'.klus', 'klus')
             ->innerJoin('klus.klant', 'klant')
             ->leftJoin('klant.werkgebied', 'werkgebied')
@@ -69,6 +71,9 @@ class RegistratieDao extends AbstractDao implements RegistratieDaoInterface
      */
     public function update(Registratie $entity)
     {
+        if ($entity->getFactuur()) {
+            $entity->getFactuur()->calculateBedrag();
+        }
         $this->doUpdate($entity);
     }
 
@@ -102,7 +107,42 @@ class RegistratieDao extends AbstractDao implements RegistratieDaoInterface
             $builder->andWhere('registratie.datum <= :end')->setParameter('end', $end);
         }
 
-        return $builder->getQuery()->getResult();
+        // Contains MySQL-specific functions, so execute in try-catch-block.
+        try {
+            return $builder->getQuery()->getResult();
+        } catch (DriverException $e) {
+            return [];
+        }
+    }
+
+    /**
+     * {inheritdoc}.
+     */
+    public function countUrenByGgwGebied(\DateTime $start = null, \DateTime $end = null)
+    {
+        $builder = $this->repository->createQueryBuilder('registratie')
+            ->select('SUM(time_to_sec(time_diff(registratie.eind, registratie.start))/3600) AS aantal')
+            ->addSelect('postcodegebied.naam AS groep')
+            ->innerJoin('registratie.klus', 'klus')
+            ->leftJoin('klus.klant', 'klant')
+            ->leftJoin('klant.postcodegebied', 'postcodegebied')
+            ->groupBy('groep')
+        ;
+
+        if ($start) {
+            $builder->andWhere('registratie.datum >= :start')->setParameter('start', $start);
+        }
+
+        if ($end) {
+            $builder->andWhere('registratie.datum <= :end')->setParameter('end', $end);
+        }
+
+        // Contains MySQL-specific functions, so execute in try-catch-block.
+        try {
+            return $builder->getQuery()->getResult();
+        } catch (DriverException $e) {
+            return [];
+        }
     }
 
     /**
@@ -126,7 +166,12 @@ class RegistratieDao extends AbstractDao implements RegistratieDaoInterface
             $builder->andWhere('registratie.datum <= :end')->setParameter('end', $end);
         }
 
-        return $builder->getQuery()->getResult();
+        // Contains MySQL-specific functions, so execute in try-catch-block.
+        try {
+            return $builder->getQuery()->getResult();
+        } catch (DriverException $e) {
+            return [];
+        }
     }
 
     /**
@@ -152,7 +197,12 @@ class RegistratieDao extends AbstractDao implements RegistratieDaoInterface
             $builder->andWhere('registratie.datum <= :end')->setParameter('end', $end);
         }
 
-        return $builder->getQuery()->getResult();
+        // Contains MySQL-specific functions, so execute in try-catch-block.
+        try {
+            return $builder->getQuery()->getResult();
+        } catch (DriverException $e) {
+            return [];
+        }
     }
 
     /**
@@ -162,7 +212,7 @@ class RegistratieDao extends AbstractDao implements RegistratieDaoInterface
     {
         $builder = $this->repository->createQueryBuilder('registratie')
             ->select('SUM(time_to_sec(time_diff(registratie.eind, registratie.start))/3600) AS aantal')
-            ->addSelect("activiteit.naam AS groep")
+            ->addSelect('activiteit.naam AS groep')
             ->innerJoin('registratie.activiteit', 'activiteit')
             ->groupBy('groep')
         ;
@@ -175,7 +225,12 @@ class RegistratieDao extends AbstractDao implements RegistratieDaoInterface
             $builder->andWhere('registratie.datum <= :end')->setParameter('end', $end);
         }
 
-        return $builder->getQuery()->getResult();
+        // Contains MySQL-specific functions, so execute in try-catch-block.
+        try {
+            return $builder->getQuery()->getResult();
+        } catch (DriverException $e) {
+            return [];
+        }
     }
 
     /**
@@ -200,7 +255,12 @@ class RegistratieDao extends AbstractDao implements RegistratieDaoInterface
             $builder->andWhere('registratie.datum <= :end')->setParameter('end', $end);
         }
 
-        return $builder->getQuery()->getResult();
+        // Contains MySQL-specific functions, so execute in try-catch-block.
+        try {
+            return $builder->getQuery()->getResult();
+        } catch (DriverException $e) {
+            return [];
+        }
     }
 
     /**
@@ -225,6 +285,11 @@ class RegistratieDao extends AbstractDao implements RegistratieDaoInterface
             $builder->andWhere('registratie.datum <= :end')->setParameter('end', $end);
         }
 
-        return $builder->getQuery()->getResult();
+        // Contains MySQL-specific functions, so execute in try-catch-block.
+        try {
+            return $builder->getQuery()->getResult();
+        } catch (DriverException $e) {
+            return [];
+        }
     }
 }

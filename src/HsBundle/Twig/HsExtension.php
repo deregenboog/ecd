@@ -4,7 +4,7 @@ namespace HsBundle\Twig;
 
 use HsBundle\Entity\Klus;
 
-class HsExtension extends \Twig_Extension implements \Twig_Extension_GlobalsInterface
+class HsExtension extends \Twig_Extension
 {
     public function getFilters()
     {
@@ -26,6 +26,9 @@ class HsExtension extends \Twig_Extension implements \Twig_Extension_GlobalsInte
                 $color = 'orange';
                 break;
             case Klus::STATUS_AFGEROND:
+                $color = 'gray';
+                break;
+            case Klus::STATUS_GEANNULEERD:
                 $color = 'red';
                 break;
             default:
@@ -33,5 +36,17 @@ class HsExtension extends \Twig_Extension implements \Twig_Extension_GlobalsInte
         }
 
         return sprintf('<span style="color: %s;">%s</span>', $color, $value);
+    }
+
+    public function getTests()
+    {
+        return array (
+          new \Twig_SimpleTest("instanceof",array($this,"isInstanceOf")),
+        );
+    }
+
+    public function isInstanceOf($var,$instance) {
+        $reflectionClass = new \ReflectionClass($instance);
+        return $reflectionClass->isInstance($var);
     }
 }

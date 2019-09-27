@@ -2,8 +2,8 @@
 
 namespace IzBundle\Service;
 
-use IzBundle\Entity\Doelgroep;
 use AppBundle\Service\AbstractDao;
+use IzBundle\Entity\Doelgroep;
 
 class DoelgroepDao extends AbstractDao implements DoelgroepDaoInterface
 {

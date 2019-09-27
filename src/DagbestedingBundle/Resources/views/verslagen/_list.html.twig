@@ -1,15 +1,16 @@
 <h2>Verslagen</h2>
 <p>
     {% if deelnemer is defined %}
-        {% set url = path('dagbesteding_verslagen_add', {deelnemer: deelnemer.id, redirect: app.request.get('url')}) %}
+        {% set url = path('dagbesteding_verslagen_add', {deelnemer: deelnemer.id}) %}
     {% elseif traject is defined %}
-        {% set url = path('dagbesteding_verslagen_add', {traject: traject.id, redirect: app.request.get('url')}) %}
+        {% set url = path('dagbesteding_verslagen_add', {traject: traject.id}) %}
     {% endif %}
     {% if url is defined %}
         {{ html.addLink(url) }}
         {{ html.link('Verslag toevoegen', url) }}
     {% endif %}
 </p>
+<h3>Verslagen deelnemer</h3>
 <table class="table">
     {% for verslag in entity.verslagen %}
         <tr>
@@ -17,12 +18,15 @@
             <td>{{ verslag.medewerker }}</td>
             <td>{{ verslag.opmerking|nl2br }}</td>
             <td>
-                {{ html.editLink(path('dagbesteding_verslagen_edit', {id: verslag.id, redirect: app.request.get('url')})) }}
-                {{ html.deleteLink(path('dagbesteding_verslagen_delete', {id: verslag.id, redirect: app.request.get('url')})) }}
+                {{ html.editLink(path('dagbesteding_verslagen_edit', {id: verslag.id})) }}
+                {{ html.deleteLink(path('dagbesteding_verslagen_delete', {id: verslag.id})) }}
             </td>
         </tr>
     {% endfor %}
-    {% if deelnemer is defined %}
+</table>
+{% if deelnemer is defined %}
+    <h3>Verslagen trajecten</h3>
+    <table class="table">
         {% for traject in entity.trajecten %}
             {% for verslag in traject.verslagen %}
                 <tr>
@@ -30,11 +34,11 @@
                     <td>{{ verslag.medewerker }}</td>
                     <td>{{ verslag.opmerking|nl2br }}</td>
                     <td>
-                        {{ html.editLink(path('dagbesteding_verslagen_edit', {id: verslag.id, redirect: app.request.get('url')})) }}
-                        {{ html.deleteLink(path('dagbesteding_verslagen_delete', {id: verslag.id, redirect: app.request.get('url')})) }}
+                        {{ html.editLink(path('dagbesteding_verslagen_edit', {id: verslag.id})) }}
+                        {{ html.deleteLink(path('dagbesteding_verslagen_delete', {id: verslag.id})) }}
                     </td>
                 </tr>
             {% endfor %}
         {% endfor %}
-    {% endif %}
-</table>
+    </table>
+{% endif %}

@@ -1,119 +1,98 @@
 services:
-    hs.dao:
-        abstract: true
-        arguments:
-            - '@doctrine.orm.entity_manager'
-            - '@knp_paginator'
-            - '%pagination.items_per_page%'
+    HsBundle\Service\ActiviteitDao:
+        parent: app.dao.abstract
 
-    hs.dao.activiteit:
-        parent: hs.dao
-        class: HsBundle\Service\ActiviteitDao
+    HsBundle\Service\ArbeiderDao:
+        parent: app.dao.abstract
 
-    hs.dao.arbeider:
-        parent: hs.dao
-        class: HsBundle\Service\ArbeiderDao
+    HsBundle\Service\BetalingDao:
+        parent: app.dao.abstract
 
-    hs.dao.betaling:
-        parent: hs.dao
-        class: HsBundle\Service\BetalingDao
+    HsBundle\Service\DeclaratieCategorieDao:
+        parent: app.dao.abstract
 
-    hs.dao.declaratiecategorie:
-        parent: hs.dao
-        class: HsBundle\Service\DeclaratieCategorieDao
+    HsBundle\Service\DeclaratieDao:
+        parent: app.dao.abstract
 
-    hs.dao.declaratie:
-        parent: hs.dao
-        class: HsBundle\Service\DeclaratieDao
+    HsBundle\Service\DienstverlenerDao:
+        parent: app.dao.abstract
 
-    hs.dao.dienstverlener:
-        parent: hs.dao
-        class: HsBundle\Service\DienstverlenerDao
+    HsBundle\Service\DocumentDao:
+        parent: app.dao.abstract
 
-    hs.dao.document:
-        parent: hs.dao
-        class: HsBundle\Service\DocumentDao
+    HsBundle\Service\FactuurDao:
+        parent: app.dao.abstract
 
-    hs.dao.factuur:
-        parent: hs.dao
-        class: HsBundle\Service\FactuurDao
+    HsBundle\Service\HerinneringDao:
+        parent: app.dao.abstract
 
-    hs.dao.herinnering:
-        parent: hs.dao
-        class: HsBundle\Service\HerinneringDao
+    HsBundle\Service\KlantDao:
+        parent: app.dao.abstract
 
-    hs.dao.klant:
-        parent: hs.dao
-        class: HsBundle\Service\KlantDao
+    HsBundle\Service\KlusDao:
+        parent: app.dao.abstract
 
-    hs.dao.klus:
-        parent: hs.dao
-        class: HsBundle\Service\KlusDao
+    HsBundle\Service\MemoDao:
+        parent: app.dao.abstract
 
-    hs.dao.memo:
-        parent: hs.dao
-        class: HsBundle\Service\MemoDao
+    HsBundle\Service\RegistratieDao:
+        parent: app.dao.abstract
 
-    hs.dao.registratie:
-        parent: hs.dao
-        class: HsBundle\Service\RegistratieDao
-
-    hs.dao.vrijwilliger:
-        parent: hs.dao
-        class: HsBundle\Service\VrijwilligerDao
+    HsBundle\Service\VrijwilligerDao:
+        parent: app.dao.abstract
 
     hs.betaling.entities:
         class: ArrayObject
         arguments:
             -
-              - { key: factuur, dao: '@hs.dao.factuur' }
+              - { key: factuur, dao: '@HsBundle\Service\FactuurDao' }
 
     hs.declaratie.entities:
         class: ArrayObject
         arguments:
             -
-              - { key: klus, dao: '@hs.dao.klus' }
+              - { key: klus, dao: '@HsBundle\Service\KlusDao' }
 
     hs.document.entities:
         class: ArrayObject
         arguments:
             -
-              - { key: dienstverlener, dao: '@hs.dao.dienstverlener' }
-              - { key: klant, dao: '@hs.dao.klant' }
-              - { key: vrijwilliger, dao: '@hs.dao.vrijwilliger' }
-              - { key: klus, dao: '@hs.dao.klus' }
+              - { key: dienstverlener, dao: '@HsBundle\Service\DienstverlenerDao' }
+              - { key: klant, dao: '@HsBundle\Service\KlantDao' }
+              - { key: vrijwilliger, dao: '@HsBundle\Service\VrijwilligerDao' }
+              - { key: klus, dao: '@HsBundle\Service\KlusDao' }
 
     hs.factuur.entities:
         class: ArrayObject
         arguments:
             -
-              - { key: klant, dao: '@hs.dao.klant' }
+              - { key: klant, dao: '@HsBundle\Service\KlantDao' }
 
     hs.herinnering.entities:
         class: ArrayObject
         arguments:
             -
-              - { key: factuur, dao: '@hs.dao.factuur' }
+              - { key: factuur, dao: '@HsBundle\Service\FactuurDao' }
 
     hs.klus.entities:
         class: ArrayObject
         arguments:
             -
               - { key: null }
-              - { key: klant, dao: '@hs.dao.klant' }
+              - { key: klant, dao: '@HsBundle\Service\KlantDao' }
 
     hs.memo.entities:
         class: ArrayObject
         arguments:
             -
-              - { key: dienstverlener, dao: '@hs.dao.dienstverlener' }
-              - { key: klant, dao: '@hs.dao.klant' }
-              - { key: klus, dao: '@hs.dao.klus' }
-              - { key: vrijwilliger, dao: '@hs.dao.vrijwilliger' }
+              - { key: dienstverlener, dao: '@HsBundle\Service\DienstverlenerDao' }
+              - { key: klant, dao: '@HsBundle\Service\KlantDao' }
+              - { key: klus, dao: '@HsBundle\Service\KlusDao' }
+              - { key: vrijwilliger, dao: '@HsBundle\Service\VrijwilligerDao' }
 
     hs.registratie.entities:
         class: ArrayObject
         arguments:
             -
-              - { key: arbeider, dao: '@hs.dao.arbeider' }
-              - { key: klus, dao: '@hs.dao.klus' }
+              - { key: arbeider, dao: '@HsBundle\Service\ArbeiderDao' }
+              - { key: klus, dao: '@HsBundle\Service\KlusDao' }

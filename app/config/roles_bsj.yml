@@ -1,0 +1,20 @@
+security:
+    role_hierarchy:
+        ROLE_USER:
+            - ROLE_MW
+            - CONTROLLER_APP_DASHBOARD
+            - CONTROLLER_ATTACHMENTS
+            - CONTROLLER_INLOOP_INTAKES
+            - CONTROLLER_APP_KLANTEN
+            - CONTROLLER_MEDEWERKERS
+            - CONTROLLER_INLOOP_OPMERKINGEN
+            - CONTROLLER_APP_RAPPORTAGES
+        ROLE_ADMIN:
+            - ROLE_USER
+            - CONTROLLER_ADMIN
+
+ldap_tools:
+    security:
+        roles:
+            ROLE_USER: "CN=ECD Bureau Straatjurist,CN=Users,DC=cluster,DC=deregenboog"
+            ROLE_ADMIN: "CN=ECD Bureau Straatjurist Beheer,CN=Users,DC=cluster,DC=deregenboog"

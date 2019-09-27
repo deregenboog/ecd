@@ -1,0 +1,9 @@
+buurtboerderij_annotations:
+    resource: "@BuurtboerderijBundle/Controller"
+    type: annotation
+
+buurtboerderij_index:
+    path: /
+    defaults:
+        _controller: FrameworkBundle:Redirect:redirect
+        route: buurtboerderij_vrijwilligers_index

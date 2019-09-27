@@ -1,0 +1,123 @@
+<h2>Algemeen</h2>
+<dl class="dl-horizontal">
+    <dt>Medewerker</dt>
+    <dd>{{ entity.medewerker }}</dd>
+    <dt>Datum intake</dt>
+    <dd>{{ entity.intakedatum|date('d-m-Y') }}</dd>
+</dl>
+<h2>Adresgegevens</h2>
+<dl class="dl-horizontal">
+    <dt>Adres</dt>
+    <dd>{{ entity.postadres }}</dd>
+    <dt>Postcode</dt>
+    <dd>{{ entity.postcode }}</dd>
+    <dt>Woonplaats</dt>
+    <dd>{{ entity.woonplaats }}</dd>
+    <dt>Telefoonnummer</dt>
+    <dd>{{ entity.telefoonnummer }}</dd>
+    <dt>In Nederland sinds</dt>
+    <dd>{{ entity.verblijfInNederlandSinds ? entity.verblijfInNederlandSinds|date('d-m-Y') }}</dd>
+    <dt>In Amsterdam sinds</dt>
+    <dd>{{ entity.verblijfInAmsterdamSinds ? entity.verblijfInAmsterdamSinds|date('d-m-Y') }}</dd>
+    <dt>Verblijfsstatus</dt>
+    <dd>{{ entity.Verblijfsstatus }}</dd>
+</dl>
+<h2>Locatiekeuze</h2>
+<dl class="dl-horizontal">
+    <dt>Intakelocatie</dt>
+    <dd>{{ entity.intakelocatie }}</dd>
+    <dt>Toegang inloophuis</dt>
+    <dd>{{ entity.toegangInloophuis ? 'Ja' : 'Nee' }}</dd>
+    <dt>Einddatum toegang AMOC</dt>
+    <dd>{{ entity.amocToegangTot|if_date('d-m-Y') }}</dd>
+    <dt>Startdatum toegang Zeeburg</dt>
+    <dd>{{ entity.ondroBongToegangVan|if_date('d-m-Y') }}</dd>
+    <dt>Startdatum toegang overigen</dt>
+    <dd>{{ entity.overigenToegangVan|if_date('d-m-Y') }}</dd>
+    <dt>Toegang gebruikersruimte</dt>
+    <dd>{{ entity.gebruikersruimte }}</dd>
+</dl>
+<h2>Legitimatie</h2>
+<dl class="dl-horizontal">
+    <dt>Legitimatie</dt>
+    <dd>{{ entity.legitimatie }}</dd>
+    <dt>Nummer</dt>
+    <dd>{{ entity.legitimatieNummer }}</dd>
+    <dt>Geldig tot</dt>
+    <dd>{{ entity.legitimatieGeldigTot ? entity.legitimatieGeldigTot|date('d-m-Y') }}</dd>
+</dl>
+{% if entity.primaireProblematiek %}
+    {% include 'InloopBundle:intakes:_verslaving_v1.html.twig' %}
+{% else %}
+    {% include 'InloopBundle:intakes:_verslaving_v2.html.twig' %}
+{% endif %}
+<h2>Inkomen</h2>
+<dl class="dl-horizontal">
+    <dt>Inkomen</dt>
+    <dd>
+        <ul>
+            {% for inkomen in entity.inkomens %}
+                <li>{{ inkomen }}</li>
+            {% endfor %}
+            {% if entity.inkomenOverig %}
+                <li>{{ entity.inkomenOverig }}</li>
+            {% endif %}
+        </ul>
+    </dd>
+</dl>
+<h2>Woonsituatie</h2>
+<dl class="dl-horizontal">
+    <dt>Woonsituatie</dt>
+    <dd>{{ entity.woonsituatie }}</dd>
+</dl>
+<h2>Overige hulpverlening</h2>
+<dl class="_dl-horizontal">
+    <dt>Contact met andere instanties?</dt>
+    <dd>
+        <ul>
+            {% for instantie in entity.instanties %}
+                <li>{{ instantie }}</li>
+            {% endfor %}
+        </ul>
+    </dd>
+    <dt>Opmerkingen van andere instanties?</dt>
+    <dd>{{ entity.opmerkingAndereInstanties }}</dd>
+    <dt>Relevante medische achtergrond</dt>
+    <dd>{{ entity.medischeAchtergrond }}</dd>
+</dl>
+<h2>Verwachtingen en plannen</h2>
+<dl>
+    <dt>Wat verwacht de client van het dienstaanbod?</dt>
+    <dd>{{ entity.verwachtingDienstaanbod }}</dd>
+    <dt>Wat zijn de toekomstplannen van de client?</dt>
+    <dd>{{ entity.toekomstplannen }}</dd>
+</dl>
+<h2>Indruk</h2>
+<dl>
+    <dt>Indruk van client</dt>
+    <dd>{{ entity.indruk }}</dd>
+    <dt>Behoort deze ciënt tot de doelgroep?</dt>
+    <dd>
+        {% if entity.doelgroep %}
+            Ja
+        {% elseif entity.infobaliedoelgroep %}
+            {{ entity.infobaliedoelgroep }}
+        {% else %}
+            Nee
+        {% endif %}
+    </dd>
+</dl>
+<h2>Ondersteuning</h2>
+<dl>
+    <dt>Zou je het leuk vinden om iedere week met iemand samen iets te ondernemen?</dt>
+    <dd>{{ entity.informeleZorg ? 'Ja' : 'Nee' }}</dd>
+    <dt>Zou je het leuk vinden om overdag iets te doen te hebben?</dt>
+    <dd>{{ entity.dagbesteding ? 'Ja' : 'Nee' }}</dd>
+    <dt>Zou je een plek in de buurt willen hebben waar je iedere dag koffie kan drinken en mensen kan ontmoeten?</dt>
+    <dd>{{ entity.inloophuis ? 'Ja' : 'Nee' }}</dd>
+    <dt>Heeft u hulp nodig met regelzaken?</dt>
+    <dd>{{ entity.hulpverlening ? 'Ja' : 'Nee' }}</dd>
+</dl>
+{% if entity.zrm %}
+    {% include 'AppBundle:zrms:_detail.html.twig' with {entity: entity.zrm} %}
+{% endif %}

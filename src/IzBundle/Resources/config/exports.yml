@@ -21,8 +21,8 @@ services:
                 Telefoon: { expression: 'entity.getKlant().getTelefoon()' }
                 Werkgebied: { expression: 'entity.getKlant().getWerkgebied()' }
                 Gezin met kinderen: { expression: 'entity.getIntake().isGezinMetKinderen() ? "ja" : "nee"', condition: 'entity.getIntake()' }
-                Geen post: { expression: 'entity.getKlant().getGeenPost() ? "ja" : "nee"' }
-                Geen e-mail: { expression: 'entity.getKlant().getGeenEmail() ? "ja" : "nee"' }
+                Postvoorkeur: { expression: 'entity.getKlant().getGeenPost() ? "Geen post" : "Wel post"' }
+                E-mailvoorkeur: { expression: 'entity.getKlant().getGeenEmail() ? "Geen e-mail" : "Wel e-mail"' }
                 Open hulpvragen: { expression: 'export.getProjectenOpenstaandeHulpvragen(entity)' }
                 Lopende koppelingen: { expression: 'export.getProjectenLopendeKoppelingen(entity)' }
                 Afgesloten koppelingen: { expression: 'export.getProjectenAfgeslotenKoppelingen(entity)' }
@@ -62,8 +62,8 @@ services:
                 Telefoon: { expression: 'entity.getVrijwilliger().getTelefoon()' }
                 Werkgebied: { expression: 'entity.getVrijwilliger().getWerkgebied()' }
                 Stagiair: { expression: 'entity.getIntake().isStagiair() ? "ja" : "nee"', condition: 'entity.getIntake()' }
-                Geen post: { expression: 'entity.getVrijwilliger().getGeenPost() ? "ja" : "nee"' }
-                Geen e-mail: { expression: 'entity.getVrijwilliger().getGeenEmail() ? "ja" : "nee"' }
+                Postvoorkeur: { expression: 'entity.getVrijwilliger().getGeenPost() ? "Geen post" : "Wel post"' }
+                E-mailvoorkeur: { expression: 'entity.getVrijwilliger().getGeenEmail() ? "Geen e-mail" : "Wel e-mail"' }
                 Open hulpaanbiedingen: { expression: 'export.getProjectenOpenstaandeHulpaanbiedingen(entity)' }
                 Lopende koppelingen: { expression: 'export.getProjectenLopendeKoppelingen(entity)' }
                 Afgesloten koppelingen: { expression: 'export.getProjectenAfgeslotenKoppelingen(entity)' }
@@ -73,6 +73,9 @@ services:
                 Medewerker(s) hulpaanbod: { expression: 'export.getMedewerkers(entity)' }
                 Gekoppeld: { expression: 'entity.isGekoppeld() ? "ja" : "nee"' }
                 Binnengekomen via: { expression: 'entity.getBinnengekomenVia()' }
+                VOG aangevraagd: { expression: 'entity.getVrijwilliger().isVogAangevraagd()' }
+                VOG aanwezig: { expression: 'entity.getVrijwilliger().isVogAanwezig()' }
+                Overeenkomst aanwezig: { expression: 'entity.getVrijwilliger().isOvereenkomstAanwezig()' }
 
     iz.export.hulpvragen:
         class: AppBundle\Export\GenericExport
@@ -104,6 +107,8 @@ services:
                 Naam aanmelder: { expression: 'entity.getIzKlant().getNaamAanmelder()' }
                 E-mail aanmelder: { expression: 'entity.getIzKlant().getEmailAanmelder()' }
                 Telefoon aanmelder: { expression: 'entity.getIzKlant().getTelefoonAanmelder()' }
+                Doelgroep: { expression: 'entity.getDoelgroep()' }
+                Hulpvraagsoort: { expression: 'entity.getHulpvraagsoort()' }
 
     iz.export.hulpaanbiedingen:
         class: AppBundle\Export\GenericExport
@@ -130,15 +135,18 @@ services:
                 Werkgebied: { expression: 'entity.getIzVrijwilliger().getVrijwilliger().getWerkgebied()' }
                 Postcodegebied: { expression: 'entity.getIzVrijwilliger().getVrijwilliger().getPostcodegebied()' }
                 Binnengekomen via: { expression: 'entity.getIzVrijwilliger().getBinnengekomenVia()' }
+                Doelgroepen: { expression: 'entity.getDoelgroepen()' }
+                Hulpvraagsoorten: { expression: 'entity.getHulpvraagsoorten()' }
 
     iz.export.koppelingen:
         class: AppBundle\Export\GenericExport
         arguments:
-            - IzBundle\Entity\Koppeling
+            - IzBundle\Entity\Hulpvraag
             -
                 Startdatum koppeling: { expression: 'entity.getKoppelingStartdatum()', type: 'date' }
                 Einddatum koppeling: { expression: 'entity.getKoppelingEinddatum()', type: 'date' }
-                Afsluitreden: { expression: 'entity.getEindeKoppeling()' }
+                Afsluitreden: { expression: 'entity.getAfsluitredenKoppeling()' }
+                Succesindicatoren: { expression: 'entity.getSuccesindicatoren()' }
                 Project: { expression: 'entity.getProject()' }
                 Medewerker hulpvraag: { expression: 'entity.getMedewerker()' }
                 Medewerker hulpaanbod: { expression: 'entity.getHulpaanbod().getMedewerker()' }
@@ -207,8 +215,8 @@ services:
                 Telefoon: { expression: 'entity.getKlant().getTelefoon()' }
                 Werkgebied: { expression: 'entity.getKlant().getWerkgebied()' }
                 Postcodegebied: { expression: 'entity.getKlant().getPostcodegebied()' }
-                Geen post: { expression: 'entity.getKlant().getGeenPost() ? "ja" : "nee"' }
-                Geen e-mail: { expression: 'entity.getKlant().getGeenEmail() ? "ja" : "nee"' }
+                Postvoorkeur: { expression: 'entity.getKlant().getGeenPost() ? "Geen post" : "Wel post"' }
+                E-mailvoorkeur: { expression: 'entity.getKlant().getGeenEmail() ? "Geen e-mail" : "Wel e-mail"' }
                 Projecten: { expression: 'export.getProjecten(entity)' }
                 Medewerker intake: { expression: 'export.getMedewerkerIntake(entity)' }
                 Medewerkers koppelingen: { expression: 'export.getMedewerkers(entity)' }
@@ -232,8 +240,8 @@ services:
                 Telefoon: { expression: 'entity.getVrijwilliger().getTelefoon()' }
                 Werkgebied: { expression: 'entity.getVrijwilliger().getWerkgebied()' }
                 Postcodegebied: { expression: 'entity.getVrijwilliger().getPostcodegebied()' }
-                Geen post: { expression: 'entity.getVrijwilliger().getGeenPost() ? "ja" : "nee"' }
-                Geen e-mail: { expression: 'entity.getVrijwilliger().getGeenEmail() ? "ja" : "nee"' }
+                Postvoorkeur: { expression: 'entity.getVrijwilliger().getGeenPost() ? "Geen post" : "Wel post"' }
+                E-mailvoorkeur: { expression: 'entity.getVrijwilliger().getGeenEmail() ? "Geen e-mail" : "Wel e-mail"' }
                 Projecten: { expression: 'export.getProjecten(entity)' }
                 Medewerker intake: { expression: 'export.getMedewerkerIntake(entity)' }
                 Medewerkers koppelingen: { expression: 'export.getMedewerkers(entity)' }

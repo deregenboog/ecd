@@ -5,9 +5,10 @@ namespace DagbestedingBundle\Controller;
 use AppBundle\Controller\AbstractController;
 use DagbestedingBundle\Entity\Locatie;
 use DagbestedingBundle\Form\LocatieType;
+use DagbestedingBundle\Service\LocatieDaoInterface;
 use JMS\DiExtraBundle\Annotation as DI;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use DagbestedingBundle\Service\LocatieDaoInterface;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * @Route("/admin/locaties")
@@ -23,14 +24,14 @@ class LocatiesController extends AbstractController
     /**
      * @var LocatieDaoInterface
      *
-     * @DI\Inject("dagbesteding.dao.locatie")
+     * @DI\Inject("DagbestedingBundle\Service\LocatieDao")
      */
     protected $dao;
 
     /**
      * @Route("/{id}/view")
      */
-    public function viewAction($id)
+    public function viewAction(Request $request, $id)
     {
         return $this->redirectToIndex();
     }

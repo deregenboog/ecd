@@ -2,8 +2,8 @@
 
 namespace OdpBundle\Service;
 
-use OdpBundle\Entity\Document;
 use Doctrine\ORM\EntityManager;
+use OdpBundle\Entity\Document;
 
 class DocumentDao implements DocumentDaoInterface
 {

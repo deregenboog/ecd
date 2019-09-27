@@ -2,11 +2,11 @@
 
 namespace AppBundle\Export;
 
-use Symfony\Component\ExpressionLanguage\ExpressionLanguage;
+use PhpOffice\PhpSpreadsheet\Shared\Date;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Style\NumberFormat;
-use PhpOffice\PhpSpreadsheet\Shared\Date;
 use PhpOffice\PhpSpreadsheet\Worksheet;
+use Symfony\Component\ExpressionLanguage\ExpressionLanguage;
 
 class GenericExport extends AbstractExport
 {
@@ -85,7 +85,7 @@ class GenericExport extends AbstractExport
                             if (!$value instanceof \DateTime) {
                                 $value = new \DateTime($value);
                             }
-                            $value = Date::PHPToExcel($value);
+                            $value = @Date::PHPToExcel($value);
                             $sheet->getCellByColumnAndRow($column, $this->row)
                                 ->setValue($value)
                                 ->getStyle()->getNumberFormat()->setFormatCode(NumberFormat::FORMAT_DATE_YYYYMMDD2);
@@ -94,12 +94,19 @@ class GenericExport extends AbstractExport
                             if (!$value instanceof \DateTime) {
                                 $value = new \DateTime($value);
                             }
-                            $value = Date::PHPToExcel($value);
+                            $value = @Date::PHPToExcel($value);
                             $sheet->getCellByColumnAndRow($column, $this->row)
                                 ->setValue($value)
                                 ->getStyle()->getNumberFormat()->setFormatCode(NumberFormat::FORMAT_DATE_TIME3);
                             break;
                         default:
+                            if (is_array($value) || $value instanceof \Traversable) {
+                                $values = [];
+                                foreach ($value as $v) {
+                                    $values[] = (string) $v;
+                                }
+                                $value = implode(', ', $values);
+                            }
                             $sheet->getCellByColumnAndRow($column, $this->row)
                                 ->setValue($value);
                             break;

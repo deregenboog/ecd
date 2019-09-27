@@ -9,6 +9,7 @@ services:
                 Tussenvoegsel: { expression: 'entity.getVrijwilliger().getTussenvoegsel()' }
                 Achternaam: { expression: 'entity.getVrijwilliger().getAchternaam()' }
                 Geslacht: { expression: 'entity.getVrijwilliger().getGeslacht()' }
+                Geboortedatum: { expression: 'entity.getVrijwilliger().getGeboortedatum()', type: 'date' }
                 Adres: { expression: 'entity.getVrijwilliger().getAdres()' }
                 Postcode: { expression: 'entity.getVrijwilliger().getPostcode()' }
                 Woonplaats: { expression: 'entity.getVrijwilliger().getPlaats()' }
@@ -36,6 +37,8 @@ services:
                 Telefoon: { expression: 'entity.getKlant().getTelefoon()' }
                 Werkgebied: { expression: 'entity.getKlant().getWerkgebied()' }
                 GGW-gebied: { expression: 'entity.getKlant().getPostcodegebied()' }
+                Geboorteland: { expression: 'entity.getKlant().getGeboorteland()' }
+                Nationaliteit: { expression: 'entity.getKlant().getNationaliteit()' }
                 Locatie: { expression: 'entity.getLocatie()' }
                 Binnen: { expression: 'entity.getBinnen()', type: 'datetime' }
                 Buiten: { expression: 'entity.getBuiten()', type: 'datetime' }
@@ -44,10 +47,25 @@ services:
                 Kleding: { expression: 'entity.isKleding()' }
                 Veegploeg: { expression: 'entity.isVeegploeg()' }
                 Inkomens: { expression: 'export.getInkomens(entity.getKlant())' }
-                Adres: { expression: 'entity.getKlant().getLaatsteIntake().getVerblijfsstatus()', condition: 'entity.getKlant().getLaatsteIntake()' }
-                Postcode: { expression: 'entity.getKlant().getLaatsteIntake().getVerblijfsstatus()', condition: 'entity.getKlant().getLaatsteIntake()' }
-                Woonplaats: { expression: 'entity.getKlant().getLaatsteIntake().getVerblijfsstatus()', condition: 'entity.getKlant().getLaatsteIntake()' }
                 Verblijf in Nederland sinds: { expression: 'entity.getKlant().getLaatsteIntake().getVerblijfInNederlandSinds()', condition: 'entity.getKlant().getLaatsteIntake()', type: 'date' }
                 Verblijf in Amsterdam sinds: { expression: 'entity.getKlant().getLaatsteIntake().getVerblijfInAmsterdamSinds()', condition: 'entity.getKlant().getLaatsteIntake()', type: 'date' }
                 Verblijfsstatus: { expression: 'entity.getKlant().getLaatsteIntake().getVerblijfsstatus()', condition: 'entity.getKlant().getLaatsteIntake()' }
                 Woonsituatie: { expression: 'entity.getKlant().getLaatsteIntake().getWoonsituatie()', condition: 'entity.getKlant().getLaatsteIntake()' }
+
+    inloop.export.schorsing:
+        class: AppBundle\Export\GenericExport
+        arguments:
+            - InloopBundle\Entity\Schorsing
+            -
+                Nummer: { expression: 'entity.getKlant().getId()' }
+                Voornaam: { expression: 'entity.getKlant().getVoornaam()' }
+                Tussenvoegsel: { expression: 'entity.getKlant().getTussenvoegsel()' }
+                Achternaam: { expression: 'entity.getKlant().getAchternaam()' }
+                Geslacht: { expression: 'entity.getKlant().getGeslacht()' }
+                Begindatum: { expression: 'entity.getDatumVan()', type: 'date' }
+                Einddatum: { expression: 'entity.getDatumTot()', type: 'date' }
+                Locaties: { expression: 'entity.getLocaties()' }
+                Redenen: { expression: 'entity.getRedenen()' }
+
+    inloop.export.report:
+        class: AppBundle\Export\ReportExport

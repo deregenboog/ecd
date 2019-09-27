@@ -2,9 +2,9 @@
 
 namespace DagbestedingBundle\Filter;
 
-use Doctrine\ORM\QueryBuilder;
 use AppBundle\Filter\FilterInterface;
 use DagbestedingBundle\Entity\Resultaatgebiedsoort;
+use Doctrine\ORM\QueryBuilder;
 
 class ResultaatgebiedFilter implements FilterInterface
 {

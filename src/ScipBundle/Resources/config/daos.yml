@@ -1,0 +1,49 @@
+services:
+    ScipBundle\Service\DeelnameDao:
+        parent: app.dao.abstract
+
+    ScipBundle\Service\DeelnemerDao:
+        parent: app.dao.abstract
+    
+    ScipBundle\Service\DocumentDao:
+        parent: app.dao.abstract
+    
+    ScipBundle\Service\LabelDao:
+        parent: app.dao.abstract
+
+    ScipBundle\Service\ProjectDao:
+        parent: app.dao.abstract
+
+    ScipBundle\Service\ToegangsrechtDao:
+        parent: app.dao.abstract
+
+    ScipBundle\Service\VerslagDao:
+        parent: app.dao.abstract
+
+    ScipBundle\Service\WerkdoelDao:
+        parent: app.dao.abstract
+
+    scip.deelname.entities:
+        class: ArrayObject
+        arguments:
+            -
+              - { key: deelnemer, dao: '@ScipBundle\Service\DeelnemerDao' }
+              - { key: project, dao: '@ScipBundle\Service\ProjectDao' }
+    
+    scip.document.entities:
+        class: ArrayObject
+        arguments:
+            -
+              - { key: deelnemer, dao: '@ScipBundle\Service\DeelnemerDao' }
+
+    scip.verslag.entities:
+        class: ArrayObject
+        arguments:
+            -
+              - { key: deelnemer, dao: '@ScipBundle\Service\DeelnemerDao' }
+
+    scip.werkdoel.entities:
+        class: ArrayObject
+        arguments:
+            -
+              - { key: deelnemer, dao: '@ScipBundle\Service\DeelnemerDao' }

@@ -2,17 +2,18 @@
 
 namespace IzBundle\Form;
 
+use AppBundle\Entity\Klant;
+use AppBundle\Form\AppDateType;
+use AppBundle\Form\AppTextareaType;
+use AppBundle\Form\BaseType;
+use AppBundle\Form\DummyChoiceType;
+use AppBundle\Form\KlantType;
+use AppBundle\Form\MedewerkerType;
+use IzBundle\Entity\IzKlant;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use AppBundle\Form\BaseType;
-use AppBundle\Form\AppDateType;
-use Doctrine\ORM\EntityRepository;
-use IzBundle\Entity\IzKlant;
-use AppBundle\Form\AppTextareaType;
-use AppBundle\Form\KlantType;
-use AppBundle\Entity\Klant;
 
 class IzKlantType extends AbstractType
 {
@@ -25,27 +26,17 @@ class IzKlantType extends AbstractType
             && $options['data']->getKlant() instanceof Klant
             && $options['data']->getKlant()->getId()
         ) {
-            $builder->add('klant', null, [
-                'disabled' => true,
-                'query_builder' => function (EntityRepository $repository) use ($options) {
-                    return $repository->createQueryBuilder('klant')
-                        ->where('klant = :klant')
-                        ->setParameter('klant', $options['data']->getKlant())
-                    ;
-                },
+            $builder->add('klant', DummyChoiceType::class, [
+                'dummy_label' => (string) $options['data'],
             ]);
         } else {
-            $builder
-                ->add('klant', KlantType::class, ['required' => true])
-                ->get('klant')
-                ->remove('opmerking')
-                ->remove('geenPost')
-                ->remove('geenEmail')
-            ;
+            $builder->add('klant', KlantType::class, ['required' => true]);
         }
 
         $builder
             ->add('datumAanmelding', AppDateType::class)
+            ->add('medewerker', MedewerkerType::class, ['required' => true])
+            ->add('contactOntstaan', ContactOntstaanSelectType::class)
             ->add('organisatieAanmelder', null, [
                 'required' => false,
             ])

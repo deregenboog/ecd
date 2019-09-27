@@ -4,10 +4,10 @@ namespace DagbestedingBundle\Form;
 
 use AppBundle\Form\AppDateRangeType;
 use AppBundle\Form\FilterType;
+use DagbestedingBundle\Filter\RapportageFilter;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use DagbestedingBundle\Filter\RapportageFilter;
 
 class RapportageFilterType extends AbstractType
 {

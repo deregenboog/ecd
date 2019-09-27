@@ -2,12 +2,11 @@
 
 namespace ClipBundle\Controller;
 
-use Symfony\Component\Routing\Annotation\Route;
-use JMS\DiExtraBundle\Annotation as DI;
-use ClipBundle\Form\RapportageType;
-use AppBundle\Export\ExportInterface;
 use AppBundle\Controller\AbstractRapportagesController;
-use Symfony\Component\HttpFoundation\Request;
+use AppBundle\Export\ExportInterface;
+use ClipBundle\Form\RapportageType;
+use JMS\DiExtraBundle\Annotation as DI;
+use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * @Route("/rapportages")
@@ -22,12 +21,4 @@ class RapportagesController extends AbstractRapportagesController
      * @DI\Inject("clip.export.report")
      */
     protected $export;
-
-    /**
-     * @Route("/")
-     */
-    public function indexAction(Request $request)
-    {
-        return parent::indexAction($request);
-    }
 }

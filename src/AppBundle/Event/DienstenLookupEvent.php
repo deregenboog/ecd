@@ -2,8 +2,9 @@
 
 namespace AppBundle\Event;
 
-use Symfony\Component\EventDispatcher\Event;
 use AppBundle\Entity\Klant;
+use AppBundle\Model\Dienst;
+use Symfony\Component\EventDispatcher\Event;
 
 class DienstenLookupEvent extends Event
 {
@@ -22,7 +23,7 @@ class DienstenLookupEvent extends Event
      */
     private $diensten;
 
-    public function __construct($klantId, array $diensten)
+    public function __construct($klantId, array $diensten = [])
     {
         $this->klantId = $klantId;
         $this->diensten = $diensten;
@@ -50,7 +51,7 @@ class DienstenLookupEvent extends Event
         return $this->diensten;
     }
 
-    public function addDienst(array $dienst)
+    public function addDienst(Dienst $dienst)
     {
         $this->diensten[] = $dienst;
 

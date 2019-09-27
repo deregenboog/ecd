@@ -2,12 +2,13 @@
 
 namespace Tests\AppBundle\Filter;
 
-use Doctrine\ORM\QueryBuilder;
-use Doctrine\ORM\EntityManager;
-use AppBundle\Entity\Klant;
 use AppBundle\Filter\KlantFilter;
+use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\Query\Expr;
+use Doctrine\ORM\QueryBuilder;
+use PHPUnit\Framework\TestCase;
 
-class KlantFilterTest extends \PHPUnit_Framework_TestCase
+class KlantFilterTest extends TestCase
 {
     public function testIdFilter()
     {
@@ -36,9 +37,9 @@ class KlantFilterTest extends \PHPUnit_Framework_TestCase
         $filter->applyTo($builder);
 
         $this->assertEquals(
-            "CONCAT_WS(' ', klant.voornaam, klant.roepnaam, klant.tussenvoegsel, klant.achternaam) LIKE :klant_naam_part_0",
+            'klant.voornaam LIKE :klant_naam_part_0 OR klant.roepnaam LIKE :klant_naam_part_0 OR klant.tussenvoegsel LIKE :klant_naam_part_0 OR klant.achternaam LIKE :klant_naam_part_0',
             (string) $builder->getDQLPart('where')
-            );
+        );
         $this->assertEquals(
             "%{$filter->naam}%",
             $builder->getParameter('klant_naam_part_0')->getValue()
@@ -54,7 +55,7 @@ class KlantFilterTest extends \PHPUnit_Framework_TestCase
         $filter->applyTo($builder);
 
         $this->assertEquals(
-            "CONCAT_WS(' ', klant.voornaam, klant.roepnaam, klant.tussenvoegsel, klant.achternaam) LIKE :klant_naam_part_0 AND CONCAT_WS(' ', klant.voornaam, klant.roepnaam, klant.tussenvoegsel, klant.achternaam) LIKE :klant_naam_part_1",
+            '(klant.voornaam LIKE :klant_naam_part_0 OR klant.roepnaam LIKE :klant_naam_part_0 OR klant.tussenvoegsel LIKE :klant_naam_part_0 OR klant.achternaam LIKE :klant_naam_part_0) AND (klant.voornaam LIKE :klant_naam_part_1 OR klant.roepnaam LIKE :klant_naam_part_1 OR klant.tussenvoegsel LIKE :klant_naam_part_1 OR klant.achternaam LIKE :klant_naam_part_1)',
             (string) $builder->getDQLPart('where')
         );
         $this->assertEquals(
@@ -110,7 +111,9 @@ class KlantFilterTest extends \PHPUnit_Framework_TestCase
 
     private function createQueryBuilder()
     {
-        $emStub = $this->createMock(EntityManager::class);
+        $emStub = $this->createConfiguredMock(EntityManager::class, [
+            'getExpressionBuilder' => new Expr(),
+        ]);
 
         return new QueryBuilder($emStub);
     }

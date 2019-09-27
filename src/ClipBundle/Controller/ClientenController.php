@@ -3,18 +3,18 @@
 namespace ClipBundle\Controller;
 
 use AppBundle\Controller\AbstractController;
+use AppBundle\Export\ExportInterface;
 use ClipBundle\Entity\Client;
-use ClipBundle\Form\ClientCloseType;
 use ClipBundle\Form\ClientFilterType;
 use ClipBundle\Form\ClientType;
 use ClipBundle\Service\ClientDaoInterface;
 use JMS\DiExtraBundle\Annotation as DI;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Symfony\Component\HttpFoundation\Request;
-use AppBundle\Export\ExportInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
 /**
  * @Route("/clienten")
+ * @Template
  */
 class ClientenController extends AbstractController
 {
@@ -28,7 +28,7 @@ class ClientenController extends AbstractController
     /**
      * @var ClientDaoInterface
      *
-     * @DI\Inject("clip.dao.client")
+     * @DI\Inject("ClipBundle\Service\ClientDao")
      */
     protected $dao;
 
@@ -38,33 +38,4 @@ class ClientenController extends AbstractController
      * @DI\Inject("clip.export.clienten")
      */
     protected $export;
-
-    /**
-     * @Route("/{id}/close")
-     */
-    public function closeAction(Request $request, $id)
-    {
-        $entity = $this->dao->find($id);
-
-        $form = $this->createForm(ClientCloseType::class, $entity);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            try {
-                $this->dao->update($entity);
-
-                $this->addFlash('success', $this->entityName.' is afgesloten.');
-            } catch (\Exception $e) {
-                $message = $this->container->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
-                $this->addFlash('danger', $message);
-            }
-
-            return $this->redirectToView($entity);
-        }
-
-        return [
-            'client' => $entity,
-            'form' => $form->createView(),
-        ];
-    }
 }

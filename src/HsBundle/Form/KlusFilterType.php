@@ -2,22 +2,21 @@
 
 namespace HsBundle\Form;
 
-use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolver;
-use AppBundle\Entity\Klant;
-use AppBundle\Form\FilterType;
-use HsBundle\Filter\KlusFilter;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use AppBundle\Form\AppDateRangeType;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use AppBundle\Form\FilterType;
 use HsBundle\Entity\Activiteit;
+use HsBundle\Entity\Klus;
+use HsBundle\Filter\KlusFilter;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use HsBundle\Entity\Klus;
-use HsBundle\Filter\KlantFilter;
-use Symfony\Component\Form\FormEvents;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
+use Symfony\Component\Form\FormEvents;
+use Symfony\Component\OptionsResolver\OptionsResolver;
+use Doctrine\ORM\EntityRepository;
 
 class KlusFilterType extends AbstractType
 {
@@ -44,6 +43,12 @@ class KlusFilterType extends AbstractType
             ]);
         }
 
+        if (in_array('annuleringsdatum', $options['enabled_filters'])) {
+            $builder->add('annuleringsdatum', AppDateRangeType::class, [
+                'required' => false,
+            ]);
+        }
+
         if (in_array('zonderEinddatum', $options['enabled_filters'])) {
             $builder->add('zonderEinddatum', CheckboxType::class, [
                 'required' => false,
@@ -58,6 +63,7 @@ class KlusFilterType extends AbstractType
                     Klus::STATUS_IN_BEHANDELING => Klus::STATUS_IN_BEHANDELING,
                     Klus::STATUS_ON_HOLD => Klus::STATUS_ON_HOLD,
                     Klus::STATUS_AFGEROND => Klus::STATUS_AFGEROND,
+                    Klus::STATUS_GEANNULEERD => Klus::STATUS_GEANNULEERD,
                 ],
             ]);
         }
@@ -79,6 +85,11 @@ class KlusFilterType extends AbstractType
             $builder->add('activiteit', EntityType::class, [
                 'required' => false,
                 'class' => Activiteit::class,
+                'query_builder' => function (EntityRepository $repository) {
+                    return $repository->createQueryBuilder('activiteit')
+                        ->orderBy('activiteit.naam')
+                    ;
+                }
             ]);
         }
 
@@ -103,6 +114,7 @@ class KlusFilterType extends AbstractType
                 'status',
                 'startdatum',
                 'einddatum',
+                'annuleringsdatum',
                 'activiteit',
                 'klant' => ['naam', 'stadsdeel'],
                 'filter',

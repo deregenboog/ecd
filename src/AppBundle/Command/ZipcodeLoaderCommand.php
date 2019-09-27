@@ -2,14 +2,14 @@
 
 namespace AppBundle\Command;
 
+use AppBundle\Entity\GgwGebied;
+use AppBundle\Entity\Postcode;
+use AppBundle\Entity\Werkgebied;
+use Doctrine\ORM\EntityManager;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Output\OutputInterface;
-use Doctrine\ORM\EntityManager;
-use AppBundle\Entity\Postcode;
 use Symfony\Component\Console\Input\InputOption;
-use AppBundle\Entity\Werkgebied;
-use AppBundle\Entity\GgwGebied;
+use Symfony\Component\Console\Output\OutputInterface;
 
 class ZipcodeLoaderCommand extends ContainerAwareCommand
 {
@@ -58,7 +58,6 @@ class ZipcodeLoaderCommand extends ContainerAwareCommand
 
         $i = 0;
         while ($values = fgetcsv($handle, 0, ';')) {
-
             $stadsdeel = $this->getWerkgebied($values[1]);
 
             $postcodegebied = null;
@@ -78,6 +77,8 @@ class ZipcodeLoaderCommand extends ContainerAwareCommand
         }
         $this->entityManager->flush();
         fclose($handle);
+
+        $this->postLoad();
 
         $output->writeln($i.' postcodes opgeslagen');
     }
@@ -108,5 +109,34 @@ class ZipcodeLoaderCommand extends ContainerAwareCommand
         }
 
         return $this->cache['ggw_gebieden'][$name];
+    }
+
+    private function postLoad()
+    {
+        $queries = [
+            "INSERT IGNORE ggw_gebieden (naam) VALUES ('Noord-Oost');",
+            "INSERT IGNORE ggw_gebieden (naam) VALUES ('Noord-West');",
+
+            "UPDATE postcodes SET postcodegebied = 'Noord-Oost' WHERE postcodegebied = 'Oost';",
+            "UPDATE postcodes SET postcodegebied = 'Noord-West' WHERE postcodegebied = 'West';",
+
+            "UPDATE klanten SET postcodegebied = 'Noord-Oost' WHERE postcodegebied = 'Oost';",
+            "UPDATE klanten SET postcodegebied = 'Noord-West' WHERE postcodegebied = 'West';",
+
+            "UPDATE vrijwilligers SET postcodegebied = 'Noord-Oost' WHERE postcodegebied = 'Oost';",
+            "UPDATE vrijwilligers SET postcodegebied = 'Noord-West' WHERE postcodegebied = 'West';",
+
+            "UPDATE clip_clienten SET postcodegebied = 'Noord-Oost' WHERE postcodegebied = 'Oost';",
+            "UPDATE clip_clienten SET postcodegebied = 'Noord-West' WHERE postcodegebied = 'West';",
+
+            "UPDATE hs_klanten SET postcodegebied = 'Noord-Oost' WHERE postcodegebied = 'Oost';",
+            "UPDATE hs_klanten SET postcodegebied = 'Noord-West' WHERE postcodegebied = 'West';",
+
+            "DELETE FROM ggw_gebieden WHERE naam = 'Oost';",
+            "DELETE FROM ggw_gebieden WHERE naam = 'West';",
+        ];
+        foreach ($queries as $sql) {
+            $this->entityManager->getConnection()->query($sql);
+        }
     }
 }

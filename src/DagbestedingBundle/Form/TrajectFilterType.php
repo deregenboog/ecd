@@ -3,16 +3,18 @@
 namespace DagbestedingBundle\Form;
 
 use AppBundle\Form\AppDateRangeType;
+use AppBundle\Form\BaseSelectType;
 use AppBundle\Form\FilterType;
 use AppBundle\Form\KlantFilterType;
+use DagbestedingBundle\Entity\Locatie;
+use DagbestedingBundle\Entity\Project;
+use DagbestedingBundle\Entity\Trajectbegeleider;
+use DagbestedingBundle\Entity\Trajectsoort;
+use DagbestedingBundle\Filter\TrajectFilter;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use DagbestedingBundle\Filter\TrajectFilter;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
-use DagbestedingBundle\Entity\Trajectsoort;
-use DagbestedingBundle\Entity\Trajectbegeleider;
-use DagbestedingBundle\Entity\Project;
 
 class TrajectFilterType extends AbstractType
 {
@@ -53,9 +55,22 @@ class TrajectFilterType extends AbstractType
             ]);
         }
 
+        if (in_array('medewerker', $options['enabled_filters'])) {
+            $builder->add('medewerker', MedewerkerType::class, [
+                'required' => false,
+            ]);
+        }
+
         if (in_array('project', $options['enabled_filters'])) {
-            $builder->add('project', EntityType::class, [
+            $builder->add('project', BaseSelectType::class, [
                 'class' => Project::class,
+                'required' => false,
+            ]);
+        }
+
+        if (in_array('locatie', $options['enabled_filters'])) {
+            $builder->add('locatie', BaseSelectType::class, [
+                'class' => Locatie::class,
                 'required' => false,
             ]);
         }

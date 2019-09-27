@@ -2,13 +2,13 @@
 
 namespace AppBundle\Form;
 
+use AppBundle\Entity\Geslacht;
+use AppBundle\Filter\KlantFilter;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use AppBundle\Filter\KlantFilter;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
-use AppBundle\Entity\Geslacht;
 
 class KlantFilterType extends AbstractType
 {
@@ -46,6 +46,12 @@ class KlantFilterType extends AbstractType
             ]);
         }
 
+        if (in_array('adres', $options['enabled_filters'])) {
+            $builder->add('adres', null, [
+                'required' => false,
+            ]);
+        }
+
         if (in_array('geslacht', $options['enabled_filters'])) {
             $builder->add('geslacht', EntityType::class, [
                 'class' => Geslacht::class,
@@ -55,6 +61,7 @@ class KlantFilterType extends AbstractType
 
         if (in_array('bsn', $options['enabled_filters'])) {
             $builder->add('bsn', null, [
+                'label' => 'BSN',
                 'required' => false,
             ]);
         }
@@ -72,8 +79,19 @@ class KlantFilterType extends AbstractType
             ]);
         }
 
+        if (in_array('medewerker', $options['enabled_filters'])) {
+            $builder->add('medewerker', MedewerkerType::class, [
+                'required' => false,
+                'preset' => false,
+            ]);
+        }
+
         if (in_array('stadsdeel', $options['enabled_filters'])) {
-            $builder->add('stadsdeel', StadsdeelFilterType::class);
+            $builder->add('stadsdeel', StadsdeelSelectType::class);
+        }
+
+        if (in_array('postcodegebied', $options['enabled_filters'])) {
+            $builder->add('postcodegebied', PostcodegebiedSelectType::class);
         }
 
         if (in_array('plaats', $options['enabled_filters'])) {
@@ -90,10 +108,14 @@ class KlantFilterType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => KlantFilter::class,
-            'enabledFilters' => [
-                'klant' => ['id', 'naam', 'stadsdeel'],
-                'aanmelddatum',
-                'afsluitdatum',
+            'enabled_filters' => [
+                'id',
+                'naam',
+                'geslacht',
+                'geboortedatum',
+                'medewerker',
+                'stadsdeel',
+                'postcodegebied',
             ],
         ]);
     }

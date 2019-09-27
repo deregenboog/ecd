@@ -1,63 +1,42 @@
 services:
-    dagbesteding.dao:
-        abstract: true
-        arguments:
-            - '@doctrine.orm.entity_manager'
-            - '@knp_paginator'
-            - '%pagination.items_per_page%'
+    DagbestedingBundle\Service\ContactpersoonDao:
+        parent: app.dao.abstract
 
-    dagbesteding.dao.contactpersoon:
-        parent: dagbesteding.dao
-        class: DagbestedingBundle\Service\ContactpersoonDao
+    DagbestedingBundle\Service\DagdeelDao:
+        parent: app.dao.abstract
 
-    dagbesteding.dao.dagdeel:
-        parent: dagbesteding.dao
-        class: DagbestedingBundle\Service\DagdeelDao
+    DagbestedingBundle\Service\DeelnemerDao:
+        parent: app.dao.abstract
 
-    dagbesteding.dao.deelnemer:
-        parent: dagbesteding.dao
-        class: DagbestedingBundle\Service\DeelnemerDao
+    DagbestedingBundle\Service\DeelnemerafsluitingDao:
+        parent: app.dao.abstract
 
-    dagbesteding.dao.deelnemerafsluiting:
-        parent: dagbesteding.dao
-        class: DagbestedingBundle\Service\DeelnemerafsluitingDao
+    DagbestedingBundle\Service\DocumentDao:
+        parent: app.dao.abstract
 
-    dagbesteding.dao.document:
-        parent: dagbesteding.dao
-        class: DagbestedingBundle\Service\DocumentDao
+    DagbestedingBundle\Service\LocatieDao:
+        parent: app.dao.abstract
 
-    dagbesteding.dao.locatie:
-        parent: dagbesteding.dao
-        class: DagbestedingBundle\Service\LocatieDao
+    DagbestedingBundle\Service\ProjectDao:
+        parent: app.dao.abstract
 
-    dagbesteding.dao.project:
-        parent: dagbesteding.dao
-        class: DagbestedingBundle\Service\ProjectDao
+    DagbestedingBundle\Service\RapportageDao:
+        parent: app.dao.abstract
 
-    dagbesteding.dao.rapportage:
-        parent: dagbesteding.dao
-        class: DagbestedingBundle\Service\RapportageDao
+    DagbestedingBundle\Service\ResultaatgebiedsoortDao:
+        parent: app.dao.abstract
 
-    dagbesteding.dao.resultaatgebiedsoort:
-        parent: dagbesteding.dao
-        class: DagbestedingBundle\Service\ResultaatgebiedsoortDao
+    DagbestedingBundle\Service\TrajectDao:
+        parent: app.dao.abstract
 
-    dagbesteding.dao.traject:
-        parent: dagbesteding.dao
-        class: DagbestedingBundle\Service\TrajectDao
+    DagbestedingBundle\Service\TrajectafsluitingDao:
+        parent: app.dao.abstract
 
-    dagbesteding.dao.trajectafsluiting:
-        parent: dagbesteding.dao
-        class: DagbestedingBundle\Service\TrajectafsluitingDao
+    DagbestedingBundle\Service\TrajectbegeleiderDao:
+        parent: app.dao.abstract
 
-    dagbesteding.dao.trajectbegeleider:
-        parent: dagbesteding.dao
-        class: DagbestedingBundle\Service\TrajectbegeleiderDao
+    DagbestedingBundle\Service\TrajectsoortDao:
+        parent: app.dao.abstract
 
-    dagbesteding.dao.trajectsoort:
-        parent: dagbesteding.dao
-        class: DagbestedingBundle\Service\TrajectsoortDao
-
-    dagbesteding.dao.verslag:
-        parent: dagbesteding.dao
-        class: DagbestedingBundle\Service\VerslagDao
+    DagbestedingBundle\Service\VerslagDao:
+        parent: app.dao.abstract

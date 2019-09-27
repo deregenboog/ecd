@@ -3,9 +3,9 @@
 namespace HsBundle\Filter;
 
 use AppBundle\Filter\FilterInterface;
+use AppBundle\Form\Model\AppDateRangeModel;
 use Doctrine\ORM\QueryBuilder;
 use HsBundle\Entity\Activiteit;
-use AppBundle\Form\Model\AppDateRangeModel;
 
 class KlusFilter implements FilterInterface
 {
@@ -23,6 +23,11 @@ class KlusFilter implements FilterInterface
      * @var AppDateRangeModel
      */
     public $einddatum;
+
+    /**
+     * @var AppDateRangeModel
+     */
+    public $annuleringsdatum;
 
     /**
      * @var bool
@@ -85,6 +90,21 @@ class KlusFilter implements FilterInterface
 
         if ($this->zonderEinddatum) {
             $builder->andWhere('klus.einddatum IS NULL');
+        }
+
+        if ($this->annuleringsdatum) {
+            if ($this->annuleringsdatum->getStart()) {
+                $builder
+                    ->andWhere('klus.annuleringsdatum >= :annuleringsdatum_van')
+                    ->setParameter('annuleringsdatum_van', $this->annuleringsdatum->getStart())
+                ;
+            }
+            if ($this->annuleringsdatum->getEnd()) {
+                $builder
+                    ->andWhere('klus.annuleringsdatum <= :annuleringsdatum_tot')
+                    ->setParameter('annuleringsdatum_tot', $this->annuleringsdatum->getEnd())
+                ;
+            }
         }
 
         if ($this->status) {

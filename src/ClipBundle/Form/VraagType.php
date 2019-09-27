@@ -2,20 +2,15 @@
 
 namespace ClipBundle\Form;
 
-use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use AppBundle\Form\AppDateType;
 use AppBundle\Form\BaseType;
+use ClipBundle\Entity\Client;
 use ClipBundle\Entity\Contactmoment;
 use ClipBundle\Entity\Vraag;
-use ClipBundle\Entity\Behandelaar;
-use ClipBundle\Entity\Hulpvrager;
-use ClipBundle\Entity\Leeftijdscategorie;
-use ClipBundle\Entity\Communicatiekanaal;
-use ClipBundle\Entity\Viacategorie;
-use ClipBundle\Entity\Client;
+use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class VraagType extends AbstractType
 {
@@ -24,7 +19,7 @@ class VraagType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        /** @var $vraag Vraag */
+        /* @var $vraag Vraag */
         $vraag = $options['data'];
 
         $builder

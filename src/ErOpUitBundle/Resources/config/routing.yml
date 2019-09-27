@@ -1,0 +1,9 @@
+eropuit_annotations:
+    resource: "@ErOpUitBundle/Controller"
+    type: annotation
+
+eropuit_index:
+    path: /
+    defaults:
+        _controller: FrameworkBundle:Redirect:redirect
+        route: eropuit_klanten_index

@@ -2,9 +2,9 @@
 
 namespace AppBundle\Entity;
 
+use AppBundle\Model\TimestampableTrait;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
-use AppBundle\Model\TimestampableTrait;
 
 /**
  * @ORM\Entity
@@ -35,7 +35,7 @@ class Nationaliteit
      */
     private $naam;
 
-    public function __construct($naam = null, $afkorting = null)
+    public function __construct($naam = null, $afkorting = '')
     {
         $this->naam = $naam;
         $this->afkorting = $afkorting;

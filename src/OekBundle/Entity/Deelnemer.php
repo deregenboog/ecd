@@ -2,12 +2,15 @@
 
 namespace OekBundle\Entity;
 
+use AppBundle\Entity\Klant;
+use AppBundle\Model\RequiredMedewerkerTrait;
+use AppBundle\Model\TimestampableTrait;
+use AppBundle\Model\KlantRelationInterface;
+use AppBundle\Service\NameFormatter;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\ORM\EntityNotFoundException;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
-use Doctrine\Common\Collections\ArrayCollection;
-use AppBundle\Entity\Klant;
-use AppBundle\Model\TimestampableTrait;
-use AppBundle\Model\RequiredMedewerkerTrait;
 
 /**
  * @ORM\Entity(repositoryClass="OekBundle\Repository\DeelnemerRepository")
@@ -15,7 +18,7 @@ use AppBundle\Model\RequiredMedewerkerTrait;
  * @ORM\HasLifecycleCallbacks
  * @Gedmo\Loggable
  */
-class Deelnemer
+class Deelnemer implements KlantRelationInterface
 {
     use TimestampableTrait, RequiredMedewerkerTrait;
 
@@ -119,7 +122,11 @@ class Deelnemer
 
     public function __toString()
     {
-        return (string) $this->klant;
+        try {
+            return NameFormatter::formatFormal($this->klant);
+        } catch (EntityNotFoundException $e) {
+            return '';
+        }
     }
 
     public function getId()
@@ -280,5 +287,22 @@ class Deelnemer
     public function isVoedselbankklant()
     {
         return $this->voedselbankklant;
+    }
+
+    public function getAfgerondeTrainingen()
+    {
+        $trainingen = [];
+        foreach ($this->deelnames as $deelname) {
+            if (DeelnameStatus::STATUS_AFGEROND === $deelname->getStatus()) {
+                $trainingen[] = $deelname->getTraining();
+            }
+        }
+
+        return $trainingen;
+    }
+
+    public function getKlantFieldName()
+    {
+        return "klant";
     }
 }

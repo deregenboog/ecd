@@ -31,6 +31,12 @@
                     {{ knp_pagination_sortable(pagination, 'Naam', 'klant.achternaam') }}
                 </th>
                 <th>
+                    Hulpverlener
+                </th>
+                <th>
+                    Contactgegevens
+                </th>
+                <th>
                     {{ knp_pagination_sortable(pagination, 'Stadsdeel', 'werkgebied.naam') }}
                 </th>
                 <th>
@@ -49,6 +55,16 @@
             <tr data-href="{{ path(view_route, {id: entity.id}) }}">
                 <td>{{ entity.id }}</td>
                 <td>{{ entity }}</td>
+                <td>
+                    {{ entity.hulpverlener.naam }}<br>
+                    {{ entity.hulpverlener.organisatie }}
+                </td>
+                <td>
+                    {{ entity.adres }}<br>
+                    {{ entity.postcode }} {{ entity.plaats }}
+                    {% if entity.telefoon %}<br>{{ entity.telefoon }}{% endif %}
+                    {% if entity.mobiel %}<br>{{ entity.mobiel }}{% endif %}
+                </td>
                 <td>{{ entity.werkgebied }}</td>
                 <td>{{ entity.afwijkendFactuuradres ? 'Ja' : 'Nee' }}</td>
                 <td>

@@ -2,9 +2,8 @@
 
 namespace OekBundle\Service;
 
-use AppBundle\Service\AbstractDao;
 use AppBundle\Filter\FilterInterface;
-use OekBundle\Entity\Training;
+use AppBundle\Service\AbstractDao;
 use OekBundle\Entity\Groep;
 
 class GroepDao extends AbstractDao implements GroepDaoInterface

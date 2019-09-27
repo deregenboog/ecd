@@ -1,0 +1,38 @@
+{% extends '::base-2-col.html.twig' %}
+{% import '::html.macro.twig' as html %}
+
+{% block title %}
+    Maatschappelijk werk | {{ title }}
+{% endblock %}
+
+{% block subnavigation %}
+    {% include '@Mw/subnavigation.html.twig' %}
+{% endblock %}
+
+{% block content_top %}
+    <h1>Info wijzigen</h1>
+{% endblock %}
+
+{% block content_left %}
+    {% include '::klant_basis.html.twig' with {module: 'MaatschappelijkWerk'} %}
+{% endblock %}
+
+{% block content_right %}
+    {{ form_start(form) }}
+    {{ form_row(form.casemanagerForm) }}
+    {{ form_row(form.trajectbegeleiderForm) }}
+    {{ form_row(form.trajecthouderForm) }}
+    {{ form_row(form.overigeContactpersonenExtern) }}
+    {{ form_row(form.instantieForm) }}
+    {{ form_row(form.budgetteringForm) }}
+    {{ form_row(form.klantmanagerForm) }}
+    {{ form_row(form.sociaalNetwerk) }}
+    {{ form_row(form.bankrekeningnummer) }}
+    {{ form_row(form.polisnummerZiektekostenverzekering) }}
+    {{ form_row(form.woningnetForm) }}
+    {{ form_row(form.telefoonnummer) }}
+    {{ form_row(form.contact) }}
+    {{ form_row(form.adres) }}
+    {{ form_row(form.overigen) }}
+    {{ form_end(form) }}
+{% endblock %}

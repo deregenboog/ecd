@@ -2,21 +2,23 @@
 
 namespace IzBundle\Controller;
 
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use IzBundle\Entity\IzKlant;
 use AppBundle\Controller\SymfonyController;
-use IzBundle\Form\IzDeelnemerSelectieType;
 use Doctrine\Common\Collections\ArrayCollection;
-use Symfony\Component\HttpFoundation\Request;
+use Doctrine\ORM\NoResultException;
+use IzBundle\Entity\IzDeelnemer;
+use IzBundle\Entity\IzKlant;
 use IzBundle\Entity\IzVrijwilliger;
 use IzBundle\Filter\IzDeelnemerSelectie;
-use Symfony\Component\Form\FormError;
-use AppBundle\Exception\AppException;
-use IzBundle\Entity\IzDeelnemer;
+use IzBundle\Form\IzDeelnemerSelectieType;
 use IzBundle\Form\IzEmailMessageType;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Symfony\Component\Form\FormError;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * @Route("/selecties")
+ * @Template
  */
 class SelectiesController extends SymfonyController
 {
@@ -36,7 +38,7 @@ class SelectiesController extends SymfonyController
                 if ($form->get('download')->isClicked()) {
                     return $this->download($form->getData());
                 }
-            } catch (AppException $e) {
+            } catch (NoResultException $e) {
                 $form->addError(new FormError('De zoekopdracht leverde geen resultaten op.'));
             }
         }
@@ -102,7 +104,7 @@ class SelectiesController extends SymfonyController
         $izVrijwilligers = $this->getVrijwilligers($filter);
 
         if (0 === count($izKlanten) + count($izVrijwilligers)) {
-            throw new AppException();
+            throw new NoResultException();
         }
 
         $filename = sprintf('selecties_%s.xlsx', date('Ymd_His'));
@@ -125,7 +127,7 @@ class SelectiesController extends SymfonyController
         $izVrijwilligers = $this->getVrijwilligers($filter);
 
         if (0 === count($izKlanten) + count($izVrijwilligers)) {
-            throw new AppException();
+            throw new NoResultException();
         }
 
         // convert IzKlant and IzVrijwilliger collections to IzDeelnemer collection
@@ -165,7 +167,7 @@ class SelectiesController extends SymfonyController
     private function getVrijwilligers(IzDeelnemerSelectie $filter)
     {
         if (in_array('vrijwilligers', $filter->personen)) {
-            $izVrijwilligers = $this->get('IzBundle\Service\VrijwilligerDao')->findAll(null, $filter);
+            return $this->get('IzBundle\Service\VrijwilligerDao')->findAll(null, $filter);
         }
 
         return new ArrayCollection();

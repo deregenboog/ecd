@@ -1,0 +1,94 @@
+{% import '::html.macro.twig' as html -%}
+
+<table class="table table-hover table-fixed">
+    {{ colgroup(11) }}
+    <thead>
+        <tr>
+            <th>
+                <span style="margin-left: 2em;">
+                    {{ knp_pagination_sortable(pagination, 'ID', 'klant.id') }}
+                </span>
+            </th>
+            <th>
+                {{ knp_pagination_sortable(pagination, 'Voornaam', 'klant.voornaam') }}
+            </th>
+            <th>
+                {{ knp_pagination_sortable(pagination, 'Achternaam', 'klant.achternaam') }}
+            </th>
+            <th>Geslacht</th>
+            <th>Geboortedatum</th>
+            <th>1e locatie (gebruikersruimte)</th>
+            <th>2e locatie (intakelocatie)</th>
+            <th>3e locatie</th>
+            <th>Nieuwe intake nodig</th>
+            <th>Schorsingen</th>
+            <th>Opmerkingen</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for klant in pagination %}
+            <tr data-id="{{ klant.id }}">
+                <td>
+                    <a class="checkin" title="Inchecken" style="margin-right: 1em;">
+                        <span class="glyphicon glyphicon-log-in" aria-hidden="true"></span>
+                    </a>
+                    {{ klant.id }}
+                </td>
+                <td>
+                    {{ klant.voornaam }}
+                    {% if klant.roepnaam %}({{ klant.roepnaam }}){% endif %}
+                </td>
+                <td>
+                    {% if klant.tussenvoegsel %}{{ klant.tussenvoegsel }}{% endif %}
+                    {{ klant.achternaam }}
+                </td>
+                <td>
+                    {{ klant.geslacht }}
+                </td>
+                <td>
+                    {{ klant.geboortedatum ? klant.geboortedatum|date('d-m-Y') }}
+                </td>
+                <td>
+                    {{ klant.laatsteIntake.gebruikersruimte ?: '-' }}
+                </td>
+                <td>
+                    {{ klant.laatsteIntake.intakelocatie ?: '-' }}
+                </td>
+                <td>
+                    {{ klant.laatsteIntake.locatie3 ?: '-' }}
+                </td>
+                <td>
+                    {% set verloopdatum = klant.laatsteIntake.intakedatum|date_modify('+1 year') %}
+                    {% if verloopdatum < today %}
+                        <span class="text-danger">
+                            {{ today|diff(verloopdatum).days|human_days }} verlopen
+                        </span>
+                    {% endif %}
+                </td>
+                <td>
+                    {% set huidige_schorsingen = klant.huidigeSchorsingen(locatie) %}
+                    {% if huidige_schorsingen|length > 0 %}
+                        <a href="{{ path('inloop_schorsingen_klantview', {klant: klant.id}) }}" class="text-danger">
+                            {{ huidige_schorsingen|length }}
+                            {{ huidige_schorsingen|length == 1 ? 'schorsing' : 'schorsingen' }}
+                        </a>
+                    {% else %}
+                        {% set ongeziene_schorsingen = klant.ongezieneSchorsingen(locatie) %}
+                        <a href="{{ path('inloop_schorsingen_klantview', {klant: klant.id}) }}">
+                            {{ ongeziene_schorsingen|length > 0 ? 'schorsing verlopen' : 'geen' }}
+                        </a>
+                    {% endif %}
+                </td>
+                <td>
+                    {% set openstaande_opmerkingen = klant.openstaandeOpmerkingen %}
+                    <a href="{{ path('inloop_opmerkingen_index_1', {klant: klant.id, locatie: locatie.id}) }}">
+                        {{ openstaande_opmerkingen|length > 0 ? openstaande_opmerkingen|length~' opmerkingen' : 'geen' }}
+                    </a>
+                </td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+<p>
+    {{ knp_pagination_render(pagination) }}
+</p>

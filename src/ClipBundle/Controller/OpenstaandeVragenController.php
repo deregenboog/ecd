@@ -2,17 +2,18 @@
 
 namespace ClipBundle\Controller;
 
+use AppBundle\Export\ExportInterface;
+use ClipBundle\Entity\Vraag;
+use ClipBundle\Filter\VraagFilter;
 use ClipBundle\Service\VraagDaoInterface;
 use JMS\DiExtraBundle\Annotation as DI;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
-use ClipBundle\Entity\Vraag;
-use AppBundle\Export\ExportInterface;
-use ClipBundle\Filter\VraagFilter;
-use AppBundle\Form\Model\AppDateRangeModel;
 
 /**
  * @Route("/openstaandevragen")
+ * @Template
  */
 class OpenstaandeVragenController extends AbstractVragenController
 {
@@ -21,7 +22,7 @@ class OpenstaandeVragenController extends AbstractVragenController
     /**
      * @var VraagDaoInterface
      *
-     * @DI\Inject("clip.dao.vraag")
+     * @DI\Inject("ClipBundle\Service\VraagDao")
      */
     protected $dao;
 

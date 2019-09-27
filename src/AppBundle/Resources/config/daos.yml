@@ -1,14 +1,42 @@
 services:
     app.dao.abstract:
         abstract: true
+        public: true
         arguments:
             - '@doctrine.orm.entity_manager'
             - '@knp_paginator'
             - '%pagination.items_per_page%'
 
+    AppBundle\Service\DocumentDao:
+        parent: app.dao.abstract
+
     AppBundle\Service\KlantDao:
+        parent: app.dao.abstract
+
+    AppBundle\Service\LandDao:
+        parent: app.dao.abstract
+
+    AppBundle\Service\MedewerkerDao:
+        parent: app.dao.abstract
+
+    AppBundle\Service\PostcodeDao:
+        parent: app.dao.abstract
+
+    AppBundle\Service\ZrmDao:
         parent: app.dao.abstract
 
     AppBundle\Service\VrijwilligerDao:
         parent: app.dao.abstract
 
+    app.document.entities:
+        class: ArrayObject
+        arguments:
+            -
+              - { key: klant, dao: '@AppBundle\Service\KlantDao' }
+              - { key: vrijwilliger, dao: '@AppBundle\Service\VrijwilligerDao' }
+
+    app.zrm.entities:
+        class: ArrayObject
+        arguments:
+            -
+              - { key: klant, dao: '@AppBundle\Service\KlantDao' }

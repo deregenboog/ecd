@@ -2,11 +2,11 @@
 
 namespace ClipBundle\Filter;
 
-use Doctrine\ORM\QueryBuilder;
 use AppBundle\Filter\FilterInterface;
-use ClipBundle\Entity\Vraagsoort;
 use AppBundle\Form\Model\AppDateRangeModel;
 use ClipBundle\Entity\Behandelaar;
+use ClipBundle\Entity\Vraagsoort;
+use Doctrine\ORM\QueryBuilder;
 
 class VraagFilter implements FilterInterface
 {

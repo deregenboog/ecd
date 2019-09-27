@@ -2,6 +2,8 @@
 
 namespace ClipBundle\Entity;
 
+use AppBundle\Entity\Medewerker;
+use AppBundle\Model\ActivatableInterface;
 use AppBundle\Model\ActivatableTrait;
 use AppBundle\Model\IdentifiableTrait;
 use AppBundle\Model\OptionalMedewerkerTrait;
@@ -10,7 +12,6 @@ use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Validator\Context\ExecutionContextInterface;
-use AppBundle\Entity\Medewerker;
 
 /**
  * @ORM\Entity
@@ -18,7 +19,7 @@ use AppBundle\Entity\Medewerker;
  * @ORM\HasLifecycleCallbacks
  * @Gedmo\Loggable
  */
-class Behandelaar
+class Behandelaar implements ActivatableInterface
 {
     use IdentifiableTrait, OptionalMedewerkerTrait, ActivatableTrait;
 

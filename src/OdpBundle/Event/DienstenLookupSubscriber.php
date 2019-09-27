@@ -2,15 +2,15 @@
 
 namespace OdpBundle\Event;
 
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-use AppBundle\Event\Events;
 use AppBundle\Event\DienstenLookupEvent;
+use AppBundle\Event\Events;
+use AppBundle\Model\Dienst;
 use Doctrine\ORM\EntityManager;
-use AppBundle\Entity\Klant;
 use OdpBundle\Entity\Deelnemer;
-use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use OdpBundle\Entity\Huurder;
 use OdpBundle\Entity\Verhuurder;
+use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class DienstenLookupSubscriber implements EventSubscriberInterface
 {
@@ -40,12 +40,6 @@ class DienstenLookupSubscriber implements EventSubscriberInterface
     public function provideDienstenInfo(DienstenLookupEvent $event)
     {
         $klant = $event->getKlant();
-        if (!$klant instanceof Klant) {
-            $klant = $this->entityManager->find(Klant::class, $event->getKlantId());
-            // store in event for subsequent subscribers to use
-            $event->setKlant($klant);
-        }
-
         $deelnemer = $this->entityManager->getRepository(Deelnemer::class)
             ->findOneBy(['klant' => $klant]);
 
@@ -55,14 +49,18 @@ class DienstenLookupSubscriber implements EventSubscriberInterface
             } elseif ($deelnemer instanceof Verhuurder) {
                 $url = $this->generator->generate('odp_verhuurders_view', ['id' => $deelnemer->getId()]);
             }
-            $event->addDienst([
-                'name' => 'Onder de Pannen',
-                'url' => $url,
-                'from' => $deelnemer->getAanmelddatum() ? $deelnemer->getAanmelddatum()->format('Y-m-d') : null,
-                'to' => $deelnemer->getAfsluitdatum() ? $deelnemer->getAfsluitdatum()->format('Y-m-d') : null,
-                'type' => 'date',
-                'value' => '',
-            ]);
+
+            $dienst = new Dienst('Onder de pannen', $url);
+
+            if ($deelnemer->getAanmelddatum()) {
+                $dienst->setVan($deelnemer->getAanmelddatum());
+            }
+
+            if ($deelnemer->getAfsluitdatum()) {
+                $dienst->setTot($deelnemer->getAfsluitdatum());
+            }
+
+            $event->addDienst($dienst);
         }
     }
 }

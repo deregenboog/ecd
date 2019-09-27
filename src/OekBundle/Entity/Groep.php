@@ -2,12 +2,12 @@
 
 namespace OekBundle\Entity;
 
+use AppBundle\Model\TimestampableTrait;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Component\Validator\Constraints as Assert;
-use Doctrine\Common\Collections\ArrayCollection;
-use AppBundle\Model\TimestampableTrait;
-use Doctrine\Common\Collections\Criteria;
 
 /**
  * @ORM\Entity
@@ -108,8 +108,9 @@ class Groep
 
     public function getTrainingenToekomstig()
     {
-        $criteria = Criteria::create();
-        $criteria->where(Criteria::expr()->gte('einddatum', new \DateTime()));
+        $criteria = Criteria::create()
+            ->where(Criteria::expr()->gte('einddatum', new \DateTime()))
+        ;
 
         return $this->trainingen->matching($criteria);
     }

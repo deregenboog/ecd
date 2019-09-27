@@ -2,25 +2,29 @@
 
 namespace OekBundle\Controller;
 
+use AppBundle\Controller\AbstractController;
 use AppBundle\Entity\Klant;
-use OekBundle\Entity\Deelnemer;
-use OekBundle\Form\DeelnemerType;
+use AppBundle\Export\ExportInterface;
 use AppBundle\Form\KlantFilterType;
-use OekBundle\Form\DeelnemerFilterType;
+use AppBundle\Service\KlantDaoInterface;
+use Doctrine\ORM\EntityNotFoundException;
+use JMS\DiExtraBundle\Annotation as DI;
 use OekBundle\Entity\Aanmelding;
+use OekBundle\Entity\Afsluiting;
+use OekBundle\Entity\Deelnemer;
 use OekBundle\Form\AanmeldingType;
 use OekBundle\Form\AfsluitingType;
-use OekBundle\Entity\Afsluiting;
-use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Form\FormError;
+use OekBundle\Form\DeelnemerFilterType;
+use OekBundle\Form\DeelnemerType;
 use OekBundle\Service\DeelnemerDaoInterface;
-use JMS\DiExtraBundle\Annotation as DI;
-use AppBundle\Controller\AbstractController;
-use AppBundle\Service\KlantDaoInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Symfony\Component\Form\FormError;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * @Route("/deelnemers")
+ * @Template
  */
 class DeelnemersController extends AbstractController
 {
@@ -148,6 +152,10 @@ class DeelnemersController extends AbstractController
 
             if ($count > 100) {
                 $filterForm->addError(new FormError('De zoekopdracht leverde teveel resultaten op. Probeer het opnieuw met een specifiekere zoekopdracht.'));
+
+                return [
+                    'filterForm' => $filterForm->createView(),
+                ];
             }
 
             return [

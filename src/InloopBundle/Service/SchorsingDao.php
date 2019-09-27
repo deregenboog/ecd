@@ -2,9 +2,10 @@
 
 namespace InloopBundle\Service;
 
-use AppBundle\Service\AbstractDao;
-use AppBundle\Filter\FilterInterface;
 use AppBundle\Entity\Klant;
+use AppBundle\Filter\FilterInterface;
+use AppBundle\Service\AbstractDao;
+use InloopBundle\Entity\Locatie;
 use InloopBundle\Entity\Schorsing;
 
 class SchorsingDao extends AbstractDao implements SchorsingDaoInterface
@@ -44,5 +45,63 @@ class SchorsingDao extends AbstractDao implements SchorsingDaoInterface
         }
 
         return $builder->getQuery()->getResult();
+    }
+
+    public function findActiefByKlant(Klant $klant)
+    {
+        $builder = $this->repository->createQueryBuilder($this->alias)
+            ->innerJoin("{$this->alias}.klant", 'klant', 'WITH', 'klant = :klant')
+            ->where("{$this->alias}.datumTot >= DATE(NOW())")
+            ->setParameters([
+                'klant' => klant,
+            ])
+        ;
+
+        return $builder->getQuery()->getResult();
+    }
+
+    public function findActiefByKlantAndLocatie(Klant $klant, Locatie $locatie)
+    {
+        $builder = $this->repository->createQueryBuilder($this->alias)
+            ->innerJoin("{$this->alias}.klant", 'klant', 'WITH', 'klant = :klant')
+            ->innerJoin("{$this->alias}.locaties", 'locatie', 'WITH', 'locatie = :locatie')
+            ->where("{$this->alias}.datumTot >= DATE(NOW())")
+            ->setParameters([
+                'klant' => $klant,
+                'locatie' => $locatie,
+            ])
+        ;
+
+        return $builder->getQuery()->getResult();
+    }
+
+    /**
+     * @param Schorsing
+     *
+     * @return Schorsing
+     */
+    public function create(Schorsing $entity)
+    {
+        return $this->doCreate($entity);
+    }
+
+    /**
+     * @param Schorsing
+     *
+     * @return Schorsing
+     */
+    public function update(Schorsing $entity)
+    {
+        return $this->doUpdate($entity);
+    }
+
+    /**
+     * @param Schorsing
+     *
+     * @return Schorsing
+     */
+    public function delete(Schorsing $entity)
+    {
+        return $this->doDelete($entity);
     }
 }

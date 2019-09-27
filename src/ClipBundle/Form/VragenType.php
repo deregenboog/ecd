@@ -5,17 +5,6 @@ namespace ClipBundle\Form;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use AppBundle\Form\AppDateType;
-use AppBundle\Form\BaseType;
-use ClipBundle\Entity\Contactmoment;
-use ClipBundle\Entity\Vraag;
-use ClipBundle\Entity\Behandelaar;
-use ClipBundle\Entity\Hulpvrager;
-use ClipBundle\Entity\Leeftijdscategorie;
-use ClipBundle\Entity\Communicatiekanaal;
-use ClipBundle\Entity\Viacategorie;
-use ClipBundle\Entity\Client;
 
 class VragenType extends AbstractType
 {

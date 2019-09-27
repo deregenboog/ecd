@@ -2,10 +2,11 @@
 
 namespace IzBundle\Service;
 
-use IzBundle\Entity\IzVrijwilliger;
+use AppBundle\Entity\Vrijwilliger;
 use AppBundle\Filter\FilterInterface;
 use AppBundle\Service\AbstractDao;
 use Doctrine\ORM\Query\Expr;
+use IzBundle\Entity\IzVrijwilliger;
 
 class VrijwilligerDao extends AbstractDao implements VrijwilligerDaoInterface
 {
@@ -16,7 +17,8 @@ class VrijwilligerDao extends AbstractDao implements VrijwilligerDaoInterface
             'vrijwilliger.id',
             'vrijwilliger.achternaam',
             'vrijwilliger.geboortedatum',
-            'vrijwilliger.werkgebied',
+            'werkgebied.naam',
+            'aanmeldingMedewerker.voornaam',
             'intakeMedewerker.voornaam',
             'hulpaanbodMedewerker.voornaam',
             'izVrijwilliger.afsluitDatum',
@@ -33,9 +35,11 @@ class VrijwilligerDao extends AbstractDao implements VrijwilligerDaoInterface
         $builder = $this->repository->createQueryBuilder('izVrijwilliger')
             ->select('izVrijwilliger, vrijwilliger, hulpaanbod, project, intake, intakeMedewerker, hulpaanbodMedewerker')
             ->innerJoin('izVrijwilliger.vrijwilliger', 'vrijwilliger')
+            ->leftJoin('vrijwilliger.werkgebied', 'werkgebied')
+            ->leftJoin('izVrijwilliger.medewerker', 'aanmeldingMedewerker')
             ->leftJoin('izVrijwilliger.intake', 'intake')
             ->leftJoin('intake.medewerker', 'intakeMedewerker')
-            ->leftJoin('izVrijwilliger.izHulpaanbiedingen', 'hulpaanbod')
+            ->leftJoin('izVrijwilliger.hulpaanbiedingen', 'hulpaanbod')
             ->leftJoin('hulpaanbod.project', 'project')
             ->leftJoin('hulpaanbod.medewerker', 'hulpaanbodMedewerker', 'WITH', $expr->andX(
                 $expr->orX('hulpaanbod.einddatum IS NULL', 'hulpaanbod.einddatum > :now'),
@@ -53,6 +57,16 @@ class VrijwilligerDao extends AbstractDao implements VrijwilligerDaoInterface
         }
 
         return $builder->getQuery()->getResult();
+    }
+
+    /**
+     * @param Vrijwilliger $vrijwilliger
+     *
+     * @return IzVrijwilliger
+     */
+    public function findOneByVrijwilliger(Vrijwilliger $vrijwilliger)
+    {
+        return $this->repository->findOneBy(['vrijwilliger' => $vrijwilliger]);
     }
 
     public function create(IzVrijwilliger $vrijwilliger)

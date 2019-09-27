@@ -2,11 +2,11 @@
 
 namespace IzBundle\Service;
 
-use IzBundle\Entity\IzKlant;
+use AppBundle\Entity\Klant;
 use AppBundle\Filter\FilterInterface;
 use AppBundle\Service\AbstractDao;
 use Doctrine\ORM\Query\Expr;
-use AppBundle\Entity\Klant;
+use IzBundle\Entity\IzKlant;
 
 class KlantDao extends AbstractDao implements KlantDaoInterface
 {
@@ -19,6 +19,7 @@ class KlantDao extends AbstractDao implements KlantDaoInterface
             'klant.geboortedatum',
             'werkgebied.naam',
             'klant.laatsteZrm',
+            'aanmeldingMedewerker.voornaam',
             'intakeMedewerker.voornaam',
             'hulpvraagMedewerker.voornaam',
             'izKlant.afsluitDatum',
@@ -36,9 +37,10 @@ class KlantDao extends AbstractDao implements KlantDaoInterface
             ->select('izKlant, klant, hulpvraag, project, intake, intakeMedewerker, hulpvraagMedewerker')
             ->innerJoin('izKlant.klant', 'klant')
             ->leftJoin('klant.werkgebied', 'werkgebied')
+            ->leftJoin('izKlant.medewerker', 'aanmeldingMedewerker')
             ->leftJoin('izKlant.intake', 'intake')
             ->leftJoin('intake.medewerker', 'intakeMedewerker')
-            ->leftJoin('izKlant.izHulpvragen', 'hulpvraag')
+            ->leftJoin('izKlant.hulpvragen', 'hulpvraag')
             ->leftJoin('hulpvraag.project', 'project')
             ->leftJoin('hulpvraag.medewerker', 'hulpvraagMedewerker', 'WITH', $expr->andX(
                 $expr->orX('hulpvraag.einddatum IS NULL', 'hulpvraag.einddatum > :now'),

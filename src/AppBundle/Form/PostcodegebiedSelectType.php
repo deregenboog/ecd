@@ -2,12 +2,11 @@
 
 namespace AppBundle\Form;
 
+use AppBundle\Entity\GgwGebied;
+use Doctrine\ORM\EntityRepository;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
-use AppBundle\Entity\Werkgebied;
-use Doctrine\ORM\EntityRepository;
-use AppBundle\Entity\GgwGebied;
 
 class PostcodegebiedSelectType extends AbstractType
 {

@@ -2,20 +2,22 @@
 
 namespace ClipBundle\Controller;
 
+use AppBundle\Export\ExportInterface;
+use AppBundle\Form\ConfirmationType;
+use ClipBundle\Entity\Vraag;
+use ClipBundle\Form\VraagCloseType;
+use ClipBundle\Form\VraagType;
+use ClipBundle\Form\VragenModel;
+use ClipBundle\Form\VragenType;
 use ClipBundle\Service\VraagDaoInterface;
 use JMS\DiExtraBundle\Annotation as DI;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
-use ClipBundle\Entity\Vraag;
-use ClipBundle\Form\VraagType;
-use ClipBundle\Form\VraagCloseType;
-use AppBundle\Export\ExportInterface;
-use ClipBundle\Form\VragenType;
-use ClipBundle\Form\VragenModel;
-use AppBundle\Form\ConfirmationType;
 
 /**
  * @Route("/vragen")
+ * @Template
  */
 class VragenController extends AbstractVragenController
 {
@@ -26,7 +28,7 @@ class VragenController extends AbstractVragenController
     /**
      * @var VraagDaoInterface
      *
-     * @DI\Inject("clip.dao.vraag")
+     * @DI\Inject("ClipBundle\Service\VraagDao")
      */
     protected $dao;
 
@@ -134,6 +136,7 @@ class VragenController extends AbstractVragenController
                 $this->dao->update($entity);
                 $this->addFlash('success', ucfirst($this->entityName).' is heropend.');
             }
+
             return $this->redirect($url);
         }
 
@@ -141,5 +144,19 @@ class VragenController extends AbstractVragenController
             'entity' => $entity,
             'form' => $form->createView(),
         ];
+    }
+
+    /**
+     * @Route("/{id}/delete")
+     */
+    public function deleteAction(Request $request, $id)
+    {
+        $entity = $this->dao->find($id);
+
+        if (!$this->isGranted('ROLE_CLIP_BEHEER')) {
+            return $this->redirectToView($entity);
+        }
+
+        return parent::deleteAction($request, $id);
     }
 }

@@ -1,12 +1,19 @@
 imports:
     - { resource: config.yml }
+    - { resource: security.yml }
 
 monolog:
+    channels: ["merge"]
     handlers:
         main:
             type: stream
             path: "%kernel.logs_dir%/%kernel.environment%.log"
             level: error
+        merge:
+            level: debug
+            type: stream
+            path: '%kernel.logs_dir%/merge.log'
+            channels: ["merge"]
         # https://symfony.com/doc/3.4/logging/monolog_email.html
         mail:
             type: fingers_crossed
@@ -18,7 +25,7 @@ monolog:
         swift:
             type: swift_mailer
             from_email: 'noreply@deregenboog.org'
-            to_email: '%administrator_email%'
+            to_email: '%log_email%'
             subject: 'ECD error: %%message%%'
             level: debug
             formatter: monolog.formatter.html

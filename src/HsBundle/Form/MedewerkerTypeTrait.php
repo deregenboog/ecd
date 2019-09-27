@@ -2,9 +2,9 @@
 
 namespace HsBundle\Form;
 
-use Symfony\Component\Form\FormBuilderInterface;
 use AppBundle\Form\MedewerkerType;
 use Doctrine\ORM\EntityRepository;
+use Symfony\Component\Form\FormBuilderInterface;
 
 trait MedewerkerTypeTrait
 {
@@ -16,9 +16,9 @@ trait MedewerkerTypeTrait
 
                 return $repository->createQueryBuilder('medewerker')
                     ->where('medewerker = :current')
-                    ->orWhere('medewerker.actief = true AND medewerker.groepen LIKE :groups')
+                    ->orWhere('medewerker.actief = true AND medewerker.roles LIKE :role')
                     ->setParameter('current', $current)
-                    ->setParameter('groups', '%'.GROUP_HOMESERVICE.'%')
+                    ->setParameter('role', '%ROLE_HOMESERVICE%')
                     ->orderBy('medewerker.voornaam')
                 ;
             },

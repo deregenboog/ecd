@@ -2,8 +2,8 @@
 
 namespace IzBundle\Export;
 
-use IzBundle\Entity\IzKlant;
 use AppBundle\Export\GenericExport;
+use IzBundle\Entity\IzKlant;
 
 class IzKlantenExport extends GenericExport
 {
@@ -11,7 +11,7 @@ class IzKlantenExport extends GenericExport
     {
         $projecten = [];
 
-        foreach ($izKlant->getIzHulpvragen() as $hulpvraag) {
+        foreach ($izKlant->getHulpvragen() as $hulpvraag) {
             if (!$hulpvraag->isGekoppeld() && !$hulpvraag->isAfgesloten()) {
                 $projecten[] = $hulpvraag->getProject();
             }
@@ -24,7 +24,7 @@ class IzKlantenExport extends GenericExport
     {
         $projecten = [];
 
-        foreach ($izKlant->getIzHulpvragen() as $hulpvraag) {
+        foreach ($izKlant->getHulpvragen() as $hulpvraag) {
             if ($hulpvraag->isGekoppeld() && !$hulpvraag->isAfgesloten()) {
                 $projecten[] = $hulpvraag->getProject();
             }
@@ -37,7 +37,7 @@ class IzKlantenExport extends GenericExport
     {
         $projecten = [];
 
-        foreach ($izKlant->getIzHulpvragen() as $hulpvraag) {
+        foreach ($izKlant->getHulpvragen() as $hulpvraag) {
             if ($hulpvraag->isGekoppeld() && $hulpvraag->isAfgesloten()) {
                 $projecten[] = $hulpvraag->getProject();
             }
@@ -50,7 +50,7 @@ class IzKlantenExport extends GenericExport
     {
         $data = [];
 
-        foreach ($izKlant->getIzHulpvragen() as $hulpvraag) {
+        foreach ($izKlant->getHulpvragen() as $hulpvraag) {
             if ($hulpvraag->isGekoppeld()) {
                 $data[] = $hulpvraag->getKoppelingStartdatum();
             }
@@ -78,7 +78,7 @@ class IzKlantenExport extends GenericExport
     {
         $data = [];
 
-        foreach ($izKlant->getIzHulpvragen() as $hulpvraag) {
+        foreach ($izKlant->getHulpvragen() as $hulpvraag) {
             if ($hulpvraag->isGekoppeld() && $hulpvraag->isAfgesloten()) {
                 $data[] = $hulpvraag->getKoppelingEinddatum();
             }
@@ -104,7 +104,7 @@ class IzKlantenExport extends GenericExport
     {
         $medewerkers = [];
 
-        foreach ($izKlant->getIzHulpvragen() as $hulpvraag) {
+        foreach ($izKlant->getHulpvragen() as $hulpvraag) {
             if ($hulpvraag->getMedewerker()) {
                 $medewerkers[] = $hulpvraag->getMedewerker();
             }

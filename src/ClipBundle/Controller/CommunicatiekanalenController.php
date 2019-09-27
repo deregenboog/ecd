@@ -3,14 +3,17 @@
 namespace ClipBundle\Controller;
 
 use AppBundle\Controller\AbstractController;
-use JMS\DiExtraBundle\Annotation as DI;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use ClipBundle\Entity\Communicatiekanaal;
 use ClipBundle\Form\CommunicatiekanaalType;
 use ClipBundle\Service\CommunicatiekanaalDaoInterface;
+use JMS\DiExtraBundle\Annotation as DI;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * @Route("/admin/communicatiekanalen")
+ * @Template
  */
 class CommunicatiekanalenController extends AbstractController
 {
@@ -23,14 +26,14 @@ class CommunicatiekanalenController extends AbstractController
     /**
      * @var CommunicatiekanaalDaoInterface
      *
-     * @DI\Inject("clip.dao.communicatiekanaal")
+     * @DI\Inject("ClipBundle\Service\CommunicatiekanaalDao")
      */
     protected $dao;
 
     /**
      * @Route("/{id}/view")
      */
-    public function viewAction($id)
+    public function viewAction(Request $request, $id)
     {
         return $this->redirectToIndex();
     }

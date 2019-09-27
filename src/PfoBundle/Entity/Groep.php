@@ -2,11 +2,11 @@
 
 namespace PfoBundle\Entity;
 
-use Doctrine\ORM\Mapping as ORM;
-use Gedmo\Mapping\Annotation as Gedmo;
-use AppBundle\Model\TimestampableTrait;
 use AppBundle\Model\IdentifiableTrait;
 use AppBundle\Model\NameableTrait;
+use AppBundle\Model\TimestampableTrait;
+use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Entity()
@@ -29,7 +29,7 @@ class Groep
     /**
      * @var \DateTime
      *
-     * @ORM\Column(type="date")
+     * @ORM\Column(type="date", nullable=true)
      * @Gedmo\Versioned
      */
     private $einddatum;

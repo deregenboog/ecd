@@ -20,6 +20,10 @@ class Table
 
     private $yTotals = true;
 
+    private $xTotalLabel = 'Totaal';
+
+    private $yTotalLabel = 'Totaal';
+
     private $xNullReplacement;
 
     private $yNullReplacement;
@@ -67,6 +71,20 @@ class Table
     public function setYTotals($yTotals)
     {
         $this->yTotals = $yTotals;
+
+        return $this;
+    }
+
+    public function setXTotalLabel($xTotalLabel)
+    {
+        $this->xTotalLabel = $xTotalLabel;
+
+        return $this;
+    }
+
+    public function setYTotalLabel($yTotalLabel)
+    {
+        $this->yTotalLabel = $yTotalLabel;
 
         return $this;
     }
@@ -127,17 +145,17 @@ class Table
         foreach ($this->result as $row) {
             if (empty($xValues) && empty($yValues)) {
                 if ($this->xTotals && $this->yTotals) {
-                    $data['Totaal']['Totaal'] = current($this->result)[$this->nPath];
+                    $data[$this->yTotalLabel][$this->xTotalLabel] = current($this->result)[$this->nPath];
                 }
             } elseif (empty($yValues)) {
                 foreach ($xValues as $xValue) {
                     if ((string) $row[$this->xPath] === (string) $xValue) {
                         $aantal = $row[$this->nPath];
                         if ($this->yTotals) {
-                            $data['Totaal'][$xValue] += $aantal;
+                            $data[$this->yTotalLabel][$xValue] += $aantal;
                         }
                         if ($this->xTotals && $this->yTotals) {
-                            $data['Totaal']['Totaal'] += $aantal;
+                            $data[$this->yTotalLabel][$this->xTotalLabel] += $aantal;
                         }
                     }
                 }
@@ -147,10 +165,10 @@ class Table
                         if (empty($xValues)) {
                             $aantal = $row[$this->nPath];
                             if ($this->xTotals) {
-                                $data[$yValue]['Totaal'] += $aantal;
+                                $data[$yValue][$this->xTotalLabel] += $aantal;
                             }
                             if ($this->xTotals && $this->yTotals) {
-                                $data['Totaal']['Totaal'] += $aantal;
+                                $data[$this->yTotalLabel][$this->xTotalLabel] += $aantal;
                             }
                         } else {
                             foreach ($xValues as $xValue) {
@@ -158,13 +176,13 @@ class Table
                                     $aantal = $row[$this->nPath];
                                     $data[$yValue][$xValue] += $aantal;
                                     if ($this->xTotals) {
-                                        $data[$yValue]['Totaal'] += $aantal;
+                                        $data[$yValue][$this->xTotalLabel] += $aantal;
                                     }
                                     if ($this->yTotals) {
-                                        $data['Totaal'][$xValue] += $aantal;
+                                        $data[$this->yTotalLabel][$xValue] += $aantal;
                                     }
                                     if ($this->xTotals && $this->yTotals) {
-                                        $data['Totaal']['Totaal'] += $aantal;
+                                        $data[$this->yTotalLabel][$this->xTotalLabel] += $aantal;
                                     }
                                 }
                             }
@@ -174,42 +192,41 @@ class Table
             }
         }
 
-        if ($this->report) {
-            $data = $this->convertToLinks($data);
-        }
+//         if ($this->report) {
+//             $data = $this->convertToLinks($data);
+//         }
 
         return $data;
     }
 
-    protected function convertToLinks(array $data)
-    {
-        \App::import('Helper', 'Html');
-        $helper = new \HtmlHelper();
+//     protected function convertToLinks(array $data)
+//     {
+//         $helper = new \HtmlHelper();
 
-        foreach ($data as $x => $row) {
-            foreach ($row as $y => $value) {
-                if (!$x || !$y) {
-                    continue;
-                }
-                $url = [
-                    'controller' => $this->controller,
-                    'action' => $this->action,
-                    'Query.name' => $this->report,
-                    'Query.from' => $this->startDate->format('Y-m-d'),
-                    'Query.until' => $this->endDate->format('Y-m-d'),
-                ];
-                if ($this->xPath && 'Totaal' !== $y) {
-                    $url[$this->xPath] = $y;
-                }
-                if ($this->yPath && 'Totaal' !== $x) {
-                    $url[$this->yPath] = $x;
-                }
-                $data[$x][$y] = $helper->link($value, $url);
-            }
-        }
+//         foreach ($data as $x => $row) {
+//             foreach ($row as $y => $value) {
+//                 if (!$x || !$y) {
+//                     continue;
+//                 }
+//                 $url = [
+//                     'controller' => $this->controller,
+//                     'action' => $this->action,
+//                     'Query.name' => $this->report,
+//                     'Query.from' => $this->startDate->format('Y-m-d'),
+//                     'Query.until' => $this->endDate->format('Y-m-d'),
+//                 ];
+//                 if ($this->xPath && 'Totaal' !== $y) {
+//                     $url[$this->xPath] = $y;
+//                 }
+//                 if ($this->yPath && 'Totaal' !== $x) {
+//                     $url[$this->yPath] = $x;
+//                 }
+//                 $data[$x][$y] = $helper->link($value, $url);
+//             }
+//         }
 
-        return $data;
-    }
+//         return $data;
+//     }
 
     protected function getAxisLabels()
     {
@@ -243,16 +260,16 @@ class Table
                 $data[$yLabel][$xLabel] = 0;
             }
             if ($this->xTotals) {
-                $data[$yLabel]['Totaal'] = 0;
+                $data[$yLabel][$this->xTotalLabel] = 0;
             }
         }
         if ($this->yTotals) {
             foreach ($xLabels as $xLabel) {
-                $data['Totaal'][$xLabel] = 0;
+                $data[$this->yTotalLabel][$xLabel] = 0;
             }
         }
         if ($this->xTotals && $this->yTotals) {
-            $data['Totaal']['Totaal'] = 0;
+            $data[$this->yTotalLabel][$this->xTotalLabel] = 0;
         }
 
         return $data;

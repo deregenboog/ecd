@@ -2,11 +2,11 @@
 
 namespace ClipBundle\Event;
 
+use AppBundle\Entity\Postcode;
+use ClipBundle\Entity\Client;
 use Doctrine\Common\EventSubscriber;
 use Doctrine\Common\Persistence\Event\LifecycleEventArgs;
 use Doctrine\ORM\Events;
-use ClipBundle\Entity\Client;
-use AppBundle\Entity\Postcode;
 
 class PostcodeSubscriber implements EventSubscriber
 {
@@ -35,7 +35,7 @@ class PostcodeSubscriber implements EventSubscriber
         if ($client instanceof Client) {
             $entityManager = $args->getEntityManager();
             if ($client->getPostcode()) {
-                /** @var $postcode Postcode */
+                /* @var $postcode Postcode */
                 $postcode = $entityManager->find(Postcode::class, $client->getPostcode());
                 $client->setWerkgebied($postcode ? $postcode->getStadsdeel() : null);
                 $client->setPostcodegebied($postcode ? $postcode->getPostcodegebied() : null);

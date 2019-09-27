@@ -2,9 +2,9 @@
 
 namespace HsBundle\Service;
 
+use AppBundle\Filter\FilterInterface;
 use HsBundle\Entity\Klus;
 use Knp\Component\Pager\Pagination\PaginationInterface;
-use AppBundle\Filter\FilterInterface;
 
 interface KlusDaoInterface
 {
@@ -39,7 +39,13 @@ interface KlusDaoInterface
 
     public function countByStadsdeel(\DateTime $start = null, \DateTime $end = null);
 
+    public function countByGgwGebied(\DateTime $start = null, \DateTime $end = null);
+
     public function countDienstverlenersByStadsdeel(\DateTime $start = null, \DateTime $end = null);
 
+    public function countDienstverlenersByGgwGebied(\DateTime $start = null, \DateTime $end = null);
+
     public function countVrijwilligersByStadsdeel(\DateTime $start = null, \DateTime $end = null);
+
+    public function countVrijwilligersByGgwGebied(\DateTime $start = null, \DateTime $end = null);
 }

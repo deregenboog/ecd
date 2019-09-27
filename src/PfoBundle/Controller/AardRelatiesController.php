@@ -2,11 +2,12 @@
 
 namespace PfoBundle\Controller;
 
-use Symfony\Component\Routing\Annotation\Route;
-use JMS\DiExtraBundle\Annotation as DI;
 use AppBundle\Controller\AbstractController;
+use JMS\DiExtraBundle\Annotation as DI;
 use PfoBundle\Entity\AardRelatie;
 use PfoBundle\Form\AardRelatieType;
+use PfoBundle\Service\AardRelatieDaoInterface;
+use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * @Route("/admin/aardrelaties")

@@ -2,17 +2,20 @@
 
 namespace OekBundle\Controller;
 
-use OekBundle\Entity\Training;
-use OekBundle\Form\TrainingFilterType;
-use OekBundle\Form\TrainingType;
-use OekBundle\Form\EmailMessageType;
-use Symfony\Component\Routing\Annotation\Route;
-use JMS\DiExtraBundle\Annotation as DI;
 use AppBundle\Controller\AbstractChildController;
 use AppBundle\Export\ExportInterface;
+use JMS\DiExtraBundle\Annotation as DI;
+use OekBundle\Entity\Training;
+use OekBundle\Form\EmailMessageType;
+use OekBundle\Form\TrainingFilterType;
+use OekBundle\Form\TrainingType;
+use OekBundle\Service\TrainingDaoInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * @Route("/trainingen")
+ * @Template
  */
 class TrainingenController extends AbstractChildController
 {
@@ -80,9 +83,9 @@ class TrainingenController extends AbstractChildController
             ;
 
             if ($mailer->send($message)) {
-                $this->addFlash('success', __('Email is succesvol verzonden', true));
+                $this->addFlash('success', 'Email is succesvol verzonden');
             } else {
-                $this->addFlash('danger', __('Email kon niet worden verzonden', true));
+                $this->addFlash('danger', 'Email kon niet worden verzonden');
             }
 
             return $this->redirectToView($training);

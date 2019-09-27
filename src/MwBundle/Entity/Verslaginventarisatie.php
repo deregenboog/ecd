@@ -2,13 +2,11 @@
 
 namespace MwBundle\Entity;
 
-use Doctrine\ORM\Mapping as ORM;
-use Doctrine\Common\Collections\ArrayCollection;
-use Gedmo\Mapping\Annotation as Gedmo;
-use AppBundle\Model\TimestampableTrait;
 use AppBundle\Model\IdentifiableTrait;
-use AppBundle\Entity\Verslag;
+use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
 use Gedmo\Timestampable\Traits\Timestampable;
+use AppBundle\Model\TimestampableTrait;
 
 /**
  * @ORM\Entity
@@ -18,12 +16,12 @@ use Gedmo\Timestampable\Traits\Timestampable;
  */
 class Verslaginventarisatie
 {
-    use IdentifiableTrait, Timestampable;
+    use IdentifiableTrait, TimestampableTrait;
 
     /**
      * @var Verslag
      *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Verslag")
+     * @ORM\ManyToOne(targetEntity="MwBundle\Entity\Verslag", inversedBy="verslaginventarisaties")
      * @Gedmo\Versioned
      */
     private $verslag;
@@ -37,12 +35,20 @@ class Verslaginventarisatie
     private $inventarisatie;
 
     /**
-     * @var Doorverwijzer
+     * @var Doorverwijzing
      *
-     * @ORM\ManyToOne(targetEntity="Doorverwijzer")
+     * @ORM\ManyToOne(targetEntity="Doorverwijzing")
+     * @ORM\JoinColumn(name="doorverwijzer_id")
      * @Gedmo\Versioned
      */
-    private $doorverwijzer;
+    private $doorverwijzing;
+
+    public function __construct(Verslag $verslag, Inventarisatie $inventarisatie, Doorverwijzing $doorverwijzing = null)
+    {
+        $this->verslag = $verslag;
+        $this->inventarisatie = $inventarisatie;
+        $this->doorverwijzing = $doorverwijzing;
+    }
 
     /**
      * @return Verslag
@@ -55,7 +61,7 @@ class Verslaginventarisatie
     /**
      * @param Verslag $verslag
      */
-    public function setVerslag(Verslag $verslag)
+    public function setVerslag(Verslag $verslag = null)
     {
         $this->verslag = $verslag;
 
@@ -81,19 +87,19 @@ class Verslaginventarisatie
     }
 
     /**
-     * @return Doorverwijzer
+     * @return Doorverwijzing
      */
-    public function getDoorverwijzer()
+    public function getDoorverwijzing()
     {
-        return $this->doorverwijzer;
+        return $this->doorverwijzing;
     }
 
     /**
-     * @param Doorverwijzer $doorverwijzer
+     * @param Doorverwijzing $doorverwijzing
      */
-    public function setDoorverwijzer($doorverwijzer)
+    public function setDoorverwijzing($doorverwijzing)
     {
-        $this->doorverwijzer = $doorverwijzer;
+        $this->doorverwijzing = $doorverwijzing;
 
         return $this;
     }

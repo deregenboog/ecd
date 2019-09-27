@@ -2,16 +2,17 @@
 
 namespace Tests\IzBundle\Filter;
 
-use Doctrine\ORM\QueryBuilder;
-use IzBundle\Entity\Project;
 use AppBundle\Entity\Medewerker;
 use AppBundle\Filter\KlantFilter;
 use AppBundle\Filter\VrijwilligerFilter;
+use AppBundle\Form\Model\AppDateRangeModel;
 use Doctrine\ORM\EntityManager;
-use IzBundle\Entity\Hulpvraag;
+use Doctrine\ORM\QueryBuilder;
+use IzBundle\Entity\Project;
 use IzBundle\Filter\KoppelingFilter;
+use PHPUnit\Framework\TestCase;
 
-class KoppelingFilterTest extends \PHPUnit_Framework_TestCase
+class KoppelingFilterTest extends TestCase
 {
     public function testKlantFilter()
     {
@@ -42,16 +43,16 @@ class KoppelingFilterTest extends \PHPUnit_Framework_TestCase
         $builder = $this->createQueryBuilder();
 
         $filter = $this->createSUT();
-        $filter->koppelingStartdatum = new \DateTime('2016-01-01');
+        $filter->koppelingStartdatum = new AppDateRangeModel(new \DateTime('2016-01-01'));
         $filter->applyTo($builder);
 
         $this->assertEquals(
-            'hulpvraag.koppelingStartdatum = :koppelingStartdatum',
+            'hulpvraag.koppelingStartdatum >= :koppelingStartdatum_van AND (hulpvraag.koppelingEinddatum IS NULL OR hulpvraag.koppelingEinddatum > :now)',
             (string) $builder->getDQLPart('where')
         );
         $this->assertEquals(
-            $filter->koppelingStartdatum,
-            $builder->getParameter('koppelingStartdatum')->getValue()
+            $filter->koppelingStartdatum->getStart(),
+            $builder->getParameter('koppelingStartdatum_van')->getValue()
         );
     }
 
@@ -60,16 +61,16 @@ class KoppelingFilterTest extends \PHPUnit_Framework_TestCase
         $builder = $this->createQueryBuilder();
 
         $filter = $this->createSUT();
-        $filter->koppelingEinddatum = new \DateTime('2016-12-31');
+        $filter->koppelingEinddatum = new AppDateRangeModel(null, new \DateTime('2016-12-31'));
         $filter->applyTo($builder);
 
         $this->assertEquals(
-            'hulpvraag.koppelingEinddatum = :koppelingEinddatum',
+            'hulpvraag.koppelingEinddatum <= :koppelingEinddatum_tot AND (hulpvraag.koppelingEinddatum IS NULL OR hulpvraag.koppelingEinddatum > :now)',
             (string) $builder->getDQLPart('where')
         );
         $this->assertEquals(
-            $filter->koppelingEinddatum,
-            $builder->getParameter('koppelingEinddatum')->getValue()
+            $filter->koppelingEinddatum->getEnd(),
+            $builder->getParameter('koppelingEinddatum_tot')->getValue()
         );
     }
 
@@ -87,8 +88,8 @@ class KoppelingFilterTest extends \PHPUnit_Framework_TestCase
             (string) $builder->getDQLPart('where')
         );
         $this->assertEquals(
-            $now,
-            $builder->getParameter('now')->getValue()
+            $now->getTimestamp(),
+            $builder->getParameter('now')->getValue()->getTimestamp()
         );
     }
 
@@ -102,7 +103,7 @@ class KoppelingFilterTest extends \PHPUnit_Framework_TestCase
         $filter->applyTo($builder);
 
         $this->assertEquals(
-            'hulpvraag.project = :project',
+            '(hulpvraag.koppelingEinddatum IS NULL OR hulpvraag.koppelingEinddatum > :now) AND hulpvraag.project = :project',
             (string) $builder->getDQLPart('where')
         );
         $this->assertEquals(
@@ -121,7 +122,7 @@ class KoppelingFilterTest extends \PHPUnit_Framework_TestCase
         $filter->applyTo($builder);
 
         $this->assertEquals(
-            'hulpvraag.medewerker = :hulpvraagMedewerker',
+            '(hulpvraag.koppelingEinddatum IS NULL OR hulpvraag.koppelingEinddatum > :now) AND hulpvraag.medewerker = :hulpvraagMedewerker',
             (string) $builder->getDQLPart('where')
         );
         $this->assertEquals(
@@ -140,7 +141,7 @@ class KoppelingFilterTest extends \PHPUnit_Framework_TestCase
         $filter->applyTo($builder);
 
         $this->assertEquals(
-            'hulpaanbod.medewerker = :hulpaanbodMedewerker',
+            '(hulpvraag.koppelingEinddatum IS NULL OR hulpvraag.koppelingEinddatum > :now) AND hulpaanbod.medewerker = :hulpaanbodMedewerker',
             (string) $builder->getDQLPart('where')
         );
         $this->assertEquals(

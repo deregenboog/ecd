@@ -2,12 +2,13 @@
 
 namespace IzBundle\Filter;
 
-use Doctrine\ORM\QueryBuilder;
-use IzBundle\Entity\Project;
 use AppBundle\Entity\Medewerker;
 use AppBundle\Filter\FilterInterface;
 use AppBundle\Filter\KlantFilter;
 use AppBundle\Filter\VrijwilligerFilter;
+use AppBundle\Form\Model\AppDateRangeModel;
+use Doctrine\ORM\QueryBuilder;
+use IzBundle\Entity\Project;
 
 class KoppelingFilter implements FilterInterface
 {
@@ -22,19 +23,24 @@ class KoppelingFilter implements FilterInterface
     public $vrijwilliger;
 
     /**
-     * @var \DateTime
+     * @var AppDateRangeModel
      */
     public $koppelingStartdatum;
 
     /**
-     * @var \DateTime
+     * @var AppDateRangeModel
      */
     public $koppelingEinddatum;
 
     /**
      * @var bool
      */
-    public $lopendeKoppelingen;
+    public $lopendeKoppelingen = true;
+
+    /**
+     * @var bool
+     */
+    public $langeKoppelingen = false;
 
     /**
      * @var Project
@@ -67,23 +73,49 @@ class KoppelingFilter implements FilterInterface
         }
 
         if ($this->koppelingStartdatum) {
-            $builder
-                ->andWhere('hulpvraag.koppelingStartdatum = :koppelingStartdatum')
-                ->setParameter('koppelingStartdatum', $this->koppelingStartdatum)
-            ;
+            if ($this->koppelingStartdatum->getStart()) {
+                $builder
+                    ->andWhere('hulpvraag.koppelingStartdatum >= :koppelingStartdatum_van')
+                    ->setParameter('koppelingStartdatum_van', $this->koppelingStartdatum->getStart())
+                ;
+            }
+            if ($this->koppelingStartdatum->getEnd()) {
+                $builder
+                    ->andWhere('hulpvraag.koppelingStartdatum <= :koppelingStartdatum_tot')
+                    ->setParameter('koppelingStartdatum_tot', $this->koppelingStartdatum->getEnd())
+                ;
+            }
         }
 
         if ($this->koppelingEinddatum) {
-            $builder
-                ->andWhere('hulpvraag.koppelingEinddatum = :koppelingEinddatum')
-                ->setParameter('koppelingEinddatum', $this->koppelingEinddatum)
-            ;
+            if ($this->koppelingEinddatum->getStart()) {
+                $builder
+                    ->andWhere('hulpvraag.koppelingEinddatum >= :koppelingEinddatum_van')
+                    ->setParameter('koppelingEinddatum_van', $this->koppelingEinddatum->getStart())
+                ;
+            }
+            if ($this->koppelingEinddatum->getEnd()) {
+                $builder
+                    ->andWhere('hulpvraag.koppelingEinddatum <= :koppelingEinddatum_tot')
+                    ->setParameter('koppelingEinddatum_tot', $this->koppelingEinddatum->getEnd())
+                ;
+            }
         }
 
         if ($this->lopendeKoppelingen) {
             $builder
                 ->andWhere('hulpvraag.koppelingEinddatum IS NULL OR hulpvraag.koppelingEinddatum > :now')
                 ->setParameter('now', new \DateTime())
+            ;
+        }
+
+        if ($this->langeKoppelingen) {
+            $builder
+                ->andWhere($builder->expr()->orX(
+                    'hulpvraag.koppelingEinddatum IS NULL AND hulpvraag.koppelingStartdatum < :six_months_ago',
+                    'DATEDIFF(hulpvraag.koppelingEinddatum, hulpvraag.koppelingStartdatum) >= 183'
+                ))
+                ->setParameter('six_months_ago', new \DateTime('-6 months'))
             ;
         }
 

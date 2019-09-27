@@ -1,0 +1,28 @@
+{% import '::html.macro.twig' as html %}
+
+<h2>Schorsingen</h2>
+<p>
+    {{ html.link('Overzicht schorsingen', path('inloop_schorsingen_index', {'schorsing_filter[klant][id]': klant.id}), 'view') }}
+    {{ html.link('Schorsing toevoegen', path('inloop_schorsingen_add', {'klant': klant.id}), 'add') }}
+</p>
+{% set schorsingen = klant.recenteSchorsingen(5) %}
+{% if 0 == schorsingen|length %}
+    <p>Geen schorsingen</p>
+{% else %}
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>Van</th>
+                <th>Tot</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for schorsing in schorsingen %}
+                <tr data-href="{{ path('inloop_schorsingen_view', {id: schorsing.id}) }}">
+                    <td>{{ schorsing.datumVan|date('d-m-Y') }}</td>
+                    <td>{{ schorsing.datumTot|date('d-m-Y') }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endif %}

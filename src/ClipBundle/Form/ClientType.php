@@ -2,17 +2,16 @@
 
 namespace ClipBundle\Form;
 
-use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use AppBundle\Form\AddressType;
 use AppBundle\Form\AppDateType;
 use AppBundle\Form\BaseType;
-use ClipBundle\Entity\Client;
-use ClipBundle\Entity\Behandelaar;
 use AppBundle\Form\PersonType;
-use AppBundle\Form\AddressType;
 use AppBundle\Form\WerkgebiedSelectType;
+use ClipBundle\Entity\Client;
+use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class ClientType extends AbstractType
 {

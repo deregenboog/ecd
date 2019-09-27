@@ -2,18 +2,19 @@
 
 namespace OekBundle\Form;
 
+use AppBundle\Form\BaseType;
+use AppBundle\Form\DummyChoiceType;
 use Doctrine\ORM\EntityRepository;
+use OekBundle\Entity\Deelname;
 use OekBundle\Entity\DeelnameStatus;
 use OekBundle\Entity\Deelnemer;
+use OekBundle\Entity\Training;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
-use OekBundle\Entity\Training;
-use OekBundle\Entity\Deelname;
-use AppBundle\Form\BaseType;
 
 class DeelnameType extends AbstractType
 {
@@ -36,23 +37,20 @@ class DeelnameType extends AbstractType
 
     private function buildAddForm(FormBuilderInterface $builder, array $options)
     {
-        if ($options['data']->getTraining() instanceof Training) {
-            $builder->add('training', EntityType::class, [
+        /* @var $deelname Deelname */
+        $deelname = $options['data'];
+
+        if ($deelname->getTraining() instanceof Training) {
+            $builder->add('training', DummyChoiceType::class, [
                 'label' => 'Training',
-                'class' => Training::class,
-                'query_builder' => function (EntityRepository $repository) use ($options) {
-                    return $repository->createQueryBuilder('training')
-                        ->where('training = :training')
-                        ->setParameter('training', $options['data']->getTraining())
-                    ;
-                },
+                'dummy_label' => (string) $deelname->getTraining(),
             ]);
-        } elseif ($options['data']->getDeelnemer() instanceof Deelnemer) {
+        } elseif ($deelname->getDeelnemer() instanceof Deelnemer) {
             $builder->add('training', EntityType::class, [
                 'label' => 'Training',
                 'placeholder' => 'Selecteer een training',
                 'class' => Training::class,
-                'query_builder' => function (EntityRepository $repository) use ($options) {
+                'query_builder' => function (EntityRepository $repository) use ($deelname) {
                     return $repository->createQueryBuilder('training')
                         ->where('training.einddatum >= :now')
                         ->setParameter('now', new \DateTime('today'))
@@ -62,34 +60,28 @@ class DeelnameType extends AbstractType
             ]);
         }
 
-        if ($options['data']->getDeelnemer() instanceof Deelnemer) {
-            $builder->add('deelnemer', EntityType::class, [
+        if ($deelname->getDeelnemer() instanceof Deelnemer) {
+            $builder->add('deelnemer', DummyChoiceType::class, [
                 'label' => 'Deelnemer',
-                'class' => Deelnemer::class,
-                'query_builder' => function (EntityRepository $repository) use ($options) {
-                    return $repository->createQueryBuilder('deelnemer')
-                        ->where('deelnemer = :deelnemer')
-                        ->setParameter('deelnemer', $options['data']->getDeelnemer())
-                    ;
-                },
+                'dummy_label' => (string) $deelname->getDeelnemer(),
             ]);
-        } elseif ($options['data']->getTraining() instanceof Training) {
-            $builder->add('klant', EntityType::class, [
+        } elseif ($deelname->getTraining() instanceof Training) {
+            $builder->add('deelnemer', EntityType::class, [
                 'label' => 'Deelnemer',
                 'placeholder' => 'Selecteer een deelnemer',
                 'class' => Deelnemer::class,
-                'query_builder' => function (EntityRepository $repository) use ($options) {
+                'query_builder' => function (EntityRepository $repository) use ($deelname) {
                     $builder = $repository->createQueryBuilder('deelnemer')
                         ->select('deelnemer, klant')
                         ->innerJoin('deelnemer.klant', 'klant')
-                        ->orderBy('klant.voornaam')
-                        ->addOrderBy('klant.achternaam')
+                        ->orderBy('klant.achternaam')
+                        ->addOrderBy('klant.voornaam')
                     ;
 
-                    if (count($options['data']->getTraining()->getDeelnemers()) > 0) {
+                    if (count($deelname->getTraining()->getDeelnemers()) > 0) {
                         $builder
                             ->where('deelnemer NOT IN (:deelnemers)')
-                            ->setParameter('deelnemers', $options['data']->getTraining()->getDeelnemers())
+                            ->setParameter('deelnemers', $deelname->getTraining()->getDeelnemers())
                         ;
                     }
 

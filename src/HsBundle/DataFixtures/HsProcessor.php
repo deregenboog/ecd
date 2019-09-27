@@ -2,14 +2,14 @@
 
 namespace HsBundle\DataFixtures;
 
-use Nelmio\Alice\ProcessorInterface;
 use HsBundle\Entity\Klus;
 use HsBundle\Entity\Registratie;
+use Nelmio\Alice\ProcessorInterface;
 
 final class HsProcessor implements ProcessorInterface
 {
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function preProcess($object)
     {
@@ -23,7 +23,7 @@ final class HsProcessor implements ProcessorInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function postProcess($object)
     {

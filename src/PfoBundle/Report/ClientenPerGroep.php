@@ -2,8 +2,8 @@
 
 namespace PfoBundle\Report;
 
-use AppBundle\Report\Table;
 use AppBundle\Report\AbstractReport;
+use AppBundle\Report\Table;
 use PfoBundle\Repository\ClientRepository;
 
 class ClientenPerGroep extends AbstractReport
@@ -25,7 +25,7 @@ class ClientenPerGroep extends AbstractReport
 
     protected function init()
     {
-        $this->table = $this->repository->countByGroep($status, $this->startDate, $this->endDate);
+        $this->table = $this->repository->countByGroep($this->startDate, $this->endDate);
     }
 
     protected function build()

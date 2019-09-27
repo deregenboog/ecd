@@ -2,10 +2,10 @@
 
 namespace HsBundle\Service;
 
+use AppBundle\Entity\Klant;
+use AppBundle\Filter\FilterInterface;
 use HsBundle\Entity\Dienstverlener;
 use Knp\Component\Pager\Pagination\PaginationInterface;
-use AppBundle\Filter\FilterInterface;
-use AppBundle\Entity\Klant;
 
 interface DienstverlenerDaoInterface
 {
@@ -47,5 +47,9 @@ interface DienstverlenerDaoInterface
 
     public function countByStadsdeel(\DateTime $start = null, \DateTime $end = null);
 
+    public function countByGgwGebied(\DateTime $start = null, \DateTime $end = null);
+
     public function countNewByStadsdeel(\DateTime $start = null, \DateTime $end = null);
+
+    public function countNewByGgwGebied(\DateTime $start = null, \DateTime $end = null);
 }

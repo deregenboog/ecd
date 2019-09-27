@@ -11,6 +11,10 @@
             {% set url = path('hs_registraties_add', {klus: entity.id}) %}
             {{ html.addLink(url) }}
             {{ html.link('Uren toevoegen', url) }}
+            {% set filterUrl = path('hs_registraties_index', {'registratie_filter[klus]': entity.id }) %}
+
+            {{ html.viewLink(filterUrl) }}
+            {{ html.link('Bekijken uren (details)',filterUrl) }}
         {% endif %}
     {% elseif dienstverlener is defined %}
         {% set entity = dienstverlener %}
@@ -36,7 +40,7 @@
             <th>Activiteit</th>
             <th>Datum/Tijd</th>
             <th>Dagdelen</th>
-            {#<th>Reiskosten</th>#}
+            <th>Reiskosten</th>
             <th>Factuur</th>
             <th></th>
         </tr>
@@ -49,11 +53,13 @@
                 <td>{{ registratie }}</td>
                 <td>{{ registratie.dagdelen }}</td>
                 <td>
-                    {{ html.link(registratie.factuur, path('hs_facturen_view', {id: registratie.factuur.id})) }}
-                    {{ not registratie.factuur.locked ? '(concept)' }}
+                    {% if registratie.factuur %}
+                        {{ html.link(registratie.factuur, path('hs_facturen_view', {id: registratie.factuur.id})) }}
+                        {{ not registratie.factuur.locked ? '(concept)' }}
+                    {% endif %}
                 </td>
                 <td>
-                    {% if not registratie.factuur.locked %}
+                    {% if registratie.factuur and not registratie.factuur.locked %}
                         {{ html.editLink(path('hs_registraties_edit', {id: registratie.id})) }}
                         {{ html.deleteLink(path('hs_registraties_delete', {id: registratie.id})) }}
                     {% endif %}

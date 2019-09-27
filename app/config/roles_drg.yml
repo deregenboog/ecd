@@ -1,0 +1,197 @@
+security:
+    role_hierarchy:
+        ROLE_USER:
+            - CONTROLLER_APP_DASHBOARD
+        ROLE_REPORT:
+            - CONTROLLER_APP_RAPPORTAGES
+            - ROLE_INLOOP_SCHORSINGEN
+            - ROLE_INLOOP_REPORTS
+        ROLE_PORTIER:
+            - ROLE_INLOOP_REGISTRATIES
+            - ROLE_INLOOP_OPMERKINGEN
+        ROLE_INLOOP_INTAKES:
+            - ROLE_INLOOP
+            - ROLE_INLOOP_KLANTEN
+        ROLE_INLOOP_OPMERKINGEN:
+            - ROLE_INLOOP
+        ROLE_INLOOP_REGISTRATIES:
+            - ROLE_INLOOP
+        ROLE_INLOOP_REPORTS:
+            - ROLE_INLOOP
+        ROLE_INLOOP_SCHORSINGEN:
+            - ROLE_INLOOP
+        ROLE_INLOOP_BEHEER:
+            - ROLE_INLOOP
+            - ROLE_INLOOP_INTAKES
+            - ROLE_INLOOP_KLANTEN
+            - ROLE_INLOOP_OPMERKINGEN
+            - ROLE_INLOOP_REGISTRATIES
+            - ROLE_INLOOP_REPORTS
+            - ROLE_INLOOP_SCHORSINGEN
+            - ROLE_INLOOP_VRIJWILLIGERS
+        ROLE_MLO:
+            - CONTROLLER_APP_KLANTEN
+            - CONTROLLER_APP_ZRMS
+            - ROLE_INLOOP_INTAKES
+            - ROLE_INLOOP_REGISTRATIES
+            - ROLE_INLOOP_SCHORSINGEN
+            - ROLE_INLOOP_OPMERKINGEN
+        ROLE_MW:
+            - CONTROLLER_APP_KLANTEN
+            - CONTROLLER_APP_RAPPORTAGES
+            - CONTROLLER_APP_ZRMS
+            - CONTROLLER_ATTACHMENTS
+            - ROLE_INLOOP_INTAKES
+            - ROLE_INLOOP_OPMERKINGEN
+            - ROLE_INLOOP_REGISTRATIES
+            - ROLE_INLOOP_REPORTS
+            - ROLE_INLOOP_SCHORSINGEN
+        ROLE_VOLUNTEERS:
+            - ROLE_INLOOP_REGISTRATIES
+        ROLE_STAGE:
+            - CONTROLLER_APP_KLANTEN
+            - CONTROLLER_APP_ZRMS
+            - ROLE_INLOOP_INTAKES
+            - ROLE_INLOOP_REGISTRATIES
+        ROLE_PFO_BEPERKT: []
+        ROLE_PFO: []
+        ROLE_TEAMLEIDERS:
+            - ROLE_GA
+            - ROLE_MW
+            - ROLE_INLOOP_INTAKES
+            - ROLE_INLOOP_OPMERKINGEN
+            - ROLE_INLOOP_REGISTRATIES
+            - ROLE_INLOOP_REPORTS
+            - ROLE_INLOOP_SCHORSINGEN
+            - ROLE_INLOOP_VRIJWILLIGERS
+            - CONTROLLER_ADMIN
+            - CONTROLLER_APP_KLANTEN
+            - CONTROLLER_APP_RAPPORTAGES
+            - CONTROLLER_APP_ZRMS
+            - CONTROLLER_APP_VRIJWILLIGERS
+            - CONTROLLER_ATTACHMENTS
+        ROLE_IZ:
+            - ROLE_EROPUIT
+            - CONTROLLER_APP_KLANTEN
+            - CONTROLLER_APP_VRIJWILLIGERS
+            - CONTROLLER_APP_ZRMS
+        ROLE_IZ_BEHEER:
+            - ROLE_IZ
+        ROLE_GA:
+            - ROLE_EROPUIT
+            - CONTROLLER_APP_KLANTEN
+            - CONTROLLER_APP_VRIJWILLIGERS
+            - CONTROLLER_ATTACHMENTS
+        ROLE_GA_BEHEER:
+            - ROLE_GA
+            - ROLE_EROPUIT_BEHEER
+        ROLE_CLIP: []
+        ROLE_CLIP_BEHEER:
+            - ROLE_CLIP 
+        ROLE_DAGBESTEDING: []
+        ROLE_DAGBESTEDING_BEHEER:
+            - ROLE_DAGBESTEDING
+        ROLE_HOMESERVICE:
+            - CONTROLLER_APP_KLANTEN
+            - CONTROLLER_APP_VRIJWILLIGERS
+        ROLE_HOMESERVICE_BEHEER:
+            - ROLE_HOMESERVICE
+        ROLE_ODP: []
+        ROLE_ODP_BEHEER:
+            - ROLE_ODP
+        ROLE_OEK: []
+        ROLE_OEK_BEHEER:
+            - ROLE_OEK
+        ROLE_WERKBEGELEIDER: []
+        ROLE_ADMINISTRATIEBEDRIJF: []
+        ROLE_SCIP: []
+        ROLE_SCIP_BEHEER:
+            - ROLE_SCIP
+            - CONTROLLER_APP_KLANTEN
+        ROLE_SKIP_BEHEER:
+            - ROLE_SCIP_BEHEER
+        ROLE_EROPUIT: []
+        ROLE_ADMIN:
+            - ROLE_USER
+            - ROLE_MW
+            - ROLE_MW_BEHEER
+            - ROLE_REPORT
+            - ROLE_PORTIER
+            - ROLE_MLO
+            - ROLE_HI5
+            - ROLE_CLIP
+            - ROLE_CLIP_BEHEER
+            - ROLE_DAGBESTEDING
+            - ROLE_DAGBESTEDING_BEHEER
+            - ROLE_EROPUIT
+            - ROLE_EROPUIT_BEHEER
+            - ROLE_HOMESERVICE
+            - ROLE_HOMESERVICE_BEHEER
+            - ROLE_ODP
+            - ROLE_ODP_BEHEER
+            - ROLE_OEK
+            - ROLE_OEK_BEHEER
+            - ROLE_INLOOP
+            - ROLE_INLOOP_BEHEER
+            - ROLE_BACK_ON_TRACK_COORDINATOR
+            - ROLE_BACK_ON_TRACK_COACH
+            - ROLE_VOLUNTEERS
+            - ROLE_STAGE
+            - ROLE_PFO_BEPERKT
+            - ROLE_PFO
+            - ROLE_TRAJECTBEGELEIDER
+            - ROLE_TEAMLEIDERS
+            - ROLE_IZ
+            - ROLE_IZ_BEHEER
+            - ROLE_GA
+            - ROLE_GA_BEHEER
+            - ROLE_SCIP
+            - ROLE_SCIP_BEHEER
+            - CONTROLLER_ADMIN
+            - CONTROLLER_APP_KLANTEN
+            - CONTROLLER_APP_RAPPORTAGES
+            - CONTROLLER_APP_VRIJWILLIGERS
+            - CONTROLLER_APP_ZRMS
+            - CONTROLLER_MEDEWERKERS
+        CONTROLLER_APP_KLANTEN:
+            - CONTROLLER_APP_DOCUMENTEN
+        CONTROLLER_APP_VRIJWILLIGERS:
+            - CONTROLLER_APP_DOCUMENTEN
+
+ldap_tools:
+    security:
+        roles:
+            ROLE_ADMIN: "CN=ECD Admin,CN=Users,DC=cluster,DC=deregenboog"
+            ROLE_VOLUNTEERS: "CN=ECD Volunteers,CN=Users,DC=cluster,DC=deregenboog"
+            ROLE_STAGE: "CN=ECD Stage,CN=Users,DC=cluster,DC=deregenboog"
+            ROLE_PORTIER: "CN=ECD Portier,CN=Users,DC=cluster,DC=deregenboog"
+            ROLE_MLO: "CN=ECD MLO,CN=Users,DC=cluster,DC=deregenboog"
+            ROLE_MW: "CN=ECD Maatschappelijk,CN=Users,DC=cluster,DC=deregenboog"
+            ROLE_HI5: "CN=ECD Hi5,CN=Users,DC=cluster,DC=deregenboog"
+            ROLE_TRAJECTBEGELEIDER: "CN=ECD Trajectbegeleider,CN=Users,DC=cluster,DC=deregenboog"
+            ROLE_WERKBEGELEIDER: "CN=ECD Werkbegeleider,CN=Users,DC=cluster,DC=deregenboog"
+            ROLE_TEAMLEIDERS: "CN=ECD Teamleiders,CN=Users,DC=cluster,DC=deregenboog"
+            ROLE_PFO_BEPERKT: "CN=ECD PFO Beperkt,CNUsers,DC=cluster,DC=deregenboog"
+            ROLE_PFO: "CN=ECD PFO,CN=Users,DC=cluster,DC=deregenboog"
+            ROLE_BACK_ON_TRACK_COORDINATOR: "CN=ECD Back On Track Coordinator,CN=Users,DC=cluster,DC=deregenboog"
+            ROLE_BACK_ON_TRACK_COACH: "CN=ECD Back on Track Coach,CN=Users,DC=cluster,DC=deregenboog"
+            ROLE_GA: "CN=ECD Groepsactiviteit,CN=Users,DC=cluster,DC=deregenboog"
+            ROLE_GA_BEHEER: "CN=ECD Beheer Groepsactiviteit,CN=Users,DC=cluster,DC=deregenboog"
+            ROLE_IZ: "CN=ECD IZ,CN=Users,DC=cluster,DC=deregenboog"
+            ROLE_IZ_BEHEER: "CN=ECD IZ Beheer,CN=Users,DC=cluster,DC=deregenboog"
+            ROLE_REPORT: "CN=ECD Report,CN=Users,DC=cluster,DC=deregenboog"
+            ROLE_OEK: "CN=ECD Op Eigen Kracht,CN=Users,DC=cluster,DC=deregenboog"
+            ROLE_OEK_BEHEER: "CN=ECD Op Eigen Kracht Beheer,CN=Users,DC=cluster,DC=deregenboog"
+            ROLE_ODP: "CN=ECD Onder de Pannen,CN=Users,DC=cluster,DC=deregenboog"
+            ROLE_ODP_BEHEER: "CN=ECD Onder de Pannen Beheer,CN=Users,DC=cluster,DC=deregenboog"
+            ROLE_ADMINISTRATIEBEDRIJF: "CN=administratiebedrijf,CN=Users,DC=cluster,DC=deregenboog"
+            ROLE_DAGBESTEDING: "CN=ECD Trajectbegeleider,CN=Users,DC=cluster,DC=deregenboog"
+            ROLE_DAGBESTEDING_BEHEER: "CN=ECD Admin,CN=Users,DC=cluster,DC=deregenboog"
+            ROLE_CLIP: "CN=ECD CLIP,CN=Users,DC=cluster,DC=deregenboog"
+            ROLE_CLIP_BEHEER: "CN=ECD CLIP Beheer,CN=Users,DC=cluster,DC=deregenboog"
+            ROLE_HOMESERVICE: "CN=ECD Homeservice,CN=Users,DC=cluster,DC=deregenboog"
+            ROLE_HOMESERVICE_BEHEER: "CN=ECD Homeservice Beheer,CN=Users,DC=cluster,DC=deregenboog"
+            ROLE_SCIP: "CN=ECD SCIP,CN=Users,DC=cluster,DC=deregenboog"
+            ROLE_SCIP_BEHEER: "CN=ECD SCIP Beheer,CN=Users,DC=cluster,DC=deregenboog"
+            ROLE_SKIP_BEHEER: "CN=ECD SKIP Beheer,CN=Users,DC=cluster,DC=deregenboog" # because of typo in LDAP-group
+            ROLE_EROPUIT: "CN=ECD ErOpUit,CN=Users,DC=cluster,DC=deregenboog"

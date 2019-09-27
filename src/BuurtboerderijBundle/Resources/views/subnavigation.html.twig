@@ -1,0 +1,17 @@
+{% import '::html.macro.twig' as html %}
+<ol class="breadcrumb">
+    <li><a href="{{ path('home') }}">ECD</a></li>
+    <li><a href="{{ path('buurtboerderij_index') }}">Buurtboerderij</a></li>
+    <li class="active">{{ title }}</li>
+</ol>
+<ul class="nav nav-tabs">
+    {{ html.navLink('Vrijwilligers', path('buurtboerderij_vrijwilligers_index'), isActiveRoute('buurtboerderij_vrijwilligers_')) }}
+    <li role="presentation" class="dropdown {{ isActivePath('buurtboerderij/admin') ? 'active' }}">
+        <a class="dropdown-toggle active" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+            Beheer <span class="caret"></span>
+        </a>
+        <ul class="dropdown-menu">
+            {{ html.navLink('Afsluitredenen', path('buurtboerderij_afsluitredenen_index'), isActiveRoute('buurtboerderij_afsluitredenen_')) }}
+        </ul>
+    </li>
+</ul>

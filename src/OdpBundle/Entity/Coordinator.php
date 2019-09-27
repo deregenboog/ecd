@@ -2,9 +2,9 @@
 
 namespace OdpBundle\Entity;
 
-use Doctrine\ORM\Mapping as ORM;
-use AppBundle\Model\TimestampableTrait;
 use AppBundle\Entity\Medewerker;
+use AppBundle\Model\TimestampableTrait;
+use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 
 /**

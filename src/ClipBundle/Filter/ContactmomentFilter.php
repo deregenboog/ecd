@@ -2,10 +2,10 @@
 
 namespace ClipBundle\Filter;
 
-use Doctrine\ORM\QueryBuilder;
 use AppBundle\Filter\FilterInterface;
 use AppBundle\Form\Model\AppDateRangeModel;
 use ClipBundle\Entity\Behandelaar;
+use Doctrine\ORM\QueryBuilder;
 
 class ContactmomentFilter implements FilterInterface
 {

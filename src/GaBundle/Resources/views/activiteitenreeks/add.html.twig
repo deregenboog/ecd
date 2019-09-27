@@ -1,0 +1,36 @@
+{% extends '::base.html.twig' %}
+{% import '::html.macro.twig' as html %}
+
+{% block title %}
+    Groepsactiviteiten | {{ title }}
+{% endblock %}
+
+{% block subnavigation %}
+    {% include 'GaBundle::subnavigation.html.twig' %}
+{% endblock %}
+
+{% block content %}
+    <h1>{{ entity_name|capitalize }} toevoegen</h1>
+    {{ form_start(form) }}
+        <div class="col-xs-6">
+            <h2>Activiteit</h2>
+            {{ form_widget(form.activiteit) }}
+            {{ form_row(form.tijd) }}
+        </div>
+        <div class="col-xs-6">
+            <h2>Herhaalpatroon</h2>
+            {{ form_widget(form.periode) }}
+            {{ form_row(form.frequentie) }}
+            {{ form_row(form.weekdag) }}
+            {{ form_row(form.submit) }}
+        </div>
+    {{ form_end(form) }}
+
+    <style>
+        #activiteiten_reeks_frequentie div.radio,
+        #activiteiten_reeks_weekdag div.radio {
+            float: left;
+            margin: 0 1em;
+        }
+    </style>
+{% endblock %}

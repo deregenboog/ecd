@@ -2,9 +2,9 @@
 
 namespace HsBundle\Service;
 
-use HsBundle\Entity\Factuur;
-use AppBundle\Service\AbstractDao;
 use AppBundle\Filter\FilterInterface;
+use AppBundle\Service\AbstractDao;
+use HsBundle\Entity\Factuur;
 
 class FactuurDao extends AbstractDao implements FactuurDaoInterface
 {
@@ -16,6 +16,7 @@ class FactuurDao extends AbstractDao implements FactuurDaoInterface
             'factuur.datum',
             'factuur.bedrag',
             'factuur.locked',
+            'factuur.oninbaar',
             'klant.achternaam',
             'herinnering.type',
         ],
@@ -33,9 +34,9 @@ class FactuurDao extends AbstractDao implements FactuurDaoInterface
     {
         $builder = $this->repository->createQueryBuilder($this->alias)
             ->select("{$this->alias}, klant, betaling")
-            ->innerJoin('factuur.klant', 'klant')
-            ->leftJoin('factuur.betalingen', 'betaling')
-            ->leftJoin('factuur.herinneringen', 'herinnering')
+            ->innerJoin($this->alias.'.klant', 'klant')
+            ->leftJoin($this->alias.'.betalingen', 'betaling')
+            ->leftJoin($this->alias.'.herinneringen', 'herinnering')
         ;
 
         return $this->doFindAll($builder, $page, $filter);

@@ -2,9 +2,9 @@
 
 namespace OekBundle\Entity;
 
+use AppBundle\Model\TimestampableTrait;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
-use AppBundle\Model\TimestampableTrait;
 
 /**
  * @ORM\Entity
@@ -26,7 +26,7 @@ class Lidmaatschap
     /**
      * @var Groep
      *
-     * @ORM\ManyToOne(targetEntity="Groep", inversedBy="lidmaatschappen")
+     * @ORM\ManyToOne(targetEntity="Groep", inversedBy="lidmaatschappen", cascade={"persist"})
      * @ORM\JoinColumn(name="oekGroep_id", nullable=false)
      * @Gedmo\Versioned
      */
@@ -35,7 +35,7 @@ class Lidmaatschap
     /**
      * @var Deelnemer
      *
-     * @ORM\ManyToOne(targetEntity="Deelnemer", inversedBy="lidmaatschappen")
+     * @ORM\ManyToOne(targetEntity="Deelnemer", inversedBy="lidmaatschappen", cascade={"persist"})
      * @ORM\JoinColumn(name="oekKlant_id", nullable=false)
      * @Gedmo\Versioned
      */

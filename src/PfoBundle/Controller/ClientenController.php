@@ -2,16 +2,21 @@
 
 namespace PfoBundle\Controller;
 
-use Symfony\Component\Routing\Annotation\Route;
-use JMS\DiExtraBundle\Annotation as DI;
 use AppBundle\Controller\AbstractController;
-use PfoBundle\Form\ClientFilterType;
+use AppBundle\Export\ExportInterface;
+use JMS\DiExtraBundle\Annotation as DI;
 use PfoBundle\Entity\Client;
-use PfoBundle\Service\ClientDaoInterface;
+use PfoBundle\Form\ClientConnectType;
+use PfoBundle\Form\ClientFilterType;
 use PfoBundle\Form\ClientType;
+use PfoBundle\Service\ClientDaoInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * @Route("/clienten")
+ * @Template
  */
 class ClientenController extends AbstractController
 {
@@ -36,4 +41,15 @@ class ClientenController extends AbstractController
      * @DI\Inject("pfo.export.client")
      */
     protected $export;
+
+    /**
+     * @Route("/{id}/connect")
+     */
+    public function connectAction(Request $request, $id)
+    {
+        $this->formClass = ClientConnectType::class;
+        $entity = $this->dao->find($id);
+
+        return $this->processForm($request, $entity);
+    }
 }

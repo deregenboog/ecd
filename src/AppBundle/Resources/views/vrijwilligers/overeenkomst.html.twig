@@ -1,0 +1,14 @@
+{% extends '::base.html.twig' %}
+{% import '::html.macro.twig' as html %}
+
+{% block title %}
+    {{ title }}
+{% endblock %}
+
+{% block content %}
+    <h1>Overeenkomst toevoegen voor vrijwilliger {{ entity }}</h1>
+    <p>
+        {{ html.link('Annuleren', path(route_base~'view', {id: entity.id}), 'cancel') }}
+    </p>
+    {{ form(form) }}
+{% endblock %}

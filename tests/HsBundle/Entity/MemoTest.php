@@ -4,8 +4,9 @@ namespace Tests\HsBundle\Entity;
 
 use AppBundle\Entity\Medewerker;
 use HsBundle\Entity\Memo;
+use PHPUnit\Framework\TestCase;
 
-class MemoTest extends \PHPUnit_Framework_TestCase
+class MemoTest extends TestCase
 {
     public function testToString()
     {

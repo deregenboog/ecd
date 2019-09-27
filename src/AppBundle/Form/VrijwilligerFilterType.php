@@ -2,14 +2,13 @@
 
 namespace AppBundle\Form;
 
+use AppBundle\Entity\Geslacht;
+use AppBundle\Filter\VrijwilligerFilter;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use AppBundle\Filter\VrijwilligerFilter;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
-use AppBundle\Entity\Medewerker;
-use Doctrine\ORM\EntityRepository;
 
 class VrijwilligerFilterType extends AbstractType
 {
@@ -47,8 +46,22 @@ class VrijwilligerFilterType extends AbstractType
             ]);
         }
 
+        if (in_array('adres', $options['enabled_filters'])) {
+            $builder->add('adres', null, [
+                'required' => false,
+            ]);
+        }
+
+        if (in_array('geslacht', $options['enabled_filters'])) {
+            $builder->add('geslacht', EntityType::class, [
+                'class' => Geslacht::class,
+                'required' => false,
+            ]);
+        }
+
         if (in_array('bsn', $options['enabled_filters'])) {
             $builder->add('bsn', null, [
+                'label' => 'BSN',
                 'required' => false,
             ]);
         }
@@ -67,21 +80,17 @@ class VrijwilligerFilterType extends AbstractType
         }
 
         if (in_array('stadsdeel', $options['enabled_filters'])) {
-            $builder->add('stadsdeel', StadsdeelFilterType::class);
+            $builder->add('stadsdeel', StadsdeelSelectType::class);
+        }
+
+        if (in_array('postcodegebied', $options['enabled_filters'])) {
+            $builder->add('postcodegebied', PostcodegebiedSelectType::class);
         }
 
         if (in_array('medewerker', $options['enabled_filters'])) {
-            $builder->add('medewerker', EntityType::class, [
+            $builder->add('medewerker', MedewerkerType::class, [
                 'required' => false,
-                'class' => Medewerker::class,
-                'query_builder' => function (EntityRepository $repo) {
-                    return $repo->createQueryBuilder('medewerker')
-                        ->select('DISTINCT medewerker')
-                        ->where('medewerker.actief = :true')
-                        ->setParameter('true', true)
-                        ->orderBy('medewerker.voornaam', 'ASC')
-                    ;
-                },
+                'preset' => false,
             ]);
         }
 
@@ -95,6 +104,15 @@ class VrijwilligerFilterType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => VrijwilligerFilter::class,
+            'enabled_filters' => [
+                'id',
+                'naam',
+                'geslacht',
+                'geboortedatum',
+                'medewerker',
+                'stadsdeel',
+                'postcodegebied',
+            ],
         ]);
     }
 

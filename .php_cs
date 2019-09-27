@@ -3,6 +3,7 @@
 $finder = PhpCsFixer\Finder::create()
     ->exclude('app/config_sql')
     ->exclude('app/config_template')
+    ->exclude('app/DoctrineMigrations')
     ->exclude('app/locale')
     ->exclude('app/plugins')
     ->exclude('app/sql')
@@ -18,10 +19,11 @@ $finder = PhpCsFixer\Finder::create()
 ;
 
 return PhpCsFixer\Config::create()
-->setRules([
-    'psr0' => false,
-    '@Symfony' => true,
-    'array_syntax' => ['syntax' => 'short'],
-])
-->setFinder($finder)
+    ->setRules([
+        'psr0' => false,
+        '@Symfony' => true,
+        'array_syntax' => ['syntax' => 'short'],
+        'ordered_imports' => true,
+    ])
+    ->setFinder($finder)
 ;

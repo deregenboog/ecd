@@ -6,6 +6,7 @@ use AppBundle\Entity\Vrijwilliger as AppVrijwilliger;
 use AppBundle\Filter\FilterInterface;
 use AppBundle\Service\AbstractDao;
 use OekBundle\Entity\Vrijwilliger;
+use OekBundle\Entity\Memo;
 
 class VrijwilligerDao extends AbstractDao implements VrijwilligerDaoInterface
 {
@@ -33,10 +34,15 @@ class VrijwilligerDao extends AbstractDao implements VrijwilligerDaoInterface
             ->select("{$this->alias}, appVrijwilliger")
             ->innerJoin('vrijwilliger.vrijwilliger', 'appVrijwilliger')
             ->leftJoin('appVrijwilliger.werkgebied', 'werkgebied')
+
         ;
 
         if ($filter && $filter->vrijwilliger) {
             $filter->vrijwilliger->alias = 'appVrijwilliger';
+            $filter->applyTo($builder);
+        }
+        else if($filter)
+        {
             $filter->applyTo($builder);
         }
 
@@ -58,7 +64,7 @@ class VrijwilligerDao extends AbstractDao implements VrijwilligerDaoInterface
     /**
      * @param AppVrijwilliger $vrijwilliger
      *
-     * @return Dienstverlener
+     * @return Vrijwilliger
      */
     public function findOneByVrijwilliger(AppVrijwilliger $vrijwilliger)
     {
@@ -86,6 +92,9 @@ class VrijwilligerDao extends AbstractDao implements VrijwilligerDaoInterface
      */
     public function delete(Vrijwilliger $entity)
     {
+
+//        $entity->setActief((int)$entity::STATUS_VERWIJDERD);
+//        $this->doUpdate($entity);
         $this->doDelete($entity);
     }
 
@@ -99,6 +108,8 @@ class VrijwilligerDao extends AbstractDao implements VrijwilligerDaoInterface
             ->innerJoin('vrijwilliger.vrijwilliger', 'appVrijwilliger')
             ->leftJoin('appVrijwilliger.werkgebied', 'werkgebied')
             ->innerJoin('vrijwilliger.registraties', 'registratie')
+            ->where("vrijwilliger.actief != :status_verwijderd")
+            ->setParameter(":status_verwijderd", Vrijwilliger::STATUS_VERWIJDERD)
             ->groupBy('stadsdeel')
         ;
 
@@ -122,6 +133,8 @@ class VrijwilligerDao extends AbstractDao implements VrijwilligerDaoInterface
             ->select('COUNT(DISTINCT(appVrijwilliger.id)) AS aantal, werkgebied.naam AS stadsdeel')
             ->innerJoin('vrijwilliger.vrijwilliger', 'appVrijwilliger')
             ->leftJoin('appVrijwilliger.werkgebied', 'werkgebied')
+            ->where("vrijwilliger.actief != :status_verwijderd")
+            ->setParameter(":status_verwijderd", Vrijwilliger::STATUS_VERWIJDERD)
             ->groupBy('stadsdeel')
         ;
 

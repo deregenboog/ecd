@@ -2,9 +2,10 @@
 
 namespace HsBundle\Entity;
 
-use Doctrine\ORM\Mapping as ORM;
 use AppBundle\Entity\Medewerker;
+use HsBundle\Entity\Klus;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use HsBundle\Exception\InvoiceLockedException;
 
@@ -78,9 +79,16 @@ class Declaratie implements DocumentSubjectInterface, FactuurSubjectInterface
 
     private $document;
 
-    public function __construct(Medewerker $medewerker = null)
+    public function __construct(Klus $klus = null, Medewerker $medewerker = null)
     {
-        $this->medewerker = $medewerker;
+        if($klus){
+            $this->setKlus($klus);
+        }
+
+        if($medewerker) {
+            $this->setMedewerker($medewerker);
+        }
+
         $this->documenten = new ArrayCollection();
         $this->datum = new \DateTime('now');
     }

@@ -2,16 +2,17 @@
 
 namespace AppBundle\Entity;
 
-use Doctrine\ORM\Mapping as ORM;
-use Gedmo\Mapping\Annotation as Gedmo;
-use AppBundle\Model\TimestampableTrait;
 use AppBundle\Model\AddressTrait;
 use AppBundle\Model\PersonTrait;
+use AppBundle\Model\TimestampableTrait;
+use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\MappedSuperclass
  * @ORM\HasLifecycleCallbacks
  * @Gedmo\Loggable
+ * @Gedmo\SoftDeleteable
  */
 class Persoon
 {
@@ -25,6 +26,13 @@ class Persoon
     protected $id;
 
     /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="deleted", type="datetime", nullable=true)
+     */
+    protected $deletedAt;
+
+    /**
      * @ORM\Column(name="BSN", type="string", nullable=true)
      * @Gedmo\Versioned
      */
@@ -33,7 +41,7 @@ class Persoon
     /**
      * @var Medewerker
      * @ORM\ManyToOne(targetEntity="Medewerker")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=true)
      * @Gedmo\Versioned
      */
     protected $medewerker;
@@ -41,7 +49,7 @@ class Persoon
     /**
      * @var Land
      * @ORM\ManyToOne(targetEntity="Land")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=true)
      * @Gedmo\Versioned
      */
     protected $land;
@@ -49,7 +57,7 @@ class Persoon
     /**
      * @var Nationaliteit
      * @ORM\ManyToOne(targetEntity="Nationaliteit")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=true)
      * @Gedmo\Versioned
      */
     protected $nationaliteit;
@@ -187,5 +195,15 @@ class Persoon
         $this->disabled = $disabled;
 
         return $this;
+    }
+
+    /**
+     * SoftDeleteable, so it's safe to return true.
+     *
+     * @return bool
+     */
+    public function isDeletable()
+    {
+        return true;
     }
 }

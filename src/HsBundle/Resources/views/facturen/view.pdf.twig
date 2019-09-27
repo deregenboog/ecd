@@ -39,10 +39,10 @@
         {% for declaratie in entity.declaraties %}
             <tr>
                 <td width="20%">{{ declaratie.datum|date('d-m-Y') }}</td>
-                <td width="20%">{{ declaratie.declaratieCategorie }}</td>
-                <td width="15%"></td>
-                <td width="15%"></td>
-                <td width="15%"></td>
+                <td width="65%" colspan="4">
+                    {{ declaratie.declaratieCategorie }}
+                    {{ declaratie.info ? '('~declaratie.info~')' }}
+                </td>
                 <td width="15%" align="right">{{ declaratie.bedrag|money }}</td>
             </tr>
         {% endfor %}

@@ -2,18 +2,19 @@
 
 namespace IzBundle\Form;
 
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\Extension\Core\Type\DateType;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
-use Doctrine\ORM\EntityRepository;
-use AppBundle\Entity\Medewerker;
+use AppBundle\Form\AppDateType;
 use AppBundle\Form\KlantFilterType;
+use AppBundle\Form\MedewerkerType;
+use Doctrine\ORM\EntityRepository;
 use IzBundle\Entity\Hulpvraag;
 use IzBundle\Entity\Project;
 use IzBundle\Filter\HulpvraagFilter;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class HulpvraagFilterType extends AbstractType
 {
@@ -22,14 +23,16 @@ class HulpvraagFilterType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        if (in_array('startdatum', $options['enabled_filters'])) {
-            $builder->add('startdatum', DateType::class, [
+        if (in_array('matching', $options['enabled_filters'])) {
+            $builder->add('matching', CheckboxType::class, [
                 'required' => false,
-                'widget' => 'single_text',
-                'format' => 'dd-MM-yyyy',
-                'attr' => [
-                    'placeholder' => 'dd-mm-jjjj',
-                ],
+                'label' => 'Alleen matchende kandidaten tonen',
+            ]);
+        }
+
+        if (in_array('startdatum', $options['enabled_filters'])) {
+            $builder->add('startdatum', AppDateType::class, [
+                'required' => false,
             ]);
         }
 
@@ -53,18 +56,31 @@ class HulpvraagFilterType extends AbstractType
             ]);
         }
 
-        if (in_array('medewerker', $options['enabled_filters'])) {
-            $builder->add('medewerker', EntityType::class, [
+        if (in_array('hulpvraagsoort', $options['enabled_filters'])) {
+            $builder->add('hulpvraagsoort', HulpvraagsoortSelectType::class, [
                 'required' => false,
-                'class' => Medewerker::class,
+                'expanded' => false,
+            ]);
+        }
+
+        if (in_array('doelgroep', $options['enabled_filters'])) {
+            $builder->add('doelgroep', DoelgroepSelectType::class, [
+                'required' => false,
+                'expanded' => false,
+            ]);
+        }
+
+        if (in_array('medewerker', $options['enabled_filters'])) {
+            $builder->add('medewerker', MedewerkerType::class, [
+                'required' => false,
                 'query_builder' => function (EntityRepository $repo) {
                     return $repo->createQueryBuilder('medewerker')
                         ->select('DISTINCT medewerker')
                         ->innerJoin(Hulpvraag::class, 'hulpvraag', 'WITH', 'hulpvraag.medewerker = medewerker')
-                        ->where('medewerker.actief = :true')
-                        ->setParameter('true', true)
+                        ->where('medewerker.actief = true')
                         ->orderBy('medewerker.voornaam', 'ASC');
                 },
+                'preset' => $options['preset_medewerker'],
             ]);
         }
 
@@ -84,6 +100,7 @@ class HulpvraagFilterType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => HulpvraagFilter::class,
+            'data' => new HulpvraagFilter(),
             'enabled_filters' => [
                 'startdatum',
                 'klant' => ['id', 'voornaam', 'achternaam', 'geboortedatumRange', 'stadsdeel'],
@@ -92,6 +109,7 @@ class HulpvraagFilterType extends AbstractType
                 'filter',
                 'download',
             ],
+            'preset_medewerker' => false,
         ]);
     }
 

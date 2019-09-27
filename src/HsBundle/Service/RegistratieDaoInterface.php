@@ -2,9 +2,9 @@
 
 namespace HsBundle\Service;
 
+use AppBundle\Filter\FilterInterface;
 use HsBundle\Entity\Registratie;
 use Knp\Component\Pager\Pagination\PaginationInterface;
-use AppBundle\Filter\FilterInterface;
 
 interface RegistratieDaoInterface
 {
@@ -37,4 +37,18 @@ interface RegistratieDaoInterface
      * @param Registratie $registratie
      */
     public function delete(Registratie $registratie);
+
+    public function countUrenByStadsdeel(\DateTime $start = null, \DateTime $end = null);
+
+    public function countUrenByGgwGebied(\DateTime $start = null, \DateTime $end = null);
+
+    public function countUrenByActiviteit(\DateTime $start = null, \DateTime $end = null);
+
+    public function countUrenByKlant(\DateTime $start = null, \DateTime $end = null);
+
+    public function countUrenByKlus(\DateTime $start = null, \DateTime $end = null);
+
+    public function countUrenByDienstverlener(\DateTime $start = null, \DateTime $end = null);
+
+    public function countUrenByVrijwilliger(\DateTime $start = null, \DateTime $end = null);
 }

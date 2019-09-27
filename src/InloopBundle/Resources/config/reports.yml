@@ -1,1 +1,23 @@
 services:
+    InloopBundle\Form\RapportageType:
+        tags:
+            - { name: form.type }
+
+    InloopBundle\Report\Infobalie:
+        arguments:
+            - "@doctrine.orm.entity_manager"
+        tags:
+            - { name: inloop.rapportage }
+
+    InloopBundle\Report\Klantenoverzicht:
+        arguments:
+            - "@doctrine.orm.entity_manager"
+        tags:
+            - { name: inloop.rapportage }
+
+    InloopBundle\Report\Locatie:
+        arguments:
+            - "@doctrine.orm.entity_manager"
+        tags:
+            - { name: inloop.rapportage }
+

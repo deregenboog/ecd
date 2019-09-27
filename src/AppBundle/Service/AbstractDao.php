@@ -2,14 +2,23 @@
 
 namespace AppBundle\Service;
 
+use AppBundle\Filter\FilterInterface;
+use AppBundle\Model\ActivatableInterface;
+use AppBundle\Service\AbstractDaoInterface;
+use AppBundle\Model\UsesKlantTrait;
+
+
+use Doctrine\DBAL\Exception\ForeignKeyConstraintViolationException;
 use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\EntityNotFoundException;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\QueryBuilder;
 use Knp\Component\Pager\PaginatorInterface;
-use AppBundle\Filter\FilterInterface;
 
-class AbstractDao
+abstract class AbstractDao implements AbstractDaoInterface
 {
+    use UsesKlantTrait;
     /**
      * @var EntityManagerInterface
      */
@@ -74,7 +83,16 @@ class AbstractDao
 
     public function find($id)
     {
-        return $this->repository->find($id);
+        $entity = $this->repository->find($id);
+        $this->tryLoadKlant($entity);
+        return $entity;
+    }
+
+    public function setItemsPerPage(int $itemsPerPage)
+    {
+        $this->itemsPerPage = $itemsPerPage;
+
+        return $this;
     }
 
     protected function doCreate($entity)
@@ -90,7 +108,28 @@ class AbstractDao
 
     protected function doDelete($entity)
     {
-        $this->entityManager->remove($entity);
+        if($entity instanceof ActivatableInterface)// && $entity->isDeletable() === false
+        {
+            $entity->setActief(false);
+        }
+        else if($entity instanceof ActivatableInterface && $entity->isDeletable() !== false)
+        {
+            try
+            {
+                $this->entityManager->remove($entity);
+            }
+            catch(ForeignKeyConstraintViolationException $e)
+            {
+                //ondanks dat ie isDeletable wel true zet, moet ie toch echt inactief worden gezet.
+                //Dubbele interpretatie van ' is deletable'....: mag de verwijder knop worden laten zien of niet....
+            }
+
+        }
+        else
+        {
+            $this->entityManager->remove($entity);
+        }
+//        $this->entityManager->remove($entity);
         $this->entityManager->flush();
     }
 }

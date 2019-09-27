@@ -42,9 +42,9 @@ class BehandelaarType extends AbstractType
                 'class' => Medewerker::class,
                 'query_builder' => function (EntityRepository $repository) use ($behandelaar) {
                     return $repository->createQueryBuilder('medewerker')
-                    ->innerJoin(Behandelaar::class, 'behandelaar', 'WITH', 'behandelaar.medewerker = medewerker')
-                    ->where('behandelaar = :behandelaar')
-                    ->setParameter('behandelaar', $behandelaar)
+                        ->innerJoin(Behandelaar::class, 'behandelaar', 'WITH', 'behandelaar.medewerker = medewerker')
+                        ->where('behandelaar = :behandelaar')
+                        ->setParameter('behandelaar', $behandelaar)
                     ;
                 },
             ]);

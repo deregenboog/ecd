@@ -1,34 +1,27 @@
 services:
-    oek.dao:
-        abstract: true
-        arguments:
-            - '@doctrine.orm.entity_manager'
-            - '@knp_paginator'
-            - '%pagination.items_per_page%'
-
     OekBundle\Service\DeelnemerDao:
-        parent: oek.dao
+        parent: app.dao.abstract
 
     OekBundle\Service\DocumentDao:
-        parent: oek.dao
+        parent: app.dao.abstract
 
     OekBundle\Service\GroepDao:
-        parent: oek.dao
+        parent: app.dao.abstract
 
     OekBundle\Service\MemoDao:
-        parent: oek.dao
+        parent: app.dao.abstract
 
     OekBundle\Service\TrainingDao:
-        parent: oek.dao
+        parent: app.dao.abstract
 
     OekBundle\Service\VerwijzingDoorDao:
-        parent: oek.dao
+        parent: app.dao.abstract
 
     OekBundle\Service\VerwijzingNaarDao:
-        parent: oek.dao
+        parent: app.dao.abstract
 
     OekBundle\Service\VrijwilligerDao:
-        parent: oek.dao
+        parent: app.dao.abstract
 
     oek.document.entities:
         class: ArrayObject

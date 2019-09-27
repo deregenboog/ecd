@@ -2,12 +2,11 @@
 
 namespace HsBundle\Entity;
 
-use Doctrine\ORM\Mapping as ORM;
+use AppBundle\Form\Model\AppDateRangeModel;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
-use HsBundle\Exception\HsException;
 use HsBundle\Exception\InvoiceLockedException;
-use Symfony\Component\Security\Core\Exception\LockedException;
 use HsBundle\Exception\InvoiceNotLockedException;
 
 /**
@@ -58,6 +57,12 @@ class Factuur
     private $locked = false;
 
     /**
+     * @ORM\Column(type="boolean")
+     * @Gedmo\Versioned
+     */
+    protected $oninbaar = false;
+
+    /**
      * @var Klant
      * @ORM\ManyToOne(targetEntity="Klant", inversedBy="facturen")
      * @Gedmo\Versioned
@@ -66,7 +71,7 @@ class Factuur
 
     /**
      * @var ArrayCollection|Registratie[]
-     * @ORM\OneToMany(targetEntity="Registratie", mappedBy="factuur")
+     * @ORM\OneToMany(targetEntity="Registratie", mappedBy="factuur", cascade={"persist"})
      * @ORM\JoinColumn(onDelete="SET NULL")
      * @ORM\OrderBy({"datum": "desc", "id": "desc"})
      */
@@ -74,7 +79,7 @@ class Factuur
 
     /**
      * @var ArrayCollection|Declaratie[]
-     * @ORM\OneToMany(targetEntity="Declaratie", mappedBy="factuur")
+     * @ORM\OneToMany(targetEntity="Declaratie", mappedBy="factuur", cascade={"persist"})
      * @ORM\JoinColumn(onDelete="SET NULL")
      * @ORM\OrderBy({"datum": "desc", "id": "desc"})
      */
@@ -94,7 +99,7 @@ class Factuur
      */
     private $herinneringen;
 
-    public function __construct(Klant $klant, $nummer = null, $betreft = null)
+    public function __construct(Klant $klant, $nummer = null, $betreft = null, AppDateRangeModel $dateRange = null)
     {
         $klant->addFactuur($this);
 
@@ -106,7 +111,20 @@ class Factuur
         $this->registraties = new ArrayCollection();
         $this->herinneringen = new ArrayCollection();
 
-        $this->datum = new \DateTime('today');
+        /**
+         * When an invoice is made during registraties, see if there is a daterange available and if so, set invoice to last date of that month instead of the current month.
+         *
+         */
+        if(null !== $dateRange)
+        {
+            $this->datum = new \DateTime('last day of '.$dateRange->getEnd()->format("M Y") );
+        }
+        else
+        {
+            $this->datum = new \DateTime('last day of this month');
+        }
+
+
     }
 
     public function __toString()
@@ -194,6 +212,7 @@ class Factuur
         $registratie->setFactuur($this);
 
         $this->updateDatum();
+        $this->calculateBedrag();
 
         return $this;
     }
@@ -208,6 +227,7 @@ class Factuur
         $registratie->setFactuur(null);
 
         $this->updateDatum();
+        $this->calculateBedrag();
 
         return $this;
     }
@@ -231,6 +251,7 @@ class Factuur
         $declaratie->setFactuur($this);
 
         $this->updateDatum();
+        $this->calculateBedrag();
 
         return $this;
     }
@@ -245,6 +266,7 @@ class Factuur
         $declaratie->setFactuur(null);
 
         $this->updateDatum();
+        $this->calculateBedrag();
 
         return $this;
     }
@@ -288,9 +310,9 @@ class Factuur
         return (float) $betaald;
     }
 
-    public function getSaldo()
+    public function getSaldo(): float
     {
-        return (float) $this->bedrag - $this->getBetaald();
+        return round($this->bedrag - $this->getBetaald(), 2);
     }
 
     public function getBetreft()
@@ -327,22 +349,87 @@ class Factuur
         return $this;
     }
 
-    private function updateDatum()
+    public function isOninbaar(): bool
     {
-        $datum = null;
+        return $this->oninbaar;
+    }
+
+    public function setOninbaar(bool $oninbaar)
+    {
+        $this->oninbaar = $oninbaar;
+
+        return $this;
+    }
+
+    public function calculateBedrag()
+    {
+        $bedrag = 0.0;
 
         foreach ($this->declaraties as $declaratie) {
-            if (!$datum || $declaratie->getDatum() > $datum) {
-                $datum = $declaratie->getDatum();
-            }
+            $bedrag += $declaratie->getBedrag();
         }
 
         foreach ($this->registraties as $registratie) {
-            if (!$datum || $registratie->getDatum() > $datum) {
+            $bedrag += 2.5 * $registratie->getUren();
+        }
+
+        $this->bedrag = $bedrag;
+
+        return $this;
+    }
+
+    /**
+     * Sets the date to the last day of the month of the most recent declaration/registration.
+     * #824
+     * Krijg vragen hierover; is ongewenst. Alleen de factuurdatum moet op laatste dag van de maand; niet de interne factuurregels (#824, ingetreden sinds #641)
+     * Volgens mij kan dit ook anders door dit alleen te doen wanneer de factuur definitief gemaakt wordt. En in concept dan gewoon een tekstveld maken waarin dat gezegd wordt.
+     *
+     *
+     */
+    private function updateDatum()
+    {
+        if (0 === count($this->declaraties) && 0 === count($this->registraties)) {
+            return;
+        }
+
+        //#873 dit werd op 'vandaag' gezet. Dus bij registratie in het verleden leverde dat soms (andere maand)
+        // problemen op. Want huidig > registratie. En dan kon hij geen facturen vinden binnen de daterange en
+        // maakte telkens een nieuwe aan met foute factuurdatum. Daarom een datum in het verleden.
+        $datum = new \DateTime("1970-01-01");
+
+
+        foreach ($this->declaraties as $declaratie) {
+            if ($declaratie->getDatum() > $datum) {
+                //190820 even laten staan voor als blijkt dat ik toch te kort doorde bocht ben gegaan.
+//                $datum->setDate(
+//                    $declaratie->getDatum()->format("Y"),
+//                    $declaratie->getDatum()->format("m"),
+//                    $declaratie->getDatum()->format("d")
+//                );
+
+                //update datum to most advanced datum.
+                $datum = $declaratie->getDatum();
+            }
+        }
+        foreach ($this->registraties as $registratie) {
+            if ($registratie->getDatum() > $datum) {
+//                $datum->setDate(
+//                    $registratie->getDatum()->format("Y"),
+//                    $registratie->getDatum()->format("m"),
+//                    $registratie->getDatum()->format("d")
+//                );
                 $datum = $registratie->getDatum();
             }
         }
 
-        $this->datum = $datum;
+        //Deze manier om laatste dag van die maand te berekenen vervangen door last day of ...
+//        $yearMonth = $datum->format('Y-m');
+//        while ($yearMonth == $datum->format('Y-m')) {
+//            $datum->modify('+1 day');
+//        }
+//        $datum->modify('-1 day');
+
+
+        $this->datum = new \DateTime("last day of ".$datum->format("M Y"));
     }
 }

@@ -1,0 +1,48 @@
+{% import '@Scip/macro.twig' as scip %}
+
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th>Project</th>
+            <th>Beschikbaarheid</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for deelname in entity.deelnames %}
+            <tr>
+                <td>
+                    {% if 'Project' == class(entity, false) %}
+                        {{ deelname.deelnemer }}
+                    {% elseif 'Deelnemer' == class(entity, false) %}
+                        {{ deelname.project }}
+                    {% endif %}
+                </td>
+                <td>
+                    {% if deelname.beschikbaarheid %}
+                        {{ scip.beschikbaarheid(deelname.beschikbaarheid) }}
+                    {% else %}
+                        {% if is_granted('access', deelname) %}
+                            {{ html.link('Beschikbaarheid opgeven', path('scip_deelnames_edit', {id: deelname.id}), 'add') }}
+                        {% endif %}
+                    {% endif %}
+                </td>
+                <td>
+                    {% if 'Project' == class(entity, false) %}
+                        {% if is_granted('access', deelname) %}
+                            {{ html.link('Naar vrijwilliger', path('scip_deelnemers_view', {id: deelname.deelnemer.id}), 'view') }}
+                        {% endif %}
+                    {% elseif 'Deelnemer' == class(entity, false) %}
+                        {% if is_granted('access', deelname) %}
+                            {{ html.link('Naar project', path('scip_projecten_view', {id: deelname.project.id}), 'view') }}
+                        {% endif %}
+                    {% endif %}
+                    {% if is_granted('access', deelname) %}
+                        {{ html.link('Wijzigen', path('scip_deelnames_edit', {id: deelname.id}), 'edit') }}
+                        {{ html.link('Verwijderen', path('scip_deelnames_delete', {id: deelname.id}), 'delete') }}
+                    {% endif %}
+                </td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>

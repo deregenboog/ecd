@@ -2,15 +2,15 @@
 
 namespace ClipBundle\Form;
 
+use ClipBundle\Entity\Behandelaar;
+use Doctrine\ORM\EntityRepository;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\FormEvent;
-use Doctrine\ORM\EntityRepository;
-use ClipBundle\Entity\Behandelaar;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\Options;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class BehandelaarSelectType extends AbstractType
 {

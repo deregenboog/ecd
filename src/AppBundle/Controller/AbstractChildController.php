@@ -2,14 +2,16 @@
 
 namespace AppBundle\Controller;
 
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Symfony\Component\HttpFoundation\Request;
 use AppBundle\Exception\AppException;
-use AppBundle\Service\AbstractDao;
-use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use AppBundle\Form\ConfirmationType;
+use AppBundle\Model\MedewerkerSubjectInterface;
+use AppBundle\Service\AbstractDao;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 
-class AbstractChildController extends AbstractController
+abstract class AbstractChildController extends AbstractController
 {
     /**
      * @var AbstractDao
@@ -38,6 +40,7 @@ class AbstractChildController extends AbstractController
 
     /**
      * @Route("/add")
+     * @Template
      */
     public function addAction(Request $request)
     {
@@ -61,14 +64,14 @@ class AbstractChildController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            if ($entity instanceof MedewerkerSubjectInterface && !$entity->getMedewerker()) {
+                $entity->setMedewerker($this->getMedewerker());
+            }
             try {
-                if (!$parentEntity && $this->allowEmpty) {
-                    $this->dao->create($entity);
-                } else {
-                    $this->parentDao->update($parentEntity);
-                }
+                $this->persistEntity($entity, $parentEntity);
                 $this->addFlash('success', ucfirst($this->entityName).' is toegevoegd.');
             } catch (\Exception $e) {
+                $this->get('logger')->error($e->getMessage(), ['exception' => $e]);
                 $message = $this->container->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
                 $this->addFlash('danger', $message);
             }
@@ -93,6 +96,7 @@ class AbstractChildController extends AbstractController
 
     /**
      * @Route("/{id}/delete")
+     * @Template
      */
     public function deleteAction(Request $request, $id)
     {
@@ -107,8 +111,8 @@ class AbstractChildController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $url = $request->get('redirect');
             if ($form->get('yes')->isClicked()) {
-                $url = $request->get('redirect');
                 $viewUrl = $this->generateUrl($this->baseRouteName.'view', ['id' => $entity->getId()]);
 
                 if ($parentEntity && $this->deleteMethod) {
@@ -136,6 +140,20 @@ class AbstractChildController extends AbstractController
             'entity' => $entity,
             'form' => $form->createView(),
         ];
+    }
+
+    protected function createEntity($parentEntity = null)
+    {
+        return new $this->entityClass();
+    }
+
+    protected function persistEntity($entity, $parentEntity)
+    {
+        if (!$parentEntity && $this->allowEmpty) {
+            $this->dao->create($entity);
+        } else {
+            $this->parentDao->update($parentEntity);
+        }
     }
 
     protected function getParentConfig(Request $request)

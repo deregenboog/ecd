@@ -2,10 +2,9 @@
 
 namespace HsBundle\Service;
 
+use AppBundle\Filter\FilterInterface;
 use HsBundle\Entity\Klant;
 use Knp\Component\Pager\Pagination\PaginationInterface;
-use AppBundle\Filter\FilterInterface;
-use AppBundle\Form\Model\AppDateRangeModel;
 
 interface KlantDaoInterface
 {
@@ -40,5 +39,9 @@ interface KlantDaoInterface
 
     public function countByStadsdeel(\DateTime $start = null, \DateTime $end = null);
 
+    public function countByGgwGebied(\DateTime $start = null, \DateTime $end = null);
+
     public function countNewByStadsdeel(\DateTime $start = null, \DateTime $end = null);
+
+    public function countNewByGgwGebied(\DateTime $start = null, \DateTime $end = null);
 }

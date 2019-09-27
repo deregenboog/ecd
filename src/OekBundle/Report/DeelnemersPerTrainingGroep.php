@@ -2,9 +2,9 @@
 
 namespace OekBundle\Report;
 
+use AppBundle\Report\AbstractReport;
 use AppBundle\Report\Table;
 use OekBundle\Entity\DeelnameStatus;
-use AppBundle\Report\AbstractReport;
 use OekBundle\Repository\DeelnemerRepository;
 
 class DeelnemersPerTrainingGroep extends AbstractReport

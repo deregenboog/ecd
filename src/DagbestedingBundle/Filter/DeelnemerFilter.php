@@ -2,9 +2,11 @@
 
 namespace DagbestedingBundle\Filter;
 
-use Doctrine\ORM\QueryBuilder;
-use AppBundle\Filter\KlantFilter;
+use AppBundle\Entity\Medewerker;
 use AppBundle\Filter\FilterInterface;
+use AppBundle\Filter\KlantFilter;
+use AppBundle\Form\Model\AppDateRangeModel;
+use Doctrine\ORM\QueryBuilder;
 
 class DeelnemerFilter implements FilterInterface
 {
@@ -14,14 +16,24 @@ class DeelnemerFilter implements FilterInterface
     public $id;
 
     /**
-     * @var \DateTime
+     * @var Medewerker
+     */
+    public $medewerker;
+
+    /**
+     * @var AppDateRangeModel
      */
     public $aanmelddatum;
 
     /**
-     * @var \DateTime
+     * @var AppDateRangeModel
      */
     public $afsluitdatum;
+
+    /**
+     * @var bool
+     */
+    public $zonderTraject;
 
     /**
      * @var KlantFilter
@@ -37,17 +49,24 @@ class DeelnemerFilter implements FilterInterface
             ;
         }
 
+        if ($this->medewerker) {
+            $builder
+                ->andWhere('deelnemer.medewerker = :medewerker')
+                ->setParameter('medewerker', $this->medewerker)
+            ;
+        }
+
         if ($this->aanmelddatum) {
             if ($this->aanmelddatum->getStart()) {
                 $builder
-                ->andWhere('deelnemer.aanmelddatum >= :aanmelddatum_van')
-                ->setParameter('aanmelddatum_van', $this->aanmelddatum->getStart())
+                    ->andWhere('deelnemer.aanmelddatum >= :aanmelddatum_van')
+                    ->setParameter('aanmelddatum_van', $this->aanmelddatum->getStart())
                 ;
             }
             if ($this->aanmelddatum->getEnd()) {
                 $builder
-                ->andWhere('deelnemer.aanmelddatum <= :aanmelddatum_tot')
-                ->setParameter('aanmelddatum_tot', $this->aanmelddatum->getEnd())
+                    ->andWhere('deelnemer.aanmelddatum <= :aanmelddatum_tot')
+                    ->setParameter('aanmelddatum_tot', $this->aanmelddatum->getEnd())
                 ;
             }
         }
@@ -55,16 +74,20 @@ class DeelnemerFilter implements FilterInterface
         if ($this->afsluitdatum) {
             if ($this->afsluitdatum->getStart()) {
                 $builder
-                ->andWhere('deelnemer.afsluitdatum >= :afsluitdatum_van')
-                ->setParameter('afsluitdatum_van', $this->afsluitdatum->getStart())
+                    ->andWhere('deelnemer.afsluitdatum >= :afsluitdatum_van')
+                    ->setParameter('afsluitdatum_van', $this->afsluitdatum->getStart())
                 ;
             }
             if ($this->afsluitdatum->getEnd()) {
                 $builder
-                ->andWhere('deelnemer.afsluitdatum <= :afsluitdatum_tot')
-                ->setParameter('afsluitdatum_tot', $this->afsluitdatum->getEnd())
+                    ->andWhere('deelnemer.afsluitdatum <= :afsluitdatum_tot')
+                    ->setParameter('afsluitdatum_tot', $this->afsluitdatum->getEnd())
                 ;
             }
+        }
+
+        if ($this->zonderTraject) {
+            $builder->leftJoin('deelnemer.trajecten', 'traject')->andWhere('traject.id IS NULL');
         }
 
         if ($this->klant) {

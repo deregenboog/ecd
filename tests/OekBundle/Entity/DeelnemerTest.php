@@ -2,13 +2,14 @@
 
 namespace Tests\OekBundle\Entity;
 
-use OekBundle\Entity\Deelnemer;
 use OekBundle\Entity\Aanmelding;
 use OekBundle\Entity\Afsluiting;
+use OekBundle\Entity\Deelnemer;
 use OekBundle\Entity\VerwijzingDoor;
 use OekBundle\Entity\VerwijzingNaar;
+use PHPUnit\Framework\TestCase;
 
-class DeelnemerTest extends \PHPUnit_Framework_TestCase
+class DeelnemerTest extends TestCase
 {
     public function testCanOpenDossier()
     {
@@ -43,6 +44,8 @@ class DeelnemerTest extends \PHPUnit_Framework_TestCase
         $deelnemer->addAanmelding($this->getAanmelding());
         $deelnemer->addAfsluiting($this->getAfsluiting());
         $deelnemer->addAanmelding($this->getAanmelding());
+
+        $this->assertInstanceOf(Aanmelding::class, $deelnemer->getDossierStatus());
     }
 
     /**

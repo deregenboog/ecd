@@ -2,30 +2,32 @@
 
 namespace HsBundle\Controller;
 
-use HsBundle\Entity\Factuur;
-use HsBundle\Form\FactuurFilterType;
-use Symfony\Component\Routing\Annotation\Route;
-use HsBundle\Service\FactuurDaoInterface;
-use Symfony\Component\HttpFoundation\Request;
-use JMS\DiExtraBundle\Annotation as DI;
-use HsBundle\Entity\Klant;
-use HsBundle\Service\FactuurFactoryInterface;
-use Symfony\Component\HttpFoundation\Response;
-use HsBundle\Form\FactuurType;
-use HsBundle\Service\KlantDaoInterface;
 use AppBundle\Controller\AbstractChildController;
+use AppBundle\Exception\AppException;
 use AppBundle\Export\ExportInterface;
 use AppBundle\Filter\FilterInterface;
-use AppBundle\Exception\AppException;
-use HsBundle\Exception\HsException;
+use AppBundle\Form\ConfirmationType;
 use HsBundle\Entity\Creditfactuur;
+use HsBundle\Entity\Factuur;
+use HsBundle\Entity\Klant;
+use HsBundle\Exception\HsException;
+use HsBundle\Exception\InvoiceLockedException;
 use HsBundle\Form\CreditfactuurType;
-use HsBundle\Filter\FactuurFilter;
-use Symfony\Component\DependencyInjection\Tests\Fixtures\includes\HotPath\P1;
+use HsBundle\Form\FactuurFilterType;
+use HsBundle\Form\FactuurType;
 use HsBundle\Pdf\PdfFactuur;
+use HsBundle\Service\FactuurDaoInterface;
+use HsBundle\Service\FactuurFactoryInterface;
+use HsBundle\Service\KlantDaoInterface;
+use JMS\DiExtraBundle\Annotation as DI;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * @Route("/facturen")
+ * @Template
  */
 class FacturenController extends AbstractChildController
 {
@@ -41,7 +43,7 @@ class FacturenController extends AbstractChildController
     /**
      * @var FactuurDaoInterface
      *
-     * @DI\Inject("hs.dao.factuur")
+     * @DI\Inject("HsBundle\Service\FactuurDao")
      */
     protected $dao;
 
@@ -62,7 +64,7 @@ class FacturenController extends AbstractChildController
     /**
      * @var KlantDaoInterface
      *
-     * @DI\Inject("hs.dao.klant")
+     * @DI\Inject("HsBundle\Service\KlantDao")
      */
     protected $klantDao;
 
@@ -94,6 +96,13 @@ class FacturenController extends AbstractChildController
                         // ignore
                     }
                 }
+                if ($form->has('pdfDownload') && $form->get('pdfDownload')->isClicked()) {
+                    try {
+                        return $this->pdfDownload($form->getData());
+                    } catch (HsException $e) {
+                        // ignore
+                    }
+                }
             }
             $filter = $form->getData();
         }
@@ -110,9 +119,13 @@ class FacturenController extends AbstractChildController
     /**
      * @Route("/{id}/view")
      */
-    public function viewAction($id)
+    public function viewAction(Request $request, $id)
     {
         $entity = $this->dao->find($id);
+
+        if (!$entity) {
+            return $this->redirectToIndex();
+        }
 
         if ('pdf' == $this->getRequest()->get('_format')) {
             return $this->viewPdf($entity);
@@ -132,9 +145,33 @@ class FacturenController extends AbstractChildController
      */
     public function editAction(Request $request, $id)
     {
+        $this->denyAccessUnlessGranted("ROLE_HOMESERVICE_BEHEER");
         $this->formClass = CreditfactuurType::class;
+        $entity = $this->dao->find($id);
+        if($entity->isLocked())
+        {
+            throw new InvoiceLockedException("Een definitieve factuur kan niet meer bewerkt worden");
+        }
 
         return parent::editAction($request, $id);
+    }
+
+    /**
+     * @Route("/{id}/delete")
+     */
+    public function deleteAction(Request $request, $id)
+    {
+
+        $this->denyAccessUnlessGranted("ROLE_HOMESERVICE_BEHEER");
+
+        $entity = $this->dao->find($id);
+        if($entity->isLocked())
+        {
+            throw new InvoiceLockedException("Een definitieve factuur kan niet meer verwijderd worden");
+        }
+        return parent::deleteAction($request, $id);
+
+
     }
 
     /**
@@ -142,7 +179,6 @@ class FacturenController extends AbstractChildController
      */
     public function addAction(Request $request)
     {
-        $this->set('entity_name', 'handmatige factuur');
         $this->entityClass = Creditfactuur::class;
         $this->formClass = CreditfactuurType::class;
 
@@ -154,8 +190,7 @@ class FacturenController extends AbstractChildController
      */
     public function lockAction(Request $request, $id)
     {
-        // @todo
-//         $this->denyAccessUnlessGranted(GROUP_HOMESERVICE_BEHEER);
+        $this->denyAccessUnlessGranted('ROLE_HOMESERVICE_BEHEER');
 
         $entity = $this->dao->find($id);
         $entity->lock();
@@ -164,7 +199,61 @@ class FacturenController extends AbstractChildController
         return $this->redirectToView($entity);
     }
 
-    protected function createEntity($parentEntity)
+    /**
+     * @Route("/{id}/oninbaar")
+     * @Template
+     */
+    public function oninbaarAction(Request $request, $id)
+    {
+        $entity = $this->dao->find($id);
+
+        $form = $this->createForm(ConfirmationType::class);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            if ($form->get('yes')->isClicked()) {
+                $entity->setOninbaar(true);
+                $this->dao->update($entity);
+                $this->addFlash('success', ucfirst($this->entityName).' is gemarkeerd als oninbaar.');
+            }
+
+            return $this->redirectToView($entity);
+        }
+
+        return [
+            'entity' => $entity,
+            'form' => $form->createView(),
+        ];
+    }
+
+    /**
+     * @Route("/{id}/inbaar")
+     * @Template
+     */
+    public function inbaarAction(Request $request, $id)
+    {
+        $entity = $this->dao->find($id);
+
+        $form = $this->createForm(ConfirmationType::class);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            if ($form->get('yes')->isClicked()) {
+                $entity->setOninbaar(false);
+                $this->dao->update($entity);
+                $this->addFlash('success', ucfirst($this->entityName).' is gemarkeerd als inbaar.');
+            }
+
+            return $this->redirectToView($entity);
+        }
+
+        return [
+            'entity' => $entity,
+            'form' => $form->createView(),
+        ];
+    }
+
+    protected function createEntity($parentEntity = null)
     {
         return new $this->entityClass($parentEntity);
     }
@@ -172,7 +261,23 @@ class FacturenController extends AbstractChildController
     protected function getDownloadFilename()
     {
         return sprintf(
+            'hs-facturen-%s.xlsx',
+            (new \DateTime())->format('Y-m-d')
+        );
+    }
+
+    protected function getZipDownloadFilename()
+    {
+        return sprintf(
             'hs-facturen-%s.zip',
+            (new \DateTime())->format('Y-m-d')
+        );
+    }
+
+    protected function getPdfDownloadFilename()
+    {
+        return sprintf(
+            'hs-facturen-%s.pdf',
             (new \DateTime())->format('Y-m-d')
         );
     }
@@ -186,7 +291,7 @@ class FacturenController extends AbstractChildController
         ini_set('memory_limit', '512M');
 
         $dir = $this->getParameter('kernel.cache_dir');
-        $filename = $this->getDownloadFilename();
+        $filename = $this->getZipDownloadFilename();
         $collection = $this->dao->findAll(null, $filter);
 
         if (0 === count($collection)) {
@@ -218,12 +323,68 @@ class FacturenController extends AbstractChildController
         return $response;
     }
 
+    private function pdfDownload(FilterInterface $filter)
+    {
+        if (!$this->export) {
+            throw new AppException(get_class($this).'::export not set!');
+        }
+
+        ini_set('memory_limit', '512M');
+
+        $dir = $this->getParameter('kernel.cache_dir');
+        $filename = $this->getPdfDownloadFilename();
+        $collection = $this->dao->findAll(null, $filter);
+
+        if (0 === count($collection)) {
+            $this->addFlash('warning', 'Geen definitieve facturen gevonden.');
+
+            throw new HsException('Geen definitieve facturen gevonden.');
+        }
+
+        $combinedPdf = null;
+        $tempNames = [];
+        foreach ($collection as $factuur) {
+            // create and store PDF
+            $tempName = tempnam($dir, 'pdf_');
+            $tempNames[] = $tempName;
+            $pdf = $this->createPdf($factuur);
+            $pdf->Output($tempName, 'F');
+
+            // create or add to combined PDF
+            if ($combinedPdf) {
+                $tmpPdf = \Zend_Pdf::load($tempName);
+                foreach ($tmpPdf->pages as $page) {
+                    $combinedPdf->pages[] = clone $page;
+                }
+            } else {
+                $combinedPdf = \Zend_Pdf::load($tempName);
+            }
+        }
+
+        $tempName = tempnam($dir, 'pdf_');
+        $tempNames[] = $tempName;
+        $combinedPdf->save($tempName);
+
+        $response = new Response(file_get_contents($tempName));
+        $response->headers->set('Content-type', 'application/zip');
+        $response->headers->set('Content-Disposition', sprintf('attachment; filename="%s";', $filename));
+        $response->headers->set('Content-Transfer-Encoding', 'binary');
+
+        // clean-up temp files
+        foreach ($tempNames as $tempName) {
+            unlink($tempName);
+        }
+
+        return $response;
+    }
+
     private function viewPdf(Factuur $entity)
     {
         $pdf = $this->createPdf($entity);
         $response = new Response($pdf->Output(null, 'S'));
 
-        $filename = sprintf('homeservice-factuur-%s.pdf', $entity);
+//        $filename = sprintf('homeservice-factuur-%s.pdf', $entity);
+        $filename = sprintf('homeservice-factuur-%s-%s.pdf', $entity, $entity->getKlant());
         $response->headers->set('Content-type', 'application/pdf');
         $response->headers->set('Content-Disposition', sprintf('attachment; filename="%s";', $filename));
         $response->headers->set('Content-Transfer-Encoding', 'binary');

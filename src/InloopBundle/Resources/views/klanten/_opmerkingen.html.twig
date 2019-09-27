@@ -1,0 +1,18 @@
+{% import '::html.macro.twig' as html %}
+
+<h2>Opmerkingen</h2>
+<p>
+    {{ html.link('Overzicht opmerkingen', path('inloop_opmerkingen_index', {klant: klant.id}), 'view') }}
+    {{ html.link('Opmerking toevoegen', path('inloop_opmerkingen_add', {klant: klant.id}), 'add') }}
+</p>
+{% set opmerkingen = klant.openstaandeOpmerkingen %}
+{% if 0 == opmerkingen|length %}
+    <p>Geen opmerkingen</p>
+{% else %}
+    <dl>
+        {% for opmerking in opmerkingen %}
+            <dt>{{ opmerking.modified|date('d-m-Y') }}, {{ opmerking.categorie }}</dt>
+            <dd>{{ opmerking.beschrijving }}</dd>
+        {% endfor %}
+    </dl>
+{% endif %}

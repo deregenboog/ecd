@@ -1,0 +1,36 @@
+{% extends 'GaBundle::view.html.twig' %}
+{% import '::html.macro.twig' as html %}
+
+{% block content_top %}
+    <h1>{{ entity_name|capitalize }} {{ entity }}</h1>
+{% endblock %}
+
+{% block content_left %}
+    {% include '::vrijwilliger_basis.html.twig' with {vrijwilliger: entity.vrijwilliger} %}
+{% endblock %}
+
+{% block content_right %}
+    {% if entity.afgesloten %}
+        <p class="alert alert-danger">
+            Dit dossier is afgesloten.
+            {{ html.link('Heropenen', path(route_base~'open', {id: entity.id}), 'open') }}
+        </p>
+    {% endif %}
+    {% block tabs %}
+        {% include 'GaBundle:vrijwilligerdossiers:_tabs.html.twig' with {current: 'intake'} %}
+    {% endblock %}
+    {% block tab_content %}
+        <div class="tab-content">
+            <div id="intake" class="tab-pane active">
+                <h2>Aanmelding</h2>
+                {{ html.link('Wijzigen', path(route_base~'edit', {id: entity.id}), 'edit') }}
+                <dl class="dl-horizontal">
+                    <dt>Aanmelddatum</dt>
+                    <dd>{{ entity.aanmelddatum|date('d-m-Y') }}</dd>
+                    <dt>Medewerker</dt>
+                    <dd>{{ entity.medewerker }}</dd>
+                </dl>
+            </div>
+        </div>
+    {% endblock %}
+{% endblock %}

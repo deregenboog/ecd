@@ -3,8 +3,8 @@
 namespace HsBundle\Filter;
 
 use AppBundle\Filter\FilterInterface;
-use Doctrine\ORM\QueryBuilder;
 use AppBundle\Form\Model\AppDateRangeModel;
+use Doctrine\ORM\QueryBuilder;
 
 class FactuurFilter implements FilterInterface
 {
@@ -27,6 +27,11 @@ class FactuurFilter implements FilterInterface
      * @var bool
      */
     public $status;
+
+    /**
+     * @var bool
+     */
+    public $inbaar;
 
     /**
      * @var bool
@@ -81,16 +86,27 @@ class FactuurFilter implements FilterInterface
             ;
         }
 
+        if (null !== $this->inbaar) {
+            $builder
+                ->andWhere('factuur.oninbaar = :oninbaar')
+                ->setParameter('oninbaar', !$this->inbaar)
+            ;
+        }
+
         if ($this->negatiefSaldo) {
             $builder
-                ->having('(SUM(factuur.bedrag) - SUM(betaling.bedrag)) > 0')
-                ->orHaving('SUM(factuur.bedrag) > 0 AND COUNT(betaling) = 0')
+                ->having('(factuur.bedrag - SUM(betaling.bedrag)) > 0')
+                ->orHaving('factuur.bedrag > 0 AND COUNT(betaling) = 0')
                 ->groupBy('factuur')
             ;
         }
 
-        if ($this->metHerinnering) {
-            $builder->andWhere('herinnering.id IS NOT NULL');
+        if (null !== $this->metHerinnering) {
+            if ($this->metHerinnering) {
+                $builder->andWhere('herinnering.id IS NOT NULL');
+            } else {
+                $builder->andWhere('herinnering.id IS NULL');
+            }
         }
 
         if ($this->klant) {

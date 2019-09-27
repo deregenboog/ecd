@@ -7,7 +7,7 @@ use Doctrine\ORM\QueryBuilder;
 
 class ClientRepository extends EntityRepository
 {
-    public function countByGroep($status, \DateTime $startDate, \DateTime $endDate)
+    public function countByGroep(\DateTime $startDate, \DateTime $endDate)
     {
         $builder = $this->getCountBuilder()
             ->addSelect('groep.naam AS groepnaam')
@@ -26,8 +26,10 @@ class ClientRepository extends EntityRepository
         $builder
             ->where('DATE(client.created) BETWEEN :startDate AND :endDate')
             ->orWhere('DATE(verslag.created) BETWEEN :startDate AND :endDate')
-            ->setParameter('startDate', $startDate)
-            ->setParameter('endDate', $endDate)
+            ->setParameters([
+                'startDate' => $startDate,
+                'endDate' => $endDate,
+            ])
         ;
     }
 

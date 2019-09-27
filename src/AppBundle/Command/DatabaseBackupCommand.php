@@ -14,13 +14,19 @@ use BackupManager\Filesystems\LocalFilesystem;
 use BackupManager\Manager;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Process\Process;
 
 class DatabaseBackupCommand extends ContainerAwareCommand
 {
     protected function configure()
     {
-        $this->setName('app:database:backup');
+        $this
+            ->setName('app:database:backup')
+            ->addOption('keep', 'k', InputOption::VALUE_OPTIONAL, 'Number of backups to keep', 5)
+            ->addOption('exclude-logs', 'x', InputOption::VALUE_NONE, 'Exclude logs-tables')
+        ;
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
@@ -39,6 +45,20 @@ class DatabaseBackupCommand extends ContainerAwareCommand
             return;
         }
 
+        $ignoreTables = [];
+        if ($input->getOption('exclude-logs')) {
+            $ignoreTables = [
+                'logs_2011',
+                'logs_2012',
+                'logs_2013',
+                'logs_2014',
+                'logs_2015',
+                'logs_2016',
+                'logs_2017',
+                'logs',
+            ];
+        }
+
         /* @var $connection \Doctrine\DBAL\Connection */
         $connection = $this->getContainer()->get('doctrine')->getConnection();
         $dbConfig = new Config([
@@ -50,7 +70,7 @@ class DatabaseBackupCommand extends ContainerAwareCommand
                 'pass' => $connection->getPassword(),
                 'database' => $connection->getDatabase(),
                 'singleTransaction' => true,
-                'ignoreTables' => ['logs'],
+                'ignoreTables' => $ignoreTables,
             ],
         ]);
         $fsConfig = new Config([
@@ -76,5 +96,10 @@ class DatabaseBackupCommand extends ContainerAwareCommand
 
         $manager = new Manager($filesystems, $databases, $compressors);
         $manager->makeBackup()->run('mysql', [new Destination('local', $filename)], 'gzip');
+
+        $output->writeln(sprintf('Keeping %d newest backups', $input->getOption('keep')));
+        $command = sprintf("ls -tp | grep -v '/$' | tail -n +%d | xargs -I {} rm -- {}", 1 + $input->getOption('keep'));
+        $process = new Process($command, $backupDir);
+        $process->run();
     }
 }

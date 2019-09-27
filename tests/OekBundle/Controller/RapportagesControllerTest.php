@@ -2,44 +2,20 @@
 
 namespace Tests\OekBundle\Controller;
 
-use Liip\FunctionalTestBundle\Test\WebTestCase;
-use AppBundle\Entity\Medewerker;
+use AppBundle\Test\WebTestCase;
 
 class RapportagesControllerTest extends WebTestCase
 {
-    protected function setUp()
-    {
-        $this->loadFixtures([]);
-
-        $_SESSION['Auth'] = [
-            'Medewerker' => [
-                'id' => 1,
-                'username' => 'bhuttinga',
-                'uidnumber' => 1,
-                'Group' => [
-                    'CN=ECD Trajectbegeleider,CN=Users,DC=cluster,DC=deregenboog',
-                    'CN=ECD Homeservice Beheer,CN=Users,DC=cluster,DC=deregenboog',
-                    'CN=ECD Homeservice,CN=Users,DC=cluster,DC=deregenboog',
-                    'CN=ECD Admin,CN=Users,DC=cluster,DC=deregenboog',
-                ],
-                'LdapUser' => [
-                    'displayname' => 'Bart Huttinga',
-                    'givenname' => 'Bart Huttinga',
-                    'sn' => 'Bart Huttinga',
-                    'uidnumber' => 1,
-                    'mail' => 'bhuttinga@deregenboog.org',
-                ],
-            ],
-        ];
-    }
-
     public function testShowReports()
     {
-        $client = $this->createClient();
-        $crawler = $client->request('GET', '/oek/rapportages/');
+        $medewerker = $this->getContainer()->get('AppBundle\Service\MedewerkerDao')->find('oek_user');
+        $this->logIn($medewerker);
 
-        $this->assertStatusCode(200, $client);
+        $crawler = $this->client->request('GET', '/oek/rapportages/');
+
+        $this->assertStatusCode(200, $this->client);
         $form = $crawler->selectButton('Rapport tonen')->form();
+
         $reports = $crawler->filter('select option');
         $this->assertGreaterThan(1, $reports->count());
 
@@ -47,9 +23,9 @@ class RapportagesControllerTest extends WebTestCase
             if ('' === $report->getAttribute('value')) {
                 continue;
             }
-            $form['oek_rapportage[rapport]'] = $report->getAttribute('value');
-            $crawler = $client->submit($form);
-            $this->assertStatusCode(200, $client);
+            $form['rapportage[rapport]'] = $report->getAttribute('value');
+            $crawler = $this->client->submit($form);
+            $this->assertStatusCode(200, $this->client);
         }
     }
 }

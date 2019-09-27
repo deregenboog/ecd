@@ -3,10 +3,13 @@
 namespace OekBundle\Filter;
 
 use AppBundle\Filter\FilterInterface;
-use Doctrine\ORM\QueryBuilder;
-use OekBundle\Entity\Groep;
-use AppBundle\Form\Model\AppDateRangeModel;
 use AppBundle\Filter\KlantFilter;
+use AppBundle\Form\Model\AppDateRangeModel;
+use Doctrine\ORM\QueryBuilder;
+use OekBundle\Entity\DeelnameStatus;
+use OekBundle\Entity\Deelnemer;
+use OekBundle\Entity\Groep;
+use OekBundle\Entity\Training;
 
 class DeelnemerFilter implements FilterInterface
 {
@@ -26,6 +29,11 @@ class DeelnemerFilter implements FilterInterface
     public $training;
 
     /**
+     * @var bool
+     */
+    public $heeftAfgerondeTraining;
+
+    /**
      * @var AppDateRangeModel
      */
     public $aanmelddatum;
@@ -34,6 +42,11 @@ class DeelnemerFilter implements FilterInterface
      * @var AppDateRangeModel
      */
     public $afsluitdatum;
+
+    /**
+     * @var bool
+     */
+    public $actief = true;
 
     /**
      * @var KlantFilter
@@ -61,6 +74,29 @@ class DeelnemerFilter implements FilterInterface
                 ->andWhere('training = :training')
                 ->setParameter('training', $this->training)
             ;
+        }
+
+        if (null !== $this->heeftAfgerondeTraining) {
+            $deelnemers = $builder->getEntityManager()->createQueryBuilder()
+                ->select('deelnemer.id')
+                ->distinct(true)
+                ->from(Deelnemer::class, 'deelnemer')
+                ->innerJoin('deelnemer.deelnames', 'deelname')
+                ->innerJoin('deelname.deelnameStatus', 'deelnameStatus')
+                ->where('deelnameStatus.status = :afgerond')
+                ->setParameter('afgerond', DeelnameStatus::STATUS_AFGEROND)
+                ->getQuery()
+                ->getResult()
+            ;
+            $deelnemerIds = array_map(function ($deelnemer) {
+                return $deelnemer['id'];
+            }, $deelnemers);
+
+            if ($this->heeftAfgerondeTraining) {
+                $builder->andWhere($builder->expr()->in('deelnemer.id', $deelnemerIds));
+            } else {
+                $builder->andWhere($builder->expr()->notIn('deelnemer.id', $deelnemerIds));
+            }
         }
 
         if ($this->aanmelddatum) {
@@ -91,6 +127,15 @@ class DeelnemerFilter implements FilterInterface
                     ->setParameter('afsluitdatum_tot', $this->afsluitdatum->getEnd())
                 ;
             }
+        }
+
+        if ($this->actief) {
+            $builder
+                ->andWhere('aanmelding.datum <= :today')
+                ->andWhere('afsluiting.datum > :today OR afsluiting.datum IS NULL')
+                ->setParameter('today', new \DateTime('today'))
+            ;
+
         }
 
         if ($this->klant) {

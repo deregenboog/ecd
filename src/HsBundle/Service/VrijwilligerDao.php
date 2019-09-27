@@ -5,6 +5,7 @@ namespace HsBundle\Service;
 use AppBundle\Entity\Vrijwilliger as AppVrijwilliger;
 use AppBundle\Filter\FilterInterface;
 use AppBundle\Service\AbstractDao;
+use HsBundle\Entity\Dienstverlener;
 use HsBundle\Entity\Vrijwilliger;
 
 class VrijwilligerDao extends AbstractDao implements VrijwilligerDaoInterface
@@ -33,25 +34,26 @@ class VrijwilligerDao extends AbstractDao implements VrijwilligerDaoInterface
     public function findAll($page = null, FilterInterface $filter = null)
     {
         $builder = $this->repository->createQueryBuilder($this->alias)
-            ->select("{$this->alias}, basisvrijwilliger, klus, registratie, memo, document")
+            ->select("{$this->alias}, basisvrijwilliger, klus, memo, document")
             ->innerJoin('vrijwilliger.vrijwilliger', 'basisvrijwilliger')
             ->leftJoin('basisvrijwilliger.werkgebied', 'werkgebied')
             ->leftJoin("{$this->alias}.klussen", 'klus')
-            ->leftJoin("{$this->alias}.registraties", 'registratie')
             ->leftJoin("{$this->alias}.memos", 'memo')
             ->leftJoin("{$this->alias}.documenten", 'document')
         ;
 
-        if ($filter && $filter->vrijwilliger) {
-            $filter->vrijwilliger->alias = 'basisvrijwilliger';
+        if ($filter) {
+            if ($filter->vrijwilliger) {
+                $filter->vrijwilliger->alias = 'basisvrijwilliger';
+            }
             $filter->applyTo($builder);
         }
 
-        if ($page <= 0) {
-            return $builder->getQuery()->getResult();
+        if ($page) {
+            return $this->paginator->paginate($builder, $page, $this->itemsPerPage, $this->paginationOptions);
         }
 
-        return $this->paginator->paginate($builder, $page, $this->itemsPerPage, $this->paginationOptions);
+        return $builder->getQuery()->getResult();
     }
 
     /**
@@ -123,6 +125,30 @@ class VrijwilligerDao extends AbstractDao implements VrijwilligerDaoInterface
     /**
      * {inheritdoc}.
      */
+    public function countByGgwGebied(\DateTime $start = null, \DateTime $end = null)
+    {
+        $builder = $this->repository->createQueryBuilder('vrijwilliger')
+            ->select('COUNT(DISTINCT(basisvrijwilliger.id)) AS aantal, postcodegebied.naam AS ggwgebied')
+            ->innerJoin('vrijwilliger.vrijwilliger', 'basisvrijwilliger')
+            ->leftJoin('basisvrijwilliger.postcodegebied', 'postcodegebied')
+            ->innerJoin('vrijwilliger.registraties', 'registratie')
+            ->groupBy('postcodegebied')
+        ;
+
+        if ($start) {
+            $builder->andWhere('registratie.datum >= :start')->setParameter('start', $start);
+        }
+
+        if ($end) {
+            $builder->andWhere('registratie.datum <= :end')->setParameter('end', $end);
+        }
+
+        return $builder->getQuery()->getResult();
+    }
+
+    /**
+     * {inheritdoc}.
+     */
     public function countNewByStadsdeel(\DateTime $start = null, \DateTime $end = null)
     {
         $builder = $this->repository->createQueryBuilder('vrijwilliger')
@@ -130,6 +156,29 @@ class VrijwilligerDao extends AbstractDao implements VrijwilligerDaoInterface
             ->innerJoin('vrijwilliger.vrijwilliger', 'basisvrijwilliger')
             ->leftJoin('basisvrijwilliger.werkgebied', 'werkgebied')
             ->groupBy('stadsdeel')
+        ;
+
+        if ($start) {
+            $builder->andWhere('vrijwilliger.inschrijving >= :start')->setParameter('start', $start);
+        }
+
+        if ($end) {
+            $builder->andWhere('vrijwilliger.inschrijving <= :end')->setParameter('end', $end);
+        }
+
+        return $builder->getQuery()->getResult();
+    }
+
+    /**
+     * {inheritdoc}.
+     */
+    public function countNewByGgwGebied(\DateTime $start = null, \DateTime $end = null)
+    {
+        $builder = $this->repository->createQueryBuilder('vrijwilliger')
+            ->select('COUNT(DISTINCT(basisvrijwilliger.id)) AS aantal, postcodegebied.naam AS ggwgebied')
+            ->innerJoin('vrijwilliger.vrijwilliger', 'basisvrijwilliger')
+            ->leftJoin('basisvrijwilliger.postcodegebied', 'postcodegebied')
+            ->groupBy('postcodegebied')
         ;
 
         if ($start) {

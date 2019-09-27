@@ -1,0 +1,134 @@
+{% extends '::base-2-col.html.twig' %}
+{% import '::html.macro.twig' as html %}
+
+{% block title %}
+    Inloophuizen | {{ title }}
+{% endblock %}
+
+{% block subnavigation %}
+    {% include '@Inloop/subnavigation.html.twig' %}
+{% endblock %}
+
+{% block content_top %}
+    <h1>{{ entity_name|capitalize }} toevoegen</h1>
+{% endblock %}
+
+{% block content_left %}
+    {% include '::klant_basis.html.twig' with {klant: entity.klant, module: 'Intake'} %}
+
+
+{% endblock %}
+
+{% block content_right %}
+    {{ form_start(form) }}
+    {{ form_errors(form) }}
+
+    <h2>Algemeen</h2>
+    {{ form_widget(form.algemeen) }}
+    {{ form_errors(form.algemeen) }}
+
+    <h2>Adresgegevens</h2>
+    {{ form_widget(form.adresgegevens) }}
+    {{ form_errors(form.adresgegevens) }}
+
+    <h2>Locatiekeuze</h2>
+    {{ form_widget(form.toegang) }}
+    {{ form_errors(form.toegang) }}
+
+    <h2>Legitimatie</h2>
+    {{ form_widget(form.legitimatiebewijs) }}
+    {{ form_errors(form.legitimatiebewijs) }}
+
+    <h2>Verslaving</h2>
+    {% if form.verslaving.primair is defined %}
+        <h4>Primaire problematiek</h4>
+        {{ form_widget(form.verslaving.primair) }}
+        {{ form_errors(form.verslaving.primair) }}
+
+        <h4>Secundaire problematiek</h4>
+        {{ form_widget(form.verslaving.secundair) }}
+        {{ form_errors(form.verslaving.secundair) }}
+
+        <h4>Algemene problematiek</h4>
+        {{ form_widget(form.verslaving.algemeen) }}
+        {{ form_errors(form.verslaving.algemeen) }}
+    {% else %}
+        {{ form_widget(form.verslaving) }}
+        {{ form_errors(form.verslaving) }}
+    {% endif %}
+
+    <h2>Inkomen</h2>
+    {{ form_widget(form.inkomen) }}
+    {{ form_errors(form.inkomen) }}
+
+    <h2>Woonsituatie</h2>
+    {{ form_widget(form.woonsituaties) }}
+    {{ form_errors(form.woonsituaties) }}
+
+    <h2>Overige hulpverlening</h2>
+    {{ form_widget(form.overigeHulpverlening) }}
+    {{ form_errors(form.overigeHulpverlening) }}
+
+    <h2>Verwachtingen en plannen</h2>
+    {{ form_widget(form.verwachtingenPlannen) }}
+    {{ form_errors(form.verwachtingenPlannen) }}
+
+    <h2>Indruk</h2>
+    {{ form_widget(form.indrukDoelgroep) }}
+    {{ form_errors(form.indrukDoelgroep) }}
+
+    <h2>Ondersteuning</h2>
+    <p>
+        Als je bij de vier vragen hieronder 'ja' invult, wordt er een e-mail
+        verzonden naar de desbetreffende afdeling. Vul 'nee' in als de klant
+        geen gebruik wenst te maken van deze mogelijkheden, of deze al gebruikt.
+    </p>
+    {{ form_widget(form.ondersteuning) }}
+    {{ form_errors(form.ondersteuning) }}
+
+    {% if for.zrm is defined %}
+        <h2>Zelfredzaamheidmatrix</h2>
+        {{ form_widget(form.zrm) }}
+        {{ form_errors(form.zrm) }}
+    {% endif %}
+    {{ form_end(form) }}
+{% endblock %}
+{% block scripts %}
+
+    {% if tbc_countries is defined %}
+        <script>
+            $(function(){
+
+                var tbc_countries = [];
+                {% for country in tbc_countries %}
+                tbc_countries.push("{{ country }}");
+                {% endfor %}
+
+                var checkTbc = function(tbc_countries,selectedCountry,laatsteTbcControle){
+                    console.log(laatsteTbcControle);
+                    if(jQuery.inArray(selectedCountry,tbc_countries) !== -1 )
+                    {
+                        if(laatsteTbcControle == "")
+                        {
+                            alert("Klant uit risicoland voor TBC besmetting. Naar GGD sturen voor TBC controle.");
+                        }
+                        $('#klant_laatsteTbcControle').removeClass("hidden");
+                        $("label[for='klant_laatsteTbcControle']").removeClass("hidden");
+
+                    }
+                    else {
+                        $('#klant_laatsteTbcControle').addClass("hidden");
+                        $("label[for='klant_laatsteTbcControle']").addClass("hidden");
+
+                    }
+                    // console.log(event.data.tbc_countries,$(this).find("option:selected").text());
+                };
+
+
+
+                checkTbc(tbc_countries,"{{ entity.klant.getLand().getNaam() }}","{{ entity.klant.getLaatsteTbcControle()|date("m-d-Y") }}");
+            });
+
+        </script>
+    {% endif %}
+{% endblock %}

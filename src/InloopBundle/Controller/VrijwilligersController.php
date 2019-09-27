@@ -2,21 +2,24 @@
 
 namespace InloopBundle\Controller;
 
+use AppBundle\Controller\AbstractController;
 use AppBundle\Entity\Vrijwilliger as AppVrijwilliger;
+use AppBundle\Export\ExportInterface;
 use AppBundle\Form\VrijwilligerFilterType as AppVrijwilligerFilterType;
 use InloopBundle\Entity\Vrijwilliger;
+use InloopBundle\Form\VrijwilligerCloseType;
 use InloopBundle\Form\VrijwilligerFilterType;
 use InloopBundle\Form\VrijwilligerType;
 use InloopBundle\Service\VrijwilligerDaoInterface;
 use JMS\DiExtraBundle\Annotation as DI;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
-use AppBundle\Controller\AbstractController;
-use AppBundle\Export\ExportInterface;
-use Symfony\Component\Form\FormError;
 
 /**
  * @Route("/vrijwilligers")
+ * @Template
  */
 class VrijwilligersController extends AbstractController
 {
@@ -60,9 +63,22 @@ class VrijwilligersController extends AbstractController
         return $this->doSearch($request);
     }
 
+    /**
+     * @Route("/close/{id}")
+     */
+    public function closeAction(Request $request, $id)
+    {
+        $this->formClass = VrijwilligerCloseType::class;
+
+        $entity = $this->dao->find($id);
+        $entity->setAfsluitdatum(new \DateTime());
+
+        return $this->processForm($request, $entity);
+    }
+
     protected function getDownloadFilename()
     {
-        return sprintf('op-eigen-kracht-vrijwilligers-%s.xlsx', (new \DateTime())->format('d-m-Y'));
+        return sprintf('inloopvrijwilligers-%s.xlsx', (new \DateTime())->format('d-m-Y'));
     }
 
     private function doSearch(Request $request)
@@ -82,6 +98,10 @@ class VrijwilligersController extends AbstractController
 
             if ($count > 100) {
                 $filterForm->addError(new FormError('De zoekopdracht leverde teveel resultaten op. Probeer het opnieuw met een specifiekere zoekopdracht.'));
+
+                return [
+                    'filterForm' => $filterForm->createView(),
+                ];
             }
 
             return [

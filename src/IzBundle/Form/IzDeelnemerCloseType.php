@@ -2,14 +2,13 @@
 
 namespace IzBundle\Form;
 
+use AppBundle\Form\AppDateType;
+use AppBundle\Form\BaseType;
+use IzBundle\Entity\IzDeelnemer;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use AppBundle\Form\BaseType;
-use AppBundle\Form\AppDateType;
-use Doctrine\ORM\EntityRepository;
-use IzBundle\Entity\IzDeelnemer;
 
 class IzDeelnemerCloseType extends AbstractType
 {
@@ -20,15 +19,12 @@ class IzDeelnemerCloseType extends AbstractType
     {
         $builder
             ->add('afsluitdatum', AppDateType::class, [
+                'label' => 'Afsluitdatum',
+                'required' => true,
                 'data' => new \DateTime('today'),
             ])
-            ->add('afsluiting', null, [
-                'query_builder' => function (EntityRepository $repository) {
-                    return $repository->createQueryBuilder('afsluiting')
-                        ->where('afsluiting.actief = true')
-                        ->orderBy('afsluiting.naam')
-                    ;
-                },
+            ->add('afsluiting', AfsluitingSelectType::class, [
+                'required' => true,
             ])
             ->add('submit', SubmitType::class)
         ;

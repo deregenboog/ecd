@@ -1,6 +1,8 @@
 version: '2'
 
 services:
+  database:
+    image: ecd_database:latest
   web:
     build: .
     links:
@@ -8,18 +10,8 @@ services:
     ports:
       - "80:80"
     volumes:
-      - ".:/var/www/html"
+      - "ecd-sync:/var/www/html:nocopy"
     environment:
-      MYSQL_DATABASE: ecd
-      MYSQL_USER: ecd
-      MYSQL_PASSWORD: ecd
-    command: ["/init.sh"]
-  database:
-    image: mysql:5.5
-    volumes:
-      - "./app/sql:/docker-entrypoint-initdb.d"
-    environment:
-      MYSQL_ROOT_PASSWORD: ecd
       MYSQL_DATABASE: ecd
       MYSQL_USER: ecd
       MYSQL_PASSWORD: ecd
@@ -31,3 +23,6 @@ services:
       - database
     environment:
       PMA_HOST: database
+volumes:
+  ecd-sync:
+    external: true

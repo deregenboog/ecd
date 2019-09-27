@@ -21,6 +21,9 @@
                     {{ knp_pagination_sortable(pagination, 'Geboortedatum', 'klant.geboortedatum') }}
                 </th>
                 <th>
+                    {{ knp_pagination_sortable(pagination, 'Medewerker aanmelding', 'aanmeldingMedewerker.voornaam') }}
+                </th>
+                <th>
                     {{ knp_pagination_sortable(pagination, 'Medewerker intake', 'intakeMedewerker.voornaam') }}
                 </th>
                 <th>
@@ -40,22 +43,25 @@
         </thead>
         <tbody>
             {% for izKlant in pagination %}
-                <tr data-href="{{ path(route_base~'view', {id: izKlant.id}) }}">
+                <tr data-href="{{ path(route_base~'view', {id: izKlant.id}) }}" class="{{ izKlant.closeable ? 'warning' }}">
                     <td>
                         {{ izKlant.klant.id }}
                     </td>
                     <td>
-                        {{ izKlant.klant }}
+                        {{ izKlant }}
                     </td>
                     <td>
                         {{ izKlant.klant.geboortedatum ? izKlant.klant.geboortedatum|date('d-m-Y') }}
+                    </td>
+                    <td>
+                        {{ izKlant.medewerker }}
                     </td>
                     <td>
                         {{ izKlant.intake ? izKlant.intake.medewerker }}
                     </td>
                     <td>
                         <ul>
-                            {% for hulpvraag in izKlant.izHulpvragen %}
+                            {% for hulpvraag in izKlant.hulpvragen %}
                                 <li>{{ hulpvraag.project }} {{ hulpvraag.medewerker ? '('~hulpvraag.medewerker~')' }}</li>
                             {% endfor %}
                         </ul>

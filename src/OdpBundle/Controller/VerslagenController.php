@@ -2,24 +2,26 @@
 
 namespace OdpBundle\Controller;
 
-use OdpBundle\Entity\Huuraanbod;
-use OdpBundle\Entity\Huurovereenkomst;
-use OdpBundle\Entity\Huurder;
-use OdpBundle\Entity\Verslag;
-use OdpBundle\Form\VerslagType;
-use OdpBundle\Entity\Verhuurder;
-use OdpBundle\Exception\OdpException;
-use OdpBundle\Entity\Huurverzoek;
-use Doctrine\ORM\EntityManager;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use AppBundle\Controller\SymfonyController;
-use JMS\DiExtraBundle\Annotation as DI;
-use OdpBundle\Service\VerslagDaoInterface;
-use Symfony\Component\HttpFoundation\Request;
 use AppBundle\Form\ConfirmationType;
+use Doctrine\ORM\EntityManager;
+use JMS\DiExtraBundle\Annotation as DI;
+use OdpBundle\Entity\Huuraanbod;
+use OdpBundle\Entity\Huurder;
+use OdpBundle\Entity\Huurovereenkomst;
+use OdpBundle\Entity\Huurverzoek;
+use OdpBundle\Entity\Verhuurder;
+use OdpBundle\Entity\Verslag;
+use OdpBundle\Exception\OdpException;
+use OdpBundle\Form\VerslagType;
+use OdpBundle\Service\VerslagDaoInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * @Route("/verslagen")
+ * @Template
  */
 class VerslagenController extends SymfonyController
 {
@@ -28,7 +30,7 @@ class VerslagenController extends SymfonyController
     /**
      * @var VerslagDaoInterface
      *
-     * @DI\Inject("odp.dao.verslag")
+     * @DI\Inject("OdpBundle\Service\VerslagDao")
      */
     private $dao;
 

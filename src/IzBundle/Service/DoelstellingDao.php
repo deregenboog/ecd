@@ -2,9 +2,9 @@
 
 namespace IzBundle\Service;
 
-use IzBundle\Entity\Doelstelling;
 use AppBundle\Filter\FilterInterface;
 use AppBundle\Service\AbstractDao;
+use IzBundle\Entity\Doelstelling;
 
 class DoelstellingDao extends AbstractDao implements DoelstellingDaoInterface
 {

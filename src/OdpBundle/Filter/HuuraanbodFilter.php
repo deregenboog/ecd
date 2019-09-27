@@ -2,10 +2,10 @@
 
 namespace OdpBundle\Filter;
 
+use AppBundle\Filter\FilterInterface;
+use AppBundle\Filter\KlantFilter;
 use AppBundle\Form\Model\AppDateRangeModel;
 use Doctrine\ORM\QueryBuilder;
-use AppBundle\Filter\KlantFilter;
-use AppBundle\Filter\FilterInterface;
 
 class HuuraanbodFilter implements FilterInterface
 {

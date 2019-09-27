@@ -1,0 +1,10 @@
+{% extends 'GaBundle::edit.html.twig' %}
+
+{% block content %}
+    <h1>{{ entity_name|capitalize }} annuleren</h1>
+    <p>
+        {{ html.cancelLink(path(route_base~'view', {id: entity.id})) }}
+        {{ html.link('Annuleren', path(route_base~'view', {id: entity.id})) }}
+    </p>
+    {{ form(form) }}
+{% endblock %}

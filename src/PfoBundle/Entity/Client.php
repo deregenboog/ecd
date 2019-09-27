@@ -2,19 +2,25 @@
 
 namespace PfoBundle\Entity;
 
-use Doctrine\ORM\Mapping as ORM;
-use Gedmo\Mapping\Annotation as Gedmo;
-use Doctrine\Common\Collections\ArrayCollection;
-use AppBundle\Model\TimestampableTrait;
-use AppBundle\Model\RequiredMedewerkerTrait;
+use AppBundle\Entity\Geslacht;
 use AppBundle\Model\IdentifiableTrait;
 use AppBundle\Model\NameTrait;
-use AppBundle\Entity\Geslacht;
+use AppBundle\Model\RequiredMedewerkerTrait;
+use AppBundle\Model\TimestampableTrait;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="PfoBundle\Repository\ClientRepository")
- * @ORM\Table(name="pfo_clienten")
+ * @ORM\Table(
+ *     name="pfo_clienten",
+ *     indexes={
+ *         @ORM\Index(name="idx_pfo_clienten_roepnaam", columns={"roepnaam"}),
+ *         @ORM\Index(name="idx_pfo_clienten_achternaam", columns={"achternaam"})
+ *     }
+ * )
  * @ORM\HasLifecycleCallbacks
  * @Gedmo\Loggable
  */
@@ -123,7 +129,7 @@ class Client
     /**
      * @var string
      *
-     * @ORM\Column(type="text")
+     * @ORM\Column(type="text", nullable=true)
      * @Gedmo\Versioned
      */
     private $notitie;
@@ -131,7 +137,7 @@ class Client
     /**
      * @var string
      *
-     * @ORM\Column(type="text")
+     * @ORM\Column(type="text", nullable=true)
      * @Gedmo\Versioned
      */
     private $via;
@@ -139,7 +145,7 @@ class Client
     /**
      * @var string
      *
-     * @ORM\Column(type="text")
+     * @ORM\Column(type="text", nullable=true)
      * @Gedmo\Versioned
      */
     private $hulpverleners;
@@ -147,7 +153,7 @@ class Client
     /**
      * @var string
      *
-     * @ORM\Column(type="text")
+     * @ORM\Column(type="text", nullable=true)
      * @Gedmo\Versioned
      */
     private $contacten;
@@ -155,7 +161,7 @@ class Client
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="begeleidings_formulier", type="date")
+     * @ORM\Column(name="begeleidings_formulier", type="date", nullable=true)
      * @Gedmo\Versioned
      */
     private $begeleidingsformulierOverhandigd;
@@ -163,7 +169,7 @@ class Client
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="brief_huisarts", type="date")
+     * @ORM\Column(name="brief_huisarts", type="date", nullable=true)
      * @Gedmo\Versioned
      */
     private $briefHuisartsVerstuurd;
@@ -171,7 +177,7 @@ class Client
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="evaluatie_formulier", type="date")
+     * @ORM\Column(name="evaluatie_formulier", type="date", nullable=true)
      * @Gedmo\Versioned
      */
     private $evaluatieformulierOverhandigd;
@@ -179,7 +185,7 @@ class Client
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="datum_afgesloten", type="date")
+     * @ORM\Column(name="datum_afgesloten", type="date", nullable=true)
      * @Gedmo\Versioned
      */
     private $afsluitdatum;
@@ -196,7 +202,10 @@ class Client
      * @var Document[]
      *
      * @ORM\ManyToMany(targetEntity="Document", cascade={"persist"})
-     * @ORM\JoinTable(name="pfo_clienten_documenten", inverseJoinColumns={@ORM\JoinColumn(unique=true)})
+     * @ORM\JoinTable(
+     *     name="pfo_clienten_documenten",
+     *     inverseJoinColumns={@ORM\JoinColumn(unique=true)}
+     * )
      * @ORM\OrderBy({"created": "DESC"})
      */
     private $documenten;
@@ -204,7 +213,7 @@ class Client
     /**
      * @var Client[]
      *
-     * @ORM\ManyToMany(targetEntity="Client", inversedBy="gekoppeldeClienten")
+     * @ORM\ManyToMany(targetEntity="Client", inversedBy="gekoppeldeClienten", cascade={"persist"})
      * @ORM\JoinTable(
      *     name="pfo_clienten_supportgroups",
      *     joinColumns={@ORM\JoinColumn(name="pfo_supportgroup_client_id")},
@@ -216,7 +225,7 @@ class Client
     /**
      * @var Client[]
      *
-     * @ORM\ManyToMany(targetEntity="Client", mappedBy="hoofdclienten")
+     * @ORM\ManyToMany(targetEntity="Client", mappedBy="hoofdclienten", cascade={"persist"})
      */
     private $gekoppeldeClienten;
 
@@ -383,7 +392,7 @@ class Client
     /**
      * @param \DateTime $begeleidingsformulierOverhandigd
      */
-    public function setBegeleidingsformulierOverhandigd(\DateTime $begeleidingsformulierOverhandigd)
+    public function setBegeleidingsformulierOverhandigd(\DateTime $begeleidingsformulierOverhandigd = null)
     {
         $this->begeleidingsformulierOverhandigd = $begeleidingsformulierOverhandigd;
 
@@ -401,7 +410,7 @@ class Client
     /**
      * @param \DateTime $briefHuisartsVerstuurd
      */
-    public function setBriefHuisartsVerstuurd(\DateTime $briefHuisartsVerstuurd)
+    public function setBriefHuisartsVerstuurd(\DateTime $briefHuisartsVerstuurd = null)
     {
         $this->briefHuisartsVerstuurd = $briefHuisartsVerstuurd;
 
@@ -419,7 +428,7 @@ class Client
     /**
      * @param \DateTime $evaluatieformulierOverhandigd
      */
-    public function setEvaluatieformulierOverhandigd(\DateTime $evaluatieformulierOverhandigd)
+    public function setEvaluatieformulierOverhandigd(\DateTime $evaluatieformulierOverhandigd = null)
     {
         $this->evaluatieformulierOverhandigd = $evaluatieformulierOverhandigd;
 
@@ -437,7 +446,7 @@ class Client
     /**
      * @param \DateTime $afsluitdatum
      */
-    public function setAfsluitdatum(\DateTime $afsluitdatum)
+    public function setAfsluitdatum(\DateTime $afsluitdatum = null)
     {
         $this->afsluitdatum = $afsluitdatum;
 
@@ -597,7 +606,7 @@ class Client
         }
     }
 
-    public function setHoofdclient(Client $client = null)
+    public function setHoofdclient(self $client = null)
     {
         $this->hoofdclienten = new ArrayCollection([]);
 
@@ -613,9 +622,12 @@ class Client
         return $this->gekoppeldeClienten;
     }
 
-    public function addGekoppeldeClient(Client $client)
+    public function setGekoppeldeClienten($clienten)
     {
-        $this->gekoppeldeClienten[] = $client;
+        $this->gekoppeldeClienten = $clienten;
+        foreach ($clienten as $client) {
+            $client->setHoofdclient($this);
+        }
 
         return $this;
     }

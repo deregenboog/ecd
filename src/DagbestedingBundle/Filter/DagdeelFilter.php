@@ -2,14 +2,16 @@
 
 namespace DagbestedingBundle\Filter;
 
-use Doctrine\ORM\QueryBuilder;
 use AppBundle\Filter\FilterInterface;
-use AppBundle\Form\KlantFilterType;
+use AppBundle\Filter\KlantFilter;
+use DagbestedingBundle\Entity\Project;
+use DagbestedingBundle\Entity\Traject;
+use Doctrine\ORM\QueryBuilder;
 
 class DagdeelFilter implements FilterInterface
 {
     /**
-     * @var KlantFilterType
+     * @var KlantFilter
      */
     public $klant;
 

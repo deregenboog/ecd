@@ -2,9 +2,9 @@
 
 namespace AppBundle\Entity;
 
+use AppBundle\Model\TimestampableTrait;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
-use AppBundle\Model\TimestampableTrait;
 
 /**
  * @ORM\Entity
@@ -41,7 +41,7 @@ class Land
      */
     private $land;
 
-    public function __construct($land = null, $afkorting2 = null, $afkorting3 = null)
+    public function __construct($land = null, $afkorting2 = '', $afkorting3 = '')
     {
         $this->land = $land;
         $this->afkorting2 = $afkorting2;
@@ -58,13 +58,25 @@ class Land
         return $this->id;
     }
 
-    public function getAfkorting()
+    public function getAfkorting2()
     {
-        return $this->afkorting;
+        return $this->afkorting2;
+    }
+
+    public function getAfkorting3()
+    {
+        return $this->afkorting3;
     }
 
     public function getNaam()
     {
         return $this->land;
+    }
+
+    public function setNaam(string $naam)
+    {
+        $this->land = $naam;
+
+        return $this;
     }
 }

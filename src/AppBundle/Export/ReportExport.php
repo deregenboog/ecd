@@ -2,10 +2,10 @@
 
 namespace AppBundle\Export;
 
-use PhpOffice\PhpSpreadsheet\Spreadsheet;
-use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 use PhpOffice\PhpSpreadsheet\Shared\Date;
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Style\NumberFormat;
+use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 
 class ReportExport extends AbstractExport
 {
@@ -14,7 +14,7 @@ class ReportExport extends AbstractExport
         $this->excel = new Spreadsheet();
 
         foreach ($data['reports'] as $i => $report) {
-            $reportTitle = preg_replace('[^A-Za-z0-9]', '_', $report['title']);
+            $reportTitle = substr(preg_replace('[^A-Za-z0-9]', '_', $report['title']), 0, 31);
             if (!$reportTitle) {
                 $reportTitle = sprintf('Worksheet_%d', $i + 1);
             }
@@ -68,12 +68,14 @@ class ReportExport extends AbstractExport
                 ->getStyle()->getFont()->setBold(true);
 
             $column = 2;
-            foreach (array_keys(current($report['data'])) as $y) {
-                $sheet->getCellByColumnAndRow($column, $row)
-                    ->setValue($y)
-                    ->getStyle()->getFont()->setBold(true);
-                $sheet->getColumnDimensionByColumn($column)->setAutoSize(true);
-                ++$column;
+            if (!empty($report['data'])) {
+                foreach (array_keys(current($report['data'])) as $y) {
+                    $sheet->getCellByColumnAndRow($column, $row)
+                        ->setValue($y)
+                        ->getStyle()->getFont()->setBold(true);
+                    $sheet->getColumnDimensionByColumn($column)->setAutoSize(true);
+                    ++$column;
+                }
             }
 
             ++$row;

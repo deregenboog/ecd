@@ -32,9 +32,10 @@
 
 # Docker
 /.mysql/*
+.docker-sync/
 
 # Composer
-/vendor/*
+/vendor/
 
 # Eclipse
 /.settings/*
@@ -43,6 +44,9 @@
 
 # PhpStorm
 .idea
+
+#macOS
+.DS_Store
 
 # Custom tools
 /bin/*
@@ -54,3 +58,15 @@
 /app/bootstrap.php.cache
 /.php_cs.cache
 /cache.properties
+
+# Node modules
+/app/webroot/node_modules
+
+# Environment-specific configuration
+/app/config/.env
+
+# PHPUnit
+phpunit
+/coverage/*
+
+/app/webroot-dev/php_errors.log

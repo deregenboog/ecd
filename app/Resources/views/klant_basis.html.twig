@@ -1,15 +1,17 @@
+{% if module is not defined %}
+    {% set module = app.request.get('module', 'Klant') %}
+{% endif %}
+
 <h2>Basisgegevens</h2>
 <p>
-    {{ html.viewLink(path('app_klanten_view', {id: klant.id})) }}
-    {{ html.link('Bekijken', path('app_klanten_view', {id: klant.id})) }}
-    {{ html.editLink(path('app_klanten_edit', {id: klant.id})) }}
-    {{ html.link('Wijzigen', path('app_klanten_edit', {id: klant.id})) }}
+    {{ html.link('Bekijken', path('app_klanten_view', {id: klant.id}), 'view') }}
+    {{ html.link('Wijzigen', path('app_klanten_edit', {id: klant.id}), 'edit') }}
 </p>
 <dl class="dl-horizontal">
     <dt>Naam</dt>
-    <dd>{{ klant }}</dd>
+    <dd>{{ klant|naam_voor_achter }}</dd>
     <dt>Geslacht</dt>
-    <dd>{{ klant.geslacht.volledig }}</dd>
+    <dd>{{ klant.geslacht ? klant.geslacht.volledig }}</dd>
     <dt>Geboortedatum</dt>
     <dd>{{ klant.geboortedatum ? klant.geboortedatum|date('d-m-Y') }}</dd>
     <dt>Geboorteland</dt>
@@ -18,8 +20,25 @@
     <dd>{{ klant.nationaliteit }}</dd>
     <dt>BSN</dt>
     <dd>{{ klant.bsn }}</dd>
+    {% if tbc_countries is defined and klant.land.getNaam() in tbc_countries %}
+        <dt>TBC-check?</dt>
+        <dd>{{ klant.laatsteTbcControle is empty ? "" : klant.laatsteTbcControle|date('d-m-Y') }}</dd>
+    {% endif %}
     <dt>Medewerker</dt>
     <dd>{{ klant.medewerker }}</dd>
+    {% if klant.overleden %}
+        <span class="text-danger">
+            <dt>Overleden</dt>
+            <dd>Ja</dd>
+        </span>
+    {% endif %}
+</dl>
+<h2>Contactgegevens</h2>
+<p>
+    {{ html.link('Bekijken', path('app_klanten_view', {id: klant.id}), 'view') }}
+    {{ html.link('Wijzigen', path('app_klanten_edit', {id: klant.id}), 'edit') }}
+</p>
+<dl class="dl-horizontal">
     <dt>Adres</dt>
     <dd>
         {{ klant.adres }}<br>
@@ -37,10 +56,42 @@
     <dd>{{ klant.email }}</dd>
 </dl>
 <dl class="dl-horizontal">
-    <dt>Geen post</dt>
-    <dd>{{ klant.geenPost ? 'ja' : 'nee' }}</dd>
-    <dt>Geen e-mail</dt>
-    <dd>{{ klant.geenEmail ? 'ja' : 'nee' }}</dd>
+    <dt>Postvoorkeur</dt>
+    <dd>{{ klant.geenPost ? 'Geen post' : 'Wel post' }}</dd>
+    <dt>E-mailvoorkeur</dt>
+    <dd>{{ klant.geenEmail ? 'Geen e-mail' : 'Wel e-mail' }}</dd>
     <dt>Opmerking</dt>
     <dd>{{ klant.opmerking }}</dd>
+</dl>
+
+{{ render(controller('AppBundle:Klanten:_diensten', {id: klant.id})) }}
+
+<h2>ZRMs</h2>
+<p>
+    {{ html.link('ZRM-overzicht', path('app_zrms_index', {'zrm_filter[klant][id]': klant.id}), 'view') }}
+    {{ html.link('ZRM toevoegen', path('app_zrms_add', {klant: klant.id, module: module}), 'add') }}
+</p>
+<table class="table table-hover">
+    <tr>
+        <th>Module</th>
+        <th>Datum</th>
+    </tr>
+    {% for zrm in klant.zrms if zrm.id %}
+        <tr data-href="{{ path('app_zrms_view', {id: zrm.id}) }}">
+            <td>{{ zrm.requestModule }}</td>
+            <td>{{ zrm.created|date('d-m-Y') }}</td>
+        </tr>
+    {% endfor %}
+</table>
+
+<h2>Documenten</h2>
+<dl class="dl-horizontal">
+    <dt>Toestemmingsformulier</dt>
+    <dd>
+        {% if klant.toestemmingsformulier %}
+            {{ html.link('Toestemmingsformulier downloaden', vich_uploader_asset(klant.toestemmingsformulier, 'file'), 'download') }}
+        {% else %}
+            {{ html.link('Toestemmingsformulier toevoegen', path('app_documenten_add', {klant: klant.id, type: 'toestemming'}), 'add') }}
+        {% endif %}
+    </dd>
 </dl>

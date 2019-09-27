@@ -5,20 +5,22 @@ namespace IzBundle\Controller;
 use AppBundle\Controller\AbstractChildController;
 use AppBundle\Export\AbstractExport;
 use IzBundle\Entity\Hulpvraag;
-use IzBundle\Form\HulpvraagType;
+use IzBundle\Entity\IzKlant;
+use IzBundle\Filter\HulpaanbodFilter;
+use IzBundle\Form\HulpaanbodFilterType;
+use IzBundle\Form\HulpvraagCloseType;
 use IzBundle\Form\HulpvraagFilterType;
+use IzBundle\Form\HulpvraagType;
+use IzBundle\Service\HulpaanbodDaoInterface;
 use IzBundle\Service\HulpvraagDaoInterface;
 use JMS\DiExtraBundle\Annotation as DI;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
-use IzBundle\Form\HulpvraagConnectType;
-use IzBundle\Form\HulpvraagCloseType;
-use IzBundle\Entity\Hulpaanbod;
-use IzBundle\Entity\IzKlant;
-use IzBundle\Service\HulpaanbodDaoInterface;
 
 /**
  * @Route("/hulpvragen")
+ * @Template
  */
 class HulpvragenController extends AbstractChildController
 {
@@ -30,6 +32,7 @@ class HulpvragenController extends AbstractChildController
     protected $baseRouteName = 'iz_hulpvragen_';
     protected $disabledActions = ['delete'];
     protected $addMethod = 'addHulpvraag';
+    protected $forceRedirect = true;
 
     /**
      * @var HulpvraagDaoInterface
@@ -60,17 +63,6 @@ class HulpvragenController extends AbstractChildController
     protected $export;
 
     /**
-     * @Route("/{id}/connect")
-     */
-    public function connectAction(Request $request, $id)
-    {
-        $entity = $this->dao->find($id);
-        $this->formClass = HulpvraagConnectType::class;
-
-        return $this->processForm($request, $entity);
-    }
-
-    /**
      * @Route("/{id}/close")
      */
     public function closeAction(Request $request, $id)
@@ -83,19 +75,41 @@ class HulpvragenController extends AbstractChildController
 
     protected function addParams($entity, Request $request)
     {
-        return [
-            'kandidaten' => $this->hulpaanbodDao->findMatching($entity, $request->get('page', 1)),
-        ];
+        if ('iz_hulpvragen_view' === $request->get('_route')) {
+            $form = $this->createForm(HulpaanbodFilterType::class, new HulpaanbodFilter(), [
+                'enabled_filters' => [
+                    'matching',
+                    'startdatum',
+                    'vrijwilliger' => ['voornaam', 'achternaam', 'geslacht', 'geboortedatumRange', 'stadsdeel'],
+                    'hulpvraagsoort',
+                    'doelgroep',
+                    'filter',
+                ],
+            ]);
+            $form->handleRequest($request);
+            if ($form->isSubmitted() && $form->isValid()) {
+                $kandidaten = $this->hulpaanbodDao->findMatching($entity, $request->get('page', 1), $form->getData());
+            } else {
+                $kandidaten = $this->hulpaanbodDao->findMatching($entity, $request->get('page', 1));
+            }
+
+            return [
+                'filter' => $form->createView(),
+                'kandidaten' => $kandidaten,
+            ];
+        }
+
+        return [];
     }
 
     protected function redirectToView($entity)
     {
         if ($entity instanceof Hulpvraag) {
-            $id = $entity->getIzKlant()->getId();
+            $klantId = $entity->getIzKlant()->getId();
         } elseif ($entity instanceof IzKlant) {
-            $id = $entity->getId();
+            $klantId = $entity->getId();
         }
 
-        return $this->redirectToRoute('cake_iz_hulpvragen_view', ['iz_klant_id' => $id]);
+        return $this->redirectToRoute('iz_klanten_view', ['id' => $klantId, '_fragment' => 'koppelingen']);
     }
 }

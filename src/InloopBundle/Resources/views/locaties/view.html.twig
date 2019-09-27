@@ -1,0 +1,70 @@
+{% extends '::base-2-col.html.twig' %}
+{% import '::html.macro.twig' as html %}
+
+{% block title %}
+    Inloophuizen | {{ title }}
+{% endblock %}
+
+{% block subnavigation %}
+    {% include '@Inloop/subnavigation.html.twig' %}
+{% endblock %}
+
+{% block content_top %}
+    <h1>{{ entity_name|capitalize }} {{ entity }}</h1>
+{% endblock %}
+
+{% block content_left %}
+    <p>
+        {{ html.Link('Wijzigen', path(route_base ~ 'edit', {'id': entity.id}), 'edit') }}
+        {% if entity.deletable %}
+            {{ html.link('Verwijderen', path(route_base ~ 'delete', {'id': entity.id}), 'delete') }}
+        {% endif %}
+    </p>
+    <dl class="dl-horizontal">
+        <dt>Naam</dt>
+        <dd>{{ entity }}</dd>
+        <dt>Datum van</dt>
+        <dd>{{ entity.datumVan|date('d-m-Y') }}</dd>
+        <dt>Datum tot</dt>
+        <dd>{{ entity.datumTot|if_date('d-m-Y') }}</dd>
+    </dl>
+{% endblock %}
+
+{% block content_right %}
+    <ul class="nav nav-tabs">
+        <li class="active"><a data-toggle="tab" href="#locatietijden">Openingstijden</a></li>
+    </ul>
+    <div class="tab-content">
+        <div id="locatietijden" class="tab-pane active">
+            <h2>Openingstijden</h2>
+            {% if entity.locatietijden|length < 7 %}
+                {{ html.link('Openingstijd toevoegen', path('inloop_locatietijden_add', {'locatie': entity.id}), 'add') }}
+            {% endif %}
+            <table class="table table-hover">
+                <tr>
+                    <th>Openingstijd</th>
+                    <th>Sluitingstijd</th>
+                    <th></th>
+                </tr>
+                {% for locatietijd in entity.locatietijden %}
+                    <tr>
+                        <td>
+                            {{ locatietijd.dagVanDeWeek|day_of_week }}
+                            {{ locatietijd.openingstijd|date('H:i') }}
+                        </td>
+                        <td>
+                            {{ (locatietijd.openingstijd > locatietijd.sluitingstijd)
+                                ? (1 + locatietijd.dagVanDeWeek)|day_of_week
+                                : locatietijd.dagVanDeWeek|day_of_week }}
+                            {{ locatietijd.sluitingstijd|date('H:i') }}
+                        </td>
+                        <td>
+                            {{ html.editLink(path('inloop_locatietijden_edit', {'id': locatietijd.id})) }}
+                            {{ html.deleteLink(path('inloop_locatietijden_delete', {'id': locatietijd.id})) }}
+                        </td>
+                    </tr>
+                {% endfor %}
+            </table>
+        </div>
+    </div>
+{% endblock %}

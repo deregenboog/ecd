@@ -4,12 +4,35 @@ namespace IzBundle\Repository;
 
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\QueryBuilder;
-use AppBundle\Entity\Postcodegebied;
-use IzBundle\Entity\Hulpaanbod;
-use IzBundle\Entity\Koppeling;
 
 class HulpvraagRepository extends EntityRepository
 {
+    public function countSuccesindicatorenByHulpvraagsoort(\DateTime $startDate, \DateTime $endDate)
+    {
+        $builder = $this->getKoppelingenCountBuilder()
+            ->addSelect('hulpvraagsoort.naam AS hulpvraagsoortnaam')
+            ->addSelect('succesindicator.naam AS succesindicatornaam')
+            ->innerJoin('hulpvraag.hulpvraagsoort', 'hulpvraagsoort')
+            ->innerJoin('hulpvraag.succesindicatoren', 'succesindicator')
+            ->groupBy('hulpvraagsoort, succesindicator');
+        $this->applyKoppelingenReportFilter($builder, 'afgesloten', $startDate, $endDate);
+
+        return $builder->getQuery()->getResult();
+    }
+
+    public function countDoelgroepenByHulpvraagsoort(\DateTime $startDate, \DateTime $endDate)
+    {
+        $builder = $this->getKoppelingenCountBuilder()
+            ->addSelect('hulpvraagsoort.naam AS hulpvraagsoortnaam')
+            ->addSelect('doelgroepen.naam AS doelgroepnaam')
+            ->innerJoin('hulpvraag.hulpvraagsoort', 'hulpvraagsoort')
+            ->innerJoin('hulpvraag.doelgroepen', 'doelgroepen')
+            ->groupBy('doelgroepen', 'hulpvraagsoort');
+        $this->applyKoppelingenReportFilter($builder, 'gestart', $startDate, $endDate);
+
+        return $builder->getQuery()->getResult();
+    }
+
     public function countHulpvragenByProjectAndStadsdeel($report, \DateTime $startDate, \DateTime $endDate)
     {
         $builder = $this->getHulpvragenCountBuilder()
@@ -34,8 +57,8 @@ class HulpvraagRepository extends EntityRepository
     public function countKoppelingenByAfsluitreden($report, \DateTime $startDate, \DateTime $endDate)
     {
         $builder = $this->getKoppelingenCountBuilder()
-            ->addSelect('eindeKoppeling.naam AS afsluitreden')
-            ->innerJoin('hulpaanbod.eindeKoppeling', 'eindeKoppeling')
+            ->addSelect('afsluitredenKoppeling.naam AS afsluitreden')
+            ->innerJoin('hulpaanbod.afsluitredenKoppeling', 'afsluitredenKoppeling')
             ->groupBy('afsluitreden')
         ;
         $this->applyKoppelingenReportFilter($builder, $report, $startDate, $endDate);
@@ -47,9 +70,9 @@ class HulpvraagRepository extends EntityRepository
     {
         $builder = $this->getKoppelingenCountBuilder()
             ->addSelect('project.naam AS projectnaam')
-            ->addSelect('eindeKoppeling.naam AS afsluitreden')
-            ->innerJoin('hulpaanbod.eindeKoppeling', 'eindeKoppeling')
-            ->innerJoin('hulpaanbod.project', 'project')
+            ->addSelect('afsluitredenKoppeling.naam AS afsluitreden')
+            ->innerJoin('hulpaanbod.afsluitredenKoppeling', 'afsluitredenKoppeling')
+            ->innerJoin('hulpvraag.project', 'project')
             ->groupBy('project', 'afsluitreden')
         ;
         $this->applyKoppelingenReportFilter($builder, $report, $startDate, $endDate);
@@ -73,7 +96,7 @@ class HulpvraagRepository extends EntityRepository
     {
         $builder = $this->getKoppelingenCountBuilder()
             ->addSelect('project.naam AS projectnaam')
-            ->innerJoin('hulpaanbod.project', 'project')
+            ->innerJoin('hulpvraag.project', 'project')
             ->groupBy('project');
         $this->applyKoppelingenReportFilter($builder, $report, $startDate, $endDate);
 
@@ -94,9 +117,9 @@ class HulpvraagRepository extends EntityRepository
     public function countKoppelingenByPostcodegebied($report, \DateTime $startDate, \DateTime $endDate)
     {
         $builder = $this->getKoppelingenCountBuilder()
-            ->addSelect('ggwgebied.naam AS postcodegebied')
+            ->addSelect('ggwgebied.naam AS ggwgebiednaam')
             ->leftJoin('klant.postcodegebied', 'ggwgebied')
-            ->groupBy('postcodegebied');
+            ->groupBy('ggwgebied');
         $this->applyKoppelingenReportFilter($builder, $report, $startDate, $endDate);
 
         return $builder->getQuery()->getResult();
@@ -108,7 +131,7 @@ class HulpvraagRepository extends EntityRepository
             ->addSelect('project.naam AS projectnaam')
             ->addSelect('werkgebied.naam AS stadsdeel')
             ->leftJoin('klant.werkgebied', 'werkgebied')
-            ->innerJoin('hulpaanbod.project', 'project')
+            ->innerJoin('hulpvraag.project', 'project')
             ->groupBy('project', 'stadsdeel');
         $this->applyKoppelingenReportFilter($builder, $report, $startDate, $endDate);
 
@@ -119,10 +142,62 @@ class HulpvraagRepository extends EntityRepository
     {
         $builder = $this->getKoppelingenCountBuilder()
             ->addSelect('project.naam AS projectnaam')
-            ->addSelect('ggwgebied.naam AS postcodegebied')
-            ->innerJoin('hulpaanbod.project', 'project')
+            ->addSelect('ggwgebied.naam AS ggwgebiednaam')
+            ->innerJoin('hulpvraag.project', 'project')
             ->leftJoin('klant.postcodegebied', 'ggwgebied')
-            ->groupBy('project', 'postcodegebied');
+            ->groupBy('project', 'ggwgebied');
+        $this->applyKoppelingenReportFilter($builder, $report, $startDate, $endDate);
+
+        return $builder->getQuery()->getResult();
+    }
+
+    public function countKoppelingenByHulpvraagsoortAndStadsdeel($report, \DateTime $startDate, \DateTime $endDate)
+    {
+        $builder = $this->getKoppelingenCountBuilder()
+            ->addSelect('hulpvraagsoort.naam AS hulpvraagsoortnaam')
+            ->addSelect('werkgebied.naam AS stadsdeel')
+            ->leftJoin('klant.werkgebied', 'werkgebied')
+            ->innerJoin('hulpvraag.hulpvraagsoort', 'hulpvraagsoort')
+            ->groupBy('hulpvraagsoort', 'stadsdeel');
+        $this->applyKoppelingenReportFilter($builder, $report, $startDate, $endDate);
+
+        return $builder->getQuery()->getResult();
+    }
+
+    public function countKoppelingenByHulpvraagsoortAndPostcodegebied($report, \DateTime $startDate, \DateTime $endDate)
+    {
+        $builder = $this->getKoppelingenCountBuilder()
+            ->addSelect('hulpvraagsoort.naam AS hulpvraagsoortnaam')
+            ->addSelect('ggwgebied.naam AS ggwgebiednaam')
+            ->leftJoin('klant.postcodegebied', 'ggwgebied')
+            ->innerJoin('hulpvraag.hulpvraagsoort', 'hulpvraagsoort')
+            ->groupBy('hulpvraagsoort', 'ggwgebied');
+        $this->applyKoppelingenReportFilter($builder, $report, $startDate, $endDate);
+
+        return $builder->getQuery()->getResult();
+    }
+
+    public function countKoppelingenByDoelgroepAndStadsdeel($report, \DateTime $startDate, \DateTime $endDate)
+    {
+        $builder = $this->getKoppelingenCountBuilder()
+            ->addSelect('doelgroep.naam AS doelgroepnaam')
+            ->addSelect('werkgebied.naam AS stadsdeel')
+            ->leftJoin('klant.werkgebied', 'werkgebied')
+            ->innerJoin('hulpvraag.doelgroepen', 'doelgroep')
+            ->groupBy('doelgroep', 'stadsdeel');
+        $this->applyKoppelingenReportFilter($builder, $report, $startDate, $endDate);
+
+        return $builder->getQuery()->getResult();
+    }
+
+    public function countKoppelingenByDoelgroepAndPostcodegebied($report, \DateTime $startDate, \DateTime $endDate)
+    {
+        $builder = $this->getKoppelingenCountBuilder()
+            ->addSelect('doelgroep.naam AS doelgroepnaam')
+            ->addSelect('ggwgebied.naam AS ggwgebiednaam')
+            ->leftJoin('klant.postcodegebied', 'ggwgebied')
+            ->innerJoin('hulpvraag.doelgroepen', 'doelgroep')
+            ->groupBy('doelgroep', 'ggwgebied');
         $this->applyKoppelingenReportFilter($builder, $report, $startDate, $endDate);
 
         return $builder->getQuery()->getResult();
@@ -168,14 +243,14 @@ class HulpvraagRepository extends EntityRepository
 
         switch ($report) {
             case 'beginstand':
-                $builder->andWhere("{$startdatumDql} < :startdatum")
-                    ->andWhere($builder->expr()->orX(
-                        "{$einddatumIsNullDql} = 0",
-                        "{$einddatumDql} = '0000-00-00'",
-                        "{$einddatumDql} >= :startdatum"
-                    ))
-                    ->setParameter('startdatum', $startDate);
-                break;
+            $builder->andWhere("{$startdatumDql} < :startdatum")
+                ->andWhere($builder->expr()->orX(
+                    "{$einddatumIsNullDql} = 0",
+                    "{$einddatumDql} = '0000-00-00'",
+                    "{$einddatumDql} >= :startdatum"
+                ))
+                ->setParameter('startdatum', $startDate);
+            break;
             case 'gestart':
                 $builder->andWhere("{$startdatumDql} >= :startdatum")
                     ->andWhere("{$startdatumDql} <= :einddatum")

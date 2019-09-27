@@ -2,9 +2,10 @@
 
 namespace OekBundle\Entity;
 
+use AppBundle\Model\KlantRelationInterface;
+use AppBundle\Model\TimestampableTrait;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
-use AppBundle\Model\TimestampableTrait;
 
 /**
  * @ORM\Entity
@@ -12,7 +13,7 @@ use AppBundle\Model\TimestampableTrait;
  * @ORM\HasLifecycleCallbacks
  * @Gedmo\Loggable
  */
-class Deelname
+class Deelname implements KlantRelationInterface
 {
     use TimestampableTrait;
 
@@ -98,7 +99,7 @@ class Deelname
         return $this;
     }
 
-    public function getStatus()
+    public function getStatus(): string
     {
         return $this->deelnameStatus->getStatus();
     }
@@ -127,5 +128,15 @@ class Deelname
     public function isDeletable()
     {
         return DeelnameStatus::STATUS_AANGEMELD === $this->deelnameStatus->getStatus();
+    }
+
+    public function getKlant()
+    {
+        return $this->getDeelnemer();
+    }
+
+    public function getKlantFieldName()
+    {
+      return "Deelnemer";
     }
 }

@@ -2,14 +2,32 @@
 
 namespace AppBundle\Form;
 
-use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolver;
+use AppBundle\Entity\Overeenkomst;
+use AppBundle\Entity\Postcode;
+use AppBundle\Entity\Vog;
 use AppBundle\Entity\Vrijwilliger;
+use AppBundle\Util\PostcodeFormatter;
+use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
+use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\FormEvent;
+use Symfony\Component\Form\FormEvents;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class VrijwilligerType extends AbstractType
 {
+    /**
+     * @var EntityManager
+     */
+    private $entityManager;
+
+    public function __construct(EntityManager $entityManager)
+    {
+        $this->entityManager = $entityManager;
+    }
+
     /**
      * {@inheritdoc}
      */
@@ -22,28 +40,88 @@ class VrijwilligerType extends AbstractType
             ->add('roepnaam')
             ->add('geslacht', null, [
                 'required' => true,
+                'placeholder' => '',
                 'query_builder' => function (EntityRepository $repository) {
                     return $repository->createQueryBuilder('geslacht')
                         ->orderBy('geslacht.id', 'DESC');
                 },
             ])
             ->add('geboortedatum', AppDateType::class, ['required' => false])
-            ->add('land')
-            ->add('nationaliteit')
+            ->add('land', LandSelectType::class, ['required' => true])
+            ->add('nationaliteit', NationaliteitSelectType::class, ['required' => true])
             ->add('bsn', null, ['label' => 'BSN'])
-            ->add('medewerker', MedewerkerType::class)
+            ->add('medewerker', MedewerkerType::class, ['required' => true])
             ->add('adres')
             ->add('postcode')
             ->add('plaats')
             ->add('email')
             ->add('mobiel')
             ->add('telefoon')
-            ->add('opmerking')
+            ->add('opmerking', AppTextareaType::class, ['required' => false])
             ->add('geenPost', null, ['label' => 'Geen post'])
             ->add('geenEmail')
             ->add('vogAangevraagd', null, ['label' => 'VOG aangevraagd'])
-            ->add('vogAanwezig', null, ['label' => 'VOG aanwezig'])
-            ->add('overeenkomstAanwezig', null, ['label' => 'Vrijwilligersovereenkomst aanwezig'])
+        ;
+
+        if (!$options['data'] || !$options['data']->getVog()) {
+            $builder->add('vog', DocumentType::class, [
+                'required' => false,
+                'label' => 'VOG',
+                'data_class' => Vog::class,
+                'data' => $options['data'] ? $options['data']->getVog() : null,
+            ])->get('vog')
+                ->remove('medewerker')
+                ->addEventListener(FormEvents::POST_SUBMIT, function (FormEvent $event) {
+                    /* @var Vog vog */
+                    $vog = $event->getData();
+                    if ($vog) {
+                        // assign Medewerker from parent form
+                        $vog->setMedewerker($event->getForm()->getParent()->get('medewerker')->getData());
+                    }
+                })
+            ;
+        }
+
+        if (!$options['data'] || !$options['data']->getOvereenkomst()) {
+            $builder->add('overeenkomst', DocumentType::class, [
+                'required' => false,
+                'label' => 'Overeenkomst',
+                'data_class' => Overeenkomst::class,
+                'data' => $options['data'] ? $options['data']->getOvereenkomst() : null,
+            ])->get('overeenkomst')
+                ->remove('medewerker')
+                ->addEventListener(FormEvents::POST_SUBMIT, function (FormEvent $event) {
+                    /* @var Overeenkomst $overeenkomst */
+                    $overeenkomst = $event->getData();
+                    if ($overeenkomst) {
+                        // assign Medewerker from parent form
+                        $overeenkomst->setMedewerker($event->getForm()->getParent()->get('medewerker')->getData());
+                    }
+                })
+            ;
+        }
+
+        $builder
+            ->add('submit', SubmitType::class)
+            ->addEventListener(FormEvents::SUBMIT, function (FormEvent $event) {
+                /* @var Vrijwilliger $data */
+                $data = $event->getData();
+                if ($data->getPostcode()) {
+                    $data->setPostcode(PostcodeFormatter::format($data->getPostcode()));
+
+                    try {
+                        $postcode = $this->entityManager->getRepository(Postcode::class)->find($data->getPostcode());
+                        if ($postcode) {
+                            $data
+                                ->setWerkgebied($postcode->getStadsdeel())
+                                ->setPostcodegebied($postcode->getPostcodegebied())
+                            ;
+                        }
+                    } catch (\Exception $e) {
+                        // ignore
+                    }
+                }
+            })
         ;
     }
 

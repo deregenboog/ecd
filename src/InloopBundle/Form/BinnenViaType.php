@@ -2,18 +2,12 @@
 
 namespace InloopBundle\Form;
 
+use AppBundle\Form\BaseType;
+use InloopBundle\Entity\BinnenVia;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use InloopBundle\Entity\Afsluiting;
-use AppBundle\Form\BaseType;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use AppBundle\Form\AppDateType;
-use Doctrine\ORM\EntityRepository;
-use Symfony\Component\Form\FormEvent;
-use Symfony\Component\Form\FormEvents;
-use Symfony\Component\Form\FormError;
-use InloopBundle\Entity\BinnenVia;
 
 class BinnenViaType extends AbstractType
 {

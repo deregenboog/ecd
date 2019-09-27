@@ -9,7 +9,7 @@ class VrijwilligerFilter extends ArbeiderFilter
     public $alias = 'vrijwilliger';
 
     /**
-     * @var AppBundle\Filter\VrijwilligerFilter
+     * @var \AppBundle\Filter\VrijwilligerFilter
      */
     public $vrijwilliger;
 
@@ -18,7 +18,7 @@ class VrijwilligerFilter extends ArbeiderFilter
         parent::applyTo($builder);
 
         if ($this->vrijwilliger) {
-            $this->vrijwilliger->applyTo($builder);
+            $this->vrijwilliger->applyTo($builder, 'basisvrijwilliger');
         }
     }
 }

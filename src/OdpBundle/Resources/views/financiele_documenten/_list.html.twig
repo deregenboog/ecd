@@ -1,0 +1,33 @@
+{% if huurder is defined %}
+    {% set url = path('odp_financieledocumenten_add', {huurder: huurder.id}) %}
+    {% set entity = huurder %}
+{% elseif verhuurder is defined %}
+    {% set url = path('odp_financieledocumenten_add', {verhuurder: verhuurder.id}) %}
+    {% set entity = verhuurder %}
+{% elseif huurovereenkomst is defined %}
+    {% set url = path('odp_financieledocumenten_add', {huurovereenkomst: huurovereenkomst.id}) %}
+    {% set entity = huurovereenkomst %}
+{% endif %}
+<h2>Documenten</h2>
+<p>
+    {{ html.addLink(url) }}
+    {{ html.link('Document toevoegen', url) }}
+</p>
+<table class="table">
+    {% for document in entity.financieledocumenten %}
+        <tr>
+            <td>{{ document.datum|date('d-m-Y') }}</td>
+            <td>{{ document.medewerker }}</td>
+            <td>{{ document.naam }}</td>
+            <td>
+                <a href="{{ vich_uploader_asset(document, 'file') }}" alt="{{ document.naam }}">
+                    Document downloaden
+                </a>
+            </td>
+            <td>
+                {{ html.editLink(path('odp_financieledocumenten_edit', {id: document.id})) }}
+                {{ html.deleteLink(path('odp_financieledocumenten_delete', {id: document.id})) }}
+            </td>
+        </tr>
+    {% endfor %}
+</table>

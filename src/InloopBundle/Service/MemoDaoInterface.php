@@ -2,9 +2,9 @@
 
 namespace InloopBundle\Service;
 
+use AppBundle\Filter\FilterInterface;
 use InloopBundle\Entity\Memo;
 use Knp\Component\Pager\Pagination\PaginationInterface;
-use AppBundle\Filter\FilterInterface;
 
 interface MemoDaoInterface
 {

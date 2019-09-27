@@ -2,15 +2,17 @@
 
 namespace Tests\HsBundle\Event;
 
-use AppBundle\Event\Events;
-use AppBundle\Event\DienstenLookupEvent;
 use AppBundle\Entity\Klant;
+use AppBundle\Event\DienstenLookupEvent;
+use AppBundle\Event\Events;
+use HsBundle\Entity\Dienstverlener;
 use HsBundle\Event\DienstenLookupSubscriber;
 use HsBundle\Service\DienstverlenerDaoInterface;
-use HsBundle\Entity\Dienstverlener;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use AppBundle\Model\Dienst;
 
-class DienstenLookupSubscriberTest extends \PHPUnit_Framework_TestCase
+class DienstenLookupSubscriberTest extends TestCase
 {
     public function testGetSubscribedEvents()
     {
@@ -41,14 +43,8 @@ class DienstenLookupSubscriberTest extends \PHPUnit_Framework_TestCase
 
         $diensten = $event->getDiensten();
         $this->assertCount(1, $diensten);
-        $expected = [
-            'name' => 'Homeservice',
-            'url' => '/generated-url',
-            'from' => '2017-02-03',
-            'to' => null,
-            'type' => 'date',
-            'value' => '',
-        ];
+        $expected = new Dienst('Homeservice', '/generated-url');
+        $expected->setVan(new \DateTime('2017-02-03'));
         $this->assertEquals($expected, $diensten[0]);
     }
 }

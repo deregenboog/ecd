@@ -1,0 +1,70 @@
+<h1>SCHORSINGSFORMULIER</h1>
+<p>
+    {%- spaceless %}
+        Op {{ entity.datumVan|date('d-m-Y') }} bent u geschorst bij locatie(s) {{ entity.locaties|implode }}.
+        De reden hiervoor is dat u zich niet aan de huisregels heeft gehouden.
+        Hieronder vindt u een korte beschrijving van het incident en de duur van de schorsing.
+        Ook informeren we u over de manier waarop u bezwaar kunt maken tegen uw schorsing.
+    {% endspaceless -%}
+</p>
+<table>
+    <tr>
+        <td><b>Naam bezoeker</b></td>
+        <td>{{ entity.klant|naam_voor_achter }}<br></td>
+    </tr>
+    <tr>
+        <td><b>Locatie(s)</b></td>
+        <td>
+            <p>{{- entity.locaties|implode }}<br></p>
+        </td>
+    </tr>
+    <tr>
+        <td><b>Naam locatiehoofd</b></td>
+        <td>{{ entity.locatiehoofd }}<br></td>
+    </tr>
+    <tr>
+        <td><b>Reden schorsing</b></td>
+        <td>
+            <p>{{- entity.redenen|implode }}</p>
+            <p>{{ entity.opmerking }}<br></p>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <b>Duur schorsing</b>
+            <p>
+                {%- spaceless %}
+                    Na een schorsing van een half jaar of langer volgt altijd een herintake,
+                    waarbij opnieuw wordt vastgesteld of u bij de doelgroep van de inloophuizen hoort.
+                    Voor dit gesprek dient u zelf een afspraak te maken met het locatiehoofd van de locatie die u heeft geschorst.
+                {% endspaceless -%}
+                <br>
+            </p>
+        </td>
+        <td>
+            {{- entity.datumTot|diff(entity.datumVan).days }} dagen
+            ({{ entity.datumVan|date('d-m-Y') }} t/m {{ entity.datumTot|date('d-m-Y') }})<br>
+        </td>
+    </tr>
+    <tr>
+        <td><b>Bijzonderheden</b></td>
+        <td>{{ entity.bijzonderheden }}<br></td>
+    </tr>
+    <tr>
+        <td><b>Hoe kunt u bezwaar maken</b></td>
+        <td>
+            <p>Bent u het niet eens met uw schorsing, dan kunt u een afspraak maken voor een gesprek met het locatiehoofd of met de manager inloophuizen.</p>
+            <p>U kunt zich wenden tot onafhankelijk cliënt-vertrouwenspersoon Lina Berger: 06 34293959.</p>
+            <p>U kunt terecht bij de onafhankelijke klachtencommissie van het POA: 06 14264972 info@klachtencommissiepoa.nl.</p>
+            <p>U kunt een klacht indienen bij de landelijke Geschillencommissie Zorg.</p>
+            <br>
+        </td>
+    </tr>
+</table>
+<p>
+    {%- spaceless %}
+        In en om al onze locaties staan rust, veiligheid en gezelligheid voor
+        alle bezoekers, deelnemers en medewerkers voorop. We rekenen erop dat u
+        hier in de toekomst weer een bijdrage aan zult leveren.
+    {% endspaceless -%}
+</p>

@@ -2,18 +2,14 @@
 
 namespace InloopBundle\Form;
 
+use AppBundle\Form\AppDateRangeType;
+use AppBundle\Form\FilterType;
+use AppBundle\Form\KlantFilterType as AppKlantFilterType;
+use InloopBundle\Filter\RegistratieFilter;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use AppBundle\Entity\Klant;
-use AppBundle\Form\FilterType;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use AppBundle\Form\AppDateRangeType;
-use AppBundle\Form\KlantFilterType as AppKlantFilterType;
-use InloopBundle\Entity\Locatie;
-use InloopBundle\Filter\SchorsingFilter;
-use InloopBundle\Filter\RegistratieFilter;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 
 class RegistratieFilterType extends AbstractType
 {
@@ -46,7 +42,7 @@ class RegistratieFilterType extends AbstractType
             ]);
         }
 
-        $props = ['maaltijd', 'activering', 'kleding', 'veegploeg'];
+        $props = ['douche', 'maaltijd', 'activering', 'kleding', 'veegploeg', 'mw'];
         foreach ($props as $prop) {
             if (in_array($prop, $options['enabled_filters'])) {
                 $builder->add($prop, ChoiceType::class, [
@@ -77,16 +73,15 @@ class RegistratieFilterType extends AbstractType
         $resolver->setDefaults([
             'data_class' => RegistratieFilter::class,
             'enabled_filters' => [
-                'klant' => ['id', 'naam', 'geslacht'],
-                'locatie',
+                'klant' => ['voornaam', 'achternaam'],
                 'binnen',
-                'buiten',
+                'douche',
                 'maaltijd',
                 'activering',
                 'kleding',
                 'veegploeg',
+                'mw',
                 'filter',
-                'download',
             ],
         ]);
     }

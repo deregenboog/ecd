@@ -4,7 +4,6 @@ namespace IzBundle\Repository;
 
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\QueryBuilder;
-use IzBundle\Entity\MatchingKlant;
 use IzBundle\Entity\Hulpaanbod;
 
 class IzVrijwilligerRepository extends EntityRepository
@@ -15,7 +14,7 @@ class IzVrijwilligerRepository extends EntityRepository
     const REPORT_AFGESLOTEN = 'afgesloten';
     const REPORT_EINDSTAND = 'eindstand';
 
-    public function count($report, \DateTime $startDate, \DateTime $endDate)
+    public function countTotal($report, \DateTime $startDate, \DateTime $endDate)
     {
         $builder = $this->getCountBuilder();
         $this->applyReportFilter($builder, $report, $startDate, $endDate);
@@ -45,7 +44,7 @@ class IzVrijwilligerRepository extends EntityRepository
         $builder = $this->getCountBuilder()
             ->addSelect('project.naam AS projectnaam')
             ->innerJoin('hulpaanbod.project', 'project')
-            ->addGroupBy('project')
+            ->groupBy('project')
         ;
         $this->applyReportFilter($builder, $report, $startDate, $endDate);
 
@@ -57,10 +56,10 @@ class IzVrijwilligerRepository extends EntityRepository
                     ->innerJoin('hulpaanbod.project', 'project')
                 ;
                 $this->applyReportFilter($beginstandBuilder, 'beginstand', $startDate, $endDate);
-                $builder->andWhere($builder->expr()->notIn(
-                    "CONCAT_WS('-', izVrijwilliger.id, project.id)",
-                    $this->flatten($beginstandBuilder->getQuery()->getResult())
-                ));
+                $beginstand = $this->flatten($beginstandBuilder->getQuery()->getResult());
+                if ($beginstand) {
+                    $builder->andWhere($builder->expr()->notIn("CONCAT_WS('-', izVrijwilliger.id, project.id)", $beginstand));
+                }
                 break;
             case self::REPORT_AFGESLOTEN:
                 // exclude eindstand
@@ -69,10 +68,10 @@ class IzVrijwilligerRepository extends EntityRepository
                     ->innerJoin('hulpaanbod.project', 'project')
                 ;
                 $this->applyReportFilter($eindstandBuilder, 'eindstand', $startDate, $endDate);
-                $builder->andWhere($builder->expr()->notIn(
-                    "CONCAT_WS('-', izVrijwilliger.id, project.id)",
-                    $this->flatten($eindstandBuilder->getQuery()->getResult())
-                ));
+                $eindstand = $this->flatten($eindstandBuilder->getQuery()->getResult());
+                if ($eindstand) {
+                    $builder->andWhere($builder->expr()->notIn("CONCAT_WS('-', izVrijwilliger.id, project.id)", $eindstand));
+                }
                 break;
         }
 
@@ -84,7 +83,7 @@ class IzVrijwilligerRepository extends EntityRepository
         $builder = $this->getCountBuilder()
             ->addSelect('werkgebied.naam AS stadsdeel')
             ->leftJoin('klant.werkgebied', 'werkgebied')
-            ->addGroupBy('stadsdeel')
+            ->groupBy('stadsdeel')
         ;
         $this->applyReportFilter($builder, $report, $startDate, $endDate);
 
@@ -96,10 +95,10 @@ class IzVrijwilligerRepository extends EntityRepository
                     ->leftJoin('klant.werkgebied', 'werkgebied')
                 ;
                 $this->applyReportFilter($beginstandBuilder, 'beginstand', $startDate, $endDate);
-                $builder->andWhere($builder->expr()->notIn(
-                    "CONCAT_WS('-', izVrijwilliger.id, werkgebied.naam)",
-                    $this->flatten($beginstandBuilder->getQuery()->getResult())
-                ));
+                $beginstand = $this->flatten($beginstandBuilder->getQuery()->getResult());
+                if ($beginstand) {
+                    $builder->andWhere($builder->expr()->notIn("CONCAT_WS('-', izVrijwilliger.id, werkgebied.naam)", $beginstand));
+                }
                 break;
             case self::REPORT_AFGESLOTEN:
                 // exclude eindstand
@@ -108,10 +107,10 @@ class IzVrijwilligerRepository extends EntityRepository
                     ->leftJoin('klant.werkgebied', 'werkgebied')
                 ;
                 $this->applyReportFilter($eindstandBuilder, 'eindstand', $startDate, $endDate);
-                $builder->andWhere($builder->expr()->notIn(
-                    "CONCAT_WS('-', izVrijwilliger.id, werkgebied.naam)",
-                    $this->flatten($eindstandBuilder->getQuery()->getResult())
-                ));
+                $eindstand = $this->flatten($eindstandBuilder->getQuery()->getResult());
+                if ($eindstand) {
+                    $builder->andWhere($builder->expr()->notIn("CONCAT_WS('-', izVrijwilliger.id, werkgebied.naam)", $eindstand));
+                }
                 break;
         }
 
@@ -135,10 +134,10 @@ class IzVrijwilligerRepository extends EntityRepository
                     ->leftJoin('vrijwilliger.werkgebied', 'werkgebied')
                 ;
                 $this->applyReportFilter($beginstandBuilder, 'beginstand', $startDate, $endDate);
-                $builder->andWhere($builder->expr()->notIn(
-                    "CONCAT_WS('-', izVrijwilliger.id, werkgebied.naam)",
-                    $this->flatten($beginstandBuilder->getQuery()->getResult())
-                ));
+                $beginstand = $this->flatten($beginstandBuilder->getQuery()->getResult());
+                if ($beginstand) {
+                    $builder->andWhere($builder->expr()->notIn("CONCAT_WS('-', izVrijwilliger.id, werkgebied.naam)", $beginstand));
+                }
                 break;
             case self::REPORT_AFGESLOTEN:
                 // exclude eindstand
@@ -147,10 +146,10 @@ class IzVrijwilligerRepository extends EntityRepository
                     ->leftJoin('vrijwilliger.werkgebied', 'werkgebied')
                 ;
                 $this->applyReportFilter($eindstandBuilder, 'eindstand', $startDate, $endDate);
-                $builder->andWhere($builder->expr()->notIn(
-                    "CONCAT_WS('-', izVrijwilliger.id, werkgebied.naam)",
-                    $this->flatten($eindstandBuilder->getQuery()->getResult())
-                ));
+                $eindstand = $this->flatten($eindstandBuilder->getQuery()->getResult());
+                if ($eindstand) {
+                    $builder->andWhere($builder->expr()->notIn("CONCAT_WS('-', izVrijwilliger.id, werkgebied.naam)", $eindstand));
+                }
                 break;
         }
 
@@ -177,10 +176,10 @@ class IzVrijwilligerRepository extends EntityRepository
                 ->innerJoin('hulpaanbod.project', 'project')
                 ;
                 $this->applyReportFilter($beginstandBuilder, 'beginstand', $startDate, $endDate);
-                $builder->andWhere($builder->expr()->notIn(
-                    "CONCAT_WS('-', izVrijwilliger.id, project.naam, werkgebied.naam)",
-                    $this->flatten($beginstandBuilder->getQuery()->getResult())
-                    ));
+                $beginstand = $this->flatten($beginstandBuilder->getQuery()->getResult());
+                if ($beginstand) {
+                    $builder->andWhere($builder->expr()->notIn("CONCAT_WS('-', izVrijwilliger.id, project.naam, werkgebied.naam)", $beginstand));
+                }
                 break;
             case self::REPORT_AFGESLOTEN:
                 // exclude eindstand
@@ -190,10 +189,10 @@ class IzVrijwilligerRepository extends EntityRepository
                     ->innerJoin('hulpaanbod.project', 'project')
                 ;
                 $this->applyReportFilter($eindstandBuilder, 'eindstand', $startDate, $endDate);
-                $builder->andWhere($builder->expr()->notIn(
-                    "CONCAT_WS('-', izVrijwilliger.id, project.naam, werkgebied.naam)",
-                    $this->flatten($eindstandBuilder->getQuery()->getResult())
-                ));
+                $eindstand = $this->flatten($eindstandBuilder->getQuery()->getResult());
+                if ($eindstand) {
+                    $builder->andWhere($builder->expr()->notIn("CONCAT_WS('-', izVrijwilliger.id, project.naam, werkgebied.naam)", $eindstand));
+                }
                 break;
         }
 
@@ -220,10 +219,10 @@ class IzVrijwilligerRepository extends EntityRepository
                     ->innerJoin('hulpaanbod.project', 'project')
                 ;
                 $this->applyReportFilter($beginstandBuilder, 'beginstand', $startDate, $endDate);
-                $builder->andWhere($builder->expr()->notIn(
-                    "CONCAT_WS('-', izVrijwilliger.id, project.naam, werkgebied.naam)",
-                    $this->flatten($beginstandBuilder->getQuery()->getResult())
-                ));
+                $beginstand = $this->flatten($beginstandBuilder->getQuery()->getResult());
+                if ($beginstand) {
+                    $builder->andWhere($builder->expr()->notIn("CONCAT_WS('-', izVrijwilliger.id, project.naam, werkgebied.naam)", $beginstand));
+                }
                 break;
             case self::REPORT_AFGESLOTEN:
                 // exclude eindstand
@@ -233,10 +232,10 @@ class IzVrijwilligerRepository extends EntityRepository
                     ->innerJoin('hulpaanbod.project', 'project')
                 ;
                 $this->applyReportFilter($eindstandBuilder, 'eindstand', $startDate, $endDate);
-                $builder->andWhere($builder->expr()->notIn(
-                    "CONCAT_WS('-', izVrijwilliger.id, project.naam, werkgebied.naam)",
-                    $this->flatten($eindstandBuilder->getQuery()->getResult())
-                ));
+                $eindstand = $this->flatten($eindstandBuilder->getQuery()->getResult());
+                if ($eindstand) {
+                    $builder->andWhere($builder->expr()->notIn("CONCAT_WS('-', izVrijwilliger.id, project.naam, werkgebied.naam)", $eindstand));
+                }
                 break;
         }
 
@@ -248,7 +247,7 @@ class IzVrijwilligerRepository extends EntityRepository
         return $this->createQueryBuilder('izVrijwilliger')
             ->select('COUNT(DISTINCT izVrijwilliger.id) AS aantal')
             ->innerJoin('izVrijwilliger.vrijwilliger', 'vrijwilliger')
-            ->innerJoin('izVrijwilliger.izHulpaanbiedingen', 'hulpaanbod')
+            ->innerJoin('izVrijwilliger.hulpaanbiedingen', 'hulpaanbod')
             ->innerJoin('hulpaanbod.hulpvraag', 'hulpvraag')
             ->innerJoin('hulpvraag.izKlant', 'izKlant')
             ->innerJoin('izKlant.klant', 'klant')
@@ -362,10 +361,10 @@ class IzVrijwilligerRepository extends EntityRepository
                     ->innerJoin('hulpaanbod.project', 'project')
                 ;
                 $this->applyReportFilter($beginstandBuilder, 'beginstand', $startDate, $endDate);
-                $builder->andWhere($builder->expr()->notIn(
-                    "CONCAT_WS('-', izVrijwilliger.id, project.id)",
-                    $this->flatten($beginstandBuilder->getQuery()->getResult())
-                ));
+                $beginstand = $this->flatten($beginstandBuilder->getQuery()->getResult());
+                if ($beginstand) {
+                    $builder->andWhere($builder->expr()->notIn("CONCAT_WS('-', izVrijwilliger.id, project.id)", $beginstand));
+                }
                 break;
             case self::REPORT_AFGESLOTEN:
                 // exclude eindstand
@@ -374,10 +373,10 @@ class IzVrijwilligerRepository extends EntityRepository
                     ->innerJoin('hulpaanbod.project', 'project')
                 ;
                 $this->applyReportFilter($eindstandBuilder, 'eindstand', $startDate, $endDate);
-                $builder->andWhere($builder->expr()->notIn(
-                    "CONCAT_WS('-', izVrijwilliger.id, project.id)",
-                    $this->flatten($eindstandBuilder->getQuery()->getResult())
-                ));
+                $eindstand = $this->flatten($eindstandBuilder->getQuery()->getResult());
+                if ($eindstand) {
+                    $builder->andWhere($builder->expr()->notIn("CONCAT_WS('-', izVrijwilliger.id, project.id)", $eindstand));
+                }
                 break;
         }
 
@@ -390,7 +389,7 @@ class IzVrijwilligerRepository extends EntityRepository
             ->select('vrijwilliger.id')
             ->addSelect("CONCAT_WS(' ', vrijwilliger.voornaam, vrijwilliger.tussenvoegsel, vrijwilliger.achternaam) AS naam, COUNT(DISTINCT hulpaanbod.id) AS hulpaanbiedingen")
             ->innerJoin('izVrijwilliger.vrijwilliger', 'vrijwilliger')
-            ->innerJoin('izVrijwilliger.izHulpaanbiedingen', 'hulpaanbod')
+            ->innerJoin('izVrijwilliger.hulpaanbiedingen', 'hulpaanbod')
             ->innerJoin('hulpaanbod.hulpvraag', 'hulpvraag')
             ->innerJoin('hulpvraag.izKlant', 'izKlant')
             ->innerJoin('izKlant.klant', 'klant')

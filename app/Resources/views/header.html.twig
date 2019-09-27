@@ -1,4 +1,27 @@
 {% import '::html.macro.twig' as html %}
+
+<nav class="navbar">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="{{ path('home') }}">
+            <img src="{{ asset('img/drg-logo-50px.jpg') }}" alt="Logo DRG">
+        </a>
+        <ul class="nav navbar-nav navbar-right">
+            {% if is_granted("IS_AUTHENTICATED_FULLY") %}
+                <li class="pull-left">
+                    <a href="{{ path('home') }}">
+                        Ingelogd als {{ app.user.naam }}
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ path('logout') }}">
+                        <span class="glyphicon glyphicon-log-out"></span>
+                        Uitloggen
+                    </a>
+                </li>
+            {% endif %}
+        </ul>
+    </div>
+</nav>
 <nav class="navbar navbar-default">
     <div class="container-fluid">
         <div class="navbar-header">
@@ -10,23 +33,10 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="{{ relative_path('/') }}">
-                <img src="{{ asset('img/drg-logo-50px.jpg') }}" alt="Logo DRG">
-            </a>
         </div>
         <div class="collapse navbar-collapse" id="navbar-collapse-1">
             <ul class="nav navbar-nav">
-                {% for controller, label in menu_allowed %}
-                    {{ html.navLink(label, relative_path("/" ~ controller, controller), isActiveRoute(controller ~ '_')) }}
-                {% endfor %}
-            </ul>
-            <ul class="nav navbar-nav navbar-right">
-                {% if userFullName is defined %}
-                    <li><a href="#">Ingelogd als {{ userFullName }}</a></li>
-                    <li>{{ html.link('Uitloggen', relative_path('/medewerkers/logout')) }}</li>
-                {% else %}
-                    <li>{{ html.link('Inloggen', relative_path('/medewerkers/login')) }}</li>
-                {% endif %}
+                {% include '::navigation.html.twig' %}
             </ul>
         </div><!-- /.navbar-collapse -->
     </div><!-- /.container-fluid -->

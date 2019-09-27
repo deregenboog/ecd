@@ -1,0 +1,49 @@
+{% extends '::base.html.twig' %}
+{% import '::html.macro.twig' as html %}
+
+{% block title %}
+    ErOpUit-kalender | {{ title }}
+{% endblock %}
+
+{% block subnavigation %}
+    {% include '@ErOpUit/subnavigation.html.twig' %}
+{% endblock %}
+
+{% block content %}
+    <h1>{{ entity_name|capitalize }} toevoegen</h1>
+
+    {% if vrijwilligers is defined and filterForm.vars.errors|length == 0 %}
+        <p>
+            Selecteer de gewenste {{ entity_name }} in onderstaande lijst of klik op
+            "Nieuwe {{ entity_name }}" als deze niet in de lijst voorkomt.
+        </p>
+        <p>
+            {{ html.link('Nieuwe '~entity_name, path(route_base~'add', {vrijwilliger: 'new'}), 'plus') }}
+        </p>
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>Naam</th>
+                    <th>BSN</th>
+                    <th>Geboortedatum</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for entity in vrijwilligers %}
+                    <tr data-href="{{ path(route_base~'add', {vrijwilliger: entity.id}) }}">
+                        <td>{{ entity }}</td>
+                        <td>{{ entity.bsn }}</td>
+                        <td>{{ entity.geboortedatum ? entity.geboortedatum|date('d-m-Y') }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% elseif filterForm is defined %}
+        <p>Zoek een bestaande {{ entity_name }} op naam, BSN of geboortedatum.</p>
+        {{ form(filterForm) }}
+    {% endif %}
+
+    {% if creationForm is defined %}
+        {{ form(creationForm) }}
+    {% endif %}
+{% endblock %}

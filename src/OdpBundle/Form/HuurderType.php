@@ -2,18 +2,18 @@
 
 namespace OdpBundle\Form;
 
-use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\FormEvents;
-use Symfony\Component\Form\FormEvent;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use AppBundle\Form\AppDateType;
+use AppBundle\Form\BaseType;
 use AppBundle\Form\KlantType;
 use OdpBundle\Entity\Huurder;
 use OdpBundle\Entity\Verslag;
-use AppBundle\Form\BaseType;
+use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\FormEvent;
+use Symfony\Component\Form\FormEvents;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class HuurderType extends AbstractType
 {
@@ -37,6 +37,14 @@ class HuurderType extends AbstractType
             ->add('aanmelddatum', AppDateType::class)
             ->add('rekeningnummer', null, ['required' => false])
             ->add('automatischeIncasso', null, ['required' => false])
+            ->add('inschrijvingWoningnet', null, [
+                'required' => false,
+                'label' => 'Inschrijving Woningnet',
+            ])
+            ->add('waPolis', null, [
+                'required' => false,
+                'label' => 'WA-polis',
+            ])
             ->add('klantmanager')
             ->add('wpi')
         ;

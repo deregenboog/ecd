@@ -2,12 +2,12 @@
 
 namespace IzBundle\Filter;
 
+use AppBundle\Entity\Medewerker;
+use AppBundle\Filter\FilterInterface;
+use AppBundle\Filter\KlantFilter;
+use AppBundle\Form\Model\AppDateRangeModel;
 use Doctrine\ORM\QueryBuilder;
 use IzBundle\Entity\Project;
-use AppBundle\Entity\Medewerker;
-use AppBundle\Filter\KlantFilter;
-use AppBundle\Filter\FilterInterface;
-use AppBundle\Form\Model\AppDateRangeModel;
 
 class IzKlantFilter implements FilterInterface
 {
@@ -38,6 +38,11 @@ class IzKlantFilter implements FilterInterface
      * @var Project
      */
     public $project;
+
+    /**
+     * @var Medewerker
+     */
+    public $aanmeldingMedewerker;
 
     /**
      * @var Medewerker
@@ -107,6 +112,13 @@ class IzKlantFilter implements FilterInterface
             }
         }
 
+        if ($this->aanmeldingMedewerker) {
+            $builder
+                ->andWhere('aanmeldingMedewerker = :aanmeldingMedewerker')
+                ->setParameter('aanmeldingMedewerker', $this->aanmeldingMedewerker)
+            ;
+        }
+
         if ($this->intakeMedewerker) {
             $builder
                 ->andWhere('intakeMedewerker = :intakeMedewerker')
@@ -124,7 +136,7 @@ class IzKlantFilter implements FilterInterface
         if ($this->zonderActieveHulpvraag) {
             $subBuilder = $this->getSubBuilder($builder)
                 ->select('izKlant.id')
-                ->leftJoin('izKlant.izHulpvragen', 'actieveHulpvraag', 'WITH', $builder->expr()->andX(
+                ->leftJoin('izKlant.hulpvragen', 'actieveHulpvraag', 'WITH', $builder->expr()->andX(
                     'actieveHulpvraag.hulpaanbod IS NULL',
                     'actieveHulpvraag.einddatum IS NULL OR actieveHulpvraag.einddatum >= :now'
                 ))
@@ -142,7 +154,7 @@ class IzKlantFilter implements FilterInterface
         if ($this->zonderActieveKoppeling) {
             $subBuilder = $this->getSubBuilder($builder)
                 ->select('izKlant.id')
-                ->leftJoin('izKlant.izHulpvragen', 'actieveKoppeling', 'WITH', $builder->expr()->andX(
+                ->leftJoin('izKlant.hulpvragen', 'actieveKoppeling', 'WITH', $builder->expr()->andX(
                     'actieveKoppeling.hulpaanbod IS NOT NULL',
                     'actieveKoppeling.koppelingEinddatum IS NULL OR actieveKoppeling.koppelingEinddatum >= :now'
                 ))

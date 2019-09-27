@@ -2,28 +2,16 @@
 
 namespace Tests\HsBundle\Event;
 
-use HsBundle\Entity\Dienstverlener;
-use HsBundle\Entity\Klus;
-use HsBundle\Entity\Klant;
-use HsBundle\Entity\Registratie;
-use HsBundle\Entity\Vrijwilliger;
-use HsBundle\Entity\Factuur;
 use AppBundle\Entity\Medewerker;
-use AppBundle\Entity\Nationaliteit;
-use AppBundle\Entity\Land;
-use AppBundle\Entity\Geslacht;
-use Doctrine\ORM\EntityManager;
-use Symfony\Component\HttpKernel\Client;
-use Nelmio\Alice\Fixtures;
 use AppBundle\Test\WebTestCase;
+use Doctrine\ORM\EntityManager;
+use HsBundle\Entity\Dienstverlener;
+use HsBundle\Entity\Factuur;
+use HsBundle\Entity\Klus;
+use HsBundle\Entity\Registratie;
 
 class FactuurSubscriberTest extends WebTestCase
 {
-    /**
-     * @var Client
-     */
-    private $client;
-
     /**
      * @var EntityManager
      */
@@ -33,18 +21,7 @@ class FactuurSubscriberTest extends WebTestCase
     {
         $this->markTestSkipped();
 
-        $fixtures = $this->loadFixtureFiles([
-            '@AppBundle/DataFixtures/ORM/geslacht.yml',
-            '@AppBundle/DataFixtures/ORM/klant.yml',
-            '@AppBundle/DataFixtures/ORM/land.yml',
-            '@AppBundle/DataFixtures/ORM/medewerker.yml',
-            '@AppBundle/DataFixtures/ORM/nationaliteit.yml',
-            '@AppBundle/DataFixtures/ORM/vrijwilliger.yml',
-            '@AppBundle/DataFixtures/ORM/werkgebied.yml',
-            '@HsBundle/DataFixtures/ORM/fixtures.yml',
-        ]);
-
-        $this->client = $this->createClient();
+        parent::setUp();
         $this->entityManager = $this->client->getContainer()->get('doctrine.orm.entity_manager');
     }
 

@@ -2,17 +2,32 @@
 
 namespace InloopBundle\Entity;
 
+use AppBundle\Entity\Klant;
+use AppBundle\Model\TimestampableTrait;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
 /**
  * @ORM\Entity(repositoryClass="InloopBundle\Repository\SchorsingRepository")
  * @ORM\Table(name="schorsingen")
+ * @ORM\HasLifecycleCallbacks
+ * @Gedmo\Loggable
  */
 class Schorsing
 {
+    use TimestampableTrait;
+
     const DOELWIT_MEDEWERKER = 1;
     const DOELWIT_STAGIAIR = 2;
     const DOELWIT_VRIJWILLIGER = 3;
+    const DOELWITTEN = [
+        self::DOELWIT_MEDEWERKER => 'medewerker',
+        self::DOELWIT_STAGIAIR => 'stagiair',
+        self::DOELWIT_VRIJWILLIGER => 'vrijwilliger',
+    ];
 
     /**
      * @ORM\Id
@@ -22,22 +37,24 @@ class Schorsing
     private $id;
 
     /**
-     * @ORM\Column(name="datum_van", type="date")
+     * @ORM\Column(name="datum_van", type="date", nullable=false)
+     * @Assert\NotNull
      */
     private $datumVan;
 
     /**
-     * @ORM\Column(name="datum_tot", type="date")
+     * @ORM\Column(name="datum_tot", type="date", nullable=false)
+     * @Assert\NotNull
      */
     private $datumTot;
 
     /**
-     * @ORM\Column(name="remark", type="text")
+     * @ORM\Column(name="remark", type="text", nullable=true)
      */
     private $opmerking;
 
     /**
-     * @ORM\Column(type="text", nullable=false)
+     * @ORM\Column(type="text", nullable=true)
      */
     private $bijzonderheden;
 
@@ -47,24 +64,32 @@ class Schorsing
     private $redenOverig;
 
     /**
+     * @var bool
+     *
      * @ORM\Column(type="boolean", nullable=false, options={"DEFAULT 0"})
      */
-    private $gezien;
+    private $gezien = false;
 
     /**
-     * @ORM\Column(type="boolean", nullable=true)
+     * @var bool
+     *
+     * @ORM\Column(type="boolean", nullable=false, options={"DEFAULT 0"})
      */
-    private $aangifte;
+    private $aangifte = false;
 
     /**
-     * @ORM\Column(type="boolean", nullable=true)
+     * @var bool
+     *
+     * @ORM\Column(type="boolean", nullable=false, options={"DEFAULT 0"})
      */
-    private $nazorg;
+    private $nazorg = false;
 
     /**
-     * @ORM\Column(name="agressie", type="boolean", nullable=true)
+     * @var bool
+     *
+     * @ORM\Column(type="boolean", nullable=false, options={"DEFAULT 0"})
      */
-    private $agressie;
+    private $agressie = false;
 
     /**
      * @ORM\Column(name="aggressie_doelwit", nullable=true)
@@ -107,41 +132,54 @@ class Schorsing
     private $typeDoelwitAgressie4;
 
     /**
-     * @ORM\Column(length=100, nullable=false)
+     * @ORM\Column(length=100, nullable=true)
      */
     private $locatiehoofd;
 
     /**
+     * @deprecated
+     * @ORM\ManyToOne(targetEntity="Locatie")
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $locatie;
+
+    /**
      * @ORM\ManyToMany(targetEntity="Locatie")
      * @ORM\JoinTable(name="schorsing_locatie")
+     * @Assert\Count(min=1, minMessage="Selecteer tenminste één locatie")
      */
     private $locaties;
 
     /**
-     * ORM\ManyToMany(targetEntity="SchorsingReden")
-     * ORM\JoinTable(
+     * @ORM\ManyToMany(targetEntity="SchorsingReden")
+     * @ORM\JoinTable(
      *     name="schorsingen_redenen",
      *     joinColumns={@ORM\JoinColumn(name="schorsing_id")},
      *     inverseJoinColumns={@ORM\JoinColumn(name="reden_id")}
      * ).
+     * @Assert\Count(min=1, minMessage="Selecteer tenminste één reden")
      */
     private $redenen;
 
     /**
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Klant")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Klant", inversedBy="schorsingen")
      * @ORM\JoinColumn(nullable=false)
+     * @Assert\NotNull
      */
     private $klant;
 
-    /**
-     * @ORM\Column(type="datetime", nullable=true)
-     */
-    private $created;
+    public function __construct(Klant $klant = null)
+    {
+        $this->setKlant($klant);
+        $this->setDatumVan(new \DateTime());
+        $this->locaties = new ArrayCollection();
+        $this->redenen = new ArrayCollection();
+    }
 
-    /**
-     * @ORM\Column(type="datetime", nullable=true)
-     */
-    private $modified;
+    public function __toString()
+    {
+        return sprintf('%s (%s t/m %s)', $this->klant, $this->datumVan->format('d-m-Y'), $this->datumTot->format('d-m-Y'));
+    }
 
     public function getId()
     {
@@ -208,7 +246,7 @@ class Schorsing
         return $this;
     }
 
-    public function getGezien()
+    public function isGezien()
     {
         return $this->gezien;
     }
@@ -227,7 +265,7 @@ class Schorsing
 
     public function setAangifte($aangifte)
     {
-        $this->aangifte = $aangifte;
+        $this->aangifte = (bool) $aangifte;
 
         return $this;
     }
@@ -239,19 +277,19 @@ class Schorsing
 
     public function setNazorg($nazorg)
     {
-        $this->nazorg = $nazorg;
+        $this->nazorg = (bool) $nazorg;
 
         return $this;
     }
 
-    public function getAgressie()
+    public function isAgressie()
     {
         return $this->agressie;
     }
 
     public function setAgressie($agressie)
     {
-        $this->agressie = $agressie;
+        $this->agressie = (bool) $agressie;
 
         return $this;
     }
@@ -388,30 +426,6 @@ class Schorsing
         return $this;
     }
 
-    public function getCreated()
-    {
-        return $this->created;
-    }
-
-    public function setCreated($created)
-    {
-        $this->created = $created;
-
-        return $this;
-    }
-
-    public function getModified()
-    {
-        return $this->modified;
-    }
-
-    public function setModified($modified)
-    {
-        $this->modified = $modified;
-
-        return $this;
-    }
-
     public function getRedenen()
     {
         return $this->redenen;
@@ -422,5 +436,64 @@ class Schorsing
         $this->redenen[] = $reden;
 
         return $this;
+    }
+
+    /**
+     * @Assert\Callback
+     */
+    public function validate(ExecutionContextInterface $context, $payload)
+    {
+        foreach ($this->redenen as $reden) {
+            if (1 === preg_match('/overig/i', $reden)) {
+                if (!$this->redenOverig) {
+                    $context->buildViolation('Geef de reden op.')
+                        ->atPath('redenOverig')
+                        ->addViolation();
+                }
+            }
+        }
+
+        if ($this->agressie) {
+            if (!$this->opmerking) {
+                $context->buildViolation('Geef een reden op.')
+                    ->atPath('opmerking')
+                    ->addViolation();
+            }
+
+            if (!$this->doelwitAgressie1
+                && !$this->doelwitAgressie2
+                && !$this->doelwitAgressie3
+                && !$this->doelwitAgressie4
+            ) {
+                $context->buildViolation('Geef aan tegen welke medewerker(s) de agressie gericht is.')
+                    ->atPath('doelwitAgressie1')
+                    ->addViolation();
+            }
+
+            foreach (range(1, 4) as $i) {
+                if ($this->{'doelwitAgressie'.$i} && !$this->{'typeDoelwitAgressie'.$i}) {
+                    $context->buildViolation('Geef aan wat de functie van de medewerker is.')
+                        ->atPath('typeDoelwitAgressie'.$i)
+                        ->addViolation();
+                }
+                if (!$this->{'doelwitAgressie'.$i} && $this->{'typeDoelwitAgressie'.$i}) {
+                    $context->buildViolation('Geef de naam van de medewerker op.')
+                        ->atPath('doelwitAgressie'.$i)
+                        ->addViolation();
+                }
+            }
+
+            if (null === $this->aangifte) {
+                $context->buildViolation('Geef aan of er aangifte gedaan is.')
+                    ->atPath('aangifte')
+                    ->addViolation();
+            }
+
+            if (null === $this->nazorg) {
+                $context->buildViolation('Geef aan of er nazorg nodig is.')
+                    ->atPath('nazorg')
+                    ->addViolation();
+            }
+        }
     }
 }

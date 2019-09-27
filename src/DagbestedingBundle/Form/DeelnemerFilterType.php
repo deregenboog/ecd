@@ -2,15 +2,15 @@
 
 namespace DagbestedingBundle\Form;
 
-use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolver;
-use AppBundle\Entity\Klant;
+use AppBundle\Form\AppDateRangeType;
+use AppBundle\Form\FilterType;
 use AppBundle\Form\KlantFilterType;
 use DagbestedingBundle\Filter\DeelnemerFilter;
-use AppBundle\Form\FilterType;
+use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use AppBundle\Form\AppDateRangeType;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class DeelnemerFilterType extends AbstractType
 {
@@ -25,6 +25,13 @@ class DeelnemerFilterType extends AbstractType
             ]);
         }
 
+        if (in_array('medewerker', $options['enabled_filters'])) {
+            $builder->add('medewerker', MedewerkerType::class, [
+                'required' => false,
+                'preset' => false,
+            ]);
+        }
+
         if (in_array('aanmelddatum', $options['enabled_filters'])) {
             $builder->add('aanmelddatum', AppDateRangeType::class, [
                 'required' => false,
@@ -34,6 +41,13 @@ class DeelnemerFilterType extends AbstractType
         if (in_array('afsluitdatum', $options['enabled_filters'])) {
             $builder->add('afsluitdatum', AppDateRangeType::class, [
                 'required' => false,
+            ]);
+        }
+
+        if (in_array('zonderTraject', $options['enabled_filters'])) {
+            $builder->add('zonderTraject', CheckboxType::class, [
+                'required' => false,
+                'label' => 'Alleen deelnemers zonder traject tonen',
             ]);
         }
 
@@ -60,8 +74,10 @@ class DeelnemerFilterType extends AbstractType
             'data_class' => DeelnemerFilter::class,
             'enabled_filters' => [
                 'klant' => ['id', 'naam', 'stadsdeel'],
+                'medewerker',
                 'aanmelddatum',
                 'afsluitdatum',
+                'zonderTraject',
             ],
         ]);
     }

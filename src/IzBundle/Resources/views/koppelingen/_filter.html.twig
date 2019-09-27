@@ -1,6 +1,14 @@
 {{ form_start(filter) }}
     <tr>
-        <th colspan="8">
+        <th>
+            {{ form_widget(filter.lopendeKoppelingen) }}
+            {{ form_errors(filter.lopendeKoppelingen) }}
+        </th>
+        <th>
+            {{ form_widget(filter.langeKoppelingen) }}
+            {{ form_errors(filter.langeKoppelingen) }}
+        </th>
+        <th colspan="6">
             <span class="pull-right">
                 {{ form_widget(filter.filter) }}
                 {{ form_widget(filter.download) }}
@@ -21,14 +29,16 @@
             {{ form_errors(filter.vrijwilliger.achternaam) }}
         </th>
         <th>
-            {{ form_widget(filter.koppelingStartdatum) }}
-            {{ form_errors(filter.koppelingStartdatum) }}
+            {{ form_widget(filter.koppelingStartdatum.start) }}
+            {{ form_errors(filter.koppelingStartdatum.start) }}
+            {{ form_widget(filter.koppelingStartdatum.end) }}
+            {{ form_errors(filter.koppelingStartdatum.end) }}
         </th>
         <th>
-            {{ form_widget(filter.lopendeKoppelingen) }}
-            {{ form_errors(filter.lopendeKoppelingen) }}
-            {{ form_widget(filter.koppelingEinddatum) }}
-            {{ form_errors(filter.koppelingEinddatum) }}
+            {{ form_widget(filter.koppelingEinddatum.start) }}
+            {{ form_errors(filter.koppelingEinddatum.start) }}
+            {{ form_widget(filter.koppelingEinddatum.end) }}
+            {{ form_errors(filter.koppelingEinddatum.end) }}
         </th>
         <th>
             {{ form_widget(filter.project) }}

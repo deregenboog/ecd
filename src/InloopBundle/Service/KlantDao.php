@@ -2,9 +2,10 @@
 
 namespace InloopBundle\Service;
 
-use AppBundle\Service\AbstractDao;
-use AppBundle\Filter\FilterInterface;
 use AppBundle\Entity\Klant;
+use AppBundle\Filter\FilterInterface;
+use AppBundle\Service\AbstractDao;
+use InloopBundle\Entity\Aanmelding;
 
 class KlantDao extends AbstractDao implements KlantDaoInterface
 {
@@ -13,6 +14,7 @@ class KlantDao extends AbstractDao implements KlantDaoInterface
         'defaultSortDirection' => 'asc',
         'sortFieldWhitelist' => [
             'klant.id',
+            'klant.voornaam',
             'klant.achternaam',
             'klant.geboortedatum',
             'geslacht.volledig',
@@ -28,9 +30,21 @@ class KlantDao extends AbstractDao implements KlantDaoInterface
 
     public function findAll($page = null, FilterInterface $filter = null)
     {
+        $builder = $this->getAllQueryBuilder($filter);
+
+        if ($page) {
+            return $this->paginator->paginate($builder, $page, $this->itemsPerPage, $this->paginationOptions);
+        }
+
+        return $builder->getQuery()->getResult();
+    }
+
+    public function getAllQueryBuilder(FilterInterface $filter = null)
+    {
         $builder = $this->repository->createQueryBuilder($this->alias)
             ->select($this->alias.', intake, geslacht, laatsteIntake, laatsteIntakeLocatie, gebruikersruimte')
-            ->innerJoin($this->alias.'.intakes', 'intake')
+            ->innerJoin('klant.huidigeStatus', 'status')
+            ->leftJoin($this->alias.'.intakes', 'intake')
             ->leftJoin($this->alias.'.geslacht', 'geslacht')
             ->leftJoin($this->alias.'.laatsteIntake', 'laatsteIntake')
             ->leftJoin('laatsteIntake.intakelocatie', 'laatsteIntakeLocatie')
@@ -41,10 +55,29 @@ class KlantDao extends AbstractDao implements KlantDaoInterface
             $filter->applyTo($builder);
         }
 
-        if ($page) {
-            return $this->paginator->paginate($builder, $page, $this->itemsPerPage, $this->paginationOptions);
-        }
+        return $builder;
+    }
 
-        return $builder->getQuery()->getResult();
+    /**
+     * @param Klant $klant
+     *
+     * @return Klant
+     */
+    public function create(Klant $entity)
+    {
+        $aanmelding = new Aanmelding($entity, $entity->getMedewerker());
+        $entity->setHuidigeStatus($aanmelding);
+
+        return parent::doCreate($entity);
+    }
+
+    /**
+     * @param Klant $klant
+     *
+     * @return Klant
+     */
+    public function update(Klant $entity)
+    {
+        return parent::doUpdate($entity);
     }
 }

@@ -4,7 +4,6 @@ namespace AppBundle\Report;
 
 use AppBundle\Service\AbstractDao;
 use Doctrine\ORM\EntityRepository;
-use AppBundle\Filter\FilterInterface;
 
 abstract class AbstractReport
 {
@@ -61,8 +60,6 @@ abstract class AbstractReport
 
     protected $yDescription;
 
-    abstract protected function init();
-
     public function getTitle()
     {
         return $this->title;
@@ -112,6 +109,18 @@ abstract class AbstractReport
 
         return $this->reports;
     }
+
+    public function getFormOptions()
+    {
+        return [
+            'enabled_filters' => [
+                'startdatum',
+                'einddatum',
+            ],
+        ];
+    }
+
+    abstract protected function init();
 
     protected function build()
     {

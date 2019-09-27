@@ -68,6 +68,7 @@
     <ul class="nav nav-tabs">
         <li class="active"><a data-toggle="tab" href="#verslagen">Verslagen</a></li>
         <li><a data-toggle="tab" href="#documenten">Documenten</a></li>
+        <li><a data-toggle="tab" href="#financieel">Financieel</a></li>
     </ul>
     <div class="tab-content">
         <div id="verslagen" class="tab-pane active">
@@ -77,6 +78,10 @@
         </div>
         <div id="documenten" class="tab-pane">
             {% include 'OdpBundle:documenten:_list.html.twig' with {huurovereenkomst: entity} %}
+        </div>
+        <div id="financieel" class="tab-pane">
+            {% include 'OdpBundle:financiele_verslagen:_list.html.twig' with {huurovereenkomst: entity} %}
+            {% include 'OdpBundle:financiele_documenten:_list.html.twig' with {huurovereenkomst: entity} %}
         </div>
     </div>
 {% endblock %}

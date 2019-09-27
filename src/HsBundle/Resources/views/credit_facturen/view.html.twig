@@ -7,7 +7,7 @@
         {% if entity.locked %}
             {{ html.link('PDF downloaden', path('hs_facturen_view', {id: entity.id, _format: 'pdf'}), 'download') }}
         {% else %}
-            {% if constant('GROUP_HOMESERVICE_BEHEER') in userGroups|keys or constant('GROUP_ADMIN') in userGroups|keys %}
+            {% if is_granted('ROLE_HOMESERVICE_BEHEER') %}
                 {{ html.link('Factuur definitief maken', path('hs_facturen_lock', {id: entity.id}), 'ok') }}
                 {{ html.link('Bewerken', path('hs_facturen_edit', {id: entity.id, _format: 'pdf'}), 'edit') }}
                 {{ html.link('Verwijderen', path('hs_facturen_delete', {id: entity.id, _format: 'pdf'}), 'remove') }}

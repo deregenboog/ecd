@@ -1,0 +1,155 @@
+InloopBundle\Entity\Locatie:
+    locatie_Blaka Watra:
+        naam: 'Blaka Watra'
+        nachtopvang: false
+        gebruikersruimte: false
+        datumVan: '<dateTimeThisDecade()>'
+        datuMTot: '<dateTimeThisDecade()>'
+        maatschappelijkWerk: false
+    locatie_Princehof Gebruikersruimte:
+        naam: 'Princehof Gebruikersruimte'
+        nachtopvang: false
+        gebruikersruimte: true
+        datumVan: '<dateTimeThisDecade()>'
+        datuMTot: '<dateTimeThisDecade()>'
+        maatschappelijkWerk: false
+    locatie_AMOC:
+        naam: 'AMOC'
+        nachtopvang: false
+        gebruikersruimte: false
+        datumVan: '<dateTimeThisDecade()>'
+        datuMTot: '<dateTimeThisDecade()>'
+        maatschappelijkWerk: false
+        tbcCheck: true
+    locatie_De Eik:
+        naam: 'De Eik'
+        nachtopvang: false
+        gebruikersruimte: false
+        datumVan: '<dateTimeThisDecade()>'
+        datuMTot: '<dateTimeThisDecade()>'
+        maatschappelijkWerk: false
+    locatie_De Kloof:
+        naam: 'De Kloof'
+        nachtopvang: false
+        gebruikersruimte: false
+        datumVan: '<dateTimeThisDecade()>'
+        datuMTot: '<dateTimeThisDecade()>'
+        maatschappelijkWerk: false
+    locatie_Makom:
+        naam: 'Makom'
+        nachtopvang: false
+        gebruikersruimte: false
+        datumVan: '<dateTimeThisDecade()>'
+        datuMTot: '<dateTimeThisDecade()>'
+        maatschappelijkWerk: false
+    locatie_Nachtopvang De Regenboog Groep:
+        naam: 'Nachtopvang DRG'
+        nachtopvang: true
+        gebruikersruimte: false
+        datumVan: '<dateTimeThisDecade()>'
+        datuMTot: '<dateTimeThisDecade()>'
+        maatschappelijkWerk: false
+    locatie_Zeeburg:
+        naam: 'Zeeburg'
+        nachtopvang: false
+        gebruikersruimte: false
+        datumVan: '<dateTimeThisDecade()>'
+        datuMTot: '<dateTimeThisDecade()>'
+        maatschappelijkWerk: false
+    locatie_Oud West:
+        naam: 'Oud West'
+        nachtopvang: false
+        gebruikersruimte: false
+        datumVan: '<dateTimeThisDecade()>'
+        datuMTot: '<dateTimeThisDecade()>'
+        maatschappelijkWerk: false
+    locatie_De Spreekbuis:
+        naam: 'De Spreekbuis'
+        nachtopvang: false
+        gebruikersruimte: false
+        datumVan: '<dateTimeThisDecade()>'
+        datuMTot: '<dateTimeThisDecade()>'
+        maatschappelijkWerk: false
+    locatie_Princehof Inloop:
+        naam: 'Princehof Inloop'
+        nachtopvang: false
+        gebruikersruimte: false
+        datumVan: '<dateTimeThisDecade()>'
+        datuMTot: '<dateTimeThisDecade()>'
+        maatschappelijkWerk: false
+    locatie_Vrouwen Nacht Opvang:
+        naam: 'Vrouwen Nacht Opvang'
+        nachtopvang: true
+        gebruikersruimte: false
+        datumVan: '<dateTimeThisDecade()>'
+        datuMTot: '<dateTimeThisDecade()>'
+        maatschappelijkWerk: false
+    locatie_Westerpark:
+        naam: 'Westerpark'
+        nachtopvang: false
+        gebruikersruimte: false
+        datumVan: '<dateTimeThisDecade()>'
+        datuMTot: '<dateTimeThisDecade()>'
+        maatschappelijkWerk: false
+    locatie_Droogbak:
+        naam: 'Droogbak'
+        nachtopvang: false
+        gebruikersruimte: false
+        datumVan: '<dateTimeThisDecade()>'
+        datuMTot: '<dateTimeThisDecade()>'
+        maatschappelijkWerk: false
+    locatie_Valentijn:
+        naam: 'Valentijn'
+        nachtopvang: false
+        gebruikersruimte: false
+        datumVan: '<dateTimeThisDecade()>'
+        datuMTot: '<dateTimeThisDecade()>'
+        maatschappelijkWerk: false
+    locatie_Blaka Watra Gebruikersruimte:
+        naam: 'Blaka Watra Gebruikersruimte'
+        nachtopvang: false
+        gebruikersruimte: true
+        datumVan: '<dateTimeThisDecade()>'
+        datuMTot: '<dateTimeThisDecade()>'
+        maatschappelijkWerk: false
+    locatie_Amoc Gebruikersruimte:
+        naam: 'Amoc Gebruikersruimte'
+        nachtopvang: false
+        gebruikersruimte: true
+        datumVan: '<dateTimeThisDecade()>'
+        datuMTot: '<dateTimeThisDecade()>'
+        maatschappelijkWerk: false
+    locatie_Noorderpark:
+        naam: 'Noorderpark'
+        nachtopvang: false
+        gebruikersruimte: false
+        datumVan: '<dateTimeThisDecade()>'
+        datuMTot: '<dateTimeThisDecade()>'
+        maatschappelijkWerk: false
+    locatie_Derde Schinkel:
+        naam: 'Derde Schinkel'
+        nachtopvang: false
+        gebruikersruimte: false
+        datumVan: '<dateTimeThisDecade()>'
+        datuMTot: '<dateTimeThisDecade()>'
+        maatschappelijkWerk: false
+    locatie_Politie:
+        naam: 'Politie'
+        nachtopvang: false
+        gebruikersruimte: false
+        datumVan: '<dateTimeThisDecade()>'
+        datuMTot: '<dateTimeThisDecade()>'
+        maatschappelijkWerk: true
+    locatie_Penitentiaire Inrichting:
+        naam: 'Penitentiaire Inrichting'
+        nachtopvang: false
+        gebruikersruimte: false
+        datumVan: '<dateTimeThisDecade()>'
+        datuMTot: '<dateTimeThisDecade()>'
+        maatschappelijkWerk: true
+
+InloopBundle\Entity\Intake:
+    intake_{1..200}:
+        medewerker: '@medewerker_*'
+        intakedatum: '<dateTimeThisDecade()>'
+        toegangInloophuis: true

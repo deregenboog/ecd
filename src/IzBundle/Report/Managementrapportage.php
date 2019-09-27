@@ -2,13 +2,13 @@
 
 namespace IzBundle\Report;
 
-use AppBundle\Report\Table;
-use IzBundle\Repository\HulpvraagRepository;
-use IzBundle\Repository\DoelstellingRepository;
-use IzBundle\Entity\Project;
 use AppBundle\Exception\ReportException;
-use IzBundle\Repository\ProjectRepository;
+use AppBundle\Report\Table;
 use IzBundle\Entity\Doelstelling;
+use IzBundle\Entity\Project;
+use IzBundle\Repository\DoelstellingRepository;
+use IzBundle\Repository\HulpvraagRepository;
+use IzBundle\Repository\ProjectRepository;
 
 class Managementrapportage extends AbstractReport
 {
@@ -97,10 +97,8 @@ class Managementrapportage extends AbstractReport
                     }));
                 }
             }
-        } elseif ($this->startDate->format('Y') == 2018) {
-            $prestaties = array_merge($beginstand, $gestart);
         } else {
-            $prestaties = $gestart;
+            $prestaties = array_merge($beginstand, $gestart);
         }
         array_walk($prestaties, function (&$item) {
             $item['kolom'] = 'Prestatie';
@@ -141,10 +139,8 @@ class Managementrapportage extends AbstractReport
                     }));
                 }
             }
-        } elseif ($this->startDate->format('Y') == 2018) {
-            $prestaties = array_merge($beginstand, $gestart);
         } else {
-            $prestaties = $gestart;
+            $prestaties = array_merge($beginstand, $gestart);
         }
         array_walk($prestaties, function (&$item) {
             $item['kolom'] = 'Prestatie';
@@ -246,10 +242,8 @@ class Managementrapportage extends AbstractReport
                     }));
                 }
             }
-        } elseif ($this->startDate->format('Y') == 2018) {
-            $prestaties = array_merge($beginstand, $gestart);
         } else {
-            $prestaties = $gestart;
+            $prestaties = array_merge($beginstand, $gestart);
         }
         array_walk($prestaties, function (&$item) {
             $item['kolom'] = 'Prestatie';

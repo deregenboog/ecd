@@ -2,10 +2,12 @@
 
 namespace AppBundle\Filter;
 
-use AppBundle\Entity\Klant;
-use Doctrine\ORM\QueryBuilder;
-use AppBundle\Form\Model\AppDateRangeModel;
 use AppBundle\Entity\Geslacht;
+use AppBundle\Entity\GgwGebied;
+use AppBundle\Entity\Medewerker;
+use AppBundle\Entity\Werkgebied;
+use AppBundle\Form\Model\AppDateRangeModel;
+use Doctrine\ORM\QueryBuilder;
 
 class KlantFilter implements FilterInterface
 {
@@ -30,6 +32,11 @@ class KlantFilter implements FilterInterface
     public $achternaam;
 
     /**
+     * @var string
+     */
+    public $adres;
+
+    /**
      * @var Geslacht
      */
     public $geslacht;
@@ -50,14 +57,24 @@ class KlantFilter implements FilterInterface
     public $geboortedatumRange;
 
     /**
-     * @var string
+     * @var Werkgebied
      */
     public $stadsdeel;
+
+    /**
+     * @var GgwGebied
+     */
+    public $postcodegebied;
 
     /**
      * @var string
      */
     public $plaats;
+
+    /**
+     * @var Medewerker
+     */
+    public $medewerker;
 
     public function applyTo(QueryBuilder $builder, $alias = 'klant')
     {
@@ -72,7 +89,12 @@ class KlantFilter implements FilterInterface
             $parts = preg_split('/\s+/', $this->naam);
             foreach ($parts as $i => $part) {
                 $builder
-                    ->andWhere("CONCAT_WS(' ', {$alias}.voornaam, {$alias}.roepnaam, {$alias}.tussenvoegsel, {$alias}.achternaam) LIKE :{$alias}_naam_part_{$i}")
+                    ->andWhere($builder->expr()->orX(
+                        "{$alias}.voornaam LIKE :{$alias}_naam_part_{$i}",
+                        "{$alias}.roepnaam LIKE :{$alias}_naam_part_{$i}",
+                        "{$alias}.tussenvoegsel LIKE :{$alias}_naam_part_{$i}",
+                        "{$alias}.achternaam LIKE :{$alias}_naam_part_{$i}"
+                    ))
                     ->setParameter("{$alias}_naam_part_{$i}", "%{$part}%")
                 ;
             }
@@ -82,7 +104,10 @@ class KlantFilter implements FilterInterface
             $parts = preg_split('/\s+/', $this->voornaam);
             foreach ($parts as $i => $part) {
                 $builder
-                    ->andWhere("CONCAT_WS(' ', {$alias}.voornaam, {$alias}.roepnaam) LIKE :{$alias}_voornaam_part_{$i}")
+                    ->andWhere($builder->expr()->orX(
+                        "{$alias}.voornaam LIKE :{$alias}_voornaam_part_{$i}",
+                        "{$alias}.roepnaam LIKE :{$alias}_voornaam_part_{$i}"
+                    ))
                     ->setParameter("{$alias}_voornaam_part_{$i}", "%{$part}%")
                 ;
             }
@@ -92,8 +117,22 @@ class KlantFilter implements FilterInterface
             $parts = preg_split('/\s+/', $this->achternaam);
             foreach ($parts as $i => $part) {
                 $builder
-                    ->andWhere("CONCAT_WS(' ', {$alias}.tussenvoegsel, {$alias}.achternaam) LIKE :{$alias}_achternaam_part_{$i}")
+                    ->andWhere($builder->expr()->orX(
+                        "{$alias}.tussenvoegsel LIKE :{$alias}_achternaam_part_{$i}",
+                        "{$alias}.achternaam LIKE :{$alias}_achternaam_part_{$i}"
+                    ))
                     ->setParameter("{$alias}_achternaam_part_{$i}", "%{$part}%")
+                ;
+            }
+        }
+
+        if ($this->adres) {
+            $parts = preg_split('/\s+/', $this->adres);
+            $fields = ["{$alias}.adres", "{$alias}.postcode", "{$alias}.plaats", "{$alias}.telefoon", "{$alias}.mobiel"];
+            foreach ($parts as $i => $part) {
+                $builder
+                    ->andWhere("CONCAT_WS(' ', ".implode(', ', $fields).") LIKE :{$alias}_adres_part_{$i}")
+                    ->setParameter("{$alias}_adres_part_{$i}", "%{$part}%")
                 ;
             }
         }
@@ -106,9 +145,10 @@ class KlantFilter implements FilterInterface
         }
 
         if ($this->bsn) {
+            $tmpBsn = substr($this->bsn,1,strlen($this->bsn)-2);
             $builder
-                ->andWhere("{$alias}.bsn = :{$alias}_bsn")
-                ->setParameter("{$alias}_bsn", $this->bsn)
+                ->andWhere("{$alias}.bsn LIKE :{$alias}_bsn")
+                ->setParameter("{$alias}_bsn", "%{$tmpBsn}%")
             ;
         }
 
@@ -134,21 +174,31 @@ class KlantFilter implements FilterInterface
             }
         }
 
-        if (isset($this->stadsdeel)) {
-            if ('-' == $this->stadsdeel) {
-                $builder->andWhere("{$alias}.werkgebied IS NULL OR {$alias}.werkgebied = ''");
-            } else {
-                $builder
-                    ->andWhere("{$alias}.werkgebied = :{$alias}_stadsdeel")
-                    ->setParameter("{$alias}_stadsdeel", $this->stadsdeel)
-                ;
-            }
+        if ($this->stadsdeel) {
+            $builder
+                ->andWhere("{$alias}.werkgebied = :{$alias}_stadsdeel")
+                ->setParameter("{$alias}_stadsdeel", $this->stadsdeel)
+            ;
+        }
+
+        if ($this->postcodegebied) {
+            $builder
+                ->andWhere("{$alias}.postcodegebied = :{$alias}_postcodegebied")
+                ->setParameter("{$alias}_postcodegebied", $this->postcodegebied)
+            ;
         }
 
         if ($this->plaats) {
             $builder
                 ->andWhere("{$alias}.plaats LIKE :{$alias}_plaats")
                 ->setParameter("{$alias}_plaats", "%{$this->plaats}%")
+            ;
+        }
+
+        if ($this->medewerker) {
+            $builder
+                ->andWhere("{$alias}.medewerker = :{$alias}_medewerker")
+                ->setParameter("{$alias}_medewerker", $this->medewerker)
             ;
         }
     }

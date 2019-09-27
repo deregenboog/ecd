@@ -2,12 +2,12 @@
 
 namespace OekBundle\Form;
 
+use AppBundle\Form\BaseType;
+use OekBundle\Entity\Verwijzing;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use OekBundle\Entity\Verwijzing;
-use AppBundle\Form\BaseType;
 
 class VerwijzingType extends AbstractType
 {

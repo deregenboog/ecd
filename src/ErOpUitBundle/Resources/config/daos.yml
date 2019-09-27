@@ -1,0 +1,10 @@
+services:
+    ErOpUitBundle\Service\KlantDao:
+        parent: app.dao.abstract
+
+    ErOpUitBundle\Service\UitschrijfredenDao:
+        parent: app.dao.abstract
+
+    ErOpUitBundle\Service\VrijwilligerDao:
+        parent: app.dao.abstract
+        

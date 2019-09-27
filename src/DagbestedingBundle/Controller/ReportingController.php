@@ -2,11 +2,11 @@
 
 namespace DagbestedingBundle\Controller;
 
-use DagbestedingBundle\Form\ReportingType;
-use Symfony\Component\Routing\Annotation\Route;
-use JMS\DiExtraBundle\Annotation as DI;
-use Symfony\Component\HttpFoundation\Request;
 use AppBundle\Controller\AbstractRapportagesController;
+use AppBundle\Export\GenericExport;
+use DagbestedingBundle\Form\ReportingType;
+use JMS\DiExtraBundle\Annotation as DI;
+use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * @Route("/reporting")
@@ -21,12 +21,4 @@ class ReportingController extends AbstractRapportagesController
      * @DI\Inject("dagbesteding.export.report")
      */
     protected $export;
-
-    /**
-     * @Route("/")
-     */
-    public function indexAction(Request $request)
-    {
-        return parent::indexAction($request);
-    }
 }

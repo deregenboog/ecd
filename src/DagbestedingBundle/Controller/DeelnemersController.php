@@ -4,20 +4,23 @@ namespace DagbestedingBundle\Controller;
 
 use AppBundle\Controller\AbstractController;
 use AppBundle\Entity\Klant;
+use AppBundle\Export\GenericExport;
 use AppBundle\Form\KlantFilterType;
 use DagbestedingBundle\Entity\Deelnemer;
 use DagbestedingBundle\Form\DeelnemerCloseType;
 use DagbestedingBundle\Form\DeelnemerFilterType;
+use DagbestedingBundle\Form\DeelnemerReopenType;
 use DagbestedingBundle\Form\DeelnemerSelectType;
 use DagbestedingBundle\Form\DeelnemerType;
 use DagbestedingBundle\Service\DeelnemerDaoInterface;
 use JMS\DiExtraBundle\Annotation as DI;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
-use AppBundle\Export\GenericExport;
 
 /**
  * @Route("/deelnemers")
+ * @Template
  */
 class DeelnemersController extends AbstractController
 {
@@ -31,7 +34,7 @@ class DeelnemersController extends AbstractController
     /**
      * @var DeelnemerDaoInterface
      *
-     * @DI\Inject("dagbesteding.dao.deelnemer")
+     * @DI\Inject("DagbestedingBundle\Service\DeelnemerDao")
      */
     protected $dao;
 
@@ -124,6 +127,36 @@ class DeelnemersController extends AbstractController
                 $this->dao->update($entity);
 
                 $this->addFlash('success', $this->entityName.' is afgesloten.');
+            } catch (\Exception $e) {
+                $message = $this->container->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
+                $this->addFlash('danger', $message);
+            }
+
+            return $this->redirectToView($entity);
+        }
+
+        return [
+            'deelnemer' => $entity,
+            'form' => $form->createView(),
+        ];
+    }
+
+    /**
+     * @Route("/{id}/reopen")
+     */
+    public function reopenAction(Request $request, $id)
+    {
+        $entity = $this->dao->find($id);
+
+        $form = $this->createForm(DeelnemerReopenType::class, $entity);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            try {
+                $entity->reopen();
+                $this->dao->update($entity);
+
+                $this->addFlash('success', $this->entityName.' is heropend.');
             } catch (\Exception $e) {
                 $message = $this->container->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
                 $this->addFlash('danger', $message);

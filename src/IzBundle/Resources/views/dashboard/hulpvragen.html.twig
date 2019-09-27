@@ -10,14 +10,11 @@
 {% endblock %}
 
 {% block content %}
-    <span class="pull-right">
-        {{ form(medewerker_filter) }}
-    </span>
     <h1>{{ title }}</h1>
     <ul class="nav nav-tabs">
-        <li><a href="{{ path('iz_dashboard_koppelingen', {medewerker: medewerker_filter.vars.value}) }}">Lopende koppelingen</a></li>
-        <li class="active"><a href="{{ path('iz_dashboard_hulpvragen', {medewerker: medewerker_filter.vars.value}) }}">Open hulpvragen</a></li>
-        <li><a href="{{ path('iz_dashboard_hulpaanbiedingen', {medewerker: medewerker_filter.vars.value}) }}">Open hulpaanbiedingen</a></li>
+        <li><a href="{{ path('iz_dashboard_koppelingen') }}">Lopende koppelingen</a></li>
+        <li class="active"><a href="{{ path('iz_dashboard_hulpvragen') }}">Open hulpvragen</a></li>
+        <li><a href="{{ path('iz_dashboard_hulpaanbiedingen') }}">Open hulpaanbiedingen</a></li>
     </ul>
     <div class="tab-content">
         <div id="hulpvragen" class="tab-pane active">
@@ -26,7 +23,7 @@
                 <thead>
                     {{ form_start(filter) }}
                         <tr>
-                            <th colspan="7">
+                            <th colspan="8">
                                 <span class="pull-right">
                                     {{ form_widget(filter.filter) }}
                                     {{ form_widget(filter.download) }}
@@ -55,6 +52,10 @@
                                 {{ form_errors(filter.project) }}
                             </th>
                             <th>
+                                {{ form_widget(filter.medewerker) }}
+                                {{ form_errors(filter.medewerker) }}
+                            </th>
+                            <th>
                             </th>
                             <th>
                                 {{ form_widget(filter.startdatum) }}
@@ -80,6 +81,9 @@
                             {{ knp_pagination_sortable(pagination, 'Project', 'project.naam') }}
                         </th>
                         <th>
+                            {{ knp_pagination_sortable(pagination, 'Medewerker', 'medewerker.voornaam') }}
+                        </th>
+                        <th>
                             {{ knp_pagination_sortable(pagination, 'Intakedatum', 'intake.intakeDatum') }}
                         </th>
                         <th>
@@ -92,18 +96,25 @@
                 </thead>
                 <tbody>
                     {% for hulpvraag in pagination %}
-                        <tr data-href="{{ path('iz_hulpvragen_view', {id: hulpvraag.id}) }}">
+                        <tr data-href="{{ path('iz_hulpvragen_view', {id: hulpvraag.id}) }}" class="{{ hulpvraag.gereserveerd ? 'danger' }}">
                             <td>
                                 {{ hulpvraag.izKlant.klant.id }}
+
                             </td>
                             <td>
-                                {{ hulpvraag.izKlant.klant }}
+                                {{ html.link(
+                                    hulpvraag|naam_klant,
+                                    path('iz_klanten_view', {id: hulpvraag.izKlant.id})
+                                ) }}
                             </td>
                             <td>
                                 {{ hulpvraag.izKlant.klant.geboortedatum ? hulpvraag.izKlant.klant.geboortedatum|date('d-m-Y') }}
                             </td>
                             <td>
                                 {{ hulpvraag.project }}
+                            </td>
+                            <td>
+                                {{ hulpvraag.medewerker }}
                             </td>
                             <td>
                                 {{ hulpvraag.izKlant.intake.intakedatum|date('d-m-Y') }}

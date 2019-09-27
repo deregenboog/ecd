@@ -2,12 +2,11 @@
 
 namespace InloopBundle\Repository;
 
-use Doctrine\ORM\EntityRepository;
-use AppBundle\Entity\Klant;
-use InloopBundle\Entity\Locatie;
-use AppBundle\Form\Model\AppDateRangeModel;
-use Doctrine\ORM\QueryBuilder;
 use AppBundle\Entity\Geslacht;
+use AppBundle\Form\Model\AppDateRangeModel;
+use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\QueryBuilder;
+use InloopBundle\Entity\Locatie;
 
 class SchorsingRepository extends EntityRepository
 {

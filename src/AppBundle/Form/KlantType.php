@@ -2,19 +2,19 @@
 
 namespace AppBundle\Form;
 
-use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolver;
 use AppBundle\Entity\Klant;
-use Doctrine\ORM\EntityRepository;
-use Symfony\Component\Form\FormEvents;
-use Symfony\Component\Form\FormEvent;
-use Doctrine\ORM\EntityManager;
-use AppBundle\Entity\Stadsdeel;
-use AppBundle\Entity\Postcodegebied;
-use AppBundle\Util\PostcodeFormatter;
-use AppBundle\Entity\Werkgebied;
 use AppBundle\Entity\Postcode;
+use AppBundle\Util\PostcodeFormatter;
+use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityRepository;
+use Symfony\Component\Debug\Exception\FatalThrowableError;
+use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\FormEvent;
+use Symfony\Component\Form\FormEvents;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class KlantType extends AbstractType
 {
@@ -23,9 +23,20 @@ class KlantType extends AbstractType
      */
     private $entityManager;
 
-    public function __construct(EntityManager $entityManager)
+    /**
+     * @var Array TBC Countries from config parameter.
+     */
+    private $tbcCountries = [];
+
+    public function __construct(EntityManager $entityManager,Array $args)
     {
         $this->entityManager = $entityManager;
+        if(is_array($args['$tbc_countries']))
+        {
+            $this->tbc_countries = $args['$tbc_countries'];
+        }
+
+
     }
 
     /**
@@ -40,25 +51,46 @@ class KlantType extends AbstractType
             ->add('roepnaam')
             ->add('geslacht', null, [
                 'required' => true,
+                'placeholder' => '',
                 'query_builder' => function (EntityRepository $repository) {
                     return $repository->createQueryBuilder('geslacht')
                         ->orderBy('geslacht.id', 'DESC');
                 },
             ])
             ->add('geboortedatum', AppDateType::class, ['required' => false])
-            ->add('land')
-            ->add('nationaliteit')
+            ->add('overleden', CheckboxType::class, ['required' => false])
+            ->add('land', LandSelectType::class, ['required' => true])
+            ->add('nationaliteit', NationaliteitSelectType::class, ['required' => true])
             ->add('bsn', null, ['label' => 'BSN'])
-            ->add('medewerker', MedewerkerType::class)
+            ->add('medewerker', MedewerkerType::class, ['required' => true])
             ->add('adres')
             ->add('postcode')
             ->add('plaats')
             ->add('email')
             ->add('mobiel')
             ->add('telefoon')
-            ->add('opmerking')
+            ->add('opmerking', AppTextareaType::class, ['required' => false])
             ->add('geenPost', null, ['label' => 'Geen post'])
-            ->add('geenEmail')
+            ->add('geenEmail');
+
+        try
+        {
+            if(null !== ($builder->getData()) && in_array((string)$builder->getData()->getLand(),$this->tbc_countries))
+            {
+                $builder->add('laatste_TBC_controle', AppDateType::class,
+                    [
+                        'label' => 'TBC-check?',
+                        'required' => false,
+                    ]
+                );
+            }
+        }
+        catch(FatalThrowableError $e)
+        {
+
+        }
+
+        $builder->add('submit', SubmitType::class)
             ->addEventListener(FormEvents::SUBMIT, function (FormEvent $event) {
                 /* @var Klant $data */
                 $data = $event->getData();
@@ -79,6 +111,7 @@ class KlantType extends AbstractType
                 }
             })
         ;
+
     }
 
     /**
@@ -89,6 +122,7 @@ class KlantType extends AbstractType
         $resolver->setDefaults([
             'data_class' => Klant::class,
             'data' => null,
+
         ]);
     }
 

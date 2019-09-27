@@ -2,9 +2,9 @@
 
 namespace InloopBundle\Filter;
 
-use Doctrine\ORM\QueryBuilder;
 use AppBundle\Filter\FilterInterface;
 use AppBundle\Form\Model\AppDateRangeModel;
+use Doctrine\ORM\QueryBuilder;
 use InloopBundle\Entity\Locatie;
 
 class VrijwilligerFilter implements FilterInterface
@@ -12,7 +12,7 @@ class VrijwilligerFilter implements FilterInterface
     public $alias = 'vrijwilliger';
 
     /**
-     * @var AppBundle\Filter\VrijwilligerFilter
+     * @var \AppBundle\Filter\VrijwilligerFilter
      */
     public $vrijwilliger;
 
@@ -22,6 +22,11 @@ class VrijwilligerFilter implements FilterInterface
     public $aanmelddatum;
 
     /**
+     * @var AppDateRangeModel
+     */
+    public $afsluitdatum;
+
+    /**
      * @var Locatie
      */
     public $locatie;
@@ -29,7 +34,7 @@ class VrijwilligerFilter implements FilterInterface
     public function applyTo(QueryBuilder $builder)
     {
         if ($this->vrijwilliger) {
-            $this->vrijwilliger->applyTo($builder);
+            $this->vrijwilliger->applyTo($builder, 'appVrijwilliger');
         }
 
         if ($this->aanmelddatum) {
@@ -43,6 +48,21 @@ class VrijwilligerFilter implements FilterInterface
                 $builder
                     ->andWhere('vrijwilliger.aanmelddatum <= :aanmelddatum_end')
                     ->setParameter('aanmelddatum_end', $this->aanmelddatum->getEnd())
+                ;
+            }
+        }
+
+        if ($this->afsluitdatum) {
+            if ($this->afsluitdatum->getStart()) {
+                $builder
+                    ->andWhere('vrijwilliger.afsluitdatum >= :afsluitdatum_start')
+                    ->setParameter('afsluitdatum_start', $this->afsluitdatum->getStart())
+                ;
+            }
+            if ($this->afsluitdatum->getEnd()) {
+                $builder
+                    ->andWhere('vrijwilliger.afsluitdatum <= :afsluitdatum_end')
+                    ->setParameter('afsluitdatum_end', $this->afsluitdatum->getEnd())
                 ;
             }
         }

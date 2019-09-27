@@ -2,9 +2,9 @@
 
 namespace DagbestedingBundle\Service;
 
+use AppBundle\Filter\FilterInterface;
 use AppBundle\Service\AbstractDao;
 use DagbestedingBundle\Entity\Traject;
-use AppBundle\Filter\FilterInterface;
 use Doctrine\ORM\QueryBuilder;
 
 class TrajectDao extends AbstractDao implements TrajectDaoInterface

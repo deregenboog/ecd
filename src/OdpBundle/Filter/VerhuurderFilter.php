@@ -2,9 +2,9 @@
 
 namespace OdpBundle\Filter;
 
-use Doctrine\ORM\QueryBuilder;
-use AppBundle\Filter\KlantFilter;
 use AppBundle\Filter\FilterInterface;
+use AppBundle\Filter\KlantFilter;
+use Doctrine\ORM\QueryBuilder;
 
 class VerhuurderFilter implements FilterInterface
 {
@@ -22,6 +22,11 @@ class VerhuurderFilter implements FilterInterface
      * @var \DateTime
      */
     public $afsluitdatum;
+
+    /**
+     * @var bool
+     */
+    public $actief;
 
     /**
      * @var KlantFilter
@@ -75,6 +80,14 @@ class VerhuurderFilter implements FilterInterface
                 ->setParameter('afsluitdatum_tot', $this->afsluitdatum->getEnd())
                 ;
             }
+        }
+
+        if ($this->actief) {
+            $builder
+            ->andWhere('verhuurder.aanmelddatum <= :today')
+            ->andWhere('verhuurder.afsluitdatum > :today OR verhuurder.afsluitdatum IS NULL')
+            ->setParameter('today', new \DateTime('today'))
+            ;
         }
 
         if ($this->wpi) {

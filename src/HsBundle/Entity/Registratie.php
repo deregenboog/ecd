@@ -2,8 +2,8 @@
 
 namespace HsBundle\Entity;
 
-use Doctrine\ORM\Mapping as ORM;
 use AppBundle\Entity\Medewerker;
+use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use HsBundle\Exception\InvoiceLockedException;
 
@@ -258,6 +258,10 @@ class Registratie implements FactuurSubjectInterface
 
     public function getUren()
     {
+        if (!$this->start || !$this->eind) {
+            return 0;
+        }
+
         $seconds = $this->eind->getTimestamp() - $this->start->getTimestamp();
 
         return $seconds / 3600;

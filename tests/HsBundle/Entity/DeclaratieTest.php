@@ -2,13 +2,14 @@
 
 namespace Tests\HsBundle\Entity;
 
+use HsBundle\Entity\Declaratie;
+use HsBundle\Entity\DeclaratieCategorie;
 use HsBundle\Entity\Factuur;
 use HsBundle\Entity\Klant;
 use HsBundle\Entity\Klus;
-use HsBundle\Entity\Declaratie;
-use HsBundle\Entity\DeclaratieCategorie;
+use PHPUnit\Framework\TestCase;
 
-class DeclaratieTest extends \PHPUnit_Framework_TestCase
+class DeclaratieTest extends TestCase
 {
     /**
      * @dataProvider provideSettersAndArguments

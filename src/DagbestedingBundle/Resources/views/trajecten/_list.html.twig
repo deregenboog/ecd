@@ -11,16 +11,15 @@
         {{ html.link('Traject toevoegen', url) }}
     {% endif %}
 </p>
-<table class="table">
+<table class="table table-hover">
     <tr>
         <th>Soort</th>
         <th>Resultaatgebied</th>
         <th>Startdatum</th>
         <th>Afsluitdatum</th>
-        <th></th>
     </tr>
     {% for traject in entity.trajecten %}
-        <tr>
+        <tr data-href="{{ path('dagbesteding_trajecten_view', {id: traject.id}) }}">
             <td>{{ traject.soort }}</td>
             <td>{{ traject.resultaatgebied }}</td>
             <td>
@@ -28,9 +27,6 @@
             </td>
             <td>
                 {{ traject.afsluitdatum ? traject.afsluitdatum|date('d-m-Y') }}
-            </td>
-            <td>
-                {{ html.viewlink(path('dagbesteding_trajecten_view', {id: traject.id})) }}
             </td>
         </tr>
     {% endfor %}

@@ -2,9 +2,9 @@
 
 namespace ClipBundle\Controller;
 
-use ClipBundle\Form\VraagFilterType;
 use AppBundle\Controller\AbstractChildController;
 use ClipBundle\Entity\Vraag;
+use ClipBundle\Form\VraagFilterType;
 
 abstract class AbstractVragenController extends AbstractChildController
 {

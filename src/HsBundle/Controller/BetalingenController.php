@@ -2,18 +2,20 @@
 
 namespace HsBundle\Controller;
 
+use AppBundle\Controller\AbstractChildController;
+use AppBundle\Export\ExportInterface;
 use HsBundle\Entity\Betaling;
 use HsBundle\Form\BetalingFilterType;
 use HsBundle\Form\BetalingType;
-use Symfony\Component\Routing\Annotation\Route;
 use HsBundle\Service\BetalingDaoInterface;
-use Symfony\Component\HttpFoundation\Request;
 use JMS\DiExtraBundle\Annotation as DI;
-use AppBundle\Controller\AbstractChildController;
-use AppBundle\Export\ExportInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * @Route("/betalingen")
+ * @Template
  */
 class BetalingenController extends AbstractChildController
 {
@@ -28,7 +30,7 @@ class BetalingenController extends AbstractChildController
     /**
      * @var BetalingDaoInterface
      *
-     * @DI\Inject("hs.dao.betaling")
+     * @DI\Inject("HsBundle\Service\BetalingDao")
      */
     protected $dao;
 
@@ -49,7 +51,7 @@ class BetalingenController extends AbstractChildController
     /**
      * @Route("/{id}/view")
      */
-    public function viewAction($id)
+    public function viewAction(Request $request, $id)
     {
         return $this->redirectToIndex();
     }

@@ -1,0 +1,39 @@
+Geachte mevrouw/heer,
+
+Onderstaande mevrouw/heer heeft een agressieschorsing gekregen.
+
+Met vriendelijke groet,
+
+Medewerker: {{ medewerker }}
+
+{{ url }}
+
+
+Klant
+-----------
+Naam: {{ schorsing.klant|name_informal }}
+Geslacht: {{ schorsing.klant.geslacht }}
+
+
+Schorsing
+-----------
+Datum van: {{ schorsing.datumVan|date('d-m-Y') }}
+Datum tot: {{ schorsing.datumTot|date('d-m-Y') }}
+Locatie(s): {{ schorsing.locaties|implode }}
+Agressie tegen (1): {{ schorsing.typeDoelwitAgressie1? medewerker_types[schorsing.typeDoelwitAgressie1] }}
+Agressie doelwit (1): {{ schorsing.doelwitAgressie1 }}
+Agressie tegen (2): {{ schorsing.typeDoelwitAgressie2 ? medewerker_types[schorsing.typeDoelwitAgressie2] }}
+Agressie doelwit (2): {{ schorsing.doelwitAgressie2 }}
+Agressie tegen (3): {{ schorsing.typeDoelwitAgressie3 ? medewerker_types[schorsing.typeDoelwitAgressie3] }}
+Agressie doelwit (3): {{ schorsing.doelwitAgressie3 }}
+Agressie tegen (4): {{ schorsing.typeDoelwitAgressie4 ? medewerker_types[schorsing.typeDoelwitAgressie4] }}
+Agressie doelwit (4): {{ schorsing.doelwitAgressie4 }}
+Redenen: {{ schorsing.redenen|implode }}
+{% if schorsing.redenOverig %}
+Overige reden: {{ schorsing.redenOverig }}
+{% endif %}
+Aangifte gedaan: {{ schorsing.aangifte ? 'Ja' : 'Nee' }}
+Nazorg nodig: {{ schorsing.nazorg ? 'Ja' : 'Nee' }}
+Opmerking: {{ schorsing.opmerking }}
+Locatiehoofd: {{ schorsing.locatiehoofd }}
+Bijzonderheden: {{ schorsing.bijzonderheden }}

@@ -4,3 +4,9 @@ imports:
     - { resource: reports.yml }
 
 services:
+    MwBundle\Event\DienstenLookupSubscriber:
+        arguments:
+            - "@doctrine.orm.entity_manager"
+            - "@router"
+        tags:
+            - { name: kernel.event_subscriber }

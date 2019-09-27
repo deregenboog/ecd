@@ -2,9 +2,9 @@
 
 namespace InloopBundle\Entity;
 
+use AppBundle\Model\TimestampableTrait;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
-use AppBundle\Model\TimestampableTrait;
 
 /**
  * @ORM\Entity
@@ -60,10 +60,20 @@ class Locatie
     private $datumVan;
 
     /**
-     * @ORM\Column(name="datum_tot", type="date", nullable=false)
+     * @ORM\Column(name="datum_tot", type="date", nullable=true)
      * @Gedmo\Versioned
      */
     private $datumTot;
+
+    /**
+     * @var Locatietijd[]
+     *
+     * @ORM\OneToMany(targetEntity="Locatietijd", mappedBy="locatie", cascade={"persist"})
+     * @ORM\OrderBy({"dagVanDeWeek": "ASC"})
+     */
+    private $locatietijden;
+
+    private $openingTimeCorrection = 30 * 60; // 30 minutes
 
     public function __toString()
     {
@@ -87,7 +97,15 @@ class Locatie
         return $this;
     }
 
+    /**
+     * @deprecated
+     */
     public function getNachtopvang()
+    {
+        return $this->nachtopvang;
+    }
+
+    public function isNachtopvang()
     {
         return $this->nachtopvang;
     }
@@ -99,7 +117,15 @@ class Locatie
         return $this;
     }
 
+    /**
+     * @deprecated
+     */
     public function getGebruikersruimte()
+    {
+        return $this->gebruikersruimte;
+    }
+
+    public function isGebruikersruimte()
     {
         return $this->gebruikersruimte;
     }
@@ -111,7 +137,15 @@ class Locatie
         return $this;
     }
 
+    /**
+     * @deprecated
+     */
     public function getMaatschappelijkWerk()
+    {
+        return $this->maatschappelijkWerk;
+    }
+
+    public function isMaatschappelijkWerk()
     {
         return $this->maatschappelijkWerk;
     }
@@ -123,7 +157,15 @@ class Locatie
         return $this;
     }
 
+    /**
+     * @deprecated
+     */
     public function getTbcCheck()
+    {
+        return $this->tbcCheck;
+    }
+
+    public function isTbcCheck()
     {
         return $this->tbcCheck;
     }
@@ -157,5 +199,111 @@ class Locatie
         $this->datumTot = $datumTot;
 
         return $this;
+    }
+
+    /**
+     * @return Locatietijd[]
+     */
+    public function getLocatietijden()
+    {
+        return $this->locatietijden;
+    }
+
+    /**
+     * @return Locatietijd
+     */
+    public function getLocatietijd($dayOfWeek)
+    {
+        $dayOfWeek = (int) $dayOfWeek;
+        while ($dayOfWeek >= 7) {
+            $dayOfWeek = $dayOfWeek % 7;
+        }
+        foreach ($this->locatietijden as $locatietijd) {
+            if ($dayOfWeek === $locatietijd->getDagVanDeWeek()) {
+                return $locatietijd;
+            }
+        }
+    }
+
+    /**
+     * @param Locatietijd $locatietijd
+     */
+    public function addLocatietijd(Locatietijd $locatietijd)
+    {
+        $this->locatietijden[] = $locatietijd;
+        $locatietijd->setLocatie($this);
+
+        return $this;
+    }
+
+    /**
+     * @param Locatietijd[] $locatietijden
+     */
+    public function setLocatietijden($locatietijden)
+    {
+        $this->locatietijden = $locatietijden;
+
+        return $this;
+    }
+
+    public function isOpen(\DateTime $date = null)
+    {
+        if (!$date instanceof \DateTime) {
+            $date = new \DateTime();
+        }
+
+        $locatietijd = $this->getLocatietijd($date->format('w'));
+        if ($locatietijd) {
+            $openingstijd = (clone $locatietijd->getOpeningstijd())
+                ->setDate($date->format('Y'), $date->format('m'), $date->format('d'))
+                ->modify("-{$this->openingTimeCorrection} seconds")
+            ;
+            $sluitingstijd = (clone $locatietijd->getSluitingstijd())
+                ->setDate($date->format('Y'), $date->format('m'), $date->format('d'))
+                ->modify("+{$this->openingTimeCorrection} seconds")
+            ;
+            if ($openingstijd > $sluitingstijd) {
+                $sluitingstijd->modify('+1 day');
+            }
+            if ($date >= $openingstijd && $date <= $sluitingstijd) {
+                return true;
+            }
+        }
+
+        $locatietijd = $this->getLocatietijd($date->format('w') - 1);
+        if ($locatietijd && $locatietijd->getOpeningstijd() > $locatietijd->getSluitingstijd()) {
+            $openingstijd = (clone $locatietijd->getOpeningstijd())
+                ->setDate($date->format('Y'), $date->format('m'), $date->format('d'))
+                ->modify('-1 day')
+                ->modify("-{$this->openingTimeCorrection} seconds")
+            ;
+            $sluitingstijd = (clone $locatietijd->getSluitingstijd())
+                ->setDate($date->format('Y'), $date->format('m'), $date->format('d'))
+                ->modify('-1 day')
+                ->modify("+{$this->openingTimeCorrection} seconds")
+            ;
+            if ($openingstijd > $sluitingstijd) {
+                $sluitingstijd->modify('+1 day');
+            }
+            if ($date >= $openingstijd && $date <= $sluitingstijd) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public function getClosingTimeByDayOfWeek($dayOfWeek)
+    {
+        foreach ($this->locatietijden as $locatietijd) {
+            if ($dayOfWeek == $locatietijd->getDagVanDeWeek()) {
+                return $locatietijd->getSluitingstijd();
+            }
+        }
+    }
+
+    public function isDeletable()
+    {
+        return false;
     }
 }

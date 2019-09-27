@@ -2,8 +2,8 @@
 
 namespace HsBundle\Service;
 
-use HsBundle\Entity\Declaratie;
 use AppBundle\Service\AbstractDao;
+use HsBundle\Entity\Declaratie;
 
 class DeclaratieDao extends AbstractDao implements DeclaratieDaoInterface
 {
@@ -33,6 +33,9 @@ class DeclaratieDao extends AbstractDao implements DeclaratieDaoInterface
      */
     public function update(Declaratie $entity)
     {
+        if ($entity->getFactuur()) {
+            $entity->getFactuur()->calculateBedrag();
+        }
         $this->doUpdate($entity);
     }
 

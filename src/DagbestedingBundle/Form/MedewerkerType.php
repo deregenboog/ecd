@@ -2,10 +2,10 @@
 
 namespace DagbestedingBundle\Form;
 
-use Symfony\Component\Form\AbstractType;
-use Symfony\Component\OptionsResolver\OptionsResolver;
 use DagbestedingBundle\Entity\Trajectbegeleider;
 use Doctrine\ORM\EntityRepository;
+use Symfony\Component\Form\AbstractType;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class MedewerkerType extends AbstractType
 {

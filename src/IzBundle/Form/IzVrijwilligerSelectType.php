@@ -2,14 +2,13 @@
 
 namespace IzBundle\Form;
 
+use AppBundle\Filter\FilterInterface;
+use AppBundle\Form\BaseType;
+use Doctrine\ORM\EntityRepository;
+use IzBundle\Entity\IzVrijwilliger;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Doctrine\ORM\EntityRepository;
-use AppBundle\Entity\Vrijwilliger;
-use AppBundle\Filter\FilterInterface;
-use IzBundle\Entity\IzVrijwilliger;
-use AppBundle\Form\BaseType;
 
 class IzVrijwilligerSelectType extends AbstractType
 {

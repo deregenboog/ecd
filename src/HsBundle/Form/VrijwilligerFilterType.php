@@ -2,17 +2,16 @@
 
 namespace HsBundle\Form;
 
+use AppBundle\Form\FilterType;
+use AppBundle\Form\VrijwilligerFilterType as AppVrijwilligerFilterType;
+use HsBundle\Filter\ArbeiderFilter;
+use HsBundle\Filter\VrijwilligerFilter;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use AppBundle\Entity\Vrijwilliger;
-use AppBundle\Form\VrijwilligerFilterType as AppVrijwilligerFilterType;
-use AppBundle\Form\FilterType;
-use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
-use HsBundle\Filter\VrijwilligerFilter;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use HsBundle\Filter\ArbeiderFilter;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 
 class VrijwilligerFilterType extends AbstractType
 {
@@ -24,6 +23,12 @@ class VrijwilligerFilterType extends AbstractType
         if (in_array('id', $options['enabled_filters'])) {
             $builder->add('id', null, [
                 'attr' => ['placeholder' => 'Vrijwilligernummer'],
+            ]);
+        }
+
+        if (in_array('hulpverlener', $options['enabled_filters'])) {
+            $builder->add('hulpverlener', null, [
+                'required' => false,
             ]);
         }
 
@@ -65,9 +70,10 @@ class VrijwilligerFilterType extends AbstractType
             'data_class' => VrijwilligerFilter::class,
             'data' => new VrijwilligerFilter(),
             'enabled_filters' => [
+                'hulpverlener',
                 'rijbewijs',
                 'status',
-                'vrijwilliger' => ['id', 'naam', 'geboortedatumRange', 'stadsdeel'],
+                'vrijwilliger' => ['id', 'naam', 'adres', 'geboortedatumRange', 'stadsdeel'],
                 'filter',
                 'download',
             ],

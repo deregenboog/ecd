@@ -1,11 +1,6 @@
-{% extends 'IzBundle:klanten:view.html.twig' %}
+{% extends 'IzBundle::edit.html.twig' %}
 
-{% set entity = entity.izKlant %}
-
-{% block scripts %}
-    <script type="text/javascript">
-        $(function() {
-            $('.nav-tabs a[href="#koppelingen"]').tab('show')
-        });
-    </script>
+{% block content %}
+    <h1>{{ class(entity, false) }} wijzigen</h1>
+    {{ form(form) }}
 {% endblock %}

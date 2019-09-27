@@ -1,0 +1,31 @@
+<h2>Documenten</h2>
+<p>
+    {% if deelnemer is defined %}
+        {{ html.link('Document toevoegen', path('iz_documenten_add', {deelnemer: deelnemer.id}), 'add') }}
+    {% endif %}
+</p>
+<table class="table">
+    <tr>
+        <th>Naam</th>
+        <th>Datum</th>
+        <th>Medewerker</th>
+        <th colspan="2">Document</th>
+    </tr>
+    {% if deelnemer is defined %}
+        {% set entity = deelnemer %}
+    {% endif %}
+    {% for document in entity.documenten %}
+        <tr>
+            <td>{{ document.naam }}</td>
+            <td>{{ document.created|date('d-m-Y') }}</td>
+            <td>{{ document.medewerker }}</td>
+            <td>
+                {{ html.link('Downloaden', vich_uploader_asset(document, 'file'), 'download') }}
+            </td>
+            <td>
+                {{ html.editLink(path('iz_documenten_edit', {id: document.id})) }}
+                {{ html.deleteLink(path('iz_documenten_delete', {id: document.id})) }}
+            </td>
+        </tr>
+    {% endfor %}
+</table>

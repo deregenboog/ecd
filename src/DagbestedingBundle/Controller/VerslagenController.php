@@ -2,12 +2,12 @@
 
 namespace DagbestedingBundle\Controller;
 
+use AppBundle\Controller\AbstractChildController;
 use DagbestedingBundle\Entity\Verslag;
 use DagbestedingBundle\Form\VerslagType;
 use DagbestedingBundle\Service\VerslagDaoInterface;
 use JMS\DiExtraBundle\Annotation as DI;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use AppBundle\Controller\AbstractChildController;
 
 /**
  * @Route("/verslagen")
@@ -24,7 +24,7 @@ class VerslagenController extends AbstractChildController
     /**
      * @var VerslagDaoInterface
      *
-     * @DI\Inject("dagbesteding.dao.verslag")
+     * @DI\Inject("DagbestedingBundle\Service\VerslagDao")
      */
     protected $dao;
 

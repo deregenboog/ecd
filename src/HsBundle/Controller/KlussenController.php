@@ -2,18 +2,22 @@
 
 namespace HsBundle\Controller;
 
+use AppBundle\Controller\AbstractChildController;
+use AppBundle\Export\ExportInterface;
 use HsBundle\Entity\Klus;
+use HsBundle\Form\KlusCancelType;
+use HsBundle\Form\KlusCloseType;
+use HsBundle\Form\KlusFilterType;
 use HsBundle\Form\KlusType;
-use Symfony\Component\Routing\Annotation\Route;
 use HsBundle\Service\KlusDaoInterface;
 use JMS\DiExtraBundle\Annotation as DI;
-use HsBundle\Form\KlusFilterType;
-use AppBundle\Controller\AbstractChildController;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
-use HsBundle\Form\KlusCloseType;
+use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * @Route("/klussen")
+ * @Template
  */
 class KlussenController extends AbstractChildController
 {
@@ -28,7 +32,7 @@ class KlussenController extends AbstractChildController
     /**
      * @var KlusDaoInterface
      *
-     * @DI\Inject("hs.dao.klus")
+     * @DI\Inject("HsBundle\Service\KlusDao")
      */
     protected $dao;
 
@@ -52,6 +56,16 @@ class KlussenController extends AbstractChildController
     public function closeAction(Request $request, $id)
     {
         $this->formClass = KlusCloseType::class;
+
+        return $this->editAction($request, $id);
+    }
+
+    /**
+     * @Route("/{id}/cancel")
+     */
+    public function annulerenAction(Request $request, $id)
+    {
+        $this->formClass = KlusCancelType::class;
 
         return $this->editAction($request, $id);
     }

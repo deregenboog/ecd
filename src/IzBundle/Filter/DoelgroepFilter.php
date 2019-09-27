@@ -2,8 +2,8 @@
 
 namespace IzBundle\Filter;
 
-use Doctrine\ORM\QueryBuilder;
 use AppBundle\Filter\FilterInterface;
+use Doctrine\ORM\QueryBuilder;
 
 class DoelgroepFilter implements FilterInterface
 {

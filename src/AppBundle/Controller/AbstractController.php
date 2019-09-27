@@ -2,18 +2,21 @@
 
 namespace AppBundle\Controller;
 
-use AppBundle\Form\ConfirmationType;
-use AppBundle\Service\AbstractDao;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Symfony\Component\HttpFoundation\Request;
-use AppBundle\Filter\FilterInterface;
-use AppBundle\Export\ExportInterface;
 use AppBundle\Exception\AppException;
-use AppBundle\Entity\Medewerker;
-use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
-use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use AppBundle\Export\ExportInterface;
+use AppBundle\Filter\FilterInterface;
+use AppBundle\Form\ConfirmationType;
+use AppBundle\Model\MedewerkerSubjectInterface;
 
-class AbstractController extends SymfonyController
+
+use AppBundle\Service\AbstractDao;
+use Doctrine\ORM\EntityNotFoundException;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
+
+abstract class AbstractController extends SymfonyController
 {
     /**
      * @var string
@@ -40,17 +43,32 @@ class AbstractController extends SymfonyController
      */
     protected $dao;
 
+    /**
+     * @var ExportInterface
+     */
+    protected $export;
+
+    /**
+     * @var string
+     */
+    protected $baseRouteName;
+
+    /**
+     * @var array
+     */
+    protected $disabledActions = [];
+
+    /**
+     * @var bool
+     */
+    protected $forceRedirect = false;
+
     public function setDao(AbstractDao $dao)
     {
         $this->dao = $dao;
 
         return $this;
     }
-
-    /**
-     * @var ExportInterface
-     */
-    protected $export;
 
     public function setExport(ExportInterface $export)
     {
@@ -60,20 +78,14 @@ class AbstractController extends SymfonyController
     }
 
     /**
-     * @var array
-     */
-    protected $disabledActions = [];
-
-    /**
      * @Route("/")
+     * @Template
      */
     public function indexAction(Request $request)
     {
         if (in_array('index', $this->disabledActions)) {
             throw new AccessDeniedHttpException();
         }
-
-        $filter = null;
 
         if ($this->filterFormClass) {
             $form = $this->createForm($this->filterFormClass);
@@ -84,8 +96,9 @@ class AbstractController extends SymfonyController
                 }
             }
             $filter = $form->getData();
+        } else {
+            $filter = null;
         }
-
         $page = $request->get('page', 1);
         $pagination = $this->dao->findAll($page, $filter);
 
@@ -123,6 +136,7 @@ class AbstractController extends SymfonyController
 
     /**
      * @Route("/{id}/view")
+     * @Template
      */
     public function viewAction(Request $request, $id)
     {
@@ -131,18 +145,41 @@ class AbstractController extends SymfonyController
         }
 
         $this->beforeFind($id);
-        $entity = $this->dao->find($id);
+        $entity = false;
+        $message = null;
+        try
+        {
+            $entity = $this->dao->find($id);
+        }
+        catch(EntityNotFoundException $entityNotFoundException)
+        {
+            $message = $this->container->getParameter('kernel.debug') ? $entityNotFoundException->getMessage() : 'Kan '.$this->entityClass.' niet inladen. Waarschijnlijk omdat deze verwijderd of inactief is.';
+
+        }
+        catch(\Exception $exception){
+            $message = $this->container->getParameter('kernel.debug') ? $exception->getMessage() : 'Kan '.$this->entityClass.' niet inladen. Onbekende fout.';
+
+        }
+        if($message){
+            $this->addFlash('danger', $message);
+            return $this->redirect($request->get("redirect"));
+        }
+
         $this->afterFind($entity);
+
+        if (!$entity) {
+            return $this->redirectToIndex();
+        }
 
         $params = ['entity' => $entity];
 
         $params = array_merge($params, $this->addParams($entity, $request));
-
         return $params;
     }
 
     /**
      * @Route("/add")
+     * @Template
      */
     public function addAction(Request $request)
     {
@@ -157,6 +194,7 @@ class AbstractController extends SymfonyController
 
     /**
      * @Route("/{id}/edit")
+     * @Template
      */
     public function editAction(Request $request, $id)
     {
@@ -169,7 +207,7 @@ class AbstractController extends SymfonyController
         return $this->processForm($request, $entity);
     }
 
-    protected function processForm(Request $request, $entity)
+    protected function processForm(Request $request, $entity = null)
     {
         if (!$this->formClass) {
             throw new AppException(get_class($this).'::formClass not set!');
@@ -181,6 +219,9 @@ class AbstractController extends SymfonyController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            if ($entity instanceof MedewerkerSubjectInterface && !$entity->getMedewerker()) {
+                $entity->setMedewerker($this->getMedewerker());
+            }
             try {
                 if ($entity->getId()) {
                     $this->dao->update($entity);
@@ -189,25 +230,23 @@ class AbstractController extends SymfonyController
                 }
                 $this->addFlash('success', ucfirst($this->entityName).' is opgeslagen.');
             } catch (\Exception $e) {
+                $this->get('logger')->error($e->getMessage(), ['exception' => $e]);
                 $message = $this->container->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
                 $this->addFlash('danger', $message);
             }
 
-            if ($url = $request->get('redirect')) {
-                return $this->redirect($url);
-            }
-
-            return $this->redirectToView($entity);
+            return $this->afterFormSubmitted($request, $entity);
         }
 
-        return [
+        return array_merge([
             'entity' => $entity,
             'form' => $form->createView(),
-        ];
+        ], $this->addParams($entity, $request));
     }
 
     /**
      * @Route("/{id}/delete")
+     * @Template
      */
     public function deleteAction(Request $request, $id)
     {
@@ -225,16 +264,21 @@ class AbstractController extends SymfonyController
                 $url = $request->get('redirect');
                 $viewUrl = $this->generateUrl($this->baseRouteName.'view', ['id' => $entity->getId()]);
 
+
                 $this->dao->delete($entity);
+
+
                 $this->addFlash('success', ucfirst($this->entityName).' is verwijderd.');
 
-                if ($url && false === strpos($viewUrl, $url)) {
-                    return $this->redirect($url);
+                if (!$this->forceRedirect) {
+                    if ($url && false === strpos($viewUrl, $url)) {
+                        return $this->redirect($url);
+                    }
                 }
 
                 return $this->redirectToIndex();
             } else {
-                if ($url) {
+                if (isset($url)) {
                     return $this->redirect($url);
                 }
 
@@ -246,11 +290,6 @@ class AbstractController extends SymfonyController
             'entity' => $entity,
             'form' => $form->createView(),
         ];
-    }
-
-    public function getTemplatePath()
-    {
-        return $this->templatePath;
     }
 
     protected function redirectToIndex()
@@ -271,7 +310,7 @@ class AbstractController extends SymfonyController
         return $this->redirectToRoute($this->baseRouteName.'view', ['id' => $entity->getId()]);
     }
 
-    protected function createEntity($parentEntity)
+    protected function createEntity($parentEntity = null)
     {
         return new $this->entityClass();
     }
@@ -289,5 +328,17 @@ class AbstractController extends SymfonyController
     protected function addParams($entity, Request $request)
     {
         return [];
+    }
+
+    protected function afterFormSubmitted(Request $request, $entity)
+    {
+        if (!$this->forceRedirect) {
+            $url = $request->get('redirect');
+            if ($url) {
+                return $this->redirect($url);
+            }
+        }
+
+        return $this->redirectToView($entity);
     }
 }

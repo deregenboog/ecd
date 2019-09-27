@@ -1,0 +1,12 @@
+{% extends 'IzBundle:koppelingen:view.html.twig' %}
+
+{% block content_right %}
+    <h2>{{ entity_name|capitalize }} heropenen</h2>
+    <p>
+        {{ html.link('Annuleren', path('iz_koppelingen_view', {id: entity.id}), 'cancel') }}
+    </p>
+    <p>
+        Weet u zeker dat u {{ entity_name }} <strong>{{ entity }}</strong> wilt heropenen?<br>
+        {{ form(form) }}
+    </p>
+{% endblock %}

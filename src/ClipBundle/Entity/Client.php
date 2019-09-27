@@ -2,12 +2,12 @@
 
 namespace ClipBundle\Entity;
 
-use Doctrine\ORM\Mapping as ORM;
-use Doctrine\Common\Collections\ArrayCollection;
-use AppBundle\Model\TimestampableTrait;
-use Gedmo\Mapping\Annotation as Gedmo;
-use AppBundle\Model\PersonTrait;
 use AppBundle\Model\AddressTrait;
+use AppBundle\Model\PersonTrait;
+use AppBundle\Model\TimestampableTrait;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Entity
@@ -220,5 +220,4 @@ class Client
 
         return $this;
     }
-
 }

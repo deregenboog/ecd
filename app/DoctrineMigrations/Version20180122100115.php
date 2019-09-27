@@ -2,7 +2,7 @@
 
 namespace Application\Migrations;
 
-use Doctrine\DBAL\Migrations\AbstractMigration;
+use Doctrine\Migrations\AbstractMigration;
 use Doctrine\DBAL\Schema\Schema;
 
 /**
@@ -16,7 +16,7 @@ class Version20180122100115 extends AbstractMigration
     public function up(Schema $schema)
     {
         // this up() migration is auto-generated, please modify it to your needs
-        $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
+        $this->abortIf('mysql' !== $this->connection->getDatabasePlatform()->getName(), 'Migration can only be executed safely on \'mysql\'.');
 
         $this->addSql('CREATE TABLE inloop_vrijwilliger_locatie (vrijwilliger_id INT NOT NULL, locatie_id INT NOT NULL, INDEX IDX_A1776D9F76B43BDC (vrijwilliger_id), INDEX IDX_A1776D9F4947630C (locatie_id), PRIMARY KEY(vrijwilliger_id, locatie_id)) DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci ENGINE = InnoDB');
         $this->addSql('CREATE TABLE inloop_binnen_via (id INT AUTO_INCREMENT NOT NULL, naam VARCHAR(255) NOT NULL, active TINYINT(1) NOT NULL, created DATETIME NOT NULL, modified DATETIME NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci ENGINE = InnoDB');

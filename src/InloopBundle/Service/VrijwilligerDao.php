@@ -17,6 +17,7 @@ class VrijwilligerDao extends AbstractDao implements VrijwilligerDaoInterface
             'appVrijwilliger.voornaam',
             'appVrijwilliger.achternaam',
             'vrijwilliger.aanmelddatum',
+            'vrijwilliger.afsluitdatum',
             'werkgebied.naam',
         ],
     ];
@@ -62,9 +63,9 @@ class VrijwilligerDao extends AbstractDao implements VrijwilligerDaoInterface
     /**
      * @param AppVrijwilliger $vrijwilliger
      *
-     * @return Dienstverlener
+     * @return Vrijwilliger
      */
-    public function findOneByVrijwilliger(AppVrijwilliger $vrijwilliger)
+    public function findOneByVrijwilliger(AppVrijwilliger $vrijwilliger): ?Vrijwilliger
     {
         return $this->repository->findOneBy(['vrijwilliger' => $vrijwilliger]);
     }

@@ -1,0 +1,108 @@
+{% extends '::base.html.twig' %}
+{% import '::html.macro.twig' as html %}
+
+{% block title %}
+    PFO | {{ title }}
+{% endblock %}
+
+{% block subnavigation %}
+    {% include '@Pfo/subnavigation.html.twig' %}
+{% endblock %}
+
+{% block content %}
+    <h1>{{ entity_name|capitalize }} koppelen</h1>
+    {{ form_start(form) }}
+        <h2>Koppeling</h2>
+        <div class="row">
+            <div class="col-xs-6">
+                {{ form_row(form.type) }}
+                {{ form_row(form.hoofdclient) }}
+                {{ form_row(form.gekoppeldeClient) }}
+            </div>
+            <div class="col-xs-6">
+                {{ form_row(form.gekoppeldeClienten) }}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-6">
+                {{ form_row(form.submit) }}
+            </div>
+        </div>
+    {{ form_end(form) }}
+{% endblock %}
+
+{% block scripts %}
+    <script type="text/javascript">
+        var onChangeType = function() {
+            if ($($('#client_connect_type')).is(':checked')) {
+                // show "Gekoppeld aan" and "Gekoppelde clienten"
+                $('#client_connect_gekoppeldeClient').closest('.form-group').show();
+                $('#client_connect_gekoppeldeClienten').closest('.form-group').show();
+                // hide and unselect "Gekoppeld aan"
+                $('#client_connect_hoofdclient').closest('.form-group').hide();
+                $('#client_connect_hoofdclient').val(null);
+            } else {
+                // show "Gekoppeld aan"
+                $('#client_connect_hoofdclient').closest('.form-group').show();
+                // hide and unselect "Client koppelen"
+                $('#client_connect_gekoppeldeClient').closest('.form-group').hide();
+                $('#client_connect_gekoppeldeClient').val(null);
+                // hide and unselect "Gekoppelde clienten"
+                $('#client_connect_gekoppeldeClienten').closest('.form-group').hide();
+                $('#client_connect_gekoppeldeClienten input').prop('checked', false);
+                $('#client_connect_gekoppeldeClienten input').closest('.checkbox').hide();
+            }
+        };
+        var onChangeHoofdclient = function() {
+            if ($('#client_connect_hoofdclient').is(':visible')) {
+                if ($('#client_connect_hoofdclient').val() === '') {
+                    $('#client_connect_type').prop('disabled', false);
+                } else {
+                    $('#client_connect_type').prop('disabled', true);
+                }
+            }
+        };
+        var onChangeGekoppeldeClient = function() {
+            $('#client_connect_gekoppeldeClient option:selected').each(function(i, elm) {
+                var value = $(elm).attr('value');
+                var checkbox = $('#client_connect_gekoppeldeClienten input[value="'+value+'"]');
+                checkbox.prop('checked', true);
+                $('#client_connect_gekoppeldeClient').val(null);
+            });
+        };
+        var onChangeGekoppeldeClienten = function() {
+            $('#client_connect_gekoppeldeClienten input').each(function(i, elm) {
+                if ($(elm).is(':checked')) {
+                    $(elm).closest('.checkbox').show();
+                } else {
+                    $(elm).closest('.checkbox').hide();
+                }
+            });
+            if ($('#client_connect_gekoppeldeClienten').is(':visible')) {
+                if ($('#client_connect_gekoppeldeClienten input:checked').length > 0) {
+                    $('#client_connect_type').prop('disabled', true);
+                } else {
+                    $('#client_connect_type').prop('disabled', false);
+                }
+            }
+        };
+        $(function() {
+            onChangeType();
+            onChangeHoofdclient();
+            onChangeGekoppeldeClienten();
+            $('#client_connect_type').change(function() {
+                onChangeType();
+            });
+            $('#client_connect_hoofdclient').change(function() {
+                onChangeHoofdclient();
+            });
+            $('#client_connect_gekoppeldeClient').change(function() {
+                onChangeGekoppeldeClient();
+                onChangeGekoppeldeClienten();
+            });
+            $('#client_connect_gekoppeldeClienten').change(function(){
+                onChangeGekoppeldeClienten();
+            });
+        });
+    </script>
+{% endblock %}

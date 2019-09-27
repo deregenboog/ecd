@@ -2,8 +2,8 @@
 
 namespace IzBundle\Service;
 
-use IzBundle\Entity\Intake;
 use AppBundle\Filter\FilterInterface;
+use IzBundle\Entity\Intake;
 use Knp\Component\Pager\Pagination\PaginationInterface;
 
 interface IntakeDaoInterface

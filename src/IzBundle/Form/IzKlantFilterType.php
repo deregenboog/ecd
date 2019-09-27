@@ -2,23 +2,23 @@
 
 namespace IzBundle\Form;
 
-use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
-use Doctrine\ORM\EntityRepository;
-use AppBundle\Form\FilterType;
 use AppBundle\Entity\Medewerker;
+use AppBundle\Form\AppDateRangeType;
+use AppBundle\Form\FilterType;
+use AppBundle\Form\KlantFilterType;
+use Doctrine\ORM\EntityRepository;
+use IzBundle\Entity\Hulpvraag;
+use IzBundle\Entity\Intake;
+use IzBundle\Entity\IzDeelnemer;
 use IzBundle\Entity\Project;
 use IzBundle\Filter\IzKlantFilter;
-use IzBundle\Entity\Hulpvraag;
-use AppBundle\Entity\Klant;
-use AppBundle\Form\KlantFilterType;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
-use AppBundle\Form\AppDateRangeType;
-use IzBundle\Entity\Intake;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class IzKlantFilterType extends AbstractType
 {
@@ -67,6 +67,23 @@ class IzKlantFilterType extends AbstractType
                         ->where('project.einddatum IS NULL OR project.einddatum >= :now')
                         ->orderBy('project.naam', 'ASC')
                         ->setParameter('now', new \DateTime());
+                },
+            ]);
+        }
+
+        if (in_array('aanmeldingMedewerker', $options['enabled_filters'])) {
+            $builder->add('aanmeldingMedewerker', EntityType::class, [
+                'required' => false,
+                'class' => Medewerker::class,
+                'label' => 'Medewerker aanmelding',
+                'query_builder' => function (EntityRepository $repo) {
+                    return $repo->createQueryBuilder('medewerker')
+                        ->select('DISTINCT medewerker')
+                        ->innerJoin(IzDeelnemer::class, 'deelnemer', 'WITH', 'deelnemer.medewerker = medewerker')
+                        ->where('medewerker.actief = :true')
+                        ->setParameter('true', true)
+                        ->orderBy('medewerker.voornaam', 'ASC')
+                    ;
                 },
             ]);
         }
@@ -131,12 +148,14 @@ class IzKlantFilterType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => IzKlantFilter::class,
+            'data' => new IzKlantFilter(),
             'enabled_filters' => [
                 'afsluitDatum',
                 'openDossiers',
                 'klant' => ['id', 'voornaam', 'achternaam', 'geboortedatumRange', 'stadsdeel'],
                 'actief',
                 'project',
+                'aanmeldingMedewerker',
                 'intakeMedewerker',
                 'hulpvraagMedewerker',
                 'zonderActieveHulpvraag',

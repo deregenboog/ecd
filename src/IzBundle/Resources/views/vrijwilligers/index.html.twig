@@ -21,6 +21,9 @@
                     {{ knp_pagination_sortable(pagination, 'Geboortedatum', 'vrijwilliger.geboortedatum') }}
                 </th>
                 <th>
+                    {{ knp_pagination_sortable(pagination, 'Medewerker aanmelding', 'aanmeldingMedewerker.voornaam') }}
+                </th>
+                <th>
                     {{ knp_pagination_sortable(pagination, 'Medewerker intake', 'intakeMedewerker.voornaam') }}
                 </th>
                 <th>
@@ -28,7 +31,7 @@
                     {{ knp_pagination_sortable(pagination, 'Medewerker hulpaanbod', 'hulpaanbodMedewerker.voornaam') }}
                 </th>
                 <th>
-                    {{ knp_pagination_sortable(pagination, 'Werkgebied', 'vrijwilliger.werkgebied') }}
+                    {{ knp_pagination_sortable(pagination, 'Werkgebied', 'werkgebied.naam') }}
                 </th>
                 <th>
                     {{ knp_pagination_sortable(pagination, 'Afsluitdatum', 'izVrijwilliger.afsluitDatum') }}
@@ -39,7 +42,7 @@
         </thead>
         <tbody>
             {% for izVrijwilliger in pagination %}
-                <tr data-href="{{ path(route_base~'view', {id: izVrijwilliger.id}) }}">
+                <tr data-href="{{ path(route_base~'view', {id: izVrijwilliger.id}) }}" class="{{ izVrijwilliger.closeable ? 'warning' }}">
                     <td>
                         {{ izVrijwilliger.vrijwilliger.id }}
                     </td>
@@ -50,11 +53,14 @@
                         {{ izVrijwilliger.vrijwilliger.geboortedatum ? izVrijwilliger.vrijwilliger.geboortedatum|date('d-m-Y') }}
                     </td>
                     <td>
+                        {{ izVrijwilliger.medewerker }}
+                    </td>
+                    <td>
                         {{ izVrijwilliger.intake ? izVrijwilliger.intake.medewerker }}
                     </td>
                     <td>
                         <ul>
-                            {% for hulpaanbod in izVrijwilliger.izHulpaanbiedingen %}
+                            {% for hulpaanbod in izVrijwilliger.hulpaanbiedingen %}
                                 <li>{{ hulpaanbod.project }} {{ hulpaanbod.medewerker ? '('~hulpaanbod.medewerker~')' }}</li>
                             {% endfor %}
                         </ul>

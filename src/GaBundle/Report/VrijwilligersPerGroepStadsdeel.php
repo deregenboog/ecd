@@ -6,43 +6,51 @@ use AppBundle\Report\Table;
 
 class VrijwilligersPerGroepStadsdeel extends AbstractReport
 {
+    protected $title = 'Vrijwilligers per groep en stadsdeel';
+
     protected $xDescription = 'LET OP: Stadsdeel is op basis van woonadres vrijwilliger (dus niet op basis van activiteitlocatie)';
 
     protected $yDescription = 'Stadsdeel';
 
     protected function init()
     {
-        $this->data = $this->repository->countVrijwilligersPerGroepStadsdeel($this->startDate, $this->endDate);
+        $data = [];
+        foreach ($this->repositories as $group => $repository) {
+            $data[$group] = $repository->countVrijwilligersPerGroepStadsdeel($this->startDate, $this->endDate);
+        }
+        $this->data = $data;
     }
 
     protected function build()
     {
-        $report = new Table($this->data, 'groep', 'stadsdeel', 'aantal_unieke_vrijwilligers');
-        $report
-            ->setStartDate($this->startDate)
-            ->setEndDate($this->endDate)
-            ->setYNullReplacement('Onbekend')
-            ->setYTotals(false)
-        ;
-        $this->reports[] = [
-            'title' => 'Unieke vrijwilligers',
-            'xDescription' => $this->xDescription,
-            'yDescription' => $this->yDescription,
-            'data' => $report->render(),
-        ];
+        foreach ($this->data as $title => $data) {
+            $report = new Table($data, 'groepnaam', 'stadsdeel', 'aantal_vrijwilligers');
+            $report
+                ->setStartDate($this->startDate)
+                ->setEndDate($this->endDate)
+                ->setYNullReplacement('Onbekend')
+                ->setYTotals(false)
+            ;
+            $this->reports[] = [
+                'title' => $title.' - Unieke vrijwilligers',
+                'xDescription' => $this->xDescription,
+                'yDescription' => $this->yDescription,
+                'data' => $report->render(),
+            ];
 
-        $report = new Table($this->data, 'groep', 'stadsdeel', 'aantal_vrijwilligers');
-        $report
-            ->setStartDate($this->startDate)
-            ->setEndDate($this->endDate)
-            ->setYNullReplacement('Onbekend')
-            ->setYTotals(false)
-        ;
-        $this->reports[] = [
-            'title' => 'Vrijwilligers',
-            'xDescription' => $this->xDescription,
-            'yDescription' => $this->yDescription,
-            'data' => $report->render(),
-        ];
+            $report = new Table($data, 'groepnaam', 'stadsdeel', 'aantal_vrijwilligersdeelnames');
+            $report
+                ->setStartDate($this->startDate)
+                ->setEndDate($this->endDate)
+                ->setYNullReplacement('Onbekend')
+                ->setYTotals(false)
+            ;
+            $this->reports[] = [
+                'title' => $title.' - Vrijwilligers',
+                'xDescription' => $this->xDescription,
+                'yDescription' => $this->yDescription,
+                'data' => $report->render(),
+            ];
+        }
     }
 }

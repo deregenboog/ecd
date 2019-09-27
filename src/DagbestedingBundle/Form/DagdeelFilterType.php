@@ -2,19 +2,19 @@
 
 namespace DagbestedingBundle\Form;
 
+use AppBundle\Entity\Klant;
+use AppBundle\Form\AppDateRangeType;
+use AppBundle\Form\BaseSelectType;
+use AppBundle\Form\FilterType;
+use AppBundle\Form\KlantFilterType;
+use DagbestedingBundle\Entity\Dagdeel;
+use DagbestedingBundle\Entity\Project;
+use DagbestedingBundle\Filter\DagdeelFilter;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use AppBundle\Entity\Klant;
-use AppBundle\Form\KlantFilterType;
-use AppBundle\Form\FilterType;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use AppBundle\Form\AppDateRangeType;
-use DagbestedingBundle\Filter\DagdeelFilter;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
-use DagbestedingBundle\Entity\Project;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use DagbestedingBundle\Entity\Dagdeel;
 
 class DagdeelFilterType extends AbstractType
 {
@@ -36,7 +36,7 @@ class DagdeelFilterType extends AbstractType
 //         }
 
         if (in_array('project', $options['enabled_filters'])) {
-            $builder->add('project', EntityType::class, [
+            $builder->add('project', BaseSelectType::class, [
                 'class' => Project::class,
                 'required' => false,
                 'placeholder' => '',

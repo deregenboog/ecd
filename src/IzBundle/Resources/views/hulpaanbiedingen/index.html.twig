@@ -23,7 +23,7 @@
                     {{ knp_pagination_sortable(pagination, 'Project', 'project.naam') }}
                 </th>
                 <th>
-                    {{ knp_pagination_sortable(pagination, 'Medewerker', 'medewerker.achternaam') }}
+                    {{ knp_pagination_sortable(pagination, 'Medewerker', 'medewerker.voornaam') }}
                 </th>
                 <th>
                     {{ knp_pagination_sortable(pagination, 'Werkgebied', 'werkgebied.naam') }}
@@ -32,7 +32,7 @@
         </thead>
         <tbody>
             {% for hulpaanbod in pagination %}
-                <tr data-href="{{ path('iz_hulpaanbiedingen_view', {id: hulpaanbod.id}) }}">
+                <tr data-href="{{ path('iz_hulpaanbiedingen_view', {id: hulpaanbod.id}) }}" class="{{ hulpaanbod.gereserveerd ? 'danger' }}">
                     <td>
                         {{ hulpaanbod.startdatum|date('d-m-Y') }}
                     </td>
@@ -40,7 +40,7 @@
                         {{ hulpaanbod.izVrijwilliger.vrijwilliger.id }}
                     </td>
                     <td>
-                        {{ hulpaanbod.izVrijwilliger.vrijwilliger.naam }}
+                        {{ hulpaanbod|naam_vrijwilliger }}
                     </td>
                     <td>
                         {% if (hulpaanbod.izVrijwilliger.vrijwilliger.geboortedatum) %}

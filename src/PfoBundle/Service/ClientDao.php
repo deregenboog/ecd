@@ -2,8 +2,8 @@
 
 namespace PfoBundle\Service;
 
-use AppBundle\Service\AbstractDao;
 use AppBundle\Filter\FilterInterface;
+use AppBundle\Service\AbstractDao;
 use PfoBundle\Entity\Client;
 
 class ClientDao extends AbstractDao implements ClientDaoInterface

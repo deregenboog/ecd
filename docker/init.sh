@@ -1,8 +1,6 @@
 #!/bin/bash
 
-./composer.phar install
-
-until mysql -h "database" -u$MYSQL_USER -p$MYSQL_PASSWORD $MYSQL_DATABASE; do
+until `mysql -h "database" -u$MYSQL_USER -p$MYSQL_PASSWORD $MYSQL_DATABASE`; do
   >&2 echo "MySQL is unavailable - sleeping"
   sleep 1
 done
@@ -20,4 +18,3 @@ else
     >&2 echo "Skipping data fixtures"
 fi
 
-apache2-foreground

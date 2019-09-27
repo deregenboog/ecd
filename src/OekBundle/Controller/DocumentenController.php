@@ -2,12 +2,12 @@
 
 namespace OekBundle\Controller;
 
+use AppBundle\Controller\AbstractChildController;
+use JMS\DiExtraBundle\Annotation as DI;
 use OekBundle\Entity\Document;
 use OekBundle\Form\DocumentType;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use JMS\DiExtraBundle\Annotation as DI;
 use OekBundle\Service\DocumentDaoInterface;
-use AppBundle\Controller\AbstractChildController;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 
 /**
  * @Route("/documenten")

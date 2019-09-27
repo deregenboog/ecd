@@ -75,7 +75,7 @@
                     {{ html.link(deelname.deelnemer.klant.id, path('oek_deelnemers_view', {id: deelname.deelnemer.id})) }}
                 </td>
                 <td>
-                    {{ html.link(deelname.deelnemer.klant.naam, path('oek_deelnemers_view', {id: deelname.deelnemer.id})) }}
+                    {{ html.link(deelname.deelnemer, path('oek_deelnemers_view', {id: deelname.deelnemer.id})) }}
                 </td>
                 <td>
                     {{ deelname.deelnemer.klant.werkgebied }}

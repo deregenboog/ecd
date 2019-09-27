@@ -45,6 +45,7 @@
                 </th>
                 <th>
                     {{ form_widget(filter.filter) }}
+                    {{ form_widget(filter.download) }}
                 </th>
                 {{ form_end(filter) }}
             </tr>
@@ -67,15 +68,14 @@
                 <th>
                     {{ knp_pagination_sortable(pagination, 'Einddatum', 'schorsing.datumTot') }}
                 </th>
-                <th>
-                </th>
+                <th>Gezien</th>
             </tr>
         </thead>
         <tbody>
             {% for schorsing in pagination %}
-            <tr>
+            <tr data-href="{{ path(route_base~'view', {id: schorsing.id}) }}">
                 <td>
-                    {{ html.link(schorsing.klant.id, path('app_klanten_view', {id: schorsing.klant.id})) }}
+                    {{ schorsing.klant.id }}
                 </td>
                 <td>
                     {{ schorsing.klant }}
@@ -97,6 +97,7 @@
                     {{ schorsing.datumTot|date('d-m-Y') }}
                 </td>
                 <td>
+                    {{ schorsing.gezien ? html.tick }}
                 </td>
             </tr>
             {% endfor %}

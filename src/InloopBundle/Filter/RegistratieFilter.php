@@ -2,11 +2,11 @@
 
 namespace InloopBundle\Filter;
 
-use Doctrine\ORM\QueryBuilder;
-use AppBundle\Filter\KlantFilter as AppKlantFilter;
 use AppBundle\Filter\FilterInterface;
-use InloopBundle\Entity\Locatie;
+use AppBundle\Filter\KlantFilter as AppKlantFilter;
 use AppBundle\Form\Model\AppDateRangeModel;
+use Doctrine\ORM\QueryBuilder;
+use InloopBundle\Entity\Locatie;
 
 class RegistratieFilter implements FilterInterface
 {
@@ -33,6 +33,11 @@ class RegistratieFilter implements FilterInterface
     /**
      * @var bool
      */
+    public $douche;
+
+    /**
+     * @var bool
+     */
     public $activering;
 
     /**
@@ -46,9 +51,19 @@ class RegistratieFilter implements FilterInterface
     public $veegploeg;
 
     /**
+     * @var bool
+     */
+    public $mw;
+
+    /**
      * @var AppKlantFilter
      */
     public $klant;
+
+    public function __construct(Locatie $locatie)
+    {
+        $this->locatie = $locatie;
+    }
 
     public function applyTo(QueryBuilder $builder)
     {
@@ -87,6 +102,18 @@ class RegistratieFilter implements FilterInterface
                     ->setParameter('datum_tot_end', $this->buiten->getEnd())
                 ;
             }
+        }
+
+        if (0 === $this->douche) {
+            $builder->andWhere('registratie.douche = 0');
+        } elseif (1 === $this->douche) {
+            $builder->andWhere('registratie.douche <> 0');
+        }
+
+        if (0 === $this->mw) {
+            $builder->andWhere('registratie.mw = 0');
+        } elseif (1 === $this->mw) {
+            $builder->andWhere('registratie.mw <> 0');
         }
 
         $props = ['maaltijd', 'activering', 'kleding', 'veegploeg'];

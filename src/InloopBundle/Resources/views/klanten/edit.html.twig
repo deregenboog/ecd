@@ -1,0 +1,12 @@
+{% extends 'InloopBundle:klanten:add.html.twig' %}
+
+{% block content_top %}
+    <h1>{{ entity_name|capitalize }} wijzigen</h1>
+    <p>
+        {{ html.link('Annuleren', path('inloop_klanten_view', {id: entity.id}), 'cancel') }}
+    </p>
+{% endblock %}
+
+{% block content %}
+    {{ form(form) }}
+{% endblock %}

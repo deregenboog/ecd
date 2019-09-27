@@ -1,0 +1,70 @@
+{% extends '::base-2-col.html.twig' %}
+{% import '::html.macro.twig' as html %}
+
+{% block title %}
+    {{ title }}
+{% endblock %}
+
+{% block content_top %}
+    <h1>{{ entity_name|capitalize }} {{ entity }}</h1>
+{% endblock %}
+
+{% block content_left %}
+    <dl class="dl-horizontal">
+        <dt>Naam</dt>
+        <dd>
+            {{ entity }}
+        </dd>
+        <dt>Username</dt>
+        <dd>
+            {{ entity.username }}
+        </dd>
+        <dt>E-mail</dt>
+        <dd>
+            {{ entity.email }}
+        </dd>
+        <dt>Actief</dt>
+        <dd>
+            {{ entity.actief|ja_nee }}
+        </dd>
+        <dt>Eerste inlog</dt>
+        <dd>
+            {{ entity.eersteBezoek|if_date('d-m-Y') }}
+        </dd>
+        <dt>Laatste inlog</dt>
+        <dd>
+            {{ entity.laatsteBezoek|if_date('d-m-Y') }}
+        </dd>
+{% endblock %}
+
+{% block content_right %}
+    <ul class="nav nav-tabs">
+        <li class="active"><a data-toggle="tab" href="#toegekende_rollen">Toegekende rollen</a></li>
+        <li><a data-toggle="tab" href="#geerfde_rollen">Geërfde rollen</a></li>
+    </ul>
+    <div class="tab-content">
+        <div id="toegekende_rollen" class="tab-pane active">
+            <h2>Toegekende rollen</h2>
+            <ul>
+                {% for role in entity.roles %}
+                    <li>{{ role }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+        <div id="geerfde_rollen" class="tab-pane">
+            <h2>Geërfde rollen</h2>
+            <ul>
+                {% for role in entity.roles if role in role_hierarchy|keys %}
+                    <li>
+                        {{ role }}
+                        <ul>
+                            {% for sub_role in role_hierarchy[role] %}
+                                <li>{{ sub_role }}</li>
+                            {% endfor %}
+                        </ul>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+{% endblock %}

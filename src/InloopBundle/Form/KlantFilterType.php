@@ -2,20 +2,20 @@
 
 namespace InloopBundle\Form;
 
-use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolver;
-use AppBundle\Entity\Klant;
-use AppBundle\Form\FilterType;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use AppBundle\Form\AppDateRangeType;
+use AppBundle\Form\FilterType;
 use AppBundle\Form\KlantFilterType as AppKlantFilterType;
-use InloopBundle\Filter\KlantFilter;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
-use InloopBundle\Entity\Locatie;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Doctrine\ORM\EntityRepository;
 use InloopBundle\Entity\Aanmelding;
 use InloopBundle\Entity\Afsluiting;
+use InloopBundle\Entity\Locatie;
+use InloopBundle\Filter\KlantFilter;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class KlantFilterType extends AbstractType
 {
@@ -31,9 +31,9 @@ class KlantFilterType extends AbstractType
         }
 
         if (in_array('gebruikersruimte', $options['enabled_filters'])) {
-            $builder->add('gebruikersruimte', EntityType::class, [
-                'class' => Locatie::class,
+            $builder->add('gebruikersruimte', LocatieSelectType::class, [
                 'required' => false,
+                'gebruikersruimte' => true,
             ]);
         }
 
@@ -41,6 +41,11 @@ class KlantFilterType extends AbstractType
             $builder->add('laatsteIntakeLocatie', EntityType::class, [
                 'class' => Locatie::class,
                 'required' => false,
+                'query_builder' => function (EntityRepository $repository) {
+                    return $repository->createQueryBuilder('locatie')
+                        ->orderBy('locatie.naam')
+                    ;
+                },
             ]);
         }
 
@@ -81,8 +86,9 @@ class KlantFilterType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => KlantFilter::class,
+            'data' => new KlantFilter(),
             'enabled_filters' => [
-                'klant' => ['id', 'naam', 'geboortedatum', 'geslacht'],
+                'klant' => ['id', 'voornaam', 'achternaam', 'geboortedatumRange', 'geslacht'],
                 'gebruikersruimte',
                 'laatsteIntakeLocatie',
                 'laatsteIntakeDatum',

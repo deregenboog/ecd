@@ -3,14 +3,30 @@
 namespace MwBundle\Service;
 
 use AppBundle\Service\AbstractDao;
-use AppBundle\Filter\FilterInterface;
-use AppBundle\Entity\Klant;
-use MwBundle\Entity\Inventarisatie;
+use Gedmo\Tree\Entity\Repository\NestedTreeRepository;
 use InloopBundle\Entity\Locatie;
+use MwBundle\Entity\Inventarisatie;
 
 class InventarisatieDao extends AbstractDao implements InventarisatieDaoInterface
 {
+    /**
+     * @var NestedTreeRepository
+     */
+    protected $repository;
+
     protected $class = Inventarisatie::class;
+
+    public function findAllAsTree()
+    {
+        $data = [];
+        $roots = $this->repository->getRootNodes('order');
+        foreach ($roots as $root) {
+            $nodes = $this->repository->getNodesHierarchyQueryBuilder($root)->getQuery()->getResult();
+            $data[$root->getId()] = array_merge($nodes, ['rootName' => $root->getTitel()]);
+        }
+
+        return $data;
+    }
 
     public function countInventarisaties(
         \DateTime $startdatum,

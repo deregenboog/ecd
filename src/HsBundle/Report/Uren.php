@@ -2,9 +2,8 @@
 
 namespace HsBundle\Report;
 
-use AppBundle\Report\Table;
-use HsBundle\Service\KlantDaoInterface;
 use AppBundle\Report\AbstractReport;
+use AppBundle\Report\Table;
 use HsBundle\Service\RegistratieDaoInterface;
 
 class Uren extends AbstractReport
@@ -24,6 +23,41 @@ class Uren extends AbstractReport
 
     protected $data = [];
 
+    /**
+     * @var array
+     */
+    private $urenPerStadsdeel;
+
+    /**
+     * @var array
+     */
+    private $urenPerGgwGebied;
+
+    /**
+     * @var array
+     */
+    private $urenPerActiviteit;
+
+    /**
+     * @var array
+     */
+    private $urenPerKlant;
+
+    /**
+     * @var array
+     */
+    private $urenPerKlus;
+
+    /**
+     * @var array
+     */
+    private $urenPerDienstverlener;
+
+    /**
+     * @var array
+     */
+    private $urenPerVrijwilliger;
+
     public function __construct(RegistratieDaoInterface $dao)
     {
         $this->dao = $dao;
@@ -32,6 +66,7 @@ class Uren extends AbstractReport
     protected function init()
     {
         $this->urenPerStadsdeel = $this->dao->countUrenByStadsdeel($this->startDate, $this->endDate);
+        $this->urenPerGgwGebied = $this->dao->countUrenByGgwGebied($this->startDate, $this->endDate);
         $this->urenPerActiviteit = $this->dao->countUrenByActiviteit($this->startDate, $this->endDate);
         $this->urenPerKlant = $this->dao->countUrenByKlant($this->startDate, $this->endDate);
         $this->urenPerKlus = $this->dao->countUrenByKlus($this->startDate, $this->endDate);
@@ -45,6 +80,15 @@ class Uren extends AbstractReport
         $table->setStartDate($this->startDate)->setEndDate($this->endDate);
         $this->reports[] = [
             'title' => 'Uren per stadsdeel',
+            'xDescription' => $this->xDescription,
+            'yDescription' => 'Stadsdeel van klant',
+            'data' => $table->render(),
+        ];
+
+        $table = new Table($this->urenPerGgwGebied, null, $this->yPath, $this->nPath);
+        $table->setStartDate($this->startDate)->setEndDate($this->endDate);
+        $this->reports[] = [
+            'title' => 'Uren per GGW-gebied',
             'xDescription' => $this->xDescription,
             'yDescription' => 'Stadsdeel van klant',
             'data' => $table->render(),

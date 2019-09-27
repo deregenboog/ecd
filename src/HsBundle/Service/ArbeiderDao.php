@@ -2,8 +2,8 @@
 
 namespace HsBundle\Service;
 
-use HsBundle\Entity\Arbeider;
 use AppBundle\Service\AbstractDao;
+use HsBundle\Entity\Arbeider;
 
 class ArbeiderDao extends AbstractDao implements ArbeiderDaoInterface
 {

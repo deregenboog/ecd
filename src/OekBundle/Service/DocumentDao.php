@@ -2,8 +2,8 @@
 
 namespace OekBundle\Service;
 
-use OekBundle\Entity\Document;
 use Doctrine\ORM\EntityManager;
+use OekBundle\Entity\Document;
 
 class DocumentDao implements DocumentDaoInterface
 {

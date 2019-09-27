@@ -2,9 +2,9 @@
 
 namespace OekBundle\Report;
 
-use AppBundle\Report\Table;
-use OekBundle\Repository\KlantRepository;
 use AppBundle\Report\AbstractReport;
+use AppBundle\Report\Table;
+use OekBundle\Repository\DeelnemerRepository;
 
 abstract class AbstractDeelnemersVerwezen extends AbstractReport
 {
@@ -26,7 +26,7 @@ abstract class AbstractDeelnemersVerwezen extends AbstractReport
 
     protected $table;
 
-    public function __construct(KlantRepository $repository)
+    public function __construct(DeelnemerRepository $repository)
     {
         $this->repository = $repository;
 

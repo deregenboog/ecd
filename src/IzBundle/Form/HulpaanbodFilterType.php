@@ -2,18 +2,19 @@
 
 namespace IzBundle\Form;
 
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\Extension\Core\Type\DateType;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
-use Doctrine\ORM\EntityRepository;
-use AppBundle\Entity\Medewerker;
+use AppBundle\Form\AppDateType;
+use AppBundle\Form\MedewerkerType;
 use AppBundle\Form\VrijwilligerFilterType;
+use Doctrine\ORM\EntityRepository;
 use IzBundle\Entity\Hulpaanbod;
 use IzBundle\Entity\Project;
 use IzBundle\Filter\HulpaanbodFilter;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class HulpaanbodFilterType extends AbstractType
 {
@@ -22,12 +23,16 @@ class HulpaanbodFilterType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        if (in_array('startdatum', $options['enabled_filters'])) {
-            $builder->add('startdatum', DateType::class, [
+        if (in_array('matching', $options['enabled_filters'])) {
+            $builder->add('matching', CheckboxType::class, [
                 'required' => false,
-                'widget' => 'single_text',
-                'format' => 'dd-MM-yyyy',
-                'attr' => ['placeholder' => 'dd-mm-jjjj'],
+                'label' => 'Alleen matchende kandidaten tonen',
+            ]);
+        }
+
+        if (in_array('startdatum', $options['enabled_filters'])) {
+            $builder->add('startdatum', AppDateType::class, [
+                'required' => false,
             ]);
         }
 
@@ -52,19 +57,32 @@ class HulpaanbodFilterType extends AbstractType
             ]);
         }
 
-        if (in_array('medewerker', $options['enabled_filters'])) {
-            $builder->add('medewerker', EntityType::class, [
+        if (in_array('hulpvraagsoort', $options['enabled_filters'])) {
+            $builder->add('hulpvraagsoort', HulpvraagsoortSelectType::class, [
                 'required' => false,
-                'class' => Medewerker::class,
+                'expanded' => false,
+            ]);
+        }
+
+        if (in_array('doelgroep', $options['enabled_filters'])) {
+            $builder->add('doelgroep', DoelgroepSelectType::class, [
+                'required' => false,
+                'expanded' => false,
+            ]);
+        }
+
+        if (in_array('medewerker', $options['enabled_filters'])) {
+            $builder->add('medewerker', MedewerkerType::class, [
+                'required' => false,
                 'query_builder' => function (EntityRepository $repo) {
                     return $repo->createQueryBuilder('medewerker')
                         ->select('DISTINCT medewerker')
                         ->innerJoin(Hulpaanbod::class, 'hulpaanbod', 'WITH', 'hulpaanbod.medewerker = medewerker')
-                        ->where('medewerker.actief = :true')
-                        ->setParameter('true', true)
+                        ->where('medewerker.actief = true')
                         ->orderBy('medewerker.voornaam', 'ASC')
                     ;
                 },
+                'preset' => $options['preset_medewerker'],
             ]);
         }
 
@@ -84,6 +102,7 @@ class HulpaanbodFilterType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => HulpaanbodFilter::class,
+            'data' => new HulpaanbodFilter(),
             'enabled_filters' => [
                 'startdatum',
                 'vrijwilliger' => ['id', 'voornaam', 'achternaam', 'geboortedatumRange', 'stadsdeel'],
@@ -92,6 +111,7 @@ class HulpaanbodFilterType extends AbstractType
                 'filter',
                 'download',
             ],
+            'preset_medewerker' => false,
         ]);
     }
 

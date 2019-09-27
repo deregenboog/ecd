@@ -2,10 +2,10 @@
 
 namespace AppBundle\DependencyInjection\Compiler;
 
+use AppBundle\Exception\AppException;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Reference;
-use AppBundle\Exception\AppException;
 
 abstract class AbstractReportsCompilerPass implements CompilerPassInterface
 {
@@ -39,5 +39,15 @@ abstract class AbstractReportsCompilerPass implements CompilerPassInterface
         }
 
         $definition->addArgument($reports);
+    }
+
+    public function getServiceId(): string
+    {
+        return $this->serviceId;
+    }
+
+    public function getTagId(): string
+    {
+        return $this->tagId;
     }
 }

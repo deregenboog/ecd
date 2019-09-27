@@ -2,8 +2,10 @@
 
 namespace AppBundle\Entity;
 
+use AppBundle\Model\DocumentSubjectTrait;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
+use Symfony\Component\Debug\Exception\FatalErrorException;
 
 /**
  * @ORM\Entity
@@ -11,13 +13,16 @@ use Gedmo\Mapping\Annotation as Gedmo;
  *     name="vrijwilligers",
  *     indexes={
  *         @ORM\Index(name="idx_vrijwilligers_werkgebied", columns={"werkgebied"}),
- *         @ORM\Index(name="idx_vrijwilligers_postcodegebied", columns={"postcodegebied"})
+ *         @ORM\Index(name="idx_vrijwilligers_postcodegebied", columns={"postcodegebied"}),
+ *         @ORM\Index(name="idx_vrijwilligers_geboortedatum", columns={"geboortedatum"})
  *     }
  * )
  * @Gedmo\Loggable
  */
 class Vrijwilliger extends Persoon
 {
+    use DocumentSubjectTrait;
+
     /**
      * @ORM\Column(name="vog_aangevraagd", type="boolean")
      * @Gedmo\Versioned
@@ -39,9 +44,19 @@ class Vrijwilliger extends Persoon
     /**
      * @return bool
      */
-    public function getVogAangevraagd()
+    public function isVogAangevraagd()
     {
         return $this->vogAangevraagd;
+    }
+
+    /**
+     * @return bool
+     *
+     * @deprecated
+     */
+    public function getVogAangevraagd()
+    {
+        return $this->isVogAangevraagd();
     }
 
     /**
@@ -59,9 +74,19 @@ class Vrijwilliger extends Persoon
     /**
      * @return bool
      */
-    public function getVogAanwezig()
+    public function isVogAanwezig()
     {
         return $this->vogAanwezig;
+    }
+
+    /**
+     * @return bool
+     *
+     * @deprecated
+     */
+    public function getVogAanwezig()
+    {
+        return $this->isVogAanwezig();
     }
 
     /**
@@ -76,12 +101,41 @@ class Vrijwilliger extends Persoon
         return $this;
     }
 
+    public function getVog(): ?Vog
+    {
+        foreach ($this->documenten as $document) {
+            if ($document instanceof Vog) {
+                return $document;
+            }
+        }
+
+        return null;
+    }
+
+    public function setVog(Vog $vog): self
+    {
+        $this->addDocument($vog);
+        $this->vogAanwezig = true;
+
+        return $this;
+    }
+
     /**
      * @return bool
      */
-    public function getOvereenkomstAanwezig()
+    public function isOvereenkomstAanwezig()
     {
         return $this->overeenkomstAanwezig;
+    }
+
+    /**
+     * @return bool
+     *
+     * @deprecated
+     */
+    public function getOvereenkomstAanwezig()
+    {
+        return $this->isOvereenkomstAanwezig();
     }
 
     /**
@@ -92,6 +146,25 @@ class Vrijwilliger extends Persoon
     public function setOvereenkomstAanwezig($overeenkomstAanwezig)
     {
         $this->overeenkomstAanwezig = $overeenkomstAanwezig;
+
+        return $this;
+    }
+
+    public function getOvereenkomst(): ?Overeenkomst
+    {
+        foreach ($this->documenten as $document) {
+            if ($document instanceof Overeenkomst) {
+                return $document;
+            }
+        }
+
+        return null;
+    }
+
+    public function setOvereenkomst(Overeenkomst $overeenkomst): self
+    {
+        $this->addDocument($overeenkomst);
+        $this->overeenkomstAanwezig = true;
 
         return $this;
     }

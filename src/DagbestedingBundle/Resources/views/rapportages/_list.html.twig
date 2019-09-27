@@ -1,7 +1,7 @@
 <h2>Rapportages</h2>
 <p>
     {% if traject is defined %}
-        {% set url = path('dagbesteding_rapportages_add', {traject: traject.id, redirect: app.request.get('url')}) %}
+        {% set url = path('dagbesteding_rapportages_add', {traject: traject.id}) %}
     {% endif %}
     {% if url is defined %}
         {{ html.addLink(url) }}
@@ -31,7 +31,7 @@
                     {% set url = path('dagbesteding_rapportages_view', {id: rapportage.id}) %}
                     {{ html.viewLink(url) }}
                     {% if rapportage.deletable %}
-                        {% set url = path('dagbesteding_rapportages_delete', {id: rapportage.id, redirect: app.request.get('url')}) %}
+                        {% set url = path('dagbesteding_rapportages_delete', {id: rapportage.id}) %}
                         {{ html.deleteLink(url) }}
                     {% endif %}
                 </td>

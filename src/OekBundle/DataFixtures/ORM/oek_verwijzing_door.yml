@@ -1,3 +1,0 @@
-OekBundle\Entity\VerwijzingDoor:
-    oek_verwijzing_door_{1..10}:
-        naam: '<word()>'

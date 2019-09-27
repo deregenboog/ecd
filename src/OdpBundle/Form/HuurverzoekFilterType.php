@@ -5,12 +5,12 @@ namespace OdpBundle\Form;
 use AppBundle\Form\AppDateRangeType;
 use AppBundle\Form\FilterType;
 use AppBundle\Form\KlantFilterType;
+use OdpBundle\Filter\HuurverzoekFilter;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use OdpBundle\Filter\HuurverzoekFilter;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 
 class HuurverzoekFilterType extends AbstractType
 {
@@ -46,6 +46,7 @@ class HuurverzoekFilterType extends AbstractType
             $builder->add('actief', CheckboxType::class, [
                 'required' => false,
                 'label' => 'Actieve huurverzoeken',
+                'data' => false,
             ]);
         }
 
@@ -70,6 +71,7 @@ class HuurverzoekFilterType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => HuurverzoekFilter::class,
+            'data' => new HuurverzoekFilter(),
             'enabled_filters' => [
                 'id',
                 'klant' => ['naam'],

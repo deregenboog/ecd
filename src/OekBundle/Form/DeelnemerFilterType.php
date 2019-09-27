@@ -2,18 +2,19 @@
 
 namespace OekBundle\Form;
 
+use AppBundle\Form\AppDateRangeType;
+use AppBundle\Form\FilterType;
+use AppBundle\Form\JaNeeType;
+use AppBundle\Form\KlantFilterType;
 use OekBundle\Entity\Groep;
+use OekBundle\Entity\Training;
+use OekBundle\Filter\DeelnemerFilter;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use AppBundle\Entity\Klant;
-use AppBundle\Form\KlantFilterType;
-use OekBundle\Filter\DeelnemerFilter;
-use AppBundle\Form\FilterType;
-use AppBundle\Form\AppDateRangeType;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use OekBundle\Entity\Training;
 
 class DeelnemerFilterType extends AbstractType
 {
@@ -46,6 +47,13 @@ class DeelnemerFilterType extends AbstractType
             ]);
         }
 
+        if (in_array('heeftAfgerondeTraining', $options['enabled_filters'])) {
+            $builder->add('heeftAfgerondeTraining', JaNeeType::class, [
+                'required' => false,
+                'expanded' => false,
+            ]);
+        }
+
         if (in_array('aanmelddatum', $options['enabled_filters'])) {
             $builder->add('aanmelddatum', AppDateRangeType::class, [
                 'required' => false,
@@ -54,6 +62,13 @@ class DeelnemerFilterType extends AbstractType
 
         if (in_array('afsluitdatum', $options['enabled_filters'])) {
             $builder->add('afsluitdatum', AppDateRangeType::class, [
+                'required' => false,
+            ]);
+        }
+
+        if (in_array('actief', $options['enabled_filters'])) {
+            $builder->add('actief', CheckboxType::class, [
+                'label' => 'Alleen actieve dossiers',
                 'required' => false,
             ]);
         }
@@ -74,11 +89,14 @@ class DeelnemerFilterType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => DeelnemerFilter::class,
+            'data' => new DeelnemerFilter(),
             'enabled_filters' => [
                 'klant' => ['id', 'naam', 'stadsdeel'],
                 'training',
+                'heeftAfgerondeTraining',
                 'aanmelddatum',
                 'afsluitdatum',
+                'actief',
             ],
         ]);
     }

@@ -7,71 +7,79 @@ services:
     clip.report.vragen_per_communicatiekanaal:
         class: ClipBundle\Report\VragenPerCommunicatiekanaal
         arguments:
-            - "@clip.dao.vraag"
-            - "@clip.dao.contactmoment"
+            - '@ClipBundle\Service\VraagDao'
+            - '@ClipBundle\Service\ContactmomentDao'
         tags:
             - { name: clip.rapportage, category: Vragen }
 
     clip.report.vragen_per_etniciteit:
         class: ClipBundle\Report\VragenPerEtniciteit
         arguments:
-            - "@clip.dao.vraag"
-            - "@clip.dao.contactmoment"
+            - '@ClipBundle\Service\VraagDao'
+            - '@ClipBundle\Service\ContactmomentDao'
         tags:
             - { name: clip.rapportage, category: Vragen }
 
     clip.report.vragen_per_geslacht:
         class: ClipBundle\Report\VragenPerGeslacht
         arguments:
-            - "@clip.dao.vraag"
-            - "@clip.dao.contactmoment"
+            - '@ClipBundle\Service\VraagDao'
+            - '@ClipBundle\Service\ContactmomentDao'
         tags:
             - { name: clip.rapportage, category: Vragen }
 
     clip.report.vragen_per_viacategorie:
         class: ClipBundle\Report\VragenPerViacategorie
         arguments:
-            - "@clip.dao.vraag"
-            - "@clip.dao.contactmoment"
+            - '@ClipBundle\Service\VraagDao'
+            - '@ClipBundle\Service\ContactmomentDao'
         tags:
             - { name: clip.rapportage, category: Vragen }
 
     clip.report.vragen_per_hulpvrager:
         class: ClipBundle\Report\VragenPerHulpvrager
         arguments:
-            - "@clip.dao.vraag"
-            - "@clip.dao.contactmoment"
+            - '@ClipBundle\Service\VraagDao'
+            - '@ClipBundle\Service\ContactmomentDao'
         tags:
             - { name: clip.rapportage, category: Vragen }
 
     clip.report.vragen_per_leeftijdscategorie:
         class: ClipBundle\Report\VragenPerLeeftijdscategorie
         arguments:
-            - "@clip.dao.vraag"
-            - "@clip.dao.contactmoment"
+            - '@ClipBundle\Service\VraagDao'
+            - '@ClipBundle\Service\ContactmomentDao'
         tags:
             - { name: clip.rapportage, category: Vragen }
 
     clip.report.vragen_per_maand:
         class: ClipBundle\Report\VragenPerMaand
         arguments:
-            - "@clip.dao.vraag"
-            - "@clip.dao.contactmoment"
+            - '@ClipBundle\Service\VraagDao'
+            - '@ClipBundle\Service\ContactmomentDao'
+        tags:
+            - { name: clip.rapportage, category: Vragen }
+
+    clip.report.vragen_per_stadsdeel:
+        class: ClipBundle\Report\VragenPerStadsdeel
+        arguments:
+            - '@ClipBundle\Service\VraagDao'
+            - '@ClipBundle\Service\ContactmomentDao'
         tags:
             - { name: clip.rapportage, category: Vragen }
 
     clip.report.vragen_per_vraagsoort:
         class: ClipBundle\Report\VragenPerVraagsoort
         arguments:
-            - "@clip.dao.vraag"
-            - "@clip.dao.contactmoment"
+            - '@ClipBundle\Service\VraagDao'
+            - '@ClipBundle\Service\ContactmomentDao'
         tags:
             - { name: clip.rapportage, category: Vragen }
 
     clip.report.vragen_per_woonplaats:
         class: ClipBundle\Report\VragenPerWoonplaats
         arguments:
-            - "@clip.dao.vraag"
-            - "@clip.dao.contactmoment"
+            - '@ClipBundle\Service\VraagDao'
+            - '@ClipBundle\Service\ContactmomentDao'
         tags:
             - { name: clip.rapportage, category: Vragen }

@@ -1,6 +1,6 @@
 {{ form_start(filter) }}
     <tr>
-        <th colspan="6">
+        <th colspan="7">
             <span class="pull-right">
                 {{ form_widget(filter.filter) }}
                 {{ form_widget(filter.download) }}
@@ -35,6 +35,12 @@
             {{ form_errors(filter.einddatum.start) }}
             {{ form_widget(filter.einddatum.end) }}
             {{ form_errors(filter.einddatum.end) }}
+        </th>
+        <th>
+            {{ form_widget(filter.annuleringsdatum.start) }}
+            {{ form_errors(filter.annuleringsdatum.start) }}
+            {{ form_widget(filter.annuleringsdatum.end) }}
+            {{ form_errors(filter.annuleringsdatum.end) }}
         </th>
     </tr>
 {{ form_end(filter) }}

@@ -2,13 +2,15 @@
 
 namespace OekBundle\Form;
 
+use AppBundle\Form\AppDateRangeType;
+use AppBundle\Form\FilterType;
+use AppBundle\Form\VrijwilligerFilterType as AppVrijwilligerFilterType;
+use OekBundle\Entity\Vrijwilliger;
+use OekBundle\Filter\VrijwilligerFilter;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use AppBundle\Entity\Vrijwilliger;
-use AppBundle\Form\VrijwilligerFilterType as AppVrijwilligerFilterType;
-use AppBundle\Form\FilterType;
-use OekBundle\Filter\VrijwilligerFilter;
 
 class VrijwilligerFilterType extends AbstractType
 {
@@ -20,6 +22,23 @@ class VrijwilligerFilterType extends AbstractType
         if (key_exists('vrijwilliger', $options['enabled_filters'])) {
             $builder->add('vrijwilliger', AppVrijwilligerFilterType::class, [
                 'enabled_filters' => $options['enabled_filters']['vrijwilliger'],
+            ]);
+        }
+        if (in_array('actief', $options['enabled_filters'])) {
+            $builder->add('actief', CheckboxType::class, [
+                'label' => 'Alleen actieve vrijwilligers',
+                'required' => false,
+            ]);
+        }
+        if (in_array('aanmelddatum', $options['enabled_filters'])) {
+            $builder->add('aanmelddatum', AppDateRangeType::class, [
+                'required' => false,
+            ]);
+        }
+
+        if (in_array('afsluitdatum', $options['enabled_filters'])) {
+            $builder->add('afsluitdatum', AppDateRangeType::class, [
+                'required' => false,
             ]);
         }
     }
@@ -34,8 +53,11 @@ class VrijwilligerFilterType extends AbstractType
             'data' => new VrijwilligerFilter(),
             'enabled_filters' => [
                 'vrijwilliger' => ['id', 'naam', 'stadsdeel'],
+//                'aanmelddatum',
+//                'afsluitdatum',
                 'filter',
                 'download',
+                'actief'
             ],
         ]);
     }
