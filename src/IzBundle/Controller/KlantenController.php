@@ -69,6 +69,13 @@ class KlantenController extends AbstractController
     }
 
     /**
+     * @Route("/{documentId}/deleteDocument")
+     */
+    public function deleteDocumentAction(Request $request,$documentId)
+    {
+        $klant = $this->dao->findKlantByDocId($documentId);
+    }
+    /**
      * @Route("/{id}/close")
      */
     public function closeAction(Request $request, $id)

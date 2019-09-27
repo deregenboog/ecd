@@ -95,7 +95,7 @@ abstract class AbstractChildController extends AbstractController
     }
 
     /**
-     * @Route("/{id}/delete")
+     * @Route("/{id}/delete/")
      * @Template
      */
     public function deleteAction(Request $request, $id)
@@ -105,6 +105,7 @@ abstract class AbstractChildController extends AbstractController
         }
 
         $entity = $this->dao->find($id);
+
         list($parentEntity, $this->parentDao) = $this->getParentConfig($request);
 
         $form = $this->createForm(ConfirmationType::class);

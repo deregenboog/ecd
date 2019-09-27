@@ -86,6 +86,7 @@ class KlantDao extends AbstractDao implements KlantDaoInterface
         return $builder->getQuery()->getSingleScalarResult();
     }
 
+
     /**
      * @param int $id
      *

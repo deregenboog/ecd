@@ -43,6 +43,13 @@ class Document implements DocumentInterface
      */
     protected $file;
 
+    public function __toString()
+    {
+
+        $x = new \ReflectionClass($this);
+        return $x->getShortName()." ".$this->getFilename();
+    }
+
     public function getFilename()
     {
         return $this->filename;

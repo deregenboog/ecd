@@ -6,13 +6,16 @@ use AppBundle\Entity\Klant;
 use AppBundle\Event\DienstenLookupEvent;
 use AppBundle\Event\Events;
 use AppBundle\Export\AbstractExport;
+use AppBundle\Form\ConfirmationType;
 use AppBundle\Form\KlantFilterType;
 use AppBundle\Form\KlantType;
 use AppBundle\Service\KlantDaoInterface;
+use Doctrine\Common\Collections\Criteria;
 use JMS\DiExtraBundle\Annotation as DI;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 
 /**
  * @Route("/klanten")
@@ -56,6 +59,61 @@ class KlantenController extends AbstractController
         ];
     }
 
+    /**
+     * @Route("/{klant}/{documentId}/deleteDocument/")
+     * @param Request $request
+     * @param $documentId
+     */
+    public function deleteDocumentAction(Request $request, $klant, $documentId)
+    {
+        if (in_array('delete', $this->disabledActions)) {
+            throw new AccessDeniedHttpException();
+        }
+
+        $klant = $this->dao->find($klant);
+
+        $criteria = Criteria::create()->where(Criteria::expr()->eq("id", $documentId));
+        $entity = $klant->getDocumenten()->matching($criteria)->first();
+
+
+        $form = $this->createForm(ConfirmationType::class);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            if ($form->get('yes')->isClicked()) {
+                $url = $request->get('redirect');
+                $viewUrl = $this->generateUrl($this->baseRouteName.'view', ['id' => $entity->getId()]);
+
+
+                $klant->getDocumenten()->removeElement($entity);
+                $this->dao->update($klant);
+
+
+                $this->addFlash('success', 'Document is verwijderd.');
+
+                if (!$this->forceRedirect) {
+                    if ($url && false === strpos($viewUrl, $url)) {
+                        return $this->redirect($url);
+                    }
+                }
+
+                return $this->redirectToIndex();
+            } else {
+                if (isset($url)) {
+                    return $this->redirect($url);
+                }
+
+                return $this->redirectToView($entity);
+            }
+        }
+
+        return [
+            'entity' => $entity,
+
+            'form' => $form->createView(),
+        ];
+
+    }
     protected function addParams($entity, Request $request)
     {
         assert($entity instanceof Klant);
