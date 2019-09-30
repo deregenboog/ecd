@@ -9,7 +9,7 @@ trait DocumentSubjectTrait
     /**
      * @var DocumentInterface[]
      *
-     * @ORM\ManyToMany(targetEntity="Document", cascade={"persist"})
+     * @ORM\ManyToMany(targetEntity="Document", cascade={"persist"}, fetch="EXTRA_LAZY")
      * @ORM\JoinTable(inverseJoinColumns={@ORM\JoinColumn(unique=true, onDelete="CASCADE")})
      */
     protected $documenten;

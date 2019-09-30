@@ -43,6 +43,8 @@ class Document implements DocumentInterface
      */
     protected $file;
 
+
+
     public function __toString()
     {
 
@@ -73,4 +75,5 @@ class Document implements DocumentInterface
 
         return $this;
     }
+
 }

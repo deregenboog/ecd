@@ -14,4 +14,5 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
  */
 class Vog extends Document
 {
+
 }
