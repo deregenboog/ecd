@@ -59,8 +59,22 @@ class VrijwilligersController extends AbstractController
 
         $vrijwilliger = $this->dao->find($vrijwilliger);
 
-        $criteria = Criteria::create()->where(Criteria::expr()->eq("id", $documentId));
-        $entity = $vrijwilliger->getDocumenten()->matching($criteria)->first();
+        //$criteria = Criteria::create()->where(Criteria::expr()->eq("id", $documentId));
+        $docs = $vrijwilliger->getDocumenten(); //->matching($criteria)->first();
+        $entity = null;
+        foreach($docs as $d)
+        {
+            if($d->getId() == $documentId){
+                $entity = $d;
+                break;
+            }
+        }
+
+        if(!$this->isGranted('ROLE_ADMIN')
+            && $entity->getMedewerker()->getId() != $this->getUser()->getId()
+        ) {
+            throw new AccessDeniedHttpException();
+        }
 
         $form = $this->createForm(ConfirmationType::class);
         $form->handleRequest($request);
@@ -70,30 +84,30 @@ class VrijwilligersController extends AbstractController
                 $url = $request->get('redirect');
                 $viewUrl = $this->generateUrl($this->baseRouteName.'view', ['id' => $entity->getId()]);
 
-
-                $docs = $vrijwilliger->getDocumenten();
-                $docs->removeElement($entity);
-
+                $vrijwilliger->removeDocument($entity);
                 /**
-                 * Since Vog en Overeenkomst are entities via STI and via getDocume
+                 * Somehow, it wont remove...
                  */
-                $vrijwilliger->setVogAanwezig(false);
-                $vrijwilliger->setOvereenkomstAanwezig(false);
-                foreach($docs as $d)
+               $docDao = new \AppBundle\Service\DocumentDao($this->getEntityManager());
+               $docDao->delete($entity);
+
+                if($entity instanceof Vog)
                 {
-                    if($d instanceof Vog)
-                    {
-                        $d->setVogAanwezig(true);
-                    }
-                    else if($d instanceof Overeenkomst)
-                    {
-                        $vrijwilliger->setOvereenkomstAanwezig(true);
-                    }
+                    $vrijwilliger->setVogAanwezig(false);
                 }
+                else if($entity instanceof Overeenkomst)
+                {
+                    $vrijwilliger->setOvereenkomstAanwezig(false);
+                }
+
 
                 $this->dao->update($vrijwilliger);
 
-                $this->addFlash('success', 'Document is verwijderd.');
+                $shortname = new \ReflectionClass($this);
+                $shortname = $shortname->getShortName();
+
+
+                $this->addFlash('success', $shortname.' is verwijderd.');
 
                 if (!$this->forceRedirect) {
                     if ($url && false === strpos($viewUrl, $url)) {

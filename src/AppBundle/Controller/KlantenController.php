@@ -72,9 +72,21 @@ class KlantenController extends AbstractController
 
         $klant = $this->dao->find($klant);
 
-        $criteria = Criteria::create()->where(Criteria::expr()->eq("id", $documentId));
-        $entity = $klant->getDocumenten()->matching($criteria)->first();
+        $docs = $klant->getDocumenten(); //->matching($criteria)->first();
+        $entity = null;
+        foreach($docs as $d)
+        {
+            if($d->getId() == $documentId){
+                $entity = $d;
+                break;
+            }
+        }
 
+        if(!$this->isGranted('ROLE_ADMIN')
+            && $entity->getMedewerker()->getId() != $this->getUser()->getId()
+        ) {
+            throw new AccessDeniedHttpException();
+        }
 
         $form = $this->createForm(ConfirmationType::class);
         $form->handleRequest($request);
@@ -85,7 +97,14 @@ class KlantenController extends AbstractController
                 $viewUrl = $this->generateUrl($this->baseRouteName.'view', ['id' => $entity->getId()]);
 
 
-                $klant->getDocumenten()->removeElement($entity);
+                $docs->removeDocument($entity);
+                
+                /**
+                 * Somehow, it wont remove...
+                 */
+                $docDao = new \AppBundle\Service\DocumentDao($this->getEntityManager());
+                $docDao->delete($entity);
+
                 $this->dao->update($klant);
 
 

@@ -91,9 +91,9 @@
         {% if klant.toestemmingsformulier %}
             {{ html.link('Toestemmingsformulier downloaden', vich_uploader_asset(klant.toestemmingsformulier, 'file'), 'download') }}
 
-            {% if klant.toestemmingsformulier.medewerker.id == app.user.id %}
-                {{ html.link('', path('app_klanten_deletedocument', {klant: klant.id, documentId: klant.toestemmingsformulier.id}), 'delete') }}
-            {% endif %}
+            {% if klant.toestemmingsformulier.medewerker.id == app.user.id or is_granted('ROLE_ADMIN') %}
+            {{ html.link('', path('app_klanten_deletedocument', {klant: klant.id, documentId: klant.toestemmingsformulier.id}), 'delete') }}
+        {% endif %}
         {% else %}
             {{ html.link('Toestemmingsformulier toevoegen', path('app_documenten_add', {klant: klant.id, type: 'toestemming'}), 'add') }}
         {% endif %}
