@@ -96,6 +96,7 @@ abstract class AbstractChildController extends AbstractController
 
     /**
      * @Route("/{id}/delete/")
+     * @TODO Nagaan of hier wel autorisatie op zit (nee?)
      * @Template
      */
     public function deleteAction(Request $request, $id)

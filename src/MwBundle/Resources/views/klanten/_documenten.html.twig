@@ -9,7 +9,7 @@
         <tr>
             <td>
                 {{ html.link(document, vich_uploader_asset(document, 'file'), 'download') }}
-                {% if is_granted('ROLE_ADMIN') %}
+                {% if is_granted('ROLE_ADMIN') or document.medewerker.id == app.user.id %}
                     {{ html.deleteLink(path('mw_documenten_delete', {id: document.id})) }}
                 {% endif %}
             </td>

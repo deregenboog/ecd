@@ -98,7 +98,7 @@ class KlantenController extends AbstractController
 
 
                 $docs->removeDocument($entity);
-                
+
                 /**
                  * Somehow, it wont remove...
                  */
