@@ -103,7 +103,7 @@ class VrijwilligersController extends AbstractController
 
                 $this->dao->update($vrijwilliger);
 
-                $shortname = new \ReflectionClass($this);
+                $shortname = new \ReflectionClass($entity);
                 $shortname = $shortname->getShortName();
 
 
