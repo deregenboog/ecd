@@ -57,7 +57,7 @@ security:
         - { path: ^/admin/klanten, roles: ROLE_TEAMLEIDERS }
         - { path: ^/admin, roles: ROLE_ADMIN }
         - { path: ^/medewerkers, roles: ROLE_ADMIN }
-        - { path: ^/buurtboerderij, roles: CONTROLLER_APP_VRIJWILLIGERS }
+        - { path: ^/buurtboerderij, roles: ROLE_BUURTBOERDERIJ }
         - { path: ^/clip/admin, roles: ROLE_CLIP_BEHEER }
         - { path: ^/clip, roles: ROLE_CLIP }
         - { path: ^/dagbesteding/admin, roles: ROLE_DAGBESTEDING_BEHEER }

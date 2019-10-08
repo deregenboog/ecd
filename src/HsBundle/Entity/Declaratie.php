@@ -57,6 +57,7 @@ class Declaratie implements DocumentSubjectInterface, FactuurSubjectInterface
     /**
      * @var Factuur
      * @ORM\ManyToOne(targetEntity="Factuur", inversedBy="declaraties", cascade={"persist"})
+     * @ORM\JoinColumn(nullable=false)
      * @Gedmo\Versioned
      */
     private $factuur;
