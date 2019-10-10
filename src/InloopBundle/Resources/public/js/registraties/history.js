@@ -14,7 +14,7 @@ $(function() {
         row.addClass('info');
 
         $.get({
-            url: '/inloop/registraties/jsonCanRegister/'+$klant_id+'/'+locatie_id,
+            url: '/inloop/registraties/jsonCanRegister/'+klant_id+'/'+locatie_id,
         }).done(function(response) {
             if (response.allow && response.confirm){
                 var confirmed = confirm(response.message);

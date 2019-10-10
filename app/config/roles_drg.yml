@@ -111,6 +111,7 @@ security:
         ROLE_SKIP_BEHEER:
             - ROLE_SCIP_BEHEER
         ROLE_EROPUIT: []
+        ROLE_BUURTBOERDERIJ: []
         ROLE_ADMIN:
             - ROLE_USER
             - ROLE_MW
