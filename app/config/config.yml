@@ -92,6 +92,9 @@ doctrine:
             disabled:
                 class: AppBundle\Doctrine\DisabledFilter
                 enabled: true
+            zichtbaar:
+                class: AppBundle\Doctrine\ZichtbaarFilter
+                enabled: true
             foutieve_invoer:
                 class: IzBundle\Doctrine\FoutieveInvoerFilter
                 enabled: true

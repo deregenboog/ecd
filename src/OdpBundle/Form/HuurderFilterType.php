@@ -5,6 +5,7 @@ namespace OdpBundle\Form;
 use AppBundle\Form\AppDateRangeType;
 use AppBundle\Form\FilterType;
 use AppBundle\Form\KlantFilterType;
+use AppBundle\Form\StadsdeelSelectType;
 use OdpBundle\Filter\HuurderFilter;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
@@ -23,7 +24,9 @@ class HuurderFilterType extends AbstractType
         if (array_key_exists('klant', $options['enabled_filters'])) {
             $builder->add('klant', KlantFilterType::class, [
                 'enabled_filters' => $options['enabled_filters']['klant'],
+
             ]);
+            StadsdeelSelectType::$showOnlyZichtbaar = 0;
         }
 
         if (in_array('automatischeIncasso', $options['enabled_filters'])) {

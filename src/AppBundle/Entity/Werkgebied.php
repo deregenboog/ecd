@@ -19,6 +19,12 @@ class Werkgebied
      */
     private $naam;
 
+    /**
+     * @ORM\Column(type="boolean")
+     * @Gedmo\Versioned
+     */
+    private $zichtbaar;
+
     public function __construct($naam)
     {
         $this->naam = $naam;
@@ -32,5 +38,21 @@ class Werkgebied
     public function getNaam()
     {
         return $this->naam;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getZichtbaar()
+    {
+        return $this->zichtbaar;
+    }
+
+    /**
+     * @param mixed $zichtbaar
+     */
+    public function setZichtbaar($zichtbaar): void
+    {
+        $this->zichtbaar = $zichtbaar;
     }
 }

@@ -10,6 +10,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class StadsdeelSelectType extends AbstractType
 {
+    public static $showOnlyZichtbaar = 1;
     /**
      * {@inheritdoc}
      */
@@ -21,8 +22,12 @@ class StadsdeelSelectType extends AbstractType
             'class' => Werkgebied::class,
             'placeholder' => '',
             'query_builder' => function (EntityRepository $repository) {
-                return $repository->createQueryBuilder('werkgebied')
-                    ->orderBy('werkgebied.naam');
+                $retVal = $repository->createQueryBuilder('werkgebied')
+                    ->andWhere('werkgebied.zichtbaar >= :zichtbaar')
+                    ->orderBy('werkgebied.naam')
+                    ->setParameter('zichtbaar',self::$showOnlyZichtbaar)
+                    ;
+                return $retVal;
             },
         ]);
     }

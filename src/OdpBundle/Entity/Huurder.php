@@ -54,6 +54,14 @@ class Huurder extends Deelnemer
      */
     private $waPolis;
 
+    /**
+     * @var Huurbudget
+     * @ORM\ManyToOne(targetEntity="Huurbudget",inversedBy="huurder",cascade={"persist"})
+     * @ORM\JoinColumn(nullable=true)
+     * @ORM\OrderBy({"maxValue" = "ASC"})
+     */
+    private $huurbudget;
+
     public function __construct()
     {
         parent::__construct();
@@ -173,5 +181,21 @@ class Huurder extends Deelnemer
         $this->waPolis = (bool) $waPolis;
 
         return $this;
+    }
+
+    /**
+     * @return Huurbudget
+     */
+    public function getHuurbudget()
+    {
+        return $this->huurbudget;
+    }
+
+    /**
+     * @param Huurbudget $huurbudget
+     */
+    public function setHuurbudget(Huurbudget $huurbudget): void
+    {
+        $this->huurbudget = $huurbudget;
     }
 }
