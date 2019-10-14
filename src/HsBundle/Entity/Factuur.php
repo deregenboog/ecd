@@ -127,9 +127,9 @@ class Factuur
 
     }
 
-    public function __toString()
+    public function __toString(): string
     {
-        return $this->nummer;
+        return (string) $this->nummer;
     }
 
     public function isDeletable()
@@ -209,10 +209,10 @@ class Factuur
         }
 
         $this->registraties[] = $registratie;
-        $registratie->setFactuur($this);
-
         $this->updateDatum();
         $this->calculateBedrag();
+
+        $registratie->setFactuur($this);
 
         return $this;
     }
@@ -243,16 +243,16 @@ class Factuur
             throw new InvoiceLockedException();
         }
 
-        if ($declaratie->getFactuur()) {
-            $declaratie->getFactuur()->removeDeclaratie($declaratie);
+        if ($oudeFactuur = $declaratie->getFactuur()) {
+            $oudeFactuur->removeDeclaratie($declaratie);
         }
 
         $this->declaraties[] = $declaratie;
-        $declaratie->setFactuur($this);
 
         $this->updateDatum();
         $this->calculateBedrag();
 
+        $declaratie->setFactuur($this);
         return $this;
     }
 

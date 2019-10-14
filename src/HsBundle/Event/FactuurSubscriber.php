@@ -44,6 +44,16 @@ class FactuurSubscriber implements EventSubscriber
         if ($entity instanceof FactuurSubjectInterface) {
             $this->createOrUpdateFactuur($entity, $entityManager);
         }
+        /**
+         * #906: bij updaten datum in vorige maand, werd nieuwe factuur gemaakt (viel niet in oude range).
+         * Alles klopte maar ging toch fout: null als factuur in de declaratie.
+         * Blijkbaar moet doctrine toch een handmatige persist hebben omdat in dit geval de basis entity al bestaat en dus geflusht kan worden, maar een gerelateerde
+         * entity (factuur in dit geval) helemaal nieuw is (en dus nog geen ID heeft?)
+         *
+         **/
+        
+        $entityManager->persist($entity); //waarom ie nu staat. en eerst eerst niet, en het toch werkte, soms, snap ik niet. Maar heeft te maken met relaties die nieuw werden aangemaakt en niet werden opgeslagen. Makes sense?
+
     }
 
     public function preRemove($args)
@@ -79,7 +89,9 @@ class FactuurSubscriber implements EventSubscriber
 
         switch (true) {
             case $entity instanceof Declaratie:
+                $entity->setFactuur($factuur);
                 $factuur->addDeclaratie($entity);
+
                 break;
             case $entity instanceof Registratie:
                 $factuur->addRegistratie($entity);
@@ -93,6 +105,7 @@ class FactuurSubscriber implements EventSubscriber
                 $entityManager->remove($oudeFactuur);
             }
         }
+
     }
 
     private function getDateRange(\DateTime $date)
@@ -163,6 +176,7 @@ class FactuurSubscriber implements EventSubscriber
         $betreft = $this->getBetreft($klant, $nummer, $dateRange);
         $factuur = new Factuur($klant, $nummer, $betreft, $dateRange);
         $entityManager->persist($factuur);
+
 
         return $factuur;
     }
