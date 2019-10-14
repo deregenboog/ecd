@@ -34,6 +34,9 @@ OdpBundle\Entity\Huurder:
         klant (unique): '@klant_*'
         medewerker: '@medewerker_*'
         aanmelddatum: '<dateTimeThisDecade()>'
+        huurbudget: '@huurbudget_*'
+        werk: '@werk_*'
+        duurthuisloos: '@duurthuisloos_*'
 
 OdpBundle\Entity\Verhuurder:
     odp_verhuurder_{1..100}:

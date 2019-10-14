@@ -8,25 +8,25 @@ AppBundle\Entity\Geslacht:
 
 AppBundle\Entity\Werkgebied:
     werkgebied_1:
-        __construct: ['Amstelveen']
+        __construct: ['Amstelveen', 1]
     werkgebied_2:
-        __construct: ['Centrum']
+        __construct: ['Centrum',1]
     werkgebied_3:
-        __construct: ['Diemen']
+        __construct: ['Diemen',1]
     werkgebied_4:
-        __construct: ['Nieuw-West']
+        __construct: ['Nieuw-West',1]
     werkgebied_5:
-        __construct: ['Noord']
+        __construct: ['Noord',1]
     werkgebied_6:
-        __construct: ['Oost']
+        __construct: ['Oost',1]
     werkgebied_7:
-        __construct: ['West']
+        __construct: ['West',1]
     werkgebied_8:
-        __construct: ['Westpoort']
+        __construct: ['Westpoort',1]
     werkgebied_9:
-        __construct: ['Zuid']
+        __construct: ['Zuid',1]
     werkgebied_10:
-        __construct: ['Zuidoost']
+        __construct: ['Zuidoost',1]
 
 AppBundle\Entity\GgwGebied:
     ggw_gebied_1:

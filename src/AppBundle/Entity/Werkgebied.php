@@ -20,14 +20,15 @@ class Werkgebied
     private $naam;
 
     /**
-     * @ORM\Column(type="boolean")
+     * @ORM\Column(type="boolean", nullable=false)
      * @Gedmo\Versioned
      */
     private $zichtbaar;
 
-    public function __construct($naam)
+    public function __construct($naam, $zichtbaar = 1)
     {
         $this->naam = $naam;
+        $this->zichtbaar = $zichtbaar;
     }
 
     public function __toString()

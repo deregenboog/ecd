@@ -22,7 +22,7 @@ class CoordinatorenController extends SymfonyController
     /**
      * @var CoordinatorDaoInterface
      *
-     * @DI\Inject("OdpBundle\Serviceoordinatordao")
+     * @DI\Inject("OdpBundle\Service\CoordinatorDao")
      */
     private $coordinatorDao;
 

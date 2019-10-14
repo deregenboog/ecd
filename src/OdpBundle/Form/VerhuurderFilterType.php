@@ -5,6 +5,7 @@ namespace OdpBundle\Form;
 use AppBundle\Form\AppDateRangeType;
 use AppBundle\Form\FilterType;
 use AppBundle\Form\KlantFilterType;
+use AppBundle\Form\StadsdeelSelectType;
 use OdpBundle\Filter\VerhuurderFilter;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
@@ -23,6 +24,7 @@ class VerhuurderFilterType extends AbstractType
             $builder->add('klant', KlantFilterType::class, [
                 'enabled_filters' => $options['enabled_filters']['klant'],
             ]);
+            StadsdeelSelectType::$showOnlyZichtbaar = 0;
         }
 
         if (in_array('wpi', $options['enabled_filters'])) {

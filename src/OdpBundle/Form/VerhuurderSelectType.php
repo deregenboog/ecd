@@ -4,6 +4,7 @@ namespace OdpBundle\Form;
 
 use AppBundle\Filter\FilterInterface;
 use AppBundle\Form\BaseType;
+use AppBundle\Form\StadsdeelSelectType;
 use Doctrine\ORM\EntityRepository;
 use OdpBundle\Entity\Verhuurder;
 use Symfony\Component\Form\AbstractType;
