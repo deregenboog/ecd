@@ -62,6 +62,22 @@ class Huurder extends Deelnemer
      */
     private $huurbudget;
 
+    /**
+     * @var DuurThuisloos
+     * @ORM\ManyToOne(targetEntity="OdpBundle\Entity\DuurThuisloos",inversedBy="huurder",cascade={"persist"})
+     * @ORM\JoinColumn(nullable=true)
+     * @ORM\OrderBy({"maxValue" = "ASC"})
+     */
+    private $duurThuisloos;
+
+    /**
+     * @var Werk
+     * @ORM\ManyToOne(targetEntity="OdpBundle\Entity\Werk",inversedBy="huurder",cascade={"persist"})
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $werk;
+
+
     public function __construct()
     {
         parent::__construct();
@@ -186,7 +202,7 @@ class Huurder extends Deelnemer
     /**
      * @return Huurbudget
      */
-    public function getHuurbudget()
+    public function getHuurbudget(): ?Huurbudget
     {
         return $this->huurbudget;
     }
@@ -198,4 +214,38 @@ class Huurder extends Deelnemer
     {
         $this->huurbudget = $huurbudget;
     }
+
+    /**
+     * @return DuurThuisloos
+     */
+    public function getDuurThuisloos(): ?DuurThuisloos
+    {
+        return $this->duurThuisloos;
+    }
+
+    /**
+     * @param DuurThuisloos $duurThuisloos
+     */
+    public function setDuurThuisloos(DuurThuisloos $duurThuisloos): void
+    {
+        $this->duurThuisloos = $duurThuisloos;
+    }
+
+    /**
+     * @return Werk
+     */
+    public function getWerk(): ?Werk
+    {
+        return $this->werk;
+    }
+
+    /**
+     * @param Werk $werk
+     */
+    public function setWerk(Werk $werk): void
+    {
+        $this->werk = $werk;
+    }
+
+
 }

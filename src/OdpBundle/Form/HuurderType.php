@@ -47,7 +47,9 @@ class HuurderType extends AbstractType
             ])
             ->add('klantmanager')
             ->add('wpi')
-            ->add('huurbudget');
+            ->add('huurbudget')
+            ->add('duurThuisloos')
+            ->add('werk')
         ;
 
         if (!$options['data']->getId()) {
