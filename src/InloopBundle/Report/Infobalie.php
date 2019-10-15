@@ -18,7 +18,7 @@ use MwBundle\Entity\Verslaginventarisatie;
 
 class Infobalie extends AbstractReport
 {
-    protected $title = 'Infobalierapportage';
+    protected $title = 'EU burgers';
 
     /**
      * @var Land[]
@@ -354,6 +354,20 @@ class Infobalie extends AbstractReport
             foreach ($tmp_klanten as $klant) {
                 $klanten[$klant['id']] = $klant['laatste_intake_id'];
             }
+            /**
+             * $locatie = null dus alle locaties...
+             *
+             */
+            $builder = $this->entityManager->getRepository(Locatie::class)->createQueryBuilder('locatie')
+                ->select('locatie.id')
+            ;
+
+            $locatie_lijst = array_map(function ($row) {
+                return $row['id'];
+            }, $builder->getQuery()->getScalarResult());
+            $this->locatie = implode(",",$locatie_lijst);
+
+
         }
 
         foreach ($this->landen as $land) {
@@ -395,6 +409,8 @@ class Infobalie extends AbstractReport
             ->getQuery()
             ->getSingleScalarResult();
 
+
+
         $count['totalVisits'] = $registratieRepository->createQueryBuilder('registratie')
             ->select('COUNT(registratie.id) AS cnt')
             ->innerJoin('registratie.klant', 'klant')
@@ -408,6 +424,24 @@ class Infobalie extends AbstractReport
             ->setParameter('end_date', $endDatePlusOneDay)
             ->getQuery()
             ->getSingleScalarResult();
+
+        $tbuilder = $registratieRepository->createQueryBuilder('registratie');
+        $tbuilder
+        ->select('COUNT(registratie.id) AS cnt')
+        ->innerJoin('registratie.klant', 'klant')
+        ->where('klant.id IN (:ids)')
+        ->andWhere('registratie.locatie = :locatie')
+        ->andWhere('registratie.binnen >= :start_date')
+        ->andWhere('registratie.binnen < :end_date')
+        ->setParameter('ids', array_keys($klanten))
+        ->setParameter('locatie', $this->locatie)
+        ->setParameter('start_date', $startDate)
+        ->setParameter('end_date', $endDatePlusOneDay)
+        ;
+        $sql = $tbuilder->getQuery()->getSQL();
+        $params = $tbuilder->getQuery()->getParameters();
+
+
 
         $builder = $this->entityManager->getRepository(Verslag::class)->createQueryBuilder('verslag')
             ->select('klant.id')

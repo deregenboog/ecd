@@ -51,7 +51,7 @@ class FactuurSubscriber implements EventSubscriber
          * entity (factuur in dit geval) helemaal nieuw is (en dus nog geen ID heeft?)
          *
          **/
-        
+
         $entityManager->persist($entity); //waarom ie nu staat. en eerst eerst niet, en het toch werkte, soms, snap ik niet. Maar heeft te maken met relaties die nieuw werden aangemaakt en niet werden opgeslagen. Makes sense?
 
     }
