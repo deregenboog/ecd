@@ -45,7 +45,7 @@ class Factuur
     protected $betreft;
 
     /**
-     * @ORM\Column(type="decimal", scale=2)
+     * @ORM\Column(type="decimal", scale=2, nullable=true)
      * @Gedmo\Versioned
      */
     protected $bedrag;
@@ -208,7 +208,7 @@ class Factuur
             $registratie->getFactuur()->removeRegistratie($registratie);
         }
 
-        $this->registraties[] = $registratie;
+        $this->registraties->add($registratie);
         $this->updateDatum();
         $this->calculateBedrag();
 
@@ -224,7 +224,7 @@ class Factuur
         }
 
         $this->registraties->removeElement($registratie);
-        $registratie->setFactuur(null);
+
 
         $this->updateDatum();
         $this->calculateBedrag();
@@ -243,11 +243,12 @@ class Factuur
             throw new InvoiceLockedException();
         }
 
-        if ($oudeFactuur = $declaratie->getFactuur()) {
-            $oudeFactuur->removeDeclaratie($declaratie);
+        if ($declaratie->getFactuur()) {
+            $declaratie->getFactuur()->removeDeclaratie($declaratie);
         }
 
-        $this->declaraties[] = $declaratie;
+        $this->declaraties->add($declaratie);
+
 
         $this->updateDatum();
         $this->calculateBedrag();
@@ -263,7 +264,7 @@ class Factuur
         }
 
         $this->declaraties->removeElement($declaratie);
-        $declaratie->setFactuur(null);
+       // $declaratie->setFactuur(null);
 
         $this->updateDatum();
         $this->calculateBedrag();

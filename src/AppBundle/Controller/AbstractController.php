@@ -224,8 +224,10 @@ abstract class AbstractController extends SymfonyController
             }
             try {
                 if ($entity->getId()) {
+                    $this->beforeUpdate($entity);
                     $this->dao->update($entity);
                 } else {
+                    $this->beforeCreate($entity);
                     $this->dao->create($entity);
                 }
                 $this->addFlash('success', ucfirst($this->entityName).' is opgeslagen.');
@@ -321,6 +323,16 @@ abstract class AbstractController extends SymfonyController
     }
 
     protected function afterFind($entity)
+    {
+        return;
+    }
+
+    protected function beforeUpdate($entity)
+    {
+        return;
+    }
+
+    protected function beforeCreate($entity)
     {
         return;
     }

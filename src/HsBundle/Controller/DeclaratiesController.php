@@ -4,9 +4,14 @@ namespace HsBundle\Controller;
 
 use AppBundle\Controller\AbstractChildController;
 use AppBundle\Exception\AppException;
+use AppBundle\Form\Model\AppDateRangeModel;
+use Doctrine\ORM\EntityManager;
 use HsBundle\Entity\Arbeider;
+use HsBundle\Entity\Creditfactuur;
 use HsBundle\Entity\Declaratie;
 use HsBundle\Entity\Factuur;
+use HsBundle\Entity\FactuurSubjectHelper;
+use HsBundle\Entity\Klant;
 use HsBundle\Entity\Klus;
 use HsBundle\Entity\Registratie;
 use HsBundle\Form\DeclaratieType;
@@ -15,6 +20,7 @@ use JMS\DiExtraBundle\Annotation as DI;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+
 
 /**
  * @Route("/declaraties")
@@ -64,15 +70,32 @@ class DeclaratiesController extends AbstractChildController
      */
     public function editAction(Request $request, $id)
     {
-        $entity = $this->dao->find($id);
+        $declaratie = $this->dao->find($id);
 
-        if ($entity->getFactuur() instanceof Factuur && $entity->getFactuur()->isLocked()) {
+        if ($declaratie->getFactuur() instanceof Factuur && $declaratie->getFactuur()->isLocked()) {
             return $this->redirectToRoute('hs_klussen_index');
         }
 
-        return $this->processForm($request, $entity);
+        return $this->processForm($request, $declaratie);
+
+
     }
 
+    protected function beforeCreate($entity)
+    {
+        return $this->beforeUpdate($entity);
+    }
+
+    /**
+     * @param Declaratie $declaratie
+     * @throws \HsBundle\Exception\InvoiceLockedException
+     */
+    protected function beforeUpdate($declaratie)
+    {
+        $helper = new FactuurSubjectHelper();
+        $helper->beforeUpdateEntity($declaratie,$this->getEntityManager());
+
+    }
     /**
      * @Route("/{id}/delete")
      */
@@ -108,6 +131,7 @@ class DeclaratiesController extends AbstractChildController
 
         if ($form->isSubmitted() && $form->isValid()) {
             try {
+                $this->beforeCreate($entity);
                 $this->dao->create($entity);
                 $this->addFlash('success', ucfirst($this->entityName).' is toegevoegd.');
             } catch (\Exception $e) {
@@ -128,4 +152,6 @@ class DeclaratiesController extends AbstractChildController
             'form' => $form->createView(),
         ];
     }
+
+
 }

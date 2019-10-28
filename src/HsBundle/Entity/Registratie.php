@@ -59,7 +59,7 @@ class Registratie implements FactuurSubjectInterface
     /**
      * @var Factuur
      * @ORM\ManyToOne(targetEntity="Factuur", inversedBy="registraties", cascade={"persist"})
-     * @ORM\JoinColumn(nullable=true)
+     * @ORM\JoinColumn(nullable=false)
      * @Gedmo\Versioned
      */
     private $factuur;

@@ -6,6 +6,7 @@ use AppBundle\Controller\AbstractChildController;
 use AppBundle\Exception\AppException;
 use AppBundle\Export\ExportInterface;
 use HsBundle\Entity\Arbeider;
+use HsBundle\Entity\FactuurSubjectHelper;
 use HsBundle\Entity\Klus;
 use HsBundle\Entity\Registratie;
 use HsBundle\Filter\RegistratieFilter;
@@ -64,6 +65,18 @@ class RegistratiesController extends AbstractChildController
         return $this->download($filter);
     }
 
+    public function beforeCreate($entity)
+    {
+        $this->beforeUpdate($entity);
+    }
+
+    public function beforeUpdate($entity)
+    {
+        $helper = new FactuurSubjectHelper();
+        $helper->beforeUpdateEntity($entity,$this->getEntityManager());
+    }
+
+
     /**
      * @Route("/add")
      */
@@ -85,6 +98,7 @@ class RegistratiesController extends AbstractChildController
 
         if ($form->isSubmitted() && $form->isValid()) {
             try {
+                $this->beforeCreate($entity);
                 $this->dao->create($entity);
                 $this->addFlash('success', ucfirst($this->entityName).' is toegevoegd.');
             } catch (\Exception $e) {
