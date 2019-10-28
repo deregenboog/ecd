@@ -68,6 +68,7 @@ abstract class AbstractChildController extends AbstractController
                 $entity->setMedewerker($this->getMedewerker());
             }
             try {
+                $this->beforeCreate($entity);
                 $this->persistEntity($entity, $parentEntity);
                 $this->addFlash('success', ucfirst($this->entityName).' is toegevoegd.');
             } catch (\Exception $e) {

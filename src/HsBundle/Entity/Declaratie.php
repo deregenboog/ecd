@@ -131,7 +131,7 @@ class Declaratie implements DocumentSubjectInterface, FactuurSubjectInterface
         return $this;
     }
 
-    public function getFactuur()
+    public function getFactuur(): ?Factuur
     {
         return $this->factuur;
     }
