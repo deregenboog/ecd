@@ -67,7 +67,7 @@
                     <dd>{{ entity ? entity.stagiair ? 'Ja' }}</dd>
                 {% endif %}
             </dl>
-            {% if entity.zrm %}
+            {% if false and entity.zrm %}
                 {% include 'AppBundle:zrms:_detail.html.twig' with {entity: entity.zrm} %}
             {% endif %}
         </div>

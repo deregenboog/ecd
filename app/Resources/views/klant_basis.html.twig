@@ -66,6 +66,7 @@
 
 {{ render(controller('AppBundle:Klanten:_diensten', {id: klant.id})) }}
 
+{%  if module != 'IzIntake' %}
 <h2>ZRMs</h2>
 <p>
     {{ html.link('ZRM-overzicht', path('app_zrms_index', {'zrm_filter[klant][id]': klant.id}), 'view') }}
@@ -83,7 +84,7 @@
         </tr>
     {% endfor %}
 </table>
-
+{% endif %}
 <h2>Documenten</h2>
 <dl class="dl-horizontal">
     <dt>Toestemmingsformulier</dt>

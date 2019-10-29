@@ -76,7 +76,7 @@ abstract class AbstractChildController extends AbstractController
                 $message = $this->container->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
                 $this->addFlash('danger', $message);
             }
-
+            
             if ($url = $request->get('redirect')) {
                 return $this->redirect($url);
             }

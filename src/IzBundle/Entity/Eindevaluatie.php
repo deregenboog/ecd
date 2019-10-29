@@ -15,31 +15,25 @@ class Eindevaluatie extends Verslag
     public function __construct()
     {
         $this->opmerking = <<<EOF
-Terugblik: hoe hebben de deelnemer en de vrijwilliger het contact ervaren?
+Wat is het allerleukste geweest van het afgelopen half jaar?
 
 
-Was de deelnemer tevreden over hoe het maatje hem/haar benaderde en met hem/haar omging?
+Waar ben je nog meer tevreden over?
 
 
-Heeft het contact aan de verwachtingen voldaan? Waarom wel/niet?
+Hoe is het contact verlopen met je vrijwilliger/deelnemer en coördinator? Tips voor de regenboog of je coördinator wat anders zou kunnen?
 
 
-Wat was het doel van het contact en welke effecten ervaart de deelnemer? (*)
+Wat heeft het je opgeleverd? Zijn er dingen waar je nu (verder) mee aan de slag wil?
 
 
-Is er voor de deelnemer (nog iets anders) veranderd in positieve zin door het contact met de vrijwilliger? Zo ja, wat?
+Heeft het contact aan je verwachtingen voldaan? Op welke punten wel/niet?
 
 
-Hoe gaat het nu met de deelnemer? Is vervolgondersteuning nodig?
+Ben je door dingen of door jezelf verrast het afgelopen half jaar?
 
 
-Welk cijfer geeft de deelnemer het contact met je laatste maatje? Graag een toelichting.
-
-
-Ben je tevreden over het contact met de coördinator?
-
-
-Vragen specifiek aan de vrijwilliger: met wel cijfer beoordeel je je vrijwilligerswerk bij ons? Wat maakt dat je ons dat cijfer geeft?
+Wat wordt het doel vd koppeling als er een verlenging komt? Indien de koppeling stopt bij de regenboog: blijven jullie elkaar zien?
 
 
 EOF;

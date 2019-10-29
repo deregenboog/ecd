@@ -51,16 +51,16 @@ class IntakeType extends AbstractType
                     'required' => false,
                 ]);
 
-                if ($intake->getZrm()) {
-                    $builder->add('zrm', ZrmType::class, [
-                        'data_class' => get_class($intake->getZrm()),
-                        'request_module' => 'IzIntake',
-                    ]);
-                } else {
-                    $builder->add('zrm', ZrmType::class, [
-                        'request_module' => 'IzIntake',
-                    ]);
-                }
+//                if ($intake->getZrm()) {
+//                    $builder->add('zrm', ZrmType::class, [
+//                        'data_class' => get_class($intake->getZrm()),
+//                        'request_module' => 'IzIntake',
+//                    ]);
+//                } else {
+//                    $builder->add('zrm', ZrmType::class, [
+//                        'request_module' => 'IzIntake',
+//                    ]);
+//                }
             } elseif ($intake->getIzDeelnemer() instanceof IzVrijwilliger) {
                 $builder->add('stagiair', CheckboxType::class, [
                     'required' => false,

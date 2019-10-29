@@ -115,6 +115,7 @@ class Intake
     public function __construct()
     {
         $this->intakeDatum = new \DateTime('today');
+
     }
 
     public function getId()
@@ -203,7 +204,8 @@ class Intake
 
     public function getGespreksverslag()
     {
-        return $this->gespreksverslag;
+
+       return $this->gespreksverslag;
     }
 
     public function setGespreksverslag($gespreksverslag = null)

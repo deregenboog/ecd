@@ -5,6 +5,7 @@ namespace IzBundle\Entity;
 use AppBundle\Entity\Medewerker;
 use AppBundle\Model\TimestampableTrait;
 use Doctrine\ORM\Mapping as ORM;
+use ErOpUitBundle\Form\KlantCloseType;
 use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
@@ -60,7 +61,7 @@ class Verslag
      * @Gedmo\Versioned
      */
     protected $medewerker;
-
+    
     public function getId()
     {
         return $this->id;

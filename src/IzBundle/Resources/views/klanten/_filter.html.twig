@@ -1,6 +1,6 @@
 {{ form_start(filter) }}
     <tr>
-        <th colspan="7">
+        <th colspan="6">
             <span class="form-inline">
                 {{ form_widget(filter.openDossiers) }}
                 {{ form_widget(filter.zonderActieveKoppeling) }}
@@ -59,8 +59,6 @@
             {{ form_errors(filter.afsluitDatum.start) }}
             {{ form_widget(filter.afsluitDatum.end) }}
             {{ form_errors(filter.afsluitDatum.end) }}
-        </th>
-        <th>
         </th>
     </tr>
 {{ form_end(filter) }}
