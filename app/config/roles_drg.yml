@@ -139,7 +139,6 @@ security:
             - ROLE_BACK_ON_TRACK_COACH
             - ROLE_VOLUNTEERS
             - ROLE_STAGE
-            - ROLE_PFO_BEPERKT
             - ROLE_PFO
             - ROLE_TRAJECTBEGELEIDER
             - ROLE_TEAMLEIDERS

@@ -56,6 +56,6 @@ class RoutingExtension extends BaseRoutingExtension
             $parameters['redirect'] = $this->requestStack->getCurrentRequest()->get('url');
         }
 
-        return parent::getUrl($name, $parameters, $relative);
+        return parent::getUrl($name, $parameters, $schemeRelative);
     }
 }

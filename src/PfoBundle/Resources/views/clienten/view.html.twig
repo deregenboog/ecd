@@ -82,8 +82,17 @@
 {% block content_right %}
     <ul class="nav nav-tabs">
         <li class="active"><a data-toggle="tab" href="#koppelingen">Koppelingen</a></li>
+        {%
+            set verslagIcon, verslagLink = '<span class="glyphicon-lock glyphicon"></span>', '#'
+        %}
+        {%  if is_granted("ROLE_PFO") and not is_granted("ROLE_PFO_BEPERKT") %}
+                {% set verslagIcon = ''  %}
+                {% set verslagLink = '#verslagen' %}
 
-        <li><a data-toggle="tab" href="#verslagen">{{ is_granted("ROLE_PFO_BEPERKT") and not is_granted("ROLE_PFO") ? '<span class="glyphicon-lock glyphicon"></span>' : '' }}Verslagen</a></li>
+
+        {% endif %}
+
+        <li><a data-toggle="tab" href="{{ verslagLink }}" >{{ verslagIcon|raw }}Verslagen</a></li>
         <li><a data-toggle="tab" href="#documenten">Documenten</a></li>
     </ul>
     <div class="tab-content">
@@ -109,8 +118,8 @@
             {% endif %}
         </div>
         <div id="verslagen" class="tab-pane">
-           {% if is_granted('ROLE_PFO') %}
-            {% include '@Pfo/verslagen/_list.html.twig' with {client: entity} %}
+           {% if not is_granted('ROLE_PFO_BEPERT') and is_granted("ROLE_PFO") %}
+                {% include '@Pfo/verslagen/_list.html.twig' with {client: entity} %}
             {% endif %}
         </div>
         <div id="documenten" class="tab-pane">

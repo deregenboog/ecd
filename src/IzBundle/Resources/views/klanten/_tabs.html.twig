@@ -12,14 +12,14 @@
     {% if klant.id %}
         {% if not klant.intake or not klant.intake.id %}
             <li class="{{ current == 'intake' ? 'active' }}">
-                <a href="{{ path('iz_intakes_add', {deelnemer: klant.id}) }}">Intake</a>
+                <a href="{{ path('iz_intakes_add', {deelnemer: klant.id, _fragment: 'intake'}) }}">Intake</a>
             </li>
         {% else %}
             <li class="{{ current == 'intake' ? 'active' }}">
                 {% if current_route == 'iz_intakes_view' %}
                     <a data-toggle="tab" href="#intake">Intake</a>
                 {% else %}
-                    <a href="{{ path('iz_intakes_view', {id:klant.intake.id}) }}">Intake</a>
+                    <a href="{{ path('iz_intakes_view', {id:klant.intake.id, _fragment: 'intake'}) }}">Intake</a>
                 {% endif %}
             </li>
             <li class="{{ current == 'verslagen' ? 'active' }}">
