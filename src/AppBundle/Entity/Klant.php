@@ -503,4 +503,10 @@ class Klant extends Persoon
     {
         return $this->addDocument($toestemmingsformulier);
     }
+
+    public function isToestemmingsformulierAanwezig(): bool
+    {
+        if(null !== $this->getToestemmingsformulier()) return true;
+        return false;
+    }
 }

@@ -32,6 +32,7 @@ services:
                 Medewerker(s) hulpvraag: { expression: 'export.getMedewerkers(entity)' }
                 Gekoppeld: { expression: 'entity.isGekoppeld() ? "ja" : "nee"' }
                 Ontstaan contact: { expression: 'entity.getContactOntstaan()' }
+                Toestemmingsformulier aanwezig: { expression: 'entity.getKlant().isToestemmingsformulierAanwezig() ? "ja":"nee"' }
 
     iz.export.intervisiegroepen:
         class: AppBundle\Export\GenericExport
