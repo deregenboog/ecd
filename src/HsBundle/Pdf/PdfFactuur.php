@@ -6,7 +6,7 @@ use HsBundle\Entity\Factuur;
 
 class PdfFactuur extends \TCPDF
 {
-    private $footerText = 'Uw betaling kunt u overmaken op bankrekeningnummer NL46 INGB 0000215793 o.v.v. factuurnummer ten name van Stichting De Regenboog Groep.';
+    private $footerText = 'Uw betaling graag overmaken o.v.v. factuurnummer op bankrekeningnummer NL44 RABO 0331 1944 14 ten name van Stichting De Regenboog Groep.';
 
     public function __construct($html, Factuur $entity)
     {
