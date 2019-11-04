@@ -42,6 +42,13 @@ class Vrijwilliger extends Persoon
     protected $overeenkomstAanwezig = false;
 
     /**
+     * @ORM\Column(name="geinformeerd_opslaan_gegevens", type="boolean")
+     * @Gedmo\Versioned
+     */
+    protected $geinformeerdOpslaanGegevens = false;
+
+
+    /**
      * @return bool
      */
     public function isVogAangevraagd()
@@ -168,4 +175,22 @@ class Vrijwilliger extends Persoon
 
         return $this;
     }
+
+    /**
+     * @return bool
+     */
+    public function isGeinformeerdOpslaanGegevens(): bool
+    {
+        return $this->geinformeerdOpslaanGegevens;
+    }
+
+    /**
+     * @param bool $geinformeerdOpslaanGegevens
+     */
+    public function setGeinformeerdOpslaanGegevens(bool $geinformeerdOpslaanGegevens): void
+    {
+        $this->geinformeerdOpslaanGegevens = $geinformeerdOpslaanGegevens;
+    }
+
+
 }

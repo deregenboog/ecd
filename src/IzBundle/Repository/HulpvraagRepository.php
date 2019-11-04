@@ -103,6 +103,17 @@ class HulpvraagRepository extends EntityRepository
         return $builder->getQuery()->getResult();
     }
 
+    public function countKoppelingenByDoelgroep($report, \DateTime $startDate, \DateTime $endDate)
+    {
+        $builder = $this->getKoppelingenCountBuilder()
+            ->addSelect('doelgroep.naam AS doelgroepnaam')
+            ->innerJoin('hulpvraag.doelgroepen', 'doelgroep')
+            ->groupBy('doelgroep');
+        $this->applyKoppelingenReportFilter($builder, $report, $startDate, $endDate);
+
+        return $builder->getQuery()->getResult();
+    }
+
     public function countKoppelingenByStadsdeel($report, \DateTime $startDate, \DateTime $endDate)
     {
         $builder = $this->getKoppelingenCountBuilder()
@@ -124,6 +135,19 @@ class HulpvraagRepository extends EntityRepository
 
         return $builder->getQuery()->getResult();
     }
+
+//    public function countKoppelingenByDoelgroepAndStadsdeel($report, \DateTime $startDate, \DateTime $endDate)
+//    {
+//        $builder = $this->getKoppelingenCountBuilder()
+//            ->addSelect('doelgroep.naam AS doelgroepnaam')
+//            ->addSelect('werkgebied.naam AS stadsdeel')
+//            ->leftJoin('klant.werkgebied', 'werkgebied')
+//            ->innerJoin('hulpvraag.doelgroepen', 'doelgroep')
+//            ->groupBy('project', 'stadsdeel');
+//        $this->applyKoppelingenReportFilter($builder, $report, $startDate, $endDate);
+//
+//        return $builder->getQuery()->getResult();
+//    }
 
     public function countKoppelingenByProjectAndStadsdeel($report, \DateTime $startDate, \DateTime $endDate)
     {
