@@ -23,10 +23,12 @@ class VrijwilligerType extends AbstractType
      */
     private $entityManager;
 
+
     public function __construct(EntityManager $entityManager)
     {
         $this->entityManager = $entityManager;
     }
+
 
     /**
      * {@inheritdoc}
@@ -101,28 +103,12 @@ class VrijwilligerType extends AbstractType
                 })
             ;
         }
+        $builder->addEventListener(FormEvents::SUBMIT, function(FormEvent $event){
+            Vrijwilliger::KoppelPostcodeWerkgebiedClosure($event, $this->entityManager);
+        });
 
         $builder
             ->add('submit', SubmitType::class)
-            ->addEventListener(FormEvents::SUBMIT, function (FormEvent $event) {
-                /* @var Vrijwilliger $data */
-                $data = $event->getData();
-                if ($data->getPostcode()) {
-                    $data->setPostcode(PostcodeFormatter::format($data->getPostcode()));
-
-                    try {
-                        $postcode = $this->entityManager->getRepository(Postcode::class)->find($data->getPostcode());
-                        if ($postcode) {
-                            $data
-                                ->setWerkgebied($postcode->getStadsdeel())
-                                ->setPostcodegebied($postcode->getPostcodegebied())
-                            ;
-                        }
-                    } catch (\Exception $e) {
-                        // ignore
-                    }
-                }
-            })
         ;
     }
 

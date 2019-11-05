@@ -17,8 +17,9 @@ trait DocumentSubjectTrait
     /**
      * @return DocumentInterface[]
      */
-    public function getDocumenten()
+    public function getDocumenten(): array
     {
+        if(!is_array($this->documenten)) $this->documenten = array();
         return $this->documenten;
     }
 

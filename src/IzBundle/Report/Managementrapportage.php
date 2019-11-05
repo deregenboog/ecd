@@ -16,13 +16,13 @@ class Managementrapportage extends AbstractReport
 
     protected $xPath = 'kolom';
 
-    protected $yPath = 'doelgroepnaam';
+    protected $yPath = 'projectnaam';
 
     protected $nPath = 'aantal';
 
     protected $xDescription = 'Koppelingen';
 
-    protected $yDescription = 'Doelgroep';
+    protected $yDescription = 'Project';
 
     /**
      * @var \SplPriorityQueue
@@ -64,7 +64,6 @@ class Managementrapportage extends AbstractReport
         $this->queue = new \SplPriorityQueue();
         $this->initTotal();
         $this->initStadsdelen();
-
         $this->initTeams();
         $this->initFondsen();
         foreach ($this->queue as $data) {
@@ -74,28 +73,27 @@ class Managementrapportage extends AbstractReport
 
     private function initTotal()
     {
-        $beginstand = $this->repository->countKoppelingenByDoelgroep('beginstand', $this->startDate, $this->endDate);
+        $beginstand = $this->repository->countKoppelingenByProject('beginstand', $this->startDate, $this->endDate);
         array_walk($beginstand, function (&$item) {
             $item['kolom'] = 'Caseload startdatum';
         });
 
-        $gestart = $this->repository->countKoppelingenByDoelgroep('gestart', $this->startDate, $this->endDate);
+        $gestart = $this->repository->countKoppelingenByProject('gestart', $this->startDate, $this->endDate);
         array_walk($gestart, function (&$item) {
             $item['kolom'] = 'Gestart';
         });
 
-        $eindstand = $this->repository->countKoppelingenByDoelgroep('eindstand', $this->startDate, $this->endDate);
+        $eindstand = $this->repository->countKoppelingenByProject('eindstand', $this->startDate, $this->endDate);
         array_walk($eindstand, function (&$item) {
             $item['kolom'] = 'Caseload einddatum';
         });
 
         if ($this->startDate->format('Y') <= 2017) {
-
             $prestaties = $gestart;
             foreach ($this->projecten as $project) {
                 if (Project::STRATEGY_PRESTATIE_TOTAL === $project->getPrestatieStrategy()) {
                     $prestaties = array_merge($prestaties, array_filter($beginstand, function ($row) use ($project) {
-                        return $row['doelgroepnaam'] === $project->getNaam();
+                        return $row['projectnaam'] === $project->getNaam();
                     }));
                 }
             }
@@ -117,17 +115,17 @@ class Managementrapportage extends AbstractReport
 
     private function initStadsdelen()
     {
-        $beginstand = $this->repository->countKoppelingenByDoelgroepAndStadsdeel('beginstand', $this->startDate, $this->endDate);
+        $beginstand = $this->repository->countKoppelingenByProjectAndStadsdeel('beginstand', $this->startDate, $this->endDate);
         array_walk($beginstand, function (&$item) {
             $item['kolom'] = 'Caseload startdatum';
         });
 
-        $gestart = $this->repository->countKoppelingenByDoelgroepAndStadsdeel('gestart', $this->startDate, $this->endDate);
+        $gestart = $this->repository->countKoppelingenByProjectAndStadsdeel('gestart', $this->startDate, $this->endDate);
         array_walk($gestart, function (&$item) {
             $item['kolom'] = 'Gestart';
         });
 
-        $eindstand = $this->repository->countKoppelingenByDoelgroepAndStadsdeel('eindstand', $this->startDate, $this->endDate);
+        $eindstand = $this->repository->countKoppelingenByProjectAndStadsdeel('eindstand', $this->startDate, $this->endDate);
         array_walk($eindstand, function (&$item) {
             $item['kolom'] = 'Caseload einddatum';
         });
@@ -137,7 +135,7 @@ class Managementrapportage extends AbstractReport
             foreach ($this->projecten as $project) {
                 if (Project::STRATEGY_PRESTATIE_TOTAL === $project->getPrestatieStrategy()) {
                     $prestaties = array_merge($prestaties, array_filter($beginstand, function ($row) use ($project) {
-                        return $row['doelgroepnaam'] === $project->getNaam();
+                        return $row['projectnaam'] === $project->getNaam();
                     }));
                 }
             }
@@ -205,7 +203,7 @@ class Managementrapportage extends AbstractReport
                 $amount = round($doelstelling['aantal'] / $remainingTeams);
                 $doelstelling['aantal'] -= $amount;
                 $teamData[$team][] = [
-                    'doelgroepnaam' => $doelstelling['doelgroepnaam'],
+                    'projectnaam' => $doelstelling['projectnaam'],
                     'kolom' => 'Doelstelling',
                     'aantal' => $amount,
                 ];
@@ -220,17 +218,17 @@ class Managementrapportage extends AbstractReport
 
     private function initFondsen()
     {
-        $beginstand = $this->repository->countKoppelingenByDoelgroep('beginstand', $this->startDate, $this->endDate);
+        $beginstand = $this->repository->countKoppelingenByProject('beginstand', $this->startDate, $this->endDate);
         array_walk($beginstand, function (&$item) {
             $item['kolom'] = 'Caseload startdatum';
         });
 
-        $gestart = $this->repository->countKoppelingenByDoelgroep('gestart', $this->startDate, $this->endDate);
+        $gestart = $this->repository->countKoppelingenByProject('gestart', $this->startDate, $this->endDate);
         array_walk($gestart, function (&$item) {
             $item['kolom'] = 'Gestart';
         });
 
-        $eindstand = $this->repository->countKoppelingenByDoelgroep('eindstand', $this->startDate, $this->endDate);
+        $eindstand = $this->repository->countKoppelingenByProject('eindstand', $this->startDate, $this->endDate);
         array_walk($eindstand, function (&$item) {
             $item['kolom'] = 'Caseload einddatum';
         });
@@ -240,7 +238,7 @@ class Managementrapportage extends AbstractReport
             foreach ($this->projecten as $project) {
                 if (Project::STRATEGY_PRESTATIE_TOTAL === $project->getPrestatieStrategy()) {
                     $prestaties = array_merge($prestaties, array_filter($beginstand, function ($row) use ($project) {
-                        return $row['doelgroepnaam'] === $project->getNaam();
+                        return $row['projectnaam'] === $project->getNaam();
                     }));
                 }
             }

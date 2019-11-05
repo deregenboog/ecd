@@ -22,7 +22,7 @@ use MwBundle\Entity\Verslag;
  *         @ORM\UniqueConstraint(columns={"huidigeStatus_id", "deleted"})
  *      },
  *     indexes={
- *         @ORM\Index(name="idx_klanten_werkgebied", columns={"werkgebied"}),
+ *         @ORM\Index(name="idx_klanten_ werkgebied", columns={"werkgebied"}),
  *         @ORM\Index(name="idx_klanten_postcodegebied", columns={"postcodegebied"}),
  *         @ORM\Index(name="idx_klanten_geboortedatum", columns={"geboortedatum"}),
  *         @ORM\Index(name="idx_klanten_first_intake_date", columns={"first_intake_date"})

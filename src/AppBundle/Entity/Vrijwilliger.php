@@ -110,7 +110,7 @@ class Vrijwilliger extends Persoon
 
     public function getVog(): ?Vog
     {
-        foreach ($this->documenten as $document) {
+        foreach ($this->getDocumenten() as $document) {
             if ($document instanceof Vog) {
                 return $document;
             }

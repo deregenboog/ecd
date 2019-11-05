@@ -3,9 +3,13 @@
 namespace AppBundle\Model;
 
 use AppBundle\Entity\GgwGebied;
+use AppBundle\Entity\Postcode;
+use AppBundle\Entity\Vrijwilliger;
 use AppBundle\Entity\Werkgebied;
+use AppBundle\Util\PostcodeFormatter;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
+use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Validator\Constraints as Assert;
 
 trait AddressTrait
@@ -60,6 +64,36 @@ trait AddressTrait
      * @Gedmo\Versioned
      */
     protected $telefoon;
+
+    public static function KoppelPostcodeWerkgebiedClosure(FormEvent $event, $em)
+    {
+        /* @var Vrijwilliger $data */
+        $data = $event->getData();
+        if ($data->getPostcode()) {
+            $data->setPostcode(PostcodeFormatter::format($data->getPostcode()));
+
+            try {
+                $postcode = $em->getRepository(Postcode::class)->find($data->getPostcode());
+                if (null !== $postcode) {
+                    $data
+                        ->setWerkgebied($postcode->getStadsdeel())
+                        ->setPostcodegebied($postcode->getPostcodegebied())
+                    ;
+                }
+                else
+                {
+                    //wissen stadsdeel en postcodegebied; geen koppeling mogelijk; naw postcode buiten regio.
+                    $data
+                        ->setWerkgebied(null)
+                        ->setPostcodegebied(null)
+                    ;
+                }
+            } catch (\Exception $e) {
+                // ignore
+            }
+        }
+
+    }
 
     public function getEmail()
     {
