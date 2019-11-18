@@ -110,6 +110,7 @@ class Vrijwilliger extends Persoon
 
     public function getVog(): ?Vog
     {
+        if(!$this->getDocumenten()) return null;
         foreach ($this->getDocumenten() as $document) {
             if ($document instanceof Vog) {
                 return $document;
@@ -159,6 +160,8 @@ class Vrijwilliger extends Persoon
 
     public function getOvereenkomst(): ?Overeenkomst
     {
+        if(!$this->getDocumenten()) return null;
+
         foreach ($this->documenten as $document) {
             if ($document instanceof Overeenkomst) {
                 return $document;

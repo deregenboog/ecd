@@ -2,6 +2,7 @@
 
 namespace BuurtboerderijBundle\Controller;
 
+use AppBundle\AppBundle;
 use AppBundle\Controller\AbstractController;
 use AppBundle\Export\AbstractExport;
 use AppBundle\Form\ConfirmationType;
@@ -141,7 +142,7 @@ class VrijwilligersController extends AbstractController
     {
         $vrijwilligerId = $request->get('vrijwilliger');
         if ('new' === $vrijwilligerId) {
-            $vrijwilliger = new Vrijwilliger();
+            $vrijwilliger = new \AppBundle\Entity\Vrijwilliger();
         } else {
             $vrijwilliger = $this->vrijwilligerDao->find($vrijwilligerId);
             if ($vrijwilliger) {
