@@ -64,6 +64,7 @@ class DeelnemerDao extends AbstractDao implements DeelnemerDaoInterface
             ->leftJoin('klant.werkgebied', 'werkgebied')
             ->leftJoin('deelnemer.aanmelding', 'aanmelding')
             ->leftJoin('aanmelding.verwijzing', 'verwijzingAanmelding')
+            ->leftJoin("{$this->alias}.afsluiting", 'afsluiting')
             ->leftJoin('deelnemer.dossierStatus', 'dossierStatus')
             ->innerJoin('deelnemer.lidmaatschappen', 'lidmaatschap')
             ->innerJoin('lidmaatschap.groep', 'groep')
