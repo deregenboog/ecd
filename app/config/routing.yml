@@ -66,6 +66,11 @@ _scip:
     resource: "@ScipBundle/Resources/config/routing.yml"
     prefix: /scip
 
+_uhk:
+    resource: "@UhkBundle/Resources/config/routing.yml"
+    prefix: /uhk
+
+
 mw_rapportage_redirect:
     path: /maatschappelijk_werk/rapportage
     defaults:

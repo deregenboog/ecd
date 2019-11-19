@@ -1,0 +1,46 @@
+{% extends '::base.html.twig' %}
+{% import '::html.macro.twig' as html %}
+
+{% block title %}
+    Uhk | {{ title }}
+{% endblock %}
+
+{% block subnavigation %}
+    {% include '@Uhk/subnavigation.html.twig' %}
+{% endblock %}
+
+{% block content_top %}
+    {% if not entity.actief %}
+        <div class="alert alert-danger">Dossier is afgesloten</div>
+    {% endif %}
+    <h1>{{ entity_name|capitalize }} {{ entity }}</h1>
+    <p>
+        {{ html.link('Wijzigen', path('Uhk_vrijwilligers_edit', {id: entity.id}), 'edit') }}
+        {% if entity.actief %}
+            {{ html.link('Afsluiten', path('Uhk_vrijwilligers_close', {id: entity.id}), 'close') }}
+        {% else %}
+            {{ html.link('Heropenen', path('Uhk_vrijwilligers_reopen', {id: entity.id}), 'open') }}
+        {% endif %}
+        {% if entity.deletable %}
+            {{ html.link('Verwijderen', path('Uhk_vrijwilligers_delete', {id: entity.id}), 'delete') }}
+        {% endif %}
+    </p>
+{% endblock %}
+
+{% block content %}
+    <dl class="dl-horizontal">
+        <dt>Naam</dt>
+        <dd>{{ entity }}</dd>
+        <dt>Medewerker</dt>
+        <dd>{{ entity.medewerker }}</dd>
+    </dl>
+    <dl class="dl-horizontal">
+        <dt>Aanmelddatum</dt>
+        <dd>{{ entity.aanmelddatum|if_date('d-m-Y') }}</dd>
+        <dt>Afsluitdatum</dt>
+        <dd>{{ entity.afsluitdatum|if_date('d-m-Y') }}</dd>
+        <dt>Afsluitreden</dt>
+        <dd>{{ entity.afsluitreden }}</dd>
+    </dl>
+    {% include '::vrijwilliger_basis.html.twig' with {vrijwilliger: entity.vrijwilliger} %}
+{% endblock %}

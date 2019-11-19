@@ -1,0 +1,9 @@
+Uhk_annotations:
+    resource: "@UhkBundle/Controller"
+    type: annotation
+
+uhk_index:
+    path: /
+    defaults:
+        _controller: FrameworkBundle:Redirect:redirect
+        route: uhk_deelnemers_index

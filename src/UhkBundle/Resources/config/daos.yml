@@ -1,0 +1,9 @@
+services:
+    UhkBundle\Service\VerslagDao:
+        parent: app.dao.abstract
+
+    UhkBundle\Service\AfsluitredenDao:
+        parent: app.dao.abstract
+
+    UhkBundle\Service\DeelnemerDao:
+        parent: app.dao.abstract

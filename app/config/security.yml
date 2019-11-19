@@ -91,4 +91,6 @@ security:
         - { path: ^/pfo, roles: [ROLE_PFO, ROLE_PFO_BEPERKT] }
         - { path: ^/scip/admin, roles: ROLE_SCIP_BEHEER }
         - { path: ^/scip, roles: ROLE_SCIP }
+        - { path: ^/uhk/admin, roles: ROLE_UHK_BEHEER }
+        - { path: ^/uhk, roles: ROLE_UHK }
         - { path: ^/, roles: CONTROLLER_ACCESS_VOTER }

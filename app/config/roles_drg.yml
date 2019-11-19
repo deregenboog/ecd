@@ -111,6 +111,10 @@ security:
             - CONTROLLER_APP_KLANTEN
         ROLE_SKIP_BEHEER:
             - ROLE_SCIP_BEHEER
+        ROLE_UHK: []
+        ROLE_UHK_BEHEER:
+            - ROLE_UHK
+            - CONTROLLER_APP_KLANTEN
         ROLE_EROPUIT: []
         ROLE_BUURTBOERDERIJ: []
         ROLE_ADMIN:
@@ -148,6 +152,8 @@ security:
             - ROLE_GA_BEHEER
             - ROLE_SCIP
             - ROLE_SCIP_BEHEER
+            - ROLE_UHK
+            - ROLE_UHK_BEHEER
             - CONTROLLER_ADMIN
             - CONTROLLER_APP_KLANTEN
             - CONTROLLER_APP_RAPPORTAGES
@@ -200,3 +206,5 @@ ldap_tools:
             ROLE_EROPUIT: "CN=ECD ErOpUit,CN=Users,DC=cluster,DC=deregenboog"
             ROLE_BUURTBOERDERIJ: "CN=ECD Buurtboerderij,CN=Users,DC=cluster,DC=deregenboog"
             ROLE_SECRETARIAAT: "CN=ECD Secretariaat,CN=Users,DC=cluster,DC=deregenboog"
+            ROLE_UHK: "CN=ECD Uit het Krijt,CN=Users,DC=cluster,DC=deregenboog"
+            ROLE_UHK_BEHEER: "CN=ECD Uit het Krijt Beheer,CN=Users,DC=cluster,DC=deregenboog"

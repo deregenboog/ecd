@@ -1,0 +1,22 @@
+services:
+    Uhk.export.deelnemers:
+        class: AppBundle\Export\GenericExport
+        arguments:
+            - UhkBundle\Entity\deelnemer
+            -
+                Nummer: { expression: 'entity.getVrijwilliger().getId()' }
+                Geslacht: { expression: 'entity.getVrijwilliger().getGeslacht()' }
+                Voornaam: { expression: 'entity.getVrijwilliger().getVoornaam()' }
+                Tussenvoegsel: { expression: 'entity.getVrijwilliger().getTussenvoegsel()' }
+                Achternaam: { expression: 'entity.getVrijwilliger().getAchternaam()' }
+                Geboortedatum: { expression: 'entity.getVrijwilliger().getGeboortedatum()', type: 'date' }
+                E-mail: { expression: 'entity.getVrijwilliger().getEmail()' }
+                Adres: { expression: 'entity.getVrijwilliger().getAdres()' }
+                Postcode: { expression: 'entity.getVrijwilliger().getPostcode()' }
+                Woonplaats: { expression: 'entity.getVrijwilliger().getPlaats()' }
+                Mobiel: { expression: 'entity.getVrijwilliger().getMobiel()' }
+                Telefoon: { expression: 'entity.getVrijwilliger().getTelefoon()' }
+                Werkgebied: { expression: 'entity.getVrijwilliger().getWerkgebied()' }
+                Aanmelddatum: { expression: 'entity.getAanmelddatum()', type: 'date' }
+                Afsluitdatum: { expression: 'entity.getAfsluitdatum()', type: 'date' }
+                Afsluitreden: { expression: 'entity.getAfsluitreden()' }

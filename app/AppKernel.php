@@ -43,6 +43,7 @@ class AppKernel extends Kernel
             new OekBundle\OekBundle(),
             new PfoBundle\PfoBundle(),
             new ScipBundle\ScipBundle(),
+            new UhkBundle\UhkBundle(),
         ];
 
         if ('test' !== $this->getEnvironment()) {
