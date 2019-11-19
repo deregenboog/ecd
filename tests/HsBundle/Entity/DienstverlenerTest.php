@@ -20,7 +20,7 @@ class DienstverlenerTest extends TestCase
         $appKlant->setVoornaam('Piet')->setAchternaam('Jansen');
 
         $dienstverlener = new Dienstverlener($appKlant);
-        $this->assertEquals('Jansen, Piet', (string) $dienstverlener);
+        $this->assertEquals('Piet Jansen', (string) $dienstverlener);
     }
 
     public function testIsDeletable()
