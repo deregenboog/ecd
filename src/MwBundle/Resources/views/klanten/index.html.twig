@@ -18,7 +18,7 @@
         <thead>
             {{ form_start(filter) }}
                 <tr>
-                    <th colspan="9">
+                    <th colspan="10">
                         <span class="pull-left">
                             {{ form_widget(filter.alleenMetVerslag) }}
                             {{ form_errors(filter.alleenMetVerslag) }}
@@ -53,6 +53,10 @@
                         {{ form_errors(filter.gebruikersruimte) }}
                     </th>
                     <th>
+                        {{ form_widget(filter.klant.medewerker) }}
+                        {{ form_errors(filter.klant.medewerker) }}
+                    </th>
+                    <th>
                         {{ form_widget(filter.laatsteIntakeLocatie) }}
                         {{ form_errors(filter.laatsteIntakeLocatie) }}
                     </th>
@@ -81,6 +85,9 @@
                 </th>
                 <th>
                     {{ knp_pagination_sortable(pagination, 'Gebruikersruimte', 'gebruikersruimte.naam') }}
+                </th>
+                <th>
+                    {{ knp_pagination_sortable(pagination, 'Medewerker', 'medewerker.naam') }}
                 </th>
                 <th>
                     {{ knp_pagination_sortable(pagination, 'Intakelocatie', 'laatsteIntakeLocatie.naam') }}
@@ -112,6 +119,9 @@
                     </td>
                     <td>
                         {{ klant.laatsteIntake ? klant.laatsteIntake.gebruikersruimte }}
+                    </td>
+                    <td>
+                        {{ klant.medewerker.naam }}
                     </td>
                     <td>
                         {{ klant.laatsteIntake ? klant.laatsteIntake.intakelocatie }}

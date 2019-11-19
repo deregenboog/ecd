@@ -50,7 +50,7 @@ class KlusType extends AbstractType
                     return $repository->createQueryBuilder('dienstverlener')
                         ->innerJoin('dienstverlener.klant', 'klant')
                         ->where('dienstverlener.actief = true')
-                        ->orderBy('klant.achternaam')
+                        ->orderBy('klant.voornaam')
                     ;
                 },
             ])
@@ -61,7 +61,7 @@ class KlusType extends AbstractType
                     return $repository->createQueryBuilder('vrijwilliger')
                         ->innerJoin('vrijwilliger.vrijwilliger', 'basisvrijwilliger')
                         ->where('vrijwilliger.actief = true')
-                        ->orderBy('basisvrijwilliger.achternaam')
+                        ->orderBy('basisvrijwilliger.voornaam')
                     ;
                 },
             ])

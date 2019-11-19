@@ -48,7 +48,7 @@ class Vrijwilliger extends Arbeider implements MemoSubjectInterface, DocumentSub
     {
 
         try {
-            return NameFormatter::formatFormal($this->vrijwilliger);
+            return NameFormatter::formatInformal($this->vrijwilliger);
         } catch (EntityNotFoundException $e) {
             return '(verwijderd)';
         }

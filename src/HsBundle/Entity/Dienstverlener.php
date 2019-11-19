@@ -46,7 +46,8 @@ class Dienstverlener extends Arbeider implements MemoSubjectInterface, DocumentS
     public function __toString()
     {
         try {
-            return NameFormatter::formatFormal($this->klant);
+            //return NameFormatter::formatFormal($this->klant);
+            return NameFormatter::formatInformal($this->klant);
         } catch (EntityNotFoundException $e) {
             return '';
         }

@@ -70,7 +70,7 @@ class KlantFilterType extends AbstractType
             'data_class' => KlantFilter::class,
             'data' => new KlantFilter(),
             'enabled_filters' => [
-                'klant' => ['id', 'naam', 'geboortedatumRange', 'geslacht'],
+                'klant' => ['id', 'naam', 'geboortedatumRange', 'geslacht','medewerker'],
                 'gebruikersruimte',
                 'laatsteIntakeLocatie',
                 'laatsteVerslagDatum',

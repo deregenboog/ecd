@@ -2,6 +2,7 @@
 
 namespace MwBundle\Filter;
 
+use AppBundle\Entity\Medewerker;
 use AppBundle\Filter\FilterInterface;
 use AppBundle\Filter\KlantFilter as AppKlantFilter;
 use AppBundle\Form\Model\AppDateRangeModel;
@@ -20,6 +21,10 @@ class KlantFilter implements FilterInterface
      */
     public $laatsteIntakeLocatie;
 
+    /**
+     * @var Medewerker
+     */
+    public $medewerker;
     /**
      * @var AppDateRangeModel
      */
@@ -42,12 +47,13 @@ class KlantFilter implements FilterInterface
 
     public function applyTo(QueryBuilder $builder)
     {
-        if ($this->gebruikersruimte) {
+            if ($this->gebruikersruimte) {
             $builder
                 ->andWhere('laatsteIntake.gebruikersruimte = :gebruikersruimte')
                 ->setParameter('gebruikersruimte', $this->gebruikersruimte)
             ;
         }
+
 
         if ($this->laatsteIntakeLocatie) {
             $builder
