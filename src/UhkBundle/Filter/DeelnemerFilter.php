@@ -3,8 +3,10 @@
 namespace UhkBundle\Filter;
 
 use AppBundle\Filter\FilterInterface;
+use AppBundle\Filter\MedewerkerFilter;
 use AppBundle\Form\Model\AppDateRangeModel;
 use Doctrine\ORM\QueryBuilder;
+use UhkBundle\Entity\Deelnemer;
 
 class DeelnemerFilter implements FilterInterface
 {
@@ -21,42 +23,44 @@ class DeelnemerFilter implements FilterInterface
     public $aanmelddatum;
 
     /**
-     * @var AppDateRangeModel
+     * @var Deelnemer
      */
-    public $afsluitdatum;
+    public $deelnemer;
+
+    /**
+     * @var \AppBundle\Filter\MedewerkerFilter
+     */
+    public $medewerker;
 
     public function applyTo(QueryBuilder $builder)
     {
         if ($this->klant) {
-            $this->klant->applyTo($builder, 'appVrijwilliger');
+            $this->klant->applyTo($builder);
         }
 
+        if($this->deelnemer) {
+            $this->deelnemer->applyTo($builder);
+        }
+        if($this->medewerker)
+        {
+            if ($this->medewerker) {
+                $builder
+                    ->andWhere('deelnemer.medewerker = :medewerker')
+                    ->setParameter('medewerker', $this->medewerker)
+                ;
+            }
+        }
         if ($this->aanmelddatum) {
             if ($this->aanmelddatum->getStart()) {
                 $builder
-                    ->andWhere('vrijwilliger.aanmelddatum >= :aanmelddatum_start')
+                    ->andWhere('deelnemer.aanmelddatum >= :aanmelddatum_start')
                     ->setParameter('aanmelddatum_start', $this->aanmelddatum->getStart())
                 ;
             }
             if ($this->aanmelddatum->getEnd()) {
                 $builder
-                    ->andWhere('vrijwilliger.aanmelddatum <= :aanmelddatum_end')
+                    ->andWhere('deelnemer.aanmelddatum <= :aanmelddatum_end')
                     ->setParameter('aanmelddatum_end', $this->aanmelddatum->getEnd())
-                ;
-            }
-        }
-
-        if ($this->afsluitdatum) {
-            if ($this->afsluitdatum->getStart()) {
-                $builder
-                    ->andWhere('vrijwilliger.afsluitdatum >= :afsluitdatum_start')
-                    ->setParameter('afsluitdatum_start', $this->afsluitdatum->getStart())
-                ;
-            }
-            if ($this->afsluitdatum->getEnd()) {
-                $builder
-                    ->andWhere('vrijwilliger.afsluitdatum <= :afsluitdatum_end')
-                    ->setParameter('afsluitdatum_end', $this->afsluitdatum->getEnd())
                 ;
             }
         }

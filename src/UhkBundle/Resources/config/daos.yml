@@ -2,8 +2,11 @@ services:
     UhkBundle\Service\VerslagDao:
         parent: app.dao.abstract
 
-    UhkBundle\Service\AfsluitredenDao:
-        parent: app.dao.abstract
-
     UhkBundle\Service\DeelnemerDao:
         parent: app.dao.abstract
+
+    uhk.verslag.entities:
+        class: ArrayObject
+        arguments:
+            -
+                - { key: deelnemer, dao: '@UhkBundle\Service\DeelnemerDao' }

@@ -32,7 +32,7 @@ class VerslagenController extends AbstractChildController
     /**
      * @var \ArrayObject
      *
-     * @DI\Inject("Uhk.verslag.entities")
+     * @DI\Inject("uhk.verslag.entities")
      */
     protected $entities;
 }

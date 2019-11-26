@@ -2,7 +2,7 @@
 {% import '::html.macro.twig' as html %}
 
 {% block title %}
-    Uhk | {{ title }}
+    {{'@Uhk/UhkBundle::title'}} | {{ title }}
 {% endblock %}
 
 {% block subnavigation %}
@@ -12,13 +12,13 @@
 {% block content %}
     <h1>{{ entity_name|capitalize }} toevoegen</h1>
 
-    {% if vrijwilligers is defined and filterForm.vars.errors|length == 0 %}
+    {% if klanten is defined and filterForm.vars.errors|length == 0 %}
         <p>
             Selecteer de gewenste {{ entity_name }} in onderstaande lijst of klik op
             "Nieuwe {{ entity_name }}" als deze niet in de lijst voorkomt.
         </p>
         <p>
-            {{ html.link('Nieuwe '~entity_name, path('Uhk_vrijwilligers_add', {vrijwilliger: 'new'}), 'plus') }}
+            {{ html.link('Nieuwe '~entity_name, path('uhk_deelnemers_add', {deelnemer: 'new'}), 'plus') }}
         </p>
         <table class="table table-hover">
             <thead>
@@ -29,8 +29,8 @@
                     <th>Geboortedatum</th>
                 </tr>
             </thead>
-            {% for entity in vrijwilligers %}
-                <tr data-href="{{ path('Uhk_vrijwilligers_add', {vrijwilliger: entity.id}) }}">
+            {% for entity in klanten %}
+                <tr data-href="{{ path('uhk_deelnemers_add', {klant: entity.id}) }}">
                     <td>{{ entity.id }}</td>
                     <td>{{ entity }}</td>
                     <td>{{ entity.bsn }}</td>

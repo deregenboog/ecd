@@ -1,0 +1,24 @@
+<h2>Verslagen</h2>
+<p>
+    {% if deelnemer is defined %}
+        {% set url = path('uhk_verslagen_add', {deelnemer: deelnemer.id}) %}
+    {% endif %}
+    {% if url is defined %}
+        {{ html.addLink(url) }}
+        {{ html.link('Verslag toevoegen', url) }}
+    {% endif %}
+</p>
+<h3>Verslagen deelnemer</h3>
+<table class="table">
+    {% for verslag in entity.verslagen %}
+        <tr>
+            <td>{{ verslag.datum|date('d-m-Y') }}</td>
+            <td>{{ verslag.medewerker }}</td>
+            <td>{{ verslag.tekst|nl2br }}</td>
+            <td>
+                {{ html.editLink(path('uhk_verslagen_edit', {id: verslag.id})) }}
+                {{ html.deleteLink(path('uhk_deelnemers_deleteverslag', {id: entity.id,verslagId: verslag.id})) }}
+            </td>
+        </tr>
+    {% endfor %}
+</table>

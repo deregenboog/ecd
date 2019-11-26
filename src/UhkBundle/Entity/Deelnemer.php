@@ -8,6 +8,8 @@ use AppBundle\Model\ActivatableTrait;
 use AppBundle\Model\DocumentSubjectInterface;
 use AppBundle\Model\DocumentSubjectTrait;
 use AppBundle\Model\IdentifiableTrait;
+use AppBundle\Model\KlantRelationInterface;
+use AppBundle\Model\UsesKlantTrait;
 use AppBundle\Service\NameFormatter;
 use BuurtboerderijBundle\Entity\Afsluitreden;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -25,9 +27,9 @@ use Gedmo\Mapping\Annotation as Gedmo;
  * @ORM\HasLifecycleCallbacks
  * @Gedmo\Loggable
  */
-class Deelnemer
+class Deelnemer implements KlantRelationInterface
 {
-    use IdentifiableTrait, ActivatableTrait;
+    use IdentifiableTrait, ActivatableTrait, UsesKlantTrait;
 
     /**
      * @var Klant
@@ -37,6 +39,8 @@ class Deelnemer
      */
     private $klant;
 
+    //For KlantRelationInterface and usesKlantTrait.
+    private $klantFieldName = "klant";
 
     /**
      * @var string
@@ -60,25 +64,11 @@ class Deelnemer
      */
     protected $aanmelddatum;
 
-    /**
-     * @var \DateTime
-     *
-     * @ORM\Column(type="date")
-     * @Gedmo\Versioned
-     */
-    protected $afsluitdatum;
-
-    /**
-     * @var Afsluitreden
-     *
-     * @ORM\ManyToOne(targetEntity="Afsluitreden")
-     */
-    protected $afsluitreden;
 
     /**
      * @var Medewerker
      *
-     * @ORM\OneToOne(targetEntity="AppBundle\Entity\Medewerker")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Medewerker")
      */
     private $medewerker;
 
@@ -92,10 +82,16 @@ class Deelnemer
 
 
 
-    public function __construct(Klant $klant = null)
+    public function __construct(Klant $klant = null, Medewerker $medewerker = null)
     {
         $this->klant = $klant;
         $this->verslagen = new ArrayCollection();
+        $this->medewerker = $medewerker;
+        if(!$this->aanmelddatum)
+        {
+            $this->aanmelddatum = new \DateTime('now');
+        }
+
     }
 
     public function __toString()
@@ -166,7 +162,7 @@ class Deelnemer
     /**
      * @return string
      */
-    public function getContactpersoonNazorg(): string
+    public function getContactpersoonNazorg(): ?string
     {
         return $this->contactpersoonNazorg;
     }
@@ -182,7 +178,7 @@ class Deelnemer
     /**
      * @return string
      */
-    public function getAanmeldNaam(): string
+    public function getAanmeldNaam(): ?string
     {
         return $this->aanmeldNaam;
     }
@@ -190,7 +186,7 @@ class Deelnemer
     /**
      * @param string $aanmeldNaam
      */
-    public function setAanmelddaam(string $aanmeldNaam): void
+    public function setAanmeldNaam(string $aanmeldNaam): void
     {
         $this->aanmeldNaam = $aanmeldNaam;
     }
@@ -198,7 +194,7 @@ class Deelnemer
     /**
      * @return \DateTime
      */
-    public function getAanmelddatum(): \DateTime
+    public function getAanmelddatum(): ?\DateTime
     {
         return $this->aanmelddatum;
     }
@@ -211,37 +207,9 @@ class Deelnemer
         $this->aanmelddatum = $aanmeldDatum;
     }
 
-    /**
-     * @return \DateTime
-     */
-    public function getAfsluitdatum(): \DateTime
+
+    public function getKlantFieldName()
     {
-        return $this->afsluitdatum;
+        return $this->klantFieldName;
     }
-
-    /**
-     * @param \DateTime $afsluitdatum
-     */
-    public function setAfsluitdatum(\DateTime $afsluitdatum): void
-    {
-        $this->afsluitdatum = $afsluitdatum;
-    }
-
-    /**
-     * @return Afsluitreden
-     */
-    public function getAfsluitreden(): Afsluitreden
-    {
-        return $this->afsluitreden;
-    }
-
-    /**
-     * @param Afsluitreden $afsluitreden
-     */
-    public function setAfsluitreden(Afsluitreden $afsluitreden): void
-    {
-        $this->afsluitreden = $afsluitreden;
-    }
-
-
 }

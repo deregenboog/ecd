@@ -2,7 +2,7 @@
 {% import '::html.macro.twig' as html %}
 
 {% block title %}
-    Uhk | Vrijwilligers
+    Uhk | Deelnemers
 {% endblock %}
 
 {% block subnavigation %}
@@ -12,7 +12,7 @@
 {% block content %}
     <h1>{{ title }}</h1>
     <p>
-        {{ html.link(entity_name|capitalize~' toevoegen', path('Uhk_vrijwilligers_add'), 'add') }}
+        {{ html.link(entity_name|capitalize~' toevoegen', path('uhk_deelnemers_add'), 'add') }}
     </p>
     <table class="table table-hover">
         {{ form_start(filter) }}
@@ -20,22 +20,22 @@
                 <th colspan="6">
                     <span class="pull-right">
                         {{ form_widget(filter.filter) }}
-                        {{ form_widget(filter.download) }}
+
                     </span>
                 </th>
             </tr>
             <tr>
                 <th>
-                    {{ form_widget(filter.vrijwilliger.id) }}
-                    {{ form_errors(filter.vrijwilliger.id) }}
+                    {{ form_widget(filter.klant.id) }}
+                    {{ form_errors(filter.klant.id) }}
                 </th>
                 <th>
-                    {{ form_widget(filter.vrijwilliger.naam) }}
-                    {{ form_errors(filter.vrijwilliger.naam) }}
+                    {{ form_widget(filter.klant.naam) }}
+                    {{ form_errors(filter.klant.naam) }}
                 </th>
                 <th>
-                    {{ form_widget(filter.vrijwilliger.stadsdeel) }}
-                    {{ form_errors(filter.vrijwilliger.stadsdeel) }}
+                    {{ form_widget(filter.klant.stadsdeel) }}
+                    {{ form_errors(filter.klant.stadsdeel) }}
                 </th>
                 <th>
                     {{ form_widget(filter.aanmelddatum.start) }}
@@ -44,49 +44,44 @@
                     {{ form_errors(filter.aanmelddatum.end) }}
                 </th>
                 <th>
-                    {{ form_widget(filter.afsluitdatum.start) }}
-                    {{ form_errors(filter.afsluitdatum.start) }}
-                    {{ form_widget(filter.afsluitdatum.end) }}
-                    {{ form_errors(filter.afsluitdatum.end) }}
+                    {{ form_errors(filter.medewerker) }}
+                    {{ form_widget(filter.medewerker) }}
                 </th>
             </tr>
         {{ form_end(filter) }}
         <tr>
             <th>
-                {{ knp_pagination_sortable(pagination, '#', 'appVrijwilliger.id') }}
+                {{ knp_pagination_sortable(pagination, '#', 'appKlant.id') }}
             </th>
             <th>
-                {{ knp_pagination_sortable(pagination, 'Vrijwilliger', 'appVrijwilliger.achternaam') }}
+                {{ knp_pagination_sortable(pagination, 'Deelnemer', 'appKlant.achternaam') }}
             </th>
             <th>
                 {{ knp_pagination_sortable(pagination, 'Stadsdeel', 'werkgebied.naam') }}
             </th>
             <th>
-                {{ knp_pagination_sortable(pagination, 'Aanmelddatum', 'vrijwilliger.aanmelddatum') }}
+                {{ knp_pagination_sortable(pagination, 'Aanmelddatum', 'deelnemer.aanmelddatum') }}
             </th>
             <th>
-                {{ knp_pagination_sortable(pagination, 'Afsluitdatum', 'vrijwilliger.afsluitdatum') }}
+                {{ knp_pagination_sortable(pagination, 'Medewerker', 'medewerker.naam') }}
             </th>
         </tr>
-        {% for vrijwilliger in pagination %}
-        <tr data-href="{{ path('Uhk_vrijwilligers_view', {id: vrijwilliger.id}) }}" class="{{ not vrijwilliger.actief ? 'danger' }}">
+        {% for deelnemer in pagination %}
+        <tr data-href="{{ path('uhk_deelnemers_view', {id: deelnemer.id}) }}" class="{{ not deelnemer.actief ? 'danger' }}">
             <td>
-                {{ vrijwilliger.vrijwilliger.id }}
+                {{ deelnemer.klant.id }}
             </td>
             <td>
-                {{ vrijwilliger }}
+                {{ deelnemer }}
             </td>
             <td>
-                {{ vrijwilliger.vrijwilliger.werkgebied }}
+                {{ deelnemer.klant.werkgebied }}
             </td>
             <td>
-                {{ vrijwilliger.aanmelddatum|date('d-m-Y') }}
+                {{ deelnemer.aanmelddatum|date('d-m-Y') }}
             </td>
             <td>
-                {% if not vrijwilliger.actief %}
-                    {{ vrijwilliger.afsluitdatum|if_date('d-m-Y') }}
-                    ({{ vrijwilliger.afsluitreden }})
-                {% endif %}
+                {{ deelnemer.medewerker.naam }}
             </td>
         </tr>
         {% endfor %}

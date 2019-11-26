@@ -2,9 +2,15 @@
 
 namespace UhkBundle\Form;
 
+use AppBundle\Entity\Medewerker;
+use AppBundle\Form\AppDateRangeType;
 use AppBundle\Form\FilterType;
 use AppBundle\Form\JaNeeType;
 use AppBundle\Form\KlantFilterType;
+use AppBundle\Form\MedewerkerFilterType;
+use AppBundle\Form\MedewerkerType;
+use Doctrine\ORM\EntityRepository;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use UhkBundle\Entity\Deelnemer;
 use UhkBundle\Filter\DeelnemerFilter;
 use Symfony\Component\Form\AbstractType;
@@ -26,16 +32,31 @@ class DeelnemerFilterType extends AbstractType
                 'enabled_filters' => $options['enabled_filters']['klant'],
             ]);
         }
+        if (in_array('aanmelddatum', $options['enabled_filters'])) {
+            $builder->add('aanmelddatum', AppDateRangeType::class, [
+                'required' => false,
+            ]);
+        }
+        if (in_array('medewerker', $options['enabled_filters'])) {
+            $builder->add('medewerker', MedewerkerType::class, [
+                'required' => false,
+                'preset' => false,
+            ]);
+        }
 
         if (in_array('actief', $options['enabled_filters'])) {
             $builder->add('actief', CheckboxType::class, [
                 'required' => false,
-                'label' => 'Alleen actieve vrijwilligers tonen',
+                'label' => 'Alleen actieve deelnemers tonen',
             ]);
         }
 
 
-        $builder->add('filter', SubmitType::class, ['label' => 'Filteren']);
+
+        $builder
+            ->add('filter', SubmitType::class, ['label' => 'Filteren'])
+
+        ;
     }
 
     /**
@@ -55,8 +76,11 @@ class DeelnemerFilterType extends AbstractType
             'data_class' => DeelnemerFilter::class,
             'data' => new DeelnemerFilter(),
             'enabled_filters' => [
-                'klant' => ['id', 'naam'],
-
+                'klant' => ['id', 'naam','stadsdeel'],
+                'aanmelddatum',
+                'medewerker',
+                'filter',
+//                'download',
             ],
         ]);
     }

@@ -1,8 +1,8 @@
-{% extends '::base.html.twig' %}
+{% extends '::base-2-col.html.twig' %}
 {% import '::html.macro.twig' as html %}
 
 {% block title %}
-    Uhk | {{ title }}
+    Uit het Krijt | {{ title }}
 {% endblock %}
 
 {% block subnavigation %}
@@ -15,32 +15,50 @@
     {% endif %}
     <h1>{{ entity_name|capitalize }} {{ entity }}</h1>
     <p>
-        {{ html.link('Wijzigen', path('Uhk_vrijwilligers_edit', {id: entity.id}), 'edit') }}
-        {% if entity.actief %}
-            {{ html.link('Afsluiten', path('Uhk_vrijwilligers_close', {id: entity.id}), 'close') }}
-        {% else %}
-            {{ html.link('Heropenen', path('Uhk_vrijwilligers_reopen', {id: entity.id}), 'open') }}
-        {% endif %}
-        {% if entity.deletable %}
-            {{ html.link('Verwijderen', path('Uhk_vrijwilligers_delete', {id: entity.id}), 'delete') }}
-        {% endif %}
+        {{ html.link('Wijzigen', path('uhk_deelnemers_edit', {id: entity.id}), 'edit') }}
+
     </p>
 {% endblock %}
 
-{% block content %}
-    <dl class="dl-horizontal">
-        <dt>Naam</dt>
-        <dd>{{ entity }}</dd>
-        <dt>Medewerker</dt>
-        <dd>{{ entity.medewerker }}</dd>
-    </dl>
-    <dl class="dl-horizontal">
-        <dt>Aanmelddatum</dt>
-        <dd>{{ entity.aanmelddatum|if_date('d-m-Y') }}</dd>
-        <dt>Afsluitdatum</dt>
-        <dd>{{ entity.afsluitdatum|if_date('d-m-Y') }}</dd>
-        <dt>Afsluitreden</dt>
-        <dd>{{ entity.afsluitreden }}</dd>
-    </dl>
-    {% include '::vrijwilliger_basis.html.twig' with {vrijwilliger: entity.vrijwilliger} %}
+{% block content_left %}
+
+    {% include '::klant_basis.html.twig' with {klant: entity.klant} %}
+{% endblock %}
+
+
+{% block content_right %}
+    <ul class="nav nav-tabs">
+        <li class="active"><a data-toggle="tab" href="#intake">Intake</a></li>
+{#        <li><a data-toggle="tab" href="#contactpersonen">Contactpersonen</a></li>#}
+        <li><a data-toggle="tab" href="#verslagen">Verslagen</a></li>
+{#        <li><a data-toggle="tab" href="#documenten">Documenten</a></li>#}
+    </ul>
+    <div class="tab-content">
+        <div id="intake" class="tab-pane active">
+            <h2>Aanmelding</h2>
+            <dl class="dl-horizontal">
+                <dl class="dl-horizontal">
+                    <dt>Medewerker</dt>
+                    <dd>{{ entity.medewerker }}</dd>
+                    <dt>Aanmelddatum</dt>
+                    <dd>{{ entity.aanmelddatum|if_date('d-m-Y') }}</dd>
+                </dl>
+                <dl class="dl-horizontal">
+                    <dt>Aanmeldnaam</dt>
+                    <dd>{{ entity.aanmeldNaam }}</dd>
+                    <dt>Nazorg contactpersoon</dt>
+                    <dd>{{ entity.contactpersoonNazorg }}</dd>
+                </dl>
+            </dl>
+        </div>
+{#        <div id="contactpersonen" class="tab-pane">#}
+{#            {% include 'DagbestedingBundle:contactpersonen:_list.html.twig' with {deelnemer: entity} %}#}
+{#        </div>#}
+        <div id="verslagen" class="tab-pane">
+            {% include 'UhkBundle:verslagen:_list.html.twig' with {deelnemer: entity} %}
+        </div>
+{#        <div id="documenten" class="tab-pane">#}
+{#            {% include 'DagbestedingBundle:documenten:_list.html.twig' with {deelnemer: entity} %}#}
+{#        </div>#}
+    </div>
 {% endblock %}

@@ -1,11 +1,11 @@
 <?php
 
-namespace ScipBundle\Form;
+namespace UhkBundle\Form;
 
 use AppBundle\Form\AppDateType;
 use AppBundle\Form\AppTextareaType;
 use AppBundle\Form\BaseType;
-use ScipBundle\Entity\Verslag;
+use UhkBundle\Entity\Verslag;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -20,10 +20,10 @@ class VerslagType extends AbstractType
     {
         $builder
             ->add('tekst', AppTextareaType::class, [
-                'required' => false,
+                'required' => true,
             ])
             ->add('datum', AppDateType::class, [
-                'required' => false,
+                'required' => true,
             ])
             ->add('submit', SubmitType::class)
         ;

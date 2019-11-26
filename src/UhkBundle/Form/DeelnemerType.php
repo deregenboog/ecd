@@ -1,11 +1,11 @@
 <?php
 
-namespace ScipBundle\Form;
+namespace UhkBundle\Form;
 
 use AppBundle\Form\BaseType;
 use AppBundle\Form\DummyChoiceType;
 use AppBundle\Form\KlantType;
-use ScipBundle\Entity\Deelnemer;
+use UhkBundle\Entity\Deelnemer;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -23,39 +23,24 @@ class DeelnemerType extends AbstractType
 
         if ($deelnemer->getKlant() && $deelnemer->getKlant()->getId()) {
             $builder->add('klant', DummyChoiceType::class, [
-                'label' => 'Vrijwilliger',
+                'label' => 'Deelnemer',
                 'dummy_label' => (string) $deelnemer->getKlant(),
             ]);
         } else {
             $builder->add('klant', KlantType::class, [
-                'label' => 'Vrijwilliger',
+                'label' => 'Deelnemer',
                 'required' => true,
             ]);
         }
 
         $builder
-            ->add('functie', null, [
-                'required' => false,
+            ->add('aanmeldNaam', null, [
+                'required' => true,
             ])
-            ->add('werkbegeleider', null, [
-                'required' => false,
+            ->add('contactpersoonNazorg', null, [
+                'required' => true,
             ])
-            ->add('type', ChoiceType::class, [
-                'required' => false,
-                'choices' => [
-                    Deelnemer::TYPE_WMO => Deelnemer::TYPE_WMO,
-                    Deelnemer::TYPE_ONDERAANNEMER => Deelnemer::TYPE_ONDERAANNEMER,
-                ],
-            ])
-            ->add('risNummer', null, [
-                'required' => false,
-                'label' => 'RIS-nummer',
-            ])
-            ->add('labels', LabelSelectType::class, [
-                'required' => false,
-                'expanded' => true,
-                'multiple' => true,
-            ])
+
             ->add('submit', SubmitType::class)
         ;
     }

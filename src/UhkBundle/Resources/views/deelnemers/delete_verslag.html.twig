@@ -10,6 +10,10 @@
 {% endblock %}
 
 {% block content %}
-    <h1>{{ entity_name|capitalize }} toevoegen</h1>
-    {{ form(form) }}
+    <h1>Verslag verwijderen</h1>
+    <p>
+        Weet u zeker dat u dit verslag over <strong>{{ entity }}</strong>
+        wilt verwijderen?<br>
+        {{ form(form) }}
+    </p>
 {% endblock %}
