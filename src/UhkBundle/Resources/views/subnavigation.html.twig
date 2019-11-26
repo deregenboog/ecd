@@ -1,0 +1,10 @@
+{% import '::html.macro.twig' as html %}
+<ol class="breadcrumb">
+    <li><a href="{{ path('home') }}">ECD</a></li>
+    <li><a href="{{ path('uhk_index') }}">Uhk</a></li>
+    <li class="active">{{ title }}</li>
+</ol>
+<ul class="nav nav-tabs">
+    {{ html.navLink('Deelnemers', path('uhk_deelnemers_index'), isActiveRoute('uhk_deelnemers_')) }}
+
+</ul>

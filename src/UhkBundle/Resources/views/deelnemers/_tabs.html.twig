@@ -1,0 +1,8 @@
+<ul class="nav nav-tabs">
+    <li class="{{ current == 'intake' ? 'active' }}">
+        <a href="{{ path('uhk_deelnemers_view', {id: entity.id}) }}">Aanmelding</a>
+    </li>
+    <li class="{{ current == 'verslagen' ? 'active' }}">
+        <a href="{{ path('ga_klantdossiers_viewverslagen', {id: entity.id}) }}">Verslagen</a>
+    </li>
+</ul>

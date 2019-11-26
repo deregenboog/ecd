@@ -19,7 +19,7 @@ class VrijwilligerTest extends TestCase
         $appVrijwilliger->setVoornaam('Piet')->setAchternaam('Jansen');
 
         $vrijwilliger = new Vrijwilliger($appVrijwilliger);
-        $this->assertEquals('Jansen, Piet', (string) $vrijwilliger);
+        $this->assertEquals('Piet Jansen', (string) $vrijwilliger);
     }
 
     public function testIsDeletable()

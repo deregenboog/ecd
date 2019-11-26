@@ -1,0 +1,31 @@
+UhkBundle\Entity\Deelnemer:
+    uhk_deelnemer_{1..50}:
+        klant (unique): '@klant_*'
+        aanmeldDatum: '<dateTimeThisDecade()>'
+        aanmeldnaam: '<firstname()>'
+        contactpersoonNazorg: '<firstname()> <lastname()>'
+
+UhkBundle\Entity\Verslag:
+    uhk_verslag_{1..100}:
+        deelnemer: '@uhk_deelnemer_*'
+        tekst: '<text()>'
+        datum: '<date()>'
+        medewerker: '@medewerker_*'
+
+#UhkBundle\Entity\Beschikbaarheid:
+#    uhk_beschikbaarheid_{1..100}:
+#        deelname: '@uhk_deelname_*'
+#        maandagVan: '<dateTimeThisDecade()>'
+#        maandagTot: '<dateTimeThisDecade()>'
+#        woensdagVan: '<dateTimeThisDecade()>'
+#        woensdagTot: '<dateTimeThisDecade()>'
+#        vrijdagVan: '<dateTimeThisDecade()>'
+#        vrijdagTot: '<dateTimeThisDecade()>'
+#
+
+#UhkBundle\Entity\Werkdoel:
+#    uhk_verslag_{1..100}:
+#        deelnemer: '@uhk_deelnemer_*'
+#        tekst: '<text()>'
+#        datum: '<date()>'
+#        medewerker: '@medewerker_*'
