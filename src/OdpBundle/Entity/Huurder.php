@@ -56,7 +56,7 @@ class Huurder extends Deelnemer
 
     /**
      * @var Huurbudget
-     * @ORM\ManyToOne(targetEntity="Huurbudget",inversedBy="huurder",cascade={"persist"})
+     * @ORM\ManyToOne(targetEntity="Huurbudget",cascade={"persist"})
      * @ORM\JoinColumn(nullable=true)
      * @ORM\OrderBy({"maxValue" = "ASC"})
      */
@@ -64,7 +64,7 @@ class Huurder extends Deelnemer
 
     /**
      * @var DuurThuisloos
-     * @ORM\ManyToOne(targetEntity="OdpBundle\Entity\DuurThuisloos",inversedBy="huurder",cascade={"persist"})
+     * @ORM\ManyToOne(targetEntity="OdpBundle\Entity\DuurThuisloos",cascade={"persist"})
      * @ORM\JoinColumn(nullable=true)
      * @ORM\OrderBy({"maxValue" = "ASC"})
      */
@@ -72,7 +72,7 @@ class Huurder extends Deelnemer
 
     /**
      * @var Werk
-     * @ORM\ManyToOne(targetEntity="OdpBundle\Entity\Werk",inversedBy="huurder",cascade={"persist"})
+     * @ORM\ManyToOne(targetEntity="OdpBundle\Entity\Werk",cascade={"persist"})
      * @ORM\JoinColumn(nullable=true)
      */
     private $werk;

@@ -11,7 +11,7 @@ class HuurovereenkomstDao extends AbstractDao implements HuurovereenkomstDaoInte
 {
     protected $paginationOptions = [
         'defaultSortFieldName' => 'huurovereenkomst.id',
-        'defaultSortDirection' => 'asc',
+        'defaultSortDirection' => 'desc',
         'sortFieldWhitelist' => [
             'huurovereenkomst.id',
             'klant.achternaam',
