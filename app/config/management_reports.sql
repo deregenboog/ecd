@@ -199,7 +199,7 @@ SELECT * FROM (
         IFNULL((SELECT SUM(`maaltijd`) FROM `registraties` `tr` WHERE `tr`.`locatie_id` = `tl`.`id` AND `binnen` >= :from AND DATE(`binnen`) <= :until), 0) AS 'Aantal maaltijden',
         IFNULL((SELECT SUM(`activering`) FROM `registraties` `tr` WHERE `tr`.`locatie_id` = `tl`.`id` AND `binnen` >= :from AND DATE(`binnen`) <= :until), 0) AS 'Aantal activeringen',
         IFNULL((SELECT COUNT(distinct `klant_id`) FROM `registraties` `tr` WHERE `tr`.`locatie_id` = `tl`.`id` AND `binnen` >= :from AND DATE(`binnen`) <= :until AND `tr`.`activering` = 1), 0) AS 'Aantal unieke activeringen',
-        IFNULL((SELECT SUM(`kleding`) FROM `registraties` `tr` WHERE `tr`.`locatie_id` = `tl`.`id` AND `binnen` >= :from AND `binnen` < :until), 0) AS 'Aantal kleding',
+        IFNULL((SELECT SUM(`kleding`) FROM `registraties` `tr` WHERE `tr`.`locatie_id` = `tl`.`id` AND `binnen` >= :from AND DATE(`binnen`) <= :until), 0) AS 'Aantal kleding',
         IFNULL((SELECT SUM(`veegploeg`) FROM `registraties` `tr` WHERE `tr`.`locatie_id` = `tl`.`id` AND `binnen` >= :from AND DATE(`binnen`) <= :until), 0) AS 'Aantal veegploeg',
         IFNULL((SELECT COUNT(distinct `klant_id`) FROM `registraties` `tr` WHERE `tr`.`locatie_id` = `tl`.`id` AND `binnen` >= :from AND DATE(`binnen`) <= :until AND `tr`.`veegploeg` = 1), 0) AS 'Aantal personen veegploeg',
         naam as order_name
