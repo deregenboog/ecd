@@ -5,6 +5,8 @@ namespace UhkBundle\Form;
 use AppBundle\Form\BaseType;
 use AppBundle\Form\DummyChoiceType;
 use AppBundle\Form\KlantType;
+use AppBundle\Form\MedewerkerType;
+use AppBundle\Form\AppDateType;
 use UhkBundle\Entity\Deelnemer;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -33,12 +35,22 @@ class DeelnemerType extends AbstractType
             ]);
         }
 
+        $builder->add('aanmelddatum', AppDateType::class,[
+            'label'=>'Aanmelddatum',
+            'required'=>true,
+        ]);
+        $builder->add('aanmelder', MedewerkerType::class,[
+            'label' => 'Aanmelder',
+            'required'=> true,
+        ]);
+
         $builder
-            ->add('aanmeldNaam', null, [
-                'required' => true,
-            ])
+//            ->add('aanmeldNaam', null, [
+//                'label'=> 'Aanmeldnaam',
+//                'required' => true,
+//            ])
             ->add('contactpersoonNazorg', null, [
-                'required' => true,
+                'required' => false,
             ])
 
             ->add('submit', SubmitType::class)

@@ -50,11 +50,11 @@ class Deelnemer implements KlantRelationInterface
     private $contactpersoonNazorg;
 
     /**
-     * @var string
+     * @var Medewerker
      *
-     * @ORM\Column(nullable=false)
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Medewerker")
      */
-    private $aanmeldNaam;
+    private $aanmelder;
 
     /**
      * @var \DateTime
@@ -170,25 +170,26 @@ class Deelnemer implements KlantRelationInterface
     /**
      * @param string $contactpersoonNazorg
      */
-    public function setContactpersoonNazorg(string $contactpersoonNazorg): void
+    public function setContactpersoonNazorg(?string $contactpersoonNazorg): void
     {
         $this->contactpersoonNazorg = $contactpersoonNazorg;
     }
 
+
     /**
-     * @return string
+     * @return Medewerker
      */
-    public function getAanmeldNaam(): ?string
+    public function getAanmelder(): ?Medewerker
     {
-        return $this->aanmeldNaam;
+        return $this->aanmelder;
     }
 
     /**
-     * @param string $aanmeldNaam
+     * @param Medewerker $aanmelder
      */
-    public function setAanmeldNaam(string $aanmeldNaam): void
+    public function setAanmelder(Medewerker $aanmelder): void
     {
-        $this->aanmeldNaam = $aanmeldNaam;
+        $this->aanmelder = $aanmelder;
     }
 
     /**

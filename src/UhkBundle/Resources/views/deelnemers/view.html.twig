@@ -14,10 +14,6 @@
         <div class="alert alert-danger">Dossier is afgesloten</div>
     {% endif %}
     <h1>{{ entity_name|capitalize }} {{ entity }}</h1>
-    <p>
-        {{ html.link('Wijzigen', path('uhk_deelnemers_edit', {id: entity.id}), 'edit') }}
-
-    </p>
 {% endblock %}
 
 {% block content_left %}
@@ -31,12 +27,14 @@
         <li class="active"><a data-toggle="tab" href="#intake">Intake</a></li>
 {#        <li><a data-toggle="tab" href="#contactpersonen">Contactpersonen</a></li>#}
         <li><a data-toggle="tab" href="#verslagen">Verslagen</a></li>
+        <li><a data-toggle="tab" href="#nazorg">Nazorg</a></li>
 {#        <li><a data-toggle="tab" href="#documenten">Documenten</a></li>#}
     </ul>
     <div class="tab-content">
         <div id="intake" class="tab-pane active">
             <h2>Aanmelding</h2>
             <dl class="dl-horizontal">
+                {{ html.link('Wijzigen', path('uhk_deelnemers_edit', {id: entity.id}), 'edit') }}
                 <dl class="dl-horizontal">
                     <dt>Medewerker</dt>
                     <dd>{{ entity.medewerker }}</dd>
@@ -44,10 +42,8 @@
                     <dd>{{ entity.aanmelddatum|if_date('d-m-Y') }}</dd>
                 </dl>
                 <dl class="dl-horizontal">
-                    <dt>Aanmeldnaam</dt>
-                    <dd>{{ entity.aanmeldNaam }}</dd>
-                    <dt>Nazorg contactpersoon</dt>
-                    <dd>{{ entity.contactpersoonNazorg }}</dd>
+                    <dt>Aanmelder</dt>
+                    <dd>{{ entity.aanmelder }}</dd>
                 </dl>
             </dl>
         </div>
@@ -56,6 +52,16 @@
 {#        </div>#}
         <div id="verslagen" class="tab-pane">
             {% include 'UhkBundle:verslagen:_list.html.twig' with {deelnemer: entity} %}
+        </div>
+        <div id="nazorg" class="tab-pane ">
+            <h2>Nazorg</h2>
+            <dl class="dl-horizontal">
+                {{ html.link('Wijzigen', path('uhk_deelnemers_edit', {id: entity.id}), 'edit') }}
+                <dl class="dl-horizontal">
+                    <dt>Nazorg contactpersoon</dt>
+                    <dd>{{ entity.contactpersoonNazorg }}</dd>
+                </dl>
+            </dl>
         </div>
 {#        <div id="documenten" class="tab-pane">#}
 {#            {% include 'DagbestedingBundle:documenten:_list.html.twig' with {deelnemer: entity} %}#}
