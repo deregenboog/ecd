@@ -2,29 +2,58 @@
 
 namespace OdpBundle\Controller;
 
-use AppBundle\Controller\SymfonyController;
+use AppBundle\Controller\AbstractController;
 use AppBundle\Entity\Klant;
 use AppBundle\Export\ExportInterface;
 use AppBundle\Form\ConfirmationType;
 use AppBundle\Form\KlantFilterType;
+use AppBundle\Service\KlantDaoInterface;
 use Doctrine\ORM\QueryBuilder;
 use OdpBundle\Entity\Huurder;
+use OdpBundle\Filter\HuurderFilter;
 use OdpBundle\Form\HuurderCloseType;
 use OdpBundle\Form\HuurderFilterType;
 use OdpBundle\Form\HuurderSelectType;
 use OdpBundle\Form\HuurderType;
+use OdpBundle\Service\HuurderDaoInterface;
+use Symfony\Component\HttpFoundation\Request;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormError;
 
+use JMS\DiExtraBundle\Annotation as DI;
+
+
 /**
  * @Route("/huurders")
  * @Template
  */
-class HuurdersController extends SymfonyController
+class HuurdersController extends AbstractController
 {
     public $title = 'Huurders';
+
+    public $entityClass = Huurder::class;
+    protected $entityName = 'huurder';
+    protected $formClass = HuurderType::class;
+    protected $filterFormClass = HuurderFilterType::class;
+    protected $baseRouteName = 'odp_huurders_';
+    protected $addMethod = "addHuurder";
+    protected $searchFilterTypeClass = KlantFilterType::class;
+    protected $searchEntity = Klant::class;
+
+    /**
+     * @var HuurderDaoInterface
+     *
+     * @DI\Inject("OdpBundle\Service\HuurderDao")
+     */
+    protected $dao;
+
+    /**
+     * @var KlantDaoInterface
+     * @DI\Inject("AppBundle\Service\KlantDao")
+     */
+    protected $searchDao;
 
     private $sortFieldWhitelist = [
         'klant.id',
@@ -39,10 +68,12 @@ class HuurdersController extends SymfonyController
     ];
 
     /**
-     * @Route("/")
+     * @Route("/old")
+     * @Template()
      */
-    public function index()
+    public function oldIndexAction(\Symfony\Component\HttpFoundation\Request $request)
     {
+        dump(23);
         $entityManager = $this->getEntityManager();
         $repository = $entityManager->getRepository(Huurder::class);
 
@@ -72,7 +103,7 @@ class HuurdersController extends SymfonyController
         ];
     }
 
-    private function download(QueryBuilder $builder)
+    protected function oldDownload(QueryBuilder $builder)
     {
         ini_set('memory_limit', '512M');
 

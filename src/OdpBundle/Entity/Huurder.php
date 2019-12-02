@@ -2,6 +2,7 @@
 
 namespace OdpBundle\Entity;
 
+use AppBundle\Entity\Klant;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
@@ -78,8 +79,12 @@ class Huurder extends Deelnemer
     private $werk;
 
 
-    public function __construct()
+    public function __construct(Klant $klant = null)
     {
+        if(null !== $klant){
+            $this->klant = $klant;
+        }
+
         parent::__construct();
 
         $this->huurverzoeken = new ArrayCollection();

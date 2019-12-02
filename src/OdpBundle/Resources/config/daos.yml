@@ -29,6 +29,8 @@ services:
         parent: app.dao.abstract
 
     OdpBundle\Service\VerhuurderDao:
+        arguments:
+            - '@doctrine.orm.entity_manager'
         parent: app.dao.abstract
 
     OdpBundle\Service\VerhuurderAfsluitingDao:

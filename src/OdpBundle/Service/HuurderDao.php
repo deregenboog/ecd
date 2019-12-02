@@ -2,7 +2,9 @@
 
 namespace OdpBundle\Service;
 
+use AppBundle\Filter\FilterInterface;
 use AppBundle\Service\AbstractDao;
+use Knp\Component\Pager\Pagination\PaginationInterface;
 use OdpBundle\Entity\Huurder;
 
 class HuurderDao extends AbstractDao implements HuurderDaoInterface
@@ -15,6 +17,8 @@ class HuurderDao extends AbstractDao implements HuurderDaoInterface
             'klant.achternaam',
             'werkgebied.naam',
             'huurder.automatischeIncasso',
+            'huurder.inschrijvingWoningnet',
+            'huurder.waPolis',
             'huurder.aanmelddatum',
             'huurder.afsluitdatum',
             'huurder.wpi',
@@ -24,7 +28,24 @@ class HuurderDao extends AbstractDao implements HuurderDaoInterface
     protected $class = Huurder::class;
 
     protected $alias = 'huurder';
+    protected $searchEntityName = 'klant';
+    /**
+     * {inheritdoc}.
+     */
+    public function findAll($page = null, FilterInterface $filter = null): PaginationInterface
+    {
 
+        $builder = $this->repository->createQueryBuilder('huurder')
+            ->innerJoin('huurder.klant', 'klant')
+            ->leftJoin('klant.werkgebied', 'werkgebied')
+            ->leftJoin('huurder.afsluiting', 'afsluiting')
+            ->andWhere('afsluiting.tonen IS NULL OR afsluiting.tonen = true')
+        ;
+//        $builder = $this->repository->createQueryBuilder($this->alias)
+//            ->innerJoin($this->alias.'.klant', 'klant')
+//        ;
+        return parent::doFindAll($builder, $page, $filter);
+    }
     public function create(Huurder $entity)
     {
         $this->doCreate($entity);

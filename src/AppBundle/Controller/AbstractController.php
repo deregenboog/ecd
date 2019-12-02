@@ -2,17 +2,17 @@
 
 namespace AppBundle\Controller;
 
+
 use AppBundle\Exception\AppException;
 use AppBundle\Export\ExportInterface;
 use AppBundle\Filter\FilterInterface;
 use AppBundle\Form\ConfirmationType;
 use AppBundle\Model\MedewerkerSubjectInterface;
-
-
 use AppBundle\Service\AbstractDao;
 use Doctrine\ORM\EntityNotFoundException;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 
@@ -33,6 +33,25 @@ abstract class AbstractController extends SymfonyController
      */
     protected $filterFormClass;
 
+    /**
+     * If adding entities needs searching for klanten or vrijwiliigers (as is the case with many modules)
+     * then one needs to search first for existing entities. this is done with this filter type
+     * @var string
+     */
+    protected $searchFilterTypeClass;
+
+    /**
+     * This is the dao used for searching entities and if they exist.
+     * @var AbstractDao
+     */
+    protected $searchDao;
+
+    /**
+     * This entity is created when there is no existing.
+     * (ie. klant or vrvijwilliger)
+     * @var object Entity to create when nothing found
+     */
+    protected $searchEntity;
     /**
      * @var string
      */
@@ -83,6 +102,7 @@ abstract class AbstractController extends SymfonyController
      */
     public function indexAction(Request $request)
     {
+
         if (in_array('index', $this->disabledActions)) {
             throw new AccessDeniedHttpException();
         }
@@ -183,13 +203,99 @@ abstract class AbstractController extends SymfonyController
      */
     public function addAction(Request $request)
     {
-        if (in_array('add', $this->disabledActions)) {
-            throw new AccessDeniedHttpException();
+        if (!isset($this->addMethod) || !is_callable($this, $this->addMethod) && !isset($this->searchFilterTypeClass))
+        {
+            return $this->doAdd($request);
+        }
+        else if(isset($this->searchFilterTypeClass))
+        {
+            if ($request->get('entity')) {
+                return $this->doAdd($request);
+            }
+
+            return $this->doSearch($request);
+        }
+        else
+        {
+            return $this->{$this->addMethod}($request);
         }
 
-        $entity = new $this->entityClass();
+    }
 
-        return $this->processForm($request, $entity);
+    protected function doAdd(Request $request)
+    {
+        $entityId = $request->get('entity');
+        if ('new' === $entityId) {
+            $searchEntity = new $this->searchEntity();
+        } else {
+            $searchEntity = $this->searchDao->find($entityId);
+            if ($searchEntity) {
+                // redirect if already exists
+                $subEntity = $this->dao->findOneBySearchEntity($searchEntity);
+                if ($subEntity) {
+                    return $this->redirectToView($subEntity);
+                }
+            }
+        }
+
+        $subEntity = new $this->entityClass($searchEntity);
+        $creationForm = $this->createForm($this->formClass, $subEntity);
+        $creationForm->handleRequest($request);
+
+        if ($creationForm->isSubmitted() && $creationForm->isValid()) {
+            try {
+                $this->dao->create($subEntity);
+                $this->addFlash('success', ucfirst($this->entityName).' is opgeslagen.');
+
+                return $this->redirectToView($subEntity);
+            } catch (\Exception $e) {
+                $message = $this->container->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
+                $this->addFlash('danger', $message);
+            }
+
+            return $this->redirectToIndex();
+        }
+
+        return [
+            'entity' => $subEntity,
+            'creationForm' => $creationForm->createView(),
+        ];
+    }
+
+    private function doSearch(Request $request)
+    {
+        if(!isset($this->searchFilterTypeClass)) return;
+        $filterForm = $this->createForm($this->searchFilterTypeClass, null, [
+            'enabled_filters' => ['id', 'naam', 'bsn', 'geboortedatum'],
+        ]);
+        $filterForm->handleRequest($request);
+
+        if ($filterForm->isSubmitted() && $filterForm->isValid()) {
+            $count = (int) $this->searchDao->countAll($filterForm->getData());
+            if (0 === $count) {
+                $this->addFlash('info', sprintf('De zoekopdracht leverde geen resultaten op. Maak een nieuwe %s aan.', $this->entityName));
+
+                return $this->redirectToRoute($this->baseRouteName.'add', [$this->entityName => 'new']);
+            }
+
+            if ($count > 100) {
+                $filterForm->addError(new FormError('De zoekopdracht leverde teveel resultaten op. Probeer het opnieuw met een specifiekere zoekopdracht.'));
+
+                return [
+                    'filterForm' => $filterForm->createView(),
+                ];
+            }
+
+            return [
+                'zoekresultaten' => $this->searchDao->findAll(null, $filterForm->getData()),
+                'filterForm' => $filterForm->createView(),
+
+            ];
+        }
+
+        return [
+            'filterForm' => $filterForm->createView(),
+        ];
     }
 
     /**

@@ -363,7 +363,7 @@ class KlantenController extends AbstractController
         ];
     }
 
-    private function doAdd(Request $request)
+    protected function doAdd(Request $request)
     {
         $tbc_countries = $this->getParameter('tbc_countries');
         $tbc_countries_string = implode(", ",$tbc_countries);

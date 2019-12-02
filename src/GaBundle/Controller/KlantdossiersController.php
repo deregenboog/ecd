@@ -103,7 +103,7 @@ class KlantdossiersController extends DossiersController
         ];
     }
 
-    private function doAdd(Request $request)
+    protected function doAdd(Request $request)
     {
         $klantId = $request->get('klant');
         if ('new' === $klantId) {

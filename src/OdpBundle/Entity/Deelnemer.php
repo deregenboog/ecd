@@ -3,8 +3,11 @@
 namespace OdpBundle\Entity;
 
 use AppBundle\Entity\Klant;
+use AppBundle\Model\KlantRelationInterface;
 use AppBundle\Model\RequiredMedewerkerTrait;
 use AppBundle\Model\TimestampableTrait;
+use AppBundle\Model\UsesKlantTrait;
+use AppBundle\Service\KlantDaoInterface;
 use AppBundle\Service\NameFormatter;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityNotFoundException;
@@ -20,9 +23,9 @@ use Gedmo\Mapping\Annotation as Gedmo;
  * @ORM\HasLifecycleCallbacks
  * @Gedmo\Loggable
  */
-abstract class Deelnemer
+abstract class Deelnemer  implements KlantRelationInterface
 {
-    use TimestampableTrait, RequiredMedewerkerTrait;
+    use TimestampableTrait, RequiredMedewerkerTrait, UsesKlantTrait;
 
     /**
      * @var int
@@ -245,5 +248,10 @@ abstract class Deelnemer
         $this->klantmanager = $klantmanager;
 
         return $this;
+    }
+
+    public function getKlantFieldName()
+    {
+        return "klant";
     }
 }

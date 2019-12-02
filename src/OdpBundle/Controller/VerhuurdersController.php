@@ -2,29 +2,44 @@
 
 namespace OdpBundle\Controller;
 
-use AppBundle\Controller\SymfonyController;
+use AppBundle\Controller\AbstractChildController;
+use AppBundle\Controller\AbstractController;
 use AppBundle\Entity\Klant;
 use AppBundle\Export\ExportInterface;
 use AppBundle\Form\ConfirmationType;
 use AppBundle\Form\KlantFilterType;
+use AppBundle\Service\KlantDao;
+use AppBundle\Service\KlantDaoInterface;
 use Doctrine\ORM\QueryBuilder;
+
+use JMS\DiExtraBundle\Annotation as DI;
 use OdpBundle\Entity\Verhuurder;
 use OdpBundle\Form\VerhuurderCloseType;
 use OdpBundle\Form\VerhuurderFilterType;
 use OdpBundle\Form\VerhuurderSelectType;
 use OdpBundle\Form\VerhuurderType;
+use OdpBundle\Service\VerhuurderDaoInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormError;
 
+
 /**
  * @Route("/verhuurders")
  * @Template
  */
-class VerhuurdersController extends SymfonyController
+class VerhuurdersController extends AbstractController
 {
     public $title = 'Verhuurders';
+    public $entityClass = Verhuurder::class;
+    protected $entityName = 'verhuurder';
+    protected $formClass = VerhuurderType::class;
+    protected $filterFormClass = VerhuurderFilterType::class;
+    protected $baseRouteName = 'odp_verhuurders_';
+    protected $addMethod = "addVerhuurder";
+    protected $searchFilterTypeClass = KlantFilterType::class;
+    protected $searchEntity = Klant::class;
 
     private $sortFieldWhitelist = [
         'klant.id',
@@ -37,40 +52,67 @@ class VerhuurdersController extends SymfonyController
     ];
 
     /**
-     * @Route("/")
+     * @var VerhuurderDaoInterface
+     *
+     * @DI\Inject("OdpBundle\Service\VerhuurderDao")
      */
-    public function index()
+    protected $dao;
+
+    /**
+     * @var KlantDaoInterface
+     * @DI\Inject("AppBundle\Service\KlantDao")
+     */
+    protected $searchDao;
+
+    /**
+     * @var ExportInterface
+     *
+     * @DI\Inject("odp.export.verhuurders")
+     */
+    protected $export;
+
+
+    /**
+     * @Route("/old")
+     */
+    public function oldIndex()
     {
-        $entityManager = $this->getEntityManager();
-        $repository = $entityManager->getRepository(Verhuurder::class);
-
-        $builder = $repository->createQueryBuilder('verhuurder')
-            ->innerJoin('verhuurder.klant', 'klant')
-            ->leftJoin('klant.werkgebied', 'werkgebied')
-            ->leftJoin('verhuurder.afsluiting', 'afsluiting')
-            ->andWhere('afsluiting.tonen IS NULL OR afsluiting.tonen = true')
-        ;
-
-        $filter = $this->createForm(VerhuurderFilterType::class);
-        $filter->handleRequest($this->getRequest());
-        $filter->getData()->applyTo($builder);
-        if ($filter->get('download')->isClicked()) {
-            return $this->download($builder);
-        }
-
-        $pagination = $this->getPaginator()->paginate($builder, $this->getRequest()->get('page', 1), 20, [
-            'defaultSortFieldName' => 'klant.achternaam',
-            'defaultSortDirection' => 'asc',
-            'sortFieldWhitelist' => $this->sortFieldWhitelist,
-        ]);
-
-        return [
-            'filter' => $filter->createView(),
-            'pagination' => $pagination,
-        ];
+//        $entityManager = $this->getEntityManager();
+//        $repository = $entityManager->getRepository(Verhuurder::class);
+//
+//        $builder = $repository->createQueryBuilder('verhuurder')
+//            ->innerJoin('verhuurder.klant', 'klant')
+//            ->leftJoin('klant.werkgebied', 'werkgebied')
+//            ->leftJoin('verhuurder.afsluiting', 'afsluiting')
+//            ->andWhere('afsluiting.tonen IS NULL OR afsluiting.tonen = true')
+//        ;
+//
+//        $filter = $this->createForm(VerhuurderFilterType::class);
+//        $filter->handleRequest($this->getRequest());
+//        $filter->getData()->applyTo($builder);
+//        if ($filter->get('download')->isClicked()) {
+//            return $this->download($builder);
+//        }
+//
+//        $pagination = $this->getPaginator()->paginate($builder, $this->getRequest()->get('page', 1), 20, [
+//            'defaultSortFieldName' => 'klant.achternaam',
+//            'defaultSortDirection' => 'asc',
+//            'sortFieldWhitelist' => $this->sortFieldWhitelist,
+//        ]);
+//
+//        return [
+//            'filter' => $filter->createView(),
+//            'pagination' => $pagination,
+//        ];
     }
 
-    private function download(QueryBuilder $builder)
+    protected function getDownloadFilename()
+    {
+        $filename = sprintf('onder-de-pannen-verhuurders-%s.xlsx', (new \DateTime())->format('d-m-Y'));
+        return $filename;
+    }
+
+    protected function oldDownload(QueryBuilder $builder)
     {
         ini_set('memory_limit', '512M');
 
@@ -96,9 +138,9 @@ class VerhuurdersController extends SymfonyController
     }
 
     /**
-     * @Route("/add")
+     * @Route("/oldAdd")
      */
-    public function add($klantId = null)
+    public function oldAdd($klantId = null)
     {
         $entityManager = $this->getEntityManager();
 

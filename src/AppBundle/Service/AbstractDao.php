@@ -2,6 +2,7 @@
 
 namespace AppBundle\Service;
 
+use AppBundle\Entity\Klant;
 use AppBundle\Filter\FilterInterface;
 use AppBundle\Model\ActivatableInterface;
 use AppBundle\Service\AbstractDaoInterface;
@@ -14,6 +15,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityNotFoundException;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\QueryBuilder;
+
 use Knp\Component\Pager\PaginatorInterface;
 
 abstract class AbstractDao implements AbstractDaoInterface
@@ -44,6 +46,11 @@ abstract class AbstractDao implements AbstractDaoInterface
     protected $class = '';
 
     protected $alias = '';
+
+    /**
+     * @var string Name of the entity which is the 'parent' of this entity. ie klant for verhuurder.
+     */
+    protected $searchEntityName = '';
 
     public function __construct(EntityManager $entityManager, PaginatorInterface $paginator, $itemsPerPage)
     {
@@ -84,6 +91,14 @@ abstract class AbstractDao implements AbstractDaoInterface
     public function find($id)
     {
         $entity = $this->repository->find($id);
+        $this->tryLoadKlant($entity);
+        return $entity;
+    }
+
+    public function findOneBySearchEntity($searchEntity)
+    {
+
+        $entity = $this->repository->findOneBy([$this->searchEntityName => $searchEntity]);
         $this->tryLoadKlant($entity);
         return $entity;
     }
@@ -131,5 +146,25 @@ abstract class AbstractDao implements AbstractDaoInterface
         }
 //        $this->entityManager->remove($entity);
         $this->entityManager->flush();
+    }
+
+    /**
+     * @param FilterInterface $filter
+     *
+     * @return int
+     */
+    public function countAll(FilterInterface $filter = null)
+    {
+        $builder = $this->repository->createQueryBuilder($this->alias)
+            ->innerJoin($this->alias.'.klant', 'klant')
+            ->select("COUNT({$this->alias}.id)")
+            ->orderBy("klant.achternaam")
+        ;
+
+        if ($filter) {
+            $filter->applyTo($builder);
+        }
+
+        return $builder->getQuery()->getSingleScalarResult();
     }
 }

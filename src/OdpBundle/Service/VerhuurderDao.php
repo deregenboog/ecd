@@ -2,11 +2,16 @@
 
 namespace OdpBundle\Service;
 
+use AppBundle\Filter\FilterInterface;
+use AppBundle\Model\UsesKlantTrait;
 use AppBundle\Service\AbstractDao;
+use Knp\Component\Pager\Pagination\PaginationInterface;
 use OdpBundle\Entity\Verhuurder;
 
 class VerhuurderDao extends AbstractDao implements VerhuurderDaoInterface
 {
+    use UsesKlantTrait;
+
     protected $paginationOptions = [
         'defaultSortFieldName' => 'klant.achternaam',
         'defaultSortDirection' => 'asc',
@@ -19,11 +24,32 @@ class VerhuurderDao extends AbstractDao implements VerhuurderDaoInterface
             'verhuurder.wpi',
             'verhuurder.ksgw',
         ],
+//        'wrap-queries'=>true,
     ];
 
     protected $class = Verhuurder::class;
 
     protected $alias = 'verhuurder';
+
+    protected $searchEntityName = 'klant';
+
+    /**
+     * {inheritdoc}.
+     */
+    public function findAll($page = null, FilterInterface $filter = null): PaginationInterface
+    {
+        $builder = $this->repository->createQueryBuilder('verhuurder')
+            ->innerJoin('verhuurder.klant', 'klant')
+            ->leftJoin('klant.werkgebied', 'werkgebied')
+            ->leftJoin('verhuurder.afsluiting', 'afsluiting')
+            ->andWhere('afsluiting.tonen IS NULL OR afsluiting.tonen = true')
+        ;
+//        $builder = $this->repository->createQueryBuilder($this->alias)
+//            ->innerJoin($this->alias.'.klant', 'klant')
+//        ;
+        return parent::doFindAll($builder, $page, $filter);
+    }
+
 
     public function create(Verhuurder $entity)
     {
@@ -80,13 +106,13 @@ class VerhuurderDao extends AbstractDao implements VerhuurderDaoInterface
         return $builder->getQuery()->getResult();
     }
 
-    private function getCountBuilder(\DateTime $startdate, \DateTime $enddate)
-    {
-        return $this->repository->createQueryBuilder($this->alias)
-            ->select("COUNT({$this->alias}.id) AS aantal")
-            ->leftJoin("{$this->alias}.afsluiting", 'afsluiting')
-            ->andWhere('afsluiting.tonen IS NULL OR afsluiting.tonen = true')
-            ->setParameters(['start' => $startdate, 'end' => $enddate])
-        ;
-    }
+//    private function getCountBuilder(\DateTime $startdate, \DateTime $enddate)
+//    {
+//        return $this->repository->createQueryBuilder($this->alias)
+//            ->select("COUNT({$this->alias}.id) AS aantal")
+//            ->leftJoin("{$this->alias}.afsluiting", 'afsluiting')
+//            ->andWhere('afsluiting.tonen IS NULL OR afsluiting.tonen = true')
+//            ->setParameters(['start' => $startdate, 'end' => $enddate])
+//        ;
+//    }
 }

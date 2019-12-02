@@ -96,7 +96,7 @@ class VrijwilligersController extends AbstractController
         ];
     }
 
-    private function doAdd(Request $request)
+    protected function doAdd(Request $request)
     {
         $vrijwilligerId = $request->get('vrijwilliger');
         if ('new' === $vrijwilligerId) {

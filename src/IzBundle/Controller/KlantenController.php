@@ -161,7 +161,7 @@ class KlantenController extends AbstractController
         ];
     }
 
-    private function doAdd(Request $request)
+    protected function doAdd(Request $request)
     {
         $klantId = $request->get('klant');
         if ('new' === $klantId) {

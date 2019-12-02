@@ -90,7 +90,7 @@ class VrijwilligersController extends AbstractController
         return $this->processForm($request, $entity);
     }
 
-    private function doSearch(Request $request)
+    protected function doSearch(Request $request)
     {
         $filterForm = $this->createForm(AppVrijwilligerFilterType::class, null, [
             'enabled_filters' => ['naam', 'bsn', 'geboortedatum'],
@@ -124,7 +124,7 @@ class VrijwilligersController extends AbstractController
         ];
     }
 
-    private function doAdd(Request $request)
+    protected function doAdd(Request $request)
     {
         $vrijwilligerId = $request->get('vrijwilliger');
         if ('new' === $vrijwilligerId) {
