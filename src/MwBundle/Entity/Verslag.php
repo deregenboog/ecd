@@ -94,8 +94,25 @@ class Verslag
      */
     private $verslaginventarisaties;
 
-    public function __construct(Klant $klant)
+    const TYPE_MW = 1;
+    const TYPE_INLOOP = 2;
+
+    protected static $types = [
+        self::TYPE_MW => "Maatschappelijk werk-verslag",
+        self::TYPE_INLOOP => "Inloopverslag",
+        ];
+
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="verslagType", type="integer", options={"default":1})
+     * @Gedmo\Versioned
+     */
+    private $type = self::TYPE_MW;
+
+    public function __construct(Klant $klant, $type = 1)
     {
+        $this->setType($type);
         $this->klant = $klant;
         $this->verslaginventarisaties = new ArrayCollection();
         $this->datum = new \DateTime();
@@ -260,6 +277,28 @@ class Verslag
         return $this;
     }
 
+    /**
+     * @return int
+     */
+    public function getType(): int
+    {
+        return $this->type;
+    }
+
+    public function getTypeAsString(): string
+    {
+        return self::$types[$this->getType()];
+    }
+
+    /**
+     * @param int $type
+     */
+    public function setType(int $type): void
+    {
+        if(!in_array($type,array_flip(self::$types))) throw new \InvalidArgumentException("Verslagtype kan alleen van types zijn zoals vermeld.");
+        $this->type = $type;
+    }
+
 //     /**
 //      * Only one root per Verslaginventarisatie is allowed.
 //      */
@@ -277,4 +316,6 @@ class Verslag
 
 //         return $this;
 //     }
+
+
 }

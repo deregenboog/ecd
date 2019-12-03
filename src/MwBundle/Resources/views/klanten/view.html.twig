@@ -56,7 +56,12 @@
                 <p>
                     {{ html.link('Verslag bewerken', path('mw_verslagen_edit', {id: verslag.id}), 'edit') }}
                 </p>
-                <div class="row">
+                {% if verslag.type == 2 %}
+                    {% set class = "bg-info" %}
+                {% else %}
+                    {% set class = "" %}
+                {% endif %}
+                <div class="row {{class}}">
                     <div class="col-xs-6">
                         <dl class="dl-horizontal">
                             <dt>Locatie</dt>
@@ -73,6 +78,8 @@
                                 <dt>Duur</dt>
                                 <dd>{{ verslag.duur }} minuten</dd>
                             {% endif %}
+                            <dt>Type</dt>
+                            <dd>{{ verslag.typeAsString }}</dd>
                         </dl>
                     </div>
                 </div>

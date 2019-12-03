@@ -55,7 +55,7 @@ services:
 
     InloopBundle\Service\SchorsingDao:
         parent: inloop.dao
-        
+
     InloopBundle\Service\VerslavingDao:
         parent: inloop.dao
 
@@ -64,6 +64,9 @@ services:
 
     InloopBundle\Service\WoonsituatieDao:
         parent: inloop.dao
+
+    InloopBundle\Service\VerslagDao:
+        parent: app.dao.abstract
 
     inloop.document.entities:
         class: ArrayObject

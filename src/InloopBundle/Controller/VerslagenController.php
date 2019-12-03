@@ -1,6 +1,6 @@
 <?php
 
-namespace MwBundle\Controller;
+namespace InloopBundle\Controller;
 
 use AppBundle\Controller\AbstractController;
 use AppBundle\Entity\Klant;
@@ -29,7 +29,7 @@ class VerslagenController extends AbstractController
     protected $entityName = 'verslag';
     protected $entityClass = Verslag::class;
     protected $formClass = VerslagType::class;
-    protected $baseRouteName = 'mw_verslagen_';
+    protected $baseRouteName = 'inloop_verslagen_';
 
     /**
      * @var VerslagDaoInterface
@@ -59,10 +59,10 @@ class VerslagenController extends AbstractController
     public function addAction(Request $request)
     {
         $klant = $request->get('klant');
-        $type = $request->get('type');
+//        $type = $request->get('type');
 
-        $entity = new Verslag($klant);
-        $entity->setType($type);
+        $entity = new Verslag($klant, 2);
+//        $entity->setType($type);
 
         return $this->processForm($request, $entity);
     }
@@ -73,6 +73,8 @@ class VerslagenController extends AbstractController
     public function editAction(Request $request, $id)
     {
         $entity = $this->dao->find($id);
+        /** Alleen mensen van MW mogen dat soort verslagen bewerken. Mocht iemand de URL manipuleren....  */
+        if($entity->getType() == 1 && !$this->isGranted("ROLE_MW")) throw new EntityNotFoundException("Kan verslag niet vinden.");
         return $this->processForm($request, $entity);
     }
 

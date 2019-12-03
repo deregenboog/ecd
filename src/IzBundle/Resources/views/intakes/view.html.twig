@@ -8,7 +8,8 @@
             {{ html.editLink(path(route_base~'edit', {id: entity.izDeelnemer.id})) }}
             {{ html.link('Wijzigen', path(route_base~'edit', {id: entity.izDeelnemer.id})) }}
         </p>
-        {% if entity.izDeelnemer.closeable %}
+
+        {% if entity.closeable and (entity.intake and entity.intake.id is defined) %}
             <div class="alert alert-danger" role="alert">
                 Deelnemer {{ entity.izDeelnemer }} heeft geen open hulpvragen of actieve koppelingen.
                 Sluit het dossier af of maak een nieuwe hulpvraag aan.
@@ -22,7 +23,7 @@
             {{ html.editLink(path(route_base~'edit', {id: entity.izDeelnemer.id})) }}
             {{ html.link('Wijzigen', path(route_base~'edit', {id: entity.izDeelnemer.id})) }}
         </p>
-        {% if entity.izDeelnemer.closeable %}
+        {% if entity.izDeelnemer.closeable and (entity.izDeelnemer.intake and entity.izDeelnamer.intake.id is defined)%}
             <div class="alert alert-danger" role="alert">
                 Vrijwilliger {{ entity.izDeelnemer }} heeft geen open hulpaanbiedingen of actieve koppelingen.
                 Sluit het dossier af of maak een nieuw hulpaanbod aan.

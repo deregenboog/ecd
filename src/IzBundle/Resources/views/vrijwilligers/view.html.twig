@@ -6,7 +6,7 @@
         <p class="h3 text-danger pull-right">Dossier is afgesloten</p>
     {% endif %}
     <h1>{{ entity_name|capitalize }} {{ entity }}</h1>
-    {% if entity.closeable %}
+    {% if entity.closeable and (entity.intake and entity.intake.id is defined) %}
         <div class="alert alert-danger" role="alert">
             Vrijwilliger {{ entity }} heeft geen open hulpaanbiedingen of actieve koppelingen.
             Sluit het dossier af of maak een nieuw hulpaanbod aan.
