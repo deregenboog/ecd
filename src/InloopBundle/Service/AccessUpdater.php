@@ -92,6 +92,10 @@ class AccessUpdater
                 ->andWhere('klant.id = :klant_id')
                 ->setParameter('klant_id', $klant->getId())
             ;
+
+//            echo $builder->getQuery()->getSQL();
+//            echo "\n";
+
             $klantIds = $this->getKlantIds($builder);
 
             $params = [
@@ -127,6 +131,7 @@ class AccessUpdater
 
     private function getStrategy(Locatie $locatie)
     {
+        $chosenStrategy = null;
         // @todo move to container service
         $strategies = [
             new GebruikersruimteStrategy(),
@@ -137,9 +142,10 @@ class AccessUpdater
 
         foreach ($strategies as $strategy) {
             if ($strategy->supports($locatie)) {
-                return $strategy;
+                $chosenStrategy =  $strategy;
             }
         }
+        if( null != $chosenStrategy) return $chosenStrategy;
 
         throw new \LogicException('No supported strategy found!');
     }

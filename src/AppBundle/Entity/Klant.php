@@ -98,6 +98,15 @@ class Klant extends Persoon
      * @var Intake
      *
      * @ORM\ManyToOne(targetEntity="InloopBundle\Entity\Intake")
+     * @ORM\JoinColumn(name="first_intake_id")
+     * @Gedmo\Versioned
+     */
+    private $eersteIntake;
+
+    /**
+     * @var Intake
+     *
+     * @ORM\ManyToOne(targetEntity="InloopBundle\Entity\Intake")
      * @ORM\JoinColumn(name="laste_intake_id")
      * @Gedmo\Versioned
      */
@@ -348,9 +357,18 @@ class Klant extends Persoon
 
     public function addIntake(Intake $intake)
     {
+        /**
+         * dd 20191203 dit ging fout want intakedatum was nog niet gevuld omdat vanuit nieuwe intake constructor addIntake werd aangeroepen en
+         * pas daarna de intakedatum werd gevuld.
+         *
+         * Niet meer eersteIntakeDatum vullen want dat gaat niet goed, op moment van koppelen is datum nog niet in entity.
+         * Dus gewoon intake koppelen en queries daarop aanpassen
+         *
+         */
         if (0 === count($this->intakes)) {
-            $this->eersteIntakeDatum = $intake->getIntakedatum();
+            $this->eersteIntake = $intake;
         }
+
         $this->intakes->add($intake);
         $intake->setKlant($this);
         $this->laatsteIntake = $intake;
@@ -464,6 +482,23 @@ class Klant extends Persoon
     {
         return $this->eersteIntakeDatum;
     }
+
+    /**
+     * @return Intake
+     */
+    public function getEersteIntake(): Intake
+    {
+        return $this->eersteIntake;
+    }
+
+    /**
+     * @param Intake $eersteIntake
+     */
+    public function setEersteIntake(Intake $eersteIntake): void
+    {
+        $this->eersteIntake = $eersteIntake;
+    }
+
 
     public function updateCalculatedFields()
     {

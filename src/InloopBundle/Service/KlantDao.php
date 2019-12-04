@@ -42,11 +42,13 @@ class KlantDao extends AbstractDao implements KlantDaoInterface
     public function getAllQueryBuilder(FilterInterface $filter = null)
     {
         $builder = $this->repository->createQueryBuilder($this->alias)
-            ->select($this->alias.', intake, geslacht, laatsteIntake, laatsteIntakeLocatie, gebruikersruimte')
+            ->select($this->alias.', intake, geslacht, eersteIntake, laatsteIntake, laatsteIntakeLocatie, gebruikersruimte')
             ->innerJoin('klant.huidigeStatus', 'status')
             ->leftJoin($this->alias.'.intakes', 'intake')
             ->leftJoin($this->alias.'.geslacht', 'geslacht')
             ->leftJoin($this->alias.'.laatsteIntake', 'laatsteIntake')
+            ->leftJoin($this->alias.'.eersteIntake', 'eersteIntake')
+
             ->leftJoin('laatsteIntake.intakelocatie', 'laatsteIntakeLocatie')
             ->leftJoin('laatsteIntake.gebruikersruimte', 'gebruikersruimte')
         ;

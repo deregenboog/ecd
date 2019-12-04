@@ -427,9 +427,7 @@ class Intake
 
     public function __construct(Klant $klant = null)
     {
-        if ($klant) {
-            $klant->addIntake($this);
-        }
+
         $this->created = new \DateTime();
         $this->modified = new \DateTime();
         $this->intakedatum = new \DateTime();
@@ -438,6 +436,10 @@ class Intake
         $this->verslavingen = new ArrayCollection();
         $this->gebruikswijzen = new ArrayCollection();
         $this->instanties = new ArrayCollection();
+
+        if ($klant) {
+            $klant->addIntake($this);
+        }
     }
 
     public function __clone()

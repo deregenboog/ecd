@@ -30,14 +30,17 @@ class VerblijfsstatusStrategy implements StrategyInterface
                 $builder->expr()->andX(
                     'laatsteIntake.verblijfsstatus = :niet_rechthebbend_id',
 //                    'laatsteIntake.overigenToegangVan <= :today',
-                    "klant.eersteIntakeDatum < '2017-06-01'"
+//                    "klant.eersteIntakeDatum < '2017-06-01'" // OUDE IMPLEMENTATIE. Veld werd niet altijd gevuld en niet goed gevuld.
+                    "eersteIntake.intakedatum < '2017-06-01'"
 //                    .'klant.eersteIntakeDatum < :three_months_ago' //JTB: is redundand. drie maanden kleiner dan nu is het sowieso wanneer < 2017 6 1 is.
                 ),
                 $builder->expr()->andX(
                     'laatsteIntake.verblijfsstatus = :niet_rechthebbend_id',
 //                    'laatsteIntake.overigenToegangVan <= :today', //Even weghalen. In overleg met Janneke wordt dit verhaal voorlopig geskipt.
-                    "klant.eersteIntakeDatum >= '2017-06-01'",
-                    'klant.eersteIntakeDatum < :six_months_ago'
+//                    "klant.eersteIntakeDatum >= '2017-06-01'", // OUDE IMPLEMENTATIE WERKTE NIET GOED
+                    "eersteIntake.intakedatum >= '2017-06-01'",
+//                    'klant.eersteIntakeDatum < :six_months_ago'
+                    "eersteIntake.intakedatum < :six_months_ago"
                 )
             ))
             ->setParameters([
