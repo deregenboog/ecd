@@ -343,7 +343,7 @@ abstract class AbstractController extends SymfonyController
                 $this->addFlash('danger', $message);
             }
 
-//           return $this->afterFormSubmitted($request, $entity);
+           return $this->afterFormSubmitted($request, $entity);
         }
 
         return array_merge([
