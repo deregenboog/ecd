@@ -16,7 +16,8 @@ class AmocStrategy implements StrategyInterface
 
     public function supports(Locatie $locatie)
     {
-        return in_array($locatie->getNaam(), $this->amoc_locaties);
+        $supported = in_array($locatie->getNaam(), $this->amoc_locaties);
+        return $supported;
 //        return in_array($locatie->getId(), $this->locatieIds);
     }
 

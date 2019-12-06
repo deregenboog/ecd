@@ -131,8 +131,17 @@ class AccessUpdater
 
     private function getStrategy(Locatie $locatie)
     {
-        $chosenStrategy = null;
         // @todo move to container service
+        /**
+         * Let op:
+         * De volgorde is niet willekeurig:
+         * Hij selecteert de eerste strategie die door een locatie wordt ondersteund
+         * In theorie kan dat tegenstrijdigheden opleveren (iets is gebruikersruimte en amoc bv)
+         * maar in de praktijk werkt dit niet zo:
+         * ze sluiten elkaar eigenlijk altijd uit.
+         *
+         * De eerste strategie voor een locatie bepaalt of er toegang wordt verleend de klant.
+         */
         $strategies = [
             new GebruikersruimteStrategy(),
             new AmocStrategy(),
@@ -142,18 +151,22 @@ class AccessUpdater
 
         foreach ($strategies as $strategy) {
             if ($strategy->supports($locatie)) {
-                $chosenStrategy =  $strategy;
+                return $strategy;
             }
+
         }
-        if( null != $chosenStrategy) return $chosenStrategy;
 
         throw new \LogicException('No supported strategy found!');
     }
 
     private function getKlantIds(QueryBuilder $builder)
     {
-        return array_map(function ($klantId) {
-            return $klantId['id'];
-        }, $builder->select('klant.id')->distinct(true)->getQuery()->getResult());
+        $klantIdArray =  $builder->select('klant.id')->distinct(true)->getQuery()->getResult();
+        return array_map(
+            function ($klantId) {
+                return $klantId['id'];
+            },$klantIdArray
+
+        );
     }
 }

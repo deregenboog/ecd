@@ -55,7 +55,8 @@ class KlantFilter implements FilterInterface
 
     public function __construct(StrategyInterface $strategy = null)
     {
-        $this->strategy = $strategy;
+
+            $this->strategy = $strategy;
     }
 
     public function applyTo(QueryBuilder $builder)
@@ -71,7 +72,9 @@ class KlantFilter implements FilterInterface
                 ->innerJoin('klant.huidigeStatus', 'huidigeStatus', 'WITH', 'huidigeStatus INSTANCE OF '.Aanmelding::class)
                 ->andWhere('laatsteIntake.toegangInloophuis = true')
             ;
+
             $this->strategy->buildQuery($builder);
+
         }
 
         if ($this->locatie) {
