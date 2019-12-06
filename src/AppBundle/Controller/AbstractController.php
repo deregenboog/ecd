@@ -203,6 +203,9 @@ abstract class AbstractController extends SymfonyController
      */
     public function addAction(Request $request)
     {
+        if (in_array('add', $this->disabledActions)) {
+            throw new AccessDeniedHttpException();
+        }
         if (!isset($this->addMethod) || !is_callable($this, $this->addMethod) && !isset($this->searchFilterTypeClass))
         {
             return $this->doAdd($request);
@@ -219,15 +222,22 @@ abstract class AbstractController extends SymfonyController
         {
             return $this->{$this->addMethod}($request);
         }
-
     }
 
     protected function doAdd(Request $request)
     {
         $entityId = $request->get('entity');
+
         if ('new' === $entityId) {
             $searchEntity = new $this->searchEntity();
-        } else {
+        }
+        else if($entityId == null)
+        {
+            $entity = new $this->entityClass();
+
+            return $this->processForm($request, $entity);
+        }
+        else {
             $searchEntity = $this->searchDao->find($entityId);
             if ($searchEntity) {
                 // redirect if already exists
