@@ -33,8 +33,11 @@ class GebruikersruimteStrategy implements StrategyInterface
             ->having('COUNT(recenteRegistratie) > 0') // recent geregistreerd op deze locatie
             ->orHaving('COUNT(registratie.id) = 0') // of nog nooit geregistreerd op deze locatie
             ->orHaving('MAX(laatsteIntake.intakedatum) > :two_months_ago') // of recent intake gehad
-            ->setParameter('locatie_id', $this->locatie->getId())
-            ->setParameter('two_months_ago', new \DateTime('-2 months'))
+            ->setParameters([
+                    'locatie_id' => $this->locatie->getId(),
+                    'two_months_ago' => new \DateTime('-2 months'),
+                ]
+            )
         ;
     }
 }
