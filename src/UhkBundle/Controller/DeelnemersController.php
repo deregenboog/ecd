@@ -32,7 +32,7 @@ class DeelnemersController extends AbstractController
     protected $formClass = DeelnemerType::class;
     protected $filterFormClass = DeelnemerFilterType::class;
     protected $baseRouteName = 'uhk_deelnemers_';
-    protected $disabledActions = ['delete'];
+//    protected $disabledActions = ['delete'];
 
     /**
      * @var DeelnemerDaoInterface
@@ -116,8 +116,7 @@ class DeelnemersController extends AbstractController
     public function deleteAction(Request $request, $id)
     {
         $entity = $this->dao->find($id);
-
-        $this->denyAccessUnlessGranted(Permissions::ACCESS, $entity);
+//        $this->denyAccessUnlessGanted(Permissions::ACCESS, $entity);
 
         return parent::deleteAction($request, $id);
     }

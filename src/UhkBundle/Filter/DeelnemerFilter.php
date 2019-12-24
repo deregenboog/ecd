@@ -32,6 +32,11 @@ class DeelnemerFilter implements FilterInterface
      */
     public $medewerker;
 
+    /**
+     * @var bool
+     */
+    public $actief = true;
+
     public function applyTo(QueryBuilder $builder)
     {
         if ($this->klant) {
@@ -63,6 +68,12 @@ class DeelnemerFilter implements FilterInterface
                     ->setParameter('aanmelddatum_end', $this->aanmelddatum->getEnd())
                 ;
             }
+        }
+
+        if($this->actief)
+        {
+            $builder->andWhere("deelnemer.actief = :actief")
+                ->setParameter('actief',$this->actief);
         }
     }
 }

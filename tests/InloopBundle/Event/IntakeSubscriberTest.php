@@ -4,6 +4,7 @@ namespace Tests\InloopBundle\Event;
 
 use AppBundle\Entity\Klant;
 use InloopBundle\Entity\Intake;
+use InloopBundle\Entity\Toegang;
 use InloopBundle\Event\IntakeSubscriber;
 use InloopBundle\Service\AccessUpdater;
 use PHPUnit\Framework\TestCase;
@@ -33,6 +34,20 @@ class IntakeSubscriberTest extends TestCase
         $this->accessUpdater = $this->createMock(AccessUpdater::class);
     }
 
+    public function testAccessAmocOnly()
+    {
+        return true;
+        $intake = new Intake(new Klant());
+        $intake->setIntakedatum(new \DateTime("three weeks ago"));
+        $intake->setInloophuis(true);
+
+        $subscriber = $this->createSUT();
+        $subscriber->afterIntakeCreated(new GenericEvent($intake));
+
+        $inloopToegang = new Toegang();
+
+
+    }
     public function testEmailIsSentOnIntakeCreationWithServices()
     {
         $intake = new Intake(new Klant());

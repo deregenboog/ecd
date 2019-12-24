@@ -1,6 +1,6 @@
-{% if vrijwilliger is defined %}
-    {% set entity = vrijwilliger %}
-    {% set url = path('oek_documenten_add', {vrijwilliger: entity.id}) %}
+{% if deelnemer is defined %}
+    {% set entity = deelnemer %}
+    {% set url = path('uhk_documenten_add', {deelnemer: entity.id}) %}
 {% endif %}
 
 <h2>Documenten</h2>
@@ -22,8 +22,8 @@
                 </a>
             </td>
             <td>
-                {% if vrijwilliger is defined %}
-                    {% set url = path('oek_documenten_delete', {id: document.id, vrijwilliger: entity.id}) %}
+                {% if deelnemer is defined %}
+                    {% set url = path('uhk_documenten_delete', {id: document.id, deelnemer: entity.id}) %}
                 {% endif %}
                 {{ html.deleteLink(url) }}
             </td>

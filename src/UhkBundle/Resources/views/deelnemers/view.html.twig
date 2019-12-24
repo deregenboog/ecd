@@ -28,13 +28,14 @@
 {#        <li><a data-toggle="tab" href="#contactpersonen">Contactpersonen</a></li>#}
         <li><a data-toggle="tab" href="#verslagen">Verslagen</a></li>
         <li><a data-toggle="tab" href="#nazorg">Nazorg</a></li>
-{#        <li><a data-toggle="tab" href="#documenten">Documenten</a></li>#}
+        <li><a data-toggle="tab" href="#documenten">Documenten</a></li>
     </ul>
     <div class="tab-content">
         <div id="intake" class="tab-pane active">
             <h2>Aanmelding</h2>
             <dl class="dl-horizontal">
                 {{ html.link('Wijzigen', path('uhk_deelnemers_edit', {id: entity.id}), 'edit') }}
+                {{ html.link('Deactiveren', path('uhk_deelnemers_delete', {id: entity.id}), 'delete') }}
                 <dl class="dl-horizontal">
                     <dt>Medewerker</dt>
                     <dd>{{ entity.medewerker }}</dd>
@@ -63,8 +64,8 @@
                 </dl>
             </dl>
         </div>
-{#        <div id="documenten" class="tab-pane">#}
-{#            {% include 'DagbestedingBundle:documenten:_list.html.twig' with {deelnemer: entity} %}#}
-{#        </div>#}
+        <div id="documenten" class="tab-pane">
+            {% include 'UhkBundle:documenten:_list.html.twig' with {deelnemer: entity} %}
+        </div>
     </div>
 {% endblock %}

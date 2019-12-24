@@ -1,8 +1,8 @@
 <?php
 
-namespace OekBundle\Service;
+namespace UhkBundle\Service;
 
-use OekBundle\Entity\Document;
+use UhkBundle\Entity\Document;
 
 interface DocumentDaoInterface
 {

@@ -5,7 +5,10 @@ services:
     UhkBundle\Service\DeelnemerDao:
         parent: app.dao.abstract
 
-    uhk.verslag.entities:
+    UhkBundle\Service\DocumentDao:
+        parent: app.dao.abstract
+
+    uhk.document.entities:
         class: ArrayObject
         arguments:
             -

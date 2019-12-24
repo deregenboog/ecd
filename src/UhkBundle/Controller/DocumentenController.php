@@ -1,12 +1,12 @@
 <?php
 
-namespace OekBundle\Controller;
+namespace UhkBundle\Controller;
 
 use AppBundle\Controller\AbstractChildController;
 use JMS\DiExtraBundle\Annotation as DI;
-use OekBundle\Entity\Document;
-use OekBundle\Form\DocumentType;
-use OekBundle\Service\DocumentDaoInterface;
+use UhkBundle\Entity\Document;
+use UhkBundle\Form\DocumentType;
+use UhkBundle\Service\DocumentDaoInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 
 /**
@@ -20,19 +20,19 @@ class DocumentenController extends AbstractChildController
     protected $formClass = DocumentType::class;
     protected $addMethod = 'addDocument';
     protected $deleteMethod = 'removeDocument';
-    protected $baseRouteName = 'oek_documenten_';
+    protected $baseRouteName = 'uhk_documenten_';
 
     /**
      * @var DocumentDaoInterface
      *
-     * @DI\Inject("OekBundle\Service\DocumentDao")
+     * @DI\Inject("UhkBundle\Service\DocumentDao")
      */
     protected $dao;
 
     /**
      * @var \ArrayObject
      *
-     * @DI\Inject("oek.document.entities")
+     * @DI\Inject("uhk.document.entities")
      */
     protected $entities;
 

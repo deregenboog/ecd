@@ -1,10 +1,10 @@
 <?php
 
-namespace OekBundle\Form;
+namespace UhkBundle\Form;
 
 use AppBundle\Form\BaseType;
 use AppBundle\Form\MedewerkerType;
-use OekBundle\Entity\Document;
+use UhkBundle\Entity\Document;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;

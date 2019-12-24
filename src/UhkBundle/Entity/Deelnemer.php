@@ -5,13 +5,14 @@ namespace UhkBundle\Entity;
 use AppBundle\Entity\Klant;
 use AppBundle\Entity\Medewerker;
 use AppBundle\Model\ActivatableTrait;
+use AppBundle\Model\DocumentInterface;
 use AppBundle\Model\DocumentSubjectInterface;
 use AppBundle\Model\DocumentSubjectTrait;
 use AppBundle\Model\IdentifiableTrait;
 use AppBundle\Model\KlantRelationInterface;
 use AppBundle\Model\UsesKlantTrait;
 use AppBundle\Service\NameFormatter;
-use BuurtboerderijBundle\Entity\Afsluitreden;
+
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\EntityNotFoundException;
@@ -27,9 +28,9 @@ use Gedmo\Mapping\Annotation as Gedmo;
  * @ORM\HasLifecycleCallbacks
  * @Gedmo\Loggable
  */
-class Deelnemer implements KlantRelationInterface
+class Deelnemer implements KlantRelationInterface, DocumentSubjectInterface
 {
-    use IdentifiableTrait, ActivatableTrait, UsesKlantTrait;
+    use IdentifiableTrait, ActivatableTrait, UsesKlantTrait, DocumentSubjectTrait;
 
     /**
      * @var Klant
@@ -86,6 +87,7 @@ class Deelnemer implements KlantRelationInterface
     {
         $this->klant = $klant;
         $this->verslagen = new ArrayCollection();
+        $this->documenten = new ArrayCollection();
         $this->medewerker = $medewerker;
         if(!$this->aanmelddatum)
         {
@@ -213,4 +215,5 @@ class Deelnemer implements KlantRelationInterface
     {
         return $this->klantFieldName;
     }
+
 }

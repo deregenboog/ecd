@@ -44,16 +44,11 @@ class DeelnemerType extends AbstractType
             'required'=> true,
         ]);
 
-        $builder
-//            ->add('aanmeldNaam', null, [
-//                'label'=> 'Aanmeldnaam',
-//                'required' => true,
-//            ])
-            ->add('contactpersoonNazorg', null, [
-                'required' => false,
-            ])
+//        $builder->add('contactpersoonNazorg', null, [
+//                'required' => false,
+//            ]);
 
-            ->add('submit', SubmitType::class)
+        $builder->add('submit', SubmitType::class)
         ;
     }
 

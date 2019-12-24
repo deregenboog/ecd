@@ -1,6 +1,6 @@
 <?php
 
-namespace OekBundle\Entity;
+namespace UhkBundle\Entity;
 
 use AppBundle\Entity\Medewerker;
 use AppBundle\Model\DocumentInterface;
@@ -13,7 +13,7 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 /**
  * @ORM\Entity
- * @ORM\Table(name="oek_documenten")
+ * @ORM\Table(name="uhk_documenten")
  * @ORM\HasLifecycleCallbacks
  * @Gedmo\Loggable
  * @Vich\Uploadable
@@ -45,7 +45,7 @@ class Document implements DocumentInterface
 
     /**
      * @var File
-     * @Vich\UploadableField(mapping="oek_document", fileNameProperty="filename")
+     * @Vich\UploadableField(mapping="uhk_document", fileNameProperty="filename")
      * @Gedmo\Versioned
      */
     private $file;

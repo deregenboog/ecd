@@ -365,6 +365,9 @@ abstract class AbstractController extends SymfonyController
     /**
      * @Route("/{id}/delete")
      * @Template
+     * @var Request $request
+     * @var int $id
+     * @var bool Check $actief on entity.
      */
     public function deleteAction(Request $request, $id)
     {
@@ -382,9 +385,15 @@ abstract class AbstractController extends SymfonyController
                 $url = $request->get('redirect');
                 $viewUrl = $this->generateUrl($this->baseRouteName.'view', ['id' => $entity->getId()]);
 
-
-                $this->dao->delete($entity);
-
+                if(method_exists($entity,"setActief"))
+                {
+                    $entity->setActief(false);
+                    $this->dao->update($entity);
+                }
+                else
+                {
+                    $this->dao->delete($entity);
+                }
 
                 $this->addFlash('success', ucfirst($this->entityName).' is verwijderd.');
 

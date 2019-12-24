@@ -1,3 +1,11 @@
 imports:
     - { resource: daos.yml }
     - { resource: exports.yml }
+
+services:
+
+    uhk.verslag.entities:
+        class: ArrayObject
+        arguments:
+            -
+                - { key: deelnemer, dao: '@UhkBundle\Service\DeelnemerDao' }

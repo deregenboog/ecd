@@ -80,6 +80,7 @@ class DeelnemerFilterType extends AbstractType
                 'aanmelddatum',
                 'medewerker',
                 'filter',
+                'actief',
 //                'download',
             ],
         ]);
