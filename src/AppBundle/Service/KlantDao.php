@@ -43,7 +43,8 @@ class KlantDao extends AbstractDao implements KlantDaoInterface
     public function findAll($page = null, FilterInterface $filter = null)
     {
         $builder = $this->getAllQueryBuilder($filter);
-
+//        $sql = $builder->getQuery()->getSQL();
+//        $params = $builder->getQuery()->getParameters();
         if ($page) {
             return $this->paginator->paginate($builder, $page, $this->itemsPerPage, $this->paginationOptions);
         }
