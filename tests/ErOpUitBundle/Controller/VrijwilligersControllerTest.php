@@ -15,7 +15,7 @@ class VrijwilligersControllerTest extends WebTestCase
         $crawler = $this->client->request('GET', $this->getUrl('eropuit_vrijwilligers_index'));
         $this->assertStatusCode(200, $this->client);
         $rows = $crawler->filter('table.table > tbody > tr')->siblings();
-        $this->assertEquals(18, $rows->count()); // 19 resultaten in index scherm. filtert op 17 resultaten. waarom?
+        $this->assertEquals(16, $rows->count()); // 19 resultaten in index scherm. filtert op 17 resultaten. waarom?
     }
 
     public function testSort()
