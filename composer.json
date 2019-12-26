@@ -3,7 +3,7 @@
     "type" : "project",
     "config" : {
         "platform" : {
-            "php" : "7.1"
+            "php" : "7.2"
         }
     },
     "autoload" : {
@@ -60,7 +60,7 @@
         "liip/functional-test-bundle" : "^1.7",
         "symfony/phpunit-bridge" : "^3.2",
         "sebastian/phpcpd" : "^3.0",
-        "nelmio/alice": "2.2.2"
+        "nelmio/alice": "^2.2.2"
     },
     "scripts" : {
         "symfony-scripts": [
