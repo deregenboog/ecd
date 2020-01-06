@@ -2,11 +2,14 @@
 
 namespace MwBundle\Form;
 
+use AppBundle\Entity\Medewerker;
 use AppBundle\Form\AppDateRangeType;
 use AppBundle\Form\FilterType;
+use AppBundle\Form\MedewerkerFilterType as AppMedewerkerFilterType;
 use AppBundle\Form\KlantFilterType as AppKlantFilterType;
 use InloopBundle\Entity\Locatie;
 use InloopBundle\Form\LocatieSelectType;
+use MwBundle\Entity\Verslag;
 use MwBundle\Filter\KlantFilter;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
@@ -26,7 +29,13 @@ class KlantFilterType extends AbstractType
                 'enabled_filters' => $options['enabled_filters']['klant'],
             ]);
         }
+        if (array_key_exists('verslag', $options['enabled_filters'])) {
+            $builder->add('verslag', EntityType::class, [
+                'required' => false,
+                'class'=>Medewerker::class,
 
+            ]);
+        }
         if (in_array('gebruikersruimte', $options['enabled_filters'])) {
             $builder->add('gebruikersruimte', LocatieSelectType::class, [
                 'required' => false,
@@ -70,11 +79,12 @@ class KlantFilterType extends AbstractType
             'data_class' => KlantFilter::class,
             'data' => new KlantFilter(),
             'enabled_filters' => [
-                'klant' => ['id', 'naam', 'geboortedatumRange', 'geslacht','medewerker'],
+                'klant' => ['id', 'naam', 'geboortedatumRange', 'geslacht'],
                 'gebruikersruimte',
                 'laatsteIntakeLocatie',
                 'laatsteVerslagDatum',
                 'alleenMetVerslag',
+                'verslag' => ['medewerker'],
                 'filter',
                 'download',
             ],

@@ -8,6 +8,7 @@ use AppBundle\Filter\KlantFilter as AppKlantFilter;
 use AppBundle\Form\Model\AppDateRangeModel;
 use Doctrine\ORM\QueryBuilder;
 use InloopBundle\Entity\Locatie;
+use MwBundle\Entity\Verslag;
 
 class KlantFilter implements FilterInterface
 {
@@ -25,6 +26,12 @@ class KlantFilter implements FilterInterface
      * @var Medewerker
      */
     public $medewerker;
+
+    /**
+     * @var Verslag
+     */
+    public $verslag;
+
     /**
      * @var AppDateRangeModel
      */
@@ -60,6 +67,15 @@ class KlantFilter implements FilterInterface
                 ->andWhere('laatsteIntake.intakelocatie = :laatste_intake_locatie')
                 ->setParameter('laatste_intake_locatie', $this->laatsteIntakeLocatie)
             ;
+        }
+
+        if($this->verslag)
+        {
+            $builder
+                ->andWhere('verslag.medewerker = :medewerker')
+                ->setParameter('medewerker',$this->verslag)
+                ;
+
         }
 
         if ($this->laatsteIntakeDatum) {

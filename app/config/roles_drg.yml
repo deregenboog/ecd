@@ -116,7 +116,8 @@ security:
             - ROLE_UHK
             - CONTROLLER_APP_KLANTEN
         ROLE_EROPUIT: []
-        ROLE_BUURTBOERDERIJ: []
+        ROLE_BUURTBOERDERIJ:
+            - CONTROLLER_APP_VRIJWILLIGERS
         ROLE_ADMIN:
             - ROLE_USER
             - ROLE_MW

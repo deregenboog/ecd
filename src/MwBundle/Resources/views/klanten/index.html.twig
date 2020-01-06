@@ -53,8 +53,8 @@
                         {{ form_errors(filter.gebruikersruimte) }}
                     </th>
                     <th>
-                        {{ form_widget(filter.klant.medewerker) }}
-                        {{ form_errors(filter.klant.medewerker) }}
+                        {{ form_widget(filter.verslag) }}
+                        {{ form_errors(filter.verslag) }}
                     </th>
                     <th>
                         {{ form_widget(filter.laatsteIntakeLocatie) }}
@@ -121,7 +121,17 @@
                         {{ klant.laatsteIntake ? klant.laatsteIntake.gebruikersruimte }}
                     </td>
                     <td>
-                        {{ klant.medewerker.naam }}
+                        <ul>
+                            {% set break = false %}
+                            {% for verslag in klant.verslagen if not break%}
+                                {% if loop.index < 4 %}
+                                  <li>{{ verslag.medewerker }}</li>
+                                {% else %}
+                                    {% set break = true %}
+                                  <li>(...)</li>
+                                {% endif %}
+                            {% endfor %}
+                        </ul>
                     </td>
                     <td>
                         {{ klant.laatsteIntake ? klant.laatsteIntake.intakelocatie }}
