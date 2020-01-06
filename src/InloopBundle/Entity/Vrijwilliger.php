@@ -69,6 +69,20 @@ class Vrijwilliger implements MemoSubjectInterface, DocumentSubjectInterface
      */
     protected $afsluitreden;
 
+    /**
+     * @var boolean
+     * @ORM\Column(type="boolean, nullable=false")
+     */
+    protected $stagiair;
+
+    /**
+     * @var \DateTime
+     * @ORM\Column(type="date", nullable=true)
+     */
+    protected $startdatum;
+
+    protected $medewerkerLocatie;
+
     public function __construct(AppVrijwilliger $vrijwilliger = null)
     {
         if ($vrijwilliger) {
