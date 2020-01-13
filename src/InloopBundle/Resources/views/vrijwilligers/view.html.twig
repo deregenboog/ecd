@@ -39,15 +39,43 @@
 
 {% block content_right %}
     <ul class="nav nav-tabs">
-        <li class="active"><a data-toggle="tab" href="#memos">Memo's</a></li>
+        <li class="active"><a data-toggle="tab" href="#aanmelding">Aanmelding</a></li>
+        <li><a data-toggle="tab" href="#memos">Memo's</a></li>
+        <li><a data-toggle="tab" href="#trainingen">Trainingen</a></li>
+        <li><a data-toggle="tab" href="#afsluiting">Afsluiting</a></li>
         <li><a data-toggle="tab" href="#documenten">Documenten</a></li>
     </ul>
     <div class="tab-content">
-        <div id="memos" class="tab-pane active">
+        <div id="aanmelding" class="tab-pane active">
+            <h2>Eerste fase</h2>
+            <dl class="dl-horizontal">
+                <dt>Aanmelddatum</dt><dd>{{ entity.aanmelddatum|if_date('d-m-Y') }}</dd>
+                <dt>Binnen via</dt><dd>{{ entity.binnenVia }}</dd>
+                <dt>Medewerker intake</dt><dd>{{ entity.medewerker }}</dd>
+    {#            <dt>Locatie</dt><dd>{{ entity.locatie }}</dd>#}
+                <dt>Stagiair?</dt><dd>{{ entity.stagiair|ja_nee }}</dd>
+                <dt>Notitie datum</dt><dd>{{ entity.datumNotitieIntake|if_date('d-m-Y') }}</dd>
+                <dt>Notitie</dt><dd>{{ entity.notitieIntake|nl2br }}</dd>
+            </dl>
+            <dl class="dl-horizontal">
+                <h2>Tweede fase</h2>
+                <dt>Startdatum</dt><dd>{{ entity.startdatum|if_date('d-m-Y') }}</dd>
+                <dt>Medewerkerlocatie</dt><dd>{{ entity.medewerkerLocatie }}</dd>
+            </dl>
+        </div>
+
+        <div id="memos" class="tab-pane">
             {% include '@Inloop/memos/_list.html.twig' with {vrijwilliger: entity} %}
         </div>
+        <div id="trainingen" class="tab-pane ">
+            {% include '@Inloop/deelnames/_list.html.twig' with {vrijwilliger: entity} %}
+        </div>
+
         <div id="documenten" class="tab-pane">
             {% include '@Inloop/documenten/_list.html.twig' with {vrijwilliger: entity} %}
+        </div>
+        <div id="afsluiting" class="tab-pane">
+
         </div>
     </div>
 {% endblock %}

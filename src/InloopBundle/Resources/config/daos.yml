@@ -68,6 +68,9 @@ services:
     InloopBundle\Service\VerslagDao:
         parent: app.dao.abstract
 
+    InloopBundle\Service\DeelnameDao:
+        parent: inloop.dao
+
     inloop.document.entities:
         class: ArrayObject
         arguments:
@@ -85,3 +88,9 @@ services:
         arguments:
             -
               - { key: vrijwilliger, dao: '@InloopBundle\Service\VrijwilligerDao' }
+              -
+    inloop.deelname.entities:
+        class: ArrayObject
+        arguments:
+            -
+                - { key: vrijwilliger, dao: '@InloopBundle\Service\VrijwilligerDao' }

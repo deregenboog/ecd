@@ -1,0 +1,14 @@
+{% extends '::base.html.twig' %}
+
+{% block title %}
+    Inloop | {{ title }}
+{% endblock %}
+
+{% block subnavigation %}
+    {% include '@Oek/subnavigation.html.twig' %}
+{% endblock %}
+
+{% block content %}
+    <h1>Training toevoegen voor vrijwilliger {{ entity.vrijwilliger }}</h1>
+    {{ form(form) }}
+{% endblock %}

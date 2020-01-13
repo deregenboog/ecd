@@ -147,7 +147,14 @@ abstract class AbstractChildController extends AbstractController
 
     protected function createEntity($parentEntity = null)
     {
-        return new $this->entityClass();
+        $x = new $this->entityClass();
+        if($parentEntity!== null)
+        {
+            $class = (new \ReflectionClass($parentEntity))->getShortName();
+            if(is_callable([$x,"set".$class])) $x->{"set".ucfirst($class)}($parentEntity);
+        }
+        return $x;
+
     }
 
     protected function persistEntity($entity, $parentEntity)

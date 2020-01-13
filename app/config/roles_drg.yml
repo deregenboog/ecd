@@ -207,5 +207,7 @@ ldap_tools:
             ROLE_EROPUIT: "CN=ECD ErOpUit,CN=Users,DC=cluster,DC=deregenboog"
             ROLE_BUURTBOERDERIJ: "CN=ECD Buurtboerderij,CN=Users,DC=cluster,DC=deregenboog"
             ROLE_SECRETARIAAT: "CN=ECD Secretariaat,CN=Users,DC=cluster,DC=deregenboog"
+            ROLE_MANAGEMENT: "CN=ECD Management,CN=Users,DC=cluster,DC=deregenboog"
+            ROLE_PROGRAMMACOORDINATOR: "CN=ECD Programmacoordinator,CN=Users,DC=cluster,DC=deregenboog"
             ROLE_UHK: "CN=ECD Uit het Krijt,CN=Users,DC=cluster,DC=deregenboog"
             ROLE_UHK_BEHEER: "CN=ECD Uit het Krijt Beheer,CN=Users,DC=cluster,DC=deregenboog"

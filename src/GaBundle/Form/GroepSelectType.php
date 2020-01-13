@@ -26,7 +26,7 @@ class GroepSelectType extends AbstractType
                     $builder = $repository->createQueryBuilder('groep')
                         ->orderBy('groep.naam');
 
-                    if (isset($options['dossier']) && count($options['dossier']) > 0) {
+                    if (is_array($options['dossier']) && count($options['dossier']) > 0) {
                         $groepen = array_filter(array_map(function ($lidmaatschap) {
                             return $lidmaatschap->getGroep();
                         }, $options['dossier']->getLidmaatschappen()->toArray()));

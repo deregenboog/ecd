@@ -1,0 +1,20 @@
+{% extends '::base.html.twig' %}
+{% import '::html.macro.twig' as html %}
+
+{% block title %}
+    Op Eigen Kracht | Deelnames
+{% endblock %}
+
+{% block subnavigation %}
+    {% include '@Oek/subnavigation.html.twig' %}
+{% endblock %}
+
+{% block content %}
+    <h1>Deelname verwijderen</h1>
+    <p>
+        Weet u zeker dat u deelnemer <strong>{{ deelname.deelnemer }}</strong>
+        van training <strong>{{ deelname.training }}</strong> wilt verwijderen?
+        <br>
+        {{ form(form) }}
+    </p>
+{% endblock %}
