@@ -43,7 +43,7 @@
         "beberlei/DoctrineExtensions" : "^1.0",
         "symfony/templating" : "^3.4",
         "symfony/translation" : "^3.4",
-        "friendsofsymfony/ckeditor-bundle" : "^1.0",
+        "friendsofsymfony/ckeditor-bundle" : "^1.2",
         "tecnickcom/tcpdf" : "^6.2",
         "symfony/security-bundle": "^3.4",
         "ldaptools/ldaptools-bundle": "0.9.2@dev",
