@@ -4,8 +4,8 @@ namespace InloopBundle\Service;
 
 use AppBundle\Filter\FilterInterface;
 use AppBundle\Service\AbstractDao;
-use OekBundle\Entity\Training;
-use OekBundle\Entity\DeelnameStatus;
+use InloopBundle\Entity\Training;
+use InloopBundle\Entity\DeelnameStatus;
 
 class DeelnameDao extends AbstractDao implements DeelnameDaoInterface
 {

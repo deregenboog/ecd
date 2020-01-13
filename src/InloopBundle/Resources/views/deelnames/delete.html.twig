@@ -2,7 +2,7 @@
 {% import '::html.macro.twig' as html %}
 
 {% block title %}
-    Op Eigen Kracht | Deelnames
+    Inloop Vrijwilliger Deelnames
 {% endblock %}
 
 {% block subnavigation %}
@@ -12,8 +12,8 @@
 {% block content %}
     <h1>Deelname verwijderen</h1>
     <p>
-        Weet u zeker dat u deelnemer <strong>{{ deelname.deelnemer }}</strong>
-        van training <strong>{{ deelname.training }}</strong> wilt verwijderen?
+        Weet u zeker dat u training <strong>{{ entity.training }}</strong>
+        van vrijwilliger <strong>{{ entity.vrijwilliger }}</strong> wilt verwijderen?
         <br>
         {{ form(form) }}
     </p>
