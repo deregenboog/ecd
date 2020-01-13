@@ -4,8 +4,8 @@ namespace InloopBundle\Service;
 
 use AppBundle\Filter\FilterInterface;
 use AppBundle\Service\AbstractDao;
+use InloopBundle\Entity\Deelname;
 use InloopBundle\Entity\Training;
-use InloopBundle\Entity\DeelnameStatus;
 
 class DeelnameDao extends AbstractDao implements DeelnameDaoInterface
 {
@@ -21,9 +21,9 @@ class DeelnameDao extends AbstractDao implements DeelnameDaoInterface
         ],
     ];
 
-    protected $class = Training::class;
+    protected $class = Deelname::class;
 
-    protected $alias = 'training';
+    protected $alias = 'deelname';
 
     /**
      * {inheritdoc}.
@@ -52,7 +52,7 @@ class DeelnameDao extends AbstractDao implements DeelnameDaoInterface
     /**
      * {inheritdoc}.
      */
-    public function create(Training $entity)
+    public function create(Deelname $entity)
     {
         $this->doCreate($entity);
     }
@@ -60,7 +60,7 @@ class DeelnameDao extends AbstractDao implements DeelnameDaoInterface
     /**
      * {inheritdoc}.
      */
-    public function update(Training $entity)
+    public function update(Deelname $entity)
     {
         $this->doUpdate($entity);
     }
@@ -68,7 +68,7 @@ class DeelnameDao extends AbstractDao implements DeelnameDaoInterface
     /**
      * {inheritdoc}.
      */
-    public function delete(Training $entity)
+    public function delete(Deelname $entity)
     {
         $this->doDelete($entity);
     }

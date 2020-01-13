@@ -75,7 +75,15 @@
             {% include '@Inloop/documenten/_list.html.twig' with {vrijwilliger: entity} %}
         </div>
         <div id="afsluiting" class="tab-pane">
+            <div id="aanmelding" class="tab-pane active">
+                <h2>Afsluiting</h2>
+                <dl class="dl-horizontal">
+                    <dt>Reden afsluiting</dt><dd>{{ entity.afsluitreden }}</dd>
+                    <dt>Datum afsluiting</dt><dd>{{ entity.afsluitdatum|if_date('d-m-Y') }}</dd>
+{#                    <dt>Medewerker</dt><dd>{{ entity.medewerker }}</dd>#}
 
+                </dl>
+            </div>
         </div>
     </div>
 {% endblock %}

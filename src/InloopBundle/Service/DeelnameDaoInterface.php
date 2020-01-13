@@ -4,7 +4,7 @@ namespace InloopBundle\Service;
 
 use AppBundle\Filter\FilterInterface;
 use Knp\Component\Pager\Pagination\PaginationInterface;
-use OekBundle\Entity\Training;
+use InloopBundle\Entity\Deelname;
 
 interface DeelnameDaoInterface
 {
@@ -18,22 +18,22 @@ interface DeelnameDaoInterface
     /**
      * @param int $id
      *
-     * @return Training
+     * @return Deelname
      */
     public function find($id);
 
     /**
-     * @param Training $entity
+     * @param Deelname $entity
      */
-    public function create(Training $entity);
+    public function create(Deelname $entity);
 
     /**
-     * @param Training $entity
+     * @param Deelname $entity
      */
-    public function update(Training $entity);
+    public function update(Deelname $entity);
 
     /**
-     * @param Training $entity
+     * @param Deelname $entity
      */
-    public function delete(Training $entity);
+    public function delete(Deelname $entity);
 }

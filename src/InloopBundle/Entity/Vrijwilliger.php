@@ -376,5 +376,10 @@ class Vrijwilliger implements MemoSubjectInterface, DocumentSubjectInterface
         $this->trainingDeelnames[] = $deelname;
     }
 
+    public function removeDeelname(Deelname $deelname)
+    {
+        $this->trainingDeelnames->removeElement($deelname);
+
+    }
 
 }

@@ -10,6 +10,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
+use Symfony\Component\Routing\Exception\RouteNotFoundException;
 
 abstract class AbstractChildController extends AbstractController
 {
@@ -116,7 +117,15 @@ abstract class AbstractChildController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $url = $request->get('redirect');
             if ($form->get('yes')->isClicked()) {
-                $viewUrl = $this->generateUrl($this->baseRouteName.'view', ['id' => $entity->getId()]);
+
+                try {
+                    $viewUrl = $this->generateUrl($this->baseRouteName.'view', ['id' => $entity->getId()]);
+                }
+                catch(RouteNotFoundException $e)
+                {
+                   $viewUrl = "";
+                }
+
 
                 if ($parentEntity && $this->deleteMethod) {
                     $parentEntity->{$this->deleteMethod}($entity);
