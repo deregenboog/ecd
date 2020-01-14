@@ -7,7 +7,7 @@
     <property name="phpcpd" value="${bin}/phpcpd" />
     <property name="phpunit" value="${bin}/phpunit" />
 
-    <target name="default" depends="lint,phpcpd,phpunit" />
+    <target name="default" depends="phpunit,lint,phpcpd" />
 
     <target name="lint" unless="lint.done" description="Perform syntax check of sourcecode files">
         <apply executable="php" taskname="lint-php" failonerror="true">
