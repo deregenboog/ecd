@@ -18,6 +18,15 @@ services:
                 Telefoon: { expression: 'entity.getVrijwilliger().getTelefoon()' }
                 Werkgebied: { expression: 'entity.getVrijwilliger().getWerkgebied()' }
                 GGW-gebied: { expression: 'entity.getVrijwilliger().getPostcodegebied()' }
+                Stagiair: { expression: 'entity.isStagiair()' }
+                Postvoorkeur: { expression: 'entity.getVrijwilliger().getGeenPost()==false?"Post":"Geen Post"' }
+                Emailvoorkeur: { expression: 'entity.getVrijwilliger().getGeenEmail()==false?"Email":"Geen Email"' }
+                Medewerker Intake: { expression: 'entity.getMedewerker()' }
+                Medewerker Locatie: { expression: 'entity.getMedewerkerLocatie()' }
+                Binnengekomen via: { expression: 'entity.getBinnenVia()' }
+                VOG aangevraagd: { expression: 'entity.getVrijwilliger().getVogAangevraagd()' }
+                VOG aanwezig: { expression: 'entity.getVrijwilliger().getVogAanwezig()' }
+                Overeenkomst aanwezig: { expression: 'entity.getVrijwilliger().getOvereenkomstAanwezig()' }
                 GeinformeerdOpslaanGegevens: {expression: 'entity.getVrijwilliger().isGeinformeerdOpslaanGegevens()' }
 
     inloop.export.registraties:

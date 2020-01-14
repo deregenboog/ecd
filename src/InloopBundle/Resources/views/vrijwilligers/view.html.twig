@@ -42,12 +42,13 @@
         <li class="active"><a data-toggle="tab" href="#aanmelding">Aanmelding</a></li>
         <li><a data-toggle="tab" href="#memos">Memo's</a></li>
         <li><a data-toggle="tab" href="#trainingen">Trainingen</a></li>
-        <li><a data-toggle="tab" href="#afsluiting">Afsluiting</a></li>
         <li><a data-toggle="tab" href="#documenten">Documenten</a></li>
+        <li><a data-toggle="tab" href="#afsluiting">Afsluiting</a></li>
     </ul>
     <div class="tab-content">
         <div id="aanmelding" class="tab-pane active">
             <h2>Eerste fase</h2>
+            {{ html.link(entity_name|capitalize~' wijzigen', path('inloop_vrijwilligers_edit', {id: entity.id}), 'edit') }}
             <dl class="dl-horizontal">
                 <dt>Aanmelddatum</dt><dd>{{ entity.aanmelddatum|if_date('d-m-Y') }}</dd>
                 <dt>Binnen via</dt><dd>{{ entity.binnenVia }}</dd>

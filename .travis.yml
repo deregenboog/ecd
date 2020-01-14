@@ -12,11 +12,13 @@ before_install:
   - export PATH=`pwd`/apache-ant-1.10.6/bin:$PATH
   - echo $(ant -version)
 
+
 before_script:
   - sudo locale-gen nl_NL.UTF-8 && sudo update-locale
   - sudo apt-get install ant
   - echo 'memory_limit=2G' >> ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/travis.ini
+  - composer update
   - composer install --no-scripts
   - cp app/config/parameters.yml.dist app/config/parameters.yml
 
-script: travis_wait 60 ant
+script: travis_wait 40 ant
