@@ -5,7 +5,7 @@
     <property name="tests" value="${basedir}/tests" />
     <property name="bin" value="${basedir}/vendor/bin" />
     <property name="phpcpd" value="${bin}/phpcpd" />
-    <property name="phpunit" value="${bin}/phpunit" />
+<!--    <property name="phpunit" value="${bin}/phpunit" />-->
 
     <target name="default" depends="phpunit,lint,phpcpd" />
 
