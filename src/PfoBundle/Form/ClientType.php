@@ -2,18 +2,34 @@
 
 namespace PfoBundle\Form;
 
+use AppBundle\Entity\Klant;
 use AppBundle\Form\AppDateType;
 use AppBundle\Form\BaseType;
 use AppBundle\Form\MedewerkerType;
+use Doctrine\ORM\EntityManager;
 use PfoBundle\Entity\Client;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\FormEvent;
+use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class ClientType extends AbstractType
 {
+
+    /**
+     * @var EntityManager
+     */
+    private $entityManager;
+
+
+    public function __construct(EntityManager $entityManager)
+    {
+        $this->entityManager = $entityManager;
+    }
+
     /**
      * {@inheritdoc}
      */
@@ -94,8 +110,13 @@ class ClientType extends AbstractType
             ->add('afsluitdatum', AppDateType::class, [
                 'required' => false,
             ])
+
+            ->addEventListener(FormEvents::SUBMIT, function (FormEvent $event){
+                     Client::KoppelPostcodeWerkgebiedClosure($event, $this->entityManager);
+                 })
             ->add('submit', SubmitType::class)
         ;
+
     }
 
     /**

@@ -7,6 +7,7 @@ use AppBundle\Entity\Postcode;
 use AppBundle\Entity\Vrijwilliger;
 use AppBundle\Entity\Werkgebied;
 use AppBundle\Util\PostcodeFormatter;
+use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Component\Form\FormEvent;
@@ -67,8 +68,14 @@ trait AddressTrait
 
     public static function KoppelPostcodeWerkgebiedClosure(FormEvent $event, $em)
     {
-        /* @var Vrijwilliger $data */
+        /* @var Persoon $data */
         $data = $event->getData();
+        self::_koppelPostcodeWerkgebied($data,$em);
+
+    }
+
+    private static function _koppelPostcodeWerkgebied($data, $em)
+    {
         if ($data->getPostcode()) {
             $data->setPostcode(PostcodeFormatter::format($data->getPostcode()));
 
@@ -92,9 +99,12 @@ trait AddressTrait
                 // ignore
             }
         }
-
     }
 
+    public function koppelPostcodeWerkgebied(EntityManager $entityManager)
+    {
+       self::_koppelPostcodeWerkgebied($this,$entityManager);
+    }
     public function getEmail()
     {
         return $this->email;

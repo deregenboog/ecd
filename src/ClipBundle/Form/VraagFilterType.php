@@ -43,7 +43,9 @@ class VraagFilterType extends AbstractType
         }
 
         if (in_array('behandelaar', $options['enabled_filters'])) {
-            $builder->add('behandelaar', BehandelaarFilterType::class);
+            $builder->add('behandelaar', BehandelaarFilterType::class,[
+//                'empty_data' => ''
+            ]);
         }
 
         if (in_array('startdatum', $options['enabled_filters'])) {

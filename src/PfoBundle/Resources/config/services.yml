@@ -3,6 +3,12 @@ imports:
     - { resource: exports.yml }
 
 services:
+    PfoBundle\Form\ClientType:
+        arguments:
+            - "@doctrine.orm.entity_manager"
+        tags:
+            - { name: form.type }
+
     pfo.repository.client:
         class: Doctrine\ORM\EntityRepository
         factory: ["@doctrine", getRepository]

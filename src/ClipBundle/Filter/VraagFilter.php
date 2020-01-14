@@ -36,7 +36,7 @@ class VraagFilter implements FilterInterface
     public $soort;
 
     /**
-     * @var Behandelaar
+     * @var ?Behandelaar
      */
     public $behandelaar;
 
@@ -98,7 +98,7 @@ class VraagFilter implements FilterInterface
             ;
         }
 
-        if ($this->behandelaar) {
+        if ($this->behandelaar == "" || strlen($this->behandelaar) >0 ) {
             $builder
                 ->andWhere('vraag.behandelaar = :behandelaar')
                 ->setParameter('behandelaar', $this->behandelaar)

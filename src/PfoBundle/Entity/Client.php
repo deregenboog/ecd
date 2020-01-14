@@ -3,6 +3,7 @@
 namespace PfoBundle\Entity;
 
 use AppBundle\Entity\Geslacht;
+use AppBundle\Model\AddressTrait;
 use AppBundle\Model\IdentifiableTrait;
 use AppBundle\Model\NameTrait;
 use AppBundle\Model\RequiredMedewerkerTrait;
@@ -26,7 +27,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class Client
 {
-    use IdentifiableTrait, NameTrait, TimestampableTrait, RequiredMedewerkerTrait;
+    use IdentifiableTrait, NameTrait, TimestampableTrait, RequiredMedewerkerTrait,AddressTrait;
 
     const DUBBELE_DIAGNOSE_NEE = 0;
     const DUBBELE_DIAGNOSE_JA = 1;
@@ -55,42 +56,13 @@ class Client
      */
     protected $geslacht;
 
-    /**
-     * @ORM\Column(type="string", nullable=true)
-     * @Gedmo\Versioned
-     */
-    protected $adres;
-
-    /**
-     * @ORM\Column(type="string", nullable=true)
-     * @Gedmo\Versioned
-     */
-    protected $postcode;
-
-    /**
-     * @ORM\Column(name="woonplaats", type="string", nullable=true)
-     * @Gedmo\Versioned
-     */
-    protected $plaats;
-
-    /**
-     * @ORM\Column(type="string", nullable=true)
-     * @Gedmo\Versioned
-     * @Assert\Email
-     */
-    protected $email;
 
     /**
      * @ORM\Column(name="telefoon_mobiel", type="string", nullable=true)
      * @Gedmo\Versioned
      */
-    protected $mobiel;
+    //protected $mobiel;
 
-    /**
-     * @ORM\Column(type="string", nullable=true)
-     * @Gedmo\Versioned
-     */
-    protected $telefoon;
 
     /**
      * @var Groep

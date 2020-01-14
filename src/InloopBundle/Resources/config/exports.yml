@@ -18,6 +18,7 @@ services:
                 Telefoon: { expression: 'entity.getVrijwilliger().getTelefoon()' }
                 Werkgebied: { expression: 'entity.getVrijwilliger().getWerkgebied()' }
                 GGW-gebied: { expression: 'entity.getVrijwilliger().getPostcodegebied()' }
+                GeinformeerdOpslaanGegevens: {expression: 'entity.getVrijwilliger().isGeinformeerdOpslaanGegevens()' }
 
     inloop.export.registraties:
         class: InloopBundle\Export\RegistratiesExport

@@ -30,7 +30,7 @@ class VraagDao extends AbstractDao implements VraagDaoInterface
     {
         $builder = $this->repository->createQueryBuilder($this->alias)
             ->innerJoin($this->alias.'.soort', 'vraagsoort')
-            ->innerJoin($this->alias.'.behandelaar', 'behandelaar')
+            ->leftJoin($this->alias.'.behandelaar', 'behandelaar')
             ->leftJoin('behandelaar.medewerker', 'medewerker')
             ->innerJoin($this->alias.'.client', 'client')
         ;

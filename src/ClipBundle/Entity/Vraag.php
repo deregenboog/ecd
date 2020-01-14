@@ -135,13 +135,20 @@ class Vraag
         return $this->id;
     }
 
-    public function setBehandelaar(Behandelaar $behandelaar)
+    public function setBehandelaar(?Behandelaar $behandelaar)
     {
-        $this->behandelaar = $behandelaar;
 
+        /**
+         * issue #825 open vragen: geen behandelaar bij een open vraag dus.
+         */
         // initial Contactmoment has the same Behandelaar as this Vraag
-        if (1 === count($this->contactmomenten)) {
+        if (null!==$behandelaar && 1 === count($this->contactmomenten)) {
+
             $this->contactmomenten[0]->setBehandelaar($behandelaar);
+        }
+        else
+        {
+            $this->behandelaar = $behandelaar;
         }
 
         return $this;

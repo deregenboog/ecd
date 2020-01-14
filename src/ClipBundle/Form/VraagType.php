@@ -51,6 +51,7 @@ class VraagType extends AbstractType
             ->add('behandelaar', BehandelaarSelectType::class, [
                 'medewerker' => $options['medewerker'],
                 'current' => $options['data'] ? $options['data']->getBehandelaar() : null,
+                'required' => false,
             ])
         ;
 
