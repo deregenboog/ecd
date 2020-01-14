@@ -40,7 +40,7 @@
         "stof/doctrine-extensions-bundle" : "^1.2",
         "shivas/versioning-bundle" : "^1.4",
         "phpoffice/phpspreadsheet" : "^1.0",
-        "beberlei/DoctrineExtensions" : "^1.0",
+        "beberlei/doctrineextensions" : "^1.0",
         "symfony/templating" : "^3.4",
         "symfony/translation" : "^3.4",
         "friendsofsymfony/ckeditor-bundle" : "^1.2",
