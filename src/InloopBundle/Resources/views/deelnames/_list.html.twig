@@ -1,0 +1,29 @@
+{% if vrijwilliger is defined %}
+    {% set entity = vrijwilliger %}
+    {% set url = path('inloop_deelnames_add', {vrijwilliger: entity.id}) %}
+{% endif %}
+
+<h2>Trainingen</h2>
+{% if url is defined %}
+    <p>
+        {{ html.addLink(url) }}
+        {{ html.link('Training toevoegen', url) }}
+    </p>
+{% endif %}
+<table class="table table-hover">
+    <tr>
+        <th>Naam</th>
+        <th>Datum</th>
+        <th></th>
+    </tr>
+    {% for deelname in entity.trainingDeelnames %}
+        <tr>
+            <td>{{ deelname.training.naam }}</td>
+            <td>{{ deelname.datum|date('d-m-Y') }}</td>
+            <td>
+                {% set url = path('inloop_deelnames_delete', {id: deelname.id, vrijwilliger: entity.id}) %}
+                {{ html.deleteLink(url) }}
+            </td>
+        </tr>
+    {% endfor %}
+</table>

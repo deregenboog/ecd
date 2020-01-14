@@ -118,12 +118,7 @@ security:
         ROLE_EROPUIT: []
         ROLE_BUURTBOERDERIJ:
             - CONTROLLER_APP_VRIJWILLIGERS
-        ROLE_SECRETARIAAT: []
-        ROLE_MANAGEMENT: []
-        ROLE_PROGRAMMACOORDINATOR: []
         ROLE_ADMIN:
-            - ROLE_MANAGEMENT
-            - ROLE_PROGRAMMACOORDINATOR
             - ROLE_USER
             - ROLE_MW
             - ROLE_MW_BEHEER
@@ -176,11 +171,6 @@ security:
 ldap_tools:
     security:
         roles:
-            ROLE_SECRETARIAAT: "CN=ECD Secretariaat,CN=Users,DC=cluster,DC=deregenboog"
-            ROLE_UHK: "CN=ECD Uit het Krijt,CN=Users,DC=cluster,DC=deregenboog"
-            ROLE_UHK_BEHEER: "CN=ECD Uit het Krijt Beheer,CN=Users,DC=cluster,DC=deregenboog"
-            ROLE_MANAGEMENT: "CN=ECD Management,CN=Users,DC=cluster,DC=deregenboog"
-            ROLE_PROGRAMMACOORDINATOR: "CN=ECD Programmacoordinator,CN=Users,DC=cluster,DC=deregenboog"
             ROLE_ADMIN: "CN=ECD Admin,CN=Users,DC=cluster,DC=deregenboog"
             ROLE_VOLUNTEERS: "CN=ECD Volunteers,CN=Users,DC=cluster,DC=deregenboog"
             ROLE_STAGE: "CN=ECD Stage,CN=Users,DC=cluster,DC=deregenboog"
@@ -216,3 +206,8 @@ ldap_tools:
             ROLE_SKIP_BEHEER: "CN=ECD SKIP Beheer,CN=Users,DC=cluster,DC=deregenboog" # because of typo in LDAP-group
             ROLE_EROPUIT: "CN=ECD ErOpUit,CN=Users,DC=cluster,DC=deregenboog"
             ROLE_BUURTBOERDERIJ: "CN=ECD Buurtboerderij,CN=Users,DC=cluster,DC=deregenboog"
+            ROLE_SECRETARIAAT: "CN=ECD Secretariaat,CN=Users,DC=cluster,DC=deregenboog"
+            ROLE_MANAGEMENT: "CN=ECD Management,CN=Users,DC=cluster,DC=deregenboog"
+            ROLE_PROGRAMMACOORDINATOR: "CN=ECD Programmacoordinator,CN=Users,DC=cluster,DC=deregenboog"
+            ROLE_UHK: "CN=ECD Uit het Krijt,CN=Users,DC=cluster,DC=deregenboog"
+            ROLE_UHK_BEHEER: "CN=ECD Uit het Krijt Beheer,CN=Users,DC=cluster,DC=deregenboog"

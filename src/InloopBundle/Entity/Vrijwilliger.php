@@ -2,6 +2,7 @@
 
 namespace InloopBundle\Entity;
 
+use AppBundle\Entity\Medewerker;
 use AppBundle\Entity\Vrijwilliger as AppVrijwilliger;
 use AppBundle\Model\DocumentSubjectInterface;
 use AppBundle\Model\DocumentSubjectTrait;
@@ -34,11 +35,18 @@ class Vrijwilliger implements MemoSubjectInterface, DocumentSubjectInterface
     protected $vrijwilliger;
 
     /**
-     * @var Vrijwilliger
+     * @var Locatie
      *
      * @ORM\ManyToMany(targetEntity="Locatie")
      */
     protected $locaties;
+
+    /**
+     * @var Locatie
+     *
+     * @ORM\ManyToOne(targetEntity="Locatie")
+     */
+    protected $locatie;
 
     /**
      * @var BinnenVia
@@ -69,12 +77,62 @@ class Vrijwilliger implements MemoSubjectInterface, DocumentSubjectInterface
      */
     protected $afsluitreden;
 
+    /**
+     * @var boolean
+     * @ORM\Column(type="boolean", nullable=false)
+     */
+    protected $stagiair = false;
+
+    /**
+     * @var \DateTime
+     * @ORM\Column(type="date", nullable=true)
+     */
+    protected $startdatum;
+
+    /**
+     * @var Medewerker
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Medewerker")
+     */
+    protected $medewerkerLocatie;
+
+    /**
+     * @var string
+     * @ORM\Column(nullable=true)
+     */
+    protected $notitieIntake;
+
+    /**
+     * @var \DateTime
+     * @ORM\Column(type="date",nullable=true)
+     */
+    protected $datumNotitieIntake;
+
+    /**
+     * @var string
+     * @ORM\Column(nullable=true)
+     */
+    protected $trainingOverig;
+
+    /**
+     * @var \DateTime
+     * @ORM\Column(nullable=true)
+     */
+    protected $trainingOverigDatum;
+
+    /**
+     * @var ArrayCollection|Deelname[]
+     * @ORM\OneToMany(targetEntity="Deelname",mappedBy="vrijwilliger", cascade={"persist"})
+     */
+    protected $trainingDeelnames;
+
+
     public function __construct(AppVrijwilliger $vrijwilliger = null)
     {
         if ($vrijwilliger) {
             $this->vrijwilliger = $vrijwilliger;
         }
         $this->locaties = new ArrayCollection();
+        $this->trainingDeelnames = new ArrayCollection();
     }
 
     public function __toString()
@@ -171,8 +229,182 @@ class Vrijwilliger implements MemoSubjectInterface, DocumentSubjectInterface
         return $this;
     }
 
+    /**
+     * @return Locatie
+     */
+    public function getLocatie():? Locatie
+    {
+        return $this->locatie;
+    }
+
+    /**
+     * @param Locatie $locatie
+     */
+    public function setLocatie(Locatie $locatie): void
+    {
+        $this->locatie = $locatie;
+    }
+
+
+
     public function isActief()
     {
         return null === $this->afsluitdatum || $this->afsluitdatum > new \DateTime('today');
     }
+
+    /**
+     * @return Medewerker
+     */
+    public function getMedewerker():? Medewerker
+    {
+        return $this->medewerker;
+    }
+
+    /**
+     * @param Medewerker $medewerker
+     */
+    public function setMedewerker(Medewerker $medewerker): void
+    {
+        $this->medewerker = $medewerker;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isStagiair(): bool
+    {
+        return (bool) $this->stagiair;
+    }
+
+    /**
+     * @param bool $stagiair
+     */
+    public function setStagiair(bool $stagiair): void
+    {
+        $this->stagiair = $stagiair;
+    }
+
+    /**
+     * @return \DateTime
+     */
+    public function getStartdatum():? \DateTime
+    {
+        return $this->startdatum;
+    }
+
+    /**
+     * @param \DateTime $startdatum
+     */
+    public function setStartdatum(\DateTime $startdatum): void
+    {
+        $this->startdatum = $startdatum;
+    }
+
+    /**
+     * @return Medewerker
+     */
+    public function getMedewerkerLocatie():? Medewerker
+    {
+        return $this->medewerkerLocatie;
+    }
+
+    /**
+     * @param Medewerker $medewerkerLocatie
+     */
+    public function setMedewerkerLocatie(Medewerker $medewerkerLocatie): void
+    {
+        $this->medewerkerLocatie = $medewerkerLocatie;
+    }
+
+    /**
+     * @return string
+     */
+    public function getNotitieIntake():? string
+    {
+        return $this->notitieIntake;
+    }
+
+    /**
+     * @param string $notitieIntake
+     */
+    public function setNotitieIntake(string $notitieIntake): void
+    {
+        $this->notitieIntake = $notitieIntake;
+    }
+
+    /**
+     * @return \DateTime
+     */
+    public function getDatumNotitieIntake():? \DateTime
+    {
+        return $this->datumNotitieIntake;
+    }
+
+    /**
+     * @param \DateTime $datumNotitieIntake
+     */
+    public function setDatumNotitieIntake(\DateTime $datumNotitieIntake): void
+    {
+        $this->datumNotitieIntake = $datumNotitieIntake;
+    }
+
+    /**
+     * @return string
+     */
+    public function getTrainingOverig():? string
+    {
+        return $this->trainingOverig;
+    }
+
+    /**
+     * @param string $trainingOverig
+     */
+    public function setTrainingOverig(string $trainingOverig): void
+    {
+        $this->trainingOverig = $trainingOverig;
+    }
+
+    /**
+     * @return \DateTime
+     */
+    public function getTrainingOverigDatum():? \DateTime
+    {
+        return $this->trainingOverigDatum;
+    }
+
+    /**
+     * @param \DateTime $trainingOverigDatum
+     */
+    public function setTrainingOverigDatum(\DateTime $trainingOverigDatum): void
+    {
+        $this->trainingOverigDatum = $trainingOverigDatum;
+    }
+
+    /**
+     * @return ArrayCollection|Deelname[]
+     */
+    public function getTrainingDeelnames()
+    {
+        return $this->trainingDeelnames;
+    }
+
+    /**
+     * @param ArrayCollection|Deelname[] $trainingDeelnames
+     */
+    public function setTrainingDeelnames($trainingDeelnames): void
+    {
+        $this->trainingDeelnames = $trainingDeelnames;
+    }
+
+    public function addDeelname(Deelname $deelname)
+    {
+        $this->trainingDeelnames[] = $deelname;
+    }
+
+    public function removeDeelname(Deelname $deelname)
+    {
+        $this->trainingDeelnames->removeElement($deelname);
+
+    }
+
 }

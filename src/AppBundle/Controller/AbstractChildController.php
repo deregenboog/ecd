@@ -10,6 +10,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
+use Symfony\Component\Routing\Exception\RouteNotFoundException;
 
 abstract class AbstractChildController extends AbstractController
 {
@@ -116,7 +117,15 @@ abstract class AbstractChildController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $url = $request->get('redirect');
             if ($form->get('yes')->isClicked()) {
-                $viewUrl = $this->generateUrl($this->baseRouteName.'view', ['id' => $entity->getId()]);
+
+                try {
+                    $viewUrl = $this->generateUrl($this->baseRouteName.'view', ['id' => $entity->getId()]);
+                }
+                catch(RouteNotFoundException $e)
+                {
+                   $viewUrl = "";
+                }
+
 
                 if ($parentEntity && $this->deleteMethod) {
                     $parentEntity->{$this->deleteMethod}($entity);
@@ -147,7 +156,14 @@ abstract class AbstractChildController extends AbstractController
 
     protected function createEntity($parentEntity = null)
     {
-        return new $this->entityClass();
+        $x = new $this->entityClass();
+        if($parentEntity!== null)
+        {
+            $class = (new \ReflectionClass($parentEntity))->getShortName();
+            if(is_callable([$x,"set".$class])) $x->{"set".ucfirst($class)}($parentEntity);
+        }
+        return $x;
+
     }
 
     protected function persistEntity($entity, $parentEntity)
