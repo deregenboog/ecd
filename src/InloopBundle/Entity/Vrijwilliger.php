@@ -42,6 +42,13 @@ class Vrijwilliger implements MemoSubjectInterface, DocumentSubjectInterface
     protected $locaties;
 
     /**
+     * @var Locatie
+     *
+     * @ORM\ManyToOne(targetEntity="Locatie")
+     */
+    protected $locatie;
+
+    /**
      * @var BinnenVia
      *
      * @ORM\ManyToOne(targetEntity="BinnenVia")
@@ -74,7 +81,7 @@ class Vrijwilliger implements MemoSubjectInterface, DocumentSubjectInterface
      * @var boolean
      * @ORM\Column(type="boolean", nullable=false)
      */
-    protected $stagiair;
+    protected $stagiair = false;
 
     /**
      * @var \DateTime
@@ -83,8 +90,8 @@ class Vrijwilliger implements MemoSubjectInterface, DocumentSubjectInterface
     protected $startdatum;
 
     /**
-     * @var Locatie
-     * @ORM\ManyToOne(targetEntity="Locatie")
+     * @var Medewerker
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Medewerker")
      */
     protected $medewerkerLocatie;
 
@@ -222,6 +229,24 @@ class Vrijwilliger implements MemoSubjectInterface, DocumentSubjectInterface
         return $this;
     }
 
+    /**
+     * @return Locatie
+     */
+    public function getLocatie():? Locatie
+    {
+        return $this->locatie;
+    }
+
+    /**
+     * @param Locatie $locatie
+     */
+    public function setLocatie(Locatie $locatie): void
+    {
+        $this->locatie = $locatie;
+    }
+
+
+
     public function isActief()
     {
         return null === $this->afsluitdatum || $this->afsluitdatum > new \DateTime('today');
@@ -230,7 +255,7 @@ class Vrijwilliger implements MemoSubjectInterface, DocumentSubjectInterface
     /**
      * @return Medewerker
      */
-    public function getMedewerker(): Medewerker
+    public function getMedewerker():? Medewerker
     {
         return $this->medewerker;
     }
@@ -248,7 +273,7 @@ class Vrijwilliger implements MemoSubjectInterface, DocumentSubjectInterface
      */
     public function isStagiair(): bool
     {
-        return $this->stagiair;
+        return (bool) $this->stagiair;
     }
 
     /**
@@ -276,17 +301,17 @@ class Vrijwilliger implements MemoSubjectInterface, DocumentSubjectInterface
     }
 
     /**
-     * @return Locatie
+     * @return Medewerker
      */
-    public function getMedewerkerLocatie():? Locatie
+    public function getMedewerkerLocatie():? Medewerker
     {
         return $this->medewerkerLocatie;
     }
 
     /**
-     * @param Locatie $medewerkerLocatie
+     * @param Medewerker $medewerkerLocatie
      */
-    public function setMedewerkerLocatie(Locatie $medewerkerLocatie): void
+    public function setMedewerkerLocatie(Medewerker $medewerkerLocatie): void
     {
         $this->medewerkerLocatie = $medewerkerLocatie;
     }

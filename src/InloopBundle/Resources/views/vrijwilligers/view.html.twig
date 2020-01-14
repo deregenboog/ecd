@@ -52,7 +52,13 @@
                 <dt>Aanmelddatum</dt><dd>{{ entity.aanmelddatum|if_date('d-m-Y') }}</dd>
                 <dt>Binnen via</dt><dd>{{ entity.binnenVia }}</dd>
                 <dt>Medewerker intake</dt><dd>{{ entity.medewerker }}</dd>
-    {#            <dt>Locatie</dt><dd>{{ entity.locatie }}</dd>#}
+                <dt>Locatie</dt><dd>{{ entity.locatie }}</dd>
+                <dt>Locaties(oud):</dt>
+                <dd>
+                {% for l in entity.locaties %}
+                    <li>{{ l.naam }}</li>
+                {% endfor %}
+                </dd>
                 <dt>Stagiair?</dt><dd>{{ entity.stagiair|ja_nee }}</dd>
                 <dt>Notitie datum</dt><dd>{{ entity.datumNotitieIntake|if_date('d-m-Y') }}</dd>
                 <dt>Notitie</dt><dd>{{ entity.notitieIntake|nl2br }}</dd>
@@ -60,7 +66,7 @@
             <dl class="dl-horizontal">
                 <h2>Tweede fase</h2>
                 <dt>Startdatum</dt><dd>{{ entity.startdatum|if_date('d-m-Y') }}</dd>
-                <dt>Medewerkerlocatie</dt><dd>{{ entity.medewerkerLocatie }}</dd>
+                <dt>Medewerker locatie</dt><dd>{{ entity.medewerkerLocatie }}</dd>
             </dl>
         </div>
 

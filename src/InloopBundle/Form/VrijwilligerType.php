@@ -65,10 +65,8 @@ class VrijwilligerType extends AbstractType
                     ;
                 },
             ])
-            ->add('locaties', LocatieSelectType::class, [
+            ->add('locatie', LocatieSelectType::class, [
                 'required' => true,
-                'expanded' => true,
-                'multiple' => true,
             ])
             ->add('medewerker', MedewerkerType::class, ['required' => true])
             ->add('stagiair',CheckboxType::class, [
@@ -85,7 +83,7 @@ class VrijwilligerType extends AbstractType
                 'required' =>false,
 
             ])
-            ->add('medewerkerLocatie', LocatieSelectType::class,[
+            ->add('medewerkerLocatie', MedewerkerType::class, [
                 'required' => false
             ])
             ->add('submit', SubmitType::class)
