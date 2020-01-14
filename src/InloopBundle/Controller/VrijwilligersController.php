@@ -76,6 +76,23 @@ class VrijwilligersController extends AbstractController
         return $this->processForm($request, $entity);
     }
 
+    /**
+     * @Route("/open/{id}")
+     */
+    public function openAction(Request $request, $id)
+    {
+//        $this->formClass = VrijwilligerCloseType::class;
+
+        $entity = $this->dao->find($id);
+        $entity->setAfsluitdatum(null);
+        $entity->setAfsluitreden(null);
+
+        $this->dao->update($entity);
+        return $this->redirectToRoute($this->baseRouteName.'view', ['id' => $id]);
+
+    }
+
+
     protected function getDownloadFilename()
     {
         return sprintf('inloopvrijwilligers-%s.xlsx', (new \DateTime())->format('d-m-Y'));

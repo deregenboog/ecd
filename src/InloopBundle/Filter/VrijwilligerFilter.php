@@ -31,6 +31,11 @@ class VrijwilligerFilter implements FilterInterface
      */
     public $locatie;
 
+    /**
+     * @var bool
+     */
+    public $filterOpActiefAlleen;
+
     public function applyTo(QueryBuilder $builder)
     {
         if ($this->vrijwilliger) {
@@ -69,6 +74,13 @@ class VrijwilligerFilter implements FilterInterface
 
         if ($this->locatie) {
             $builder->andWhere('locatie = :locatie')->setParameter('locatie', $this->locatie);
+        }
+
+        if($this->filterOpActiefAlleen == true)
+        {
+            $builder
+                ->andWhere('vrijwilliger.afsluitdatum IS NULL')
+            ;
         }
     }
 }

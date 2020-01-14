@@ -4,9 +4,11 @@ namespace InloopBundle\Form;
 
 use AppBundle\Form\AppDateRangeType;
 use AppBundle\Form\FilterType;
+use AppBundle\Form\JaNeeType;
 use AppBundle\Form\VrijwilligerFilterType as AppVrijwilligerFilterType;
 use InloopBundle\Filter\VrijwilligerFilter;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -40,6 +42,13 @@ class VrijwilligerFilterType extends AbstractType
                 'required' => false,
             ]);
         }
+
+        if (in_array('filterOpActiefAlleen', $options['enabled_filters'])) {
+            $builder->add('filterOpActiefAlleen', CheckboxType::class, [
+                'required' => false,
+                'label'=>'Alleen actieve dossiers?'
+            ]);
+        }
     }
 
     /**
@@ -56,6 +65,7 @@ class VrijwilligerFilterType extends AbstractType
                 'afsluitdatum',
                 'locatie',
                 'stadsdeel',
+                'filterOpActiefAlleen',
                 'filter',
                 'download',
             ],

@@ -179,7 +179,7 @@ class Vrijwilliger implements MemoSubjectInterface, DocumentSubjectInterface
         return $this->afsluitdatum;
     }
 
-    public function setAfsluitdatum(\DateTime $afsluitdatum)
+    public function setAfsluitdatum(?\DateTime $afsluitdatum)
     {
         $this->afsluitdatum = $afsluitdatum;
 
@@ -191,7 +191,7 @@ class Vrijwilliger implements MemoSubjectInterface, DocumentSubjectInterface
         return $this->afsluitreden;
     }
 
-    public function setAfsluitreden(Afsluitreden $afsluitreden)
+    public function setAfsluitreden(?Afsluitreden $afsluitreden)
     {
         $this->afsluitreden = $afsluitreden;
 

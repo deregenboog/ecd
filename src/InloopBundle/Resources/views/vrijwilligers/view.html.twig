@@ -83,6 +83,9 @@
         <div id="afsluiting" class="tab-pane">
             <div id="aanmelding" class="tab-pane active">
                 <h2>Afsluiting</h2>
+                {% if entity.actief == false %}
+                    {{ html.link(entity_name|capitalize~' heropenen', path('inloop_vrijwilligers_open', {id: entity.id}), 'open') }}
+                {% endif %}
                 <dl class="dl-horizontal">
                     <dt>Reden afsluiting</dt><dd>{{ entity.afsluitreden }}</dd>
                     <dt>Datum afsluiting</dt><dd>{{ entity.afsluitdatum|if_date('d-m-Y') }}</dd>

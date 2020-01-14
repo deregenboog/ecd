@@ -20,7 +20,7 @@
     <table class="table table-hover">
         {{ form_start(filter) }}
             <tr>
-                <th colspan="6">
+                <th colspan="7">
                     <span class="pull-right">
                         {{ form_widget(filter.filter) }}
                         {{ form_widget(filter.download) }}
@@ -49,6 +49,10 @@
                     {{ form_errors(filter.afsluitdatum.end) }}
                 </th>
                 <th>
+                    {{ form_widget(filter.filterOpActiefAlleen) }}
+                    {{ form_errors(filter.filterOpActiefAlleen) }}
+                </th>
+                <th>
                     {{ form_widget(filter.locatie) }}
                     {{ form_errors(filter.locatie) }}
                 </th>
@@ -72,7 +76,10 @@
                 {{ knp_pagination_sortable(pagination, 'Afsluitdatum', 'vrijwilliger.afsluitdatum') }}
             </th>
             <th>
-                Locatie(s)
+                Actief
+            </th>
+            <th>
+                {{ knp_pagination_sortable(pagination, 'Locatie', 'locatie.naam') }}
             </th>
             <th>
                 {{ knp_pagination_sortable(pagination, 'Stadsdeel', 'werkgebied.naam') }}
@@ -95,12 +102,14 @@
                     ({{ vrijwilliger.afsluitreden }})
                 {% endif %}
             </td>
+            <td>{{ vrijwilliger.actief|ja_nee }}</td>
             <td>
-                <ul>
-                    {% for locatie in vrijwilliger.locaties %}
-                        <li>{{ locatie }}</li>
-                    {% endfor %}
-                </ul>
+{#                <ul>#}
+{#                    {% for locatie in vrijwilliger.locaties %}#}
+{#                        <li>{{ locatie }}</li>#}
+{#                    {% endfor %}#}
+{#                </ul>#}
+                {{ vrijwilliger.locatie }}
             </td>
             <td>
                 {{ vrijwilliger.vrijwilliger.werkgebied }}
