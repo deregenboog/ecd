@@ -57,7 +57,7 @@
         "doctrine/data-fixtures" : "*",
         "hautelook/alice-bundle": "^2",
 
-        "phpunit/phpunit" : "^7.2",
+        "phpunit/phpunit" : "^7",
         "liip/functional-test-bundle" : "^3",
         "symfony/phpunit-bridge" : "*",
         "sebastian/phpcpd" : "^4",
