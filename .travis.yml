@@ -27,6 +27,6 @@ before_script:
 script:
   - php bin/console lint:twig src/
   - php bin/console lint:yaml src/
-  - vendor/bin/phpcpd
-  - phpunit -v --configuration phpunit.xml.dist
+  - vendor/bin/phpcpd --min-lines=75 src/
+  - phpunit -v --configuration phpunit.xml.dist tests/
 #  - travis_wait 40 ant
