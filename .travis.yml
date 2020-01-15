@@ -1,7 +1,7 @@
 language: php
 
 php:
-  - 7.2
+  - 7.2.25
 
 env:
   - DB=sqlite
@@ -20,7 +20,13 @@ before_script:
   - composer update
   - composer install --no-scripts
   - cp app/config/parameters.yml.dist app/config/parameters.yml
+  - if find src/ -name "*.php" ! -path "./vendor/*" -print0 | xargs -0 -n 1 -P 8 php -l | grep -v "No syntax errors detected"; then exit 1; fi
+  - if find tests/ -name "*.php" ! -path "./vendor/*" -print0 | xargs -0 -n 1 -P 8 php -l | grep -v "No syntax errors detected"; then exit 1; fi
+  - phpunit --version
 
 script:
-  - phpunit --configuration phpunit.xml.dist
-  - travis_wait 40 ant
+  - php bin/console lint:twig src/
+  - php bin/console lint:yaml src/
+  - vendor/bin/phpcpd
+  - phpunit -v --configuration phpunit.xml.dist
+#  - travis_wait 40 ant
