@@ -104,7 +104,7 @@ ClipBundle\Entity\Behandelaar:
     clip_behandelaar_1:
         medewerker: '@medewerker_clip'
     clip_behandelaar_{2..5}:
-        medewerker (unique): '@medewerker_*'
+        medewerker: '@medewerker_*'
     clip_behandelaar_{6..10}:
         naam: '<name()>'
 

@@ -142,7 +142,7 @@ class Klant extends Persoon
      * @ORM\Column(name="last_zrm", type="date", nullable=true)
      * @Gedmo\Versioned
      */
-    private $laatsteZrm;
+    protected $laatsteZrm;
 
     /**
      * @ORM\Column(type="boolean")
@@ -216,6 +216,11 @@ class Klant extends Persoon
         return $this->laatsteZrm;
     }
 
+    public function setLaatsteZrm($zrm)
+    {
+        $this->laatseZrm = $zrm;
+        return $this;
+    }
     public function setLaastseZrm(\DateTime $laatsteZrm)
     {
         $this->laatsteZrm = $laatsteZrm;

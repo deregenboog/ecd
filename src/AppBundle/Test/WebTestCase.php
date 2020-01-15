@@ -2,15 +2,19 @@
 
 namespace AppBundle\Test;
 
-use Liip\FunctionalTestBundle\Test\WebTestCase as BaseWebTestCase;
+use Hautelook\AliceBundle\PhpUnit\RecreateDatabaseTrait;
+use Liip\FunctionalTestBundle\Test\WebTestCase as CoreWebTestCase;
+use Liip\TestFixturesBundle\Test\FixturesTrait;
 use Nelmio\Alice\Fixtures;
 use Symfony\Bundle\FrameworkBundle\Client;
 use Symfony\Component\BrowserKit\Cookie;
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 use Symfony\Component\Security\Core\User\UserInterface;
 
-class WebTestCase extends BaseWebTestCase
+class WebTestCase extends CoreWebTestCase
 {
+    use FixturesTrait;
+//    use RecreateDatabaseTrait;
     /**
      * @var Client
      */
@@ -23,8 +27,11 @@ class WebTestCase extends BaseWebTestCase
         $this->loadFixtureFiles([
             '@AppBundle/DataFixtures/ORM/fixtures.yml',
             '@ClipBundle/DataFixtures/ORM/fixtures.yml',
+
 //             '@DagbestedingBundle/DataFixtures/ORM/fixtures.yml',
+
             '@ErOpUitBundle/DataFixtures/ORM/fixtures.yml',
+
 //             '@GaBundle/DataFixtures/ORM/fixtures.yml',
 //             '@HsBundle/DataFixtures/ORM/fixtures.yml',
 //             '@InloopBundle/DataFixtures/ORM/fixtures.yml',
@@ -39,7 +46,7 @@ class WebTestCase extends BaseWebTestCase
         $this->client = static::createClient();
     }
 
-    protected function tearDown()
+    protected function tearDown(): void
     {
         //see https://stackoverflow.com/questions/36032168/symfony-and-phpunit-memory-leak
         // Remove properties defined during the test
@@ -59,7 +66,7 @@ class WebTestCase extends BaseWebTestCase
      *
      * @see https://symfony.com/doc/3.4/testing/http_authentication.html
      */
-    protected function logIn(UserInterface $user, $additionalRoles = [])
+    public function logIn(UserInterface $user, $additionalRoles = []): self
     {
         if (!is_array($additionalRoles)) {
             $additionalRoles = [$additionalRoles];
@@ -73,5 +80,6 @@ class WebTestCase extends BaseWebTestCase
 
         $cookie = new Cookie($session->getName(), $session->getId());
         $this->client->getCookieJar()->set($cookie);
+        return $this;
     }
 }
