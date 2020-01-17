@@ -22,11 +22,11 @@ before_script:
   - cp app/config/parameters.yml.dist app/config/parameters.yml
   - if find src/ -name "*.php" ! -path "./vendor/*" -print0 | xargs -0 -n 1 -P 8 php -l | grep -v "No syntax errors detected"; then exit 1; fi
   - if find tests/ -name "*.php" ! -path "./vendor/*" -print0 | xargs -0 -n 1 -P 8 php -l | grep -v "No syntax errors detected"; then exit 1; fi
-  - phpunit --version
+#  - phpunit --version
 
 script:
   - php bin/console lint:twig src/
   - php bin/console lint:yaml src/
-  - vendor/bin/phpcpd --quiet --min-lines=75 src/ || true
+  - vendor/bin/phpcpd --min-lines=75 src/ || true
   - vendor/bin/phpunit --configuration phpunit.xml.dist tests/
 #  - travis_wait 40 ant
