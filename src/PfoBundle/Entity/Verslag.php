@@ -124,4 +124,9 @@ class Verslag
 
         return $this;
     }
+
+    public function setClient(Client $client)
+    {
+        return $this->addClient($client);
+    }
 }

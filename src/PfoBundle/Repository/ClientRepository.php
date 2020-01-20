@@ -24,12 +24,12 @@ class ClientRepository extends EntityRepository
     public function countByStadsdeel(\DateTime $startDate, \DateTime $endDate)
     {
         $builder = $this->getCountBuilder()
-            ->addSelect('stadsdeel.naam AS stadsdeelnaam')
-            ->innerJoin('client.stadsdeel', 'stadsdeel')
-            ->innerJoin('client.verslagen', 'verslag')
-            ->groupBy('groepnaam')
+            ->addSelect("stadsdeel.naam AS stadsdeelnaam")
+            ->innerJoin('client.werkgebied', 'stadsdeel')
+            ->leftJoin('client.verslagen', 'verslag')
+            ->groupBy('stadsdeelnaam')
         ;
-
+//        dump($builder->getQuery()->getSQL());
         $this->applyReportFilter($builder, $startDate, $endDate);
 
         return $builder->getQuery()->getResult();

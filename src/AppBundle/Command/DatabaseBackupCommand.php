@@ -88,14 +88,14 @@ class DatabaseBackupCommand extends ContainerAwareCommand
         $databases->add(new MysqlDatabase());
 
         $compressors = new CompressorProvider();
-        $compressors->add(new GzipCompressor());
+//        $compressors->add(new GzipCompressor());
         $compressors->add(new NullCompressor());
 
         $filename = sprintf('%s-%s.sql.gzip', $connection->getDatabase(), (new \DateTime())->format('YmdHis'));
         $output->writeln('Backing up MySQL database to '.$backupDir.'/'.$filename);
 
         $manager = new Manager($filesystems, $databases, $compressors);
-        $manager->makeBackup()->run('mysql', [new Destination('local', $filename)], 'gzip');
+        $manager->makeBackup()->run('mysql', [new Destination('local', $filename)], 'null');
 
         $output->writeln(sprintf('Keeping %d newest backups', $input->getOption('keep')));
         $command = sprintf("ls -tp | grep -v '/$' | tail -n +%d | xargs -I {} rm -- {}", 1 + $input->getOption('keep'));

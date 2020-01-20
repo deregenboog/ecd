@@ -8,6 +8,18 @@ PfoBundle\Entity\Client:
         voornaam: '<firstname()>'
         achternaam: '<lastname()>'
         groep: '@pfo_groep_*'
-        medewerker: '@medewerker_*'
+        medewerker: '@medewerker*'
         dubbeleDiagnose: false
         eerdereHulpverlening: false
+        werkgebied: '80%? @werkgebied_*'
+        adres: '<streetAddress()>'
+        postcode: '<postcode()>'
+        plaats: '<city()>'
+
+
+PfoBundle\Entity\Verslag:
+    pfo_verslag_{1..100}:
+        client: '@pfo_client_*'
+        medewerker: '@medewerker_*'
+        verslag: <sentence(100)>
+        type: 'Telefonisch'

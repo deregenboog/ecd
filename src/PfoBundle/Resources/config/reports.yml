@@ -1,0 +1,18 @@
+services:
+    PfoBundle\Report\VerslagenPerGroepContacttype:
+        arguments:
+            - "@pfo.repository.verslag"
+        tags:
+            - { name: pfo.rapportage, category: Contactmomenten }
+
+    PfoBundle\Report\ClientenPerGroep:
+        arguments:
+            - "@pfo.repository.client"
+        tags:
+            - { name: pfo.rapportage, category: Personen }
+
+    PfoBundle\Report\ClientenPerStadsdeel:
+        arguments:
+            - "@pfo.repository.client"
+        tags:
+            - { name: pfo.rapportage, category: Personen }

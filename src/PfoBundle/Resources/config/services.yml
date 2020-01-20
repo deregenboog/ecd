@@ -1,6 +1,7 @@
 imports:
     - { resource: daos.yml }
     - { resource: exports.yml }
+    - { resource: reports.yml }
 
 services:
     PfoBundle\Form\ClientType:
@@ -26,14 +27,6 @@ services:
         tags:
             - { name: form.type }
 
-    PfoBundle\Report\VerslagenPerGroepContacttype:
-        arguments:
-            - "@pfo.repository.verslag"
-        tags:
-            - { name: pfo.rapportage, category: Contactmomenten }
+    PfoBundle\DataFixtures\PfoProcessor:
+        tags: [ { name: fidry_alice_data_fixtures.processor } ]
 
-    PfoBundle\Report\ClientenPerGroep:
-        arguments:
-            - "@pfo.repository.client"
-        tags:
-            - { name: pfo.rapportage, category: Personen }
