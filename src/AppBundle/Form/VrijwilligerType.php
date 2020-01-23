@@ -63,7 +63,7 @@ class VrijwilligerType extends AbstractType
             ->add('geenPost', null, ['label' => 'Geen post'])
             ->add('geenEmail')
             ->add('vogAangevraagd', null, ['label' => 'VOG aangevraagd'])
-            ->add('geinformeerdOpslaanGegevens', null, ['label' => 'Geinformeerd opslaan gegevens'])
+
         ;
 
         if (!$options['data'] || !$options['data']->getVog()) {

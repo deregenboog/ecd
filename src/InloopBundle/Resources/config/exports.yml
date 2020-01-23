@@ -30,7 +30,6 @@ services:
                 VOG aangevraagd: { expression: 'entity.getVrijwilliger().getVogAangevraagd()' }
                 VOG aanwezig: { expression: 'entity.getVrijwilliger().getVogAanwezig()' }
                 Overeenkomst aanwezig: { expression: 'entity.getVrijwilliger().getOvereenkomstAanwezig()' }
-                GeinformeerdOpslaanGegevens: {expression: 'entity.getVrijwilliger().isGeinformeerdOpslaanGegevens()' }
 
     inloop.export.registraties:
         class: InloopBundle\Export\RegistratiesExport
