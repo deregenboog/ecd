@@ -37,6 +37,8 @@
         <dd>{{ entity.id }}</dd>
         <dt>Cliënt</dt>
         <dd>{{ html.link(entity.client, path('clip_clienten_view', {id: entity.client.id})) }}</dd>
+        <dt>Hulp nodig?</dt>
+        <dd>{{ entity.hulpCollegaGezocht|ja_nee }}</dd>
         <dt>Medewerker</dt>
         <dd>{{ entity.behandelaar }}</dd>
         <dt>Startdatum</dt>

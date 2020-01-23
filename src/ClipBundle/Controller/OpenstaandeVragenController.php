@@ -69,6 +69,7 @@ class OpenstaandeVragenController extends AbstractVragenController
             'soort',
             'behandelaar',
             'client' => ['naam'],
+            'hulpCollegaGezocht',
             'filter',
             'download',
         ];

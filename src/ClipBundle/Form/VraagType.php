@@ -8,6 +8,7 @@ use ClipBundle\Entity\Client;
 use ClipBundle\Entity\Contactmoment;
 use ClipBundle\Entity\Vraag;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -47,16 +48,21 @@ class VraagType extends AbstractType
         $this->addEmptyClientFields($builder, $vraag->getClient());
 
         $builder
+            ->add('hulpCollegaGezocht',CheckboxType::class,[
+                'required'=>false,
+            ])
             ->add('startdatum', AppDateType::class)
             ->add('behandelaar', BehandelaarSelectType::class, [
                 'medewerker' => $options['medewerker'],
-                'current' => $options['data'] ? $options['data']->getBehandelaar() : null,
+                'current' => $options['data'] ? $options['data']->getBehandelaar() :null,
                 'required' => false,
+
             ])
         ;
 
         if (1 === count($vraag->getContactmomenten())) {
             $this->addEmptyContactmomentFields($builder, $vraag->getContactmoment());
+
         }
 
         $builder->add('submit', SubmitType::class);

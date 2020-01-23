@@ -65,8 +65,10 @@ class VrijwilligerType extends AbstractType
                     ;
                 },
             ])
-            ->add('locatie', LocatieSelectType::class, [
+            ->add('locaties', LocatieSelectType::class, [
                 'required' => true,
+                'expanded' => true,
+                'multiple' => true,
             ])
             ->add('medewerker', MedewerkerType::class, ['required' => true])
             ->add('stagiair',CheckboxType::class, [

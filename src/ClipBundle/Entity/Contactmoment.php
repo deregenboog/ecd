@@ -14,7 +14,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
  */
 class Contactmoment
 {
-    use TimestampableTrait, RequiredBehandelaarTrait;
+    use TimestampableTrait, OptionalBehandelaarTrait;
 
     /**
      * @ORM\Id

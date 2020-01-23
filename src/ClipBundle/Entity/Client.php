@@ -17,7 +17,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
  */
 class Client
 {
-    use TimestampableTrait, RequiredBehandelaarTrait, PersonTrait, AddressTrait;
+    use TimestampableTrait, OptionalBehandelaarTrait, PersonTrait, AddressTrait;
 
     /**
      * @var int

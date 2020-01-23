@@ -5,10 +5,13 @@ services:
             - InloopBundle\Entity\Vrijwilliger
             -
                 Nummer: { expression: 'entity.getVrijwilliger().getId()' }
+                Aanmelddatum: { expression: 'entity.getAanmelddatum()', type: 'date' }
+                Startdatum: { expression: 'entity.getStartdatum()', type: 'date' }
+                Afsluitdatum: { expression: 'entity.getAfsluitdatum()', type: 'date' }
+                Geslacht: { expression: 'entity.getVrijwilliger().getGeslacht()' }
                 Voornaam: { expression: 'entity.getVrijwilliger().getVoornaam()' }
                 Tussenvoegsel: { expression: 'entity.getVrijwilliger().getTussenvoegsel()' }
                 Achternaam: { expression: 'entity.getVrijwilliger().getAchternaam()' }
-                Geslacht: { expression: 'entity.getVrijwilliger().getGeslacht()' }
                 Geboortedatum: { expression: 'entity.getVrijwilliger().getGeboortedatum()', type: 'date' }
                 Adres: { expression: 'entity.getVrijwilliger().getAdres()' }
                 Postcode: { expression: 'entity.getVrijwilliger().getPostcode()' }

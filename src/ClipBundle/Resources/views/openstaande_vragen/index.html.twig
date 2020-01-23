@@ -11,10 +11,10 @@
 
 {% block content %}
     <h1>{{ title }}</h1>
-    <table class="table table-hover">
+    <table id="vragen" class="table table-hover">
         {{ form_start(filter) }}
             <tr>
-                <th colspan="5">
+                <th colspan="6">
                     <span class="pull-right">
                         {{ form_widget(filter.filter) }}
                         {{ form_widget(filter.download) }}
@@ -44,6 +44,10 @@
                     {{ form_widget(filter.startdatum.end) }}
                     {{ form_errors(filter.startdatum.end) }}
                 </th>
+                <th>
+                    {{ form_widget(filter.hulpCollegaGezocht) }}
+                    {{ form_errors(filter.hulpCollegaGezocht) }}
+                </th>
             </tr>
         {{ form_end(filter) }}
         <tr>
@@ -62,9 +66,10 @@
             <th>
                 {{ knp_pagination_sortable(pagination, 'Startdatum', 'vraag.startdatum') }}
             </th>
+            <th>Hulp gezocht</th>
         </tr>
         {% for vraag in pagination %}
-        <tr data-href="{{ path('clip_vragen_view', {id: vraag.id}) }}">
+        <tr data-href="{{ path('clip_vragen_view', {id: vraag.id}) }}" class="{{ vraag.hulpCollegaGezocht?'warning':'' }}">
             <td>
                 {{ vraag.id }}
             </td>
@@ -80,6 +85,10 @@
             <td>
                 {{ vraag.startdatum|date('d-m-Y') }}
             </td>
+            <td>
+                <input class="hulpGezocht" id="vraag-{{ vraag.id }}" data-id="{{ vraag.id }}" type="checkbox" {{ vraag.hulpCollegaGezocht ? 'checked' }}/>
+                <label for="vraag-{{ vraag.id }}">Hulp nodig</label>
+            </td>
         </tr>
         {% endfor %}
     </table>
@@ -87,4 +96,30 @@
     <p>
         {{ knp_pagination_render(pagination) }}
     </p>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    $(function() {
+
+        function vraag_hulpGezocht(vraag_id) {
+            $.post({
+                url: `/clip/vragen/${vraag_id}/vraagHulp`,
+            }).done(function(data) {
+                $(this).prop('checked', data.hulpCollegaGezocht);
+
+                $(this).parent().parent().toggleClass('warning');
+            }).fail(function() {
+                alert('Er is een fout opgetreden.')
+            });
+        };
+
+        $('#vragen .hulpGezocht').on('click', function() {
+            var id = $(this).attr('data-id');
+            $(this).closest('tr').toggleClass('warning');
+            vraag_hulpGezocht(id);
+        });
+
+    });
+</script>
 {% endblock %}

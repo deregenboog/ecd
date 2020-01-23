@@ -12,7 +12,9 @@ use ClipBundle\Form\VragenType;
 use ClipBundle\Service\VraagDaoInterface;
 use JMS\DiExtraBundle\Annotation as DI;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
@@ -145,6 +147,20 @@ class VragenController extends AbstractVragenController
             'form' => $form->createView(),
         ];
     }
+
+    /**
+     * @Route("/{id}/vraagHulp")
+     * @Method("POST")
+     */
+    public function vraagHulpAction(Request $request, Vraag $vraag)
+    {
+
+        $vraag->setHulpCollegaGezocht(!$vraag->isHulpCollegaGezocht());
+        $this->dao->update($vraag);
+
+        return new JsonResponse(['hulpGezocht' => $vraag->isHulpCollegaGezocht()]);
+    }
+
 
     /**
      * @Route("/{id}/delete")

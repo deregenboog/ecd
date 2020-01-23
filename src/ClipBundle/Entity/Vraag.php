@@ -16,7 +16,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
  */
 class Vraag
 {
-    use RequiredBehandelaarTrait, TimestampableTrait;
+    use OptionalBehandelaarTrait, TimestampableTrait;
 
     /**
      * @ORM\Id
@@ -112,13 +112,20 @@ class Vraag
      */
     protected $contactmomenten;
 
-    public function __construct()
+    /**
+     * @var boolean
+     * @ORM\Column(nullable=true)
+     */
+    protected $hulpCollegaGezocht = false;
+
+    public function __construct(?Contactmoment $contactmoment = null)
     {
         $this->documenten = new ArrayCollection();
         $this->contactmomenten = new ArrayCollection();
 
         $this->setStartdatum(new \DateTime());
-        $this->setContactmoment(new Contactmoment());
+        $contactmoment = ($contactmoment == null)? new Contactmoment():$contactmoment;
+        $this->setContactmoment($contactmoment);
     }
 
     public function __toString()
@@ -142,9 +149,16 @@ class Vraag
          * issue #825 open vragen: geen behandelaar bij een open vraag dus.
          */
         // initial Contactmoment has the same Behandelaar as this Vraag
-        if (null!==$behandelaar && 1 === count($this->contactmomenten)) {
+//        $t = count($this->contactmomenten);
+//        $cm = $this->getContactmoment();
+//        $cmin = is_null($cm->getBehandelaar());
+//        $bin = is_null($behandelaar);
+//        $c = count($this->contactmomenten);
+
+        if (1 === count($this->contactmomenten) && is_null($this->getContactmoment()->getBehandelaar()) && !is_null($behandelaar)) {
 
             $this->contactmomenten[0]->setBehandelaar($behandelaar);
+
         }
         else
         {
@@ -325,4 +339,21 @@ class Vraag
 
         return $this;
     }
+
+    /**
+     * @return bool
+     */
+    public function isHulpCollegaGezocht():? bool
+    {
+        return $this->hulpCollegaGezocht;
+    }
+
+    /**
+     * @param bool $hulpCollegaGezocht
+     */
+    public function setHulpCollegaGezocht(bool $hulpCollegaGezocht): void
+    {
+        $this->hulpCollegaGezocht = $hulpCollegaGezocht;
+    }
+
 }

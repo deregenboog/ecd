@@ -23,10 +23,15 @@ class VragenModel extends Vraag
     public function getVragen()
     {
         $vragen = [];
+        $cm = null;
         foreach ($this->soorten as $soort) {
-            $vraag = new Vraag();
+            $cm = (null === $cm)? $this->getContactmoment():clone($cm);
+            //duplicate each contactmoment otherwise it gets only stored for one vraag.
+
+            $vraag = new Vraag( $cm);
             $vraag
                 ->setSoort($soort)
+//                ->setContactmoment()
                 ->setBehandelaar($this->getBehandelaar())
                 ->setClient($this->getClient())
                 ->setCommunicatiekanaal($this->getCommunicatiekanaal())
@@ -34,8 +39,9 @@ class VragenModel extends Vraag
                 ->setLeeftijdscategorie($this->getLeeftijdscategorie())
                 ->setOmschrijving($this->getOmschrijving())
                 ->setStartdatum($this->getStartdatum())
+
             ;
-            $vraag->getContactmoment()->setOpmerking($this->getContactmoment()->getOpmerking());
+          //  $vraag->getContactmoment()->setOpmerking($this->getContactmoment()->getOpmerking());
 
             $vragen[] = $vraag;
         }

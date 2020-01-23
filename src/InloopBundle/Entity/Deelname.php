@@ -34,6 +34,11 @@ class Deelname
      */
     private $training;
 
+//    /** @var string
+//     * @ORM\Column(type="varchar(255)", nullable=true)
+//     */
+//    private $overig = null;
+
     /**
      * @var Vrijwilliger
      *
@@ -101,6 +106,22 @@ class Deelname
     public function setDatum(\DateTime $datum): void
     {
         $this->datum = $datum;
+    }
+
+    /**
+     * @return string
+     */
+    public function getOverig():? string
+    {
+        return $this->overig;
+    }
+
+    /**
+     * @param string $overig
+     */
+    public function setOverig(?string $overig): void
+    {
+        $this->overig = $overig;
     }
 
 
