@@ -38,3 +38,9 @@ services:
             - '@ScipBundle\Service\ToegangsrechtDao'
         tags:
             - { name: security.voter }
+
+    ScipBundle\Event\DeelnemerEventSubscriber:
+        arguments:
+            - '@event_dispatcher'
+        tags:
+            - { name: doctrine.event_subscriber }

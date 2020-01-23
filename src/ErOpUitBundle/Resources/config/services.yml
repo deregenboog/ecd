@@ -23,3 +23,9 @@ services:
             - '@ErOpUitBundle\Service\KlantDao'
         tags:
             - { name: kernel.event_subscriber }
+
+    ErOpUitBundle\Event\ScipDeelnemerSubscriber:
+        arguments:
+            - '@ErOpUitBundle\Service\KlantDao'
+        tags:
+            - { name: kernel.event_subscriber }
