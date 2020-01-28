@@ -179,7 +179,7 @@ class HulpvraagRepository extends EntityRepository
     {
         $builder = $this->getKoppelingenCountBuilder()
             ->addSelect('hulpvraagsoort.naam AS hulpvraagsoortnaam')
-            ->addSelect('werkgebied.naam AS stadsdeel')
+            ->addSelect('IFNULL(werkgebied.naam,\'Overig\') AS stadsdeel')
             ->leftJoin('klant.werkgebied', 'werkgebied')
             ->innerJoin('hulpvraag.hulpvraagsoort', 'hulpvraagsoort')
             ->groupBy('hulpvraagsoort', 'stadsdeel');

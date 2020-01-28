@@ -36,7 +36,7 @@ class VerhuurderDao extends AbstractDao implements VerhuurderDaoInterface
     /**
      * {inheritdoc}.
      */
-    public function findAll($page = null, FilterInterface $filter = null): PaginationInterface
+    public function findAll($page = null, FilterInterface $filter = null)
     {
         $builder = $this->repository->createQueryBuilder('verhuurder')
             ->innerJoin('verhuurder.klant', 'klant')

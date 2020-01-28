@@ -91,6 +91,13 @@ class Client
      */
     private $vragen;
 
+    /**
+     * @var string
+     *
+     * @ORM\Column(nullable=true)
+     */
+    private $organisatie;
+
     public function __construct()
     {
         $this->aanmelddatum = new \DateTime();
@@ -139,6 +146,7 @@ class Client
         }
 
         usort($contactmomenten, function (Contactmoment $contactmoment1, Contactmoment $contactmoment2) {
+
             if ($contactmoment1->getDatum() > $contactmoment2->getDatum()) {
                 return -1;
             } elseif ($contactmoment1->getDatum() < $contactmoment2->getDatum()) {
@@ -220,4 +228,22 @@ class Client
 
         return $this;
     }
+
+    /**
+     * @return string
+     */
+    public function getOrganisatie():? string
+    {
+        return $this->organisatie;
+    }
+
+    /**
+     * @param string $organisatie
+     */
+    public function setOrganisatie(?string $organisatie): void
+    {
+        $this->organisatie = $organisatie;
+    }
+
+
 }

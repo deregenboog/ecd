@@ -32,7 +32,7 @@ class HuurderDao extends AbstractDao implements HuurderDaoInterface
     /**
      * {inheritdoc}.
      */
-    public function findAll($page = null, FilterInterface $filter = null): PaginationInterface
+    public function findAll($page = null, FilterInterface $filter = null)
     {
 
         $builder = $this->repository->createQueryBuilder('huurder')

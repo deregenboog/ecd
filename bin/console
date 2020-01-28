@@ -1,4 +1,4 @@
-#!/usr/bin/env php -d memory_limit=512M
+#!/usr/local/bin/php -d memory_limit=512M
 <?php
 
 use Symfony\Bundle\FrameworkBundle\Console\Application;

@@ -38,6 +38,7 @@ class ClientType extends AbstractType
                 'required' => false,
                 'current' => $options['data'] ? $options['data']->getViacategorie() : null,
             ])
+            ->add('organisatie')
             ->add('submit', SubmitType::class)
         ;
     }

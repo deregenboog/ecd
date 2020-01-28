@@ -43,6 +43,14 @@ class HuurdersController extends AbstractController
     protected $searchEntity = Klant::class;
 
     /**
+     * @var ExportInterface
+     *
+     * @DI\Inject("odp.export.huurders")
+     */
+    protected $export;
+
+
+    /**
      * @var HuurderDaoInterface
      *
      * @DI\Inject("OdpBundle\Service\HuurderDao")
@@ -67,56 +75,6 @@ class HuurdersController extends AbstractController
         'huurder.wpi',
     ];
 
-    /**
-     * @Route("/old")
-     * @Template()
-     */
-    public function oldIndexAction(\Symfony\Component\HttpFoundation\Request $request)
-    {
-        dump(23);
-        $entityManager = $this->getEntityManager();
-        $repository = $entityManager->getRepository(Huurder::class);
-
-        $builder = $repository->createQueryBuilder('huurder')
-            ->innerJoin('huurder.klant', 'klant')
-            ->leftJoin('klant.werkgebied', 'werkgebied')
-            ->leftJoin('huurder.afsluiting', 'afsluiting')
-            ->andWhere('afsluiting.tonen IS NULL OR afsluiting.tonen = true')
-        ;
-
-        $filter = $this->createForm(HuurderFilterType::class);
-        $filter->handleRequest($this->getRequest());
-        $filter->getData()->applyTo($builder);
-        if ($filter->get('download')->isClicked()) {
-            return $this->download($builder);
-        }
-
-        $pagination = $this->getPaginator()->paginate($builder, $this->getRequest()->get('page', 1), 20, [
-            'defaultSortFieldName' => 'klant.achternaam',
-            'defaultSortDirection' => 'asc',
-            'sortFieldWhitelist' => $this->sortFieldWhitelist,
-        ]);
-
-        return [
-            'filter' => $filter->createView(),
-            'pagination' => $pagination,
-        ];
-    }
-
-    protected function oldDownload(QueryBuilder $builder)
-    {
-        ini_set('memory_limit', '512M');
-
-        $huurders = $builder->getQuery()->getResult();
-
-        $this->autoRender = false;
-        $filename = sprintf('onder-de-pannen-huurders-%s.xlsx', (new \DateTime())->format('d-m-Y'));
-
-        /* @var $export ExportInterface */
-        $export = $this->container->get('odp.export.huurders');
-
-        return $export->create($huurders)->getResponse($filename);
-    }
 
     /**
      * @Route("/{id}/view")
