@@ -3,6 +3,7 @@
 namespace HsBundle\Form;
 
 use AppBundle\Form\BaseType;
+use AppBundle\Form\AppDateType;
 use HsBundle\Entity\Creditfactuur;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -18,6 +19,7 @@ class CreditfactuurType extends AbstractType
     {
         $builder
             ->add('nummer')
+            ->add('datum', AppDateType::class)
             ->add('betreft')
             ->add('opmerking', null, ['label' => 'Memo'])
             ->add('bedrag')

@@ -52,4 +52,22 @@ class Creditfactuur extends Factuur
 
         return $this;
     }
+
+    /**
+     * @return \DateTime
+     */
+    public function getDatum(): \DateTime
+    {
+        return $this->datum;
+    }
+
+    /**
+     * @param \DateTime $datum
+     */
+    public function setDatum(\DateTime $datum): void
+    {
+        $this->datum = $datum;
+    }
+
+
 }
