@@ -69,4 +69,20 @@ class KlussenController extends AbstractChildController
 
         return $this->editAction($request, $id);
     }
+
+    /**
+     * @Route("/{id}/reopen")
+     */
+    public function heropenenAction(Request $request, $id)
+    {
+
+
+        $entity = $this->dao->find($id);;
+        $entity->setAnnuleringsdatum(null);
+        $this->dao->update($entity);
+        $this->addFlash('success', ucfirst($this->entityName).' is opgeslagen.');
+
+        return $this->redirectToView($entity);
+
+    }
 }
