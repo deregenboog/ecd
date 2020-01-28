@@ -9,7 +9,7 @@
             {{ html.link('Wijzigen', path(route_base~'edit', {id: entity.izDeelnemer.id})) }}
         </p>
 
-        {% if entity.closeable and (entity.intake and entity.intake.id is defined) %}
+        {% if entity.izDeelnemer.closeable and (entity.izDeelnemer.intake and entity.izDeelnemer.intake.id is defined) %}
             <div class="alert alert-danger" role="alert">
                 Deelnemer {{ entity.izDeelnemer }} heeft geen open hulpvragen of actieve koppelingen.
                 Sluit het dossier af of maak een nieuwe hulpvraag aan.
@@ -62,7 +62,9 @@
                 <dd>{{ entity ? entity.medewerker }}</dd>
                 {% if 'IzBundle\\Entity\\IzKlant' == class(entity.izDeelnemer) %}
                     <dt>Gezin met kinderen</dt>
-                    <dd>{{ entity ? entity.gezinMetKinderen ? 'Ja' }}</dd>
+                    <dd>{{entity.gezinMetKinderen|ja_nee }}</dd>
+                    <dt>Ongedocumenteerd</dt>
+                    <dd>{{ entity.ongedocumenteerd|ja_nee }}</dd>
                 {% else %}
                     <dt>Stagiair</dt>
                     <dd>{{ entity ? entity.stagiair ? 'Ja' }}</dd>

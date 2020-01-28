@@ -47,9 +47,15 @@ class IntakeType extends AbstractType
 
         if ($intake) {
             if ($intake->getIzDeelnemer() instanceof IzKlant) {
-                $builder->add('gezinMetKinderen', CheckboxType::class, [
-                    'required' => false,
-                ]);
+                $builder
+                    ->add('gezinMetKinderen', CheckboxType::class, [
+                        'required' => false,
+                    ])
+                    ->add('ongedocumenteerd', CheckboxType::class, [
+                        'required' => false,
+                    ])
+                ;
+
 
 //                if ($intake->getZrm()) {
 //                    $builder->add('zrm', ZrmType::class, [

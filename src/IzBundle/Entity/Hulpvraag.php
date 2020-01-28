@@ -28,7 +28,7 @@ class Hulpvraag extends Hulp
      * @ORM\JoinColumn(name="iz_koppeling_id", nullable=true)
      * @Gedmo\Versioned
      */
-    private $hulpaanbod;
+    protected $hulpaanbod;
 
     /**
      * @var Hulpvraagsoort

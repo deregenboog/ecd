@@ -47,10 +47,18 @@ class Intake
     private $intakeDatum;
 
     /**
+     * @var bool
      * @ORM\Column(name="gezin_met_kinderen", type="boolean", nullable=true)
      * @Gedmo\Versioned
      */
     private $gezinMetKinderen;
+
+    /**
+     * @var bool
+     * @ORM\Column(name="ongedocumenteerd", type="boolean", nullable=true)
+     * @Gedmo\Versioned
+     */
+    private $ongedocumenteerd;
 
     /**
      * @ORM\Column(name="stagiair", type="boolean", nullable=true)
@@ -302,4 +310,26 @@ class Intake
 
         return $this;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getOngedocumenteerd():?bool
+    {
+        return $this->ongedocumenteerd;
+    }
+
+    /**
+     * @param mixed $ongedocumenteerd
+     */
+    public function setOngedocumenteerd(?bool $ongedocumenteerd): void
+    {
+        $this->ongedocumenteerd = $ongedocumenteerd;
+    }
+
+    public function isOngedocumenteerd():bool
+    {
+        return $this->getOngedocumenteerd()??false;
+    }
+
 }

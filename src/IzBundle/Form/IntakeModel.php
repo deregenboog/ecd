@@ -56,6 +56,18 @@ class IntakeModel
         return $this->intake->setGezinMetKinderen($gezinMetKinderen);
     }
 
+    public function isOngedocumenteerd()
+    {
+        return $this->intake->isOngedocumenteerd();
+    }
+
+    public function setOngedocumenteerd($ongedocumenteerd)
+    {
+        return $this->intake->setOngedocumenteerd($ongedocumenteerd);
+    }
+
+
+
     public function isStagiair()
     {
         return $this->intake->isStagiair();
