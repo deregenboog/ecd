@@ -25,7 +25,7 @@ class ProjectenController extends AbstractController
     protected $formClass = ProjectType::class;
     protected $filterFormClass = ProjectFilterType::class;
     protected $baseRouteName = 'scip_projecten_';
-    protected $disabledActions = ['delete'];
+    protected $disabledActions = [];
 
     /**
      * @var ProjectDaoInterface

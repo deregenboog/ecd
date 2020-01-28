@@ -7,8 +7,9 @@
 <ul class="nav nav-tabs">
     {{ html.navLink('Mijn SCIP', path('scip_dashboard_index'), isActiveRoute('scip_dashboard_')) }}
     {{ html.navLink('Vrijwilligers', path('scip_deelnemers_index'), isActiveRoute('scip_deelnemers_')) }}
-    {{ html.navLink('Projecten', path('scip_projecten_index'), isActiveRoute('scip_projecten_')) }}
+
     {% if is_granted('ROLE_SCIP_BEHEER') %}
+    {{ html.navLink('Projecten', path('scip_projecten_index'), isActiveRoute('scip_projecten_')) }}
         <li role="presentation" class="dropdown {{ isActivePath('scip/admin') ? 'active' }}">
             <a class="dropdown-toggle active" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
                 Beheer <span class="caret"></span>
