@@ -35,4 +35,31 @@ class VerslagenController extends AbstractChildController
      * @DI\Inject("scip.verslag.entities")
      */
     protected $entities;
+
+    protected function beforeCreate($entity)
+    {
+        $this->updateEvaluatieDatum($entity);
+        parent::beforeCreate($entity);
+    }
+
+    protected function beforeUpdate($entity)
+    {
+        $this->updateEvaluatieDatum($entity);
+        parent::beforeUpdate($entity);
+    }
+
+    protected function updateEvaluatieDatum(Verslag $entity)
+    {
+        //Verslag is geen evaluatieverslag
+        if(!$entity->isEvaluatie()) return;
+
+        //Versag is evaluatieverslag, maar de datum ligt te ver in het verleden - voordat er geevalueerd moet worden. Doe niks, maar doe wel melding
+        if($entity->getDatum() < $entity->getDeelnemer()->getEvaluatiedatum()->modify("-1 week") )
+        {
+            $this->addFlash('warning', 'Evaluatiedatum niet verwijderd, verslagdatum ligt meer dan een week voor evaluatiedatum.');
+            return;
+        }
+
+        $entity->getDeelnemer()->setEvaluatiedatum(null);
+    }
 }

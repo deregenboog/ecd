@@ -108,6 +108,12 @@ class Deelnemer implements DocumentSubjectInterface
      */
     private $werkdoelen;
 
+    /**
+     * @var \DateTime
+     * @ORM\Column(type="date", nullable=true)
+     */
+    private $evaluatiedatum;
+
     public function __construct(Klant $klant = null)
     {
         $this->klant = $klant;
@@ -374,4 +380,22 @@ class Deelnemer implements DocumentSubjectInterface
 
         return false;
     }
+
+    /**
+     * @return \DateTime
+     */
+    public function getEvaluatiedatum():? \DateTime
+    {
+        return $this->evaluatiedatum;
+    }
+
+    /**
+     * @param \DateTime $evaluatieDatum
+     */
+    public function setEvaluatiedatum(?\DateTime $evaluatiedatum): void
+    {
+        $this->evaluatiedatum = $evaluatiedatum;
+    }
+
+
 }

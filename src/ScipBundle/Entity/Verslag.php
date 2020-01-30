@@ -28,7 +28,7 @@ class Verslag implements MedewerkerSubjectInterface
     /**
      * @var Deelnemer
      *
-     * @ORM\ManyToOne(targetEntity="Deelnemer", inversedBy="verslagen")
+     * @ORM\ManyToOne(targetEntity="Deelnemer", inversedBy="verslagen", fetch="EAGER")
      * @Gedmo\Versioned
      */
     protected $deelnemer;
@@ -48,6 +48,13 @@ class Verslag implements MedewerkerSubjectInterface
      * @Gedmo\Versioned
      */
     protected $datum;
+
+    /**
+     * @var bool
+     * @ORM\Column()
+     * @Gedmo\Versioned
+     */
+    protected $isEvaluatie = false;
 
     public function __construct()
     {
@@ -107,4 +114,22 @@ class Verslag implements MedewerkerSubjectInterface
 
         return $this;
     }
+
+    /**
+     * @return bool
+     */
+    public function isEvaluatie(): bool
+    {
+        return $this->isEvaluatie;
+    }
+
+    /**
+     * @param bool $isEvaluatie
+     */
+    public function setIsEvaluatie(bool $isEvaluatie): void
+    {
+        $this->isEvaluatie = $isEvaluatie;
+    }
+
+
 }

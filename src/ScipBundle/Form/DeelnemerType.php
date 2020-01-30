@@ -2,6 +2,7 @@
 
 namespace ScipBundle\Form;
 
+use AppBundle\Form\AppDateType;
 use AppBundle\Form\BaseType;
 use AppBundle\Form\DummyChoiceType;
 use AppBundle\Form\KlantType;
@@ -38,6 +39,9 @@ class DeelnemerType extends AbstractType
                 'required' => false,
             ])
             ->add('werkbegeleider', null, [
+                'required' => false,
+            ])
+            ->add('evaluatiedatum', AppDateType::class, [
                 'required' => false,
             ])
             ->add('type', ChoiceType::class, [

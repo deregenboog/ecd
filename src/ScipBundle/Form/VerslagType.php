@@ -5,6 +5,7 @@ namespace ScipBundle\Form;
 use AppBundle\Form\AppDateType;
 use AppBundle\Form\AppTextareaType;
 use AppBundle\Form\BaseType;
+use AppBundle\Form\JaNeeType;
 use ScipBundle\Entity\Verslag;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -24,6 +25,9 @@ class VerslagType extends AbstractType
             ])
             ->add('datum', AppDateType::class, [
                 'required' => false,
+            ])
+            ->add('isEvaluatie', JaNeeType::class, [
+                'required' => true,
             ])
             ->add('submit', SubmitType::class)
         ;
