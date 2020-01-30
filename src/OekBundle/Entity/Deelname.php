@@ -63,6 +63,13 @@ class Deelname implements KlantRelationInterface
      */
     private $deelnameStatus;
 
+    /**
+     * @var string
+     * @ORM\Column(nullable=true)
+     * @Gedmo\Versioned
+     */
+    private $doorverwezenNaar;
+
     public function __construct(Training $training = null, Deelnemer $deelnemer = null)
     {
         $this->training = $training;
@@ -139,4 +146,22 @@ class Deelname implements KlantRelationInterface
     {
       return "Deelnemer";
     }
+
+    /**
+     * @return string
+     */
+    public function getDoorverwezenNaar():? string
+    {
+        return $this->doorverwezenNaar;
+    }
+
+    /**
+     * @param string $doorverwezenNaar
+     */
+    public function setDoorverwezenNaar(?string $doorverwezenNaar): void
+    {
+        $this->doorverwezenNaar = $doorverwezenNaar;
+    }
+
+
 }

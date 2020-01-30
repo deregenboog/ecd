@@ -64,7 +64,7 @@
             <ul>
                 {% for training in entity.trainingen %}
                     <li>
-                        {{ html.link(training, path('oek_trainingen_view', {id: training.id})) }} | {{ training.deelname(entity).status }}
+                        {{ html.link(training, path('oek_trainingen_view', {id: training.id})) }} | {{ training.deelname(entity).status }} {{ training.deelname(entity).status == 'Afgerond'? " | " ~ training.deelname(entity).doorverwezenNaar   }}
                     </li>
                 {% endfor %}
             </ul>
