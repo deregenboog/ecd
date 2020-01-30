@@ -32,18 +32,26 @@
     <tr>
         <td>
             <b>Duur schorsing</b>
-            <p>
-                {%- spaceless %}
-                    Na een schorsing van een half jaar of langer volgt altijd een her-intake,
-                    waarbij opnieuw wordt vastgesteld of u bij de doelgroep van de inloophuizen hoort.
-                    Voor dit gesprek dient u zelf een afspraak te maken met het locatiehoofd van de locatie die u heeft geschorst.
-                {% endspaceless -%}
-                <br>
-            </p>
         </td>
         <td>
             {{- entity.datumTot|diff(entity.datumVan).days }} dagen
             ({{ entity.datumVan|date('d-m-Y') }} t/m {{ entity.datumTot|date('d-m-Y') }})<br>
+        </td>
+    </tr>
+    <tr><td colspan="1">
+            <ul>
+                <li>
+                    Over schorsingen vanaf 2 maanden beslist de Schorsingscommissie. U kunt daar uw kant van het verhaal vertellen.
+                    Als u van die mogelijkheid gebruik wilt maken, moet u zich aanmelden bij het secretariaat: 020-5317600.
+                </li>
+                <li>
+                    {%- spaceless %}
+                        Na een schorsing van een half jaar of langer volgt altijd een her-intake,
+                        waarbij opnieuw wordt vastgesteld of u bij de doelgroep van de inloophuizen hoort.
+                        Voor dit gesprek dient u zelf een afspraak te maken met het locatiehoofd van de locatie die u heeft geschorst.
+                    {% endspaceless -%}
+                </li>
+            </ul>
         </td>
     </tr>
     <tr>
@@ -53,11 +61,14 @@
     <tr>
         <td><b>Hoe kunt u bezwaar maken</b></td>
         <td>
-            <p>Bent u het niet eens met uw schorsing, dan kunt u een afspraak maken voor een gesprek met het locatiehoofd of met de manager inloophuizen.</p>
-            <p>U kunt zich wenden tot onafhankelijk cliënt-vertrouwenspersoon Lina Berger: 0800-5556661, lina.borger@hvoquerido.nl.</p>
-            <p>U kunt terecht bij de onafhankelijke klachtencommissie van het POA: 06 14264972 info@klachtencommissiepoa.nl.</p>
-            <p>U kunt een klacht indienen bij de landelijke Geschillencommissie Zorg.</p>
-            <br>
+            <p>Bent u het niet eens met uw schorsing, dan kunt u:</p>
+            <ul>
+                <li>een afspraak maken voor een gesprek met het locatiehoofd of met de manager inloophuizen.</li>
+                <li>uw verhaal doen bij de Schorsingscommissie. Daarvoor dienst u zich aan te melden via het secretariaat: 020-5317600</li>
+                <li>zich wenden tot onafhankelijk cliënt-vertrouwenspersoon Lina Berger: 0800-5556661, lina.berger@hvoquerido.nl</li>
+                <li>terecht bij de onafhankelijke klachtencommissie van het POA: 06 14264972 info@klachtencommissiepoa.nl</li>
+                <li>U kunt een klacht indienen bij de landelijke Geschillencommissie Zorg</li>
+            </ul>
         </td>
     </tr>
 </table>
