@@ -36,12 +36,6 @@ class ActiviteitFilterType extends AbstractType
             ]);
         }
 
-        if (in_array('tijd', $options['enabled_filters'])) {
-            $builder->add('tijd', AppTimeRangeType::class, [
-                'required' => false,
-            ]);
-        }
-
         if (in_array('filter', $options['enabled_filters'])) {
             $builder->add('filter', SubmitType::class);
         }

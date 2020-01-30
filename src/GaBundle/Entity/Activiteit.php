@@ -102,7 +102,7 @@ class Activiteit
 
     public function __toString()
     {
-        return sprintf('%s (%s)', $this->naam, $this->datum->format('d-m-Y | H:i'));
+        return sprintf('%s (%s)', $this->naam, $this->datum->format('d-m-Y'));
     }
 
     public function getId()

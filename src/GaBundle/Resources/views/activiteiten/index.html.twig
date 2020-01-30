@@ -27,12 +27,6 @@
                         {{ form_errors(filter.datum.end) }}
                     </th>
                     <th>
-                        {{ form_widget(filter.tijd.start) }}
-                        {{ form_errors(filter.tijd.start) }}
-                        {{ form_widget(filter.tijd.end) }}
-                        {{ form_errors(filter.tijd.end) }}
-                    </th>
-                    <th>
                         {{ form_widget(filter.groep) }}
                         {{ form_errors(filter.groep) }}
                     </th>
@@ -50,7 +44,7 @@
             {{ form_end(filter) }}
             <tr>
                 <th colspan="2">
-                    {{ knp_pagination_sortable(pagination, 'Datum en tijd', 'activiteit.datum') }}
+                    {{ knp_pagination_sortable(pagination, 'Datum', 'activiteit.datum') }}
                 </th>
                 <th>
                     {{ knp_pagination_sortable(pagination, 'Groep', 'groep.naam') }}
@@ -67,9 +61,6 @@
                 <tr data-href="{{ path(route_base~'view', {id: activiteit.id}) }}">
                     <td>
                         {{ activiteit.datum|date('d-m-Y') }}
-                    </td>
-                    <td>
-                        {{ activiteit.datum|date('H:i') }} uur
                     </td>
                     <td>
                         {{ activiteit.groep }}

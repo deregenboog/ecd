@@ -24,8 +24,6 @@
         <dd>{{ entity.groep ? html.link(entity.groep, path('ga_groepen_view', {id: entity.groep.id})) }}</dd>
         <dt>Datum</dt>
         <dd>{{ entity.datum|date('d-m-Y') }}</dd>
-        <dt>Tijd</dt>
-        <dd>{{ entity.datum|date('H:i') }}</dd>
         {% if entity.aantalAnoniemeDeelnemers > 0 %}
             <dt>Anonieme deelnemers</dt>
             <dd>{{ entity.aantalAnoniemeDeelnemers }}</dd>

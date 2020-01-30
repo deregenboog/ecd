@@ -2,7 +2,7 @@
 
 namespace GaBundle\Form;
 
-use AppBundle\Form\AppDateTimeType;
+use AppBundle\Form\AppDateType;
 use AppBundle\Form\BaseType;
 use AppBundle\Form\DummyChoiceType;
 use GaBundle\Entity\Activiteit;
@@ -30,7 +30,7 @@ class ActiviteitType extends AbstractType
 
         $builder
             ->add('naam')
-            ->add('datum', AppDateTimeType::class)
+            ->add('datum', AppDateType::class)
             ->add('submit', SubmitType::class)
         ;
     }
