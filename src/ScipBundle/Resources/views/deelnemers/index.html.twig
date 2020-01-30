@@ -45,10 +45,10 @@
         <tbody>
             {% for entity in pagination if is_granted('access', entity) %}
                 {# als evaluateidtum, en als ie in het verleden of op vandaag ligt, dan rood               #}
-                {% if entity.evaluatiedatum and "now"|date("m-d-Y") >= entity.evaluatiedatum|if_date("m-d-Y") %}
+                {% if entity.evaluatiedatum and date() >= date(entity.evaluatiedatum) %}
                     {% set evaluatieClass = "danger" %}
                 {# als evaluateidtum, en als ie in het als ie binnen een week is, dan geel               #}
-                {% elseif entity.evaluatiedatum and "now"|date_modify("+1 week")|date("m-d-Y") >= entity.evaluatiedatum|if_date("m-d-Y")  %}
+                {% elseif entity.evaluatiedatum and date("+1 week") >= date(entity.evaluatiedatum)  %}
                     {% set evaluatieClass = "warning" %}
                 {% else %}
                     {% set evaluatieClass = "" %}

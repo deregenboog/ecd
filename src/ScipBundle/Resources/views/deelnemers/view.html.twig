@@ -17,8 +17,12 @@
 {% endblock %}
 
 {% block content_left %}
-    {% if entity.evaluatiedatum|if_date("m-d-Y") >= "now"|date("m-d-Y") %}
+    {# als evaluateidtum, en als ie in het verleden of op vandaag ligt, dan rood               #}
+    {% if entity.evaluatiedatum and date() >= date(entity.evaluatiedatum) %}
         {% set evaluatieClass = "text-danger" %}
+    {# als evaluateidtum, en als ie in het als ie binnen een week is, dan geel               #}
+    {% elseif entity.evaluatiedatum and date("+1 week") >= date(entity.evaluatiedatum)  %}
+        {% set evaluatieClass = "text-warning" %}
     {% else %}
         {% set evaluatieClass = "" %}
     {% endif %}
@@ -30,7 +34,7 @@
         <dd>{{ entity.werkbegeleider }}</dd>
         <span class="{{evaluatieClass}}">
         <dt>Evaluatiedatum</dt>
-        <dd>{{ entity.evaluatiedatum|if_date('m-d-Y') }}</dd></span>
+        <dd>{{ entity.evaluatiedatum|if_date('d-m-Y') }}</dd></span>
         <dt>Type</dt>
         <dd>{{ entity.type }}</dd>
         <dt>RIS-nummer</dt>
