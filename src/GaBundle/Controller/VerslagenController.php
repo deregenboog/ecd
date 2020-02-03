@@ -7,7 +7,7 @@ use GaBundle\Entity\Verslag;
 use GaBundle\Form\VerslagType;
 use GaBundle\Service\VerslagDaoInterface;
 use JMS\DiExtraBundle\Annotation as DI;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * @Route("/verslagen")

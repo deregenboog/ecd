@@ -17,7 +17,7 @@ use OdpBundle\Form\HuurderSelectType;
 use OdpBundle\Form\HuurderType;
 use OdpBundle\Service\HuurderDaoInterface;
 use Symfony\Component\HttpFoundation\Request;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormError;
@@ -104,7 +104,7 @@ class HuurdersController extends AbstractController
             $huurder = new Huurder();
             $huurder->setKlant($klant);
 
-            $creationForm = $this->createForm(HuurderType::class, $huurder);
+            $creationForm = $this->getForm(HuurderType::class, $huurder);
             $creationForm->handleRequest($this->getRequest());
 
             if ($creationForm->isSubmitted() && $creationForm->isValid()) {
@@ -129,13 +129,13 @@ class HuurdersController extends AbstractController
             ];
         }
 
-        $filterForm = $this->createForm(KlantFilterType::class, null, [
+        $filterForm = $this->getForm(KlantFilterType::class, null, [
             'enabled_filters' => ['naam', 'bsn', 'geboortedatum'],
         ]);
         $filterForm->add('submit', SubmitType::class, ['label' => 'Verder']);
         $filterForm->handleRequest($this->getRequest());
 
-        $selectionForm = $this->createForm(HuurderSelectType::class, null, [
+        $selectionForm = $this->getForm(HuurderSelectType::class, null, [
             'filter' => $filterForm->getData(),
         ]);
         $selectionForm->handleRequest($this->getRequest());
@@ -168,7 +168,7 @@ class HuurdersController extends AbstractController
         $entityManager = $this->getEntityManager();
         $huurder = $entityManager->find(Huurder::class, $id);
 
-        $form = $this->createForm(HuurderType::class, $huurder);
+        $form = $this->getForm(HuurderType::class, $huurder);
         $form->handleRequest($this->getRequest());
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -197,7 +197,7 @@ class HuurdersController extends AbstractController
         $entityManager = $this->getEntityManager();
         $huurder = $entityManager->find(Huurder::class, $id);
 
-        $form = $this->createForm(HuurderCloseType::class, $huurder);
+        $form = $this->getForm(HuurderCloseType::class, $huurder);
         $form->handleRequest($this->getRequest());
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -227,7 +227,7 @@ class HuurdersController extends AbstractController
         $entityManager = $this->getEntityManager();
         $huurder = $entityManager->find(Huurder::class, $id);
 
-        $form = $this->createForm(ConfirmationType::class);
+        $form = $this->getForm(ConfirmationType::class);
         $form->handleRequest($this->getRequest());
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -260,7 +260,7 @@ class HuurdersController extends AbstractController
         $entityManager = $this->getEntityManager();
         $huurder = $entityManager->find(Huurder::class, $id);
 
-        $form = $this->createForm(ConfirmationType::class);
+        $form = $this->getForm(ConfirmationType::class);
         $form->handleRequest($this->getRequest());
 
         if ($form->isSubmitted() && $form->isValid()) {

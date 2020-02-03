@@ -83,7 +83,7 @@ class FacturenController extends AbstractChildController
         $filter = null;
 
         if ($this->filterFormClass) {
-            $form = $this->createForm($this->filterFormClass);
+            $form = $this->getForm($this->filterFormClass);
             $form->handleRequest($request);
             if ($form->isSubmitted() && $form->isValid()) {
                 if ($form->has('download') && $form->get('download')->isClicked()) {
@@ -207,7 +207,7 @@ class FacturenController extends AbstractChildController
     {
         $entity = $this->dao->find($id);
 
-        $form = $this->createForm(ConfirmationType::class);
+        $form = $this->getForm(ConfirmationType::class);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -234,7 +234,7 @@ class FacturenController extends AbstractChildController
     {
         $entity = $this->dao->find($id);
 
-        $form = $this->createForm(ConfirmationType::class);
+        $form = $this->getForm(ConfirmationType::class);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {

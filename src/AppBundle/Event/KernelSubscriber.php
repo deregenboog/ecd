@@ -6,11 +6,12 @@ use AppBundle\Controller\SymfonyController;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpKernel\Event\FilterControllerEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
+use Twig\Environment;
 
 class KernelSubscriber implements EventSubscriberInterface
 {
     /**
-     * @var \Twig_Environment
+     * @var Environment
      */
     protected $twig;
 
@@ -21,7 +22,7 @@ class KernelSubscriber implements EventSubscriberInterface
         ];
     }
 
-    public function __construct(\Twig_Environment $twig)
+    public function __construct(Environment $twig)
     {
         $this->twig = $twig;
     }

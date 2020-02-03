@@ -15,7 +15,7 @@ use IzBundle\Form\IzKlantFilterType;
 use IzBundle\Form\IzKlantType;
 use IzBundle\Service\KlantDaoInterface;
 use JMS\DiExtraBundle\Annotation as DI;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\EventDispatcher\GenericEvent;
 use Symfony\Component\Form\FormError;
@@ -111,7 +111,7 @@ class KlantenController extends AbstractController
     {
         $entity = $this->dao->find($id);
 
-        $form = $this->createForm(ConfirmationType::class);
+        $form = $this->getForm(ConfirmationType::class);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -133,7 +133,7 @@ class KlantenController extends AbstractController
 
     private function doSearch(Request $request)
     {
-        $filterForm = $this->createForm(KlantFilterType::class, null, [
+        $filterForm = $this->getForm(KlantFilterType::class, null, [
             'enabled_filters' => ['id', 'naam', 'bsn', 'geboortedatum'],
         ]);
         $filterForm->handleRequest($request);
@@ -178,7 +178,7 @@ class KlantenController extends AbstractController
         }
 
         $izKlant = new IzKlant($klant);
-        $creationForm = $this->createForm(IzKlantType::class, $izKlant);
+        $creationForm = $this->getForm(IzKlantType::class, $izKlant);
         $creationForm->handleRequest($request);
 
         if ($creationForm->isSubmitted() && $creationForm->isValid()) {

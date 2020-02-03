@@ -44,7 +44,7 @@ class WachtlijstController extends AbstractController
     {
         $filter = null;
         if ($this->filterFormClass) {
-            $form = $this->createForm($this->filterFormClass, null, ['enabled_filters' => [
+            $form = $this->getForm($this->filterFormClass, null, ['enabled_filters' => [
                 'klant' => ['id', 'naam', 'stadsdeel'],
                 'groep',
                 'aanmelddatum',

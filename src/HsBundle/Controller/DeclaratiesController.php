@@ -126,7 +126,7 @@ class DeclaratiesController extends AbstractChildController
             $entity = new Declaratie(null, $parentEntity);
         }
 
-        $form = $this->createForm($this->formClass, $entity);
+        $form = $this->getForm($this->formClass, $entity);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {

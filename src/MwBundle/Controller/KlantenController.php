@@ -17,7 +17,7 @@ use MwBundle\Entity\Document;
 use MwBundle\Entity\Info;
 use MwBundle\Form\InfoType;
 use MwBundle\Form\KlantFilterType;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;
@@ -79,7 +79,7 @@ class KlantenController extends AbstractController
             $entity = new Info($klant);
         }
 
-        $form = $this->createForm(InfoType::class, $entity);
+        $form = $this->getForm(InfoType::class, $entity);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -160,7 +160,7 @@ class KlantenController extends AbstractController
 
     private function doSearch(Request $request)
     {
-        $filterForm = $this->createForm(AppKlantFilterType::class, null, [
+        $filterForm = $this->getForm(AppKlantFilterType::class, null, [
             'enabled_filters' => ['id', 'naam', 'bsn', 'geboortedatum'],
         ]);
         $filterForm->handleRequest($request);
@@ -205,7 +205,7 @@ class KlantenController extends AbstractController
         }
 
         $mwKlant = $klant;
-        $creationForm = $this->createForm(KlantType::class, $mwKlant);
+        $creationForm = $this->getForm(KlantType::class, $mwKlant);
         $creationForm->handleRequest($request);
 
         if ($creationForm->isSubmitted() && $creationForm->isValid()) {

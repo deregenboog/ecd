@@ -23,7 +23,7 @@ use InloopBundle\Service\RegistratieDaoInterface;
 use InloopBundle\Service\SchorsingDaoInterface;
 use JMS\DiExtraBundle\Annotation as DI;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\EventDispatcher\GenericEvent;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -119,7 +119,7 @@ class RegistratiesController extends AbstractController
         $filter = new KlantFilter();
         $filter->locatie = $locatie;
 
-        $form = $this->createForm(KlantFilterType::class, $filter, [
+        $form = $this->getForm(KlantFilterType::class, $filter, [
             'attr' => ['class' => 'ajaxFilter'],
             'enabled_filters' => [
                 'klant' => ['id', 'voornaam', 'achternaam', 'geboortedatum', 'geslacht'],
@@ -157,7 +157,7 @@ class RegistratiesController extends AbstractController
         $this->denyAccessUnlessGranted(Permissions::REGISTER, $locatie);
 
         $filter = new RegistratieFilter($locatie);
-        $form = $this->createForm(RegistratieFilterType::class, $filter, [
+        $form = $this->getForm(RegistratieFilterType::class, $filter, [
             'attr' => ['class' => 'ajaxFilter'],
         ]);
         $form->handleRequest($request);
@@ -194,7 +194,7 @@ class RegistratiesController extends AbstractController
         $this->denyAccessUnlessGranted(Permissions::REGISTER, $locatie);
 
         $filter = new RegistratieHistoryFilter($locatie);
-        $form = $this->createForm(RegistratieHistoryFilterType::class, $filter, [
+        $form = $this->getForm(RegistratieHistoryFilterType::class, $filter, [
             'attr' => ['class' => 'ajaxFilter'],
         ]);
         $form->handleRequest($request);

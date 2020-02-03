@@ -7,7 +7,7 @@ use GaBundle\Entity\ActiviteitAnnuleringsreden;
 use GaBundle\Form\ActiviteitAnnuleringsredenType;
 use GaBundle\Service\ActiviteitAnnuleringsredenDaoInterface;
 use JMS\DiExtraBundle\Annotation as DI;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
 

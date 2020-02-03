@@ -7,7 +7,7 @@ use DagbestedingBundle\Entity\Project;
 use DagbestedingBundle\Form\ProjectType;
 use DagbestedingBundle\Service\ProjectDaoInterface;
 use JMS\DiExtraBundle\Annotation as DI;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 
 /**

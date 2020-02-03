@@ -21,7 +21,7 @@ use InloopBundle\Pdf\PdfBrief;
 use InloopBundle\Service\KlantDaoInterface;
 use JMS\DiExtraBundle\Annotation as DI;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormError;
@@ -199,7 +199,7 @@ class KlantenController extends AbstractController
         $klant = $this->dao->find($id);
         $afsluiting = new Afsluiting($klant, $this->getMedewerker());
 
-        $form = $this->createForm(AfsluitingType::class, $afsluiting);
+        $form = $this->getForm(AfsluitingType::class, $afsluiting);
         $form->handleRequest($this->getRequest());
         if ($form->isSubmitted() && $form->isValid()) {
             try {
@@ -239,7 +239,7 @@ class KlantenController extends AbstractController
             $this->addFlash("danger","Let op: klant uit risicoland. Doorverwijzen naar GGD voor TBC controle.");
         }
 
-        $form = $this->createForm(AanmeldingType::class, $aanmelding);
+        $form = $this->getForm(AanmeldingType::class, $aanmelding);
         $form->handleRequest($this->getRequest());
         if ($form->isSubmitted() && $form->isValid()) {
             try {
@@ -335,7 +335,7 @@ class KlantenController extends AbstractController
 
     private function doSearch(Request $request)
     {
-        $filterForm = $this->createForm(AppKlantFilterType::class, null, [
+        $filterForm = $this->getForm(AppKlantFilterType::class, null, [
             'enabled_filters' => ['id', 'naam', 'bsn', 'geboortedatum'],
         ]);
         $filterForm->handleRequest($request);
@@ -382,7 +382,7 @@ class KlantenController extends AbstractController
         }
 
         $inloopKlant = $klant;
-        $creationForm = $this->createForm(KlantType::class, $inloopKlant);
+        $creationForm = $this->getForm(KlantType::class, $inloopKlant);
         $creationForm->handleRequest($request);
 
         if ($creationForm->isSubmitted() && $creationForm->isValid()) {

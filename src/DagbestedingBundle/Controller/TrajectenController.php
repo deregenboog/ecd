@@ -14,7 +14,7 @@ use DagbestedingBundle\Form\TrajectFilterType;
 use DagbestedingBundle\Form\TrajectType;
 use DagbestedingBundle\Service\TrajectDaoInterface;
 use JMS\DiExtraBundle\Annotation as DI;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -114,7 +114,7 @@ class TrajectenController extends AbstractChildController
             return $this->redirectToRoute('dagbesteding_trajecten_index');
         }
 
-        $form = $this->createForm($this->formClass, $entity, [
+        $form = $this->getForm($this->formClass, $entity, [
             'mode' => 'close',
         ]);
         $form->handleRequest($request);
@@ -149,7 +149,7 @@ class TrajectenController extends AbstractChildController
 
         $entity = $id;
 
-        $form = $this->createForm(ConfirmationType::class);
+        $form = $this->getForm(ConfirmationType::class);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -200,7 +200,7 @@ class TrajectenController extends AbstractChildController
         $end = new \DateTime('last day of '.$start->format('M Y'));
         $range = new AppDateRangeModel($start, $end);
 
-        $form = $this->createForm(DagdelenRangeType::class, new DagdelenRangeModel($entity, $project, $range));
+        $form = $this->getForm(DagdelenRangeType::class, new DagdelenRangeModel($entity, $project, $range));
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             try {

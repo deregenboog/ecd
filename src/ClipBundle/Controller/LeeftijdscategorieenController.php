@@ -7,7 +7,7 @@ use ClipBundle\Entity\Leeftijdscategorie;
 use ClipBundle\Form\LeeftijdscategorieType;
 use ClipBundle\Service\LeeftijdscategorieDaoInterface;
 use JMS\DiExtraBundle\Annotation as DI;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 
 /**

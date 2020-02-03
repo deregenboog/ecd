@@ -71,7 +71,7 @@ class VrijwilligersController extends AbstractController
 
     private function doSearch(Request $request)
     {
-        $filterForm = $this->createForm(AppVrijwilligerFilterType::class, null, [
+        $filterForm = $this->getForm(AppVrijwilligerFilterType::class, null, [
             'enabled_filters' => ['id', 'naam', 'bsn', 'geboortedatum'],
         ]);
         $filterForm->handleRequest($request);
@@ -119,7 +119,7 @@ class VrijwilligersController extends AbstractController
         }
 
         $vrijwilliger = new Vrijwilliger($appVrijwilliger);
-        $creationForm = $this->createForm(VrijwilligerType::class, $vrijwilliger);
+        $creationForm = $this->getForm(VrijwilligerType::class, $vrijwilliger);
         $creationForm->handleRequest($request);
 
         if ($creationForm->isSubmitted() && $creationForm->isValid()) {

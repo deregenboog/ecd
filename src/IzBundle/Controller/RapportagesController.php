@@ -6,7 +6,7 @@ use AppBundle\Controller\AbstractRapportagesController;
 use AppBundle\Export\ExportInterface;
 use IzBundle\Form\RapportageType;
 use JMS\DiExtraBundle\Annotation as DI;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * @Route("/rapportages")

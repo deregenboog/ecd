@@ -21,6 +21,7 @@ use Knp\Component\Pager\PaginatorInterface;
 abstract class AbstractDao implements AbstractDaoInterface
 {
     use UsesKlantTrait;
+
     /**
      * @var EntityManagerInterface
      */

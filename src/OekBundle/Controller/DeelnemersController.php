@@ -78,7 +78,7 @@ class DeelnemersController extends AbstractController
         $aanmelding = new Aanmelding();
         $deelnemer->addAanmelding($aanmelding);
 
-        $form = $this->createForm(AanmeldingType::class, $aanmelding);
+        $form = $this->getForm(AanmeldingType::class, $aanmelding);
         $form->handleRequest($this->getRequest());
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -109,7 +109,7 @@ class DeelnemersController extends AbstractController
         $afsluiting = new Afsluiting();
         $deelnemer->addAfsluiting($afsluiting);
 
-        $form = $this->createForm(AfsluitingType::class, $afsluiting);
+        $form = $this->getForm(AfsluitingType::class, $afsluiting);
         $form->handleRequest($this->getRequest());
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -137,7 +137,7 @@ class DeelnemersController extends AbstractController
 
     private function doSearch(Request $request)
     {
-        $filterForm = $this->createForm(KlantFilterType::class, null, [
+        $filterForm = $this->getForm(KlantFilterType::class, null, [
             'enabled_filters' => ['id', 'naam', 'bsn', 'geboortedatum'],
         ]);
         $filterForm->handleRequest($request);
@@ -185,7 +185,7 @@ class DeelnemersController extends AbstractController
         }
 
         $deelnemer = new Deelnemer($klant);
-        $creationForm = $this->createForm(DeelnemerType::class, $deelnemer);
+        $creationForm = $this->getForm(DeelnemerType::class, $deelnemer);
         $creationForm->handleRequest($request);
 
         if ($creationForm->isSubmitted() && $creationForm->isValid()) {

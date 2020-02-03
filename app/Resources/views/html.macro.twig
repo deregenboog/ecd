@@ -1,5 +1,5 @@
 {% macro link(label, url, icon, title) %}
-    {% spaceless %}
+    {% apply spaceless %}
         <a href="{{ url }}" {% if title %}title="{{ title }}"{% endif %}>
             {% if icon %}
                 {% if icon == 'view' %}{% set icon = 'search' %}{% endif %}
@@ -18,7 +18,7 @@
                 {{ label }}
             {% endif %}
         </a>
-    {% endspaceless %}
+    {% endapply %}
 {% endmacro %}
 
 {% macro iconLink(url, icon, title) %}

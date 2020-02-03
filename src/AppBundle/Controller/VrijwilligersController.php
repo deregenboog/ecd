@@ -14,7 +14,7 @@ use AppBundle\Repository\DocumentenRepository;
 use AppBundle\Service\VrijwilligerDaoInterface;
 use Doctrine\Common\Collections\Criteria;
 use JMS\DiExtraBundle\Annotation as DI;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
@@ -76,7 +76,7 @@ class VrijwilligersController extends AbstractController
             throw new AccessDeniedHttpException();
         }
 
-        $form = $this->createForm(ConfirmationType::class);
+        $form = $this->getForm(ConfirmationType::class);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {

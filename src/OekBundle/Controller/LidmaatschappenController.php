@@ -37,7 +37,7 @@ class LidmaatschappenController extends SymfonyController
         }
 
         $lidmaatschap = new Lidmaatschap($groep, $deelnemer);
-        $form = $this->createForm(LidmaatschapType::class, $lidmaatschap);
+        $form = $this->getForm(LidmaatschapType::class, $lidmaatschap);
         $form->handleRequest($this->getRequest());
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->persist($lidmaatschap);
@@ -62,7 +62,7 @@ class LidmaatschappenController extends SymfonyController
         /** @var Lidmaatschap $lidmaatschap */
         $lidmaatschap = $repo->findOneBy(['groep' => $groep, 'deelnemer' => $deelnemer]);
 
-        $form = $this->createForm(ConfirmationType::class);
+        $form = $this->getForm(ConfirmationType::class);
         $form->handleRequest($this->getRequest());
         if ($form->isSubmitted() && $form->isValid()) {
             if ($form->get('yes')->isClicked()) {

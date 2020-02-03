@@ -69,7 +69,7 @@ class VrijwilligerdossiersController extends DossiersController
 
     private function doSearch(Request $request)
     {
-        $form = $this->createForm(VrijwilligerFilterType::class, null, [
+        $form = $this->getForm(VrijwilligerFilterType::class, null, [
             'enabled_filters' => ['id', 'naam', 'bsn', 'geboortedatum'],
         ]);
         $form->handleRequest($request);

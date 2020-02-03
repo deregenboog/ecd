@@ -7,7 +7,7 @@ use IzBundle\Entity\AfsluitredenKoppeling;
 use IzBundle\Form\AfsluitredenKoppelingType;
 use IzBundle\Service\AfsluitredenKoppelingDaoInterface;
 use JMS\DiExtraBundle\Annotation as DI;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 
 /**

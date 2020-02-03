@@ -46,7 +46,7 @@ class DeelnamesController extends SymfonyController
         }
 
         $deelname = new Deelname($training, $deelnemer);
-        $form = $this->createForm(DeelnameType::class, $deelname);
+        $form = $this->getForm(DeelnameType::class, $deelname);
         $form->handleRequest($this->getRequest());
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->persist($deelname);
@@ -69,7 +69,7 @@ class DeelnamesController extends SymfonyController
 
         $deelname = $entityManager->find(Deelname::class, $id);
 
-        $form = $this->createForm(DeelnameType::class, $deelname, ['mode' => DeelnameType::MODE_EDIT]);
+        $form = $this->getForm(DeelnameType::class, $deelname, ['mode' => DeelnameType::MODE_EDIT]);
         $form->handleRequest($this->getRequest());
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->flush();
@@ -92,7 +92,7 @@ class DeelnamesController extends SymfonyController
 
         $deelname = $entityManager->find(Deelname::class, $id);
 
-        $form = $this->createForm(ConfirmationType::class);
+        $form = $this->getForm(ConfirmationType::class);
         $form->handleRequest($this->getRequest());
         if ($form->isSubmitted() && $form->isValid()) {
             if ($form->get('yes')->isClicked()) {

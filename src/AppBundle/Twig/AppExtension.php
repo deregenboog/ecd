@@ -12,8 +12,13 @@ use Doctrine\ORM\EntityNotFoundException;
 use Symfony\Component\Debug\Exception\ContextErrorException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
+use Twig\TwigFunction;
+use Twig\TwigFilter;
+use Twig\Extension\AbstractExtension;
+use Twig\Extension\GlobalsInterface;
+use Twig\Environment;
 
-class AppExtension extends \Twig_Extension implements \Twig_Extension_GlobalsInterface
+class AppExtension extends AbstractExtension implements GlobalsInterface
 {
     /**
      * @var RequestStack
@@ -73,46 +78,47 @@ class AppExtension extends \Twig_Extension implements \Twig_Extension_GlobalsInt
     public function getFunctions()
     {
         return [
-            new \Twig_SimpleFunction('class', [$this, 'getClass']),
-            new \Twig_SimpleFunction('instanceof', [$this, 'isInstanceof']),
-            new \Twig_SimpleFunction('isActiveRoute', [$this, 'isActiveRoute']),
-            new \Twig_SimpleFunction('isActivePath', [$this, 'isActivePath']),
-            new \Twig_SimpleFunction('colgroup', [$this, 'colgroup'], ['is_safe' => ['html']]),
+            new TwigFunction('class', [$this, 'getClass']),
+            new TwigFunction('instanceof', [$this, 'isInstanceof']),
+            new TwigFunction('isActiveRoute', [$this, 'isActiveRoute']),
+            new TwigFunction('isActivePath', [$this, 'isActivePath']),
+            new TwigFunction('colgroup', [$this, 'colgroup'], ['is_safe' => ['html']]),
+            new TwigFunction('asset', [$this, 'asset']),
         ];
     }
 
     public function getFilters()
     {
         return [
-            new \Twig_SimpleFilter('apply_filter', [$this, 'applyFilter'], [
+            new TwigFilter('apply_filter', [$this, 'applyFilter'], [
                 'needs_environment' => true,
                 'needs_context' => true,
             ]),
-            new \Twig_SimpleFilter('tabless', [$this, 'tablessFilter']),
-            new \Twig_SimpleFilter('money', [$this, 'moneyFilter']),
-            new \Twig_SimpleFilter('saldo', [$this, 'saldoFilter'], ['is_safe' => ['html']]),
-            new \Twig_SimpleFilter('factuurSaldo', [$this, 'factuurSaldoFilter'], ['is_safe' => ['html']]),
-            new \Twig_SimpleFilter('nl2ws', [$this, 'nl2wsFilter']),
-            new \Twig_SimpleFilter('unique', [$this, 'uniqueFilter']),
-            new \Twig_SimpleFilter('color', [$this, 'colorFilter'], ['is_safe' => ['html']]),
-            new \Twig_SimpleFilter('green', [$this, 'greenFilter'], ['is_safe' => ['html']]),
-            new \Twig_SimpleFilter('red', [$this, 'redFilter'], ['is_safe' => ['html']]),
-            new \Twig_SimpleFilter('orderBy', [$this, 'orderBy']),
-            new \Twig_SimpleFilter('aanhef', [$this, 'aanhef']),
-            new \Twig_SimpleFilter('naam_voor_achter', [$this, 'naamVoorAchter']),
-            new \Twig_SimpleFilter('naam_achter_voor', [$this, 'naamAchterVoor']),
-            new \Twig_SimpleFilter('name_formal', [$this, 'nameFormal']),
-            new \Twig_SimpleFilter('name_informal', [$this, 'nameInformal']),
-            new \Twig_SimpleFilter('diff', [$this, 'diff']),
-            new \Twig_SimpleFilter('human_days', [$this, 'humanDays']),
-            new \Twig_SimpleFilter('day_of_week', [DateTimeUtil::class, 'dayOfWeek']),
-            new \Twig_SimpleFilter('implode', [$this, 'implode']),
-            new \Twig_SimpleFilter('postvoorkeur', [$this, 'postvoorkeur']),
-            new \Twig_SimpleFilter('emailvoorkeur', [$this, 'emailvoorkeur']),
-            new \Twig_SimpleFilter('telefoonvoorkeur', [$this, 'telefoonvoorkeur']),
-            new \Twig_SimpleFilter('try', [$this, 'try']),
-            new \Twig_SimpleFilter('ja_nee', [$this, 'jaNee']),
-            new \Twig_SimpleFilter('if_date', [$this, 'ifDate'], [
+            new TwigFilter('tabless', [$this, 'tablessFilter']),
+            new TwigFilter('money', [$this, 'moneyFilter']),
+            new TwigFilter('saldo', [$this, 'saldoFilter'], ['is_safe' => ['html']]),
+            new TwigFilter('factuurSaldo', [$this, 'factuurSaldoFilter'], ['is_safe' => ['html']]),
+            new TwigFilter('nl2ws', [$this, 'nl2wsFilter']),
+            new TwigFilter('unique', [$this, 'uniqueFilter']),
+            new TwigFilter('color', [$this, 'colorFilter'], ['is_safe' => ['html']]),
+            new TwigFilter('green', [$this, 'greenFilter'], ['is_safe' => ['html']]),
+            new TwigFilter('red', [$this, 'redFilter'], ['is_safe' => ['html']]),
+            new TwigFilter('orderBy', [$this, 'orderBy']),
+            new TwigFilter('aanhef', [$this, 'aanhef']),
+            new TwigFilter('naam_voor_achter', [$this, 'naamVoorAchter']),
+            new TwigFilter('naam_achter_voor', [$this, 'naamAchterVoor']),
+            new TwigFilter('name_formal', [$this, 'nameFormal']),
+            new TwigFilter('name_informal', [$this, 'nameInformal']),
+            new TwigFilter('diff', [$this, 'diff']),
+            new TwigFilter('human_days', [$this, 'humanDays']),
+            new TwigFilter('day_of_week', [DateTimeUtil::class, 'dayOfWeek']),
+            new TwigFilter('implode', [$this, 'implode']),
+            new TwigFilter('postvoorkeur', [$this, 'postvoorkeur']),
+            new TwigFilter('emailvoorkeur', [$this, 'emailvoorkeur']),
+            new TwigFilter('telefoonvoorkeur', [$this, 'telefoonvoorkeur']),
+            new TwigFilter('try', [$this, 'try']),
+            new TwigFilter('ja_nee', [$this, 'jaNee']),
+            new TwigFilter('if_date', [$this, 'ifDate'], [
                 'needs_environment' => true,
             ]),
         ];
@@ -121,7 +127,7 @@ class AppExtension extends \Twig_Extension implements \Twig_Extension_GlobalsInt
     /**
      * @see https://github.com/marcj/twig-apply_filter-bundle
      */
-    public function applyFilter(\Twig_Environment $env, $context = [], $value, $filters)
+    public function applyFilter(Environment $env, $context = [], $value, $filters)
     {
         $name = 'apply_filter_'.md5($filters);
         $template = $env->createTemplate(sprintf('{{ %s|%s }}', $name, $filters));
@@ -431,6 +437,11 @@ class AppExtension extends \Twig_Extension implements \Twig_Extension_GlobalsInt
         return $html;
     }
 
+    public function asset($path)
+    {
+        return '/'.$path;
+    }
+
     public function jaNee($value)
     {
         return $value ? 'Ja' : 'Nee';
@@ -468,7 +479,7 @@ class AppExtension extends \Twig_Extension implements \Twig_Extension_GlobalsInt
      * Like default date filter, but prints nothing if no date is provided
      * (instead of printing todays date).
      */
-    public function ifDate(\Twig_Environment $env, $date, $format = null, $timezone = null)
+    public function ifDate(Environment $env, $date, $format = null, $timezone = null)
     {
         if ($date) {
             return twig_date_format_filter($env, $date, $format, $timezone);

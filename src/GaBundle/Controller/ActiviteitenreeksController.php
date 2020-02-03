@@ -10,7 +10,7 @@ use GaBundle\Form\ActiviteitenReeksType;
 use GaBundle\Service\ActiviteitDaoInterface;
 use GaBundle\Service\ActiviteitenreeksGenerator;
 use JMS\DiExtraBundle\Annotation as DI;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -52,7 +52,7 @@ class ActiviteitenreeksController extends AbstractChildController
 
         $entity = new Activiteit();
         $entity->setGroep($parentEntity);
-        $form = $this->createForm($this->formClass, new ActiviteitenReeksModel($entity), [
+        $form = $this->getForm($this->formClass, new ActiviteitenReeksModel($entity), [
             'medewerker' => $this->getMedewerker(),
         ]);
         $form->handleRequest($request);

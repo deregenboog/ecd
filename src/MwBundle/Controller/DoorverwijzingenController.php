@@ -7,7 +7,7 @@ use JMS\DiExtraBundle\Annotation as DI;
 use MwBundle\Entity\Doorverwijzing;
 use MwBundle\Form\DoorverwijzingType;
 use MwBundle\Service\DoorverwijzingDaoInterface;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
 /**

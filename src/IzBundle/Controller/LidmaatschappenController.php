@@ -7,7 +7,7 @@ use IzBundle\Entity\Lidmaatschap;
 use IzBundle\Form\LidmaatschapType;
 use IzBundle\Service\LidmaatschapDaoInterface;
 use JMS\DiExtraBundle\Annotation as DI;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * @Route("/lidmaatschappen")

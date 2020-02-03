@@ -15,7 +15,7 @@ use MwBundle\Form\VerslagType;
 use MwBundle\Service\InventarisatieDaoInterface;
 use MwBundle\Service\VerslagDaoInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -93,7 +93,7 @@ class VerslagenController extends AbstractController
         $inventarisaties = $this->inventarisatieDao->findAllAsTree();
         $model = new VerslagModel($entity, $inventarisaties);
 
-        $form = $this->createForm($this->formClass, $model, [
+        $form = $this->getForm($this->formClass, $model, [
             'medewerker' => $this->getMedewerker(),
             'inventarisaties' => $inventarisaties,
         ]);

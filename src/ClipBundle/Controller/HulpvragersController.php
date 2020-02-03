@@ -7,7 +7,7 @@ use ClipBundle\Entity\Hulpvrager;
 use ClipBundle\Form\HulpvragerType;
 use ClipBundle\Service\HulpvragerDaoInterface;
 use JMS\DiExtraBundle\Annotation as DI;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
 

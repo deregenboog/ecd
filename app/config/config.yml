@@ -117,12 +117,6 @@ knp_paginator: ~
 swiftmailer:
     transport: mail
 
-assetic:
-    debug: "%kernel.debug%"
-    use_controller: "%kernel.debug%"
-    filters:
-        cssrewrite: ~
-
 vich_uploader:
     db_driver: orm
     mappings:
@@ -193,3 +187,7 @@ fos_ck_editor:
             removePlugins: 'liststyle,tabletools,tableselection,contextmenu'
             enterMode: CKEDITOR.ENTER_BR
             toolbar: [["Bold", "Italic", "Underline"]]
+
+sensio_framework_extra:
+    router:
+        annotations: false

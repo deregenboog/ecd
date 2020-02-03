@@ -77,7 +77,7 @@ class VrijwilligerintakesController extends AbstractController
         $aanmelding = new Aanmelding();
         $intake->addAanmelding($aanmelding);
 
-        $form = $this->createForm(AanmeldingType::class, $aanmelding);
+        $form = $this->getForm(AanmeldingType::class, $aanmelding);
         $form->handleRequest($this->getRequest());
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -100,7 +100,7 @@ class VrijwilligerintakesController extends AbstractController
 
     private function doSearch(Request $request)
     {
-        $form = $this->createForm(VrijwilligerFilterType::class, null, [
+        $form = $this->getForm(VrijwilligerFilterType::class, null, [
             'enabled_filters' => ['id', 'naam', 'bsn', 'geboortedatum'],
         ]);
         $form->handleRequest($request);
@@ -148,7 +148,7 @@ class VrijwilligerintakesController extends AbstractController
         }
 
         $intake = new VrijwilligerIntake($vrijwilliger);
-        $form = $this->createForm($this->formClass, $intake);
+        $form = $this->getForm($this->formClass, $intake);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {

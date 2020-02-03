@@ -19,7 +19,7 @@ use OdpBundle\Form\VerhuurderFilterType;
 use OdpBundle\Form\VerhuurderSelectType;
 use OdpBundle\Form\VerhuurderType;
 use OdpBundle\Service\VerhuurderDaoInterface;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormError;
@@ -87,7 +87,7 @@ class VerhuurdersController extends AbstractController
 //            ->andWhere('afsluiting.tonen IS NULL OR afsluiting.tonen = true')
 //        ;
 //
-//        $filter = $this->createForm(VerhuurderFilterType::class);
+//        $filter = $this->getForm(VerhuurderFilterType::class);
 //        $filter->handleRequest($this->getRequest());
 //        $filter->getData()->applyTo($builder);
 //        if ($filter->get('download')->isClicked()) {
@@ -153,7 +153,7 @@ class VerhuurdersController extends AbstractController
             $verhuurder = new Verhuurder();
             $verhuurder->setKlant($klant);
 
-            $creationForm = $this->createForm(VerhuurderType::class, $verhuurder);
+            $creationForm = $this->getForm(VerhuurderType::class, $verhuurder);
             $creationForm->handleRequest($this->getRequest());
 
             if ($creationForm->isValid()) {
@@ -175,13 +175,13 @@ class VerhuurdersController extends AbstractController
             return ['creationForm' => $creationForm->createView()];
         }
 
-        $filterForm = $this->createForm(KlantFilterType::class, null, [
+        $filterForm = $this->getForm(KlantFilterType::class, null, [
             'enabled_filters' => ['naam', 'bsn', 'geboortedatum'],
         ]);
         $filterForm->add('submit', SubmitType::class, ['label' => 'Verder']);
         $filterForm->handleRequest($this->getRequest());
 
-        $selectionForm = $this->createForm(VerhuurderSelectType::class, null, [
+        $selectionForm = $this->getForm(VerhuurderSelectType::class, null, [
             'filter' => $filterForm->getData(),
         ]);
         $selectionForm->handleRequest($this->getRequest());
@@ -212,7 +212,7 @@ class VerhuurdersController extends AbstractController
         $entityManager = $this->getEntityManager();
         $verhuurder = $entityManager->find(Verhuurder::class, $id);
 
-        $form = $this->createForm(VerhuurderType::class, $verhuurder);
+        $form = $this->getForm(VerhuurderType::class, $verhuurder);
         $form->handleRequest($this->getRequest());
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -241,7 +241,7 @@ class VerhuurdersController extends AbstractController
         $entityManager = $this->getEntityManager();
         $verhuurder = $entityManager->find(Verhuurder::class, $id);
 
-        $form = $this->createForm(VerhuurderCloseType::class, $verhuurder);
+        $form = $this->getForm(VerhuurderCloseType::class, $verhuurder);
         $form->handleRequest($this->getRequest());
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -271,7 +271,7 @@ class VerhuurdersController extends AbstractController
         $entityManager = $this->getEntityManager();
         $verhuurder = $entityManager->find(Verhuurder::class, $id);
 
-        $form = $this->createForm(ConfirmationType::class);
+        $form = $this->getForm(ConfirmationType::class);
         $form->handleRequest($this->getRequest());
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -304,7 +304,7 @@ class VerhuurdersController extends AbstractController
         $entityManager = $this->getEntityManager();
         $verhuurder = $entityManager->find(Verhuurder::class, $id);
 
-        $form = $this->createForm(ConfirmationType::class);
+        $form = $this->getForm(ConfirmationType::class);
         $form->handleRequest($this->getRequest());
 
         if ($form->isSubmitted() && $form->isValid()) {

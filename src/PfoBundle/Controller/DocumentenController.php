@@ -7,7 +7,7 @@ use JMS\DiExtraBundle\Annotation as DI;
 use PfoBundle\Entity\Document;
 use PfoBundle\Form\DocumentType;
 use PfoBundle\Service\DocumentDaoInterface;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * @Route("/documenten")

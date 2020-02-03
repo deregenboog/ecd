@@ -13,7 +13,7 @@ use DagbestedingBundle\Filter\TrajectFilter;
 use DagbestedingBundle\Form\TrajectFilterType;
 use DagbestedingBundle\Service\TrajectDaoInterface;
 use JMS\DiExtraBundle\Annotation as DI;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -56,7 +56,7 @@ class DashboardController extends SymfonyController
         $filter->actief = true;
         $filter->medewerker = $this->getMedewerker();
 
-        $form = $this->createForm(TrajectFilterType::class, $filter, [
+        $form = $this->getForm(TrajectFilterType::class, $filter, [
             'enabled_filters' => [
                 'klant' => ['naam'],
                 'soort',
@@ -97,7 +97,7 @@ class DashboardController extends SymfonyController
         $filter->actief = true;
         $filter->medewerker = $this->getMedewerker();
 
-        $form = $this->createForm(TrajectFilterType::class, $filter, [
+        $form = $this->getForm(TrajectFilterType::class, $filter, [
             'enabled_filters' => [
                 'klant' => ['naam'],
                 'soort',
@@ -138,7 +138,7 @@ class DashboardController extends SymfonyController
         $filter->actief = true;
         $filter->medewerker = $this->getMedewerker();
 
-        $form = $this->createForm(TrajectFilterType::class, $filter, [
+        $form = $this->getForm(TrajectFilterType::class, $filter, [
             'enabled_filters' => [
                 'klant' => ['naam'],
                 'soort',
@@ -179,7 +179,7 @@ class DashboardController extends SymfonyController
         $filter->actief = true;
         $filter->medewerker = $this->getMedewerker();
 
-        $form = $this->createForm(TrajectFilterType::class, $filter, [
+        $form = $this->getForm(TrajectFilterType::class, $filter, [
             'enabled_filters' => [
                 'klant' => ['naam'],
                 'soort',
@@ -222,7 +222,7 @@ class DashboardController extends SymfonyController
 
     protected function getMedewerkerForm(Request $request, Medewerker $medewerker)
     {
-        return $this->createForm(MedewerkerType::class, $medewerker, [
+        return $this->getForm(MedewerkerType::class, $medewerker, [
             'label' => '',
             'method' => 'GET',
         ])->handleRequest($request);

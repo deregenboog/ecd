@@ -6,7 +6,7 @@ use AppBundle\Exception\AppException;
 use AppBundle\Form\ConfirmationType;
 use AppBundle\Model\MedewerkerSubjectInterface;
 use AppBundle\Service\AbstractDao;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
@@ -59,7 +59,7 @@ abstract class AbstractChildController extends AbstractController
             $parentEntity->{$this->addMethod}($entity);
         }
 
-        $form = $this->createForm($this->formClass, $entity, [
+        $form = $this->getForm($this->formClass, $entity, [
             'medewerker' => $this->getMedewerker(),
         ]);
         $form->handleRequest($request);
@@ -111,7 +111,7 @@ abstract class AbstractChildController extends AbstractController
 
         list($parentEntity, $this->parentDao) = $this->getParentConfig($request);
 
-        $form = $this->createForm(ConfirmationType::class);
+        $form = $this->getForm(ConfirmationType::class);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {

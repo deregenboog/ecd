@@ -9,7 +9,7 @@ use GaBundle\Entity\Dossier;
 use GaBundle\Filter\SelectieFilter;
 use GaBundle\Form\EmailMessageType;
 use GaBundle\Form\SelectieType;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;
@@ -25,7 +25,7 @@ class SelectiesController extends SymfonyController
      */
     public function indexAction(Request $request)
     {
-        $form = $this->createForm(SelectieType::class);
+        $form = $this->getForm(SelectieType::class);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -52,7 +52,7 @@ class SelectiesController extends SymfonyController
      */
     public function emailAction(Request $request)
     {
-        $form = $this->createForm(EmailMessageType::class);
+        $form = $this->getForm(EmailMessageType::class);
         $form->handleRequest($this->getRequest());
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -133,7 +133,7 @@ class SelectiesController extends SymfonyController
             throw new NoResultException();
         }
 
-        $form = $this->createForm(EmailMessageType::class, null, [
+        $form = $this->getForm(EmailMessageType::class, null, [
             'from' => $this->getMedewerker()->getEmail(),
             'to' => $dossiers,
         ]);

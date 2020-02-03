@@ -11,8 +11,7 @@ use ClipBundle\Form\VragenModel;
 use ClipBundle\Form\VragenType;
 use ClipBundle\Service\VraagDaoInterface;
 use JMS\DiExtraBundle\Annotation as DI;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -59,7 +58,7 @@ class VragenController extends AbstractVragenController
         $entity = new VragenModel($parentEntity);
         $entity->setClient($parentEntity);
 
-        $form = $this->createForm($this->formClass, $entity, [
+        $form = $this->getForm($this->formClass, $entity, [
             'medewerker' => $this->getMedewerker(),
         ]);
         $form->handleRequest($request);
@@ -102,7 +101,7 @@ class VragenController extends AbstractVragenController
         $entity = $this->dao->find($id);
         $entity->setAfsluitdatum(new \DateTime());
 
-        $form = $this->createForm(VraagCloseType::class, $entity);
+        $form = $this->getForm(VraagCloseType::class, $entity);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             try {
@@ -129,7 +128,7 @@ class VragenController extends AbstractVragenController
     {
         $entity = $this->dao->find($id);
 
-        $form = $this->createForm(ConfirmationType::class)->handleRequest($request);
+        $form = $this->getForm(ConfirmationType::class)->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $url = $this->generateUrl($this->baseRouteName.'view', ['id' => $entity->getId()]);
@@ -149,8 +148,7 @@ class VragenController extends AbstractVragenController
     }
 
     /**
-     * @Route("/{id}/vraagHulp")
-     * @Method("POST")
+     * @Route("/{id}/vraagHulp", methods={"POST"})
      */
     public function vraagHulpAction(Request $request, Vraag $vraag)
     {

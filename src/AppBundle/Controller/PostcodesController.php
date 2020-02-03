@@ -8,7 +8,7 @@ use AppBundle\Form\PostcodeFilterType;
 use AppBundle\Form\PostcodeType;
 use AppBundle\Service\PostcodeDaoInterface;
 use JMS\DiExtraBundle\Annotation as DI;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
@@ -43,7 +43,7 @@ class PostcodesController extends AbstractController
         $entity = new Postcode();
         $entity->setSystem(false);
 
-        $form = $this->createForm(PostcodeType::class, $entity);
+        $form = $this->getForm(PostcodeType::class, $entity);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -79,7 +79,7 @@ class PostcodesController extends AbstractController
             return $this->redirectToIndex();
         }
 
-        $form = $this->createForm(PostcodeType::class, $entity);
+        $form = $this->getForm(PostcodeType::class, $entity);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -115,7 +115,7 @@ class PostcodesController extends AbstractController
             return $this->redirectToIndex();
         }
 
-        $form = $this->createForm(ConfirmationType::class);
+        $form = $this->getForm(ConfirmationType::class);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {

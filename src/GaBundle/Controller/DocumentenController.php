@@ -7,7 +7,7 @@ use GaBundle\Entity\Document;
 use GaBundle\Form\DocumentType;
 use GaBundle\Service\DocumentDaoInterface;
 use JMS\DiExtraBundle\Annotation as DI;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * @Route("/documenten")

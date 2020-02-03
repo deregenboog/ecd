@@ -10,7 +10,7 @@ final class PfoProcessor implements ProcessorInterface
     /**
      * {@inheritdoc}
      */
-    public function preProcess($fixtureId, $object): void
+    public function preProcess(string $fixtureId, $object): void
     {
 
     }
@@ -18,7 +18,7 @@ final class PfoProcessor implements ProcessorInterface
     /**
      * {@inheritdoc}
      */
-    public function postProcess($fixtureId, $object): void
+    public function postProcess(string $fixtureId, $object): void
     {
     }
 }

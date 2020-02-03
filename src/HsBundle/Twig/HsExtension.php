@@ -3,13 +3,15 @@
 namespace HsBundle\Twig;
 
 use HsBundle\Entity\Klus;
+use Twig\Extension\AbstractExtension;
+use Twig\TwigFilter;
 
-class HsExtension extends \Twig_Extension
+class HsExtension extends AbstractExtension
 {
     public function getFilters()
     {
         return [
-            new \Twig_SimpleFilter('status_color', [$this, 'statusColorFilter'], ['is_safe' => ['html']]),
+            new TwigFilter('status_color', [$this, 'statusColorFilter'], ['is_safe' => ['html']]),
         ];
     }
 
@@ -41,7 +43,7 @@ class HsExtension extends \Twig_Extension
     public function getTests()
     {
         return array (
-          new \Twig_SimpleTest("instanceof",array($this,"isInstanceOf")),
+            new TwigFilter("instanceof",array($this,"isInstanceOf")),
         );
     }
 

@@ -11,7 +11,7 @@ use IzBundle\Entity\IzVrijwilliger;
 use IzBundle\Filter\IzDeelnemerSelectie;
 use IzBundle\Form\IzDeelnemerSelectieType;
 use IzBundle\Form\IzEmailMessageType;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;
@@ -27,7 +27,7 @@ class SelectiesController extends SymfonyController
      */
     public function indexAction(Request $request)
     {
-        $form = $this->createForm(IzDeelnemerSelectieType::class);
+        $form = $this->getForm(IzDeelnemerSelectieType::class);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -54,7 +54,7 @@ class SelectiesController extends SymfonyController
      */
     public function emailAction(Request $request)
     {
-        $form = $this->createForm(IzEmailMessageType::class);
+        $form = $this->getForm(IzEmailMessageType::class);
         $form->handleRequest($this->getRequest());
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -142,7 +142,7 @@ class SelectiesController extends SymfonyController
             ->getResult()
         ;
 
-        $form = $this->createForm(IzEmailMessageType::class, null, [
+        $form = $this->getForm(IzEmailMessageType::class, null, [
             'from' => $this->getMedewerker()->getEmail(),
             'to' => $izDeelnemers,
         ]);

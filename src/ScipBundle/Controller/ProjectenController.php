@@ -40,7 +40,7 @@ class ProjectenController extends AbstractController
      */
     public function indexAction(Request $request)
     {
-        $form = $this->createForm($this->filterFormClass);
+        $form = $this->getForm($this->filterFormClass);
         $form->handleRequest($request);
         $filter = $form->getData();
 

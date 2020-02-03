@@ -9,7 +9,7 @@ use AppBundle\Service\KlantDaoInterface;
 use Doctrine\ORM\EntityManager;
 use JMS\DiExtraBundle\Annotation as DI;
 use Psr\Log\LoggerInterface;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -69,7 +69,7 @@ class KlantenController extends AbstractController
         }
 
         $entity = clone $klanten[0];
-        $form = $this->createForm(KlantMergeType::class, $entity, [
+        $form = $this->getForm(KlantMergeType::class, $entity, [
             'klanten' => $klanten,
             'medewerker' => $this->getMedewerker(),
         ]);

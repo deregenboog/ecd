@@ -54,7 +54,7 @@ abstract class AfsluitingenController extends SymfonyController
     {
         $afsluiting = new $this->entityClass();
 
-        $form = $this->createForm(AfsluitingType::class, $afsluiting, [
+        $form = $this->getForm(AfsluitingType::class, $afsluiting, [
             'data_class' => $this->entityClass,
         ]);
         $form->handleRequest($this->getRequest());
@@ -82,7 +82,7 @@ abstract class AfsluitingenController extends SymfonyController
     {
         $afsluiting = $this->dao->find($id);
 
-        $form = $this->createForm(AfsluitingType::class, $afsluiting, [
+        $form = $this->getForm(AfsluitingType::class, $afsluiting, [
             'data_class' => $this->entityClass,
         ]);
         $form->handleRequest($this->getRequest());
@@ -110,7 +110,7 @@ abstract class AfsluitingenController extends SymfonyController
     {
         $afsluiting = $this->dao->find($id);
 
-        $form = $this->createForm(ConfirmationType::class);
+        $form = $this->getForm(ConfirmationType::class);
         $form->handleRequest($this->getRequest());
         if ($form->isSubmitted() && $form->isValid()) {
             if ($form->get('yes')->isClicked()) {

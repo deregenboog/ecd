@@ -12,7 +12,7 @@ use InloopBundle\Security\Permissions;
 use InloopBundle\Service\IntakeDaoInterface;
 use JMS\DiExtraBundle\Annotation as DI;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -76,7 +76,7 @@ class IntakesController extends AbstractController
             $entity = new Intake($klant);
         }
 
-        $form = $this->createForm($this->formClass, $entity, [
+        $form = $this->getForm($this->formClass, $entity, [
             'medewerker' => $this->getMedewerker(),
         ]);
         $form->handleRequest($request);
@@ -129,7 +129,7 @@ class IntakesController extends AbstractController
     public function formAction(Request $request)
     {
         $entity = new Intake();
-        $form = $this->createForm($this->formClass, $entity);
+        $form = $this->getForm($this->formClass, $entity);
 
         $html = $this->renderView('@Inloop/intakes/form.pdf.twig', [
             'entity' => $entity,

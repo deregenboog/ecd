@@ -10,7 +10,7 @@ use IzBundle\Form\IntervisiegroepType;
 use IzBundle\Form\IzEmailMessageType;
 use IzBundle\Service\IntervisiegroepDaoInterface;
 use JMS\DiExtraBundle\Annotation as DI;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -48,7 +48,7 @@ class IntervisiegroepenController extends AbstractController
     {
         $entity = $this->dao->find($id);
 
-        $form = $this->createForm(IzEmailMessageType::class, null, [
+        $form = $this->getForm(IzEmailMessageType::class, null, [
             'from' => $this->getMedewerker()->getEmail(),
             'to' => $entity->getVrijwilligers(),
         ]);

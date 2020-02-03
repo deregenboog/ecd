@@ -1,11 +1,11 @@
 <h1>SCHORSINGSFORMULIER</h1>
 <p>
-    {%- spaceless %}
+    {%- apply spaceless %}
         Op {{ entity.datumVan|date('d-m-Y') }} bent u geschorst bij locatie(s) {{ entity.locaties|implode }}.
         De reden hiervoor is dat u zich niet aan de huisregels heeft gehouden.
         Hieronder vindt u een korte beschrijving van het incident en de duur van de schorsing.
         Ook informeren we u over de manier waarop u bezwaar kunt maken tegen uw schorsing.
-    {% endspaceless -%}
+    {% endapply -%}
 </p>
 <table>
     <tr>
@@ -45,11 +45,11 @@
                     Als u van die mogelijkheid gebruik wilt maken, moet u zich aanmelden bij het secretariaat: 020-5317600.
                 </li>
                 <li>
-                    {%- spaceless %}
+                    {%- apply spaceless %}
                         Na een schorsing van een half jaar of langer volgt altijd een her-intake,
                         waarbij opnieuw wordt vastgesteld of u bij de doelgroep van de inloophuizen hoort.
                         Voor dit gesprek dient u zelf een afspraak te maken met het locatiehoofd van de locatie die u heeft geschorst.
-                    {% endspaceless -%}
+                    {% endapply -%}
                 </li>
             </ul>
         </td>
@@ -73,9 +73,9 @@
     </tr>
 </table>
 <p>
-    {%- spaceless %}
+    {%- apply spaceless %}
         In en om al onze locaties staan rust, veiligheid en gezelligheid voor
         alle bezoekers, deelnemers en medewerkers voorop. We rekenen erop dat u
         hier in de toekomst weer een bijdrage aan zult leveren.
-    {% endspaceless -%}
+    {% endapply -%}
 </p>
