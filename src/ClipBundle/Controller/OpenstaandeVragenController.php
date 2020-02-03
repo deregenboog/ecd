@@ -74,6 +74,6 @@ class OpenstaandeVragenController extends AbstractVragenController
             'download',
         ];
 
-        return $this->getForm($type, $data, $options);
+        return $this->createForm($type, $data, $options);
     }
 }
