@@ -34,10 +34,10 @@ class Deelname
      */
     private $training;
 
-//    /** @var string
-//     * @ORM\Column(type="varchar(255)", nullable=true)
-//     */
-//    private $overig = null;
+    /** @var string
+     * @ORM\Column(type="string", nullable=true)
+     */
+    private $overig = null;
 
     /**
      * @var Vrijwilliger
