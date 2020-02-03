@@ -75,11 +75,11 @@ class VrijwilligerType extends AbstractType
             'required' => false
             ])
             ->add('notitieIntake',AppTextareaType::class,['required' => false])
-            ->add('datumNotitieIntake',AppDateTimeType::class, [
-                'data' => new \DateTime('now'),
-                'label'=>'Notitiedatum',
-                'required'=>false,
-            ])
+//            ->add('datumNotitieIntake',AppDateTimeType::class, [
+//                'data' => new \DateTime('now'),
+//                'label'=>'Notitiedatum',
+//                'required'=>false,
+//            ])
             ->add('startDatum',AppDateType::class, [
                 'data' => new \DateTime('now'),
                 'required' =>false,
