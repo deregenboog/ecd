@@ -1,6 +1,8 @@
 <?php
 
-namespace AppBundle\Report;
+namespace DagbestedingBundle\Report;
+
+use AppBundle\Report\AbstractSqlFileReport;
 
 class Activering extends AbstractSqlFileReport
 {

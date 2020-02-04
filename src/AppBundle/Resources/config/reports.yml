@@ -8,13 +8,6 @@ services:
         tags:
             - { name: form.type }
 
-    AppBundle\Report\Activering:
-        arguments:
-            - "@doctrine.orm.entity_manager"
-            - "%kernel.root_dir%/config/activering_reports.sql"
-        tags:
-            - { name: app.rapportage }
-
     AppBundle\Report\GeenHulpverlenerscontact:
         arguments:
             - "@doctrine.orm.entity_manager"
