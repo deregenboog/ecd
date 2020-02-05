@@ -34,7 +34,7 @@ class KlantUpdateCommand extends ContainerAwareCommand
             /* @var $klus Klus */
             // trigger status update
             $klus->setEinddatum($klus->getEinddatum());
-            $entityManager->flush($klus);
+            $entityManager->flush();
         }
 
         $output->writeln(sprintf('%d klussen bijgewerkt', count($klussen)));

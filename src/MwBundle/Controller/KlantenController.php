@@ -87,7 +87,7 @@ class KlantenController extends AbstractController
                 if (!$entity->getId()) {
                     $em->persist($entity);
                 }
-                $em->flush($entity);
+                $em->flush();
                 $this->addFlash('success', 'Info is opgeslagen.');
             } catch (\Exception $e) {
                 $this->get('logger')->error($e->getMessage(), ['exception' => $e]);

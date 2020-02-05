@@ -124,7 +124,7 @@ class KoppelingenSplitCommand extends ContainerAwareCommand
             ->setMedewerker($this->admin)
         ;
         $this->em->persist($verslag);
-        $this->em->flush($verslag);
+        $this->em->flush();
 
         $sql = sprintf("UPDATE iz_verslagen SET created = '%s' WHERE id = %d",
             $koppeling->getEinddatum()->format('Y-m-d H:i:s'),
@@ -143,7 +143,7 @@ class KoppelingenSplitCommand extends ContainerAwareCommand
             ->setMedewerker($this->admin)
         ;
         $this->em->persist($verslag);
-        $this->em->flush($verslag);
+        $this->em->flush();
 
         $sql = sprintf("UPDATE iz_verslagen SET created = '%s' WHERE id = %d",
             $newKoppeling->getStartdatum()->format('Y-m-d H:i:s'),
