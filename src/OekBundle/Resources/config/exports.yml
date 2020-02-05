@@ -1,5 +1,6 @@
 services:
     oek.export.deelnemer:
+        public: true
         class: OekBundle\Export\DeelnemersExport
         arguments:
             - OekBundle\Entity\Deelnemer
@@ -24,6 +25,7 @@ services:
                 Verwezen naar: { expression: 'entity.getAfsluiting().getVerwijzing()', condition: 'entity.getAfsluiting()' }
 
     oek.export.wachtlijst:
+        public: true
         class: OekBundle\Export\DeelnemersExport
         arguments:
             - OekBundle\Entity\Deelnemer
@@ -48,6 +50,7 @@ services:
                 Verwezen naar: { expression: 'entity.getAfsluiting().getVerwijzing()', condition: 'entity.getAfsluiting()' }
 
     oek.export.vrijwilliger:
+        public: true
         class: AppBundle\Export\GenericExport
         arguments:
             - OekBundle\Entity\Vrijwilliger
@@ -67,6 +70,7 @@ services:
                 GGW-gebied: { expression: 'entity.getVrijwilliger().getPostcodegebied()' }
 
     oek.export.deelnemerslijst:
+        public: true
         class: AppBundle\Export\GenericExport
         arguments:
             - OekBundle\Entity\Deelname
@@ -88,7 +92,9 @@ services:
                 Verwezen naar: { expression: 'entity.getDeelnemer().getAfsluiting().getVerwijzing()', condition: 'entity.getDeelnemer().getAfsluiting()' }
 
     oek.export.presentielijst:
+        public: true
         class: OekBundle\Export\PresentielijstExport
 
     oek.export.report:
+        public: true
         class: AppBundle\Export\ReportExport

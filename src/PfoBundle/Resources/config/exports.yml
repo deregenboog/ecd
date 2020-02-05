@@ -1,5 +1,6 @@
 services:
     pfo.export.client:
+        public: true
         class: AppBundle\Export\GenericExport
         arguments:
             - PfoBundle\Entity\Client
@@ -17,4 +18,5 @@ services:
                 Telefoon: { expression: 'entity.getTelefoon()' }
 
     pfo.export.report:
+        public: true
         class: AppBundle\Export\ReportExport

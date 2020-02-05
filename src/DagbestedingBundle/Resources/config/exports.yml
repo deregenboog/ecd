@@ -1,5 +1,6 @@
 services:
     dagbesteding.export.dagdelen:
+        public: true
         class: AppBundle\Export\GenericExport
         arguments:
             - DagbestedingBundle\Entity\Dagdeel
@@ -31,6 +32,7 @@ services:
                 Aanwezigheid:  { expression: 'entity.getAanwezigheid()' }
 
     dagbesteding.export.deelnemers:
+        public: true
         class: AppBundle\Export\GenericExport
         arguments:
             - DagbestedingBundle\Entity\Deelnemer
@@ -55,6 +57,7 @@ services:
                 Reden afsluiting: { expression: 'entity.getAfsluiting()' }
 
     dagbesteding.export.trajecten:
+        public: true
         class: DagbestedingBundle\Export\TrajectenExport
         arguments:
             - DagbestedingBundle\Entity\Traject
@@ -83,4 +86,5 @@ services:
                 Reden afsluiting deelnemer: { expression: 'entity.getDeelnemer().getAfsluiting()' }
 
     dagbesteding.export.report:
+        public: true
         class: AppBundle\Export\ReportExport

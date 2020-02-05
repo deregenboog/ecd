@@ -1,5 +1,6 @@
 services:
     scip.export.deelnames:
+        public: true
         class: AppBundle\Export\GenericExport
         arguments:
             - ScipBundle\Entity\Deelname
