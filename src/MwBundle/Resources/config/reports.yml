@@ -4,18 +4,21 @@ services:
             - { name: form.type }
 
     MwBundle\Report\Inventarisaties:
+        public: true
         arguments:
             - '@MwBundle\Service\InventarisatieDao'
         tags:
             - { name: mw.rapportage, category: Inventarisaties }
 
     MwBundle\Report\RepatrieringenPerLand:
+        public: true
         arguments:
             - "@doctrine.orm.entity_manager"
         tags:
             - { name: mw.rapportage, category: Repatriëring }
 
     MwBundle\Report\RepatrieringenPerKlant:
+        public: true
         arguments:
             - "@doctrine.orm.entity_manager"
             - "%kernel.root_dir%/config/repatrieringen_per_klant.sql"

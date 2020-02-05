@@ -9,6 +9,7 @@ services:
             - { name: form.type }
 
     AppBundle\Report\Activering:
+        public: true
         arguments:
             - "@doctrine.orm.entity_manager"
             - "%kernel.root_dir%/config/activering_reports.sql"
@@ -16,6 +17,7 @@ services:
             - { name: app.rapportage }
 
     AppBundle\Report\GeenHulpverlenerscontact:
+        public: true
         arguments:
             - "@doctrine.orm.entity_manager"
             - "%kernel.root_dir%/config/geen_hulpverlenerscontact.sql"
@@ -23,6 +25,7 @@ services:
             - { name: app.rapportage }
     
     AppBundle\Report\Ladis:
+        public: true
         arguments:
             - "@doctrine.orm.entity_manager"
             - "%kernel.root_dir%/config/ladis_report.sql"
@@ -30,6 +33,7 @@ services:
             - { name: app.rapportage }
 
     AppBundle\Report\Management:
+        public: true
         arguments:
             - "@doctrine.orm.entity_manager"
             - "%kernel.root_dir%/config/management_reports.sql"
@@ -37,6 +41,7 @@ services:
             - { name: app.rapportage }
 
     AppBundle\Report\Veegploeg:
+        public: true
         arguments:
             - "@doctrine.orm.entity_manager"
             - "%kernel.root_dir%/config/veegploeg_reports.sql"
@@ -44,12 +49,14 @@ services:
             - { name: app.rapportage }
 
     AppBundle\Report\ZrmScorePerPostcodegebied:
+        public: true
         arguments:
             - "@doctrine.orm.entity_manager"
         tags:
             - { name: app.rapportage, category: ZRM }
 
     AppBundle\Report\ZrmV2ScorePerPostcodegebied:
+        public: true
         arguments:
             - "@doctrine.orm.entity_manager"
         tags:
