@@ -68,11 +68,6 @@ abstract class AbstractRapportagesController extends SymfonyController
         ];
     }
 
-    protected function getForm($type, $data = null, array $options = [])
-    {
-        return $this->createForm($type, $data, $options);
-    }
-
     protected function download(AbstractReport $report)
     {
         ini_set('memory_limit', '512M');

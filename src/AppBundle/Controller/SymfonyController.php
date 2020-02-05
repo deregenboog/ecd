@@ -45,6 +45,11 @@ abstract class SymfonyController extends Controller
         return $this->container->get('request_stack')->getCurrentRequest();
     }
 
+    protected function getForm($type, $data = null, array $options = [])
+    {
+        return $this->createForm($type, $data, $options);
+    }
+
     /**
      * @return Medewerker
      */

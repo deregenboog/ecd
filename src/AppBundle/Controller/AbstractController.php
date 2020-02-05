@@ -128,11 +128,6 @@ abstract class AbstractController extends SymfonyController
         ];
     }
 
-    protected function getForm($type, $data = null, array $options = [])
-    {
-        return $this->createForm($type, $data, $options);
-    }
-
     protected function download(FilterInterface $filter)
     {
         if (!$this->export) {
