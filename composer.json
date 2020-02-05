@@ -34,7 +34,7 @@
         "luxifer/doctrine-functions" : "^1.4",
         "knplabs/knp-paginator-bundle" : "^2.5",
         "jms/di-extra-bundle" : "^1.8",
-        "vich/uploader-bundle" : "^1.4",
+        "vich/uploader-bundle" : "^1",
         "backup-manager/backup-manager" : "^1.1",
         "stof/doctrine-extensions-bundle" : "^1.2",
         "shivas/versioning-bundle" : "^1.4",

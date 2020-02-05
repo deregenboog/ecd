@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "cb281f255a881186d8f6792bb6eb8fb5",
+    "content-hash": "136c6e8ca604b5655b02bdd5bc8e2e60",
     "packages": [
         {
             "name": "backup-manager/backup-manager",
