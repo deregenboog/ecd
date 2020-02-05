@@ -187,4 +187,5 @@ services:
                 Gezin met kinderen: { expression: 'null' }
 
     ga.export.report:
+        public: true
         class: AppBundle\Export\ReportExport

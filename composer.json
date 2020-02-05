@@ -55,14 +55,13 @@
         "doctrine/doctrine-fixtures-bundle" : "^3",
         "doctrine/data-fixtures" : "^1",
         "hautelook/alice-bundle": "^2",
-
         "phpunit/phpunit" : "^7",
         "liip/functional-test-bundle" : "^3",
         "symfony/phpunit-bridge" : "^5",
         "sebastian/phpcpd" : "^4",
         "nelmio/alice": "^3",
         "theofidry/alice-data-fixtures": "^1",
-        "liip/test-fixtures-bundle": "^1.0.0"
+        "liip/test-fixtures-bundle": "^1"
     },
     "scripts" : {
         "symfony-scripts": [
