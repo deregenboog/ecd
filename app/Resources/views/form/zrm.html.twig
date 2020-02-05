@@ -6,7 +6,7 @@
                 <th>{{ choice.label }}</th>
             {% endfor %}
         </tr>
-        {%- for child in form if child.vars.name not in ['requestModule', 'medewerker', 'submit'] %}
+        {%- for child in form|filter(child => child.vars.name not in ['requestModule', 'medewerker', 'submit']) %}
             {{ form_row(child) }}
         {%- endfor -%}
     </table>
