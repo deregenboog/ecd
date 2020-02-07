@@ -5,6 +5,7 @@ imports:
 
 services:
     clip.contactmoment.entities:
+        public: true
         class: ArrayObject
         arguments:
             -
@@ -12,6 +13,7 @@ services:
               - { key: vraag, dao: '@ClipBundle\Service\VraagDao' }
 
     clip.document.entities:
+        public: true
         class: ArrayObject
         arguments:
             -
@@ -19,6 +21,7 @@ services:
               - { key: vraag, dao: '@ClipBundle\Service\VraagDao' }
 
     clip.vraag.entities:
+        public: true
         class: ArrayObject
         arguments:
             -

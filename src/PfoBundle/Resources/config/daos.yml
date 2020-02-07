@@ -15,12 +15,14 @@ services:
         parent: app.dao.abstract
 
     pfo.document.entities:
+        public: true
         class: ArrayObject
         arguments:
             -
               - { key: client, dao: '@PfoBundle\Service\ClientDao' }
 
     pfo.verslag.entities:
+        public: true
         class: ArrayObject
         arguments:
             -

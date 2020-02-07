@@ -72,24 +72,28 @@ services:
         parent: inloop.dao
 
     inloop.document.entities:
+        public: true
         class: ArrayObject
         arguments:
             -
               - { key: vrijwilliger, dao: '@InloopBundle\Service\VrijwilligerDao' }
 
     inloop.locatietijd.entities:
+        public: true
         class: ArrayObject
         arguments:
             -
               - { key: locatie, dao: '@InloopBundle\Service\LocatieDao' }
 
     inloop.memo.entities:
+        public: true
         class: ArrayObject
         arguments:
             -
               - { key: vrijwilliger, dao: '@InloopBundle\Service\VrijwilligerDao' }
               -
     inloop.deelname.entities:
+        public: true
         class: ArrayObject
         arguments:
             -

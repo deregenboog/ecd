@@ -24,18 +24,21 @@ services:
         parent: app.dao.abstract
 
     oek.document.entities:
+        public: true
         class: ArrayObject
         arguments:
             -
               - { key: vrijwilliger, dao: '@OekBundle\Service\VrijwilligerDao' }
 
     oek.memo.entities:
+        public: true
         class: ArrayObject
         arguments:
             -
               - { key: vrijwilliger, dao: '@OekBundle\Service\VrijwilligerDao' }
 
     oek.training.entities:
+        public: true
         class: ArrayObject
         arguments:
             -

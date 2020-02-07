@@ -29,6 +29,7 @@ services:
         parent: app.dao.abstract
 
     app.document.entities:
+        public: true
         class: ArrayObject
         arguments:
             -
@@ -36,6 +37,7 @@ services:
               - { key: vrijwilliger, dao: '@AppBundle\Service\VrijwilligerDao' }
 
     app.zrm.entities:
+        public: true
         class: ArrayObject
         arguments:
             -

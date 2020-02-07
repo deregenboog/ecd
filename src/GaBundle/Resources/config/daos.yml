@@ -81,6 +81,7 @@ services:
             - GaBundle\Entity\GroepOrganisatie
 
     ga.activiteit.entities:
+        public: true
         class: ArrayObject
         arguments:
             -
@@ -88,6 +89,7 @@ services:
               - { key: groep, dao: '@GaBundle\Service\GroepDao' }
 
     ga.deelname.entities:
+        public: true
         class: ArrayObject
         arguments:
             -
@@ -95,18 +97,21 @@ services:
               - { key: dossier, dao: '@GaBundle\Service\DossierDao' }
 
     ga.document.entities:
+        public: true
         class: ArrayObject
         arguments:
             -
               - { key: vrijwilliger, dao: '@AppBundle\Service\VrijwilligerDao' }
 
     ga.intake.entities:
+        public: true
         class: ArrayObject
         arguments:
             -
               - { key: dossier, dao: '@GaBundle\Service\DossierDao' }
     
     ga.lidmaatschap.entities:
+        public: true
         class: ArrayObject
         arguments:
             -
@@ -114,6 +119,7 @@ services:
               - { key: groep, dao: '@GaBundle\Service\GroepDao' }
 
     ga.verslag.entities:
+        public: true
         class: ArrayObject
         arguments:
             -

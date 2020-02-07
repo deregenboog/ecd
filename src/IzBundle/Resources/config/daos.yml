@@ -68,30 +68,35 @@ services:
         parent: app.dao.abstract
 
     iz.document.entities:
+        public: true
         class: ArrayObject
         arguments:
             -
               - { key: deelnemer, dao: '@IzBundle\Service\DeelnemerDao' }
 
     iz.hulpvraag.entities:
+        public: true
         class: ArrayObject
         arguments:
             -
               - { key: klant, dao: '@IzBundle\Service\KlantDao' }
 
     iz.hulpaanbod.entities:
+        public: true
         class: ArrayObject
         arguments:
             -
               - { key: vrijwilliger, dao: '@IzBundle\Service\VrijwilligerDao' }
 
     iz.intake.entities:
+        public: true
         class: ArrayObject
         arguments:
             -
               - { key: deelnemer, dao: '@IzBundle\Service\DeelnemerDao' }
 
     iz.lidmaatschap.entities:
+        public: true
         class: ArrayObject
         arguments:
             -
@@ -99,6 +104,7 @@ services:
               - { key: vrijwilliger, dao: '@IzBundle\Service\VrijwilligerDao' }
 
     iz.verslag.entities:
+        public: true
         class: ArrayObject
         arguments:
             -
@@ -106,4 +112,3 @@ services:
               - { key: hulpaanbod, dao: '@IzBundle\Service\HulpaanbodDao' }
               - { key: hulpvraag, dao: '@IzBundle\Service\HulpvraagDao' }
               - { key: koppeling, dao: '@IzBundle\Service\KoppelingDao' }
-              
