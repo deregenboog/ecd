@@ -24,6 +24,7 @@ services:
         parent: app.dao.abstract
         
     GaBundle\Service\KlantLidmaatschapDao:
+        public: true
         arguments:
             - '@doctrine.orm.entity_manager'
             - '@knp_paginator'
@@ -45,6 +46,7 @@ services:
         parent: app.dao.abstract
 
     GaBundle\Service\VrijwilligerLidmaatschapDao:
+        public: true
         arguments:
             - '@doctrine.orm.entity_manager'
             - '@knp_paginator'
