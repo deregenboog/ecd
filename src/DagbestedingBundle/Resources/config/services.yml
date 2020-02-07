@@ -29,7 +29,6 @@ services:
 
     dagbesteding.traject.entities:
         public: true
-        public: true
         class: ArrayObject
         arguments:
             -
