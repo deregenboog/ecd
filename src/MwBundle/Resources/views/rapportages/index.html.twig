@@ -25,7 +25,7 @@
     {% set rendered = [] %}
     {% set indent = 50 %}
     {% for leaf in leafs %}
-        {% for i, node in leaf.path if node.id not in rendered %}
+        {% for i, node in leaf.path|filter(node => node.id not in rendered) %}
             {% if leaf.path.0 == node %}
                 </div></div>
                 <div class="col-md-6"><div class="well well-lg">

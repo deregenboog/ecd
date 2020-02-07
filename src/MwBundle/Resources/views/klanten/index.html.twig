@@ -123,7 +123,7 @@
                     <td>
                         <ul>
                             {% set break = false %}
-                            {% for verslag in klant.verslagen if not break%}
+                            {% for verslag in klant.verslagen|filter(verslag => not break) %}
                                 {% if loop.index < 4 %}
                                   <li>{{ verslag.medewerker }}</li>
                                 {% else %}

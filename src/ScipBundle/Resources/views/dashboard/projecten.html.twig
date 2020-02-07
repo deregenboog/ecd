@@ -13,7 +13,7 @@
     <h1>{{ title }}</h1>
     <h2>Projecten</h2>
     <ul>
-        {% for project in projecten if is_granted('access', project) %}
+        {% for project in projecten|filter(project => is_granted('access', project)) %}
             <li>
                 <a href="{{ path('scip_projecten_view', {id: project.id}) }}">{{ project }}</a>
             </li>

@@ -30,7 +30,7 @@
             </tr>
         </thead>
         <tbody>
-            {% for zrm in pagination if zrm.id %}
+            {% for zrm in pagination|filter(zrm => zrm.id) %}
                 <tr data-href="{{ path('app_zrms_view', {id: zrm.id}) }}">
                     <td>
                         {{ zrm.klant.id }}

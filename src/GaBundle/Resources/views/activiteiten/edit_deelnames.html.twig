@@ -9,7 +9,7 @@
         <div class="row">
             <div class="col-xs-6">
                 <h2>Deelnemers</h2>
-                {% for elm in form.deelnames.children if class(elm.vars.data.dossier) == 'GaBundle\\Entity\\Klantdossier' %}
+                {% for elm in form.deelnames.children|filter(elm => class(elm.vars.data.dossier) == 'GaBundle\\Entity\\Klantdossier') %}
                     {{ form_row(elm, {label: elm.vars.value.dossier}) }}
                 {% endfor %}
                 {{ form_row(form.aantalAnoniemeDeelnemers) }}
