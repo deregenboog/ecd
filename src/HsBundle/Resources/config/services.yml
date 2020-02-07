@@ -45,6 +45,7 @@ services:
     
     # Other services
     hs.factory.factuur:
+        public: true
         class: HsBundle\Service\FactuurFactory
         arguments:
             - '@HsBundle\Service\FactuurDao'
