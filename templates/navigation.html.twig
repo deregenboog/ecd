@@ -1,4 +1,4 @@
-{% import '::html.macro.twig' as html %}
+{% import 'html.macro.twig' as html %}
 
 {% if is_granted('CONTROLLER_APP_KLANTEN') %}
     {{ html.navLink('Klanten', path('app_klanten_index'), isActiveRoute('app_klanten_') or isActiveRoute('app_zrms_')) }}
