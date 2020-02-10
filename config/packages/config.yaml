@@ -1,7 +1,7 @@
 imports:
-    - { resource: parameters.yml }
-    - { resource: services.yml }
-    - { resource: version.yml, ignore_errors: true }
+    - { resource: parameters.yaml }
+    - { resource: services.yaml }
+    - { resource: version.yaml, ignore_errors: true }
 
 # Put parameters here that don't need to change on each machine where the app is deployed
 # http://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
@@ -22,7 +22,7 @@ framework:
         gc_maxlifetime: 28800 # 8 hours
         save_path: '%kernel.root_dir%/../var/sessions'
     router:
-        resource: "%kernel.root_dir%/config/routing.yml"
+        resource: "%kernel.root_dir%/config/routing.yaml"
         strict_requirements: ~
     form: ~
     validation: { enable_annotations: true }
@@ -102,7 +102,7 @@ doctrine:
                 class: AppBundle\Doctrine\OverledenFilter
                 enabled: false
 
-jms_di_extra: ~
+#jms_di_extra: ~
 
 stof_doctrine_extensions:
     orm:
@@ -175,7 +175,7 @@ vich_uploader:
 
 shivas_versioning:
     version_parameter: application_version
-    version_file: version.yml
+    version_file: version.yaml
 
 fos_ck_editor:
     autoload: false

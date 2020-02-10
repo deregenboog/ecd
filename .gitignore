@@ -1,4 +1,4 @@
-/app/config/parameters.yml
+/config/packages/parameters.yaml
 /app/SymfonyRequirements.php
 /app/check.php
 
