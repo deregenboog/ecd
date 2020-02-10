@@ -10,7 +10,7 @@ use AppBundle\Form\ConfirmationType;
 use AppBundle\Model\MedewerkerSubjectInterface;
 use AppBundle\Service\AbstractDao;
 use Doctrine\ORM\EntityNotFoundException;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;
@@ -108,7 +108,7 @@ abstract class AbstractController extends SymfonyController
         }
 
         if ($this->filterFormClass) {
-            $form = $this->createForm($this->filterFormClass);
+            $form = $this->getForm($this->filterFormClass);
             $form->handleRequest($request);
             if ($form->isSubmitted() && $form->isValid()) {
                 if ($form->has('download') && $form->get('download')->isClicked()) {
@@ -250,7 +250,7 @@ abstract class AbstractController extends SymfonyController
         }
 
         $subEntity = new $this->entityClass($searchEntity);
-        $creationForm = $this->createForm($this->formClass, $subEntity);
+        $creationForm = $this->getForm($this->formClass, $subEntity);
         $creationForm->handleRequest($request);
 
         if ($creationForm->isSubmitted() && $creationForm->isValid()) {
@@ -276,7 +276,7 @@ abstract class AbstractController extends SymfonyController
     private function doSearch(Request $request)
     {
         if(!isset($this->searchFilterTypeClass)) return;
-        $filterForm = $this->createForm($this->searchFilterTypeClass, null, [
+        $filterForm = $this->getForm($this->searchFilterTypeClass, null, [
             'enabled_filters' => ['id', 'naam', 'bsn', 'geboortedatum'],
         ]);
         $filterForm->handleRequest($request);
@@ -330,7 +330,7 @@ abstract class AbstractController extends SymfonyController
             throw new AppException(get_class($this).'::formClass not set!');
         }
 
-        $form = $this->createForm($this->formClass, $entity, [
+        $form = $this->getForm($this->formClass, $entity, [
             'medewerker' => $this->getMedewerker(),
         ]);
         $form->handleRequest($request);
@@ -378,7 +378,7 @@ abstract class AbstractController extends SymfonyController
 
         $entity = $this->dao->find($id);
 
-        $form = $this->createForm(ConfirmationType::class);
+        $form = $this->getForm(ConfirmationType::class);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {

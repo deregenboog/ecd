@@ -6,7 +6,7 @@ use AppBundle\Entity\Medewerker;
 use AppBundle\Form\MedewerkerFilterType;
 use AppBundle\Service\MedewerkerDaoInterface;
 use JMS\DiExtraBundle\Annotation as DI;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
 

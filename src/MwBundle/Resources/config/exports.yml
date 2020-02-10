@@ -1,5 +1,6 @@
 services:
     mw.export.klanten:
+        public: true
         class: AppBundle\Export\GenericExport
         arguments:
             - array
@@ -21,4 +22,5 @@ services:
                 E-mailvoorkeur: { expression: 'entity[0].getGeenEmail() ? "Geen e-mail" : "Wel e-mail"' }
 
     mw.export.report:
+        public: true
         class: AppBundle\Export\ReportExport

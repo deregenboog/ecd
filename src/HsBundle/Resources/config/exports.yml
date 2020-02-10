@@ -1,5 +1,6 @@
 services:
     hs.export.klant:
+        public: true
         class: AppBundle\Export\GenericExport
         arguments:
             - HsBundle\Entity\Klant
@@ -20,6 +21,7 @@ services:
                 Saldo: { expression: 'entity.getSaldo()' }
 
     hs.export.dienstverlener:
+        public: true
         class: AppBundle\Export\GenericExport
         arguments:
             - HsBundle\Entity\Dienstverlener
@@ -39,6 +41,7 @@ services:
                 Werkgebied: { expression: 'entity.getKlant().getWerkgebied()' }
 
     hs.export.vrijwilliger:
+        public: true
         class: AppBundle\Export\GenericExport
         arguments:
             - HsBundle\Entity\Vrijwilliger
@@ -58,6 +61,7 @@ services:
                 Werkgebied: { expression: 'entity.getVrijwilliger().getWerkgebied()' }
 
     hs.export.registratie:
+        public: true
         class: AppBundle\Export\GenericExport
         arguments:
             - HsBundle\Entity\Registratie
@@ -75,6 +79,7 @@ services:
 #                Reiskosten:  { expression: 'entity.getReiskosten()' }
 
     hs.export.klus:
+        public: true
         class: AppBundle\Export\GenericExport
         arguments:
             - HsBundle\Entity\Klus
@@ -87,6 +92,7 @@ services:
                 Activiteiten: { expression: 'entity.getActiviteitenAsString()' } 
 
     hs.export.factuur:
+        public: true
         class: AppBundle\Export\GenericExport
         arguments:
             - HsBundle\Entity\Factuur
@@ -99,6 +105,7 @@ services:
                 Saldo: { expression: 'entity.getSaldo()', type: 'money' }
 
     hs.export.betaling:
+        public: true
         class: AppBundle\Export\GenericExport
         arguments:
             - HsBundle\Entity\Betaling
@@ -110,4 +117,5 @@ services:
                 Bedrag: { expression: 'entity.getBedrag()', type: 'money' }
 
     hs.export.report:
+        public: true
         class: AppBundle\Export\ReportExport

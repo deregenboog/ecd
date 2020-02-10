@@ -43,7 +43,7 @@
             </tr>
         </thead>
         <tbody>
-            {% for entity in pagination if is_granted('access', entity) %}
+            {% for entity in pagination|filter(entity => is_granted('access', entity)) %}
                 {# als evaluateidtum, en als ie in het verleden of op vandaag ligt, dan rood               #}
                 {% if entity.evaluatiedatum and date() >= date(entity.evaluatiedatum) %}
                     {% set evaluatieClass = "danger" %}

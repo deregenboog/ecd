@@ -100,13 +100,13 @@ class DeelnamesController extends AbstractChildController
         $this->dao->create($entity);
     }
 
-    protected function createForm($type, $data = null, array $options = [])
+    protected function getForm($type, $data = null, array $options = [])
     {
         if (DeelnameType::class === $type) {
             $options['dossier_class'] = $this->getDossierClass($this->getRequest());
         }
 
-        return $this->container->get('form.factory')->create($type, $data, $options);
+        return $this->createForm($type, $data, $options);
     }
 
     private function getDossierClass(Request $request)

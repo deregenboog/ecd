@@ -18,6 +18,7 @@ services:
         parent: app.dao.abstract
 
     mw.document.entities:
+        public: true
         class: ArrayObject
         arguments:
             -

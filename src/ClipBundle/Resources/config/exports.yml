@@ -1,5 +1,6 @@
 services:
     clip.export.clienten:
+        public: true
         class: AppBundle\Export\GenericExport
         arguments:
             - ClipBundle\Entity\Client
@@ -21,6 +22,7 @@ services:
                 Aanmelddatum client: { expression: 'entity.getAanmelddatum()', type: 'date' }
 
     clip.export.vragen:
+        public: true
         class: AppBundle\Export\GenericExport
         arguments:
             - ClipBundle\Entity\Vraag
@@ -48,6 +50,7 @@ services:
                 Aanmelddatum client: { expression: 'entity.getClient().getAanmelddatum()', type: 'date' }
 
     clip.export.contactmomenten:
+        public: true
         class: AppBundle\Export\GenericExport
         arguments:
             - ClipBundle\Entity\Contactmoment
@@ -79,4 +82,5 @@ services:
                 Aanmelddatum client: { expression: 'entity.getVraag().getClient().getAanmelddatum()', type: 'date' }
 
     clip.export.report:
+        public: true
         class: AppBundle\Export\ReportExport

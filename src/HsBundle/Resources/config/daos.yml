@@ -42,18 +42,21 @@ services:
         parent: app.dao.abstract
 
     hs.betaling.entities:
+        public: true
         class: ArrayObject
         arguments:
             -
               - { key: factuur, dao: '@HsBundle\Service\FactuurDao' }
 
     hs.declaratie.entities:
+        public: true
         class: ArrayObject
         arguments:
             -
               - { key: klus, dao: '@HsBundle\Service\KlusDao' }
 
     hs.document.entities:
+        public: true
         class: ArrayObject
         arguments:
             -
@@ -63,18 +66,21 @@ services:
               - { key: klus, dao: '@HsBundle\Service\KlusDao' }
 
     hs.factuur.entities:
+        public: true
         class: ArrayObject
         arguments:
             -
               - { key: klant, dao: '@HsBundle\Service\KlantDao' }
 
     hs.herinnering.entities:
+        public: true
         class: ArrayObject
         arguments:
             -
               - { key: factuur, dao: '@HsBundle\Service\FactuurDao' }
 
     hs.klus.entities:
+        public: true
         class: ArrayObject
         arguments:
             -
@@ -82,6 +88,7 @@ services:
               - { key: klant, dao: '@HsBundle\Service\KlantDao' }
 
     hs.memo.entities:
+        public: true
         class: ArrayObject
         arguments:
             -
@@ -91,6 +98,7 @@ services:
               - { key: vrijwilliger, dao: '@HsBundle\Service\VrijwilligerDao' }
 
     hs.registratie.entities:
+        public: true
         class: ArrayObject
         arguments:
             -

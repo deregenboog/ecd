@@ -12,9 +12,8 @@ use InloopBundle\Pdf\PdfSchorsingEn;
 use InloopBundle\Pdf\PdfSchorsingNl;
 use InloopBundle\Service\SchorsingDaoInterface;
 use JMS\DiExtraBundle\Annotation as DI;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -89,7 +88,7 @@ class SchorsingenController extends AbstractController
         $klant = $request->get('klant');
         $entity = new Schorsing($klant);
 
-        $form = $this->createForm($this->formClass, $entity, [
+        $form = $this->getForm($this->formClass, $entity, [
             'medewerker' => $this->getMedewerker(),
         ]);
         $form->handleRequest($request);

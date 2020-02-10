@@ -29,24 +29,28 @@ services:
             - { name: form.type }
 
     OekBundle\Report\DeelnemersPerTrainingGroep:
+        public: true
         arguments:
             - "@oek.repository.deelnemer"
         tags:
             - { name: oek.rapportage, category: Deelnemers }
 
     OekBundle\Report\DeelnemersVerwezenDoor:
+        public: true
         arguments:
             - "@oek.repository.deelnemer"
         tags:
             - { name: oek.rapportage, category: Deelnemers }
 
     OekBundle\Report\DeelnemersVerwezenNaar:
+        public: true
         arguments:
             - "@oek.repository.deelnemer"
         tags:
             - { name: oek.rapportage, category: Deelnemers }
 
     OekBundle\Report\TrainingenPerGroepNaam:
+        public: true
         arguments:
             - "@oek.repository.training"
         tags:

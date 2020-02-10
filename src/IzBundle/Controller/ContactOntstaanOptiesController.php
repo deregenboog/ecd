@@ -7,7 +7,7 @@ use IzBundle\Entity\ContactOntstaan;
 use IzBundle\Form\ContactOntstaanType;
 use IzBundle\Service\ContactOntstaanDaoInterface;
 use JMS\DiExtraBundle\Annotation as DI;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 
 /**

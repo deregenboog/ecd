@@ -46,7 +46,7 @@ class WoningbouwcorporatiesController extends SymfonyController
     {
         $woningbouwcorporatie = new Woningbouwcorporatie();
 
-        $form = $this->createForm(WoningbouwcorporatieType::class, $woningbouwcorporatie);
+        $form = $this->getForm(WoningbouwcorporatieType::class, $woningbouwcorporatie);
         $form->handleRequest($this->getRequest());
         if ($form->isSubmitted() && $form->isValid()) {
             try {
@@ -72,7 +72,7 @@ class WoningbouwcorporatiesController extends SymfonyController
     {
         $woningbouwcorporatie = $this->woningbouwcorporatieDao->find($id);
 
-        $form = $this->createForm(WoningbouwcorporatieType::class, $woningbouwcorporatie);
+        $form = $this->getForm(WoningbouwcorporatieType::class, $woningbouwcorporatie);
         $form->handleRequest($this->getRequest());
         if ($form->isSubmitted() && $form->isValid()) {
             try {
@@ -97,7 +97,7 @@ class WoningbouwcorporatiesController extends SymfonyController
     {
         $woningbouwcorporatie = $this->woningbouwcorporatieDao->find($id);
 
-        $form = $this->createForm(ConfirmationType::class);
+        $form = $this->getForm(ConfirmationType::class);
         $form->handleRequest($this->getRequest());
         if ($form->isSubmitted() && $form->isValid()) {
             if ($form->get('yes')->isClicked()) {

@@ -63,7 +63,7 @@ class TrainingenController extends AbstractChildController
         /** @var Training $training */
         $training = $this->dao->find($id);
 
-        $form = $this->createForm(EmailMessageType::class, null, [
+        $form = $this->getForm(EmailMessageType::class, null, [
             'from' => $this->Session->read('Auth.Medewerker.LdapUser.mail'),
             'to' => $training->getDeelnemers(),
         ]);

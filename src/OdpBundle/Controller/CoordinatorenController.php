@@ -46,7 +46,7 @@ class CoordinatorenController extends SymfonyController
     {
         $coordinator = new Coordinator();
 
-        $form = $this->createForm(CoordinatorType::class, $coordinator);
+        $form = $this->getForm(CoordinatorType::class, $coordinator);
         $form->handleRequest($this->getRequest());
         if ($form->isSubmitted() && $form->isValid()) {
             try {
@@ -72,7 +72,7 @@ class CoordinatorenController extends SymfonyController
     {
         $coordinator = $this->coordinatorDao->find($id);
 
-        $form = $this->createForm(CoordinatorType::class, $coordinator);
+        $form = $this->getForm(CoordinatorType::class, $coordinator);
         $form->handleRequest($this->getRequest());
         if ($form->isSubmitted() && $form->isValid()) {
             try {
@@ -97,7 +97,7 @@ class CoordinatorenController extends SymfonyController
     {
         $coordinator = $this->coordinatorDao->find($id);
 
-        $form = $this->createForm(ConfirmationType::class);
+        $form = $this->getForm(ConfirmationType::class);
         $form->handleRequest($this->getRequest());
         if ($form->isSubmitted() && $form->isValid()) {
             if ($form->get('yes')->isClicked()) {

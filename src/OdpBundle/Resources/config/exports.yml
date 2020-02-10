@@ -1,5 +1,6 @@
 services:
     odp.export.huurders:
+        public: true
         class: AppBundle\Export\GenericExport
         arguments:
             - OdpBundle\Entity\Huurder
@@ -27,6 +28,7 @@ services:
                 E-mailvoorkeur: { expression: 'entity.getKlant().getGeenEmail() ? "Geen e-mail" : "Wel e-mail"' }
 
     odp.export.verhuurders:
+        public: true
         class: AppBundle\Export\GenericExport
         arguments:
             - OdpBundle\Entity\Verhuurder
@@ -51,6 +53,7 @@ services:
                 E-mailvoorkeur: { expression: 'entity.getKlant().getGeenEmail() ? "Geen e-mail" : "Wel e-mail"' }
 
     odp.export.huurverzoeken:
+        public: true
         class: AppBundle\Export\GenericExport
         arguments:
             - OdpBundle\Entity\Huurverzoek
@@ -62,6 +65,7 @@ services:
                 Afsluitdatum: { expression: 'entity.getAfsluitdatum()', type: 'date' }
 
     odp.export.huuraanbiedingen:
+        public: true
         class: AppBundle\Export\GenericExport
         arguments:
             - OdpBundle\Entity\Huuraanbod
@@ -73,6 +77,7 @@ services:
                 Afsluitdatum: { expression: 'entity.getAfsluitdatum()', type: 'date' }
 
     odp.export.koppelingen:
+        public: true
         class: AppBundle\Export\GenericExport
         arguments:
             - OdpBundle\Entity\Huurovereenkomst
@@ -92,4 +97,5 @@ services:
                 WA-polis: { expression: 'entity.getHuurder().isWaPolis() ? "ja" : "nee"' }
 
     odp.export.report:
+        public: true
         class: AppBundle\Export\ReportExport

@@ -15,7 +15,7 @@ use DagbestedingBundle\Form\DeelnemerType;
 use DagbestedingBundle\Service\DeelnemerDaoInterface;
 use IzBundle\Service\KlantDaoInterface;
 use JMS\DiExtraBundle\Annotation as DI;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;
@@ -68,7 +68,7 @@ class DeelnemersController extends AbstractController
 
     private function doSearch(Request $request)
     {
-        $filterForm = $this->createForm(KlantFilterType::class, null, [
+        $filterForm = $this->getForm(KlantFilterType::class, null, [
             'enabled_filters' => ['id', 'naam', 'bsn', 'geboortedatum'],
         ]);
         $filterForm->handleRequest($request);
@@ -115,7 +115,7 @@ class DeelnemersController extends AbstractController
             $entity = new Deelnemer();
             $entity->setKlant($klant);
 
-            $creationForm = $this->createForm(DeelnemerType::class, $entity);
+            $creationForm = $this->getForm(DeelnemerType::class, $entity);
             $creationForm->handleRequest($request);
 
             if ($creationForm->isSubmitted() && $creationForm->isValid()) {
@@ -149,7 +149,7 @@ class DeelnemersController extends AbstractController
     {
         $entity = $this->dao->find($id);
 
-        $form = $this->createForm(DeelnemerCloseType::class, $entity);
+        $form = $this->getForm(DeelnemerCloseType::class, $entity);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -178,7 +178,7 @@ class DeelnemersController extends AbstractController
     {
         $entity = $this->dao->find($id);
 
-        $form = $this->createForm(DeelnemerReopenType::class, $entity);
+        $form = $this->getForm(DeelnemerReopenType::class, $entity);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {

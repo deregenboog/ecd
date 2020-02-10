@@ -1,5 +1,6 @@
 services:
     buurtboerderij.export.vrijwilligers:
+        public: true
         class: AppBundle\Export\GenericExport
         arguments:
             - BuurtboerderijBundle\Entity\Vrijwilliger

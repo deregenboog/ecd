@@ -1,11 +1,11 @@
 <h1>SUSPENSION NOTE</h1>
 <p>
-    {%- spaceless %}
+    {%- apply spaceless %}
         On {{ entity.datumVan|date('d-m-Y') }} you were suspended at our location(s) {{ entity.locaties|implode }}.
         The reason for your suspension was a disobedience of the house rules.
         Please find in the following table a short description of the incident and the length of your suspension.
         Also we would like to inform you about the way you can appeal against this decision.
-    {% endspaceless -%}
+    {% endapply -%}
 </p>
 <table>
     <tr>
@@ -53,9 +53,9 @@
     </tr>
 </table>
 <p>
-    {%- spaceless %}
+    {%- apply spaceless %}
         Safety, cosines, peace and quiet are our main concern for visitors,
         neighbours and workers alike inside and outside of our locations. We are
         confident of your cooperation and contribution to these values in the future.
-    {% endspaceless -%}
+    {% endapply -%}
 </p>

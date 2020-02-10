@@ -1,5 +1,6 @@
 services:
     ga.export.activiteiten:
+        public: true
         class: AppBundle\Export\GenericExport
         arguments:
             - GaBundle\Entity\Activiteit
@@ -9,6 +10,7 @@ services:
                 Groep: { expression: 'entity.getGroep().getNaam()', condition: 'entity.getGroep()' }
 
     ga.export.groepen:
+        public: true
         class: AppBundle\Export\GenericExport
         arguments:
             - GaBundle\Entity\Groep
@@ -19,6 +21,7 @@ services:
                 Werkgebied: { expression: 'entity.getWerkgebied().getNaam()', condition: 'entity.getWerkgebied()' }
 
     ga.export.klantdossiers:
+        public: true
         class: AppBundle\Export\GenericExport
         arguments:
             - GaBundle\Entity\Klantdossier
@@ -42,6 +45,7 @@ services:
                 E-mailvoorkeur: { expression: 'entity.getKlant().getGeenEmail() ? "Geen e-mail" : "Wel e-mail"' }
 
     ga.export.vrijwilligerdossiers:
+        public: true
         class: AppBundle\Export\GenericExport
         arguments:
             - GaBundle\Entity\Vrijwilligerdossier
@@ -65,6 +69,7 @@ services:
                 E-mailvoorkeur: { expression: 'entity.getVrijwilliger().getGeenEmail() ? "Geen e-mail" : "Wel e-mail"' }
 
     ga.export.groepsleden_klanten:
+        public: true
         class: AppBundle\Export\GenericExport
         arguments:
             - array
@@ -90,6 +95,7 @@ services:
                 Afsluitdatum IZ: { expression: 'entity["Klant"]["IzDeelnemer"]["datumafsluiting"]', condition: 'not empty(entity["Klant"]["IzDeelnemer"])', type: 'date' }
 
     ga.export.groepsleden_vrijwilligers:
+        public: true
         class: AppBundle\Export\GenericExport
         arguments:
             - array
@@ -114,6 +120,7 @@ services:
                 E-mailvoorkeur: { expression: 'entity["Vrijwilliger"]["geen_email"] ? "Geen e-mail" : "Wel e-mail"' }
 
     ga.export.selectie:
+        public: true
         class: AppBundle\Export\GenericExport
         arguments:
             - array
@@ -139,6 +146,7 @@ services:
                 Gezin met kinderen: { expression: 'entity["gezin_met_kinderen"]' }
 
     ga.export.selectie2:
+        public: true
         class: GaBundle\Export\SelectionExport
         arguments:
             - GaBundle\Entity\Klantdossier
@@ -187,4 +195,5 @@ services:
                 Gezin met kinderen: { expression: 'null' }
 
     ga.export.report:
+        public: true
         class: AppBundle\Export\ReportExport

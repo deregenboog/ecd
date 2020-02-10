@@ -5,6 +5,7 @@ services:
             - { name: form.type }
 
     clip.report.vragen_per_communicatiekanaal:
+        public: true
         class: ClipBundle\Report\VragenPerCommunicatiekanaal
         arguments:
             - '@ClipBundle\Service\VraagDao'
@@ -13,6 +14,7 @@ services:
             - { name: clip.rapportage, category: Vragen }
 
     clip.report.vragen_per_etniciteit:
+        public: true
         class: ClipBundle\Report\VragenPerEtniciteit
         arguments:
             - '@ClipBundle\Service\VraagDao'
@@ -21,6 +23,7 @@ services:
             - { name: clip.rapportage, category: Vragen }
 
     clip.report.vragen_per_geslacht:
+        public: true
         class: ClipBundle\Report\VragenPerGeslacht
         arguments:
             - '@ClipBundle\Service\VraagDao'
@@ -29,6 +32,7 @@ services:
             - { name: clip.rapportage, category: Vragen }
 
     clip.report.vragen_per_viacategorie:
+        public: true
         class: ClipBundle\Report\VragenPerViacategorie
         arguments:
             - '@ClipBundle\Service\VraagDao'
@@ -37,6 +41,7 @@ services:
             - { name: clip.rapportage, category: Vragen }
 
     clip.report.vragen_per_hulpvrager:
+        public: true
         class: ClipBundle\Report\VragenPerHulpvrager
         arguments:
             - '@ClipBundle\Service\VraagDao'
@@ -45,6 +50,7 @@ services:
             - { name: clip.rapportage, category: Vragen }
 
     clip.report.vragen_per_leeftijdscategorie:
+        public: true
         class: ClipBundle\Report\VragenPerLeeftijdscategorie
         arguments:
             - '@ClipBundle\Service\VraagDao'
@@ -53,6 +59,7 @@ services:
             - { name: clip.rapportage, category: Vragen }
 
     clip.report.vragen_per_maand:
+        public: true
         class: ClipBundle\Report\VragenPerMaand
         arguments:
             - '@ClipBundle\Service\VraagDao'
@@ -61,6 +68,7 @@ services:
             - { name: clip.rapportage, category: Vragen }
 
     clip.report.vragen_per_stadsdeel:
+        public: true
         class: ClipBundle\Report\VragenPerStadsdeel
         arguments:
             - '@ClipBundle\Service\VraagDao'
@@ -69,6 +77,7 @@ services:
             - { name: clip.rapportage, category: Vragen }
 
     clip.report.vragen_per_vraagsoort:
+        public: true
         class: ClipBundle\Report\VragenPerVraagsoort
         arguments:
             - '@ClipBundle\Service\VraagDao'
@@ -77,6 +86,7 @@ services:
             - { name: clip.rapportage, category: Vragen }
 
     clip.report.vragen_per_woonplaats:
+        public: true
         class: ClipBundle\Report\VragenPerWoonplaats
         arguments:
             - '@ClipBundle\Service\VraagDao'

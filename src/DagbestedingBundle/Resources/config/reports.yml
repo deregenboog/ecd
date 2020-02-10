@@ -14,6 +14,7 @@ services:
 
     dagbesteding.report.dagdelen_per_deelnemer:
         class: DagbestedingBundle\Report\DagdelenPerDeelnemer
+        public: true
         arguments:
             - '@DagbestedingBundle\Service\DagdeelDao'
         tags:
@@ -21,6 +22,7 @@ services:
 
     dagbesteding.report.deelnemers_per_begeleider:
         class: DagbestedingBundle\Report\DeelnemersPerBegeleider
+        public: true
         arguments:
             - '@DagbestedingBundle\Service\DeelnemerDao'
         tags:
@@ -28,6 +30,7 @@ services:
 
     dagbesteding.report.deelnemers_per_locatie:
         class: DagbestedingBundle\Report\DeelnemersPerLocatie
+        public: true
         arguments:
             - '@DagbestedingBundle\Service\DeelnemerDao'
         tags:
@@ -35,6 +38,7 @@ services:
 
     dagbesteding.report.deelnemers_per_project:
         class: DagbestedingBundle\Report\DeelnemersPerProject
+        public: true
         arguments:
             - '@DagbestedingBundle\Service\DeelnemerDao'
         tags:
@@ -42,6 +46,7 @@ services:
 
     dagbesteding.report.deelnemers_per_resultaatgebiedsoort:
         class: DagbestedingBundle\Report\DeelnemersPerResultaatgebiedsoort
+        public: true
         arguments:
             - '@DagbestedingBundle\Service\DeelnemerDao'
         tags:
@@ -49,6 +54,7 @@ services:
 
     dagbesteding.report.trajecten_per_afsluiting:
         class: DagbestedingBundle\Report\TrajectenPerAfsluiting
+        public: true
         arguments:
             - '@DagbestedingBundle\Service\TrajectDao'
         tags:

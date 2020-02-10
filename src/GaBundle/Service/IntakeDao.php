@@ -40,7 +40,7 @@ class IntakeDao extends AbstractDao implements IntakeDaoInterface
     /**
      * @param Klant $klant
      *
-     * @return Deelnemer
+     * @return Intake
      */
     public function findOneByKlant(Klant $klant)
     {

@@ -1,5 +1,6 @@
 services:
     eropuit.export.klanten:
+        public: true
         class: AppBundle\Export\GenericExport
         arguments:
             - ErOpUitBundle\Entity\Klant
@@ -27,6 +28,7 @@ services:
                 E-mailvoorkeur: { expression: 'entity.getKlant().getGeenEmail() ? "Geen e-mail" : "Wel e-mail"' }
 
     eropuit.export.vrijwilligers:
+        public: true
         class: AppBundle\Export\GenericExport
         arguments:
             - ErOpUitBundle\Entity\Vrijwilliger

@@ -9,9 +9,8 @@ use InloopBundle\Entity\Locatie;
 use InloopBundle\Form\OpmerkingType;
 use InloopBundle\Service\OpmerkingDaoInterface;
 use JMS\DiExtraBundle\Annotation as DI;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -51,8 +50,7 @@ class OpmerkingenController extends AbstractController
     }
 
     /**
-     * @Route("/{opmerking}/updateGezien")
-     * @Method("POST")
+     * @Route("/{opmerking}/updateGezien", methods={"POST"})
      */
     public function updateGezienAction(Request $request, Opmerking $opmerking)
     {
@@ -75,8 +73,7 @@ class OpmerkingenController extends AbstractController
     }
 
     /**
-     * @Route("/{opmerking}/delete")
-     * @Method("POST")
+     * @Route("/{opmerking}/delete", methods={"POST"})
      * @ParamConverter("opmerking", class="AppBundle:Opmerking")
      */
     public function deleteAction(Request $request, $opmerking)

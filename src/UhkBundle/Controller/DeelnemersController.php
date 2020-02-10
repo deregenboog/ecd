@@ -66,7 +66,7 @@ class DeelnemersController extends AbstractController
      */
     public function indexAction(Request $request)
     {
-        $form = $this->createForm($this->filterFormClass);
+        $form = $this->getForm($this->filterFormClass);
         $form->handleRequest($request);
         $filter = $form->getData();
 
@@ -133,7 +133,7 @@ class DeelnemersController extends AbstractController
         if ($entity->getMedewerker() != $this->getMedewerker() && !$this->isGranted("ROLE_UHK_BEHEER")) {
             throw new AccessDeniedException("Mag alleen verslagen verwijderen als je een beheerder bent of het over een eigen verslag gaat.");
         }
-        $form = $this->createForm(ConfirmationType::class);
+        $form = $this->getForm(ConfirmationType::class);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -167,7 +167,7 @@ class DeelnemersController extends AbstractController
 
     private function doSearch(Request $request)
     {
-        $filterForm = $this->createForm(KlantFilterType::class, null, [
+        $filterForm = $this->getForm(KlantFilterType::class, null, [
             'enabled_filters' => ['id', 'naam', 'bsn', 'geboortedatum'],
         ]);
         $filterForm->handleRequest($request);
@@ -212,7 +212,7 @@ class DeelnemersController extends AbstractController
         }
 
         $deelnemer = new Deelnemer($klant, $this->getMedewerker());
-        $creationForm = $this->createForm(DeelnemerType::class, $deelnemer);
+        $creationForm = $this->getForm(DeelnemerType::class, $deelnemer);
         $creationForm->handleRequest($request);
 
         if ($creationForm->isSubmitted() && $creationForm->isValid()) {

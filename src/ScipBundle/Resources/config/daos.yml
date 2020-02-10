@@ -24,6 +24,7 @@ services:
         parent: app.dao.abstract
 
     scip.deelname.entities:
+        public: true
         class: ArrayObject
         arguments:
             -
@@ -31,18 +32,21 @@ services:
               - { key: project, dao: '@ScipBundle\Service\ProjectDao' }
     
     scip.document.entities:
+        public: true
         class: ArrayObject
         arguments:
             -
               - { key: deelnemer, dao: '@ScipBundle\Service\DeelnemerDao' }
 
     scip.verslag.entities:
+        public: true
         class: ArrayObject
         arguments:
             -
               - { key: deelnemer, dao: '@ScipBundle\Service\DeelnemerDao' }
 
     scip.werkdoel.entities:
+        public: true
         class: ArrayObject
         arguments:
             -

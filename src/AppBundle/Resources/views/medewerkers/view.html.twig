@@ -54,7 +54,7 @@
         <div id="geerfde_rollen" class="tab-pane">
             <h2>Geërfde rollen</h2>
             <ul>
-                {% for role in entity.roles if role in role_hierarchy|keys %}
+                {% for role in entity.roles|filter(role => role in role_hierarchy|keys) %}
                     <li>
                         {{ role }}
                         <ul>

@@ -7,7 +7,7 @@ use IzBundle\Entity\EindeVraagAanbod;
 use IzBundle\Form\EindeVraagAanbodType;
 use IzBundle\Service\EindeVraagAanbodDaoInterface;
 use JMS\DiExtraBundle\Annotation as DI;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 
 /**

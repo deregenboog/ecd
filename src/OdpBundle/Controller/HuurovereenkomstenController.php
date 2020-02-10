@@ -15,7 +15,7 @@ use OdpBundle\Form\HuurovereenkomstCloseType;
 use OdpBundle\Form\HuurovereenkomstFilterType;
 use OdpBundle\Form\HuurovereenkomstType;
 use OdpBundle\Service\HuurovereenkomstDao;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -77,7 +77,7 @@ class HuurovereenkomstenController extends AbstractController
             $huurovereenkomst->setHuuraanbod($entity);
         }
 
-        $form = $this->createForm(HuurovereenkomstType::class, $huurovereenkomst);
+        $form = $this->getForm(HuurovereenkomstType::class, $huurovereenkomst);
         $form->handleRequest($this->getRequest());
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -108,7 +108,7 @@ class HuurovereenkomstenController extends AbstractController
         $entityManager = $this->getEntityManager();
         $huurovereenkomst = $entityManager->find(Huurovereenkomst::class, $id);
 
-        $form = $this->createForm(HuurovereenkomstCloseType::class, $huurovereenkomst);
+        $form = $this->getForm(HuurovereenkomstCloseType::class, $huurovereenkomst);
         $form->handleRequest($this->getRequest());
         if ($form->isSubmitted() && $form->isValid()) {
             try {
@@ -132,7 +132,7 @@ class HuurovereenkomstenController extends AbstractController
         $entityManager = $this->getEntityManager();
         $huurovereenkomst = $entityManager->find(Huurovereenkomst::class, $id);
 
-        $form = $this->createForm(ConfirmationType::class);
+        $form = $this->getForm(ConfirmationType::class);
         $form->handleRequest($this->getRequest());
 
         if ($form->isSubmitted() && $form->isValid()) {

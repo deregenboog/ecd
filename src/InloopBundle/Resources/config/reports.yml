@@ -4,18 +4,21 @@ services:
             - { name: form.type }
 
     InloopBundle\Report\Infobalie:
+        public: true
         arguments:
             - "@doctrine.orm.entity_manager"
         tags:
             - { name: inloop.rapportage }
 
     InloopBundle\Report\Klantenoverzicht:
+        public: true
         arguments:
             - "@doctrine.orm.entity_manager"
         tags:
             - { name: inloop.rapportage }
 
     InloopBundle\Report\Locatie:
+        public: true
         arguments:
             - "@doctrine.orm.entity_manager"
         tags:

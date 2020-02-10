@@ -105,7 +105,7 @@
         <dd>
             {% if entity.vrijwilligers|length > 0 %}
             <ul>
-                {% for vrijwilliger in entity.vrijwilligers if vrijwilliger.vrijwilliger is not null%}
+                {% for vrijwilliger in entity.vrijwilligers|filter(vrijwilliger => vrijwilliger.vrijwilliger is not null) %}
                     <li>
                         {{ html.link(vrijwilliger.vrijwilliger, path('hs_vrijwilligers_view', {'id': vrijwilliger.id})) }}
                     </li>

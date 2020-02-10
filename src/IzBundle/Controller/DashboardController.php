@@ -18,7 +18,7 @@ use IzBundle\Service\HulpaanbodDaoInterface;
 use IzBundle\Service\HulpvraagDaoInterface;
 use IzBundle\Service\KoppelingDaoInterface;
 use JMS\DiExtraBundle\Annotation as DI;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -88,7 +88,7 @@ class DashboardController extends SymfonyController
         $filter = new HulpvraagFilter();
         $filter->medewerker = $this->getMedewerker();
 
-        $form = $this->createForm(HulpvraagFilterType::class, $filter);
+        $form = $this->getForm(HulpvraagFilterType::class, $filter);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -114,7 +114,7 @@ class DashboardController extends SymfonyController
         $filter = new HulpaanbodFilter();
         $filter->medewerker = $this->getMedewerker();
 
-        $form = $this->createForm(HulpaanbodFilterType::class, $filter, [
+        $form = $this->getForm(HulpaanbodFilterType::class, $filter, [
             'enabled_filters' => [
                 'startdatum',
                 'vrijwilliger' => [
@@ -159,7 +159,7 @@ class DashboardController extends SymfonyController
         $filter->medewerker = $this->getMedewerker();
         $filter->lopendeKoppelingen = true;
 
-        $form = $this->createForm(KoppelingFilterType::class, $filter, [
+        $form = $this->getForm(KoppelingFilterType::class, $filter, [
             'enabled_filters' => [
                 'koppelingStartdatum',
                 'klant' => ['voornaam', 'achternaam', 'stadsdeel'],

@@ -10,14 +10,14 @@ final class AppProcessor implements ProcessorInterface
     /**
      * {@inheritdoc}
      */
-    public function preProcess($fixtureId, $object): void
+    public function preProcess(string $fixtureId, $object): void
     {
     }
 
     /**
      * {@inheritdoc}
      */
-    public function postProcess($fixtureId, $object): void
+    public function postProcess(string $fixtureId, $object): void
     {
     }
 }

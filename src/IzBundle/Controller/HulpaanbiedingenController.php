@@ -14,7 +14,7 @@ use IzBundle\Form\HulpvraagFilterType;
 use IzBundle\Service\HulpaanbodDaoInterface;
 use IzBundle\Service\HulpvraagDaoInterface;
 use JMS\DiExtraBundle\Annotation as DI;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -75,7 +75,7 @@ class HulpaanbiedingenController extends AbstractChildController
     protected function addParams($entity, Request $request)
     {
         if ('iz_hulpaanbiedingen_view' === $request->get('_route')) {
-            $form = $this->createForm(HulpvraagFilterType::class, new HulpvraagFilter(), [
+            $form = $this->getForm(HulpvraagFilterType::class, new HulpvraagFilter(), [
                 'enabled_filters' => [
                     'matching',
                     'startdatum',

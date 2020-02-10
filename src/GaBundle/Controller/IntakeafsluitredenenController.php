@@ -6,10 +6,12 @@ use AppBundle\Controller\AbstractController;
 use GaBundle\Entity\IntakeAfsluitreden;
 use GaBundle\Form\IntakeAfsluitredenType;
 use JMS\DiExtraBundle\Annotation as DI;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\Routing\Annotation\Route;
+use GaBundle\Service\IntakeAfsluitredenDaoInterface;
 
 /**
  * @Route("/intakeafsluitredenen")
+ * @todo Wordt dit nog gebruikt?
  */
 class IntakeafsluitredenenController extends AbstractController
 {

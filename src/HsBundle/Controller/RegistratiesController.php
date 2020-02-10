@@ -93,7 +93,7 @@ class RegistratiesController extends AbstractChildController
             $entity = new Registratie(null, $parentEntity);
         }
 
-        $form = $this->createForm($this->formClass, $entity);
+        $form = $this->getForm($this->formClass, $entity);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {

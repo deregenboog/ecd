@@ -53,6 +53,6 @@ class KlantUpdater implements EventSubscriber
     {
         $klant->setSaldo($klant->getBetaald() - $klant->getGefactureerd());
 
-        $em->flush($klant);
+        $em->flush();
     }
 }

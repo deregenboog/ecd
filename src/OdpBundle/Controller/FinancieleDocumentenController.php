@@ -17,7 +17,7 @@ use OdpBundle\Service\DocumentDaoInterface;
 use OdpBundle\Service\FinancieelDocumentDao;
 use OdpBundle\Service\FinancieelDocumentDaoInterface;
 use OdpBundle\Service\FinancieelVerslagDaoInterface;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -56,7 +56,7 @@ class FinancieleDocumentenController extends SymfonyController
         $entityManager = $this->getEntityManager();
         $entity = $this->findEntity($entityManager);
 
-        $form = $this->createForm(DocumentType::class, new FinancieelDocument());
+        $form = $this->getForm(DocumentType::class, new FinancieelDocument());
         $form->handleRequest($this->getRequest());
         if ($form->isSubmitted() && $form->isValid()) {
             $routeBase = $this->resolveRouteBase($entity);
@@ -84,7 +84,7 @@ class FinancieleDocumentenController extends SymfonyController
     {
         $entity = $this->dao->find($id);
 
-        $form = $this->createForm(DocumentType::class, $entity);;
+        $form = $this->getForm(DocumentType::class, $entity);;
         $form->handleRequest($this->getRequest());
         if ($form->isSubmitted() && $form->isValid()) {
             try {
@@ -112,7 +112,7 @@ class FinancieleDocumentenController extends SymfonyController
     {
         $entity = $this->dao->find($id);
 
-        $form = $this->createForm(ConfirmationType::class);
+        $form = $this->getForm(ConfirmationType::class);
         $form->handleRequest($this->getRequest());
         if ($form->isSubmitted() && $form->isValid()) {
             if ($form->get('yes')->isClicked()) {

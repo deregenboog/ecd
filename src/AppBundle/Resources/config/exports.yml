@@ -1,5 +1,6 @@
 services:
     app.export.klanten:
+        public: true
         class: AppBundle\Export\GenericExport
         arguments:
             - AppBundle\Entity\Klant
@@ -21,6 +22,7 @@ services:
                 E-mailvoorkeur: { expression: 'entity.getGeenEmail() ? "Geen e-mail" : "Wel e-mail"' }
 
     app.export.vrijwilligers:
+        public: true
         class: AppBundle\Export\GenericExport
         arguments:
             - AppBundle\Entity\Vrijwilliger
@@ -43,4 +45,5 @@ services:
                 Geinformeerd opslaan gegevens: { expression: 'entity.isGeinformeerdOpslaanGegevens() ? "Ja" : "Nee"' }
 
     app.export.report:
+        public: true
         class: AppBundle\Export\ReportExport

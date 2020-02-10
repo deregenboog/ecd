@@ -71,7 +71,7 @@ class KlantdossiersController extends DossiersController
 
     private function doSearch(Request $request)
     {
-        $form = $this->createForm(KlantFilterType::class, null, [
+        $form = $this->getForm(KlantFilterType::class, null, [
             'enabled_filters' => ['id', 'naam', 'bsn', 'geboortedatum'],
         ]);
         $form->handleRequest($request);

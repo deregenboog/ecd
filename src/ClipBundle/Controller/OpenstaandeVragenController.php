@@ -7,7 +7,7 @@ use ClipBundle\Entity\Vraag;
 use ClipBundle\Filter\VraagFilter;
 use ClipBundle\Service\VraagDaoInterface;
 use JMS\DiExtraBundle\Annotation as DI;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -42,7 +42,7 @@ class OpenstaandeVragenController extends AbstractVragenController
         $filter->openstaand = true;
 
         if ($this->filterFormClass) {
-            $form = $this->createForm($this->filterFormClass, $filter);
+            $form = $this->getForm($this->filterFormClass, $filter);
             $form->handleRequest($request);
             if ($form->isSubmitted() && $form->isValid()) {
                 if ($form->has('download') && $form->get('download')->isClicked()) {
@@ -61,7 +61,7 @@ class OpenstaandeVragenController extends AbstractVragenController
         ];
     }
 
-    protected function createForm($type, $data = null, array $options = [])
+    protected function getForm($type, $data = null, array $options = [])
     {
         $options['enabled_filters'] = [
             'id',
@@ -74,6 +74,6 @@ class OpenstaandeVragenController extends AbstractVragenController
             'download',
         ];
 
-        return parent::createForm($type, $data, $options);
+        return $this->createForm($type, $data, $options);
     }
 }

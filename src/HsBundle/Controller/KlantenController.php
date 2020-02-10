@@ -46,7 +46,7 @@ class KlantenController extends AbstractController
     public function addAction(Request $request)
     {
         $klant = new Klant();
-        $form = $this->createForm(KlantType::class, $klant);
+        $form = $this->getForm(KlantType::class, $klant);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {

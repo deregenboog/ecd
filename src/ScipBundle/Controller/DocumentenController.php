@@ -8,7 +8,7 @@ use ScipBundle\Entity\Document;
 use ScipBundle\Form\DocumentType;
 use ScipBundle\Security\Permissions;
 use ScipBundle\Service\DocumentDaoInterface;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 
 /**

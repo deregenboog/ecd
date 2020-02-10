@@ -1,5 +1,6 @@
 services:
     HsBundle\Report\ArbeidersPerStadsdeel:
+        public: true
         arguments:
             - '@HsBundle\Service\DienstverlenerDao'
             - '@HsBundle\Service\VrijwilligerDao'
@@ -7,6 +8,7 @@ services:
             - { name: hs.rapportage, category: Dienstverleners en vrijwilligers }
 
     HsBundle\Report\ArbeidersPerGgwGebied:
+        public: true
         arguments:
             - '@HsBundle\Service\DienstverlenerDao'
             - '@HsBundle\Service\VrijwilligerDao'
@@ -14,6 +16,7 @@ services:
             - { name: hs.rapportage, category: Dienstverleners en vrijwilligers }
 
     HsBundle\Report\NieuweArbeidersPerStadsdeel:
+        public: true
         arguments:
             - '@HsBundle\Service\DienstverlenerDao'
             - '@HsBundle\Service\VrijwilligerDao'
@@ -21,6 +24,7 @@ services:
             - { name: hs.rapportage, category: Dienstverleners en vrijwilligers }
 
     HsBundle\Report\NieuweArbeidersPerGgwGebied:
+        public: true
         arguments:
             - '@HsBundle\Service\DienstverlenerDao'
             - '@HsBundle\Service\VrijwilligerDao'
@@ -28,56 +32,64 @@ services:
             - { name: hs.rapportage, category: Dienstverleners en vrijwilligers }
 
     HsBundle\Report\KlantenPerStadsdeel:
+        public: true
         arguments:
             - '@HsBundle\Service\KlantDao'
         tags:
             - { name: hs.rapportage, category: Klanten }
 
     HsBundle\Report\KlantenPerGgwGebied:
+        public: true
         arguments:
             - '@HsBundle\Service\KlantDao'
         tags:
             - { name: hs.rapportage, category: Klanten }
 
     HsBundle\Report\NieuweKlantenPerStadsdeel:
+        public: true
         arguments:
             - '@HsBundle\Service\KlantDao'
         tags:
             - { name: hs.rapportage, category: Klanten }
 
     HsBundle\Report\NieuweKlantenPerGgwGebied:
+        public: true
         arguments:
             - '@HsBundle\Service\KlantDao'
         tags:
             - { name: hs.rapportage, category: Klanten }
 
     HsBundle\Report\KlussenPerStadsdeel:
+        public: true
         arguments:
             - '@HsBundle\Service\KlusDao'
         tags:
             - { name: hs.rapportage, category: Klussen }
 
     HsBundle\Report\KlussenPerGgwGebied:
+        public: true
         arguments:
             - '@HsBundle\Service\KlusDao'
         tags:
             - { name: hs.rapportage, category: Klussen }
 
     HsBundle\Report\KoppelingenPerStadsdeel:
+        public: true
         arguments:
             - '@HsBundle\Service\KlusDao'
         tags:
             - { name: hs.rapportage, category: Koppelingen }
 
     HsBundle\Report\KoppelingenPerGgwGebied:
+        public: true
         arguments:
             - '@HsBundle\Service\KlusDao'
         tags:
             - { name: hs.rapportage, category: Koppelingen }
 
     HsBundle\Report\Uren:
+        public: true
         arguments:
             - '@HsBundle\Service\RegistratieDao'
         tags:
             - { name: hs.rapportage, category: Uren }
-

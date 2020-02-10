@@ -9,6 +9,7 @@ services:
         parent: app.dao.abstract
 
     uhk.document.entities:
+        public: true
         class: ArrayObject
         arguments:
             -

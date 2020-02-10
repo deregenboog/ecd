@@ -36,7 +36,9 @@ class IntakeSubscriberTest extends TestCase
 
     public function testAccessAmocOnly()
     {
-        return true;
+        $this->markTestIncomplete();
+        return;
+
         $intake = new Intake(new Klant());
         $intake->setIntakedatum(new \DateTime("three weeks ago"));
         $intake->setInloophuis(true);
@@ -45,9 +47,8 @@ class IntakeSubscriberTest extends TestCase
         $subscriber->afterIntakeCreated(new GenericEvent($intake));
 
         $inloopToegang = new Toegang();
-
-
     }
+
     public function testEmailIsSentOnIntakeCreationWithServices()
     {
         $intake = new Intake(new Klant());

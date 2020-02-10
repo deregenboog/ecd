@@ -29,7 +29,7 @@
                     <th width="{{ col_width }}%"></th>
                 {% endfor %}
             </tr>
-            {% for inventarisatie in categorie if inventarisatie.depth is defined %}
+            {% for inventarisatie in categorie|filter(inventarisatie => inventarisatie.depth is defined) %}
                 <tr>
                     {% if inventarisatie.depth > 1 %}
                         <td colspan="{{ inventarisatie.depth-1 }}"></td>
@@ -37,7 +37,7 @@
                     <td colspan="{{ max_depth-inventarisatie.depth+1 }}">
                     {% if 'N' != inventarisatie.actie %}
                         {% set rendered = false %}
-                        {% for elm in form.children['inventarisatie_'~id].children if not rendered %}
+                        {% for elm in form.children['inventarisatie_'~id].children|filter(elm => not rendered) %}
                             {% if not elm.rendered and elm.vars.label == inventarisatie.titel %}
                                 {{ form_row(elm) }}
                                 {% set rendered = true %}
@@ -73,7 +73,7 @@
             {% else %}
                 {%  set ookMw = false %}
             {% endif %}
-            {% for verslag in entity.klant.verslagen if (verslag.type == 1 and ookMw == true) or verslag.type == 2 %}
+            {% for verslag in entity.klant.verslagen|filter(verslag => (verslag.type == 1 and ookMw == true) or verslag.type == 2) %}
 
                 <h3>Verslag van {{ verslag.datum|date('d-m-Y') }}</h3>
                 <div class="row">

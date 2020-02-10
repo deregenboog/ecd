@@ -15,7 +15,7 @@ use OdpBundle\Entity\Verslag;
 use OdpBundle\Exception\OdpException;
 use OdpBundle\Form\VerslagType;
 use OdpBundle\Service\VerslagDaoInterface;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -42,7 +42,7 @@ class VerslagenController extends SymfonyController
         $entityManager = $this->getEntityManager();
         $entity = $this->findEntity($entityManager);
 
-        $form = $this->createForm(VerslagType::class, new Verslag());
+        $form = $this->getForm(VerslagType::class, new Verslag());
         $form->handleRequest($this->getRequest());
         if ($form->isSubmitted() && $form->isValid()) {
             $routeBase = $this->resolveRouteBase($entity);
@@ -70,7 +70,7 @@ class VerslagenController extends SymfonyController
     {
         $entity = $this->dao->find($id);
 
-        $form = $this->createForm(VerslagType::class, $entity);
+        $form = $this->getForm(VerslagType::class, $entity);
         $form->handleRequest($this->getRequest());
         if ($form->isSubmitted() && $form->isValid()) {
             try {
@@ -98,7 +98,7 @@ class VerslagenController extends SymfonyController
     {
         $entity = $this->dao->find($id);
 
-        $form = $this->createForm(ConfirmationType::class);
+        $form = $this->getForm(ConfirmationType::class);
         $form->handleRequest($this->getRequest());
         if ($form->isSubmitted() && $form->isValid()) {
             if ($form->get('yes')->isClicked()) {

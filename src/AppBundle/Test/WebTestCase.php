@@ -5,7 +5,6 @@ namespace AppBundle\Test;
 use Hautelook\AliceBundle\PhpUnit\RecreateDatabaseTrait;
 use Liip\FunctionalTestBundle\Test\WebTestCase as CoreWebTestCase;
 use Liip\TestFixturesBundle\Test\FixturesTrait;
-use Nelmio\Alice\Fixtures;
 use Symfony\Bundle\FrameworkBundle\Client;
 use Symfony\Component\BrowserKit\Cookie;
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
@@ -15,6 +14,7 @@ class WebTestCase extends CoreWebTestCase
 {
     use FixturesTrait;
 //    use RecreateDatabaseTrait;
+
     /**
      * @var Client
      */

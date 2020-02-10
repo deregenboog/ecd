@@ -1,5 +1,6 @@
 services:
     uhk.export.deelnemers:
+        public: true
         class: AppBundle\Export\GenericExport
         arguments:
             - UhkBundle\Entity\deelnemer

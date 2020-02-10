@@ -13,7 +13,7 @@ use BuurtboerderijBundle\Form\VrijwilligerFilterType;
 use BuurtboerderijBundle\Form\VrijwilligerType;
 use BuurtboerderijBundle\Service\VrijwilligerDaoInterface;
 use JMS\DiExtraBundle\Annotation as DI;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;
@@ -88,7 +88,7 @@ class VrijwilligersController extends AbstractController
     {
         $entity = $this->dao->find($id);
 
-        $form = $this->createForm(ConfirmationType::class);
+        $form = $this->getForm(ConfirmationType::class);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -110,7 +110,7 @@ class VrijwilligersController extends AbstractController
 
     private function doSearch(Request $request)
     {
-        $filterForm = $this->createForm(AppVrijwilligerFilterType::class, null, [
+        $filterForm = $this->getForm(AppVrijwilligerFilterType::class, null, [
             'enabled_filters' => ['id', 'naam', 'bsn', 'geboortedatum'],
         ]);
         $filterForm->handleRequest($request);
@@ -155,7 +155,7 @@ class VrijwilligersController extends AbstractController
         }
 
         $buurtboerderijVrijwilliger = new Vrijwilliger($vrijwilliger);
-        $creationForm = $this->createForm(VrijwilligerType::class, $buurtboerderijVrijwilliger);
+        $creationForm = $this->getForm(VrijwilligerType::class, $buurtboerderijVrijwilliger);
         $creationForm->handleRequest($request);
 
         if ($creationForm->isSubmitted() && $creationForm->isValid()) {

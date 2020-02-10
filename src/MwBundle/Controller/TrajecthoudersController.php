@@ -7,7 +7,7 @@ use JMS\DiExtraBundle\Annotation as DI;
 use MwBundle\Entity\Trajecthouder;
 use MwBundle\Form\TrajecthouderType;
 use MwBundle\Service\TrajecthouderDaoInterface;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
 /**

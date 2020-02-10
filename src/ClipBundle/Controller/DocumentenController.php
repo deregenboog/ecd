@@ -7,7 +7,7 @@ use ClipBundle\Entity\Document;
 use ClipBundle\Form\DocumentType;
 use ClipBundle\Service\DocumentDaoInterface;
 use JMS\DiExtraBundle\Annotation as DI;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * @Route("/documenten")

@@ -92,7 +92,7 @@ class KlantenController extends AbstractController
 
     private function doSearch(Request $request)
     {
-        $filterForm = $this->createForm(AppKlantFilterType::class, null, [
+        $filterForm = $this->getForm(AppKlantFilterType::class, null, [
             'enabled_filters' => ['naam', 'bsn', 'geboortedatum'],
         ]);
         $filterForm->handleRequest($request);
@@ -140,7 +140,7 @@ class KlantenController extends AbstractController
         }
 
         $klant = new Klant($appKlant);
-        $creationForm = $this->createForm(KlantType::class, $klant);
+        $creationForm = $this->getForm(KlantType::class, $klant);
         $creationForm->handleRequest($request);
 
         if ($creationForm->isSubmitted() && $creationForm->isValid()) {

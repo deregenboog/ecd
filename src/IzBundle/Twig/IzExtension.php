@@ -5,14 +5,16 @@ namespace IzBundle\Twig;
 use Doctrine\ORM\EntityNotFoundException;
 use IzBundle\Entity\Hulpaanbod;
 use IzBundle\Entity\Hulpvraag;
+use Twig\TwigFilter;
+use Twig\Extension\AbstractExtension;
 
-class IzExtension extends \Twig_Extension
+class IzExtension extends AbstractExtension
 {
     public function getFilters()
     {
         return [
-            new \Twig_SimpleFilter('naam_klant', [$this, 'naamKlant']),
-            new \Twig_SimpleFilter('naam_vrijwilliger', [$this, 'naamVrijwilliger']),
+            new TwigFilter('naam_klant', [$this, 'naamKlant']),
+            new TwigFilter('naam_vrijwilliger', [$this, 'naamVrijwilliger']),
         ];
     }
 

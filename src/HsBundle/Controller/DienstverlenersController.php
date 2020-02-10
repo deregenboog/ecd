@@ -65,7 +65,7 @@ class DienstverlenersController extends AbstractController
 
     private function doSearch(Request $request)
     {
-        $filterForm = $this->createForm(AppKlantFilterType::class, null, [
+        $filterForm = $this->getForm(AppKlantFilterType::class, null, [
             'enabled_filters' => ['id', 'naam', 'bsn', 'geboortedatum'],
         ]);
         $filterForm->handleRequest($request);
@@ -113,7 +113,7 @@ class DienstverlenersController extends AbstractController
         }
 
         $dienstverlener = new Dienstverlener($klant);
-        $creationForm = $this->createForm(DienstverlenerType::class, $dienstverlener);
+        $creationForm = $this->getForm(DienstverlenerType::class, $dienstverlener);
         $creationForm->handleRequest($request);
 
         if ($creationForm->isSubmitted() && $creationForm->isValid()) {

@@ -60,7 +60,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    {% for lidmaatschap in entity.klantLidmaatschappen if not lidmaatschap.einddatum %}
+                    {% for lidmaatschap in entity.klantLidmaatschappen|filter(lidmaatschap => not lidmaatschap.einddatum) %}
                         <tr data-href="{{ path('ga_klantdossiers_view', {id: lidmaatschap.dossier.id}) }}">
                             <td>{{ lidmaatschap.dossier }}</td>
                             <td>{{ lidmaatschap.startdatum|date('d-m-Y') }}</td>
@@ -84,7 +84,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    {% for lidmaatschap in entity.klantLidmaatschappen if lidmaatschap.einddatum %}
+                    {% for lidmaatschap in entity.klantLidmaatschappen|filter(lidmaatschap => lidmaatschap.einddatum) %}
                         <tr data-href="{{ path('ga_klantdossiers_view', {id: lidmaatschap.dossier.id}) }}">
                             <td>{{ lidmaatschap.dossier }}</td>
                             <td>{{ lidmaatschap.startdatum|date('d-m-Y') }}</td>
@@ -112,7 +112,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    {% for lidmaatschap in entity.vrijwilligerLidmaatschappen if not lidmaatschap.einddatum %}
+                    {% for lidmaatschap in entity.vrijwilligerLidmaatschappen|filter(lidmaatschap => not lidmaatschap.einddatum) %}
                         <tr data-href="{{ path('ga_vrijwilligerdossiers_view', {id: lidmaatschap.dossier.id}) }}">
                             <td>{{ lidmaatschap.dossier }}</td>
                             <td>{{ lidmaatschap.startdatum|date('d-m-Y') }}</td>
@@ -136,7 +136,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    {% for lidmaatschap in entity.vrijwilligerLidmaatschappen if lidmaatschap.einddatum %}
+                    {% for lidmaatschap in entity.vrijwilligerLidmaatschappen|filter(lidmaatschap => lidmaatschap.einddatum) %}
                         <tr data-href="{{ path('ga_vrijwilligerdossiers_view', {id: lidmaatschap.dossier.id}) }}">
                             <td>{{ lidmaatschap.dossier }}</td>
                             <td>{{ lidmaatschap.startdatum|date('d-m-Y') }}</td>
