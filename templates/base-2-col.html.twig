@@ -26,7 +26,7 @@
 </head>
 <body>
     {% block header %}
-        {% include '::header.html.twig' %}
+        {% include 'header.html.twig' %}
     {% endblock %}
     <div class="container-fluid">
         {% block subnavigation %}{% endblock %}
@@ -46,7 +46,7 @@
         </div>
         {% block content_bottom %}{% endblock %}
     </div>
-    {% include '::footer.html.twig' %}
+    {% include 'footer.html.twig' %}
     <script src="{{ asset('node_modules/bootstrap/dist/js/bootstrap.min.js') }}"></script>
     <script src="{{ asset('node_modules/ckeditor4/ckeditor.js') }}"></script>
     <script src="{{ asset('js/app.js') }}"></script>
