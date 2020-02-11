@@ -57,6 +57,7 @@ class AppExtension extends AbstractExtension implements GlobalsInterface
         $this->administratorName = $administratorName;
         $this->administratorEmail = $administratorEmail;
         $this->tbcMonthsPeriod = $tbcMonthsPeriod;
+//        $twig->addGlobal('my_macros', $twig->loadTemplate('macros.html'));
     }
 
     public function getGlobals()
@@ -72,6 +73,7 @@ class AppExtension extends AbstractExtension implements GlobalsInterface
             'title' => null,
             'entity_name' => null,
             'route_base' => null,
+
         ];
     }
 

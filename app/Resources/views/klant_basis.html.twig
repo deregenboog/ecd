@@ -1,3 +1,4 @@
+{% import '::html.macro.twig' as html %}
 {% if module is not defined %}
     {% set module = app.request.get('module', 'Klant') %}
 {% endif %}

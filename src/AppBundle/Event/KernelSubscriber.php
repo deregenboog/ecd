@@ -35,6 +35,7 @@ class KernelSubscriber implements EventSubscriberInterface
             $this->twig->addGlobal('title', $controller[0]->getTitle());
             $this->twig->addGlobal('entity_name', $controller[0]->getEntityName());
             $this->twig->addGlobal('route_base', $controller[0]->getBaseRouteName());
+//            $this->twig->addGlobal('html',$this->twig->loadTemplate('html.macro.twig'));
         }
     }
 }
