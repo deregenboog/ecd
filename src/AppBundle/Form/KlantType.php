@@ -72,7 +72,8 @@ class KlantType extends AbstractType
             ->add('opmerking', AppTextareaType::class, ['required' => false])
             ->add('geenPost', null, ['label' => 'Geen post'])
             ->add('geenEmail')
-            ->add('geinformeerdOpslaanGegevens', CheckboxType::class, ['required'=>false]);
+            ->add('geinformeerdOpslaanGegevens', CheckboxType::class, ['required'=>false])
+        ;
 
         try
         {
