@@ -7,6 +7,7 @@ use AppBundle\Entity\Klant;
 use AppBundle\Entity\Land;
 use AppBundle\Report\AbstractReport;
 use AppBundle\Report\Table;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManager;
 use InloopBundle\Entity\Intake;
 use InloopBundle\Entity\Locatie;
@@ -68,6 +69,17 @@ class Infobalie extends AbstractReport
     {
         if (array_key_exists('locatie', $filter)) {
             $this->locatie = $filter['locatie'];
+
+            $builder = $this->entityManager->getRepository(Locatie::class)->createQueryBuilder('locatie')
+                ->select('locatie.id')
+            ;
+
+
+            $locatie_lijst = array_map(function ($row) {
+                return (int)$row['id'];
+            }, $builder->getQuery()->getScalarResult());
+            $this->locatie = implode(",",$locatie_lijst);
+            $this->locatieArray = $locatie_lijst;
         }
 
         if (array_key_exists('geslacht', $filter)) {
@@ -286,23 +298,30 @@ class Infobalie extends AbstractReport
 
         $builder = $klantRepository->createQueryBuilder('klant')
             ->select('klant.id, intake.id AS laatste_intake_id')
-            ->leftJoin('klant.laatsteIntake', 'intake')
+            ->join('klant.laatsteIntake', 'intake')
             ->andWhere('klant.created < :created')->setParameter('created', $endDatePlusOneDay)
         ;
+
         if ($this->geslacht instanceof Geslacht) {
             $builder->andWhere('klant.geslacht = :geslacht')->setParameter('geslacht', $this->geslacht);
         }
+
         if (count($this->landen) > 0) {
             $builder->andWhere('klant.land IN (:landen)')->setParameter('landen', $this->landen);
         }
+
+//        echo $this->getFullSQL($builder->getQuery());
         $klanten = $builder->getQuery()->getResult();
+        //@todo deze klantenlijst wordt al gefilterd op delete en disabled dus dat hoeft niet in de joins verderop.
+
+
 
         if ($this->locatie instanceof Locatie) {
             $builder = $registratieRepository->createQueryBuilder('registratie')
                 ->select('klant.id')
                 ->innerJoin('registratie.klant', 'klant')
                 ->where('klant IN (:klanten)')->setParameter('klanten', $klanten)
-                ->andWhere('registratie.locatie = :locatie')->setParameter('locatie', $this->locatie)
+                ->andWhere('registratie.locatie IN (:locatie)')->setParameter('locatie', $this->locatieArray)
                 ->andWhere('registratie.binnen >= :start_date')->setParameter('start_date', $startDate)
                 ->andWhere('registratie.binnen < :end_date')->setParameter('end_date', $endDatePlusOneDay)
             ;
@@ -314,7 +333,7 @@ class Infobalie extends AbstractReport
                 ->select('klant.id')
                 ->innerJoin('verslag.klant', 'klant')
                 ->where('klant IN (:klanten)')->setParameter('klanten', $klanten)
-                ->andWhere('verslag.locatie = :locatie')->setParameter('locatie', $this->locatie)
+                ->andWhere('verslag.locatie IN (:locatie)')->setParameter('locatie', $this->locatieArray)
                 ->andWhere('verslag.datum >= :start_date')->setParameter('start_date', $startDate)
                 ->andWhere('verslag.datum < :end_date')->setParameter('end_date', $endDatePlusOneDay)
             ;
@@ -326,7 +345,7 @@ class Infobalie extends AbstractReport
                 ->select('klant.id')
                 ->innerJoin('intake.klant', 'klant')
                 ->where('klant IN (:klanten)')->setParameter('klanten', $klanten)
-                ->andWhere('intake.intakelocatie = :locatie')->setParameter('locatie', $this->locatie)
+                ->andWhere('intake.intakelocatie IN (:locatie)')->setParameter('locatie', $this->locatieArray)
             ;
             $klanten_list_intake = array_map(function ($row) {
                 return $row['id'];
@@ -358,16 +377,6 @@ class Infobalie extends AbstractReport
              * $locatie = null dus alle locaties...
              *
              */
-            $builder = $this->entityManager->getRepository(Locatie::class)->createQueryBuilder('locatie')
-                ->select('locatie.id')
-            ;
-
-            $locatie_lijst = array_map(function ($row) {
-                return $row['id'];
-            }, $builder->getQuery()->getScalarResult());
-            $this->locatie = implode(",",$locatie_lijst);
-
-
         }
 
         foreach ($this->landen as $land) {
@@ -386,7 +395,7 @@ class Infobalie extends AbstractReport
 
         $count['totalClients'] = count($klanten);
 
-        $count['totalNewClients'] = $klantRepository->createQueryBuilder('klant')
+        $count['totalNewClients']  = $klantRepository->createQueryBuilder('klant')
             ->select('COUNT(klant.id) as cnt')
             ->where('klant.id IN (:ids)')
             ->andWhere('klant.created >= :start_date')
@@ -399,17 +408,15 @@ class Infobalie extends AbstractReport
             ->select('COUNT(DISTINCT klant.id) as cnt')
             ->innerJoin('registratie.klant', 'klant')
             ->where('klant.id IN (:ids)')
-            ->andWhere('registratie.locatie = :locatie')
+            ->andWhere('registratie.locatie IN (:locatie)')
             ->andWhere('registratie.binnen >= :start_date')
             ->andWhere('registratie.binnen < :end_date')
             ->setParameter('ids', array_keys($klanten))
-            ->setParameter('locatie', $this->locatie)
+            ->setParameter('locatie',$this->locatieArray)
             ->setParameter('start_date', $startDate)
             ->setParameter('end_date', $endDatePlusOneDay)
             ->getQuery()
             ->getSingleScalarResult();
-
-
 
         $count['totalVisits'] = $registratieRepository->createQueryBuilder('registratie')
             ->select('COUNT(registratie.id) AS cnt')
@@ -430,28 +437,24 @@ class Infobalie extends AbstractReport
         ->select('COUNT(registratie.id) AS cnt')
         ->innerJoin('registratie.klant', 'klant')
         ->where('klant.id IN (:ids)')
-        ->andWhere('registratie.locatie = :locatie')
+        ->andWhere('registratie.locatie IN (:locatie)')
         ->andWhere('registratie.binnen >= :start_date')
         ->andWhere('registratie.binnen < :end_date')
         ->setParameter('ids', array_keys($klanten))
-        ->setParameter('locatie', $this->locatie)
+        ->setParameter('locatie', $this->locatieArray)
         ->setParameter('start_date', $startDate)
         ->setParameter('end_date', $endDatePlusOneDay)
         ;
-        $sql = $tbuilder->getQuery()->getSQL();
-        $params = $tbuilder->getQuery()->getParameters();
-
-
 
         $builder = $this->entityManager->getRepository(Verslag::class)->createQueryBuilder('verslag')
             ->select('klant.id')
             ->innerJoin('verslag.klant', 'klant')
             ->where('klant.id IN (:ids)')
-            ->andWhere('verslag.locatie = :locatie')
+            ->andWhere('verslag.locatie IN (:locatie)')
             ->andWhere('verslag.datum >= :start_date')
             ->andWhere('verslag.datum < :end_date')
             ->setParameter('ids', array_keys($klanten))
-            ->setParameter('locatie', $this->locatie)
+            ->setParameter('locatie', $this->locatieArray)
             ->setParameter('start_date', $startDate)
             ->setParameter('end_date', $endDatePlusOneDay)
         ;
@@ -544,4 +547,6 @@ class Infobalie extends AbstractReport
 
         return $count;
     }
+
+
 }

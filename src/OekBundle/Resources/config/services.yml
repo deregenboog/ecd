@@ -55,3 +55,9 @@ services:
             - "@oek.repository.training"
         tags:
             - { name: oek.rapportage, category: Trainingen }
+
+    OekBundle\Event\DeelnemerEventSubscriber:
+        arguments:
+            - '@event_dispatcher'
+        tags:
+            - { name: doctrine.event_subscriber }

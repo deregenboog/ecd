@@ -60,8 +60,11 @@
     <dd>{{ klant.geenPost ? 'Geen post' : 'Wel post' }}</dd>
     <dt>E-mailvoorkeur</dt>
     <dd>{{ klant.geenEmail ? 'Geen e-mail' : 'Wel e-mail' }}</dd>
-    <dt>Geinformeerd opslaan gegevens?</dt>
-    <dd>{{ klant.geinformeerdOpslaanGegevens|ja_nee }}</dd>
+    {% if module != 'IzIntake' %}
+
+        <dt>Geinformeerd opslaan gegevens?</dt>
+        <dd>{{ klant.geinformeerdOpslaanGegevens|ja_nee }}</dd>
+    {% endif %}
     <dt>Opmerking</dt>
     <dd>{{ klant.opmerking }}</dd>
 </dl>

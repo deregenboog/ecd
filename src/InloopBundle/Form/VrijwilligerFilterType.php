@@ -46,7 +46,7 @@ class VrijwilligerFilterType extends AbstractType
         if (in_array('filterOpActiefAlleen', $options['enabled_filters'])) {
             $builder->add('filterOpActiefAlleen', CheckboxType::class, [
                 'required' => false,
-                'label'=>'Alleen actieve dossiers?'
+                'label'=>'Alleen actieve vrijwilligers'
             ]);
         }
     }

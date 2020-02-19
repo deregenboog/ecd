@@ -26,6 +26,7 @@ LEFT
            WHERE `open_day` between :from and :until
            GROUP BY tmp_open_days.locatie_id) o
     ON `l`.`id` = `o`.`locatie_id`
+WHERE l.datum_van <= :until AND l.datum_tot >= :from
 ORDER BY `naam`)
 UNION
 (SELECT
@@ -204,6 +205,7 @@ SELECT * FROM (
         IFNULL((SELECT COUNT(distinct `klant_id`) FROM `registraties` `tr` WHERE `tr`.`locatie_id` = `tl`.`id` AND `binnen` >= :from AND DATE(`binnen`) <= :until AND `tr`.`veegploeg` = 1), 0) AS 'Aantal personen veegploeg',
         naam as order_name
     FROM `locaties` `tl`
+    WHERE tl.datum_van <= :until AND tl.datum_tot >= :from
     )
 UNION
     (SELECT
@@ -242,15 +244,17 @@ ORDER BY 4 desc
 -- ARRAY
 -- !DISABLE
 -- SUMMARY
-select *
-  from (
+SELECT *
+  FROM (
 (SELECT
     `naam`,
     IFNULL((SELECT SEC_TO_TIME(AVG(duration)) FROM `tmp_visits` `tv` WHERE `tv`.`locatie_id` = `tl`.`id` AND `tv`.`gender` = 'Man' AND `date` between :from and :until), '-') AS 'Gem verblijfsduur mannen',
     IFNULL((SELECT SEC_TO_TIME(AVG(duration)) FROM `tmp_visits` `tv` WHERE `tv`.`locatie_id` = `tl`.`id` AND `tv`.`gender` = 'Vrouw' AND `date` between :from and :until), '-') AS 'Gem verblijfsduur vrouwen',
     IFNULL((SELECT SEC_TO_TIME(AVG(duration)) FROM `tmp_visits` `tv` WHERE `tv`.`locatie_id` = `tl`.`id` AND `date` between :from and :until), '-') AS 'Gem verblijfsduur totaal',
     naam as order_name
-FROM `locaties` `tl`)
+FROM `locaties` `tl`
+WHERE tl.datum_van <= :until AND tl.datum_tot >= :from
+)
 UNION
 (SELECT
     'Alle locaties samen',
@@ -294,6 +298,7 @@ order by range_start asc
     IFNULL((SELECT COUNT(*) FROM `verslagen` `v` WHERE `v`.`locatie_id` = `tl`.`id` AND `v`.`contactsoort_id` = 1 AND v.`datum` between :from and :until), '-') AS 'Clientgebonden contacten',
     IFNULL((SELECT COUNT(distinct klant_id) FROM `verslagen` `v` WHERE `v`.`locatie_id` = `tl`.`id` AND  `v`.`contactsoort_id` is not null AND v.`datum` between :from and :until), '-') AS 'Aantal unieke bezoekers'
 FROM `locaties` `tl`
+WHERE tl.datum_van <= :until AND tl.datum_tot >= :from
 ORDER BY `naam`)
 UNION
 (SELECT
@@ -381,6 +386,7 @@ select l.naam, count(distinct iv.id) cnt
   left
   join inventarisaties_verslagen iv
     on (v.id = iv.verslag_id)
+  WHERE l.datum_van <= :until AND l.datum_tot >= :from
  group by 1
 )
 UNION
@@ -393,6 +399,7 @@ select 'Alle locaties samen' naam, count(distinct iv.id) cnt
   left
   join inventarisaties_verslagen iv
     on (v.id = iv.verslag_id)
+  WHERE l.datum_van <= :until AND l.datum_tot >= :from
  group by 1
 )
 ;

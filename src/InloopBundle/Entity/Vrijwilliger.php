@@ -103,7 +103,7 @@ class Vrijwilliger implements MemoSubjectInterface, DocumentSubjectInterface
 
     /**
      * @var \DateTime
-     * @ORM\Column(type="date",nullable=true)
+     * @ORM\Column(type="datetime",nullable=true)
      */
     protected $datumNotitieIntake;
 
@@ -133,6 +133,7 @@ class Vrijwilliger implements MemoSubjectInterface, DocumentSubjectInterface
         }
         $this->locaties = new ArrayCollection();
         $this->trainingDeelnames = new ArrayCollection();
+        $this->datumNotitieIntake = new \DateTime("now");
     }
 
     public function __toString()
