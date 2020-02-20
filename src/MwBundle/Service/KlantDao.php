@@ -7,6 +7,7 @@ use AppBundle\Filter\FilterInterface;
 use AppBundle\Service\AbstractDao;
 use InloopBundle\Entity\Aanmelding;
 use Doctrine\DBAL\Platforms\MySQL57Platform;
+use InloopBundle\Entity\Locatie;
 
 class KlantDao extends AbstractDao implements KlantDaoInterface
 {
@@ -95,4 +96,5 @@ class KlantDao extends AbstractDao implements KlantDaoInterface
     {
         $this->doDelete($entity);
     }
+
 }

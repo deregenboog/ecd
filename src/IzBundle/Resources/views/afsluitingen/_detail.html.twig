@@ -1,3 +1,5 @@
+{% import '::html.macro.twig' as html %}
+
 {% if klant is defined %}
     {% set entity = klant %}
     {% set close_url = path('iz_klanten_close', {id: klant.id}) %}

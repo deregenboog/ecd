@@ -1,3 +1,4 @@
+{% import '::html.macro.twig' as html %}
 <h2>Basisgegevens</h2>
 <p>
     {{ html.link('Basisdossier bekijken', path('app_vrijwilligers_view', {id: vrijwilliger.id}), 'view') }}

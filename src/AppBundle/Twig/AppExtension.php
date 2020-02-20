@@ -57,7 +57,6 @@ class AppExtension extends AbstractExtension implements GlobalsInterface
         $this->administratorName = $administratorName;
         $this->administratorEmail = $administratorEmail;
         $this->tbcMonthsPeriod = $tbcMonthsPeriod;
-//        $twig->addGlobal('my_macros', $twig->loadTemplate('macros.html'));
     }
 
     public function getGlobals()

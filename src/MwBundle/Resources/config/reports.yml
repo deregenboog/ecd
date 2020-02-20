@@ -10,6 +10,13 @@ services:
         tags:
             - { name: mw.rapportage, category: Inventarisaties }
 
+    MwBundle\Report\EconomischDaklozen:
+        public: true
+        arguments:
+            - '@MwBundle\Service\VerslagDao'
+        tags:
+            - { name: mw.rapportage, category: Klanten }
+
     MwBundle\Report\RepatrieringenPerLand:
         public: true
         arguments:

@@ -168,4 +168,6 @@ abstract class AbstractDao implements AbstractDaoInterface
 
         return $builder->getQuery()->getSingleScalarResult();
     }
+
+
 }

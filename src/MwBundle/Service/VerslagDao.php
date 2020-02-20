@@ -25,4 +25,31 @@ class VerslagDao extends AbstractDao implements VerslagDaoInterface
     {
         $this->doDelete($entity);
     }
+
+
+    public function countUniqueKlantenVoorLocaties(
+        \DateTime $startdatum,
+        \DateTime $einddatum,
+        $locaties
+    ) {
+        $builder = $this->repository->createQueryBuilder('verslagen')
+            ->addSelect('COUNT(DISTINCT verslagen.klant) AS aantal, COUNT(verslagen.id) AS aantalVerslagen, locatie.naam AS locatienaam')
+            ->leftJoin('verslagen.locatie', 'locatie')
+            ->where('locatie.id IN(:locaties)')
+            ->andWhere('verslagen.datum BETWEEN :startdatum AND :einddatum')
+            ->setParameters([
+                'startdatum' => $startdatum,
+                'einddatum' => $einddatum,
+                'locaties' => $locaties
+            ])
+            ->groupBy('locatie.naam');
+
+
+//        $sql = $this->getFullSQL($builder->getQuery());
+
+        return $builder->getQuery();
+
+
+
+    }
 }

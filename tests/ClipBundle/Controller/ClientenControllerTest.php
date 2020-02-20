@@ -9,12 +9,14 @@ class ClientenControllerTest extends WebTestCase
 {
     public function testSortColumns()
     {
+
         $medewerker = $this->getContainer()->get('AppBundle\Service\MedewerkerDao')->find('clip_user');
         $this->logIn($medewerker);
 
         $crawler = $this->client->request('GET', '/clip/clienten/');
 
         $this->assertStatusCode(200, $this->client);
+
         $headers = $crawler->filter('tr th a');
         $this->assertGreaterThan(1, $headers->count());
 

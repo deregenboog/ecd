@@ -1,3 +1,4 @@
+{% import '::html.macro.twig' as html %}
 {% if client is defined %}
     {% set entity = client %}
     {% set url = path('pfo_verslagen_add', {client: entity.id}) %}

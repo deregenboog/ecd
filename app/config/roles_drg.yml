@@ -53,6 +53,7 @@ security:
             - CONTROLLER_APP_ZRMS
             - ROLE_INLOOP_INTAKES
             - ROLE_INLOOP_REGISTRATIES
+            - ROLE_USER
         ROLE_PFO_BEPERKT: []
         ROLE_PFO: []
         ROLE_TEAMLEIDERS:
