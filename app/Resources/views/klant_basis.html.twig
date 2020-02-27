@@ -61,13 +61,8 @@
     <dd>{{ klant.geenPost ? 'Geen post' : 'Wel post' }}</dd>
     <dt>E-mailvoorkeur</dt>
     <dd>{{ klant.geenEmail ? 'Geen e-mail' : 'Wel e-mail' }}</dd>
-    {% if module != 'IzIntake' %}
-
-        <dt>Geinformeerd opslaan gegevens?</dt>
-        <dd>{{ klant.geinformeerdOpslaanGegevens|ja_nee }}</dd>
-    {% endif %}
     <dt>Opmerking</dt>
-    <dd>{{ klant.opmerking }}</dd>
+    <dd>{{ klant.opmerking|nl2br }}</dd>
 </dl>
 
 {{ render(controller('AppBundle:Klanten:_diensten', {id: klant.id})) }}

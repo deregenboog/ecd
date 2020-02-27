@@ -40,6 +40,7 @@ class IntakeType extends AbstractType
             ->add($this->createOndersteuning($builder, $options))
         ;
 
+
         if ($options['data']->getZrm()) {
             $builder->add('zrm', ZrmType::class, [
                 'label' => 'ZRM',
@@ -80,10 +81,13 @@ class IntakeType extends AbstractType
             ->create('algemeen', null, [
                 'compound' => true,
                 'inherit_data' => true,
+                'required'=>true,
             ])
             ->add('medewerker', MedewerkerType::class)
             ->add('intakedatum', AppDateType::class)
+            ->add('geinformeerdOpslaanGegevens', CheckboxType::class,['required'=>true])
         ;
+
     }
 
     private function createAdresgegevens(FormBuilderInterface $builder, array $options)
@@ -118,6 +122,7 @@ class IntakeType extends AbstractType
             ->create('toegang', null, [
                 'compound' => true,
                 'inherit_data' => true,
+                'required'=>true,
             ])
             ->add('intakelocatie', LocatieSelectType::class, [
                 'required' => false,

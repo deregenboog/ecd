@@ -174,11 +174,7 @@ class Klant extends Persoon
      */
     private $opmerkingen;
 
-    /**
-     * @ORM\Column(name="geinformeerd_opslaan_gegevens", type="boolean")
-     * @Gedmo\Versioned
-     */
-    protected $geinformeerdOpslaanGegevens = false;
+
 
     /**
      * @return bool
@@ -556,19 +552,5 @@ class Klant extends Persoon
         return false;
     }
 
-    /**
-     * @return bool
-     */
-    public function isGeinformeerdOpslaanGegevens(): bool
-    {
-        return $this->geinformeerdOpslaanGegevens;
-    }
 
-    /**
-     * @param bool $geinformeerdOpslaanGegevens
-     */
-    public function setGeinformeerdOpslaanGegevens(bool $geinformeerdOpslaanGegevens): void
-    {
-        $this->geinformeerdOpslaanGegevens = $geinformeerdOpslaanGegevens;
-    }
 }

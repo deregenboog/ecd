@@ -4,6 +4,8 @@
     <dd>{{ entity.medewerker }}</dd>
     <dt>Datum intake</dt>
     <dd>{{ entity.intakedatum|date('d-m-Y') }}</dd>
+    <dt>Geïnformeerd opslaan gegevens?</dt>
+    <dd>{{ entity.geinformeerdOpslaanGegevens|ja_nee }}</dd>
 </dl>
 <h2>Adresgegevens</h2>
 <dl class="dl-horizontal">

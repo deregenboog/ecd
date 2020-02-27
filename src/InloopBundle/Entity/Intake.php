@@ -425,6 +425,12 @@ class Intake
      */
     private $zrm;
 
+    /**
+     * @ORM\Column(name="geinformeerd_opslaan_gegevens", type="boolean")
+     * @Gedmo\Versioned
+     */
+    protected $geinformeerdOpslaanGegevens = false;
+
     public function __construct(Klant $klant = null)
     {
 
@@ -1235,5 +1241,21 @@ class Intake
         $this->zrm = $zrm;
 
         return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isGeinformeerdOpslaanGegevens(): bool
+    {
+        return $this->geinformeerdOpslaanGegevens;
+    }
+
+    /**
+     * @param bool $geinformeerdOpslaanGegevens
+     */
+    public function setGeinformeerdOpslaanGegevens(bool $geinformeerdOpslaanGegevens): void
+    {
+        $this->geinformeerdOpslaanGegevens = $geinformeerdOpslaanGegevens;
     }
 }
