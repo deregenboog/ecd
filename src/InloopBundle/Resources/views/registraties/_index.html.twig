@@ -48,6 +48,7 @@
                 <td>
                     {{ klant.geboortedatum ? klant.geboortedatum|date('d-m-Y') }}
                 </td>
+                {% if klant.laatsteIntake %}
                 <td>
                     {{ klant.laatsteIntake.gebruikersruimte ?: '-' }}
                 </td>
@@ -65,6 +66,7 @@
                         </span>
                     {% endif %}
                 </td>
+                {% endif %}
                 <td>
                     {% set huidige_schorsingen = klant.huidigeSchorsingen(locatie) %}
                     {% if huidige_schorsingen|length > 0 %}

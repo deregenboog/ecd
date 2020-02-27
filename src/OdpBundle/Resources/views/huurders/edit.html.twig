@@ -13,7 +13,7 @@
     <h1>Huurder wijzigen</h1>
     <p>
         Hier kunt u alleen de OnderDePannen-gegevens voor deze huurder wijzigen. Klik
-        {{ html.link('hier', path('app_klanten_view', {'id': huurder.klant.id})) }}
+        {{ html.link('hier', path('app_klanten_view', {'id': entity.klant.id})) }}
         om naar het basisdossier van deze huurder te gaan.
     </p>
     {{ form(form) }}

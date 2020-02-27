@@ -160,34 +160,6 @@ class HuurdersController extends AbstractController
         ];
     }
 
-    /**
-     * @Route("/{id}/edit")
-     */
-    public function edit($id)
-    {
-        $entityManager = $this->getEntityManager();
-        $huurder = $entityManager->find(Huurder::class, $id);
-
-        $form = $this->getForm(HuurderType::class, $huurder);
-        $form->handleRequest($this->getRequest());
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            try {
-                $entityManager->flush();
-
-                $this->addFlash('success', 'Huurder is opgeslagen.');
-
-                return $this->redirectToRoute('odp_huurders_view', ['id' => $huurder->getId()]);
-            } catch (\Exception $e) {
-                $form->addError(new FormError('Er is een fout opgetreden.'));
-            }
-        }
-
-        return [
-            'huurder' => $huurder,
-            'form' => $form->createView(),
-        ];
-    }
 
     /**
      * @Route("/{id}/close")

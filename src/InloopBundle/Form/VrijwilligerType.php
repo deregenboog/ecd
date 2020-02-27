@@ -80,13 +80,15 @@ class VrijwilligerType extends AbstractType
 //                'label'=>'Notitiedatum',
 //                'required'=>false,
 //            ])
+            ->add('tweedeFase',CheckboxType::class,['mapped'=>false,'required'=>false])
             ->add('startDatum',AppDateType::class, [
-                'data' => new \DateTime('now'),
+
                 'required' =>false,
 
             ])
             ->add('medewerkerLocatie', MedewerkerType::class, [
-                'required' => false
+                'required' => false,
+                'preset'=>false
             ])
             ->add('submit', SubmitType::class)
         ;

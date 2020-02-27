@@ -121,7 +121,7 @@ class Vrijwilliger implements MemoSubjectInterface, DocumentSubjectInterface
 
     /**
      * @var ArrayCollection|Deelname[]
-     * @ORM\OneToMany(targetEntity="Deelname",mappedBy="vrijwilliger", cascade={"persist"})
+     * @ORM\OneToMany(targetEntity="Deelname",mappedBy="vrijwilliger", cascade="remove")
      */
     protected $trainingDeelnames;
 
@@ -296,7 +296,7 @@ class Vrijwilliger implements MemoSubjectInterface, DocumentSubjectInterface
     /**
      * @param \DateTime $startdatum
      */
-    public function setStartdatum(\DateTime $startdatum): void
+    public function setStartdatum(?\DateTime $startdatum): void
     {
         $this->startdatum = $startdatum;
     }
@@ -312,7 +312,7 @@ class Vrijwilliger implements MemoSubjectInterface, DocumentSubjectInterface
     /**
      * @param Medewerker $medewerkerLocatie
      */
-    public function setMedewerkerLocatie(Medewerker $medewerkerLocatie): void
+    public function setMedewerkerLocatie(?Medewerker $medewerkerLocatie): void
     {
         $this->medewerkerLocatie = $medewerkerLocatie;
     }
