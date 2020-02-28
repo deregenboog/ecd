@@ -29,11 +29,13 @@
 
             if (fieldStartDatum.val() != "" || fieldMedewerkerLocatie.val() != ""){
                 fieldTweedefase.prop('checked',true);
+                fieldTweedefase.attr("disabled",true);
             }
             else{
                 fieldStartDatum.closest('.form-group').hide();
                 fieldMedewerkerLocatie.closest('.form-group').hide();
             }
+
 
             fieldTweedefase.change(function(event){
                 if(this.checked){

@@ -32,6 +32,7 @@ class Huurverzoek
      */
     private $huurder;
 
+
     /**
      * @var Huurovereenkomst
      * @ORM\OneToOne(targetEntity="Huurovereenkomst", mappedBy="huurverzoek")
@@ -173,4 +174,22 @@ class Huurverzoek
 
         return $this;
     }
+
+    /**
+     * @return Huuraanbod
+     */
+    public function getReservering(): Huuraanbod
+    {
+        return $this->reservering;
+    }
+
+    /**
+     * @param Huuraanbod $reservering
+     */
+    public function setReservering(Huuraanbod $reservering): void
+    {
+        $this->reservering = $reservering;
+    }
+
+
 }

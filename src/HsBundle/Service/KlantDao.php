@@ -37,6 +37,7 @@ class KlantDao extends AbstractDao implements KlantDaoInterface
             ->leftJoin('klant.facturen', 'factuur')
             ->leftJoin('factuur.betalingen', 'betaling')
             ->leftJoin("{$this->alias}.klussen", 'klus')
+
         ;
 
         if ($filter) {

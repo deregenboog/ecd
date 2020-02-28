@@ -39,6 +39,7 @@ class Huuraanbod
      */
     private $huurovereenkomst;
 
+
     /**
      * @ORM\Column(type="date")
      * @Gedmo\Versioned
@@ -209,4 +210,22 @@ class Huuraanbod
 
         return $this;
     }
+
+    /**
+     * @return Huurverzoek
+     */
+    public function getReservering(): Huurverzoek
+    {
+        return $this->reservering;
+    }
+
+    /**
+     * @param Huurverzoek $reservering
+     */
+    public function setReservering(Huurverzoek $reservering): void
+    {
+        $this->reservering = $reservering;
+    }
+
+
 }
