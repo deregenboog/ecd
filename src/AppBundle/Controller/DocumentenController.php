@@ -8,7 +8,6 @@ use AppBundle\Entity\Toestemmingsformulier;
 use AppBundle\Entity\Vog;
 use AppBundle\Form\DocumentType;
 use AppBundle\Service\DocumentDaoInterface;
-use JMS\DiExtraBundle\Annotation as DI;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -25,17 +24,19 @@ class DocumentenController extends AbstractChildController
 
     /**
      * @var DocumentDaoInterface
-     *
-     * @DI\Inject("AppBundle\Service\DocumentDao")
      */
     protected $dao;
 
     /**
      * @var \ArrayObject
-     *
-     * @DI\Inject("app.document.entities")
      */
     protected $entities;
+
+    public function __construct()
+    {
+        $this->dao = $this->get("AppBundle\Service\DocumentDao");
+        $this->entities = $this->get("app.document.entities");
+    }
 
     /**
      * @Route("/download/{filename}")

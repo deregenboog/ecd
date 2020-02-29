@@ -6,7 +6,6 @@ use AppBundle\Controller\AbstractController;
 use AppBundle\Entity\Klant;
 use AppBundle\Form\KlantFilterType;
 use AppBundle\Service\KlantDaoInterface;
-use JMS\DiExtraBundle\Annotation as DI;
 use ScipBundle\Entity\Deelnemer;
 use ScipBundle\Form\DeelnemerFilterType;
 use ScipBundle\Form\DeelnemerType;
@@ -33,17 +32,19 @@ class DeelnemersController extends AbstractController
 
     /**
      * @var DeelnemerDaoInterface
-     *
-     * @DI\Inject("ScipBundle\Service\DeelnemerDao")
      */
     protected $dao;
 
     /**
      * @var KlantDaoInterface
-     *
-     * @DI\Inject("AppBundle\Service\KlantDao")
      */
     protected $klantDao;
+
+    public function __construct()
+    {
+        $this->dao = $this->get("ScipBundle\Service\DeelnemerDao");
+        $this->klantDao = $this->get("AppBundle\Service\KlantDao");
+    }
 
     /**
      * @Route("/add")

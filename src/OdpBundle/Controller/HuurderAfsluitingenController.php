@@ -2,7 +2,6 @@
 
 namespace OdpBundle\Controller;
 
-use JMS\DiExtraBundle\Annotation as DI;
 use OdpBundle\Entity\HuurderAfsluiting;
 use OdpBundle\Service\AfsluitingDaoInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
@@ -18,10 +17,13 @@ class HuurderAfsluitingenController extends AfsluitingenController
 
     /**
      * @var AfsluitingDaoInterface
-     *
-     * @DI\Inject("OdpBundle\Service\HuurderafsluitingDao")
      */
     protected $dao;
+
+    public function __construct()
+    {
+        $this->dao = $this->get("OdpBundle\Service\HuurderafsluitingDao");
+    }
 
     protected $entityClass = HuurderAfsluiting::class;
 

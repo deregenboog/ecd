@@ -8,7 +8,6 @@ use ClipBundle\Entity\Contactmoment;
 use ClipBundle\Form\ContactmomentFilterType;
 use ClipBundle\Form\ContactmomentType;
 use ClipBundle\Service\ContactmomentDaoInterface;
-use JMS\DiExtraBundle\Annotation as DI;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
@@ -29,24 +28,25 @@ class ContactmomentenController extends AbstractChildController
 
     /**
      * @var ContactmomentDaoInterface
-     *
-     * @DI\Inject("ClipBundle\Service\ContactmomentDao")
      */
     protected $dao;
 
     /**
      * @var \ArrayObject
-     *
-     * @DI\Inject("clip.contactmoment.entities")
      */
     protected $entities;
 
     /**
      * @var ExportInterface
-     *
-     * @DI\Inject("clip.export.contactmomenten")
      */
     protected $export;
+
+    public function __construct()
+    {
+        $this->dao = $this->get("ClipBundle\Service\ContactmomentDao");
+        $this->entities = $this->get("clip.contactmoment.entities");
+        $this->export = $this->get("clip.export.contactmomenten");
+    }
 
     /**
      * @Route("/{id}/view")

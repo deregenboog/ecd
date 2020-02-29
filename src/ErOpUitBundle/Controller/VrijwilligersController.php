@@ -12,7 +12,6 @@ use ErOpUitBundle\Form\VrijwilligerFilterType;
 use ErOpUitBundle\Form\VrijwilligerReopenType;
 use ErOpUitBundle\Form\VrijwilligerType;
 use ErOpUitBundle\Service\VrijwilligerDaoInterface;
-use JMS\DiExtraBundle\Annotation as DI;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;
@@ -33,24 +32,25 @@ class VrijwilligersController extends AbstractController
 
     /**
      * @var VrijwilligerDaoInterface
-     *
-     * @DI\Inject("ErOpUitBundle\Service\VrijwilligerDao")
      */
     protected $dao;
 
     /**
      * @var ExportInterface
-     *
-     * @DI\Inject("eropuit.export.vrijwilligers")
      */
     protected $export;
 
     /**
      * @var VrijwilligerDaoInterface
-     *
-     * @DI\Inject("AppBundle\Service\VrijwilligerDao")
      */
     private $vrijwilligerDao;
+
+    public function __construct()
+    {
+        $this->dao = $this->get("ErOpUitBundle\Service\VrijwilligerDao");
+        $this->export = $this->get("eropuit.export.vrijwilligers");
+        $this->vrijwilligerDao = $this->get("AppBundle\Service\VrijwilligerDao");
+    }
 
     /**
      * @Route("/add")

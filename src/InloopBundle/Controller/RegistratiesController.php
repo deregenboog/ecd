@@ -21,7 +21,6 @@ use InloopBundle\Security\Permissions;
 use InloopBundle\Service\KlantDaoInterface;
 use InloopBundle\Service\RegistratieDaoInterface;
 use InloopBundle\Service\SchorsingDaoInterface;
-use JMS\DiExtraBundle\Annotation as DI;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
@@ -43,38 +42,37 @@ class RegistratiesController extends AbstractController
 
     /**
      * @var RegistratieDaoInterface
-     *
-     * @DI\Inject("InloopBundle\Service\RegistratieDao")
      */
     protected $dao;
 
     /**
      * @var KlantDaoInterface
-     *
-     * @DI\Inject("InloopBundle\Service\KlantDao")
      */
     protected $klantDao;
 
     /**
      * @var LocatieDaoInterface
-     *
-     * @DI\Inject("InloopBundle\Service\LocatieDao")
      */
     protected $locatieDao;
 
     /**
      * @var SchorsingDaoInterface
-     *
-     * @DI\Inject("InloopBundle\Service\SchorsingDao")
      */
     protected $schorsingDao;
 
     /**
      * @var ExportInterface
-     *
-     * @DI\Inject("inloop.export.registraties")
      */
     protected $export;
+
+    public function __construct()
+    {
+        $this->dao = $this->get("InloopBundle\Service\RegistratieDao");
+        $this->klantDao = $this->get("InloopBundle\Service\KlantDao");
+        $this->locatieDao = $this->get("InloopBundle\Service\LocatieDao");
+        $this->schorsingDao = $this->get("InloopBundle\Service\SchorsingDao");
+        $this->export = $this->get("inloop.export.registraties");
+    }
 
     /**
      * @var array TBC_Countries from config.
@@ -86,6 +84,7 @@ class RegistratiesController extends AbstractController
 //
 //       $this->tbc_countries = $tbc_countries;
 //    }
+
     /**
      * @Route("/")
      */

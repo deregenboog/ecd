@@ -19,7 +19,6 @@ use InloopBundle\Form\KlantFilterType;
 use InloopBundle\Form\KlantType;
 use InloopBundle\Pdf\PdfBrief;
 use InloopBundle\Service\KlantDaoInterface;
-use JMS\DiExtraBundle\Annotation as DI;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
@@ -43,17 +42,19 @@ class KlantenController extends AbstractController
 
     /**
      * @var KlantDaoInterface
-     *
-     * @DI\Inject("InloopBundle\Service\KlantDao")
      */
     protected $dao;
 
     /**
      * @var \AppBundle\Service\KlantDaoInterface
-     *
-     * @DI\Inject("AppBundle\Service\KlantDao")
      */
     protected $klantDao;
+
+    public function __construct()
+    {
+        $this->dao = $this->get("InloopBundle\Service\KlantDao");
+        $this->klantDao = $this->get("AppBundle\Service\KlantDao");
+    }
 
     /**
      * @Route("/add")

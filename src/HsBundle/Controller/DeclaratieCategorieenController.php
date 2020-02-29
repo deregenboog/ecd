@@ -6,7 +6,6 @@ use AppBundle\Controller\AbstractController;
 use HsBundle\Entity\DeclaratieCategorie;
 use HsBundle\Form\DeclaratieCategorieType;
 use HsBundle\Service\DeclaratieCategorieDaoInterface;
-use JMS\DiExtraBundle\Annotation as DI;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -25,10 +24,13 @@ class DeclaratieCategorieenController extends AbstractController
 
     /**
      * @var DeclaratieCategorieDaoInterface
-     *
-     * @DI\Inject("HsBundle\Service\DeclaratieCategorieDao")
      */
     protected $dao;
+
+    public function __construct()
+    {
+        $this->dao = $this->get("HsBundle\Service\DeclaratieCategorieDao");
+    }
 
     /**
      * @Route("/{id}/view")

@@ -16,7 +16,6 @@ use HsBundle\Entity\Klus;
 use HsBundle\Entity\Registratie;
 use HsBundle\Form\DeclaratieType;
 use HsBundle\Service\DeclaratieDaoInterface;
-use JMS\DiExtraBundle\Annotation as DI;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -37,17 +36,19 @@ class DeclaratiesController extends AbstractChildController
 
     /**
      * @var DeclaratieDaoInterface
-     *
-     * @DI\Inject("HsBundle\Service\DeclaratieDao")
      */
     protected $dao;
 
     /**
      * @var \ArrayObject
-     *
-     * @DI\Inject("hs.declaratie.entities")
      */
     protected $entities;
+
+    public function __construct()
+    {
+        $this->dao = $this->get("HsBundle\Service\DeclaratieDao");
+        $this->entities = $this->get("hs.declaratie.entities");
+    }
 
     /**
      * @Route("/")
@@ -96,6 +97,7 @@ class DeclaratiesController extends AbstractChildController
         $helper->beforeUpdateEntity($declaratie,$this->getEntityManager());
 
     }
+
     /**
      * @Route("/{id}/delete")
      */

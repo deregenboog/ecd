@@ -8,7 +8,6 @@ use AppBundle\Event\DienstenLookupEvent;
 use AppBundle\Event\Events;
 use AppBundle\Export\ExportInterface;
 use Doctrine\ORM\EntityNotFoundException;
-use JMS\DiExtraBundle\Annotation as DI;
 use MwBundle\Entity\Verslag;
 use MwBundle\Form\VerslagModel;
 use MwBundle\Form\VerslagType;
@@ -33,24 +32,25 @@ class VerslagenController extends AbstractController
 
     /**
      * @var VerslagDaoInterface
-     *
-     * @DI\Inject("InloopBundle\Service\VerslagDao")
      */
     protected $dao;
 
     /**
      * @var InventarisatieDaoInterface
-     *
-     * @DI\Inject("MwBundle\Service\InventarisatieDao")
      */
     protected $inventarisatieDao;
 
     /**
      * @var ExportInterface
-     *
-     * @DI\Inject("mw.export.klanten")
      */
     protected $export;
+
+    public function __construct()
+    {
+        $this->dao = $this->get("InloopBundle\Service\VerslagDao");
+        $this->inventarisatieDao = $this->get("MwBundle\Service\InventarisatieDao");
+        $this->export = $this->get("mw.export.klanten");
+    }
 
     /**
      * @Route("/add/{klant}")

@@ -6,7 +6,6 @@ use AppBundle\Controller\AbstractController;
 use InloopBundle\Entity\Woonsituatie;
 use InloopBundle\Form\WoonsituatieType;
 use InloopBundle\Service\WoonsituatieDaoInterface;
-use JMS\DiExtraBundle\Annotation as DI;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
@@ -24,8 +23,11 @@ class WoonsituatiesController extends AbstractController
 
     /**
      * @var WoonsituatieDaoInterface
-     *
-     * @DI\Inject("InloopBundle\Service\WoonsituatieDao")
      */
     protected $dao;
+
+    public function __construct()
+    {
+        $this->dao = $this->get("InloopBundle\Service\WoonsituatieDao");
+    }
 }

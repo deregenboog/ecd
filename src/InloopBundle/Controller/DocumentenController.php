@@ -6,7 +6,6 @@ use AppBundle\Controller\AbstractChildController;
 use InloopBundle\Entity\Document;
 use InloopBundle\Form\DocumentType;
 use InloopBundle\Service\DocumentDaoInterface;
-use JMS\DiExtraBundle\Annotation as DI;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -24,17 +23,19 @@ class DocumentenController extends AbstractChildController
 
     /**
      * @var DocumentDaoInterface
-     *
-     * @DI\Inject("InloopBundle\Service\DocumentDao")
      */
     protected $dao;
 
     /**
      * @var \ArrayObject
-     *
-     * @DI\Inject("inloop.document.entities")
      */
     protected $entities;
+
+    public function __construct()
+    {
+        $this->dao = $this->get("InloopBundle\Service\DocumentDao");
+        $this->entities = $this->get("inloop.document.entities");
+    }
 
     /**
      * @Route("/download/{filename}")

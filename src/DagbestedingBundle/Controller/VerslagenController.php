@@ -6,7 +6,6 @@ use AppBundle\Controller\AbstractChildController;
 use DagbestedingBundle\Entity\Verslag;
 use DagbestedingBundle\Form\VerslagType;
 use DagbestedingBundle\Service\VerslagDaoInterface;
-use JMS\DiExtraBundle\Annotation as DI;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -23,15 +22,17 @@ class VerslagenController extends AbstractChildController
 
     /**
      * @var VerslagDaoInterface
-     *
-     * @DI\Inject("DagbestedingBundle\Service\VerslagDao")
      */
     protected $dao;
 
     /**
      * @var \ArrayObject
-     *
-     * @DI\Inject("dagbesteding.verslag.entities")
      */
     protected $entities;
+
+    public function __construct()
+    {
+        $this->dao = $this->get("DagbestedingBundle\Service\VerslagDao");
+        $this->entities = $this->get("dagbesteding.verslag.entities");
+    }
 }

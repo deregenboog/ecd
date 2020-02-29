@@ -6,7 +6,6 @@ use AppBundle\Controller\AbstractChildController;
 use IzBundle\Entity\Document;
 use IzBundle\Form\DocumentType;
 use IzBundle\Service\DocumentDaoInterface;
-use JMS\DiExtraBundle\Annotation as DI;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
@@ -25,17 +24,19 @@ class DocumentenController extends AbstractChildController
 
     /**
      * @var DocumentDaoInterface
-     *
-     * @DI\Inject("IzBundle\Service\DocumentDao")
      */
     protected $dao;
 
     /**
      * @var \ArrayObject
-     *
-     * @DI\Inject("iz.document.entities")
      */
     protected $entities;
+
+    public function __construct()
+    {
+        $this->dao = $this->get("IzBundle\Service\DocumentDao");
+        $this->entities = $this->get("iz.document.entities");
+    }
 
     /**
      * @Route("/download/{filename}")

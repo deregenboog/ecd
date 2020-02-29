@@ -6,7 +6,6 @@ use AppBundle\Controller\AbstractChildController;
 use InloopBundle\Entity\Memo;
 use InloopBundle\Form\MemoType;
 use InloopBundle\Service\MemoDaoInterface;
-use JMS\DiExtraBundle\Annotation as DI;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -24,15 +23,17 @@ class MemosController extends AbstractChildController
 
     /**
      * @var MemoDaoInterface
-     *
-     * @DI\Inject("InloopBundle\Service\MemoDao")
      */
     protected $dao;
 
     /**
      * @var \ArrayObject
-     *
-     * @DI\Inject("inloop.memo.entities")
      */
     protected $entities;
+
+    public function __construct()
+    {
+        $this->dao = $this->get("InloopBundle\Service\MemoDao");
+        $this->entities = $this->get("inloop.memo.entities");
+    }
 }

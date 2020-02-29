@@ -6,7 +6,6 @@ use AppBundle\Controller\AbstractController;
 use IzBundle\Entity\Succesindicator;
 use IzBundle\Form\SuccesindicatorType;
 use IzBundle\Service\SuccesindicatorDaoInterface;
-use JMS\DiExtraBundle\Annotation as DI;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -23,10 +22,13 @@ class SuccesindicatorenController extends AbstractController
 
     /**
      * @var SuccesindicatorDaoInterface
-     *
-     * @DI\Inject("IzBundle\Service\SuccesindicatorDao")
      */
     protected $dao;
+
+    public function __construct()
+    {
+        $this->dao = $this->get("IzBundle\Service\SuccesindicatorDao");
+    }
 
     /**
      * @Route("/{id}/view")

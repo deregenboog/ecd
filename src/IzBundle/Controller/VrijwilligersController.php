@@ -13,7 +13,6 @@ use IzBundle\Form\IzDeelnemerCloseType;
 use IzBundle\Form\IzVrijwilligerFilterType;
 use IzBundle\Form\IzVrijwilligerType;
 use IzBundle\Service\VrijwilligerDaoInterface;
-use JMS\DiExtraBundle\Annotation as DI;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\EventDispatcher\GenericEvent;
@@ -36,24 +35,25 @@ class VrijwilligersController extends AbstractController
 
     /**
      * @var VrijwilligerDaoInterface
-     *
-     * @DI\Inject("IzBundle\Service\VrijwilligerDao")
      */
     protected $dao;
 
     /**
      * @var AbstractExport
-     *
-     * @DI\Inject("iz.export.vrijwilligers")
      */
     protected $export;
 
     /**
      * @var VrijwilligerDaoInterface
-     *
-     * @DI\Inject("AppBundle\Service\VrijwilligerDao")
      */
     private $vrijwilligerDao;
+
+    public function __construct()
+    {
+        $this->dao = $this->get("IzBundle\Service\VrijwilligerDao");
+        $this->export = $this->get("iz.export.vrijwilligers");
+        $this->vrijwilligerDao = $this->get("AppBundle\Service\VrijwilligerDao");
+    }
 
     /**
      * @Route("/add")

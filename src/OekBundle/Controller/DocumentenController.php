@@ -3,7 +3,6 @@
 namespace OekBundle\Controller;
 
 use AppBundle\Controller\AbstractChildController;
-use JMS\DiExtraBundle\Annotation as DI;
 use OekBundle\Entity\Document;
 use OekBundle\Form\DocumentType;
 use OekBundle\Service\DocumentDaoInterface;
@@ -24,17 +23,19 @@ class DocumentenController extends AbstractChildController
 
     /**
      * @var DocumentDaoInterface
-     *
-     * @DI\Inject("OekBundle\Service\DocumentDao")
      */
     protected $dao;
 
     /**
      * @var \ArrayObject
-     *
-     * @DI\Inject("oek.document.entities")
      */
     protected $entities;
+
+    public function __construct()
+    {
+        $this->dao = $this->get("OekBundle\Service\DocumentDao");
+        $this->entities = $this->get("oek.document.entities");
+    }
 
     /**
      * @Route("/download/{filename}")

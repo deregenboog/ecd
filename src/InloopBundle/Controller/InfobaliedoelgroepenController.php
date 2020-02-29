@@ -6,7 +6,6 @@ use AppBundle\Controller\AbstractController;
 use InloopBundle\Entity\Infobaliedoelgroep;
 use InloopBundle\Form\InfobaliedoelgroepType;
 use InloopBundle\Service\InfobaliedoelgroepDaoInterface;
-use JMS\DiExtraBundle\Annotation as DI;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
@@ -24,8 +23,11 @@ class InfobaliedoelgroepenController extends AbstractController
 
     /**
      * @var InfobaliedoelgroepDaoInterface
-     *
-     * @DI\Inject("InloopBundle\Service\InfobaliedoelgroepDao")
      */
     protected $dao;
+
+    public function __construct()
+    {
+        $this->dao = $this->get("InloopBundle\Service\InfobaliedoelgroepDao");
+    }
 }

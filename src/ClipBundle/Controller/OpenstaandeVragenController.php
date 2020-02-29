@@ -6,7 +6,6 @@ use AppBundle\Export\ExportInterface;
 use ClipBundle\Entity\Vraag;
 use ClipBundle\Filter\VraagFilter;
 use ClipBundle\Service\VraagDaoInterface;
-use JMS\DiExtraBundle\Annotation as DI;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
@@ -21,17 +20,19 @@ class OpenstaandeVragenController extends AbstractVragenController
 
     /**
      * @var VraagDaoInterface
-     *
-     * @DI\Inject("ClipBundle\Service\VraagDao")
      */
     protected $dao;
 
     /**
      * @var ExportInterface
-     *
-     * @DI\Inject("clip.export.vragen")
      */
     protected $export;
+
+    public function __construct()
+    {
+        $this->dao = $this->get("ClipBundle\Service\VraagDao");
+        $this->export = $this->get("clip.export.vragen");
+    }
 
     /**
      * @Route("/")

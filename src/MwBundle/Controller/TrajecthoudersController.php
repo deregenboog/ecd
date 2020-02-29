@@ -3,7 +3,6 @@
 namespace MwBundle\Controller;
 
 use AppBundle\Controller\AbstractController;
-use JMS\DiExtraBundle\Annotation as DI;
 use MwBundle\Entity\Trajecthouder;
 use MwBundle\Form\TrajecthouderType;
 use MwBundle\Service\TrajecthouderDaoInterface;
@@ -25,8 +24,11 @@ class TrajecthoudersController extends AbstractController
 
     /**
      * @var TrajecthouderDaoInterface
-     *
-     * @DI\Inject("MwBundle\Service\TrajecthouderDao")
      */
     protected $dao;
+
+    public function __construct()
+    {
+        $this->dao = $this->get("MwBundle\Service\TrajecthouderDao");
+    }
 }

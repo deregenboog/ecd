@@ -12,7 +12,6 @@ use AppBundle\Service\KlantDao;
 use AppBundle\Service\KlantDaoInterface;
 use Doctrine\ORM\QueryBuilder;
 
-use JMS\DiExtraBundle\Annotation as DI;
 use OdpBundle\Entity\Verhuurder;
 use OdpBundle\Form\VerhuurderCloseType;
 use OdpBundle\Form\VerhuurderFilterType;
@@ -53,24 +52,25 @@ class VerhuurdersController extends AbstractController
 
     /**
      * @var VerhuurderDaoInterface
-     *
-     * @DI\Inject("OdpBundle\Service\VerhuurderDao")
      */
     protected $dao;
 
     /**
      * @var KlantDaoInterface
-     * @DI\Inject("AppBundle\Service\KlantDao")
      */
     protected $searchDao;
 
     /**
      * @var ExportInterface
-     *
-     * @DI\Inject("odp.export.verhuurders")
      */
     protected $export;
 
+    public function __construct()
+    {
+        $this->dao = $this->get("OdpBundle\Service\VerhuurderDao");
+        $this->searchDao = $this->get("AppBundle\Service\KlantDao");
+        $this->export = $this->get("odp.export.verhuurders");
+    }
 
     /**
      * @Route("/old")

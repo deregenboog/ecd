@@ -5,7 +5,6 @@ namespace OekBundle\Controller;
 use AppBundle\Controller\AbstractController;
 use AppBundle\Export\ExportInterface;
 use AppBundle\Filter\FilterInterface;
-use JMS\DiExtraBundle\Annotation as DI;
 use OekBundle\Form\DeelnemerFilterType;
 use OekBundle\Service\DeelnemerDaoInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
@@ -25,17 +24,19 @@ class WachtlijstController extends AbstractController
 
     /**
      * @var DeelnemerDaoInterface
-     *
-     * @DI\Inject("OekBundle\Service\DeelnemerDao")
      */
     protected $dao;
 
     /**
      * @var ExportInterface
-     *
-     * @DI\Inject("oek.export.wachtlijst")
      */
     protected $export;
+
+    public function __construct()
+    {
+        $this->dao = $this->get("OekBundle\Service\DeelnemerDao");
+        $this->export = $this->get("oek.export.wachtlijst");
+    }
 
     /**
      * @Route("/")

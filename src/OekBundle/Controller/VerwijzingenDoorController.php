@@ -3,7 +3,6 @@
 namespace OekBundle\Controller;
 
 use AppBundle\Controller\AbstractController;
-use JMS\DiExtraBundle\Annotation as DI;
 use OekBundle\Entity\VerwijzingDoor;
 use OekBundle\Form\VerwijzingType;
 use OekBundle\Service\VerwijzingDoorDaoInterface;
@@ -23,8 +22,11 @@ class VerwijzingenDoorController extends AbstractController
 
     /**
      * @var VerwijzingDoorDaoInterface
-     *
-     * @DI\Inject("OekBundle\Service\VerwijzingDoorDao")
      */
     protected $dao;
+
+    public function __construct()
+    {
+        $this->dao = $this->get("OekBundle\Service\VerwijzingDoorDao");
+    }
 }

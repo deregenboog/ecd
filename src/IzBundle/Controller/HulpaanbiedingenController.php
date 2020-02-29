@@ -13,7 +13,6 @@ use IzBundle\Form\HulpaanbodType;
 use IzBundle\Form\HulpvraagFilterType;
 use IzBundle\Service\HulpaanbodDaoInterface;
 use IzBundle\Service\HulpvraagDaoInterface;
-use JMS\DiExtraBundle\Annotation as DI;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
@@ -35,31 +34,31 @@ class HulpaanbiedingenController extends AbstractChildController
 
     /**
      * @var HulpaanbodDaoInterface
-     *
-     * @DI\Inject("IzBundle\Service\HulpaanbodDao")
      */
     protected $dao;
 
     /**
      * @var HulpvraagDaoInterface
-     *
-     * @DI\Inject("IzBundle\Service\HulpvraagDao")
      */
     protected $hulpvraagDao;
 
     /**
      * @var \ArrayObject
-     *
-     * @DI\Inject("iz.hulpaanbod.entities")
      */
     protected $entities;
 
     /**
      * @var AbstractExport
-     *
-     * @DI\Inject("iz.export.hulpaanbiedingen")
      */
     protected $export;
+
+    public function __construct()
+    {
+        $this->dao = $this->get("IzBundle\Service\HulpaanbodDao");
+        $this->hulpvraagDao = $this->get("IzBundle\Service\HulpvraagDao");
+        $this->entities = $this->get("iz.hulpaanbod.entities");
+        $this->export = $this->get("iz.export.hulpaanbiedingen");
+    }
 
     /**
      * @Route("/{id}/close")

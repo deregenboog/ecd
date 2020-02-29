@@ -7,7 +7,6 @@ use AppBundle\Form\ConfirmationType;
 use AppBundle\Form\PostcodeFilterType;
 use AppBundle\Form\PostcodeType;
 use AppBundle\Service\PostcodeDaoInterface;
-use JMS\DiExtraBundle\Annotation as DI;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
@@ -29,10 +28,13 @@ class PostcodesController extends AbstractController
 
     /**
      * @var PostcodeDaoInterface
-     *
-     * @DI\Inject("AppBundle\Service\PostcodeDao")
      */
     protected $dao;
+
+    public function __construct()
+    {
+        $this->dao = $this->get("AppBundle\Service\PostcodeDao");
+    }
 
     /**
      * @Route("/add")

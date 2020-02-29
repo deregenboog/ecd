@@ -6,7 +6,6 @@ use AppBundle\Entity\Land;
 use AppBundle\Form\LandFilterType;
 use AppBundle\Form\LandType;
 use AppBundle\Service\LandDaoInterface;
-use JMS\DiExtraBundle\Annotation as DI;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
@@ -28,8 +27,11 @@ class LandenController extends AbstractController
 
     /**
      * @var LandDaoInterface
-     *
-     * @DI\Inject("AppBundle\Service\LandDao")
      */
     protected $dao;
+
+    public function __construct()
+    {
+        $this->dao = $this->get("AppBundle\Service\LandDao");
+    }
 }

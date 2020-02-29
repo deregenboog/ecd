@@ -5,7 +5,6 @@ namespace GaBundle\Controller;
 use AppBundle\Controller\AbstractRapportagesController;
 use AppBundle\Export\GenericExport;
 use GaBundle\Form\RapportageType;
-use JMS\DiExtraBundle\Annotation as DI;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -17,8 +16,11 @@ class RapportagesController extends AbstractRapportagesController
 
     /**
      * @var GenericExport
-     *
-     * @DI\Inject("ga.export.report")
      */
     protected $export;
+
+    public function __construct()
+    {
+        $this->export = $this->get("ga.export.report");
+    }
 }

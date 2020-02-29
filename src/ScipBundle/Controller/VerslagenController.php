@@ -3,7 +3,6 @@
 namespace ScipBundle\Controller;
 
 use AppBundle\Controller\AbstractChildController;
-use JMS\DiExtraBundle\Annotation as DI;
 use ScipBundle\Entity\Verslag;
 use ScipBundle\Form\VerslagType;
 use ScipBundle\Service\VerslagDaoInterface;
@@ -24,17 +23,19 @@ class VerslagenController extends AbstractChildController
 
     /**
      * @var VerslagDaoInterface
-     *
-     * @DI\Inject("ScipBundle\Service\VerslagDao")
      */
     protected $dao;
 
     /**
      * @var \ArrayObject
-     *
-     * @DI\Inject("scip.verslag.entities")
      */
     protected $entities;
+
+    public function __construct()
+    {
+        $this->dao = $this->get("ScipBundle\Service\VerslagDao");
+        $this->entities = $this->get("scip.verslag.entities");
+    }
 
     protected function beforeCreate($entity)
     {

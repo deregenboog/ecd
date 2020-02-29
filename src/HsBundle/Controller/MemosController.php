@@ -6,7 +6,6 @@ use AppBundle\Controller\AbstractChildController;
 use HsBundle\Entity\Memo;
 use HsBundle\Form\MemoType;
 use HsBundle\Service\MemoDaoInterface;
-use JMS\DiExtraBundle\Annotation as DI;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -26,15 +25,17 @@ class MemosController extends AbstractChildController
 
     /**
      * @var MemoDaoInterface
-     *
-     * @DI\Inject("HsBundle\Service\MemoDao")
      */
     protected $dao;
 
     /**
      * @var \ArrayObject
-     *
-     * @DI\Inject("hs.memo.entities")
      */
     protected $entities;
+
+    public function __construct()
+    {
+        $this->dao = $this->get("HsBundle\Service\MemoDao");
+        $this->entities = $this->get("hs.memo.entities");
+    }
 }

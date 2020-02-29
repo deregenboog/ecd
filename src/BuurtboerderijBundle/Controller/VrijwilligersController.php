@@ -12,7 +12,6 @@ use BuurtboerderijBundle\Form\VrijwilligerCloseType;
 use BuurtboerderijBundle\Form\VrijwilligerFilterType;
 use BuurtboerderijBundle\Form\VrijwilligerType;
 use BuurtboerderijBundle\Service\VrijwilligerDaoInterface;
-use JMS\DiExtraBundle\Annotation as DI;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\Form\FormError;
@@ -33,24 +32,25 @@ class VrijwilligersController extends AbstractController
 
     /**
      * @var VrijwilligerDaoInterface
-     *
-     * @DI\Inject("BuurtboerderijBundle\Service\VrijwilligerDao")
      */
     protected $dao;
 
     /**
      * @var AbstractExport
-     *
-     * @DI\Inject("buurtboerderij.export.vrijwilligers")
      */
     protected $export;
 
     /**
      * @var VrijwilligerDaoInterface
-     *
-     * @DI\Inject("AppBundle\Service\VrijwilligerDao")
      */
     private $vrijwilligerDao;
+
+    public function __construct()
+    {
+        $this->dao = $this->get("BuurtboerderijBundle\Service\VrijwilligerDao");
+        $this->export = $this->get("buurtboerderij.export.vrijwilligers");
+        $this->vrijwilligerDao = $this->get("AppBundle\Service\VrijwilligerDao");
+    }
 
     /**
      * @Route("/add")

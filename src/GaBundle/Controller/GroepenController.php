@@ -9,7 +9,6 @@ use GaBundle\Form\GroepFilterType;
 use GaBundle\Form\GroepType;
 use GaBundle\Service\GroepDaoInterface;
 use GaBundle\Service\LidmaatschapDaoInterface;
-use JMS\DiExtraBundle\Annotation as DI;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
@@ -29,31 +28,31 @@ class GroepenController extends AbstractController
 
     /**
      * @var GroepDaoInterface
-     *
-     * @DI\Inject("GaBundle\Service\GroepDao")
      */
     protected $dao;
 
     /**
      * @var LidmaatschapDaoInterface
-     *
-     * @DI\Inject("GaBundle\Service\KlantLidmaatschapDao")
      */
     protected $klantLidmaatschapDao;
 
     /**
      * @var LidmaatschapDaoInterface
-     *
-     * @DI\Inject("GaBundle\Service\VrijwilligerLidmaatschapDao")
      */
     protected $vrijwilligerLidmaatschapDao;
 
     /**
      * @var AbstractExport
-     *
-     * @DI\Inject("ga.export.groepen")
      */
     protected $export;
+
+    public function __construct()
+    {
+        $this->dao = $this->get("GaBundle\Service\GroepDao");
+        $this->klantLidmaatschapDao = $this->get("GaBundle\Service\KlantLidmaatschapDao");
+        $this->vrijwilligerLidmaatschapDao = $this->get("GaBundle\Service\VrijwilligerLidmaatschapDao");
+        $this->export = $this->get("ga.export.groepen");
+    }
 
     /**
      * @Route("/add")

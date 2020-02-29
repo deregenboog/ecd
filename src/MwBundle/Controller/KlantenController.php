@@ -12,7 +12,6 @@ use AppBundle\Export\ExportInterface;
 use AppBundle\Form\KlantFilterType as AppKlantFilterType;
 use AppBundle\Service\KlantDaoInterface;
 use InloopBundle\Form\KlantType;
-use JMS\DiExtraBundle\Annotation as DI;
 use MwBundle\Entity\Document;
 use MwBundle\Entity\Info;
 use MwBundle\Form\InfoType;
@@ -37,24 +36,25 @@ class KlantenController extends AbstractController
 
     /**
      * @var KlantDaoInterface
-     *
-     * @DI\Inject("MwBundle\Service\KlantDao")
      */
     protected $dao;
 
     /**
      * @var \AppBundle\Service\KlantDaoInterface
-     *
-     * @DI\Inject("AppBundle\Service\KlantDao")
      */
     protected $klantDao;
 
     /**
      * @var ExportInterface
-     *
-     * @DI\Inject("mw.export.klanten")
      */
     protected $export;
+
+    public function __construct()
+    {
+        $this->dao = $this->get("MwBundle\Service\KlantDao");
+        $this->klantDao = $this->get("AppBundle\Service\KlantDao");
+        $this->export = $this->get("mw.export.klanten");
+    }
 
     /**
      * @Route("/add")

@@ -6,7 +6,6 @@ use AppBundle\Controller\AbstractChildController;
 use IzBundle\Entity\Tussenevaluatie;
 use IzBundle\Form\VerslagType;
 use IzBundle\Service\VerslagDaoInterface;
-use JMS\DiExtraBundle\Annotation as DI;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
@@ -26,17 +25,19 @@ class TussenevaluatiesController extends AbstractChildController
 
     /**
      * @var VerslagDaoInterface
-     *
-     * @DI\Inject("IzBundle\Service\VerslagDao")
      */
     protected $dao;
 
     /**
      * @var \ArrayObject
-     *
-     * @DI\Inject("iz.verslag.entities")
      */
     protected $entities;
+
+    public function __construct()
+    {
+        $this->dao = $this->get("IzBundle\Service\VerslagDao");
+        $this->entities = $this->get("iz.verslag.entities");
+    }
 
     /**
      * @Route("/{id}/view")

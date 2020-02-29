@@ -10,7 +10,6 @@ use GaBundle\Entity\Vrijwilligerdossier;
 use GaBundle\Form\DeelnameType;
 use GaBundle\Service\ActiviteitDaoInterface;
 use GaBundle\Service\DeelnameDaoInterface;
-use JMS\DiExtraBundle\Annotation as DI;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -30,24 +29,25 @@ class DeelnamesController extends AbstractChildController
 
     /**
      * @var DeelnameDaoInterface
-     *
-     * @DI\Inject("GaBundle\Service\DeelnameDao")
      */
     protected $dao;
 
     /**
      * @var ActiviteitDaoInterface
-     *
-     * @DI\Inject("GaBundle\Service\ActiviteitDao")
      */
     protected $activiteitDao;
 
     /**
      * @var \ArrayObject
-     *
-     * @DI\Inject("ga.deelname.entities")
      */
     protected $entities;
+
+    public function __construct()
+    {
+        $this->dao = $this->get("GaBundle\Service\DeelnameDao");
+        $this->activiteitDao = $this->get("GaBundle\Service\ActiviteitDao");
+        $this->entities = $this->get("ga.deelname.entities");
+    }
 
     /**
      * Alle leden van groep toevoegen aan activiteit.

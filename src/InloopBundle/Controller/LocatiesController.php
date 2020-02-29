@@ -6,7 +6,6 @@ use AppBundle\Controller\AbstractController;
 use InloopBundle\Entity\Locatie;
 use InloopBundle\Form\LocatieType;
 use InloopBundle\Service\LocatieDaoInterface;
-use JMS\DiExtraBundle\Annotation as DI;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
@@ -24,8 +23,11 @@ class LocatiesController extends AbstractController
 
     /**
      * @var LocatieDaoInterface
-     *
-     * @DI\Inject("InloopBundle\Service\LocatieDao")
      */
     protected $dao;
+
+    public function __construct()
+    {
+        $this->dao = $this->get("InloopBundle\Service\LocatieDao");
+    }
 }

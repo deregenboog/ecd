@@ -10,7 +10,6 @@ use ClipBundle\Form\VraagType;
 use ClipBundle\Form\VragenModel;
 use ClipBundle\Form\VragenType;
 use ClipBundle\Service\VraagDaoInterface;
-use JMS\DiExtraBundle\Annotation as DI;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -28,24 +27,25 @@ class VragenController extends AbstractVragenController
 
     /**
      * @var VraagDaoInterface
-     *
-     * @DI\Inject("ClipBundle\Service\VraagDao")
      */
     protected $dao;
 
     /**
      * @var \ArrayObject
-     *
-     * @DI\Inject("clip.vraag.entities")
      */
     protected $entities;
 
     /**
      * @var ExportInterface
-     *
-     * @DI\Inject("clip.export.vragen")
      */
     protected $export;
+
+    public function __construct()
+    {
+        $this->dao = $this->get("ClipBundle\Service\VraagDao");
+        $this->entities = $this->get("clip.vraag.entities");
+        $this->export = $this->get("clip.export.vragen");
+    }
 
     /**
      * @Route("/add")

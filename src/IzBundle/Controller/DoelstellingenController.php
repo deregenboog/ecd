@@ -7,7 +7,6 @@ use IzBundle\Entity\Doelstelling;
 use IzBundle\Form\DoelstellingFilterType;
 use IzBundle\Form\DoelstellingType;
 use IzBundle\Service\DoelstellingDaoInterface;
-use JMS\DiExtraBundle\Annotation as DI;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -25,10 +24,13 @@ class DoelstellingenController extends AbstractController
 
     /**
      * @var DoelstellingDaoInterface
-     *
-     * @DI\Inject("IzBundle\Service\DoelstellingDao")
      */
     protected $dao;
+
+    public function __construct()
+    {
+        $this->dao = $this->get("IzBundle\Service\DoelstellingDao");
+    }
 
     /**
      * @Route("/{id}/view")

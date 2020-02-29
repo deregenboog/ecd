@@ -9,7 +9,6 @@ use IzBundle\Form\IntervisiegroepFilterType;
 use IzBundle\Form\IntervisiegroepType;
 use IzBundle\Form\IzEmailMessageType;
 use IzBundle\Service\IntervisiegroepDaoInterface;
-use JMS\DiExtraBundle\Annotation as DI;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
@@ -29,17 +28,19 @@ class IntervisiegroepenController extends AbstractController
 
     /**
      * @var IntervisiegroepDaoInterface
-     *
-     * @DI\Inject("IzBundle\Service\IntervisiegroepDao")
      */
     protected $dao;
 
     /**
      * @var AbstractExport
-     *
-     * @DI\Inject("iz.export.intervisiegroepen")
      */
     protected $export;
+
+    public function __construct()
+    {
+        $this->dao = $this->get("IzBundle\Service\IntervisiegroepDao");
+        $this->export = $this->get("iz.export.intervisiegroepen");
+    }
 
     /**
      * @Route("/{id}/email")

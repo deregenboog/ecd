@@ -3,7 +3,6 @@
 namespace OekBundle\Controller;
 
 use AppBundle\Controller\AbstractController;
-use JMS\DiExtraBundle\Annotation as DI;
 use OekBundle\Entity\Groep;
 use OekBundle\Form\GroepType;
 use OekBundle\Service\GroepDaoInterface;
@@ -22,8 +21,11 @@ class GroepenController extends AbstractController
 
     /**
      * @var GroepDaoInterface
-     *
-     * @DI\Inject("OekBundle\Service\GroepDao")
      */
     protected $dao;
+
+    public function __construct()
+    {
+        $this->dao = $this->get("OekBundle\Service\GroepDao");
+    }
 }

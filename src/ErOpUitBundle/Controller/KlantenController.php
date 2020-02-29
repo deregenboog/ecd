@@ -12,7 +12,6 @@ use ErOpUitBundle\Form\KlantFilterType;
 use ErOpUitBundle\Form\KlantReopenType;
 use ErOpUitBundle\Form\KlantType;
 use ErOpUitBundle\Service\KlantDaoInterface;
-use JMS\DiExtraBundle\Annotation as DI;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;
@@ -33,24 +32,25 @@ class KlantenController extends AbstractController
 
     /**
      * @var KlantDaoInterface
-     *
-     * @DI\Inject("ErOpUitBundle\Service\KlantDao")
      */
     protected $dao;
 
     /**
      * @var ExportInterface
-     *
-     * @DI\Inject("eropuit.export.klanten")
      */
     protected $export;
 
     /**
      * @var KlantDaoInterface
-     *
-     * @DI\Inject("AppBundle\Service\KlantDao")
      */
     private $klantDao;
+
+    public function __construct()
+    {
+        $this->dao = $this->get("ErOpUitBundle\Service\KlantDao");
+        $this->export = $this->get("eropuit.export.klanten");
+        $this->klantDao = $this->get("AppBundle\Service\KlantDao");
+    }
 
     /**
      * @Route("/add")

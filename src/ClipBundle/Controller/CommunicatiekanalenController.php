@@ -6,7 +6,6 @@ use AppBundle\Controller\AbstractController;
 use ClipBundle\Entity\Communicatiekanaal;
 use ClipBundle\Form\CommunicatiekanaalType;
 use ClipBundle\Service\CommunicatiekanaalDaoInterface;
-use JMS\DiExtraBundle\Annotation as DI;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
@@ -25,10 +24,13 @@ class CommunicatiekanalenController extends AbstractController
 
     /**
      * @var CommunicatiekanaalDaoInterface
-     *
-     * @DI\Inject("ClipBundle\Service\CommunicatiekanaalDao")
      */
     protected $dao;
+
+    public function __construct()
+    {
+        $this->dao = $this->get("ClipBundle\Service\CommunicatiekanaalDao");
+    }
 
     /**
      * @Route("/{id}/view")

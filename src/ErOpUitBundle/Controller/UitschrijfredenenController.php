@@ -6,7 +6,6 @@ use AppBundle\Controller\AbstractController;
 use ErOpUitBundle\Entity\Uitschrijfreden;
 use ErOpUitBundle\Form\UitschrijfredenType;
 use ErOpUitBundle\Service\UitschrijfredenDaoInterface;
-use JMS\DiExtraBundle\Annotation as DI;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -22,8 +21,11 @@ class UitschrijfredenenController extends AbstractController
 
     /**
      * @var UitschrijfredenDaoInterface
-     *
-     * @DI\Inject("ErOpUitBundle\Service\UitschrijfredenDao")
      */
     protected $dao;
+
+    public function __construct()
+    {
+        $this->dao = $this->get("ErOpUitBundle\Service\UitschrijfredenDao");
+    }
 }

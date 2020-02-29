@@ -7,7 +7,6 @@ use HsBundle\Entity\Herinnering;
 use HsBundle\Form\HerinneringType;
 use HsBundle\Pdf\PdfHerinnering;
 use HsBundle\Service\HerinneringDaoInterface;
-use JMS\DiExtraBundle\Annotation as DI;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -28,17 +27,19 @@ class HerinneringenController extends AbstractChildController
 
     /**
      * @var HerinneringDaoInterface
-     *
-     * @DI\Inject("HsBundle\Service\HerinneringDao")
      */
     protected $dao;
 
     /**
      * @var \ArrayObject
-     *
-     * @DI\Inject("hs.herinnering.entities")
      */
     protected $entities;
+
+    public function __construct()
+    {
+        $this->dao = $this->get("HsBundle\Service\HerinneringDao");
+        $this->entities = $this->get("hs.herinnering.entities");
+    }
 
     /**
      * @Route("/{id}/view")

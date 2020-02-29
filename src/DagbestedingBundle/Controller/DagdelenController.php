@@ -7,7 +7,6 @@ use AppBundle\Export\GenericExport;
 use DagbestedingBundle\Entity\Dagdeel;
 use DagbestedingBundle\Form\DagdeelFilterType;
 use DagbestedingBundle\Service\DagdeelDaoInterface;
-use JMS\DiExtraBundle\Annotation as DI;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -24,15 +23,17 @@ class DagdelenController extends AbstractController
 
     /**
      * @var DagdeelDaoInterface
-     *
-     * @DI\Inject("DagbestedingBundle\Service\DagdeelDao")
      */
     protected $dao;
 
     /**
      * @var GenericExport
-     *
-     * @DI\Inject("dagbesteding.export.dagdelen")
      */
     protected $export;
+
+    public function __construct()
+    {
+        $this->dao = $this->get("DagbestedingBundle\Service\DagdeelDao");
+        $this->export = $this->get("dagbesteding.export.dagdelen");
+    }
 }

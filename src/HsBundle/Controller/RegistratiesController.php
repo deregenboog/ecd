@@ -13,7 +13,6 @@ use HsBundle\Filter\RegistratieFilter;
 use HsBundle\Form\RegistratieFilterType;
 use HsBundle\Form\RegistratieType;
 use HsBundle\Service\RegistratieDaoInterface;
-use JMS\DiExtraBundle\Annotation as DI;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
@@ -34,24 +33,25 @@ class RegistratiesController extends AbstractChildController
 
     /**
      * @var RegistratieDaoInterface
-     *
-     * @DI\Inject("HsBundle\Service\RegistratieDao")
      */
     protected $dao;
 
     /**
      * @var ExportInterface
-     *
-     * @DI\Inject("hs.export.registratie")
      */
     protected $export;
 
     /**
      * @var \ArrayObject
-     *
-     * @DI\Inject("hs.registratie.entities")
      */
     protected $entities;
+
+    public function __construct()
+    {
+        $this->dao = $this->get("HsBundle\Service\RegistratieDao");
+        $this->export = $this->get("hs.export.registratie");
+        $this->entities = $this->get("hs.registratie.entities");
+    }
 
     /**
      * @Route("/werkbon/{arbeider}")

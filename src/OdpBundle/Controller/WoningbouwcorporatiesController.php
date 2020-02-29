@@ -4,7 +4,6 @@ namespace OdpBundle\Controller;
 
 use AppBundle\Controller\SymfonyController;
 use AppBundle\Form\ConfirmationType;
-use JMS\DiExtraBundle\Annotation as DI;
 use OdpBundle\Entity\Woningbouwcorporatie;
 use OdpBundle\Form\WoningbouwcorporatieType;
 use OdpBundle\Service\WoningbouwcorporatieDaoInterface;
@@ -21,10 +20,13 @@ class WoningbouwcorporatiesController extends SymfonyController
 
     /**
      * @var WoningbouwcorporatieDaoInterface
-     *
-     * @DI\Inject("OdpBundle\Service\WoningbouwcorporatieDao")
      */
     private $woningbouwcorporatieDao;
+
+    public function __construct()
+    {
+        $this->woningbouwcorporatieDao = $this->get("OdpBundle\Service\WoningbouwcorporatieDao");
+    }
 
     /**
      * @Route("/")

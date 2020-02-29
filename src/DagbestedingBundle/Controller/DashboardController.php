@@ -12,7 +12,6 @@ use AppBundle\Service\AbstractDao;
 use DagbestedingBundle\Filter\TrajectFilter;
 use DagbestedingBundle\Form\TrajectFilterType;
 use DagbestedingBundle\Service\TrajectDaoInterface;
-use JMS\DiExtraBundle\Annotation as DI;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
@@ -27,17 +26,19 @@ class DashboardController extends SymfonyController
 
     /**
      * @var TrajectDaoInterface
-     *
-     * @DI\Inject("DagbestedingBundle\Service\TrajectDao")
      */
     protected $trajectDao;
 
     /**
      * @var AbstractExport
-     *
-     * @DI\Inject("dagbesteding.export.trajecten")
      */
     protected $trajectenExport;
+
+    public function __construct()
+    {
+        $this->trajectDao = $this->get("DagbestedingBundle\Service\TrajectDao");
+        $this->trajectenExport = $this->get("dagbesteding.export.trajecten");
+    }
 
     /**
      * @Route("/")

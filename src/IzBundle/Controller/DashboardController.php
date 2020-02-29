@@ -17,7 +17,6 @@ use IzBundle\Form\KoppelingFilterType;
 use IzBundle\Service\HulpaanbodDaoInterface;
 use IzBundle\Service\HulpvraagDaoInterface;
 use IzBundle\Service\KoppelingDaoInterface;
-use JMS\DiExtraBundle\Annotation as DI;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
@@ -32,45 +31,43 @@ class DashboardController extends SymfonyController
 
     /**
      * @var HulpvraagDaoInterface
-     *
-     * @DI\Inject("IzBundle\Service\HulpvraagDao")
      */
     protected $hulpvraagDao;
 
     /**
      * @var HulpaanbodDaoInterface
-     *
-     * @DI\Inject("IzBundle\Service\HulpaanbodDao")
      */
     protected $hulpaanbodDao;
 
     /**
      * @var KoppelingDaoInterface
-     *
-     * @DI\Inject("IzBundle\Service\KoppelingDao")
      */
     protected $koppelingDao;
 
     /**
      * @var AbstractExport
-     *
-     * @DI\Inject("iz.export.hulpvragen")
      */
     protected $hulpvragenExport;
 
     /**
      * @var AbstractExport
-     *
-     * @DI\Inject("iz.export.hulpaanbiedingen")
      */
     protected $hulpaanbiedingenExport;
 
     /**
      * @var AbstractExport
-     *
-     * @DI\Inject("iz.export.koppelingen")
      */
     protected $koppelingenExport;
+
+    public function __construct()
+    {
+        $this->hulpvraagDao = $this->get("IzBundle\Service\HulpvraagDao");
+        $this->hulpaanbodDao = $this->get("IzBundle\Service\HulpaanbodDao");
+        $this->koppelingDao = $this->get("IzBundle\Service\KoppelingDao");
+        $this->hulpvragenExport = $this->get("iz.export.hulpvragen");
+        $this->hulpaanbiedingenExport = $this->get("iz.export.hulpaanbiedingen");
+        $this->koppelingenExport = $this->get("iz.export.koppelingen");
+    }
 
     /**
      * @Route("/")

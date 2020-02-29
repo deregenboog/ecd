@@ -3,7 +3,6 @@
 namespace ScipBundle\Controller;
 
 use AppBundle\Controller\AbstractChildController;
-use JMS\DiExtraBundle\Annotation as DI;
 use ScipBundle\Entity\Werkdoel;
 use ScipBundle\Form\WerkdoelType;
 use ScipBundle\Service\WerkdoelDaoInterface;
@@ -24,15 +23,17 @@ class WerkdoelenController extends AbstractChildController
 
     /**
      * @var WerkdoelDaoInterface
-     *
-     * @DI\Inject("ScipBundle\Service\WerkdoelDao")
      */
     protected $dao;
 
     /**
      * @var \ArrayObject
-     *
-     * @DI\Inject("scip.werkdoel.entities")
      */
     protected $entities;
+
+    public function __construct()
+    {
+        $this->dao = $this->get("ScipBundle\Service\WerkdoelDao");
+        $this->entities = $this->get("scip.werkdoel.entities");
+    }
 }

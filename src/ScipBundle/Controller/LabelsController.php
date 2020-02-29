@@ -3,7 +3,6 @@
 namespace ScipBundle\Controller;
 
 use AppBundle\Controller\AbstractController;
-use JMS\DiExtraBundle\Annotation as DI;
 use ScipBundle\Entity\Label;
 use ScipBundle\Form\LabelFilterType;
 use ScipBundle\Form\LabelType;
@@ -27,8 +26,11 @@ class LabelsController extends AbstractController
 
     /**
      * @var LabelDaoInterface
-     *
-     * @DI\Inject("ScipBundle\Service\LabelDao")
      */
     protected $dao;
+
+    public function __construct()
+    {
+        $this->dao = $this->get("ScipBundle\Service\LabelDao");
+    }
 }

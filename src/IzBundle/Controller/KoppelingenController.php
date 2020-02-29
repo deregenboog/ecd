@@ -16,7 +16,6 @@ use IzBundle\Form\KoppelingType;
 use IzBundle\Service\HulpaanbodDaoInterface;
 use IzBundle\Service\HulpvraagDaoInterface;
 use IzBundle\Service\KoppelingDaoInterface;
-use JMS\DiExtraBundle\Annotation as DI;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
@@ -37,31 +36,31 @@ class KoppelingenController extends AbstractController
 
     /**
      * @var KoppelingDaoInterface
-     *
-     * @DI\Inject("IzBundle\Service\KoppelingDao")
      */
     protected $dao;
 
     /**
      * @var HulpvraagDaoInterface
-     *
-     * @DI\Inject("IzBundle\Service\HulpvraagDao")
      */
     protected $hulpvraagDao;
 
     /**
      * @var HulpaanbodDaoInterface
-     *
-     * @DI\Inject("IzBundle\Service\HulpaanbodDao")
      */
     protected $hulpaanbodDao;
 
     /**
      * @var AbstractExport
-     *
-     * @DI\Inject("iz.export.koppelingen")
      */
     protected $export;
+
+    public function __construct()
+    {
+        $this->dao = $this->get("IzBundle\Service\KoppelingDao");
+        $this->hulpvraagDao = $this->get("IzBundle\Service\HulpvraagDao");
+        $this->hulpaanbodDao = $this->get("IzBundle\Service\HulpaanbodDao");
+        $this->export = $this->get("iz.export.koppelingen");
+    }
 
     /**
      * @Route("/add")

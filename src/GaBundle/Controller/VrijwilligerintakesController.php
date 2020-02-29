@@ -14,7 +14,6 @@ use GaBundle\Form\AanmeldingType;
 use GaBundle\Form\VrijwilligerIntakeFilterType;
 use GaBundle\Form\VrijwilligerIntakeType;
 use GaBundle\Service\VrijwilligerIntakeDaoInterface;
-use JMS\DiExtraBundle\Annotation as DI;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;
@@ -35,24 +34,25 @@ class VrijwilligerintakesController extends AbstractController
 
     /**
      * @var VrijwilligerIntakeDaoInterface
-     *
-     * @DI\Inject("GaBundle\Service\VrijwilligerIntakeDao")
      */
     protected $dao;
 
     /**
      * @var ExportInterface
-     *
-     * @DI\Inject("ga.export.vrijwilligerdossiers")
      */
     protected $export;
 
     /**
      * @var VrijwilligerDaoInterface
-     *
-     * @DI\Inject("AppBundle\Service\VrijwilligerDao")
      */
     private $vrijwilligerDao;
+
+    public function __construct()
+    {
+        $this->dao = $this->get("GaBundle\Service\VrijwilligerIntakeDao");
+        $this->export = $this->get("ga.export.vrijwilligerdossiers");
+        $this->vrijwilligerDao = $this->get("AppBundle\Service\VrijwilligerDao");
+    }
 
     /**
      * @Route("/add")

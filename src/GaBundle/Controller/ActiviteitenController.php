@@ -12,7 +12,6 @@ use GaBundle\Form\ActiviteitFilterType;
 use GaBundle\Form\ActiviteitType;
 use GaBundle\Form\DeelnamesType;
 use GaBundle\Service\ActiviteitDaoInterface;
-use JMS\DiExtraBundle\Annotation as DI;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -34,24 +33,25 @@ class ActiviteitenController extends AbstractChildController
 
     /**
      * @var ActiviteitDaoInterface
-     *
-     * @DI\Inject("GaBundle\Service\ActiviteitDao")
      */
     protected $dao;
 
     /**
      * @var \ArrayObject
-     *
-     * @DI\Inject("ga.activiteit.entities")
      */
     protected $entities;
 
     /**
      * @var AbstractExport
-     *
-     * @DI\Inject("ga.export.activiteiten")
      */
     protected $export;
+
+    public function __construct()
+    {
+        $this->dao = $this->get("GaBundle\Service\ActiviteitDao");
+        $this->entities = $this->get("ga.activiteit.entities");
+        $this->export = $this->get("ga.export.activiteiten");
+    }
 
     /**
      * @Route("/calendar")

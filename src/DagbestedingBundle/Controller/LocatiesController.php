@@ -6,7 +6,6 @@ use AppBundle\Controller\AbstractController;
 use DagbestedingBundle\Entity\Locatie;
 use DagbestedingBundle\Form\LocatieType;
 use DagbestedingBundle\Service\LocatieDaoInterface;
-use JMS\DiExtraBundle\Annotation as DI;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -23,10 +22,13 @@ class LocatiesController extends AbstractController
 
     /**
      * @var LocatieDaoInterface
-     *
-     * @DI\Inject("DagbestedingBundle\Service\LocatieDao")
      */
     protected $dao;
+
+    public function __construct()
+    {
+        $this->dao = $this->get("DagbestedingBundle\Service\LocatieDao");
+    }
 
     /**
      * @Route("/{id}/view")

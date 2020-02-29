@@ -8,7 +8,6 @@ use AppBundle\Entity\Opmerking;
 use InloopBundle\Entity\Locatie;
 use InloopBundle\Form\OpmerkingType;
 use InloopBundle\Service\OpmerkingDaoInterface;
-use JMS\DiExtraBundle\Annotation as DI;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
@@ -30,10 +29,13 @@ class OpmerkingenController extends AbstractController
 
     /**
      * @var OpmerkingDaoInterface
-     *
-     * @DI\Inject("InloopBundle\Service\OpmerkingDao")
      */
     protected $dao;
+
+    public function __construct()
+    {
+        $this->dao = $this->get("InloopBundle\Service\OpmerkingDao");
+    }
 
     /**
      * @Route("/{klant}", requirements={"klant"="\d+"}, defaults={"locatie" = null})

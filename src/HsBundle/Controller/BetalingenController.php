@@ -8,7 +8,6 @@ use HsBundle\Entity\Betaling;
 use HsBundle\Form\BetalingFilterType;
 use HsBundle\Form\BetalingType;
 use HsBundle\Service\BetalingDaoInterface;
-use JMS\DiExtraBundle\Annotation as DI;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -29,24 +28,25 @@ class BetalingenController extends AbstractChildController
 
     /**
      * @var BetalingDaoInterface
-     *
-     * @DI\Inject("HsBundle\Service\BetalingDao")
      */
     protected $dao;
 
     /**
      * @var \ArrayObject
-     *
-     * @DI\Inject("hs.betaling.entities")
      */
     protected $entities;
 
     /**
      * @var ExportInterface
-     *
-     * @DI\Inject("hs.export.betaling")
      */
     protected $export;
+
+    public function __construct()
+    {
+        $this->dao = $this->get("HsBundle\Service\BetalingDao");
+        $this->entities = $this->get("hs.betaling.entities");
+        $this->export = $this->get("hs.export.betaling");
+    }
 
     /**
      * @Route("/{id}/view")

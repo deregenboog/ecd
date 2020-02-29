@@ -6,7 +6,6 @@ use AppBundle\Controller\AbstractController;
 use IzBundle\Entity\ContactOntstaan;
 use IzBundle\Form\ContactOntstaanType;
 use IzBundle\Service\ContactOntstaanDaoInterface;
-use JMS\DiExtraBundle\Annotation as DI;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -23,10 +22,13 @@ class ContactOntstaanOptiesController extends AbstractController
 
     /**
      * @var ContactOntstaanDaoInterface
-     *
-     * @DI\Inject("IzBundle\Service\ContactOntstaanDao")
      */
     protected $dao;
+
+    public function __construct()
+    {
+        $this->dao = $this->get("IzBundle\Service\ContactOntstaanDao");
+    }
 
     /**
      * @Route("/{id}/view")

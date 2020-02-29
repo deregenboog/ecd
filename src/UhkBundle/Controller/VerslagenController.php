@@ -3,7 +3,6 @@
 namespace UhkBundle\Controller;
 
 use AppBundle\Controller\AbstractChildController;
-use JMS\DiExtraBundle\Annotation as DI;
 use UhkBundle\Entity\Verslag;
 use UhkBundle\Form\VerslagType;
 use UhkBundle\Service\VerslagDaoInterface;
@@ -24,15 +23,17 @@ class VerslagenController extends AbstractChildController
 
     /**
      * @var VerslagDaoInterface
-     *
-     * @DI\Inject("UhkBundle\Service\VerslagDao")
      */
     protected $dao;
 
     /**
      * @var \ArrayObject
-     *
-     * @DI\Inject("uhk.verslag.entities")
      */
     protected $entities;
+
+    public function __construct()
+    {
+        $this->dao = $this->get("UhkBundle\Service\VerslagDao");
+        $this->entities = $this->get("uhk.verslag.entities");
+    }
 }

@@ -6,7 +6,6 @@ use AppBundle\Controller\AbstractController;
 use ClipBundle\Entity\Leeftijdscategorie;
 use ClipBundle\Form\LeeftijdscategorieType;
 use ClipBundle\Service\LeeftijdscategorieDaoInterface;
-use JMS\DiExtraBundle\Annotation as DI;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -23,10 +22,13 @@ class LeeftijdscategorieenController extends AbstractController
 
     /**
      * @var LeeftijdscategorieDaoInterface
-     *
-     * @DI\Inject("ClipBundle\Service\LeeftijdscategorieDao")
      */
     protected $dao;
+
+    public function __construct()
+    {
+        $this->dao = $this->get("ClipBundle\Service\LeeftijdscategorieDao");
+    }
 
     /**
      * @Route("/{id}/view")

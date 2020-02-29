@@ -6,7 +6,6 @@ use AppBundle\Controller\AbstractController;
 use DagbestedingBundle\Entity\Trajectafsluiting;
 use DagbestedingBundle\Form\TrajectafsluitingType;
 use DagbestedingBundle\Service\TrajectafsluitingDaoInterface;
-use JMS\DiExtraBundle\Annotation as DI;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -24,10 +23,13 @@ class TrajectafsluitingenController extends AbstractController
 
     /**
      * @var TrajectafsluitingDaoInterface
-     *
-     * @DI\Inject("DagbestedingBundle\Service\TrajectafsluitingDao")
      */
     protected $dao;
+
+    public function __construct()
+    {
+        $this->dao = $this->get("DagbestedingBundle\Service\TrajectafsluitingDao");
+    }
 
     /**
      * @Route("/{id}/view")
