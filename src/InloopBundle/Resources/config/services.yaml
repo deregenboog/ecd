@@ -23,7 +23,7 @@ services:
     InloopBundle\Event\IntakeSubscriber:
         arguments:
             - "@logger"
-            - "@templating"
+            - "@twig"
             - "@mailer"
             - '@InloopBundle\Service\AccessUpdater'
             - "%informele_zorg_mail%"
