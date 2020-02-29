@@ -17,7 +17,7 @@ class FactuurSubscriberTest extends WebTestCase
      */
     private $entityManager;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->markTestSkipped();
 
