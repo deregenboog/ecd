@@ -19,13 +19,13 @@ class DienstenLookupSubscriberTest extends TestCase
      */
     private $listener;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->klantDao = $this->getMockForAbstractClass(KlantDaoInterface::class);
         $this->listener = new DienstenLookupSubscriber($this->klantDao);
     }
 
-    protected function tearDown()
+    protected function tearDown(): void
     {
         $this->listener = null;
     }
