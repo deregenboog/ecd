@@ -1,6 +1,6 @@
 imports:
-    - { resource: daos.yml }
-    - { resource: exports.yml }
+    - { resource: daos.yaml }
+    - { resource: exports.yaml }
 
 services:
     app.form.rapportage:

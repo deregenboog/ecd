@@ -25,21 +25,18 @@ class WebTestCase extends CoreWebTestCase
         parent::setUp();
 
         $this->loadFixtureFiles([
-            '@AppBundle/DataFixtures/ORM/fixtures.yml',
-            '@ClipBundle/DataFixtures/ORM/fixtures.yml',
-
-//             '@DagbestedingBundle/DataFixtures/ORM/fixtures.yml',
-
-            '@ErOpUitBundle/DataFixtures/ORM/fixtures.yml',
-
-//             '@GaBundle/DataFixtures/ORM/fixtures.yml',
-//             '@HsBundle/DataFixtures/ORM/fixtures.yml',
-//             '@InloopBundle/DataFixtures/ORM/fixtures.yml',
-//             '@IzBundle/DataFixtures/ORM/fixtures.yml',
-//             '@MwBundle/DataFixtures/ORM/fixtures.yml',
-//             '@OdpBundle/DataFixtures/ORM/fixtures.yml',
-//             '@OekBundle/DataFixtures/ORM/fixtures.yml',
-//             '@PfoBundle/DataFixtures/ORM/fixtures.yml',
+            '@AppBundle/DataFixtures/ORM/fixtures.yaml',
+            '@ClipBundle/DataFixtures/ORM/fixtures.yaml',
+//             '@DagbestedingBundle/DataFixtures/ORM/fixtures.yaml',
+            '@ErOpUitBundle/DataFixtures/ORM/fixtures.yaml',
+//             '@GaBundle/DataFixtures/ORM/fixtures.yaml',
+//             '@HsBundle/DataFixtures/ORM/fixtures.yaml',
+//             '@InloopBundle/DataFixtures/ORM/fixtures.yaml',
+//             '@IzBundle/DataFixtures/ORM/fixtures.yaml',
+//             '@MwBundle/DataFixtures/ORM/fixtures.yaml',
+//             '@OdpBundle/DataFixtures/ORM/fixtures.yaml',
+//             '@OekBundle/DataFixtures/ORM/fixtures.yaml',
+//             '@PfoBundle/DataFixtures/ORM/fixtures.yaml',
         ]);
 
         unset($_GET);
