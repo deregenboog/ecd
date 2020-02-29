@@ -7,8 +7,9 @@ use Doctrine\ORM\EntityManager;
 use Knp\Component\Pager\PaginatorInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
-abstract class SymfonyController extends Controller
+abstract class SymfonyController extends AbstractController
 {
     /**
      * @var string
