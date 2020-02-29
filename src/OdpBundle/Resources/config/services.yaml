@@ -1,7 +1,7 @@
 imports:
-    - { resource: daos.yml }
-    - { resource: exports.yml }
-    - { resource: reports.yml }
+    - { resource: daos.yaml }
+    - { resource: exports.yaml }
+    - { resource: reports.yaml }
 
 services:
     odp.event.diensten_lookup_subscriber:
