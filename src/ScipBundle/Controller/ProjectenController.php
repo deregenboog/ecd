@@ -3,7 +3,6 @@
 namespace ScipBundle\Controller;
 
 use AppBundle\Controller\AbstractController;
-use JMS\DiExtraBundle\Annotation as DI;
 use ScipBundle\Entity\Project;
 use ScipBundle\Form\ProjectFilterType;
 use ScipBundle\Form\ProjectType;
@@ -29,10 +28,13 @@ class ProjectenController extends AbstractController
 
     /**
      * @var ProjectDaoInterface
-     *
-     * @DI\Inject("ScipBundle\Service\ProjectDao")
      */
     protected $dao;
+
+    public function __construct()
+    {
+        $this->dao = $this->get("ScipBundle\Service\ProjectDao");
+    }
 
     /**
      * @Route("/")

@@ -6,7 +6,6 @@ use AppBundle\Controller\AbstractController;
 use InloopBundle\Entity\Frequentie;
 use InloopBundle\Form\FrequentieType;
 use InloopBundle\Service\FrequentieDaoInterface;
-use JMS\DiExtraBundle\Annotation as DI;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
@@ -24,8 +23,11 @@ class FrequentiesController extends AbstractController
 
     /**
      * @var FrequentieDaoInterface
-     *
-     * @DI\Inject("InloopBundle\Service\FrequentieDao")
      */
     protected $dao;
+
+    public function __construct()
+    {
+        $this->dao = $this->get("InloopBundle\Service\FrequentieDao");
+    }
 }

@@ -6,7 +6,6 @@ use AppBundle\Controller\AbstractController;
 use ClipBundle\Entity\Hulpvrager;
 use ClipBundle\Form\HulpvragerType;
 use ClipBundle\Service\HulpvragerDaoInterface;
-use JMS\DiExtraBundle\Annotation as DI;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
@@ -25,10 +24,13 @@ class HulpvragersController extends AbstractController
 
     /**
      * @var HulpvragerDaoInterface
-     *
-     * @DI\Inject("ClipBundle\Service\HulpvragerDao")
      */
     protected $dao;
+
+    public function __construct()
+    {
+        $this->dao = $this->get("ClipBundle\Service\HulpvragerDao");
+    }
 
     /**
      * @Route("/{id}/view")

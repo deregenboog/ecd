@@ -6,7 +6,6 @@ use AppBundle\Controller\AbstractController;
 use DagbestedingBundle\Entity\Deelnemerafsluiting;
 use DagbestedingBundle\Form\DeelnemerafsluitingType;
 use DagbestedingBundle\Service\DeelnemerafsluitingDaoInterface;
-use JMS\DiExtraBundle\Annotation as DI;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -26,10 +25,13 @@ class DeelnemerafsluitingenController extends AbstractController
 
     /**
      * @var DeelnemerafsluitingDaoInterface
-     *
-     * @DI\Inject("DagbestedingBundle\Service\DeelnemerafsluitingDao")
      */
     protected $dao;
+
+    public function __construct()
+    {
+        $this->dao = $this->get("DagbestedingBundle\Service\DeelnemerafsluitingDao");
+    }
 
     /**
      * @Route("/{id}/view")

@@ -6,7 +6,6 @@ use AppBundle\Controller\AbstractController;
 use HsBundle\Entity\Activiteit;
 use HsBundle\Form\ActiviteitType;
 use HsBundle\Service\ActiviteitDaoInterface;
-use JMS\DiExtraBundle\Annotation as DI;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -25,10 +24,13 @@ class ActiviteitenController extends AbstractController
 
     /**
      * @var ActiviteitDaoInterface
-     *
-     * @DI\Inject("HsBundle\Service\ActiviteitDao")
      */
     protected $dao;
+
+    public function __construct()
+    {
+        $this->dao = $this->get("HsBundle\Service\ActiviteitDao");
+    }
 
     /**
      * @Route("/{id}/view")

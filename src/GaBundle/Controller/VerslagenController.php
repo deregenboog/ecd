@@ -6,7 +6,6 @@ use AppBundle\Controller\AbstractChildController;
 use GaBundle\Entity\Verslag;
 use GaBundle\Form\VerslagType;
 use GaBundle\Service\VerslagDaoInterface;
-use JMS\DiExtraBundle\Annotation as DI;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -23,17 +22,19 @@ class VerslagenController extends AbstractChildController
 
     /**
      * @var VerslagDaoInterface
-     *
-     * @DI\Inject("GaBundle\Service\VerslagDao")
      */
     protected $dao;
 
     /**
      * @var \ArrayObject
-     *
-     * @DI\Inject("ga.verslag.entities")
      */
     protected $entities;
+
+    public function __construct()
+    {
+        $this->dao = $this->get("GaBundle\Service\VerslagDao");
+        $this->entities = $this->get("ga.verslag.entities");
+    }
 
     protected function createEntity($parentEntity = null)
     {

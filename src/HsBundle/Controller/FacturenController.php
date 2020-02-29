@@ -19,7 +19,6 @@ use HsBundle\Pdf\PdfFactuur;
 use HsBundle\Service\FactuurDaoInterface;
 use HsBundle\Service\FactuurFactoryInterface;
 use HsBundle\Service\KlantDaoInterface;
-use JMS\DiExtraBundle\Annotation as DI;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -42,38 +41,37 @@ class FacturenController extends AbstractChildController
 
     /**
      * @var FactuurDaoInterface
-     *
-     * @DI\Inject("HsBundle\Service\FactuurDao")
      */
     protected $dao;
 
     /**
      * @var \ArrayObject
-     *
-     * @DI\Inject("hs.factuur.entities")
      */
     protected $entities;
 
     /**
      * @var ExportInterface
-     *
-     * @DI\Inject("hs.export.factuur")
      */
     protected $export;
 
     /**
      * @var KlantDaoInterface
-     *
-     * @DI\Inject("HsBundle\Service\KlantDao")
      */
     protected $klantDao;
 
     /**
      * @var FactuurFactoryInterface
-     *
-     * @DI\Inject("hs.factory.factuur")
      */
     private $factory;
+
+    public function __construct()
+    {
+        $this->dao = $this->get("HsBundle\Service\FactuurDao");
+        $this->entities = $this->get("hs.factuur.entities");
+        $this->export = $this->get("hs.export.factuur");
+        $this->klantDao = $this->get("HsBundle\Service\KlantDao");
+        $this->factory = $this->get("hs.factory.factuur");
+    }
 
     /**
      * @Route("/")

@@ -6,7 +6,6 @@ use AppBundle\Controller\AbstractChildController;
 use ClipBundle\Entity\Document;
 use ClipBundle\Form\DocumentType;
 use ClipBundle\Service\DocumentDaoInterface;
-use JMS\DiExtraBundle\Annotation as DI;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -23,17 +22,19 @@ class DocumentenController extends AbstractChildController
 
     /**
      * @var DocumentDaoInterface
-     *
-     * @DI\Inject("ClipBundle\Service\DocumentDao")
      */
     protected $dao;
 
     /**
      * @var \ArrayObject
-     *
-     * @DI\Inject("clip.document.entities")
      */
     protected $entities;
+
+    public function __construct()
+    {
+        $this->dao = $this->get("ClipBundle\Service\DocumentDao");
+        $this->entities = $this->get("clip.document.entities");
+    }
 
     /**
      * @Route("/download/{filename}")

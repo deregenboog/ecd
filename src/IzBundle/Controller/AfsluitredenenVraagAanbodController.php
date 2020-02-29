@@ -6,7 +6,6 @@ use AppBundle\Controller\AbstractController;
 use IzBundle\Entity\EindeVraagAanbod;
 use IzBundle\Form\EindeVraagAanbodType;
 use IzBundle\Service\EindeVraagAanbodDaoInterface;
-use JMS\DiExtraBundle\Annotation as DI;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -23,10 +22,13 @@ class AfsluitredenenVraagAanbodController extends AbstractController
 
     /**
      * @var EindeVraagAanbodDaoInterface
-     *
-     * @DI\Inject("IzBundle\Service\EindeVraagAanbodDao")
      */
     protected $dao;
+
+    public function __construct()
+    {
+        $this->dao = $this->get("IzBundle\Service\EindeVraagAanbodDao");
+    }
 
     /**
      * @Route("/{id}/view")

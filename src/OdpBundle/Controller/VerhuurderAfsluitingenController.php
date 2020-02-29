@@ -2,7 +2,6 @@
 
 namespace OdpBundle\Controller;
 
-use JMS\DiExtraBundle\Annotation as DI;
 use OdpBundle\Entity\VerhuurderAfsluiting;
 use OdpBundle\Service\AfsluitingDaoInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
@@ -18,8 +17,6 @@ class VerhuurderAfsluitingenController extends AfsluitingenController
 
     /**
      * @var AfsluitingDaoInterface
-     *
-     * @DI\Inject("OdpBundle\Service\VerhuurderafsluitingDao")
      */
     protected $dao;
 
@@ -28,4 +25,9 @@ class VerhuurderAfsluitingenController extends AfsluitingenController
     protected $entityName = 'Afsluiting verhuurder';
 
     protected $indexRouteName = 'odp_verhuurderafsluitingen_index';
+
+    public function __construct()
+    {
+        $this->dao = $this->get("OdpBundle\Service\VerhuurderafsluitingDao");
+    }
 }

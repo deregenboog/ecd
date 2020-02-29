@@ -6,7 +6,6 @@ use AppBundle\Controller\AbstractController;
 use AppBundle\Export\ExportInterface;
 use AppBundle\Form\ConfirmationType;
 use Doctrine\ORM\EntityManager;
-use JMS\DiExtraBundle\Annotation as DI;
 use OdpBundle\Entity\Huuraanbod;
 use OdpBundle\Entity\Huurovereenkomst;
 use OdpBundle\Entity\Huurverzoek;
@@ -34,17 +33,19 @@ class HuurovereenkomstenController extends AbstractController
 
     /**
      * @var HuurovereenkomstDao
-     *
-     * @DI\Inject("OdpBundle\Service\HuurovereenkomstDao")
      */
     protected $dao;
 
     /**
      * @var ExportInterface
-     *
-     * @DI\Inject("odp.export.koppelingen")
      */
     protected $export;
+
+    public function __construct()
+    {
+        $this->dao = $this->get("OdpBundle\Service\HuurovereenkomstDao");
+        $this->export = $this->get("odp.export.koppelingen");
+    }
 
     public function dafterFind($entity)
     {

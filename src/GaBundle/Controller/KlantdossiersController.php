@@ -12,7 +12,6 @@ use GaBundle\Entity\KlantDossier;
 use GaBundle\Form\KlantdossierFilterType;
 use GaBundle\Form\KlantdossierType;
 use GaBundle\Service\KlantdossierDaoInterface;
-use JMS\DiExtraBundle\Annotation as DI;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;
@@ -33,24 +32,25 @@ class KlantdossiersController extends DossiersController
 
     /**
      * @var KlantdossierDaoInterface
-     *
-     * @DI\Inject("GaBundle\Service\KlantdossierDao")
      */
     protected $dao;
 
     /**
      * @var ExportInterface
-     *
-     * @DI\Inject("ga.export.klantdossiers")
      */
     protected $export;
 
     /**
      * @var KlantDaoInterface
-     *
-     * @DI\Inject("AppBundle\Service\KlantDao")
      */
     private $klantDao;
+
+    public function __construct()
+    {
+        $this->dao = $this->get("GaBundle\Service\KlantdossierDao");
+        $this->export = $this->get("ga.export.klantdossiers");
+        $this->klantDao = $this->get("AppBundle\Service\KlantDao");
+    }
 
     /**
      * @Route("/add")

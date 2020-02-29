@@ -14,7 +14,6 @@ use IzBundle\Form\IzDeelnemerCloseType;
 use IzBundle\Form\IzKlantFilterType;
 use IzBundle\Form\IzKlantType;
 use IzBundle\Service\KlantDaoInterface;
-use JMS\DiExtraBundle\Annotation as DI;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\EventDispatcher\GenericEvent;
@@ -37,24 +36,25 @@ class KlantenController extends AbstractController
 
     /**
      * @var KlantDaoInterface
-     *
-     * @DI\Inject("IzBundle\Service\KlantDao")
      */
     protected $dao;
 
     /**
      * @var AbstractExport
-     *
-     * @DI\Inject("iz.export.klanten")
      */
     protected $export;
 
     /**
      * @var KlantDaoInterface
-     *
-     * @DI\Inject("AppBundle\Service\KlantDao")
      */
     private $klantDao;
+
+    public function __construct()
+    {
+        $this->dao = $this->get("IzBundle\Service\KlantDao");
+        $this->export = $this->get("iz.export.klanten");
+        $this->klantDao = $this->get("AppBundle\Service\KlantDao");
+    }
 
     /**
      * @Route("/add")
@@ -75,6 +75,7 @@ class KlantenController extends AbstractController
     {
         $klant = $this->dao->findKlantByDocId($documentId);
     }
+
     /**
      * @Route("/{id}/close")
      */

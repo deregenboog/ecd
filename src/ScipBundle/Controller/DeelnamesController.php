@@ -4,7 +4,6 @@ namespace ScipBundle\Controller;
 
 use AppBundle\Controller\AbstractChildController;
 use AppBundle\Export\ExportInterface;
-use JMS\DiExtraBundle\Annotation as DI;
 use ScipBundle\Entity\Deelname;
 use ScipBundle\Entity\Deelnemer;
 use ScipBundle\Entity\Project;
@@ -29,24 +28,25 @@ class DeelnamesController extends AbstractChildController
 
     /**
      * @var DeelnameDaoInterface
-     *
-     * @DI\Inject("ScipBundle\Service\DeelnameDao")
      */
     protected $dao;
 
     /**
      * @var \ArrayObject
-     *
-     * @DI\Inject("scip.deelname.entities")
      */
     protected $entities;
 
     /**
      * @var ExportInterface
-     *
-     * @DI\Inject("scip.export.deelnames")
      */
     protected $export;
+
+    public function __construct()
+    {
+        $this->dao = $this->get("ScipBundle\Service\DeelnameDao");
+        $this->entities = $this->get("scip.deelname.entities");
+        $this->export = $this->get("scip.export.deelnames");
+    }
 
     /**
      * @Route("/")

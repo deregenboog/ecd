@@ -6,7 +6,6 @@ use AppBundle\Controller\AbstractController;
 use ClipBundle\Entity\Behandelaar;
 use ClipBundle\Form\BehandelaarType;
 use ClipBundle\Service\BehandelaarDaoInterface;
-use JMS\DiExtraBundle\Annotation as DI;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
@@ -25,10 +24,13 @@ class BehandelaarsController extends AbstractController
 
     /**
      * @var BehandelaarDaoInterface
-     *
-     * @DI\Inject("ClipBundle\Service\BehandelaarDao")
      */
     protected $dao;
+
+    public function __construct()
+    {
+        $this->dao = $this->get("ClipBundle\Service\BehandelaarDao");
+    }
 
     /**
      * @Route("/{id}/view")

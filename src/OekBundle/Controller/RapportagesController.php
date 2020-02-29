@@ -4,7 +4,6 @@ namespace OekBundle\Controller;
 
 use AppBundle\Controller\AbstractRapportagesController;
 use AppBundle\Export\GenericExport;
-use JMS\DiExtraBundle\Annotation as DI;
 use OekBundle\Form\RapportageType;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -17,8 +16,11 @@ class RapportagesController extends AbstractRapportagesController
 
     /**
      * @var GenericExport
-     *
-     * @DI\Inject("oek.export.report")
      */
     protected $export;
+
+    public function __construct()
+    {
+        $this->export = $this->get("oek.export.report");
+    }
 }

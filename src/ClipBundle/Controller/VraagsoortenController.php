@@ -6,7 +6,6 @@ use AppBundle\Controller\AbstractController;
 use ClipBundle\Entity\Vraagsoort;
 use ClipBundle\Form\VraagsoortType;
 use ClipBundle\Service\VraagsoortDaoInterface;
-use JMS\DiExtraBundle\Annotation as DI;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -24,9 +23,13 @@ class VraagsoortenController extends AbstractController
     /**
      * @var VraagsoortDaoInterface
      *
-     * @DI\Inject("ClipBundle\Service\VraagsoortDao")
      */
     protected $dao;
+
+    public function __construct()
+    {
+        $this->dao = $this->get("ClipBundle\Service\VraagsoortDao");
+    }
 
     /**
      * @Route("/{id}/view")

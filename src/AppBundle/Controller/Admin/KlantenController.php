@@ -7,7 +7,6 @@ use AppBundle\Entity\Klant;
 use AppBundle\Form\KlantMergeType;
 use AppBundle\Service\KlantDaoInterface;
 use Doctrine\ORM\EntityManager;
-use JMS\DiExtraBundle\Annotation as DI;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
@@ -26,10 +25,13 @@ class KlantenController extends AbstractController
 
     /**
      * @var KlantDaoInterface
-     *
-     * @DI\Inject("AppBundle\Service\KlantDao")
      */
     protected $dao;
+
+    public function __construct()
+    {
+        $this->dao = $this->get("AppBundle\Service\KlantDao");
+    }
 
     /**
      * @Route("/duplicates/{mode}")

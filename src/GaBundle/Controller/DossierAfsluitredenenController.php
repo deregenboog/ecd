@@ -5,7 +5,6 @@ namespace GaBundle\Controller;
 use AppBundle\Controller\AbstractController;
 use GaBundle\Entity\DossierAfsluitreden;
 use GaBundle\Form\DossierAfsluitredenType;
-use JMS\DiExtraBundle\Annotation as DI;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
@@ -25,10 +24,13 @@ class DossierAfsluitredenenController extends AbstractController
 
     /**
      * @var DossierAfsluitredenDaoInterface
-     *
-     * @DI\Inject("GaBundle\Service\DossierAfsluitredenDao")
      */
     protected $dao;
+
+    public function __construct()
+    {
+        $this->dao = $this->get("GaBundle\Service\DossierAfsluitredenDao");
+    }
 
     /**
      * @Route("/{id}/view")

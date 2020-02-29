@@ -5,7 +5,6 @@ namespace AppBundle\Controller;
 use AppBundle\Entity\Medewerker;
 use AppBundle\Form\MedewerkerFilterType;
 use AppBundle\Service\MedewerkerDaoInterface;
-use JMS\DiExtraBundle\Annotation as DI;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
@@ -25,17 +24,19 @@ class MedewerkersController extends AbstractController
 
     /**
      * @var MedewerkerDaoInterface
-     *
-     * @DI\Inject("AppBundle\Service\MedewerkerDao")
      */
     protected $dao;
 
     /**
      * @var MedewerkerDaoInterface
-     *
-     * @DI\Inject("%security.role_hierarchy.roles%")
      */
     protected $roleHierarchy;
+
+    public function __construct()
+    {
+        $this->dao = $this->get("AppBundle\Service\MedewerkerDao");
+        $this->roleHierarchy = $this->get("%security.role_hierarchy.roles%");
+    }
 
     /**
      * @Route("/{username}/view")

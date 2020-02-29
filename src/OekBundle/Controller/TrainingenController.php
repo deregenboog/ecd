@@ -4,7 +4,6 @@ namespace OekBundle\Controller;
 
 use AppBundle\Controller\AbstractChildController;
 use AppBundle\Export\ExportInterface;
-use JMS\DiExtraBundle\Annotation as DI;
 use OekBundle\Entity\Training;
 use OekBundle\Form\EmailMessageType;
 use OekBundle\Form\TrainingFilterType;
@@ -29,31 +28,32 @@ class TrainingenController extends AbstractChildController
 
     /**
      * @var TrainingDaoInterface
-     *
-     * @DI\Inject("OekBundle\Service\TrainingDao")
      */
     protected $dao;
 
     /**
      * @var \ArrayObject
-     *
-     * @DI\Inject("oek.training.entities")
      */
     protected $entities;
 
     /**
      * @var ExportInterface
-     *
-     * @DI\Inject("oek.export.presentielijst")
      */
     protected $exportPresentielijst;
 
     /**
      * @var ExportInterface
      *
-     * @DI\Inject("oek.export.deelnemerslijst")
      */
     protected $exportDeelnemerslijst;
+
+    public function __construct()
+    {
+        $this->dao = $this->get("OekBundle\Service\TrainingDao");
+        $this->entities = $this->get("oek.training.entities");
+        $this->exportPresentielijst = $this->get("oek.export.presentielijst");
+        $this->exportDeelnemerslijst = $this->get("oek.export.deelnemerslijst");
+    }
 
     /**
      * @Route("/{id}/email")

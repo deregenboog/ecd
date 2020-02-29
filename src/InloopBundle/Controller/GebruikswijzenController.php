@@ -6,7 +6,6 @@ use AppBundle\Controller\AbstractController;
 use InloopBundle\Entity\Gebruikswijze;
 use InloopBundle\Form\GebruikswijzeType;
 use InloopBundle\Service\GebruikswijzeDaoInterface;
-use JMS\DiExtraBundle\Annotation as DI;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
@@ -24,8 +23,11 @@ class GebruikswijzenController extends AbstractController
 
     /**
      * @var GebruikswijzeDaoInterface
-     *
-     * @DI\Inject("InloopBundle\Service\GebruikswijzeDao")
      */
     protected $dao;
+
+    public function __construct()
+    {
+        $this->dao = $this->get("InloopBundle\Service\GebruikswijzeDao");
+    }
 }

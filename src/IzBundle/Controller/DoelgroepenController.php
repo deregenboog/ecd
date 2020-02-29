@@ -6,7 +6,6 @@ use AppBundle\Controller\AbstractController;
 use IzBundle\Entity\Doelgroep;
 use IzBundle\Form\DoelgroepType;
 use IzBundle\Service\DoelgroepDaoInterface;
-use JMS\DiExtraBundle\Annotation as DI;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -23,10 +22,13 @@ class DoelgroepenController extends AbstractController
 
     /**
      * @var DoelgroepDaoInterface
-     *
-     * @DI\Inject("IzBundle\Service\DoelgroepDao")
      */
     protected $dao;
+
+    public function __construct()
+    {
+        $this->dao = $this->get("IzBundle\Service\DoelgroepDao");
+    }
 
     /**
      * @Route("/{id}/view")

@@ -6,7 +6,6 @@ use AppBundle\Controller\AbstractChildController;
 use DagbestedingBundle\Entity\Contactpersoon;
 use DagbestedingBundle\Form\ContactpersoonType;
 use DagbestedingBundle\Service\ContactpersoonDaoInterface;
-use JMS\DiExtraBundle\Annotation as DI;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -23,15 +22,17 @@ class ContactpersonenController extends AbstractChildController
 
     /**
      * @var ContactpersoonDaoInterface
-     *
-     * @DI\Inject("DagbestedingBundle\Service\ContactpersoonDao")
      */
     protected $dao;
 
     /**
      * @var \ArrayObject
-     *
-     * @DI\Inject("dagbesteding.contactpersoon.entities")
      */
     protected $entities;
+
+    public function __construct()
+    {
+        $this->dao = $this->get("DagbestedingBundle\Service\ContactpersoonDao");
+        $this->entities = $this->get("dagbesteding.contactpersoon.entities");
+    }
 }

@@ -7,7 +7,6 @@ use AppBundle\Entity\Klant;
 use AppBundle\Form\ConfirmationType;
 use AppBundle\Form\KlantFilterType;
 use AppBundle\Service\KlantDaoInterface;
-use JMS\DiExtraBundle\Annotation as DI;
 use Symfony\Component\Finder\Exception\AccessDeniedException;
 use UhkBundle\Entity\Deelnemer;
 use UhkBundle\Form\DeelnemerFilterType;
@@ -36,17 +35,19 @@ class DeelnemersController extends AbstractController
 
     /**
      * @var DeelnemerDaoInterface
-     *
-     * @DI\Inject("UhkBundle\Service\DeelnemerDao")
      */
     protected $dao;
 
     /**
      * @var KlantDaoInterface
-     *
-     * @DI\Inject("AppBundle\Service\KlantDao")
      */
     protected $klantDao;
+
+    public function __construct()
+    {
+        $this->dao = $this->get("UhkBundle\Service\DeelnemerDao");
+        $this->klantDao = $this->get("AppBundle\Service\KlantDao");
+    }
 
     /**
      * @Route("/add")

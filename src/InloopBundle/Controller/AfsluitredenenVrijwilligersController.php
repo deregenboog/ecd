@@ -6,7 +6,6 @@ use AppBundle\Controller\AbstractController;
 use InloopBundle\Entity\Afsluitreden;
 use InloopBundle\Form\AfsluitredenType;
 use InloopBundle\Service\AfsluitredenDaoInterface;
-use JMS\DiExtraBundle\Annotation as DI;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -23,8 +22,11 @@ class AfsluitredenenVrijwilligersController extends AbstractController
 
     /**
      * @var AfsluitredenDaoInterface
-     *
-     * @DI\Inject("InloopBundle\Service\AfsluitredenDao")
      */
     protected $dao;
+
+    public function __construct()
+    {
+        $this->dao = $this->get("InloopBundle\Service\AfsluitredenDao");
+    }
 }

@@ -6,7 +6,6 @@ use AppBundle\Controller\AbstractController;
 use IzBundle\Entity\Afsluiting;
 use IzBundle\Form\AfsluitingType;
 use IzBundle\Service\AfsluitingDaoInterface;
-use JMS\DiExtraBundle\Annotation as DI;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -23,10 +22,13 @@ class AfsluitredenenDeelnemerController extends AbstractController
 
     /**
      * @var AfsluitingDaoInterface
-     *
-     * @DI\Inject("IzBundle\Service\AfsluitingDao")
      */
     protected $dao;
+
+    public function __construct()
+    {
+        $this->dao = $this->get("IzBundle\Service\AfsluitingDao");
+    }
 
     /**
      * @Route("/{id}/view")

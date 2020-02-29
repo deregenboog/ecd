@@ -5,7 +5,6 @@ namespace OdpBundle\Controller;
 use AppBundle\Controller\SymfonyController;
 use AppBundle\Form\ConfirmationType;
 use Doctrine\ORM\EntityManager;
-use JMS\DiExtraBundle\Annotation as DI;
 use OdpBundle\Entity\Huuraanbod;
 use OdpBundle\Entity\Huurder;
 use OdpBundle\Entity\Huurovereenkomst;
@@ -29,10 +28,13 @@ class VerslagenController extends SymfonyController
 
     /**
      * @var VerslagDaoInterface
-     *
-     * @DI\Inject("OdpBundle\Service\VerslagDao")
      */
     private $dao;
+
+    public function __construct()
+    {
+        $this->dao = $this->get("OdpBundle\Service\VerslagDao");
+    }
 
     /**
      * @Route("/add")

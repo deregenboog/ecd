@@ -6,7 +6,6 @@ use AppBundle\Controller\AbstractChildController;
 use IzBundle\Entity\Lidmaatschap;
 use IzBundle\Form\LidmaatschapType;
 use IzBundle\Service\LidmaatschapDaoInterface;
-use JMS\DiExtraBundle\Annotation as DI;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -24,15 +23,17 @@ class LidmaatschappenController extends AbstractChildController
 
     /**
      * @var LidmaatschapDaoInterface
-     *
-     * @DI\Inject("IzBundle\Service\LidmaatschapDao")
      */
     protected $dao;
 
     /**
      * @var \ArrayObject
-     *
-     * @DI\Inject("iz.lidmaatschap.entities")
      */
     protected $entities;
+
+    public function __construct()
+    {
+        $this->dao = $this->get("IzBundle\Service\LidmaatschapDao");
+        $this->entities = $this->get("iz.lidmaatschap.entities");
+    }
 }

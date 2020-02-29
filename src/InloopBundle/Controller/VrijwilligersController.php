@@ -11,7 +11,6 @@ use InloopBundle\Form\VrijwilligerCloseType;
 use InloopBundle\Form\VrijwilligerFilterType;
 use InloopBundle\Form\VrijwilligerType;
 use InloopBundle\Service\VrijwilligerDaoInterface;
-use JMS\DiExtraBundle\Annotation as DI;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;
@@ -32,24 +31,25 @@ class VrijwilligersController extends AbstractController
 
     /**
      * @var VrijwilligerDaoInterface
-     *
-     * @DI\Inject("InloopBundle\Service\VrijwilligerDao")
      */
     protected $dao;
 
     /**
      * @var ExportInterface
-     *
-     * @DI\Inject("inloop.export.vrijwilliger")
      */
     protected $export;
 
     /**
      * @var VrijwilligerDaoInterface
-     *
-     * @DI\Inject("AppBundle\Service\VrijwilligerDao")
      */
     private $vrijwilligerDao;
+
+    public function __construct()
+    {
+        $this->dao = $this->get("InloopBundle\Service\VrijwilligerDao");
+        $this->export = $this->get("inloop.export.vrijwilliger");
+        $this->vrijwilligerDao = $this->get("AppBundle\Service\VrijwilligerDao");
+    }
 
     /**
      * @Route("/add")

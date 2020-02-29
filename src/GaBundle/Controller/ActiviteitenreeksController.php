@@ -9,7 +9,6 @@ use GaBundle\Form\ActiviteitenReeksModel;
 use GaBundle\Form\ActiviteitenReeksType;
 use GaBundle\Service\ActiviteitDaoInterface;
 use GaBundle\Service\ActiviteitenreeksGenerator;
-use JMS\DiExtraBundle\Annotation as DI;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
@@ -28,17 +27,19 @@ class ActiviteitenreeksController extends AbstractChildController
 
     /**
      * @var ActiviteitDaoInterface
-     *
-     * @DI\Inject("GaBundle\Service\ActiviteitDao")
      */
     protected $dao;
 
     /**
      * @var \ArrayObject
-     *
-     * @DI\Inject("ga.activiteit.entities")
      */
     protected $entities;
+
+    public function __construct()
+    {
+        $this->dao = $this->get("GaBundle\Service\ActiviteitDao");
+        $this->entities = $this->get("ga.activiteit.entities");
+    }
 
     /**
      * @Route("/add")

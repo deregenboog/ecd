@@ -5,7 +5,6 @@ namespace OdpBundle\Controller;
 use AppBundle\Controller\SymfonyController;
 use AppBundle\Form\ConfirmationType;
 use Doctrine\ORM\EntityManager;
-use JMS\DiExtraBundle\Annotation as DI;
 use OdpBundle\Entity\Document;
 use OdpBundle\Entity\FinancieelDocument;
 use OdpBundle\Entity\Huurder;
@@ -31,10 +30,13 @@ class FinancieleDocumentenController extends SymfonyController
 
     /**
      * @var FinancieelDocumentDaoInterface
-     *
-     * @DI\Inject("OdpBundle\Service\FinancieelDocumentDao")
      */
     private $dao;
+
+    public function __construct()
+    {
+        $this->dao = $this->get("OdpBundle\Service\FinancieelDocumentDao");
+    }
 
     /**
      * @Route("/download/{filename}")

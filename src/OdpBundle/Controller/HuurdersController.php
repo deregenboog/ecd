@@ -22,7 +22,6 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormError;
 
-use JMS\DiExtraBundle\Annotation as DI;
 
 
 /**
@@ -43,23 +42,17 @@ class HuurdersController extends AbstractController
     protected $searchEntity = Klant::class;
 
     /**
-     * @var ExportInterface
-     *
-     * @DI\Inject("odp.export.huurders")
-     */
-    protected $export;
-
-
-    /**
      * @var HuurderDaoInterface
-     *
-     * @DI\Inject("OdpBundle\Service\HuurderDao")
      */
     protected $dao;
 
     /**
+     * @var ExportInterface
+     */
+    protected $export;
+
+    /**
      * @var KlantDaoInterface
-     * @DI\Inject("AppBundle\Service\KlantDao")
      */
     protected $searchDao;
 
@@ -75,6 +68,12 @@ class HuurdersController extends AbstractController
         'huurder.wpi',
     ];
 
+    public function __construct()
+    {
+        $this->dao = $this->get("OdpBundle\Service\HuurderDao");
+        $this->export = $this->get("odp.export.huurders");
+        $this->searchDao = $this->get("AppBundle\Service\KlantDao");
+    }
 
     /**
      * @Route("/{id}/view")

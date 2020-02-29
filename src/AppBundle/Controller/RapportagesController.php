@@ -4,7 +4,6 @@ namespace AppBundle\Controller;
 
 use AppBundle\Export\ExportInterface;
 use AppBundle\Form\RapportageType;
-use JMS\DiExtraBundle\Annotation as DI;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -16,8 +15,11 @@ class RapportagesController extends AbstractRapportagesController
 
     /**
      * @var ExportInterface
-     *
-     * @DI\Inject("app.export.report")
      */
     protected $export;
+
+    public function __construct()
+    {
+        $this->export = $this->get("app.export.report");
+    }
 }

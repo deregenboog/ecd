@@ -8,7 +8,6 @@ use AppBundle\Export\ExportInterface;
 use AppBundle\Form\KlantFilterType;
 use AppBundle\Service\KlantDaoInterface;
 use Doctrine\ORM\EntityNotFoundException;
-use JMS\DiExtraBundle\Annotation as DI;
 use OekBundle\Entity\Aanmelding;
 use OekBundle\Entity\Afsluiting;
 use OekBundle\Entity\Deelnemer;
@@ -37,24 +36,25 @@ class DeelnemersController extends AbstractController
 
     /**
      * @var DeelnemerDaoInterface
-     *
-     * @DI\Inject("OekBundle\Service\DeelnemerDao")
      */
     protected $dao;
 
     /**
      * @var ExportInterface
-     *
-     * @DI\Inject("oek.export.deelnemer")
      */
     protected $export;
 
     /**
      * @var KlantDaoInterface
-     *
-     * @DI\Inject("AppBundle\Service\KlantDao")
      */
     private $klantDao;
+
+    public function __construct()
+    {
+        $this->dao = $this->get("OekBundle\Service\DeelnemerDao");
+        $this->export = $this->get("oek.export.deelnemer");
+        $this->klantDao = $this->get("AppBundle\Service\KlantDao");
+    }
 
     /**
      * @Route("/add")

@@ -6,7 +6,6 @@ use AppBundle\Entity\Zrm;
 use AppBundle\Form\ZrmFilterType;
 use AppBundle\Form\ZrmType;
 use AppBundle\Service\ZrmDaoInterface;
-use JMS\DiExtraBundle\Annotation as DI;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
@@ -26,17 +25,19 @@ class ZrmsController extends AbstractChildController
 
     /**
      * @var ZrmDaoInterface
-     *
-     * @DI\Inject("AppBundle\Service\ZrmDao")
      */
     protected $dao;
 
     /**
      * @var \ArrayObject
-     *
-     * @DI\Inject("app.zrm.entities")
      */
     protected $entities;
+
+    public function __construct()
+    {
+        $this->dao = $this->get("AppBundle\Service\ZrmDao");
+        $this->entities = $this->get("app.zrm.entities");
+    }
 
     protected function createEntity($parentEntity = null)
     {

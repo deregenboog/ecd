@@ -3,7 +3,6 @@
 namespace OekBundle\Controller;
 
 use AppBundle\Controller\AbstractChildController;
-use JMS\DiExtraBundle\Annotation as DI;
 use OekBundle\Entity\Memo;
 use OekBundle\Form\MemoType;
 use OekBundle\Service\MemoDaoInterface;
@@ -24,15 +23,17 @@ class MemosController extends AbstractChildController
 
     /**
      * @var MemoDaoInterface
-     *
-     * @DI\Inject("OekBundle\Service\MemoDao")
      */
     protected $dao;
 
     /**
      * @var \ArrayObject
-     *
-     * @DI\Inject("oek.memo.entities")
      */
     protected $entities;
+
+    public function __construct()
+    {
+        $this->dao = $this->get("OekBundle\Service\MemoDao");
+        $this->entities = $this->get("oek.memo.entities");
+    }
 }

@@ -8,7 +8,6 @@ use HsBundle\Entity\Klant;
 use HsBundle\Form\KlantFilterType;
 use HsBundle\Form\KlantType;
 use HsBundle\Service\KlantDaoInterface;
-use JMS\DiExtraBundle\Annotation as DI;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -28,17 +27,19 @@ class KlantenController extends AbstractController
 
     /**
      * @var KlantDaoInterface
-     *
-     * @DI\Inject("HsBundle\Service\KlantDao")
      */
     protected $dao;
 
     /**
      * @var ExportInterface
-     *
-     * @DI\Inject("hs.export.klant")
      */
     protected $export;
+
+    public function __construct()
+    {
+        $this->dao = $this->get("HsBundle\Service\KlantDao");
+        $this->export = $this->get("hs.export.klant");
+    }
 
     /**
      * @Route("/add")

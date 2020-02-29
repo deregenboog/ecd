@@ -8,9 +8,9 @@ use ClipBundle\Entity\Client;
 use ClipBundle\Form\ClientFilterType;
 use ClipBundle\Form\ClientType;
 use ClipBundle\Service\ClientDaoInterface;
-use JMS\DiExtraBundle\Annotation as DI;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use ClipBundle\Service\ClientDao;
 
 /**
  * @Route("/clienten")
@@ -27,15 +27,17 @@ class ClientenController extends AbstractController
 
     /**
      * @var ClientDaoInterface
-     *
-     * @DI\Inject("ClipBundle\Service\ClientDao")
      */
     protected $dao;
 
     /**
      * @var ExportInterface
-     *
-     * @DI\Inject("clip.export.clienten")
      */
     protected $export;
+
+    public function __construct()
+    {
+        $this->dao = $this->get("ClipBundle\Service\ClientDao");
+        $this->export = $this->get("clip.export.clienten");
+    }
 }

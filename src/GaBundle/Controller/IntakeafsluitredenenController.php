@@ -5,7 +5,6 @@ namespace GaBundle\Controller;
 use AppBundle\Controller\AbstractController;
 use GaBundle\Entity\IntakeAfsluitreden;
 use GaBundle\Form\IntakeAfsluitredenType;
-use JMS\DiExtraBundle\Annotation as DI;
 use Symfony\Component\Routing\Annotation\Route;
 use GaBundle\Service\IntakeAfsluitredenDaoInterface;
 
@@ -23,8 +22,11 @@ class IntakeafsluitredenenController extends AbstractController
 
     /**
      * @var IntakeAfsluitredenDaoInterface
-     *
-     * @DI\Inject("GaBundle\Service\IntakeAfsluitredenDao")
      */
     protected $dao;
+
+    public function __construct()
+    {
+        $this->dao = $this->get("GaBundle\Service\IntakeAfsluitredenDao");
+    }
 }

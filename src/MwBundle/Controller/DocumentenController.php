@@ -3,7 +3,6 @@
 namespace MwBundle\Controller;
 
 use AppBundle\Controller\AbstractChildController;
-use JMS\DiExtraBundle\Annotation as DI;
 use MwBundle\Entity\Document;
 use MwBundle\Form\DocumentType;
 use MwBundle\Service\DocumentDaoInterface;
@@ -24,17 +23,19 @@ class DocumentenController extends AbstractChildController
 
     /**
      * @var DocumentDaoInterface
-     *
-     * @DI\Inject("MwBundle\Service\DocumentDao")
      */
     protected $dao;
 
     /**
      * @var \ArrayObject
-     *
-     * @DI\Inject("mw.document.entities")
      */
     protected $entities;
+
+    public function __construct()
+    {
+        $this->dao = $this->get("MwBundle\Service\DocumentDao");
+        $this->entities = $this->get("mw.document.entities");
+    }
 
     /**
      * @Route("/download/{filename}")

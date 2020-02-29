@@ -6,7 +6,6 @@ use AppBundle\Controller\AbstractController;
 use DagbestedingBundle\Entity\Resultaatgebiedsoort;
 use DagbestedingBundle\Form\ResultaatgebiedsoortType;
 use DagbestedingBundle\Service\ResultaatgebiedsoortDaoInterface;
-use JMS\DiExtraBundle\Annotation as DI;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -23,10 +22,13 @@ class ResultaatgebiedsoortenController extends AbstractController
 
     /**
      * @var ResultaatgebiedsoortDaoInterface
-     *
-     * @DI\Inject("DagbestedingBundle\Service\ResultaatgebiedsoortDao")
      */
     protected $dao;
+
+    public function __construct()
+    {
+        $this->dao = $this->get("DagbestedingBundle\Service\ResultaatgebiedsoortDao");
+    }
 
     /**
      * @Route("/{id}/view")

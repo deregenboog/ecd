@@ -6,7 +6,6 @@ use AppBundle\Controller\AbstractController;
 use IzBundle\Entity\Hulpvraagsoort;
 use IzBundle\Form\HulpvraagsoortType;
 use IzBundle\Service\HulpvraagsoortDaoInterface;
-use JMS\DiExtraBundle\Annotation as DI;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -23,10 +22,13 @@ class HulpvraagsoortenController extends AbstractController
 
     /**
      * @var HulpvraagsoortDaoInterface
-     *
-     * @DI\Inject("IzBundle\Service\HulpvraagsoortDao")
      */
     protected $dao;
+
+    public function __construct()
+    {
+        $this->dao = $this->get("IzBundle\Service\HulpvraagsoortDao");
+    }
 
     /**
      * @Route("/{id}/view")

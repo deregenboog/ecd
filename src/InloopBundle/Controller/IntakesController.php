@@ -10,7 +10,6 @@ use InloopBundle\Form\IntakeType;
 use InloopBundle\Pdf\PdfIntake;
 use InloopBundle\Security\Permissions;
 use InloopBundle\Service\IntakeDaoInterface;
-use JMS\DiExtraBundle\Annotation as DI;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
@@ -32,17 +31,19 @@ class IntakesController extends AbstractController
 
     /**
      * @var IntakeDaoInterface
-     *
-     * @DI\Inject("InloopBundle\Service\IntakeDao")
      */
     protected $dao;
 
 //     /**
 //      * @var ExportInterface
-//      *
-//      * @DI\Inject("inloop.export.intakes")
 //      */
 //     protected $export;
+
+    public function __construct()
+    {
+        $this->dao = $this->get("InloopBundle\Service\IntakeDao");
+//         $this->export = $this->get("inloop.export.intakes");
+    }
 
     /**
      * @Route("/{id}/view")

@@ -6,7 +6,6 @@ use AppBundle\Controller\AbstractController;
 use InloopBundle\Entity\Periode;
 use InloopBundle\Form\PeriodeType;
 use InloopBundle\Service\PeriodeDaoInterface;
-use JMS\DiExtraBundle\Annotation as DI;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
@@ -24,8 +23,11 @@ class PeriodesController extends AbstractController
 
     /**
      * @var PeriodeDaoInterface
-     *
-     * @DI\Inject("InloopBundle\Service\PeriodeDao")
      */
     protected $dao;
+
+    public function __construct()
+    {
+        $this->dao = $this->get("InloopBundle\Service\PeriodeDao");
+    }
 }

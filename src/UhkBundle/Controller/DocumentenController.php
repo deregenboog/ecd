@@ -3,7 +3,6 @@
 namespace UhkBundle\Controller;
 
 use AppBundle\Controller\AbstractChildController;
-use JMS\DiExtraBundle\Annotation as DI;
 use UhkBundle\Entity\Document;
 use UhkBundle\Form\DocumentType;
 use UhkBundle\Service\DocumentDaoInterface;
@@ -24,17 +23,19 @@ class DocumentenController extends AbstractChildController
 
     /**
      * @var DocumentDaoInterface
-     *
-     * @DI\Inject("UhkBundle\Service\DocumentDao")
      */
     protected $dao;
 
     /**
      * @var \ArrayObject
-     *
-     * @DI\Inject("uhk.document.entities")
      */
     protected $entities;
+
+    public function __construct()
+    {
+        $this->dao = $this->get("UhkBundle\Service\DocumentDao");
+        $this->entities = $this->get("uhk.document.entities");
+    }
 
     /**
      * @Route("/download/{filename}")

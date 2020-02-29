@@ -9,7 +9,6 @@ use IzBundle\Form\ReserveringType;
 use IzBundle\Service\HulpaanbodDaoInterface;
 use IzBundle\Service\HulpvraagDaoInterface;
 use IzBundle\Service\ReserveringDaoInterface;
-use JMS\DiExtraBundle\Annotation as DI;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
@@ -30,24 +29,25 @@ class ReserveringenController extends AbstractController
 
     /**
      * @var ReserveringDaoInterface
-     *
-     * @DI\Inject("IzBundle\Service\ReserveringDao")
      */
     protected $dao;
 
     /**
      * @var HulpvraagDaoInterface
-     *
-     * @DI\Inject("IzBundle\Service\HulpvraagDao")
      */
     protected $hulpvraagDao;
 
     /**
      * @var HulpaanbodDaoInterface
-     *
-     * @DI\Inject("IzBundle\Service\HulpaanbodDao")
      */
     protected $hulpaanbodDao;
+
+    public function __construct()
+    {
+        $this->dao = $this->get("IzBundle\Service\ReserveringDao");
+        $this->hulpvraagDao = $this->get("IzBundle\Service\HulpvraagDao");
+        $this->hulpaanbodDao = $this->get("IzBundle\Service\HulpaanbodDao");
+    }
 
     /**
      * @Route("/add")

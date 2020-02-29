@@ -4,7 +4,6 @@ namespace OdpBundle\Controller;
 
 use AppBundle\Controller\SymfonyController;
 use AppBundle\Form\ConfirmationType;
-use JMS\DiExtraBundle\Annotation as DI;
 use OdpBundle\Entity\Coordinator;
 use OdpBundle\Form\CoordinatorType;
 use OdpBundle\Service\CoordinatorDaoInterface;
@@ -21,10 +20,13 @@ class CoordinatorenController extends SymfonyController
 
     /**
      * @var CoordinatorDaoInterface
-     *
-     * @DI\Inject("OdpBundle\Service\CoordinatorDao")
      */
     private $coordinatorDao;
+
+    public function __construct()
+    {
+        $this->coordinatorDao = $this->get("OdpBundle\Service\CoordinatorDao");
+    }
 
     /**
      * @Route("/")

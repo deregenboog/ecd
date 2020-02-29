@@ -6,7 +6,6 @@ use AppBundle\Controller\AbstractChildController;
 use InloopBundle\Entity\Locatietijd;
 use InloopBundle\Form\LocatietijdType;
 use InloopBundle\Service\LocatietijdDaoInterface;
-use JMS\DiExtraBundle\Annotation as DI;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
@@ -25,15 +24,17 @@ class LocatietijdenController extends AbstractChildController
 
     /**
      * @var LocatietijdDaoInterface
-     *
-     * @DI\Inject("InloopBundle\Service\LocatietijdDao")
      */
     protected $dao;
 
     /**
      * @var \ArrayObject
-     *
-     * @DI\Inject("inloop.locatietijd.entities")
      */
     protected $entities;
+
+    public function __construct()
+    {
+        $this->dao = $this->get("InloopBundle\Service\LocatietijdDao");
+        $this->entities = $this->get("inloop.locatietijd.entities");
+    }
 }

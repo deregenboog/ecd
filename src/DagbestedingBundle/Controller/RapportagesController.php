@@ -6,7 +6,6 @@ use AppBundle\Controller\AbstractChildController;
 use DagbestedingBundle\Entity\Rapportage;
 use DagbestedingBundle\Form\RapportageType;
 use DagbestedingBundle\Service\RapportageDaoInterface;
-use JMS\DiExtraBundle\Annotation as DI;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -23,15 +22,17 @@ class RapportagesController extends AbstractChildController
 
     /**
      * @var RapportageDaoInterface
-     *
-     * @DI\Inject("DagbestedingBundle\Service\RapportageDao")
      */
     protected $dao;
 
     /**
      * @var \ArrayObject
-     *
-     * @DI\Inject("dagbesteding.rapportage.entities")
      */
     protected $entities;
+
+    public function __construct()
+    {
+        $this->dao = $this->get("DagbestedingBundle\Service\RapportageDao");
+        $this->entities = $this->get("dagbesteding.rapportage.entities");
+    }
 }

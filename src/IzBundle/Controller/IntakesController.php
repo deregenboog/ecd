@@ -7,7 +7,6 @@ use AppBundle\Export\AbstractExport;
 use IzBundle\Entity\Intake;
 use IzBundle\Form\IntakeType;
 use IzBundle\Service\IntakeDaoInterface;
-use JMS\DiExtraBundle\Annotation as DI;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -25,22 +24,23 @@ class IntakesController extends AbstractChildController
 
     /**
      * @var IntakeDaoInterface
-     *
-     * @DI\Inject("IzBundle\Service\IntakeDao")
      */
     protected $dao;
 
     /**
      * @var \ArrayObject
-     *
-     * @DI\Inject("iz.intake.entities")
      */
     protected $entities;
 
     /**
      * @var AbstractExport
-     *
-     * @DI\Inject("iz.export.klanten")
      */
     protected $export;
+
+    public function __construct()
+    {
+        $this->dao = $this->get("IzBundle\Service\IntakeDao");
+        $this->entities = $this->get("iz.intake.entities");
+        $this->export = $this->get("iz.export.klanten");
+    }
 }

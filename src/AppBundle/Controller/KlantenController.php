@@ -11,7 +11,6 @@ use AppBundle\Form\KlantFilterType;
 use AppBundle\Form\KlantType;
 use AppBundle\Service\KlantDaoInterface;
 use Doctrine\Common\Collections\Criteria;
-use JMS\DiExtraBundle\Annotation as DI;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
@@ -32,17 +31,19 @@ class KlantenController extends AbstractController
 
     /**
      * @var KlantDaoInterface
-     *
-     * @DI\Inject("AppBundle\Service\KlantDao")
      */
     protected $dao;
 
     /**
      * @var AbstractExport
-     *
-     * @DI\Inject("app.export.klanten")
      */
     protected $export;
+
+    public function __construct()
+    {
+        $this->dao = $this->get("AppBundle\Service\KlantDao");
+        $this->export = $this->get("app.export.klanten");
+    }
 
     /**
      * @Template

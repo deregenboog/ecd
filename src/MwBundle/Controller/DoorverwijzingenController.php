@@ -3,7 +3,6 @@
 namespace MwBundle\Controller;
 
 use AppBundle\Controller\AbstractController;
-use JMS\DiExtraBundle\Annotation as DI;
 use MwBundle\Entity\Doorverwijzing;
 use MwBundle\Form\DoorverwijzingType;
 use MwBundle\Service\DoorverwijzingDaoInterface;
@@ -25,8 +24,11 @@ class DoorverwijzingenController extends AbstractController
 
     /**
      * @var DoorverwijzingDaoInterface
-     *
-     * @DI\Inject("MwBundle\Service\DoorverwijzingDao")
      */
     protected $dao;
+
+    public function __construct()
+    {
+        $this->dao = $this->get("MwBundle\Service\DoorverwijzingDao");
+    }
 }

@@ -10,7 +10,6 @@ use HsBundle\Form\KlusCloseType;
 use HsBundle\Form\KlusFilterType;
 use HsBundle\Form\KlusType;
 use HsBundle\Service\KlusDaoInterface;
-use JMS\DiExtraBundle\Annotation as DI;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -31,24 +30,25 @@ class KlussenController extends AbstractChildController
 
     /**
      * @var KlusDaoInterface
-     *
-     * @DI\Inject("HsBundle\Service\KlusDao")
      */
     protected $dao;
 
     /**
      * @var ExportInterface
-     *
-     * @DI\Inject("hs.export.klus")
      */
     protected $export;
 
     /**
      * @var \ArrayObject
-     *
-     * @DI\Inject("hs.klus.entities")
      */
     protected $entities;
+
+    public function __construct()
+    {
+        $this->dao = $this->get("HsBundle\Service\KlusDao");
+        $this->export = $this->get("hs.export.klus");
+        $this->entities = $this->get("hs.klus.entities");
+    }
 
     /**
      * @Route("/{id}/close")

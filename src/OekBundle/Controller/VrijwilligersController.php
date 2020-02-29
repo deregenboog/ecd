@@ -7,7 +7,6 @@ use AppBundle\Entity\Vrijwilliger as AppVrijwilliger;
 use AppBundle\Export\ExportInterface;
 use AppBundle\Form\ConfirmationType;
 use AppBundle\Form\VrijwilligerFilterType as AppVrijwilligerFilterType;
-use JMS\DiExtraBundle\Annotation as DI;
 use OekBundle\Entity\Vrijwilliger;
 use OekBundle\Form\VrijwilligerFilterType;
 use OekBundle\Form\VrijwilligerType;
@@ -33,24 +32,25 @@ class VrijwilligersController extends AbstractController
 
     /**
      * @var VrijwilligerDaoInterface
-     *
-     * @DI\Inject("OekBundle\Service\VrijwilligerDao")
      */
     protected $dao;
 
     /**
      * @var ExportInterface
-     *
-     * @DI\Inject("oek.export.vrijwilliger")
      */
     protected $export;
 
     /**
      * @var VrijwilligerDaoInterface
-     *
-     * @DI\Inject("AppBundle\Service\VrijwilligerDao")
      */
     private $vrijwilligerDao;
+
+    public function __construct()
+    {
+        $this->dao = $this->get("OekBundle\Service\VrijwilligerDao");
+        $this->export = $this->get("oek.export.vrijwilliger");
+        $this->vrijwilligerDao = $this->get("AppBundle\Service\VrijwilligerDao");
+    }
 
     /**
      * @Route("/add")

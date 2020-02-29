@@ -3,7 +3,6 @@
 namespace OekBundle\Controller;
 
 use AppBundle\Controller\AbstractController;
-use JMS\DiExtraBundle\Annotation as DI;
 use OekBundle\Entity\VerwijzingNaar;
 use OekBundle\Form\VerwijzingType;
 use OekBundle\Service\VerwijzingNaarDaoInterface;
@@ -23,8 +22,11 @@ class VerwijzingenNaarController extends AbstractController
 
     /**
      * @var VerwijzingNaarDaoInterface
-     *
-     * @DI\Inject("OekBundle\Service\VerwijzingNaarDao")
      */
     protected $dao;
+
+    public function __construct()
+    {
+        $this->dao = $this->get("OekBundle\Service\VerwijzingNaarDao");
+    }
 }

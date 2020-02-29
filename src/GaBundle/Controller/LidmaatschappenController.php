@@ -10,7 +10,6 @@ use GaBundle\Form\LidmaatschapCloseType;
 use GaBundle\Form\LidmaatschapReopenType;
 use GaBundle\Form\LidmaatschapType;
 use GaBundle\Service\LidmaatschapDaoInterface;
-use JMS\DiExtraBundle\Annotation as DI;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -31,17 +30,19 @@ class LidmaatschappenController extends AbstractChildController
 
     /**
      * @var LidmaatschapDaoInterface
-     *
-     * @DI\Inject("GaBundle\Service\LidmaatschapDao")
      */
     protected $dao;
 
     /**
      * @var \ArrayObject
-     *
-     * @DI\Inject("ga.lidmaatschap.entities")
      */
     protected $entities;
+
+    public function __construct()
+    {
+        $this->dao = $this->get("GaBundle\Service\LidmaatschapDao");
+        $this->entities = $this->get("ga.lidmaatschap.entities");
+    }
 
     /**
      * @Route("/{id}/reopen")

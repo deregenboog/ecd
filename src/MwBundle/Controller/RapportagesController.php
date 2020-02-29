@@ -4,7 +4,6 @@ namespace MwBundle\Controller;
 
 use AppBundle\Controller\AbstractRapportagesController;
 use AppBundle\Export\ExportInterface;
-use JMS\DiExtraBundle\Annotation as DI;
 use MwBundle\Form\RapportageType;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -17,8 +16,11 @@ class RapportagesController extends AbstractRapportagesController
 
     /**
      * @var ExportInterface
-     *
-     * @DI\Inject("mw.export.report")
      */
     protected $export;
+
+    public function __construct()
+    {
+        $this->export = $this->get("mw.export.report");
+    }
 }

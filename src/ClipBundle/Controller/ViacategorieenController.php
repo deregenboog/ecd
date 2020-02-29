@@ -6,7 +6,6 @@ use AppBundle\Controller\AbstractController;
 use ClipBundle\Entity\Viacategorie;
 use ClipBundle\Form\ViacategorieType;
 use ClipBundle\Service\ViacategorieDaoInterface;
-use JMS\DiExtraBundle\Annotation as DI;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -23,10 +22,13 @@ class ViacategorieenController extends AbstractController
 
     /**
      * @var ViacategorieDaoInterface
-     *
-     * @DI\Inject("ClipBundle\Service\ViacategorieDao")
      */
     protected $dao;
+
+    public function __construct()
+    {
+        $this->dao = $this->get("ClipBundle\Service\ViacategorieDao");
+    }
 
     /**
      * @Route("/{id}/view")
