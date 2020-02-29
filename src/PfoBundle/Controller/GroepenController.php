@@ -3,7 +3,6 @@
 namespace PfoBundle\Controller;
 
 use AppBundle\Controller\AbstractController;
-use JMS\DiExtraBundle\Annotation as DI;
 use PfoBundle\Entity\Groep;
 use PfoBundle\Form\GroepType;
 use PfoBundle\Service\GroepDaoInterface;
@@ -23,8 +22,11 @@ class GroepenController extends AbstractController
 
     /**
      * @var GroepDaoInterface
-     *
-     * @DI\Inject("PfoBundle\Service\GroepDao")
      */
     protected $dao;
+
+    public function __construct()
+    {
+        $this->dao = $this->get("PfoBundle\Service\GroepDao");
+    }
 }

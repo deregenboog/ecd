@@ -3,7 +3,6 @@
 namespace PfoBundle\Controller;
 
 use AppBundle\Controller\AbstractChildController;
-use JMS\DiExtraBundle\Annotation as DI;
 use PfoBundle\Entity\Document;
 use PfoBundle\Form\DocumentType;
 use PfoBundle\Service\DocumentDaoInterface;
@@ -23,17 +22,19 @@ class DocumentenController extends AbstractChildController
 
     /**
      * @var DocumentDaoInterface
-     *
-     * @DI\Inject("PfoBundle\Service\DocumentDao")
      */
     protected $dao;
 
     /**
      * @var \ArrayObject
-     *
-     * @DI\Inject("pfo.document.entities")
      */
     protected $entities;
+
+    public function __construct()
+    {
+        $this->dao = $this->get("PfoBundle\Service\DocumentDao");
+        $this->entities = $this->get("pfo.document.entities");
+    }
 
     /**
      * @Route("/download/{filename}")

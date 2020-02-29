@@ -4,7 +4,6 @@ namespace PfoBundle\Controller;
 
 use AppBundle\Controller\AbstractController;
 use AppBundle\Export\ExportInterface;
-use JMS\DiExtraBundle\Annotation as DI;
 use PfoBundle\Entity\Client;
 use PfoBundle\Form\ClientConnectType;
 use PfoBundle\Form\ClientFilterType;
@@ -30,17 +29,19 @@ class ClientenController extends AbstractController
 
     /**
      * @var ClientDaoInterface
-     *
-     * @DI\Inject("PfoBundle\Service\ClientDao")
      */
     protected $dao;
 
     /**
      * @var ExportInterface
-     *
-     * @DI\Inject("pfo.export.client")
      */
     protected $export;
+
+    public function __construct()
+    {
+        $this->dao = $this->get("PfoBundle\Service\ClientDao");
+        $this->export = $this->get("pfo.export.client");
+    }
 
     /**
      * @Route("/{id}/connect")

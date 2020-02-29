@@ -3,7 +3,6 @@
 namespace PfoBundle\Controller;
 
 use AppBundle\Controller\AbstractChildController;
-use JMS\DiExtraBundle\Annotation as DI;
 use PfoBundle\Entity\Verslag;
 use PfoBundle\Form\VerslagType;
 use PfoBundle\Service\VerslagDaoInterface;
@@ -24,15 +23,17 @@ class VerslagenController extends AbstractChildController
 
     /**
      * @var VerslagDaoInterface
-     *
-     * @DI\Inject("PfoBundle\Service\VerslagDao")
      */
     protected $dao;
 
     /**
      * @var \ArrayObject
-     *
-     * @DI\Inject("pfo.verslag.entities")
      */
     protected $entities;
+
+    public function __construct()
+    {
+        $this->dao = $this->get("PfoBundle\Service\VerslagDao");
+        $this->entities = $this->get("pfo.verslag.entities");
+    }
 }
