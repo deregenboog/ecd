@@ -3,7 +3,6 @@
 namespace PfoBundle\Controller;
 
 use AppBundle\Controller\AbstractController;
-use JMS\DiExtraBundle\Annotation as DI;
 use PfoBundle\Entity\AardRelatie;
 use PfoBundle\Form\AardRelatieType;
 use PfoBundle\Service\AardRelatieDaoInterface;
@@ -23,8 +22,11 @@ class AardRelatiesController extends AbstractController
 
     /**
      * @var AardRelatieDaoInterface
-     *
-     * @DI\Inject("PfoBundle\Service\AardRelatieDao")
      */
     protected $dao;
+
+    public function __construct()
+    {
+        $this->dao = $this->get("PfoBundle\Service\AardRelatieDao");
+    }
 }
