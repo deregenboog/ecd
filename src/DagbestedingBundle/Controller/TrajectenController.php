@@ -46,11 +46,15 @@ class TrajectenController extends AbstractChildController
      */
     protected $export;
 
-    public function __construct()
+    public function setContainer(\Psr\Container\ContainerInterface $container): ?\Psr\Container\ContainerInterface
     {
+        parent::setContainer($container);
+
         $this->dao = $this->get("DagbestedingBundle\Service\TrajectDao");
         $this->entities = $this->get("dagbesteding.traject.entities");
         $this->export = $this->get("dagbesteding.export.trajecten");
+    
+        return $container;
     }
 
     /**

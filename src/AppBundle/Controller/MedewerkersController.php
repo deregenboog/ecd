@@ -32,10 +32,14 @@ class MedewerkersController extends AbstractController
      */
     protected $roleHierarchy;
 
-    public function __construct()
+    public function setContainer(\Psr\Container\ContainerInterface $container): ?\Psr\Container\ContainerInterface
     {
+        parent::setContainer($container);
+
         $this->dao = $this->get("AppBundle\Service\MedewerkerDao");
         $this->roleHierarchy = $this->get("%security.role_hierarchy.roles%");
+    
+        return $container;
     }
 
     /**

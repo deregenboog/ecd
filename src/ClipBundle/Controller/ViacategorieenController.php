@@ -25,9 +25,13 @@ class ViacategorieenController extends AbstractController
      */
     protected $dao;
 
-    public function __construct()
+    public function setContainer(\Psr\Container\ContainerInterface $container): ?\Psr\Container\ContainerInterface
     {
+        parent::setContainer($container);
+
         $this->dao = $this->get("ClipBundle\Service\ViacategorieDao");
+    
+        return $container;
     }
 
     /**

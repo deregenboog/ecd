@@ -45,11 +45,15 @@ class KlantdossiersController extends DossiersController
      */
     private $klantDao;
 
-    public function __construct()
+    public function setContainer(\Psr\Container\ContainerInterface $container): ?\Psr\Container\ContainerInterface
     {
+        parent::setContainer($container);
+
         $this->dao = $this->get("GaBundle\Service\KlantdossierDao");
         $this->export = $this->get("ga.export.klantdossiers");
         $this->klantDao = $this->get("AppBundle\Service\KlantDao");
+    
+        return $container;
     }
 
     /**

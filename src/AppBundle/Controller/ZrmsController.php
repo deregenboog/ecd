@@ -33,10 +33,14 @@ class ZrmsController extends AbstractChildController
      */
     protected $entities;
 
-    public function __construct()
+    public function setContainer(\Psr\Container\ContainerInterface $container): ?\Psr\Container\ContainerInterface
     {
+        parent::setContainer($container);
+
         $this->dao = $this->get("AppBundle\Service\ZrmDao");
         $this->entities = $this->get("app.zrm.entities");
+    
+        return $container;
     }
 
     protected function createEntity($parentEntity = null)

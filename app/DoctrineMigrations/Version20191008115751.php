@@ -34,7 +34,7 @@ final class Version20191008115751 extends AbstractMigration
                                 (\'Zaanstad - Zaandam Noord\',0),
                                 (\'Zaanstad - Zaandam West\',0),
                                 (\'Zaanstad - Zaandam Zuid\',0),
-                                (\'Overig\',0),
+                                (\'Overig\',0)
                                 ');
 
             $this->addSql(file_get_contents(__DIR__ . '/../data/zaanstad_postcodes.sql'));

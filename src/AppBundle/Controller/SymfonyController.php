@@ -3,11 +3,12 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\Medewerker;
-use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 
 abstract class SymfonyController extends AbstractController
 {
@@ -60,7 +61,7 @@ abstract class SymfonyController extends AbstractController
     }
 
     /**
-     * @return EntityManager
+     * @return EntityManagerInterface
      */
     protected function getEntityManager()
     {

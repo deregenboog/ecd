@@ -41,11 +41,15 @@ class ContactmomentenController extends AbstractChildController
      */
     protected $export;
 
-    public function __construct()
+    public function setContainer(\Psr\Container\ContainerInterface $container): ?\Psr\Container\ContainerInterface
     {
+        parent::setContainer($container);
+
         $this->dao = $this->get("ClipBundle\Service\ContactmomentDao");
         $this->entities = $this->get("clip.contactmoment.entities");
         $this->export = $this->get("clip.export.contactmomenten");
+    
+        return $container;
     }
 
     /**

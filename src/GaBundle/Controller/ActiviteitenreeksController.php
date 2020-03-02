@@ -35,10 +35,14 @@ class ActiviteitenreeksController extends AbstractChildController
      */
     protected $entities;
 
-    public function __construct()
+    public function setContainer(\Psr\Container\ContainerInterface $container): ?\Psr\Container\ContainerInterface
     {
+        parent::setContainer($container);
+
         $this->dao = $this->get("GaBundle\Service\ActiviteitDao");
         $this->entities = $this->get("ga.activiteit.entities");
+    
+        return $container;
     }
 
     /**

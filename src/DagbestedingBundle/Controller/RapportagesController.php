@@ -30,9 +30,13 @@ class RapportagesController extends AbstractChildController
      */
     protected $entities;
 
-    public function __construct()
+    public function setContainer(\Psr\Container\ContainerInterface $container): ?\Psr\Container\ContainerInterface
     {
+        parent::setContainer($container);
+
         $this->dao = $this->get("DagbestedingBundle\Service\RapportageDao");
         $this->entities = $this->get("dagbesteding.rapportage.entities");
+    
+        return $container;
     }
 }

@@ -3,11 +3,11 @@
 namespace ClipBundle\Service;
 
 use ClipBundle\Entity\Document;
-use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 
 class DocumentDao implements DocumentDaoInterface
 {
-    public function __construct(EntityManager $entityManager)
+    public function __construct(EntityManagerInterface $entityManager)
     {
         $this->entityManager = $entityManager;
         $this->repository = $entityManager->getRepository(Document::class);

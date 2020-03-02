@@ -46,8 +46,10 @@ class GroepenController extends AbstractController
      */
     protected $export;
 
-    public function __construct()
+    public function setContainer(\Psr\Container\ContainerInterface $container): ?\Psr\Container\ContainerInterface
     {
+        parent::setContainer($container);
+
         $this->dao = $this->get("GaBundle\Service\GroepDao");
         $this->klantLidmaatschapDao = $this->get("GaBundle\Service\KlantLidmaatschapDao");
         $this->vrijwilligerLidmaatschapDao = $this->get("GaBundle\Service\VrijwilligerLidmaatschapDao");

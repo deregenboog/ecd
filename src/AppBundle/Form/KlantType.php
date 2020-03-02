@@ -5,7 +5,7 @@ namespace AppBundle\Form;
 use AppBundle\Entity\Klant;
 use AppBundle\Entity\Postcode;
 use AppBundle\Util\PostcodeFormatter;
-use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Component\Debug\Exception\FatalThrowableError;
 use Symfony\Component\Form\AbstractType;
@@ -19,7 +19,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 class KlantType extends AbstractType
 {
     /**
-     * @var EntityManager
+     * @var EntityManagerInterface
      */
     private $entityManager;
 
@@ -28,15 +28,13 @@ class KlantType extends AbstractType
      */
     private $tbcCountries = [];
 
-    public function __construct(EntityManager $entityManager,Array $args)
+    public function __construct(EntityManagerInterface $entityManager,Array $args)
     {
         $this->entityManager = $entityManager;
         if(is_array($args['$tbc_countries']))
         {
             $this->tbc_countries = $args['$tbc_countries'];
         }
-
-
     }
 
     /**

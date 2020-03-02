@@ -11,8 +11,8 @@ use AppBundle\Form\KlantFilterType;
 use AppBundle\Form\KlantType;
 use AppBundle\Service\KlantDaoInterface;
 use Doctrine\Common\Collections\Criteria;
-use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 
@@ -39,10 +39,14 @@ class KlantenController extends AbstractController
      */
     protected $export;
 
-    public function __construct()
+    public function setContainer(\Psr\Container\ContainerInterface $container): ?\Psr\Container\ContainerInterface
     {
+        parent::setContainer($container);
+
         $this->dao = $this->get("AppBundle\Service\KlantDao");
         $this->export = $this->get("app.export.klanten");
+    
+        return $container;
     }
 
     /**

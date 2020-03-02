@@ -5,7 +5,7 @@ namespace AppBundle\Command;
 use AppBundle\Entity\GgwGebied;
 use AppBundle\Entity\Postcode;
 use AppBundle\Entity\Werkgebied;
-use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -14,7 +14,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 class ZipcodeLoaderCommand extends ContainerAwareCommand
 {
     /**
-     * @var EntityManager
+     * @var EntityManagerInterface
      */
     private $entityManager;
 
