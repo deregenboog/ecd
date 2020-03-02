@@ -34,10 +34,14 @@ class DashboardController extends SymfonyController
      */
     protected $trajectenExport;
 
-    public function __construct()
+    public function setContainer(\Psr\Container\ContainerInterface $container): ?\Psr\Container\ContainerInterface
     {
+        parent::setContainer($container);
+
         $this->trajectDao = $this->get("DagbestedingBundle\Service\TrajectDao");
         $this->trajectenExport = $this->get("dagbesteding.export.trajecten");
+    
+        return $container;
     }
 
     /**

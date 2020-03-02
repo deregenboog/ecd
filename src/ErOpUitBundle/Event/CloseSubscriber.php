@@ -6,7 +6,7 @@ use AppBundle\Entity\Klant;
 use AppBundle\Entity\Persoon;
 use AppBundle\Entity\Vrijwilliger;
 use AppBundle\Event\Events;
-use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use ErOpUitBundle;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
@@ -15,7 +15,7 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 class CloseSubscriber implements EventSubscriberInterface
 {
     /**
-     * @var EntityManager
+     * @var EntityManagerInterface
      */
     private $entityManager;
 
@@ -31,7 +31,7 @@ class CloseSubscriber implements EventSubscriberInterface
         ];
     }
 
-    public function __construct(EntityManager $entityManager, UrlGeneratorInterface $generator)
+    public function __construct(EntityManagerInterface $entityManager, UrlGeneratorInterface $generator)
     {
         $this->entityManager = $entityManager;
         $this->generator = $generator;

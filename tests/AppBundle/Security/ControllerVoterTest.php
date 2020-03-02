@@ -7,15 +7,29 @@ use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\VoterInterface;
 use Symfony\Component\Security\Core\Role\Role;
 use Symfony\Component\Security\Core\Role\RoleHierarchyInterface;
+use Symfony\Component\Security\Core\Authentication\Token\AbstractToken;
 
 class ControllerVoterTest extends TestCase
 {
     public function testVoteOnUnsupportedAttribute()
     {
-        $token = $this->getMockForAbstractClass(TokenInterface::class);
-        $token->method('getRoles')->willReturn(['CONTROLLER_APP_KLANTEN']);
+        $token = new class() extends AbstractToken implements TokenInterface
+        {
+            public function getRoleNames(): array
+            {
+                return ['CONTROLLER_APP_KLANTEN'];
+            }
 
-        $roleHierarchy = $this->getMockForAbstractClass(RoleHierarchyInterface::class);
+            public function getCredentials() { }
+        };
+
+        $roleHierarchy = new class() implements RoleHierarchyInterface
+        {
+            public function getReachableRoleNames()
+            {
+                return [];
+            }
+        };
 
         $voter = new ControllerVoter($roleHierarchy);
 
@@ -24,11 +38,23 @@ class ControllerVoterTest extends TestCase
 
     public function testVoteOnReachableRole()
     {
-        $token = $this->getMockForAbstractClass(TokenInterface::class);
-        $token->method('getRoles')->willReturn(['CONTROLLER_APP_KLANTEN']);
+        $token = new class() extends AbstractToken implements TokenInterface
+        {
+            public function getRoleNames(): array
+            {
+                return ['CONTROLLER_APP_KLANTEN'];
+            }
 
-        $roleHierarchy = $this->getMockForAbstractClass(RoleHierarchyInterface::class);
-        $roleHierarchy->method('getReachableRoles')->willReturn([new Role('CONTROLLER_APP_KLANTEN')]);
+            public function getCredentials() { }
+        };
+
+        $roleHierarchy = new class() implements RoleHierarchyInterface
+        {
+            public function getReachableRoleNames()
+            {
+                return ['CONTROLLER_APP_KLANTEN'];
+            }
+        };
 
         $voter = new ControllerVoter($roleHierarchy);
 
@@ -37,11 +63,23 @@ class ControllerVoterTest extends TestCase
 
     public function testVoteOnUnreachableRole()
     {
-        $token = $this->getMockForAbstractClass(TokenInterface::class);
-        $token->method('getRoles')->willReturn(['CONTROLLER_APP_KLANTEN']);
+        $token = new class() extends AbstractToken implements TokenInterface
+        {
+            public function getRoleNames(): array
+            {
+                return ['CONTROLLER_APP_KLANTEN'];
+            }
 
-        $roleHierarchy = $this->getMockForAbstractClass(RoleHierarchyInterface::class);
-        $roleHierarchy->method('getReachableRoles')->willReturn([new Role('CONTROLLER_APP_KLANTEN')]);
+            public function getCredentials() { }
+        };
+
+        $roleHierarchy = new class() implements RoleHierarchyInterface
+        {
+            public function getReachableRoleNames()
+            {
+                return ['CONTROLLER_APP_KLANTEN'];
+            }
+        };
 
         $voter = new ControllerVoter($roleHierarchy);
 

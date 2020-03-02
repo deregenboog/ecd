@@ -43,11 +43,15 @@ class VrijwilligerdossiersController extends DossiersController
      */
     private $vrijwilligerDao;
 
-    public function __construct()
+    public function setContainer(\Psr\Container\ContainerInterface $container): ?\Psr\Container\ContainerInterface
     {
+        parent::setContainer($container);
+
         $this->dao = $this->get("GaBundle\Service\VrijwilligerdossierDao");
         $this->export = $this->get("ga.export.vrijwilligerdossiers");
         $this->vrijwilligerDao = $this->get("AppBundle\Service\VrijwilligerDao");
+    
+        return $container;
     }
 
     /**

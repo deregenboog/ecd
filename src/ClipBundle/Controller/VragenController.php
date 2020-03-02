@@ -40,11 +40,15 @@ class VragenController extends AbstractVragenController
      */
     protected $export;
 
-    public function __construct()
+    public function setContainer(\Psr\Container\ContainerInterface $container): ?\Psr\Container\ContainerInterface
     {
+        parent::setContainer($container);
+
         $this->dao = $this->get("ClipBundle\Service\VraagDao");
         $this->entities = $this->get("clip.vraag.entities");
         $this->export = $this->get("clip.export.vragen");
+    
+        return $container;
     }
 
     /**

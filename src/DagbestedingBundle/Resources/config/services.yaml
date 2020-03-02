@@ -4,6 +4,10 @@ imports:
     - { resource: reports.yaml }
 
 services:
+    DagbestedingBundle\Controller\:
+        resource: '../../Controller'
+        tags: ['controller.service_arguments']
+
     dagbesteding.contactpersoon.entities:
         public: true
         class: ArrayObject

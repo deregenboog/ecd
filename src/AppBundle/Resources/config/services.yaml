@@ -4,6 +4,10 @@ imports:
     - { resource: reports.yaml }
 
 services:
+    AppBundle\Controller\:
+        resource: '../../Controller'
+        tags: ['controller.service_arguments']
+
     AppBundle\Security\ControllerAccessVoter:
         arguments:
             - '@security.access.decision_manager'
@@ -42,7 +46,7 @@ services:
         public: false
         arguments:
             - '@request_stack'
-            - '%locale%'
+            - '%env(LOCALE)%'
             - '%administrator_name%'
             - '%administrator_email%'
             - '%tbc_months_period%'

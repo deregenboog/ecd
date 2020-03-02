@@ -47,11 +47,15 @@ class DeelnemersController extends AbstractController
      */
     private $klantDao;
 
-    public function __construct()
+    public function setContainer(\Psr\Container\ContainerInterface $container): ?\Psr\Container\ContainerInterface
     {
+        parent::setContainer($container);
+
         $this->dao = $this->get("DagbestedingBundle\Service\DeelnemerDao");
         $this->export = $this->get("dagbesteding.export.deelnemers");
         $this->klantDao = $this->get("AppBundle\Service\KlantDao");
+    
+        return $container;
     }
 
     /**

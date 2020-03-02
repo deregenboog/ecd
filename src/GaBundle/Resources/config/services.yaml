@@ -3,6 +3,10 @@ imports:
     - { resource: exports.yaml }
 
 services:
+    GaBundle\Controller\:
+        resource: '../../Controller'
+        tags: ['controller.service_arguments']
+
     GaBundle\Event\DienstenLookupSubscriber:
         arguments:
             - "@doctrine.orm.entity_manager"

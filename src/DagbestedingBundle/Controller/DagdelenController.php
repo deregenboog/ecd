@@ -31,9 +31,13 @@ class DagdelenController extends AbstractController
      */
     protected $export;
 
-    public function __construct()
+    public function setContainer(\Psr\Container\ContainerInterface $container): ?\Psr\Container\ContainerInterface
     {
+        parent::setContainer($container);
+
         $this->dao = $this->get("DagbestedingBundle\Service\DagdeelDao");
         $this->export = $this->get("dagbesteding.export.dagdelen");
+    
+        return $container;
     }
 }

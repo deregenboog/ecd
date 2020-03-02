@@ -46,11 +46,15 @@ class ActiviteitenController extends AbstractChildController
      */
     protected $export;
 
-    public function __construct()
+    public function setContainer(\Psr\Container\ContainerInterface $container): ?\Psr\Container\ContainerInterface
     {
+        parent::setContainer($container);
+
         $this->dao = $this->get("GaBundle\Service\ActiviteitDao");
         $this->entities = $this->get("ga.activiteit.entities");
         $this->export = $this->get("ga.export.activiteiten");
+    
+        return $container;
     }
 
     /**

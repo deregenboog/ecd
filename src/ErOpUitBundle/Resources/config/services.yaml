@@ -4,6 +4,10 @@ imports:
     - { resource: reports.yaml }
 
 services:
+    ErOpUitBundle\Controller\:
+        resource: '../../Controller'
+        tags: ['controller.service_arguments']
+
     ErOpUitBundle\Event\CloseSubscriber:
         arguments:
             - "@doctrine.orm.entity_manager"

@@ -25,17 +25,17 @@ interface ZrmDaoInterface
     public function find($id);
 
     /**
-     * @param Klant $klant
+     * @param Zrm $entity
      */
     public function create(Zrm $entity);
 
     /**
-     * @param Klant $klant
+     * @param Zrm $entity
      */
     public function update(Zrm $entity);
 
     /**
-     * @param Klant $klant
+     * @param Zrm $entity
      */
     public function delete(Zrm $entity);
 }

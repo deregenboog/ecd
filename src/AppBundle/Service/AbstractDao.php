@@ -7,10 +7,7 @@ use AppBundle\Filter\FilterInterface;
 use AppBundle\Model\ActivatableInterface;
 use AppBundle\Service\AbstractDaoInterface;
 use AppBundle\Model\UsesKlantTrait;
-
-
 use Doctrine\DBAL\Exception\ForeignKeyConstraintViolationException;
-use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityNotFoundException;
 use Doctrine\ORM\EntityRepository;
@@ -53,7 +50,7 @@ abstract class AbstractDao implements AbstractDaoInterface
      */
     protected $searchEntityName = '';
 
-    public function __construct(EntityManager $entityManager, PaginatorInterface $paginator, $itemsPerPage)
+    public function __construct(EntityManagerInterface $entityManager, PaginatorInterface $paginator, $itemsPerPage)
     {
         if (!$this->class) {
             throw new \RuntimeException('Class must be set');

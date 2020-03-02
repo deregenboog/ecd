@@ -1,6 +1,4 @@
-FROM php:7.1-apache
-
-COPY docker/php.ini /usr/local/etc/php/
+FROM php:7.2.18-apache
 
 EXPOSE 80
 #RUN usermod -u 1000 www-data
@@ -17,16 +15,10 @@ RUN apt-get update && apt-get install -y \
     zlib1g-dev
 
 RUN pecl install xdebug && docker-php-ext-enable xdebug
-COPY docker/xdebug.ini /tmp/xdebug.ini
-
-RUN cat /tmp/xdebug.ini >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini \
-    && rm /tmp/xdebug.ini
-#RUN echo "xdebug.remote_host=host.docker.internal" >> usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
-
 
 RUN docker-php-ext-configure ldap --with-libdir=lib/x86_64-linux-gnu \
     && docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ \
-    && docker-php-ext-install gd intl ldap mysqli pdo_mysql zip
+    && docker-php-ext-install -j$(nproc) gd intl ldap mysqli opcache pdo_mysql zip
 
 # set timezone
 RUN echo "Europe/Amsterdam" > /etc/timezone && dpkg-reconfigure -f noninteractive tzdata
@@ -48,3 +40,14 @@ RUN a2enmod rewrite headers && a2dissite 000-default && a2ensite app
 
 COPY docker/init.sh /init.sh
 RUN chmod +x /init.sh
+
+RUN mkdir /.composer
+RUN chmod 777 /.composer
+VOLUME /.composer
+
+COPY docker/php.ini /usr/local/etc/php/
+
+COPY docker/xdebug.ini /tmp/xdebug.ini
+RUN cat /tmp/xdebug.ini >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini \
+    && rm /tmp/xdebug.ini
+#RUN echo "xdebug.remote_host=host.docker.internal" >> usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini

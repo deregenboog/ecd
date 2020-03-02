@@ -7,7 +7,7 @@ use AppBundle\Entity\Postcode;
 use AppBundle\Entity\Vog;
 use AppBundle\Entity\Vrijwilliger;
 use AppBundle\Util\PostcodeFormatter;
-use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -19,12 +19,12 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 class VrijwilligerType extends AbstractType
 {
     /**
-     * @var EntityManager
+     * @var EntityManagerInterface
      */
     private $entityManager;
 
 
-    public function __construct(EntityManager $entityManager)
+    public function __construct(EntityManagerInterface $entityManager)
     {
         $this->entityManager = $entityManager;
     }

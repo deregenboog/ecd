@@ -6,7 +6,7 @@ use AppBundle\Controller\AbstractController;
 use AppBundle\Entity\Klant;
 use AppBundle\Form\KlantMergeType;
 use AppBundle\Service\KlantDaoInterface;
-use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
@@ -28,9 +28,13 @@ class KlantenController extends AbstractController
      */
     protected $dao;
 
-    public function __construct()
+    public function setContainer(\Psr\Container\ContainerInterface $container): ?\Psr\Container\ContainerInterface
     {
+        parent::setContainer($container);
+
         $this->dao = $this->get("AppBundle\Service\KlantDao");
+    
+        return $container;
     }
 
     /**
@@ -115,12 +119,12 @@ class KlantenController extends AbstractController
     }
 
     /**
-     * @param Klant           $entity  new entity
-     * @param Klant[]         $klanten original entities
-     * @param EntityManager   $em
-     * @param LoggerInterface $logger
+     * @param Klant                  $entity  new entity
+     * @param Klant[]                $klanten original entities
+     * @param EntityManagerInterface $em
+     * @param LoggerInterface        $logger
      */
-    private function moveAssociations($entity, $klanten, EntityManager $em, LoggerInterface $logger)
+    private function moveAssociations($entity, $klanten, EntityManagerInterface $em, LoggerInterface $logger)
     {
         $dqls = [];
         $allMetadata = $em->getMetadataFactory()->getAllMetadata();
@@ -158,12 +162,12 @@ class KlantenController extends AbstractController
     }
 
     /**
-     * @param Klant           $entity  new entity
-     * @param Klant[]         $klanten
-     * @param EntityManager   $em
-     * @param LoggerInterface $logger
+     * @param Klant                  $entity  new entity
+     * @param Klant[]                $klanten
+     * @param EntityManagerInterface $em
+     * @param LoggerInterface        $logger
      */
-    private function disableMerged($entity, $klanten, EntityManager $em, LoggerInterface $logger)
+    private function disableMerged($entity, $klanten, EntityManagerInterface $em, LoggerInterface $logger)
     {
         foreach ($klanten as $klant) {
             $klant->setMerged($entity);
