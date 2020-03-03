@@ -2,6 +2,7 @@
 
 namespace AppBundle\Entity;
 
+use Doctrine\ORM\EntityNotFoundException;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 
@@ -33,7 +34,18 @@ class Werkgebied
 
     public function __toString()
     {
-        return $this->naam;
+        try {
+            return $this->naam;
+        }
+        catch(EntityNotFoundException $e)
+        {
+            return "";
+        }
+        catch(Exception $e)
+        {
+            return "";
+        }
+
     }
 
     public function getNaam()

@@ -4,7 +4,9 @@ namespace OdpBundle\Service;
 
 use AppBundle\Filter\FilterInterface;
 use AppBundle\Service\AbstractDao;
+use Doctrine\ORM\EntityManager;
 use Knp\Component\Pager\Pagination\PaginationInterface;
+use Knp\Component\Pager\PaginatorInterface;
 use OdpBundle\Entity\Huurder;
 
 class HuurderDao extends AbstractDao implements HuurderDaoInterface
@@ -29,11 +31,20 @@ class HuurderDao extends AbstractDao implements HuurderDaoInterface
 
     protected $alias = 'huurder';
     protected $searchEntityName = 'klant';
+
+    public function __construct(EntityManager $entityManager, PaginatorInterface $paginator, $itemsPerPage)
+    {
+        parent::__construct($entityManager,$paginator,$itemsPerPage);
+
+        $this->entityManager->getFilters()->disable('zichtbaar');
+
+    }
     /**
      * {inheritdoc}.
      */
     public function findAll($page = null, FilterInterface $filter = null)
     {
+
 
         $builder = $this->repository->createQueryBuilder('huurder')
             ->innerJoin('huurder.klant', 'klant')
@@ -44,6 +55,7 @@ class HuurderDao extends AbstractDao implements HuurderDaoInterface
 //        $builder = $this->repository->createQueryBuilder($this->alias)
 //            ->innerJoin($this->alias.'.klant', 'klant')
 //        ;
+
         return parent::doFindAll($builder, $page, $filter);
     }
     public function create(Huurder $entity)

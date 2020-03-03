@@ -75,19 +75,6 @@ class HuurdersController extends AbstractController
         'huurder.wpi',
     ];
 
-
-    /**
-     * @Route("/{id}/view")
-     */
-    public function view($id)
-    {
-        $huurder = $this->getEntityManager()->find(Huurder::class, $id);
-
-        return [
-            'huurder' => $huurder,
-        ];
-    }
-
     /**
      * @Route("/add")
      */
