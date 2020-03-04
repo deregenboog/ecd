@@ -31,9 +31,13 @@ class MemosController extends AbstractChildController
      */
     protected $entities;
 
-    public function __construct()
+    public function setContainer(\Psr\Container\ContainerInterface $container): ?\Psr\Container\ContainerInterface
     {
-        $this->dao = $this->get("InloopBundle\Service\MemoDao");
-        $this->entities = $this->get("inloop.memo.entities");
+        $previous = parent::setContainer($container);
+
+        $this->dao = $container->get("InloopBundle\Service\MemoDao");
+        $this->entities = $container->get("inloop.memo.entities");
+    
+        return $previous;
     }
 }

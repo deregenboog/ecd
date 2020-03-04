@@ -30,12 +30,12 @@ class OpenstaandeVragenController extends AbstractVragenController
 
     public function setContainer(\Psr\Container\ContainerInterface $container): ?\Psr\Container\ContainerInterface
     {
-        parent::setContainer($container);
+        $previous = parent::setContainer($container);
 
-        $this->dao = $this->get("ClipBundle\Service\VraagDao");
-        $this->export = $this->get("clip.export.vragen");
+        $this->dao = $container->get("ClipBundle\Service\VraagDao");
+        $this->export = $container->get("clip.export.vragen");
     
-        return $container;
+        return $previous;
     }
 
     /**

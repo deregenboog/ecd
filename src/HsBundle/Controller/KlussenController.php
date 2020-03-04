@@ -43,11 +43,15 @@ class KlussenController extends AbstractChildController
      */
     protected $entities;
 
-    public function __construct()
+    public function setContainer(\Psr\Container\ContainerInterface $container): ?\Psr\Container\ContainerInterface
     {
-        $this->dao = $this->get("HsBundle\Service\KlusDao");
-        $this->export = $this->get("hs.export.klus");
-        $this->entities = $this->get("hs.klus.entities");
+        $previous = parent::setContainer($container);
+
+        $this->dao = $container->get("HsBundle\Service\KlusDao");
+        $this->export = $container->get("hs.export.klus");
+        $this->entities = $container->get("hs.klus.entities");
+    
+        return $previous;
     }
 
     /**

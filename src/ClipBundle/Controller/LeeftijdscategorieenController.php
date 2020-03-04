@@ -27,11 +27,11 @@ class LeeftijdscategorieenController extends AbstractController
 
     public function setContainer(\Psr\Container\ContainerInterface $container): ?\Psr\Container\ContainerInterface
     {
-        parent::setContainer($container);
+        $previous = parent::setContainer($container);
 
-        $this->dao = $this->get("ClipBundle\Service\LeeftijdscategorieDao");
+        $this->dao = $container->get("ClipBundle\Service\LeeftijdscategorieDao");
     
-        return $container;
+        return $previous;
     }
 
     /**

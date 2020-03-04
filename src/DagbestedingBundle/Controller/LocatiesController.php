@@ -27,11 +27,11 @@ class LocatiesController extends AbstractController
 
     public function setContainer(\Psr\Container\ContainerInterface $container): ?\Psr\Container\ContainerInterface
     {
-        parent::setContainer($container);
+        $previous = parent::setContainer($container);
 
-        $this->dao = $this->get("DagbestedingBundle\Service\LocatieDao");
+        $this->dao = $container->get("DagbestedingBundle\Service\LocatieDao");
     
-        return $container;
+        return $previous;
     }
 
     /**

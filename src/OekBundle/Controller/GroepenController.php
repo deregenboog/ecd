@@ -24,8 +24,12 @@ class GroepenController extends AbstractController
      */
     protected $dao;
 
-    public function __construct()
+    public function setContainer(\Psr\Container\ContainerInterface $container): ?\Psr\Container\ContainerInterface
     {
-        $this->dao = $this->get("OekBundle\Service\GroepDao");
+        $previous = parent::setContainer($container);
+
+        $this->dao = $container->get("OekBundle\Service\GroepDao");
+    
+        return $previous;
     }
 }

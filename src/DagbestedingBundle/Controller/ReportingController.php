@@ -21,10 +21,10 @@ class ReportingController extends AbstractRapportagesController
 
     public function setContainer(\Psr\Container\ContainerInterface $container): ?\Psr\Container\ContainerInterface
     {
-        parent::setContainer($container);
+        $previous = parent::setContainer($container);
 
-        $this->export = $this->get("dagbesteding.export.report");
+        $this->export = $container->get("dagbesteding.export.report");
     
-        return $container;
+        return $previous;
     }
 }

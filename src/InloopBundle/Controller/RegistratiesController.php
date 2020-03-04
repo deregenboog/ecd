@@ -65,13 +65,17 @@ class RegistratiesController extends AbstractController
      */
     protected $export;
 
-    public function __construct()
+    public function setContainer(\Psr\Container\ContainerInterface $container): ?\Psr\Container\ContainerInterface
     {
-        $this->dao = $this->get("InloopBundle\Service\RegistratieDao");
-        $this->klantDao = $this->get("InloopBundle\Service\KlantDao");
-        $this->locatieDao = $this->get("InloopBundle\Service\LocatieDao");
-        $this->schorsingDao = $this->get("InloopBundle\Service\SchorsingDao");
-        $this->export = $this->get("inloop.export.registraties");
+        $previous = parent::setContainer($container);
+
+        $this->dao = $container->get("InloopBundle\Service\RegistratieDao");
+        $this->klantDao = $container->get("InloopBundle\Service\KlantDao");
+        $this->locatieDao = $container->get("InloopBundle\Service\LocatieDao");
+        $this->schorsingDao = $container->get("InloopBundle\Service\SchorsingDao");
+        $this->export = $container->get("inloop.export.registraties");
+    
+        return $previous;
     }
 
     /**
@@ -175,7 +179,7 @@ class RegistratiesController extends AbstractController
             return $registratie->getKlant()->getId();
         }, $pagination->getItems());
         $event = new GenericEvent($klantIds, ['geen_activering_klant_ids' => []]);
-        $this->get('event_dispatcher')->dispatch(Events::GEEN_ACTIVERING, $event);
+        $this->get('event_dispatcher')->dispatch($event, Events::GEEN_ACTIVERING);
 
         return $this->render('InloopBundle:registraties:_active.html.twig', [
             'locatie' => $locatie,
@@ -212,7 +216,7 @@ class RegistratiesController extends AbstractController
             return $registratie->getKlant()->getId();
         }, $pagination->getItems());
         $event = new GenericEvent($klantIds, ['geen_activering_klant_ids' => []]);
-        $this->get('event_dispatcher')->dispatch(Events::GEEN_ACTIVERING, $event);
+        $this->get('event_dispatcher')->dispatch($event, Events::GEEN_ACTIVERING);
 
         return $this->render('InloopBundle:registraties:_history.html.twig', [
             'locatie' => $locatie,

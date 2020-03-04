@@ -65,11 +65,15 @@ class VerhuurdersController extends AbstractController
      */
     protected $export;
 
-    public function __construct()
+    public function setContainer(\Psr\Container\ContainerInterface $container): ?\Psr\Container\ContainerInterface
     {
-        $this->dao = $this->get("OdpBundle\Service\VerhuurderDao");
-        $this->searchDao = $this->get("AppBundle\Service\KlantDao");
-        $this->export = $this->get("odp.export.verhuurders");
+        $previous = parent::setContainer($container);
+
+        $this->dao = $container->get("OdpBundle\Service\VerhuurderDao");
+        $this->searchDao = $container->get("AppBundle\Service\KlantDao");
+        $this->export = $container->get("odp.export.verhuurders");
+    
+        return $previous;
     }
 
     /**

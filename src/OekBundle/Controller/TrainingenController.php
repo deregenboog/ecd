@@ -47,12 +47,16 @@ class TrainingenController extends AbstractChildController
      */
     protected $exportDeelnemerslijst;
 
-    public function __construct()
+    public function setContainer(\Psr\Container\ContainerInterface $container): ?\Psr\Container\ContainerInterface
     {
-        $this->dao = $this->get("OekBundle\Service\TrainingDao");
-        $this->entities = $this->get("oek.training.entities");
-        $this->exportPresentielijst = $this->get("oek.export.presentielijst");
-        $this->exportDeelnemerslijst = $this->get("oek.export.deelnemerslijst");
+        $previous = parent::setContainer($container);
+
+        $this->dao = $container->get("OekBundle\Service\TrainingDao");
+        $this->entities = $container->get("oek.training.entities");
+        $this->exportPresentielijst = $container->get("oek.export.presentielijst");
+        $this->exportDeelnemerslijst = $container->get("oek.export.deelnemerslijst");
+
+        return $previous;
     }
 
     /**

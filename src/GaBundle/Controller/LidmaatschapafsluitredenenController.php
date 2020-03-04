@@ -26,10 +26,10 @@ class LidmaatschapafsluitredenenController extends AbstractController
 
     public function setContainer(\Psr\Container\ContainerInterface $container): ?\Psr\Container\ContainerInterface
     {
-        parent::setContainer($container);
+        $previous = parent::setContainer($container);
 
-        $this->dao = $this->get("GaBundle\Service\LidmaatschapAfsluitredenDao");
+        $this->dao = $container->get("GaBundle\Service\LidmaatschapAfsluitredenDao");
     
-        return $container;
+        return $previous;
     }
 }

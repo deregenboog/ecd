@@ -49,11 +49,15 @@ class KlantenController extends AbstractController
      */
     private $klantDao;
 
-    public function __construct()
+    public function setContainer(\Psr\Container\ContainerInterface $container): ?\Psr\Container\ContainerInterface
     {
-        $this->dao = $this->get("IzBundle\Service\KlantDao");
-        $this->export = $this->get("iz.export.klanten");
-        $this->klantDao = $this->get("AppBundle\Service\KlantDao");
+        $previous = parent::setContainer($container);
+
+        $this->dao = $container->get("IzBundle\Service\KlantDao");
+        $this->export = $container->get("iz.export.klanten");
+        $this->klantDao = $container->get("AppBundle\Service\KlantDao");
+    
+        return $previous;
     }
 
     /**
@@ -100,7 +104,7 @@ class KlantenController extends AbstractController
         }
 
         $event = new GenericEvent($entity->getKlant(), ['messages' => []]);
-        $this->get('event_dispatcher')->dispatch(Events::BEFORE_CLOSE, $event);
+        $this->get('event_dispatcher')->dispatch($event, Events::BEFORE_CLOSE);
 
         return array_merge($response, ['messages' => $event->getArgument('messages')]);
     }
@@ -208,7 +212,7 @@ class KlantenController extends AbstractController
 
         $event = new DienstenLookupEvent($entity->getKlant()->getId(), []);
         if ($event->getKlantId()) {
-            $this->get('event_dispatcher')->dispatch(Events::DIENSTEN_LOOKUP, $event);
+            $this->get('event_dispatcher')->dispatch($event, Events::DIENSTEN_LOOKUP);
         }
 
         return [

@@ -27,10 +27,10 @@ class AfsluitredenenController extends AbstractController
 
     public function setContainer(\Psr\Container\ContainerInterface $container): ?\Psr\Container\ContainerInterface
     {
-        parent::setContainer($container);
+        $previous = parent::setContainer($container);
 
-        $this->dao = $this->get("BuurtboerderijBundle\Service\AfsluitredenDao");
+        $this->dao = $container->get("BuurtboerderijBundle\Service\AfsluitredenDao");
     
-        return $container;
+        return $previous;
     }
 }

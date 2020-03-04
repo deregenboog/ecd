@@ -68,11 +68,15 @@ class HuurdersController extends AbstractController
         'huurder.wpi',
     ];
 
-    public function __construct()
+    public function setContainer(\Psr\Container\ContainerInterface $container): ?\Psr\Container\ContainerInterface
     {
-        $this->dao = $this->get("OdpBundle\Service\HuurderDao");
-        $this->export = $this->get("odp.export.huurders");
-        $this->searchDao = $this->get("AppBundle\Service\KlantDao");
+        $previous = parent::setContainer($container);
+
+        $this->dao = $container->get("OdpBundle\Service\HuurderDao");
+        $this->export = $container->get("odp.export.huurders");
+        $this->searchDao = $container->get("AppBundle\Service\KlantDao");
+    
+        return $previous;
     }
 
     /**

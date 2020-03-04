@@ -39,10 +39,14 @@ class IntakesController extends AbstractController
 //      */
 //     protected $export;
 
-    public function __construct()
+    public function setContainer(\Psr\Container\ContainerInterface $container): ?\Psr\Container\ContainerInterface
     {
-        $this->dao = $this->get("InloopBundle\Service\IntakeDao");
-//         $this->export = $this->get("inloop.export.intakes");
+        $previous = parent::setContainer($container);
+
+        $this->dao = $container->get("InloopBundle\Service\IntakeDao");
+//         $this->export = $container->get("inloop.export.intakes");
+    
+        return $previous;
     }
 
     /**

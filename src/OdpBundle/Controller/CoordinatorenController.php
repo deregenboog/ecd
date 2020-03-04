@@ -23,9 +23,13 @@ class CoordinatorenController extends SymfonyController
      */
     private $coordinatorDao;
 
-    public function __construct()
+    public function setContainer(\Psr\Container\ContainerInterface $container): ?\Psr\Container\ContainerInterface
     {
-        $this->coordinatorDao = $this->get("OdpBundle\Service\CoordinatorDao");
+        $previous = parent::setContainer($container);
+
+        $this->coordinatorDao = $container->get("OdpBundle\Service\CoordinatorDao");
+    
+        return $previous;
     }
 
     /**

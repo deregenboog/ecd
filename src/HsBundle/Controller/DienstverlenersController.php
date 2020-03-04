@@ -44,11 +44,15 @@ class DienstverlenersController extends AbstractController
      */
     private $klantDao;
 
-    public function __construct()
+    public function setContainer(\Psr\Container\ContainerInterface $container): ?\Psr\Container\ContainerInterface
     {
-        $this->dao = $this->get("HsBundle\Service\DienstverlenerDao");
-        $this->export = $this->get("hs.export.dienstverlener");
-        $this->klantDao = $this->get("AppBundle\Service\KlantDao");
+        $previous = parent::setContainer($container);
+
+        $this->dao = $container->get("HsBundle\Service\DienstverlenerDao");
+        $this->export = $container->get("hs.export.dienstverlener");
+        $this->klantDao = $container->get("AppBundle\Service\KlantDao");
+    
+        return $previous;
     }
 
     /**

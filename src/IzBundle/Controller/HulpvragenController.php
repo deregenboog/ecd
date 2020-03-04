@@ -53,12 +53,16 @@ class HulpvragenController extends AbstractChildController
      */
     protected $export;
 
-    public function __construct()
+    public function setContainer(\Psr\Container\ContainerInterface $container): ?\Psr\Container\ContainerInterface
     {
-        $this->dao = $this->get("IzBundle\Service\HulpvraagDao");
-        $this->hulpaanbodDao = $this->get("IzBundle\Service\HulpaanbodDao");
-        $this->entities = $this->get("iz.hulpvraag.entities");
-        $this->export = $this->get("iz.export.hulpvragen");
+        $previous = parent::setContainer($container);
+
+        $this->dao = $container->get("IzBundle\Service\HulpvraagDao");
+        $this->hulpaanbodDao = $container->get("IzBundle\Service\HulpaanbodDao");
+        $this->entities = $container->get("iz.hulpvraag.entities");
+        $this->export = $container->get("iz.export.hulpvragen");
+
+        return $previous;
     }
 
     /**

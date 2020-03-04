@@ -41,12 +41,12 @@ class KlantenController extends AbstractController
 
     public function setContainer(\Psr\Container\ContainerInterface $container): ?\Psr\Container\ContainerInterface
     {
-        parent::setContainer($container);
+        $previous = parent::setContainer($container);
 
-        $this->dao = $this->get("AppBundle\Service\KlantDao");
-        $this->export = $this->get("app.export.klanten");
-    
-        return $container;
+        $this->dao = $container->get("AppBundle\Service\KlantDao");
+        $this->export = $container->get("app.export.klanten");
+
+        return $previous;
     }
 
     /**
@@ -56,7 +56,7 @@ class KlantenController extends AbstractController
     {
         $event = new DienstenLookupEvent($id);
         if ($event->getKlantId()) {
-            $this->get('event_dispatcher')->dispatch(Events::DIENSTEN_LOOKUP, $event);
+            $this->get('event_dispatcher')->dispatch($event, Events::DIENSTEN_LOOKUP);
         }
 
         return [
@@ -136,15 +136,15 @@ class KlantenController extends AbstractController
 
             'form' => $form->createView(),
         ];
-
     }
+
     protected function addParams($entity, Request $request)
     {
         assert($entity instanceof Klant);
 
         $event = new DienstenLookupEvent($entity->getId());
         if ($event->getKlantId()) {
-            $this->get('event_dispatcher')->dispatch(Events::DIENSTEN_LOOKUP, $event);
+            $this->get('event_dispatcher')->dispatch($event, Events::DIENSTEN_LOOKUP);
         }
 
         return [

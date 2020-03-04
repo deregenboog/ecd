@@ -26,8 +26,12 @@ class FrequentiesController extends AbstractController
      */
     protected $dao;
 
-    public function __construct()
+    public function setContainer(\Psr\Container\ContainerInterface $container): ?\Psr\Container\ContainerInterface
     {
-        $this->dao = $this->get("InloopBundle\Service\FrequentieDao");
+        $previous = parent::setContainer($container);
+
+        $this->dao = $container->get("InloopBundle\Service\FrequentieDao");
+    
+        return $previous;
     }
 }

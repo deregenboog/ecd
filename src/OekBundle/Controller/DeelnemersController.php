@@ -49,11 +49,15 @@ class DeelnemersController extends AbstractController
      */
     private $klantDao;
 
-    public function __construct()
+    public function setContainer(\Psr\Container\ContainerInterface $container): ?\Psr\Container\ContainerInterface
     {
-        $this->dao = $this->get("OekBundle\Service\DeelnemerDao");
-        $this->export = $this->get("oek.export.deelnemer");
-        $this->klantDao = $this->get("AppBundle\Service\KlantDao");
+        $previous = parent::setContainer($container);
+
+        $this->dao = $container->get("OekBundle\Service\DeelnemerDao");
+        $this->export = $container->get("oek.export.deelnemer");
+        $this->klantDao = $container->get("AppBundle\Service\KlantDao");
+    
+        return $previous;
     }
 
     /**

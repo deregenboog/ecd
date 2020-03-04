@@ -37,10 +37,14 @@ class ClientenController extends AbstractController
      */
     protected $export;
 
-    public function __construct()
+    public function setContainer(\Psr\Container\ContainerInterface $container): ?\Psr\Container\ContainerInterface
     {
-        $this->dao = $this->get("PfoBundle\Service\ClientDao");
-        $this->export = $this->get("pfo.export.client");
+        $previous = parent::setContainer($container);
+
+        $this->dao = $container->get("PfoBundle\Service\ClientDao");
+        $this->export = $container->get("pfo.export.client");
+    
+        return $previous;
     }
 
     /**

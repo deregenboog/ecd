@@ -29,11 +29,11 @@ class BehandelaarsController extends AbstractController
 
     public function setContainer(\Psr\Container\ContainerInterface $container): ?\Psr\Container\ContainerInterface
     {
-        parent::setContainer($container);
+        $previous = parent::setContainer($container);
 
-        $this->dao = $this->get("ClipBundle\Service\BehandelaarDao");
+        $this->dao = $container->get("ClipBundle\Service\BehandelaarDao");
     
-        return $container;
+        return $previous;
     }
 
     /**

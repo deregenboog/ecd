@@ -21,10 +21,10 @@ class RapportagesController extends AbstractRapportagesController
 
     public function setContainer(\Psr\Container\ContainerInterface $container): ?\Psr\Container\ContainerInterface
     {
-        parent::setContainer($container);
+        $previous = parent::setContainer($container);
 
-        $this->export = $this->get("ga.export.report");
+        $this->export = $container->get("ga.export.report");
     
-        return $container;
+        return $previous;
     }
 }

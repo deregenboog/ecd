@@ -31,9 +31,13 @@ class MemosController extends AbstractChildController
      */
     protected $entities;
 
-    public function __construct()
+    public function setContainer(\Psr\Container\ContainerInterface $container): ?\Psr\Container\ContainerInterface
     {
-        $this->dao = $this->get("OekBundle\Service\MemoDao");
-        $this->entities = $this->get("oek.memo.entities");
+        $previous = parent::setContainer($container);
+
+        $this->dao = $container->get("OekBundle\Service\MemoDao");
+        $this->entities = $container->get("oek.memo.entities");
+    
+        return $previous;
     }
 }

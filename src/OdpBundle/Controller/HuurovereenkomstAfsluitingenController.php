@@ -20,9 +20,13 @@ class HuurovereenkomstAfsluitingenController extends AfsluitingenController
      */
     protected $dao;
 
-    public function __construct()
+    public function setContainer(\Psr\Container\ContainerInterface $container): ?\Psr\Container\ContainerInterface
     {
-        $this->dao = $this->get("OdpBundle\Service\HuurovereenkomstafsluitingDao");
+        $previous = parent::setContainer($container);
+
+        $this->dao = $container->get("OdpBundle\Service\HuurovereenkomstafsluitingDao");
+    
+        return $previous;
     }
 
     protected $entityClass = HuurovereenkomstAfsluiting::class;

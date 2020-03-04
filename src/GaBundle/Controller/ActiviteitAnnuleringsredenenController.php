@@ -29,11 +29,11 @@ class ActiviteitAnnuleringsredenenController extends AbstractController
 
     public function setContainer(\Psr\Container\ContainerInterface $container): ?\Psr\Container\ContainerInterface
     {
-        parent::setContainer($container);
+        $previous = parent::setContainer($container);
 
-        $this->dao = $this->get("GaBundle\Service\ActiviteitAnnuleringsredenDao");
+        $this->dao = $container->get("GaBundle\Service\ActiviteitAnnuleringsredenDao");
     
-        return $container;
+        return $previous;
     }
 
     /**

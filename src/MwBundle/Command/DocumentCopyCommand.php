@@ -3,7 +3,7 @@
 namespace MwBundle\Command;
 
 use AppBundle\Entity\Attachment;
-use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use MwBundle\Entity\Document;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputArgument;

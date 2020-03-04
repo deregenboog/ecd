@@ -31,10 +31,14 @@ class DocumentenController extends AbstractChildController
      */
     protected $entities;
 
-    public function __construct()
+    public function setContainer(\Psr\Container\ContainerInterface $container): ?\Psr\Container\ContainerInterface
     {
-        $this->dao = $this->get("OekBundle\Service\DocumentDao");
-        $this->entities = $this->get("oek.document.entities");
+        $previous = parent::setContainer($container);
+
+        $this->dao = $container->get("OekBundle\Service\DocumentDao");
+        $this->entities = $container->get("oek.document.entities");
+    
+        return $previous;
     }
 
     /**

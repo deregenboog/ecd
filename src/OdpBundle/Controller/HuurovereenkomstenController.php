@@ -5,7 +5,7 @@ namespace OdpBundle\Controller;
 use AppBundle\Controller\AbstractController;
 use AppBundle\Export\ExportInterface;
 use AppBundle\Form\ConfirmationType;
-use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use OdpBundle\Entity\Huuraanbod;
 use OdpBundle\Entity\Huurovereenkomst;
 use OdpBundle\Entity\Huurverzoek;
@@ -41,10 +41,14 @@ class HuurovereenkomstenController extends AbstractController
      */
     protected $export;
 
-    public function __construct()
+    public function setContainer(\Psr\Container\ContainerInterface $container): ?\Psr\Container\ContainerInterface
     {
-        $this->dao = $this->get("OdpBundle\Service\HuurovereenkomstDao");
-        $this->export = $this->get("odp.export.koppelingen");
+        $previous = parent::setContainer($container);
+
+        $this->dao = $container->get("OdpBundle\Service\HuurovereenkomstDao");
+        $this->export = $container->get("odp.export.koppelingen");
+    
+        return $previous;
     }
 
     public function dafterFind($entity)
@@ -163,7 +167,7 @@ class HuurovereenkomstenController extends AbstractController
         return sprintf('onder-de-pannen-koppelingen-%s.xlsx', (new \DateTime())->format('d-m-Y'));
     }
 
-    private function findEntity(EntityManager $entityManager)
+    private function findEntity(EntityManagerInterface $entityManager)
     {
         switch (true) {
             case $this->getRequest()->query->has('huurverzoek'):

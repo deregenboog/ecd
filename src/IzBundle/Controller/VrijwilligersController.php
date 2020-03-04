@@ -48,11 +48,15 @@ class VrijwilligersController extends AbstractController
      */
     private $vrijwilligerDao;
 
-    public function __construct()
+    public function setContainer(\Psr\Container\ContainerInterface $container): ?\Psr\Container\ContainerInterface
     {
-        $this->dao = $this->get("IzBundle\Service\VrijwilligerDao");
-        $this->export = $this->get("iz.export.vrijwilligers");
-        $this->vrijwilligerDao = $this->get("AppBundle\Service\VrijwilligerDao");
+        $previous = parent::setContainer($container);
+
+        $this->dao = $container->get("IzBundle\Service\VrijwilligerDao");
+        $this->export = $container->get("iz.export.vrijwilligers");
+        $this->vrijwilligerDao = $container->get("AppBundle\Service\VrijwilligerDao");
+    
+        return $previous;
     }
 
     /**
@@ -91,7 +95,7 @@ class VrijwilligersController extends AbstractController
         }
 
         $event = new GenericEvent($entity->getVrijwilliger(), ['messages' => []]);
-        $this->get('event_dispatcher')->dispatch(Events::BEFORE_CLOSE, $event);
+        $this->get('event_dispatcher')->dispatch($event, Events::BEFORE_CLOSE);
 
         return array_merge($response, ['messages' => $event->getArgument('messages')]);
     }

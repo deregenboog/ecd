@@ -32,11 +32,11 @@ class VerslagenController extends AbstractChildController
 
     public function setContainer(\Psr\Container\ContainerInterface $container): ?\Psr\Container\ContainerInterface
     {
-        parent::setContainer($container);
+        $previous = parent::setContainer($container);
 
-        $this->dao = $this->get("DagbestedingBundle\Service\VerslagDao");
-        $this->entities = $this->get("dagbesteding.verslag.entities");
+        $this->dao = $container->get("DagbestedingBundle\Service\VerslagDao");
+        $this->entities = $container->get("dagbesteding.verslag.entities");
     
-        return $container;
+        return $previous;
     }
 }

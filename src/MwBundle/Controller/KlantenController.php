@@ -49,11 +49,15 @@ class KlantenController extends AbstractController
      */
     protected $export;
 
-    public function __construct()
+    public function setContainer(\Psr\Container\ContainerInterface $container): ?\Psr\Container\ContainerInterface
     {
-        $this->dao = $this->get("MwBundle\Service\KlantDao");
-        $this->klantDao = $this->get("AppBundle\Service\KlantDao");
-        $this->export = $this->get("mw.export.klanten");
+        $previous = parent::setContainer($container);
+
+        $this->dao = $container->get("MwBundle\Service\KlantDao");
+        $this->klantDao = $container->get("AppBundle\Service\KlantDao");
+        $this->export = $container->get("mw.export.klanten");
+    
+        return $previous;
     }
 
     /**
@@ -139,7 +143,7 @@ class KlantenController extends AbstractController
 
         $event = new DienstenLookupEvent($entity->getId());
         if ($event->getKlantId()) {
-            $this->get('event_dispatcher')->dispatch(Events::DIENSTEN_LOOKUP, $event);
+            $this->get('event_dispatcher')->dispatch($event, Events::DIENSTEN_LOOKUP);
         }
 
         return [

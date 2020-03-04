@@ -42,11 +42,15 @@ class ReserveringenController extends AbstractController
      */
     protected $hulpaanbodDao;
 
-    public function __construct()
+    public function setContainer(\Psr\Container\ContainerInterface $container): ?\Psr\Container\ContainerInterface
     {
-        $this->dao = $this->get("IzBundle\Service\ReserveringDao");
-        $this->hulpvraagDao = $this->get("IzBundle\Service\HulpvraagDao");
-        $this->hulpaanbodDao = $this->get("IzBundle\Service\HulpaanbodDao");
+        $previous = parent::setContainer($container);
+
+        $this->dao = $container->get("IzBundle\Service\ReserveringDao");
+        $this->hulpvraagDao = $container->get("IzBundle\Service\HulpvraagDao");
+        $this->hulpaanbodDao = $container->get("IzBundle\Service\HulpaanbodDao");
+    
+        return $previous;
     }
 
     /**

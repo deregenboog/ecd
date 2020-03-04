@@ -59,14 +59,18 @@ class DashboardController extends SymfonyController
      */
     protected $koppelingenExport;
 
-    public function __construct()
+    public function setContainer(\Psr\Container\ContainerInterface $container): ?\Psr\Container\ContainerInterface
     {
-        $this->hulpvraagDao = $this->get("IzBundle\Service\HulpvraagDao");
-        $this->hulpaanbodDao = $this->get("IzBundle\Service\HulpaanbodDao");
-        $this->koppelingDao = $this->get("IzBundle\Service\KoppelingDao");
-        $this->hulpvragenExport = $this->get("iz.export.hulpvragen");
-        $this->hulpaanbiedingenExport = $this->get("iz.export.hulpaanbiedingen");
-        $this->koppelingenExport = $this->get("iz.export.koppelingen");
+        $previous = parent::setContainer($container);
+
+        $this->hulpvraagDao = $container->get("IzBundle\Service\HulpvraagDao");
+        $this->hulpaanbodDao = $container->get("IzBundle\Service\HulpaanbodDao");
+        $this->koppelingDao = $container->get("IzBundle\Service\KoppelingDao");
+        $this->hulpvragenExport = $container->get("iz.export.hulpvragen");
+        $this->hulpaanbiedingenExport = $container->get("iz.export.hulpaanbiedingen");
+        $this->koppelingenExport = $container->get("iz.export.koppelingen");
+
+        return $previous;
     }
 
     /**
