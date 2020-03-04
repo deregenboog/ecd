@@ -1,4 +1,4 @@
-{% extends '::add.html.twig' %}
+{% extends 'add.html.twig' %}
 {% import 'html.macro.twig' as html %}
 
 {% block title %}
@@ -61,7 +61,7 @@
         {% else %}
             {{ form_start(creationForm) }}
                 <h2>Basisgegevens</h2>
-                {% include 'AppBundle:vrijwilligers:_form.html.twig' with {form: creationForm.vrijwilliger} %}
+                {% include '@App/vrijwilligers/_form.html.twig' with {form: creationForm.vrijwilliger} %}
                 <h2>Informele Zorg</h2>
                 {{ form(creationForm) }}
             {{ form_end(creationForm) }}

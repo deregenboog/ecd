@@ -1,4 +1,4 @@
-{% extends '::base-2-col.html.twig' %}
+{% extends 'base-2-col.html.twig' %}
 {% import 'html.macro.twig' as html %}
 
 {% block title %}
@@ -53,16 +53,16 @@
     </ul>
     <div class="tab-content">
         <div id="trajecten" class="tab-pane active">
-            {% include 'DagbestedingBundle:trajecten:_list.html.twig' with {deelnemer: entity} %}
+            {% include '@Dagbesteding/trajecten/_list.html.twig' with {deelnemer: entity} %}
         </div>
         <div id="contactpersonen" class="tab-pane">
-            {% include 'DagbestedingBundle:contactpersonen:_list.html.twig' with {deelnemer: entity} %}
+            {% include '@Dagbesteding/contactpersonen/_list.html.twig' with {deelnemer: entity} %}
         </div>
         <div id="verslagen" class="tab-pane">
-            {% include 'DagbestedingBundle:verslagen:_list.html.twig' with {deelnemer: entity} %}
+            {% include '@Dagbesteding/verslagen/_list.html.twig' with {deelnemer: entity} %}
         </div>
         <div id="documenten" class="tab-pane">
-            {% include 'DagbestedingBundle:documenten:_list.html.twig' with {deelnemer: entity} %}
+            {% include '@Dagbesteding/documenten/_list.html.twig' with {deelnemer: entity} %}
         </div>
     </div>
 {% endblock %}

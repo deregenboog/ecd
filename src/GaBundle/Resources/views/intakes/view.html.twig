@@ -1,4 +1,4 @@
-{% extends 'GaBundle::view.html.twig' %}
+{% extends '@Ga/view.html.twig' %}
 {% import 'html.macro.twig' as html %}
 
 {% block content_top %}
@@ -10,7 +10,7 @@
 {% endblock %}
 
 {% block content_right %}
-    {% include 'GaBundle:klantdossiers:_tabs.html.twig' with {intake: entity, klant: entity.klant, current: 'intake'} %}
+    {% include '@Ga/klantdossiers/_tabs.html.twig' with {intake: entity, klant: entity.klant, current: 'intake'} %}
     <div class="tab-content">
         <div id="intakes" class="tab-pane active">
             <h2>Intake</h2>

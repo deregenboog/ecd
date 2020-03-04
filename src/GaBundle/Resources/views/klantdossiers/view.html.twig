@@ -1,4 +1,4 @@
-{% extends 'GaBundle::view.html.twig' %}
+{% extends '@Ga/view.html.twig' %}
 {% import 'html.macro.twig' as html %}
 
 {% block content_top %}
@@ -17,7 +17,7 @@
         </p>
     {% endif %}
     {% block tabs %}
-        {% include 'GaBundle:klantdossiers:_tabs.html.twig' with {current: 'intake'} %}
+        {% include '@Ga/klantdossiers/_tabs.html.twig' with {current: 'intake'} %}
     {% endblock %}
     {% block tab_content %}
         <div class="tab-content">

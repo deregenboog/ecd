@@ -79,7 +79,7 @@
 {% endblock %}
 
 {% block content_right %}
-    {% include 'AppBundle:klanten:_diensten.html.twig' %}
+    {% include '@App/klanten/_diensten.html.twig' %}
     <h2>ZRMs</h2>
     <p>
         {{ html.viewLink(path('app_zrms_index', {'zrm_filter[klant][id]': entity.id})) }}

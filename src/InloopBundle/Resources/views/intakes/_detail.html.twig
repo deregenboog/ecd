@@ -47,9 +47,9 @@
     <dd>{{ entity.legitimatieGeldigTot ? entity.legitimatieGeldigTot|date('d-m-Y') }}</dd>
 </dl>
 {% if entity.primaireProblematiek %}
-    {% include 'InloopBundle:intakes:_verslaving_v1.html.twig' %}
+    {% include '@Inloop/intakes/_verslaving_v1.html.twig' %}
 {% else %}
-    {% include 'InloopBundle:intakes:_verslaving_v2.html.twig' %}
+    {% include '@Inloop/intakes/_verslaving_v2.html.twig' %}
 {% endif %}
 <h2>Inkomen</h2>
 <dl class="dl-horizontal">
@@ -119,5 +119,5 @@
     <dd>{{ entity.hulpverlening ? 'Ja' : 'Nee' }}</dd>
 </dl>
 {% if entity.zrm %}
-    {% include 'AppBundle:zrms:_detail.html.twig' with {entity: entity.zrm} %}
+    {% include '@App/zrms/_detail.html.twig' with {entity: entity.zrm} %}
 {% endif %}

@@ -1,4 +1,4 @@
-{% extends '::base-2-col.html.twig' %}
+{% extends 'base-2-col.html.twig' %}
 {% import 'html.macro.twig' as html %}
 
 {% block title %}
@@ -49,5 +49,5 @@
 {% endblock %}
 
 {% block content_right %}
-    {% include 'OdpBundle:verslagen:_list.html.twig' with {huurverzoek: huurverzoek} %}
+    {% include '@Odp/verslagen/_list.html.twig' with {huurverzoek: huurverzoek} %}
 {% endblock %}

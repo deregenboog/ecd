@@ -95,22 +95,22 @@
         </ul>
         <div class="tab-content">
             <div id="dagdelen" class="tab-pane active">
-                {% include 'DagbestedingBundle:dagdelen:_list.html.twig' with {traject: entity} %}
+                {% include '@Dagbesteding/dagdelen/_list.html.twig' with {traject: entity} %}
             </div>
             <div id="rapportages" class="tab-pane">
-                {% include 'DagbestedingBundle:rapportages:_list.html.twig' with {traject: entity} %}
+                {% include '@Dagbesteding/rapportages/_list.html.twig' with {traject: entity} %}
             </div>
             <div id="contactpersonen" class="tab-pane">
-                {% include 'DagbestedingBundle:contactpersonen:_list.html.twig' with {deelnemer: entity.deelnemer} %}
+                {% include '@Dagbesteding/contactpersonen/_list.html.twig' with {deelnemer: entity.deelnemer} %}
             </div>
             <div id="verslagen" class="tab-pane">
-                {% include 'DagbestedingBundle:verslagen:_list.html.twig' with {traject: entity} %}
+                {% include '@Dagbesteding/verslagen/_list.html.twig' with {traject: entity} %}
             </div>
             <div id="documenten" class="tab-pane">
-                {% include 'DagbestedingBundle:documenten:_list.html.twig' with {traject: entity} %}
+                {% include '@Dagbesteding/documenten/_list.html.twig' with {traject: entity} %}
             </div>
         </div>
     {% else %}
-        {% include 'DagbestedingBundle:dagdelen:_list.html.twig' with {traject: entity} %}
+        {% include '@Dagbesteding/dagdelen/_list.html.twig' with {traject: entity} %}
     {% endif %}
 {% endblock %}

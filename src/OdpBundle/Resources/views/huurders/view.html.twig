@@ -1,4 +1,4 @@
-{% extends '::base-2-col.html.twig' %}
+{% extends 'base-2-col.html.twig' %}
 {% import 'html.macro.twig' as html %}
 
 {% block title %}
@@ -72,14 +72,14 @@
     </ul>
     <div class="tab-content">
         <div id="huurverzoeken" class="tab-pane active">
-            {% include 'OdpBundle:huurverzoeken:_list.html.twig' with {huurder: entity} %}
-            {% include 'OdpBundle:huurovereenkomsten:_list.html.twig' with {huurder: entity} %}
+            {% include '@Odp/huurverzoeken/_list.html.twig' with {huurder: entity} %}
+            {% include '@Odp/huurovereenkomsten/_list.html.twig' with {huurder: entity} %}
         </div>
         <div id="verslagen" class="tab-pane">
-            {% include 'OdpBundle:verslagen:_list.html.twig' with {huurder: entity} %}
+            {% include '@Odp/verslagen/_list.html.twig' with {huurder: entity} %}
         </div>
         <div id="documenten" class="tab-pane">
-            {% include 'OdpBundle:documenten:_list.html.twig' with {huurder: entity} %}
+            {% include '@Odp/documenten/_list.html.twig' with {huurder: entity} %}
         </div>
     </div>
 {% endblock %}

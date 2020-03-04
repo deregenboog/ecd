@@ -1,10 +1,10 @@
 {% if 'IzBundle\\Entity\\IzVrijwilliger' == class(parent_entity) %}
-    {% set base_template = 'IzBundle:vrijwilligers:view.html.twig' %}
+    {% set base_template = '@Iz/vrijwilligers/view.html.twig' %}
     {% set cancel_url = path('iz_vrijwilligers_view', {id: parent_entity.id}) %}
     {% set entity_name = 'Vrijwilliger' %}
     {% set entity = parent_entity %}
 {% elseif 'IzBundle\\Entity\\Intervisiegroep' == class(parent_entity) %}
-    {% set base_template = 'IzBundle:intervisiegroepen:view.html.twig' %}
+    {% set base_template = '@Iz/intervisiegroepen/view.html.twig' %}
     {% set cancel_url = path('iz_intervisiegroepen_view', {id: parent_entity.id}) %}
     {% set entity_name = 'Intervisiegroep' %}
     {% set entity = parent_entity %}
