@@ -1,0 +1,12 @@
+doctrine:
+    dbal:
+        url: null # reset url set in ../doctrine.yaml
+        driver: pdo_sqlite
+        path: '%kernel.cache_dir%/test.db'
+    orm:
+        dql:
+            datetime_functions:
+                hour: DoctrineExtensions\Query\Sqlite\Hour
+                minute: DoctrineExtensions\Query\Sqlite\Minute
+            string_functions:
+                concat_ws: DoctrineExtensions\Query\Sqlite\ConcatWs
