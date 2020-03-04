@@ -1,11 +1,11 @@
-{% extends 'IzBundle:intakes:view.html.twig' %}
+{% extends '@Iz/intakes/view.html.twig' %}
 {% import 'html.macro.twig' as html %}
 
 {% block content_right %}
     {% if 'IzBundle\\Entity\\IzKlant' == class(entity.izDeelnemer) %}
-        {% include 'IzBundle:klanten:_tabs.html.twig' with {klant: entity.izDeelnemer, current: 'intake'} %}
+        {% include '@Iz/klanten/_tabs.html.twig' with {klant: entity.izDeelnemer, current: 'intake'} %}
     {% else %}
-        {% include 'IzBundle:vrijwilligers:_tabs.html.twig' with {vrijwilliger: entity.izDeelnemer, current: 'intake'} %}
+        {% include '@Iz/vrijwilligers/_tabs.html.twig' with {vrijwilliger: entity.izDeelnemer, current: 'intake'} %}
     {% endif %}
     <div class="tab-content">
         <div id="intake" class="tab-pane active">

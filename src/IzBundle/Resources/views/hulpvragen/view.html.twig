@@ -1,4 +1,4 @@
-{% extends 'IzBundle::view.html.twig' %}
+{% extends '@Iz/view.html.twig' %}
 {% import 'html.macro.twig' as html %}
 
 {% block content_top %}
@@ -204,7 +204,7 @@
             {% endif %}
         </div>
         <div id="verslagen" class="tab-pane">
-            {% include 'IzBundle:verslagen:_list.html.twig' with {hulpvraag: entity} %}
+            {% include '@Iz/verslagen/_list.html.twig' with {hulpvraag: entity} %}
         </div>
     </div>
 {% endblock %}

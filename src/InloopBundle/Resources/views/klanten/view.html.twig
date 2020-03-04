@@ -1,4 +1,4 @@
-{% extends '::base-2-col.html.twig' %}
+{% extends 'base-2-col.html.twig' %}
 {% import 'html.macro.twig' as html %}
 
 {% block title %}
@@ -6,7 +6,7 @@
 {% endblock %}
 
 {% block subnavigation %}
-    {% include 'InloopBundle::subnavigation.html.twig' %}
+    {% include '@Inloop/subnavigation.html.twig' %}
 {% endblock %}
 
 {% block content_top %}
@@ -63,7 +63,7 @@
                         {{ html.link('Intake toevoegen', path('inloop_intakes_add', {klant: entity.id}), 'add') }}
                     {% endif %}
                 </p>
-                {% include 'InloopBundle:intakes:_detail.html.twig' with {entity: entity.laatsteIntake} %}
+                {% include '@Inloop/intakes/_detail.html.twig' with {entity: entity.laatsteIntake} %}
             {% else %}
                 {% if entity.huidigeStatus.aangemeld %}
                     {{ html.link('Intake toevoegen', path('inloop_intakes_add', {klant: entity.id}), 'add') }}

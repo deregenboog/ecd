@@ -1,8 +1,8 @@
-{% extends 'GaBundle:klantdossiers:view.html.twig' %}
+{% extends '@Ga/klantdossiers/view.html.twig' %}
 {% import 'html.macro.twig' as html %}
 
 {% block tabs %}
-    {% include 'GaBundle:klantdossiers:_tabs.html.twig' with {current: 'verslagen'} %}
+    {% include '@Ga/klantdossiers/_tabs.html.twig' with {current: 'verslagen'} %}
 {% endblock %}
 
 {% block tab_content %}

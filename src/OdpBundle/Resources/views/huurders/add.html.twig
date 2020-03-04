@@ -62,7 +62,7 @@
         {% else %}
             {{ form_start(creationForm) }}
             <h2>Basisgegevens</h2>
-            {% include 'AppBundle:klanten:_form.html.twig' with {form: creationForm.klant} %}
+            {% include '@App/klanten/_form.html.twig' with {form: creationForm.klant} %}
             <h2>Onder de pannen - Huurders</h2>
             {{ form(creationForm) }}
             {{ form_end(creationForm) }}

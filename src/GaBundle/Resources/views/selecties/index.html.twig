@@ -1,8 +1,8 @@
-{% extends 'GaBundle::index.html.twig' %}
+{% extends '@Ga/index.html.twig' %}
 
 {% block content %}
     {% if 'email' == action %}
-        {% include 'GaBundle:selecties:_email.html.twig' %}
+        {% include '@Ga/selecties/_email.html.twig' %}
     {% else %}
         {{ form_start(form) }}
             <h1>Selecties</h1>

@@ -1,8 +1,8 @@
-{% extends 'GaBundle:vrijwilligerdossiers:view.html.twig' %}
+{% extends '@Ga/vrijwilligerdossiers/view.html.twig' %}
 {% import 'html.macro.twig' as html %}
 
 {% block tabs %}
-    {% include 'GaBundle:vrijwilligerdossiers:_tabs.html.twig' with {current: 'groepen'} %}
+    {% include '@Ga/vrijwilligerdossiers/_tabs.html.twig' with {current: 'groepen'} %}
 {% endblock %}
 
 {% block tab_content %}

@@ -1,9 +1,9 @@
-{% extends 'IzBundle:vrijwilligers:view.html.twig' %}
+{% extends '@Iz/vrijwilligers/view.html.twig' %}
 
 {% set entity = parent_entity %}
 
 {% block content_right %}
-    {% include 'IzBundle:vrijwilligers:_tabs.html.twig' with {vrijwilliger: entity, current: 'koppelingen'} %}
+    {% include '@Iz/vrijwilligers/_tabs.html.twig' with {vrijwilliger: entity, current: 'koppelingen'} %}
     <div class="tab-content">
         <div id="koppelingen" class="tab-pane active">
         <h2>Hulpaanbod toevoegen</h2>

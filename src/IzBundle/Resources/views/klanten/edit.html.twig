@@ -1,8 +1,8 @@
-{% extends 'IzBundle:klanten:view.html.twig' %}
+{% extends '@Iz/klanten/view.html.twig' %}
 {% import 'html.macro.twig' as html %}
 
 {% block content_right %}
-    {% include 'IzBundle:klanten:_tabs.html.twig' with {klant: entity, current: 'aanmelding'} %}
+    {% include '@Iz/klanten/_tabs.html.twig' with {klant: entity, current: 'aanmelding'} %}
     <div class="tab-content">
         <div id="aanmelding" class="tab-pane active">
             <h2>Aanmelding wijzigen</h2>

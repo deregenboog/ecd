@@ -1,4 +1,4 @@
-{% extends '::base-2-col.html.twig' %}
+{% extends 'base-2-col.html.twig' %}
 {% import 'html.macro.twig' as html %}
 
 {% block title %}
@@ -72,16 +72,16 @@
     </ul>
     <div class="tab-content">
         <div id="verslagen" class="tab-pane active">
-            {% include 'OdpBundle:verslagen:_list.html.twig' with {huurovereenkomst: entity} %}
-            {% include 'OdpBundle:verslagen:_list.html.twig' with {huurverzoek: entity.huurverzoek, list_title: 'Verslagen huurverzoek'} %}
-            {% include 'OdpBundle:verslagen:_list.html.twig' with {huuraanbod: entity.huuraanbod, list_title: 'Verslagen huuraanbod'} %}
+            {% include '@Odp/verslagen/_list.html.twig' with {huurovereenkomst: entity} %}
+            {% include '@Odp/verslagen/_list.html.twig' with {huurverzoek: entity.huurverzoek, list_title: 'Verslagen huurverzoek'} %}
+            {% include '@Odp/verslagen/_list.html.twig' with {huuraanbod: entity.huuraanbod, list_title: 'Verslagen huuraanbod'} %}
         </div>
         <div id="documenten" class="tab-pane">
-            {% include 'OdpBundle:documenten:_list.html.twig' with {huurovereenkomst: entity} %}
+            {% include '@Odp/documenten/_list.html.twig' with {huurovereenkomst: entity} %}
         </div>
         <div id="financieel" class="tab-pane">
-            {% include 'OdpBundle:financiele_verslagen:_list.html.twig' with {huurovereenkomst: entity} %}
-            {% include 'OdpBundle:financiele_documenten:_list.html.twig' with {huurovereenkomst: entity} %}
+            {% include '@Odp/financiele_verslagen/_list.html.twig' with {huurovereenkomst: entity} %}
+            {% include '@Odp/financiele_documenten/_list.html.twig' with {huurovereenkomst: entity} %}
         </div>
     </div>
 {% endblock %}
