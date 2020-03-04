@@ -62,9 +62,6 @@
 # Node modules
 /app/webroot/node_modules
 
-# Environment-specific configuration
-/app/config/.env
-
 # PHPUnit
 phpunit
 /phpunit.xml

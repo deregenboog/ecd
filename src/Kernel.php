@@ -48,6 +48,14 @@ class Kernel extends BaseKernel
         $loader->load($confDir.'/{packages}/'.$this->environment.'/*'.self::CONFIG_EXTS, 'glob');
         $loader->load($confDir.'/{services}'.self::CONFIG_EXTS, 'glob');
         $loader->load($confDir.'/{services}_'.$this->environment.self::CONFIG_EXTS, 'glob');
+
+        if ('test' !== $this->environment) {
+            $profile = isset($_ENV['PROFILE']) ? $_ENV['PROFILE'] : null;
+            if (!$profile) {
+                throw new \RuntimeException('Environment variable "PROFILE" is not set! Use .env.local or your environment to set it.');
+            }
+            $loader->load($confDir.'/roles_'.$profile.'.yaml');
+        }
     }
 
     protected function configureRoutes(RouteCollectionBuilder $routes)
@@ -58,15 +66,4 @@ class Kernel extends BaseKernel
         $routes->import($confDir.'/{routes}/*'.self::CONFIG_EXTS, '/', 'glob');
         $routes->import($confDir.'/{routes}'.self::CONFIG_EXTS, '/', 'glob');
     }
-
-//     public function registerContainerConfiguration(LoaderInterface $loader)
-//     {
-// //         $loader->load($this->getRootDir().'/config/config_'.$this->getEnvironment().'.yaml');
-
-//         if ('test' !== $this->environment) {
-//             $confDir = $this->getProjectDir().'/config';
-//             $profile = $_ENV['PROFILE'];
-// //             $loader->load($confDir.'/packages/roles_'.$profile.'.yaml');
-//         }
-//     }
 }
