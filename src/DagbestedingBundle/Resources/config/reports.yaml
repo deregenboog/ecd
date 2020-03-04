@@ -4,6 +4,15 @@ services:
         tags:
             - { name: form.type }
 
+    dagbesteding.report.activering:
+        class: DagbestedingBundle\Report\Activering
+        public: true
+        arguments:
+            - "@doctrine.orm.entity_manager"
+            - "%kernel.root_dir%/config/activering_reports.sql"
+        tags:
+            - { name: dagbesteding.rapportage, category: Activering }
+
     dagbesteding.report.dagdelen_per_deelnemer:
         class: DagbestedingBundle\Report\DagdelenPerDeelnemer
         public: true

@@ -97,7 +97,9 @@ security:
             - CONTROLLER_APP_VRIJWILLIGERS
         ROLE_HOMESERVICE_BEHEER:
             - ROLE_HOMESERVICE
-        ROLE_ODP: []
+        ROLE_ODP:
+            - CONTROLLER_APP_KLANTEN
+            - CONTROLLER_APP_VRIJWILLIGERS
         ROLE_ODP_BEHEER:
             - ROLE_ODP
         ROLE_OEK: []
@@ -163,10 +165,19 @@ security:
             - CONTROLLER_MEDEWERKERS
             - ROLE_BUURTBOERDERIJ
             - ROLE_SECRETARIAAT
+            - ROLE_PROGRAMMACOORDINATOR
+            - ROLE_MANAGEMENT
         CONTROLLER_APP_KLANTEN:
             - CONTROLLER_APP_DOCUMENTEN
         CONTROLLER_APP_VRIJWILLIGERS:
             - CONTROLLER_APP_DOCUMENTEN
+        ROLE_PROGRAMMACOORDINATORA:
+            - ROLE_PROGRAMMACOORDINATOR
+        ROLE_PROGRAMMACOORDINATORB:
+            - ROLE_PROGRAMMACOORDINATOR
+        ROLE_MANAGEMENT: []
+        ROLE_SECRETARIAAT: []
+
 
 ldap_tools:
     security:
@@ -209,5 +220,7 @@ ldap_tools:
             ROLE_SECRETARIAAT: "CN=ECD Secretariaat,CN=Users,DC=cluster,DC=deregenboog"
             ROLE_MANAGEMENT: "CN=ECD Management,CN=Users,DC=cluster,DC=deregenboog"
             ROLE_PROGRAMMACOORDINATOR: "CN=ECD Programmacoordinator,CN=Users,DC=cluster,DC=deregenboog"
+            ROLE_PROGRAMMACOORDINATORA: "CN=ECD Programmacoördinator,CN=Users,DC=cluster,DC=deregenboog"
+            ROLE_PROGRAMMACOORDINATORB: "CN=ECD Programma Co\u00f6rdinator,CN=Users,DC=cluster,DC=deregenboog"
             ROLE_UHK: "CN=ECD Uit het Krijt,CN=Users,DC=cluster,DC=deregenboog"
             ROLE_UHK_BEHEER: "CN=ECD Uit het Krijt Beheer,CN=Users,DC=cluster,DC=deregenboog"
