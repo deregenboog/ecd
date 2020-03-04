@@ -1,0 +1,4 @@
+fidry_alice_data_fixtures:
+    default_purge_mode: truncate # default is "delete" but you can change it to "truncate" or "no_purge"
+    db_drivers:
+        doctrine_orm: ~
