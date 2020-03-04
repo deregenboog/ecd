@@ -1,0 +1,65 @@
+doctrine:
+    dbal:
+        url: '%env(resolve:DATABASE_URL)%'
+
+        # IMPORTANT: You MUST configure your server version,
+        # either here or in the DATABASE_URL env var (see .env file)
+        #server_version: '5.7'
+
+        # only needed for MySQL
+        charset: utf8
+        default_table_options:
+            charset: utf8
+            collate: utf8_general_ci
+        types:
+            mysql_date: AppBundle\Doctrine\MysqlDateType
+            mysql_time: AppBundle\Doctrine\MysqlTimeType
+    orm:
+        auto_generate_proxy_classes: "%kernel.debug%"
+#        naming_strategy: doctrine.orm.naming_strategy.underscore
+        auto_mapping: true
+        mappings:
+            App:
+                is_bundle: false
+                type: annotation
+                dir: '%kernel.project_dir%/src/Entity'
+                prefix: 'App\Entity'
+                alias: App
+            gedmo_loggable:
+                type: annotation
+                prefix: Gedmo\Loggable\Entity
+                dir: "%kernel.root_dir%/../vendor/gedmo/doctrine-extensions/lib/Gedmo/Loggable/Entity"
+                is_bundle: false
+                alias: GedmoLoggable # (optional) it will default to the name set for the mapping
+        dql:
+            datetime_functions:
+                date: Luxifer\DQL\Datetime\Date
+                datediff: DoctrineExtensions\Query\Mysql\DateDiff
+                date_format: Luxifer\DQL\Datetime\DateFormat
+                hour: DoctrineExtensions\Query\Mysql\Hour
+                ifnull: DoctrineExtensions\Query\Mysql\IfNull
+                minute: DoctrineExtensions\Query\Mysql\Minute
+                now: DoctrineExtensions\Query\Mysql\Now
+                time: Luxifer\DQL\Datetime\Time
+                time_diff: DoctrineExtensions\Query\Mysql\TimeDiff
+                time_to_sec: DoctrineExtensions\Query\Mysql\TimeToSec
+                year: Luxifer\DQL\Datetime\Year
+            string_functions:
+                concat_ws: Luxifer\DQL\String\ConcatWs
+                replace: DoctrineExtensions\Query\Mysql\Replace
+        filters:
+            softdeleteable:
+                class: Gedmo\SoftDeleteable\Filter\SoftDeleteableFilter
+                enabled: true
+            disabled:
+                class: AppBundle\Doctrine\DisabledFilter
+                enabled: true
+            zichtbaar:
+                class: AppBundle\Doctrine\ZichtbaarFilter
+                enabled: true
+            foutieve_invoer:
+                class: IzBundle\Doctrine\FoutieveInvoerFilter
+                enabled: true
+            overleden:
+                class: AppBundle\Doctrine\OverledenFilter
+                enabled: false

@@ -1,0 +1,3 @@
+shivas_versioning:
+    version_parameter: application_version
+    version_file: version.yaml
