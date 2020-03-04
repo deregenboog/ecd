@@ -74,20 +74,9 @@ class RegistratiesController extends AbstractController
         $this->locatieDao = $container->get("InloopBundle\Service\LocatieDao");
         $this->schorsingDao = $container->get("InloopBundle\Service\SchorsingDao");
         $this->export = $container->get("inloop.export.registraties");
-    
+
         return $previous;
     }
-
-    /**
-     * @var array TBC_Countries from config.
-     */
-    protected $tbc_countries;
-
-//    public function __construct(Array $tbc_countries)
-//    {
-//
-//       $this->tbc_countries = $tbc_countries;
-//    }
 
     /**
      * @Route("/")
@@ -337,12 +326,11 @@ class RegistratiesController extends AbstractController
                     $sep = $separator;
                 }
             }
+
             $tbc_countries = $this->container->getParameter('tbc_countries');
-
-
-            if( in_array($klant->getLand()->getNaam(),$tbc_countries)
+            if( in_array($klant->getLand()->getNaam(), $tbc_countries)
                 && $klant->getLaatsteTbcControle() == null
-            ){
+            ) {
                 $jsonVar['message'] .= $sep.'Let op: deze persoon komt uit een risico land en heeft een TBC-check nodig. Toch inchecken?';
                 $jsonVar['confirm'] = true;
                 $sep = $separator;
