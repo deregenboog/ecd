@@ -31,9 +31,13 @@ class LidmaatschappenController extends AbstractChildController
      */
     protected $entities;
 
-    public function __construct()
+    public function setContainer(\Psr\Container\ContainerInterface $container): ?\Psr\Container\ContainerInterface
     {
-        $this->dao = $this->get("IzBundle\Service\LidmaatschapDao");
-        $this->entities = $this->get("iz.lidmaatschap.entities");
+        $previous = parent::setContainer($container);
+
+        $this->dao = $container->get("IzBundle\Service\LidmaatschapDao");
+        $this->entities = $container->get("iz.lidmaatschap.entities");
+    
+        return $previous;
     }
 }

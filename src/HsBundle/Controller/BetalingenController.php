@@ -41,11 +41,15 @@ class BetalingenController extends AbstractChildController
      */
     protected $export;
 
-    public function __construct()
+    public function setContainer(\Psr\Container\ContainerInterface $container): ?\Psr\Container\ContainerInterface
     {
-        $this->dao = $this->get("HsBundle\Service\BetalingDao");
-        $this->entities = $this->get("hs.betaling.entities");
-        $this->export = $this->get("hs.export.betaling");
+        $previous = parent::setContainer($container);
+
+        $this->dao = $container->get("HsBundle\Service\BetalingDao");
+        $this->entities = $container->get("hs.betaling.entities");
+        $this->export = $container->get("hs.export.betaling");
+    
+        return $previous;
     }
 
     /**

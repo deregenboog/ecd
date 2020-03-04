@@ -29,11 +29,11 @@ class CommunicatiekanalenController extends AbstractController
 
     public function setContainer(\Psr\Container\ContainerInterface $container): ?\Psr\Container\ContainerInterface
     {
-        parent::setContainer($container);
+        $previous = parent::setContainer($container);
 
-        $this->dao = $this->get("ClipBundle\Service\CommunicatiekanaalDao");
+        $this->dao = $container->get("ClipBundle\Service\CommunicatiekanaalDao");
     
-        return $container;
+        return $previous;
     }
 
     /**

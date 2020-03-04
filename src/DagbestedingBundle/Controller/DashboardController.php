@@ -36,12 +36,12 @@ class DashboardController extends SymfonyController
 
     public function setContainer(\Psr\Container\ContainerInterface $container): ?\Psr\Container\ContainerInterface
     {
-        parent::setContainer($container);
+        $previous = parent::setContainer($container);
 
-        $this->trajectDao = $this->get("DagbestedingBundle\Service\TrajectDao");
-        $this->trajectenExport = $this->get("dagbesteding.export.trajecten");
+        $this->trajectDao = $container->get("DagbestedingBundle\Service\TrajectDao");
+        $this->trajectenExport = $container->get("dagbesteding.export.trajecten");
     
-        return $container;
+        return $previous;
     }
 
     /**

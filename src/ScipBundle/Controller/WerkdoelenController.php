@@ -31,9 +31,13 @@ class WerkdoelenController extends AbstractChildController
      */
     protected $entities;
 
-    public function __construct()
+    public function setContainer(\Psr\Container\ContainerInterface $container): ?\Psr\Container\ContainerInterface
     {
-        $this->dao = $this->get("ScipBundle\Service\WerkdoelDao");
-        $this->entities = $this->get("scip.werkdoel.entities");
+        $previous = parent::setContainer($container);
+
+        $this->dao = $container->get("ScipBundle\Service\WerkdoelDao");
+        $this->entities = $container->get("scip.werkdoel.entities");
+    
+        return $previous;
     }
 }

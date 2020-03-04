@@ -32,9 +32,13 @@ class LocatietijdenController extends AbstractChildController
      */
     protected $entities;
 
-    public function __construct()
+    public function setContainer(\Psr\Container\ContainerInterface $container): ?\Psr\Container\ContainerInterface
     {
-        $this->dao = $this->get("InloopBundle\Service\LocatietijdDao");
-        $this->entities = $this->get("inloop.locatietijd.entities");
+        $previous = parent::setContainer($container);
+
+        $this->dao = $container->get("InloopBundle\Service\LocatietijdDao");
+        $this->entities = $container->get("inloop.locatietijd.entities");
+    
+        return $previous;
     }
 }

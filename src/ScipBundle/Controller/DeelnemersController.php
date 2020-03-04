@@ -40,10 +40,14 @@ class DeelnemersController extends AbstractController
      */
     protected $klantDao;
 
-    public function __construct()
+    public function setContainer(\Psr\Container\ContainerInterface $container): ?\Psr\Container\ContainerInterface
     {
-        $this->dao = $this->get("ScipBundle\Service\DeelnemerDao");
-        $this->klantDao = $this->get("AppBundle\Service\KlantDao");
+        $previous = parent::setContainer($container);
+
+        $this->dao = $container->get("ScipBundle\Service\DeelnemerDao");
+        $this->klantDao = $container->get("AppBundle\Service\KlantDao");
+    
+        return $previous;
     }
 
     /**

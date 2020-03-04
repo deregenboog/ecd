@@ -35,10 +35,14 @@ class KlantenController extends AbstractController
      */
     protected $export;
 
-    public function __construct()
+    public function setContainer(\Psr\Container\ContainerInterface $container): ?\Psr\Container\ContainerInterface
     {
-        $this->dao = $this->get("HsBundle\Service\KlantDao");
-        $this->export = $this->get("hs.export.klant");
+        $previous = parent::setContainer($container);
+
+        $this->dao = $container->get("HsBundle\Service\KlantDao");
+        $this->export = $container->get("hs.export.klant");
+    
+        return $previous;
     }
 
     /**

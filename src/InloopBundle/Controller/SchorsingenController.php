@@ -42,10 +42,14 @@ class SchorsingenController extends AbstractController
      */
     protected $export;
 
-    public function __construct()
+    public function setContainer(\Psr\Container\ContainerInterface $container): ?\Psr\Container\ContainerInterface
     {
-        $this->dao = $this->get("InloopBundle\Service\SchorsingDao");
-        $this->export = $this->get("inloop.export.schorsing");
+        $previous = parent::setContainer($container);
+
+        $this->dao = $container->get("InloopBundle\Service\SchorsingDao");
+        $this->export = $container->get("inloop.export.schorsing");
+    
+        return $previous;
     }
 
     /**

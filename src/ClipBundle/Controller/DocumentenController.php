@@ -32,12 +32,12 @@ class DocumentenController extends AbstractChildController
 
     public function setContainer(\Psr\Container\ContainerInterface $container): ?\Psr\Container\ContainerInterface
     {
-        parent::setContainer($container);
+        $previous = parent::setContainer($container);
 
-        $this->dao = $this->get("ClipBundle\Service\DocumentDao");
-        $this->entities = $this->get("clip.document.entities");
+        $this->dao = $container->get("ClipBundle\Service\DocumentDao");
+        $this->entities = $container->get("clip.document.entities");
     
-        return $container;
+        return $previous;
     }
 
     /**

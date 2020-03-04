@@ -26,8 +26,12 @@ class LocatiesController extends AbstractController
      */
     protected $dao;
 
-    public function __construct()
+    public function setContainer(\Psr\Container\ContainerInterface $container): ?\Psr\Container\ContainerInterface
     {
-        $this->dao = $this->get("InloopBundle\Service\LocatieDao");
+        $previous = parent::setContainer($container);
+
+        $this->dao = $container->get("InloopBundle\Service\LocatieDao");
+    
+        return $previous;
     }
 }

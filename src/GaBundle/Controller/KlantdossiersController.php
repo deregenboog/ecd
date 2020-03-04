@@ -47,13 +47,13 @@ class KlantdossiersController extends DossiersController
 
     public function setContainer(\Psr\Container\ContainerInterface $container): ?\Psr\Container\ContainerInterface
     {
-        parent::setContainer($container);
+        $previous = parent::setContainer($container);
 
-        $this->dao = $this->get("GaBundle\Service\KlantdossierDao");
-        $this->export = $this->get("ga.export.klantdossiers");
-        $this->klantDao = $this->get("AppBundle\Service\KlantDao");
+        $this->dao = $container->get("GaBundle\Service\KlantdossierDao");
+        $this->export = $container->get("ga.export.klantdossiers");
+        $this->klantDao = $container->get("AppBundle\Service\KlantDao");
     
-        return $container;
+        return $previous;
     }
 
     /**
@@ -139,7 +139,7 @@ class KlantdossiersController extends DossiersController
 
         $event = new DienstenLookupEvent($entity->getKlant()->getId());
         if ($event->getKlantId()) {
-            $this->get('event_dispatcher')->dispatch(Events::DIENSTEN_LOOKUP, $event);
+            $this->get('event_dispatcher')->dispatch($event, Events::DIENSTEN_LOOKUP);
         }
 
         return [

@@ -44,13 +44,13 @@ class DeelnamesController extends AbstractChildController
 
     public function setContainer(\Psr\Container\ContainerInterface $container): ?\Psr\Container\ContainerInterface
     {
-        parent::setContainer($container);
+        $previous = parent::setContainer($container);
 
-        $this->dao = $this->get("GaBundle\Service\DeelnameDao");
-        $this->activiteitDao = $this->get("GaBundle\Service\ActiviteitDao");
-        $this->entities = $this->get("ga.deelname.entities");
+        $this->dao = $container->get("GaBundle\Service\DeelnameDao");
+        $this->activiteitDao = $container->get("GaBundle\Service\ActiviteitDao");
+        $this->entities = $container->get("ga.deelname.entities");
     
-        return $container;
+        return $previous;
     }
 
     /**

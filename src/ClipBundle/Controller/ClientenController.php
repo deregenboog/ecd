@@ -37,11 +37,11 @@ class ClientenController extends AbstractController
 
     public function setContainer(\Psr\Container\ContainerInterface $container): ?\Psr\Container\ContainerInterface
     {
-        parent::setContainer($container);
+        $previous = parent::setContainer($container);
 
-        $this->dao = $this->get("ClipBundle\Service\ClientDao");
-        $this->export = $this->get("clip.export.clienten");
+        $this->dao = $container->get("ClipBundle\Service\ClientDao");
+        $this->export = $container->get("clip.export.clienten");
     
-        return $container;
+        return $previous;
     }
 }

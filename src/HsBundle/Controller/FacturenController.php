@@ -64,13 +64,17 @@ class FacturenController extends AbstractChildController
      */
     private $factory;
 
-    public function __construct()
+    public function setContainer(\Psr\Container\ContainerInterface $container): ?\Psr\Container\ContainerInterface
     {
-        $this->dao = $this->get("HsBundle\Service\FactuurDao");
-        $this->entities = $this->get("hs.factuur.entities");
-        $this->export = $this->get("hs.export.factuur");
-        $this->klantDao = $this->get("HsBundle\Service\KlantDao");
-        $this->factory = $this->get("hs.factory.factuur");
+        $previous = parent::setContainer($container);
+
+        $this->dao = $container->get("HsBundle\Service\FactuurDao");
+        $this->entities = $container->get("hs.factuur.entities");
+        $this->export = $container->get("hs.export.factuur");
+        $this->klantDao = $container->get("HsBundle\Service\KlantDao");
+        $this->factory = $container->get("hs.factory.factuur");
+    
+        return $previous;
     }
 
     /**

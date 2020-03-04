@@ -26,10 +26,10 @@ class UitschrijfredenenController extends AbstractController
 
     public function setContainer(\Psr\Container\ContainerInterface $container): ?\Psr\Container\ContainerInterface
     {
-        parent::setContainer($container);
+        $previous = parent::setContainer($container);
 
-        $this->dao = $this->get("ErOpUitBundle\Service\UitschrijfredenDao");
+        $this->dao = $container->get("ErOpUitBundle\Service\UitschrijfredenDao");
     
-        return $container;
+        return $previous;
     }
 }

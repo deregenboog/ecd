@@ -47,13 +47,13 @@ class KlantenController extends AbstractController
 
     public function setContainer(\Psr\Container\ContainerInterface $container): ?\Psr\Container\ContainerInterface
     {
-        parent::setContainer($container);
+        $previous = parent::setContainer($container);
 
-        $this->dao = $this->get("ErOpUitBundle\Service\KlantDao");
-        $this->export = $this->get("eropuit.export.klanten");
-        $this->klantDao = $this->get("AppBundle\Service\KlantDao");
+        $this->dao = $container->get("ErOpUitBundle\Service\KlantDao");
+        $this->export = $container->get("eropuit.export.klanten");
+        $this->klantDao = $container->get("AppBundle\Service\KlantDao");
     
-        return $container;
+        return $previous;
     }
 
     /**

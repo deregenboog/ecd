@@ -25,8 +25,12 @@ class VerwijzingenDoorController extends AbstractController
      */
     protected $dao;
 
-    public function __construct()
+    public function setContainer(\Psr\Container\ContainerInterface $container): ?\Psr\Container\ContainerInterface
     {
-        $this->dao = $this->get("OekBundle\Service\VerwijzingDoorDao");
+        $previous = parent::setContainer($container);
+
+        $this->dao = $container->get("OekBundle\Service\VerwijzingDoorDao");
+    
+        return $previous;
     }
 }

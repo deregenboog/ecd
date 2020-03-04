@@ -47,13 +47,13 @@ class VrijwilligersController extends AbstractController
 
     public function setContainer(\Psr\Container\ContainerInterface $container): ?\Psr\Container\ContainerInterface
     {
-        parent::setContainer($container);
+        $previous = parent::setContainer($container);
 
-        $this->dao = $this->get("ErOpUitBundle\Service\VrijwilligerDao");
-        $this->export = $this->get("eropuit.export.vrijwilligers");
-        $this->vrijwilligerDao = $this->get("AppBundle\Service\VrijwilligerDao");
+        $this->dao = $container->get("ErOpUitBundle\Service\VrijwilligerDao");
+        $this->export = $container->get("eropuit.export.vrijwilligers");
+        $this->vrijwilligerDao = $container->get("AppBundle\Service\VrijwilligerDao");
     
-        return $container;
+        return $previous;
     }
 
     /**

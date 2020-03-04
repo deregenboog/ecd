@@ -23,9 +23,13 @@ class WoningbouwcorporatiesController extends SymfonyController
      */
     private $woningbouwcorporatieDao;
 
-    public function __construct()
+    public function setContainer(\Psr\Container\ContainerInterface $container): ?\Psr\Container\ContainerInterface
     {
-        $this->woningbouwcorporatieDao = $this->get("OdpBundle\Service\WoningbouwcorporatieDao");
+        $previous = parent::setContainer($container);
+
+        $this->woningbouwcorporatieDao = $container->get("OdpBundle\Service\WoningbouwcorporatieDao");
+    
+        return $previous;
     }
 
     /**

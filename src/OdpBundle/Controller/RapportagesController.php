@@ -21,8 +21,12 @@ class RapportagesController extends AbstractRapportagesController
      */
     protected $export;
 
-    public function __construct()
+    public function setContainer(\Psr\Container\ContainerInterface $container): ?\Psr\Container\ContainerInterface
     {
-        $this->export = $this->get("odp.export.report");
+        $previous = parent::setContainer($container);
+
+        $this->export = $container->get("odp.export.report");
+    
+        return $previous;
     }
 }

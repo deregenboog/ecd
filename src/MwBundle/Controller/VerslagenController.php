@@ -45,11 +45,15 @@ class VerslagenController extends AbstractController
      */
     protected $export;
 
-    public function __construct()
+    public function setContainer(\Psr\Container\ContainerInterface $container): ?\Psr\Container\ContainerInterface
     {
-        $this->dao = $this->get("InloopBundle\Service\VerslagDao");
-        $this->inventarisatieDao = $this->get("MwBundle\Service\InventarisatieDao");
-        $this->export = $this->get("mw.export.klanten");
+        $previous = parent::setContainer($container);
+
+        $this->dao = $container->get("InloopBundle\Service\VerslagDao");
+        $this->inventarisatieDao = $container->get("MwBundle\Service\InventarisatieDao");
+        $this->export = $container->get("mw.export.klanten");
+    
+        return $previous;
     }
 
     /**
@@ -79,7 +83,7 @@ class VerslagenController extends AbstractController
 
         $event = new DienstenLookupEvent($entity->getKlant()->getId());
         if ($event->getKlantId()) {
-            $this->get('event_dispatcher')->dispatch(Events::DIENSTEN_LOOKUP, $event);
+            $this->get('event_dispatcher')->dispatch($event, Events::DIENSTEN_LOOKUP);
         }
 
         return [

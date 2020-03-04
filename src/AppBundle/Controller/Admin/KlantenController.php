@@ -30,11 +30,11 @@ class KlantenController extends AbstractController
 
     public function setContainer(\Psr\Container\ContainerInterface $container): ?\Psr\Container\ContainerInterface
     {
-        parent::setContainer($container);
+        $previous = parent::setContainer($container);
 
-        $this->dao = $this->get("AppBundle\Service\KlantDao");
+        $this->dao = $container->get("AppBundle\Service\KlantDao");
     
-        return $container;
+        return $previous;
     }
 
     /**

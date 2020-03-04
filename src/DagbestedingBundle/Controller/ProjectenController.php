@@ -28,11 +28,11 @@ class ProjectenController extends AbstractController
 
     public function setContainer(\Psr\Container\ContainerInterface $container): ?\Psr\Container\ContainerInterface
     {
-        parent::setContainer($container);
+        $previous = parent::setContainer($container);
 
-        $this->dao = $this->get("DagbestedingBundle\Service\ProjectDao");
+        $this->dao = $container->get("DagbestedingBundle\Service\ProjectDao");
     
-        return $container;
+        return $previous;
     }
 
     /**

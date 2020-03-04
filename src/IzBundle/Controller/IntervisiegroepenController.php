@@ -36,10 +36,14 @@ class IntervisiegroepenController extends AbstractController
      */
     protected $export;
 
-    public function __construct()
+    public function setContainer(\Psr\Container\ContainerInterface $container): ?\Psr\Container\ContainerInterface
     {
-        $this->dao = $this->get("IzBundle\Service\IntervisiegroepDao");
-        $this->export = $this->get("iz.export.intervisiegroepen");
+        $previous = parent::setContainer($container);
+
+        $this->dao = $container->get("IzBundle\Service\IntervisiegroepDao");
+        $this->export = $container->get("iz.export.intervisiegroepen");
+    
+        return $previous;
     }
 
     /**
@@ -108,7 +112,7 @@ class IntervisiegroepenController extends AbstractController
 
         $filename = sprintf('selecties_%s.xlsx', date('Ymd_His'));
 
-        return $this->get('iz.export.vrijwilligers')
+        return $container->get('iz.export.vrijwilligers')
             ->create($entity->getVrijwilligers())
             ->getResponse($filename)
         ;

@@ -34,9 +34,13 @@ class DeelnamesController extends AbstractChildController
      */
     protected $entities;
 
-    public function __construct()
+    public function setContainer(\Psr\Container\ContainerInterface $container): ?\Psr\Container\ContainerInterface
     {
-        $this->dao = $this->get("InloopBundle\Service\DeelnameDao");
-        $this->entities = $this->get("inloop.deelname.entities");
+        $previous = parent::setContainer($container);
+
+        $this->dao = $container->get("InloopBundle\Service\DeelnameDao");
+        $this->entities = $container->get("inloop.deelname.entities");
+    
+        return $previous;
     }
 }

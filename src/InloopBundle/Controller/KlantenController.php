@@ -50,10 +50,14 @@ class KlantenController extends AbstractController
      */
     protected $klantDao;
 
-    public function __construct()
+    public function setContainer(\Psr\Container\ContainerInterface $container): ?\Psr\Container\ContainerInterface
     {
-        $this->dao = $this->get("InloopBundle\Service\KlantDao");
-        $this->klantDao = $this->get("AppBundle\Service\KlantDao");
+        $previous = parent::setContainer($container);
+
+        $this->dao = $container->get("InloopBundle\Service\KlantDao");
+        $this->klantDao = $container->get("AppBundle\Service\KlantDao");
+    
+        return $previous;
     }
 
     /**

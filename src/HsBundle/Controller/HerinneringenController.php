@@ -35,10 +35,14 @@ class HerinneringenController extends AbstractChildController
      */
     protected $entities;
 
-    public function __construct()
+    public function setContainer(\Psr\Container\ContainerInterface $container): ?\Psr\Container\ContainerInterface
     {
-        $this->dao = $this->get("HsBundle\Service\HerinneringDao");
-        $this->entities = $this->get("hs.herinnering.entities");
+        $previous = parent::setContainer($container);
+
+        $this->dao = $container->get("HsBundle\Service\HerinneringDao");
+        $this->entities = $container->get("hs.herinnering.entities");
+    
+        return $previous;
     }
 
     /**

@@ -27,11 +27,11 @@ class TrajectsoortenController extends AbstractController
 
     public function setContainer(\Psr\Container\ContainerInterface $container): ?\Psr\Container\ContainerInterface
     {
-        parent::setContainer($container);
+        $previous = parent::setContainer($container);
 
-        $this->dao = $this->get("DagbestedingBundle\Service\TrajectsoortDao");
+        $this->dao = $container->get("DagbestedingBundle\Service\TrajectsoortDao");
     
-        return $container;
+        return $previous;
     }
 
     /**

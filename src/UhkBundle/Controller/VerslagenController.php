@@ -31,9 +31,13 @@ class VerslagenController extends AbstractChildController
      */
     protected $entities;
 
-    public function __construct()
+    public function setContainer(\Psr\Container\ContainerInterface $container): ?\Psr\Container\ContainerInterface
     {
-        $this->dao = $this->get("UhkBundle\Service\VerslagDao");
-        $this->entities = $this->get("uhk.verslag.entities");
+        $previous = parent::setContainer($container);
+
+        $this->dao = $container->get("UhkBundle\Service\VerslagDao");
+        $this->entities = $container->get("uhk.verslag.entities");
+    
+        return $previous;
     }
 }

@@ -4,7 +4,7 @@ namespace OdpBundle\Controller;
 
 use AppBundle\Controller\SymfonyController;
 use AppBundle\Form\ConfirmationType;
-use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use OdpBundle\Entity\Document;
 use OdpBundle\Entity\Huurder;
 use OdpBundle\Entity\Huurovereenkomst;
@@ -29,9 +29,13 @@ class DocumentenController extends SymfonyController
      */
     private $dao;
 
-    public function __construct()
+    public function setContainer(\Psr\Container\ContainerInterface $container): ?\Psr\Container\ContainerInterface
     {
-        $this->dao = $this->get("OdpBundle\Service\DocumentDao");
+        $previous = parent::setContainer($container);
+
+        $this->dao = $container->get("OdpBundle\Service\DocumentDao");
+    
+        return $previous;
     }
 
     /**
@@ -131,7 +135,7 @@ class DocumentenController extends SymfonyController
         ];
     }
 
-    private function findEntity(EntityManager $entityManager)
+    private function findEntity(EntityManagerInterface $entityManager)
     {
         switch (true) {
             case $this->getRequest()->query->has('huurder'):

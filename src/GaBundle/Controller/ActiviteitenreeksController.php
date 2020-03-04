@@ -37,12 +37,12 @@ class ActiviteitenreeksController extends AbstractChildController
 
     public function setContainer(\Psr\Container\ContainerInterface $container): ?\Psr\Container\ContainerInterface
     {
-        parent::setContainer($container);
+        $previous = parent::setContainer($container);
 
-        $this->dao = $this->get("GaBundle\Service\ActiviteitDao");
-        $this->entities = $this->get("ga.activiteit.entities");
+        $this->dao = $container->get("GaBundle\Service\ActiviteitDao");
+        $this->entities = $container->get("ga.activiteit.entities");
     
-        return $container;
+        return $previous;
     }
 
     /**

@@ -32,10 +32,14 @@ class WachtlijstController extends AbstractController
      */
     protected $export;
 
-    public function __construct()
+    public function setContainer(\Psr\Container\ContainerInterface $container): ?\Psr\Container\ContainerInterface
     {
-        $this->dao = $this->get("OekBundle\Service\DeelnemerDao");
-        $this->export = $this->get("oek.export.wachtlijst");
+        $previous = parent::setContainer($container);
+
+        $this->dao = $container->get("OekBundle\Service\DeelnemerDao");
+        $this->export = $container->get("oek.export.wachtlijst");
+    
+        return $previous;
     }
 
     /**

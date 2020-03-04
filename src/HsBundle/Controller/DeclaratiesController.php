@@ -5,7 +5,7 @@ namespace HsBundle\Controller;
 use AppBundle\Controller\AbstractChildController;
 use AppBundle\Exception\AppException;
 use AppBundle\Form\Model\AppDateRangeModel;
-use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use HsBundle\Entity\Arbeider;
 use HsBundle\Entity\Creditfactuur;
 use HsBundle\Entity\Declaratie;
@@ -44,10 +44,14 @@ class DeclaratiesController extends AbstractChildController
      */
     protected $entities;
 
-    public function __construct()
+    public function setContainer(\Psr\Container\ContainerInterface $container): ?\Psr\Container\ContainerInterface
     {
-        $this->dao = $this->get("HsBundle\Service\DeclaratieDao");
-        $this->entities = $this->get("hs.declaratie.entities");
+        $previous = parent::setContainer($container);
+
+        $this->dao = $container->get("HsBundle\Service\DeclaratieDao");
+        $this->entities = $container->get("hs.declaratie.entities");
+    
+        return $previous;
     }
 
     /**

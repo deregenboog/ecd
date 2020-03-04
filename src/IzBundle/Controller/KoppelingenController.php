@@ -54,12 +54,16 @@ class KoppelingenController extends AbstractController
      */
     protected $export;
 
-    public function __construct()
+    public function setContainer(\Psr\Container\ContainerInterface $container): ?\Psr\Container\ContainerInterface
     {
-        $this->dao = $this->get("IzBundle\Service\KoppelingDao");
-        $this->hulpvraagDao = $this->get("IzBundle\Service\HulpvraagDao");
-        $this->hulpaanbodDao = $this->get("IzBundle\Service\HulpaanbodDao");
-        $this->export = $this->get("iz.export.koppelingen");
+        $previous = parent::setContainer($container);
+
+        $this->dao = $container->get("IzBundle\Service\KoppelingDao");
+        $this->hulpvraagDao = $container->get("IzBundle\Service\HulpvraagDao");
+        $this->hulpaanbodDao = $container->get("IzBundle\Service\HulpaanbodDao");
+        $this->export = $container->get("iz.export.koppelingen");
+
+        return $previous;
     }
 
     /**

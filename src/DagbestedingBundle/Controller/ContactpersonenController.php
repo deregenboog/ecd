@@ -32,11 +32,11 @@ class ContactpersonenController extends AbstractChildController
 
     public function setContainer(\Psr\Container\ContainerInterface $container): ?\Psr\Container\ContainerInterface
     {
-        parent::setContainer($container);
+        $previous = parent::setContainer($container);
 
-        $this->dao = $this->get("DagbestedingBundle\Service\ContactpersoonDao");
-        $this->entities = $this->get("dagbesteding.contactpersoon.entities");
+        $this->dao = $container->get("DagbestedingBundle\Service\ContactpersoonDao");
+        $this->entities = $container->get("dagbesteding.contactpersoon.entities");
     
-        return $container;
+        return $previous;
     }
 }

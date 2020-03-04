@@ -33,10 +33,14 @@ class EindevaluatiesController extends AbstractChildController
      */
     protected $entities;
 
-    public function __construct()
+    public function setContainer(\Psr\Container\ContainerInterface $container): ?\Psr\Container\ContainerInterface
     {
-        $this->dao = $this->get("IzBundle\Service\VerslagDao");
-        $this->entities = $this->get("iz.verslag.entities");
+        $previous = parent::setContainer($container);
+
+        $this->dao = $container->get("IzBundle\Service\VerslagDao");
+        $this->entities = $container->get("iz.verslag.entities");
+    
+        return $previous;
     }
 
     /**

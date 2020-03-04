@@ -37,12 +37,12 @@ class IntakesController extends AbstractChildController
 
     public function setContainer(\Psr\Container\ContainerInterface $container): ?\Psr\Container\ContainerInterface
     {
-        parent::setContainer($container);
+        $previous = parent::setContainer($container);
 
-        $this->dao = $this->get("GaBundle\Service\IntakeDao");
-        $this->entities = $this->get("ga.intake.entities");
+        $this->dao = $container->get("GaBundle\Service\IntakeDao");
+        $this->entities = $container->get("ga.intake.entities");
     
-        return $container;
+        return $previous;
     }
 
     /**

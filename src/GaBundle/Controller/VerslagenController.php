@@ -32,12 +32,12 @@ class VerslagenController extends AbstractChildController
 
     public function setContainer(\Psr\Container\ContainerInterface $container): ?\Psr\Container\ContainerInterface
     {
-        parent::setContainer($container);
+        $previous = parent::setContainer($container);
 
-        $this->dao = $this->get("GaBundle\Service\VerslagDao");
-        $this->entities = $this->get("ga.verslag.entities");
+        $this->dao = $container->get("GaBundle\Service\VerslagDao");
+        $this->entities = $container->get("ga.verslag.entities");
     
-        return $container;
+        return $previous;
     }
 
     protected function createEntity($parentEntity = null)

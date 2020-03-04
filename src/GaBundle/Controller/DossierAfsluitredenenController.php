@@ -29,11 +29,11 @@ class DossierAfsluitredenenController extends AbstractController
 
     public function setContainer(\Psr\Container\ContainerInterface $container): ?\Psr\Container\ContainerInterface
     {
-        parent::setContainer($container);
+        $previous = parent::setContainer($container);
 
-        $this->dao = $this->get("GaBundle\Service\DossierAfsluitredenDao");
+        $this->dao = $container->get("GaBundle\Service\DossierAfsluitredenDao");
     
-        return $container;
+        return $previous;
     }
 
     /**

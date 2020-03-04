@@ -52,12 +52,16 @@ class HulpaanbiedingenController extends AbstractChildController
      */
     protected $export;
 
-    public function __construct()
+    public function setContainer(\Psr\Container\ContainerInterface $container): ?\Psr\Container\ContainerInterface
     {
-        $this->dao = $this->get("IzBundle\Service\HulpaanbodDao");
-        $this->hulpvraagDao = $this->get("IzBundle\Service\HulpvraagDao");
-        $this->entities = $this->get("iz.hulpaanbod.entities");
-        $this->export = $this->get("iz.export.hulpaanbiedingen");
+        $previous = parent::setContainer($container);
+
+        $this->dao = $container->get("IzBundle\Service\HulpaanbodDao");
+        $this->hulpvraagDao = $container->get("IzBundle\Service\HulpvraagDao");
+        $this->entities = $container->get("iz.hulpaanbod.entities");
+        $this->export = $container->get("iz.export.hulpaanbiedingen");
+
+        return $previous;
     }
 
     /**

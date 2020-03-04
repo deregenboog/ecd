@@ -21,9 +21,13 @@ class DashboardController extends SymfonyController
      */
     protected $projectDao;
 
-    public function __construct()
+    public function setContainer(\Psr\Container\ContainerInterface $container): ?\Psr\Container\ContainerInterface
     {
-        $this->projectDao = $this->get("ScipBundle\Service\ProjectDao");
+        $previous = parent::setContainer($container);
+
+        $this->projectDao = $container->get("ScipBundle\Service\ProjectDao");
+    
+        return $previous;
     }
 
     /**

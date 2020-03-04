@@ -31,10 +31,14 @@ class VerslagenController extends AbstractChildController
      */
     protected $entities;
 
-    public function __construct()
+    public function setContainer(\Psr\Container\ContainerInterface $container): ?\Psr\Container\ContainerInterface
     {
-        $this->dao = $this->get("ScipBundle\Service\VerslagDao");
-        $this->entities = $this->get("scip.verslag.entities");
+        $previous = parent::setContainer($container);
+
+        $this->dao = $container->get("ScipBundle\Service\VerslagDao");
+        $this->entities = $container->get("scip.verslag.entities");
+    
+        return $previous;
     }
 
     protected function beforeCreate($entity)
