@@ -1,0 +1,77 @@
+login:
+    path: /login
+    defaults:
+        _controller: AppBundle\Controller\SecurityController::loginAction
+
+login_check:
+    path: /login_check
+
+logout:
+    path: /logout
+    defaults:
+        _controller: Symfony\Bundle\FrameworkBundle\Controller\RedirectController::redirectAction
+        route: login
+
+_app:
+    resource: "@AppBundle/Resources/config/routing.yaml"
+
+_buurtboerderij:
+    resource: "@BuurtboerderijBundle/Resources/config/routing.yaml"
+    prefix: /buurtboerderij
+
+_clip:
+    resource: "@ClipBundle/Resources/config/routing.yaml"
+    prefix: /clip
+
+_dagbesteding:
+    resource: "@DagbestedingBundle/Resources/config/routing.yaml"
+    prefix: /dagbesteding
+
+_eropuit:
+    resource: "@ErOpUitBundle/Resources/config/routing.yaml"
+    prefix: /eropuit
+
+_ga:
+    resource: "@GaBundle/Resources/config/routing.yaml"
+
+_hs:
+    resource: "@HsBundle/Resources/config/routing.yaml"
+    prefix: /hs
+
+_inloop:
+    resource: "@InloopBundle/Resources/config/routing.yaml"
+    prefix: /inloop
+
+_iz:
+    resource: "@IzBundle/Resources/config/routing.yaml"
+    prefix: /iz
+
+_mw:
+    resource: "@MwBundle/Resources/config/routing.yaml"
+    prefix: /mw
+
+_odp:
+    resource: "@OdpBundle/Resources/config/routing.yaml"
+    prefix: /odp
+
+_oek:
+    resource: "@OekBundle/Resources/config/routing.yaml"
+    prefix: /oek
+
+_pfo:
+    resource: "@PfoBundle/Resources/config/routing.yaml"
+    prefix: /pfo
+
+_scip:
+    resource: "@ScipBundle/Resources/config/routing.yaml"
+    prefix: /scip
+
+_uhk:
+    resource: "@UhkBundle/Resources/config/routing.yaml"
+    prefix: /uhk
+
+mw_rapportage_redirect:
+    path: /maatschappelijk_werk/rapportage
+    defaults:
+        _controller: Symfony\Bundle\FrameworkBundle\Controller\RedirectController::redirectAction
+        route: mw_rapportages_index
