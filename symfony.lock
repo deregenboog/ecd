@@ -59,9 +59,6 @@
             "src/Repository/.gitignore"
         ]
     },
-    "doctrine/doctrine-cache-bundle": {
-        "version": "1.4.0"
-    },
     "doctrine/doctrine-fixtures-bundle": {
         "version": "3.0",
         "recipe": {
@@ -125,9 +122,6 @@
     },
     "egulias/email-validator": {
         "version": "2.1.17"
-    },
-    "fig/link-util": {
-        "version": "1.1.0"
     },
     "friendsofphp/php-cs-fixer": {
         "version": "2.2",
@@ -453,6 +447,9 @@
     "symfony/dotenv": {
         "version": "v4.1.12"
     },
+    "symfony/error-handler": {
+        "version": "v4.4.5"
+    },
     "symfony/event-dispatcher": {
         "version": "v4.1.12"
     },
@@ -565,10 +562,16 @@
             "tests/bootstrap.php"
         ]
     },
+    "symfony/polyfill-intl-grapheme": {
+        "version": "v1.14.0"
+    },
     "symfony/polyfill-intl-icu": {
         "version": "v1.14.0"
     },
     "symfony/polyfill-intl-idn": {
+        "version": "v1.14.0"
+    },
+    "symfony/polyfill-intl-normalizer": {
         "version": "v1.14.0"
     },
     "symfony/polyfill-mbstring": {
@@ -641,6 +644,9 @@
     "symfony/stopwatch": {
         "version": "v4.1.12"
     },
+    "symfony/string": {
+        "version": "v5.0.5"
+    },
     "symfony/swiftmailer-bundle": {
         "version": "2.5",
         "recipe": {
@@ -654,9 +660,6 @@
             "config/packages/swiftmailer.yaml",
             "config/packages/test/swiftmailer.yaml"
         ]
-    },
-    "symfony/templating": {
-        "version": "v4.1.12"
     },
     "symfony/test-pack": {
         "version": "v1.0.6"
