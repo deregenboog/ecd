@@ -28,11 +28,10 @@ class KlantType extends AbstractType
      */
     private $tbcCountries = [];
 
-    public function __construct(EntityManagerInterface $entityManager,Array $args)
+    public function __construct(EntityManagerInterface $entityManager, array $args)
     {
         $this->entityManager = $entityManager;
-        if(is_array($args['$tbc_countries']))
-        {
+        if(is_array($args['$tbc_countries'])) {
             $this->tbc_countries = $args['$tbc_countries'];
         }
     }

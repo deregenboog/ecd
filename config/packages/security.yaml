@@ -42,7 +42,6 @@ security:
             provider: chain_provider
             pattern: ^/
             logout: ~
-            logout_on_user_change: true
             # Here we tell it to use the LDAP Guard for authentication...
             guard:
                 authenticators:
@@ -52,8 +51,9 @@ security:
         login:
             anonymous: ~
             pattern: ^/login$
-            logout_on_user_change: true
 
+    # Easy way to control access for large sections of your site
+    # Note: Only the *first* access control that matches will be used
     access_control:
         - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/admin/klanten, roles: ROLE_TEAMLEIDERS }
