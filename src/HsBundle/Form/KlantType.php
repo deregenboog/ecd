@@ -6,7 +6,7 @@ use AppBundle\Entity\Postcode;
 use AppBundle\Form\AppDateType;
 use AppBundle\Form\BaseType;
 use AppBundle\Util\PostcodeFormatter;
-use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
 use HsBundle\Entity\Klant;
 use Symfony\Component\Form\AbstractType;
@@ -23,11 +23,11 @@ class KlantType extends AbstractType
     use MedewerkerTypeTrait;
 
     /**
-     * @var EntityManager
+     * @var EntityManagerInterface
      */
     private $entityManager;
 
-    public function __construct(EntityManager $entityManager)
+    public function __construct(EntityManagerInterface $entityManager)
     {
         $this->entityManager = $entityManager;
     }

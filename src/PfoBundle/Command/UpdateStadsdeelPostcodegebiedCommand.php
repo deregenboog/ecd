@@ -3,7 +3,7 @@
 namespace PfoBundle\Command;
 
 use AppBundle\Entity\Klant;
-use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use PfoBundle\Entity\Client;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputArgument;
@@ -22,7 +22,7 @@ class UpdateStadsdeelPostcodegebiedCommand extends ContainerAwareCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        /* @var EntityManager $em */
+        /* @var EntityManagerInterface $em */
         $em = $this->getContainer()->get('doctrine.orm.entity_manager');
         $clienten = $em->getRepository(Client::class)->createQueryBuilder('client')
             ->where('client.werkgebied IS NULL')

@@ -4,6 +4,10 @@ imports:
     - { resource: reports.yaml }
 
 services:
+    MwBundle\Controller\:
+        resource: '../../Controller'
+        tags: ['controller.service_arguments']
+
     MwBundle\Event\DienstenLookupSubscriber:
         arguments:
             - "@doctrine.orm.entity_manager"

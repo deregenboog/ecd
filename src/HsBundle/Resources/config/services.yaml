@@ -4,6 +4,10 @@ imports:
     - { resource: reports.yaml }
 
 services:
+    HsBundle\Controller\:
+        resource: '../../Controller'
+        tags: ['controller.service_arguments']
+
     # Twig extensions
     hs.twig.hs_extension:
         class: HsBundle\Twig\HsExtension

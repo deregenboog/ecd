@@ -1,3 +1,8 @@
 imports:
     - { resource: daos.yaml }
     - { resource: exports.yaml }
+
+services:
+    BuurtboerderijBundle\Controller\:
+        resource: '../../Controller'
+        tags: ['controller.service_arguments']

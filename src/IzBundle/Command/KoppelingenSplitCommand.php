@@ -3,7 +3,7 @@
 namespace IzBundle\Command;
 
 use AppBundle\Entity\Medewerker;
-use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use IzBundle\Entity\Hulpaanbod;
 use IzBundle\Entity\Hulpvraag;
 use IzBundle\Entity\Koppeling;
@@ -18,7 +18,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 class KoppelingenSplitCommand extends ContainerAwareCommand
 {
     /**
-     * @var EntityManager
+     * @var EntityManagerInterface
      */
     private $em;
 

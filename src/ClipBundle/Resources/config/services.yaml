@@ -4,6 +4,10 @@ imports:
     - { resource: reports.yaml }
 
 services:
+    ClipBundle\Controller\:
+        resource: '../../Controller'
+        tags: ['controller.service_arguments']
+
     clip.contactmoment.entities:
         public: true
         class: ArrayObject

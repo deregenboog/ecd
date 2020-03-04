@@ -29,12 +29,12 @@ interface HulpaanbodDaoInterface
     public function create(Hulpaanbod $entity);
 
     /**
-     * @param Hulpaanbod $koppeling
+     * @param Hulpaanbod $entity
      */
     public function update(Hulpaanbod $entity);
 
     /**
-     * @param Hulpaanbod $koppeling
+     * @param Hulpaanbod $entity
      */
     public function delete(Hulpaanbod $entity);
 }

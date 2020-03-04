@@ -13,6 +13,10 @@ parameters:
         vwspreekbuis: 15
 
 services:
+    InloopBundle\Controller\:
+        resource: '../../Controller'
+        tags: ['controller.service_arguments']
+
     InloopBundle\Service\AccessUpdater:
         public: true
         arguments:

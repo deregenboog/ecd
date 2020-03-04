@@ -94,7 +94,7 @@ class IntakeSubscriber implements EventSubscriberInterface
             return;
         }
 
-        $content = $this->twig->render('InloopBundle:intakes:aanmelding.txt.twig', [
+        $content = $this->twig->render('@Inloop/intakes/aanmelding.txt.twig', [
             'intake' => $intake,
         ]);
 

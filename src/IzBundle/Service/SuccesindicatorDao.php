@@ -3,7 +3,7 @@
 namespace IzBundle\Service;
 
 use AppBundle\Service\AbstractDao;
-use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use IzBundle\Entity\Succesindicator;
 use Knp\Component\Pager\PaginatorInterface;
 
@@ -21,7 +21,7 @@ class SuccesindicatorDao extends AbstractDao implements SuccesindicatorDaoInterf
 
     protected $alias = 'indicator';
 
-    public function __construct(EntityManager $entityManager, PaginatorInterface $paginator, $itemsPerPage, $class)
+    public function __construct(EntityManagerInterface $entityManager, PaginatorInterface $paginator, $itemsPerPage, $class)
     {
         $this->class = $class;
         parent::__construct($entityManager, $paginator, $itemsPerPage);

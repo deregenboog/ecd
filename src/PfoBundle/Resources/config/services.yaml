@@ -4,6 +4,10 @@ imports:
     - { resource: reports.yaml }
 
 services:
+    PfoBundle\Controller\:
+        resource: '../../Controller'
+        tags: ['controller.service_arguments']
+
     PfoBundle\Form\ClientType:
         arguments:
             - "@doctrine.orm.entity_manager"

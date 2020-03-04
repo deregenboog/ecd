@@ -4,6 +4,10 @@ imports:
     - { resource: reports.yaml }
 
 services:
+    IzBundle\Controller\:
+        resource: '../../Controller'
+        tags: ['controller.service_arguments']
+
     iz.event.diensten_lookup_subscriber:
         class: IzBundle\Event\DienstenLookupSubscriber
         arguments:

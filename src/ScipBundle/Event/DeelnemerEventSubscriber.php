@@ -6,7 +6,7 @@ use Doctrine\Common\EventSubscriber;
 use Doctrine\ORM\Event\LifecycleEventArgs;
 use Doctrine\ORM\Events as DoctrineEvents;
 use ScipBundle\Entity\Deelnemer;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
 
 class DeelnemerEventSubscriber implements EventSubscriber
@@ -33,8 +33,8 @@ class DeelnemerEventSubscriber implements EventSubscriber
         $i = $args->getEntity();
         if ($args->getEntity() instanceof Deelnemer) {
             $this->eventDispatcher->dispatch(
-                Events::EVENT_DEELNEMER_CREATED,
-                new GenericEvent($args->getEntity())
+                new GenericEvent($args->getEntity()),
+                Events::EVENT_DEELNEMER_CREATED
             );
         }
     }

@@ -3,6 +3,10 @@ imports:
     - { resource: exports.yaml }
 
 services:
+    UhkBundle\Controller\:
+        resource: '../../Controller'
+        tags: ['controller.service_arguments']
+
     uhk.verslag.entities:
         public: true
         class: ArrayObject

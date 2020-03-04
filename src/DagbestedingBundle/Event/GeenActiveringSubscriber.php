@@ -3,14 +3,14 @@
 namespace DagbestedingBundle\Event;
 
 use DagbestedingBundle\Entity\Deelnemer;
-use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
 
 class GeenActiveringSubscriber implements EventSubscriberInterface
 {
     /**
-     * @var EntityManager
+     * @var EntityManagerInterface
      */
     private $em;
 
@@ -23,7 +23,7 @@ class GeenActiveringSubscriber implements EventSubscriberInterface
         }
     }
 
-    public function __construct(EntityManager $em)
+    public function __construct(EntityManagerInterface $em)
     {
         $this->em = $em;
     }

@@ -65,7 +65,7 @@ interface RegistratieDaoInterface
     public function delete(Registratie $entity);
 
     /**
-     * @param Registratie $entity
+     * @param Registratie $registratie
      * @param \DateTime   $time
      *
      * @return Registratie

@@ -6,7 +6,7 @@ use AppBundle\Entity\Geslacht;
 use AppBundle\Form\Model\AppDateRangeModel;
 use AppBundle\Report\AbstractReport;
 use AppBundle\Report\Table;
-use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use InloopBundle\Entity;
 use InloopBundle\Entity\Intake;
 use InloopBundle\Entity\Registratie;
@@ -27,11 +27,11 @@ class Locatie extends AbstractReport
     protected $geslacht;
 
     /**
-     * @var EntityManager
+     * @var EntityManagerInterface
      */
     private $entityManager;
 
-    public function __construct(EntityManager $entityManager)
+    public function __construct(EntityManagerInterface $entityManager)
     {
         $this->entityManager = $entityManager;
     }

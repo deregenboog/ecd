@@ -3,7 +3,7 @@
 namespace HsBundle\Event;
 
 use Doctrine\Common\EventSubscriber;
-use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Event\LifecycleEventArgs;
 use Doctrine\ORM\Events;
 use HsBundle\Entity\Betaling;
@@ -49,7 +49,7 @@ class KlantUpdater implements EventSubscriber
         }
     }
 
-    private function updateSaldo(Klant $klant, EntityManager $em)
+    private function updateSaldo(Klant $klant, EntityManagerInterface $em)
     {
         $klant->setSaldo($klant->getBetaald() - $klant->getGefactureerd());
 

@@ -3,6 +3,10 @@ imports:
     - { resource: exports.yaml }
 
 services:
+    ScipBundle\Controller\:
+        resource: '../../Controller'
+        tags: ['controller.service_arguments']
+
     ScipBundle\Event\DienstenLookupSubscriber:
         arguments:
             - '@doctrine.orm.entity_manager'

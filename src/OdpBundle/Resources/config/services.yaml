@@ -4,6 +4,10 @@ imports:
     - { resource: reports.yaml }
 
 services:
+    OdpBundle\Controller\:
+        resource: '../../Controller'
+        tags: ['controller.service_arguments']
+
     odp.event.diensten_lookup_subscriber:
         class: OdpBundle\Event\DienstenLookupSubscriber
         arguments:

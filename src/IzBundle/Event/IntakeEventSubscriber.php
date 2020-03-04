@@ -6,7 +6,7 @@ use Doctrine\Common\EventSubscriber;
 use Doctrine\ORM\Event\LifecycleEventArgs;
 use Doctrine\ORM\Events as DoctrineEvents;
 use IzBundle\Entity\Intake;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
 
 class IntakeEventSubscriber implements EventSubscriber
@@ -32,8 +32,8 @@ class IntakeEventSubscriber implements EventSubscriber
     {
         if ($args->getEntity() instanceof Intake) {
             $this->eventDispatcher->dispatch(
-                Events::EVENT_INTAKE_CREATED,
-                new GenericEvent($args->getEntity())
+                new GenericEvent($args->getEntity()),
+                Events::EVENT_INTAKE_CREATED
             );
         }
     }

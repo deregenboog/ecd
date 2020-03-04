@@ -3,6 +3,10 @@ imports:
     - { resource: exports.yaml }
 
 services:
+    OekBundle\Controller\:
+        resource: '../../Controller'
+        tags: ['controller.service_arguments']
+
     oek.event.diensten_lookup_subscriber:
         class: OekBundle\Event\DienstenLookupSubscriber
         arguments:

@@ -4,11 +4,11 @@ namespace InloopBundle\Service;
 
 use AppBundle\Filter\FilterInterface;
 use AppBundle\Service\AbstractDao;
-use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use InloopBundle\Entity\Intake;
 use InloopBundle\Event\Events;
 use Knp\Component\Pager\PaginatorInterface;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
 
 class IntakeDao extends AbstractDao implements IntakeDaoInterface
@@ -35,7 +35,7 @@ class IntakeDao extends AbstractDao implements IntakeDaoInterface
     private $eventDispatcher;
 
     public function __construct(
-        EntityManager $entityManager,
+        EntityManagerInterface $entityManager,
         PaginatorInterface $paginator,
         $itemsPerPage,
         EventDispatcherInterface $eventDispatcher
@@ -65,7 +65,7 @@ class IntakeDao extends AbstractDao implements IntakeDaoInterface
     {
         parent::doCreate($entity);
 
-        $this->eventDispatcher->dispatch(Events::INTAKE_CREATED, new GenericEvent($entity));
+        $this->eventDispatcher->dispatch(new GenericEvent($entity), Events::INTAKE_CREATED);
 
         return $entity;
     }
@@ -79,7 +79,7 @@ class IntakeDao extends AbstractDao implements IntakeDaoInterface
     {
         parent::doUpdate($entity);
 
-        $this->eventDispatcher->dispatch(Events::INTAKE_UPDATED, new GenericEvent($entity));
+        $this->eventDispatcher->dispatch(new GenericEvent($entity), Events::INTAKE_UPDATED);
 
         return $entity;
     }
