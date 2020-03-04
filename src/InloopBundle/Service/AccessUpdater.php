@@ -5,7 +5,7 @@ namespace InloopBundle\Service;
 use AppBundle\Entity\Klant;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\ParameterType;
-use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\QueryBuilder;
 use InloopBundle\Entity\Locatie;
 use InloopBundle\Filter\KlantFilter;
@@ -18,7 +18,7 @@ use InloopBundle\Strategy\VerblijfsstatusStrategy;
 class AccessUpdater
 {
     /**
-     * @var EntityManager
+     * @var EntityManagerInterface
      */
     private $em;
 
@@ -33,7 +33,7 @@ class AccessUpdater
     private $locatieDao;
 
     public function __construct(
-        EntityManager $em,
+        EntityManagerInterface $em,
         KlantDaoInterface $klantDao,
         LocatieDaoInterface $locatieDao
     ) {

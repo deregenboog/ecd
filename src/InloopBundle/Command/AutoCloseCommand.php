@@ -3,7 +3,7 @@
 namespace InloopBundle\Command;
 
 use AppBundle\Entity\Klant;
-use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\NoResultException;
 use InloopBundle\Entity\Afsluiting;
@@ -34,7 +34,7 @@ class AutoCloseCommand extends ContainerAwareCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        /* @var EntityManager $entityManager */
+        /* @var EntityManagerInterface $entityManager */
         $entityManager = $this->getContainer()->get('doctrine.orm.entity_manager');
 
         try {

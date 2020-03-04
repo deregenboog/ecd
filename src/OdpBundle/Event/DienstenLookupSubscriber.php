@@ -5,7 +5,7 @@ namespace OdpBundle\Event;
 use AppBundle\Event\DienstenLookupEvent;
 use AppBundle\Event\Events;
 use AppBundle\Model\Dienst;
-use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use OdpBundle\Entity\Deelnemer;
 use OdpBundle\Entity\Huurder;
 use OdpBundle\Entity\Verhuurder;
@@ -15,7 +15,7 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 class DienstenLookupSubscriber implements EventSubscriberInterface
 {
     /**
-     * @var EntityManager
+     * @var EntityManagerInterface
      */
     private $entityManager;
 
@@ -31,7 +31,7 @@ class DienstenLookupSubscriber implements EventSubscriberInterface
         ];
     }
 
-    public function __construct(EntityManager $entityManager, UrlGeneratorInterface $generator)
+    public function __construct(EntityManagerInterface $entityManager, UrlGeneratorInterface $generator)
     {
         $this->entityManager = $entityManager;
         $this->generator = $generator;

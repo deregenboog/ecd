@@ -13,7 +13,7 @@ ScipBundle\Entity\Toegangsrecht:
         medewerker: '@medewerker_bhuttinga'
         projecten: ['@scip_project_*']
     scip_toegangsrecht_{2..5}:
-        medewerker (unqiue): '@medewerker_*'
+        medewerker (unique): '@medewerker_*'
         projecten: ['@scip_project_*']
 
 ScipBundle\Entity\Deelnemer:

@@ -7,7 +7,7 @@ use AppBundle\Entity\Klant;
 use AppBundle\Entity\Land;
 use AppBundle\Entity\Medewerker;
 use AppBundle\Entity\Nationaliteit;
-use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\NoResultException;
 use ScipBundle\Entity\Beschikbaarheid;
@@ -47,7 +47,7 @@ class ImportCommand extends ContainerAwareCommand
     private $documentDao;
 
     /**
-     * @var EntityManager
+     * @var EntityManagerInterface
      */
     private $entityManager;
 

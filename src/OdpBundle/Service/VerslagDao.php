@@ -3,14 +3,14 @@
 namespace OdpBundle\Service;
 
 use AppBundle\Service\AbstractDao;
-use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use OdpBundle\Entity\Verslag;
 
 class VerslagDao extends AbstractDao implements VerslagDaoInterface
 {
     protected $class = Verslag::class;
 
-    public function __construct(EntityManager $entityManager)
+    public function __construct(EntityManagerInterface $entityManager)
     {
         $this->entityManager = $entityManager;
         $this->repository = $entityManager->getRepository($this->class);

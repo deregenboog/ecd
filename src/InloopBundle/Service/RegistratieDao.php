@@ -5,7 +5,7 @@ namespace InloopBundle\Service;
 use AppBundle\Entity\Klant;
 use AppBundle\Filter\FilterInterface;
 use AppBundle\Service\AbstractDao;
-use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use InloopBundle\Entity\Aanmelding;
 use InloopBundle\Entity\Locatie;
 use InloopBundle\Entity\RecenteRegistratie;
@@ -13,7 +13,7 @@ use InloopBundle\Entity\Registratie;
 use InloopBundle\Event\Events;
 use InloopBundle\Filter\RegistratieFilter;
 use Knp\Component\Pager\PaginatorInterface;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
 
 class RegistratieDao extends AbstractDao implements RegistratieDaoInterface
@@ -48,7 +48,7 @@ class RegistratieDao extends AbstractDao implements RegistratieDaoInterface
     protected $alias = 'registratie';
 
     public function __construct(
-        EntityManager $entityManager,
+        EntityManagerInterface $entityManager,
         PaginatorInterface $paginator,
         $itemsPerPage,
         EventDispatcherInterface $eventDispatcher
@@ -134,7 +134,7 @@ class RegistratieDao extends AbstractDao implements RegistratieDaoInterface
         $registratie->setBuiten($time);
         $this->update($registratie);
 
-        $this->eventDispatcher->dispatch(Events::CHECKOUT, new GenericEvent($registratie));
+        $this->eventDispatcher->dispatch(new GenericEvent($registratie), Events::CHECKOUT);
 
         return true;
     }

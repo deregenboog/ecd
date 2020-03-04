@@ -187,7 +187,7 @@ class SchorsingenController extends AbstractController
 
     private function sendSchorsingEmail(Schorsing $schorsing)
     {
-        $content = $this->renderView('InloopBundle:schorsingen:agressiemail.txt.twig', [
+        $content = $this->renderView('@Inloop/schorsingen/agressiemail.txt.twig', [
             'schorsing' => $schorsing,
             'medewerker' => $this->getMedewerker(),
             'url' => $this->get('router')->generate('inloop_schorsingen_view', ['id' => $schorsing->getId()], Router::ABSOLUTE_URL),

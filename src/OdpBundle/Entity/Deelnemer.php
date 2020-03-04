@@ -118,7 +118,8 @@ abstract class Deelnemer  implements KlantRelationInterface
         $this->verslagen = new ArrayCollection();
         $this->documenten = new ArrayCollection();
     }
-    /*
+
+    /**
      * Dit gaf een exceptie bij koppelingen maken in de view van een huurverzoek. Onderstaande __toString code uit de OekBundle gehaald. Lijkt me prima.
      * @190627 Laat dit even staan voor de zekerheid. jtborger
      */

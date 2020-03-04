@@ -7,7 +7,7 @@ use AppBundle\Entity\Klant;
 use AppBundle\Entity\Land;
 use AppBundle\Report\AbstractReport;
 use AppBundle\Report\Table;
-use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use InloopBundle\Entity\Intake;
 use InloopBundle\Entity\Locatie;
 use InloopBundle\Entity\Registratie;
@@ -41,11 +41,11 @@ class Infobalie extends AbstractReport
     protected $referentieperiode;
 
     /**
-     * @var EntityManager
+     * @var EntityManagerInterface
      */
     private $entityManager;
 
-    public function __construct(EntityManager $entityManager)
+    public function __construct(EntityManagerInterface $entityManager)
     {
         $this->entityManager = $entityManager;
     }

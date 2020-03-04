@@ -3,7 +3,7 @@
 namespace InloopBundle\Command;
 
 use AppBundle\Entity\Klant;
-use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use InloopBundle\Entity\Registratie;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputInterface;
@@ -12,7 +12,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 class DenyAccessCommand extends ContainerAwareCommand
 {
     /**
-     * @var EntityManager
+     * @var EntityManagerInterface
      */
     private $manager;
 
