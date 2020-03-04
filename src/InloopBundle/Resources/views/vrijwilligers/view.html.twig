@@ -58,7 +58,7 @@
                 {% endfor %}
                 </dd>
                 <dt>Stagiair?</dt><dd>{{ entity.stagiair|ja_nee }}</dd>
-                <dt>Notitie datum</dt><dd>{{ entity.datumNotitieIntake|if_date('d-m-Y') }}</dd>
+                <dt>Notitie datum</dt><dd class="text-info">{{ entity.datumNotitieIntake|if_date('d-m-Y') }}</dd>
                 <dt>Notitie</dt><dd>{{ entity.notitieIntake|nl2br }}</dd>
             </dl>
             <dl class="dl-horizontal">

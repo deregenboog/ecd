@@ -13,12 +13,20 @@
 <table class="table table-hover">
     <tr>
         <th>Naam</th>
+        <th></th>
         <th>Datum</th>
         <th></th>
     </tr>
+
     {% for deelname in entity.trainingDeelnames %}
+        {% set colspan = 2 %}
+        {% set overig = '' %}
+        {% if deelname.training == 'Overig' %}
+            {% set colspan = 1 %}
+            {% set overig = ": " ~ deelname.overig %}
+        {% endif %}
         <tr>
-            <td>{{ deelname.training.naam }}</td>
+            <td colspan="2">{{ deelname.training.naam }} {{ overig }}</td>
             <td>{{ deelname.datum|date('d-m-Y') }}</td>
             <td>
                 {% set url = path('inloop_deelnames_delete', {id: deelname.id, vrijwilliger: entity.id}) %}

@@ -134,6 +134,7 @@ abstract class AbstractController extends SymfonyController
         }
 
         ini_set('memory_limit', '512M');
+        ini_set('max_execution_time', '300');
 
         $filename = $this->getDownloadFilename();
         $collection = $this->dao->findAll(null, $filter);

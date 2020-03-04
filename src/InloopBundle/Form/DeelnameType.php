@@ -26,6 +26,7 @@ class DeelnameType extends AbstractType
         $builder
             ->add('datum', AppDateType::class, ['data' => new \DateTime('now')])
             ->add('training', EntityType::class,['class'=> Training::class])
+            ->add('overig',null,['required'=>false])
             ->add('submit', SubmitType::class)
         ;
     }
