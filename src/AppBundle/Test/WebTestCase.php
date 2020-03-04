@@ -61,7 +61,7 @@ class WebTestCase extends CoreWebTestCase
     /**
      * @param UserInterface $user
      *
-     * @see https://symfony.com/doc/3.4/testing/http_authentication.html
+     * @see https://symfony.com/doc/4.4/testing/http_authentication.html
      */
     public function logIn(UserInterface $user, $additionalRoles = []): self
     {
@@ -69,7 +69,7 @@ class WebTestCase extends CoreWebTestCase
             $additionalRoles = [$additionalRoles];
         }
 
-        $session = $this->client->getContainer()->get('session');
+        $session = self::$container->get('session');
 
         $token = new UsernamePasswordToken($user, null, 'main', array_merge($user->getRoles(), $additionalRoles));
         $session->set('_security_main', serialize($token));
@@ -77,6 +77,7 @@ class WebTestCase extends CoreWebTestCase
 
         $cookie = new Cookie($session->getName(), $session->getId());
         $this->client->getCookieJar()->set($cookie);
+
         return $this;
     }
 }

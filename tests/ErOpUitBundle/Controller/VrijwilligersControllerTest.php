@@ -9,7 +9,7 @@ class VrijwilligersControllerTest extends WebTestCase
 {
     public function testIndex()
     {
-        $medewerker = $this->getContainer()->get('AppBundle\Service\MedewerkerDao')->find('ga_user');
+        $medewerker = $this->getContainer()->get('AppBundle\Service\MedewerkerDao')->find('eropuit_user');
         $this->logIn($medewerker, 'ROLE_EROPUIT');
 
         $crawler = $this->client->request('GET', $this->getUrl('eropuit_vrijwilligers_index'));
@@ -21,7 +21,7 @@ class VrijwilligersControllerTest extends WebTestCase
 
     public function testSort()
     {
-        $medewerker = $this->getContainer()->get('AppBundle\Service\MedewerkerDao')->find('ga_user');
+        $medewerker = $this->getContainer()->get('AppBundle\Service\MedewerkerDao')->find('eropuit_user');
         $this->logIn($medewerker, 'ROLE_EROPUIT');
 
         $crawler = $this->client->request('GET', $this->getUrl('eropuit_vrijwilligers_index'));
@@ -40,7 +40,7 @@ class VrijwilligersControllerTest extends WebTestCase
 
     public function testFilter()
     {
-        $medewerker = $this->getContainer()->get('AppBundle\Service\MedewerkerDao')->find('ga_user');
+        $medewerker = $this->getContainer()->get('AppBundle\Service\MedewerkerDao')->find('eropuit_user');
         $this->logIn($medewerker, 'ROLE_EROPUIT');
 
         $crawler = $this->client->request('GET', $this->getUrl('eropuit_vrijwilligers_index'));
@@ -56,7 +56,7 @@ class VrijwilligersControllerTest extends WebTestCase
 
     public function testAddFilter()
     {
-        $medewerker = $this->getContainer()->get('AppBundle\Service\MedewerkerDao')->find('ga_user');
+        $medewerker = $this->getContainer()->get('AppBundle\Service\MedewerkerDao')->find('eropuit_user');
         $this->logIn($medewerker, 'ROLE_EROPUIT');
 
         $crawler = $this->client->request('GET', $this->getUrl('eropuit_vrijwilligers_add'));
