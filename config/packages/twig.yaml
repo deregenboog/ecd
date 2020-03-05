@@ -8,5 +8,3 @@ twig:
         - form/app.html.twig
         - form/zrm.html.twig
     cache: '%kernel.cache_dir%/twig'
-    globals:
-        app_version: v%application_version%
