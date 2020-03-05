@@ -9,13 +9,13 @@ use InloopBundle\Event\IntakeSubscriber;
 use InloopBundle\Service\AccessUpdater;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
-use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
+use Twig\Environment;
 
 class IntakeSubscriberTest extends TestCase
 {
     private $logger;
-    private $templating;
+    private $twig;
     private $mailer;
     private $accessUpdater;
     public $informeleZorgEmail = 'informele_zorg@example.org';
@@ -26,7 +26,9 @@ class IntakeSubscriberTest extends TestCase
     protected function setUp(): void
     {
         $this->logger = $this->getMockForAbstractClass(LoggerInterface::class);
-        $this->templating = $this->getMockForAbstractClass(EngineInterface::class);
+        $this->twig = $this->getMockBuilder(Environment::class)
+            ->disableOriginalConstructor()
+            ->getMock();
         $this->mailer = $this->getMockBuilder(\Swift_Mailer::class)
             ->disableOriginalConstructor()
             ->setMethods(['send'])
@@ -143,7 +145,7 @@ class IntakeSubscriberTest extends TestCase
     {
         return new IntakeSubscriber(
             $this->logger,
-            $this->templating,
+            $this->twig,
             $this->mailer,
             $this->accessUpdater,
             $this->informeleZorgEmail,

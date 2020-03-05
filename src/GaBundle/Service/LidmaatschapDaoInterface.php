@@ -19,7 +19,7 @@ interface LidmaatschapDaoInterface
     /**
      * @param int $id
      *
-     * @return Dossier
+     * @return Lidmaatschap
      */
     public function find($id);
 

@@ -33,7 +33,7 @@ class KlantenController extends AbstractController
         $previous = parent::setContainer($container);
 
         $this->dao = $container->get("AppBundle\Service\KlantDao");
-    
+
         return $previous;
     }
 
@@ -56,7 +56,7 @@ class KlantenController extends AbstractController
     }
 
     /**
-     * @Route("/admin/merge/{ids}")
+     * @Route("/merge/{ids}")
      * @Template
      */
     public function mergeAction(Request $request, $ids)

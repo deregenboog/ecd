@@ -17,7 +17,7 @@ class KlantUpdateCommand extends ContainerAwareCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        /* @var $entityManager EntityManager */
+        /* @var $entityManager EntityManagerInterface */
         $entityManager = $this->getContainer()->get('doctrine.orm.entity_manager');
 
         // find klussen

@@ -9,7 +9,6 @@ use AppBundle\Service\NameFormatter;
 use AppBundle\Util\DateTimeUtil;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\EntityNotFoundException;
-use Symfony\Component\Debug\Exception\ContextErrorException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Twig\TwigFunction;
@@ -470,7 +469,7 @@ class AppExtension extends AbstractExtension implements GlobalsInterface
             }
 
             return (string) $value;
-        } catch (ContextErrorException $e) {
+        } catch (\ErrorException $e) {
             return '';
         }
     }
