@@ -3,11 +3,9 @@
 namespace AppBundle\Form;
 
 use AppBundle\Entity\Klant;
-use AppBundle\Entity\Postcode;
-use AppBundle\Util\PostcodeFormatter;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
-use Symfony\Component\Debug\Exception\FatalThrowableError;
+use Symfony\Component\ErrorHandler\Error\FatalError;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -24,14 +22,14 @@ class KlantType extends AbstractType
     private $entityManager;
 
     /**
-     * @var Array TBC Countries from config parameter.
+     * @var array TBC Countries from config parameter
      */
     private $tbcCountries = [];
 
     public function __construct(EntityManagerInterface $entityManager, array $args)
     {
         $this->entityManager = $entityManager;
-        if(is_array($args['$tbc_countries'])) {
+        if (is_array($args['$tbc_countries'])) {
             $this->tbc_countries = $args['$tbc_countries'];
         }
     }
@@ -69,12 +67,10 @@ class KlantType extends AbstractType
             ->add('opmerking', AppTextareaType::class, ['required' => false])
             ->add('geenPost', null, ['label' => 'Geen post'])
             ->add('geenEmail')
-            ->add('geinformeerdOpslaanGegevens', CheckboxType::class, ['required'=>false]);
+            ->add('geinformeerdOpslaanGegevens', CheckboxType::class, ['required' => false]);
 
-        try
-        {
-            if(null !== ($builder->getData()) && in_array((string)$builder->getData()->getLand(),$this->tbc_countries))
-            {
+        try {
+            if (null !== ($builder->getData()) && in_array((string) $builder->getData()->getLand(), $this->tbc_countries)) {
                 $builder->add('laatste_TBC_controle', AppDateType::class,
                     [
                         'label' => 'TBC-check?',
@@ -82,17 +78,13 @@ class KlantType extends AbstractType
                     ]
                 );
             }
-        }
-        catch(FatalThrowableError $e)
-        {
-
+        } catch (FatalError $e) {
         }
 
-        $builder->addEventListener(FormEvents::SUBMIT, function (FormEvent $event){
+        $builder->addEventListener(FormEvents::SUBMIT, function (FormEvent $event) {
             Klant::KoppelPostcodeWerkgebiedClosure($event, $this->entityManager);
         });
         $builder->add('submit', SubmitType::class);
-
     }
 
     /**
@@ -103,7 +95,6 @@ class KlantType extends AbstractType
         $resolver->setDefaults([
             'data_class' => Klant::class,
             'data' => null,
-
         ]);
     }
 

@@ -3,7 +3,6 @@
 namespace OdpBundle\Service;
 
 use Doctrine\ORM\EntityManagerInterface;
-use OdpBundle\Entity\Document;
 use OdpBundle\Entity\FinancieelDocument;
 
 class FinancieelDocumentDao implements FinancieelDocumentDaoInterface

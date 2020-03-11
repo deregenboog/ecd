@@ -23,18 +23,9 @@ interface TrajectsoortDaoInterface
      */
     public function find($id);
 
-    /**
-     * @param Trajectsoort $trajectsoort
-     */
     public function create(Trajectsoort $trajectsoort);
 
-    /**
-     * @param Trajectsoort $trajectsoort
-     */
     public function update(Trajectsoort $trajectsoort);
 
-    /**
-     * @param Trajectsoort $trajectsoort
-     */
     public function delete(Trajectsoort $trajectsoort);
 }

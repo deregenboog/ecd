@@ -2,10 +2,8 @@
 
 namespace LegacyBundle\Entity;
 
-use Doctrine\ORM\Mapping as ORM;
-use AppBundle\Model\IdentifiableTrait;
-use AppBundle\Entity\Verblijfsstatus;
 use AppBundle\Entity\Inkomen;
+use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity

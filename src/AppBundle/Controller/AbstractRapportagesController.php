@@ -4,10 +4,10 @@ namespace AppBundle\Controller;
 
 use AppBundle\Exception\ReportException;
 use AppBundle\Report\AbstractReport;
-use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Annotation\Route;
 
 abstract class AbstractRapportagesController extends SymfonyController
 {
@@ -31,7 +31,7 @@ abstract class AbstractRapportagesController extends SymfonyController
             $formOptions = $report->getFormOptions();
         }
 
-        $form = $this->getForm($this->formClass, null, $formOptions);
+        $form = $this->createForm($this->formClass, null, $formOptions);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {

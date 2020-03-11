@@ -3,29 +3,28 @@
 namespace AppBundle\Security;
 
 use PHPUnit\Framework\TestCase;
+use Symfony\Component\Security\Core\Authentication\Token\AbstractToken;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\VoterInterface;
-use Symfony\Component\Security\Core\Role\Role;
 use Symfony\Component\Security\Core\Role\RoleHierarchyInterface;
-use Symfony\Component\Security\Core\Authentication\Token\AbstractToken;
 
 class ControllerVoterTest extends TestCase
 {
     public function testVoteOnUnsupportedAttribute()
     {
-        $token = new class() extends AbstractToken implements TokenInterface
-        {
+        $token = new class() extends AbstractToken implements TokenInterface {
             public function getRoleNames(): array
             {
                 return ['CONTROLLER_APP_KLANTEN'];
             }
 
-            public function getCredentials() { }
+            public function getCredentials()
+            {
+            }
         };
 
-        $roleHierarchy = new class() implements RoleHierarchyInterface
-        {
-            public function getReachableRoleNames()
+        $roleHierarchy = new class() implements RoleHierarchyInterface {
+            public function getReachableRoleNames(array $roles): array
             {
                 return [];
             }
@@ -38,19 +37,19 @@ class ControllerVoterTest extends TestCase
 
     public function testVoteOnReachableRole()
     {
-        $token = new class() extends AbstractToken implements TokenInterface
-        {
+        $token = new class() extends AbstractToken implements TokenInterface {
             public function getRoleNames(): array
             {
                 return ['CONTROLLER_APP_KLANTEN'];
             }
 
-            public function getCredentials() { }
+            public function getCredentials()
+            {
+            }
         };
 
-        $roleHierarchy = new class() implements RoleHierarchyInterface
-        {
-            public function getReachableRoleNames()
+        $roleHierarchy = new class() implements RoleHierarchyInterface {
+            public function getReachableRoleNames(array $roles): array
             {
                 return ['CONTROLLER_APP_KLANTEN'];
             }
@@ -63,19 +62,19 @@ class ControllerVoterTest extends TestCase
 
     public function testVoteOnUnreachableRole()
     {
-        $token = new class() extends AbstractToken implements TokenInterface
-        {
+        $token = new class() extends AbstractToken implements TokenInterface {
             public function getRoleNames(): array
             {
                 return ['CONTROLLER_APP_KLANTEN'];
             }
 
-            public function getCredentials() { }
+            public function getCredentials()
+            {
+            }
         };
 
-        $roleHierarchy = new class() implements RoleHierarchyInterface
-        {
-            public function getReachableRoleNames()
+        $roleHierarchy = new class() implements RoleHierarchyInterface {
+            public function getReachableRoleNames(array $roles): array
             {
                 return ['CONTROLLER_APP_KLANTEN'];
             }

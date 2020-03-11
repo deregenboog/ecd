@@ -5,7 +5,6 @@ namespace OekBundle\Form;
 use AppBundle\Form\AppDateRangeType;
 use AppBundle\Form\FilterType;
 use AppBundle\Form\VrijwilligerFilterType as AppVrijwilligerFilterType;
-use OekBundle\Entity\Vrijwilliger;
 use OekBundle\Filter\VrijwilligerFilter;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
@@ -57,7 +56,7 @@ class VrijwilligerFilterType extends AbstractType
 //                'afsluitdatum',
                 'filter',
                 'download',
-                'actief'
+                'actief',
             ],
         ]);
     }

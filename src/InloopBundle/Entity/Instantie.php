@@ -15,5 +15,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
  */
 class Instantie
 {
-    use IdentifiableTrait, NameableTrait, TimestampableTrait;
+    use IdentifiableTrait;
+    use NameableTrait;
+    use TimestampableTrait;
 }

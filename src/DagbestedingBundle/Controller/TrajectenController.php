@@ -13,9 +13,9 @@ use DagbestedingBundle\Form\DagdelenRangeType;
 use DagbestedingBundle\Form\TrajectFilterType;
 use DagbestedingBundle\Form\TrajectType;
 use DagbestedingBundle\Service\TrajectDaoInterface;
-use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * @Route("/trajecten")
@@ -46,15 +46,13 @@ class TrajectenController extends AbstractChildController
      */
     protected $export;
 
-    public function setContainer(\Psr\Container\ContainerInterface $container): ?\Psr\Container\ContainerInterface
+    public function setContainer(?\Symfony\Component\DependencyInjection\ContainerInterface $container = null)
     {
-        $previous = parent::setContainer($container);
+        parent::setContainer($container);
 
         $this->dao = $container->get("DagbestedingBundle\Service\TrajectDao");
-        $this->entities = $container->get("dagbesteding.traject.entities");
-        $this->export = $container->get("dagbesteding.export.trajecten");
-    
-        return $previous;
+        $this->entities = $container->get('dagbesteding.traject.entities');
+        $this->export = $container->get('dagbesteding.export.trajecten');
     }
 
     /**
@@ -118,7 +116,7 @@ class TrajectenController extends AbstractChildController
             return $this->redirectToRoute('dagbesteding_trajecten_index');
         }
 
-        $form = $this->getForm($this->formClass, $entity, [
+        $form = $this->createForm($this->formClass, $entity, [
             'mode' => 'close',
         ]);
         $form->handleRequest($request);
@@ -153,7 +151,7 @@ class TrajectenController extends AbstractChildController
 
         $entity = $id;
 
-        $form = $this->getForm(ConfirmationType::class);
+        $form = $this->createForm(ConfirmationType::class);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -204,7 +202,7 @@ class TrajectenController extends AbstractChildController
         $end = new \DateTime('last day of '.$start->format('M Y'));
         $range = new AppDateRangeModel($start, $end);
 
-        $form = $this->getForm(DagdelenRangeType::class, new DagdelenRangeModel($entity, $project, $range));
+        $form = $this->createForm(DagdelenRangeType::class, new DagdelenRangeModel($entity, $project, $range));
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             try {

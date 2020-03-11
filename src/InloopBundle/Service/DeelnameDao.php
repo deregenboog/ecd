@@ -5,7 +5,6 @@ namespace InloopBundle\Service;
 use AppBundle\Filter\FilterInterface;
 use AppBundle\Service\AbstractDao;
 use InloopBundle\Entity\Deelname;
-use InloopBundle\Entity\Training;
 use OekBundle\Entity\DeelnameStatus;
 
 class DeelnameDao extends AbstractDao implements DeelnameDaoInterface
@@ -36,8 +35,7 @@ class DeelnameDao extends AbstractDao implements DeelnameDaoInterface
             ->leftJoin('deelname.deelnemer', 'deelnemer')
             ->innerJoin('training.groep', 'groep')
             ->where('deelname.deelnameStatus != :status_verwijderd')
-            ->setParameter(":status_verwijderd", DeelnameStatus::STATUS_VERWIJDERD);
-        ;
+            ->setParameter(':status_verwijderd', DeelnameStatus::STATUS_VERWIJDERD);
 
         if ($filter) {
             $filter->applyTo($builder);

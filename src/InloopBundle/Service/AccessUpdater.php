@@ -153,7 +153,6 @@ class AccessUpdater
             if ($strategy->supports($locatie)) {
                 return $strategy;
             }
-
         }
 
         throw new \LogicException('No supported strategy found!');
@@ -161,12 +160,12 @@ class AccessUpdater
 
     private function getKlantIds(QueryBuilder $builder)
     {
-        $klantIdArray =  $builder->select('klant.id')->distinct(true)->getQuery()->getResult();
+        $klantIdArray = $builder->select('klant.id')->distinct(true)->getQuery()->getResult();
+
         return array_map(
             function ($klantId) {
                 return $klantId['id'];
-            },$klantIdArray
-
+            }, $klantIdArray
         );
     }
 }

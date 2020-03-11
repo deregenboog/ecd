@@ -22,18 +22,9 @@ interface MemoDaoInterface
      */
     public function find($id);
 
-    /**
-     * @param Memo $memo
-     */
     public function create(Memo $memo);
 
-    /**
-     * @param Memo $memo
-     */
     public function update(Memo $memo);
 
-    /**
-     * @param Memo $memo
-     */
     public function delete(Memo $memo);
 }

@@ -73,6 +73,6 @@ class VrijwilligersControllerTest extends WebTestCase
         $crawler = $this->client->submit($form);
         $rows = $crawler->filter('table.table tbody tr');
 //        $this->assertEquals(19, $rows->count());
-        $this->assertLessThanOrEqual(1,$this->count());
+        $this->assertLessThanOrEqual(1, $this->count());
     }
 }

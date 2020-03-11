@@ -54,13 +54,12 @@ class KlantFilter implements FilterInterface
 
     public function applyTo(QueryBuilder $builder)
     {
-            if ($this->gebruikersruimte) {
+        if ($this->gebruikersruimte) {
             $builder
                 ->andWhere('laatsteIntake.gebruikersruimte = :gebruikersruimte')
                 ->setParameter('gebruikersruimte', $this->gebruikersruimte)
             ;
         }
-
 
         if ($this->laatsteIntakeLocatie) {
             $builder
@@ -69,13 +68,11 @@ class KlantFilter implements FilterInterface
             ;
         }
 
-        if($this->verslag)
-        {
+        if ($this->verslag) {
             $builder
                 ->andWhere('verslag.medewerker = :medewerker')
-                ->setParameter('medewerker',$this->verslag)
+                ->setParameter('medewerker', $this->verslag)
                 ;
-
         }
 
         if ($this->laatsteIntakeDatum) {

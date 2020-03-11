@@ -25,24 +25,13 @@ interface KlantDaoInterface
     public function find($id);
 
     /**
-     * @param Klant $klant
-     *
      * @return IzKlant
      */
     public function findOneByKlant(Klant $klant);
 
-    /**
-     * @param IzKlant $klant
-     */
     public function create(IzKlant $klant);
 
-    /**
-     * @param IzKlant $klant
-     */
     public function update(IzKlant $klant);
 
-    /**
-     * @param IzKlant $klant
-     */
     public function delete(IzKlant $klant);
 }

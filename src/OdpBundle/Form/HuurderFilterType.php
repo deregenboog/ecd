@@ -24,7 +24,6 @@ class HuurderFilterType extends AbstractType
         if (array_key_exists('klant', $options['enabled_filters'])) {
             $builder->add('klant', KlantFilterType::class, [
                 'enabled_filters' => $options['enabled_filters']['klant'],
-
             ]);
             StadsdeelSelectType::$showOnlyZichtbaar = 0;
         }

@@ -81,8 +81,6 @@ class DeelnemerDao extends AbstractDao implements DeelnemerDaoInterface
     }
 
     /**
-     * @param string $name
-     *
      * @return Deelnemer
      */
     public function findOneByName(string $name)

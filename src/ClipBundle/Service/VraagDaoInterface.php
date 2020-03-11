@@ -31,19 +31,10 @@ interface VraagDaoInterface
      */
     public function find($id);
 
-    /**
-     * @param Vraag $vraag
-     */
     public function create(Vraag $vraag);
 
-    /**
-     * @param Vraag $vraag
-     */
     public function update(Vraag $vraag);
 
-    /**
-     * @param Vraag $vraag
-     */
     public function delete(Vraag $vraag);
 
     public function countByCommunicatiekanaal(\DateTime $startdate, \DateTime $enddate);

@@ -56,7 +56,7 @@ class Deelname
 
     public function __construct(Vrijwilliger $vrijwilliger = null)
     {
-        $this->vrijwilliger = $vrijwilliger;;
+        $this->vrijwilliger = $vrijwilliger;
     }
 
     public function getId()
@@ -79,14 +79,11 @@ class Deelname
     /**
      * @return Vrijwilliger
      */
-    public function getVrijwilliger():? Vrijwilliger
+    public function getVrijwilliger(): ? Vrijwilliger
     {
         return $this->vrijwilliger;
     }
 
-    /**
-     * @param Vrijwilliger $vrijwilliger
-     */
     public function setVrijwilliger(Vrijwilliger $vrijwilliger): void
     {
         $this->vrijwilliger = $vrijwilliger;
@@ -95,14 +92,11 @@ class Deelname
     /**
      * @return \DateTime
      */
-    public function getDatum():? \DateTime
+    public function getDatum(): ? \DateTime
     {
         return $this->datum;
     }
 
-    /**
-     * @param \DateTime $datum
-     */
     public function setDatum(\DateTime $datum): void
     {
         $this->datum = $datum;
@@ -111,7 +105,7 @@ class Deelname
     /**
      * @return string
      */
-    public function getOverig():? string
+    public function getOverig(): ? string
     {
         return $this->overig;
     }
@@ -123,7 +117,4 @@ class Deelname
     {
         $this->overig = $overig;
     }
-
-
-
 }

@@ -11,6 +11,7 @@ use GaBundle\Form\LidmaatschapReopenType;
 use GaBundle\Form\LidmaatschapType;
 use GaBundle\Service\LidmaatschapDaoInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -38,14 +39,12 @@ class LidmaatschappenController extends AbstractChildController
      */
     protected $entities;
 
-    public function setContainer(\Psr\Container\ContainerInterface $container): ?\Psr\Container\ContainerInterface
+    public function setContainer(?\Symfony\Component\DependencyInjection\ContainerInterface $container = null)
     {
-        $previous = parent::setContainer($container);
+        parent::setContainer($container);
 
         $this->dao = $container->get("GaBundle\Service\LidmaatschapDao");
-        $this->entities = $container->get("ga.lidmaatschap.entities");
-    
-        return $previous;
+        $this->entities = $container->get('ga.lidmaatschap.entities');
     }
 
     /**
@@ -74,13 +73,13 @@ class LidmaatschappenController extends AbstractChildController
         return $this->processForm($request, $entity);
     }
 
-    protected function getForm($type, $data = null, array $options = [])
+    protected function createForm(string $type, $data = null, array $options = []): FormInterface
     {
         if (LidmaatschapType::class === $type) {
             $options['dossier_class'] = $this->getDossierClass($this->getRequest());
         }
 
-        return $this->createForm($type, $data, $options);
+        return parent::createForm($type, $data, $options);
     }
 
     private function getDossierClass(Request $request)

@@ -23,18 +23,9 @@ interface BehandelaarDaoInterface
      */
     public function find($id);
 
-    /**
-     * @param Behandelaar $behandelaar
-     */
     public function create(Behandelaar $behandelaar);
 
-    /**
-     * @param Behandelaar $behandelaar
-     */
     public function update(Behandelaar $behandelaar);
 
-    /**
-     * @param Behandelaar $behandelaar
-     */
     public function delete(Behandelaar $behandelaar);
 }

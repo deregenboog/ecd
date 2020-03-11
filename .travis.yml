@@ -1,7 +1,7 @@
 language: php
 
 php:
-  - 7.2.25
+  - 7.3.15
 
 env:
   - DB=sqlite
@@ -17,5 +17,5 @@ before_script:
 script:
   - php bin/console lint:twig src/
   - php bin/console lint:yaml src/
-  - vendor/bin/phpcpd --min-lines=75 src/ || true
+#  - vendor/bin/phpcpd --min-lines=75 src/ || true
   - vendor/bin/simple-phpunit

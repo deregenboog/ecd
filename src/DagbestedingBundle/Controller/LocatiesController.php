@@ -6,8 +6,8 @@ use AppBundle\Controller\AbstractController;
 use DagbestedingBundle\Entity\Locatie;
 use DagbestedingBundle\Form\LocatieType;
 use DagbestedingBundle\Service\LocatieDaoInterface;
-use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * @Route("/admin/locaties")
@@ -25,13 +25,11 @@ class LocatiesController extends AbstractController
      */
     protected $dao;
 
-    public function setContainer(\Psr\Container\ContainerInterface $container): ?\Psr\Container\ContainerInterface
+    public function setContainer(?\Symfony\Component\DependencyInjection\ContainerInterface $container = null)
     {
-        $previous = parent::setContainer($container);
+        parent::setContainer($container);
 
         $this->dao = $container->get("DagbestedingBundle\Service\LocatieDao");
-    
-        return $previous;
     }
 
     /**

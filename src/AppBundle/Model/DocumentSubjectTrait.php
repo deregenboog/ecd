@@ -24,8 +24,6 @@ trait DocumentSubjectTrait
     }
 
     /**
-     * @param DocumentInterface $document
-     *
      * @return self
      */
     public function addDocument(DocumentInterface $document)
@@ -36,8 +34,6 @@ trait DocumentSubjectTrait
     }
 
     /**
-     * @param DocumentInterface $document
-     *
      * @return self
      */
     public function removeDocument(DocumentInterface $document)

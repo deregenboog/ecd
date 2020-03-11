@@ -56,25 +56,16 @@ class ZrmDao extends AbstractDao implements ZrmDaoInterface
         return parent::find($id);
     }
 
-    /**
-     * @param Zrm $entity
-     */
     public function create(Zrm $entity)
     {
         return $this->doCreate($entity);
     }
 
-    /**
-     * @param Zrm $entity
-     */
     public function update(Zrm $entity)
     {
         return $this->doUpdate($entity);
     }
 
-    /**
-     * @param Zrm $entity
-     */
     public function delete(Zrm $entity)
     {
         return $this->doDelete($entity);

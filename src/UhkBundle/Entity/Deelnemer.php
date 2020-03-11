@@ -5,14 +5,12 @@ namespace UhkBundle\Entity;
 use AppBundle\Entity\Klant;
 use AppBundle\Entity\Medewerker;
 use AppBundle\Model\ActivatableTrait;
-use AppBundle\Model\DocumentInterface;
 use AppBundle\Model\DocumentSubjectInterface;
 use AppBundle\Model\DocumentSubjectTrait;
 use AppBundle\Model\IdentifiableTrait;
 use AppBundle\Model\KlantRelationInterface;
 use AppBundle\Model\UsesKlantTrait;
 use AppBundle\Service\NameFormatter;
-
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\EntityNotFoundException;
@@ -30,7 +28,10 @@ use Gedmo\Mapping\Annotation as Gedmo;
  */
 class Deelnemer implements KlantRelationInterface, DocumentSubjectInterface
 {
-    use IdentifiableTrait, ActivatableTrait, UsesKlantTrait, DocumentSubjectTrait;
+    use IdentifiableTrait;
+    use ActivatableTrait;
+    use UsesKlantTrait;
+    use DocumentSubjectTrait;
 
     /**
      * @var Klant
@@ -41,7 +42,7 @@ class Deelnemer implements KlantRelationInterface, DocumentSubjectInterface
     private $klant;
 
     //For KlantRelationInterface and usesKlantTrait.
-    private $klantFieldName = "klant";
+    private $klantFieldName = 'klant';
 
     /**
      * @var string
@@ -65,7 +66,6 @@ class Deelnemer implements KlantRelationInterface, DocumentSubjectInterface
      */
     protected $aanmelddatum;
 
-
     /**
      * @var Medewerker
      *
@@ -81,19 +81,15 @@ class Deelnemer implements KlantRelationInterface, DocumentSubjectInterface
      */
     private $verslagen;
 
-
-
     public function __construct(Klant $klant = null, Medewerker $medewerker = null)
     {
         $this->klant = $klant;
         $this->verslagen = new ArrayCollection();
         $this->documenten = new ArrayCollection();
         $this->medewerker = $medewerker;
-        if(!$this->aanmelddatum)
-        {
+        if (!$this->aanmelddatum) {
             $this->aanmelddatum = new \DateTime('now');
         }
-
     }
 
     public function __toString()
@@ -113,16 +109,12 @@ class Deelnemer implements KlantRelationInterface, DocumentSubjectInterface
         return $this->klant;
     }
 
-    /**
-     * @param Klant $klant
-     */
     public function setKlant(Klant $klant)
     {
         $this->klant = $klant;
 
         return $this;
     }
-
 
     /**
      * @return \AppBundle\Entity\Medewerker
@@ -150,9 +142,6 @@ class Deelnemer implements KlantRelationInterface, DocumentSubjectInterface
         return $this->verslagen;
     }
 
-    /**
-     * @param Verslag $verslag
-     */
     public function addVerslag(Verslag $verslag)
     {
         $verslag->setDeelnemer($this);
@@ -177,7 +166,6 @@ class Deelnemer implements KlantRelationInterface, DocumentSubjectInterface
         $this->contactpersoonNazorg = $contactpersoonNazorg;
     }
 
-
     /**
      * @return Medewerker
      */
@@ -186,9 +174,6 @@ class Deelnemer implements KlantRelationInterface, DocumentSubjectInterface
         return $this->aanmelder;
     }
 
-    /**
-     * @param Medewerker $aanmelder
-     */
     public function setAanmelder(Medewerker $aanmelder): void
     {
         $this->aanmelder = $aanmelder;
@@ -202,18 +187,13 @@ class Deelnemer implements KlantRelationInterface, DocumentSubjectInterface
         return $this->aanmelddatum;
     }
 
-    /**
-     * @param \DateTime $aanmeldDatum
-     */
     public function setAanmelddatum(\DateTime $aanmeldDatum): void
     {
         $this->aanmelddatum = $aanmeldDatum;
     }
 
-
     public function getKlantFieldName()
     {
         return $this->klantFieldName;
     }
-
 }

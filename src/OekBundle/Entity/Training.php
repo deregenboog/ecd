@@ -155,13 +155,12 @@ class Training implements KlantRelationInterface
 
     public function getDeelnames()
     {
-
-        foreach($this->deelnames as $dn)
-        {
-            if($dn->getStatus() == DeelnameStatus::STATUS_VERWIJDERD) {
+        foreach ($this->deelnames as $dn) {
+            if (DeelnameStatus::STATUS_VERWIJDERD == $dn->getStatus()) {
                 $this->deelnames->removeElement($dn);
             }
         }
+
         return $this->deelnames;
     }
 
@@ -169,7 +168,9 @@ class Training implements KlantRelationInterface
     {
         $deelnemers = new ArrayCollection();
         foreach ($this->deelnames as $deelname) {
-            if($deelname->getStatus() == DeelnameStatus::STATUS_VERWIJDERD) continue;
+            if (DeelnameStatus::STATUS_VERWIJDERD == $deelname->getStatus()) {
+                continue;
+            }
             $deelnemers->add($deelname->getDeelnemer());
         }
 
@@ -197,8 +198,9 @@ class Training implements KlantRelationInterface
     {
         return $this->getDeelnames();
     }
+
     public function getKlantFieldName()
     {
-        return "Deelnames";
+        return 'Deelnames';
     }
 }

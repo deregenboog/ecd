@@ -22,18 +22,9 @@ interface VerslagDaoInterface
      */
     public function find($id);
 
-    /**
-     * @param Verslag $entity
-     */
     public function create(Verslag $entity);
 
-    /**
-     * @param Verslag $entity
-     */
     public function update(Verslag $entity);
 
-    /**
-     * @param Verslag $entity
-     */
     public function delete(Verslag $entity);
 }

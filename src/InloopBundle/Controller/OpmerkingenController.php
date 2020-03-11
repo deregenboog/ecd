@@ -9,10 +9,10 @@ use InloopBundle\Entity\Locatie;
 use InloopBundle\Form\OpmerkingType;
 use InloopBundle\Service\OpmerkingDaoInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
-use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * @Route("/opmerkingen")
@@ -32,13 +32,11 @@ class OpmerkingenController extends AbstractController
      */
     protected $dao;
 
-    public function setContainer(\Psr\Container\ContainerInterface $container): ?\Psr\Container\ContainerInterface
+    public function setContainer(?\Symfony\Component\DependencyInjection\ContainerInterface $container = null)
     {
-        $previous = parent::setContainer($container);
+        parent::setContainer($container);
 
         $this->dao = $container->get("InloopBundle\Service\OpmerkingDao");
-    
-        return $previous;
     }
 
     /**

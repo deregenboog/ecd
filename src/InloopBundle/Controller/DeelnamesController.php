@@ -4,12 +4,9 @@ namespace InloopBundle\Controller;
 
 use AppBundle\Controller\AbstractChildController;
 use InloopBundle\Entity\Deelname;
-use InloopBundle\Entity\Memo;
 use InloopBundle\Form\DeelnameType;
-use InloopBundle\Form\MemoType;
-use InloopBundle\Service\MemoDaoInterface;
-use Symfony\Component\Routing\Annotation\Route;
 use InloopBundle\Service\DeelnameDaoInterface;
+use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * @Route("/deelnames")
@@ -34,13 +31,11 @@ class DeelnamesController extends AbstractChildController
      */
     protected $entities;
 
-    public function setContainer(\Psr\Container\ContainerInterface $container): ?\Psr\Container\ContainerInterface
+    public function setContainer(?\Symfony\Component\DependencyInjection\ContainerInterface $container = null)
     {
-        $previous = parent::setContainer($container);
+        parent::setContainer($container);
 
         $this->dao = $container->get("InloopBundle\Service\DeelnameDao");
-        $this->entities = $container->get("inloop.deelname.entities");
-    
-        return $previous;
+        $this->entities = $container->get('inloop.deelname.entities');
     }
 }

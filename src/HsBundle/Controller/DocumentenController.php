@@ -31,14 +31,12 @@ class DocumentenController extends AbstractChildController
      */
     protected $entities;
 
-    public function setContainer(\Psr\Container\ContainerInterface $container): ?\Psr\Container\ContainerInterface
+    public function setContainer(?\Symfony\Component\DependencyInjection\ContainerInterface $container = null)
     {
-        $previous = parent::setContainer($container);
+        parent::setContainer($container);
 
         $this->dao = $container->get("HsBundle\Service\DocumentDao");
-        $this->entities = $container->get("hs.document.entities");
-    
-        return $previous;
+        $this->entities = $container->get('hs.document.entities');
     }
 
     /**

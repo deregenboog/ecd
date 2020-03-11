@@ -24,25 +24,14 @@ interface DienstverlenerDaoInterface
     public function find($id);
 
     /**
-     * @param Klant $klant
-     *
      * @return Dienstverlener
      */
     public function findOneByKlant(Klant $klant);
 
-    /**
-     * @param Dienstverlener $dienstverlener
-     */
     public function create(Dienstverlener $dienstverlener);
 
-    /**
-     * @param Dienstverlener $dienstverlener
-     */
     public function update(Dienstverlener $dienstverlener);
 
-    /**
-     * @param Dienstverlener $dienstverlener
-     */
     public function delete(Dienstverlener $dienstverlener);
 
     public function countByStadsdeel(\DateTime $start = null, \DateTime $end = null);

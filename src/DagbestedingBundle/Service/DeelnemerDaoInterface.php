@@ -28,19 +28,10 @@ interface DeelnemerDaoInterface
      */
     public function find($id);
 
-    /**
-     * @param Deelnemer $deelnemer
-     */
     public function create(Deelnemer $deelnemer);
 
-    /**
-     * @param Deelnemer $deelnemer
-     */
     public function update(Deelnemer $deelnemer);
 
-    /**
-     * @param Deelnemer $deelnemer
-     */
     public function delete(Deelnemer $deelnemer);
 
     public function countByBegeleider($fase, \DateTime $startdate, \DateTime $enddate);

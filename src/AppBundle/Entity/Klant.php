@@ -225,8 +225,10 @@ class Klant extends Persoon
     public function setLaatsteZrm($zrm)
     {
         $this->laatseZrm = $zrm;
+
         return $this;
     }
+
     public function setLaastseZrm(\DateTime $laatsteZrm)
     {
         $this->laatsteZrm = $laatsteZrm;
@@ -368,7 +370,7 @@ class Klant extends Persoon
 
     public function addIntake(Intake $intake)
     {
-        /**
+        /*
          * dd 20191203 dit ging fout want intakedatum was nog niet gevuld omdat vanuit nieuwe intake constructor addIntake werd aangeroepen en
          * pas daarna de intakedatum werd gevuld.
          *
@@ -494,22 +496,15 @@ class Klant extends Persoon
         return $this->eersteIntakeDatum;
     }
 
-    /**
-     * @return Intake
-     */
     public function getEersteIntake(): Intake
     {
         return $this->eersteIntake;
     }
 
-    /**
-     * @param Intake $eersteIntake
-     */
     public function setEersteIntake(Intake $eersteIntake): void
     {
         $this->eersteIntake = $eersteIntake;
     }
-
 
     public function updateCalculatedFields()
     {
@@ -552,21 +547,18 @@ class Klant extends Persoon
 
     public function isToestemmingsformulierAanwezig(): bool
     {
-        if(null !== $this->getToestemmingsformulier()) return true;
+        if (null !== $this->getToestemmingsformulier()) {
+            return true;
+        }
+
         return false;
     }
 
-    /**
-     * @return bool
-     */
     public function isGeinformeerdOpslaanGegevens(): bool
     {
         return $this->geinformeerdOpslaanGegevens;
     }
 
-    /**
-     * @param bool $geinformeerdOpslaanGegevens
-     */
     public function setGeinformeerdOpslaanGegevens(bool $geinformeerdOpslaanGegevens): void
     {
         $this->geinformeerdOpslaanGegevens = $geinformeerdOpslaanGegevens;

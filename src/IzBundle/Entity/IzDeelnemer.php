@@ -24,7 +24,8 @@ use Gedmo\Mapping\Annotation as Gedmo;
  */
 abstract class IzDeelnemer
 {
-    use TimestampableTrait, OptionalMedewerkerTrait;
+    use TimestampableTrait;
+    use OptionalMedewerkerTrait;
 
     /**
      * @ORM\Id
@@ -192,9 +193,6 @@ abstract class IzDeelnemer
         return $this->datumAanmelding;
     }
 
-    /**
-     * @param \DateTime $datum
-     */
     public function setDatumAanmelding(\DateTime $datum)
     {
         $this->datumAanmelding = $datum;

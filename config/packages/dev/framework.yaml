@@ -1,4 +1,3 @@
 framework:
     router:
-#        resource: "%kernel.root_dir%/config/dev/routing.yaml"
         strict_requirements: true

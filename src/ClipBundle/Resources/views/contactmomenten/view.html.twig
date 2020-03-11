@@ -31,7 +31,7 @@
         <dt>Medewerker</dt>
         <dd>{{ entity.behandelaar }}</dd>
     </dl>
-    {% include '::klant_basis.html.twig' with {klant: entity.klant} %}
+    {% include 'klant_basis.html.twig' with {klant: entity.klant} %}
 {% endblock %}
 
 {% block xcontent_right %}

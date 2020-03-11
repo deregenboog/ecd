@@ -31,14 +31,12 @@ class VerslagenController extends AbstractChildController
      */
     protected $entities;
 
-    public function setContainer(\Psr\Container\ContainerInterface $container): ?\Psr\Container\ContainerInterface
+    public function setContainer(?\Symfony\Component\DependencyInjection\ContainerInterface $container = null)
     {
-        $previous = parent::setContainer($container);
+        parent::setContainer($container);
 
         $this->dao = $container->get("ScipBundle\Service\VerslagDao");
-        $this->entities = $container->get("scip.verslag.entities");
-    
-        return $previous;
+        $this->entities = $container->get('scip.verslag.entities');
     }
 
     protected function beforeCreate($entity)
@@ -56,12 +54,14 @@ class VerslagenController extends AbstractChildController
     protected function updateEvaluatieDatum(Verslag $entity)
     {
         //Verslag is geen evaluatieverslag
-        if(!$entity->isEvaluatie()) return;
+        if (!$entity->isEvaluatie()) {
+            return;
+        }
 
         //Versag is evaluatieverslag, maar de datum ligt te ver in het verleden - voordat er geevalueerd moet worden. Doe niks, maar doe wel melding
-        if($entity->getDatum() < $entity->getDeelnemer()->getEvaluatiedatum()->modify("-1 week") )
-        {
+        if ($entity->getDatum() < $entity->getDeelnemer()->getEvaluatiedatum()->modify('-1 week')) {
             $this->addFlash('warning', 'Evaluatiedatum niet verwijderd, verslagdatum ligt meer dan een week voor evaluatiedatum.');
+
             return;
         }
 

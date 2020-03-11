@@ -45,7 +45,6 @@ class DeelnemerDao extends AbstractDao implements DeelnemerDaoInterface
      */
     public function findByMedewerker(Medewerker $medewerker, $page = null, FilterInterface $filter = null): PaginationInterface
     {
-
         return parent::findAll($page, $filter);
     }
 
@@ -71,8 +70,6 @@ class DeelnemerDao extends AbstractDao implements DeelnemerDaoInterface
     }
 
     /**
-     * @param string $name
-     *
      * @return Deelnemer
      */
     public function findOneByName(string $name)

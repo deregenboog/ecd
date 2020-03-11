@@ -2,8 +2,6 @@
 
 namespace OdpBundle\Entity;
 
-use AppBundle\Model\TimestampableTrait;
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 
@@ -15,7 +13,6 @@ use Gedmo\Mapping\Annotation as Gedmo;
  */
 class DuurThuisloos
 {
-
     /**
      * @ORM\Id
      * @ORM\Column(type="integer")
@@ -35,32 +32,26 @@ class DuurThuisloos
      */
     private $maxVal;
 
-
     public function __toString(): string
     {
-        $retStr = "";
-        if(isset($this->minVal))
-        {
-            $retStr .= " > ".$this->mndJr($this->minVal);
+        $retStr = '';
+        if (isset($this->minVal)) {
+            $retStr .= ' > '.$this->mndJr($this->minVal);
         }
-        if(isset($this->maxVal))
-        {
-            $retStr .= " < ".$this->mndJr($this->maxVal);
+        if (isset($this->maxVal)) {
+            $retStr .= ' < '.$this->mndJr($this->maxVal);
         }
-        $retStr .= "";
+        $retStr .= '';
 
         return $retStr;
     }
 
     private function mndJr($val)
     {
-        if($val < 12)
-        {
-            return $val ." mnd";
-        }
-        else
-        {
-            return ($val/12) ." Jr";
+        if ($val < 12) {
+            return $val.' mnd';
+        } else {
+            return ($val / 12).' Jr';
         }
     }
 
@@ -100,6 +91,4 @@ class DuurThuisloos
     {
         $this->maxVal = $maxVal;
     }
-
-
 }

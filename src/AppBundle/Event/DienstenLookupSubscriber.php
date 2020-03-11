@@ -27,8 +27,6 @@ class DienstenLookupSubscriber implements EventSubscriberInterface
 
     /**
      * Store Klant object in event for subsequent subscribers to use.
-     *
-     * @param DienstenLookupEvent $event
      */
     public function lookupKlant(DienstenLookupEvent $event)
     {

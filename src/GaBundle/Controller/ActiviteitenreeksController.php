@@ -9,9 +9,9 @@ use GaBundle\Form\ActiviteitenReeksModel;
 use GaBundle\Form\ActiviteitenReeksType;
 use GaBundle\Service\ActiviteitDaoInterface;
 use GaBundle\Service\ActiviteitenreeksGenerator;
-use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * @Route("/activiteitenreeks")
@@ -35,14 +35,12 @@ class ActiviteitenreeksController extends AbstractChildController
      */
     protected $entities;
 
-    public function setContainer(\Psr\Container\ContainerInterface $container): ?\Psr\Container\ContainerInterface
+    public function setContainer(?\Symfony\Component\DependencyInjection\ContainerInterface $container = null)
     {
-        $previous = parent::setContainer($container);
+        parent::setContainer($container);
 
         $this->dao = $container->get("GaBundle\Service\ActiviteitDao");
-        $this->entities = $container->get("ga.activiteit.entities");
-    
-        return $previous;
+        $this->entities = $container->get('ga.activiteit.entities');
     }
 
     /**
@@ -57,7 +55,7 @@ class ActiviteitenreeksController extends AbstractChildController
 
         $entity = new Activiteit();
         $entity->setGroep($parentEntity);
-        $form = $this->getForm($this->formClass, new ActiviteitenReeksModel($entity), [
+        $form = $this->createForm($this->formClass, new ActiviteitenReeksModel($entity), [
             'medewerker' => $this->getMedewerker(),
         ]);
         $form->handleRequest($request);

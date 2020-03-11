@@ -49,8 +49,6 @@ class ProjectDao extends AbstractDao implements ProjectDaoInterface
     }
 
     /**
-     * @param string $kpl
-     *
      * @return Project
      */
     public function findOneByKpl(string $kpl)

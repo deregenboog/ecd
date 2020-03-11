@@ -8,8 +8,8 @@ use Doctrine\ORM\EntityManagerInterface;
 use InloopBundle\Entity\Intake;
 use InloopBundle\Event\Events;
 use Knp\Component\Pager\PaginatorInterface;
-use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
+use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
 class IntakeDao extends AbstractDao implements IntakeDaoInterface
 {
@@ -57,8 +57,6 @@ class IntakeDao extends AbstractDao implements IntakeDaoInterface
     }
 
     /**
-     * @param Intake $entity
-     *
      * @return Intake
      */
     public function create(Intake $entity)
@@ -71,8 +69,6 @@ class IntakeDao extends AbstractDao implements IntakeDaoInterface
     }
 
     /**
-     * @param Intake $entity
-     *
      * @return Intake
      */
     public function update(Intake $entity)

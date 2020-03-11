@@ -5,12 +5,12 @@ namespace OekBundle\Entity;
 use AppBundle\Entity\Vrijwilliger as AppVrijwilliger;
 use AppBundle\Model\ActivatableInterface;
 use AppBundle\Model\ActivatableTrait;
-use AppBundle\Model\NotDeletableTrait;
 use AppBundle\Model\DocumentSubjectInterface;
 use AppBundle\Model\DocumentSubjectTrait;
 use AppBundle\Model\IdentifiableTrait;
 use AppBundle\Model\MemoSubjectInterface;
 use AppBundle\Model\MemoSubjectTrait;
+use AppBundle\Model\NotDeletableTrait;
 use AppBundle\Model\RequiredMedewerkerTrait;
 use AppBundle\Model\TimestampableTrait;
 use Doctrine\ORM\Mapping as ORM;
@@ -24,7 +24,13 @@ use Gedmo\Mapping\Annotation as Gedmo;
  */
 class Vrijwilliger implements MemoSubjectInterface, DocumentSubjectInterface, ActivatableInterface
 {
-    use IdentifiableTrait, TimestampableTrait, RequiredMedewerkerTrait, MemoSubjectTrait, DocumentSubjectTrait, ActivatableTrait, NotDeletableTrait;
+    use IdentifiableTrait;
+    use TimestampableTrait;
+    use RequiredMedewerkerTrait;
+    use MemoSubjectTrait;
+    use DocumentSubjectTrait;
+    use ActivatableTrait;
+    use NotDeletableTrait;
 
     const STATUS_ACTIEF = 1;
     const STATUS_VERWIJDERD = 0;
@@ -37,7 +43,6 @@ class Vrijwilliger implements MemoSubjectInterface, DocumentSubjectInterface, Ac
      * @Gedmo\Versioned
      */
     protected $vrijwilliger;
-
 
     public function __construct(AppVrijwilliger $vrijwilliger = null)
     {
@@ -73,21 +78,13 @@ class Vrijwilliger implements MemoSubjectInterface, DocumentSubjectInterface, Ac
         return $this;
     }
 
-    /**
-     * @return bool
-     */
     public function getActief(): bool
     {
         return $this->actief;
     }
 
-    /**
-     * @param bool $status
-     */
     public function setActief(bool $status): void
     {
         $this->actief = $status;
     }
-
-
 }

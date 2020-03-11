@@ -8,7 +8,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityNotFoundException;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
-use Symfony\Component\Debug\Exception\FatalErrorException;
+use Symfony\Component\ErrorHandler\Error\FatalError;
 
 /**
  * @ORM\Entity
@@ -18,7 +18,9 @@ use Symfony\Component\Debug\Exception\FatalErrorException;
  */
 class Vrijwilliger extends Arbeider implements MemoSubjectInterface, DocumentSubjectInterface
 {
-    use HulpverlenerTrait, MemoSubjectTrait, DocumentSubjectTrait;
+    use HulpverlenerTrait;
+    use MemoSubjectTrait;
+    use DocumentSubjectTrait;
 
     /**
      * @var Vrijwilliger
@@ -46,14 +48,11 @@ class Vrijwilliger extends Arbeider implements MemoSubjectInterface, DocumentSub
 
     public function __toString()
     {
-
         try {
             return NameFormatter::formatInformal($this->vrijwilliger);
         } catch (EntityNotFoundException $e) {
             return '(verwijderd)';
-        }
-        catch(FatalErrorException $e)
-        {
+        } catch (FatalError $e) {
             return '(verwijderd)';
         }
     }
@@ -65,22 +64,19 @@ class Vrijwilliger extends Arbeider implements MemoSubjectInterface, DocumentSub
 
     public function getVrijwilliger()
     {
-        /**
+        /*
          * Because vrijwilliger can be disabled and this is implemented via an SQL filter. Doctrine just gets an empty object somehow so it seems.
          * Thus, all goes well until the point a field of vrijwilliger is called (in a template for example).
          * But then its too late to catch exceptions.
          * Thus, try a field here (since vrijwilliger is not null) and catch exception. If so, return nul..
          */
-        try
-        {
+        try {
             $this->vrijwilliger->getCreated();
-        }
-        catch(\Doctrine\ORM\EntityNotFoundException $e)
-        {
+        } catch (\Doctrine\ORM\EntityNotFoundException $e) {
             return null;
         }
 
-       return $this->vrijwilliger;
+        return $this->vrijwilliger;
     }
 
     public function setVrijwilliger(AppVrijwilliger $vrijwilliger)

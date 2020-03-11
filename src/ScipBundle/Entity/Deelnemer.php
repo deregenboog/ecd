@@ -26,7 +26,9 @@ use Gedmo\Mapping\Annotation as Gedmo;
  */
 class Deelnemer implements DocumentSubjectInterface
 {
-    use IdentifiableTrait, ActivatableTrait, DocumentSubjectTrait;
+    use IdentifiableTrait;
+    use ActivatableTrait;
+    use DocumentSubjectTrait;
 
     const TYPE_WMO = 'WMO';
     const TYPE_ONDERAANNEMER = 'onderaannemer';
@@ -140,9 +142,6 @@ class Deelnemer implements DocumentSubjectInterface
         return $this->klant;
     }
 
-    /**
-     * @param Klant $klant
-     */
     public function setKlant(Klant $klant)
     {
         $this->klant = $klant;
@@ -158,9 +157,6 @@ class Deelnemer implements DocumentSubjectInterface
         return $this->deelnames;
     }
 
-    /**
-     * @param Deelname $deelname
-     */
     public function addDeelname(Deelname $deelname)
     {
         $this->deelnames[] = $deelname;
@@ -176,9 +172,6 @@ class Deelnemer implements DocumentSubjectInterface
         return $this->labels;
     }
 
-    /**
-     * @param Label $label
-     */
     public function addLabel(Label $label)
     {
         $this->labels[] = $label;
@@ -329,9 +322,6 @@ class Deelnemer implements DocumentSubjectInterface
         return $this->verslagen;
     }
 
-    /**
-     * @param Verslag $verslag
-     */
     public function addVerslag(Verslag $verslag)
     {
         $verslag->setDeelnemer($this);
@@ -348,9 +338,6 @@ class Deelnemer implements DocumentSubjectInterface
         return $this->werkdoelen;
     }
 
-    /**
-     * @param Werkdoel $werkdoel
-     */
     public function addWerkdoel(Werkdoel $werkdoel)
     {
         $werkdoel->setDeelnemer($this);
@@ -384,7 +371,7 @@ class Deelnemer implements DocumentSubjectInterface
     /**
      * @return \DateTime
      */
-    public function getEvaluatiedatum():? \DateTime
+    public function getEvaluatiedatum(): ? \DateTime
     {
         return $this->evaluatiedatum;
     }
@@ -396,6 +383,4 @@ class Deelnemer implements DocumentSubjectInterface
     {
         $this->evaluatiedatum = $evaluatiedatum;
     }
-
-
 }

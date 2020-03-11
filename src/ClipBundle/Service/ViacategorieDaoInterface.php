@@ -23,18 +23,9 @@ interface ViacategorieDaoInterface
      */
     public function find($id);
 
-    /**
-     * @param Viacategorie $viacategorie
-     */
     public function create(Viacategorie $viacategorie);
 
-    /**
-     * @param Viacategorie $viacategorie
-     */
     public function update(Viacategorie $viacategorie);
 
-    /**
-     * @param Viacategorie $viacategorie
-     */
     public function delete(Viacategorie $viacategorie);
 }

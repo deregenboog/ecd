@@ -23,18 +23,9 @@ interface LeeftijdscategorieDaoInterface
      */
     public function find($id);
 
-    /**
-     * @param Leeftijdscategorie $leeftijdscategorie
-     */
     public function create(Leeftijdscategorie $leeftijdscategorie);
 
-    /**
-     * @param Leeftijdscategorie $leeftijdscategorie
-     */
     public function update(Leeftijdscategorie $leeftijdscategorie);
 
-    /**
-     * @param Leeftijdscategorie $leeftijdscategorie
-     */
     public function delete(Leeftijdscategorie $leeftijdscategorie);
 }

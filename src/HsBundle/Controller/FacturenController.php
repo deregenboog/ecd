@@ -9,7 +9,6 @@ use AppBundle\Filter\FilterInterface;
 use AppBundle\Form\ConfirmationType;
 use HsBundle\Entity\Creditfactuur;
 use HsBundle\Entity\Factuur;
-use HsBundle\Entity\Klant;
 use HsBundle\Exception\HsException;
 use HsBundle\Exception\InvoiceLockedException;
 use HsBundle\Form\CreditfactuurType;
@@ -64,17 +63,15 @@ class FacturenController extends AbstractChildController
      */
     private $factory;
 
-    public function setContainer(\Psr\Container\ContainerInterface $container): ?\Psr\Container\ContainerInterface
+    public function setContainer(?\Symfony\Component\DependencyInjection\ContainerInterface $container = null)
     {
-        $previous = parent::setContainer($container);
+        parent::setContainer($container);
 
         $this->dao = $container->get("HsBundle\Service\FactuurDao");
-        $this->entities = $container->get("hs.factuur.entities");
-        $this->export = $container->get("hs.export.factuur");
+        $this->entities = $container->get('hs.factuur.entities');
+        $this->export = $container->get('hs.export.factuur');
         $this->klantDao = $container->get("HsBundle\Service\KlantDao");
-        $this->factory = $container->get("hs.factory.factuur");
-    
-        return $previous;
+        $this->factory = $container->get('hs.factory.factuur');
     }
 
     /**
@@ -85,7 +82,7 @@ class FacturenController extends AbstractChildController
         $filter = null;
 
         if ($this->filterFormClass) {
-            $form = $this->getForm($this->filterFormClass);
+            $form = $this->createForm($this->filterFormClass);
             $form->handleRequest($request);
             if ($form->isSubmitted() && $form->isValid()) {
                 if ($form->has('download') && $form->get('download')->isClicked()) {
@@ -147,12 +144,11 @@ class FacturenController extends AbstractChildController
      */
     public function editAction(Request $request, $id)
     {
-        $this->denyAccessUnlessGranted("ROLE_HOMESERVICE_BEHEER");
+        $this->denyAccessUnlessGranted('ROLE_HOMESERVICE_BEHEER');
         $this->formClass = CreditfactuurType::class;
         $entity = $this->dao->find($id);
-        if($entity->isLocked())
-        {
-            throw new InvoiceLockedException("Een definitieve factuur kan niet meer bewerkt worden");
+        if ($entity->isLocked()) {
+            throw new InvoiceLockedException('Een definitieve factuur kan niet meer bewerkt worden');
         }
 
         return parent::editAction($request, $id);
@@ -163,17 +159,14 @@ class FacturenController extends AbstractChildController
      */
     public function deleteAction(Request $request, $id)
     {
-
-        $this->denyAccessUnlessGranted("ROLE_HOMESERVICE_BEHEER");
+        $this->denyAccessUnlessGranted('ROLE_HOMESERVICE_BEHEER');
 
         $entity = $this->dao->find($id);
-        if($entity->isLocked())
-        {
-            throw new InvoiceLockedException("Een definitieve factuur kan niet meer verwijderd worden");
+        if ($entity->isLocked()) {
+            throw new InvoiceLockedException('Een definitieve factuur kan niet meer verwijderd worden');
         }
+
         return parent::deleteAction($request, $id);
-
-
     }
 
     /**
@@ -209,7 +202,7 @@ class FacturenController extends AbstractChildController
     {
         $entity = $this->dao->find($id);
 
-        $form = $this->getForm(ConfirmationType::class);
+        $form = $this->createForm(ConfirmationType::class);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -236,7 +229,7 @@ class FacturenController extends AbstractChildController
     {
         $entity = $this->dao->find($id);
 
-        $form = $this->getForm(ConfirmationType::class);
+        $form = $this->createForm(ConfirmationType::class);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -395,8 +388,6 @@ class FacturenController extends AbstractChildController
     }
 
     /**
-     * @param Factuur $entity
-     *
      * @return \TCPDF
      */
     private function createPdf(Factuur $entity)

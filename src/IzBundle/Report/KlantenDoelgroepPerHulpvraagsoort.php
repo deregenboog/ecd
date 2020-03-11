@@ -25,7 +25,6 @@ class KlantenDoelgroepPerHulpvraagsoort extends AbstractKoppelingenReport
 
     protected function build()
     {
-
         //gestart
         $gestart = new Table($this->doelgroepen, $this->xPath, $this->yPath, $this->nPath);
         $gestart->setStartDate($this->startDate)->setEndDate($this->endDate);

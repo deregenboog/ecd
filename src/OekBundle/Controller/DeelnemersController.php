@@ -7,7 +7,6 @@ use AppBundle\Entity\Klant;
 use AppBundle\Export\ExportInterface;
 use AppBundle\Form\KlantFilterType;
 use AppBundle\Service\KlantDaoInterface;
-use Doctrine\ORM\EntityNotFoundException;
 use OekBundle\Entity\Aanmelding;
 use OekBundle\Entity\Afsluiting;
 use OekBundle\Entity\Deelnemer;
@@ -49,15 +48,13 @@ class DeelnemersController extends AbstractController
      */
     private $klantDao;
 
-    public function setContainer(\Psr\Container\ContainerInterface $container): ?\Psr\Container\ContainerInterface
+    public function setContainer(?\Symfony\Component\DependencyInjection\ContainerInterface $container = null)
     {
-        $previous = parent::setContainer($container);
+        parent::setContainer($container);
 
         $this->dao = $container->get("OekBundle\Service\DeelnemerDao");
-        $this->export = $container->get("oek.export.deelnemer");
+        $this->export = $container->get('oek.export.deelnemer');
         $this->klantDao = $container->get("AppBundle\Service\KlantDao");
-    
-        return $previous;
     }
 
     /**
@@ -82,7 +79,7 @@ class DeelnemersController extends AbstractController
         $aanmelding = new Aanmelding();
         $deelnemer->addAanmelding($aanmelding);
 
-        $form = $this->getForm(AanmeldingType::class, $aanmelding);
+        $form = $this->createForm(AanmeldingType::class, $aanmelding);
         $form->handleRequest($this->getRequest());
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -113,7 +110,7 @@ class DeelnemersController extends AbstractController
         $afsluiting = new Afsluiting();
         $deelnemer->addAfsluiting($afsluiting);
 
-        $form = $this->getForm(AfsluitingType::class, $afsluiting);
+        $form = $this->createForm(AfsluitingType::class, $afsluiting);
         $form->handleRequest($this->getRequest());
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -141,7 +138,7 @@ class DeelnemersController extends AbstractController
 
     private function doSearch(Request $request)
     {
-        $filterForm = $this->getForm(KlantFilterType::class, null, [
+        $filterForm = $this->createForm(KlantFilterType::class, null, [
             'enabled_filters' => ['id', 'naam', 'bsn', 'geboortedatum'],
         ]);
         $filterForm->handleRequest($request);
@@ -189,7 +186,7 @@ class DeelnemersController extends AbstractController
         }
 
         $deelnemer = new Deelnemer($klant);
-        $creationForm = $this->getForm(DeelnemerType::class, $deelnemer);
+        $creationForm = $this->createForm(DeelnemerType::class, $deelnemer);
         $creationForm->handleRequest($request);
 
         if ($creationForm->isSubmitted() && $creationForm->isValid()) {

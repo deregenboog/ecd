@@ -23,18 +23,9 @@ interface LidmaatschapAfsluitredenDaoInterface
      */
     public function find($id);
 
-    /**
-     * @param LidmaatschapAfsluitreden $entity
-     */
     public function create(LidmaatschapAfsluitreden $entity);
 
-    /**
-     * @param LidmaatschapAfsluitreden $entity
-     */
     public function update(LidmaatschapAfsluitreden $entity);
 
-    /**
-     * @param LidmaatschapAfsluitreden $entity
-     */
     public function delete(LidmaatschapAfsluitreden $entity);
 }

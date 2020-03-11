@@ -144,13 +144,13 @@ class Deelname implements KlantRelationInterface
 
     public function getKlantFieldName()
     {
-      return "Deelnemer";
+        return 'Deelnemer';
     }
 
     /**
      * @return string
      */
-    public function getDoorverwezenNaar():? string
+    public function getDoorverwezenNaar(): ? string
     {
         return $this->doorverwezenNaar;
     }
@@ -162,6 +162,4 @@ class Deelname implements KlantRelationInterface
     {
         $this->doorverwezenNaar = $doorverwezenNaar;
     }
-
-
 }

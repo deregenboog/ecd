@@ -23,18 +23,9 @@ interface LidmaatschapDaoInterface
      */
     public function find($id);
 
-    /**
-     * @param Lidmaatschap $entity
-     */
     public function create(Lidmaatschap $entity);
 
-    /**
-     * @param Lidmaatschap $entity
-     */
     public function update(Lidmaatschap $entity);
 
-    /**
-     * @param Lidmaatschap $entity
-     */
     public function delete(Lidmaatschap $entity);
 }

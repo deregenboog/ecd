@@ -17,5 +17,8 @@ use Gedmo\Mapping\Annotation as Gedmo;
  */
 class ContactOntstaan
 {
-    use IdentifiableTrait, NameableTrait, ActivatableTrait, TimestampableTrait;
+    use IdentifiableTrait;
+    use NameableTrait;
+    use ActivatableTrait;
+    use TimestampableTrait;
 }

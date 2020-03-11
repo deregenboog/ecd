@@ -57,7 +57,7 @@
         <dt>Matchingsinformatie</dt>
         <dd><div class="well">{{ entity.info }}</div></dd>
     </dl>
-    {% include '::vrijwilliger_basis.html.twig' with {vrijwilliger: entity.izVrijwilliger.vrijwilliger} %}
+    {% include 'vrijwilliger_basis.html.twig' with {vrijwilliger: entity.izVrijwilliger.vrijwilliger} %}
 {% endblock %}
 
 {% block content_right %}

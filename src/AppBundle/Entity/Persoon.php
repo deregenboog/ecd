@@ -16,7 +16,9 @@ use Gedmo\Mapping\Annotation as Gedmo;
  */
 class Persoon
 {
-    use PersonTrait, AddressTrait, TimestampableTrait;
+    use PersonTrait;
+    use AddressTrait;
+    use TimestampableTrait;
 
     /**
      * @ORM\Id

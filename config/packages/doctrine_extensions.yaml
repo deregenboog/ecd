@@ -1,0 +1,32 @@
+services:
+    Gedmo\Loggable\LoggableListener:
+        calls:
+            - [setAnnotationReader, ['@annotation_reader']]
+        tags:
+            - { name: doctrine.event_subscriber, connection: default }
+
+    Gedmo\SoftDeleteable\SoftDeleteableListener:
+        calls:
+            - [setAnnotationReader, ['@annotation_reader']]
+        tags:
+            - { name: doctrine.event_subscriber, connection: default }
+            
+    Gedmo\Timestampable\TimestampableListener:
+        calls:
+            - [setAnnotationReader, ['@annotation_reader']]
+        tags:
+            - { name: doctrine.event_subscriber, connection: default }
+        
+    Gedmo\Tree\TreeListener:
+        calls:
+            - [setAnnotationReader, ['@annotation_reader']]
+        tags:
+            - { name: doctrine.event_subscriber, connection: default }
+
+    AppBundle\Event\LoggerListener:
+        arguments:
+            - '@Gedmo\Loggable\LoggableListener'
+            - '@security.token_storage'
+            - '@security.authorization_checker'
+        tags:
+            - { name: kernel.event_subscriber }

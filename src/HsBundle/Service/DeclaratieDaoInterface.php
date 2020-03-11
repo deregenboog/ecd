@@ -22,18 +22,9 @@ interface DeclaratieDaoInterface
      */
     public function find($id);
 
-    /**
-     * @param Declaratie $declaratie
-     */
     public function create(Declaratie $declaratie);
 
-    /**
-     * @param Declaratie $declaratie
-     */
     public function update(Declaratie $declaratie);
 
-    /**
-     * @param Declaratie $declaratie
-     */
     public function delete(Declaratie $declaratie);
 }

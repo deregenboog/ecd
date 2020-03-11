@@ -6,10 +6,10 @@ use AppBundle\Exception\AppException;
 use AppBundle\Form\ConfirmationType;
 use AppBundle\Model\MedewerkerSubjectInterface;
 use AppBundle\Service\AbstractDao;
-use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
+use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Routing\Exception\RouteNotFoundException;
 
 abstract class AbstractChildController extends AbstractController
@@ -59,7 +59,7 @@ abstract class AbstractChildController extends AbstractController
             $parentEntity->{$this->addMethod}($entity);
         }
 
-        $form = $this->getForm($this->formClass, $entity, [
+        $form = $this->createForm($this->formClass, $entity, [
             'medewerker' => $this->getMedewerker(),
         ]);
         $form->handleRequest($request);
@@ -111,21 +111,17 @@ abstract class AbstractChildController extends AbstractController
 
         list($parentEntity, $this->parentDao) = $this->getParentConfig($request);
 
-        $form = $this->getForm(ConfirmationType::class);
+        $form = $this->createForm(ConfirmationType::class);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $url = $request->get('redirect');
             if ($form->get('yes')->isClicked()) {
-
                 try {
                     $viewUrl = $this->generateUrl($this->baseRouteName.'view', ['id' => $entity->getId()]);
+                } catch (RouteNotFoundException $e) {
+                    $viewUrl = '';
                 }
-                catch(RouteNotFoundException $e)
-                {
-                   $viewUrl = "";
-                }
-
 
                 if ($parentEntity && $this->deleteMethod) {
                     $parentEntity->{$this->deleteMethod}($entity);
@@ -157,13 +153,14 @@ abstract class AbstractChildController extends AbstractController
     protected function createEntity($parentEntity = null)
     {
         $x = new $this->entityClass();
-        if($parentEntity!== null)
-        {
+        if (null !== $parentEntity) {
             $class = (new \ReflectionClass($parentEntity))->getShortName();
-            if(is_callable([$x,"set".$class])) $x->{"set".ucfirst($class)}($parentEntity);
+            if (is_callable([$x, 'set'.$class])) {
+                $x->{'set'.ucfirst($class)}($parentEntity);
+            }
         }
-        return $x;
 
+        return $x;
     }
 
     protected function persistEntity($entity, $parentEntity)

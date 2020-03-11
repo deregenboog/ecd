@@ -10,10 +10,10 @@ use ClipBundle\Form\VraagType;
 use ClipBundle\Form\VragenModel;
 use ClipBundle\Form\VragenType;
 use ClipBundle\Service\VraagDaoInterface;
-use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * @Route("/vragen")
@@ -40,15 +40,13 @@ class VragenController extends AbstractVragenController
      */
     protected $export;
 
-    public function setContainer(\Psr\Container\ContainerInterface $container): ?\Psr\Container\ContainerInterface
+    public function setContainer(?\Symfony\Component\DependencyInjection\ContainerInterface $container = null)
     {
-        $previous = parent::setContainer($container);
+        parent::setContainer($container);
 
         $this->dao = $container->get("ClipBundle\Service\VraagDao");
-        $this->entities = $container->get("clip.vraag.entities");
-        $this->export = $container->get("clip.export.vragen");
-    
-        return $previous;
+        $this->entities = $container->get('clip.vraag.entities');
+        $this->export = $container->get('clip.export.vragen');
     }
 
     /**
@@ -62,7 +60,7 @@ class VragenController extends AbstractVragenController
         $entity = new VragenModel($parentEntity);
         $entity->setClient($parentEntity);
 
-        $form = $this->getForm($this->formClass, $entity, [
+        $form = $this->createForm($this->formClass, $entity, [
             'medewerker' => $this->getMedewerker(),
         ]);
         $form->handleRequest($request);
@@ -105,7 +103,7 @@ class VragenController extends AbstractVragenController
         $entity = $this->dao->find($id);
         $entity->setAfsluitdatum(new \DateTime());
 
-        $form = $this->getForm(VraagCloseType::class, $entity);
+        $form = $this->createForm(VraagCloseType::class, $entity);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             try {
@@ -132,7 +130,7 @@ class VragenController extends AbstractVragenController
     {
         $entity = $this->dao->find($id);
 
-        $form = $this->getForm(ConfirmationType::class)->handleRequest($request);
+        $form = $this->createForm(ConfirmationType::class)->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $url = $this->generateUrl($this->baseRouteName.'view', ['id' => $entity->getId()]);
@@ -156,13 +154,11 @@ class VragenController extends AbstractVragenController
      */
     public function vraagHulpAction(Request $request, Vraag $vraag)
     {
-
         $vraag->setHulpCollegaGezocht(!$vraag->isHulpCollegaGezocht());
         $this->dao->update($vraag);
 
         return new JsonResponse(['hulpGezocht' => $vraag->isHulpCollegaGezocht()]);
     }
-
 
     /**
      * @Route("/{id}/delete")

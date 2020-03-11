@@ -2,8 +2,6 @@
 
 namespace OdpBundle\Entity;
 
-use AppBundle\Model\TimestampableTrait;
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 
@@ -15,7 +13,6 @@ use Gedmo\Mapping\Annotation as Gedmo;
  */
 class Huurbudget
 {
-
     /**
      * @ORM\Id
      * @ORM\Column(type="integer")
@@ -35,19 +32,16 @@ class Huurbudget
      */
     private $maxVal;
 
-
     public function __toString(): string
     {
-        $retStr = "";
-        if(isset($this->minVal))
-        {
-            $retStr .= "> ".$this->minVal;
+        $retStr = '';
+        if (isset($this->minVal)) {
+            $retStr .= '> '.$this->minVal;
         }
-        if(isset($this->maxVal))
-        {
-            $retStr .= "< ".$this->maxVal;
+        if (isset($this->maxVal)) {
+            $retStr .= '< '.$this->maxVal;
         }
-        $retStr .= " Euro";
+        $retStr .= ' Euro';
 
         return $retStr;
     }
@@ -88,6 +82,4 @@ class Huurbudget
     {
         $this->maxVal = $maxVal;
     }
-
-
 }

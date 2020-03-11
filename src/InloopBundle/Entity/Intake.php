@@ -427,7 +427,6 @@ class Intake
 
     public function __construct(Klant $klant = null)
     {
-
         $this->created = new \DateTime();
         $this->modified = new \DateTime();
         $this->intakedatum = new \DateTime();
@@ -476,9 +475,6 @@ class Intake
         return $this;
     }
 
-    /**
-     * @param \DateTime $intakedatum
-     */
     public function setIntakedatum(\DateTime $intakedatum)
     {
         $this->intakedatum = $intakedatum;
@@ -536,9 +532,6 @@ class Intake
         return $this;
     }
 
-    /**
-     * @param Verblijfsstatus $verblijfsstatus
-     */
     public function setVerblijfsstatus(Verblijfsstatus $verblijfsstatus)
     {
         $this->verblijfsstatus = $verblijfsstatus;

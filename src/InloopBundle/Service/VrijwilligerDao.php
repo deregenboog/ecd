@@ -36,7 +36,7 @@ class VrijwilligerDao extends AbstractDao implements VrijwilligerDaoInterface
             ->select("{$this->alias}, appVrijwilliger")
             ->innerJoin('vrijwilliger.vrijwilliger', 'appVrijwilliger')
             ->leftJoin('vrijwilliger.locaties', 'locaties')
-            ->leftJoin('vrijwilliger.locatie','locatie')
+            ->leftJoin('vrijwilliger.locatie', 'locatie')
             ->leftJoin('appVrijwilliger.werkgebied', 'werkgebied')
         ;
 
@@ -63,8 +63,6 @@ class VrijwilligerDao extends AbstractDao implements VrijwilligerDaoInterface
     }
 
     /**
-     * @param AppVrijwilliger $vrijwilliger
-     *
      * @return Vrijwilliger
      */
     public function findOneByVrijwilliger(AppVrijwilliger $vrijwilliger): ?Vrijwilliger

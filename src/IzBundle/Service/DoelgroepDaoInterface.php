@@ -23,18 +23,9 @@ interface DoelgroepDaoInterface
      */
     public function find($id);
 
-    /**
-     * @param Doelgroep $doelgroep
-     */
     public function create(Doelgroep $doelgroep);
 
-    /**
-     * @param Doelgroep $doelgroep
-     */
     public function update(Doelgroep $doelgroep);
 
-    /**
-     * @param Doelgroep $doelgroep
-     */
     public function delete(Doelgroep $doelgroep);
 }

@@ -14,8 +14,6 @@ interface DeelnemerDaoInterface
     public function find($id);
 
     /**
-     * @param IzDeelnemer $entity
-     *
      * @return IzDeelnemer
      */
     public function update(IzDeelnemer $entity);

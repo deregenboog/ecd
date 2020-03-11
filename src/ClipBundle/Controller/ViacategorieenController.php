@@ -6,8 +6,8 @@ use AppBundle\Controller\AbstractController;
 use ClipBundle\Entity\Viacategorie;
 use ClipBundle\Form\ViacategorieType;
 use ClipBundle\Service\ViacategorieDaoInterface;
-use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * @Route("/admin/viacategorieen")
@@ -25,13 +25,11 @@ class ViacategorieenController extends AbstractController
      */
     protected $dao;
 
-    public function setContainer(\Psr\Container\ContainerInterface $container): ?\Psr\Container\ContainerInterface
+    public function setContainer(?\Symfony\Component\DependencyInjection\ContainerInterface $container = null)
     {
-        $previous = parent::setContainer($container);
+        parent::setContainer($container);
 
         $this->dao = $container->get("ClipBundle\Service\ViacategorieDao");
-    
-        return $previous;
     }
 
     /**

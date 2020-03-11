@@ -6,8 +6,8 @@ use AppBundle\Controller\AbstractController;
 use DagbestedingBundle\Entity\Project;
 use DagbestedingBundle\Form\ProjectType;
 use DagbestedingBundle\Service\ProjectDaoInterface;
-use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * @Route("/admin/projecten")
@@ -22,17 +22,14 @@ class ProjectenController extends AbstractController
 
     /**
      * @var ProjectDaoInterface
-     *
      */
     protected $dao;
 
-    public function setContainer(\Psr\Container\ContainerInterface $container): ?\Psr\Container\ContainerInterface
+    public function setContainer(?\Symfony\Component\DependencyInjection\ContainerInterface $container = null)
     {
-        $previous = parent::setContainer($container);
+        parent::setContainer($container);
 
         $this->dao = $container->get("DagbestedingBundle\Service\ProjectDao");
-    
-        return $previous;
     }
 
     /**

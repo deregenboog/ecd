@@ -15,9 +15,10 @@ use Symfony\Component\Security\Core\User\UserInterface;
  * @ORM\HasLifecycleCallbacks
  * @Gedmo\Loggable
  */
-class Medewerker implements LdapUserInterface, UserInterface
+class Medewerker implements UserInterface, LdapUserInterface
 {
-    use NameTrait, TimestampableTrait;
+    use NameTrait;
+    use TimestampableTrait;
 
     /**
      * @ORM\Id
@@ -214,9 +215,6 @@ class Medewerker implements LdapUserInterface, UserInterface
         return $this->laatsteBezoek;
     }
 
-    /**
-     * @param \DateTime $laatsteBezoek
-     */
     public function setLaatsteBezoek(\DateTime $laatsteBezoek)
     {
         $this->laatsteBezoek = $laatsteBezoek;
@@ -225,30 +223,20 @@ class Medewerker implements LdapUserInterface, UserInterface
     }
 
     /**
-     * Returns the roles granted to the user.
-     *
-     * <code>
-     * public function getRoles()
-     * {
-     *     return array('ROLE_USER');
-     * }
-     * </code>
-     *
-     * Alternatively, the roles might be stored on a ``roles`` property,
-     * and populated in any number of different ways when the user object
-     * is created.
-     *
-     * @return (Role|string)[] The user roles
+     * {@inheritdoc}
      */
-    public function getRoles()
+    public function getRoles(): array
     {
-        return $this->roles;
+        $roles = $this->roles;
+
+        // guarantee every user at least has ROLE_USER
+        $roles[] = 'ROLE_USER';
+
+        return array_unique($roles);
     }
 
     /**
      * Sets the roles for the user.
-     *
-     * @param array $roles
      */
     public function setRoles(array $roles)
     {

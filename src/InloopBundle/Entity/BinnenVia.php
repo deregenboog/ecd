@@ -17,7 +17,10 @@ use Gedmo\Mapping\Annotation as Gedmo;
  */
 class BinnenVia
 {
-    use IdentifiableTrait, NameableTrait, ActivatableTrait, TimestampableTrait;
+    use IdentifiableTrait;
+    use NameableTrait;
+    use ActivatableTrait;
+    use TimestampableTrait;
 
     public function isDeletable()
     {

@@ -11,9 +11,9 @@ use OdpBundle\Entity\Huurverzoek;
 use OdpBundle\Form\HuurverzoekCloseType;
 use OdpBundle\Form\HuurverzoekFilterType;
 use OdpBundle\Form\HuurverzoekType;
-use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\Form\FormError;
+use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * @Route("/huurverzoeken")
@@ -49,7 +49,7 @@ class HuurverzoekenController extends SymfonyController
             ->andWhere('afsluiting.tonen IS NULL OR afsluiting.tonen = true')
         ;
 
-        $filter = $this->getForm(HuurverzoekFilterType::class);
+        $filter = $this->createForm(HuurverzoekFilterType::class);
         $filter->handleRequest($this->getRequest());
         $filter->getData()->applyTo($builder);
         if ($filter->get('download')->isClicked()) {
@@ -106,7 +106,7 @@ class HuurverzoekenController extends SymfonyController
         $huurverzoek = new Huurverzoek();
         $huurverzoek->setHuurder($huurder);
 
-        $form = $this->getForm(HuurverzoekType::class, $huurverzoek);
+        $form = $this->createForm(HuurverzoekType::class, $huurverzoek);
         $form->handleRequest($this->getRequest());
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -132,7 +132,7 @@ class HuurverzoekenController extends SymfonyController
         $entityManager = $this->getEntityManager();
         $huurverzoek = $entityManager->find(Huurverzoek::class, $id);
 
-        $form = $this->getForm(HuurverzoekType::class, $huurverzoek);
+        $form = $this->createForm(HuurverzoekType::class, $huurverzoek);
         $form->handleRequest($this->getRequest());
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -161,7 +161,7 @@ class HuurverzoekenController extends SymfonyController
         $entityManager = $this->getEntityManager();
         $huurverzoek = $entityManager->find(Huurverzoek::class, $id);
 
-        $form = $this->getForm(ConfirmationType::class);
+        $form = $this->createForm(ConfirmationType::class);
         $form->handleRequest($this->getRequest());
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -191,7 +191,7 @@ class HuurverzoekenController extends SymfonyController
         $entityManager = $this->getEntityManager();
         $huurverzoek = $entityManager->find(Huurverzoek::class, $id);
 
-        $form = $this->getForm(HuurverzoekCloseType::class, $huurverzoek);
+        $form = $this->createForm(HuurverzoekCloseType::class, $huurverzoek);
         $form->handleRequest($this->getRequest());
 
         if ($form->isSubmitted() && $form->isValid()) {

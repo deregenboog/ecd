@@ -9,9 +9,9 @@ use GaBundle\Form\GroepFilterType;
 use GaBundle\Form\GroepType;
 use GaBundle\Service\GroepDaoInterface;
 use GaBundle\Service\LidmaatschapDaoInterface;
-use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * @Route("/groepen")
@@ -46,16 +46,14 @@ class GroepenController extends AbstractController
      */
     protected $export;
 
-    public function setContainer(\Psr\Container\ContainerInterface $container): ?\Psr\Container\ContainerInterface
+    public function setContainer(?\Symfony\Component\DependencyInjection\ContainerInterface $container = null)
     {
-        $previous = parent::setContainer($container);
+        parent::setContainer($container);
 
         $this->dao = $container->get("GaBundle\Service\GroepDao");
         $this->klantLidmaatschapDao = $container->get("GaBundle\Service\KlantLidmaatschapDao");
         $this->vrijwilligerLidmaatschapDao = $container->get("GaBundle\Service\VrijwilligerLidmaatschapDao");
-        $this->export = $container->get("ga.export.groepen");
-
-        return $previous;
+        $this->export = $container->get('ga.export.groepen');
     }
 
     /**

@@ -28,19 +28,10 @@ interface TrajectDaoInterface
      */
     public function find($id);
 
-    /**
-     * @param Traject $traject
-     */
     public function create(Traject $traject);
 
-    /**
-     * @param Traject $traject
-     */
     public function update(Traject $traject);
 
-    /**
-     * @param Traject $traject
-     */
     public function delete(Traject $traject);
 
     public function countByAfsluiting($fase, \DateTime $startdate, \DateTime $enddate);

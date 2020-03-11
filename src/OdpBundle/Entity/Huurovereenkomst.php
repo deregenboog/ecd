@@ -17,7 +17,8 @@ use Gedmo\Mapping\Annotation as Gedmo;
  */
 class Huurovereenkomst
 {
-    use TimestampableTrait, RequiredMedewerkerTrait;
+    use TimestampableTrait;
+    use RequiredMedewerkerTrait;
 
     public static function getVormChoices()
     {
@@ -138,9 +139,6 @@ class Huurovereenkomst
      *     )
      */
     private $financieledocumenten;
-
-
-
 
     public function __construct()
     {
@@ -279,8 +277,8 @@ class Huurovereenkomst
     public function addFinancieelDocument(FinancieelDocument $document)
     {
         $this->financieledocumenten[] = $document;
-        return $this;
 
+        return $this;
     }
 
     /**
@@ -302,6 +300,7 @@ class Huurovereenkomst
     public function addFinancieelVerslag(FinancieelVerslag $verslag)
     {
         $this->financieleverslagen[] = $verslag;
+
         return $this;
     }
 

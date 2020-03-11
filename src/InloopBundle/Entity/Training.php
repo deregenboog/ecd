@@ -5,7 +5,6 @@ namespace InloopBundle\Entity;
 use AppBundle\Model\ActivatableTrait;
 use AppBundle\Model\IdentifiableTrait;
 use AppBundle\Model\NameableTrait;
-use AppBundle\Model\TimestampableTrait;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 
@@ -17,7 +16,9 @@ use Gedmo\Mapping\Annotation as Gedmo;
  */
 class Training
 {
-    use IdentifiableTrait, NameableTrait, ActivatableTrait;
+    use IdentifiableTrait;
+    use NameableTrait;
+    use ActivatableTrait;
 
     public function isDeletable()
     {

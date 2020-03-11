@@ -21,18 +21,9 @@ interface TrajectbegeleiderDaoInterface
      */
     public function find($id);
 
-    /**
-     * @param Trajectbegeleider $trajectbegeleider
-     */
     public function create(Trajectbegeleider $trajectbegeleider);
 
-    /**
-     * @param Trajectbegeleider $trajectbegeleider
-     */
     public function update(Trajectbegeleider $trajectbegeleider);
 
-    /**
-     * @param Trajectbegeleider $trajectbegeleider
-     */
     public function delete(Trajectbegeleider $trajectbegeleider);
 }

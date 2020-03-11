@@ -24,12 +24,10 @@ class LidmaatschapafsluitredenenController extends AbstractController
      */
     protected $dao;
 
-    public function setContainer(\Psr\Container\ContainerInterface $container): ?\Psr\Container\ContainerInterface
+    public function setContainer(?\Symfony\Component\DependencyInjection\ContainerInterface $container = null)
     {
-        $previous = parent::setContainer($container);
+        parent::setContainer($container);
 
         $this->dao = $container->get("GaBundle\Service\LidmaatschapAfsluitredenDao");
-    
-        return $previous;
     }
 }

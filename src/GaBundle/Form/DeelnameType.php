@@ -110,10 +110,7 @@ class DeelnameType extends AbstractType
             case Vrijwilligerdossier::class:
                 return VrijwilligerdossierSelectType::class;
             default:
-                throw new AppException(sprintf(
-                    'Value "%s" of option "dossier_class" is invalid.',
-                    $options['dossier_class']
-                ));
+                throw new AppException(sprintf('Value "%s" of option "dossier_class" is invalid.', $options['dossier_class']));
         }
     }
 }

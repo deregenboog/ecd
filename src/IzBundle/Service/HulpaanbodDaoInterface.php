@@ -23,18 +23,9 @@ interface HulpaanbodDaoInterface
      */
     public function find($id);
 
-    /**
-     * @param Hulpaanbod $entity
-     */
     public function create(Hulpaanbod $entity);
 
-    /**
-     * @param Hulpaanbod $entity
-     */
     public function update(Hulpaanbod $entity);
 
-    /**
-     * @param Hulpaanbod $entity
-     */
     public function delete(Hulpaanbod $entity);
 }

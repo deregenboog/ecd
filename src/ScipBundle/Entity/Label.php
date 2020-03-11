@@ -19,5 +19,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
  */
 class Label
 {
-    use IdentifiableTrait, NameableTrait, ActivatableTrait;
+    use IdentifiableTrait;
+    use NameableTrait;
+    use ActivatableTrait;
 }

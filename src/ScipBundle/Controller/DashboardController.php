@@ -4,9 +4,9 @@ namespace ScipBundle\Controller;
 
 use AppBundle\Controller\SymfonyController;
 use ScipBundle\Service\ProjectDaoInterface;
-use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * @Route("/mijn")
@@ -21,13 +21,11 @@ class DashboardController extends SymfonyController
      */
     protected $projectDao;
 
-    public function setContainer(\Psr\Container\ContainerInterface $container): ?\Psr\Container\ContainerInterface
+    public function setContainer(?\Symfony\Component\DependencyInjection\ContainerInterface $container = null)
     {
-        $previous = parent::setContainer($container);
+        parent::setContainer($container);
 
         $this->projectDao = $container->get("ScipBundle\Service\ProjectDao");
-    
-        return $previous;
     }
 
     /**

@@ -111,20 +111,15 @@ class Factuur
         $this->registraties = new ArrayCollection();
         $this->herinneringen = new ArrayCollection();
 
-        /**
+        /*
          * When an invoice is made during registraties, see if there is a daterange available and if so, set invoice to last date of that month instead of the current month.
          *
          */
-        if(null !== $dateRange)
-        {
-            $this->datum = new \DateTime('last day of '.$dateRange->getEnd()->format("M Y") );
-        }
-        else
-        {
+        if (null !== $dateRange) {
+            $this->datum = new \DateTime('last day of '.$dateRange->getEnd()->format('M Y'));
+        } else {
             $this->datum = new \DateTime('last day of this month');
         }
-
-
     }
 
     public function __toString(): string
@@ -225,7 +220,6 @@ class Factuur
 
         $this->registraties->removeElement($registratie);
 
-
         $this->updateDatum();
         $this->calculateBedrag();
 
@@ -249,11 +243,11 @@ class Factuur
 
         $this->declaraties->add($declaratie);
 
-
         $this->updateDatum();
         $this->calculateBedrag();
 
         $declaratie->setFactuur($this);
+
         return $this;
     }
 
@@ -264,7 +258,7 @@ class Factuur
         }
 
         $this->declaraties->removeElement($declaratie);
-       // $declaratie->setFactuur(null);
+        // $declaratie->setFactuur(null);
 
         $this->updateDatum();
         $this->calculateBedrag();
@@ -384,8 +378,6 @@ class Factuur
      * #824
      * Krijg vragen hierover; is ongewenst. Alleen de factuurdatum moet op laatste dag van de maand; niet de interne factuurregels (#824, ingetreden sinds #641)
      * Volgens mij kan dit ook anders door dit alleen te doen wanneer de factuur definitief gemaakt wordt. En in concept dan gewoon een tekstveld maken waarin dat gezegd wordt.
-     *
-     *
      */
     private function updateDatum()
     {
@@ -396,8 +388,7 @@ class Factuur
         //#873 dit werd op 'vandaag' gezet. Dus bij registratie in het verleden leverde dat soms (andere maand)
         // problemen op. Want huidig > registratie. En dan kon hij geen facturen vinden binnen de daterange en
         // maakte telkens een nieuwe aan met foute factuurdatum. Daarom een datum in het verleden.
-        $datum = new \DateTime("1970-01-01");
-
+        $datum = new \DateTime('1970-01-01');
 
         foreach ($this->declaraties as $declaratie) {
             if ($declaratie->getDatum() > $datum) {
@@ -430,7 +421,6 @@ class Factuur
 //        }
 //        $datum->modify('-1 day');
 
-
-        $this->datum = new \DateTime("last day of ".$datum->format("M Y"));
+        $this->datum = new \DateTime('last day of '.$datum->format('M Y'));
     }
 }

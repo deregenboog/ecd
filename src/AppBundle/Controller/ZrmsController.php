@@ -6,8 +6,8 @@ use AppBundle\Entity\Zrm;
 use AppBundle\Form\ZrmFilterType;
 use AppBundle\Form\ZrmType;
 use AppBundle\Service\ZrmDaoInterface;
-use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * @Route("/zrms")
@@ -33,14 +33,12 @@ class ZrmsController extends AbstractChildController
      */
     protected $entities;
 
-    public function setContainer(\Psr\Container\ContainerInterface $container): ?\Psr\Container\ContainerInterface
+    public function setContainer(?\Symfony\Component\DependencyInjection\ContainerInterface $container = null)
     {
-        $previous = parent::setContainer($container);
+        parent::setContainer($container);
 
         $this->dao = $container->get("AppBundle\Service\ZrmDao");
-        $this->entities = $container->get("app.zrm.entities");
-
-        return $previous;
+        $this->entities = $container->get('app.zrm.entities');
     }
 
     protected function createEntity($parentEntity = null)

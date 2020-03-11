@@ -23,18 +23,9 @@ interface PostcodeDaoInterface
      */
     public function find($id);
 
-    /**
-     * @param Postcode $postcode
-     */
     public function create(Postcode $postcode);
 
-    /**
-     * @param Postcode $postcode
-     */
     public function update(Postcode $postcode);
 
-    /**
-     * @param Postcode $postcode
-     */
     public function delete(Postcode $postcode);
 }

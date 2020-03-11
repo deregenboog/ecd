@@ -5,8 +5,8 @@ namespace MwBundle\Service;
 use AppBundle\Entity\Klant;
 use AppBundle\Filter\FilterInterface;
 use AppBundle\Service\AbstractDao;
-use InloopBundle\Entity\Aanmelding;
 use Doctrine\DBAL\Platforms\MySQL57Platform;
+use InloopBundle\Entity\Aanmelding;
 
 class KlantDao extends AbstractDao implements KlantDaoInterface
 {
@@ -48,14 +48,14 @@ class KlantDao extends AbstractDao implements KlantDaoInterface
             ;
         /**
          * !!! LET OP TESTEN want live levert het een probleem op.
-         * Sinds MySQL 5.7 is het verplicht alle select vleden in de group by te noemen. google: ONLY_FULL_GROUP_BY
+         * Sinds MySQL 5.7 is het verplicht alle select vleden in de group by te noemen. google: ONLY_FULL_GROUP_BY.
          *
          * Live draait nog 5.6.x
          * Dit is niet compatible. Vandaar de versie check hier... Kan weg wanneer live naar 5.7 gaat.
          * -- werkt niet live. raar.
          */
         $platform = $this->entityManager->getConnection()->getDatabasePlatform();
-        if($platform instanceof MySQL57Platform)
+        if ($platform instanceof MySQL57Platform) {
 //        {
 //            $builder
 //                ->addGroupBy('intake')
@@ -66,9 +66,9 @@ class KlantDao extends AbstractDao implements KlantDaoInterface
 //            ;
 //        }
 
-
-        if ($filter) {
-            $filter->applyTo($builder);
+            if ($filter) {
+                $filter->applyTo($builder);
+            }
         }
 
         if ($page) {

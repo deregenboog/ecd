@@ -24,8 +24,6 @@ trait MemoSubjectTrait
     }
 
     /**
-     * @param Memo $memo
-     *
      * @return self
      */
     public function addMemo(Memo $memo)
@@ -36,8 +34,6 @@ trait MemoSubjectTrait
     }
 
     /**
-     * @param Memo $memo
-     *
      * @return self
      */
     public function removeMemo(Memo $memo)

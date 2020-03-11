@@ -24,9 +24,6 @@ interface DossierAfsluitredenDaoInterface
      */
     public function find($id);
 
-    /**
-     * @param DossierAfsluitreden $entity
-     */
     public function create(DossierAfsluitreden $entity);
 
     /**

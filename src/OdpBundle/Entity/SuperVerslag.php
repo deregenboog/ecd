@@ -18,7 +18,8 @@ use Gedmo\Mapping\Annotation as Gedmo;
  */
 abstract class SuperVerslag
 {
-    use TimestampableTrait, RequiredMedewerkerTrait;
+    use TimestampableTrait;
+    use RequiredMedewerkerTrait;
 
     /**
      * @ORM\Id

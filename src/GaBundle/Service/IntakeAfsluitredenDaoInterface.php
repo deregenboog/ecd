@@ -23,18 +23,9 @@ interface IntakeAfsluitredenDaoInterface
      */
     public function find($id);
 
-    /**
-     * @param IntakeAfsluitreden $entity
-     */
     public function create(IntakeAfsluitreden $entity);
 
-    /**
-     * @param IntakeAfsluitreden $entity
-     */
     public function update(IntakeAfsluitreden $entity);
 
-    /**
-     * @param IntakeAfsluitreden $entity
-     */
     public function delete(IntakeAfsluitreden $entity);
 }

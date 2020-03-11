@@ -6,9 +6,9 @@ use AppBundle\Controller\AbstractController;
 use GaBundle\Entity\ActiviteitAnnuleringsreden;
 use GaBundle\Form\ActiviteitAnnuleringsredenType;
 use GaBundle\Service\ActiviteitAnnuleringsredenDaoInterface;
-use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * @Route("/activiteitannuleringsredenen")
@@ -27,13 +27,11 @@ class ActiviteitAnnuleringsredenenController extends AbstractController
      */
     protected $dao;
 
-    public function setContainer(\Psr\Container\ContainerInterface $container): ?\Psr\Container\ContainerInterface
+    public function setContainer(?\Symfony\Component\DependencyInjection\ContainerInterface $container = null)
     {
-        $previous = parent::setContainer($container);
+        parent::setContainer($container);
 
         $this->dao = $container->get("GaBundle\Service\ActiviteitAnnuleringsredenDao");
-    
-        return $previous;
     }
 
     /**

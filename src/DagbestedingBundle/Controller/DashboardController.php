@@ -12,9 +12,9 @@ use AppBundle\Service\AbstractDao;
 use DagbestedingBundle\Filter\TrajectFilter;
 use DagbestedingBundle\Form\TrajectFilterType;
 use DagbestedingBundle\Service\TrajectDaoInterface;
-use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * @Route("/mijn")
@@ -34,14 +34,12 @@ class DashboardController extends SymfonyController
      */
     protected $trajectenExport;
 
-    public function setContainer(\Psr\Container\ContainerInterface $container): ?\Psr\Container\ContainerInterface
+    public function setContainer(?\Symfony\Component\DependencyInjection\ContainerInterface $container = null)
     {
-        $previous = parent::setContainer($container);
+        parent::setContainer($container);
 
         $this->trajectDao = $container->get("DagbestedingBundle\Service\TrajectDao");
-        $this->trajectenExport = $container->get("dagbesteding.export.trajecten");
-    
-        return $previous;
+        $this->trajectenExport = $container->get('dagbesteding.export.trajecten');
     }
 
     /**
@@ -61,7 +59,7 @@ class DashboardController extends SymfonyController
         $filter->actief = true;
         $filter->medewerker = $this->getMedewerker();
 
-        $form = $this->getForm(TrajectFilterType::class, $filter, [
+        $form = $this->createForm(TrajectFilterType::class, $filter, [
             'enabled_filters' => [
                 'klant' => ['naam'],
                 'soort',
@@ -102,7 +100,7 @@ class DashboardController extends SymfonyController
         $filter->actief = true;
         $filter->medewerker = $this->getMedewerker();
 
-        $form = $this->getForm(TrajectFilterType::class, $filter, [
+        $form = $this->createForm(TrajectFilterType::class, $filter, [
             'enabled_filters' => [
                 'klant' => ['naam'],
                 'soort',
@@ -143,7 +141,7 @@ class DashboardController extends SymfonyController
         $filter->actief = true;
         $filter->medewerker = $this->getMedewerker();
 
-        $form = $this->getForm(TrajectFilterType::class, $filter, [
+        $form = $this->createForm(TrajectFilterType::class, $filter, [
             'enabled_filters' => [
                 'klant' => ['naam'],
                 'soort',
@@ -184,7 +182,7 @@ class DashboardController extends SymfonyController
         $filter->actief = true;
         $filter->medewerker = $this->getMedewerker();
 
-        $form = $this->getForm(TrajectFilterType::class, $filter, [
+        $form = $this->createForm(TrajectFilterType::class, $filter, [
             'enabled_filters' => [
                 'klant' => ['naam'],
                 'soort',
@@ -227,7 +225,7 @@ class DashboardController extends SymfonyController
 
     protected function getMedewerkerForm(Request $request, Medewerker $medewerker)
     {
-        return $this->getForm(MedewerkerType::class, $medewerker, [
+        return $this->createForm(MedewerkerType::class, $medewerker, [
             'label' => '',
             'method' => 'GET',
         ])->handleRequest($request);

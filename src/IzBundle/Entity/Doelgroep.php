@@ -21,7 +21,9 @@ use Gedmo\Mapping\Annotation as Gedmo;
  */
 class Doelgroep
 {
-    use IdentifiableTrait, NameableTrait, ActivatableTrait;
+    use IdentifiableTrait;
+    use NameableTrait;
+    use ActivatableTrait;
 
     public function __toString()
     {

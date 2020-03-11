@@ -3,7 +3,6 @@
 namespace UhkBundle\Filter;
 
 use AppBundle\Filter\FilterInterface;
-use AppBundle\Filter\MedewerkerFilter;
 use AppBundle\Form\Model\AppDateRangeModel;
 use Doctrine\ORM\QueryBuilder;
 use UhkBundle\Entity\Deelnemer;
@@ -43,11 +42,10 @@ class DeelnemerFilter implements FilterInterface
             $this->klant->applyTo($builder);
         }
 
-        if($this->deelnemer) {
+        if ($this->deelnemer) {
             $this->deelnemer->applyTo($builder);
         }
-        if($this->medewerker)
-        {
+        if ($this->medewerker) {
             if ($this->medewerker) {
                 $builder
                     ->andWhere('deelnemer.medewerker = :medewerker')
@@ -70,10 +68,9 @@ class DeelnemerFilter implements FilterInterface
             }
         }
 
-        if($this->actief)
-        {
-            $builder->andWhere("deelnemer.actief = :actief")
-                ->setParameter('actief',$this->actief);
+        if ($this->actief) {
+            $builder->andWhere('deelnemer.actief = :actief')
+                ->setParameter('actief', $this->actief);
         }
     }
 }

@@ -5,7 +5,6 @@ namespace OekBundle\Controller;
 use AppBundle\Controller\AbstractController;
 use AppBundle\Entity\Vrijwilliger as AppVrijwilliger;
 use AppBundle\Export\ExportInterface;
-use AppBundle\Form\ConfirmationType;
 use AppBundle\Form\VrijwilligerFilterType as AppVrijwilligerFilterType;
 use OekBundle\Entity\Vrijwilliger;
 use OekBundle\Form\VrijwilligerFilterType;
@@ -14,7 +13,6 @@ use OekBundle\Service\VrijwilligerDaoInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -45,15 +43,13 @@ class VrijwilligersController extends AbstractController
      */
     private $vrijwilligerDao;
 
-    public function setContainer(\Psr\Container\ContainerInterface $container): ?\Psr\Container\ContainerInterface
+    public function setContainer(?\Symfony\Component\DependencyInjection\ContainerInterface $container = null)
     {
-        $previous = parent::setContainer($container);
+        parent::setContainer($container);
 
         $this->dao = $container->get("OekBundle\Service\VrijwilligerDao");
-        $this->export = $container->get("oek.export.vrijwilliger");
+        $this->export = $container->get('oek.export.vrijwilliger');
         $this->vrijwilligerDao = $container->get("AppBundle\Service\VrijwilligerDao");
-    
-        return $previous;
     }
 
     /**
@@ -75,7 +71,7 @@ class VrijwilligersController extends AbstractController
 
     private function doSearch(Request $request)
     {
-        $filterForm = $this->getForm(AppVrijwilligerFilterType::class, null, [
+        $filterForm = $this->createForm(AppVrijwilligerFilterType::class, null, [
             'enabled_filters' => ['id', 'naam', 'bsn', 'geboortedatum'],
         ]);
         $filterForm->handleRequest($request);
@@ -123,7 +119,7 @@ class VrijwilligersController extends AbstractController
         }
 
         $vrijwilliger = new Vrijwilliger($appVrijwilliger);
-        $creationForm = $this->getForm(VrijwilligerType::class, $vrijwilliger);
+        $creationForm = $this->createForm(VrijwilligerType::class, $vrijwilliger);
         $creationForm->handleRequest($request);
 
         if ($creationForm->isSubmitted() && $creationForm->isValid()) {

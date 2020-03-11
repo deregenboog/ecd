@@ -23,18 +23,9 @@ interface IntervisiegroepDaoInterface
      */
     public function find($id);
 
-    /**
-     * @param Intervisiegroep $entity
-     */
     public function create(Intervisiegroep $entity);
 
-    /**
-     * @param Intervisiegroep $entity
-     */
     public function update(Intervisiegroep $entity);
 
-    /**
-     * @param Intervisiegroep $entity
-     */
     public function delete(Intervisiegroep $entity);
 }

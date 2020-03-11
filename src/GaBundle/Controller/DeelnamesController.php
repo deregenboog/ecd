@@ -11,6 +11,7 @@ use GaBundle\Form\DeelnameType;
 use GaBundle\Service\ActiviteitDaoInterface;
 use GaBundle\Service\DeelnameDaoInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -42,15 +43,13 @@ class DeelnamesController extends AbstractChildController
      */
     protected $entities;
 
-    public function setContainer(\Psr\Container\ContainerInterface $container): ?\Psr\Container\ContainerInterface
+    public function setContainer(?\Symfony\Component\DependencyInjection\ContainerInterface $container = null)
     {
-        $previous = parent::setContainer($container);
+        parent::setContainer($container);
 
         $this->dao = $container->get("GaBundle\Service\DeelnameDao");
         $this->activiteitDao = $container->get("GaBundle\Service\ActiviteitDao");
-        $this->entities = $container->get("ga.deelname.entities");
-    
-        return $previous;
+        $this->entities = $container->get('ga.deelname.entities');
     }
 
     /**
@@ -104,13 +103,13 @@ class DeelnamesController extends AbstractChildController
         $this->dao->create($entity);
     }
 
-    protected function getForm($type, $data = null, array $options = [])
+    protected function createForm(string $type, $data = null, array $options = []): FormInterface
     {
         if (DeelnameType::class === $type) {
             $options['dossier_class'] = $this->getDossierClass($this->getRequest());
         }
 
-        return $this->createForm($type, $data, $options);
+        return parent::createForm($type, $data, $options);
     }
 
     private function getDossierClass(Request $request)

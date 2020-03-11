@@ -29,9 +29,6 @@ interface RegistratieDaoInterface
     public function find($id);
 
     /**
-     * @param Klant   $klant
-     * @param Locatie $locatie
-     *
      * @return Registratie
      */
     public function findLatestByKlantAndLocatie(Klant $klant, Locatie $locatie);
@@ -44,36 +41,26 @@ interface RegistratieDaoInterface
     public function findAutoCheckoutCandidates($type);
 
     /**
-     * @param Registratie $entity
-     *
      * @return Registratie
      */
     public function create(Registratie $entity);
 
     /**
-     * @param Registratie $entity
-     *
      * @return Registratie
      */
     public function update(Registratie $entity);
 
     /**
-     * @param Registratie $entity
-     *
      * @return Registratie
      */
     public function delete(Registratie $entity);
 
     /**
-     * @param Registratie $registratie
-     * @param \DateTime   $time
+     * @param \DateTime $time
      *
      * @return Registratie
      */
     public function checkout(Registratie $registratie, \DateTime $time = null);
 
-    /**
-     * @param Klant $klant
-     */
     public function checkoutKlantFromAllLocations(Klant $klant);
 }

@@ -2,20 +2,15 @@
 
 namespace OekBundle\Controller;
 
-use AppBundle\Controller\AbstractChildController;
 use AppBundle\Controller\SymfonyController;
 use AppBundle\Form\ConfirmationType;
 use OekBundle\Entity\Deelname;
+use OekBundle\Entity\DeelnameStatus;
 use OekBundle\Entity\Deelnemer;
 use OekBundle\Entity\Training;
-use OekBundle\Entity\DeelnameStatus;
 use OekBundle\Form\DeelnameType;
-use OekBundle\Form\DeelnemerFilterType;
-use OekBundle\Form\DeelnemerType;
-use OekBundle\Service\DeelnemerDaoInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\HttpFoundation\Request;
 
 /**
  * @Route("/deelnames")
@@ -23,8 +18,6 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class DeelnamesController extends SymfonyController
 {
-
-
     /**
      * @Route("/add")
      * @Template
@@ -46,7 +39,7 @@ class DeelnamesController extends SymfonyController
         }
 
         $deelname = new Deelname($training, $deelnemer);
-        $form = $this->getForm(DeelnameType::class, $deelname);
+        $form = $this->createForm(DeelnameType::class, $deelname);
         $form->handleRequest($this->getRequest());
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->persist($deelname);
@@ -69,7 +62,7 @@ class DeelnamesController extends SymfonyController
 
         $deelname = $entityManager->find(Deelname::class, $id);
 
-        $form = $this->getForm(DeelnameType::class, $deelname, ['mode' => DeelnameType::MODE_EDIT]);
+        $form = $this->createForm(DeelnameType::class, $deelname, ['mode' => DeelnameType::MODE_EDIT]);
         $form->handleRequest($this->getRequest());
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->flush();
@@ -87,12 +80,11 @@ class DeelnamesController extends SymfonyController
      */
     public function deleteAction($id)
     {
-
         $entityManager = $this->getEntityManager();
 
         $deelname = $entityManager->find(Deelname::class, $id);
 
-        $form = $this->getForm(ConfirmationType::class);
+        $form = $this->createForm(ConfirmationType::class);
         $form->handleRequest($this->getRequest());
         if ($form->isSubmitted() && $form->isValid()) {
             if ($form->get('yes')->isClicked()) {

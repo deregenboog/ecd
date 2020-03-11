@@ -10,8 +10,6 @@ use HsBundle\Entity\Klant;
 class FactuurRepository extends EntityRepository
 {
     /**
-     * @param AppDateRangeModel $dateRange
-     *
      * @return Factuur
      */
     public function findNonLockedByKlantAndDateRange(Klant $klant, AppDateRangeModel $dateRange)

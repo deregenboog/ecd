@@ -11,7 +11,6 @@ class VerslagDao extends AbstractDao implements VerslagDaoInterface
 
     protected $alias = 'verslag';
 
-
     public function create(Verslag $entity)
     {
         $this->doCreate($entity);

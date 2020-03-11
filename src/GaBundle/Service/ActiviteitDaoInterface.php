@@ -23,9 +23,6 @@ interface ActiviteitDaoInterface
      */
     public function find($id);
 
-    /**
-     * @param Activiteit $entity
-     */
     public function create(Activiteit $entity);
 
     /**
@@ -33,13 +30,7 @@ interface ActiviteitDaoInterface
      */
     public function createBatch(array $entities);
 
-    /**
-     * @param Activiteit $entity
-     */
     public function update(Activiteit $entity);
 
-    /**
-     * @param Activiteit $entity
-     */
     public function delete(Activiteit $entity);
 }

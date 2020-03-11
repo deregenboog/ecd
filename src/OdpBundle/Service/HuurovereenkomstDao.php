@@ -103,7 +103,6 @@ class HuurovereenkomstDao extends AbstractDao implements HuurovereenkomstDaoInte
         return $builder->getQuery()->getResult();
     }
 
-
     public function countByStadsdeel(\DateTime $startdate, \DateTime $enddate)
     {
         $builder = $this->getCountBuilder($startdate, $enddate)

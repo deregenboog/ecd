@@ -19,9 +19,6 @@ class LoginEventListener
      */
     protected $ldapUserProvider;
 
-    /**
-     * @param EntityManagerInterface $em
-     */
     public function __construct(EntityManagerInterface $em, LdapUserProvider $ldapUserProvider = null)
     {
         $this->em = $em;
@@ -30,8 +27,6 @@ class LoginEventListener
 
     /**
      * Persists or updates the user in the database.
-     *
-     * @param LdapLoginEvent $event
      */
     public function onLoginSuccess(LdapLoginEvent $event)
     {

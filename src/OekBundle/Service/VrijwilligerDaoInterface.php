@@ -25,25 +25,14 @@ interface VrijwilligerDaoInterface
     public function find($id);
 
     /**
-     * @param AppVrijwilliger $vrijwilliger
-     *
      * @return Vrijwilliger
      */
     public function findOneByVrijwilliger(AppVrijwilliger $vrijwilliger);
 
-    /**
-     * @param Vrijwilliger $vrijwilliger
-     */
     public function create(Vrijwilliger $vrijwilliger);
 
-    /**
-     * @param Vrijwilliger $vrijwilliger
-     */
     public function update(Vrijwilliger $vrijwilliger);
 
-    /**
-     * @param Vrijwilliger $vrijwilliger
-     */
     public function delete(Vrijwilliger $vrijwilliger);
 
     public function countByStadsdeel(\DateTime $start = null, \DateTime $end = null);

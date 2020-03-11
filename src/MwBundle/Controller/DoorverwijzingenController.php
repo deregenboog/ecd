@@ -6,8 +6,8 @@ use AppBundle\Controller\AbstractController;
 use MwBundle\Entity\Doorverwijzing;
 use MwBundle\Form\DoorverwijzingType;
 use MwBundle\Service\DoorverwijzingDaoInterface;
-use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * @Route("/admin/doorverwijzingen")
@@ -27,12 +27,10 @@ class DoorverwijzingenController extends AbstractController
      */
     protected $dao;
 
-    public function setContainer(\Psr\Container\ContainerInterface $container): ?\Psr\Container\ContainerInterface
+    public function setContainer(?\Symfony\Component\DependencyInjection\ContainerInterface $container = null)
     {
-        $previous = parent::setContainer($container);
+        parent::setContainer($container);
 
         $this->dao = $container->get("MwBundle\Service\DoorverwijzingDao");
-    
-        return $previous;
     }
 }

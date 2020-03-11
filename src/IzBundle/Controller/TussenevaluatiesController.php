@@ -6,9 +6,9 @@ use AppBundle\Controller\AbstractChildController;
 use IzBundle\Entity\Tussenevaluatie;
 use IzBundle\Form\VerslagType;
 use IzBundle\Service\VerslagDaoInterface;
-use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * @Route("/tussenevaluaties")
@@ -33,14 +33,12 @@ class TussenevaluatiesController extends AbstractChildController
      */
     protected $entities;
 
-    public function setContainer(\Psr\Container\ContainerInterface $container): ?\Psr\Container\ContainerInterface
+    public function setContainer(?\Symfony\Component\DependencyInjection\ContainerInterface $container = null)
     {
-        $previous = parent::setContainer($container);
+        parent::setContainer($container);
 
         $this->dao = $container->get("IzBundle\Service\VerslagDao");
-        $this->entities = $container->get("iz.verslag.entities");
-    
-        return $previous;
+        $this->entities = $container->get('iz.verslag.entities');
     }
 
     /**

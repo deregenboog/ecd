@@ -22,19 +22,10 @@ interface KlantDaoInterface
      */
     public function find($id);
 
-    /**
-     * @param Klant $klant
-     */
     public function create(Klant $klant);
 
-    /**
-     * @param Klant $klant
-     */
     public function update(Klant $klant);
 
-    /**
-     * @param Klant $klant
-     */
     public function delete(Klant $klant);
 
     public function countByStadsdeel(\DateTime $start = null, \DateTime $end = null);

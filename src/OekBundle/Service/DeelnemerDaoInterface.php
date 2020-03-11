@@ -24,24 +24,13 @@ interface DeelnemerDaoInterface
     public function find($id);
 
     /**
-     * @param Klant $klant
-     *
      * @return Deelnemer
      */
     public function findOneByKlant(Klant $klant);
 
-    /**
-     * @param Deelnemer $deelnemer
-     */
     public function create(Deelnemer $deelnemer);
 
-    /**
-     * @param Deelnemer $deelnemer
-     */
     public function update(Deelnemer $deelnemer);
 
-    /**
-     * @param Deelnemer $deelnemer
-     */
     public function delete(Deelnemer $deelnemer);
 }

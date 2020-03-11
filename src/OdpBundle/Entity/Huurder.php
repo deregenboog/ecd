@@ -78,10 +78,9 @@ class Huurder extends Deelnemer
      */
     private $werk;
 
-
     public function __construct(Klant $klant = null)
     {
-        if(null !== $klant){
+        if (null !== $klant) {
             $this->klant = $klant;
         }
 
@@ -212,9 +211,6 @@ class Huurder extends Deelnemer
         return $this->huurbudget;
     }
 
-    /**
-     * @param Huurbudget $huurbudget
-     */
     public function setHuurbudget(Huurbudget $huurbudget): void
     {
         $this->huurbudget = $huurbudget;
@@ -228,9 +224,6 @@ class Huurder extends Deelnemer
         return $this->duurThuisloos;
     }
 
-    /**
-     * @param DuurThuisloos $duurThuisloos
-     */
     public function setDuurThuisloos(DuurThuisloos $duurThuisloos): void
     {
         $this->duurThuisloos = $duurThuisloos;
@@ -244,13 +237,8 @@ class Huurder extends Deelnemer
         return $this->werk;
     }
 
-    /**
-     * @param Werk $werk
-     */
     public function setWerk(Werk $werk): void
     {
         $this->werk = $werk;
     }
-
-
 }

@@ -35,8 +35,6 @@ class ToegangsrechtDao extends AbstractDao implements ToegangsrechtDaoInterface
     }
 
     /**
-     * @param Medewerker $medewerker
-     *
      * @return Toegangsrecht
      */
     public function findOneByMedewerker(Medewerker $medewerker): ?Toegangsrecht

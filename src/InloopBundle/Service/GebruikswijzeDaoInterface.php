@@ -23,18 +23,9 @@ interface GebruikswijzeDaoInterface
      */
     public function find($id);
 
-    /**
-     * @param Gebruikswijze $entity
-     */
     public function create(Gebruikswijze $entity);
 
-    /**
-     * @param Gebruikswijze $entity
-     */
     public function update(Gebruikswijze $entity);
 
-    /**
-     * @param Gebruikswijze $entity
-     */
     public function delete(Gebruikswijze $entity);
 }

@@ -23,18 +23,9 @@ interface WoonsituatieDaoInterface
      */
     public function find($id);
 
-    /**
-     * @param Woonsituatie $entity
-     */
     public function create(Woonsituatie $entity);
 
-    /**
-     * @param Woonsituatie $entity
-     */
     public function update(Woonsituatie $entity);
 
-    /**
-     * @param Woonsituatie $entity
-     */
     public function delete(Woonsituatie $entity);
 }

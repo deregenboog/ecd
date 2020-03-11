@@ -23,18 +23,9 @@ interface HulpvragerDaoInterface
      */
     public function find($id);
 
-    /**
-     * @param Hulpvrager $hulpvrager
-     */
     public function create(Hulpvrager $hulpvrager);
 
-    /**
-     * @param Hulpvrager $hulpvrager
-     */
     public function update(Hulpvrager $hulpvrager);
 
-    /**
-     * @param Hulpvrager $hulpvrager
-     */
     public function delete(Hulpvrager $hulpvrager);
 }

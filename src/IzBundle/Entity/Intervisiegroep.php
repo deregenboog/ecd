@@ -19,7 +19,9 @@ use Gedmo\Mapping\Annotation as Gedmo;
  */
 class Intervisiegroep
 {
-    use IdentifiableTrait, NameableTrait, TimestampableTrait;
+    use IdentifiableTrait;
+    use NameableTrait;
+    use TimestampableTrait;
 
     /**
      * @var \DateTime

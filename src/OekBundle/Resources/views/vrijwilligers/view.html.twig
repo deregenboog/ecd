@@ -35,7 +35,7 @@
         <dt>Medewerker</dt>
         <dd>{{ entity.medewerker }}</dd>
     </dl>
-    {% include '::vrijwilliger_basis.html.twig' with {vrijwilliger: entity.vrijwilliger} %}
+    {% include 'vrijwilliger_basis.html.twig' with {vrijwilliger: entity.vrijwilliger} %}
 {% endblock %}
 
 {% block content_right %}

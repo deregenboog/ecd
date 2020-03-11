@@ -23,18 +23,9 @@ interface FrequentieDaoInterface
      */
     public function find($id);
 
-    /**
-     * @param Frequentie $entity
-     */
     public function create(Frequentie $entity);
 
-    /**
-     * @param Frequentie $entity
-     */
     public function update(Frequentie $entity);
 
-    /**
-     * @param Frequentie $entity
-     */
     public function delete(Frequentie $entity);
 }

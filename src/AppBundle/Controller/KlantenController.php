@@ -12,9 +12,9 @@ use AppBundle\Form\KlantType;
 use AppBundle\Service\KlantDaoInterface;
 use Doctrine\Common\Collections\Criteria;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
+use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * @Route("/klanten")
@@ -39,14 +39,12 @@ class KlantenController extends AbstractController
      */
     protected $export;
 
-    public function setContainer(\Psr\Container\ContainerInterface $container): ?\Psr\Container\ContainerInterface
+    public function setContainer(?\Symfony\Component\DependencyInjection\ContainerInterface $container = null)
     {
-        $previous = parent::setContainer($container);
+        parent::setContainer($container);
 
         $this->dao = $container->get("AppBundle\Service\KlantDao");
-        $this->export = $container->get("app.export.klanten");
-
-        return $previous;
+        $this->export = $container->get('app.export.klanten');
     }
 
     /**
@@ -66,7 +64,7 @@ class KlantenController extends AbstractController
 
     /**
      * @Route("/{klant}/{documentId}/deleteDocument/")
-     * @param Request $request
+     *
      * @param $documentId
      */
     public function deleteDocumentAction(Request $request, $klant, $documentId)
@@ -79,28 +77,26 @@ class KlantenController extends AbstractController
 
         $docs = $klant->getDocumenten(); //->matching($criteria)->first();
         $entity = null;
-        foreach($docs as $d)
-        {
-            if($d->getId() == $documentId){
+        foreach ($docs as $d) {
+            if ($d->getId() == $documentId) {
                 $entity = $d;
                 break;
             }
         }
 
-        if(!$this->isGranted('ROLE_ADMIN')
+        if (!$this->isGranted('ROLE_ADMIN')
             && $entity->getMedewerker()->getId() != $this->getUser()->getId()
         ) {
             throw new AccessDeniedHttpException();
         }
 
-        $form = $this->getForm(ConfirmationType::class);
+        $form = $this->createForm(ConfirmationType::class);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             if ($form->get('yes')->isClicked()) {
                 $url = $request->get('redirect');
                 $viewUrl = $this->generateUrl($this->baseRouteName.'view', ['id' => $entity->getId()]);
-
 
                 $docs->removeDocument($entity);
 
@@ -111,7 +107,6 @@ class KlantenController extends AbstractController
                 $docDao->delete($entity);
 
                 $this->dao->update($klant);
-
 
                 $this->addFlash('success', 'Document is verwijderd.');
 
@@ -149,7 +144,7 @@ class KlantenController extends AbstractController
 
         return [
             'diensten' => $event->getDiensten(),
-            'tbc_countries' => $this->container->getParameter('tbc_countries')
+            'tbc_countries' => $this->container->getParameter('tbc_countries'),
         ];
     }
 }

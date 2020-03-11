@@ -26,12 +26,10 @@ class VerhuurderAfsluitingenController extends AfsluitingenController
 
     protected $indexRouteName = 'odp_verhuurderafsluitingen_index';
 
-    public function setContainer(\Psr\Container\ContainerInterface $container): ?\Psr\Container\ContainerInterface
+    public function setContainer(?\Symfony\Component\DependencyInjection\ContainerInterface $container = null)
     {
-        $previous = parent::setContainer($container);
+        parent::setContainer($container);
 
         $this->dao = $container->get("OdpBundle\Service\VerhuurderafsluitingDao");
-    
-        return $previous;
     }
 }

@@ -23,13 +23,11 @@ class CoordinatorenController extends SymfonyController
      */
     private $coordinatorDao;
 
-    public function setContainer(\Psr\Container\ContainerInterface $container): ?\Psr\Container\ContainerInterface
+    public function setContainer(?\Symfony\Component\DependencyInjection\ContainerInterface $container = null)
     {
-        $previous = parent::setContainer($container);
+        parent::setContainer($container);
 
         $this->coordinatorDao = $container->get("OdpBundle\Service\CoordinatorDao");
-    
-        return $previous;
     }
 
     /**
@@ -52,7 +50,7 @@ class CoordinatorenController extends SymfonyController
     {
         $coordinator = new Coordinator();
 
-        $form = $this->getForm(CoordinatorType::class, $coordinator);
+        $form = $this->createForm(CoordinatorType::class, $coordinator);
         $form->handleRequest($this->getRequest());
         if ($form->isSubmitted() && $form->isValid()) {
             try {
@@ -78,7 +76,7 @@ class CoordinatorenController extends SymfonyController
     {
         $coordinator = $this->coordinatorDao->find($id);
 
-        $form = $this->getForm(CoordinatorType::class, $coordinator);
+        $form = $this->createForm(CoordinatorType::class, $coordinator);
         $form->handleRequest($this->getRequest());
         if ($form->isSubmitted() && $form->isValid()) {
             try {
@@ -103,7 +101,7 @@ class CoordinatorenController extends SymfonyController
     {
         $coordinator = $this->coordinatorDao->find($id);
 
-        $form = $this->getForm(ConfirmationType::class);
+        $form = $this->createForm(ConfirmationType::class);
         $form->handleRequest($this->getRequest());
         if ($form->isSubmitted() && $form->isValid()) {
             if ($form->get('yes')->isClicked()) {

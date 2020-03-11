@@ -6,8 +6,8 @@ use AppBundle\Controller\AbstractController;
 use IzBundle\Entity\EindeVraagAanbod;
 use IzBundle\Form\EindeVraagAanbodType;
 use IzBundle\Service\EindeVraagAanbodDaoInterface;
-use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * @Route("/admin/eindevraagaanbod")
@@ -25,13 +25,11 @@ class EindeVraagAanbodController extends AbstractController
      */
     protected $dao;
 
-    public function setContainer(\Psr\Container\ContainerInterface $container): ?\Psr\Container\ContainerInterface
+    public function setContainer(?\Symfony\Component\DependencyInjection\ContainerInterface $container = null)
     {
-        $previous = parent::setContainer($container);
+        parent::setContainer($container);
 
         $this->dao = $container->get("IzBundle\Service\EindeVraagAanbodDao");
-    
-        return $previous;
     }
 
     /**

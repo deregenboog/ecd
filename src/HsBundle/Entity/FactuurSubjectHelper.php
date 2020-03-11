@@ -3,21 +3,15 @@
 namespace HsBundle\Entity;
 
 use AppBundle\Form\Model\AppDateRangeModel;
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManagerInterface;
-use Doctrine\ORM\Mapping as ORM;
-use Gedmo\Mapping\Annotation as Gedmo;
-use HsBundle\Exception\InvoiceLockedException;
-use HsBundle\Exception\InvoiceNotLockedException;
-
-
 
 class FactuurSubjectHelper
 {
     private $entityManager;
+
     /**
      * @param FactuurSubjectInterface $entity
-     * @param EntityManagerInterface $entityManager
+     *
      * @throws \HsBundle\Exception\InvoiceLockedException
      */
     public function beforeUpdateEntity($entity, EntityManagerInterface $entityManager)
@@ -31,40 +25,32 @@ class FactuurSubjectHelper
         }
 
         $oudeFactuur = $entity->getFactuur();
-       $dateRange = $this->getDateRange($entity->getDatum());
+        $dateRange = $this->getDateRange($entity->getDatum());
 
         /**
          * If entity has a factuur, than it is an edit and not a new factuur.
          * Fields that can be editted are also dateRange. Thus, we will not find an invoice.
          */
         $factuur = $this->findOrCreateFactuur($klant, $dateRange, $entityManager);
-        if($entity instanceof Declaratie)
-        {
+        if ($entity instanceof Declaratie) {
             $factuur->addDeclaratie($entity);
-        }
-        else if($entity instanceof Registratie)
-        {
+        } elseif ($entity instanceof Registratie) {
             $factuur->addRegistratie($entity);
         }
 
-
-        /**
+        /*
          * If oudeFactuur is not the same, then the old factuur must be saved manually because there is no relation anymore with the basic entity.
          */
-        if(null !== $oudeFactuur && $oudeFactuur->getId() !== $factuur->getId()) {
-
-            if($entity instanceof Declaratie) {
+        if (null !== $oudeFactuur && $oudeFactuur->getId() !== $factuur->getId()) {
+            if ($entity instanceof Declaratie) {
                 $oudeFactuur->removeDeclaratie($entity);
-            } else if($entity instanceof Registratie)
-            {
+            } elseif ($entity instanceof Registratie) {
                 $oudeFactuur->removeRegistratie($entity);
             }
 
-            if($oudeFactuur->getBedrag() == 0)
-            {
+            if (0 == $oudeFactuur->getBedrag()) {
                 $entityManager->remove($oudeFactuur);
-            }
-            else {
+            } else {
                 $entityManager->persist(($oudeFactuur));
             }
         }
@@ -98,7 +84,9 @@ class FactuurSubjectHelper
             }
             $factuur = $f;
         }
-        if(null !== $factuur) return $factuur;
+        if (null !== $factuur) {
+            return $factuur;
+        }
 
         // ...or create one
         $nummer = $this->getNummer($klant, $dateRange, $entityManager);

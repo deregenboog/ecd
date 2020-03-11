@@ -44,15 +44,13 @@ class VrijwilligersController extends AbstractController
      */
     private $vrijwilligerDao;
 
-    public function setContainer(\Psr\Container\ContainerInterface $container): ?\Psr\Container\ContainerInterface
+    public function setContainer(?\Symfony\Component\DependencyInjection\ContainerInterface $container = null)
     {
-        $previous = parent::setContainer($container);
+        parent::setContainer($container);
 
         $this->dao = $container->get("InloopBundle\Service\VrijwilligerDao");
-        $this->export = $container->get("inloop.export.vrijwilliger");
+        $this->export = $container->get('inloop.export.vrijwilliger');
         $this->vrijwilligerDao = $container->get("AppBundle\Service\VrijwilligerDao");
-    
-        return $previous;
     }
 
     /**
@@ -92,10 +90,9 @@ class VrijwilligersController extends AbstractController
         $entity->setAfsluitreden(null);
 
         $this->dao->update($entity);
+
         return $this->redirectToRoute($this->baseRouteName.'view', ['id' => $id]);
-
     }
-
 
     protected function getDownloadFilename()
     {
@@ -104,7 +101,7 @@ class VrijwilligersController extends AbstractController
 
     private function doSearch(Request $request)
     {
-        $filterForm = $this->getForm(AppVrijwilligerFilterType::class, null, [
+        $filterForm = $this->createForm(AppVrijwilligerFilterType::class, null, [
             'enabled_filters' => ['id', 'naam', 'bsn', 'geboortedatum'],
         ]);
         $filterForm->handleRequest($request);
@@ -152,7 +149,7 @@ class VrijwilligersController extends AbstractController
         }
 
         $vrijwilliger = new Vrijwilliger($appVrijwilliger);
-        $creationForm = $this->getForm(VrijwilligerType::class, $vrijwilliger);
+        $creationForm = $this->createForm(VrijwilligerType::class, $vrijwilliger);
         $creationForm->handleRequest($request);
 
         if ($creationForm->isSubmitted() && $creationForm->isValid()) {

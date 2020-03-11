@@ -17,7 +17,9 @@ use Gedmo\Mapping\Annotation as Gedmo;
  */
 class Dienstverlener extends Arbeider implements MemoSubjectInterface, DocumentSubjectInterface
 {
-    use HulpverlenerTrait, MemoSubjectTrait, DocumentSubjectTrait;
+    use HulpverlenerTrait;
+    use MemoSubjectTrait;
+    use DocumentSubjectTrait;
 
     /**
      * @var Klant

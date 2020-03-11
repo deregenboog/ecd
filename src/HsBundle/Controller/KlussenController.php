@@ -43,15 +43,13 @@ class KlussenController extends AbstractChildController
      */
     protected $entities;
 
-    public function setContainer(\Psr\Container\ContainerInterface $container): ?\Psr\Container\ContainerInterface
+    public function setContainer(?\Symfony\Component\DependencyInjection\ContainerInterface $container = null)
     {
-        $previous = parent::setContainer($container);
+        parent::setContainer($container);
 
         $this->dao = $container->get("HsBundle\Service\KlusDao");
-        $this->export = $container->get("hs.export.klus");
-        $this->entities = $container->get("hs.klus.entities");
-    
-        return $previous;
+        $this->export = $container->get('hs.export.klus');
+        $this->entities = $container->get('hs.klus.entities');
     }
 
     /**
@@ -79,14 +77,11 @@ class KlussenController extends AbstractChildController
      */
     public function heropenenAction(Request $request, $id)
     {
-
-
-        $entity = $this->dao->find($id);;
+        $entity = $this->dao->find($id);
         $entity->setAnnuleringsdatum(null);
         $this->dao->update($entity);
         $this->addFlash('success', ucfirst($this->entityName).' is opgeslagen.');
 
         return $this->redirectToView($entity);
-
     }
 }

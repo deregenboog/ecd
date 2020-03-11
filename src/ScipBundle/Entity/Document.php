@@ -23,7 +23,10 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
  */
 class Document implements DocumentInterface, MedewerkerSubjectInterface
 {
-    use IdentifiableTrait, NameableTrait, TimestampableTrait, RequiredMedewerkerTrait;
+    use IdentifiableTrait;
+    use NameableTrait;
+    use TimestampableTrait;
+    use RequiredMedewerkerTrait;
 
     const TYPE_VOG = 'VOG';
     const TYPE_OVEREENKOMST = 'Overeenkomst';

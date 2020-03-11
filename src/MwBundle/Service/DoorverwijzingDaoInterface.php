@@ -23,13 +23,7 @@ interface DoorverwijzingDaoInterface
      */
     public function find($id);
 
-    /**
-     * @param Doorverwijzing $entity
-     */
     public function create(Doorverwijzing $entity);
 
-    /**
-     * @param Doorverwijzing $entity
-     */
     public function update(Doorverwijzing $entity);
 }

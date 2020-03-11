@@ -22,19 +22,10 @@ interface KlusDaoInterface
      */
     public function find($id);
 
-    /**
-     * @param Klus $klus
-     */
     public function create(Klus $klus);
 
-    /**
-     * @param Klus $klus
-     */
     public function update(Klus $klus);
 
-    /**
-     * @param Klus $klus
-     */
     public function delete(Klus $klus);
 
     public function countByStadsdeel(\DateTime $start = null, \DateTime $end = null);

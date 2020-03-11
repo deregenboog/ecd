@@ -73,9 +73,7 @@ class Dagdeel
     private $aanwezigheid;
 
     /**
-     * @param Project   $project
-     * @param \DateTime $datum
-     * @param string    $dagdeel
+     * @param string $dagdeel
      *
      * @throws \InvalidArgumentException
      */

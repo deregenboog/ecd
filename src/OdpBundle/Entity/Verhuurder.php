@@ -59,7 +59,7 @@ class Verhuurder extends Deelnemer
 
     public function __construct(Klant $klant = null)
     {
-        if(null !== $klant){
+        if (null !== $klant) {
             $this->klant = $klant;
         }
 

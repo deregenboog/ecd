@@ -18,7 +18,10 @@ use Gedmo\SoftDeleteable\Traits\SoftDeleteable;
  */
 class Reservering
 {
-    use IdentifiableTrait, RequiredMedewerkerTrait, TimestampableTrait, SoftDeleteable;
+    use IdentifiableTrait;
+    use RequiredMedewerkerTrait;
+    use TimestampableTrait;
+    use SoftDeleteable;
 
     /**
      * @var \DateTime

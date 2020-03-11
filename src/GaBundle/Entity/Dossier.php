@@ -25,7 +25,10 @@ use Gedmo\Mapping\Annotation as Gedmo;
  */
 abstract class Dossier implements DocumentSubjectInterface
 {
-    use IdentifiableTrait, TimestampableTrait, DocumentSubjectTrait, NotDeletableTrait;
+    use IdentifiableTrait;
+    use TimestampableTrait;
+    use DocumentSubjectTrait;
+    use NotDeletableTrait;
 
     /**
      * @var \DateTime
@@ -88,9 +91,6 @@ abstract class Dossier implements DocumentSubjectInterface
         return $this->aanmelddatum;
     }
 
-    /**
-     * @param \DateTime $aanmelddatum
-     */
     public function setAanmelddatum(\DateTime $aanmelddatum)
     {
         $this->aanmelddatum = $aanmelddatum;
@@ -106,9 +106,6 @@ abstract class Dossier implements DocumentSubjectInterface
         return $this->afsluitdatum;
     }
 
-    /**
-     * @param \DateTime $afsluitdatum
-     */
     public function setAfsluitdatum(\DateTime $afsluitdatum)
     {
         $this->afsluitdatum = $afsluitdatum;

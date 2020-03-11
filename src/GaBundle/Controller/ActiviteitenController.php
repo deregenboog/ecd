@@ -12,10 +12,10 @@ use GaBundle\Form\ActiviteitFilterType;
 use GaBundle\Form\ActiviteitType;
 use GaBundle\Form\DeelnamesType;
 use GaBundle\Service\ActiviteitDaoInterface;
-use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * @Route("/activiteiten")
@@ -46,15 +46,13 @@ class ActiviteitenController extends AbstractChildController
      */
     protected $export;
 
-    public function setContainer(\Psr\Container\ContainerInterface $container): ?\Psr\Container\ContainerInterface
+    public function setContainer(?\Symfony\Component\DependencyInjection\ContainerInterface $container = null)
     {
-        $previous = parent::setContainer($container);
+        parent::setContainer($container);
 
         $this->dao = $container->get("GaBundle\Service\ActiviteitDao");
-        $this->entities = $container->get("ga.activiteit.entities");
-        $this->export = $container->get("ga.export.activiteiten");
-    
-        return $previous;
+        $this->entities = $container->get('ga.activiteit.entities');
+        $this->export = $container->get('ga.export.activiteiten');
     }
 
     /**

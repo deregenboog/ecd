@@ -28,19 +28,10 @@ interface DagdeelDaoInterface
      */
     public function find($id);
 
-    /**
-     * @param Dagdeel $dagdeel
-     */
     public function create(Dagdeel $dagdeel);
 
-    /**
-     * @param Dagdeel $dagdeel
-     */
     public function update(Dagdeel $dagdeel);
 
-    /**
-     * @param Dagdeel $dagdeel
-     */
     public function delete(Dagdeel $dagdeel);
 
     public function countByDeelnemer(\DateTime $startdate, \DateTime $enddate);

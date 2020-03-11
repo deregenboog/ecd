@@ -16,7 +16,8 @@ use Gedmo\Mapping\Annotation as Gedmo;
  */
 class Vraag
 {
-    use OptionalBehandelaarTrait, TimestampableTrait;
+    use OptionalBehandelaarTrait;
+    use TimestampableTrait;
 
     /**
      * @ORM\Id
@@ -113,7 +114,7 @@ class Vraag
     protected $contactmomenten;
 
     /**
-     * @var boolean
+     * @var bool
      * @ORM\Column(nullable=true)
      */
     protected $hulpCollegaGezocht = false;
@@ -124,7 +125,7 @@ class Vraag
         $this->contactmomenten = new ArrayCollection();
 
         $this->setStartdatum(new \DateTime());
-        $contactmoment = ($contactmoment == null)? new Contactmoment():$contactmoment;
+        $contactmoment = (null == $contactmoment) ? new Contactmoment() : $contactmoment;
         $this->setContactmoment($contactmoment);
     }
 
@@ -144,8 +145,7 @@ class Vraag
 
     public function setBehandelaar(?Behandelaar $behandelaar)
     {
-
-        /**
+        /*
          * issue #825 open vragen: geen behandelaar bij een open vraag dus.
          */
         // initial Contactmoment has the same Behandelaar as this Vraag
@@ -156,12 +156,8 @@ class Vraag
 //        $c = count($this->contactmomenten);
 
         if (1 === count($this->contactmomenten) && is_null($this->getContactmoment()->getBehandelaar()) && !is_null($behandelaar)) {
-
             $this->contactmomenten[0]->setBehandelaar($behandelaar);
-
-        }
-        else
-        {
+        } else {
             $this->behandelaar = $behandelaar;
         }
 
@@ -261,8 +257,6 @@ class Vraag
     /**
      * Sets the initial contactmoment.
      *
-     * @param Contactmoment $contactmoment
-     *
      * @return \ClipBundle\Entity\Vraag
      */
     public function setContactmoment(Contactmoment $contactmoment)
@@ -343,17 +337,13 @@ class Vraag
     /**
      * @return bool
      */
-    public function isHulpCollegaGezocht():? bool
+    public function isHulpCollegaGezocht(): ? bool
     {
         return $this->hulpCollegaGezocht;
     }
 
-    /**
-     * @param bool $hulpCollegaGezocht
-     */
     public function setHulpCollegaGezocht(bool $hulpCollegaGezocht): void
     {
         $this->hulpCollegaGezocht = $hulpCollegaGezocht;
     }
-
 }

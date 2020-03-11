@@ -20,8 +20,6 @@ interface FactuurSubjectInterface
     public function getFactuur();
 
     /**
-     * @param Factuur $factuur
-     *
      * @return self
      */
     public function setFactuur(Factuur $factuur);

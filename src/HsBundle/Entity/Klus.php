@@ -16,7 +16,8 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class Klus implements MemoSubjectInterface
 {
-    use MemoSubjectTrait, DocumentSubjectTrait;
+    use MemoSubjectTrait;
+    use DocumentSubjectTrait;
 
     const STATUS_OPENSTAAND = 'Openstaand';
     const STATUS_IN_BEHANDELING = 'In behandeling';

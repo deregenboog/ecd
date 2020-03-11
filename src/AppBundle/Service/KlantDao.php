@@ -87,7 +87,6 @@ class KlantDao extends AbstractDao implements KlantDaoInterface
         return $builder->getQuery()->getSingleScalarResult();
     }
 
-
     /**
      * @param int $id
      *
@@ -98,25 +97,16 @@ class KlantDao extends AbstractDao implements KlantDaoInterface
         return parent::find($id);
     }
 
-    /**
-     * @param Klant $klant
-     */
     public function create(Klant $klant)
     {
         return $this->doCreate($klant);
     }
 
-    /**
-     * @param Klant $klant
-     */
     public function update(Klant $klant)
     {
         return $this->doUpdate($klant);
     }
 
-    /**
-     * @param Klant $klant
-     */
     public function delete(Klant $klant)
     {
         // @todo remove this when disabled field is no longer needed

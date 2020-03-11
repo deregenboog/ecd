@@ -23,18 +23,9 @@ interface VraagsoortDaoInterface
      */
     public function find($id);
 
-    /**
-     * @param Vraagsoort $vraagsoort
-     */
     public function create(Vraagsoort $vraagsoort);
 
-    /**
-     * @param Vraagsoort $vraagsoort
-     */
     public function update(Vraagsoort $vraagsoort);
 
-    /**
-     * @param Vraagsoort $vraagsoort
-     */
     public function delete(Vraagsoort $vraagsoort);
 }

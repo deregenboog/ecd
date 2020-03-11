@@ -64,7 +64,6 @@ class KlantenControllerTest extends WebTestCase
 
     public function testAddFilter()
     {
-
         $medewerker = $this->getContainer()->get('AppBundle\Service\MedewerkerDao')->find('eropuit_user');
         $this->logIn($medewerker, 'ROLE_EROPUIT');
 
@@ -78,11 +77,9 @@ class KlantenControllerTest extends WebTestCase
 
 //        file_put_contents("debug.html", $crawler->html());
 
-
         $rows = $crawler->filter('table.table tbody tr');
 
 //        $this->assertEquals(8, $rows->count());
         $this->assertLessThanOrEqual(1, $this->count());
     }
-
 }

@@ -23,18 +23,9 @@ interface UitschrijfredenDaoInterface
      */
     public function find($id);
 
-    /**
-     * @param Uitschrijfreden $entity
-     */
     public function create(Uitschrijfreden $entity);
 
-    /**
-     * @param Uitschrijfreden $entity
-     */
     public function update(Uitschrijfreden $entity);
 
-    /**
-     * @param Uitschrijfreden $entity
-     */
     public function delete(Uitschrijfreden $entity);
 }

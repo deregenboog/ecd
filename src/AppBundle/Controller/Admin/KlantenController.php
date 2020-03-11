@@ -8,9 +8,9 @@ use AppBundle\Form\KlantMergeType;
 use AppBundle\Service\KlantDaoInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
-use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * @Route("/admin/klanten")
@@ -28,13 +28,11 @@ class KlantenController extends AbstractController
      */
     protected $dao;
 
-    public function setContainer(\Psr\Container\ContainerInterface $container): ?\Psr\Container\ContainerInterface
+    public function setContainer(?\Symfony\Component\DependencyInjection\ContainerInterface $container = null)
     {
-        $previous = parent::setContainer($container);
+        parent::setContainer($container);
 
         $this->dao = $container->get("AppBundle\Service\KlantDao");
-
-        return $previous;
     }
 
     /**
@@ -75,7 +73,7 @@ class KlantenController extends AbstractController
         }
 
         $entity = clone $klanten[0];
-        $form = $this->getForm(KlantMergeType::class, $entity, [
+        $form = $this->createForm(KlantMergeType::class, $entity, [
             'klanten' => $klanten,
             'medewerker' => $this->getMedewerker(),
         ]);
@@ -119,10 +117,8 @@ class KlantenController extends AbstractController
     }
 
     /**
-     * @param Klant                  $entity  new entity
-     * @param Klant[]                $klanten original entities
-     * @param EntityManagerInterface $em
-     * @param LoggerInterface        $logger
+     * @param Klant   $entity  new entity
+     * @param Klant[] $klanten original entities
      */
     private function moveAssociations($entity, $klanten, EntityManagerInterface $em, LoggerInterface $logger)
     {
@@ -162,10 +158,8 @@ class KlantenController extends AbstractController
     }
 
     /**
-     * @param Klant                  $entity  new entity
-     * @param Klant[]                $klanten
-     * @param EntityManagerInterface $em
-     * @param LoggerInterface        $logger
+     * @param Klant   $entity  new entity
+     * @param Klant[] $klanten
      */
     private function disableMerged($entity, $klanten, EntityManagerInterface $em, LoggerInterface $logger)
     {

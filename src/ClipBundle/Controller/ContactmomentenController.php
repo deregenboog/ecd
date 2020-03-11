@@ -8,9 +8,9 @@ use ClipBundle\Entity\Contactmoment;
 use ClipBundle\Form\ContactmomentFilterType;
 use ClipBundle\Form\ContactmomentType;
 use ClipBundle\Service\ContactmomentDaoInterface;
-use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * @Route("/contactmomenten")
@@ -41,15 +41,13 @@ class ContactmomentenController extends AbstractChildController
      */
     protected $export;
 
-    public function setContainer(\Psr\Container\ContainerInterface $container): ?\Psr\Container\ContainerInterface
+    public function setContainer(?\Symfony\Component\DependencyInjection\ContainerInterface $container = null)
     {
-        $previous = parent::setContainer($container);
+        parent::setContainer($container);
 
         $this->dao = $container->get("ClipBundle\Service\ContactmomentDao");
-        $this->entities = $container->get("clip.contactmoment.entities");
-        $this->export = $container->get("clip.export.contactmomenten");
-    
-        return $previous;
+        $this->entities = $container->get('clip.contactmoment.entities');
+        $this->export = $container->get('clip.export.contactmomenten');
     }
 
     /**

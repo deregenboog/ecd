@@ -42,7 +42,7 @@
         <dt>E-mail hulpverlener</dt>
         <dd>{{ entity.hulpverlener.email }}</dd>
     </dl>
-    {% include '::vrijwilliger_basis.html.twig' with {vrijwilliger: entity.vrijwilliger} %}
+    {% include 'vrijwilliger_basis.html.twig' with {vrijwilliger: entity.vrijwilliger} %}
 {% endblock %}
 
 {% block content_right %}

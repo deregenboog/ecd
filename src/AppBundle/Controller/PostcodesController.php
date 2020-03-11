@@ -7,10 +7,10 @@ use AppBundle\Form\ConfirmationType;
 use AppBundle\Form\PostcodeFilterType;
 use AppBundle\Form\PostcodeType;
 use AppBundle\Service\PostcodeDaoInterface;
-use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * @Route("/admin/postcodes")
@@ -31,13 +31,11 @@ class PostcodesController extends AbstractController
      */
     protected $dao;
 
-    public function setContainer(\Psr\Container\ContainerInterface $container): ?\Psr\Container\ContainerInterface
+    public function setContainer(?\Symfony\Component\DependencyInjection\ContainerInterface $container = null)
     {
-        $previous = parent::setContainer($container);
+        parent::setContainer($container);
 
         $this->dao = $container->get("AppBundle\Service\PostcodeDao");
-    
-        return $previous;
     }
 
     /**
@@ -49,7 +47,7 @@ class PostcodesController extends AbstractController
         $entity = new Postcode();
         $entity->setSystem(false);
 
-        $form = $this->getForm(PostcodeType::class, $entity);
+        $form = $this->createForm(PostcodeType::class, $entity);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -85,7 +83,7 @@ class PostcodesController extends AbstractController
             return $this->redirectToIndex();
         }
 
-        $form = $this->getForm(PostcodeType::class, $entity);
+        $form = $this->createForm(PostcodeType::class, $entity);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -121,7 +119,7 @@ class PostcodesController extends AbstractController
             return $this->redirectToIndex();
         }
 
-        $form = $this->getForm(ConfirmationType::class);
+        $form = $this->createForm(ConfirmationType::class);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {

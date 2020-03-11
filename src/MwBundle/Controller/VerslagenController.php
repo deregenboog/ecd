@@ -7,16 +7,15 @@ use AppBundle\Entity\Klant;
 use AppBundle\Event\DienstenLookupEvent;
 use AppBundle\Event\Events;
 use AppBundle\Export\ExportInterface;
-use Doctrine\ORM\EntityNotFoundException;
 use MwBundle\Entity\Verslag;
 use MwBundle\Form\VerslagModel;
 use MwBundle\Form\VerslagType;
 use MwBundle\Service\InventarisatieDaoInterface;
 use MwBundle\Service\VerslagDaoInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
-use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * @Route("/verslagen")
@@ -45,15 +44,13 @@ class VerslagenController extends AbstractController
      */
     protected $export;
 
-    public function setContainer(\Psr\Container\ContainerInterface $container): ?\Psr\Container\ContainerInterface
+    public function setContainer(?\Symfony\Component\DependencyInjection\ContainerInterface $container = null)
     {
-        $previous = parent::setContainer($container);
+        parent::setContainer($container);
 
         $this->dao = $container->get("InloopBundle\Service\VerslagDao");
         $this->inventarisatieDao = $container->get("MwBundle\Service\InventarisatieDao");
-        $this->export = $container->get("mw.export.klanten");
-    
-        return $previous;
+        $this->export = $container->get('mw.export.klanten');
     }
 
     /**
@@ -63,7 +60,7 @@ class VerslagenController extends AbstractController
     public function addAction(Request $request)
     {
         $klant = $request->get('klant');
-        $entity = new Verslag($klant,1);
+        $entity = new Verslag($klant, 1);
 
         return $this->processForm($request, $entity);
     }
@@ -74,6 +71,7 @@ class VerslagenController extends AbstractController
     public function editAction(Request $request, $id)
     {
         $entity = $this->dao->find($id);
+
         return $this->processForm($request, $entity);
     }
 
@@ -97,7 +95,7 @@ class VerslagenController extends AbstractController
         $inventarisaties = $this->inventarisatieDao->findAllAsTree();
         $model = new VerslagModel($entity, $inventarisaties);
 
-        $form = $this->getForm($this->formClass, $model, [
+        $form = $this->createForm($this->formClass, $model, [
             'medewerker' => $this->getMedewerker(),
             'inventarisaties' => $inventarisaties,
         ]);

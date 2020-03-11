@@ -60,8 +60,6 @@ class VrijwilligerDao extends AbstractDao implements VrijwilligerDaoInterface
     }
 
     /**
-     * @param Vrijwilliger $vrijwilliger
-     *
      * @return IzVrijwilliger
      */
     public function findOneByVrijwilliger(Vrijwilliger $vrijwilliger)

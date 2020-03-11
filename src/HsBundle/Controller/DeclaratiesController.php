@@ -4,22 +4,16 @@ namespace HsBundle\Controller;
 
 use AppBundle\Controller\AbstractChildController;
 use AppBundle\Exception\AppException;
-use AppBundle\Form\Model\AppDateRangeModel;
-use Doctrine\ORM\EntityManagerInterface;
 use HsBundle\Entity\Arbeider;
-use HsBundle\Entity\Creditfactuur;
 use HsBundle\Entity\Declaratie;
 use HsBundle\Entity\Factuur;
 use HsBundle\Entity\FactuurSubjectHelper;
-use HsBundle\Entity\Klant;
 use HsBundle\Entity\Klus;
-use HsBundle\Entity\Registratie;
 use HsBundle\Form\DeclaratieType;
 use HsBundle\Service\DeclaratieDaoInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
-
 
 /**
  * @Route("/declaraties")
@@ -44,14 +38,12 @@ class DeclaratiesController extends AbstractChildController
      */
     protected $entities;
 
-    public function setContainer(\Psr\Container\ContainerInterface $container): ?\Psr\Container\ContainerInterface
+    public function setContainer(?\Symfony\Component\DependencyInjection\ContainerInterface $container = null)
     {
-        $previous = parent::setContainer($container);
+        parent::setContainer($container);
 
         $this->dao = $container->get("HsBundle\Service\DeclaratieDao");
-        $this->entities = $container->get("hs.declaratie.entities");
-    
-        return $previous;
+        $this->entities = $container->get('hs.declaratie.entities');
     }
 
     /**
@@ -82,8 +74,6 @@ class DeclaratiesController extends AbstractChildController
         }
 
         return $this->processForm($request, $declaratie);
-
-
     }
 
     protected function beforeCreate($entity)
@@ -93,13 +83,13 @@ class DeclaratiesController extends AbstractChildController
 
     /**
      * @param Declaratie $declaratie
+     *
      * @throws \HsBundle\Exception\InvoiceLockedException
      */
     protected function beforeUpdate($declaratie)
     {
         $helper = new FactuurSubjectHelper();
-        $helper->beforeUpdateEntity($declaratie,$this->getEntityManager());
-
+        $helper->beforeUpdateEntity($declaratie, $this->getEntityManager());
     }
 
     /**
@@ -132,7 +122,7 @@ class DeclaratiesController extends AbstractChildController
             $entity = new Declaratie(null, $parentEntity);
         }
 
-        $form = $this->getForm($this->formClass, $entity);
+        $form = $this->createForm($this->formClass, $entity);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -158,6 +148,4 @@ class DeclaratiesController extends AbstractChildController
             'form' => $form->createView(),
         ];
     }
-
-
 }

@@ -44,15 +44,13 @@ class DienstverlenersController extends AbstractController
      */
     private $klantDao;
 
-    public function setContainer(\Psr\Container\ContainerInterface $container): ?\Psr\Container\ContainerInterface
+    public function setContainer(?\Symfony\Component\DependencyInjection\ContainerInterface $container = null)
     {
-        $previous = parent::setContainer($container);
+        parent::setContainer($container);
 
         $this->dao = $container->get("HsBundle\Service\DienstverlenerDao");
-        $this->export = $container->get("hs.export.dienstverlener");
+        $this->export = $container->get('hs.export.dienstverlener');
         $this->klantDao = $container->get("AppBundle\Service\KlantDao");
-    
-        return $previous;
     }
 
     /**
@@ -69,7 +67,7 @@ class DienstverlenersController extends AbstractController
 
     private function doSearch(Request $request)
     {
-        $filterForm = $this->getForm(AppKlantFilterType::class, null, [
+        $filterForm = $this->createForm(AppKlantFilterType::class, null, [
             'enabled_filters' => ['id', 'naam', 'bsn', 'geboortedatum'],
         ]);
         $filterForm->handleRequest($request);
@@ -117,7 +115,7 @@ class DienstverlenersController extends AbstractController
         }
 
         $dienstverlener = new Dienstverlener($klant);
-        $creationForm = $this->getForm(DienstverlenerType::class, $dienstverlener);
+        $creationForm = $this->createForm(DienstverlenerType::class, $dienstverlener);
         $creationForm->handleRequest($request);
 
         if ($creationForm->isSubmitted() && $creationForm->isValid()) {

@@ -23,18 +23,9 @@ interface LandDaoInterface
      */
     public function find($id);
 
-    /**
-     * @param Land $land
-     */
     public function create(Land $land);
 
-    /**
-     * @param Land $land
-     */
     public function update(Land $land);
 
-    /**
-     * @param Land $land
-     */
     public function delete(Land $land);
 }

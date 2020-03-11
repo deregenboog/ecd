@@ -22,18 +22,9 @@ interface ActiviteitDaoInterface
      */
     public function find($id);
 
-    /**
-     * @param Activiteit $activiteit
-     */
     public function create(Activiteit $activiteit);
 
-    /**
-     * @param Activiteit $activiteit
-     */
     public function update(Activiteit $activiteit);
 
-    /**
-     * @param Activiteit $activiteit
-     */
     public function delete(Activiteit $activiteit);
 }

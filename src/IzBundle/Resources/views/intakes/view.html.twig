@@ -36,9 +36,9 @@
 
 {% block content_left %}
     {% if 'IzBundle\\Entity\\IzKlant' == class(entity.izDeelnemer) %}
-        {% include '::klant_basis.html.twig' with {klant: entity.izDeelnemer.klant, module: 'IzIntake'} %}
+        {% include 'klant_basis.html.twig' with {klant: entity.izDeelnemer.klant, module: 'IzIntake'} %}
     {% else %}
-        {% include '::vrijwilliger_basis.html.twig' with {vrijwilliger: entity.izDeelnemer.vrijwilliger} %}
+        {% include 'vrijwilliger_basis.html.twig' with {vrijwilliger: entity.izDeelnemer.vrijwilliger} %}
     {% endif %}
 {% endblock %}
 

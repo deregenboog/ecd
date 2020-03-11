@@ -42,8 +42,6 @@ class VrijwilligerdossierDao extends AbstractDao implements VrijwilligerdossierD
     }
 
     /**
-     * @param Vrijwilliger $vrijwilliger
-     *
      * @return Vrijwilligerdossier
      */
     public function findOneByVrijwilliger(Vrijwilliger $vrijwilliger)

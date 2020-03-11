@@ -16,7 +16,9 @@ use Gedmo\Mapping\Annotation as Gedmo;
  */
 class Groep
 {
-    use IdentifiableTrait, NameableTrait, TimestampableTrait;
+    use IdentifiableTrait;
+    use NameableTrait;
+    use TimestampableTrait;
 
     /**
      * @var \DateTime
@@ -60,9 +62,6 @@ class Groep
         return $this->einddatum;
     }
 
-    /**
-     * @param \DateTime $einddatum
-     */
     public function setEinddatum(\DateTime $einddatum)
     {
         $this->einddatum = $einddatum;

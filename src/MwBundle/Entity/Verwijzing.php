@@ -18,7 +18,8 @@ use Gedmo\Mapping\Annotation as Gedmo;
  */
 abstract class Verwijzing
 {
-    use IdentifiableTrait, TimestampableTrait;
+    use IdentifiableTrait;
+    use TimestampableTrait;
 
     /**
      * @var string

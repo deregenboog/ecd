@@ -21,7 +21,8 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
  */
 abstract class SuperDocument
 {
-    use TimestampableTrait, RequiredMedewerkerTrait;
+    use TimestampableTrait;
+    use RequiredMedewerkerTrait;
 
     /**
      * @ORM\Id
@@ -56,8 +57,6 @@ abstract class SuperDocument
      * @Vich\UploadableField(mapping="odp_document", fileNameProperty="filename")
      */
     private $file;
-
-
 
     public function __construct()
     {

@@ -2,8 +2,8 @@
 
 namespace HsBundle\Form;
 
-use AppBundle\Form\BaseType;
 use AppBundle\Form\AppDateType;
+use AppBundle\Form\BaseType;
 use HsBundle\Entity\Creditfactuur;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;

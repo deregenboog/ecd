@@ -21,12 +21,10 @@ class RapportagesController extends AbstractRapportagesController
      */
     protected $export;
 
-    public function setContainer(\Psr\Container\ContainerInterface $container): ?\Psr\Container\ContainerInterface
+    public function setContainer(?\Symfony\Component\DependencyInjection\ContainerInterface $container = null)
     {
-        $previous = parent::setContainer($container);
+        parent::setContainer($container);
 
-        $this->export = $container->get("odp.export.report");
-    
-        return $previous;
+        $this->export = $container->get('odp.export.report');
     }
 }

@@ -9,8 +9,6 @@ class LoadUserEventListener
 {
     /**
      * Updates the Symfony user object with data from the LDAP object.
-     *
-     * @param LoadUserEvent $event
      */
     public function afterUserLoad(LoadUserEvent $event)
     {

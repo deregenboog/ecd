@@ -35,14 +35,12 @@ class KlantenController extends AbstractController
      */
     protected $export;
 
-    public function setContainer(\Psr\Container\ContainerInterface $container): ?\Psr\Container\ContainerInterface
+    public function setContainer(?\Symfony\Component\DependencyInjection\ContainerInterface $container = null)
     {
-        $previous = parent::setContainer($container);
+        parent::setContainer($container);
 
         $this->dao = $container->get("HsBundle\Service\KlantDao");
-        $this->export = $container->get("hs.export.klant");
-    
-        return $previous;
+        $this->export = $container->get('hs.export.klant');
     }
 
     /**
@@ -51,7 +49,7 @@ class KlantenController extends AbstractController
     public function addAction(Request $request)
     {
         $klant = new Klant();
-        $form = $this->getForm(KlantType::class, $klant);
+        $form = $this->createForm(KlantType::class, $klant);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {

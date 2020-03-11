@@ -18,8 +18,6 @@ interface VrijwilligerIntakeDaoInterface
     public function findAll($page = null, FilterInterface $filter = null);
 
     /**
-     * @param Vrijwilliger $vrijwilliger
-     *
      * @return VrijwilligerIntake
      */
     public function findOneByVrijwilliger(Vrijwilliger $vrijwilliger);
@@ -31,18 +29,9 @@ interface VrijwilligerIntakeDaoInterface
      */
     public function find($id);
 
-    /**
-     * @param VrijwilligerIntake $entity
-     */
     public function create(VrijwilligerIntake $entity);
 
-    /**
-     * @param VrijwilligerIntake $entity
-     */
     public function update(VrijwilligerIntake $entity);
 
-    /**
-     * @param VrijwilligerIntake $entity
-     */
     public function delete(VrijwilligerIntake $entity);
 }

@@ -26,7 +26,8 @@ use Gedmo\Mapping\Annotation as Gedmo;
  */
 abstract class Groep
 {
-    use TimestampableTrait, NotDeletableTrait;
+    use TimestampableTrait;
+    use NotDeletableTrait;
 
     /**
      * @ORM\Id

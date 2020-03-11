@@ -22,18 +22,9 @@ interface WoningbouwcorporatieDaoInterface
      */
     public function find($id);
 
-    /**
-     * @param Woningbouwcorporatie $woningbouwcorporatie
-     */
     public function create(Woningbouwcorporatie $woningbouwcorporatie);
 
-    /**
-     * @param Woningbouwcorporatie $woningbouwcorporatie
-     */
     public function update(Woningbouwcorporatie $woningbouwcorporatie);
 
-    /**
-     * @param Woningbouwcorporatie $woningbouwcorporatie
-     */
     public function delete(Woningbouwcorporatie $woningbouwcorporatie);
 }

@@ -81,25 +81,16 @@ class VrijwilligerDao extends AbstractDao implements VrijwilligerDaoInterface
         return parent::find($id);
     }
 
-    /**
-     * @param Vrijwilliger $vrijwilliger
-     */
     public function create(Vrijwilliger $vrijwilliger)
     {
         return $this->doCreate($vrijwilliger);
     }
 
-    /**
-     * @param Vrijwilliger $vrijwilliger
-     */
     public function update(Vrijwilliger $vrijwilliger)
     {
         return $this->doUpdate($vrijwilliger);
     }
 
-    /**
-     * @param Vrijwilliger $vrijwilliger
-     */
     public function delete(Vrijwilliger $vrijwilliger)
     {
         // @todo remove this when disabled field is no longer needed

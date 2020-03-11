@@ -12,9 +12,9 @@ use OdpBundle\Entity\Verhuurder;
 use OdpBundle\Exception\OdpException;
 use OdpBundle\Form\DocumentType;
 use OdpBundle\Service\DocumentDaoInterface;
-use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * @Route("/documenten")
@@ -29,13 +29,11 @@ class DocumentenController extends SymfonyController
      */
     private $dao;
 
-    public function setContainer(\Psr\Container\ContainerInterface $container): ?\Psr\Container\ContainerInterface
+    public function setContainer(?\Symfony\Component\DependencyInjection\ContainerInterface $container = null)
     {
-        $previous = parent::setContainer($container);
+        parent::setContainer($container);
 
         $this->dao = $container->get("OdpBundle\Service\DocumentDao");
-    
-        return $previous;
     }
 
     /**
@@ -58,7 +56,7 @@ class DocumentenController extends SymfonyController
         $entityManager = $this->getEntityManager();
         $entity = $this->findEntity($entityManager);
 
-        $form = $this->getForm(DocumentType::class, new Document());
+        $form = $this->createForm(DocumentType::class, new Document());
         $form->handleRequest($this->getRequest());
         if ($form->isSubmitted() && $form->isValid()) {
             $routeBase = $this->resolveRouteBase($entity);
@@ -86,7 +84,7 @@ class DocumentenController extends SymfonyController
     {
         $entity = $this->dao->find($id);
 
-        $form = $this->getForm(DocumentType::class, $entity);
+        $form = $this->createForm(DocumentType::class, $entity);
         $form->handleRequest($this->getRequest());
         if ($form->isSubmitted() && $form->isValid()) {
             try {
@@ -114,7 +112,7 @@ class DocumentenController extends SymfonyController
     {
         $entity = $this->dao->find($id);
 
-        $form = $this->getForm(ConfirmationType::class);
+        $form = $this->createForm(ConfirmationType::class);
         $form->handleRequest($this->getRequest());
         if ($form->isSubmitted() && $form->isValid()) {
             if ($form->get('yes')->isClicked()) {

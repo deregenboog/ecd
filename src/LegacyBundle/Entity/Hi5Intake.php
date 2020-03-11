@@ -2,13 +2,10 @@
 
 namespace LegacyBundle\Entity;
 
+use AppBundle\Entity\Klant;
+use AppBundle\Entity\Legitimatie;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
-use Doctrine\Common\Collections\Collection;
-use AppBundle\Entity\Klant;
-use AppBundle\Entity\Medewerker;
-use AppBundle\Entity\Legitimatie;
-use InloopBundle\Entity\Locatie;
 
 /**
  * Hi5Intakes.

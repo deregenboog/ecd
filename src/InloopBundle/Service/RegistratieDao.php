@@ -13,8 +13,8 @@ use InloopBundle\Entity\Registratie;
 use InloopBundle\Event\Events;
 use InloopBundle\Filter\RegistratieFilter;
 use Knp\Component\Pager\PaginatorInterface;
-use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
+use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
 class RegistratieDao extends AbstractDao implements RegistratieDaoInterface
 {

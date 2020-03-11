@@ -47,7 +47,6 @@ class VraagFilter implements FilterInterface
 
     /**
      * @var bool
-     *
      */
     public $hulpCollegaGezocht;
 
@@ -104,7 +103,7 @@ class VraagFilter implements FilterInterface
             ;
         }
 
-        if ($this->behandelaar === "" || strlen($this->behandelaar) >0 ) {
+        if ('' === $this->behandelaar || strlen($this->behandelaar) > 0) {
             $builder
                 ->andWhere('vraag.behandelaar = :behandelaar')
                 ->setParameter('behandelaar', $this->behandelaar)
@@ -115,12 +114,10 @@ class VraagFilter implements FilterInterface
             $this->client->applyTo($builder);
         }
 
-        if($this->hulpCollegaGezocht)
-        {
+        if ($this->hulpCollegaGezocht) {
             $builder
                 ->andWhere('vraag.hulpCollegaGezocht = :hulpGezocht')
-                ->setParameter('hulpGezocht',$this->hulpCollegaGezocht);
-
+                ->setParameter('hulpGezocht', $this->hulpCollegaGezocht);
         }
     }
 }

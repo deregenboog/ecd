@@ -15,7 +15,8 @@ use Gedmo\Mapping\Annotation as Gedmo;
  */
 class Verslag
 {
-    use TimestampableTrait, RequiredMedewerkerTrait;
+    use TimestampableTrait;
+    use RequiredMedewerkerTrait;
 
     /**
      * @ORM\Id

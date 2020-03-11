@@ -61,9 +61,6 @@ class Locatietijd
         return $this->locatie;
     }
 
-    /**
-     * @param Locatie $locatie
-     */
     public function setLocatie(Locatie $locatie)
     {
         $this->locatie = $locatie;
@@ -97,9 +94,6 @@ class Locatietijd
         return $this->openingstijd;
     }
 
-    /**
-     * @param \DateTime $openingstijd
-     */
     public function setOpeningstijd(\DateTime $openingstijd)
     {
         $this->openingstijd = $openingstijd;
@@ -115,9 +109,6 @@ class Locatietijd
         return $this->sluitingstijd;
     }
 
-    /**
-     * @param \DateTime $sluitingstijd
-     */
     public function setSluitingstijd(\DateTime $sluitingstijd)
     {
         $this->sluitingstijd = $sluitingstijd;

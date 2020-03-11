@@ -22,18 +22,9 @@ interface HerinneringDaoInterface
      */
     public function find($id);
 
-    /**
-     * @param Herinnering $herinnering
-     */
     public function create(Herinnering $herinnering);
 
-    /**
-     * @param Herinnering $herinnering
-     */
     public function update(Herinnering $herinnering);
 
-    /**
-     * @param Herinnering $herinnering
-     */
     public function delete(Herinnering $herinnering);
 }

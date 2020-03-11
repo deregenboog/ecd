@@ -22,18 +22,9 @@ interface LabelDaoInterface
      */
     public function find($id);
 
-    /**
-     * @param Label $entity
-     */
     public function create(Label $entity);
 
-    /**
-     * @param Label $entity
-     */
     public function update(Label $entity);
 
-    /**
-     * @param Label $entity
-     */
     public function delete(Label $entity);
 }

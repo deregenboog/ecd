@@ -15,7 +15,8 @@ use Gedmo\Mapping\Annotation as Gedmo;
  */
 class Woonsituatie
 {
-    use TimestampableTrait, NotDeletableTrait;
+    use TimestampableTrait;
+    use NotDeletableTrait;
 
     /**
      * @ORM\Id

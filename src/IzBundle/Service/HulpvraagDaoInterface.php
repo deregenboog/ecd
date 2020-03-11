@@ -23,18 +23,9 @@ interface HulpvraagDaoInterface
      */
     public function find($id);
 
-    /**
-     * @param Hulpvraag $entity
-     */
     public function create(Hulpvraag $entity);
 
-    /**
-     * @param Hulpvraag $entity
-     */
     public function update(Hulpvraag $entity);
 
-    /**
-     * @param Hulpvraag $entity
-     */
     public function delete(Hulpvraag $entity);
 }

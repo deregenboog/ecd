@@ -152,9 +152,6 @@ class Beschikbaarheid
         return $this->deelname;
     }
 
-    /**
-     * @param Deelname $deelname
-     */
     public function setDeelname(Deelname $deelname)
     {
         $this->deelname = $deelname;

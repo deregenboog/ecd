@@ -6,7 +6,6 @@ use AppBundle\Service\AbstractDao;
 use Doctrine\ORM\EntityManagerInterface;
 use OdpBundle\Entity\FinancieelVerslag;
 
-
 class FinancieelVerslagDao extends AbstractDao implements FinancieelVerslagDaoInterface
 {
     protected $class = FinancieelVerslag::class;

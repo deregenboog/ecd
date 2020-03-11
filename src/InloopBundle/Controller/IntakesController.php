@@ -11,10 +11,10 @@ use InloopBundle\Pdf\PdfIntake;
 use InloopBundle\Security\Permissions;
 use InloopBundle\Service\IntakeDaoInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
-use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * @Route("/intakes")
@@ -39,14 +39,12 @@ class IntakesController extends AbstractController
 //      */
 //     protected $export;
 
-    public function setContainer(\Psr\Container\ContainerInterface $container): ?\Psr\Container\ContainerInterface
+    public function setContainer(?\Symfony\Component\DependencyInjection\ContainerInterface $container = null)
     {
-        $previous = parent::setContainer($container);
+        parent::setContainer($container);
 
         $this->dao = $container->get("InloopBundle\Service\IntakeDao");
 //         $this->export = $container->get("inloop.export.intakes");
-    
-        return $previous;
     }
 
     /**
@@ -81,7 +79,7 @@ class IntakesController extends AbstractController
             $entity = new Intake($klant);
         }
 
-        $form = $this->getForm($this->formClass, $entity, [
+        $form = $this->createForm($this->formClass, $entity, [
             'medewerker' => $this->getMedewerker(),
         ]);
         $form->handleRequest($request);
@@ -102,7 +100,7 @@ class IntakesController extends AbstractController
         return [
             'entity' => $entity,
             'form' => $form->createView(),
-            'tbc_countries'=>$this->container->getParameter('tbc_countries'),
+            'tbc_countries' => $this->container->getParameter('tbc_countries'),
         ];
     }
 
@@ -134,7 +132,7 @@ class IntakesController extends AbstractController
     public function formAction(Request $request)
     {
         $entity = new Intake();
-        $form = $this->getForm($this->formClass, $entity);
+        $form = $this->createForm($this->formClass, $entity);
 
         $html = $this->renderView('@Inloop/intakes/form.pdf.twig', [
             'entity' => $entity,
@@ -166,7 +164,6 @@ class IntakesController extends AbstractController
     {
         return [
             'tbc_countries' => $this->container->getParameter('tbc_countries'),
-
         ];
     }
 }

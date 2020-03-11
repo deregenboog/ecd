@@ -23,18 +23,9 @@ interface RapportageDaoInterface
      */
     public function find($id);
 
-    /**
-     * @param Rapportage $rapportage
-     */
     public function create(Rapportage $rapportage);
 
-    /**
-     * @param Rapportage $rapportage
-     */
     public function update(Rapportage $rapportage);
 
-    /**
-     * @param Rapportage $rapportage
-     */
     public function delete(Rapportage $rapportage);
 }

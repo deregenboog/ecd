@@ -13,9 +13,9 @@ use IzBundle\Form\HulpvraagFilterType;
 use IzBundle\Form\HulpvraagType;
 use IzBundle\Service\HulpaanbodDaoInterface;
 use IzBundle\Service\HulpvraagDaoInterface;
-use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * @Route("/hulpvragen")
@@ -53,16 +53,14 @@ class HulpvragenController extends AbstractChildController
      */
     protected $export;
 
-    public function setContainer(\Psr\Container\ContainerInterface $container): ?\Psr\Container\ContainerInterface
+    public function setContainer(?\Symfony\Component\DependencyInjection\ContainerInterface $container = null)
     {
-        $previous = parent::setContainer($container);
+        parent::setContainer($container);
 
         $this->dao = $container->get("IzBundle\Service\HulpvraagDao");
         $this->hulpaanbodDao = $container->get("IzBundle\Service\HulpaanbodDao");
-        $this->entities = $container->get("iz.hulpvraag.entities");
-        $this->export = $container->get("iz.export.hulpvragen");
-
-        return $previous;
+        $this->entities = $container->get('iz.hulpvraag.entities');
+        $this->export = $container->get('iz.export.hulpvragen');
     }
 
     /**
@@ -79,7 +77,7 @@ class HulpvragenController extends AbstractChildController
     protected function addParams($entity, Request $request)
     {
         if ('iz_hulpvragen_view' === $request->get('_route')) {
-            $form = $this->getForm(HulpaanbodFilterType::class, new HulpaanbodFilter(), [
+            $form = $this->createForm(HulpaanbodFilterType::class, new HulpaanbodFilter(), [
                 'enabled_filters' => [
                     'matching',
                     'startdatum',

@@ -40,8 +40,6 @@ class KlantdossierDao extends AbstractDao implements KlantdossierDaoInterface
     }
 
     /**
-     * @param Klant $klant
-     *
      * @return KlantDossier
      */
     public function findOneByKlant(Klant $klant)

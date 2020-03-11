@@ -14,9 +14,9 @@ use OdpBundle\Entity\Verslag;
 use OdpBundle\Exception\OdpException;
 use OdpBundle\Form\VerslagType;
 use OdpBundle\Service\VerslagDaoInterface;
-use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * @Route("/verslagen")
@@ -31,13 +31,11 @@ class VerslagenController extends SymfonyController
      */
     private $dao;
 
-    public function setContainer(\Psr\Container\ContainerInterface $container): ?\Psr\Container\ContainerInterface
+    public function setContainer(?\Symfony\Component\DependencyInjection\ContainerInterface $container = null)
     {
-        $previous = parent::setContainer($container);
+        parent::setContainer($container);
 
         $this->dao = $container->get("OdpBundle\Service\VerslagDao");
-    
-        return $previous;
     }
 
     /**
@@ -48,7 +46,7 @@ class VerslagenController extends SymfonyController
         $entityManager = $this->getEntityManager();
         $entity = $this->findEntity($entityManager);
 
-        $form = $this->getForm(VerslagType::class, new Verslag());
+        $form = $this->createForm(VerslagType::class, new Verslag());
         $form->handleRequest($this->getRequest());
         if ($form->isSubmitted() && $form->isValid()) {
             $routeBase = $this->resolveRouteBase($entity);
@@ -76,7 +74,7 @@ class VerslagenController extends SymfonyController
     {
         $entity = $this->dao->find($id);
 
-        $form = $this->getForm(VerslagType::class, $entity);
+        $form = $this->createForm(VerslagType::class, $entity);
         $form->handleRequest($this->getRequest());
         if ($form->isSubmitted() && $form->isValid()) {
             try {
@@ -104,7 +102,7 @@ class VerslagenController extends SymfonyController
     {
         $entity = $this->dao->find($id);
 
-        $form = $this->getForm(ConfirmationType::class);
+        $form = $this->createForm(ConfirmationType::class);
         $form->handleRequest($this->getRequest());
         if ($form->isSubmitted() && $form->isValid()) {
             if ($form->get('yes')->isClicked()) {

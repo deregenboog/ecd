@@ -110,9 +110,6 @@ class Dienst
         return $this->van;
     }
 
-    /**
-     * @param \DateTime $van
-     */
     public function setVan(\DateTime $van)
     {
         $this->van = $van;
@@ -128,9 +125,6 @@ class Dienst
         return $this->tot;
     }
 
-    /**
-     * @param \DateTime $tot
-     */
     public function setTot(\DateTime $tot)
     {
         $this->tot = $tot;
@@ -146,9 +140,6 @@ class Dienst
         return $this->titelMedewerker;
     }
 
-    /**
-     * @param string $titelMedewerker
-     */
     public function setTitelMedewerker(string $titelMedewerker)
     {
         $this->titelMedewerker = $titelMedewerker;
@@ -164,9 +155,6 @@ class Dienst
         return $this->medewerker;
     }
 
-    /**
-     * @param Medewerker $medewerker
-     */
     public function setMedewerker(Medewerker $medewerker)
     {
         $this->medewerker = (string) $medewerker;
@@ -174,9 +162,6 @@ class Dienst
         return $this;
     }
 
-    /**
-     * @param string $medewerker
-     */
     public function setNaamMedewerker(string $medewerker)
     {
         $this->medewerker = $medewerker;

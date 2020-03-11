@@ -3,7 +3,6 @@
 namespace GaBundle\Form;
 
 use AppBundle\Form\AppDateRangeType;
-use AppBundle\Form\AppTimeRangeType;
 use AppBundle\Form\FilterType;
 use GaBundle\Filter\ActiviteitFilter;
 use Symfony\Component\Form\AbstractType;

@@ -23,18 +23,9 @@ interface BinnengekomenViaDaoInterface
      */
     public function find($id);
 
-    /**
-     * @param BinnengekomenVia $entity
-     */
     public function create(BinnengekomenVia $entity);
 
-    /**
-     * @param BinnengekomenVia $entity
-     */
     public function update(BinnengekomenVia $entity);
 
-    /**
-     * @param BinnengekomenVia $entity
-     */
     public function delete(BinnengekomenVia $entity);
 }

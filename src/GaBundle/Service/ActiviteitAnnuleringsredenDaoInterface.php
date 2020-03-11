@@ -23,18 +23,9 @@ interface ActiviteitAnnuleringsredenDaoInterface
      */
     public function find($id);
 
-    /**
-     * @param ActiviteitAnnuleringsreden $entity
-     */
     public function create(ActiviteitAnnuleringsreden $entity);
 
-    /**
-     * @param ActiviteitAnnuleringsreden $entity
-     */
     public function update(ActiviteitAnnuleringsreden $entity);
 
-    /**
-     * @param ActiviteitAnnuleringsreden $entity
-     */
     public function delete(ActiviteitAnnuleringsreden $entity);
 }

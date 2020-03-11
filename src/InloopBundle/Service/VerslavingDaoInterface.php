@@ -23,18 +23,9 @@ interface VerslavingDaoInterface
      */
     public function find($id);
 
-    /**
-     * @param Verslaving $entity
-     */
     public function create(Verslaving $entity);
 
-    /**
-     * @param Verslaving $entity
-     */
     public function update(Verslaving $entity);
 
-    /**
-     * @param Verslaving $entity
-     */
     public function delete(Verslaving $entity);
 }

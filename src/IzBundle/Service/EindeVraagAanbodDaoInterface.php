@@ -23,18 +23,9 @@ interface EindeVraagAanbodDaoInterface
      */
     public function find($id);
 
-    /**
-     * @param EindeVraagAanbod $entity
-     */
     public function create(EindeVraagAanbod $entity);
 
-    /**
-     * @param EindeVraagAanbod $entity
-     */
     public function update(EindeVraagAanbod $entity);
 
-    /**
-     * @param EindeVraagAanbod $entity
-     */
     public function delete(EindeVraagAanbod $entity);
 }

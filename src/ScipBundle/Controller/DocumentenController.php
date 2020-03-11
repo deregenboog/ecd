@@ -7,8 +7,8 @@ use ScipBundle\Entity\Document;
 use ScipBundle\Form\DocumentType;
 use ScipBundle\Security\Permissions;
 use ScipBundle\Service\DocumentDaoInterface;
-use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * @Route("/documenten")
@@ -33,14 +33,12 @@ class DocumentenController extends AbstractChildController
      */
     protected $entities;
 
-    public function setContainer(\Psr\Container\ContainerInterface $container): ?\Psr\Container\ContainerInterface
+    public function setContainer(?\Symfony\Component\DependencyInjection\ContainerInterface $container = null)
     {
-        $previous = parent::setContainer($container);
+        parent::setContainer($container);
 
         $this->dao = $container->get("ScipBundle\Service\DocumentDao");
-        $this->entities = $container->get("scip.document.entities");
-    
-        return $previous;
+        $this->entities = $container->get('scip.document.entities');
     }
 
     /**

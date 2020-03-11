@@ -16,9 +16,9 @@ use IzBundle\Form\KoppelingType;
 use IzBundle\Service\HulpaanbodDaoInterface;
 use IzBundle\Service\HulpvraagDaoInterface;
 use IzBundle\Service\KoppelingDaoInterface;
-use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * @Route("/koppelingen")
@@ -54,16 +54,14 @@ class KoppelingenController extends AbstractController
      */
     protected $export;
 
-    public function setContainer(\Psr\Container\ContainerInterface $container): ?\Psr\Container\ContainerInterface
+    public function setContainer(?\Symfony\Component\DependencyInjection\ContainerInterface $container = null)
     {
-        $previous = parent::setContainer($container);
+        parent::setContainer($container);
 
         $this->dao = $container->get("IzBundle\Service\KoppelingDao");
         $this->hulpvraagDao = $container->get("IzBundle\Service\HulpvraagDao");
         $this->hulpaanbodDao = $container->get("IzBundle\Service\HulpaanbodDao");
-        $this->export = $container->get("iz.export.koppelingen");
-
-        return $previous;
+        $this->export = $container->get('iz.export.koppelingen');
     }
 
     /**
@@ -108,7 +106,7 @@ class KoppelingenController extends AbstractController
     {
         $entity = $this->dao->find($id);
 
-        $form = $this->getForm(ConfirmationType::class);
+        $form = $this->createForm(ConfirmationType::class);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {

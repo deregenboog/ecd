@@ -17,7 +17,8 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class Activiteit
 {
-    use TimestampableTrait, NotDeletableTrait;
+    use TimestampableTrait;
+    use NotDeletableTrait;
 
     /**
      * @ORM\Id

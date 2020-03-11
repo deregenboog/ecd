@@ -5,14 +5,11 @@ namespace AppBundle\Service;
 use AppBundle\Entity\Klant;
 use AppBundle\Filter\FilterInterface;
 use AppBundle\Model\ActivatableInterface;
-use AppBundle\Service\AbstractDaoInterface;
 use AppBundle\Model\UsesKlantTrait;
 use Doctrine\DBAL\Exception\ForeignKeyConstraintViolationException;
 use Doctrine\ORM\EntityManagerInterface;
-use Doctrine\ORM\EntityNotFoundException;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\QueryBuilder;
-
 use Knp\Component\Pager\PaginatorInterface;
 
 abstract class AbstractDao implements AbstractDaoInterface
@@ -90,14 +87,15 @@ abstract class AbstractDao implements AbstractDaoInterface
     {
         $entity = $this->repository->find($id);
         $this->tryLoadKlant($entity);
+
         return $entity;
     }
 
     public function findOneBySearchEntity($searchEntity)
     {
-
         $entity = $this->repository->findOneBy([$this->searchEntityName => $searchEntity]);
         $this->tryLoadKlant($entity);
+
         return $entity;
     }
 
@@ -121,25 +119,16 @@ abstract class AbstractDao implements AbstractDaoInterface
 
     protected function doDelete($entity)
     {
-        if($entity instanceof ActivatableInterface)// && $entity->isDeletable() === false
-        {
+        if ($entity instanceof ActivatableInterface) {// && $entity->isDeletable() === false
             $entity->setActief(false);
-        }
-        else if($entity instanceof ActivatableInterface && $entity->isDeletable() !== false)
-        {
-            try
-            {
+        } elseif ($entity instanceof ActivatableInterface && false !== $entity->isDeletable()) {
+            try {
                 $this->entityManager->remove($entity);
-            }
-            catch(ForeignKeyConstraintViolationException $e)
-            {
+            } catch (ForeignKeyConstraintViolationException $e) {
                 //ondanks dat ie isDeletable wel true zet, moet ie toch echt inactief worden gezet.
                 //Dubbele interpretatie van ' is deletable'....: mag de verwijder knop worden laten zien of niet....
             }
-
-        }
-        else
-        {
+        } else {
             $this->entityManager->remove($entity);
         }
 //        $this->entityManager->remove($entity);
@@ -156,7 +145,7 @@ abstract class AbstractDao implements AbstractDaoInterface
         $builder = $this->repository->createQueryBuilder($this->alias)
             ->innerJoin($this->alias.'.klant', 'klant')
             ->select("COUNT({$this->alias}.id)")
-            ->orderBy("klant.achternaam")
+            ->orderBy('klant.achternaam')
         ;
 
         if ($filter) {

@@ -6,9 +6,9 @@ use AppBundle\Controller\AbstractController;
 use ClipBundle\Entity\Hulpvrager;
 use ClipBundle\Form\HulpvragerType;
 use ClipBundle\Service\HulpvragerDaoInterface;
-use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * @Route("/admin/hulpvragers")
@@ -27,13 +27,11 @@ class HulpvragersController extends AbstractController
      */
     protected $dao;
 
-    public function setContainer(\Psr\Container\ContainerInterface $container): ?\Psr\Container\ContainerInterface
+    public function setContainer(?\Symfony\Component\DependencyInjection\ContainerInterface $container = null)
     {
-        $previous = parent::setContainer($container);
+        parent::setContainer($container);
 
         $this->dao = $container->get("ClipBundle\Service\HulpvragerDao");
-    
-        return $previous;
     }
 
     /**

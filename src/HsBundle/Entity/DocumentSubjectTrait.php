@@ -23,8 +23,6 @@ trait DocumentSubjectTrait
     }
 
     /**
-     * @param Document $document
-     *
      * @return self
      */
     public function addDocument(Document $document)
@@ -35,8 +33,6 @@ trait DocumentSubjectTrait
     }
 
     /**
-     * @param Document $document
-     *
      * @return self
      */
     public function removeDocument(Document $document)

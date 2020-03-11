@@ -14,37 +14,26 @@ interface DeelnemerDaoInterface
     /**
      * @param int             $page
      * @param FilterInterface $filter
-     *
-     * @return PaginationInterface
      */
     public function findAll($page = null, FilterInterface $filter = null): PaginationInterface;
 
     /**
-     * @param Medewerker      $medewerker
      * @param int             $page
      * @param FilterInterface $filter
-     *
-     * @return PaginationInterface
      */
     public function findByMedewerker(Medewerker $medewerker, $page = null, FilterInterface $filter = null): PaginationInterface;
 
     /**
-     * @param Klant $klant
-     *
      * @return Deelnemer
      */
     public function findOneByKlant(Klant $klant);
 
     /**
-     * @param Document $document
-     *
      * @return Deelnemer
      */
     public function findOneByDocument(Document $document);
 
     /**
-     * @param string $name
-     *
      * @return Deelnemer
      */
     public function findOneByName(string $name);
@@ -56,18 +45,9 @@ interface DeelnemerDaoInterface
      */
     public function find($id);
 
-    /**
-     * @param Deelnemer $entity
-     */
     public function create(Deelnemer $entity);
 
-    /**
-     * @param Deelnemer $entity
-     */
     public function update(Deelnemer $entity);
 
-    /**
-     * @param Deelnemer $entity
-     */
     public function delete(Deelnemer $entity);
 }

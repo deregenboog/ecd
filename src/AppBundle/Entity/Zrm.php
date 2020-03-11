@@ -19,7 +19,9 @@ use Gedmo\Mapping\Annotation as Gedmo;
  */
 abstract class Zrm
 {
-    use IdentifiableTrait, TimestampableTrait, OptionalMedewerkerTrait;
+    use IdentifiableTrait;
+    use TimestampableTrait;
+    use OptionalMedewerkerTrait;
 
     const ZRM_VERSIONS = [
         ZrmV2::class => '2017-10-05',

@@ -17,7 +17,8 @@ use Gedmo\Mapping\Annotation as Gedmo;
  */
 class Verslag implements MedewerkerSubjectInterface
 {
-    use IdentifiableTrait, TimestampableTrait;
+    use IdentifiableTrait;
+    use TimestampableTrait;
 
     /**
      * @ORM\Column(type="text", nullable=true)
@@ -105,9 +106,6 @@ class Verslag implements MedewerkerSubjectInterface
         return $this->datum;
     }
 
-    /**
-     * @param \DateTime $datum
-     */
     public function setDatum(\DateTime $datum)
     {
         $this->datum = $datum;
@@ -115,21 +113,13 @@ class Verslag implements MedewerkerSubjectInterface
         return $this;
     }
 
-    /**
-     * @return bool
-     */
     public function isEvaluatie(): bool
     {
         return $this->isEvaluatie;
     }
 
-    /**
-     * @param bool $isEvaluatie
-     */
     public function setIsEvaluatie(bool $isEvaluatie): void
     {
         $this->isEvaluatie = $isEvaluatie;
     }
-
-
 }

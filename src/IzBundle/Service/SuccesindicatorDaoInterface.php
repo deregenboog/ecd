@@ -23,18 +23,9 @@ interface SuccesindicatorDaoInterface
      */
     public function find($id);
 
-    /**
-     * @param Succesindicator $entity
-     */
     public function create(Succesindicator $entity);
 
-    /**
-     * @param Succesindicator $entity
-     */
     public function update(Succesindicator $entity);
 
-    /**
-     * @param Succesindicator $entity
-     */
     public function delete(Succesindicator $entity);
 }

@@ -16,5 +16,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
  */
 class DossierAfsluitreden
 {
-    use IdentifiableTrait, NameableTrait, TimestampableTrait;
+    use IdentifiableTrait;
+    use NameableTrait;
+    use TimestampableTrait;
 }

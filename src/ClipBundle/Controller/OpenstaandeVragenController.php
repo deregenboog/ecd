@@ -3,12 +3,12 @@
 namespace ClipBundle\Controller;
 
 use AppBundle\Export\ExportInterface;
-use ClipBundle\Entity\Vraag;
 use ClipBundle\Filter\VraagFilter;
 use ClipBundle\Service\VraagDaoInterface;
-use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * @Route("/openstaandevragen")
@@ -28,14 +28,12 @@ class OpenstaandeVragenController extends AbstractVragenController
      */
     protected $export;
 
-    public function setContainer(\Psr\Container\ContainerInterface $container): ?\Psr\Container\ContainerInterface
+    public function setContainer(?\Symfony\Component\DependencyInjection\ContainerInterface $container = null)
     {
-        $previous = parent::setContainer($container);
+        parent::setContainer($container);
 
         $this->dao = $container->get("ClipBundle\Service\VraagDao");
-        $this->export = $container->get("clip.export.vragen");
-    
-        return $previous;
+        $this->export = $container->get('clip.export.vragen');
     }
 
     /**
@@ -47,7 +45,7 @@ class OpenstaandeVragenController extends AbstractVragenController
         $filter->openstaand = true;
 
         if ($this->filterFormClass) {
-            $form = $this->getForm($this->filterFormClass, $filter);
+            $form = $this->createForm($this->filterFormClass, $filter);
             $form->handleRequest($request);
             if ($form->isSubmitted() && $form->isValid()) {
                 if ($form->has('download') && $form->get('download')->isClicked()) {
@@ -66,7 +64,7 @@ class OpenstaandeVragenController extends AbstractVragenController
         ];
     }
 
-    protected function getForm($type, $data = null, array $options = [])
+    protected function createForm(string $type, $data = null, array $options = []): FormInterface
     {
         $options['enabled_filters'] = [
             'id',
@@ -79,6 +77,6 @@ class OpenstaandeVragenController extends AbstractVragenController
             'download',
         ];
 
-        return $this->createForm($type, $data, $options);
+        return parent::createForm($type, $data, $options);
     }
 }

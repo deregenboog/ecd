@@ -17,7 +17,10 @@ use Gedmo\Mapping\Annotation as Gedmo;
  */
 class Client
 {
-    use TimestampableTrait, OptionalBehandelaarTrait, PersonTrait, AddressTrait;
+    use TimestampableTrait;
+    use OptionalBehandelaarTrait;
+    use PersonTrait;
+    use AddressTrait;
 
     /**
      * @var int
@@ -146,7 +149,6 @@ class Client
         }
 
         usort($contactmomenten, function (Contactmoment $contactmoment1, Contactmoment $contactmoment2) {
-
             if ($contactmoment1->getDatum() > $contactmoment2->getDatum()) {
                 return -1;
             } elseif ($contactmoment1->getDatum() < $contactmoment2->getDatum()) {
@@ -232,7 +234,7 @@ class Client
     /**
      * @return string
      */
-    public function getOrganisatie():? string
+    public function getOrganisatie(): ? string
     {
         return $this->organisatie;
     }
@@ -244,6 +246,4 @@ class Client
     {
         $this->organisatie = $organisatie;
     }
-
-
 }

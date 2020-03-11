@@ -40,14 +40,12 @@ class DeelnemersController extends AbstractController
      */
     protected $klantDao;
 
-    public function setContainer(\Psr\Container\ContainerInterface $container): ?\Psr\Container\ContainerInterface
+    public function setContainer(?\Symfony\Component\DependencyInjection\ContainerInterface $container = null)
     {
-        $previous = parent::setContainer($container);
+        parent::setContainer($container);
 
         $this->dao = $container->get("ScipBundle\Service\DeelnemerDao");
         $this->klantDao = $container->get("AppBundle\Service\KlantDao");
-    
-        return $previous;
     }
 
     /**
@@ -68,7 +66,7 @@ class DeelnemersController extends AbstractController
      */
     public function indexAction(Request $request)
     {
-        $form = $this->getForm($this->filterFormClass);
+        $form = $this->createForm($this->filterFormClass);
         $form->handleRequest($request);
         $filter = $form->getData();
 
@@ -126,7 +124,7 @@ class DeelnemersController extends AbstractController
 
     private function doSearch(Request $request)
     {
-        $filterForm = $this->getForm(KlantFilterType::class, null, [
+        $filterForm = $this->createForm(KlantFilterType::class, null, [
             'enabled_filters' => ['id', 'naam', 'bsn', 'geboortedatum'],
         ]);
         $filterForm->handleRequest($request);
@@ -171,7 +169,7 @@ class DeelnemersController extends AbstractController
         }
 
         $deelnemer = new Deelnemer($klant);
-        $creationForm = $this->getForm(DeelnemerType::class, $deelnemer);
+        $creationForm = $this->createForm(DeelnemerType::class, $deelnemer);
         $creationForm->handleRequest($request);
 
         if ($creationForm->isSubmitted() && $creationForm->isValid()) {

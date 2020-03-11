@@ -23,18 +23,9 @@ interface VrijwilligerDaoInterface
      */
     public function find($id);
 
-    /**
-     * @param Klant $entity
-     */
     public function create(Klant $entity);
 
-    /**
-     * @param Klant $entity
-     */
     public function update(Klant $entity);
 
-    /**
-     * @param Klant $entity
-     */
     public function delete(Klant $entity);
 }

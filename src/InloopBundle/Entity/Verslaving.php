@@ -15,7 +15,9 @@ use Gedmo\Mapping\Annotation as Gedmo;
  */
 class Verslaving
 {
-    use IdentifiableTrait, NameableTrait, TimestampableTrait;
+    use IdentifiableTrait;
+    use NameableTrait;
+    use TimestampableTrait;
 
     /**
      * @var \DateTime
@@ -46,9 +48,6 @@ class Verslaving
         return $this->datumVan;
     }
 
-    /**
-     * @param \DateTime $datumVan
-     */
     public function setDatumVan(\DateTime $datumVan)
     {
         $this->datumVan = $datumVan;

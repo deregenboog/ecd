@@ -16,7 +16,9 @@ use Gedmo\Mapping\Annotation as Gedmo;
  */
 class Project
 {
-    use IdentifiableTrait, NameableTrait, ActivatableTrait;
+    use IdentifiableTrait;
+    use NameableTrait;
+    use ActivatableTrait;
 
     public function isDeletable()
     {

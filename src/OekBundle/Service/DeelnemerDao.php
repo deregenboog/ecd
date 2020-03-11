@@ -95,8 +95,6 @@ class DeelnemerDao extends AbstractDao implements DeelnemerDaoInterface
     }
 
     /**
-     * @param Klant $klant
-     *
      * @return Deelnemer
      */
     public function findOneByKlant(Klant $klant)

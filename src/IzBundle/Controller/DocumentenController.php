@@ -6,8 +6,8 @@ use AppBundle\Controller\AbstractChildController;
 use IzBundle\Entity\Document;
 use IzBundle\Form\DocumentType;
 use IzBundle\Service\DocumentDaoInterface;
-use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * @Route("/documenten")
@@ -32,14 +32,12 @@ class DocumentenController extends AbstractChildController
      */
     protected $entities;
 
-    public function setContainer(\Psr\Container\ContainerInterface $container): ?\Psr\Container\ContainerInterface
+    public function setContainer(?\Symfony\Component\DependencyInjection\ContainerInterface $container = null)
     {
-        $previous = parent::setContainer($container);
+        parent::setContainer($container);
 
         $this->dao = $container->get("IzBundle\Service\DocumentDao");
-        $this->entities = $container->get("iz.document.entities");
-    
-        return $previous;
+        $this->entities = $container->get('iz.document.entities');
     }
 
     /**

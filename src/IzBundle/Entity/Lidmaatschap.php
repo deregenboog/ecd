@@ -15,7 +15,8 @@ use Gedmo\Mapping\Annotation as Gedmo;
  */
 class Lidmaatschap
 {
-    use IdentifiableTrait, TimestampableTrait;
+    use IdentifiableTrait;
+    use TimestampableTrait;
 
     /**
      * @var Intervisiegroep

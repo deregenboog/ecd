@@ -17,7 +17,8 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
  */
 class Document
 {
-    use TimestampableTrait, RequiredBehandelaarTrait;
+    use TimestampableTrait;
+    use RequiredBehandelaarTrait;
 
     /**
      * @ORM\Id

@@ -22,18 +22,9 @@ interface TrainingDaoInterface
      */
     public function find($id);
 
-    /**
-     * @param Training $entity
-     */
     public function create(Training $entity);
 
-    /**
-     * @param Training $entity
-     */
     public function update(Training $entity);
 
-    /**
-     * @param Training $entity
-     */
     public function delete(Training $entity);
 }

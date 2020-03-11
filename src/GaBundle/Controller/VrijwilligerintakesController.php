@@ -47,15 +47,13 @@ class VrijwilligerintakesController extends AbstractController
      */
     private $vrijwilligerDao;
 
-    public function setContainer(\Psr\Container\ContainerInterface $container): ?\Psr\Container\ContainerInterface
+    public function setContainer(?\Symfony\Component\DependencyInjection\ContainerInterface $container = null)
     {
-        $previous = parent::setContainer($container);
+        parent::setContainer($container);
 
         $this->dao = $container->get("GaBundle\Service\VrijwilligerIntakeDao");
-        $this->export = $container->get("ga.export.vrijwilligerdossiers");
+        $this->export = $container->get('ga.export.vrijwilligerdossiers');
         $this->vrijwilligerDao = $container->get("AppBundle\Service\VrijwilligerDao");
-    
-        return $previous;
     }
 
     /**
@@ -81,7 +79,7 @@ class VrijwilligerintakesController extends AbstractController
         $aanmelding = new Aanmelding();
         $intake->addAanmelding($aanmelding);
 
-        $form = $this->getForm(AanmeldingType::class, $aanmelding);
+        $form = $this->createForm(AanmeldingType::class, $aanmelding);
         $form->handleRequest($this->getRequest());
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -104,7 +102,7 @@ class VrijwilligerintakesController extends AbstractController
 
     private function doSearch(Request $request)
     {
-        $form = $this->getForm(VrijwilligerFilterType::class, null, [
+        $form = $this->createForm(VrijwilligerFilterType::class, null, [
             'enabled_filters' => ['id', 'naam', 'bsn', 'geboortedatum'],
         ]);
         $form->handleRequest($request);
@@ -152,7 +150,7 @@ class VrijwilligerintakesController extends AbstractController
         }
 
         $intake = new VrijwilligerIntake($vrijwilliger);
-        $form = $this->getForm($this->formClass, $intake);
+        $form = $this->createForm($this->formClass, $intake);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {

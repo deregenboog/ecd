@@ -21,18 +21,9 @@ interface TrajectafsluitingDaoInterface
      */
     public function find($id);
 
-    /**
-     * @param Trajectafsluiting $afsluiting
-     */
     public function create(Trajectafsluiting $afsluiting);
 
-    /**
-     * @param Trajectafsluiting $afsluiting
-     */
     public function update(Trajectafsluiting $afsluiting);
 
-    /**
-     * @param Trajectafsluiting $afsluiting
-     */
     public function delete(Trajectafsluiting $afsluiting);
 }

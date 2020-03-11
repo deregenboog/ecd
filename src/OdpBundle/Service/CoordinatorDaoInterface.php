@@ -22,18 +22,9 @@ interface CoordinatorDaoInterface
      */
     public function find($id);
 
-    /**
-     * @param Coordinator $coordinator
-     */
     public function create(Coordinator $coordinator);
 
-    /**
-     * @param Coordinator $coordinator
-     */
     public function update(Coordinator $coordinator);
 
-    /**
-     * @param Coordinator $coordinator
-     */
     public function delete(Coordinator $coordinator);
 }

@@ -202,6 +202,7 @@ class IzKlantRepository extends EntityRepository
 
         return $builder->getQuery()->getResult();
     }
+
     private function getCountBuilder()
     {
         return $this->createQueryBuilder('izKlant')

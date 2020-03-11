@@ -2,7 +2,6 @@
 
 namespace BuurtboerderijBundle\Controller;
 
-use AppBundle\AppBundle;
 use AppBundle\Controller\AbstractController;
 use AppBundle\Export\AbstractExport;
 use AppBundle\Form\ConfirmationType;
@@ -12,10 +11,10 @@ use BuurtboerderijBundle\Form\VrijwilligerCloseType;
 use BuurtboerderijBundle\Form\VrijwilligerFilterType;
 use BuurtboerderijBundle\Form\VrijwilligerType;
 use BuurtboerderijBundle\Service\VrijwilligerDaoInterface;
-use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * @Route("/vrijwilligers")
@@ -45,15 +44,13 @@ class VrijwilligersController extends AbstractController
      */
     private $vrijwilligerDao;
 
-    public function setContainer(\Psr\Container\ContainerInterface $container): ?\Psr\Container\ContainerInterface
+    public function setContainer(?\Symfony\Component\DependencyInjection\ContainerInterface $container = null)
     {
-        $previous = parent::setContainer($container);
+        parent::setContainer($container);
 
         $this->dao = $container->get("BuurtboerderijBundle\Service\VrijwilligerDao");
-        $this->export = $container->get("buurtboerderij.export.vrijwilligers");
+        $this->export = $container->get('buurtboerderij.export.vrijwilligers');
         $this->vrijwilligerDao = $container->get("AppBundle\Service\VrijwilligerDao");
-    
-        return $previous;
     }
 
     /**
@@ -92,7 +89,7 @@ class VrijwilligersController extends AbstractController
     {
         $entity = $this->dao->find($id);
 
-        $form = $this->getForm(ConfirmationType::class);
+        $form = $this->createForm(ConfirmationType::class);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -114,7 +111,7 @@ class VrijwilligersController extends AbstractController
 
     private function doSearch(Request $request)
     {
-        $filterForm = $this->getForm(AppVrijwilligerFilterType::class, null, [
+        $filterForm = $this->createForm(AppVrijwilligerFilterType::class, null, [
             'enabled_filters' => ['id', 'naam', 'bsn', 'geboortedatum'],
         ]);
         $filterForm->handleRequest($request);
@@ -159,7 +156,7 @@ class VrijwilligersController extends AbstractController
         }
 
         $buurtboerderijVrijwilliger = new Vrijwilliger($vrijwilliger);
-        $creationForm = $this->getForm(VrijwilligerType::class, $buurtboerderijVrijwilliger);
+        $creationForm = $this->createForm(VrijwilligerType::class, $buurtboerderijVrijwilliger);
         $creationForm->handleRequest($request);
 
         if ($creationForm->isSubmitted() && $creationForm->isValid()) {

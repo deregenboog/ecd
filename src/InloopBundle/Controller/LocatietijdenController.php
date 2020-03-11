@@ -6,8 +6,8 @@ use AppBundle\Controller\AbstractChildController;
 use InloopBundle\Entity\Locatietijd;
 use InloopBundle\Form\LocatietijdType;
 use InloopBundle\Service\LocatietijdDaoInterface;
-use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * @Route("/admin/locatietijden")
@@ -32,13 +32,11 @@ class LocatietijdenController extends AbstractChildController
      */
     protected $entities;
 
-    public function setContainer(\Psr\Container\ContainerInterface $container): ?\Psr\Container\ContainerInterface
+    public function setContainer(?\Symfony\Component\DependencyInjection\ContainerInterface $container = null)
     {
-        $previous = parent::setContainer($container);
+        parent::setContainer($container);
 
         $this->dao = $container->get("InloopBundle\Service\LocatietijdDao");
-        $this->entities = $container->get("inloop.locatietijd.entities");
-    
-        return $previous;
+        $this->entities = $container->get('inloop.locatietijd.entities');
     }
 }

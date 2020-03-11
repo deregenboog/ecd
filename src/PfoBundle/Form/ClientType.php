@@ -2,7 +2,6 @@
 
 namespace PfoBundle\Form;
 
-use AppBundle\Entity\Klant;
 use AppBundle\Form\AppDateType;
 use AppBundle\Form\BaseType;
 use AppBundle\Form\MedewerkerType;
@@ -18,12 +17,10 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class ClientType extends AbstractType
 {
-
     /**
      * @var EntityManagerInterface
      */
     private $entityManager;
-
 
     public function __construct(EntityManagerInterface $entityManager)
     {
@@ -111,12 +108,11 @@ class ClientType extends AbstractType
                 'required' => false,
             ])
 
-            ->addEventListener(FormEvents::SUBMIT, function (FormEvent $event){
-                     Client::KoppelPostcodeWerkgebiedClosure($event, $this->entityManager);
-                 })
+            ->addEventListener(FormEvents::SUBMIT, function (FormEvent $event) {
+                Client::KoppelPostcodeWerkgebiedClosure($event, $this->entityManager);
+            })
             ->add('submit', SubmitType::class)
         ;
-
     }
 
     /**

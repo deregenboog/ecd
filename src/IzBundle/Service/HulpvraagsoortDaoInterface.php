@@ -23,18 +23,9 @@ interface HulpvraagsoortDaoInterface
      */
     public function find($id);
 
-    /**
-     * @param Hulpvraagsoort $hulpvraagsoort
-     */
     public function create(Hulpvraagsoort $hulpvraagsoort);
 
-    /**
-     * @param Hulpvraagsoort $hulpvraagsoort
-     */
     public function update(Hulpvraagsoort $hulpvraagsoort);
 
-    /**
-     * @param Hulpvraagsoort $hulpvraagsoort
-     */
     public function delete(Hulpvraagsoort $hulpvraagsoort);
 }

@@ -21,7 +21,9 @@ use Gedmo\Mapping\Annotation as Gedmo;
  */
 class Project
 {
-    use IdentifiableTrait, NameableTrait, ActivatableTrait;
+    use IdentifiableTrait;
+    use NameableTrait;
+    use ActivatableTrait;
 
     /**
      * @var ArrayCollection|Deelname[]
@@ -66,9 +68,6 @@ class Project
         return $this->deelnames;
     }
 
-    /**
-     * @param Deelname $deelname
-     */
     public function addDeelname(Deelname $deelname)
     {
         $this->deelnames[] = $deelname;

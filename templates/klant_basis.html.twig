@@ -1,3 +1,5 @@
+{% import 'html.macro.twig' as html %}
+
 {% if module is not defined %}
     {% set module = app.request.get('module', 'Klant') %}
 {% endif %}
@@ -69,7 +71,7 @@
     <dd>{{ klant.opmerking }}</dd>
 </dl>
 
-{{ render(controller('AppBundle:Klanten:_diensten', {id: klant.id})) }}
+{{ render(controller('AppBundle\\Controller\\KlantenController::_dienstenAction', {id: klant.id})) }}
 
 {%  if module != 'IzIntake' %}
 <h2>ZRMs</h2>

@@ -22,18 +22,9 @@ interface BetalingDaoInterface
      */
     public function find($id);
 
-    /**
-     * @param Betaling $betaling
-     */
     public function create(Betaling $betaling);
 
-    /**
-     * @param Betaling $betaling
-     */
     public function update(Betaling $betaling);
 
-    /**
-     * @param Betaling $betaling
-     */
     public function delete(Betaling $betaling);
 }

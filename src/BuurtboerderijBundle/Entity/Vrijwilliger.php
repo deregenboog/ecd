@@ -17,7 +17,9 @@ use Gedmo\Mapping\Annotation as Gedmo;
  */
 class Vrijwilliger
 {
-    use IdentifiableTrait, TimestampableTrait, RequiredMedewerkerTrait;
+    use IdentifiableTrait;
+    use TimestampableTrait;
+    use RequiredMedewerkerTrait;
 
     /**
      * @var Vrijwilliger

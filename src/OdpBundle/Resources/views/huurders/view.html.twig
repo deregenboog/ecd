@@ -61,7 +61,7 @@
         <dt>WPI</dt>
         <dd>{{ entity.wpi ? 'Ja' : 'Nee' }}</dd>
     </dl>
-    {% include '::klant_basis.html.twig' with {klant: entity.klant} %}
+    {% include 'klant_basis.html.twig' with {klant: entity.klant} %}
 {% endblock %}
 
 {% block content_right %}

@@ -59,8 +59,6 @@ class WebTestCase extends CoreWebTestCase
     }
 
     /**
-     * @param UserInterface $user
-     *
      * @see https://symfony.com/doc/4.4/testing/http_authentication.html
      */
     public function logIn(UserInterface $user, $additionalRoles = []): self

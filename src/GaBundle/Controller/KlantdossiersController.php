@@ -45,15 +45,13 @@ class KlantdossiersController extends DossiersController
      */
     private $klantDao;
 
-    public function setContainer(\Psr\Container\ContainerInterface $container): ?\Psr\Container\ContainerInterface
+    public function setContainer(?\Symfony\Component\DependencyInjection\ContainerInterface $container = null)
     {
-        $previous = parent::setContainer($container);
+        parent::setContainer($container);
 
         $this->dao = $container->get("GaBundle\Service\KlantdossierDao");
-        $this->export = $container->get("ga.export.klantdossiers");
+        $this->export = $container->get('ga.export.klantdossiers');
         $this->klantDao = $container->get("AppBundle\Service\KlantDao");
-    
-        return $previous;
     }
 
     /**
@@ -75,7 +73,7 @@ class KlantdossiersController extends DossiersController
 
     private function doSearch(Request $request)
     {
-        $form = $this->getForm(KlantFilterType::class, null, [
+        $form = $this->createForm(KlantFilterType::class, null, [
             'enabled_filters' => ['id', 'naam', 'bsn', 'geboortedatum'],
         ]);
         $form->handleRequest($request);

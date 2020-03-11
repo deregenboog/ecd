@@ -40,7 +40,7 @@ class VerblijfsstatusStrategy implements StrategyInterface
     //                    "klant.eersteIntakeDatum >= '2017-06-01'", // OUDE IMPLEMENTATIE WERKTE NIET GOED
                         "eersteIntake.intakedatum >= '2017-06-01'",
     //                    'klant.eersteIntakeDatum < :six_months_ago'
-                        "eersteIntake.intakedatum < :six_months_ago"
+                        'eersteIntake.intakedatum < :six_months_ago'
                     )
             ))
             ->setParameters([

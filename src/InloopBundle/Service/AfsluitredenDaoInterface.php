@@ -23,18 +23,9 @@ interface AfsluitredenDaoInterface
      */
     public function find($id);
 
-    /**
-     * @param Afsluitreden $entity
-     */
     public function create(Afsluitreden $entity);
 
-    /**
-     * @param Afsluitreden $entity
-     */
     public function update(Afsluitreden $entity);
 
-    /**
-     * @param Afsluitreden $entity
-     */
     public function delete(Afsluitreden $entity);
 }

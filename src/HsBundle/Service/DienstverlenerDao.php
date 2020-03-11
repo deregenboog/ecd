@@ -61,8 +61,6 @@ class DienstverlenerDao extends AbstractDao implements DienstverlenerDaoInterfac
     }
 
     /**
-     * @param Klant $klant
-     *
      * @return Dienstverlener
      */
     public function findOneByKlant(Klant $klant)

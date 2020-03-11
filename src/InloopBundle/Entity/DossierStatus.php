@@ -23,7 +23,8 @@ use Gedmo\Mapping\Annotation as Gedmo;
  */
 abstract class DossierStatus
 {
-    use TimestampableTrait, OptionalMedewerkerTrait;
+    use TimestampableTrait;
+    use OptionalMedewerkerTrait;
 
     /**
      * @ORM\Id

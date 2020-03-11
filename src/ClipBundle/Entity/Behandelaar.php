@@ -21,7 +21,9 @@ use Symfony\Component\Validator\Context\ExecutionContextInterface;
  */
 class Behandelaar implements ActivatableInterface
 {
-    use IdentifiableTrait, OptionalMedewerkerTrait, ActivatableTrait;
+    use IdentifiableTrait;
+    use OptionalMedewerkerTrait;
+    use ActivatableTrait;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)

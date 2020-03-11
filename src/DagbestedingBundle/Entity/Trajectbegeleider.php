@@ -21,7 +21,10 @@ use Symfony\Component\Validator\Context\ExecutionContextInterface;
  */
 class Trajectbegeleider
 {
-    use IdentifiableTrait, OptionalMedewerkerTrait, ActivatableTrait, TimestampableTrait;
+    use IdentifiableTrait;
+    use OptionalMedewerkerTrait;
+    use ActivatableTrait;
+    use TimestampableTrait;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)

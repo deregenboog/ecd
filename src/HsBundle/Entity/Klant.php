@@ -22,7 +22,13 @@ use Gedmo\Mapping\Annotation as Gedmo;
  */
 class Klant implements MemoSubjectInterface, DocumentSubjectInterface
 {
-    use NameTrait, AddressTrait, HulpverlenerTrait, RequiredMedewerkerTrait, MemoSubjectTrait, DocumentSubjectTrait, TimestampableTrait;
+    use NameTrait;
+    use AddressTrait;
+    use HulpverlenerTrait;
+    use RequiredMedewerkerTrait;
+    use MemoSubjectTrait;
+    use DocumentSubjectTrait;
+    use TimestampableTrait;
 
     /**
      * @ORM\Id

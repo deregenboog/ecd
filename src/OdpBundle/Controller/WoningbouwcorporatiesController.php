@@ -23,13 +23,11 @@ class WoningbouwcorporatiesController extends SymfonyController
      */
     private $woningbouwcorporatieDao;
 
-    public function setContainer(\Psr\Container\ContainerInterface $container): ?\Psr\Container\ContainerInterface
+    public function setContainer(?\Symfony\Component\DependencyInjection\ContainerInterface $container = null)
     {
-        $previous = parent::setContainer($container);
+        parent::setContainer($container);
 
         $this->woningbouwcorporatieDao = $container->get("OdpBundle\Service\WoningbouwcorporatieDao");
-    
-        return $previous;
     }
 
     /**
@@ -52,7 +50,7 @@ class WoningbouwcorporatiesController extends SymfonyController
     {
         $woningbouwcorporatie = new Woningbouwcorporatie();
 
-        $form = $this->getForm(WoningbouwcorporatieType::class, $woningbouwcorporatie);
+        $form = $this->createForm(WoningbouwcorporatieType::class, $woningbouwcorporatie);
         $form->handleRequest($this->getRequest());
         if ($form->isSubmitted() && $form->isValid()) {
             try {
@@ -78,7 +76,7 @@ class WoningbouwcorporatiesController extends SymfonyController
     {
         $woningbouwcorporatie = $this->woningbouwcorporatieDao->find($id);
 
-        $form = $this->getForm(WoningbouwcorporatieType::class, $woningbouwcorporatie);
+        $form = $this->createForm(WoningbouwcorporatieType::class, $woningbouwcorporatie);
         $form->handleRequest($this->getRequest());
         if ($form->isSubmitted() && $form->isValid()) {
             try {
@@ -103,7 +101,7 @@ class WoningbouwcorporatiesController extends SymfonyController
     {
         $woningbouwcorporatie = $this->woningbouwcorporatieDao->find($id);
 
-        $form = $this->getForm(ConfirmationType::class);
+        $form = $this->createForm(ConfirmationType::class);
         $form->handleRequest($this->getRequest());
         if ($form->isSubmitted() && $form->isValid()) {
             if ($form->get('yes')->isClicked()) {

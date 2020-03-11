@@ -4,7 +4,7 @@ namespace AppBundle\Event;
 
 use AppBundle\Controller\SymfonyController;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-use Symfony\Component\HttpKernel\Event\FilterControllerEvent;
+use Symfony\Component\HttpKernel\Event\ControllerEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
 use Twig\Environment;
 
@@ -27,7 +27,7 @@ class KernelSubscriber implements EventSubscriberInterface
         $this->twig = $twig;
     }
 
-    public function onKernelController(FilterControllerEvent $event)
+    public function onKernelController(ControllerEvent $event)
     {
         $controller = $event->getController();
 

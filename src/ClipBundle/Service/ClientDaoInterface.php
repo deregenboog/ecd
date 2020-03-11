@@ -28,18 +28,9 @@ interface ClientDaoInterface
      */
     public function find($id);
 
-    /**
-     * @param Client $client
-     */
     public function create(Client $client);
 
-    /**
-     * @param Client $client
-     */
     public function update(Client $client);
 
-    /**
-     * @param Client $client
-     */
     public function delete(Client $client);
 }

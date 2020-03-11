@@ -16,7 +16,8 @@ use Gedmo\Mapping\Annotation as Gedmo;
  */
 class Rapportage
 {
-    use TimestampableTrait, OptionalMedewerkerTrait;
+    use TimestampableTrait;
+    use OptionalMedewerkerTrait;
 
     /**
      * @ORM\Id

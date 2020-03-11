@@ -11,7 +11,6 @@ use AppBundle\Model\TimestampableTrait;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
-use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="PfoBundle\Repository\ClientRepository")
@@ -27,7 +26,11 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class Client
 {
-    use IdentifiableTrait, NameTrait, TimestampableTrait, RequiredMedewerkerTrait,AddressTrait;
+    use IdentifiableTrait;
+    use NameTrait;
+    use TimestampableTrait;
+    use RequiredMedewerkerTrait;
+    use AddressTrait;
 
     const DUBBELE_DIAGNOSE_NEE = 0;
     const DUBBELE_DIAGNOSE_JA = 1;
@@ -56,13 +59,11 @@ class Client
      */
     protected $geslacht;
 
-
     /**
      * @ORM\Column(name="telefoon_mobiel", type="string", nullable=true)
      * @Gedmo\Versioned
      */
     //protected $mobiel;
-
 
     /**
      * @var Groep
@@ -217,9 +218,6 @@ class Client
         return $this->groep;
     }
 
-    /**
-     * @param Groep $groep
-     */
     public function setGroep(Groep $groep)
     {
         $this->groep = $groep;
@@ -235,9 +233,6 @@ class Client
         return $this->aardRelatie;
     }
 
-    /**
-     * @param AardRelatie $aardRelatie
-     */
     public function setAardRelatie(AardRelatie $aardRelatie)
     {
         $this->aardRelatie = $aardRelatie;
@@ -543,8 +538,6 @@ class Client
     }
 
     /**
-     * @param Document $document
-     *
      * @return self
      */
     public function addDocument(Document $document)
@@ -555,8 +548,6 @@ class Client
     }
 
     /**
-     * @param Document $document
-     *
      * @return self
      */
     public function removeDocument(Document $document)

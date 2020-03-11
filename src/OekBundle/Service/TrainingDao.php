@@ -4,8 +4,8 @@ namespace OekBundle\Service;
 
 use AppBundle\Filter\FilterInterface;
 use AppBundle\Service\AbstractDao;
-use OekBundle\Entity\Training;
 use OekBundle\Entity\DeelnameStatus;
+use OekBundle\Entity\Training;
 
 class TrainingDao extends AbstractDao implements TrainingDaoInterface
 {
@@ -35,8 +35,7 @@ class TrainingDao extends AbstractDao implements TrainingDaoInterface
             ->leftJoin('deelname.deelnemer', 'deelnemer')
             ->innerJoin('training.groep', 'groep')
             ->where('deelname.deelnameStatus != :status_verwijderd')
-            ->setParameter(":status_verwijderd",DeelnameStatus::STATUS_VERWIJDERD);
-        ;
+            ->setParameter(':status_verwijderd', DeelnameStatus::STATUS_VERWIJDERD);
 
         if ($filter) {
             $filter->applyTo($builder);

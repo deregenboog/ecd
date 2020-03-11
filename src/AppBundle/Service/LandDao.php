@@ -38,25 +38,16 @@ class LandDao extends AbstractDao implements LandDaoInterface
         return parent::find($id);
     }
 
-    /**
-     * @param Land $land
-     */
     public function create(Land $land)
     {
         return $this->doCreate($land);
     }
 
-    /**
-     * @param Land $land
-     */
     public function update(Land $land)
     {
         return $this->doUpdate($land);
     }
 
-    /**
-     * @param Land $land
-     */
     public function delete(Land $land)
     {
         return $this->doDelete($land);

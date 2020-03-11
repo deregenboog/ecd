@@ -98,11 +98,10 @@ class DeelnameType extends AbstractType
         $builder->add('status', ChoiceType::class, [
             'choices' => array_combine($statuses, $statuses),
         ])
-            ->add('doorverwezenNaar',null,[
-                'required'=>false
+            ->add('doorverwezenNaar', null, [
+                'required' => false,
             ])
         ;
-
     }
 
     /**

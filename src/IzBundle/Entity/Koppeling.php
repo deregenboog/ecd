@@ -70,9 +70,6 @@ class Koppeling
         return $this->hulpvraag->getMedewerker();
     }
 
-    /**
-     * @param Medewerker $medewerker
-     */
     public function setMedewerker(Medewerker $medewerker)
     {
         if ($this->hulpvraag->getMedewerker() !== $medewerker) {
@@ -93,9 +90,6 @@ class Koppeling
         return $this->hulpvraag->getKoppelingStartdatum();
     }
 
-    /**
-     * @param \DateTime $startdatum
-     */
     public function setStartdatum(\DateTime $startdatum)
     {
         if ($this->hulpvraag->getKoppelingStartdatum() !== $startdatum) {
@@ -142,9 +136,6 @@ class Koppeling
         return $this->hulpvraag->getTussenevaluatiedatum();
     }
 
-    /**
-     * @param \DateTime $datum
-     */
     public function setTussenevaluatiedatum(\DateTime $datum)
     {
         if ($this->hulpvraag->getTussenevaluatiedatum() !== $datum) {
@@ -165,9 +156,6 @@ class Koppeling
         return $this->hulpvraag->getEindevaluatiedatum();
     }
 
-    /**
-     * @param \DateTime $datum
-     */
     public function setEindevaluatiedatum(\DateTime $datum)
     {
         if ($this->hulpvraag->getEindevaluatiedatum() !== $datum) {

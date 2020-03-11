@@ -23,13 +23,7 @@ interface DossierDaoInterface
      */
     public function find($id);
 
-    /**
-     * @param Dossier $entity
-     */
     public function update(Dossier $entity);
 
-    /**
-     * @param Dossier $entity
-     */
     public function delete(Dossier $entity);
 }

@@ -3,8 +3,8 @@
 namespace AppBundle\Model;
 
 use AppBundle\Entity\GgwGebied;
+use AppBundle\Entity\Persoon;
 use AppBundle\Entity\Postcode;
-use AppBundle\Entity\Vrijwilliger;
 use AppBundle\Entity\Werkgebied;
 use AppBundle\Util\PostcodeFormatter;
 use Doctrine\ORM\EntityManagerInterface;
@@ -12,7 +12,6 @@ use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Validator\Constraints as Assert;
-use AppBundle\Entity\Persoon;
 
 trait AddressTrait
 {
@@ -71,8 +70,7 @@ trait AddressTrait
     {
         /* @var Persoon $data */
         $data = $event->getData();
-        self::_koppelPostcodeWerkgebied($data,$em);
-
+        self::_koppelPostcodeWerkgebied($data, $em);
     }
 
     private static function _koppelPostcodeWerkgebied($data, $em)
@@ -87,9 +85,7 @@ trait AddressTrait
                         ->setWerkgebied($postcode->getStadsdeel())
                         ->setPostcodegebied($postcode->getPostcodegebied())
                     ;
-                }
-                else
-                {
+                } else {
                     //wissen stadsdeel en postcodegebied; geen koppeling mogelijk; naw postcode buiten regio.
                     $data
                         ->setWerkgebied(null)
@@ -104,8 +100,9 @@ trait AddressTrait
 
     public function koppelPostcodeWerkgebied(EntityManagerInterface $entityManager)
     {
-       self::_koppelPostcodeWerkgebied($this,$entityManager);
+        self::_koppelPostcodeWerkgebied($this, $entityManager);
     }
+
     public function getEmail()
     {
         return $this->email;

@@ -23,18 +23,9 @@ interface ContactpersoonDaoInterface
      */
     public function find($id);
 
-    /**
-     * @param Contactpersoon $contactpersoon
-     */
     public function create(Contactpersoon $contactpersoon);
 
-    /**
-     * @param Contactpersoon $contactpersoon
-     */
     public function update(Contactpersoon $contactpersoon);
 
-    /**
-     * @param Contactpersoon $contactpersoon
-     */
     public function delete(Contactpersoon $contactpersoon);
 }

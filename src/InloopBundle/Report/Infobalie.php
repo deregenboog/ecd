@@ -7,7 +7,6 @@ use AppBundle\Entity\Klant;
 use AppBundle\Entity\Land;
 use AppBundle\Report\AbstractReport;
 use AppBundle\Report\Table;
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManagerInterface;
 use InloopBundle\Entity\Intake;
 use InloopBundle\Entity\Locatie;
@@ -74,11 +73,10 @@ class Infobalie extends AbstractReport
                 ->select('locatie.id')
             ;
 
-
             $locatie_lijst = array_map(function ($row) {
-                return (int)$row['id'];
+                return (int) $row['id'];
             }, $builder->getQuery()->getScalarResult());
-            $this->locatie = implode(",",$locatie_lijst);
+            $this->locatie = implode(',', $locatie_lijst);
             $this->locatieArray = $locatie_lijst;
         }
 
@@ -314,8 +312,6 @@ class Infobalie extends AbstractReport
         $klanten = $builder->getQuery()->getResult();
         //@todo deze klantenlijst wordt al gefilterd op delete en disabled dus dat hoeft niet in de joins verderop.
 
-
-
         if ($this->locatie instanceof Locatie) {
             $builder = $registratieRepository->createQueryBuilder('registratie')
                 ->select('klant.id')
@@ -373,7 +369,7 @@ class Infobalie extends AbstractReport
             foreach ($tmp_klanten as $klant) {
                 $klanten[$klant['id']] = $klant['laatste_intake_id'];
             }
-            /**
+            /*
              * $locatie = null dus alle locaties...
              *
              */
@@ -395,7 +391,7 @@ class Infobalie extends AbstractReport
 
         $count['totalClients'] = count($klanten);
 
-        $count['totalNewClients']  = $klantRepository->createQueryBuilder('klant')
+        $count['totalNewClients'] = $klantRepository->createQueryBuilder('klant')
             ->select('COUNT(klant.id) as cnt')
             ->where('klant.id IN (:ids)')
             ->andWhere('klant.created >= :start_date')
@@ -412,7 +408,7 @@ class Infobalie extends AbstractReport
             ->andWhere('registratie.binnen >= :start_date')
             ->andWhere('registratie.binnen < :end_date')
             ->setParameter('ids', array_keys($klanten))
-            ->setParameter('locatie',$this->locatieArray)
+            ->setParameter('locatie', $this->locatieArray)
             ->setParameter('start_date', $startDate)
             ->setParameter('end_date', $endDatePlusOneDay)
             ->getQuery()

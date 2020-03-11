@@ -23,18 +23,9 @@ interface KoppelingDaoInterface
      */
     public function find($id);
 
-    /**
-     * @param Hulpvraag $koppeling
-     */
     public function create(Hulpvraag $koppeling);
 
-    /**
-     * @param Hulpvraag $koppeling
-     */
     public function update(Hulpvraag $koppeling);
 
-    /**
-     * @param Hulpvraag $koppeling
-     */
     public function delete(Hulpvraag $koppeling);
 }

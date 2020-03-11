@@ -7,9 +7,6 @@ class DateTimeUtil
     /**
      * Combines the date of the first parameter with the time of the second parameter.
      *
-     * @param \DateTime $date
-     * @param \DateTime $time
-     *
      * @return \DateTime
      */
     public static function combine(\DateTime $date, \DateTime $time)

@@ -5,7 +5,6 @@ namespace AppBundle\Entity;
 use AppBundle\Model\DocumentSubjectTrait;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
-use Symfony\Component\Debug\Exception\FatalErrorException;
 
 /**
  * @ORM\Entity
@@ -40,9 +39,6 @@ class Vrijwilliger extends Persoon
      * @Gedmo\Versioned
      */
     protected $overeenkomstAanwezig = false;
-
-
-
 
     /**
      * @return bool
@@ -106,7 +102,9 @@ class Vrijwilliger extends Persoon
 
     public function getVog(): ?Vog
     {
-        if(!$this->getDocumenten()) return null;
+        if (!$this->getDocumenten()) {
+            return null;
+        }
         foreach ($this->getDocumenten() as $document) {
             if ($document instanceof Vog) {
                 return $document;
@@ -156,7 +154,9 @@ class Vrijwilliger extends Persoon
 
     public function getOvereenkomst(): ?Overeenkomst
     {
-        if(!$this->getDocumenten()) return null;
+        if (!$this->getDocumenten()) {
+            return null;
+        }
 
         foreach ($this->documenten as $document) {
             if ($document instanceof Overeenkomst) {
@@ -174,5 +174,4 @@ class Vrijwilliger extends Persoon
 
         return $this;
     }
-
 }

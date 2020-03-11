@@ -22,7 +22,9 @@ use Gedmo\Mapping\Annotation as Gedmo;
  */
 abstract class Afsluiting
 {
-    use IdentifiableTrait, NameableTrait, ActivatableTrait;
+    use IdentifiableTrait;
+    use NameableTrait;
+    use ActivatableTrait;
 
     public function isDeletable()
     {

@@ -9,9 +9,9 @@ use IzBundle\Form\IntervisiegroepFilterType;
 use IzBundle\Form\IntervisiegroepType;
 use IzBundle\Form\IzEmailMessageType;
 use IzBundle\Service\IntervisiegroepDaoInterface;
-use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * @Route("/intervisiegroepen")
@@ -36,14 +36,12 @@ class IntervisiegroepenController extends AbstractController
      */
     protected $export;
 
-    public function setContainer(\Psr\Container\ContainerInterface $container): ?\Psr\Container\ContainerInterface
+    public function setContainer(?\Symfony\Component\DependencyInjection\ContainerInterface $container = null)
     {
-        $previous = parent::setContainer($container);
+        parent::setContainer($container);
 
         $this->dao = $container->get("IzBundle\Service\IntervisiegroepDao");
-        $this->export = $container->get("iz.export.intervisiegroepen");
-    
-        return $previous;
+        $this->export = $container->get('iz.export.intervisiegroepen');
     }
 
     /**
@@ -53,7 +51,7 @@ class IntervisiegroepenController extends AbstractController
     {
         $entity = $this->dao->find($id);
 
-        $form = $this->getForm(IzEmailMessageType::class, null, [
+        $form = $this->createForm(IzEmailMessageType::class, null, [
             'from' => $this->getMedewerker()->getEmail(),
             'to' => $entity->getVrijwilligers(),
         ]);

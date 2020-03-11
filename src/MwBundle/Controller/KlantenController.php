@@ -16,10 +16,10 @@ use MwBundle\Entity\Document;
 use MwBundle\Entity\Info;
 use MwBundle\Form\InfoType;
 use MwBundle\Form\KlantFilterType;
-use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * @Route("/klanten")
@@ -49,15 +49,13 @@ class KlantenController extends AbstractController
      */
     protected $export;
 
-    public function setContainer(\Psr\Container\ContainerInterface $container): ?\Psr\Container\ContainerInterface
+    public function setContainer(?\Symfony\Component\DependencyInjection\ContainerInterface $container = null)
     {
-        $previous = parent::setContainer($container);
+        parent::setContainer($container);
 
         $this->dao = $container->get("MwBundle\Service\KlantDao");
         $this->klantDao = $container->get("AppBundle\Service\KlantDao");
-        $this->export = $container->get("mw.export.klanten");
-    
-        return $previous;
+        $this->export = $container->get('mw.export.klanten');
     }
 
     /**
@@ -83,7 +81,7 @@ class KlantenController extends AbstractController
             $entity = new Info($klant);
         }
 
-        $form = $this->getForm(InfoType::class, $entity);
+        $form = $this->createForm(InfoType::class, $entity);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -154,7 +152,7 @@ class KlantenController extends AbstractController
 
     protected function getAmocLanden()
     {
-        return $this->getDoctrine()->getEntityManager()->getRepository(Land::class)
+        return $this->getEntityManager()->getRepository(Land::class)
             ->createQueryBuilder('land')
             ->innerJoin(AmocLand::class, 'amoc', 'WITH', 'amoc.land = land')
             ->getquery()
@@ -164,7 +162,7 @@ class KlantenController extends AbstractController
 
     private function doSearch(Request $request)
     {
-        $filterForm = $this->getForm(AppKlantFilterType::class, null, [
+        $filterForm = $this->createForm(AppKlantFilterType::class, null, [
             'enabled_filters' => ['id', 'naam', 'bsn', 'geboortedatum'],
         ]);
         $filterForm->handleRequest($request);
@@ -209,7 +207,7 @@ class KlantenController extends AbstractController
         }
 
         $mwKlant = $klant;
-        $creationForm = $this->getForm(KlantType::class, $mwKlant);
+        $creationForm = $this->createForm(KlantType::class, $mwKlant);
         $creationForm->handleRequest($request);
 
         if ($creationForm->isSubmitted() && $creationForm->isValid()) {

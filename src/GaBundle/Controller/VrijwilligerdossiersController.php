@@ -43,15 +43,13 @@ class VrijwilligerdossiersController extends DossiersController
      */
     private $vrijwilligerDao;
 
-    public function setContainer(\Psr\Container\ContainerInterface $container): ?\Psr\Container\ContainerInterface
+    public function setContainer(?\Symfony\Component\DependencyInjection\ContainerInterface $container = null)
     {
-        $previous = parent::setContainer($container);
+        parent::setContainer($container);
 
         $this->dao = $container->get("GaBundle\Service\VrijwilligerdossierDao");
-        $this->export = $container->get("ga.export.vrijwilligerdossiers");
+        $this->export = $container->get('ga.export.vrijwilligerdossiers');
         $this->vrijwilligerDao = $container->get("AppBundle\Service\VrijwilligerDao");
-    
-        return $previous;
     }
 
     /**
@@ -73,7 +71,7 @@ class VrijwilligerdossiersController extends DossiersController
 
     private function doSearch(Request $request)
     {
-        $form = $this->getForm(VrijwilligerFilterType::class, null, [
+        $form = $this->createForm(VrijwilligerFilterType::class, null, [
             'enabled_filters' => ['id', 'naam', 'bsn', 'geboortedatum'],
         ]);
         $form->handleRequest($request);

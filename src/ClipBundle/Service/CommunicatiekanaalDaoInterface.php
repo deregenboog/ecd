@@ -23,18 +23,9 @@ interface CommunicatiekanaalDaoInterface
      */
     public function find($id);
 
-    /**
-     * @param Communicatiekanaal $communicatiekanaal
-     */
     public function create(Communicatiekanaal $communicatiekanaal);
 
-    /**
-     * @param Communicatiekanaal $communicatiekanaal
-     */
     public function update(Communicatiekanaal $communicatiekanaal);
 
-    /**
-     * @param Communicatiekanaal $communicatiekanaal
-     */
     public function delete(Communicatiekanaal $communicatiekanaal);
 }

@@ -23,18 +23,9 @@ interface AfsluitingDaoInterface
      */
     public function find($id);
 
-    /**
-     * @param Afsluiting $entity
-     */
     public function create(Afsluiting $entity);
 
-    /**
-     * @param Afsluiting $entity
-     */
     public function update(Afsluiting $entity);
 
-    /**
-     * @param Afsluiting $entity
-     */
     public function delete(Afsluiting $entity);
 }

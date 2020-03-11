@@ -23,18 +23,9 @@ interface PeriodeDaoInterface
      */
     public function find($id);
 
-    /**
-     * @param Periode $entity
-     */
     public function create(Periode $entity);
 
-    /**
-     * @param Periode $entity
-     */
     public function update(Periode $entity);
 
-    /**
-     * @param Periode $entity
-     */
     public function delete(Periode $entity);
 }

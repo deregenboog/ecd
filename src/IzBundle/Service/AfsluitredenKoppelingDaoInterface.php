@@ -23,18 +23,9 @@ interface AfsluitredenKoppelingDaoInterface
      */
     public function find($id);
 
-    /**
-     * @param AfsluitredenKoppeling $entity
-     */
     public function create(AfsluitredenKoppeling $entity);
 
-    /**
-     * @param AfsluitredenKoppeling $entity
-     */
     public function update(AfsluitredenKoppeling $entity);
 
-    /**
-     * @param AfsluitredenKoppeling $entity
-     */
     public function delete(AfsluitredenKoppeling $entity);
 }

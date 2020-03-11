@@ -17,9 +17,9 @@ use IzBundle\Form\KoppelingFilterType;
 use IzBundle\Service\HulpaanbodDaoInterface;
 use IzBundle\Service\HulpvraagDaoInterface;
 use IzBundle\Service\KoppelingDaoInterface;
-use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * @Route("/mijn")
@@ -59,18 +59,16 @@ class DashboardController extends SymfonyController
      */
     protected $koppelingenExport;
 
-    public function setContainer(\Psr\Container\ContainerInterface $container): ?\Psr\Container\ContainerInterface
+    public function setContainer(?\Symfony\Component\DependencyInjection\ContainerInterface $container = null)
     {
-        $previous = parent::setContainer($container);
+        parent::setContainer($container);
 
         $this->hulpvraagDao = $container->get("IzBundle\Service\HulpvraagDao");
         $this->hulpaanbodDao = $container->get("IzBundle\Service\HulpaanbodDao");
         $this->koppelingDao = $container->get("IzBundle\Service\KoppelingDao");
-        $this->hulpvragenExport = $container->get("iz.export.hulpvragen");
-        $this->hulpaanbiedingenExport = $container->get("iz.export.hulpaanbiedingen");
-        $this->koppelingenExport = $container->get("iz.export.koppelingen");
-
-        return $previous;
+        $this->hulpvragenExport = $container->get('iz.export.hulpvragen');
+        $this->hulpaanbiedingenExport = $container->get('iz.export.hulpaanbiedingen');
+        $this->koppelingenExport = $container->get('iz.export.koppelingen');
     }
 
     /**
@@ -89,7 +87,7 @@ class DashboardController extends SymfonyController
         $filter = new HulpvraagFilter();
         $filter->medewerker = $this->getMedewerker();
 
-        $form = $this->getForm(HulpvraagFilterType::class, $filter);
+        $form = $this->createForm(HulpvraagFilterType::class, $filter);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -115,7 +113,7 @@ class DashboardController extends SymfonyController
         $filter = new HulpaanbodFilter();
         $filter->medewerker = $this->getMedewerker();
 
-        $form = $this->getForm(HulpaanbodFilterType::class, $filter, [
+        $form = $this->createForm(HulpaanbodFilterType::class, $filter, [
             'enabled_filters' => [
                 'startdatum',
                 'vrijwilliger' => [
@@ -160,7 +158,7 @@ class DashboardController extends SymfonyController
         $filter->medewerker = $this->getMedewerker();
         $filter->lopendeKoppelingen = true;
 
-        $form = $this->getForm(KoppelingFilterType::class, $filter, [
+        $form = $this->createForm(KoppelingFilterType::class, $filter, [
             'enabled_filters' => [
                 'koppelingStartdatum',
                 'klant' => ['voornaam', 'achternaam', 'stadsdeel'],

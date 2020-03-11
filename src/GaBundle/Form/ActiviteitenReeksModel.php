@@ -57,9 +57,6 @@ class ActiviteitenReeksModel
         return $this->tijd;
     }
 
-    /**
-     * @param \DateTime $tijd
-     */
     public function setTijd(\DateTime $tijd)
     {
         $this->tijd = $tijd;

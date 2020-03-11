@@ -23,7 +23,11 @@ use Gedmo\Mapping\Annotation as Gedmo;
  */
 class Vrijwilliger implements MemoSubjectInterface, DocumentSubjectInterface
 {
-    use IdentifiableTrait, TimestampableTrait, RequiredMedewerkerTrait, MemoSubjectTrait, DocumentSubjectTrait;
+    use IdentifiableTrait;
+    use TimestampableTrait;
+    use RequiredMedewerkerTrait;
+    use MemoSubjectTrait;
+    use DocumentSubjectTrait;
 
     /**
      * @var Vrijwilliger
@@ -78,7 +82,7 @@ class Vrijwilliger implements MemoSubjectInterface, DocumentSubjectInterface
     protected $afsluitreden;
 
     /**
-     * @var boolean
+     * @var bool
      * @ORM\Column(type="boolean", nullable=false)
      */
     protected $stagiair = false;
@@ -125,7 +129,6 @@ class Vrijwilliger implements MemoSubjectInterface, DocumentSubjectInterface
      */
     protected $trainingDeelnames;
 
-
     public function __construct(AppVrijwilliger $vrijwilliger = null)
     {
         if ($vrijwilliger) {
@@ -133,7 +136,7 @@ class Vrijwilliger implements MemoSubjectInterface, DocumentSubjectInterface
         }
         $this->locaties = new ArrayCollection();
         $this->trainingDeelnames = new ArrayCollection();
-        $this->datumNotitieIntake = new \DateTime("now");
+        $this->datumNotitieIntake = new \DateTime('now');
     }
 
     public function __toString()
@@ -233,20 +236,15 @@ class Vrijwilliger implements MemoSubjectInterface, DocumentSubjectInterface
     /**
      * @return Locatie
      */
-    public function getLocatie():? Locatie
+    public function getLocatie(): ? Locatie
     {
         return $this->locatie;
     }
 
-    /**
-     * @param Locatie $locatie
-     */
     public function setLocatie(Locatie $locatie): void
     {
         $this->locatie = $locatie;
     }
-
-
 
     public function isActief()
     {
@@ -256,30 +254,21 @@ class Vrijwilliger implements MemoSubjectInterface, DocumentSubjectInterface
     /**
      * @return Medewerker
      */
-    public function getMedewerker():? Medewerker
+    public function getMedewerker(): ? Medewerker
     {
         return $this->medewerker;
     }
 
-    /**
-     * @param Medewerker $medewerker
-     */
     public function setMedewerker(Medewerker $medewerker): void
     {
         $this->medewerker = $medewerker;
     }
 
-    /**
-     * @return bool
-     */
     public function isStagiair(): bool
     {
         return (bool) $this->stagiair;
     }
 
-    /**
-     * @param bool $stagiair
-     */
     public function setStagiair(bool $stagiair): void
     {
         $this->stagiair = $stagiair;
@@ -288,14 +277,11 @@ class Vrijwilliger implements MemoSubjectInterface, DocumentSubjectInterface
     /**
      * @return \DateTime
      */
-    public function getStartdatum():? \DateTime
+    public function getStartdatum(): ? \DateTime
     {
         return $this->startdatum;
     }
 
-    /**
-     * @param \DateTime $startdatum
-     */
     public function setStartdatum(\DateTime $startdatum): void
     {
         $this->startdatum = $startdatum;
@@ -304,14 +290,11 @@ class Vrijwilliger implements MemoSubjectInterface, DocumentSubjectInterface
     /**
      * @return Medewerker
      */
-    public function getMedewerkerLocatie():? Medewerker
+    public function getMedewerkerLocatie(): ? Medewerker
     {
         return $this->medewerkerLocatie;
     }
 
-    /**
-     * @param Medewerker $medewerkerLocatie
-     */
     public function setMedewerkerLocatie(Medewerker $medewerkerLocatie): void
     {
         $this->medewerkerLocatie = $medewerkerLocatie;
@@ -320,14 +303,11 @@ class Vrijwilliger implements MemoSubjectInterface, DocumentSubjectInterface
     /**
      * @return string
      */
-    public function getNotitieIntake():? string
+    public function getNotitieIntake(): ? string
     {
         return $this->notitieIntake;
     }
 
-    /**
-     * @param string $notitieIntake
-     */
     public function setNotitieIntake(string $notitieIntake): void
     {
         $this->notitieIntake = $notitieIntake;
@@ -336,14 +316,11 @@ class Vrijwilliger implements MemoSubjectInterface, DocumentSubjectInterface
     /**
      * @return \DateTime
      */
-    public function getDatumNotitieIntake():? \DateTime
+    public function getDatumNotitieIntake(): ? \DateTime
     {
         return $this->datumNotitieIntake;
     }
 
-    /**
-     * @param \DateTime $datumNotitieIntake
-     */
     public function setDatumNotitieIntake(\DateTime $datumNotitieIntake): void
     {
         $this->datumNotitieIntake = $datumNotitieIntake;
@@ -352,14 +329,11 @@ class Vrijwilliger implements MemoSubjectInterface, DocumentSubjectInterface
     /**
      * @return string
      */
-    public function getTrainingOverig():? string
+    public function getTrainingOverig(): ? string
     {
         return $this->trainingOverig;
     }
 
-    /**
-     * @param string $trainingOverig
-     */
     public function setTrainingOverig(string $trainingOverig): void
     {
         $this->trainingOverig = $trainingOverig;
@@ -368,14 +342,11 @@ class Vrijwilliger implements MemoSubjectInterface, DocumentSubjectInterface
     /**
      * @return \DateTime
      */
-    public function getTrainingOverigDatum():? \DateTime
+    public function getTrainingOverigDatum(): ? \DateTime
     {
         return $this->trainingOverigDatum;
     }
 
-    /**
-     * @param \DateTime $trainingOverigDatum
-     */
     public function setTrainingOverigDatum(\DateTime $trainingOverigDatum): void
     {
         $this->trainingOverigDatum = $trainingOverigDatum;
@@ -405,7 +376,5 @@ class Vrijwilliger implements MemoSubjectInterface, DocumentSubjectInterface
     public function removeDeelname(Deelname $deelname)
     {
         $this->trainingDeelnames->removeElement($deelname);
-
     }
-
 }

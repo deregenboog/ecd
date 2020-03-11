@@ -22,19 +22,10 @@ interface HuurderDaoInterface
      */
     public function find($id);
 
-    /**
-     * @param Huurder $entity
-     */
     public function create(Huurder $entity);
 
-    /**
-     * @param Huurder $entity
-     */
     public function update(Huurder $entity);
 
-    /**
-     * @param Huurder $entity
-     */
     public function delete(Huurder $entity);
 
     public function countAangemeld(\DateTime $startdate, \DateTime $enddate);

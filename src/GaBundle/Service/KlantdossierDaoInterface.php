@@ -18,8 +18,6 @@ interface KlantdossierDaoInterface
     public function findAll($page = null, FilterInterface $filter = null);
 
     /**
-     * @param Klant $klant
-     *
      * @return Klantdossier
      */
     public function findOneByKlant(Klant $klant);
@@ -31,18 +29,9 @@ interface KlantdossierDaoInterface
      */
     public function find($id);
 
-    /**
-     * @param Klantdossier $entity
-     */
     public function create(Klantdossier $entity);
 
-    /**
-     * @param Klantdossier $entity
-     */
     public function update(Klantdossier $entity);
 
-    /**
-     * @param Klantdossier $entity
-     */
     public function delete(Klantdossier $entity);
 }

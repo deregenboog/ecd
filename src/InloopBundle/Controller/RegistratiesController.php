@@ -22,11 +22,11 @@ use InloopBundle\Service\KlantDaoInterface;
 use InloopBundle\Service\RegistratieDaoInterface;
 use InloopBundle\Service\SchorsingDaoInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
-use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\EventDispatcher\GenericEvent;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * @Route("/registraties")
@@ -65,17 +65,15 @@ class RegistratiesController extends AbstractController
      */
     protected $export;
 
-    public function setContainer(\Psr\Container\ContainerInterface $container): ?\Psr\Container\ContainerInterface
+    public function setContainer(?\Symfony\Component\DependencyInjection\ContainerInterface $container = null)
     {
-        $previous = parent::setContainer($container);
+        parent::setContainer($container);
 
         $this->dao = $container->get("InloopBundle\Service\RegistratieDao");
         $this->klantDao = $container->get("InloopBundle\Service\KlantDao");
         $this->locatieDao = $container->get("InloopBundle\Service\LocatieDao");
         $this->schorsingDao = $container->get("InloopBundle\Service\SchorsingDao");
-        $this->export = $container->get("inloop.export.registraties");
-
-        return $previous;
+        $this->export = $container->get('inloop.export.registraties');
     }
 
     /**
@@ -111,7 +109,7 @@ class RegistratiesController extends AbstractController
         $filter = new KlantFilter();
         $filter->locatie = $locatie;
 
-        $form = $this->getForm(KlantFilterType::class, $filter, [
+        $form = $this->createForm(KlantFilterType::class, $filter, [
             'attr' => ['class' => 'ajaxFilter'],
             'enabled_filters' => [
                 'klant' => ['id', 'voornaam', 'achternaam', 'geboortedatum', 'geslacht'],
@@ -149,7 +147,7 @@ class RegistratiesController extends AbstractController
         $this->denyAccessUnlessGranted(Permissions::REGISTER, $locatie);
 
         $filter = new RegistratieFilter($locatie);
-        $form = $this->getForm(RegistratieFilterType::class, $filter, [
+        $form = $this->createForm(RegistratieFilterType::class, $filter, [
             'attr' => ['class' => 'ajaxFilter'],
         ]);
         $form->handleRequest($request);
@@ -186,7 +184,7 @@ class RegistratiesController extends AbstractController
         $this->denyAccessUnlessGranted(Permissions::REGISTER, $locatie);
 
         $filter = new RegistratieHistoryFilter($locatie);
-        $form = $this->getForm(RegistratieHistoryFilterType::class, $filter, [
+        $form = $this->createForm(RegistratieHistoryFilterType::class, $filter, [
             'attr' => ['class' => 'ajaxFilter'],
         ]);
         $form->handleRequest($request);
@@ -250,7 +248,7 @@ class RegistratiesController extends AbstractController
             }
         }
 
-        /**
+        /*
          * 20190708
          *tbcCheck hoeft niet meer van GGD voor gebruikersruimte. Nu allleen voor klanten uit tbc_countries voor alle locaties.
          */
@@ -313,11 +311,10 @@ class RegistratiesController extends AbstractController
                 $jsonVar['confirm'] = true;
             }
 
-            /**
+            /*
              * TBC check hoeft niet meer voor alle klanten. Alleen voor klanten uit bepaalde landen (tbc_countries) voor alle locaties.
              */
             if (false && $locatie->isTbcCheck()) {
-
                 $tbcValid = $this->getParameter('tbc_months_period') * 30;
                 $newTbcCheckNeeded = (!$klant->getLaatsteTbcControle() || $klant->getLaatsteTbcControle()->diff(new \DateTime())->days > $tbcValid);
                 if ($newTbcCheckNeeded) {
@@ -328,8 +325,8 @@ class RegistratiesController extends AbstractController
             }
 
             $tbc_countries = $this->container->getParameter('tbc_countries');
-            if( in_array($klant->getLand()->getNaam(), $tbc_countries)
-                && $klant->getLaatsteTbcControle() == null
+            if (in_array($klant->getLand()->getNaam(), $tbc_countries)
+                && null == $klant->getLaatsteTbcControle()
             ) {
                 $jsonVar['message'] .= $sep.'Let op: deze persoon komt uit een risico land en heeft een TBC-check nodig. Toch inchecken?';
                 $jsonVar['confirm'] = true;

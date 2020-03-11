@@ -225,9 +225,6 @@ class Locatie
         }
     }
 
-    /**
-     * @param Locatietijd $locatietijd
-     */
     public function addLocatietijd(Locatietijd $locatietijd)
     {
         $this->locatietijden[] = $locatietijd;

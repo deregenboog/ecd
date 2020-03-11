@@ -32,14 +32,12 @@ class WachtlijstController extends AbstractController
      */
     protected $export;
 
-    public function setContainer(\Psr\Container\ContainerInterface $container): ?\Psr\Container\ContainerInterface
+    public function setContainer(?\Symfony\Component\DependencyInjection\ContainerInterface $container = null)
     {
-        $previous = parent::setContainer($container);
+        parent::setContainer($container);
 
         $this->dao = $container->get("OekBundle\Service\DeelnemerDao");
-        $this->export = $container->get("oek.export.wachtlijst");
-    
-        return $previous;
+        $this->export = $container->get('oek.export.wachtlijst');
     }
 
     /**
@@ -49,7 +47,7 @@ class WachtlijstController extends AbstractController
     {
         $filter = null;
         if ($this->filterFormClass) {
-            $form = $this->getForm($this->filterFormClass, null, ['enabled_filters' => [
+            $form = $this->createForm($this->filterFormClass, null, ['enabled_filters' => [
                 'klant' => ['id', 'naam', 'stadsdeel'],
                 'groep',
                 'aanmelddatum',

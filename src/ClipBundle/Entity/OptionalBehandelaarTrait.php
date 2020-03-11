@@ -16,7 +16,7 @@ trait OptionalBehandelaarTrait
      */
     protected $behandelaar;
 
-    public function getBehandelaar():?Behandelaar
+    public function getBehandelaar(): ?Behandelaar
     {
         return $this->behandelaar;
     }

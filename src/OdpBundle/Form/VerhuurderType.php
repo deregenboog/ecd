@@ -22,7 +22,6 @@ class VerhuurderType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-
         if ($options['data']->getKlant() && $options['data']->getKlant()->getId()) {
             $builder->add('medewerker', MedewerkerType::class);
         } else {

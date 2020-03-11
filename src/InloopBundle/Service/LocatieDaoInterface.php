@@ -23,18 +23,9 @@ interface LocatieDaoInterface
      */
     public function find($id);
 
-    /**
-     * @param Locatie $locatie
-     */
     public function create(Locatie $locatie);
 
-    /**
-     * @param Locatie $locatie
-     */
     public function update(Locatie $locatie);
 
-    /**
-     * @param Locatie $locatie
-     */
     public function delete(Locatie $locatie);
 }

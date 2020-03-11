@@ -9,7 +9,7 @@ services:
         public: true
         arguments:
             - "@doctrine.orm.entity_manager"
-            - "%kernel.root_dir%/config/activering_reports.sql"
+            - "%kernel.project_dir%/app/config/activering_reports.sql"
         tags:
             - { name: dagbesteding.rapportage, category: Activering }
 

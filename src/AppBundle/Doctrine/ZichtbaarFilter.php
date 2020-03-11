@@ -2,9 +2,9 @@
 
 namespace AppBundle\Doctrine;
 
+use AppBundle\Entity\Werkgebied;
 use Doctrine\ORM\Mapping\ClassMetaData;
 use Doctrine\ORM\Query\Filter\SQLFilter;
-use AppBundle\Entity\Werkgebied;
 
 class ZichtbaarFilter extends SQLFilter
 {

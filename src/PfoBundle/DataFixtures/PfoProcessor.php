@@ -2,7 +2,6 @@
 
 namespace PfoBundle\DataFixtures;
 
-
 use Fidry\AliceDataFixtures\ProcessorInterface;
 
 final class PfoProcessor implements ProcessorInterface
@@ -12,7 +11,6 @@ final class PfoProcessor implements ProcessorInterface
      */
     public function preProcess(string $fixtureId, $object): void
     {
-
     }
 
     /**

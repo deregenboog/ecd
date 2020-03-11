@@ -23,19 +23,10 @@ interface RegistratieDaoInterface
      */
     public function find($id);
 
-    /**
-     * @param Registratie $registratie
-     */
     public function create(Registratie $registratie);
 
-    /**
-     * @param Registratie $registratie
-     */
     public function update(Registratie $registratie);
 
-    /**
-     * @param Registratie $registratie
-     */
     public function delete(Registratie $registratie);
 
     public function countUrenByStadsdeel(\DateTime $start = null, \DateTime $end = null);

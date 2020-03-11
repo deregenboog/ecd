@@ -7,16 +7,16 @@ use AppBundle\Entity\Klant;
 use AppBundle\Form\ConfirmationType;
 use AppBundle\Form\KlantFilterType;
 use AppBundle\Service\KlantDaoInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\Finder\Exception\AccessDeniedException;
+use Symfony\Component\Form\FormError;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Annotation\Route;
 use UhkBundle\Entity\Deelnemer;
 use UhkBundle\Form\DeelnemerFilterType;
 use UhkBundle\Form\DeelnemerType;
 use UhkBundle\Security\Permissions;
 use UhkBundle\Service\DeelnemerDaoInterface;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-use Symfony\Component\Form\FormError;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Routing\Annotation\Route;
 use UhkBundle\Service\VerslagDao;
 
 /**
@@ -43,14 +43,12 @@ class DeelnemersController extends AbstractController
      */
     protected $klantDao;
 
-    public function setContainer(\Psr\Container\ContainerInterface $container): ?\Psr\Container\ContainerInterface
+    public function setContainer(?\Symfony\Component\DependencyInjection\ContainerInterface $container = null)
     {
-        $previous = parent::setContainer($container);
+        parent::setContainer($container);
 
         $this->dao = $container->get("UhkBundle\Service\DeelnemerDao");
         $this->klantDao = $container->get("AppBundle\Service\KlantDao");
-    
-        return $previous;
     }
 
     /**
@@ -71,7 +69,7 @@ class DeelnemersController extends AbstractController
      */
     public function indexAction(Request $request)
     {
-        $form = $this->getForm($this->filterFormClass);
+        $form = $this->createForm($this->filterFormClass);
         $form->handleRequest($request);
         $filter = $form->getData();
 
@@ -128,33 +126,30 @@ class DeelnemersController extends AbstractController
 
     /**
      * @Route("/{id}/deleteVerslag/{verslagId}")
-     * @param Request $request
      * @Template
      */
     public function deleteVerslagAction(Request $request, $id, $verslagId)
     {
         $entity = $this->dao->find($id);
 
-        if ($entity->getMedewerker() != $this->getMedewerker() && !$this->isGranted("ROLE_UHK_BEHEER")) {
-            throw new AccessDeniedException("Mag alleen verslagen verwijderen als je een beheerder bent of het over een eigen verslag gaat.");
+        if ($entity->getMedewerker() != $this->getMedewerker() && !$this->isGranted('ROLE_UHK_BEHEER')) {
+            throw new AccessDeniedException('Mag alleen verslagen verwijderen als je een beheerder bent of het over een eigen verslag gaat.');
         }
-        $form = $this->getForm(ConfirmationType::class);
+        $form = $this->createForm(ConfirmationType::class);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             if ($form->get('yes')->isClicked()) {
                 $url = $request->get('redirect');
-                $viewUrl = $this->generateUrl($this->baseRouteName . 'view', ['id' => $entity->getId(),'_fragment'=>'verslagen']);
+                $viewUrl = $this->generateUrl($this->baseRouteName.'view', ['id' => $entity->getId(), '_fragment' => 'verslagen']);
 
-                $verslagDao = new VerslagDao($this->getEntityManager(),$this->getPaginator(),5);
+                $verslagDao = new VerslagDao($this->getEntityManager(), $this->getPaginator(), 5);
                 $verslag = $verslagDao->find($verslagId);
                 $verslagDao->delete($verslag);
 
-                $this->addFlash('success',   'Verslag is verwijderd.');
-
+                $this->addFlash('success', 'Verslag is verwijderd.');
 
                 return $this->redirect($viewUrl);
-
             } else {
                 if (isset($url)) {
                     return $this->redirect($url);
@@ -172,17 +167,17 @@ class DeelnemersController extends AbstractController
 
     private function doSearch(Request $request)
     {
-        $filterForm = $this->getForm(KlantFilterType::class, null, [
+        $filterForm = $this->createForm(KlantFilterType::class, null, [
             'enabled_filters' => ['id', 'naam', 'bsn', 'geboortedatum'],
         ]);
         $filterForm->handleRequest($request);
 
         if ($filterForm->isSubmitted() && $filterForm->isValid()) {
-            $count = (int)$this->klantDao->countAll($filterForm->getData());
+            $count = (int) $this->klantDao->countAll($filterForm->getData());
             if (0 === $count) {
                 $this->addFlash('info', sprintf('De zoekopdracht leverde geen resultaten op. Maak een nieuwe %s aan.', $this->entityName));
 
-                return $this->redirectToRoute($this->baseRouteName . 'add', ['klant' => 'new']);
+                return $this->redirectToRoute($this->baseRouteName.'add', ['klant' => 'new']);
             }
 
             if ($count > 100) {
@@ -217,13 +212,13 @@ class DeelnemersController extends AbstractController
         }
 
         $deelnemer = new Deelnemer($klant, $this->getMedewerker());
-        $creationForm = $this->getForm(DeelnemerType::class, $deelnemer);
+        $creationForm = $this->createForm(DeelnemerType::class, $deelnemer);
         $creationForm->handleRequest($request);
 
         if ($creationForm->isSubmitted() && $creationForm->isValid()) {
             try {
                 $this->dao->create($deelnemer);
-                $this->addFlash('success', ucfirst($this->entityName) . ' is opgeslagen.');
+                $this->addFlash('success', ucfirst($this->entityName).' is opgeslagen.');
 
                 return $this->redirectToView($deelnemer);
             } catch (\Exception $e) {

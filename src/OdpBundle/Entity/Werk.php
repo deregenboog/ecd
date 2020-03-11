@@ -2,8 +2,6 @@
 
 namespace OdpBundle\Entity;
 
-use AppBundle\Model\TimestampableTrait;
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 
@@ -15,7 +13,6 @@ use Gedmo\Mapping\Annotation as Gedmo;
  */
 class Werk
 {
-
     /**
      * @ORM\Id
      * @ORM\Column(type="integer")
@@ -28,7 +25,6 @@ class Werk
      * @Gedmo\Versioned
      */
     private $label;
-
 
     public function __toString(): string
     {
@@ -55,8 +51,4 @@ class Werk
     {
         $this->label = $label;
     }
-
-
-
-
 }

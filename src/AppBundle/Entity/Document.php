@@ -28,7 +28,9 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
  */
 class Document implements DocumentInterface
 {
-    use IdentifiableTrait, TimestampableTrait, RequiredMedewerkerTrait;
+    use IdentifiableTrait;
+    use TimestampableTrait;
+    use RequiredMedewerkerTrait;
 
     /**
      * @var string
@@ -43,13 +45,11 @@ class Document implements DocumentInterface
      */
     protected $file;
 
-
-
     public function __toString()
     {
-
         $x = new \ReflectionClass($this);
-        return $x->getShortName()." ".$this->getFilename();
+
+        return $x->getShortName().' '.$this->getFilename();
     }
 
     public function getFilename()
@@ -75,5 +75,4 @@ class Document implements DocumentInterface
 
         return $this;
     }
-
 }

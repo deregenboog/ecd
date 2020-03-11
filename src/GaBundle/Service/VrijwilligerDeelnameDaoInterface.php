@@ -24,18 +24,9 @@ interface VrijwilligerDeelnameDaoInterface
      */
     public function find($id);
 
-    /**
-     * @param VrijwilligerDeelname $entity
-     */
     public function create(VrijwilligerDeelname $entity);
 
-    /**
-     * @param VrijwilligerDeelname $entity
-     */
     public function update(VrijwilligerDeelname $entity);
 
-    /**
-     * @param VrijwilligerDeelname $entity
-     */
     public function delete(VrijwilligerDeelname $entity);
 }

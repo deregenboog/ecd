@@ -4,6 +4,7 @@ namespace HsBundle\Form;
 
 use AppBundle\Form\AppDateRangeType;
 use AppBundle\Form\FilterType;
+use Doctrine\ORM\EntityRepository;
 use HsBundle\Entity\Activiteit;
 use HsBundle\Entity\Klus;
 use HsBundle\Filter\KlusFilter;
@@ -16,7 +17,6 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Doctrine\ORM\EntityRepository;
 
 class KlusFilterType extends AbstractType
 {
@@ -89,7 +89,7 @@ class KlusFilterType extends AbstractType
                     return $repository->createQueryBuilder('activiteit')
                         ->orderBy('activiteit.naam')
                     ;
-                }
+                },
             ]);
         }
 

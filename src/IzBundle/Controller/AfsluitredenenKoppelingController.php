@@ -6,8 +6,8 @@ use AppBundle\Controller\AbstractController;
 use IzBundle\Entity\AfsluitredenKoppeling;
 use IzBundle\Form\AfsluitredenKoppelingType;
 use IzBundle\Service\AfsluitredenKoppelingDaoInterface;
-use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * @Route("/admin/afsluitredenenkoppeling")
@@ -25,13 +25,11 @@ class AfsluitredenenKoppelingController extends AbstractController
      */
     protected $dao;
 
-    public function setContainer(\Psr\Container\ContainerInterface $container): ?\Psr\Container\ContainerInterface
+    public function setContainer(?\Symfony\Component\DependencyInjection\ContainerInterface $container = null)
     {
-        $previous = parent::setContainer($container);
+        parent::setContainer($container);
 
         $this->dao = $container->get("IzBundle\Service\AfsluitredenKoppelingDao");
-    
-        return $previous;
     }
 
     /**

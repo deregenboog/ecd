@@ -12,11 +12,11 @@ use InloopBundle\Pdf\PdfSchorsingEn;
 use InloopBundle\Pdf\PdfSchorsingNl;
 use InloopBundle\Service\SchorsingDaoInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
-use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Routing\Router;
 
 /**
@@ -42,14 +42,12 @@ class SchorsingenController extends AbstractController
      */
     protected $export;
 
-    public function setContainer(\Psr\Container\ContainerInterface $container): ?\Psr\Container\ContainerInterface
+    public function setContainer(?\Symfony\Component\DependencyInjection\ContainerInterface $container = null)
     {
-        $previous = parent::setContainer($container);
+        parent::setContainer($container);
 
         $this->dao = $container->get("InloopBundle\Service\SchorsingDao");
-        $this->export = $container->get("inloop.export.schorsing");
-    
-        return $previous;
+        $this->export = $container->get('inloop.export.schorsing');
     }
 
     /**
@@ -93,7 +91,7 @@ class SchorsingenController extends AbstractController
         $klant = $request->get('klant');
         $entity = new Schorsing($klant);
 
-        $form = $this->getForm($this->formClass, $entity, [
+        $form = $this->createForm($this->formClass, $entity, [
             'medewerker' => $this->getMedewerker(),
         ]);
         $form->handleRequest($request);
@@ -161,8 +159,7 @@ class SchorsingenController extends AbstractController
     }
 
     /**
-     * @param Schorsing $entity
-     * @param string    $language
+     * @param string $language
      *
      * @return \TCPDF
      */

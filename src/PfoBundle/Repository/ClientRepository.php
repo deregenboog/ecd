@@ -24,7 +24,7 @@ class ClientRepository extends EntityRepository
     public function countByStadsdeel(\DateTime $startDate, \DateTime $endDate)
     {
         $builder = $this->getCountBuilder()
-            ->addSelect("stadsdeel.naam AS stadsdeelnaam")
+            ->addSelect('stadsdeel.naam AS stadsdeelnaam')
             ->innerJoin('client.werkgebied', 'stadsdeel')
             ->leftJoin('client.verslagen', 'verslag')
             ->groupBy('stadsdeelnaam')

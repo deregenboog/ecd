@@ -2,9 +2,8 @@
 
 namespace LegacyBundle\Entity;
 
-use Doctrine\ORM\Mapping as ORM;
-use AppBundle\Entity\Medewerker;
 use AppBundle\Entity\Klant;
+use Doctrine\ORM\Mapping as ORM;
 
 /**
  * Hi5Evaluaties.

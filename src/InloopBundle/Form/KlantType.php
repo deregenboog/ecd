@@ -16,7 +16,6 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class KlantType extends AbstractType
 {
-
     /**
      * {@inheritdoc}
      */
@@ -46,9 +45,8 @@ class KlantType extends AbstractType
         $builder->add('laatsteTbcControle', AppDateType::class, [
             'label' => 'TBC-check?',
             'required' => false,
-            'attr'=>['class'=>'hidden'],
-            'label_attr'=>['class'=>'hidden'],
-
+            'attr' => ['class' => 'hidden'],
+            'label_attr' => ['class' => 'hidden'],
         ]);
         $builder->add('medewerker', MedewerkerType::class, ['required' => true])
         ->add('submit', SubmitType::class)

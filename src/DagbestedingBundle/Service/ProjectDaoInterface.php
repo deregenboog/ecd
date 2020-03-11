@@ -23,18 +23,9 @@ interface ProjectDaoInterface
      */
     public function find($id);
 
-    /**
-     * @param Project $project
-     */
     public function create(Project $project);
 
-    /**
-     * @param Project $project
-     */
     public function update(Project $project);
 
-    /**
-     * @param Project $project
-     */
     public function delete(Project $project);
 }

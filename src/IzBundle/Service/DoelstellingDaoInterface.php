@@ -23,18 +23,9 @@ interface DoelstellingDaoInterface
      */
     public function find($id);
 
-    /**
-     * @param Doelstelling $doelstelling
-     */
     public function create(Doelstelling $doelstelling);
 
-    /**
-     * @param Doelstelling $doelstelling
-     */
     public function update(Doelstelling $doelstelling);
 
-    /**
-     * @param Doelstelling $doelstelling
-     */
     public function delete(Doelstelling $doelstelling);
 }

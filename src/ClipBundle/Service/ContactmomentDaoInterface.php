@@ -23,19 +23,10 @@ interface ContactmomentDaoInterface
      */
     public function find($id);
 
-    /**
-     * @param Contactmoment $contactmoment
-     */
     public function create(Contactmoment $contactmoment);
 
-    /**
-     * @param Contactmoment $contactmoment
-     */
     public function update(Contactmoment $contactmoment);
 
-    /**
-     * @param Contactmoment $contactmoment
-     */
     public function delete(Contactmoment $contactmoment);
 
     public function countByCommunicatiekanaal(\DateTime $startdate, \DateTime $enddate);

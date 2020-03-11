@@ -7,8 +7,8 @@ use IzBundle\Entity\Doelstelling;
 use IzBundle\Form\DoelstellingFilterType;
 use IzBundle\Form\DoelstellingType;
 use IzBundle\Service\DoelstellingDaoInterface;
-use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * @Route("/admin/doelstellingen")
@@ -27,13 +27,11 @@ class DoelstellingenController extends AbstractController
      */
     protected $dao;
 
-    public function setContainer(\Psr\Container\ContainerInterface $container): ?\Psr\Container\ContainerInterface
+    public function setContainer(?\Symfony\Component\DependencyInjection\ContainerInterface $container = null)
     {
-        $previous = parent::setContainer($container);
+        parent::setContainer($container);
 
         $this->dao = $container->get("IzBundle\Service\DoelstellingDao");
-    
-        return $previous;
     }
 
     /**

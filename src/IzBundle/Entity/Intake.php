@@ -123,7 +123,6 @@ class Intake
     public function __construct()
     {
         $this->intakeDatum = new \DateTime('today');
-
     }
 
     public function getId()
@@ -152,9 +151,6 @@ class Intake
         return $this->intakeDatum;
     }
 
-    /**
-     * @param \DateTime $intakeDatum
-     */
     public function setIntakeDatum(\DateTime $intakeDatum)
     {
         $this->intakeDatum = $intakeDatum;
@@ -212,8 +208,7 @@ class Intake
 
     public function getGespreksverslag()
     {
-
-       return $this->gespreksverslag;
+        return $this->gespreksverslag;
     }
 
     public function setGespreksverslag($gespreksverslag = null)
@@ -314,7 +309,7 @@ class Intake
     /**
      * @return mixed
      */
-    public function getOngedocumenteerd():?bool
+    public function getOngedocumenteerd(): ?bool
     {
         return $this->ongedocumenteerd;
     }
@@ -327,9 +322,8 @@ class Intake
         $this->ongedocumenteerd = $ongedocumenteerd;
     }
 
-    public function isOngedocumenteerd():bool
+    public function isOngedocumenteerd(): bool
     {
-        return $this->getOngedocumenteerd()??false;
+        return $this->getOngedocumenteerd() ?? false;
     }
-
 }

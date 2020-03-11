@@ -66,8 +66,6 @@ class IntakeModel
         return $this->intake->setOngedocumenteerd($ongedocumenteerd);
     }
 
-
-
     public function isStagiair()
     {
         return $this->intake->isStagiair();
@@ -80,9 +78,8 @@ class IntakeModel
 
     public function getVerslag()
     {
-      if($this->intake->getIzDeelnemer() instanceof IzKlant)
-      {
-          return <<<EOF
+        if ($this->intake->getIzDeelnemer() instanceof IzKlant) {
+            return <<<EOF
 Interesses, wensen en doelen:
 
 
@@ -114,10 +111,8 @@ Eigen indruk:
 
 
 EOF;
-
-      }elseif($this->intake->getIzDeelnemer() instanceof IzVrijwilliger)
-      {
-          return <<<EOF
+        } elseif ($this->intake->getIzDeelnemer() instanceof IzVrijwilliger) {
+            return <<<EOF
 Waarom wil je vrijwilliger worden bij DRG?
 
 
@@ -146,10 +141,7 @@ In welke mate ben jij beschikbaar?
 
 
 EOF;
-
-      }
-
-
+        }
     }
 
     public function setVerslag($opmerking)

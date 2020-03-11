@@ -22,19 +22,10 @@ interface VerhuurderDaoInterface
      */
     public function find($id);
 
-    /**
-     * @param Verhuurder $entity
-     */
     public function create(Verhuurder $entity);
 
-    /**
-     * @param Verhuurder $entity
-     */
     public function update(Verhuurder $entity);
 
-    /**
-     * @param Verhuurder $entity
-     */
     public function delete(Verhuurder $entity);
 
     public function countAangemeld(\DateTime $startdate, \DateTime $enddate);

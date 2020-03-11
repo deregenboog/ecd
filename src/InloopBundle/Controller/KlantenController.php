@@ -20,12 +20,12 @@ use InloopBundle\Form\KlantType;
 use InloopBundle\Pdf\PdfBrief;
 use InloopBundle\Service\KlantDaoInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
-use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * @Route("/klanten")
@@ -50,14 +50,12 @@ class KlantenController extends AbstractController
      */
     protected $klantDao;
 
-    public function setContainer(\Psr\Container\ContainerInterface $container): ?\Psr\Container\ContainerInterface
+    public function setContainer(?\Symfony\Component\DependencyInjection\ContainerInterface $container = null)
     {
-        $previous = parent::setContainer($container);
+        parent::setContainer($container);
 
         $this->dao = $container->get("InloopBundle\Service\KlantDao");
         $this->klantDao = $container->get("AppBundle\Service\KlantDao");
-    
-        return $previous;
     }
 
     /**
@@ -204,7 +202,7 @@ class KlantenController extends AbstractController
         $klant = $this->dao->find($id);
         $afsluiting = new Afsluiting($klant, $this->getMedewerker());
 
-        $form = $this->getForm(AfsluitingType::class, $afsluiting);
+        $form = $this->createForm(AfsluitingType::class, $afsluiting);
         $form->handleRequest($this->getRequest());
         if ($form->isSubmitted() && $form->isValid()) {
             try {
@@ -239,12 +237,11 @@ class KlantenController extends AbstractController
         $klant = $this->dao->find($id);
         $aanmelding = new Aanmelding($klant, $this->getMedewerker());
 
-        if(in_array($klant->getLand()->getNaam(),$this->getParameter('tbc_countries') ) )
-        {
-            $this->addFlash("danger","Let op: klant uit risicoland. Doorverwijzen naar GGD voor TBC controle.");
+        if (in_array($klant->getLand()->getNaam(), $this->getParameter('tbc_countries'))) {
+            $this->addFlash('danger', 'Let op: klant uit risicoland. Doorverwijzen naar GGD voor TBC controle.');
         }
 
-        $form = $this->getForm(AanmeldingType::class, $aanmelding);
+        $form = $this->createForm(AanmeldingType::class, $aanmelding);
         $form->handleRequest($this->getRequest());
         if ($form->isSubmitted() && $form->isValid()) {
             try {
@@ -324,13 +321,12 @@ class KlantenController extends AbstractController
         return [
             'amoc_landen' => $this->getAmocLanden(),
             'tbc_countries' => $this->container->getParameter('tbc_countries'),
-
         ];
     }
 
     protected function getAmocLanden()
     {
-        return $this->getDoctrine()->getEntityManager()->getRepository(Land::class)
+        return $this->getEntityManager()->getRepository(Land::class)
             ->createQueryBuilder('land')
             ->innerJoin(AmocLand::class, 'amoc', 'WITH', 'amoc.land = land')
             ->getquery()
@@ -340,7 +336,7 @@ class KlantenController extends AbstractController
 
     private function doSearch(Request $request)
     {
-        $filterForm = $this->getForm(AppKlantFilterType::class, null, [
+        $filterForm = $this->createForm(AppKlantFilterType::class, null, [
             'enabled_filters' => ['id', 'naam', 'bsn', 'geboortedatum'],
         ]);
         $filterForm->handleRequest($request);
@@ -371,7 +367,7 @@ class KlantenController extends AbstractController
     protected function doAdd(Request $request)
     {
         $tbc_countries = $this->getParameter('tbc_countries');
-        $tbc_countries_string = implode(", ",$tbc_countries);
+        $tbc_countries_string = implode(', ', $tbc_countries);
         $klantId = $request->get('klant');
         if ('new' === $klantId) {
             $klant = new Klant();
@@ -387,16 +383,15 @@ class KlantenController extends AbstractController
         }
 
         $inloopKlant = $klant;
-        $creationForm = $this->getForm(KlantType::class, $inloopKlant);
+        $creationForm = $this->createForm(KlantType::class, $inloopKlant);
         $creationForm->handleRequest($request);
 
         if ($creationForm->isSubmitted() && $creationForm->isValid()) {
             try {
                 $this->dao->create($inloopKlant);
                 $this->addFlash('success', ucfirst($this->entityName).' is opgeslagen.');
-                if(in_array($inloopKlant->getLand()->getNaam(),$tbc_countries))
-                {
-                    $this->addFlash("danger","Let op: klant uit risicoland. Doorverwijzen naar GGD voor TBC controle.");
+                if (in_array($inloopKlant->getLand()->getNaam(), $tbc_countries)) {
+                    $this->addFlash('danger', 'Let op: klant uit risicoland. Doorverwijzen naar GGD voor TBC controle.');
                 }
 
                 return $this->redirectToView($inloopKlant);

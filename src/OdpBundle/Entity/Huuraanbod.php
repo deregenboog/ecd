@@ -16,7 +16,8 @@ use Gedmo\Mapping\Annotation as Gedmo;
  */
 class Huuraanbod
 {
-    use TimestampableTrait, RequiredMedewerkerTrait;
+    use TimestampableTrait;
+    use RequiredMedewerkerTrait;
 
     /**
      * @ORM\Id

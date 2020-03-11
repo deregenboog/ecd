@@ -10,14 +10,13 @@ use DagbestedingBundle\Entity\Deelnemer;
 use DagbestedingBundle\Form\DeelnemerCloseType;
 use DagbestedingBundle\Form\DeelnemerFilterType;
 use DagbestedingBundle\Form\DeelnemerReopenType;
-use DagbestedingBundle\Form\DeelnemerSelectType;
 use DagbestedingBundle\Form\DeelnemerType;
 use DagbestedingBundle\Service\DeelnemerDaoInterface;
 use IzBundle\Service\KlantDaoInterface;
-use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * @Route("/deelnemers")
@@ -47,15 +46,13 @@ class DeelnemersController extends AbstractController
      */
     private $klantDao;
 
-    public function setContainer(\Psr\Container\ContainerInterface $container): ?\Psr\Container\ContainerInterface
+    public function setContainer(?\Symfony\Component\DependencyInjection\ContainerInterface $container = null)
     {
-        $previous = parent::setContainer($container);
+        parent::setContainer($container);
 
         $this->dao = $container->get("DagbestedingBundle\Service\DeelnemerDao");
-        $this->export = $container->get("dagbesteding.export.deelnemers");
+        $this->export = $container->get('dagbesteding.export.deelnemers');
         $this->klantDao = $container->get("AppBundle\Service\KlantDao");
-    
-        return $previous;
     }
 
     /**
@@ -72,7 +69,7 @@ class DeelnemersController extends AbstractController
 
     private function doSearch(Request $request)
     {
-        $filterForm = $this->getForm(KlantFilterType::class, null, [
+        $filterForm = $this->createForm(KlantFilterType::class, null, [
             'enabled_filters' => ['id', 'naam', 'bsn', 'geboortedatum'],
         ]);
         $filterForm->handleRequest($request);
@@ -100,7 +97,6 @@ class DeelnemersController extends AbstractController
         ];
     }
 
-
     public function doAdd(Request $request)
     {
         if ($request->query->has('klant')) {
@@ -119,7 +115,7 @@ class DeelnemersController extends AbstractController
             $entity = new Deelnemer();
             $entity->setKlant($klant);
 
-            $creationForm = $this->getForm(DeelnemerType::class, $entity);
+            $creationForm = $this->createForm(DeelnemerType::class, $entity);
             $creationForm->handleRequest($request);
 
             if ($creationForm->isSubmitted() && $creationForm->isValid()) {
@@ -139,11 +135,9 @@ class DeelnemersController extends AbstractController
 
             return [
                 'creationForm' => $creationForm->createView(),
-                'klant'=>$klant,
+                'klant' => $klant,
             ];
         }
-
-
     }
 
     /**
@@ -153,7 +147,7 @@ class DeelnemersController extends AbstractController
     {
         $entity = $this->dao->find($id);
 
-        $form = $this->getForm(DeelnemerCloseType::class, $entity);
+        $form = $this->createForm(DeelnemerCloseType::class, $entity);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -182,7 +176,7 @@ class DeelnemersController extends AbstractController
     {
         $entity = $this->dao->find($id);
 
-        $form = $this->getForm(DeelnemerReopenType::class, $entity);
+        $form = $this->createForm(DeelnemerReopenType::class, $entity);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {

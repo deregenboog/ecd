@@ -45,7 +45,7 @@
     {% if creationForm is defined %}
         {% if entity.vrijwilliger.id %}
             <div class="col-xs-4">
-                {% include '::vrijwilliger_basis.html.twig' with {vrijwilliger: entity.vrijwilliger} %}
+                {% include 'vrijwilliger_basis.html.twig' with {vrijwilliger: entity.vrijwilliger} %}
             </div>
             <div class="col-xs-8">
                 <ul class="nav nav-tabs">

@@ -46,15 +46,13 @@ class RegistratiesController extends AbstractChildController
      */
     protected $entities;
 
-    public function setContainer(\Psr\Container\ContainerInterface $container): ?\Psr\Container\ContainerInterface
+    public function setContainer(?\Symfony\Component\DependencyInjection\ContainerInterface $container = null)
     {
-        $previous = parent::setContainer($container);
+        parent::setContainer($container);
 
         $this->dao = $container->get("HsBundle\Service\RegistratieDao");
-        $this->export = $container->get("hs.export.registratie");
-        $this->entities = $container->get("hs.registratie.entities");
-    
-        return $previous;
+        $this->export = $container->get('hs.export.registratie');
+        $this->entities = $container->get('hs.registratie.entities');
     }
 
     /**
@@ -77,9 +75,8 @@ class RegistratiesController extends AbstractChildController
     public function beforeUpdate($entity)
     {
         $helper = new FactuurSubjectHelper();
-        $helper->beforeUpdateEntity($entity,$this->getEntityManager());
+        $helper->beforeUpdateEntity($entity, $this->getEntityManager());
     }
-
 
     /**
      * @Route("/add")
@@ -97,7 +94,7 @@ class RegistratiesController extends AbstractChildController
             $entity = new Registratie(null, $parentEntity);
         }
 
-        $form = $this->getForm($this->formClass, $entity);
+        $form = $this->createForm($this->formClass, $entity);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {

@@ -39,10 +39,11 @@ class IntakeSubscriberTest extends TestCase
     public function testAccessAmocOnly()
     {
         $this->markTestIncomplete();
+
         return;
 
         $intake = new Intake(new Klant());
-        $intake->setIntakedatum(new \DateTime("three weeks ago"));
+        $intake->setIntakedatum(new \DateTime('three weeks ago'));
         $intake->setInloophuis(true);
 
         $subscriber = $this->createSUT();

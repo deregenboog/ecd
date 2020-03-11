@@ -15,7 +15,7 @@ class ControllerAccessVoterTest extends TestCase
     public function testVoteOnUnsupportedAttribute()
     {
         $token = $this->getMockForAbstractClass(TokenInterface::class);
-        $token->method('getRoles')->willReturn(['CONTROLLER_APP_KLANTEN']);
+        $token->method('getRoleNames')->willReturn(['CONTROLLER_APP_KLANTEN']);
 
         $decisionManager = $this->getMockForAbstractClass(AccessDecisionManagerInterface::class);
 
@@ -33,7 +33,7 @@ class ControllerAccessVoterTest extends TestCase
     public function testVoteOnRedirectController()
     {
         $token = $this->getMockForAbstractClass(TokenInterface::class);
-        $token->method('getRoles')->willReturn(['CONTROLLER_APP_KLANTEN']);
+        $token->method('getRoleNames')->willReturn(['CONTROLLER_APP_KLANTEN']);
 
         $decisionManager = $this->getMockForAbstractClass(AccessDecisionManagerInterface::class);
 
@@ -51,7 +51,7 @@ class ControllerAccessVoterTest extends TestCase
     public function testVoteOnGrantedController()
     {
         $token = $this->getMockForAbstractClass(TokenInterface::class);
-        $token->method('getRoles')->willReturn(['CONTROLLER_APP_KLANTEN']);
+        $token->method('getRoleNames')->willReturn(['CONTROLLER_APP_KLANTEN']);
 
         $decisionManager = $this->getMockForAbstractClass(AccessDecisionManagerInterface::class);
         $decisionManager->expects($this->once())->method('decide')->with($token, ['CONTROLLER_APP_KLANTEN']);
@@ -69,7 +69,7 @@ class ControllerAccessVoterTest extends TestCase
     public function testVoteOnDeniedController()
     {
         $token = $this->getMockForAbstractClass(TokenInterface::class);
-        $token->method('getRoles')->willReturn(['CONTROLLER_APP_KLANTEN']);
+        $token->method('getRoleNames')->willReturn(['CONTROLLER_APP_KLANTEN']);
 
         $decisionManager = $this->getMockForAbstractClass(AccessDecisionManagerInterface::class);
 

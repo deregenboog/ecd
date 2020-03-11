@@ -7,7 +7,6 @@ use AppBundle\Model\KlantRelationInterface;
 use AppBundle\Model\RequiredMedewerkerTrait;
 use AppBundle\Model\TimestampableTrait;
 use AppBundle\Model\UsesKlantTrait;
-use AppBundle\Service\KlantDaoInterface;
 use AppBundle\Service\NameFormatter;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityNotFoundException;
@@ -23,9 +22,11 @@ use Gedmo\Mapping\Annotation as Gedmo;
  * @ORM\HasLifecycleCallbacks
  * @Gedmo\Loggable
  */
-abstract class Deelnemer  implements KlantRelationInterface
+abstract class Deelnemer implements KlantRelationInterface
 {
-    use TimestampableTrait, RequiredMedewerkerTrait, UsesKlantTrait;
+    use TimestampableTrait;
+    use RequiredMedewerkerTrait;
+    use UsesKlantTrait;
 
     /**
      * @var int
@@ -121,6 +122,7 @@ abstract class Deelnemer  implements KlantRelationInterface
 
     /**
      * Dit gaf een exceptie bij koppelingen maken in de view van een huurverzoek. Onderstaande __toString code uit de OekBundle gehaald. Lijkt me prima.
+     *
      * @190627 Laat dit even staan voor de zekerheid. jtborger
      */
 //    public function __toString()
@@ -253,6 +255,6 @@ abstract class Deelnemer  implements KlantRelationInterface
 
     public function getKlantFieldName()
     {
-        return "klant";
+        return 'klant';
     }
 }

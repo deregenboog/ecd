@@ -5,7 +5,6 @@ namespace OdpBundle\Service;
 use AppBundle\Filter\FilterInterface;
 use AppBundle\Model\UsesKlantTrait;
 use AppBundle\Service\AbstractDao;
-use Knp\Component\Pager\Pagination\PaginationInterface;
 use OdpBundle\Entity\Verhuurder;
 
 class VerhuurderDao extends AbstractDao implements VerhuurderDaoInterface
@@ -49,7 +48,6 @@ class VerhuurderDao extends AbstractDao implements VerhuurderDaoInterface
 //        ;
         return parent::doFindAll($builder, $page, $filter);
     }
-
 
     public function create(Verhuurder $entity)
     {

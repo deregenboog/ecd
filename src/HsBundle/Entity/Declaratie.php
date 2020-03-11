@@ -3,7 +3,6 @@
 namespace HsBundle\Entity;
 
 use AppBundle\Entity\Medewerker;
-use HsBundle\Entity\Klus;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
@@ -82,11 +81,11 @@ class Declaratie implements DocumentSubjectInterface, FactuurSubjectInterface
 
     public function __construct(Klus $klus = null, Medewerker $medewerker = null)
     {
-        if($klus){
+        if ($klus) {
             $this->setKlus($klus);
         }
 
-        if($medewerker) {
+        if ($medewerker) {
             $this->setMedewerker($medewerker);
         }
 
@@ -218,8 +217,6 @@ class Declaratie implements DocumentSubjectInterface, FactuurSubjectInterface
     }
 
     /**
-     * @param Document $document
-     *
      * @return self
      */
     public function setDocument(Document $document)

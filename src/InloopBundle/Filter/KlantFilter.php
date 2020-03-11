@@ -55,8 +55,7 @@ class KlantFilter implements FilterInterface
 
     public function __construct(StrategyInterface $strategy = null)
     {
-
-            $this->strategy = $strategy;
+        $this->strategy = $strategy;
     }
 
     public function applyTo(QueryBuilder $builder)
@@ -74,7 +73,6 @@ class KlantFilter implements FilterInterface
             ;
 
             $this->strategy->buildQuery($builder);
-
         }
 
         if ($this->locatie) {

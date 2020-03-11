@@ -31,13 +31,11 @@ class ProjectenController extends AbstractController
      */
     protected $dao;
 
-    public function setContainer(\Psr\Container\ContainerInterface $container): ?\Psr\Container\ContainerInterface
+    public function setContainer(?\Symfony\Component\DependencyInjection\ContainerInterface $container = null)
     {
-        $previous = parent::setContainer($container);
+        parent::setContainer($container);
 
         $this->dao = $container->get("ScipBundle\Service\ProjectDao");
-    
-        return $previous;
     }
 
     /**
@@ -46,7 +44,7 @@ class ProjectenController extends AbstractController
      */
     public function indexAction(Request $request)
     {
-        $form = $this->getForm($this->filterFormClass);
+        $form = $this->createForm($this->filterFormClass);
         $form->handleRequest($request);
         $filter = $form->getData();
 

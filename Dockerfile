@@ -1,4 +1,4 @@
-FROM php:7.2.18-apache
+FROM php:7.3.15-apache
 
 EXPOSE 80
 #RUN usermod -u 1000 www-data
@@ -10,8 +10,9 @@ RUN apt-get update && apt-get install -y \
     libldap2-dev \
     libjpeg62-turbo-dev \
     libpng-dev \
+    libzip-dev \
     locales \
-    mysql-client \
+    mariadb-client \
     zlib1g-dev
 
 RUN pecl install xdebug && docker-php-ext-enable xdebug

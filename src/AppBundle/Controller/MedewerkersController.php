@@ -5,9 +5,9 @@ namespace AppBundle\Controller;
 use AppBundle\Entity\Medewerker;
 use AppBundle\Form\MedewerkerFilterType;
 use AppBundle\Service\MedewerkerDaoInterface;
-use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * @Route("/medewerkers")
@@ -32,14 +32,12 @@ class MedewerkersController extends AbstractController
      */
     protected $roleHierarchy;
 
-    public function setContainer(\Psr\Container\ContainerInterface $container): ?\Psr\Container\ContainerInterface
+    public function setContainer(?\Symfony\Component\DependencyInjection\ContainerInterface $container = null)
     {
-        $previous = parent::setContainer($container);
+        parent::setContainer($container);
 
         $this->dao = $container->get("AppBundle\Service\MedewerkerDao");
-        $this->roleHierarchy = $container->getParameter("security.role_hierarchy.roles");
-
-        return $previous;
+        $this->roleHierarchy = $container->getParameter('security.role_hierarchy.roles');
     }
 
     /**

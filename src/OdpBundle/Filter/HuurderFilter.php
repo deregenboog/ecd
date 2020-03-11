@@ -117,7 +117,6 @@ class HuurderFilter implements FilterInterface
         }
 
         if ($this->actief) {
-
             $builder
                 ->andWhere('huurder.aanmelddatum <= :today')
                  ->andWhere('huurder.afsluitdatum > :today OR huurder.afsluitdatum IS NULL')

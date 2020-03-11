@@ -5,8 +5,8 @@ namespace IzBundle\Twig;
 use Doctrine\ORM\EntityNotFoundException;
 use IzBundle\Entity\Hulpaanbod;
 use IzBundle\Entity\Hulpvraag;
-use Twig\TwigFilter;
 use Twig\Extension\AbstractExtension;
+use Twig\TwigFilter;
 
 class IzExtension extends AbstractExtension
 {

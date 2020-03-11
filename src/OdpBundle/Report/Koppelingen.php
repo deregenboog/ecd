@@ -5,7 +5,6 @@ namespace OdpBundle\Report;
 use AppBundle\Report\AbstractReport;
 use OdpBundle\Service\HuurovereenkomstDaoInterface;
 
-
 class Koppelingen extends AbstractReport
 {
     protected $title = 'Koppelingen';

@@ -23,18 +23,9 @@ interface ResultaatgebiedsoortDaoInterface
      */
     public function find($id);
 
-    /**
-     * @param Resultaatgebiedsoort $resultaatgebiedsoort
-     */
     public function create(Resultaatgebiedsoort $resultaatgebiedsoort);
 
-    /**
-     * @param Resultaatgebiedsoort $resultaatgebiedsoort
-     */
     public function update(Resultaatgebiedsoort $resultaatgebiedsoort);
 
-    /**
-     * @param Resultaatgebiedsoort $resultaatgebiedsoort
-     */
     public function delete(Resultaatgebiedsoort $resultaatgebiedsoort);
 }

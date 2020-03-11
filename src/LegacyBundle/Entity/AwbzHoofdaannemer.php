@@ -3,7 +3,6 @@
 namespace LegacyBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use AppBundle\Model\IdentifiableTrait;
 
 /**
  * @ORM\Entity

@@ -5,11 +5,12 @@ namespace GaBundle\Controller;
 use AppBundle\Controller\AbstractController;
 use GaBundle\Entity\IntakeAfsluitreden;
 use GaBundle\Form\IntakeAfsluitredenType;
-use Symfony\Component\Routing\Annotation\Route;
 use GaBundle\Service\IntakeAfsluitredenDaoInterface;
+use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * @Route("/intakeafsluitredenen")
+ *
  * @todo Wordt dit nog gebruikt?
  */
 class IntakeafsluitredenenController extends AbstractController
@@ -25,12 +26,10 @@ class IntakeafsluitredenenController extends AbstractController
      */
     protected $dao;
 
-    public function setContainer(\Psr\Container\ContainerInterface $container): ?\Psr\Container\ContainerInterface
+    public function setContainer(?\Symfony\Component\DependencyInjection\ContainerInterface $container = null)
     {
-        $previous = parent::setContainer($container);
+        parent::setContainer($container);
 
         $this->dao = $container->get("GaBundle\Service\IntakeAfsluitredenDao");
-    
-        return $previous;
     }
 }

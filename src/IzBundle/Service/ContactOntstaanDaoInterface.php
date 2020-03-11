@@ -23,18 +23,9 @@ interface ContactOntstaanDaoInterface
      */
     public function find($id);
 
-    /**
-     * @param ContactOntstaan $entity
-     */
     public function create(ContactOntstaan $entity);
 
-    /**
-     * @param ContactOntstaan $entity
-     */
     public function update(ContactOntstaan $entity);
 
-    /**
-     * @param ContactOntstaan $entity
-     */
     public function delete(ContactOntstaan $entity);
 }

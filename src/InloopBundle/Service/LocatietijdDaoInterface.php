@@ -23,18 +23,9 @@ interface LocatietijdDaoInterface
      */
     public function find($id);
 
-    /**
-     * @param Locatietijd $locatietijd
-     */
     public function create(Locatietijd $locatietijd);
 
-    /**
-     * @param Locatietijd $locatietijd
-     */
     public function update(Locatietijd $locatietijd);
 
-    /**
-     * @param Locatietijd $locatietijd
-     */
     public function delete(Locatietijd $locatietijd);
 }

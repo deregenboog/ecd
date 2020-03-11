@@ -18,8 +18,6 @@ interface VrijwilligerdossierDaoInterface
     public function findAll($page = null, FilterInterface $filter = null);
 
     /**
-     * @param Vrijwilliger $vrijwilliger
-     *
      * @return Vrijwilligerdossier
      */
     public function findOneByVrijwilliger(Vrijwilliger $vrijwilliger);
@@ -31,18 +29,9 @@ interface VrijwilligerdossierDaoInterface
      */
     public function find($id);
 
-    /**
-     * @param Vrijwilligerdossier $entity
-     */
     public function create(Vrijwilligerdossier $entity);
 
-    /**
-     * @param Vrijwilligerdossier $entity
-     */
     public function update(Vrijwilligerdossier $entity);
 
-    /**
-     * @param Vrijwilligerdossier $entity
-     */
     public function delete(Vrijwilligerdossier $entity);
 }

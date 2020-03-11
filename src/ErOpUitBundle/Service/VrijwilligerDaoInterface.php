@@ -24,24 +24,13 @@ interface VrijwilligerDaoInterface
     public function find($id);
 
     /**
-     * @param AppVrijwilliger $appVrijwilliger
-     *
      * @return Vrijwilliger
      */
     public function findOneByVrijwilliger(AppVrijwilliger $appVrijwilliger);
 
-    /**
-     * @param Vrijwilliger $vrijwilliger
-     */
     public function create(Vrijwilliger $vrijwilliger);
 
-    /**
-     * @param Vrijwilliger $vrijwilliger
-     */
     public function update(Vrijwilliger $vrijwilliger);
 
-    /**
-     * @param Vrijwilliger $vrijwilliger
-     */
     public function delete(Vrijwilliger $vrijwilliger);
 }

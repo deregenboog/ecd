@@ -43,20 +43,17 @@ class TrainingenController extends AbstractChildController
 
     /**
      * @var ExportInterface
-     *
      */
     protected $exportDeelnemerslijst;
 
-    public function setContainer(\Psr\Container\ContainerInterface $container): ?\Psr\Container\ContainerInterface
+    public function setContainer(?\Symfony\Component\DependencyInjection\ContainerInterface $container = null)
     {
-        $previous = parent::setContainer($container);
+        parent::setContainer($container);
 
         $this->dao = $container->get("OekBundle\Service\TrainingDao");
-        $this->entities = $container->get("oek.training.entities");
-        $this->exportPresentielijst = $container->get("oek.export.presentielijst");
-        $this->exportDeelnemerslijst = $container->get("oek.export.deelnemerslijst");
-
-        return $previous;
+        $this->entities = $container->get('oek.training.entities');
+        $this->exportPresentielijst = $container->get('oek.export.presentielijst');
+        $this->exportDeelnemerslijst = $container->get('oek.export.deelnemerslijst');
     }
 
     /**
@@ -67,7 +64,7 @@ class TrainingenController extends AbstractChildController
         /** @var Training $training */
         $training = $this->dao->find($id);
 
-        $form = $this->getForm(EmailMessageType::class, null, [
+        $form = $this->createForm(EmailMessageType::class, null, [
             'from' => $this->Session->read('Auth.Medewerker.LdapUser.mail'),
             'to' => $training->getDeelnemers(),
         ]);

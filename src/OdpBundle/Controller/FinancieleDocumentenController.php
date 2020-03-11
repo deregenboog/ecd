@@ -5,20 +5,16 @@ namespace OdpBundle\Controller;
 use AppBundle\Controller\SymfonyController;
 use AppBundle\Form\ConfirmationType;
 use Doctrine\ORM\EntityManagerInterface;
-use OdpBundle\Entity\Document;
 use OdpBundle\Entity\FinancieelDocument;
 use OdpBundle\Entity\Huurder;
 use OdpBundle\Entity\Huurovereenkomst;
 use OdpBundle\Entity\Verhuurder;
 use OdpBundle\Exception\OdpException;
 use OdpBundle\Form\DocumentType;
-use OdpBundle\Service\DocumentDaoInterface;
-use OdpBundle\Service\FinancieelDocumentDao;
 use OdpBundle\Service\FinancieelDocumentDaoInterface;
-use OdpBundle\Service\FinancieelVerslagDaoInterface;
-use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * @Route("/financiele_documenten")
@@ -33,13 +29,11 @@ class FinancieleDocumentenController extends SymfonyController
      */
     private $dao;
 
-    public function setContainer(\Psr\Container\ContainerInterface $container): ?\Psr\Container\ContainerInterface
+    public function setContainer(?\Symfony\Component\DependencyInjection\ContainerInterface $container = null)
     {
-        $previous = parent::setContainer($container);
+        parent::setContainer($container);
 
         $this->dao = $container->get("OdpBundle\Service\FinancieelDocumentDao");
-    
-        return $previous;
     }
 
     /**
@@ -62,7 +56,7 @@ class FinancieleDocumentenController extends SymfonyController
         $entityManager = $this->getEntityManager();
         $entity = $this->findEntity($entityManager);
 
-        $form = $this->getForm(DocumentType::class, new FinancieelDocument());
+        $form = $this->createForm(DocumentType::class, new FinancieelDocument());
         $form->handleRequest($this->getRequest());
         if ($form->isSubmitted() && $form->isValid()) {
             $routeBase = $this->resolveRouteBase($entity);
@@ -90,7 +84,7 @@ class FinancieleDocumentenController extends SymfonyController
     {
         $entity = $this->dao->find($id);
 
-        $form = $this->getForm(DocumentType::class, $entity);;
+        $form = $this->createForm(DocumentType::class, $entity);
         $form->handleRequest($this->getRequest());
         if ($form->isSubmitted() && $form->isValid()) {
             try {
@@ -118,7 +112,7 @@ class FinancieleDocumentenController extends SymfonyController
     {
         $entity = $this->dao->find($id);
 
-        $form = $this->getForm(ConfirmationType::class);
+        $form = $this->createForm(ConfirmationType::class);
         $form->handleRequest($this->getRequest());
         if ($form->isSubmitted() && $form->isValid()) {
             if ($form->get('yes')->isClicked()) {

@@ -38,8 +38,6 @@ class VrijwilligerIntakeDao extends AbstractDao implements VrijwilligerIntakeDao
     }
 
     /**
-     * @param Vrijwilliger $vrijwilliger
-     *
      * @return VrijwilligerIntake
      */
     public function findOneByVrijwilliger(Vrijwilliger $vrijwilliger)

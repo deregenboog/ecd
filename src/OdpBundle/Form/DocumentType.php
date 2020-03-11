@@ -4,7 +4,6 @@ namespace OdpBundle\Form;
 
 use AppBundle\Form\AppDateType;
 use AppBundle\Form\BaseType;
-use OdpBundle\Entity\Document;
 use OdpBundle\Entity\SuperDocument;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;

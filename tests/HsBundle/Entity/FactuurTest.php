@@ -69,7 +69,5 @@ class FactuurTest extends TestCase
 
         //See note in Factuur.php about #824.
         $this->assertEquals($lastDayOfNextMonth->format('Y-m-d'), $factuur->getDatum()->format('Y-m-d'));
-
-
     }
 }
