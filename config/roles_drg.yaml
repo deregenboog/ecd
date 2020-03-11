@@ -121,7 +121,6 @@ security:
         ROLE_BUURTBOERDERIJ:
             - CONTROLLER_APP_VRIJWILLIGERS
         ROLE_ADMIN:
-            - ROLE_USER
             - ROLE_MW
             - ROLE_MW_BEHEER
             - ROLE_REPORT

@@ -10,7 +10,6 @@ security:
             - CONTROLLER_INLOOP_OPMERKINGEN
             - CONTROLLER_APP_RAPPORTAGES
         ROLE_ADMIN:
-            - ROLE_USER
             - CONTROLLER_ADMIN
 
 ldap_tools:
