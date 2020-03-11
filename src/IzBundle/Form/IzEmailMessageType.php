@@ -29,7 +29,7 @@ class IzEmailMessageType extends AbstractType
                         $emails[] = $izDeelnemer->getVrijwilliger()->getEmail();
                         break;
                     default:
-                        continue;
+                        continue 2;
                 }
             }
         }
