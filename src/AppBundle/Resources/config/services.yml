@@ -93,3 +93,13 @@ services:
             - '@AppBundle\Service\KlantDao'
         tags:
             - { name: kernel.event_subscriber }
+
+#Register a dao to use in prestaties.
+    AppBundle\Service\KlantDao:
+        arguments:
+            - '@doctrine.orm.default_entity_manager'
+            - '@knp_paginator'
+            - '25'
+
+        tags:
+            - app.prestatie

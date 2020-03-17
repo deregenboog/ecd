@@ -1,0 +1,19 @@
+{% import '::html.macro.twig' as html %}
+<ol class="breadcrumb">
+    <li><a href="{{ path('home') }}">ECD</a></li>
+    <li class="active">{{ title }}</li>
+</ol>
+<ul class="nav nav-tabs">
+    {{ html.navLink('Rapportages', path('app_rapportages_index'), isActiveRoute('app_rapportages_index')) }}
+    {{ html.navLink('Prestatiecijfers', path('app_prestaties_index'), isActiveRoute('app_prestaties_index')) }}
+{#    {% if(isActiveRoute('app_rapportages_prestatiesindex')) %}#}
+    <li role="presentation" class="dropdown {{ isActivePath('app/prestaties/') ? 'active' }}">
+        <a class="dropdown-toggle active" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+            Beheer <span class="caret"></span>
+        </a>
+        <ul class="dropdown-menu">
+            {{ html.navLink('Prestatiecijfer toevoegen', path('app_prestaties_add'), isActiveRoute('app_prestaties_add')) }}
+        </ul>
+    </li>
+{#    {% endif %}#}
+</ul>

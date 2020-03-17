@@ -8,6 +8,11 @@ services:
         tags:
             - { name: form.type }
 
+    app.form.prestatie:
+        class: AppBundle\Form\PrestatieType
+        tags:
+            - { name: form.type }
+
     AppBundle\Report\Activering:
         public: true
         arguments:

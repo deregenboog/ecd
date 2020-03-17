@@ -132,12 +132,15 @@ class IntakeType extends AbstractType
             ])
             ->add('amocToegangTot', AppDateType::class, [
                 'label' => 'Einddatum toegang AMOC',
+                'required' => false,
             ])
             ->add('ondroBongToegangVan', AppDateType::class, [
                 'label' => 'Startdatum toegang Zeeburg',
+                'required' => false,
             ])
             ->add('overigenToegangVan', AppDateType::class, [
                 'label' => 'Startdatum toegang overigen',
+                'required' => false,
             ])
             ->add('gebruikersruimte', LocatieSelectType::class, [
                 'required' => false,

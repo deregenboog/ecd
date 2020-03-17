@@ -169,5 +169,8 @@ abstract class AbstractDao implements AbstractDaoInterface
         return $builder->getQuery()->getSingleScalarResult();
     }
 
-
+    public function getClass(): string
+    {
+        return $this->class;
+    }
 }
