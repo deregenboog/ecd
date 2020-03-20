@@ -18,6 +18,7 @@ class ActiviteitenreeksGenerator
         $month = $datum->format("M");
         switch ($data->getFrequentie()) {
             case 0:
+                $datum->modify("-1 day"); //to assert the 'next' includes also the date itself.
                 $datum->modify(sprintf('next %s', $data->getWeekdag()));
                 break;
             case 1:
@@ -45,6 +46,7 @@ class ActiviteitenreeksGenerator
                 throw new \InvalidArgumentException('Invalid frequency');
         }
 
+//        $datum->modify("-1 day");//to assert the 'next' includes also the date itself.
         while ($datum >= $data->getPeriode()->getStart() && $datum <= $data->getPeriode()->getEnd()) {
             $activiteit = clone $data->getActiviteit();
             $activiteit
@@ -56,6 +58,7 @@ class ActiviteitenreeksGenerator
 
             switch ($data->getFrequentie()) {
                 case 0:
+
                     $datum->modify(sprintf('next %s', $data->getWeekdag()));
                     break;
                 case 5:
