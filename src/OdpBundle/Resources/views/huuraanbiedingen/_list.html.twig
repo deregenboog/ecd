@@ -1,3 +1,4 @@
+{% import '::html.macro.twig' as html %}
 <h2>Huuraanbiedingen</h2>
 <p>
     {% if verhuurder.actief %}
@@ -16,7 +17,12 @@
     </tr>
     {% for huuraanbod in verhuurder.huuraanbiedingen %}
         {% if not huuraanbod.huurovereenkomst %}
-            <tr>
+            {% if huuraanbod.datumTOestemmingToegekend is not empty and date(huuraanbod.datumToestemmingToegekend) < date() %}
+                {% set cssClass = "success" %}
+            {% else %}
+                {% set cssClass = "" %}
+            {% endif %}
+            <tr class="{{ cssClass }}">
                 <td>{{ huuraanbod.verhuurder.klant.werkgebied }}</td>
                 <td>
                     {{ huuraanbod.startdatum ? huuraanbod.startdatum|date('d-m-Y') }}

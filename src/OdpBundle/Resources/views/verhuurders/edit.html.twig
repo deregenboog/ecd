@@ -13,7 +13,7 @@
     <h1>Verhuurder wijzigen</h1>
     <p>
         Hier kunt u alleen de OnderDePannen-gegevens voor deze verhuurder wijzigen.
-        Klik {{ html.link('hier', path('app_klanten_view', {'id': verhuurder.klant.id})) }}
+        Klik {{ html.link('hier', path('app_klanten_view', {'id': entity.klant.id})) }}
         om naar het basisdossier van deze verhuurder te gaan.
     </p>
     {{ form(form) }}

@@ -53,6 +53,8 @@ security:
             - CONTROLLER_APP_ZRMS
             - ROLE_INLOOP_INTAKES
             - ROLE_INLOOP_REGISTRATIES
+            - ROLE_INLOOP_OPMERKINGEN
+            - ROLE_INLOOP_SCHORSINGEN
             - ROLE_USER
         ROLE_PFO_BEPERKT: []
         ROLE_PFO: []

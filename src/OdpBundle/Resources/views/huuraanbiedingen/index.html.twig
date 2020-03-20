@@ -76,7 +76,12 @@
             </th>
         </tr>
         {% for huuraanbod in pagination %}
-            <tr>
+            {% if huuraanbod.datumTOestemmingToegekend is not empty and date(huuraanbod.datumToestemmingToegekend) < date() %}
+                {% set cssClass = "success" %}
+            {% else %}
+                {% set cssClass = "" %}
+            {% endif %}
+            <tr class="{{ cssClass }}">
                 <td>
                     {{ html.link(huuraanbod.id, path('odp_huuraanbiedingen_view', {id: huuraanbod.id})) }}
                 </td>
