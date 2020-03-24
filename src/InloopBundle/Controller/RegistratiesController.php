@@ -243,6 +243,25 @@ class RegistratiesController extends AbstractController
         $sep = '';
         $separator = PHP_EOL.PHP_EOL;
 
+        $registratiesSindsMiddernacht = $klant->getRegistratiesSinds(new \DateTime('today midnight'));
+        if($registratiesSindsMiddernacht->count() >= 2) {
+            //meer dan 2, kijken naar unieke locaties.
+            $locaties = array();
+            foreach ($registratiesSindsMiddernacht as $registratie) {
+                $locaties[$registratie->getLocatie()->getId()] = $registratie->getLocatie()->getNaam();
+            }
+
+            if (count($locaties) >= 2 ){
+                $today = new \DateTime('today midnight');
+                $numberOfRegsToday = $klant->getRegistratiesSinds(new \DateTime('today midnight'));
+                $jsonVar['allow'] = false;
+                $jsonVar['message'] = 'Ivm beperken contacten door Corona, maximaal 2 locaties per dag. Klant kan naar deze locaties: '.implode(", ",$locaties);
+
+                return new JsonResponse($jsonVar);
+            }
+
+        }
+
         if ($locatie->isGebruikersruimte()) {
             $laatsteRegistratie = $this->dao->findLatestByKlantAndLocatie($klant, $locatie);
             if ($laatsteRegistratie instanceof Registratie
@@ -252,7 +271,7 @@ class RegistratiesController extends AbstractController
                 )
             ) {
                 $jsonVar['allow'] = false;
-                $jsonVar['message'] = 'Langer dan twee maanden niet geweest. Opnieuw aanmelden via het maatschappelijk werk.';
+                $jsonVar['message'] .= 'Langer dan twee maanden niet geweest. Opnieuw aanmelden via het maatschappelijk werk.';
 
                 return new JsonResponse($jsonVar);
             }
@@ -267,7 +286,7 @@ class RegistratiesController extends AbstractController
             && !$klant->getLaatsteTbcControle()
         ) {
             $jsonVar['allow'] = false;
-            $jsonVar['message'] = 'Deze klant heeft geen TBC controle gehad en kan niet worden ingecheckt bij een locatie met een gebruikersruimte.';
+            $jsonVar['message'] .= 'Deze klant heeft geen TBC controle gehad en kan niet worden ingecheckt bij een locatie met een gebruikersruimte.';
 
             return new JsonResponse($jsonVar);
         }
@@ -307,8 +326,14 @@ class RegistratiesController extends AbstractController
         }
 
         if ($jsonVar['allow']) {
-            $newIntakeNeeded = $klant->getLaatsteIntake()->getIntakedatum()->diff(new \DateTime())->days > 365;
-            if ($newIntakeNeeded) {
+            if(($laatsteIntake = $klant->getLaatsteIntake()) == null)
+            {
+                $jsonVar['message'] .= $sep.'Let op: deze persoon heeft geen intake. Toch inchecken?';
+                $sep = $separator;
+                $jsonVar['confirm'] = true;
+            }
+//            $newIntakeNeeded = ;
+            if ($laatsteIntake !== null && $laatsteIntake->getIntakedatum()->diff(new \DateTime())->days > 365) {
                 $jsonVar['message'] .= $sep.'Let op: deze persoon heeft momenteel een verlopen intake (> 1 jaar geleden). Toch inchecken?';
                 $sep = $separator;
                 $jsonVar['confirm'] = true;
