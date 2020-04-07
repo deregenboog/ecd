@@ -12,6 +12,7 @@ use AppBundle\Entity\Doelstelling;
 use AppBundle\Service\DoelstellingDaoInterface;
 use AppBundle\Form\DoelstellingFilterType;
 use JMS\DiExtraBundle\Annotation as DI;
+use Psr\Container\ContainerInterface;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
@@ -44,11 +45,24 @@ class DoelstellingenController extends AbstractController
      */
     protected $export;
 
+    /**
+     * @var DoelstellingType Form with services tagged with app.doelstelling
+     * @DI\Inject("app.doelstelling")
+     */
+    private $doelstellingenServices = [];
 
-    public function __construct($services,$b = null, $c=null)
-    {
-        $s = $services;
-    }
+
+
+    /**
+     * DoelstellingenController constructor.
+     *
+     * @param $services Injected via services tags. All sercices tagged app.doelstelling are injected here as a service
+     */
+//    public function __construct($services = null,$b=null,$c=null)
+//    {
+//        if(!$services === null) $this->doelstellingenServices = iterator_to_array($services);
+//
+//    }
     /**
      * @Route("/")
      * @Template
@@ -73,7 +87,8 @@ class DoelstellingenController extends AbstractController
             $filter = null;
         }
         $page = $request->get('page', 1);
-        $pagination = $this->dao->findAll($page, $filter);
+
+        $pagination = $this->dao->findAll($page, $filter,$this->doelstellingenServices->getRepos());
 
         return [
             'filter' => isset($form) ? $form->createView() : null,

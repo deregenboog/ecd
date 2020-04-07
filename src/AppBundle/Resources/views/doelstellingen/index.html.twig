@@ -71,7 +71,7 @@
         {% for doelstelling in pagination %}
             <tr>
                 <td>
-                    {{ doelstelling.repository }}
+                    {{ doelstelling.repositoryLabel }}
                 </td>
                 <td>
                     {{ doelstelling.jaar }}
@@ -83,11 +83,12 @@
                     {{ doelstelling.stadsdeel }}
                 </td>
                 <td>
-                    {{ doelstelling.kpi }}
+                    {{ doelstelling.kpiLabel }}
                 </td>
                 <td>
-                    {{ doelstelling.aantal }}
+                    {{ doelstelling.aantal }} | {{ doelstelling.actueel }}
                 </td>
+
                 <td>
                     {{ html.editLink(path(route_base~'edit', {id: doelstelling.id})) }}
                     {{ html.deleteLink(path(route_base~'delete', {id: doelstelling.id})) }}
@@ -96,5 +97,5 @@
         {% endfor %}
         </tbody>
     </table>
-    {{ knp_pagination_render(pagination) }}
+{#    {{ knp_pagination_render(pagination) }}#}
 {% endblock %}

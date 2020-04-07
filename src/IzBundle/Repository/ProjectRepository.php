@@ -2,6 +2,7 @@
 
 namespace IzBundle\Repository;
 
+use AppBundle\Entity\Doelstelling;
 use AppBundle\Repository\DoelstellingRepositoryInterface;
 use Doctrine\ORM\EntityRepository;
 use IzBundle\Entity\Project;
@@ -45,5 +46,21 @@ class ProjectRepository extends EntityRepository implements DoelstellingReposito
     public static function getPrestatieLabel():string
     {
         return "Informele Zorg";
+    }
+
+    public function getCurrentNumber(Doelstelling $doelstelling): string
+    {
+        $doelstelling->getKpi();
+
+//        $builder = $this->createQueryBuilder('p')
+//            ->where('p.startdatum <= :date')
+//            ->andWhere('p.einddatum IS NULL OR p.einddatum > :date')
+//            ->orderBy('p.naam', 'ASC')
+//            ->setParameter('date', $date ?: new \DateTime())
+//        ;
+
+//        return $builder->getQuery()->getResult();
+
+        return "1";
     }
 }

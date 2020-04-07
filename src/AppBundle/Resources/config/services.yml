@@ -99,9 +99,9 @@ services:
         tags:
             - { name: kernel.event_subscriber }
 
-    AppBundle\Controller\DoelstellingenController:
-        arguments:
-            - !tagged_iterator 'app.doelstelling'
+#    AppBundle\Controller\DoelstellingenController:
+#        arguments:
+#            - !tagged 'app.doelstelling'
 
 ##Register a dao to use in prestaties.
 #    AppBundle\Service\KlantDao:

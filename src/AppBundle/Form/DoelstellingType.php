@@ -120,4 +120,13 @@ class DoelstellingType extends AbstractType
     {
         return BaseType::class;
     }
+
+    /**
+     * @return array
+     */
+    public function getRepos(): array
+    {
+        return $this->repos;
+    }
+
 }
