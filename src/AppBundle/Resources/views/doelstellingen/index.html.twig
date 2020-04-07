@@ -1,0 +1,100 @@
+{% extends '::base.html.twig' %}
+{% import '::html.macro.twig' as html %}
+
+{% block title %}
+  Doelstellingen | {{ title }}
+{% endblock %}
+
+{% block subnavigation %}
+    {% include '@Iz/subnavigation.html.twig' %}
+{% endblock %}
+
+{% block content %}
+    <h1>{{ title }}</h1>
+    <p>
+        {{ html.addLink(path(route_base~'add')) }}
+        {{ html.link(entity_name|capitalize ~ ' toevoegen', path(route_base~'add')) }}
+    </p>
+    <table class="table table-hover">
+        <thead>
+        <tr>
+            {{ form_start(filter) }}
+            <th>
+                {{ form_widget(filter.repository) }}
+                {{ form_errors(filter.repository) }}
+            </th>
+            <th>
+                {{ form_widget(filter.jaar) }}
+                {{ form_errors(filter.jaar) }}
+            </th>
+            <th>
+                {{ form_widget(filter.categorie) }}
+                {{ form_errors(filter.categorie) }}
+            </th>
+            <th>
+                {{ form_widget(filter.stadsdeel) }}
+                {{ form_errors(filter.stadsdeel) }}
+            </th>
+            <th>
+                {{ form_widget(filter.kpi) }}
+                {{ form_errors(filter.kpi) }}
+            </th>
+            <th></th>
+            <th>
+                {{ form_widget(filter.filter) }}
+            </th>
+            {{ form_end(filter) }}
+        </tr>
+        <tr>
+            <th>
+                {{ knp_pagination_sortable(pagination, 'Module', 'doelstelling.repository') }}
+            </th>
+            <th>
+                {{ knp_pagination_sortable(pagination, 'Jaar', 'doelstelling.jaar') }}
+            </th>
+            <th>
+                {{ knp_pagination_sortable(pagination, 'Categorie', 'doelstelling.categorie') }}
+            </th>
+            <th>
+                {{ knp_pagination_sortable(pagination, 'Stadsdeel', 'stadsdeel.naam') }}
+            </th>
+            <th>
+                {{ knp_pagination_sortable(pagination, 'KPI', 'doelstelling.kpi') }}
+            </th>
+            <th>
+                {{ knp_pagination_sortable(pagination, 'Prestatiecijfer', 'doelstelling.aantal') }}
+            </th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for doelstelling in pagination %}
+            <tr>
+                <td>
+                    {{ doelstelling.repository }}
+                </td>
+                <td>
+                    {{ doelstelling.jaar }}
+                </td>
+                <td>
+                    {{ doelstelling.categorie ?: 'Stadsdeel' }}
+                </td>
+                <td>
+                    {{ doelstelling.stadsdeel }}
+                </td>
+                <td>
+                    {{ doelstelling.kpi }}
+                </td>
+                <td>
+                    {{ doelstelling.aantal }}
+                </td>
+                <td>
+                    {{ html.editLink(path(route_base~'edit', {id: doelstelling.id})) }}
+                    {{ html.deleteLink(path(route_base~'delete', {id: doelstelling.id})) }}
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    {{ knp_pagination_render(pagination) }}
+{% endblock %}

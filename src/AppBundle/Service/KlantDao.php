@@ -7,7 +7,7 @@ use AppBundle\Exception\AppException;
 use AppBundle\Filter\FilterInterface;
 use Knp\Component\Pager\Pagination\PaginationInterface;
 
-class KlantDao extends AbstractDao implements KlantDaoInterface, PrestatieDaoInterface
+class KlantDao extends AbstractDao implements KlantDaoInterface, DoelstellingDaoInterface
 {
     const DUPLICATE_MODE_SAME_BIRTHDAY = 'same_birthday';
     const DUPLICATE_MODE_UNKNOWN_BIRTHDAY = 'unknown_birthday';
@@ -263,7 +263,7 @@ class KlantDao extends AbstractDao implements KlantDaoInterface, PrestatieDaoInt
 //        $sql = $builder->getQuery()->getSQL();
 //        $params = $builder->getQuery()->getParameters();
 
-        return ["Aap","noot","mies"];
+        return ["Aap"=>"0",1=>"noot",2=>"mies"];
     }
 
     public static function getPrestatieLabel(): string

@@ -2,6 +2,7 @@
 
 namespace AppBundle;
 
+use AppBundle\DependencyInjection\Compiler\DoelstellingenCompilerPass;
 use AppBundle\DependencyInjection\Compiler\PrestatiesCompilerPass;
 use AppBundle\DependencyInjection\Compiler\ReportsCompilerPass;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -14,6 +15,6 @@ class AppBundle extends Bundle
         parent::build($container);
 
         $container->addCompilerPass(new ReportsCompilerPass());
-        $container->addCompilerPass(new PrestatiesCompilerPass());
+        $container->addCompilerPass(new DoelstellingenCompilerPass());
     }
 }

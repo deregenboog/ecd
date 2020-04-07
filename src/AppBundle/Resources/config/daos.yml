@@ -28,6 +28,9 @@ services:
     AppBundle\Service\VrijwilligerDao:
         parent: app.dao.abstract
 
+    AppBundle\Service\DoelstellingDao:
+        parent: app.dao.abstract
+
     app.document.entities:
         public: true
         class: ArrayObject

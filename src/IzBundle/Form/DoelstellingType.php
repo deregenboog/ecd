@@ -3,6 +3,7 @@
 namespace IzBundle\Form;
 
 use AppBundle\Form\BaseType;
+use IzBundle\Form\ProjectSelectType;
 use IzBundle\Entity\Doelstelling;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -23,7 +24,7 @@ class DoelstellingType extends AbstractType
             ->add('jaar', ChoiceType::class, [
                 'choices' => array_combine($range, $range),
             ])
-            ->add('project', KPISelectType::class, ['placeholder' => 'Selecteer een project'])
+            ->add('project', ProjectSelectType::class, ['placeholder' => 'Selecteer een project'])
             ->add('categorie', ChoiceType::class, [
                 'required' => false,
                 'placeholder' => 'Stadsdeel',

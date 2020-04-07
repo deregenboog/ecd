@@ -1,13 +1,13 @@
 <?php
 
-namespace IzBundle\Form;
+namespace AppBundle\Form;
 
 use AppBundle\Entity\Werkgebied;
 use AppBundle\Form\FilterType;
 use AppBundle\Form\ProjectSelectType;
 use Doctrine\ORM\EntityRepository;
-use IzBundle\Entity\Doelstelling;
-use IzBundle\Filter\DoelstellingFilter;
+use AppBundle\Entity\Doelstelling;
+use AppBundle\Filter\DoelstellingFilter;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -24,11 +24,15 @@ class DoelstellingFilterType extends AbstractType
         $range = range(2017, (new \DateTime('next year'))->format('Y'));
 
         $builder
+            ->add('repository', null, [
+                'required' => false,
+                'attr' => ['placeholder' => 'Module'],
+            ])
             ->add('jaar', ChoiceType::class, [
                 'choices' => array_combine($range, $range),
                 'required' => false,
             ])
-            ->add('project', ProjectSelectType::class, [
+            ->add('kpi', ChoiceType::class, [
                 'required' => false,
             ])
             ->add('categorie', ChoiceType::class, [

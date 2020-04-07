@@ -35,6 +35,8 @@ services:
         factory: ["@doctrine", getRepository]
         arguments:
             - IzBundle\Entity\Project
+        tags:
+            - app.doelstelling
 
     iz.repository.iz_vrijwilliger:
         class: Doctrine\ORM\EntityRepository

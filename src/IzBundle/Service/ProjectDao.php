@@ -3,6 +3,7 @@
 namespace IzBundle\Service;
 
 use AppBundle\Service\AbstractDao;
+use AppBundle\Service\DoelstellingDaoInterface;
 use IzBundle\Entity\Project;
 
 class ProjectDao extends AbstractDao implements ProjectDaoInterface
@@ -37,4 +38,5 @@ class ProjectDao extends AbstractDao implements ProjectDaoInterface
     {
         $this->doDelete($project);
     }
+
 }

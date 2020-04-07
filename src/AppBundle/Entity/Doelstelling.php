@@ -6,20 +6,16 @@ use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Validator\Context\ExecutionContextInterface;
+use Doctrine\ORM\Event\LifecycleEventArgs;
 
+//* ORM\Entity(repositoryClass="AppBundle\Repository\PrestatieRepository")
 /**
- * @ORM\Entity(repositoryClass="AppBundle\Repository\PrestatieRepository")
- * @ORM\Table(
- *     name="iz_doelstellingen",
- *     uniqueConstraints={
- *         @ORM\UniqueConstraint(name="unique_project_jaar_stadsdeel_idx", columns={"project_id", "jaar", "stadsdeel"}),
- *         @ORM\UniqueConstraint(name="unique_project_jaar_categorie_idx", columns={"project_id", "jaar", "categorie"})
- *     }
- * )
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\DoelstellingRepository")
+ * @ORM\Table(name="doelstellingen")
  * @ORM\HasLifecycleCallbacks
  * @Gedmo\Loggable
  */
-class Prestatie
+class Doelstelling
 {
     const CATEGORIE_CENTRALE_STAD = 'Centrale stad';
     const CATEGORIE_FONDSEN = 'Fondsen';
@@ -32,7 +28,14 @@ class Prestatie
     private $id;
 
     /**
-     * @ORM\Column(type="string", nullable=false)
+     * @var string
+     * @ORM\Column(type="string",nullable=false)
+     * @Gedmo\Versioned
+     */
+    private $repository;
+
+    /**
+     * @ORM\Column(type="string", nullable=true)
      * @Gedmo\Versioned
      */
     private $kpi;
@@ -62,6 +65,8 @@ class Prestatie
      */
     private $aantal = 0;
 
+    public static $repos = [];
+
     public function __toString()
     {
         return sprintf('%s (%d)', $this->project, $this->jaar);
@@ -74,6 +79,10 @@ class Prestatie
 
     public function getJaar()
     {
+        if($this->jaar == null)
+        {
+            $this->jaar =  date('Y');
+        }
         return $this->jaar;
     }
 
@@ -96,6 +105,31 @@ class Prestatie
 
         return $this;
     }
+
+    /**
+     * @return string
+     */
+    public function getRepository(): ?string
+    {
+        //repository not loaded earlier. get repository data (kpis)
+//        if(!in_array($this->repository,self::$repos))
+//        {
+//            $r = new $this->repository;
+//            $r->getKpis();
+//            self::$repos[$this->repository] = $r->getKpis();
+//        }
+        return $this->repository;
+    }
+
+    /**
+     * @param string $repository
+     */
+    public function setRepository(string $repository): void
+    {
+        $this->repository = $repository;
+    }
+
+
 
     public function getStadsdeel()
     {
@@ -126,7 +160,7 @@ class Prestatie
      */
     public function getKpi()
     {
-        return $this->kpi;
+        return $this->kpi."--";
     }
 
     /**
@@ -144,6 +178,16 @@ class Prestatie
      */
     public function validate(ExecutionContextInterface $context, $payload)
     {
+
+        if($this->repository !== null)
+        {
+            if($this->kpi == null)
+            {
+                $context->buildViolation('KPI kan niet leeg zijn.')
+                    ->atPath('kpi')
+                    ->addViolation();
+            }
+        }
         return;
         switch ($this->categorie) {
             case self::CATEGORIE_CENTRALE_STAD:

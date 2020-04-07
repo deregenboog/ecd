@@ -6,9 +6,12 @@ use AppBundle\Form\AppDateType;
 use AppBundle\Form\AppTextareaType;
 use AppBundle\Form\BaseType;
 use AppBundle\Form\MedewerkerType;
+
 use Doctrine\ORM\EntityRepository;
 use IzBundle\Entity\Hulp;
 use IzBundle\Entity\Hulpaanbod;
+use IzBundle\Form\ProjectSelectType;
+
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -27,7 +30,7 @@ class HulpaanbodType extends AbstractType
             ->add('startdatum', AppDateType::class, [
                 'required' => true,
             ])
-            ->add('project', KPISelectType::class, [
+            ->add('project', ProjectSelectType::class, [
                 'required' => true,
             ])
             ->add('medewerker', MedewerkerType::class, [

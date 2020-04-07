@@ -3,7 +3,7 @@
 namespace AppBundle\Service;
 
 
-interface PrestatieDaoInterface
+interface DoelstellingDaoInterface
 {
 
     public static function getPrestatieLabel(): string;

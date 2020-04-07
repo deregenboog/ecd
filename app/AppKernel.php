@@ -91,4 +91,12 @@ class AppKernel extends Kernel
             $loader->load($this->getRootDir().'/config/roles_'.$profile.'.yml');
         }
     }
+
+//    protected function build(Symfony\Component\DependencyInjection\ContainerBuilder $containerBuilder)
+//    {
+//        $containerBuilder->registerForAutoconfiguration(\AppBundle\Repository\DoelstellingRepositoryInterface::class)
+//            ->addTag('app.doelstelling')
+//        ;
+//        parent::build($containerBuilder);
+//    }
 }

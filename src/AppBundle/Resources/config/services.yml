@@ -49,6 +49,11 @@ services:
         tags:
             - { name: twig.extension }
 
+    app.doelstelling:
+        class: AppBundle\Form\DoelstellingType
+        tags:
+            - { name: form.type }
+
     AppBundle\Form\AddressType:
         arguments: ["@doctrine.orm.entity_manager"]
         tags:
@@ -94,12 +99,13 @@ services:
         tags:
             - { name: kernel.event_subscriber }
 
-#Register a dao to use in prestaties.
-    AppBundle\Service\KlantDao:
+    AppBundle\Controller\DoelstellingenController:
         arguments:
-            - '@doctrine.orm.default_entity_manager'
-            - '@knp_paginator'
-            - '25'
+            - !tagged_iterator 'app.doelstelling'
 
-        tags:
-            - app.prestatie
+##Register a dao to use in prestaties.
+#    AppBundle\Service\KlantDao:
+#        arguments:
+#            - '@doctrine.orm.default_entity_manager'
+#            - '@knp_paginator'
+#            - '25'

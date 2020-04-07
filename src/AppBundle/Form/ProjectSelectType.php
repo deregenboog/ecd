@@ -8,13 +8,9 @@ use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class KPISelectType extends AbstractType
+class ProjectSelectType extends AbstractType
 {
 
-    public function __construct(array $options = [])
-    {
-        $this->data = $options['data'];
-    }
     /**
      * {@inheritdoc}
      */
