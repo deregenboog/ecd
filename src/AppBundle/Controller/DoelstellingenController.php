@@ -104,7 +104,6 @@ class DoelstellingenController extends AbstractController
      */
     public function indexAction(Request $request)
     {
-
         if (in_array('index', $this->disabledActions)) {
             throw new AccessDeniedHttpException();
         }
