@@ -123,21 +123,25 @@ class IntakeType extends AbstractType
                 'compound' => true,
                 'inherit_data' => true,
                 'required'=>true,
+
             ])
             ->add('intakelocatie', LocatieSelectType::class, [
-                'required' => false,
+                'required' => true,
             ])
             ->add('toegangInloophuis', CheckboxType::class, [
                 'required' => false,
             ])
             ->add('amocToegangTot', AppDateType::class, [
                 'label' => 'Einddatum toegang AMOC',
+                'required'=>false,
             ])
             ->add('ondroBongToegangVan', AppDateType::class, [
                 'label' => 'Startdatum toegang Zeeburg',
+                'required'=>false,
             ])
             ->add('overigenToegangVan', AppDateType::class, [
                 'label' => 'Startdatum toegang overigen',
+                'required'=>false,
             ])
             ->add('gebruikersruimte', LocatieSelectType::class, [
                 'required' => false,
