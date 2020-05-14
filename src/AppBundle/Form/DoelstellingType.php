@@ -5,6 +5,7 @@ namespace AppBundle\Form;
 use AppBundle\Entity\Geslacht;
 use AppBundle\Entity\Doelstelling;
 use AppBundle\Repository\DoelstellingRepositoryInterface;
+use AppBundle\Security\DoelstellingVoter;
 use AppBundle\Service\DoelstellingDaoInterface;
 use InloopBundle\Form\LocatieSelectType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -22,13 +23,26 @@ class DoelstellingType extends AbstractType
 {
     private $choices = [];
     private $repos = [];
-    public function __construct(array $options = [])
+    public function __construct($securityAuthorizationChecker, array $options = [])
     {
-        foreach ($options as $className=>$prestatieRepo) {
-            if(!$prestatieRepo instanceof DoelstellingRepositoryInterface) continue;
+        foreach ($options as $doelstellingRepo) {
+//            if(!method_exists($doelstellingRepo,"getMethods")) continue;
+            if(!$doelstellingRepo instanceof DoelstellingRepositoryInterface) continue;
 
-            $this->choices[$prestatieRepo::getPrestatieLabel()] = get_class($prestatieRepo);
-            $this->repos[get_class($prestatieRepo)] = $prestatieRepo;
+            $methods = $doelstellingRepo->getMethods();
+            $cat = $doelstellingRepo->getCategory();
+            foreach ($methods as $m) {
+                /**
+                 * @var \ReflectionMethod $m
+                 */
+//                $namespacename = $m->getDeclaringClass()->getName();
+                $classMethod = $m->getDeclaringClass()->getName()."::".$m->getName();
+                if($securityAuthorizationChecker->isGranted("edit",$classMethod))
+                {
+                    $this->choices[$cat][$m->getShortName()] = $classMethod;
+                }
+
+            }
         }
     }
 
@@ -48,54 +62,57 @@ class DoelstellingType extends AbstractType
                 'choices' => $this->choices,
 //                'mapped'=>false,
             ])
-            ->add('bulk', CheckboxType::class,[
-                'required'=>false,
-                'mapped'=>false,
-                'label'=>'Bulk invoer?',
-            ])
+//            ->add('bulk', CheckboxType::class,[
+//                'required'=>false,
+//                'mapped'=>false,
+//                'label'=>'Bulk invoer?',
+//            ])
             ->add('jaar', ChoiceType::class, [
                 'choices' => array_combine($range, $range),
             ])
 
-            ->add('categorie', ChoiceType::class, [
-                'required' => false,
-                'placeholder' => 'Stadsdeel',
-                'choices' => [
-                    'Centrale stad' => Doelstelling::CATEGORIE_CENTRALE_STAD,
-                    'Fondsen' => Doelstelling::CATEGORIE_FONDSEN,
-                ],
-            ])
-            ->add('stadsdeel', WerkgebiedSelectType::class, [
-                'required'=>false,
-            ])
+            ->add('label', null, [
+                'required' => true,
+                'label'=>'Label',
+//                'placeholder' => 'Deelnemers/bezoekers/uren/...',
 
+            ])
+            ->add('kostenplaats', null, [
+                'required' => false,
+                'label'=>'Kostenplaats',
+//                'placeholder' => 'Deelnemers/bezoekers/uren/...',
+
+            ])
         ;
         $formModifier =  function (?FormInterface $form, $data) {
-            $kpis = [];
+            $verfijningsopties1 = [];
             //if the data is from the select field, it is a string, key to daos.
             if(is_string($data) && strlen($data) > 1 && $this->repos[$data] instanceof DoelstellingRepositoryInterface)
             {
                 $dao = $this->repos[$data];
-                $kpis = $dao->getKpis();
+//                $verfijningsopties1 = $dao->getVerfijningsas1();
 
             }
-            $form->add('kpi', ChoiceType::class, [
-                'placeholder' => '',
-                'choices' => $kpis,
-//                'required' => false,
-            ]);
+//            $form->add('verfijningsas1', ChoiceType::class, [
+//                'placeholder' => '',
+//                'choices' => $verfijningsopties1,
+////                'required' => false,
+//            ]);
         };
-        $builder->addEventListener(
-            FormEvents::PRE_SET_DATA, function(FormEvent $event) use ($formModifier) {
-                $formModifier($event->getForm(),$event->getData());
-            }
-        );
-        $builder->get('repository')->addEventListener(
-            FormEvents::POST_SUBMIT,function(FormEvent $event) use($formModifier) {
-           $formModifier($event->getForm()->getParent(),$event->getData());
-        });
+//        $builder->addEventListener(
+//            FormEvents::PRE_SET_DATA, function(FormEvent $event) use ($formModifier) {
+//                $formModifier($event->getForm(),$event->getData());
+//            }
+//        );
+//        $builder->get('repository')->addEventListener(
+//            FormEvents::POST_SUBMIT,function(FormEvent $event) use($formModifier) {
+//           $formModifier($event->getForm()->getParent(),$event->getData());
+//        });
 
-        $builder->add('aantal')
+        $builder->add('aantal',null,[
+            'required'=>true,
+            'label'=>'Doelstelling/aantal'
+        ])
             ->add('submit', SubmitType::class, ['label' => 'Opslaan'])
             ;
 

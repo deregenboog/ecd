@@ -5,6 +5,8 @@ namespace IzBundle\Repository;
 use AppBundle\Entity\Doelstelling;
 use AppBundle\Repository\DoelstellingRepositoryInterface;
 use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\QueryBuilder;
+use IzBundle\Entity\Hulpvraag;
 use IzBundle\Entity\Project;
 
 class ProjectRepository extends EntityRepository implements DoelstellingRepositoryInterface
@@ -28,7 +30,16 @@ class ProjectRepository extends EntityRepository implements DoelstellingReposito
         return $builder->getQuery()->getResult();
     }
 
-    public function getKpis(): array
+    public function getMethods(): array
+    {
+        return [];
+    }
+    public function getCategory(): string
+    {
+        return DoelstellingRepositoryInterface::CAT_IZ;
+    }
+
+    public function getVerfijningsas1(): ?array
     {
 
        $r = $this->findActive();
@@ -43,24 +54,48 @@ class ProjectRepository extends EntityRepository implements DoelstellingReposito
        return $ret;
     }
 
-    public static function getPrestatieLabel():string
+    public function getVerfijningsas2(): ?array
+    {
+        return null;
+        $r = $this->findActive();
+        $ret = [];
+        foreach($r as $k=>$v)
+        {
+            /**
+             * @var Project $v
+             */
+            $ret[$v->getNaam() ] = $v->getId();
+        }
+        return $ret;
+    }
+
+    public static function getCategoryLabel():string
     {
         return "Informele Zorg";
     }
 
-    public function getCurrentNumber(Doelstelling $doelstelling): string
+    public function getGoals($type, $doelstellingen)
     {
-        $doelstelling->getKpi();
+        //from all doelstellingen, get the min and max years so we only get those results of years asked for
+        foreach ($doelstellingen as $doelstelling) {
+            $years[] = $doelstelling->getJaar();
 
-//        $builder = $this->createQueryBuilder('p')
-//            ->where('p.startdatum <= :date')
-//            ->andWhere('p.einddatum IS NULL OR p.einddatum > :date')
-//            ->orderBy('p.naam', 'ASC')
-//            ->setParameter('date', $date ?: new \DateTime())
-//        ;
+        }
+        $years = array_unique($years);
 
-//        return $builder->getQuery()->getResult();
+        $minYear = min($years);
+        $maxYear = max($years);
 
-        return "1";
+        /*
+         * Projecten is asked but is counted by hulpvragen via koppelingen...
+         */
+        $hulpvraagRepos = $this->getEntityManager()->getRepository(Hulpvraag::class);
+
+
+        $koppelingenPerProject = $hulpvraagRepos->countKoppelingenByProjectId($type,new \DateTime("$minYear-01-01"),new \DateTime("$maxYear-12-31"));
+
+        return $koppelingenPerProject;
     }
+
+
 }

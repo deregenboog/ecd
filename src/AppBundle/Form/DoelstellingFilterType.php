@@ -23,7 +23,16 @@ class DoelstellingFilterType extends AbstractType
     {
         $range = range(2017, (new \DateTime('next year'))->format('Y'));
 
-        $builder
+        $builder->add('startdatum', AppDateType::class, [
+                    'required' => true,
+                    'data' => new \DateTime('first day of January this year'),
+            ])
+
+            ->add('einddatum', AppDateType::class, [
+                'required' => true,
+                'data' => (AppDateType::getLastFullQuarterEnd()),
+            ])
+
             ->add('repository', null, [
                 'required' => false,
                 'attr' => ['placeholder' => 'Module'],
@@ -32,22 +41,10 @@ class DoelstellingFilterType extends AbstractType
                 'choices' => array_combine($range, $range),
                 'required' => false,
             ])
-            ->add('kpi', ChoiceType::class, [
+            ->add('label', null, [
                 'required' => false,
             ])
-            ->add('categorie', ChoiceType::class, [
-                'required' => false,
-                'choices' => [
-                    'Stadsdeel' => '-',
-                    'Centrale stad' => Doelstelling::CATEGORIE_CENTRALE_STAD,
-                    'Fondsen' => Doelstelling::CATEGORIE_FONDSEN,
-                ],
-            ])
-            ->add('stadsdeel', EntityType::class, [
-                'class' => Werkgebied::class,
-                'query_builder' => function (EntityRepository $repo) {
-                    return $repo->createQueryBuilder('s')->orderBy('s.naam', 'ASC');
-                },
+            ->add('kostenplaats', null, [
                 'required' => false,
             ])
         ;

@@ -31,7 +31,7 @@ services:
             - IzBundle\Entity\IzKlant
 
     iz.repository.project:
-        class: Doctrine\ORM\EntityRepository
+        class: IzBundle\Repository\ProjectRepository
         factory: ["@doctrine", getRepository]
         arguments:
             - IzBundle\Entity\Project

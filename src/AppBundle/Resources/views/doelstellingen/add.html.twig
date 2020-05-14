@@ -21,21 +21,19 @@
             <div class="col-xs-6">
                 <h2>Module</h2>
                 {{ form_row(form.jaar) }}
-                {{ form_row(form.bulk) }}
+{#                {{ form_row(form.bulk) }}#}
                 {{ form_row(form.repository) }}
+                <h2>Definitie</h2>
+                {{ form_row(form.label) }}
+                {{ form_row(form.kostenplaats) }}
+                {{ form_row(form.aantal) }}
 
-                {{ form_row(form.categorie) }}
-                {{ form_row(form.stadsdeel) }}
             </div>
             <div class="col-xs-6">
-                <h2>Cijfers</h2>
-                {{ form_row(form.kpi) }}
-                {{ form_row(form.aantal) }}
             </div>
         </div>
         <div class="row">
             <div class="col-xs-6">
-                <h2>Algemeen</h2>
                 {% if form.submit is defined %}
                     <span class="pull-right">
                     {{ form_row(form.submit) }}
@@ -49,7 +47,7 @@
 
 {% block scripts %}
     <script>
-    var $repo = $('#doelstelling_repository');
+    var $repo = null;// $('#doelstelling_repository');
     var $rightCol = $('#doelstelling_kpi').closest('.col-xs-6');
     $rightCol.prop('id','rightCol');
     var insertRepoForm = function(elm)
@@ -118,8 +116,8 @@
                 else
                 {
                     $('#doelstelling_bulk').prop('disabled',true);
-                    var newKpis = $(html).find('#doelstelling_kpi');
-                    $('#doelstelling_kpi').replaceWith(newKpis);
+                    var newKpis = $(html).find('#doelstelling_verfijningsas1');
+                    $('#doelstelling_verfijningsas1').replaceWith(newKpis);
                     // $.each(options,function(index){
                     //     $clone = $option.clone();
                     //     $clone.text = $(this).text();

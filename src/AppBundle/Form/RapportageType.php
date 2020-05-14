@@ -17,7 +17,6 @@ class RapportageType extends AbstractType
 
     public function __construct(array $options = [])
     {
-        dump($options);
         foreach ($options as $category => $reports) {
             if (is_array($reports)) {
                 foreach ($reports as $id => $report) {

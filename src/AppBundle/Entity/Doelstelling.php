@@ -17,8 +17,6 @@ use Doctrine\ORM\Event\LifecycleEventArgs;
  */
 class Doelstelling
 {
-    const CATEGORIE_CENTRALE_STAD = 'Centrale stad';
-    const CATEGORIE_FONDSEN = 'Fondsen';
 
     /**
      * @ORM\Id
@@ -38,7 +36,7 @@ class Doelstelling
      * @ORM\Column(type="string", nullable=true)
      * @Gedmo\Versioned
      */
-    private $kpi;
+    private $label;
 
     /**
      * @ORM\Column(type="integer", nullable=false)
@@ -47,23 +45,22 @@ class Doelstelling
     private $jaar;
 
     /**
-     * @ORM\Column(nullable=true)
-     * @Gedmo\Versioned
-     */
-    private $categorie;
-
-    /**
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Werkgebied")
-     * @ORM\JoinColumn(name="stadsdeel", referencedColumnName="naam")
-     * @Gedmo\Versioned
-     */
-    private $stadsdeel;
-
-    /**
      * @ORM\Column(type="integer", nullable=false)
      * @Gedmo\Versioned
      */
     private $aantal = 0;
+
+    /**
+     * @ORM\Column(type="string", nullable=true)
+     * @Gedmo\Versioned
+     */
+    private $kostenplaats;
+
+    private $repositoryLabel;
+
+    private $actueel;
+
+    private $relativeAantal;
 
     public static $repos = [];
 
@@ -94,30 +91,11 @@ class Doelstelling
     }
 
 
-    public function getCategorie()
-    {
-        return $this->categorie;
-    }
-
-    public function setCategorie($categorie = null)
-    {
-        $this->categorie = $categorie;
-
-        return $this;
-    }
-
     /**
      * @return string
      */
     public function getRepository(): ?string
     {
-        //repository not loaded earlier. get repository data (kpis)
-//        if(!in_array($this->repository,self::$repos))
-//        {
-//            $r = new $this->repository;
-//            $r->getKpis();
-//            self::$repos[$this->repository] = $r->getKpis();
-//        }
         return $this->repository;
     }
 
@@ -127,20 +105,6 @@ class Doelstelling
     public function setRepository(string $repository): void
     {
         $this->repository = $repository;
-    }
-
-
-
-    public function getStadsdeel()
-    {
-        return $this->stadsdeel;
-    }
-
-    public function setStadsdeel($stadsdeel)
-    {
-        $this->stadsdeel = $stadsdeel;
-
-        return $this;
     }
 
     public function getAantal()
@@ -155,20 +119,72 @@ class Doelstelling
         return $this;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getKpi()
+
+    public function setRepositoryLabel($label)
     {
-        return $this->kpi."--";
+        $this->repositoryLabel = $label;
+    }
+    public function getRepositoryLabel()
+    {
+        return $this->repositoryLabel;
+    }
+
+    public function setActueel($actueel)
+    {
+        $this->actueel = $actueel;
+    }
+
+    public function getActueel()
+    {
+        return $this->actueel;
     }
 
     /**
-     * @param mixed $kpi
+     * @return mixed
      */
-    public function setKpi($kpi): void
+    public function getRelativeAantal()
     {
-        $this->kpi = $kpi;
+        return $this->relativeAantal;
+    }
+
+    /**
+     * @param mixed $relativeAantal
+     */
+    public function setRelativeAantal($relativeAantal): void
+    {
+        $this->relativeAantal = $relativeAantal;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getLabel()
+    {
+        return $this->label;
+    }
+
+    /**
+     * @param mixed $label
+     */
+    public function setLabel($label): void
+    {
+        $this->label = $label;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getKostenplaats()
+    {
+        return $this->kostenplaats;
+    }
+
+    /**
+     * @param mixed $kostenplaats
+     */
+    public function setKostenplaats($kostenplaats): void
+    {
+        $this->kostenplaats = $kostenplaats;
     }
 
 
@@ -181,12 +197,12 @@ class Doelstelling
 
         if($this->repository !== null)
         {
-            if($this->kpi == null)
-            {
-                $context->buildViolation('KPI kan niet leeg zijn.')
-                    ->atPath('kpi')
-                    ->addViolation();
-            }
+//            if($this->kpi == null)
+//            {
+//                $context->buildViolation('KPI kan niet leeg zijn.')
+//                    ->atPath('kpi')
+//                    ->addViolation();
+//            }
         }
         return;
         switch ($this->categorie) {

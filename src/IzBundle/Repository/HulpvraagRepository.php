@@ -103,6 +103,17 @@ class HulpvraagRepository extends EntityRepository
         return $builder->getQuery()->getResult();
     }
 
+    public function countKoppelingenByProjectId($report, \DateTime $startDate, \DateTime $endDate)
+    {
+        $builder = $this->getKoppelingenCountBuilder()
+            ->addSelect('project.id AS projectid')
+            ->innerJoin('hulpvraag.project', 'project')
+            ->groupBy('project');
+        $this->applyKoppelingenReportFilter($builder, $report, $startDate, $endDate);
+
+        return $builder->getQuery()->getResult();
+    }
+
     public function countKoppelingenByDoelgroep($report, \DateTime $startDate, \DateTime $endDate)
     {
         $builder = $this->getKoppelingenCountBuilder()

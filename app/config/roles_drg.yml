@@ -118,6 +118,8 @@ security:
         ROLE_UHK_BEHEER:
             - ROLE_UHK
             - CONTROLLER_APP_KLANTEN
+        ROLE_EROPUIT_BEHEER:
+            - ROLE_EROPUIT
         ROLE_EROPUIT: []
         ROLE_BUURTBOERDERIJ:
             - CONTROLLER_APP_VRIJWILLIGERS
@@ -134,7 +136,6 @@ security:
             - ROLE_DAGBESTEDING
             - ROLE_DAGBESTEDING_BEHEER
             - ROLE_EROPUIT
-            - ROLE_EROPUIT_BEHEER
             - ROLE_HOMESERVICE
             - ROLE_HOMESERVICE_BEHEER
             - ROLE_ODP
@@ -153,7 +154,6 @@ security:
             - ROLE_IZ
             - ROLE_IZ_BEHEER
             - ROLE_GA
-            - ROLE_GA_BEHEER
             - ROLE_SCIP
             - ROLE_SCIP_BEHEER
             - ROLE_UHK
@@ -219,6 +219,7 @@ ldap_tools:
             ROLE_SCIP_BEHEER: "CN=ECD SCIP Beheer,CN=Users,DC=cluster,DC=deregenboog"
             ROLE_SKIP_BEHEER: "CN=ECD SKIP Beheer,CN=Users,DC=cluster,DC=deregenboog" # because of typo in LDAP-group
             ROLE_EROPUIT: "CN=ECD ErOpUit,CN=Users,DC=cluster,DC=deregenboog"
+            ROLE_EROPUIT_BEHEER: "CN=ECD ErOpUit Beheer,CN=Users,DC=cluster,DC=deregenboog"
             ROLE_BUURTBOERDERIJ: "CN=ECD Buurtboerderij,CN=Users,DC=cluster,DC=deregenboog"
             ROLE_SECRETARIAAT: "CN=ECD Secretariaat,CN=Users,DC=cluster,DC=deregenboog"
             ROLE_MANAGEMENT: "CN=ECD Management,CN=Users,DC=cluster,DC=deregenboog"

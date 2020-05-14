@@ -51,8 +51,18 @@ services:
 
     app.doelstelling:
         class: AppBundle\Form\DoelstellingType
+        arguments:
+            - '@security.authorization_checker'
         tags:
             - { name: form.type }
+        public: true
+
+    voter.doelstelling:
+        class: AppBundle\Security\DoelstellingVoter
+        arguments:
+            - '@security.access.decision_manager'
+        tags:
+            - { name: security.voter }
 
     AppBundle\Form\AddressType:
         arguments: ["@doctrine.orm.entity_manager"]

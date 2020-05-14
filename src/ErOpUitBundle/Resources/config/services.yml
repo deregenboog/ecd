@@ -4,6 +4,10 @@ imports:
     - { resource: reports.yml }
 
 services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+
     ErOpUitBundle\Event\CloseSubscriber:
         arguments:
             - "@doctrine.orm.entity_manager"
@@ -35,3 +39,17 @@ services:
             - '@ErOpUitBundle\Service\KlantDao'
         tags:
             - { name: kernel.event_subscriber }
+
+    klant_metadata:
+        class: Doctrine\ORM\Mapping\ClassMetadata
+        arguments:
+            - 'ErOpUitBundle\Entity\Klant'
+
+    ErOpUitBundle\Repository\ErOpUitRepository:
+        class: ErOpUitBundle\Repository\ErOpUitRepository
+        arguments:
+            - "@doctrine.orm.entity_manager"
+            - "@klant_metadata"
+        tags:
+            - app.doelstelling
+        public: true

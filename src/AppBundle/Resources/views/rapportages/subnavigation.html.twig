@@ -5,9 +5,9 @@
 </ol>
 <ul class="nav nav-tabs">
     {{ html.navLink('Rapportages', path('app_rapportages_index'), isActiveRoute('app_rapportages_index')) }}
-    {{ html.navLink('Doelstellingen', path('app_doelstellingen_index'), isActiveRoute('app_doelstellingen_index')) }}
+    {{ html.navLink('Doelstellingen', path('app_doelstellingen_index'), isActiveRoute('app_doelstellingen_')) }}
 {#    {% if(isActiveRoute('app_rapportages_prestatiesindex')) %}#}
-    <li role="presentation" class="dropdown {{ isActivePath('app/prestaties/') ? 'active' }}">
+    <li role="presentation" class="dropdown {{ isActivePath('app/doelstellingen/add') ? 'active' }}">
         <a class="dropdown-toggle active" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
             Beheer <span class="caret"></span>
         </a>

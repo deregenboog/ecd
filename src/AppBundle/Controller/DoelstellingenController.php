@@ -19,6 +19,41 @@ use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
+
+/**
+ * This controller/doelstellingen module works as follows:
+ *
+ * The goal is to set target numbers on given KPI's existing in the application.
+ * To calculate the KPI's, one can make them available by tagging a repository with 'app.doelstelling'
+ * Important is that this repository service defitinion is not constructed via the usual factory way. That way it is generic object and not one which implements
+ * DoelstellingRepositoryInterface.
+ * This interface can be implemented with the DoelstellingRepositoryTrait
+ *
+ * Each method in this repository who AppBundle\Entity\Doelstelling as first argument is listed as available doelstelling.
+ * Those methods are called to retrieve the actual KPI number.
+ *
+ * Only KPI's in bundles are shown where the user has access too.
+ * For this, the AppBundle\Security\DoelstellingVoter is created.
+ * If a string is given of a certain Repository::Method, which is the way the Doelstelling Entity know which method to call,
+ * it checks if the user has the role for the bundle where this Repository lives in.
+ *
+ * The DoelstellingenDao is the way the doelstellingen are retrieved from database and connected to their actual numbers.
+ * As this is a method call per row, it needs some caching. But this is @todo.
+ *
+ * Ideas: save results once asked in json as k=>v where key=date
+ * temp table filled with results each day via command/cronjob
+ *
+ * Note: I have the idea that this is not the usual way Symfony works but I did not have another strategy to connect programmable data to database data in a 'modular' way.
+ * Also, there where several issues with service injection and tagging, which made it very very frustrating to work with just services with the right tags. This didn't work
+ * propably because of the use of JMI/DI instead of the default Symfony serviceContainer.
+ *
+ * Autowiring didn't work as expected.
+ *
+ * This can / should be revisited when upgraded.
+ * First but foremost it is necessary to get all the right data. And see if one-dimensional is good enough. This is what I designed it for. If two or three dimensions needed
+ * we should consider another approach.
+ *
+ */
 /**
  * @Route("/app/doelstellingen")
  */
@@ -88,7 +123,7 @@ class DoelstellingenController extends AbstractController
         }
         $page = $request->get('page', 1);
 
-        $pagination = $this->dao->findAll($page, $filter,$this->doelstellingenServices->getRepos());
+        $pagination = $this->dao->findAll($page, $filter);
 
         return [
             'filter' => isset($form) ? $form->createView() : null,

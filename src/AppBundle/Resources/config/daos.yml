@@ -30,6 +30,13 @@ services:
 
     AppBundle\Service\DoelstellingDao:
         parent: app.dao.abstract
+        calls:
+            - method: setServiceContainer
+              arguments:
+                  - '@Psr\Container\ContainerInterface'
+            - method: setDecisionManager
+              arguments:
+                  - '@security.access.decision_manager'
 
     app.document.entities:
         public: true

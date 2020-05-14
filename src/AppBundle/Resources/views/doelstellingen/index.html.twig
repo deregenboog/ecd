@@ -6,7 +6,7 @@
 {% endblock %}
 
 {% block subnavigation %}
-    {% include '@Iz/subnavigation.html.twig' %}
+    {% include '@App/rapportages/subnavigation.html.twig' %}
 {% endblock %}
 
 {% block content %}
@@ -17,8 +17,26 @@
     </p>
     <table class="table table-hover">
         <thead>
+        {{ form_start(filter) }}
         <tr>
-            {{ form_start(filter) }}
+            <th colspan="4" class="text-right">
+                <span >Cijfers periode: </span>
+            </th>
+            <th>
+                {{ form_widget(filter.startdatum) }}
+                {{ form_errors(filter.startdatum) }}
+            </th>
+            <th>
+                {{ form_widget(filter.einddatum) }}
+                {{ form_errors(filter.einddatum) }}
+            </th>
+            <th></th>
+        </tr>
+        <tr>
+            <th>
+                {{ form_widget(filter.kostenplaats) }}
+                {{ form_errors(filter.kostenplaats) }}
+            </th>
             <th>
                 {{ form_widget(filter.repository) }}
                 {{ form_errors(filter.repository) }}
@@ -28,24 +46,22 @@
                 {{ form_errors(filter.jaar) }}
             </th>
             <th>
-                {{ form_widget(filter.categorie) }}
-                {{ form_errors(filter.categorie) }}
+                {{ form_widget(filter.label) }}
+                {{ form_errors(filter.label) }}
             </th>
             <th>
-                {{ form_widget(filter.stadsdeel) }}
-                {{ form_errors(filter.stadsdeel) }}
+
             </th>
-            <th>
-                {{ form_widget(filter.kpi) }}
-                {{ form_errors(filter.kpi) }}
-            </th>
-            <th></th>
             <th>
                 {{ form_widget(filter.filter) }}
             </th>
-            {{ form_end(filter) }}
+
         </tr>
+        {{ form_end(filter) }}
         <tr>
+            <th>
+                {{ knp_pagination_sortable(pagination, 'Kostenplaats', 'doelstelling.kostenplaats') }}
+            </th>
             <th>
                 {{ knp_pagination_sortable(pagination, 'Module', 'doelstelling.repository') }}
             </th>
@@ -53,13 +69,7 @@
                 {{ knp_pagination_sortable(pagination, 'Jaar', 'doelstelling.jaar') }}
             </th>
             <th>
-                {{ knp_pagination_sortable(pagination, 'Categorie', 'doelstelling.categorie') }}
-            </th>
-            <th>
-                {{ knp_pagination_sortable(pagination, 'Stadsdeel', 'stadsdeel.naam') }}
-            </th>
-            <th>
-                {{ knp_pagination_sortable(pagination, 'KPI', 'doelstelling.kpi') }}
+                {{ knp_pagination_sortable(pagination, 'Label', 'doelstelling.label') }}
             </th>
             <th>
                 {{ knp_pagination_sortable(pagination, 'Prestatiecijfer', 'doelstelling.aantal') }}
@@ -71,22 +81,19 @@
         {% for doelstelling in pagination %}
             <tr>
                 <td>
+                    {{ doelstelling.kostenplaats }}
+                </td>
+                <td>
                     {{ doelstelling.repositoryLabel }}
                 </td>
                 <td>
                     {{ doelstelling.jaar }}
                 </td>
                 <td>
-                    {{ doelstelling.categorie ?: 'Stadsdeel' }}
+                    {{ doelstelling.label }}
                 </td>
                 <td>
-                    {{ doelstelling.stadsdeel }}
-                </td>
-                <td>
-                    {{ doelstelling.kpiLabel }}
-                </td>
-                <td>
-                    {{ doelstelling.aantal }} | {{ doelstelling.actueel }}
+                    {{ doelstelling.aantal }} ({{ doelstelling.relativeAantal }}) |  {{ doelstelling.actueel }}
                 </td>
 
                 <td>

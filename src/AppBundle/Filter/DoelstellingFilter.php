@@ -23,17 +23,22 @@ class DoelstellingFilter implements FilterInterface
     /**
      * @var string
      */
-    public $kpi;
+    public $label;
 
     /**
      * @var string
      */
-    public $categorie;
+    public $kostenplaats;
 
     /**
-     * @var Werkgebied
+     * @var DateTime Startdatum
      */
-    public $stadsdeel;
+    public $startdatum;
+
+    /**
+     * @var DateTime Einddatum
+     */
+    public $einddatum;
 
     public function applyTo(QueryBuilder $builder)
     {
@@ -50,28 +55,17 @@ class DoelstellingFilter implements FilterInterface
             ;
         }
 
-        if ($this->kpi) {
+        if ($this->label) {
             $builder
-                ->andWhere('doelstelling.kpi = :kpi')
-                ->setParameter('kpi', $this->kpi)
+                ->andWhere('doelstelling.label LIKE :label')
+                ->setParameter('label', $this->label)
             ;
         }
 
-        if ($this->categorie) {
-            if ('-' === $this->categorie) {
-                $builder->andWhere('doelstelling.categorie IS NULL');
-            } else {
-                $builder
-                    ->andWhere('doelstelling.categorie = :categorie')
-                    ->setParameter('categorie', $this->categorie)
-                ;
-            }
-        }
-
-        if ($this->stadsdeel) {
+        if ($this->kostenplaats) {
             $builder
-                ->andWhere('doelstelling.stadsdeel = :stadsdeel')
-                ->setParameter('stadsdeel', $this->stadsdeel)
+                ->andWhere('doelstelling.kostenplaats = :kostenplaats')
+                ->setParameter('kostenplaats', $this->kostenplaats)
             ;
         }
     }
