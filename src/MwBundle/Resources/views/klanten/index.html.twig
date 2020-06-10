@@ -104,7 +104,14 @@
         <tbody>
             {% for item in pagination %}
                 {% set klant = item.0 %}
-                <tr data-href="{{ path(route_base~'view', {id: klant.id}) }}">
+                {% set rowColorClass = '' %}
+                {%  if(date(item.datumLaatsteVerslag) < date("-3 months")) %}
+                    {% set rowColorClass = 'warning' %}
+                {% elseif(date(item.datumLaatsteVerslag) < date("-6 months")) %}
+                    {%  set rowColorClass = 'danger' %}
+                {% endif %}
+
+                <tr class="{{ rowColorClass }}" data-href="{{ path(route_base~'view', {id: klant.id}) }}">
                     <td>
                         {{ klant.id }}
                     </td>
