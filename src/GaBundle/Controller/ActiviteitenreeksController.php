@@ -50,6 +50,16 @@ class ActiviteitenreeksController extends AbstractChildController
             throw new AppException(sprintf('Kan geen %s aan deze entiteit toevoegen', $this->entityName));
         }
 
+        $groep = isset($request->request->get("activiteiten_reeks")['activiteit']['groep']);
+        if ($groep) {
+            foreach ($this->entities as $entity) {
+                if ($entity['key'] == 'groep') {
+                    $parentEntity = $entity['dao']->find($request->get("activiteiten_reeks")['activiteit']['groep']);
+                }
+            }
+        }
+
+
         $entity = new Activiteit();
         $entity->setGroep($parentEntity);
         $form = $this->getForm($this->formClass, new ActiviteitenReeksModel($entity), [

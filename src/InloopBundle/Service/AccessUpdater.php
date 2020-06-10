@@ -134,13 +134,16 @@ class AccessUpdater
         // @todo move to container service
         /**
          * Let op:
-         * De volgorde is niet willekeurig:
+         * De volgorde is niet willekeurig en daarmee restrictief
          * Hij selecteert de eerste strategie die door een locatie wordt ondersteund
          * In theorie kan dat tegenstrijdigheden opleveren (iets is gebruikersruimte en amoc bv)
          * maar in de praktijk werkt dit niet zo:
          * ze sluiten elkaar eigenlijk altijd uit.
          *
          * De eerste strategie voor een locatie bepaalt of er toegang wordt verleend de klant.
+         * Dwz: strategie is van toepassing op de locatie(s), dan wordt er alleen mogelijk toegang verleend tot die locaties, en niet tot andere locaties.
+         * mogelijk = aan de hand van de gestelde criteria.
+         *
          */
         $strategies = [
             new GebruikersruimteStrategy(),

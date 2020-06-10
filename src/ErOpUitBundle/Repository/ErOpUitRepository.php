@@ -1,6 +1,7 @@
 <?php
 namespace ErOpUitBundle\Repository;
 
+use AppBundle\Model\Doelstellingcijfer;
 use AppBundle\Repository\DoelstellingRepositoryInterface;
 use AppBundle\Repository\DoelstellingRepositoryTrait;
 use Doctrine\ORM\AbstractQuery;
@@ -16,21 +17,33 @@ class ErOpUitRepository extends EntityRepository implements DoelstellingReposito
      */
     private $entityManager;
 
-//    public function __construct(EntityManagerInterface $entityManager)
-//    {
-//        $this->entityManager = $entityManager;
-//    }
-
     public function getCategory():string
     {
         return DoelstellingRepositoryInterface::CAT_ACTIVERING;
     }
 
 
+
+    public function initDoelstellingcijfers():void
+    {
+       $this->addDoelstellingcijfer(
+           "Human descr",
+           4321,"ErOpUit",
+           function($doelstelling, $startdatum, $einddatum) {
+            return $this->ErOpUit($doelstelling,$startdatum,$einddatum);
+        });
+
+        $this->addDoelstellingcijfer("",123,"Buurtrestaurants",function($doelstelling, $startdatum, $einddatum){
+            return $this->Buurtrestaurants($doelstelling,$startdatum,$einddatum);
+        });
+
+    }
+
+
     /**
      * @return int
      */
-    public function ErOpUit(Doelstelling $doelstelling,$startdatum = null, $einddatum = null)
+    private function ErOpUit(Doelstelling $doelstelling,$startdatum = null, $einddatum = null)
     {
        $builder = $this->createQueryBuilder("klant")
            ->select("COUNT(klant.id) as number")
@@ -45,7 +58,7 @@ class ErOpUitRepository extends EntityRepository implements DoelstellingReposito
         return $r;
     }
 
-    public function Buurtrestaurants(Doelstelling $doelstelling)
+    private function Buurtrestaurants(Doelstelling $doelstelling)
     {
         return 1;
     }

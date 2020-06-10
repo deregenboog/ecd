@@ -19,7 +19,7 @@
         <thead>
         {{ form_start(filter) }}
         <tr>
-            <th colspan="4" class="text-right">
+            <th colspan="5" class="text-right">
                 <span >Cijfers periode: </span>
             </th>
             <th>
@@ -53,6 +53,12 @@
 
             </th>
             <th>
+
+            </th>
+            <th>
+
+            </th>
+            <th>
                 {{ form_widget(filter.filter) }}
             </th>
 
@@ -72,7 +78,13 @@
                 {{ knp_pagination_sortable(pagination, 'Label', 'doelstelling.label') }}
             </th>
             <th>
-                {{ knp_pagination_sortable(pagination, 'Prestatiecijfer', 'doelstelling.aantal') }}
+                Prestatie
+            </th>
+            <th>
+                Doelstelling
+            </th>
+            <th>
+                Percentage
             </th>
             <th></th>
         </tr>
@@ -93,7 +105,13 @@
                     {{ doelstelling.label }}
                 </td>
                 <td>
-                    {{ doelstelling.aantal }} ({{ doelstelling.relativeAantal }}) |  {{ doelstelling.actueel }}
+                    {{ doelstelling.actueel }}
+                </td>
+                <td>
+                    {{ doelstelling.aantal }}
+                </td>
+                <td>
+                    {{ (doelstelling.actueel / doelstelling.aantal) * 100 }}%
                 </td>
 
                 <td>

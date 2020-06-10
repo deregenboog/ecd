@@ -16,6 +16,20 @@ services:
         arguments:
             - PfoBundle\Entity\Client
 
+    client_metadata:
+        class: Doctrine\ORM\Mapping\ClassMetadata
+        arguments:
+            - 'PfoBundle\Entity\Client'
+
+    PfoBundle\Repository\ClientRepository:
+        class: PfoBundle\Repository\ClientRepository
+        arguments:
+            - "@doctrine.orm.entity_manager"
+            - "@client_metadata"
+        tags:
+            - app.doelstelling
+        public: true
+
     pfo.repository.verslag:
         class: Doctrine\ORM\EntityRepository
         factory: ["@doctrine", getRepository]

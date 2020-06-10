@@ -25,12 +25,12 @@ class DoelstellingFilterType extends AbstractType
 
         $builder->add('startdatum', AppDateType::class, [
                     'required' => true,
-                    'data' => new \DateTime('first day of January this year'),
+//                    'data' => new \DateTime('first day of January this year'),
             ])
 
             ->add('einddatum', AppDateType::class, [
                 'required' => true,
-                'data' => (AppDateType::getLastFullQuarterEnd()),
+//                'data' => (AppDateType::getLastFullQuarterEnd()),
             ])
 
             ->add('repository', null, [

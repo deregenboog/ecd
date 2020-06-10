@@ -3,6 +3,7 @@
 namespace AppBundle\Repository;
 
 use AppBundle\Entity\Doelstelling;
+use AppBundle\Model\Doelstellingcijfer;
 
 interface DoelstellingRepositoryInterface
 {
@@ -14,8 +15,13 @@ interface DoelstellingRepositoryInterface
     CONST CAT_OVERIG = 'Overig';
     CONST CAT_SCIP = 'SCIP';
 
-    public function getMethods(): array;
+
+
+//    public function getMethods(): array;
     public function getCategory(): string;
+    public function initDoelstellingcijfers():void;
+    public function getAvailableDoelstellingcijfers(): array;
+    public function getDoelstelingcijfer($name):Doelstellingcijfer;
 //
 //    public static function getCategoryLabel(): string;
 //

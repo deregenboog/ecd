@@ -44,7 +44,7 @@ $(function() {
         });
     });
 
-    $.each(['kleding', 'maaltijd', 'veegploeg', 'activering'], function(i, property) {
+   $.each(['kleding', 'maaltijd', 'veegploeg', 'activering'], function(i, property) {
         $('#ajaxContainer').on('click', 'input.'+property, function(event) {
             var id = $(this).closest('tr').attr('data-id');
             if ($(this).is(':checked')) {
@@ -54,6 +54,18 @@ $(function() {
             }
         });
     });
+
+   $.each(['aantalSpuiten'],function(i,property){
+      $('#ajaxContainer').on('click','#'+property, function(event){
+          var id = $(this).closest('tr').attr('data-id');
+          if ($(this).is(':checked')) {
+              var aantalSpuiten = window.prompt("Hoeveel spuiten zijn er verkocht of omgeruild?","0");
+              enable(id, property, event, aantalSpuiten);
+          } else {
+              disable(id, property, event);
+          }
+      });
+   });
 });
 
 function init() {
@@ -131,12 +143,24 @@ function removeFromQueue(id, property, event) {
     });
 };
 
-function enable(id, property, event) {
+function enable(id, property, event, value) {
+
+    if(value === undefined) {
+        value = 1;
+    }
     $(event.target).hide();
     $.post({
-        url: '/inloop/registraties/'+id+'/'+property+'/1',
+        url: '/inloop/registraties/'+id+'/'+property+'/'+value,
     }).done(function(data) {
-        $(event.target).prop('checked', data[property]);
+        if (data.property == 1)
+        {
+            $(event.target).prop('checked', data[property]);
+        }
+        else
+        {
+            init();
+        }
+
         $(event.target).show();
     }).fail(function() {
         alert('Er is een fout opgetreden.')
@@ -148,8 +172,13 @@ function disable(id, property, event) {
     $.post({
         url: '/inloop/registraties/'+id+'/'+property+'/0',
     }).done(function(data) {
-        $(event.target).prop('checked', data[property]);
-        $(event.target).show();
+        if($(event.target).attr['type'] == 'checkbox') {
+            $(event.target).prop('checked', data[property]);
+            $(event.target).show();
+        } else {
+            init();
+        }
+
     }).fail(function() {
         alert('Er is een fout opgetreden.')
     });

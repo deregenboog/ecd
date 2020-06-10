@@ -9,8 +9,11 @@ use AppBundle\Form\DoelstellingType;
 use AppBundle\Model\MedewerkerSubjectInterface;
 use AppBundle\Report\AbstractReport;
 use AppBundle\Entity\Doelstelling;
+
 use AppBundle\Service\DoelstellingDaoInterface;
 use AppBundle\Form\DoelstellingFilterType;
+use AppBundle\Filter\DoelstellingFilter;
+
 use JMS\DiExtraBundle\Annotation as DI;
 use Psr\Container\ContainerInterface;
 use Symfony\Component\Form\FormError;
@@ -80,24 +83,13 @@ class DoelstellingenController extends AbstractController
      */
     protected $export;
 
-    /**
-     * @var DoelstellingType Form with services tagged with app.doelstelling
-     * @DI\Inject("app.doelstelling")
-     */
-    private $doelstellingenServices = [];
+//    /**
+//     * @var DoelstellingType Form with services tagged with app.doelstelling
+//     * DI\Inject("app.doelstelling")
+//     */
+//    private $doelstellingenServices = [];
 
 
-
-    /**
-     * DoelstellingenController constructor.
-     *
-     * @param $services Injected via services tags. All sercices tagged app.doelstelling are injected here as a service
-     */
-//    public function __construct($services = null,$b=null,$c=null)
-//    {
-//        if(!$services === null) $this->doelstellingenServices = iterator_to_array($services);
-//
-//    }
     /**
      * @Route("/")
      * @Template
@@ -109,7 +101,7 @@ class DoelstellingenController extends AbstractController
         }
 
         if ($this->filterFormClass) {
-            $form = $this->getForm($this->filterFormClass);
+            $form = $this->getForm($this->filterFormClass, new DoelstellingFilter());
             $form->handleRequest($request);
             if ($form->isSubmitted() && $form->isValid()) {
                 if ($form->has('download') && $form->get('download')->isClicked()) {
@@ -129,62 +121,6 @@ class DoelstellingenController extends AbstractController
             'pagination' => $pagination,
         ];
     }
-
-    /**
-     * @Route("/s")
-     * @Template
-     */
-    public function sindexAction(Request $request)
-    {
-        if (!$this->formClass) {
-            throw new \InvalidArgumentException(get_class($this).'::formClass must be set.');
-        }
-
-        $formOptions = [];
-        if ($request->query->has('rapportage')) {
-            // get reporting service
-            /** @var AbstractReport $report */
-            $report = $this->container->get($request->query->get('rapportage')['rapport']);
-            $formOptions = $report->getFormOptions();
-        }
-
-        $form = $this->getForm($this->formClass, null, $formOptions);
-      //  $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            // get reporting service
-            /* @var AbstractReport $report */
-            $report = $this->container->get($form->get('rapport')->getData());
-            $report->setFilter($form->getData());
-
-            try {
-                if ($form->get('download')->isClicked()) {
-                    return $this->download($report);
-                }
-
-                return [
-                    'title' => $report->getTitle(),
-                    'startDate' => $report->getStartDate(),
-                    'endDate' => $report->getEndDate(),
-                    'reports' => $report->getReports(),
-                    'form' => $form->createView(),
-                ];
-            } catch (ReportException $exception) {
-                $form->addError(new FormError($exception->getMessage()));
-
-                return [
-                    'form' => $form->createView(),
-                    'title' => '',
-                ];
-            }
-        }
-
-        return [
-            'form' => $form->createView(),
-            'title' => '',
-        ];
-    }
-
 
     protected function processForm(Request $request, $entity = null)
     {

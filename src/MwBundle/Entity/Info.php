@@ -208,6 +208,12 @@ class Info
      */
     private $overigen;
 
+    /**
+     * @ORM\Column(type="date", nullable=true)
+     * @Gedmo\Versioned
+     */
+    private $risDatumTot;
+
     public function __construct(Klant $klant)
     {
         $this->klant = $klant;
@@ -734,4 +740,22 @@ class Info
 
         return $this;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getRisDatumTot()
+    {
+        return $this->risDatumTot;
+    }
+
+    /**
+     * @param mixed $risDatumTot
+     */
+    public function setRisDatumTot($risDatumTot): void
+    {
+        $this->risDatumTot = $risDatumTot;
+    }
+
+
 }

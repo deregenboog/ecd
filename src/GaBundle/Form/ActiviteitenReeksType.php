@@ -44,7 +44,7 @@ class ActiviteitenReeksType extends AbstractType
                     'maandag' => 'Monday',
                     'dinsdag' => 'Tuesday',
                     'woensdag' => 'Wednesday',
-                    'donderdag' => 'Thurday',
+                    'donderdag' => 'Thursday',
                     'vrijdag' => 'Friday',
                     'zaterdag' => 'Saturday',
                     'zondag' => 'Sunday',

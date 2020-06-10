@@ -120,6 +120,13 @@ class Registratie
 
     /**
      * @var int
+     * @ORM\Column(type="integer", nullable=true)
+     * @Gedmo\Versioned
+     */
+    private $aantalSpuiten = 0;
+
+    /**
+     * @var int
      * @ORM\Column(type="boolean", nullable=true)
      * @Gedmo\Versioned
      */
@@ -285,4 +292,22 @@ class Registratie
 
         return $this;
     }
+
+    /**
+     * @return int
+     */
+    public function getAantalSpuiten(): ?int
+    {
+        return $this->aantalSpuiten;
+    }
+
+    /**
+     * @param int $aantalSpuiten
+     */
+    public function setAantalSpuiten(int $aantalSpuiten): void
+    {
+        $this->aantalSpuiten = $aantalSpuiten;
+    }
+
+
 }

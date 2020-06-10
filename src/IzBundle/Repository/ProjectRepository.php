@@ -3,7 +3,9 @@
 namespace IzBundle\Repository;
 
 use AppBundle\Entity\Doelstelling;
+use AppBundle\Model\Doelstellingcijfer;
 use AppBundle\Repository\DoelstellingRepositoryInterface;
+use AppBundle\Repository\DoelstellingRepositoryTrait;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\QueryBuilder;
 use IzBundle\Entity\Hulpvraag;
@@ -11,6 +13,7 @@ use IzBundle\Entity\Project;
 
 class ProjectRepository extends EntityRepository implements DoelstellingRepositoryInterface
 {
+    use DoelstellingRepositoryTrait;
     /**
      * Finds all projects that are active on the given date.
      *
@@ -39,34 +42,10 @@ class ProjectRepository extends EntityRepository implements DoelstellingReposito
         return DoelstellingRepositoryInterface::CAT_IZ;
     }
 
-    public function getVerfijningsas1(): ?array
+    public function initDoelstellingcijfers(): void
     {
-
-       $r = $this->findActive();
-       $ret = [];
-       foreach($r as $k=>$v)
-        {
-            /**
-             * @var Project $v
-             */
-            $ret[$v->getNaam() ] = $v->getId();
-        }
-       return $ret;
-    }
-
-    public function getVerfijningsas2(): ?array
-    {
-        return null;
-        $r = $this->findActive();
-        $ret = [];
-        foreach($r as $k=>$v)
-        {
-            /**
-             * @var Project $v
-             */
-            $ret[$v->getNaam() ] = $v->getId();
-        }
-        return $ret;
+//        $this->cijfers[] = new Doelstellingcijfer("")
+        $this->cijfers = array();
     }
 
     public static function getCategoryLabel():string

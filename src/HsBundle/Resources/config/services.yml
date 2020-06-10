@@ -49,3 +49,17 @@ services:
         class: HsBundle\Service\FactuurFactory
         arguments:
             - '@HsBundle\Service\FactuurDao'
+
+    HsBundle\Repository\KlusRepository:
+        class: HsBundle\Repository\KlusRepository
+        arguments:
+            - "@doctrine.orm.entity_manager"
+            - "@klus_metadata"
+        tags:
+            - app.doelstelling
+        public: true
+
+    klus_metadata:
+        class: Doctrine\ORM\Mapping\ClassMetadata
+        arguments:
+            - 'HsBundle\Entity\Klus'

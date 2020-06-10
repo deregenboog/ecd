@@ -4,8 +4,10 @@ namespace AppBundle\Form;
 
 use AppBundle\Entity\Geslacht;
 use AppBundle\Entity\Doelstelling;
+use AppBundle\Model\Doelstellingcijfer;
 use AppBundle\Repository\DoelstellingRepositoryInterface;
 use AppBundle\Security\DoelstellingVoter;
+use AppBundle\Service\DoelstellingDao;
 use AppBundle\Service\DoelstellingDaoInterface;
 use InloopBundle\Form\LocatieSelectType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -23,24 +25,38 @@ class DoelstellingType extends AbstractType
 {
     private $choices = [];
     private $repos = [];
-    public function __construct($securityAuthorizationChecker, array $options = [])
+    public function __construct($securityAuthorizationChecker, $doelstellingDao, array $options = [])
     {
+        /**
+         * @var DoelstellingDao $doelstellingDao
+         */
+        $doelstellingDao;
+
+        //this should be called again if data is loaded in case of an editted form...
+
         foreach ($options as $doelstellingRepo) {
 //            if(!method_exists($doelstellingRepo,"getMethods")) continue;
             if(!$doelstellingRepo instanceof DoelstellingRepositoryInterface) continue;
 
-            $methods = $doelstellingRepo->getMethods();
+
+//            $cijfers = $doelstellingRepo->getAvailableDoelstellingcijfers();
+
+            $cijfers = $doelstellingDao->getAvailableDoelstellingcijfers($doelstellingRepo);
+
             $cat = $doelstellingRepo->getCategory();
-            foreach ($methods as $m) {
+            foreach ($cijfers as $c) {
                 /**
-                 * @var \ReflectionMethod $m
+                 * @var Doelstellingcijfer $c
                  */
 //                $namespacename = $m->getDeclaringClass()->getName();
-                $classMethod = $m->getDeclaringClass()->getName()."::".$m->getName();
+                $label = $c->getLabel();
+                $classMethod = get_class($doelstellingRepo)."::".$c->getLabel();
+                //$m->getDeclaringClass()->getName()."::".$m->getName();
                 if($securityAuthorizationChecker->isGranted("edit",$classMethod))
                 {
-                    $this->choices[$cat][$m->getShortName()] = $classMethod;
+                    $this->choices[$cat][$label] = $classMethod;
                 }
+//                $this->choices[$cat][$label] = $classMethod;
 
             }
         }
@@ -71,18 +87,18 @@ class DoelstellingType extends AbstractType
                 'choices' => array_combine($range, $range),
             ])
 
-            ->add('label', null, [
-                'required' => true,
-                'label'=>'Label',
-//                'placeholder' => 'Deelnemers/bezoekers/uren/...',
-
-            ])
-            ->add('kostenplaats', null, [
-                'required' => false,
-                'label'=>'Kostenplaats',
-//                'placeholder' => 'Deelnemers/bezoekers/uren/...',
-
-            ])
+//            ->add('label', null, [
+//                'required' => true,
+//                'label'=>'Label',
+////                'placeholder' => 'Deelnemers/bezoekers/uren/...',
+//
+//            ])
+//            ->add('kostenplaats', null, [
+//                'required' => false,
+//                'label'=>'Kostenplaats',
+////                'placeholder' => 'Deelnemers/bezoekers/uren/...',
+//
+//            ])
         ;
         $formModifier =  function (?FormInterface $form, $data) {
             $verfijningsopties1 = [];
@@ -111,7 +127,7 @@ class DoelstellingType extends AbstractType
 
         $builder->add('aantal',null,[
             'required'=>true,
-            'label'=>'Doelstelling/aantal'
+            'label'=>'Aantal'
         ])
             ->add('submit', SubmitType::class, ['label' => 'Opslaan'])
             ;

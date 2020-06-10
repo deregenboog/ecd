@@ -260,7 +260,7 @@ class Klant extends Persoon
     public function getRegistratiesSinds(\DateTime $date)
     {
         $criteria = Criteria::create()
-            ->where(Criteria::expr()->gte('buiten', $date))
+            ->where(Criteria::expr()->gte('binnen', $date))
             ->orderBy(['id' => 'DESC'])
         ;
 

@@ -62,7 +62,7 @@ class DoelstellingVoter extends Voter
         preg_match($re, $repositoryMethodString, $matches);
 
         if (5 !== count($matches)) {
-            throw new \InvalidArgumentException('Could not determine propper bundle name.');
+            throw new \BadFunctionCallException('Could not determine proper bundle name. Should provide valid repository methodstring: Namespace\BundleName\Class::Method');
         }
 
         return sprintf('%s', strtoupper($matches[1]));

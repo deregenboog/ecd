@@ -14,12 +14,12 @@ use Symfony\Component\Security\Core\Authorization\AccessDecisionManagerInterface
 class DoelstellingDao extends AbstractDao
 {
     protected $paginationOptions = [
-        'defaultSortFieldName' => 'doelstelling.repository',
+        'defaultSortFieldName' => 'repository',
         'defaultSortDirection' => 'asc',
         'sortFieldWhitelist' => [
-            'doelstelling.repository',
-            'doelstelling.categorie',
-            'doelstelling.kpi',
+            'repository',
+            'categorie',
+            'kpl',
         ],
     ];
 
@@ -56,6 +56,23 @@ class DoelstellingDao extends AbstractDao
         $this->decisionManager = $decisionManager;
     }
 
+    public function getAvailableDoelstellingcijfers($doelstellingRepo)
+    {
+        $builder = $this->repository->createQueryBuilder($this->alias);
+        $vastgelegdeCijfers = $builder->getQuery()->getResult();
+        $cijfers = $doelstellingRepo->getAvailableDoelstellingcijfers();
+        foreach ($cijfers as $cijfer) {
+
+            $a = $cijfer;
+            $fullMethodRepoName = get_class($doelstellingRepo)."::".$cijfer->getLabel();
+            foreach ($vastgelegdeCijfers as $dbCijfer) {
+                if($dbCijfer->getRepository() == $fullMethodRepoName) array_shift($cijfers);
+
+            }
+      }
+        return $cijfers;
+            
+    }
     public function findAll($page = null, FilterInterface $filter = null)
     {
         $builder = $this->repository->createQueryBuilder($this->alias);
@@ -117,16 +134,27 @@ class DoelstellingDao extends AbstractDao
             list($class,$method) = explode("::",$repos);
             if(!$class || !$method) throw new Exception("Repository incorrect. Cannot retrieve doelstelling data from repository for $repos");
             try {
+                /**
+                 * @var DoelstellingRepositoryInterface $r
+                 */
                 $r = $this->serviceContainer->get($class);
-                $number = $r->$method($row,$startdatum,$einddatum);
+                $doelstellingcijfer = $r->getDoelstelingcijfer($method);
+
+                $row->setKostenplaats($doelstellingcijfer->getKpl());
+                $row->setRepositoryLabel($doelstellingcijfer->getLabel());
+
+
+                $c = $doelstellingcijfer->getClosure();
+                $n = $c($row,$startdatum,$einddatum);
+
             }
             catch(Exception $e)
             {
                 $number = "!";
             }
 
-            $row->setActueel($number);
-            $row->setRepositoryLabel($method);
+            $row->setActueel($n);
+//            $row->setRepositoryLabel($method);
         }
 
         return $doelstellingen;

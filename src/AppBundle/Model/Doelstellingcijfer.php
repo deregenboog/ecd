@@ -2,58 +2,39 @@
 
 namespace AppBundle\Model;
 
-
+use AppBundle\Entity\Doelstelling;
 
 class Doelstellingcijfer
 {
-    /**
-     * @var string system name for this doelstellingcijfer. Used in repository to retrieve the right cijfer. No spaces allowed.
-     */
-    private $name;
 
     /**
      * @var string Userfriendly label of name
      */
     private $label;
 
-    /**
-     * @var string Which repositoryClass to retrieve the cijfer from.
-     */
-    private $repositoryName;
-
     /** @var int Kostenplaats in externe administratie */
     private $kpl;
 
+    private $closure;
+
+    private $humanDescription;
+
     /**
      * Doelstellingcijfer constructor.
-     * @param string $name
+     * @param string $kpl
      * @param string $label
-     * @param string $repositoryName
+     * @param \Closure $closure
      */
-    public function __construct(int $kpl, string $name, string $label, string $repositoryName)
+    public function __construct(int $kpl, string $label, \Closure $closure, $humanDescription)
     {
-        $this->name = $name;
+
         $this->label = $label;
-        $this->repositoryName = $repositoryName;
         $this->kpl = $kpl;
+        $this->closure = $closure;
+        $this->humanDescription = $humanDescription;
     }
 
 
-    /**
-     * @return string
-     */
-    public function getName(): string
-    {
-        return $this->name;
-    }
-
-    /**
-     * @param string $name
-     */
-    public function setName(string $name): void
-    {
-        $this->name = $name;
-    }
 
     /**
      * @return string
@@ -63,29 +44,6 @@ class Doelstellingcijfer
         return $this->label;
     }
 
-    /**
-     * @param string $label
-     */
-    public function setLabel(string $label): void
-    {
-        $this->label = $label;
-    }
-
-    /**
-     * @return string
-     */
-    public function getRepositoryName(): string
-    {
-        return $this->repositoryName;
-    }
-
-    /**
-     * @param string $repositoryName
-     */
-    public function setRepositoryName(string $repositoryName): void
-    {
-        $this->repositoryName = $repositoryName;
-    }
 
     /**
      * @return int
@@ -96,11 +54,27 @@ class Doelstellingcijfer
     }
 
     /**
-     * @param int $kpl
+     * @return \Closure
      */
-    public function setKpl(int $kpl): void
+    public function getClosure(): \Closure
     {
-        $this->kpl = $kpl;
+        return $this->closure;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getHumanDescription()
+    {
+        return $this->humanDescription;
+    }
+
+    /**
+     * @param mixed $humanDescription
+     */
+    public function setHumanDescription($humanDescription): void
+    {
+        $this->humanDescription = $humanDescription;
     }
 
 

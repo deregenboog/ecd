@@ -2,7 +2,10 @@
 
 namespace GaBundle\Repository;
 
+use AppBundle\Repository\DoelstellingRepositoryTrait;
 use Doctrine\ORM\EntityRepository;
+use AppBundle\Repository\DoelstellingRepositoryInterface;
+
 
 class DeelnemerRepository extends EntityRepository
 {
