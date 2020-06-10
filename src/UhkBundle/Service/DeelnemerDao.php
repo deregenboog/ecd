@@ -46,7 +46,14 @@ class DeelnemerDao extends AbstractDao implements DeelnemerDaoInterface
     public function findByMedewerker(Medewerker $medewerker, $page = null, FilterInterface $filter = null): PaginationInterface
     {
 
-        return parent::findAll($page, $filter);
+        $builder = $this->repository->createQueryBuilder($this->alias)
+            ->innerJoin($this->alias.'.klant', 'klant')
+            ->innerJoin($this->alias.".medewerker", 'medewerker')
+            ->where('medewerker = :medewerker')
+            ->setParameter("medewerker",$medewerker)
+
+        ;
+        return parent::doFindAll($builder, $page, $filter);
     }
 
     /**

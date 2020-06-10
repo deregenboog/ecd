@@ -58,3 +58,21 @@ services:
         tags:
             - { name: security.voter }
 
+
+    registratie_metadata:
+        class: Doctrine\ORM\Mapping\ClassMetadata
+        arguments:
+            - InloopBundle\Entity\Registratie
+
+    InloopBundle\Repository\RegistratieRepository:
+        class: InloopBundle\Repository\RegistratieRepository
+        arguments:
+            - "@doctrine.orm.entity_manager"
+            - "@registratie_metadata"
+        calls:
+            - method: setSpuitomruilLocaties
+              arguments:
+                  - '%spuitomruil_locaties%'
+        tags:
+            - app.doelstelling
+        public: true

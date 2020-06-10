@@ -2,11 +2,15 @@
 
 namespace PfoBundle\Repository;
 
+use AppBundle\Repository\DoelstellingRepositoryInterface;
+use AppBundle\Repository\DoelstellingRepositoryTrait;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\QueryBuilder;
 
-class ClientRepository extends EntityRepository
+class ClientRepository extends EntityRepository implements DoelstellingRepositoryInterface
 {
+    use DoelstellingRepositoryTrait;
+
     public function countByGroep(\DateTime $startDate, \DateTime $endDate)
     {
         $builder = $this->getCountBuilder()
@@ -53,4 +57,41 @@ class ClientRepository extends EntityRepository
             ->select('COUNT(DISTINCT client.id) AS aantal')
         ;
     }
+
+    public function getCategory(): string
+    {
+        return DoelstellingRepositoryInterface::CAT_HULPVERLENING;
+    }
+
+    public function initDoelstellingcijfers(): void
+    {
+        $this->addDoelstellingcijfer(
+            "Aantal trajecten met externe clienten (groep is niet 'Intern') welke nog niet zijn afgesloten, of zijn afgesloten in dit tijdvak.",
+            "4130",
+            "PFO",
+            function($doelstelling,$startdatum,$einddatum){
+                $r = $this->getAantalClienten($doelstelling,$startdatum,$einddatum);
+                return $r;
+            }
+        );
+    }
+
+    private function getAantalClienten($doelstelling,$startdatum,$einddatum)
+    {
+        $builder = $this->getCountBuilder();
+       $builder
+           ->innerJoin('client.groep', 'groep')
+           ->innerJoin('client.verslagen', 'verslag')
+           ->where('DATE(client.afsluitdatum) BETWEEN :startDate AND :endDate')
+           ->orWhere("client.afsluitdatum IS NULL")
+           ->setParameter("startDate",$startdatum)
+           ->setParameter("endDate",$einddatum)
+           ;
+
+       return $builder->getQuery()->getSingleScalarResult();
+
+
+    }
+
+
 }

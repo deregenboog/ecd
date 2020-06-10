@@ -33,8 +33,9 @@ class EconomischDaklozen extends AbstractReport
      */
     private $locatie;
 
-    public function __construct(VerslagDao $dao)
+    public function __construct(VerslagDao $dao, $economischDaklozenLocaties)
     {
+        $this->economisch_daklozen_locaties = $economischDaklozenLocaties;
         $this->dao = $dao;
     }
 
@@ -44,7 +45,7 @@ class EconomischDaklozen extends AbstractReport
             $this->startDate = $filter['startdatum'];
         }
 
-        if (array_key_exists('startdatum', $filter)) {
+        if (array_key_exists('einddatum', $filter)) {
             $this->endDate = $filter['einddatum'];
         }
 
@@ -56,7 +57,8 @@ class EconomischDaklozen extends AbstractReport
         $query = $this->dao->countUniqueKlantenVoorLocaties(
             $this->startDate,
             $this->endDate,
-            [31,36,37,38,42,43] //remote locations hardcoded...
+            $this->economisch_daklozen_locaties
+            //[31,36,37,38,42,43] //remote locations hardcoded...
 //            [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21]
         );
 //        $sql = $this->getFullSQL($query);

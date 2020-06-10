@@ -6,6 +6,11 @@
 </p>
 {% if info %}
     <table class="table">
+        <tr>
+            <th>RIS</th>
+            <td>{{ info.risDatumTot|if_date }}</td>
+        </tr>
+
         {% if info.casemanager %}
             <tr>
                 <th>Casemanager</th>

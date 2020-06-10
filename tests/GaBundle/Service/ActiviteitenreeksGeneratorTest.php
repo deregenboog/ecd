@@ -146,11 +146,12 @@ class ActiviteitenreeksGeneratorTest extends TestCase
 
     public function testGeneratorGeneratesNothingWhenNothingInDateRange()
     {
+
         $activiteit = new Activiteit();
         $data = new ActiviteitenReeksModel($activiteit);
         $data
             ->setTijd(\DateTime::createFromFormat('H:i', '20:15'))
-            ->setPeriode(new AppDateRangeModel(new \DateTime('2018-02-20'), new \DateTime('2018-02-19')))
+            ->setPeriode(new AppDateRangeModel(new \DateTime('2018-02-21'), new \DateTime('2018-02-20')))
             ->setFrequentie(0)
             ->setWeekdag('Monday');
 

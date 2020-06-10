@@ -53,9 +53,13 @@ security:
             - CONTROLLER_APP_ZRMS
             - ROLE_INLOOP_INTAKES
             - ROLE_INLOOP_REGISTRATIES
+            - ROLE_INLOOP_OPMERKINGEN
+            - ROLE_INLOOP_SCHORSINGEN
             - ROLE_USER
         ROLE_PFO_BEPERKT: []
-        ROLE_PFO: []
+        ROLE_PFO_BEHEER: []
+        ROLE_PFO:
+            - ROLE_PFO_BEHEER #andersom geredeneerd. Historisch zo gegegroeid. Beheer is om consistent te zijn met de rest van ECD.
         ROLE_TEAMLEIDERS:
             - ROLE_GA
             - ROLE_MW
@@ -96,8 +100,12 @@ security:
         ROLE_HOMESERVICE:
             - CONTROLLER_APP_KLANTEN
             - CONTROLLER_APP_VRIJWILLIGERS
+            - ROLE_HS
         ROLE_HOMESERVICE_BEHEER:
             - ROLE_HOMESERVICE
+            - ROLE_HS_BEHEER
+        ROLE_HS_BEHEER: [] #to be in line with the bundle naming...
+        ROLE_HS: []
         ROLE_ODP:
             - CONTROLLER_APP_KLANTEN
             - CONTROLLER_APP_VRIJWILLIGERS

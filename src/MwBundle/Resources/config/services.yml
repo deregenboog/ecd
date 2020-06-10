@@ -10,3 +10,58 @@ services:
             - "@router"
         tags:
             - { name: kernel.event_subscriber }
+
+    verslag_metadata:
+        class: Doctrine\ORM\Mapping\ClassMetadata
+        arguments:
+            - MwBundle\Entity\Verslag
+
+    MwBundle\Repository\VerslagRepository:
+        class: MwBundle\Repository\VerslagRepository
+        arguments:
+            - "@doctrine.orm.entity_manager"
+            - "@verslag_metadata"
+        calls:
+            - method: setGezinNoodopvangLocaties
+              arguments:
+                  - "%gezin_noodopvang_locaties%"
+        tags:
+            - app.doelstelling
+        public: true
+
+    klant_metadata:
+        class: Doctrine\ORM\Mapping\ClassMetadata
+        arguments:
+            - AppBundle\Entity\Klant
+
+    klantinfo_metadata:
+        class: Doctrine\ORM\Mapping\ClassMetadata
+        arguments:
+            - MwBundle\Entity\Info
+
+    MwBundle\Repository\KlantRepository:
+        class: MwBundle\Repository\KlantRepository
+        arguments:
+            - "@doctrine.orm.entity_manager"
+            - "@klant_metadata"
+        calls:
+            - method: setEconomischDaklozenLocaties
+              arguments:
+                  - "%economisch_daklozen_locaties%"
+        tags:
+            - app.doelstelling
+        public: true
+
+    MwBundle\Repository\KlantInfoRepository:
+        class: MwBundle\Repository\KlantInfoRepository
+        arguments:
+            - "@doctrine.orm.entity_manager"
+            - "@klantinfo_metadata"
+        calls:
+            - method: setEconomischDaklozenLocaties
+              arguments:
+                  - "%economisch_daklozen_locaties%"
+        tags:
+            - app.doelstelling
+        public: true
+

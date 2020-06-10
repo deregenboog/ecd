@@ -37,6 +37,9 @@
                 {{ knp_pagination_sortable(pagination, 'MW', 'registratie.mw') }}
             </th>
             <th>
+                Aantal spuiten
+            </th>
+            <th>
                 TBC-check
             </th>
             <th>
@@ -95,6 +98,13 @@
                     <a class="mw">{{ registratie.mw }}</a>
                 {% else %}
                     <input class="mw" type="checkbox" {{ registratie.mw ? 'checked' }}/>
+                {% endif %}
+            </td>
+            <td>
+                {% if registratie.aantalSpuiten > 0 %}
+                    <a id="aantalSpuiten">{{ registratie.aantalSpuiten }}</a>
+                {% else %}
+                    <input id="aantalSpuiten" type="checkbox" {{ registratie.aantalSpuiten ? 'checked' }}/>
                 {% endif %}
             </td>
             <td>

@@ -2,6 +2,7 @@
 
 namespace MwBundle\Form;
 
+use AppBundle\Form\AppDateType;
 use AppBundle\Form\AppTextareaType;
 use AppBundle\Form\BaseType;
 use AppBundle\Form\ContainerType;
@@ -20,6 +21,10 @@ class InfoType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        $ris = $builder->create('risForm', ContainerType::class, ['label' => 'RIS'])
+            ->add('risDatumTot', AppDateType::class, ['required' => false])
+        ;
+
         $casemanager = $builder->create('casemanagerForm', ContainerType::class, ['label' => 'Casemanager DRG'])
             ->add('casemanager', MedewerkerType::class, ['required' => false])
             ->add('casemanagerEmail', null, ['label' => 'E-mail', 'required' => false])
@@ -62,6 +67,7 @@ class InfoType extends AbstractType
         $builder->add($woningnet);
 
         $builder
+            ->add($ris)
             ->add($casemanager)
             ->add($trajectbegeleider)
             ->add($trajecthouder)

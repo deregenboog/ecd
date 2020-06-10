@@ -11,11 +11,19 @@ services:
         tags:
             - { name: kernel.event_subscriber }
 
-    oek.repository.deelnemer:
-        class: Doctrine\ORM\EntityRepository
-        factory: ["@doctrine", getRepository]
+    deelnemer_metadata:
+        class: Doctrine\ORM\Mapping\ClassMetadata
         arguments:
-            - OekBundle\Entity\Deelnemer
+            - 'OekBundle\Entity\Deelnemer'
+
+    OekBundle\Repository\DeelnemerRepository:
+        class: OekBundle\Repository\DeelnemerRepository
+        arguments:
+            - "@doctrine.orm.entity_manager"
+            - "@deelnemer_metadata"
+        tags:
+            - app.doelstelling
+        public: true
 
     oek.repository.training:
         class: Doctrine\ORM\EntityRepository
@@ -31,21 +39,21 @@ services:
     OekBundle\Report\DeelnemersPerTrainingGroep:
         public: true
         arguments:
-            - "@oek.repository.deelnemer"
+            - OekBundle\Repository\DeelnemerRepository
         tags:
             - { name: oek.rapportage, category: Deelnemers }
 
     OekBundle\Report\DeelnemersVerwezenDoor:
         public: true
         arguments:
-            - "@oek.repository.deelnemer"
+            - OekBundle\Repository\DeelnemerRepository
         tags:
             - { name: oek.rapportage, category: Deelnemers }
 
     OekBundle\Report\DeelnemersVerwezenNaar:
         public: true
         arguments:
-            - "@oek.repository.deelnemer"
+            - OekBundle\Repository\DeelnemerRepository
         tags:
             - { name: oek.rapportage, category: Deelnemers }
 

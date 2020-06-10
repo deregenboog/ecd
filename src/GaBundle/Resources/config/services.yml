@@ -97,3 +97,17 @@ services:
               Organisatie: "@ga.repository.groep_organisatie"
         tags:
             - { name: ga.rapportage, title: Buurtmaatjes vrijwilligers per groep en stadsdeel }
+
+    groep_metadata:
+      class: Doctrine\ORM\Mapping\ClassMetadata
+      arguments:
+        - 'GaBundle\Entity\Groep'
+
+    GaBundle\Repository\GroepRepository:
+      class: GaBundle\Repository\GroepRepository
+      arguments:
+        - "@doctrine.orm.entity_manager"
+        - "@groep_metadata"
+      tags:
+        - app.doelstelling
+      public: true

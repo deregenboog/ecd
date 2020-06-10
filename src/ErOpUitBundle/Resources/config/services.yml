@@ -40,7 +40,7 @@ services:
         tags:
             - { name: kernel.event_subscriber }
 
-    klant_metadata:
+    eou_klant_metadata:
         class: Doctrine\ORM\Mapping\ClassMetadata
         arguments:
             - 'ErOpUitBundle\Entity\Klant'
@@ -49,7 +49,7 @@ services:
         class: ErOpUitBundle\Repository\ErOpUitRepository
         arguments:
             - "@doctrine.orm.entity_manager"
-            - "@klant_metadata"
+            - "@eou_klant_metadata"
         tags:
             - app.doelstelling
         public: true

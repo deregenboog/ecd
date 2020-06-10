@@ -50,9 +50,11 @@ services:
             - { name: twig.extension }
 
     app.doelstelling:
+#    AppBundle\Controller\DoelstellingenController:
         class: AppBundle\Form\DoelstellingType
         arguments:
             - '@security.authorization_checker'
+            - '@AppBundle\Service\DoelstellingDao'
         tags:
             - { name: form.type }
         public: true
@@ -108,14 +110,3 @@ services:
             - '@AppBundle\Service\KlantDao'
         tags:
             - { name: kernel.event_subscriber }
-
-#    AppBundle\Controller\DoelstellingenController:
-#        arguments:
-#            - !tagged 'app.doelstelling'
-
-##Register a dao to use in prestaties.
-#    AppBundle\Service\KlantDao:
-#        arguments:
-#            - '@doctrine.orm.default_entity_manager'
-#            - '@knp_paginator'
-#            - '25'

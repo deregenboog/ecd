@@ -59,29 +59,29 @@ class DeelnemersController extends AbstractController
 
         return $this->doSearch($request);
     }
-
-    /**
-     * @Route("/")
-     * @Template
-     */
-    public function indexAction(Request $request)
-    {
-        $form = $this->getForm($this->filterFormClass);
-        $form->handleRequest($request);
-        $filter = $form->getData();
-
-        $page = $request->get('page', 1);
-        if ($this->isGranted('ROLE_UHK_BEHEER')) {
-            $pagination = $this->dao->findAll($page, $filter);
-        } else {
-            $pagination = $this->dao->findByMedewerker($this->getMedewerker(), $page, $filter);
-        }
-
-        return [
-            'filter' => isset($form) ? $form->createView() : null,
-            'pagination' => $pagination,
-        ];
-    }
+//
+//    /**
+//     * @Route("/")
+//     * @Template
+//     */
+//    public function indexAction(Request $request)
+//    {
+//        $form = $this->getForm($this->filterFormClass);
+//        $form->handleRequest($request);
+//        $filter = $form->getData();
+//
+//        $page = $request->get('page', 1);
+//        if ($this->isGranted('ROLE_UHK_BEHEER')) {
+//            $pagination = $this->dao->findAll($page, $filter);
+//        } else {
+//            $pagination = $this->dao->findByMedewerker($this->getMedewerker(), $page, $filter);
+//        }
+//
+//        return [
+//            'filter' => isset($form) ? $form->createView() : null,
+//            'pagination' => $pagination,
+//        ];
+//    }
 
     /**
      * @Route("/{id}/view")

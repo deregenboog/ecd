@@ -4,12 +4,15 @@ namespace HsBundle\Repository;
 
 use AppBundle\Form\Model\AppDateRangeModel;
 use AppBundle\Repository\DoelstellingRepositoryInterface;
+use AppBundle\Repository\DoelstellingRepositoryTrait;
 use Doctrine\ORM\EntityRepository;
 use HsBundle\Entity\Factuur;
 use HsBundle\Entity\Klant;
+use HsBundle\Entity\Klus;
 
 class KlusRepository extends EntityRepository implements DoelstellingRepositoryInterface
 {
+    use DoelstellingRepositoryTrait;
     /**
      * @param AppDateRangeModel $dateRange
      *
@@ -49,18 +52,40 @@ class KlusRepository extends EntityRepository implements DoelstellingRepositoryI
         ;
     }
 
-    public static function getCategoryLabel(): string
+    public function getCategory(): string
     {
-        // TODO: Implement getCategoryLabel() method.
+        return DoelstellingRepositoryInterface::CAT_ACTIVERING;
     }
 
-    public function getVerfijningsas1(): ?array
+    public function initDoelstellingcijfers(): void
     {
-        // TODO: Implement getVerfijningsas1() method.
+        $this->addDoelstellingcijfer(
+            "Aantal afgerondde klussen",
+            "1179",
+            "Homeservice",
+            function($doelstelling,$startdatum,$einddatum)
+            {
+                $r =  $this->getAantalAfgerondeKlussen($doelstelling,$startdatum,$einddatum);
+                return $r;
+            }
+        );
     }
 
-    public function getVerfijningsas2(): ?array
+    private function getAantalAfgerondeKlussen($doelstelling,$startdatum,$einddatum)
     {
-        // TODO: Implement getVerfijningsas2() method.
+        return $this->createQueryBuilder('klus')
+            ->select('COUNT(klus.id) AS aantal_klussen')
+            ->where('klus.status = :status')
+            ->andWhere('klus.einddatum BETWEEN :start AND :end')
+            ->setParameters([
+                'status' => Klus::STATUS_AFGEROND,
+                'start' => $startdatum,
+                'end' => $einddatum,
+            ])
+            ->getQuery()
+            ->getSingleScalarResult()
+            ;
     }
+
+
 }
