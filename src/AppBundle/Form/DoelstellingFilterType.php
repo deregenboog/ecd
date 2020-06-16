@@ -41,9 +41,6 @@ class DoelstellingFilterType extends AbstractType
                 'choices' => array_combine($range, $range),
                 'required' => false,
             ])
-            ->add('label', null, [
-                'required' => false,
-            ])
             ->add('kostenplaats', null, [
                 'required' => false,
             ])
@@ -57,7 +54,10 @@ class DoelstellingFilterType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => DoelstellingFilter::class,
-            'enabled_filters' => ['filter'],
+            'enabled_filters' => [
+                'filter',
+                'download',
+            ],
         ]);
     }
 

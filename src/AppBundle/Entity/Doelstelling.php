@@ -66,7 +66,7 @@ class Doelstelling
 
     public function __toString()
     {
-        return sprintf('%s (%d)', $this->project, $this->jaar);
+        return sprintf('%s (%d)', $this->getRepositoryFriendlyName(), $this->jaar);
     }
 
     public function getId()
@@ -105,6 +105,11 @@ class Doelstelling
     public function setRepository(string $repository): void
     {
         $this->repository = $repository;
+    }
+
+    public function getRepositoryFriendlyName()
+    {
+        return explode("::",$this->repository)[1];
     }
 
     public function getAantal()

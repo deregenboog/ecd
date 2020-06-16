@@ -39,21 +39,21 @@ services:
     OekBundle\Report\DeelnemersPerTrainingGroep:
         public: true
         arguments:
-            - OekBundle\Repository\DeelnemerRepository
+            - '@OekBundle\Repository\DeelnemerRepository'
         tags:
             - { name: oek.rapportage, category: Deelnemers }
 
     OekBundle\Report\DeelnemersVerwezenDoor:
         public: true
         arguments:
-            - OekBundle\Repository\DeelnemerRepository
+            - '@OekBundle\Repository\DeelnemerRepository'
         tags:
             - { name: oek.rapportage, category: Deelnemers }
 
     OekBundle\Report\DeelnemersVerwezenNaar:
         public: true
         arguments:
-            - OekBundle\Repository\DeelnemerRepository
+            - '@OekBundle\Repository\DeelnemerRepository'
         tags:
             - { name: oek.rapportage, category: Deelnemers }
 

@@ -59,12 +59,12 @@ services:
             - { name: form.type }
         public: true
 
-    voter.doelstelling:
-        class: AppBundle\Security\DoelstellingVoter
-        arguments:
-            - '@security.access.decision_manager'
-        tags:
-            - { name: security.voter }
+#    voter.doelstelling:
+#        class: AppBundle\Security\DoelstellingVoter
+#        arguments:
+#            - '@security.access.decision_manager'
+#        tags:
+#            - { name: security.voter }
 
     AppBundle\Form\AddressType:
         arguments: ["@doctrine.orm.entity_manager"]

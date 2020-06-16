@@ -99,6 +99,11 @@ class GenericExport extends AbstractExport
                                 ->setValue($value)
                                 ->getStyle()->getNumberFormat()->setFormatCode(NumberFormat::FORMAT_DATE_TIME3);
                             break;
+                        case 'percentage':
+                            $sheet->getCellByColumnAndRow($column, $this->row)
+                                ->setValue($value)
+                                ->getStyle()->getNumberFormat()->setFormatCode(NumberFormat::FORMAT_PERCENTAGE_00);
+                            break;
                         default:
                             if (is_array($value) || $value instanceof \Traversable) {
                                 $values = [];

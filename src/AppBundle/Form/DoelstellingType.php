@@ -25,15 +25,28 @@ class DoelstellingType extends AbstractType
 {
     private $choices = [];
     private $repos = [];
+    private $options;
+    private $securityAuthorizationChecker;
+    /**
+     * @var DoelstellingDao $doelstellingDao
+     */
+    private $doelstellingDao;
+
     public function __construct($securityAuthorizationChecker, $doelstellingDao, array $options = [])
     {
-        /**
-         * @var DoelstellingDao $doelstellingDao
-         */
-        $doelstellingDao;
 
+        $this->doelstellingDao = $doelstellingDao;
+
+        $this->securityAuthorizationChecker = $securityAuthorizationChecker;
+        $this->options = $options;
+        $this->getRepositoryChoices($this->securityAuthorizationChecker,$this->doelstellingDao,$this->options,true);
         //this should be called again if data is loaded in case of an editted form...
 
+
+    }
+
+    private function getRepositoryChoices($securityAuthorizationChecker,DoelstellingDao $doelstellingDao,$options,$onlyAvailableOptions=true)
+    {
         foreach ($options as $doelstellingRepo) {
 //            if(!method_exists($doelstellingRepo,"getMethods")) continue;
             if(!$doelstellingRepo instanceof DoelstellingRepositoryInterface) continue;
@@ -41,7 +54,7 @@ class DoelstellingType extends AbstractType
 
 //            $cijfers = $doelstellingRepo->getAvailableDoelstellingcijfers();
 
-            $cijfers = $doelstellingDao->getAvailableDoelstellingcijfers($doelstellingRepo);
+            $cijfers = $doelstellingDao->getAvailableDoelstellingcijfers($doelstellingRepo,$onlyAvailableOptions);
 
             $cat = $doelstellingRepo->getCategory();
             foreach ($cijfers as $c) {
@@ -61,7 +74,6 @@ class DoelstellingType extends AbstractType
             }
         }
     }
-
     /**
      * {@inheritdoc}
      */
@@ -69,65 +81,33 @@ class DoelstellingType extends AbstractType
     {
         $range = range((new \DateTime('previous year'))->modify('-1 year')->format('Y'), (new \DateTime('next year'))->format('Y'));
         $repo = null;
+        $disabled = false;
+        if(isset($options['data']) && null !== $options['data']->getRepository())
+        {
+            //edit.
+            $this->getRepositoryChoices($this->securityAuthorizationChecker,$this->doelstellingDao,$this->options,false);
+            $disabled = true;
 
+        }
         $builder
 
             ->add('repository', ChoiceType::class, [
                 'required' => true,
                 'placeholder' => 'Selecteer een module',
                 'choices' => $this->choices,
-//                'mapped'=>false,
+                'disabled'=>$disabled,
+
             ])
-//            ->add('bulk', CheckboxType::class,[
-//                'required'=>false,
-//                'mapped'=>false,
-//                'label'=>'Bulk invoer?',
-//            ])
             ->add('jaar', ChoiceType::class, [
                 'choices' => array_combine($range, $range),
             ])
 
-//            ->add('label', null, [
-//                'required' => true,
-//                'label'=>'Label',
-////                'placeholder' => 'Deelnemers/bezoekers/uren/...',
-//
-//            ])
-//            ->add('kostenplaats', null, [
-//                'required' => false,
-//                'label'=>'Kostenplaats',
-////                'placeholder' => 'Deelnemers/bezoekers/uren/...',
-//
-//            ])
         ;
-        $formModifier =  function (?FormInterface $form, $data) {
-            $verfijningsopties1 = [];
-            //if the data is from the select field, it is a string, key to daos.
-            if(is_string($data) && strlen($data) > 1 && $this->repos[$data] instanceof DoelstellingRepositoryInterface)
-            {
-                $dao = $this->repos[$data];
-//                $verfijningsopties1 = $dao->getVerfijningsas1();
 
-            }
-//            $form->add('verfijningsas1', ChoiceType::class, [
-//                'placeholder' => '',
-//                'choices' => $verfijningsopties1,
-////                'required' => false,
-//            ]);
-        };
-//        $builder->addEventListener(
-//            FormEvents::PRE_SET_DATA, function(FormEvent $event) use ($formModifier) {
-//                $formModifier($event->getForm(),$event->getData());
-//            }
-//        );
-//        $builder->get('repository')->addEventListener(
-//            FormEvents::POST_SUBMIT,function(FormEvent $event) use($formModifier) {
-//           $formModifier($event->getForm()->getParent(),$event->getData());
-//        });
 
         $builder->add('aantal',null,[
             'required'=>true,
-            'label'=>'Aantal'
+            'label'=>'Aantal (prestatie)'
         ])
             ->add('submit', SubmitType::class, ['label' => 'Opslaan'])
             ;

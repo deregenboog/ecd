@@ -44,6 +44,18 @@ services:
                 E-mailvoorkeur: { expression: 'entity.getGeenEmail() ? "Geen e-mail" : "Wel e-mail"' }
                 Geinformeerd opslaan gegevens: { expression: 'entity.isGeinformeerdOpslaanGegevens() ? "Ja" : "Nee"' }
 
+    app.export.doelstellingen:
+        public: true
+        class: AppBundle\Export\GenericExport
+        arguments:
+            - AppBundle\Entity\Doelstelling
+            - Kostenplaats: { expression: 'entity.getKostenplaats()' }
+              Label: { expression: 'entity.getRepositoryLabel()' }
+              Jaar: { expression: 'entity.getJaar()' }
+              Doelstelling: { expression: 'entity.getAantal()' }
+              Prestatie: { expression: 'entity.getActueel()' }
+              Percentage: { expression: 'entity.getActueel() / entity.getAantal()', type: 'percentage' }
+
     app.export.report:
         public: true
         class: AppBundle\Export\ReportExport

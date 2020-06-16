@@ -25,13 +25,13 @@ class DoelstellingVoter extends Voter
 
     protected function supports($attribute, $subject)
     {
-        if (!in_array($attribute, [self::EDIT])) {
-            return false;
-        }
-        else if(!is_string($subject))
-        {
-            return false;
-        }
+//        if (!in_array($attribute, [self::EDIT])) {
+//            return false;
+//        }
+//        else if(!is_string($subject))
+//        {
+//            return false;
+//        }
         return true;
     }
 
@@ -44,14 +44,14 @@ class DoelstellingVoter extends Voter
 
 
         //list($class,$method) = explode("::",$subject);
-        $roleName = $this->getRoleNameForRepositoryMethod($subject);
+//        $roleName = $this->getRoleNameForRepositoryMethod($attribute);
 
 //        if ($this->decisionManager->decide($token, ['ROLE_ADMIN'])) {
 //            return true;
 //        }
-        if ($this->decisionManager->decide($token, [$roleName])) {
-            return true;
-        }
+//        if ($this->decisionManager->decide($token, [$attribute])) {
+//            return true;
+//        }
         return false;
     }
 
