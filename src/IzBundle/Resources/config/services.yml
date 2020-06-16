@@ -59,3 +59,24 @@ services:
             - '@event_dispatcher'
         tags:
             - { name: doctrine.event_subscriber }
+
+    koppeling_metadata:
+        class: Doctrine\ORM\Mapping\ClassMetadata
+        arguments:
+             - IzBundle\Entity\Koppeling
+
+    IzBundle\Repository\KoppelingenRepository:
+        class: IzBundle\Repository\KoppelingenRepository
+        arguments:
+            - "@doctrine.orm.entity_manager"
+            - "@koppeling_metadata"
+        calls:
+            - method: setHulpvraagRepository
+              arguments:
+                - "@iz.repository.iz_hulpvraag"
+            - method: setSpecifiekeProjecten
+              arguments:
+                  - "%iz_specifieke_projecten%"
+        public: true
+        tags:
+            - app.doelstelling
