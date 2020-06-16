@@ -29,7 +29,7 @@ class HulpvraagType extends AbstractType
             ->add('startdatum', AppDateType::class, [
                 'required' => true,
             ])
-            ->add('project', KPISelectType::class, [
+            ->add('project', ProjectSelectType::class, [
                 'required' => true,
             ])
             ->add('medewerker', MedewerkerType::class, [

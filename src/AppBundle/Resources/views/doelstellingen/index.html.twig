@@ -101,7 +101,7 @@
                     {{ doelstelling.aantal }}
                 </td>
                 <td>
-                    {{ (doelstelling.actueel / doelstelling.aantal) * 100 }}%
+                    {{ ((doelstelling.actueel / doelstelling.aantal) * 100)|round(1,'ceil')}}%
                 </td>
 
                 <td>
