@@ -38,27 +38,27 @@ parameters:
             - 'Havelaar'
             - '''t Blommetje'
             - 'Tagrijn'
-        spuitomruil_locaties:
-            - 'Princehof gebruikersruimte'
-            - 'Amoc gebruikersruimte'
-        gezin_noodopvang_locaties:
-            - 'Bloemendaal'
-        iz_specifieke_projecten:
-            -
-                label: "2forT maatje"
-                kpl: "2177"
-            -
-                label: "BdH - maatje"
-                kpl: "2783"
-            -
-                label: "Dier en Vriend"
-                kpl: "2725"
-            -
-                label: "Nieuw Thuis"
-                kpl: "2727"
-            -
-                label: "Mensen onder elkaar"
-                kpl: "2730"
+    spuitomruil_locaties:
+        - 'Princehof gebruikersruimte'
+        - 'Amoc gebruikersruimte'
+    gezin_noodopvang_locaties:
+        - 'Bloemendaal'
+    iz_specifieke_projecten:
+        -
+            label: "2forT maatje"
+            kpl: "2177"
+        -
+            label: "BdH - maatje"
+            kpl: "2783"
+        -
+            label: "Dier en Vriend"
+            kpl: "2725"
+        -
+            label: "Nieuw Thuis"
+            kpl: "2727"
+        -
+            label: "Mensen onder elkaar"
+            kpl: "2730"
     verblijfsstatus_niet_rechthebbend_id: 7
     informele_zorg_mail: ''
     dagbesteding_mail: ''
