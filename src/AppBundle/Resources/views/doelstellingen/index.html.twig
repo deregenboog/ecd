@@ -19,7 +19,7 @@
         <thead>
         {{ form_start(filter) }}
         <tr>
-            <th colspan="5" class="text-right">
+            <th colspan="4" class="text-right">
                 <span >Cijfers periode: </span>
             </th>
             <th>
@@ -30,7 +30,7 @@
                 {{ form_widget(filter.einddatum) }}
                 {{ form_errors(filter.einddatum) }}
             </th>
-            <th></th>
+            <th>{{ form_widget(filter.download) }}</th>
         </tr>
         <tr>
             <th>
@@ -44,10 +44,6 @@
             <th>
                 {{ form_widget(filter.jaar) }}
                 {{ form_errors(filter.jaar) }}
-            </th>
-            <th>
-                {{ form_widget(filter.label) }}
-                {{ form_errors(filter.label) }}
             </th>
             <th>
 
@@ -75,9 +71,6 @@
                 {{ knp_pagination_sortable(pagination, 'Jaar', 'doelstelling.jaar') }}
             </th>
             <th>
-                {{ knp_pagination_sortable(pagination, 'Label', 'doelstelling.label') }}
-            </th>
-            <th>
                 Prestatie
             </th>
             <th>
@@ -100,9 +93,6 @@
                 </td>
                 <td>
                     {{ doelstelling.jaar }}
-                </td>
-                <td>
-                    {{ doelstelling.label }}
                 </td>
                 <td>
                     {{ doelstelling.actueel }}

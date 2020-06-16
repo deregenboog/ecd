@@ -79,7 +79,7 @@ class DoelstellingenController extends AbstractController
     /**
      * @var ExportInterface
      *
-     * @DI\Inject("app.export.report")
+     * @DI\Inject("app.export.doelstellingen")
      */
     protected $export;
 

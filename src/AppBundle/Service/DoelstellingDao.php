@@ -56,11 +56,12 @@ class DoelstellingDao extends AbstractDao
         $this->decisionManager = $decisionManager;
     }
 
-    public function getAvailableDoelstellingcijfers($doelstellingRepo)
+    public function getAvailableDoelstellingcijfers($doelstellingRepo,$onlyAvailableOptions=true)
     {
         $builder = $this->repository->createQueryBuilder($this->alias);
         $vastgelegdeCijfers = $builder->getQuery()->getResult();
         $cijfers = $doelstellingRepo->getAvailableDoelstellingcijfers();
+        if($onlyAvailableOptions!==true) return $cijfers;
         foreach ($cijfers as $cijfer) {
 
             $a = $cijfer;
@@ -89,7 +90,12 @@ class DoelstellingDao extends AbstractDao
 
         //Results should be connected to the repositories used.
         $result = $this->connectDoelstellingenInterfaceReposToResult($result,$filter);
-        return $this->paginator->paginate($result,$page,$this->itemsPerPage,$this->paginationOptions);
+        if($page)
+        {
+            return $this->paginator->paginate($result,$page,$this->itemsPerPage,$this->paginationOptions);
+        }
+        return $result;
+
 
     }
 
@@ -104,7 +110,8 @@ class DoelstellingDao extends AbstractDao
         $token = $this->serviceContainer->get("security.token_storage")->getToken();
         $user = $token->getUser();
         $roles = $token->getRoles();
-        $doelstellingVoter = $this->serviceContainer->get("voter.doelstelling");
+        $fullAccess = $this->serviceContainer->get("security.authorization_checker")->isGranted("ROLE_DOELSTELLING_BEHEER");
+//        $doelstellingVoter = $this->serviceContainer->get("voter.doelstelling");
 
 
         foreach($doelstellingen as $row)
@@ -114,9 +121,10 @@ class DoelstellingDao extends AbstractDao
              */
             $repos = $row->getRepository();
 
-            $roleName = $doelstellingVoter->getRoleNameForRepositoryMethod($repos); //get Rolename for this repository to vote if user has access to this repository.
+            $roleName = self::getRoleNameForRepositoryMethod($repos); //get Rolename for this repository to vote if user has access to this repository.
+
             $canView = $this->decisionManager->decide($token,[$roleName]);
-            if(!$canView)
+            if(!$canView && !$fullAccess)
             {
                 array_pop($doelstellingen);
                 continue;
@@ -193,5 +201,23 @@ class DoelstellingDao extends AbstractDao
     public function delete(Doelstelling $prestatie)
     {
         return $this->doDelete($prestatie);
+    }
+
+    private static function getBundleName($repositoryMethodString)
+    {
+        $matches = [];
+        $re = '/(.*)Bundle\\\\(.*)\\\\(.*)::(.*)/';
+        preg_match($re, $repositoryMethodString, $matches);
+
+        if (5 !== count($matches)) {
+            throw new \BadFunctionCallException('Could not determine proper bundle name. Should provide valid repository methodstring: Namespace\BundleName\Class::Method');
+        }
+
+        return sprintf('%s', strtoupper($matches[1]));
+    }
+
+    public static function getRoleNameForRepositoryMethod($repositoryMethodString)
+    {
+        return "ROLE_".self::getBundleName($repositoryMethodString)."_BEHEER";
     }
 }
