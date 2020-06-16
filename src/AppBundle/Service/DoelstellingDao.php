@@ -62,12 +62,12 @@ class DoelstellingDao extends AbstractDao
         $vastgelegdeCijfers = $builder->getQuery()->getResult();
         $cijfers = $doelstellingRepo->getAvailableDoelstellingcijfers();
         if($onlyAvailableOptions!==true) return $cijfers;
-        foreach ($cijfers as $cijfer) {
+        foreach ($cijfers as $k=>$cijfer) {
 
             $a = $cijfer;
             $fullMethodRepoName = get_class($doelstellingRepo)."::".$cijfer->getLabel();
             foreach ($vastgelegdeCijfers as $dbCijfer) {
-                if($dbCijfer->getRepository() == $fullMethodRepoName) array_shift($cijfers);
+                if($dbCijfer->getRepository() == $fullMethodRepoName) unset($cijfers[$k]);
 
             }
       }
