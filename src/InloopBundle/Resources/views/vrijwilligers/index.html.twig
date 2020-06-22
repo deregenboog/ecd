@@ -109,7 +109,7 @@
 {#                        <li>{{ locatie }}</li>#}
 {#                    {% endfor %}#}
 {#                </ul>#}
-                {{ vrijwilliger.locatie }}
+                {{ vrijwilliger.locaties|join(', ') }}
             </td>
             <td>
                 {{ vrijwilliger.vrijwilliger.werkgebied }}

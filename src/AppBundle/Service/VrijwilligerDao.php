@@ -37,7 +37,7 @@ class VrijwilligerDao extends AbstractDao implements VrijwilligerDaoInterface
         $builder = $this->repository->createQueryBuilder($this->alias)
             ->leftJoin("{$this->alias}.medewerker", 'medewerker')
             ->leftJoin("{$this->alias}.geslacht", 'geslacht')
-            ->leftJoin("{$this->alias}.werkgebied", 'werkgebied')
+            ->innerJoin("{$this->alias}.werkgebied", 'werkgebied')
             ->leftJoin("{$this->alias}.postcodegebied", 'postcodegebied')
         ;
 
