@@ -49,6 +49,9 @@ class DoelstellingVoter extends Voter
         if ($this->decisionManager->decide($token, ['ROLE_ADMIN'])) {
             return true;
         }
+        if ($this->decisionManager->decide($token, ['ROLE_DOELSTELLING_BEHEER'])) {
+            return true;
+        }
         if ($this->decisionManager->decide($token, [$roleName])) {
             return true;
         }
@@ -70,6 +73,6 @@ class DoelstellingVoter extends Voter
 
     public function getRoleNameForRepositoryMethod($repositoryMethodString)
     {
-        return "ROLE_".$this->getBundleName($repositoryMethodString)."_BEHEER";
+        return "ROLE_".$this->getBundleName($repositoryMethodString);//."_BEHEER";
     }
 }
