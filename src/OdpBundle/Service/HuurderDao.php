@@ -24,6 +24,8 @@ class HuurderDao extends AbstractDao implements HuurderDaoInterface
             'huurder.aanmelddatum',
             'huurder.afsluitdatum',
             'huurder.wpi',
+            'medewerker.achternaam',
+
         ],
     ];
 
@@ -50,6 +52,7 @@ class HuurderDao extends AbstractDao implements HuurderDaoInterface
             ->innerJoin('huurder.klant', 'klant')
             ->leftJoin('klant.werkgebied', 'werkgebied')
             ->leftJoin('huurder.afsluiting', 'afsluiting')
+            ->innerJoin('huurder.medewerker','medewerker')
             ->andWhere('afsluiting.tonen IS NULL OR afsluiting.tonen = true')
         ;
 //        $builder = $this->repository->createQueryBuilder($this->alias)

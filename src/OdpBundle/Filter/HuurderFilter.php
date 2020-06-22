@@ -139,7 +139,7 @@ class HuurderFilter implements FilterInterface
         }
         if($this->medewerker)
         {
-            $builder->andWhere('huurder.medewerker = :medewerker')
+            $builder->andWhere('medewerker = :medewerker')
                 ->setParameter('medewerker',$this->medewerker);
         }
 

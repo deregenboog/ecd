@@ -8,7 +8,10 @@ use AppBundle\Form\AppDateRangeType;
 use AppBundle\Form\FilterType;
 use AppBundle\Form\KlantFilterType;
 use AppBundle\Form\StadsdeelSelectType;
+use Doctrine\ORM\EntityRepository;
+use OdpBundle\Entity\Huurder;
 use OdpBundle\Filter\HuurderFilter;
+use PfoBundle\Entity\Client;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -69,6 +72,11 @@ class HuurderFilterType extends AbstractType
         if (in_array('medewerker', $options['enabled_filters'])) {
             $builder->add('medewerker', MedewerkerType::class, [
                 'required' => false,
+                'query_builder' => function (EntityRepository $repository) {
+                    return $repository->createQueryBuilder('medewerker')
+                        ->innerJoin(Huurder::class, 'huurder', 'WITH', 'huurder.medewerker = medewerker')
+                        ->orderBy('medewerker.voornaam');
+                },
             ]);
         }
         if (in_array('aanmelddatum', $options['enabled_filters'])) {
