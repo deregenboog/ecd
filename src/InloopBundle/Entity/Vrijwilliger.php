@@ -328,7 +328,7 @@ class Vrijwilliger implements MemoSubjectInterface, DocumentSubjectInterface
     /**
      * @param string $notitieIntake
      */
-    public function setNotitieIntake(string $notitieIntake): void
+    public function setNotitieIntake(?string $notitieIntake): void
     {
         $this->notitieIntake = $notitieIntake;
     }
