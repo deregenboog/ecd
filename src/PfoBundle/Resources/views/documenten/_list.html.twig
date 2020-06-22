@@ -28,9 +28,9 @@
                 <a href="{{ vich_uploader_asset(document, 'file') }}" alt="{{ document.naam }}">
                     Document downloaden
                 </a>
-                {% if is_granted('ROLE_ADMIN') %}
+                {% if is_granted('ROLE_PFO') %}
                     <span class="pull-right">
-                        {{ html.deleteLink(path('pfo_documenten_delete', {id: document.id})) }}
+                        {{ html.deleteLink(path('pfo_documenten_delete', {id: document.id,'redirect': path('pfo_clienten_index')})) }}
                     </span>
                 {% endif %}
             </td>
