@@ -10,6 +10,7 @@ use AppBundle\Repository\DoelstellingRepositoryInterface;
 use Psr\Container\ContainerInterface;
 use Symfony\Component\DependencyInjection\Container;
 use Symfony\Component\Security\Core\Authorization\AccessDecisionManagerInterface;
+use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 
 class DoelstellingDao extends AbstractDao
 {
@@ -110,11 +111,13 @@ class DoelstellingDao extends AbstractDao
         $token = $this->serviceContainer->get("security.token_storage")->getToken();
         $user = $token->getUser();
         $roles = $token->getRoles();
-        $fullAccess = $this->serviceContainer->get("security.authorization_checker")->isGranted("ROLE_DOELSTELLING_BEHEER");
-//        $doelstellingVoter = $this->serviceContainer->get("voter.doelstelling");
 
+        $hasRoleDoelstellingenBeheer = $this->serviceContainer->get("security.authorization_checker")->isGranted("ROLE_DOELSTELLING_BEHEER");
+        $hasRoleAdmin = $this->serviceContainer->get("security.authorization_checker")->isGranted("ROLE_ADMIN");
 
-        foreach($doelstellingen as $row)
+        $fullAccess = ($hasRoleDoelstellingenBeheer || $hasRoleAdmin);
+
+        foreach($doelstellingen as $k=>$row)
         {
             /**
              * @var Doelstelling $row
@@ -126,7 +129,7 @@ class DoelstellingDao extends AbstractDao
             $canView = $this->decisionManager->decide($token,[$roleName]);
             if(!$canView && !$fullAccess)
             {
-                array_pop($doelstellingen);
+                unset($doelstellingen[$k]);
                 continue;
             }
             $startdatum = $einddatum = null;
@@ -218,6 +221,6 @@ class DoelstellingDao extends AbstractDao
 
     public static function getRoleNameForRepositoryMethod($repositoryMethodString)
     {
-        return "ROLE_".self::getBundleName($repositoryMethodString)."_BEHEER";
+        return "ROLE_".self::getBundleName($repositoryMethodString);//."_BEHEER";
     }
 }

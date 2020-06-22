@@ -15,9 +15,9 @@ class KoppelingenRepository extends EntityRepository implements DoelstellingRepo
      */
     private $hulpvraagRepository;
 
-    private $projectenBeginstand;
+    private static $projectenBeginstand = null;
 
-    private $projectenGestart;
+    private static $projectenGestart = null;
 
     private $kplProjectenSpecifiek = [];
 
@@ -93,7 +93,7 @@ class KoppelingenRepository extends EntityRepository implements DoelstellingRepo
 
     public function initDoelstellingcijfers(): void
     {
-        // TODO: Implement initDoelstellingcijfers() method.
+
 
         foreach ($this->kplProjectenSpecifiek as $kpl => $label) {
             $this->addDoelstellingcijfer(
@@ -146,16 +146,16 @@ class KoppelingenRepository extends EntityRepository implements DoelstellingRepo
     private function getKoppelingenForProject($projectNaam,$startdatum,$einddatum)
     {
         $this->initProjectenCounter($startdatum,$einddatum);
-
         $gestart = 0;
-        if(array_key_exists($projectNaam,$this->projectenGestart))
+        if(array_key_exists($projectNaam,self::$projectenGestart) )
         {
-            $gestart = $this->projectenGestart[$projectNaam];
+            $gestart = self::$projectenGestart[$projectNaam];
         }
+
         $beginstand = 0;
-        if(array_key_exists($projectNaam,$this->projectenBeginstand))
+        if(array_key_exists($projectNaam,self::$projectenBeginstand))
         {
-            $beginstand = $this->projectenBeginstand[$projectNaam];
+            $beginstand = self::$projectenBeginstand[$projectNaam];
         }
 
         return $beginstand+$gestart;
@@ -164,22 +164,14 @@ class KoppelingenRepository extends EntityRepository implements DoelstellingRepo
     private function getKoppelingenForBasis($startdatum,$einddatum,$factor)
     {
         $this->initProjectenCounter($startdatum,$einddatum);
-        foreach ($this->kplProjectenSpecifiek as $kpl=>$label) {
-            if(array_key_exists($label,$this->projectenGestart))
-            {
-                unset($this->projectenGestart[$label]);
-            }
-            if(array_key_exists($label,$this->projectenBeginstand))
-            {
-                unset($this->projectenBeginstand[$label]);
-            }
-        }
-        $aantalTotaal = 0;
-        foreach ($this->projectenBeginstand as $label=>$aantal) {
 
+        $aantalTotaal = 0;
+        foreach (self::$projectenBeginstand as $label=>$aantal) {
+            if(in_array($label,$this->kplProjectenSpecifiek)) continue;
             $aantalTotaal +=$aantal;
         }
-        foreach ($this->projectenGestart as $label=>$aantal) {
+        foreach (self::$projectenGestart as $label=>$aantal) {
+            if(in_array($label,$this->kplProjectenSpecifiek)) continue;
             $aantalTotaal+=$aantal;
         }
         return ceil($aantalTotaal * $factor);
@@ -188,24 +180,25 @@ class KoppelingenRepository extends EntityRepository implements DoelstellingRepo
 
     private function initProjectenCounter($startdatum,$einddatum)
     {
-        if(null === $this->projectenBeginstand)
+        if(!is_array(self::$projectenBeginstand))
         {
-            $this->projectenBeginstand = $this->hulpvraagRepository->countKoppelingenByProject("beginstand",$startdatum,$einddatum);
+            self::$projectenBeginstand = $this->hulpvraagRepository->countKoppelingenByProject("beginstand",$startdatum,$einddatum);
             $t = array();
-            foreach ($this->projectenBeginstand as $arr) {
+            foreach (self::$projectenBeginstand as $arr) {
                 $t[$arr["projectnaam"]] = $arr["aantal"];
             }
-            $this->projectenBeginstand = $t;
+            self::$projectenBeginstand = $t;
         }
 
-        if(null === $this->projectenGestart)
+        if(!is_array(self::$projectenGestart))
         {
-            $this->projectenGestart = $this->hulpvraagRepository->countKoppelingenByProject("gestart",$startdatum,$einddatum);
+            self::$projectenGestart = $this->hulpvraagRepository->countKoppelingenByProject("gestart",$startdatum,$einddatum);
+
             $t = array();
-            foreach ($this->projectenGestart as $arr) {
+            foreach (self::$projectenGestart as $arr) {
                 $t[$arr["projectnaam"]] = $arr["aantal"];
             }
-            $this->projectenGestart = $t;
+            self::$projectenGestart = $t;
         }
     }
 }

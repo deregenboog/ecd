@@ -40,7 +40,7 @@ class RegistratieRepository extends \Doctrine\ORM\EntityRepository implements \A
         $this->addDoelstellingcijfer(
             "Gemiddelde bedbezetting per nacht voor nachtopvanglocatie(s)",
             "3201",
-            "Gemiddelde bedbezetting",
+            "Gemiddelde bedbezetting nachtopvang",
             function($doelstelling,$startdatum,$einddatum)
             {
                 $r = $this->getGemiddeldeBedbezettingNachtopvang($startdatum,$einddatum);
