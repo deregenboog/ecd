@@ -127,7 +127,8 @@ security:
             - ROLE_SCIP
         ROLE_SKIP_BEHEER:
             - ROLE_SCIP_BEHEER
-        ROLE_UHK: []
+        ROLE_UHK:
+            - CONTROLLER_APP_ZRMS
         ROLE_UHK_BEHEER:
             - ROLE_UHK
             - CONTROLLER_APP_KLANTEN

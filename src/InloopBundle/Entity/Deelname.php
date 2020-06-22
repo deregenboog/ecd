@@ -28,7 +28,7 @@ class Deelname
     /**
      * @var Training
      *
-     * @ORM\ManyToOne(targetEntity="Training", inversedBy="deelnames")
+     * @ORM\ManyToOne(targetEntity="Training", cascade={"persist"}, inversedBy="deelnames")
      * @ORM\JoinColumn(name="inloopTraining_id", nullable=false)
      * @Gedmo\Versioned
      */
