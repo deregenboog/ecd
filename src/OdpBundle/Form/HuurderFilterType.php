@@ -2,6 +2,8 @@
 
 namespace OdpBundle\Form;
 
+use AppBundle\Entity\Medewerker;
+use AppBundle\Form\MedewerkerType;
 use AppBundle\Form\AppDateRangeType;
 use AppBundle\Form\FilterType;
 use AppBundle\Form\KlantFilterType;
@@ -64,7 +66,11 @@ class HuurderFilterType extends AbstractType
                 'required' => false,
             ]);
         }
-
+        if (in_array('medewerker', $options['enabled_filters'])) {
+            $builder->add('medewerker', MedewerkerType::class, [
+                'required' => false,
+            ]);
+        }
         if (in_array('aanmelddatum', $options['enabled_filters'])) {
             $builder->add('aanmelddatum', AppDateRangeType::class, [
                 'required' => false,
@@ -116,6 +122,7 @@ class HuurderFilterType extends AbstractType
                 'afsluitdatum',
                 'actief',
                 'wpi',
+                'medewerker',
             ],
         ]);
     }

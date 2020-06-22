@@ -2,6 +2,7 @@
 
 namespace OdpBundle\Filter;
 
+use AppBundle\Entity\Medewerker;
 use AppBundle\Filter\FilterInterface;
 use AppBundle\Filter\KlantFilter;
 use Doctrine\ORM\QueryBuilder;
@@ -52,6 +53,11 @@ class HuurderFilter implements FilterInterface
      * @var bool
      */
     public $wpi;
+
+    /**
+     * @var Medewerker
+     */
+    public $medewerker;
 
     public function applyTo(QueryBuilder $builder)
     {
@@ -130,6 +136,11 @@ class HuurderFilter implements FilterInterface
                 ->andWhere('huurder.wpi = :wpi')
                 ->setParameter('wpi', $this->wpi)
             ;
+        }
+        if($this->medewerker)
+        {
+            $builder->andWhere('huurder.medewerker = :medewerker')
+                ->setParameter('medewerker',$this->medewerker);
         }
 
         if ($this->klant) {
