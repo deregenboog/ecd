@@ -46,4 +46,5 @@ class DocumentenController extends AbstractChildController
 
         return $downloadHandler->downloadObject($document, 'file');
     }
+
 }
