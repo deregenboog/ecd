@@ -11,6 +11,7 @@ use InloopBundle\Form\LocatieSelectType;
 use MwBundle\Entity\Contactsoort;
 use MwBundle\Entity\Doorverwijzing;
 use MwBundle\Entity\Trajecthouder;
+use MwBundle\Entity\Verslag;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -60,6 +61,14 @@ class VerslagType extends AbstractType
                     'rows' => 10,
                 ],
             ])
+            ->add('accessType', ChoiceType::class,[
+                'required'=>true,
+                'label'=>'Zichtbaar voor',
+                'choices'=>[
+                    Verslag::$accessTypes[Verslag::ACCESS_MW]=>Verslag::ACCESS_MW,
+                    Verslag::$accessTypes[Verslag::ACCESS_ALL]=>Verslag::ACCESS_ALL,
+                    ],
+                ])
             ->add('submit', SubmitType::class)
         ;
 

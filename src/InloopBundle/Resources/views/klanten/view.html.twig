@@ -77,18 +77,20 @@
             </p>
 
             {% if is_granted("ROLE_MW") %}
-                    {%  set ookMw = true %}
+                    {%  set roleMw = true %}
             {% else %}
-                    {%  set ookMw = false %}
+                    {%  set roleMw = false %}
             {% endif %}
 
 
-            {% for verslag in entity.verslagen|filter(verslag => (verslag.type == 1 and ookMw == true) or verslag.type == 2) %}
+            {% for verslag in entity.verslagen|filter(verslag => (verslag.type == 1 and roleMw == true) or (verslag.type == 1 and verslag.access == 2) or verslag.type == 2) %}
 
                  <h3>Verslag van {{ verslag.datum|date('d-m-Y') }}</h3>
+                {% if (verslag.type == 1 and roleMw == true) or verslag.type == 2%}
                  <p>
                      {{ html.link('Verslag bewerken', path('inloop_verslagen_edit', {id: verslag.id}), 'edit') }}
                  </p>
+                {% endif %}
 
                 {% if verslag.type == 2 %}
                     {% set class = "bg-info" %}

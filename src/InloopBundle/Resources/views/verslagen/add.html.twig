@@ -15,7 +15,11 @@
 {% block content_top %}
     <h1>{{ entity_name|capitalize }} toevoegen voor {{ entity.klant }}</h1>
 {% endblock %}
-
+{% if is_granted("ROLE_MW") %}
+    {%  set roleMw = true %}
+{% else %}
+    {%  set roleMw = false %}
+{% endif %}
 {% block content %}
     {{ form_start(form) }}
     <div class="col-xs-6">
@@ -61,19 +65,20 @@
         {{ form_row(form.locatie) }}
         {{ form_row(form.contactsoort) }}
         {{ form_row(form.duur) }}
+        {% if roleMw == true %}
+            {{ form_row(form.accessType) }}
+        {% else %}
+            {{ form_row(form.accessType,{'attr':{'readonly':true},'value':'2'}) }}
+        {% endif %}
         {{ form_row(form.submit) }}
     </div>
     <div class="col-xs-6">
         {{ form_row(form.opmerking) }}
-        {{ form_end(form) }}
+        {{ form_end(form,{'render_rest':false}) }}
         <h2>Vorige verslagen</h2>
         <div style="max-height: 30em; overflow-y: scroll;">
-            {% if is_granted("ROLE_MW") %}
-                {%  set ookMw = true %}
-            {% else %}
-                {%  set ookMw = false %}
-            {% endif %}
-            {% for verslag in entity.klant.verslagen|filter(verslag => (verslag.type == 1 and ookMw == true) or verslag.type == 2) %}
+
+            {% for verslag in entity.klant.verslagen|filter(verslag => (verslag.type == 1 and roleMw == true) or (verslag.type == 1 and verslag.access == 2) or verslag.type == 2) %}
 
                 <h3>Verslag van {{ verslag.datum|date('d-m-Y') }}</h3>
                 <div class="row">

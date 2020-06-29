@@ -110,9 +110,26 @@ class Verslag
      */
     private $type = self::TYPE_MW;
 
+    const ACCESS_MW = 1;
+    const ACCESS_ALL = 2;
+
+    public static $accessTypes = [
+        self::ACCESS_MW => "Leesbaar alleen binnen MW",
+        self::ACCESS_ALL => "Leesbaar voor inloop en MW",
+
+    ];
+
+    /**
+     * @var int
+     * @ORM\Column(name="accessType", type="integer", options={"default":1})
+     * @Gedmo\Versioned
+     */
+    private $access = self::ACCESS_MW;
+
     public function __construct(Klant $klant, $type = 1)
     {
         $this->setType($type);
+
         $this->klant = $klant;
         $this->verslaginventarisaties = new ArrayCollection();
         $this->datum = new \DateTime();
@@ -298,6 +315,24 @@ class Verslag
         if(!in_array($type,array_flip(self::$types))) throw new \InvalidArgumentException("Verslagtype kan alleen van types zijn zoals vermeld.");
         $this->type = $type;
     }
+
+    /**
+     * @return int
+     */
+    public function getAccess(): int
+    {
+        return $this->access;
+    }
+
+    /**
+     * @param int $access
+     */
+    public function setAccess(int $access): void
+    {
+//        if(is_null($access)) $access = self::$accessTypes[self::ACCESS_ALL];
+        $this->access = $access;
+    }
+
 
 //     /**
 //      * Only one root per Verslaginventarisatie is allowed.

@@ -59,7 +59,7 @@ class VerslagenController extends AbstractController
     public function addAction(Request $request)
     {
         $klant = $request->get('klant');
-        $entity = new Verslag($klant,1);
+        $entity = new Verslag($klant,Verslag::TYPE_MW);
 
         return $this->processForm($request, $entity);
     }
