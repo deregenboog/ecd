@@ -115,3 +115,7 @@ body {
     width: 100%;
     height: 30px;
 }
+select[readonly]{
+    pointer-events: none;
+    color: #828282; // If you also want the disabled input color.
+}

@@ -19,6 +19,7 @@ class VerslagModel
     private $inventarisaties;
     private $data = [];
 
+
     public function getVerslag()
     {
         return $this->verslag;
@@ -87,6 +88,19 @@ class VerslagModel
     public function setMedewerker(Medewerker $medewerker)
     {
         return $this->verslag->setMedewerker($medewerker);
+    }
+
+    /**
+     * @Assert\NotNull
+     */
+    public function getAccessType()
+    {
+        return $this->verslag->getAccess();
+    }
+
+    public function setAccessType($accessType)
+    {
+        $this->verslag->setAccess($accessType);
     }
 
     /**

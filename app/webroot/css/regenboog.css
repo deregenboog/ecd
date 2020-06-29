@@ -991,3 +991,8 @@ ul.pagination > li {
 .sr-only {
     display: none;
 }
+
+select[readonly]{
+    pointer-events: none;
+    color: #828282; // If you also want the disabled input color.
+}

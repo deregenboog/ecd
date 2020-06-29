@@ -61,7 +61,7 @@ class VerslagenController extends AbstractController
         $klant = $request->get('klant');
 //        $type = $request->get('type');
 
-        $entity = new Verslag($klant, 2);
+        $entity = new Verslag($klant, Verslag::ACCESS_ALL);
 //        $entity->setType($type);
 
         return $this->processForm($request, $entity);

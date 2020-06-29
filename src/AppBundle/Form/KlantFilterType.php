@@ -80,7 +80,7 @@ class KlantFilterType extends AbstractType
         }
 
         if (in_array('medewerker', $options['enabled_filters'])) {
-            $builder->add('medewerker', MedewerkerFilterType::class, [
+            $builder->add('medewerker', MedewerkerType::class, [
                 'required' => false,
                 'preset' => false,
             ]);
