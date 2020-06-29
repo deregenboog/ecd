@@ -55,14 +55,25 @@ abstract class AbstractChildController extends AbstractController
         }
 
         $entity = $this->createEntity($parentEntity);
-        if ($parentEntity && $this->addMethod) {
-            $parentEntity->{$this->addMethod}($entity);
-        }
+
 
         $form = $this->getForm($this->formClass, $entity, [
             'medewerker' => $this->getMedewerker(),
         ]);
+
         $form->handleRequest($request);
+
+        /**
+         * 20200629: JTB:
+         * re-arranged order of calling of $this->>addMethod.
+         * It was called before the request was handled and thus the entity was populated by POSTed values.
+         * Therefore, any logic in addMethod would fail since the entity was null.
+         * Perhaps addMethod is not the right place for logic, but thats another story so far.
+         *
+         */
+        if ($parentEntity && $this->addMethod) {
+            $parentEntity->{$this->addMethod}($entity);
+        }
 
         if ($form->isSubmitted() && $form->isValid()) {
             if ($entity instanceof MedewerkerSubjectInterface && !$entity->getMedewerker()) {
