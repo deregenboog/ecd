@@ -23,6 +23,8 @@ class Huurovereenkomst
     {
         return [
             'Hospitaverhuur' => 'Hospitaverhuur',
+            'Gebruikersovereenkomst'=>'Gebruikersovereenkomst',
+            'Intermediare huurovereenkomst'=>'Intermediare  huurovereenkomst',
             'Kostgangerschap' => 'Kostgangerschap',
             'Kleine schuld, grote winst' => 'Kleine schuld, grote winst',
             'Anders' => 'Anders',
@@ -139,13 +141,18 @@ class Huurovereenkomst
      */
     private $financieledocumenten;
 
-
+    /**
+     * @var bool
+     * @ORM\Column(type="boolean", nullable=false)
+     * @Gedmo\Versioned()
+     */
+    private $isReservering = false;
 
 
     public function __construct()
     {
         $this->startdatum = new \DateTime();
-
+//        $this->einddatum = new \DateTime("+two months");
         $this->verslagen = new ArrayCollection();
         $this->documenten = new ArrayCollection();
     }
@@ -362,4 +369,22 @@ class Huurovereenkomst
 
         return $this;
     }
+
+    /**
+     * @return bool
+     */
+    public function isReservering(): bool
+    {
+        return $this->isReservering;
+    }
+
+    /**
+     * @param bool $isReservering
+     */
+    public function setIsReservering(bool $isReservering): void
+    {
+        $this->isReservering = $isReservering;
+    }
+
+
 }

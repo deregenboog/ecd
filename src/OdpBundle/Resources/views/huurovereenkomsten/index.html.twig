@@ -14,7 +14,7 @@
     <table class="table table-hover">
         {{ form_start(filter) }}
             <tr>
-                <th colspan="7">
+                <th colspan="8">
                 </th>
                 <th>
                     {{ form_widget(filter.actief) }}
@@ -80,6 +80,9 @@
                     {{ form_errors(filter.huurder.automatischeIncasso) }}
                 </th>
                 <th>
+                    {{ form_widget(filter.isReservering) }}
+                </th>
+                <th>
                 </th>
             </tr>
         {{ form_end(filter) }}
@@ -118,10 +121,17 @@
                 {{ knp_pagination_sortable(pagination, 'Automatische incasso', 'huurder.automatischeIncasso') }}
             </th>
             <th>
+                {{ knp_pagination_sortable(pagination, 'Reservering', 'huurovereenkomst.isReservering') }}
+            </th>
+            <th>
             </th>
         </tr>
         {% for huurovereenkomst in pagination %}
-            <tr>
+            {% set class = "" %}
+            {% if huurovereenkomst.isReservering == true %}
+                {% set class = "danger" %}
+            {% endif %}
+            <tr class="{{ class }}">
                 <td>
                     {{ html.link(huurovereenkomst.id, path('odp_huurovereenkomsten_view', {id: huurovereenkomst.id})) }}
                 </td>
@@ -162,6 +172,9 @@
                     {{ huurovereenkomst.huurder.automatischeIncasso ? 'Ja' : 'Nee' }}
                 </td>
                 <td>
+                    {{ huurovereenkomst.isReservering|ja_nee() }}
+                </td>
+                <td>
                     {{ html.viewLink(path('odp_huurovereenkomsten_view', {id: huurovereenkomst.id})) }}
                     {% if huurovereenkomst.actief %}
                         {{ html.editLink(path('odp_huurovereenkomsten_edit', {id: huurovereenkomst.id})) }}
@@ -170,6 +183,7 @@
                         {{ html.deleteLink(path('odp_huurovereenkomsten_delete', {id: huurovereenkomst.id})) }}
                     {% endif %}
                 </td>
+
             </tr>
         {% endfor %}
     </table>

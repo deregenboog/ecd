@@ -15,7 +15,7 @@
     <table class="table table-hover">
         {{ form_start(filter) }}
             <tr>
-                <th colspan="4">
+                <th colspan="5">
                 </th>
                 <th>
                     {{ form_widget(filter.actief) }}
@@ -53,6 +53,10 @@
                     {{ form_errors(filter.afsluitdatum.end) }}
                 </th>
                 <th>
+                    {{ form_widget(filter.huurovereenkomst.isReservering) }}
+                    {{ form_errors(filter.huurovereenkomst.isReservering) }}
+                </th>
+                <th>
                 </th>
             </tr>
         {{ form_end(filter) }}
@@ -73,15 +77,23 @@
                 {{ knp_pagination_sortable(pagination, 'Afsluitdatum', 'huuraanbod.afsluitdatum') }}
             </th>
             <th>
+                {{ knp_pagination_sortable(pagination, 'Reservering', 'huurovereenkomst.isReservering') }}
+            </th>
+            <th>
             </th>
         </tr>
         {% for huuraanbod in pagination %}
+            {% set cssClass = "" %}
+            {% set class= "" %}
+
             {% if huuraanbod.datumTOestemmingToegekend is not empty and date(huuraanbod.datumToestemmingToegekend) < date() %}
                 {% set cssClass = "success" %}
-            {% else %}
-                {% set cssClass = "" %}
             {% endif %}
-            <tr class="{{ cssClass }}">
+
+            {% if huuraanbod.huurovereenkomst is not null and huuraanbod.huurovereenkomst.isReservering == true %}
+                {% set class = "danger" %}
+            {% endif %}
+            <tr class="{{ cssClass }} {{ class }}">
                 <td>
                     {{ html.link(huuraanbod.id, path('odp_huuraanbiedingen_view', {id: huuraanbod.id})) }}
                 </td>
@@ -97,6 +109,9 @@
                 <td>
                     {{ huuraanbod.afsluitdatum ? huuraanbod.afsluitdatum|date('d-m-Y') }}
                     {{ huuraanbod.afsluiting ? '('~huuraanbod.afsluiting~')' }}
+                </td>
+                <td>
+                    {{ huuraanbod.huurovereenkomst ? huuraanbod.huurovereenkomst.isReservering|ja_nee : "Nee" }}
                 </td>
                 <td>
                     {{ html.viewLink(path('odp_huuraanbiedingen_view', {id: huuraanbod.id})) }}

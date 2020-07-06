@@ -81,6 +81,7 @@ class VerhuurderDao extends AbstractDao implements VerhuurderDaoInterface
             ->innerJoin("{$this->alias}.huuraanbiedingen", 'huuraanbod')
             ->innerJoin('huuraanbod.huurovereenkomst', 'huurovereenkomst')
             ->andWhere('huurovereenkomst.startdatum BETWEEN :start AND :end')
+            ->andWhere('huurovereenkomst.isReservering = 0')
         ;
 
         return $builder->getQuery()->getResult();
@@ -92,6 +93,7 @@ class VerhuurderDao extends AbstractDao implements VerhuurderDaoInterface
             ->innerJoin("{$this->alias}.huuraanbiedingen", 'huuraanbod')
             ->innerJoin('huuraanbod.huurovereenkomst', 'huurovereenkomst')
             ->andWhere('huurovereenkomst.einddatum BETWEEN :start AND :end')
+            ->andWhere('huurovereenkomst.isReservering = 0')
         ;
 
         return $builder->getQuery()->getResult();

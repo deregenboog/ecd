@@ -29,6 +29,7 @@ class HuuraanbiedingenController extends SymfonyController
         'werkgebied.naam',
         'huuraanbod.startdatum',
         'huuraanbod.afsluitdatum',
+        'huurovereenkomst.isReservering',
     ];
 
     /**
@@ -45,11 +46,13 @@ class HuuraanbiedingenController extends SymfonyController
             ->innerJoin('verhuurder.klant', 'klant')
             ->leftJoin('klant.werkgebied', 'werkgebied')
             ->leftJoin('huuraanbod.afsluiting', 'afsluiting')
-            ->andWhere('huurovereenkomst.id IS NULL')
+//            ->andWhere('huurovereenkomst.id IS NULL')
+//            ->orWhere('huurovereenkomst.isReservering = 1')
             ->andWhere('afsluiting.tonen IS NULL OR afsluiting.tonen = true')
         ;
 
         $filter = $this->getForm(HuuraanbodFilterType::class);
+
         $filter->handleRequest($this->getRequest());
         $filter->getData()->applyTo($builder);
         if ($filter->get('download')->isClicked()) {

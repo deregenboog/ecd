@@ -25,6 +25,11 @@ class HuurverzoekFilter implements FilterInterface
     public $afsluitdatum;
 
     /**
+     * @var HuurovereenkomstFilter
+     */
+    public $huurovereenkomst;
+
+    /**
      * @var bool
      */
     public $actief;
@@ -71,6 +76,9 @@ class HuurverzoekFilter implements FilterInterface
                     ->setParameter('afsluitdatum_tot', $this->afsluitdatum->getEnd())
                 ;
             }
+        }
+        if ($this->huurovereenkomst) {
+            $this->huurovereenkomst->applyTo($builder);
         }
 
         if ($this->actief) {

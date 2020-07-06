@@ -46,6 +46,11 @@ class HuurovereenkomstFilter implements FilterInterface
     public $actief;
 
     /**
+     * @var bool
+     */
+    public $isReservering;
+
+    /**
      * @var HuurderFilter
      */
     public $huurder;
@@ -134,6 +139,18 @@ class HuurovereenkomstFilter implements FilterInterface
                     ->setParameter('afsluitdatum_tot', $this->afsluitdatum->getEnd())
                 ;
             }
+        }
+        if (!$this->isReservering) {
+            $builder
+                ->andWhere('huurovereenkomst.isReservering = 0')
+            ;
+        }
+        else if($this->isReservering == true)
+        {
+            $builder
+                ->andWhere('huurovereenkomst.isReservering = 1')
+                ->orWhere('huurovereenkomst.isReservering = 0')
+            ;
         }
 
         if ($this->actief) {

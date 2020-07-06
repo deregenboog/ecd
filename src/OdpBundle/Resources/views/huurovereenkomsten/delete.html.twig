@@ -1,5 +1,4 @@
 {% extends '::base.html.twig' %}
-
 {% import '::html.macro.twig' as html %}
 
 {% block title %}
@@ -11,7 +10,11 @@
 {% endblock %}
 
 {% block content %}
-    <h1>Koppeling wijzigen</h1>
-
-    {{ form(form) }}
+    <h1>Reservering verwijderen</h1>
+    <p>
+        Weet u zeker dat u deze reservering
+        {{ html.link(entity, path('odp_huurovereenkomsten_view',{id:entity.id} ) ) }}
+        wilt verwijderen?<br>
+        {{ form(form) }}
+    </p>
 {% endblock %}

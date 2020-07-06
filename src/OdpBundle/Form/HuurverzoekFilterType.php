@@ -5,6 +5,7 @@ namespace OdpBundle\Form;
 use AppBundle\Form\AppDateRangeType;
 use AppBundle\Form\FilterType;
 use AppBundle\Form\KlantFilterType;
+use OdpBundle\Filter\HuurovereenkomstFilter;
 use OdpBundle\Filter\HuurverzoekFilter;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
@@ -49,6 +50,13 @@ class HuurverzoekFilterType extends AbstractType
                 'data' => false,
             ]);
         }
+        if (array_key_exists('huurovereenkomst', $options['enabled_filters'])) {
+            $builder->add('huurovereenkomst', HuurovereenkomstFilterType::class, [
+                'enabled_filters' => $options['enabled_filters']['huurovereenkomst'],
+                'empty_data' => ['isReservering' => true],
+
+            ]);
+        }
 
         $builder
             ->add('filter', SubmitType::class, ['label' => 'Filteren'])
@@ -78,6 +86,7 @@ class HuurverzoekFilterType extends AbstractType
                 'startdatum',
                 'afsluitdatum',
                 'actief',
+                'huurovereenkomst'=>['isReservering']
             ],
         ]);
     }

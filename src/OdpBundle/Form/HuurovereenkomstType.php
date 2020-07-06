@@ -11,7 +11,9 @@ use OdpBundle\Entity\Huurovereenkomst;
 use OdpBundle\Entity\Huurverzoek;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\RadioType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -37,6 +39,11 @@ class HuurovereenkomstType extends AbstractType
         }
 
         $builder
+            ->add('isReservering', CheckboxType::class, [
+                'required' => true,
+                'label'=> 'Is deze koppeling een reservering?'
+
+            ])
             ->add('medewerker', MedewerkerType::class)
             ->add('startdatum', AppDateType::class)
             ->add('opzegdatum', AppDateType::class, ['required' => false])
@@ -46,6 +53,7 @@ class HuurovereenkomstType extends AbstractType
                 'required' => false,
                 'choices' => Huurovereenkomst::getVormChoices(),
             ])
+
             ->add('submit', SubmitType::class, ['label' => 'Opslaan'])
         ;
     }
@@ -69,6 +77,7 @@ class HuurovereenkomstType extends AbstractType
                 $builder = $repository->createQueryBuilder('huurverzoek')
                     ->leftJoin('huurverzoek.huurovereenkomst', 'huurovereenkomst')
                     ->where('huurovereenkomst.id IS NULL')
+                    ->orderBy('huurverzoek.startdatum', 'DESC')
                 ;
 
                 if ($huurovereenkomst instanceof Huurovereenkomst
@@ -101,6 +110,7 @@ class HuurovereenkomstType extends AbstractType
                 $builder = $repository->createQueryBuilder('huuraanbod')
                     ->leftJoin('huuraanbod.huurovereenkomst', 'huurovereenkomst')
                     ->where('huurovereenkomst.id IS NULL')
+                    ->orderBy('huuraanbod.startdatum','DESC')
                 ;
 
                 if ($huurovereenkomst instanceof Huurovereenkomst
