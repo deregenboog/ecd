@@ -10,13 +10,22 @@
 {% endblock %}
 
 {% block content_top %}
-    <h1>Koppeling {{ entity }}</h1>
+    {% set reservering = "" %}
+    {% if entity.isReservering %}
+        {% set reservering = "<span class='text-danger'> ! Reservering</span>"  %}
+    {% endif %}
+    <h1>Koppeling {{ entity }}{{ reservering|raw }}</h1>
     <p>
         {% if entity.actief %}
             {{ html.editLink(path('odp_huurovereenkomsten_edit', {id: entity.id})) }}
             {{ html.link('Wijzigen', path('odp_huurovereenkomsten_edit', {id: entity.id})) }}
             {{ html.closeLink(path('odp_huurovereenkomsten_close', {id: entity.id})) }}
             {{ html.link('Afsluiten', path('odp_huurovereenkomsten_close', {id: entity.id})) }}
+            {% if entity.isReservering == true %}
+
+                {{ html.link('Reservering verwijderen', path('odp_huurovereenkomsten_delete', {id: entity.id})) }}
+
+            {% endif %}
         {% else %}
             {{ html.addLink(path('odp_huurovereenkomsten_reopen', {id: entity.id})) }}
             {{ html.link('Heropenen', path('odp_huurovereenkomsten_reopen', {id: entity.id})) }}
@@ -29,6 +38,7 @@
 {% endblock %}
 
 {% block content_left %}
+
     <dl class="dl-horizontal">
         <dt>#</dt>
         <dd>{{ entity.id }}</dd>

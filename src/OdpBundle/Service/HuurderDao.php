@@ -91,6 +91,7 @@ class HuurderDao extends AbstractDao implements HuurderDaoInterface
             ->innerJoin("{$this->alias}.huurverzoeken", 'huurverzoek')
             ->innerJoin('huurverzoek.huurovereenkomst', 'huurovereenkomst')
             ->andWhere('huurovereenkomst.startdatum BETWEEN :start AND :end')
+            ->andWhere('huurovereenkomst.isReservering = 0')
         ;
 
         return $builder->getQuery()->getResult();
@@ -102,6 +103,7 @@ class HuurderDao extends AbstractDao implements HuurderDaoInterface
             ->innerJoin("{$this->alias}.huurverzoeken", 'huurverzoek')
             ->innerJoin('huurverzoek.huurovereenkomst', 'huurovereenkomst')
             ->andWhere('huurovereenkomst.einddatum BETWEEN :start AND :end')
+            ->andWhere('huurovereenkomst.isReservering = 0')
         ;
 
         return $builder->getQuery()->getResult();

@@ -19,7 +19,11 @@
         <th></th>
     </tr>
     {% for huurovereenkomst in entity.huurovereenkomsten %}
-        <tr>
+        {% set class = "" %}
+        {% if huurovereenkomst.isReservering == true %}
+            {% set class = "danger" %}
+        {% endif %}
+        <tr class="{{ class }}">
             <td>
                 {{ entity_name_counterpart == 'huurder' ? huurovereenkomst.huurder : huurovereenkomst.verhuurder }}
             </td>

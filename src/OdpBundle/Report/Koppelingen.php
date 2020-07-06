@@ -24,9 +24,11 @@ class Koppelingen extends AbstractReport
     protected function init()
     {
         $this->tables['Koppelingen per vorm'] = $this->dao->countByVorm($this->startDate, $this->endDate);
+        $this->tables['Koppelingen per Vorm van overeenkomst'] = $this->dao->countByVormvanovereenkomst($this->startDate, $this->endDate);
         $this->tables['Koppelingen per woningbouwcorporatie'] = $this->dao->countByWoningbouwcorporatie($this->startDate, $this->endDate);
         $this->tables['Koppelingen per afsluitreden'] = $this->dao->countByAfsluitreden($this->startDate, $this->endDate);
         $this->tables['Koppelingen per stadsdeel'] = $this->dao->countByStadsdeel($this->startDate, $this->endDate);
+        $this->tables['Koppelingen per woonplaats'] = $this->dao->countByStadsdeel($this->startDate, $this->endDate);
     }
 
     protected function build()
@@ -34,8 +36,10 @@ class Koppelingen extends AbstractReport
         parent::build();
 
         $this->reports[0]['yDescription'] = 'Vorm';
+        $this->reports[0]['yDescription'] = 'VormVanOvereenkomst';
         $this->reports[1]['yDescription'] = 'Woningbouwcorporatie';
         $this->reports[2]['yDescription'] = 'Afsluitreden';
         $this->reports[3]['yDescription'] = 'Stadsdeel';
+        $this->reports[3]['yDescription'] = 'Woonplaats';
     }
 }

@@ -24,6 +24,9 @@ class HuuraanbodType extends AbstractType
         $builder
             ->add('medewerker', MedewerkerType::class)
             ->add('startdatum', AppDateType::class)
+            ->add('vormvanovereenkomst', VormVanOvereenkomstType::class,[
+
+            ])
             ->add('datumToestemmingAangevraagd', AppDateType::class, [
                 'required' => false,
                 'label' => 'Toestemming woningbouwcorporatie aangevraagd',

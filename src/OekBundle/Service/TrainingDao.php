@@ -11,7 +11,7 @@ class TrainingDao extends AbstractDao implements TrainingDaoInterface
 {
     protected $paginationOptions = [
         'defaultSortFieldName' => 'training.startdatum',
-        'defaultSortDirection' => 'asc',
+        'defaultSortDirection' => 'desc',
         'sortFieldWhitelist' => [
             'training.id',
             'training.naam',

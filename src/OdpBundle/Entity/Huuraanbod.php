@@ -33,6 +33,13 @@ class Huuraanbod
     private $verhuurder;
 
     /**
+     * @var VormVanOvereenkomst
+     * @ORM\ManyToOne(targetEntity="VormVanOvereenkomst", inversedBy="huuraanbod")
+     * @Gedmo\Versioned
+     */
+    private $vormvanovereenkomst;
+
+    /**
      * @var Huurovereenkomst
      * @ORM\OneToOne(targetEntity="Huurovereenkomst", mappedBy="huuraanbod")
      * @Gedmo\Versioned
@@ -84,6 +91,7 @@ class Huuraanbod
 
     public function __construct()
     {
+
         $this->startdatum = new \DateTime();
 
         $this->verslagen = new ArrayCollection();
@@ -226,6 +234,25 @@ class Huuraanbod
     {
         $this->reservering = $reservering;
     }
+
+    /**
+     * @return VormVanOvereenkomst
+     */
+    public function getVormvanovereenkomst(): VormVanOvereenkomst
+    {
+        return $this->vormvanovereenkomst;
+    }
+
+    /**
+     * @param VormVanOvereenkomst $vormvanovereenkomst
+     */
+    public function setVormvanovereenkomst(VormVanOvereenkomst $vormvanovereenkomst): void
+    {
+        $this->vormvanovereenkomst = $vormvanovereenkomst;
+    }
+
+
+
 
 
 }

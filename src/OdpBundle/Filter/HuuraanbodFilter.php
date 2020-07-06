@@ -30,9 +30,25 @@ class HuuraanbodFilter implements FilterInterface
     public $actief;
 
     /**
+     * @var HuurovereenkomstFilter
+     */
+    public $huurovereenkomst;
+
+    /**
+     * @var bool
+     */
+    public $isReservering;
+
+    /**
      * @var KlantFilter
      */
     public $klant;
+
+    public function __construct()
+    {
+        $this->huurovereenkomst = new HuurovereenkomstFilter();
+        $this->huurovereenkomst->isReservering = true;
+    }
 
     public function applyTo(QueryBuilder $builder)
     {
@@ -78,6 +94,9 @@ class HuuraanbodFilter implements FilterInterface
                 ->andWhere('huuraanbod.afsluitdatum IS NULL OR huuraanbod.afsluitdatum > :now')
                 ->setParameter('now', new \DateTime())
             ;
+        }
+        if ($this->huurovereenkomst) {
+            $this->huurovereenkomst->applyTo($builder);
         }
 
         if ($this->klant) {

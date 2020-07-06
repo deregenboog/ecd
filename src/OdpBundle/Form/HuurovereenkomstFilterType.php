@@ -96,7 +96,20 @@ class HuurovereenkomstFilterType extends AbstractType
                 'data' => false,
             ]);
         }
+        if (in_array('isReservering', $options['enabled_filters'])) {
+            $isReservering = false;
+           if($options['data'] && is_null($options['data']->isReservering) && is_array($options['empty_data'])) {
+               if(isset($options['empty_data']['isReservering'])) $isReservering = $options['empty_data']['isReservering'];
+           }
 
+
+            $builder->add('isReservering', CheckboxType::class, [
+                'required' => false,
+                'label' => 'Reserveringen',
+                'data' => $isReservering,
+
+            ]);
+        }
         $builder
             ->add('filter', SubmitType::class, ['label' => 'Filteren'])
             ->add('download', SubmitType::class, ['label' => 'Downloaden'])
@@ -130,6 +143,7 @@ class HuurovereenkomstFilterType extends AbstractType
                 'vorm',
                 'afsluitdatum',
                 'actief',
+                'isReservering'
             ],
         ]);
     }

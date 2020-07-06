@@ -13,8 +13,14 @@
         <th></th>
     </tr>
     {% for huurverzoek in huurder.huurverzoeken %}
-        {% if not huurverzoek.huurovereenkomst %}
-            <tr>
+        {% if not huurverzoek.huurovereenkomst or huurverzoek.huurovereenkomst.isReservering == true%}
+            {% set class= "" %}
+            {% if huurverzoek.huurovereenkomst is not null and huurverzoek.huurovereenkomst.isReservering == true %}
+                {% set class = "danger" %}
+            {% endif %}
+
+            <tr class="{{ class }}">
+
                 <td>
                     {{ huurverzoek.startdatum ? huurverzoek.startdatum|date('d-m-Y') }}
                 </td>
