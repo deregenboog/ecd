@@ -80,6 +80,7 @@ class VraagType extends AbstractType
             ->remove('aanmelddatum')
             ->remove('behandelaar')
             ->remove('submit')
+            ->remove('organisatie')
         ;
 
         if ($client->getWerkgebied()) {

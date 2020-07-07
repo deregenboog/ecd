@@ -59,4 +59,9 @@ class ContactmomentenController extends AbstractChildController
             $this->generateUrl('clip_vragen_view', ['id' => $entity->getVraag()->getId(), '_fragment' => 'contactmomenten'])
         );
     }
+
+    public function beforeCreate($entity){
+        list($parentEntity,$parentDao) = $this->getParentConfig($this->getRequest());
+        if($entity->getBehandelaar() !== null) $parentEntity->setBehandelaar($entity->getBehandelaar());
+    }
 }
