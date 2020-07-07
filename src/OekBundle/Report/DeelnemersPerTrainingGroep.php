@@ -30,11 +30,25 @@ class DeelnemersPerTrainingGroep extends AbstractReport
 
     protected function init()
     {
-        $statussen = DeelnameStatus::getAllStatuses();
+        /**
+         * Het is cummulatief. Zie #1037
+         * aantal aangemeld = alle statussen.
+        aantal gestart = Deelnamestatus: gestart + gevolgd + afgerond
+        aantal gevolgd = DS gestart + gevolgd
+        aantal afgerond = DS afgerond
+         */
 
-        foreach ($statussen as $status) {
-            $this->tables[$status] = $this->repository->countByGroepAndTraining($status, $this->startDate, $this->endDate);
-        }
+        $aangemeld = DeelnameStatus::STATUS_AANGEMELD;
+        $afgerond = DeelnameStatus::STATUS_AFGEROND;
+        $gestart = DeelnameStatus::STATUS_GESTART;
+        $gevolgd = DeelnameStatus::STATUS_GEVOLGD;
+
+        $this->tables[$aangemeld] = $this->repository->countByGroepAndTraining([$aangemeld,$gestart,$gevolgd,$afgerond], $this->startDate, $this->endDate);
+        $this->tables[$gestart] = $this->repository->countByGroepAndTraining([$gestart,$gevolgd,$afgerond], $this->startDate, $this->endDate);
+        $this->tables[$gevolgd] = $this->repository->countByGroepAndTraining([$gevolgd,$afgerond], $this->startDate, $this->endDate);
+        $this->tables[$afgerond] = $this->repository->countByGroepAndTraining([$afgerond], $this->startDate, $this->endDate);
+
+
     }
 
     protected function build()
@@ -42,6 +56,7 @@ class DeelnemersPerTrainingGroep extends AbstractReport
         foreach ($this->tables as $status => $table) {
             $table = new Table($table, $this->xPath, $this->yPath, $this->nPath);
             $table->setStartDate($this->startDate)->setEndDate($this->endDate);
+            $table->setNullAsNill(true);
 
             $this->reports[] = [
                 'title' => ucfirst($status),
