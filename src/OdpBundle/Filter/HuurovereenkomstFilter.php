@@ -148,8 +148,8 @@ class HuurovereenkomstFilter implements FilterInterface
         else if($this->isReservering == true)
         {
             $builder
-                ->andWhere('huurovereenkomst.isReservering = 1')
-                ->orWhere('huurovereenkomst.isReservering = 0')
+                ->andWhere('huurovereenkomst.isReservering = 1 OR huurovereenkomst.isReservering = 0')
+//                ->orWhere('huurovereenkomst.isReservering = 0')
             ;
         }
 

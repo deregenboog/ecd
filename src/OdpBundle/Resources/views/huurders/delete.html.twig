@@ -13,7 +13,7 @@
     <h1>Huurder verwijderen</h1>
     <p>
         Weet u zeker dat u huurder
-        {{ html.link(huurder, path('odp_huurders_view', {id: huurder.id})) }}
+        {{ html.link(entity, path('odp_huurders_view', {id: entity.id})) }}
         wilt verwijderen?<br>
     </p>
     {{ form(form) }}

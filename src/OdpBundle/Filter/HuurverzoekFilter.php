@@ -2,6 +2,7 @@
 
 namespace OdpBundle\Filter;
 
+use AppBundle\Entity\Medewerker;
 use AppBundle\Filter\FilterInterface;
 use AppBundle\Filter\KlantFilter;
 use AppBundle\Form\Model\AppDateRangeModel;
@@ -38,6 +39,13 @@ class HuurverzoekFilter implements FilterInterface
      * @var KlantFilter
      */
     public $klant;
+
+
+    /**
+     * @var Medewerker
+     */
+    public $medewerker;
+
 
     public function applyTo(QueryBuilder $builder)
     {
@@ -76,6 +84,13 @@ class HuurverzoekFilter implements FilterInterface
                     ->setParameter('afsluitdatum_tot', $this->afsluitdatum->getEnd())
                 ;
             }
+        }
+        if($this->medewerker)
+        {
+            $builder
+
+                ->andWhere('huurverzoek.medewerker = :medewerker')
+                ->setParameter('medewerker',$this->medewerker);
         }
         if ($this->huurovereenkomst) {
             $this->huurovereenkomst->applyTo($builder);

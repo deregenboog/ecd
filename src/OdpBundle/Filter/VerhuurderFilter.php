@@ -2,6 +2,7 @@
 
 namespace OdpBundle\Filter;
 
+use AppBundle\Entity\Medewerker;
 use AppBundle\Filter\FilterInterface;
 use AppBundle\Filter\KlantFilter;
 use Doctrine\ORM\QueryBuilder;
@@ -42,6 +43,12 @@ class VerhuurderFilter implements FilterInterface
      * @var bool
      */
     public $ksgw;
+
+    /**
+     * @var Medewerker
+     */
+    public $ambulantOndersteuner;
+
 
     public function applyTo(QueryBuilder $builder)
     {
@@ -102,6 +109,16 @@ class VerhuurderFilter implements FilterInterface
                 ->andWhere('verhuurder.ksgw = :ksgw')
                 ->setParameter('ksgw', $this->ksgw)
             ;
+        }
+        if($this->ambulantOndersteuner)
+        {
+
+            $builder
+//                ->leftJoin('huurder.ambulantOndersteuner','ambulantOndersteuner')
+//                ->andWhere('ambulantOndersteuner IS NULL')
+                ->andWhere('ambulantOndersteuner = :ambulantOndersteuner')
+
+                ->setParameter('ambulantOndersteuner',$this->ambulantOndersteuner);
         }
 
         if ($this->klant) {

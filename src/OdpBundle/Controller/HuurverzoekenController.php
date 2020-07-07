@@ -30,6 +30,7 @@ class HuurverzoekenController extends SymfonyController
         'huurverzoek.startdatum',
         'huurverzoek.afsluitdatum',
         'huurovereenkomst.isReservering',
+        'medewerker.achternaam'
     ];
 
     /**
@@ -43,6 +44,7 @@ class HuurverzoekenController extends SymfonyController
         $builder = $repository->createQueryBuilder('huurverzoek')
             ->leftJoin('huurverzoek.huurovereenkomst', 'huurovereenkomst')
             ->innerJoin('huurverzoek.huurder', 'huurder')
+            ->innerJoin('huurverzoek.medewerker','medewerker')
             ->innerJoin('huurder.klant', 'klant')
             ->leftJoin('klant.werkgebied', 'werkgebied')
             ->leftJoin('huurverzoek.afsluiting', 'afsluiting')

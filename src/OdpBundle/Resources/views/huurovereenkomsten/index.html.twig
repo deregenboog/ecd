@@ -131,9 +131,9 @@
             {% if huurovereenkomst.isReservering == true %}
                 {% set class = "danger" %}
             {% endif %}
-            <tr class="{{ class }}">
+            <tr class="{{ class }}" data-href="{{ path(route_base~'view', {id: huurovereenkomst.id}) }}">
                 <td>
-                    {{ html.link(huurovereenkomst.id, path('odp_huurovereenkomsten_view', {id: huurovereenkomst.id})) }}
+                    {{ huurovereenkomst.id }}
                 </td>
                 <td>
                     {{ huurovereenkomst.huurder.klant }}
@@ -175,7 +175,6 @@
                     {{ huurovereenkomst.isReservering|ja_nee() }}
                 </td>
                 <td>
-                    {{ html.viewLink(path('odp_huurovereenkomsten_view', {id: huurovereenkomst.id})) }}
                     {% if huurovereenkomst.actief %}
                         {{ html.editLink(path('odp_huurovereenkomsten_edit', {id: huurovereenkomst.id})) }}
                     {% endif %}

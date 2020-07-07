@@ -35,6 +35,11 @@ class VerhuurderType extends AbstractType
         }
 
         $builder
+            ->add('ambulantOndersteuner', \AppBundle\Form\MedewerkerType::class,[
+                'required'=>false,
+                'preset'=>false,
+
+            ])
             ->add('aanmelddatum', AppDateType::class)
             ->add('rekeningnummer', null, ['required' => false])
             ->add('woningbouwcorporatie')

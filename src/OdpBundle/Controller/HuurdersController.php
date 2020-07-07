@@ -78,7 +78,7 @@ class HuurdersController extends AbstractController
     /**
      * @Route("/add")
      */
-    public function add($klantId = null)
+    public function add($klantId = null, UserInterface $user)
     {
         $entityManager = $this->getEntityManager();
 
@@ -90,6 +90,7 @@ class HuurdersController extends AbstractController
 
             $huurder = new Huurder();
             $huurder->setKlant($klant);
+//            $huurder->setAmbulantOndersteuner($user);
 
             $creationForm = $this->getForm(HuurderType::class, $huurder);
             $creationForm->handleRequest($this->getRequest());

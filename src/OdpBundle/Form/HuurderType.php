@@ -2,6 +2,7 @@
 
 namespace OdpBundle\Form;
 
+use AppBundle\Entity\Medewerker;
 use AppBundle\Form\AppDateType;
 use AppBundle\Form\BaseType;
 use AppBundle\Form\KlantType;
@@ -34,6 +35,11 @@ class HuurderType extends AbstractType
         }
 
         $builder
+            ->add('ambulantOndersteuner', \AppBundle\Form\MedewerkerType::class,[
+                'required'=>false,
+                'preset'=>false,
+
+            ])
             ->add('aanmelddatum', AppDateType::class)
             ->add('rekeningnummer', null, ['required' => false])
             ->add('automatischeIncasso', null, ['required' => false])

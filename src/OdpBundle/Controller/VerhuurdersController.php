@@ -41,15 +41,6 @@ class VerhuurdersController extends AbstractController
     protected $searchFilterTypeClass = KlantFilterType::class;
     protected $searchEntity = Klant::class;
 
-    private $sortFieldWhitelist = [
-        'klant.id',
-        'klant.achternaam',
-        'werkgebied.naam',
-        'verhuurder.aanmelddatum',
-        'verhuurder.afsluitdatum',
-        'verhuurder.wpi',
-        'verhuurder.ksgw',
-    ];
 
     /**
      * @var VerhuurderDaoInterface
