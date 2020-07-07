@@ -23,7 +23,7 @@ class DeelnemerRepository extends EntityRepository implements DoelstellingReposi
             ->innerJoin('deelname.deelnameStatussen', 'deelnameStatus')
             ->innerJoin('deelname.training', 'training')
             ->innerJoin('training.groep', 'groep')
-            ->where('deelnameStatus.status = :status')
+            ->where('deelnameStatus.status IN (:status)')
             ->andWhere('deelnameStatus.datum BETWEEN :startDate AND :endDate')
             ->setParameter('status', $status)
             ->setParameter('startDate', $startDate)

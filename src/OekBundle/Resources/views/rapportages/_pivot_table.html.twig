@@ -23,11 +23,11 @@
                         {% if report.yLookupCollection.y is defined %}
                             {{ report.yLookupCollection.y }}
                         {% else %}
-                            {{ y }}
+                                {{ y }}
                         {% endif %}
                     </td>
                     {% for value in series %}
-                        <td>{{ value|raw }}</td>
+                        <td>{{ value ? value|raw : '-' }}</td>
                     {% endfor %}
                 </tr>
             {% endfor %}
