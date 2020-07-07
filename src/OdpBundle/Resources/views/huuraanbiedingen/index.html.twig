@@ -26,6 +26,7 @@
                         {{ form_widget(filter.download) }}
                     </span>
                 </th>
+                <th></th>
             </tr>
             <tr>
                 <th>
@@ -53,6 +54,10 @@
                     {{ form_errors(filter.afsluitdatum.end) }}
                 </th>
                 <th>
+                    {{ form_widget(filter.medewerker) }}
+                    {{ form_errors(filter.medewerker) }}
+                </th>
+                <th>
                     {{ form_widget(filter.huurovereenkomst.isReservering) }}
                     {{ form_errors(filter.huurovereenkomst.isReservering) }}
                 </th>
@@ -77,6 +82,9 @@
                 {{ knp_pagination_sortable(pagination, 'Afsluitdatum', 'huuraanbod.afsluitdatum') }}
             </th>
             <th>
+                {{ knp_pagination_sortable(pagination, 'Medewerker', 'medewerker.achternaam') }}
+            </th>
+            <th>
                 {{ knp_pagination_sortable(pagination, 'Reservering', 'huurovereenkomst.isReservering') }}
             </th>
             <th>
@@ -93,9 +101,9 @@
             {% if huuraanbod.huurovereenkomst is not null and huuraanbod.huurovereenkomst.isReservering == true %}
                 {% set class = "danger" %}
             {% endif %}
-            <tr class="{{ cssClass }} {{ class }}">
+            <tr class="{{ cssClass }} {{ class }}" data-href="{{ path('odp_huuraanbiedingen_view', {id: huuraanbod.id}) }}">
                 <td>
-                    {{ html.link(huuraanbod.id, path('odp_huuraanbiedingen_view', {id: huuraanbod.id})) }}
+                    {{ huuraanbod.id }}
                 </td>
                 <td>
                     {{ huuraanbod.verhuurder.klant.naam }}
@@ -111,10 +119,12 @@
                     {{ huuraanbod.afsluiting ? '('~huuraanbod.afsluiting~')' }}
                 </td>
                 <td>
+                    {{ huuraanbod.medewerker }}
+                </td>
+                <td>
                     {{ huuraanbod.huurovereenkomst ? huuraanbod.huurovereenkomst.isReservering|ja_nee : "Nee" }}
                 </td>
                 <td>
-                    {{ html.viewLink(path('odp_huuraanbiedingen_view', {id: huuraanbod.id})) }}
                     {{ html.editLink(path('odp_huuraanbiedingen_edit', {id: huuraanbod.id})) }}
                     {% if huuraanbod.deletable %}
                         {{ html.deleteLink(path('odp_huuraanbiedingen_delete', {id: huuraanbod.id})) }}

@@ -59,6 +59,11 @@ class HuurderFilter implements FilterInterface
      */
     public $medewerker;
 
+    /**
+     * @var Medewerker
+     */
+    public $ambulantOndersteuner;
+
     public function applyTo(QueryBuilder $builder)
     {
         if ($this->id) {
@@ -142,6 +147,17 @@ class HuurderFilter implements FilterInterface
             $builder->andWhere('medewerker = :medewerker')
                 ->setParameter('medewerker',$this->medewerker);
         }
+        if($this->ambulantOndersteuner)
+        {
+
+            $builder
+//                ->leftJoin('huurder.ambulantOndersteuner','ambulantOndersteuner')
+//                ->andWhere('ambulantOndersteuner IS NULL')
+                ->andWhere('ambulantOndersteuner = :ambulantOndersteuner')
+
+                ->setParameter('ambulantOndersteuner',$this->ambulantOndersteuner);
+        }
+
 
         if ($this->klant) {
             $this->klant->applyTo($builder);

@@ -28,7 +28,7 @@ class Koppelingen extends AbstractReport
         $this->tables['Koppelingen per woningbouwcorporatie'] = $this->dao->countByWoningbouwcorporatie($this->startDate, $this->endDate);
         $this->tables['Koppelingen per afsluitreden'] = $this->dao->countByAfsluitreden($this->startDate, $this->endDate);
         $this->tables['Koppelingen per stadsdeel'] = $this->dao->countByStadsdeel($this->startDate, $this->endDate);
-        $this->tables['Koppelingen per woonplaats'] = $this->dao->countByStadsdeel($this->startDate, $this->endDate);
+        $this->tables['Koppelingen per woonplaats'] = $this->dao->countByPlaats($this->startDate, $this->endDate);
     }
 
     protected function build()

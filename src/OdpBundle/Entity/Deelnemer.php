@@ -3,6 +3,7 @@
 namespace OdpBundle\Entity;
 
 use AppBundle\Entity\Klant;
+use AppBundle\Entity\Medewerker;
 use AppBundle\Model\KlantRelationInterface;
 use AppBundle\Model\RequiredMedewerkerTrait;
 use AppBundle\Model\TimestampableTrait;
@@ -110,6 +111,13 @@ abstract class Deelnemer  implements KlantRelationInterface
      * @ORM\OrderBy({"datum" = "DESC", "id" = "DESC"})
      */
     protected $documenten;
+
+    /**
+     * @var Medewerker
+     * @ORM\OneToOne(targetEntity="AppBundle\Entity\Medewerker")
+     */
+    private $ambulantOndersteuner;
+
 
     public function __construct()
     {
@@ -253,5 +261,36 @@ abstract class Deelnemer  implements KlantRelationInterface
     public function getKlantFieldName()
     {
         return "klant";
+    }
+
+
+    /**
+     * @return Medewerker
+     */
+    public function getAmbulantOndersteuner(): ?Medewerker
+    {
+        return $this->ambulantOndersteuner;
+    }
+
+    /**
+     * @param Medewerker $ambulantOndersteuner
+     */
+    public function setAmbulantOndersteuner(?Medewerker $ambulantOndersteuner): void
+    {
+        $this->ambulantOndersteuner = $ambulantOndersteuner;
+    }
+
+    public abstract function getHuurovereenkomsten();
+
+    public function isGekoppeld()
+    {
+        foreach($this->getHuurovereenkomsten() as $hoe)
+        {
+            if($hoe->isReservering() == false)
+            {
+                return true;
+            }
+        }
+        return false;
     }
 }

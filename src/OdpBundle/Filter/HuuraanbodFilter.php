@@ -2,6 +2,7 @@
 
 namespace OdpBundle\Filter;
 
+use AppBundle\Entity\Medewerker;
 use AppBundle\Filter\FilterInterface;
 use AppBundle\Filter\KlantFilter;
 use AppBundle\Form\Model\AppDateRangeModel;
@@ -43,6 +44,12 @@ class HuuraanbodFilter implements FilterInterface
      * @var KlantFilter
      */
     public $klant;
+
+
+    /**
+     * @var Medewerker
+     */
+    public $medewerker;
 
     public function __construct()
     {
@@ -88,7 +95,13 @@ class HuuraanbodFilter implements FilterInterface
                 ;
             }
         }
+        if($this->medewerker)
+        {
+            $builder
 
+                ->andWhere('huuraanbod.medewerker = :medewerker')
+                ->setParameter('medewerker',$this->medewerker);
+        }
         if ($this->actief) {
             $builder
                 ->andWhere('huuraanbod.afsluitdatum IS NULL OR huuraanbod.afsluitdatum > :now')

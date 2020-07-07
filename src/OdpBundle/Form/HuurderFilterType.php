@@ -10,6 +10,7 @@ use AppBundle\Form\KlantFilterType;
 use AppBundle\Form\StadsdeelSelectType;
 use Doctrine\ORM\EntityRepository;
 use OdpBundle\Entity\Huurder;
+use OdpBundle\Entity\Verhuurder;
 use OdpBundle\Filter\HuurderFilter;
 use PfoBundle\Entity\Client;
 use Symfony\Component\Form\AbstractType;
@@ -74,7 +75,7 @@ class HuurderFilterType extends AbstractType
                 'required' => false,
                 'query_builder' => function (EntityRepository $repository) {
                     return $repository->createQueryBuilder('medewerker')
-                        ->innerJoin(Huurder::class, 'huurder', 'WITH', 'huurder.medewerker = medewerker')
+                        ->innerJoin(Verhuurder::class, 'verhuurder', 'WITH', 'verhuurder.medewerker = medewerker')
                         ->orderBy('medewerker.voornaam');
                 },
             ]);
@@ -96,6 +97,16 @@ class HuurderFilterType extends AbstractType
                 'label' => 'Alleen actieve dossiers',
                 'required' => false,
                 'data' => false,
+            ]);
+        }
+        if (in_array('ambulantOndersteuner', $options['enabled_filters'])) {
+            $builder->add('ambulantOndersteuner', MedewerkerType::class, [
+                'required' => false,
+                'query_builder' => function (EntityRepository $repository) {
+                    return $repository->createQueryBuilder('medewerker')
+                        ->innerJoin(Huurder::class, 'huurder', 'WITH', 'huurder.ambulantOndersteuner = medewerker')
+                        ->orderBy('medewerker.voornaam');
+                },
             ]);
         }
 
@@ -131,6 +142,7 @@ class HuurderFilterType extends AbstractType
                 'actief',
                 'wpi',
                 'medewerker',
+                'ambulantOndersteuner',
             ],
         ]);
     }

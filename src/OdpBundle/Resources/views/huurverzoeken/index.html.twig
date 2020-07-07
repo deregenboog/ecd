@@ -25,6 +25,9 @@
                         {{ form_widget(filter.download) }}
                     </span>
                 </th>
+                <th>
+
+                </th>
             </tr>
             <tr>
                 <th>
@@ -48,6 +51,10 @@
                     {{ form_errors(filter.afsluitdatum.end) }}
                 </th>
                 <th>
+                    {{ form_widget(filter.medewerker) }}
+                    {{ form_errors(filter.medewerker) }}
+                </th>
+                <th>
                     {{ form_widget(filter.huurovereenkomst.isReservering) }}
                     {{ form_errors(filter.huurovereenkomst.isReservering) }}
                 </th>
@@ -69,6 +76,9 @@
                 {{ knp_pagination_sortable(pagination, 'Afsluitdatum', 'huurverzoek.afsluitdatum') }}
             </th>
             <th>
+                {{ knp_pagination_sortable(pagination, 'Medewerker', 'medewerker.achternaam') }}
+            </th>
+            <th>
                 {{ knp_pagination_sortable(pagination, 'Reservering', 'huurovereenkomst.isReservering') }}
             </th>
             <th>
@@ -81,9 +91,9 @@
                 {% set class = "danger" %}
             {% endif %}
 
-        <tr class="{{ class }}">
+        <tr class="{{ class }}" data-href="{{ path('odp_huurverzoeken_view', {id: huurverzoek.id}) }}">
             <td>
-                {{ html.link(huurverzoek.id, path('odp_huurverzoeken_view', {id: huurverzoek.id})) }}
+                {{ huurverzoek.id }}
             </td>
             <td>
                 {{ huurverzoek.huurder.klant.naam }}
@@ -95,11 +105,14 @@
                 {{ huurverzoek.afsluitdatum ? huurverzoek.afsluitdatum|date('d-m-Y') }}
                 {{ huurverzoek.afsluiting ? '('~huurverzoek.afsluiting~')' }}
             </td>
+
+            <td>
+                {{ huurverzoek.medewerker }}
+            </td>
             <td>
                 {{ huurverzoek.huurovereenkomst ? huurverzoek.huurovereenkomst.isReservering|ja_nee : "Nee" }}
             </td>
             <td>
-                {{ html.viewLink(path('odp_huurverzoeken_view', {id: huurverzoek.id})) }}
                 {{ html.editLink(path('odp_huurverzoeken_edit', {id: huurverzoek.id})) }}
                 {% if huurverzoek.deletable %}
                     {{ html.deleteLink(path('odp_huurverzoeken_delete', {id: huurverzoek.id})) }}

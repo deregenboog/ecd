@@ -3,6 +3,7 @@
 namespace OdpBundle\Entity;
 
 use AppBundle\Entity\Klant;
+use AppBundle\Entity\Medewerker;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
@@ -77,6 +78,7 @@ class Huurder extends Deelnemer
      * @ORM\JoinColumn(nullable=true)
      */
     private $werk;
+
 
 
     public function __construct(Klant $klant = null)
@@ -155,6 +157,7 @@ class Huurder extends Deelnemer
 
         return $huurovereenkomsten;
     }
+
 
     public function getAfsluiting()
     {

@@ -5,7 +5,11 @@ namespace OdpBundle\Form;
 use AppBundle\Form\AppDateRangeType;
 use AppBundle\Form\FilterType;
 use AppBundle\Form\KlantFilterType;
+use AppBundle\Form\MedewerkerType;
 use AppBundle\Form\StadsdeelSelectType;
+use Doctrine\ORM\EntityRepository;
+use OdpBundle\Entity\Huurder;
+use OdpBundle\Entity\Verhuurder;
 use OdpBundle\Filter\VerhuurderFilter;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
@@ -58,6 +62,16 @@ class VerhuurderFilterType extends AbstractType
                 'data' => false,
             ]);
         }
+        if (in_array('ambulantOndersteuner', $options['enabled_filters'])) {
+            $builder->add('ambulantOndersteuner', MedewerkerType::class, [
+                'required' => false,
+                'query_builder' => function (EntityRepository $repository) {
+                    return $repository->createQueryBuilder('medewerker')
+                        ->innerJoin(Verhuurder::class, 'verhuurder', 'WITH', 'verhuurder.ambulantOndersteuner = medewerker')
+                        ->orderBy('medewerker.voornaam');
+                },
+            ]);
+        }
 
         $builder
             ->add('filter', SubmitType::class, ['label' => 'Filteren'])
@@ -88,6 +102,7 @@ class VerhuurderFilterType extends AbstractType
                 'actief',
                 'wpi',
                 'ksgw',
+                'ambulantOndersteuner'
             ],
         ]);
     }

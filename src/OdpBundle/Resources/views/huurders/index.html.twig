@@ -19,7 +19,7 @@
         <thead>
             {{ form_start(filter) }}
                 <tr>
-                    <th colspan="8">
+                    <th colspan="10">
                     </th>
                     <th>
                         {{ form_widget(filter.actief) }}
@@ -78,6 +78,10 @@
                     </th>
                     <th>
                     </th>
+                    <th>
+                        {{ form_widget(filter.ambulantOndersteuner) }}
+                        {{ form_errors(filter.ambulantOndersteuner) }}
+                    </th>
                 </tr>
             {{ form_end(filter) }}
             <tr>
@@ -112,16 +116,19 @@
                     {{ knp_pagination_sortable(pagination, 'Afsluitdatum dossier', 'huurder.afsluitdatum') }}
                 </th>
                 <th></th>
+                <th>
+                    {{ knp_pagination_sortable(pagination, 'Ambulant ondersteuner', 'ambulantOndersteuner.achternaam') }}
+                </th>
             </tr>
         </thead>
         <tbody>
             {% for huurder in pagination %}
-                <tr>
+                <tr data-href="{{ path(route_base~'view', {id: huurder.id}) }}">
                     <td>
-                        {{ html.link(huurder.klant.id, path('odp_huurders_view', {id: huurder.id})) }}
+                        {{ huurder.klant.id }}
                     </td>
                     <td>
-                        {{ html.link(huurder.klant, path('odp_huurders_view', {id: huurder.id})) }}
+                        {{ huurder.klant }}
                     </td>
                     <td>
                         {{ huurder.wpi ? 'Ja' : 'Nee' }}
@@ -149,11 +156,14 @@
                         {{ huurder.afsluiting ? '('~huurder.afsluiting~')' }}
                     </td>
                     <td>
-                        {{ html.viewLink(path('odp_huurders_view', {id: huurder.id})) }}
                         {{ html.editLink(path('odp_huurders_edit', {id: huurder.id})) }}
                         {% if huurder.deletable %}
                             {{ html.deleteLink(path('odp_huurders_delete', {id: huurder.id})) }}
                         {% endif %}
+                    </td>
+
+                    <td>
+                        {{ huurder.ambulantOndersteuner ? huurder.ambulantOndersteuner.naam : '' }}
                     </td>
                 </tr>
             {% endfor %}

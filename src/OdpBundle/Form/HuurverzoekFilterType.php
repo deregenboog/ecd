@@ -5,6 +5,10 @@ namespace OdpBundle\Form;
 use AppBundle\Form\AppDateRangeType;
 use AppBundle\Form\FilterType;
 use AppBundle\Form\KlantFilterType;
+use AppBundle\Form\MedewerkerType;
+use Doctrine\ORM\EntityRepository;
+use OdpBundle\Entity\Huurder;
+use OdpBundle\Entity\Huurverzoek;
 use OdpBundle\Filter\HuurovereenkomstFilter;
 use OdpBundle\Filter\HuurverzoekFilter;
 use Symfony\Component\Form\AbstractType;
@@ -50,6 +54,16 @@ class HuurverzoekFilterType extends AbstractType
                 'data' => false,
             ]);
         }
+        if (in_array('medewerker', $options['enabled_filters'])) {
+            $builder->add('medewerker', MedewerkerType::class, [
+                'required' => false,
+                'query_builder' => function (EntityRepository $repository) {
+                    return $repository->createQueryBuilder('medewerker')
+                        ->innerJoin(Huurverzoek::class, 'huurverzoek', 'WITH', 'huurverzoek.medewerker = medewerker')
+                        ->orderBy('medewerker.voornaam');
+                },
+            ]);
+        }
         if (array_key_exists('huurovereenkomst', $options['enabled_filters'])) {
             $builder->add('huurovereenkomst', HuurovereenkomstFilterType::class, [
                 'enabled_filters' => $options['enabled_filters']['huurovereenkomst'],
@@ -86,6 +100,7 @@ class HuurverzoekFilterType extends AbstractType
                 'startdatum',
                 'afsluitdatum',
                 'actief',
+                'medewerker',
                 'huurovereenkomst'=>['isReservering']
             ],
         ]);
