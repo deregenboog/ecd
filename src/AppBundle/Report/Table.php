@@ -20,6 +20,11 @@ class Table
 
     private $yTotals = true;
 
+    /**
+     * @var bool If true, pivot table gets initialized with null values instead of 0. This helps rendering 0 to - instead of plain 0.
+     */
+    private $nullAsNill = false;
+
     private $xTotalLabel = 'Totaal';
 
     private $yTotalLabel = 'Totaal';
@@ -124,6 +129,22 @@ class Table
         return $this;
     }
 
+    /**
+     * @return bool
+     */
+    public function isNullAsNill(): bool
+    {
+        return $this->nullAsNill;
+    }
+
+    /**
+     * @param bool $nullAsNill
+     */
+    public function setNullAsNill(bool $nullAsNill): void
+    {
+        $this->nullAsNill = $nullAsNill;
+    }
+
     public function setAction($action)
     {
         $this->action = $action;
@@ -137,9 +158,7 @@ class Table
 
         $data = $this->initializePivotStructure(
             $xValues,
-            $yValues,
-            $this->xTotals,
-            $this->yTotals
+            $yValues
         );
 
         foreach ($this->result as $row) {
@@ -254,22 +273,23 @@ class Table
 
     protected function initializePivotStructure($xLabels, $yLabels)
     {
+        $zero = ($this->nullAsNill)?null:0;
         $data = [];
         foreach ($yLabels as $yLabel) {
             foreach ($xLabels as $xLabel) {
-                $data[$yLabel][$xLabel] = 0;
+                $data[$yLabel][$xLabel] = $zero;
             }
             if ($this->xTotals) {
-                $data[$yLabel][$this->xTotalLabel] = 0;
+                $data[$yLabel][$this->xTotalLabel] = $zero;
             }
         }
         if ($this->yTotals) {
             foreach ($xLabels as $xLabel) {
-                $data[$this->yTotalLabel][$xLabel] = 0;
+                $data[$this->yTotalLabel][$xLabel] = $zero;
             }
         }
         if ($this->xTotals && $this->yTotals) {
-            $data[$this->yTotalLabel][$this->xTotalLabel] = 0;
+            $data[$this->yTotalLabel][$this->xTotalLabel] = $zero;
         }
 
         return $data;

@@ -155,15 +155,14 @@ class Vraag
 //        $bin = is_null($behandelaar);
 //        $c = count($this->contactmomenten);
 
-        if (1 === count($this->contactmomenten) && is_null($this->getContactmoment()->getBehandelaar()) && !is_null($behandelaar)) {
+//        if (1 === count($this->contactmomenten) && is_null($this->getContactmoment()->getBehandelaar()) && !is_null($behandelaar)) {
+//
+//            $this->contactmomenten[0]->setBehandelaar($behandelaar);
+//
+//        }
 
-            $this->contactmomenten[0]->setBehandelaar($behandelaar);
+        $this->behandelaar = $behandelaar;
 
-        }
-        else
-        {
-            $this->behandelaar = $behandelaar;
-        }
 
         return $this;
     }
