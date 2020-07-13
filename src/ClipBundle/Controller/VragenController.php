@@ -66,7 +66,10 @@ class VragenController extends AbstractVragenController
         if ($form->isSubmitted() && $form->isValid()) {
             try {
                 foreach ($entity->getVragen() as $vraag) {
+                    $cm = $vraag->getContactmoment();
+                    $cm->setBehandelaar($vraag->getBehandelaar());
                     $parentEntity->addVraag($vraag);
+
                 }
                 $this->parentDao->update($parentEntity);
                 $this->addFlash('success', ucfirst($this->entityName).' is toegevoegd.');

@@ -240,10 +240,7 @@ class Vraag
     public function addContactmoment(Contactmoment $contactmoment)
     {
         $this->contactmomenten[] = $contactmoment;
-        $this->setBehandelaar($contactmoment->getBehandelaar());
         $contactmoment->setVraag($this);
-
-
         return $this;
     }
 
