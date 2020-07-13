@@ -55,13 +55,14 @@ class HuurverzoekFilterType extends AbstractType
             ]);
         }
         if (in_array('medewerker', $options['enabled_filters'])) {
-            $builder->add('medewerker', MedewerkerType::class, [
+            $builder->add('medewerker', \OdpBundle\Form\MedewerkerType::class, [
                 'required' => false,
-                'query_builder' => function (EntityRepository $repository) {
-                    return $repository->createQueryBuilder('medewerker')
-                        ->innerJoin(Huurverzoek::class, 'huurverzoek', 'WITH', 'huurverzoek.medewerker = medewerker')
-                        ->orderBy('medewerker.voornaam');
-                },
+                'preset'=>false,
+//                'query_builder' => function (EntityRepository $repository) {
+//                    return $repository->createQueryBuilder('medewerker')
+//                        ->innerJoin(Huurverzoek::class, 'huurverzoek', 'WITH', 'huurverzoek.medewerker = medewerker')
+//                        ->orderBy('medewerker.voornaam');
+//                },
             ]);
         }
         if (array_key_exists('huurovereenkomst', $options['enabled_filters'])) {

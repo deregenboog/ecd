@@ -49,13 +49,14 @@ class HuuraanbodFilterType extends AbstractType
             ]);
         }
         if (in_array('medewerker', $options['enabled_filters'])) {
-            $builder->add('medewerker', MedewerkerType::class, [
+            $builder->add('medewerker', \OdpBundle\Form\MedewerkerType::class, [
                 'required' => false,
-                'query_builder' => function (EntityRepository $repository) {
-                    return $repository->createQueryBuilder('medewerker')
-                        ->innerJoin(Huuraanbod::class, 'huuraanbod', 'WITH', 'huuraanbod.medewerker = medewerker')
-                        ->orderBy('medewerker.voornaam');
-                },
+                'preset'=>false
+//                'query_builder' => function (EntityRepository $repository) {
+//                    return $repository->createQueryBuilder('medewerker')
+//                        ->innerJoin(Huuraanbod::class, 'huuraanbod', 'WITH', 'huuraanbod.medewerker = medewerker')
+//                        ->orderBy('medewerker.voornaam');
+//                },
             ]);
         }
         if (in_array('actief', $options['enabled_filters'])) {

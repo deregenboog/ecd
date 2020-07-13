@@ -14,7 +14,7 @@
     <table class="table table-hover">
         {{ form_start(filter) }}
             <tr>
-                <th colspan="8">
+                <th colspan="9">
                 </th>
                 <th>
                     {{ form_widget(filter.actief) }}
@@ -83,6 +83,9 @@
                     {{ form_widget(filter.isReservering) }}
                 </th>
                 <th>
+                    {{ form_widget(filter.opzegbriefVerstuurd) }}
+                </th>
+                <th>
                 </th>
             </tr>
         {{ form_end(filter) }}
@@ -122,6 +125,9 @@
             </th>
             <th>
                 {{ knp_pagination_sortable(pagination, 'Reservering', 'huurovereenkomst.isReservering') }}
+            </th>
+            <th>
+                {{ knp_pagination_sortable(pagination, 'Opzegbrief verstuurd?', 'huurovereenkomst.opzegbriefVerstuurd') }}
             </th>
             <th>
             </th>
@@ -169,10 +175,13 @@
                     {{ huurovereenkomst.vorm }}
                 </td>
                 <td>
-                    {{ huurovereenkomst.huurder.automatischeIncasso ? 'Ja' : 'Nee' }}
+                    {{ huurovereenkomst.huurder.automatischeIncasso|ja_nee() }}
                 </td>
                 <td>
                     {{ huurovereenkomst.isReservering|ja_nee() }}
+                </td>
+                <td>
+                    {{ huurovereenkomst.opzegbriefVerstuurd|ja_nee() }}
                 </td>
                 <td>
                     {% if huurovereenkomst.actief %}

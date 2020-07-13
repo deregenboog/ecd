@@ -40,7 +40,7 @@ class HuurovereenkomstType extends AbstractType
 
         $builder
             ->add('isReservering', CheckboxType::class, [
-                'required' => true,
+                'required' => false,
                 'label'=> 'Is deze koppeling een reservering?'
 
             ])
