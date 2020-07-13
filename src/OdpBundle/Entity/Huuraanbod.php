@@ -238,7 +238,7 @@ class Huuraanbod
     /**
      * @return VormVanOvereenkomst
      */
-    public function getVormvanovereenkomst(): VormVanOvereenkomst
+    public function getVormvanovereenkomst(): ?VormVanOvereenkomst
     {
         return $this->vormvanovereenkomst;
     }
@@ -246,7 +246,7 @@ class Huuraanbod
     /**
      * @param VormVanOvereenkomst $vormvanovereenkomst
      */
-    public function setVormvanovereenkomst(VormVanOvereenkomst $vormvanovereenkomst): void
+    public function setVormvanovereenkomst(?VormVanOvereenkomst $vormvanovereenkomst): void
     {
         $this->vormvanovereenkomst = $vormvanovereenkomst;
     }
