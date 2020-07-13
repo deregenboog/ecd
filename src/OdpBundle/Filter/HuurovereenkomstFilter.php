@@ -51,6 +51,12 @@ class HuurovereenkomstFilter implements FilterInterface
     public $isReservering;
 
     /**
+     * @var bool
+     */
+    public $opzegbriefVerstuurd;
+
+
+    /**
      * @var HuurderFilter
      */
     public $huurder;
@@ -157,6 +163,12 @@ class HuurovereenkomstFilter implements FilterInterface
             $builder
                 ->andWhere('huurovereenkomst.afsluitdatum IS NULL OR huurovereenkomst.afsluitdatum > :now')
                 ->setParameter('now', new \DateTime())
+            ;
+        }
+        if ($this->opzegbriefVerstuurd) {
+            $builder
+                ->andWhere('huurovereenkomst.opzegbriefVerstuurd = true')
+
             ;
         }
 

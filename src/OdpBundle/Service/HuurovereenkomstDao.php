@@ -24,6 +24,7 @@ class HuurovereenkomstDao extends AbstractDao implements HuurovereenkomstDaoInte
             'huurovereenkomst.vorm',
             'huurovereenkomst.afsluitdatum',
             'huurovereenkomst.isReservering',
+            'huurovereenkomst.opzegbriefVerstuurd',
             'huurder.automatischeIncasso',
         ],
     ];

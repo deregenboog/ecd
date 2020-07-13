@@ -96,6 +96,13 @@ class HuurovereenkomstFilterType extends AbstractType
                 'data' => false,
             ]);
         }
+        if (in_array('opzegbriefVerstuurd', $options['enabled_filters'])) {
+            $builder->add('opzegbriefVerstuurd', CheckboxType::class, [
+                'required' => false,
+                'label' => 'Opzegbrief verstuurd?',
+                'data' => false,
+            ]);
+        }
         if (in_array('isReservering', $options['enabled_filters'])) {
             $isReservering = false;
            if($options['data'] && is_null($options['data']->isReservering) && is_array($options['empty_data'])) {
@@ -143,7 +150,8 @@ class HuurovereenkomstFilterType extends AbstractType
                 'vorm',
                 'afsluitdatum',
                 'actief',
-                'isReservering'
+                'isReservering',
+                'opzegbriefVerstuurd',
             ],
         ]);
     }
