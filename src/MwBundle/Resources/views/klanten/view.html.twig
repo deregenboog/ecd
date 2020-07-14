@@ -11,9 +11,20 @@
 
 {% block content_top %}
     <h1>{{ entity_name|capitalize }} {{ entity }}</h1>
+    {% if entity.huidigeMwStatus?entity.huidigeMwStatus.afgesloten %}
+        <p class="alert alert-danger">
+            Dit dossier is afgesloten op ({{ entity.huidigeMwStatus.datum|date("d-m-Y") }}. Resultaat: {{ entity.huidigeMwStatus.resultaat|join(', ') }}
+            {{ html.link('Mw dossier heropenen', path(route_base~'open', {id: entity.id}), 'open') }}
+        </p>
+    {% endif %}
     <p>
-        {{ html.link('Wijzigen', path('mw_klanten_edit', {id: entity.id}), 'edit') }}
+        {% if entity.huidigeMwStatus?entity.huidigeMwStatus.aangemeld %}
+            {{ html.link('Wijzigen', path('mw_klanten_edit', {id: entity.id}), 'edit') }}
+            {{ html.link('Mw dossier afsluiten', path(route_base~'close', {id: entity.id}), 'close') }}
+        {% endif %}
+{#        {{ html.link('Klantrapportage bekijken', path(route_base~'viewreport', {klant: entity.id}), 'list') }}#}
     </p>
+
     {% if not entity.laatsteZrm %}
         <p class="text-danger">
             LET OP: geen ZRM aanwezig. Klik
@@ -30,6 +41,11 @@
 {% endblock %}
 
 {% block content_left %}
+    <ul>
+        {% for status in entity.mwStatussen %}
+            <li>{{ status }}</li>
+        {% endfor %}
+    </ul>
     {% include '::klant_basis.html.twig' with {klant: entity, module: 'MaatschappelijkWerk'} %}
     {{ render(controller('MwBundle:Klanten:_mw', {id: entity.id})) }}
     {{ render(controller('InloopBundle:Klanten:_intakes', {id: entity.id})) }}

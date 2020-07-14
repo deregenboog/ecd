@@ -11,6 +11,10 @@ use AppBundle\Event\Events;
 use AppBundle\Export\ExportInterface;
 use AppBundle\Form\KlantFilterType as AppKlantFilterType;
 use AppBundle\Service\KlantDaoInterface;
+use MwBundle\Entity\Aanmelding;
+use MwBundle\Entity\Afsluiting;
+use MwBundle\Form\AanmeldingType;
+use MwBundle\Form\AfsluitingType;
 use InloopBundle\Form\KlantType;
 use JMS\DiExtraBundle\Annotation as DI;
 use MwBundle\Entity\Document;
@@ -228,4 +232,75 @@ class KlantenController extends AbstractController
             'amoc_landen' => $this->getAmocLanden(),
         ];
     }
+
+    /**
+     * @Route("/{id}/close")
+     */
+    public function closeAction(Request $request, $id)
+    {
+        $klant = $this->dao->find($id);
+        $afsluiting = new Afsluiting($klant, $this->getMedewerker());
+
+        $form = $this->getForm(AfsluitingType::class, $afsluiting);
+        $form->handleRequest($this->getRequest());
+        if ($form->isSubmitted() && $form->isValid()) {
+            try {
+                $entityManager = $this->getEntityManager();
+                $entityManager->persist($afsluiting);
+                $entityManager->flush();
+
+                $this->addFlash('success', 'Mw dossier is afgesloten');
+            } catch (\Exception $e) {
+                $message = $this->container->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
+                $this->addFlash('danger', $message);
+            }
+
+            if ($url = $request->get('redirect')) {
+                return $this->redirect($url);
+            }
+
+            return $this->redirectToRoute('mw_klanten_index');
+        }
+
+        return [
+            'klant' => $klant,
+            'form' => $form->createView(),
+        ];
+    }
+
+    /**
+     * @Route("/{id}/open")
+     */
+    public function openAction(Request $request, $id)
+    {
+        $klant = $this->dao->find($id);
+        $aanmelding = new Aanmelding($klant, $this->getMedewerker());
+
+        $form = $this->getForm(AanmeldingType::class, $aanmelding);
+        $form->handleRequest($this->getRequest());
+        if ($form->isSubmitted() && $form->isValid()) {
+            try {
+                $entityManager = $this->getEntityManager();
+                $entityManager->persist($aanmelding);
+                $entityManager->flush();
+
+                $this->addFlash('success', 'Mw dossier is heropend');
+            } catch (\Exception $e) {
+                $message = $this->container->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
+                $this->addFlash('danger', $message);
+            }
+
+            if ($url = $request->get('redirect')) {
+                return $this->redirect($url);
+            }
+
+            return $this->redirectToRoute('mw_klanten_index');
+        }
+
+        return [
+            'klant' => $klant,
+            'form' => $form->createView(),
+        ];
+    }
+
 }

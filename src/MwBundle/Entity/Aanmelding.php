@@ -1,6 +1,6 @@
 <?php
 
-namespace InloopBundle\Entity;
+namespace MwBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
@@ -10,7 +10,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
  * @ORM\HasLifecycleCallbacks
  * @Gedmo\Loggable
  */
-class Aanmelding extends DossierStatus
+class Aanmelding extends MwDossierStatus
 {
     public function __toString()
     {

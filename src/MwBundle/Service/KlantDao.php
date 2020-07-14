@@ -35,7 +35,7 @@ class KlantDao extends AbstractDao implements KlantDaoInterface
     public function findAll($page = null, FilterInterface $filter = null)
     {
         $builder = $this->repository->createQueryBuilder($this->alias)
-            ->select($this->alias.', intake , geslacht, laatsteIntake, laatsteIntakeLocatie, gebruikersruimte')
+            ->select($this->alias.', intake , geslacht, laatsteIntake, laatsteIntakeLocatie, gebruikersruimte,huidigeMwStatus')
             ->addSelect('MAX(verslag.datum) AS datumLaatsteVerslag')
             ->addSelect('COUNT(DISTINCT verslag.id) AS aantalVerslagen')
             ->leftJoin($this->alias.'.huidigeStatus', 'status')
@@ -43,30 +43,11 @@ class KlantDao extends AbstractDao implements KlantDaoInterface
             ->leftJoin($this->alias.'.verslagen', 'verslag')
             ->leftJoin($this->alias.'.geslacht', 'geslacht')
             ->leftJoin($this->alias.'.laatsteIntake', 'laatsteIntake')
+            ->leftJoin($this->alias.'.huidigeMwStatus', 'huidigeMwStatus')
             ->leftJoin('laatsteIntake.intakelocatie', 'laatsteIntakeLocatie')
             ->leftJoin('laatsteIntake.gebruikersruimte', 'gebruikersruimte')
             ->groupBy($this->alias.'.id')
             ;
-        /**
-         * !!! LET OP TESTEN want live levert het een probleem op.
-         * Sinds MySQL 5.7 is het verplicht alle select vleden in de group by te noemen. google: ONLY_FULL_GROUP_BY
-         *
-         * Live draait nog 5.6.x
-         * Dit is niet compatible. Vandaar de versie check hier... Kan weg wanneer live naar 5.7 gaat.
-         * -- werkt niet live. raar.
-         */
-        $platform = $this->entityManager->getConnection()->getDatabasePlatform();
-        if($platform instanceof MySQL57Platform)
-//        {
-//            $builder
-//                ->addGroupBy('intake')
-//                ->addGroupBy('verslag')
-//                ->addGroupBy('laatsteIntake')
-//                ->addGroupBy('laatsteIntakeLocatie')
-//                ->addGroupBy('gebruikersruimte')
-//            ;
-//        }
-
 
         if ($filter) {
             $filter->applyTo($builder);

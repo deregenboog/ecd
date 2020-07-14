@@ -35,7 +35,7 @@ abstract class MwDossierStatus
     /**
      * @var Klant
      *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Klant", inversedBy="statussen")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Klant", inversedBy="mwStatussen")
      * @ORM\JoinColumn(nullable=false)
      * @Gedmo\Versioned
      */
@@ -50,7 +50,7 @@ abstract class MwDossierStatus
     public function __construct(Klant $klant, Medewerker $medewerker = null)
     {
         $this->klant = $klant;
-        $klant->setHuidigeStatus($this);
+        $klant->setHuidigeMwStatus($this);
 
         $this->medewerker = $medewerker;
         $this->datum = new \DateTime('now');

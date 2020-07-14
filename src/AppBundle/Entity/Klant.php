@@ -12,6 +12,7 @@ use InloopBundle\Entity\Intake;
 use InloopBundle\Entity\Locatie;
 use InloopBundle\Entity\Registratie;
 use InloopBundle\Entity\Schorsing;
+use MwBundle\Entity\MwDossierStatus;
 use MwBundle\Entity\Verslag;
 
 /**
@@ -128,6 +129,25 @@ class Klant extends Persoon
      * @ORM\JoinColumn(nullable=true)
      */
     private $statussen;
+
+    /**
+     * @var MwDossierStatus[]
+     *
+     * @ORM\OneToMany(targetEntity="MwBundle\Entity\MwDossierStatus", mappedBy="klant")
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $mwStatussen;
+
+    /**
+     * @var MwDossierStatus
+     *
+     * @ORM\OneToOne(targetEntity="MwBundle\Entity\MwDossierStatus", cascade={"persist"})
+     * @ORM\JoinColumn(nullable=true)
+     * @Gedmo\Versioned
+     */
+    private $huidigeMwStatus;
+
+
 
     /**
      * @var Registratie
@@ -395,29 +415,6 @@ class Klant extends Persoon
         return $this;
     }
 
-//     public function addRegistratie(Registratie $registratie)
-//     {
-//         $this->registraties->add($registratie);
-//         $registratie->setKlant($this);
-//         $this->laatsteRegistratie = $registratie;
-
-//         return $this;
-//     }
-
-//     public function removeRegistratie(Registratie $registratie)
-//     {
-//         $this->registraties->removeElement($registratie);
-//         $this->laatsteRegistratie = count($this->registraties) > 0 ? $this->registraties[0] : null;
-
-//         return $this;
-//     }
-
-//     public function setLaatsteRegistratie(Registratie $laatsteRegistratie)
-//     {
-//         $this->laatsteRegistratie = $laatsteRegistratie;
-
-//         return $this;
-//     }
 
     public function getHuidigeStatus()
     {
@@ -551,6 +548,43 @@ class Klant extends Persoon
         if(null !== $this->getToestemmingsformulier()) return true;
         return false;
     }
+
+    /**
+     * @return MwDossierStatus[]
+     */
+    public function getMwStatussen()
+    {
+        return $this->mwStatussen;
+    }
+
+    /**
+     * @param MwDossierStatus[] $mwStatussen
+     * @return Klant
+     */
+    public function setMwStatussen(array $mwStatussen): Klant
+    {
+        $this->mwStatussen = $mwStatussen;
+        return $this;
+    }
+
+    /**
+     * @return MwDossierStatus
+     */
+    public function getHuidigeMwStatus(): ?MwDossierStatus
+    {
+        return $this->huidigeMwStatus;
+    }
+
+    /**
+     * @param MwDossierStatus $huidigeMwStatus
+     * @return Klant
+     */
+    public function setHuidigeMwStatus(MwDossierStatus $huidigeMwStatus): Klant
+    {
+        $this->huidigeMwStatus = $huidigeMwStatus;
+        return $this;
+    }
+
 
 
 }

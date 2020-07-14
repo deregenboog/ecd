@@ -45,7 +45,7 @@ class DienstenLookupSubscriber implements EventSubscriberInterface
             ['datum' => 'asc']
         );
 
-        if ($verslag) {
+        if ($verslag && $klant->getHuidigeMwStatus()->isAangemeld()) {
             $dienst = new Dienst(
                 'Maatschappeljk werk',
                 $this->generator->generate('mw_klanten_view', ['id' => $klant->getId()])
