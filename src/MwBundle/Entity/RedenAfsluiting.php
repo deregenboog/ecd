@@ -1,6 +1,6 @@
 <?php
 
-namespace InloopBundle\Entity;
+namespace MwBundle\Entity;
 
 use AppBundle\Model\TimestampableTrait;
 use Doctrine\ORM\Mapping as ORM;
@@ -8,7 +8,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Entity
- * @ORM\Table(name="inloop_afsluiting_redenen")
+ * @ORM\Table(name="mw_afsluiting_redenen")
  * @Gedmo\Loggable
  */
 class RedenAfsluiting

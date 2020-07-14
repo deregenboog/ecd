@@ -7,9 +7,12 @@ use AppBundle\Entity\Klant;
 use AppBundle\Event\DienstenLookupEvent;
 use AppBundle\Event\Events;
 use AppBundle\Export\ExportInterface;
+
 use Doctrine\ORM\EntityNotFoundException;
+use InloopBundle\Service\KlantDaoInterface;
 use JMS\DiExtraBundle\Annotation as DI;
 use MwBundle\Entity\Verslag;
+use MwBundle\Entity\Aanmelding;
 use MwBundle\Form\VerslagModel;
 use MwBundle\Form\VerslagType;
 use MwBundle\Service\InventarisatieDaoInterface;
@@ -37,6 +40,13 @@ class VerslagenController extends AbstractController
      * @DI\Inject("InloopBundle\Service\VerslagDao")
      */
     protected $dao;
+
+    /**
+     * @var KlantDaoInterface
+     *
+     * @DI\Inject("InloopBundle\Service\KlantDao")
+     */
+    protected $klantDao;
 
     /**
      * @var InventarisatieDaoInterface
@@ -104,7 +114,11 @@ class VerslagenController extends AbstractController
                 if ($entity->getId()) {
                     $this->dao->update($entity);
                 } else {
+
                     $this->dao->create($entity);
+                    $klant = $entity->getKlant();
+                    $klant->setHuidigeMwStatus(new Aanmelding($klant));
+                    $this->klantDao->update($klant);
                 }
                 $this->addFlash('success', ucfirst($this->entityName).' is opgeslagen.');
             } catch (\Exception $e) {

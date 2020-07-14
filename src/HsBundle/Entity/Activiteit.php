@@ -50,9 +50,9 @@ class Activiteit
         $this->created = $this->modified = new \DateTime();
     }
 
-    public function __toString()
+    public function __toString(): string
     {
-        return $this->naam;
+        return (string) $this->naam;
     }
 
     public function getId()

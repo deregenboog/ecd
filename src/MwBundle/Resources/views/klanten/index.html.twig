@@ -66,7 +66,10 @@
                         {{ form_widget(filter.laatsteVerslagDatum.end) }}
                         {{ form_errors(filter.laatsteVerslagDatum.end) }}
                     </th>
-                    <th colspan="2">
+                    <th></th>
+                    <th>
+                        {{ form_widget(filter.huidigeMwStatus) }}
+                        {{ form_errors(filter.huidigeMwStatus) }}
                     </th>
                 </tr>
             {{ form_end(filter) }}
@@ -98,7 +101,7 @@
                 <th>
                     {{ knp_pagination_sortable(pagination, 'Aantal verslagen', 'aantalVerslagen') }}
                 </th>
-                <th>Dossierstatus</th>
+                <th>Mw Dossierstatus</th>
             </tr>
         </thead>
         <tbody>
@@ -150,7 +153,7 @@
                         {{ item.aantalVerslagen }}
                     </td>
                     <td>
-                        {{ klant.huidigeStatus }}
+                        {{ klant.huidigeMwStatus }}
                     </td>
                 </tr>
             {% endfor %}

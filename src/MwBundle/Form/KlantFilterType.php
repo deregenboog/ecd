@@ -7,15 +7,19 @@ use AppBundle\Form\AppDateRangeType;
 use AppBundle\Form\FilterType;
 use AppBundle\Form\MedewerkerFilterType as AppMedewerkerFilterType;
 use AppBundle\Form\KlantFilterType as AppKlantFilterType;
+use GaBundle\Form\SelectieType;
 use InloopBundle\Entity\Locatie;
 use InloopBundle\Form\LocatieSelectType;
+use MwBundle\Entity\MwDossierStatus;
 use MwBundle\Entity\Verslag;
 use MwBundle\Filter\KlantFilter;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\Choice;
 
 class KlantFilterType extends AbstractType
 {
@@ -68,6 +72,14 @@ class KlantFilterType extends AbstractType
                 'label' => 'Alleen klanten Maatschappelijk Werk tonen',
             ]);
         }
+
+        if (in_array('huidigeMwStatus', $options['enabled_filters'])) {
+            $builder->add('huidigeMwStatus', ChoiceType::class, [
+
+                'choices'=>['Aangemeld'=>'Aanmelding','Afgesloten'=>'Afsluiting'],
+                'required' => false,
+            ]);
+        }
     }
 
     /**
@@ -84,6 +96,7 @@ class KlantFilterType extends AbstractType
                 'laatsteIntakeLocatie',
                 'laatsteVerslagDatum',
                 'alleenMetVerslag',
+                'huidigeMwStatus',
                 'verslag' => ['medewerker'],
                 'filter',
                 'download',

@@ -8,6 +8,9 @@ use AppBundle\Filter\KlantFilter as AppKlantFilter;
 use AppBundle\Form\Model\AppDateRangeModel;
 use Doctrine\ORM\QueryBuilder;
 use InloopBundle\Entity\Locatie;
+use MwBundle\Entity\Aanmelding;
+use MwBundle\Entity\Afsluiting;
+use MwBundle\Entity\MwDossierStatus;
 use MwBundle\Entity\Verslag;
 
 class KlantFilter implements FilterInterface
@@ -51,6 +54,11 @@ class KlantFilter implements FilterInterface
      * @var AppKlantFilter
      */
     public $klant;
+
+    /**
+     * @var MwDossierStatus;
+     */
+    public $huidigeMwStatus;
 
     public function applyTo(QueryBuilder $builder)
     {
@@ -106,6 +114,16 @@ class KlantFilter implements FilterInterface
                     ->setParameter('laatste_verslag_datum_tot', $this->laatsteVerslagDatum->getEnd())
                 ;
             }
+        }
+
+        if($this->huidigeMwStatus == 'Aanmelding')
+        {
+            $builder
+                ->andWhere($builder->expr()->isInstanceOf('huidigeMwStatus', Aanmelding::class));
+        }
+        else if($this->huidigeMwStatus == 'Afsluiting') {
+            $builder
+                ->andWhere($builder->expr()->isInstanceOf('huidigeMwStatus', Afsluiting::class));
         }
 
         if ($this->alleenMetVerslag) {

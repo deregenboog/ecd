@@ -1,8 +1,9 @@
 <?php
 
-namespace InloopBundle\Entity;
+namespace MwBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use MwBundle\Entity\Resultaat;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -11,7 +12,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\HasLifecycleCallbacks
  * @Gedmo\Loggable
  */
-class Afsluiting extends DossierStatus
+class Afsluiting extends MwDossierStatus
 {
     /**
      * @var RedenAfsluiting
@@ -28,6 +29,15 @@ class Afsluiting extends DossierStatus
      * @Gedmo\Versioned
      */
     protected $toelichting;
+
+    /**
+     *
+     * @ORM\ManyToMany(targetEntity="Resultaat")
+     * @ORM\JoinColumn(nullable=false)
+     * @Assert\NotNull
+     */
+    protected $resultaat;
+
 
     /**
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Land")
@@ -79,4 +89,24 @@ class Afsluiting extends DossierStatus
 
         return $this;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getResultaat()
+    {
+        return $this->resultaat;
+    }
+
+    /**
+     * @param mixed $resultaat
+     * @return Afsluiting
+     */
+    public function setResultaat($resultaat)
+    {
+        $this->resultaat = $resultaat;
+        return $this;
+    }
+
+
 }
