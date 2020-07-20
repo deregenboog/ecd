@@ -58,7 +58,7 @@ class KlantFilter implements FilterInterface
     /**
      * @var MwDossierStatus;
      */
-    public $huidigeMwStatus;
+    public $huidigeMwStatus = 'Aanmelding';
 
     public function applyTo(QueryBuilder $builder)
     {

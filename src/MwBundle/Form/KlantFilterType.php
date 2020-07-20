@@ -10,6 +10,7 @@ use AppBundle\Form\KlantFilterType as AppKlantFilterType;
 use GaBundle\Form\SelectieType;
 use InloopBundle\Entity\Locatie;
 use InloopBundle\Form\LocatieSelectType;
+use MwBundle\Entity\Aanmelding;
 use MwBundle\Entity\MwDossierStatus;
 use MwBundle\Entity\Verslag;
 use MwBundle\Filter\KlantFilter;
@@ -78,6 +79,8 @@ class KlantFilterType extends AbstractType
 
                 'choices'=>['Aangemeld'=>'Aanmelding','Afgesloten'=>'Afsluiting'],
                 'required' => false,
+               'data'=>'Aanmelding'
+
             ]);
         }
     }

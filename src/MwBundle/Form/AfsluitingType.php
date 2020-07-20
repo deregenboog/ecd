@@ -6,6 +6,7 @@ use AppBundle\Form\AppDateType;
 use AppBundle\Form\BaseType;
 use AppBundle\Form\LandSelectType;
 use Doctrine\ORM\EntityRepository;
+use InloopBundle\Form\LocatieSelectType;
 use MwBundle\Entity\Afsluiting;
 use MwBundle\Entity\RedenAfsluiting;
 use MwBundle\Entity\Resultaat;
@@ -42,6 +43,7 @@ class AfsluitingType extends AbstractType
                     return ['class' => 'land_'.(int) $reden->isLand()];
                 },
             ])
+            ->add('locatie', LocatieSelectType::class)
             ->add('resultaat', EntityType::class, [
                 'class'=>Resultaat::class,
                 'required' => true,

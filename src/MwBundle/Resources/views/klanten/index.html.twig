@@ -132,14 +132,16 @@
                     </td>
                     <td>
                         <ul>
-                            {% set break = false %}
-                            {% for verslag in klant.verslagen|filter(verslag => not break) %}
-                                {% if loop.index < 4 %}
-                                  <li>{{ verslag.medewerker }}</li>
-                                {% else %}
-                                    {% set break = true %}
-                                  <li>(...)</li>
+                        {% set verslagMedewerker = null %}
+                            {% set i = 0 %}
+                            {% for verslag in klant.verslagen %}
+                                {% if i < 3 and verslag.medewerker != verslagMedewerker %}
+                                    <li>{{ verslag.medewerker }}</li>
+                                    {% set i = i+1 %}
+                                {% elseif loop.index == 3 %}
+                                    <li>(...({{ loop.length - 3 }}))</li>
                                 {% endif %}
+                                {% set verslagMedewerker = verslag.medewerker %}
                             {% endfor %}
                         </ul>
                     </td>
@@ -160,4 +162,17 @@
         </tbody>
     </table>
     {{ knp_pagination_render(pagination) }}
+{% endblock %}
+
+{% block scripts %}
+    <script>
+        var elmAlleenVerslag = $('#klant_filter_alleenMetVerslag');
+        elmAlleenVerslag.change(function(event){
+            if($(event.target).attr('checked')!='checked')
+            {
+                $('#klant_filter_huidigeMwStatus').val('');
+            }
+        });
+
+    </script>
 {% endblock %}

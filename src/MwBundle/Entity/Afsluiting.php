@@ -45,6 +45,12 @@ class Afsluiting extends MwDossierStatus
      */
     protected $land;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="InloopBundle\Entity\Locatie")
+     * @Assert\NotNull
+     */
+    protected $locatie;
+
     public function __toString()
     {
         return sprintf(
@@ -107,6 +113,25 @@ class Afsluiting extends MwDossierStatus
         $this->resultaat = $resultaat;
         return $this;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getLocatie()
+    {
+        return $this->locatie;
+    }
+
+    /**
+     * @param mixed $locatie
+     * @return Afsluiting
+     */
+    public function setLocatie($locatie)
+    {
+        $this->locatie = $locatie;
+        return $this;
+    }
+
 
 
 }
