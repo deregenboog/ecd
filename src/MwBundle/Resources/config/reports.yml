@@ -18,6 +18,13 @@ services:
         tags:
             - { name: mw.rapportage, category: Klanten }
 
+#    MwBundle\Report\Resultaten:
+#        public: true
+#        arguments:
+#            - '@MwBundle\Service\KlantDao'
+#        tags:
+#            - { name: mw.rapportage, category: Klanten }
+
     MwBundle\Report\RepatrieringenPerLand:
         public: true
         arguments:

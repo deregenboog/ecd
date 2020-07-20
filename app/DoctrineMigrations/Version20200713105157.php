@@ -31,7 +31,7 @@ final class Version20200713105157 extends AbstractMigration
         $this->addSql('ALTER TABLE mw_dossier_statussen ADD CONSTRAINT FK_D74783BBD29703A5 FOREIGN KEY (reden_id) REFERENCES mw_afsluiting_redenen (id)');
         $this->addSql('ALTER TABLE mw_dossier_statussen ADD CONSTRAINT FK_D74783BB1994904A FOREIGN KEY (land_id) REFERENCES landen (id)');
 
-        $this->addSql('ALTER TABLE klanten ADD UNIQUE INDEX UNIQ_F538C5BC8B2671BD (huidigeStatus_id)');
+       $this->addSql('ALTER TABLE klanten ADD UNIQUE INDEX UNIQ_F538C5BC8B2671BD (huidigeStatus_id,id)');
 
         $this->addSql('ALTER TABLE klanten ADD huidigeMwStatus_id INT DEFAULT NULL');
         $this->addSql('ALTER TABLE klanten ADD CONSTRAINT FK_F538C5BCCC5FC3F9 FOREIGN KEY (huidigeMwStatus_id) REFERENCES mw_dossier_statussen (id)');

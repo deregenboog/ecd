@@ -22,6 +22,7 @@ services:
 
     InloopBundle\Event\IntakeSubscriber:
         arguments:
+            - '@InloopBundle\Service\KlantDao'
             - "@logger"
             - "@templating"
             - "@mailer"

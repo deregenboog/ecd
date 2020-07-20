@@ -116,9 +116,6 @@ class VerslagenController extends AbstractController
                 } else {
 
                     $this->dao->create($entity);
-                    $klant = $entity->getKlant();
-                    $klant->setHuidigeMwStatus(new Aanmelding($klant));
-                    $this->klantDao->update($klant);
                 }
                 $this->addFlash('success', ucfirst($this->entityName).' is opgeslagen.');
             } catch (\Exception $e) {

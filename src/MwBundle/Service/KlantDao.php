@@ -36,8 +36,10 @@ class KlantDao extends AbstractDao implements KlantDaoInterface
     {
         $builder = $this->repository->createQueryBuilder($this->alias)
             ->select($this->alias.', intake , geslacht, laatsteIntake, laatsteIntakeLocatie, gebruikersruimte,huidigeMwStatus')
-            ->addSelect('MAX(verslag.datum) AS datumLaatsteVerslag')
-            ->addSelect('COUNT(DISTINCT verslag.id) AS aantalVerslagen')
+//            ->addSelect('MAX(verslag.datum) AS datumLaatsteVerslag')
+//            ->addSelect('COUNT(DISTINCT verslag.id) AS aantalVerslagen')
+            ->addSelect('\'2020-07-01\' AS datumLaatsteVerslag')
+                ->addSelect('1 AS aantalVerslagen')
             ->leftJoin($this->alias.'.huidigeStatus', 'status')
             ->leftJoin($this->alias.'.intakes', 'intake')
             ->leftJoin($this->alias.'.verslagen', 'verslag')
@@ -48,6 +50,30 @@ class KlantDao extends AbstractDao implements KlantDaoInterface
             ->leftJoin('laatsteIntake.gebruikersruimte', 'gebruikersruimte')
             ->groupBy($this->alias.'.id')
             ;
+
+        if ($filter) {
+            $filter->applyTo($builder);
+        }
+
+        if ($page) {
+            return $this->paginator->paginate($builder, $page, $this->itemsPerPage, $this->paginationOptions);
+        }
+
+        return $builder->getQuery()->getResult();
+    }
+
+    public function countResultatenPerLocatie($page = null, FilterInterface $filter = null)
+    {
+        $builder = $this->repository->createQueryBuilder('klant')
+            /**
+             * SELECT DISTINCT (klanten.id), mw_dossier_statussen.class, mw_resultaten.naam FROM klanten LEFT JOIN verslagen ON verslagen.klant_id = klanten.id
+            LEFT JOIN mw_dossier_statussen ON mw_dossier_statussen.id = klanten.huidigeMwStatus_id
+            LEFT JOIN mw_afsluiting_resultaat ON mw_afsluiting_resultaat.afsluiting_id = mw_dossier_statussen.id
+            INNER JOIN mw_resultaten ON mw_resultaten.id = mw_afsluiting_resultaat.resultaat_id
+            WHERE verslagen.id IS NOT NULL
+            AND mw_dossier_statussen.class IN ('Afsluiting')
+             */
+        ;
 
         if ($filter) {
             $filter->applyTo($builder);

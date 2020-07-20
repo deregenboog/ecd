@@ -4,6 +4,8 @@ namespace InloopBundle\Event;
 
 use InloopBundle\Entity\Intake;
 use InloopBundle\Service\AccessUpdater;
+use InloopBundle\Service\KlantDao;
+use MwBundle\Entity\Aanmelding;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
@@ -11,6 +13,10 @@ use Symfony\Component\EventDispatcher\GenericEvent;
 
 class IntakeSubscriber implements EventSubscriberInterface
 {
+    /**
+     * @var KlantDao
+     */
+    private $klantDao;
     private $logger;
     private $templating;
     private $mailer;
@@ -20,6 +26,7 @@ class IntakeSubscriber implements EventSubscriberInterface
     private $hulpverleningEmail;
 
     public function __construct(
+        KlantDao $klantDao,
         LoggerInterface $logger,
         EngineInterface $templating,
         \Swift_Mailer $mailer,
@@ -29,6 +36,7 @@ class IntakeSubscriber implements EventSubscriberInterface
         $inloophuisEmail,
         $hulpverleningEmail
     ) {
+        $this->klantDao = $klantDao;
         $this->logger = $logger;
         $this->templating = $templating;
         $this->mailer = $mailer;
@@ -54,6 +62,7 @@ class IntakeSubscriber implements EventSubscriberInterface
             return;
         }
 
+        $this->openMwDossier($intake);
         $this->updateAccess($intake);
         $this->sendIntakeNotification($intake);
     }
@@ -73,6 +82,17 @@ class IntakeSubscriber implements EventSubscriberInterface
         $this->accessUpdater->updateForClient($intake->getKlant());
     }
 
+    public function openMwDossier(Intake $intake)
+    {
+        $roles = $intake->getMedewerker()->getRoles();
+        if(in_array("ROLE_MW",$roles))
+        {
+            $klant = $intake->getKlant();
+            $klant->setHuidigeMwStatus(new Aanmelding($klant,$intake->getMedewerker() ));
+            $this->klantDao->update($klant);
+        }
+
+    }
     public function sendIntakeNotification(Intake $intake)
     {
         $addresses = [];
