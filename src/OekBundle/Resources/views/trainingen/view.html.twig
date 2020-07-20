@@ -81,7 +81,7 @@
                     {{ deelname.deelnemer.klant.werkgebied }}
                 </td>
                 <td>
-                    {{ deelname.deelnemer.deelname(entity).status }}
+                    {{ deelname.deelnameStatus.status }}
                 </td>
                 <td>
                     {{ html.editLink(path('oek_deelnames_edit', {id: deelname.id})) }}

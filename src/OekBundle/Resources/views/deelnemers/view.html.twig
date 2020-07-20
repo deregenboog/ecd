@@ -62,9 +62,9 @@
         </dt>
         <dd>
             <ul>
-                {% for training in entity.trainingen %}
+                {% for deelname in entity.deelnames %}
                     <li>
-                        {{ html.link(training, path('oek_trainingen_view', {id: training.id})) }} | {{ training.deelname(entity).status }} {{ training.deelname(entity).status == 'Afgerond'? " | " ~ training.deelname(entity).doorverwezenNaar   }}
+                        {{ html.link(deelname.training, path('oek_trainingen_view', {id: deelname.training.id})) }} | {{ deelname.deelnameStatus.status }} {{ deelname.status == 'Afgerond'? " | " ~ deelname.doorverwezenNaar   }}
                     </li>
                 {% endfor %}
             </ul>
