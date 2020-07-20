@@ -16,6 +16,11 @@ services:
         arguments:
             - 'OekBundle\Entity\Deelnemer'
 
+    deelname_metadata:
+        class: Doctrine\ORM\Mapping\ClassMetadata
+        arguments:
+            - 'OekBundle\Entity\Deelname'
+
     OekBundle\Repository\DeelnemerRepository:
         class: OekBundle\Repository\DeelnemerRepository
         arguments:
@@ -23,6 +28,13 @@ services:
             - "@deelnemer_metadata"
         tags:
             - app.doelstelling
+        public: true
+
+    OekBundle\Repository\DeelnameRepository:
+        class: OekBundle\Repository\DeelnameRepository
+        arguments:
+            - "@doctrine.orm.entity_manager"
+            - "@deelname_metadata"
         public: true
 
     oek.repository.training:
@@ -63,6 +75,13 @@ services:
             - "@oek.repository.training"
         tags:
             - { name: oek.rapportage, category: Trainingen }
+
+    OekBundle\Report\DeelnamesPerStadsdeel:
+        public: true
+        arguments:
+            - '@OekBundle\Repository\DeelnameRepository'
+        tags:
+            - { name: oek.rapportage, category: Deelnemers }
 
     OekBundle\Event\DeelnemerEventSubscriber:
         arguments:
