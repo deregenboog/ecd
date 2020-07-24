@@ -5,6 +5,7 @@ namespace Tests\InloopBundle\Event;
 use AppBundle\Entity\Klant;
 use InloopBundle\Entity\Intake;
 use InloopBundle\Entity\Toegang;
+use InloopBundle\Service\KlantDaoInterface;
 use InloopBundle\Event\IntakeSubscriber;
 use InloopBundle\Service\AccessUpdater;
 use PHPUnit\Framework\TestCase;
@@ -14,6 +15,7 @@ use Symfony\Component\EventDispatcher\GenericEvent;
 
 class IntakeSubscriberTest extends TestCase
 {
+    private $klantDao;
     private $logger;
     private $templating;
     private $mailer;
@@ -25,6 +27,7 @@ class IntakeSubscriberTest extends TestCase
 
     protected function setUp()
     {
+        $this->klantDao = $this->getMockForAbstractClass(KlantDaoInterface::class);
         $this->logger = $this->getMockForAbstractClass(LoggerInterface::class);
         $this->templating = $this->getMockForAbstractClass(EngineInterface::class);
         $this->mailer = $this->getMockBuilder(\Swift_Mailer::class)
@@ -142,6 +145,7 @@ class IntakeSubscriberTest extends TestCase
     protected function createSUT()
     {
         return new IntakeSubscriber(
+            $this->klantDao,
             $this->logger,
             $this->templating,
             $this->mailer,

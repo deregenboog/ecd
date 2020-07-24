@@ -5,6 +5,7 @@ namespace InloopBundle\Event;
 use InloopBundle\Entity\Intake;
 use InloopBundle\Service\AccessUpdater;
 use InloopBundle\Service\KlantDao;
+use InloopBundle\Service\KlantDaoInterface;
 use MwBundle\Entity\Aanmelding;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
@@ -26,7 +27,7 @@ class IntakeSubscriber implements EventSubscriberInterface
     private $hulpverleningEmail;
 
     public function __construct(
-        KlantDao $klantDao,
+        KlantDaoInterface $klantDao,
         LoggerInterface $logger,
         EngineInterface $templating,
         \Swift_Mailer $mailer,
@@ -84,6 +85,8 @@ class IntakeSubscriber implements EventSubscriberInterface
 
     public function openMwDossier(Intake $intake)
     {
+        if($intake->getMedewerker() == null) return;
+
         $roles = $intake->getMedewerker()->getRoles();
         if(in_array("ROLE_MW",$roles))
         {
