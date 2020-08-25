@@ -8,7 +8,7 @@ use InloopBundle\Entity\Locatie;
 class OndroBongStrategy extends VerblijfsstatusStrategy
 {
     // @todo do not define database ID here
-    private $locatieIds = [13];
+    private $locatieIds = [13,19];
 
     public function supports(Locatie $locatie)
     {
