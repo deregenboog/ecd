@@ -136,7 +136,7 @@ class IntakeType extends AbstractType
                 'required'=>false,
             ])
             ->add('ondroBongToegangVan', AppDateType::class, [
-                'label' => 'Startdatum toegang Zeeburg',
+                'label' => 'Startdatum toegang Zeeburg/Transformatorweg',
                 'required'=>false,
             ])
             ->add('overigenToegangVan', AppDateType::class, [
