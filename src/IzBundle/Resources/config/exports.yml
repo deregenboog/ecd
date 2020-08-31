@@ -176,6 +176,9 @@ services:
                 Postcodegebied deelnemer: { expression: 'entity.getIzKlant().getKlant().getPostcodegebied()' }
                 Ontstaan contact: { expression: 'entity.getIzKlant().getContactOntstaan()' }
                 Gezin met kinderen: { expression: 'entity.getIzKlant().getIntake().isGezinMetKinderen() ? "ja" : "nee"', condition: 'entity.getIzKlant().getIntake()' }
+                Ongedocumenteerd: { expression: 'entity.getIzKlant().getIntake().isOngedocumenteerd() ? "ja" : "nee"', condition: 'entity.getIzKlant().getIntake()' }
+                Doelgroep: { expression: 'entity.getDoelgroep()' }
+                Hulpvraagsoort: { expression: 'entity.getHulpvraagsoort()' }
                 Aanmeldende organisatie: { expression: 'entity.getIzKlant().getOrganisatieAanmelder()' }
                 Naam aanmelder: { expression: 'entity.getIzKlant().getNaamAanmelder()' }
                 E-mail aanmelder: { expression: 'entity.getIzKlant().getEmailAanmelder()' }
