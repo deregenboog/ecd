@@ -9,6 +9,7 @@ use MwBundle\Entity\Aanmelding;
 use MwBundle\Entity\Afsluiting;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputArgument;
 
@@ -27,6 +28,9 @@ class SyncDossierstatusCommand extends ContainerAwareCommand
         $this->addUsage("Limited to 1000 per run. Please use fromId option to start from another klantId. Do several runs for the whole batch. (memory)");
         $this->addOption('dry-run');
         $this->addOption('fromId', null,InputArgument::OPTIONAL, 'Start from klantId');
+        $this->addOption('id', null,InputArgument::OPTIONAL, 'Only for this klantId');
+        $this->addOption('onlyWithoutInloopDossier');
+
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
@@ -37,7 +41,18 @@ class SyncDossierstatusCommand extends ContainerAwareCommand
 //        $klanten = $this->getKlanten();
 
         $fromId = $input->getOption('fromId');
-        $mwKlanten = $this->getMwKlanten($fromId);
+        $id = $input->getOption('id');
+        $onlyWithoutInloop = $input->getOption('onlyWithoutInloopDossier');
+        if($onlyWithoutInloop)
+        {
+            $output->writeln(sprintf('Only without inloopdossier'));
+            $mwKlanten = $this->getMwKlantenZonderDossierStatus($fromId,$id,$output);
+        }
+        else
+        {
+            $mwKlanten = $this->getMwKlanten($fromId,$id);
+        }
+
 
         $output->writeln(sprintf('%d MwKlanten gevonden from id: %d', count($mwKlanten),$fromId));
 
@@ -55,6 +70,12 @@ class SyncDossierstatusCommand extends ContainerAwareCommand
             {
                 $status = new Afsluiting($klant);
                 $output->writeln(sprintf('Afsluiting toevoegen voor #%d', $klant->getId()));
+                $klant->setHuidigeMwStatus($status);
+            }
+            else
+            {
+                $status = new Aanmelding($klant);
+                $output->writeln(sprintf('Aanmelding toevoegen voor #%d (geen InloopDossier)', $klant->getId()));
                 $klant->setHuidigeMwStatus($status);
             }
         }
@@ -76,10 +97,10 @@ class SyncDossierstatusCommand extends ContainerAwareCommand
             ->setParameter('date', new \DateTime($this->interval))
             ->getQuery()
             ->getResult()
-        ;
+            ;
     }
 
-    private function getMwKlanten($fromId=null)
+    private function getMwKlanten($fromId=null,$id=null)
     {
         $builder = $this->manager->getRepository(Klant::class)->createQueryBuilder('klant')
             ->select('klant')
@@ -94,11 +115,49 @@ class SyncDossierstatusCommand extends ContainerAwareCommand
             $builder->andWhere('klant.id >= :fromId');
             $builder->setParameter('fromId',$fromId);
         }
-        $builder->setMaxResults(1000);
+        if($id !== null)
+        {
+            $builder->andWhere('klant.id = :id');
+            $builder->setParameter('id',$id);
+
+        }
+        $builder->setMaxResults(5000);
 
         return $builder
             ->getQuery()
             ->getResult()
-        ;
+            ;
+    }
+
+    private function getMwKlantenZonderDossierStatus($fromId=null,$id=null,$output=null)
+    {
+        $builder = $this->manager->getRepository(Klant::class)->createQueryBuilder('klant')
+            ->select('klant')
+            ->leftJoin('klant.huidigeStatus', 'status')
+            ->leftJoin('klant.huidigeMwStatus','mwStatus')
+            ->innerJoin('klant.verslagen', 'verslag')
+
+            ->andWhere('verslag.id IS NOT NULL')
+            ->andWhere('mwStatus.id IS NULL')
+
+            ->groupBy('klant.id');
+        if($fromId !== null)
+        {
+            $builder->andWhere('klant.id >= :fromId');
+            $builder->setParameter('fromId',$fromId);
+        }
+            if($id !== null)
+        {
+            $builder->andWhere('klant.id = :id');
+            $builder->setParameter('id',$id);
+
+        }
+        $builder->setMaxResults(5000);
+
+//        $output->writeln($builder->getQuery()->getSQL());
+        return $builder
+            ->getQuery()
+            ->getResult()
+            ;
     }
 }
