@@ -32,11 +32,14 @@ class AccessUpdater
      */
     private $locatieDao;
 
+    private $debug = false;
+
     public function __construct(
         EntityManager $em,
         KlantDaoInterface $klantDao,
         LocatieDaoInterface $locatieDao
-    ) {
+    )
+    {
         $this->em = $em;
         $this->klantDao = $klantDao;
         $this->locatieDao = $locatieDao;
@@ -84,17 +87,21 @@ class AccessUpdater
     {
         $wasEnabled = $this->em->getFilters()->isEnabled('overleden');
         $this->em->getFilters()->enable('overleden');
+        $this->log("Updating access for ".$klant->getNaam());
 
         foreach ($this->getLocations() as $locatie) {
-            $filter = new KlantFilter($this->getStrategy($locatie));
+            $this->log($locatie);
+            $strategy = $this->getStrategy($locatie);
+            $this->log("Strategy used: ".get_class($strategy));
+
+            $filter = new KlantFilter($strategy);
             $builder = $this->klantDao->getAllQueryBuilder($filter);
             $builder
                 ->andWhere('klant.id = :klant_id')
-                ->setParameter('klant_id', $klant->getId())
-            ;
+                ->setParameter('klant_id', $klant->getId());
 
-//            echo $builder->getQuery()->getSQL();
-//            echo "\n";
+//            $this->log($builder->getQuery()->getSQL());
+
 
             $klantIds = $this->getKlantIds($builder);
 
@@ -108,9 +115,11 @@ class AccessUpdater
             ];
 
             if (in_array($klant->getId(), $klantIds)) {
+                $this->log("Access granted");
                 $this->em->getConnection()->executeQuery('INSERT IGNORE INTO inloop_toegang (klant_id, locatie_id)
                     VALUES (:klant, :locatie)', $params, $types);
             } else {
+                $this->log("Access denied");
                 $this->em->getConnection()->executeQuery('DELETE FROM inloop_toegang
                     WHERE locatie_id = :locatie AND klant_id = :klant', $params, $types);
             }
@@ -164,12 +173,20 @@ class AccessUpdater
 
     private function getKlantIds(QueryBuilder $builder)
     {
-        $klantIdArray =  $builder->select('klant.id')->distinct(true)->getQuery()->getResult();
+        $klantIdArray = $builder->select('klant.id')->distinct(true)->getQuery()->getResult();
         return array_map(
             function ($klantId) {
                 return $klantId['id'];
-            },$klantIdArray
+            }, $klantIdArray
 
         );
+    }
+
+    private function log($msg)
+    {
+        if($this->debug == true)
+        {
+            echo $msg."\n";
+        }
     }
 }
