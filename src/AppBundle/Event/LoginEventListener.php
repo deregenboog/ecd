@@ -5,7 +5,9 @@ namespace AppBundle\Event;
 use AppBundle\Entity\Medewerker;
 use Doctrine\ORM\EntityManagerInterface;
 use LdapTools\Bundle\LdapToolsBundle\Event\LdapLoginEvent;
+use LdapTools\Bundle\LdapToolsBundle\Event\AuthenticationHandlerEvent;
 use LdapTools\Bundle\LdapToolsBundle\Security\User\LdapUserProvider;
+use LdapTools\Exception\LdapConnectionException;
 
 class LoginEventListener
 {
@@ -57,5 +59,20 @@ class LoginEventListener
 
         $medewerker->setLaatsteBezoek(new \DateTime());
         $this->em->flush();
+    }
+
+    /**
+     * Gives more details when authentication fails.
+     *
+     * @param AuthenticationHandlerEvent $event
+     */
+    public function onLoginFailure(AuthenticationHandlerEvent $event)
+    {
+        $exc = $event->getException();
+        $prevExc = $exc->getPrevious();
+        if($prevExc instanceof LdapConnectionException)
+        {
+            throw new \LogicException($prevExc->getMessage());
+        }
     }
 }
