@@ -70,6 +70,8 @@ class LoginEventListener
     {
         $exc = $event->getException();
         $prevExc = $exc->getPrevious();
+        throw $prevExc;
+
         if($prevExc instanceof LdapConnectionException)
         {
             throw new \LogicException($prevExc->getMessage());
