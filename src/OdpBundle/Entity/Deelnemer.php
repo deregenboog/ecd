@@ -114,7 +114,8 @@ abstract class Deelnemer  implements KlantRelationInterface
 
     /**
      * @var Medewerker
-     * @ORM\OneToOne(targetEntity="AppBundle\Entity\Medewerker")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Medewerker")
+     * @ORM\JoinColumn(nullable=true)
      */
     private $ambulantOndersteuner;
 
