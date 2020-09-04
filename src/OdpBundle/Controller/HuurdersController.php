@@ -155,6 +155,7 @@ class HuurdersController extends AbstractController
     public function close($id)
     {
         $entityManager = $this->getEntityManager();
+        $entityManager->getFilters()->enable('active');
         $huurder = $entityManager->find(Huurder::class, $id);
 
         $form = $this->getForm(HuurderCloseType::class, $huurder);

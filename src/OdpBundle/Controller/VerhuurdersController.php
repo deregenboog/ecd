@@ -230,6 +230,7 @@ class VerhuurdersController extends AbstractController
     public function close($id)
     {
         $entityManager = $this->getEntityManager();
+        $entityManager->getFilters()->enable('active');
         $verhuurder = $entityManager->find(Verhuurder::class, $id);
 
         $form = $this->getForm(VerhuurderCloseType::class, $verhuurder);

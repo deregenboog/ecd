@@ -106,6 +106,7 @@ class HuurovereenkomstenController extends AbstractController
     public function close($id)
     {
         $entityManager = $this->getEntityManager();
+        $entityManager->getFilters()->enable('active');
         $huurovereenkomst = $entityManager->find(Huurovereenkomst::class, $id);
 
         $form = $this->getForm(HuurovereenkomstCloseType::class, $huurovereenkomst);

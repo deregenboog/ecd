@@ -39,11 +39,13 @@ class KoppelingCloseType extends AbstractType
                 'label' => 'Einddatum koppeling',
                 'required' => true,
                 'data' => new \DateTime(),
-            ])
+            ]);
+        $builder
             ->add('afsluitredenKoppeling', AfsluitredenKoppelingSelectType::class, [
                 'required' => true,
                 'current' => $options['data'] ? $options['data']->getAfsluitredenKoppeling() : null,
-            ])
+            ]);
+        $builder
             ->add('succesindicatoren', SuccesindicatorSelectType::class, [
                 'required' => true,
                 'by_reference' => false,

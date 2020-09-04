@@ -193,6 +193,7 @@ class HuurverzoekenController extends SymfonyController
     public function close($id)
     {
         $entityManager = $this->getEntityManager();
+        $entityManager->getFilters()->enable('active');
         $huurverzoek = $entityManager->find(Huurverzoek::class, $id);
 
         $form = $this->getForm(HuurverzoekCloseType::class, $huurverzoek);

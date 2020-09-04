@@ -23,10 +23,11 @@ $(function() {
     });
 
     var adjustUrls = function(event) {
+
         window.history.replaceState({}, window.document.title, $(event.target).attr('href'));
         $('a[href*="redirect="]').each(function(index, element) {
-//            $(element).attr('href', $(element).attr('href').replace(/(redirect=)([^&]*)/, '$1'+encodeURIComponent(window.location.href)));
-//             console.log('Redirect set');
+           $(element).attr('href', $(element).attr('href').replace(/(redirect=)([^&]*)/, '$1'+encodeURIComponent(window.location.href)));
+            console.log('Redirect set');
             $(element).attr('href', $(element).attr('href').replace(/(redirect=)([^&]*)/, '$1'+window.location.pathname+window.location.hash));
         });
     };

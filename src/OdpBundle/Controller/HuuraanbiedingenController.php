@@ -104,6 +104,7 @@ class HuuraanbiedingenController extends SymfonyController
     public function add($id)
     {
         $entityManager = $this->getEntityManager();
+        $entityManager->getFilters()->enable('active');
         $verhuurder = $entityManager->find(Verhuurder::class, $id);
 
         $form = $this->getForm(HuuraanbodType::class, new Huuraanbod());
@@ -126,6 +127,7 @@ class HuuraanbiedingenController extends SymfonyController
     public function edit($id)
     {
         $entityManager = $this->getEntityManager();
+        $entityManager->getFilters()->enable('active');
         $huuraanbod = $entityManager->find(Huuraanbod::class, $id);
 
         $form = $this->getForm(HuuraanbodType::class, $huuraanbod);
@@ -185,6 +187,7 @@ class HuuraanbiedingenController extends SymfonyController
     public function close($id)
     {
         $entityManager = $this->getEntityManager();
+        $entityManager->getFilters()->enable('active');
         $huuraanbod = $entityManager->find(Huuraanbod::class, $id);
 
         $form = $this->getForm(HuuraanbodCloseType::class, $huuraanbod);
