@@ -114,7 +114,7 @@ class DeelnemersController extends AbstractController
 
             $entity = new Deelnemer();
             $entity->setKlant($klant);
-
+            $this->getEntityManager()->getFilters()->enable('active');
             $creationForm = $this->getForm(DeelnemerType::class, $entity);
             $creationForm->handleRequest($request);
 
@@ -148,7 +148,7 @@ class DeelnemersController extends AbstractController
     public function closeAction(Request $request, $id)
     {
         $entity = $this->dao->find($id);
-
+        $this->getEntityManager()->getFilters()->enable('active');
         $form = $this->getForm(DeelnemerCloseType::class, $entity);
         $form->handleRequest($request);
 

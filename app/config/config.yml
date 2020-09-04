@@ -93,6 +93,9 @@ doctrine:
             disabled:
                 class: AppBundle\Doctrine\DisabledFilter
                 enabled: true
+            active:
+                class: AppBundle\Doctrine\ActiveFilter
+                enabled: false
             zichtbaar:
                 class: AppBundle\Doctrine\ZichtbaarFilter
                 enabled: true

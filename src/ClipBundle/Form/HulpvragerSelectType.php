@@ -2,6 +2,7 @@
 
 namespace ClipBundle\Form;
 
+use AppBundle\Form\BaseSelectType;
 use ClipBundle\Entity\Hulpvrager;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -17,18 +18,7 @@ class HulpvragerSelectType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'current' => null,
             'class' => Hulpvrager::class,
-            'placeholder' => '',
-            'query_builder' => function (Options $options) {
-                function (EntityRepository $repository) use ($options) {
-                    return $repository->createQueryBuilder('hulpvrager')
-                        ->where('hulpvrager.actief = true OR hulpvrager = :current')
-                        ->orderBy('hulpvrager.naam')
-                        ->setParameter('current', $options['current'])
-                    ;
-                };
-            },
         ]);
     }
 
@@ -37,6 +27,6 @@ class HulpvragerSelectType extends AbstractType
      */
     public function getParent()
     {
-        return EntityType::class;
+        return BaseSelectType::class;
     }
 }

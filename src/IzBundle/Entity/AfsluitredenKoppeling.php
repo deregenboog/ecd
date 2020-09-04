@@ -2,6 +2,7 @@
 
 namespace IzBundle\Entity;
 
+use AppBundle\Model\ActivatableTrait;
 use AppBundle\Model\TimestampableTrait;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
@@ -14,7 +15,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
  */
 class AfsluitredenKoppeling
 {
-    use TimestampableTrait;
+    use TimestampableTrait, ActivatableTrait;
 
     /**
      * @ORM\Id
@@ -29,11 +30,6 @@ class AfsluitredenKoppeling
      */
     private $naam;
 
-    /**
-     * @ORM\Column(name="active", type="boolean", nullable=false)
-     * @Gedmo\Versioned
-     */
-    private $actief = true;
 
     public function __toString()
     {
@@ -57,15 +53,4 @@ class AfsluitredenKoppeling
         return $this;
     }
 
-    public function isActief()
-    {
-        return $this->actief;
-    }
-
-    public function setActief($actief)
-    {
-        $this->actief = (bool) $actief;
-
-        return $this;
-    }
 }

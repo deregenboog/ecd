@@ -2,6 +2,7 @@
 
 namespace OdpBundle\Entity;
 
+use AppBundle\Model\ActivatableTrait;
 use AppBundle\Model\TimestampableTrait;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
@@ -23,7 +24,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
  */
 abstract class Afsluiting
 {
-    use TimestampableTrait;
+    use TimestampableTrait, ActivatableTrait;
 
     /**
      * @ORM\Id
@@ -38,11 +39,6 @@ abstract class Afsluiting
      */
     protected $naam;
 
-    /**
-     * @ORM\Column(name="active", type="boolean", nullable=true)
-     * @Gedmo\Versioned
-     */
-    protected $actief = true;
 
     /**
      * @ORM\Column(type="boolean", nullable=true)
@@ -72,17 +68,6 @@ abstract class Afsluiting
         return $this;
     }
 
-    public function isActief()
-    {
-        return $this->actief;
-    }
-
-    public function setActief($actief)
-    {
-        $this->actief = $actief;
-
-        return $this;
-    }
 
     public function isTonen()
     {

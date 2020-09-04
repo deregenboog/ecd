@@ -2,6 +2,7 @@
 
 namespace ClipBundle\Form;
 
+use AppBundle\Form\BaseSelectType;
 use ClipBundle\Entity\Communicatiekanaal;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -17,18 +18,8 @@ class CommunicatiekanaalSelectType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'current' => null,
             'class' => Communicatiekanaal::class,
-            'placeholder' => '',
-            'query_builder' => function (Options $options) {
-                function (EntityRepository $repository) use ($options) {
-                    return $repository->createQueryBuilder('communicatiekanaal')
-                        ->where('communicatiekanaal.actief = true OR communicatiekanaal = :current')
-                        ->orderBy('communicatiekanaal.naam')
-                        ->setParameter('current', $options['current'])
-                    ;
-                };
-            },
+
         ]);
     }
 
@@ -37,6 +28,6 @@ class CommunicatiekanaalSelectType extends AbstractType
      */
     public function getParent()
     {
-        return EntityType::class;
+        return BaseSelectType::class;
     }
 }

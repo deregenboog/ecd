@@ -2,6 +2,7 @@
 
 namespace ClipBundle\Form;
 
+use AppBundle\Form\BaseSelectType;
 use ClipBundle\Entity\Vraagsoort;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -17,18 +18,7 @@ class VraagsoortSelectType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'current' => null,
             'class' => Vraagsoort::class,
-            'placeholder' => '',
-            'query_builder' => function (Options $options) {
-                function (EntityRepository $repository) use ($options) {
-                    return $repository->createQueryBuilder('soort')
-                        ->where('soort.actief = true OR soort = :current')
-                        ->orderBy('soort.naam')
-                        ->setParameter('current', $options['current'])
-                    ;
-                };
-            },
         ]);
     }
 
@@ -37,6 +27,6 @@ class VraagsoortSelectType extends AbstractType
      */
     public function getParent()
     {
-        return EntityType::class;
+        return BaseSelectType::class;
     }
 }

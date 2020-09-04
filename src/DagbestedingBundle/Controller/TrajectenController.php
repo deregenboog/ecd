@@ -114,6 +114,7 @@ class TrajectenController extends AbstractChildController
             return $this->redirectToRoute('dagbesteding_trajecten_index');
         }
 
+        $this->getEntityManager()->getFilters()->enable('active');
         $form = $this->getForm($this->formClass, $entity, [
             'mode' => 'close',
         ]);

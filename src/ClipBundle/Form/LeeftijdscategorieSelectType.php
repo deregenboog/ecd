@@ -2,6 +2,7 @@
 
 namespace ClipBundle\Form;
 
+use AppBundle\Form\BaseSelectType;
 use ClipBundle\Entity\Leeftijdscategorie;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -17,18 +18,7 @@ class LeeftijdscategorieSelectType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'current' => null,
             'class' => Leeftijdscategorie::class,
-            'placeholder' => '',
-            'query_builder' => function (Options $options) {
-                function (EntityRepository $repository) use ($options) {
-                    return $repository->createQueryBuilder('leeftijdscategorie')
-                        ->where('leeftijdscategorie.actief = true OR leeftijdscategorie = :current')
-                        ->orderBy('leeftijdscategorie.naam')
-                        ->setParameter('current', $options['current'])
-                    ;
-                };
-            },
         ]);
     }
 
@@ -37,6 +27,6 @@ class LeeftijdscategorieSelectType extends AbstractType
      */
     public function getParent()
     {
-        return EntityType::class;
+        return BaseSelectType::class;
     }
 }

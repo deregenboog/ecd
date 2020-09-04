@@ -2,6 +2,7 @@
 
 namespace ScipBundle\Form;
 
+use AppBundle\Form\BaseSelectType;
 use ScipBundle\Entity\Label;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
@@ -24,6 +25,6 @@ class LabelSelectType extends AbstractType
      */
     public function getParent()
     {
-        return EntityType::class;
+        return BaseSelectType::class;
     }
 }
