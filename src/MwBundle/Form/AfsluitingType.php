@@ -46,7 +46,7 @@ class AfsluitingType extends AbstractType
             ->add('locatie', LocatieSelectType::class)
             ->add('resultaat', EntityType::class, [
                 'class'=>Resultaat::class,
-                'required' => true,
+                'required' => false,
                 'multiple'=>true,
                 'expanded'=>true,
                 'placeholder' => 'Resulta(a)t(en)',
