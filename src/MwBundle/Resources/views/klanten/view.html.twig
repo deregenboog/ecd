@@ -13,7 +13,8 @@
     <h1>{{ entity_name|capitalize }} {{ entity }}</h1>
     {% if entity.huidigeMwStatus?entity.huidigeMwStatus.afgesloten %}
         <p class="alert alert-danger">
-            Dit dossier is afgesloten op ({{ entity.huidigeMwStatus.datum|date("d-m-Y") }}. Resultaat: {{ entity.huidigeMwStatus.resultaat|join(', ') }}
+            Dit dossier is afgesloten op ({{ entity.huidigeMwStatus.datum|date("d-m-Y") }}.
+            {% if entity.huidigeMwStatus.resultaat is not empty %} Resultaat: {{ entity.huidigeMwStatus.resultaat|join(', ') }} {% endif %}
             {{ html.link('Mw dossier heropenen', path(route_base~'open', {id: entity.id}), 'open') }}
         </p>
     {% endif %}

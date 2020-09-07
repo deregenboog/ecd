@@ -36,8 +36,15 @@ class RoutingExtension extends BaseRoutingExtension
      */
     public function getPath($name, $parameters = [], $relative = false)
     {
+
         if (!array_key_exists('redirect', $parameters)) {
+
            $url = $this->requestStack->getCurrentRequest()->getPathInfo();
+
+           if($url = "_fragment")
+           {
+               $url = $this->requestStack->getMasterRequest()->getPathInfo();
+           }
            $parameters['redirect'] = $url;
 
         }

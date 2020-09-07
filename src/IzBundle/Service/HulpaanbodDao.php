@@ -95,6 +95,7 @@ class HulpaanbodDao extends AbstractDao implements HulpaanbodDaoInterface
             ->andWhere('hulpaanbod.startdatum <= :today') // hulpaanbod gestart
             ->andWhere('hulpaanbod.einddatum IS NULL OR hulpaanbod.einddatum >= :today') // hulpaanbod niet afgesloten
             ->andWhere('hulpaanbod.hulpvraag IS NULL') // hulpaanbod niet gekoppeld
+
             ->andWhere('izVrijwilliger.afsluitDatum IS NULL') // vrijwilliger niet afgesloten
             ->orderBy('hulpaanbod.startdatum', 'ASC')
             ->setParameter('today', new \DateTime('today'))
