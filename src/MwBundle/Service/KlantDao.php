@@ -2,12 +2,11 @@
 
 namespace MwBundle\Service;
 
+use AppBundle\Doctrine\SqlExtractor;
 use AppBundle\Entity\Klant;
 use AppBundle\Filter\FilterInterface;
 use AppBundle\Service\AbstractDao;
 use InloopBundle\Entity\Aanmelding;
-use Doctrine\DBAL\Platforms\MySQL57Platform;
-use InloopBundle\Entity\Locatie;
 
 class KlantDao extends AbstractDao implements KlantDaoInterface
 {
@@ -19,13 +18,15 @@ class KlantDao extends AbstractDao implements KlantDaoInterface
             'klant.achternaam',
             'klant.geboortedatum',
             'geslacht.volledig',
+            'medewerker.voornaam',
+            'verslag',
             'gebruikersruimte.naam',
             'laatsteIntakeLocatie.naam',
-            'laatsteIntake.intakedatum',
+            'klant.intakedatum',
             'datumLaatsteVerslag',
             'aantalVerslagen',
         ],
-        'wrap-queries' => true, // because of HAVING clause in filter
+//        'wrap-queries' => true, // because of HAVING clause in filter
     ];
 
     protected $class = Klant::class;
@@ -34,21 +35,28 @@ class KlantDao extends AbstractDao implements KlantDaoInterface
 
     public function findAll($page = null, FilterInterface $filter = null)
     {
-        $builder = $this->repository->createQueryBuilder($this->alias)
-            ->select($this->alias.', intake , geslacht, laatsteIntake, laatsteIntakeLocatie, gebruikersruimte,huidigeMwStatus')
-//            ->addSelect('MAX(verslag.datum) AS datumLaatsteVerslag')
-//            ->addSelect('COUNT(DISTINCT verslag.id) AS aantalVerslagen')
-            ->addSelect('\'2020-07-01\' AS datumLaatsteVerslag')
-                ->addSelect('1 AS aantalVerslagen')
-            ->leftJoin($this->alias.'.huidigeStatus', 'status')
+        /**
+         * @var KlantFilter $filter
+         */
+        $filter;
+
+        $builder = $this->repository->createQueryBuilder($this->alias);
+        $builder
+            ->select('klant, laatsteIntake, gebruikersruimte')
+            ->addSelect('MAX(verslag.datum) AS datumLaatsteVerslag')
+            ->addSelect('COUNT(DISTINCT verslag.id) AS aantalVerslagen')
+            ->join($this->alias.'.verslagen', 'verslag')
+            ->join('verslag.medewerker','medewerker')
+            ->join($this->alias.'.geslacht', 'geslacht')
+//            ->addSelect('\'2020-07-01\' AS datumLaatsteVerslag')
+//            ->addSelect('1 AS aantalVerslagen')
+//            ->leftJoin($this->alias.'.huidigeStatus', 'status')
             ->leftJoin($this->alias.'.intakes', 'intake')
-            ->leftJoin($this->alias.'.verslagen', 'verslag')
-            ->leftJoin($this->alias.'.geslacht', 'geslacht')
             ->leftJoin($this->alias.'.laatsteIntake', 'laatsteIntake')
             ->leftJoin($this->alias.'.huidigeMwStatus', 'huidigeMwStatus')
             ->leftJoin('laatsteIntake.intakelocatie', 'laatsteIntakeLocatie')
             ->leftJoin('laatsteIntake.gebruikersruimte', 'gebruikersruimte')
-            ->groupBy($this->alias.'.id')
+            ->groupBy('klant.achternaam, klant.id')
             ;
 
         if ($filter) {
@@ -56,7 +64,36 @@ class KlantDao extends AbstractDao implements KlantDaoInterface
         }
 
         if ($page) {
-            return $this->paginator->paginate($builder, $page, $this->itemsPerPage, $this->paginationOptions);
+            /**
+             * Vanwege de vele left joins in deze query is de total count niet te optimaliseren (door mij) onder de <900ms.
+             * Dat vind ik lang. Temeer omdat in veel gevallen die total count niet bijster interessant is.
+             *
+             * In de default configuratie van het filter wordt daarom de total count niet geteld. Dat scheelt een eerste snelle klik.
+             * Zodra je dan filtert gaat het sowieso sneller en wordt het juiste getal getoont.
+             *
+             */
+            $dql = $builder->getDQL();
+            $params = $builder->getParameters();
+//            $sql = $builder->getQuery()->getSQL();
+
+            $count = 11111;
+            if($filter->isDirty())
+            {
+                $builder->resetDQLPart("select");
+                $builder->select("klant.id");//select only one column for count query.
+
+                $countQuery = $builder->getQuery();
+                $fullSql = SqlExtractor::getFullSQL($countQuery);//including bound parameters.
+
+                $countSql = "SELECT COUNT(*) AS count FROM (".$fullSql.") tmp"; //wrap into subquery.
+                $countStmt = $this->entityManager->getConnection()->prepare($countSql);
+                $countStmt->execute();
+                $count = $countStmt->fetchColumn(0);
+            }
+            $query = $this->entityManager->createQuery($dql)->setHint('knp_paginator.count', $count);
+
+            $query->setParameters($params);
+            return $this->paginator->paginate($query, $page, $this->itemsPerPage,$this->paginationOptions);
         }
 
         return $builder->getQuery()->getResult();
