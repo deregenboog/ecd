@@ -77,13 +77,20 @@ class KlantFilter implements FilterInterface
             ;
         }
 
-        if($this->verslag)
+//        if($this->verslag)
+//        {
+//            $builder
+//                ->andWhere('verslag.medewerker = :medewerker')
+//                ->setParameter('medewerker',$this->verslag)
+//                ;
+//
+//        }
+        if($this->medewerker)
         {
             $builder
-                ->andWhere('verslag.medewerker = :medewerker')
-                ->setParameter('medewerker',$this->verslag)
-                ;
-
+                ->andWhere('medewerker = :medewerker')
+                ->setParameter('medewerker',$this->medewerker)
+            ;
         }
 
         if ($this->laatsteIntakeDatum) {
@@ -127,11 +134,26 @@ class KlantFilter implements FilterInterface
         }
 
         if ($this->alleenMetVerslag) {
-            $builder->andHaving('aantalVerslagen > 0');
+            $builder->andWhere('klant.huidigeMwStatus IS NOT NULL');
         }
 
         if ($this->klant) {
             $this->klant->applyTo($builder);
         }
+    }
+
+    public function isDirty()
+    {
+        $isDirty = false;
+        $r = new \ReflectionClass($this);
+        $d = $r->getDefaultProperties();
+        foreach($r->getProperties() as $prop)
+        {
+            if($prop->getValue($this) != $d[$prop->getName()])
+            {
+                return true;
+            }
+        }
+        return $isDirty;
     }
 }

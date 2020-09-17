@@ -53,8 +53,8 @@
                         {{ form_errors(filter.gebruikersruimte) }}
                     </th>
                     <th>
-                        {{ form_widget(filter.verslag) }}
-                        {{ form_errors(filter.verslag) }}
+                        {{ form_widget(filter.medewerker) }}
+                        {{ form_errors(filter.medewerker) }}
                     </th>
                     <th>
                         {{ form_widget(filter.laatsteIntakeLocatie) }}
@@ -90,7 +90,7 @@
                     {{ knp_pagination_sortable(pagination, 'Gebruikersruimte', 'gebruikersruimte.naam') }}
                 </th>
                 <th>
-                    {{ knp_pagination_sortable(pagination, 'Medewerker', 'medewerker.naam') }}
+                    {{ knp_pagination_sortable(pagination, 'Medewerker', 'medewerker.voornaam') }}
                 </th>
                 <th>
                     {{ knp_pagination_sortable(pagination, 'Intakelocatie', 'laatsteIntakeLocatie.naam') }}
@@ -106,7 +106,7 @@
         </thead>
         <tbody>
             {% for item in pagination %}
-                {% set klant = item.0 %}
+                {% set klant = item[0] %}
                 {% set rowColorClass = '' %}
                 {%  if(date(item.datumLaatsteVerslag) < date("-3 months")) %}
                     {% set rowColorClass = 'warning' %}
@@ -134,6 +134,7 @@
                         <ul>
                         {% set verslagMedewerker = null %}
                             {% set i = 0 %}
+
                             {% for verslag in klant.verslagen %}
                                 {% if i < 3 and verslag.medewerker != verslagMedewerker %}
                                     <li>{{ verslag.medewerker }}</li>
@@ -149,7 +150,7 @@
                         {{ klant.laatsteIntake ? klant.laatsteIntake.intakelocatie }}
                     </td>
                     <td>
-                        {{ item.datumLaatsteVerslag }}
+                        {{ item.datumLaatsteVerslag|date }}
                     </td>
                     <td>
                         {{ item.aantalVerslagen }}

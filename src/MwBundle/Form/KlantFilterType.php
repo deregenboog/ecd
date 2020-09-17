@@ -34,10 +34,18 @@ class KlantFilterType extends AbstractType
                 'enabled_filters' => $options['enabled_filters']['klant'],
             ]);
         }
-        if (array_key_exists('verslag', $options['enabled_filters'])) {
-            $builder->add('verslag', EntityType::class, [
+//        if (array_key_exists('verslag', $options['enabled_filters'])) {
+//            $builder->add('verslag', EntityType::class, [
+//                'required' => false,
+//                'class'=>Medewerker::class,
+//
+//            ]);
+//        }
+        if (in_array('medewerker', $options['enabled_filters'])) {
+            $builder->add('medewerker', EntityType::class, [
                 'required' => false,
                 'class'=>Medewerker::class,
+
 
             ]);
         }
@@ -96,11 +104,13 @@ class KlantFilterType extends AbstractType
             'enabled_filters' => [
                 'klant' => ['id', 'naam', 'geboortedatumRange', 'geslacht'],
                 'gebruikersruimte',
+                'medewerker',
                 'laatsteIntakeLocatie',
                 'laatsteVerslagDatum',
                 'alleenMetVerslag',
                 'huidigeMwStatus',
-                'verslag' => ['medewerker'],
+//                'verslag' => ['medewerker'],
+
                 'filter',
                 'download',
             ],
