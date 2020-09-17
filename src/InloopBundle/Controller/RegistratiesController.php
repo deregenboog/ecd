@@ -243,6 +243,12 @@ class RegistratiesController extends AbstractController
         $sep = '';
         $separator = PHP_EOL.PHP_EOL;
 
+        $nachtopvanglocaties = $this->container->getParameter('nachtopvang_locaties');
+        if(in_array($locatie->getNaam(),$nachtopvanglocaties))
+        {
+           return new JsonResponse($jsonVar);
+        }
+
         $registratiesSindsMiddernacht = $klant->getRegistratiesSinds(new \DateTime('today midnight'));
         if($registratiesSindsMiddernacht->count() >= 2) {
             //meer dan 2, kijken naar unieke locaties.
