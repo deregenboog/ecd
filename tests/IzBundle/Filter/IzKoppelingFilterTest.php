@@ -137,16 +137,17 @@ class KoppelingFilterTest extends TestCase
 
         $filter = $this->createSUT();
         $now = new \DateTime('now');
-        $filter->hulpaanbodMedewerker = new Medewerker();
+        $filter->hulpvraagMedewerker = new Medewerker();
         $filter->applyTo($builder);
 
         $this->assertEquals(
-            '(hulpvraag.koppelingEinddatum IS NULL OR hulpvraag.koppelingEinddatum > :now) AND hulpaanbod.medewerker = :hulpaanbodMedewerker',
+            '(hulpvraag.koppelingEinddatum IS NULL OR hulpvraag.koppelingEinddatum > :now) AND hulpvraag.medewerker = :hulpvraagMedewerker',
+
             (string) $builder->getDQLPart('where')
         );
         $this->assertEquals(
-            $filter->hulpaanbodMedewerker,
-            $builder->getParameter('hulpaanbodMedewerker')->getValue()
+            $filter->hulpvraagMedewerker,
+            $builder->getParameter('hulpvraagMedewerker')->getValue()
         );
     }
 
