@@ -51,6 +51,8 @@ class HulpaanbodDao extends AbstractDao implements HulpaanbodDaoInterface
             ->innerJoin('hulpaanbod.medewerker', 'medewerker')
             ->innerJoin('izVrijwilliger.vrijwilliger', 'vrijwilliger')
             ->leftJoin('vrijwilliger.werkgebied', 'werkgebied')
+            ->innerJoin('hulpaanbod.hulpvraagsoorten','hulpvraagsoort')
+            ->innerJoin('hulpaanbod.doelgroepen','doelgroep')
             ->where('hulpaanbod.hulpvraag IS NULL')
             ->andWhere('hulpaanbod.einddatum IS NULL')
             ->andWhere('izVrijwilliger.afsluiting IS NULL')

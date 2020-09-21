@@ -48,6 +48,8 @@ class HulpvraagDao extends AbstractDao implements HulpvraagDaoInterface
             ->innerJoin('hulpvraag.medewerker', 'medewerker')
             ->innerJoin('izKlant.klant', 'klant')
             ->leftJoin('klant.werkgebied', 'werkgebied')
+            ->innerJoin('hulpvraag.hulpvraagsoort','hulpvraagsoort')
+            ->innerJoin('hulpvraag.doelgroepen','doelgroep')
             ->where('hulpvraag.hulpaanbod IS NULL')
             ->andWhere('hulpvraag.einddatum IS NULL')
             ->andWhere('izKlant.afsluiting IS NULL')

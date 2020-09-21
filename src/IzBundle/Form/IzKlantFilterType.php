@@ -11,6 +11,8 @@ use IzBundle\Entity\Hulpvraag;
 use IzBundle\Entity\Intake;
 use IzBundle\Entity\IzDeelnemer;
 use IzBundle\Entity\Project;
+use IzBundle\Form\DoelgroepSelectType;
+use IzBundle\Form\HulpvraagsoortSelectType;
 use IzBundle\Filter\IzKlantFilter;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
@@ -70,7 +72,19 @@ class IzKlantFilterType extends AbstractType
                 },
             ]);
         }
+        if (in_array('hulpvraagsoort', $options['enabled_filters'])) {
+            $builder->add('hulpvraagsoort', HulpvraagsoortSelectType::class, [
+                'required' => false,
+                'expanded' => false,
+            ]);
+        }
 
+        if (in_array('doelgroep', $options['enabled_filters'])) {
+            $builder->add('doelgroep', DoelgroepSelectType::class, [
+                'required' => false,
+                'expanded' => false,
+            ]);
+        }
         if (in_array('aanmeldingMedewerker', $options['enabled_filters'])) {
             $builder->add('aanmeldingMedewerker', EntityType::class, [
                 'required' => false,
@@ -155,6 +169,8 @@ class IzKlantFilterType extends AbstractType
                 'klant' => ['id', 'voornaam', 'achternaam', 'geboortedatumRange', 'stadsdeel'],
                 'actief',
                 'project',
+                'hulpvraagsoort',
+                'doelgroep',
                 'aanmeldingMedewerker',
                 'intakeMedewerker',
                 'hulpvraagMedewerker',

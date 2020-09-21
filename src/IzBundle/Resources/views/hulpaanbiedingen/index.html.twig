@@ -23,6 +23,12 @@
                     {{ knp_pagination_sortable(pagination, 'Project', 'project.naam') }}
                 </th>
                 <th>
+                    {{ knp_pagination_sortable(pagination, 'Hulpvraagsoorten', 'hulpvraagsoort.naam') }}
+                </th>
+                <th>
+                    {{ knp_pagination_sortable(pagination, 'Doelgroepen', 'doelgroep.naam') }}
+                </th>
+                <th>
                     {{ knp_pagination_sortable(pagination, 'Medewerker', 'medewerker.voornaam') }}
                 </th>
                 <th>
@@ -49,6 +55,12 @@
                     </td>
                     <td>
                         {{ hulpaanbod.project }}
+                    </td>
+                    <td>
+                        {{ hulpaanbod.hulpvraagsoorten|join(', ') }}
+                    </td>
+                    <td>
+                        {{ hulpaanbod.doelgroepen|join(', ') }}
                     </td>
                     <td>
                         {{ hulpaanbod.medewerker }}

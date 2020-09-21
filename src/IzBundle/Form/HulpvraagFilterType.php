@@ -105,6 +105,8 @@ class HulpvraagFilterType extends AbstractType
                 'startdatum',
                 'klant' => ['id', 'voornaam', 'achternaam', 'geboortedatumRange', 'stadsdeel'],
                 'project',
+                'hulpvraagsoort',
+                'doelgroep',
                 'medewerker',
                 'filter',
                 'download',

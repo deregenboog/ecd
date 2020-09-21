@@ -7,6 +7,8 @@ use AppBundle\Filter\FilterInterface;
 use AppBundle\Filter\KlantFilter;
 use AppBundle\Form\Model\AppDateRangeModel;
 use Doctrine\ORM\QueryBuilder;
+use IzBundle\Entity\Doelgroep;
+use IzBundle\Entity\Hulpvraagsoort;
 use IzBundle\Entity\Project;
 
 class IzKlantFilter implements FilterInterface
@@ -38,6 +40,16 @@ class IzKlantFilter implements FilterInterface
      * @var Project
      */
     public $project;
+
+    /**
+     * @var Hulpvraagsoort
+     */
+    public $hulpvraagsoort;
+
+    /**
+     * @var Doelgroep
+     */
+    public $doelgroep;
 
     /**
      * @var Medewerker
@@ -111,7 +123,25 @@ class IzKlantFilter implements FilterInterface
                     break;
             }
         }
+        if ($this->hulpvraagsoort) {
+            if (!in_array('hulpvraagsoort', $builder->getAllAliases())) {
+                $builder->innerJoin('hulpvraag.hulpvraagsoort', 'hulpvraagsoort');
+            }
+            $builder
+                ->andWhere('hulpvraagsoort = :hulpvraagsoort')
+                ->setParameter('hulpvraagsoort', $this->hulpvraagsoort)
+            ;
+        }
 
+        if ($this->doelgroep) {
+            if (!in_array('doelgroep', $builder->getAllAliases())) {
+                $builder->innerJoin('hulpvraag.doelgroepen', 'doelgroep');
+            }
+            $builder
+                ->andWhere('doelgroep = :doelgroep')
+                ->setParameter('doelgroep', $this->doelgroep)
+            ;
+        }
         if ($this->aanmeldingMedewerker) {
             $builder
                 ->andWhere('aanmeldingMedewerker = :aanmeldingMedewerker')
