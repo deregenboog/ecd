@@ -31,6 +31,12 @@
                     {{ knp_pagination_sortable(pagination, 'Medewerker hulpaanbod', 'hulpaanbodMedewerker.voornaam') }}
                 </th>
                 <th>
+                    Hulpvraagsoort
+                </th>
+                <th>
+                    Doelgroep
+                </th>
+                <th>
                     {{ knp_pagination_sortable(pagination, 'Stadsdeel', 'werkgebied.naam') }}
                 </th>
                 <th>
@@ -64,6 +70,16 @@
                                 <li>{{ hulpaanbod.project }} {{ hulpaanbod.medewerker ? '('~hulpaanbod.medewerker~')' }}</li>
                             {% endfor %}
                         </ul>
+                    </td>
+                    <td>
+                        {% for hulpaanbod in izVrijwilliger.hulpaanbiedingen %}
+                            <li>{{ hulpaanbod.hulpvraagsoorten.first() }}</li>
+                        {% endfor %}
+                    </td>
+                    <td>
+                        {% for hulpaanbod in izVrijwilliger.hulpaanbiedingen %}
+                            <li>{{ hulpaanbod.doelgroepen.first() }}</li>
+                        {% endfor %}
                     </td>
                     <td>
                         {{ izVrijwilliger.vrijwilliger.werkgebied }}

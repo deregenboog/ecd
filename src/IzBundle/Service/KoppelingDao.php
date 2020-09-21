@@ -38,6 +38,8 @@ class KoppelingDao extends AbstractDao implements KoppelingDaoInterface
             ->innerJoin('hulpvraag.project', 'project')
             ->innerJoin('hulpvraag.medewerker', 'medewerkerHulpvraag')
             ->innerJoin('hulpvraag.hulpaanbod', 'hulpaanbod')
+            ->innerJoin('hulpvraag.hulpvraagsoort','hulpvraagsoort')
+            ->innerJoin('hulpvraag.doelgroepen','doelgroep')
             ->innerJoin('hulpaanbod.medewerker', 'medewerkerHulpaanbod')
             ->innerJoin('hulpaanbod.izVrijwilliger', 'izVrijwilliger')
             ->innerJoin('izVrijwilliger.vrijwilliger', 'vrijwilliger')

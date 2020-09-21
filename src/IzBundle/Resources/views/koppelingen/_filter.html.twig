@@ -8,7 +8,7 @@
             {{ form_widget(filter.langeKoppelingen) }}
             {{ form_errors(filter.langeKoppelingen) }}
         </th>
-        <th colspan="6">
+        <th colspan="7">
             <span class="pull-right">
                 {{ form_widget(filter.filter) }}
                 {{ form_widget(filter.download) }}
@@ -45,12 +45,16 @@
             {{ form_errors(filter.project) }}
         </th>
         <th>
-            {{ form_widget(filter.hulpvraagMedewerker) }}
-            {{ form_errors(filter.hulpvraagMedewerker) }}
+            {{ form_widget(filter.hulpvraagsoort) }}
+            {{ form_errors(filter.hulpvraagsoort) }}
         </th>
         <th>
-            {{ form_widget(filter.hulpaanbodMedewerker) }}
-            {{ form_errors(filter.hulpaanbodMedewerker) }}
+            {{ form_widget(filter.doelgroep) }}
+            {{ form_errors(filter.doelgroep) }}
+        </th>
+        <th>
+            {{ form_widget(filter.hulpvraagMedewerker) }}
+            {{ form_errors(filter.hulpvraagMedewerker) }}
         </th>
         <th>
             {{ form_widget(filter.klant.stadsdeel) }}

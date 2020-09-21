@@ -78,6 +78,20 @@ class KoppelingFilterType extends AbstractType
             ]);
         }
 
+        if (in_array('hulpvraagsoort', $options['enabled_filters'])) {
+            $builder->add('hulpvraagsoort', HulpvraagsoortSelectType::class, [
+                'required' => false,
+                'expanded' => false,
+            ]);
+        }
+
+        if (in_array('doelgroep', $options['enabled_filters'])) {
+            $builder->add('doelgroep', DoelgroepSelectType::class, [
+                'required' => false,
+                'expanded' => false,
+            ]);
+        }
+
         if (in_array('hulpvraagMedewerker', $options['enabled_filters'])) {
             $builder->add('hulpvraagMedewerker', MedewerkerType::class, [
                 'required' => false,
@@ -154,8 +168,10 @@ class KoppelingFilterType extends AbstractType
                 'klant' => ['voornaam', 'achternaam', 'stadsdeel'],
                 'vrijwilliger' => ['voornaam', 'achternaam'],
                 'project',
+                'hulpvraagsoort',
+                'doelgroep',
                 'hulpvraagMedewerker',
-                'hulpaanbodMedewerker',
+//                'hulpaanbodMedewerker',
                 'filter',
                 'download',
             ],
