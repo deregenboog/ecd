@@ -57,8 +57,6 @@ class KlantFilterType extends AbstractType
                     return $builder;
                     ;
                 },
-
-
             ]);
 
         }
