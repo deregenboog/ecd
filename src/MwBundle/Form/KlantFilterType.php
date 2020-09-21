@@ -7,6 +7,7 @@ use AppBundle\Form\AppDateRangeType;
 use AppBundle\Form\FilterType;
 use AppBundle\Form\MedewerkerFilterType as AppMedewerkerFilterType;
 use AppBundle\Form\KlantFilterType as AppKlantFilterType;
+use Doctrine\ORM\EntityRepository;
 use GaBundle\Form\SelectieType;
 use InloopBundle\Entity\Locatie;
 use InloopBundle\Form\LocatieSelectType;
@@ -45,9 +46,21 @@ class KlantFilterType extends AbstractType
             $builder->add('medewerker', EntityType::class, [
                 'required' => false,
                 'class'=>Medewerker::class,
+                'query_builder' => function (EntityRepository $repository) {
+                    $builder = $repository->createQueryBuilder('medewerker')
+                        ->select("medewerker")
+                        ->innerJoin(Verslag::class, 'verslag', 'WITH', 'verslag.medewerker = medewerker')
+                        ->orderBy('medewerker.voornaam')
+                        ->groupBy('verslag.medewerker')
+                        ;
+                    $sql = $builder->getQuery()->getSQL();
+                    return $builder;
+                    ;
+                },
 
 
             ]);
+
         }
         if (in_array('gebruikersruimte', $options['enabled_filters'])) {
             $builder->add('gebruikersruimte', LocatieSelectType::class, [
