@@ -37,6 +37,8 @@ class HulpvraagDao extends AbstractDao implements HulpvraagDaoInterface
 
     protected $class = Hulpvraag::class;
 
+    protected $hulpsoortenZonderKoppelingen = [];
+
     public function findAll($page = null, FilterInterface $filter = null)
     {
         $builder = $this->repository->createQueryBuilder('hulpvraag')
@@ -79,11 +81,12 @@ class HulpvraagDao extends AbstractDao implements HulpvraagDaoInterface
 
     public function findMatching(Hulpaanbod $hulpaanbod, $page = null, HulpvraagFilter $filter = null)
     {
+
         $builder = $this->repository->createQueryBuilder('hulpvraag')
             ->select('hulpvraag, izKlant, klant')
             ->innerJoin('hulpvraag.project', 'project', 'WITH', 'project.heeftKoppelingen = true')
             ->innerJoin('hulpvraag.izKlant', 'izKlant')
-            ->leftJoin('hulpvraag.hulpvraagsoort', 'hulpvraagsoort')
+            ->leftJoin('hulpvraag.hulpvraagsoort', 'hulpvraagsoort')//, 'WITH', 'hulpvraagsoort.naam NOT IN (:hulpvraagsoortenZonderKoppelingen)')
             ->leftJoin('hulpvraag.doelgroepen', 'doelgroep')
             ->innerJoin('izKlant.intake', 'intake')
             ->innerJoin('izKlant.klant', 'klant')
@@ -93,8 +96,10 @@ class HulpvraagDao extends AbstractDao implements HulpvraagDaoInterface
             ->andWhere('hulpvraag.einddatum IS NULL OR hulpvraag.einddatum >= :today') // hulpvraag niet afgesloten
             ->andWhere('hulpvraag.hulpaanbod IS NULL') // hulpvraag niet gekoppeld
             ->andWhere('izKlant.afsluitDatum IS NULL') // klant niet afgesloten
+//            ->andWhere('hulpvraagsoort.naam NOT IN (:hulpvraagsoortenZonderKoppelingen)')
             ->orderBy('hulpvraag.startdatum', 'ASC')
             ->setParameter('today', new \DateTime('today'))
+//            ->setParameter('hulpvraagsoortenZonderKoppelingen',$this->hulpsoortenZonderKoppelingen)
         ;
 
         // hulpvraag niet gereserveerd
@@ -195,5 +200,10 @@ class HulpvraagDao extends AbstractDao implements HulpvraagDaoInterface
         }
 
         return $this->paginator->paginate($builder, $page, $this->itemsPerPage, $this->paginationOptions);
+    }
+
+    public function setHulpsoortenZonderKoppelingen($hsZK)
+    {
+        $this->hulpsoortenZonderKoppelingen = $hsZK;
     }
 }

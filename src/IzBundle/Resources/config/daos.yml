@@ -28,9 +28,17 @@ services:
 
     IzBundle\Service\HulpaanbodDao:
         parent: app.dao.abstract
+        calls:
+            - method: setHulpsoortenZonderKoppelingen
+              arguments:
+                  - "%iz_hulpsoorten_zonder_koppelingen%"
 
     IzBundle\Service\HulpvraagDao:
         parent: app.dao.abstract
+        calls:
+            - method: setHulpsoortenZonderKoppelingen
+              arguments:
+                  - "%iz_hulpsoorten_zonder_koppelingen%"
 
     IzBundle\Service\HulpvraagsoortDao:
         parent: app.dao.abstract

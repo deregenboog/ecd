@@ -23,10 +23,13 @@
                     {{ knp_pagination_sortable(pagination, 'Project', 'project.naam') }}
                 </th>
                 <th>
-                    {{ knp_pagination_sortable(pagination, 'Medewerker hulpvraag', 'medewerkerHulpvraag.voornaam') }}
+                    {{ knp_pagination_sortable(pagination, 'Hulpvraagsoort', 'hulpvraagsoort.naam') }}
                 </th>
                 <th>
-                    {{ knp_pagination_sortable(pagination, 'Medewerker hulpaanbod', 'medewerkerHulpaanbod.voornaam') }}
+                    {{ knp_pagination_sortable(pagination, 'Doelgroep', 'doelgroep.naam') }}
+                </th>
+                <th>
+                    {{ knp_pagination_sortable(pagination, 'Coordinator', 'medewerkerHulpvraag.voornaam') }}
                 </th>
                 <th>
                     {{ knp_pagination_sortable(pagination, 'Stadsdeel', 'werkgebied.naam') }}
@@ -52,10 +55,13 @@
                         {{ hulpvraag.project }}
                     </td>
                     <td>
-                        {{ hulpvraag.medewerker }}
+                        {{ hulpvraag.hulpvraagsoort }}
                     </td>
                     <td>
-                        {{ hulpvraag.koppeling.hulpaanbod.medewerker }}
+                        {{ hulpvraag.doelgroep }}
+                    </td>
+                    <td>
+                        {{ hulpvraag.medewerker }}
                     </td>
                     <td>
                         {{ hulpvraag.izKlant.klant.werkgebied }}

@@ -31,6 +31,12 @@
                     {{ knp_pagination_sortable(pagination, 'Medewerker hulpvraag', 'hulpvraagMedewerker.voornaam') }}
                 </th>
                 <th>
+                    {{ knp_pagination_sortable(pagination, 'Hulpvraagsoort', 'hulpvraagsoort.naam') }}
+                </th>
+                <th>
+                    Doelgroep
+                </th>
+                <th>
                     {{ knp_pagination_sortable(pagination, 'Stadsdeel', 'werkgebied.naam') }}
                 </th>
                 <th>
@@ -60,9 +66,19 @@
                     <td>
                         <ul>
                             {% for hulpvraag in izKlant.hulpvragen %}
-                                <li>{{ hulpvraag.project }} {{ hulpvraag.medewerker ? '('~hulpvraag.medewerker~')' }}</li>
+                                <li>{{ hulpvraag.project }}, {{ hulpvraag.medewerker ? '('~hulpvraag.medewerker~')' }}</li>
                             {% endfor %}
                         </ul>
+                    </td>
+                    <td>
+                        {% for hulpvraag in izKlant.hulpvragen %}
+                            <li>{{ hulpvraag.hulpvraagsoort }}</li>
+                        {% endfor %}
+                    </td>
+                    <td>
+                        {% for hulpvraag in izKlant.hulpvragen %}
+                            <li>{{ hulpvraag.doelgroep }}</li>
+                        {% endfor %}
                     </td>
                     <td>
                         {{ izKlant.klant.werkgebied }}

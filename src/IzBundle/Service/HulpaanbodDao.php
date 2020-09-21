@@ -40,6 +40,8 @@ class HulpaanbodDao extends AbstractDao implements HulpaanbodDaoInterface
 
     protected $class = Hulpaanbod::class;
 
+    protected $hulpsoortenZonderKoppelingen = [];
+
     public function findAll($page = null, FilterInterface $filter = null)
     {
         $builder = $this->repository->createQueryBuilder('hulpaanbod')
@@ -82,16 +84,18 @@ class HulpaanbodDao extends AbstractDao implements HulpaanbodDaoInterface
 
     public function findMatching(Hulpvraag $hulpvraag, $page = null, HulpaanbodFilter $filter = null)
     {
+
         $builder = $this->repository->createQueryBuilder('hulpaanbod')
             ->select('hulpaanbod, izVrijwilliger, vrijwilliger')
             ->innerJoin('hulpaanbod.project', 'project', 'WITH', 'project.heeftKoppelingen = true')
             ->innerJoin('hulpaanbod.izVrijwilliger', 'izVrijwilliger')
-            ->leftJoin('hulpaanbod.hulpvraagsoorten', 'hulpvraagsoort')
+            ->leftJoin('hulpaanbod.hulpvraagsoorten', 'hulpvraagsoort') //,'WITH', 'hulpvraagsoort.naam NOT IN (:hulpsoortenZonderKoppelingen)')
             ->leftJoin('hulpaanbod.doelgroepen', 'doelgroep')
             ->innerJoin('izVrijwilliger.intake', 'intake')
             ->innerJoin('izVrijwilliger.vrijwilliger', 'vrijwilliger')
             ->leftJoin('vrijwilliger.werkgebied', 'stadsdeel')
             ->leftJoin('vrijwilliger.geslacht', 'geslacht')
+//            ->andWhere('hulpvraagsoort.naam NOT IN (:hulpsoortenZonderKoppelingen)')
             ->andWhere('hulpaanbod.startdatum <= :today') // hulpaanbod gestart
             ->andWhere('hulpaanbod.einddatum IS NULL OR hulpaanbod.einddatum >= :today') // hulpaanbod niet afgesloten
             ->andWhere('hulpaanbod.hulpvraag IS NULL') // hulpaanbod niet gekoppeld
@@ -99,6 +103,7 @@ class HulpaanbodDao extends AbstractDao implements HulpaanbodDaoInterface
             ->andWhere('izVrijwilliger.afsluitDatum IS NULL') // vrijwilliger niet afgesloten
             ->orderBy('hulpaanbod.startdatum', 'ASC')
             ->setParameter('today', new \DateTime('today'))
+            //->setParameter('hulpsoortenZonderKoppelingen',$this->hulpsoortenZonderKoppelingen)
         ;
 
         // hulpaanbod niet gereserveerd
@@ -197,7 +202,13 @@ class HulpaanbodDao extends AbstractDao implements HulpaanbodDaoInterface
                 ;
             }
         }
+//        $sql = $builder->getQuery()->getSQL();
 
         return $this->paginator->paginate($builder, $page, $this->itemsPerPage, $this->paginationOptions);
+    }
+
+    public function setHulpsoortenZonderKoppelingen($hsZK)
+    {
+        $this->hulpsoortenZonderKoppelingen = $hsZK;
     }
 }

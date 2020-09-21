@@ -8,6 +8,8 @@ use AppBundle\Filter\KlantFilter;
 use AppBundle\Filter\VrijwilligerFilter;
 use AppBundle\Form\Model\AppDateRangeModel;
 use Doctrine\ORM\QueryBuilder;
+use IzBundle\Entity\Doelgroep;
+use IzBundle\Entity\Hulpvraagsoort;
 use IzBundle\Entity\Project;
 
 class KoppelingFilter implements FilterInterface
@@ -46,6 +48,16 @@ class KoppelingFilter implements FilterInterface
      * @var Project
      */
     public $project;
+
+    /**
+     * @var Hulpvraagsoort
+     */
+    public $hulpvraagsoort;
+
+    /**
+     * @var Doelgroep
+     */
+    public $doelgroep;
 
     /**
      * @var Medewerker
@@ -126,6 +138,26 @@ class KoppelingFilter implements FilterInterface
             ;
         }
 
+        if ($this->hulpvraagsoort) {
+            if (!in_array('hulpvraagsoort', $builder->getAllAliases())) {
+                $builder->innerJoin('hulpvraag.hulpvraagsoort', 'hulpvraagsoort');
+            }
+            $builder
+                ->andWhere('hulpvraagsoort = :hulpvraagsoort')
+                ->setParameter('hulpvraagsoort', $this->hulpvraagsoort)
+            ;
+        }
+
+        if ($this->doelgroep) {
+            if (!in_array('doelgroep', $builder->getAllAliases())) {
+                $builder->innerJoin('hulpvraag.doelgroepen', 'doelgroep');
+            }
+            $builder
+                ->andWhere('doelgroep = :doelgroep')
+                ->setParameter('doelgroep', $this->doelgroep)
+            ;
+        }
+
         if ($this->medewerker) {
             $builder
                 ->andWhere('hulpvraag.medewerker = :medewerker OR hulpaanbod.medewerker = :medewerker')
@@ -140,11 +172,11 @@ class KoppelingFilter implements FilterInterface
             ;
         }
 
-        if ($this->hulpaanbodMedewerker) {
-            $builder
-                ->andWhere('hulpaanbod.medewerker = :hulpaanbodMedewerker')
-                ->setParameter('hulpaanbodMedewerker', $this->hulpaanbodMedewerker)
-            ;
-        }
+//        if ($this->hulpaanbodMedewerker) {
+//            $builder
+//                ->andWhere('hulpaanbod.medewerker = :hulpaanbodMedewerker')
+//                ->setParameter('hulpaanbodMedewerker', $this->hulpaanbodMedewerker)
+//            ;
+//        }
     }
 }

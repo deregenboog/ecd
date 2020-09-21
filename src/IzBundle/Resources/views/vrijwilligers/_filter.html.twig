@@ -7,7 +7,7 @@
                 {{ form_widget(filter.zonderActiefHulpaanbod) }}
             </span>
         </th>
-        <th colspan="2">
+        <th colspan="4">
             <span class="pull-right">
                 {{ form_widget(filter.filter) }}
                 {{ form_widget(filter.download) }}
@@ -49,6 +49,15 @@
             {{ form_errors(filter.project) }}
             {{ form_widget(filter.hulpaanbodMedewerker) }}
             {{ form_errors(filter.hulpaanbodMedewerker) }}
+        </th>
+        <th>
+            {{ form_widget(filter.hulpvraagsoort) }}
+            {{ form_errors(filter.hulpvraagsoort) }}
+
+        </th>
+        <th>
+            {{ form_widget(filter.doelgroep) }}
+            {{ form_errors(filter.doelgroep) }}
         </th>
         <th>
             {{ form_widget(filter.vrijwilliger.stadsdeel) }}
