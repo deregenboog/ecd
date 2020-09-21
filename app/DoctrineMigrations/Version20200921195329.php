@@ -13,7 +13,8 @@ final class Version20200921195329 extends AbstractMigration
     public function up(Schema $schema) : void
     {
         // this up() migration is auto-generated, please modify it to your needs
-        $this->addSql("CREATE INDEX klant_id_med_id ON verslagen(klant_id, medewerker_id)");
+        $this->addSql("CREATE INDEX klant_id_med_id ON verslagen(klant_id, medewerker_id, verslagType)");
+
     }
 
     public function down(Schema $schema) : void
