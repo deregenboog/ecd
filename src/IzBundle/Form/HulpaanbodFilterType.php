@@ -107,6 +107,8 @@ class HulpaanbodFilterType extends AbstractType
                 'startdatum',
                 'vrijwilliger' => ['id', 'voornaam', 'achternaam', 'geboortedatumRange', 'stadsdeel'],
                 'project',
+                'hulpvraagsoort',
+                'doelgroep',
                 'medewerker',
                 'filter',
                 'download',

@@ -24,6 +24,8 @@ class KlantDao extends AbstractDao implements KlantDaoInterface
             'hulpvraagMedewerker.voornaam',
             'izKlant.afsluitDatum',
             'project.naam',
+            'hulpvraagsoort.naam',
+            'doelgroep.naam',
         ],
     ];
 
@@ -46,6 +48,8 @@ class KlantDao extends AbstractDao implements KlantDaoInterface
                 $expr->orX('hulpvraag.einddatum IS NULL', 'hulpvraag.einddatum > :now'),
                 $expr->orX('hulpvraag.koppelingEinddatum IS NULL', 'hulpvraag.koppelingEinddatum > :now')
             ))
+            ->innerJoin('hulpvraag.hulpvraagsoort','hulpvraagsoort')
+            ->innerJoin('hulpvraag.doelgroepen','doelgroep')
             ->setParameter('now', new \DateTime())
         ;
 

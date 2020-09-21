@@ -7,6 +7,8 @@ use AppBundle\Filter\FilterInterface;
 use AppBundle\Filter\VrijwilligerFilter;
 use AppBundle\Form\Model\AppDateRangeModel;
 use Doctrine\ORM\QueryBuilder;
+use IzBundle\Entity\Doelgroep;
+use IzBundle\Entity\Hulpvraagsoort;
 use IzBundle\Entity\Project;
 
 class IzVrijwilligerFilter implements FilterInterface
@@ -38,7 +40,15 @@ class IzVrijwilligerFilter implements FilterInterface
      * @var Project
      */
     public $project;
+    /**
+     * @var Hulpvraagsoort
+     */
+    public $hulpvraagsoort;
 
+    /**
+     * @var Doelgroep
+     */
+    public $doelgroep;
     /**
      * @var Medewerker
      */
@@ -110,6 +120,26 @@ class IzVrijwilligerFilter implements FilterInterface
                     ;
                     break;
             }
+        }
+
+        if ($this->hulpvraagsoort) {
+            if (!in_array('hulpvraagsoort', $builder->getAllAliases())) {
+                $builder->innerJoin('hulpvraag.hulpvraagsoort', 'hulpvraagsoort');
+            }
+            $builder
+                ->andWhere('hulpvraagsoort = :hulpvraagsoort')
+                ->setParameter('hulpvraagsoort', $this->hulpvraagsoort)
+            ;
+        }
+
+        if ($this->doelgroep) {
+            if (!in_array('doelgroep', $builder->getAllAliases())) {
+                $builder->innerJoin('hulpvraag.doelgroepen', 'doelgroep');
+            }
+            $builder
+                ->andWhere('doelgroep = :doelgroep')
+                ->setParameter('doelgroep', $this->doelgroep)
+            ;
         }
 
         if ($this->aanmeldingMedewerker) {

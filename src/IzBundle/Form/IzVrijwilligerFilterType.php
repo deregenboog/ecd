@@ -71,6 +71,20 @@ class IzVrijwilligerFilterType extends AbstractType
             ]);
         }
 
+        if (in_array('hulpvraagsoort', $options['enabled_filters'])) {
+            $builder->add('hulpvraagsoort', HulpvraagsoortSelectType::class, [
+                'required' => false,
+                'expanded' => false,
+            ]);
+        }
+
+        if (in_array('doelgroep', $options['enabled_filters'])) {
+            $builder->add('doelgroep', DoelgroepSelectType::class, [
+                'required' => false,
+                'expanded' => false,
+            ]);
+        }
+
         if (in_array('aanmeldingMedewerker', $options['enabled_filters'])) {
             $builder->add('aanmeldingMedewerker', EntityType::class, [
                 'required' => false,
@@ -156,6 +170,8 @@ class IzVrijwilligerFilterType extends AbstractType
                 'vrijwilliger' => ['id', 'voornaam', 'achternaam', 'geboortedatumRange', 'stadsdeel'],
                 'actief',
                 'project',
+                'hulpvraagsoort',
+                'doelgroep',
                 'aanmeldingMedewerker',
                 'intakeMedewerker',
                 'hulpaanbodMedewerker',
