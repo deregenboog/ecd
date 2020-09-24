@@ -47,8 +47,8 @@ class VrijwilligerDao extends AbstractDao implements VrijwilligerDaoInterface
                 $expr->orX('hulpaanbod.einddatum IS NULL', 'hulpaanbod.einddatum > :now'),
                 $expr->orX('hulpaanbod.koppelingEinddatum IS NULL', 'hulpaanbod.koppelingEinddatum > :now')
             ))
-            ->innerJoin('hulpaanbod.hulpvraagsoorten','hulpvraagsoort')
-            ->innerJoin('hulpaanbod.doelgroepen','doelgroep')
+            ->leftJoin('hulpaanbod.hulpvraagsoorten','hulpvraagsoort')
+            ->leftJoin('hulpaanbod.doelgroepen','doelgroep')
             ->setParameter('now', new \DateTime())
         ;
 
