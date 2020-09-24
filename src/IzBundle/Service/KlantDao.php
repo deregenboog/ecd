@@ -48,14 +48,15 @@ class KlantDao extends AbstractDao implements KlantDaoInterface
                 $expr->orX('hulpvraag.einddatum IS NULL', 'hulpvraag.einddatum > :now'),
                 $expr->orX('hulpvraag.koppelingEinddatum IS NULL', 'hulpvraag.koppelingEinddatum > :now')
             ))
-            ->innerJoin('hulpvraag.hulpvraagsoort','hulpvraagsoort')
-            ->innerJoin('hulpvraag.doelgroepen','doelgroep')
+            ->leftJoin('hulpvraag.hulpvraagsoort','hulpvraagsoort')
+            ->leftJoin('hulpvraag.doelgroepen','doelgroep')
             ->setParameter('now', new \DateTime())
         ;
 
         if ($filter) {
             $filter->applyTo($builder);
         }
+        $SQL = $builder->getQuery()->getSQL();
 
         if ($page) {
             return $this->paginator->paginate($builder, $page, $this->itemsPerPage, $this->paginationOptions);
