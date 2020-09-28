@@ -251,7 +251,6 @@ class Locatie
         if (!$date instanceof \DateTime) {
             $date = new \DateTime();
         }
-
         $locatietijd = $this->getLocatietijd($date->format('w'));
         if ($locatietijd) {
             $openingstijd = (clone $locatietijd->getOpeningstijd())

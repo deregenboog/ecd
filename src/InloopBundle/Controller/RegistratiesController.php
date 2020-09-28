@@ -243,14 +243,15 @@ class RegistratiesController extends AbstractController
         $sep = '';
         $separator = PHP_EOL.PHP_EOL;
 
-        $nachtopvanglocaties = $this->container->getParameter('nachtopvang_locaties');
-        if(in_array($locatie->getNaam(),$nachtopvanglocaties))
-        {
-           return new JsonResponse($jsonVar);
-        }
-
         $registratiesSindsMiddernacht = $klant->getRegistratiesSinds(new \DateTime('today midnight'));
         if($registratiesSindsMiddernacht->count() >= 2) {
+
+            $nachtopvanglocaties = $this->container->getParameter('nachtopvang_locaties');
+            if(in_array($locatie->getNaam(),$nachtopvanglocaties))
+            {
+                return new JsonResponse($jsonVar);
+            }
+
             //meer dan 2, kijken naar unieke locaties.
             $locaties = array();
             foreach ($registratiesSindsMiddernacht as $registratie) {
@@ -297,7 +298,9 @@ class RegistratiesController extends AbstractController
             return new JsonResponse($jsonVar);
         }
 
-        if (!$locatie->isOpen()) {
+        $open = $locatie->isOpen();
+
+        if (!$open) {
             $jsonVar['allow'] = false;
             $jsonVar['message'] = 'Deze locatie is nog niet open, klant kan nog niet inchecken!';
 
