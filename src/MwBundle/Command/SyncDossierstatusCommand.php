@@ -30,7 +30,7 @@ class SyncDossierstatusCommand extends ContainerAwareCommand
         $this->addOption('fromId', null,InputArgument::OPTIONAL, 'Start from klantId');
         $this->addOption('id', null,InputArgument::OPTIONAL, 'Only for this klantId');
         $this->addOption('onlyWithoutInloopDossier');
-
+        $this->addOption('vanafVerslagDatum', null,InputArgument::OPTIONAL, 'Alleen met verslagen vanaf deze datum');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
@@ -43,6 +43,7 @@ class SyncDossierstatusCommand extends ContainerAwareCommand
         $fromId = $input->getOption('fromId');
         $id = $input->getOption('id');
         $onlyWithoutInloop = $input->getOption('onlyWithoutInloopDossier');
+        $vanafVerslagDatum = $input->getOption('vanafVerslagDatum');
         if($onlyWithoutInloop)
         {
             $output->writeln(sprintf('Only without inloopdossier'));
@@ -50,7 +51,7 @@ class SyncDossierstatusCommand extends ContainerAwareCommand
         }
         else
         {
-            $mwKlanten = $this->getMwKlanten($fromId,$id);
+            $mwKlanten = $this->getMwKlanten($fromId,$id,$vanafVerslagDatum);
         }
 
 
@@ -100,7 +101,7 @@ class SyncDossierstatusCommand extends ContainerAwareCommand
             ;
     }
 
-    private function getMwKlanten($fromId=null,$id=null)
+    private function getMwKlanten($fromId=null,$id=null,$fromDate=null)
     {
         $builder = $this->manager->getRepository(Klant::class)->createQueryBuilder('klant')
             ->select('klant')
@@ -120,6 +121,12 @@ class SyncDossierstatusCommand extends ContainerAwareCommand
             $builder->andWhere('klant.id = :id');
             $builder->setParameter('id',$id);
 
+        }
+        if($fromDate !== null)
+        {
+            $builder->andWhere('verslag.datum >= :fromDate')
+                ->andWhere("klant.huidigeMwStatus IS NULL")
+                ->setParameter("fromDate",$fromDate);
         }
         $builder->setMaxResults(5000);
 
