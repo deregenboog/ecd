@@ -43,6 +43,8 @@ parameters:
         - 'Amoc gebruikersruimte'
     gezin_noodopvang_locaties:
         - 'Bloemendaal'
+    nachtopvang_locaties:
+        - 'Nachtopvang DRG'
     iz_specifieke_projecten:
         -
             label: "2forT maatje"
