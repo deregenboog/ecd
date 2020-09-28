@@ -50,6 +50,7 @@ class KlantFilterType extends AbstractType
                     $builder = $repository->createQueryBuilder('medewerker')
                         ->select("medewerker")
                         ->innerJoin(Verslag::class, 'verslag', 'WITH', 'verslag.medewerker = medewerker')
+                        ->where('verslag.type = 1')
                         ->orderBy('medewerker.voornaam')
                         ->groupBy('verslag.medewerker')
                         ;

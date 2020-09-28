@@ -37,14 +37,14 @@ class VerslagenController extends AbstractController
     /**
      * @var VerslagDaoInterface
      *
-     * @DI\Inject("InloopBundle\Service\VerslagDao")
+     * @DI\Inject("MwBundle\Service\VerslagDao")
      */
     protected $dao;
 
     /**
      * @var KlantDaoInterface
      *
-     * @DI\Inject("InloopBundle\Service\KlantDao")
+     * @DI\Inject("MwBundle\Service\KlantDao")
      */
     protected $klantDao;
 
