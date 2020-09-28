@@ -2,7 +2,9 @@
 
 namespace MwBundle\Service;
 
+use AppBundle\Entity\Klant;
 use AppBundle\Service\AbstractDao;
+use MwBundle\Entity\Aanmelding;
 use MwBundle\Entity\Verslag;
 
 class VerslagDao extends AbstractDao implements VerslagDaoInterface
@@ -13,6 +15,13 @@ class VerslagDao extends AbstractDao implements VerslagDaoInterface
 
     public function create(Verslag $entity)
     {
+        if($entity->getKlant()->getHuidigeMwStatus() != Aanmelding::class)
+        {
+            $mwAanmelding = new Aanmelding($entity->getKlant(),$entity->getMedewerker());
+            $entity->getKlant()->setHuidigeMwStatus($mwAanmelding);
+        }
+
+
         $this->doCreate($entity);
     }
 

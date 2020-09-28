@@ -45,8 +45,20 @@ class KlantDao extends AbstractDao implements KlantDaoInterface
             ->select('klant, laatsteIntake, gebruikersruimte')
             ->addSelect('MAX(verslag.datum) AS datumLaatsteVerslag')
             ->addSelect('COUNT(DISTINCT verslag.id) AS aantalVerslagen')
-            ->join($this->alias.'.verslagen', 'verslag')
-            ->join('verslag.medewerker','medewerker')
+            ;
+        if($filter->isDirty())
+        {
+            $builder
+            ->leftJoin($this->alias.'.verslagen', 'verslag')
+            ->leftJoin('verslag.medewerker','medewerker');
+        }
+        else
+        {
+            $builder
+                ->join($this->alias.'.verslagen', 'verslag')
+                ->join('verslag.medewerker','medewerker');
+        }
+        $builder
             ->join($this->alias.'.geslacht', 'geslacht')
 //            ->addSelect('\'2020-07-01\' AS datumLaatsteVerslag')
 //            ->addSelect('1 AS aantalVerslagen')
@@ -127,6 +139,9 @@ class KlantDao extends AbstractDao implements KlantDaoInterface
     {
         $aanmelding = new Aanmelding($entity, $entity->getMedewerker());
         $entity->setHuidigeStatus($aanmelding);
+
+        $mwAanmelding = new \MwBundle\Entity\Aanmelding($entity,$entity->getMedewerker());
+        $entity->setHuidigeMwStatus($mwAanmelding);
 
         return parent::doCreate($entity);
     }
