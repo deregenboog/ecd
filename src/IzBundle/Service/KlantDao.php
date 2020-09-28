@@ -56,7 +56,6 @@ class KlantDao extends AbstractDao implements KlantDaoInterface
         if ($filter) {
             $filter->applyTo($builder);
         }
-        $SQL = $builder->getQuery()->getSQL();
 
         if ($page) {
             return $this->paginator->paginate($builder, $page, $this->itemsPerPage, $this->paginationOptions);

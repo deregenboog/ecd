@@ -23,7 +23,7 @@
                 <thead>
                     {{ form_start(filter) }}
                         <tr>
-                            <th colspan="8">
+                            <th colspan="10">
                                 <span class="pull-right">
                                     {{ form_widget(filter.filter) }}
                                     {{ form_widget(filter.download) }}
@@ -50,6 +50,14 @@
                             <th>
                                 {{ form_widget(filter.project) }}
                                 {{ form_errors(filter.project) }}
+                            </th>
+                            <th>
+                                {{ form_widget(filter.hulpvraagsoort) }}
+                                {{ form_errors(filter.hulpvraagsoort) }}
+                            </th>
+                            <th>
+                                {{ form_widget(filter.doelgroep) }}
+                                {{ form_errors(filter.doelgroep) }}
                             </th>
                             <th>
                                 {{ form_widget(filter.medewerker) }}
@@ -79,6 +87,12 @@
                         </th>
                         <th>
                             {{ knp_pagination_sortable(pagination, 'Project', 'project.naam') }}
+                        </th>
+                        <th>
+                            {{ knp_pagination_sortable(pagination, 'Hulpvraagsoort', 'hulpvraagsoort.naam') }}
+                        </th>
+                        <th>
+                            {{ knp_pagination_sortable(pagination, 'Doelgroep', 'doelgroep.naam') }}
                         </th>
                         <th>
                             {{ knp_pagination_sortable(pagination, 'Medewerker', 'medewerker.voornaam') }}
@@ -112,6 +126,12 @@
                             </td>
                             <td>
                                 {{ hulpvraag.project }}
+                            </td>
+                            <td>
+                                {{ hulpvraag.hulpvraagsoort }}
+                            </td>
+                            <td>
+                                {{ hulpvraag.doelgroep }}
                             </td>
                             <td>
                                 {{ hulpvraag.medewerker }}

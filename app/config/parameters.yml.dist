@@ -60,7 +60,9 @@ parameters:
             label: "Mensen onder elkaar"
             kpl: "2730"
     iz_hulpsoorten_zonder_koppelingen:
+        - 'Timeout'
         - 'timeout'
+        - 'Time Out'
     verblijfsstatus_niet_rechthebbend_id: 7
     informele_zorg_mail: ''
     dagbesteding_mail: ''

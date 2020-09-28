@@ -128,6 +128,8 @@ class DashboardController extends SymfonyController
                     'overeenkomstAanwezig',
                 ],
                 'project',
+                'hulpvraagsoort',
+                'doelgroep',
                 'medewerker',
                 'filter',
                 'download',
