@@ -88,7 +88,7 @@ class HulpvraagDao extends AbstractDao implements HulpvraagDaoInterface
             ->select('hulpvraag, izKlant, klant')
             ->innerJoin('hulpvraag.project', 'project', 'WITH', 'project.heeftKoppelingen = true')
             ->innerJoin('hulpvraag.izKlant', 'izKlant')
-            ->leftJoin('hulpvraag.hulpvraagsoort', 'hulpvraagsoort')//, 'WITH', 'hulpvraagsoort.naam NOT IN (:hulpvraagsoortenZonderKoppelingen)')
+            ->leftJoin('hulpvraag.hulpvraagsoort', 'hulpvraagsoort')
             ->leftJoin('hulpvraag.doelgroepen', 'doelgroep')
             ->innerJoin('izKlant.intake', 'intake')
             ->innerJoin('izKlant.klant', 'klant')
@@ -98,10 +98,10 @@ class HulpvraagDao extends AbstractDao implements HulpvraagDaoInterface
             ->andWhere('hulpvraag.einddatum IS NULL OR hulpvraag.einddatum >= :today') // hulpvraag niet afgesloten
             ->andWhere('hulpvraag.hulpaanbod IS NULL') // hulpvraag niet gekoppeld
             ->andWhere('izKlant.afsluitDatum IS NULL') // klant niet afgesloten
-//            ->andWhere('hulpvraagsoort.naam NOT IN (:hulpvraagsoortenZonderKoppelingen)')
+            ->andWhere('hulpvraagsoort.naam NOT IN (:hulpvraagsoortenZonderKoppelingen)')
             ->orderBy('hulpvraag.startdatum', 'ASC')
             ->setParameter('today', new \DateTime('today'))
-//            ->setParameter('hulpvraagsoortenZonderKoppelingen',$this->hulpsoortenZonderKoppelingen)
+            ->setParameter('hulpvraagsoortenZonderKoppelingen',$this->hulpsoortenZonderKoppelingen)
         ;
 
         // hulpvraag niet gereserveerd

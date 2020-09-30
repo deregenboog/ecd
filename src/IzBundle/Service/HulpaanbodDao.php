@@ -108,6 +108,30 @@ class HulpaanbodDao extends AbstractDao implements HulpaanbodDaoInterface
             //->setParameter('hulpsoortenZonderKoppelingen',$this->hulpsoortenZonderKoppelingen)
         ;
 
+        /**
+         * SELECT izk.id, izk.iz_deelnemer_id, SUM(IF (iz_ha_hvs.hulpvraagsoort_id=16, 1, 0)) AS exclude
+         * FROM `iz_hulpaanbod_hulpvraagsoort` iz_ha_hvs INNER JOIN iz_koppelingen AS izk ON iz_ha_hvs.hulpaanbod_id = izk.id
+         * WHERE iz_ha_hvs.hulpvraagsoort_id = 16
+         * GROUP BY iz_ha_hvs.hulpaanbod_id DESC
+         */
+        $geenDeelnemerMetHulpTimeout = $this->repository->createQueryBuilder('hulpaanbod')
+//            ->select('hulpaanbod.id, izVrijwilliger.id), SUM(CASE WHEN hulpvraagsoorten.id = 16 THEN 1 ELSE 0 END) as exclude')
+                ->select('hulpaanbod.id, izVrijwilliger.id')
+            ->innerJoin('hulpaanbod.hulpvraagsoorten', 'hulpvraagsoorten')
+            ->innerJoin('hulpaanbod.izVrijwilliger','izVrijwilliger')
+
+            ->where('hulpvraagsoorten.naam IN(:hulpvraagsoortenZonderKoppelingen)')
+            ->groupBy('hulpaanbod.id')
+            ->setParameter('hulpvraagsoortenZonderKoppelingen',$this->hulpsoortenZonderKoppelingen)
+            ;
+        $sql = $geenDeelnemerMetHulpTimeout->getQuery()->getSQL();
+        $r = $geenDeelnemerMetHulpTimeout->getQuery()->getResult();
+        if(count($r)) {
+            $builder
+                ->andWhere('izVrijwilliger NOT IN (:excludeTimeoutDeelnemers)')
+                ->setParameter("excludeTimeoutDeelnemers",$r)
+                ;
+        }
         // hulpaanbod niet gereserveerd
         $gereserveerdeHulpaanbiedingen = $this->repository->createQueryBuilder('hulpaanbod')
             ->innerJoin('hulpaanbod.reserveringen', 'reservering', 'WITH', ':today BETWEEN reservering.startdatum AND reservering.einddatum')
