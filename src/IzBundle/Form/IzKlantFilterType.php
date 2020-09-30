@@ -60,20 +60,11 @@ class IzKlantFilterType extends AbstractType
         }
 
         if (in_array('project', $options['enabled_filters'])) {
-            $builder->add('project', EntityType::class, [
-                'required' => false,
-                'label' => 'Project',
-                'class' => Project::class,
-                'query_builder' => function (EntityRepository $repo) {
-                    return $repo->createQueryBuilder('project')
-                        ->where('project.einddatum IS NULL OR project.einddatum >= :now')
-                        ->orderBy('project.naam', 'ASC')
-                        ->setParameter('now', new \DateTime());
-                },
+            $builder->add('project', ProjectSelectFilterType::class,[
             ]);
         }
         if (in_array('hulpvraagsoort', $options['enabled_filters'])) {
-            $builder->add('hulpvraagsoort', HulpvraagsoortSelectType::class, [
+            $builder->add('hulpvraagsoort', HulpvraagsoortSelectFilterType::class, [
                 'required' => false,
                 'expanded' => false,
             ]);

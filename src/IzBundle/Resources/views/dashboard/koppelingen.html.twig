@@ -29,7 +29,7 @@
                     <tr>
                         {{ form_start(filter) }}
                             <tr>
-                                <th colspan="10">
+                                <th colspan="12">
                                     <span class="pull-right">
                                         {{ form_widget(filter.filter) }}
                                         {{ form_widget(filter.download) }}
@@ -52,6 +52,14 @@
                                 <th>
                                     {{ form_widget(filter.project) }}
                                     {{ form_errors(filter.project) }}
+                                </th>
+                                <th>
+                                    {{ form_widget(filter.hulpvraagsoort) }}
+                                    {{ form_errors(filter.hulpvraagsoort) }}
+                                </th>
+                                <th>
+                                    {{ form_widget(filter.doelgroep) }}
+                                    {{ form_errors(filter.doelgroep) }}
                                 </th>
                                 <th>
                                     {{ form_widget(filter.koppelingStartdatum.start) }}
@@ -88,6 +96,11 @@
                         <th>
                             {{ knp_pagination_sortable(pagination, 'Project', 'project.naam') }}
                         </th>
+                        <th>
+                            {{ knp_pagination_sortable(pagination, 'Hulpvraagsoort', 'hulpvraagsoort.naam') }}
+                        </th>
+                        <th>
+                            {{ knp_pagination_sortable(pagination, 'Doelgroep', 'doelgroep.naam') }}
                         <th>
                             {{ knp_pagination_sortable(pagination, 'Startdatum koppeling', 'hulpvraag.koppelingStartdatum') }}
                         </th>
@@ -128,6 +141,12 @@
                             </td>
                             <td>
                                 {{ koppeling.project }}
+                            </td>
+                            <td>
+                                {{ koppeling.hulpvraagsoort }}
+                            </td>
+                            <td>
+                                {{ koppeling.doelgroep }}
                             </td>
                             <td>
                                 {{ koppeling.koppelingStartdatum|date('d-m-Y') }}

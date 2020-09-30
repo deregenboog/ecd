@@ -73,12 +73,12 @@
                     </td>
                     <td>
                         {% for hulpaanbod in izVrijwilliger.hulpaanbiedingen %}
-                            <li>{{ hulpaanbod.hulpvraagsoorten.first() }}</li>
+                           <li> {{ hulpaanbod.hulpvraagsoorten|join(', ') }}</li>
                         {% endfor %}
                     </td>
                     <td>
                         {% for hulpaanbod in izVrijwilliger.hulpaanbiedingen %}
-                            <li>{{ hulpaanbod.doelgroepen.first() }}</li>
+                           <li> {{ hulpaanbod.doelgroepen|join(', ') }}</li>
                         {% endfor %}
                     </td>
                     <td>

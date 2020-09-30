@@ -140,10 +140,10 @@
                                 {{ hulpaanbod.project }}
                             </td>
                             <td>
-                                {{ hulpaanbod.hulpvraagsoort }}
+                                {{ hulpaanbod.hulpvraagsoorten|join(', ') }}
                             </td>
                             <td>
-                                {{ hulpaanbod.doelgroep }}
+                                {{ hulpaanbod.doelgroepen|join(', ') }}
                             </td>
                             <td>
                                 {{ hulpaanbod.medewerker }}

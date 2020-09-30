@@ -167,6 +167,8 @@ class DashboardController extends SymfonyController
                 'klant' => ['voornaam', 'achternaam', 'stadsdeel'],
                 'vrijwilliger' => ['voornaam', 'achternaam'],
                 'project',
+                'hulpvraagsoort',
+                'doelgroep',
                 'medewerker',
                 'filter',
                 'download',
