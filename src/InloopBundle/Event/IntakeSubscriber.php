@@ -64,6 +64,7 @@ class IntakeSubscriber implements EventSubscriberInterface
         }
 
         $this->openMwDossier($intake);
+        $this->checkInloopdossier($intake);
         $this->updateAccess($intake);
         $this->sendIntakeNotification($intake);
     }
@@ -75,6 +76,7 @@ class IntakeSubscriber implements EventSubscriberInterface
             return;
         }
 
+        $this->checkInloopdossier($intake);
         $this->updateAccess($intake);
     }
 
@@ -94,6 +96,20 @@ class IntakeSubscriber implements EventSubscriberInterface
             $klant->setHuidigeMwStatus(new Aanmelding($klant,$intake->getMedewerker() ));
             $this->klantDao->update($klant);
         }
+
+    }
+    public function checkInloopDossier(Intake $intake)
+    {
+        if($intake->getMedewerker() == null) return;
+
+
+        $klant = $intake->getKlant();
+        if($klant->getHuidigeStatus() == null)
+        {
+            $klant->setHuidigeStatus(new \InloopBundle\Entity\Aanmelding($klant,$intake->getMedewerker() ));
+        }
+
+        $this->klantDao->update($klant);
 
     }
     public function sendIntakeNotification(Intake $intake)
