@@ -1,6 +1,6 @@
 {{ form_start(filter) }}
     <tr>
-        <th colspan="10">
+        <th colspan="9">
             <span class="pull-right">
                 {{ form_widget(filter.filter) }}
                 {{ form_widget(filter.download) }}
@@ -48,9 +48,6 @@
             {{ form_widget(filter.klant.stadsdeel) }}
             {{ form_errors(filter.klant.stadsdeel) }}
         </th>
-        <th>
-            {{ form_row(filter.filter) }}
-            {{ form_row(filter.download) }}
-        </th>
+
     </tr>
 {{ form_end(filter) }}

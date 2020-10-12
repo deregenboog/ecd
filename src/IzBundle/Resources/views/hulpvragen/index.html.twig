@@ -34,9 +34,6 @@
                 <th>
                     {{ knp_pagination_sortable(pagination, 'Stadsdeel', 'werkgebied.naam') }}
                 </th>
-                <th>
-                    {{ knp_pagination_sortable(pagination, 'Laatste ZRM', 'klant.laatsteZrm') }}
-                </th>
             </tr>
         </thead>
         <tbody>
@@ -68,17 +65,6 @@
                     </td>
                     <td>
                         {{ hulpvraag.izKlant.klant.werkgebied }}
-                    </td>
-                    {% set zrm = hulpvraag.izKlant.klant.laatsteZrm|date('U') %}
-                    {% if zrm < '-6 months'|date('U') %}
-                        {% set style = 'background-color: red; color: white;' %}
-                    {% elseif zrm < '-5 months'|date('U') %}
-                        {% set style = 'background-color: orange; color: white;' %}
-                    {% else %}
-                        {% set style = '' %}
-                    {% endif %}
-                    <td style="{{ style }}">
-                        {{ hulpvraag.izKlant.klant.laatsteZrm is empty ? "" : hulpvraag.izKlant.klant.laatsteZrm|date('d-m-Y') }}
                     </td>
                 </tr>
             {% endfor %}
