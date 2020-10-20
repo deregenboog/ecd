@@ -194,7 +194,11 @@ class Klant extends Persoon
      */
     private $opmerkingen;
 
-
+    /**
+     * @ORM\Column(name="corona_besmet_vanaf", type="date", nullable=true)
+     * @Gedmo\Versioned
+     */
+    protected $coronaBesmetVanaf;
 
     /**
      * @return bool
@@ -584,6 +588,25 @@ class Klant extends Persoon
         $this->huidigeMwStatus = $huidigeMwStatus;
         return $this;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getCoronaBesmetVanaf()
+    {
+        return $this->coronaBesmetVanaf;
+    }
+
+    /**
+     * @param mixed $coronaBesmetVanaf
+     * @return Klant
+     */
+    public function setCoronaBesmetVanaf($coronaBesmetVanaf)
+    {
+        $this->coronaBesmetVanaf = $coronaBesmetVanaf;
+        return $this;
+    }
+
 
 
 

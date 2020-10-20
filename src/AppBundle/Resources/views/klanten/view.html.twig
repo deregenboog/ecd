@@ -34,6 +34,8 @@
         <dd>{{ entity.nationaliteit }}</dd>
         <dt>BSN</dt>
         <dd>{{ entity.bsn }}</dd>
+        <dt>Corona besmet vanaf</dt>
+        <dd class="{{ entity.coronaBesmetVanaf? 'bg-danger'}}">{{ entity.coronaBesmetVanaf ? entity.coronaBesmetVanaf|date('d-m-Y') }}</dd>
         {% if entity.land.getNaam() in tbc_countries %}
             <dt>TBC-check?</dt>
             <dd>{{ entity.laatsteTbcControle|date('d-m-Y') }}</dd>
