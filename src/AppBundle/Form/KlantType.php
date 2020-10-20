@@ -62,6 +62,7 @@ class KlantType extends AbstractType
             ->add('land', LandSelectType::class, ['required' => true])
             ->add('nationaliteit', NationaliteitSelectType::class, ['required' => true])
             ->add('bsn', null, ['label' => 'BSN'])
+            ->add('coronaBesmetVanaf', AppDateType::class, ['required' => false])
             ->add('medewerker', MedewerkerType::class, ['required' => true])
             ->add('adres')
             ->add('postcode')

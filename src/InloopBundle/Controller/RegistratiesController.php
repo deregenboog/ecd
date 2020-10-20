@@ -243,6 +243,14 @@ class RegistratiesController extends AbstractController
         $sep = '';
         $separator = PHP_EOL.PHP_EOL;
 
+        $corona = $this->dao->checkCorona($klant);
+        if($corona)
+        {
+            $jsonVar['confirm'] = true;
+            $jsonVar['message'] = 'Klant is de afgelopen 11 dagen op een locatie geweest waar ook een corona besmette klant was in dezelfde tijd. Klant informeren en adviseren te laten testen bij klachten.';
+            return new JsonResponse($jsonVar);
+        }
+
         $registratiesSindsMiddernacht = $klant->getRegistratiesSinds(new \DateTime('today midnight'));
         if($registratiesSindsMiddernacht->count() >= 2) {
 

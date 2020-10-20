@@ -5,6 +5,7 @@ namespace InloopBundle\Service;
 use AppBundle\Entity\Klant;
 use AppBundle\Filter\FilterInterface;
 use AppBundle\Service\AbstractDao;
+use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\EntityManager;
 use InloopBundle\Entity\Aanmelding;
 use InloopBundle\Entity\Locatie;
@@ -86,6 +87,72 @@ class RegistratieDao extends AbstractDao implements RegistratieDaoInterface
         return $builder->getQuery()->getOneOrNullResult();
     }
 
+    public function checkCorona(Klant $klant)
+    {
+        //vind alle registraties van deze klant
+        $recenteRegistraties = $klant->getRegistratiesSinds(new \DateTime('today -11 days'));
+        foreach($recenteRegistraties as $registratie)
+        {
+            $locatiesGeweest[] = $registratie->getLocatie();
+        }
+
+        /**
+         * Vind alle registraties van die locaties waarbij klanten betrokken waren die besmet waren in de periode dat deze klant daar geweest is.
+         */
+        $builder = $this->repository->createQueryBuilder($this->alias)
+            ->innerJoin("{$this->alias}.locatie", 'locatie', 'WITH', 'locatie IN (:locaties)')
+            ->innerJoin("{$this->alias}.klant", 'klant')
+            ->where("registratie.binnen >= :vanaf")
+            ->andWhere("registratie.buiten <= :totEnMet OR registratie.buiten IS NULL")
+            ->andWhere("klant.coronaBesmetVanaf >= :vanaf")
+            ->andWhere("klant.coronaBesmetVanaf <= :totEnMet")
+            ->orderBy("{$this->alias}.binnen", 'DESC')
+            ->setParameters([
+                'locaties' => $locatiesGeweest,
+                'vanaf' => new \DateTime('today -11 days'),
+                'totEnMet' => new \DateTime('today midnight'),
+            ])
+        ;
+        $sql = $builder->getQuery()->getSQL();
+
+        $registratiesBesmetteKlanten = $builder->getQuery()->getResult();
+        foreach($registratiesBesmetteKlanten as $besmetteRegistratie)
+        {
+            $besmetteKlant = $besmetteRegistratie->getKlant();
+            /**
+             * Check bij registraties van huidige klant of deze gematcht kunnen worden met een besmette klant.
+             */
+            foreach($recenteRegistraties as $registratie){
+
+                $binnen = $registratie->getBinnen();
+                $buiten = $registratie->getBuiten();
+                if(is_null($buiten)) $buiten = $binnen;
+                $locatie = $registratie->getLocatie();
+
+                /**
+                 * zoek een match van de besmette klant op de locatie en datum van een recente registratie van in te checken persoon
+                 */
+                $criteria = Criteria::create()
+                    //besmet persoon moet pas naar buiten zijn gegaan toen gezond persoon binnen was
+                    ->where(Criteria::expr()->gte('buiten', $binnen))
+                    //en besmet persoon moet binnen zijn geweest voordat gezond persoon naar buiten ging
+                    ->andWhere(Criteria::expr()->lte('binnen', $buiten))
+                    //op de locatie waar ik was.
+                    ->andWhere(Criteria::expr()->eq("locatie",$locatie))
+                    ->orderBy(['id' => 'DESC'])
+                ;
+//                $sql = $criteria->getWhereExpression();
+               $match = $besmetteKlant->getRegistraties()->matching($criteria);
+               if(count($match) > 0)
+               {
+                   return true; //match gevonden: op locatie en binnen tijdsvak aanwezig met besmet persoon.
+               }
+            }
+
+
+        }
+        return false;
+    }
     /**
      * @param bool $type the value of either self::TYPE_DAY of self::TYPE_NIGHT
      *
