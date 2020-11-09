@@ -18,11 +18,11 @@ class FixEersteIntakeCommand extends ContainerAwareCommand
     {
         $sql = 'UPDATE klanten AS klant
             LEFT JOIN (
-                SELECT klant_id, MIN(datum_intake) AS datum_intake
+                SELECT klant_id, MIN(datum_intake) AS datum_intake, id
                 FROM intakes
                 GROUP BY klant_id
             ) AS eerste_intake ON eerste_intake.klant_id = klant.id
-            SET klant.first_intake_date = eerste_intake.datum_intake';
+            SET klant.first_intake_date = eerste_intake.datum_intake, klant.first_intake_id = eerste_intake.id';
 
         /* @var Connection $conn */
         $conn = $this->getContainer()->get('database_connection');

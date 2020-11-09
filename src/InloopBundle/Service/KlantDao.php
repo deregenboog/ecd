@@ -5,6 +5,7 @@ namespace InloopBundle\Service;
 use AppBundle\Entity\Klant;
 use AppBundle\Filter\FilterInterface;
 use AppBundle\Service\AbstractDao;
+use Doctrine\ORM\Query\Expr\Join;
 use InloopBundle\Entity\Aanmelding;
 
 class KlantDao extends AbstractDao implements KlantDaoInterface
@@ -45,7 +46,7 @@ class KlantDao extends AbstractDao implements KlantDaoInterface
         $builder = $this->repository->createQueryBuilder($this->alias)
             ->select($this->alias.', intake, geslacht, eersteIntake, laatsteIntake, laatsteIntakeLocatie, gebruikersruimte')
             ->innerJoin('klant.huidigeStatus', 'status')
-            ->leftJoin($this->alias.'.intakes', 'intake')
+            ->leftJoin($this->alias.'.intakes', 'intake')//, "WITH","klant.eersteIntake = intake")
             ->leftJoin($this->alias.'.geslacht', 'geslacht')
             ->leftJoin($this->alias.'.laatsteIntake', 'laatsteIntake')
             ->leftJoin($this->alias.'.eersteIntake', 'eersteIntake')

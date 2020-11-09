@@ -94,8 +94,8 @@ class RegistratiesController extends AbstractController
         $locaties = $this->getEntityManager()->getRepository(Locatie::class)
             ->createQueryBuilder('locatie')
             ->where('locatie.maatschappelijkWerk = false')
-            ->andWhere('locatie.datumVan <= DATE(NOW())')
-            ->andWhere('locatie.datumTot > DATE(NOW()) OR locatie.datumTot IS NULL')
+            ->andWhere('locatie.datumVan <= DATE(CURRENT_TIMESTAMP())')
+            ->andWhere('locatie.datumTot > DATE(CURRENT_TIMESTAMP()) OR locatie.datumTot IS NULL')
             ->orderBy('locatie.naam')
             ->getQuery()
             ->getResult()
@@ -251,6 +251,9 @@ class RegistratiesController extends AbstractController
             return new JsonResponse($jsonVar);
         }
 
+        /**
+         * Corona aanpassing; niet meer dan twee locaties sinds middernacht.
+         */
         $registratiesSindsMiddernacht = $klant->getRegistratiesSinds(new \DateTime('today midnight'));
         if($registratiesSindsMiddernacht->count() >= 2) {
 
@@ -355,6 +358,11 @@ class RegistratiesController extends AbstractController
                 $sep = $separator;
                 $jsonVar['confirm'] = true;
             }
+            if (( ($laatsteRegistratie = $klant->getLaatsteRegistratie()) !== null)  && $laatsteRegistratie->getBuiten()->diff(new \DateTime() )->days > 730  ) {
+                $jsonVar['message'] .= $sep.'Let op: deze persoon heeft zich al twee jaar nergens meer geregistreerd en heeft een nieuwe intake nodig. Toch inchecken?';
+                $sep = $separator;
+                $jsonVar['confirm'] = true;
+            }
 
             $actieveSchorsingen = $this->schorsingDao->findActiefByKlantAndLocatie($klant, $locatie);
             if (count($actieveSchorsingen) > 0) {
@@ -449,9 +457,13 @@ class RegistratiesController extends AbstractController
     {
         $this->denyAccessUnlessGranted(Permissions::REGISTER, $locatie);
 
+        /**
+         * Wanneer een klant ergens incheckt, wordt hij eerst overal uitgecheckt.
+         */
         $this->dao->checkoutKlantFromAllLocations($klant);
-        $this->dao->create(new Registratie($klant, $locatie));
-
+        $registratie = $this->dao->create(new Registratie($klant, $locatie));
+        $klant->setLaatsteRegistratie($registratie);
+        $this->klantDao->update($klant);
         return new JsonResponse();
     }
 

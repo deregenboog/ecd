@@ -51,7 +51,7 @@ class SchorsingDao extends AbstractDao implements SchorsingDaoInterface
     {
         $builder = $this->repository->createQueryBuilder($this->alias)
             ->innerJoin("{$this->alias}.klant", 'klant', 'WITH', 'klant = :klant')
-            ->where("{$this->alias}.datumTot >= DATE(NOW())")
+            ->where("{$this->alias}.datumTot >= DATE(CURRENT_TIMESTAMP())")
             ->setParameters([
                 'klant' => klant,
             ])
@@ -65,7 +65,7 @@ class SchorsingDao extends AbstractDao implements SchorsingDaoInterface
         $builder = $this->repository->createQueryBuilder($this->alias)
             ->innerJoin("{$this->alias}.klant", 'klant', 'WITH', 'klant = :klant')
             ->innerJoin("{$this->alias}.locaties", 'locatie', 'WITH', 'locatie = :locatie')
-            ->where("{$this->alias}.datumTot >= DATE(NOW())")
+            ->where("{$this->alias}.datumTot >= DATE(CURRENT_TIMESTAMP())")
             ->setParameters([
                 'klant' => $klant,
                 'locatie' => $locatie,

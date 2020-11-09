@@ -45,6 +45,7 @@ class IntakeSubscriberTest extends TestCase
         $intake = new Intake(new Klant());
         $intake->setIntakedatum(new \DateTime("three weeks ago"));
         $intake->setInloophuis(true);
+        $intake->setVerblijfsstatus();
 
         $subscriber = $this->createSUT();
         $subscriber->afterIntakeCreated(new GenericEvent($intake));

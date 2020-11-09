@@ -28,7 +28,7 @@ class OndroBongStrategy extends VerblijfsstatusStrategy
         parent::buildQuery($builder);
         //LET OP: deze erft over van verblijfsstatus strategie.
 
-//        $builder->orWhere('laatsteIntake.ondroBongToegangVan <= DATE(NOW())'); // was actief tot september 2020
-        $builder->orWhere('laatsteIntake.ondroBongToegangVan <= DATE(NOW())'); // was actief tot september 2020
+//        $builder->orWhere('laatsteIntake.ondroBongToegangVan <= DATE(CURRENT_TIMESTAMP())'); // was actief tot september 2020
+        $builder->orWhere('eersteIntake.ondroBongToegangVan <= DATE(CURRENT_TIMESTAMP())');
     }
 }

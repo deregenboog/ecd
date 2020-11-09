@@ -4,9 +4,11 @@ namespace InloopBundle\Controller;
 
 use AppBundle\Controller\AbstractController;
 use AppBundle\Export\ExportInterface;
+use Doctrine\ORM\EntityNotFoundException;
 use InloopBundle\Entity\Intake;
 use InloopBundle\Form\IntakeFilterType;
 use InloopBundle\Form\IntakeType;
+use InloopBundle\Form\ToegangType;
 use InloopBundle\Pdf\PdfIntake;
 use InloopBundle\Security\Permissions;
 use InloopBundle\Service\IntakeDaoInterface;
@@ -106,7 +108,12 @@ class IntakesController extends AbstractController
      */
     public function editAction(Request $request, $id)
     {
-        $entity = $this->dao->find($id);
+         $entity = $this->dao->find($id);
+
+        if($entity === null)
+        {
+            throw new EntityNotFoundException("Kan intake niet laden.");
+        }
 
         $this->denyAccessUnlessGranted(
             Permissions::EDIT,
@@ -121,7 +128,19 @@ class IntakesController extends AbstractController
         );
 
         return $this->processForm($request, $entity);
+
     }
+
+    /**
+     * @Route("/{id}/editToegang")
+     */
+    public function editToegangAction(Request $request, $id)
+    {
+        $this->formClass = ToegangType::class;
+        $ret =  $this->editAction($request,$id);
+        return $ret;
+    }
+
 
     /**
      * @Route("/form.pdf")

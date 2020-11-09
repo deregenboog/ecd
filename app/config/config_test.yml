@@ -19,6 +19,7 @@ doctrine:
     dbal:
         driver: pdo_sqlite
         path: '%kernel.cache_dir%/test.db'
+#        memory: true
     orm:
         dql:
             datetime_functions:

@@ -100,7 +100,8 @@ class AccessUpdater
                 ->andWhere('klant.id = :klant_id')
                 ->setParameter('klant_id', $klant->getId());
 
-//            $this->log($builder->getQuery()->getSQL());
+            $sql = $builder->getQuery()->getSQL();
+            $this->log($builder->getQuery()->getSQL());
 
 
             $klantIds = $this->getKlantIds($builder);
@@ -116,8 +117,15 @@ class AccessUpdater
 
             if (in_array($klant->getId(), $klantIds)) {
                 $this->log("Access granted");
-                $this->em->getConnection()->executeQuery('INSERT IGNORE INTO inloop_toegang (klant_id, locatie_id)
+                try {
+                    $this->em->getConnection()->executeQuery('INSERT INTO inloop_toegang (klant_id, locatie_id)
                     VALUES (:klant, :locatie)', $params, $types);
+                }catch(\Exception $e)
+                {
+                    // do nothing
+                    //
+                }
+
             } else {
                 $this->log("Access denied");
                 $this->em->getConnection()->executeQuery('DELETE FROM inloop_toegang
@@ -152,6 +160,7 @@ class AccessUpdater
          * De eerste strategie voor een locatie bepaalt of er toegang wordt verleend de klant.
          * Dwz: strategie is van toepassing op de locatie(s), dan wordt er alleen mogelijk toegang verleend tot die locaties, en niet tot andere locaties.
          * mogelijk = aan de hand van de gestelde criteria.
+         * Dus locatie is mutual exclusive. De eerste strategie die geldt voor de locatie, is de gene die bepaald op klant toegang heeft.
          *
          */
         $strategies = [

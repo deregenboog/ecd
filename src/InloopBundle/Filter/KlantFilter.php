@@ -70,7 +70,7 @@ class KlantFilter implements FilterInterface
             $builder
                 ->addSelect('huidigeStatus')
                 ->innerJoin('klant.huidigeStatus', 'huidigeStatus', 'WITH', 'huidigeStatus INSTANCE OF '.Aanmelding::class)
-                ->andWhere('laatsteIntake.toegangInloophuis = true')
+                ->andWhere('eersteIntake.toegangInloophuis = true')
             ;
 
             $this->strategy->buildQuery($builder);

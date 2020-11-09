@@ -172,7 +172,10 @@ class RegistratieDao extends AbstractDao implements RegistratieDaoInterface
 
     public function create(Registratie $entity)
     {
-        return parent::doCreate($entity);
+         parent::doCreate($entity);
+
+        return $entity;
+
     }
 
     public function update(Registratie $entity)

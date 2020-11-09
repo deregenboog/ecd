@@ -2,6 +2,15 @@ var ajaxInProgress = false;
 
 $(function() {
 
+    var hash = window.location.hash;
+
+    if(hash) {
+        const id = hash.substr(1);
+        const yourElement = document.getElementById(id);
+        const y = yourElement.getBoundingClientRect().top + window.pageYOffset;
+        window.scrollTo({top: y, behavior: 'smooth'});
+    }
+
     $(document).ajaxStart(function() {
         ajaxInProgress = true;
     });
@@ -74,6 +83,7 @@ $(function() {
         });
         event.preventDefault();
     });
+
 });
 
 var showLoader = function() {

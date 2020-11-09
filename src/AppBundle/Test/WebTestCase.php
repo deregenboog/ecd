@@ -2,6 +2,7 @@
 
 namespace AppBundle\Test;
 
+use Doctrine\ORM\Tools\SchemaTool;
 use Hautelook\AliceBundle\PhpUnit\RecreateDatabaseTrait;
 use Liip\FunctionalTestBundle\Test\WebTestCase as CoreWebTestCase;
 use Liip\TestFixturesBundle\Test\FixturesTrait;
@@ -24,7 +25,7 @@ class WebTestCase extends CoreWebTestCase
     {
         parent::setUp();
 
-        $this->loadFixtureFiles([
+         $this->loadFixtureFiles([
             '@AppBundle/DataFixtures/ORM/fixtures.yml',
             '@ClipBundle/DataFixtures/ORM/fixtures.yml',
 
@@ -34,7 +35,7 @@ class WebTestCase extends CoreWebTestCase
 
 //             '@GaBundle/DataFixtures/ORM/fixtures.yml',
 //             '@HsBundle/DataFixtures/ORM/fixtures.yml',
-//             '@InloopBundle/DataFixtures/ORM/fixtures.yml',
+             '@InloopBundle/DataFixtures/ORM/fixtures.yml',
 //             '@IzBundle/DataFixtures/ORM/fixtures.yml',
 //             '@MwBundle/DataFixtures/ORM/fixtures.yml',
 //             '@OdpBundle/DataFixtures/ORM/fixtures.yml',
