@@ -358,7 +358,7 @@ class RegistratiesController extends AbstractController
                 $sep = $separator;
                 $jsonVar['confirm'] = true;
             }
-            if (( ($laatsteRegistratie = $klant->getLaatsteRegistratie()) !== null)  && $laatsteRegistratie->getBuiten()->diff(new \DateTime() )->days > 730  ) {
+            if (( ($laatsteRegistratie = $klant->getLaatsteRegistratie()) !== null) && $laatsteRegistratie->getBuiten() !== null  && $laatsteRegistratie->getBuiten()->diff(new \DateTime() )->days > 730  ) {
                 $jsonVar['message'] .= $sep.'Let op: deze persoon heeft zich al twee jaar nergens meer geregistreerd en heeft een nieuwe intake nodig. Toch inchecken?';
                 $sep = $separator;
                 $jsonVar['confirm'] = true;

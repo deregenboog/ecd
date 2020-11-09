@@ -34,7 +34,6 @@ class IntakeSubscriber implements EventSubscriberInterface
         AccessUpdater $accessUpdater,
         $informeleZorgEmail,
         $dagbestedingEmail,
-        $inloophuisEmail,
         $hulpverleningEmail
     ) {
         $this->klantDao = $klantDao;
