@@ -89,6 +89,7 @@ class RegistratieDao extends AbstractDao implements RegistratieDaoInterface
 
     public function checkCorona(Klant $klant)
     {
+        $locatiesGeweest = [];
         //vind alle registraties van deze klant
         $recenteRegistraties = $klant->getRegistratiesSinds(new \DateTime('today -11 days'));
         foreach($recenteRegistraties as $registratie)
