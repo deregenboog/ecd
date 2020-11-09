@@ -44,7 +44,6 @@ class IntakeSubscriber implements EventSubscriberInterface
         $this->accessUpdater = $accessUpdater;
         $this->informeleZorgEmail = $informeleZorgEmail;
         $this->dagbestedingEmail = $dagbestedingEmail;
-        $this->inloophuisEmail = $inloophuisEmail;
         $this->hulpverleningEmail = $hulpverleningEmail;
     }
 
@@ -120,9 +119,6 @@ class IntakeSubscriber implements EventSubscriberInterface
         }
         if ($intake->isDagbesteding()) {
             $addresses[] = $this->dagbestedingEmail;
-        }
-        if ($intake->isInloophuis()) {
-            $addresses[] = $this->inloophuisEmail;
         }
         if ($intake->isHulpverlening()) {
             $addresses[] = $this->hulpverleningEmail;

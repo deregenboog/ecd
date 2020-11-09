@@ -29,7 +29,6 @@ services:
             - '@InloopBundle\Service\AccessUpdater'
             - "%informele_zorg_mail%"
             - "%dagbesteding_mail%"
-            - "%inloophuis_mail%"
             - "%hulpverlening_mail%"
         tags:
             - { name: kernel.event_subscriber }
