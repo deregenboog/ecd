@@ -14,7 +14,9 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Form\Form;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
 /**
  * @ORM\Entity
@@ -96,7 +98,7 @@ class Intake
      *
      * @ORM\Column(name="amoc_toegang_tot", type="date", nullable=true)
      * @Gedmo\Versioned
-     * @Assert\Date
+     * @Assert\Date(groups={"toegang"})
      */
     private $amocToegangTot;
 
@@ -105,7 +107,7 @@ class Intake
      *
      * @ORM\Column(name="ondro_bong_toegang_van", type="date", nullable=true)
      * @Gedmo\Versioned
-     * @Assert\Date
+     * @Assert\Date(groups={"toegang"})
      */
     private $ondroBongToegangVan;
 
@@ -114,7 +116,7 @@ class Intake
      *
      * @ORM\Column(name="overigen_toegang_van", type="date", nullable=true)
      * @Gedmo\Versioned
-     * @Assert\Date
+     * @Assert\Date(groups={"toegang"})
      */
     private $overigenToegangVan;
 
@@ -187,7 +189,7 @@ class Intake
      *
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Verblijfsstatus")
      * @ORM\JoinColumn(name="verblijfstatus_id", nullable=true)
-     * @Assert\NotNull
+     * @Assert\NotNull(groups={"toegang"})
      */
     private $verblijfsstatus;
 
@@ -279,7 +281,7 @@ class Intake
     /**
      * @var bool
      *
-     * @ORM\Column(name="informele_zorg", nullable=false)
+     * @ORM\Column(name="informele_zorg", nullable=true)
      */
     private $informeleZorg = false;
 
@@ -1257,5 +1259,20 @@ class Intake
     public function setGeinformeerdOpslaanGegevens(bool $geinformeerdOpslaanGegevens): void
     {
         $this->geinformeerdOpslaanGegevens = $geinformeerdOpslaanGegevens;
+    }
+
+    /**
+     * Assert\Callback
+     */
+    public function validate(ExecutionContextInterface $context, $payload)
+    {
+        return;
+        $root = $context->getRoot();
+        if ($root instanceof Form && $root->getName()) {
+            if ($root->getName() == "toegang") {
+
+            }
+        }
+        return $context->getValidator()->validate();
     }
 }

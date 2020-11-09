@@ -63,7 +63,7 @@
                         {{ html.link('Intake toevoegen', path('inloop_intakes_add', {klant: entity.id}), 'add') }}
                     {% endif %}
                 </p>
-                {% include 'InloopBundle:intakes:_detail.html.twig' with {entity: entity.laatsteIntake} %}
+                {% include 'InloopBundle:intakes:_detail.html.twig' with {entity: entity.laatsteIntake, eersteIntake: entity.eersteIntake} %}
             {% else %}
                 {% if entity.huidigeStatus.aangemeld %}
                     {{ html.link('Intake toevoegen', path('inloop_intakes_add', {klant: entity.id}), 'add') }}

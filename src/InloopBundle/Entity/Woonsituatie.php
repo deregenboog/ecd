@@ -37,7 +37,7 @@ class Woonsituatie
     private $datumVan;
 
     /**
-     * @ORM\Column(name="datum_tot", type="date", nullable=false)
+     * @ORM\Column(name="datum_tot", type="date", nullable=true)
      * @Gedmo\Versioned
      */
     private $datumTot;

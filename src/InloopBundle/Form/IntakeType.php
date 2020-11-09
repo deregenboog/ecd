@@ -11,6 +11,7 @@ use AppBundle\Form\MedewerkerType;
 use AppBundle\Form\ZrmType;
 use InloopBundle\Entity\Instantie;
 use InloopBundle\Entity\Intake;
+use InloopBundle\Entity\Toegang;
 use InloopBundle\Entity\Woonsituatie;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
@@ -29,7 +30,8 @@ class IntakeType extends AbstractType
         $builder
             ->add($this->createAlgemeen($builder, $options))
             ->add($this->createAdresgegevens($builder, $options))
-            ->add($this->createToegang($builder, $options))
+            ->add(ToegangType::createToegang($builder, $options))
+
             ->add($this->createLegitimatiebewijs($builder, $options))
             ->add($this->createVerslaving($builder, $options))
             ->add($this->createInkomen($builder, $options))
@@ -110,45 +112,10 @@ class IntakeType extends AbstractType
                 'label' => 'Verblijf in Amsterdam sinds',
                 'required' => true,
             ])
-            ->add('verblijfsstatus', VerblijfsstatusSelectType::class, [
-                'required' => true,
-            ])
+
         ;
     }
 
-    private function createToegang(FormBuilderInterface $builder, array $options)
-    {
-        return $builder
-            ->create('toegang', null, [
-                'compound' => true,
-                'inherit_data' => true,
-                'required'=>true,
-
-            ])
-            ->add('intakelocatie', LocatieSelectType::class, [
-                'required' => true,
-            ])
-            ->add('toegangInloophuis', CheckboxType::class, [
-                'required' => false,
-            ])
-            ->add('amocToegangTot', AppDateType::class, [
-                'label' => 'Einddatum toegang AMOC',
-                'required'=>false,
-            ])
-            ->add('ondroBongToegangVan', AppDateType::class, [
-                'label' => 'Startdatum toegang Zeeburg/Transformatorweg',
-                'required'=>false,
-            ])
-            ->add('overigenToegangVan', AppDateType::class, [
-                'label' => 'Startdatum toegang overigen',
-                'required'=>false,
-            ])
-            ->add('gebruikersruimte', LocatieSelectType::class, [
-                'required' => false,
-                'gebruikersruimte' => true,
-            ])
-        ;
-    }
 
     private function createLegitimatiebewijs(FormBuilderInterface $builder, array $options)
     {

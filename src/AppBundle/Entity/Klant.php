@@ -291,11 +291,21 @@ class Klant extends Persoon
         return $this->registraties->matching($criteria);
     }
 
-    public function getLaatsteRegistratie()
+    public function getLaatsteRegistratie(): ?Registratie
     {
+        /**
+         Waarom dit zo is en niet gewoon de laatste registratie... geen idee. dit is robuust als de ;aatste registratie niet klopt,
+         maar ja.
+         *
+         */
         $registraties = $this->getRecenteRegistraties(1);
 
         return count($registraties) > 0 ? $registraties[0] : null;
+    }
+
+    public function setLaatsteRegistratie(Registratie $registratie)
+    {
+        $this->laatsteRegistratie = $registratie;
     }
 
     public function getSchorsingen()
@@ -494,7 +504,7 @@ class Klant extends Persoon
     /**
      * @return Intake
      */
-    public function getEersteIntake(): Intake
+    public function getEersteIntake(): ?Intake
     {
         return $this->eersteIntake;
     }

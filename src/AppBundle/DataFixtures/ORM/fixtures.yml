@@ -637,7 +637,7 @@ AppBundle\Entity\Nationaliteit:
         __construct: ['Bosnier']
 
 AppBundle\Entity\Medewerker:
-    medewerker_bhuttinga:
+    medewerker_jborger:
         ldapGuid (unique): '<randomNumber()>'
         username: 'admin'
         roles: ['ROLE_ADMIN']
@@ -655,9 +655,18 @@ AppBundle\Entity\Medewerker:
         achternaam: '<lastname()>'
         eersteBezoek: '<dateTimeThisDecade()>'
         laatsteBezoek: '<dateTimeThisDecade()>'
+    medewerker_inloop:
+        ldapGuid (unique): '<randomNumber()>'
+        roles: ['ROLE_INLOOP','ROLE_INLOOP_INTAKES','ROLE_ADMIN']
+        username: 'inloop_user'
+        email: '<email()>'
+        voornaam: '<firstname()>'
+        achternaam: '<lastname()>'
+        eersteBezoek: '<dateTimeThisDecade()>'
+        laatsteBezoek: '<dateTimeThisDecade()>'
     medewerker_dagbesteding:
         ldapGuid (unique): '<randomNumber()>'
-        roles: ['ROLE_DAGBESTEDING']
+        roles: [ 'ROLE_DAGBESTEDING' ]
         username: 'dagbesteding_user'
         email: '<email()>'
         voornaam: '<firstname()>'
@@ -719,6 +728,8 @@ AppBundle\Entity\Medewerker:
         eersteBezoek: '<dateTimeThisDecade()>'
         laatsteBezoek: '<dateTimeThisDecade()>'
 
+
+
 AppBundle\Entity\Klant:
     klant_{1..200}:
         roepnaam: '<firstname()>'
@@ -745,6 +756,34 @@ AppBundle\Entity\Klant:
         medewerker: '@medewerker_*'
         land: '@land_*'
         nationaliteit: '@nationaliteit_*'
+#    klant_1:
+#        roepnaam: 'Toegang'
+#        voornaam: 'Test'
+#        achternaam: 'Inloop'
+#        geslacht: '@geslacht_*'
+#        geboortedatum: '<dateTimeThisDecade()>'
+#        adres: '<streetAddress()>'
+#        postcode: '<postcode()>'
+#        plaats: '<city()>'
+#        mobiel: '<phoneNumber()>'
+#        telefoon: '<phoneNumber()>'
+#        email: '<email()>'
+#        laatsteTbcControle: '<dateTimeThisDecade()>'
+#        laatsteZrm: '<dateTimeThisDecade()>'
+#        #addIntake: ['@intake_<current()>']
+#        #        laatsteRegistratie: '@registratie_*'
+#        overleden: '10%? 1 : 0'
+#        disabled: '10%? 1 : 0'
+#        werkgebied: '80%? @werkgebied_*'
+#        postcodegebied: '80%? @ggw_gebied_*'
+#        geenPost: '10%? 1 : 0'
+#        geenEmail: '10%? 1 : 0'
+#        medewerker: '@medewerker_*'
+#        land: '@land_*'
+#        nationaliteit: '@nationaliteit_*'
+#        huidigeStatus: '@aanmelding_1'
+
+
 
 AppBundle\Entity\Vrijwilliger:
     vrijwilliger_{1..200}:
@@ -767,3 +806,15 @@ AppBundle\Entity\Vrijwilliger:
         medewerker: '@medewerker_*'
         land: '@land_*'
         nationaliteit: '@nationaliteit_*'
+
+AppBundle\Entity\Verblijfsstatus:
+    verblijfsstatus_7:
+#        id: '7'
+        datum_van: '<dateTimeThisYear()>'
+        datum_tot: '<dateTimeBetween("+1 year", "+1 year")>'
+        naam: 'Niet rechthebbend (uit EU, behalve Nederland)'
+    verblijfsstatus_1:
+#        id: '1'
+        naam: 'Legaal'
+        datum_van: '<dateTimeThisYear()>'
+        datum_tot: '<dateTimeBetween("+1 year", "+1 year")>'
