@@ -254,31 +254,31 @@ class RegistratiesController extends AbstractController
         /**
          * Corona aanpassing; niet meer dan twee locaties sinds middernacht.
          */
-        $registratiesSindsMiddernacht = $klant->getRegistratiesSinds(new \DateTime('today midnight'));
-        if($registratiesSindsMiddernacht->count() >= 2) {
-
-            $nachtopvanglocaties = $this->container->getParameter('nachtopvang_locaties');
-            if(in_array($locatie->getNaam(),$nachtopvanglocaties))
-            {
-                return new JsonResponse($jsonVar);
-            }
-
-            //meer dan 2, kijken naar unieke locaties.
-            $locaties = array();
-            foreach ($registratiesSindsMiddernacht as $registratie) {
-                $locaties[$registratie->getLocatie()->getId()] = $registratie->getLocatie()->getNaam();
-            }
-
-            if (count($locaties) >= 2 ){
-                $today = new \DateTime('today midnight');
-                $numberOfRegsToday = $klant->getRegistratiesSinds(new \DateTime('today midnight'));
-                $jsonVar['allow'] = false;
-                $jsonVar['message'] = 'Ivm beperken contacten door Corona, maximaal 2 locaties per dag. Klant kan naar deze locaties: '.implode(", ",$locaties);
-
-                return new JsonResponse($jsonVar);
-            }
-
-        }
+//        $registratiesSindsMiddernacht = $klant->getRegistratiesSinds(new \DateTime('today midnight'));
+//        if($registratiesSindsMiddernacht->count() >= 2) {
+//
+//            $nachtopvanglocaties = $this->container->getParameter('nachtopvang_locaties');
+//            if(in_array($locatie->getNaam(),$nachtopvanglocaties))
+//            {
+//                return new JsonResponse($jsonVar);
+//            }
+//
+//            //meer dan 2, kijken naar unieke locaties.
+//            $locaties = array();
+//            foreach ($registratiesSindsMiddernacht as $registratie) {
+//                $locaties[$registratie->getLocatie()->getId()] = $registratie->getLocatie()->getNaam();
+//            }
+//
+//            if (count($locaties) >= 2 ){
+//                $today = new \DateTime('today midnight');
+//                $numberOfRegsToday = $klant->getRegistratiesSinds(new \DateTime('today midnight'));
+//                $jsonVar['allow'] = false;
+//                $jsonVar['message'] = 'Ivm beperken contacten door Corona, maximaal 2 locaties per dag. Klant kan naar deze locaties: '.implode(", ",$locaties);
+//
+//                return new JsonResponse($jsonVar);
+//            }
+//
+//        }
 
         if ($locatie->isGebruikersruimte()) {
             $laatsteRegistratie = $this->dao->findLatestByKlantAndLocatie($klant, $locatie);
