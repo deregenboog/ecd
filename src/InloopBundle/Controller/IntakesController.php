@@ -137,8 +137,9 @@ class IntakesController extends AbstractController
     public function editToegangAction(Request $request, $id)
     {
         $this->formClass = ToegangType::class;
-        $ret =  $this->editAction($request,$id);
-        return $ret;
+        $entity = $this->dao->find($id);
+        return $this->processForm($request, $entity);
+
     }
 
 
