@@ -117,6 +117,13 @@ class HuurovereenkomstFilterType extends AbstractType
 
             ]);
         }
+        if (in_array('project', $options['enabled_filters'])) {
+            $builder->add('project', ProjectSelectFilterType::class, [
+                'label' => 'Project',
+                'required' => false,
+                'data' => false,
+            ]);
+        }
         $builder
             ->add('filter', SubmitType::class, ['label' => 'Filteren'])
             ->add('download', SubmitType::class, ['label' => 'Downloaden'])
@@ -150,6 +157,7 @@ class HuurovereenkomstFilterType extends AbstractType
                 'vorm',
                 'afsluitdatum',
                 'actief',
+                'project',
                 'isReservering',
                 'opzegbriefVerstuurd',
             ],

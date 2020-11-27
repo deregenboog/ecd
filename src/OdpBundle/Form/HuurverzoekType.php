@@ -24,6 +24,7 @@ class HuurverzoekType extends AbstractType
         $builder
             ->add('medewerker', MedewerkerType::class)
             ->add('startdatum', AppDateType::class)
+            ->add('projecten', ProjectSelectType::class,['multiple'=>true])
         ;
 
         if (!$options['data']->getId()) {

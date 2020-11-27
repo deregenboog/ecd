@@ -30,7 +30,8 @@ class HuurverzoekenController extends SymfonyController
         'huurverzoek.startdatum',
         'huurverzoek.afsluitdatum',
         'huurovereenkomst.isReservering',
-        'medewerker.achternaam'
+        'medewerker.achternaam',
+        'project.naam'
     ];
 
     /**

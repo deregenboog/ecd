@@ -6,6 +6,7 @@ use AppBundle\Entity\Medewerker;
 use AppBundle\Filter\FilterInterface;
 use AppBundle\Filter\KlantFilter;
 use Doctrine\ORM\QueryBuilder;
+use OdpBundle\Entity\Project;
 
 class VerhuurderFilter implements FilterInterface
 {
@@ -49,6 +50,11 @@ class VerhuurderFilter implements FilterInterface
      */
     public $ambulantOndersteuner;
 
+    /**
+     * @var Project
+     */
+    public $project;
+
 
     public function applyTo(QueryBuilder $builder)
     {
@@ -58,7 +64,12 @@ class VerhuurderFilter implements FilterInterface
                 ->setParameter('id', $this->id)
             ;
         }
-
+        if($this->project)
+        {
+            $builder
+                ->andWhere('verhuurder.project = :project')
+                ->setParameter("project",$this->project);
+        }
         if ($this->aanmelddatum) {
             if ($this->aanmelddatum->getStart()) {
                 $builder

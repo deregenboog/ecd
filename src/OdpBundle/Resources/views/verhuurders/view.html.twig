@@ -2,7 +2,7 @@
 {% import '::html.macro.twig' as html %}
 
 {% block title %}
-    Onder de Pannen | {{ title }}
+    Tijdelijk Wonen | {{ title }}
 {% endblock %}
 
 {% block subnavigation %}
@@ -46,6 +46,8 @@
         <dd>{{ entity.medewerker }}</dd>
         <dt>Ambulant ondersteuner</dt>
         <dd>{{ entity.ambulantOndersteuner }}</dd>
+        <dt>Project</dt>
+        <dd>{{ entity.project }}</dd>
         <dt>Aanmelddatum</dt>
         <dd>{{ entity.aanmelddatum|date('d-m-Y') }}</dd>
         <dt>Rekeningnummer</dt>

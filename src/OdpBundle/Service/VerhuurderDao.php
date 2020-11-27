@@ -23,7 +23,8 @@ class VerhuurderDao extends AbstractDao implements VerhuurderDaoInterface
             'verhuurder.afsluitdatum',
             'verhuurder.wpi',
             'verhuurder.ksgw',
-            'ambulantOndersteuner.achternaam'
+            'ambulantOndersteuner.achternaam',
+            'project.naam'
         ],
 //        'wrap-queries'=>true,
     ];
@@ -44,6 +45,7 @@ class VerhuurderDao extends AbstractDao implements VerhuurderDaoInterface
             ->leftJoin('verhuurder.ambulantOndersteuner','ambulantOndersteuner')
             ->leftJoin('klant.werkgebied', 'werkgebied')
             ->leftJoin('verhuurder.afsluiting', 'afsluiting')
+            ->leftJoin('verhuurder.project','project')
             ->andWhere('afsluiting.tonen IS NULL OR afsluiting.tonen = true')
         ;
 //        $builder = $this->repository->createQueryBuilder($this->alias)

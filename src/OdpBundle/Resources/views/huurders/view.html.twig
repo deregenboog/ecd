@@ -2,7 +2,7 @@
 {% import '::html.macro.twig' as html %}
 
 {% block title %}
-    Onder de Pannen | {{ title }}
+    Tijdelijk Wonen | {{ title }}
 {% endblock %}
 
 {% block subnavigation %}
@@ -48,6 +48,13 @@
         <dd>{{ entity.ambulantOndersteuner }}</dd>
         <dt>Aanmelddatum</dt>
         <dd>{{ entity.aanmelddatum|date('d-m-Y') }}</dd>
+        <dt>Project(en)</dt>
+        <dd><ul>
+            {% for project in entity.projecten %}
+                <li>{{ project.naam }}</li>
+            {% endfor %}
+            </ul>
+        </dd>
         <dt>Rekeningnummer</dt>
         <dd>{{ entity.rekeningnummer }}</dd>
         <dt>Automatische incasso</dt>

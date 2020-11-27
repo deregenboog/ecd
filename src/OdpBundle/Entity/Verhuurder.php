@@ -57,6 +57,15 @@ class Verhuurder extends Deelnemer
      */
     private $ksgw = false;
 
+    /**
+     * @var Project
+     *
+     * @ORM\ManyToOne(targetEntity="OdpBundle\Entity\Project", inversedBy="verhuurders", cascade={"persist"})
+     * @ORM\JoinColumn(nullable=false)
+     * @Gedmo\Versioned
+     */
+    private $project;
+
     public function __construct(Klant $klant = null)
     {
         if(null !== $klant){
@@ -181,4 +190,24 @@ class Verhuurder extends Deelnemer
 
         return $this;
     }
+
+    /**
+     * @return Project
+     */
+    public function getProject(): ?Project
+    {
+        return $this->project;
+    }
+
+    /**
+     * @param Project $project
+     * @return Verhuurder
+     */
+    public function setProject(Project $project): Verhuurder
+    {
+        $this->project = $project;
+        return $this;
+    }
+
+
 }

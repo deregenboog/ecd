@@ -72,6 +72,13 @@ class HuurverzoekFilterType extends AbstractType
 
             ]);
         }
+        if (in_array('project', $options['enabled_filters'])) {
+            $builder->add('project', ProjectSelectFilterType::class, [
+                'label' => 'Project',
+                'required' => false,
+                'data' => false,
+            ]);
+        }
 
         $builder
             ->add('filter', SubmitType::class, ['label' => 'Filteren'])
@@ -102,6 +109,7 @@ class HuurverzoekFilterType extends AbstractType
                 'afsluitdatum',
                 'actief',
                 'medewerker',
+                'project',
                 'huurovereenkomst'=>['isReservering']
             ],
         ]);

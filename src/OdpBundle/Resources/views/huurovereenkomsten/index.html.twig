@@ -2,7 +2,7 @@
 {% import '::html.macro.twig' as html %}
 
 {% block title %}
-    Onder de Pannen | {{ title }}
+    Tijdelijk Wonen | {{ title }}
 {% endblock %}
 
 {% block subnavigation %}
@@ -14,7 +14,7 @@
     <table class="table table-hover">
         {{ form_start(filter) }}
             <tr>
-                <th colspan="9">
+                <th colspan="10">
                 </th>
                 <th>
                     {{ form_widget(filter.actief) }}
@@ -38,6 +38,10 @@
                 <th>
                     {{ form_widget(filter.verhuurderKlant.naam) }}
                     {{ form_errors(filter.verhuurderKlant.naam) }}
+                </th>
+                <th>
+                    {{ form_widget(filter.project) }}
+                    {{ form_errors(filter.project) }}
                 </th>
                 <th>
                     {{ form_widget(filter.medewerker) }}
@@ -100,6 +104,9 @@
                 {{ knp_pagination_sortable(pagination, 'Verhuurder', 'verhuurderKlant.achternaam') }}
             </th>
             <th>
+                {{ knp_pagination_sortable(pagination, 'Project', 'project.naam') }}
+            </th>
+            <th>
                 {{ knp_pagination_sortable(pagination, 'Medewerker', 'medewerker.voornaam') }}
             </th>
             <th>
@@ -146,6 +153,9 @@
                 </td>
                 <td>
                     {{ huurovereenkomst.verhuurder.klant }}
+                </td>
+                <td>
+                    {{ huurovereenkomst.huuraanbod.project }}
                 </td>
                 <td>
                     {{ huurovereenkomst.medewerker }}

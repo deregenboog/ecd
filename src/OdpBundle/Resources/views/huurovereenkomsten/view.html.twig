@@ -2,7 +2,7 @@
 {% import '::html.macro.twig' as html %}
 
 {% block title %}
-    Onder de Pannen | {{ title }}
+    Tijdelijk Wonen | {{ title }}
 {% endblock %}
 
 {% block subnavigation %}
@@ -46,6 +46,8 @@
         <dd>{{ html.link(entity.huurder.klant, path('odp_huurders_view', {id: entity.huurder.id})) }}</dd>
         <dt>Verhuurder</dt>
         <dd>{{ html.link(entity.verhuurder.klant, path('odp_verhuurders_view', {id: entity.verhuurder.id})) }}</dd>
+        <dt>Project</dt>
+        <dd>{{ html.link(entity.huuraanbod.project, path('odp_huuraanbiedingen_view', {id: entity.huuraanbod.id})) }}</dd>
         <dt>Huurverzoek</dt>
         <dd>{{ html.link(entity.huurverzoek, path('odp_huurverzoeken_view', {id: entity.huurverzoek.id})) }}</dd>
         <dt>Huuraanbod</dt>

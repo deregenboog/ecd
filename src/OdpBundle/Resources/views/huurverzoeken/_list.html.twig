@@ -8,6 +8,7 @@
 </p>
 <table class="table">
     <tr>
+        <th>Project(en)</th>
         <th>Startdatum</th>
         <th>Afsluitdatum</th>
         <th></th>
@@ -20,7 +21,9 @@
             {% endif %}
 
             <tr class="{{ class }}">
-
+                <td>
+                    {{ huurverzoek.projecten|join(", ") }}
+                </td>
                 <td>
                     {{ huurverzoek.startdatum ? huurverzoek.startdatum|date('d-m-Y') }}
                 </td>

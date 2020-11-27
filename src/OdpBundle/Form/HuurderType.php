@@ -41,6 +41,7 @@ class HuurderType extends AbstractType
 
             ])
             ->add('aanmelddatum', AppDateType::class)
+            ->add('projecten', ProjectSelectType::class,['multiple'=>true])
             ->add('rekeningnummer', null, ['required' => false])
             ->add('automatischeIncasso', null, ['required' => false])
             ->add('inschrijvingWoningnet', null, [

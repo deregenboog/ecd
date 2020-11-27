@@ -30,7 +30,8 @@ class HuuraanbiedingenController extends SymfonyController
         'huuraanbod.startdatum',
         'huuraanbod.afsluitdatum',
         'huurovereenkomst.isReservering',
-        'medewerker.achternaam'
+        'medewerker.achternaam',
+        'project.naam',
     ];
 
     /**
@@ -48,6 +49,7 @@ class HuuraanbiedingenController extends SymfonyController
             ->innerJoin('huuraanbod.medewerker','medewerker')
             ->leftJoin('klant.werkgebied', 'werkgebied')
             ->leftJoin('huuraanbod.afsluiting', 'afsluiting')
+            ->leftJoin('huuraanbod.project', 'project')
 //            ->andWhere('huurovereenkomst.id IS NULL')
 //            ->orWhere('huurovereenkomst.isReservering = 1')
             ->andWhere('afsluiting.tonen IS NULL OR afsluiting.tonen = true')

@@ -106,6 +106,13 @@ class HuurderFilterType extends AbstractType
                 },
             ]);
         }
+        if (in_array('project', $options['enabled_filters'])) {
+            $builder->add('project', ProjectSelectFilterType::class, [
+                'label' => 'Project',
+                'required' => false,
+                'data' => false,
+            ]);
+        }
 
         $builder
             ->add('filter', SubmitType::class, ['label' => 'Filteren'])
@@ -134,6 +141,7 @@ class HuurderFilterType extends AbstractType
                 'automatischeIncasso',
                 'inschrijvingWoningnet',
                 'waPolis',
+                'project',
                 'aanmelddatum',
                 'afsluitdatum',
                 'actief',

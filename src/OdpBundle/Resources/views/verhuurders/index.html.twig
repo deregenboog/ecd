@@ -2,7 +2,7 @@
 {% import '::html.macro.twig' as html %}
 
 {% block title %}
-    Onder de Pannen | {{ title }}
+    Tijdelijk Wonen | {{ title }}
 {% endblock %}
 
 {% block subnavigation %}
@@ -19,7 +19,7 @@
         <thead>
             {{ form_start(filter) }}
                 <tr>
-                    <th colspan="7">
+                    <th colspan="8">
                     </th>
                     <th>
                         {{ form_widget(filter.actief) }}
@@ -39,6 +39,10 @@
                     <th>
                         {{ form_widget(filter.klant.naam) }}
                         {{ form_errors(filter.klant.naam) }}
+                    </th>
+                    <th>
+                        {{ form_widget(filter.project) }}
+                        {{ form_errors(filter.project) }}
                     </th>
                     <th>
                         {{ form_widget(filter.wpi) }}
@@ -81,6 +85,9 @@
                     {{ knp_pagination_sortable(pagination, 'Verhuurder', 'klant.achternaam') }}
                 </th>
                 <th>
+                    {{ knp_pagination_sortable(pagination, 'Project', 'project.naam') }}
+                </th>
+                <th>
                     {{ knp_pagination_sortable(pagination, 'WPI', 'verhuurder.wpi') }}
                 </th>
                 <th>
@@ -110,6 +117,9 @@
                     </td>
                     <td>
                         {{ verhuurder.klant.naam }}
+                    </td>
+                    <td>
+                        {{ verhuurder.project }}
                     </td>
                     <td>
                         {{ verhuurder.wpi ? 'Ja' : 'Nee' }}
