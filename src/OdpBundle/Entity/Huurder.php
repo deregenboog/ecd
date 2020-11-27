@@ -6,7 +6,9 @@ use AppBundle\Entity\Klant;
 use AppBundle\Entity\Medewerker;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\PersistentCollection;
 use Gedmo\Mapping\Annotation as Gedmo;
+use OdpBundle\Entity\Project;
 
 /**
  * @ORM\Entity
@@ -78,6 +80,18 @@ class Huurder extends Deelnemer
      * @ORM\JoinColumn(nullable=true)
      */
     private $werk;
+
+    /**
+     * @var Project[]
+     * @ORM\ManyToMany(targetEntity="Project")
+     * @ORM\JoinTable(
+     *     name="odp_huurders_odp_projecten",
+     *     joinColumns={@ORM\JoinColumn(name="odp_huurder_id")},
+     *     inverseJoinColumns={@ORM\JoinColumn(name="odp_project_id")}
+     * )
+     */
+    protected $projecten;
+
 
 
 
@@ -253,6 +267,24 @@ class Huurder extends Deelnemer
     public function setWerk(Werk $werk): void
     {
         $this->werk = $werk;
+    }
+
+    /**
+     * @return Project[]
+     */
+    public function getProjecten()//: ?arraPersistentCollection
+    {
+        return $this->projecten;
+    }
+
+    /**
+     * @param Project[] $projecten
+     * @return Huurder
+     */
+    public function setProjecten(array $projecten): Huurder
+    {
+        $this->projecten = $projecten;
+        return $this;
     }
 
 

@@ -70,6 +70,17 @@ class Huurverzoek
      */
     private $verslagen;
 
+    /**
+     * @var Project[]
+     * @ORM\ManyToMany(targetEntity="Project")
+     * @ORM\JoinTable(
+     *     name="odp_huurverzoeken_odp_projecten",
+     *     joinColumns={@ORM\JoinColumn(name="odp_huurverzoek_id")},
+     *     inverseJoinColumns={@ORM\JoinColumn(name="odp_project_id")}
+     * )
+     */
+    protected $projecten;
+
     public function __construct()
     {
         $this->startdatum = new \DateTime();
@@ -189,6 +200,24 @@ class Huurverzoek
     public function setReservering(Huuraanbod $reservering): void
     {
         $this->reservering = $reservering;
+    }
+
+    /**
+     * @return Project[]
+     */
+    public function getProjecten() //: ?array
+    {
+        return $this->projecten;
+    }
+
+    /**
+     * @param Project[] $projecten
+     * @return Huurverzoek
+     */
+    public function setProjecten($projecten): Huurverzoek
+    {
+        $this->projecten = $projecten;
+        return $this;
     }
 
 

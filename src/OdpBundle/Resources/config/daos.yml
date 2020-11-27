@@ -46,3 +46,6 @@ services:
 
     OdpBundle\Service\WoningbouwcorporatieDao:
         parent: app.dao.abstract
+
+    OdpBundle\Service\ProjectDao:
+        parent: app.dao.abstract

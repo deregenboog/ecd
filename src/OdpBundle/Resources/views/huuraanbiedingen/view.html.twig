@@ -2,7 +2,7 @@
 {% import '::html.macro.twig' as html %}
 
 {% block title %}
-    Onder de Pannen | {{ title }}
+    Tijdelijk Wonen | {{ title }}
 {% endblock %}
 
 {% block subnavigation %}
@@ -30,6 +30,8 @@
         <dd>{{ huuraanbod.id }}</dd>
         <dt>Verhuurder</dt>
         <dd>{{ html.link(huuraanbod.verhuurder.klant, path('odp_verhuurders_view', {id: huuraanbod.verhuurder.id})) }}</dd>
+        <dt>Project</dt>
+        <dd>{{ huuraanbod.project }}</dd>
         <dt>Startdatum</dt>
         <dd>{{ huuraanbod.startdatum|date('d-m-Y') }}</dd>
         <dt>Vorm van overeenkomst</dt>

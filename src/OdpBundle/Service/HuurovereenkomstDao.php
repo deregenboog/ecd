@@ -26,6 +26,7 @@ class HuurovereenkomstDao extends AbstractDao implements HuurovereenkomstDaoInte
             'huurovereenkomst.isReservering',
             'huurovereenkomst.opzegbriefVerstuurd',
             'huurder.automatischeIncasso',
+            'project.naam'
         ],
     ];
 
@@ -41,6 +42,7 @@ class HuurovereenkomstDao extends AbstractDao implements HuurovereenkomstDaoInte
             ->innerJoin('huurovereenkomst.medewerker', 'medewerker')
             ->innerJoin('huurverzoek.huurder', 'huurder')
             ->innerJoin('huuraanbod.verhuurder', 'verhuurder')
+            ->leftJoin('huuraanbod.project','project')
 
             ->innerJoin('huurder.klant', 'klant')
             ->innerJoin('verhuurder.klant', 'verhuurderKlant')

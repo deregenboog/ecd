@@ -23,6 +23,7 @@ class HuuraanbodType extends AbstractType
     {
         $builder
             ->add('medewerker', MedewerkerType::class)
+            ->add('project', ProjectSelectType::class)
             ->add('startdatum', AppDateType::class)
             ->add('vormvanovereenkomst', VormVanOvereenkomstType::class,[
 

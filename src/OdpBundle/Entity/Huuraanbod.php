@@ -89,6 +89,15 @@ class Huuraanbod
      */
     private $verslagen;
 
+    /**
+     * @var Project
+     *
+     * @ORM\ManyToOne(targetEntity="OdpBundle\Entity\Project", inversedBy="huuraanbiedingen", cascade={"persist"})
+     * @ORM\JoinColumn(nullable=false)
+     * @Gedmo\Versioned
+     */
+    private $project;
+
     public function __construct()
     {
 
@@ -249,6 +258,24 @@ class Huuraanbod
     public function setVormvanovereenkomst(?VormVanOvereenkomst $vormvanovereenkomst): void
     {
         $this->vormvanovereenkomst = $vormvanovereenkomst;
+    }
+
+    /**
+     * @return Project
+     */
+    public function getProject(): ?Project
+    {
+        return $this->project;
+    }
+
+    /**
+     * @param Project $project
+     * @return Huuraanbod
+     */
+    public function setProject(Project $project): Huuraanbod
+    {
+        $this->project = $project;
+        return $this;
     }
 
 

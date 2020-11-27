@@ -7,6 +7,7 @@ use AppBundle\Filter\FilterInterface;
 use AppBundle\Filter\KlantFilter;
 use AppBundle\Form\Model\AppDateRangeModel;
 use Doctrine\ORM\QueryBuilder;
+use OdpBundle\Entity\Project;
 
 class HuurverzoekFilter implements FilterInterface
 {
@@ -46,6 +47,10 @@ class HuurverzoekFilter implements FilterInterface
      */
     public $medewerker;
 
+    /**
+     * @var Project
+     */
+    public $project;
 
     public function applyTo(QueryBuilder $builder)
     {
@@ -105,6 +110,13 @@ class HuurverzoekFilter implements FilterInterface
 
         if ($this->klant) {
             $this->klant->applyTo($builder);
+        }
+
+        if($this->project)
+        {
+            $builder->innerJoin('huurverzoek.projecten', 'project')
+                ->andWhere('project.id = :project')
+                ->setParameter("project",$this->project);
         }
     }
 }

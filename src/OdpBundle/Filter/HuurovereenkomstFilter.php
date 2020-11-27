@@ -7,6 +7,7 @@ use AppBundle\Filter\FilterInterface;
 use AppBundle\Filter\KlantFilter;
 use AppBundle\Form\Model\AppDateRangeModel;
 use Doctrine\ORM\QueryBuilder;
+use OdpBundle\Entity\Project;
 
 class HuurovereenkomstFilter implements FilterInterface
 {
@@ -70,6 +71,11 @@ class HuurovereenkomstFilter implements FilterInterface
      * @var Medewerker
      */
     public $medewerker;
+
+    /**
+     * @var Project
+     */
+    public $project;
 
     public function applyTo(QueryBuilder $builder)
     {
@@ -148,13 +154,13 @@ class HuurovereenkomstFilter implements FilterInterface
         }
         if (!$this->isReservering) {
             $builder
-                ->andWhere('huurovereenkomst.isReservering = 0')
+                ->andWhere('huurovereenkomst.isReservering = 0  OR huurovereenkomst IS NULL')
             ;
         }
         else if($this->isReservering == true)
         {
             $builder
-                ->andWhere('huurovereenkomst.isReservering = 1 OR huurovereenkomst.isReservering = 0')
+                ->andWhere('huurovereenkomst.isReservering = 1 OR huurovereenkomst.isReservering = 0 OR huurovereenkomst IS NULL')
 //                ->orWhere('huurovereenkomst.isReservering = 0')
             ;
         }
@@ -185,6 +191,11 @@ class HuurovereenkomstFilter implements FilterInterface
                 ->andWhere('huurovereenkomst.medewerker = :medewerker')
                 ->setParameter('medewerker', $this->medewerker)
             ;
+        }
+        if($this->project)
+        {
+            $builder->andWhere('huuraanbod.project = :project')
+                ->setParameter("project",$this->project);
         }
     }
 }

@@ -6,6 +6,7 @@ use AppBundle\Entity\Medewerker;
 use AppBundle\Filter\FilterInterface;
 use AppBundle\Filter\KlantFilter;
 use Doctrine\ORM\QueryBuilder;
+use OdpBundle\Entity\Project;
 
 class HuurderFilter implements FilterInterface
 {
@@ -63,6 +64,11 @@ class HuurderFilter implements FilterInterface
      * @var Medewerker
      */
     public $ambulantOndersteuner;
+
+    /**
+     * @var Project
+     */
+    public $project;
 
     public function applyTo(QueryBuilder $builder)
     {
@@ -146,6 +152,12 @@ class HuurderFilter implements FilterInterface
         {
             $builder->andWhere('medewerker = :medewerker')
                 ->setParameter('medewerker',$this->medewerker);
+        }
+        if($this->project)
+        {
+            $builder->innerJoin('huurder.projecten', 'project')
+                ->andWhere('project.id = :project')
+                ->setParameter("project",$this->project);
         }
         if($this->ambulantOndersteuner)
         {

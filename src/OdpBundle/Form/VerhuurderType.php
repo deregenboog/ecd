@@ -40,6 +40,7 @@ class VerhuurderType extends AbstractType
                 'preset'=>false,
 
             ])
+            ->add('project', ProjectSelectType::class)
             ->add('aanmelddatum', AppDateType::class)
             ->add('rekeningnummer', null, ['required' => false])
             ->add('woningbouwcorporatie')

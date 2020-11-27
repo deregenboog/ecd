@@ -1,0 +1,55 @@
+{% extends '::base.html.twig' %}
+{% import '::html.macro.twig' as html %}
+
+{% block title %}
+    Tijdelijk Wonen | {{ title }}
+{% endblock %}
+
+{% block subnavigation %}
+    {% include '@Odp/odp_subnavigation.html.twig' %}
+{% endblock %}
+
+{% block content %}
+    <h1>{{ title }}</h1>
+    <p>
+        {{ html.addLink(path(route_base~'add')) }}
+        {{ html.link(entity_name|capitalize ~ ' toevoegen', path(route_base~'add')) }}
+    </p>
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>
+                    {{ knp_pagination_sortable(pagination, 'Naam', 'project.naam') }}
+                </th>
+                <th>
+                    {{ knp_pagination_sortable(pagination, 'Startdatum', 'project.startdatum') }}
+                </th>
+                <th>
+                    {{ knp_pagination_sortable(pagination, 'Einddatum', 'project.einddatum') }}
+                </th>
+
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for entity in pagination %}
+            <tr>
+                <td>
+                    {{ entity.naam }}
+                </td>
+                <td>
+                    {{ entity.startdatum ? entity.startdatum|date('d-m-Y') }}
+                </td>
+                <td>
+                    {{ entity.einddatum ? entity.einddatum|date('d-m-Y') }}
+                </td>
+
+                <td>
+                    {{ html.editLink(path(route_base~'edit', {id: entity.id})) }}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {{ knp_pagination_render(pagination) }}
+{% endblock %}
