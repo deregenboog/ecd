@@ -40,7 +40,7 @@
     {{ html.navLink('Informele zorg', path('iz_index'), isActiveRoute('iz_')) }}
 {% endif %}
 {% if is_granted('ROLE_ODP') %}
-    {{ html.navLink('Onder de pannen', path('odp_index'), isActiveRoute('odp_')) }}
+    {{ html.navLink('Tijdelijk wonen', path('odp_index'), isActiveRoute('odp_')) }}
 {% endif %}
 {% if is_granted('ROLE_OEK') %}
     {{ html.navLink('Op eigen kracht', path('oek_index'), isActiveRoute('oek_')) }}
