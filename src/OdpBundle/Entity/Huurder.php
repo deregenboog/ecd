@@ -281,7 +281,7 @@ class Huurder extends Deelnemer
      * @param Project[] $projecten
      * @return Huurder
      */
-    public function setProjecten(array $projecten): Huurder
+    public function setProjecten($projecten): Huurder
     {
         $this->projecten = $projecten;
         return $this;

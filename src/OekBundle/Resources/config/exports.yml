@@ -77,19 +77,19 @@ services:
             -
                 Nummer: { expression: 'entity.getDeelnemer().getKlant().getId()' }
                 Deelnemer: { expression: 'entity.getDeelnemer()' }
+                Telefoon: { expression: 'entity.getDeelnemer().getKlant().getTelefoon()' }
+                Mobiel: { expression: 'entity.getDeelnemer().getKlant().getMobiel()' }
+                E-mail: { expression: 'entity.getDeelnemer().getKlant().getEmail()' }
+                Verwezen door: { expression: 'entity.getDeelnemer().getAanmelding().getVerwijzing()', condition: 'entity.getDeelnemer().getAanmelding()' }
+                Verwezen naar: { expression: 'entity.getDeelnemer().getAfsluiting().getVerwijzing()', condition: 'entity.getDeelnemer().getAfsluiting()' }
                 Adres: { expression: 'entity.getDeelnemer().getKlant().getAdres()' }
                 Postcode: { expression: 'entity.getDeelnemer().getKlant().getPostcode()' }
                 Plaats: { expression: 'entity.getDeelnemer().getKlant().getPlaats()' }
                 Stadsdeel: { expression: 'entity.getDeelnemer().getKlant().getWerkgebied()' }
-                Telefoon: { expression: 'entity.getDeelnemer().getKlant().getTelefoon()' }
-                Mobiel: { expression: 'entity.getDeelnemer().getKlant().getMobiel()' }
-                E-mail: { expression: 'entity.getDeelnemer().getKlant().getEmail()' }
                 Naam training: { expression: 'entity.getTraining()' }
                 Startdatum training: { expression: 'entity.getTraining().getStartDatum()', type: 'date' }
                 Aanmelddatum: { expression: 'entity.getDeelnemer().getAanmelding().getDatum()', condition: 'entity.getDeelnemer().getAanmelding()', type: 'date' }
                 Status: { expression: 'entity.getStatus()' }
-                Verwezen door: { expression: 'entity.getDeelnemer().getAanmelding().getVerwijzing()', condition: 'entity.getDeelnemer().getAanmelding()' }
-                Verwezen naar: { expression: 'entity.getDeelnemer().getAfsluiting().getVerwijzing()', condition: 'entity.getDeelnemer().getAfsluiting()' }
 
     oek.export.presentielijst:
         public: true
