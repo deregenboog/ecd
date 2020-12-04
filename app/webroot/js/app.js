@@ -2,6 +2,8 @@ var ajaxInProgress = false;
 
 $(function() {
 
+    // console.log('start');
+
     var hash = window.location.hash;
 
     if(hash) {
@@ -49,16 +51,6 @@ $(function() {
     $('.nav-tabs a').on('shown.bs.tab', adjustUrls);
     $('.nav-pills a').on('shown.bs.tab', adjustUrls);
 
-    // make table rows clickable
-    $('table.table.table-hover tr').click(function(event) {
-        // do nothing when clicked on a link or input element
-        if ('A' == event.target.tagName || $(event.target).is(':input')) {
-            return;
-        }
-        if (typeof($(this).data('href')) != 'undefined') {
-            window.document.location = $(this).data('href');
-        }
-    });
 
     var filter = $('form.ajaxFilter');
     var lastFilterState = null;
@@ -95,3 +87,21 @@ var hideLoader = function() {
     $("#loader").hide();
     $("#ajaxContainer").show();
 }
+$(document).ready(function() {
+    // console.log('start 2');
+    /**
+     * @20201204JTB
+     * Raar gedrag sinds enige tijd: rijene (soms) niet meer klikbaar. Misschien timing ding icm cache/browser gedrag.
+     * Nu voor zekerheid in deze fucntie gezet.
+     */
+    // make table rows clickable
+    $('table.table.table-hover tr').click(function(event) {
+        // do nothing when clicked on a link or input element
+        if ('A' == event.target.tagName || $(event.target).is(':input')) {
+            return;
+        }
+        if (typeof($(this).data('href')) != 'undefined') {
+            window.document.location = $(this).data('href');
+        }
+    });
+});
