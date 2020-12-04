@@ -98,7 +98,7 @@ class RegistratieDao extends AbstractDao implements RegistratieDaoInterface
         }
 
         /**
-         * Vind alle registraties van die locaties waarbij klanten betrokken waren die besmet waren in de periode dat deze klant daar geweest is.
+         * Vind alle registraties van die locaties, waarbij klanten betrokken waren die besmet waren in de periode dat deze klant daar geweest is.
          */
         $builder = $this->repository->createQueryBuilder($this->alias)
             ->innerJoin("{$this->alias}.locatie", 'locatie', 'WITH', 'locatie IN (:locaties)')
