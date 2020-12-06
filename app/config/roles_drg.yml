@@ -33,6 +33,7 @@ security:
             - ROLE_INLOOP_VRIJWILLIGERS
         ROLE_MLO:
             - CONTROLLER_APP_KLANTEN
+            - CONTROLLER_APP_VRIJWILLIGERS
             - CONTROLLER_APP_ZRMS
             - ROLE_INLOOP_INTAKES
             - ROLE_INLOOP_REGISTRATIES
