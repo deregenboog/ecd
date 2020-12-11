@@ -50,10 +50,12 @@ class HuuraanbiedingenController extends SymfonyController
             ->leftJoin('klant.werkgebied', 'werkgebied')
             ->leftJoin('huuraanbod.afsluiting', 'afsluiting')
             ->leftJoin('huuraanbod.project', 'project')
-//            ->andWhere('huurovereenkomst.id IS NULL')
+            ->andWhere('huurovereenkomst.id IS NULL') //alleen actieve
+            ->andWhere('huuraanbod.afsluitdatum IS NULL OR huuraanbod.afsluitdatum > :now') // alleen actieve
 //            ->orWhere('huurovereenkomst.isReservering = 1')
             ->andWhere('afsluiting.tonen IS NULL OR afsluiting.tonen = true')
         ;
+        $builder->setParameter("now",new \DateTime('now'));
 
         $filter = $this->getForm(HuuraanbodFilterType::class);
 

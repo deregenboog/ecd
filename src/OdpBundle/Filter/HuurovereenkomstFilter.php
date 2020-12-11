@@ -44,7 +44,7 @@ class HuurovereenkomstFilter implements FilterInterface
     /**
      * @var bool
      */
-    public $actief;
+    public $actief = true;
 
     /**
      * @var bool
@@ -161,8 +161,8 @@ class HuurovereenkomstFilter implements FilterInterface
         {
             //INCLUDES reserveringen, not ONLY reserveringen.
             $builder
-                ->andWhere('huurovereenkomst.isReservering = 1 OR huurovereenkomst.isReservering IS NULL OR huurovereenkomst.isReservering = 0')
-//                ->orWhere('huurovereenkomst.isReservering = 0')
+                //->andWhere('huurovereenkomst.isReservering IS NULL OR huurovereenkomst.isReservering = 0')
+                ->orWhere('huurovereenkomst.isReservering = 1')
             ;
         }
 
