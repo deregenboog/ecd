@@ -61,11 +61,10 @@ class IntakeSubscriberTest extends TestCase
         $test = $this;
         $this->mailer->expects($this->once())
             ->method('send')
-            ->with($this->callback(function ($message) use ($test) {
+            ->with($this->callback(function (\Swift_Message $message) use ($test) {
                 return $message instanceof \Swift_Message
                     && $message->getTo() === [
                         $test->informeleZorgEmail => null,
-                        $test->inloophuisEmail => null,
                     ]
                 ;
             }))
