@@ -68,7 +68,7 @@ class HuurverzoekFilterType extends AbstractType
         if (array_key_exists('huurovereenkomst', $options['enabled_filters'])) {
             $builder->add('huurovereenkomst', HuurovereenkomstFilterType::class, [
                 'enabled_filters' => $options['enabled_filters']['huurovereenkomst'],
-                'empty_data' => ['isReservering' => true],
+                'empty_data' => ['isReservering' => false],
 
             ]);
         }

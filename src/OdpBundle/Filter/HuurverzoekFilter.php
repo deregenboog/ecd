@@ -104,8 +104,13 @@ class HuurverzoekFilter implements FilterInterface
         if ($this->actief) {
             $builder
                 ->andWhere('huurverzoek.afsluitdatum IS NULL OR huurverzoek.afsluitdatum > :now')
+                ->andWhere('huurovereenkomst.id IS NOT NULL')
                 ->setParameter('now', new \DateTime())
             ;
+        }
+        else {
+            $builder
+                ->andWhere('huurovereenkomst.id IS NULL');
         }
 
         if ($this->klant) {
