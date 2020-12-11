@@ -34,7 +34,7 @@ class HuuraanbodFilter implements FilterInterface
     /**
      * @var HuurovereenkomstFilter
      */
-    public $huurovereenkomst;
+    public $huurovereenkomst = true;
 
     /**
      * @var bool
@@ -60,11 +60,14 @@ class HuuraanbodFilter implements FilterInterface
     public function __construct()
     {
         $this->huurovereenkomst = new HuurovereenkomstFilter();
-//        $this->huurovereenkomst->isReservering = true;
+        $this->huurovereenkomst->isReservering = true;
     }
 
     public function applyTo(QueryBuilder $builder)
     {
+
+        $this->huurovereenkomst->applyTo($builder);
+
         if ($this->id) {
             $builder
                 ->andWhere('huuraanbod.id = :odp_klant_id')
@@ -104,24 +107,21 @@ class HuuraanbodFilter implements FilterInterface
         if($this->medewerker)
         {
             $builder
-
                 ->andWhere('huuraanbod.medewerker = :medewerker')
                 ->setParameter('medewerker',$this->medewerker);
         }
-        if ($this->actief === true) {
-            $builder
-                ->andWhere('huuraanbod.afsluitdatum IS NULL OR huuraanbod.afsluitdatum > :now')
-                ->andWhere('huurovereenkomst.id IS NOT NULL')
-                ->setParameter('now', new \DateTime())
-            ;
-        }
-        else {
-            $builder
-                ->andWhere('huurovereenkomst.id IS NULL');
-        }
-        if ($this->huurovereenkomst) {
-            $this->huurovereenkomst->applyTo($builder);
-        }
+
+//        if ($this->actief === true) {
+//            $builder
+//                ->andWhere('huuraanbod.afsluitdatum IS NULL OR huuraanbod.afsluitdatum > :now')
+////                ->andWhere('huurovereenkomst.id IS NULL')
+//                ->setParameter('now', new \DateTime())
+//            ;
+//        }
+//        else {
+//            $builder
+//                ->andWhere('huurovereenkomst.id IS NULL');
+//        }
 
         if ($this->klant) {
             $this->klant->applyTo($builder);

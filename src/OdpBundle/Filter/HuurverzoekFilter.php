@@ -52,6 +52,13 @@ class HuurverzoekFilter implements FilterInterface
      */
     public $project;
 
+    public function __construct()
+    {
+        $this->huurovereenkomst = new HuurovereenkomstFilter();
+        $this->huurovereenkomst->isReservering = true;
+    }
+
+
     public function applyTo(QueryBuilder $builder)
     {
         if ($this->id) {
@@ -101,17 +108,17 @@ class HuurverzoekFilter implements FilterInterface
             $this->huurovereenkomst->applyTo($builder);
         }
 
-        if ($this->actief) {
-            $builder
-                ->andWhere('huurverzoek.afsluitdatum IS NULL OR huurverzoek.afsluitdatum > :now')
-                ->andWhere('huurovereenkomst.id IS NOT NULL')
-                ->setParameter('now', new \DateTime())
-            ;
-        }
-        else {
-            $builder
-                ->andWhere('huurovereenkomst.id IS NULL');
-        }
+//        if ($this->actief) {
+//            $builder
+//                ->andWhere('huurverzoek.afsluitdatum IS NULL OR huurverzoek.afsluitdatum > :now')
+////                ->andWhere('huurovereenkomst.id IS NOT NULL')
+//                ->setParameter('now', new \DateTime())
+//            ;
+//        }
+//        else {
+//            $builder
+//                ->andWhere('huurovereenkomst.id IS NULL');
+//        }
 
         if ($this->klant) {
             $this->klant->applyTo($builder);

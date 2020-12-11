@@ -59,17 +59,17 @@ class HuuraanbodFilterType extends AbstractType
 //                },
             ]);
         }
-        if (in_array('actief', $options['enabled_filters'])) {
-            $builder->add('actief', CheckboxType::class, [
-                'required' => false,
-                'label' => 'Actieve huuraanbiedingen',
-                'data' => false,
-            ]);
-        }
+//        if (in_array('actief', $options['enabled_filters'])) {
+//            $builder->add('actief', CheckboxType::class, [
+//                'required' => false,
+//                'label' => 'Actieve huuraanbiedingen',
+//                'data' => false,
+//            ]);
+//        }
         if (array_key_exists('huurovereenkomst', $options['enabled_filters'])) {
             $builder->add('huurovereenkomst', HuurovereenkomstFilterType::class, [
                 'enabled_filters' => $options['enabled_filters']['huurovereenkomst'],
-                'empty_data' => ['isReservering' => false],
+                'empty_data' => ['isReservering' => true],
 
 
             ]);

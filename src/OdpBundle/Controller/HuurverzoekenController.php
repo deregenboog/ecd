@@ -49,10 +49,13 @@ class HuurverzoekenController extends SymfonyController
             ->innerJoin('huurder.klant', 'klant')
             ->leftJoin('klant.werkgebied', 'werkgebied')
             ->leftJoin('huurverzoek.afsluiting', 'afsluiting')
+            ->andWhere('huurovereenkomst.id IS NULL') //alleen actieve
+            ->andWhere('huurverzoek.afsluitdatum IS NULL OR huurverzoek.afsluitdatum > :now') // alleen actieve
 //            ->andWhere('huurovereenkomst.id IS NULL')
 //            ->orWhere('huurovereenkomst.isReservering = 1')
             ->andWhere('afsluiting.tonen IS NULL OR afsluiting.tonen = true')
         ;
+        $builder->setParameter("now",new \DateTime('now'));
 
         $filter = $this->getForm(HuurverzoekFilterType::class);
         $filter->handleRequest($this->getRequest());

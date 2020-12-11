@@ -47,13 +47,13 @@ class HuurverzoekFilterType extends AbstractType
             ]);
         }
 
-        if (in_array('actief', $options['enabled_filters'])) {
-            $builder->add('actief', CheckboxType::class, [
-                'required' => false,
-                'label' => 'Actieve huurverzoeken',
-                'data' => false,
-            ]);
-        }
+//        if (in_array('actief', $options['enabled_filters'])) {
+//            $builder->add('actief', CheckboxType::class, [
+//                'required' => false,
+//                'label' => 'Actieve huurverzoeken',
+//                'data' => false,
+//            ]);
+//        }
         if (in_array('medewerker', $options['enabled_filters'])) {
             $builder->add('medewerker', \OdpBundle\Form\MedewerkerType::class, [
                 'required' => false,
@@ -68,7 +68,7 @@ class HuurverzoekFilterType extends AbstractType
         if (array_key_exists('huurovereenkomst', $options['enabled_filters'])) {
             $builder->add('huurovereenkomst', HuurovereenkomstFilterType::class, [
                 'enabled_filters' => $options['enabled_filters']['huurovereenkomst'],
-                'empty_data' => ['isReservering' => false],
+                'empty_data' => ['isReservering' => true],
 
             ]);
         }

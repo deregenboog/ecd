@@ -93,7 +93,7 @@ class HuurovereenkomstFilterType extends AbstractType
             $builder->add('actief', CheckboxType::class, [
                 'required' => false,
                 'label' => 'Actieve koppelingen',
-                'data' => false,
+                'data' => true,
             ]);
         }
         if (in_array('opzegbriefVerstuurd', $options['enabled_filters'])) {
