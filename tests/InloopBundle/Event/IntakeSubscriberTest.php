@@ -104,7 +104,7 @@ class IntakeSubscriberTest extends TestCase
                     'intake' => $intake->getId(),
                     'to' => [
                         $this->dagbestedingEmail,
-                        $this->hulpverleningEmail,
+                        $this->inloophuisEmail,
                     ],
                 ])
             )
