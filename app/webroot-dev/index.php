@@ -9,6 +9,19 @@ use Symfony\Component\HttpFoundation\Request;
 //umask(0000);
 umask(0002);
 
+//force https
+$forceHttps = false;
+if ($forceHttps === true && !(isset($_SERVER['HTTPS']) && ($_SERVER['HTTPS'] == 'on' ||
+        $_SERVER['HTTPS'] == 1) ||
+    isset($_SERVER['HTTP_X_FORWARDED_PROTO']) &&
+    $_SERVER['HTTP_X_FORWARDED_PROTO'] == 'https'))
+{
+    $redirect = 'https://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+    header('HTTP/1.1 301 Moved Permanently');
+    header('Location: ' . $redirect);
+    exit();
+}
+
 // This check prevents access to debug front controllers that are deployed by accident to production servers.
 // Feel free to remove this, extend it, or make something more sophisticated.
 if (isset($_SERVER['HTTP_CLIENT_IP'])
