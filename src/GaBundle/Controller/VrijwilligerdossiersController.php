@@ -67,7 +67,7 @@ class VrijwilligerdossiersController extends DossiersController
         return sprintf('groepsactiviteiten-vrijwilligers-%s.xls', (new \DateTime())->format('d-m-Y'));
     }
 
-    private function doSearch(Request $request)
+    protected function doSearch(Request $request)
     {
         $form = $this->getForm(VrijwilligerFilterType::class, null, [
             'enabled_filters' => ['id', 'naam', 'bsn', 'geboortedatum'],

@@ -20,3 +20,4 @@ class Afsluitreden
 {
     use IdentifiableTrait, NameableTrait, ActivatableTrait, TimestampableTrait, NotDeletableTrait;
 }
+

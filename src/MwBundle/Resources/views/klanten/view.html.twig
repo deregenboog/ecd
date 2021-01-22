@@ -132,7 +132,7 @@
         <div id="schorsingen" class="tab-pane">
             <h2>Huidige schorsingen <small>({{ entity.huidigeSchorsingen|length }} schorsingen)</small></h2>
             <p>
-                {{ html.link('Schorsing toevoegen', path('inloop_schorsingen_add', {'klant': entity.id}), 'add') }}
+                {{ html.link('Schorsing toevoegen', path('inloop_opmerkingen_add', {'klant': entity.id}), 'add') }}
             </p>
             {% if 0 == entity.huidigeSchorsingen|length %}
                 <p>Deze persoon is op dit moment niet geschorst.</p>

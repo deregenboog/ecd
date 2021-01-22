@@ -1,12 +1,12 @@
 <?php
 
-namespace InloopBundle\Service;
+namespace MwBundle\Service;
 
 use AppBundle\Filter\FilterInterface;
-use InloopBundle\Entity\Memo;
 use Knp\Component\Pager\Pagination\PaginationInterface;
+use MwBundle\Entity\Deelname;
 
-interface MemoDaoInterface
+interface DeelnameDaoInterface
 {
     /**
      * @param int $page
@@ -18,22 +18,22 @@ interface MemoDaoInterface
     /**
      * @param int $id
      *
-     * @return Memo
+     * @return Deelname
      */
     public function find($id);
 
     /**
-     * @param Memo $memo
+     * @param Deelname $entity
      */
-    public function create(Memo $memo);
+    public function create(Deelname $entity);
 
     /**
-     * @param Memo $memo
+     * @param Deelname $entity
      */
-    public function update(Memo $memo);
+    public function update(Deelname $entity);
 
     /**
-     * @param Memo $memo
+     * @param Deelname $entity
      */
-    public function delete(Memo $memo);
+    public function delete(Deelname $entity);
 }

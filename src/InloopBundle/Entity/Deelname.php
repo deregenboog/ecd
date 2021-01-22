@@ -7,12 +7,12 @@ use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
+ * deze class regelt de koppeling tussen vrijwilligers en trainingen
  * @ORM\Entity
  * @ORM\Table(name="inloop_deelnames")
  * @ORM\HasLifecycleCallbacks
  * @Gedmo\Loggable
  *
- * deze class regelt de koppeling tussen vrijwilligers en trainingen
  */
 class Deelname
 {

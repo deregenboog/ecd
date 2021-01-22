@@ -21,7 +21,7 @@ class DocumentenController extends AbstractChildController
     protected $entityClass = Document::class;
     protected $formClass = DocumentType::class;
     protected $addMethod = 'addDocument';
-    protected $baseRouteName = 'dagbesteding_documenten_';
+    protected $baseRouteName = 'app_documenten_';
 
     /**
      * @var DocumentDaoInterface

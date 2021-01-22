@@ -53,8 +53,8 @@
                     {{ form_errors(filter.filterOpActiefAlleen) }}
                 </th>
                 <th>
-                    {{ form_widget(filter.locatie) }}
-                    {{ form_errors(filter.locatie) }}
+                    {{ form_widget(filter.locaties) }}
+                    {{ form_errors(filter.locaties) }}
                 </th>
                 <th>
                     {{ form_widget(filter.vrijwilliger.stadsdeel) }}
@@ -79,7 +79,7 @@
                 Actief
             </th>
             <th>
-                {{ knp_pagination_sortable(pagination, 'Locatie', 'locatie.naam') }}
+                {{ knp_pagination_sortable(pagination, 'Locaties', 'locatie.naam') }}
             </th>
             <th>
                 {{ knp_pagination_sortable(pagination, 'Stadsdeel', 'werkgebied.naam') }}

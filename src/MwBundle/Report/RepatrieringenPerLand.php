@@ -6,7 +6,7 @@ use AppBundle\Entity\Klant;
 use AppBundle\Report\AbstractReport;
 use AppBundle\Report\Table;
 use Doctrine\ORM\EntityManager;
-use InloopBundle\Entity\Afsluiting;
+use MwBundle\Entity\Afsluiting;
 
 class RepatrieringenPerLand extends AbstractReport
 {

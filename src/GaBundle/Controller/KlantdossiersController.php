@@ -69,7 +69,7 @@ class KlantdossiersController extends DossiersController
         return sprintf('groepsactiviteiten-deelnemers-%s.xls', (new \DateTime())->format('d-m-Y'));
     }
 
-    private function doSearch(Request $request)
+    protected function doSearch(Request $request)
     {
         $form = $this->getForm(KlantFilterType::class, null, [
             'enabled_filters' => ['id', 'naam', 'bsn', 'geboortedatum'],

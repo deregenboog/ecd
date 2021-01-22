@@ -9,7 +9,7 @@ use AppBundle\Event\Events;
 use AppBundle\Export\ExportInterface;
 
 use Doctrine\ORM\EntityNotFoundException;
-use InloopBundle\Service\KlantDaoInterface;
+use MwBundle\Service\KlantDaoInterface;
 use JMS\DiExtraBundle\Annotation as DI;
 use MwBundle\Entity\Verslag;
 use MwBundle\Entity\Aanmelding;

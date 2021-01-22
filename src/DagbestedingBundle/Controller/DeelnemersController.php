@@ -66,7 +66,7 @@ class DeelnemersController extends AbstractController
         return $this->doSearch($request);
     }
 
-    private function doSearch(Request $request)
+    protected function doSearch(Request $request)
     {
         $filterForm = $this->getForm(KlantFilterType::class, null, [
             'enabled_filters' => ['id', 'naam', 'bsn', 'geboortedatum'],

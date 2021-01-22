@@ -2,7 +2,7 @@
 {% import '::html.macro.twig' as html %}
 
 {% block title %}
-    {{ title }}
+    Klanten | {{ title }}
 {% endblock %}
 
 {% block subnavigation %}
@@ -10,100 +10,43 @@
 {% endblock %}
 
 {% block content_top %}
-    <h1>{{ entity_name|capitalize }} toevoegen</h1>
-    <p>
-        {{ html.cancelLink(path(route_base~'index')) }}
-        {{ html.link('Annuleren', path(route_base~'index')) }}
-    </p>
+    <h1>{{ entity_name|capitalize }} Zoeken</h1>
 {% endblock %}
 
 {% block content %}
-    {{ form_start(form) }}
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-xs-6">
-                    <h2>Persoonsgegevens</h2>
-                    {{ form_row(form.voornaam) }}
-                    {{ form_row(form.tussenvoegsel) }}
-                    {{ form_row(form.achternaam) }}
-                    {{ form_row(form.roepnaam) }}
-                    {{ form_row(form.geslacht) }}
-                    {{ form_row(form.geboortedatum) }}
-                    {{ form_row(form.land) }}
-                    {{ form_row(form.nationaliteit) }}
-                    {%  if form.laatste_TBC_controle is defined %}
-                        {{ form_row(form.laatste_TBC_controle) }}
-                    {% endif %}
-                    {{ form_row(form.bsn) }}
-                    {{ form_row(form.coronaBesmetVanaf) }}
-                    {{ form_row(form.overleden) }}
-                </div>
-                <div class="col-xs-6">
-                    <h2>Contactgegevens</h2>
-                    {{ form_row(form.adres) }}
-                    {{ form_row(form.postcode) }}
-                    {{ form_row(form.plaats) }}
-                    {{ form_row(form.email) }}
-                    {{ form_row(form.telefoon) }}
-                    {{ form_row(form.mobiel) }}
-                    {{ form_row(form.geenPost) }}
-                    {{ form_row(form.geenEmail) }}
-
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-xs-6">
-                    <h2>Opmerking</h2>
-                    {{ form_row(form.opmerking) }}
-                </div>
-                <div class="col-xs-6">
-                    <h2>Medewerker</h2>
-                    {{ form_row(form.medewerker) }}
-                    <span class="pull-right">
-                        {{ form_row(form.submit) }}
-                    </span>
-                </div>
-            </div>
-        </div>
-    {{ form_end(form) }}
-{% endblock %}
-{% block scripts %}
-    {% if tbc_countries is defined %}
-        <script>
-            $(function(){
-
-                var tbc_countries = [];
-                {% for country in tbc_countries %}
-                tbc_countries.push("{{ country }}");
-                {% endfor %}
-
-                var checkTbc = function(tbc_countries,selectedCountry,laatsteTbcControle){
-                    // console.log(tbc_countries,selectedCountry,laatsteTbcControle);
-                    if(jQuery.inArray(selectedCountry,tbc_countries) !== -1 )
-                    {
-                        if(laatsteTbcControle == "")
-                        {
-                            alert("Klant uit risicoland voor TBC besmetting. Naar GGD sturen voor TBC controle.");
-                        }
-
-                        $('#klant_laatste_TBC_controle').removeClass("hidden");
-                        $("label[for='klant_laatste_TBC_controle']").removeClass("hidden");
-
-                    }
-                    else {
-                        $('#klant_laatste_TBC_controle').addClass("hidden");
-                        $("label[for='klant_laatste_TBC_controle']").addClass("hidden");
-
-                    }
-                };
-
-                $('select#klant_land').change({'tbc_countries':tbc_countries},function(event){
-                    checkTbc(event.data.tbc_countries,$(this).find("option:selected").text(),$('#klant_laatste_TBC_controle').val() );
-                });
-
-                checkTbc(tbc_countries,$("#klant_land option:selected").text(),$('#klant_laatste_TBC_controle').val());
-            });
-
-        </script>
+    {% if zoekresultaten is defined and filterForm.vars.errors|length == 0 %}
+        <p> {{ klant }}
+            Selecteer de gewenste {{ entity_name }} in onderstaande lijst of klik op
+            "Nieuwe {{ entity_name }}" als deze niet in de lijst voorkomt.
+        </p>
+        <p>
+            {{ html.link('Nieuwe '~entity_name, path('inloop_klanten_add', {klant: 'new'}), 'plus') }}
+        </p>
+        <table class="table table-hover">
+            <thead>
+            <tr>
+                <th>#</th>
+                <th>Naam</th>
+                <th>BSN</th>
+                <th>Geboortedatum</th>
+            </tr>
+            </thead>
+            {% for entity in zoekresultaten %}
+                <tr data-href="{{ path('app_klanten_addpartner', {'klant': klant,'partner':entity.id,'redirect':redirect}) }}">
+                    <td>{{ entity.id }}</td>
+                    <td>{{ entity }}</td>
+                    <td>{{ entity.bsn }}</td>
+                    <td>{{ entity.geboortedatum ? entity.geboortedatum|date('d-m-Y') }}</td>
+                </tr>
+            {% endfor %}
+        </table>
+    {% elseif filterForm is defined %}
+        <p>Zoek een bestaande {{ entity_name }} op naam, BSN of geboortedatum.</p>
+        {{ form(filterForm) }}
     {% endif %}
+
+{% endblock %}
+
+{% block scripts %}
+
 {% endblock %}

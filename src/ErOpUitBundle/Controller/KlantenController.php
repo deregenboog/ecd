@@ -90,7 +90,7 @@ class KlantenController extends AbstractController
         return $this->processForm($request, $entity);
     }
 
-    private function doSearch(Request $request)
+    protected function doSearch(Request $request)
     {
         $filterForm = $this->getForm(AppKlantFilterType::class, null, [
             'enabled_filters' => ['naam', 'bsn', 'geboortedatum'],

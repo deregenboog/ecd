@@ -6,7 +6,7 @@ use AppBundle\Doctrine\SqlExtractor;
 use AppBundle\Entity\Klant;
 use AppBundle\Filter\FilterInterface;
 use AppBundle\Service\AbstractDao;
-use InloopBundle\Entity\Aanmelding;
+use MwBundle\Entity\Aanmelding;
 
 class KlantDao extends AbstractDao implements KlantDaoInterface
 {

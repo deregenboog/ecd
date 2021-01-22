@@ -4,10 +4,10 @@ namespace InloopBundle\Controller;
 
 use AppBundle\Controller\AbstractChildController;
 use InloopBundle\Entity\Deelname;
-use InloopBundle\Entity\Memo;
+use AppBundle\Entity\Memo;
 use InloopBundle\Form\DeelnameType;
-use InloopBundle\Form\MemoType;
-use InloopBundle\Service\MemoDaoInterface;
+use AppBundle\Form\MemoType;
+use AppBundle\Service\MemoDaoInterface;
 use JMS\DiExtraBundle\Annotation as DI;
 use Symfony\Component\Routing\Annotation\Route;
 use InloopBundle\Service\DeelnameDaoInterface;

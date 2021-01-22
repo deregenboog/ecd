@@ -273,13 +273,14 @@ abstract class AbstractController extends SymfonyController
         ];
     }
 
-    private function doSearch(Request $request)
+    protected function doSearch(Request $request)
     {
         if(!isset($this->searchFilterTypeClass)) return;
         $filterForm = $this->getForm($this->searchFilterTypeClass, null, [
             'enabled_filters' => ['id', 'naam', 'bsn', 'geboortedatum'],
         ]);
         $filterForm->handleRequest($request);
+
 
         if ($filterForm->isSubmitted() && $filterForm->isValid()) {
             $count = (int) $this->searchDao->countAll($filterForm->getData());
