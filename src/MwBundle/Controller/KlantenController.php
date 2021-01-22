@@ -15,7 +15,7 @@ use MwBundle\Entity\Aanmelding;
 use MwBundle\Entity\Afsluiting;
 use MwBundle\Form\AanmeldingType;
 use MwBundle\Form\AfsluitingType;
-use InloopBundle\Form\KlantType;
+use MwBundle\Form\KlantType;
 use JMS\DiExtraBundle\Annotation as DI;
 use MwBundle\Entity\Document;
 use MwBundle\Entity\Info;
@@ -38,6 +38,7 @@ class KlantenController extends AbstractController
     protected $formClass = KlantType::class;
     protected $filterFormClass = KlantFilterType::class;
     protected $baseRouteName = 'mw_klanten_';
+    protected $searchFilterTypeClass = AppKlantFilterType::class;
 
     /**
      * @var KlantDaoInterface
@@ -162,7 +163,7 @@ class KlantenController extends AbstractController
         ;
     }
 
-    private function doSearch(Request $request)
+    protected function doSearch(Request $request)
     {
         $filterForm = $this->getForm(AppKlantFilterType::class, null, [
             'enabled_filters' => ['id', 'naam', 'bsn', 'geboortedatum'],
@@ -190,6 +191,16 @@ class KlantenController extends AbstractController
         return [
             'filterForm' => $filterForm->createView(),
         ];
+    }
+
+    /**
+     * @Route("/{klant}/addPartner")
+     * @param Request $request
+     * @param $klant
+     */
+    protected function addPartnerAction(Request $request, $klant)
+    {
+
     }
 
     protected function doAdd(Request $request)

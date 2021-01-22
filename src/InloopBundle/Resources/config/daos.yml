@@ -39,9 +39,6 @@ services:
     InloopBundle\Service\LocatietijdDao:
         parent: inloop.dao
 
-    InloopBundle\Service\MemoDao:
-        parent: inloop.dao
-
     InloopBundle\Service\OpmerkingDao:
         parent: inloop.dao
 

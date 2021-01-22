@@ -203,6 +203,17 @@ class Klant extends Persoon
     /**
      * @return bool
      */
+
+    /**
+     * @var Klant
+     *
+     * @ORM\OneToOne(targetEntity="AppBundle\Entity\Klant", cascade={"persist"})
+     * @ORM\JoinColumn(nullable=true)
+     * @Gedmo\Versioned
+     */
+    protected $partner;
+
+
     public function isDoorverwijzenNaarAmoc()
     {
         return $this->doorverwijzenNaarAmoc;
@@ -618,6 +629,23 @@ class Klant extends Persoon
     }
 
 
+    /**
+     * @return Klant
+     */
+    public function getPartner()
+    {
+        return $this->partner;
+    }
+
+    /**
+     * @param Klant $partner
+     * @return Persoon
+     */
+    public function setPartner($partner)
+    {
+        $this->partner = $partner;
+        return $this;
+    }
 
 
 }

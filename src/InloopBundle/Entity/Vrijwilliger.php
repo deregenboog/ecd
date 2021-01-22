@@ -21,6 +21,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
  * @ORM\HasLifecycleCallbacks
  * @Gedmo\Loggable
  */
+
 class Vrijwilliger implements MemoSubjectInterface, DocumentSubjectInterface
 {
     use IdentifiableTrait, TimestampableTrait, RequiredMedewerkerTrait, MemoSubjectTrait, DocumentSubjectTrait;
@@ -41,12 +42,12 @@ class Vrijwilliger implements MemoSubjectInterface, DocumentSubjectInterface
      */
     protected $locaties;
 
-    /**
-     * @var Locatie
-     *
-     * @ORM\ManyToOne(targetEntity="Locatie")
-     */
-    protected $locatie;
+//    /**
+//     * @var Locatie
+//     *
+//     * @ORM\ManyToOne(targetEntity="Locatie")
+//     */
+//    protected $locatie;
 
     /**
      * @var BinnenVia

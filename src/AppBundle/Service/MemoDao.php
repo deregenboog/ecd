@@ -1,10 +1,10 @@
 <?php
 
-namespace InloopBundle\Service;
+namespace AppBundle\Service;
 
 use AppBundle\Filter\FilterInterface;
 use AppBundle\Service\AbstractDao;
-use InloopBundle\Entity\Memo;
+use AppBundle\Entity\Memo;
 
 class MemoDao extends AbstractDao implements MemoDaoInterface
 {

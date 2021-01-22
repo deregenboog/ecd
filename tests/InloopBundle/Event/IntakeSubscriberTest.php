@@ -104,7 +104,7 @@ class IntakeSubscriberTest extends TestCase
                     'intake' => $intake->getId(),
                     'to' => [
                         $this->dagbestedingEmail,
-                        $this->inloophuisEmail,
+                        $this->hulpverleningEmail,
                     ],
                 ])
             )
@@ -117,7 +117,8 @@ class IntakeSubscriberTest extends TestCase
     public function testEmailFailureIsLoggedAtErrorLevel()
     {
         $intake = new Intake(new Klant());
-        $intake->setDagbesteding(true)->setHulpverlening(true);
+        $intake->setDagbesteding(true)->setHulpverlening(true)->setInloophuis((false));
+
 
         $this->mailer->expects($this->once())
             ->method('send')
@@ -152,7 +153,6 @@ class IntakeSubscriberTest extends TestCase
             $this->accessUpdater,
             $this->informeleZorgEmail,
             $this->dagbestedingEmail,
-            $this->inloophuisEmail,
             $this->hulpverleningEmail
         );
     }

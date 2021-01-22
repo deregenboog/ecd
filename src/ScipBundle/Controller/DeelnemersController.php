@@ -119,7 +119,7 @@ class DeelnemersController extends AbstractController
         return parent::deleteAction($request, $id);
     }
 
-    private function doSearch(Request $request)
+    protected function doSearch(Request $request)
     {
         $filterForm = $this->getForm(KlantFilterType::class, null, [
             'enabled_filters' => ['id', 'naam', 'bsn', 'geboortedatum'],

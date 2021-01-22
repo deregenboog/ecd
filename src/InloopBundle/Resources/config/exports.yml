@@ -28,6 +28,7 @@ services:
                 Medewerker Intake: { expression: 'entity.getMedewerker()' }
                 Medewerker Locatie: { expression: 'entity.getMedewerkerLocatie()' }
                 Binnengekomen via: { expression: 'entity.getBinnenVia()' }
+                Locaties: { expression: 'entity.getLocaties()' }
                 VOG aangevraagd: { expression: 'entity.getVrijwilliger().getVogAangevraagd()' }
                 VOG aanwezig: { expression: 'entity.getVrijwilliger().getVogAanwezig()' }
                 Overeenkomst aanwezig: { expression: 'entity.getVrijwilliger().getOvereenkomstAanwezig()' }

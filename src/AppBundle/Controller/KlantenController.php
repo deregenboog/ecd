@@ -29,6 +29,15 @@ class KlantenController extends AbstractController
     protected $formClass = KlantType::class;
     protected $filterFormClass = KlantFilterType::class;
     protected $baseRouteName = 'app_klanten_';
+    protected $searchFilterTypeClass = KlantFilterType::class;
+    protected $searchEntity = Klant::class;
+
+
+    /**
+     * @var KlantDaoInterface
+     * @DI\Inject("AppBundle\Service\KlantDao")
+     */
+    protected $searchDao;
 
     /**
      * @var KlantDaoInterface
@@ -146,5 +155,54 @@ class KlantenController extends AbstractController
             'diensten' => $event->getDiensten(),
             'tbc_countries' => $this->container->getParameter('tbc_countries')
         ];
+    }
+
+
+    /**
+     * @Route("/{klant}/addPartner")
+     * @param Klant $klant
+     *
+     */
+    public function addPartnerAction(Request $request, $klant)
+    {
+        if ($request->get('partner')) {
+            return $this->doAddPartner($request, $klant);
+        }
+
+        $redirect = $request->get('redirect');
+        $ret =  $this->doSearch($request, $klant);
+        $ret['klant'] = $klant;
+        $ret['redirect'] = $redirect;
+
+        return $ret;
+    }
+
+    protected function doAddPartner($request, $klant)
+    {
+        $klant = $this->dao->find($klant);
+        $partnerId = $request->get('partner');
+        if ($partnerId !== 'remove') {
+
+            $partner = $this->dao->find($partnerId);
+            $klant->setPartner($partner);
+            $partner->setPartner($klant);// wederkerig
+
+            $this->addFlash("info",sprintf("Partner (%s) gekoppeld aan klant (%s) en vice versa",$partner,$klant));
+        } else if ($partnerId == 'remove')
+        {
+            $partner = $klant->getPartner();
+            $klant->setPartner(null);
+            $partner->setPartner(null);//wederkerig
+
+            $this->addFlash("info",sprintf("Partner is verwijderd van klant (%s) en vice versa",$klant));
+        }
+
+        $this->dao->update($klant);
+        if($request->get('redirect'))
+        {
+            return $this->redirect($request->get('redirect'));
+        }
+        return $this->redirectToView($klant);
+
     }
 }

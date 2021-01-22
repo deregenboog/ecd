@@ -19,6 +19,9 @@ services:
     AppBundle\Service\MedewerkerDao:
         parent: app.dao.abstract
 
+    AppBundle\Service\MemoDao:
+        parent: app.dao.abstract
+
     AppBundle\Service\PostcodeDao:
         parent: app.dao.abstract
 

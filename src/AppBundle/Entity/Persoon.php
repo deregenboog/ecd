@@ -7,6 +7,7 @@ use AppBundle\Model\PersonTrait;
 use AppBundle\Model\TimestampableTrait;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
+use InloopBundle\Entity\DossierStatus;
 
 /**
  * @ORM\MappedSuperclass
@@ -85,6 +86,7 @@ class Persoon
      * @Gedmo\Versioned
      */
     protected $disabled = false;
+
 
     public function getId()
     {
@@ -206,4 +208,7 @@ class Persoon
     {
         return true;
     }
+
+
+
 }

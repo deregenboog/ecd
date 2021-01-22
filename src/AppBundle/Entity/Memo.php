@@ -1,6 +1,6 @@
 <?php
 
-namespace InloopBundle\Entity;
+namespace AppBundle\Entity;
 
 use AppBundle\Entity\Medewerker;
 use AppBundle\Model\MemoInterface;

@@ -18,6 +18,7 @@ class DocumentenController extends AbstractChildController
     protected $entityName = 'document';
     protected $entityClass = Document::class;
     protected $formClass = DocumentType::class;
+    protected $addMethod = 'addDocument';
     protected $baseRouteName = 'mw_documenten_';
     protected $allowEmpty = true;
     protected $disabledActions = ['index', 'edit'];
@@ -48,13 +49,13 @@ class DocumentenController extends AbstractChildController
         return $downloadHandler->downloadObject($document, 'file');
     }
 
-    protected function createEntity($parentEntity = null)
-    {
-        return new Document($parentEntity, $this->getMedewerker());
-    }
-
-    protected function persistEntity($entity, $parentEntity)
-    {
-        $this->dao->create($entity);
-    }
+//    protected function createEntity($parentEntity = null)
+//    {
+//        return new Document($parentEntity, $this->getMedewerker());
+//    }
+//
+//    protected function persistEntity($entity, $parentEntity)
+//    {
+//        $this->dao->create($entity);
+//    }
 }

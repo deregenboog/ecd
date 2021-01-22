@@ -9,7 +9,7 @@ trait MemoSubjectTrait
     /**
      * @var MemoInterface[]
      *
-     * @ORM\ManyToMany(targetEntity="Memo", cascade={"persist"})
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Memo", cascade={"persist"})
      * @ORM\JoinTable(inverseJoinColumns={@ORM\JoinColumn(unique=true)})
      * @ORM\OrderBy({"datum": "desc", "id": "desc"})
      */

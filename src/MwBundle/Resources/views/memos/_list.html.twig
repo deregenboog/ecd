@@ -1,0 +1,38 @@
+{% import '::html.macro.twig' as html %}
+
+{% if vrijwilliger is defined %}
+    {% set entity = vrijwilliger %}
+    {% set url = path('mw_memos_add', {vrijwilliger: entity.id}) %}
+{% endif %}
+
+<h2>Memo's</h2>
+{% if url is defined %}
+    <p>
+        {{ html.addLink(url) }}
+        {{ html.link('Memo toevoegen', url) }}
+    </p>
+{% endif %}
+<table class="table table-hover">
+    <tr>
+        <th>Onderwerp</th>
+        <th>Memo</th>
+        <th>Datum</th>
+        <th>Medewerker</th>
+        <th>&nbsp;</th>
+    </tr>
+    {% for memo in entity.memos %}
+        <tr>
+            <td>{{ memo.onderwerp }}</td>
+            <td>{{ memo.memo|nl2br }}</td>
+            <td>{{ memo.datum|date('d-m-Y') }}</td>
+            <td>{{ memo.medewerker }}</td>
+            <td>
+                {{ html.editLink(path('mw_memos_edit', {id: memo.id})) }}
+                {% if vrijwilliger is defined %}
+                    {% set url = path('mw_memos_delete', {id: memo.id, vrijwilliger: entity.id}) %}
+                {% endif %}
+                {{ html.deleteLink(url) }}
+            </td>
+        </tr>
+    {% endfor %}
+</table>

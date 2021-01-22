@@ -2,30 +2,23 @@
 
 namespace InloopBundle\Controller;
 
-use AppBundle\Controller\AbstractChildController;
-use InloopBundle\Entity\Memo;
-use InloopBundle\Form\MemoType;
-use InloopBundle\Service\MemoDaoInterface;
+
+
+use AppBundle\Controller\MemosControllerAbstract;
+use AppBundle\Service\MemoDaoInterface;
 use JMS\DiExtraBundle\Annotation as DI;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * @Route("/memos")
  */
-class MemosController extends AbstractChildController
+class MemosController extends MemosControllerAbstract
 {
-    protected $title = 'Memo\'s';
-    protected $entityName = 'memo';
-    protected $entityClass = Memo::class;
-    protected $formClass = MemoType::class;
-    protected $addMethod = 'addMemo';
-    protected $deleteMethod = 'removeMemo';
-    protected $baseRouteName = 'inloop_memos_';
 
     /**
      * @var MemoDaoInterface
      *
-     * @DI\Inject("InloopBundle\Service\MemoDao")
+     * @DI\Inject("AppBundle\Service\MemoDao")
      */
     protected $dao;
 

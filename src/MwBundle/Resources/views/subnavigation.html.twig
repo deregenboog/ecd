@@ -6,6 +6,7 @@
 </ol>
 <ul class="nav nav-tabs">
     {{ html.navLink('Klanten', path('mw_klanten_index'), isActiveRoute('mw_klanten_')) }}
+    {{ html.navLink('Vrijwilligers', path('mw_vrijwilligers_index'), isActiveRoute('mw_vrijwilligers_')) }}
     {{ html.navLink('Rapportages', path('mw_rapportages_index'), isActiveRoute('mw_rapportages_')) }}
     {% if is_granted('ROLE_ADMIN') %}
         <li role="presentation" class="dropdown {{ isActivePath('mw/admin') ? 'active' }}">
@@ -15,6 +16,9 @@
             <ul class="dropdown-menu">
                 {{ html.navLink('Doorverwijzingen', path('mw_doorverwijzingen_index'), isActiveRoute('mw_doorverwijzingen_')) }}
                 {{ html.navLink('Trajecthouders', path('mw_trajecthouders_index'), isActiveRoute('mw_trajecthouders_')) }}
+                {{ html.navLink('Afsluitredenen vrijwilligers', path('mw_afsluitredenenvrijwilligers_index'), isActiveRoute('mw_afsluitredenenvrijwilligers_')) }}
+                {{ html.navLink('Binnen via-opties', path('mw_binnenvia_index'), isActiveRoute('mw_binnenvia_')) }}
+                {{ html.navLink('Inloop locaties', path('inloop_locaties_index'), isActiveRoute('inloop_locaties_')) }}
             </ul>
         </li>
     {% endif %}

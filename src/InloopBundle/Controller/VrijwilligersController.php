@@ -21,7 +21,7 @@ use Symfony\Component\Routing\Annotation\Route;
  * @Route("/vrijwilligers")
  * @Template
  */
-class VrijwilligersController extends AbstractController
+class VrijwilligersController extends VrijwilligersControllerAbstract
 {
     protected $title = 'Vrijwilligers';
     protected $entityName = 'vrijwilliger';
@@ -49,124 +49,7 @@ class VrijwilligersController extends AbstractController
      *
      * @DI\Inject("AppBundle\Service\VrijwilligerDao")
      */
-    private $vrijwilligerDao;
-
-    /**
-     * @Route("/add")
-     */
-    public function addAction(Request $request)
-    {
-        if ($request->get('vrijwilliger')) {
-            return $this->doAdd($request);
-        }
-
-        return $this->doSearch($request);
-    }
-
-    /**
-     * @Route("/close/{id}")
-     */
-    public function closeAction(Request $request, $id)
-    {
-        $this->formClass = VrijwilligerCloseType::class;
-
-        $entity = $this->dao->find($id);
-        $entity->setAfsluitdatum(new \DateTime());
-
-        return $this->processForm($request, $entity);
-    }
-
-    /**
-     * @Route("/open/{id}")
-     */
-    public function openAction(Request $request, $id)
-    {
-//        $this->formClass = VrijwilligerCloseType::class;
-
-        $entity = $this->dao->find($id);
-        $entity->setAfsluitdatum(null);
-        $entity->setAfsluitreden(null);
-
-        $this->dao->update($entity);
-        return $this->redirectToRoute($this->baseRouteName.'view', ['id' => $id]);
-
-    }
+    protected $vrijwilligerDao;
 
 
-    protected function getDownloadFilename()
-    {
-        return sprintf('inloopvrijwilligers-%s.xlsx', (new \DateTime())->format('d-m-Y'));
-    }
-
-    private function doSearch(Request $request)
-    {
-        $filterForm = $this->getForm(AppVrijwilligerFilterType::class, null, [
-            'enabled_filters' => ['id', 'naam', 'bsn', 'geboortedatum'],
-        ]);
-        $filterForm->handleRequest($request);
-
-        if ($filterForm->isSubmitted() && $filterForm->isValid()) {
-            $count = (int) $this->vrijwilligerDao->countAll($filterForm->getData());
-            if (0 === $count) {
-                $this->addFlash('info', sprintf('De zoekopdracht leverde geen resultaten op. Maak een nieuwe %s aan.', $this->entityName));
-
-                return $this->redirectToRoute($this->baseRouteName.'add', ['vrijwilliger' => 'new']);
-            }
-
-            if ($count > 100) {
-                $filterForm->addError(new FormError('De zoekopdracht leverde teveel resultaten op. Probeer het opnieuw met een specifiekere zoekopdracht.'));
-
-                return [
-                    'filterForm' => $filterForm->createView(),
-                ];
-            }
-
-            return [
-                'filterForm' => $filterForm->createView(),
-                'vrijwilligers' => $this->vrijwilligerDao->findAll(null, $filterForm->getData()),
-            ];
-        }
-
-        return [
-            'filterForm' => $filterForm->createView(),
-        ];
-    }
-
-    protected function doAdd(Request $request)
-    {
-        $vrijwilligerId = $request->get('vrijwilliger');
-        if ('new' === $vrijwilligerId) {
-            $appVrijwilliger = new AppVrijwilliger();
-        } else {
-            $appVrijwilliger = $this->getEntityManager()->find(AppVrijwilliger::class, $vrijwilligerId);
-        }
-
-        // redirect if already exists
-        $vrijwilliger = $this->dao->findOneByVrijwilliger($appVrijwilliger);
-        if ($vrijwilliger) {
-            return $this->redirectToView($vrijwilliger);
-        }
-
-        $vrijwilliger = new Vrijwilliger($appVrijwilliger);
-        $creationForm = $this->getForm(VrijwilligerType::class, $vrijwilliger);
-        $creationForm->handleRequest($request);
-
-        if ($creationForm->isSubmitted() && $creationForm->isValid()) {
-            try {
-                $this->dao->create($vrijwilliger);
-                $this->addFlash('success', ucfirst($this->entityName).' is opgeslagen.');
-
-                return $this->redirectToRoute('inloop_vrijwilligers_view', ['id' => $vrijwilliger->getId()]);
-            } catch (\Exception $e) {
-                $message = $this->container->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
-                $this->addFlash('danger', $message);
-            }
-
-            return $this->redirectToIndex();
-        }
-
-        return [
-            'creationForm' => $creationForm->createView(),
-        ];
-    }
 }

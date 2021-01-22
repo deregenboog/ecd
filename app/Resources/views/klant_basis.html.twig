@@ -7,6 +7,11 @@
 <p>
     {{ html.link('Bekijken', path('app_klanten_view', {id: klant.id}), 'view') }}
     {{ html.link('Wijzigen', path('app_klanten_edit', {id: klant.id}), 'edit') }}
+{#    {% if klant.partner.id is not defined %}#}
+{#        {{ html.link('Voeg partner toe', path('app_klanten_addpartner', {klant: klant.id}), 'heart') }}#}
+{#    {% else %}#}
+{#        {{ html.link('Verwijder partner', path('app_klanten_addpartner', {klant: klant.id, 'partner':'remove'}), 'scissors') }}#}
+{#    {% endif %}#}
 </p>
 <dl class="dl-horizontal">
     <dt>Naam</dt>
@@ -34,6 +39,13 @@
             <dt>Overleden</dt>
             <dd>Ja</dd>
         </span>
+    {% endif %}
+    {% if entity.partner is defined and entity.partner is not null%}
+        <dt>Partner</dt>
+        <dd>{{ entity.partner }}   {{ html.link('Verwijder partner', path('app_klanten_addpartner', {klant: entity.id, 'partner':'remove'}), 'scissors') }}</dd>
+    {% elseif entity.id is defined %}
+        <dt>Partner</dt>
+        <dd>{{ html.link('Voeg partner toe', path('app_klanten_addpartner', {klant: entity.id}), 'heart') }}</dd>
     {% endif %}
 </dl>
 <h2>Contactgegevens</h2>

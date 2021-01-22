@@ -184,6 +184,8 @@ security:
             - ROLE_SECRETARIAAT
             - ROLE_PROGRAMMACOORDINATOR
             - ROLE_MANAGEMENT
+            - ROLE_SPORT
+            - ROLE_VILLA
         CONTROLLER_APP_KLANTEN:
             - CONTROLLER_APP_DOCUMENTEN
         CONTROLLER_APP_VRIJWILLIGERS:
@@ -245,3 +247,5 @@ ldap_tools:
             ROLE_PROGRAMMACOORDINATORB: "CN=ECD Programma Co\u00f6rdinator,CN=Users,DC=cluster,DC=deregenboog"
             ROLE_UHK: "CN=ECD Uit het Krijt,CN=Users,DC=cluster,DC=deregenboog"
             ROLE_UHK_BEHEER: "CN=ECD Uit het Krijt Beheer,CN=Users,DC=cluster,DC=deregenboog"
+            ROLE_SPORT: "CN=ECD Sport,CN=Users,DC=cluster,DC=deregenboog"
+            ROLE_VILLA: "CN=ECD Villa,CN=Users,DC=cluster,DC=deregenboog"

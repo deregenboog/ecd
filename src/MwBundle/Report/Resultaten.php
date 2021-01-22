@@ -4,7 +4,7 @@ namespace MwBundle\Report;
 
 use AppBundle\Report\AbstractReport;
 use AppBundle\Report\Grid;
-use InloopBundle\Entity\Klant;
+use MwBundle\Entity\Klant;
 use MwBundle\Service\KlantDao;
 
 class Resultaten extends AbstractReport

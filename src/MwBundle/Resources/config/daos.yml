@@ -17,9 +17,36 @@ services:
     MwBundle\Service\VerslagDao:
         parent: app.dao.abstract
 
+    MwBundle\Service\VrijwilligerDao:
+        parent: app.dao.abstract
+
+    MwBundle\Service\AfsluitredenDao:
+        parent: app.dao.abstract
+
+    MwBundle\Service\BinnenViaDao:
+        parent: app.dao.abstract
+    
+    MwBundle\Service\DeelnameDao:
+        parent: app.dao.abstract
+
+    mw.memo.entities:
+        public: true
+        class: ArrayObject
+        arguments:
+            -
+                - { key: vrijwilliger, dao: '@MwBundle\Service\VrijwilligerDao' }
+                -
+    mw.deelname.entities:
+        public: true
+        class: ArrayObject
+        arguments:
+            -
+                - { key: vrijwilliger, dao: '@MwBundle\Service\VrijwilligerDao' }
+    
     mw.document.entities:
         public: true
         class: ArrayObject
         arguments:
             -
               - { key: klant, dao: '@MwBundle\Service\KlantDao' }
+              - { key: vrijwilliger, dao: '@MwBundle\Service\VrijwilligerDao' }
