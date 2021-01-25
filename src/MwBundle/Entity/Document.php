@@ -58,9 +58,12 @@ class Document implements DocumentInterface
      */
     private $klant;
 
-    public function __construct( Medewerker $medewerker = null)
+    public function __construct($klant = null, Medewerker $medewerker = null)
     {
-//        $this->klant = $klant;
+        if($klant instanceof Klant) {
+            $this->klant = $klant;
+        }
+
         if ($medewerker) {
             $this->medewerker = $medewerker;
         }

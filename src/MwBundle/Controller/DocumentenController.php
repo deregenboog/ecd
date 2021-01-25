@@ -3,11 +3,15 @@
 namespace MwBundle\Controller;
 
 use AppBundle\Controller\AbstractChildController;
+use AppBundle\Entity\Klant;
 use JMS\DiExtraBundle\Annotation as DI;
 use MwBundle\Entity\Document;
+use MwBundle\Entity\Vrijwilliger;
 use MwBundle\Form\DocumentType;
 use MwBundle\Service\DocumentDaoInterface;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
 /**
  * @Route("/documenten")
@@ -49,13 +53,31 @@ class DocumentenController extends AbstractChildController
         return $downloadHandler->downloadObject($document, 'file');
     }
 
-//    protected function createEntity($parentEntity = null)
-//    {
-//        return new Document($parentEntity, $this->getMedewerker());
-//    }
-//
-//    protected function persistEntity($entity, $parentEntity)
-//    {
-//        $this->dao->create($entity);
-//    }
+    /**
+     * @Route("/add")
+     * @Template
+     */
+    public function addAction(Request $request)
+    {
+        list($parentEntity, $this->parentDao) = $this->getParentConfig($request);
+        if($parentEntity instanceof Klant)
+        {
+            $this->addMethod = null;
+        }
+        elseif($parentEntity instanceof Vrijwilliger)
+        {
+            $this->addMethod = 'addDocument';
+        }
+        return parent::addAction($request);
+    }
+
+    protected function createEntity($parentEntity = null)
+    {
+        return new Document($parentEntity, $this->getMedewerker());
+    }
+
+    protected function persistEntity($entity, $parentEntity)
+    {
+        $this->dao->create($entity);
+    }
 }

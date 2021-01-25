@@ -15,7 +15,7 @@ use MwBundle\Entity\Aanmelding;
 use MwBundle\Entity\Afsluiting;
 use MwBundle\Form\AanmeldingType;
 use MwBundle\Form\AfsluitingType;
-use MwBundle\Form\KlantType;
+use InloopBundle\Form\KlantType;
 use JMS\DiExtraBundle\Annotation as DI;
 use MwBundle\Entity\Document;
 use MwBundle\Entity\Info;
