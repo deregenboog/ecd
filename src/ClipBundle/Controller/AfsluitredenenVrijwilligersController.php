@@ -1,0 +1,30 @@
+<?php
+
+namespace ClipBundle\Controller;
+
+use AppBundle\Controller\AbstractController;
+use ClipBundle\Entity\Afsluitreden;
+use ClipBundle\Form\AfsluitredenType;
+use ClipBundle\Service\AfsluitredenDaoInterface;
+use JMS\DiExtraBundle\Annotation as DI;
+use Symfony\Component\Routing\Annotation\Route;
+
+/**
+ * @Route("/admin/afsluitredenen")
+ */
+class AfsluitredenenVrijwilligersController extends AbstractController
+{
+    protected $title = 'Afsluitredenen vrijwilligers';
+    protected $entityName = 'afsluitreden';
+    protected $entityClass = Afsluitreden::class;
+    protected $formClass = AfsluitredenType::class;
+    protected $baseRouteName = 'clip_afsluitredenenvrijwilligers_';
+    protected $disabledActions = ['view', 'delete'];
+
+    /**
+     * @var AfsluitredenDaoInterface
+     *
+     * @DI\Inject("ClipBundle\Service\AfsluitredenDao")
+     */
+    protected $dao;
+}
