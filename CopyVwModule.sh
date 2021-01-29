@@ -7,8 +7,8 @@
 SEARCHPATH="MwBundle"
 REPLACEPATH="ClipBundle"
 
-SEARCHTEXT=("MwBundle" "Maatschappelijk werk |" "mw_")
-REPLACETEXT=("ClipBundle" "Clip |" "clip_")
+SEARCHTEXT=("MwBundle" "Maatschappelijk werk |" "mw_","@Mw","mw.")
+REPLACETEXT=("ClipBundle" "Clip |" "clip_","@Clip","clip.")
 
 FILES="src/MwBundle/Controller/AfsluitredenenVrijwilligersController.php
 src/MwBundle/Controller/BinnenViaController.php
@@ -66,6 +66,7 @@ src/MwBundle/Service/BinnenViaDaoInterface.php
 src/MwBundle/Service/DeelnameDao.php
 src/MwBundle/Service/DeelnameDaoInterface.php
 src/MwBundle/Service/KlantDao.php
+src/MwBundle/Service/KlantDaoInterface.php
 src/MwBundle/Service/VrijwilligerDao.php
 src/MwBundle/Service/VrijwilligerDaoInterface.php"
 

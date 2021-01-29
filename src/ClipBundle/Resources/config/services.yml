@@ -19,6 +19,7 @@ services:
             -
               - { key: client, dao: '@ClipBundle\Service\ClientDao' }
               - { key: vraag, dao: '@ClipBundle\Service\VraagDao' }
+              - { key: vrijwilliger, dao: '@ClipBundle\Service\VrijwilligerDao' }
 
     clip.vraag.entities:
         public: true

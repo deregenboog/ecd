@@ -1,0 +1,15 @@
+{% extends '::base.html.twig' %}
+{% import '::html.macro.twig' as html %}
+
+{% block title %}
+    Clip | {{ title }}
+{% endblock %}
+
+{% block subnavigation %}
+    {% include '@Clip/subnavigation.html.twig' %}
+{% endblock %}
+
+{% block content %}
+    <h1>Mw dossier heropenen</h1>
+    {{ form(form) }}
+{% endblock %}

@@ -9,6 +9,7 @@
     {{ html.navLink('Alle vragen', path('clip_vragen_index'), isActiveRoute('clip_vragen_')) }}
     {{ html.navLink('Cliënten', path('clip_clienten_index'), isActiveRoute('clip_clienten_')) }}
     {{ html.navLink('Contactmomenten', path('clip_contactmomenten_index'), isActiveRoute('clip_contactmomenten_')) }}
+    {{ html.navLink('Vrijwilligers', path('clip_vrijwilligers_index'), isActiveRoute('clip_vrijwilligers_')) }}
     {{ html.navLink('Rapportages', path('clip_rapportages_index'), isActiveRoute('clip_rapportages_')) }}
     <li role="presentation" class="dropdown {{ isActivePath('clip/admin') ? 'active' }}">
         <a class="dropdown-toggle active" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
@@ -21,6 +22,8 @@
             {{ html.navLink('Leeftijdscategorieën', path('clip_leeftijdscategorieen_index'), isActiveRoute('clip_leeftijdscategorieen_')) }}
             {{ html.navLink('Medewerkers', path('clip_behandelaars_index'), isActiveRoute('clip_behandelaars_')) }}
             {{ html.navLink('Onderwerpen', path('clip_vraagsoorten_index'), isActiveRoute('clip_vraagsoorten_')) }}
+            {{ html.navLink('Afsluitredenen vrijwilligers', path('clip_afsluitredenenvrijwilligers_index'), isActiveRoute('clip_afsluitredenenvrijwilligers_')) }}
+            {{ html.navLink('Binnen via-opties', path('clip_binnenvia_index'), isActiveRoute('clip_binnenvia_')) }}
         </ul>
     </li>
 </ul>

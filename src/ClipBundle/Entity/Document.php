@@ -2,6 +2,8 @@
 
 namespace ClipBundle\Entity;
 
+use AppBundle\Entity\Medewerker;
+use AppBundle\Model\DocumentInterface;
 use AppBundle\Model\TimestampableTrait;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
@@ -15,7 +17,7 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
  * @Gedmo\Loggable
  * @Vich\Uploadable
  */
-class Document
+class Document implements DocumentInterface
 {
     use TimestampableTrait, RequiredBehandelaarTrait;
 
@@ -45,6 +47,13 @@ class Document
      * @Vich\UploadableField(mapping="clip_document", fileNameProperty="filename")
      */
     private $file;
+
+    /**
+     * @var Medewerker
+     *
+     */
+    protected $medewerker;
+
 
     public function getId()
     {
@@ -83,6 +92,18 @@ class Document
     public function setFile(File $file = null)
     {
         $this->file = $file;
+
+        return $this;
+    }
+
+    public function getMedewerker()
+    {
+        return $this->behandelaar;
+    }
+
+    public function setMedewerker(Medewerker $medewerker)
+    {
+        $this->behandelaar = $medewerker;
 
         return $this;
     }

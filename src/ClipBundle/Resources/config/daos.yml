@@ -28,3 +28,30 @@ services:
 
     ClipBundle\Service\VraagsoortDao:
         parent: app.dao.abstract
+
+    ClipBundle\Service\AfsluitredenDao:
+        parent: app.dao.abstract
+
+    ClipBundle\Service\BinnenViaDao:
+        parent: app.dao.abstract
+
+    ClipBundle\Service\DeelnameDao:
+        parent: app.dao.abstract
+
+    ClipBundle\Service\VrijwilligerDao:
+        parent: app.dao.abstract
+
+    ClipBundle\Service\KlantDao:
+        parent: app.dao.abstract
+
+    clip.memo.entities:
+        public: true
+        class: ArrayObject
+        arguments:
+            - - { key: vrijwilliger, dao: '@ClipBundle\Service\VrijwilligerDao' }
+              -
+    clip.deelname.entities:
+        public: true
+        class: ArrayObject
+        arguments:
+            - - { key: vrijwilliger, dao: '@ClipBundle\Service\VrijwilligerDao' }
