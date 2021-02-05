@@ -15,7 +15,7 @@ use AppBundle\Model\TimestampableTrait;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
-use InloopBundle\Entity\Locatie;
+use ClipBundle\Entity\Locatie;
 use ClipBundle\Entity\BinnenVia;
 
 
@@ -41,7 +41,7 @@ class Vrijwilliger implements MemoSubjectInterface, DocumentSubjectInterface
     /**
      * @var Locatie
      *
-     * @ORM\ManyToMany(targetEntity="InloopBundle\Entity\Locatie")
+     * @ORM\ManyToMany(targetEntity="ClipBundle\Entity\Locatie")
      */
     protected $locaties;
 

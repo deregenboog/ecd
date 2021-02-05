@@ -5,7 +5,7 @@ namespace ClipBundle\Filter;
 use AppBundle\Filter\FilterInterface;
 use AppBundle\Form\Model\AppDateRangeModel;
 use Doctrine\ORM\QueryBuilder;
-use InloopBundle\Entity\Locatie;
+use ClipBundle\Entity\Locatie;
 
 class VrijwilligerFilter implements FilterInterface
 {

@@ -68,7 +68,19 @@ src/MwBundle/Service/DeelnameDaoInterface.php
 src/MwBundle/Service/KlantDao.php
 src/MwBundle/Service/KlantDaoInterface.php
 src/MwBundle/Service/VrijwilligerDao.php
-src/MwBundle/Service/VrijwilligerDaoInterface.php"
+src/MwBundle/Service/VrijwilligerDaoInterface.php
+src/MwBundle/Controller/LocatiesController.php
+src/MwBundle/Entity/Locatie.php
+src/MwBundle/Filter/LocatieFilter.php
+src/MwBundle/Form/LocatieSelectType.php
+src/MwBundle/Form/LocatieType.php
+src/MwBundle/Service/LocatieDao.php
+src/MwBundle/Service/LocatieDaoInterface.php
+src/MwBundle/Resources/views/locaties/add.html.twig
+src/MwBundle/Resources/views/locaties/delete.html.twig
+src/MwBundle/Resources/views/locaties/edit.html.twig
+src/MwBundle/Resources/views/locaties/index.html.twig
+src/MwBundle/Resources/views/locaties/view.html.twig"
 
 FILES="src/MwBundle/Controller/DocumentenController.php"
 for f in $FILES
