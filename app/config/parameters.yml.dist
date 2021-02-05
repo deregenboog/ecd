@@ -66,9 +66,9 @@ parameters:
         - 'timeout'
         - 'Time Out'
     verblijfsstatus_niet_rechthebbend_id: 7
-     wachtlijst_locaties:
-            - 'Wachtlijst T6'
-            - 'Wachtlijst Economisch Daklozen'
+    wachtlijst_locaties:
+        - 'Wachtlijst T6'
+        - 'Wachtlijst Economisch Daklozen'
     informele_zorg_mail: ''
     dagbesteding_mail: ''
     inloophuis_mail: ''
