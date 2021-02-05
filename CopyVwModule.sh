@@ -82,7 +82,7 @@ src/MwBundle/Resources/views/locaties/edit.html.twig
 src/MwBundle/Resources/views/locaties/index.html.twig
 src/MwBundle/Resources/views/locaties/view.html.twig"
 
-FILES="src/MwBundle/Controller/DocumentenController.php"
+#FILES="src/MwBundle/Controller/DocumentenController.php"
 for f in $FILES
 do
 
