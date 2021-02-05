@@ -47,7 +47,7 @@ class VrijwilligersController extends VrijwilligersControllerAbstract
     /**
      * @var VrijwilligerDaoInterface
      *
-     * @DI\Inject("ClipBundle\Service\VrijwilligerDao")
+     * @DI\Inject("AppBundle\Service\VrijwilligerDao")
      */
     protected $vrijwilligerDao;
 
