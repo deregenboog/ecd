@@ -29,6 +29,15 @@ services:
             - app.doelstelling
         public: true
 
+    MwBundle\Form\IntakeFilterType:
+        class: MwBundle\Form\IntakeFilterType
+        calls:
+            - method: setWachtlijstLocaties
+              arguments:
+                  - "%wachtlijst_locaties%"
+        tags:
+            - { name: form.type, alias: 'container_aware' }
+
     klant_metadata:
         class: Doctrine\ORM\Mapping\ClassMetadata
         arguments:

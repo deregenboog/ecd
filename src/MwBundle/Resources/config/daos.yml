@@ -29,6 +29,14 @@ services:
     MwBundle\Service\DeelnameDao:
         parent: app.dao.abstract
 
+    MwBundle\Service\IntakeDao:
+        parent: app.dao.abstract
+        arguments:
+            - '@event_dispatcher'
+        calls:
+            - method: setWachtlijstLocaties
+              arguments:
+                  - "%wachtlijst_locaties%"
     mw.memo.entities:
         public: true
         class: ArrayObject
