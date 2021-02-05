@@ -28,7 +28,7 @@ class KlantFilter implements FilterInterface
     /**
      * @var Medewerker
      */
-    public $medewerker;
+    public $maatschappelijkWerker;
 
     /**
      * @var Verslag
@@ -85,11 +85,12 @@ class KlantFilter implements FilterInterface
 //                ;
 //
 //        }
-        if($this->medewerker)
+        if($this->maatschappelijkWerker)
         {
             $builder
-                ->andWhere('medewerker = :medewerker')
-                ->setParameter('medewerker',$this->medewerker)
+                ->andWhere('maatschappelijkWerker = :maatschappelijkWerker')
+
+                ->setParameter('maatschappelijkWerker',$this->maatschappelijkWerker)
             ;
         }
 

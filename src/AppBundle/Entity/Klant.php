@@ -213,6 +213,13 @@ class Klant extends Persoon
      */
     protected $partner;
 
+    /**
+     * @var Medewerker
+     * @ORM\ManyToOne(targetEntity="Medewerker")
+     * @ORM\JoinColumn(nullable=true)
+     * @Gedmo\Versioned
+     */
+    protected $maatschappelijkWerker;
 
     public function isDoorverwijzenNaarAmoc()
     {
@@ -644,6 +651,24 @@ class Klant extends Persoon
     public function setPartner($partner)
     {
         $this->partner = $partner;
+        return $this;
+    }
+
+    /**
+     * @return Medewerker
+     */
+    public function getMaatschappelijkWerker(): ?Medewerker
+    {
+        return $this->maatschappelijkWerker;
+    }
+
+    /**
+     * @param Medewerker $maatschappelijkWerker
+     * @return Klant
+     */
+    public function setMaatschappelijkWerker(Medewerker $maatschappelijkWerker): Klant
+    {
+        $this->maatschappelijkWerker = $maatschappelijkWerker;
         return $this;
     }
 

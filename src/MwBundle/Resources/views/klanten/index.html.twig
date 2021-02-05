@@ -53,8 +53,8 @@
                         {{ form_errors(filter.gebruikersruimte) }}
                     </th>
                     <th>
-                        {{ form_widget(filter.medewerker) }}
-                        {{ form_errors(filter.medewerker) }}
+                        {{ form_widget(filter.maatschappelijkWerker) }}
+                        {{ form_errors(filter.maatschappelijkWerker) }}
                     </th>
                     <th>
                         {{ form_widget(filter.laatsteIntakeLocatie) }}
@@ -90,7 +90,7 @@
                     {{ knp_pagination_sortable(pagination, 'Gebruikersruimte', 'gebruikersruimte.naam') }}
                 </th>
                 <th>
-                    {{ knp_pagination_sortable(pagination, 'Medewerker', 'medewerker.voornaam') }}
+                    {{ knp_pagination_sortable(pagination, 'Maatschappelijk werker', 'maatschappelijkWerker.voornaam') }}
                 </th>
                 <th>
                     {{ knp_pagination_sortable(pagination, 'Intakelocatie', 'laatsteIntakeLocatie.naam') }}
@@ -132,18 +132,22 @@
                     </td>
                     <td>
                         <ul>
-                        {% set verslagMedewerker = null %}
-                            {% set i = 0 %}
+                            {% if klant.maatschappelijkWerker is defined and klant.maatschappelijkWerker is not null %}
+                                <li>{{ klant.maatschappelijkWerker }}</li>
+                            {% else %}
+                                {% set verslagMedewerker = null %}
+                                {% set i = 0 %}
 
-                            {% for verslag in klant.verslagen %}
-                                {% if i < 3 and verslag.medewerker != verslagMedewerker %}
-                                    <li>{{ verslag.medewerker }}</li>
-                                    {% set i = i+1 %}
-                                {% elseif loop.index == 3 %}
-                                    <li>(...({{ loop.length - 3 }}))</li>
-                                {% endif %}
-                                {% set verslagMedewerker = verslag.medewerker %}
-                            {% endfor %}
+                                {% for verslag in klant.verslagen %}
+                                    {% if i < 3 and verslag.medewerker != verslagMedewerker %}
+                                        <li>{{ verslag.medewerker }}</li>
+                                        {% set i = i+1 %}
+                                    {% elseif loop.index == 3 %}
+                                        <li>(...({{ loop.length - 3 }}))</li>
+                                    {% endif %}
+                                    {% set verslagMedewerker = verslag.medewerker %}
+                                {% endfor %}
+                            {% endif %}
                         </ul>
                     </td>
                     <td>
