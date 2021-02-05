@@ -157,15 +157,14 @@ abstract class AbstractDao implements AbstractDaoInterface
     public function countAll(FilterInterface $filter = null)
     {
         $builder = $this->repository->createQueryBuilder($this->alias)
-            ->innerJoin($this->alias.'.klant', 'klant')
+//            ->innerJoin($this->alias.'.klant', 'klant') //snap niet waarom dit hier staat in een Abstract. kijken of het uit kan zonder gedoe?
             ->select("COUNT({$this->alias}.id)")
-            ->orderBy("klant.achternaam")
+//            ->orderBy("klant.achternaam")
         ;
 
         if ($filter) {
             $filter->applyTo($builder);
         }
-
         return $builder->getQuery()->getSingleScalarResult();
     }
 

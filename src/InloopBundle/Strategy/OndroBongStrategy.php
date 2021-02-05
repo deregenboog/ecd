@@ -9,7 +9,7 @@ class OndroBongStrategy extends VerblijfsstatusStrategy
 {
     // @todo do not define database ID here
     private $locatieIds = [13,19];
-    private $ondroBongoLocaties = ['Zeeburg','Transformatorweg'];
+    private $ondroBongoLocaties = ['Zeeburg','Transformatorweg','T6 Inloop'];
 
     public function supports(Locatie $locatie)
     {

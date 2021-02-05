@@ -6,6 +6,7 @@ use AppBundle\Entity\Vrijwilliger as AppVrijwilliger;
 use AppBundle\Filter\FilterInterface;
 use AppBundle\Service\AbstractDao;
 use ClipBundle\Entity\Vrijwilliger;
+use InloopBundle\Service\VrijwilligerDaoAbstract;
 
 class VrijwilligerDao extends AbstractDao implements VrijwilligerDaoInterface
 {
@@ -142,4 +143,8 @@ class VrijwilligerDao extends AbstractDao implements VrijwilligerDaoInterface
 
         return $builder->getQuery()->getResult();
     }
+
+
+
+
 }

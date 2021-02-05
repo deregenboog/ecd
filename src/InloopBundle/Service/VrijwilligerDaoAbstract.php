@@ -20,8 +20,7 @@ class VrijwilligerDaoAbstract extends AbstractDao implements VrijwilligerDaoInte
             ->innerJoin('vrijwilliger.vrijwilliger', 'appVrijwilliger')
             ->leftJoin('vrijwilliger.locaties', 'locaties')
 //            ->leftJoin('vrijwilliger.locatie','locatie')
-            ->leftJoin('appVrijwilliger.werkgebied', 'werkgebied')
-        ;
+            ->leftJoin('appVrijwilliger.werkgebied', 'werkgebied');
 
         if ($filter) {
             if ($filter->vrijwilliger) {
@@ -89,8 +88,7 @@ class VrijwilligerDaoAbstract extends AbstractDao implements VrijwilligerDaoInte
             ->innerJoin('vrijwilliger.vrijwilliger', 'appVrijwilliger')
             ->leftJoin('appVrijwilliger.werkgebied', 'werkgebied')
             ->innerJoin('vrijwilliger.registraties', 'registratie')
-            ->groupBy('stadsdeel')
-        ;
+            ->groupBy('stadsdeel');
 
         if ($start) {
             $builder->andWhere('registratie.datum >= :start')->setParameter('start', $start);
@@ -112,8 +110,7 @@ class VrijwilligerDaoAbstract extends AbstractDao implements VrijwilligerDaoInte
             ->select('COUNT(DISTINCT(appVrijwilliger.id)) AS aantal, werkgebied.naam AS stadsdeel')
             ->innerJoin('vrijwilliger.vrijwilliger', 'appVrijwilliger')
             ->leftJoin('appVrijwilliger.werkgebied', 'werkgebied')
-            ->groupBy('stadsdeel')
-        ;
+            ->groupBy('stadsdeel');
 
         if ($start) {
             $builder->andWhere('vrijwilliger.inschrijving >= :start')->setParameter('start', $start);
