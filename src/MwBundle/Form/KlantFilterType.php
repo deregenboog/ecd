@@ -42,8 +42,8 @@ class KlantFilterType extends AbstractType
 //
 //            ]);
 //        }
-        if (in_array('medewerker', $options['enabled_filters'])) {
-            $builder->add('medewerker', EntityType::class, [
+        if (in_array('maatschappelijkWerker', $options['enabled_filters'])) {
+            $builder->add('maatschappelijkWerker', EntityType::class, [
                 'required' => false,
                 'class'=>Medewerker::class,
                 'query_builder' => function (EntityRepository $repository) {
@@ -116,7 +116,7 @@ class KlantFilterType extends AbstractType
             'enabled_filters' => [
                 'klant' => ['id', 'naam', 'geboortedatumRange', 'geslacht'],
                 'gebruikersruimte',
-                'medewerker',
+                'maatschappelijkWerker',
                 'laatsteIntakeLocatie',
                 'laatsteVerslagDatum',
                 'alleenMetVerslag',

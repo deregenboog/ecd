@@ -35,6 +35,10 @@
         <dd>{{ entity.nationaliteit }}</dd>
         <dt>BSN</dt>
         <dd>{{ entity.bsn }}</dd>
+        <dt>Medewerker</dt>
+        <dd>{{ entity.medewerker }}</dd>
+        <dt>Maatschappelijk werker</dt>
+        <dd>{{ entity.maatschappelijkWerker }}</dd>
         <dt>Corona besmet vanaf</dt>
         <dd class="{{ entity.coronaBesmetVanaf? 'bg-danger'}}">{{ entity.coronaBesmetVanaf ? entity.coronaBesmetVanaf|date('d-m-Y') }}</dd>
         {% if entity.land.getNaam() in tbc_countries %}

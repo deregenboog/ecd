@@ -19,6 +19,7 @@ class KlantDao extends AbstractDao implements KlantDaoInterface
             'klant.geboortedatum',
             'geslacht.volledig',
             'medewerker.voornaam',
+            'maatschappelijkWerker.voornaam',
             'verslag',
             'gebruikersruimte.naam',
             'laatsteIntakeLocatie.naam',
@@ -50,13 +51,15 @@ class KlantDao extends AbstractDao implements KlantDaoInterface
         {
             $builder
             ->leftJoin($this->alias.'.verslagen', 'verslag')
-            ->leftJoin('verslag.medewerker','medewerker');
+            ->leftJoin('verslag.medewerker','medewerker')
+            ->leftJoin('klant.maatschappelijkWerker','maatschappelijkWerker');
         }
         else
         {
             $builder
                 ->join($this->alias.'.verslagen', 'verslag')
-                ->join('verslag.medewerker','medewerker');
+                ->join('verslag.medewerker','medewerker')
+                ->leftJoin('klant.maatschappelijkWerker','maatschappelijkWerker');
         }
         $builder
             ->join($this->alias.'.geslacht', 'geslacht')
