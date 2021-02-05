@@ -122,7 +122,7 @@ class Vrijwilliger implements MemoSubjectInterface, DocumentSubjectInterface
 
     /**
      * @var ArrayCollection|Deelname[]
-     * @ORM\OneToMany(targetEntity="Deelname",mappedBy="vrijwilliger", cascade={"persist"})
+     * @ORM\OneToMany(targetEntity="Deelname",mappedBy="vrijwilliger", cascade={"remove"})
      */
     protected $trainingDeelnames;
 
