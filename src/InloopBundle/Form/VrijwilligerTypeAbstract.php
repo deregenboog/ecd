@@ -22,6 +22,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 class VrijwilligerTypeAbstract extends AbstractType
 {
     protected $dataClass; //Vrijwilliger::class;
+    protected $locatieSelectClass = LocatieSelectType::class;
     /**
      * {@inheritdoc}
      */
@@ -66,7 +67,7 @@ class VrijwilligerTypeAbstract extends AbstractType
                     ;
                 },
             ])
-            ->add('locaties', LocatieSelectType::class, [
+            ->add('locaties', $this->locatieSelectClass, [
                 'required' => true,
                 'expanded' => true,
                 'multiple' => true,

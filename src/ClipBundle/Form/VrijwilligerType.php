@@ -10,4 +10,6 @@ use ClipBundle\ClipBundle;
 class VrijwilligerType extends VrijwilligerTypeAbstract
 {
     protected $dataClass = Vrijwilliger::class;
+    protected $locatieSelectClass = LocatieSelectType::class;
+
 }

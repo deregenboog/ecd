@@ -6,7 +6,6 @@ use AppBundle\Form\AppDateRangeType;
 use AppBundle\Form\FilterType;
 use AppBundle\Form\JaNeeType;
 use AppBundle\Form\VrijwilligerFilterType as AppVrijwilligerFilterType;
-use InloopBundle\Form\LocatieSelectType;
 use ClipBundle\Filter\VrijwilligerFilter;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
