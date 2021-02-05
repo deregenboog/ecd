@@ -21,7 +21,7 @@ final class Version20210205162440 extends AbstractMigration
 
 
         $this->addSql('ALTER TABLE klanten ADD CONSTRAINT FK_F538C5BCEB8E119C FOREIGN KEY (maatschappelijkWerker_id) REFERENCES medewerkers (id)');
-        $this->addSql('CREATE UNIQUE INDEX UNIQ_F538C5BC9393F8FE ON klanten (partner_id)');
+//        $this->addSql('CREATE UNIQUE INDEX UNIQ_F538C5BC9393F8FE ON klanten (partner_id)');
         $this->addSql('CREATE INDEX IDX_F538C5BCEB8E119C ON klanten (maatschappelijkWerker_id)');
 
 
