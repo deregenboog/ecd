@@ -112,13 +112,13 @@ class VerhuurderDao extends AbstractDao implements VerhuurderDaoInterface
         return $builder->getQuery()->getResult();
     }
 
-//    private function getCountBuilder(\DateTime $startdate, \DateTime $enddate)
-//    {
-//        return $this->repository->createQueryBuilder($this->alias)
-//            ->select("COUNT({$this->alias}.id) AS aantal")
-//            ->leftJoin("{$this->alias}.afsluiting", 'afsluiting')
-//            ->andWhere('afsluiting.tonen IS NULL OR afsluiting.tonen = true')
-//            ->setParameters(['start' => $startdate, 'end' => $enddate])
-//        ;
-//    }
+    private function getCountBuilder(\DateTime $startdate, \DateTime $enddate)
+    {
+        return $this->repository->createQueryBuilder($this->alias)
+            ->select("COUNT({$this->alias}.id) AS aantal")
+            ->leftJoin("{$this->alias}.afsluiting", 'afsluiting')
+            ->andWhere('afsluiting.tonen IS NULL OR afsluiting.tonen = true')
+            ->setParameters(['start' => $startdate, 'end' => $enddate])
+        ;
+    }
 }
