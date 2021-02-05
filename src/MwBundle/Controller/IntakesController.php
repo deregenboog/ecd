@@ -6,7 +6,7 @@ use AppBundle\Controller\AbstractController;
 use AppBundle\Export\ExportInterface;
 use Doctrine\ORM\EntityNotFoundException;
 use InloopBundle\Entity\Intake;
-use InloopBundle\Form\IntakeFilterType;
+use MwBundle\Form\IntakeFilterType;
 use InloopBundle\Form\IntakeType;
 use InloopBundle\Form\ToegangType;
 use InloopBundle\Pdf\PdfIntake;
@@ -25,12 +25,12 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class IntakesController extends AbstractController
 {
-    protected $title = 'Intakes';
+    protected $title = 'Wachtlijst (intakes)';
     protected $entityName = 'intake';
     protected $entityClass = Intake::class;
     protected $formClass = IntakeType::class;
     protected $filterFormClass = IntakeFilterType::class;
-    protected $baseRouteName = 'inloop_intakes_';
+    protected $baseRouteName = 'mw_intakes_';
 
     /**
      * @var IntakeDaoInterface

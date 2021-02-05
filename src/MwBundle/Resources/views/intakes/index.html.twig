@@ -1,0 +1,103 @@
+{% extends '::base.html.twig' %}
+{% import '::html.macro.twig' as html %}
+
+{% block title %}
+    Maatschappelijk werk | {{ title }}
+{% endblock %}
+
+{% block subnavigation %}
+    {% include '@Mw/subnavigation.html.twig' %}
+{% endblock %}
+
+{% block content %}
+    <h1>{{ title }}</h1>
+    <table class="table table-hover">
+        <thead>
+            {{ form_start(filter) }}
+                <tr>
+                    <th colspan="6">
+                        <span class="pull-right">
+                            {{ form_widget(filter.filter) }}
+                        </span>
+                    </th>
+                </tr>
+                <tr>
+                    <th>
+                        {{ form_widget(filter.klant.id) }}
+                        {{ form_errors(filter.klant.id) }}
+                    </th>
+                    <th>
+                        {{ form_widget(filter.klant.voornaam) }}
+                        {{ form_errors(filter.klant.voornaam) }}
+                    </th>
+                    <th>
+                        {{ form_widget(filter.klant.achternaam) }}
+                        {{ form_errors(filter.klant.achternaam) }}
+                    </th>
+                    <th>
+                        {{ form_widget(filter.klant.geslacht) }}
+                        {{ form_errors(filter.klant.geslacht) }}
+                    </th>
+                    <th>
+                        {{ form_widget(filter.locatie) }}
+                        {{ form_errors(filter.locatie) }}
+                    </th>
+                    <th>
+                        {{ form_widget(filter.datum.start) }}
+                        {{ form_errors(filter.datum.start) }}
+                        {{ form_widget(filter.datum.end) }}
+                        {{ form_errors(filter.datum.end) }}
+                    </th>
+                </tr>
+            {{ form_end(filter) }}
+            <tr>
+                <th>
+                    {{ knp_pagination_sortable(pagination, '#', 'klant.id') }}
+                </th>
+                <th>
+                    {{ knp_pagination_sortable(pagination, 'Voornaam', 'klant.voornaam') }}
+                </th>
+                <th>
+                    {{ knp_pagination_sortable(pagination, 'Achternaam', 'klant.achternaam') }}
+                </th>
+                <th>
+                    {{ knp_pagination_sortable(pagination, 'Geslacht', 'geslacht.volledig') }}
+                </th>
+                <th>
+                    {{ knp_pagination_sortable(pagination, 'Intakelocatie', 'intakelocatie.naam') }}
+                </th>
+                <th>
+                    {{ knp_pagination_sortable(pagination, 'Laatste intake datum', 'laatsteIntake.intakedatum') }}
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for intake in pagination %}
+            <tr data-href="{{ path('inloop_intakes_view', {id: intake.id}) }}">
+                <td>
+                    {{ intake.klant.id }}
+                </td>
+                <td>
+                    {{ intake.klant.voornaam }}
+                    {% if intake.klant.roepnaam %}({{ intake.klant.roepnaam }}){% endif %}
+                </td>
+                <td>
+                    {{ intake.klant.tussenvoegsel }} {{ intake.klant.achternaam }}
+                </td>
+                <td>
+                    {{ intake.klant.geslacht }}
+                </td>
+                <td>
+                    {{ intake.klant.eersteIntake.intakelocatie.naam }}
+                </td>
+                <td>
+                    {{ intake.klant.laatsteIntake.intakedatum|date('d-m-Y') }}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <p>
+        {{ knp_pagination_render(pagination) }}
+    </p>
+{% endblock %}

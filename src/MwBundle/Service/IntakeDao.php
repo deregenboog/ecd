@@ -20,8 +20,11 @@ class IntakeDao extends AbstractDao implements IntakeDaoInterface
             'intake.intakedatum',
             'klant.id',
             'klant.achternaam',
+            'klant.voornaam',
             'geslacht.volledig',
             'intakelocatie.naam',
+            'laatsteIntake.intakedatum',
+            'eersteIntake.intakelocatie.naam'
         ],
     ];
 
@@ -29,6 +32,7 @@ class IntakeDao extends AbstractDao implements IntakeDaoInterface
 
     protected $alias = 'intake';
 
+    protected $wachtlijstLocaties = array();
     /**
      * @var EventDispatcherInterface
      */
@@ -47,11 +51,19 @@ class IntakeDao extends AbstractDao implements IntakeDaoInterface
     public function findAll($page = null, FilterInterface $filter = null)
     {
         $builder = $this->repository->createQueryBuilder($this->alias)
-            ->addSelect('klant, intakelocatie, geslacht')
-            ->innerJoin("{$this->alias}.klant", 'klant')
-            ->leftJoin("{$this->alias}.intakelocatie", 'intakelocatie')
-            ->leftJoin('klant.geslacht', 'geslacht')
+
+                ->addSelect("klant,eersteIntake,laatsteIntake")
+                ->innerJoin("intake.klant","klant")
+                ->innerJoin("klant.geslacht","geslacht")
+                ->innerJoin("klant.eersteIntake","eersteIntake")
+                ->innerJoin("eersteIntake.intakelocatie","intakelocatie")
+                ->innerJoin("klant.laatsteIntake","laatsteIntake")
+                ->where("intakelocatie.naam IN (:wachtlijstLocaties)")
+                ->setParameter("wachtlijstLocaties",$this->wachtlijstLocaties)
+              ->groupBy("klant.laatsteIntake")
         ;
+
+        $q = $builder->getQuery();
 
         return parent::doFindAll($builder, $page, $filter);
     }
@@ -82,5 +94,9 @@ class IntakeDao extends AbstractDao implements IntakeDaoInterface
         $this->eventDispatcher->dispatch(Events::INTAKE_UPDATED, new GenericEvent($entity));
 
         return $entity;
+    }
+
+    public function setWachtlijstLocaties($wachtlijstLocaties){
+        $this->wachtlijstLocaties = $wachtlijstLocaties;
     }
 }
