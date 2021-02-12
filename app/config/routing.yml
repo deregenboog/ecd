@@ -70,6 +70,10 @@ _uhk:
     resource: "@UhkBundle/Resources/config/routing.yml"
     prefix: /uhk
 
+_villa:
+    resource: "@VillaBundle/Resources/config/routing.yml"
+    prefix: /villa
+
 
 mw_rapportage_redirect:
     path: /maatschappelijk_werk/rapportage

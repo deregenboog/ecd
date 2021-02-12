@@ -138,6 +138,8 @@ security:
         ROLE_EROPUIT: []
         ROLE_BUURTBOERDERIJ:
             - CONTROLLER_APP_VRIJWILLIGERS
+        ROLE_VILLA:
+            - CONTROLLER_APP_VRIJWILLIGERS
         ROLE_ADMIN:
             - ROLE_USER
             - ROLE_MW

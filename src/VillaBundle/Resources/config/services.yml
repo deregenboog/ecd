@@ -1,0 +1,12 @@
+imports:
+    - { resource: daos.yml }
+    - { resource: exports.yml }
+#    - { resource: reports.yml }
+
+services:
+    villa.document.entities:
+        public: true
+        class: ArrayObject
+        arguments:
+            -
+              - { key: vrijwilliger, dao: '@VillaBundle\Service\VrijwilligerDao' }

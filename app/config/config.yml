@@ -176,6 +176,10 @@ vich_uploader:
             namer: vich_uploader.namer_uniqid
             uri_prefix: /uhk/documenten/download
             upload_destination: '%kernel.root_dir%/../archive/uhk'
+        villa_document:
+            namer: vich_uploader.namer_uniqid
+            uri_prefix: /villa/documenten/download
+            upload_destination: '%kernel.root_dir%/../archive/villa'
 
 shivas_versioning:
     version_parameter: application_version
