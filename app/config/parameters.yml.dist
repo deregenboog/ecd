@@ -54,6 +54,8 @@ parameters:
             - 'Nachtopvang Schuitenhuisstraat'
             - 'T6 Nachtopvang'
             - 'T6 Inloop'
+            - 'Tagrijn'
+            - 'Casa Jepie'
     spuitomruil_locaties:
         - 'Princehof gebruikersruimte'
         - 'Amoc gebruikersruimte'
