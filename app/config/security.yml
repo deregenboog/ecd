@@ -95,4 +95,5 @@ security:
         - { path: ^/scip, roles: ROLE_SCIP }
         - { path: ^/uhk/admin, roles: ROLE_UHK_BEHEER }
         - { path: ^/uhk, roles: ROLE_UHK }
+        - { path: ^/villa, roles: ROLE_VILLA }
         - { path: ^/, roles: CONTROLLER_ACCESS_VOTER }

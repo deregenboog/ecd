@@ -1,0 +1,14 @@
+{% extends '::base.html.twig' %}
+
+{% block title %}
+    Villa | {{ title }}
+{% endblock %}
+
+{% block subnavigation %}
+    {% include '@Villa/subnavigation.html.twig' %}
+{% endblock %}
+
+{% block content %}
+    <h1>{{ entity_name|capitalize }} toevoegen</h1>
+    {{ form(form) }}
+{% endblock %}

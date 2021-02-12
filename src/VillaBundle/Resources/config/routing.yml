@@ -1,0 +1,9 @@
+villa_annotations:
+    resource: "@VillaBundle/Controller"
+    type: annotation
+
+villa_index:
+    path: /
+    defaults:
+        _controller: FrameworkBundle:Redirect:redirect
+        route: villa_vrijwilligers_index

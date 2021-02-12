@@ -1,0 +1,30 @@
+<?php
+
+namespace VillaBundle\Controller;
+
+use AppBundle\Controller\AbstractController;
+use VillaBundle\Entity\Afsluitreden;
+use VillaBundle\Form\AfsluitredenType;
+use VillaBundle\Service\AfsluitredenDaoInterface;
+use JMS\DiExtraBundle\Annotation as DI;
+use Symfony\Component\Routing\Annotation\Route;
+
+/**
+ * @Route("/admin/afsluitredenen")
+ */
+class AfsluitredenenVrijwilligersController extends AbstractController
+{
+    protected $title = 'Afsluitredenen vrijwilligers';
+    protected $entityName = 'afsluitreden';
+    protected $entityClass = Afsluitreden::class;
+    protected $formClass = AfsluitredenType::class;
+    protected $baseRouteName = 'villa_afsluitredenenvrijwilligers_';
+    protected $disabledActions = ['view', 'delete'];
+
+    /**
+     * @var AfsluitredenDaoInterface
+     *
+     * @DI\Inject("VillaBundle\Service\AfsluitredenDao")
+     */
+    protected $dao;
+}
