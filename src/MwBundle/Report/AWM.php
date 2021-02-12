@@ -78,7 +78,7 @@ class AWM extends AbstractReport
         ;
 
         $this->reports[] = [
-            'title' => 'Economisch daklozen',
+            'title' => $this->title,
             'xDescription' => $this->xDescription,
             'yDescription' => $this->yDescription,
             'data' => $table->render(),
