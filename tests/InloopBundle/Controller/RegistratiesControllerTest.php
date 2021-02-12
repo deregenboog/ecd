@@ -62,7 +62,7 @@ class RegistratiesControllerTest extends WebTestCase
     private function checkIntakeOnDiensten($id,$xPathExpression)
     {
         $crawler = $this->client->request('GET', "/inloop/intakes/$id/view");
-        file_put_contents("/tmp/debug.html", $crawler->html());
+//        file_put_contents("/tmp/debug.html", $crawler->html());
         $this->assertStatusCode(200, $this->client);
         $node = $crawler->filterXPath($xPathExpression);
         $this->assertTrue($node->count() == 1);

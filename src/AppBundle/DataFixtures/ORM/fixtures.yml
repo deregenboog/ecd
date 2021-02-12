@@ -718,6 +718,15 @@ AppBundle\Entity\Medewerker:
         achternaam: '<lastname()>'
         eersteBezoek: '<dateTimeThisDecade()>'
         laatsteBezoek: '<dateTimeThisDecade()>'
+    medewerker_villa:
+        ldapGuid (unique): '<randomNumber()>'
+        username: 'villa_user'
+        roles: [ 'ROLE_VILLA' ]
+        email: '<email()>'
+        voornaam: '<firstname()>'
+        achternaam: '<lastname()>'
+        eersteBezoek: '<dateTimeThisDecade()>'
+        laatsteBezoek: '<dateTimeThisDecade()>'
     medewerker_{1..15}:
         ldapGuid (unique): '<randomNumber()>'
         roles: ['ROLE_USER']
