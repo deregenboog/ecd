@@ -45,6 +45,9 @@ src/ClipBundle/Resources/views/deelnames/add.html.twig
 src/ClipBundle/Resources/views/deelnames/delete.html.twig
 src/ClipBundle/Resources/views/deelnames/edit.html.twig
 src/ClipBundle/Resources/views/documenten/_list.html.twig
+src/ClipBundle/Resources/views/documenten/add.html.twig
+src/ClipBundle/Resources/views/documenten/delete.html.twig
+src/ClipBundle/Resources/views/documenten/edit.html.twig
 src/ClipBundle/Resources/views/klanten/close.html.twig
 src/ClipBundle/Resources/views/klanten/open.html.twig
 src/ClipBundle/Resources/views/klanten/view.html.twig
