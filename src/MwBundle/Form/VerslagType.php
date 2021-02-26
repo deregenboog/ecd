@@ -7,6 +7,7 @@ use AppBundle\Form\AppTextareaType;
 use AppBundle\Form\BaseType;
 use AppBundle\Form\MedewerkerType;
 use Doctrine\ORM\EntityRepository;
+use FOS\CKEditorBundle\Form\Type\CKEditorType;
 use InloopBundle\Form\LocatieSelectType;
 use MwBundle\Entity\Contactsoort;
 use MwBundle\Entity\Doorverwijzing;
@@ -54,13 +55,14 @@ class VerslagType extends AbstractType
                 'required' => true,
                 'expanded' => true,
             ])
-            ->add('opmerking', AppTextareaType::class, [
-                'required' => true,
-                'attr' => [
-                    'cols' => 50,
-                    'rows' => 10,
-                ],
-            ])
+//            ->add('opmerking', AppTextareaType::class, [
+//                'required' => true,
+//                'attr' => [
+//                    'cols' => 50,
+//                    'rows' => 10,
+//                ],
+//            ])
+            ->add('opmerking', CKEditorType::class, ['attr' => ['rows' => 10,'cols'=>50],'required'=>true])
             ->add('accessType', ChoiceType::class,[
                 'required'=>true,
                 'label'=>'Zichtbaar voor',
