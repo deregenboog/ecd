@@ -7,10 +7,10 @@ use AppBundle\Report\Grid;
 use InloopBundle\Entity\Locatie;
 use MwBundle\Service\VerslagDao;
 
-class AWM extends AbstractReport
+class AMW extends AbstractReport
 {
 
-    protected $title = 'AWM';
+    protected $title = 'AMW';
 
     protected $xPath = 'type';
 
@@ -33,9 +33,12 @@ class AWM extends AbstractReport
      */
     private $locatie;
 
-    public function __construct(VerslagDao $dao, $awm_locaties)
+
+    private $amw_locaties;
+
+    public function __construct(VerslagDao $dao, $amw_locaties)
     {
-        $this->awm_locaties = $awm_locaties;
+        $this->amw_locaties = $amw_locaties;
         $this->dao = $dao;
     }
 
@@ -57,7 +60,7 @@ class AWM extends AbstractReport
         $query = $this->dao->countUniqueKlantenVoorLocaties(
             $this->startDate,
             $this->endDate,
-            $this->awm_locaties
+            $this->amw_locaties
             //[31,36,37,38,42,43] //remote locations hardcoded...
 //            [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21]
         );

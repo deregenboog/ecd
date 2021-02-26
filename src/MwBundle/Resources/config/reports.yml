@@ -18,11 +18,11 @@ services:
         tags:
             - { name: mw.rapportage, category: Klanten }
 
-    MwBundle\Report\AWM:
+    MwBundle\Report\AMW:
         public: true
         arguments:
             - '@MwBundle\Service\VerslagDao'
-            - '%awm_locaties%'
+            - '%amw_locaties%'
         tags:
             - { name: mw.rapportage, category: Klanten }
 
