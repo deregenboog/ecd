@@ -122,7 +122,6 @@ class Vrijwilliger implements MemoSubjectInterface, DocumentSubjectInterface
         if ($vrijwilliger) {
             $this->vrijwilliger = $vrijwilliger;
         }
-        $this->locaties = new ArrayCollection();
         $this->trainingDeelnames = new ArrayCollection();
         $this->datumNotitieIntake = new \DateTime("now");
     }
@@ -202,24 +201,7 @@ class Vrijwilliger implements MemoSubjectInterface, DocumentSubjectInterface
         return $this;
     }
 
-    public function getLocaties()
-    {
-        return $this->locaties;
-    }
 
-    public function addLocatie(Locatie $locatie)
-    {
-        $this->locaties->add($locatie);
-
-        return $this;
-    }
-
-    public function removeLocatie(Locatie $locatie)
-    {
-        $this->locaties->removeElement($locatie);
-
-        return $this;
-    }
 
 
     public function isActief()
