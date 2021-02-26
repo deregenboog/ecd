@@ -74,64 +74,7 @@ class VerslagType extends AbstractType
             ->add('submit', SubmitType::class)
         ;
 
-        foreach ($options['inventarisaties'] as $categoryId => $inventarisaties) {
-            $rendered = [];
-            $choices = [];
-            foreach ($inventarisaties as $key => $inventarisatie) {
-                if ('rootName' !== $key && 'N' !== $inventarisatie->getActie()) {
-                    $path = $inventarisatie->getPath(1);
-                    $choice = [array_shift($path) => $inventarisatie];
-                    while (count($path)) {
-                        $choice = [array_shift($path) => $choice];
-                    }
-                    $choices = array_merge_recursive($choices, $choice);
-                }
-            }
-            $builder->add('inventarisatie_'.$categoryId, ChoiceType::class, [
-                'expanded' => true,
-                'label' => $inventarisaties['rootName'],
-                'choices' => $choices,
-            ]);
-
-            foreach ($inventarisaties as $key => $inventarisatie) {
-                if ('rootName' !== $key) {
-                    if ('Doorverwijzer' === $inventarisatie->getActie()) {
-                        $builder->add('inventarisatie_doorverwijzer_'.$inventarisatie->getId(), EntityType::class, [
-                            'label' => $inventarisatie->getTitel(),
-                            'required' => false,
-                            'placeholder' => 'Doorverwezen naar...',
-                            'class' => Doorverwijzing::class,
-                            'query_builder' => function (EntityRepository $repository) {
-                                return $repository->createQueryBuilder('doorverwijzing')
-                                    ->where('doorverwijzing.startdatum <= NOW()')
-                                    ->andWhere('doorverwijzing.einddatum IS NULL OR doorverwijzing.einddatum > NOW()')
-                                    ->orderBy('doorverwijzing.naam')
-                                ;
-                            },
-                        ]);
-                    } elseif ('Trajecthouder' === $inventarisatie->getActie()) {
-                        $builder->add('inventarisatie_trajecthouder_'.$inventarisatie->getId(), EntityType::class, [
-                            'label' => $inventarisatie->getTitel(),
-                            'required' => false,
-                            'placeholder' => 'Doorverwezen naar...',
-                            'class' => Trajecthouder::class,
-                            'query_builder' => function (EntityRepository $repository) {
-                                return $repository->createQueryBuilder('trajecthouder')
-                                    ->where('trajecthouder.startdatum <= NOW()')
-                                    ->andWhere('trajecthouder.einddatum IS NULL OR trajecthouder.einddatum > NOW()')
-                                    ->orderBy('trajecthouder.naam')
-                                ;
-                            },
-                        ]);
-                    }
-                }
-            }
-        }
-
-        $builder->addEventListener(FormEvents::POST_SUBMIT, function (FormEvent $event) {
-            $event->getData()->syncInventarisaties();
-        });
-    }
+           }
 
     /**
      * {@inheritdoc}
