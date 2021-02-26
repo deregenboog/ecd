@@ -7,7 +7,7 @@ use AppBundle\Report\AbstractReport;
 use AppBundle\Report\AbstractSqlFileReport;
 use AppBundle\Report\Table;
 use Doctrine\ORM\EntityManager;
-use MwBundle\Entity\Afsluiting;
+
 
 class RepatrieringenPerKlant extends AbstractSqlFileReport
 {
