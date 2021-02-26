@@ -44,7 +44,7 @@ class VerslagDao extends AbstractDao implements VerslagDaoInterface
         $builder = $this->repository->createQueryBuilder('verslagen');
 
         $builder = self::buildUniqueKlantenVoorLocatiesQuery($builder,$startdatum,$einddatum,$locatieNamen);
-//        $sql = $this->getFullSQL($builder->getQuery());
+        $sql = $this->getFullSQL($builder->getQuery());
 
         return $builder->getQuery();
 
