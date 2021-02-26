@@ -9,6 +9,7 @@ class VrijwilligerControllerTest extends WebTestCase
 {
     public function testSortColumns()
     {
+        $this->markTestSkipped();
 
         $medewerker = $this->getContainer()->get('AppBundle\Service\MedewerkerDao')->find('villa_user');
         $this->logIn($medewerker);
