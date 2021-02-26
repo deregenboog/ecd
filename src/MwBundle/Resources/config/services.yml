@@ -31,10 +31,8 @@ services:
 
     MwBundle\Form\IntakeFilterType:
         class: MwBundle\Form\IntakeFilterType
-        calls:
-            - method: setWachtlijstLocaties
-              arguments:
-                  - "%wachtlijst_locaties%"
+        arguments:
+            - '@InloopBundle\Service\LocatieDao'
         tags:
             - { name: form.type, alias: 'container_aware' }
 

@@ -35,4 +35,14 @@ class LocatieDao extends AbstractDao implements LocatieDaoInterface
     {
         $this->doDelete($locatie);
     }
+
+    public function getWachtlijstLocaties()
+    {
+        $builder = $this->entityManager->createQueryBuilder("locatie");
+        $builder->select("locatie.naam")
+            ->from(Locatie::class,"locatie")
+            ->where("locatie.wachtlijst = 1");
+        $wachtlijstlocaties = $builder->getQuery()->getResult();
+        return $wachtlijstlocaties;
+    }
 }

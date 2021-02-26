@@ -6,7 +6,10 @@ use AppBundle\Filter\FilterInterface;
 use AppBundle\Service\AbstractDao;
 use Doctrine\ORM\EntityManager;
 use InloopBundle\Entity\Intake;
+use InloopBundle\Entity\Locatie;
 use InloopBundle\Event\Events;
+use InloopBundle\Service\LocatieDao;
+use InloopBundle\Service\LocatieDaoInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
@@ -42,8 +45,13 @@ class IntakeDao extends AbstractDao implements IntakeDaoInterface
         EntityManager $entityManager,
         PaginatorInterface $paginator,
         $itemsPerPage,
-        EventDispatcherInterface $eventDispatcher
+        EventDispatcherInterface $eventDispatcher,
+        LocatieDaoInterface $locatieDao
+
     ) {
+        $wachtlijstlocaties = $locatieDao->getWachtlijstLocaties();
+
+        $this->wachtlijstLocaties = $wachtlijstlocaties;
         parent::__construct($entityManager, $paginator, $itemsPerPage);
         $this->eventDispatcher = $eventDispatcher;
     }
@@ -94,9 +102,5 @@ class IntakeDao extends AbstractDao implements IntakeDaoInterface
         $this->eventDispatcher->dispatch(Events::INTAKE_UPDATED, new GenericEvent($entity));
 
         return $entity;
-    }
-
-    public function setWachtlijstLocaties($wachtlijstLocaties){
-        $this->wachtlijstLocaties = $wachtlijstLocaties;
     }
 }

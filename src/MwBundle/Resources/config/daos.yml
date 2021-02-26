@@ -36,10 +36,9 @@ services:
         parent: app.dao.abstract
         arguments:
             - '@event_dispatcher'
-        calls:
-            - method: setWachtlijstLocaties
-              arguments:
-                  - "%wachtlijst_locaties%"
+            - '@InloopBundle\Service\LocatieDao'
+
+
     mw.memo.entities:
         public: true
         class: ArrayObject
