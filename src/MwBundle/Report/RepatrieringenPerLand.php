@@ -6,7 +6,7 @@ use AppBundle\Entity\Klant;
 use AppBundle\Report\AbstractReport;
 use AppBundle\Report\Table;
 use Doctrine\ORM\EntityManager;
-use MwBundle\Entity\Afsluiting;
+
 
 class RepatrieringenPerLand extends AbstractReport
 {
@@ -39,7 +39,7 @@ class RepatrieringenPerLand extends AbstractReport
         $builder = $this->entityManager->getRepository(Klant::class)->createQueryBuilder('klant')
             ->select('COUNT(klant.id) AS aantal')
             ->addSelect('land.land AS groep')
-            ->innerJoin(Afsluiting::class, 'afsluiting', 'WITH', 'klant.huidigeStatus = afsluiting')
+            ->innerJoin(\InloopBundle\Entity\Afsluiting::class, 'afsluiting', 'WITH', 'klant.huidigeStatus = afsluiting')
             ->innerJoin('afsluiting.land', 'land')
             ->where('afsluiting.datum BETWEEN :start_date AND :end_date')
             ->groupBy('land.id')
@@ -49,6 +49,7 @@ class RepatrieringenPerLand extends AbstractReport
                 'end_date' => $this->endDate,
             ])
         ;
+
 
         $this->tables[''] = $builder->getQuery()->getResult();
     }
