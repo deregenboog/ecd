@@ -193,16 +193,6 @@ class KlantenController extends AbstractController
         ];
     }
 
-    /**
-     * @Route("/{klant}/addPartner")
-     * @param Request $request
-     * @param $klant
-     */
-    protected function addPartnerAction(Request $request, $klant)
-    {
-
-    }
-
     protected function doAdd(Request $request)
     {
         $klantId = $request->get('klant');
@@ -214,7 +204,7 @@ class KlantenController extends AbstractController
                 // redirect if already exists
                 $mwKlant = $this->dao->find($klantId);
                 if ($mwKlant) {
-                    return $this->redirectToView($mwKlant);
+                    return $this->redirectToRoute("mw_klanten_addmwdossierstatus",["id"=>$klantId]);
                 }
             }
         }
@@ -228,7 +218,7 @@ class KlantenController extends AbstractController
                 $this->dao->create($mwKlant);
                 $this->addFlash('success', ucfirst($this->entityName).' is opgeslagen.');
 
-                return $this->redirectToView($mwKlant);
+                return $this->redirectToRoute("mw_klanten_addmwdossierstatus",["id"=>$mwKlant->getId()]);
             } catch (\Exception $e) {
                 $message = $this->container->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
                 $this->addFlash('danger', $message);
@@ -314,4 +304,84 @@ class KlantenController extends AbstractController
         ];
     }
 
+    /**
+     * @Route("/{id}/add_MwDossierStatus/")
+     */
+    public function addMwDossierStatusAction(Request $request, $id)
+    {
+
+        $klant = $this->dao->find($id);
+        $entity = new Aanmelding($klant,$this->getMedewerker());
+
+        $form = $this->getForm(AanmeldingType::class,$entity);
+        $form->handleRequest($this->getRequest());
+        if ($form->isSubmitted() && $form->isValid()) {
+            try {
+                $entityManager = $this->getEntityManager();
+                $entityManager->persist($entity);
+                $entityManager->flush();
+
+                $this->addFlash('success', 'Mw dossier is aangemaakt');
+            } catch (\Exception $e) {
+                $message = $this->container->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
+                $this->addFlash('danger', $message);
+            }
+
+            if ($url = $request->get('redirect')) {
+                return $this->redirect($url);
+            }
+
+            return $this->redirectToView($klant);
+        }
+
+        return [
+            'entity' => $entity,
+            'form' => $form->createView(),
+        ];
+    }
+
+    /**
+     * @Route("/{id}/edit_MwDossierStatus/{statusId}")
+     */
+    public function editMwDossierStatusAction(Request $request, $id,$statusId)
+    {
+
+        $klant = $this->dao->find($id);
+        $mwStatus = $klant->getMwStatus($statusId);
+
+        $type = null;
+        if($mwStatus instanceof Aanmelding)
+        {
+            $type = AanmeldingType::class;
+        }
+        else if($mwStatus instanceof Afsluiting)
+        {
+            $type = AfsluitingType::class;
+        }
+        $form = $this->getForm($type, $mwStatus);
+        $form->handleRequest($this->getRequest());
+        if ($form->isSubmitted() && $form->isValid()) {
+            try {
+                $entityManager = $this->getEntityManager();
+                $entityManager->persist($mwStatus);
+                $entityManager->flush();
+
+                $this->addFlash('success', 'Mw dossier is gewijzigd');
+            } catch (\Exception $e) {
+                $message = $this->container->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
+                $this->addFlash('danger', $message);
+            }
+
+            if ($url = $request->get('redirect')) {
+                return $this->redirect($url);
+            }
+
+            return $this->redirectToRoute('mw_klanten_index');
+        }
+
+        return [
+            'entity' => $mwStatus,
+            'form' => $form->createView(),
+        ];
+    }
 }

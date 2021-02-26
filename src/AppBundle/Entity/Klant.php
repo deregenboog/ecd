@@ -12,6 +12,8 @@ use InloopBundle\Entity\Intake;
 use InloopBundle\Entity\Locatie;
 use InloopBundle\Entity\Registratie;
 use InloopBundle\Entity\Schorsing;
+use MwBundle\Entity\Aanmelding;
+use MwBundle\Entity\BinnenViaOptieKlant;
 use MwBundle\Entity\MwDossierStatus;
 use MwBundle\Entity\Verslag;
 
@@ -148,6 +150,12 @@ class Klant extends Persoon
     private $huidigeMwStatus;
 
 
+    /**
+     * @var BinnenViaOptieKlant
+     * @ORM\OneToOne(targetEntity="MwBundle\Entity\BinnenViaOptieKlant", cascade="persist")
+     * @ORM\JoinColumn (nullable=true)
+     */
+    private $mwBinnenViaOptieKlant;
 
     /**
      * @var Registratie
@@ -587,6 +595,18 @@ class Klant extends Persoon
     public function getMwStatussen()
     {
         return $this->mwStatussen;
+        $prevDosStat = null;
+        $t = [];
+//        removal of duplicate entries.
+        foreach($this->mwStatussen as $mwDosStat)
+        {
+            if(!$prevDosStat instanceof $mwDosStat)
+            {
+                $t[] = $mwDosStat;
+            }
+            $prevDosStat = $mwDosStat;
+        }
+        return $t;
     }
 
     /**
@@ -607,6 +627,29 @@ class Klant extends Persoon
         return $this->huidigeMwStatus;
     }
 
+    public function getLaatsteBinnenViaOptieKlant(): ?BinnenViaOptieKlant
+    {
+        $binnenViaOptieKlant = null;
+        foreach($this->getMwStatussen() as $mwStatus)
+        {
+            if($mwStatus instanceof Aanmelding){
+                $binnenViaOptieKlant = $mwStatus->getBinnenViaOptieKlant();
+            }
+        }
+        return $binnenViaOptieKlant;
+    }
+
+    public function getMwStatus($id)
+    {
+        foreach($this->getMwStatussen() as $mwStatus)
+        {
+            if($mwStatus->getId() == $id)
+            {
+                return $mwStatus;
+            }
+        }
+
+    }
     /**
      * @param MwDossierStatus $huidigeMwStatus
      * @return Klant
@@ -666,7 +709,7 @@ class Klant extends Persoon
      * @param Medewerker $maatschappelijkWerker
      * @return Klant
      */
-    public function setMaatschappelijkWerker(Medewerker $maatschappelijkWerker): Klant
+    public function setMaatschappelijkWerker(?Medewerker $maatschappelijkWerker): Klant
     {
         $this->maatschappelijkWerker = $maatschappelijkWerker;
         return $this;

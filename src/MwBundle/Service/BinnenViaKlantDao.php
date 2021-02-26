@@ -4,11 +4,11 @@ namespace MwBundle\Service;
 
 use AppBundle\Service\AbstractDao;
 use MwBundle\Entity\BinnenVia;
-use MwBundle\Entity\BinnenViaOptieVW;
+use MwBundle\Entity\BinnenViaOptieKlant;
 
-class BinnenViaDao extends AbstractDao implements BinnenViaDaoInterface
+class BinnenViaKlantDao extends AbstractDao implements BinnenViaDaoInterface
 {
-    protected $class = BinnenViaOptieVW::class;
+    protected $class = BinnenViaOptieKlant::class;
 
     protected $alias = 'binnenVia';
 

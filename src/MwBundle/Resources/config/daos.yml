@@ -25,7 +25,10 @@ services:
 
     MwBundle\Service\BinnenViaDao:
         parent: app.dao.abstract
-    
+
+    MwBundle\Service\BinnenViaKlantDao:
+        parent: app.dao.abstract
+
     MwBundle\Service\DeelnameDao:
         parent: app.dao.abstract
 

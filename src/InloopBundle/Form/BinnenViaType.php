@@ -29,7 +29,7 @@ class BinnenViaType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => BinnenVia::class,
+            'data_class' => BinnenVia::class
         ]);
     }
 

@@ -64,7 +64,7 @@ class KlantType extends AbstractType
             ->add('bsn', null, ['label' => 'BSN'])
             ->add('coronaBesmetVanaf', AppDateType::class, ['required' => false])
             ->add('medewerker', MedewerkerType::class, ['required' => true])
-            ->add('maatschappelijkWerker', MedewerkerType::class, ['required' => false])
+            ->add('maatschappelijkWerker', MedewerkerType::class, ['required' => false,'preset'=>false])
             ->add('adres')
             ->add('postcode')
             ->add('plaats')

@@ -10,12 +10,18 @@ use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="MwBundle\Repository\DossierStatusRepository")
  * @ORM\Table(name="mw_binnen_via")
  * @ORM\HasLifecycleCallbacks
+ * @ORM\InheritanceType("SINGLE_TABLE")
+ * @ORM\DiscriminatorColumn(name="class", type="string")
+ * @ORM\DiscriminatorMap({
+ *     "BinnenViaOptieVW" = "BinnenViaOptieVW",
+ *     "BinnenViaOptieKlant" = "BinnenViaOptieKlant"
+ * })
  * @Gedmo\Loggable
  */
-class BinnenVia
+abstract class BinnenVia
 {
     use IdentifiableTrait, NameableTrait, ActivatableTrait, TimestampableTrait;
 
