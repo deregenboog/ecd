@@ -38,7 +38,7 @@ parameters:
             - 'Havelaar'
             - '''t Blommetje'
             - 'Tagrijn'
-    awm_locaties:
+    amw_locaties:
             - 'Princehof inloop'
             - 'Princehof gebruikersruimte'
             - 'Blaka Watra inloop'
