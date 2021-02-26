@@ -54,6 +54,12 @@ class Locatie
     private $tbcCheck = false;
 
     /**
+     * @ORM\Column(name="wachtlijst", type="boolean", nullable=false, options={"default"=0})
+     * @Gedmo\Versioned
+     */
+    private $wachtlijst = false;
+
+    /**
      * @ORM\Column(name="datum_van", type="date", nullable=false)
      * @Gedmo\Versioned
      */
@@ -305,4 +311,24 @@ class Locatie
     {
         return false;
     }
+
+    /**
+     * @return bool
+     */
+    public function isWachtlijst(): bool
+    {
+        return $this->wachtlijst;
+    }
+
+    /**
+     * @param bool $wachtlijst
+     * @return Locatie
+     */
+    public function setWachtlijst(bool $wachtlijst): Locatie
+    {
+        $this->wachtlijst = $wachtlijst;
+        return $this;
+    }
+
+    
 }

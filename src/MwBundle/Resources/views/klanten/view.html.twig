@@ -61,7 +61,7 @@
         <dd>{{ entity.laatsteBinnenViaOptieKlant}}</dd>
     </dl>
     {% include '::klant_basis.html.twig' with {klant: entity, module: 'MaatschappelijkWerk'} %}
-    {{ render(controller('MwBundle:Klanten:_mw', {id: entity.id})) }}
+{#    {{ render(controller('MwBundle:Klanten:_mw', {id: entity.id})) }}#}
     {{ render(controller('InloopBundle:Klanten:_intakes', {id: entity.id})) }}
     {{ render(controller('InloopBundle:Klanten:_opmerkingen', {id: entity.id})) }}
     {{ render(controller('InloopBundle:Klanten:_schorsingen', {id: entity.id})) }}

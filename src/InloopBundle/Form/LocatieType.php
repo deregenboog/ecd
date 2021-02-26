@@ -4,8 +4,10 @@ namespace InloopBundle\Form;
 
 use AppBundle\Form\AppDateType;
 use AppBundle\Form\BaseType;
+use Doctrine\DBAL\Types\BooleanType;
 use InloopBundle\Entity\Locatie;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -19,6 +21,7 @@ class LocatieType extends AbstractType
     {
         $builder
             ->add('naam')
+            ->add('wachtlijst',CheckboxType::class)
             ->add('datumVan', AppDateType::class)
             ->add('datumTot', AppDateType::class)
             ->add('submit', SubmitType::class)

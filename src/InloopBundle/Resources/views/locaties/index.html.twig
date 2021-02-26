@@ -24,6 +24,9 @@
                 {{ knp_pagination_sortable(pagination, 'Naam', 'locatie.naam') }}
             </th>
             <th>
+                {{ knp_pagination_sortable(pagination, 'Heeft wachtlijst', 'locatie.wachtlijst') }}
+            </th>
+            <th>
                 {{ knp_pagination_sortable(pagination, 'Datum van', 'locatie.datumVan') }}
             </th>
             <th>
@@ -39,6 +42,9 @@
                 </td>
                 <td>
                     {{ entity }}
+                </td>
+                <td>
+                    {{ entity.wachtlijst|ja_nee }}
                 </td>
                 <td>
                     {{ entity.datumVan ? entity.datumVan|date('d-m-Y') }}

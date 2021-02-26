@@ -9,6 +9,8 @@ use AppBundle\Form\KlantFilterType as AppKlantFilterType;
 use Doctrine\ORM\EntityRepository;
 use InloopBundle\Entity\Locatie;
 use InloopBundle\Filter\IntakeFilter;
+use InloopBundle\Service\LocatieDao;
+use InloopBundle\Service\LocatieDaoInterface;
 use MwBundle\Entity\Verslag;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
@@ -22,6 +24,17 @@ class IntakeFilterType extends AbstractType implements ContainerAwareInterface
     use ContainerAwareTrait;
 
     protected $wachtlijstLocaties = array();
+
+    /**
+     * IntakeFilterType constructor.
+     * @param  $wachtlijstLocaties
+     */
+    public function __construct(LocatieDao $locatieDao)
+    {
+        $this->wachtlijstLocaties = $locatieDao->getWachtlijstLocaties();
+    }
+
+
     /**
      * {@inheritdoc}
      */
