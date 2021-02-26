@@ -1,0 +1,21 @@
+{% extends '::add.html.twig' %}
+{% import '::html.macro.twig' as html %}
+
+{% block title %}
+    Maatschappelijk werk | {{ title }}
+{% endblock %}
+
+{% block subnavigation %}
+    {% include '@Mw/subnavigation.html.twig' %}
+{% endblock %}
+
+{% block content_top %}
+    <h1>{{ entity.isAangemeld?"Aanmelding":"Afsluiting" }} wijzigen</h1>
+    <p>
+        {{ html.link('Annuleren', path('mw_klanten_view', {id: entity.klant.id}), 'cancel') }}
+    </p>
+{% endblock %}
+
+{% block content %}
+    {{ form(form) }}
+{% endblock %}

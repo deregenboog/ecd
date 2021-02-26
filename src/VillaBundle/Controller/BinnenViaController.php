@@ -1,11 +1,11 @@
 <?php
 
-namespace MwBundle\Controller;
+namespace VillaBundle\Controller;
 
 use AppBundle\Controller\AbstractController;
-use MwBundle\Entity\BinnenVia;
-use MwBundle\Form\BinnenViaType;
-use MwBundle\Service\BinnenViaDaoInterface;
+use VillaBundle\Entity\BinnenVia;
+use VillaBundle\Form\BinnenViaType;
+use VillaBundle\Service\BinnenViaDaoInterface;
 use JMS\DiExtraBundle\Annotation as DI;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -18,12 +18,12 @@ class BinnenViaController extends AbstractController
     protected $entityName = 'binnen via-optie';
     protected $entityClass = BinnenVia::class;
     protected $formClass = BinnenViaType::class;
-    protected $baseRouteName = 'mw_binnenvia_';
+    protected $baseRouteName = 'villa_binnenvia_';
 
     /**
      * @var BinnenViaDaoInterface
      *
-     * @DI\Inject("MwBundle\Service\BinnenViaDao")
+     * @DI\Inject("VillaBundle\Service\BinnenViaDao")
      */
     protected $dao;
 }

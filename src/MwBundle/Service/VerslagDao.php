@@ -15,7 +15,7 @@ class VerslagDao extends AbstractDao implements VerslagDaoInterface
 
     public function create(Verslag $entity)
     {
-        if($entity->getKlant()->getHuidigeMwStatus() != Aanmelding::class)
+        if($entity->getKlant()->getHuidigeMwStatus() == null)
         {
             $mwAanmelding = new Aanmelding($entity->getKlant(),$entity->getMedewerker());
             $entity->getKlant()->setHuidigeMwStatus($mwAanmelding);

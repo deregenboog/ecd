@@ -52,9 +52,9 @@ class Vrijwilliger implements MemoSubjectInterface, DocumentSubjectInterface
     protected $locatie;
 
     /**
-     * @var BinnenVia
+     * @var BinnenViaOptieVW
      *
-     * @ORM\ManyToOne(targetEntity="MwBundle\Entity\BinnenVia")
+     * @ORM\ManyToOne(targetEntity="MwBundle\Entity\BinnenViaOptieVW")
      * @ORM\JoinColumn(name="binnen_via_id")
      */
     protected $binnenVia;

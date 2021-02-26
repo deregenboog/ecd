@@ -42,11 +42,21 @@
 {% endblock %}
 
 {% block content_left %}
-    <ul>
-        {% for status in entity.mwStatussen %}
-            <li>{{ status }}</li>
-        {% endfor %}
-    </ul>
+    <h2>MW Dossier</h2>
+    <dl class="dl-horizontal">
+        <dt>Dossierstatussen:</dt>
+        <dd>
+            <ul>
+                {% for status in entity.mwStatussen %}
+                    <li>{{ status }}{{ html.link('', path('mw_klanten_editmwdossierstatus', {id: entity.id,statusId:status.id}), 'edit') }}</li>
+
+                {% endfor %}
+            </ul>
+        </dd>
+
+        <dt>Binnen via:</dt>
+        <dd>{{ entity.laatsteBinnenViaOptieKlant}}</dd>
+    </dl>
     {% include '::klant_basis.html.twig' with {klant: entity, module: 'MaatschappelijkWerk'} %}
     {{ render(controller('MwBundle:Klanten:_mw', {id: entity.id})) }}
     {{ render(controller('InloopBundle:Klanten:_intakes', {id: entity.id})) }}

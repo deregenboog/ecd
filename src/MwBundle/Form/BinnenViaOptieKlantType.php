@@ -2,34 +2,30 @@
 
 namespace MwBundle\Form;
 
+
 use AppBundle\Form\BaseType;
 use MwBundle\Entity\BinnenVia;
+use MwBundle\Entity\BinnenViaOptieVW;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-abstract class BinnenViaType extends AbstractType
+class BinnenViaOptieKlantType extends BinnenViaType
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function buildForm(FormBuilderInterface $builder, array $options)
-    {
-        $builder
-            ->add('naam')
-//            ->add('actief')
-            ->add('submit', SubmitType::class)
-        ;
-    }
 
 
     /**
      * {@inheritdoc}
      */
-    public function getParent()
+    public function configureOptions(OptionsResolver $resolver)
     {
-        return BaseType::class;
+        $resolver->setDefaults([
+
+            'class'=>BinnenViaOptieKlant::class,
+        ]);
     }
+
+
 }
