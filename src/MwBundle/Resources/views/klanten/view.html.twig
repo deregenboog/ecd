@@ -101,7 +101,7 @@
                         </dl>
                     </div>
                 </div>
-                <p class="well">{{ verslag.opmerking|nl2br }}</p>
+                <p class="well">{{ verslag.opmerking|striptags('<strong><em><u>')|raw|nl2br }}</p>
             {% endfor %}
         </div>
         <div id="opmerkingen" class="tab-pane">
