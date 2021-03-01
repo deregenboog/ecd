@@ -25,43 +25,7 @@
     <div class="col-xs-6">
         {{ form_row(form.medewerker) }}
         {{ form_row(form.datum) }}
-        <table class="table table-hover inventarisaties">
-        {% for id, categorie in inventarisaties %}
-            <tr>
-                <th><h4>{{ categorie.rootName }}</h4></th>
-                {% for i in range(1, max_depth - 1) %}
-                    <th width="{{ col_width }}%"></th>
-                {% endfor %}
-            </tr>
-            {% for inventarisatie in categorie|filter(inventarisatie => inventarisatie.depth is defined) %}
-                <tr>
-                    {% if inventarisatie.depth > 1 %}
-                        <td colspan="{{ inventarisatie.depth-1 }}"></td>
-                    {% endif %}
-                    <td colspan="{{ max_depth-inventarisatie.depth+1 }}">
-                    {% if 'N' != inventarisatie.actie %}
-                        {% set rendered = false %}
-                        {% for elm in form.children['inventarisatie_'~id].children|filter(elm => not rendered) %}
-                            {% if not elm.rendered and elm.vars.label == inventarisatie.titel %}
-                                {{ form_row(elm) }}
-                                {% set rendered = true %}
-                            {% endif %}
-                        {% endfor %}
-                        {% if 'Doorverwijzer' == inventarisatie.actie %}
-                            {{ form_widget(form.children['inventarisatie_doorverwijzer_'~inventarisatie.id]) }}
-                            {{ form_errors(form.children['inventarisatie_doorverwijzer_'~inventarisatie.id]) }}
-                        {% elseif 'Trajecthouder' == inventarisatie.actie %}
-                            {{ form_widget(form.children['inventarisatie_trajecthouder_'~inventarisatie.id]) }}
-                            {{ form_errors(form.children['inventarisatie_trajecthouder_'~inventarisatie.id]) }}
-                        {% endif %}
-                    {% else %}
-                        {{ inventarisatie }}
-                    {% endif %}
-                    </td>
-                </tr>
-            {% endfor %}
-        {% endfor %}
-        </table>
+{#        Hier stonden inventarisaties #}
         {{ form_row(form.locatie) }}
         {{ form_row(form.contactsoort) }}
         {{ form_row(form.duur) }}

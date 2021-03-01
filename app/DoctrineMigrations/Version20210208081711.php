@@ -18,7 +18,7 @@ final class Version20210208081711 extends AbstractMigration
 
         $this->addSql('ALTER TABLE klanten ADD mwBinnenViaOptieKlant_id INT DEFAULT NULL');
         $this->addSql('ALTER TABLE klanten ADD CONSTRAINT FK_F538C5BC21E96F13 FOREIGN KEY (mwBinnenViaOptieKlant_id) REFERENCES mw_binnen_via (id)');
-        $this->addSql('ALTER TABLE klanten ADD CONSTRAINT FK_F538C5BC9393F8FE FOREIGN KEY (partner_id) REFERENCES klanten (id)');
+
 
         $this->addSql('CREATE UNIQUE INDEX UNIQ_F538C5BC21E96F13 ON klanten (mwBinnenViaOptieKlant_id)');
 
