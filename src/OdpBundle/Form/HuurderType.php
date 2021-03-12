@@ -8,6 +8,7 @@ use AppBundle\Form\BaseType;
 use AppBundle\Form\KlantType;
 use OdpBundle\Entity\Huurder;
 use OdpBundle\Entity\Verslag;
+use AppBundle\Form\ZrmType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
@@ -23,7 +24,9 @@ class HuurderType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        if ($options['data']->getKlant()->getId()) {
+        $huurder = $options['data'];
+
+        if ($huurder->getKlant()->getId()) {
             $builder->add('medewerker', MedewerkerType::class);
         } else {
             $builder
@@ -81,6 +84,18 @@ class HuurderType extends AbstractType
             ;
         }
 
+
+                if ($huurder->getZrm()) {
+                    $builder->add('zrm', ZrmType::class, [
+                        'data_class' => get_class($huurder->getZrm()),
+                        'request_module' => 'OdpHuurder',
+                    ]);
+                } else {
+                    $builder->add('zrm', ZrmType::class, [
+                        'request_module' => 'OdpHuurder',
+                    ]);
+                }
+
         $builder->add('submit', SubmitType::class, ['label' => 'Opslaan']);
     }
 
@@ -91,6 +106,7 @@ class HuurderType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Huurder::class,
+            'request_module'=>'OdpHuurder'
         ]);
     }
 

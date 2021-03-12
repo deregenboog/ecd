@@ -3,6 +3,7 @@
 namespace OdpBundle\Entity;
 
 use AppBundle\Entity\Medewerker;
+use AppBundle\Entity\Zrm;
 use AppBundle\Model\RequiredMedewerkerTrait;
 use AppBundle\Model\TimestampableTrait;
 use Doctrine\ORM\Mapping as ORM;
@@ -46,7 +47,6 @@ class Intake
     private $deelnemer;
 
 
-
     public function getId()
     {
         return $this->id;
@@ -61,8 +61,5 @@ class Intake
     {
         return $this->deelnemer;
     }
-
-
-
 
 }

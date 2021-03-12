@@ -78,6 +78,7 @@
         <li class="active"><a data-toggle="tab" href="#huurverzoeken">Huurverzoeken / Koppelingen</a></li>
         <li><a data-toggle="tab" href="#verslagen">Verslagen</a></li>
         <li><a data-toggle="tab" href="#documenten">Documenten</a></li>
+        <li><a data-toggle="tab" href="#zrm">ZRM</a></li>
     </ul>
     <div class="tab-content">
         <div id="huurverzoeken" class="tab-pane active">
@@ -89,6 +90,9 @@
         </div>
         <div id="documenten" class="tab-pane">
             {% include 'OdpBundle:documenten:_list.html.twig' with {huurder: entity} %}
+        </div>
+        <div id="zrm" class="tab-pane">
+            {% include 'AppBundle:zrms:_detail.html.twig' with {entity: entity.zrm} %}
         </div>
     </div>
 {% endblock %}
