@@ -36,14 +36,6 @@ class Managementrapportage extends AbstractReport
      */
     private $projecten;
 
-    /**
-     * @var array
-     */
-    private $teams = [
-        'Team C O N' => ['Centrum', 'Oost', 'Noord'],
-        'Team ZO Z Diemen' => ['Zuidoost', 'Zuid', 'Diemen'],
-        'Team W NW' => ['West', 'Nieuw-West'],
-    ];
 
     public function __construct(
         HulpvraagRepository $repository,
@@ -64,7 +56,6 @@ class Managementrapportage extends AbstractReport
         $this->queue = new \SplPriorityQueue();
         $this->initTotal();
         $this->initStadsdelen();
-        $this->initTeams();
         $this->initFondsen();
         foreach ($this->queue as $data) {
             $this->data = array_merge($this->data, $data);
@@ -170,49 +161,6 @@ class Managementrapportage extends AbstractReport
                 })],
                 --$priority
             );
-        }
-    }
-
-    private function initTeams()
-    {
-        // re-use existing data
-        $existingData = [];
-        foreach (clone $this->queue as $data) {
-            $existingData = array_merge($existingData, $data);
-        }
-
-        // init structure
-        foreach (array_keys($this->teams) as $team) {
-            $teamData[$team] = [];
-        }
-
-        // cijfers stadsdelen toekennen aan betreffende teams
-        foreach ($this->teams as $team => $stadsdelen) {
-            foreach ($stadsdelen as $stadsdeel) {
-                if (array_key_exists('Stadsdeel '.$stadsdeel, $existingData)) {
-                    $teamData[$team] = array_merge($teamData[$team], $existingData['Stadsdeel '.$stadsdeel]);
-                }
-            }
-        }
-
-        // cijfers zonder stadsdeel verdelen over teams
-        $doelstellingen = $this->doelstellingRepository->countByJaarWithoutStadsdeel($this->startDate->format('Y'));
-        foreach ($doelstellingen as &$doelstelling) {
-            $remainingTeams = count($this->teams);
-            foreach (array_keys($this->teams) as $team) {
-                $amount = round($doelstelling['aantal'] / $remainingTeams);
-                $doelstelling['aantal'] -= $amount;
-                $teamData[$team][] = [
-                    'projectnaam' => $doelstelling['projectnaam'],
-                    'kolom' => 'Doelstelling',
-                    'aantal' => $amount,
-                ];
-                --$remainingTeams;
-            }
-        }
-
-        foreach ($teamData as $key => $data) {
-            $this->queue->insert([$key => $data], 50);
         }
     }
 
