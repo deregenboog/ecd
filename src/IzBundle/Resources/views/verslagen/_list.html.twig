@@ -38,7 +38,7 @@
     </p>
     {% for verslag in verslagen %}
         <h3 id="verslag-{{ verslag.id }}">
-            {{ class(verslag, false) }} {{ verslag.created|date('d-m-Y - H:i')~' uur' }} | {{ verslag.medewerker }}
+            {{ class(verslag, false) }} {{ verslag.created?verslag.created|date('d-m-Y - H:i')~' uur':'' }} | {{ verslag.medewerker }}
         </h3>
         <p>
             {% set edit_url = path('iz_verslagen_edit', {id: verslag.id}) %}
