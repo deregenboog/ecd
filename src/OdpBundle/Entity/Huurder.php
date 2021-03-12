@@ -4,6 +4,7 @@ namespace OdpBundle\Entity;
 
 use AppBundle\Entity\Klant;
 use AppBundle\Entity\Medewerker;
+use AppBundle\Entity\Zrm;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\PersistentCollection;
@@ -92,6 +93,13 @@ class Huurder extends Deelnemer
      */
     protected $projecten;
 
+
+    /**
+     * @var Zrm
+     *
+     * @ORM\OneToOne(targetEntity="AppBundle\Entity\Zrm", cascade={"persist"})
+     */
+    private $zrm;
 
 
 
@@ -287,5 +295,23 @@ class Huurder extends Deelnemer
         return $this;
     }
 
+
+    /**
+     * @return Zrm
+     */
+    public function getZrm(): ?Zrm
+    {
+        return $this->zrm;
+    }
+
+    /**
+     * @param Zrm $zrm
+     */
+    public function setZrm(Zrm $zrm)
+    {
+        $zrm->setRequestModule("OdpHuurder");
+        $zrm->setKlant($this->getKlant());
+        $this->zrm = $zrm;
+    }
 
 }
