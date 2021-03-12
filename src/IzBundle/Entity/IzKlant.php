@@ -276,7 +276,21 @@ class IzKlant extends IzDeelnemer
 
     public function isCloseable()
     {
-        return !$this->isAfgesloten() &&
-            0 === count($this->getOpenHulpvragen()) + count($this->getActieveKoppelingen());
+
+//        return !$this->isAfgesloten() &&
+//            0 === count($this->getOpenHulpvragen()) + count($this->getActieveKoppelingen());
+
+        /**
+         * in theorie zou hierboven een < 0 waarde uit kunnen komen als de koppelingen en hulpvragen telling niet klopt,
+         * waardoor ie raar gedrag vertoont...dus onderstaande even uitgeschreven.
+         */
+        $oh = count($this->getOpenHulpvragen());
+        $ak = count($this->getActieveKoppelingen());
+        $afgesloten = $this->isAfgesloten();
+       $oh = ($oh < 0)?0:$oh;
+       $ak = ($ak < 0)?0:$ak;
+
+       return ($afgesloten === false && $oh+$ak === 0);
+
     }
 }
