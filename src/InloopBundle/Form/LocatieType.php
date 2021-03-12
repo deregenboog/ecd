@@ -21,7 +21,7 @@ class LocatieType extends AbstractType
     {
         $builder
             ->add('naam')
-            ->add('wachtlijst',CheckboxType::class)
+            ->add('wachtlijst',CheckboxType::class,['required'=>false])
             ->add('datumVan', AppDateType::class)
             ->add('datumTot', AppDateType::class)
             ->add('submit', SubmitType::class)

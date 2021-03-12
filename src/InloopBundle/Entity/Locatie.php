@@ -54,7 +54,7 @@ class Locatie
     private $tbcCheck = false;
 
     /**
-     * @ORM\Column(name="wachtlijst", type="boolean", nullable=false, options={"default"=0})
+     * @ORM\Column(name="wachtlijst", type="boolean", nullable=true, options={"default"=0})
      * @Gedmo\Versioned
      */
     private $wachtlijst = false;
@@ -330,5 +330,5 @@ class Locatie
         return $this;
     }
 
-    
+
 }
