@@ -68,12 +68,6 @@ class KlantFilterType extends AbstractType
             ]);
         }
 
-        if (in_array('laatsteIntakeLocatie', $options['enabled_filters'])) {
-            $builder->add('laatsteIntakeLocatie', EntityType::class, [
-                'class' => Locatie::class,
-                'required' => false,
-            ]);
-        }
 
         if (in_array('laatsteIntakeDatum', $options['enabled_filters'])) {
             $builder->add('laatsteIntakeDatum', AppDateRangeType::class, [
