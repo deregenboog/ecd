@@ -17,7 +17,7 @@ class MedewerkerType extends AbstractType
         $resolver->setDefaults([
             'query_builder' => function (EntityRepository $repository) {
                 return $repository->createQueryBuilder('medewerker')
-                    ->innerJoin(Trajectbegeleider::class, 'trajectbegeleider', 'WITH', 'trajectbegeleider.medewerker = medewerker')
+                    ->innerJoin(Trajectbegeleider::class, 'trajectbegeleider', 'WITH', 'trajectbegeleider.medewerker = medewerker AND trajectbegeleider.actief = 1')
                     ->orderBy('medewerker.voornaam')
                 ;
             },
