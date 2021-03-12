@@ -57,10 +57,6 @@
                         {{ form_errors(filter.maatschappelijkWerker) }}
                     </th>
                     <th>
-                        {{ form_widget(filter.laatsteIntakeLocatie) }}
-                        {{ form_errors(filter.laatsteIntakeLocatie) }}
-                    </th>
-                    <th>
                         {{ form_widget(filter.laatsteVerslagDatum.start) }}
                         {{ form_errors(filter.laatsteVerslagDatum.start) }}
                         {{ form_widget(filter.laatsteVerslagDatum.end) }}
@@ -91,9 +87,6 @@
                 </th>
                 <th>
                     {{ knp_pagination_sortable(pagination, 'Maatschappelijk werker', 'maatschappelijkWerker.voornaam') }}
-                </th>
-                <th>
-                    {{ knp_pagination_sortable(pagination, 'Intakelocatie', 'laatsteIntakeLocatie.naam') }}
                 </th>
                 <th>
                     {{ knp_pagination_sortable(pagination, 'Laatste verslag', 'datumLaatsteVerslag') }}
@@ -149,9 +142,6 @@
                                 {% endfor %}
                             {% endif %}
                         </ul>
-                    </td>
-                    <td>
-                        {{ klant.laatsteIntake ? klant.laatsteIntake.intakelocatie }}
                     </td>
                     <td>
                         {{ item.datumLaatsteVerslag|date }}
