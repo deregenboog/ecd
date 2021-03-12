@@ -21,7 +21,7 @@
     <div class="col-xs-6">
         {{ form_row(form.medewerker) }}
         {{ form_row(form.datum) }}
-
+        
         {{ form_row(form.locatie) }}
         {{ form_row(form.contactsoort) }}
         {{ form_row(form.duur) }}
@@ -56,7 +56,7 @@
                         </dl>
                     </div>
                 </div>
-                <p class="well">{{ verslag.opmerking|raw|nl2br }}</p>
+                <p class="well">{{ verslag.opmerking|nl2br }}</p>
             {% endfor %}
         </div>
     </div>
