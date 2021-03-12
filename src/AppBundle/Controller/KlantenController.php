@@ -170,7 +170,14 @@ class KlantenController extends AbstractController
         }
 
         $redirect = $request->get('redirect');
-        $ret =  $this->doSearch($request, $klant);
+        $ret =  $this->doSearch($request);
+
+        if(!is_array($ret)) { //when no match is found, not 'create new' but other behaviour...
+
+            $this->container->get('session')->getFlashBag()->clear();
+            $this->addFlash('info', sprintf('De zoekopdracht leverde geen resultaten op. Zoek opnieuw of ga terug.'));
+            return $this->doSearch(new Request());
+        }
         $ret['klant'] = $klant;
         $ret['redirect'] = $redirect;
 

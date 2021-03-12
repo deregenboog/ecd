@@ -70,7 +70,7 @@ class VrijwilligersController extends AbstractController
             }
         }
 
-        if(!$this->isGranted('ROLE_ADMIN')
+        if(!$this->isGranted('ROLE_ADMIN') && $entity !== null
             && $entity->getMedewerker()->getId() != $this->getUser()->getId()
         ) {
             throw new AccessDeniedHttpException();

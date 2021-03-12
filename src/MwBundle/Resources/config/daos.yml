@@ -4,7 +4,7 @@ services:
     
     MwBundle\Service\DoorverwijzingDao:
         parent: app.dao.abstract
-    
+
     MwBundle\Service\InventarisatieDao:
         parent: app.dao.abstract
 
