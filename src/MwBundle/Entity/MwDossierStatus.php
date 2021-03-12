@@ -6,6 +6,8 @@ use AppBundle\Entity\Klant;
 use AppBundle\Entity\Medewerker;
 use AppBundle\Model\OptionalMedewerkerTrait;
 use AppBundle\Model\TimestampableTrait;
+use Doctrine\ORM\Event\LifecycleEventArgs;
+use Doctrine\ORM\Mapping\PrePersist;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 
@@ -95,5 +97,14 @@ abstract class MwDossierStatus
     public function isAfgesloten()
     {
         return $this instanceof Afsluiting;
+    }
+
+    /**
+     * @PrePersist
+     * @param \Doctrine\ORM\Event\LifecycleEventArgs $event
+     */
+    public function onPrePersist(LifecycleEventArgs $event)
+    {
+        $this->created = $this->modified = new \DateTime();
     }
 }

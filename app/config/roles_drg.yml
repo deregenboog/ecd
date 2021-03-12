@@ -212,6 +212,7 @@ ldap_tools:
             ROLE_PORTIER: "CN=ECD Portier,CN=Users,DC=cluster,DC=deregenboog"
             ROLE_MLO: "CN=ECD MLO,CN=Users,DC=cluster,DC=deregenboog"
             ROLE_MW: "CN=ECD Maatschappelijk,CN=Users,DC=cluster,DC=deregenboog"
+            ROLE_MW_BEHEER: "CN=ECD MW Beheer,CN=Users,DC=cluster,DC=deregenboog"
             ROLE_HI5: "CN=ECD Hi5,CN=Users,DC=cluster,DC=deregenboog"
             ROLE_TRAJECTBEGELEIDER: "CN=ECD Trajectbegeleider,CN=Users,DC=cluster,DC=deregenboog"
             ROLE_WERKBEGELEIDER: "CN=ECD Werkbegeleider,CN=Users,DC=cluster,DC=deregenboog"
