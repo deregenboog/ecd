@@ -74,7 +74,7 @@ class VerslagType extends AbstractType
             ->add('submit', SubmitType::class)
         ;
 
-           }
+    }
 
     /**
      * {@inheritdoc}

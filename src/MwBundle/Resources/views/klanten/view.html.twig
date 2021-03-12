@@ -45,9 +45,6 @@
     <h2>MW Dossier</h2>
     <dl class="dl-horizontal">
         <dt>Dossierstatussen:</dt>
-        {%  if not entity.huidigeMwStatus %}
-            <dd>{{ html.link('Dossier openen',path("mw_klanten_addmwdossierstatus",{id: entity.id }),'add' )}}</dd>
-        {% else %}
         <dd>
             <ul>
                 {% for status in entity.mwStatussen %}
@@ -56,12 +53,12 @@
                 {% endfor %}
             </ul>
         </dd>
-        {% endif %}
+
         <dt>Binnen via:</dt>
         <dd>{{ entity.laatsteBinnenViaOptieKlant}}</dd>
     </dl>
     {% include '::klant_basis.html.twig' with {klant: entity, module: 'MaatschappelijkWerk'} %}
-{#    {{ render(controller('MwBundle:Klanten:_mw', {id: entity.id})) }}#}
+    {{ render(controller('MwBundle:Klanten:_mw', {id: entity.id})) }}
     {{ render(controller('InloopBundle:Klanten:_intakes', {id: entity.id})) }}
     {{ render(controller('InloopBundle:Klanten:_opmerkingen', {id: entity.id})) }}
     {{ render(controller('InloopBundle:Klanten:_schorsingen', {id: entity.id})) }}
