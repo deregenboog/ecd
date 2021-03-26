@@ -72,6 +72,6 @@ class Aanmelding extends MwDossierStatus
         if (false === empty($this->binnenViaOptieKlant)) {
             return;
         }
-        $this->binnenViaOptieKlant = $event->getEntityManager()->getReference('MwBundle:BinnenViaOptieKlant', 1);
+        $this->binnenViaOptieKlant = $event->getEntityManager()->getReference('MwBundle:BinnenViaOptieKlant', 0);
     }
 }
