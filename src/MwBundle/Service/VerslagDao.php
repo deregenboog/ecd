@@ -19,10 +19,11 @@ class VerslagDao extends AbstractDao implements VerslagDaoInterface
         {
             $mwAanmelding = new Aanmelding($entity->getKlant(),$entity->getMedewerker());
             $entity->getKlant()->setHuidigeMwStatus($mwAanmelding);
+
         }
-
-
         $this->doCreate($entity);
+
+
     }
 
     public function update(Verslag $entity)

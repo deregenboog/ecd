@@ -42,23 +42,8 @@
 {% endblock %}
 
 {% block content_left %}
-    <h2>MW Dossier</h2>
-    <dl class="dl-horizontal">
-        <dt>Dossierstatussen:</dt>
-        <dd>
-            <ul>
-                {% for status in entity.mwStatussen %}
-                    <li>{{ status }}{{ html.link('', path('mw_klanten_editmwdossierstatus', {id: entity.id,statusId:status.id}), 'edit') }}</li>
-
-                {% endfor %}
-            </ul>
-        </dd>
-
-        <dt>Binnen via:</dt>
-        <dd>{{ entity.laatsteBinnenViaOptieKlant}}</dd>
-    </dl>
     {% include '::klant_basis.html.twig' with {klant: entity, module: 'MaatschappelijkWerk'} %}
-    {{ render(controller('MwBundle:Klanten:_mw', {id: entity.id})) }}
+
     {{ render(controller('InloopBundle:Klanten:_intakes', {id: entity.id})) }}
     {{ render(controller('InloopBundle:Klanten:_opmerkingen', {id: entity.id})) }}
     {{ render(controller('InloopBundle:Klanten:_schorsingen', {id: entity.id})) }}
@@ -69,12 +54,20 @@
 
 {% block content_right %}
     <ul class="nav nav-tabs">
-        <li class="active"><a data-toggle="tab" href="#verslagen">Verslagen</a></li>
+        <li class="active"><a data-toggle="tab" href="#info">Dossier/informatie</a></li>
+        <li class=""><a data-toggle="tab" href="#verslagen">Verslagen</a></li>
         <li><a data-toggle="tab" href="#opmerkingen">Opmerkingen</a></li>
         <li><a data-toggle="tab" href="#schorsingen">Schorsingen</a></li>
     </ul>
     <div class="tab-content">
-        <div id="verslagen" class="tab-pane active">
+        <div id="info" class="tab-pane active">
+            <h2>Dossierinformatie</h2>
+            <p>
+                {{ html.link('Dossierinformatie wijzigen', path('mw_klanten_infoedit', {klant: entity.id}), 'edit') }}
+            </p>
+            {{ render(controller('MwBundle:Klanten:_mw', {id: entity.id})) }}
+        </div>
+        <div id="verslagen" class="tab-pane">
             <h2>Verslagen</h2>
             <p>
                 {{ html.link('Verslag toevoegen', path('mw_verslagen_add', {klant: entity.id}), 'add') }}
