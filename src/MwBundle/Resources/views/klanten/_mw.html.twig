@@ -1,210 +1,122 @@
 {% import '::html.macro.twig' as html %}
 
-<h2>Maatschappelijk werk</h2>
-<p>
-    {{ html.link('Info wijzigen', path('mw_klanten_infoedit', {klant: klant.id}), 'edit') }}
-</p>
+<h3>Dossierstatus</h3>
+<dl class="dl-horizontal">
+    <dt>Status:</dt>
+    <dd>
+        <ul>
+            {% for status in klant.mwStatussen %}
+                <li>{{ status }}{{ html.link('', path('mw_klanten_editmwdossierstatus', {id: klant.id,statusId:status.id}), 'edit') }}</li>
+
+            {% endfor %}
+        </ul>
+    </dd>
+
+    <dt>Binnen via:</dt>
+    <dd>{{ klant.laatsteBinnenViaOptieKlant}}{{ html.link('', path('mw_klanten_editmwdossierstatus', {id: klant.id,statusId:klant.mwStatussen.last.id}), 'edit') }}</dd>
+</dl>
 {% if info %}
-    <table class="table">
-        <tr>
-            <th>RIS</th>
-            <td>{{ info.risDatumTot|if_date }}</td>
-        </tr>
+   <h3>Info</h3>
+    <div class="row">
+        <div class="col-xs-6">
+            <dl class="dl-horizontal">
+                <dt>RIS</dt>
+                <dd>{{ info.risDatumTot|if_date }}</dd>
+                <dt>Maatschappelijk werker</dt>
+                <dd>{{ klant.maatschappelijkWerker }}</dd>
+            </dl>
+        </div>
+    </div>
+    <h3>Externe hulpverlening</h3>
+    <div class="row">
+        <div class="col-xs-6">
+            <dl class="dl-horizontal">
+                <dt>Hulpverlener extern</dt>
+                <dd>{{ info.trajecthouderExternNaam }}</dd>
+                <dt>Organisatie trajecthouder</dt>
+                <dd>{{ info.trajecthouderExternOrganisatie }}</dd>
+                <dt>E-mail trajecthouder</dt>
+                <dd>{{ info.trajecthouderExternEmail }}</dd>
+                <dt>Telefoonnummer trajecthouder</dt>
+                <dd>{{ info.trajecthouderExternTelefoon }}</dd>
+                <dt>Overige externe contactpersonen</dt>
+                <dd>{{ info.overigeContactpersonenExtern }}</dd>
 
-        {% if info.casemanager %}
-            <tr>
-                <th>Casemanager</th>
-                <td>{{ info.casemanager }}</td>
-            </tr>
-        {% endif %}
+            </dl>
+        </div>
+    </div>
+    <h3>Uitkerende instantie</h3>
+    <div class="row">
+        <div class="col-xs-6">
+            <dl class="dl-horizontal">
+                <dt>Instantie</dt>
+                {% if info.instantie %}
+                    {% set instantie = constant('MwBundle\\Entity\\Info::INSTANTIES')[info.instantie] %}
+                {% else %}
+                    {% set instantie = "" %}
+                {% endif %}
+                <dd>{{ instantie }}</dd>
+                <dt>Registratienummer</dt>
+                <dd>{{ info.registratienummer }}</dd>
+            </dl>
+        </div>
+    </div>
+    <h3>Budgettering</h3>
+    <div class="row">
+        <div class="col-xs-6">
+            <dl class="dl-horizontal">
+                <dt>Budgettering</dt>
+                <dd>{{ info.budgettering }}</dd>
+            
+                <dt>Contactpersoon</dt>
+                <dd>{{ info.contactpersoon }}</dd>
+            </dl>
+        </div>
+    </div>
+    <h3>Klantmanager</h3>
+    <div class="row">
+        <div class="col-xs-6">
+            <dl class="dl-horizontal">
+                <dt>Klantmanager</dt>
+                <dd>{{ info.klantmanagerNaam }}</dd>
+            
+                <dt>E-mail klantmanager</dt>
+                <dd>{{ info.klantmanagerEmail }}</dd>
+            
+                <dt>Telefoonnummer klantmanager</dt>
+                <dd>{{ info.klantmanagerTelefoon }}</dd>
+            
+                <dt>Sociaal netwerk</dt>
+                <dd>{{ info.sociaalNetwerk|nl2br }}</dd>
+           
+                <dt>Bankrekening</dt>
+                <dd>{{ info.bankrekeningnummer }}</dd>
+            
+                <dt>Polisnummer ziektekostenverzekering</dt>
+                <dd>{{ info.polisnummerZiektekostenverzekering }}</dd>
+            </dl>
+        </div>
+    </div>
+    <h3>Woningnet</h3>
+    <div class="row">
+        <div class="col-xs-6">
+            <dl class="dl-horizontal">
+                <dt>Inschrijfnummer woningnet</dt>
+                <dd>{{ info.inschrijfnummer }}</dd>
+         
+                <dt>Wachtwoord</dt>
+                <dd>{{ info.wachtwoord }}</dd>
+          
+                <dt>Contact</dt>
+                <dd>{{ info.contact|nl2br }}</dd>
+          
+                <dt>Adres</dt>
+                <dd>{{ info.adres|nl2br }}</dd>
+                
+                <dt>Overigen</dt>
+                <dd>{{ info.overigen|nl2br }}</dd>
+            </dl>
+        </div>
+    </div>
 
-        {% if info.casemanagerEmail %}
-            <tr>
-                <th>E-mail casemanager</th>
-                <td>{{ info.casemanagerEmail }}</td>
-            </tr>
-        {% endif %}
-
-        {% if info.casemanagerTelefoon %}
-            <tr>
-                <th>Telefoonnummer casemanager</th>
-                <td>{{ info.casemanagerTelefoon }}</td>
-            </tr>
-        {% endif %}
-
-        {% if info.trajectbegeleider %}
-            <tr>
-                <th>Trajectbegeleider</th>
-                <td>{{ info.trajectbegeleider }}</td>
-            </tr>
-        {% endif %}
-
-        {% if info.trajectbegeleiderEmail %}
-            <tr>
-                <th>Telefoonnummer trajectbegeleider</th>
-                <td>{{ info.trajectbegeleiderEmail }}</td>
-            </tr>
-        {% endif %}
-
-        {% if info.trajectbegeleiderTelefoon %}
-            <tr>
-                <th>Telefoonnummer trajectbegeleider</th>
-                <td>{{ info.trajectbegeleiderTelefoon }}</td>
-            </tr>
-        {% endif %}
-
-        {% if info.trajecthouderExternNaam %}
-            <tr>
-                <th>Trajecthouder extern</th>
-                <td>{{ info.trajecthouderExternNaam }}</td>
-            </tr>
-        {% endif %}
-
-        {% if info.trajecthouderExternOrganisatie %}
-            <tr>
-                <th>Organisatie trajecthouder extern</th>
-                <td>{{ info.trajecthouderExternOrganisatie }}</td>
-            </tr>
-        {% endif %}
-
-        {% if info.trajecthouderExternEmail %}
-            <tr>
-                <th>E-mail trajecthouder extern</th>
-                <td>{{ info.trajecthouderExternEmail }}</td>
-            </tr>
-        {% endif %}
-
-        {% if info.trajecthouderExternTelefoon %}
-            <tr>
-                <th>Telefoonnummer trajecthouder extern</th>
-                <td>{{ info.trajecthouderExternTelefoon }}</td>
-            </tr>
-        {% endif %}
-
-        {% if info.overigeContactpersonenExtern %}
-            <tr>
-                <th>Overige externe contactpersonen</th>
-                <td>{{ info.overigeContactpersonenExtern }}</td>
-            </tr>
-        {% endif %}
-
-        {% if info.instantie %}
-            <tr>
-                <th>Instantie</th>
-                <td>{{ constant('MwBundle\\Entity\\Info::INSTANTIES')[info.instantie] }}</td>
-            </tr>
-        {% endif %}
-
-        {% if info.registratienummer %}
-            <tr>
-                <th>Registratienummer</th>
-                <td>{{ info.registratienummer }}</td>
-            </tr>
-        {% endif %}
-
-        {% if info.budgettering %}
-            <tr>
-                <th>Budgettering</th>
-                <td>{{ info.budgettering }}</td>
-            </tr>
-        {% endif %}
-
-        {% if info.contactpersoon %}
-            <tr>
-                <th>Contactpersoon</th>
-                <td>{{ info.contactpersoon }}</td>
-            </tr>
-        {% endif %}
-
-        {% if info.klantmanagerNaam %}
-            <tr>
-                <th>Klantmanager</th>
-                <td>{{ info.klantmanagerNaam }}</td>
-            </tr>
-        {% endif %}
-
-        {% if info.klantmanagerEmail %}
-            <tr>
-                <th>E-mail klantmanager</th>
-                <td>{{ info.klantmanagerEmail }}</td>
-            </tr>
-        {% endif %}
-
-        {% if info.klantmanagerTelefoon %}
-            <tr>
-                <th>Telefoonnummer klantmanager</th>
-                <td>{{ info.klantmanagerTelefoon }}</td>
-            </tr>
-        {% endif %}
-
-        {% if info.sociaalNetwerk %}
-            <tr>
-                <th>Sociaal netwerk</th>
-                <td>{{ info.sociaalNetwerk|nl2br }}</td>
-            </tr>
-        {% endif %}
-
-        {% if info.bankrekeningnummer %}
-            <tr>
-                <th>Bankrekening</th>
-                <td>{{ info.bankrekeningnummer }}</td>
-            </tr>
-        {% endif %}
-
-        {% if info.polisnummerZiektekostenverzekering %}
-            <tr>
-                <th>Polisnummer ziektekostenverzekering</th>
-                <td>{{ info.polisnummerZiektekostenverzekering }}</td>
-            </tr>
-        {% endif %}
-
-        {% if info.inschrijfnummer %}
-            <tr>
-                <th>Inschrijfnummer</th>
-                <td>{{ info.inschrijfnummer }}</td>
-            </tr>
-        {% endif %}
-
-        {% if info.wachtwoord %}
-            <tr>
-                <th>Wachtwoord</th>
-                <td>{{ info.wachtwoord }}</td>
-            </tr>
-        {% endif %}
-
-        {% if info.telefoonnummer %}
-            <tr>
-                <th>Telefoonnummer</th>
-                <td>{{ info.telefoonnummer }}</td>
-            </tr>
-        {% endif %}
-
-        {% if info.contact %}
-            <tr>
-                <th>Contact</th>
-                <td>{{ info.contact|nl2br }}</td>
-            </tr>
-        {% endif %}
-
-        {% if info.adres %}
-            <tr>
-                <th>Adres</th>
-                <td>{{ info.adres|nl2br }}</td>
-            </tr>
-        {% endif %}
-
-        {% if info.overigen %}
-            <tr>
-                <th>Overigen</th>
-                <td>{{ info.overigen|nl2br }}</td>
-            </tr>
-        {% endif %}
-
-        {#% if info.advocaat %}
-            <tr>
-                <th>Advocaat</th>
-                <td>{{ info.advocaat|nl2br }}</td>
-            </tr>
-        {% endif %#}
-    </table>
 {% endif %}

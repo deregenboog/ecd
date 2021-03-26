@@ -25,19 +25,12 @@ class InfoType extends AbstractType
             ->add('risDatumTot', AppDateType::class, ['required' => false])
         ;
 
-        $casemanager = $builder->create('casemanagerForm', ContainerType::class, ['label' => 'Casemanager DRG'])
-            ->add('casemanager', MedewerkerType::class, ['required' => false])
-            ->add('casemanagerEmail', null, ['label' => 'E-mail', 'required' => false])
-            ->add('casemanagerTelefoon', null, ['label' => 'Telefoonnummer', 'required' => false])
-        ;
 
-        $trajectbegeleider = $builder->create('trajectbegeleiderForm', ContainerType::class, ['label' => 'Trajectbegeleider'])
-            ->add('trajectbegeleider', MedewerkerType::class, ['required' => false])
-            ->add('trajectbegeleiderEmail', null, ['label' => 'E-mail', 'required' => false])
-            ->add('trajectbegeleiderTelefoon', null, ['label' => 'Telefoonnummer', 'required' => false])
-        ;
+//        $trajectbegeleider = $builder->create('trajectbegeleiderForm', ContainerType::class, ['label' => 'Trajectbegeleider/maatschappelijk werker'])
+//            ->add('trajectbegeleider', MedewerkerType::class, ['required' => false])
+//        ;
 
-        $trajecthouder = $builder->create('trajecthouderForm', ContainerType::class, ['label' => 'Trajecthouder extern'])
+        $trajecthouder = $builder->create('trajecthouderForm', ContainerType::class, ['label' => 'Hulpverlening extern'])
             ->add('trajecthouderExternOrganisatie', null, ['label' => 'Organisatie', 'required' => false])
             ->add('trajecthouderExternNaam', null, ['label' => 'Naam', 'required' => false])
             ->add('trajecthouderExternEmail', null, ['label' => 'E-mail', 'required' => false])
@@ -68,8 +61,7 @@ class InfoType extends AbstractType
 
         $builder
             ->add($ris)
-            ->add($casemanager)
-            ->add($trajectbegeleider)
+//            ->add($trajectbegeleider)
             ->add($trajecthouder)
             ->add('overigeContactpersonenExtern', AppTextareaType::class, [
                 'attr' => ['rows' => 5],
