@@ -119,7 +119,7 @@
                          </dl>
                      </div>
                  </div>
-                 <p class="well">{{ verslag.opmerking|nl2br }}</p>
+                 <p class="well">{{ verslag.opmerking|raw|nl2br }}</p>
 
             {% endfor %}
         </div>
