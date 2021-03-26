@@ -139,14 +139,6 @@ class KlantDao extends AbstractDao implements KlantDaoInterface
 
     public function create(Klant $entity)
     {
-        //2102026 geen idee waarom dit hier staat maar dit mag er uit.?
-
-//        $aanmelding = new \InloopBundle\Entity\Aanmelding($entity, $entity->getMedewerker());
-//        $entity->setHuidigeStatus($aanmelding);
-
-//        $mwAanmelding = new Aanmelding($entity,$entity->getMedewerker());
-//        $entity->setHuidigeMwStatus($mwAanmelding);
-
         return parent::doCreate($entity);
     }
 
