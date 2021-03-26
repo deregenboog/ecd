@@ -213,6 +213,14 @@ class KlantenController extends AbstractController
                 $this->addFlash('danger', $message);
             }
 
+            if(array_key_exists("mwSluiten",$request->get('afsluiting')) )
+            {
+                if($klant->getHuidigeMwStatus() instanceof \MwBundle\Entity\Aanmelding)
+                {
+                    return $this->redirectToRoute("mw_klanten_close",["id"=>$id,"redirect"=>$this->generateUrl("inloop_klanten_index")]);
+                }
+
+            }
             if ($url = $request->get('redirect')) {
                 return $this->redirect($url);
             }

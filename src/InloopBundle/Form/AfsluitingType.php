@@ -9,6 +9,7 @@ use Doctrine\ORM\EntityRepository;
 use InloopBundle\Entity\Afsluiting;
 use InloopBundle\Entity\RedenAfsluiting;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormError;
@@ -43,6 +44,11 @@ class AfsluitingType extends AbstractType
                 'required' => false,
                 'placeholder' => '',
                 'label' => 'Land van bestemming',
+            ])
+            ->add('mwSluiten',CheckboxType::class,[
+                'label'=>"MW dossier (indien aanwezig) ook sluiten?",
+                'required'=>false,
+                'mapped'=>false,
             ])
             ->add('toelichting')
             ->add('submit', SubmitType::class, ['label' => 'Opslaan'])
