@@ -13,7 +13,7 @@
     </dd>
 
     <dt>Binnen via:</dt>
-    <dd>{{ klant.laatsteBinnenViaOptieKlant}}{{ html.link('', path('mw_klanten_editmwdossierstatus', {id: klant.id,statusId:klant.mwStatussen.last.id}), 'edit') }}</dd>
+    <dd>{{ klant.laatsteBinnenViaOptieKlant}}{{ html.link('', path('mw_klanten_editmwdossierstatus', {id: klant.id,statusId:klant.mwStatussen.last.id|default(0)}), 'edit') }}</dd>
 </dl>
 {% if info %}
    <h3>Info</h3>

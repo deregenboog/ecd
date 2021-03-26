@@ -71,7 +71,9 @@ class VerslagenController extends AbstractController
         $klant = $request->get('klant');
         $entity = new Verslag($klant,Verslag::TYPE_MW);
 
-        return $this->processForm($request, $entity);
+        $formResult = $this->processForm($request, $entity);
+
+        return $formResult;
     }
 
     /**
@@ -122,6 +124,11 @@ class VerslagenController extends AbstractController
                 $this->get('logger')->error($e->getMessage(), ['exception' => $e]);
                 $message = $this->container->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
                 $this->addFlash('danger', $message);
+            }
+            if($entity->getKlant()->getHuidigeMwStatus() == null)
+            {
+               return $this->redirectToRoute("mw_klanten_addmwdossierstatus",['id'=>$entity->getKlant()->getId()]);
+
             }
 
             return $this->afterFormSubmitted($request, $entity);
