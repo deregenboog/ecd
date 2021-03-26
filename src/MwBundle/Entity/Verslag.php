@@ -124,7 +124,7 @@ class Verslag
      * @ORM\Column(name="accessType", type="integer", options={"default":1})
      * @Gedmo\Versioned
      */
-    private $access = self::ACCESS_MW;
+    private $access = self::ACCESS_ALL;
 
     public function __construct(Klant $klant, $type = 1)
     {
