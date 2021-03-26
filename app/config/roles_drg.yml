@@ -67,6 +67,7 @@ security:
         ROLE_TEAMLEIDERS:
             - ROLE_GA
             - ROLE_MW
+            - ROLE_MW_BEHEER
             - ROLE_INLOOP_INTAKES
             - ROLE_INLOOP_OPMERKINGEN
             - ROLE_INLOOP_REGISTRATIES
@@ -122,6 +123,7 @@ security:
         ROLE_WERKBEGELEIDER: []
         ROLE_ADMINISTRATIEBEDRIJF:
             - ROLE_DOELSTELLING_BEHEER
+            - ROLE_INLOOP_VRIJWILLIGERS
         ROLE_SCIP:
             - CONTROLLER_APP_KLANTEN
         ROLE_SCIP_BEHEER:
