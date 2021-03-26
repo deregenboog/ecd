@@ -240,6 +240,7 @@ class KlantenController extends AbstractController
     public function closeAction(Request $request, $id)
     {
         $klant = $this->dao->find($id);
+
         $afsluiting = new Afsluiting($klant, $this->getMedewerker());
 
         $form = $this->getForm(AfsluitingType::class, $afsluiting);
@@ -255,7 +256,14 @@ class KlantenController extends AbstractController
                 $message = $this->container->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
                 $this->addFlash('danger', $message);
             }
+            if(array_key_exists("inloopSluiten",$request->get('afsluiting')) )
+            {
+                if($klant->getHuidigeStatus() instanceof \InloopBundle\Entity\Aanmelding)
+                {
+                    return $this->redirectToRoute("inloop_klanten_close",["id"=>$id,"redirect"=>$this->generateUrl("mw_klanten_index")]);
+                }
 
+            }
             if ($url = $request->get('redirect')) {
                 return $this->redirect($url);
             }

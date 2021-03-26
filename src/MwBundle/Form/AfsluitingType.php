@@ -12,6 +12,7 @@ use MwBundle\Entity\RedenAfsluiting;
 use MwBundle\Entity\Resultaat;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -64,6 +65,11 @@ class AfsluitingType extends AbstractType
                 'label' => 'Land van bestemming',
             ])
             ->add('toelichting')
+            ->add('inloopSluiten',CheckboxType::class,[
+                'label'=>"Inloopdossier (indien aanwezig) ook sluiten?",
+                'required'=>false,
+                'mapped'=>false,
+            ])
             ->add('submit', SubmitType::class, ['label' => 'Opslaan'])
         ;
 
