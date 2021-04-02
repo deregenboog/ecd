@@ -8,20 +8,20 @@
 
     <link href="{{ asset('favicon.png') }}" type="image/png" rel="shortcut icon" />
 
-    <link rel="stylesheet" type="text/css" href="{{ asset('css/bootstrap.min.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/bootstrap.min.css') }}?{{ app_version }}">
     <!-- <link rel="stylesheet" type="text/css" href="{{ asset('css/cake.generic.css') }}" media="screen" /> -->
-    <link rel="stylesheet" type="text/css" href="{{ asset('css/regenboog-bootstrap.css') }}" />
-    <link rel="stylesheet" type="text/css" href="{{ asset('css/datepicker.css') }}" />
-    <link rel="stylesheet" type="text/css" href="{{ asset('css/jquery-ui-1.8.11.custom.css') }}" />
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/regenboog-bootstrap.css') }}?{{ app_version }}" />
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/datepicker.css') }}?{{ app_version }}" />
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/jquery-ui-1.8.11.custom.css') }}?{{ app_version }}" />
     {% block stylesheets %}{% endblock %}
 
-    <script type="text/javascript" src="{{ asset('js/jquery-1.12.4.min.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('js/jquery-migrate-1.4.1.min.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('js/lodash.min.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('js/datepicker.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('js/jquery-ui-1.8.11.custom.min.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('js/jquery.ui.datepicker-nl.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('js/script.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('js/jquery-1.12.4.min.js') }}?{{ app_version }}"></script>
+    <script type="text/javascript" src="{{ asset('js/jquery-migrate-1.4.1.min.js') }}?{{ app_version }}"></script>
+    <script type="text/javascript" src="{{ asset('js/lodash.min.js') }}?{{ app_version }}"></script>
+    <script type="text/javascript" src="{{ asset('js/datepicker.js') }}?{{ app_version }}"></script>
+    <script type="text/javascript" src="{{ asset('js/jquery-ui-1.8.11.custom.min.js') }}?{{ app_version }}"></script>
+    <script type="text/javascript" src="{{ asset('js/jquery.ui.datepicker-nl.js') }}?{{ app_version }}"></script>
+    <script type="text/javascript" src="{{ asset('js/script.js') }}?{{ app_version }}"></script>
     <!-- <script type="text/javascript" src="{{ asset('js/fixFloat.jquery.js.js') }}"></script> -->
 </head>
 <body>
@@ -42,9 +42,9 @@
         {% block content_bottom %}{% endblock %}
     </div>
     {% include '::footer.html.twig' %}
-    <script src="{{ asset('node_modules/bootstrap/dist/js/bootstrap.min.js') }}"></script>
-    <script src="{{ asset('node_modules/ckeditor4/ckeditor.js') }}"></script>
-    <script src="{{ asset('js/app.js') }}"></script>
+    <script src="{{ asset('node_modules/bootstrap/dist/js/bootstrap.min.js') }}?{{ app_version }}"></script>
+    <script src="{{ asset('node_modules/ckeditor4/ckeditor.js') }}?{{ app_version }}"></script>
+    <script src="{{ asset('js/app.js') }}?{{ app_version }}"></script>
     {% block scripts %}{% endblock %}
 </body>
 </html>
