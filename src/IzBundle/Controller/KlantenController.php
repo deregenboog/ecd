@@ -109,6 +109,7 @@ class KlantenController extends AbstractController
      */
     public function reopenAction(Request $request, $id)
     {
+        $this->getDoctrine()->getManager()->getFilters()->disable("foutieve_invoer");
         $entity = $this->dao->find($id);
 
         $form = $this->getForm(ConfirmationType::class);
@@ -172,6 +173,10 @@ class KlantenController extends AbstractController
                 // redirect if already exists
                 $izKlant = $this->dao->findOneByKlant($klant);
                 if ($izKlant) {
+                    if($izKlant->isAfgesloten())
+                    {
+                        return $this->redirectToRoute("iz_klanten_reopen",["id"=>$izKlant->getId()]);
+                    }
                     return $this->redirectToView($izKlant);
                 }
             }

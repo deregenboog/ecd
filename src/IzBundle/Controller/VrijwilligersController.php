@@ -101,6 +101,7 @@ class VrijwilligersController extends AbstractController
      */
     public function reopenAction(Request $request, $id)
     {
+        $this->getDoctrine()->getManager()->getFilters()->disable("foutieve_invoer");
         $entity = $this->dao->find($id);
 
         $form = $this->getForm(ConfirmationType::class);
@@ -164,6 +165,10 @@ class VrijwilligersController extends AbstractController
                 // redirect if already exists
                 $izVrijwilliger = $this->dao->findOneByVrijwilliger($vrijwilliger);
                 if ($izVrijwilliger) {
+                    if($izVrijwilliger->isAfgesloten())
+                    {
+                        return $this->redirectToRoute("iz_vrijwilligers_reopen",["id"=>$izVrijwilliger->getId()]);
+                    }
                     return $this->redirectToView($izVrijwilliger);
                 }
             }
