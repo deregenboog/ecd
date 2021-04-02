@@ -54,7 +54,7 @@ class VerslagenController extends AbstractChildController
         if(!$entity->isEvaluatie()) return;
 
         //Versag is evaluatieverslag, maar de datum ligt te ver in het verleden - voordat er geevalueerd moet worden. Doe niks, maar doe wel melding
-        if($entity->getDatum() < $entity->getDeelnemer()->getEvaluatiedatum()->modify("-1 week") )
+        if($entity->getDeelnemer()->getEvaluatiedatum() !== null && $entity->getDatum() < $entity->getDeelnemer()->getEvaluatiedatum()->modify("-1 week") )
         {
             $this->addFlash('warning', 'Evaluatiedatum niet verwijderd, verslagdatum ligt meer dan een week voor evaluatiedatum.');
             return;
