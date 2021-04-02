@@ -71,7 +71,9 @@ class KlantDao extends AbstractDao implements KlantDaoInterface
      */
     public function findOneByKlant(Klant $klant)
     {
+        $this->entityManager->getFilters()->disable('foutieve_invoer');
         return $this->repository->findOneBy(['klant' => $klant]);
+        $this->entityManager->getFilters()->enable('foutieve_invoer');
     }
 
     public function create(IzKlant $klant)

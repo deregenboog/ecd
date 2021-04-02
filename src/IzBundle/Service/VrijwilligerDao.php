@@ -70,7 +70,11 @@ class VrijwilligerDao extends AbstractDao implements VrijwilligerDaoInterface
      */
     public function findOneByVrijwilliger(Vrijwilliger $vrijwilliger)
     {
-        return $this->repository->findOneBy(['vrijwilliger' => $vrijwilliger]);
+
+        $this->entityManager->getFilters()->disable('foutieve_invoer');
+        $vw = $this->repository->findOneBy(['vrijwilliger' => $vrijwilliger]);
+        $this->entityManager->getFilters()->enable('foutieve_invoer');
+        return $vw;
     }
 
     public function create(IzVrijwilliger $vrijwilliger)
