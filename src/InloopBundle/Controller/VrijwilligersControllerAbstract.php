@@ -31,6 +31,7 @@ abstract class VrijwilligersControllerAbstract extends AbstractController
     protected $filterFormClass = VrijwilligerFilterType::class;
     protected $baseRouteName = 'inloop_vrijwilligers_';
     protected $formClassClose = VrijwilligerCloseType::class;
+    protected $disabledActions = ['delete'];
 
 //    /**
 //     * @var VrijwilligerDaoInterface

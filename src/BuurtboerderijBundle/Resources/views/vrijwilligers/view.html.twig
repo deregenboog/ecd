@@ -21,9 +21,9 @@
         {% else %}
             {{ html.link('Heropenen', path('buurtboerderij_vrijwilligers_reopen', {id: entity.id}), 'open') }}
         {% endif %}
-        {% if entity.deletable %}
-            {{ html.link('Verwijderen', path('buurtboerderij_vrijwilligers_delete', {id: entity.id}), 'delete') }}
-        {% endif %}
+{#        {% if entity.deletable %}#}
+{#            {{ html.link('Verwijderen', path('buurtboerderij_vrijwilligers_delete', {id: entity.id}), 'delete') }}#}
+{#        {% endif %}#}
     </p>
 {% endblock %}
 
