@@ -16,9 +16,15 @@
     <h1>{{ entity_name|capitalize }} {{ entity }}</h1>
     <p>
         {{ html.link(entity_name|capitalize~' wijzigen', path('inloop_vrijwilligers_edit', {id: entity.id}), 'edit') }}
-        {% if entity.deletable %}
-            {{ html.link(entity_name|capitalize~' verwijderen', path('inloop_vrijwilligers_delete', {id: entity.id}), 'delete') }}
+        {% if entity.actief == false %}
+            {{ html.link(entity_name|capitalize~' heropenen', path('inloop_vrijwilligers_open', {id: entity.id}), 'open') }}
         {% endif %}
+        {% if entity.actief %}
+            {{ html.link(entity_name|capitalize~' afsluiten', path('inloop_vrijwilligers_close', {id: entity.id}), 'close') }}
+        {% endif %}
+{#        {% if entity.deletable %}#}
+{#            {{ html.link(entity_name|capitalize~' verwijderen', path('inloop_vrijwilligers_delete', {id: entity.id}), 'delete') }}#}
+{#        {% endif %}#}
     </p>
 {% endblock %}
 
