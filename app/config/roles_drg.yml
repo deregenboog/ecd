@@ -99,7 +99,8 @@ security:
             - ROLE_EROPUIT_BEHEER
         ROLE_CLIP: []
         ROLE_CLIP_BEHEER:
-            - ROLE_CLIP 
+            - ROLE_CLIP
+            - ROLE_CLIP_VRIJWILLIGERS
         ROLE_DAGBESTEDING: []
         ROLE_DAGBESTEDING_BEHEER:
             - ROLE_DAGBESTEDING
