@@ -61,6 +61,7 @@ security:
         - { path: ^/medewerkers, roles: ROLE_ADMIN }
         - { path: ^/buurtboerderij, roles: ROLE_BUURTBOERDERIJ }
         - { path: ^/clip/admin, roles: ROLE_CLIP_BEHEER }
+        - { path: ^/clip/vrijwilligers, roles: ROLE_CLIP_VRIJWILLIGERS }
         - { path: ^/clip, roles: ROLE_CLIP }
         - { path: ^/dagbesteding/admin, roles: ROLE_DAGBESTEDING_BEHEER }
         - { path: ^/dagbesteding, roles: ROLE_DAGBESTEDING }
