@@ -36,7 +36,26 @@ class KlantUpdateCommand extends ContainerAwareCommand
             $klus->setEinddatum($klus->getEinddatum());
             $entityManager->flush();
         }
-
         $output->writeln(sprintf('%d klussen bijgewerkt', count($klussen)));
+
+        // find klussen
+        $klussen = $entityManager->getRepository(Klus::class)->createQueryBuilder('klus')
+            ->where('klus.onHoldTot <= :today')
+            ->andWhere('klus.status = :status_on_hold')
+            ->setParameter('today', new \DateTime('today'))
+            ->setParameter('status_on_hold', Klus::STATUS_ON_HOLD)
+            ->getQuery()
+            ->getResult()
+        ;
+
+        foreach ($klussen as $klus) {
+            /* @var $klus Klus */
+            // trigger status update
+            $klus->setOnHold(false);
+            $klus->setOnHoldTot(null);
+            $entityManager->flush();
+        }
+        $output->writeln(sprintf('%d on hold klussen open gezet', count($klussen)));
+
     }
 }

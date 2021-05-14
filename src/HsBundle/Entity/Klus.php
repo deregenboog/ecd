@@ -53,6 +53,14 @@ class Klus implements MemoSubjectInterface
     private $annuleringsdatum;
 
     /**
+     * @var \DateTime
+     * @ORM\Column(type="date", nullable=true)
+     * @Gedmo\Versioned
+     */
+    private $onHoldTot;
+
+
+    /**
      * @var bool
      * @ORM\Column(type="boolean", nullable=false)
      * @Gedmo\Versioned
@@ -402,6 +410,27 @@ class Klus implements MemoSubjectInterface
 
         return $this;
     }
+
+    /**
+     * @return \DateTime
+     */
+    public function getOnHoldTot(): ?\DateTime
+    {
+        return $this->onHoldTot;
+    }
+
+    /**
+     * @param \DateTime $onHoldTot
+     * @return Klus
+     */
+    public function setOnHoldTot(?\DateTime $onHoldTot): Klus
+    {
+        $this->onHoldTot = $onHoldTot;
+        $this->updateStatus();
+        return $this;
+    }
+
+
 
     public function getStatus()
     {

@@ -28,7 +28,11 @@ class KlusType extends AbstractType
             ->add('einddatum', AppDateType::class, [
                 'required' => false,
             ])
+
             ->add('onHold')
+            ->add('onHoldTot', AppDateType::class, [
+                'required' => false,
+            ])
             ->add('activiteiten', null, [
                 'required' => true,
                 'expanded' => true,
