@@ -4,6 +4,7 @@ namespace HsBundle\Controller;
 
 use AppBundle\Controller\AbstractController;
 use AppBundle\Export\ExportInterface;
+use AppBundle\Form\ConfirmationType;
 use HsBundle\Entity\Klant;
 use HsBundle\Form\KlantFilterType;
 use HsBundle\Form\KlantType;
@@ -11,6 +12,7 @@ use HsBundle\Service\KlantDaoInterface;
 use JMS\DiExtraBundle\Annotation as DI;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -68,6 +70,63 @@ class KlantenController extends AbstractController
 
         return [
             'creationForm' => $form->createView(),
+        ];
+    }
+
+    /**
+     * @Route("/{id}/delete")
+     * @Template
+     * @var Request $request
+     * @var int $id
+     * @var bool Check $actief on entity.
+     */
+    public function deleteAction(Request $request, $id)
+    {
+        if (in_array('delete', $this->disabledActions)) {
+            throw new AccessDeniedHttpException();
+        }
+
+        $entity = $this->dao->find($id);
+
+        $form = $this->getForm(ConfirmationType::class);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            if ($form->get('yes')->isClicked()) {
+                $url = $request->get('redirect');
+                $viewUrl = $this->generateUrl($this->baseRouteName.'view', ['id' => $entity->getId()]);
+
+                if($entity->isDeletable() )
+                {
+                    $this->dao->delete($entity);
+                    $this->addFlash('success', ucfirst($this->entityName).' is verwijderd.');
+                }
+                else
+                {
+                    $this->addFlash('error', ucfirst($this->entityName).'heeft nog facturen/klussen of andere gegevens aan zich gekoppeld en is daarom niet verwijderd.');
+                }
+
+
+
+                if (!$this->forceRedirect) {
+                    if ($url && false === strpos($viewUrl, $url)) {
+                        return $this->redirect($url);
+                    }
+                }
+
+                return $this->redirectToIndex();
+            } else {
+                if (isset($url)) {
+                    return $this->redirect($url);
+                }
+
+                return $this->redirectToView($entity);
+            }
+        }
+
+        return [
+            'entity' => $entity,
+            'form' => $form->createView(),
         ];
     }
 }

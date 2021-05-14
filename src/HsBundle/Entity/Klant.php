@@ -3,6 +3,7 @@
 namespace HsBundle\Entity;
 
 use AppBundle\Entity\Geslacht;
+use AppBundle\Model\ActivatableTrait;
 use AppBundle\Model\AddressTrait;
 use AppBundle\Model\NameTrait;
 use AppBundle\Model\RequiredMedewerkerTrait;
@@ -22,8 +23,9 @@ use Gedmo\Mapping\Annotation as Gedmo;
  */
 class Klant implements MemoSubjectInterface, DocumentSubjectInterface
 {
-    use NameTrait, AddressTrait, HulpverlenerTrait, RequiredMedewerkerTrait, MemoSubjectTrait, DocumentSubjectTrait, TimestampableTrait;
-
+    use NameTrait, AddressTrait, HulpverlenerTrait, RequiredMedewerkerTrait,
+        MemoSubjectTrait, DocumentSubjectTrait, TimestampableTrait
+        ;
     /**
      * @ORM\Id
      * @ORM\Column(type="integer")
@@ -76,10 +78,27 @@ class Klant implements MemoSubjectInterface, DocumentSubjectInterface
     private $laatsteContact;
 
     /**
+     * !LET OP: actief betekent in de context van HS: heeft geen lopende/openstaande klussen. Dus niet een soort 'verwijderen'.
      * @ORM\Column(type="boolean", nullable=false)
      * @Gedmo\Versioned
      */
     private $actief = false;
+
+    const STATUS_OK = 1;
+    const STATUS_GEEN_NIEUWE_KLUS = 2;
+
+    protected static $statussen = [
+        "Nieuwe klussen mogelijk" => self::STATUS_OK,
+        "Geen nieuwe klussen"=>self::STATUS_GEEN_NIEUWE_KLUS
+    ];
+
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="status", type="integer", options={"default":1})
+     * @Gedmo\Versioned
+     */
+    private $status = self::STATUS_OK;
 
     /**
      * @var string
@@ -191,7 +210,10 @@ class Klant implements MemoSubjectInterface, DocumentSubjectInterface
 
     public function isDeletable()
     {
-        return 0 === count($this->klussen);
+        return 0 === count($this->klussen)
+            && 0 === count($this->facturen)
+            && 0 === count($this->memos)
+            ;
     }
 
     public function isActief()
@@ -203,6 +225,36 @@ class Klant implements MemoSubjectInterface, DocumentSubjectInterface
     {
         $this->actief = (bool) $actief;
 
+        return $this;
+    }
+
+    /**
+     * @return int
+     */
+    public function getStatus(): int
+    {
+        return $this->status;
+    }
+    /**
+     * @return int
+     */
+    public function getStatusAsString(): string
+    {
+        return array_search($this->status,self::$statussen);
+    }
+
+    public function getStatussen(): array
+    {
+        return self::$statussen;
+    }
+
+    /**
+     * @param int $status
+     * @return Klant
+     */
+    public function setStatus(int $status): Klant
+    {
+        $this->status = $status;
         return $this;
     }
 
