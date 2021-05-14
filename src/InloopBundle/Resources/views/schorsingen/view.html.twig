@@ -141,8 +141,12 @@
                                     {% endif %}
                                 </td>
                                 <td>
-                                    <input class="gezien" id="gezien-{{ schorsing.id }}" type="checkbox" {{ schorsing.gezien ? 'checked' }}/>
-                                    <label for="gezien-{{ schorsing.id }}">Gezien</label>
+                                    {% if schorsing.heeftTerugkeergesprekNodig %}
+                                        <input class="terugkeergesprekGehad" id="terugkeergesprekGehad-{{ schorsing.id }}" type="checkbox" {{ schorsing.terugkeergesprekGehad ? 'checked' }}/>
+                                        <label for="terugkeergesprekGehad-{{ schorsing.id }}">Terugkeergesprek gehad?</label>
+                                    {% else %}
+                                        n.v.t.
+                                    {% endif %}
                                 </td>
                             </tr>
                         {% endfor %}
@@ -193,8 +197,12 @@
                                 {% endif %}
                             </td>
                             <td>
-                                <input class="gezien" id="gezien-{{ schorsing.id }}" type="checkbox" {{ schorsing.gezien ? 'checked' }}/>
-                                <label for="gezien-{{ schorsing.id }}">Gezien</label>
+                                {% if schorsing.heeftTerugkeergesprekNodig %}
+                                    <input class="terugkeergesprekGehad" id="terugkeergesprekGehad-{{ schorsing.id }}" type="checkbox" {{ schorsing.terugkeergesprekGehad ? 'checked' }}/>
+                                    <label for="terugkeergesprekGehad-{{ schorsing.id }}">Terugkeergesprek gehad?</label>
+                                {% else %}
+                                    n.v.t.
+                                {% endif %}
                             </td>
                         </tr>
                     {% endfor %}
@@ -220,19 +228,19 @@
 {% block scripts %}
     <script>
         $(function() {
-            function seen(schorsing_id) {
+            function terugkeergesprekGehad(schorsing_id) {
                 $.post({
-                    url: `/inloop/schorsingen/${schorsing_id}/updateGezien`,
+                    url: `/inloop/schorsingen/${schorsing_id}/terugkeergesprekGehad`,
                 }).done(function(data) {
-                    $(this).prop('checked', data.gezien);
+                    $(this).prop('checked', data.terugkeergesprekGehad);
                 }).fail(function() {
                     alert('Er is een fout opgetreden.')
                 });
             };
 
-            $('.gezien').on('click', function() {
+            $('.terugkeergesprekGehad').on('click', function() {
                 var id = $(this).closest('tr').attr('data-id');
-                seen(id);
+                terugkeergesprekGehad(id);
             });
         });
     </script>
