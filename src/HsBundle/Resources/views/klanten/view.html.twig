@@ -56,6 +56,8 @@
     <dl class="dl-horizontal">
         <dt>Saldo</dt>
         <dd>{{ entity.saldo|saldo }}</dd>
+        <dt>Status</dt>
+        <dd>{{ entity.statusAsString|colorIf(["Nieuwe klussen mogelijk","Geen nieuwe klussen"],['green','red']) }}</dd>
         <dt>Rekeningnummer</dt>
         <dd>{{ entity.rekeningnummer }}</dd>
         <dt>Bewindvoerder</dt>

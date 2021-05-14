@@ -85,7 +85,7 @@ class AppExtension extends AbstractExtension implements GlobalsInterface
             new TwigFunction('isActivePath', [$this, 'isActivePath']),
             new TwigFunction('colgroup', [$this, 'colgroup'], ['is_safe' => ['html']]),
             new TwigFunction('asset', [$this, 'asset']),
-        ];
+            ];
     }
 
     public function getFilters()
@@ -102,6 +102,7 @@ class AppExtension extends AbstractExtension implements GlobalsInterface
             new TwigFilter('nl2ws', [$this, 'nl2wsFilter']),
             new TwigFilter('unique', [$this, 'uniqueFilter']),
             new TwigFilter('color', [$this, 'colorFilter'], ['is_safe' => ['html']]),
+            new TwigFilter('colorIf',[$this, 'colorIfFilter'], ['is_safe' => ['html'],'is_variadic'=>true]),
             new TwigFilter('green', [$this, 'greenFilter'], ['is_safe' => ['html']]),
             new TwigFilter('red', [$this, 'redFilter'], ['is_safe' => ['html']]),
             new TwigFilter('orderBy', [$this, 'orderBy']),
@@ -266,6 +267,25 @@ class AppExtension extends AbstractExtension implements GlobalsInterface
         );
     }
 
+    public function colorIfFilter($value,array $options = []){
+        $color = null;
+        $cases = $options[0];
+        $colors = $options[1];
+
+        foreach($cases as $k=>$v)
+        {
+            if($value == $v)
+            {
+                $color = $colors[$k];
+            }
+        }
+        if($color)
+        {
+            return $this->colorFilter($value,$color);
+        }
+        return $value;
+
+    }
     /**
      * Inversed version of "saldo" filter.
      *

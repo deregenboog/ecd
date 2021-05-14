@@ -9,6 +9,7 @@ use AppBundle\Util\PostcodeFormatter;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
 use HsBundle\Entity\Klant;
+use OdpBundle\Entity\Huurovereenkomst;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -69,6 +70,10 @@ class KlantType extends AbstractType
                     'Nee' => 0,
                     'Ja' => 1,
                 ],
+            ])
+            ->add('status', ChoiceType::class,[
+                'required' => false,
+                'choices' => Klant::getStatussen(),
             ])
             ->add('hulpverlener', HulpverlenerType::class)
             ->add('submit', SubmitType::class)
