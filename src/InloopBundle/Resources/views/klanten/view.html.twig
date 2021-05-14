@@ -38,8 +38,8 @@
     </ul>
     {% include '::klant_basis.html.twig' with {klant: entity, module: 'Intake'} %}
     {{ render(controller('InloopBundle:Klanten:_intakes', {id: entity.id})) }}
-    {{ render(controller('InloopBundle:Klanten:_opmerkingen', {id: entity.id})) }}
-    {{ render(controller('InloopBundle:Klanten:_schorsingen', {id: entity.id})) }}
+{#    {{ render(controller('InloopBundle:Klanten:_opmerkingen', {id: entity.id})) }}#}
+{#    {{ render(controller('InloopBundle:Klanten:_schorsingen', {id: entity.id})) }}#}
     {{ render(controller('InloopBundle:Klanten:_registraties', {id: entity.id})) }}
 {% endblock %}
 
@@ -149,113 +149,7 @@
             {% endif %}
         </div>
         <div id="schorsingen" class="tab-pane">
-            <h2>Huidige schorsingen <small>({{ entity.huidigeSchorsingen|length }} schorsingen)</small></h2>
-            <p>
-                {{ html.link('Schorsing toevoegen', path('inloop_schorsingen_add', {'klant': entity.id}), 'add') }}
-            </p>
-            {% if 0 == entity.huidigeSchorsingen|length %}
-                <p>Deze persoon is op dit moment niet geschorst.</p>
-            {% else %}
-                <table class="table table-hover">
-                    <thead>
-                        <tr>
-                            <th>Locaties</th>
-                            <th>Begindatum</th>
-                            <th>Einddatum</th>
-                            <th>Redenen</th>
-                            <th>Opmerking</th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for schorsing in entity.huidigeSchorsingen %}
-                            <tr data-id="{{ schorsing.id }}" data-href="{{ path('inloop_schorsingen_view', {id: schorsing.id}) }}" class="{{ entity.id == schorsing.id ? 'info' }}">
-                                <td>
-                                    <ul>
-                                        {% for locatie in schorsing.locaties %}
-                                            <li>{{ locatie }}</li>
-                                        {% endfor %}
-                                    </ul>
-                                </td>
-                                <td>{{ schorsing.datumVan|date('d-m-Y') }}</td>
-                                <td>{{ schorsing.datumTot|date('d-m-Y') }}</td>
-                                <td>
-                                    <ul>
-                                        {% for reden in schorsing.redenen %}
-                                            <li>{{ reden }}</li>
-                                        {% endfor %}
-                                    </ul>
-                                </td>
-                                <td>
-                                    {{ schorsing.opmerking }}<br><br>
-                                    <a href="{{ path('inloop_schorsingen_view', {id: schorsing.id, language: 'nl', _format: 'pdf'}) }}" target="_blank">
-                                        <span class="glyphicon glyphicon-print"></span>
-                                        Printen
-                                    </a>
-                                    <a href="{{ path('inloop_schorsingen_view', {id: schorsing.id, language: 'en', _format: 'pdf'}) }}" target="_blank">
-                                        <span class="glyphicon glyphicon-print"></span>
-                                        Printen Engels
-                                    </a>
-                                    {{ html.link('Wijzigen', path('inloop_schorsingen_edit', {id: schorsing.id}), 'edit') }}
-                                    {% if is_granted('ROLE_TEAMLEIDERS') %}
-                                        {{ html.link('Verwijderen', path('inloop_schorsingen_delete', {id: schorsing.id}), 'delete') }}
-                                    {% endif %}
-                                </td>
-                                <td>
-                                    <input class="gezien" id="gezien-{{ schorsing.id }}" type="checkbox" {{ schorsing.gezien ? 'checked' }}/>
-                                    <label for="gezien-{{ schorsing.id }}">Gezien</label>
-                                </td>
-                            </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
-            {% endif %}
-            <h2>Verlopen schorsingen <small>({{ entity.verlopenSchorsingen|length }} schorsingen)</small></h2>
-            <table class="table table-hover">
-                <thead>
-                    <tr>
-                        <th>Locaties</th>
-                        <th>Begindatum</th>
-                        <th>Einddatum</th>
-                        <th>Redenen</th>
-                        <th>Opmerking</th>
-                        <th></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for schorsing in entity.verlopenSchorsingen %}
-                        <tr data-id="{{ schorsing.id }}" data-href="{{ path('inloop_schorsingen_view', {id: schorsing.id}) }}" class="{{ entity.id == schorsing.id ? 'info' }}">
-                            <td>
-                                <ul>
-                                    {% for locatie in schorsing.locaties %}
-                                        <li>{{ locatie }}</li>
-                                    {% endfor %}
-                                </ul>
-                            </td>
-                            <td>{{ schorsing.datumVan|date('d-m-Y') }}</td>
-                            <td>{{ schorsing.datumTot|date('d-m-Y') }}</td>
-                            <td>
-                                <ul>
-                                    {% for reden in schorsing.redenen %}
-                                        <li>{{ reden }}</li>
-                                    {% endfor %}
-                                </ul>
-                            </td>
-                            <td>
-                                {{ schorsing.opmerking }}<br><br>
-                                {{ html.link('Wijzigen', path('inloop_schorsingen_edit', {id: schorsing.id}), 'edit') }}
-                                {% if is_granted('ROLE_TEAMLEIDERS') %}
-                                    {{ html.link('Verwijderen', path('inloop_schorsingen_delete', {id: schorsing.id}), 'delete') }}
-                                {% endif %}
-                            </td>
-                            <td>
-                                <input class="gezien" id="gezien-{{ schorsing.id }}" type="checkbox" {{ schorsing.gezien ? 'checked' }}/>
-                                <label for="gezien-{{ schorsing.id }}">Gezien</label>
-                            </td>
-                        </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
+            {% include 'InloopBundle:klanten:_schorsingen.html.twig' with {klant: entity} %}
         </div>
     </div>
 {% endblock %}
@@ -297,19 +191,19 @@
                 opmerking_remove(id);
             });
 
-            function schorsing_seen(schorsing_id) {
+            function schorsing_terugkeergesprekGehad(schorsing_id) {
                 $.post({
-                    url: `/inloop/schorsingen/${schorsing_id}/updateGezien`,
+                    url: `/inloop/schorsingen/${schorsing_id}/terugkeergesprekGehad`,
                 }).done(function(data) {
-                    $(this).prop('checked', data.gezien);
+                    $(this).prop('checked', data.terugkeergesprekGehad);
                 }).fail(function() {
                     alert('Er is een fout opgetreden.')
                 });
             };
 
-            $('#schorsingen .gezien').on('click', function() {
+            $('#schorsingen .terugkeergesprekGehad').on('click', function() {
                 var id = $(this).closest('tr').attr('data-id');
-                schorsing_seen(id);
+                schorsing_terugkeergesprekGehad(id);
             });
         });
     </script>

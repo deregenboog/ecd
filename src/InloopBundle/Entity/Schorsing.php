@@ -75,6 +75,13 @@ class Schorsing
      *
      * @ORM\Column(type="boolean", nullable=false, options={"DEFAULT 0"})
      */
+    private $terugkeergesprekGehad = false;
+
+    /**
+     * @var bool
+     *
+     * @ORM\Column(type="boolean", nullable=false, options={"DEFAULT 0"})
+     */
     private $aangifte = false;
 
     /**
@@ -244,6 +251,32 @@ class Schorsing
         $this->redenOverig = $redenOverig;
 
         return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isTerugkeergesprekGehad(): bool
+    {
+        return $this->terugkeergesprekGehad;
+    }
+
+    /**
+     * @param bool $terugkeergesprekGehad
+     * @return Schorsing
+     */
+    public function setTerugkeergesprekGehad(bool $terugkeergesprekGehad): Schorsing
+    {
+        $this->terugkeergesprekGehad = $terugkeergesprekGehad;
+        return $this;
+    }
+
+    public function heeftTerugkeergesprekNodig(): bool
+    {
+        $duration = date_diff($this->datumTot, $this->datumVan);
+        if($duration->days >= 14) return true;
+
+        return false;
     }
 
     public function isGezien()

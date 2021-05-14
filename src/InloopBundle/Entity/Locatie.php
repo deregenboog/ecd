@@ -254,10 +254,12 @@ class Locatie
 
     public function isOpen(\DateTime $date = null)
     {
+
         if (!$date instanceof \DateTime) {
             $date = new \DateTime();
         }
         $locatietijd = $this->getLocatietijd($date->format('w'));
+
         if ($locatietijd) {
             $openingstijd = (clone $locatietijd->getOpeningstijd())
                 ->setDate($date->format('Y'), $date->format('m'), $date->format('d'))
@@ -267,6 +269,7 @@ class Locatie
                 ->setDate($date->format('Y'), $date->format('m'), $date->format('d'))
                 ->modify("+{$this->openingTimeCorrection} seconds")
             ;
+
             if ($openingstijd > $sluitingstijd) {
                 $sluitingstijd->modify('+1 day');
             }
@@ -295,6 +298,10 @@ class Locatie
             }
         }
 
+//        $debug['date'] = $date;
+//        $debug['openingstijd'] = $openingstijd;
+//        $debug['sluitingstijd'] = $sluitingstijd;
+//        return $debug;
         return false;
     }
 

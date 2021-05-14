@@ -311,9 +311,11 @@ class RegistratiesController extends AbstractController
 
         $open = $locatie->isOpen();
 
-        if (!$open) {
+
+        if ($open !== true) {
             $jsonVar['allow'] = false;
             $jsonVar['message'] = 'Deze locatie is nog niet open, klant kan nog niet inchecken!';
+//            $jsonVar['message'] = (string)$open['date'].(string)$open['openingstijd'];
 
             return new JsonResponse($jsonVar);
         }
@@ -367,6 +369,13 @@ class RegistratiesController extends AbstractController
             $actieveSchorsingen = $this->schorsingDao->findActiefByKlantAndLocatie($klant, $locatie);
             if (count($actieveSchorsingen) > 0) {
                 $jsonVar['message'] .= $sep.'Let op: deze persoon is momenteel op deze locatie geschorst. Toch inchecken?';
+                $sep = $separator;
+                $jsonVar['confirm'] = true;
+            }
+
+            $terugkeergesprekNodig = $this->schorsingDao->findTerugkeergesprekNodigByKlantAndLocatie($klant, $locatie);
+            if (count($terugkeergesprekNodig) > 0) {
+                $jsonVar['message'] .= $sep.'Let op: deze persoon is 14 dagen of langer geschorst geweest en heeft een terugkeergesprek nodig.';
                 $sep = $separator;
                 $jsonVar['confirm'] = true;
             }

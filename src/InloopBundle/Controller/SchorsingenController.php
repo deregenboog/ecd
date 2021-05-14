@@ -95,6 +95,9 @@ class SchorsingenController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             try {
+                //als geen terugkeergesprek nodig, dan  op 0 zettne. Voorkomt vervuiling.
+                if(!$entity->heeftTerugkeergesprekNodig()) $entity->setTerugkeergesprekGehad(true);
+
                 $this->dao->create($entity);
                 $this->addFlash('success', ucfirst($this->entityName).' is opgeslagen.');
             } catch (\Exception $e) {
@@ -142,6 +145,17 @@ class SchorsingenController extends AbstractController
         return new JsonResponse(['gezien' => $schorsing->isGezien()]);
     }
 
+    /**
+     * @Route("/{schorsing}/terugkeergesprekGehad")
+     * Method("POST")
+     */
+    public function terugkeergesprekGehad(Request $request, Schorsing $schorsing)
+    {
+        $schorsing->setTerugkeergesprekGehad(!$schorsing->isTerugkeergesprekGehad());
+        $this->dao->update($schorsing);
+
+        return new JsonResponse(['terugkeergesprekGehad' => $schorsing->isTerugkeergesprekGehad()]);
+    }
     private function viewPdf(Schorsing $entity, $language)
     {
         $pdf = $this->createPdf($entity, $language);
