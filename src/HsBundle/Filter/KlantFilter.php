@@ -5,11 +5,13 @@ namespace HsBundle\Filter;
 use AppBundle\Entity\Werkgebied;
 use AppBundle\Filter\FilterInterface;
 use Doctrine\ORM\QueryBuilder;
+use HsBundle\Entity\Klant;
 
 class KlantFilter implements FilterInterface
 {
     const STATUS_ACTIVE = 'Actief';
     const STATUS_NON_ACTIVE = 'Niet actief';
+    const STATUS_GEEN_NIEUWE_KLUSSEN = 'Geen nieuwe klussen';
 
     public $alias = 'klant';
 
@@ -109,9 +111,12 @@ class KlantFilter implements FilterInterface
                 case self::STATUS_NON_ACTIVE:
                     $builder->andWhere("{$this->alias}.actief = false");
                     break;
+                case self::STATUS_GEEN_NIEUWE_KLUSSEN:
+                    $builder->andWhere("{$this->alias}.status = :status");
                 default:
                     break;
             }
+            $builder->setParameter(":status",Klant::STATUS_GEEN_NIEUWE_KLUS);
         }
 
         if (null !== $this->afwijkendFactuuradres) {

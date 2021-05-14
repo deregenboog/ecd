@@ -68,6 +68,7 @@ class KlantFilterType extends AbstractType
                 'choices' => [
                     KlantFilter::STATUS_ACTIVE => KlantFilter::STATUS_ACTIVE,
                     KlantFilter::STATUS_NON_ACTIVE => KlantFilter::STATUS_NON_ACTIVE,
+                    KlantFilter::STATUS_GEEN_NIEUWE_KLUSSEN => KlantFilter::STATUS_GEEN_NIEUWE_KLUSSEN,
                 ],
             ]);
         }
