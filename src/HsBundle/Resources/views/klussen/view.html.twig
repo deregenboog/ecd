@@ -35,6 +35,10 @@
     <dl class="dl-horizontal">
         <dt>Status</dt>
         <dd>{{ entity.status|status_color }}</dd>
+        {% if entity.status == constant('\\\HsBundle\\Entity\\Klus::STATUS_ON_HOLD') %}
+            <dt>Tot</dt>
+            <dd>{{ entity.onHoldTot|date('d-m-Y') }}</dd>
+        {% endif %}
         <dt>Activiteiten</dt>
         <dd>
             <ul>

@@ -61,7 +61,13 @@
                     </td>
                     <td>{{ entity.status|status_color }}</td>
                     <td>{{ entity.startdatum|date('d-m-Y') }}</td>
-                    <td>{{ entity.einddatum ? entity.einddatum|date('d-m-Y') }}</td>
+                    <td>
+                        {% if entity.status == constant('\\\HsBundle\\Entity\\Klus::STATUS_ON_HOLD') %}
+                            ({{ entity.onHoldTot ? entity.onHoldTot|date('d-m-Y') : '-' }})
+                        {% else %}
+                            {{ entity.einddatum ? entity.einddatum|date('d-m-Y') : '-' }}
+                         {% endif %}
+                    </td>
                     <td>{{ entity.annuleringsdatum ? entity.annuleringsdatum|date('d-m-Y') }}</td>
                 </tr>
             {% endfor %}

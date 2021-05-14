@@ -5,7 +5,7 @@
         {% set entity = klant %}
         {% set url = path('hs_klussen_add', {klant: entity.id}) %}
     {% endif %}
-    {% if url is defined and entity.status == 1 %}
+    {% if url is defined and entity.status == constant("\\\HsBundle\\Entity\\Klant::STATUS_OK") %}
         {{ html.addLink(url) }}
         {{ html.link('Klus toevoegen', url) }}
     {% else %}
