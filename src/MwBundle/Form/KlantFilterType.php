@@ -3,10 +3,12 @@
 namespace MwBundle\Form;
 
 use AppBundle\Entity\Medewerker;
+use AppBundle\Entity\Werkgebied;
 use AppBundle\Form\AppDateRangeType;
 use AppBundle\Form\FilterType;
 use AppBundle\Form\MedewerkerFilterType as AppMedewerkerFilterType;
 use AppBundle\Form\KlantFilterType as AppKlantFilterType;
+use AppBundle\Form\WerkgebiedSelectType;
 use Doctrine\ORM\EntityRepository;
 use GaBundle\Form\SelectieType;
 use InloopBundle\Entity\Locatie;
@@ -71,6 +73,12 @@ class KlantFilterType extends AbstractType
 
         if (in_array('laatsteIntakeDatum', $options['enabled_filters'])) {
             $builder->add('laatsteIntakeDatum', AppDateRangeType::class, [
+                'required' => false,
+            ]);
+        }
+
+        if (in_array('laatsteIntakeLocatie', $options['enabled_filters'])) {
+            $builder->add('laatsteIntakeLocatie', LocatieSelectType::class, [
                 'required' => false,
             ]);
         }
