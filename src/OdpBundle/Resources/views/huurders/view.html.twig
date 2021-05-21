@@ -92,7 +92,9 @@
             {% include 'OdpBundle:documenten:_list.html.twig' with {huurder: entity} %}
         </div>
         <div id="zrm" class="tab-pane">
-            {% include 'AppBundle:zrms:_detail.html.twig' with {entity: entity.zrm} %}
+            {% if entity.zrm %}
+                {% include 'AppBundle:zrms:_detail.html.twig' with {entity: entity.zrm} %}
+            {% endif %}
         </div>
     </div>
 {% endblock %}
