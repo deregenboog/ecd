@@ -6,9 +6,10 @@ use AppBundle\Entity\Medewerker;
 use AppBundle\Form\AppDateRangeType;
 use AppBundle\Form\FilterType;
 use AppBundle\Form\KlantFilterType as AppKlantFilterType;
+use AppBundle\Form\StadsdeelSelectType;
 use Doctrine\ORM\EntityRepository;
 use InloopBundle\Entity\Locatie;
-use InloopBundle\Filter\IntakeFilter;
+use MwBundle\Filter\IntakeFilter;
 use InloopBundle\Service\LocatieDao;
 use InloopBundle\Service\LocatieDaoInterface;
 use MwBundle\Entity\Verslag;
@@ -66,6 +67,11 @@ class IntakeFilterType extends AbstractType implements ContainerAwareInterface
                 },
             ]);
         }
+        if (in_array('werkgebied', $options['enabled_filters'])) {
+            $builder->add('werkgebied', StadsdeelSelectType::class, [
+                'required' => false,
+            ]);
+        }
 
         if (in_array('datum', $options['enabled_filters'])) {
             $builder->add('datum', AppDateRangeType::class, [
@@ -91,6 +97,7 @@ class IntakeFilterType extends AbstractType implements ContainerAwareInterface
             'data_class' => IntakeFilter::class,
             'enabled_filters' => [
                 'klant' => ['id', 'voornaam', 'achternaam', 'geslacht'],
+                'werkgebied',
                 'locatie',
                 'datum',
                 'filter',
