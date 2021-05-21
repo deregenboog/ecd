@@ -15,7 +15,7 @@
         <thead>
             {{ form_start(filter) }}
                 <tr>
-                    <th colspan="6">
+                    <th colspan="7">
                         <span class="pull-right">
                             {{ form_widget(filter.filter) }}
                         </span>
@@ -37,6 +37,10 @@
                     <th>
                         {{ form_widget(filter.klant.geslacht) }}
                         {{ form_errors(filter.klant.geslacht) }}
+                    </th>
+                    <th>
+                        {{ form_widget(filter.werkgebied) }}
+                        {{ form_errors(filter.werkgebied) }}
                     </th>
                     <th>
                         {{ form_widget(filter.locatie) }}
@@ -64,6 +68,9 @@
                     {{ knp_pagination_sortable(pagination, 'Geslacht', 'geslacht.volledig') }}
                 </th>
                 <th>
+                    {{ knp_pagination_sortable(pagination, 'Werkgebied', 'werkgebied.naam') }}
+                </th>
+                <th>
                     {{ knp_pagination_sortable(pagination, 'Intakelocatie', 'intakelocatie.naam') }}
                 </th>
                 <th>
@@ -86,6 +93,9 @@
                 </td>
                 <td>
                     {{ intake.klant.geslacht }}
+                </td>
+                <td>
+                    {{ intake.klant.werkgebied }}
                 </td>
                 <td>
                     {{ intake.klant.eersteIntake.intakelocatie.naam }}

@@ -24,6 +24,7 @@ class IntakeDao extends AbstractDao implements IntakeDaoInterface
             'klant.id',
             'klant.achternaam',
             'klant.voornaam',
+            'werkgebied.naam',
             'geslacht.volledig',
             'intakelocatie.naam',
             'laatsteIntake.intakedatum',
@@ -60,12 +61,13 @@ class IntakeDao extends AbstractDao implements IntakeDaoInterface
     {
         $builder = $this->repository->createQueryBuilder($this->alias)
 
-                ->addSelect("klant,eersteIntake,laatsteIntake")
+                ->addSelect("klant,eersteIntake,laatsteIntake,werkgebied")
                 ->innerJoin("intake.klant","klant")
                 ->innerJoin("klant.geslacht","geslacht")
                 ->innerJoin("klant.eersteIntake","eersteIntake")
                 ->innerJoin("eersteIntake.intakelocatie","intakelocatie")
                 ->innerJoin("klant.laatsteIntake","laatsteIntake")
+                ->innerJoin('klant.werkgebied','werkgebied')
                 ->where("intakelocatie.naam IN (:wachtlijstLocaties)")
                 ->setParameter("wachtlijstLocaties",$this->wachtlijstLocaties)
               ->groupBy("klant.laatsteIntake")
