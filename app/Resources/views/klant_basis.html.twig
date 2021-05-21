@@ -94,7 +94,7 @@
         <th>Module</th>
         <th>Datum</th>
     </tr>
-    {% for zrm in klant.zrms if zrm.id %}
+    {% for zrm in klant.zrms if zrm.id  %}
         <tr data-href="{{ path('app_zrms_view', {id: zrm.id}) }}">
             <td>{{ zrm.requestModule }}</td>
             <td>{{ zrm.created|date('d-m-Y') }}</td>

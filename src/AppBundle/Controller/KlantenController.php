@@ -106,7 +106,7 @@ class KlantenController extends AbstractController
                 $viewUrl = $this->generateUrl($this->baseRouteName.'view', ['id' => $entity->getId()]);
 
 
-                $docs->removeDocument($entity);
+                $docs->removeElement($entity);
 
                 /**
                  * Somehow, it wont remove...
