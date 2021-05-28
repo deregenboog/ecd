@@ -20,7 +20,7 @@ class EconomischDaklozen extends AbstractReport
 
     protected $columns = [
         'Klanten'=>'aantal',
-        'Verslagen'=>'aantalVerslagen'
+        'Verslagen'=>'aantalVerslagen',
         ];
 
     protected $yDescription = 'Locatienaam';
@@ -63,6 +63,8 @@ class EconomischDaklozen extends AbstractReport
         );
 //        $sql = $this->getFullSQL($query);
         $this->result = $query->getResult();
+        $this->resultUnique = $this->dao->getTotalUniqueKlantenForLocaties($this->startDate,$this->endDate,$this->economisch_daklozen_locaties);
+
 
     }
 
@@ -77,11 +79,28 @@ class EconomischDaklozen extends AbstractReport
             ->setYTotals(true)
         ;
 
-        $this->reports[] = [
+
+
+
+         $report = [
             'title' => 'Economisch daklozen',
             'xDescription' => $this->xDescription,
             'yDescription' => $this->yDescription,
             'data' => $table->render(),
         ];
+         //$report['data']['Totaal'];
+        foreach($this->columns as $k=>$c)
+        {
+            if(isset($this->resultUnique[$k]))
+            {
+                $report['data']['Uniek'][$c] = $this->resultUnique[$k];
+            }
+            else{
+                $report['data']['Uniek'][$c] = "";
+            }
+
+        }
+
+        $this->reports[] = $report;
     }
 }
