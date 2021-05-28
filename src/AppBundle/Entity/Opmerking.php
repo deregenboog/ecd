@@ -2,6 +2,7 @@
 
 namespace AppBundle\Entity;
 
+use AppBundle\Model\RequiredMedewerkerTrait;
 use AppBundle\Model\TimestampableTrait;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
@@ -19,7 +20,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
  */
 class Opmerking
 {
-    use TimestampableTrait;
+    use TimestampableTrait, RequiredMedewerkerTrait;
 
     /**
      * @var int
