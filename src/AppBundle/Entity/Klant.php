@@ -500,6 +500,10 @@ class Klant extends Persoon
         return $this;
     }
 
+    public function getAantalVerslagen():int
+    {
+        return count($this->verslagen);
+    }
     public function getEersteVerslag()
     {
         return $this->verslagen->first();
