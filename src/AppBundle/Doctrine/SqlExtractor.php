@@ -25,7 +25,7 @@ class SqlExtractor
                 if(is_string ($paramsArr[$nameParam])){
                     $fullSql.= '"'.addslashes($paramsArr[$nameParam]).'"';
                 }
-                elseif(is_array($paramsArr[$nameParam])){
+                elseif(is_array($paramsArr[$nameParam])){ //should be recursive...
                     $sqlArr='';
                     foreach ($paramsArr[$nameParam] as $var){
                         if(!empty($sqlArr))
@@ -33,8 +33,15 @@ class SqlExtractor
 
                         if(is_string($var)){
                             $sqlArr.='"'.addslashes($var).'"';
-                        }else
-                            $sqlArr.=$var;
+                        }
+                        else if(is_array($var))
+                        {
+                            $sqlArr.= array_values($var)[0];
+                        }
+                        else{
+                            $sqlArr.= $var;
+                        }
+
                     }
                     $fullSql.=$sqlArr;
                 }elseif(is_object($paramsArr[$nameParam])){

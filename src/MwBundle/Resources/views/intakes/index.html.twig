@@ -71,7 +71,7 @@
                     {{ knp_pagination_sortable(pagination, 'Werkgebied', 'werkgebied.naam') }}
                 </th>
                 <th>
-                    {{ knp_pagination_sortable(pagination, 'Intakelocatie', 'intakelocatie.naam') }}
+                    {{ knp_pagination_sortable(pagination, 'Wachtlijst (locatie)', 'intakelocatie.naam') }}
                 </th>
                 <th>
                     {{ knp_pagination_sortable(pagination, 'Laatste intake datum', 'laatsteIntake.intakedatum') }}
@@ -79,29 +79,43 @@
             </tr>
         </thead>
         <tbody>
-            {% for intake in pagination %}
-            <tr data-href="{{ path('inloop_intakes_view', {id: intake.id}) }}">
+            {% for klant in pagination %}
+                {% if klant.eersteIntake.id is defined %}
+                    {% set href = path('inloop_klanten_view', {id: klant.id}) %}
+                {% else %}
+                    {% set href = path('mw_klanten_view', {id: klant.id}) %}
+                {% endif %}
+            <tr data-href="{{ href }}">
                 <td>
-                    {{ intake.klant.id }}
+                    {{ klant.id }}
                 </td>
                 <td>
-                    {{ intake.klant.voornaam }}
-                    {% if intake.klant.roepnaam %}({{ intake.klant.roepnaam }}){% endif %}
+                    {{ klant.voornaam }}
+                    {% if klant.roepnaam %}({{ klant.roepnaam }}){% endif %}
                 </td>
                 <td>
-                    {{ intake.klant.tussenvoegsel }} {{ intake.klant.achternaam }}
+                    {{ klant.tussenvoegsel }} {{ klant.achternaam }}
                 </td>
                 <td>
-                    {{ intake.klant.geslacht }}
+                    {{ klant.geslacht }}
                 </td>
                 <td>
-                    {{ intake.klant.werkgebied }}
+                    {{ klant.werkgebied }}
                 </td>
                 <td>
-                    {{ intake.klant.eersteIntake.intakelocatie.naam }}
+                    {% if klant.eersteIntake.id is defined %}
+                        {{ klant.eersteIntake.intakelocatie.naam }}
+                    {% else %}
+                        {{ klant.verslagen.first().locatie.naam }}
+                    {% endif %}
                 </td>
                 <td>
-                    {{ intake.klant.laatsteIntake.intakedatum|date('d-m-Y') }}
+                    {% if klant.intake is defined %}
+                        {{ klant.intake.datum|date("d-m-Y") }}
+                    {% else %}
+                        {{ klant.verslagen.first().datum|date("d-m-Y") }}
+                    {% endif %}
+
                 </td>
             </tr>
             {% endfor %}

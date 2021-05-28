@@ -25,7 +25,7 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class IntakesController extends AbstractController
 {
-    protected $title = 'Wachtlijst (intakes)';
+    protected $title = 'Wachtlijst (intakes / verslag)';
     protected $entityName = 'intake';
     protected $entityClass = Intake::class;
     protected $formClass = IntakeType::class;

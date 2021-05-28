@@ -500,6 +500,10 @@ class Klant extends Persoon
         return $this;
     }
 
+    public function getEersteVerslag()
+    {
+        return $this->verslagen->first();
+    }
     public function getOpmerkingen()
     {
         return $this->opmerkingen;
