@@ -2,15 +2,19 @@
 
 namespace MwBundle\Service;
 
+use AppBundle\Doctrine\SqlExtractor;
+use AppBundle\Entity\Klant;
 use AppBundle\Filter\FilterInterface;
 use AppBundle\Service\AbstractDao;
 use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\Query\Expr\Join;
 use InloopBundle\Entity\Intake;
 use InloopBundle\Entity\Locatie;
 use InloopBundle\Event\Events;
 use InloopBundle\Service\LocatieDao;
 use InloopBundle\Service\LocatieDaoInterface;
 use Knp\Component\Pager\PaginatorInterface;
+use MwBundle\Entity\Verslag;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
 
@@ -59,22 +63,89 @@ class IntakeDao extends AbstractDao implements IntakeDaoInterface
 
     public function findAll($page = null, FilterInterface $filter = null)
     {
-        $builder = $this->repository->createQueryBuilder($this->alias)
+        /*
+         * Onderstaande query is de basis; maar neit mogelijk in doctrine met QB.
+         * Om het niet ingewikkelder te maken dan nodig eerst de losse klant ids ophalen.
+         * En dan later de boel maar in elkaar frotten...
+         *
 
-                ->addSelect("klant,eersteIntake,laatsteIntake,werkgebied")
-                ->innerJoin("intake.klant","klant")
-                ->innerJoin("klant.geslacht","geslacht")
-                ->innerJoin("klant.eersteIntake","eersteIntake")
-                ->innerJoin("eersteIntake.intakelocatie","intakelocatie")
-                ->innerJoin("klant.laatsteIntake","laatsteIntake")
-                ->innerJoin('klant.werkgebied','werkgebied')
-                ->where("intakelocatie.naam IN (:wachtlijstLocaties)")
-                ->setParameter("wachtlijstLocaties",$this->wachtlijstLocaties)
-              ->groupBy("klant.laatsteIntake")
+        SELECT k.id, ki.klant_id, kv.klant_id FROM klanten k
+    LEFT JOIN
+    (
+        SELECT i.klant_id FROM intakes AS i
+                 LEFT JOIN intakes AS i2
+                           ON i.klant_id = i2.klant_id
+    AND (i.created > i2.created
+        OR (i.created = i2.created AND i.id > i2.id))
+        WHERE i2.klant_id IS NULL
+    AND i.locatie2_id IN (49, 50)
+    ) AS ki ON k.id = ki.klant_id
+    LEFT JOIN
+    (
+        SELECT v.klant_id FROM verslagen v
+        WHERE v.locatie_id IN (50)
+        ) AS kv ON k.id = kv.klant_id
+WHERE (ki.klant_id IS NOT NULL OR kv.klant_id IS NOT NULL)
+         */
+
+        //niet nodig omdat eerste intake en laatste intake al dmv denormalisatie zijn toegevoegd en dus te verkrijgen zijn
+//        $subQuery1 = $this->repository->createQueryBuilder("intake")
+//            ->select("intake")
+//            ->leftJoin(Intake::class,"i2",Join::WITH,"intake.klant = i2.klant
+//            AND intake.created > i2.created
+//            OR (intake.created = i2.created AND intake.id > i2.id)")
+//            ->where("i2.klant IS NULL")
+//            ->andWhere("intake.intakelocatie IN (49,50)")
+//            ;
+//
+////        $sq1 = $subQuery1->getQuery();
+////        $sql = SqlExtractor::getFullSQL($sq1);
+//        $result = $subQuery1->getQuery()->getResult();
+//        foreach($result as $r)
+//        {
+//            $ikIds[] = $r->getKlant()->getId();
+//            $iIds = $r->getId();
+//        }
+
+        $subQuery2 = $this->repository->createQueryBuilder("verslag")
+            ->resetDQLPart("from")
+            ->from(Verslag::class,"verslag")
+            ->select("verslag")
+            ->leftJoin(Verslag::class,"v2",Join::WITH,"verslag.klant = v2.klant
+            AND verslag.created < v2.created
+            OR (verslag.created = v2.created AND verslag.id > v2.id)")
+            ->where("v2.klant IS NULL")
+            ->andWhere("verslag.locatie IN (49,50)")
         ;
 
-        $q = $builder->getQuery();
+//        $sq2 = $subQuery2->getQuery();
+//        $sql = SqlExtractor::getFullSQL($sq1);
+        $result = $subQuery2->getQuery()->getResult();
+        foreach($result as $r)
+        {
+            $vIds = $r->getId();
+        }
 
+
+        $builder = $this->repository->createQueryBuilder("klant")
+            ->resetDQLPart("from")
+            ->from(Klant::class,"klant")
+            ->select("klant,intake,werkgebied,verslag")
+            ->innerJoin("klant.geslacht","geslacht")
+            ->leftJoin("klant.eersteIntake","intake")
+
+            ->leftJoin("intake.intakelocatie","intakelocatie")
+            ->leftJoin('klant.werkgebied','werkgebied')
+            ->leftJoin("klant.verslagen","verslag")
+//            ->leftJoin("verslag.locatie","verslaglocatie")
+            ->where("intakelocatie.naam IN (:wachtlijstLocaties)")
+            ->orWhere("verslag.id IN(:verslagIds) AND intake.id IS NULL")
+            ->setParameter("wachtlijstLocaties",$this->wachtlijstLocaties)
+            ->setParameter("verslagIds",$vIds)
+            ->groupBy("klant.id")
+            ;
+        $q = $builder->getQuery();
+        $sql = SqlExtractor::getFullSQL($q);
         return parent::doFindAll($builder, $page, $filter);
     }
 
