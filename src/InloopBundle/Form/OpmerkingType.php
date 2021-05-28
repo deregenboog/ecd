@@ -5,6 +5,8 @@ namespace InloopBundle\Form;
 use AppBundle\Entity\Opmerking;
 use AppBundle\Form\AppTextareaType;
 use AppBundle\Form\BaseType;
+use AppBundle\Form\MedewerkerType;
+use ScipBundle\Form\MedewerkerSelectType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -25,6 +27,10 @@ class OpmerkingType extends AbstractType
             ->add('beschrijving', AppTextareaType::class, [
                 'required' => true,
             ])
+            ->add('medewerker', MedewerkerType::class, [
+                'required' => true,
+            ])
+
             ->add('submit', SubmitType::class)
         ;
     }

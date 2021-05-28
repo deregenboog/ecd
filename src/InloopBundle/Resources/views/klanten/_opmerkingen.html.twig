@@ -11,7 +11,7 @@
 {% else %}
     <dl>
         {% for opmerking in opmerkingen %}
-            <dt>{{ opmerking.modified|date('d-m-Y') }}, {{ opmerking.categorie }}</dt>
+            <dt>{{ opmerking.modified|date('d-m-Y') }}, {{ opmerking.categorie }}, {{ opmerking.medewerker }} </dt>
             <dd>{{ opmerking.beschrijving }}</dd>
         {% endfor %}
     </dl>
