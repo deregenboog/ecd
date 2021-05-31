@@ -11,7 +11,12 @@
 {% else %}
     <dl>
         {% for opmerking in opmerkingen %}
-            <dt>{{ opmerking.modified|date('d-m-Y') }}, {{ opmerking.categorie }}, {{ opmerking.medewerker }} </dt>
+            {% if opmerking.medewerker.id != "0" %}
+             {% set mw = opmerking.medewerker %}
+            {% else %}
+                {% set mw = "" %}
+            {% endif %}
+            <dt>{{ opmerking.modified|date('d-m-Y') }}, {{ opmerking.categorie }} {{ mw }}</dt>
             <dd>{{ opmerking.beschrijving }}</dd>
         {% endfor %}
     </dl>
