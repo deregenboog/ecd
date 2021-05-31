@@ -26,6 +26,11 @@
         <p>Geen opmerkingen.</p>
     {% else %}
         {% for opmerking in klant.opmerkingen %}
+            {% if opmerking.medewerker.id != "0" %}
+                {% set mw = opmerking.medewerker %}
+            {% else %}
+                {% set mw = "" %}
+            {% endif %}
             <div data-id="{{ opmerking.id }}">
                 <h2>{{ opmerking.modified|date('d-m-Y') }}</h2>
                 <p class="pull-right">
@@ -36,7 +41,7 @@
                         Verwijderen
                     </a>
                 </p>
-                <p>Categorie: {{ opmerking.categorie }}</p>
+                <p>Categorie: {{ opmerking.categorie }} {{ mw }}</p>
                 <div class="well">{{ opmerking.beschrijving }}</div>
             </div>
         {% endfor %}
