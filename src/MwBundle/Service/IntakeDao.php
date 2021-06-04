@@ -107,23 +107,35 @@ WHERE (ki.klant_id IS NOT NULL OR kv.klant_id IS NOT NULL)
 //            $iIds = $r->getId();
 //        }
 
+
         $subQuery2 = $this->repository->createQueryBuilder("verslag")
             ->resetDQLPart("from")
             ->from(Verslag::class,"verslag")
             ->select("verslag")
             ->leftJoin(Verslag::class,"v2",Join::WITH,"verslag.klant = v2.klant
-            AND verslag.created < v2.created
-            OR (verslag.created = v2.created AND verslag.id > v2.id)")
+            AND verslag.created > v2.created
+            OR (verslag.created = v2.created AND verslag.id < v2.id)")
+            ->leftJoin("verslag.locatie","locatie")
+            ->leftJoin("verslag.klant","klant")
+            ->leftJoin("klant.werkgebied","werkgebied")
             ->where("v2.klant IS NULL")
-            ->andWhere("verslag.locatie IN (49,50)")
+            ->andWhere("locatie.naam IN (:wachtlijstLocaties)")
+            ->andWhere("klant.eersteIntake IS NULL")
+            ->setParameter("wachtlijstLocaties",$this->wachtlijstLocaties)
         ;
 
+        if($filter !== null)
+        {
+            $filter->applyTo($subQuery2);
+        }
+
 //        $sq2 = $subQuery2->getQuery();
-//        $sql = SqlExtractor::getFullSQL($sq1);
+//        $sql = SqlExtractor::getFullSQL($subQuery2->getQuery());
         $result = $subQuery2->getQuery()->getResult();
+        $vIds = array();
         foreach($result as $r)
         {
-            $vIds = $r->getId();
+            $vIds[] = $r->getId();
         }
 
 
@@ -131,7 +143,7 @@ WHERE (ki.klant_id IS NOT NULL OR kv.klant_id IS NOT NULL)
             ->resetDQLPart("from")
             ->from(Klant::class,"klant")
             ->select("klant,intake,werkgebied,verslag")
-            ->innerJoin("klant.geslacht","geslacht")
+            ->leftJoin("klant.geslacht","geslacht")
             ->leftJoin("klant.eersteIntake","intake")
 
             ->leftJoin("intake.intakelocatie","intakelocatie")
@@ -144,8 +156,10 @@ WHERE (ki.klant_id IS NOT NULL OR kv.klant_id IS NOT NULL)
             ->setParameter("verslagIds",$vIds)
             ->groupBy("klant.id")
             ;
-        $q = $builder->getQuery();
-        $sql = SqlExtractor::getFullSQL($q);
+//       if(null !== $filter) $filter->applyTo($builder);
+//        $q = $builder->getQuery();
+//        $sql = SqlExtractor::getFullSQL($q);
+
         return parent::doFindAll($builder, $page, $filter);
     }
 
