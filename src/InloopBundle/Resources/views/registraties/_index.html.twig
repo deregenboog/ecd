@@ -75,9 +75,9 @@
                             {{ huidige_schorsingen|length == 1 ? 'schorsing' : 'schorsingen' }}
                         </a>
                     {% else %}
-                        {% set ongeziene_schorsingen = klant.ongezieneSchorsingen(locatie) %}
+
                         <a href="{{ path('inloop_schorsingen_klantview', {klant: klant.id}) }}">
-                            {{ ongeziene_schorsingen|length > 0 ? 'schorsing verlopen' : 'geen' }}
+                            geen
                         </a>
                     {% endif %}
                 </td>
