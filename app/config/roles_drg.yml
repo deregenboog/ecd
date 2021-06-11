@@ -74,6 +74,7 @@ security:
             - ROLE_INLOOP_REPORTS
             - ROLE_INLOOP_SCHORSINGEN
             - ROLE_INLOOP_VRIJWILLIGERS
+            - ROLE_INLOOP_BEHEER
             - CONTROLLER_ADMIN
             - ROLE_SECRETARIAAT
             - CONTROLLER_APP_KLANTEN
