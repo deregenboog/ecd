@@ -6,6 +6,7 @@ services:
             - ScipBundle\Entity\Deelname
             -
                 Voornaam: { expression: 'entity.getDeelnemer().getKlant().getVoornaam()' }
+                Tussenvoegsel: { expression: 'entity.getDeelnemer().getKlant().getTussenvoegsel()' }
                 Achternaam: { expression: 'entity.getDeelnemer().getKlant().getAchternaam()' }
                 KPL: { expression: 'entity.getProject().getKpl()' }
                 Naam: { expression: 'entity.getProject().getNaam()' }
