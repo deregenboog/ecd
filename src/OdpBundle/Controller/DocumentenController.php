@@ -10,6 +10,7 @@ use OdpBundle\Entity\Document;
 use OdpBundle\Entity\Huurder;
 use OdpBundle\Entity\Huurovereenkomst;
 use OdpBundle\Entity\Verhuurder;
+use OdpBundle\Entity\Vrijwilliger;
 use OdpBundle\Exception\OdpException;
 use OdpBundle\Form\DocumentType;
 use OdpBundle\Service\DocumentDaoInterface;
@@ -144,6 +145,10 @@ class DocumentenController extends SymfonyController
                 $class = Huurovereenkomst::class;
                 $id = $this->getRequest()->query->get('huurovereenkomst');
                 break;
+            case $this->getRequest()->query->has('vrijwilliger'):
+                $class = Vrijwilliger::class;
+                $id = $this->getRequest()->query->get('vrijwilliger');
+                break;
             default:
                 throw new OdpException('Kan geen document aan deze entiteit toevoegen');
         }
@@ -162,6 +167,9 @@ class DocumentenController extends SymfonyController
                 break;
             case $entity instanceof Huurovereenkomst:
                 $routeBase = 'odp_huurovereenkomsten';
+                break;
+            case $entity instanceof Vrijwilliger:
+                $routeBase = 'odp_vrijwilligers';
                 break;
             default:
                 throw new OdpException('Kan geen document aan deze entiteit toevoegen');

@@ -49,3 +49,33 @@ services:
 
     OdpBundle\Service\ProjectDao:
         parent: app.dao.abstract
+
+    OdpBundle\Service\DeelnameDao:
+        parent: app.dao.abstract
+
+    OdpBundle\Service\TrainingDao:
+        parent: app.dao.abstract
+
+    OdpBundle\Service\VrijwilligerDao:
+        parent: app.dao.abstract
+
+    OdpBundle\Service\LocatieDao:
+        parent: app.dao.abstract
+
+    OdpBundle\Service\AfsluitredenDao:
+        parent: app.dao.abstract
+
+    OdpBundle\Service\BinnenViaDao:
+        parent: app.dao.abstract
+
+    odp.memo.entities:
+        public: true
+        class: ArrayObject
+        arguments:
+            - - { key: vrijwilliger, dao: '@OdpBundle\Service\VrijwilligerDao' }
+
+    odp.deelname.entities:
+        public: true
+        class: ArrayObject
+        arguments:
+            - - { key: vrijwilliger, dao: '@OdpBundle\Service\VrijwilligerDao' }
