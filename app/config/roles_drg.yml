@@ -119,6 +119,7 @@ security:
             - CONTROLLER_APP_VRIJWILLIGERS
         ROLE_ODP_BEHEER:
             - ROLE_ODP
+            - ROLE_ODP_VRIJWILLIGERS
         ROLE_OEK: []
         ROLE_OEK_BEHEER:
             - ROLE_OEK

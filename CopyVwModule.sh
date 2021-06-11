@@ -4,10 +4,11 @@
 
 #src/MwBundle/Resources/config/daos.yml
 #src/MwBundle/Resources/config/exports.yml
+SEARCHPATH="ClipBundle"
 SEARCHPATH="InloopBundle"
 REPLACEPATH="OdpBundle"
 
-#SEARCHTEXT=("ClipBundle" "Clip |" "clip_" "@Clip" "clip.")
+SEARCHTEXT=("ClipBundle" "Clip |" "clip_" "@Clip" "clip.")
 SEARCHTEXT=("InloopBundle" "Inloop |" "inloop_" "@Inloop" "inloop.")
 REPLACETEXT=("OdpBundle" "Odp |" "odp_" "@Odp" "odp.")
 
@@ -89,15 +90,15 @@ src/ClipBundle/Resources/views/locaties/index.html.twig
 src/ClipBundle/Resources/views/locaties/view.html.twig
 "
 
-FILES="src/InloopBundle/Controller/VwTrainingenController.php
-src/InloopBundle/Entity/VwTraining.php
-src/InloopBundle/Form/VwTrainingType.php
-src/InloopBundle/Resources/config/daos.yml
-src/InloopBundle/Resources/views/subnavigation.html.twig
-src/InloopBundle/Resources/views/vw_trainingen/index.html.twig
-src/InloopBundle/Resources/views/vw_trainingen/view.html.twig
-src/InloopBundle/Service/VwTrainingDao.php
-src/InloopBundle/Service/VwTrainingDaoInterface.php"
+FILES="src/InloopBundle/Controller/TrainingenController.php
+#src/InloopBundle/Entity/Training.php
+#src/InloopBundle/Form/TrainingType.php
+#src/InloopBundle/Resources/config/daos.yml
+#src/InloopBundle/Resources/views/subnavigation.html.twig
+#src/InloopBundle/Resources/views/trainingen/index.html.twig
+#src/InloopBundle/Resources/views/trainingen/view.html.twig
+#src/InloopBundle/Service/TrainingDao.php
+#src/InloopBundle/Service/TrainingDaoInterface.php"
 
 #FILES="src/MwBundle/Controller/DocumentenController.php"
 for f in $FILES

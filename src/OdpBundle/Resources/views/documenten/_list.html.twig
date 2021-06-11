@@ -8,7 +8,11 @@
 {% elseif huurovereenkomst is defined %}
     {% set url = path('odp_documenten_add', {huurovereenkomst: huurovereenkomst.id}) %}
     {% set entity = huurovereenkomst %}
+{% elseif vrijwilliger is defined %}
+    {% set url = path('odp_documenten_add', {vrijwilliger: vrijwilliger.id}) %}
+    {% set entity = vrijwilliger %}
 {% endif %}
+
 <h2>Documenten</h2>
 <p>
     {{ html.addLink(url) }}

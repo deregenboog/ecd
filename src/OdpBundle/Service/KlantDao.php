@@ -1,0 +1,159 @@
+<?php
+
+namespace OdpBundle\Service;
+
+use AppBundle\Doctrine\SqlExtractor;
+use AppBundle\Entity\Klant;
+use AppBundle\Filter\FilterInterface;
+use AppBundle\Service\AbstractDao;
+use OdpBundle\Entity\Aanmelding;
+
+class KlantDao extends AbstractDao implements KlantDaoInterface
+{
+    protected $paginationOptions = [
+        'defaultSortFieldName' => 'klant.achternaam',
+        'defaultSortDirection' => 'asc',
+        'sortFieldWhitelist' => [
+            'klant.id',
+            'klant.achternaam',
+            'klant.geboortedatum',
+            'geslacht.volledig',
+            'medewerker.voornaam',
+            'verslag',
+            'gebruikersruimte.naam',
+            'laatsteIntakeLocatie.naam',
+            'klant.intakedatum',
+            'datumLaatsteVerslag',
+            'aantalVerslagen',
+        ],
+//        'wrap-queries' => true, // because of HAVING clause in filter
+    ];
+
+    protected $class = Klant::class;
+
+    protected $alias = 'klant';
+
+    public function findAll($page = null, FilterInterface $filter = null)
+    {
+        /**
+         * @var KlantFilter $filter
+         */
+        $filter;
+
+        $builder = $this->repository->createQueryBuilder($this->alias);
+        $builder
+            ->select('klant, laatsteIntake, gebruikersruimte')
+            ->addSelect('MAX(verslag.datum) AS datumLaatsteVerslag')
+            ->addSelect('COUNT(DISTINCT verslag.id) AS aantalVerslagen')
+            ;
+        if($filter->isDirty())
+        {
+            $builder
+            ->leftJoin($this->alias.'.verslagen', 'verslag')
+            ->leftJoin('verslag.medewerker','medewerker');
+        }
+        else
+        {
+            $builder
+                ->join($this->alias.'.verslagen', 'verslag')
+                ->join('verslag.medewerker','medewerker');
+        }
+        $builder
+            ->join($this->alias.'.geslacht', 'geslacht')
+//            ->addSelect('\'2020-07-01\' AS datumLaatsteVerslag')
+//            ->addSelect('1 AS aantalVerslagen')
+//            ->leftJoin($this->alias.'.huidigeStatus', 'status')
+            ->leftJoin($this->alias.'.intakes', 'intake')
+            ->leftJoin($this->alias.'.laatsteIntake', 'laatsteIntake')
+            ->leftJoin($this->alias.'.huidigeMwStatus', 'huidigeMwStatus')
+            ->leftJoin('laatsteIntake.intakelocatie', 'laatsteIntakeLocatie')
+            ->leftJoin('laatsteIntake.gebruikersruimte', 'gebruikersruimte')
+            ->groupBy('klant.achternaam, klant.id')
+            ;
+
+        if ($filter) {
+            $filter->applyTo($builder);
+        }
+
+        if ($page) {
+            /**
+             * Vanwege de vele left joins in deze query is de total count niet te optimaliseren (door mij) onder de <900ms.
+             * Dat vind ik lang. Temeer omdat in veel gevallen die total count niet bijster interessant is.
+             *
+             * In de default configuratie van het filter wordt daarom de total count niet geteld. Dat scheelt een eerste snelle klik.
+             * Zodra je dan filtert gaat het sowieso sneller en wordt het juiste getal getoont.
+             *
+             */
+            $dql = $builder->getDQL();
+            $params = $builder->getParameters();
+//            $sql = $builder->getQuery()->getSQL();
+
+            $count = 11111;
+            if($filter->isDirty())
+            {
+                $builder->resetDQLPart("select");
+                $builder->select("klant.id");//select only one column for count query.
+
+                $countQuery = $builder->getQuery();
+                $fullSql = SqlExtractor::getFullSQL($countQuery);//including bound parameters.
+
+                $countSql = "SELECT COUNT(*) AS count FROM (".$fullSql.") tmp"; //wrap into subquery.
+                $countStmt = $this->entityManager->getConnection()->prepare($countSql);
+                $countStmt->execute();
+                $count = $countStmt->fetchColumn(0);
+            }
+            $query = $this->entityManager->createQuery($dql)->setHint('knp_paginator.count', $count);
+
+            $query->setParameters($params);
+            return $this->paginator->paginate($query, $page, $this->itemsPerPage,$this->paginationOptions);
+        }
+
+        return $builder->getQuery()->getResult();
+    }
+
+    public function countResultatenPerLocatie($page = null, FilterInterface $filter = null)
+    {
+        $builder = $this->repository->createQueryBuilder('klant')
+            /**
+             * SELECT DISTINCT (klanten.id), odp_dossier_statussen.class, odp_resultaten.naam FROM klanten LEFT JOIN verslagen ON verslagen.klant_id = klanten.id
+            LEFT JOIN odp_dossier_statussen ON odp_dossier_statussen.id = klanten.huidigeMwStatus_id
+            LEFT JOIN odp_afsluiting_resultaat ON odp_afsluiting_resultaat.afsluiting_id = odp_dossier_statussen.id
+            INNER JOIN odp_resultaten ON odp_resultaten.id = odp_afsluiting_resultaat.resultaat_id
+            WHERE verslagen.id IS NOT NULL
+            AND odp_dossier_statussen.class IN ('Afsluiting')
+             */
+        ;
+
+        if ($filter) {
+            $filter->applyTo($builder);
+        }
+
+        if ($page) {
+            return $this->paginator->paginate($builder, $page, $this->itemsPerPage, $this->paginationOptions);
+        }
+
+        return $builder->getQuery()->getResult();
+    }
+
+    public function create(Klant $entity)
+    {
+        $aanmelding = new \InloopBundle\Entity\Aanmelding($entity, $entity->getMedewerker());
+        $entity->setHuidigeStatus($aanmelding);
+
+        $mwAanmelding = new Aanmelding($entity,$entity->getMedewerker());
+        $entity->setHuidigeMwStatus($mwAanmelding);
+
+        return parent::doCreate($entity);
+    }
+
+    public function update(Klant $entity)
+    {
+        $this->doUpdate($entity);
+    }
+
+    public function delete(Klant $entity)
+    {
+        $this->doDelete($entity);
+    }
+
+}

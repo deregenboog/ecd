@@ -2,6 +2,7 @@
 
 namespace OdpBundle\Entity;
 
+use AppBundle\Model\DocumentInterface;
 use AppBundle\Model\RequiredMedewerkerTrait;
 use AppBundle\Model\TimestampableTrait;
 use Doctrine\ORM\Mapping as ORM;
@@ -19,7 +20,7 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
  * @Gedmo\Loggable
  * @Vich\Uploadable
  */
-abstract class SuperDocument
+abstract class SuperDocument implements DocumentInterface
 {
     use TimestampableTrait, RequiredMedewerkerTrait;
 

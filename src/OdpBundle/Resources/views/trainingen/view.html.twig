@@ -1,0 +1,33 @@
+{% extends '::base-2-col.html.twig' %}
+{% import '::html.macro.twig' as html %}
+
+{% block title %}
+    Tijdelijk wonen | {{ title }}
+{% endblock %}
+
+{% block subnavigation %}
+    {% include '@Odp/odp_subnavigation.html.twig' %}
+{% endblock %}
+
+{% block content_top %}
+    <h1>{{ entity_name|capitalize }} {{ entity }}</h1>
+{% endblock %}
+
+{% block content_left %}
+    <p>
+        {{ html.Link('Wijzigen', path(route_base ~ 'edit', {'id': entity.id}), 'edit') }}
+        {% if entity.deletable %}
+            {{ html.link('Verwijderen', path(route_base ~ 'delete', {'id': entity.id}), 'delete') }}
+        {% endif %}
+    </p>
+    <dl class="dl-horizontal">
+        <dt>Naam</dt>
+        <dd>{{ entity }}</dd>
+        <dt>Actief</dt>
+        <dd>{{ entity.actief|ja_nee }}</dd>
+    </dl>
+{% endblock %}
+
+{% block content_right %}
+
+{% endblock %}
