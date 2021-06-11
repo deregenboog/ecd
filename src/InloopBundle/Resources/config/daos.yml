@@ -68,6 +68,9 @@ services:
     InloopBundle\Service\DeelnameDao:
         parent: inloop.dao
 
+    InloopBundle\Service\TrainingDao:
+        parent: inloop.dao
+
     inloop.document.entities:
         public: true
         class: ArrayObject
