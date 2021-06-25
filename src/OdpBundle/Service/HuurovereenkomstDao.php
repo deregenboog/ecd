@@ -68,6 +68,21 @@ class HuurovereenkomstDao extends AbstractDao implements HuurovereenkomstDaoInte
         $this->doDelete($huurovereenkomst);
     }
 
+    public function countByProject(\DateTime $startdate, \DateTime $enddate)
+    {
+        $builder = $this->getCountBuilder($startdate, $enddate)
+
+            ->addSelect("project.naam AS groep")
+            ->innerJoin('huurovereenkomst.huuraanbod', 'huuraanbod')
+            ->leftJoin('huuraanbod.project', 'project')
+            ->andWhere("{$this->alias}.startdatum <= :end")
+            ->andWhere("{$this->alias}.einddatum IS NULL OR {$this->alias}.einddatum >= :start")
+            ->groupBy('project.id')
+        ;
+
+        return $builder->getQuery()->getResult();
+    }
+
     public function countByVormvanovereenkomst(\DateTime $startdate, \DateTime $enddate)
     {
         $builder = $this->getCountBuilder($startdate, $enddate)

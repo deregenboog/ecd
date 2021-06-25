@@ -50,7 +50,7 @@ class DienstenLookupSubscriber implements EventSubscriberInterface
                 $url = $this->generator->generate('odp_verhuurders_view', ['id' => $deelnemer->getId()]);
             }
 
-            $dienst = new Dienst('Onder de pannen', $url);
+            $dienst = new Dienst('Tijdelijk wonen', $url);
 
             if ($deelnemer->getAanmelddatum()) {
                 $dienst->setVan($deelnemer->getAanmelddatum());
