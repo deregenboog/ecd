@@ -8,7 +8,7 @@
     {% if url is defined and entity.status == constant("\\\HsBundle\\Entity\\Klant::STATUS_OK") %}
         {{ html.addLink(url) }}
         {{ html.link('Klus toevoegen', url) }}
-    {% else %}
+    {% elseif entity.statusAsString is defined %}
         {{ entity.statusAsString|color("red") }}
     {% endif %}
 </p>
