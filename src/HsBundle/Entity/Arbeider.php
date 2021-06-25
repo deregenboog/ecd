@@ -81,6 +81,26 @@ abstract class Arbeider
         return $this;
     }
 
+    /**
+     * @return mixed
+     */
+    public function getUitschrijving()
+    {
+        return $this->uitschrijving;
+    }
+
+    /**
+     * @param mixed $uitschrijving
+     * @return Arbeider
+     */
+    public function setUitschrijving($uitschrijving)
+    {
+        $this->uitschrijving = $uitschrijving;
+        return $this;
+    }
+
+
+
     public function getKlussen()
     {
         return $this->klussen;

@@ -235,8 +235,9 @@ class Klant implements MemoSubjectInterface, DocumentSubjectInterface
     {
         return $this->status;
     }
+
     /**
-     * @return int
+     * @return string
      */
     public function getStatusAsString(): string
     {
