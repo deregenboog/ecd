@@ -15,6 +15,7 @@ services:
         public: true
         arguments:
             - '@OdpBundle\Service\HuurovereenkomstDao'
+            - '@OdpBundle\Service\ProjectDao'
         tags:
             - { name: odp.rapportage }
 

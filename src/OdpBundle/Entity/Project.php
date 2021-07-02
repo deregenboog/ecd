@@ -38,6 +38,13 @@ class Project
      */
     private $einddatum;
 
+    /**
+     * @var Huuraanbod
+     *
+     * @ORM\OneToMany(targetEntity="OdpBundle\Entity\Huuraanbod",mappedBy="project")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $huuraanbiedingen;
 
     public function getId()
     {
