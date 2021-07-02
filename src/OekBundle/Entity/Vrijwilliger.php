@@ -5,6 +5,7 @@ namespace OekBundle\Entity;
 use AppBundle\Entity\Vrijwilliger as AppVrijwilliger;
 use AppBundle\Model\ActivatableInterface;
 use AppBundle\Model\ActivatableTrait;
+use AppBundle\Model\MemoInterface;
 use AppBundle\Model\NotDeletableTrait;
 use AppBundle\Model\DocumentSubjectInterface;
 use AppBundle\Model\DocumentSubjectTrait;
@@ -37,6 +38,47 @@ class Vrijwilliger implements MemoSubjectInterface, DocumentSubjectInterface, Ac
      * @Gedmo\Versioned
      */
     protected $vrijwilliger;
+
+    /**
+     * @var MemoInterface[]
+     *
+     * @ORM\ManyToMany(targetEntity="OekBundle\Entity\Memo", cascade={"persist"})
+     * @ORM\JoinTable(inverseJoinColumns={@ORM\JoinColumn(unique=true)})
+     * @ORM\OrderBy({"datum": "desc", "id": "desc"})
+     */
+    protected $memos;
+
+    /**
+     * @return MemoInterface[]
+     */
+    public function getMemos()
+    {
+        return $this->memos;
+    }
+
+    /**
+     * @param MemoInterface $memo
+     *
+     * @return self
+     */
+    public function addMemo(MemoInterface $memo)
+    {
+        $this->memos[] = $memo;
+
+        return $this;
+    }
+
+    /**
+     * @param MemoInterface $memo
+     *
+     * @return self
+     */
+    public function removeMemo(MemoInterface $memo)
+    {
+        $this->memos->removeElement($memo);
+
+        return $this;
+    }
 
 
     public function __construct(AppVrijwilliger $vrijwilliger = null)
