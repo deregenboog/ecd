@@ -74,11 +74,12 @@ class HuurovereenkomstDao extends AbstractDao implements HuurovereenkomstDaoInte
 
             ->addSelect("project.naam AS groep")
             ->innerJoin('huurovereenkomst.huuraanbod', 'huuraanbod')
-            ->leftJoin('huuraanbod.project', 'project')
+            ->innerJoin('huuraanbod.project', 'project')
             ->andWhere("{$this->alias}.startdatum <= :end")
             ->andWhere("{$this->alias}.einddatum IS NULL OR {$this->alias}.einddatum >= :start")
             ->groupBy('project.id')
         ;
+//        $sql = $builder->getQuery()->getSQL();
 
         return $builder->getQuery()->getResult();
     }

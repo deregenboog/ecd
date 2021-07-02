@@ -3,6 +3,7 @@
 namespace OdpBundle\Service;
 
 use AppBundle\Service\AbstractDao;
+use Doctrine\ORM\Query\Expr\Join;
 use OdpBundle\Entity\Project;
 
 class ProjectDao extends AbstractDao implements ProjectDaoInterface
@@ -36,6 +37,52 @@ class ProjectDao extends AbstractDao implements ProjectDaoInterface
     public function delete(Project $project)
     {
         $this->doDelete($project);
+    }
+
+    public function countKoppelingenPerProject(\DateTime $startdate, \DateTime $enddate)
+    {
+        /**
+         * SELECT p.naam, COUNT(k.id) AS actief
+        , COUNT(k2.id) AS gestart
+        FROM odp_projecten AS p
+        INNER JOIN odp_huuraanbiedingen AS a ON a.project_id = p.id
+        LEFT JOIN odp_huurovereenkomsten AS k ON k.huuraanbod_id = a.id AND k.startdatum <= '2020-07-02' AND (k.einddatum >= '2020-01-01' OR k.einddatum IS NULL)
+        LEFT JOIN odp_huurovereenkomsten AS k2 ON k2.huuraanbod_id = a.id AND (k2.startdatum >= '2020-01-01')
+        LEFT JOIN odp_afsluitingen AS af1 ON af1.id = k.afsluiting_id AND af1.discr IN ('huurovereenkomst')
+        LEFT JOIN odp_afsluitingen AS af2 ON af2.id = k2.afsluiting_id AND af2.discr IN ('huurovereenkomst')
+        WHERE
+        ( (af1.tonen IS NULL OR af1.tonen = 1)
+        AND
+        (af2.tonen IS NULL OR af2.tonen = 1)
+        ) AND
+
+        (k.isReservering = 0 OR k.isReservering IS NULL)
+        AND
+        (k2.isReservering = 0 OR k2.isReservering IS NULL)
+        GROUP BY p.id
+        ;
+         */
+        $builder = $this->repository->createQueryBuilder("project");
+
+        $builder
+
+            ->select("COUNT(kActief.id) AS aantalActief, COUNT(kGestart.id) AS aantalGestart, project.naam AS groep")
+            ->innerJoin("project.huuraanbiedingen", 'aanbod')
+            ->leftJoin("aanbod.huurovereenkomst", 'kActief', Join::WITH, "kActief.startdatum <= :einddatum AND (kActief.einddatum >= :startdatum OR kActief.einddatum IS NULL) ")
+            ->leftJoin("aanbod.huurovereenkomst",'kGestart', Join::WITH, "kGestart.startdatum >= :startdatum")
+            ->leftJoin("kActief.afsluiting", "kaAfsluiting")
+            ->leftJoin("kGestart.afsluiting","ksAfsluiting")
+            ->andWhere("( (kaAfsluiting.tonen IS NULL or kaAfsluiting.tonen = 1) AND (ksAfsluiting.tonen IS NULL or ksAfsluiting.tonen = 1) )")
+            ->andWhere("( (kActief.isReservering  = 0 OR kActief.isReservering IS NULL) AND kGestart.isReservering = 0 OR kGestart.isReservering IS NULL )")
+            ->setParameter(":startdatum",$startdate)
+            ->setParameter(":einddatum",$enddate)
+            ->groupBy("project.naam")
+        ;
+
+//        $sql = $builder->getQuery()->getSQL();
+
+        $result = $builder->getQuery()->getResult();
+        return $result;
     }
 
 }
