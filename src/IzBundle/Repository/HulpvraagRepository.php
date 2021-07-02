@@ -33,6 +33,56 @@ class HulpvraagRepository extends EntityRepository
         return $builder->getQuery()->getResult();
     }
 
+
+    public function getStadsdelen(\DateTime $startDate, \DateTime $endDate)
+    {
+        $builder = $this->createQueryBuilder("hulpvraag")
+            ->select('werkgebied.naam AS stadsdeel')
+            ->innerJoin('hulpvraag.izKlant','izKlant')
+            ->innerJoin('izKlant.klant','klant')
+            ->leftJoin('klant.werkgebied','werkgebied')
+            ->groupBy('werkgebied.naam')
+        ;
+        $this->applyKoppelingenReportFilter($builder, 'gestart', $startDate, $endDate);
+        return $builder->getQuery()->getResult();
+    }
+    public function countDoelgroepenPerHulpvraagsoortPerStadsdeel(\DateTime $startDate, \DateTime $endDate, $stadsdeel)
+    {
+
+
+        $builder = $this->createQueryBuilder("hulpvraag")
+            ->select("COUNT(hulpvraag.id) AS aantal")
+            ->addSelect('hulpvraagsoort.naam AS hulpvraagsoortnaam')
+            ->addSelect('doelgroepen.naam AS doelgroepnaam')
+            ->innerJoin('hulpvraag.hulpvraagsoort', 'hulpvraagsoort')
+            ->innerJoin('hulpvraag.doelgroepen', 'doelgroepen')
+            ->innerJoin('hulpvraag.izKlant', 'izKlant')
+            ->innerJoin('izKlant.klant', 'klant')
+            ->leftJoin('klant.werkgebied', 'werkgebied')
+            ->groupBy('hulpvraagsoortnaam, doelgroepnaam');
+//hacky... pleg.
+        if ($stadsdeel !== 'Alles') {
+            $builder->addSelect('werkgebied.naam AS stadsdeel');
+        } else if ($stadsdeel === 'Alles')
+        {
+            $builder->addSelect("'Alles' AS stadsdeel");
+        }
+
+        if($stadsdeel === 'Overig') {
+           $builder->where('werkgebied.naam IS NULL');
+        }
+        else if($stadsdeel !== 'Overig' && $stadsdeel !== 'Alles')
+        {
+            $builder
+                ->where('werkgebied.naam = :stadsdeel')
+                ->setParameter(":stadsdeel",$stadsdeel);
+        }
+
+        $this->applyKoppelingenReportFilter($builder, 'gestart', $startDate, $endDate);
+        $sql = $builder->getQuery()->getSQL();
+        return $builder->getQuery()->getResult();
+
+    }
     public function countHulpvragenByProjectAndStadsdeel($report, \DateTime $startDate, \DateTime $endDate)
     {
         $builder = $this->getHulpvragenCountBuilder()
