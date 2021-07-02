@@ -48,37 +48,6 @@ class Vrijwilliger implements MemoSubjectInterface, DocumentSubjectInterface, Ac
      */
     protected $memos;
 
-    /**
-     * @return MemoInterface[]
-     */
-    public function getMemos()
-    {
-        return $this->memos;
-    }
-
-    /**
-     * @param MemoInterface $memo
-     *
-     * @return self
-     */
-    public function addMemo(MemoInterface $memo)
-    {
-        $this->memos[] = $memo;
-
-        return $this;
-    }
-
-    /**
-     * @param MemoInterface $memo
-     *
-     * @return self
-     */
-    public function removeMemo(MemoInterface $memo)
-    {
-        $this->memos->removeElement($memo);
-
-        return $this;
-    }
 
 
     public function __construct(AppVrijwilliger $vrijwilliger = null)

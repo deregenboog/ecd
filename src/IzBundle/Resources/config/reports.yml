@@ -12,6 +12,13 @@ services:
         tags:
             - { name: iz.rapportage, category: Management }
 
+    IzBundle\Report\HulpvraagsoortPerDoelgroepPerStadsdeel:
+        public: true
+        arguments:
+            - "@iz.repository.iz_hulpvraag"
+        tags:
+            - { name: iz.rapportage, category: Management }
+
     IzBundle\Report\HulpvragenPerProjectStadsdeel:
         public: true
         arguments:
