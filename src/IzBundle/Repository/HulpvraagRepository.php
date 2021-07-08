@@ -2,8 +2,10 @@
 
 namespace IzBundle\Repository;
 
+use AppBundle\Exception\ReportException;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\QueryBuilder;
+use http\Exception\InvalidArgumentException;
 
 class HulpvraagRepository extends EntityRepository
 {
@@ -46,9 +48,12 @@ class HulpvraagRepository extends EntityRepository
         $this->applyKoppelingenReportFilter($builder, 'gestart', $startDate, $endDate);
         return $builder->getQuery()->getResult();
     }
-    public function countDoelgroepenPerHulpvraagsoortPerStadsdeel(\DateTime $startDate, \DateTime $endDate, $stadsdeel)
+    public function countDoelgroepenPerHulpvraagsoortPerStadsdeel(\DateTime $startDate, \DateTime $endDate, $options)
     {
+        if(!isset($options['type'])) throw new ReportException("Missing type option");
 
+        $stadsdeel = null;
+        if(isset($options['stadsdeel'])) $stadsdeel = $options['stadsdeel'];
 
         $builder = $this->createQueryBuilder("hulpvraag")
             ->select("COUNT(hulpvraag.id) AS aantal")
@@ -78,7 +83,8 @@ class HulpvraagRepository extends EntityRepository
                 ->setParameter(":stadsdeel",$stadsdeel);
         }
 
-        $this->applyKoppelingenReportFilter($builder, 'gestart', $startDate, $endDate);
+        $reportType = $options['type'];
+        $this->applyKoppelingenReportFilter($builder, $reportType, $startDate, $endDate);
         $sql = $builder->getQuery()->getSQL();
         return $builder->getQuery()->getResult();
 

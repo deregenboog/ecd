@@ -15,7 +15,7 @@ class ClientRepository extends EntityRepository implements DoelstellingRepositor
     {
         $builder = $this->getCountBuilder()
             ->addSelect('groep.naam AS groepnaam')
-            ->innerJoin('client.groep', 'groep')
+            ->leftJoin('client.groep', 'groep')
             ->innerJoin('client.verslagen', 'verslag')
             ->groupBy('groepnaam')
         ;
@@ -29,11 +29,11 @@ class ClientRepository extends EntityRepository implements DoelstellingRepositor
     {
         $builder = $this->getCountBuilder()
             ->addSelect("stadsdeel.naam AS stadsdeelnaam")
-            ->innerJoin('client.werkgebied', 'stadsdeel')
-            ->leftJoin('client.verslagen', 'verslag')
+            ->leftJoin('client.werkgebied', 'stadsdeel')
+            ->innerJoin('client.verslagen', 'verslag')
             ->groupBy('stadsdeelnaam')
         ;
-//        dump($builder->getQuery()->getSQL());
+        dump($builder->getQuery()->getSQL());
         $this->applyReportFilter($builder, $startDate, $endDate);
 
         return $builder->getQuery()->getResult();
