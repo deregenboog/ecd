@@ -10,9 +10,9 @@ use IzBundle\Repository\DoelstellingRepository;
 use IzBundle\Repository\HulpvraagRepository;
 use IzBundle\Repository\ProjectRepository;
 
-class HulpvraagsoortPerDoelgroepPerStadsdeel extends AbstractReport
+class HulpvraagsoortPerDoelgroepPerStadsdeelNieuw extends AbstractReport
 {
-    protected $title = 'Hulpvraagsoort per Doelgroep per Stadsdeel';
+    protected $title = 'Hulpvraagsoort per Doelgroep per Stadsdeel (Nieuw)';
 
     protected $xPath = 'hulpvraagsoortnaam';
 
@@ -77,9 +77,9 @@ class HulpvraagsoortPerDoelgroepPerStadsdeel extends AbstractReport
                 $r['stadsdeel'] = "Overig";
             }
 
-            $stadsdelen[$r['stadsdeel']] = $this->repository->countDoelgroepenPerHulpvraagsoortPerStadsdeel( $this->startDate, $this->endDate,$r['stadsdeel']);
+            $stadsdelen[$r['stadsdeel']] = $this->repository->countDoelgroepenPerHulpvraagsoortPerStadsdeel( $this->startDate, $this->endDate,["type"=>"gestart","stadsdeel"=>$r['stadsdeel']]);
         }
-        $stadsdelen["Alles"] = $this->repository->countDoelgroepenPerHulpvraagsoortPerStadsdeel( $this->startDate, $this->endDate,"Alles");
+        $stadsdelen["Alles"] = $this->repository->countDoelgroepenPerHulpvraagsoortPerStadsdeel( $this->startDate, $this->endDate,["type"=>"gestart","stadsdeel"=>"Alles"]);
 
 
         //fix overig...
