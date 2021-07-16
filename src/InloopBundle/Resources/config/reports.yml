@@ -3,7 +3,7 @@ services:
         tags:
             - { name: form.type }
 
-    InloopBundle\Report\Infobalie:
+    InloopBundle\Report\EUBurgers:
         public: true
         arguments:
             - "@doctrine.orm.entity_manager"
