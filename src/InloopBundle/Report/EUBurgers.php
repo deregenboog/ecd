@@ -17,7 +17,7 @@ use MwBundle\Entity\Doorverwijzing;
 use MwBundle\Entity\Verslag;
 use MwBundle\Entity\Verslaginventarisatie;
 
-class Infobalie extends AbstractReport
+class EUBurgers extends AbstractReport
 {
     protected $title = 'EU burgers';
 
@@ -298,7 +298,7 @@ class Infobalie extends AbstractReport
 
         $builder = $klantRepository->createQueryBuilder('klant')
             ->select('klant.id, intake.id AS laatste_intake_id')
-            ->join('klant.laatsteIntake', 'intake')
+            ->innerJoin('klant.laatsteIntake', 'intake')
             ->andWhere('klant.created < :created')->setParameter('created', $endDatePlusOneDay)
         ;
 
@@ -418,19 +418,21 @@ class Infobalie extends AbstractReport
             ->getQuery()
             ->getSingleScalarResult();
 
-        $count['totalVisits'] = $registratieRepository->createQueryBuilder('registratie')
+
+        $q = $registratieRepository->createQueryBuilder('registratie')
             ->select('COUNT(registratie.id) AS cnt')
             ->innerJoin('registratie.klant', 'klant')
             ->where('klant.id IN (:ids)')
-            ->andWhere('registratie.locatie = :locatie')
+            ->andWhere('registratie.locatie IN (:locatie)')
             ->andWhere('registratie.binnen >= :start_date')
             ->andWhere('registratie.binnen < :end_date')
             ->setParameter('ids', array_keys($klanten))
-            ->setParameter('locatie', $this->locatie)
+            ->setParameter('locatie', $this->locatieArray)
             ->setParameter('start_date', $startDate)
             ->setParameter('end_date', $endDatePlusOneDay)
-            ->getQuery()
-            ->getSingleScalarResult();
+            ->getQuery();
+
+        $count['totalVisits'] = $q->getSingleScalarResult();
 
         $tbuilder = $registratieRepository->createQueryBuilder('registratie');
         $tbuilder

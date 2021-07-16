@@ -7,6 +7,20 @@ use UhkBundle\Entity\Document;
 
 class DocumentDao implements DocumentDaoInterface
 {
+    protected $paginationOptions = [
+        'defaultSortFieldName' => 'document.naam',
+        'defaultSortDirection' => 'asc',
+        'sortFieldWhitelist' => [
+            'document.id',
+            'document.naam',
+        ],
+        'wrap-queries' => true, // because of HAVING clause in filter
+    ];
+
+    protected $class = Document::class;
+
+    protected $alias = 'document';
+
     public function __construct(EntityManager $entityManager)
     {
         $this->entityManager = $entityManager;

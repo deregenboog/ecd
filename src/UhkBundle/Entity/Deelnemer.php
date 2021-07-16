@@ -81,7 +81,16 @@ class Deelnemer implements KlantRelationInterface, DocumentSubjectInterface
      */
     private $verslagen;
 
-
+    /**
+     *
+     * Override from trait due to orderBy parameter.
+     * @var DocumentInterface[]
+     *
+     * @ORM\ManyToMany(targetEntity="Document", cascade={"persist","remove"}, fetch="EXTRA_LAZY")
+     * @ORM\JoinTable(inverseJoinColumns={@ORM\JoinColumn(unique=true, onDelete="CASCADE")})
+     * @ORM\OrderBy({"naam" = "ASC", "id" = "DESC"})
+     */
+    protected $documenten;
 
     public function __construct(Klant $klant = null, Medewerker $medewerker = null)
     {

@@ -44,3 +44,10 @@ services:
             - '@event_dispatcher'
         tags:
             - { name: doctrine.event_subscriber }
+
+    ScipBundle\Form\ProjectSelectType:
+        arguments:
+            - "@security.token_storage"
+            - "@security.authorization_checker"
+        tags:
+            - { name: form.type }

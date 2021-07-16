@@ -33,7 +33,7 @@ class ClientRepository extends EntityRepository implements DoelstellingRepositor
             ->innerJoin('client.verslagen', 'verslag')
             ->groupBy('stadsdeelnaam')
         ;
-        dump($builder->getQuery()->getSQL());
+//        dump($builder->getQuery()->getSQL());
         $this->applyReportFilter($builder, $startDate, $endDate);
 
         return $builder->getQuery()->getResult();

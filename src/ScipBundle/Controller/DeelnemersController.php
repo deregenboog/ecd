@@ -171,10 +171,15 @@ class DeelnemersController extends AbstractController
 
         if ($creationForm->isSubmitted() && $creationForm->isValid()) {
             try {
+
                 $this->dao->create($deelnemer);
                 $this->addFlash('success', ucfirst($this->entityName).' is opgeslagen.');
 
-                return $this->redirectToView($deelnemer);
+                $url = $this->generateUrl("scip_deelnames_add", [
+                    "deelnemer"=> $deelnemer->getId(),
+                    "redirect" => $this->generateUrl("scip_deelnemers_view",["id"=>$deelnemer->getId()]),
+                ]);
+                return $this->redirect($url);
             } catch (\Exception $e) {
                 $message = $this->container->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
                 $this->addFlash('danger', $message);

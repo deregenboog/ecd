@@ -3,6 +3,8 @@
 namespace AppBundle\Service;
 
 use AppBundle\Entity\Document;
+use AppBundle\Exception\AppException;
+use AppBundle\Filter\FilterInterface;
 use Doctrine\ORM\EntityManager;
 
 class DocumentDao implements DocumentDaoInterface
@@ -18,6 +20,10 @@ class DocumentDao implements DocumentDaoInterface
         return $this->repository->find($id);
     }
 
+    public function findAll($page = null, FilterInterface $filter = null)
+    {
+      throw new AppException("No findAll on DocumentDao. Who called me?");
+    }
     public function findByFilename($filename)
     {
         return $this->repository->findOneByFilename($filename);

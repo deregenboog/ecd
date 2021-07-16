@@ -2,6 +2,7 @@
 
 namespace ScipBundle\Form;
 
+use AppBundle\Entity\Medewerker;
 use AppBundle\Form\BaseType;
 use AppBundle\Form\DummyChoiceType;
 use Doctrine\ORM\EntityRepository;
@@ -11,9 +12,11 @@ use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 class DeelnameType extends AbstractType
 {
+
     /**
      * {@inheritdoc}
      */
@@ -22,14 +25,15 @@ class DeelnameType extends AbstractType
         /* @var $deelname Deelname */
         $deelname = $options['data'];
 
+
         if ($deelname && $deelname->getProject()) {
             $builder->add('project', DummyChoiceType::class, [
                 'dummy_label' => (string) $deelname->getProject(),
             ]);
         } else {
-            $builder->add('project', null, [
+            $builder->add('project', ProjectSelectType::class, [
                 'required' => true,
-                'placeholder' => '',
+                'placeholder' => ''
             ]);
         }
 
