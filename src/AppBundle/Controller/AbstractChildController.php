@@ -51,7 +51,7 @@ abstract class AbstractChildController extends AbstractController
 
         list($parentEntity, $this->parentDao) = $this->getParentConfig($request);
         if (!$parentEntity && !$this->allowEmpty) {
-            throw new AppException(sprintf('Kan geen %s aan deze entiteit toevoegen', $this->entityName));
+            throw new AppException(sprintf('Kan geen %s aan deze entiteit toevoegen. Extra data: \n queryString: %s \nUser: ', $this->entityName, $request->getQueryString(), $request->getUserInfo()));
         }
 
         $entity = $this->createEntity($parentEntity);
