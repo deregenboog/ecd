@@ -22,7 +22,7 @@ class DocumentDao implements DocumentDaoInterface
 
     public function findAll($page = null, FilterInterface $filter = null)
     {
-      throw new AppException("No findAll on DocumentDao. Who called me?");
+      throw new AppException("No findAll on DocumentDao. Who called me........?");
     }
     public function findByFilename($filename)
     {

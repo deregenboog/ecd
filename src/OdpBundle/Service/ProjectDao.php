@@ -47,7 +47,7 @@ class ProjectDao extends AbstractDao implements ProjectDaoInterface
         FROM odp_projecten AS p
         INNER JOIN odp_huuraanbiedingen AS a ON a.project_id = p.id
         LEFT JOIN odp_huurovereenkomsten AS k ON k.huuraanbod_id = a.id AND k.startdatum <= '2020-07-02' AND (k.einddatum >= '2020-01-01' OR k.einddatum IS NULL)
-        LEFT JOIN odp_huurovereenkomsten AS k2 ON k2.huuraanbod_id = a.id AND (k2.startdatum >= '2020-01-01')
+        LEFT JOIN odp_huurovereenkomsten AS k2 ON k2.huuraanbod_id = a.id AND (k2.startdatum >= '2020-01-01' AND k2.startdatum <= '2020-01-01')
         LEFT JOIN odp_afsluitingen AS af1 ON af1.id = k.afsluiting_id AND af1.discr IN ('huurovereenkomst')
         LEFT JOIN odp_afsluitingen AS af2 ON af2.id = k2.afsluiting_id AND af2.discr IN ('huurovereenkomst')
         WHERE
@@ -69,7 +69,7 @@ class ProjectDao extends AbstractDao implements ProjectDaoInterface
             ->select("COUNT(kActief.id) AS aantalActief, COUNT(kGestart.id) AS aantalGestart, project.naam AS groep")
             ->innerJoin("project.huuraanbiedingen", 'aanbod')
             ->leftJoin("aanbod.huurovereenkomst", 'kActief', Join::WITH, "kActief.startdatum <= :einddatum AND (kActief.einddatum >= :startdatum OR kActief.einddatum IS NULL) ")
-            ->leftJoin("aanbod.huurovereenkomst",'kGestart', Join::WITH, "kGestart.startdatum >= :startdatum")
+            ->leftJoin("aanbod.huurovereenkomst",'kGestart', Join::WITH, "kGestart.startdatum >= :startdatum AND kGestart.startdatum <= :startdatum")
             ->leftJoin("kActief.afsluiting", "kaAfsluiting")
             ->leftJoin("kGestart.afsluiting","ksAfsluiting")
             ->andWhere("( (kaAfsluiting.tonen IS NULL or kaAfsluiting.tonen = 1) AND (ksAfsluiting.tonen IS NULL or ksAfsluiting.tonen = 1) )")
