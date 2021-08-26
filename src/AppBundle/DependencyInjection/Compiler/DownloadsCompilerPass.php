@@ -2,8 +2,8 @@
 
 namespace AppBundle\DependencyInjection\Compiler;
 
-class DoelstellingenCompilerPass extends AbstractReportsCompilerPass
+class DownloadsCompilerPass extends AbstractReportsCompilerPass
 {
-    protected $serviceId = 'app.doelstelling';
-    protected $tagId = 'app.doelstelling';
+    protected $serviceId = 'app.downloads';
+    protected $tagId = 'app.downloads';
 }

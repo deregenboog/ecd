@@ -35,10 +35,12 @@ abstract class AbstractReportsCompilerPass implements CompilerPassInterface
                 $reports[$category][$id] = new Reference($id);
             } else {
                 $reports[$id] = new Reference($id);
+
             }
         }
 
         $definition->addArgument($reports);
+
     }
 
     public function getServiceId(): string

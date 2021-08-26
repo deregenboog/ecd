@@ -7,10 +7,16 @@ use AppBundle\Exception\AppException;
 use AppBundle\Filter\FilterInterface;
 use Doctrine\ORM\EntityManager;
 
-class DocumentDao implements DocumentDaoInterface
+class DownloadsDao
 {
-    public function __construct(EntityManager $entityManager)
+    public function __construct(EntityManager $entityManager, $taggedExports)
     {
+        foreach($taggedExports as $id=>$export)
+        {
+            $export->setServiceId($id);
+        }
+        $this->taggedExports = $taggedExports;
+
         $this->entityManager = $entityManager;
         $this->repository = $entityManager->getRepository(Document::class);
     }
@@ -22,7 +28,12 @@ class DocumentDao implements DocumentDaoInterface
 
     public function findAll($page = null, FilterInterface $filter = null)
     {
-      throw new AppException("No findAll on DocumentDao. Who called me........?");
+//        $r = [];
+//        foreach($this->handler as $k=>$i)
+//        {
+//            $r[] = $i;
+//        }
+        return $this->taggedExports;
     }
     public function findByFilename($filename)
     {

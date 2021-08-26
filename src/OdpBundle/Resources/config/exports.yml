@@ -109,6 +109,7 @@ services:
         arguments:
             - OdpBundle\Entity\Vrijwilliger
             -
+                Rubriek: { expression: '"TwVrijwilliger"' }
                 Nummer: { expression: 'entity.getVrijwilliger().getId()' }
                 Aanmelddatum: { expression: 'entity.getAanmelddatum()', type: 'date' }
                 Startdatum: { expression: 'entity.getStartdatum()', type: 'date' }
@@ -136,7 +137,10 @@ services:
                 VOG aangevraagd: { expression: 'entity.getVrijwilliger().getVogAangevraagd()' }
                 VOG aanwezig: { expression: 'entity.getVrijwilliger().getVogAanwezig()' }
                 Overeenkomst aanwezig: { expression: 'entity.getVrijwilliger().getOvereenkomstAanwezig()' }
-
+            - 'Vrijwilligers TW'
+            - '@OdpBundle\Service\VrijwilligerDao'
+        tags:
+            - { name: app.downloads }
 
     odp.export.report:
         public: true
