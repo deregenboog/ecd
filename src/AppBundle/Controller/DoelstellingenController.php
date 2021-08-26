@@ -83,12 +83,6 @@ class DoelstellingenController extends AbstractController
      */
     protected $export;
 
-//    /**
-//     * @var DoelstellingType Form with services tagged with app.doelstelling
-//     * DI\Inject("app.doelstelling")
-//     */
-//    private $doelstellingenServices = [];
-
 
     /**
      * @Route("/")

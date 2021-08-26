@@ -32,7 +32,7 @@ class IzSelectionExport extends GenericExport
      */
     private $configuration2;
 
-    public function __construct($class1, array $configuration1, $class2, array $configuration2)
+    public function __construct($class1, array $configuration1, $class2, array $configuration2, $friendlyName=null,$dao=null)
     {
         $this->headers = $this->getHeaders($configuration1);
         if ($this->headers !== $this->getHeaders($configuration2)) {
@@ -44,6 +44,9 @@ class IzSelectionExport extends GenericExport
 
         $this->class2 = $class2;
         $this->configuration2 = $configuration2;
+
+        $this->friendlyName = $friendlyName;
+        $this->dao = $dao;
     }
 
     /**

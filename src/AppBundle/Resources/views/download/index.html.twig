@@ -6,111 +6,39 @@
 {% endblock %}
 
 {% block subnavigation %}
-    {% include '@App/rapportages/subnavigation.html.twig' %}
+    {% include '@App/subnavigation.html.twig' %}
 {% endblock %}
 
 {% block content %}
-    <h1>{{ title }}</h1>
-    <p>
-        {{ html.addLink(path(route_base~'add')) }}
-        {{ html.link(entity_name|capitalize ~ ' toevoegen', path(route_base~'add')) }}
-    </p>
-    <table class="table table-hover">
-        <thead>
-        {{ form_start(filter) }}
-        <tr>
-            <th colspan="4" class="text-right">
-                <span >Cijfers periode: </span>
-            </th>
-            <th>
-                {{ form_widget(filter.startdatum) }}
-                {{ form_errors(filter.startdatum) }}
-            </th>
-            <th>
-                {{ form_widget(filter.einddatum) }}
-                {{ form_errors(filter.einddatum) }}
-            </th>
-            <th>{{ form_widget(filter.filter) }}</th>
-        </tr>
-        <tr>
-            <th>
-                {{ form_widget(filter.kostenplaats) }}
-                {{ form_errors(filter.kostenplaats) }}
-            </th>
-            <th>
-                {{ form_widget(filter.repository) }}
-                {{ form_errors(filter.repository) }}
-            </th>
-            <th>
-                {{ form_widget(filter.jaar) }}
-                {{ form_errors(filter.jaar) }}
-            </th>
-            <th>
 
-            </th>
-            <th>
-
-            </th>
-            <th>
-
-            </th>
-            <th>
-                {{ form_widget(filter.download) }}
-            </th>
-
-        </tr>
-        {{ form_end(filter) }}
-        <tr>
-            <th>
-                {{ knp_pagination_sortable(pagination, 'Kostenplaats', 'doelstelling.kostenplaats') }}
-            </th>
-            <th>
-                {{ knp_pagination_sortable(pagination, 'Module', 'doelstelling.repository') }}
-            </th>
-            <th>
-                {{ knp_pagination_sortable(pagination, 'Jaar', 'doelstelling.jaar') }}
-            </th>
-            <th>
-                Prestatie
-            </th>
-            <th>
-                Doelstelling
-            </th>
-            <th>
-                Percentage
-            </th>
-            <th></th>
-        </tr>
-        </thead>
-        <tbody>
-        {% for doelstelling in pagination %}
-            <tr>
-                <td>
-                    {{ doelstelling.kostenplaats }}
-                </td>
-                <td>
-                    {{ doelstelling.repositoryLabel }}
-                </td>
-                <td>
-                    {{ doelstelling.jaar }}
-                </td>
-                <td>
-                    {{ doelstelling.actueel }}
-                </td>
-                <td>
-                    {{ doelstelling.aantal }}
-                </td>
-                <td>
-                    {{ ((doelstelling.actueel / doelstelling.aantal) * 100)|round(1,'ceil')}}%
-                </td>
-
-                <td>
-                    {{ html.editLink(path(route_base~'edit', {id: doelstelling.id})) }}
-                    {{ html.deleteLink(path(route_base~'delete', {id: doelstelling.id})) }}
-                </td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+    {{ form_start(form) }}
+    <h1>Downloads</h1>
+    <div class="row">
+        {{ form_errors(form) }}
+        <span class="form-inline pull-right">
+            {{ form_row(form.download) }}
+        </span>
+    </div>
+    <div class="col-xs-3">
+        <h2>Onderdelen</h2>
+        <p>Selecteer de onderdelen die gedownload moetenworden.</p>
+        {{ form_row(form.onderdeel) }}
+    </div>
+    {{ form_end(form) }}
 {#    {{ knp_pagination_render(pagination) }}#}
+{% endblock %}
+
+{% block scripts %}
+<script>
+    $('#download_vrijwilligers_download').on('click',
+        function(event)
+        {
+            if($('form[name=download_vrijwilligers] :checkbox:checked').length < 1)
+            {
+                alert('Selecteer tenminste een onderdeel');
+                return false;
+            }
+        }
+    );
+</script>
 {% endblock %}

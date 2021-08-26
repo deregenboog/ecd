@@ -2,6 +2,7 @@
 
 namespace AppBundle\Export;
 
+use AppBundle\Service\AbstractDao;
 use PhpOffice\PhpSpreadsheet\Shared\Date;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Style\NumberFormat;
@@ -10,6 +11,11 @@ use Symfony\Component\ExpressionLanguage\ExpressionLanguage;
 
 class GenericExport extends AbstractExport
 {
+    /**
+     * @var string
+     */
+    protected $serviceId;
+
     /**
      * @var string
      */
@@ -30,11 +36,25 @@ class GenericExport extends AbstractExport
      */
     protected $row = 2;
 
-    public function __construct($class, array $configuration)
+    /**
+     * @var string
+     */
+    protected $friendlyName = null;
+
+    /**
+     * @var AbstractDao
+     */
+    protected $dao = null;
+
+    public function __construct($class, array $configuration, $friendlyName=null, $dao=null)
     {
+
         $this->class = $class;
         $this->configuration = $configuration;
         $this->headers = $this->getHeaders($configuration);
+
+        $this->friendlyName = $friendlyName;
+        $this->dao = $dao;
     }
 
     public function create($entities)
@@ -135,6 +155,7 @@ class GenericExport extends AbstractExport
     {
         $this->excel = new Spreadsheet();
         $sheet = $this->excel->getActiveSheet();
+        if (null!==$this->friendlyName)  $sheet->setTitle($this->friendlyName);
 
         $column = 1;
         foreach ($this->headers as $header) {
@@ -147,6 +168,15 @@ class GenericExport extends AbstractExport
 
         return $sheet;
     }
+    public function getSheet($idx=0)
+    {
+        return $this->excel->getSheet($idx);
+    }
+
+    public function addSheet(Worksheet\Worksheet $sheet)
+    {
+        $this->excel->addSheet($sheet);
+    }
 
     protected function getHeaders($configuration)
     {
@@ -157,4 +187,63 @@ class GenericExport extends AbstractExport
 
         return $headers;
     }
+
+    public function getClass()
+    {
+        return $this->class;
+    }
+
+    public function getFriendlyClassname()
+    {
+        if(!$this->friendlyName)
+        {
+            $path = explode("\\",$this->class);
+            return array_pop($path);
+        }
+        return $this->friendlyName;
+    }
+
+    public function getHeadersAsArray()
+    {
+        return $this->headers;
+    }
+
+    /**
+     * @return string
+     */
+    public function getServiceId(): string
+    {
+        return $this->serviceId;
+    }
+
+    /**
+     * @param string $serviceId
+     * @return GenericExport
+     */
+    public function setServiceId(string $serviceId): GenericExport
+    {
+        $this->serviceId = $serviceId;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getFriendlyName()
+    {
+        return $this->friendlyName;
+    }
+
+
+    /**
+     * @return AbstractDao
+     */
+    public function getDao()
+    {
+        if($this->dao == null) throw new ExportException("Geen DAO ingesteld voor deze download");
+        return $this->dao;
+    }
+
+
+
 }

@@ -67,6 +67,12 @@ services:
         tags:
             - { name: security.voter }
 
+    app.downloads:
+        class: AppBundle\Service\DownloadsDao
+        arguments:
+            - "@doctrine.orm.entity_manager"
+        public: true
+
     AppBundle\Form\AddressType:
         arguments: ["@doctrine.orm.entity_manager"]
         tags:
@@ -96,6 +102,13 @@ services:
 
     AppBundle\Form\MedewerkerType:
         arguments: ["@security.token_storage"]
+        tags:
+            - { name: form.type }
+
+    AppBundle\Form\DownloadVrijwilligersType:
+        arguments:
+            - ["@doctrine.orm.entity_manager"]
+            - !tagged app.downloads
         tags:
             - { name: form.type }
 

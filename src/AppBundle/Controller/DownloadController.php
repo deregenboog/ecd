@@ -6,22 +6,30 @@ use AppBundle\Entity\Document;
 use AppBundle\Entity\Overeenkomst;
 use AppBundle\Entity\Toestemmingsformulier;
 use AppBundle\Entity\Vog;
+use AppBundle\Export\ExportException;
 use AppBundle\Form\DocumentType;
+use AppBundle\Form\DoelstellingFilterType;
+use AppBundle\Form\DownloadVrijwilligersType;
 use AppBundle\Service\DocumentDaoInterface;
+use AppBundle\Service\DownloadsDao;
 use JMS\DiExtraBundle\Annotation as DI;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * @Route("/documenten")
+ * @Route("/download")
  */
-class DocumentenController extends AbstractChildController
+class DownloadController extends AbstractController
 {
-    protected $title = 'Documenten';
-    protected $entityName = 'Document';
-    protected $entityClass = Document::class;
-    protected $formClass = DocumentType::class;
+    protected $title = 'Download';
+    protected $entityName = 'Download';
+//    protected $entityClass = Document::class;
+//    protected $formClass = DocumentType::class;
+    protected $filterFormClass = DownloadVrijwilligersType::class;
     protected $addMethod = 'addDocument';
-    protected $baseRouteName = 'app_documenten_';
+    protected $baseRouteName = 'app_download_';
 
     /**
      * @var DocumentDaoInterface
@@ -31,22 +39,134 @@ class DocumentenController extends AbstractChildController
     protected $dao;
 
     /**
+     * @var DownloadsDao
+     * @DI\Inject ("app.downloads")
+     */
+    protected $downloadDao;
+
+    /**
      * @var \ArrayObject
      *
      * @DI\Inject("app.document.entities")
      */
     protected $entities;
 
+
+
     /**
-     * @Route("/download/{filename}")
+     * @Route("/")
+     * @param Request $request
      */
-    public function downloadAction($filename)
+    public function indexAction(Request $request)
     {
-        $document = $this->dao->findByFilename($filename);
+        if (in_array('index', $this->disabledActions)) {
+            throw new AccessDeniedHttpException();
+        }
 
-        $downloadHandler = $this->get('vich_uploader.download_handler');
 
-        return $downloadHandler->downloadObject($document, 'file');
+        if ($this->filterFormClass) {
+            $form = $this->getForm(DownloadVrijwilligersType::class);
+            $form->handleRequest($request);
+            if ($form->isSubmitted()) {
+//
+                return $this->handleDownloads($form,$request);
+//                if ($form->has('download') && $form->get('download')->isClicked()) {
+//                    return $this->download($form->getData());
+//                }
+            }
+            $filter = null;
+        } else {
+            $filter = null;
+        }
+        $page = $request->get('page', 1);
+        $pagination = $this->downloadDao->findAll($page, $filter);
+
+        $view = $this->renderView("@App/download/index.html.twig",
+            [
+                'pagination'=>$pagination,
+                'form'=>$form->createView(),
+            ]
+        );
+       return new Response($view);
+        return [
+            'filter' => isset($form) ? $form->createView() : null,
+            'pagination' => $view,
+            'action'=>'index'
+        ];
+
+    }
+
+
+    private function handleDownloads($form,$request)
+    {
+        ini_set('memory_limit', '512M');
+        ini_set('max_execution_time', '300');
+
+        $exports = [];
+        $onderdelen = $form->get('onderdeel')->getData();
+
+        foreach($onderdelen as $serviceId)
+        {
+            if(!$this->container->has($serviceId))
+            {
+                continue;
+//                throw new ExportException(sprintf("Export with serviceId: %s cannot be found",$id));
+            }
+            $export = $this->container->get($serviceId);
+            $dao = $export->getDao();
+            $filename = $this->getDownloadFilename();
+            $collection = $dao->findAll(null, null);
+
+            $sheet = $export->create($collection)->getSheet();
+
+            $exports[] = $sheet;
+
+        }
+        array_pop($exports);//last one is already in... the last Export is used as carrier for the rest.
+        foreach($exports as $sheet)
+        {
+            $export->addSheet($sheet);
+        }
+        return $export->getResponse(sprintf("Download Vrijwilligers %s.xlsx",(new \DateTime())->format('Y-m-d')));
+
+    }
+    /**
+     * @Route("/view/{id}")
+     */
+    public function downloadAction($id)
+    {
+        /**
+         * PSEUDO:
+         * naam en action / route werkte niet gaf 403. raar.
+         *
+         * ServiceId ophalen. Daarna doen zoals nu bij de download het geval is.
+         * Evt later met filters bouwen.
+         * Evt form maken met vinkjes per onderdeel, afhankelijk van hoe snel eea werkt.
+         *
+         * Hoe werkt het nu:
+         * exports met de tag app.download worden in de service DownloadsDao gestopt, met hun Id
+         * serviceId wordt alleen via de compiler pass toegevoegd, niet via de autowiring
+         * Vraag me niet waarom. Misschien moet ik replaceArgument gebruiken  in de compilerPass Process functie, daar wordt ie als argument toegevoegd.
+         * daar maar dat vind de rest nie tleuk.
+         *
+         *
+         */
+
+        if(!$this->container->has($id))
+        {
+         throw new ExportException(sprintf("Export with serviceId: %s cannot be found",$id));
+        }
+        $export = $this->container->get($id);
+        $dao = $export->getDao();
+
+
+        ini_set('memory_limit', '1024M');
+        ini_set('max_execution_time', '300');
+
+        $filename = $this->getDownloadFilename();
+        $collection = $dao->findAll(null, null);
+
+        return $export->create($collection)->getResponse($filename);
     }
 
 

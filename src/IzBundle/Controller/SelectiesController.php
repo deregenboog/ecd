@@ -98,7 +98,8 @@ class SelectiesController extends SymfonyController
 
     private function download(IzDeelnemerSelectie $filter)
     {
-        ini_set('memory_limit', '512M');
+        ini_set('memory_limit', '1024M');
+        ini_set('max_execution_time', '300');
 
         $izKlanten = $this->getKlanten($filter);
         $izVrijwilligers = $this->getVrijwilligers($filter);
