@@ -6,6 +6,7 @@ use AppBundle\Event\DienstenLookupEvent;
 use AppBundle\Event\Events;
 use AppBundle\Model\Dienst;
 use Doctrine\ORM\EntityManager;
+use InloopBundle\Entity\DossierStatus;
 use InloopBundle\Entity\Toegang;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
@@ -38,8 +39,8 @@ class DienstenLookupSubscriber implements EventSubscriberInterface
     public function provideDienstenInfo(DienstenLookupEvent $event)
     {
         $klant = $event->getKlant();
-
-        if ($klant->getLaatsteIntake()) {
+            //&& !$klant->getDisabled() && $klant->getHuidigeStatus()->isAangemeld() ?
+        if ($klant->getLaatsteIntake() ) {
             $toegang = $this->entityManager->getRepository(Toegang::class)->findBy(['klant' => $klant]);
             if (count($toegang) > 0) {
                 $inloophuizen = [];

@@ -7,6 +7,7 @@ use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\ParameterType;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\QueryBuilder;
+use InloopBundle\Entity\Aanmelding;
 use InloopBundle\Entity\Locatie;
 use InloopBundle\Filter\KlantFilter;
 use InloopBundle\Filter\LocatieFilter;
@@ -54,10 +55,14 @@ class AccessUpdater
 
     public function updateForLocation(Locatie $locatie)
     {
+
         $wasEnabled = $this->em->getFilters()->isEnabled('overleden');
+
         $this->em->getFilters()->enable('overleden');
 
         $filter = new KlantFilter($this->getStrategy($locatie));
+        $filter->huidigeStatus = Aanmelding::class; // alleen klanten met inloopdossier mogen toegang
+
         $builder = $this->klantDao->getAllQueryBuilder($filter);
         $klantIds = $this->getKlantIds($builder);
 
@@ -70,13 +75,20 @@ class AccessUpdater
             'klanten' => Connection::PARAM_INT_ARRAY,
         ];
 
-        $this->em->getConnection()->executeQuery('DELETE FROM inloop_toegang
-            WHERE locatie_id = :locatie AND klant_id NOT IN (:klanten)', $params, $types);
+        if($locatie->isActief()) {
+            $this->em->getConnection()->executeQuery('DELETE FROM inloop_toegang
+                WHERE locatie_id = :locatie AND klant_id NOT IN (:klanten)', $params, $types);
 
-        $this->em->getConnection()->executeQuery('INSERT INTO inloop_toegang (klant_id, locatie_id)
+            $this->em->getConnection()->executeQuery('INSERT INTO inloop_toegang (klant_id, locatie_id)
             SELECT id, :locatie FROM klanten
             WHERE id IN (:klanten)
             AND id NOT IN (SELECT klant_id FROM inloop_toegang WHERE locatie_id = :locatie)', $params, $types);
+        }
+        else // locatie gesloten. geen toegang.
+        {
+            $this->em->getConnection()->executeQuery('DELETE FROM inloop_toegang
+                WHERE locatie_id = :locatie',['locatie'=>$locatie->getId()],['locatie'=>ParameterType::INTEGER]);
+        }
 
         if (!$wasEnabled) {
             $this->em->getFilters()->disable('overleden');
@@ -95,12 +107,14 @@ class AccessUpdater
             $this->log("Strategy used: ".get_class($strategy));
 
             $filter = new KlantFilter($strategy);
+            $filter->huidigeStatus = Aanmelding::class; //alleen klanten met een inloopdossier mogen toegang.
+
             $builder = $this->klantDao->getAllQueryBuilder($filter);
             $builder
                 ->andWhere('klant.id = :klant_id')
                 ->setParameter('klant_id', $klant->getId());
 
-            $sql = $builder->getQuery()->getSQL();
+//            $sql = $builder->getQuery()->getSQL();
             $this->log($builder->getQuery()->getSQL());
 
 
