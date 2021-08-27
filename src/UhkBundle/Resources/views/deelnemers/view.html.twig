@@ -35,7 +35,11 @@
             <h2>Aanmelding</h2>
             <dl class="dl-horizontal">
                 {{ html.link('Wijzigen', path('uhk_deelnemers_edit', {id: entity.id}), 'edit') }}
-                {{ html.link('Deactiveren', path('uhk_deelnemers_delete', {id: entity.id}), 'delete') }}
+                {% if entity.actief == true %}
+                    {{ html.link('Deactiveren', path('uhk_deelnemers_delete', {id: entity.id}), 'delete') }}
+                {% elseif entity.actief == false %}
+                    {{ html.link('Activeren', path('uhk_deelnemers_open', {id: entity.id}), 'open') }}
+                {% endif %}
                 <dl class="dl-horizontal">
                     <dt>Medewerker</dt>
                     <dd>{{ entity.medewerker }}</dd>

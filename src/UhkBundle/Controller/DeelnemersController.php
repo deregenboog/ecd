@@ -122,6 +122,21 @@ class DeelnemersController extends AbstractController
     }
 
     /**
+     * @Route("/{id}/open")
+     * @Template
+     */
+    public function openAction(Request $request, $id)
+    {
+        $entity = $this->dao->find($id);
+//        $this->denyAccessUnlessGanted(Permissions::ACCESS, $entity);
+            $entity->setActief(true);
+
+        $this->dao->update($entity);
+        $this->addFlash("info","Deelnemer weer actief gemaakt.");
+       return $this->redirectToView($entity);
+    }
+
+    /**
      * @Route("/{id}/deleteVerslag/{verslagId}")
      * @param Request $request
      * @Template
