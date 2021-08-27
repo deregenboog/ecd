@@ -137,6 +137,29 @@ services:
                 VOG aangevraagd: { expression: 'entity.getVrijwilliger().getVogAangevraagd()' }
                 VOG aanwezig: { expression: 'entity.getVrijwilliger().getVogAanwezig()' }
                 Overeenkomst aanwezig: { expression: 'entity.getVrijwilliger().getOvereenkomstAanwezig()' }
+
+    odp.export.vrijwilligersdownload:
+        public: true
+        class: AppBundle\Export\GenericExport
+        arguments:
+            - OdpBundle\Entity\Vrijwilliger
+            -
+                Rubriek: { expression: '"TijdelijkWonenVrijwilliger"'}
+                Nummer: { expression: 'entity.getVrijwilliger().getId()' }
+                Startdatum: { expression: 'entity.getStartdatum()==null?entity.getAanmelddatum():entity.getStartdatum()', type: 'date' }
+                Afsluitdatum: { expression: 'entity.getAfsluitdatum()', type: 'date' }
+                Geslacht: { expression: 'entity.getVrijwilliger().getGeslacht()' }
+                Voornaam: { expression: 'entity.getVrijwilliger().getVoornaam()' }
+                Tussenvoegsel: { expression: 'entity.getVrijwilliger().getTussenvoegsel()' }
+                Achternaam: { expression: 'entity.getVrijwilliger().getAchternaam()' }
+                Geboortedatum: { expression: 'entity.getVrijwilliger().getGeboortedatum()', type: 'date' }
+                E-mail: { expression: 'entity.getVrijwilliger().getEmail()' }
+                Adres: { expression: 'entity.getVrijwilliger().getAdres()' }
+                Postcode: { expression: 'entity.getVrijwilliger().getPostcode()' }
+                Woonplaats: { expression: 'entity.getVrijwilliger().getPlaats()' }
+                Werkgebied: { expression: 'entity.getVrijwilliger().getWerkgebied()' }
+                Postvoorkeur: { expression: 'entity.getVrijwilliger().getGeenPost()==false?"Post":"Geen Post"' }
+                Emailvoorkeur: { expression: 'entity.getVrijwilliger().getGeenEmail()==false?"Email":"Geen Email"' }
             - 'Vrijwilligers TW'
             - '@OdpBundle\Service\VrijwilligerDao'
         tags:

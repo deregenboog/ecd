@@ -67,7 +67,7 @@ services:
             - MwBundle\Entity\Vrijwilliger
             - Rubriek: { expression: '"MwVrijwilliger"' }
               Nummer: { expression: 'entity.getVrijwilliger().getId()' }
-              Startdatum: { expression: 'entity.getStartdatum()==null?entity.getAanmelddatum():entity.getStartdatum()', type: 'date' }
+              Startdatum: { expression: 'entity.getAanmelddatum()', condition: 'entity.getAanmelddatum()', type: 'date' }
               Afsluitdatum: { expression: 'entity.getAfsluitdatum()', type: 'date' }
               Geslacht: { expression: 'entity.getVrijwilliger().getGeslacht()' }
               Voornaam: { expression: 'entity.getVrijwilliger().getVoornaam()' }
