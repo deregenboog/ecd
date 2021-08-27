@@ -15,6 +15,9 @@
     {% endif %}
     <h1>{{ entity_name|capitalize }} {{ entity }}</h1>
     <p>
+        Hier kunt u alleen de Tijdelijk wonen gegevens voor deze vrijwilliger wijzigen.
+        Klik {{ html.link('hier',path('app_vrijwilligers_view',{id: entity.vrijwilliger.id})) }} om naar het basisdossier van deze vrijwilliger te gaan.
+        <br />
         {{ html.link(entity_name|capitalize~' wijzigen', path('odp_vrijwilligers_edit', {id: entity.id}), 'edit') }}
         {% if entity.actief == false %}
             {{ html.link(entity_name|capitalize~' heropenen', path('odp_vrijwilligers_open', {id: entity.id}), 'open') }}
@@ -66,11 +69,6 @@
                 <dt>Stagiair?</dt><dd>{{ entity.stagiair|ja_nee }}</dd>
                 <dt>Notitie datum</dt><dd class="text-info">{{ entity.datumNotitieIntake|if_date('d-m-Y') }}</dd>
                 <dt>Notitie</dt><dd>{{ entity.notitieIntake|nl2br }}</dd>
-            </dl>
-            <dl class="dl-horizontal">
-                <h2>Tweede fase</h2>
-                <dt>Startdatum na proeftijd</dt><dd>{{ entity.startdatum|if_date('d-m-Y') }}</dd>
-                <dt>Medewerker locatie</dt><dd>{{ entity.medewerkerLocatie }}</dd>
             </dl>
         </div>
 

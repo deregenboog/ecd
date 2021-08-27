@@ -87,18 +87,6 @@ class Vrijwilliger implements MemoSubjectInterface, DocumentSubjectInterface
     protected $stagiair = false;
 
     /**
-     * @var \DateTime
-     * @ORM\Column(type="date", nullable=true)
-     */
-    protected $startdatum;
-
-    /**
-     * @var Medewerker
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Medewerker")
-     */
-    protected $medewerkerLocatie;
-
-    /**
      * @var string
      * @ORM\Column(nullable=true)
      */
@@ -288,37 +276,6 @@ class Vrijwilliger implements MemoSubjectInterface, DocumentSubjectInterface
         $this->stagiair = $stagiair;
     }
 
-    /**
-     * @return \DateTime
-     */
-    public function getStartdatum():? \DateTime
-    {
-        return $this->startdatum;
-    }
-
-    /**
-     * @param \DateTime $startdatum
-     */
-    public function setStartdatum(?\DateTime $startdatum): void
-    {
-        $this->startdatum = $startdatum;
-    }
-
-    /**
-     * @return Medewerker
-     */
-    public function getMedewerkerLocatie():? Medewerker
-    {
-        return $this->medewerkerLocatie;
-    }
-
-    /**
-     * @param Medewerker $medewerkerLocatie
-     */
-    public function setMedewerkerLocatie(?Medewerker $medewerkerLocatie): void
-    {
-        $this->medewerkerLocatie = $medewerkerLocatie;
-    }
 
     /**
      * @return string

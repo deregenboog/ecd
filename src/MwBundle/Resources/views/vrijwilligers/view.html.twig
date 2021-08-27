@@ -15,6 +15,10 @@
     {% endif %}
     <h1>{{ entity_name|capitalize }} {{ entity }}</h1>
     <p>
+        Hier kunt u alleen de Maatschappelijk werk gegevens voor deze vrijwilliger wijzigen.
+        Klik {{ html.link('hier',path('app_vrijwilligers_view',{id: entity.vrijwilliger.id})) }} om naar het basisdossier van deze vrijwilliger te gaan.
+        <br />
+
         {{ html.link(entity_name|capitalize~' wijzigen', path('mw_vrijwilligers_edit', {id: entity.id}), 'edit') }}
         {% if entity.deletable %}
             {{ html.link(entity_name|capitalize~' verwijderen', path('mw_vrijwilligers_delete', {id: entity.id}), 'delete') }}
@@ -60,11 +64,6 @@
                 <dt>Stagiair?</dt><dd>{{ entity.stagiair|ja_nee }}</dd>
                 <dt>Notitie datum</dt><dd class="text-info">{{ entity.datumNotitieIntake|if_date('d-m-Y') }}</dd>
                 <dt>Notitie</dt><dd>{{ entity.notitieIntake|nl2br }}</dd>
-            </dl>
-            <dl class="dl-horizontal">
-                <h2>Tweede fase</h2>
-                <dt>Startdatum na proeftijd</dt><dd>{{ entity.startdatum|if_date('d-m-Y') }}</dd>
-                <dt>Medewerker locatie</dt><dd>{{ entity.medewerkerLocatie }}</dd>
             </dl>
         </div>
 
