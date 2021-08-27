@@ -35,6 +35,8 @@ services:
 
     InloopBundle\Service\LocatieDao:
         parent: inloop.dao
+        arguments:
+            - '@event_dispatcher'
 
     InloopBundle\Service\LocatietijdDao:
         parent: inloop.dao

@@ -102,10 +102,11 @@ class DownloadController extends AbstractController
         ini_set('memory_limit', '512M');
         ini_set('max_execution_time', '300');
 
+
         $exports = [];
         $onderdelen = $form->get('onderdeel')->getData();
 
-        foreach($onderdelen as $serviceId)
+        foreach($onderdelen as $k=>$serviceId)
         {
             if(!$this->container->has($serviceId))
             {
@@ -118,18 +119,25 @@ class DownloadController extends AbstractController
             $collection = $dao->findAll(null, null);
 
             $sheet = $export->create($collection)->getSheet();
+            unset($dao);
+            unset($collection);
 
             $exports[] = $sheet;
 
+
         }
         array_pop($exports);//last one is already in... the last Export is used as carrier for the rest.
+        $export = $this->container->get($serviceId);
         foreach($exports as $sheet)
         {
             $export->addSheet($sheet);
         }
+
         return $export->getResponse(sprintf("Download Vrijwilligers %s.xlsx",(new \DateTime())->format('Y-m-d')));
 
     }
+
+
     /**
      * @Route("/view/{id}")
      */

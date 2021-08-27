@@ -13,6 +13,7 @@ use InloopBundle\Entity\Afsluiting;
 use InloopBundle\Entity\Locatie;
 use InloopBundle\Entity\Registratie;
 use InloopBundle\Entity\Schorsing;
+use InloopBundle\Event\Events;
 use InloopBundle\Form\AanmeldingType;
 use InloopBundle\Form\AfsluitingType;
 use InloopBundle\Form\KlantFilterType;
@@ -21,6 +22,7 @@ use InloopBundle\Pdf\PdfBrief;
 use InloopBundle\Service\KlantDaoInterface;
 use JMS\DiExtraBundle\Annotation as DI;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+use Symfony\Component\EventDispatcher\GenericEvent;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -207,7 +209,10 @@ class KlantenController extends AbstractController
                 $entityManager->persist($afsluiting);
                 $entityManager->flush();
 
+                $this->get('event_dispatcher')->dispatch(Events::DOSSIER_CHANGED, new GenericEvent($afsluiting));
+
                 $this->addFlash('success', 'Inloopdossier is afgesloten');
+
             } catch (\Exception $e) {
                 $message = $this->container->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
                 $this->addFlash('danger', $message);
@@ -254,6 +259,9 @@ class KlantenController extends AbstractController
                 $entityManager = $this->getEntityManager();
                 $entityManager->persist($aanmelding);
                 $entityManager->flush();
+
+
+                $this->container->get('event_dispatcher')->dispatch(Events::DOSSIER_CHANGED, new GenericEvent($aanmelding));
 
                 $this->addFlash('success', 'Inloopdossier is heropend');
             } catch (\Exception $e) {

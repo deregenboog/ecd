@@ -319,6 +319,15 @@ class Locatie
         return false;
     }
 
+    public function isActief(): bool
+    {
+        $now = new \DateTime("now");
+
+        if($this->datumTot == null || ($this->datumVan < $now && $this->datumTot > $now) ) {
+            return true;
+        }
+        return false;
+    }
     /**
      * @return bool
      */

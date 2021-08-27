@@ -33,6 +33,19 @@ services:
         tags:
             - { name: kernel.event_subscriber }
 
+    InloopBundle\Event\DossierSubscriber:
+        arguments:
+            - '@InloopBundle\Service\KlantDao'
+            - '@InloopBundle\Service\AccessUpdater'
+        tags:
+            - { name: kernel.event_subscriber }
+
+    InloopBundle\Event\LocatieSubscriber:
+        arguments:
+            - '@InloopBundle\Service\AccessUpdater'
+        tags:
+            - { name: kernel.event_subscriber }
+
     InloopBundle\Event\DienstenLookupSubscriber:
         arguments:
             - "@doctrine.orm.entity_manager"
