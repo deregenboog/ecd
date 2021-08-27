@@ -146,7 +146,7 @@ services:
             -
                 Rubriek: { expression: '"TijdelijkWonenVrijwilliger"'}
                 Nummer: { expression: 'entity.getVrijwilliger().getId()' }
-                Startdatum: { expression: 'entity.getStartdatum()==null?entity.getAanmelddatum():entity.getStartdatum()', type: 'date' }
+                Startdatum: { expression: 'entity.getAanmelddatum()', condition: 'entity.getAanmelddatum()', type: 'date' }
                 Afsluitdatum: { expression: 'entity.getAfsluitdatum()', type: 'date' }
                 Geslacht: { expression: 'entity.getVrijwilliger().getGeslacht()' }
                 Voornaam: { expression: 'entity.getVrijwilliger().getVoornaam()' }
