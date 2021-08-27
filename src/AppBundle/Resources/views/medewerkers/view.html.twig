@@ -7,9 +7,17 @@
 
 {% block content_top %}
     <h1>{{ entity_name|capitalize }} {{ entity }}</h1>
+
+    {% if not entity.actief %}
+        <div class="alert alert-danger">Medewerker is inactief</div>
+    {% endif %}
+    <p>
+        {{ html.link(entity_name|capitalize~' verwijderen', path('app_medewerkers_delete', {id: entity.id}), 'delete') }}
+    </p>
 {% endblock %}
 
 {% block content_left %}
+<h2></h2>
     <dl class="dl-horizontal">
         <dt>Naam</dt>
         <dd>
@@ -60,6 +68,13 @@
                         <ul>
                             {% for sub_role in role_hierarchy[role] %}
                                 <li>{{ sub_role }}</li>
+                                {% if role_hierarchy[sub_role] is defined %}
+                                    <ul>
+                                    {% for subsub_role in role_hierarchy[sub_role] %}
+                                        <li>{{ subsub_role }}</li>
+                                    {% endfor %}
+                                    </ul>
+                                {% endif %}
                             {% endfor %}
                         </ul>
                     </li>

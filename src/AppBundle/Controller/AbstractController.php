@@ -385,7 +385,7 @@ abstract class AbstractController extends SymfonyController
         if ($form->isSubmitted() && $form->isValid()) {
             if ($form->get('yes')->isClicked()) {
                 $url = $request->get('redirect');
-                $viewUrl = $this->generateUrl($this->baseRouteName.'view', ['id' => $entity->getId()]);
+                $viewUrl = $this->generateUrl($this->baseRouteName.'view', ['id' => $id]);
 
                 if(method_exists($entity,"setActief"))
                 {

@@ -145,6 +145,8 @@ security:
             - CONTROLLER_APP_VRIJWILLIGERS
         ROLE_VILLA:
             - CONTROLLER_APP_VRIJWILLIGERS
+        ROLE_HRM:
+            - ROLE_USERADMIN
         ROLE_ADMIN:
             - ROLE_USER
             - ROLE_MW
@@ -188,6 +190,7 @@ security:
             - CONTROLLER_APP_ZRMS
             - CONTROLLER_MEDEWERKERS
             - CONTROLLER_APP_DOWNLOAD
+            - ROLE_HRM
             - ROLE_BUURTBOERDERIJ
             - ROLE_SECRETARIAAT
             - ROLE_PROGRAMMACOORDINATOR
@@ -258,3 +261,4 @@ ldap_tools:
             ROLE_UHK_BEHEER: "CN=ECD Uit het Krijt Beheer,CN=Users,DC=cluster,DC=deregenboog"
             ROLE_SPORT: "CN=ECD Sport,CN=Users,DC=cluster,DC=deregenboog"
             ROLE_VILLA: "CN=ECD Villa,CN=Users,DC=cluster,DC=deregenboog"
+            ROLE_HRM: "CN=ECD P&O,CN=Users,DC=cluster,DC=deregenboog"
