@@ -8,6 +8,9 @@ use LdapTools\Bundle\LdapToolsBundle\Event\LdapLoginEvent;
 use LdapTools\Bundle\LdapToolsBundle\Event\AuthenticationHandlerEvent;
 use LdapTools\Bundle\LdapToolsBundle\Security\User\LdapUserProvider;
 use LdapTools\Exception\LdapConnectionException;
+use MongoDB\Driver\Exception\AuthenticationException;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
+use Symfony\Component\Security\Core\Exception\AuthenticationCredentialsNotFoundException;
 
 class LoginEventListener
 {
@@ -40,6 +43,11 @@ class LoginEventListener
         /** @var Medewerker $medewerker */
         $medewerker = $event->getUser();
 
+
+        if (!$medewerker->isActief())
+        {
+            throw new AuthenticationCredentialsNotFoundException(sprintf("Gebruiker %s is inactief in ECD en mag niet inloggen.",$medewerker->getUsername()));
+        }
         if (!$medewerker->getId()) {
             $medewerker->setEersteBezoek(new \DateTime());
             $this->em->persist($medewerker);

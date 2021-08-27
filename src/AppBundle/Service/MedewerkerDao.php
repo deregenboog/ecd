@@ -20,12 +20,21 @@ class MedewerkerDao extends AbstractDao implements MedewerkerDaoInterface
     protected $alias = 'medewerker';
 
     /**
-     * @param string $username
+     * @param int $id
      *
      * @return Medewerker
      */
-    public function find($username)
+    public function find($id)
     {
-        return $this->repository->findOneBy(['username' => $username]);
+//        return $this->repository->findOneBy(['username' => $username]);
+        return $this->repository->find($id);
+    }
+
+    /**
+     * @param Medewerker $entity
+     */
+    public function update($entity)
+    {
+        return parent::doUpdate($entity);
     }
 }
