@@ -117,7 +117,14 @@ class HuurovereenkomstFilter implements FilterInterface
         }
 
         if ($this->einddatum) {
-            if ($this->einddatum->getStart()) {
+            if ($this->einddatum->getStart() && !$this->einddatum->getEnd()) {
+                $builder
+                    ->andWhere('huurovereenkomst.einddatum >= :einddatum_van OR huurovereenkomst.einddatum IS NULL')
+                    ->setParameter('einddatum_van', $this->einddatum->getStart())
+                ;
+            }
+            elseif($this->einddatum->getStart())
+            {
                 $builder
                     ->andWhere('huurovereenkomst.einddatum >= :einddatum_van')
                     ->setParameter('einddatum_van', $this->einddatum->getStart())
@@ -129,6 +136,7 @@ class HuurovereenkomstFilter implements FilterInterface
                     ->setParameter('einddatum_tot', $this->einddatum->getEnd())
                 ;
             }
+
         }
 
         if ($this->vorm) {
