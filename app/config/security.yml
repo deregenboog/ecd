@@ -59,6 +59,7 @@ security:
         - { path: ^/admin/klanten, roles: ROLE_TEAMLEIDERS }
         - { path: ^/admin, roles: ROLE_ADMIN }
         - { path: ^/medewerkers, roles: ROLE_USERADMIN }
+        - { path: ^/download, roles: ROLE_GLOBALDOWNLOAD }
         - { path: ^/buurtboerderij, roles: ROLE_BUURTBOERDERIJ }
         - { path: ^/clip/admin, roles: ROLE_CLIP_BEHEER }
         - { path: ^/clip/vrijwilligers, roles: ROLE_CLIP_VRIJWILLIGERS }
