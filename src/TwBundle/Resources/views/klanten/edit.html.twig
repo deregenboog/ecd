@@ -1,0 +1,20 @@
+{% extends '::base.html.twig' %}
+{% import '::html.macro.twig' as html %}
+
+{% block title %}
+    Tijdelijk Wonen | {{ title }}
+{% endblock %}
+
+{% block subnavigation %}
+    {% include '@Tw/tw_subnavigation.html.twig' %}
+{% endblock %}
+
+{% block content %}
+    <h1>Klant wijzigen</h1>
+    <p>
+        Hier kunt u alleen de Tijdelijk Wonen-gegevens voor deze klant wijzigen. Klik
+        {{ html.link('hier', path('app_klanten_view', {'id': entity.appKlant.id})) }}
+        om naar het basisdossier van deze klant te gaan.
+    </p>
+    {{ form(form) }}
+{% endblock %}

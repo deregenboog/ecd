@@ -700,10 +700,10 @@ AppBundle\Entity\Medewerker:
         achternaam: '<lastname()>'
         eersteBezoek: '<dateTimeThisDecade()>'
         laatsteBezoek: '<dateTimeThisDecade()>'
-    medewerker_odp:
+    medewerker_tw:
         ldapGuid (unique): '<randomNumber()>'
-        roles: ['ROLE_ODP']
-        username: 'odp_user'
+        roles: ['ROLE_TW']
+        username: 'tw_user'
         email: '<email()>'
         voornaam: '<firstname()>'
         achternaam: '<lastname()>'

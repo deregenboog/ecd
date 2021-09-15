@@ -65,21 +65,21 @@ services:
         arguments:
             - InloopBundle\Entity\Registratie
             -
-                Nummer: { expression: 'entity.getKlant().getId()' }
-                Voornaam: { expression: 'entity.getKlant().getVoornaam()' }
-                Tussenvoegsel: { expression: 'entity.getKlant().getTussenvoegsel()' }
-                Achternaam: { expression: 'entity.getKlant().getAchternaam()' }
-                Geslacht: { expression: 'entity.getKlant().getGeslacht()' }
-                Adres: { expression: 'entity.getKlant().getAdres()' }
-                Postcode: { expression: 'entity.getKlant().getPostcode()' }
-                Woonplaats: { expression: 'entity.getKlant().getPlaats()' }
-                E-mail: { expression: 'entity.getKlant().getEmail()' }
-                Mobiel: { expression: 'entity.getKlant().getMobiel()' }
-                Telefoon: { expression: 'entity.getKlant().getTelefoon()' }
-                Werkgebied: { expression: 'entity.getKlant().getWerkgebied()' }
-                GGW-gebied: { expression: 'entity.getKlant().getPostcodegebied()' }
-                Geboorteland: { expression: 'entity.getKlant().getGeboorteland()' }
-                Nationaliteit: { expression: 'entity.getKlant().getNationaliteit()' }
+                Nummer: { expression: 'entity.getAppKlant().getId()' }
+                Voornaam: { expression: 'entity.getAppKlant().getVoornaam()' }
+                Tussenvoegsel: { expression: 'entity.getAppKlant().getTussenvoegsel()' }
+                Achternaam: { expression: 'entity.getAppKlant().getAchternaam()' }
+                Geslacht: { expression: 'entity.getAppKlant().getGeslacht()' }
+                Adres: { expression: 'entity.getAppKlant().getAdres()' }
+                Postcode: { expression: 'entity.getAppKlant().getPostcode()' }
+                Woonplaats: { expression: 'entity.getAppKlant().getPlaats()' }
+                E-mail: { expression: 'entity.getAppKlant().getEmail()' }
+                Mobiel: { expression: 'entity.getAppKlant().getMobiel()' }
+                Telefoon: { expression: 'entity.getAppKlant().getTelefoon()' }
+                Werkgebied: { expression: 'entity.getAppKlant().getWerkgebied()' }
+                GGW-gebied: { expression: 'entity.getAppKlant().getPostcodegebied()' }
+                Geboorteland: { expression: 'entity.getAppKlant().getGeboorteland()' }
+                Nationaliteit: { expression: 'entity.getAppKlant().getNationaliteit()' }
                 Locatie: { expression: 'entity.getLocatie()' }
                 Binnen: { expression: 'entity.getBinnen()', type: 'datetime' }
                 Buiten: { expression: 'entity.getBuiten()', type: 'datetime' }
@@ -87,11 +87,11 @@ services:
                 Activering: { expression: 'entity.isActivering()' }
                 Kleding: { expression: 'entity.isKleding()' }
                 Veegploeg: { expression: 'entity.isVeegploeg()' }
-                Inkomens: { expression: 'export.getInkomens(entity.getKlant())' }
-                Verblijf in Nederland sinds: { expression: 'entity.getKlant().getLaatsteIntake().getVerblijfInNederlandSinds()', condition: 'entity.getKlant().getLaatsteIntake()', type: 'date' }
-                Verblijf in Amsterdam sinds: { expression: 'entity.getKlant().getLaatsteIntake().getVerblijfInAmsterdamSinds()', condition: 'entity.getKlant().getLaatsteIntake()', type: 'date' }
-                Verblijfsstatus: { expression: 'entity.getKlant().getLaatsteIntake().getVerblijfsstatus()', condition: 'entity.getKlant().getLaatsteIntake()' }
-                Woonsituatie: { expression: 'entity.getKlant().getLaatsteIntake().getWoonsituatie()', condition: 'entity.getKlant().getLaatsteIntake()' }
+                Inkomens: { expression: 'export.getInkomens(entity.getAppKlant())' }
+                Verblijf in Nederland sinds: { expression: 'entity.getAppKlant().getLaatsteIntake().getVerblijfInNederlandSinds()', condition: 'entity.getAppKlant().getLaatsteIntake()', type: 'date' }
+                Verblijf in Amsterdam sinds: { expression: 'entity.getAppKlant().getLaatsteIntake().getVerblijfInAmsterdamSinds()', condition: 'entity.getAppKlant().getLaatsteIntake()', type: 'date' }
+                Verblijfsstatus: { expression: 'entity.getAppKlant().getLaatsteIntake().getVerblijfsstatus()', condition: 'entity.getAppKlant().getLaatsteIntake()' }
+                Woonsituatie: { expression: 'entity.getAppKlant().getLaatsteIntake().getWoonsituatie()', condition: 'entity.getAppKlant().getLaatsteIntake()' }
 
     inloop.export.schorsing:
         public: true
@@ -99,11 +99,11 @@ services:
         arguments:
             - InloopBundle\Entity\Schorsing
             -
-                Nummer: { expression: 'entity.getKlant().getId()' }
-                Voornaam: { expression: 'entity.getKlant().getVoornaam()' }
-                Tussenvoegsel: { expression: 'entity.getKlant().getTussenvoegsel()' }
-                Achternaam: { expression: 'entity.getKlant().getAchternaam()' }
-                Geslacht: { expression: 'entity.getKlant().getGeslacht()' }
+                Nummer: { expression: 'entity.getAppKlant().getId()' }
+                Voornaam: { expression: 'entity.getAppKlant().getVoornaam()' }
+                Tussenvoegsel: { expression: 'entity.getAppKlant().getTussenvoegsel()' }
+                Achternaam: { expression: 'entity.getAppKlant().getAchternaam()' }
+                Geslacht: { expression: 'entity.getAppKlant().getGeslacht()' }
                 Begindatum: { expression: 'entity.getDatumVan()', type: 'date' }
                 Einddatum: { expression: 'entity.getDatumTot()', type: 'date' }
                 Locaties: { expression: 'entity.getLocaties()' }

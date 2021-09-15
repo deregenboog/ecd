@@ -5,19 +5,19 @@ services:
         arguments:
             - OekBundle\Entity\Deelnemer
             -
-                Nummer: { expression: 'entity.getKlant().getId()' }
-                Voornaam: { expression: 'entity.getKlant().getVoornaam()' }
-                Tussenvoegsel: { expression: 'entity.getKlant().getTussenvoegsel()' }
-                Achternaam: { expression: 'entity.getKlant().getAchternaam()' }
-                Geslacht: { expression: 'entity.getKlant().getGeslacht()' }
-                Adres: { expression: 'entity.getKlant().getAdres()' }
-                Postcode: { expression: 'entity.getKlant().getPostcode()' }
-                Woonplaats: { expression: 'entity.getKlant().getPlaats()' }
-                E-mail: { expression: 'entity.getKlant().getEmail()' }
-                Mobiel: { expression: 'entity.getKlant().getMobiel()' }
-                Telefoon: { expression: 'entity.getKlant().getTelefoon()' }
-                Werkgebied: { expression: 'entity.getKlant().getWerkgebied()' }
-                GGW-gebied: { expression: 'entity.getKlant().getPostcodegebied()' }
+                Nummer: { expression: 'entity.getAppKlant().getId()' }
+                Voornaam: { expression: 'entity.getAppKlant().getVoornaam()' }
+                Tussenvoegsel: { expression: 'entity.getAppKlant().getTussenvoegsel()' }
+                Achternaam: { expression: 'entity.getAppKlant().getAchternaam()' }
+                Geslacht: { expression: 'entity.getAppKlant().getGeslacht()' }
+                Adres: { expression: 'entity.getAppKlant().getAdres()' }
+                Postcode: { expression: 'entity.getAppKlant().getPostcode()' }
+                Woonplaats: { expression: 'entity.getAppKlant().getPlaats()' }
+                E-mail: { expression: 'entity.getAppKlant().getEmail()' }
+                Mobiel: { expression: 'entity.getAppKlant().getMobiel()' }
+                Telefoon: { expression: 'entity.getAppKlant().getTelefoon()' }
+                Werkgebied: { expression: 'entity.getAppKlant().getWerkgebied()' }
+                GGW-gebied: { expression: 'entity.getAppKlant().getPostcodegebied()' }
                 Trainingen: { expression: 'export.getTrainingen(entity)' }
                 Aanmelddatum: { expression: 'entity.getAanmelding().getDatum()', condition: 'entity.getAanmelding()', type: 'date' }
                 Verwezen door: { expression: 'entity.getAanmelding().getVerwijzing()', condition: 'entity.getAanmelding()' }
@@ -30,19 +30,19 @@ services:
         arguments:
             - OekBundle\Entity\Deelnemer
             -
-                Nummer: { expression: 'entity.getKlant().getId()' }
-                Voornaam: { expression: 'entity.getKlant().getVoornaam()' }
-                Tussenvoegsel: { expression: 'entity.getKlant().getTussenvoegsel()' }
-                Achternaam: { expression: 'entity.getKlant().getAchternaam()' }
-                Geslacht: { expression: 'entity.getKlant().getGeslacht()' }
-                Adres: { expression: 'entity.getKlant().getAdres()' }
-                Postcode: { expression: 'entity.getKlant().getPostcode()' }
-                Woonplaats: { expression: 'entity.getKlant().getPlaats()' }
-                E-mail: { expression: 'entity.getKlant().getEmail()' }
-                Mobiel: { expression: 'entity.getKlant().getMobiel()' }
-                Telefoon: { expression: 'entity.getKlant().getTelefoon()' }
-                Werkgebied: { expression: 'entity.getKlant().getWerkgebied()' }
-                GGW-gebied: { expression: 'entity.getKlant().getPostcodegebied()' }
+                Nummer: { expression: 'entity.getAppKlant().getId()' }
+                Voornaam: { expression: 'entity.getAppKlant().getVoornaam()' }
+                Tussenvoegsel: { expression: 'entity.getAppKlant().getTussenvoegsel()' }
+                Achternaam: { expression: 'entity.getAppKlant().getAchternaam()' }
+                Geslacht: { expression: 'entity.getAppKlant().getGeslacht()' }
+                Adres: { expression: 'entity.getAppKlant().getAdres()' }
+                Postcode: { expression: 'entity.getAppKlant().getPostcode()' }
+                Woonplaats: { expression: 'entity.getAppKlant().getPlaats()' }
+                E-mail: { expression: 'entity.getAppKlant().getEmail()' }
+                Mobiel: { expression: 'entity.getAppKlant().getMobiel()' }
+                Telefoon: { expression: 'entity.getAppKlant().getTelefoon()' }
+                Werkgebied: { expression: 'entity.getAppKlant().getWerkgebied()' }
+                GGW-gebied: { expression: 'entity.getAppKlant().getPostcodegebied()' }
                 Groepen: { expression: 'export.getGroepen(entity)' }
                 Aanmelddatum: { expression: 'entity.getAanmelding().getDatum()', condition: 'entity.getAanmelding()', type: 'date' }
                 Verwezen door: { expression: 'entity.getAanmelding().getVerwijzing()', condition: 'entity.getAanmelding()' }
@@ -75,17 +75,17 @@ services:
         arguments:
             - OekBundle\Entity\Deelname
             -
-                Nummer: { expression: 'entity.getDeelnemer().getKlant().getId()' }
+                Nummer: { expression: 'entity.getDeelnemer().getAppKlant().getId()' }
                 Deelnemer: { expression: 'entity.getDeelnemer()' }
-                Telefoon: { expression: 'entity.getDeelnemer().getKlant().getTelefoon()' }
-                Mobiel: { expression: 'entity.getDeelnemer().getKlant().getMobiel()' }
-                E-mail: { expression: 'entity.getDeelnemer().getKlant().getEmail()' }
+                Telefoon: { expression: 'entity.getDeelnemer().getAppKlant().getTelefoon()' }
+                Mobiel: { expression: 'entity.getDeelnemer().getAppKlant().getMobiel()' }
+                E-mail: { expression: 'entity.getDeelnemer().getAppKlant().getEmail()' }
                 Verwezen door: { expression: 'entity.getDeelnemer().getAanmelding().getVerwijzing()', condition: 'entity.getDeelnemer().getAanmelding()' }
                 Verwezen naar: { expression: 'entity.getDeelnemer().getAfsluiting().getVerwijzing()', condition: 'entity.getDeelnemer().getAfsluiting()' }
-                Adres: { expression: 'entity.getDeelnemer().getKlant().getAdres()' }
-                Postcode: { expression: 'entity.getDeelnemer().getKlant().getPostcode()' }
-                Plaats: { expression: 'entity.getDeelnemer().getKlant().getPlaats()' }
-                Stadsdeel: { expression: 'entity.getDeelnemer().getKlant().getWerkgebied()' }
+                Adres: { expression: 'entity.getDeelnemer().getAppKlant().getAdres()' }
+                Postcode: { expression: 'entity.getDeelnemer().getAppKlant().getPostcode()' }
+                Plaats: { expression: 'entity.getDeelnemer().getAppKlant().getPlaats()' }
+                Stadsdeel: { expression: 'entity.getDeelnemer().getAppKlant().getWerkgebied()' }
                 Naam training: { expression: 'entity.getTraining()' }
                 Startdatum training: { expression: 'entity.getTraining().getStartDatum()', type: 'date' }
                 Aanmelddatum: { expression: 'entity.getDeelnemer().getAanmelding().getDatum()', condition: 'entity.getDeelnemer().getAanmelding()', type: 'date' }

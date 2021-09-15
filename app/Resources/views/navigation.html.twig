@@ -39,8 +39,8 @@
 {% if is_granted('ROLE_IZ') %}
     {{ html.navLink('Informele zorg', path('iz_index'), isActiveRoute('iz_')) }}
 {% endif %}
-{% if is_granted('ROLE_ODP') %}
-    {{ html.navLink('Tijdelijk wonen', path('odp_index'), isActiveRoute('odp_')) }}
+{% if is_granted('ROLE_TW') %}
+    {{ html.navLink('Tijdelijk wonen', path('tw_index'), isActiveRoute('tw_')) }}
 {% endif %}
 {% if is_granted('ROLE_OEK') %}
     {{ html.navLink('Op eigen kracht', path('oek_index'), isActiveRoute('oek_')) }}

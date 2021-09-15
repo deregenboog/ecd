@@ -1,0 +1,20 @@
+{% extends '::base.html.twig' %}
+{% import '::html.macro.twig' as html %}
+
+{% block title %}
+    Tijdelijk Wonen | {{ title }}
+{% endblock %}
+
+{% block subnavigation %}
+    {% include '@Tw/tw_subnavigation.html.twig' %}
+{% endblock %}
+
+{% block content %}
+    <h1>Huurverzoek verwijderen</h1>
+    <p>
+        Weet u zeker dat u huurverzoek
+        {{ html.link(huurverzoek, path('tw_huurverzoeken_view', {id: huurverzoek.id})) }}
+        wilt verwijderen?
+    </p>
+    {{ form(form) }}
+{% endblock %}

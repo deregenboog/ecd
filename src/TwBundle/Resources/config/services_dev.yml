@@ -1,0 +1,5 @@
+services:
+    tw.data_fixtures.faker_provider:
+        class: TwBundle\DataFixtures\TwFakerProvider
+        tags:
+            - { name: hautelook_alice.faker.provider }

@@ -5,21 +5,21 @@ services:
         arguments:
             - ScipBundle\Entity\Deelname
             -
-                Voornaam: { expression: 'entity.getDeelnemer().getKlant().getVoornaam()' }
-                Tussenvoegsel: { expression: 'entity.getDeelnemer().getKlant().getTussenvoegsel()' }
-                Achternaam: { expression: 'entity.getDeelnemer().getKlant().getAchternaam()' }
+                Voornaam: { expression: 'entity.getDeelnemer().getAppKlant().getVoornaam()' }
+                Tussenvoegsel: { expression: 'entity.getDeelnemer().getAppKlant().getTussenvoegsel()' }
+                Achternaam: { expression: 'entity.getDeelnemer().getAppKlant().getAchternaam()' }
                 KPL: { expression: 'entity.getProject().getKpl()' }
                 Naam: { expression: 'entity.getProject().getNaam()' }
                 Functie: { expression: 'entity.getDeelnemer().getFunctie()' }
                 Werkbegeleider: { expression: 'entity.getDeelnemer().getWerkbegeleider()' }
                 Actief: { expression: 'entity.isActief()' }
                 WMO: { expression: 'entity.getDeelnemer().getRisNummer()' }
-                EmailAdres: { expression: 'entity.getDeelnemer().getKlant().getEmail()' }
-                Adres: { expression: 'entity.getDeelnemer().getKlant().getAdres()' }
-                Postcode: { expression: 'entity.getDeelnemer().getKlant().getPostcode()' }
-                Woonplaats: { expression: 'entity.getDeelnemer().getKlant().getPlaats()' }
-                telNr: { expression: 'entity.getDeelnemer().getKlant().getMobiel()' }
-                gebDatum: { expression: 'entity.getDeelnemer().getKlant().getGeboortedatum()', type: 'date' }
+                EmailAdres: { expression: 'entity.getDeelnemer().getAppKlant().getEmail()' }
+                Adres: { expression: 'entity.getDeelnemer().getAppKlant().getAdres()' }
+                Postcode: { expression: 'entity.getDeelnemer().getAppKlant().getPostcode()' }
+                Woonplaats: { expression: 'entity.getDeelnemer().getAppKlant().getPlaats()' }
+                telNr: { expression: 'entity.getDeelnemer().getAppKlant().getMobiel()' }
+                gebDatum: { expression: 'entity.getDeelnemer().getAppKlant().getGeboortedatum()', type: 'date' }
                 maStart: { expression: 'entity.getBeschikbaarheid().getMaandagVan()', type: 'time', condition: 'entity.getBeschikbaarheid()' }
                 maEnd: { expression: 'entity.getBeschikbaarheid().getMaandagTot()', type: 'time', condition: 'entity.getBeschikbaarheid()' }
                 diStart: { expression: 'entity.getBeschikbaarheid().getDinsdagVan()', type: 'time', condition: 'entity.getBeschikbaarheid()' }

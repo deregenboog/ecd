@@ -1,0 +1,20 @@
+{% extends '::base.html.twig' %}
+{% import '::html.macro.twig' as html %}
+
+{% block title %}
+    Tijdelijk Wonen | {{ title }}
+{% endblock %}
+
+{% block subnavigation %}
+    {% include '@Tw/tw_subnavigation.html.twig' %}
+{% endblock %}
+
+{% block content %}
+    <h1>Reservering verwijderen</h1>
+    <p>
+        Weet u zeker dat u deze reservering
+        {{ html.link(entity, path('tw_huurovereenkomsten_view',{id:entity.id} ) ) }}
+        wilt verwijderen?<br>
+        {{ form(form) }}
+    </p>
+{% endblock %}

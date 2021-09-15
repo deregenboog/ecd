@@ -134,7 +134,7 @@ class Deelnemer implements KlantRelationInterface
         return $this->id;
     }
 
-    public function getKlant()
+    public function getAppKlant()
     {
         return $this->klant;
     }

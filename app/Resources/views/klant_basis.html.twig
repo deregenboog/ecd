@@ -81,7 +81,7 @@
     <dd>{{ klant.opmerking|nl2br }}</dd>
 </dl>
 
-{{ render(controller('AppBundle:Klanten:_diensten', {id: klant.id})) }}
+{{ render(controller('AppBundle:Klanten:_diensten', { id: klant.id } )) }}
 
 {%  if module != 'IzIntake' %}
 <h2>ZRMs</h2>

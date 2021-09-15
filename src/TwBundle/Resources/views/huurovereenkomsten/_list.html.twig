@@ -1,0 +1,56 @@
+{% import '::html.macro.twig' as html %}
+{% if klant is defined %}
+    {% set entity = klant %}
+    {% set entity_name_counterpart = 'verhuurder' %}
+{% elseif verhuurder is defined %}
+    {% set entity = verhuurder %}
+    {% set entity_name_counterpart = 'huurder' %}
+{% endif %}
+
+<h2>Koppelingen</h2>
+<table class="table">
+    <tr>
+        <th>{{ entity_name_counterpart|capitalize }}</th>
+        <th>Stadsdeel</th>
+        <th>Startdatum</th>
+        <th>Opzegdatum</th>
+        <th>Einddatum huurovereenkomst</th>
+        <th>Afsluitdatum koppeling</th>
+        <th></th>
+    </tr>
+    {% for huurovereenkomst in entity.huurovereenkomsten %}
+        {% set class = "" %}
+        {% if huurovereenkomst.isReservering == true %}
+            {% set class = "danger" %}
+        {% endif %}
+        <tr class="{{ class }}">
+            <td>
+                {{ entity_name_counterpart == 'huurder' ? huurovereenkomst.klant : huurovereenkomst.verhuurder }}
+            </td>
+            <td>
+                {{ huurovereenkomst.verhuurder.appKlant.werkgebied }}
+            </td>
+            <td>
+                {{ huurovereenkomst.startdatum ? huurovereenkomst.startdatum|date('d-m-Y') }}
+            </td>
+            <td>
+                {% if huurovereenkomst.opzegdatum %}
+                    {% set color = huurovereenkomst.opzegdatum < today and not huurovereenkomst.opzegbriefVerstuurd ? 'red' : 'black' %}
+                    <span style="color:{{ color }};">
+                        {{ huurovereenkomst.opzegdatum|date('d-m-Y') }}
+                    </span>
+                {% endif %}
+            </td>
+            <td>
+                {{ huurovereenkomst.einddatum ? huurovereenkomst.einddatum|date('d-m-Y') }}
+            </td>
+            <td>
+                {{ huurovereenkomst.afsluitdatum ? huurovereenkomst.afsluitdatum|date('d-m-Y') }}
+                {{ huurovereenkomst.afsluiting ? '(' ~ huurovereenkomst.afsluiting ~ ')' }}
+            </td>
+            <td>
+                {{ html.viewlink(path('tw_huurovereenkomsten_view', {id: huurovereenkomst.id})) }}
+            </td>
+        </tr>
+    {% endfor %}
+</table>

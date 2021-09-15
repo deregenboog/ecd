@@ -117,7 +117,7 @@ class Deelnemer implements KlantRelationInterface, DocumentSubjectInterface
     /**
      * @return Klant
      */
-    public function getKlant()
+    public function getAppKlant()
     {
         return $this->klant;
     }

@@ -26,23 +26,23 @@ services:
         arguments:
             - GaBundle\Entity\Klantdossier
             -
-                Nummer: { expression: 'entity.getKlant().getId()' }
+                Nummer: { expression: 'entity.getAppKlant().getId()' }
                 Aanmelddatum: { expression: 'entity.getAanmeldDatum()', type: 'date' }
                 Afsluitdatum: { expression: 'entity.getAfsluitDatum()', type: 'date' }
-                Geslacht: { expression: 'entity.getKlant().getGeslacht()' }
-                Voornaam: { expression: 'entity.getKlant().getVoornaam()' }
-                Tussenvoegsel: { expression: 'entity.getKlant().getTussenvoegsel()' }
-                Achternaam: { expression: 'entity.getKlant().getAchternaam()' }
-                Geboortedatum: { expression: 'entity.getKlant().getGeboortedatum()', type: 'date' }
-                E-mail: { expression: 'entity.getKlant().getEmail()' }
-                Adres: { expression: 'entity.getKlant().getAdres()' }
-                Postcode: { expression: 'entity.getKlant().getPostcode()' }
-                Woonplaats: { expression: 'entity.getKlant().getPlaats()' }
-                Mobiel: { expression: 'entity.getKlant().getMobiel()' }
-                Telefoon: { expression: 'entity.getKlant().getTelefoon()' }
-                Werkgebied: { expression: 'entity.getKlant().getWerkgebied()' }
-                Postvoorkeur: { expression: 'entity.getKlant().getGeenPost() ? "Geen post" : "Wel post"' }
-                E-mailvoorkeur: { expression: 'entity.getKlant().getGeenEmail() ? "Geen e-mail" : "Wel e-mail"' }
+                Geslacht: { expression: 'entity.getAppKlant().getGeslacht()' }
+                Voornaam: { expression: 'entity.getAppKlant().getVoornaam()' }
+                Tussenvoegsel: { expression: 'entity.getAppKlant().getTussenvoegsel()' }
+                Achternaam: { expression: 'entity.getAppKlant().getAchternaam()' }
+                Geboortedatum: { expression: 'entity.getAppKlant().getGeboortedatum()', type: 'date' }
+                E-mail: { expression: 'entity.getAppKlant().getEmail()' }
+                Adres: { expression: 'entity.getAppKlant().getAdres()' }
+                Postcode: { expression: 'entity.getAppKlant().getPostcode()' }
+                Woonplaats: { expression: 'entity.getAppKlant().getPlaats()' }
+                Mobiel: { expression: 'entity.getAppKlant().getMobiel()' }
+                Telefoon: { expression: 'entity.getAppKlant().getTelefoon()' }
+                Werkgebied: { expression: 'entity.getAppKlant().getWerkgebied()' }
+                Postvoorkeur: { expression: 'entity.getAppKlant().getGeenPost() ? "Geen post" : "Wel post"' }
+                E-mailvoorkeur: { expression: 'entity.getAppKlant().getGeenEmail() ? "Geen e-mail" : "Wel e-mail"' }
 
     ga.export.vrijwilligerdossiers:
         public: true
@@ -151,25 +151,25 @@ services:
         arguments:
             - GaBundle\Entity\Klantdossier
             -
-                Nummer: { expression: '"K" ~ entity.getKlant().getId()' }
+                Nummer: { expression: '"K" ~ entity.getAppKlant().getId()' }
                 Aanmelddatum: { expression: 'entity.getAanmelddatum()', type: 'date' }
                 Intakedatum: { expression: 'entity.getIntake().getIntakeDatum()', type: 'date', condition: 'entity.getIntake()' }
                 Afsluitdatum: { expression: 'entity.getAfsluitDatum()', type: 'date' }
-                Geslacht: { expression: 'entity.getKlant().getGeslacht()' }
-                Voornaam: { expression: 'entity.getKlant().getVoornaam()' }
-                Tussenvoegsel: { expression: 'entity.getKlant().getTussenvoegsel()' }
-                Achternaam: { expression: 'entity.getKlant().getAchternaam()' }
-                Geboortedatum: { expression: 'entity.getKlant().getGeboortedatum()', type: 'date' }
-                E-mail: { expression: 'entity.getKlant().getEmail()' }
-                Adres: { expression: 'entity.getKlant().getAdres()' }
-                Postcode: { expression: 'entity.getKlant().getPostcode()' }
-                Woonplaats: { expression: 'entity.getKlant().getPlaats()' }
-                Mobiel: { expression: 'entity.getKlant().getMobiel()' }
-                Telefoon: { expression: 'entity.getKlant().getTelefoon()' }
-                Werkgebied: { expression: 'entity.getKlant().getWerkgebied()' }
-                Postcodegebied: { expression: 'entity.getKlant().getPostcodegebied()' }
-                Postvoorkeur: { expression: 'entity.getKlant().getGeenPost() ? "Geen post" : "Wel post"' }
-                E-mailvoorkeur: { expression: 'entity.getKlant().getGeenEmail() ? "Geen e-mail" : "Wel e-mail"' }
+                Geslacht: { expression: 'entity.getAppKlant().getGeslacht()' }
+                Voornaam: { expression: 'entity.getAppKlant().getVoornaam()' }
+                Tussenvoegsel: { expression: 'entity.getAppKlant().getTussenvoegsel()' }
+                Achternaam: { expression: 'entity.getAppKlant().getAchternaam()' }
+                Geboortedatum: { expression: 'entity.getAppKlant().getGeboortedatum()', type: 'date' }
+                E-mail: { expression: 'entity.getAppKlant().getEmail()' }
+                Adres: { expression: 'entity.getAppKlant().getAdres()' }
+                Postcode: { expression: 'entity.getAppKlant().getPostcode()' }
+                Woonplaats: { expression: 'entity.getAppKlant().getPlaats()' }
+                Mobiel: { expression: 'entity.getAppKlant().getMobiel()' }
+                Telefoon: { expression: 'entity.getAppKlant().getTelefoon()' }
+                Werkgebied: { expression: 'entity.getAppKlant().getWerkgebied()' }
+                Postcodegebied: { expression: 'entity.getAppKlant().getPostcodegebied()' }
+                Postvoorkeur: { expression: 'entity.getAppKlant().getGeenPost() ? "Geen post" : "Wel post"' }
+                E-mailvoorkeur: { expression: 'entity.getAppKlant().getGeenEmail() ? "Geen e-mail" : "Wel e-mail"' }
                 Gezin met kinderen: { expression: 'entity.getIntake().isGezinMetKinderen() ? "ja" : "nee"', condition: 'entity.getIntake()' }
             - GaBundle\Entity\Vrijwilligerdossier
             -

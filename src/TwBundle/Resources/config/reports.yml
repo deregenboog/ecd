@@ -1,0 +1,28 @@
+services:
+    tw.form.rapportage:
+        class: TwBundle\Form\RapportageType
+        tags:
+            - { name: form.type }
+
+    TwBundle\Report\Huurders:
+        public: true
+        arguments:
+            - '@TwBundle\Service\KlantDao'
+        tags:
+            - { name: tw.rapportage }
+
+    TwBundle\Report\Koppelingen:
+        public: true
+        arguments:
+            - '@TwBundle\Service\HuurovereenkomstDao'
+            - '@TwBundle\Service\ProjectDao'
+        tags:
+            - { name: tw.rapportage }
+
+    TwBundle\Report\Verhuurders:
+        public: true
+        arguments:
+            - '@TwBundle\Service\VerhuurderDao'
+        tags:
+            - { name: tw.rapportage }
+

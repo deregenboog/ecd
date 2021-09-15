@@ -103,7 +103,7 @@ WHERE (ki.klant_id IS NOT NULL OR kv.klant_id IS NOT NULL)
 //        $result = $subQuery1->getQuery()->getResult();
 //        foreach($result as $r)
 //        {
-//            $ikIds[] = $r->getKlant()->getId();
+//            $ikIds[] = $r->getAppKlant()->getId();
 //            $iIds = $r->getId();
 //        }
 
