@@ -42,7 +42,6 @@ class DienstenLookupEvent extends Event
     public function setKlant(Klant $klant)
     {
         $this->klant = $klant;
-
         return $this;
     }
 
@@ -54,7 +53,6 @@ class DienstenLookupEvent extends Event
     public function addDienst(Dienst $dienst)
     {
         $this->diensten[] = $dienst;
-
         return $this;
     }
 }

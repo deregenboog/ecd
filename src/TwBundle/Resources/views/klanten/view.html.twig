@@ -1,0 +1,100 @@
+{% extends '::base-2-col.html.twig' %}
+{% import '::html.macro.twig' as html %}
+
+{% block title %}
+    Tijdelijk Wonen | {{ title }}
+{% endblock %}
+
+{% block subnavigation %}
+    {% include '@Tw/tw_subnavigation.html.twig' %}
+{% endblock %}
+
+{% block content_top %}
+    <h1>
+        Klant {{ entity.appKlant }}
+    </h1>
+    <p>
+        {% if entity.actief %}
+            {{ html.editLink(path('tw_klanten_edit', {id: entity.id})) }}
+            {{ html.link('Wijzigen', path('tw_klanten_edit', {id: entity.id})) }}
+            {% if entity.closable %}
+                {{ html.closeLink(path('tw_klanten_close', {id: entity.id})) }}
+                {{ html.link('Afsluiten', path('tw_klanten_close', {id: entity.id})) }}
+            {% endif %}
+        {% else %}
+            {{ html.addLink(path('tw_klanten_reopen', {id: entity.id})) }}
+            {{ html.link('Heropenen', path('tw_klanten_reopen', {id: entity.id})) }}
+            <dl class="dl-horizontal" style="color: red;">
+                <dt>Afsluitdatum dossier</dt>
+                <dd>{{ entity.afsluitdatum ? entity.afsluitdatum|date('d-m-Y') }}</dd>
+                <dt>Reden afsluiting</dt>
+                <dd>{{ entity.afsluiting }}</dd>
+            </dl>
+        {% endif %}
+        {% if entity.deletable %}
+            {{ html.deleteLink(path('tw_klanten_delete', {id: entity.id})) }}
+            {{ html.link('Verwijderen', path('tw_klanten_delete', {id: entity.id})) }}
+        {% endif %}
+    </p>
+{% endblock %}
+
+{% block content_left %}
+    <dl class="dl-horizontal">
+        <dt>Naam</dt>
+        <dd>{{ entity.appKlant }}</dd>
+        <dt>Medewerker</dt>
+        <dd>{{ entity.medewerker }}</dd>
+        <dt>Ambulant ondersteuner</dt>
+        <dd>{{ entity.ambulantOndersteuner }}</dd>
+        <dt>Aanmelddatum</dt>
+        <dd>{{ entity.aanmelddatum|date('d-m-Y') }}</dd>
+        <dt>Project(en)</dt>
+        <dd><ul>
+            {% for project in entity.projecten %}
+                <li>{{ project.naam }}</li>
+            {% endfor %}
+            </ul>
+        </dd>
+        <dt>Rekeningnummer</dt>
+        <dd>{{ entity.rekeningnummer }}</dd>
+        <dt>Automatische incasso</dt>
+        <dd>{{ entity.automatischeIncasso ? 'Ja' : 'Nee' }}</dd>
+        <dt>Inschrijving Woningnet</dt>
+        <dd>{{ entity.inschrijvingWoningnet ? 'Ja' : 'Nee' }}</dd>
+        <dt>WA-polis</dt>
+        <dd>{{ entity.waPolis ? 'Ja' : 'Nee' }}</dd>
+    </dl>
+    <dl class="dl-horizontal">
+        <dt>Klantmanager</dt>
+        <dd>{{ entity.klantmanager }}</dd>
+        <dt>WPI</dt>
+        <dd>{{ entity.wpi ? 'Ja' : 'Nee' }}</dd>
+    </dl>
+    {{ include('::klant_basis.html.twig' , {klant: entity.appKlant}, with_context = true     )}}
+{% endblock %}
+
+{% block content_right %}
+    <ul class="nav nav-tabs">
+        <li class="active"><a data-toggle="tab" href="#huurverzoeken">Huurverzoeken / Koppelingen</a></li>
+        <li><a data-toggle="tab" href="#verslagen">Verslagen</a></li>
+        <li><a data-toggle="tab" href="#documenten">Documenten</a></li>
+        <li><a data-toggle="tab" href="#zrm">ZRM</a></li>
+    </ul>
+    <div class="tab-content">
+        <div id="huurverzoeken" class="tab-pane active">
+            {% include 'TwBundle:huurverzoeken:_list.html.twig' with {klant: entity} %}
+            {% include 'TwBundle:huurovereenkomsten:_list.html.twig' with {klant: entity} %}
+        </div>
+        <div id="verslagen" class="tab-pane">
+            {% include 'TwBundle:verslagen:_list.html.twig' with {klant: entity} %}
+        </div>
+        <div id="documenten" class="tab-pane">
+            {% include 'TwBundle:documenten:_list.html.twig' with {klant: entity} %}
+        </div>
+        <div id="zrm" class="tab-pane">
+            {% if entity.zrm %}
+                {% include 'AppBundle:zrms:_detail.html.twig' with {entity: entity.zrm} %}
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}

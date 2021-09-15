@@ -1,0 +1,40 @@
+{% import '::html.macro.twig' as html %}
+{% if klant is defined %}
+    {% set url = path('tw_financieleverslagen_add', {klant: klant.id}) %}
+    {% set entity = klant %}
+{% elseif verhuurder is defined %}
+    {% set url = path('tw_financieleverslagen_add', {verhuurder: verhuurder.id}) %}
+    {% set entity = verhuurder %}
+{% elseif huurverzoek is defined %}
+    {% set url = path('tw_financieleverslagen_add', {huurverzoek: huurverzoek.id}) %}
+    {% set entity = huurverzoek %}
+{% elseif huuraanbod is defined %}
+    {% set url = path('tw_financieleverslagen_add', {huuraanbod: huuraanbod.id}) %}
+    {% set entity = huuraanbod %}
+{% elseif huurovereenkomst is defined %}
+    {% set url = path('tw_financieleverslagen_add', {huurovereenkomst: huurovereenkomst.id}) %}
+    {% set entity = huurovereenkomst %}
+{% endif %}
+
+{% if list_title is defined %}
+    <h3>{{ list_title }}</h3>
+{% else %}
+    <h2>Verslagen</h2>
+    <p>
+        {{ html.addLink(url) }}
+        {{ html.link('Verslag toevoegen', url) }}
+    </p>
+{% endif %}
+<table class="table">
+    {% for verslag in entity.financieleverslagen %}
+        <tr>
+            <td>{{ verslag.datum|date('d-m-Y') }}</td>
+            <td>{{ verslag.medewerker }}</td>
+            <td>{{ verslag.opmerking|nl2br }}</td>
+            <td>
+                {{ html.editLink(path('tw_financieleverslagen_edit', {id: verslag.id})) }}
+                {{ html.deleteLink(path('tw_financieleverslagen_delete', {id: verslag.id})) }}
+            </td>
+        </tr>
+    {% endfor %}
+</table>

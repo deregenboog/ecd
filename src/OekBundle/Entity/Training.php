@@ -193,7 +193,7 @@ class Training implements KlantRelationInterface
         return 0 == $this->deelnames->count();
     }
 
-    public function getKlant()
+    public function getAppKlant()
     {
         return $this->getDeelnames();
     }

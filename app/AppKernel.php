@@ -38,7 +38,7 @@ class AppKernel extends Kernel
             new InloopBundle\InloopBundle(),
             new IzBundle\IzBundle(),
             new MwBundle\MwBundle(),
-            new OdpBundle\OdpBundle(),
+            new TwBundle\TwBundle(),
             new OekBundle\OekBundle(),
             new PfoBundle\PfoBundle(),
             new ScipBundle\ScipBundle(),

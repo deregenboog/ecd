@@ -9,7 +9,7 @@ interface KlantRelationInterface
     /**
      * @return Klant
      */
-    public function getKlant();
+    public function getAppKlant();
 
     /**
      * @return string Name of klant field in entity.

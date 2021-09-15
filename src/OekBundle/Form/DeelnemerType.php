@@ -26,8 +26,8 @@ class DeelnemerType extends AbstractType
         $deelnemer = $options['data'];
 
         if ($deelnemer instanceof Deelnemer
-            && $deelnemer->getKlant() instanceof Klant
-            && $deelnemer->getKlant()->getId()
+            && $deelnemer->getAppKlant() instanceof Klant
+            && $deelnemer->getAppKlant()->getId()
         ) {
             $builder->add('klant', DummyChoiceType::class, [
                 'dummy_label' => (string) $deelnemer,

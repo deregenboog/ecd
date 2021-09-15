@@ -1,0 +1,15 @@
+{% extends '::base.html.twig' %}
+{% import '::html.macro.twig' as html %}
+
+{% block title %}
+    Tijdelijk Wonen | {{ title }}
+{% endblock %}
+
+{% block subnavigation %}
+    {% include '@Tw/tw_subnavigation.html.twig' %}
+{% endblock %}
+
+{% block content %}
+    <h1>Huurverzoek toevoegen</h1>
+    {{ form(form) }}
+{% endblock %}

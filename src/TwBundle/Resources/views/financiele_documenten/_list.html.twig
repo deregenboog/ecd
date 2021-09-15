@@ -1,0 +1,34 @@
+{% import '::html.macro.twig' as html %}
+{% if klant is defined %}
+    {% set url = path('tw_financieledocumenten_add', {klant: klant.id}) %}
+    {% set entity = klant %}
+{% elseif verhuurder is defined %}
+    {% set url = path('tw_financieledocumenten_add', {verhuurder: verhuurder.id}) %}
+    {% set entity = verhuurder %}
+{% elseif huurovereenkomst is defined %}
+    {% set url = path('tw_financieledocumenten_add', {huurovereenkomst: huurovereenkomst.id}) %}
+    {% set entity = huurovereenkomst %}
+{% endif %}
+<h2>Documenten</h2>
+<p>
+    {{ html.addLink(url) }}
+    {{ html.link('Document toevoegen', url) }}
+</p>
+<table class="table">
+    {% for document in entity.financieledocumenten %}
+        <tr>
+            <td>{{ document.datum|date('d-m-Y') }}</td>
+            <td>{{ document.medewerker }}</td>
+            <td>{{ document.naam }}</td>
+            <td>
+                <a href="{{ vich_uploader_asset(document, 'file') }}" alt="{{ document.naam }}">
+                    Document downloaden
+                </a>
+            </td>
+            <td>
+                {{ html.editLink(path('tw_financieledocumenten_edit', {id: document.id})) }}
+                {{ html.deleteLink(path('tw_financieledocumenten_delete', {id: document.id})) }}
+            </td>
+        </tr>
+    {% endfor %}
+</table>

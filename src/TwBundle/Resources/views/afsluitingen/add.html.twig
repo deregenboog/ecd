@@ -1,0 +1,14 @@
+{% extends '::base.html.twig' %}
+
+{% block title %}
+    Tijdelijk Wonen | {{ title }}
+{% endblock %}
+
+{% block subnavigation %}
+    {% include '@Tw/tw_subnavigation.html.twig' %}
+{% endblock %}
+
+{% block content %}
+    <h1>Afsluiting toevoegen</h1>
+    {{ form(form) }}
+{% endblock %}

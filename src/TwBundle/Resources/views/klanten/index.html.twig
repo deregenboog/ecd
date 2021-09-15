@@ -1,0 +1,187 @@
+{% extends '::base.html.twig' %}
+{% import '::html.macro.twig' as html %}
+
+{% block title %}
+    Tijdelijk Wonen | {{ title }}
+{% endblock %}
+
+{% block subnavigation %}
+    {% include '@Tw/tw_subnavigation.html.twig' %}
+{% endblock %}
+
+{% block content %}
+    <h1>{{ title }}</h1>
+    <p>
+        {{ html.addLink(path('tw_klanten_add')) }}
+        {{ html.link('Klant toevoegen', path('tw_klanten_add')) }}
+    </p>
+    <table class="table table-hover">
+        <thead>
+            {{ form_start(filter) }}
+                <tr>
+                    <th colspan="11">
+                    </th>
+                    <th>
+                        {{ form_widget(filter.actief) }}
+                    </th>
+                    <th>
+                        <span class="pull-right">
+                            {{ form_widget(filter.filter) }}
+                            {{ form_widget(filter.download) }}
+                        </span>
+                    </th>
+                </tr>
+                <tr>
+                    <th>
+                        {{ form_widget(filter.appKlant.id) }}
+                        {{ form_errors(filter.appKlant.id) }}
+                    </th>
+                    <th>
+                        {{ form_widget(filter.appKlant.naam) }}
+                        {{ form_errors(filter.appKlant.naam) }}
+                    </th>
+                    <th>
+                        {{ form_widget(filter.project) }}
+                        {{ form_errors(filter.project) }}
+                    </th>
+                    <th>
+                        {{ form_widget(filter.wpi) }}
+                        {{ form_errors(filter.wpi) }}
+                    </th>
+                    <th>
+                        {{ form_widget(filter.appKlant.stadsdeel) }}
+                        {{ form_errors(filter.appKlant.stadsdeel) }}
+                    </th>
+                    <th>
+                        {{ form_widget(filter.automatischeIncasso) }}
+                        {{ form_errors(filter.automatischeIncasso) }}
+                    </th>
+                    <th>
+                        {{ form_widget(filter.inschrijvingWoningnet) }}
+                        {{ form_errors(filter.inschrijvingWoningnet) }}
+                    </th>
+                    <th>
+                        {{ form_widget(filter.waPolis) }}
+                        {{ form_errors(filter.waPolis) }}
+                    </th>
+                    <th>
+                        {{ form_widget(filter.medewerker) }}
+                        {{ form_errors(filter.medewerker) }}
+                    </th>
+                    <th>
+                        {{ form_widget(filter.aanmelddatum.start) }}
+                        {{ form_errors(filter.aanmelddatum.start) }}
+                        {{ form_widget(filter.aanmelddatum.end) }}
+                        {{ form_errors(filter.aanmelddatum.end) }}
+                    </th>
+                    <th>
+                        {{ form_widget(filter.afsluitdatum.start) }}
+                        {{ form_errors(filter.afsluitdatum.start) }}
+                        {{ form_widget(filter.afsluitdatum.end) }}
+                        {{ form_errors(filter.afsluitdatum.end) }}
+                    </th>
+                    <th>
+                    </th>
+                    <th>
+                        {{ form_widget(filter.ambulantOndersteuner) }}
+                        {{ form_errors(filter.ambulantOndersteuner) }}
+                    </th>
+                </tr>
+            {{ form_end(filter) }}
+            <tr>
+                <th>
+                    {{ knp_pagination_sortable(pagination, '#', 'klant.id') }}
+                </th>
+                <th>
+                    {{ knp_pagination_sortable(pagination, 'Klant', 'klant.achternaam') }}
+                </th>
+                <th>
+                    Project(en)
+                </th>
+                <th>
+                    {{ knp_pagination_sortable(pagination, 'WPI', 'klant.wpi') }}
+                </th>
+                <th>
+                    {{ knp_pagination_sortable(pagination, 'Stadsdeel', 'werkgebied.naam') }}
+                </th>
+                <th>
+                    {{ knp_pagination_sortable(pagination, 'Automatische incasso', 'klant.automatischeIncasso') }}
+                </th>
+                <th>
+                    {{ knp_pagination_sortable(pagination, 'Inschrijving Woningnet', 'klant.inschrijvingWoningnet') }}
+                </th>
+                <th>
+                    {{ knp_pagination_sortable(pagination, 'WA-polis', 'klant.waPolis') }}
+                </th>
+                <th>
+                    {{ knp_pagination_sortable(pagination, 'Medewerker', 'medewerker.achternaam') }}
+                </th>
+                <th>
+                    {{ knp_pagination_sortable(pagination, 'Aanmelddatum', 'klant.aanmelddatum') }}
+                </th>
+                <th>
+                    {{ knp_pagination_sortable(pagination, 'Afsluitdatum dossier', 'klant.afsluitdatum') }}
+                </th>
+                <th></th>
+                <th>
+                    {{ knp_pagination_sortable(pagination, 'Ambulant ondersteuner', 'ambulantOndersteuner.achternaam') }}
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for klant in pagination %}
+                <tr data-href="{{ path(route_base~'view', {id: klant.id}) }}">
+                    <td>
+                        {{ klant.appKlant.id }}
+                    </td>
+                    <td>
+                        {{ klant.appKlant }}
+                    </td>
+                    <td>
+                        {% for project in klant.projecten %}
+                        <li>{{ project.naam }}</li>
+                        {% endfor %}
+                    </td>
+                    <td>
+                        {{ klant.wpi ? 'Ja' : 'Nee' }}
+                    </td>
+                    <td>
+                        {{ klant.appKlant.werkgebied }}
+                    </td>
+                    <td>
+                        {{ klant.automatischeIncasso ? 'Ja' : 'Nee' }}
+                    </td>
+                    <td>
+                        {{ klant.inschrijvingWoningnet ? 'Ja' : 'Nee' }}
+                    </td>
+                    <td>
+                        {{ klant.waPolis ? 'Ja' : 'Nee' }}
+                    </td>
+                    <td>
+                        {{ klant.medewerker.naam }}
+                    </td>
+                    <td>
+                        {{ klant.aanmelddatum ? klant.aanmelddatum|date('d-m-Y') }}
+                    </td>
+                    <td>
+                        {{ klant.afsluitdatum ? klant.afsluitdatum|date('d-m-Y') }}
+                        {{ klant.afsluiting ? '('~klant.afsluiting~')' }}
+                    </td>
+                    <td>
+                        {{ html.editLink(path('tw_klanten_edit', {id: klant.id})) }}
+                        {% if klant.deletable %}
+                            {{ html.deleteLink(path('tw_klanten_delete', {id: klant.id})) }}
+                        {% endif %}
+                    </td>
+
+                    <td>
+                        {{ klant.ambulantOndersteuner ? klant.ambulantOndersteuner.naam : '' }}
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <p>
+        {{ knp_pagination_render(pagination) }}
+    </p>
+{% endblock %}

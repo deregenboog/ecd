@@ -1,0 +1,26 @@
+{% extends '::base.html.twig' %}
+{% import '::html.macro.twig' as html %}
+
+{% block title %}
+    Tijdelijk Wonen | {{ title }}
+{% endblock %}
+
+{% block subnavigation %}
+    {% include '@Tw/tw_subnavigation.html.twig' %}
+{% endblock %}
+
+{% block content %}
+    <h1>Verslag verwijderen</h1>
+    <dl class="dl-horizontal">
+        <dt>Medewerker</dt>
+        <dd>{{ entity.medewerker }}</dd>
+        <dt>Datum</dt>
+        <dd>{{ entity.datum ? entity.datum|date('d-m-Y') }}</dd>
+        <dt>Verslag</dt>
+        <dd>{{ entity.opmerking|nl2br }}</dd>
+    </dl>
+    <p>
+        Weet u zeker dat u bovenstaand verslag wilt verwijderen?
+    </p>
+    {{ form(form) }}
+{% endblock %}

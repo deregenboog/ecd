@@ -89,6 +89,8 @@ security:
         - { path: ^/mw, roles: ROLE_MW }
         - { path: ^/odp/admin, roles: ROLE_ODP_BEHEER }
         - { path: ^/odp, roles: ROLE_ODP }
+        - { path: ^/tw/admin, roles: ROLE_TW_BEHEER }
+        - { path: ^/tw, roles: ROLE_TW }
         - { path: ^/oek/admin, roles: ROLE_OEK_BEHEER }
         - { path: ^/oek, roles: ROLE_OEK }
         - { path: ^/pfo/admin, roles: ROLE_PFO_BEHEER }

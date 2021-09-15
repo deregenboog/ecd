@@ -21,7 +21,7 @@ class EmailMessageType extends AbstractType
         if (isset($options['to'])) {
             foreach ($options['to'] as $deelnemer) {
                 if ($deelnemer instanceof Deelnemer) {
-                    $emails[] = $deelnemer->getKlant()->getEmail();
+                    $emails[] = $deelnemer->getAppKlant()->getEmail();
                 }
             }
         }

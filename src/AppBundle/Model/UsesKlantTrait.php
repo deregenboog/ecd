@@ -19,7 +19,7 @@ trait UsesKlantTrait
      * Works iterative.
      *
      * An entity that relates to Klant (ie. Deelnemers refers to Klant, and Deelname refers to Deelnemer)
-     * you should implement the KlantRelationInterface which states you to implement getKlant() and getKlantFieldName() methods.
+     * you should implement the KlantRelationInterface which states you to implement getAppKlant() and getKlantFieldName() methods.
      * This way, we can iterative probe a Klant to see if its not disabled.
      *
      * Due to the way disabled Klant is implemented (via Doctrine Constraint Filter) it does not give you a null.
@@ -36,7 +36,7 @@ trait UsesKlantTrait
         if($entity instanceof KlantRelationInterface){
             try{
                 //Request the klant Object. THis can be plural or single.
-                $res = $entity->getKlant();
+                $res = $entity->getAppKlant();
 
                 //When single, it gives an arrayCollection.
                 if($res instanceof ArrayCollection or $res instanceof PersistentCollection)

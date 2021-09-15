@@ -1,0 +1,13 @@
+imports:
+    - { resource: daos.yml }
+    - { resource: exports.yml }
+    - { resource: reports.yml }
+
+services:
+    tw.event.diensten_lookup_subscriber:
+        class: TwBundle\Event\DienstenLookupSubscriber
+        arguments:
+            - "@doctrine.orm.entity_manager"
+            - "@router"
+        tags:
+            - { name: kernel.event_subscriber }

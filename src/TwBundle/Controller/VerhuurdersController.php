@@ -1,0 +1,273 @@
+<?php
+
+namespace TwBundle\Controller;
+
+use AppBundle\Controller\AbstractChildController;
+use AppBundle\Controller\AbstractController;
+use AppBundle\Entity\Klant as AppKlant;
+use AppBundle\Export\ExportInterface;
+use AppBundle\Form\ConfirmationType;
+use AppBundle\Form\KlantFilterType;
+use AppBundle\Service\KlantDao;
+use AppBundle\Service\KlantDaoInterface;
+use Doctrine\ORM\QueryBuilder;
+
+use JMS\DiExtraBundle\Annotation as DI;
+use TwBundle\Entity\Verhuurder;
+use TwBundle\Form\VerhuurderCloseType;
+use TwBundle\Form\VerhuurderFilterType;
+use TwBundle\Form\VerhuurderSelectType;
+use TwBundle\Form\VerhuurderType;
+use TwBundle\Service\VerhuurderDaoInterface;
+use Symfony\Component\Routing\Annotation\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\FormError;
+
+
+/**
+ * @Route("/verhuurders")
+ * @Template
+ */
+class VerhuurdersController extends AbstractController
+{
+    public $title = 'Verhuurders';
+    public $entityClass = Verhuurder::class;
+    protected $entityName = 'verhuurder';
+    protected $formClass = VerhuurderType::class;
+    protected $filterFormClass = VerhuurderFilterType::class;
+    protected $baseRouteName = 'tw_verhuurders_';
+    protected $addMethod = "addVerhuurder";
+    protected $searchFilterTypeClass = KlantFilterType::class;
+    protected $searchEntity = AppKlant::class;
+    protected $searchEntityName = 'appKlant';
+
+
+    /**
+     * @var VerhuurderDaoInterface
+     *
+     * @DI\Inject("TwBundle\Service\VerhuurderDao")
+     */
+    protected $dao;
+
+    /**
+     * @var KlantDaoInterface
+     * @DI\Inject("AppBundle\Service\KlantDao")
+     */
+    protected $searchDao;
+
+    /**
+     * @var ExportInterface
+     *
+     * @DI\Inject("tw.export.verhuurders")
+     */
+    protected $export;
+
+
+    protected function getDownloadFilename()
+    {
+        $filename = sprintf('onder-de-pannen-verhuurders-%s.xlsx', (new \DateTime())->format('d-m-Y'));
+        return $filename;
+    }
+
+
+    /**
+     * @Route("/{id}/view")
+     */
+    public function view($id)
+    {
+        $verhuurder = $this->getEntityManager()->find(Verhuurder::class, $id);
+
+        return ['verhuurder' => $verhuurder];
+    }
+
+    /**
+     * @Route("/oldAdd")
+     */
+    public function oldAdd($klantId = null)
+    {
+        $entityManager = $this->getEntityManager();
+
+        if ($this->getRequest()->query->has('klantId')) {
+            $klant = new Klant();
+            if ('new' !== $this->getRequest()->query->get('klantId')) {
+                $klant = $entityManager->find(Klant::class, $this->getRequest()->query->get('klantId'));
+            }
+
+            $verhuurder = new Verhuurder();
+            $verhuurder->setAppKlant($klant);
+
+            $creationForm = $this->getForm(VerhuurderType::class, $verhuurder);
+            $creationForm->handleRequest($this->getRequest());
+
+            if ($creationForm->isValid()) {
+                try {
+                    $entityManager->persist($verhuurder->getAppKlant());
+                    $entityManager->persist($verhuurder);
+                    $entityManager->flush();
+
+                    $this->addFlash('success', 'Verhuurder is opgeslagen.');
+
+                    return $this->redirectToRoute('tw_verhuurders_view', ['id' => $verhuurder->getId()]);
+                } catch (\Exception $e) {
+                    $this->addFlash('success', 'Er is een fout opgetreden.');
+
+                    return $this->redirectToRoute('tw_verhuurders_index');
+                }
+            }
+
+            return ['creationForm' => $creationForm->createView()];
+        }
+
+        $filterForm = $this->getForm(KlantFilterType::class, null, [
+            'enabled_filters' => ['naam', 'bsn', 'geboortedatum'],
+        ]);
+        $filterForm->add('submit', SubmitType::class, ['label' => 'Verder']);
+        $filterForm->handleRequest($this->getRequest());
+
+        $selectionForm = $this->getForm(VerhuurderSelectType::class, null, [
+            'filter' => $filterForm->getData(),
+        ]);
+        $selectionForm->handleRequest($this->getRequest());
+
+        if ($filterForm->isSubmitted() && $filterForm->isValid()) {
+            return ['selectionForm' => $selectionForm->createView()];
+        }
+
+        if ($selectionForm->isSubmitted() && $selectionForm->isValid()) {
+            $verhuurder = $selectionForm->getData();
+            if ($verhuurder->getKlant() instanceof Klant) {
+                $id = $verhuurder->getKlant()->getId();
+            } else {
+                $id = 'new';
+            }
+
+            return $this->redirectToRoute('tw_verhuurders_add', ['klantId' => $id]);
+        }
+
+        return ['filterForm' => $filterForm->createView()];
+    }
+
+    /**
+     * @Route("/{id}/edit")
+     */
+    public function edit($id)
+    {
+        $entityManager = $this->getEntityManager();
+        $verhuurder = $entityManager->find(Verhuurder::class, $id);
+
+        $form = $this->getForm(VerhuurderType::class, $verhuurder);
+        $form->handleRequest($this->getRequest());
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            try {
+                $entityManager->flush();
+
+                $this->addFlash('success', 'Verhuurder is opgeslagen.');
+
+                return $this->redirectToRoute('tw_verhuurders_view', ['id' => $verhuurder->getId()]);
+            } catch (\Exception $e) {
+                $form->addError(new FormError('Er is een fout opgetreden.'));
+            }
+        }
+
+        return [
+            'verhuurder' => $verhuurder,
+            'form' => $form->createView(),
+        ];
+    }
+
+    /**
+     * @Route("/{id}/close")
+     */
+    public function close($id)
+    {
+        $entityManager = $this->getEntityManager();
+        $entityManager->getFilters()->enable('active');
+        $verhuurder = $entityManager->find(Verhuurder::class, $id);
+
+        $form = $this->getForm(VerhuurderCloseType::class, $verhuurder);
+        $form->handleRequest($this->getRequest());
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            try {
+                $entityManager->flush();
+
+                $this->addFlash('success', 'Verhuurder is afgesloten.');
+            } catch (\Exception $e) {
+                $message = $this->container->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
+                $this->addFlash('danger', $message);
+            }
+
+            return $this->redirectToRoute('tw_verhuurders_view', ['id' => $verhuurder->getId()]);
+        }
+
+        return [
+            'verhuurder' => $verhuurder,
+            'form' => $form->createView(),
+        ];
+    }
+
+    /**
+     * @Route("/{id}/reopen")
+     */
+    public function reopen($id)
+    {
+        $entityManager = $this->getEntityManager();
+        $verhuurder = $entityManager->find(Verhuurder::class, $id);
+
+        $form = $this->getForm(ConfirmationType::class);
+        $form->handleRequest($this->getRequest());
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            if ($form->get('yes')->isClicked()) {
+                try {
+                    $verhuurder->reopen();
+                    $entityManager->flush();
+
+                    $this->addFlash('success', 'Klant is heropend.');
+                } catch (\Exception $e) {
+                    $message = $this->container->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
+                    $this->addFlash('danger', $message);
+                }
+            }
+
+            return $this->redirectToRoute('tw_verhuurders_view', ['id' => $verhuurder->getId()]);
+        }
+
+        return [
+            'verhuurder' => $verhuurder,
+            'form' => $form->createView(),
+        ];
+    }
+
+    /**
+     * @Route("/{id}/delete")
+     */
+    public function delete($id)
+    {
+        $entityManager = $this->getEntityManager();
+        $verhuurder = $entityManager->find(Verhuurder::class, $id);
+
+        $form = $this->getForm(ConfirmationType::class);
+        $form->handleRequest($this->getRequest());
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            if ($form->get('yes')->isClicked()) {
+                $entityManager->remove($verhuurder);
+                $entityManager->flush();
+
+                $this->addFlash('success', 'Verhuurder is verwijderd.');
+
+                return $this->redirectToRoute('tw_verhuurders_index');
+            } else {
+                return $this->redirectToRoute('tw_verhuurders_view', ['id' => $verhuurder->getId()]);
+            }
+        }
+
+        return [
+            'verhuurder' => $verhuurder,
+            'form' => $form->createView(),
+        ];
+    }
+}

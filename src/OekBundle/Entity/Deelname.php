@@ -137,7 +137,7 @@ class Deelname implements KlantRelationInterface
         return DeelnameStatus::STATUS_AANGEMELD === $this->deelnameStatus->getStatus();
     }
 
-    public function getKlant()
+    public function getAppKlant()
     {
         return $this->getDeelnemer();
     }

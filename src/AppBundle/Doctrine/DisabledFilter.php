@@ -17,7 +17,7 @@ class DisabledFilter extends SQLFilter
         if (in_array($targetEntity->getName(), [Klant::class,
             Vrijwilliger::class,
 //            \OekBundle\Entity\Deelnemer::clasrrs,
-//            \OdpBundle\Entity\Deelnemer::class,
+//            \TwBundle\Entity\Deelnemer::class,
 //            \ScipBundle\Entity\Deelnemer::class,
 //            \DagbestedingBundle\Entity\Deelnemer::class,
 //            \IzBundle\Entity\IzDeelnemer::class,

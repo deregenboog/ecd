@@ -5,21 +5,21 @@ services:
         arguments:
             - DagbestedingBundle\Entity\Dagdeel
             -
-                Nummer: { expression: 'entity.getTraject().getDeelnemer().getKlant().getId()' }
+                Nummer: { expression: 'entity.getTraject().getDeelnemer().getAppKlant().getId()' }
                 Ris-dossiernummer: { expression: 'entity.getTraject().getDeelnemer().getRisDossiernummer()' }
-                BSN: { expression: 'entity.getTraject().getDeelnemer().getKlant().getBsn()' }
-                Geslacht: { expression: 'entity.getTraject().getDeelnemer().getKlant().getGeslacht()' }
-                Voornaam: { expression: 'entity.getTraject().getDeelnemer().getKlant().getVoornaam()' }
-                Tussenvoegsel: { expression: 'entity.getTraject().getDeelnemer().getKlant().getTussenvoegsel()' }
-                Achternaam: { expression: 'entity.getTraject().getDeelnemer().getKlant().getAchternaam()' }
-                Geboortedatum: { expression: 'entity.getTraject().getDeelnemer().getKlant().getGeboortedatum()', type: 'date' }
-                E-mail: { expression: 'entity.getTraject().getDeelnemer().getKlant().getEmail()' }
-                Adres: { expression: 'entity.getTraject().getDeelnemer().getKlant().getAdres()' }
-                Postcode: { expression: 'entity.getTraject().getDeelnemer().getKlant().getPostcode()' }
-                Woonplaats: { expression: 'entity.getTraject().getDeelnemer().getKlant().getPlaats()' }
-                Mobiel: { expression: 'entity.getTraject().getDeelnemer().getKlant().getMobiel()' }
-                Telefoon: { expression: 'entity.getTraject().getDeelnemer().getKlant().getTelefoon()' }
-                Werkgebied: { expression: 'entity.getTraject().getDeelnemer().getKlant().getWerkgebied()' }
+                BSN: { expression: 'entity.getTraject().getDeelnemer().getAppKlant().getBsn()' }
+                Geslacht: { expression: 'entity.getTraject().getDeelnemer().getAppKlant().getGeslacht()' }
+                Voornaam: { expression: 'entity.getTraject().getDeelnemer().getAppKlant().getVoornaam()' }
+                Tussenvoegsel: { expression: 'entity.getTraject().getDeelnemer().getAppKlant().getTussenvoegsel()' }
+                Achternaam: { expression: 'entity.getTraject().getDeelnemer().getAppKlant().getAchternaam()' }
+                Geboortedatum: { expression: 'entity.getTraject().getDeelnemer().getAppKlant().getGeboortedatum()', type: 'date' }
+                E-mail: { expression: 'entity.getTraject().getDeelnemer().getAppKlant().getEmail()' }
+                Adres: { expression: 'entity.getTraject().getDeelnemer().getAppKlant().getAdres()' }
+                Postcode: { expression: 'entity.getTraject().getDeelnemer().getAppKlant().getPostcode()' }
+                Woonplaats: { expression: 'entity.getTraject().getDeelnemer().getAppKlant().getPlaats()' }
+                Mobiel: { expression: 'entity.getTraject().getDeelnemer().getAppKlant().getMobiel()' }
+                Telefoon: { expression: 'entity.getTraject().getDeelnemer().getAppKlant().getTelefoon()' }
+                Werkgebied: { expression: 'entity.getTraject().getDeelnemer().getAppKlant().getWerkgebied()' }
                 Aanmelddatum deelnemer: { expression: 'entity.getTraject().getDeelnemer().getAanmelddatum()', type: 'date' }
                 Afsluitdatum deelnemer: { expression: 'entity.getTraject().getDeelnemer().getAfsluitDatum()', type: 'date' }
                 Reden afsluiting deelnemer: { expression: 'entity.getTraject().getDeelnemer().getAfsluiting()' }
@@ -37,21 +37,21 @@ services:
         arguments:
             - DagbestedingBundle\Entity\Deelnemer
             -
-                Nummer: { expression: 'entity.getKlant().getId()' }
+                Nummer: { expression: 'entity.getAppKlant().getId()' }
                 Ris-dossiernummer: { expression: 'entity.getRisDossiernummer()' }
-                BSN: { expression: 'entity.getKlant().getBsn()' }
-                Geslacht: { expression: 'entity.getKlant().getGeslacht()' }
-                Voornaam: { expression: 'entity.getKlant().getVoornaam()' }
-                Tussenvoegsel: { expression: 'entity.getKlant().getTussenvoegsel()' }
-                Achternaam: { expression: 'entity.getKlant().getAchternaam()' }
-                Geboortedatum: { expression: 'entity.getKlant().getGeboortedatum()', type: 'date' }
-                E-mail: { expression: 'entity.getKlant().getEmail()' }
-                Adres: { expression: 'entity.getKlant().getAdres()' }
-                Postcode: { expression: 'entity.getKlant().getPostcode()' }
-                Woonplaats: { expression: 'entity.getKlant().getPlaats()' }
-                Mobiel: { expression: 'entity.getKlant().getMobiel()' }
-                Telefoon: { expression: 'entity.getKlant().getTelefoon()' }
-                Werkgebied: { expression: 'entity.getKlant().getWerkgebied()' }
+                BSN: { expression: 'entity.getAppKlant().getBsn()' }
+                Geslacht: { expression: 'entity.getAppKlant().getGeslacht()' }
+                Voornaam: { expression: 'entity.getAppKlant().getVoornaam()' }
+                Tussenvoegsel: { expression: 'entity.getAppKlant().getTussenvoegsel()' }
+                Achternaam: { expression: 'entity.getAppKlant().getAchternaam()' }
+                Geboortedatum: { expression: 'entity.getAppKlant().getGeboortedatum()', type: 'date' }
+                E-mail: { expression: 'entity.getAppKlant().getEmail()' }
+                Adres: { expression: 'entity.getAppKlant().getAdres()' }
+                Postcode: { expression: 'entity.getAppKlant().getPostcode()' }
+                Woonplaats: { expression: 'entity.getAppKlant().getPlaats()' }
+                Mobiel: { expression: 'entity.getAppKlant().getMobiel()' }
+                Telefoon: { expression: 'entity.getAppKlant().getTelefoon()' }
+                Werkgebied: { expression: 'entity.getAppKlant().getWerkgebied()' }
                 Aanmelddatum: { expression: 'entity.getAanmelddatum()', type: 'date' }
                 Afsluitdatum: { expression: 'entity.getAfsluitDatum()', type: 'date' }
                 Reden afsluiting: { expression: 'entity.getAfsluiting()' }
@@ -68,19 +68,19 @@ services:
                 Einddatum traject: { expression: 'entity.getEinddatum()', type: 'date' }
                 Afsluitdatum traject: { expression: 'entity.getAfsluitdatum()', type: 'date' }
                 Ris-dossiernummer: { expression: 'entity.getDeelnemer().getRisDossiernummer()' }
-                BSN: { expression: 'entity.getDeelnemer().getKlant().getBsn()' }
-                Geslacht: { expression: 'entity.getDeelnemer().getKlant().getGeslacht()' }
-                Voornaam: { expression: 'entity.getDeelnemer().getKlant().getVoornaam()' }
-                Tussenvoegsel: { expression: 'entity.getDeelnemer().getKlant().getTussenvoegsel()' }
-                Achternaam: { expression: 'entity.getDeelnemer().getKlant().getAchternaam()' }
-                Geboortedatum: { expression: 'entity.getDeelnemer().getKlant().getGeboortedatum()', type: 'date' }
-                E-mail: { expression: 'entity.getDeelnemer().getKlant().getEmail()' }
-                Adres: { expression: 'entity.getDeelnemer().getKlant().getAdres()' }
-                Postcode: { expression: 'entity.getDeelnemer().getKlant().getPostcode()' }
-                Woonplaats: { expression: 'entity.getDeelnemer().getKlant().getPlaats()' }
-                Mobiel: { expression: 'entity.getDeelnemer().getKlant().getMobiel()' }
-                Telefoon: { expression: 'entity.getDeelnemer().getKlant().getTelefoon()' }
-                Werkgebied: { expression: 'entity.getDeelnemer().getKlant().getWerkgebied()' }
+                BSN: { expression: 'entity.getDeelnemer().getAppKlant().getBsn()' }
+                Geslacht: { expression: 'entity.getDeelnemer().getAppKlant().getGeslacht()' }
+                Voornaam: { expression: 'entity.getDeelnemer().getAppKlant().getVoornaam()' }
+                Tussenvoegsel: { expression: 'entity.getDeelnemer().getAppKlant().getTussenvoegsel()' }
+                Achternaam: { expression: 'entity.getDeelnemer().getAppKlant().getAchternaam()' }
+                Geboortedatum: { expression: 'entity.getDeelnemer().getAppKlant().getGeboortedatum()', type: 'date' }
+                E-mail: { expression: 'entity.getDeelnemer().getAppKlant().getEmail()' }
+                Adres: { expression: 'entity.getDeelnemer().getAppKlant().getAdres()' }
+                Postcode: { expression: 'entity.getDeelnemer().getAppKlant().getPostcode()' }
+                Woonplaats: { expression: 'entity.getDeelnemer().getAppKlant().getPlaats()' }
+                Mobiel: { expression: 'entity.getDeelnemer().getAppKlant().getMobiel()' }
+                Telefoon: { expression: 'entity.getDeelnemer().getAppKlant().getTelefoon()' }
+                Werkgebied: { expression: 'entity.getDeelnemer().getAppKlant().getWerkgebied()' }
                 Aanmelddatum deelnemer: { expression: 'entity.getDeelnemer().getAanmelddatum()', type: 'date' }
                 Afsluitdatum deelnemer: { expression: 'entity.getDeelnemer().getAfsluitDatum()', type: 'date' }
                 Reden afsluiting deelnemer: { expression: 'entity.getDeelnemer().getAfsluiting()' }

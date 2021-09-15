@@ -34,11 +34,11 @@ class OekDeelnemerSubscriber extends ScipDeelnemerSubscriber implements EventSub
         $deelnemer = $event->getSubject();
 
         // do nothing if not client
-        if (!$deelnemer->getKlant() instanceof \AppBundle\Entity\Klant) {
+        if (!$deelnemer->getAppKlant() instanceof \AppBundle\Entity\Klant) {
             return;
         }
 
-        $klant = $deelnemer->getKlant();
+        $klant = $deelnemer->getAppKlant();
 
         // do nothing if already exists
         $erOpUitDossier = $this->klantDao->findOneByKlant($klant);

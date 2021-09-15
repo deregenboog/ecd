@@ -1,0 +1,99 @@
+{% extends '::base-2-col.html.twig' %}
+{% import '::html.macro.twig' as html %}
+
+{% block title %}
+    Tijdelijk Wonen | {{ title }}
+{% endblock %}
+
+{% block subnavigation %}
+    {% include '@Tw/tw_subnavigation.html.twig' %}
+{% endblock %}
+
+{% block content_top %}
+    {% set reservering = "" %}
+    {% if entity.isReservering %}
+        {% set reservering = "<span class='text-danger'> ! Reservering</span>"  %}
+    {% endif %}
+    <h1>Koppeling {{ entity }}{{ reservering|raw }}</h1>
+    <p>
+        {% if entity.actief %}
+            {{ html.editLink(path('tw_huurovereenkomsten_edit', {id: entity.id})) }}
+            {{ html.link('Wijzigen', path('tw_huurovereenkomsten_edit', {id: entity.id})) }}
+            {{ html.closeLink(path('tw_huurovereenkomsten_close', {id: entity.id})) }}
+            {{ html.link('Afsluiten', path('tw_huurovereenkomsten_close', {id: entity.id})) }}
+            {% if entity.isReservering == true %}
+
+                {{ html.link('Reservering verwijderen', path('tw_huurovereenkomsten_delete', {id: entity.id})) }}
+
+            {% endif %}
+        {% else %}
+            {{ html.addLink(path('tw_huurovereenkomsten_reopen', {id: entity.id})) }}
+            {{ html.link('Heropenen', path('tw_huurovereenkomsten_reopen', {id: entity.id})) }}
+        {% endif %}
+        {% if entity.deletable %}
+            {{ html.deleteLink(path('tw_huurovereenkomsten_delete', {id: entity.id})) }}
+            {{ html.link('Verwijderen', path('tw_huurovereenkomsten_delete', {id: entity.id})) }}
+        {% endif %}
+    </p>
+{% endblock %}
+
+{% block content_left %}
+
+    <dl class="dl-horizontal">
+        <dt>#</dt>
+        <dd>{{ entity.id }}</dd>
+        <dt>Klant</dt>
+        <dd>{{ html.link(entity.klant.appKlant, path('tw_klanten_view', {id: entity.klant.id})) }}</dd>
+        <dt>Verhuurder</dt>
+        <dd>{{ html.link(entity.verhuurder.appKlant, path('tw_verhuurders_view', {id: entity.verhuurder.id})) }}</dd>
+        <dt>Project</dt>
+        <dd>{{ html.link(entity.huuraanbod.project, path('tw_huuraanbiedingen_view', {id: entity.huuraanbod.id})) }}</dd>
+        <dt>Huurverzoek</dt>
+        <dd>{{ html.link(entity.huurverzoek, path('tw_huurverzoeken_view', {id: entity.huurverzoek.id})) }}</dd>
+        <dt>Huuraanbod</dt>
+        <dd>{{ html.link(entity.huuraanbod, path('tw_huuraanbiedingen_view', {id: entity.huuraanbod.id})) }}</dd>
+        <dt>Startdatum</dt>
+        <dd>{{ entity.startdatum|date('d-m-Y') }}</dd>
+        <dt>Opzegdatum</dt>
+        <dd>
+            {% if entity.opzegdatum %}
+                {% set color = entity.opzegdatum < today and not entity.opzegbriefVerstuurd ? 'red' : 'black' %}
+                <span style="color:{{ color }};">
+                    {{ entity.opzegdatum|date('d-m-Y') }}
+                </span>
+            {% endif %}
+        </dd>
+        <dt>Opzegbrief verstuurd</dt>
+        <dd>{{ entity.opzegbriefVerstuurd ? 'Ja' : 'Nee' }}</dd>
+        <dt>Einddatum</dt>
+        <dd>{{ entity.einddatum ? entity.einddatum|date('d-m-Y') }}</dd>
+        <dt>Vorm</dt>
+        <dd>{{ entity.vorm }}</dd>
+        <dt>Afsluitdatum</dt>
+        <dd>{{ entity.afsluitdatum ? entity.afsluitdatum|date('d-m-Y') }}</dd>
+        <dt>Reden afsluiting</dt>
+        <dd>{{ entity.afsluiting ? entity.afsluiting }}</dd>
+    </dl>
+{% endblock %}
+
+{% block content_right %}
+    <ul class="nav nav-tabs">
+        <li class="active"><a data-toggle="tab" href="#verslagen">Verslagen</a></li>
+        <li><a data-toggle="tab" href="#documenten">Documenten</a></li>
+        <li><a data-toggle="tab" href="#financieel">Financieel</a></li>
+    </ul>
+    <div class="tab-content">
+        <div id="verslagen" class="tab-pane active">
+            {% include 'TwBundle:verslagen:_list.html.twig' with {huurovereenkomst: entity} %}
+            {% include 'TwBundle:verslagen:_list.html.twig' with {huurverzoek: entity.huurverzoek, list_title: 'Verslagen huurverzoek'} %}
+            {% include 'TwBundle:verslagen:_list.html.twig' with {huuraanbod: entity.huuraanbod, list_title: 'Verslagen huuraanbod'} %}
+        </div>
+        <div id="documenten" class="tab-pane">
+            {% include 'TwBundle:documenten:_list.html.twig' with {huurovereenkomst: entity} %}
+        </div>
+        <div id="financieel" class="tab-pane">
+            {% include 'TwBundle:financiele_verslagen:_list.html.twig' with {huurovereenkomst: entity} %}
+            {% include 'TwBundle:financiele_documenten:_list.html.twig' with {huurovereenkomst: entity} %}
+        </div>
+    </div>
+{% endblock %}
