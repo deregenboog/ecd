@@ -51,7 +51,7 @@ class Koppelingen extends AbstractReport
         $this->reports[0]['yDescription'] = 'Project';
         $this->reports[1]['yDescription'] = 'Vorm';
         $this->reports[2]['yDescription'] = 'VormVanOvereenkomst';
-        $this->reports[3]['yDescription'] = 'Woningbouwcorporatie';
+        $this->reports[3]['yDescription'] = 'Pandeigenaar';
         $this->reports[4]['yDescription'] = 'Afsluitreden';
         $this->reports[5]['yDescription'] = 'Stadsdeel';
         $this->reports[6]['yDescription'] = 'Woonplaats';

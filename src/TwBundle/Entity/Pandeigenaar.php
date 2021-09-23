@@ -9,11 +9,11 @@ use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Entity
- * @ORM\Table(name="tw_woningbouwcorporaties")
+ * @ORM\Table(name="tw_pandeigenaar")
  * @ORM\HasLifecycleCallbacks
  * @Gedmo\Loggable
  */
-class Woningbouwcorporatie
+class Pandeigenaar
 {
     use TimestampableTrait;
 
@@ -39,9 +39,17 @@ class Woningbouwcorporatie
     /**
      * @var ArrayCollection|Verhuurder[]
      *
-     * @ORM\OneToMany(targetEntity="Verhuurder", mappedBy="woningbouwcorporatie")
+     * @ORM\OneToMany(targetEntity="Verhuurder", mappedBy="pandeigenaar")
      */
     private $verhuurders;
+
+    /**
+     * @var PandeigenaarType
+     *
+     * @ORM\ManyToOne (targetEntity="TwBundle\Entity\PandeigenaarType", inversedBy="pandeigenaars", cascade={"persist"})
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $pandeigenaarType;
 
     public function __construct()
     {
@@ -86,4 +94,25 @@ class Woningbouwcorporatie
     {
         return 0 === count($this->verhuurders);
     }
+
+    /**
+     * @return PandeigenaarType
+     */
+    public function getPandeigenaarType(): PandeigenaarType
+    {
+        return $this->pandeigenaarType;
+    }
+
+    /**
+     * @param PandeigenaarType $pandeigenaarType
+     * @return Pandeigenaar
+     */
+    public function setPandeigenaarType(PandeigenaarType $pandeigenaarType): Pandeigenaar
+    {
+        $this->pandeigenaarType = $pandeigenaarType;
+        return $this;
+    }
+
+
+
 }

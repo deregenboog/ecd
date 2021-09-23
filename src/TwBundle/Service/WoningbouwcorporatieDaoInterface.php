@@ -4,7 +4,7 @@ namespace TwBundle\Service;
 
 use AppBundle\Filter\FilterInterface;
 use Knp\Component\Pager\Pagination\PaginationInterface;
-use TwBundle\Entity\Woningbouwcorporatie;
+use TwBundle\Entity\Pandeigenaar;
 
 interface WoningbouwcorporatieDaoInterface
 {
@@ -18,22 +18,22 @@ interface WoningbouwcorporatieDaoInterface
     /**
      * @param int $id
      *
-     * @return Woningbouwcorporatie
+     * @return Pandeigenaar
      */
     public function find($id);
 
     /**
-     * @param Woningbouwcorporatie $woningbouwcorporatie
+     * @param Pandeigenaar $woningbouwcorporatie
      */
-    public function create(Woningbouwcorporatie $woningbouwcorporatie);
+    public function create(Pandeigenaar $woningbouwcorporatie);
 
     /**
-     * @param Woningbouwcorporatie $woningbouwcorporatie
+     * @param Pandeigenaar $woningbouwcorporatie
      */
-    public function update(Woningbouwcorporatie $woningbouwcorporatie);
+    public function update(Pandeigenaar $woningbouwcorporatie);
 
     /**
-     * @param Woningbouwcorporatie $woningbouwcorporatie
+     * @param Pandeigenaar $woningbouwcorporatie
      */
-    public function delete(Woningbouwcorporatie $woningbouwcorporatie);
+    public function delete(Pandeigenaar $woningbouwcorporatie);
 }

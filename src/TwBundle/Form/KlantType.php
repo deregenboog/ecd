@@ -6,6 +6,7 @@ use AppBundle\Entity\Medewerker;
 use AppBundle\Form\AppDateType;
 use AppBundle\Form\BaseType;
 use AppBundle\Form\KlantType as AppKlantType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use TwBundle\Entity\Klant;
 use TwBundle\Entity\Verslag;
 use AppBundle\Form\ZrmType;
@@ -26,25 +27,31 @@ class KlantType extends AbstractType
     {
         $klant = $options['data'];
 
+        /**
+         * Waarom zat dit er nou in? Snap ik niet...
+         */
         if ($klant->getAppKlant()->getId()) {
-            $builder->add('medewerker', MedewerkerType::class);
+//            $builder->add('medewerker', MedewerkerType::class);
         } else {
             $builder
                 ->add('appKlant', AppKlantType::class)
                 ->addEventListener(FormEvents::POST_SUBMIT, function (FormEvent $event) {
-                    $event->getData()->setMedewerker($event->getData()->getKlant()->getMedewerker());
+                    $event->getData()->setMedewerker($event->getData()->getAppKlant()->getMedewerker());
                 })
             ;
         }
 
-        $builder
-            ->add('ambulantOndersteuner', \AppBundle\Form\MedewerkerType::class,[
-                'required'=>false,
-                'preset'=>false,
+         $builder
+             ->add('begeleider')
+            ->add('aanmelddatum', AppDateType::class, ['required'=>true])
+            ->add('projecten', ProjectSelectType::class,['multiple'=>true,'required'=>true])
 
-            ])
-            ->add('aanmelddatum', AppDateType::class)
-            ->add('projecten', ProjectSelectType::class,['multiple'=>true])
+
+            ->add('intake',CheckboxType::class,['mapped'=>false,'required'=>false,'value'=>false])
+       ;
+      $builder
+           ->add('moScreening')
+            ->add('bindingRegio')
             ->add('rekeningnummer', null, ['required' => false])
             ->add('automatischeIncasso', null, ['required' => false])
             ->add('inschrijvingWoningnet', null, [
@@ -60,6 +67,13 @@ class KlantType extends AbstractType
             ->add('huurbudget')
             ->add('duurThuisloos')
             ->add('werk')
+            ->add('inkomen')
+            ->add('dagbesteding')
+            ->add('ritme')
+            ->add('huisdieren')
+            ->add('roken')
+            ->add('softdrugs')
+            ->add('traplopen')
         ;
 
         if (!$options['data']->getId()) {
@@ -85,16 +99,18 @@ class KlantType extends AbstractType
         }
 
 
-                if ($klant->getZrm()) {
-                    $builder->add('zrm', ZrmType::class, [
-                        'data_class' => get_class($klant->getZrm()),
-                        'request_module' => 'TwHuurder',
-                    ]);
-                } else {
-                    $builder->add('zrm', ZrmType::class, [
-                        'request_module' => 'TwHuurder',
-                    ]);
-                }
+        if ($klant->getZrm()) {
+            $builder->add('zrm', ZrmType::class, [
+                'data_class' => get_class($klant->getZrm()),
+                'request_module' => 'TwHuurder',
+                'required'=>false,
+            ]);
+        } else {
+            $builder->add('zrm', ZrmType::class, [
+                'request_module' => 'TwHuurder',
+                'required'=>false,
+            ]);
+        }
 
         $builder->add('submit', SubmitType::class, ['label' => 'Opslaan']);
     }

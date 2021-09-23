@@ -38,14 +38,6 @@ abstract class Deelnemer  implements KlantRelationInterface
     protected $id;
 
     /**
-     * @var Intake
-     *
-     * @ORM\OneToOne(targetEntity="Intake", mappedBy="deelnemer")
-     * @Gedmo\Versioned
-     */
-    protected $intake;
-
-    /**
      * @var \DateTime
      *
      * @ORM\Column(name="aanmelddatum", type="date")
@@ -76,6 +68,13 @@ abstract class Deelnemer  implements KlantRelationInterface
      * @Gedmo\Versioned
      */
     protected $wpi = false;
+
+    /**
+     * @var Inkomen
+     * @ORM\ManyToOne(targetEntity="TwBundle\Entity\Inkomen",cascade={"persist"})
+     * @ORM\JoinColumn(nullable=true)
+     */
+    protected $inkomen;
 
     /**
      * @var string
@@ -118,6 +117,164 @@ abstract class Deelnemer  implements KlantRelationInterface
      * @ORM\JoinColumn(nullable=true)
      */
     private $ambulantOndersteuner;
+
+    /**
+     * @var string
+     * @ORM\Column(type="string", nullable=true)
+     */
+    private $begeleider;
+
+
+    /**
+     * @var Dagbesteding
+     * @ORM\ManyToOne(targetEntity="TwBundle\Entity\Dagbesteding",cascade={"persist"})
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $dagbesteding;
+
+    /**
+     * @var Ritme
+     * @ORM\ManyToOne(targetEntity="TwBundle\Entity\Ritme",cascade={"persist"})
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $ritme;
+
+    /**
+     * @var Huisdieren
+     * @ORM\ManyToOne(targetEntity="TwBundle\Entity\Huisdieren",cascade={"persist"})
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $huisdieren;
+
+    /**
+     * @var Roken
+     * @ORM\ManyToOne(targetEntity="TwBundle\Entity\Roken",cascade={"persist"})
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $roken;
+
+    /**
+     * @var Softdrugs
+     * @ORM\ManyToOne(targetEntity="TwBundle\Entity\Softdrugs",cascade={"persist"})
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $softdrugs;
+
+    /**
+     * @var Traplopen
+     * @ORM\ManyToOne(targetEntity="TwBundle\Entity\Traplopen",cascade={"persist"})
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $traplopen;
+
+
+    /**
+     * @return Dagbesteding
+     */
+    public function getDagbesteding(): ?Dagbesteding
+    {
+        return $this->dagbesteding;
+    }
+
+    /**
+     * @param Dagbesteding $dagbesteding
+     * @return Klant
+     */
+    public function setDagbesteding(Dagbesteding $dagbesteding): Klant
+    {
+        $this->dagbesteding = $dagbesteding;
+        return $this;
+    }
+
+    /**
+     * @return Ritme
+     */
+    public function getRitme(): ?Ritme
+    {
+        return $this->ritme;
+    }
+
+    /**
+     * @param Ritme $ritme
+     * @return Klant
+     */
+    public function setRitme(Ritme $ritme): ?Klant
+    {
+        $this->ritme = $ritme;
+        return $this;
+    }
+
+    /**
+     * @return Huisdieren
+     */
+    public function getHuisdieren(): ?Huisdieren
+    {
+        return $this->huisdieren;
+    }
+
+    /**
+     * @param Huisdieren $huisdieren
+     * @return Klant
+     */
+    public function setHuisdieren(Huisdieren $huisdieren): Klant
+    {
+        $this->huisdieren = $huisdieren;
+        return $this;
+    }
+
+    /**
+     * @return Roken
+     */
+    public function getRoken(): ?Roken
+    {
+        return $this->roken;
+    }
+
+    /**
+     * @param Roken $roken
+     * @return Klant
+     */
+    public function setRoken(Roken $roken): Klant
+    {
+        $this->roken = $roken;
+        return $this;
+    }
+
+    /**
+     * @return Softdrugs
+     */
+    public function getSoftdrugs(): ?Softdrugs
+    {
+        return $this->softdrugs;
+    }
+
+    /**
+     * @param Softdrugs $softdrugs
+     * @return Klant
+     */
+    public function setSoftdrugs(Softdrugs $softdrugs): Klant
+    {
+        $this->softdrugs = $softdrugs;
+        return $this;
+    }
+
+    /**
+     * @return Traplopen
+     */
+    public function getTraplopen(): ?Traplopen
+    {
+        return $this->traplopen;
+    }
+
+    /**
+     * @param Traplopen $traplopen
+     * @return Klant
+     */
+    public function setTraplopen(Traplopen $traplopen): Klant
+    {
+        $this->traplopen = $traplopen;
+        return $this;
+    }
 
 
     public function __construct()
@@ -280,6 +437,43 @@ abstract class Deelnemer  implements KlantRelationInterface
     {
         $this->ambulantOndersteuner = $ambulantOndersteuner;
     }
+
+    /**
+     * @return Inkomen
+     */
+    public function getInkomen(): ?Inkomen
+    {
+        return $this->inkomen;
+    }
+
+    /**
+     * @param Inkomen $inkomen
+     * @return Deelnemer
+     */
+    public function setInkomen(Inkomen $inkomen): Deelnemer
+    {
+        $this->inkomen = $inkomen;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getBegeleider(): ?string
+    {
+        return $this->begeleider;
+    }
+
+    /**
+     * @param string $begeleider
+     * @return Klant
+     */
+    public function setBegeleider(string $begeleider): Klant
+    {
+        $this->begeleider = $begeleider;
+        return $this;
+    }
+
 
     public abstract function getHuurovereenkomsten();
 

@@ -9,7 +9,10 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\PersistentCollection;
 use Gedmo\Mapping\Annotation as Gedmo;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Validator\Context\ExecutionContextInterface;
 use TwBundle\Entity\Project;
+
 
 /**
  * @ORM\Entity
@@ -93,7 +96,6 @@ class Klant extends Deelnemer
      */
     protected $projecten;
 
-
     /**
      * @var Zrm
      *
@@ -102,13 +104,29 @@ class Klant extends Deelnemer
     private $zrm;
 
 
+    /**
+     * @var Regio
+     * @ORM\ManyToOne(targetEntity="TwBundle\Entity\Regio",cascade={"persist"})
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $bindingRegio;
+
+
+    /**
+     * @var MoScreening
+     * @ORM\ManyToOne(targetEntity="TwBundle\Entity\MoScreening",cascade={"persist"})
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $moScreening;
+
+
+
 
     public function __construct(AppKlant $klant = null)
     {
         if(null !== $klant){
             $this->appKlant = $klant;
         }
-
         parent::__construct();
 
         $this->huurverzoeken = new ArrayCollection();
@@ -193,6 +211,11 @@ class Klant extends Deelnemer
         return $this;
     }
 
+
+    public function getAutomatischeIncasso()
+    {
+        return $this->automatischeIncasso;
+    }
     public function isAutomatischeIncasso()
     {
         return $this->automatischeIncasso;
@@ -314,4 +337,57 @@ class Klant extends Deelnemer
         $this->zrm = $zrm;
     }
 
+    /**
+     * @return Regio
+     */
+    public function getBindingRegio(): ?Regio
+    {
+        return $this->bindingRegio;
+    }
+
+    /**
+     * @param Regio $bindingRegio
+     * @return Klant
+     */
+    public function setBindingRegio(Regio $bindingRegio): Klant
+    {
+        $this->bindingRegio = $bindingRegio;
+        return $this;
+    }
+
+
+    /**
+     * @return MoScreening
+     */
+    public function getMoScreening(): ?MoScreening
+    {
+        return $this->moScreening;
+    }
+
+    /**
+     * @param MoScreening $moScreening
+     * @return Klant
+     */
+    public function setMoScreening(MoScreening $moScreening): Klant
+    {
+        $this->moScreening = $moScreening;
+        return $this;
+    }
+
+
+
+
+
+    /**
+     * @Assert\Callback
+     */
+    public function validate(ExecutionContextInterface $context, $payload)
+    {
+        if ((!$this->moScreening || $this->moScreening->getLabel() =="Niet gescreend") && !$this->zrm->getJustitie()) {
+            $context->buildViolation('Zrm is verplicht wanneer er geen MO screening is geweest. Maak de Zrm of pas de screening aan.')
+                ->atPath('moScreening')
+                ->addViolation();
+
+        }
+    }
 }

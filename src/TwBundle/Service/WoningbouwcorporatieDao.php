@@ -3,7 +3,7 @@
 namespace TwBundle\Service;
 
 use AppBundle\Service\AbstractDao;
-use TwBundle\Entity\Woningbouwcorporatie;
+use TwBundle\Entity\Pandeigenaar;
 
 class WoningbouwcorporatieDao extends AbstractDao implements WoningbouwcorporatieDaoInterface
 {
@@ -17,21 +17,21 @@ class WoningbouwcorporatieDao extends AbstractDao implements Woningbouwcorporati
         ],
     ];
 
-    protected $class = Woningbouwcorporatie::class;
+    protected $class = Pandeigenaar::class;
 
     protected $alias = 'woningbouwcorporatie';
 
-    public function create(Woningbouwcorporatie $woningbouwcorporatie)
+    public function create(Pandeigenaar $woningbouwcorporatie)
     {
         $this->doCreate($woningbouwcorporatie);
     }
 
-    public function update(Woningbouwcorporatie $woningbouwcorporatie)
+    public function update(Pandeigenaar $woningbouwcorporatie)
     {
         $this->doUpdate($woningbouwcorporatie);
     }
 
-    public function delete(Woningbouwcorporatie $woningbouwcorporatie)
+    public function delete(Pandeigenaar $woningbouwcorporatie)
     {
         $this->doDelete($woningbouwcorporatie);
     }

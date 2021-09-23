@@ -16,5 +16,7 @@
         {{ html.link('hier', path('app_klanten_view', {'id': entity.appKlant.id})) }}
         om naar het basisdossier van deze klant te gaan.
     </p>
-    {{ form(form) }}
+    {% include('@Tw/klanten/_form.html.twig') with {'klantForm': form } %}
+{#    {{ block('klantForm') }}#}
+
 {% endblock %}

@@ -32,20 +32,26 @@ class Verhuurder extends Deelnemer
     private $huuraanbiedingen;
 
     /**
-     * @var Woningbouwcorporatie
      *
-     * @ORM\ManyToOne(targetEntity="Woningbouwcorporatie", inversedBy="verhuurders")
+     */
+
+    /**
+     * @var Pandeigenaar
+     *
+     * @ORM\ManyToOne(targetEntity="Pandeigenaar", inversedBy="verhuurders")
      * @Gedmo\Versioned
      */
-    private $woningbouwcorporatie;
+    private $pandeigenaar;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="woningbouwcorporatie_toelichting", nullable=true)
+     * @ORM\Column(name="pandeigenaar_toelichting", nullable=true)
      * @Gedmo\Versioned
      */
-    private $woningbouwcorporatieToelichting;
+    private $pandeigenaarToelichting;
+
+
 
     /**
      * "Kleine schuld, grote winst".
@@ -65,6 +71,25 @@ class Verhuurder extends Deelnemer
      * @Gedmo\Versioned
      */
     private $project;
+
+    /**
+     * @var boolean
+     * @ORM\Column(type="boolean",nullable=true)
+     */
+    private $kwijtschelding;
+
+    /**
+     * @var integer
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $verhuurprijs;
+
+    /** @var boolean
+     * @ORM\Column(type="boolean",nullable=true)
+     */
+    private $huurtoeslag;
+
+
 
     public function __construct(AppKlant $appKlant = null)
     {
@@ -143,26 +168,26 @@ class Verhuurder extends Deelnemer
         return $huurovereenkomsten;
     }
 
-    public function getWoningbouwcorporatie()
+    public function getPandeigenaar()
     {
-        return $this->woningbouwcorporatie;
+        return $this->pandeigenaar;
     }
 
-    public function setWoningbouwcorporatie(Woningbouwcorporatie $woningbouwcorporatie)
+    public function setPandeigenaar(Pandeigenaar $pandeigenaar)
     {
-        $this->woningbouwcorporatie = $woningbouwcorporatie;
+        $this->pandeigenaar = $pandeigenaar;
 
         return $this;
     }
 
-    public function getWoningbouwcorporatieToelichting()
+    public function getPandeigenaarToelichting()
     {
-        return $this->woningbouwcorporatieToelichting;
+        return $this->pandeigenaarToelichting;
     }
 
-    public function setWoningbouwcorporatieToelichting($woningbouwcorporatieToelichting)
+    public function setPandeigenaarToelichting($pandeigenaarToelichting)
     {
-        $this->woningbouwcorporatieToelichting = $woningbouwcorporatieToelichting;
+        $this->pandeigenaarToelichting = $pandeigenaarToelichting;
 
         return $this;
     }
@@ -208,6 +233,61 @@ class Verhuurder extends Deelnemer
         $this->project = $project;
         return $this;
     }
+
+    /**
+     * @return bool
+     */
+    public function isKwijtschelding(): bool
+    {
+        return $this->kwijtschelding;
+    }
+
+    /**
+     * @param bool $kwijtschelding
+     * @return Verhuurder
+     */
+    public function setKwijtschelding(bool $kwijtschelding): Verhuurder
+    {
+        $this->kwijtschelding = $kwijtschelding;
+        return $this;
+    }
+
+    /**
+     * @return int
+     */
+    public function getVerhuurprijs(): ?int
+    {
+        return $this->verhuurprijs;
+    }
+
+    /**
+     * @param int $verhuurprijs
+     * @return Verhuurder
+     */
+    public function setVerhuurprijs(int $verhuurprijs): Verhuurder
+    {
+        $this->verhuurprijs = $verhuurprijs;
+        return $this;
+    }
+
+    /**
+     * @return bool|null
+     */
+    public function isHuurtoeslag(): ?bool
+    {
+        return $this->huurtoeslag;
+    }
+
+    /**
+     * @param bool|null $huurtoeslag
+     * @return Verhuurder
+     */
+    public function setHuurtoeslag(?bool $huurtoeslag): Verhuurder
+    {
+        $this->huurtoeslag = $huurtoeslag;
+        return $this;
+    }
+
 
 
 }

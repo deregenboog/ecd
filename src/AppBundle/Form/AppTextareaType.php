@@ -16,7 +16,7 @@ class AppTextareaType extends AbstractType
         $resolver->setDefaults([
             'attr' => [
                 'cols' => 50,
-                'rows' => 20,
+                'rows' => 8,
             ],
         ]);
     }

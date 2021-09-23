@@ -119,3 +119,8 @@ select[readonly]{
     pointer-events: none;
     color: #828282; // If you also want the disabled input color.
 }
+
+.is-autoFilled
+{
+    box-shadow: inset 0px 0px 1px 1px rgba(255,194,100,0.69);
+}

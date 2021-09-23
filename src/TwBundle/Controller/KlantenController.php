@@ -9,9 +9,11 @@ use AppBundle\Form\ConfirmationType;
 use AppBundle\Form\KlantFilterType as AppKlantFilterType;
 
 use TwBundle\Entity\Klant;
+use TwBundle\Exception\TwException;
 use TwBundle\Form\HuurderCloseType;
 use TwBundle\Form\KlantFilterType;
 use TwBundle\Form\HuurderSelectType;
+use TwBundle\Form\KlantRawType;
 use TwBundle\Form\KlantType;
 use TwBundle\Service\KlantDaoInterface;
 use Symfony\Component\HttpFoundation\Request;

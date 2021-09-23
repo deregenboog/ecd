@@ -4,7 +4,7 @@ namespace TwBundle\Form;
 
 use AppBundle\Form\BaseType;
 use TwBundle\Entity\Huurbudget;
-use TwBundle\Entity\Woningbouwcorporatie;
+use TwBundle\Entity\Pandeigenaar;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
