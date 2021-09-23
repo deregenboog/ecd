@@ -19,14 +19,39 @@
         <thead>
             {{ form_start(filter) }}
                 <tr>
-                    <th colspan="11">
+                    <th colspan="2"></th>
+                    <th>
+                        {{ form_label(filter.dagbesteding) }}
+                        {{ form_widget(filter.dagbesteding) }}
                     </th>
                     <th>
+                        {{ form_label(filter.ritme) }}
+                        {{ form_widget(filter.ritme) }}
+                    </th>
+                    <th>
+                        {{ form_label(filter.huisdieren) }}
+                        {{ form_widget(filter.huisdieren) }}
+                    </th>
+                    <th>
+                        {{ form_label(filter.roken) }}
+                        {{ form_widget(filter.roken) }}
+                    </th>
+                    <th>
+                        {{ form_label(filter.softdrugs) }}
+                        {{ form_widget(filter.softdrugs) }}
+                    </th>
+                    <th>
+                        {{ form_label(filter.traplopen) }}
+                        {{ form_widget(filter.traplopen) }}
+                    </th>
+                    <th>
+                        {{ form_label(filter.actief) }}
                         {{ form_widget(filter.actief) }}
                     </th>
                     <th>
                         <span class="pull-right">
                             {{ form_widget(filter.filter) }}
+
                             {{ form_widget(filter.download) }}
                         </span>
                     </th>
@@ -45,87 +70,62 @@
                         {{ form_errors(filter.project) }}
                     </th>
                     <th>
-                        {{ form_widget(filter.wpi) }}
-                        {{ form_errors(filter.wpi) }}
+                        {{ form_widget(filter.gekoppeld) }}
+                        {{ form_errors(filter.gekoppeld) }}
                     </th>
                     <th>
-                        {{ form_widget(filter.appKlant.stadsdeel) }}
-                        {{ form_errors(filter.appKlant.stadsdeel) }}
+                        {{ form_widget(filter.aanmelddatum) }}
+                        {{ form_errors(filter.aanmelddatum) }}
                     </th>
                     <th>
-                        {{ form_widget(filter.automatischeIncasso) }}
-                        {{ form_errors(filter.automatischeIncasso) }}
+                        {{ form_widget(filter.intakeStatus) }}
+                        {{ form_errors(filter.intakeStatus) }}
                     </th>
                     <th>
-                        {{ form_widget(filter.inschrijvingWoningnet) }}
-                        {{ form_errors(filter.inschrijvingWoningnet) }}
+                        {{ form_widget(filter.appKlant.geslacht) }}
+                        {{ form_errors(filter.appKlant.geslacht) }}
                     </th>
                     <th>
-                        {{ form_widget(filter.waPolis) }}
-                        {{ form_errors(filter.waPolis) }}
+                        {{ form_widget(filter.appKlant.geboortedatum) }}
+                        {{ form_errors(filter.appKlant.geboortedatum) }}
                     </th>
                     <th>
-                        {{ form_widget(filter.medewerker) }}
-                        {{ form_errors(filter.medewerker) }}
+                        {{ form_widget(filter.bindingRegio) }}
+                        {{ form_errors(filter.bindingRegio) }}
                     </th>
-                    <th>
-                        {{ form_widget(filter.aanmelddatum.start) }}
-                        {{ form_errors(filter.aanmelddatum.start) }}
-                        {{ form_widget(filter.aanmelddatum.end) }}
-                        {{ form_errors(filter.aanmelddatum.end) }}
-                    </th>
-                    <th>
-                        {{ form_widget(filter.afsluitdatum.start) }}
-                        {{ form_errors(filter.afsluitdatum.start) }}
-                        {{ form_widget(filter.afsluitdatum.end) }}
-                        {{ form_errors(filter.afsluitdatum.end) }}
-                    </th>
-                    <th>
-                    </th>
-                    <th>
-                        {{ form_widget(filter.ambulantOndersteuner) }}
-                        {{ form_errors(filter.ambulantOndersteuner) }}
-                    </th>
+                    <th></th>
                 </tr>
-            {{ form_end(filter) }}
+            {{ form_end(filter,{'render_rest':false}) }}
             <tr>
                 <th>
                     {{ knp_pagination_sortable(pagination, '#', 'klant.id') }}
                 </th>
                 <th>
-                    {{ knp_pagination_sortable(pagination, 'Klant', 'klant.achternaam') }}
+                    {{ knp_pagination_sortable(pagination, 'Klant', 'klant.appKlant.achternaam') }}
                 </th>
                 <th>
                     Project(en)
                 </th>
                 <th>
-                    {{ knp_pagination_sortable(pagination, 'WPI', 'klant.wpi') }}
-                </th>
-                <th>
-                    {{ knp_pagination_sortable(pagination, 'Stadsdeel', 'werkgebied.naam') }}
-                </th>
-                <th>
-                    {{ knp_pagination_sortable(pagination, 'Automatische incasso', 'klant.automatischeIncasso') }}
-                </th>
-                <th>
-                    {{ knp_pagination_sortable(pagination, 'Inschrijving Woningnet', 'klant.inschrijvingWoningnet') }}
-                </th>
-                <th>
-                    {{ knp_pagination_sortable(pagination, 'WA-polis', 'klant.waPolis') }}
-                </th>
-                <th>
-                    {{ knp_pagination_sortable(pagination, 'Medewerker', 'medewerker.achternaam') }}
+                    Gekoppeld
                 </th>
                 <th>
                     {{ knp_pagination_sortable(pagination, 'Aanmelddatum', 'klant.aanmelddatum') }}
                 </th>
                 <th>
-                    {{ knp_pagination_sortable(pagination, 'Afsluitdatum dossier', 'klant.afsluitdatum') }}
+                    {{ knp_pagination_sortable(pagination, 'Intake status', 'klant.intakeStatus') }}
+
+                </th>
+                <th>
+                    {{ knp_pagination_sortable(pagination, 'Geslacht', 'klant.appKlant.geslacht') }}
+                </th>
+                <th>
+                    {{ knp_pagination_sortable(pagination, 'Geboortedatum', 'klant.appKlant.geboortedatum') }}
+                </th>
+                <th>
+                    {{ knp_pagination_sortable(pagination, 'Binding', 'klant.bindingRegio') }}
                 </th>
                 <th></th>
-                <th>
-                    {{ knp_pagination_sortable(pagination, 'Ambulant ondersteuner', 'ambulantOndersteuner.achternaam') }}
-                </th>
             </tr>
         </thead>
         <tbody>
@@ -143,39 +143,26 @@
                         {% endfor %}
                     </td>
                     <td>
-                        {{ klant.wpi ? 'Ja' : 'Nee' }}
+                        {{ klant.isGekoppeld ? 'Ja' : 'Nee' }}
                     </td>
                     <td>
-                        {{ klant.appKlant.werkgebied }}
+                        {{ klant.aanmelddatum|date('d-m-Y') }}
                     </td>
                     <td>
-                        {{ klant.automatischeIncasso ? 'Ja' : 'Nee' }}
+                        {{ klant.intakeStatus }}
                     </td>
                     <td>
-                        {{ klant.inschrijvingWoningnet ? 'Ja' : 'Nee' }}
+                        {{ klant.appKlant.geslacht }}
                     </td>
                     <td>
-                        {{ klant.waPolis ? 'Ja' : 'Nee' }}
+                        {{ klant.appKlant.geboortedatum|date('d-m-Y') }}
                     </td>
-                    <td>
-                        {{ klant.medewerker.naam }}
-                    </td>
-                    <td>
-                        {{ klant.aanmelddatum ? klant.aanmelddatum|date('d-m-Y') }}
-                    </td>
-                    <td>
-                        {{ klant.afsluitdatum ? klant.afsluitdatum|date('d-m-Y') }}
-                        {{ klant.afsluiting ? '('~klant.afsluiting~')' }}
-                    </td>
+                    <td>{{ klant.bindingRegio }}</td>
                     <td>
                         {{ html.editLink(path('tw_klanten_edit', {id: klant.id})) }}
                         {% if klant.deletable %}
                             {{ html.deleteLink(path('tw_klanten_delete', {id: klant.id})) }}
                         {% endif %}
-                    </td>
-
-                    <td>
-                        {{ klant.ambulantOndersteuner ? klant.ambulantOndersteuner.naam : '' }}
                     </td>
                 </tr>
             {% endfor %}

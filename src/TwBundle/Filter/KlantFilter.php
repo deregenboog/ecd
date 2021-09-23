@@ -6,7 +6,16 @@ use AppBundle\Entity\Medewerker;
 use AppBundle\Filter\FilterInterface;
 use AppBundle\Filter\KlantFilter as AppKlantFilter;
 use Doctrine\ORM\QueryBuilder;
+use TwBundle\Entity\Dagbesteding;
+use TwBundle\Entity\InschrijvingWoningnet;
+use TwBundle\Entity\Intake;
+use TwBundle\Entity\IntakeStatus;
 use TwBundle\Entity\Project;
+use TwBundle\Entity\Regio;
+use TwBundle\Entity\Ritme;
+use TwBundle\Entity\Roken;
+use TwBundle\Entity\Softdrugs;
+use TwBundle\Entity\Traplopen;
 
 class KlantFilter implements FilterInterface
 {
@@ -15,30 +24,31 @@ class KlantFilter implements FilterInterface
      */
     public $id;
 
+//    /**
+//     * @var int
+//     */
+//    public $automatischeIncasso;
+//
     /**
-     * @var int
-     */
-    public $automatischeIncasso;
-
-    /**
-     * @var int
+     * @var InschrijvingWoningnet
      */
     public $inschrijvingWoningnet;
 
-    /**
-     * @var int
-     */
-    public $waPolis;
+//
+//    /**
+//     * @var int
+//     */
+//    public $waPolis;
 
     /**
      * @var \DateTime
      */
     public $aanmelddatum;
 
-    /**
-     * @var \DateTime
-     */
-    public $afsluitdatum;
+//    /**
+//     * @var \DateTime
+//     */
+//    public $afsluitdatum;
 
     /**
      * @var bool
@@ -50,25 +60,71 @@ class KlantFilter implements FilterInterface
      */
     public $appKlant;
 
-    /**
-     * @var bool
-     */
-    public $wpi;
+//    /**
+//     * @var bool
+//     */
+//    public $wpi;
 
     /**
      * @var Medewerker
      */
     public $medewerker;
+//
+//    /**
+//     * @var Medewerker
+//     */
+//    public $ambulantOndersteuner;
 
     /**
-     * @var Medewerker
+     * @var IntakeStatus
      */
-    public $ambulantOndersteuner;
+    public $intakeStatus;
 
     /**
      * @var Project
      */
     public $project;
+
+    /**
+     * @var bool
+     */
+    public $gekoppeld;
+
+    /**
+     * @var Regio
+     */
+    public $bindingRegio;
+
+    /**
+     * @var Dagbesteding
+     */
+    public $dagbesteding;
+
+    /**
+     * @var Ritme
+     */
+    public $ritme;
+
+    /**
+     * @var Huisdieren
+     *
+     */
+    public $huisdieren;
+
+    /**
+     * @var Roken
+     */
+    public $roken;
+
+    /**
+     * @var Softdrugs
+     */
+    public $softdrugs;
+
+    /**
+     * @var Traplopen
+     */
+    public $traplopen;
 
     public function applyTo(QueryBuilder $builder)
     {
@@ -79,29 +135,32 @@ class KlantFilter implements FilterInterface
             ;
         }
 
-        if (is_int($this->automatischeIncasso)) {
-            if ((bool) $this->automatischeIncasso) {
-                $builder->andWhere('klant.automatischeIncasso = true');
-            } else {
-                $builder->andWhere('klant.automatischeIncasso IS NULL OR klant.automatischeIncasso = false');
-            }
+//        if (is_int($this->automatischeIncasso)) {
+//            if ((bool) $this->automatischeIncasso) {
+//                $builder->andWhere('klant.automatischeIncasso = true');
+//            } else {
+//                $builder->andWhere('klant.automatischeIncasso IS NULL OR klant.automatischeIncasso = false');
+//            }
+//        }
+//
+        if ($this->inschrijvingWoningnet) {
+//            if ((bool) $this->inschrijvingWoningnet) {
+//                $builder->andWhere('klant.inschrijvingWoningnet = true');
+//            } else {
+//                $builder->andWhere('klant.inschrijvingWoningnet IS NULL OR klant.inschrijvingWoningnet = false');
+//            }
+            $builder->andWhere('klant.inschrijvingWoningnet = :inschrijvingWoningnet')
+                ->setParameter("inschrijvingWoningnet",$this->inschrijvingWoningnet)
+                ;
         }
-
-        if (is_int($this->inschrijvingWoningnet)) {
-            if ((bool) $this->inschrijvingWoningnet) {
-                $builder->andWhere('klant.inschrijvingWoningnet = true');
-            } else {
-                $builder->andWhere('klant.inschrijvingWoningnet IS NULL OR klant.inschrijvingWoningnet = false');
-            }
-        }
-
-        if (is_int($this->waPolis)) {
-            if ((bool) $this->waPolis) {
-                $builder->andWhere('klant.waPolis = true');
-            } else {
-                $builder->andWhere('klant.waPolis IS NULL OR klant.waPolis = false');
-            }
-        }
+//
+//        if (is_int($this->waPolis)) {
+//            if ((bool) $this->waPolis) {
+//                $builder->andWhere('klant.waPolis = true');
+//            } else {
+//                $builder->andWhere('klant.waPolis IS NULL OR klant.waPolis = false');
+//            }
+//        }
 
         if ($this->aanmelddatum) {
             if ($this->aanmelddatum->getStart()) {
@@ -118,61 +177,150 @@ class KlantFilter implements FilterInterface
             }
         }
 
-        if ($this->afsluitdatum) {
-            if ($this->afsluitdatum->getStart()) {
-                $builder
-                    ->andWhere('klant.afsluitdatum >= :afsluitdatum_van')
-                    ->setParameter('afsluitdatum_van', $this->afsluitdatum->getStart())
-                ;
+//        if ($this->afsluitdatum) {
+//            if ($this->afsluitdatum->getStart()) {
+//                $builder
+//                    ->andWhere('klant.afsluitdatum >= :afsluitdatum_van')
+//                    ->setParameter('afsluitdatum_van', $this->afsluitdatum->getStart())
+//                ;
+//            }
+//            if ($this->afsluitdatum->getEnd()) {
+//                $builder
+//                    ->andWhere('klant.afsluitdatum <= :afsluitdatum_tot')
+//                    ->setParameter('afsluitdatum_tot', $this->afsluitdatum->getEnd())
+//                ;
+//            }
+//        }
+
+        if(!is_null($this->gekoppeld))
+        {
+            if($this->gekoppeld == false)//alleen ongekoppeld
+            {
+                $builder->leftJoin("klant.huurverzoeken","huurverzoeken")
+//                    ->orWhere('huurverzoeken IS NULL')
+                    ->leftJoin('huurverzoeken.huurovereenkomst',"huurovereenkomst")
+//                    ->andWhere('huurovereenkomst IS NULL')
+                    //->leftJoin("huurverzoeken.huurovereenkomst","huurovereenkomst")
+                    ->andWhere('(huurovereenkomst IS NULL 
+                        OR huurverzoeken IS NULL 
+                        OR
+                        (
+                            huurovereenkomst IS NOT NULL
+                            AND huurovereenkomst.isReservering = true
+                        )
+                    )
+                    ')
+                    ;
             }
-            if ($this->afsluitdatum->getEnd()) {
-                $builder
-                    ->andWhere('klant.afsluitdatum <= :afsluitdatum_tot')
-                    ->setParameter('afsluitdatum_tot', $this->afsluitdatum->getEnd())
-                ;
+            elseif($this->gekoppeld ==true)
+            {
+                $builder->leftJoin("klant.huurverzoeken","huurverzoeken")
+                    ->leftJoin("huurverzoeken.huurovereenkomst","huurovereenkomst")
+                    ->andWhere("huurovereenkomst.id IS NOT NULL
+                        AND (
+                            huurovereenkomst.isReservering = false AND
+                            (huurovereenkomst.afsluitdatum IS NULL AND
+                            huurovereenkomst.startdatum IS NOT NULL)
+                            )
+                    ");
             }
+
+//            ->setParameter("gekoppeld",$this->gekoppeld)
+            ;
         }
 
         if ($this->actief) {
 
             $builder
-                ->andWhere('klant.aanmelddatum <= :today')
+                ->andWhere("klant.aanmelddatum <= :today')
                  ->andWhere('klant.afsluitdatum > :today OR klant.afsluitdatum IS NULL')
-                 ->setParameter('today', new \DateTime('today'))
+                 ->setParameter('today', new \DateTime('today')")
             ;
         }
 
-        if ($this->wpi) {
-            $builder
-                ->andWhere('klant.wpi = :wpi')
-                ->setParameter('wpi', $this->wpi)
-            ;
-        }
+//        if ($this->wpi) {
+//            $builder
+//                ->andWhere('klant.wpi = :wpi')
+//                ->setParameter('wpi', $this->wpi)
+//            ;
+//        }
         if($this->medewerker)
         {
             $builder->andWhere('medewerker = :medewerker')
                 ->setParameter('medewerker',$this->medewerker);
         }
+
+
+        if($this->intakeStatus)
+        {
+            $builder->andWhere('klant.intakeStatus = :intakeStatus')
+                ->setParameter('intakeStatus',$this->intakeStatus)
+                ;
+        }
+
         if($this->project)
         {
             $builder->innerJoin('klant.projecten', 'project')
                 ->andWhere('project.id = :project')
                 ->setParameter("project",$this->project);
         }
-        if($this->ambulantOndersteuner)
-        {
-
-            $builder
-//                ->leftJoin('klant.ambulantOndersteuner','ambulantOndersteuner')
-//                ->andWhere('ambulantOndersteuner IS NULL')
-                ->andWhere('ambulantOndersteuner = :ambulantOndersteuner')
-
-                ->setParameter('ambulantOndersteuner',$this->ambulantOndersteuner);
-        }
+//        if($this->ambulantOndersteuner)
+//        {
+//
+//            $builder
+////                ->leftJoin('klant.ambulantOndersteuner','ambulantOndersteuner')
+////                ->andWhere('ambulantOndersteuner IS NULL')
+//                ->andWhere('ambulantOndersteuner = :ambulantOndersteuner')
+//
+//                ->setParameter('ambulantOndersteuner',$this->ambulantOndersteuner);
+//        }
 
 
         if ($this->appKlant) {
             $this->appKlant->applyTo($builder,'appKlant');
         }
+
+        if($this->dagbesteding)
+        {
+            $builder->andWhere('klant.dagbesteding = :dagbesteding')
+                ->setParameter("dagbesteding",$this->dagbesteding)
+            ;
+        }
+
+        if($this->ritme)
+        {
+            $builder->andWhere('klant.ritme = :ritme')
+                ->setParameter("ritme",$this->ritme)
+            ;
+        }
+
+        if($this->huisdieren)
+        {
+            $builder->andWhere('klant.huisdieren = :huisdieren')
+                ->setParameter("huisdieren",$this->huisdieren)
+            ;
+        }
+
+        if($this->roken)
+        {
+            $builder->andWhere('klant.roken = :roken')
+                ->setParameter("roken",$this->roken)
+            ;
+        }
+
+        if($this->softdrugs)
+        {
+            $builder->andWhere('klant.softdrugs = :softdrugs')
+                ->setParameter("softdrugs",$this->softdrugs)
+            ;
+        }
+
+        if($this->traplopen)
+        {
+            $builder->andWhere('klant.traplopen = :traplopen')
+                ->setParameter("traplopen",$this->traplopen)
+            ;
+        }
+
     }
 }

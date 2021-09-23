@@ -9,7 +9,7 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class WoningbouwcorporatieType extends AbstractType
+class PandeigenaarType extends AbstractType
 {
     /**
      * {@inheritdoc}
@@ -18,7 +18,9 @@ class WoningbouwcorporatieType extends AbstractType
     {
         $builder
             ->add('naam')
+            ->add('pandeigenaarType')
             ->add('actief')
+
             ->add('submit', SubmitType::class, ['label' => 'Opslaan'])
         ;
     }

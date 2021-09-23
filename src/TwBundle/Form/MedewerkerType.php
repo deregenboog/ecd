@@ -21,6 +21,7 @@ class MedewerkerType extends AbstractType
                     ->orderBy('medewerker.voornaam')
                 ;
             },
+
         ]);
     }
 

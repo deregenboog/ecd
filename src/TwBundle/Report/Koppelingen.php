@@ -36,7 +36,7 @@ class Koppelingen extends AbstractReport
         //$this->tables['Koppelingen per project'] = $this->koppelingenPerProjectData;
         $this->tables['Koppelingen per vorm'] = $this->dao->countByVorm($this->startDate, $this->endDate);
         $this->tables['Koppelingen per Vorm van overeenkomst'] = $this->dao->countByVormvanovereenkomst($this->startDate, $this->endDate);
-        $this->tables['Koppelingen per woningbouwcorporatie'] = $this->dao->countByWoningbouwcorporatie($this->startDate, $this->endDate);
+        $this->tables['Koppelingen per pandeigenaar'] = $this->dao->countByPandeigenaar($this->startDate, $this->endDate);
         $this->tables['Koppelingen per afsluitreden'] = $this->dao->countByAfsluitreden($this->startDate, $this->endDate);
         $this->tables['Koppelingen per stadsdeel'] = $this->dao->countByStadsdeel($this->startDate, $this->endDate);
         $this->tables['Koppelingen per woonplaats'] = $this->dao->countByPlaats($this->startDate, $this->endDate);

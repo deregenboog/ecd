@@ -12,19 +12,23 @@
 {% block content %}
     <h1>{{ title }}</h1>
     <p>
-        {{ html.addLink(path('tw_woningbouwcorporaties_add')) }}
-        {{ html.link('Pandeigenaar toevoegen', path('tw_woningbouwcorporaties_add')) }}
+        {{ html.addLink(path('tw_pandeigenaren_add')) }}
+        {{ html.link('Pandeigenaar toevoegen', path('tw_pandeigenaren_add')) }}
     </p>
     <table class="table table-hover">
         <tr>
             <th>
-                {{ knp_pagination_sortable(pagination, '#', 'woningbouwcorporatie.id') }}
+                {{ knp_pagination_sortable(pagination, '#', 'pandeigenaar.id') }}
             </th>
             <th>
-                {{ knp_pagination_sortable(pagination, 'Naam', 'woningbouwcorporatie.naam') }}
+                {{ knp_pagination_sortable(pagination, 'Naam', 'pandeigenaar.naam') }}
             </th>
             <th>
-                {{ knp_pagination_sortable(pagination, 'Actief', 'woningbouwcorporatie.actief') }}
+{#                {{ knp_pagination_sortable(pagination, 'Type', 'pandeigenaar.pandeigenaarType.naam') }}#}
+                Type
+            </th>
+            <th>
+                {{ knp_pagination_sortable(pagination, 'Actief', 'pandeigenaar.actief') }}
             </th>
             <th>
             </th>
@@ -38,12 +42,15 @@
                     {{ entity }}
                 </td>
                 <td>
+                    {{ entity.pandeigenaarType }}
+                </td>
+                <td>
                     {{ entity.actief ? 'ja' : 'nee' }}
                 </td>
                 <td>
-                    {{ html.editLink(path('tw_woningbouwcorporaties_edit', {'id': entity.id})) }}
+                    {{ html.editLink(path('tw_pandeigenaren_edit', {'id': entity.id})) }}
                     {% if entity.deletable %}
-                        {{ html.deleteLink(path('tw_woningbouwcorporaties_delete', {'id': entity.id})) }}
+                        {{ html.deleteLink(path('tw_pandeigenaren_delete', {'id': entity.id})) }}
                     {% endif %}
                 </td>
             </tr>

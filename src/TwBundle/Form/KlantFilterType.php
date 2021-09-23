@@ -9,7 +9,17 @@ use AppBundle\Form\FilterType;
 use AppBundle\Form\KlantFilterType as AppKlantFilterType;
 use AppBundle\Form\StadsdeelSelectType;
 use Doctrine\ORM\EntityRepository;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\Form\Extension\Core\Type\ResetType;
+use TwBundle\Entity\Dagbesteding;
+use TwBundle\Entity\Huisdieren;
+use TwBundle\Entity\IntakeStatus;
 use TwBundle\Entity\Klant;
+use TwBundle\Entity\Regio;
+use TwBundle\Entity\Ritme;
+use TwBundle\Entity\Roken;
+use TwBundle\Entity\Softdrugs;
+use TwBundle\Entity\Traplopen;
 use TwBundle\Entity\Verhuurder;
 use PfoBundle\Entity\Client;
 use Symfony\Component\Form\AbstractType;
@@ -35,41 +45,44 @@ class KlantFilterType extends AbstractType
             StadsdeelSelectType::$showOnlyZichtbaar = 0;
         }
 
-        if (in_array('automatischeIncasso', $options['enabled_filters'])) {
-            $builder->add('automatischeIncasso', ChoiceType::class, [
-                'required' => false,
-                'choices' => [
-                    'Ja' => 1,
-                    'Nee' => 0,
-                ],
-            ]);
-        }
 
-        if (in_array('inschrijvingWoningnet', $options['enabled_filters'])) {
-            $builder->add('inschrijvingWoningnet', ChoiceType::class, [
-                'required' => false,
-                'choices' => [
-                    'Ja' => 1,
-                    'Nee' => 0,
-                ],
-            ]);
-        }
 
-        if (in_array('waPolis', $options['enabled_filters'])) {
-            $builder->add('waPolis', ChoiceType::class, [
-                'required' => false,
-                'choices' => [
-                    'Ja' => 1,
-                    'Nee' => 0,
-                ],
-            ]);
-        }
 
-        if (in_array('wpi', $options['enabled_filters'])) {
-            $builder->add('wpi', CheckboxType::class, [
-                'required' => false,
-            ]);
-        }
+//        if (in_array('automatischeIncasso', $options['enabled_filters'])) {
+//            $builder->add('automatischeIncasso', ChoiceType::class, [
+//                'required' => false,
+//                'choices' => [
+//                    'Ja' => 1,
+//                    'Nee' => 0,
+//                ],
+//            ]);
+//        }
+
+//        if (in_array('inschrijvingWoningnet', $options['enabled_filters'])) {
+//            $builder->add('inschrijvingWoningnet', ChoiceType::class, [
+//                'required' => false,
+//                'choices' => [
+//                    'Ja' => 1,
+//                    'Nee' => 0,
+//                ],
+//            ]);
+//        }
+//
+//        if (in_array('waPolis', $options['enabled_filters'])) {
+//            $builder->add('waPolis', ChoiceType::class, [
+//                'required' => false,
+//                'choices' => [
+//                    'Ja' => 1,
+//                    'Nee' => 0,
+//                ],
+//            ]);
+//        }
+//
+//        if (in_array('wpi', $options['enabled_filters'])) {
+//            $builder->add('wpi', CheckboxType::class, [
+//                'required' => false,
+//            ]);
+//        }
         if (in_array('medewerker', $options['enabled_filters'])) {
             $builder->add('medewerker', \TwBundle\Form\MedewerkerType::class, [
                 'required' => false,
@@ -83,9 +96,21 @@ class KlantFilterType extends AbstractType
             ]);
         }
 
-        if (in_array('afsluitdatum', $options['enabled_filters'])) {
-            $builder->add('afsluitdatum', AppDateRangeType::class, [
+//        if (in_array('afsluitdatum', $options['enabled_filters'])) {
+//            $builder->add('afsluitdatum', AppDateRangeType::class, [
+//                'required' => false,
+//            ]);
+//        }
+
+        if (in_array('gekoppeld', $options['enabled_filters'])) {
+            $builder->add('gekoppeld', ChoiceType::class, [
+                'label' => 'Gekoppeld?',
+                'choices'=>[
+                    'Gekoppeld'=>true,
+                    'Niet gekoppeld'=>false,
+                    ],
                 'required' => false,
+                'data' => false,
             ]);
         }
 
@@ -96,16 +121,6 @@ class KlantFilterType extends AbstractType
                 'data' => false,
             ]);
         }
-        if (in_array('ambulantOndersteuner', $options['enabled_filters'])) {
-            $builder->add('ambulantOndersteuner', MedewerkerType::class, [
-                'required' => false,
-                'query_builder' => function (EntityRepository $repository) {
-                    return $repository->createQueryBuilder('medewerker')
-                        ->innerJoin(Klant::class, 'klant', 'WITH', 'klant.ambulantOndersteuner = medewerker')
-                        ->orderBy('medewerker.voornaam');
-                },
-            ]);
-        }
         if (in_array('project', $options['enabled_filters'])) {
             $builder->add('project', ProjectSelectFilterType::class, [
                 'label' => 'Project',
@@ -113,9 +128,54 @@ class KlantFilterType extends AbstractType
                 'data' => false,
             ]);
         }
+        if (in_array('bindingRegio', $options['enabled_filters'])) {
+            $builder->add('bindingRegio', EntityType::class, [
+                'label' => 'Binding',
+                'class'=>Regio::class,
+                'required' => false,
+            ]);
+        }
+
+        if (in_array('intakeStatus', $options['enabled_filters'])) {
+            $builder->add('intakeStatus', EntityType::class, [
+                'required' => false,
+                'class'=>IntakeStatus::class,
+            ]);
+        }
+
+        //extra filtervelden
+        $builder
+            ->add('dagbesteding',EntityType::class,[
+                'required'=>false,
+                'label'=>'Dagbesteding',
+                'class'=>Dagbesteding::class,
+            ])
+            ->add('ritme',EntityType::class,[
+                'required'=>false,
+                'class'=>Ritme::class,
+            ])
+            ->add('huisdieren',EntityType::class,[
+                'required'=>false,
+                'class'=>Huisdieren::class,
+            ])
+            ->add('roken',EntityType::class,[
+                'required'=>false,
+                'class'=>Roken::class,
+            ])
+            ->add('softdrugs',EntityType::class,[
+                'required'=>false,
+                'class'=>Softdrugs::class,
+            ])
+            ->add('traplopen',EntityType::class,[
+                'required'=>false,
+                'class'=>Traplopen::class,
+            ])
+        ;
+
 
         $builder
             ->add('filter', SubmitType::class, ['label' => 'Filteren'])
+//            ->add('reset', ResetType::class, ['label' => 'Leegmaken'])
             ->add('download', SubmitType::class, ['label' => 'Downloaden'])
         ;
     }
@@ -137,17 +197,19 @@ class KlantFilterType extends AbstractType
             'data_class' => KlantFilter::class,
             'data' => new KlantFilter(),
             'enabled_filters' => [
-                'appKlant' => ['id', 'naam', 'stadsdeel'],
-                'automatischeIncasso',
-                'inschrijvingWoningnet',
-                'waPolis',
+                'appKlant' => ['id', 'naam', 'geslacht','geboortedatum'],
+//                'automatischeIncasso',
+//                'inschrijvingWoningnet',
+//                'waPolis',
                 'project',
                 'aanmelddatum',
-                'afsluitdatum',
+                'gekoppeld',
+                'intakeStatus',
                 'actief',
-                'wpi',
-                'medewerker',
-                'ambulantOndersteuner',
+                'bindingRegio',
+//                'wpi',
+//                'medewerker',
+//                'ambulantOndersteuner',
             ],
         ]);
     }

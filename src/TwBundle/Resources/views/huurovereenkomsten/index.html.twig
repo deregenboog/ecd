@@ -80,8 +80,7 @@
                     {{ form_errors(filter.vorm) }}
                 </th>
                 <th>
-                    {{ form_widget(filter.klant.automatischeIncasso) }}
-                    {{ form_errors(filter.klant.automatischeIncasso) }}
+
                 </th>
                 <th>
                     {{ form_widget(filter.isReservering) }}
@@ -92,7 +91,7 @@
                 <th>
                 </th>
             </tr>
-        {{ form_end(filter) }}
+        {{ form_end(filter,{'render_rest':false}) }}
         <tr>
             <th>
                 {{ knp_pagination_sortable(pagination, '#', 'huurovereenkomst.id') }}

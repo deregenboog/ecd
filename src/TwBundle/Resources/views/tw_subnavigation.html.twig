@@ -14,23 +14,25 @@
     {% if is_granted('ROLE_TW_VRIJWILLIGERS') %}
         {{ html.navLink('Vrijwilligers', path('tw_vrijwilligers_index'), isActiveRoute('tw_vrijwilligers_')) }}
     {% endif %}
-    <li role="presentation" class="dropdown {{ isActivePath('tw/admin') ? 'active' }}">
-        <a class="dropdown-toggle active" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
-            Beheer <span class="caret"></span>
-        </a>
-        <ul class="dropdown-menu">
-            {{ html.navLink('Afsluitingen huuraanbiedingen', path('tw_huuraanbodafsluitingen_index'), isActiveRoute('tw_huuraanbiedingafsluitingen_')) }}
-            {{ html.navLink('Afsluitingen klants', path('tw_huurderafsluitingen_index'), isActiveRoute('tw_huurderafsluitingen_')) }}
-            {{ html.navLink('Afsluitingen huurverzoeken', path('tw_huurverzoekafsluitingen_index'), isActiveRoute('tw_huurverzoekafsluitingen_')) }}
-            {{ html.navLink('Afsluitingen koppelingen', path('tw_huurovereenkomstafsluitingen_index'), isActiveRoute('tw_huurovereenkomstafsluitingen_')) }}
-            {{ html.navLink('Afsluitingen verhuurders', path('tw_verhuurderafsluitingen_index'), isActiveRoute('tw_verhuurderafsluitingen_')) }}
-            {{ html.navLink('Coördinatoren', path('tw_coordinatoren_index'), isActiveRoute('tw_coordinatoren_')) }}
-            {{ html.navLink('Woningbouwcorporaties', path('tw_woningbouwcorporaties_index'), isActiveRoute('tw_woningbouwcorporaties_')) }}
-            {{ html.navLink('Projecten', path('tw_projecten_index'), isActiveRoute('tw_projecten_')) }}
-            {{ html.navLink('Afsluitredenen vrijwilligers', path('tw_afsluitredenenvrijwilligers_index'), isActiveRoute('tw_afsluitredenenvrijwilligers_')) }}
-            {{ html.navLink('Trainingen vrijwilligers', path('tw_trainingen_index'), isActiveRoute('tw_trainingen_')) }}
-            {{ html.navLink('Binnen via-opties', path('tw_binnenvia_index'), isActiveRoute('tw_binnenvia_')) }}
-            {{ html.navLink('Vrijwilligers locaties', path('tw_locaties_index'), isActiveRoute('tw_binnenvia_')) }}
-        </ul>
-    </li>
+    {% if is_granted('ROLE_TW_BEHEER') %}
+        <li role="presentation" class="dropdown {{ isActivePath('tw/admin') ? 'active' }}">
+            <a class="dropdown-toggle active" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+                Beheer <span class="caret"></span>
+            </a>
+            <ul class="dropdown-menu">
+                {{ html.navLink('Afsluitingen huuraanbiedingen', path('tw_huuraanbodafsluitingen_index'), isActiveRoute('tw_huuraanbiedingafsluitingen_')) }}
+                {{ html.navLink('Afsluitingen klanten', path('tw_huurderafsluitingen_index'), isActiveRoute('tw_huurderafsluitingen_')) }}
+                {{ html.navLink('Afsluitingen huurverzoeken', path('tw_huurverzoekafsluitingen_index'), isActiveRoute('tw_huurverzoekafsluitingen_')) }}
+                {{ html.navLink('Afsluitingen koppelingen', path('tw_huurovereenkomstafsluitingen_index'), isActiveRoute('tw_huurovereenkomstafsluitingen_')) }}
+                {{ html.navLink('Afsluitingen verhuurders', path('tw_verhuurderafsluitingen_index'), isActiveRoute('tw_verhuurderafsluitingen_')) }}
+                {{ html.navLink('Coördinatoren', path('tw_coordinatoren_index'), isActiveRoute('tw_coordinatoren_')) }}
+                {{ html.navLink('Pandeigenaren', path('tw_pandeigenaren_index'), isActiveRoute('tw_pandeigenaren_')) }}
+                {{ html.navLink('Projecten', path('tw_projecten_index'), isActiveRoute('tw_projecten_')) }}
+                {{ html.navLink('Afsluitredenen vrijwilligers', path('tw_afsluitredenenvrijwilligers_index'), isActiveRoute('tw_afsluitredenenvrijwilligers_')) }}
+                {{ html.navLink('Trainingen vrijwilligers', path('tw_trainingen_index'), isActiveRoute('tw_trainingen_')) }}
+                {{ html.navLink('Binnen via-opties', path('tw_binnenvia_index'), isActiveRoute('tw_binnenvia_')) }}
+                {{ html.navLink('Vrijwilligers locaties', path('tw_locaties_index'), isActiveRoute('tw_binnenvia_')) }}
+            </ul>
+        </li>
+    {% endif %}
 </ul>

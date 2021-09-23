@@ -30,11 +30,11 @@ class HuuraanbodType extends AbstractType
             ])
             ->add('datumToestemmingAangevraagd', AppDateType::class, [
                 'required' => false,
-                'label' => 'Toestemming woningbouwcorporatie aangevraagd',
+                'label' => 'Toestemming pandeigenaar aangevraagd',
             ])
             ->add('datumToestemmingToegekend', AppDateType::class, [
                 'required' => false,
-                'label' => 'Toestemming woningbouwcorporatie toegekend',
+                'label' => 'Toestemming pandeigenaar toegekend',
             ])
         ;
 

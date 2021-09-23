@@ -6,7 +6,7 @@ use AppBundle\Filter\FilterInterface;
 use Knp\Component\Pager\Pagination\PaginationInterface;
 use TwBundle\Entity\Pandeigenaar;
 
-interface WoningbouwcorporatieDaoInterface
+interface PandeigenaarDaoInterface
 {
     /**
      * @param int $page
@@ -23,17 +23,17 @@ interface WoningbouwcorporatieDaoInterface
     public function find($id);
 
     /**
-     * @param Pandeigenaar $woningbouwcorporatie
+     * @param Pandeigenaar $pandeigenaar
      */
-    public function create(Pandeigenaar $woningbouwcorporatie);
+    public function create(Pandeigenaar $pandeigenaar);
 
     /**
-     * @param Pandeigenaar $woningbouwcorporatie
+     * @param Pandeigenaar $pandeigenaar
      */
-    public function update(Pandeigenaar $woningbouwcorporatie);
+    public function update(Pandeigenaar $pandeigenaar);
 
     /**
-     * @param Pandeigenaar $woningbouwcorporatie
+     * @param Pandeigenaar $pandeigenaar
      */
-    public function delete(Pandeigenaar $woningbouwcorporatie);
+    public function delete(Pandeigenaar $pandeigenaar);
 }

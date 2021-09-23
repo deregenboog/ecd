@@ -7,6 +7,7 @@ use AppBundle\Form\AppDateType;
 use AppBundle\Form\BaseType;
 use AppBundle\Form\KlantType as AppKlantType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use TwBundle\Entity\InschrijvingWoningnet;
 use TwBundle\Entity\Klant;
 use TwBundle\Entity\Verslag;
 use AppBundle\Form\ZrmType;
@@ -41,27 +42,16 @@ class KlantType extends AbstractType
             ;
         }
 
-         $builder
-             ->add('begeleider')
-            ->add('aanmelddatum', AppDateType::class, ['required'=>true])
-            ->add('projecten', ProjectSelectType::class,['multiple'=>true,'required'=>true])
-
-
-            ->add('intake',CheckboxType::class,['mapped'=>false,'required'=>false,'value'=>false])
+        $builder->add('medewerker', MedewerkerType::class,['required'=>false])
+                ->add('begeleider')
+                ->add('aanmelddatum', AppDateType::class, ['required'=>true])
+                ->add('projecten', ProjectSelectType::class,['multiple'=>true,'required'=>true])
+                ->add('intakeStatus')
        ;
       $builder
            ->add('moScreening')
             ->add('bindingRegio')
-            ->add('rekeningnummer', null, ['required' => false])
-            ->add('automatischeIncasso', null, ['required' => false])
-            ->add('inschrijvingWoningnet', null, [
-                'required' => false,
-                'label' => 'Inschrijving Woningnet',
-            ])
-            ->add('waPolis', null, [
-                'required' => false,
-                'label' => 'WA-polis',
-            ])
+            ->add('inschrijvingWoningnet')
             ->add('klantmanager')
             ->add('wpi')
             ->add('huurbudget')
@@ -113,6 +103,7 @@ class KlantType extends AbstractType
         }
 
         $builder->add('submit', SubmitType::class, ['label' => 'Opslaan']);
+
     }
 
     /**

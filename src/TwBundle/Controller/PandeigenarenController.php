@@ -6,25 +6,25 @@ use AppBundle\Controller\SymfonyController;
 use AppBundle\Form\ConfirmationType;
 use JMS\DiExtraBundle\Annotation as DI;
 use TwBundle\Entity\Pandeigenaar;
-use TwBundle\Form\WoningbouwcorporatieType;
-use TwBundle\Service\WoningbouwcorporatieDaoInterface;
+use TwBundle\Form\PandeigenaarType;
+use TwBundle\Service\PandeigenaarDaoInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * @Route("/admin/woningbouwcorporaties")
+ * @Route("/admin/pandeigenaren")
  * @Template
  */
-class WoningbouwcorporatiesController extends SymfonyController
+class PandeigenarenController extends SymfonyController
 {
-    public $title = 'Woningbouwcorporaties';
+    public $title = 'Pandeigenaren';
 
     /**
-     * @var WoningbouwcorporatieDaoInterface
+     * @var PandeigenaarDaoInterface
      *
-     * @DI\Inject("TwBundle\Service\WoningbouwcorporatieDao")
+     * @DI\Inject("TwBundle\Service\PandeigenaarDao")
      */
-    private $woningbouwcorporatieDao;
+    private $pandeigenaarDao;
 
     /**
      * @Route("/")
@@ -32,7 +32,7 @@ class WoningbouwcorporatiesController extends SymfonyController
     public function index()
     {
         $page = $this->getRequest()->get('page', 1);
-        $pagination = $this->woningbouwcorporatieDao->findAll($page);
+        $pagination = $this->pandeigenaarDao->findAll($page);
 
         return [
             'pagination' => $pagination,
@@ -44,20 +44,20 @@ class WoningbouwcorporatiesController extends SymfonyController
      */
     public function add()
     {
-        $woningbouwcorporatie = new Pandeigenaar();
+        $pandeigenaar = new Pandeigenaar();
 
-        $form = $this->getForm(WoningbouwcorporatieType::class, $woningbouwcorporatie);
+        $form = $this->getForm(PandeigenaarType::class, $pandeigenaar);
         $form->handleRequest($this->getRequest());
         if ($form->isSubmitted() && $form->isValid()) {
             try {
-                $this->woningbouwcorporatieDao->create($woningbouwcorporatie);
+                $this->pandeigenaarDao->create($pandeigenaar);
                 $this->addFlash('success', 'Pandeigenaar is toegevoegd.');
             } catch (\Exception $e) {
                 $message = $this->container->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
                 $this->addFlash('danger', $message);
             }
 
-            return $this->redirectToRoute('tw_woningbouwcorporaties_index');
+            return $this->redirectToRoute('tw_pandeigenaren_index');
         }
 
         return [
@@ -70,19 +70,19 @@ class WoningbouwcorporatiesController extends SymfonyController
      */
     public function edit($id)
     {
-        $woningbouwcorporatie = $this->woningbouwcorporatieDao->find($id);
+        $pandeigenaar = $this->pandeigenaarDao->find($id);
 
-        $form = $this->getForm(WoningbouwcorporatieType::class, $woningbouwcorporatie);
+        $form = $this->getForm(PandeigenaarType::class, $pandeigenaar);
         $form->handleRequest($this->getRequest());
         if ($form->isSubmitted() && $form->isValid()) {
             try {
-                $this->woningbouwcorporatieDao->update($woningbouwcorporatie);
+                $this->pandeigenaarDao->update($pandeigenaar);
             } catch (\Exception $e) {
                 $message = $this->container->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
                 $this->addFlash('danger', $message);
             }
 
-            return $this->redirectToRoute('tw_woningbouwcorporaties_index');
+            return $this->redirectToRoute('tw_pandeigenaren_index');
         }
 
         return [
@@ -95,14 +95,14 @@ class WoningbouwcorporatiesController extends SymfonyController
      */
     public function delete($id)
     {
-        $woningbouwcorporatie = $this->woningbouwcorporatieDao->find($id);
+        $pandeigenaar = $this->pandeigenaarDao->find($id);
 
         $form = $this->getForm(ConfirmationType::class);
         $form->handleRequest($this->getRequest());
         if ($form->isSubmitted() && $form->isValid()) {
             if ($form->get('yes')->isClicked()) {
                 try {
-                    $this->woningbouwcorporatieDao->delete($woningbouwcorporatie);
+                    $this->pandeigenaarDao->delete($pandeigenaar);
                     $this->addFlash('success', 'Pandeigenaar is verwijderd.');
                 } catch (\Exception $e) {
                     $message = $this->container->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
@@ -110,12 +110,12 @@ class WoningbouwcorporatiesController extends SymfonyController
                 }
             }
 
-            return $this->redirectToRoute('tw_woningbouwcorporaties_index');
+            return $this->redirectToRoute('tw_pandeigenaren_index');
         }
 
         return [
             'form' => $form->createView(),
-            'woningbouwcorporatie' => $woningbouwcorporatie,
+            'pandeigenaar' => $pandeigenaar,
         ];
     }
 }

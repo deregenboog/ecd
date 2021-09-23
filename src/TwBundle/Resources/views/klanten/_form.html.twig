@@ -19,39 +19,42 @@
         [\S\v\s]+,\s(.*),\s(.*)[\s-\s](\d{2}:\d{2})?[\v\s\S]*achternaam: (\S*)\s?(\S*)?\s?(\S*)? +(\S*)\v*Telefoon: (.+)\v*E-mail: (.*)\vGeslacht: (.*)\vLeeftijd: (.*)[\v\S\s]*Land: (.*)[\v\S\s]*woning: (.*)#}
             <a href="#" id="pasteRaw" data-regex="[\S\v\s]+,\s(?<maand>[a-z]*)\s(?<dag>[0-31]*),\s(?<jaar>.*) - (?<tijd>\d{2}:\d{2})?[\v\s\S]*achternaam: (?<voornaam>\S*)\s?(?<tussenvoegsel>.*) (?<achternaam>\S*)[\v|\s]*Telefoon: (?<telefoon>.+)[\v|\s]*E-mail: (?<email>.*)[\v|\s]*Geslacht: (?<geslacht>.*)[\v|\s]*Leeftijd: (.*)[\v\S\s]*Land: (?<land>.*)[\v\S\s]*woning: ?(?<zoekregio>.*)">Plak vanuit email</a>
 
-            <legend>Aanmelding</legend>
+            <legend>Basis</legend>
         </div>
     </div>
     <div class="row">
         <div class="col-xs-6">
-
-            {#{{ form_row(klantForm.appKlant.maatschappelijkWerker) }}#}
+            {{ form_row(klantForm.medewerker) }}
             {{ form_row(klantForm.begeleider) }}
             {{ form_row(klantForm.aanmelddatum) }}
       </div>
         <div class="col-xs-6">
             {{ form_row(klantForm.projecten) }}
-            {{ form_row(klantForm.intake) }}
+            {{ form_row(klantForm.intakeStatus) }}
         </div>
     </fieldset>
     </div>
-    <fieldset name="intake"><legend>Intakedossier</legend>
+    <fieldset name="intake"><legend>Dossier</legend>
         <div class="row">
 
             <div class="col-xs-6">
                 {{ form_row(klantForm.moScreening) }}
                 {{ form_row(klantForm.bindingRegio) }}
-                {{ form_row(klantForm.rekeningnummer) }}
-                {{ form_row(klantForm.automatischeIncasso) }}
-                {{ form_row(klantForm.inschrijvingWoningnet) }}
-                {{ form_row(klantForm.waPolis) }}
-                {{ form_row(klantForm.klantmanager) }}
-                {{ form_row(klantForm.wpi) }}
+{#                {{ form_row(klantForm.rekeningnummer) }}#}
+{#                {{ form_row(klantForm.automatischeIncasso) }}#}
+{#                {{ form_row(klantForm.inschrijvingWoningnet) }}#}
+{#                {{ form_row(klantForm.waPolis) }}#}
+{#                {{ form_row(klantForm.klantmanager) }}#}
+{#                {{ form_row(klantForm.wpi) }}#}
                 {{ form_row(klantForm.huurbudget) }}
-            </div>
-            <div class="col-xs-6">
                 {{ form_row(klantForm.duurThuisloos) }}
                 {{ form_row(klantForm.werk) }}
+                {{ form_row(klantForm.inschrijvingWoningnet) }}
+
+
+            </div>
+            <div class="col-xs-6">
+                {{ form_row(klantForm.inkomen) }}
                 {{ form_row(klantForm.dagbesteding) }}
                 {{ form_row(klantForm.ritme) }}
                 {{ form_row(klantForm.huisdieren) }}
@@ -72,4 +75,4 @@
             {{ form_end(klantForm,{render_rest:false}) }}
 {% endblock %}
 
-{{ html.fieldsetToggle('tweedeFase','klant_tweedeFase',true) }}
+{#{{ html.fieldsetToggle('tweedeFase','klant_tweedeFase',true) }}#}

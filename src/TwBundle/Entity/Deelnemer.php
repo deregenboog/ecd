@@ -5,7 +5,7 @@ namespace TwBundle\Entity;
 use AppBundle\Entity\Klant as AppKlant;
 use AppBundle\Entity\Medewerker;
 use AppBundle\Model\KlantRelationInterface;
-use AppBundle\Model\RequiredMedewerkerTrait;
+use AppBundle\Model\OptionalMedewerkerTrait;
 use AppBundle\Model\TimestampableTrait;
 use AppBundle\Model\UsesKlantTrait;
 use AppBundle\Service\KlantDaoInterface;
@@ -26,7 +26,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
  */
 abstract class Deelnemer  implements KlantRelationInterface
 {
-    use TimestampableTrait, RequiredMedewerkerTrait, UsesKlantTrait;
+    use TimestampableTrait, OptionalMedewerkerTrait, UsesKlantTrait;
 
     /**
      * @var int
