@@ -44,7 +44,7 @@ services:
         arguments:
             - '@doctrine.orm.entity_manager'
 
-    TwBundle\Service\WoningbouwcorporatieDao:
+    TwBundle\Service\PandeigenaarDao:
         parent: app.dao.abstract
 
     TwBundle\Service\ProjectDao:

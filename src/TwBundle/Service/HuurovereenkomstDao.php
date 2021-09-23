@@ -114,13 +114,13 @@ class HuurovereenkomstDao extends AbstractDao implements HuurovereenkomstDaoInte
     }
 
 
-    public function countByWoningbouwcorporatie(\DateTime $startdate, \DateTime $enddate)
+    public function countByPandeigenaar(\DateTime $startdate, \DateTime $enddate)
     {
         $builder = $this->getCountBuilder($startdate, $enddate)
-            ->addSelect('woningbouwcorporatie.naam AS groep')
+            ->addSelect('pandeigenaar.naam AS groep')
             ->innerJoin("{$this->alias}.huuraanbod", 'huuraanbod')
             ->innerJoin('huuraanbod.verhuurder', 'verhuurder')
-            ->leftJoin('verhuurder.woningbouwcorporatie', 'woningbouwcorporatie')
+            ->leftJoin('verhuurder.pandeigenaar', 'pandeigenaar')
             ->andWhere("{$this->alias}.startdatum <= :end")
             ->andWhere("{$this->alias}.einddatum IS NULL OR {$this->alias}.einddatum >= :start")
             ->groupBy('groep')

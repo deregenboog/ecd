@@ -18,10 +18,10 @@ TwBundle\Entity\VerhuurderAfsluiting:
     tw_afsluiting_verhuurder_{1..5}:
         naam: 'Reden <current()> afsluiting verhuurder'
 
-TwBundle\Entity\Woningbouwcorporatie:
-    tw_woningbouwcorporatie_{1..5}:
+TwBundle\Entity\Pandeigenaar:
+    tw_pandeigenaar_{1..5}:
         naam: '<word()>'
-    tw_woningbouwcorporatie_{6..7}:
+    tw_pandeigenaar_{6..7}:
         naam: '<word()>'
         actief: false
 
