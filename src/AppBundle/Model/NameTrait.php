@@ -4,6 +4,9 @@ namespace AppBundle\Model;
 
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Validator\Context\ExecutionContextInterface;
+
 
 trait NameTrait
 {
@@ -97,4 +100,6 @@ trait NameTrait
 
         return $this;
     }
+
+
 }

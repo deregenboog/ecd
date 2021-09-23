@@ -5,7 +5,7 @@ namespace TwBundle\Controller;
 use AppBundle\Controller\SymfonyController;
 use AppBundle\Form\ConfirmationType;
 use JMS\DiExtraBundle\Annotation as DI;
-use TwBundle\Entity\Woningbouwcorporatie;
+use TwBundle\Entity\Pandeigenaar;
 use TwBundle\Form\WoningbouwcorporatieType;
 use TwBundle\Service\WoningbouwcorporatieDaoInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
@@ -44,14 +44,14 @@ class WoningbouwcorporatiesController extends SymfonyController
      */
     public function add()
     {
-        $woningbouwcorporatie = new Woningbouwcorporatie();
+        $woningbouwcorporatie = new Pandeigenaar();
 
         $form = $this->getForm(WoningbouwcorporatieType::class, $woningbouwcorporatie);
         $form->handleRequest($this->getRequest());
         if ($form->isSubmitted() && $form->isValid()) {
             try {
                 $this->woningbouwcorporatieDao->create($woningbouwcorporatie);
-                $this->addFlash('success', 'Woningbouwcorporatie is toegevoegd.');
+                $this->addFlash('success', 'Pandeigenaar is toegevoegd.');
             } catch (\Exception $e) {
                 $message = $this->container->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
                 $this->addFlash('danger', $message);
@@ -103,7 +103,7 @@ class WoningbouwcorporatiesController extends SymfonyController
             if ($form->get('yes')->isClicked()) {
                 try {
                     $this->woningbouwcorporatieDao->delete($woningbouwcorporatie);
-                    $this->addFlash('success', 'Woningbouwcorporatie is verwijderd.');
+                    $this->addFlash('success', 'Pandeigenaar is verwijderd.');
                 } catch (\Exception $e) {
                     $message = $this->container->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
                     $this->addFlash('danger', $message);

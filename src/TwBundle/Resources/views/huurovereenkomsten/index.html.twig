@@ -98,7 +98,7 @@
                 {{ knp_pagination_sortable(pagination, '#', 'huurovereenkomst.id') }}
             </th>
             <th>
-                {{ knp_pagination_sortable(pagination, 'Klant', 'klant.achternaam') }}
+                {{ knp_pagination_sortable(pagination, 'Klant', 'appKlant.achternaam') }}
             </th>
             <th>
                 {{ knp_pagination_sortable(pagination, 'Verhuurder', 'verhuurderKlant.achternaam') }}
@@ -149,7 +149,7 @@
                     {{ huurovereenkomst.id }}
                 </td>
                 <td>
-                    {{ huurovereenkomst.klant.appKlant }}
+                    {{ huurovereenkomst.klant }}
                 </td>
                 <td>
                     {{ huurovereenkomst.verhuurder.appKlant }}

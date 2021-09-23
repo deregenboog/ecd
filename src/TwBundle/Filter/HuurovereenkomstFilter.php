@@ -7,6 +7,7 @@ use AppBundle\Filter\FilterInterface;
 use AppBundle\Filter\KlantFilter;
 use AppBundle\Form\Model\AppDateRangeModel;
 use Doctrine\ORM\QueryBuilder;
+use TwBundle\Entity\Klant;
 use TwBundle\Entity\Project;
 
 class HuurovereenkomstFilter implements FilterInterface
@@ -57,6 +58,10 @@ class HuurovereenkomstFilter implements FilterInterface
     public $opzegbriefVerstuurd;
 
 
+    /**
+     * @var Klant
+     */
+    public $klant;
     /**
      * @var KlantFilter
      */

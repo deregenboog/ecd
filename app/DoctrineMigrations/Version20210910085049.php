@@ -59,6 +59,8 @@ final class Version20210910085049 extends AbstractMigration
         $this->addSql("UPDATE `tw_deelnemers` SET model = 'Klant' WHERE model = 'Huurder'");
         $this->addSql("UPDATE `tw_afsluitingen` SET discr = 'klant' WHERE discr = 'huurder'");
 
+            $this->addSql("UPDATE `zrm_reports` SET request_module = 'TwHuurder' WHERE request_module = 'OdpHuurder'");
+
 
     }
 

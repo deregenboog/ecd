@@ -1,0 +1,75 @@
+{% import '::html.macro.twig' as html %}
+{% block klantForm %}
+{{ form_start(klantForm) }}
+{% if klantForm.appKlant is defined %}
+        <h2>Basisgegevens klant</h2>
+        {# Regex voor ontleden gegevens uit aanmeldFormulier
+        [\S\v\s]+,\s(.*),\s(.*)[\s-\s](\d{2}:\d{2})?[\v\s\S]*achternaam: (\S*)\s?(\S*)?\s?(\S*)? +(\S*)\v*Telefoon: (.+)\v*E-mail: (.*)\vGeslacht: (.*)\vLeeftijd: (.*)[\v\S\s]*Land: (.*)[\v\S\s]*woning: (.*)#}
+        <a href="#" id="pasteRaw" data-regex="[\S\v\s]+,\s(?<maand>[a-z]*)\s(?<dag>[0-31]*),\s(?<jaar>.*) - (?<tijd>\d{2}:\d{2})?[\v\s\S]*achternaam: (?<voornaam>\S*)\s?(?<tussenvoegsel>.*) (?<achternaam>\S*)[\v|\s]*Telefoon: (?<telefoon>.+)[\v|\s]*E-mail: (?<email>.*)[\v|\s]*Geslacht: (?<geslacht>.*)[\v|\s]*Leeftijd: (.*)[\v\S\s]*Land: (?<land>.*)[\v\S\s]*woning: ?(?<zoekregio>.*)">Plak vanuit email</a>
+        {% include 'AppBundle:klanten:_form.html.twig' with {form: klantForm.appKlant} %}
+{% endif %}
+<div class="container-fluid">
+    <fieldset>
+    <div class="row">
+        <div class="col-xs-12">
+
+            <h2>Tijdelijk Wonen - Dossier</h2>
+
+            {# Regex voor ontleden gegevens uit aanmeldFormulier
+        [\S\v\s]+,\s(.*),\s(.*)[\s-\s](\d{2}:\d{2})?[\v\s\S]*achternaam: (\S*)\s?(\S*)?\s?(\S*)? +(\S*)\v*Telefoon: (.+)\v*E-mail: (.*)\vGeslacht: (.*)\vLeeftijd: (.*)[\v\S\s]*Land: (.*)[\v\S\s]*woning: (.*)#}
+            <a href="#" id="pasteRaw" data-regex="[\S\v\s]+,\s(?<maand>[a-z]*)\s(?<dag>[0-31]*),\s(?<jaar>.*) - (?<tijd>\d{2}:\d{2})?[\v\s\S]*achternaam: (?<voornaam>\S*)\s?(?<tussenvoegsel>.*) (?<achternaam>\S*)[\v|\s]*Telefoon: (?<telefoon>.+)[\v|\s]*E-mail: (?<email>.*)[\v|\s]*Geslacht: (?<geslacht>.*)[\v|\s]*Leeftijd: (.*)[\v\S\s]*Land: (?<land>.*)[\v\S\s]*woning: ?(?<zoekregio>.*)">Plak vanuit email</a>
+
+            <legend>Aanmelding</legend>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-6">
+
+            {#{{ form_row(klantForm.appKlant.maatschappelijkWerker) }}#}
+            {{ form_row(klantForm.begeleider) }}
+            {{ form_row(klantForm.aanmelddatum) }}
+      </div>
+        <div class="col-xs-6">
+            {{ form_row(klantForm.projecten) }}
+            {{ form_row(klantForm.intake) }}
+        </div>
+    </fieldset>
+    </div>
+    <fieldset name="intake"><legend>Intakedossier</legend>
+        <div class="row">
+
+            <div class="col-xs-6">
+                {{ form_row(klantForm.moScreening) }}
+                {{ form_row(klantForm.bindingRegio) }}
+                {{ form_row(klantForm.rekeningnummer) }}
+                {{ form_row(klantForm.automatischeIncasso) }}
+                {{ form_row(klantForm.inschrijvingWoningnet) }}
+                {{ form_row(klantForm.waPolis) }}
+                {{ form_row(klantForm.klantmanager) }}
+                {{ form_row(klantForm.wpi) }}
+                {{ form_row(klantForm.huurbudget) }}
+            </div>
+            <div class="col-xs-6">
+                {{ form_row(klantForm.duurThuisloos) }}
+                {{ form_row(klantForm.werk) }}
+                {{ form_row(klantForm.dagbesteding) }}
+                {{ form_row(klantForm.ritme) }}
+                {{ form_row(klantForm.huisdieren) }}
+                {{ form_row(klantForm.roken) }}
+                {{ form_row(klantForm.ritme) }}
+                {{ form_row(klantForm.softdrugs) }}
+                {{ form_row(klantForm.traplopen) }}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-6">
+                {{ form_row(klantForm.zrm) }}
+            </div>
+        </div>
+
+    </fieldset>
+            {{ form_row(klantForm.submit) }}
+            {{ form_end(klantForm,{render_rest:false}) }}
+{% endblock %}
+
+{{ html.fieldsetToggle('tweedeFase','klant_tweedeFase',true) }}

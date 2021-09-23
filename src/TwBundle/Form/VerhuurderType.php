@@ -5,6 +5,7 @@ namespace TwBundle\Form;
 use AppBundle\Form\AppDateType;
 use AppBundle\Form\BaseType;
 use AppBundle\Form\KlantType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use TwBundle\Entity\Verhuurder;
 use TwBundle\Entity\Verslag;
 use Symfony\Component\Form\AbstractType;
@@ -46,11 +47,27 @@ class VerhuurderType extends AbstractType
             ->add('project', ProjectSelectType::class)
             ->add('aanmelddatum', AppDateType::class)
             ->add('rekeningnummer', null, ['required' => false])
-            ->add('woningbouwcorporatie')
-            ->add('woningbouwcorporatieToelichting', null, ['label' => 'Woningbouwcorporatie anders/toelichting'])
+            ->add('pandeigenaar')
+            ->add('pandeigenaarToelichting', null, ['label' => 'Pandeigenaar anders/toelichting'])
             ->add('klantmanager')
             ->add('wpi')
             ->add('ksgw')
+            ->add('inkomen')
+            ->add('huurtoeslag', ChoiceType::class,['choices' => [
+                    'Ja' => '1',
+                    'Nee' => '0',
+                    'Onbekend' => null,
+                ]
+            ])
+        ;
+
+        $builder
+            ->add('dagbesteding')
+            ->add('ritme')
+            ->add('huisdieren')
+            ->add('roken')
+            ->add('softdrugs')
+            ->add('traplopen')
         ;
 
         if (!$options['data']->getId()) {

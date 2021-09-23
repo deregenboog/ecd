@@ -5,6 +5,8 @@ AppBundle\Entity\Geslacht:
         __construct: ['Vrouw', 'V']
     geslacht_3:
         __construct: ['Onbekend', 'O']
+    geslacht_4:
+        __construct: [ 'Non-binair', 'X' ]
 
 AppBundle\Entity\Werkgebied:
     werkgebied_1:
