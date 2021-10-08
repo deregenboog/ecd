@@ -161,12 +161,18 @@ abstract class Deelnemer  implements KlantRelationInterface
     private $softdrugs;
 
     /**
+     * @var Alcohol
+     * @ORM\ManyToOne(targetEntity="TwBundle\Entity\Alcohol",cascade={"persist"})
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $alcohol;
+
+    /**
      * @var Traplopen
      * @ORM\ManyToOne(targetEntity="TwBundle\Entity\Traplopen",cascade={"persist"})
      * @ORM\JoinColumn(nullable=true)
      */
     private $traplopen;
-
 
     /**
      * @return Dagbesteding
@@ -257,6 +263,25 @@ abstract class Deelnemer  implements KlantRelationInterface
         $this->softdrugs = $softdrugs;
         return $this;
     }
+
+    /**
+     * @return Alcohol
+     */
+    public function getAlcohol(): ?Alcohol
+    {
+        return $this->alcohol;
+    }
+
+    /**
+     * @param Alcohol $alcohol
+     * @return Deelnemer
+     */
+    public function setAlcohol(Alcohol $alcohol): Deelnemer
+    {
+        $this->alcohol = $alcohol;
+        return $this;
+    }
+
 
     /**
      * @return Traplopen

@@ -8,9 +8,11 @@ use AppBundle\Form\AppDateRangeType;
 use AppBundle\Form\FilterType;
 use AppBundle\Form\KlantFilterType as AppKlantFilterType;
 use AppBundle\Form\StadsdeelSelectType;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\ResetType;
+use TwBundle\Entity\Alcohol;
 use TwBundle\Entity\Dagbesteding;
 use TwBundle\Entity\Huisdieren;
 use TwBundle\Entity\IntakeStatus;
@@ -90,6 +92,13 @@ class KlantFilterType extends AbstractType
 
             ]);
         }
+        if (in_array('shortlist', $options['enabled_filters'])) {
+            $builder->add('shortlist', \TwBundle\Form\MedewerkerType::class, [
+                'required' => false,
+                'preset'=>false
+
+            ]);
+        }
         if (in_array('aanmelddatum', $options['enabled_filters'])) {
             $builder->add('aanmelddatum', AppDateRangeType::class, [
                 'required' => false,
@@ -132,6 +141,7 @@ class KlantFilterType extends AbstractType
             $builder->add('bindingRegio', EntityType::class, [
                 'label' => 'Binding',
                 'class'=>Regio::class,
+                'multiple'=>true,
                 'required' => false,
             ]);
         }
@@ -139,6 +149,7 @@ class KlantFilterType extends AbstractType
         if (in_array('intakeStatus', $options['enabled_filters'])) {
             $builder->add('intakeStatus', EntityType::class, [
                 'required' => false,
+                'multiple'=>true,
                 'class'=>IntakeStatus::class,
             ]);
         }
@@ -147,27 +158,48 @@ class KlantFilterType extends AbstractType
         $builder
             ->add('dagbesteding',EntityType::class,[
                 'required'=>false,
+                'multiple'=>true,
                 'label'=>'Dagbesteding',
                 'class'=>Dagbesteding::class,
             ])
             ->add('ritme',EntityType::class,[
                 'required'=>false,
+                'multiple'=>true,
                 'class'=>Ritme::class,
             ])
             ->add('huisdieren',EntityType::class,[
                 'required'=>false,
+                'multiple'=>true,
                 'class'=>Huisdieren::class,
             ])
             ->add('roken',EntityType::class,[
                 'required'=>false,
+                'multiple'=>true,
                 'class'=>Roken::class,
             ])
             ->add('softdrugs',EntityType::class,[
                 'required'=>false,
+                'multiple'=>true,
                 'class'=>Softdrugs::class,
             ])
+            ->add('alcohol',EntityType::class,[
+                'required'=>false,
+                'multiple'=>true,
+                'class'=>Alcohol::class,
+            ])
+            ->add('inkomensverklaring', ChoiceType::class, [
+                 'label' => 'Inkomensverklaring',
+                 'choices'=>[
+                     'Onbekend'=>null,
+                     'Ja'=>true,
+                     'Nee'=>false,
+                 ],
+                 'required' => false,
+                 'data' => false,
+             ])
             ->add('traplopen',EntityType::class,[
                 'required'=>false,
+                'multiple'=>true,
                 'class'=>Traplopen::class,
             ])
         ;
@@ -197,7 +229,7 @@ class KlantFilterType extends AbstractType
             'data_class' => KlantFilter::class,
             'data' => new KlantFilter(),
             'enabled_filters' => [
-                'appKlant' => ['id', 'naam', 'geslacht','geboortedatum'],
+                'appKlant' => ['id', 'naam', 'geslacht','geboortedatumRange'],
 //                'automatischeIncasso',
 //                'inschrijvingWoningnet',
 //                'waPolis',
@@ -206,7 +238,9 @@ class KlantFilterType extends AbstractType
                 'gekoppeld',
                 'intakeStatus',
                 'actief',
+
                 'bindingRegio',
+                'shortlist',
 //                'wpi',
 //                'medewerker',
 //                'ambulantOndersteuner',

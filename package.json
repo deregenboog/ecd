@@ -1,0 +1,11 @@
+{
+  "devDependencies": {
+    "@symfony/webpack-encore": "^1.6.1"
+  },
+  "dependencies": {
+    "webpack-cli": "^4.8.0"
+  },
+	"scripts": {
+    "encore": "encore"
+}
+}

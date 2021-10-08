@@ -87,12 +87,18 @@ class Klant extends Deelnemer
     private $werk;
 
     /**
+     * @var boolean
+     * @ORM\Column (nullable=true)
+     */
+    private $inkomensverklaring;
+
+    /**
      * @var Project[]
      * @ORM\ManyToMany(targetEntity="Project")
      * @ORM\JoinTable(
      *     name="tw_huurders_tw_projecten",
      *     joinColumns={@ORM\JoinColumn(name="tw_huurder_id",nullable=true)},
-     *     inverseJoinColumns={@ORM\JoinColumn(name="tw_project_id")},
+     *     inverseJoinColumns={@ORM\JoinColumn(name="tw_project_id",nullable=true)},
      *
      * )
      */
@@ -128,6 +134,19 @@ class Klant extends Deelnemer
      *
      */
     private $intakeStatus;
+
+    /**
+     * @var Medewerker
+     * @ORM\ManyToOne (targetEntity="AppBundle\Entity\Medewerker",cascade="persist")
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $shortlist;
+
+    /**
+     * @var string
+     * @ORM\Column(nullable=true)
+     */
+    private $toelichtingInkomen = null;
 
     public function __construct(AppKlant $klant = null)
     {
@@ -401,6 +420,65 @@ class Klant extends Deelnemer
         $this->intakeStatus = $intakeStatus;
         return $this;
     }
+
+
+    /**
+     * @return bool|null
+     */
+    public function isInkomensverklaring(): ?bool
+    {
+        return $this->inkomensverklaring;
+    }
+
+    /**
+     * @param bool|null $inkomensverklaring
+     * @return Deelnemer
+     */
+    public function setInkomensverklaring(?bool $inkomensverklaring): Deelnemer
+    {
+        $this->inkomensverklaring = $inkomensverklaring;
+        return $this;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getToelichtingInkomen(): ?string
+    {
+        return $this->toelichtingInkomen;
+    }
+
+    /**
+     * @param string|null $toelichtingInkomen
+     * @return Klant
+     */
+    public function setToelichtingInkomen(?string $toelichtingInkomen): Klant
+    {
+        $this->toelichtingInkomen = $toelichtingInkomen;
+        return $this;
+    }
+
+
+
+    /**
+     * @return Medewerker|null
+     */
+    public function getShortlist(): ?Medewerker
+    {
+        return $this->shortlist;
+    }
+
+    /**
+     * @param Medewerker|null $shortlist
+     * @return Klant
+     */
+    public function setShortlist(?Medewerker $shortlist): Klant
+    {
+        $this->shortlist = $shortlist;
+        return $this;
+    }
+
+
 
     /**
      * @Assert\Callback

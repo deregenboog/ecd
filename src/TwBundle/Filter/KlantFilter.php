@@ -6,6 +6,7 @@ use AppBundle\Entity\Medewerker;
 use AppBundle\Filter\FilterInterface;
 use AppBundle\Filter\KlantFilter as AppKlantFilter;
 use Doctrine\ORM\QueryBuilder;
+use TwBundle\Entity\Alcohol;
 use TwBundle\Entity\Dagbesteding;
 use TwBundle\Entity\InschrijvingWoningnet;
 use TwBundle\Entity\Intake;
@@ -69,6 +70,11 @@ class KlantFilter implements FilterInterface
      * @var Medewerker
      */
     public $medewerker;
+
+    /**
+     * @var Medewerker;
+     */
+    public $shortlist;
 //
 //    /**
 //     * @var Medewerker
@@ -120,6 +126,16 @@ class KlantFilter implements FilterInterface
      * @var Softdrugs
      */
     public $softdrugs;
+
+    /**
+     * @var Alcohol
+     */
+    public $alcohol;
+
+    /**
+     * @var bool|null
+     */
+    public $inkomensverklaring;
 
     /**
      * @var Traplopen
@@ -251,7 +267,7 @@ class KlantFilter implements FilterInterface
         }
 
 
-        if($this->intakeStatus)
+        if($this->intakeStatus && count($this->intakeStatus)>0)
         {
             $builder->andWhere('klant.intakeStatus = :intakeStatus')
                 ->setParameter('intakeStatus',$this->intakeStatus)
@@ -280,45 +296,52 @@ class KlantFilter implements FilterInterface
             $this->appKlant->applyTo($builder,'appKlant');
         }
 
-        if($this->dagbesteding)
+        if($this->dagbesteding && count($this->dagbesteding) > 0)
         {
-            $builder->andWhere('klant.dagbesteding = :dagbesteding')
+            $builder->andWhere('klant.dagbesteding IN (:dagbesteding)')
                 ->setParameter("dagbesteding",$this->dagbesteding)
             ;
         }
 
-        if($this->ritme)
+        if($this->ritme && count($this->ritme) >0)
         {
-            $builder->andWhere('klant.ritme = :ritme')
+            $builder->andWhere('klant.ritme IN (:ritme)')
                 ->setParameter("ritme",$this->ritme)
             ;
         }
 
-        if($this->huisdieren)
+        if($this->huisdieren && count($this->huisdieren))
         {
-            $builder->andWhere('klant.huisdieren = :huisdieren')
+            $builder->andWhere('klant.huisdieren IN (:huisdieren)')
                 ->setParameter("huisdieren",$this->huisdieren)
             ;
         }
 
-        if($this->roken)
+        if($this->roken && count($this->roken))
         {
-            $builder->andWhere('klant.roken = :roken')
+            $builder->andWhere('klant.roken IN(:roken)')
                 ->setParameter("roken",$this->roken)
             ;
         }
 
-        if($this->softdrugs)
+        if($this->softdrugs && count($this->softdrugs))
         {
-            $builder->andWhere('klant.softdrugs = :softdrugs')
+            $builder->andWhere('klant.softdrugs IN (:softdrugs)')
                 ->setParameter("softdrugs",$this->softdrugs)
             ;
         }
 
-        if($this->traplopen)
+        if($this->traplopen && count($this->traplopen))
         {
-            $builder->andWhere('klant.traplopen = :traplopen')
+            $builder->andWhere('klant.traplopen IN (:traplopen)')
                 ->setParameter("traplopen",$this->traplopen)
+            ;
+        }
+
+        if($this->inkomensverklaring)
+        {
+            $builder->andWhere('klant.inkomensverklaring IN (:inkomensverklaring)')
+                ->setParameter("inkomensverklaring",$this->inkomensverklaring)
             ;
         }
 

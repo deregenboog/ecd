@@ -199,3 +199,6 @@ fos_ck_editor:
 sensio_framework_extra:
     router:
         annotations: false
+
+webpack_encore:
+    output_path: '%kernel.root_dir%/webroot/build/'
