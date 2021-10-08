@@ -15,7 +15,7 @@ final class Version20210922145733 extends AbstractMigration
         // this up() migration is auto-generated, please modify it to your needs
         $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
 
-        $this->addSql('ALTER TABLE tw_deelnemers DROP FOREIGN KEY FK_20283999C0B11400');
+//        $this->addSql('ALTER TABLE tw_deelnemers DROP FOREIGN KEY FK_20283999C0B11400');
         $this->addSql('CREATE TABLE tw_inkomen (id INT AUTO_INCREMENT NOT NULL, label VARCHAR(255) NOT NULL, `order` INT NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8 COLLATE `utf8_general_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE tw_pandeigenaartype (id INT AUTO_INCREMENT NOT NULL, naam VARCHAR(255) DEFAULT NULL, active TINYINT(1) DEFAULT NULL, created DATETIME NOT NULL, modified DATETIME NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8 COLLATE `utf8_general_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE tw_pandeigenaar (id INT AUTO_INCREMENT NOT NULL, naam VARCHAR(255) DEFAULT NULL, `pandeigenaartype_id` INT NOT NULL, active TINYINT(1) DEFAULT NULL, created DATETIME NOT NULL, modified DATETIME NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8 COLLATE `utf8_general_ci` ENGINE = InnoDB');

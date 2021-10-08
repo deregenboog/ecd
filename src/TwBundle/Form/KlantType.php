@@ -46,6 +46,7 @@ class KlantType extends AbstractType
                 ->add('begeleider')
                 ->add('aanmelddatum', AppDateType::class, ['required'=>true])
                 ->add('projecten', ProjectSelectType::class,['multiple'=>true,'required'=>true])
+                ->add('shortlist', MedewerkerType::class,['required'=>false])
                 ->add('intakeStatus')
        ;
       $builder
@@ -58,11 +59,14 @@ class KlantType extends AbstractType
             ->add('duurThuisloos')
             ->add('werk')
             ->add('inkomen')
+            ->add('inkomensverklaring',CheckboxType::class,['required'=>false])
+            ->add('toelichtingInkomen',null,['required'=>false])
             ->add('dagbesteding')
             ->add('ritme')
             ->add('huisdieren')
             ->add('roken')
             ->add('softdrugs')
+            ->add('alcohol')
             ->add('traplopen')
         ;
 

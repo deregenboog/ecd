@@ -29,6 +29,7 @@
             {{ form_row(klantForm.aanmelddatum) }}
       </div>
         <div class="col-xs-6">
+            {{ form_row(klantForm.shortlist) }}
             {{ form_row(klantForm.projecten) }}
             {{ form_row(klantForm.intakeStatus) }}
         </div>
@@ -50,18 +51,21 @@
                 {{ form_row(klantForm.duurThuisloos) }}
                 {{ form_row(klantForm.werk) }}
                 {{ form_row(klantForm.inschrijvingWoningnet) }}
-
-
+                {{ form_row(klantForm.inkomen) }}
+                {{ form_row(klantForm.inkomensverklaring) }}
             </div>
             <div class="col-xs-6">
-                {{ form_row(klantForm.inkomen) }}
+
                 {{ form_row(klantForm.dagbesteding) }}
                 {{ form_row(klantForm.ritme) }}
                 {{ form_row(klantForm.huisdieren) }}
                 {{ form_row(klantForm.roken) }}
                 {{ form_row(klantForm.ritme) }}
                 {{ form_row(klantForm.softdrugs) }}
+                {{ form_row(klantForm.alcohol) }}
                 {{ form_row(klantForm.traplopen) }}
+
+                {{ form_row(klantForm.toelichtingInkomen) }}
             </div>
         </div>
         <div class="row">
@@ -71,8 +75,12 @@
         </div>
 
     </fieldset>
+    <div class="row">
+        <div class="col-xs-12 text-right">
             {{ form_row(klantForm.submit) }}
             {{ form_end(klantForm,{render_rest:false}) }}
+        </div>
+    </div>
 {% endblock %}
 
 {#{{ html.fieldsetToggle('tweedeFase','klant_tweedeFase',true) }}#}
