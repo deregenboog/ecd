@@ -41,7 +41,7 @@ final class Version20210910112204 extends AbstractMigration
         $this->addSql('ALTER TABLE tw_superverslagen CHANGE class class VARCHAR(12) NOT NULL');
         $this->addSql('ALTER TABLE tw_superverslagen RENAME INDEX idx_762d3f773d707f64 TO IDX_2DCE6D3F3D707F64');
         $this->addSql('ALTER TABLE tw_afsluitingen CHANGE active active TINYINT(1) NOT NULL, CHANGE tonen tonen TINYINT(1) DEFAULT NULL');
-        $this->addSql('ALTER TABLE tw_huuraanbiedingen CHANGE project_id project_id INT NOT NULL');
+
         $this->addSql('ALTER TABLE tw_huuraanbiedingen RENAME INDEX idx_fa204f877e18485d TO IDX_8E0AAC377E18485D');
         $this->addSql('ALTER TABLE tw_huuraanbiedingen RENAME INDEX idx_fa204f87522cf24b TO IDX_8E0AAC37B79D9579');
         $this->addSql('ALTER TABLE tw_huuraanbiedingen RENAME INDEX idx_fa204f87ecdad1a9 TO IDX_8E0AAC37ECDAD1A9');
@@ -81,7 +81,7 @@ final class Version20210910112204 extends AbstractMigration
         $this->addSql('ALTER TABLE tw_huurovereenkomst_findocument RENAME INDEX idx_7b9a48a7870b85bc TO IDX_B9C41948870B85BC');
         $this->addSql('ALTER TABLE tw_huurovereenkomst_findocument RENAME INDEX idx_7b9a48a7c33f7837 TO IDX_B9C41948C33F7837');
 //        $this->addSql('ALTER TABLE tw_deelnames DROP FOREIGN KEY FK_B0B3FDE19D1883DD');
-        $this->addSql('DROP INDEX IDX_B0B3FDE19D1883DD ON tw_deelnames');
+//        $this->addSql('DROP INDEX IDX_B0B3FDE19D1883DD ON tw_deelnames');
         $this->addSql('ALTER TABLE tw_deelnames CHANGE odp_vrijwilliger_id tw_vrijwilliger_id INT NOT NULL');
         $this->addSql('ALTER TABLE tw_deelnames ADD CONSTRAINT FK_C8B28A18629A95E FOREIGN KEY (tw_vrijwilliger_id) REFERENCES tw_vrijwilligers (id)');
         $this->addSql('CREATE INDEX IDX_C8B28A18629A95E ON tw_deelnames (tw_vrijwilliger_id)');
