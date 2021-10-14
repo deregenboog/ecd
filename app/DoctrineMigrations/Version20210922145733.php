@@ -22,11 +22,11 @@ final class Version20210922145733 extends AbstractMigration
 
         $this->addSql('INSERT INTO tw_pandeigenaartype (`id`,`naam`,`active`, created, modified) VALUES (1,"Woco",1, NOW(),NOW())');
         $this->addSql('INSERT INTO tw_pandeigenaar (`naam`, `pandeigenaartype_id`,`active`, created, modified) SELECT `naam`,1,1, created, modified FROM tw_woningbouwcorporaties');
-        $this->addSql('DROP TABLE tw_woningbouwcorporaties');
+//        $this->addSql('DROP TABLE tw_woningbouwcorporaties');
 
         $this->addSql('ALTER TABLE tw_deelnemers DROP FOREIGN KEY FK_E4317256D00EBD32');
         $this->addSql('DROP INDEX IDX_E4317256D00EBD32 ON tw_deelnemers');
-        $this->addSql('DROP INDEX IDX_E4317256C0B11400 ON tw_deelnemers');
+//        $this->addSql('DROP INDEX IDX_E4317256C0B11400 ON tw_deelnemers');
         $this->addSql('ALTER TABLE tw_deelnemers ADD inkomen_id INT DEFAULT NULL,ADD huurtoeslag TINYINT(1) NULL DEFAULT NULL, CHANGE woningbouwcorporatie_id pandeigenaar_id INT DEFAULT NULL, ADD kwijtschelding TINYINT(1) DEFAULT NULL, ADD verhuurprijs INT DEFAULT NULL');
         $this->addSql('ALTER TABLE tw_deelnemers CHANGE woningbouwcorporatie_toelichting pandeigenaar_toelichting VARCHAR(255) DEFAULT NULL');
         $this->addSql('ALTER TABLE tw_deelnemers ADD CONSTRAINT FK_E4317256DE7E5B0 FOREIGN KEY (inkomen_id) REFERENCES tw_inkomen (id)');
