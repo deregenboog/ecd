@@ -24,7 +24,6 @@ class AppKernel extends Kernel
             new Vich\UploaderBundle\VichUploaderBundle(),
             new Shivas\VersioningBundle\ShivasVersioningBundle(),
             new FOS\CKEditorBundle\FOSCKEditorBundle(),
-            new Pinano\Select2Bundle\PinanoSelect2Bundle(),
             new Symfony\WebpackEncoreBundle\WebpackEncoreBundle(),
             new Symfony\Bundle\SecurityBundle\SecurityBundle(),
 
