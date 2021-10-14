@@ -55,7 +55,7 @@
         "friendsofphp/php-cs-fixer" : "^2",
         "doctrine/doctrine-fixtures-bundle" : "^3",
         "doctrine/data-fixtures" : "^1",
-        "hautelook/alice-bundle": "^2",
+        "hautelook/alice-bundle": "^2.7",
         "phpunit/phpunit" : "^7",
         "liip/functional-test-bundle" : "^3",
         "symfony/phpunit-bridge" : "^5",
