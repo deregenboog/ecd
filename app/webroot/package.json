@@ -9,7 +9,8 @@
     "select2": "^4.1.0-rc.0"
   },
   "scripts": {
-    "encore": "encore"
+    "encore": "encore",
+    "build": "encore production"
   },
   "devDependencies": {
     "@symfony/webpack-encore": "^1.6.1",
