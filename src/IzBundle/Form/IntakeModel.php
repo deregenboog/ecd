@@ -83,67 +83,22 @@ class IntakeModel
       if($this->intake->getIzDeelnemer() instanceof IzKlant)
       {
           return <<<EOF
-Interesses, wensen en doelen:
-
-
-Zingeving:
-
-
-Daginvulling:
-
-
-Sociale relaties:
-
-
-Woon en leefomstandigheden:
-
-
-Psychisch functioneren/mentale welbevinden/forensisch:
-
-
-Financiën:
-
-
-Gevoel van veiligheid:
-
-
-Seksualiteit en intimiteit:
-
-
-Eigen indruk:
-
+-Koppel informatie
+-Hulpvraag
+-Interesses en zingeving
+-Eigen indruk
+-Overige relevante informatie
 
 EOF;
 
       }elseif($this->intake->getIzDeelnemer() instanceof IzVrijwilliger)
       {
           return <<<EOF
-Waarom wil je vrijwilliger worden bij DRG?
-
-
-Heb je al eerder vrijwilligerswerk gedaan?
-
-
-Wat is jouw persoonlijke situatie?
-
-
-Hoe zou je jezelf beschrijven?
-
-
-Welke talen spreek en versta je?
-
-
-Rook je?
-
-
-Welke doelgroep spreekt jou het meeste aan en waarom?
-
-
-Met welke doelgroep zou je niet willen werken? En waarom?
-
-
-In welke mate ben jij beschikbaar?
-
+-Koppel informatie
+-Hulpaanbod
+-Interesses en zingeving
+-Eigen indruk
+-Overige relevante informatie
 
 EOF;
 
