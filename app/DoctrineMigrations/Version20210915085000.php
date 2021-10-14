@@ -16,7 +16,7 @@ final class Version20210915085000 extends AbstractMigration
         $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
 
 //        $this->addSql('ALTER TABLE tw_huurverzoeken DROP FOREIGN KEY FK_588F4E969E4835DA');
-        $this->addSql('DROP INDEX IDX_B59AA1219E4835DA ON tw_huurverzoeken');
+//        $this->addSql('DROP INDEX IDX_B59AA1219E4835DA ON tw_huurverzoeken');
         $this->addSql('ALTER TABLE tw_huurverzoeken CHANGE huurder_id klant_id INT DEFAULT NULL');
         $this->addSql('ALTER TABLE tw_huurverzoeken ADD CONSTRAINT FK_B59AA1213C427B2F FOREIGN KEY (klant_id) REFERENCES tw_deelnemers (id)');
         $this->addSql('CREATE INDEX IDX_B59AA1213C427B2F ON tw_huurverzoeken (klant_id)');
