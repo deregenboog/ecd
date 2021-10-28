@@ -38,7 +38,7 @@ class WebTestCase extends CoreWebTestCase
              '@InloopBundle/DataFixtures/ORM/fixtures.yml',
 //             '@IzBundle/DataFixtures/ORM/fixtures.yml',
 //             '@MwBundle/DataFixtures/ORM/fixtures.yml',
-//             '@OdpBundle/DataFixtures/ORM/fixtures.yml',
+//             '@TwBundle/DataFixtures/ORM/fixtures.yml',
 //             '@OekBundle/DataFixtures/ORM/fixtures.yml',
 //             '@PfoBundle/DataFixtures/ORM/fixtures.yml',
         ]);
