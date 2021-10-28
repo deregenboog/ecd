@@ -189,7 +189,6 @@ security:
             - CONTROLLER_APP_VRIJWILLIGERS
             - CONTROLLER_APP_ZRMS
             - CONTROLLER_MEDEWERKERS
-            - CONTROLLER_APP_DOWNLOAD
             - ROLE_HRM
             - ROLE_BUURTBOERDERIJ
             - ROLE_SECRETARIAAT
@@ -209,7 +208,8 @@ security:
             - CONTROLLER_APP_DOELSTELLINGEN
         ROLE_MANAGEMENT:
             - CONTROLLER_APP_DOELSTELLINGEN
-        ROLE_SECRETARIAAT: []
+        ROLE_SECRETARIAAT:
+            - CONTROLLER_APP_DOWNLOAD
 
 
 ldap_tools:
