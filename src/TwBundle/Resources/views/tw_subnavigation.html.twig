@@ -1,0 +1,38 @@
+{% import '::html.macro.twig' as html %}
+<ol class="breadcrumb">
+    <li><a href="{{ path('home') }}">ECD</a></li>
+    <li><a href="{{ path('tw_index') }}">Tijdelijk Wonen</a></li>
+    <li class="active">{{ title }}</li>
+</ol>
+<ul class="nav nav-tabs">
+    {{ html.navLink('Klanten', path('tw_klanten_index'), isActiveRoute('tw_klanten_')) }}
+    {{ html.navLink('Verhuurders', path('tw_verhuurders_index'), isActiveRoute('tw_verhuurders_')) }}
+    {{ html.navLink('Huurverzoeken', path('tw_huurverzoeken_index'), isActiveRoute('tw_huurverzoeken_')) }}
+    {{ html.navLink('Huuraanbiedingen', path('tw_huuraanbiedingen_index'), isActiveRoute('tw_huuraanbiedingen_')) }}
+    {{ html.navLink('Koppelingen', path('tw_huurovereenkomsten_index'), isActiveRoute('tw_huurovereenkomsten_')) }}
+    {{ html.navLink('Rapportages', path('tw_rapportages_index'), isActiveRoute('tw_rapportages_')) }}
+    {% if is_granted('ROLE_TW_VRIJWILLIGERS') %}
+        {{ html.navLink('Vrijwilligers', path('tw_vrijwilligers_index'), isActiveRoute('tw_vrijwilligers_')) }}
+    {% endif %}
+    {% if is_granted('ROLE_TW_BEHEER') %}
+        <li role="presentation" class="dropdown {{ isActivePath('tw/admin') ? 'active' }}">
+            <a class="dropdown-toggle active" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+                Beheer <span class="caret"></span>
+            </a>
+            <ul class="dropdown-menu">
+                {{ html.navLink('Afsluitingen huuraanbiedingen', path('tw_huuraanbodafsluitingen_index'), isActiveRoute('tw_huuraanbiedingafsluitingen_')) }}
+                {{ html.navLink('Afsluitingen klanten', path('tw_huurderafsluitingen_index'), isActiveRoute('tw_huurderafsluitingen_')) }}
+                {{ html.navLink('Afsluitingen huurverzoeken', path('tw_huurverzoekafsluitingen_index'), isActiveRoute('tw_huurverzoekafsluitingen_')) }}
+                {{ html.navLink('Afsluitingen koppelingen', path('tw_huurovereenkomstafsluitingen_index'), isActiveRoute('tw_huurovereenkomstafsluitingen_')) }}
+                {{ html.navLink('Afsluitingen verhuurders', path('tw_verhuurderafsluitingen_index'), isActiveRoute('tw_verhuurderafsluitingen_')) }}
+                {{ html.navLink('Coördinatoren', path('tw_coordinatoren_index'), isActiveRoute('tw_coordinatoren_')) }}
+                {{ html.navLink('Pandeigenaren', path('tw_pandeigenaren_index'), isActiveRoute('tw_pandeigenaren_')) }}
+                {{ html.navLink('Projecten', path('tw_projecten_index'), isActiveRoute('tw_projecten_')) }}
+                {{ html.navLink('Afsluitredenen vrijwilligers', path('tw_afsluitredenenvrijwilligers_index'), isActiveRoute('tw_afsluitredenenvrijwilligers_')) }}
+                {{ html.navLink('Trainingen vrijwilligers', path('tw_trainingen_index'), isActiveRoute('tw_trainingen_')) }}
+                {{ html.navLink('Binnen via-opties', path('tw_binnenvia_index'), isActiveRoute('tw_binnenvia_')) }}
+                {{ html.navLink('Vrijwilligers locaties', path('tw_locaties_index'), isActiveRoute('tw_binnenvia_')) }}
+            </ul>
+        </li>
+    {% endif %}
+</ul>

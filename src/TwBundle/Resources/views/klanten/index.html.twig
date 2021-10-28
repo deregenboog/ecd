@@ -1,0 +1,182 @@
+{% extends '::base.html.twig' %}
+{% import '::html.macro.twig' as html %}
+
+{% block title %}
+    Tijdelijk Wonen | {{ title }}
+{% endblock %}
+
+{% block subnavigation %}
+    {% include '@Tw/tw_subnavigation.html.twig' %}
+{% endblock %}
+
+{% block content %}
+    <h1>{{ title }}</h1>
+    <p>
+        {{ html.addLink(path('tw_klanten_add')) }}
+        {{ html.link('Klant toevoegen', path('tw_klanten_add')) }}
+    </p>
+    <table class="table table-hover mb-0">
+        <thead>
+            {{ form_start(filter) }}
+                <tr>
+                    <th colspan="2"></th>
+                    <th>
+                        {{ form_label(filter.dagbesteding) }}
+                        {{ form_widget(filter.dagbesteding) }}
+                    </th>
+                    <th>
+                        {{ form_label(filter.ritme) }}
+                        {{ form_widget(filter.ritme) }}
+                    </th>
+                    <th>
+                        {{ form_label(filter.huisdieren) }}
+                        {{ form_widget(filter.huisdieren) }}
+                    </th>
+                    <th>
+                        {{ form_label(filter.roken) }}
+                        {{ form_widget(filter.roken) }}
+                    </th>
+                    <th>
+                        {{ form_label(filter.softdrugs) }}
+                        {{ form_widget(filter.softdrugs) }}
+                    </th>
+                    <th>
+                        {{ form_label(filter.alcohol) }}
+                        {{ form_widget(filter.alcohol) }}
+                    </th>
+                    <th>
+                        {{ form_label(filter.traplopen) }}
+                        {{ form_widget(filter.traplopen) }}
+                    </th>
+                    <th>
+                        {{ form_label(filter.inkomensverklaring) }}
+                        {{ form_widget(filter.inkomensverklaring) }}
+                    </th>
+                    <th>
+                        {{ form_label(filter.gekoppeld) }}
+                        {{ form_widget(filter.gekoppeld) }}
+                        {{ form_errors(filter.gekoppeld) }}
+                    </th>
+                    <th>
+                        {{ form_label(filter.actief) }}
+                        {{ form_widget(filter.actief) }}
+                    </th>
+
+                    <th>
+                        <span class="pull-right">
+                            {{ form_widget(filter.filter) }}
+
+                            {{ form_widget(filter.download) }}
+                        </span>
+                    </th>
+                </tr>
+
+
+        </thead></table>
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>
+                        {{ form_widget(filter.aanmelddatum) }}
+                        {{ form_errors(filter.aanmelddatum) }}
+                    </th>
+                    <th>
+                        {{ form_widget(filter.appKlant.naam) }}
+                        {{ form_errors(filter.appKlant.naam) }}
+                    </th>
+                    <th>
+                        {{ form_widget(filter.appKlant.geslacht) }}
+                        {{ form_errors(filter.appKlant.geslacht) }}
+                    </th>
+                    <th>
+                        {{ form_widget(filter.appKlant.geboortedatumRange) }}
+                        {{ form_errors(filter.appKlant.geboortedatumRange) }}
+                    </th>
+                    <th>
+                        {{ form_widget(filter.project) }}
+                        {{ form_errors(filter.project) }}
+                    </th>
+
+                    <th>
+                        {{ form_widget(filter.intakeStatus) }}
+                        {{ form_errors(filter.intakeStatus) }}
+                    </th>
+                    <th>
+                        {{ form_widget(filter.bindingRegio) }}
+                        {{ form_errors(filter.bindingRegio) }}
+                    </th>
+                    <th>
+                        {{ form_widget(filter.shortlist) }}
+                        {{ form_errors(filter.shortlist) }}
+                    </th>
+                    <th></th>
+                </tr>
+                <tr>
+                    <th>
+                        {{ knp_pagination_sortable(pagination, 'Aanmelddatum', 'klant.aanmelddatum') }}
+                    </th>
+                    <th>
+                        {{ knp_pagination_sortable(pagination, 'Klant', 'klant.appKlant.achternaam') }}
+                    </th>
+                    <th>
+                        {{ knp_pagination_sortable(pagination, 'Geslacht', 'klant.appKlant.geslacht') }}
+                    </th>
+                    <th>
+                        {{ knp_pagination_sortable(pagination, 'Geboortedatum', 'klant.appKlant.geboortedatum') }}
+                    </th>
+                    <th>
+                        Project(en)
+                    </th>
+
+                    <th>
+                        {{ knp_pagination_sortable(pagination, 'Intake status', 'klant.intakeStatus') }}
+
+                    </th>
+                    <th>
+                        {{ knp_pagination_sortable(pagination, 'Binding', 'klant.bindingRegio') }}
+                    </th>
+                    <th>
+                        {{ knp_pagination_sortable(pagination, 'Shortlist', 'klant.shortlist') }}
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>{{ form_end(filter,{'render_rest':false}) }}
+        <tbody>
+            {% for klant in pagination %}
+                <tr data-href="{{ path(route_base~'view', {id: klant.id}) }}">
+                    <td>
+                        {{ klant.aanmelddatum|date('d-m-Y') }}
+                    </td>
+                    <td>
+                        {{ klant.appKlant }}
+                    </td>
+                    <td>
+                        {{ klant.appKlant.geslacht }}
+                    </td>
+                    <td>
+                        {{ klant.appKlant.geboortedatum|date('d-m-Y') }}
+                    </td>
+                    <td>
+                        {% for project in klant.projecten %}
+                        <li>{{ project.naam }}</li>
+                        {% endfor %}
+                    </td>
+                    <td>
+                        {{ klant.intakeStatus }}
+                    </td>
+                    <td>{{ klant.bindingRegio }}</td>
+                    <td>{{ klant.shortlist }}</td>
+                    <td>
+                        {{ html.editLink(path('tw_klanten_edit', {id: klant.id})) }}
+                        {% if klant.deletable %}
+                            {{ html.deleteLink(path('tw_klanten_delete', {id: klant.id})) }}
+                        {% endif %}
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <p>
+        {{ knp_pagination_render(pagination) }}
+    </p>
+{% endblock %}

@@ -1,0 +1,34 @@
+{% extends '::base.html.twig' %}
+
+{% block title %}
+    Tijdelijk wonen | {{ title }}
+{% endblock %}
+
+{% block subnavigation %}
+    {% include '@Tw/tw_subnavigation.html.twig' %}
+{% endblock %}
+
+{% block content %}
+    <h1>Training toevoegen voor vrijwilliger {{ entity.vrijwilliger }}</h1>
+    {{ form(form) }}
+{% endblock %}
+
+{% block scripts %}
+    <script>
+
+        $(function() {
+            var fieldOverig = $('form input#deelname_overig').closest('.form-group');
+            var fieldTraining = $('form select#deelname_training');
+
+            fieldOverig.hide();
+            fieldTraining.change(function(event){
+
+                this.value == '3'?  fieldOverig.show(): fieldOverig.hide();
+
+            });
+
+        });
+
+
+    </script>
+{% endblock %}

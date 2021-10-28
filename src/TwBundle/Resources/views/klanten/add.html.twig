@@ -1,0 +1,127 @@
+{% extends '::base.html.twig' %}
+{% import '::html.macro.twig' as html %}
+
+{% block title %}
+    Tijdelijk Wonen | {{ title }}
+{% endblock %}
+
+{% block subnavigation %}
+    {% include '@Tw/tw_subnavigation.html.twig' %}
+{% endblock %}
+
+{% block content %}
+
+    <h1>Klant toevoegen</h1>
+
+    {% if zoekresultaten is defined and filterForm.vars.errors|length == 0 %}
+        <p>
+            Selecteer de gewenste {{ entity_name }} in onderstaande lijst of klik op
+            "Nieuwe {{ entity_name }}" als deze niet in de lijst voorkomt.
+        </p>
+        <p>
+            {{ html.link('Nieuwe '~entity_name, path('tw_klanten_add', {entity: 'new'}), 'plus') }}
+        </p>
+        <table class="table table-hover">
+            <thead>
+            <tr>
+                <th>#</th>
+                <th>Naam</th>
+                <th>BSN</th>
+                <th>Geboortedatum</th>
+            </tr>
+            </thead>
+            {% for entity in zoekresultaten %}
+                <tr data-href="{{ path('tw_klanten_add', {entity: entity.id}) }}">
+                    <td>{{ entity.id }}</td>
+                    <td>{{ entity }}</td>
+                    <td>{{ entity.bsn }}</td>
+                    <td>{{ entity.geboortedatum ? entity.geboortedatum|date('d-m-Y') }}</td>
+                </tr>
+            {% endfor %}
+        </table>
+    {% elseif filterForm is defined %}
+        <p>Zoek een bestaande {{ entity_name }} op naam, BSN of geboortedatum.</p>
+        <a href="#" id="pasteRaw" data-regex="[\v\s\S]*achternaam: (?<naam>.*)[\v|\s\S]*">Plak vanuit email</a>
+        {{ form(filterForm) }}
+    {% endif %}
+
+    {% if creationForm is defined %}
+        {% if entity.appKlant.id %}
+            <div class="col-xs-4">
+                {% include '::klant_basis.html.twig' with {klant: entity.appKlant, module: 'TwHuurders'} %}
+            </div>
+            <div class="col-xs-8">
+                <ul class="nav nav-tabs">
+                    <li class="active"><a href="#">Aanmelding</a></li>
+                </ul>
+                <div class="tab-content">
+                    <div id="aanmelding" class="tab-pane active">
+                        <h2>Aanmelding</h2>
+                        {{ form(creationForm) }}
+                    </div>
+                </div>
+            </div>
+        {% else %}
+            {% include('@Tw/klanten/_form.html.twig') with {'klantForm': creationForm } %}
+{#            {{ block('form') }}#}
+        {% endif %}
+    {% endif %}
+    {{ html.modalPaste("Plak vanuit email","renderInput()")}}
+{% endblock %}
+
+{% block scripts %}
+<script>
+    /**
+     * OK, This should used more often and then made more generic, but for now:
+     *
+     * place a modal window in the html with the html.modalPaste macro. Give it a label and the function to perform when Go is pressed.
+     *
+     * The link which is pressed should have id pasteRaw. This has an attribute data-regex, which peforms the regex.
+     * The regex should contain named capturing groups which mach elements of the form, which it will try to match.
+     *
+     * For this, I used this regex:
+     * https://regex101.com/r/m4b8bW/1
+     */
+    $('#pasteRaw').click(function(){
+        $('#modalPaste').modal('show');
+    });
+
+    var renderInput = function(buttonElm)
+    {
+        const r = $('#pasteRaw').first().attr('data-regex');
+        let regex = new RegExp(r,'gmu');
+
+        var pasteValue = $('#pasteValue').val();
+        var form = $('form').first();
+        const formName = form.attr('name');
+
+        // console.log(regex);
+        let output = regex.exec(pasteValue);
+        if ( undefined == output ) alert('Dit tooltje doet een soort patroon-matching en de invoer moet qua opmaak/formaat kloppen met het format dat er verwacht wordt. Er konden helaas geen automatische matches gevonden worden. Check de input of het werkt niet. Sorry.'); return;
+        // console.log(output)
+        let groups = output.groups
+        // console.log(groups);
+
+        for(const[name,value] of Object.entries(groups))
+        {
+            var elm = $('[name*='+name+']');
+            switch(elm.prop('nodeName')) {
+                case "INPUT":
+                    elm.val(value);
+                    elm.toggleClass("is-autoFilled");
+                    break;
+                case "SELECT":
+                    elm.find("option:contains('"+value+"')")
+                        .filter(function(i){
+                            return $(this).text() === value;
+                        })
+                        .attr("selected", true)
+                    elm.toggleClass("is-autoFilled");
+                    break;
+            }
+
+        }
+        $('#modalPaste').modal('hide');
+    }
+</script>
+{% endblock %}

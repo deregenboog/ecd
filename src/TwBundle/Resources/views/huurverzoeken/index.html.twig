@@ -1,0 +1,137 @@
+{% extends '::base.html.twig' %}
+{% import '::html.macro.twig' as html %}
+
+{% block title %}
+    Tijdelijk Wonen | {{ title }}
+{% endblock %}
+
+{% block subnavigation %}
+    {% include '@Tw/tw_subnavigation.html.twig' %}
+{% endblock %}
+
+{% block content %}
+    <h1>{{ title }}</h1>
+    <table class="table table-hover">
+        {{ form_start(filter) }}
+            <tr>
+                <th colspan="6">
+                </th>
+                <th>
+                    <span class="pull-right">
+                        {{ form_widget(filter.filter) }}
+                        {{ form_widget(filter.download) }}
+                    </span>
+                </th>
+                <th>
+
+                </th>
+            </tr>
+            <tr>
+                <th>
+                    {{ form_widget(filter.id) }}
+                    {{ form_errors(filter.id) }}
+                </th>
+                <th>
+                    {{ form_widget(filter.klant.naam) }}
+                    {{ form_errors(filter.klant.naam) }}
+                </th>
+                <th>
+                    {{ form_widget(filter.project) }}
+                    {{ form_errors(filter.project) }}
+                </th>
+                <th>
+                    {{ form_widget(filter.startdatum.start) }}
+                    {{ form_errors(filter.startdatum.start) }}
+                    {{ form_widget(filter.startdatum.end) }}
+                    {{ form_errors(filter.startdatum.end) }}
+                </th>
+                <th>
+                    {{ form_widget(filter.afsluitdatum.start) }}
+                    {{ form_errors(filter.afsluitdatum.start) }}
+                    {{ form_widget(filter.afsluitdatum.end) }}
+                    {{ form_errors(filter.afsluitdatum.end) }}
+                </th>
+                <th>
+                    {{ form_widget(filter.medewerker) }}
+                    {{ form_errors(filter.medewerker) }}
+                </th>
+                <th>
+                    {{ form_widget(filter.huurovereenkomst.isReservering) }}
+                    {{ form_errors(filter.huurovereenkomst.isReservering) }}
+                </th>
+                <th>
+                </th>
+            </tr>
+        {{ form_end(filter) }}
+        <tr>
+            <th>
+                {{ knp_pagination_sortable(pagination, '#', 'huurverzoek.id') }}
+            </th>
+            <th>
+                {{ knp_pagination_sortable(pagination, 'Klant', 'klant.achternaam') }}
+            </th>
+            <th>
+               Project(en)
+            </th>
+            <th>
+                {{ knp_pagination_sortable(pagination, 'Startdatum', 'huurverzoek.startdatum') }}
+            </th>
+            <th>
+                {{ knp_pagination_sortable(pagination, 'Afsluitdatum', 'huurverzoek.afsluitdatum') }}
+            </th>
+            <th>
+                {{ knp_pagination_sortable(pagination, 'Medewerker', 'medewerker.achternaam') }}
+            </th>
+            <th>
+                {{ knp_pagination_sortable(pagination, 'Reservering', 'huurovereenkomst.isReservering') }}
+            </th>
+            <th>
+            </th>
+        </tr>
+
+        {% for huurverzoek in pagination %}
+            {% set class= "" %}
+            {% if huurverzoek.huurovereenkomst is not null and huurverzoek.huurovereenkomst.isReservering == true %}
+                {% set class = "danger" %}
+            {% endif %}
+
+        <tr class="{{ class }}" data-href="{{ path('tw_huurverzoeken_view', {id: huurverzoek.id}) }}">
+            <td>
+                {{ huurverzoek.id }}
+            </td>
+            <td>
+                {{ huurverzoek.klant.appKlant.naam }}
+            </td>
+            <td>
+                {% for project in huurverzoek.projecten %}
+                <li>{{ project.naam }}</li>
+                {% endfor %}
+            </td>
+            <td>
+                {{ huurverzoek.startdatum|date('d-m-Y') }}
+            </td>
+            <td>
+                {{ huurverzoek.afsluitdatum ? huurverzoek.afsluitdatum|date('d-m-Y') }}
+                {{ huurverzoek.afsluiting ? '('~huurverzoek.afsluiting~')' }}
+            </td>
+
+            <td>
+                {{ huurverzoek.medewerker }}
+            </td>
+            <td>
+                {{ huurverzoek.huurovereenkomst ? huurverzoek.huurovereenkomst.isReservering|ja_nee : "Nee" }}
+            </td>
+            <td>
+                {{ html.editLink(path('tw_huurverzoeken_edit', {id: huurverzoek.id})) }}
+                {% if huurverzoek.deletable %}
+                    {{ html.deleteLink(path('tw_huurverzoeken_delete', {id: huurverzoek.id})) }}
+                {% endif %}
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    <p>
+        {{ knp_pagination_render(pagination) }}
+    </p>
+{% endblock %}

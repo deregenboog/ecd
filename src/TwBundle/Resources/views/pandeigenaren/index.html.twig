@@ -1,0 +1,63 @@
+{% extends '::base.html.twig' %}
+{% import '::html.macro.twig' as html %}
+
+{% block title %}
+    Tijdelijk Wonen | {{ title }}
+{% endblock %}
+
+{% block subnavigation %}
+    {% include '@Tw/tw_subnavigation.html.twig' %}
+{% endblock %}
+
+{% block content %}
+    <h1>{{ title }}</h1>
+    <p>
+        {{ html.addLink(path('tw_pandeigenaren_add')) }}
+        {{ html.link('Pandeigenaar toevoegen', path('tw_pandeigenaren_add')) }}
+    </p>
+    <table class="table table-hover">
+        <tr>
+            <th>
+                {{ knp_pagination_sortable(pagination, '#', 'pandeigenaar.id') }}
+            </th>
+            <th>
+                {{ knp_pagination_sortable(pagination, 'Naam', 'pandeigenaar.naam') }}
+            </th>
+            <th>
+{#                {{ knp_pagination_sortable(pagination, 'Type', 'pandeigenaar.pandeigenaarType.naam') }}#}
+                Type
+            </th>
+            <th>
+                {{ knp_pagination_sortable(pagination, 'Actief', 'pandeigenaar.actief') }}
+            </th>
+            <th>
+            </th>
+        </tr>
+        {% for entity in pagination %}
+            <tr>
+                <td>
+                    {{ entity.id }}
+                </td>
+                <td>
+                    {{ entity }}
+                </td>
+                <td>
+                    {{ entity.pandeigenaarType }}
+                </td>
+                <td>
+                    {{ entity.actief ? 'ja' : 'nee' }}
+                </td>
+                <td>
+                    {{ html.editLink(path('tw_pandeigenaren_edit', {'id': entity.id})) }}
+                    {% if entity.deletable %}
+                        {{ html.deleteLink(path('tw_pandeigenaren_delete', {'id': entity.id})) }}
+                    {% endif %}
+                </td>
+            </tr>
+        {% endfor %}
+    </table>
+
+    <p>
+        {{ knp_pagination_render(pagination) }}
+    </p>
+{% endblock %}

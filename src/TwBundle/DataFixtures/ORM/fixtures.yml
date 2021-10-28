@@ -1,0 +1,67 @@
+TwBundle\Entity\HuuraanbodAfsluiting:
+    tw_afsluiting_huuraanbod_{1..5}:
+        naam: 'Reden <current()> afsluiting huuraanbod'
+
+TwBundle\Entity\HuurderAfsluiting:
+    tw_afsluiting_huurder_{1..5}:
+        naam: 'Reden <current()> afsluiting klant'
+
+TwBundle\Entity\HuurovereenkomstAfsluiting:
+    tw_afsluiting_huurovereenkomst_{1..5}:
+        naam: 'Reden <current()> afsluiting koppeling'
+
+TwBundle\Entity\HuurverzoekAfsluiting:
+    tw_afsluiting_huurverzoek_{1..5}:
+        naam: 'Reden <current()> afsluiting huurverzoek'
+
+TwBundle\Entity\VerhuurderAfsluiting:
+    tw_afsluiting_verhuurder_{1..5}:
+        naam: 'Reden <current()> afsluiting verhuurder'
+
+TwBundle\Entity\Pandeigenaar:
+    tw_pandeigenaar_{1..5}:
+        naam: '<word()>'
+    tw_pandeigenaar_{6..7}:
+        naam: '<word()>'
+        actief: false
+
+TwBundle\Entity\Coordinator:
+    tw_coordinator_{1..5}:
+        medewerker (unique): '@medewerker_*'
+
+TwBundle\Entity\Huurder:
+    tw_huurder_{1..100}:
+        klant (unique): '@klant_*'
+        medewerker: '@medewerker_*'
+        aanmelddatum: '<dateTimeThisDecade()>'
+        huurbudget: '@huurbudget_*'
+        werk: '@werk_*'
+        duurthuisloos: '@duurthuisloos_*'
+
+TwBundle\Entity\Verhuurder:
+    tw_verhuurder_{1..100}:
+        klant (unique): '@klant_*'
+        medewerker: '@medewerker_*'
+        aanmelddatum: '<dateTimeThisDecade()>'
+
+TwBundle\Entity\Huuraanbod:
+    tw_huuraanbod_{1..75}:
+        verhuurder (unique): '@tw_verhuurder_*'
+        medewerker: '@medewerker_*'
+        startdatum: '<dateTimeThisDecade()>'
+        afsluitdatum: '10%? <afsluitdatum($startdatum)>'
+
+TwBundle\Entity\Huurverzoek:
+    tw_huurverzoek_{1..75}:
+        huurder (unique): '@tw_huurder_*'
+        medewerker: '@medewerker_*'
+        startdatum: '<dateTimeThisDecade()>'
+        afsluitdatum: '10%? <afsluitdatum($startdatum)>'
+        
+TwBundle\Entity\Huurovereenkomst:
+    tw_huurovereenkomst_{1..50}:
+        huurverzoek (unique): '@tw_huurverzoek_*'
+        huuraanbod (unique): '@tw_huuraanbod_*'
+        medewerker: '@medewerker_*'
+        startdatum: '<dateTimeThisDecade()>'
+        einddatum: '50%? <afsluitdatum($startdatum)>'
