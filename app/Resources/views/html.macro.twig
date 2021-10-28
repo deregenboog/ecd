@@ -80,3 +80,99 @@
 {% macro tick() %}
     <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
 {% endmacro %}
+
+{% macro modalPaste(title, onclick) %}
+<!-- Modal HTML -->
+<div id="modalPaste" class="modal fade" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">{{ title }}</h5>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <textarea id="pasteValue" class="form-control" rows="8"></textarea>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuleren</button>
+                <button type="button" class="btn btn-primary" onclick="{{ onclick }}">Ga</button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endmacro %}
+
+{% macro fieldsetToggle(fieldsetName,toggleId, autoInit = false) %}
+    {% block script %}
+        <script>
+            let fieldsetName = '{{ fieldsetName }}';
+            let toggleId = '#{{ toggleId }}';
+            let fieldset = $('form fieldset[name="{{ fieldsetName }}"]').first();
+
+            //init onChange method
+            $(toggleId).change(function(){
+                toggleFieldset(fieldset);
+            });
+
+            /**
+             * If one of the children input types contains a value, (that is, checked, something selected or an input text value)
+             * It is considered to be initialized as 'show this fieldset' as it has been filled before
+             * and therefore it is meant to be shown.
+             */
+            function autoInit()
+            {
+
+                let childrenInput = fieldset.find("input");
+                childrenInput.each(function(pos,elm) {
+                    switch ($(elm).attr('type')) {
+                        case "text":
+                            if ($(toggleId).val()) return false;
+                            break;
+                        case "checkbox":
+                            if ($(toggleId).prop('checked')) return false;
+                            break;
+                    }
+                });
+
+                let childrenSelect = fieldset.find("select").children("option");
+                childrenSelect.each(function(pos,elm)
+                {
+                    if($(elm).prop('checked')) return false;
+                });
+
+            }
+            function init(autoIn)
+            {
+                if(autoIn == true) { autoInit(); }
+                //get initial state of both items and sync
+                let initFieldsetStateIsHidden = fieldset.hasClass('hide');
+                let initToggleStateChecked = (undefined==$(toggleId).attr('checked'))?false:true;
+
+
+                if(initToggleStateChecked == false && initFieldsetStateIsHidden == false)
+                {
+                    //niet gechecked dus fieldset verbergen
+                    toggleFieldset(fieldset);
+                }
+                else if(initToggleStateChecked == true && initFieldsetStateIsHidden == true)
+                {
+                    //wel geckeckt dus wel laten zien dus toggelen = hide weghalen.
+                    toggleFieldset(fieldset);
+                }
+            }
+
+            // console.log(initFieldsetStateHidden,initToggleStateHide);
+
+            function toggleFieldset(fieldset){
+
+                fieldset.toggleClass('hide');
+                fieldset.children().each(
+                    function(pos,el){
+                        $(el).toggleClass('hide')
+                    }
+                );
+            }
+            $('body').load(init({{ autoInit }}));
+        </script>
+    {% endblock %}
+{% endmacro fieldsetToggle %}
