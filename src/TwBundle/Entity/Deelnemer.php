@@ -332,6 +332,11 @@ abstract class Deelnemer  implements KlantRelationInterface
         return $this->id;
     }
 
+    public function getKlant()
+    {
+        return $this->appKlant;
+    }
+
     public function getAppKlant()
     {
         return $this->appKlant;

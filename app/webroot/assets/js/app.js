@@ -9,6 +9,7 @@ global.$ = global.jQuery = $;
 require('lodash')
 require('bootstrap');
 require('bootstrap/dist/css/bootstrap.min.css')
+// require('bootstrap/less/bootstrap.less')
 
 //App specific stuff.
 require('../css/global.scss')

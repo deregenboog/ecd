@@ -17,15 +17,22 @@ class KlantDao extends AbstractDao implements KlantDaoInterface
         'sortFieldWhitelist' => [
             'klant.id',
             'appKlant.achternaam',
-            'werkgebied.naam',
-            'klant.automatischeIncasso',
-            'klant.inschrijvingWoningnet',
-            'klant.waPolis',
-            'klant.aanmelddatum',
-            'klant.afsluitdatum',
-            'klant.wpi',
-            'medewerker.achternaam',
-            'ambulantOndersteuner.achternaam'
+            'appKlant.geslacht',
+            'appKlant.geboortedatum',
+            'klant.intakeStatus',
+//            'werkgebied.naam',
+//            'klant.automatischeIncasso',
+//            'klant.inschrijvingWoningnet',
+//            'klant.waPolis',
+//            'klant.aanmelddatum',
+//            'klant.afsluitdatum',
+//            'klant.wpi',
+//            'medewerker.achternaam',
+//            'ambulantOndersteuner.achternaam',
+            'intakeStatus.naam',
+            'geslacht.volledig',
+            'bindingRegio.label',
+            'shortlist.achternaam',
 
         ],
     ];
@@ -50,7 +57,12 @@ class KlantDao extends AbstractDao implements KlantDaoInterface
 
 
         $builder = $this->repository->createQueryBuilder('klant')
+
             ->innerJoin('klant.appKlant', 'appKlant')
+            ->leftJoin('appKlant.geslacht','geslacht')
+            ->leftJoin('klant.intakeStatus','intakeStatus')
+            ->leftJoin('klant.bindingRegio','bindingRegio')
+            ->leftJoin('klant.shortlist','shortlist')
             ->leftJoin('klant.ambulantOndersteuner','ambulantOndersteuner')
 
             ->leftJoin('appKlant.werkgebied', 'werkgebied')
