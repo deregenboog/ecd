@@ -38,8 +38,6 @@ class ZrmType extends AbstractType
                 'label' => 'Module',
                 'placeholder' => 'Selecteer eem module',
                 'choices' => [
-//                     'GroepsactiviteitenIntake' => 'GroepsactiviteitenIntake',
-//                     'Hi5' => 'Hi5',
                     'Intake' => 'Intake',
                     'IzIntake' => 'IzIntake',
                     'Klant' => 'Klant',

@@ -5,6 +5,8 @@ AppBundle\Entity\Geslacht:
         __construct: ['Vrouw', 'V']
     geslacht_3:
         __construct: ['Onbekend', 'O']
+    geslacht_4:
+        __construct: [ 'Non-binair', 'X' ]
 
 AppBundle\Entity\Werkgebied:
     werkgebied_1:
@@ -700,10 +702,10 @@ AppBundle\Entity\Medewerker:
         achternaam: '<lastname()>'
         eersteBezoek: '<dateTimeThisDecade()>'
         laatsteBezoek: '<dateTimeThisDecade()>'
-    medewerker_odp:
+    medewerker_tw:
         ldapGuid (unique): '<randomNumber()>'
-        roles: ['ROLE_ODP']
-        username: 'odp_user'
+        roles: ['ROLE_TW']
+        username: 'tw_user'
         email: '<email()>'
         voornaam: '<firstname()>'
         achternaam: '<lastname()>'

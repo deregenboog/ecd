@@ -8,6 +8,8 @@ use AppBundle\Model\TimestampableTrait;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use InloopBundle\Entity\DossierStatus;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
 /**
  * @ORM\MappedSuperclass
@@ -209,6 +211,19 @@ class Persoon
         return true;
     }
 
+    /**
+     * @Assert\Callback
+     */
+    public function validate(ExecutionContextInterface $context, $payload)
+    {
+        if (!$this->voornaam && !$this->achternaam ||
+            ( strlen(trim($this->voornaam)) < 1 && strlen(trim($this->achternaam)) < 1)
+        ){
 
+            $context->buildViolation('Het is verplicht een voor- of achternaam in te vullen.')
+                ->atPath('achternaam')
+                ->addViolation();
+        }
+    }
 
 }
