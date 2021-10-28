@@ -52,7 +52,7 @@ class LoginEventListener
             $medewerker->setEersteBezoek(new \DateTime());
             $this->em->persist($medewerker);
         } else {
-            /** @var Medewerker $ldapMedewerker */
+
             $ldapMedewerker = $this->ldapUserProvider->loadUserByUsername($event->getToken()->getUsername());
             $medewerker
                 ->setLdapGuid($ldapMedewerker->getLdapGuid())

@@ -48,6 +48,7 @@ class Medewerker implements LdapUserInterface, UserInterface
 
     /**
      * @ORM\Column(name="groups", type="json_array", nullable=true)
+     * !! This column is not used / set by LDAP. What is it?!
      */
     private $groepen = [];
 
