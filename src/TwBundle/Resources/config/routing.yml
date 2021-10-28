@@ -1,0 +1,9 @@
+tw_annotations:
+    resource: "@TwBundle/Controller"
+    type: annotation
+
+tw_index:
+    path: /
+    defaults:
+        _controller: FrameworkBundle:Redirect:redirect
+        route: tw_klanten_index

@@ -1,0 +1,39 @@
+{% extends '::base.html.twig' %}
+{% import '::html.macro.twig' as html %}
+
+{% block title %}
+    Tijdelijk Wonen | {{ title }}
+{% endblock %}
+
+{% block subnavigation %}
+    {% include '@Tw/tw_subnavigation.html.twig' %}
+{% endblock %}
+
+{% block content %}
+    <h1>Koppeling maken</h1>
+
+    {% if huurverzoek is defined %}
+        <dl class="dl-horizontal">
+            <dt>#</dt>
+            <dd>{{ huurverzoek.id }}</dd>
+            <dt>Klant</dt>
+            <dd>{{ huurverzoek.klant.appKlant }}</dd>
+            <dt>Startdatum</dt>
+            <dd>{{ huurverzoek.startdatum|date('d-m-Y') }}</dd>
+        </dl>
+    {% endif %}
+
+    {% if huuraanbod is defined %}
+        <dl class="dl-horizontal">
+            <dt>#</dt>
+            <dd>{{ huuraanbod.id }}</dd>
+            <dt>Verhuurder</dt>
+            <dd>{{ huuraanbod.verhuurder.appKlant }}</dd>
+            <dt>Startdatum</dt>
+            <dd>{{ huuraanbod.startdatum|date('d-m-Y') }}</dd>
+        </dl>
+    {% endif %}
+
+    {{ form(form) }}
+{% endblock %}
+

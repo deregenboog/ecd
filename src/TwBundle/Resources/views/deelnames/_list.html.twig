@@ -1,0 +1,38 @@
+{% import '::html.macro.twig' as html %}
+{% if vrijwilliger is defined %}
+    {% set entity = vrijwilliger %}
+    {% set url = path('tw_deelnames_add', {vrijwilliger: entity.id}) %}
+{% endif %}
+
+<h2>Trainingen</h2>
+{% if url is defined %}
+    <p>
+        {{ html.addLink(url) }}
+        {{ html.link('Training toevoegen', url) }}
+    </p>
+{% endif %}
+<table class="table table-hover">
+    <tr>
+        <th>Naam</th>
+        <th></th>
+        <th>Datum</th>
+        <th></th>
+    </tr>
+
+    {% for deelname in entity.trainingDeelnames %}
+        {% set colspan = 2 %}
+        {% set overig = '' %}
+        {% if deelname.training == 'Overig' %}
+            {% set colspan = 1 %}
+            {% set overig = ": " ~ deelname.overig %}
+        {% endif %}
+        <tr>
+            <td colspan="2">{{ deelname.training.naam }} {{ overig }}</td>
+            <td>{{ deelname.datum|date('d-m-Y') }}</td>
+            <td>
+                {% set url = path('tw_deelnames_delete', {id: deelname.id, vrijwilliger: entity.id}) %}
+                {{ html.deleteLink(url) }}
+            </td>
+        </tr>
+    {% endfor %}
+</table>
