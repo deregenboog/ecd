@@ -1,7 +1,8 @@
 {% extends '::base.html.twig' %}
 
 {% block stylesheets %}
-    <link rel="stylesheet" type="text/css" href="{{ asset('css/signin.css') }}" />
+    {{ parent() }}
+    {{ encore_entry_link_tags('signin') }}
 {% endblock %}
 
 {% block content %}

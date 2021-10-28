@@ -114,12 +114,12 @@ security:
             - ROLE_HS_BEHEER
         ROLE_HS_BEHEER: [] #to be in line with the bundle naming...
         ROLE_HS: []
-        ROLE_ODP:
+        ROLE_TW:
             - CONTROLLER_APP_KLANTEN
             - CONTROLLER_APP_VRIJWILLIGERS
-            - ROLE_ODP_VRIJWILLIGERS
-        ROLE_ODP_BEHEER:
-            - ROLE_ODP
+            - ROLE_TW_VRIJWILLIGERS
+        ROLE_TW_BEHEER:
+            - ROLE_TW
         ROLE_OEK: []
         ROLE_OEK_BEHEER:
             - ROLE_OEK
@@ -162,8 +162,8 @@ security:
             - ROLE_EROPUIT
             - ROLE_HOMESERVICE
             - ROLE_HOMESERVICE_BEHEER
-            - ROLE_ODP
-            - ROLE_ODP_BEHEER
+            - ROLE_TW
+            - ROLE_TW_BEHEER
             - ROLE_OEK
             - ROLE_OEK_BEHEER
             - ROLE_INLOOP
@@ -189,6 +189,7 @@ security:
             - CONTROLLER_APP_VRIJWILLIGERS
             - CONTROLLER_APP_ZRMS
             - CONTROLLER_MEDEWERKERS
+            - CONTROLLER_APP_DOWNLOAD
             - ROLE_HRM
             - ROLE_BUURTBOERDERIJ
             - ROLE_SECRETARIAAT
@@ -209,6 +210,8 @@ security:
         ROLE_MANAGEMENT:
             - CONTROLLER_APP_DOELSTELLINGEN
         ROLE_SECRETARIAAT:
+            - ROLE_GLOBALDOWNLOAD
+        ROLE_GLOBALDOWNLOAD:
             - CONTROLLER_APP_DOWNLOAD
 
 
@@ -237,8 +240,10 @@ ldap_tools:
             ROLE_REPORT: "CN=ECD Report,CN=Users,DC=cluster,DC=deregenboog"
             ROLE_OEK: "CN=ECD Op Eigen Kracht,CN=Users,DC=cluster,DC=deregenboog"
             ROLE_OEK_BEHEER: "CN=ECD Op Eigen Kracht Beheer,CN=Users,DC=cluster,DC=deregenboog"
-            ROLE_ODP: "CN=ECD Onder de Pannen,CN=Users,DC=cluster,DC=deregenboog"
-            ROLE_ODP_BEHEER: "CN=ECD Onder de Pannen Beheer,CN=Users,DC=cluster,DC=deregenboog"
+            ROLE_TW: "CN=ECD Onder de Pannen,CN=Users,DC=cluster,DC=deregenboog" #bw compatiblity
+            ROLE_TW_BEHEER: "CN=ECD Onder de Pannen Beheer,CN=Users,DC=cluster,DC=deregenboog" #bw comp.
+            ROLE_TW: "CN=ECD Tijdelijk Wonen,CN=Users,DC=cluster,DC=deregenboog"
+            ROLE_TW_BEHEER: "CN=ECD Tijdelijk Wonen Beheer,CN=Users,DC=cluster,DC=deregenboog"
             ROLE_ADMINISTRATIEBEDRIJF: "CN=administratiebedrijf,CN=Users,DC=cluster,DC=deregenboog"
             ROLE_DAGBESTEDING: "CN=ECD Trajectbegeleider,CN=Users,DC=cluster,DC=deregenboog"
             ROLE_DAGBESTEDING_BEHEER: "CN=ECD Dagbesteding Beheer,CN=Users,DC=cluster,DC=deregenboog"
@@ -257,7 +262,6 @@ ldap_tools:
             ROLE_PROGRAMMACOORDINATOR: "CN=ECD Programmacoordinator,CN=Users,DC=cluster,DC=deregenboog"
             ROLE_PROGRAMMACOORDINATORA: "CN=ECD Programmacoördinator,CN=Users,DC=cluster,DC=deregenboog"
             ROLE_PROGRAMMACOORDINATORB: "CN=ECD Programma Co\u00f6rdinator,CN=Users,DC=cluster,DC=deregenboog"
-            ROLE_PROGRAMMACOORDINATORC: "CN=ECD Programma Coordinator,CN=Users,DC=cluster,DC=deregenboog"
             ROLE_UHK: "CN=ECD Uit het Krijt,CN=Users,DC=cluster,DC=deregenboog"
             ROLE_UHK_BEHEER: "CN=ECD Uit het Krijt Beheer,CN=Users,DC=cluster,DC=deregenboog"
             ROLE_SPORT: "CN=ECD Sport,CN=Users,DC=cluster,DC=deregenboog"

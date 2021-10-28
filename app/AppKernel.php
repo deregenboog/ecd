@@ -24,7 +24,7 @@ class AppKernel extends Kernel
             new Vich\UploaderBundle\VichUploaderBundle(),
             new Shivas\VersioningBundle\ShivasVersioningBundle(),
             new FOS\CKEditorBundle\FOSCKEditorBundle(),
-
+            new Symfony\WebpackEncoreBundle\WebpackEncoreBundle(),
             new Symfony\Bundle\SecurityBundle\SecurityBundle(),
 
             new LegacyBundle\LegacyBundle(),
@@ -38,7 +38,7 @@ class AppKernel extends Kernel
             new InloopBundle\InloopBundle(),
             new IzBundle\IzBundle(),
             new MwBundle\MwBundle(),
-            new OdpBundle\OdpBundle(),
+            new TwBundle\TwBundle(),
             new OekBundle\OekBundle(),
             new PfoBundle\PfoBundle(),
             new ScipBundle\ScipBundle(),

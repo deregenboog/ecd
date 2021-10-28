@@ -74,7 +74,7 @@ INNER JOIN odp_huurverzoeken AS hv ON hv.id = hvp.odp_huurverzoek_id");
         $this->addSql("INSERT IGNORE INTO odp_huurders_odp_projecten (odp_huurder_id, odp_project_id)
 SELECT h.id,1 FROM odp_deelnemers AS h 
 LEFT JOIN odp_huurders_odp_projecten AS hp ON hp.odp_huurder_id = h.id
-WHERE hp.odp_huurder_id IS NULL AND h.model = 'Huurder'");
+WHERE hp.odp_huurder_id IS NULL AND h.model = 'Klant'");
 
         $this->addSql("UPDATE odp_deelnemers AS d 
         INNER JOIN odp_huuraanbiedingen AS ha ON d.id = ha.verhuurder_id 
