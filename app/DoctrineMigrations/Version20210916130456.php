@@ -53,10 +53,10 @@ final class Version20210916130456 extends AbstractMigration
                             ('Uithoorn'),('Velsen'),('Weesp'),('Zaanstad'),('Zandvoort')");
 
         $this->addSql("INSERT INTO tw_dagbesteding (label) VALUES ('Veel thuis (niet of nauwelijks werkend'),('Tussenin'),('Niet veel thuis')");
-        $this->addSql("INSERT INTO tw_ritme (label) VALUES ('Ochtendmens'),('Normaal'),('AVondmens'),('Wisselend')");
+        $this->addSql("INSERT INTO tw_ritme (label) VALUES ('Ochtendmens'),('Normaal'),('Avondmens'),('Wisselend')");
         $this->addSql("INSERT INTO tw_huisdieren (label) VALUES ('Nee'),('Geen honden'), ('Geen katten'), ('Geen honden en geen katten')");
         $this->addSql("INSERT INTO tw_roken (label) VALUES ('Rookt'),('Rookt niet'),('Tegen roken')");
-        $this->addSql("INSERT INTO tw_softdrugs (label) VALUES ('Regelmatig'),('Soms'),('Nooit'),('Tegen softdrugs')");
+        $this->addSql("INSERT INTO tw_softdrugs (label) VALUES ('Gebruikt'),('Gebruikt niet'),('Tegen gebruikt')");
         $this->addSql("INSERT INTO tw_traplopen (label) VALUES ('Ja'), ('Nee')");
         $this->addSql("INSERT INTO tw_moscreening (label) VALUES ('Niet gescreend'),('Afwijzing voor MO'),('Beschikking voor MO')");
 
@@ -84,7 +84,7 @@ final class Version20210916130456 extends AbstractMigration
                                 ('18 jaar',180),
                                 ('19 jaar',190),
                                 ('20 jaar',200),
-                                ('21 jaar',210)
+                                ('>20 jaar',210)
                                     
         ");
     }

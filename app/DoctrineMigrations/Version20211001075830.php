@@ -24,7 +24,7 @@ final class Version20211001075830 extends AbstractMigration
         $this->addSql('CREATE INDEX IDX_E43172565357D7EE ON tw_deelnemers (alcohol_id)');
         $this->addSql('CREATE INDEX IDX_E4317256452FF74C ON tw_deelnemers (inschrijvingWoningnet_id)');
         $this->addSql('CREATE INDEX IDX_E4317256B4770027 ON tw_deelnemers (shortlist_id)');
-        $this->addSql("INSERT INTO tw_alcohol (label) VALUES ('Regelmatig'),('Soms'),('Nooit'),('Tegen alcohol')");
+        $this->addSql("INSERT INTO tw_alcohol (label) VALUES ('Gebruikt'),('Gebruikt niet'),('Tegen gebruikt')");
     }
 
     public function down(Schema $schema) : void

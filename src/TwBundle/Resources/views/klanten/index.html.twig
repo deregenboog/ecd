@@ -116,27 +116,27 @@
                         {{ knp_pagination_sortable(pagination, 'Aanmelddatum', 'klant.aanmelddatum') }}
                     </th>
                     <th>
-                        {{ knp_pagination_sortable(pagination, 'Klant', 'klant.appKlant.achternaam') }}
+                        {{ knp_pagination_sortable(pagination, 'Klant', 'appKlant.achternaam') }}
                     </th>
                     <th>
-                        {{ knp_pagination_sortable(pagination, 'Geslacht', 'klant.appKlant.geslacht') }}
+                        {{ knp_pagination_sortable(pagination, 'Geslacht', 'geslacht.volledig') }}
                     </th>
                     <th>
-                        {{ knp_pagination_sortable(pagination, 'Geboortedatum', 'klant.appKlant.geboortedatum') }}
+                        {{ knp_pagination_sortable(pagination, 'Geboortedatum', 'appKlant.geboortedatum') }}
                     </th>
                     <th>
                         Project(en)
                     </th>
 
                     <th>
-                        {{ knp_pagination_sortable(pagination, 'Intake status', 'klant.intakeStatus') }}
+                        {{ knp_pagination_sortable(pagination, 'Intake status', 'intakeStatus.naam') }}
 
                     </th>
                     <th>
-                        {{ knp_pagination_sortable(pagination, 'Binding', 'klant.bindingRegio') }}
+                        {{ knp_pagination_sortable(pagination, 'Binding', 'bindingRegio.label') }}
                     </th>
                     <th>
-                        {{ knp_pagination_sortable(pagination, 'Shortlist', 'klant.shortlist') }}
+                        {{ knp_pagination_sortable(pagination, 'Shortlist', 'shortlist.achternaam') }}
                     </th>
                     <th></th>
                 </tr>
@@ -154,7 +154,7 @@
                         {{ klant.appKlant.geslacht }}
                     </td>
                     <td>
-                        {{ klant.appKlant.geboortedatum|date('d-m-Y') }}
+                        {{ klant.appKlant.geboortedatum|if_date('d-m-Y') }}
                     </td>
                     <td>
                         {% for project in klant.projecten %}

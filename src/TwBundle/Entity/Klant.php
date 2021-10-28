@@ -363,7 +363,7 @@ class Klant extends Deelnemer
     public function setZrm(Zrm $zrm)
     {
         $zrm->setRequestModule("TwHuurder");
-        $zrm->setKlant($this->getAppKlant());
+        $zrm->setKlant($this->getKlant());
         $this->zrm = $zrm;
     }
 
