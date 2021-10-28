@@ -21,8 +21,8 @@ use Symfony\Component\EventDispatcher\GenericEvent;
 class IntakeDao extends AbstractDao implements IntakeDaoInterface
 {
     protected $paginationOptions = [
-        'defaultSortFieldName' => 'intake.intakedatum',
-        'defaultSortDirection' => 'desc',
+        'defaultSortFieldName' => 'verslag.datum',
+        'defaultSortDirection' => 'DESC',
         'sortFieldWhitelist' => [
             'intake.intakedatum',
             'klant.id',
@@ -31,9 +31,13 @@ class IntakeDao extends AbstractDao implements IntakeDaoInterface
             'werkgebied.naam',
             'geslacht.volledig',
             'intakelocatie.naam',
+//            'laatsteIntake.intakedatum',
             'laatsteIntake.intakedatum',
-            'eersteIntake.intakelocatie.naam'
+            'eersteIntake.intakelocatie.naam',
+            'intake.created',
+            'verslag.datum'
         ],
+        'wrap-queries'=>true
     ];
 
     protected $class = Intake::class;
@@ -130,7 +134,7 @@ WHERE (ki.klant_id IS NOT NULL OR kv.klant_id IS NOT NULL)
 
         if($filter !== null)
         {
-            $filter->applyTo($subQuery2);
+//            $filter->applyTo($subQuery2);
         }
 
 //        $sq2 = $subQuery2->getQuery();
@@ -150,6 +154,7 @@ WHERE (ki.klant_id IS NOT NULL OR kv.klant_id IS NOT NULL)
             ->select("klant,intake,werkgebied,verslag")
             ->leftJoin("klant.geslacht","geslacht")
             ->leftJoin("klant.eersteIntake","intake")
+            ->leftJoin("klant.laatsteIntake","laatsteIntake")
 
             ->leftJoin("intake.intakelocatie","intakelocatie")
             ->leftJoin('klant.werkgebied','werkgebied')
@@ -160,6 +165,9 @@ WHERE (ki.klant_id IS NOT NULL OR kv.klant_id IS NOT NULL)
             ->setParameter("wachtlijstLocaties",$this->wachtlijstLocaties)
             ->setParameter("verslagIds",$vIds)
             ->groupBy("klant.id")
+//            ->orderBy("verslag.datum","DESC")
+
+
 
             ;
        if(null !== $filter) $filter->applyTo($builder);

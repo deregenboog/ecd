@@ -39,6 +39,7 @@ class DienstenLookupSubscriber implements EventSubscriberInterface
 
     public function provideDienstenInfo(DienstenLookupEvent $event)
     {
+//        return;
         $klant = $event->getKlant();
         $deelnemer = $this->entityManager->getRepository(Deelnemer::class)
             ->findOneBy(['klant' => $klant]);

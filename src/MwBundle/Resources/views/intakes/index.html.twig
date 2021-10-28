@@ -74,7 +74,8 @@
                     {{ knp_pagination_sortable(pagination, 'Wachtlijst (locatie)', 'intakelocatie.naam') }}
                 </th>
                 <th>
-                    Laatste intake datum
+                    {{ knp_pagination_sortable(pagination, 'Laatste verslag datum', 'verslag.datum') }}
+
                 </th>
             </tr>
         </thead>
@@ -110,11 +111,11 @@
                     {% endif %}
                 </td>
                 <td>
-                    {% if klant.intake is defined %}
-                        {{ klant.intake.datum|date("d-m-Y") }}
-                    {% else %}
+{#                    {% if klant.intake is defined %}#}
+{#                        {{ klant.intake.datum|date("d-m-Y") }}#}
+{#                    {% else %}#}
                         {{ klant.verslagen.first().datum|date("d-m-Y") }}
-                    {% endif %}
+{#                    {% endif %}#}
 
                 </td>
             </tr>
