@@ -78,7 +78,7 @@ class HuuraanbodFilterType extends AbstractType
             $builder->add('project', ProjectSelectFilterType::class, [
                 'label' => 'Project',
                 'required' => false,
-                'data' => false,
+//                'data' => false,
             ]);
         }
         $builder
