@@ -72,11 +72,11 @@ class Verhuurder extends Deelnemer
      */
     private $project;
 
-    /**
-     * @var boolean
-     * @ORM\Column(type="boolean",nullable=true)
-     */
-    private $kwijtschelding;
+//    /**
+//     * @var boolean
+//     * @ORM\Column(type="boolean",nullable=true)
+//     */
+//    private $kwijtschelding;
 
     /**
      * @var integer
@@ -88,6 +88,24 @@ class Verhuurder extends Deelnemer
      * @ORM\Column(type="boolean",nullable=true)
      */
     private $huurtoeslag;
+
+
+    /**
+     * @var AanvullingInkomen
+     *
+     * ORM\ManyToOne(targetEntity="TwBundle\Entity\AanvullingInkomen", inversedBy="verhuurders")
+     * Gedmo\Versioned
+     */
+//    private $aanvullingInkomen;
+
+
+    /**
+     * @var Kwijtschelding
+     *
+     * ORM\ManyToOne(targetEntity="TwBundle\Entity\Kwijtschelding", inversedBy="verhuurders")
+     * Gedmo\Versioned
+     */
+//    private $kwijtschelding;
 
 
 
@@ -235,22 +253,43 @@ class Verhuurder extends Deelnemer
     }
 
     /**
-     * @return bool
+     * @return Kwijtschelding
      */
-    public function isKwijtschelding(): bool
+    public function getKwijtschelding(): ?Kwijtschelding
     {
         return $this->kwijtschelding;
     }
 
     /**
-     * @param bool $kwijtschelding
+     * @param Kwijtschelding $kwijtschelding
      * @return Verhuurder
      */
-    public function setKwijtschelding(bool $kwijtschelding): Verhuurder
+    public function setKwijtschelding(?Kwijtschelding $kwijtschelding): Verhuurder
     {
         $this->kwijtschelding = $kwijtschelding;
         return $this;
     }
+
+//    /**
+//     * @return bool
+//     */
+//    public function isKwijtschelding(): bool
+//    {
+//        return $this->kwijtschelding;
+//    }
+//
+//    /**
+//     * @param bool $kwijtschelding
+//     * @return Verhuurder
+//     */
+//    public function setKwijtschelding(bool $kwijtschelding): Verhuurder
+//    {
+//        $this->kwijtschelding = $kwijtschelding;
+//        return $this;
+//    }
+
+
+
 
     /**
      * @return int
@@ -287,6 +326,25 @@ class Verhuurder extends Deelnemer
         $this->huurtoeslag = $huurtoeslag;
         return $this;
     }
+
+    /**
+     * @return AanvullingInkomen
+     */
+    public function getAanvullingInkomen(): ?AanvullingInkomen
+    {
+        return $this->aanvullingInkomen;
+    }
+
+    /**
+     * @param AanvullingInkomen $aanvullingInkomen
+     * @return Verhuurder
+     */
+    public function setAanvullingInkomen(?AanvullingInkomen $aanvullingInkomen): Verhuurder
+    {
+        $this->aanvullingInkomen = $aanvullingInkomen;
+        return $this;
+    }
+
 
 
 

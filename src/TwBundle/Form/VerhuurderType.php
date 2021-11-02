@@ -39,9 +39,9 @@ class VerhuurderType extends AbstractType
         }
 
         $builder
-            ->add('ambulantOndersteuner', \AppBundle\Form\MedewerkerType::class,[
+            ->add('begeleider',  null,[
                 'required'=>false,
-                'preset'=>false,
+//                'preset'=>false,
 
             ])
             ->add('project', ProjectSelectType::class)
