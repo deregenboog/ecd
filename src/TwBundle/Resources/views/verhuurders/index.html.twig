@@ -19,7 +19,7 @@
         <thead>
             {{ form_start(filter) }}
                 <tr>
-                    <th colspan="8">
+                    <th colspan="5">
                     </th>
                     <th>
                         {{ form_widget(filter.actief) }}
@@ -30,11 +30,14 @@
                             {{ form_widget(filter.download) }}
                         </span>
                     </th>
+                    <th></th>
                 </tr>
                 <tr>
                     <th>
-                        {{ form_widget(filter.appKlant.id) }}
-                        {{ form_errors(filter.appKlant.id) }}
+                        {{ form_widget(filter.aanmelddatum.start) }}
+                        {{ form_errors(filter.aanmelddatum.start) }}
+                        {{ form_widget(filter.aanmelddatum.end) }}
+                        {{ form_errors(filter.aanmelddatum.end) }}
                     </th>
                     <th>
                         {{ form_widget(filter.appKlant.naam) }}
@@ -45,41 +48,27 @@
                         {{ form_errors(filter.project) }}
                     </th>
                     <th>
-                        {{ form_widget(filter.wpi) }}
-                        {{ form_errors(filter.wpi) }}
+                        {{ form_widget(filter.gekoppeld) }}
+                        {{ form_errors(filter.gekoppeld) }}
                     </th>
                     <th>
-                        {{ form_widget(filter.ksgw) }}
-                        {{ form_errors(filter.ksgw) }}
+
                     </th>
-                    <th>
-                        {{ form_widget(filter.appKlant.stadsdeel) }}
-                        {{ form_errors(filter.appKlant.stadsdeel) }}
-                    </th>
-                    <th>
-                        {{ form_widget(filter.aanmelddatum.start) }}
-                        {{ form_errors(filter.aanmelddatum.start) }}
-                        {{ form_widget(filter.aanmelddatum.end) }}
-                        {{ form_errors(filter.aanmelddatum.end) }}
-                    </th>
-                    <th>
-                        {{ form_widget(filter.afsluitdatum.start) }}
-                        {{ form_errors(filter.afsluitdatum.start) }}
-                        {{ form_widget(filter.afsluitdatum.end) }}
-                        {{ form_errors(filter.afsluitdatum.end) }}
-                    </th>
+                    <th></th>
 
                     <th>
+                        {{ form_widget(filter.medewerker) }}
+                        {{ form_errors(filter.medewerker) }}
                     </th>
                     <th>
-                        {{ form_widget(filter.ambulantOndersteuner) }}
-                        {{ form_errors(filter.ambulantOndersteuner) }}
+
                     </th>
+
                 </tr>
             {{ form_end(filter) }}
             <tr>
                 <th>
-                    {{ knp_pagination_sortable(pagination, '#', 'appKlant.id') }}
+                    {{ knp_pagination_sortable(pagination, 'Aanmelddatum', 'verhuurder.aanmelddatum') }}
                 </th>
                 <th>
                     {{ knp_pagination_sortable(pagination, 'Verhuurder', 'appKlant.achternaam') }}
@@ -87,33 +76,18 @@
                 <th>
                     {{ knp_pagination_sortable(pagination, 'Project', 'project.naam') }}
                 </th>
-                <th>
-                    {{ knp_pagination_sortable(pagination, 'WPI', 'verhuurder.wpi') }}
-                </th>
-                <th>
-                    {{ knp_pagination_sortable(pagination, 'KSGW', 'verhuurder.ksgw') }}
-                </th>
-                <th>
-                    {{ knp_pagination_sortable(pagination, 'Stadsdeel', 'werkgebied.naam') }}
-                </th>
-                <th>
-                    {{ knp_pagination_sortable(pagination, 'Aanmelddatum', 'verhuurder.aanmelddatum') }}
-                </th>
-                <th>
-                    {{ knp_pagination_sortable(pagination, 'Afsluitdatum dossier', 'verhuurder.afsluitdatum') }}
-                </th>
-                <th>
-                </th>
-                <th>
-                    {{ knp_pagination_sortable(pagination, 'Ambulant ondersteuner', 'ambulantOndersteuner.achternaam') }}
-                </th>
+                <th>Gekoppeld</th>
+                <th>Toestemming Woco</th>
+                <th>Reminder Woco</th>
+                <th>Medewerker</th>
+                <th></th>
             </tr>
         </thead>
         <tbody>
             {% for verhuurder in pagination %}
                 <tr data-href="{{ path(route_base~'view', {id: verhuurder.id}) }}">
                     <td>
-                        {{ verhuurder.appKlant.id }}
+                        {{ verhuurder.aanmelddatum ? verhuurder.aanmelddatum|date('d-m-Y') }}
                     </td>
                     <td>
                         {{ verhuurder.appKlant.naam }}
@@ -122,30 +96,24 @@
                         {{ verhuurder.project }}
                     </td>
                     <td>
-                        {{ verhuurder.wpi ? 'Ja' : 'Nee' }}
+                        {{ verhuurder.isGekoppeld|ja_nee }}
                     </td>
                     <td>
-                        {{ verhuurder.ksgw ? 'Ja' : 'Nee' }}
+                        -
                     </td>
                     <td>
-                        {{ verhuurder.appKlant.werkgebied }}
+                        -
                     </td>
                     <td>
-                        {{ verhuurder.aanmelddatum ? verhuurder.aanmelddatum|date('d-m-Y') }}
+                        {{ verhuurder.medewerker }}
                     </td>
-                    <td>
-                        {{ verhuurder.afsluitdatum ? verhuurder.afsluitdatum|date('d-m-Y') }}
-                        {{ verhuurder.afsluiting ? '('~verhuurder.afsluiting~')' }}
-                    </td>
+
                     <td>
 
                         {{ html.editLink(path('tw_verhuurders_edit', {'id': verhuurder.id}))}}
                         {% if verhuurder.deletable %}
                             {{ html.deleteLink(path('tw_verhuurders_delete', {'id': verhuurder.id}))}}
                         {% endif %}
-                    </td>
-                    <td>
-                        {{ verhuurder.ambulantOndersteuner ? verhuurder.ambulantOndersteuner.naam : '' }}
                     </td>
                 </tr>
             {% endfor %}

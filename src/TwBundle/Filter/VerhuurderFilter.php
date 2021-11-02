@@ -31,24 +31,24 @@ class VerhuurderFilter implements FilterInterface
     public $actief;
 
     /**
+     * @var bool
+     */
+    public $gekoppeld;
+
+    /**
      * @var KlantFilter
      */
     public $appKlant;
 
     /**
-     * @var bool
+     * @var Medewerker
      */
-    public $wpi;
-
-    /**
-     * @var bool
-     */
-    public $ksgw;
+    public $ambulantOndersteuner;
 
     /**
      * @var Medewerker
      */
-    public $ambulantOndersteuner;
+    public $medewerker;
 
     /**
      * @var Project
@@ -85,20 +85,7 @@ class VerhuurderFilter implements FilterInterface
             }
         }
 
-        if ($this->afsluitdatum) {
-            if ($this->afsluitdatum->getStart()) {
-                $builder
-                ->andWhere('verhuurder.afsluitdatum >= :afsluitdatum_van')
-                ->setParameter('afsluitdatum_van', $this->afsluitdatum->getStart())
-                ;
-            }
-            if ($this->afsluitdatum->getEnd()) {
-                $builder
-                ->andWhere('verhuurder.afsluitdatum <= :afsluitdatum_tot')
-                ->setParameter('afsluitdatum_tot', $this->afsluitdatum->getEnd())
-                ;
-            }
-        }
+
 
         if ($this->actief) {
             $builder
@@ -108,28 +95,23 @@ class VerhuurderFilter implements FilterInterface
             ;
         }
 
-        if ($this->wpi) {
-            $builder
-                ->andWhere('verhuurder.wpi = :wpi')
-                ->setParameter('wpi', $this->wpi)
-            ;
+        if ($this->gekoppeld) {
+//            $builder
+//                ->andWhere('verhuurder.aanmelddatum <= :today')
+//                ->andWhere('verhuurder.afsluitdatum > :today OR verhuurder.afsluitdatum IS NULL')
+//                ->setParameter('today', new \DateTime('today'))
+//            ;
         }
 
-        if ($this->ksgw) {
-            $builder
-                ->andWhere('verhuurder.ksgw = :ksgw')
-                ->setParameter('ksgw', $this->ksgw)
-            ;
-        }
-        if($this->ambulantOndersteuner)
+        if($this->medewerker)
         {
 
             $builder
 //                ->leftJoin('huurder.ambulantOndersteuner','ambulantOndersteuner')
 //                ->andWhere('ambulantOndersteuner IS NULL')
-                ->andWhere('ambulantOndersteuner = :ambulantOndersteuner')
+                ->andWhere('verhuurder.medewerker = :medewerker')
 
-                ->setParameter('ambulantOndersteuner',$this->ambulantOndersteuner);
+                ->setParameter('medewerker',$this->medewerker);
         }
 
         if ($this->appKlant) {

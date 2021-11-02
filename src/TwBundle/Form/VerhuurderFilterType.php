@@ -8,6 +8,7 @@ use AppBundle\Form\KlantFilterType;
 use AppBundle\Form\MedewerkerType;
 use AppBundle\Form\StadsdeelSelectType;
 use Doctrine\ORM\EntityRepository;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use TwBundle\Entity\Klant;
 use TwBundle\Entity\Verhuurder;
 use TwBundle\Filter\VerhuurderFilter;
@@ -62,12 +63,33 @@ class VerhuurderFilterType extends AbstractType
                 'data' => false,
             ]);
         }
+        if (in_array('gekoppeld', $options['enabled_filters'])) {
+            $builder->add('gekoppeld', ChoiceType::class, [
+                'label' => 'Gekoppeld?',
+                'choices'=>[
+                    'Gekoppeld'=>true,
+                    'Niet gekoppeld'=>false,
+                ],
+                'required' => false,
+                'data' => false,
+            ]);
+        }
         if (in_array('ambulantOndersteuner', $options['enabled_filters'])) {
             $builder->add('ambulantOndersteuner', MedewerkerType::class, [
                 'required' => false,
                 'query_builder' => function (EntityRepository $repository) {
                     return $repository->createQueryBuilder('medewerker')
                         ->innerJoin(Verhuurder::class, 'verhuurder', 'WITH', 'verhuurder.ambulantOndersteuner = medewerker')
+                        ->orderBy('medewerker.voornaam');
+                },
+            ]);
+        }
+        if (in_array('medewerker', $options['enabled_filters'])) {
+            $builder->add('medewerker', MedewerkerType::class, [
+                'required' => false,
+                'query_builder' => function (EntityRepository $repository) {
+                    return $repository->createQueryBuilder('medewerker')
+                        ->innerJoin(Verhuurder::class, 'verhuurder', 'WITH', 'verhuurder.medewerker = medewerker')
                         ->orderBy('medewerker.voornaam');
                 },
             ]);
@@ -103,13 +125,14 @@ class VerhuurderFilterType extends AbstractType
             'data_class' => VerhuurderFilter::class,
             'data' => new VerhuurderFilter(),
             'enabled_filters' => [
-                'appKlant' => ['id', 'naam', 'stadsdeel'],
+                'appKlant' => ['naam'],
                 'aanmelddatum',
-                'afsluitdatum',
+//                'afsluitdatum',
                 'actief',
-                'wpi',
-                'ksgw',
-                'ambulantOndersteuner',
+                'gekoppeld',
+//                'wpi',
+//                'ksgw',
+                'medewerker',
                 'project'
             ],
         ]);
