@@ -20,6 +20,7 @@ class ProjectSelectFilterType extends AbstractType
             'placeholder' => '',
             'class' => Project::class,
             'required'=>false,
+            'multiple'=>true,
 //            'query_builder' => function (EntityRepository $repo) {
 //                $builder = $repo->createQueryBuilder('p');
 //                $builder

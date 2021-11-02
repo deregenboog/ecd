@@ -4,6 +4,7 @@ namespace TwBundle\Filter;
 
 use AppBundle\Entity\Medewerker;
 use AppBundle\Filter\FilterInterface;
+use AppBundle\Filter\NullFilterTrait;
 use AppBundle\Filter\KlantFilter as AppKlantFilter;
 use Doctrine\ORM\QueryBuilder;
 use TwBundle\Entity\Alcohol;
@@ -20,6 +21,7 @@ use TwBundle\Entity\Traplopen;
 
 class KlantFilter implements FilterInterface
 {
+    use NullFilterTrait;
     /**
      * @var int
      */
@@ -135,7 +137,7 @@ class KlantFilter implements FilterInterface
     /**
      * @var bool|null
      */
-    public $inkomensverklaring;
+    public $inkomensverklaring = null;
 
     /**
      * @var Traplopen
@@ -248,9 +250,9 @@ class KlantFilter implements FilterInterface
         if ($this->actief) {
 
             $builder
-                ->andWhere("klant.aanmelddatum <= :today')
+                ->andWhere("klant.aanmelddatum <= :today")
                  ->andWhere('klant.afsluitdatum > :today OR klant.afsluitdatum IS NULL')
-                 ->setParameter('today', new \DateTime('today')")
+                 ->setParameter('today', new \DateTime('today'))
             ;
         }
 
@@ -274,10 +276,10 @@ class KlantFilter implements FilterInterface
                 ;
         }
 
-        if($this->project)
+        if($this->project && count($this->project)>0)
         {
             $builder->innerJoin('klant.projecten', 'project')
-                ->andWhere('project.id = :project')
+                ->andWhere('project.id IN(:project)')
                 ->setParameter("project",$this->project);
         }
 //        if($this->ambulantOndersteuner)
@@ -338,11 +340,17 @@ class KlantFilter implements FilterInterface
             ;
         }
 
-        if($this->inkomensverklaring)
+        if($this->inkomensverklaring && count($this->inkomensverklaring)>0)
         {
-            $builder->andWhere('klant.inkomensverklaring IN (:inkomensverklaring)')
+            $orNull = null;
+            if($this->checkForNullValue($this->inkomensverklaring))
+            {
+               $orNull = "OR klant.inkomensverklaring IS NULL";
+            }
+            $builder->andWhere('klant.inkomensverklaring IN (:inkomensverklaring)'.$orNull)
                 ->setParameter("inkomensverklaring",$this->inkomensverklaring)
             ;
+
         }
 
     }

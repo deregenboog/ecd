@@ -20,6 +20,7 @@ class KlantDao extends AbstractDao implements KlantDaoInterface
             'appKlant.geslacht',
             'appKlant.geboortedatum',
             'klant.intakeStatus',
+            'klant.aanmelddatum',
 //            'werkgebied.naam',
 //            'klant.automatischeIncasso',
 //            'klant.inschrijvingWoningnet',
@@ -69,7 +70,7 @@ class KlantDao extends AbstractDao implements KlantDaoInterface
             ->leftJoin('klant.afsluiting', 'afsluiting')
             ->innerJoin('klant.medewerker','medewerker')
 
-            ->andWhere('afsluiting.tonen IS NULL OR afsluiting.tonen = true')
+            ->andWhere('(afsluiting.tonen IS NULL OR afsluiting.tonen = true)')
         ;
 //        $builder = $this->repository->createQueryBuilder($this->alias)
 //            ->innerJoin($this->alias.'.klant', 'klant')
