@@ -160,7 +160,7 @@ class HuurovereenkomstenController extends AbstractController
 
     protected function getDownloadFilename()
     {
-        return sprintf('onder-de-pannen-koppelingen-%s.xlsx', (new \DateTime())->format('d-m-Y'));
+        return sprintf('tijdelijk-wonen-koppelingen-%s.xlsx', (new \DateTime())->format('d-m-Y'));
     }
 
     private function findEntity(EntityManager $entityManager)

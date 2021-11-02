@@ -134,7 +134,8 @@ class KlantFilterType extends AbstractType
             $builder->add('project', ProjectSelectFilterType::class, [
                 'label' => 'Project',
                 'required' => false,
-                'data' => false,
+//                'multiple'=>true,
+//                'data' => false,
             ]);
         }
         if (in_array('bindingRegio', $options['enabled_filters'])) {
@@ -194,8 +195,9 @@ class KlantFilterType extends AbstractType
                      'Ja'=>true,
                      'Nee'=>false,
                  ],
+                 'multiple'=>true,
                  'required' => false,
-                 'data' => false,
+//                 'data' => false,
              ])
             ->add('traplopen',EntityType::class,[
                 'required'=>false,
