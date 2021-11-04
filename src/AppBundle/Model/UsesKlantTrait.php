@@ -36,7 +36,7 @@ trait UsesKlantTrait
         if($entity instanceof KlantRelationInterface){
             try{
                 //Request the klant Object. THis can be plural or single.
-                $res = $entity->getAppKlant();
+                $res = $entity->getKlant();
 
                 //When single, it gives an arrayCollection.
                 if($res instanceof ArrayCollection or $res instanceof PersistentCollection)
