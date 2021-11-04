@@ -26,7 +26,9 @@ class ActiveEntityType extends AbstractType
                     ->where('e.actief = true')
                     ;
             },
-            'preset' => true,
+//            'preset' => true,
+            'placeholder' => '',
+            'current' => null,
         ]);
 
         parent::configureOptions($resolver);

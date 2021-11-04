@@ -5,6 +5,7 @@ namespace TwBundle\Form;
 use AppBundle\Entity\Medewerker;
 use AppBundle\Form\ActiveEntityType;
 use AppBundle\Form\AppDateType;
+use AppBundle\Form\BaseSelectType;
 use AppBundle\Form\BaseType;
 use AppBundle\Form\KlantType as AppKlantType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
