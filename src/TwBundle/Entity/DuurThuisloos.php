@@ -2,6 +2,7 @@
 
 namespace TwBundle\Entity;
 
+use AppBundle\Model\ActivatableTrait;
 use AppBundle\Model\TimestampableTrait;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
@@ -15,6 +16,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
  */
 class DuurThuisloos
 {
+    use ActivatableTrait;
 
     /**
      * @ORM\Id
@@ -22,6 +24,12 @@ class DuurThuisloos
      * @ORM\GeneratedValue
      */
     private $id;
+
+    /**
+     * @ORM\Column(name="label")
+     * @Gedmo\Versioned
+     */
+    private $label;
 
     /**
      * @ORM\Column(name="minVal", type="integer", nullable=true)
@@ -38,18 +46,7 @@ class DuurThuisloos
 
     public function __toString(): string
     {
-        $retStr = "";
-        if(isset($this->minVal))
-        {
-            $retStr .= " > ".$this->mndJr($this->minVal);
-        }
-        if(isset($this->maxVal))
-        {
-            $retStr .= " < ".$this->mndJr($this->maxVal);
-        }
-        $retStr .= "";
-
-        return $retStr;
+        return $this->label;
     }
 
     private function mndJr($val)
@@ -68,6 +65,25 @@ class DuurThuisloos
     {
         return $this->id;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getLabel()
+    {
+        return $this->label;
+    }
+
+    /**
+     * @param mixed $label
+     * @return DuurThuisloos
+     */
+    public function setLabel($label)
+    {
+        $this->label = $label;
+        return $this;
+    }
+
 
     /**
      * @return mixed

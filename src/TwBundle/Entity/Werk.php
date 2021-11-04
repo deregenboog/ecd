@@ -2,6 +2,7 @@
 
 namespace TwBundle\Entity;
 
+use AppBundle\Model\ActivatableTrait;
 use AppBundle\Model\TimestampableTrait;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
@@ -15,6 +16,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
  */
 class Werk
 {
+    use ActivatableTrait;
 
     /**
      * @ORM\Id

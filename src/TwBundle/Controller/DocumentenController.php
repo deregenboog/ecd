@@ -160,7 +160,7 @@ class DocumentenController extends SymfonyController
     {
         switch (true) {
             case $entity instanceof Klant:
-                $routeBase = 'tw_huurders';
+                $routeBase = 'tw_klanten';
                 break;
             case $entity instanceof Verhuurder:
                 $routeBase = 'tw_verhuurders';

@@ -142,7 +142,7 @@ class KlantenController extends AbstractController
                 $id = 'new';
             }
 
-            return $this->redirectToRoute('tw_huurders_add', ['klantId' => $id]);
+            return $this->redirectToRoute('tw_klanten_add', ['klantId' => $id]);
         }
 
         return [
@@ -173,7 +173,7 @@ class KlantenController extends AbstractController
                 $this->addFlash('danger', $message);
             }
 
-            return $this->redirectToRoute('tw_huurders_view', ['id' => $huurder->getId()]);
+            return $this->redirectToRoute('tw_klanten_view', ['id' => $huurder->getId()]);
         }
 
         return [
@@ -206,7 +206,7 @@ class KlantenController extends AbstractController
                 }
             }
 
-            return $this->redirectToRoute('tw_huurders_view', ['id' => $huurder->getId()]);
+            return $this->redirectToRoute('tw_klanten_view', ['id' => $huurder->getId()]);
         }
 
         return [
@@ -233,9 +233,9 @@ class KlantenController extends AbstractController
 
                 $this->addFlash('success', 'Klant is verwijderd.');
 
-                return $this->redirectToRoute('tw_huurders_index');
+                return $this->redirectToRoute('tw_klanten_index');
             } else {
-                return $this->redirectToRoute('tw_huurders_view', ['id' => $huurder->getId()]);
+                return $this->redirectToRoute('tw_klanten_view', ['id' => $huurder->getId()]);
             }
         }
 

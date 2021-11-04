@@ -268,6 +268,12 @@ class KlantFilter implements FilterInterface
                 ->setParameter('medewerker',$this->medewerker);
         }
 
+        if($this->shortlist)
+        {
+            $builder->andWhere('shortlist = :shortlist')
+                ->setParameter('shortlist',$this->shortlist);
+        }
+
 
         if($this->intakeStatus && count($this->intakeStatus)>0)
         {
@@ -323,6 +329,13 @@ class KlantFilter implements FilterInterface
         {
             $builder->andWhere('klant.roken IN(:roken)')
                 ->setParameter("roken",$this->roken)
+            ;
+        }
+
+        if($this->alcohol && count($this->alcohol))
+        {
+            $builder->andWhere('klant.alcohol IN (:alcohol)')
+                ->setParameter("alcohol",$this->alcohol)
             ;
         }
 

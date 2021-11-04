@@ -206,9 +206,9 @@ class HuurovereenkomstFilter implements FilterInterface
                 ->setParameter('medewerker', $this->medewerker)
             ;
         }
-        if($this->project)
+        if($this->project && count($this->project)>0)
         {
-            $builder->andWhere('huuraanbod.project = :project')
+            $builder->andWhere('huuraanbod.project IN (:project)')
                 ->setParameter("project",$this->project);
         }
     }
