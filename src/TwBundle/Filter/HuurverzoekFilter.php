@@ -124,10 +124,10 @@ class HuurverzoekFilter implements FilterInterface
             $this->klant->applyTo($builder,'appKlant');
         }
 
-        if($this->project)
+        if($this->project && count($this->project)>0)
         {
             $builder->innerJoin('huurverzoek.projecten', 'project')
-                ->andWhere('project.id = :project')
+                ->andWhere('project.id IN (:project)')
                 ->setParameter("project",$this->project);
         }
     }

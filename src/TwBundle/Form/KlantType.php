@@ -3,12 +3,26 @@
 namespace TwBundle\Form;
 
 use AppBundle\Entity\Medewerker;
+use AppBundle\Form\ActiveEntityType;
 use AppBundle\Form\AppDateType;
 use AppBundle\Form\BaseType;
 use AppBundle\Form\KlantType as AppKlantType;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use TwBundle\Entity\Alcohol;
+use TwBundle\Entity\Dagbesteding;
+use TwBundle\Entity\DuurThuisloos;
+use TwBundle\Entity\Huisdieren;
+use TwBundle\Entity\Inkomen;
 use TwBundle\Entity\InschrijvingWoningnet;
+use TwBundle\Entity\IntakeStatus;
 use TwBundle\Entity\Klant;
+use TwBundle\Entity\MoScreening;
+use TwBundle\Entity\Regio;
+use TwBundle\Entity\Ritme;
+use TwBundle\Entity\Roken;
+use TwBundle\Entity\Softdrugs;
+use TwBundle\Entity\Traplopen;
 use TwBundle\Entity\Verslag;
 use AppBundle\Form\ZrmType;
 use Symfony\Component\Form\AbstractType;
@@ -18,6 +32,8 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use TwBundle\Entity\Werk;
+use TwBundle\Repository\WerkRepository;
 
 class KlantType extends AbstractType
 {
@@ -47,27 +63,27 @@ class KlantType extends AbstractType
                 ->add('aanmelddatum', AppDateType::class, ['required'=>true])
                 ->add('projecten', ProjectSelectType::class,['multiple'=>true,'required'=>true])
                 ->add('shortlist', MedewerkerType::class,['required'=>false])
-                ->add('intakeStatus')
+                ->add('intakeStatus',ActiveEntityType::class,['class'=>IntakeStatus::class])
        ;
       $builder
-           ->add('moScreening')
-            ->add('bindingRegio')
+           ->add('moScreening',ActiveEntityType::class,['class'=>MoScreening::class])
+            ->add('bindingRegio',ActiveEntityType::class,['class'=>Regio::class])
             ->add('inschrijvingWoningnet')
             ->add('klantmanager')
             ->add('wpi')
             ->add('huurbudget')
-            ->add('duurThuisloos')
-            ->add('werk')
-            ->add('inkomen')
+            ->add('duurThuisloos',ActiveEntityType::class,['class'=>DuurThuisloos::class])
+            ->add('werk',ActiveEntityType::class,['class'=>Werk::class])
+            ->add('inkomen',ActiveEntityType::class,['class'=>Inkomen::class])
             ->add('inkomensverklaring',CheckboxType::class,['required'=>false])
             ->add('toelichtingInkomen',null,['required'=>false])
             ->add('dagbesteding')
-            ->add('ritme')
+            ->add('ritme',ActiveEntityType::class,['class'=>Ritme::class])
             ->add('huisdieren')
-            ->add('roken')
-            ->add('softdrugs')
-            ->add('alcohol')
-            ->add('traplopen')
+            ->add('roken',ActiveEntityType::class,['class'=>Roken::class])
+            ->add('softdrugs',ActiveEntityType::class,['class'=>Softdrugs::class])
+            ->add('alcohol',ActiveEntityType::class,['class'=>Alcohol::class])
+            ->add('traplopen',ActiveEntityType::class,['class'=>Traplopen::class])
         ;
 
         if (!$options['data']->getId()) {
@@ -96,12 +112,12 @@ class KlantType extends AbstractType
         if ($klant->getZrm()) {
             $builder->add('zrm', ZrmType::class, [
                 'data_class' => get_class($klant->getZrm()),
-                'request_module' => 'TwHuurder',
+                'request_module' => 'TwKlant',
                 'required'=>false,
             ]);
         } else {
             $builder->add('zrm', ZrmType::class, [
-                'request_module' => 'TwHuurder',
+                'request_module' => 'TwKlant',
                 'required'=>false,
             ]);
         }
@@ -117,7 +133,7 @@ class KlantType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Klant::class,
-            'request_module'=>'TwHuurder'
+            'request_module'=>'TwKlant'
         ]);
     }
 

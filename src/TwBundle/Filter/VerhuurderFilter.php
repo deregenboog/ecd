@@ -64,10 +64,10 @@ class VerhuurderFilter implements FilterInterface
                 ->setParameter('id', $this->id)
             ;
         }
-        if($this->project)
+        if($this->project && count($this->project) > 0)
         {
             $builder
-                ->andWhere('verhuurder.project = :project')
+                ->andWhere('verhuurder.project IN (:project)')
                 ->setParameter("project",$this->project);
         }
         if ($this->aanmelddatum) {
