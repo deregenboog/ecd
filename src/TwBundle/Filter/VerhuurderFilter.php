@@ -33,7 +33,7 @@ class VerhuurderFilter implements FilterInterface
     /**
      * @var bool
      */
-    public $gekoppeld;
+    public $gekoppeld = null;
 
     /**
      * @var KlantFilter
@@ -48,7 +48,7 @@ class VerhuurderFilter implements FilterInterface
     /**
      * @var Medewerker
      */
-    public $medewerker;
+    public $medewerker = null;
 
     /**
      * @var Project
@@ -96,11 +96,11 @@ class VerhuurderFilter implements FilterInterface
         }
 
         if ($this->gekoppeld) {
-//            $builder
+            $builder
 //                ->andWhere('verhuurder.aanmelddatum <= :today')
 //                ->andWhere('verhuurder.afsluitdatum > :today OR verhuurder.afsluitdatum IS NULL')
 //                ->setParameter('today', new \DateTime('today'))
-//            ;
+            ;
         }
 
         if($this->medewerker)
