@@ -99,7 +99,7 @@ class DownloadController extends AbstractController
 
     private function handleDownloads($form,$request)
     {
-        ini_set('memory_limit', '512M');
+        ini_set('memory_limit', '768M');
         ini_set('max_execution_time', '300');
 
 

@@ -35,7 +35,8 @@ class VrijwilligerDao extends AbstractDao implements VrijwilligerDaoInterface
         $expr = new Expr();
 
         $builder = $this->repository->createQueryBuilder('izVrijwilliger')
-            ->select('izVrijwilliger, vrijwilliger, hulpaanbod, project, intake, intakeMedewerker, hulpaanbodMedewerker')
+//            ->select('izVrijwilliger, vrijwilliger, hulpaanbod, project, intake, intakeMedewerker, hulpaanbodMedewerker')
+            ->select('izVrijwilliger, vrijwilliger')
             ->innerJoin('izVrijwilliger.vrijwilliger', 'vrijwilliger')
             ->leftJoin('vrijwilliger.werkgebied', 'werkgebied')
             ->leftJoin('izVrijwilliger.medewerker', 'aanmeldingMedewerker')
@@ -60,7 +61,10 @@ class VrijwilligerDao extends AbstractDao implements VrijwilligerDaoInterface
             return $this->paginator->paginate($builder, $page, $this->itemsPerPage, $this->paginationOptions);
         }
 
-        return $builder->getQuery()->getResult();
+//        $sql = $builder->getQuery()->getSQL();
+        $r = $builder->getQuery()->getResult();
+//        $i = count($r);
+        return $r;
     }
 
     /**

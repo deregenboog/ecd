@@ -33,14 +33,14 @@ class IzVrijwilliger extends IzDeelnemer
 
     /**
      * @var ArrayCollection|Lidmaatschap[]
-     * @ORM\OneToMany(targetEntity="Lidmaatschap", mappedBy="vrijwilliger", cascade={"persist"})
+     * @ORM\OneToMany(targetEntity="Lidmaatschap", mappedBy="vrijwilliger", cascade={"persist"},fetch="EXTRA_LAZY")
      */
     private $lidmaatschappen;
 
     /**
      * @var BinnengekomenVia
      *
-     * @ORM\ManyToOne(targetEntity="BinnengekomenVia")
+     * @ORM\ManyToOne(targetEntity="BinnengekomenVia",fetch="EXTRA_LAZY")
      * @ORM\JoinColumn(name="binnengekomen_via")
      * @Gedmo\Versioned
      */
