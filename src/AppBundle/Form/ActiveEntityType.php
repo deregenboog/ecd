@@ -29,6 +29,7 @@ class ActiveEntityType extends AbstractType
 //            'preset' => true,
             'placeholder' => '',
             'current' => null,
+            'required'=>false,
         ]);
 
         parent::configureOptions($resolver);

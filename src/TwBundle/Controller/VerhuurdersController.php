@@ -66,7 +66,7 @@ class VerhuurdersController extends AbstractController
 
     protected function getDownloadFilename()
     {
-        $filename = sprintf('onder-de-pannen-verhuurders-%s.xlsx', (new \DateTime())->format('d-m-Y'));
+        $filename = sprintf('tw-verhuurders-%s.xlsx', (new \DateTime())->format('d-m-Y'));
         return $filename;
     }
 
