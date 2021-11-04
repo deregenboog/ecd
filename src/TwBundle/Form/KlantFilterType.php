@@ -115,11 +115,12 @@ class KlantFilterType extends AbstractType
             $builder->add('gekoppeld', ChoiceType::class, [
                 'label' => 'Gekoppeld?',
                 'choices'=>[
+                    'Onbekend'=>null,
                     'Gekoppeld'=>true,
                     'Niet gekoppeld'=>false,
                     ],
                 'required' => false,
-                'data' => false,
+//                'data' => false,
             ]);
         }
 

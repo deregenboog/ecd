@@ -96,7 +96,7 @@ class KlantFilter implements FilterInterface
     /**
      * @var bool
      */
-    public $gekoppeld;
+    public $gekoppeld = null;
 
     /**
      * @var Regio

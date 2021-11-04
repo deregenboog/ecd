@@ -31,7 +31,7 @@ class VerhuurderType extends AbstractType
             $builder->add('medewerker', MedewerkerType::class);
         } else {
             $builder
-                ->add('appklant', KlantType::class)
+                ->add('appKlant', KlantType::class)
                 ->addEventListener(FormEvents::POST_SUBMIT, function (FormEvent $event) {
                     $event->getData()->setMedewerker($event->getData()->getKlant()->getMedewerker());
                 })
