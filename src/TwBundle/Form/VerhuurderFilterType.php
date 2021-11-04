@@ -67,6 +67,7 @@ class VerhuurderFilterType extends AbstractType
             $builder->add('gekoppeld', ChoiceType::class, [
                 'label' => 'Gekoppeld?',
                 'choices'=>[
+                    'Onbekend'=>null,
                     'Gekoppeld'=>true,
                     'Niet gekoppeld'=>false,
                 ],
