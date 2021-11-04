@@ -34,7 +34,7 @@ services:
             -
                 Nummer: { expression: 'entity.getVrijwilliger().getId()' }
                 Aanmelddatum: { expression: 'entity.getAanmelddatum()', type: 'date' }
-                Startdatum: { expression: 'entity.getStartdatum()', type: 'date' }
+#                Startdatum: { expression: 'entity.getStartdatum()', type: 'date' }
                 Afsluitdatum: { expression: 'entity.getAfsluitdatum()', type: 'date' }
                 Geslacht: { expression: 'entity.getVrijwilliger().getGeslacht()' }
                 Voornaam: { expression: 'entity.getVrijwilliger().getVoornaam()' }
