@@ -72,6 +72,7 @@ class VerhuurderFilterType extends AbstractType
                     'Niet gekoppeld'=>false,
                 ],
                 'required' => false,
+
                 'data' => false,
             ]);
         }
@@ -88,6 +89,7 @@ class VerhuurderFilterType extends AbstractType
         if (in_array('medewerker', $options['enabled_filters'])) {
             $builder->add('medewerker', MedewerkerType::class, [
                 'required' => false,
+                'preset'=>false,
                 'query_builder' => function (EntityRepository $repository) {
                     return $repository->createQueryBuilder('medewerker')
                         ->innerJoin(Verhuurder::class, 'verhuurder', 'WITH', 'verhuurder.medewerker = medewerker')
