@@ -69,6 +69,7 @@ class IntakeDao extends AbstractDao implements IntakeDaoInterface
             $w[] = $wachtlijst['naam'];
         }
         $this->wachtlijstLocaties = $w;
+
         parent::__construct($entityManager, $paginator, $itemsPerPage);
         $this->eventDispatcher = $eventDispatcher;
     }
@@ -77,18 +78,18 @@ class IntakeDao extends AbstractDao implements IntakeDaoInterface
     {
         if($filter && $filter->locatie)
         {
-            $i = array_keys($this->wachtlijstLocaties);
+            $i = array_values($this->wachtlijstLocaties);
             $k = array_search('Wachtlijst Economisch Daklozen',$i);
-            $d =array_splice($this->wachtlijstLocaties,$k,1);
+            $deleted =array_splice($this->wachtlijstLocaties,$k,1);
             switch($filter->locatie->getNaam())
             {
                 case 'Wachtlijst Economisch Daklozen':
-                    $this->actualWachtlijstLocaties = $this->wachtlijstLocaties;
+                    $this->actualWachtlijstLocaties = $deleted;
                     $this->paginationOptions['defaultSortFieldName'] = 'verslag.datum';
                     $builder = $this->getEconomischDaklozen();
                     break;
                 default:
-                    $this->actualWachtlijstLocaties = $d;
+                    $this->actualWachtlijstLocaties = $this->wachtlijstLocaties;
                     $builder = $this->getT6();
                     break;
 

@@ -19,6 +19,7 @@ class LocatieDao extends AbstractDao implements LocatieDaoInterface
             'locatie.id',
             'locatie.naam',
             'locatie.actief',
+            'locatie.wachtlijst',
         ],
     ];
 
