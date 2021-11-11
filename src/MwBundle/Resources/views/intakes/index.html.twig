@@ -71,27 +71,33 @@
                     {{ knp_pagination_sortable(pagination, 'Werkgebied', 'werkgebied.naam') }}
                 </th>
                 <th>
-                    {{ knp_pagination_sortable(pagination, 'Wachtlijst (locatie)', 'intakelocatie.naam') }}
+                    Wachtlijst (locatie)
                 </th>
                 <th>
-                    {{ knp_pagination_sortable(pagination, 'Laatste verslag datum', 'verslag.datum') }}
+                    {{ knp_pagination_sortable(pagination, 'Eerste datum', 'verslag.datum') }}
 
                 </th>
             </tr>
         </thead>
         <tbody>
-            {% for klant in pagination %}
+            {% for item in pagination %}
+                {% if item.klant is defined %}
+                    {% set klant = item.klant %}
+                {% else %}
+                    {% set klant = item %}
+                {% endif %}
+
                 {% if klant.eersteIntake.id is defined %}
                     {% set href = path('inloop_klanten_view', {id: klant.id}) %}
                 {% else %}
-                    {% set href = path('mw_klanten_view', {id: klant.id}) %}
+                    {% set href = path('mw_klanten_view', {id: item.id}) %}
+{#                    {% set href = "" %}#}
                 {% endif %}
             <tr data-href="{{ href }}">
                 <td>
                     {{ klant.id }}
                 </td>
                 <td>
-                    {{ klant.voornaam }}
                     {% if klant.roepnaam %}({{ klant.roepnaam }}){% endif %}
                 </td>
                 <td>
@@ -104,18 +110,18 @@
                     {{ klant.werkgebied }}
                 </td>
                 <td>
-                    {% if klant.eersteIntake.id is defined %}
+                    {% if item.eersteIntake.id is defined and item.eersteIntake.id is not null %}
                         {{ klant.eersteIntake.intakelocatie.naam }}
                     {% else %}
-                        {{ klant.verslagen.first().locatie.naam }}
+                        {{ item.locatie.naam }}
                     {% endif %}
                 </td>
                 <td>
-{#                    {% if klant.intake is defined %}#}
-{#                        {{ klant.intake.datum|date("d-m-Y") }}#}
-{#                    {% else %}#}
-                        {{ klant.verslagen.first().datum|date("d-m-Y") }}
-{#                    {% endif %}#}
+                    {% if item.eersteIntake.id is defined %}
+                        {{ item.eersteIntake.intakedatum|date("d-m-Y") }}
+                    {% else %}
+                        {{ item.datum|date("d-m-Y") }}
+                    {% endif %}
 
                 </td>
             </tr>
