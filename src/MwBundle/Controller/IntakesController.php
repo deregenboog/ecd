@@ -3,9 +3,12 @@
 namespace MwBundle\Controller;
 
 use AppBundle\Controller\AbstractController;
+use AppBundle\Exception\AppException;
 use AppBundle\Export\ExportInterface;
 use Doctrine\ORM\EntityNotFoundException;
 use InloopBundle\Entity\Intake;
+use Knp\Component\Pager\Pagination\SlidingPagination;
+use MwBundle\Exception\MwException;
 use MwBundle\Form\IntakeFilterType;
 use InloopBundle\Form\IntakeType;
 use InloopBundle\Form\ToegangType;
@@ -14,10 +17,14 @@ use InloopBundle\Security\Permissions;
 use InloopBundle\Service\IntakeDaoInterface;
 use JMS\DiExtraBundle\Annotation as DI;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+use Symfony\Component\HttpFoundation\Cookie;
+use Symfony\Component\HttpFoundation\Session\Flash\FlashBag;
+use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use TwBundle\Exception\TwException;
 
 /**
  * @Route("/intakes")
@@ -46,6 +53,23 @@ class IntakesController extends AbstractController
 //      */
 //     protected $export;
 
+
+
+    /**
+     * @Route("/")
+     * @Template
+     */
+    public function indexAction(Request $request)
+    {
+        $ret =  parent::indexAction($request);
+        if(!$request->get('intake_filter'))
+        {
+            $this->addFlash("warning","Er moet eerst een wachtlijst gekozen worden in het filter.");
+        }
+        // later cookie toevoegen om filter te onthouden
+        return $ret;
+
+    }
     /**
      * @Route("/{id}/view")
      */
