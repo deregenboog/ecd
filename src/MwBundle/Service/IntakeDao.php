@@ -64,30 +64,31 @@ class IntakeDao extends AbstractDao implements IntakeDaoInterface
     ) {
         $wachtlijstlocaties = $locatieDao->getWachtlijstLocaties();
 
-        $this->wachtlijstLocaties = $wachtlijstlocaties;
+        foreach($wachtlijstlocaties as $veld=>$wachtlijst)
+        {
+            $w[] = $wachtlijst['naam'];
+        }
+        $this->wachtlijstLocaties = $w;
         parent::__construct($entityManager, $paginator, $itemsPerPage);
         $this->eventDispatcher = $eventDispatcher;
     }
 
     public function findAll($page = null, FilterInterface $filter = null)
     {
-        //volgende keer mee verder.
-
-//        if(null==$filter || $filter->) return; //geen wachtlijst gelecteerd
-//       if(null==$filter || !$filter->locatie) throw new AppException("asdf");
-
-
         if($filter && $filter->locatie)
         {
+            $i = array_keys($this->wachtlijstLocaties);
+            $k = array_search('Wachtlijst Economisch Daklozen',$i);
+            $d =array_splice($this->wachtlijstLocaties,$k,1);
             switch($filter->locatie->getNaam())
             {
                 case 'Wachtlijst Economisch Daklozen':
-                    $this->actualWachtlijstLocaties = ['Wachtlijst Economisch Daklozen'];
+                    $this->actualWachtlijstLocaties = $this->wachtlijstLocaties;
                     $this->paginationOptions['defaultSortFieldName'] = 'verslag.datum';
                     $builder = $this->getEconomischDaklozen();
                     break;
-                case 'Wachtlijst T6':
-                    $this->actualWachtlijstLocaties = ['Wachtlijst T6'];
+                default:
+                    $this->actualWachtlijstLocaties = $d;
                     $builder = $this->getT6();
                     break;
 
