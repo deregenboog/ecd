@@ -144,8 +144,14 @@ class KlantFilter implements FilterInterface
      */
     public $traplopen;
 
+
+
+    /** @var QueryBuilder */
+    private $builder;
+
     public function applyTo(QueryBuilder $builder)
     {
+        $this->builder = $builder;
         if ($this->id) {
             $builder
                 ->andWhere('klant.id = :id')
@@ -256,114 +262,85 @@ class KlantFilter implements FilterInterface
             ;
         }
 
-//        if ($this->wpi) {
-//            $builder
-//                ->andWhere('klant.wpi = :wpi')
-//                ->setParameter('wpi', $this->wpi)
-//            ;
-//        }
         if($this->medewerker)
         {
             $builder->andWhere('medewerker = :medewerker')
                 ->setParameter('medewerker',$this->medewerker);
         }
 
-        if($this->shortlist)
-        {
-            $builder->andWhere('shortlist = :shortlist')
-                ->setParameter('shortlist',$this->shortlist);
-        }
-
-
-        if($this->intakeStatus && count($this->intakeStatus)>0)
-        {
-            $builder->andWhere('klant.intakeStatus = :intakeStatus')
-                ->setParameter('intakeStatus',$this->intakeStatus)
-                ;
-        }
-
-        if($this->project && count($this->project)>0)
-        {
-            $builder->innerJoin('klant.projecten', 'project')
-                ->andWhere('project.id IN(:project)')
-                ->setParameter("project",$this->project);
-        }
-//        if($this->ambulantOndersteuner)
-//        {
-//
-//            $builder
-////                ->leftJoin('klant.ambulantOndersteuner','ambulantOndersteuner')
-////                ->andWhere('ambulantOndersteuner IS NULL')
-//                ->andWhere('ambulantOndersteuner = :ambulantOndersteuner')
-//
-//                ->setParameter('ambulantOndersteuner',$this->ambulantOndersteuner);
-//        }
 
 
         if ($this->appKlant) {
             $this->appKlant->applyTo($builder,'appKlant');
         }
-
-        if($this->dagbesteding && count($this->dagbesteding) > 0)
+        if($this->shortlist)
         {
-            $builder->andWhere('klant.dagbesteding IN (:dagbesteding)')
-                ->setParameter("dagbesteding",$this->dagbesteding)
-            ;
+            $builder->andWhere('shortlist = :shortlist')
+                ->setParameter('shortlist',$this->shortlist);
         }
-
-        if($this->ritme && count($this->ritme) >0)
+        if($this->project && count($this->project)>0)
         {
-            $builder->andWhere('klant.ritme IN (:ritme)')
-                ->setParameter("ritme",$this->ritme)
-            ;
-        }
-
-        if($this->huisdieren && count($this->huisdieren))
-        {
-            $builder->andWhere('klant.huisdieren IN (:huisdieren)')
-                ->setParameter("huisdieren",$this->huisdieren)
-            ;
-        }
-
-        if($this->roken && count($this->roken))
-        {
-            $builder->andWhere('klant.roken IN(:roken)')
-                ->setParameter("roken",$this->roken)
-            ;
-        }
-
-        if($this->alcohol && count($this->alcohol))
-        {
-            $builder->andWhere('klant.alcohol IN (:alcohol)')
-                ->setParameter("alcohol",$this->alcohol)
-            ;
-        }
-
-        if($this->softdrugs && count($this->softdrugs))
-        {
-            $builder->andWhere('klant.softdrugs IN (:softdrugs)')
-                ->setParameter("softdrugs",$this->softdrugs)
-            ;
-        }
-
-        if($this->traplopen && count($this->traplopen))
-        {
-            $builder->andWhere('klant.traplopen IN (:traplopen)')
-                ->setParameter("traplopen",$this->traplopen)
-            ;
-        }
-
-        if($this->inkomensverklaring && count($this->inkomensverklaring)>0)
-        {
-            $orNull = null;
-            if($this->checkForNullValue($this->inkomensverklaring))
+//            $builder->andWhere('project IN (:project)')
+//                    ->setParameter('project',$this->project);
+            foreach($this->project as $p)
             {
-               $orNull = "OR klant.inkomensverklaring IS NULL";
+                $builder->andWhere('project = :project')
+                    ->setParameter('project',$p);
             }
-            $builder->andWhere('klant.inkomensverklaring IN (:inkomensverklaring)'.$orNull)
-                ->setParameter("inkomensverklaring",$this->inkomensverklaring)
-            ;
 
+        }
+
+        $this->addMultipleOrField('intakeStatus');
+//        $this->addMultipleOrField('project');
+        $this->addMultipleOrField('dagbesteding');
+        $this->addMultipleOrField('ritme');
+        $this->addMultipleOrField('huisdieren');
+        $this->addMultipleOrField('roken');
+        $this->addMultipleOrField('alcohol');
+        $this->addMultipleOrField('softdrugs');
+        $this->addMultipleOrField('traplopen');
+        $this->addMultipleOrField('inkomensverklaring');
+
+
+//
+//        if($this->inkomensverklaring && count($this->inkomensverklaring)>0)
+//        {
+//            $orNull = null;
+//            if($this->checkForNullValue($this->inkomensverklaring))
+//            {
+//               $orNull = "OR klant.inkomensverklaring IS NULL";
+//            }
+//            $builder->andWhere('klant.inkomensverklaring IN (:inkomensverklaring)'.$orNull)
+//                ->setParameter("inkomensverklaring",$this->inkomensverklaring)
+//            ;
+//
+//        }
+
+    }
+
+    /**
+     * @param $field Fieldname.
+     * Add field and (multiple) values to the filter Query.
+     * Check if is an array.
+     */
+    private function addMultipleOrField($field)
+    {
+        $values = $this->$field;
+        if($values && count($values)>0)
+        {
+            $k =array_search(0,$values,true); // 0 is de null value voor 'Onbekend'.
+            if( is_int($k) ) // dit kan vast compacter maar mn hersenen zijn gaar.
+            {
+                $t = array_splice($values,$k,1);
+                $this->builder->andWhere("(klant.$field IN (:$field) OR klant.$field IS NULL)")
+                    ->setParameter($field,$values)
+                ;
+            }
+            else{
+                $this->builder->andWhere("klant.$field IN (:$field)")
+                    ->setParameter($field,$values)
+                ;
+            }
         }
 
     }

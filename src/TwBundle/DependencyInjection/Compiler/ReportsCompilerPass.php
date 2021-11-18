@@ -6,7 +6,7 @@ use AppBundle\DependencyInjection\Compiler\AbstractReportsCompilerPass;
 
 class ReportsCompilerPass extends AbstractReportsCompilerPass
 {
-    protected $serviceId = 'tw.form.rapportage';
-
+    protected $serviceId = 'TwBundle\Form\RapportageType';
     protected $tagId = 'tw.rapportage';
+
 }

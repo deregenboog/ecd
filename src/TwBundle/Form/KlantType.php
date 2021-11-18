@@ -63,7 +63,10 @@ class KlantType extends AbstractType
                 ->add('begeleider')
                 ->add('aanmelddatum', AppDateType::class, ['required'=>true])
                 ->add('projecten', ProjectSelectType::class,['multiple'=>true,'required'=>true])
-                ->add('shortlist', MedewerkerType::class,['required'=>false])
+                ->add('shortlist', MedewerkerType::class,[
+                    'required'=>false,
+                    'preset'=>false,
+                ])
                 ->add('intakeStatus',ActiveEntityType::class,['class'=>IntakeStatus::class])
        ;
       $builder

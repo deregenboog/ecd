@@ -12,6 +12,6 @@ class TwBundle extends Bundle
     {
         parent::build($container);
 
-//        $container->addCompilerPass(new ReportsCompilerPass());
+        $container->addCompilerPass(new ReportsCompilerPass());
     }
 }
