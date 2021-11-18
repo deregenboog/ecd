@@ -41,14 +41,6 @@
                     <dd>{{ entity.datumAanmelding ? entity.datumAanmelding|date('d-m-Y') }}</dd>
                     <dt>Medewerker</dt>
                     <dd>{{ entity.medewerker }}</dd>
-                    <dt>Interesse in projecten</dt>
-                    <dd>
-                        <ul>
-                            {% for project in entity.projecten %}
-                                <li>{{ project }}</li>
-                            {% endfor %}
-                        </ul>
-                    </dd>
                     <dt>Contact ontstaan</dt>
                     <dd>{{ entity.contactOntstaan }}</dd>
                 </dl>
