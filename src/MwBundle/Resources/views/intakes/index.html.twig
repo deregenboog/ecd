@@ -90,7 +90,7 @@
                 {% if klant.eersteIntake.id is defined %}
                     {% set href = path('inloop_klanten_view', {id: klant.id}) %}
                 {% else %}
-                    {% set href = path('mw_klanten_view', {id: item.id}) %}
+                    {% set href = path('mw_klanten_view', {id: klant.id}) %}
 {#                    {% set href = "" %}#}
                 {% endif %}
             <tr data-href="{{ href }}">

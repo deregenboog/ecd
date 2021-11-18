@@ -157,10 +157,10 @@ class IntakeDao extends AbstractDao implements IntakeDaoInterface
             ->from(Verslag::class,'verslag')
             ->join('verslag.klant','klant')
             ->join('verslag.locatie','locatie')
-            ->join('klant.werkgebied','werkgebied')
+            ->leftJoin('klant.werkgebied','werkgebied')
             ->where('locatie.naam IN (:wachtlijstLocaties)')
             ->andWhere('klant.eersteIntake IS NULL')
-            ->groupBy('klant')
+            ->groupBy('klant.id')
             ->setParameter(':wachtlijstLocaties',$this->actualWachtlijstLocaties)
         ;
 
