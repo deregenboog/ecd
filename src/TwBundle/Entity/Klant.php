@@ -309,7 +309,7 @@ class Klant extends Deelnemer
     /**
      * @param DuurThuisloos $duurThuisloos
      */
-    public function setDuurThuisloos(DuurThuisloos $duurThuisloos): void
+    public function setDuurThuisloos(?DuurThuisloos $duurThuisloos): void
     {
         $this->duurThuisloos = $duurThuisloos;
     }
@@ -325,7 +325,7 @@ class Klant extends Deelnemer
     /**
      * @param Werk $werk
      */
-    public function setWerk(Werk $werk): void
+    public function setWerk(?Werk $werk): void
     {
         $this->werk = $werk;
     }
@@ -485,6 +485,8 @@ class Klant extends Deelnemer
      */
     public function validate(ExecutionContextInterface $context, $payload)
     {
+        return;
+        //Wijziging: MO screening toch niet verplicht als geen ZRM.
         if ((!$this->moScreening || $this->moScreening->getLabel() =="Niet gescreend") && !$this->zrm->getJustitie()) {
             $context->buildViolation('Zrm is verplicht wanneer er geen MO screening is geweest. Maak de Zrm of pas de screening aan.')
                 ->atPath('moScreening')

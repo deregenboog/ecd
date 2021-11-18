@@ -64,6 +64,7 @@ class KlantDao extends AbstractDao implements KlantDaoInterface
             ->leftJoin('klant.intakeStatus','intakeStatus')
             ->leftJoin('klant.bindingRegio','bindingRegio')
             ->leftJoin('klant.shortlist','shortlist')
+            ->innerJoin('klant.projecten','project')
             ->leftJoin('klant.ambulantOndersteuner','ambulantOndersteuner')
 
             ->leftJoin('appKlant.werkgebied', 'werkgebied')

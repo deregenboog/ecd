@@ -62,6 +62,7 @@ class HuurovereenkomstFilter implements FilterInterface
      * @var Klant
      */
     public $klant;
+
     /**
      * @var KlantFilter
      */
@@ -192,8 +193,8 @@ class HuurovereenkomstFilter implements FilterInterface
             ;
         }
 
-        if ($this->appKlant) {
-            $this->appKlant->applyTo($builder,'appKlant');
+        if ($this->klant) {
+            $this->klant->applyTo($builder,'appKlant');
         }
 
         if ($this->verhuurderKlant) {

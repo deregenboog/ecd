@@ -2,6 +2,10 @@
 
 namespace TwBundle\Entity;
 
+use AppBundle\Model\ActivatableTrait;
+use AppBundle\Model\IdentifiableTrait;
+use AppBundle\Model\NameableTrait;
+use AppBundle\Model\NotDeletableTrait;
 use AppBundle\Model\TimestampableTrait;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
@@ -15,20 +19,8 @@ use Gedmo\Mapping\Annotation as Gedmo;
  */
 class PandeigenaarType
 {
-    use TimestampableTrait;
+    use IdentifiableTrait, NameableTrait, ActivatableTrait, TimestampableTrait, NotDeletableTrait;
 
-    /**
-     * @ORM\Id
-     * @ORM\Column(type="integer")
-     * @ORM\GeneratedValue
-     */
-    private $id;
-
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     * @Gedmo\Versioned
-     */
-    private $naam;
 
     /**
      * @var ArrayCollection|Pandeigenaar[]
@@ -37,49 +29,9 @@ class PandeigenaarType
      */
     private $pandeigenaars;
 
-    /**
-     * @ORM\Column(name="active", type="boolean", nullable=true)
-     * @Gedmo\Versioned
-     */
-    private $actief = true;
-
     public function __construct()
     {
         $this->pandeigenaars = new ArrayCollection();
-    }
-
-    public function __toString()
-    {
-        return $this->getNaam();
-    }
-
-    public function getId()
-    {
-        return $this->id;
-    }
-
-    public function getNaam()
-    {
-        return $this->naam;
-    }
-
-    public function setNaam($naam)
-    {
-        $this->naam = $naam;
-
-        return $this;
-    }
-
-    public function isActief()
-    {
-        return $this->actief;
-    }
-
-    public function setActief($actief)
-    {
-        $this->actief = $actief;
-
-        return $this;
     }
 
     public function isDeletable()

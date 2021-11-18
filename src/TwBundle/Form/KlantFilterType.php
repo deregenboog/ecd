@@ -3,15 +3,28 @@
 namespace TwBundle\Form;
 
 use AppBundle\Entity\Medewerker;
+use AppBundle\Form\AppEntityType;
+use AppBundle\Form\ChoiceEntityType;
+use AppBundle\Form\EntityChoiceLoader;
 use AppBundle\Form\MedewerkerType;
 use AppBundle\Form\AppDateRangeType;
 use AppBundle\Form\FilterType;
 use AppBundle\Form\KlantFilterType as AppKlantFilterType;
 use AppBundle\Form\StadsdeelSelectType;
+use AppBundle\Validator\EmptyOptionValidationGroupResolver;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\Form\ChoiceList\View\ChoiceView;
+use Symfony\Component\Form\Exception\OutOfBoundsException;
+use Symfony\Component\Form\Exception\TransformationFailedException;
 use Symfony\Component\Form\Extension\Core\Type\ResetType;
+use Symfony\Component\Form\FormEvent;
+use Symfony\Component\Form\FormEvents;
+use Symfony\Component\Form\FormInterface;
+use Symfony\Component\Form\FormView;
+
 use TwBundle\Entity\Alcohol;
 use TwBundle\Entity\Dagbesteding;
 use TwBundle\Entity\Huisdieren;
@@ -34,6 +47,13 @@ use TwBundle\Filter\KlantFilter;
 
 class KlantFilterType extends AbstractType
 {
+    /** @var EntityManager */
+    private $entityManager = null;
+    public function __construct($entityManager)
+    {
+        $this->entityManager=$entityManager;
+    }
+
     /**
      * {@inheritdoc}
      */
@@ -135,59 +155,60 @@ class KlantFilterType extends AbstractType
             $builder->add('project', ProjectSelectFilterType::class, [
                 'label' => 'Project',
                 'required' => false,
-//                'multiple'=>true,
+                'multiple'=>true,
 //                'data' => false,
             ]);
         }
         if (in_array('bindingRegio', $options['enabled_filters'])) {
-            $builder->add('bindingRegio', EntityType::class, [
+            $builder->add('bindingRegio', ChoiceType::class, [
                 'label' => 'Binding',
-                'class'=>Regio::class,
+                'choices'=> $this->loadChoices(Regio::class),
                 'multiple'=>true,
                 'required' => false,
             ]);
         }
 
         if (in_array('intakeStatus', $options['enabled_filters'])) {
-            $builder->add('intakeStatus', EntityType::class, [
+            $builder->add('intakeStatus', ChoiceType::class, [
                 'required' => false,
                 'multiple'=>true,
-                'class'=>IntakeStatus::class,
+                'choices'=> $this->loadChoices(IntakeStatus::class),
             ]);
         }
 
         //extra filtervelden
         $builder
-            ->add('dagbesteding',EntityType::class,[
+            ->add('dagbesteding',ChoiceType::class,[
                 'required'=>false,
                 'multiple'=>true,
                 'label'=>'Dagbesteding',
-                'class'=>Dagbesteding::class,
+                'choices'=> $this->loadChoices(Dagbesteding::class),
             ])
-            ->add('ritme',EntityType::class,[
+            ->add('ritme',ChoiceType::class,[
                 'required'=>false,
                 'multiple'=>true,
-                'class'=>Ritme::class,
+                'choices'=> $this->loadChoices(Ritme::class),
             ])
-            ->add('huisdieren',EntityType::class,[
+            ->add('huisdieren',ChoiceType::class,[
                 'required'=>false,
                 'multiple'=>true,
-                'class'=>Huisdieren::class,
+                'choices'=> $this->loadChoices(Huisdieren::class),
             ])
-            ->add('roken',EntityType::class,[
+            ->add('roken',ChoiceType::class,[
                 'required'=>false,
                 'multiple'=>true,
-                'class'=>Roken::class,
+                'choices'=> $this->loadChoices(Roken::class),
             ])
-            ->add('softdrugs',EntityType::class,[
+            ->add('softdrugs',ChoiceType::class,[
                 'required'=>false,
                 'multiple'=>true,
-                'class'=>Softdrugs::class,
+                'choices'=> $this->loadChoices(Softdrugs::class),
             ])
-            ->add('alcohol',EntityType::class,[
+            ->add('alcohol',ChoiceType::class,[
                 'required'=>false,
                 'multiple'=>true,
-                'class'=>Alcohol::class,
+                'choices'=> $this->loadChoices(Alcohol::class)
+
             ])
             ->add('inkomensverklaring', ChoiceType::class, [
                  'label' => 'Inkomensverklaring',
@@ -200,10 +221,11 @@ class KlantFilterType extends AbstractType
                  'required' => false,
 //                 'data' => false,
              ])
-            ->add('traplopen',EntityType::class,[
+            ->add('traplopen',ChoiceType::class,[
                 'required'=>false,
                 'multiple'=>true,
-                'class'=>Traplopen::class,
+
+                'choices'=> $this->loadChoices(Traplopen::class),
             ])
         ;
 
@@ -248,6 +270,57 @@ class KlantFilterType extends AbstractType
 //                'medewerker',
 //                'ambulantOndersteuner',
             ],
+            'validation_groups' => false
+//                function(FormInterface $form) {
+//                    foreach($form->getData() as$k=> $v)
+//                    {
+//                        try {
+//                            $child = $form->get($k);
+//                            if(null!==$child->getTransformationFailure())
+//                            {
+//
+//                            }
+//
+//                        }
+//                        catch(OutOfBoundsException $e){
+//
+//                        }
+//                    }
+//            }
         ]);
+    }
+
+    /**
+     * @param FormView $view
+     * @param FormInterface $form
+     * @param array $options
+     *
+     * Make empty options for multi inputs.
+     */
+    public function finishView(FormView $view, FormInterface $form, array $options)
+    {
+
+//        foreach($view->children as $k=>$formElm)
+//        {
+//            if(($c = $form->get($k)->getConfig()) && $c->getOption('multiple')===true )
+//            {
+//                $newChoice = new ChoiceView(array(), '100', 'Onbekend'); // <- new option
+//                array_unshift($formElm->vars['choices'], $newChoice);//<- adding the new option to the start
+//            }
+//
+//        }
+    }
+
+    private function loadChoices($class)
+    {
+        $r = $this->entityManager->getRepository($class);
+        $c = $r->findBy(['actief'=>true]);
+
+        $choices = ['Onbekend'=>0];
+        foreach($c as $e)
+        {
+            $choices[$e->getNaam()]=$e->getId();
+        }
+        return $choices;
     }
 }

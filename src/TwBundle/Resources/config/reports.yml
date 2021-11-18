@@ -1,5 +1,5 @@
 services:
-    tw.form.rapportage:
+    TwBundle\Form\RapportageType:
         class: TwBundle\Form\RapportageType
         tags:
             - { name: form.type }

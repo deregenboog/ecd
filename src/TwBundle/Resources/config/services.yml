@@ -11,3 +11,9 @@ services:
             - "@router"
         tags:
             - { name: kernel.event_subscriber }
+
+    TwBundle\Form\KlantFilterType:
+        arguments:
+            - "@doctrine.orm.entity_manager"
+        tags:
+            - { name: form.type }

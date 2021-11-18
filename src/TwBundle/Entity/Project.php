@@ -2,6 +2,11 @@
 
 namespace TwBundle\Entity;
 
+use AppBundle\Model\ActivatableTrait;
+use AppBundle\Model\IdentifiableTrait;
+use AppBundle\Model\NameableTrait;
+use AppBundle\Model\NotDeletableTrait;
+use AppBundle\Model\TimestampableTrait;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 
@@ -13,18 +18,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
  */
 class Project
 {
-    /**
-     * @ORM\Id
-     * @ORM\Column(type="integer")
-     * @ORM\GeneratedValue
-     */
-    private $id;
-
-    /**
-     * @ORM\Column(type="string")
-     * @Gedmo\Versioned
-     */
-    private $naam;
+    use IdentifiableTrait, NameableTrait, ActivatableTrait, TimestampableTrait, NotDeletableTrait;
 
     /**
      * @ORM\Column(type="date", nullable=false)
@@ -46,27 +40,6 @@ class Project
      */
     private $huuraanbiedingen;
 
-    public function getId()
-    {
-        return $this->id;
-    }
-
-    public function __toString()
-    {
-        return $this->naam;
-    }
-
-    public function getNaam()
-    {
-        return $this->naam;
-    }
-
-    public function setNaam($naam)
-    {
-        $this->naam = $naam;
-
-        return $this;
-    }
 
     public function getStartdatum()
     {
