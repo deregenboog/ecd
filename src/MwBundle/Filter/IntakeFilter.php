@@ -49,7 +49,6 @@ class IntakeFilter implements FilterInterface
 
                 $this->applyIntake($builder);
                 break;
-
         }
 
 
