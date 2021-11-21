@@ -33,13 +33,13 @@ class MedewerkerType extends AbstractType
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        if ($options['preset']) {
-            $builder->addEventListener(FormEvents::POST_SET_DATA, function (FormEvent $event) {
-                if (!$event->getData()) {
-                    $event->getForm()->setData($this->medewerker);
-                }
-            });
-        }
+//        if ($options['preset']) {
+//            $builder->addEventListener(FormEvents::POST_SET_DATA, function (FormEvent $event) {
+//                if (!$event->getData()) {
+//                    $event->getForm()->setData($this->medewerker);
+//                }
+//            });
+//        }
     }
 
     /**
