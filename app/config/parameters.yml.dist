@@ -93,3 +93,6 @@ parameters:
     hulpverlening_mail: ''
     agressie_mail: ''
     administratiebedrijf_mail: ''
+    prevent_save_enabled: '2022-01-01' #must be in future
+    prevent_save_modified_before: '2022-01-01'
+    prevent_save_modified_after: '2020-12-31'
