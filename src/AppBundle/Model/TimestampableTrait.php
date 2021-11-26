@@ -23,6 +23,9 @@ trait TimestampableTrait
      */
     protected $modified;
 
+    /** @var ?DateTime $modifiedBefore Is set when preUpdate is called so other preUpdate events can check on the original unchanged field. */
+    protected $modifiedBefore = null;
+
     /**
      * @ORM\PrePersist
      */
@@ -36,7 +39,9 @@ trait TimestampableTrait
      */
     public function onPreUpdate()
     {
+        $this->modifiedBefore = $this->modified;
         $this->modified = new \DateTime();
+
     }
 
     public function getCreated()
@@ -47,5 +52,10 @@ trait TimestampableTrait
     public function getModified()
     {
         return $this->modified;
+    }
+
+    public function getModifiedBeforePreUpdate()
+    {
+        return $this->modifiedBefore;
     }
 }

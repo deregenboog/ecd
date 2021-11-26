@@ -4,6 +4,14 @@ imports:
     - { resource: reports.yml }
 
 services:
+    preupdate.listener:
+        class: AppBundle\Event\PreUpdateEventListener
+        arguments:
+            - '%prevent_save_enabled%'
+            - '%prevent_save_modified_before%'
+            - '%prevent_save_modified_after%'
+        tags:
+            - { name: doctrine.event_listener, event: preUpdate }
     AppBundle\Security\ControllerAccessVoter:
         arguments:
             - '@security.access.decision_manager'
@@ -125,3 +133,4 @@ services:
             - '@AppBundle\Service\KlantDao'
         tags:
             - { name: kernel.event_subscriber }
+
