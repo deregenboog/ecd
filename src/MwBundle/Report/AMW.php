@@ -66,6 +66,7 @@ class AMW extends AbstractReport
         );
 //        $sql = $this->getFullSQL($query);
         $this->result = $query->getResult();
+        $this->resultUnique = $this->dao->getTotalUniqueKlantenForLocaties($this->startDate,$this->endDate,$this->amw_locaties);
 
     }
 
@@ -80,11 +81,25 @@ class AMW extends AbstractReport
             ->setYTotals(true)
         ;
 
-        $this->reports[] = [
-            'title' => $this->title,
+        $report = [
+            'title' => "AMW",
             'xDescription' => $this->xDescription,
             'yDescription' => $this->yDescription,
             'data' => $table->render(),
         ];
+
+        foreach($this->columns as $k=>$c)
+        {
+            if(isset($this->resultUnique[$k]))
+            {
+                $report['data']['Uniek'][$c] = $this->resultUnique[$k];
+            }
+            else{
+                $report['data']['Uniek'][$c] = "";
+            }
+
+        }
+
+        $this->reports[] = $report;
     }
 }
