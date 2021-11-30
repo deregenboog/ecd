@@ -151,8 +151,8 @@ class HuurovereenkomstDao extends AbstractDao implements HuurovereenkomstDaoInte
             ->innerJoin("{$this->alias}.huurverzoek", 'huurverzoek')
             ->innerJoin('huuraanbod.verhuurder', 'verhuurder')
             ->innerJoin('huurverzoek.klant', 'klant')
-            ->innerJoin('klant.appKlant', 'klant')
-            ->leftJoin('klant.werkgebied', 'werkgebied')
+            ->innerJoin('klant.appKlant', 'appKlant')
+            ->leftJoin('appKlant.werkgebied', 'werkgebied')
             ->andWhere("{$this->alias}.startdatum <= :end")
             ->andWhere("{$this->alias}.einddatum IS NULL OR {$this->alias}.einddatum >= :start")
 //            ->andWhere('werkgebied.zichtbaar >= 0')
@@ -164,7 +164,7 @@ class HuurovereenkomstDao extends AbstractDao implements HuurovereenkomstDaoInte
     public function countByPlaats(\DateTime $startdate, \DateTime $enddate)
     {
         $builder = $this->getCountBuilder($startdate, $enddate)
-            ->addSelect('klant.plaats AS groep')
+            ->addSelect('appKlant.plaats AS groep')
             ->innerJoin("{$this->alias}.huuraanbod", 'huuraanbod')
             ->innerJoin("{$this->alias}.huurverzoek", 'huurverzoek')
             ->innerJoin('huuraanbod.verhuurder', 'verhuurder')
@@ -174,7 +174,7 @@ class HuurovereenkomstDao extends AbstractDao implements HuurovereenkomstDaoInte
             ->andWhere("{$this->alias}.startdatum <= :end")
             ->andWhere("{$this->alias}.einddatum IS NULL OR {$this->alias}.einddatum >= :start")
 //            ->andWhere('werkgebied.zichtbaar >= 0')
-            ->groupBy('klant.plaats')
+            ->groupBy('appKlant.plaats')
         ;
 
         return $builder->getQuery()->getResult();
