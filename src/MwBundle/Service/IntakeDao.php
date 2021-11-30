@@ -15,6 +15,8 @@ use InloopBundle\Event\Events;
 use InloopBundle\Service\LocatieDao;
 use InloopBundle\Service\LocatieDaoInterface;
 use Knp\Component\Pager\PaginatorInterface;
+use MwBundle\Entity\Aanmelding;
+use MwBundle\Entity\MwDossierStatus;
 use MwBundle\Entity\Verslag;
 use MwBundle\Exception\MwException;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
@@ -150,23 +152,25 @@ class IntakeDao extends AbstractDao implements IntakeDaoInterface
 //    AND k.first_intake_id IS NULL
 //GROUP BY v2.klant_id
 //ORDER BY v2.klant_id ASC
-        $b4 = $this->repository->createQueryBuilder("verslag")
+        $b4 = $this->repository->createQueryBuilder("verslag");
+        $b4
             ->resetDQLParts(["from",'select'])
             ->select(' verslag, klant, locatie')
             ->addSelect('MIN(verslag.datum) AS HIDDEN minDatum')
             ->from(Verslag::class,'verslag')
             ->join('verslag.klant','klant')
             ->join('verslag.locatie','locatie')
+            ->join('klant.huidigeMwStatus', 'huidigeMwStatus')
             ->leftJoin('klant.werkgebied','werkgebied')
             ->where('locatie.naam IN (:wachtlijstLocaties)')
-            ->andWhere('klant.eersteIntake IS NULL')
+            ->andWhere('huidigeMwStatus INSTANCE OF :mwAanmelding')
             ->groupBy('klant.id')
             ->setParameter(':wachtlijstLocaties',$this->actualWachtlijstLocaties)
+            ->setParameter(':mwAanmelding',$this->entityManager->getClassMetadata(Aanmelding::class))
         ;
 
-
-
-        $sql = $b4->getQuery()->getSQL();
+//        $ql = $b4->getDQL();
+//        $sql = $b4->getQuery()->getSQL();
         return $b4;
     }
 
