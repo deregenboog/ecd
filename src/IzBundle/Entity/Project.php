@@ -2,6 +2,7 @@
 
 namespace IzBundle\Entity;
 
+use AppBundle\Model\TimestampableTrait;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 
@@ -9,9 +10,11 @@ use Gedmo\Mapping\Annotation as Gedmo;
  * @ORM\Entity(repositoryClass="IzBundle\Repository\ProjectRepository")
  * @ORM\Table(name="iz_projecten")
  * @Gedmo\Loggable
+ * @ORM\HasLifecycleCallbacks()
  */
 class Project
 {
+    use TimestampableTrait;
     const STRATEGY_PRESTATIE_TOTAL = 'total';
     const STRATEGY_PRESTATIE_STARTED = 'started';
 

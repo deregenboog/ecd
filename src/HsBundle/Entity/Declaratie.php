@@ -3,6 +3,7 @@
 namespace HsBundle\Entity;
 
 use AppBundle\Entity\Medewerker;
+use AppBundle\Model\TimestampableTrait;
 use HsBundle\Entity\Klus;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
@@ -13,10 +14,11 @@ use HsBundle\Exception\InvoiceLockedException;
  * @ORM\Entity
  * @ORM\Table(name="hs_declaraties")
  * @Gedmo\Loggable
+ * @ORM\HasLifeCycleCallbacks
  */
 class Declaratie implements DocumentSubjectInterface, FactuurSubjectInterface
 {
-    use DocumentSubjectTrait;
+    use DocumentSubjectTrait, TimestampableTrait;
 
     /**
      * @ORM\Id

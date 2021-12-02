@@ -3,6 +3,7 @@
 namespace HsBundle\Entity;
 
 use AppBundle\Entity\Medewerker;
+use AppBundle\Model\TimestampableTrait;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use HsBundle\Exception\InvoiceLockedException;
@@ -11,9 +12,11 @@ use HsBundle\Exception\InvoiceLockedException;
  * @ORM\Entity
  * @ORM\Table(name="hs_registraties")
  * @Gedmo\Loggable
+ * @ORM\HasLifeCycleCallbacks
  */
 class Registratie implements FactuurSubjectInterface
 {
+    use TimestampableTrait;
     /**
      * @ORM\Id
      * @ORM\Column(type="integer")

@@ -3,6 +3,7 @@
 namespace HsBundle\Entity;
 
 use AppBundle\Entity\Medewerker;
+use AppBundle\Model\TimestampableTrait;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -13,10 +14,11 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\Entity
  * @ORM\Table(name="hs_klussen")
  * @Gedmo\Loggable
+ * @ORM\HasLifeCycleCallbacks
  */
 class Klus implements MemoSubjectInterface
 {
-    use MemoSubjectTrait, DocumentSubjectTrait;
+    use MemoSubjectTrait, DocumentSubjectTrait, TimestampableTrait;
 
     const STATUS_OPENSTAAND = 'Openstaand';
     const STATUS_IN_BEHANDELING = 'In behandeling';

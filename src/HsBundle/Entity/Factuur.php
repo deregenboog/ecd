@@ -3,6 +3,7 @@
 namespace HsBundle\Entity;
 
 use AppBundle\Form\Model\AppDateRangeModel;
+use AppBundle\Model\TimestampableTrait;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
@@ -16,9 +17,11 @@ use HsBundle\Exception\InvoiceNotLockedException;
  * @ORM\DiscriminatorColumn(name="class", type="string")
  * @ORM\DiscriminatorMap({"Factuur" = "Factuur", "Creditfactuur" = "Creditfactuur"})
  * @Gedmo\Loggable
+ * @ORM\HasLifeCycleCallbacks
  */
 class Factuur
 {
+    use TimestampableTrait;
     /**
      * @ORM\Id
      * @ORM\Column(type="integer")

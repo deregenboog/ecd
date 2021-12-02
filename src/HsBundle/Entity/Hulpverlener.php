@@ -2,8 +2,15 @@
 
 namespace HsBundle\Entity;
 
+use AppBundle\Model\TimestampableTrait;
+
+/**
+ * @ORM\HasLifeCycleCallbacks
+ */
 class Hulpverlener
 {
+    use TimestampableTrait;
+
     private $naam;
 
     private $organisatie;

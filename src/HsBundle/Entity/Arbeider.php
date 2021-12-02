@@ -2,6 +2,7 @@
 
 namespace HsBundle\Entity;
 
+use AppBundle\Model\TimestampableTrait;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\Mapping as ORM;
@@ -17,6 +18,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
  */
 abstract class Arbeider
 {
+    use TimestampableTrait;
     /**
      * @ORM\Id
      * @ORM\Column(type="integer")

@@ -3,6 +3,7 @@
 namespace HsBundle\Entity;
 
 use AppBundle\Entity\Vrijwilliger as AppVrijwilliger;
+use AppBundle\Model\TimestampableTrait;
 use AppBundle\Service\NameFormatter;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityNotFoundException;
@@ -18,7 +19,7 @@ use Symfony\Component\Debug\Exception\FatalErrorException;
  */
 class Vrijwilliger extends Arbeider implements MemoSubjectInterface, DocumentSubjectInterface
 {
-    use HulpverlenerTrait, MemoSubjectTrait, DocumentSubjectTrait;
+    use HulpverlenerTrait, MemoSubjectTrait, DocumentSubjectTrait, TimestampableTrait;
 
     /**
      * @var Vrijwilliger
