@@ -94,7 +94,6 @@ class IntakeDao extends AbstractDao implements IntakeDaoInterface
                     $this->actualWachtlijstLocaties = $this->wachtlijstLocaties;
                     $builder = $this->getT6();
                     break;
-
             }
         }
         else
@@ -102,14 +101,7 @@ class IntakeDao extends AbstractDao implements IntakeDaoInterface
             $builder = $this->getDefault();
         }
 
-
-
-//        $builder = $this->repository->createQueryBuilder("verslag");
         if(null !== $filter) $filter->applyTo($builder);
-//        $q = $builder->getQuery();
-//        $sql = SqlExtractor::getFullSQL($q);
-
-
         return parent::doFindAll($builder, $page, $filter);
 
     }
@@ -163,10 +155,10 @@ class IntakeDao extends AbstractDao implements IntakeDaoInterface
             ->join('klant.huidigeMwStatus', 'huidigeMwStatus')
             ->leftJoin('klant.werkgebied','werkgebied')
             ->where('locatie.naam IN (:wachtlijstLocaties)')
-            ->andWhere('huidigeMwStatus INSTANCE OF :mwAanmelding')
+            ->andWhere($b4->expr()->isInstanceOf('huidigeMwStatus', Aanmelding::class))
             ->groupBy('klant.id')
             ->setParameter(':wachtlijstLocaties',$this->actualWachtlijstLocaties)
-            ->setParameter(':mwAanmelding',$this->entityManager->getClassMetadata(Aanmelding::class))
+//            ->setParameter(':mwAanmelding',$this->entityManager->getClassMetadata(Aanmelding::class))
         ;
 
 //        $ql = $b4->getDQL();
