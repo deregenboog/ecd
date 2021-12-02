@@ -3,9 +3,16 @@
 namespace IzBundle\Entity;
 
 use AppBundle\Entity\Medewerker;
+use AppBundle\Model\TimestampableTrait;
+use Doctrine\ORM\Mapping as ORM;
 
+/**
+ * @ORM\Entity
+ * @ORM\HasLifeCycleCallbacks
+ */
 class Koppeling
 {
+    use TimestampableTrait;
     /**
      * @var Hulpvraag
      */

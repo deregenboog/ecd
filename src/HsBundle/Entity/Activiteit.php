@@ -2,6 +2,7 @@
 
 namespace HsBundle\Entity;
 
+use AppBundle\Model\TimestampableTrait;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
@@ -10,9 +11,11 @@ use Gedmo\Mapping\Annotation as Gedmo;
  * @ORM\Entity
  * @ORM\Table(name="hs_activiteiten")
  * @Gedmo\Loggable
+ * @ORM\HasLifeCycleCallbacks
  */
 class Activiteit
 {
+    use TimestampableTrait;
     /**
      * @ORM\Id
      * @ORM\Column(type="integer")
@@ -26,17 +29,6 @@ class Activiteit
      */
     private $naam;
 
-    /**
-     * @ORM\Column(type="datetime", nullable=false)
-     * @Gedmo\Versioned
-     */
-    private $created;
-
-    /**
-     * @ORM\Column(type="datetime", nullable=false)
-     * @Gedmo\Versioned
-     */
-    private $modified;
 
     /**
      * @ORM\ManyToMany(targetEntity="Klus", mappedBy="activiteiten")

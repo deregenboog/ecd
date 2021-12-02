@@ -3,6 +3,7 @@
 namespace InloopBundle\Entity;
 
 use AppBundle\Model\IdentifiableTrait;
+use AppBundle\Model\TimestampableTrait;
 use AppBundle\Util\DateTimeUtil;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
@@ -15,7 +16,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
  */
 class Locatietijd
 {
-    use IdentifiableTrait;
+    use IdentifiableTrait, TimestampableTrait;
 
     /**
      * @var Locatie

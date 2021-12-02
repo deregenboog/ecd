@@ -2,6 +2,7 @@
 
 namespace DagbestedingBundle\Entity;
 
+use AppBundle\Model\TimestampableTrait;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 
@@ -13,6 +14,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
  */
 class Resultaatgebied
 {
+    use TimestampableTrait;
     /**
      * @ORM\Id
      * @ORM\Column(type="integer")

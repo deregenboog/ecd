@@ -2,6 +2,7 @@
 
 namespace HsBundle\Entity;
 
+use AppBundle\Model\TimestampableTrait;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 
@@ -9,9 +10,11 @@ use Gedmo\Mapping\Annotation as Gedmo;
  * @ORM\Entity
  * @ORM\Table(name="hs_betalingen")
  * @Gedmo\Loggable
+ * @ORM\HasLifecycleCallbacks()
  */
 class Betaling
 {
+    use TimestampableTrait;
     /**
      * @ORM\Id
      * @ORM\Column(type="integer")

@@ -3,6 +3,7 @@
 namespace DagbestedingBundle\Entity;
 
 use AppBundle\Form\Model\AppDateRangeModel;
+use AppBundle\Model\TimestampableTrait;
 use DagbestedingBundle\Form\DagdelenRangeModel;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Criteria;
@@ -18,6 +19,8 @@ use Gedmo\Mapping\Annotation as Gedmo;
  */
 class Traject
 {
+    use TimestampableTrait;
+
     const TERMIJN_RAPPORTAGE = '+6 months';
     const TERMIJN_EIND = '+1 year -1 day';
 
