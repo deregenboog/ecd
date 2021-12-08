@@ -12,6 +12,7 @@ class ZipcodeProcessorCommand extends ContainerAwareCommand
 {
     protected function configure()
     {
+        ini_set('auto_detect_line_endings',TRUE);
         $this
             ->setName('app:zipcode:process')
             ->addArgument('files', InputArgument::REQUIRED + InputArgument::IS_ARRAY, 'Files to process')
@@ -21,6 +22,7 @@ class ZipcodeProcessorCommand extends ContainerAwareCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        $output->writeln(sprintf('Mem usage at start: %s', memory_get_usage()/1048576));
         $files = $input->getArgument('files');
         $outputFile = $input->getOption('output');
 
@@ -43,9 +45,23 @@ class ZipcodeProcessorCommand extends ContainerAwareCommand
             } elseif ($headers !== fgetcsv($handle, 0, ';')) {
                 throw new \RuntimeException(sprintf('Structure of file %s does not match previous files', $file));
             }
+            $output->writeln(sprintf('Mem usage before loop: %s', memory_get_usage()/1048576));
 
+            $i=0;
             while ($row = fgetcsv($handle, 0, ';')) {
-                $data[] = $row;
+                if(!isset($row)) break 1;
+
+
+//                $data[] = $row; // huge memory consumption; direct link to fields works better.
+                $data[] = [$row[4], $row[6],$row[8]];
+
+                if(($i % 1000) == 1){
+                    $output->writeln(sprintf('Mem usage (%d): %s', $i,memory_get_usage()/1048576));
+//                    var_dump($row);
+                }
+
+
+                $i++;
             }
 
             fclose($handle);
@@ -54,9 +70,13 @@ class ZipcodeProcessorCommand extends ContainerAwareCommand
         $output->writeln(sprintf('Verwerken %d adressen', count($data)));
 
         foreach ($data as $row) {
-            $postcode = $row[array_search('Postcode', $headers)];
-            $stadsdeel = $row[array_search('Naam stadsdeel', $headers)];
-            $postcodegebied = $row[array_search('Naam gebiedsgerichtwerkengebied', $headers)];
+//            $postcode = $row[array_search('Postcode', $headers)];
+//            $stadsdeel = $row[array_search('Naam stadsdeel', $headers)];
+//            $postcodegebied = $row[array_search('Naam gebiedsgerichtwerkengebied', $headers)];
+
+            $postcode = $row[0];
+            $stadsdeel = $row[1];
+            $postcodegebied = $row[2];
 
             if (!$postcode || in_array($postcode, $conflicten)) {
                 continue;
@@ -73,14 +93,19 @@ class ZipcodeProcessorCommand extends ContainerAwareCommand
 
             $postcodes[$postcode] = [$stadsdeel, $postcodegebied];
         }
+        $output->writeln(sprintf("Aantal postcodes: %s",count($postcodes)));
 
         $output->writeln(sprintf('Oplossen %d conflicterende postcodes', count($conflicten)));
 
         $count = [];
         foreach ($data as $row) {
-            $stadsdeel = $row[array_search('Naam stadsdeel', $headers)];
-            $postcodegebied = $row[array_search('Naam gebiedsgerichtwerkengebied', $headers)];
-            $postcode = $row[array_search('Postcode', $headers)];
+//            $stadsdeel = $row[array_search('Naam stadsdeel', $headers)];
+//            $postcodegebied = $row[array_search('Naam gebiedsgerichtwerkengebied', $headers)];
+//            $postcode = $row[array_search('Postcode', $headers)];
+
+            $postcode = $row[0];
+            $stadsdeel = $row[1];
+            $postcodegebied = $row[2];
 
             if (!$postcode || !in_array($postcode, $conflicten)) {
                 continue;
@@ -88,6 +113,7 @@ class ZipcodeProcessorCommand extends ContainerAwareCommand
 
             $count[$postcode][] = $stadsdeel.' | '.$postcodegebied;
         }
+
 
         foreach ($count as $postcode => $values) {
             $values = array_count_values($values);

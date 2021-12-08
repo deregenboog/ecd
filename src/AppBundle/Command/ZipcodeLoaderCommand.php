@@ -78,7 +78,7 @@ class ZipcodeLoaderCommand extends ContainerAwareCommand
         $this->entityManager->flush();
         fclose($handle);
 
-        $this->postLoad();
+//        $this->postLoad();
 
         $output->writeln($i.' postcodes opgeslagen');
     }
