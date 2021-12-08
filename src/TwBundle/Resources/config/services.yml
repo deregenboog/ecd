@@ -17,3 +17,9 @@ services:
             - "@doctrine.orm.entity_manager"
         tags:
             - { name: form.type }
+
+    TwBundle\Security\DocumentVoter:
+        arguments:
+            - "@security.access.decision_manager"
+        tags:
+            - { name: security.voter }

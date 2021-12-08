@@ -5,7 +5,9 @@ namespace TwBundle\Controller;
 use AppBundle\Controller\SymfonyController;
 use AppBundle\Form\ConfirmationType;
 use Doctrine\ORM\EntityManager;
+use InloopBundle\Security\Permissions;
 use JMS\DiExtraBundle\Annotation as DI;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use TwBundle\Entity\Document;
 use TwBundle\Entity\Klant;
 use TwBundle\Entity\Huurovereenkomst;
@@ -81,6 +83,21 @@ class DocumentenController extends SymfonyController
     {
         $entity = $this->dao->find($id);
 
+        try {
+            $this->denyAccessUnlessGranted(
+                Permissions::OWNER,
+                $entity,
+                'Je kunt alleen documenten wijzigen/verwijderen die door jezelf zijn aangemaakt. Een beheerder kan bestanden wel wijzigen.'
+            );
+        }
+        catch(AccessDeniedException $e)
+        {
+            $this->addFlash("danger",$e->getMessage());
+            if ($url = $request->get('redirect')) {
+                return $this->redirect($url);
+            }
+        }
+
         $form = $this->getForm(DocumentType::class, $entity);
         $form->handleRequest($this->getRequest());
         if ($form->isSubmitted() && $form->isValid()) {
@@ -109,6 +126,20 @@ class DocumentenController extends SymfonyController
     {
         $entity = $this->dao->find($id);
 
+        try {
+            $this->denyAccessUnlessGranted(
+                Permissions::OWNER,
+                $entity,
+                'Je kunt alleen documenten wijzigen/verwijderen die door jezelf zijn aangemaakt. Een beheerder kan bestanden wel wijzigen.'
+            );
+        }
+        catch(AccessDeniedException $e)
+        {
+            $this->addFlash("danger",$e->getMessage());
+            if ($url = $request->get('redirect')) {
+                return $this->redirect($url);
+            }
+        }
         $form = $this->getForm(ConfirmationType::class);
         $form->handleRequest($this->getRequest());
         if ($form->isSubmitted() && $form->isValid()) {
