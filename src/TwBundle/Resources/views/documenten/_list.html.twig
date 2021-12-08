@@ -30,8 +30,11 @@
                 </a>
             </td>
             <td>
-                {{ html.editLink(path('tw_documenten_edit', {id: document.id})) }}
-                {{ html.deleteLink(path('tw_documenten_delete', {id: document.id})) }}
+
+                {% if(is_granted('ROLE_TW_BEHEER') or is_granted('owner',document)) %}
+                    {{ html.editLink(path('tw_documenten_edit', {id: document.id})) }}
+                    {{ html.deleteLink(path('tw_documenten_delete', {id: document.id})) }}
+                {% endif %}
             </td>
         </tr>
     {% endfor %}
