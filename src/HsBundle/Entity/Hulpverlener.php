@@ -2,10 +2,11 @@
 
 namespace HsBundle\Entity;
 
+use Doctrine\ORM\Mapping as ORM;
 use AppBundle\Model\TimestampableTrait;
 
 /**
- * @ORM\HasLifeCycleCallbacks
+ * @ORM\HasLifecycleCallbacks
  */
 class Hulpverlener
 {

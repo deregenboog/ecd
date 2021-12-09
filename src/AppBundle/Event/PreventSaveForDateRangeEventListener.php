@@ -17,7 +17,7 @@ class PreventSaveForDateRangeEventListener
     private $preventSaveAfterDate;
 
     /** @var Array */
-    private $excludeEntities;
+    private $excludeEntities = [];
 
     /** @var bool  */
     private $enabled = true;
@@ -34,6 +34,7 @@ class PreventSaveForDateRangeEventListener
      */
     public function __construct($preventSaveEnabled,$preventSaveBefore,$preventSaveAfter, $excludeEntities) {
         if(new \DateTime($preventSaveEnabled) > new \DateTime()){
+            $this->enabled = false;
             return;
         }//not yet enabled.
         else if(null == $preventSaveBefore){

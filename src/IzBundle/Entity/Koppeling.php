@@ -3,16 +3,19 @@
 namespace IzBundle\Entity;
 
 use AppBundle\Entity\Medewerker;
+use AppBundle\Model\IdentifiableTrait;
 use AppBundle\Model\TimestampableTrait;
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Entity
  * @ORM\HasLifeCycleCallbacks
+ * @Gedmo\Loggable()
  */
 class Koppeling
 {
-    use TimestampableTrait;
+    use TimestampableTrait, IdentifiableTrait;
     /**
      * @var Hulpvraag
      */
