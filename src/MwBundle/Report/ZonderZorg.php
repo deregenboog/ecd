@@ -10,7 +10,7 @@ use MwBundle\Service\VerslagDao;
 class ZonderZorg extends AbstractReport
 {
 
-    protected $title = 'Zonder zorgen';
+    protected $title = 'Zonder zorg';
 
     protected $xPath = 'type';
 
