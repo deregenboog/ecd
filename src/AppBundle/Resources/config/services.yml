@@ -4,14 +4,16 @@ imports:
     - { resource: reports.yml }
 
 services:
-    preupdate.listener:
-        class: AppBundle\Event\PreUpdateEventListener
+    AppBundle\Event\PreventSaveForDateRangeEventListener:
         arguments:
             - '%prevent_save_enabled%'
             - '%prevent_save_modified_before%'
             - '%prevent_save_modified_after%'
+            - '%prevent_save_exclude_entities%'
         tags:
             - { name: doctrine.event_listener, event: preUpdate }
+            - { name: doctrine.event_listener, event: prePersist }
+
     AppBundle\Security\ControllerAccessVoter:
         arguments:
             - '@security.access.decision_manager'
