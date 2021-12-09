@@ -59,6 +59,45 @@ class VerslagDao extends AbstractDao implements VerslagDaoInterface
 
     }
 
+    public function countKlantenZonderZorg(\DateTime $startdatum,\DateTime $einddatum,$locatieNamen)
+    {
+        /**
+         * SELECT SUM(c.c) AS numContacten, SUM(d.c) FROM (SELECT COUNT(id) AS c FROM `verslagen` `v` WHERE `v`.`locatie_id` = 5 AND `v`.`contactsoort_id` = 1 AND v.`datum` between '2018-01-01' AND '2019-01-01'
+        GROUP BY klant_id
+        HAVING COUNT(klant_id) < 5) AS c
+         */
+
+        $query = "
+        (SELECT SUM(c.c) AS numContacten, 'Minder dan vijf' AS label
+                    FROM 
+                    (SELECT COUNT(v.id) AS c 
+                        FROM `verslagen` `v` 
+                        INNER JOIN locaties l ON v.locatie_id = l.id AND l.naam IN (:locatienamen)
+                        WHERE `v`.`contactsoort_id` = :contactsoortid AND v.`datum` BETWEEN :startdatum AND :einddatum
+                        GROUP BY klant_id
+                        HAVING COUNT(klant_id) < 5) AS c)
+        UNION
+        (SELECT SUM(d.c) AS numContacten, 'Vijf of meer' AS label
+                    FROM 
+                    (SELECT COUNT(v.id) AS c
+                        FROM `verslagen` `v`
+                        INNER JOIN locaties l ON v.locatie_id = l.id AND l.naam IN (:locatienamen)
+                        WHERE `v`.`contactsoort_id` = :contactsoortid AND v.`datum` BETWEEN :startdatum AND :einddatum
+                        GROUP BY klant_id
+                        HAVING COUNT(klant_id) >= 5) AS d)";
+        $conn = $this->entityManager->getConnection();
+        $statement = $conn->prepare($query);
+        //['locatienamen'=>$locatieNamen,'contactsoortid'=>1,'startdatum'=>$startdatum->format("Y-m-d"),'einddatum'=>$einddatum->format("Y-m-d")]
+        $statement->bindValue("locatienamen",implode(", ",$locatieNamen));
+        $statement->bindValue("contactsoortid",1);
+        $statement->bindValue("startdatum",$startdatum,"datetime");
+        $statement->bindValue("einddatum",$einddatum,"datetime");
+
+        $result = $statement->executeQuery();
+        return $result;
+
+    }
+
     public function getTotalUniqueKlantenForLocaties($startdatum,$einddatum,$locaties): array
     {
         $builder = $this->repository->createQueryBuilder("verslagen");
