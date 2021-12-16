@@ -48,6 +48,13 @@ class Huuraanbod
 
 
     /**
+     * @var int
+     * @ORM\Column(type="integer", nullable=true)
+     * @Gedmo\Versioned
+     */
+    private $huurprijs;
+
+    /**
      * @ORM\Column(type="date")
      * @Gedmo\Versioned
      */
@@ -97,6 +104,7 @@ class Huuraanbod
      * @Gedmo\Versioned
      */
     private $project;
+
 
     public function __construct()
     {
@@ -175,7 +183,7 @@ class Huuraanbod
         return false;
     }
 
-    public function isActief()
+    public function isActief():bool
     {
         return null === $this->afsluiting;
     }
@@ -278,7 +286,23 @@ class Huuraanbod
         return $this;
     }
 
+    /**
+     * @return int
+     */
+    public function getHuurprijs(): ?int
+    {
+        return $this->huurprijs;
+    }
 
+    /**
+     * @param int $huurprijs
+     * @return Huuraanbod
+     */
+    public function setHuurprijs(int $huurprijs): Huuraanbod
+    {
+        $this->huurprijs = $huurprijs;
+        return $this;
+    }
 
 
 

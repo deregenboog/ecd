@@ -3,10 +3,13 @@
 namespace TwBundle\Form;
 
 use AppBundle\Form\AppDateRangeType;
+use AppBundle\Form\AppIntRangeType;
 use AppBundle\Form\FilterType;
 use AppBundle\Form\KlantFilterType;
 use AppBundle\Form\MedewerkerType;
+use AppBundle\Form\Model\AppIntRangeModel;
 use Doctrine\ORM\EntityRepository;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use TwBundle\Entity\Huuraanbod;
 use TwBundle\Entity\Klant;
 use TwBundle\Entity\Verhuurder;
@@ -37,6 +40,16 @@ class HuuraanbodFilterType extends AbstractType
             ]);
         }
 
+        if (in_array('huurprijs', $options['enabled_filters'])) {
+
+            $builder
+                ->add('huurprijs', AppIntRangeType::class, [
+                    'required'=>false,
+                ])
+
+            ;
+
+        }
         if (in_array('startdatum', $options['enabled_filters'])) {
             $builder->add('startdatum', AppDateRangeType::class, [
                 'required' => false,
@@ -59,13 +72,13 @@ class HuuraanbodFilterType extends AbstractType
 //                },
             ]);
         }
-//        if (in_array('actief', $options['enabled_filters'])) {
-//            $builder->add('actief', CheckboxType::class, [
-//                'required' => false,
-//                'label' => 'Actieve huuraanbiedingen',
-//                'data' => false,
-//            ]);
-//        }
+        if (in_array('actief', $options['enabled_filters'])) {
+            $builder->add('actief', CheckboxType::class, [
+                'required' => false,
+                'label' => 'Actieve huuraanbiedingen',
+                'data' => true,
+            ]);
+        }
         if (array_key_exists('huurovereenkomst', $options['enabled_filters'])) {
             $builder->add('huurovereenkomst', HuurovereenkomstFilterType::class, [
                 'enabled_filters' => $options['enabled_filters']['huurovereenkomst'],
@@ -78,6 +91,7 @@ class HuuraanbodFilterType extends AbstractType
             $builder->add('project', ProjectSelectFilterType::class, [
                 'label' => 'Project',
                 'required' => false,
+                'multiple'=>true,
 //                'data' => false,
             ]);
         }
@@ -106,11 +120,10 @@ class HuuraanbodFilterType extends AbstractType
             'data_class' => HuuraanbodFilter::class,
             'data' => new HuuraanbodFilter(),
             'enabled_filters' => [
-                'id',
-                'appKlant' => ['naam', 'stadsdeel'],
+                'appKlant' => ['naam','plaats'],
                 'startdatum',
-                'afsluitdatum',
                 'actief',
+                'huurprijs',
                 'medewerker',
                 'project',
                 'huurovereenkomst'=>['isReservering'],

@@ -36,6 +36,7 @@ class HuuraanbodType extends AbstractType
                 'required' => false,
                 'label' => 'Toestemming pandeigenaar toegekend',
             ])
+            ->add('huurprijs')
         ;
 
         if (!$options['data']->getId()) {

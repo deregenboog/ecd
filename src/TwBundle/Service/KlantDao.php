@@ -69,7 +69,7 @@ class KlantDao extends AbstractDao implements KlantDaoInterface
 
             ->leftJoin('appKlant.werkgebied', 'werkgebied')
             ->leftJoin('klant.afsluiting', 'afsluiting')
-            ->innerJoin('klant.medewerker','medewerker')
+            ->leftJoin('klant.medewerker','medewerker')
 
             ->andWhere('(afsluiting.tonen IS NULL OR afsluiting.tonen = true)')
         ;

@@ -6,6 +6,7 @@ use AppBundle\Entity\Medewerker;
 use AppBundle\Filter\FilterInterface;
 use AppBundle\Filter\KlantFilter;
 use AppBundle\Form\Model\AppDateRangeModel;
+use AppBundle\Form\Model\AppIntRangeModel;
 use Doctrine\ORM\QueryBuilder;
 use TwBundle\Entity\Project;
 
@@ -27,9 +28,14 @@ class HuuraanbodFilter implements FilterInterface
     public $afsluitdatum;
 
     /**
+     * @var AppIntRangeModel
+     */
+    public $huurprijs;
+
+    /**
      * @var bool
      */
-    public $actief;
+    public $actief = true;
 
     /**
      * @var HuurovereenkomstFilter
@@ -89,6 +95,12 @@ class HuuraanbodFilter implements FilterInterface
                 ;
             }
         }
+        if($this->huurprijs)
+        {
+            $builder->andWhere('huuraanbod.huurprijs >= :low AND huuraanbod.huurprijs <= :high')
+                ->setParameter("low",$this->huurprijs->getLow())
+                ->setParameter("high",$this->huurprijs->getHigh());
+        }
 
         if ($this->afsluitdatum) {
             if ($this->afsluitdatum->getStart()) {
@@ -111,13 +123,13 @@ class HuuraanbodFilter implements FilterInterface
                 ->setParameter('medewerker',$this->medewerker);
         }
 
-//        if ($this->actief === true) {
-//            $builder
-//                ->andWhere('huuraanbod.afsluitdatum IS NULL OR huuraanbod.afsluitdatum > :now')
-////                ->andWhere('huurovereenkomst.id IS NULL')
-//                ->setParameter('now', new \DateTime())
-//            ;
-//        }
+        if ($this->actief === true) {
+            $builder
+                ->andWhere('huuraanbod.afsluitdatum IS NULL OR huuraanbod.afsluitdatum > :now')
+//                ->andWhere('huurovereenkomst.id IS NULL')
+                ->setParameter('now', new \DateTime())
+            ;
+        }
 //        else {
 //            $builder
 //                ->andWhere('huurovereenkomst.id IS NULL');

@@ -10,7 +10,7 @@
 {% endblock %}
 
 {% block content %}
-    <h1>Klant wijzigen</h1>
+    <h1>Klant wijzigen ({{ entity.appKlant.naam }})</h1>
     <p>
         Hier kunt u alleen de Tijdelijk Wonen-gegevens voor deze klant wijzigen. Klik
         {{ html.link('hier', path('app_klanten_view', {'id': entity.appKlant.id})) }}

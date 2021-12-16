@@ -47,6 +47,7 @@ class HuurverzoekenController extends SymfonyController
             ->innerJoin('huurverzoek.klant', 'klant')
             ->innerJoin('huurverzoek.medewerker','medewerker')
             ->innerJoin('klant.appKlant', 'appKlant')
+            ->leftJoin('klant.huisgenoot','huisgenoot')
             ->leftJoin('appKlant.werkgebied', 'werkgebied')
             ->leftJoin('huurverzoek.afsluiting', 'afsluiting')
             ->andWhere('huurovereenkomst.id IS NULL') //alleen actieve

@@ -8,6 +8,7 @@ use AppBundle\Form\AppDateType;
 use AppBundle\Form\BaseSelectType;
 use AppBundle\Form\BaseType;
 use AppBundle\Form\KlantType as AppKlantType;
+use Doctrine\ORM\Mapping\Entity;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use TwBundle\Entity\Alcohol;
@@ -72,6 +73,12 @@ class KlantType extends AbstractType
       $builder
            ->add('moScreening',ActiveEntityType::class,['class'=>MoScreening::class])
             ->add('bindingRegio',ActiveEntityType::class,['class'=>Regio::class])
+            ->add('huisgenoot',EntityType::class,
+                [
+                    'class'=>Klant::class,
+                    'required'=>false,
+                ]
+            )
             ->add('inschrijvingWoningnet')
             ->add('klantmanager')
             ->add('wpi')

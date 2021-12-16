@@ -66,6 +66,8 @@
         <dd>{{ entity.wpi ? 'Ja' : 'Nee' }}</dd>
         <dt title="Kleine schuld, grote winst">KSGW</dt>
         <dd>{{ entity.ksgw ? 'Ja' : 'Nee' }}</dd>
+        <dt>Samenvatting</dt>
+        <dd>{{ entity.samenvatting|nl2br }}</dd>
     </dl>
     {% include '::klant_basis.html.twig' with {klant: entity.appKlant} %}
 {% endblock %}

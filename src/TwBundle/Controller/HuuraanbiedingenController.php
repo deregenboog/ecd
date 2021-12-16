@@ -27,11 +27,14 @@ class HuuraanbiedingenController extends SymfonyController
         'huuraanbod.id',
         'appKlant.achternaam',
         'werkgebied.naam',
+        'appKlant.pplaats',
         'huuraanbod.startdatum',
         'huuraanbod.afsluitdatum',
         'huurovereenkomst.isReservering',
         'medewerker.achternaam',
         'project.naam',
+        'huuraanbod.isActief',
+
     ];
 
     /**
@@ -51,7 +54,7 @@ class HuuraanbiedingenController extends SymfonyController
             ->leftJoin('huuraanbod.afsluiting', 'afsluiting')
             ->leftJoin('huuraanbod.project', 'project')
             ->andWhere('huurovereenkomst.id IS NULL') //alleen actieve
-            ->andWhere('huuraanbod.afsluitdatum IS NULL OR huuraanbod.afsluitdatum > :now') // alleen actieve
+//            ->andWhere('huuraanbod.afsluitdatum IS NULL OR huuraanbod.afsluitdatum > :now') // alleen actieve
 //            ->orWhere('huurovereenkomst.isReservering = 1')
             ->andWhere('afsluiting.tonen IS NULL OR afsluiting.tonen = true')
         ;
