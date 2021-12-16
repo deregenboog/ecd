@@ -148,6 +148,14 @@ class Klant extends Deelnemer
      */
     private $toelichtingInkomen = null;
 
+    /**
+     * @var Klant
+     * @ORM\OneToOne(targetEntity="Klant")
+     * @ORM\JoinColumn(name="huisgenoot_id", referencedColumnName="id", nullable=true)
+     * @Gedmo\Versioned
+     */
+    private $huisgenoot;
+
     public function __construct(AppKlant $klant = null)
     {
         if(null !== $klant){
@@ -475,6 +483,24 @@ class Klant extends Deelnemer
     public function setShortlist(?Medewerker $shortlist): Klant
     {
         $this->shortlist = $shortlist;
+        return $this;
+    }
+
+    /**
+     * @return Klant
+     */
+    public function getHuisgenoot(): ?Klant
+    {
+        return $this->huisgenoot;
+    }
+
+    /**
+     * @param Klant $huisgenoot
+     * @return Klant
+     */
+    public function setHuisgenoot(Klant $huisgenoot): ?Klant
+    {
+        $this->huisgenoot = $huisgenoot;
         return $this;
     }
 

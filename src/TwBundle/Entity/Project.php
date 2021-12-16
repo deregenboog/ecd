@@ -41,6 +41,11 @@ class Project
     private $huuraanbiedingen;
 
 
+//    public function __toString()
+//    {
+//        return $this->getNaam();
+//    }
+
     public function getStartdatum()
     {
         return $this->startdatum;

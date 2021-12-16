@@ -93,20 +93,25 @@ class Verhuurder extends Deelnemer
     /**
      * @var AanvullingInkomen
      *
-     * ORM\ManyToOne(targetEntity="TwBundle\Entity\AanvullingInkomen", inversedBy="verhuurders")
+     * @ORM\ManyToOne(targetEntity="TwBundle\Entity\AanvullingInkomen", inversedBy="verhuurders")
      * Gedmo\Versioned
      */
-//    private $aanvullingInkomen;
+    private $aanvullingInkomen;
 
 
     /**
      * @var Kwijtschelding
      *
-     * ORM\ManyToOne(targetEntity="TwBundle\Entity\Kwijtschelding", inversedBy="verhuurders")
+     * @ORM\ManyToOne(targetEntity="TwBundle\Entity\Kwijtschelding", inversedBy="verhuurders")
      * Gedmo\Versioned
      */
-//    private $kwijtschelding;
+    private $kwijtschelding;
 
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     * @Gedmo\Versioned
+     */
+    private $samenvatting;
 
 
     public function __construct(AppKlant $appKlant = null)
@@ -347,5 +352,22 @@ class Verhuurder extends Deelnemer
 
 
 
+    /**
+     * @return mixed
+     */
+    public function getSamenvatting()
+    {
+        return $this->samenvatting;
+    }
+
+    /**
+     * @param mixed $samenvatting
+     * @return Huuraanbod
+     */
+    public function setSamenvatting($samenvatting)
+    {
+        $this->samenvatting = $samenvatting;
+        return $this;
+    }
 
 }

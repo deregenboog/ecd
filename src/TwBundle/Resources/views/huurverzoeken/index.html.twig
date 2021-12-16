@@ -28,12 +28,12 @@
             </tr>
             <tr>
                 <th>
-                    {{ form_widget(filter.id) }}
-                    {{ form_errors(filter.id) }}
-                </th>
-                <th>
                     {{ form_widget(filter.klant.naam) }}
                     {{ form_errors(filter.klant.naam) }}
+                </th>
+                <th>
+                    {{ form_widget(filter.huisgenoot) }}
+                    {{ form_errors(filter.huisgenoot) }}
                 </th>
                 <th>
                     {{ form_widget(filter.project) }}
@@ -46,18 +46,12 @@
                     {{ form_errors(filter.startdatum.end) }}
                 </th>
                 <th>
-                    {{ form_widget(filter.afsluitdatum.start) }}
-                    {{ form_errors(filter.afsluitdatum.start) }}
-                    {{ form_widget(filter.afsluitdatum.end) }}
-                    {{ form_errors(filter.afsluitdatum.end) }}
-                </th>
-                <th>
-                    {{ form_widget(filter.medewerker) }}
-                    {{ form_errors(filter.medewerker) }}
-                </th>
-                <th>
                     {{ form_widget(filter.huurovereenkomst.isReservering) }}
                     {{ form_errors(filter.huurovereenkomst.isReservering) }}
+                </th>
+                <th>
+                    {{ form_widget(filter.actief) }}
+                    {{ form_errors(filter.actief) }}
                 </th>
                 <th>
                 </th>
@@ -65,10 +59,10 @@
         {{ form_end(filter) }}
         <tr>
             <th>
-                {{ knp_pagination_sortable(pagination, '#', 'huurverzoek.id') }}
+                {{ knp_pagination_sortable(pagination, 'Klant', 'klant.achternaam') }}
             </th>
             <th>
-                {{ knp_pagination_sortable(pagination, 'Klant', 'klant.achternaam') }}
+                {{ knp_pagination_sortable(pagination, 'Huisgenoot', 'huisgenoot.achternaam') }}
             </th>
             <th>
                Project(en)
@@ -77,13 +71,13 @@
                 {{ knp_pagination_sortable(pagination, 'Startdatum', 'huurverzoek.startdatum') }}
             </th>
             <th>
-                {{ knp_pagination_sortable(pagination, 'Afsluitdatum', 'huurverzoek.afsluitdatum') }}
-            </th>
-            <th>
                 {{ knp_pagination_sortable(pagination, 'Medewerker', 'medewerker.achternaam') }}
             </th>
             <th>
                 {{ knp_pagination_sortable(pagination, 'Reservering', 'huurovereenkomst.isReservering') }}
+            </th>
+            <th>
+                {{ knp_pagination_sortable(pagination, 'Reservering', 'huurovereenkomst.isActief') }}
             </th>
             <th>
             </th>
@@ -96,11 +90,12 @@
             {% endif %}
 
         <tr class="{{ class }}" data-href="{{ path('tw_huurverzoeken_view', {id: huurverzoek.id}) }}">
-            <td>
-                {{ huurverzoek.id }}
-            </td>
+
             <td>
                 {{ huurverzoek.klant.appKlant.naam }}
+            </td>
+            <td>
+                {{ huurverzoek.klant.huisgenoot ? huurverzoek.klant.huisgenoot : "" }}
             </td>
             <td>
                 {% for project in huurverzoek.projecten %}
@@ -110,16 +105,15 @@
             <td>
                 {{ huurverzoek.startdatum|date('d-m-Y') }}
             </td>
-            <td>
-                {{ huurverzoek.afsluitdatum ? huurverzoek.afsluitdatum|date('d-m-Y') }}
-                {{ huurverzoek.afsluiting ? '('~huurverzoek.afsluiting~')' }}
-            </td>
 
             <td>
                 {{ huurverzoek.medewerker }}
             </td>
             <td>
                 {{ huurverzoek.huurovereenkomst ? huurverzoek.huurovereenkomst.isReservering|ja_nee : "Nee" }}
+            </td>
+            <td>
+                {{ huurverzoek.huurovereenkomst ? huurverzoek.huurovereenkomst.isActief|ja_nee : "Nee" }}
             </td>
             <td>
                 {{ html.editLink(path('tw_huurverzoeken_edit', {id: huurverzoek.id})) }}

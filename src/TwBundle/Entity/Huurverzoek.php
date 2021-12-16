@@ -157,7 +157,7 @@ class Huurverzoek
         return false;
     }
 
-    public function isActief()
+    public function isActief():bool
     {
         return null === $this->afsluiting;
     }

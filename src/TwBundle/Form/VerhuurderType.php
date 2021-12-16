@@ -3,6 +3,7 @@
 namespace TwBundle\Form;
 
 use AppBundle\Form\AppDateType;
+use AppBundle\Form\AppTextareaType;
 use AppBundle\Form\BaseType;
 use AppBundle\Form\KlantType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -53,21 +54,16 @@ class VerhuurderType extends AbstractType
             ->add('wpi')
             ->add('ksgw')
             ->add('inkomen')
+            ->add('aanvullingInkomen')
             ->add('huurtoeslag', ChoiceType::class,['choices' => [
                     'Ja' => '1',
                     'Nee' => '0',
                     'Onbekend' => null,
-                ]
+                ],
+                'required'=>false,
             ])
-        ;
-
-        $builder
-            ->add('dagbesteding')
-            ->add('ritme')
-            ->add('huisdieren')
-            ->add('roken')
-            ->add('softdrugs')
-            ->add('traplopen')
+            ->add('kwijtschelding')
+            ->add('samenvatting', AppTextareaType::class)
         ;
 
         if (!$options['data']->getId()) {

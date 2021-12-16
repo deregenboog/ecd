@@ -7,6 +7,7 @@ use AppBundle\Form\FilterType;
 use AppBundle\Form\KlantFilterType;
 use AppBundle\Form\MedewerkerType;
 use Doctrine\ORM\EntityRepository;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use TwBundle\Entity\Klant;
 use TwBundle\Entity\Huurverzoek;
 use TwBundle\Filter\HuurovereenkomstFilter;
@@ -34,7 +35,14 @@ class HuurverzoekFilterType extends AbstractType
             $builder->add('klant', KlantFilterType::class, [
                 'enabled_filters' => $options['enabled_filters']['klant'],
             ]);
+
         }
+        $builder->add('huisgenoot', EntityType::class,
+            ['class'=>Klant::class,
+                'required'=>false,
+                'placeholder'=>'',
+            ]
+        );
         if (in_array('startdatum', $options['enabled_filters'])) {
             $builder->add('startdatum', AppDateRangeType::class, [
                 'required' => false,
@@ -47,13 +55,13 @@ class HuurverzoekFilterType extends AbstractType
             ]);
         }
 
-//        if (in_array('actief', $options['enabled_filters'])) {
-//            $builder->add('actief', CheckboxType::class, [
-//                'required' => false,
-//                'label' => 'Actieve huurverzoeken',
-//                'data' => false,
-//            ]);
-//        }
+        if (in_array('actief', $options['enabled_filters'])) {
+            $builder->add('actief', CheckboxType::class, [
+                'required' => false,
+                'label' => 'Actieve huurverzoeken',
+                'data' => false,
+            ]);
+        }
         if (in_array('medewerker', $options['enabled_filters'])) {
             $builder->add('medewerker', \TwBundle\Form\MedewerkerType::class, [
                 'required' => false,
@@ -103,12 +111,9 @@ class HuurverzoekFilterType extends AbstractType
             'data_class' => HuurverzoekFilter::class,
             'data' => new HuurverzoekFilter(),
             'enabled_filters' => [
-                'id',
                 'klant' => ['naam'],
                 'startdatum',
-                'afsluitdatum',
                 'actief',
-                'medewerker',
                 'project',
                 'huurovereenkomst'=>['isReservering']
             ],

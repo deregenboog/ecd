@@ -7,6 +7,7 @@ use AppBundle\Filter\FilterInterface;
 use AppBundle\Filter\KlantFilter;
 use AppBundle\Form\Model\AppDateRangeModel;
 use Doctrine\ORM\QueryBuilder;
+use TwBundle\Entity\Klant;
 use TwBundle\Entity\Project;
 
 class HuurverzoekFilter implements FilterInterface
@@ -32,9 +33,14 @@ class HuurverzoekFilter implements FilterInterface
     public $huurovereenkomst;
 
     /**
+     * @var Klant
+     */
+    public $huisgenoot;
+
+    /**
      * @var bool
      */
-    public $actief;
+    public $actief = true;
 
     /**
      * @var KlantFilter
@@ -108,20 +114,25 @@ class HuurverzoekFilter implements FilterInterface
             $this->huurovereenkomst->applyTo($builder);
         }
 
-//        if ($this->actief) {
-//            $builder
-//                ->andWhere('huurverzoek.afsluitdatum IS NULL OR huurverzoek.afsluitdatum > :now')
-////                ->andWhere('huurovereenkomst.id IS NOT NULL')
-//                ->setParameter('now', new \DateTime())
-//            ;
-//        }
-//        else {
-//            $builder
-//                ->andWhere('huurovereenkomst.id IS NULL');
-//        }
+        if ($this->actief) {
+            $builder
+                ->andWhere('huurverzoek.afsluitdatum IS NULL OR huurverzoek.afsluitdatum > :now')
+//                ->andWhere('huurovereenkomst.id IS NOT NULL')
+                ->setParameter('now', new \DateTime())
+            ;
+        }
+        else {
+            $builder
+                ->andWhere('huurovereenkomst.id IS NULL');
+        }
 
         if ($this->klant) {
             $this->klant->applyTo($builder,'appKlant');
+        }
+        if ($this->huisgenoot) {
+            
+            $builder->andWhere('klant.huisgenoot = :huisgenoot')
+                ->setParameter("huisgenoot",$this->huisgenoot);
         }
 
         if($this->project && count($this->project)>0)
@@ -130,5 +141,11 @@ class HuurverzoekFilter implements FilterInterface
                 ->andWhere('project.id IN (:project)')
                 ->setParameter("project",$this->project);
         }
+
+        $q = $builder->getQuery();
+        $dql = $builder->getDQL();
+//        $sql = $q->getSQL();
+
+
     }
 }

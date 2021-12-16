@@ -15,7 +15,7 @@
     <table class="table table-hover">
         {{ form_start(filter) }}
             <tr>
-                <th colspan="7">
+                <th colspan="8">
                 </th>
 
                 <th>
@@ -25,23 +25,26 @@
                     </span>
                 </th>
                 <th></th>
+
             </tr>
             <tr>
-                <th>
-                    {{ form_widget(filter.id) }}
-                    {{ form_errors(filter.id) }}
-                </th>
+
                 <th>
                     {{ form_widget(filter.appKlant.naam) }}
                     {{ form_errors(filter.appKlant.naam) }}
                 </th>
-                <th>
-                    {{ form_widget(filter.appKlant.stadsdeel) }}
-                    {{ form_errors(filter.appKlant.stadsdeel) }}
-                </th>
+
                 <th>
                     {{ form_widget(filter.project) }}
                     {{ form_errors(filter.project) }}
+                </th>
+                <th>
+                    {{ form_widget(filter.appKlant.plaats) }}
+                    {{ form_errors(filter.appKlant.plaats) }}
+                </th>
+                <th>
+                    {{ form_widget(filter.huurprijs) }}
+                    {{ form_errors(filter.huurprijs) }}
                 </th>
                 <th>
                     {{ form_widget(filter.startdatum.start) }}
@@ -49,12 +52,7 @@
                     {{ form_widget(filter.startdatum.end) }}
                     {{ form_errors(filter.startdatum.end) }}
                 </th>
-                <th>
-                    {{ form_widget(filter.afsluitdatum.start) }}
-                    {{ form_errors(filter.afsluitdatum.start) }}
-                    {{ form_widget(filter.afsluitdatum.end) }}
-                    {{ form_errors(filter.afsluitdatum.end) }}
-                </th>
+
                 <th>
                     {{ form_widget(filter.medewerker) }}
                     {{ form_errors(filter.medewerker) }}
@@ -64,27 +62,31 @@
                     {{ form_errors(filter.huurovereenkomst.isReservering) }}
                 </th>
                 <th>
+                    {{ form_widget(filter.actief) }}
+                    {{ form_errors(filter.actief) }}
                 </th>
+                <th colspan="3">
+
+                </th>
+
+
             </tr>
         {{ form_end(filter) }}
         <tr>
             <th>
-                {{ knp_pagination_sortable(pagination, '#', 'huuraanbod.id') }}
-            </th>
-            <th>
                 {{ knp_pagination_sortable(pagination, 'Verhuurder', 'appKlant.achternaam') }}
             </th>
             <th>
-                {{ knp_pagination_sortable(pagination, 'Stadsdeel', 'werkgebied.naam') }}
+                {{ knp_pagination_sortable(pagination, 'Project(en)', 'project.naam') }}
             </th>
             <th>
-                {{ knp_pagination_sortable(pagination, 'Project', 'project.naam') }}
+                {{ knp_pagination_sortable(pagination, 'Plaats', 'appKlant.plaats') }}
+            </th>
+            <th>
+                {{ knp_pagination_sortable(pagination, 'Huurprijs', 'huuraanbod.huurprijs') }}
             </th>
             <th>
                 {{ knp_pagination_sortable(pagination, 'Startdatum', 'huuraanbod.startdatum') }}
-            </th>
-            <th>
-                {{ knp_pagination_sortable(pagination, 'Afsluitdatum', 'huuraanbod.afsluitdatum') }}
             </th>
             <th>
                 {{ knp_pagination_sortable(pagination, 'Medewerker', 'medewerker.achternaam') }}
@@ -93,7 +95,12 @@
                 {{ knp_pagination_sortable(pagination, 'Reservering', 'huurovereenkomst.isReservering') }}
             </th>
             <th>
+                Actief
             </th>
+            <th>Samenvatting</th>
+            <th>
+            </th>
+
         </tr>
         {% for huuraanbod in pagination %}
             {% set cssClass = "" %}
@@ -107,30 +114,34 @@
                 {% set class = "danger" %}
             {% endif %}
             <tr class="{{ cssClass }} {{ class }}" data-href="{{ path('tw_huuraanbiedingen_view', {id: huuraanbod.id}) }}">
-                <td>
-                    {{ huuraanbod.id }}
-                </td>
+
                 <td>
                     {{ huuraanbod.verhuurder.appKlant.naam }}
                 </td>
                 <td>
-                    {{ huuraanbod.verhuurder.appKlant.werkgebied }}
+                    {{ huuraanbod.project}}
                 </td>
                 <td>
-                    {{ huuraanbod.project }}
+                    {{ huuraanbod.verhuurder.appKlant.plaats }}
+                </td>
+                <td>
+                    {{ huuraanbod.huurprijs|money }}
                 </td>
                 <td>
                     {{ huuraanbod.startdatum|date('d-m-Y') }}
                 </td>
-                <td>
-                    {{ huuraanbod.afsluitdatum ? huuraanbod.afsluitdatum|date('d-m-Y') }}
-                    {{ huuraanbod.afsluiting ? '('~huuraanbod.afsluiting~')' }}
-                </td>
+
                 <td>
                     {{ huuraanbod.medewerker }}
                 </td>
                 <td>
                     {{ huuraanbod.huurovereenkomst ? huuraanbod.huurovereenkomst.isReservering|ja_nee : "Nee" }}
+                </td>
+                <td>
+                    {{ huuraanbod.isActief|ja_nee }}
+                </td>
+                <td>
+                    {{ huuraanbod.verhuurder.samenvatting|length > 50 ? huuraanbod.verhuurder.samenvatting|slice(0, 51)|split(' ')|slice(0, -1)|join(' ') ~ '…' : huuraanbod.verhuurder.samenvatting }}
                 </td>
                 <td>
                     {{ html.editLink(path('tw_huuraanbiedingen_edit', {id: huuraanbod.id})) }}
