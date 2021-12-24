@@ -52,11 +52,6 @@
                         {{ form_errors(filter.gekoppeld) }}
                     </th>
                     <th>
-
-                    </th>
-                    <th></th>
-
-                    <th>
                         {{ form_widget(filter.medewerker) }}
                         {{ form_errors(filter.medewerker) }}
                     </th>
@@ -77,8 +72,7 @@
                     {{ knp_pagination_sortable(pagination, 'Project', 'project.naam') }}
                 </th>
                 <th>Gekoppeld</th>
-                <th>Toestemming Woco</th>
-                <th>Reminder Woco</th>
+
                 <th>Medewerker</th>
                 <th></th>
             </tr>
@@ -96,13 +90,7 @@
                         {{ verhuurder.project }}
                     </td>
                     <td>
-{#                        {{ verhuurder.isGekoppeld|ja_nee }}#}
-                    </td>
-                    <td>
-                        -
-                    </td>
-                    <td>
-                        -
+                        {{ verhuurder.isGekoppeld|ja_nee }}
                     </td>
                     <td>
                         {{ verhuurder.medewerker }}

@@ -45,6 +45,7 @@ class HuuraanbodFilterType extends AbstractType
             $builder
                 ->add('huurprijs', AppIntRangeType::class, [
                     'required'=>false,
+//                    'label'=>'',
                 ])
 
             ;
@@ -61,6 +62,17 @@ class HuuraanbodFilterType extends AbstractType
                 'required' => false,
             ]);
         }
+        if (in_array('datumToestemmingAangevraagd', $options['enabled_filters'])) {
+            $builder->add('datumToestemmingAangevraagd', AppDateRangeType::class, [
+                'required' => false,
+            ]);
+        }
+        if (in_array('datumToestemmingToegekend', $options['enabled_filters'])) {
+            $builder->add('datumToestemmingToegekend', AppDateRangeType::class, [
+                'required' => false,
+            ]);
+        }
+
         if (in_array('medewerker', $options['enabled_filters'])) {
             $builder->add('medewerker', \TwBundle\Form\MedewerkerType::class, [
                 'required' => false,
@@ -123,6 +135,8 @@ class HuuraanbodFilterType extends AbstractType
                 'appKlant' => ['naam','plaats'],
                 'startdatum',
                 'actief',
+                'datumToestemmingAangevraagd',
+                'datumToestemmingToegekend',
                 'huurprijs',
                 'medewerker',
                 'project',

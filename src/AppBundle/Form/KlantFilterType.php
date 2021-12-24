@@ -56,6 +56,7 @@ class KlantFilterType extends AbstractType
             $builder->add('geslacht', EntityType::class, [
                 'class' => Geslacht::class,
                 'required' => false,
+                'multiple'=>true,
             ]);
         }
 

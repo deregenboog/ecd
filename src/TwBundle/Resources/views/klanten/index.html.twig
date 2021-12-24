@@ -77,8 +77,10 @@
             <thead>
                 <tr>
                     <th>
-                        {{ form_widget(filter.aanmelddatum) }}
-                        {{ form_errors(filter.aanmelddatum) }}
+                        {{ form_widget(filter.aanmelddatum.start) }}
+                        {{ form_errors(filter.aanmelddatum.start) }}
+                        {{ form_widget(filter.aanmelddatum.end) }}
+                        {{ form_errors(filter.aanmelddatum.end) }}
                     </th>
                     <th>
                         {{ form_widget(filter.appKlant.naam) }}
@@ -89,8 +91,10 @@
                         {{ form_errors(filter.appKlant.geslacht) }}
                     </th>
                     <th>
-                        {{ form_widget(filter.appKlant.geboortedatumRange) }}
-                        {{ form_errors(filter.appKlant.geboortedatumRange) }}
+                        {{ form_widget(filter.appKlant.geboortedatumRange.start) }}
+                        {{ form_errors(filter.appKlant.geboortedatumRange.start) }}
+                        {{ form_widget(filter.appKlant.geboortedatumRange.end) }}
+                        {{ form_errors(filter.appKlant.geboortedatumRange.end) }}
                     </th>
                     <th>
                         {{ form_widget(filter.project) }}

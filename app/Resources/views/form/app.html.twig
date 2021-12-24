@@ -9,3 +9,7 @@
     {%- endif %}
     {{- parent() -}}
 {%- endblock form_start %}
+
+{% block without_label %}
+    {{ form_widget(form) }}
+{% endblock without_label %}

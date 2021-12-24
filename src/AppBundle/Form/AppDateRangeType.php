@@ -14,11 +14,11 @@ class AppDateRangeType extends AbstractType
         $builder
             ->add('start', AppDateType::class, [
                 'label' => 'Van',
-                'attr' => ['placeholder' => 'Van (dd-mm-jjjj)'],
+                'attr' => ['placeholder' => 'Van (dd-mm-jjjj)','class'=>'medium'],
             ])
             ->add('end', AppDateType::class, [
                 'label' => 'Tot',
-                'attr' => ['placeholder' => 'Tot (dd-mm-jjjj)'],
+                'attr' => ['placeholder' => 'Tot (dd-mm-jjjj)','class'=>'medium'],
             ])
         ;
     }

@@ -28,6 +28,16 @@ class HuuraanbodFilter implements FilterInterface
     public $afsluitdatum;
 
     /**
+     * @var AppDateRangeModel
+     */
+    public $datumToestemmingAangevraagd;
+
+    /**
+     * @var AppDateRangeModel
+     */
+    public $datumToestemmingToegekend;
+
+    /**
      * @var AppIntRangeModel
      */
     public $huurprijs;
@@ -109,10 +119,38 @@ class HuuraanbodFilter implements FilterInterface
                     ->setParameter('afsluitdatum_van', $this->afsluitdatum->getStart())
                 ;
             }
-            if ($this->afsluit->getEnd()) {
+            if ($this->afsluitdatum->getEnd()) {
                 $builder
                     ->andWhere('huuraanbod.afsluitdatum <= :afsluitdatum_tot')
                     ->setParameter('afsluitdatum_tot', $this->afsluitdatum->getEnd())
+                ;
+            }
+        }
+        if ($this->datumToestemmingAangevraagd) {
+            if ($this->datumToestemmingAangevraagd->getStart()) {
+                $builder
+                    ->andWhere('huuraanbod.datumToestemmingAangevraagd >= :datumToestemmingAangevraagd_van')
+                    ->setParameter('datumToestemmingAangevraagd_van', $this->datumToestemmingAangevraagd->getStart())
+                ;
+            }
+            if ($this->datumToestemmingAangevraagd->getEnd()) {
+                $builder
+                    ->andWhere('huuraanbod.datumToestemmingAangevraagd <= :datumToestemmingAangevraagd_tot')
+                    ->setParameter('datumToestemmingAangevraagd_tot', $this->datumToestemmingAangevraagd->getEnd())
+                ;
+            }
+        }
+        if ($this->datumToestemmingToegekend) {
+            if ($this->datumToestemmingToegekend->getStart()) {
+                $builder
+                    ->andWhere('huuraanbod.datumToestemmingToegekend >= :datumToestemmingToegekend_van')
+                    ->setParameter('datumToestemmingToegekend_van', $this->datumToestemmingToegekend->getStart())
+                ;
+            }
+            if ($this->datumToestemmingToegekend->getEnd()) {
+                $builder
+                    ->andWhere('huuraanbod.datumToestemmingToegekend <= :datumToestemmingToegekend_tot')
+                    ->setParameter('datumToestemmingToegekend_tot', $this->datumToestemmingToegekend->getEnd())
                 ;
             }
         }
