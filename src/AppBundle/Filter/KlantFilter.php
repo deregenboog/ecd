@@ -137,9 +137,9 @@ class KlantFilter implements FilterInterface
             }
         }
 
-        if ($this->geslacht) {
+        if ($this->geslacht && count($this->geslacht)>0) {
             $builder
-                ->andWhere("{$alias}.geslacht = :{$alias}_geslacht")
+                ->andWhere("{$alias}.geslacht IN (:{$alias}_geslacht)")
                 ->setParameter("{$alias}_geslacht", $this->geslacht)
             ;
         }

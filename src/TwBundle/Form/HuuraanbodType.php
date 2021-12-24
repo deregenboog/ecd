@@ -22,7 +22,13 @@ class HuuraanbodType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('medewerker', MedewerkerType::class)
+            ->add('medewerker', MedewerkerType::class,
+                [
+                    'preset'=>false,
+                    'required'=>false,
+                ]
+
+            )
             ->add('project', ProjectSelectType::class)
             ->add('startdatum', AppDateType::class)
             ->add('vormvanovereenkomst', VormVanOvereenkomstType::class,[

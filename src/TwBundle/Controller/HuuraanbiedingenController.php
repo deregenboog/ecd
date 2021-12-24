@@ -30,6 +30,8 @@ class HuuraanbiedingenController extends SymfonyController
         'appKlant.pplaats',
         'huuraanbod.startdatum',
         'huuraanbod.afsluitdatum',
+        'huuraanbod.datumToestemmingAangevraagd',
+        'huuraanbod.datumToestemmingToegekend',
         'huurovereenkomst.isReservering',
         'medewerker.achternaam',
         'project.naam',
@@ -69,8 +71,8 @@ class HuuraanbiedingenController extends SymfonyController
         }
 
         $pagination = $this->getPaginator()->paginate($builder, $this->getRequest()->get('page', 1), 20, [
-            'defaultSortFieldName' => 'appKlant.achternaam',
-            'defaultSortDirection' => 'asc',
+            'defaultSortFieldName' => 'huuraanbod.startdatum',
+            'defaultSortDirection' => 'DESC',
             'sortFieldWhitelist' => $this->sortFieldWhitelist,
         ]);
 

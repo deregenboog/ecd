@@ -2,6 +2,7 @@
 
 namespace TwBundle\Entity;
 
+use AppBundle\Model\OptionalMedewerkerTrait;
 use AppBundle\Model\RequiredMedewerkerTrait;
 use AppBundle\Model\TimestampableTrait;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -16,7 +17,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
  */
 class Huuraanbod
 {
-    use TimestampableTrait, RequiredMedewerkerTrait;
+    use TimestampableTrait, OptionalMedewerkerTrait;
 
     /**
      * @ORM\Id

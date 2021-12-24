@@ -23,6 +23,9 @@ class Huurovereenkomst
     {
         return [
             'Hospitaverhuur' => 'Hospitaverhuur',
+            'Hospitaovereenkomst met kostgangerschap' =>'Hospitaovereenkomst met kostgangerschap',
+            '(Onder)huur onzelfstandige woonruimte'=>'(Onder)huur onzelfstandige woonruimte',
+            '(Onder)huur zelfstandige woonruimte'=>'(Onder)huur zelfstandige woonruimte',
             'Gebruikersovereenkomst'=>'Gebruikersovereenkomst',
             'Intermediare huurovereenkomst'=>'Intermediare  huurovereenkomst',
             'Kostgangerschap' => 'Kostgangerschap',
@@ -147,6 +150,15 @@ class Huurovereenkomst
      * @Gedmo\Versioned()
      */
     private $isReservering = false;
+
+    /**
+     * @var HuurovereenkomstType
+     *
+     * @ORM\ManyToOne(targetEntity="HuurovereenkomstType", inversedBy="huurovereenkomsten", cascade={"persist"})
+     * @ORM\JoinColumn(nullable=true)
+     * @Gedmo\Versioned
+     */
+    private $huurovereenkomstType;
 
 
     public function __construct()
@@ -384,6 +396,24 @@ class Huurovereenkomst
     public function setIsReservering(bool $isReservering): void
     {
         $this->isReservering = $isReservering;
+    }
+
+    /**
+     * @return HuurovereenkomstType
+     */
+    public function getHuurovereenkomstType(): ?HuurovereenkomstType
+    {
+        return $this->huurovereenkomstType;
+    }
+
+    /**
+     * @param HuurovereenkomstType $huurovereenkomstType
+     * @return Huurovereenkomst
+     */
+    public function setHuurovereenkomstType(HuurovereenkomstType $huurovereenkomstType): Huurovereenkomst
+    {
+        $this->huurovereenkomstType = $huurovereenkomstType;
+        return $this;
     }
 
 

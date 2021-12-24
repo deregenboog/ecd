@@ -14,7 +14,7 @@
     <table class="table table-hover">
         {{ form_start(filter) }}
             <tr>
-                <th colspan="10">
+                <th colspan="6">
                 </th>
                 <th>
                     {{ form_widget(filter.actief) }}
@@ -27,10 +27,6 @@
                 </th>
             </tr>
             <tr>
-                <th>
-                    {{ form_widget(filter.id) }}
-                    {{ form_errors(filter.id) }}
-                </th>
                 <th>
                     {{ form_widget(filter.klant.appKlant.naam) }}
                     {{ form_errors(filter.klant.appKlant.naam) }}
@@ -66,21 +62,8 @@
                     {{ form_errors(filter.einddatum.end) }}
                 </th>
                 <th>
-                    {{ form_widget(filter.afsluitdatum.start) }}
-                    {{ form_errors(filter.afsluitdatum.start) }}
-                    {{ form_widget(filter.afsluitdatum.end) }}
-                    {{ form_errors(filter.afsluitdatum.end) }}
-                </th>
-                <th>
                     {{ form_widget(filter.verhuurderKlant.plaats) }}
                     {{ form_errors(filter.verhuurderKlant.plaats) }}
-                </th>
-                <th>
-                    {{ form_widget(filter.vorm) }}
-                    {{ form_errors(filter.vorm) }}
-                </th>
-                <th>
-
                 </th>
                 <th>
                     {{ form_widget(filter.isReservering) }}
@@ -93,9 +76,6 @@
             </tr>
         {{ form_end(filter,{'render_rest':false}) }}
         <tr>
-            <th>
-                {{ knp_pagination_sortable(pagination, '#', 'huurovereenkomst.id') }}
-            </th>
             <th>
                 {{ knp_pagination_sortable(pagination, 'Klant', 'appKlant.achternaam') }}
             </th>
@@ -118,16 +98,7 @@
                 {{ knp_pagination_sortable(pagination, 'Einddatum huurovereenkomst', 'huurovereenkomst.einddatum') }}
             </th>
             <th>
-                {{ knp_pagination_sortable(pagination, 'Afsluitdatum koppeling', 'huurovereenkomst.afsluitdatum') }}
-            </th>
-            <th>
                 {{ knp_pagination_sortable(pagination, 'Plaats', 'verhuurderKlant.plaats') }}
-            </th>
-            <th>
-                {{ knp_pagination_sortable(pagination, 'Vorm', 'huurovereenkomst.vorm') }}
-            </th>
-            <th>
-                {{ knp_pagination_sortable(pagination, 'Automatische incasso', 'klant.automatischeIncasso') }}
             </th>
             <th>
                 {{ knp_pagination_sortable(pagination, 'Reservering', 'huurovereenkomst.isReservering') }}
@@ -144,9 +115,7 @@
                 {% set class = "danger" %}
             {% endif %}
             <tr class="{{ class }}" data-href="{{ path(route_base~'view', {id: huurovereenkomst.id}) }}">
-                <td>
-                    {{ huurovereenkomst.id }}
-                </td>
+
                 <td>
                     {{ huurovereenkomst.klant }}
                 </td>
@@ -173,19 +142,11 @@
                 <td>
                     {{ huurovereenkomst.einddatum ? huurovereenkomst.einddatum|date('d-m-Y') }}
                 </td>
-                <td>
-                    {{ huurovereenkomst.afsluitdatum ? huurovereenkomst.afsluitdatum|date('d-m-Y') }}
-                    {{ huurovereenkomst.afsluiting ? '('~huurovereenkomst.afsluiting~')' }}
-                </td>
+
                 <td>
                     {{ huurovereenkomst.verhuurder.appKlant.plaats }}
                 </td>
-                <td>
-                    {{ huurovereenkomst.vorm }}
-                </td>
-                <td>
-                    {{ huurovereenkomst.klant.automatischeIncasso|ja_nee() }}
-                </td>
+
                 <td>
                     {{ huurovereenkomst.isReservering|ja_nee() }}
                 </td>

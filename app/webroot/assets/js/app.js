@@ -8,6 +8,7 @@ global.$ = global.jQuery = $;
 
 require('lodash')
 require('bootstrap');
+require('popper.js')
 require('bootstrap/dist/css/bootstrap.min.css')
 // require('bootstrap/less/bootstrap.less')
 
@@ -23,6 +24,9 @@ require('select2/dist/css/select2.min.css')
 $(document).ready(function() {
     $('select').select2();
 });
+$(function () {
+    $('[data-toggle="tooltip"]').tooltip()
+})
 $(document).on('select2:open', (e) => {
     const selectId = e.target.id
 

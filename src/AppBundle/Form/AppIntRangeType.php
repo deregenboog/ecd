@@ -14,13 +14,14 @@ class AppIntRangeType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('low', IntegerType::class, [
-                'label' => 'Van',
-                'attr' => ['placeholder' => 'Van'],
+            ->add('low', AppIntType::class, [
+                'label' => false,
+                'attr' => ['placeholder' => 'Van','class'=>'small'],
+
             ])
-            ->add('high', IntegerType::class, [
-                'label' => 'Tot',
-                'attr' => ['placeholder' => 'Tot'],
+            ->add('high', AppIntType::class, [
+                'label' => false,
+                'attr' => ['placeholder' => 'Tot','class'=>'small'],
             ])
         ;
     }
@@ -32,6 +33,7 @@ class AppIntRangeType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => AppIntRangeModel::class,
+
         ]);
     }
 
