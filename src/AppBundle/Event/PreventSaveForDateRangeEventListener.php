@@ -57,7 +57,7 @@ class PreventSaveForDateRangeEventListener
 
         $this->getAndCheckForDateField($entity,$args->getEntityManager());
         //if previous don't throw exception, then check for modified date.
-        $this->getAndCheckModifiedDate($entity);
+//        $this->getAndCheckModifiedDate($entity);
 
     }
 
@@ -73,6 +73,16 @@ class PreventSaveForDateRangeEventListener
         $this->getAndCheckForDateField($entity,$em);
     }
 
+    public function preRemove(LifecycleEventArgs $args)
+    {
+        if(!$this->enabled) return;
+
+        //For new records; we should also check
+        // if there is a date or datum veld in the entity and if that field is set in the period which should be invalidated?
+        $entity = $args->getEntity();
+        $em = $args->getEntityManager();
+        $this->getAndCheckForDateField($entity,$em);
+    }
 
     private function getAndCheckForDateField($entity, EntityManager $em): void
     {
@@ -81,22 +91,32 @@ class PreventSaveForDateRangeEventListener
         $metadata = $em->getClassMetadata(get_class($entity));
 
         $matches = preg_grep('/^(.*)dat(e|um)+(.*)$/i', $metadata->getFieldNames());
+        $uow = $em->getUnitOfWork();
 
-        if(count($matches) < 1) return;
-
-        foreach($matches as $fieldname)
-        {
-            $type = $metadata->getTypeOfField($fieldname);
-            if(strpos($type,"date") !== false) //catch date and datetime as well..
-            {
-                //do the check check.
-                $datumValue = $metadata->getFieldValue($entity,$fieldname);
-                if($datumValue  < $this->preventSaveBeforeDate && $datumValue > $this->preventSaveAfterDate)
+        //if a sort of datefield exist:
+        if(count($matches) > 0) {
+            $changeset = $uow->getEntityChangeSet($entity);
+            foreach ($matches as $fieldname) {
+                $type = $metadata->getTypeOfField($fieldname);
+                if (strpos($type, "date") !== false) //catch date and datetime as well..
                 {
-                    throw new PersisterException('ECD is gesloten voor updates in het oude boekjaar in verband met de samenstelling van de cijfers door de accountant. Er kunnen geen items met een datum in het oude jaar worden opgeslagen.');
+                    //do the check check
+                    if (!array_key_exists($fieldname, $changeset)) {
+                        continue;
+                    } else {
+                        $prevValue = $changeset[$fieldname][0];
+                        $newValue = $changeset[$fieldname][1];
+                        if (($newValue > $this->preventSaveAfterDate && $newValue < $this->preventSaveBeforeDate)
+                            && !($prevValue > $this->preventSaveAfterDate && $prevValue < $this->preventSaveBeforeDate)) {
+                            //nieuwe waarde ligt in de range... Mag alleen als oude waarde dat ook lag; zo niet: error.
+                            throw new PersisterException('ECD is gesloten voor updates in het oude boekjaar in verband met de samenstelling van de cijfers door de accountant. Er kunnen geen items met een datum in het oude jaar worden gewijzigd.');
+                        }
+                    }
                 }
             }
-        }
+        }//no date fields in entity.
+
+
         return;
     }
 
@@ -113,5 +133,51 @@ class PreventSaveForDateRangeEventListener
             }
         }
         return;
+    }
+
+    /**
+     * @param $uow
+     * @param $em
+     * @throws PersisterException
+     *
+     * !! Werkt niet (methodisch); laat even staan voor als later. (2021/12/24 JTB)
+     */
+    private function checkForLinkedEntities($uow,$em)
+    {
+        /**
+         * Check for linkedEntities if datefield exist;
+         */
+        $identityMap = $uow->getIdentityMap();
+        foreach($identityMap as $linkedEntities)
+        {
+            foreach($linkedEntities as $linkedEntity){
+                $leMetadata = $em->getClassMetadata(get_class($linkedEntity));
+                $leMatches = preg_grep('/^(.*)dat(e|um)+(.*)$/i', $leMetadata->getFieldNames());
+                if(count($leMatches)<1) continue;
+                foreach($leMatches as $leFieldname)
+                {
+                    $type = $leMetadata->getTypeOfField($leFieldname);
+                    if(strpos($type,"date") !== false) //catch date and datetime as well..
+                    {
+                        $datumValue = $leMetadata->getFieldValue($linkedEntity,$leFieldname); //werkt niet bij relaties; lazy loading?.
+                        if(null == $datumValue)
+                        {
+                            $methodName = "get".ucfirst($leFieldname);
+                            if(method_exists($linkedEntity,$methodName))
+                            {
+                                $datumValue = $linkedEntity->{$methodName}(); //dan maar zo...
+                            }
+                        }
+
+                        if($datumValue  < $this->preventSaveBeforeDate && $datumValue > $this->preventSaveAfterDate)
+                        {
+                            $a=1;
+                            throw new PersisterException('ECD is gesloten voor updates in het oude boekjaar in verband met de samenstelling van de cijfers door de accountant. Er kunnen geen items met een datum in het oude jaar worden gewijzigd.');
+                        }
+                    }
+                }
+            }
+
+        }
     }
 }
