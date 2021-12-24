@@ -93,11 +93,11 @@ security:
         ROLE_GA_BEHEER:
             - ROLE_GA
             - ROLE_EROPUIT_BEHEER
-        ROLE_CLIP:
-            - CONTROLLER_APP_VRIJWILLIGERS
+        ROLE_CLIP: []
         ROLE_CLIP_BEHEER:
             - ROLE_CLIP
             - ROLE_CLIP_VRIJWILLIGERS
+            - CONTROLLER_APP_VRIJWILLIGERS
         ROLE_DAGBESTEDING: []
         ROLE_DAGBESTEDING_BEHEER:
             - ROLE_DAGBESTEDING

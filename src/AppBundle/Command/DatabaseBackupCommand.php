@@ -91,7 +91,7 @@ class DatabaseBackupCommand extends ContainerAwareCommand
 //        $compressors->add(new GzipCompressor());
         $compressors->add(new NullCompressor());
 
-        $filename = sprintf('%s-%s.sql.gzip', $connection->getDatabase(), (new \DateTime())->format('YmdHis'));
+        $filename = sprintf('%s-%s.sql', $connection->getDatabase(), (new \DateTime())->format('YmdHis'));
         $output->writeln('Backing up MySQL database to '.$backupDir.'/'.$filename);
 
         $manager = new Manager($filesystems, $databases, $compressors);

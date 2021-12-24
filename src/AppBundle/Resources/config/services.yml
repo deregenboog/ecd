@@ -13,6 +13,7 @@ services:
         tags:
             - { name: doctrine.event_listener, event: preUpdate }
             - { name: doctrine.event_listener, event: prePersist }
+            - { name: doctrine.event_listener, event: preRemove }
 
     AppBundle\Security\ControllerAccessVoter:
         arguments:
