@@ -16,7 +16,7 @@
             {% else %}
                 {% set mw = "" %}
             {% endif %}
-            <dt>{{ opmerking.modified|date('d-m-Y') }}, {{ opmerking.categorie }} {{ mw }}</dt>
+            <dt>{{ opmerking.created|date('d-m-Y') }}, {{ opmerking.categorie }} {{ mw }}</dt>
             <dd>{{ opmerking.beschrijving }}</dd>
         {% endfor %}
     </dl>

@@ -133,7 +133,7 @@
             {% else %}
                 {% for opmerking in entity.opmerkingen %}
                     <div data-id="{{ opmerking.id }}">
-                        <h2>{{ opmerking.modified|date('d-m-Y') }}</h2>
+                        <h2>{{ opmerking.created|date('d-m-Y') }}</h2>
                         <p class="pull-right">
                             <input class="gezien" id="gezien-{{ opmerking.id }}" type="checkbox" {{ opmerking.gezien ? 'checked' }}/>
                             <label for="gezien-{{ opmerking.id }}">Opgelost</label>
