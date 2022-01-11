@@ -3,6 +3,7 @@
 namespace InloopBundle\Controller;
 
 use AppBundle\Controller\AbstractController;
+use AppBundle\Exception\UserException;
 use AppBundle\Export\ExportInterface;
 use Doctrine\ORM\EntityNotFoundException;
 use InloopBundle\Entity\Intake;
@@ -87,6 +88,11 @@ class IntakesController extends AbstractController
             try {
                 $this->dao->create($entity);
                 $this->addFlash('success', ucfirst($this->entityName).' is opgeslagen.');
+            } catch(UserException $e) {
+//                $this->get('logger')->error($e->getMessage(), ['exception' => $e]);
+                $message =  $e->getMessage();
+                $this->addFlash('danger', $message);
+//                return $this->redirectToRoute('app_klanten_index');
             } catch (\Exception $e) {
                 $this->get('logger')->error($e->getMessage(), ['exception' => $e]);
                 $message = $this->container->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';

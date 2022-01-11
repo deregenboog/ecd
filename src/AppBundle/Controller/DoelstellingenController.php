@@ -4,6 +4,7 @@ namespace AppBundle\Controller;
 
 use AppBundle\Exception\AppException;
 use AppBundle\Exception\ReportException;
+use AppBundle\Exception\UserException;
 use AppBundle\Export\ExportInterface;
 use AppBundle\Form\DoelstellingType;
 use AppBundle\Model\MedewerkerSubjectInterface;
@@ -140,7 +141,11 @@ class DoelstellingenController extends AbstractController
                     $this->dao->create($entity);
                 }
                 $this->addFlash('success', ucfirst($this->entityName).' is opgeslagen.');
-            } catch (\Exception $e) {
+            }catch(UserException $e) {
+                $message = $e->getMessage();
+                $this->addFlash('danger',$message);
+            }
+            catch (\Exception $e) {
                 $this->get('logger')->error($e->getMessage(), ['exception' => $e]);
                 $message = $this->container->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
                 $this->addFlash('danger', $message);

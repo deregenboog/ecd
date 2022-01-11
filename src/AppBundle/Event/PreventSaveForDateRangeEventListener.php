@@ -2,6 +2,7 @@
 
 namespace AppBundle\Event;
 
+use AppBundle\Exception\UserException;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Event\LifecycleEventArgs;
 use Doctrine\ORM\Persisters\PersisterException;
@@ -100,16 +101,33 @@ class PreventSaveForDateRangeEventListener
                 $type = $metadata->getTypeOfField($fieldname);
                 if (strpos($type, "date") !== false) //catch date and datetime as well..
                 {
-                    //do the check check
-                    if (!array_key_exists($fieldname, $changeset)) {
+
+                    $identifier = $metadata->getSingleIdentifierFieldName();
+                    $idValue = $metadata->getFieldValue($entity,$identifier);
+
+
+                    //do the check check this works only for updates; not for persists...
+                    if ($idValue !== null && !array_key_exists($fieldname, $changeset)) {
                         continue;
-                    } else {
+                    } else if($idValue !== null) {
                         $prevValue = $changeset[$fieldname][0];
                         $newValue = $changeset[$fieldname][1];
                         if (($newValue > $this->preventSaveAfterDate && $newValue < $this->preventSaveBeforeDate)
                             && !($prevValue > $this->preventSaveAfterDate && $prevValue < $this->preventSaveBeforeDate)) {
                             //nieuwe waarde ligt in de range... Mag alleen als oude waarde dat ook lag; zo niet: error.
-                            throw new PersisterException('ECD is gesloten voor updates in het oude boekjaar in verband met de samenstelling van de cijfers door de accountant. Er kunnen geen items met een datum in het oude jaar worden gewijzigd.');
+
+                            throw new UserException('ECD is gesloten voor updates in het oude boekjaar in verband met de samenstelling van de cijfers door de accountant. Er kunnen geen items met een datum in het oude jaar worden gewijzigd.');
+                        }
+                    }
+                    else //idValue === null
+                    {
+//                        $prevValue = new \DateTime(null);
+                        $newValue = $metadata->getFieldValue($entity,$fieldname);
+                        if (($newValue > $this->preventSaveAfterDate && $newValue < $this->preventSaveBeforeDate)
+//                            && !($prevValue > $this->preventSaveAfterDate && $prevValue < $this->preventSaveBeforeDate)
+                        ) {
+                            //nieuwe waarde ligt in de range... Mag alleen als oude waarde dat ook lag; zo niet: error.
+                            throw new UserException('ECD is gesloten voor updates in het oude boekjaar in verband met de samenstelling van de cijfers door de accountant. Er kunnen geen items met een datum in het oude jaar worden gewijzigd.');
                         }
                     }
                 }

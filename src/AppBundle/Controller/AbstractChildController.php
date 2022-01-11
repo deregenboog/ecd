@@ -3,6 +3,7 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Exception\AppException;
+use AppBundle\Exception\UserException;
 use AppBundle\Form\ConfirmationType;
 use AppBundle\Model\MedewerkerSubjectInterface;
 use AppBundle\Service\AbstractDao;
@@ -77,6 +78,10 @@ abstract class AbstractChildController extends AbstractController
                 $this->beforeCreate($entity,$parentEntity);
                 $this->persistEntity($entity, $parentEntity);
                 $this->addFlash('success', ucfirst($this->entityName).' is toegevoegd.');
+            } catch(UserException $e)
+            {
+                $message = $e->getMessage();
+                $this->addFlash('danger', $message);
             } catch (\Exception $e) {
                 $this->get('logger')->error($e->getMessage(), ['exception' => $e]);
                 $message = $this->container->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';

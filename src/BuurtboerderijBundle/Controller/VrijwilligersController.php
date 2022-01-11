@@ -4,6 +4,7 @@ namespace BuurtboerderijBundle\Controller;
 
 use AppBundle\AppBundle;
 use AppBundle\Controller\AbstractController;
+use AppBundle\Exception\UserException;
 use AppBundle\Export\AbstractExport;
 use AppBundle\Form\ConfirmationType;
 use AppBundle\Form\VrijwilligerFilterType as AppVrijwilligerFilterType;
@@ -164,6 +165,9 @@ class VrijwilligersController extends AbstractController
                 $this->addFlash('success', ucfirst($this->entityName).' is opgeslagen.');
 
                 return $this->redirectToView($buurtboerderijVrijwilliger);
+            }  catch(UserException $e) {
+                $message = $e->getMessage();
+                $this->addFlash('danger',$message);
             } catch (\Exception $e) {
                 $message = $this->container->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
                 $this->addFlash('danger', $message);

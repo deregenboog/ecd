@@ -4,6 +4,7 @@ namespace HsBundle\Controller;
 
 use AppBundle\Controller\AbstractController;
 use AppBundle\Entity\Klant;
+use AppBundle\Exception\UserException;
 use AppBundle\Export\ExportInterface;
 use AppBundle\Form\KlantFilterType as AppKlantFilterType;
 use AppBundle\Service\KlantDaoInterface;
@@ -125,6 +126,11 @@ class DienstverlenersController extends AbstractController
                     'dienstverlener' => $dienstverlener->getId(),
                     'redirect' => $this->generateUrl('hs_dienstverleners_view', ['id' => $dienstverlener->getId()]).'#memos',
                 ]);
+            } catch(UserException $e) {
+//                $this->get('logger')->error($e->getMessage(), ['exception' => $e]);
+                $message =  $e->getMessage();
+                $this->addFlash('danger', $message);
+//                return $this->redirectToRoute('app_klanten_index');
             } catch (\Exception $e) {
                 $message = $this->container->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
                 $this->addFlash('danger', $message);

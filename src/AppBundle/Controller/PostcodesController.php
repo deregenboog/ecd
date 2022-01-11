@@ -3,6 +3,7 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\Postcode;
+use AppBundle\Exception\UserException;
 use AppBundle\Form\ConfirmationType;
 use AppBundle\Form\PostcodeFilterType;
 use AppBundle\Form\PostcodeType;
@@ -50,6 +51,9 @@ class PostcodesController extends AbstractController
             try {
                 $this->dao->create($entity);
                 $this->addFlash('success', ucfirst($this->entityName).' is opgeslagen.');
+            } catch(UserException $e) {
+                $message = $e->getMessage();
+                $this->addFlash('danger',$message);
             } catch (\Exception $e) {
                 $this->get('logger')->error($e->getMessage(), ['exception' => $e]);
                 $message = $this->container->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
@@ -86,6 +90,9 @@ class PostcodesController extends AbstractController
             try {
                 $this->dao->update($entity);
                 $this->addFlash('success', ucfirst($this->entityName).' is opgeslagen.');
+            } catch(UserException $e) {
+                $message = $e->getMessage();
+                $this->addFlash('danger',$message);
             } catch (\Exception $e) {
                 $this->get('logger')->error($e->getMessage(), ['exception' => $e]);
                 $message = $this->container->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';

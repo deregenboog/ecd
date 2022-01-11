@@ -3,6 +3,7 @@
 namespace DagbestedingBundle\Controller;
 
 use AppBundle\Controller\AbstractChildController;
+use AppBundle\Exception\UserException;
 use AppBundle\Export\GenericExport;
 use AppBundle\Form\ConfirmationType;
 use AppBundle\Form\Model\AppDateRangeModel;
@@ -124,7 +125,12 @@ class TrajectenController extends AbstractChildController
             try {
                 $this->dao->update($entity);
                 $this->addFlash('success', $this->entityName.' is afgesloten.');
-            } catch (\Exception $e) {
+            } catch(UserException $e) {
+//                $this->get('logger')->error($e->getMessage(), ['exception' => $e]);
+                $message =  $e->getMessage();
+                $this->addFlash('danger', $message);
+//                return $this->redirectToRoute('app_klanten_index');
+            }  catch (\Exception $e) {
                 $message = $this->container->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
                 $this->addFlash('danger', $message);
             }
@@ -159,7 +165,12 @@ class TrajectenController extends AbstractChildController
                     $entity->open();
                     $this->dao->update($entity);
                     $this->addFlash('success', $this->entityName.' is heropend.');
-                } catch (\Exception $e) {
+                } catch(UserException $e) {
+//                $this->get('logger')->error($e->getMessage(), ['exception' => $e]);
+                    $message =  $e->getMessage();
+                    $this->addFlash('danger', $message);
+//                return $this->redirectToRoute('app_klanten_index');
+                }  catch (\Exception $e) {
                     $message = $this->container->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
                     $this->addFlash('danger', $message);
                 }
@@ -209,7 +220,12 @@ class TrajectenController extends AbstractChildController
                     $this->dao->update($form->getData()->getTraject());
                 }
                 $this->addFlash('success', 'De dagdelen zijn opgeslagen.');
-            } catch (\Exception $e) {
+            } catch(UserException $e) {
+//                $this->get('logger')->error($e->getMessage(), ['exception' => $e]);
+                $message =  $e->getMessage();
+                $this->addFlash('danger', $message);
+//                return $this->redirectToRoute('app_klanten_index');
+            }  catch (\Exception $e) {
                 $message = $this->container->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
                 $this->addFlash('danger', $message);
             }

@@ -8,6 +8,7 @@ use AppBundle\Entity\Klant;
 use AppBundle\Entity\Land;
 use AppBundle\Event\DienstenLookupEvent;
 use AppBundle\Event\Events;
+use AppBundle\Exception\UserException;
 use AppBundle\Export\ExportInterface;
 use AppBundle\Form\KlantFilterType as AppKlantFilterType;
 use AppBundle\Service\KlantDaoInterface;
@@ -94,6 +95,9 @@ class KlantenController extends AbstractController
                 }
                 $em->flush();
                 $this->addFlash('success', 'Info is opgeslagen.');
+            }  catch(UserException $e) {
+                $message = $e->getMessage();
+                $this->addFlash('danger',$message);
             } catch (\Exception $e) {
                 $this->get('logger')->error($e->getMessage(), ['exception' => $e]);
                 $message = $this->container->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
@@ -229,7 +233,12 @@ class KlantenController extends AbstractController
                 $this->addFlash('success', ucfirst($this->entityName).' is opgeslagen.');
 
                 return $this->redirectToView($mwKlant);
-            } catch (\Exception $e) {
+            } catch(UserException $e) {
+//                $this->get('logger')->error($e->getMessage(), ['exception' => $e]);
+                $message =  $e->getMessage();
+                $this->addFlash('danger', $message);
+//                return $this->redirectToRoute('app_klanten_index');
+            }  catch (\Exception $e) {
                 $message = $this->container->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
                 $this->addFlash('danger', $message);
             }
@@ -261,7 +270,12 @@ class KlantenController extends AbstractController
                 $entityManager->flush();
 
                 $this->addFlash('success', 'Mw dossier is afgesloten');
-            } catch (\Exception $e) {
+            }  catch(UserException $e) {
+//                $this->get('logger')->error($e->getMessage(), ['exception' => $e]);
+                $message =  $e->getMessage();
+                $this->addFlash('danger', $message);
+//                return $this->redirectToRoute('app_klanten_index');
+            }  catch (\Exception $e) {
                 $message = $this->container->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
                 $this->addFlash('danger', $message);
             }
@@ -296,7 +310,12 @@ class KlantenController extends AbstractController
                 $entityManager->flush();
 
                 $this->addFlash('success', 'Mw dossier is heropend');
-            } catch (\Exception $e) {
+            }  catch(UserException $e) {
+//                $this->get('logger')->error($e->getMessage(), ['exception' => $e]);
+                $message =  $e->getMessage();
+                $this->addFlash('danger', $message);
+//                return $this->redirectToRoute('app_klanten_index');
+            }  catch (\Exception $e) {
                 $message = $this->container->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
                 $this->addFlash('danger', $message);
             }

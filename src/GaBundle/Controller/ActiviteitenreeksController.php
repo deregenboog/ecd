@@ -4,6 +4,7 @@ namespace GaBundle\Controller;
 
 use AppBundle\Controller\AbstractChildController;
 use AppBundle\Exception\AppException;
+use AppBundle\Exception\UserException;
 use GaBundle\Entity\Activiteit;
 use GaBundle\Form\ActiviteitenReeksModel;
 use GaBundle\Form\ActiviteitenReeksType;
@@ -75,7 +76,12 @@ class ActiviteitenreeksController extends AbstractChildController
                 }
                 $this->dao->createBatch($activiteiten);
                 $this->addFlash('success', count($activiteiten).' activiteiten zijn toegevoegd.');
-            } catch (\Exception $e) {
+            } catch(UserException $e) {
+//                $this->get('logger')->error($e->getMessage(), ['exception' => $e]);
+                $message =  $e->getMessage();
+                $this->addFlash('danger', $message);
+//                return $this->redirectToRoute('app_klanten_index');
+            }  catch (\Exception $e) {
                 $message = $this->container->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
                 $this->addFlash('danger', $message);
             }

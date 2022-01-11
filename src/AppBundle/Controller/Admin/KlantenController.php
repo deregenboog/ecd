@@ -4,6 +4,7 @@ namespace AppBundle\Controller\Admin;
 
 use AppBundle\Controller\AbstractController;
 use AppBundle\Entity\Klant;
+use AppBundle\Exception\UserException;
 use AppBundle\Form\KlantMergeType;
 use AppBundle\Service\KlantDaoInterface;
 use Doctrine\ORM\EntityManager;
@@ -93,7 +94,12 @@ class KlantenController extends AbstractController
                 $this->dao->update($entity);
 
                 $this->addFlash('success', 'De dossiers zijn samengevoegd.');
-            } catch (\Exception $e) {
+            } catch(UserException $e) {
+//                $this->get('logger')->error($e->getMessage(), ['exception' => $e]);
+                $message =  $e->getMessage();
+                $this->addFlash('danger', $message);
+                return $this->redirectToRoute('app_klanten_index');
+            }  catch (\Exception $e) {
                 $em->rollback();
 
                 $this->get('logger')->error($e->getMessage(), ['exception' => $e]);

@@ -3,6 +3,7 @@
 namespace TwBundle\Controller;
 
 use AppBundle\Controller\SymfonyController;
+use AppBundle\Exception\UserException;
 use AppBundle\Form\ConfirmationType;
 use JMS\DiExtraBundle\Annotation as DI;
 use TwBundle\Entity\Coordinator;
@@ -52,6 +53,11 @@ class CoordinatorenController extends SymfonyController
             try {
                 $this->coordinatorDao->create($coordinator);
                 $this->addFlash('success', 'Coordinator is toegevoegd.');
+            } catch(UserException $e) {
+//                $this->get('logger')->error($e->getMessage(), ['exception' => $e]);
+                $message =  $e->getMessage();
+                $this->addFlash('danger', $message);
+//                return $this->redirectToRoute('app_klanten_index');
             } catch (\Exception $e) {
                 $message = $this->container->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
                 $this->addFlash('danger', $message);
@@ -77,6 +83,11 @@ class CoordinatorenController extends SymfonyController
         if ($form->isSubmitted() && $form->isValid()) {
             try {
                 $this->coordinatorDao->update($coordinator);
+            } catch(UserException $e) {
+//                $this->get('logger')->error($e->getMessage(), ['exception' => $e]);
+                $message =  $e->getMessage();
+                $this->addFlash('danger', $message);
+//                return $this->redirectToRoute('app_klanten_index');
             } catch (\Exception $e) {
                 $message = $this->container->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
                 $this->addFlash('danger', $message);
@@ -104,6 +115,11 @@ class CoordinatorenController extends SymfonyController
                 try {
                     $this->coordinatorDao->delete($coordinator);
                     $this->addFlash('success', 'Coordinator is verwijderd.');
+                } catch(UserException $e) {
+//                $this->get('logger')->error($e->getMessage(), ['exception' => $e]);
+                    $message =  $e->getMessage();
+                    $this->addFlash('danger', $message);
+//                return $this->redirectToRoute('app_klanten_index');
                 } catch (\Exception $e) {
                     $message = $this->container->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
                     $this->addFlash('danger', $message);

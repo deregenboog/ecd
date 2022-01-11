@@ -3,6 +3,7 @@
 namespace TwBundle\Controller;
 
 use AppBundle\Controller\AbstractController;
+use AppBundle\Exception\UserException;
 use AppBundle\Export\ExportInterface;
 use AppBundle\Form\ConfirmationType;
 use Doctrine\ORM\EntityManager;
@@ -87,6 +88,11 @@ class HuurovereenkomstenController extends AbstractController
                 $entityManager->flush();
 
                 $this->addFlash('success', 'Huurovereenkomst is opgeslagen.');
+            } catch(UserException $e) {
+//                $this->get('logger')->error($e->getMessage(), ['exception' => $e]);
+                $message =  $e->getMessage();
+                $this->addFlash('danger', $message);
+//                return $this->redirectToRoute('app_klanten_index');
             } catch (\Exception $e) {
                 $message = $this->container->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
                 $this->addFlash('danger', $message);
@@ -114,6 +120,11 @@ class HuurovereenkomstenController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             try {
                 $entityManager->flush();
+            } catch(UserException $e) {
+//                $this->get('logger')->error($e->getMessage(), ['exception' => $e]);
+                $message =  $e->getMessage();
+                $this->addFlash('danger', $message);
+//                return $this->redirectToRoute('app_klanten_index');
             } catch (\Exception $e) {
                 $message = $this->container->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
                 $this->addFlash('danger', $message);
@@ -143,6 +154,11 @@ class HuurovereenkomstenController extends AbstractController
                     $entityManager->flush();
 
                     $this->addFlash('success', 'Koppeling is heropend.');
+                } catch(UserException $e) {
+//                $this->get('logger')->error($e->getMessage(), ['exception' => $e]);
+                    $message =  $e->getMessage();
+                    $this->addFlash('danger', $message);
+//                return $this->redirectToRoute('app_klanten_index');
                 } catch (\Exception $e) {
                     $message = $this->container->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
                     $this->addFlash('danger', $message);
