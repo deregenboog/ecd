@@ -3,6 +3,7 @@
 namespace DagbestedingBundle\Controller;
 
 use AppBundle\Controller\SymfonyController;
+use AppBundle\Exception\UserException;
 use AppBundle\Form\ConfirmationType;
 use AppBundle\Service\AbstractDao;
 use DagbestedingBundle\Form\AfsluitingType;
@@ -62,7 +63,12 @@ abstract class AfsluitingenController extends SymfonyController
             try {
                 $this->dao->create($afsluiting);
                 $this->addFlash('success', $this->entityName.' is toegevoegd.');
-            } catch (\Exception $e) {
+            }  catch(UserException $e) {
+//                $this->get('logger')->error($e->getMessage(), ['exception' => $e]);
+                $message =  $e->getMessage();
+                $this->addFlash('danger', $message);
+//                return $this->redirectToRoute('app_klanten_index');
+            }  catch (\Exception $e) {
                 $message = $this->container->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
                 $this->addFlash('danger', $message);
             }
@@ -90,7 +96,12 @@ abstract class AfsluitingenController extends SymfonyController
             try {
                 $this->dao->update($afsluiting);
                 $this->addFlash('success', $this->entityName.' is gewijzigd.');
-            } catch (\Exception $e) {
+            }  catch(UserException $e) {
+//                $this->get('logger')->error($e->getMessage(), ['exception' => $e]);
+                $message =  $e->getMessage();
+                $this->addFlash('danger', $message);
+//                return $this->redirectToRoute('app_klanten_index');
+            }  catch (\Exception $e) {
                 $message = $this->container->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
                 $this->addFlash('danger', $message);
             }
@@ -117,7 +128,12 @@ abstract class AfsluitingenController extends SymfonyController
                 try {
                     $this->dao->delete($afsluiting);
                     $this->addFlash('success', $this->entityName.' is verwijderd.');
-                } catch (\Exception $e) {
+                }  catch(UserException $e) {
+//                $this->get('logger')->error($e->getMessage(), ['exception' => $e]);
+                    $message =  $e->getMessage();
+                    $this->addFlash('danger', $message);
+//                return $this->redirectToRoute('app_klanten_index');
+                }  catch (\Exception $e) {
                     $message = $this->container->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
                     $this->addFlash('danger', $message);
                 }

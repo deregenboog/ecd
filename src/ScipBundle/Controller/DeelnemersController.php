@@ -4,6 +4,7 @@ namespace ScipBundle\Controller;
 
 use AppBundle\Controller\AbstractController;
 use AppBundle\Entity\Klant;
+use AppBundle\Exception\UserException;
 use AppBundle\Form\KlantFilterType;
 use AppBundle\Service\KlantDaoInterface;
 use JMS\DiExtraBundle\Annotation as DI;
@@ -180,6 +181,11 @@ class DeelnemersController extends AbstractController
                     "redirect" => $this->generateUrl("scip_deelnemers_view",["id"=>$deelnemer->getId()]),
                 ]);
                 return $this->redirect($url);
+            } catch(UserException $e) {
+//                $this->get('logger')->error($e->getMessage(), ['exception' => $e]);
+                $message =  $e->getMessage();
+                $this->addFlash('danger', $message);
+//                return $this->redirectToRoute('app_klanten_index');
             } catch (\Exception $e) {
                 $message = $this->container->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
                 $this->addFlash('danger', $message);

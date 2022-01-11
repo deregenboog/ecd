@@ -4,6 +4,7 @@ namespace AppBundle\Controller;
 
 
 use AppBundle\Exception\AppException;
+use AppBundle\Exception\UserException;
 use AppBundle\Export\ExportInterface;
 use AppBundle\Filter\FilterInterface;
 use AppBundle\Form\ConfirmationType;
@@ -176,6 +177,9 @@ abstract class AbstractController extends SymfonyController
         {
             $message = $this->container->getParameter('kernel.debug') ? $entityNotFoundException->getMessage() : 'Kan '.$this->entityClass.' niet inladen. Waarschijnlijk omdat deze verwijderd of inactief is.';
 
+        } catch (UserException $e)
+        {
+            $message = $e->getMessage();
         }
         catch(\Exception $exception){
             $message = $this->container->getParameter('kernel.debug') ? $exception->getMessage() : 'Kan '.$this->entityClass.' niet inladen. Onbekende fout.';
@@ -256,9 +260,12 @@ abstract class AbstractController extends SymfonyController
         if ($creationForm->isSubmitted() && $creationForm->isValid()) {
             try {
                 $this->dao->create($subEntity);
-                $this->addFlash('success', ucfirst($this->entityName).' is opgeslagen.');
+                $this->addFlash('success', ucfirst($this->entityName) . ' is opgeslagen.');
 
                 return $this->redirectToView($subEntity);
+            } catch (UserException $e) {
+                $message =  $e->getMessage();
+                $this->addFlash('danger', $message);
             } catch (\Exception $e) {
                 $message = $this->container->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
                 $this->addFlash('danger', $message);
@@ -349,6 +356,12 @@ abstract class AbstractController extends SymfonyController
                     $this->dao->create($entity);
                 }
                 $this->addFlash('success', ucfirst($this->entityName).' is opgeslagen.');
+
+
+            } catch(UserException $e) {
+//                $this->get('logger')->error($e->getMessage(), ['exception' => $e]);
+                $message =  $e->getMessage();
+                $this->addFlash('danger', $message);
             } catch (\Exception $e) {
                 $this->get('logger')->error($e->getMessage(), ['exception' => $e]);
                 $message = $this->container->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';

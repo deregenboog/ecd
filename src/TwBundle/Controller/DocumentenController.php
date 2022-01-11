@@ -3,6 +3,7 @@
 namespace TwBundle\Controller;
 
 use AppBundle\Controller\SymfonyController;
+use AppBundle\Exception\UserException;
 use AppBundle\Form\ConfirmationType;
 use Doctrine\ORM\EntityManager;
 use InloopBundle\Security\Permissions;
@@ -63,6 +64,11 @@ class DocumentenController extends SymfonyController
                 $entityManager->persist($entity->addDocument($form->getData()));
                 $entityManager->flush();
                 $this->addFlash('success', 'Document is toegevoegd.');
+            } catch(UserException $e) {
+//                $this->get('logger')->error($e->getMessage(), ['exception' => $e]);
+                $message =  $e->getMessage();
+                $this->addFlash('danger', $message);
+//                return $this->redirectToRoute('app_klanten_index');
             } catch (\Exception $e) {
                 $message = $this->container->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
                 $this->addFlash('danger', $message);
@@ -104,6 +110,11 @@ class DocumentenController extends SymfonyController
             try {
                 $this->dao->update($entity);
                 $this->addFlash('success', 'Document is bijgewerkt.');
+            } catch(UserException $e) {
+//                $this->get('logger')->error($e->getMessage(), ['exception' => $e]);
+                $message =  $e->getMessage();
+                $this->addFlash('danger', $message);
+//                return $this->redirectToRoute('app_klanten_index');
             } catch (\Exception $e) {
                 $message = $this->container->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
                 $this->addFlash('danger', $message);

@@ -3,6 +3,7 @@
 namespace IzBundle\Controller;
 
 use AppBundle\Controller\AbstractController;
+use AppBundle\Exception\UserException;
 use AppBundle\Export\AbstractExport;
 use IzBundle\Entity\Intervisiegroep;
 use IzBundle\Form\IntervisiegroepFilterType;
@@ -84,6 +85,11 @@ class IntervisiegroepenController extends AbstractController
                 } else {
                     $this->addFlash('danger', 'E-mail kon niet verzonden worden.');
                 }
+            } catch(UserException $e) {
+//                $this->get('logger')->error($e->getMessage(), ['exception' => $e]);
+                $message =  $e->getMessage();
+                $this->addFlash('danger', $message);
+//                return $this->redirectToRoute('app_klanten_index');
             } catch (\Exception $e) {
                 $message = $this->container->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
                 $this->addFlash('danger', $message);

@@ -6,6 +6,7 @@ use AppBundle\Controller\AbstractController;
 use AppBundle\Entity\Klant;
 use AppBundle\Event\DienstenLookupEvent;
 use AppBundle\Event\Events;
+use AppBundle\Exception\UserException;
 use AppBundle\Export\ExportInterface;
 
 use Doctrine\ORM\EntityNotFoundException;
@@ -118,7 +119,12 @@ class VerslagenController extends AbstractController
                     $this->dao->create($entity);
                 }
                 $this->addFlash('success', ucfirst($this->entityName).' is opgeslagen.');
-            } catch (\Exception $e) {
+            }  catch(UserException $e) {
+//                $this->get('logger')->error($e->getMessage(), ['exception' => $e]);
+                $message =  $e->getMessage();
+                $this->addFlash('danger', $message);
+//                return $this->redirectToRoute('app_klanten_index');
+            }  catch (\Exception $e) {
                 $this->get('logger')->error($e->getMessage(), ['exception' => $e]);
                 $message = $this->container->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
                 $this->addFlash('danger', $message);

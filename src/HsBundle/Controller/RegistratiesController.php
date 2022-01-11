@@ -4,6 +4,7 @@ namespace HsBundle\Controller;
 
 use AppBundle\Controller\AbstractChildController;
 use AppBundle\Exception\AppException;
+use AppBundle\Exception\UserException;
 use AppBundle\Export\ExportInterface;
 use HsBundle\Entity\Arbeider;
 use HsBundle\Entity\FactuurSubjectHelper;
@@ -101,6 +102,11 @@ class RegistratiesController extends AbstractChildController
                 $this->beforeCreate($entity);
                 $this->dao->create($entity);
                 $this->addFlash('success', ucfirst($this->entityName).' is toegevoegd.');
+            } catch(UserException $e) {
+//                $this->get('logger')->error($e->getMessage(), ['exception' => $e]);
+                $message =  $e->getMessage();
+                $this->addFlash('danger', $message);
+//                return $this->redirectToRoute('app_klanten_index');
             } catch (\Exception $e) {
                 $message = $this->container->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
                 $this->addFlash('danger', $message);

@@ -4,6 +4,7 @@ namespace DagbestedingBundle\Controller;
 
 use AppBundle\Controller\AbstractController;
 use AppBundle\Entity\Klant;
+use AppBundle\Exception\UserException;
 use AppBundle\Export\GenericExport;
 use AppBundle\Form\KlantFilterType;
 use DagbestedingBundle\Entity\Deelnemer;
@@ -125,7 +126,12 @@ class DeelnemersController extends AbstractController
                     $this->addFlash('success', $this->entityName.' is opgeslagen.');
 
                     return $this->redirectToView($entity);
-                } catch (\Exception $e) {
+                }  catch(UserException $e) {
+//                $this->get('logger')->error($e->getMessage(), ['exception' => $e]);
+                    $message =  $e->getMessage();
+                    $this->addFlash('danger', $message);
+                    $this->redirectToIndex();
+                }  catch (\Exception $e) {
                     $message = $this->container->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
                     $this->addFlash('danger', $message);
 
@@ -157,7 +163,12 @@ class DeelnemersController extends AbstractController
                 $this->dao->update($entity);
 
                 $this->addFlash('success', $this->entityName.' is afgesloten.');
-            } catch (\Exception $e) {
+            } catch(UserException $e) {
+//                $this->get('logger')->error($e->getMessage(), ['exception' => $e]);
+                $message =  $e->getMessage();
+                $this->addFlash('danger', $message);
+//                return $this->redirectToRoute('app_klanten_index');
+            }  catch (\Exception $e) {
                 $message = $this->container->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
                 $this->addFlash('danger', $message);
             }
@@ -187,7 +198,12 @@ class DeelnemersController extends AbstractController
                 $this->dao->update($entity);
 
                 $this->addFlash('success', $this->entityName.' is heropend.');
-            } catch (\Exception $e) {
+            } catch(UserException $e) {
+//                $this->get('logger')->error($e->getMessage(), ['exception' => $e]);
+                $message =  $e->getMessage();
+                $this->addFlash('danger', $message);
+//                return $this->redirectToRoute('app_klanten_index');
+            }  catch (\Exception $e) {
                 $message = $this->container->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
                 $this->addFlash('danger', $message);
             }

@@ -3,6 +3,7 @@
 namespace TwBundle\Controller;
 
 use AppBundle\Controller\SymfonyController;
+use AppBundle\Exception\UserException;
 use AppBundle\Form\ConfirmationType;
 use Doctrine\ORM\EntityManager;
 use JMS\DiExtraBundle\Annotation as DI;
@@ -50,6 +51,11 @@ class VerslagenController extends SymfonyController
                 $entityManager->persist($entity->addVerslag($form->getData()));
                 $entityManager->flush();
                 $this->addFlash('success', 'Verslag is toegevoegd.');
+            } catch(UserException $e) {
+//                $this->get('logger')->error($e->getMessage(), ['exception' => $e]);
+                $message =  $e->getMessage();
+                $this->addFlash('danger', $message);
+//                return $this->redirectToRoute('app_klanten_index');
             } catch (\Exception $e) {
                 $message = $this->container->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
                 $this->addFlash('danger', $message);
@@ -76,6 +82,11 @@ class VerslagenController extends SymfonyController
             try {
                 $this->dao->update($entity);
                 $this->addFlash('success', 'Verslag is bijgewerkt.');
+            } catch(UserException $e) {
+//                $this->get('logger')->error($e->getMessage(), ['exception' => $e]);
+                $message =  $e->getMessage();
+                $this->addFlash('danger', $message);
+//                return $this->redirectToRoute('app_klanten_index');
             } catch (\Exception $e) {
                 $message = $this->container->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
                 $this->addFlash('danger', $message);

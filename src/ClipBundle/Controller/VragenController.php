@@ -2,6 +2,7 @@
 
 namespace ClipBundle\Controller;
 
+use AppBundle\Exception\UserException;
 use AppBundle\Export\ExportInterface;
 use AppBundle\Form\ConfirmationType;
 use ClipBundle\Entity\Vraag;
@@ -73,7 +74,12 @@ class VragenController extends AbstractVragenController
                 }
                 $this->parentDao->update($parentEntity);
                 $this->addFlash('success', ucfirst($this->entityName).' is toegevoegd.');
-            } catch (\Exception $e) {
+            }  catch(UserException $e) {
+//                $this->get('logger')->error($e->getMessage(), ['exception' => $e]);
+                $message =  $e->getMessage();
+                $this->addFlash('danger', $message);
+//                return $this->redirectToRoute('app_klanten_index');
+            }  catch (\Exception $e) {
                 $message = $this->container->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
                 $this->addFlash('danger', $message);
             }
@@ -110,7 +116,12 @@ class VragenController extends AbstractVragenController
             try {
                 $this->dao->update($entity);
                 $this->addFlash('success', ucfirst($this->entityName).' is afgesloten.');
-            } catch (\Exception $e) {
+            }  catch(UserException $e) {
+//                $this->get('logger')->error($e->getMessage(), ['exception' => $e]);
+                $message =  $e->getMessage();
+                $this->addFlash('danger', $message);
+//                return $this->redirectToRoute('app_klanten_index');
+            }  catch (\Exception $e) {
                 $message = $this->container->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
                 $this->addFlash('danger', $message);
             }

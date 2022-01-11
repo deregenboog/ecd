@@ -5,6 +5,7 @@ namespace IzBundle\Controller;
 use AppBundle\Controller\AbstractController;
 use AppBundle\Entity\Vrijwilliger;
 use AppBundle\Event\Events;
+use AppBundle\Exception\UserException;
 use AppBundle\Export\AbstractExport;
 use AppBundle\Form\ConfirmationType;
 use AppBundle\Form\VrijwilligerFilterType;
@@ -184,6 +185,11 @@ class VrijwilligersController extends AbstractController
                 $this->addFlash('success', ucfirst($this->entityName).' is opgeslagen.');
 
                 return $this->redirectToView($izVrijwilliger);
+            } catch(UserException $e) {
+//                $this->get('logger')->error($e->getMessage(), ['exception' => $e]);
+                $message =  $e->getMessage();
+                $this->addFlash('danger', $message);
+//                return $this->redirectToRoute('app_klanten_index');
             } catch (\Exception $e) {
                 $message = $this->container->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
                 $this->addFlash('danger', $message);

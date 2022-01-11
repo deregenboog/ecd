@@ -4,6 +4,7 @@ namespace OekBundle\Controller;
 
 use AppBundle\Controller\AbstractController;
 use AppBundle\Entity\Klant;
+use AppBundle\Exception\UserException;
 use AppBundle\Export\ExportInterface;
 use AppBundle\Form\KlantFilterType;
 use AppBundle\Service\KlantDaoInterface;
@@ -87,6 +88,11 @@ class DeelnemersController extends AbstractController
                 $this->addFlash('success', 'Het dossier is heropend.');
 
                 return $this->redirectToRoute('oek_deelnemers_view', ['id' => $deelnemer->getId()]);
+            } catch(UserException $e) {
+//                $this->get('logger')->error($e->getMessage(), ['exception' => $e]);
+                $message =  $e->getMessage();
+                $this->addFlash('danger', $message);
+//                return $this->redirectToRoute('app_klanten_index');
             } catch (\Exception $e) {
                 $message = $this->container->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
                 $this->addFlash('danger', $message);
@@ -118,6 +124,11 @@ class DeelnemersController extends AbstractController
                 $this->addFlash('success', 'Het dossier is afgesloten.');
 
                 return $this->redirectToRoute('oek_deelnemers_view', ['id' => $deelnemer->getId()]);
+            } catch(UserException $e) {
+//                $this->get('logger')->error($e->getMessage(), ['exception' => $e]);
+                $message =  $e->getMessage();
+                $this->addFlash('danger', $message);
+//                return $this->redirectToRoute('app_klanten_index');
             } catch (\Exception $e) {
                 $message = $this->container->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
                 $this->addFlash('danger', $message);
@@ -194,6 +205,11 @@ class DeelnemersController extends AbstractController
                 $this->addFlash('success', ucfirst($this->entityName).' is opgeslagen.');
 
                 return $this->redirectToRoute('oek_deelnemers_view', ['id' => $deelnemer->getId()]);
+            } catch(UserException $e) {
+//                $this->get('logger')->error($e->getMessage(), ['exception' => $e]);
+                $message =  $e->getMessage();
+                $this->addFlash('danger', $message);
+//                return $this->redirectToRoute('app_klanten_index');
             } catch (\Exception $e) {
                 $message = $this->container->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
                 $this->addFlash('danger', $message);

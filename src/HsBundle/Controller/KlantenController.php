@@ -3,6 +3,7 @@
 namespace HsBundle\Controller;
 
 use AppBundle\Controller\AbstractController;
+use AppBundle\Exception\UserException;
 use AppBundle\Export\ExportInterface;
 use AppBundle\Form\ConfirmationType;
 use HsBundle\Entity\Klant;
@@ -60,7 +61,11 @@ class KlantenController extends AbstractController
                     'klant' => $klant->getId(),
                     'redirect' => $this->generateUrl('hs_klanten_view', ['id' => $klant->getId()]).'#memos',
                 ]);
-            } catch (\Exception $e) {
+            } catch(UserException $e) {
+                $message = $e->getMessage();
+                $this->addFlash('danger', $message);
+            }
+            catch (\Exception $e) {
                 $message = $this->container->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
                 $this->addFlash('danger', $message);
             }

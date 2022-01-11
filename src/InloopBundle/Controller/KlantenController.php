@@ -6,6 +6,7 @@ use AppBundle\Controller\AbstractController;
 use AppBundle\Entity\AmocLand;
 use AppBundle\Entity\Klant;
 use AppBundle\Entity\Land;
+use AppBundle\Exception\UserException;
 use AppBundle\Form\AppDateType;
 use AppBundle\Form\KlantFilterType as AppKlantFilterType;
 use InloopBundle\Entity\Aanmelding;
@@ -213,6 +214,11 @@ class KlantenController extends AbstractController
 
                 $this->addFlash('success', 'Inloopdossier is afgesloten');
 
+            } catch(UserException $e) {
+//                $this->get('logger')->error($e->getMessage(), ['exception' => $e]);
+                $message =  $e->getMessage();
+                $this->addFlash('danger', $message);
+//                return $this->redirectToRoute('app_klanten_index');
             } catch (\Exception $e) {
                 $message = $this->container->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
                 $this->addFlash('danger', $message);
@@ -264,6 +270,11 @@ class KlantenController extends AbstractController
                 $this->container->get('event_dispatcher')->dispatch(Events::DOSSIER_CHANGED, new GenericEvent($aanmelding));
 
                 $this->addFlash('success', 'Inloopdossier is heropend');
+            } catch(UserException $e) {
+//                $this->get('logger')->error($e->getMessage(), ['exception' => $e]);
+                $message =  $e->getMessage();
+                $this->addFlash('danger', $message);
+//                return $this->redirectToRoute('app_klanten_index');
             } catch (\Exception $e) {
                 $message = $this->container->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
                 $this->addFlash('danger', $message);
@@ -411,6 +422,11 @@ class KlantenController extends AbstractController
                 }
 
                 return $this->redirectToView($inloopKlant);
+            } catch(UserException $e) {
+//                $this->get('logger')->error($e->getMessage(), ['exception' => $e]);
+                $message =  $e->getMessage();
+                $this->addFlash('danger', $message);
+//                return $this->redirectToRoute('app_klanten_index');
             } catch (\Exception $e) {
                 $message = $this->container->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
                 $this->addFlash('danger', $message);
