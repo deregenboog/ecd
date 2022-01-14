@@ -32,11 +32,13 @@ class DeelnemerFilterType extends AbstractType
                 'enabled_filters' => $options['enabled_filters']['klant'],
             ]);
         }
+
         if (in_array('aanmelddatum', $options['enabled_filters'])) {
             $builder->add('aanmelddatum', AppDateRangeType::class, [
                 'required' => false,
             ]);
         }
+
         if (in_array('medewerker', $options['enabled_filters'])) {
             $builder->add('medewerker', MedewerkerType::class, [
                 'required' => false,
@@ -51,11 +53,8 @@ class DeelnemerFilterType extends AbstractType
             ]);
         }
 
-
-
         $builder
             ->add('filter', SubmitType::class, ['label' => 'Filteren'])
-
         ;
     }
 

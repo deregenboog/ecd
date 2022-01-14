@@ -37,6 +37,11 @@ class DeelnemerFilter implements FilterInterface
      */
     public $actief = true;
 
+    /**
+     * @var AppDateRangeModel
+     */
+    public $verslagDatum;
+
     public function applyTo(QueryBuilder $builder)
     {
         if ($this->klant) {
@@ -55,6 +60,7 @@ class DeelnemerFilter implements FilterInterface
                 ;
             }
         }
+
         if ($this->aanmelddatum) {
             if ($this->aanmelddatum->getStart()) {
                 $builder
