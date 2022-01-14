@@ -447,8 +447,8 @@ class KlantenController extends AbstractController
             $locatieRep = $this->getEntityManager()->getRepository("InloopBundle:Locatie");
             $locatie = $locatieRep->findOneBy(['naam'=>'Wachtlijst Economisch Daklozen']);
 
-                //als laatste verslag niet op wachtlijst is, dan op wachtlijst zetten
-                if($klant->getAantalVerslagen() < 1 || $klant->getVerslagen()->last()->getLocatie() !== $locatie) {
+                //als nieuwste verslag niet op wachtlijst is, dan op wachtlijst zetten
+                if($klant->getAantalVerslagen() < 1 || $klant->getVerslagen()->first()->getLocatie() !== $locatie) {
                     $verslag = new Verslag($klant);
                     $verslag->setDatum(new \DateTime());
                     $verslag->setOpmerking("Toegevoegd vanuit TW");
