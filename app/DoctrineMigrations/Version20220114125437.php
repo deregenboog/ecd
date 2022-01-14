@@ -21,6 +21,7 @@ final class Version20220114125437 extends AbstractMigration
 
         $this->addSql('ALTER TABLE scip_deelnemers ADD created DATETIME NOT NULL DEFAULT NOW(), ADD modified DATETIME NOT NULL DEFAULT NOW()');
         $this->addSql('ALTER TABLE uhk_deelnemers ADD created DATETIME NOT NULL DEFAULT NOW(), ADD modified DATETIME NOT NULL DEFAULT NOW()');
+        $this->addSql('ALTER TABLE `oek_trainingen` CHANGE `starttijd` `starttijd` TIME NULL');
 
     }
 

@@ -38,7 +38,7 @@ class Training implements KlantRelationInterface
     private $startdatum;
 
     /**
-     * @ORM\Column(type="time")
+     * @ORM\Column(type="time",nullable=true)
      * @Gedmo\Versioned
      */
     private $starttijd;

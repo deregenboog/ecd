@@ -29,8 +29,8 @@ class TrainingType extends AbstractType
             ->add('naam')
             ->add('locatie')
             ->add('startdatum', AppDateType::class)
-            ->add('starttijd', AppTimeType::class)
-            ->add('einddatum', AppDateType::class)
+            ->add('starttijd', AppTimeType::class,['required'=>false])
+            ->add('einddatum', AppDateType::class,['required'=>false])
             ->add('submit', SubmitType::class)
         ;
     }
