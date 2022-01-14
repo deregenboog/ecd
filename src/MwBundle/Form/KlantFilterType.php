@@ -124,7 +124,6 @@ class KlantFilterType extends AbstractType
                 'alleenMetVerslag',
                 'huidigeMwStatus',
 //                'verslag' => ['medewerker'],
-
                 'filter',
                 'download',
             ],
