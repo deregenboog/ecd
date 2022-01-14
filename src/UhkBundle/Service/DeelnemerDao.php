@@ -35,6 +35,9 @@ class DeelnemerDao extends AbstractDao implements DeelnemerDaoInterface
     {
         $builder = $this->repository->createQueryBuilder($this->alias)
             ->innerJoin($this->alias.'.klant', 'klant')
+            ->innerJoin($this->alias.'.verslagen', 'verslag')
+            ->leftJoin($this->alias.'.verslagen', 'v2','WITH','verslag.datum < v2.datum OR (verslag.datum = v2.datum AND verslag.id < v2.id)')
+
         ;
 
         return parent::doFindAll($builder, $page, $filter);

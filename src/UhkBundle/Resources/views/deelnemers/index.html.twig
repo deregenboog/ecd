@@ -74,7 +74,11 @@
             </th>
         </tr>
         {% for deelnemer in pagination %}
-        <tr data-href="{{ path('uhk_deelnemers_view', {id: deelnemer.id}) }}" class="{{ not deelnemer.actief ? 'danger' }}">
+            {% set class = '' %}
+            {% if date(deelnemer.verslagen.first().datum) < date('-3months') %}
+                {% set class = 'info' %}
+            {% endif %}
+        <tr data-href="{{ path('uhk_deelnemers_view', {id: deelnemer.id}) }}" class="{{ class }} {{ not deelnemer.actief ? 'danger' }}">
             <td>
                 {{ deelnemer.klant.id }}
             </td>
@@ -93,6 +97,7 @@
             <td>
                 {{ deelnemer.actief ? 'Actief' : 'Inactief' }}
             </td>
+
         </tr>
         {% endfor %}
     </table>
