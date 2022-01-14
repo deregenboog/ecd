@@ -14,6 +14,7 @@ use AppBundle\Form\KlantFilterType as AppKlantFilterType;
 use AppBundle\Service\KlantDaoInterface;
 use MwBundle\Entity\Aanmelding;
 use MwBundle\Entity\Afsluiting;
+use MwBundle\Entity\Verslag;
 use MwBundle\Form\AanmeldingType;
 use MwBundle\Form\AfsluitingType;
 use InloopBundle\Form\KlantType;
@@ -374,6 +375,7 @@ class KlantenController extends AbstractController
         ];
     }
 
+
     /**
      * @Route("/{id}/edit_MwDossierStatus/{statusId}")
      */
@@ -420,6 +422,67 @@ class KlantenController extends AbstractController
 
         return [
             'entity' => $mwStatus,
+            'form' => $form->createView(),
+        ];
+    }
+
+    /**
+     * @Route("/{id}/addHiPrio/")
+     */
+    public function addHiPrio(Request $request, $id)
+    {
+        $entityManager = $this->getEntityManager();
+        try {
+            $klant = $this->dao->find($id);
+
+            //Wanneer klant nog niet bestat, dossier aanmaken
+            if(!$klant->getHuidigeMwStatus() instanceof Aanmelding)
+            {
+                $entity = new Aanmelding($klant,$this->getMedewerker());
+                $entity->setDatum(new \DateTime());
+                $entityManager->persist($entity);
+                $entityManager->flush();
+                $this->addFlash('success', 'Mw dossier is aangemaakt');
+            }
+            $locatieRep = $this->getEntityManager()->getRepository("InloopBundle:Locatie");
+            $locatie = $locatieRep->findOneBy(['naam'=>'Wachtlijst Economisch Daklozen']);
+
+                //als laatste verslag niet op wachtlijst is, dan op wachtlijst zetten
+                if($klant->getAantalVerslagen() < 1 || $klant->getVerslagen()->last()->getLocatie() !== $locatie) {
+                    $verslag = new Verslag($klant);
+                    $verslag->setDatum(new \DateTime());
+                    $verslag->setOpmerking("Toegevoegd vanuit TW");
+                    $verslag->setMedewerker($this->getMedewerker());
+                    $verslag->setLocatie($locatie);
+
+                    $entityManager->persist($verslag);
+                    $entityManager->flush($verslag);
+                    $this->addFlash('success', 'Klant is op Wachtlijst Economisch Daklozen gezet');
+                }
+                else
+                {
+                    $this->addFlash('danger', 'Klant staat al op Wachtlijst Economisch Daklozen.');
+                }
+
+            } catch(UserException $e) {
+//                $this->get('logger')->error($e->getMessage(), ['exception' => $e]);
+                $message =  $e->getMessage();
+                $this->addFlash('danger', $message);
+//                return $this->redirectToRoute('app_klanten_index');
+            } catch (\Exception $e) {
+                $message = $this->container->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
+                $this->addFlash('danger', $message);
+            }
+
+            if ($url = $request->get('redirect')) {
+                return $this->redirect($url);
+            }
+
+            return $this->redirectToView($klant);
+
+
+        return [
+            'entity' => $entity,
             'form' => $form->createView(),
         ];
     }
