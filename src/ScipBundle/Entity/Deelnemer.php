@@ -8,6 +8,7 @@ use AppBundle\Model\ActivatableTrait;
 use AppBundle\Model\DocumentSubjectInterface;
 use AppBundle\Model\DocumentSubjectTrait;
 use AppBundle\Model\IdentifiableTrait;
+use AppBundle\Model\TimestampableTrait;
 use AppBundle\Service\NameFormatter;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -26,7 +27,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
  */
 class Deelnemer implements DocumentSubjectInterface
 {
-    use IdentifiableTrait, ActivatableTrait, DocumentSubjectTrait;
+    use IdentifiableTrait, ActivatableTrait, DocumentSubjectTrait, TimestampableTrait;
 
     const TYPE_WMO = 'WMO';
     const TYPE_ONDERAANNEMER = 'onderaannemer';
