@@ -77,8 +77,8 @@ class KlantFilterType extends AbstractType
             ]);
         }
 
-        if (in_array('laatsteIntakeLocatie', $options['enabled_filters'])) {
-            $builder->add('laatsteIntakeLocatie', LocatieSelectType::class, [
+        if (in_array('laatsteVerslagLocatie', $options['enabled_filters'])) {
+            $builder->add('laatsteVerslagLocatie', LocatieSelectType::class, [
                 'required' => false,
             ]);
         }
@@ -119,7 +119,7 @@ class KlantFilterType extends AbstractType
                 'klant' => ['id', 'naam', 'geboortedatumRange', 'geslacht'],
                 'gebruikersruimte',
                 'maatschappelijkWerker',
-                'laatsteIntakeLocatie',
+                'laatsteVerslagLocatie',
                 'laatsteVerslagDatum',
                 'alleenMetVerslag',
                 'huidigeMwStatus',

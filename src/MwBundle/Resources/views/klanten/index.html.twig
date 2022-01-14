@@ -53,8 +53,8 @@
                         {{ form_errors(filter.gebruikersruimte) }}
                     </th>
                     <th>
-                        {{ form_widget(filter.laatsteIntakeLocatie) }}
-                        {{ form_errors(filter.laatsteIntakeLocatie) }}
+                        {{ form_widget(filter.laatsteVerslagLocatie) }}
+                        {{ form_errors(filter.laatsteVerslagLocatie) }}
                     </th>
                     <th>
                         {{ form_widget(filter.maatschappelijkWerker) }}
@@ -90,7 +90,7 @@
                     {{ knp_pagination_sortable(pagination, 'Gebruikersruimte', 'gebruikersruimte.naam') }}
                 </th>
                 <th>
-                    {{ knp_pagination_sortable(pagination, 'Intakelocatie', 'laatsteIntakeLocatie.naam') }}
+                    {{ knp_pagination_sortable(pagination, 'Verslaglocatie', 'laatsteVerslagLocatie.naam') }}
                 </th>
                 <th>
                     {{ knp_pagination_sortable(pagination, 'Maatschappelijk werker', 'maatschappelijkWerker.voornaam') }}
@@ -131,7 +131,7 @@
                         {{ klant.laatsteIntake ? klant.laatsteIntake.gebruikersruimte }}
                     </td>
                     <td>
-                        {{ klant.laatsteIntake ? klant.laatsteIntake.intakelocatie }}
+                        {{ item.laatsteVerslagLocatie }}
                     </td>
                     <td>
                         <ul>
@@ -154,7 +154,7 @@
                         </ul>
                     </td>
                     <td>
-                        {{ item.datumLaatsteVerslag|date }}
+                        {{ item.datumLaatsteVerslag|date('d-m-Y') }}
                     </td>
                     <td>
                         {{ item.aantalVerslagen }}

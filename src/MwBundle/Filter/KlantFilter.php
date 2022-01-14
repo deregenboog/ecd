@@ -23,7 +23,7 @@ class KlantFilter implements FilterInterface
     /**
      * @var Locatie
      */
-    public $laatsteIntakeLocatie;
+    public $laatsteVerslagLocatie;
 
     /**
      * @var Medewerker
@@ -70,10 +70,10 @@ class KlantFilter implements FilterInterface
         }
 
 
-        if ($this->laatsteIntakeLocatie) {
+        if ($this->laatsteVerslagLocatie) {
             $builder
-                ->andWhere('laatsteIntake.intakelocatie = :laatste_intake_locatie')
-                ->setParameter('laatste_intake_locatie', $this->laatsteIntakeLocatie)
+                ->andWhere('verslag.locatie = :locatie')
+                ->setParameter('locatie', $this->laatsteVerslagLocatie)
             ;
         }
 
