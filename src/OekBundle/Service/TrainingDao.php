@@ -34,7 +34,7 @@ class TrainingDao extends AbstractDao implements TrainingDaoInterface
             ->leftJoin('training.deelnames', 'deelname')
             ->leftJoin('deelname.deelnemer', 'deelnemer')
             ->innerJoin('training.groep', 'groep')
-            ->where('deelname.deelnameStatus != :status_verwijderd')
+            ->where('deelname.deelnameStatus != :status_verwijderd OR deelname IS NULL')
             ->setParameter(":status_verwijderd",DeelnameStatus::STATUS_VERWIJDERD);
         ;
 
