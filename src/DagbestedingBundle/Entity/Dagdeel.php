@@ -2,6 +2,7 @@
 
 namespace DagbestedingBundle\Entity;
 
+use AppBundle\Model\TimestampableTrait;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 
@@ -16,6 +17,8 @@ use Gedmo\Mapping\Annotation as Gedmo;
  */
 class Dagdeel
 {
+    use TimestampableTrait;
+
     const DAGDEEL_OCHTEND = 'ochtend';
     const DAGDEEL_MIDDAG = 'middag';
     const DAGDEEL_AVOND = 'avond';

@@ -10,6 +10,7 @@ use AppBundle\Model\DocumentSubjectInterface;
 use AppBundle\Model\DocumentSubjectTrait;
 use AppBundle\Model\IdentifiableTrait;
 use AppBundle\Model\KlantRelationInterface;
+use AppBundle\Model\TimestampableTrait;
 use AppBundle\Model\UsesKlantTrait;
 use AppBundle\Service\NameFormatter;
 
@@ -30,7 +31,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
  */
 class Deelnemer implements KlantRelationInterface, DocumentSubjectInterface
 {
-    use IdentifiableTrait, ActivatableTrait, UsesKlantTrait, DocumentSubjectTrait;
+    use IdentifiableTrait, ActivatableTrait, UsesKlantTrait, DocumentSubjectTrait, TimestampableTrait;
 
     /**
      * @var Klant

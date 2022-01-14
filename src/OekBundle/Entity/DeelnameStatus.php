@@ -2,6 +2,7 @@
 
 namespace OekBundle\Entity;
 
+use AppBundle\Model\TimestampableTrait;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 
@@ -13,6 +14,8 @@ use Gedmo\Mapping\Annotation as Gedmo;
  */
 class DeelnameStatus
 {
+    use TimestampableTrait;
+
     const STATUS_AANGEMELD = 'Aangemeld';
     const STATUS_GESTART = 'Gestart';
     const STATUS_GEVOLGD = 'Gevolgd';
