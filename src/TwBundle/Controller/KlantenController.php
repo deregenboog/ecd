@@ -9,6 +9,7 @@ use AppBundle\Export\ExportInterface;
 use AppBundle\Form\ConfirmationType;
 use AppBundle\Form\KlantFilterType as AppKlantFilterType;
 
+use phpDocumentor\Reflection\Types\Null_;
 use TwBundle\Entity\Klant;
 use TwBundle\Exception\TwException;
 use TwBundle\Form\HuurderCloseType;
@@ -260,4 +261,23 @@ class KlantenController extends AbstractController
             'form' => $form->createView(),
         ];
     }
+
+    /**
+     * @Route("/{id}/addwithcheck")
+     */
+    public function addWithCheck($id = null)
+    {
+        $entityManager = $this->getEntityManager();
+//        $appKlant = $entityManager->find(AppKlant::class, $id);
+        $klantRepo = $this->getEntityManager()->getRepository("TwBundle:Klant");
+        $klant = $klantRepo->findOneBy(['appKlant'=>$id]);
+
+        if($klant==null)
+        {
+            //no klant... redirect to add
+            return $this->redirectToRoute('tw_klanten_add',['entity'=>$id]);
+        }
+        return $this->redirectToRoute('tw_klanten_view',['id'=>$klant->getId()]);
+    }
+
 }

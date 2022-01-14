@@ -35,7 +35,7 @@
             {{ html.deleteLink(path('tw_klanten_delete', {id: entity.id})) }}
             {{ html.link('Verwijderen', path('tw_klanten_delete', {id: entity.id})) }}
         {% endif %}
-        {{ html.link('Op wachtlijst MW ED zetten', path('mw_klanten_addhiprio', {id: entity.appKlant.id})) }}
+        {{ html.link('Op wachtlijst MW ED zetten', path('mw_klanten_addhiprio', {id: entity.appKlant.id}),'add') }}
     </p>
 {% endblock %}
 
