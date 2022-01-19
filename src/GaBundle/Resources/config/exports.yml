@@ -8,6 +8,8 @@ services:
                 Naam: { expression: 'entity.getNaam()' }
                 Datum: { expression: 'entity.getDatum()', type: 'date' }
                 Groep: { expression: 'entity.getGroep().getNaam()', condition: 'entity.getGroep()' }
+                Deelnemers: { expression: 'entity.getNumKlantDeelnames()' }
+                Vrijwilligers: { expression: 'entity.getNumVrijwilligerDeelnames()' }
 
     ga.export.groepen:
         public: true

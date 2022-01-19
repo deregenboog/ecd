@@ -229,4 +229,25 @@ abstract class Groep
         return $this->einddatum instanceof \DateTime
             && $this->einddatum <= new \DateTime('today');
     }
+
+    public function getType()
+    {
+        $class =  (new \ReflectionClass($this))->getShortName();
+        switch ($class){
+            case "GroepErOpUit":
+                return "Er Op Uit";
+            case "GroepBuurtmaatjes":
+                return "Buurtmaatjes";
+            case "GroepKwartiermaken":
+                return "Kwartiermaken";
+            case "GroepOpenHuis":
+                return "Open Huis";
+            case "GroepOrganisatie":
+                return "Organisatie";
+            default:
+                return "Onbekend";
+        }
+
+
+    }
 }
