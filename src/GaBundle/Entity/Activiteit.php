@@ -201,6 +201,11 @@ class Activiteit
         );
     }
 
+    public function getNumKlantDeelnames(): int
+    {
+        return count($this->getKlantDeelnames()) + $this->aantalAnoniemeDeelnemers;
+    }
+
     public function getVrijwilligerDeelnames()
     {
         return array_filter(
@@ -209,6 +214,11 @@ class Activiteit
                 return $deelname->getDossier() instanceof Vrijwilligerdossier;
             }
         );
+    }
+
+    public function getNumVrijwilligerDeelnames(): int
+    {
+        return count($this->getVrijwilligerDeelnames());
     }
 
     public function getAnnuleringsreden()
