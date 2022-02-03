@@ -70,26 +70,26 @@ class VerslagDao extends AbstractDao implements VerslagDaoInterface
         $query = "
         (SELECT SUM(c.c) AS numContacten, 'Minder dan vijf' AS label
                     FROM 
-                    (SELECT COUNT(v.id) AS c 
+                    (SELECT COUNT(DISTINCT v.klant_id) AS c 
                         FROM `verslagen` `v` 
                         INNER JOIN locaties l ON v.locatie_id = l.id AND l.naam IN (:locatienamen)
                         WHERE `v`.`contactsoort_id` = :contactsoortid AND v.`datum` BETWEEN :startdatum AND :einddatum
                         GROUP BY klant_id
-                        HAVING COUNT(klant_id) < 5) AS c)
+                        HAVING COUNT(DISTINCT v.id) < 5) AS c)
         UNION
         (SELECT SUM(d.c) AS numContacten, 'Vijf of meer' AS label
                     FROM 
-                    (SELECT COUNT(v.id) AS c
+                    (SELECT COUNT(DISTINCT v.klant_id) AS c
                         FROM `verslagen` `v`
                         INNER JOIN locaties l ON v.locatie_id = l.id AND l.naam IN (:locatienamen)
                         WHERE `v`.`contactsoort_id` = :contactsoortid AND v.`datum` BETWEEN :startdatum AND :einddatum
                         GROUP BY klant_id
-                        HAVING COUNT(klant_id) >= 5) AS d)";
+                        HAVING COUNT(DISTINCT v.id) >= 5) AS d)";
         $conn = $this->entityManager->getConnection();
         $statement = $conn->prepare($query);
         //['locatienamen'=>$locatieNamen,'contactsoortid'=>1,'startdatum'=>$startdatum->format("Y-m-d"),'einddatum'=>$einddatum->format("Y-m-d")]
         $statement->bindValue("locatienamen",implode(", ",$locatieNamen));
-        $statement->bindValue("contactsoortid",1);
+        $statement->bindValue("contactsoortid",3);
         $statement->bindValue("startdatum",$startdatum,"datetime");
         $statement->bindValue("einddatum",$einddatum,"datetime");
 
