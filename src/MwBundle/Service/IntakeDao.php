@@ -80,18 +80,18 @@ class IntakeDao extends AbstractDao implements IntakeDaoInterface
     {
         if($filter && $filter->locatie)
         {
-            $i = array_values($this->wachtlijstLocaties);
-            $k = array_search('Wachtlijst Economisch Daklozen',$i);
-            $deleted =array_splice($this->wachtlijstLocaties,$k,1);
-            switch($filter->locatie->getNaam())
+//            $i = array_values($this->wachtlijstLocaties);
+//            $k = array_search('Wachtlijst Economisch Daklozen',$i);
+//            $deleted =array_splice($this->wachtlijstLocaties,$k,1);
+            switch($filter->locatie->getWachtlijst())
             {
-                case 'Wachtlijst Economisch Daklozen':
-                    $this->actualWachtlijstLocaties = $deleted;
+                case '2':
+//                    $this->actualWachtlijstLocaties = $deleted;
                     $this->paginationOptions['defaultSortFieldName'] = 'verslag.datum';
                     $builder = $this->getEconomischDaklozen();
                     break;
                 default:
-                    $this->actualWachtlijstLocaties = $this->wachtlijstLocaties;
+//                    $this->actualWachtlijstLocaties = $this->wachtlijstLocaties;
                     $builder = $this->getT6();
                     break;
             }
@@ -120,9 +120,9 @@ class IntakeDao extends AbstractDao implements IntakeDaoInterface
             ->leftJoin('klant.werkgebied','werkgebied')
             ->leftJoin("klant.verslagen","verslag")
 //            ->leftJoin("verslag.locatie","verslaglocatie")
-            ->where("intakelocatie.naam IN (:wachtlijstLocaties)")
+            ->where("intakelocatie.wachtlijst = :wachtlijsttype")
 //            ->orWhere("verslag.id IN(:verslagIds) AND intake.id IS NULL")
-            ->setParameter("wachtlijstLocaties",$this->actualWachtlijstLocaties)
+            ->setParameter("wachtlijsttype",1)
 //            ->setParameter("verslagIds",$vIds)
             ->groupBy("klant.id")
 //            ->orderBy("verslag.datum","DESC")
@@ -154,10 +154,10 @@ class IntakeDao extends AbstractDao implements IntakeDaoInterface
             ->join('verslag.locatie','locatie')
             ->join('klant.huidigeMwStatus', 'huidigeMwStatus')
             ->leftJoin('klant.werkgebied','werkgebied')
-            ->where('locatie.naam IN (:wachtlijstLocaties)')
+            ->where('locatie.wachtlijst = :wachtlijsttype')
             ->andWhere($b4->expr()->isInstanceOf('huidigeMwStatus', Aanmelding::class))
             ->groupBy('klant.id')
-            ->setParameter(':wachtlijstLocaties',$this->actualWachtlijstLocaties)
+            ->setParameter(':wachtlijsttype',2)
 //            ->setParameter(':mwAanmelding',$this->entityManager->getClassMetadata(Aanmelding::class))
         ;
 
@@ -168,13 +168,8 @@ class IntakeDao extends AbstractDao implements IntakeDaoInterface
 
     private function getT6()
     {
-
-
-
         $builder = $this->getDefault();
         return $builder;
-
-
     }
 
     /**

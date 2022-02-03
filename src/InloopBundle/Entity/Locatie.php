@@ -54,10 +54,10 @@ class Locatie
     private $tbcCheck = false;
 
     /**
-     * @ORM\Column(name="wachtlijst", type="boolean", nullable=true, options={"default"=0})
+     * @ORM\Column(name="wachtlijst", type="integer", nullable=true, options={"default"=0})
      * @Gedmo\Versioned
      */
-    private $wachtlijst = false;
+    private $wachtlijst = 0; //0=geen, 1=normaal via intakes / 2=economisch via verslag
 
     /**
      * @ORM\Column(name="datum_van", type="date", nullable=false)
@@ -333,17 +333,25 @@ class Locatie
      */
     public function isWachtlijst(): bool
     {
-        return $this->wachtlijst;
+        return ($this->wachtlijst > 0)?true:false;
     }
 
     /**
-     * @param bool $wachtlijst
+     * @param int $wachtlijst
      * @return Locatie
      */
-    public function setWachtlijst(bool $wachtlijst): Locatie
+    public function setWachtlijst($wachtlijst): Locatie
     {
         $this->wachtlijst = $wachtlijst;
         return $this;
+    }
+
+    /**
+     * @return int
+     */
+    public function getWachtlijst(): int
+    {
+        return $this->wachtlijst;
     }
 
 
