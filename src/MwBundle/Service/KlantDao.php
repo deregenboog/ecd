@@ -65,7 +65,7 @@ class KlantDao extends AbstractDao implements KlantDaoInterface
             ->leftJoin('klant.maatschappelijkWerker','maatschappelijkWerker')
             ->leftJoin($this->alias.'.verslagen','v2','WITH','verslag.klant = v2.klant AND (verslag.datum < v2.datum OR (verslag.datum = v2.datum AND verslag.id < v2.id))')
             ->where('v2.id IS NULL')
-            ->join($this->alias.'.geslacht', 'geslacht')
+            ->leftJoin($this->alias.'.geslacht', 'geslacht')
 //            ->addSelect('\'2020-07-01\' AS datumLaatsteVerslag')
 //            ->addSelect('1 AS aantalVerslagen')
 //            ->leftJoin($this->alias.'.huidigeStatus', 'status')
@@ -78,10 +78,12 @@ class KlantDao extends AbstractDao implements KlantDaoInterface
             ->groupBy('klant.achternaam, klant.id')
             ;
 
+
         if ($filter) {
             $filter->applyTo($builder);
         }
 
+        $sql = SqlExtractor::getFullSQL($builder->getQuery());
         if ($page) {
             /**
              * Vanwege de vele left joins in deze query is de total count niet te optimaliseren (door mij) onder de <900ms.

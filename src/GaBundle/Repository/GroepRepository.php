@@ -34,17 +34,31 @@ class GroepRepository extends EntityRepository implements DoelstellingRepository
 
     public function countDeelnemersPerGroep(\DateTime $startDate, \DateTime $endDate)
     {
-        $builder = $this->createQueryBuilder('groep')
+        /**
+         * subquery in from ... ivm aggregatie.
+         * (SUM)
+         */
+        $subselect = $this->createQueryBuilder('activiteiten')
+            ->select('groep_id, SUM(aantalAnoniemeDeelnemers) AS aantalAnoniemeDeelnemers')
+            ->from("groep.activiteiten",'activiteiten')
+//            ->where("activiteiten.groep = :groep_id")
+            ->groupBy('activiteiten.groep')
+            ;
+        $subselect->getDQL();
+        $builder = $this->createQueryBuilder('groep');
+        $builder
             ->select("CONCAT(groep.naam, ' (', IFNULL(werkgebied,'-'),  ')') AS groepnaam")
             ->addSelect('COUNT(DISTINCT activiteit) AS aantal_activiteiten')
-            ->addSelect('COUNT(DISTINCT deelname) AS aantal_deelnames')
+            ->addSelect('COUNT(deelname) AS aantal_deelnames')
             ->addSelect('COUNT(DISTINCT klant) AS aantal_deelnemers')
-            ->addSelect('IFNULL(SUM(DISTINCT activiteit.aantalAnoniemeDeelnemers), 0) AS aantal_anonieme_deelnames')
+            ->addSelect('IFNULL(SUM( activiteit.aantalAnoniemeDeelnemers), 0) AS aantal_anonieme_deelnames')
             ->leftJoin('groep.werkgebied', 'werkgebied')
             ->leftJoin('groep.activiteiten', 'activiteit', 'WITH', 'activiteit.datum BETWEEN :start AND :eind')
-            ->innerJoin('activiteit.deelnames', 'deelname', 'WITH', 'deelname.status = :aanwezig')
+//            ->leftJoin('activiteiten',sprintf('(%s)',$subselect->getQuery()->getSQL(),'ga2','ga2.groep_id = groep.id'))
+            ->leftJoin('activiteit.deelnames', 'deelname', 'WITH', 'deelname.status = :aanwezig')
             ->leftJoin(Klantdossier::class, 'dossier', 'WITH', 'deelname.dossier = dossier')
             ->leftJoin('dossier.klant', 'klant')
+            ->where('deelname IS NOT NULL OR activiteit.aantalAnoniemeDeelnemers > 0 ')
             ->groupBy('groepnaam')
             ->orderBy('groep.naam')
             ->setParameter('start', $startDate)
