@@ -10,6 +10,14 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class ZipcodeProcessorCommand extends ContainerAwareCommand
 {
+    /**
+     *
+     * Postcodes verkrijgen vai download op
+     * https://data.amsterdam.nl/data/bag/adressen/?modus=volledig
+     * Voor amsterdam en Weesp.
+     *
+     * Diemen, amstelveen
+     */
     protected function configure()
     {
         ini_set('auto_detect_line_endings',TRUE);
@@ -91,48 +99,62 @@ class ZipcodeProcessorCommand extends ContainerAwareCommand
                 continue;
             }
 
-            $postcodes[$postcode] = [$stadsdeel, $postcodegebied];
+            $postcodes[]= [$postcode, $stadsdeel, $postcodegebied];
         }
         $output->writeln(sprintf("Aantal postcodes: %s",count($postcodes)));
 
         $output->writeln(sprintf('Oplossen %d conflicterende postcodes', count($conflicten)));
 
+        //OK alle conflicterenden zijn eruit gehaald en apart gezet.
+
         $count = [];
-        foreach ($data as $row) {
-//            $stadsdeel = $row[array_search('Naam stadsdeel', $headers)];
-//            $postcodegebied = $row[array_search('Naam gebiedsgerichtwerkengebied', $headers)];
-//            $postcode = $row[array_search('Postcode', $headers)];
+//        foreach ($data as $row) {
+////            $stadsdeel = $row[array_search('Naam stadsdeel', $headers)];
+////            $postcodegebied = $row[array_search('Naam gebiedsgerichtwerkengebied', $headers)];
+////            $postcode = $row[array_search('Postcode', $headers)];
+//
+//            $postcode = $row[0];
+//            $stadsdeel = $row[1];
+//            $postcodegebied = $row[2];
+//
+//            if (!$postcode || !in_array($postcode, $conflicten)) {
+//                continue;
+//            }
+//
+//            /**
+//             * Soort van samenvoegen en hieronder weer uit elkaar trekken? Sorteren , want..?
+//             *
+//             */
+//            //$count[$postcode][] = $stadsdeel.' | '.$postcodegebied;
+//
+//            //meteen als multidim array
+//            $count[$postcode][] = [$stadsdeel,$postcodegebied];
+//
+//        }
 
-            $postcode = $row[0];
-            $stadsdeel = $row[1];
-            $postcodegebied = $row[2];
+        /**
+         * Ik snap dit niet. waarom?
+         */
 
-            if (!$postcode || !in_array($postcode, $conflicten)) {
-                continue;
-            }
-
-            $count[$postcode][] = $stadsdeel.' | '.$postcodegebied;
-        }
-
-
-        foreach ($count as $postcode => $values) {
-            $values = array_count_values($values);
-            arsort($values);
-
-            foreach ($values as $key => $weight) {
-                list($stadsdeel, $postcodegebied) = explode(' | ', $key);
-                if ($stadsdeel && $postcodegebied) {
-                    $postcodes[$postcode] = [$stadsdeel, $postcodegebied];
-                    break;
-                }
-            }
-        }
+//        foreach ($count as $postcode => $values) {
+//            $values = array_count_values($values);
+//            arsort($values);
+//
+//            foreach ($values as $key => $weight) {
+//                list($stadsdeel, $postcodegebied) = explode(' | ', $key);
+//                if ($stadsdeel && $postcodegebied) {
+//                    $postcodes[$postcode] = [$stadsdeel, $postcodegebied];
+//                    break;
+//                }
+//            }
+//        }
 
         $output->writeln(sprintf('Bestand %s openen', $outputFile));
 
         $handle = fopen($outputFile, 'w');
         foreach ($postcodes as $postcode => $values) {
-            fputcsv($handle, array_merge([$postcode], $values), ';');
+//            fputcsv($handle, array_merge([$postcode], $values), ';');
+            fputcsv($handle, $values, ';');
         }
         fclose($handle);
 

@@ -14,7 +14,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
 class WebTestCase extends CoreWebTestCase
 {
     use FixturesTrait;
-//    use RecreateDatabaseTrait;
+    use RecreateDatabaseTrait;
 
     /**
      * @var Client
@@ -29,7 +29,7 @@ class WebTestCase extends CoreWebTestCase
             '@AppBundle/DataFixtures/ORM/fixtures.yml',
             '@ClipBundle/DataFixtures/ORM/fixtures.yml',
 
-//             '@DagbestedingBundle/DataFixtures/ORM/fixtures.yml',
+             '@DagbestedingBundle/DataFixtures/ORM/fixtures.yml',
 
             '@ErOpUitBundle/DataFixtures/ORM/fixtures.yml',
 
