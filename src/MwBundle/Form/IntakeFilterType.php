@@ -24,15 +24,16 @@ class IntakeFilterType extends AbstractType implements ContainerAwareInterface
 {
     use ContainerAwareTrait;
 
-    protected $wachtlijstLocaties = array();
-
     /**
      * IntakeFilterType constructor.
      * @param  $wachtlijstLocaties
      */
+    protected $wachtlijstLocaties = array();
+
+
     public function __construct(LocatieDao $locatieDao)
     {
-        $this->wachtlijstLocaties = $locatieDao->getWachtlijstLocaties();
+//        $this->wachtlijstLocaties = $locatieDao->getWachtlijstLocaties();
     }
 
 
@@ -54,16 +55,17 @@ class IntakeFilterType extends AbstractType implements ContainerAwareInterface
             $builder->add('locatie', EntityType::class, [
                 'required' => false,
                 'class'=>Locatie::class,
+//                'data'=>$this->wachtlijstLocaties,
                 'query_builder' => function (EntityRepository $repository) {
                     $builder = $repository->createQueryBuilder('locatie')
                         ->select("locatie")
-                        ->where('locatie.naam IN (:wachtlijstLocaties)')
+                        ->where('locatie.wachtlijst > 0')
                         ->orderBy('locatie.naam')
-                        ->setParameter("wachtlijstLocaties",$this->wachtlijstLocaties)
+//                        ->setParameter("wachtlijstLocaties",$this->wachtlijstLocaties)
                     ;
                     $sql = $builder->getQuery()->getSQL();
                     return $builder;
-                    ;
+//                    ;
                 },
             ]);
         }
