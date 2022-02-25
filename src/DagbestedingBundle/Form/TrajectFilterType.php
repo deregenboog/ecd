@@ -8,7 +8,7 @@ use AppBundle\Form\FilterType;
 use AppBundle\Form\KlantFilterType;
 use DagbestedingBundle\Entity\Locatie;
 use DagbestedingBundle\Entity\Project;
-use DagbestedingBundle\Entity\Trajectbegeleider;
+use DagbestedingBundle\Entity\Trajectcoach;
 use DagbestedingBundle\Entity\Trajectsoort;
 use DagbestedingBundle\Filter\TrajectFilter;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -49,9 +49,9 @@ class TrajectFilterType extends AbstractType
             ]);
         }
 
-        if (in_array('begeleider', $options['enabled_filters'])) {
-            $builder->add('begeleider', EntityType::class, [
-                'class' => Trajectbegeleider::class,
+        if (in_array('trajectcoach', $options['enabled_filters'])) {
+            $builder->add('trajectcoach', EntityType::class, [
+                'class' => Trajectcoach::class,
                 'required' => false,
             ]);
         }
@@ -129,7 +129,7 @@ class TrajectFilterType extends AbstractType
                 'klant' => ['naam'],
                 'soort',
                 'resultaatgebied' => ['soort'],
-                'begeleider',
+                'trajectcoach',
                 'project',
                 'startdatum',
                 'rapportage' => ['datum'],

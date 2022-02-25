@@ -75,9 +75,9 @@ class DeelnemerDao extends AbstractDao implements DeelnemerDaoInterface
     public function countByBegeleider($fase, \DateTime $startdate, \DateTime $enddate)
     {
         $builder = $this->repository->createQueryBuilder($this->alias)
-            ->select('COUNT('.$this->alias.') AS aantal, begeleider.displayName AS groep')
+            ->select('COUNT('.$this->alias.') AS aantal, trajectcoach.displayName AS groep')
             ->innerJoin($this->alias.'.trajecten', 'traject')
-            ->innerJoin('traject.begeleider', 'begeleider')
+            ->innerJoin('traject.trajectcoach', 'trajectcoach')
             ->groupBy('groep')
         ;
 

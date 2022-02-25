@@ -2,7 +2,7 @@
 
 namespace DagbestedingBundle\Form;
 
-use DagbestedingBundle\Entity\Trajectbegeleider;
+use DagbestedingBundle\Entity\Trajectcoach;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -17,7 +17,7 @@ class MedewerkerType extends AbstractType
         $resolver->setDefaults([
             'query_builder' => function (EntityRepository $repository) {
                 return $repository->createQueryBuilder('medewerker')
-                    ->innerJoin(Trajectbegeleider::class, 'trajectbegeleider', 'WITH', 'trajectbegeleider.medewerker = medewerker AND trajectbegeleider.actief = 1')
+                    ->innerJoin(Trajectcoach::class, 'trajectcoach', 'WITH', 'trajectcoach.medewerker = medewerker AND trajectcoach.actief = 1')
                     ->orderBy('medewerker.voornaam')
                 ;
             },

@@ -95,13 +95,13 @@ class Traject
     private $afsluitdatum;
 
     /**
-     * @var Trajectbegeleider
+     * @var Trajectcoach
      *
-     * @ORM\ManyToOne(targetEntity="Trajectbegeleider", inversedBy="trajecten")
+     * @ORM\ManyToOne(targetEntity="Trajectcoach", inversedBy="trajecten")
      * @ORM\JoinColumn(nullable=false)
      * @Gedmo\Versioned
      */
-    private $begeleider;
+    private $trajectcoach;
 
     /**
      * @var Trajectafsluiting
@@ -322,17 +322,25 @@ class Traject
         return $this;
     }
 
-    public function getBegeleider()
+    /**
+     * @return Trajectcoach
+     */
+    public function getTrajectcoach(): ?Trajectcoach
     {
-        return $this->begeleider;
+        return $this->trajectcoach;
     }
 
-    public function setBegeleider(Trajectbegeleider $begeleider)
+    /**
+     * @param Trajectcoach $trajectcoach
+     * @return Traject
+     */
+    public function setTrajectcoach(?Trajectcoach $trajectcoach): Traject
     {
-        $this->begeleider = $begeleider;
-
+        $this->trajectcoach = $trajectcoach;
         return $this;
     }
+
+
 
     public function getSoort()
     {

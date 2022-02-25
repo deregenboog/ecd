@@ -7,7 +7,7 @@ use AppBundle\Filter\FilterInterface;
 use AppBundle\Filter\KlantFilter;
 use DagbestedingBundle\Entity\Locatie;
 use DagbestedingBundle\Entity\Project;
-use DagbestedingBundle\Entity\Trajectbegeleider;
+use DagbestedingBundle\Entity\Trajectcoach;
 use DagbestedingBundle\Entity\Trajectsoort;
 use Doctrine\ORM\QueryBuilder;
 
@@ -39,9 +39,9 @@ class TrajectFilter implements FilterInterface
     public $medewerker;
 
     /**
-     * @var Trajectbegeleider
+     * @var Trajectcoach
      */
-    public $begeleider;
+    public $trajectcoach;
 
     /**
      * @var Project
@@ -119,15 +119,15 @@ class TrajectFilter implements FilterInterface
 
         if ($this->medewerker) {
             $builder
-                ->andWhere('begeleider.medewerker = :medewerker')
+                ->andWhere('trajectcoach.medewerker = :medewerker')
                 ->setParameter('medewerker', $this->medewerker)
             ;
         }
 
-        if ($this->begeleider) {
+        if ($this->trajectcoach) {
             $builder
-                ->andWhere('traject.begeleider = :begeleider')
-                ->setParameter('begeleider', $this->begeleider)
+                ->andWhere('traject.trajectcoach = :trajectcoach')
+                ->setParameter('trajectcoach', $this->trajectcoach)
             ;
         }
 
