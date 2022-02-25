@@ -98,3 +98,29 @@ services:
     oek.export.report:
         public: true
         class: AppBundle\Export\ReportExport
+
+    oek.export.vrijwilligersdownload:
+        public: true
+        class: AppBundle\Export\GenericExport
+        arguments:
+            - OekBundle\Entity\Vrijwilliger
+            - Rubriek: { expression: '"OekVrijwilliger"' }
+              Nummer: { expression: 'entity.getId()' }
+              Startdatum: { expression: '""'}
+              Afsluitdatum: { expression: 'entity.getAfsluitdatum()', type: 'date' }
+              Voornaam: { expression: 'entity.getVrijwilliger().getVoornaam()' }
+              Tussenvoegsel: { expression: 'entity.getVrijwilliger().getTussenvoegsel()' }
+              Achternaam: { expression: 'entity.getVrijwilliger().getAchternaam()' }
+              Geboortedatum: { expression: 'entity.getVrijwilliger().getGeboortedatum()', type: 'date' }
+              E-mail: { expression: 'entity.getVrijwilliger().getEmail()' }
+              Adres: { expression: 'entity.getVrijwilliger().getAdres()' }
+              Postcode: { expression: 'entity.getVrijwilliger().getPostcode()' }
+              Woonplaats: { expression: 'entity.getVrijwilliger().getPlaats()' }
+              Mobiel: { expression: 'entity.getVrijwilliger().getMobiel()' }
+              Telefoon: { expression: 'entity.getVrijwilliger().getTelefoon()' }
+              Werkgebied: { expression: 'entity.getVrijwilliger().getWerkgebied()' }
+              Actief: { expression: 'entity.isActief() ? "Ja" : "Nee"' }
+            - 'Vrijwilligers OpEigenKracht'
+            - '@OekBundle\Service\VrijwilligerDao'
+        tags:
+            - { name: app.downloads }

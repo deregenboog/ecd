@@ -45,6 +45,9 @@ class VrijwilligerType extends AbstractType
 
         $builder
             ->add('inschrijving', AppDateType::class)
+            ->add('uitschrijving', AppDateType::class,[
+                'required'=>false,
+            ])
             ->add('actief')
             ->add('rijbewijs', null, ['label' => 'Rijbewijs'])
             ->add('hulpverlener', HulpverlenerType::class)
