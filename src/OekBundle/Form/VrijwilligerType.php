@@ -49,7 +49,7 @@ class VrijwilligerType extends AbstractType
             ->add('actief', CheckboxType::class,[
                 'required'=>false,
             ])
-            ->add('afsluitddatum', AppDateType::class,[
+            ->add('afsluitdatum', AppDateType::class,[
                 'required'=>false
             ])
             ->add('submit', SubmitType::class)
