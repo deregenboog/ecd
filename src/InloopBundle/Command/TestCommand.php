@@ -7,19 +7,33 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\HttpFoundation\Request;
 
-class TestCommand extends ContainerAwareCommand
+class TestCommand extends \Symfony\Component\Console\Command\Command
 {
     private $kernel;
+    /**
+     * @var \InloopBundle\Service\KlantDao
+     */
+    private $klantDao;
+    /**
+     * @var \InloopBundle\Service\LocatieDao
+     */
+    private $locatieDao;
+    public function __construct(\InloopBundle\Service\KlantDao $klantDao, \InloopBundle\Service\LocatieDao $locatieDao)
+    {
+        $this->klantDao = $klantDao;
+        parent::__construct();
+        $this->locatieDao = $locatieDao;
+    }
 
     protected function configure()
     {
         $this->setName('inloop:test');
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $klantDao = $this->getContainer()->get('InloopBundle\Service\KlantDao');
-        $locatieDao = $this->getContainer()->get('InloopBundle\Service\LocatieDao');
+        $klantDao = $this->klantDao;
+        $locatieDao = $this->locatieDao;
 
         $locaties = $locatieDao->findAll();
 
@@ -30,7 +44,7 @@ class TestCommand extends ContainerAwareCommand
             $klanten = $klantDao->findAll($page);
             foreach ($klanten as $klant) {
                 foreach ($locaties as $locatie) {
-                    if (0 !== rand(0, 10)) {
+                    if (0 !== random_int(0, 10)) {
                         $output->writeln('Skipping...');
                         continue;
                     }
@@ -55,6 +69,7 @@ class TestCommand extends ContainerAwareCommand
         }
 
 //         $output->writeln("Reden '{$this->redenPattern}' is niet uniek!");
+return 0;
     }
 
     private function getContent($url)

@@ -7,6 +7,7 @@ use AppBundle\Exception\UserException;
 use AppBundle\Form\ConfirmationType;
 use AppBundle\Form\PostcodeFilterType;
 use AppBundle\Form\PostcodeType;
+use AppBundle\Service\PostcodeDao;
 use AppBundle\Service\PostcodeDaoInterface;
 use JMS\DiExtraBundle\Annotation as DI;
 use Symfony\Component\Routing\Annotation\Route;
@@ -29,11 +30,18 @@ class PostcodesController extends AbstractController
     protected $disabledActions = ['view'];
 
     /**
-     * @var PostcodeDaoInterface
-     *
-     * @DI\Inject("AppBundle\Service\PostcodeDao")
+     * @var PostcodeDao
      */
     protected $dao;
+
+    /**
+     * @param PostcodeDao $dao
+     */
+    public function __construct(PostcodeDao $dao)
+    {
+        $this->dao = $dao;
+    }
+
 
     /**
      * @Route("/add")

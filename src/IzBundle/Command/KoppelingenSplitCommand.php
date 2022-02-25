@@ -15,7 +15,7 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class KoppelingenSplitCommand extends ContainerAwareCommand
+class KoppelingenSplitCommand extends \Symfony\Component\Console\Command\Command
 {
     /**
      * @var EntityManager
@@ -54,7 +54,7 @@ class KoppelingenSplitCommand extends ContainerAwareCommand
         $this->host = $input->getArgument('host');
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $builder = $this->em->getRepository(Hulpvraag::class)->createQueryBuilder('hulpvraag')
             ->innerJoin('hulpvraag.hulpaanbod', 'hulpaanbod')
@@ -87,14 +87,14 @@ class KoppelingenSplitCommand extends ContainerAwareCommand
             ;
             $table->render();
 
-            $output->writeln('Totaal: '.count($hulpvragen));
+            $output->writeln('Totaal: '.(is_array($hulpvragen) || $hulpvragen instanceof \Countable ? count($hulpvragen) : 0));
 
-            return;
+            return 0;
         }
 
         $tableData = [];
         foreach ($hulpvragen as $hulpvraag) {
-            list($koppeling, $newKoppeling) = $this->split($hulpvraag->getKoppeling());
+            [$koppeling, $newKoppeling] = $this->split($hulpvraag->getKoppeling());
 
             $this->addEndMessage($koppeling);
             $this->addStartMessage($newKoppeling);
@@ -111,7 +111,8 @@ class KoppelingenSplitCommand extends ContainerAwareCommand
             ->setRows($tableData)
         ;
         $table->render();
-        $output->writeln('Totaal: '.count($hulpvragen));
+        $output->writeln('Totaal: '.(is_array($hulpvragen) || $hulpvragen instanceof \Countable ? count($hulpvragen) : 0));
+        return 0;
     }
 
     private function addEndMessage(Koppeling $koppeling)

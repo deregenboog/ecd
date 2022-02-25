@@ -34,6 +34,7 @@ class FactuurFactory implements FactuurFactoryInterface
      */
     public function create(FactuurSubjectInterface $subject)
     {
+        $klant = null;
         $datum = $subject->getDatum();
         $dateRange = $this->getDateRange($datum);
 

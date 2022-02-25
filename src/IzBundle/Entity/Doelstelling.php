@@ -21,8 +21,8 @@ use Symfony\Component\Validator\Context\ExecutionContextInterface;
  */
 class Doelstelling
 {
-    const CATEGORIE_CENTRALE_STAD = 'Centrale stad';
-    const CATEGORIE_FONDSEN = 'Fondsen';
+    public const CATEGORIE_CENTRALE_STAD = 'Centrale stad';
+    public const CATEGORIE_FONDSEN = 'Fondsen';
 
     /**
      * @ORM\Id

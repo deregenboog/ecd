@@ -7,14 +7,14 @@ use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class FixLaatsteRegistratieCommand extends ContainerAwareCommand
+class FixLaatsteRegistratieCommand extends \Symfony\Component\Console\Command\Command
 {
     protected function configure()
     {
         $this->setName('inloop:fix:laatste_registratie');
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $sql = 'UPDATE klanten AS klant
             LEFT JOIN (
@@ -30,5 +30,6 @@ class FixLaatsteRegistratieCommand extends ContainerAwareCommand
         $n = $conn->exec($sql);
 
         $output->writeln(sprintf('%d rows affected', $n));
+        return 0;
     }
 }

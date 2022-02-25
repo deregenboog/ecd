@@ -19,20 +19,20 @@ class Dagdeel
 {
     use TimestampableTrait;
 
-    const DAGDEEL_OCHTEND = 'ochtend';
-    const DAGDEEL_MIDDAG = 'middag';
-    const DAGDEEL_AVOND = 'avond';
+    public const DAGDEEL_OCHTEND = 'ochtend';
+    public const DAGDEEL_MIDDAG = 'middag';
+    public const DAGDEEL_AVOND = 'avond';
 
-    const DAGDELEN = [
+    public const DAGDELEN = [
         self::DAGDEEL_OCHTEND,
         self::DAGDEEL_MIDDAG,
         self::DAGDEEL_AVOND,
     ];
 
-    const AANWEZIGHEID_AANWEZIG = 'A';
-    const AANWEZIGHEID_ZIEK = 'Z';
-    const AANWEZIGHEID_ONGEOORLOOFD = 'O';
-    const AANWEZIGHEID_VERLOF = 'V';
+    public const AANWEZIGHEID_AANWEZIG = 'A';
+    public const AANWEZIGHEID_ZIEK = 'Z';
+    public const AANWEZIGHEID_ONGEOORLOOFD = 'O';
+    public const AANWEZIGHEID_VERLOF = 'V';
 
     /**
      * @ORM\Id

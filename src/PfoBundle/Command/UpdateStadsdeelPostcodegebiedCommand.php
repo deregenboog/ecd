@@ -11,7 +11,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class UpdateStadsdeelPostcodegebiedCommand extends ContainerAwareCommand
+class UpdateStadsdeelPostcodegebiedCommand extends \Symfony\Component\Console\Command\Command
 {
     protected function configure()
     {
@@ -20,7 +20,7 @@ class UpdateStadsdeelPostcodegebiedCommand extends ContainerAwareCommand
         ;
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         /* @var EntityManager $em */
         $em = $this->getContainer()->get('doctrine.orm.entity_manager');
@@ -29,7 +29,7 @@ class UpdateStadsdeelPostcodegebiedCommand extends ContainerAwareCommand
             ->getQuery()
             ->getResult();
 
-        $output->writeln('Updating '.count($clienten).' clients...');
+        $output->writeln('Updating '.(is_array($clienten) || $clienten instanceof \Countable ? count($clienten) : 0).' clients...');
 
         foreach ($clienten as $client) {
             /* @var Client $client */
@@ -40,5 +40,6 @@ class UpdateStadsdeelPostcodegebiedCommand extends ContainerAwareCommand
         $em->flush();
 
         $output->writeln('Finished!');
+        return 0;
     }
 }

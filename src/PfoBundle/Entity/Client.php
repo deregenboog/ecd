@@ -29,11 +29,11 @@ class Client
 {
     use IdentifiableTrait, NameTrait, TimestampableTrait, RequiredMedewerkerTrait,AddressTrait;
 
-    const DUBBELE_DIAGNOSE_NEE = 0;
-    const DUBBELE_DIAGNOSE_JA = 1;
-    const DUBBELE_DIAGNOSE_VERMOEDELIJK = 2;
-    const EERDERE_HULPVERLENING_NEE = 0;
-    const EERDERE_HULPVERLENING_JA = 1;
+    public const DUBBELE_DIAGNOSE_NEE = 0;
+    public const DUBBELE_DIAGNOSE_JA = 1;
+    public const DUBBELE_DIAGNOSE_VERMOEDELIJK = 2;
+    public const EERDERE_HULPVERLENING_NEE = 0;
+    public const EERDERE_HULPVERLENING_JA = 1;
 
     /**
      * @ORM\Column(name="roepnaam", type="string", nullable=true)
@@ -568,12 +568,12 @@ class Client
 
     public function isGekoppeld()
     {
-        return count($this->hoofdclienten) > 0 || count($this->gekoppeldeClienten) > 0;
+        return count((array) $this->hoofdclienten) > 0 || count((array) $this->gekoppeldeClienten) > 0;
     }
 
     public function getHoofdclient()
     {
-        if (count($this->hoofdclienten) > 0) {
+        if (count((array) $this->hoofdclienten) > 0) {
             return $this->hoofdclienten[0];
         }
     }

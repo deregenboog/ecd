@@ -8,14 +8,14 @@ use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class KlantUpdateCommand extends ContainerAwareCommand
+class KlantUpdateCommand extends \Symfony\Component\Console\Command\Command
 {
     protected function configure()
     {
         $this->setName('hs:klant:update');
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         /* @var $entityManager EntityManager */
         $entityManager = $this->getContainer()->get('doctrine.orm.entity_manager');
@@ -36,7 +36,7 @@ class KlantUpdateCommand extends ContainerAwareCommand
             $klus->setEinddatum($klus->getEinddatum());
             $entityManager->flush();
         }
-        $output->writeln(sprintf('%d klussen bijgewerkt', count($klussen)));
+        $output->writeln(sprintf('%d klussen bijgewerkt', is_array($klussen) || $klussen instanceof \Countable ? count($klussen) : 0));
 
         // find klussen
         $klussen = $entityManager->getRepository(Klus::class)->createQueryBuilder('klus')
@@ -55,7 +55,8 @@ class KlantUpdateCommand extends ContainerAwareCommand
             $klus->setOnHoldTot(null);
             $entityManager->flush();
         }
-        $output->writeln(sprintf('%d on hold klussen open gezet', count($klussen)));
+        $output->writeln(sprintf('%d on hold klussen open gezet', is_array($klussen) || $klussen instanceof \Countable ? count($klussen) : 0));
+        return 0;
 
     }
 }

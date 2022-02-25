@@ -16,7 +16,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class Info
 {
-    const INSTANTIES = [
+    public const INSTANTIES = [
         0 => 'DWI',
         1 => 'UWV',
         2 => 'Anders',

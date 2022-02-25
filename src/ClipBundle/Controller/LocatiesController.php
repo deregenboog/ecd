@@ -5,6 +5,7 @@ namespace ClipBundle\Controller;
 use AppBundle\Controller\AbstractController;
 use ClipBundle\Entity\Locatie;
 use ClipBundle\Form\LocatieType;
+use ClipBundle\Service\LocatieDao;
 use ClipBundle\Service\LocatieDaoInterface;
 use JMS\DiExtraBundle\Annotation as DI;
 use Symfony\Component\Routing\Annotation\Route;
@@ -23,9 +24,17 @@ class LocatiesController extends AbstractController
     protected $baseRouteName = 'clip_locaties_';
 
     /**
-     * @var LocatieDaoInterface
-     *
-     * @DI\Inject("ClipBundle\Service\LocatieDao")
+     * @var LocatieDao
      */
     protected $dao;
+
+    /**
+     * @param LocatieDao $dao
+     */
+    public function __construct(LocatieDao $dao)
+    {
+        $this->dao = $dao;
+    }
+
+
 }

@@ -16,7 +16,7 @@ class ReportsCompilerPassTest extends TestCase
 
         $container = $this->createMock(ContainerBuilder::class);
         $container->method('getDefinition')
-            ->with('IzBundle\Form\RapportageType')
+            ->with(\IzBundle\Form\RapportageType::class)
             ->willReturn($form);
         $container->method('findTaggedServiceIds')
             ->with('iz.rapportage')

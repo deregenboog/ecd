@@ -326,7 +326,7 @@ class Klant extends Persoon
          */
         $registraties = $this->getRecenteRegistraties(1);
 
-        return count($registraties) > 0 ? $registraties[0] : null;
+        return (is_array($registraties) || $registraties instanceof \Countable ? count($registraties) : 0) > 0 ? $registraties[0] : null;
     }
 
     public function setLaatsteRegistratie(Registratie $registratie)
@@ -384,7 +384,7 @@ class Klant extends Persoon
     {
         $registraties = $this->getRecenteSchorsingen(1);
 
-        return count($registraties) > 0 ? $registraties[0] : null;
+        return (is_array($registraties) || $registraties instanceof \Countable ? count($registraties) : 0) > 0 ? $registraties[0] : null;
     }
 
     public function getOngezieneSchorsingen(?Locatie $locatie = null)
@@ -432,7 +432,7 @@ class Klant extends Persoon
          * Dus gewoon intake koppelen en queries daarop aanpassen
          *
          */
-        if (0 === count($this->intakes)) {
+        if (0 === count((array) $this->intakes)) {
             $this->eersteIntake = $intake;
         }
 
@@ -502,7 +502,7 @@ class Klant extends Persoon
 
     public function getAantalVerslagen():int
     {
-        return count($this->verslagen);
+        return count((array) $this->verslagen);
     }
     public function getEersteVerslag()
     {
@@ -554,12 +554,12 @@ class Klant extends Persoon
 
     public function updateCalculatedFields()
     {
-        if (count($this->registraties) > 0) {
+        if (count((array) $this->registraties) > 0) {
             $this->laatsteRegistratie = $this->registraties[0];
         }
-        if (count($this->intakes) > 0) {
+        if (count((array) $this->intakes) > 0) {
             $this->laatsteIntake = $this->intakes[0];
-            $this->eersteIntakeDatum = $this->intakes[count($this->intakes) - 1]->getIntakeDatum();
+            $this->eersteIntakeDatum = $this->intakes[count((array) $this->intakes) - 1]->getIntakeDatum();
         }
     }
 

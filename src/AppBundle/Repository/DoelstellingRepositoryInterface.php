@@ -7,13 +7,13 @@ use AppBundle\Model\Doelstellingcijfer;
 
 interface DoelstellingRepositoryInterface
 {
-    CONST CAT_ACTIVERING = 'Activering';
-    CONST CAT_IZ = 'Informele zorg';
-    CONST CAT_INLOOP = 'Inloop';
-    CONST CAT_HULPVERLENING = 'Hulpverlening';
-    CONST CAT_INTERNATIONAAL = 'Internationaal';
-    CONST CAT_OVERIG = 'Overig';
-    CONST CAT_SCIP = 'SCIP';
+    public CONST CAT_ACTIVERING = 'Activering';
+    public CONST CAT_IZ = 'Informele zorg';
+    public CONST CAT_INLOOP = 'Inloop';
+    public CONST CAT_HULPVERLENING = 'Hulpverlening';
+    public CONST CAT_INTERNATIONAAL = 'Internationaal';
+    public CONST CAT_OVERIG = 'Overig';
+    public CONST CAT_SCIP = 'SCIP';
 
 
 

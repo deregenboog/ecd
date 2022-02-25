@@ -56,7 +56,7 @@ class DienstenLookupSubscriber implements EventSubscriberInterface
                 $dienst->setTot($izKlant->getAfsluitDatum());
             }
 
-            if (count($izKlant->getHulpvragen()) > 0) {
+            if ((is_array($izKlant->getHulpvragen()) || $izKlant->getHulpvragen() instanceof \Countable ? count($izKlant->getHulpvragen()) : 0) > 0) {
                 $laatsteHulpvraag = $izKlant->getHulpvragen()[0];
                 if ($laatsteHulpvraag->getMedewerker()) {
                     $dienst

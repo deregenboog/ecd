@@ -20,18 +20,5 @@ class MemosControllerAbstract extends AbstractChildController
     protected $addMethod = 'addMemo';
     protected $deleteMethod = 'removeMemo';
     protected $baseRouteName = 'inloop_memos_';
-
-//    /**
-//     * @var MemoDaoInterface
-//     *
-//     * @DI\Inject("AppBundle\Service\MemoDao")
-//     */
-//    protected $dao;
-//
-//    /**
-//     * @var \ArrayObject
-//     *
-//     * @DI\Inject("inloop.memo.entities")
-//     */
-//    protected $entities;
+    
 }

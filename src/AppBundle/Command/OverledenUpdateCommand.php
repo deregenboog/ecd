@@ -8,14 +8,14 @@ use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class OverledenUpdateCommand extends ContainerAwareCommand
+class OverledenUpdateCommand extends \Symfony\Component\Console\Command\Command
 {
     protected function configure()
     {
         $this->setName('app:overleden:update');
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         /* @var EntityManager $em */
         $em = $this->getContainer()->get('doctrine.orm.entity_manager');
@@ -25,7 +25,7 @@ class OverledenUpdateCommand extends ContainerAwareCommand
             ->getQuery()
             ->getResult();
 
-        $output->writeln('Updating '.count($klanten).' clients...');
+        $output->writeln('Updating '.(is_array($klanten) || $klanten instanceof \Countable ? count($klanten) : 0).' clients...');
 
         foreach ($klanten as $klant) {
             /* @var Klant $klant */
@@ -35,5 +35,6 @@ class OverledenUpdateCommand extends ContainerAwareCommand
         $em->flush();
 
         $output->writeln('Finished!');
+        return 0;
     }
 }

@@ -19,8 +19,8 @@ class AppKernel extends Kernel
             new Doctrine\Bundle\MigrationsBundle\DoctrineMigrationsBundle(),
             new Stof\DoctrineExtensionsBundle\StofDoctrineExtensionsBundle(),
             new Knp\Bundle\PaginatorBundle\KnpPaginatorBundle(),
-            new JMS\DiExtraBundle\JMSDiExtraBundle($this),
-            new JMS\AopBundle\JMSAopBundle(),
+//            new JMS\DiExtraBundle\JMSDiExtraBundle($this),
+//            new JMS\AopBundle\JMSAopBundle(),
             new Vich\UploaderBundle\VichUploaderBundle(),
             new Shivas\VersioningBundle\ShivasVersioningBundle(),
             new FOS\CKEditorBundle\FOSCKEditorBundle(),
@@ -53,7 +53,7 @@ class AppKernel extends Kernel
         if (in_array($this->getEnvironment(), ['dev', 'test'], true)) {
             $bundles[] = new Symfony\Bundle\DebugBundle\DebugBundle();
             $bundles[] = new Symfony\Bundle\WebProfilerBundle\WebProfilerBundle();
-            $bundles[] = new Sensio\Bundle\DistributionBundle\SensioDistributionBundle();
+//            $bundles[] = new Sensio\Bundle\DistributionBundle\SensioDistributionBundle();
             $bundles[] = new Doctrine\Bundle\FixturesBundle\DoctrineFixturesBundle();
 
             $bundles[] = new Nelmio\Alice\Bridge\Symfony\NelmioAliceBundle();

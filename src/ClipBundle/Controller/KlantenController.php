@@ -16,6 +16,7 @@ use ClipBundle\Entity\Aanmelding;
 use ClipBundle\Entity\Afsluiting;
 use ClipBundle\Form\AanmeldingType;
 use ClipBundle\Form\AfsluitingType;
+use ClipBundle\Service\KlantDao;
 use InloopBundle\Form\KlantType;
 use JMS\DiExtraBundle\Annotation as DI;
 use ClipBundle\Entity\Document;
@@ -42,25 +43,32 @@ class KlantenController extends AbstractController
     protected $searchFilterTypeClass = AppKlantFilterType::class;
 
     /**
-     * @var KlantDaoInterface
-     *
-     * @DI\Inject("ClipBundle\Service\KlantDao")
+     * @var KlantDao
      */
     protected $dao;
 
     /**
-     * @var \AppBundle\Service\KlantDaoInterface
-     *
-     * @DI\Inject("AppBundle\Service\KlantDao")
+     * @var \AppBundle\Service\KlantDao
      */
     protected $klantDao;
 
     /**
      * @var ExportInterface
-     *
-     * @DI\Inject("mw.export.klanten")
      */
     protected $export;
+
+    /**
+     * @param KlantDao $dao
+     * @param \AppBundle\Service\KlantDao $klantDao
+     * @param ExportInterface $export
+     */
+    public function __construct(KlantDao $dao, \AppBundle\Service\KlantDao $klantDao, ExportInterface $export)
+    {
+        $this->dao = $dao;
+        $this->klantDao = $klantDao;
+        $this->export = $export;
+    }
+
 
     /**
      * @Route("/add")

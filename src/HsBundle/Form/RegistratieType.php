@@ -81,7 +81,7 @@ class RegistratieType extends AbstractType
                 'query_builder' => function (EntityRepository $repository) use ($registratie) {
                     $builder = $repository->createQueryBuilder('activiteit')->orderBy('activiteit.naam');
 
-                    if ($registratie->getKlus() && count($registratie->getKlus()->getActiviteiten()) > 0) {
+                    if ($registratie->getKlus() && (is_array($registratie->getKlus()->getActiviteiten()) || $registratie->getKlus()->getActiviteiten() instanceof \Countable ? count($registratie->getKlus()->getActiviteiten()) : 0) > 0) {
                         $builder
                             ->where('activiteit IN (:activiteiten)')
                             ->setParameter('activiteiten', $registratie->getKlus()->getActiviteiten())

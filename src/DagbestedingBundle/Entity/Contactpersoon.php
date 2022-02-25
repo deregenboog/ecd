@@ -13,7 +13,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
  */
 class Contactpersoon
 {
-    const SOORTEN = [
+    public const SOORTEN = [
         'Klanthouder' => 'klanthouder',
         'Klantmanager gemeente' => 'klantmanager',
         'Overige contactpersonen' => 'overig',

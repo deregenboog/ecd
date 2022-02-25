@@ -367,14 +367,14 @@ class RegistratiesController extends AbstractController
             }
 
             $actieveSchorsingen = $this->schorsingDao->findActiefByKlantAndLocatie($klant, $locatie);
-            if (count($actieveSchorsingen) > 0) {
+            if ((is_array($actieveSchorsingen) || $actieveSchorsingen instanceof \Countable ? count($actieveSchorsingen) : 0) > 0) {
                 $jsonVar['message'] .= $sep.'Let op: deze persoon is momenteel op deze locatie geschorst. Toch inchecken?';
                 $sep = $separator;
                 $jsonVar['confirm'] = true;
             }
 
             $terugkeergesprekNodig = $this->schorsingDao->findTerugkeergesprekNodigByKlantAndLocatie($klant, $locatie);
-            if (count($terugkeergesprekNodig) > 0) {
+            if ((is_array($terugkeergesprekNodig) || $terugkeergesprekNodig instanceof \Countable ? count($terugkeergesprekNodig) : 0) > 0) {
                 $jsonVar['message'] .= $sep.'Let op: deze persoon is 14 dagen of langer geschorst geweest en heeft een terugkeergesprek nodig.';
                 $sep = $separator;
                 $jsonVar['confirm'] = true;
@@ -404,7 +404,7 @@ class RegistratiesController extends AbstractController
                 $sep = $separator;
             }
 
-            if (count($klant->getOpenstaandeOpmerkingen()) > 0) {
+            if ((is_array($klant->getOpenstaandeOpmerkingen()) || $klant->getOpenstaandeOpmerkingen() instanceof \Countable ? count($klant->getOpenstaandeOpmerkingen()) : 0) > 0) {
                 $opmerkingen = $klant->getOpenstaandeOpmerkingen()->toArray();
                 foreach ($opmerkingen as $opmerking) {
                     $jsonVar['message'] .= $sep.'Openstaande opmerking ('.$opmerking->getCreated()->format('d-m-Y').'): '.$opmerking->getBeschrijving();
@@ -485,7 +485,7 @@ class RegistratiesController extends AbstractController
 
         // set position in queue
         $queue = $this->dao->findShowerQueue($registratie->getLocatie());
-        $registratie->setDouche(1 + count($queue));
+        $registratie->setDouche(1 + (is_array($queue) || $queue instanceof \Countable ? count($queue) : 0));
         $this->dao->update($registratie);
 
         return new JsonResponse(['douche' => $registratie->getDouche()]);
@@ -518,7 +518,7 @@ class RegistratiesController extends AbstractController
 
         // set position in queue
         $queue = $this->dao->findMwQueue($registratie->getLocatie());
-        $registratie->setMw(1 + count($queue));
+        $registratie->setMw(1 + (is_array($queue) || $queue instanceof \Countable ? count($queue) : 0));
         $this->dao->update($registratie);
 
         return new JsonResponse(['mw' => $registratie->getMw()]);
@@ -641,6 +641,7 @@ class RegistratiesController extends AbstractController
 
     public function isAuthorized()
     {
+        $locatie = null;
         if (!parent::isAuthorized()) {
             return false;
         }

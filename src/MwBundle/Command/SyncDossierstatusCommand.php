@@ -13,7 +13,7 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputArgument;
 
-class SyncDossierstatusCommand extends ContainerAwareCommand
+class SyncDossierstatusCommand extends \Symfony\Component\Console\Command\Command
 {
     /**
      * @var EntityManager
@@ -33,7 +33,7 @@ class SyncDossierstatusCommand extends ContainerAwareCommand
         $this->addOption('vanafVerslagDatum', null,InputArgument::OPTIONAL, 'Alleen met verslagen vanaf deze datum');
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $this->manager = $this->getContainer()->get('doctrine.orm.entity_manager');
 
@@ -55,7 +55,7 @@ class SyncDossierstatusCommand extends ContainerAwareCommand
         }
 
 
-        $output->writeln(sprintf('%d MwKlanten gevonden from id: %d', count($mwKlanten),$fromId));
+        $output->writeln(sprintf('%d MwKlanten gevonden from id: %d', is_array($mwKlanten) || $mwKlanten instanceof \Countable ? count($mwKlanten) : 0,$fromId));
 
 
         foreach ($mwKlanten as $klant) {
@@ -84,6 +84,7 @@ class SyncDossierstatusCommand extends ContainerAwareCommand
             $this->manager->flush();
         }
         $output->writeln('Succesvol afgerond');
+        return 0;
     }
 
     private function getKlanten()

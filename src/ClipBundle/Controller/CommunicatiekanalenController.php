@@ -5,6 +5,7 @@ namespace ClipBundle\Controller;
 use AppBundle\Controller\AbstractController;
 use ClipBundle\Entity\Communicatiekanaal;
 use ClipBundle\Form\CommunicatiekanaalType;
+use ClipBundle\Service\CommunicatiekanaalDao;
 use ClipBundle\Service\CommunicatiekanaalDaoInterface;
 use JMS\DiExtraBundle\Annotation as DI;
 use Symfony\Component\Routing\Annotation\Route;
@@ -24,11 +25,18 @@ class CommunicatiekanalenController extends AbstractController
     protected $baseRouteName = 'clip_communicatiekanalen_';
 
     /**
-     * @var CommunicatiekanaalDaoInterface
-     *
-     * @DI\Inject("ClipBundle\Service\CommunicatiekanaalDao")
+     * @var CommunicatiekanaalDao
      */
     protected $dao;
+
+    /**
+     * @param CommunicatiekanaalDao $dao
+     */
+    public function __construct(CommunicatiekanaalDao $dao)
+    {
+        $this->dao = $dao;
+    }
+
 
     /**
      * @Route("/{id}/view")

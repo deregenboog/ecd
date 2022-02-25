@@ -10,6 +10,7 @@ use AppBundle\Export\ExportException;
 use AppBundle\Form\DocumentType;
 use AppBundle\Form\DoelstellingFilterType;
 use AppBundle\Form\DownloadVrijwilligersType;
+use AppBundle\Service\DocumentDao;
 use AppBundle\Service\DocumentDaoInterface;
 use AppBundle\Service\DownloadsDao;
 use JMS\DiExtraBundle\Annotation as DI;
@@ -32,15 +33,12 @@ class DownloadController extends AbstractController
     protected $baseRouteName = 'app_download_';
 
     /**
-     * @var DocumentDaoInterface
-     *
-     * @DI\Inject("AppBundle\Service\DocumentDao")
+     * @var DocumentDao
      */
     protected $dao;
 
     /**
      * @var DownloadsDao
-     * @DI\Inject ("app.downloads")
      */
     protected $downloadDao;
 
@@ -51,6 +49,23 @@ class DownloadController extends AbstractController
      */
     protected $entities;
 
+    /**
+     * iterable $downloadServices
+     */
+    protected $downloadServices;
+
+    /**
+     * @param DocumentDao $dao
+     * @param DownloadsDao $downloadDao
+     * @param \ArrayObject $entities
+     */
+    public function __construct(DocumentDao $dao, DownloadsDao $downloadDao, \ArrayObject $entities, iterable $downloadServices)
+    {
+        $this->dao = $dao;
+        $this->downloadDao = $downloadDao;
+        $this->entities = $entities;
+        $this->downloadServices = $downloadServices;
+    }
 
 
     /**
@@ -59,6 +74,7 @@ class DownloadController extends AbstractController
      */
     public function indexAction(Request $request)
     {
+        $form = null;
         if (in_array('index', $this->disabledActions)) {
             throw new AccessDeniedHttpException();
         }
@@ -99,6 +115,7 @@ class DownloadController extends AbstractController
 
     private function handleDownloads($form,$request)
     {
+        $serviceId = null;
         ini_set('memory_limit', '768M');
         ini_set('max_execution_time', '300');
 
@@ -106,14 +123,30 @@ class DownloadController extends AbstractController
         $exports = [];
         $onderdelen = $form->get('onderdeel')->getData();
 
+
+        $ds = array();
+        foreach($this->downloadServices as $v)
+        {
+            $ds[get_class($v)] = $v;
+        }
+
+
+        //leluk maar iterator_apply geeft ook gedoe.
+        $t = [];
+        foreach($this->downloadServices as $k=>$v)
+        {
+            $t[$v->getServiceId()] = $v;
+        }
+        $this->downloadServices = $t;
+
         foreach($onderdelen as $k=>$serviceId)
         {
-            if(!$this->container->has($serviceId))
+            if(!array_key_exists($serviceId,$this->downloadServices))
             {
                 continue;
 //                throw new ExportException(sprintf("Export with serviceId: %s cannot be found",$id));
             }
-            $export = $this->container->get($serviceId);
+            $export = $this->downloadServices[$serviceId];
             $dao = $export->getDao();
             $filename = $this->getDownloadFilename();
             $collection = $dao->findAll(null, null);
@@ -127,7 +160,8 @@ class DownloadController extends AbstractController
 
         }
         array_pop($exports);//last one is already in... the last Export is used as carrier for the rest.
-        $export = $this->container->get($serviceId);
+//        $export = $this->container->get($serviceId);
+        $export = $this->downloadServices[$serviceId];
         foreach($exports as $sheet)
         {
             $export->addSheet($sheet);

@@ -6,12 +6,13 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
-class SecurityController extends Controller
+class SecurityController extends \Symfony\Bundle\FrameworkBundle\Controller\AbstractController
 {
-    public function loginAction(Request $request)
+    public function loginAction(Request $request, AuthenticationUtils $authenticationUtils)
     {
         /* @var $authUtils AuthenticationUtils */
-        $authUtils = $this->get('security.authentication_utils');
+//        $authUtils = $this->get('security.authentication_utils');
+        $authUtils = $authenticationUtils;
 
         // get the login error if there is one
         $error = $authUtils->getLastAuthenticationError();

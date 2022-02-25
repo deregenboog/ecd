@@ -19,11 +19,11 @@ abstract class AbstractReportsCompilerPass implements CompilerPassInterface
     public function process(ContainerBuilder $container)
     {
         if (!$this->serviceId) {
-            throw new AppException(__CLASS__.'::serviceId must be set');
+            throw new AppException(self::class.'::serviceId must be set');
         }
 
         if (!$this->tagId) {
-            throw new AppException(__CLASS__.'::tagId must be set');
+            throw new AppException(self::class.'::tagId must be set');
         }
 
         $definition = $container->getDefinition($this->serviceId);

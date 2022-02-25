@@ -12,6 +12,7 @@ use ErOpUitBundle\Form\KlantCloseType;
 use ErOpUitBundle\Form\KlantFilterType;
 use ErOpUitBundle\Form\KlantReopenType;
 use ErOpUitBundle\Form\KlantType;
+use ErOpUitBundle\Service\KlantDao;
 use ErOpUitBundle\Service\KlantDaoInterface;
 use JMS\DiExtraBundle\Annotation as DI;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
@@ -33,11 +34,18 @@ class KlantenController extends AbstractController
     protected $baseRouteName = 'eropuit_klanten_';
 
     /**
-     * @var KlantDaoInterface
+     * @var KlantDao
      *
      * @DI\Inject("ErOpUitBundle\Service\KlantDao")
      */
     protected $dao;
+
+    /**
+     * @var \AppBundle\Service\KlantDao
+     *
+     * @DI\Inject("AppBundle\Service\KlantDao")
+     */
+    private $klantDao;
 
     /**
      * @var ExportInterface
@@ -47,11 +55,17 @@ class KlantenController extends AbstractController
     protected $export;
 
     /**
-     * @var KlantDaoInterface
-     *
-     * @DI\Inject("AppBundle\Service\KlantDao")
+     * @param KlantDao $dao
+     * @param \AppBundle\Service\KlantDao $klantDao
+     * @param ExportInterface $export
      */
-    private $klantDao;
+    public function __construct(KlantDao $dao, \AppBundle\Service\KlantDao $klantDao, ExportInterface $export)
+    {
+        $this->dao = $dao;
+        $this->klantDao = $klantDao;
+        $this->export = $export;
+    }
+
 
     /**
      * @Route("/add")

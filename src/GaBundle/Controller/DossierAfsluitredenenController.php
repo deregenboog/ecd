@@ -9,7 +9,7 @@ use JMS\DiExtraBundle\Annotation as DI;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
-use GaBundle\Service\DossierAfsluitredenDaoInterface;
+use GaBundle\Service\DossierAfsluitredenDao;
 
 /**
  * @Route("/dossierafsluitredenen")
@@ -24,11 +24,18 @@ class DossierAfsluitredenenController extends AbstractController
     protected $baseRouteName = 'ga_dossierafsluitredenen_';
 
     /**
-     * @var DossierAfsluitredenDaoInterface
-     *
-     * @DI\Inject("GaBundle\Service\DossierAfsluitredenDao")
+     * @var DossierAfsluitredenDao 
      */
     protected $dao;
+
+    /**
+     * @param DossierAfsluitredenDao $dao
+     */
+    public function __construct(DossierAfsluitredenDao $dao)
+    {
+        $this->dao = $dao;
+    }
+
 
     /**
      * @Route("/{id}/view")

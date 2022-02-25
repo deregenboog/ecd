@@ -40,7 +40,7 @@ class LidmaatschapType extends AbstractType
                     ;
 
                     $leden = $lidmaatschap->getIntervisiegroep()->getVrijwilligers();
-                    if (count($leden) > 0) {
+                    if ((is_array($leden) || $leden instanceof \Countable ? count($leden) : 0) > 0) {
                         $builder->andWhere('izVrijwilliger NOT IN (:leden)')->setParameter('leden', $leden);
                     }
 

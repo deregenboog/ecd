@@ -9,10 +9,10 @@ use Knp\Component\Pager\Pagination\PaginationInterface;
 
 class KlantDao extends AbstractDao implements KlantDaoInterface, DoelstellingDaoInterface
 {
-    const DUPLICATE_MODE_SAME_BIRTHDAY = 'same_birthday';
-    const DUPLICATE_MODE_UNKNOWN_BIRTHDAY = 'unknown_birthday';
-    const DUPLICATE_MODE_SAME_SURNAME = 'same_surname';
-    const DUPLICATE_MODE_SURNAME_LIKE_FIRSTNAME = 'surname_like_firstname';
+    public const DUPLICATE_MODE_SAME_BIRTHDAY = 'same_birthday';
+    public const DUPLICATE_MODE_UNKNOWN_BIRTHDAY = 'unknown_birthday';
+    public const DUPLICATE_MODE_SAME_SURNAME = 'same_surname';
+    public const DUPLICATE_MODE_SURNAME_LIKE_FIRSTNAME = 'surname_like_firstname';
 
     protected $paginationOptions = [
         'defaultSortFieldName' => 'klant.achternaam',
@@ -245,7 +245,7 @@ class KlantDao extends AbstractDao implements KlantDaoInterface, DoelstellingDao
             $this->sets[$index]['klanten'][] = $name1;
             $this->setIndexes[$id1] = $index;
         } else {
-            $index = count($this->sets) + 1;
+            $index = (is_array($this->sets) || $this->sets instanceof \Countable ? count($this->sets) : 0) + 1;
             $this->sets[$index] = [
                 'match' => $match,
                 'ids' => [$id1, $id2],

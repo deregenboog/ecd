@@ -6,7 +6,7 @@ use AppBundle\Controller\AbstractChildController;
 use GaBundle\Entity\Intake;
 use GaBundle\Form\IntakeFilterType;
 use GaBundle\Form\IntakeType;
-use GaBundle\Service\IntakeDaoInterface;
+use GaBundle\Service\IntakeDao;
 use JMS\DiExtraBundle\Annotation as DI;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
@@ -27,18 +27,25 @@ class IntakesController extends AbstractChildController
     protected $baseRouteName = 'ga_intakes_';
 
     /**
-     * @var IntakeDaoInterface
-     *
-     * @DI\Inject("GaBundle\Service\IntakeDao")
+     * @var IntakeDao
      */
     protected $dao;
 
     /**
      * @var \ArrayObject
-     *
-     * @DI\Inject("ga.intake.entities")
      */
     protected $entities;
+
+    /**
+     * @param IntakeDao $dao
+     * @param \ArrayObject $entities
+     */
+    public function __construct(IntakeDao $dao, \ArrayObject $entities)
+    {
+        $this->dao = $dao;
+        $this->entities = $entities;
+    }
+
 
     /**
      * @Route("/{id}/view")

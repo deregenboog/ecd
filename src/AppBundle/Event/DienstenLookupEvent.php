@@ -6,7 +6,9 @@ use AppBundle\Entity\Klant;
 use AppBundle\Model\Dienst;
 use Symfony\Component\EventDispatcher\Event;
 
+
 class DienstenLookupEvent extends Event
+
 {
     /**
      * @var int

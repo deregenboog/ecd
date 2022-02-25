@@ -95,7 +95,7 @@ class PreventSaveForDateRangeEventListener
         $uow = $em->getUnitOfWork();
 
         //if a sort of datefield exist:
-        if(count($matches) > 0) {
+        if((is_array($matches) || $matches instanceof \Countable ? count($matches) : 0) > 0) {
             $changeset = $uow->getEntityChangeSet($entity);
             foreach ($matches as $fieldname) {
                 $type = $metadata->getTypeOfField($fieldname);
@@ -171,7 +171,7 @@ class PreventSaveForDateRangeEventListener
             foreach($linkedEntities as $linkedEntity){
                 $leMetadata = $em->getClassMetadata(get_class($linkedEntity));
                 $leMatches = preg_grep('/^(.*)dat(e|um)+(.*)$/i', $leMetadata->getFieldNames());
-                if(count($leMatches)<1) continue;
+                if((is_array($leMatches) || $leMatches instanceof \Countable ? count($leMatches) : 0)<1) continue;
                 foreach($leMatches as $leFieldname)
                 {
                     $type = $leMetadata->getTypeOfField($leFieldname);

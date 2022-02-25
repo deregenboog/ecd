@@ -294,7 +294,7 @@ class FacturenController extends AbstractChildController
         $filename = $this->getZipDownloadFilename();
         $collection = $this->dao->findAll(null, $filter);
 
-        if (0 === count($collection)) {
+        if (0 === (is_array($collection) || $collection instanceof \Countable ? count($collection) : 0)) {
             $this->addFlash('warning', 'Geen definitieve facturen gevonden.');
 
             throw new HsException('Geen definitieve facturen gevonden.');
@@ -335,7 +335,7 @@ class FacturenController extends AbstractChildController
         $filename = $this->getPdfDownloadFilename();
         $collection = $this->dao->findAll(null, $filter);
 
-        if (0 === count($collection)) {
+        if (0 === (is_array($collection) || $collection instanceof \Countable ? count($collection) : 0)) {
             $this->addFlash('warning', 'Geen definitieve facturen gevonden.');
 
             throw new HsException('Geen definitieve facturen gevonden.');

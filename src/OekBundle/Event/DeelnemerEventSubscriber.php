@@ -33,8 +33,8 @@ class DeelnemerEventSubscriber implements EventSubscriber
         $i = $args->getEntity();
         if ($args->getEntity() instanceof Deelnemer) {
             $this->eventDispatcher->dispatch(
-                Events::EVENT_DEELNEMER_CREATED,
-                new GenericEvent($args->getEntity())
+                new GenericEvent($args->getEntity()),
+                Events::EVENT_DEELNEMER_CREATED
             );
         }
     }

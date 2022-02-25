@@ -18,8 +18,8 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class DeelnameType extends AbstractType
 {
-    const MODE_ADD = 'add';
-    const MODE_EDIT = 'edit';
+    public const MODE_ADD = 'add';
+    public const MODE_EDIT = 'edit';
 
     /**
      * {@inheritdoc}
@@ -78,7 +78,7 @@ class DeelnameType extends AbstractType
                         ->addOrderBy('klant.voornaam')
                     ;
 
-                    if (count($deelname->getTraining()->getDeelnemers()) > 0) {
+                    if ((is_array($deelname->getTraining()->getDeelnemers()) || $deelname->getTraining()->getDeelnemers() instanceof \Countable ? count($deelname->getTraining()->getDeelnemers()) : 0) > 0) {
                         $builder
                             ->where('deelnemer NOT IN (:deelnemers)')
                             ->setParameter('deelnemers', $deelname->getTraining()->getDeelnemers())

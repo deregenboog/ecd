@@ -7,14 +7,14 @@ use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class FixEersteIntakeCommand extends ContainerAwareCommand
+class FixEersteIntakeCommand extends \Symfony\Component\Console\Command\Command
 {
     protected function configure()
     {
         $this->setName('inloop:fix:eerste_intake');
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $sql = 'UPDATE klanten AS klant
             LEFT JOIN (
@@ -29,5 +29,6 @@ class FixEersteIntakeCommand extends ContainerAwareCommand
         $n = $conn->exec($sql);
 
         $output->writeln(sprintf('%d rows affected', $n));
+        return 0;
     }
 }

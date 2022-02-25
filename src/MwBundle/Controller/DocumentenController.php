@@ -59,7 +59,7 @@ class DocumentenController extends AbstractChildController
      */
     public function addAction(Request $request)
     {
-        list($parentEntity, $this->parentDao) = $this->getParentConfig($request);
+        [$parentEntity, $this->parentDao] = $this->getParentConfig($request);
         if($parentEntity instanceof Klant)
         {
             $this->addMethod = null;

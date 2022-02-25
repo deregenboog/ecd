@@ -9,7 +9,7 @@ use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class DenyAccessCommand extends ContainerAwareCommand
+class DenyAccessCommand extends \Symfony\Component\Console\Command\Command
 {
     /**
      * @var EntityManager
@@ -23,13 +23,13 @@ class DenyAccessCommand extends ContainerAwareCommand
         $this->setName('inloop:access:deny');
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $this->manager = $this->getContainer()->get('doctrine.orm.entity_manager');
 
         // get clients that haven't visited within the configured interval
         $klanten = $this->getKlanten();
-        $output->writeln(sprintf('%d klanten gevonden', count($klanten)));
+        $output->writeln(sprintf('%d klanten gevonden', is_array($klanten) || $klanten instanceof \Countable ? count($klanten) : 0));
 
         foreach ($klanten as $klant) {
             // deny access
@@ -41,6 +41,7 @@ class DenyAccessCommand extends ContainerAwareCommand
 //         $this->manager->flush();
 
         $output->writeln('Succesvol afgerond');
+        return 0;
     }
 
     private function getKlanten()

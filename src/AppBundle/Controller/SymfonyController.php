@@ -8,7 +8,7 @@ use Knp\Component\Pager\PaginatorInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
-abstract class SymfonyController extends Controller
+abstract class SymfonyController extends \Symfony\Bundle\FrameworkBundle\Controller\AbstractController
 {
     /**
      * @var string

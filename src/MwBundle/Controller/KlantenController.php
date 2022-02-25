@@ -431,6 +431,7 @@ class KlantenController extends AbstractController
      */
     public function addHiPrio(Request $request, $id)
     {
+        $klant = null;
         $entityManager = $this->getEntityManager();
         try {
             $klant = $this->dao->find($id);

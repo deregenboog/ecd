@@ -110,7 +110,7 @@ class SelectiesController extends SymfonyController
         $izKlanten = $this->getKlanten($filter);
         $izVrijwilligers = $this->getVrijwilligers($filter);
 
-        if (0 === count($izKlanten) + count($izVrijwilligers)) {
+        if (0 === (is_array($izKlanten) || $izKlanten instanceof \Countable ? count($izKlanten) : 0) + (is_array($izVrijwilligers) || $izVrijwilligers instanceof \Countable ? count($izVrijwilligers) : 0)) {
             throw new NoResultException();
         }
 
@@ -133,7 +133,7 @@ class SelectiesController extends SymfonyController
         $izKlanten = $this->getKlanten($filter);
         $izVrijwilligers = $this->getVrijwilligers($filter);
 
-        if (0 === count($izKlanten) + count($izVrijwilligers)) {
+        if (0 === (is_array($izKlanten) || $izKlanten instanceof \Countable ? count($izKlanten) : 0) + (is_array($izVrijwilligers) || $izVrijwilligers instanceof \Countable ? count($izVrijwilligers) : 0)) {
             throw new NoResultException();
         }
 
@@ -165,7 +165,7 @@ class SelectiesController extends SymfonyController
     private function getKlanten(IzDeelnemerSelectie $filter)
     {
         if (in_array('klanten', $filter->personen)) {
-            return $this->get('IzBundle\Service\KlantDao')->findAll(null, $filter);
+            return $this->get(\IzBundle\Service\KlantDao::class)->findAll(null, $filter);
         }
 
         return new ArrayCollection();
@@ -174,7 +174,7 @@ class SelectiesController extends SymfonyController
     private function getVrijwilligers(IzDeelnemerSelectie $filter)
     {
         if (in_array('vrijwilligers', $filter->personen)) {
-            return $this->get('IzBundle\Service\VrijwilligerDao')->findAll(null, $filter);
+            return $this->get(\IzBundle\Service\VrijwilligerDao::class)->findAll(null, $filter);
         }
 
         return new ArrayCollection();

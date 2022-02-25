@@ -16,7 +16,7 @@ class DoelstellingVoter extends Voter
     private $decisionManager;
 
     private $vrijwilligersLocaties;
-    const EDIT = 'edit';
+    public const EDIT = 'edit';
 
     public function __construct(AccessDecisionManagerInterface $decisionManager)
     {

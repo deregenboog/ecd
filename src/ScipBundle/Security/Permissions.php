@@ -4,5 +4,5 @@ namespace ScipBundle\Security;
 
 class Permissions
 {
-    const ACCESS = 'access';
+    public const ACCESS = 'access';
 }

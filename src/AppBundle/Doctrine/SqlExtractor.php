@@ -46,7 +46,7 @@ class SqlExtractor
                     $fullSql.=$sqlArr;
                 }elseif(is_object($paramsArr[$nameParam])){
                     switch(get_class($paramsArr[$nameParam])){
-                        case 'DateTime':
+                        case \DateTime::class:
                             $fullSql.= "'".$paramsArr[$nameParam]->format('Y-m-d H:i:s')."'";
                             break;
                         default:
@@ -96,7 +96,7 @@ class SqlExtractor
     public function getListParamsByDql($dql)
     {
         $parsedDql = preg_split("/:/", $dql);
-        $length = count($parsedDql);
+        $length = is_array($parsedDql) || $parsedDql instanceof \Countable ? count($parsedDql) : 0;
         $parmeters = array();
         for($i=1;$i<$length;$i++){
             if(ctype_alpha($parsedDql[$i][0])){

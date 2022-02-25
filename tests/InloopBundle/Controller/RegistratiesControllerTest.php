@@ -10,7 +10,7 @@ class RegistratiesControllerTest extends WebTestCase
     public function testToegangInloophuis()
     {
 
-        $medewerker = $this->getContainer()->get('AppBundle\Service\MedewerkerDao')->find('inloop_user');
+        $medewerker = $this->getContainer()->get(\AppBundle\Service\MedewerkerDao::class)->find('inloop_user');
         $this->logIn($medewerker);
 
         /**
@@ -55,7 +55,7 @@ class RegistratiesControllerTest extends WebTestCase
         $crawler = $this->client->request('GET', "/inloop/intakes/$id/editToegang");
         $this->assertStatusCode(200, $this->client);
         $form = $crawler->selectButton('toegang[submit]')->form();
-        $crawler = $this->client->submit($form);
+        $crawler = $this->client->submit($form, []);
         $this->assertStatusCode(302, $this->client); // redirect to view.
     }
 

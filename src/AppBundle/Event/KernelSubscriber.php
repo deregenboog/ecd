@@ -27,7 +27,7 @@ class KernelSubscriber implements EventSubscriberInterface
         $this->twig = $twig;
     }
 
-    public function onKernelController(FilterControllerEvent $event)
+    public function onKernelController(\Symfony\Component\HttpKernel\Event\ControllerEvent $event)
     {
         $controller = $event->getController();
 

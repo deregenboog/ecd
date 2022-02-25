@@ -5,6 +5,7 @@ namespace ClipBundle\Controller;
 use AppBundle\Controller\AbstractController;
 use ClipBundle\Entity\BinnenVia;
 use ClipBundle\Form\BinnenViaType;
+use ClipBundle\Service\BinnenViaDao;
 use ClipBundle\Service\BinnenViaDaoInterface;
 use JMS\DiExtraBundle\Annotation as DI;
 use Symfony\Component\Routing\Annotation\Route;
@@ -21,9 +22,17 @@ class BinnenViaController extends AbstractController
     protected $baseRouteName = 'clip_binnenvia_';
 
     /**
-     * @var BinnenViaDaoInterface
-     *
-     * @DI\Inject("ClipBundle\Service\BinnenViaDao")
+     * @var BinnenViaDao
      */
     protected $dao;
+
+    /**
+     * @param BinnenViaDao $dao
+     */
+    public function __construct(BinnenViaDao $dao)
+    {
+        $this->dao = $dao;
+    }
+
+
 }

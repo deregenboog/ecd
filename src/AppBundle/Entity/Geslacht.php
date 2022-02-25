@@ -16,7 +16,7 @@ class Geslacht
 {
     use TimestampableTrait;
 
-    const AFKORTING_ONBEKEND = 'O';
+    public const AFKORTING_ONBEKEND = 'O';
 
     /**
      * @ORM\Id
