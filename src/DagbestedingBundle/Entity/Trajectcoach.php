@@ -15,11 +15,11 @@ use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
 /**
  * @ORM\Entity
- * @ORM\Table(name="dagbesteding_trajectbegeleiders")
+ * @ORM\Table(name="dagbesteding_trajectcoaches")
  * @ORM\HasLifecycleCallbacks
  * @Gedmo\Loggable
  */
-class Trajectbegeleider
+class Trajectcoach
 {
     use IdentifiableTrait, OptionalMedewerkerTrait, ActivatableTrait, TimestampableTrait;
 
@@ -38,7 +38,7 @@ class Trajectbegeleider
     /**
      * @var ArrayCollection|Traject[]
      *
-     * @ORM\OneToMany(targetEntity="Traject", mappedBy="begeleider")
+     * @ORM\OneToMany(targetEntity="Traject", mappedBy="trajectcoach")
      */
     private $trajecten;
 
