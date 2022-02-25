@@ -71,7 +71,7 @@ class TrajectFilter implements FilterInterface
     /**
      * @var bool
      */
-    public $actief;
+    public $actief = true;
 
     /**
      * @var bool
@@ -200,6 +200,7 @@ class TrajectFilter implements FilterInterface
                 ->setParameter('today', new \DateTime('today'))
             ;
         }
+
 
         if ($this->afwezig) {
             $builder

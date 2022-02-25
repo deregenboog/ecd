@@ -13,6 +13,7 @@ use DagbestedingBundle\Entity\Trajectsoort;
 use DagbestedingBundle\Filter\TrajectFilter;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -98,6 +99,14 @@ class TrajectFilterType extends AbstractType
                 'required' => false,
             ]);
         }
+
+        if (in_array('actief', $options['enabled_filters'])) {
+            $builder->add('actief', CheckboxType::class, [
+                'label' => 'Alleen actieve trajecten',
+                'required' => false,
+                'data' => true,
+            ]);
+        }
     }
 
     /**
@@ -115,6 +124,7 @@ class TrajectFilterType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => TrajectFilter::class,
+            'data'=>new TrajectFilter(),
             'enabled_filters' => [
                 'klant' => ['naam'],
                 'soort',
@@ -124,6 +134,7 @@ class TrajectFilterType extends AbstractType
                 'startdatum',
                 'rapportage' => ['datum'],
                 'afsluitdatum',
+                'actief',
                 'filter',
                 'download',
             ],
