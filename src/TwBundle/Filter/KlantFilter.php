@@ -195,7 +195,7 @@ class KlantFilter implements FilterInterface
             }
         }
 
-        if ($this->actief) {
+        if ($this->actief ) {
 
             $builder
                 ->andWhere($alias.".aanmelddatum <= :today")
