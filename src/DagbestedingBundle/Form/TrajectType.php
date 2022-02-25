@@ -53,7 +53,7 @@ class TrajectType extends AbstractType
                     ])
                     ->add('ondersteuningsplanVerwerkt')
                     ->add('startdatum', AppDateType::class)
-                    ->add('begeleider')
+                    ->add('trajectcoach')
                     ->add('locaties', BaseSelectType::class, [
                         'class' => Locatie::class,
                         'multiple' => true,

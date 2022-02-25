@@ -57,8 +57,8 @@ class DienstenLookupSubscriber implements EventSubscriberInterface
 
             if (count($deelnemer->getTrajecten()) > 0) {
                 $dienst
-                    ->setTitelMedewerker('trajectbegeleider')
-                    ->setNaamMedewerker((string) $deelnemer->getTrajecten()[0]->getBegeleider())
+                    ->setTitelMedewerker('Trajectcoach')
+                    ->setNaamMedewerker((string) $deelnemer->getTrajecten()[0]->getTrajectcoach())
                 ;
             }
 

@@ -16,7 +16,7 @@ class TrajectDao extends AbstractDao implements TrajectDaoInterface
             'klant.achternaam',
             'trajectsoort.naam',
             'resultaatgebiedsoort.naam',
-            'begeleider.naam',
+            'trajectcoach.naam',
             'traject.startdatum',
             'rapportage.datum',
             'traject.afsluitdatum',
@@ -31,7 +31,7 @@ class TrajectDao extends AbstractDao implements TrajectDaoInterface
     public function findAll($page = null, FilterInterface $filter = null)
     {
         $builder = $this->repository->createQueryBuilder($this->alias)
-            ->innerJoin($this->alias.'.begeleider', 'begeleider')
+            ->innerJoin($this->alias.'.trajectcoach', 'trajectcoach')
             ->innerJoin($this->alias.'.deelnemer', 'deelnemer')
             ->innerJoin('deelnemer.klant', 'klant')
             ->innerJoin($this->alias.'.soort', 'trajectsoort')
