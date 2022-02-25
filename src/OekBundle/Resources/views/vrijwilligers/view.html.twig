@@ -32,6 +32,8 @@
         <dd>{{ entity }}</dd>
         <dt>Status</dt>
         <dd>{{ entity.actief == 1? "Actief" : "Inactief" }}</dd>
+        <dt>Afsluitdatum</dt>
+        <dd>{{ entity.afsluitdatum|if_date('d-m-Y') }}</dd>
         <dt>Medewerker</dt>
         <dd>{{ entity.medewerker }}</dd>
     </dl>
