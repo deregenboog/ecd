@@ -20,7 +20,7 @@ services:
         tags:
             - { name: dagbesteding.rapportage, category: Dagdelen }
 
-    dagbesteding.report.deelnemers_per_begeleider:
+    dagbesteding.report.deelnemers_per_trajectcoach:
         class: DagbestedingBundle\Report\DeelnemersPerBegeleider
         public: true
         arguments:

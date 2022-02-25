@@ -20,8 +20,8 @@ DagbestedingBundle\Entity\Deelnemer:
         medewerker: '@medewerker_*'
         aanmelddatum: '<dateTimeThisDecade()>'
 
-DagbestedingBundle\Entity\Trajectbegeleider:
-    dagbesteding_trajectbegeleider_{1..5}:
+DagbestedingBundle\Entity\Trajectcoach:
+    dagbesteding_trajectcoaches_{1..5}:
         medewerker (unique): '@medewerker_*'
 
 DagbestedingBundle\Entity\Resultaatgebiedsoort:
@@ -43,7 +43,7 @@ DagbestedingBundle\Entity\Trajectsoort:
 DagbestedingBundle\Entity\Traject:
     dagbesteding_traject_{1..50}:
         deelnemer: '@dagbesteding_deelnemer_*'
-        begeleider: '@dagbesteding_trajectbegeleider_*'
+        trajectcoach: '@dagbesteding_trajectcoaches_*'
         soort: '@dagbesteding_trajectsoort_*'
         resultaatgebiedsoort: '@dagbesteding_resultaatgebiedsoort_*'
         projects: '<numberBetween(1, 3)>x @dagbesteding_project_*'

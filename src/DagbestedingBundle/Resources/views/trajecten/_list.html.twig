@@ -4,8 +4,8 @@
     {% if deelnemer is defined %}
         {% set url = path('dagbesteding_trajecten_add', {deelnemer: deelnemer.id}) %}
         {% set entity = deelnemer %}
-    {% elseif trajectbegeleider is defined %}
-        {% set entity = trajectbegeleider %}
+    {% elseif Trajectcoach is defined %}
+        {% set entity = Trajectcoach %}
     {% endif %}
     {% if url is defined %}
         {{ html.addLink(url) }}

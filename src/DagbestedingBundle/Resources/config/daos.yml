@@ -32,7 +32,7 @@ services:
     DagbestedingBundle\Service\TrajectafsluitingDao:
         parent: app.dao.abstract
 
-    DagbestedingBundle\Service\TrajectbegeleiderDao:
+    DagbestedingBundle\Service\TrajectcoachDao:
         parent: app.dao.abstract
 
     DagbestedingBundle\Service\TrajectsoortDao:

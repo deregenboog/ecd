@@ -57,8 +57,8 @@ class DienstenLookupSubscriber implements EventSubscriberInterface
 
             if ((is_array($deelnemer->getTrajecten()) || $deelnemer->getTrajecten() instanceof \Countable ? count($deelnemer->getTrajecten()) : 0) > 0) {
                 $dienst
-                    ->setTitelMedewerker('trajectbegeleider')
-                    ->setNaamMedewerker((string) $deelnemer->getTrajecten()[0]->getBegeleider())
+                    ->setTitelMedewerker('Trajectcoach')
+                    ->setNaamMedewerker((string) $deelnemer->getTrajecten()[0]->getTrajectcoach())
                 ;
             }
 

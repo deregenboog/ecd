@@ -7,7 +7,7 @@ use DagbestedingBundle\Service\DeelnemerDaoInterface;
 
 class DeelnemersPerBegeleider extends AbstractReport
 {
-    protected $title = 'Deelnemers per begeleider';
+    protected $title = 'Deelnemers per trajectcoach';
 
     protected $xPath = '';
 

@@ -1,0 +1,38 @@
+<?php
+
+namespace DagbestedingBundle\Controller;
+
+use AppBundle\Controller\AbstractController;
+use DagbestedingBundle\Entity\Trajectcoach;
+use DagbestedingBundle\Form\TrajectcoachType;
+use DagbestedingBundle\Service\TrajectcoachDaoInterface;
+use JMS\DiExtraBundle\Annotation as DI;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Annotation\Route;
+
+/**
+ * @Route("/admin/trajectcoaches")
+ */
+class TrajectcoachesController extends AbstractController
+{
+    protected $title = 'Trajectcoach';
+    protected $entityName = 'Trajectcoach';
+    protected $entityClass = Trajectcoach::class;
+    protected $formClass = TrajectcoachType::class;
+    protected $baseRouteName = 'dagbesteding_trajectcoaches_';
+
+    /**
+     * @var TrajectcoachDaoInterface
+     *
+     * @DI\Inject("DagbestedingBundle\Service\TrajectcoachDao")
+     */
+    protected $dao;
+
+    /**
+     * @Route("/{id}/view")
+     */
+    public function viewAction(Request $request, $id)
+    {
+        return $this->redirectToIndex();
+    }
+}
