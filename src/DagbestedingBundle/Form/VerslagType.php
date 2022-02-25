@@ -19,7 +19,7 @@ class VerslagType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('medewerker', MedewerkerType::class)
+            ->add('medewerker', \AppBundle\Form\MedewerkerType::class)
             ->add('datum', AppDateType::class)
             ->add('opmerking', AppTextareaType::class)
             ->add('submit', SubmitType::class, ['label' => 'Opslaan'])
