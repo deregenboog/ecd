@@ -9,7 +9,9 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityNotFoundException;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
+use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Debug\Exception\FatalErrorException;
+use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
 /**
  * @ORM\Entity
@@ -96,5 +98,19 @@ class Vrijwilliger extends Arbeider implements MemoSubjectInterface, DocumentSub
         $this->klussen[] = $klus;
 
         return $this;
+    }
+
+    /**
+     * @Assert\Callback
+     */
+    public function validate(ExecutionContextInterface $context, $payload)
+    {
+        if ($this->actief === false ?? $this->uitschrijving
+        ){
+
+            $context->buildViolation('Het is verplicht een uitschrijf datum in te vullen als iemand inactief is.')
+                ->atPath('uitschrijving')
+                ->addViolation();
+        }
     }
 }

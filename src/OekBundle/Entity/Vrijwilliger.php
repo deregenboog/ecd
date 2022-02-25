@@ -16,6 +16,8 @@ use AppBundle\Model\RequiredMedewerkerTrait;
 use AppBundle\Model\TimestampableTrait;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
 /**
  * @ORM\Entity
@@ -47,6 +49,13 @@ class Vrijwilliger implements MemoSubjectInterface, DocumentSubjectInterface, Ac
      * @ORM\OrderBy({"datum": "desc", "id": "desc"})
      */
     protected $memos;
+
+    /**
+     *
+     * @ORM\Column(type="date", nullable=true)
+     * @Gedmo\Versioned
+     */
+    protected $afsluitdatum;
 
 
 
@@ -98,6 +107,38 @@ class Vrijwilliger implements MemoSubjectInterface, DocumentSubjectInterface, Ac
     public function setActief(bool $status): void
     {
         $this->actief = $status;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getAfsluitdatum()
+    {
+        return $this->afsluitdatum;
+    }
+
+    /**
+     * @param mixed $afsluitdatum
+     * @return Vrijwilliger
+     */
+    public function setAfsluitdatum($afsluitdatum)
+    {
+        $this->afsluitdatum = $afsluitdatum;
+        return $this;
+    }
+
+    /**
+     * @Assert\Callback
+     */
+    public function validate(ExecutionContextInterface $context, $payload)
+    {
+        if ($this->actief === false ?? $this->afsluitddatum
+        ){
+
+            $context->buildViolation('Het is verplicht een afsluitdatum in te vullen als iemand inactief is.')
+                ->atPath('afsluitdatum')
+                ->addViolation();
+        }
     }
 
 
