@@ -5,7 +5,7 @@ namespace DagbestedingBundle\Form;
 use AppBundle\Entity\Medewerker;
 use AppBundle\Form\BaseType;
 use AppBundle\Form\MedewerkerType;
-use DagbestedingBundle\Entity\Trajectbegeleider;
+use DagbestedingBundle\Entity\Trajectcoach;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
@@ -13,38 +13,38 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class TrajectbegeleiderType extends AbstractType
+class TrajectcoachType extends AbstractType
 {
     /**
      * {@inheritdoc}
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $trajectbegeleider = $options['data'];
-        if ($this->isNew($trajectbegeleider)) {
+        $trajectcoach = $options['data'];
+        if ($this->isNew($trajectcoach)) {
             $builder
                 ->add('medewerker', MedewerkerType::class, [
                     'placeholder' => '',
                     'required' => false,
                     'query_builder' => function (EntityRepository $repository) {
                         return $repository->createQueryBuilder('medewerker')
-                            ->leftJoin(Trajectbegeleider::class, 'trajectbegeleider', 'WITH', 'trajectbegeleider.medewerker = medewerker')
-                            ->where('trajectbegeleider.id IS NULL')
+                            ->leftJoin(Trajectcoach::class, 'trajectcoach', 'WITH', 'trajectcoach.medewerker = medewerker')
+                            ->where('trajectcoach.id IS NULL')
                             ->orderBy('medewerker.voornaam')
                         ;
                     },
                 ])
                 ->add('naam', null, ['required' => false])
             ;
-        } elseif ($trajectbegeleider->getMedewerker()) {
+        } elseif ($trajectcoach->getMedewerker()) {
             $builder->add('medewerker', EntityType::class, [
                 'disabled' => true,
                 'class' => Medewerker::class,
-                'query_builder' => function (EntityRepository $repository) use ($trajectbegeleider) {
+                'query_builder' => function (EntityRepository $repository) use ($trajectcoach) {
                     return $repository->createQueryBuilder('medewerker')
-                        ->innerJoin(Trajectbegeleider::class, 'trajectbegeleider', 'WITH', 'trajectbegeleider.medewerker = medewerker')
-                        ->where('trajectbegeleider = :trajectbegeleider')
-                        ->setParameter('trajectbegeleider', $trajectbegeleider)
+                        ->innerJoin(Trajectcoach::class, 'trajectcoach', 'WITH', 'trajectcoach.medewerker = medewerker')
+                        ->where('trajectcoach = :trajectcoach')
+                        ->setParameter('trajectcoach', $trajectcoach)
                     ;
                 },
             ]);
@@ -64,7 +64,7 @@ class TrajectbegeleiderType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => Trajectbegeleider::class,
+            'data_class' => Trajectcoach::class,
         ]);
     }
 
@@ -76,8 +76,8 @@ class TrajectbegeleiderType extends AbstractType
         return BaseType::class;
     }
 
-    private function isNew(Trajectbegeleider $trajectbegeleider = null)
+    private function isNew(Trajectcoach $trajectcoach = null)
     {
-        return is_null($trajectbegeleider) || is_null($trajectbegeleider->getId());
+        return is_null($trajectcoach) || is_null($trajectcoach->getId());
     }
 }

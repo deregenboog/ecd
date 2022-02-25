@@ -53,7 +53,6 @@ services:
                 Postvoorkeur: { expression: 'entity.getVrijwilliger().getGeenPost()==false?"Post":"Geen Post"' }
                 Emailvoorkeur: { expression: 'entity.getVrijwilliger().getGeenEmail()==false?"Email":"Geen Email"' }
                 Medewerker Intake: { expression: 'entity.getMedewerker()' }
-                Medewerker Locatie: { expression: 'entity.getMedewerkerLocatie()' }
                 Binnengekomen via: { expression: 'entity.getBinnenVia()' }
                 Locaties: { expression: 'entity.getLocaties()' }
                 VOG aangevraagd: { expression: 'entity.getVrijwilliger().getVogAangevraagd()' }

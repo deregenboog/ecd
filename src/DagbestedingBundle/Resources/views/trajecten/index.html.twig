@@ -15,8 +15,14 @@
         <thead>
             {{ form_start(filter) }}
                 <tr>
-                    <th colspan="8">
+                    <th colspan="6">
+                         <span class="pull-right">
+                            {{ form_widget(filter.actief) }}
+                         </span>
+                    </th>
+                    <th colspan="2">
                         <span class="pull-right">
+
                             {{ form_widget(filter.filter) }}
                             {{ form_widget(filter.download) }}
                         </span>
@@ -36,8 +42,8 @@
                         {{ form_errors(filter.resultaatgebied.soort) }}
                     </th>
                     <th>
-                        {{ form_widget(filter.begeleider) }}
-                        {{ form_errors(filter.begeleider) }}
+                        {{ form_widget(filter.trajectcoach) }}
+                        {{ form_errors(filter.trajectcoach) }}
                     </th>
                     <th>
                         {{ form_widget(filter.project) }}
@@ -74,7 +80,7 @@
                     {{ knp_pagination_sortable(pagination, 'Resultaatgebied', 'resultaatgebiedsoort.naam') }}
                 </th>
                 <th>
-                    {{ knp_pagination_sortable(pagination, 'Trajectbegeleider', 'begeleider.naam') }}
+                    {{ knp_pagination_sortable(pagination, 'Trajectcoach', 'trajectcoach.naam') }}
                 </th>
                 <th>
                     Project(en)
@@ -102,7 +108,7 @@
                 {{ traject.resultaatgebied.soort }}
             </td>
             <td>
-                {{ traject.begeleider }}
+                {{ traject.trajectcoach }}
             </td>
             <td>
                 <ul>

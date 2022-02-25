@@ -1,0 +1,53 @@
+{% extends '::base.html.twig' %}
+{% import '::html.macro.twig' as html %}
+
+{% block title %}
+    Dagbesteding | {{ title }}
+{% endblock %}
+
+{% block subnavigation %}
+    {% include '@Dagbesteding/subnavigation.html.twig' %}
+{% endblock %}
+
+{% block content %}
+    <h1>{{ title }}</h1>
+    <p>
+        {{ html.addLink(path('dagbesteding_trajectcoaches_add')) }}
+        {{ html.link('Trajectcoach toevoegen', path('dagbesteding_trajectcoaches_add')) }}
+    </p>
+    <table class="table table-hover">
+        <tr>
+            <th>
+                {{ knp_pagination_sortable(pagination, '#', 'Trajectcoach.id') }}
+            </th>
+            <th>
+                {{ knp_pagination_sortable(pagination, 'Naam', 'Trajectcoach.displayName') }}
+            </th>
+            <th>
+                {{ knp_pagination_sortable(pagination, 'Actief', 'Trajectcoach.actief') }}
+            </th>
+            <th>
+            </th>
+        </tr>
+        {% for Trajectcoach in pagination %}
+            <tr>
+                <td>
+                    {{ Trajectcoach.id }}
+                </td>
+                <td>
+                    {{ Trajectcoach }}
+                </td>
+                <td>
+                    {{ Trajectcoach.actief ? 'ja' : 'nee' }}
+                </td>
+                <td>
+                    {{ html.editLink(path('dagbesteding_trajectcoaches_edit', {'id': Trajectcoach.id})) }}
+                    {{ html.deleteLink(path('dagbesteding_trajectcoaches_delete', {'id': Trajectcoach.id})) }}
+                </td>
+            </tr>
+        {% endfor %}
+    </table>
+    <p>
+        {{ knp_pagination_render(pagination) }}
+    </p>
+{% endblock %}
