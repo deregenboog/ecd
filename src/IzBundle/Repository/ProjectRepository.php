@@ -55,6 +55,7 @@ class ProjectRepository extends EntityRepository implements DoelstellingReposito
 
     public function getGoals($type, $doelstellingen)
     {
+        $years = [];
         //from all doelstellingen, get the min and max years so we only get those results of years asked for
         foreach ($doelstellingen as $doelstelling) {
             $years[] = $doelstelling->getJaar();

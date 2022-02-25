@@ -2,15 +2,11 @@
 
 namespace AppBundle\Controller;
 
-use AppBundle\Exception\ReportException;
 use AppBundle\Export\ExportInterface;
 use AppBundle\Form\RapportageType;
-use AppBundle\Report\AbstractReport;
-use JMS\DiExtraBundle\Annotation as DI;
-use Symfony\Component\Form\FormError;
-use Symfony\Component\HttpFoundation\Request;
+use Psr\Container\ContainerInterface;
 use Symfony\Component\Routing\Annotation\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+
 
 /**
  * @Route("/app/rapportages")
@@ -19,12 +15,30 @@ class RapportagesController extends AbstractRapportagesController
 {
     protected $formClass = RapportageType::class;
 
+
     /**
-     * @var ExportInterface
-     *
-     * @DI\Inject("app.export.report")
+     * @param ExportInterface $export
      */
     protected $export;
+
+    /**
+     * @var ContainerInterface
+     */
+    protected $container;
+
+
+
+    /**
+     * @param ExportInterface $export
+     * @param ContainerInterface $container
+     * @param iterable $reports
+     */
+    public function __construct(ExportInterface $export, ContainerInterface $container, iterable $reports)
+    {
+        $this->export = $export;
+        $this->container = $container;
+        $this->reports = $reports;
+    }
 
 
 }

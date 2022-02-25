@@ -8,7 +8,7 @@ class RapportagesControllerTest extends WebTestCase
 {
     public function testShowReports()
     {
-        $medewerker = $this->getContainer()->get('AppBundle\Service\MedewerkerDao')->find('hs_user');
+        $medewerker = $this->getContainer()->get(\AppBundle\Service\MedewerkerDao::class)->find('hs_user');
         $this->logIn($medewerker);
 
         $crawler = $this->client->request('GET', '/hs/rapportages/');
@@ -24,7 +24,7 @@ class RapportagesControllerTest extends WebTestCase
                 continue;
             }
             $form['rapportage[rapport]'] = $report->getAttribute('value');
-            $crawler = $this->client->submit($form);
+            $crawler = $this->client->submit($form, []);
             $this->assertStatusCode(200, $this->client);
         }
     }

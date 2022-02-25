@@ -9,9 +9,9 @@ use HsBundle\Entity\Klant;
 
 class KlantFilter implements FilterInterface
 {
-    const STATUS_ACTIVE = 'Actief';
-    const STATUS_NON_ACTIVE = 'Niet actief';
-    const STATUS_GEEN_NIEUWE_KLUSSEN = 'Geen nieuwe klussen';
+    public const STATUS_ACTIVE = 'Actief';
+    public const STATUS_NON_ACTIVE = 'Niet actief';
+    public const STATUS_GEEN_NIEUWE_KLUSSEN = 'Geen nieuwe klussen';
 
     public $alias = 'klant';
 

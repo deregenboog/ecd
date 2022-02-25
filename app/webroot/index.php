@@ -10,8 +10,8 @@ if (!(isset($_SERVER['HTTPS']) && ($_SERVER['HTTPS'] == 'on' ||
     exit();
 }
 
-define('WEBROOT_DIR', basename(dirname(__FILE__)));
-define('WWW_ROOT', dirname(__FILE__).'/');
+define('WEBROOT_DIR', basename(__DIR__));
+define('WWW_ROOT', __DIR__.'/');
 
 use Symfony\Component\HttpFoundation\Request;
 

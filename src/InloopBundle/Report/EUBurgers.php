@@ -99,7 +99,8 @@ class EUBurgers extends AbstractReport
 
     protected function init()
     {
-        if (!$this->landen || 0 === count($this->landen)) {
+        $count = [];
+        if (!$this->landen || 0 === count((array) $this->landen)) {
             return;
         }
 
@@ -306,7 +307,7 @@ class EUBurgers extends AbstractReport
             $builder->andWhere('klant.geslacht = :geslacht')->setParameter('geslacht', $this->geslacht);
         }
 
-        if (count($this->landen) > 0) {
+        if (count((array) $this->landen) > 0) {
             $builder->andWhere('klant.land IN (:landen)')->setParameter('landen', $this->landen);
         }
 

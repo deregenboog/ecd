@@ -8,7 +8,7 @@ use AppBundle\Exception\UserException;
 use GaBundle\Entity\Activiteit;
 use GaBundle\Form\ActiviteitenReeksModel;
 use GaBundle\Form\ActiviteitenReeksType;
-use GaBundle\Service\ActiviteitDaoInterface;
+use GaBundle\Service\ActiviteitDao;
 use GaBundle\Service\ActiviteitenreeksGenerator;
 use JMS\DiExtraBundle\Annotation as DI;
 use Symfony\Component\Routing\Annotation\Route;
@@ -28,25 +28,32 @@ class ActiviteitenreeksController extends AbstractChildController
     protected $baseRouteName = 'ga_activiteiten_';
 
     /**
-     * @var ActiviteitDaoInterface
-     *
-     * @DI\Inject("GaBundle\Service\ActiviteitDao")
+     * @var ActiviteitDao 
      */
     protected $dao;
 
     /**
      * @var \ArrayObject
-     *
-     * @DI\Inject("ga.activiteit.entities")
      */
     protected $entities;
+
+    /**
+     * @param ActiviteitDao $dao
+     * @param \ArrayObject $entities
+     */
+    public function __construct(ActiviteitDao $dao, \ArrayObject $entities)
+    {
+        $this->dao = $dao;
+        $this->entities = $entities;
+    }
+
 
     /**
      * @Route("/add")
      */
     public function addAction(Request $request)
     {
-        list($parentEntity, $this->parentDao) = $this->getParentConfig($request);
+        [$parentEntity, $this->parentDao] = $this->getParentConfig($request);
         if (!$parentEntity && !$this->allowEmpty) {
             throw new AppException(sprintf('Kan geen %s aan deze entiteit toevoegen', $this->entityName));
         }
@@ -75,7 +82,7 @@ class ActiviteitenreeksController extends AbstractChildController
                     $activiteit->setGroep($parentEntity);
                 }
                 $this->dao->createBatch($activiteiten);
-                $this->addFlash('success', count($activiteiten).' activiteiten zijn toegevoegd.');
+                $this->addFlash('success', (is_array($activiteiten) || $activiteiten instanceof \Countable ? count($activiteiten) : 0).' activiteiten zijn toegevoegd.');
             } catch(UserException $e) {
 //                $this->get('logger')->error($e->getMessage(), ['exception' => $e]);
                 $message =  $e->getMessage();

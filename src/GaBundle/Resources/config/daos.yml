@@ -22,6 +22,9 @@ services:
 
     GaBundle\Service\KlantdossierDao:
         parent: app.dao.abstract
+
+    GaBundle\Service\MemoDao:
+        parent: app.dao.abstract
         
     GaBundle\Service\KlantLidmaatschapDao:
         public: true
@@ -33,6 +36,9 @@ services:
     GaBundle\Service\IntakeDao:
         parent: app.dao.abstract
 
+    GaBundle\Service\IntakeAfsluitredenDao:
+        parent: app.dao.abstract
+
     GaBundle\Service\LidmaatschapAfsluitredenDao:
         parent: app.dao.abstract
 
@@ -40,6 +46,12 @@ services:
         parent: app.dao.abstract
 
     GaBundle\Service\VerslagDao:
+        parent: app.dao.abstract
+
+    GaBundle\Service\VrijwilligerDao:
+        parent: app.dao.abstract
+
+    GaBundle\Service\VrijwilligerIntakeDao:
         parent: app.dao.abstract
 
     GaBundle\Service\VrijwilligerdossierDao:
@@ -104,6 +116,12 @@ services:
         arguments:
             -
               - { key: vrijwilliger, dao: '@AppBundle\Service\VrijwilligerDao' }
+
+    ga.memo.entities:
+        public: true
+        class: ArrayObject
+        arguments:
+            - - { key: vrijwilliger, dao: '@AppBundle\Service\VrijwilligerDao' }
 
     ga.intake.entities:
         public: true

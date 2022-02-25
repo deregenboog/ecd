@@ -27,8 +27,8 @@ class Vrijwilliger implements MemoSubjectInterface, DocumentSubjectInterface, Ac
 {
     use IdentifiableTrait, TimestampableTrait, RequiredMedewerkerTrait, MemoSubjectTrait, DocumentSubjectTrait, ActivatableTrait, NotDeletableTrait;
 
-    const STATUS_ACTIEF = 1;
-    const STATUS_VERWIJDERD = 0;
+    public const STATUS_ACTIEF = 1;
+    public const STATUS_VERWIJDERD = 0;
 
     /**
      * @var Vrijwilliger

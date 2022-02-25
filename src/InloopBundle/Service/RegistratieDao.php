@@ -144,7 +144,7 @@ class RegistratieDao extends AbstractDao implements RegistratieDaoInterface
                 ;
 //                $sql = $criteria->getWhereExpression();
                $match = $besmetteKlant->getRegistraties()->matching($criteria);
-               if(count($match) > 0)
+               if((is_array($match) || $match instanceof \Countable ? count($match) : 0) > 0)
                {
                    return true; //match gevonden: op locatie en binnen tijdsvak aanwezig met besmet persoon.
                }
@@ -205,7 +205,7 @@ class RegistratieDao extends AbstractDao implements RegistratieDaoInterface
         $registratie->setBuiten($time);
         $this->update($registratie);
 
-        $this->eventDispatcher->dispatch(Events::CHECKOUT, new GenericEvent($registratie));
+        $this->eventDispatcher->dispatch(new GenericEvent($registratie), Events::CHECKOUT);
 
         return true;
     }

@@ -73,7 +73,7 @@ class KlantType extends AbstractType
             ])
             ->add('status', ChoiceType::class,[
                 'required' => false,
-                'choices' => Klant::getStatussen(),
+                'choices' => (new Klant())->getStatussen(),
             ])
             ->add('hulpverlener', HulpverlenerType::class)
             ->add('submit', SubmitType::class)

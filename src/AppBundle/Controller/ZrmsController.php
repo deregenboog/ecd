@@ -5,6 +5,7 @@ namespace AppBundle\Controller;
 use AppBundle\Entity\Zrm;
 use AppBundle\Form\ZrmFilterType;
 use AppBundle\Form\ZrmType;
+use AppBundle\Service\ZrmDao;
 use AppBundle\Service\ZrmDaoInterface;
 use JMS\DiExtraBundle\Annotation as DI;
 use Symfony\Component\Routing\Annotation\Route;
@@ -25,18 +26,25 @@ class ZrmsController extends AbstractChildController
     protected $addMethod = 'addZrm';
 
     /**
-     * @var ZrmDaoInterface
-     *
-     * @DI\Inject("AppBundle\Service\ZrmDao")
+     * @var ZrmDao
      */
     protected $dao;
 
     /**
      * @var \ArrayObject
-     *
-     * @DI\Inject("app.zrm.entities")
      */
     protected $entities;
+
+    /**
+     * @param ZrmDaoInterface $dao
+     * @param \ArrayObject $entities
+     */
+    public function __construct(ZrmDao $dao, \ArrayObject $entities)
+    {
+        $this->dao = $dao;
+        $this->entities = $entities;
+    }
+
 
     protected function createEntity($parentEntity = null)
     {

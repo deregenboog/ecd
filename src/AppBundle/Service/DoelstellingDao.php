@@ -142,7 +142,7 @@ class DoelstellingDao extends AbstractDao
                 $row->setRelativeAantal(ceil($row->getAantal() * $percentage));
             }
 
-            list($class,$method) = explode("::",$repos);
+            [$class, $method] = explode("::",$repos);
             if(!$class || !$method) throw new Exception("Repository incorrect. Cannot retrieve doelstelling data from repository for $repos");
             try {
                 /**

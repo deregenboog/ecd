@@ -55,7 +55,7 @@ class DienstenLookupSubscriber implements EventSubscriberInterface
                 $dienst->setTot($deelnemer->getAfsluitdatum());
             }
 
-            if (count($deelnemer->getTrajecten()) > 0) {
+            if ((is_array($deelnemer->getTrajecten()) || $deelnemer->getTrajecten() instanceof \Countable ? count($deelnemer->getTrajecten()) : 0) > 0) {
                 $dienst
                     ->setTitelMedewerker('trajectbegeleider')
                     ->setNaamMedewerker((string) $deelnemer->getTrajecten()[0]->getBegeleider())

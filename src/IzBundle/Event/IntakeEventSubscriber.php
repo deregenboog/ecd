@@ -32,8 +32,8 @@ class IntakeEventSubscriber implements EventSubscriber
     {
         if ($args->getEntity() instanceof Intake) {
             $this->eventDispatcher->dispatch(
-                Events::EVENT_INTAKE_CREATED,
-                new GenericEvent($args->getEntity())
+                new GenericEvent($args->getEntity()),
+                Events::EVENT_INTAKE_CREATED
             );
         }
     }

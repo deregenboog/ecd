@@ -4,7 +4,7 @@ namespace InloopBundle\Security;
 
 class Permissions
 {
-    const EDIT = 'edit';
-    const OWNER = 'owner';
-    const REGISTER = 'register';
+    public const EDIT = 'edit';
+    public const OWNER = 'owner';
+    public const REGISTER = 'register';
 }

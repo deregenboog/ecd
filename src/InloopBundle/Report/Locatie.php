@@ -63,7 +63,7 @@ class Locatie extends AbstractReport
 
     protected function init()
     {
-        list($count, $unique_per_location) = $this->getData();
+        [$count, $unique_per_location] = $this->getData();
 
         $this->reports[] = [
             'title' => 'Basisstatistieken',
@@ -109,6 +109,7 @@ class Locatie extends AbstractReport
      */
     private function getData()
     {
+        $count = [];
         $endDatePlusOneDay = (clone $this->endDate)->modify('+1 day');
 
         $where = " binnen >= '{$this->startDate->format('Y-m-d')}' AND binnen < '{$endDatePlusOneDay->format('Y-m-d')}' ";

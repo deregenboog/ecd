@@ -10,8 +10,8 @@ use Knp\Component\Pager\Pagination\PaginationInterface;
 
 interface RegistratieDaoInterface
 {
-    const TYPE_NIGHT = true;
-    const TYPE_DAY = false;
+    public const TYPE_NIGHT = true;
+    public const TYPE_DAY = false;
 
     /**
      * @param int             $page

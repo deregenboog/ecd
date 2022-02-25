@@ -67,7 +67,8 @@ doctrine:
             gedmo_loggable:
                 type: annotation
                 prefix: Gedmo\Loggable\Entity
-                dir: "%kernel.root_dir%/../vendor/gedmo/doctrine-extensions/lib/Gedmo/Loggable/Entity"
+#                dir: "%kernel.root_dir%/../vendor/gedmo/doctrine-extensions/lib/Gedmo/Loggable/Entity"
+                dir: "%kernel.root_dir%/../vendor/gedmo/doctrine-extensions/src/Loggable/Entity"
                 is_bundle: false
                 alias: GedmoLoggable # (optional) it will default to the name set for the mapping
         dql:
@@ -106,7 +107,7 @@ doctrine:
                 class: AppBundle\Doctrine\OverledenFilter
                 enabled: false
 
-jms_di_extra: ~
+#jms_di_extra: ~
 
 stof_doctrine_extensions:
     orm:
@@ -120,6 +121,9 @@ knp_paginator: ~
 
 swiftmailer:
     transport: mail
+
+#mailer:
+#    dsn: 'sendmail://default'
 
 vich_uploader:
     db_driver: orm

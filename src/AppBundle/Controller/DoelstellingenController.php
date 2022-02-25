@@ -11,6 +11,7 @@ use AppBundle\Model\MedewerkerSubjectInterface;
 use AppBundle\Report\AbstractReport;
 use AppBundle\Entity\Doelstelling;
 
+use AppBundle\Service\DoelstellingDao;
 use AppBundle\Service\DoelstellingDaoInterface;
 use AppBundle\Form\DoelstellingFilterType;
 use AppBundle\Filter\DoelstellingFilter;
@@ -68,21 +69,27 @@ class DoelstellingenController extends AbstractController
     protected $entityClass = Doelstelling::class;
     protected $formClass = DoelstellingType::class;
     protected $filterFormClass = DoelstellingFilterType::class;
-    protected $baseRouteName = "app_doelstellingen_";
-
     /**
-     * @var DoelstellingDaoInterface $dao
-     *
-     * @DI\Inject("AppBundle\Service\DoelstellingDao")
+     * @var DoelstellingDao $dao
      */
     protected $dao = DoelstellingDao::class;
 
+    protected $baseRouteName = "app_doelstellingen_";
+
     /**
      * @var ExportInterface
-     *
-     * @DI\Inject("app.export.doelstellingen")
      */
     protected $export;
+
+    /**
+     * @param DoelstellingDao|string $dao
+     * @param ExportInterface $export
+     */
+    public function __construct(DoelstellingDao $dao, ExportInterface $export)
+    {
+        $this->dao = $dao;
+        $this->export = $export;
+    }
 
 
     /**

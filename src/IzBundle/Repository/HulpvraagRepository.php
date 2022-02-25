@@ -364,7 +364,7 @@ class HulpvraagRepository extends EntityRepository
                     ->setParameter('einddatum', $endDate);
                 break;
             default:
-                throw new \RuntimeException("Unknown report filter '{$report}' in class ".__CLASS__);
+                throw new \RuntimeException("Unknown report filter '{$report}' in class ".self::class);
         }
     }
 
@@ -409,7 +409,7 @@ class HulpvraagRepository extends EntityRepository
                     ->setParameter('einddatum', $endDate);
                 break;
             default:
-                throw new \RuntimeException("Unknown report filter '{$report}' in class ".__CLASS__);
+                throw new \RuntimeException("Unknown report filter '{$report}' in class ".self::class);
         }
     }
 }

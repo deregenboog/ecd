@@ -128,12 +128,7 @@ class Intervisiegroep
         usort($vrijwilligers, function (IzVrijwilliger $a, IzVrijwilliger $b) {
             $naamA = $a->getVrijwilliger()->getNaam();
             $naamB = $b->getVrijwilliger()->getNaam();
-
-            if ($naamA === $naamB) {
-                return 0;
-            }
-
-            return $naamA > $naamB ? 1 : -1;
+            return $naamB <=> $naamA;
         });
 
         return $vrijwilligers;
@@ -159,12 +154,7 @@ class Intervisiegroep
         usort($lidmaatschappen, function (Lidmaatschap $a, Lidmaatschap $b) {
             $naamA = $a->getVrijwilliger()->getVrijwilliger()->getNaam();
             $naamB = $b->getVrijwilliger()->getVrijwilliger()->getNaam();
-
-            if ($naamA === $naamB) {
-                return 0;
-            }
-
-            return $naamA > $naamB ? 1 : -1;
+            return $naamB <=> $naamA;
         });
 
         return $lidmaatschappen;

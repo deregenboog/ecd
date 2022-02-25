@@ -10,6 +10,8 @@ use GaBundle\Entity\Dossier;
 use GaBundle\Filter\SelectieFilter;
 use GaBundle\Form\EmailMessageType;
 use GaBundle\Form\SelectieType;
+use Symfony\Component\Mailer\Mailer;
+use Symfony\Component\Mime\Message;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\Form\FormError;
@@ -57,10 +59,10 @@ class SelectiesController extends SymfonyController
         $form->handleRequest($this->getRequest());
 
         if ($form->isSubmitted() && $form->isValid()) {
-            /** @var Swift_Mailer $mailer */
+            /** @var Mailer $mailer */
             $mailer = $this->container->get('mailer');
 
-            /** @var Swift_Mime_Message $message */
+            /** @var Message $message */
             $message = $mailer->createMessage()
                 ->setFrom($form->get('from')->getData())
                 ->setTo(explode(', ', $form->get('to')->getData()))
@@ -96,7 +98,7 @@ class SelectiesController extends SymfonyController
         $klanten = $this->getKlanten($filter);
         $vrijwilligers = $this->getVrijwilligers($filter);
 
-        if (0 === count($klanten) + count($vrijwilligers)) {
+        if (0 === (is_array($klanten) || $klanten instanceof \Countable ? count($klanten) : 0) + (is_array($vrijwilligers) || $vrijwilligers instanceof \Countable ? count($vrijwilligers) : 0)) {
             throw new NoResultException();
         }
 
@@ -119,7 +121,7 @@ class SelectiesController extends SymfonyController
         $klanten = $this->getKlanten($filter);
         $vrijwilligers = $this->getVrijwilligers($filter);
 
-        if (0 === count($klanten) + count($vrijwilligers)) {
+        if (0 === (is_array($klanten) || $klanten instanceof \Countable ? count($klanten) : 0) + (is_array($vrijwilligers) || $vrijwilligers instanceof \Countable ? count($vrijwilligers) : 0)) {
             throw new NoResultException();
         }
 
@@ -135,7 +137,7 @@ class SelectiesController extends SymfonyController
             ->getResult()
         ;
 
-        if (0 === count($dossiers)) {
+        if (0 === (is_array($dossiers) || $dossiers instanceof \Countable ? count($dossiers) : 0)) {
             throw new NoResultException();
         }
 
@@ -153,7 +155,7 @@ class SelectiesController extends SymfonyController
     private function getKlanten(SelectieFilter $filter)
     {
         if (in_array('klanten', $filter->personen)) {
-            return $this->get('GaBundle\Service\KlantdossierDao')->findAll(null, $filter);
+            return $this->get(\GaBundle\Service\KlantdossierDao::class)->findAll(null, $filter);
         }
 
         return new ArrayCollection();
@@ -162,7 +164,7 @@ class SelectiesController extends SymfonyController
     private function getVrijwilligers(SelectieFilter $filter)
     {
         if (in_array('vrijwilligers', $filter->personen)) {
-            return $this->get('GaBundle\Service\VrijwilligerdossierDao')->findAll(null, $filter);
+            return $this->get(\GaBundle\Service\VrijwilligerdossierDao::class)->findAll(null, $filter);
         }
 
         return new ArrayCollection();

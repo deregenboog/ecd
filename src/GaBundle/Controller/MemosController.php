@@ -5,7 +5,7 @@ namespace GaBundle\Controller;
 use AppBundle\Controller\AbstractChildController;
 use GaBundle\Entity\Memo;
 use GaBundle\Form\MemoType;
-use GaBundle\Service\MemoDaoInterface;
+use GaBundle\Service\MemoDao;
 use JMS\DiExtraBundle\Annotation as DI;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -23,16 +23,24 @@ class MemosController extends AbstractChildController
     protected $baseRouteName = 'ga_memos_';
 
     /**
-     * @var MemoDaoInterface
-     *
-     * @DI\Inject("GaBundle\Service\MemoDao")
+     * @var MemoDao 
      */
     protected $dao;
 
     /**
      * @var \ArrayObject
-     *
-     * @DI\Inject("ga.memo.entities")
      */
     protected $entities;
+
+    /**
+     * @param MemoDao $dao
+     * @param \ArrayObject $entities
+     */
+    public function __construct(MemoDao $dao, \ArrayObject $entities)
+    {
+        $this->dao = $dao;
+        $this->entities = $entities;
+    }
+
+
 }

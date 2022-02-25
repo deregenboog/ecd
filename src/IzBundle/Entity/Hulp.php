@@ -22,10 +22,10 @@ use Gedmo\Mapping\Annotation as Gedmo;
  */
 abstract class Hulp
 {
-    const DAGDEEL_OVERDAG = 'Overdag';
-    const DAGDEEL_AVOND = 'Avond';
-    const DAGDEEL_WEEKEND = 'Weekend';
-    const DAGDEEL_AVOND_WEEKEND = 'Avond/weekend';
+    public const DAGDEEL_OVERDAG = 'Overdag';
+    public const DAGDEEL_AVOND = 'Avond';
+    public const DAGDEEL_WEEKEND = 'Weekend';
+    public const DAGDEEL_AVOND_WEEKEND = 'Avond/weekend';
 
     use TimestampableTrait;
 

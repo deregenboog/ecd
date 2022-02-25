@@ -50,7 +50,7 @@ abstract class AbstractChildController extends AbstractController
             throw new \RuntimeException('Property $addMethod must be set in class '.get_class($this));
         }
 
-        list($parentEntity, $this->parentDao) = $this->getParentConfig($request);
+        [$parentEntity, $this->parentDao] = $this->getParentConfig($request);
         if (!$parentEntity && !$this->allowEmpty) {
             throw new AppException(sprintf('Kan geen %s aan deze entiteit toevoegen. Extra data: \n queryString: %s \nUser: ', $this->entityName, $request->getQueryString(), $request->getUserInfo()));
         }
@@ -75,7 +75,7 @@ abstract class AbstractChildController extends AbstractController
                 $entity->setMedewerker($this->getMedewerker());
             }
             try {
-                $this->beforeCreate($entity,$parentEntity);
+                $this->beforeCreate($entity);
                 $this->persistEntity($entity, $parentEntity);
                 $this->addFlash('success', ucfirst($this->entityName).' is toegevoegd.');
             } catch(UserException $e)
@@ -119,7 +119,7 @@ abstract class AbstractChildController extends AbstractController
 
         $entity = $this->dao->find($id);
 
-        list($parentEntity, $this->parentDao) = $this->getParentConfig($request);
+        [$parentEntity, $this->parentDao] = $this->getParentConfig($request);
 
         $form = $this->getForm(ConfirmationType::class);
         $form->handleRequest($request);

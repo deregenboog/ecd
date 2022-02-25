@@ -18,9 +18,9 @@ $finder = PhpCsFixer\Finder::create()
     ->in(__DIR__)
 ;
 
-return PhpCsFixer\Config::create()
-    ->setRules([
-        'psr0' => false,
+return new \PhpCsFixer\Config();
+    return $config->setRules([
+        'psr4' => false,
         '@Symfony' => true,
         'array_syntax' => ['syntax' => 'short'],
         'ordered_imports' => true,

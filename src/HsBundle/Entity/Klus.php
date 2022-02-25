@@ -20,11 +20,11 @@ class Klus implements MemoSubjectInterface
 {
     use MemoSubjectTrait, DocumentSubjectTrait, TimestampableTrait;
 
-    const STATUS_OPENSTAAND = 'Openstaand';
-    const STATUS_IN_BEHANDELING = 'In behandeling';
-    const STATUS_ON_HOLD = 'On hold';
-    const STATUS_AFGEROND = 'Afgerond';
-    const STATUS_GEANNULEERD = 'Geannuleerd';
+    public const STATUS_OPENSTAAND = 'Openstaand';
+    public const STATUS_IN_BEHANDELING = 'In behandeling';
+    public const STATUS_ON_HOLD = 'On hold';
+    public const STATUS_AFGEROND = 'Afgerond';
+    public const STATUS_GEANNULEERD = 'Geannuleerd';
 
     /**
      * @ORM\Id
@@ -225,7 +225,7 @@ class Klus implements MemoSubjectInterface
 
     public function removeDienstverlener(Dienstverlener $dienstverlener)
     {
-        if (0 === count($dienstverlener->getRegistraties($this))) {
+        if (0 === (is_array($dienstverlener->getRegistraties($this)) || $dienstverlener->getRegistraties($this) instanceof \Countable ? count($dienstverlener->getRegistraties($this)) : 0)) {
             $this->dienstverleners->removeElement($dienstverlener);
             $dienstverlener->getKlussen()->removeElement($this);
         }
@@ -252,7 +252,7 @@ class Klus implements MemoSubjectInterface
 
     public function removeVrijwilliger(Vrijwilliger $vrijwilliger)
     {
-        if (0 === count($vrijwilliger->getRegistraties($this))) {
+        if (0 === (is_array($vrijwilliger->getRegistraties($this)) || $vrijwilliger->getRegistraties($this) instanceof \Countable ? count($vrijwilliger->getRegistraties($this)) : 0)) {
             $this->vrijwilligers->removeElement($vrijwilliger);
             $vrijwilliger->getKlussen()->removeElement($this);
         }

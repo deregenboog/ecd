@@ -94,8 +94,8 @@ class Verslag
      */
     private $verslaginventarisaties;
 
-    const TYPE_MW = 1;
-    const TYPE_INLOOP = 2;
+    public const TYPE_MW = 1;
+    public const TYPE_INLOOP = 2;
 
     protected static $types = [
         self::TYPE_MW => "Maatschappelijk werk-verslag",
@@ -110,8 +110,8 @@ class Verslag
      */
     private $type = self::TYPE_MW;
 
-    const ACCESS_MW = 1;
-    const ACCESS_ALL = 2;
+    public const ACCESS_MW = 1;
+    public const ACCESS_ALL = 2;
 
     public static $accessTypes = [
         self::ACCESS_MW => "Leesbaar alleen binnen MW",

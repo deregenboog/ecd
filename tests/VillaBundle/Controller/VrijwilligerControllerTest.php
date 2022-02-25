@@ -11,7 +11,7 @@ class VrijwilligerControllerTest extends WebTestCase
     {
         $this->markTestSkipped();
 
-        $medewerker = $this->getContainer()->get('AppBundle\Service\MedewerkerDao')->find('villa_user');
+        $medewerker = $this->getContainer()->get(\AppBundle\Service\MedewerkerDao::class)->find('villa_user');
         $this->logIn($medewerker);
 
         $crawler = $this->client->request('GET', '/villa/vrijwilligers/');

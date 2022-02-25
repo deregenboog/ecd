@@ -203,7 +203,7 @@ class Activiteit
 
     public function getNumKlantDeelnames(): int
     {
-        return count($this->getKlantDeelnames()) + $this->aantalAnoniemeDeelnemers;
+        return (is_array($this->getKlantDeelnames()) || $this->getKlantDeelnames() instanceof \Countable ? count($this->getKlantDeelnames()) : 0) + $this->aantalAnoniemeDeelnemers;
     }
 
     public function getVrijwilligerDeelnames()
@@ -218,7 +218,7 @@ class Activiteit
 
     public function getNumVrijwilligerDeelnames(): int
     {
-        return count($this->getVrijwilligerDeelnames());
+        return is_array($this->getVrijwilligerDeelnames()) || $this->getVrijwilligerDeelnames() instanceof \Countable ? count($this->getVrijwilligerDeelnames()) : 0;
     }
 
     public function getAnnuleringsreden()

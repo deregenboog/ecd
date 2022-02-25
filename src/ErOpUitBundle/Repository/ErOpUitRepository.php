@@ -34,7 +34,7 @@ class ErOpUitRepository extends EntityRepository implements DoelstellingReposito
         });
 
         $this->addDoelstellingcijfer("",123,"Buurtrestaurants",function($doelstelling, $startdatum, $einddatum){
-            return $this->Buurtrestaurants($doelstelling,$startdatum,$einddatum);
+            return $this->Buurtrestaurants($doelstelling);
         });
 
     }

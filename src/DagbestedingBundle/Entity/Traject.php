@@ -21,8 +21,8 @@ class Traject
 {
     use TimestampableTrait;
 
-    const TERMIJN_RAPPORTAGE = '+6 months';
-    const TERMIJN_EIND = '+1 year -1 day';
+    public const TERMIJN_RAPPORTAGE = '+6 months';
+    public const TERMIJN_EIND = '+1 year -1 day';
 
     /**
      * @ORM\Id
@@ -260,7 +260,7 @@ class Traject
     public function isDeletable(): bool
     {
         foreach ($this->rapportages as $rapportage) {
-            if (count($rapportage->getDocumenten()) > 0) {
+            if ((is_array($rapportage->getDocumenten()) || $rapportage->getDocumenten() instanceof \Countable ? count($rapportage->getDocumenten()) : 0) > 0) {
                 return false;
             }
         }

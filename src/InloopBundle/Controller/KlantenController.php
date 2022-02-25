@@ -76,6 +76,7 @@ class KlantenController extends AbstractController
      */
     public function viewReport(Request $request, Klant $klant)
     {
+        $data = [];
         $form = $this->createFormBuilder(null, ['method' => 'GET'])
             ->add('startdatum', AppDateType::class, [
                 'required' => true,
@@ -168,7 +169,7 @@ class KlantenController extends AbstractController
                 ->getResult()
             ;
 
-            if (count($klanten) > 0) {
+            if ((is_array($klanten) || $klanten instanceof \Countable ? count($klanten) : 0) > 0) {
                 foreach ($klanten as $klant) {
                     $data[$locatie->getNaam()][] = $klant;
                 }

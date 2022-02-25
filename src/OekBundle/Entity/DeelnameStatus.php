@@ -16,11 +16,11 @@ class DeelnameStatus
 {
     use TimestampableTrait;
 
-    const STATUS_AANGEMELD = 'Aangemeld';
-    const STATUS_GESTART = 'Gestart';
-    const STATUS_GEVOLGD = 'Gevolgd';
-    const STATUS_AFGEROND = 'Afgerond';
-    const STATUS_VERWIJDERD = 'Verwijderd';
+    public const STATUS_AANGEMELD = 'Aangemeld';
+    public const STATUS_GESTART = 'Gestart';
+    public const STATUS_GEVOLGD = 'Gevolgd';
+    public const STATUS_AFGEROND = 'Afgerond';
+    public const STATUS_VERWIJDERD = 'Verwijderd';
 
     /**
      * @ORM\Id
@@ -64,7 +64,7 @@ class DeelnameStatus
      */
     public static function getAllStatuses()
     {
-        $thisClass = new \ReflectionClass(__CLASS__);
+        $thisClass = new \ReflectionClass(self::class);
         $constants = $thisClass->getConstants();
 
         return array_filter($constants, function ($key) {

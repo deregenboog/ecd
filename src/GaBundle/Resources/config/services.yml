@@ -3,6 +3,80 @@ imports:
     - { resource: exports.yml }
 
 services:
+    _defaults:
+      autowire: true
+      autoconfigure: true
+
+    GaBundle\Controller\:
+      resource: '../../Controller'
+      tags: [ 'controller.service_arguments' ]
+
+    GaBundle\Controller\IntakesController:
+      arguments:
+        $entities: '@ga.intake.entities'
+      tags: [ 'controller.service_arguments' ]
+
+    GaBundle\Controller\RapportagesController:
+      arguments:
+        $export: '@ga.export.report'
+      tags: [ 'controller.service_arguments' ]
+
+    GaBundle\Controller\DeelnamesController:
+      arguments:
+        $entities: '@ga.deelname.entities'
+      tags: [ 'controller.service_arguments' ]
+
+    GaBundle\Controller\DocumentenController:
+      arguments:
+        $entities: '@ga.document.entities'
+      tags: [ 'controller.service_arguments' ]
+
+    GaBundle\Controller\LidmaatschappenController:
+      arguments:
+        $entities: '@ga.lidmaatschap.entities'
+      tags: [ 'controller.service_arguments' ]
+
+    GaBundle\Controller\ActiviteitenController:
+      arguments:
+        $entities: '@ga.activiteit.entities'
+        $export: '@ga.export.activiteiten'
+      tags: [ 'controller.service_arguments' ]
+
+    GaBundle\Controller\ActiviteitenreeksController:
+      arguments:
+        $entities: '@ga.activiteit.entities'
+      tags: [ 'controller.service_arguments' ]
+
+    GaBundle\Controller\GroepenController:
+      arguments:
+        $export: '@ga.export.groepen'
+      tags: [ 'controller.service_arguments' ]
+
+    GaBundle\Controller\MemosController:
+      arguments:
+        $entities: '@ga.memo.entities'
+      tags: [ 'controller.service_arguments' ]
+
+    GaBundle\Controller\VerslagenController:
+      arguments:
+        $entities: '@ga.verslag.entities'
+      tags: [ 'controller.service_arguments' ]
+
+    GaBundle\Controller\VrijwilligerdossiersController:
+      arguments:
+        $export: '@ga.export.vrijwilligerdossiers'
+      tags: [ 'controller.service_arguments' ]
+
+    GaBundle\Controller\VrijwilligerintakesController:
+      arguments:
+        $export: '@ga.export.vrijwilligerdossiers'
+      tags: [ 'controller.service_arguments' ]
+
+    GaBundle\Controller\KlantdossiersController:
+      arguments:
+        $export: '@ga.export.klantdossiers'
+      tags: [ 'controller.service_arguments' ]
+
     GaBundle\Event\DienstenLookupSubscriber:
         arguments:
             - "@doctrine.orm.entity_manager"

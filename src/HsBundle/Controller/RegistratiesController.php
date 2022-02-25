@@ -83,7 +83,8 @@ class RegistratiesController extends AbstractChildController
      */
     public function addAction(Request $request)
     {
-        list($parentEntity) = $this->getParentConfig($request);
+        $entity = null;
+        [$parentEntity] = $this->getParentConfig($request);
         if (!$parentEntity && !$this->allowEmpty) {
             throw new AppException(sprintf('Kan geen %s aan deze entiteit toevoegen', $this->entityName));
         }

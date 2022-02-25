@@ -84,8 +84,8 @@ class Klant implements MemoSubjectInterface, DocumentSubjectInterface
      */
     private $actief = false;
 
-    const STATUS_OK = 1;
-    const STATUS_GEEN_NIEUWE_KLUS = 2;
+    public const STATUS_OK = 1;
+    public const STATUS_GEEN_NIEUWE_KLUS = 2;
 
     protected static $statussen = [
         "Nieuwe klussen mogelijk" => self::STATUS_OK,

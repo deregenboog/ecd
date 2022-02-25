@@ -38,9 +38,7 @@ trait PersonTrait
     {
         try {
             return $this->getNaam();
-        } catch (EntityNotFoundException $e) {
-            return '';
-        } catch (FatalErrorException $e) {
+        } catch (EntityNotFoundException|FatalErrorException $e) {
             return '';
         }
     }

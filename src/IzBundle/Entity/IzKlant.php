@@ -284,8 +284,8 @@ class IzKlant extends IzDeelnemer
          * in theorie zou hierboven een < 0 waarde uit kunnen komen als de koppelingen en hulpvragen telling niet klopt,
          * waardoor ie raar gedrag vertoont...dus onderstaande even uitgeschreven.
          */
-        $oh = count($this->getOpenHulpvragen());
-        $ak = count($this->getActieveKoppelingen());
+        $oh = is_array($this->getOpenHulpvragen()) || $this->getOpenHulpvragen() instanceof \Countable ? count($this->getOpenHulpvragen()) : 0;
+        $ak = is_array($this->getActieveKoppelingen()) || $this->getActieveKoppelingen() instanceof \Countable ? count($this->getActieveKoppelingen()) : 0;
         $afgesloten = $this->isAfgesloten();
        $oh = ($oh < 0)?0:$oh;
        $ak = ($ak < 0)?0:$ak;

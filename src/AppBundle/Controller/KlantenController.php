@@ -2,6 +2,7 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\AppBundle;
 use AppBundle\Entity\Klant;
 use AppBundle\Event\DienstenLookupEvent;
 use AppBundle\Event\Events;
@@ -9,13 +10,17 @@ use AppBundle\Export\AbstractExport;
 use AppBundle\Form\ConfirmationType;
 use AppBundle\Form\KlantFilterType;
 use AppBundle\Form\KlantType;
+use AppBundle\Service\KlantDao;
 use AppBundle\Service\KlantDaoInterface;
-use Doctrine\Common\Collections\Criteria;
-use JMS\DiExtraBundle\Annotation as DI;
+
+
+use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
+
+use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
 /**
  * @Route("/klanten")
@@ -35,23 +40,29 @@ class KlantenController extends AbstractController
 
     /**
      * @var KlantDaoInterface
-     * @DI\Inject("AppBundle\Service\KlantDao")
      */
     protected $searchDao;
 
     /**
      * @var KlantDaoInterface
      *
-     * @DI\Inject("AppBundle\Service\KlantDao")
      */
     protected $dao;
 
     /**
      * @var AbstractExport
-     *
-     * @DI\Inject("app.export.klanten")
      */
     protected $export;
+
+
+    public function __construct(KlantDao $dao, KlantDao $searchDao, $export)
+    {
+        $this->searchDao=$searchDao;
+        $this->dao=$dao;
+        $this->export = $export;
+
+
+    }
 
     /**
      * @Template
@@ -60,7 +71,7 @@ class KlantenController extends AbstractController
     {
         $event = new DienstenLookupEvent($id);
         if ($event->getKlantId()) {
-            $this->get('event_dispatcher')->dispatch(Events::DIENSTEN_LOOKUP, $event);
+            $this->eventDispatcher->dispatch(Events::DIENSTEN_LOOKUP, $event);
         }
 
         return [
@@ -148,12 +159,12 @@ class KlantenController extends AbstractController
 
         $event = new DienstenLookupEvent($entity->getId());
         if ($event->getKlantId()) {
-            $this->get('event_dispatcher')->dispatch(Events::DIENSTEN_LOOKUP, $event);
+            $this->eventDispatcher->dispatch(Events::DIENSTEN_LOOKUP, $event);
         }
 
         return [
             'diensten' => $event->getDiensten(),
-            'tbc_countries' => $this->container->getParameter('tbc_countries')
+            'tbc_countries' => $this->getParameter('tbc_countries') //$this->container->getParameter('tbc_countries')
         ];
     }
 

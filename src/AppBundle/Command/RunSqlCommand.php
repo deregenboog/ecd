@@ -8,7 +8,7 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class RunSqlCommand extends ContainerAwareCommand
+class RunSqlCommand extends \Symfony\Component\Console\Command\Command
 {
     protected function configure()
     {
@@ -20,7 +20,7 @@ class RunSqlCommand extends ContainerAwareCommand
         ;
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $file = realpath($input->getArgument('file'));
         if (!$file) {
@@ -39,5 +39,6 @@ class RunSqlCommand extends ContainerAwareCommand
         }
 
         $output->writeln('Done!');
+        return 0;
     }
 }

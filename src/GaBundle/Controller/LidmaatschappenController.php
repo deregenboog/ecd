@@ -9,7 +9,7 @@ use GaBundle\Entity\Vrijwilligerdossier;
 use GaBundle\Form\LidmaatschapCloseType;
 use GaBundle\Form\LidmaatschapReopenType;
 use GaBundle\Form\LidmaatschapType;
-use GaBundle\Service\LidmaatschapDaoInterface;
+use GaBundle\Service\LidmaatschapDao;
 use JMS\DiExtraBundle\Annotation as DI;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
@@ -30,18 +30,25 @@ class LidmaatschappenController extends AbstractChildController
     protected $disabledActions = ['delete'];
 
     /**
-     * @var LidmaatschapDaoInterface
-     *
-     * @DI\Inject("GaBundle\Service\LidmaatschapDao")
+     * @var LidmaatschapDao 
      */
     protected $dao;
 
     /**
      * @var \ArrayObject
-     *
-     * @DI\Inject("ga.lidmaatschap.entities")
      */
     protected $entities;
+
+    /**
+     * @param LidmaatschapDao $dao
+     * @param \ArrayObject $entities
+     */
+    public function __construct(LidmaatschapDao $dao, \ArrayObject $entities)
+    {
+        $this->dao = $dao;
+        $this->entities = $entities;
+    }
+
 
     /**
      * @Route("/{id}/reopen")

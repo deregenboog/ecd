@@ -4,6 +4,66 @@ imports:
     - { resource: reports.yml }
 
 services:
+    _defaults:
+      autowire: true      # Automatically injects dependencies in your services.
+      autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
+
+    ClipBundle\Controller\:
+      resource: '../../Controller'
+      tags: [ 'controller.service_arguments' ]
+
+    ClipBundle\Controller\ClientenController:
+      arguments:
+        $export: '@clip.export.clienten'
+      tags: [ 'controller.service_arguments' ]
+
+    ClipBundle\Controller\OpenstaandeVragenController:
+      arguments:
+        $export: '@clip.export.vragen'
+      tags: [ 'controller.service_arguments' ]
+
+    ClipBundle\Controller\RapportagesController:
+      arguments:
+        $export: '@clip.export.report'
+      tags: [ 'controller.service_arguments' ]
+
+    ClipBundle\Controller\MemosController:
+      arguments:
+        $entities: '@clip.memo.entities'
+      tags: [ 'controller.service_arguments' ]
+
+    ClipBundle\Controller\DeelnamesController:
+      arguments:
+        $entities: '@clip.deelname.entities'
+      tags: [ 'controller.service_arguments' ]
+
+    ClipBundle\Controller\KlantenController:
+      arguments:
+        $export: '@mw.export.klanten'
+      tags: [ 'controller.service_arguments' ]
+
+    ClipBundle\Controller\DocumentenController:
+      arguments:
+        $entities: '@clip.document.entities'
+      tags: [ 'controller.service_arguments' ]
+
+    ClipBundle\Controller\ContactmomentenController:
+      arguments:
+        $export: '@clip.export.contactmomenten'
+        $entities: '@clip.contactmoment.entities'
+      tags: [ 'controller.service_arguments' ]
+
+    ClipBundle\Controller\VrijwilligersController:
+      arguments:
+        $export: '@clip.export.vrijwilliger'
+      tags: [ 'controller.service_arguments' ]
+
+    ClipBundle\Controller\VragenController:
+      arguments:
+        $export: '@clip.export.vragen'
+        $entities: '@clip.vraag.entities'
+      tags: [ 'controller.service_arguments' ]
+
     clip.contactmoment.entities:
         public: true
         class: ArrayObject

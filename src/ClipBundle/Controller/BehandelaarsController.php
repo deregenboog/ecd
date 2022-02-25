@@ -5,6 +5,7 @@ namespace ClipBundle\Controller;
 use AppBundle\Controller\AbstractController;
 use ClipBundle\Entity\Behandelaar;
 use ClipBundle\Form\BehandelaarType;
+use ClipBundle\Service\BehandelaarDao;
 use ClipBundle\Service\BehandelaarDaoInterface;
 use JMS\DiExtraBundle\Annotation as DI;
 use Symfony\Component\Routing\Annotation\Route;
@@ -24,11 +25,18 @@ class BehandelaarsController extends AbstractController
     protected $baseRouteName = 'clip_behandelaars_';
 
     /**
-     * @var BehandelaarDaoInterface
-     *
-     * @DI\Inject("ClipBundle\Service\BehandelaarDao")
+     * @var BehandelaarDao
      */
     protected $dao;
+
+    /**
+     * @param BehandelaarDao $dao
+     */
+    public function __construct(BehandelaarDao $dao)
+    {
+        $this->dao = $dao;
+    }
+
 
     /**
      * @Route("/{id}/view")

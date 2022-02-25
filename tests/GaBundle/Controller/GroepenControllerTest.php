@@ -9,7 +9,7 @@ class GroepenControllerTest extends WebTestCase
 {
     public function testSort()
     {
-        $medewerker = $this->getContainer()->get('AppBundle\Service\MedewerkerDao')->find('ga_user');
+        $medewerker = $this->getContainer()->get(\AppBundle\Service\MedewerkerDao::class)->find('ga_user');
         $this->logIn($medewerker);
 
         $crawler = $this->client->request('GET', $this->getUrl('ga_groepen_index'));
@@ -29,7 +29,7 @@ class GroepenControllerTest extends WebTestCase
 
     public function testAdd()
     {
-        $medewerker = $this->getContainer()->get('AppBundle\Service\MedewerkerDao')->find('ga_user');
+        $medewerker = $this->getContainer()->get(\AppBundle\Service\MedewerkerDao::class)->find('ga_user');
         $this->logIn($medewerker);
 
         $crawler = $this->client->request('GET', $this->getUrl('ga_groepen_add'));
@@ -45,7 +45,7 @@ class GroepenControllerTest extends WebTestCase
         $form = $crawler->selectButton('groep[submit]')->form([
             'groep[naam]' => 'Testgroep',
         ]);
-        $this->client->submit($form);
+        $this->client->submit($form, []);
         $this->assertStatusCode(302, $this->client);
     }
 }

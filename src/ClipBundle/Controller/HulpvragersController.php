@@ -5,6 +5,7 @@ namespace ClipBundle\Controller;
 use AppBundle\Controller\AbstractController;
 use ClipBundle\Entity\Hulpvrager;
 use ClipBundle\Form\HulpvragerType;
+use ClipBundle\Service\HulpvragerDao;
 use ClipBundle\Service\HulpvragerDaoInterface;
 use JMS\DiExtraBundle\Annotation as DI;
 use Symfony\Component\Routing\Annotation\Route;
@@ -24,11 +25,18 @@ class HulpvragersController extends AbstractController
     protected $baseRouteName = 'clip_hulpvragers_';
 
     /**
-     * @var HulpvragerDaoInterface
-     *
-     * @DI\Inject("ClipBundle\Service\HulpvragerDao")
+     * @var HulpvragerDao
      */
     protected $dao;
+
+    /**
+     * @param HulpvragerDao $dao
+     */
+    public function __construct(HulpvragerDao $dao)
+    {
+        $this->dao = $dao;
+    }
+
 
     /**
      * @Route("/{id}/view")

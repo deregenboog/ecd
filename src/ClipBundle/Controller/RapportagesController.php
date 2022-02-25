@@ -18,7 +18,16 @@ class RapportagesController extends AbstractRapportagesController
     /**
      * @var ExportInterface
      *
-     * @DI\Inject("clip.export.report")
      */
     protected $export;
+
+    /**
+     * @param ExportInterface $export
+     */
+    public function __construct(ExportInterface $export)
+    {
+        $this->export = $export;
+    }
+
+
 }

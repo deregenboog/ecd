@@ -221,7 +221,7 @@ class KlantFilter implements FilterInterface
             $builder->andWhere('shortlist = :shortlist')
                 ->setParameter('shortlist',$this->shortlist);
         }
-        if($this->project && count($this->project)>0)
+        if($this->project && (is_array($this->project) || $this->project instanceof \Countable ? count($this->project) : 0)>0)
         {
 //            $builder->andWhere('project IN (:project)')
 //                    ->setParameter('project',$this->project);
@@ -253,7 +253,7 @@ class KlantFilter implements FilterInterface
     private function addMultipleOrField($field)
     {
         $values = $this->$field;
-        if($values && count($values)>0)
+        if($values && (is_array($values) || $values instanceof \Countable ? count($values) : 0)>0)
         {
             $k =array_search(0,$values,true); // 0 is de null value voor 'Onbekend'.
             if( is_int($k) ) // dit kan vast compacter maar mn hersenen zijn gaar.

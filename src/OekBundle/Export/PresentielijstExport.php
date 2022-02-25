@@ -14,7 +14,7 @@ class PresentielijstExport extends AbstractExport
         if (!$training instanceof Training) {
             throw new AppException(sprintf(
                 '%s::create() expects object of type %s, %s given.',
-                __CLASS__,
+                self::class,
                 Training::class,
                 get_class($training)
             ));

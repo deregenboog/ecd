@@ -126,7 +126,7 @@ class HulpaanbodDao extends AbstractDao implements HulpaanbodDaoInterface
             ;
         $sql = $geenDeelnemerMetHulpTimeout->getQuery()->getSQL();
         $r = $geenDeelnemerMetHulpTimeout->getQuery()->getResult();
-        if(count($r)) {
+        if(is_array($r) || $r instanceof \Countable ? count($r) : 0) {
             $builder
                 ->andWhere('izVrijwilliger NOT IN (:excludeTimeoutDeelnemers)')
                 ->setParameter("excludeTimeoutDeelnemers",$r)
@@ -139,7 +139,7 @@ class HulpaanbodDao extends AbstractDao implements HulpaanbodDaoInterface
             ->getQuery()
             ->getResult()
         ;
-        if (count($gereserveerdeHulpaanbiedingen)) {
+        if (is_array($gereserveerdeHulpaanbiedingen) || $gereserveerdeHulpaanbiedingen instanceof \Countable ? count($gereserveerdeHulpaanbiedingen) : 0) {
             $builder
                 ->andWhere('hulpaanbod NOT IN (:gereserveerdeHulpaanbiedingen)')
                 ->setParameter('gereserveerdeHulpaanbiedingen', $gereserveerdeHulpaanbiedingen)
