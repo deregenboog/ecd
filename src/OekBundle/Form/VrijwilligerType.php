@@ -3,6 +3,7 @@
 namespace OekBundle\Form;
 
 use AppBundle\Entity\Vrijwilliger as AppVrijwilliger;
+use AppBundle\Form\AppDateType;
 use AppBundle\Form\BaseType;
 
 use AppBundle\Form\DummyChoiceType;
@@ -10,6 +11,7 @@ use AppBundle\Form\MedewerkerType;
 use AppBundle\Form\VrijwilligerType as AppVrijwilligerType;
 use OekBundle\Entity\Vrijwilliger;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -44,7 +46,12 @@ class VrijwilligerType extends AbstractType
 
         $builder
             ->add('medewerker', MedewerkerType::class)
-            ->add('actief', CheckboxType::class)
+            ->add('actief', CheckboxType::class,[
+                'required'=>false,
+            ])
+            ->add('afsluitddatum', AppDateType::class,[
+                'required'=>false
+            ])
             ->add('submit', SubmitType::class)
         ;
     }
