@@ -40,3 +40,9 @@ services:
 
     DagbestedingBundle\Service\VerslagDao:
         parent: app.dao.abstract
+
+    DagbestedingBundle\Service\DeelnameDao:
+        parent: app.dao.abstract
+
+    DagbestedingBundle\Service\WerkdoelDao:
+        parent: app.dao.abstract

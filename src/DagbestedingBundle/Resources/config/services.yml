@@ -34,6 +34,21 @@ services:
             -
               - { key: deelnemer, dao: '@DagbestedingBundle\Service\DeelnemerDao' }
 
+    dagbesteding.deelname.entities:
+        public: true
+        class: ArrayObject
+        arguments:
+            - - { key: deelnemer, dao: '@DagbestedingBundle\Service\DeelnemerDao' }
+              - { key: project, dao: '@DagbestedingBundle\Service\ProjectDao' }
+
+    dagbesteding.werkdoel.entities:
+        public: true
+        class: ArrayObject
+        arguments:
+            - - { key: traject, dao: '@DagbestedingBundle\Service\TrajectDao' }
+              - { key: deelnemer, dao: '@DagbestedingBundle\Service\DeelnemerDao' }
+
+
     dagbesteding.rapportage.entities:
         public: true
         class: ArrayObject

@@ -88,6 +88,8 @@
     {% if is_granted('ROLE_DAGBESTEDING') %}
         <ul class="nav nav-tabs">
             <li class="active"><a data-toggle="tab" href="#dagdelen">Dagdelen</a></li>
+            <li><a data-toggle="tab" href="#beschikbaarheid">Beschikbaarheid</a></li>
+            <li><a data-toggle="tab" href="#werkdoelen">Werkdoelen</a></li>
             <li><a data-toggle="tab" href="#rapportages">Rapportages</a></li>
             <li><a data-toggle="tab" href="#contactpersonen">Contactpersonen</a></li>
             <li><a data-toggle="tab" href="#verslagen">Verslagen</a></li>
@@ -95,7 +97,13 @@
         </ul>
         <div class="tab-content">
             <div id="dagdelen" class="tab-pane active">
-                {% include 'DagbestedingBundle:dagdelen:_list.html.twig' with {traject: entity} %}
+                {% include 'DagbestedingBundle:dagdelen:_list.html.twig' with {traject: entity, deelnemer: entity.deelnemer} %}
+            </div>
+            <div id="beschikbaarheid" class="tab-pane">
+                {% include 'DagbestedingBundle:deelnames:_list.html.twig' with {entity: entity.deelnemer} %}
+            </div>
+            <div id="werkdoelen" class="tab-pane active">
+                {% include 'DagbestedingBundle:werkdoelen:_list.html.twig' with {deelnemer: entity} %}
             </div>
             <div id="rapportages" class="tab-pane">
                 {% include 'DagbestedingBundle:rapportages:_list.html.twig' with {traject: entity} %}
