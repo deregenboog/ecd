@@ -1,0 +1,15 @@
+{% import '::html.macro.twig' as html %}
+<h2>Werkdoelen</h2>
+<p>
+    {{ html.link('Toevoegen', path('dagbesteding_werkdoelen_add', {traject: entity.id}), 'add') }}
+</p>
+{% for werkdoel in entity.werkdoelen %}
+    <div class="well">
+        <p class="text-right">
+            {{ werkdoel.medewerker }} | {{ werkdoel.datum|date('d-m-Y') }} |
+            {{ html.editLink(path('dagbesteding_werkdoelen_edit', {id: werkdoel.id})) }}
+            {{ html.deleteLink(path('dagbesteding_werkdoelen_delete', {id: werkdoel.id})) }}
+        </p>
+        <p>{{ werkdoel.tekst }}</p>
+    </div>
+{% endfor %}

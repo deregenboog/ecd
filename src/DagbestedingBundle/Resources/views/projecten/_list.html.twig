@@ -1,0 +1,34 @@
+{% import '::html.macro.twig' as html %}
+{% import '@Dagbesteding/macro.twig' as dagbestedingmacro %}
+<h2>Projecten</h2>
+{#<p>#}
+{#    {% if deelnemer is defined %}#}
+{#        {% set url = path('dagbesteding_trajecten_add', {deelnemer: deelnemer.id}) %}#}
+{#        {% set entity = deelnemer %}#}
+{#    {% elseif Trajectcoach is defined %}#}
+{#        {% set entity = Trajectcoach %}#}
+{#    {% endif %}#}
+{#    {% if url is defined %}#}
+{#        {{ html.addLink(url) }}#}
+{#        {{ html.link('Traject toevoegen', url) }}#}
+{#    {% endif %}#}
+{#</p>#}
+<table class="table table-hover">
+    <tr>
+        <th>Naam</th>
+        <th>Beschikbaarheid</th>
+    </tr>
+    {% for project in trajecten.projecten %}
+        <tr data-href="{{ path('dagbesteding_trajecten_view', {id: project.id}) }}">
+            <td>{{ project.naam }}</td>
+            <td>
+            {% if project.beschikbaarheid %}
+                {{ dagbestedingmacro.beschikbaarheid(project.beschikbaarheid) }}
+            {% else %}
+                {{ html.link('Beschikbaarheid opgeven', path('scip_deelnames_edit', {id: project.id}), 'add') }}
+            {% endif %}
+            </td>
+
+        </tr>
+    {% endfor %}
+</table>

@@ -163,6 +163,15 @@ class Traject
      */
     protected $deletedAt;
 
+
+    /**
+     * @var ArrayCollection|Werkdoel[]
+     *
+     * @ORM\OneToMany(targetEntity="DagbestedingBundle\Entity\Werkdoel", mappedBy="traject", cascade={"persist"})
+     * @ORM\OrderBy({"datum" = "DESC", "id" = "DESC"})
+     */
+    private $werkdoelen;
+
     public function __construct()
     {
         $this->documenten = new ArrayCollection();
@@ -171,6 +180,7 @@ class Traject
         $this->rapportages = new ArrayCollection();
         $this->resultaatgebieden = new ArrayCollection();
         $this->verslagen = new ArrayCollection();
+        $this->werkdoelen = new ArrayCollection();
 
         $this->setStartdatum(new \DateTime());
     }
@@ -479,6 +489,38 @@ class Traject
                 $existing->setTraject(null);
             }
         }
+
+        return $this;
+    }
+
+
+    /**
+     * @return Werkdoel[]|ArrayCollection
+     */
+    public function getWerkdoelen()
+    {
+        return $this->werkdoelen;
+    }
+
+    /**
+     * @param Werkdoel[]|ArrayCollection $werkdoelen
+     * @return Deelnemer
+     */
+    public function setWerkdoelen($werkdoelen)
+    {
+        $this->werkdoelen = $werkdoelen;
+        return $this;
+    }
+
+    /**
+     * @param Werkdoel $werkdoel
+     * @return $this
+     */
+    public function addWerkdoel(Werkdoel $werkdoel)
+    {
+        $this->werkdoelen[] = $werkdoel;
+        $werkdoel->setTraject($this);
+        $werkdoel->setDeelnemer($this->deelnemer);
 
         return $this;
     }

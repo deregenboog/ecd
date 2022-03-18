@@ -6,8 +6,10 @@ use AppBundle\Entity\Klant;
 use AppBundle\Model\RequiredMedewerkerTrait;
 use AppBundle\Model\TimestampableTrait;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
+
 
 /**
  * @ORM\Entity
@@ -97,6 +99,14 @@ class Deelnemer
     private $trajecten;
 
     /**
+     * @var ArrayCollection|Deelname[]
+     *
+     * @ORM\OneToMany(targetEntity="Deelname", mappedBy="deelnemer", cascade={"persist"})
+     * @ORM\OrderBy({"id" = "DESC"})
+     */
+    private $deelnames;
+
+    /**
      * @var ArrayCollection|Contactpersoon[]
      *
      * @ORM\OneToMany(targetEntity="Contactpersoon", mappedBy="deelnemer", cascade={"persist"})
@@ -104,14 +114,30 @@ class Deelnemer
      */
     private $contactpersonen;
 
+    /**
+     * @var string
+     *
+     * @ORM\Column(nullable=true)
+     */
+    private $werkbegeleider;
+
+    /**
+     * @var \DateTime
+     * @ORM\Column(type="date", nullable=true)
+     */
+    private $evaluatiedatum;
+
+
     public function __construct()
     {
         $this->aanmelddatum = new \DateTime();
 
         $this->trajecten = new ArrayCollection();
+        $this->deelnames = new ArrayCollection();
         $this->contactpersonen = new ArrayCollection();
         $this->verslagen = new ArrayCollection();
         $this->documenten = new ArrayCollection();
+
     }
 
     public function __toString()
@@ -250,6 +276,74 @@ class Deelnemer
 
         return $this;
     }
+
+    /**
+     * @return Deelname[]|ArrayCollection
+     */
+    public function getDeelnames()
+    {
+        return $this->deelnames;
+    }
+
+    /**
+     * @param Deelname[]|ArrayCollection $deelnames
+     * @return Deelnemer
+     */
+    public function setDeelnames($deelnames)
+    {
+        $this->deelnames = $deelnames;
+        return $this;
+    }
+
+    /**
+     * @param Werkdoel $werkdoel
+     * @return $this
+     */
+    public function addDeelname(Deelname $deelname)
+    {
+        $this->deelnames[] = $deelname;
+        $deelname->setDeelnemer($this);
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getWerkbegeleider():? string
+    {
+        return $this->werkbegeleider;
+    }
+
+    /**
+     * @param string $werkbegeleider
+     * @return Deelnemer
+     */
+    public function setWerkbegeleider(?string $werkbegeleider): Deelnemer
+    {
+        $this->werkbegeleider = $werkbegeleider;
+        return $this;
+    }
+
+    /**
+     * @return \DateTime
+     */
+    public function getEvaluatiedatum():? \DateTime
+    {
+        return $this->evaluatiedatum;
+    }
+
+    /**
+     * @param \DateTime $evaluatiedatum
+     * @return Deelnemer
+     */
+    public function setEvaluatiedatum(?DateTime $evaluatiedatum): Deelnemer
+    {
+        $this->evaluatiedatum = $evaluatiedatum;
+        return $this;
+    }
+
+
 
     public function reopen()
     {
