@@ -172,6 +172,7 @@ abstract class AbstractController extends SymfonyController
         try
         {
             $entity = $this->dao->find($id);
+
         }
         catch(EntityNotFoundException $entityNotFoundException)
         {
@@ -356,7 +357,6 @@ abstract class AbstractController extends SymfonyController
                     $this->dao->create($entity);
                 }
                 $this->addFlash('success', ucfirst($this->entityName).' is opgeslagen.');
-
 
             } catch(UserException $e) {
 //                $this->get('logger')->error($e->getMessage(), ['exception' => $e]);

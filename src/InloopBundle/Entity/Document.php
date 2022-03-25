@@ -45,7 +45,7 @@ class Document implements DocumentInterface
 
     /**
      * @var File
-     * @Vich\UploadableField(mapping="mw_document", fileNameProperty="filename")
+     * @Vich\UploadableField(mapping="inloop_document", fileNameProperty="filename")
      * @Gedmo\Versioned
      */
     private $file;
