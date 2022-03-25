@@ -50,4 +50,4 @@ Encore
     })
 ;
 
-module.exports = 1182Encore.getWebpackConfig();
+module.exports = Encore.getWebpackConfig();
