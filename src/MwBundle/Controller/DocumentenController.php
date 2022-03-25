@@ -50,6 +50,7 @@ class DocumentenController extends AbstractChildController
 
         $downloadHandler = $this->get('vich_uploader.download_handler');
 
+
         return $downloadHandler->downloadObject($document, 'file');
     }
 

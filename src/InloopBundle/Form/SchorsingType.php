@@ -10,6 +10,8 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\FormEvent;
+use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class SchorsingType extends AbstractType
@@ -76,7 +78,18 @@ class SchorsingType extends AbstractType
             ->add('locatiehoofd', null, ['required' => false])
             ->add('bijzonderheden', null, ['required' => false])
             ->add('submit', SubmitType::class)
+
+
         ;
+        $builder->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event) {
+            if(!$event->getData()->getId())
+            {
+                $event->getForm()
+                    ->add('submitAndAddIncident', SubmitType::class,[
+                        'label'=>'Opslaan en incident toevoegen'
+                    ]);
+            }
+        });
     }
 
     /**

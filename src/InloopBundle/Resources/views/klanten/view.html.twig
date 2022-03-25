@@ -49,6 +49,7 @@
         <li><a data-toggle="tab" href="#verslagen">Verslagen</a></li>
         <li><a data-toggle="tab" href="#opmerkingen">Opmerkingen</a></li>
         <li><a data-toggle="tab" href="#schorsingen">Schorsingen</a></li>
+        <li><a data-toggle="tab" href="#incidenten">Incidenten</a></li>
     </ul>
     <div class="tab-content">
         <div id="intake" class="tab-pane active">
@@ -153,6 +154,9 @@
         </div>
         <div id="schorsingen" class="tab-pane">
             {% include 'InloopBundle:klanten:_schorsingen.html.twig' with {klant: entity} %}
+        </div>
+        <div id="incidenten" class="tab-pane">
+            {% include 'InloopBundle:incidenten:_list.html.twig' with {klant: entity} %}
         </div>
     </div>
 {% endblock %}
