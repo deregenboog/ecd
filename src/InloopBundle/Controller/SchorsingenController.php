@@ -101,6 +101,14 @@ class SchorsingenController extends AbstractController
 
                 $this->dao->create($entity);
                 $this->addFlash('success', ucfirst($this->entityName).' is opgeslagen.');
+                if($form->get('submitAndAddIncident')->isClicked()) {
+                    return $this->redirectToRoute("inloop_incidenten_add",[
+                        "klant"=>$entity->getKlant()->getId(),
+                        "locatie"=>$entity->getLocaties()->first()->getId(),
+                        "datum"=>$entity->getDatumVan(),
+                        "redirect"=>$request->get('redirect')
+                    ]);
+                }
             } catch(UserException $e) {
 //                $this->get('logger')->error($e->getMessage(), ['exception' => $e]);
                 $message =  $e->getMessage();

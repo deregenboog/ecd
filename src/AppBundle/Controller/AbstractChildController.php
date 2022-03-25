@@ -62,13 +62,10 @@ abstract class AbstractChildController extends AbstractController
         }
 
 
-
         $form = $this->getForm($this->formClass, $entity, [
             'medewerker' => $this->getMedewerker(),
         ]);
         $form->handleRequest($request);
-
-
 
         if ($form->isSubmitted() && $form->isValid()) {
             if ($entity instanceof MedewerkerSubjectInterface && !$entity->getMedewerker()) {
@@ -160,6 +157,7 @@ abstract class AbstractChildController extends AbstractController
 
         return [
             'entity' => $entity,
+            'entity_name'=>$this->entityName,
             'form' => $form->createView(),
         ];
     }
