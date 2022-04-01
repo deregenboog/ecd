@@ -101,14 +101,7 @@ class SchorsingenController extends AbstractController
 
                 $this->dao->create($entity);
                 $this->addFlash('success', ucfirst($this->entityName).' is opgeslagen.');
-                if($form->get('submitAndAddIncident')->isClicked()) {
-                    return $this->redirectToRoute("inloop_incidenten_add",[
-                        "klant"=>$entity->getKlant()->getId(),
-                        "locatie"=>$entity->getLocaties()->first()->getId(),
-                        "datum"=>$entity->getDatumVan(),
-                        "redirect"=>$request->get('redirect')
-                    ]);
-                }
+
             } catch(UserException $e) {
 //                $this->get('logger')->error($e->getMessage(), ['exception' => $e]);
                 $message =  $e->getMessage();
@@ -124,7 +117,7 @@ class SchorsingenController extends AbstractController
                 $this->sendSchorsingEmail($entity);
             }
 
-            return $this->afterFormSubmitted($request, $entity);
+            return $this->afterFormSubmitted($request, $entity, $form);
         }
 
         return [
@@ -239,5 +232,26 @@ class SchorsingenController extends AbstractController
         } else {
             $this->addFlash('danger', 'E-mail kon niet verzonden worden.');
         }
+    }
+
+    /**
+     * Override this method so we can apply some own logic to handle submit logic.
+     *
+     * @param Request $request
+     * @param $entity
+     * @param null $form
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
+     */
+    protected function afterFormSubmitted(Request $request, $entity, $form = null)
+    {
+        if($form->get('submitAndAddIncident')->isClicked()) {
+            $params = [
+                "locatie"=>$entity->getLocaties()->first()->getId(),
+                "klant"=>$entity->getKlant()->getId(),
+                "redirect"=>$request->get('redirect'),
+            ];
+            return $this->redirectToRoute("inloop_incidenten_addprefilled",$params);
+        }
+        return parent::afterFormSubmitted($request, $entity);
     }
 }

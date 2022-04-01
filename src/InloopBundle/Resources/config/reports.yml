@@ -24,3 +24,9 @@ services:
         tags:
             - { name: inloop.rapportage }
 
+    InloopBundle\Report\Incidenten:
+        public: true
+        arguments:
+            - "@doctrine.orm.entity_manager"
+        tags:
+            - { name: inloop.rapportage }

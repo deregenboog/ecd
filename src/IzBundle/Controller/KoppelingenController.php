@@ -125,7 +125,7 @@ class KoppelingenController extends AbstractController
         ];
     }
 
-    protected function afterFormSubmitted(Request $request, $entity)
+    protected function afterFormSubmitted(Request $request, $entity, $form = null)
     {
         return $this->redirectToView($entity);
     }
