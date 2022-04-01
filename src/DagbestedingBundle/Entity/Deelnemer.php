@@ -337,7 +337,7 @@ class Deelnemer
      * @param \DateTime $evaluatiedatum
      * @return Deelnemer
      */
-    public function setEvaluatiedatum(?DateTime $evaluatiedatum): Deelnemer
+    public function setEvaluatiedatum($evaluatiedatum): Deelnemer
     {
         $this->evaluatiedatum = $evaluatiedatum;
         return $this;
