@@ -137,7 +137,7 @@ class VerslagenController extends AbstractController
 
             }
 
-            return $this->afterFormSubmitted($request, $entity);
+            return $this->afterFormSubmitted($request, $entity, null);
         }
 
         return [
