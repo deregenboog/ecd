@@ -38,10 +38,10 @@
         <dd>{{ entity.medewerker }}</dd>
         <dt>Werkbegeleider</dt>
         <dd>{{ entity.werkbegeleider }}</dd>
-        <dt>Evaluatiedatum</dt>
-        <dd>{{ entity.evaluatiedatum|if_date('d-m-Y') }}</dd>
+        <dt>RIS nummer</dt>
+        <dd>{{ entity.RisDossiernummer }}</dd>
         <dt>Afsluitdatum</dt>
-        <dd>{{ entity.afsluitdatum ? entity.afsluitdatum|date('d-m-Y') }}</dd>
+        <dd>{{ entity.afsluitdatum|if_date('d-m-Y') }}</dd>
         <dt>Reden afsluiting</dt>
         <dd>{{ entity.afsluiting }}</dd>
     </dl>

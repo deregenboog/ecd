@@ -21,7 +21,7 @@ class Traject
 {
     use TimestampableTrait;
 
-    const TERMIJN_RAPPORTAGE = '+6 months';
+    const TERMIJN_EVALUATIE = '+6 months';
     const TERMIJN_EIND = '+1 year -1 day';
 
     /**
@@ -75,18 +75,16 @@ class Traject
     private $startdatum;
 
     /**
+     * @var \DateTime
+     * @ORM\Column(type="date", nullable=true)
+     */
+    private $evaluatiedatum;
+
+    /**
      * @ORM\Column(type="date", nullable=false)
      * @Gedmo\Versioned
      */
     private $einddatum;
-
-    /**
-     * @var ArrayCollection|Rapportage[]
-     *
-     * @ORM\OneToMany(targetEntity="Rapportage", mappedBy="traject", cascade={"persist"}, orphanRemoval=true)
-     * @ORM\OrderBy({"datum" = "ASC", "id" = "ASC"})
-     */
-    private $rapportages;
 
     /**
      * @ORM\Column(type="date", nullable=true)
@@ -177,7 +175,6 @@ class Traject
         $this->documenten = new ArrayCollection();
         $this->locaties = new ArrayCollection();
         $this->projecten = new ArrayCollection();
-        $this->rapportages = new ArrayCollection();
         $this->resultaatgebieden = new ArrayCollection();
         $this->verslagen = new ArrayCollection();
         $this->werkdoelen = new ArrayCollection();
@@ -228,28 +225,31 @@ class Traject
     public function setStartdatum(\DateTime $startdatum = null)
     {
         if ($this->startdatum) {
-            $rapportagedatum = clone $this->startdatum;
-            $rapportagedatum->modify(self::TERMIJN_RAPPORTAGE);
-            $einddatum = clone $this->startdatum;
-            $einddatum->modify(self::TERMIJN_EIND);
-            foreach ($this->rapportages as $rapportage) {
-                if ($rapportage->isDeletable()
-                    && in_array($rapportage->getDatum(), [$rapportagedatum, $einddatum])
-                ) {
-                    $this->removeRapportage($rapportage);
-                }
-            }
+//            $rapportagedatum = clone $this->startdatum;
+//            $rapportagedatum->modify(self::TERMIJN_EVALUATIE);
+//            $einddatum = clone $this->startdatum;
+//            $einddatum->modify(self::TERMIJN_EIND);
+//            foreach ($this->rapportages as $rapportage) {
+//                if ($rapportage->isDeletable()
+//                    && in_array($rapportage->getDatum(), [$rapportagedatum, $einddatum])
+//                ) {
+//                    $this->removeRapportage($rapportage);
+//                }
+//            }
         }
 
         $this->startdatum = $startdatum;
 
-        $rapportagedatum = clone $startdatum;
-        $rapportagedatum->modify(self::TERMIJN_RAPPORTAGE);
-        $this->addRapportage(new Rapportage($rapportagedatum));
+        if(null!==$this->getEvaluatiedatum()) {
+
+            $evaluatiedatum = clone $startdatum;
+            $evaluatiedatum->modify(self::TERMIJN_EVALUATIE);
+            $this->setEvaluatiedatum($evaluatiedatum);
+        }
 
         $einddatum = clone $startdatum;
         $einddatum->modify(self::TERMIJN_EIND);
-        $this->addRapportage(new Rapportage($einddatum));
+//        $this->addRapportage(new Rapportage($einddatum));
         $this->setEinddatum($einddatum);
 
         return $this;
@@ -267,13 +267,28 @@ class Traject
         return $this;
     }
 
+    /**
+     * @return \DateTime
+     */
+    public function getEvaluatiedatum():? \DateTime
+    {
+        return $this->evaluatiedatum;
+    }
+
+    /**
+     * @param \DateTime $evaluatiedatum
+     * @return Traject
+     */
+    public function setEvaluatiedatum($evaluatiedatum): Traject
+    {
+        $evaluatiedatum = $evaluatiedatum ?? (new \DateTime())->modify(self::TERMIJN_EVALUATIE);
+        $this->evaluatiedatum = $evaluatiedatum;
+        return $this;
+    }
+
+
     public function isDeletable(): bool
     {
-        foreach ($this->rapportages as $rapportage) {
-            if (count($rapportage->getDocumenten()) > 0) {
-                return false;
-            }
-        }
 
         return 0 === count($this->dagdelen)
             && 0 === count($this->documenten)
@@ -310,27 +325,6 @@ class Traject
         return $this;
     }
 
-    public function getRapportages()
-    {
-        return $this->rapportages;
-    }
-
-    public function addRapportage(Rapportage $rapportage)
-    {
-        $this->rapportages[] = $rapportage;
-        $rapportage->setTraject($this);
-
-        return $this;
-    }
-
-    public function removeRapportage(Rapportage $rapportage)
-    {
-        if ($this->rapportages->contains($rapportage)) {
-            $this->rapportages->removeElement($rapportage);
-        }
-
-        return $this;
-    }
 
     /**
      * @return Trajectcoach

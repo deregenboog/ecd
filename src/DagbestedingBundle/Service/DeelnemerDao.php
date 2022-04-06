@@ -6,6 +6,7 @@ use AppBundle\Entity\Klant;
 use AppBundle\Filter\FilterInterface;
 use AppBundle\Service\AbstractDao;
 use DagbestedingBundle\Entity\Deelnemer;
+use DagbestedingBundle\Entity\Document;
 use Doctrine\ORM\QueryBuilder;
 use IzBundle\Entity\IzKlant;
 
@@ -129,37 +130,134 @@ class DeelnemerDao extends AbstractDao implements DeelnemerDaoInterface
         return $builder->getQuery()->getResult();
     }
 
+    public function deelnemersZonderVOG($fase, \DateTime $startdate, \DateTime $enddate)
+    {
+        /**
+         * SELECT ddd.deelnemer_id FROM dagbesteding_documenten ddoc
+        INNER JOIN dagbesteding_deelnemer_document ddd on ddoc.id = ddd.document_id
+        WHERE ddoc.naam = 'VOG'
+        GROUP BY ddd.deelnemer_id
+         *
+         * -- Eerst lijstje met iedereen met VOG maken
+         */
+
+        $docBuilder = $this->repository->createQueryBuilder("deelnemer");
+        $docBuilder->select('deelnemer.id')
+            ->innerJoin("deelnemer.documenten","documenten")
+            ->where("documenten.naam = 'VOG'")
+            ->groupBy("deelnemer.id");
+        $res = $docBuilder->getQuery()->getResult();
+        $deelnemersMetVog = [];
+        foreach($res as $v){
+            $deelnemersMetVog[] = $v["id"];
+        }
+        /**
+         * Basis:
+         *
+         *
+         * SELECT dd.id FROM dagbesteding_deelnemers dd LEFT JOIN dagbesteding_deelnemer_document ddd on dd.id = ddd.deelnemer_id
+        LEFT JOIN dagbesteding_documenten ddoc on ddd.document_id = ddoc.id
+        WHERE ddd.deelnemer_id IS NULL
+         * AND NOT IN  ()...
+        GROUP BY dd.id
+         *
+         * -- lijstje gebruiken om eruit te filteren.
+         */
+        $builder = $this->repository->createQueryBuilder($this->alias)
+            ->select($this->alias.".id AS id, CONCAT_WS(' ',klant.voornaam, klant.tussenvoegsel, klant.achternaam) AS naam")
+            ->leftJoin($this->alias.".documenten","documenten")
+            ->innerJoin($this->alias.".klant","klant")
+            ->innerJoin($this->alias.".trajecten","traject")
+            ->where("documenten IS NULL")
+            ->andWhere($this->alias.".id NOT IN (:deelnemersMetVog)")
+            ->groupBy($this->alias.".id")
+            ->setParameter("deelnemersMetVog",$deelnemersMetVog)
+        ;
+
+        $this->applyFilter($builder, $fase, $startdate, $enddate);
+        $q = $builder->getQuery()->getSQL();
+
+        return $builder->getQuery()->getResult();
+    }
+
+    public function deelnemersZonderToestemmingsformulier($fase, \DateTime $startdate, \DateTime $enddate)
+    {
+        /**
+         * SELECT ddd.deelnemer_id FROM dagbesteding_documenten ddoc
+        INNER JOIN dagbesteding_deelnemer_document ddd on ddoc.id = ddd.document_id
+        WHERE ddoc.naam = 'VOG'
+        GROUP BY ddd.deelnemer_id
+         *
+         * -- Eerst lijstje met iedereen met VOG maken
+         */
+
+        $docBuilder = $this->repository->createQueryBuilder("deelnemer");
+        $docBuilder->select('deelnemer.id')
+            ->innerJoin("deelnemer.documenten","documenten")
+            ->where("documenten.naam LIKE '%oestemmin%'")
+            ->groupBy("deelnemer.id");
+        $res = $docBuilder->getQuery()->getResult();
+        $deelnemersMet = [];
+        foreach($res as $v){
+            $deelnemersMet[] = $v["id"];
+        }
+        /**
+         * Basis:
+         *
+         *
+         * SELECT dd.id FROM dagbesteding_deelnemers dd LEFT JOIN dagbesteding_deelnemer_document ddd on dd.id = ddd.deelnemer_id
+        LEFT JOIN dagbesteding_documenten ddoc on ddd.document_id = ddoc.id
+        WHERE ddd.deelnemer_id IS NULL
+         * AND NOT IN  ()...
+        GROUP BY dd.id
+         *
+         * -- lijstje gebruiken om eruit te filteren.
+         */
+        $builder = $this->repository->createQueryBuilder($this->alias)
+            ->select($this->alias.".id AS id, CONCAT_WS(' ',klant.voornaam, klant.tussenvoegsel, klant.achternaam) AS naam")
+            ->leftJoin($this->alias.".documenten","documenten")
+            ->innerJoin($this->alias.".klant","klant")
+            ->innerJoin($this->alias.".trajecten","traject")
+            ->where("documenten IS NULL")
+            ->andWhere($this->alias.".id NOT IN (:deelnemersMet)")
+            ->groupBy($this->alias.".id")
+            ->setParameter("deelnemersMet",$deelnemersMet)
+        ;
+
+        $this->applyFilter($builder, $fase, $startdate, $enddate);
+        $q = $builder->getQuery()->getSQL();
+
+        return $builder->getQuery()->getResult();
+    }
+
     protected function applyFilter(QueryBuilder $builder, $fase, \DateTime $startdate, \DateTime $enddate)
     {
         switch ($fase) {
             case self::FASE_BEGINSTAND:
                 $builder
-                    ->where('traject.startdatum < :startdate')
+                    ->andWhere('traject.startdatum < :startdate')
                     ->andWhere('traject.einddatum IS NULL OR traject.einddatum >= :startdate')
                     ->setParameter('startdate', $startdate)
                 ;
                 break;
             case self::FASE_GESTART:
                 $builder
-                    ->where('traject.startdatum BETWEEN :startdate AND :enddate')
-                    ->setParameters([
-                        'startdate' => $startdate,
-                        'enddate' => $enddate,
-                    ])
+                    ->andWhere('traject.startdatum BETWEEN :startdate AND :enddate')
+                    ->setParameter('startdate', $startdate)
+                    ->setParameter('enddate',$enddate)
+
                 ;
                 break;
             case self::FASE_GESTOPT:
                 $builder
-                    ->where('traject.einddatum BETWEEN :startdate AND :enddate')
-                    ->setParameters([
-                        'startdate' => $startdate,
-                        'enddate' => $enddate,
-                    ])
+                    ->andWhere('traject.einddatum BETWEEN :startdate AND :enddate')
+                    ->setParameter('startdate', $startdate)
+                    ->setParameter('enddate',$enddate)
                 ;
                 break;
             case self::FASE_EINDSTAND:
                 $builder
-                    ->where('traject.startdatum < :enddate')
+                    ->andWhere('traject.startdatum < :enddate')
                     ->andWhere('traject.einddatum IS NULL OR traject.einddatum > :enddate')
                     ->setParameter('enddate', $enddate)
                 ;

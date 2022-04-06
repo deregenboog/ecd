@@ -121,17 +121,10 @@ class Deelnemer
      */
     private $werkbegeleider;
 
-    /**
-     * @var \DateTime
-     * @ORM\Column(type="date", nullable=true)
-     */
-    private $evaluatiedatum;
-
 
     public function __construct()
     {
         $this->aanmelddatum = new \DateTime();
-
         $this->trajecten = new ArrayCollection();
         $this->deelnames = new ArrayCollection();
         $this->contactpersonen = new ArrayCollection();
@@ -324,26 +317,6 @@ class Deelnemer
         $this->werkbegeleider = $werkbegeleider;
         return $this;
     }
-
-    /**
-     * @return \DateTime
-     */
-    public function getEvaluatiedatum():? \DateTime
-    {
-        return $this->evaluatiedatum;
-    }
-
-    /**
-     * @param \DateTime $evaluatiedatum
-     * @return Deelnemer
-     */
-    public function setEvaluatiedatum($evaluatiedatum): Deelnemer
-    {
-        $this->evaluatiedatum = $evaluatiedatum;
-        return $this;
-    }
-
-
 
     public function reopen()
     {

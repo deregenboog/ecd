@@ -52,6 +52,22 @@ services:
         tags:
             - { name: dagbesteding.rapportage, category: Deelnemers }
 
+    dagbesteding.report.deelnemers_zonder_vog:
+        class: DagbestedingBundle\Report\DeelnemersZonderVOG
+        public: true
+        arguments:
+            - '@DagbestedingBundle\Service\DeelnemerDao'
+        tags:
+            - { name: dagbesteding.rapportage, category: Deelnemers }
+
+    dagbesteding.report.deelnemers_zonder_toestemmingsformulier:
+        class: DagbestedingBundle\Report\DeelnemersZonderToestemmingsformulier
+        public: true
+        arguments:
+            - '@DagbestedingBundle\Service\DeelnemerDao'
+        tags:
+            - { name: dagbesteding.rapportage, category: Deelnemers }
+
     dagbesteding.report.trajecten_per_afsluiting:
         class: DagbestedingBundle\Report\TrajectenPerAfsluiting
         public: true
