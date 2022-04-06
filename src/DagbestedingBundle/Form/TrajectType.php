@@ -53,6 +53,12 @@ class TrajectType extends AbstractType
                     ])
                     ->add('ondersteuningsplanVerwerkt')
                     ->add('startdatum', AppDateType::class)
+                    ->add('evaluatiedatum', AppDateType::class,[
+                        'attr'=> [
+                            "placeholder"=>(new \DateTime())->modify(Traject::TERMIJN_EVALUATIE)->format("d-m-Y")
+                        ],
+                        'required'=>false,
+                    ])
                     ->add('trajectcoach')
                     ->add('locaties', BaseSelectType::class, [
                         'class' => Locatie::class,

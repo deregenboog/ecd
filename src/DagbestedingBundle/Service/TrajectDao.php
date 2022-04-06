@@ -18,7 +18,7 @@ class TrajectDao extends AbstractDao implements TrajectDaoInterface
             'resultaatgebiedsoort.naam',
             'trajectcoach.naam',
             'traject.startdatum',
-            'rapportage.datum',
+            'traject.evaluatiedatum',
             'traject.afsluitdatum',
         ],
         'wrap-queries' => true, // because of HAVING clause in filter
@@ -37,7 +37,6 @@ class TrajectDao extends AbstractDao implements TrajectDaoInterface
             ->innerJoin($this->alias.'.soort', 'trajectsoort')
             ->innerJoin($this->alias.'.resultaatgebied', 'resultaatgebied')
             ->innerJoin('resultaatgebied.soort', 'resultaatgebiedsoort')
-            ->leftJoin($this->alias.'.rapportages', 'rapportage')
         ;
 
         if ($filter) {
