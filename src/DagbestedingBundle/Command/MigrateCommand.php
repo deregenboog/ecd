@@ -151,6 +151,7 @@ class MigrateCommand extends ContainerAwareCommand
 
 
         $scipDeelnemers = $this->scipDeelnemerDao->findAll();
+
         $this->output->writeln("Retrieving SCIP deelnemers: ".count($scipDeelnemers));
 
 //       $this->output->write(array_keys($this->dbProjects));
@@ -197,7 +198,7 @@ class MigrateCommand extends ContainerAwareCommand
                 }
             } catch (UserException $e)
             {
-                $this->output->writeln("Exception when trying to migrate deelnemer: ".$scipDeelnemer->getKlant()->getNaam()." . Message: ".$e->getMessage());
+                $this->output->writeln("Exception when trying to migrate deelnemer: ".$scipDeelnemer->getKlant()->getNaam()." . Message: ".$e->getMessage() . "-trace: ".$e->getTraceAsString());
             }
 
             $i++;
