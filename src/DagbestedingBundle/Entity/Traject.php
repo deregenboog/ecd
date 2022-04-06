@@ -415,7 +415,10 @@ class Traject
 
     public function addLocatie(Locatie $locatie)
     {
-        $this->locaties[] = $locatie;
+        if(!$this->locaties->contains($locatie))
+        {
+            $this->locaties[] = $locatie;
+        }
 
         return $this;
     }
