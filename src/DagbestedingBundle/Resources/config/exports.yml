@@ -97,12 +97,10 @@ services:
             - Voornaam: { expression: 'entity.getDeelnemer().getKlant().getVoornaam()' }
               Tussenvoegsel: { expression: 'entity.getDeelnemer().getKlant().getTussenvoegsel()' }
               Achternaam: { expression: 'entity.getDeelnemer().getKlant().getAchternaam()' }
-              KPL: { expression: 'entity.getProject().getKpl()' }
               Naam: { expression: 'entity.getProject().getNaam()' }
-              Functie: { expression: 'entity.getDeelnemer().getFunctie()' }
               Werkbegeleider: { expression: 'entity.getDeelnemer().getWerkbegeleider()' }
               Actief: { expression: 'entity.isActief()' }
-              WMO: { expression: 'entity.getDeelnemer().getRisNummer()' }
+              RISDossiernummer: { expression: 'entity.getDeelnemer().getRisDossiernummer()' }
               EmailAdres: { expression: 'entity.getDeelnemer().getKlant().getEmail()' }
               Adres: { expression: 'entity.getDeelnemer().getKlant().getAdres()' }
               Postcode: { expression: 'entity.getDeelnemer().getKlant().getPostcode()' }

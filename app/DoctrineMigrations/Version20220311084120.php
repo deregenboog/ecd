@@ -16,7 +16,7 @@ final class Version20220311084120 extends AbstractMigration
         $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
 
 
-        $this->addSql('ALTER TABLE dagbesteding_deelnemers ADD werkbegeleider VARCHAR(255) DEFAULT NULL, ADD evaluatiedatum DATE DEFAULT NULL');
+        $this->addSql('ALTER TABLE dagbesteding_deelnemers ADD werkbegeleider VARCHAR(255) DEFAULT NULL');
 
     }
 

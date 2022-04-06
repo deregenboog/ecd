@@ -132,10 +132,10 @@ class MigrateCommand extends ContainerAwareCommand
             ->findOneBy(["naam"=>"WMO"]);
 
         $this->defaultTrajectcoach = $this->trajectCoachRep
-            ->findOneBy(["id"=>"2"]);
+            ->findOneBy(["id"=>"2"]); //20837
 
         $this->defaultMedewerker = $em->getRepository(Medewerker::class)
-            ->findOneBy(["username"=>"jborger"]);
+            ->findOneBy(["username"=>"jborger"]); //slovdahl
 
 
         $this->mapAndCreateProjects($em);
@@ -170,10 +170,10 @@ class MigrateCommand extends ContainerAwareCommand
 //                continue;
 //            }
 
-            if(null == $scipDeelnemer->getProjecten()){
-               $this->output->writeln("Skip deelnemer without projecten: ".$scipDeelnemer->getKlant()->getNaam());
-                continue;
-            }
+//            if(null == $scipDeelnemer->getProjecten()){
+//               $this->output->writeln("Skip deelnemer without projecten: ".$scipDeelnemer->getKlant()->getNaam());
+//                continue;
+//            }
 
             /**
              * @var \DagbestedingBundle\Entity\Deelnemer $dbDeelnemer;
@@ -234,7 +234,10 @@ class MigrateCommand extends ContainerAwareCommand
      */
     private function migrateDeelnemer($scipDeelnemer, $dbDeelnemer)
     {
-        if($t = $scipDeelnemer->getEvaluatiedatum() ?? false) $dbDeelnemer->setEvaluatiedatum($t);
+
+
+        //migreer RIS nummer alleen als die niet al aanwezig is.
+        if($r = $dbDeelnemer->getRisDossiernummer() ?? $scipDeelnemer->getRisNummer()) $dbDeelnemer->setRisDossiernummer($r);
 
 
         foreach($scipDeelnemer->getDocumenten() as $d)
@@ -244,6 +247,18 @@ class MigrateCommand extends ContainerAwareCommand
             $newD->setFilename($d->getFilename());
             $newD->setFile($d->getFile());
             $newD->setMedewerker($d->getMedewerker());
+
+            //toestemmingsformulier migreren obv deze fantastische wijze...
+            if(strpos($d->getNaam(), 'oestemming') !== false || strpos($d->getNaam(), "ennismaking") !== false)
+            {
+                $toestemming = new \AppBundle\Entity\Toestemmingsformulier();
+                $toestemming->setFilename($d->getFilename());
+                $toestemming->setFile($d->getFile());
+                $toestemming->setMedewerker($d->getMedewerker());
+                $dbDeelnemer->getKlant()->setToestemmingsformulier($toestemming);
+
+            }
+
 
             switch($d->getType())
             {
@@ -255,22 +270,35 @@ class MigrateCommand extends ContainerAwareCommand
                     break;
             }
 
+
             $dbDeelnemer->addDocument($newD);
             $this->output->writeln("Add document ".$newD->getNaam());
         }
 
+        if(null === $scipDeelnemer->getProjecten()) {
+            //Geen proojecten, verslagen wel migreren.
+            foreach($scipDeelnemer->getVerslagen() as $verslag)
+            {
+                $dbVerslag = new Verslag();
+                $dbVerslag->setMedewerker($verslag->getMedewerker());
+                $dbVerslag->setOpmerking($verslag->getTekst());
+                $dbVerslag->setDatum($verslag->getDatum());
+                $dbDeelnemer->addVerslag($dbVerslag);
+            }
+           $this->output->writeln("SCIP deelnemer without projecten. Only verslagen added.: ".$scipDeelnemer->getKlant()->getNaam());
+            return $dbDeelnemer;
+
+        }
 
 
         $this->output->writeln("Create traject. ".$scipDeelnemer->getKlant()->getNaam());
 
         $dbTraject = new Traject();
-
         //mappen
+        if($t = $scipDeelnemer->getEvaluatiedatum() ?? false) $dbTraject->setEvaluatiedatum($t);
         $dbTraject->setResultaatgebiedsoort($this->defaultResultaatgebiedSoort);
-
         $trajectSoort = ($scipDeelnemer->getType() == Deelnemer::TYPE_WMO) ? $this->wmoTrajectsoort : $this->defaultTrajectsoort;
         $dbTraject->setSoort($trajectSoort);
-
         $dbTraject->setStartdatum($dbDeelnemer->getAanmelddatum());
         $dbTraject->setTrajectcoach($this->defaultTrajectcoach);
 

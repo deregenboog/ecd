@@ -82,9 +82,9 @@ class TrajectFilterType extends AbstractType
             ]);
         }
 
-        if (array_key_exists('rapportage', $options['enabled_filters'])) {
-            $builder->add('rapportage', RapportageFilterType::class, [
-                'enabled_filters' => $options['enabled_filters']['rapportage'],
+        if (in_array('evaluatiedatum', $options['enabled_filters'])) {
+            $builder->add('evaluatiedatum', AppDateRangeType::class, [
+                'required' => false,
             ]);
         }
 
@@ -132,7 +132,7 @@ class TrajectFilterType extends AbstractType
                 'trajectcoach',
                 'project',
                 'startdatum',
-                'rapportage' => ['datum'],
+                'evaluatiedatum',
                 'afsluitdatum',
                 'actief',
                 'filter',

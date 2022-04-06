@@ -56,10 +56,10 @@
                         {{ form_errors(filter.startdatum.end) }}
                     </th>
                     <th>
-                        {{ form_widget(filter.rapportage.datum.start) }}
-                        {{ form_errors(filter.rapportage.datum.start) }}
-                        {{ form_widget(filter.rapportage.datum.end) }}
-                        {{ form_errors(filter.rapportage.datum.end) }}
+                        {{ form_widget(filter.evaluatiedatum.start) }}
+                        {{ form_errors(filter.evaluatiedatum.start) }}
+                        {{ form_widget(filter.evaluatiedatum.end) }}
+                        {{ form_errors(filter.evaluatiedatum.end) }}
                     </th>
                     <th>
                         {{ form_widget(filter.afsluitdatum.start) }}
@@ -89,7 +89,7 @@
                     {{ knp_pagination_sortable(pagination, 'Startdatum', 'traject.startdatum') }}
                 </th>
                 <th>
-                    {{ knp_pagination_sortable(pagination, 'Rapportagedata', 'rapportage.datum') }}
+                    {{ knp_pagination_sortable(pagination, 'Evaluatiedatum', 'traject.evaluatiedatum') }}
                 </th>
                 <th>
                     {{ knp_pagination_sortable(pagination, 'Afsluitdatum', 'traject.afsluitdatum') }}
@@ -97,7 +97,11 @@
             </tr>
         </thead>
         {% for traject in pagination %}
-        <tr data-href="{{ path('dagbesteding_trajecten_view', {id: traject.id}) }}">
+            {% set class = '' %}
+            {% if traject.evaluatiedatum and date(traject.evaluatiedatum) < date("+1 month")  %}
+                {% set class = 'alert-warning' %}
+            {% endif %}
+        <tr data-href="{{ path('dagbesteding_trajecten_view', {id: traject.id}) }}" class="{{ class }}">
             <td>
                 {{ traject.deelnemer.klant.naam }}
             </td>
@@ -121,16 +125,11 @@
                 {{ traject.startdatum|date('d-m-Y') }}
             </td>
             <td>
-                <ul>
-                    {% for rapportage in traject.rapportages %}
-                        {% set color = (rapportage.status == 'done') ? 'green' : (rapportage.status == 'almost') ? 'orange' : (rapportage.status == 'late') ? 'red' : 'black' %}
-                        <li><span style="color: {{ color }}">{{ rapportage.datum|date('d-m-Y') }}</span></li>
-                    {% endfor %}
-                </ul>
+                {{ traject.evaluatiedatum|if_date('d-m-Y') }}
             </td>
             <td>
                 {% if traject.afsluitdatum %}
-                    {{ traject.afsluitdatum ? traject.afsluitdatum|date('d-m-Y') }}<br>
+                    {{ traject.afsluitdatum|if_date('d-m-Y') }}<br>
                     ({{ traject.afsluiting }})
                 {% endif %}
             </td>
