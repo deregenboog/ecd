@@ -17,6 +17,8 @@ final class Version20220311084120 extends AbstractMigration
 
 
         $this->addSql('ALTER TABLE dagbesteding_deelnemers ADD werkbegeleider VARCHAR(255) DEFAULT NULL');
+        $this->addSql('ALTER TABLE dagbesteding_trajecten ADD evaluatiedatum DATE DEFAULT NULL');
+        $this->addSql('UPDATE dagbesteding_trajecten SET evaluatiedatum = DATE_ADD(startdatum, INTERVAL 6 MONTH) WHERE evaluatiedatum IS NULL AND afsluitdatum IS NULL');
 
     }
 

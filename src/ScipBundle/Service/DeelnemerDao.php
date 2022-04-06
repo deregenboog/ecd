@@ -38,6 +38,7 @@ class DeelnemerDao extends AbstractDao implements DeelnemerDaoInterface
             ->leftJoin($this->alias.'.deelnames', 'deelname')
             ->leftJoin('deelname.project', 'project')
             ->leftJoin($this->alias.'.labels', 'label')
+//            ->where($this->alias.".klant = 5654331")
         ;
 
         return parent::doFindAll($builder, $page, $filter);
