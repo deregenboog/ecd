@@ -12,7 +12,7 @@
 {% block content %}
     <h1>Deelnemer uit project verwijderen</h1>
     <p>
-        Weet u zeker dat u deelnemer <strong>{{ entity.deelnemer }}</strong>
+        Weet u zeker dat u deelnemer <strong>{{ entity.traject.deelnemer }}</strong>
         wilt verwijderen uit project <strong>{{ entity.project }}</strong>?<br>
         {{ form(form) }}
     </p>

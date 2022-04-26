@@ -21,12 +21,37 @@ class Project
     use IdentifiableTrait, NameableTrait, ActivatableTrait;
 
     /**
-     * @var ArrayCollection|Deelname[]
-     *
-     * @ORM\OneToMany(targetEntity="Deelname", mappedBy="deelnemer", cascade={"persist"})
-     * @ORM\OrderBy({"id" = "DESC"})
+     * @ORM\Column(type="integer", nullable=true)
      */
-    private $deelnames;
+    private $kpl;
+
+//    /**
+//     * @var ArrayCollection|Deelname[]
+//     *
+//     * @ORM\OneToMany(targetEntity="Deelname", mappedBy="project", cascade={"persist"})
+//     * @ORM\OrderBy({"id" = "DESC"})
+//     */
+//    private $deelnames;
+
+//    /**
+//     * @var ArrayCollection|Traject[]
+//     *
+//     * @ORM\ManyToMany(targetEntity="Traject", cascade={"persist"})
+//     * @ORM\JoinTable(name="dagbesteding_traject_project")
+//     * @ORM\OrderBy({"naam" = "ASC"})
+//     */
+//    private $trajecten;
+
+    /**
+     * @ORM\OneToMany(targetEntity="TrajectProject", mappedBy="project",cascade={"persist","remove"} )
+     */
+    protected $trajecten;
+
+    public function __toString()
+    {
+        return $this->getNaam();
+    }
+
 
     /**
      * @return Deelname[]|ArrayCollection
@@ -46,11 +71,40 @@ class Project
         return $this;
     }
 
+    /**
+     * @param Deelname[]|ArrayCollection $deelnames
+     * @return Project
+     */
+    public function addDeelname($deelname)
+    {
+        $this->deelnames[] = $deelname;
+        return $this;
+    }
+
 
     public function isDeletable()
     {
         return false;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getKpl()
+    {
+        return $this->kpl;
+    }
+
+    /**
+     * @param mixed $kpl
+     * @return Project
+     */
+    public function setKpl($kpl)
+    {
+        $this->kpl = $kpl;
+        return $this;
+    }
+
 
 
 }

@@ -40,6 +40,11 @@ class DeelnemerFilter implements FilterInterface
      */
     public $klant;
 
+    /**
+     * @var bool
+     */
+    public $actief = true;
+
     public function applyTo(QueryBuilder $builder)
     {
         if ($this->id) {
@@ -86,6 +91,11 @@ class DeelnemerFilter implements FilterInterface
             }
         }
 
+        if($this->actief)
+        {
+            $builder->andWhere('(deelnemer.afsluitdatum IS NULL OR deelnemer.afsluitdatum >= NOW())');
+
+        }
         if ($this->zonderTraject) {
             $builder->leftJoin('deelnemer.trajecten', 'traject')->andWhere('traject.id IS NULL');
         }

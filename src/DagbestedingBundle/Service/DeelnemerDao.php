@@ -144,8 +144,11 @@ class DeelnemerDao extends AbstractDao implements DeelnemerDaoInterface
         $docBuilder = $this->repository->createQueryBuilder("deelnemer");
         $docBuilder->select('deelnemer.id')
             ->innerJoin("deelnemer.documenten","documenten")
+            ->innerJoin("deelnemer.klant","klant")
             ->where("documenten.naam = 'VOG'")
-            ->groupBy("deelnemer.id");
+            ->groupBy("deelnemer.id")
+
+            ;
         $res = $docBuilder->getQuery()->getResult();
         $deelnemersMetVog = [];
         foreach($res as $v){
@@ -171,6 +174,7 @@ class DeelnemerDao extends AbstractDao implements DeelnemerDaoInterface
             ->where("documenten IS NULL")
             ->andWhere($this->alias.".id NOT IN (:deelnemersMetVog)")
             ->groupBy($this->alias.".id")
+            ->orderBy('klant.achternaam', 'ASC')
             ->setParameter("deelnemersMetVog",$deelnemersMetVog)
         ;
 
@@ -221,6 +225,7 @@ class DeelnemerDao extends AbstractDao implements DeelnemerDaoInterface
             ->where("documenten IS NULL")
             ->andWhere($this->alias.".id NOT IN (:deelnemersMet)")
             ->groupBy($this->alias.".id")
+            ->orderBy('klant.achternaam', 'ASC')
             ->setParameter("deelnemersMet",$deelnemersMet)
         ;
 

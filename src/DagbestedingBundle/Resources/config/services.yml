@@ -38,7 +38,7 @@ services:
         public: true
         class: ArrayObject
         arguments:
-            - - { key: deelnemer, dao: '@DagbestedingBundle\Service\DeelnemerDao' }
+            - - { key: traject, dao: '@DagbestedingBundle\Service\TrajectDao' }
               - { key: project, dao: '@DagbestedingBundle\Service\ProjectDao' }
 
     dagbesteding.werkdoel.entities:
