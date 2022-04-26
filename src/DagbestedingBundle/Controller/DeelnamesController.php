@@ -4,6 +4,7 @@ namespace DagbestedingBundle\Controller;
 
 use AppBundle\Controller\AbstractChildController;
 use AppBundle\Export\ExportInterface;
+use DagbestedingBundle\Entity\Traject;
 use JMS\DiExtraBundle\Annotation as DI;
 use DagbestedingBundle\Entity\Deelname;
 use DagbestedingBundle\Entity\Deelnemer;
@@ -68,9 +69,9 @@ class DeelnamesController extends AbstractChildController
 
     protected function createEntity($parentEntity = null)
     {
-        $deelnemer = $parentEntity instanceof Deelnemer ? $parentEntity : null;
+        $traject = $parentEntity instanceof Traject ? $parentEntity : null;
         $project = $parentEntity instanceof Project ? $parentEntity : null;
 
-        return new Deelname($deelnemer, $project);
+        return new Deelname($traject, $project);
     }
 }

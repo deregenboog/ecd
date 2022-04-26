@@ -99,14 +99,6 @@ class Deelnemer
     private $trajecten;
 
     /**
-     * @var ArrayCollection|Deelname[]
-     *
-     * @ORM\OneToMany(targetEntity="Deelname", mappedBy="deelnemer", cascade={"persist"})
-     * @ORM\OrderBy({"id" = "DESC"})
-     */
-    private $deelnames;
-
-    /**
      * @var ArrayCollection|Contactpersoon[]
      *
      * @ORM\OneToMany(targetEntity="Contactpersoon", mappedBy="deelnemer", cascade={"persist"})
@@ -126,7 +118,6 @@ class Deelnemer
     {
         $this->aanmelddatum = new \DateTime();
         $this->trajecten = new ArrayCollection();
-        $this->deelnames = new ArrayCollection();
         $this->contactpersonen = new ArrayCollection();
         $this->verslagen = new ArrayCollection();
         $this->documenten = new ArrayCollection();
@@ -266,36 +257,6 @@ class Deelnemer
     {
         $this->contactpersonen[] = $contactpersoon;
         $contactpersoon->setDeelnemer($this);
-
-        return $this;
-    }
-
-    /**
-     * @return Deelname[]|ArrayCollection
-     */
-    public function getDeelnames()
-    {
-        return $this->deelnames;
-    }
-
-    /**
-     * @param Deelname[]|ArrayCollection $deelnames
-     * @return Deelnemer
-     */
-    public function setDeelnames($deelnames)
-    {
-        $this->deelnames = $deelnames;
-        return $this;
-    }
-
-    /**
-     * @param Werkdoel $werkdoel
-     * @return $this
-     */
-    public function addDeelname(Deelname $deelname)
-    {
-        $this->deelnames[] = $deelname;
-        $deelname->setDeelnemer($this);
 
         return $this;
     }

@@ -15,9 +15,9 @@ final class Version20220302132929 extends AbstractMigration
         // this up() migration is auto-generated, please modify it to your needs
         $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
 
-        $this->addSql('CREATE TABLE dagbesteding_deelnames (id INT AUTO_INCREMENT NOT NULL, deelnemer_id INT DEFAULT NULL, project_id INT DEFAULT NULL, active TINYINT(1) NOT NULL, INDEX IDX_328AD7035DFA57A1 (deelnemer_id), INDEX IDX_328AD703166D1F9C (project_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8 COLLATE `utf8_general_ci` ENGINE = InnoDB');
+        $this->addSql('CREATE TABLE dagbesteding_deelnames (id INT AUTO_INCREMENT NOT NULL, traject_id INT DEFAULT NULL, project_id INT DEFAULT NULL, active TINYINT(1) NOT NULL DEFAULT `1`, INDEX IDX_328AD7035DFA57A1 (traject_id), INDEX IDX_328AD703166D1F9C (project_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8 COLLATE `utf8_general_ci` ENGINE = InnoDB');
 
-        $this->addSql('ALTER TABLE dagbesteding_deelnames ADD CONSTRAINT FK_328AD7035DFA57A1 FOREIGN KEY (deelnemer_id) REFERENCES dagbesteding_deelnemers (id)');
+        $this->addSql('ALTER TABLE dagbesteding_deelnames ADD CONSTRAINT FK_328AD7035DFA57A1 FOREIGN KEY (traject_id) REFERENCES dagbesteding_trajecten (id)');
         $this->addSql('ALTER TABLE dagbesteding_deelnames ADD CONSTRAINT FK_328AD703166D1F9C FOREIGN KEY (project_id) REFERENCES dagbesteding_projecten (id)');
 
 
@@ -27,9 +27,9 @@ final class Version20220302132929 extends AbstractMigration
         $this->addSql('ALTER TABLE dagbesteding_beschikbaarheid ADD CONSTRAINT FK_912C9E7AC18FA9D5 FOREIGN KEY (deelname_id) REFERENCES dagbesteding_deelnames (id)');
         $this->addSql('CREATE UNIQUE INDEX UNIQ_912C9E7AC18FA9D5 ON dagbesteding_beschikbaarheid (deelname_id)');
 
-        $this->addSql('INSERT INTO dagbesteding_deelnames (project_id, deelnemer_id, active)
+        $this->addSql('INSERT INTO dagbesteding_deelnames (project_id, traject_id, active)
 
-SELECT dp.id AS project_id, dd.id AS deelnemer_id, 1 FROM
+SELECT dp.id AS project_id, dt.id AS traject_id, 1 FROM
     dagbesteding_traject_project AS dtp
         INNER JOIN dagbesteding_projecten dp on dtp.project_id = dp.id
         INNER JOIN dagbesteding_trajecten dt on dtp.traject_id = dt.id

@@ -137,14 +137,27 @@ class Traject
      */
     private $locaties;
 
+//    /**
+//     * @var ArrayCollection|Project[]
+//     *
+//     * @ORM\ManyToMany(targetEntity="Project", cascade={"persist"})
+//     * @ORM\JoinTable(name="dagbesteding_traject_project")
+//     * @ORM\OrderBy({"naam" = "ASC"})
+//     */
+//    private $projecten;
+
     /**
-     * @var ArrayCollection|Project[]
-     *
-     * @ORM\ManyToMany(targetEntity="Project")
-     * @ORM\JoinTable(name="dagbesteding_traject_project")
-     * @ORM\OrderBy({"naam" = "ASC"})
+     * @ORM\OneToMany(targetEntity="TrajectProject", mappedBy="trajecten",cascade={"persist","remove"} )
      */
-    private $projecten;
+    protected $projecten;
+
+    /**
+     * @var ArrayCollection|Deelname[]
+     *
+     * @ORM\OneToMany(targetEntity="Deelname", mappedBy="traject", cascade={"persist"})
+     * @ORM\OrderBy({"id" = "DESC"})
+     */
+    private $deelnames;
 
     /**
      * @var bool
@@ -175,6 +188,7 @@ class Traject
         $this->documenten = new ArrayCollection();
         $this->locaties = new ArrayCollection();
         $this->projecten = new ArrayCollection();
+        $this->deelnames = new ArrayCollection();
         $this->resultaatgebieden = new ArrayCollection();
         $this->verslagen = new ArrayCollection();
         $this->werkdoelen = new ArrayCollection();
@@ -425,26 +439,52 @@ class Traject
 
     public function getProjecten($inclusiefHistorischeProjecten = false)
     {
-        if (!$inclusiefHistorischeProjecten) {
-            return $this->projecten;
+        //geen idee..? SCIP/ oud gebeuren.
+//        if (!$inclusiefHistorischeProjecten) {
+//            return $this->projecten;
+//        }
+//
+//        $projecten = clone $this->projecten;
+//        foreach ($this->dagdelen as $dagdeel) {
+//            if (!$projecten->contains($dagdeel->getProject())) {
+//                $projecten[] = $dagdeel->getProject();
+//            }
+//        }
+//        return $projecten;
+        $p = [];
+        foreach($this->deelnames as $d)
+        {
+            $p[] = $d->getProject();
         }
+        return $p;
 
-        $projecten = clone $this->projecten;
-        foreach ($this->dagdelen as $dagdeel) {
-            if (!$projecten->contains($dagdeel->getProject())) {
-                $projecten[] = $dagdeel->getProject();
-            }
-        }
-
-        return $projecten;
     }
 
     public function addProject(Project $project)
     {
         $this->projecten[] = $project;
-
         return $this;
     }
+
+
+    /**
+     * @return Deelname[]|ArrayCollection
+     */
+    public function getDeelnames()
+    {
+        return $this->deelnames;
+    }
+
+    /**
+     * @param Deelname[]|ArrayCollection $deelnames
+     * @return Traject
+     */
+    public function addDeelname($deelnames)
+    {
+        $this->deelnames[] = $deelnames;
+        return $this;
+    }
+
 
     public function getEinddatum()
     {

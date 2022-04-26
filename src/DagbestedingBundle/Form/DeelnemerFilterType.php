@@ -8,9 +8,11 @@ use AppBundle\Form\KlantFilterType;
 use DagbestedingBundle\Filter\DeelnemerFilter;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\Choice;
 
 class DeelnemerFilterType extends AbstractType
 {
@@ -44,6 +46,13 @@ class DeelnemerFilterType extends AbstractType
             ]);
         }
 
+        if (in_array('actief', $options['enabled_filters'])) {
+            $builder->add('actief', CheckboxType::class, [
+                'required' => false,
+                'label'=>'Alleen actieve deelnemers tonen',
+            ]);
+        }
+
         if (in_array('zonderTraject', $options['enabled_filters'])) {
             $builder->add('zonderTraject', CheckboxType::class, [
                 'required' => false,
@@ -72,11 +81,13 @@ class DeelnemerFilterType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => DeelnemerFilter::class,
+            'data'=> new DeelnemerFilter(),
             'enabled_filters' => [
                 'klant' => ['id', 'naam', 'stadsdeel'],
                 'medewerker',
                 'aanmelddatum',
                 'afsluitdatum',
+                'actief',
                 'zonderTraject',
             ],
         ]);

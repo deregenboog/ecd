@@ -21,17 +21,19 @@ class Deelname
     use IdentifiableTrait, ActivatableTrait;
 
     /**
-     * @var Deelnemer
+     * @var Traject
      *
-     * @ORM\ManyToOne(targetEntity="Deelnemer", inversedBy="deelnames")
+     * @ORM\ManyToOne(targetEntity="DagbestedingBundle\Entity\Traject", inversedBy="projecten")
+     * @ORM\JoinColumn (nullable=false)
      * @Gedmo\Versioned
      */
-    private $deelnemer;
+    private $traject;
 
     /**
      * @var Project
      *
-     * @ORM\ManyToOne(targetEntity="Project", inversedBy="deelnames")
+     * @ORM\ManyToOne(targetEntity="Project", inversedBy="trajecten")
+     * @ORM\JoinColumn (nullable=false)
      * @Gedmo\Versioned
      */
     private $project;
@@ -43,26 +45,31 @@ class Deelname
      */
     private $beschibaarheid;
 
-    public function __construct(Deelnemer $deelnemer = null, Project $project = null)
+    public function __construct(Traject $traject = null, Project $project = null)
     {
-        $this->deelnemer = $deelnemer;
+        $this->traject = $traject;
         $this->project = $project;
     }
 
-    /**
-     * @return Deelnemer
-     */
-    public function getDeelnemer()
+    public function __toString()
     {
-        return $this->deelnemer;
+        return $this->getProject()->getNaam();
     }
 
     /**
-     * @param Deelnemer $deelnemer
+     * @return Traject
      */
-    public function setDeelnemer($deelnemer)
+    public function getTraject()
     {
-        $this->deelnemer = $deelnemer;
+        return $this->traject;
+    }
+
+    /**
+     * @param Traject $traject
+     */
+    public function setTraject($traject)
+    {
+        $this->traject = $traject;
 
         return $this;
     }
