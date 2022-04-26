@@ -94,19 +94,20 @@ services:
         class: AppBundle\Export\GenericExport
         arguments:
             - DagbestedingBundle\Entity\Deelname
-            - Voornaam: { expression: 'entity.getDeelnemer().getKlant().getVoornaam()' }
-              Tussenvoegsel: { expression: 'entity.getDeelnemer().getKlant().getTussenvoegsel()' }
-              Achternaam: { expression: 'entity.getDeelnemer().getKlant().getAchternaam()' }
-              Naam: { expression: 'entity.getProject().getNaam()' }
-              Werkbegeleider: { expression: 'entity.getDeelnemer().getWerkbegeleider()' }
+            - Voornaam: { expression: 'entity.getTraject().getDeelnemer().getKlant().getVoornaam()' }
+              Tussenvoegsel: { expression: 'entity.getTraject().getDeelnemer().getKlant().getTussenvoegsel()' }
+              Achternaam: { expression: 'entity.getTraject().getDeelnemer().getKlant().getAchternaam()' }
+              KPL: { expression: 'entity.getProject().getKpl()' }
+              Project: { expression: 'entity.getProject().getNaam()' }
+              Werkbegeleider: { expression: 'entity.getTraject().getDeelnemer().getWerkbegeleider()' }
               Actief: { expression: 'entity.isActief()' }
-              RISDossiernummer: { expression: 'entity.getDeelnemer().getRisDossiernummer()' }
-              EmailAdres: { expression: 'entity.getDeelnemer().getKlant().getEmail()' }
-              Adres: { expression: 'entity.getDeelnemer().getKlant().getAdres()' }
-              Postcode: { expression: 'entity.getDeelnemer().getKlant().getPostcode()' }
-              Woonplaats: { expression: 'entity.getDeelnemer().getKlant().getPlaats()' }
-              telNr: { expression: 'entity.getDeelnemer().getKlant().getMobiel()' }
-              gebDatum: { expression: 'entity.getDeelnemer().getKlant().getGeboortedatum()', type: 'date' }
+              RISDossiernummer: { expression: 'entity.getTraject().getDeelnemer().getRisDossiernummer()' }
+              EmailAdres: { expression: 'entity.getTraject().getDeelnemer().getKlant().getEmail()' }
+              Adres: { expression: 'entity.getTraject().getDeelnemer().getKlant().getAdres()' }
+              Postcode: { expression: 'entity.getTraject().getDeelnemer().getKlant().getPostcode()' }
+              Woonplaats: { expression: 'entity.getTraject().getDeelnemer().getKlant().getPlaats()' }
+              telNr: { expression: 'entity.getTraject().getDeelnemer().getKlant().getMobiel()' }
+              gebDatum: { expression: 'entity.getTraject().getDeelnemer().getKlant().getGeboortedatum()', type: 'date' }
               maStart: { expression: 'entity.getBeschikbaarheid().getMaandagVan()', type: 'time', condition: 'entity.getBeschikbaarheid()' }
               maEnd: { expression: 'entity.getBeschikbaarheid().getMaandagTot()', type: 'time', condition: 'entity.getBeschikbaarheid()' }
               diStart: { expression: 'entity.getBeschikbaarheid().getDinsdagVan()', type: 'time', condition: 'entity.getBeschikbaarheid()' }

@@ -5,6 +5,7 @@ namespace DagbestedingBundle\Form;
 use AppBundle\Form\AppDateType;
 use AppBundle\Form\BaseSelectType;
 use AppBundle\Form\BaseType;
+use DagbestedingBundle\Entity\Deelname;
 use DagbestedingBundle\Entity\Locatie;
 use DagbestedingBundle\Entity\Project;
 use DagbestedingBundle\Entity\Resultaatgebiedsoort;
@@ -13,6 +14,8 @@ use DagbestedingBundle\Entity\Trajectafsluiting;
 use DagbestedingBundle\Entity\Trajectsoort;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -66,12 +69,7 @@ class TrajectType extends AbstractType
                         'expanded' => true,
                         'current' => $options['data']->getLocaties(),
                     ])
-                    ->add('projecten', BaseSelectType::class, [
-                        'class' => Project::class,
-                        'multiple' => true,
-                        'expanded' => true,
-                        'current' => $options['data']->getProjecten(),
-                    ])
+
                     ->add('submit', SubmitType::class, ['label' => 'Opslaan'])
                 ;
                 break;

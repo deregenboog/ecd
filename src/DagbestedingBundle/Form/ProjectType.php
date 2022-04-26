@@ -19,6 +19,7 @@ class ProjectType extends AbstractType
         $builder
             ->add('naam')
             ->add('actief')
+            ->add('kpl')
             ->add('submit', SubmitType::class, ['label' => 'Opslaan'])
         ;
     }

@@ -37,23 +37,23 @@ class DeelnameType extends AbstractType
             ]);
         }
 
-        if ($deelname && $deelname->getDeelnemer()) {
-            $builder->add('deelnemer', DummyChoiceType::class, [
-                'label' => 'Vrijwilliger',
-                'dummy_label' => (string) $deelname->getDeelnemer(),
+        if ($deelname && $deelname->getTraject()) {
+            $builder->add('traject', DummyChoiceType::class, [
+                'label' => 'Traject',
+                'dummy_label' => (string) $deelname->getTraject(),
             ]);
         } else {
-            $builder->add('deelnemer', null, [
-                'label' => 'Vrijwilliger',
-                'required' => true,
-                'placeholder' => '',
-                'query_builder' => function (EntityRepository $repository) {
-                    return $repository->createQueryBuilder('deelnemer')
-                        ->innerJoin('deelnemer.klant', 'klant')
-                        ->orderBy('klant.achternaam, klant.voornaam')
-                    ;
-                },
-            ]);
+//            $builder->add('traject', null, [
+//                'label' => 'Traject',
+//                'required' => true,
+//                'placeholder' => '',
+//                'query_builder' => function (EntityRepository $repository) {
+//                    return $repository->createQueryBuilder('deelnemer')
+//                        ->innerJoin('deelnemer.klant', 'klant')
+//                        ->orderBy('klant.achternaam, klant.voornaam')
+//                    ;
+//                },
+//            ]);
         }
 
         $builder

@@ -30,7 +30,8 @@ class DeelnameDao extends AbstractDao implements DeelnameDaoInterface
     public function findAll($page = null, FilterInterface $filter = null)
     {
         $builder = $this->repository->createQueryBuilder($this->alias)
-            ->innerJoin($this->alias.'.deelnemer', 'deelnemer')
+            ->innerJoin($this->alias.'.traject', 'traject')
+            ->innerJoin('traject.deelnemer', 'deelnemer')
             ->innerJoin('deelnemer.klant', 'klant')
         ;
 

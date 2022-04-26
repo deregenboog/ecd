@@ -203,8 +203,10 @@ class MigrateCommand extends ContainerAwareCommand
 
             $i++;
         }
-//           $this->output->writeln("dbDeelnemer {$dbDeelnemer->isActief()}");
 
+        $deleteEmptyBeschikbaarheid = "DELETE FROM `dagbesteding_beschikbaarheid` WHERE `maandagVan` IS NULL AND `maandagTot` IS NULL AND `dinsdagVan`IS NULL AND `dinsdagTot`IS NULL AND `woensdagVan`IS NULL AND `woensdagTot`IS NULL AND `donderdagVan`IS NULL AND `donderdagTot`IS NULL AND `vrijdagVan`IS NULL AND `vrijdagTot`IS NULL AND `zaterdagVan`IS NULL AND `zaterdagTot`IS NULL AND `zondagVan`IS NULL AND `zondagTot` IS NULL";
+        $connection = $this->getContainer()->get('doctrine.orm.entity_manager')->getConnection();
+        $connection->executeQuery($deleteEmptyBeschikbaarheid);
     }
 
     /**
@@ -400,6 +402,7 @@ class MigrateCommand extends ContainerAwareCommand
                 $dbProject = new Project();
                 $dbProject->setNaam($project->getNaam());
                 $dbProject->setActief($project->isActief());
+                $dbProject->setKpl($project->getKpl());
 
 
                 (!$this->input->getOption('dry-run')) ? $this->dbProjectenDao->create($dbProject):null;
