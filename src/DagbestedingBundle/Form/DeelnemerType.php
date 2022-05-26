@@ -37,9 +37,6 @@ class DeelnemerType extends AbstractType
             ->add('risDossiernummer')
             ->add('werkbegeleider')
             ->add('aanmelddatum', AppDateType::class)
-            ->add('evaluatiedatum', AppDateType::class, [
-                    'required' => false,
-                ])
             ->add('afsluitdatum', AppDateType::class, [
                 'required' => false,
             ])

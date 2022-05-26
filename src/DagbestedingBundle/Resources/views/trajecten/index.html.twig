@@ -116,8 +116,8 @@
             </td>
             <td>
                 <ul>
-                    {% for project in traject.projecten %}
-                        <li>{{ project }}</li>
+                    {% for deelname in traject.deelnames %}
+                        <li>{{ deelname.project }}</li>
                     {% endfor %}
                 </ul>
             </td>
