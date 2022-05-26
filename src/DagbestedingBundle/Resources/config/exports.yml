@@ -64,7 +64,6 @@ services:
             -
                 Nummer: { expression: 'entity.getId()' }
                 Startdatum traject: { expression: 'entity.getStartdatum()', type: 'date' }
-                Rapportagedata traject: { expression: 'export.getRapportagedata(entity)' }
                 Einddatum traject: { expression: 'entity.getEinddatum()', type: 'date' }
                 Afsluitdatum traject: { expression: 'entity.getAfsluitdatum()', type: 'date' }
                 Ris-dossiernummer: { expression: 'entity.getDeelnemer().getRisDossiernummer()' }
@@ -84,6 +83,7 @@ services:
                 Aanmelddatum deelnemer: { expression: 'entity.getDeelnemer().getAanmelddatum()', type: 'date' }
                 Afsluitdatum deelnemer: { expression: 'entity.getDeelnemer().getAfsluitDatum()', type: 'date' }
                 Reden afsluiting deelnemer: { expression: 'entity.getDeelnemer().getAfsluiting()' }
+
 
     dagbesteding.export.report:
         public: true

@@ -15,7 +15,7 @@ final class Version20220302132929 extends AbstractMigration
         // this up() migration is auto-generated, please modify it to your needs
         $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
 
-        $this->addSql('CREATE TABLE dagbesteding_deelnames (id INT AUTO_INCREMENT NOT NULL, traject_id INT DEFAULT NULL, project_id INT DEFAULT NULL, active TINYINT(1) NOT NULL DEFAULT `1`, INDEX IDX_328AD7035DFA57A1 (traject_id), INDEX IDX_328AD703166D1F9C (project_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8 COLLATE `utf8_general_ci` ENGINE = InnoDB');
+        $this->addSql('CREATE TABLE dagbesteding_deelnames (id INT AUTO_INCREMENT NOT NULL, traject_id INT DEFAULT NULL, project_id INT DEFAULT NULL, active TINYINT(1) NOT NULL DEFAULT 1, INDEX IDX_328AD7035DFA57A1 (traject_id), INDEX IDX_328AD703166D1F9C (project_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8 COLLATE `utf8_general_ci` ENGINE = InnoDB');
 
         $this->addSql('ALTER TABLE dagbesteding_deelnames ADD CONSTRAINT FK_328AD7035DFA57A1 FOREIGN KEY (traject_id) REFERENCES dagbesteding_trajecten (id)');
         $this->addSql('ALTER TABLE dagbesteding_deelnames ADD CONSTRAINT FK_328AD703166D1F9C FOREIGN KEY (project_id) REFERENCES dagbesteding_projecten (id)');

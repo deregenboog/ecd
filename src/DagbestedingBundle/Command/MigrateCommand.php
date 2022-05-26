@@ -370,12 +370,12 @@ class MigrateCommand extends ContainerAwareCommand
             $dbBeschikbaarheid->setZondagVan(($beschikbaarheid->getZondagVan()));
 
             $dbDeelname->setBeschikbaarheid($dbBeschikbaarheid);
-            $dbDeelname->setDeelnemer($dbDeelnemer);
+            $dbDeelname->setTraject($dbTraject);
 
             $dbProject = $this->dbProjects[strtoupper($deelname->getProject()->getNaam())];
             $dbDeelname->setProject($dbProject);
 
-            $dbDeelnemer->addDeelname($dbDeelname);
+            $dbTraject->addDeelname($dbDeelname);
 
         }
         return $dbDeelnemer;
