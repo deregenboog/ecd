@@ -106,7 +106,8 @@ class DeelnemerDao extends AbstractDao implements DeelnemerDaoInterface
         $builder = $this->repository->createQueryBuilder($this->alias)
             ->select('COUNT('.$this->alias.') AS aantal, project.naam AS groep')
             ->innerJoin($this->alias.'.trajecten', 'traject')
-            ->innerJoin('traject.projecten', 'project')
+            ->innerJoin('traject.deelnames', 'deelnames')
+            ->innerJoin('deelnames.project', 'project')
             ->groupBy('project.naam')
         ;
 

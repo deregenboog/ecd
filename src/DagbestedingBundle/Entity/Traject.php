@@ -9,6 +9,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
+use Symfony\Component\Config\Definition\Exception\Exception;
 
 /**
  * @ORM\Entity
@@ -147,7 +148,8 @@ class Traject
 //    private $projecten;
 
     /**
-     * @ORM\OneToMany(targetEntity="TrajectProject", mappedBy="trajecten",cascade={"persist","remove"} )
+     * @var ArrayCollection|Project[]
+     * ORM\OneToMany(targetEntity="Project", mappedBy="trajecten",cascade={"persist","remove"} )
      */
     protected $projecten;
 
@@ -439,31 +441,13 @@ class Traject
 
     public function getProjecten($inclusiefHistorischeProjecten = false)
     {
-        //geen idee..? SCIP/ oud gebeuren.
-//        if (!$inclusiefHistorischeProjecten) {
-//            return $this->projecten;
-//        }
-//
-//        $projecten = clone $this->projecten;
-//        foreach ($this->dagdelen as $dagdeel) {
-//            if (!$projecten->contains($dagdeel->getProject())) {
-//                $projecten[] = $dagdeel->getProject();
-//            }
-//        }
-//        return $projecten;
-        $p = [];
-        foreach($this->deelnames as $d)
-        {
-            $p[] = $d->getProject();
-        }
-        return $p;
+        return new Exception("Projecten niet meer beschikbaar op traject. Alleen via deelname");
 
     }
 
     public function addProject(Project $project)
     {
-        $this->projecten[] = $project;
-        return $this;
+        return new Exception("Projecten niet meer beschikbaar op traject. Alleen via deelname");
     }
 
 
@@ -584,7 +568,8 @@ class Traject
                 'maand' => clone $date,
                 'projecten' => [],
             ];
-            foreach ($this->getProjecten(true) as $project) {
+            foreach ($this->getDeelnames() as $deelname) {
+                $project = $deelname->getProject();
                 $month['projecten'][$project->getId()] = [
                     'project' => $project,
                     'A' => 0,

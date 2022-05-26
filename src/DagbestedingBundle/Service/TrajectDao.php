@@ -33,6 +33,7 @@ class TrajectDao extends AbstractDao implements TrajectDaoInterface
         $builder = $this->repository->createQueryBuilder($this->alias)
             ->innerJoin($this->alias.'.trajectcoach', 'trajectcoach')
             ->innerJoin($this->alias.'.deelnemer', 'deelnemer')
+            ->innerJoin($this->alias.'.deelnames', 'deelnames')
             ->innerJoin('deelnemer.klant', 'klant')
             ->innerJoin($this->alias.'.soort', 'trajectsoort')
             ->innerJoin($this->alias.'.resultaatgebied', 'resultaatgebied')

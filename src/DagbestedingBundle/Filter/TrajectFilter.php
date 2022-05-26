@@ -134,7 +134,7 @@ class TrajectFilter implements FilterInterface
 
         if ($this->project) {
             $builder
-                ->innerJoin('traject.projecten', 'project', 'WITH', 'project = :project')
+                ->innerJoin('deelnames.project', 'project', 'WITH', 'project = :project')
                 ->setParameter('project', $this->project)
             ;
         }
