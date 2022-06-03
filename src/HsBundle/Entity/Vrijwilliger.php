@@ -105,7 +105,7 @@ class Vrijwilliger extends Arbeider implements MemoSubjectInterface, DocumentSub
      */
     public function validate(ExecutionContextInterface $context, $payload)
     {
-        if ($this->actief === false ?? $this->uitschrijving
+        if ($this->actief === false && !$this->uitschrijving
         ){
 
             $context->buildViolation('Het is verplicht een uitschrijf datum in te vullen als iemand inactief is.')
