@@ -132,10 +132,10 @@ class MigrateCommand extends ContainerAwareCommand
             ->findOneBy(["naam"=>"WMO"]);
 
         $this->defaultTrajectcoach = $this->trajectCoachRep
-            ->findOneBy(["id"=>"2"]); //20837
+            ->findOneBy(["id"=>"20837"]); //20837
 
         $this->defaultMedewerker = $em->getRepository(Medewerker::class)
-            ->findOneBy(["username"=>"jborger"]); //slovdahl
+            ->findOneBy(["username"=>"slovdahl"]); //slovdahl
 
 
         $this->mapAndCreateProjects($em);
