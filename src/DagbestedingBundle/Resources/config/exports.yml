@@ -101,6 +101,9 @@ services:
               Project: { expression: 'entity.getProject().getNaam()' }
               Werkbegeleider: { expression: 'entity.getTraject().getDeelnemer().getWerkbegeleider()' }
               Actief: { expression: 'entity.isActief()' }
+              Aanmelddatum: { expression: 'entity.getTraject().getDeelnemer().getAanmelddatum()', type: 'date' }
+              Afsluitdatum: { expression: 'entity.getTraject().getDeelnemer().getAfsluitDatum()', type: 'date' }
+              Trajectsoort: { expression: 'entity.getTraject().getSoort()' }
               RISDossiernummer: { expression: 'entity.getTraject().getDeelnemer().getRisDossiernummer()' }
               EmailAdres: { expression: 'entity.getTraject().getDeelnemer().getKlant().getEmail()' }
               Adres: { expression: 'entity.getTraject().getDeelnemer().getKlant().getAdres()' }

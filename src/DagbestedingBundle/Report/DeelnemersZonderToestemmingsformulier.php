@@ -32,7 +32,7 @@ class DeelnemersZonderToestemmingsformulier extends AbstractReport
         $data = $this->dao->deelnemersZonderToestemmingsformulier(DeelnemerDaoInterface::FASE_GESTART, $this->startDate, $this->endDate);
 
 
-        $listing = new Listing($data, ['Deelnemer nummer'=>'id','Naam' => 'naam']);
+        $listing = new Listing($data, ['Deelnemer nummer'=>'id','Naam' => 'naam','Project(en)'=>'projectNaam']);
         $listing->setStartDate($this->startDate)->setEndDate($this->endDate);
 
             $this->reports[] = [
