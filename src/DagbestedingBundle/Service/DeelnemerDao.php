@@ -168,10 +168,13 @@ class DeelnemerDao extends AbstractDao implements DeelnemerDaoInterface
          * -- lijstje gebruiken om eruit te filteren.
          */
         $builder = $this->repository->createQueryBuilder($this->alias)
-            ->select($this->alias.".id AS id, CONCAT_WS(' ',klant.voornaam, klant.tussenvoegsel, klant.achternaam) AS naam")
+            ->select($this->alias.".id AS id, CONCAT_WS(' ',klant.voornaam, klant.tussenvoegsel, klant.achternaam) AS naam,
+            project.naam AS projectNaam")
             ->leftJoin($this->alias.".documenten","documenten")
             ->innerJoin($this->alias.".klant","klant")
             ->innerJoin($this->alias.".trajecten","traject")
+            ->leftJoin("traject.deelnames","deelnames")
+            ->leftJoin("deelnames.project","project")
             ->where("documenten IS NULL")
             ->andWhere($this->alias.".id NOT IN (:deelnemersMetVog)")
             ->groupBy($this->alias.".id")
@@ -219,10 +222,16 @@ class DeelnemerDao extends AbstractDao implements DeelnemerDaoInterface
          * -- lijstje gebruiken om eruit te filteren.
          */
         $builder = $this->repository->createQueryBuilder($this->alias)
-            ->select($this->alias.".id AS id, CONCAT_WS(' ',klant.voornaam, klant.tussenvoegsel, klant.achternaam) AS naam")
+            ->select($this->alias.".id AS id, CONCAT_WS(' ',klant.voornaam, klant.tussenvoegsel, klant.achternaam) AS naam,
+            project.naam AS projectNaam")
+
             ->leftJoin($this->alias.".documenten","documenten")
+
+
             ->innerJoin($this->alias.".klant","klant")
             ->innerJoin($this->alias.".trajecten","traject")
+            ->leftJoin("traject.deelnames","deelnames")
+            ->leftJoin("deelnames.project","project")
             ->where("documenten IS NULL")
             ->andWhere($this->alias.".id NOT IN (:deelnemersMet)")
             ->groupBy($this->alias.".id")
@@ -231,7 +240,7 @@ class DeelnemerDao extends AbstractDao implements DeelnemerDaoInterface
         ;
 
         $this->applyFilter($builder, $fase, $startdate, $enddate);
-        $q = $builder->getQuery()->getSQL();
+//        $q = $builder->getQuery()->getSQL();
 
         return $builder->getQuery()->getResult();
     }

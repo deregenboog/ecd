@@ -55,14 +55,14 @@
 <table class="table">
     <tr>
         <th></th>
-        {% for project in entity.projecten(true) %}
-            <th colspan="5">{{ project }}</th>
+        {% for deelname in entity.deelnames %}
+            <th colspan="5">{{ deelname.project.naam }}</th>
         {% endfor %}
     </tr>
     <tr>
         <th>Maand</th>
-        {% for project in entity.projecten(true) %}
-            <th>{{ macro.color('A', 'A') }}</>
+        {% for deelname in entity.deelnames %}
+            <th>{{ macro.color('A', 'A') }}</th>
             <th>{{ macro.color('Z', 'Z') }}</th>
             <th>{{ macro.color('O', 'O') }}</th>
             <th>{{ macro.color('V', 'V') }}</th>
