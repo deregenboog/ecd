@@ -67,9 +67,9 @@
         <dt>Project(en)</dt>
         <dd>
             <ul>
-                {% for p in entity.projecten %}
+                {% for d in entity.deelnames %}
 {#                    {% for project in projecten %}#}
-                        <li>{{ p.naam }}</li>
+                        <li>{{ d.project.naam }}</li>
 {#                    {% endfor %}#}
                 {% endfor %}
 
