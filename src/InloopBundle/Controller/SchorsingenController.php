@@ -244,7 +244,11 @@ class SchorsingenController extends AbstractController
      */
     protected function afterFormSubmitted(Request $request, $entity, $form = null)
     {
-        if($form->get('submitAndAddIncident')->isClicked()) {
+
+        if(null == $form) return parent::afterFormSubmitted($request,$entity);
+
+        $elm = $form->has('submitAndAddIncident');
+        if($elm && $form->get('submitAndAddIncident')->isClicked()) {
             $params = [
                 "locatie"=>$entity->getLocaties()->first()->getId(),
                 "klant"=>$entity->getKlant()->getId(),
