@@ -26,22 +26,9 @@ class BezoekerFilter implements FilterInterface
     /**
      * @var Locatie
      */
-    public $locatie;
+    public $intakelocatie;
 
-    /**
-     * @var Locatie
-     */
-    public $gebruikersruimte;
 
-    /**
-     * @var Locatie
-     */
-    public $laatsteIntakeLocatie;
-
-    /**
-     * @var AppDateRangeModel
-     */
-    public $laatsteIntakeDatum;
 
     /**
      * @var AppKlantFilter

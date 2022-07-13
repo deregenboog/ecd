@@ -23,6 +23,7 @@ class BezoekerDao extends AbstractDao implements BezoekerDaoInterface
             'gebruikersruimte.naam',
             'laatsteIntakeLocatie.naam',
             'laatsteIntake.intakedatum',
+            'laatsteIntake.woonlocatie.naam',
         ],
     ];
 
@@ -46,10 +47,10 @@ class BezoekerDao extends AbstractDao implements BezoekerDaoInterface
     public function getAllQueryBuilder(FilterInterface $filter = null)
     {
         $builder = $this->repository->createQueryBuilder($this->alias)
-            ->select($this->alias.', appKlant, laatsteIntake, geslacht')
+            ->select($this->alias.', appKlant, intakes, geslacht')
 //            ->innerJoin('appKlant.huidigeStatus', 'status')
                 ->innerJoin($this->alias.'.appKlant','appKlant')
-            ->leftJoin('appKlant.laatsteIntake', 'laatsteIntake')//, "WITH","appKlant.eersteIntake = intake")
+            ->leftJoin('appKlant.intakes', 'intakes')//, "WITH","appKlant.eersteIntake = intake")
 
             ->leftJoin('appKlant.geslacht', 'geslacht')
         ;

@@ -25,6 +25,9 @@
                 {{ knp_pagination_sortable(pagination, 'Naam', 'project.naam') }}
             </th>
             <th>
+                {{ knp_pagination_sortable(pagination, 'Locatie', 'project.locatie') }}
+            </th>
+            <th>
                 {{ knp_pagination_sortable(pagination, 'Actief', 'project.actief') }}
             </th>
             <th>
@@ -37,6 +40,9 @@
                 </td>
                 <td>
                     {{ entity }}
+                </td>
+                <td>
+                    {{ entity.locatie }}
                 </td>
                 <td>
                     {{ entity.actief ? 'ja' : 'nee' }}

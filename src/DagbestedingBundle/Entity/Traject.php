@@ -22,7 +22,7 @@ class Traject
 {
     use TimestampableTrait;
 
-    const TERMIJN_EVALUATIE = '+6 months';
+    const TERMIJN_EVALUATIE = '+11 months';
     const TERMIJN_EIND = '+1 year -1 day';
 
     /**

@@ -47,6 +47,14 @@ class Project
      */
     protected $trajecten;
 
+    /**
+     * @var Locatie
+     * @ORM\ManyToOne(targetEntity="DagbestedingBundle\Entity\Locatie", inversedBy="projecten")
+     * @ORM\JoinColumn(nullable=true)
+     * @Gedmo\Versioned
+     */
+    protected $locatie;
+
     public function __toString()
     {
         return $this->getNaam();
@@ -102,6 +110,24 @@ class Project
     public function setKpl($kpl)
     {
         $this->kpl = $kpl;
+        return $this;
+    }
+
+    /**
+     * @return Locatie
+     */
+    public function getLocatie(): ?Locatie
+    {
+        return $this->locatie;
+    }
+
+    /**
+     * @param Locatie $locatie
+     * @return Project
+     */
+    public function setLocatie(Locatie $locatie): Project
+    {
+        $this->locatie = $locatie;
         return $this;
     }
 

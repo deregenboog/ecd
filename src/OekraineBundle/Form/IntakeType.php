@@ -72,7 +72,7 @@ class IntakeType extends AbstractType
             ])
             ->add('medewerker', MedewerkerType::class)
             ->add('intakedatum', AppDateType::class)
-            ->add('woonlocatie', LocatieSelectType::class)
+            ->add('intakelocatie', LocatieSelectType::class)
             ->add('geinformeerdOpslaanGegevens', CheckboxType::class,['required'=>true])
         ;
 
@@ -86,10 +86,12 @@ class IntakeType extends AbstractType
                 'compound' => true,
                 'inherit_data' => true,
             ])
-            ->add('postadres', null, ['required' => false])
-            ->add('postcode', null, ['required' => false])
-            ->add('woonplaats', null, ['required' => false])
-            ->add('telefoonnummer', null, ['required' => false])
+            ->add('woonlocatie', LocatieSelectType::class)
+            ->add('kamernummer')
+//            ->add('postadres', null, ['required' => false])
+//            ->add('postcode', null, ['required' => false])
+//            ->add('woonplaats', null, ['required' => false])
+//            ->add('telefoonnummer', null, ['required' => false])
             ->add('verblijfInNederlandSinds', AppDateType::class, [
                 'label' => 'Verblijf in Nederland sinds',
                 'required' => false,
@@ -144,11 +146,11 @@ class IntakeType extends AbstractType
                 'compound' => true,
                 'inherit_data' => true,
             ])
-            ->add('instanties', EntityType::class, [
-                'class' => \InloopBundle\Entity\Instantie::class,
-                'expanded' => true,
-                'multiple' => true,
-            ])
+//            ->add('instanties', EntityType::class, [
+//                'class' => \InloopBundle\Entity\Instantie::class,
+//                'expanded' => true,
+//                'multiple' => true,
+//            ])
             ->add('opmerkingAndereInstanties', AppTextareaType::class)
             ->add('medischeAchtergrond', AppTextareaType::class)
         ;
