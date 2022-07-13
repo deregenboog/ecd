@@ -11,6 +11,8 @@ security:
         ROLE_PORTIER:
             - ROLE_INLOOP_REGISTRATIES
             - ROLE_INLOOP_OPMERKINGEN
+        ROLE_INLOOP:
+            - ROLE_OEKRAINE
         ROLE_INLOOP_INTAKES:
             - ROLE_INLOOP
             - ROLE_INLOOP_KLANTEN
@@ -39,6 +41,9 @@ security:
             - ROLE_INLOOP_REGISTRATIES
             - ROLE_INLOOP_SCHORSINGEN
             - ROLE_INLOOP_OPMERKINGEN
+        ROLE_OEKRAINE: [ ]
+        ROLE_OEKRAINE_BEHEER:
+            - ROLE_OEKRAINE
         ROLE_MW:
             - CONTROLLER_APP_KLANTEN
             - CONTROLLER_APP_RAPPORTAGES

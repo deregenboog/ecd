@@ -1,0 +1,24 @@
+{% import '::html.macro.twig' as html %}
+
+<h2>Intakes</h2>
+<p>
+    {{ html.link('Overzicht intakes', path('oekraine_intakes_index', {'intake_filter[bezoeker][id]': bezoeker.id}), 'view') }}
+    {% if not bezoeker.huidigeStatus or bezoeker.huidigeStatus.aangemeld %}
+        {{ html.link('Intake toevoegen', path('oekraine_intakes_add', {bezoeker: bezoeker.id}), 'add') }}
+    {% endif %}
+</p>
+<p>
+    {{ html.link('Leeg intakeformulier printen', path('oekraine_intakes_form'), 'print') }}
+</p>
+<table class="table">
+    <tr>
+        <th>Laatste intake</th>
+        <td>
+            {% if bezoeker.laatsteIntake %}
+                {{ html.link(bezoeker.laatsteIntake.intakedatum|date('d-m-Y'), path('oekraine_intakes_view', {id: bezoeker.laatsteIntake.id}), 'view') }}
+            {% else %}
+                Geen intakes
+            {% endif %}
+        </td>
+    </tr>
+</table>

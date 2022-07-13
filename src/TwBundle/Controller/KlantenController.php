@@ -81,7 +81,7 @@ class KlantenController extends AbstractController
     /**
      * @deprecated
      */
-    public function add($klantId = null, UserInterface $user)
+    public function REMOVEME22020630JTBadd($klantId = null, UserInterface $user)
     {
 
         $entityManager = $this->getEntityManager();

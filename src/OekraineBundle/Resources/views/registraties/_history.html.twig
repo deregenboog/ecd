@@ -1,0 +1,73 @@
+{% import '::html.macro.twig' as html -%}
+
+<table class="table table-hover table-fixed">
+    {{ colgroup(7, [15, 15, 15]) }}
+    <thead>
+        <tr>
+            <th>
+                <span style="margin-left: 2em;">
+                    {{ knp_pagination_sortable(pagination, 'Voornaam', 'klant.voornaam') }}
+                </span>
+            </th>
+            <th>
+                {{ knp_pagination_sortable(pagination, 'Achternaam', 'klant.achternaam') }}
+            </th>
+            <th>
+                {{ knp_pagination_sortable(pagination, 'Binnen', 'registratie.binnen') }}
+            </th>
+            <th>
+                {{ knp_pagination_sortable(pagination, 'Buiten', 'registratie.buiten') }}
+            </th>
+            <th>
+                Duur
+            </th>
+            <th>
+                Schorsingen
+            </th>
+            <th>
+                Opmerkingen
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for registratie in pagination %}
+            <tr data-registratie-id="{{ registratie.id }}" data-klant-id="{{ registratie.bezoeker.id }}">
+                <td>
+                    <a class="checkin" title="Inchecken" style="margin-right: 1em;">
+                        <span class="glyphicon glyphicon-log-in" aria-hidden="true"></span>
+                    </a>
+                    {{ registratie.bezoeker.appKlant.voornaam }}
+                    {% if registratie.bezoeker.appKlant.roepnaam %}({{ registratie.bezoeker.appKlant.roepnaam }}){% endif %}
+                </td>
+                <td>
+                    {% if registratie.bezoeker.appKlant.tussenvoegsel %}{{ registratie.bezoeker.appKlant.tussenvoegsel }}{% endif %}
+                    {{ registratie.bezoeker.appKlant.achternaam }}
+                </td>
+                <td>
+                    {{ registratie.binnen|date('H:i') }} uur ({{ registratie.binnen|date('d-m-Y') }})<br>
+                </td>
+                <td>
+                    {{ registratie.buiten|date('H:i') }} uur ({{ registratie.buiten|date('d-m-Y') }})
+                </td>
+                <td>
+                    {% set duration = registratie.buiten|diff(registratie.binnen) %}
+                    {{ duration.h }}:{{ '%02d'|format(duration.i) }} uur
+                </td>
+
+                <td>
+{#                    <a href="{{ path('oekraine_schorsingen_klantview', {klant: registratie.bezoeker.id}) }}">#}
+{#                        {{ registratie.bezoeker.ongezieneSchorsingen|length > 0 ? 'schorsing verlopen' : 'geen' }}#}
+{#                    </a>#}
+                </td>
+                <td>
+{#                    <a href="{{ path('oekraine_opmerkingen_index_1', {klant: registratie.bezoeker.id, locatie: registratie.locatie.id}) }}">#}
+{#                        {{ registratie.bezoeker.openstaandeOpmerkingen|length > 0 ? registratie.bezoeker.opmerkingen|length~' opmerkingen' : 'geen' }}#}
+{#                    </a>#}
+                </td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+<p>
+    {{ knp_pagination_render(pagination) }}
+</p>

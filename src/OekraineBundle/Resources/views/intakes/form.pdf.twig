@@ -1,0 +1,139 @@
+{% import _self as macro %}
+<h1>{{ entity_name|capitalize }}</h1>
+
+<h2>Algemeen</h2>
+<table cellspacing="0" cellpadding="2" border="1">
+    {{ macro.printEmptyTableLine('Naam intaker') }}
+    {{ macro.printEmptyTableLine('Datum intake') }}
+</table>
+
+<h2>Adresgegevens</h2>
+<table cellspacing="0" cellpadding="2" border="1">
+    {{ macro.printEmptyTableLine('Adres', '<br><br>') }}
+    {{ macro.printEmptyTableLine('Postcode') }}
+    {{ macro.printEmptyTableLine('Woonplaats') }}
+    {{ macro.printEmptyTableLine('Verblijft in Nederland sinds') }}
+    {{ macro.printEmptyTableLine('Verblijft in Amsterdam sinds') }}
+    {{ macro.printEmptyTableLine(
+        'Verblijfstatus',
+        form.adresgegevens.verblijfsstatus.vars.choices,
+        'choices_radio'
+    ) }}
+</table>
+
+<h2>Locatiekeuze</h2>
+<table cellspacing="0" cellpadding="2" border="1">
+    {{ macro.printEmptyTableLine('Eerste locatiekeuze') }}
+    {{ macro.printEmptyTableLine('Tweede locatiekeuze') }}
+    {{ macro.printEmptyTableLine('Derde locatiekeuze') }}
+    {{ macro.printEmptyTableLine(
+        'Heeft toegang tot de Vrouwen Nacht Opvang',
+        '',
+        'janee'
+    ) }}
+    {{ macro.printEmptyTableLine(
+        'Heeft toegang tot de gebruikersruimte',
+        '',
+        'janee'
+    ) }}
+</table>
+
+<h2>Legitimatie</h2>
+<table cellspacing="0" cellpadding="2" border="1">
+    {{ macro.printEmptyTableLine(
+        'Legitimatie',
+        form.legitimatiebewijs.legitimatie.vars.choices,
+        'choices_radio'
+    ) }}
+    {{ macro.printEmptyTableLine('Legitimatienummer') }}
+    {{ macro.printEmptyTableLine('Legitimatie geldig tot') }}
+</table>
+
+<h2>Verslaving</h2>
+<h3>Problematiek</h3>
+<table cellspacing="0" cellpadding="2" border="1">
+    {{ macro.printEmptyTableLine(
+        'Verslaving',
+        form.verslaving.verslavingen.vars.choices,
+        'choices_checkboxes') }}
+    {{ macro.printEmptyTableLine('Overige vormen van verslavingen', '<br><br><br>') }}
+</table>
+
+<h2>Inkomen en woonsituatie</h2>
+<table cellspacing="0" cellpadding="2" border="1">
+    {{ macro.printEmptyTableLine(
+        'Inkomen',
+        form.inkomenWoonsituatie.inkomens.vars.choices,
+        'choices_checkboxes') }}
+    {{ macro.printEmptyTableLine('Overige vormen van inkomen', '<br><br><br>') }}
+    {{ macro.printEmptyTableLine(
+        'Wat is de woonsituatie?',
+        form.inkomenWoonsituatie.woonsituatie.vars.choices,
+        'choices_radio'
+    ) }}
+</table>
+
+<h2>Overige hulpverlening</h2>
+<table cellspacing="0" cellpadding="2" border="1">
+    {{ macro.printEmptyTableLine(
+        'Heeft de client contact met andere instanties?',
+        form.overigeHulpverlening.instanties.vars.choices,
+        'choices_checkboxes') }}
+    {{ macro.printEmptyTableLine('Opmerkingen van andere instanties', '<br><br><br><br><br>') }}
+    {{ macro.printEmptyTableLine('Relevante medische achtergrond', '<br><br><br><br><br>') }}
+</table>
+
+<h2>Verwachtingen en plannen</h2>
+<table cellspacing="0" cellpadding="2" border="1">
+    {{ macro.printEmptyTableLine('Wat verwacht de client van het dienstaanbod?', '<br><br><br><br><br>') }}
+    {{ macro.printEmptyTableLine('Wat zijn de toekomstplannen van de client?', '<br><br><br><br><br>') }}
+</table>
+
+<h2>Indruk</h2>
+<table cellspacing="0" cellpadding="2" border="1">
+    {{ macro.printEmptyTableLine('Indruk van client', '<br><br><br><br><br>') }}
+    {{ macro.printEmptyTableLine('Deze client behoort tot de doelgroep', null, 'janee') }}
+</table>
+
+<h2>Ondersteuning</h2>
+<p>
+    Als je bij de vier vragen hieronder 'ja' invult,
+    wordt er een e-mail verzonden naar de desbetreffende afdeling.
+    Vul 'nee' in als de klant geen gebruik wenst te maken van deze
+    mogelijkheden, of deze al gebruikt.
+</p>
+<table cellspacing="0" cellpadding="2" border="1">
+    {{ macro.printEmptyTableLine('Zou je het leuk vinden om iedere week met iemand samen iets te ondernemen?', null, 'janee') }}
+    {{ macro.printEmptyTableLine('Zou je het leuk vinden om overdag iets te doen te hebben?', null, 'janee') }}
+    {{ macro.printEmptyTableLine('Zou je een plek in de buurt willen hebben waar je iedere dag koffie kan drinken en mensen kan ontmoeten?', null, 'janee') }}
+    {{ macro.printEmptyTableLine('Heeft u hulp nodig met regelzaken?', null, 'janee') }}
+</table>
+
+{% macro printEmptyTableLine(label, value, type) %}
+    <tr>
+        <td>{{ label }}</td>
+        <td>
+            {% if 'janee' == type %}
+                <ul style="list-style-type: none;">
+                    <li>[ ] Ja</li>
+                    <li>[ ] Nee</li>
+                </ul>
+            {% elseif 'choices_radio' == type %}
+                <ul style="list-style-type: none;">
+                    {% for choice in value %}
+                        <li>( ) {{ choice.label }}</li>
+                    {% endfor %}
+                </ul>
+            {% elseif 'choices_checkboxes' == type %}
+                <ul style="list-style-type: none;">
+                    {% for choice in value %}
+                        <li>[ ] {{ choice.label }}</li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                {{ value|raw }}
+            {% endif %}
+        </td>
+    </tr>
+{% endmacro %}
+

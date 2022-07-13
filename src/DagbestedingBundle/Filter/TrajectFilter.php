@@ -241,8 +241,8 @@ class TrajectFilter implements FilterInterface
 
         if ($this->verlenging) {
             $builder
-                ->andWhere('traject.einddatum <= :two_months_ago')
-                ->setParameter('two_months_ago', new \DateTime('+2 months'))
+                ->andWhere('traject.einddatum <= :two_months_from_now')
+                ->setParameter('two_months_from_now', new \DateTime('+2 months'))
             ;
         }
 
