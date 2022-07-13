@@ -1,0 +1,18 @@
+{% extends '::base.html.twig' %}
+{% import '::html.macro.twig' as html %}
+
+{% block title %}
+    Inloophuizen | {{ title }}
+{% endblock %}
+
+{% block subnavigation %}
+    {% include '@Oekraine/subnavigation.html.twig' %}
+{% endblock %}
+
+{% block content %}
+    <h1>{{ entity_name|capitalize }} verwijderen</h1>
+    <p>
+        Weet u zeker dat u {{ entity_name }} <strong>{{ entity }}</strong> wilt verwijderen?
+    </p>
+    {{ form(form) }}
+{% endblock %}
