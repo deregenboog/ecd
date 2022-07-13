@@ -4,21 +4,17 @@
     <dd>{{ entity.medewerker }}</dd>
     <dt>Datum intake</dt>
     <dd>{{ entity.intakedatum|date('d-m-Y') }}</dd>
-    <dt>Woonlocatie</dt>
-    <dd>{{ entity.woonlocatie }}</dd>
+    <dt>Intakelocatie</dt>
+    <dd>{{ entity.intakelocatie }}</dd>
     <dt>Geïnformeerd opslaan gegevens?</dt>
     <dd>{{ entity.geinformeerdOpslaanGegevens|ja_nee }}</dd>
 </dl>
 <h2>Adresgegevens</h2>
 <dl class="dl-horizontal">
-    <dt>Adres</dt>
-    <dd>{{ entity.postadres }}</dd>
-    <dt>Postcode</dt>
-    <dd>{{ entity.postcode }}</dd>
-    <dt>Woonplaats</dt>
-    <dd>{{ entity.woonplaats }}</dd>
-    <dt>Telefoonnummer</dt>
-    <dd>{{ entity.telefoonnummer }}</dd>
+    <dt>Woonlocatie</dt>
+    <dd>{{ entity.woonlocatie }}</dd>
+    <dt>Kamernummer</dt>
+    <dd>{{ entity.kamernummer }}</dd>
     <dt>In Nederland sinds</dt>
     <dd>{{ entity.verblijfInNederlandSinds ? entity.verblijfInNederlandSinds|date('d-m-Y') }}</dd>
     <dt>In Amsterdam sinds</dt>
@@ -54,15 +50,7 @@
 
 <h2>Overige hulpverlening</h2>
 <dl class="_dl-horizontal">
-    <dt>Contact met andere instanties?</dt>
-    <dd>
-        <ul>
-            {% for instantie in entity.instanties %}
-                <li>{{ instantie }}</li>
-            {% endfor %}
-        </ul>
-    </dd>
-    <dt>Opmerkingen van andere instanties?</dt>
+    <dt>Opmerkingen van instanties (medisch, etc)</dt>
     <dd>{{ entity.opmerkingAndereInstanties }}</dd>
     <dt>Relevante medische achtergrond</dt>
     <dd>{{ entity.medischeAchtergrond }}</dd>

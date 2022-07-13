@@ -15,7 +15,7 @@ final class Version20220616092524 extends AbstractMigration
         $this->addSql("INSERT INTO `oekraine_locaties` (`naam`,`datum_van`) VALUES 
 ('Savoy',NOW()), 
 ('Botel',NOW()), 
-('Kleine Kapitein',NOW()),
+('Oude Kleine Kapitein',NOW()),
 ('Carissima',NOW()),
 ('Via hotel Diemen',NOW()), 
 ('Riekerhof',NOW()), 

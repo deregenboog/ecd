@@ -5,6 +5,7 @@ namespace DagbestedingBundle\Service;
 use AppBundle\Filter\FilterInterface;
 use AppBundle\Service\AbstractDao;
 use DagbestedingBundle\Entity\Traject;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\QueryBuilder;
 
 class TrajectDao extends AbstractDao implements TrajectDaoInterface
@@ -77,6 +78,26 @@ class TrajectDao extends AbstractDao implements TrajectDaoInterface
         $this->applyFilter($builder, $fase, $startdate, $enddate);
 
         return $builder->getQuery()->getResult();
+    }
+
+    public function getVerlengingenPerTrajectcoach(\DateTime $startdate, \DateTime $enddate)
+    {
+        $builder = $this->repository->createQueryBuilder("traject");
+        $builder->select('appKlant.achternaam AS naam, trajectcoach.naam AS trajectCoach, traject.einddatum')
+            ->innerJoin("traject.trajectcoach","trajectcoach")
+            ->innerJoin("traject.deelnemer","deelnemer")
+            ->innerJoin("deelnemer.klant","appKlant")
+            ->where("traject.einddatum IS NULL OR traject.einddatu <= :two_months_from_now")
+            ->groupBy("traject.deelnemer")
+            ->orderBy("trajectcoach.naam", "ASC")
+            ->setParameter("two_months_from_now", new \DateTime("+2 MONTHS"))
+        ;
+
+        $this->applyFilter($builder, self::FASE_GESTART, $startdate, $enddate);
+        $res = $builder->getQuery()->getResult();
+
+//        $sql = $builder->getQuery()->getSQL();
+        return $res;
     }
 
     protected function applyFilter(QueryBuilder $builder, $fase, \DateTime $startdate, \DateTime $enddate)

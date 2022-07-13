@@ -57,6 +57,15 @@ class Intake
      * @var Locatie
      *
      * @ORM\ManyToOne(targetEntity="OekraineBundle\Entity\Locatie")
+     * @ORM\JoinColumn(name="intakelocatie_id")
+     * @Gedmo\Versioned
+     */
+    private $intakelocatie;
+
+    /**
+     * @var Locatie
+     *
+     * @ORM\ManyToOne(targetEntity="OekraineBundle\Entity\Locatie")
      * @ORM\JoinColumn(name="woonlocatie_id")
      * @Gedmo\Versioned
      */
@@ -116,13 +125,7 @@ class Intake
 
 
 
-    /**
-     * @var bool
-     *
-     * @ORM\Column(name="mag_gebruiken", type="boolean", nullable=true)
-     * @Gedmo\Versioned
-     */
-    private $magGebruiken;
+
 
     /**
      * @var Inkomen[]
@@ -240,13 +243,6 @@ class Intake
     private $hulpverlening = false;
 
 
-    /**
-     * @var Instantie[]
-     *
-     * @ORM\ManyToMany(targetEntity="InloopBundle\Entity\Instantie")
-     * @ORM\JoinTable(name="oekraine_intakes_instanties")
-     */
-    private $instanties;
 
     /**
      * @ORM\Column(name="geinformeerd_opslaan_gegevens", type="boolean")
@@ -667,6 +663,43 @@ class Intake
 
         return $this;
     }
+
+    /**
+     * @return Locatie
+     */
+    public function getIntakelocatie(): ?Locatie
+    {
+        return $this->intakelocatie;
+    }
+
+    /**
+     * @param Locatie $intakelocatie
+     * @return Intake
+     */
+    public function setIntakelocatie(Locatie $intakelocatie): Intake
+    {
+        $this->intakelocatie = $intakelocatie;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getKamernummer(): ?string
+    {
+        return $this->kamernummer;
+    }
+
+    /**
+     * @param string $kamernummer
+     * @return Intake
+     */
+    public function setKamernummer(string $kamernummer): Intake
+    {
+        $this->kamernummer = $kamernummer;
+        return $this;
+    }
+
 
     public function getInkomens()
     {
