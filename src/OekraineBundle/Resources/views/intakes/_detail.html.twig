@@ -1,0 +1,89 @@
+<h2>Algemeen</h2>
+<dl class="dl-horizontal">
+    <dt>Medewerker</dt>
+    <dd>{{ entity.medewerker }}</dd>
+    <dt>Datum intake</dt>
+    <dd>{{ entity.intakedatum|date('d-m-Y') }}</dd>
+    <dt>Woonlocatie</dt>
+    <dd>{{ entity.woonlocatie }}</dd>
+    <dt>Geïnformeerd opslaan gegevens?</dt>
+    <dd>{{ entity.geinformeerdOpslaanGegevens|ja_nee }}</dd>
+</dl>
+<h2>Adresgegevens</h2>
+<dl class="dl-horizontal">
+    <dt>Adres</dt>
+    <dd>{{ entity.postadres }}</dd>
+    <dt>Postcode</dt>
+    <dd>{{ entity.postcode }}</dd>
+    <dt>Woonplaats</dt>
+    <dd>{{ entity.woonplaats }}</dd>
+    <dt>Telefoonnummer</dt>
+    <dd>{{ entity.telefoonnummer }}</dd>
+    <dt>In Nederland sinds</dt>
+    <dd>{{ entity.verblijfInNederlandSinds ? entity.verblijfInNederlandSinds|date('d-m-Y') }}</dd>
+    <dt>In Amsterdam sinds</dt>
+    <dd>{{ entity.verblijfInAmsterdamSinds ? entity.verblijfInAmsterdamSinds|date('d-m-Y') }}</dd>
+    <dt>Verblijfsstatus</dt>
+    <dd>{{ entity.Verblijfsstatus }}</dd>
+</dl>
+
+<h2>Legitimatie</h2>
+<dl class="dl-horizontal">
+    <dt>Legitimatie</dt>
+    <dd>{{ entity.legitimatie }}</dd>
+    <dt>Nummer</dt>
+    <dd>{{ entity.legitimatieNummer }}</dd>
+    <dt>Geldig tot</dt>
+    <dd>{{ entity.legitimatieGeldigTot ? entity.legitimatieGeldigTot|date('d-m-Y') }}</dd>
+</dl>
+
+<h2>Inkomen</h2>
+<dl class="dl-horizontal">
+    <dt>Inkomen</dt>
+    <dd>
+        <ul>
+            {% for inkomen in entity.inkomens %}
+                <li>{{ inkomen }}</li>
+            {% endfor %}
+            {% if entity.inkomenOverig %}
+                <li>{{ entity.inkomenOverig }}</li>
+            {% endif %}
+        </ul>
+    </dd>
+</dl>
+
+<h2>Overige hulpverlening</h2>
+<dl class="_dl-horizontal">
+    <dt>Contact met andere instanties?</dt>
+    <dd>
+        <ul>
+            {% for instantie in entity.instanties %}
+                <li>{{ instantie }}</li>
+            {% endfor %}
+        </ul>
+    </dd>
+    <dt>Opmerkingen van andere instanties?</dt>
+    <dd>{{ entity.opmerkingAndereInstanties }}</dd>
+    <dt>Relevante medische achtergrond</dt>
+    <dd>{{ entity.medischeAchtergrond }}</dd>
+</dl>
+<h2>Verwachtingen en plannen</h2>
+<dl>
+    <dt>Wat zijn de toekomstplannen van de client?</dt>
+    <dd>{{ entity.toekomstplannen }}</dd>
+</dl>
+<h2>Indruk</h2>
+<dl>
+    <dt>Indruk van client</dt>
+    <dd>{{ entity.indruk }}</dd>
+
+</dl>
+<h2>Ondersteuning</h2>
+<dl>
+    <dt>Zou je het leuk vinden om iedere week met iemand samen iets te ondernemen?</dt>
+    <dd>{{ entity.informeleZorg ? 'Ja' : 'Nee' }}</dd>
+    <dt>Zou je het leuk vinden om overdag iets te doen te hebben?</dt>
+    <dd>{{ entity.werkhulp ? 'Ja' : 'Nee' }}</dd>
+    <dt>Heeft u hulp nodig met regelzaken?</dt>
+    <dd>{{ entity.hulpverlening ? 'Ja' : 'Nee' }}</dd>
+</dl>

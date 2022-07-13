@@ -1,0 +1,17 @@
+<h2>Verslaving</h2>
+<h4>Problematiek</h4>
+<table cellspacing="0" cellpadding="2" border="1">
+    <tr>
+        <td>Verslavingen</td>
+        <td>
+            <ul>
+                {% for verslaving in entity.verslavingen %}
+                    <li>{{ verslaving }}</li>
+                {% endfor %}
+                {% if entity.verslavingOverig %}
+                    <li>{{ entity.verslavingOverig }}</li>
+                {% endif %}
+            </ul>
+        </td>
+    </tr>
+</table>

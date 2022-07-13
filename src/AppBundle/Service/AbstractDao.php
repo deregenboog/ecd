@@ -81,7 +81,7 @@ abstract class AbstractDao implements AbstractDaoInterface
         if ($filter) {
             $filter->applyTo($builder);
         }
-        //$sql = $builder->getQuery()->getSQL();
+//        $sql = $builder->getQuery()->getSQL();
 
         if ($page) {
             return $this->paginator->paginate($builder, $page, $this->itemsPerPage, $this->paginationOptions);
@@ -99,7 +99,7 @@ abstract class AbstractDao implements AbstractDaoInterface
 
     public function findOneBySearchEntity($searchEntity)
     {
-
+        if(!$this->searchEntityName) throw new Exception("SearchEntityName in DAO niet geset");
         $entity = $this->repository->findOneBy([$this->searchEntityName => $searchEntity]);
         $this->tryLoadKlant($entity);
         return $entity;

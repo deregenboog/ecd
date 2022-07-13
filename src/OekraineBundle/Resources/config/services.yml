@@ -1,0 +1,91 @@
+imports:
+    - { resource: daos.yml }
+    - { resource: exports.yml }
+    - { resource: reports.yml }
+
+parameters:
+    oekraine.vrijwilligers_locaties:
+        vrijwilliger_oud_west: 14
+        vrijwilliger_eik: 9
+        vrijwilliger_de_kloof: 10
+        vrijwilliger_macom: 11
+        vrijwilliger_macom_nacht: 12
+        vwspreekbuis: 15
+
+services:
+    OekraineBundle\Service\AccessUpdater:
+        public: true
+        arguments:
+            - '@doctrine.orm.entity_manager'
+            - '@OekraineBundle\Service\BezoekerDao'
+            - '@OekraineBundle\Service\LocatieDao'
+
+    OekraineBundle\Event\IntakeSubscriber:
+        arguments:
+            - '@OekraineBundle\Service\BezoekerDao'
+            - "@logger"
+            - "@templating"
+            - "@mailer"
+            - '@OekraineBundle\Service\AccessUpdater'
+            - "%informele_zorg_mail%"
+            - "%dagbesteding_mail%"
+            - "%hulpverlening_mail%"
+        tags:
+            - { name: kernel.event_subscriber }
+
+    OekraineBundle\Event\DossierSubscriber:
+        arguments:
+            - '@OekraineBundle\Service\BezoekerDao'
+            - '@OekraineBundle\Service\AccessUpdater'
+        tags:
+            - { name: kernel.event_subscriber }
+
+    OekraineBundle\Event\LocatieSubscriber:
+        arguments:
+            - '@OekraineBundle\Service\AccessUpdater'
+        tags:
+            - { name: kernel.event_subscriber }
+
+    OekraineBundle\Event\DienstenLookupSubscriber:
+        arguments:
+            - "@doctrine.orm.entity_manager"
+            - "@router"
+        tags:
+            - { name: kernel.event_subscriber }
+
+    OekraineBundle\Event\RegistratieSubscriber:
+        arguments:
+            - "@doctrine.orm.entity_manager"
+        tags:
+            - { name: kernel.event_subscriber }
+
+    OekraineBundle\Security\IntakeVoter:
+        arguments:
+            - "@security.access.decision_manager"
+        tags:
+            - { name: security.voter }
+
+    OekraineBundle\Security\RegistratieVoter:
+        arguments:
+            - "%oekraine.vrijwilligers_locaties%"
+        tags:
+            - { name: security.voter }
+
+
+    registratie_metadata:
+        class: Doctrine\ORM\Mapping\ClassMetadata
+        arguments:
+            - OekraineBundle\Entity\Registratie
+
+    OekraineBundle\Repository\RegistratieRepository:
+        class: OekraineBundle\Repository\RegistratieRepository
+        arguments:
+            - "@doctrine.orm.entity_manager"
+            - "@registratie_metadata"
+        calls:
+            - method: setSpuitomruilLocaties
+              arguments:
+                  - '%spuitomruil_locaties%'
+        tags:
+            - app.doelstelling
+        public: true

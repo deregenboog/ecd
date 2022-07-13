@@ -1,0 +1,83 @@
+{% import '::html.macro.twig' as html %}
+
+<table class="table table-hover table-fixed">
+    {{ colgroup(7, [15, 15]) }}
+    <thead>
+        <tr>
+            <th>
+                <span style="margin-left: 2em;">
+                    {{ knp_pagination_sortable(pagination, 'Voornaam', 'bezoeker.appKlant.voornaam') }}
+                </span>
+            </th>
+            <th>
+                {{ knp_pagination_sortable(pagination, 'Achternaam', 'bezoeker.appKlant.achternaam') }}
+            </th>
+            <th>
+                {{ knp_pagination_sortable(pagination, 'Woonlocatie', 'bezoeker.laatsteIntake.woonlocatie') }}
+            </th>
+            <th>
+                {{ knp_pagination_sortable(pagination, 'Binnen', 'registratie.binnen') }}
+            </th>
+            <th>
+                Buiten
+            </th>
+
+            <th>
+                Schorsingen
+            </th>
+            <th>
+                Opmerkingen
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for registratie in pagination %}
+        <tr data-id="{{ registratie.id }}" data-href="{{ path('oekraine_bezoekers_view', {id: registratie.bezoeker.id}) }}">
+            <td>
+                <a class="remove" title="Registratie ongedaan maken" style="margin-right: 1em;">
+                    <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                </a>
+                {{ registratie.bezoeker.appKlant.voornaam }}
+                {% if registratie.bezoeker.appKlant.roepnaam %}({{ registratie.bezoeker.appKlant.roepnaam }}){% endif %}
+            </td>
+            <td>
+                {% if registratie.bezoeker.appKlant.tussenvoegsel %}{{ registratie.bezoeker.appKlant.tussenvoegsel }}{% endif %}
+                {{ registratie.bezoeker.appKlant.achternaam }}
+            </td>
+            <td>
+                {{ registratie.bezoeker.laatsteIntake.woonlocatie }}
+            </td>
+            <td>
+                {{ registratie.binnen|date('H:i') }} uur ({{ registratie.binnen|date('d-m-Y') }})<br>
+            </td>
+            <td>
+                <a class="checkout" title="Uitchecken">
+                    <span class="glyphicon glyphicon-log-out" aria-hidden="true"></span>
+                </a>
+            </td>
+            <td>
+
+            </td>
+            <td>
+
+            </td>
+            <td>
+{#                <a href="{{ path('oekraine_opmerkingen_index_1', {klant: registratie.bezoeker.appKlant.id, locatie: registratie.locatie.id}) }}">#}
+{#                    {{ registratie.bezoeker.appKlant.openstaandeOpmerkingen|length > 0 ? registratie.bezoeker.appKlant.openstaandeOpmerkingen|length~' opmerkingen' : 'geen' }}#}
+{#                </a>#}
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+<p>
+    {{ knp_pagination_render(pagination) }}
+</p>
+{%  if pagination.totalItemCount > 0 %}
+    <p class="pull-right">
+        <a class="checkout-all" title="Alle bezoekers uitchecken" data-id="{{ locatie.id }}">
+            <span class="glyphicon glyphicon-log-out" aria-hidden="true"></span>
+            Alle bezoekers van {{ locatie }} uitchecken
+        </a>
+    </p>
+{% endif %}

@@ -1,0 +1,18 @@
+services:
+    OekraineBundle\Form\RapportageType:
+        tags:
+            - { name: form.type }
+
+    OekraineBundle\Report\Klantenoverzicht:
+        public: true
+        arguments:
+            - "@doctrine.orm.entity_manager"
+        tags:
+            - { name: oekraine.rapportage }
+
+    OekraineBundle\Report\Locatie:
+        public: true
+        arguments:
+            - "@doctrine.orm.entity_manager"
+        tags:
+            - { name: oekraine.rapportage }

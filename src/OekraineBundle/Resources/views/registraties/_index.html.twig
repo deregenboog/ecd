@@ -1,0 +1,76 @@
+{% import '::html.macro.twig' as html -%}
+
+<table class="table table-hover table-fixed">
+    {{ colgroup(8) }}
+    <thead>
+        <tr>
+            <th>
+                <span style="margin-left: 2em;">
+                    {{ knp_pagination_sortable(pagination, 'ID', 'bezoeker.id') }}
+                </span>
+            </th>
+            <th>
+                {{ knp_pagination_sortable(pagination, 'Voornaam', 'bezoeker.appKlant.voornaam') }}
+            </th>
+            <th>
+                {{ knp_pagination_sortable(pagination, 'Achternaam', 'bezoeker.appKlant.achternaam') }}
+            </th>
+            <th>Geslacht</th>
+            <th>Geboortedatum</th>
+            <th>Woonlocatie</th>
+            <th>Schorsingen</th>
+            <th>Opmerkingen</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for bezoeker in pagination %}
+            <tr data-id="{{ bezoeker.id }}">
+                <td>
+                    <a class="checkin" title="Inchecken" style="margin-right: 1em;">
+                        <span class="glyphicon glyphicon-log-in" aria-hidden="true"></span>
+                    </a>
+                    {{ bezoeker.id }}
+                </td>
+                <td>
+                    {{ bezoeker.appKlant.voornaam }}
+                    {% if bezoeker.appKlant.roepnaam %}({{ bezoeker.appKlant.roepnaam }}){% endif %}
+                </td>
+                <td>
+                    {% if bezoeker.appKlant.tussenvoegsel %}{{ bezoeker.appKlant.tussenvoegsel }}{% endif %}
+                    {{ bezoeker.appKlant.achternaam }}
+                </td>
+                <td>
+                    {{ bezoeker.appKlant.geslacht }}
+                </td>
+                <td>
+                    {{ bezoeker.appKlant.geboortedatum|if_date('d-m-Y') }}
+                </td>
+                {% if bezoeker.laatsteIntake %}
+                <td>
+                    {{ bezoeker.laatsteIntake.woonlocatie ?: '-' }}
+                </td>
+                <td>
+                    {% set verloopdatum = bezoeker.laatsteIntake.intakedatum|date_modify('+1 year') %}
+                    {% if verloopdatum < today %}
+                        <span class="text-danger">
+                            {{ today|diff(verloopdatum).days|human_days }} verlopen
+                        </span>
+                    {% endif %}
+                </td>
+                {% endif %}
+                <td></td>
+
+
+{#                <td>#}
+{#                    {% set openstaande_opmerkingen = bezoeker.appKlant.openstaandeOpmerkingen %}#}
+{#                    <a href="{{ path('oekraine_opmerkingen_index_1', {klant: bezoeker.appKlant.id, locatie: locatie.id}) }}">#}
+{#                        {{ openstaande_opmerkingen|length > 0 ? openstaande_opmerkingen|length~' opmerkingen' : 'geen' }}#}
+{#                    </a>#}
+{#                </td>#}
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+<p>
+    {{ knp_pagination_render(pagination) }}
+</p>

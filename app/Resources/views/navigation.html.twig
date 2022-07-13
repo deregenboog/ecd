@@ -15,6 +15,9 @@
 {% if is_granted('ROLE_INLOOP') %}
     {{ html.navLink('Inloophuizen', path('inloop_index'), isActiveRoute('inloop_')) }}
 {% endif %}
+{% if is_granted('ROLE_OEKRAINE') %}
+    {{ html.navLink('Oekraine', path('oekraine_index'), isActiveRoute('oekraine_')) }}
+{% endif %}
 {% if is_granted('ROLE_MW') %}
     {{ html.navLink('Maatschappelijk werk', path('mw_index'), isActiveRoute('mw_')) }}
 {% endif %}

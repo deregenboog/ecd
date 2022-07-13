@@ -1,0 +1,102 @@
+{% extends '::base.html.twig' %}
+{% import '::html.macro.twig' as html %}
+
+{% block title %}
+    Inloop | {{ title }}
+{% endblock %}
+
+{% block subnavigation %}
+    {% include '@Oekraine/subnavigation.html.twig' %}
+{% endblock %}
+
+{% block content %}
+    <h1>{{ title }}</h1>
+    <table class="table table-hover">
+        <thead>
+            {{ form_start(filter) }}
+                <tr>
+                    <th colspan="6">
+                        <span class="pull-right">
+                            {{ form_widget(filter.filter) }}
+                        </span>
+                    </th>
+                </tr>
+                <tr>
+                    <th>
+
+                    </th>
+                    <th>
+                        {{ form_widget(filter.klant.voornaam) }}
+                        {{ form_errors(filter.klant.voornaam) }}
+                    </th>
+                    <th>
+                        {{ form_widget(filter.klant.achternaam) }}
+                        {{ form_errors(filter.klant.achternaam) }}
+                    </th>
+                    <th>
+                        {{ form_widget(filter.klant.geslacht) }}
+                        {{ form_errors(filter.klant.geslacht) }}
+                    </th>
+                    <th>
+                        {{ form_widget(filter.locatie) }}
+                        {{ form_errors(filter.locatie) }}
+                    </th>
+                    <th>
+                        {{ form_widget(filter.datum.start) }}
+                        {{ form_errors(filter.datum.start) }}
+                        {{ form_widget(filter.datum.end) }}
+                        {{ form_errors(filter.datum.end) }}
+                    </th>
+                </tr>
+            {{ form_end(filter) }}
+            <tr>
+                <th>
+                    {{ knp_pagination_sortable(pagination, '#', 'bezoeker.id') }}
+                </th>
+                <th>
+                    {{ knp_pagination_sortable(pagination, 'Voornaam', 'bezoeker.appKlant.voornaam') }}
+                </th>
+                <th>
+                    {{ knp_pagination_sortable(pagination, 'Achternaam', 'bezoeker.appKlant.achternaam') }}
+                </th>
+                <th>
+                    {{ knp_pagination_sortable(pagination, 'Geslacht', 'geslacht.volledig') }}
+                </th>
+                <th>
+                    {{ knp_pagination_sortable(pagination, 'Intakelocatie', 'intakelocatie.naam') }}
+                </th>
+                <th>
+                    {{ knp_pagination_sortable(pagination, 'Datum', 'intake.intakedatum') }}
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for intake in pagination %}
+            <tr data-href="{{ path('oekraine_intakes_view', {id: intake.id}) }}">
+                <td>
+                    {{ intake.bezoeker.id }}
+                </td>
+                <td>
+                    {{ intake.bezoeker.appKlant.voornaam }}
+                    {% if intake.bezoeker.appKlant.roepnaam %}({{ intake.bezoeker.appKlant.roepnaam }}){% endif %}
+                </td>
+                <td>
+                    {{ intake.bezoeker.appKlant.tussenvoegsel }} {{ intake.bezoeker.appKlant.achternaam }}
+                </td>
+                <td>
+                    {{ intake.bezoeker.appKlant.geslacht }}
+                </td>
+                <td>
+                    {{ intake.woonlocatie }}
+                </td>
+                <td>
+                    {{ intake.intakedatum|date('d-m-Y') }}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <p>
+        {{ knp_pagination_render(pagination) }}
+    </p>
+{% endblock %}
