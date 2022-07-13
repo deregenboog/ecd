@@ -40,48 +40,48 @@
                     {{ form_widget(filter.klant.geslacht) }}
                     {{ form_errors(filter.klant.geslacht) }}
                 </th>
-
+                <th>
+                    {{ form_widget(filter.woonlocatie) }}
+                    {{ form_errors(filter.woonlocatie) }}
+                </th>
                 <th>
                     {{ form_widget(filter.huidigeStatus) }}
                     {{ form_errors(filter.huidigeStatus) }}
                 </th>
-                <th>
+                <th colspan="2">
                     {{ form_widget(filter.filter) }}
                 </th>
                 {{ form_end(filter) }}
             </tr>
-{#            <tr>#}
-{#                <th>#}
-{#                    {{ knp_pagination_sortable(pagination, '#', 'bezoeker.id') }}#}
-{#                </th>#}
-{#                <th>#}
-{#                    {{ knp_pagination_sortable(pagination, 'Voornaam', 'bezoeker.voornaam') }}#}
-{#                </th>#}
-{#                <th>#}
-{#                    {{ knp_pagination_sortable(pagination, 'Achternaam', 'bezoeker.achternaam') }}#}
-{#                </th>#}
-{#                <th>#}
-{#                    {{ knp_pagination_sortable(pagination, 'Geboortedatum', 'bezoeker.geboortedatum') }}#}
-{#                </th>#}
-{#                <th>#}
-{#                    {{ knp_pagination_sortable(pagination, 'Geslacht', 'geslacht.volledig') }}#}
-{#                </th>#}
-{#                <th>#}
-{#                    {{ knp_pagination_sortable(pagination, 'Gebruikersruimte', 'gebruikersruimte.naam') }}#}
-{#                </th>#}
-{#                <th>#}
-{#                    {{ knp_pagination_sortable(pagination, 'Intakelocatie', 'laatsteIntakeLocatie.naam') }}#}
-{#                </th>#}
-{#                <th>#}
-{#                    {{ knp_pagination_sortable(pagination, 'Laatste intake', 'laatsteIntake.intakedatum') }}#}
-{#                </th>#}
-{#                <th>#}
-{#                    Dossierstatus#}
-{#                </th>#}
-{#                <th>#}
-{#                    Aantal intakes#}
-{#                </th>#}
-{#            </tr>#}
+            <tr>
+                <th>
+                    {{ knp_pagination_sortable(pagination, '#', 'bezoeker.id') }}
+                </th>
+                <th>
+                    {{ knp_pagination_sortable(pagination, 'Voornaam', 'bezoeker.appKlant.voornaam') }}
+                </th>
+                <th>
+                    {{ knp_pagination_sortable(pagination, 'Achternaam', 'bezoeker.appKlant.achternaam') }}
+                </th>
+                <th>
+                    {{ knp_pagination_sortable(pagination, 'Geboortedatum', 'bezoeker.appKlant.geboortedatum') }}
+                </th>
+                <th>
+                    {{ knp_pagination_sortable(pagination, 'Geslacht', 'geslacht.volledig') }}
+                </th>
+                <th>
+                    Woonlocatie
+                </th>
+                <th>
+                    Intakedatum
+                </th>
+                <th>
+                    Dossierstatus
+                </th>
+                <th>
+                    Aantal intakes
+                </th>
+            </tr>
         </thead>
         <tbody>
             {% for bezoeker in pagination %}

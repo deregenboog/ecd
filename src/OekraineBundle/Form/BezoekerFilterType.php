@@ -70,7 +70,7 @@ class BezoekerFilterType extends AbstractType
             'data' => new BezoekerFilter(),
             'enabled_filters' => [
                 'klant' => ['id', 'voornaam', 'achternaam', 'geboortedatumRange', 'geslacht'],
-
+                'woonlocatie',
                 'huidigeStatus',
             ],
         ]);

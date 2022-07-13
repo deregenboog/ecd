@@ -17,4 +17,26 @@ class TrajectenExport extends GenericExport
 
         return implode(', ', $data);
     }
+
+    public function getProjecten(Traject $traject)
+    {
+        $data = [];
+
+        foreach ($traject->getDeelnames() as $d) {
+            $data[] = $d->getProject()->getNaam();
+        }
+
+        return implode(', ', $data);
+    }
+
+    public function getLocaties(Traject $traject)
+    {
+        $data = [];
+
+        foreach ($traject->getLocaties() as $l) {
+            $data[] = $l->getNaam();
+        }
+
+        return implode(', ', $data);
+    }
 }

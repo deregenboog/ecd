@@ -449,7 +449,7 @@ class BezoekersController extends AbstractController
         ];
     }
 
-    protected function dddoAdd(Request $request)
+    protected function DEPRECATE_REMOVE_MEdddoAdd(Request $request)
     {
         $klantId = $request->get('klant');
         if ('new' === $klantId) {

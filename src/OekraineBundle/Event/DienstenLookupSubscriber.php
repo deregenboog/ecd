@@ -6,6 +6,8 @@ use AppBundle\Event\DienstenLookupEvent;
 use AppBundle\Event\Events;
 use AppBundle\Model\Dienst;
 use Doctrine\ORM\EntityManager;
+use OekBundle\Entity\Deelnemer;
+use OekraineBundle\Entity\Bezoeker;
 use OekraineBundle\Entity\DossierStatus;
 use OekraineBundle\Entity\Toegang;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
@@ -39,39 +41,26 @@ class DienstenLookupSubscriber implements EventSubscriberInterface
     public function provideDienstenInfo(DienstenLookupEvent $event)
     {
         $klant = $event->getKlant();
-            //&& !$klant->getDisabled() && $klant->getHuidigeStatus()->isAangemeld() ?
-        if ($klant->getLaatsteIntake() ) {
-            $toegang = $this->entityManager->getRepository(Toegang::class)->findBy(['klant' => $klant]);
-            if (count($toegang) > 0) {
-                $inloophuizen = [];
-                $gebruikersruimtes = [];
-                foreach ($toegang as $t) {
-                    if ($t->getLocatie()->isGebruikersruimte()) {
-                        $gebruikersruimtes[] = (string) $t->getLocatie();
-                    } else {
-                        $inloophuizen[] = (string) $t->getLocatie();
-                    }
-                }
-                if (count($inloophuizen) > 0) {
-                    sort($inloophuizen);
-                    $dienst = new Dienst(
-                        'Inloophuizen',
-                        $this->generator->generate('oekraine_klanten_view', ['id' => $klant->getId()]),
-                        implode(', ', $inloophuizen)
-                    );
 
-                    $event->addDienst($dienst);
-                }
-                if (count($gebruikersruimtes) > 0) {
-                    sort($gebruikersruimtes);
-                    $dienst = new Dienst(
-                        'Gebr. ruimte',
-                        $this->generator->generate('oekraine_klanten_view', ['id' => $klant->getId()]),
-                        implode(', ', $gebruikersruimtes)
-                    );
-                    $event->addDienst($dienst);
-                }
+        $bezoeker = $this->entityManager->getRepository(Bezoeker::class)
+        ->findOneBy(['appKlant' => $klant]);
+
+            //&& !$klant->getDisabled() && $klant->getHuidigeStatus()->isAangemeld() ?
+        if ($bezoeker instanceof Bezoeker ) {
+            $dienst = new Dienst(
+                'Oekraine',
+                $this->generator->generate('oekraine_bezoekers_view', ['id' => $bezoeker->getId()])
+            );
+
+            if ($bezoeker->getAanmelding()) {
+                $dienst->setVan($bezoeker->getAanmelding()->getDatum());
             }
+
+            if ($bezoeker->getAfsluiting()) {
+                $dienst->setTot($bezoeker->getAfsluiting()->getDatum());
+            }
+
+            $event->addDienst($dienst);
         }
     }
 }
