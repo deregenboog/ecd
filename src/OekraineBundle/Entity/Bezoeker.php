@@ -164,6 +164,7 @@ class Bezoeker
     public function getLaatsteIntake()
     {
         $e = $this->intakes->last();
+        if($e == false) $e = null;
         return $e;
     }
 
