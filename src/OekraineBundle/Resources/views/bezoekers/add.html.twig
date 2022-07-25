@@ -20,7 +20,7 @@
             "Nieuwe {{ entity_name }}" als deze niet in de lijst voorkomt.
         </p>
         <p>
-            {{ html.link('Nieuwe '~entity_name, path('oekraine_bezoekers_add', {klant: 'new'}), 'plus') }}
+            {{ html.link('Nieuwe '~entity_name, path('oekraine_bezoekers_add', {entity: 'new'}), 'plus') }}
         </p>
         <table class="table table-hover">
             <thead>
