@@ -431,7 +431,7 @@ class BezoekersController extends AbstractController
             if (0 === $count) {
                 $this->addFlash('info', sprintf('De zoekopdracht leverde geen resultaten op. Maak een nieuwe %s aan.', $this->entityName));
 
-                return $this->redirectToRoute($this->baseRouteName.'add', ['klant' => 'new']);
+                return $this->redirectToRoute($this->baseRouteName.'add', ['entity' => 'new']);
             }
 
             if ($count > 100) {

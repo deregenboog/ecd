@@ -16,7 +16,7 @@ class UpdateRecentRegistrationsCommand extends ContainerAwareCommand
 
     protected function configure()
     {
-        $this->setName('inloop:recent-registrations:update');
+        $this->setName('oekraine:recent-registrations:update');
     }
 
     protected function initialize(InputInterface $input, OutputInterface $output)
