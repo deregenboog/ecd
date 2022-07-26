@@ -34,7 +34,10 @@ class BezoekerType extends AbstractType
                 'dummy_label' => (string) $options['data'],
             ]);
         } else {
-            $builder->add('appKlant', KlantType::class, ['required' => true]);
+            $builder->add('appKlant', KlantType::class, [
+                'required' => true,
+                'label'=>'Klant'
+                ]);
         }
         $builder
 //            ->add('medewerker', MedewerkerType::class, ['required' => true])
