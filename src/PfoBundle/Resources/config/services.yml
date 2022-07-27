@@ -4,6 +4,35 @@ imports:
     - { resource: reports.yml }
 
 services:
+    #tbv controller DI named arguments die dan niet eerst hoeven;
+    _defaults:
+        autowire: true
+        autoconfigure: true
+
+    PfoBundle\Controller\:
+        resource: '../../Controller'
+        tags: [ 'controller.service_arguments' ]
+
+    PfoBundle\Controller\ClientenController:
+        arguments:
+            $export: '@pfo.export.client'
+        tags: [ 'controller.service_arguments' ]
+
+    PfoBundle\Controller\DocumentenController:
+        arguments:
+            $entities: '@pfo.document.entities'
+        tags: [ 'controller.service_arguments' ]
+
+    PfoBundle\Controller\RapportagesController:
+        arguments:
+            $export: '@pfo.export.report'
+        tags: [ 'controller.service_arguments' ]
+
+    PfoBundle\Controller\VerslagenController:
+        arguments:
+            $entities: '@pfo.verslag.entities'
+        tags: [ 'controller.service_arguments' ]
+
     PfoBundle\Form\ClientType:
         arguments:
             - "@doctrine.orm.entity_manager"

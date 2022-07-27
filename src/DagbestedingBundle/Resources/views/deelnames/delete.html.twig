@@ -1,0 +1,19 @@
+{% extends '::base.html.twig' %}
+{% import '::html.macro.twig' as html %}
+
+{% block title %}
+    Dagbesteding | {{ title }}
+{% endblock %}
+
+{% block subnavigation %}
+    {% include '@Dagbesteding/subnavigation.html.twig' %}
+{% endblock %}
+
+{% block content %}
+    <h1>Deelnemer uit project verwijderen</h1>
+    <p>
+        Weet u zeker dat u deelnemer <strong>{{ entity.traject.deelnemer }}</strong>
+        wilt verwijderen uit project <strong>{{ entity.project }}</strong>?<br>
+        {{ form(form) }}
+    </p>
+{% endblock %}

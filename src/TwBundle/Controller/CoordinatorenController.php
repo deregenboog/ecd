@@ -8,6 +8,7 @@ use AppBundle\Form\ConfirmationType;
 use JMS\DiExtraBundle\Annotation as DI;
 use TwBundle\Entity\Coordinator;
 use TwBundle\Form\CoordinatorType;
+use TwBundle\Service\CoordinatorDao;
 use TwBundle\Service\CoordinatorDaoInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\Routing\Annotation\Route;
@@ -21,11 +22,18 @@ class CoordinatorenController extends SymfonyController
     public $title = 'Coördinatoren';
 
     /**
-     * @var CoordinatorDaoInterface
-     *
-     * @DI\Inject("TwBundle\Service\CoordinatorDao")
+     * @var CoordinatorDao
      */
     private $coordinatorDao;
+
+    /**
+     * @param CoordinatorDao $coordinatorDao
+     */
+    public function __construct(CoordinatorDao $coordinatorDao)
+    {
+        $this->coordinatorDao = $coordinatorDao;
+    }
+
 
     /**
      * @Route("/")

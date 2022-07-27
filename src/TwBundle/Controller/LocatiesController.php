@@ -5,6 +5,7 @@ namespace TwBundle\Controller;
 use AppBundle\Controller\AbstractController;
 use TwBundle\Entity\Locatie;
 use TwBundle\Form\LocatieType;
+use TwBundle\Service\LocatieDao;
 use TwBundle\Service\LocatieDaoInterface;
 use JMS\DiExtraBundle\Annotation as DI;
 use Symfony\Component\Routing\Annotation\Route;
@@ -23,9 +24,15 @@ class LocatiesController extends AbstractController
     protected $baseRouteName = 'tw_locaties_';
 
     /**
-     * @var LocatieDaoInterface
-     *
-     * @DI\Inject("TwBundle\Service\LocatieDao")
+     * @var LocatieDao
      */
     protected $dao;
+
+    /**
+     * @param LocatieDao $dao
+     */
+    public function __construct(LocatieDao $dao)
+    {
+        $this->dao = $dao;
+    }
 }

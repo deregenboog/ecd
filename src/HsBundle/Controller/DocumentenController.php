@@ -5,6 +5,7 @@ namespace HsBundle\Controller;
 use AppBundle\Controller\AbstractChildController;
 use HsBundle\Entity\Document;
 use HsBundle\Form\DocumentType;
+use HsBundle\Service\DocumentDao;
 use HsBundle\Service\DocumentDaoInterface;
 use JMS\DiExtraBundle\Annotation as DI;
 use Symfony\Component\Routing\Annotation\Route;
@@ -23,18 +24,25 @@ class DocumentenController extends AbstractChildController
     protected $baseRouteName = 'hs_documenten_';
 
     /**
-     * @var DocumentDaoInterface
-     *
-     * @DI\Inject("HsBundle\Service\DocumentDao")
+     * @var DocumentDao
      */
     protected $dao;
 
     /**
      * @var \ArrayObject
-     *
-     * @DI\Inject("hs.document.entities")
      */
     protected $entities;
+
+    /**
+     * @param DocumentDao $dao
+     * @param \ArrayObject $entities
+     */
+    public function __construct(DocumentDao $dao, \ArrayObject $entities)
+    {
+        $this->dao = $dao;
+        $this->entities = $entities;
+    }
+
 
     /**
      * @Route("/download/{filename}")

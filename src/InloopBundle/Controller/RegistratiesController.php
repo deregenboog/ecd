@@ -18,8 +18,12 @@ use InloopBundle\Form\RegistratieFilterType;
 use InloopBundle\Form\RegistratieHistoryFilterType;
 use InloopBundle\Form\RegistratieType;
 use InloopBundle\Security\Permissions;
+use InloopBundle\Service\KlantDao;
 use InloopBundle\Service\KlantDaoInterface;
+use InloopBundle\Service\LocatieDao;
+use InloopBundle\Service\RegistratieDao;
 use InloopBundle\Service\RegistratieDaoInterface;
+use InloopBundle\Service\SchorsingDao;
 use InloopBundle\Service\SchorsingDaoInterface;
 use JMS\DiExtraBundle\Annotation as DI;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
@@ -42,39 +46,31 @@ class RegistratiesController extends AbstractController
     protected $baseRouteName = 'inloop_registraties_';
 
     /**
-     * @var RegistratieDaoInterface
-     *
-     * @DI\Inject("InloopBundle\Service\RegistratieDao")
+     * @var RegistratieDao
      */
     protected $dao;
 
     /**
-     * @var KlantDaoInterface
-     *
-     * @DI\Inject("InloopBundle\Service\KlantDao")
+     * @var KlantDao
      */
     protected $klantDao;
 
     /**
-     * @var LocatieDaoInterface
-     *
-     * @DI\Inject("InloopBundle\Service\LocatieDao")
+     * @var LocatieDao
      */
     protected $locatieDao;
 
     /**
-     * @var SchorsingDaoInterface
-     *
-     * @DI\Inject("InloopBundle\Service\SchorsingDao")
+     * @var SchorsingDao
      */
     protected $schorsingDao;
 
     /**
      * @var ExportInterface
-     *
-     * @DI\Inject("inloop.export.registraties")
      */
     protected $export;
+
+
 
     /**
      * @var array TBC_Countries from config.
@@ -86,6 +82,22 @@ class RegistratiesController extends AbstractController
 //
 //       $this->tbc_countries = $tbc_countries;
 //    }
+    /**
+     * @param RegistratieDao $dao
+     * @param KlantDao $klantDao
+     * @param LocatieDao $locatieDao
+     * @param SchorsingDao $schorsingDao
+     * @param ExportInterface $export
+     */
+    public function __construct(RegistratieDao $dao, KlantDao $klantDao, LocatieDao $locatieDao, SchorsingDao $schorsingDao, ExportInterface $export)
+    {
+        $this->dao = $dao;
+        $this->klantDao = $klantDao;
+        $this->locatieDao = $locatieDao;
+        $this->schorsingDao = $schorsingDao;
+        $this->export = $export;
+    }
+
     /**
      * @Route("/")
      */

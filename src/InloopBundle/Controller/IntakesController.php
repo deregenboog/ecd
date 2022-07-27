@@ -12,6 +12,7 @@ use InloopBundle\Form\IntakeType;
 use InloopBundle\Form\ToegangType;
 use InloopBundle\Pdf\PdfIntake;
 use InloopBundle\Security\Permissions;
+use InloopBundle\Service\IntakeDao;
 use InloopBundle\Service\IntakeDaoInterface;
 use JMS\DiExtraBundle\Annotation as DI;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
@@ -34,18 +35,18 @@ class IntakesController extends AbstractController
     protected $baseRouteName = 'inloop_intakes_';
 
     /**
-     * @var IntakeDaoInterface
-     *
-     * @DI\Inject("InloopBundle\Service\IntakeDao")
+     * @var IntakeDao
      */
     protected $dao;
 
-//     /**
-//      * @var ExportInterface
-//      *
-//      * @DI\Inject("inloop.export.intakes")
-//      */
-//     protected $export;
+    /**
+     * @param IntakeDao $dao
+     */
+    public function __construct(IntakeDao $dao)
+    {
+        $this->dao = $dao;
+    }
+
 
     /**
      * @Route("/{id}/view")
@@ -99,7 +100,7 @@ class IntakesController extends AbstractController
                 $this->addFlash('danger', $message);
             }
 
-            return $this->afterFormSubmitted($request, $entity);
+            return $this->afterFormSubmitted($request, $entity, null);
         }
 
         return [

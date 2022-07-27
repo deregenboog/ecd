@@ -21,6 +21,14 @@ use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
 abstract class AbstractController extends SymfonyController
 {
+
+    /**
+     * Entity to deal with in this controller.
+     *
+     * @var object
+     */
+    protected $entity;
+
     /**
      * @var string
      */
@@ -188,6 +196,7 @@ abstract class AbstractController extends SymfonyController
         try
         {
             $entity = $this->dao->find($id);
+
         }
         catch(EntityNotFoundException $entityNotFoundException)
         {
@@ -373,7 +382,6 @@ abstract class AbstractController extends SymfonyController
                 }
                 $this->addFlash('success', ucfirst($this->entityName).' is opgeslagen.');
 
-
             } catch(UserException $e) {
 //                $this->get('logger')->error($e->getMessage(), ['exception' => $e]);
                 $message =  $e->getMessage();
@@ -384,7 +392,7 @@ abstract class AbstractController extends SymfonyController
                 $this->addFlash('danger', $message);
             }
 
-           return $this->afterFormSubmitted($request, $entity);
+           return $this->afterFormSubmitted($request, $entity, $form);
         }
 
         return array_merge([
@@ -450,6 +458,7 @@ abstract class AbstractController extends SymfonyController
         ];
     }
 
+
     protected function redirectToIndex()
     {
         if (!$this->baseRouteName) {
@@ -468,9 +477,28 @@ abstract class AbstractController extends SymfonyController
         return $this->redirectToRoute($this->baseRouteName.'view', ['id' => $entity->getId()]);
     }
 
+
     protected function createEntity($parentEntity = null)
     {
-        return new $this->entityClass();
+        $x = $this->getEntity();
+        if($parentEntity!== null)
+        {
+            $class = (new \ReflectionClass($parentEntity))->getShortName();
+            if(is_callable([$x,"set".$class])) {
+                $x->{"set".ucfirst($class)}($parentEntity);
+            }
+        }
+        return $x;
+    }
+
+    /**
+     * Can be overriden to implement ie. logic to fill the new entity with data from controller/request
+     * @return object
+     */
+    protected function getEntity()
+    {
+        $this->entity =  $this->entity ?? new $this->entityClass();
+        return $this->entity;
     }
 
     protected function beforeFind($id)
@@ -498,7 +526,7 @@ abstract class AbstractController extends SymfonyController
         return [];
     }
 
-    protected function afterFormSubmitted(Request $request, $entity)
+    protected function afterFormSubmitted(Request $request, $entity, $form = null)
     {
         if (!$this->forceRedirect) {
             $url = $request->get('redirect');

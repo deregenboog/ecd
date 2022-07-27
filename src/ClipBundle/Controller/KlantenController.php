@@ -18,7 +18,7 @@ use ClipBundle\Form\AanmeldingType;
 use ClipBundle\Form\AfsluitingType;
 use ClipBundle\Service\KlantDao;
 use InloopBundle\Form\KlantType;
-use JMS\DiExtraBundle\Annotation as DI;
+
 use ClipBundle\Entity\Document;
 use ClipBundle\Entity\Info;
 use ClipBundle\Form\InfoType;
@@ -112,7 +112,7 @@ class KlantenController extends AbstractController
                 $this->addFlash('danger', $message);
             }
 
-            return $this->afterFormSubmitted($request, $entity);
+            return $this->afterFormSubmitted($request, $entity, null);
         }
 
         return [

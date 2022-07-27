@@ -4,6 +4,75 @@ imports:
     - { resource: reports.yml }
 
 services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+
+    DagbestedingBundle\Controller\:
+        resource: '../../Controller'
+        tags: [ 'controller.service_arguments' ]
+
+    DagbestedingBundle\Controller\ContactpersonenController:
+        arguments:
+            $entities: '@dagbesteding.contactpersoon.entities'
+        tags: [ 'controller.service_arguments' ]
+
+    DagbestedingBundle\Controller\DagdelenController:
+        arguments:
+            $export: '@dagbesteding.export.dagdelen'
+        tags: [ 'controller.service_arguments' ]
+
+    DagbestedingBundle\Controller\DashboardController:
+        arguments:
+            $trajectenExport: '@dagbesteding.export.trajecten'
+        tags: [ 'controller.service_arguments' ]
+
+    DagbestedingBundle\Controller\DeelnamesController:
+        arguments:
+            $entities: '@dagbesteding.deelname.entities'
+            $export: '@dagbesteding.export.deelnames'
+        tags: [ 'controller.service_arguments']
+
+    DagbestedingBundle\Controller\DeelnemersController:
+        arguments:
+            $export: '@dagbesteding.export.deelnemers'
+        tags: [ 'controller.service_arguments' ]
+
+    DagbestedingBundle\Controller\DocumentenController:
+        arguments:
+            $entities: '@dagbesteding.document.entities'
+        tags: [ 'controller.service_arguments' ]
+
+    DagbestedingBundle\Controller\RapportagesController:
+        arguments:
+            $entities: '@dagbesteding.rapportage.entities'
+        tags: [ 'controller.service_arguments' ]
+
+    DagbestedingBundle\Controller\ReportingController:
+        arguments:
+            $export: '@dagbesteding.export.report'
+        tags: [ 'controller.service_arguments' ]
+
+    DagbestedingBundle\Controller\TrajectenController:
+        arguments:
+            $entities: '@dagbesteding.traject.entities'
+            $export: '@dagbesteding.export.trajecten'
+        tags: [ 'controller.service_arguments' ]
+
+    DagbestedingBundle\Controller\VerslagenController:
+        arguments:
+            $entities: '@dagbesteding.verslag.entities'
+        tags: [ 'controller.service_arguments' ]
+
+    DagbestedingBundle\Controller\WerkdoelenController:
+        arguments:
+            $entities: '@dagbesteding.werkdoel.entities'
+        tags: [ 'controller.service_arguments' ]
+
+
+
+
+
     dagbesteding.contactpersoon.entities:
         public: true
         class: ArrayObject
@@ -33,6 +102,21 @@ services:
         arguments:
             -
               - { key: deelnemer, dao: '@DagbestedingBundle\Service\DeelnemerDao' }
+
+    dagbesteding.deelname.entities:
+        public: true
+        class: ArrayObject
+        arguments:
+            - - { key: traject, dao: '@DagbestedingBundle\Service\TrajectDao' }
+              - { key: project, dao: '@DagbestedingBundle\Service\ProjectDao' }
+
+    dagbesteding.werkdoel.entities:
+        public: true
+        class: ArrayObject
+        arguments:
+            - - { key: traject, dao: '@DagbestedingBundle\Service\TrajectDao' }
+              - { key: deelnemer, dao: '@DagbestedingBundle\Service\DeelnemerDao' }
+
 
     dagbesteding.rapportage.entities:
         public: true

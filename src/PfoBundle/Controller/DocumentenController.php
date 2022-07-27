@@ -6,6 +6,7 @@ use AppBundle\Controller\AbstractChildController;
 use JMS\DiExtraBundle\Annotation as DI;
 use PfoBundle\Entity\Document;
 use PfoBundle\Form\DocumentType;
+use PfoBundle\Service\DocumentDao;
 use PfoBundle\Service\DocumentDaoInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -22,18 +23,25 @@ class DocumentenController extends AbstractChildController
     protected $baseRouteName = 'pfo_documenten_';
 
     /**
-     * @var DocumentDaoInterface
-     *
-     * @DI\Inject("PfoBundle\Service\DocumentDao")
+     * @var DocumentDao
      */
     protected $dao;
 
     /**
      * @var \ArrayObject
-     *
-     * @DI\Inject("pfo.document.entities")
      */
     protected $entities;
+
+    /**
+     * @param DocumentDao $dao
+     * @param \ArrayObject $entities
+     */
+    public function __construct(DocumentDao $dao, \ArrayObject $entities)
+    {
+        $this->dao = $dao;
+        $this->entities = $entities;
+    }
+
 
     /**
      * @Route("/download/{filename}")

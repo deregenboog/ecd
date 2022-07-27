@@ -31,9 +31,7 @@ class FinancieleDocumentenController extends SymfonyController
     public $title = 'Financiele Documenten';
 
     /**
-     * @var FinancieelDocumentDaoInterface
-     *
-     * @DI\Inject("TwBundle\Service\FinancieelDocumentDao")
+     * @var FinancieelDocumentDao
      */
     private $dao;
 

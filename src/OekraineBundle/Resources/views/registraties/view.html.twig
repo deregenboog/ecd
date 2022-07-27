@@ -1,0 +1,90 @@
+{% extends '::base-2-col.html.twig' %}
+{% import '::html.macro.twig' as html %}
+
+{% block title %}
+    Inloop | {{ title }}
+{% endblock %}
+
+{% block subnavigation %}
+    {% include '@Oekraine/subnavigation.html.twig' %}
+{% endblock %}
+
+{% block content_top %}
+    <h1>
+        Registratie {{ entity }}
+    </h1>
+    <p>
+        {{ html.editLink(path(route_base~'edit', {id: entity.id})) }}
+        {{ html.link('Wijzigen', path(route_base~'edit', {id: entity.id})) }}
+    </p>
+{% endblock %}
+
+{% block content_left %}
+    <dl class="dl-horizontal">
+        <dt>Locatie</dt>
+        <dd>{{ entity.locatie }}</dd>
+        <dt>Binnen</dt>
+        <dd>{{ entity.binnen|date('d-m-Y H:i') }}</dd>
+        <dt>Buiten</dt>
+        <dd>{{ entity.buiten ? entity.buiten|date('d-m-Y H:i') }}</dd>
+        <dt>Kleding</dt>
+        <dd>{{ entity.kleding ? html.tick }}</dd>
+        <dt>Maaltijd</dt>
+        <dd>{{ entity.maaltijd ? html.tick }}</dd>
+        <dt>Activering</dt>
+        <dd>{{ entity.activering ? html.tick }}</dd>
+        <dt>Veegploeg</dt>
+        <dd>{{ entity.veegploeg ? html.tick }}</dd>
+    </dl>
+    {% include '::klant_basis.html.twig' with {klant: entity.klant, module: 'Intake'} %}
+{% endblock %}
+
+{% block content_right %}
+    <ul class="nav nav-tabs">
+        <li class="active"><a data-toggle="tab" href="#registraties">Registraties</a></li>
+        <li><a data-toggle="tab" href="#verslagen">Verslagen</a></li>
+        <li><a data-toggle="tab" href="#documenten">Documenten</a></li>
+    </ul>
+    <div class="tab-content">
+        <div id="registraties" class="tab-pane active">
+            <h2>Recente registraties</h2>
+            {#
+            <p>
+                {% set url = path('oekraine_registraties_index', {'registratie_filter[klant][id]': entity.klant.id}) %}
+                {{ html.viewLink(url) }}
+                {{ html.link('Alle registraties van '~entity.klant, url) }}
+            </p>
+            #}
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>Locatie</th>
+                        <th>Binnen</th>
+                        <th>Buiten</th>
+                        <th>Kleding</th>
+                        <th>Maaltijd</th>
+                        <th>Activering</th>
+                        <th>Veegploeg</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for registratie in entity.klant.registratiesSinds(''|date|date_modify('first day of january')|date_modify('-3 years')) %}
+                        <tr data-href="{{ path(route_base~'view', {id: registratie.id}) }}" class="{{ entity.id == registratie.id ? 'info' }}">
+                            <td>{{ registratie.locatie }}</td>
+                            <td>{{ registratie.binnen|date('d-m-Y H:i') }}</td>
+                            <td>{{ registratie.buiten ? registratie.buiten|date('d-m-Y H:i') }}</td>
+                            <td>{{ registratie.kleding ? html.tick }}</td>
+                            <td>{{ registratie.maaltijd ? html.tick }}</td>
+                            <td>{{ registratie.activering ? html.tick }}</td>
+                            <td>{{ registratie.veegploeg ? html.tick }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <div id="verslagen" class="tab-pane">
+        </div>
+        <div id="documenten" class="tab-pane">
+        </div>
+    </div>
+{% endblock %}

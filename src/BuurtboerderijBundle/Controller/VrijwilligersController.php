@@ -35,21 +35,18 @@ class VrijwilligersController extends AbstractController
 
     /**
      * @var VrijwilligerDao
-     * @DI\Inject("BuurtboerderijBundle\Service\VrijwilligerDao")
      */
     protected $dao;
 
     /**
      * @var AbstractExport
      *
-     * @DI\Inject("buurtboerderij.export.vrijwilligers")
      */
     protected $export;
 
     /**
      * @var VrijwilligerDao
      *
-     * @DI\Inject("AppBundle\Service\VrijwilligerDao")
      */
     private $vrijwilligerDao;
 

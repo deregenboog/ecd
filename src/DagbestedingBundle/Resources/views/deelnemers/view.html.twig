@@ -36,8 +36,12 @@
         <dd>{{ entity.aanmelddatum|date('d-m-Y') }}</dd>
         <dt>Medewerker</dt>
         <dd>{{ entity.medewerker }}</dd>
+        <dt>Werkbegeleider</dt>
+        <dd>{{ entity.werkbegeleider }}</dd>
+        <dt>RIS nummer</dt>
+        <dd>{{ entity.RisDossiernummer }}</dd>
         <dt>Afsluitdatum</dt>
-        <dd>{{ entity.afsluitdatum ? entity.afsluitdatum|date('d-m-Y') }}</dd>
+        <dd>{{ entity.afsluitdatum|if_date('d-m-Y') }}</dd>
         <dt>Reden afsluiting</dt>
         <dd>{{ entity.afsluiting }}</dd>
     </dl>
@@ -47,6 +51,7 @@
 {% block content_right %}
     <ul class="nav nav-tabs">
         <li class="active"><a data-toggle="tab" href="#trajecten">Trajecten</a></li>
+
         <li><a data-toggle="tab" href="#contactpersonen">Contactpersonen</a></li>
         <li><a data-toggle="tab" href="#verslagen">Verslagen</a></li>
         <li><a data-toggle="tab" href="#documenten">Documenten</a></li>
@@ -55,6 +60,7 @@
         <div id="trajecten" class="tab-pane active">
             {% include 'DagbestedingBundle:trajecten:_list.html.twig' with {deelnemer: entity} %}
         </div>
+
         <div id="contactpersonen" class="tab-pane">
             {% include 'DagbestedingBundle:contactpersonen:_list.html.twig' with {deelnemer: entity} %}
         </div>

@@ -5,6 +5,7 @@ namespace DagbestedingBundle\Controller;
 use AppBundle\Controller\AbstractChildController;
 use DagbestedingBundle\Entity\Document;
 use DagbestedingBundle\Form\DocumentType;
+use DagbestedingBundle\Service\DocumentDao;
 use DagbestedingBundle\Service\DocumentDaoInterface;
 use JMS\DiExtraBundle\Annotation as DI;
 use Symfony\Component\Routing\Annotation\Route;
@@ -22,18 +23,25 @@ class DocumentenController extends AbstractChildController
     protected $baseRouteName = 'dagbesteding_documenten_';
 
     /**
-     * @var DocumentDaoInterface
-     *
-     * @DI\Inject("DagbestedingBundle\Service\DocumentDao")
+     * @var DocumentDao
      */
     protected $dao;
 
     /**
      * @var \ArrayObject
-     *
-     * @DI\Inject("dagbesteding.document.entities")
      */
     protected $entities;
+
+    /**
+     * @param DocumentDao $dao
+     * @param \ArrayObject $entities
+     */
+    public function __construct(DocumentDao $dao, \ArrayObject $entities)
+    {
+        $this->dao = $dao;
+        $this->entities = $entities;
+    }
+
 
     /**
      * @Route("/download/{filename}")

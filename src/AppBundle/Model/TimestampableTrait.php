@@ -10,7 +10,7 @@ trait TimestampableTrait
     /**
      * @var \DateTime
      *
-     * @ORM\Column(type="datetime")
+     * @ORM\Column(type="datetime", options={"default":"CURRENT_TIMESTAMP"})
      * @Gedmo\Versioned
      */
     protected $created;
@@ -18,7 +18,7 @@ trait TimestampableTrait
     /**
      * @var \DateTime
      *
-     * @ORM\Column(type="datetime")
+     * @ORM\Column(type="datetime",options={"default":"CURRENT_TIMESTAMP"})
      * @Gedmo\Versioned
      */
     protected $modified;

@@ -11,7 +11,9 @@ use IzBundle\Form\HulpaanbodFilterType;
 use IzBundle\Form\HulpvraagCloseType;
 use IzBundle\Form\HulpvraagFilterType;
 use IzBundle\Form\HulpvraagType;
+use IzBundle\Service\HulpaanbodDao;
 use IzBundle\Service\HulpaanbodDaoInterface;
+use IzBundle\Service\HulpvraagDao;
 use IzBundle\Service\HulpvraagDaoInterface;
 use JMS\DiExtraBundle\Annotation as DI;
 use Symfony\Component\Routing\Annotation\Route;
@@ -35,32 +37,39 @@ class HulpvragenController extends AbstractChildController
     protected $forceRedirect = true;
 
     /**
-     * @var HulpvraagDaoInterface
-     *
-     * @DI\Inject("IzBundle\Service\HulpvraagDao")
+     * @var HulpvraagDao
      */
     protected $dao;
 
     /**
-     * @var HulpaanbodDaoInterface
-     *
-     * @DI\Inject("IzBundle\Service\HulpaanbodDao")
+     * @var HulpaanbodDao
      */
     protected $hulpaanbodDao;
 
     /**
      * @var \ArrayObject
-     *
-     * @DI\Inject("iz.hulpvraag.entities")
      */
     protected $entities;
 
     /**
      * @var AbstractExport
-     *
-     * @DI\Inject("iz.export.hulpvragen")
      */
     protected $export;
+
+    /**
+     * @param HulpvraagDao $dao
+     * @param HulpaanbodDao $hulpaanbodDao
+     * @param \ArrayObject $entities
+     * @param AbstractExport $export
+     */
+    public function __construct(HulpvraagDao $dao, HulpaanbodDao $hulpaanbodDao, \ArrayObject $entities, AbstractExport $export)
+    {
+        $this->dao = $dao;
+        $this->hulpaanbodDao = $hulpaanbodDao;
+        $this->entities = $entities;
+        $this->export = $export;
+    }
+
 
     /**
      * @Route("/{id}/close")

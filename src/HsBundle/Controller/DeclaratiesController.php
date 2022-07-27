@@ -16,6 +16,7 @@ use HsBundle\Entity\Klant;
 use HsBundle\Entity\Klus;
 use HsBundle\Entity\Registratie;
 use HsBundle\Form\DeclaratieType;
+use HsBundle\Service\DeclaratieDao;
 use HsBundle\Service\DeclaratieDaoInterface;
 use JMS\DiExtraBundle\Annotation as DI;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
@@ -37,18 +38,25 @@ class DeclaratiesController extends AbstractChildController
     protected $baseRouteName = 'hs_declaraties_';
 
     /**
-     * @var DeclaratieDaoInterface
-     *
-     * @DI\Inject("HsBundle\Service\DeclaratieDao")
+     * @var DeclaratieDao
      */
     protected $dao;
 
     /**
      * @var \ArrayObject
-     *
-     * @DI\Inject("hs.declaratie.entities")
      */
     protected $entities;
+
+    /**
+     * @param DeclaratieDao $dao
+     * @param \ArrayObject $entities
+     */
+    public function __construct(DeclaratieDao $dao, \ArrayObject $entities)
+    {
+        $this->dao = $dao;
+        $this->entities = $entities;
+    }
+
 
     /**
      * @Route("/")

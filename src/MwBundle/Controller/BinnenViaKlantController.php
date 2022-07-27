@@ -6,6 +6,7 @@ use AppBundle\Controller\AbstractController;
 use MwBundle\Entity\BinnenViaOptieKlant;
 use MwBundle\Form\BinnenViaOptieKlantType;
 use MwBundle\Form\BinnenViaType;
+use MwBundle\Service\BinnenViaDao;
 use MwBundle\Service\BinnenViaDaoInterface;
 use JMS\DiExtraBundle\Annotation as DI;
 use Symfony\Component\Routing\Annotation\Route;
@@ -22,9 +23,7 @@ class BinnenViaKlantController extends AbstractController
     protected $baseRouteName = 'mw_binnenviaklant_';
 
     /**
-     * @var BinnenViaDaoInterface
-     *
-     * @DI\Inject("MwBundle\Service\BinnenViaKlantDao")
+     * @var BinnenViaDao
      */
     protected $dao;
 }

@@ -19,8 +19,16 @@ class RapportagesController extends AbstractRapportagesController
 
     /**
      * @var GenericExport
-     *
-     * @DI\Inject("hs.export.report")
      */
     protected $export;
+
+    /**
+     * @param GenericExport $export
+     */
+    public function __construct(GenericExport $export)
+    {
+        $this->export = $export;
+    }
+
+
 }

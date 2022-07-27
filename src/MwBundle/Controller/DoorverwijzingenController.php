@@ -6,6 +6,7 @@ use AppBundle\Controller\AbstractController;
 use JMS\DiExtraBundle\Annotation as DI;
 use MwBundle\Entity\Doorverwijzing;
 use MwBundle\Form\DoorverwijzingType;
+use MwBundle\Service\DoorverwijzingDao;
 use MwBundle\Service\DoorverwijzingDaoInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
@@ -24,9 +25,17 @@ class DoorverwijzingenController extends AbstractController
     protected $disabledActions = ['view', 'delete'];
 
     /**
-     * @var DoorverwijzingDaoInterface
-     *
-     * @DI\Inject("MwBundle\Service\DoorverwijzingDao")
+     * @var DoorverwijzingDao
      */
     protected $dao;
+
+    /**
+     * @param DoorverwijzingDao $dao
+     */
+    public function __construct(DoorverwijzingDao $dao)
+    {
+        $this->dao = $dao;
+    }
+
+
 }

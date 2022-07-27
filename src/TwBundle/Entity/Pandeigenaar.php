@@ -52,7 +52,7 @@ class Pandeigenaar
     /**
      * @return PandeigenaarType
      */
-    public function getPandeigenaarType(): PandeigenaarType
+    public function getPandeigenaarType(): ?PandeigenaarType
     {
         return $this->pandeigenaarType;
     }

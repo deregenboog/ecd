@@ -2,6 +2,7 @@
 
 namespace TwBundle\Controller;
 
+use IzBundle\Service\AfsluitingDao;
 use JMS\DiExtraBundle\Annotation as DI;
 use TwBundle\Entity\HuuraanbodAfsluiting;
 use TwBundle\Service\AfsluitingDaoInterface;
@@ -17,9 +18,7 @@ class HuuraanbodAfsluitingenController extends AfsluitingenController
     public $title = 'Afsluitingen huuraanbiedingen';
 
     /**
-     * @var AfsluitingDaoInterface
-     *
-     * @DI\Inject("TwBundle\Service\HuuraanbodafsluitingDao")
+     * @var AfsluitingDao
      */
     protected $dao;
 
@@ -28,4 +27,14 @@ class HuuraanbodAfsluitingenController extends AfsluitingenController
     protected $entityName = 'Afsluiting huuraanbod';
 
     protected $indexRouteName = 'tw_huuraanbodafsluitingen_index';
+
+    /**
+     * @param AfsluitingDao $dao
+     */
+    public function __construct(AfsluitingDao $dao)
+    {
+        $this->dao = $dao;
+    }
+
+
 }

@@ -6,8 +6,10 @@ use AppBundle\Entity\Klant;
 use AppBundle\Model\RequiredMedewerkerTrait;
 use AppBundle\Model\TimestampableTrait;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
+
 
 /**
  * @ORM\Entity
@@ -104,14 +106,22 @@ class Deelnemer
      */
     private $contactpersonen;
 
+    /**
+     * @var string
+     *
+     * @ORM\Column(nullable=true)
+     */
+    private $werkbegeleider;
+
+
     public function __construct()
     {
         $this->aanmelddatum = new \DateTime();
-
         $this->trajecten = new ArrayCollection();
         $this->contactpersonen = new ArrayCollection();
         $this->verslagen = new ArrayCollection();
         $this->documenten = new ArrayCollection();
+
     }
 
     public function __toString()
@@ -248,6 +258,24 @@ class Deelnemer
         $this->contactpersonen[] = $contactpersoon;
         $contactpersoon->setDeelnemer($this);
 
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getWerkbegeleider():? string
+    {
+        return $this->werkbegeleider;
+    }
+
+    /**
+     * @param string $werkbegeleider
+     * @return Deelnemer
+     */
+    public function setWerkbegeleider(?string $werkbegeleider): Deelnemer
+    {
+        $this->werkbegeleider = $werkbegeleider;
         return $this;
     }
 

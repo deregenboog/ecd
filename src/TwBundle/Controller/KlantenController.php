@@ -17,6 +17,7 @@ use TwBundle\Form\KlantFilterType;
 use TwBundle\Form\HuurderSelectType;
 use TwBundle\Form\KlantRawType;
 use TwBundle\Form\KlantType;
+use TwBundle\Service\KlantDao;
 use TwBundle\Service\KlantDaoInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -45,26 +46,6 @@ class KlantenController extends AbstractController
     protected $searchEntity = AppKlant::class;
     protected $searchEntityName = 'appKlant';
 
-    /**
-     * @var ExportInterface
-     *
-     * @DI\Inject("tw.export.klanten")
-     */
-    protected $export;
-
-
-    /**
-     * @var KlantDaoInterface
-     *
-     * @DI\Inject("TwBundle\Service\KlantDao")
-     */
-    protected $dao;
-
-    /**
-     * @var KlantDaoInterface
-     * @DI\Inject("AppBundle\Service\KlantDao")
-     */
-    protected $searchDao;
 
     private $sortFieldWhitelist = [
         'klant.id',
@@ -79,84 +60,33 @@ class KlantenController extends AbstractController
     ];
 
     /**
-     * @deprecated
+     * @var KlantDao
      */
-    public function add($klantId = null, UserInterface $user)
+    protected $dao;
+
+    /**
+     * @var \AppBundle\Service\KlantDao
+     */
+    protected $searchDao;
+
+    /**
+     * @var ExportInterface
+     *
+     * @DI\Inject("tw.export.klanten")
+     */
+    protected $export;
+
+    /**
+     * @param KlantDao $dao
+     * @param \AppBundle\Service\KlantDao $searchDao
+     * @param ExportInterface $export
+     */
+    public function __construct(KlantDao $dao, \AppBundle\Service\KlantDao $searchDao, ExportInterface $export)
     {
-
-        $entityManager = $this->getEntityManager();
-
-        if ($this->getRequest()->query->has('klantId')) {
-            $appKlant = new AppKlant();
-            if ('new' !== $this->getRequest()->query->get('klantId')) {
-                $klant = $entityManager->find(AppKlant::class, $this->getRequest()->query->get('klantId'));
-            }
-
-            $klant = new Klant();
-            $klant->setAppKlant($appKlant);
-//            $huurder->setAmbulantOndersteuner($user);
-
-            $creationForm = $this->getForm(KlantType::class, $klant);
-            $creationForm->handleRequest($this->getRequest());
-
-            if ($creationForm->isSubmitted() && $creationForm->isValid()) {
-                try {
-                    $entityManager->persist($klant->getAppKlant());
-                    $entityManager->persist($klant);
-                    $entityManager->flush();
-
-                    $this->addFlash('success', 'Klant is opgeslagen.');
-
-                    return $this->redirectToRoute('tw_klanten_view', ['id' => $klant->getId()]);
-                } catch(UserException $e) {
-//                $this->get('logger')->error($e->getMessage(), ['exception' => $e]);
-                    $message =  $e->getMessage();
-                    $this->addFlash('danger', $message);
-                return $this->redirectToRoute('tw_klanten_index');
-                } catch (\Exception $e) {
-                    $message = $this->container->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
-                    $this->addFlash('danger', $message);
-
-                    return $this->redirectToRoute('tw_klanten_index');
-                }
-            }
-
-            return [
-                'creationForm' => $creationForm->createView(),
-            ];
-        }
-
-        $filterForm = $this->getForm(KlantFilterType::class, null, [
-            'enabled_filters' => ['naam', 'bsn', 'geboortedatum'],
-        ]);
-        $filterForm->add('submit', SubmitType::class, ['label' => 'Verder']);
-        $filterForm->handleRequest($this->getRequest());
-
-        $selectionForm = $this->getForm(HuurderSelectType::class, null, [
-            'filter' => $filterForm->getData(),
-        ]);
-        $selectionForm->handleRequest($this->getRequest());
-
-        if ($filterForm->isSubmitted() && $filterForm->isValid()) {
-            return ['selectionForm' => $selectionForm->createView()];
-        }
-
-        if ($selectionForm->isSubmitted() && $selectionForm->isValid()) {
-            $huurder = $selectionForm->getData();
-            if ($huurder->getKlant() instanceof Klant) {
-                $id = $huurder->getKlant()->getId();
-            } else {
-                $id = 'new';
-            }
-
-            return $this->redirectToRoute('tw_klanten_add', ['klantId' => $id]);
-        }
-
-        return [
-            'filterForm' => $filterForm->createView(),
-        ];
+        $this->dao = $dao;
+        $this->searchDao = $searchDao;
+        $this->export = $export;
     }
-
 
     /**
      * @Route("/{id}/close")

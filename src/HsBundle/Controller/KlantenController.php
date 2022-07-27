@@ -9,6 +9,7 @@ use AppBundle\Form\ConfirmationType;
 use HsBundle\Entity\Klant;
 use HsBundle\Form\KlantFilterType;
 use HsBundle\Form\KlantType;
+use HsBundle\Service\KlantDao;
 use HsBundle\Service\KlantDaoInterface;
 use JMS\DiExtraBundle\Annotation as DI;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
@@ -30,18 +31,25 @@ class KlantenController extends AbstractController
     protected $baseRouteName = 'hs_klanten_';
 
     /**
-     * @var KlantDaoInterface
-     *
-     * @DI\Inject("HsBundle\Service\KlantDao")
+     * @var KlantDao
      */
     protected $dao;
 
     /**
      * @var ExportInterface
-     *
-     * @DI\Inject("hs.export.klant")
      */
     protected $export;
+
+    /**
+     * @param KlantDao $dao
+     * @param ExportInterface $export
+     */
+    public function __construct(KlantDao $dao, ExportInterface $export)
+    {
+        $this->dao = $dao;
+        $this->export = $export;
+    }
+
 
     /**
      * @Route("/add")

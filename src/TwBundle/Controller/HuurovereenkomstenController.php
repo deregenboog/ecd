@@ -35,17 +35,24 @@ class HuurovereenkomstenController extends AbstractController
 
     /**
      * @var HuurovereenkomstDao
-     *
-     * @DI\Inject("TwBundle\Service\HuurovereenkomstDao")
      */
     protected $dao;
 
     /**
      * @var ExportInterface
-     *
-     * @DI\Inject("tw.export.koppelingen")
      */
     protected $export;
+
+    /**
+     * @param HuurovereenkomstDao $dao
+     * @param ExportInterface $export
+     */
+    public function __construct(HuurovereenkomstDao $dao, ExportInterface $export)
+    {
+        $this->dao = $dao;
+        $this->export = $export;
+    }
+
 
     public function dafterFind($entity)
     {

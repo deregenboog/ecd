@@ -20,6 +20,14 @@ services:
         tags:
             - { name: dagbesteding.rapportage, category: Dagdelen }
 
+    dagbesteding.report.VerlengingenPerTrajectcoach:
+        class: DagbestedingBundle\Report\VerlengingenPerTrajectcoach
+        public: true
+        arguments:
+            - '@DagbestedingBundle\Service\TrajectDao'
+        tags:
+            - { name: dagbesteding.rapportage, category: Trajecten }
+
     dagbesteding.report.deelnemers_per_trajectcoach:
         class: DagbestedingBundle\Report\DeelnemersPerBegeleider
         public: true
@@ -46,6 +54,22 @@ services:
 
     dagbesteding.report.deelnemers_per_resultaatgebiedsoort:
         class: DagbestedingBundle\Report\DeelnemersPerResultaatgebiedsoort
+        public: true
+        arguments:
+            - '@DagbestedingBundle\Service\DeelnemerDao'
+        tags:
+            - { name: dagbesteding.rapportage, category: Deelnemers }
+
+    dagbesteding.report.deelnemers_zonder_vog:
+        class: DagbestedingBundle\Report\DeelnemersZonderVOG
+        public: true
+        arguments:
+            - '@DagbestedingBundle\Service\DeelnemerDao'
+        tags:
+            - { name: dagbesteding.rapportage, category: Deelnemers }
+
+    dagbesteding.report.deelnemers_zonder_toestemmingsformulier:
+        class: DagbestedingBundle\Report\DeelnemersZonderToestemmingsformulier
         public: true
         arguments:
             - '@DagbestedingBundle\Service\DeelnemerDao'

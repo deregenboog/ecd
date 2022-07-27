@@ -31,13 +31,14 @@ class DeelnemerDao extends AbstractDao implements DeelnemerDaoInterface
     /**
      * {inheritdoc}.
      */
-    public function findAll($page = null, FilterInterface $filter = null): PaginationInterface
+    public function findAll($page = null, FilterInterface $filter = null)
     {
         $builder = $this->repository->createQueryBuilder($this->alias)
             ->innerJoin($this->alias.'.klant', 'klant')
             ->leftJoin($this->alias.'.deelnames', 'deelname')
             ->leftJoin('deelname.project', 'project')
             ->leftJoin($this->alias.'.labels', 'label')
+//            ->where($this->alias.".klant = 5654331")
         ;
 
         return parent::doFindAll($builder, $page, $filter);

@@ -10,6 +10,7 @@ use MwBundle\Entity\Vrijwilliger;
 use MwBundle\Form\VrijwilligerCloseType;
 use MwBundle\Form\VrijwilligerFilterType;
 use MwBundle\Form\VrijwilligerType;
+use MwBundle\Service\VrijwilligerDao;
 use MwBundle\Service\VrijwilligerDaoInterface;
 use JMS\DiExtraBundle\Annotation as DI;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
@@ -31,25 +32,31 @@ class VrijwilligersController extends VrijwilligersControllerAbstract
     protected $formClassClose = VrijwilligerCloseType::class;
 
     /**
-     * @var VrijwilligerDaoInterface
-     *
-     * @DI\Inject("MwBundle\Service\VrijwilligerDao")
+     * @var VrijwilligerDao
      */
     protected $dao;
 
     /**
+     * @var \AppBundle\Service\VrijwilligerDao
+     */
+    protected $vrijwilligerDao;
+
+    /**
      * @var ExportInterface
-     *
-     * @DI\Inject("mw.export.vrijwilliger")
      */
     protected $export;
 
     /**
-     * @var VrijwilligerDaoInterface
-     *
-     * @DI\Inject("AppBundle\Service\VrijwilligerDao")
+     * @param VrijwilligerDao $dao
+     * @param \AppBundle\Service\VrijwilligerDao $vrijwilligerDao
+     * @param ExportInterface $export
      */
-    protected $vrijwilligerDao;
+    public function __construct(VrijwilligerDao $dao, \AppBundle\Service\VrijwilligerDao $vrijwilligerDao, ExportInterface $export)
+    {
+        $this->dao = $dao;
+        $this->vrijwilligerDao = $vrijwilligerDao;
+        $this->export = $export;
+    }
 
 
 }

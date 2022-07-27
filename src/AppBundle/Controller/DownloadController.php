@@ -44,8 +44,6 @@ class DownloadController extends AbstractController
 
     /**
      * @var \ArrayObject
-     *
-     * @DI\Inject("app.document.entities")
      */
     protected $entities;
 

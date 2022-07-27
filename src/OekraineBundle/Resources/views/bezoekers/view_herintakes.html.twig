@@ -1,0 +1,52 @@
+{% extends '::base.html.twig' %}
+{% import '::html.macro.twig' as html %}
+
+{% block title %}
+    Oekraine | {{ title }}
+{% endblock %}
+
+{% block subnavigation %}
+    {% include '@Oekraine/subnavigation.html.twig' %}
+{% endblock %}
+
+{% block content %}
+    <h1>Aanstaande her-intakes per locatie</h1>
+    <p>
+        De mensen in de lijst hieronder hebben de afgelopen maand een inloophuis
+        bezocht, maar de laatste intake vond langer dan een jaar geleden plaats.
+    </p>
+    <h4>Locaties:</h4>
+    <ul>
+        {% for locatie in locaties|keys %}
+            <li>
+                <a href="#locatie_{{ locatie }}">
+                    {{ locatie }}
+                </a>
+            </li>
+        {% endfor %}
+    </ul>
+    {% for locatie, klanten in locaties %}
+        <h2 id="locatie_{{ locatie }}">{{ locatie }}</h2>
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Naam</th>
+                    <th>Laatste intake</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for klant in klanten %}
+                    <tr data-href="{{ path('oekraine_bezoekers_view', {id: klant.id}) }}">
+                        <td>{{ klant.id }}</td>
+                        <td>{{ klant }}</td>
+                        <td>{{ klant.laatsteIntake ? klant.laatsteIntake.intakedatum|date('d-m-Y') }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% endfor %}
+{% endblock %}
+
+
+

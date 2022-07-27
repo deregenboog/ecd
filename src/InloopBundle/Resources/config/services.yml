@@ -13,6 +13,67 @@ parameters:
         vwspreekbuis: 15
 
 services:
+    #tbv controller DI named arguments die dan niet eerst hoeven;
+    _defaults:
+        autowire: true
+        autoconfigure: true
+
+    InloopBundle\Controller\:
+        resource: '../../Controller'
+        tags: [ 'controller.service_arguments' ]
+
+    InloopBundle\Controller\DeelnamesController:
+        arguments:
+            $entities: '@inloop.deelname.entities'
+        tags: [ 'controller.service_arguments' ]
+
+    InloopBundle\Controller\DocumentenController:
+        arguments:
+            $entities: '@inloop.document.entities'
+        tags: [ 'controller.service_arguments' ]
+
+    InloopBundle\Controller\IncidentenController:
+        arguments:
+            $entities: '@inloop.incident.entities'
+        tags: [ 'controller.service_arguments' ]
+
+    InloopBundle\Controller\LocatietijdenController:
+        arguments:
+            $entities: '@inloop.locatietijd.entities'
+        tags: [ 'controller.service_arguments' ]
+
+    InloopBundle\Controller\MemosController:
+        arguments:
+            $entities: '@inloop.memo.entities'
+        tags: [ 'controller.service_arguments' ]
+
+    InloopBundle\Controller\RapportagesController:
+        arguments:
+            $export: '@inloop.export.report'
+        tags: [ 'controller.service_arguments' ]
+
+    InloopBundle\Controller\RegistratiesController:
+        arguments:
+            $export: '@inloop.export.registraties'
+        tags: [ 'controller.service_arguments' ]
+
+    InloopBundle\Controller\SchorsingenController:
+        arguments:
+            $export: '@inloop.export.schorsing'
+        tags: [ 'controller.service_arguments' ]
+
+    InloopBundle\Controller\VerslagenController:
+        arguments:
+            $export: '@mw.export.klanten'
+        tags: [ 'controller.service_arguments' ]
+
+    InloopBundle\Controller\VrijwilligersController:
+        arguments:
+            $export: '@inloop.export.vrijwilliger'
+        tags: [ 'controller.service_arguments' ]
+
+
+
     InloopBundle\Service\AccessUpdater:
         public: true
         arguments:

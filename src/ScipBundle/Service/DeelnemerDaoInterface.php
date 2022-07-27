@@ -17,7 +17,7 @@ interface DeelnemerDaoInterface
      *
      * @return PaginationInterface
      */
-    public function findAll($page = null, FilterInterface $filter = null): PaginationInterface;
+    public function findAll($page = null, FilterInterface $filter = null);
 
     /**
      * @param Medewerker      $medewerker

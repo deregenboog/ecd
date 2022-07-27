@@ -8,6 +8,7 @@ use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use InloopBundle\Entity\DossierStatus;
+use InloopBundle\Entity\Incident;
 use InloopBundle\Entity\Intake;
 use InloopBundle\Entity\Locatie;
 use InloopBundle\Entity\Registratie;
@@ -82,6 +83,14 @@ class Klant extends Persoon
      * @ORM\OrderBy({"id" = "DESC"})
      */
     private $schorsingen;
+
+    /**
+     * @var Incident[]
+     *
+     * @ORM\OneToMany(targetEntity="InloopBundle\Entity\Incident", mappedBy="klant", cascade={"persist"})
+     * @ORM\OrderBy({"id" = "DESC"})
+     */
+    private $incidenten;
 
     /**
      * @ORM\Column(name="laatste_TBC_controle", type="date", nullable=true)
@@ -251,6 +260,7 @@ class Klant extends Persoon
         $this->zrms = new ArrayCollection();
         $this->verslagen = new ArrayCollection();
         $this->opmerkingen = new ArrayCollection();
+        $this->incidenten = new ArrayCollection();
     }
 
     /**
@@ -417,6 +427,30 @@ class Klant extends Persoon
         return new ArrayCollection($schorsingen);
     }
 
+    /**
+     * @return Incident[]
+     */
+    public function getIncidenten()
+    {
+        return $this->incidenten;
+    }
+
+    /**
+     * @param Incident[] $incidenten
+     * @return Klant
+     */
+    public function setIncidenten(array $incidenten): Klant
+    {
+        $this->incidenten = $incidenten;
+        return $this;
+    }
+
+    public function addIncident(Incident $incident): Klant
+    {
+        $this->incidenten->add($incident);
+        return $this;
+
+    }
     public function getIntakes()
     {
         return $this->intakes;
