@@ -49,9 +49,9 @@ services:
                 Adres: { expression: 'entity.getKlant().getAdres()' }
                 Postcode: { expression: 'entity.getKlant().getPostcode()' }
                 Woonplaats: { expression: 'entity.getKlant().getPlaats()' }
-                Mobiel: { expression: 'entity.getKlant().getMobiel()' }
-                Telefoon: { expression: 'entity.getKlant().getTelefoon()' }
-                Werkgebied: { expression: 'entity.getKlant().getWerkgebied()' }
+#                Mobiel: { expression: 'entity.getKlant().getMobiel()' }
+#                Telefoon: { expression: 'entity.getKlant().getTelefoon()' }
+#                Werkgebied: { expression: 'entity.getKlant().getWerkgebied()' }
                 Aanmelddatum: { expression: 'entity.getAanmelddatum()', type: 'date' }
                 Afsluitdatum: { expression: 'entity.getAfsluitDatum()', type: 'date' }
                 Reden afsluiting: { expression: 'entity.getAfsluiting()' }
@@ -64,10 +64,14 @@ services:
             -
                 Nummer: { expression: 'entity.getId()' }
                 Startdatum traject: { expression: 'entity.getStartdatum()', type: 'date' }
-                Rapportagedata traject: { expression: 'export.getRapportagedata(entity)' }
                 Einddatum traject: { expression: 'entity.getEinddatum()', type: 'date' }
                 Afsluitdatum traject: { expression: 'entity.getAfsluitdatum()', type: 'date' }
                 Ris-dossiernummer: { expression: 'entity.getDeelnemer().getRisDossiernummer()' }
+                Trajectsoort: { expression: 'entity.getSoort()' }
+                Trajectcoach: { expression: 'entity.getTrajectcoach()' }
+                Project(en): { expression: 'export.getProjecten(entity)' }
+                Locatie(s): { expression: 'export.getLocaties(entity)' }
+                Evaluatiedatum: { expression: 'entity.getEvaluatiedatum()', type: 'date' }
                 BSN: { expression: 'entity.getDeelnemer().getKlant().getBsn()' }
                 Geslacht: { expression: 'entity.getDeelnemer().getKlant().getGeslacht()' }
                 Voornaam: { expression: 'entity.getDeelnemer().getKlant().getVoornaam()' }
@@ -78,13 +82,51 @@ services:
                 Adres: { expression: 'entity.getDeelnemer().getKlant().getAdres()' }
                 Postcode: { expression: 'entity.getDeelnemer().getKlant().getPostcode()' }
                 Woonplaats: { expression: 'entity.getDeelnemer().getKlant().getPlaats()' }
-                Mobiel: { expression: 'entity.getDeelnemer().getKlant().getMobiel()' }
-                Telefoon: { expression: 'entity.getDeelnemer().getKlant().getTelefoon()' }
-                Werkgebied: { expression: 'entity.getDeelnemer().getKlant().getWerkgebied()' }
+#                Mobiel: { expression: 'entity.getDeelnemer().getKlant().getMobiel()' }
+#                Telefoon: { expression: 'entity.getDeelnemer().getKlant().getTelefoon()' }
+#                Werkgebied: { expression: 'entity.getDeelnemer().getKlant().getWerkgebied()' }
                 Aanmelddatum deelnemer: { expression: 'entity.getDeelnemer().getAanmelddatum()', type: 'date' }
                 Afsluitdatum deelnemer: { expression: 'entity.getDeelnemer().getAfsluitDatum()', type: 'date' }
                 Reden afsluiting deelnemer: { expression: 'entity.getDeelnemer().getAfsluiting()' }
 
+
     dagbesteding.export.report:
         public: true
         class: AppBundle\Export\ReportExport
+
+    dagbesteding.export.deelnames:
+        public: true
+        class: AppBundle\Export\GenericExport
+        arguments:
+            - DagbestedingBundle\Entity\Deelname
+            - Voornaam: { expression: 'entity.getTraject().getDeelnemer().getKlant().getVoornaam()' }
+              Tussenvoegsel: { expression: 'entity.getTraject().getDeelnemer().getKlant().getTussenvoegsel()' }
+              Achternaam: { expression: 'entity.getTraject().getDeelnemer().getKlant().getAchternaam()' }
+              KPL: { expression: 'entity.getProject().getKpl()' }
+              Project: { expression: 'entity.getProject().getNaam()' }
+              Werkbegeleider: { expression: 'entity.getTraject().getDeelnemer().getWerkbegeleider()' }
+              Actief: { expression: 'entity.isActief()' }
+              Aanmelddatum: { expression: 'entity.getTraject().getDeelnemer().getAanmelddatum()', type: 'date' }
+              Afsluitdatum: { expression: 'entity.getTraject().getDeelnemer().getAfsluitDatum()', type: 'date' }
+              Trajectsoort: { expression: 'entity.getTraject().getSoort()' }
+              RISDossiernummer: { expression: 'entity.getTraject().getDeelnemer().getRisDossiernummer()' }
+              EmailAdres: { expression: 'entity.getTraject().getDeelnemer().getKlant().getEmail()' }
+              Adres: { expression: 'entity.getTraject().getDeelnemer().getKlant().getAdres()' }
+              Postcode: { expression: 'entity.getTraject().getDeelnemer().getKlant().getPostcode()' }
+              Woonplaats: { expression: 'entity.getTraject().getDeelnemer().getKlant().getPlaats()' }
+              telNr: { expression: 'entity.getTraject().getDeelnemer().getKlant().getMobiel()' }
+              gebDatum: { expression: 'entity.getTraject().getDeelnemer().getKlant().getGeboortedatum()', type: 'date' }
+              maStart: { expression: 'entity.getBeschikbaarheid().getMaandagVan()', type: 'time', condition: 'entity.getBeschikbaarheid()' }
+              maEnd: { expression: 'entity.getBeschikbaarheid().getMaandagTot()', type: 'time', condition: 'entity.getBeschikbaarheid()' }
+              diStart: { expression: 'entity.getBeschikbaarheid().getDinsdagVan()', type: 'time', condition: 'entity.getBeschikbaarheid()' }
+              diEnd: { expression: 'entity.getBeschikbaarheid().getDinsdagTot()', type: 'time', condition: 'entity.getBeschikbaarheid()' }
+              woStart: { expression: 'entity.getBeschikbaarheid().getWoensdagVan()', type: 'time', condition: 'entity.getBeschikbaarheid()' }
+              woEnd: { expression: 'entity.getBeschikbaarheid().getWoensdagTot()', type: 'time', condition: 'entity.getBeschikbaarheid()' }
+              doStart: { expression: 'entity.getBeschikbaarheid().getDonderdagVan()', type: 'time', condition: 'entity.getBeschikbaarheid()' }
+              doEnd: { expression: 'entity.getBeschikbaarheid().getDonderdagTot()', type: 'time', condition: 'entity.getBeschikbaarheid()' }
+              vrStart: { expression: 'entity.getBeschikbaarheid().getVrijdagVan()', type: 'time', condition: 'entity.getBeschikbaarheid()' }
+              vrEnd: { expression: 'entity.getBeschikbaarheid().getVrijdagTot()', type: 'time', condition: 'entity.getBeschikbaarheid()' }
+              zaStart: { expression: 'entity.getBeschikbaarheid().getZaterdagVan()', type: 'time', condition: 'entity.getBeschikbaarheid()' }
+              zaEnd: { expression: 'entity.getBeschikbaarheid().getZaterdagTot()', type: 'time', condition: 'entity.getBeschikbaarheid()' }
+              zoStart: { expression: 'entity.getBeschikbaarheid().getZondagVan()', type: 'time', condition: 'entity.getBeschikbaarheid()' }
+              zoEnd: { expression: 'entity.getBeschikbaarheid().getZondagTot()', type: 'time', condition: 'entity.getBeschikbaarheid()' }

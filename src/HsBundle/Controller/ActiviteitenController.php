@@ -5,6 +5,7 @@ namespace HsBundle\Controller;
 use AppBundle\Controller\AbstractController;
 use HsBundle\Entity\Activiteit;
 use HsBundle\Form\ActiviteitType;
+use HsBundle\Service\ActiviteitDao;
 use HsBundle\Service\ActiviteitDaoInterface;
 use JMS\DiExtraBundle\Annotation as DI;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
@@ -24,11 +25,18 @@ class ActiviteitenController extends AbstractController
     protected $baseRouteName = 'hs_activiteiten_';
 
     /**
-     * @var ActiviteitDaoInterface
-     *
-     * @DI\Inject("HsBundle\Service\ActiviteitDao")
+     * @var ActiviteitDao
      */
     protected $dao;
+
+    /**
+     * @param ActiviteitDao $dao
+     */
+    public function __construct(ActiviteitDao $dao)
+    {
+        $this->dao = $dao;
+    }
+
 
     /**
      * @Route("/{id}/view")

@@ -11,7 +11,9 @@ use AppBundle\Service\KlantDaoInterface;
 use HsBundle\Entity\Dienstverlener;
 use HsBundle\Form\DienstverlenerFilterType;
 use HsBundle\Form\DienstverlenerType;
+use HsBundle\Service\DienstverlenerDao;
 use HsBundle\Service\DienstverlenerDaoInterface;
+use HsBundle\Service\KlantDao;
 use JMS\DiExtraBundle\Annotation as DI;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\Form\FormError;
@@ -32,25 +34,32 @@ class DienstverlenersController extends AbstractController
     protected $baseRouteName = 'hs_dienstverleners_';
 
     /**
-     * @var DienstverlenerDaoInterface
-     *
-     * @DI\Inject("HsBundle\Service\DienstverlenerDao")
+     * @var DienstverlenerDao
      */
     protected $dao;
 
     /**
+     * @var KlantDao
+     */
+    private $klantDao;
+
+    /**
      * @var ExportInterface
-     *
-     * @DI\Inject("hs.export.dienstverlener")
      */
     protected $export;
 
     /**
-     * @var KlantDaoInterface
-     *
-     * @DI\Inject("AppBundle\Service\KlantDao")
+     * @param DienstverlenerDao $dao
+     * @param KlantDao $klantDao
+     * @param ExportInterface $export
      */
-    private $klantDao;
+    public function __construct(DienstverlenerDao $dao, KlantDao $klantDao, ExportInterface $export)
+    {
+        $this->dao = $dao;
+        $this->klantDao = $klantDao;
+        $this->export = $export;
+    }
+
 
     /**
      * @Route("/add")

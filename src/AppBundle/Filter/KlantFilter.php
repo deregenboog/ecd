@@ -175,10 +175,18 @@ class KlantFilter implements FilterInterface
         }
 
         if ($this->stadsdeel) {
-            $builder
-                ->andWhere("{$alias}.werkgebied = :{$alias}_stadsdeel")
-                ->setParameter("{$alias}_stadsdeel", $this->stadsdeel)
-            ;
+            if($this->stadsdeel->getNaam() == 'Overig')
+            {
+                $builder
+                    ->andWhere("({$alias}.werkgebied = :{$alias}_stadsdeel OR {$alias}.werkgebied IS NULL)")
+                    ->setParameter("{$alias}_stadsdeel", $this->stadsdeel)
+                ;
+            } else {
+                $builder
+                    ->andWhere("{$alias}.werkgebied = :{$alias}_stadsdeel")
+                    ->setParameter("{$alias}_stadsdeel", $this->stadsdeel)
+                ;
+            }
         }
 
         if ($this->postcodegebied) {

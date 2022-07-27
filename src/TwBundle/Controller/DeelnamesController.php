@@ -8,6 +8,7 @@ use TwBundle\Entity\Deelname;
 use TwBundle\Form\DeelnameType;
 use JMS\DiExtraBundle\Annotation as DI;
 use Symfony\Component\Routing\Annotation\Route;
+use TwBundle\Service\DeelnameDao;
 use TwBundle\Service\DeelnameDaoInterface;
 
 /**
@@ -24,16 +25,24 @@ class DeelnamesController extends AbstractChildController
     protected $baseRouteName = 'tw_deelname_';
 
     /**
-     * @var DeelnameDaoInterface
-     *
-     * @DI\Inject("TwBundle\Service\DeelnameDao")
+     * @var DeelnameDao
      */
     protected $dao;
 
     /**
      * @var \ArrayObject
-     *
-     * @DI\Inject("tw.deelname.entities")
      */
     protected $entities;
+
+    /**
+     * @param DeelnameDao $dao
+     * @param \ArrayObject $entities
+     */
+    public function __construct(DeelnameDao $dao, \ArrayObject $entities)
+    {
+        $this->dao = $dao;
+        $this->entities = $entities;
+    }
+
+
 }

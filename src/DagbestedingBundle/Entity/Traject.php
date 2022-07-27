@@ -9,6 +9,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
+use Symfony\Component\Config\Definition\Exception\Exception;
 
 /**
  * @ORM\Entity
@@ -21,7 +22,7 @@ class Traject
 {
     use TimestampableTrait;
 
-    public const TERMIJN_RAPPORTAGE = '+6 months';
+    public const TERMIJN_EVALUATIE = '+6 months';
     public const TERMIJN_EIND = '+1 year -1 day';
 
     /**
@@ -75,18 +76,16 @@ class Traject
     private $startdatum;
 
     /**
+     * @var \DateTime
+     * @ORM\Column(type="date", nullable=true)
+     */
+    private $evaluatiedatum;
+
+    /**
      * @ORM\Column(type="date", nullable=false)
      * @Gedmo\Versioned
      */
     private $einddatum;
-
-    /**
-     * @var ArrayCollection|Rapportage[]
-     *
-     * @ORM\OneToMany(targetEntity="Rapportage", mappedBy="traject", cascade={"persist"}, orphanRemoval=true)
-     * @ORM\OrderBy({"datum" = "ASC", "id" = "ASC"})
-     */
-    private $rapportages;
 
     /**
      * @ORM\Column(type="date", nullable=true)
@@ -139,14 +138,28 @@ class Traject
      */
     private $locaties;
 
+//    /**
+//     * @var ArrayCollection|Project[]
+//     *
+//     * @ORM\ManyToMany(targetEntity="Project", cascade={"persist"})
+//     * @ORM\JoinTable(name="dagbesteding_traject_project")
+//     * @ORM\OrderBy({"naam" = "ASC"})
+//     */
+//    private $projecten;
+
     /**
      * @var ArrayCollection|Project[]
-     *
-     * @ORM\ManyToMany(targetEntity="Project")
-     * @ORM\JoinTable(name="dagbesteding_traject_project")
-     * @ORM\OrderBy({"naam" = "ASC"})
+     * ORM\OneToMany(targetEntity="Project", mappedBy="trajecten",cascade={"persist","remove"} )
      */
-    private $projecten;
+    protected $projecten;
+
+    /**
+     * @var ArrayCollection|Deelname[]
+     *
+     * @ORM\OneToMany(targetEntity="Deelname", mappedBy="traject", cascade={"persist"})
+     * @ORM\OrderBy({"id" = "DESC"})
+     */
+    private $deelnames;
 
     /**
      * @var bool
@@ -163,14 +176,24 @@ class Traject
      */
     protected $deletedAt;
 
+
+    /**
+     * @var ArrayCollection|Werkdoel[]
+     *
+     * @ORM\OneToMany(targetEntity="DagbestedingBundle\Entity\Werkdoel", mappedBy="traject", cascade={"persist"})
+     * @ORM\OrderBy({"datum" = "DESC", "id" = "DESC"})
+     */
+    private $werkdoelen;
+
     public function __construct()
     {
         $this->documenten = new ArrayCollection();
         $this->locaties = new ArrayCollection();
         $this->projecten = new ArrayCollection();
-        $this->rapportages = new ArrayCollection();
+        $this->deelnames = new ArrayCollection();
         $this->resultaatgebieden = new ArrayCollection();
         $this->verslagen = new ArrayCollection();
+        $this->werkdoelen = new ArrayCollection();
 
         $this->setStartdatum(new \DateTime());
     }
@@ -218,28 +241,31 @@ class Traject
     public function setStartdatum(\DateTime $startdatum = null)
     {
         if ($this->startdatum) {
-            $rapportagedatum = clone $this->startdatum;
-            $rapportagedatum->modify(self::TERMIJN_RAPPORTAGE);
-            $einddatum = clone $this->startdatum;
-            $einddatum->modify(self::TERMIJN_EIND);
-            foreach ($this->rapportages as $rapportage) {
-                if ($rapportage->isDeletable()
-                    && in_array($rapportage->getDatum(), [$rapportagedatum, $einddatum])
-                ) {
-                    $this->removeRapportage($rapportage);
-                }
-            }
+//            $rapportagedatum = clone $this->startdatum;
+//            $rapportagedatum->modify(self::TERMIJN_EVALUATIE);
+//            $einddatum = clone $this->startdatum;
+//            $einddatum->modify(self::TERMIJN_EIND);
+//            foreach ($this->rapportages as $rapportage) {
+//                if ($rapportage->isDeletable()
+//                    && in_array($rapportage->getDatum(), [$rapportagedatum, $einddatum])
+//                ) {
+//                    $this->removeRapportage($rapportage);
+//                }
+//            }
         }
 
         $this->startdatum = $startdatum;
 
-        $rapportagedatum = clone $startdatum;
-        $rapportagedatum->modify(self::TERMIJN_RAPPORTAGE);
-        $this->addRapportage(new Rapportage($rapportagedatum));
+        if(null!==$this->getEvaluatiedatum()) {
+
+            $evaluatiedatum = clone $startdatum;
+            $evaluatiedatum->modify(self::TERMIJN_EVALUATIE);
+            $this->setEvaluatiedatum($evaluatiedatum);
+        }
 
         $einddatum = clone $startdatum;
         $einddatum->modify(self::TERMIJN_EIND);
-        $this->addRapportage(new Rapportage($einddatum));
+//        $this->addRapportage(new Rapportage($einddatum));
         $this->setEinddatum($einddatum);
 
         return $this;
@@ -257,13 +283,28 @@ class Traject
         return $this;
     }
 
+    /**
+     * @return \DateTime
+     */
+    public function getEvaluatiedatum():? \DateTime
+    {
+        return $this->evaluatiedatum;
+    }
+
+    /**
+     * @param \DateTime $evaluatiedatum
+     * @return Traject
+     */
+    public function setEvaluatiedatum($evaluatiedatum): Traject
+    {
+        $evaluatiedatum = $evaluatiedatum ?? (new \DateTime())->modify(self::TERMIJN_EVALUATIE);
+        $this->evaluatiedatum = $evaluatiedatum;
+        return $this;
+    }
+
+
     public function isDeletable(): bool
     {
-        foreach ($this->rapportages as $rapportage) {
-            if ((is_array($rapportage->getDocumenten()) || $rapportage->getDocumenten() instanceof \Countable ? count($rapportage->getDocumenten()) : 0) > 0) {
-                return false;
-            }
-        }
 
         return 0 === count($this->dagdelen)
             && 0 === count($this->documenten)
@@ -300,27 +341,6 @@ class Traject
         return $this;
     }
 
-    public function getRapportages()
-    {
-        return $this->rapportages;
-    }
-
-    public function addRapportage(Rapportage $rapportage)
-    {
-        $this->rapportages[] = $rapportage;
-        $rapportage->setTraject($this);
-
-        return $this;
-    }
-
-    public function removeRapportage(Rapportage $rapportage)
-    {
-        if ($this->rapportages->contains($rapportage)) {
-            $this->rapportages->removeElement($rapportage);
-        }
-
-        return $this;
-    }
 
     /**
      * @return Trajectcoach
@@ -411,33 +431,44 @@ class Traject
 
     public function addLocatie(Locatie $locatie)
     {
-        $this->locaties[] = $locatie;
+        if(!$this->locaties->contains($locatie))
+        {
+            $this->locaties[] = $locatie;
+        }
 
         return $this;
     }
 
     public function getProjecten($inclusiefHistorischeProjecten = false)
     {
-        if (!$inclusiefHistorischeProjecten) {
-            return $this->projecten;
-        }
+        return new Exception("Projecten niet meer beschikbaar op traject. Alleen via deelname");
 
-        $projecten = clone $this->projecten;
-        foreach ($this->dagdelen as $dagdeel) {
-            if (!$projecten->contains($dagdeel->getProject())) {
-                $projecten[] = $dagdeel->getProject();
-            }
-        }
-
-        return $projecten;
     }
 
     public function addProject(Project $project)
     {
-        $this->projecten[] = $project;
+        return new Exception("Projecten niet meer beschikbaar op traject. Alleen via deelname");
+    }
 
+
+    /**
+     * @return Deelname[]|ArrayCollection
+     */
+    public function getDeelnames()
+    {
+        return $this->deelnames;
+    }
+
+    /**
+     * @param Deelname[]|ArrayCollection $deelnames
+     * @return Traject
+     */
+    public function addDeelname($deelnames)
+    {
+        $this->deelnames[] = $deelnames;
         return $this;
     }
+
 
     public function getEinddatum()
     {
@@ -483,6 +514,38 @@ class Traject
         return $this;
     }
 
+
+    /**
+     * @return Werkdoel[]|ArrayCollection
+     */
+    public function getWerkdoelen()
+    {
+        return $this->werkdoelen;
+    }
+
+    /**
+     * @param Werkdoel[]|ArrayCollection $werkdoelen
+     * @return Deelnemer
+     */
+    public function setWerkdoelen($werkdoelen)
+    {
+        $this->werkdoelen = $werkdoelen;
+        return $this;
+    }
+
+    /**
+     * @param Werkdoel $werkdoel
+     * @return $this
+     */
+    public function addWerkdoel(Werkdoel $werkdoel)
+    {
+        $this->werkdoelen[] = $werkdoel;
+        $werkdoel->setTraject($this);
+        $werkdoel->setDeelnemer($this->deelnemer);
+
+        return $this;
+    }
+
     public function countDagdelenByMonth()
     {
         $key = function (\DateTime $date) {
@@ -505,7 +568,8 @@ class Traject
                 'maand' => clone $date,
                 'projecten' => [],
             ];
-            foreach ($this->getProjecten(true) as $project) {
+            foreach ($this->getDeelnames() as $deelname) {
+                $project = $deelname->getProject();
                 $month['projecten'][$project->getId()] = [
                     'project' => $project,
                     'A' => 0,

@@ -9,10 +9,12 @@ use AppBundle\Event\Events;
 use AppBundle\Exception\UserException;
 use AppBundle\Export\ExportInterface;
 use Doctrine\ORM\EntityNotFoundException;
+use InloopBundle\Service\VerslagDao;
 use JMS\DiExtraBundle\Annotation as DI;
 use MwBundle\Entity\Verslag;
 use MwBundle\Form\VerslagModel;
 use MwBundle\Form\VerslagType;
+use MwBundle\Service\InventarisatieDao;
 use MwBundle\Service\InventarisatieDaoInterface;
 use MwBundle\Service\VerslagDaoInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
@@ -33,25 +35,32 @@ class VerslagenController extends AbstractController
     protected $baseRouteName = 'inloop_verslagen_';
 
     /**
-     * @var VerslagDaoInterface
-     *
-     * @DI\Inject("InloopBundle\Service\VerslagDao")
+     * @var VerslagDao
      */
     protected $dao;
 
     /**
-     * @var InventarisatieDaoInterface
-     *
-     * @DI\Inject("MwBundle\Service\InventarisatieDao")
+     * @var InventarisatieDao
      */
     protected $inventarisatieDao;
 
     /**
      * @var ExportInterface
-     *
-     * @DI\Inject("mw.export.klanten")
      */
     protected $export;
+
+    /**
+     * @param VerslagDao $dao
+     * @param InventarisatieDao $inventarisatieDao
+     * @param ExportInterface $export
+     */
+    public function __construct(VerslagDao $dao, InventarisatieDao $inventarisatieDao, ExportInterface $export)
+    {
+        $this->dao = $dao;
+        $this->inventarisatieDao = $inventarisatieDao;
+        $this->export = $export;
+    }
+
 
     /**
      * @Route("/add/{klant}")
@@ -124,7 +133,7 @@ class VerslagenController extends AbstractController
                 $this->addFlash('danger', $message);
             }
 
-            return $this->afterFormSubmitted($request, $entity);
+            return $this->afterFormSubmitted($request, $entity, null);
         }
 
         return [

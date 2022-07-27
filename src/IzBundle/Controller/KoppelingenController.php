@@ -13,8 +13,11 @@ use IzBundle\Entity\Koppeling;
 use IzBundle\Form\KoppelingCloseType;
 use IzBundle\Form\KoppelingFilterType;
 use IzBundle\Form\KoppelingType;
+use IzBundle\Service\HulpaanbodDao;
 use IzBundle\Service\HulpaanbodDaoInterface;
+use IzBundle\Service\HulpvraagDao;
 use IzBundle\Service\HulpvraagDaoInterface;
+use IzBundle\Service\KoppelingDao;
 use IzBundle\Service\KoppelingDaoInterface;
 use JMS\DiExtraBundle\Annotation as DI;
 use Symfony\Component\Routing\Annotation\Route;
@@ -36,32 +39,39 @@ class KoppelingenController extends AbstractController
     protected $disabledActions = ['delete'];
 
     /**
-     * @var KoppelingDaoInterface
-     *
-     * @DI\Inject("IzBundle\Service\KoppelingDao")
+     * @var KoppelingDao
      */
     protected $dao;
 
     /**
-     * @var HulpvraagDaoInterface
-     *
-     * @DI\Inject("IzBundle\Service\HulpvraagDao")
+     * @var HulpvraagDao
      */
     protected $hulpvraagDao;
 
     /**
-     * @var HulpaanbodDaoInterface
-     *
-     * @DI\Inject("IzBundle\Service\HulpaanbodDao")
+     * @var HulpaanbodDao
      */
     protected $hulpaanbodDao;
 
     /**
      * @var AbstractExport
-     *
-     * @DI\Inject("iz.export.koppelingen")
      */
     protected $export;
+
+    /**
+     * @param KoppelingDao $dao
+     * @param HulpvraagDao $hulpvraagDao
+     * @param HulpaanbodDao $hulpaanbodDao
+     * @param AbstractExport $export
+     */
+    public function __construct(KoppelingDao $dao, HulpvraagDao $hulpvraagDao, HulpaanbodDao $hulpaanbodDao, AbstractExport $export)
+    {
+        $this->dao = $dao;
+        $this->hulpvraagDao = $hulpvraagDao;
+        $this->hulpaanbodDao = $hulpaanbodDao;
+        $this->export = $export;
+    }
+
 
     /**
      * @Route("/add")
@@ -125,7 +135,7 @@ class KoppelingenController extends AbstractController
         ];
     }
 
-    protected function afterFormSubmitted(Request $request, $entity)
+    protected function afterFormSubmitted(Request $request, $entity, $form = null)
     {
         return $this->redirectToView($entity);
     }

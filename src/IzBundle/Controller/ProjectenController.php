@@ -6,6 +6,7 @@ use AppBundle\Controller\AbstractController;
 use DagbestedingBundle\Service\ProjectDaoInterface;
 use IzBundle\Entity\Project;
 use IzBundle\Form\ProjectType;
+use IzBundle\Service\ProjectDao;
 use JMS\DiExtraBundle\Annotation as DI;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
@@ -22,11 +23,18 @@ class ProjectenController extends AbstractController
     protected $baseRouteName = 'iz_projecten_';
 
     /**
-     * @var ProjectDaoInterface
-     *
-     * @DI\Inject("IzBundle\Service\ProjectDao")
+     * @var ProjectDao
      */
     protected $dao;
+
+    /**
+     * @param ProjectDao $dao
+     */
+    public function __construct(ProjectDao $dao)
+    {
+        $this->dao = $dao;
+    }
+
 
     /**
      * @Route("/{id}/view")

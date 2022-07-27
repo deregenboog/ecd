@@ -10,6 +10,8 @@ use AppBundle\Exception\UserException;
 use AppBundle\Export\ExportInterface;
 
 use Doctrine\ORM\EntityNotFoundException;
+use MwBundle\Service\InventarisatieDao;
+use MwBundle\Service\KlantDao;
 use MwBundle\Service\KlantDaoInterface;
 use JMS\DiExtraBundle\Annotation as DI;
 use MwBundle\Entity\Verslag;
@@ -17,6 +19,7 @@ use MwBundle\Entity\Aanmelding;
 use MwBundle\Form\VerslagModel;
 use MwBundle\Form\VerslagType;
 use MwBundle\Service\InventarisatieDaoInterface;
+use MwBundle\Service\VerslagDao;
 use MwBundle\Service\VerslagDaoInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\Routing\Annotation\Route;
@@ -36,23 +39,17 @@ class VerslagenController extends AbstractController
     protected $baseRouteName = 'mw_verslagen_';
 
     /**
-     * @var VerslagDaoInterface
-     *
-     * @DI\Inject("MwBundle\Service\VerslagDao")
+     * @var VerslagDao
      */
     protected $dao;
 
     /**
-     * @var KlantDaoInterface
-     *
-     * @DI\Inject("MwBundle\Service\KlantDao")
+     * @var KlantDao
      */
     protected $klantDao;
 
     /**
-     * @var InventarisatieDaoInterface
-     *
-     * @DI\Inject("MwBundle\Service\InventarisatieDao")
+     * @var InventarisatieDao
      */
     protected $inventarisatieDao;
 
@@ -62,6 +59,21 @@ class VerslagenController extends AbstractController
      * @DI\Inject("mw.export.klanten")
      */
     protected $export;
+
+    /**
+     * @param VerslagDao $dao
+     * @param KlantDao $klantDao
+     * @param InventarisatieDao $inventarisatieDao
+     * @param ExportInterface $export
+     */
+    public function __construct(VerslagDao $dao, KlantDao $klantDao, InventarisatieDao $inventarisatieDao, ExportInterface $export)
+    {
+        $this->dao = $dao;
+        $this->klantDao = $klantDao;
+        $this->inventarisatieDao = $inventarisatieDao;
+        $this->export = $export;
+    }
+
 
     /**
      * @Route("/add/{klant}")
@@ -137,7 +149,7 @@ class VerslagenController extends AbstractController
 
             }
 
-            return $this->afterFormSubmitted($request, $entity);
+            return $this->afterFormSubmitted($request, $entity, null);
         }
 
         return [

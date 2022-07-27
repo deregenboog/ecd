@@ -8,6 +8,7 @@ use VillaBundle\Entity\Deelname;
 use VillaBundle\Form\DeelnameType;
 use JMS\DiExtraBundle\Annotation as DI;
 use Symfony\Component\Routing\Annotation\Route;
+use VillaBundle\Service\DeelnameDao;
 use VillaBundle\Service\DeelnameDaoInterface;
 
 /**
@@ -24,16 +25,22 @@ class DeelnamesController extends AbstractChildController
     protected $baseRouteName = 'villa_deelname_';
 
     /**
-     * @var DeelnameDaoInterface
-     *
-     * @DI\Inject("VillaBundle\Service\DeelnameDao")
+     * @var DeelnameDao
      */
     protected $dao;
 
     /**
      * @var \ArrayObject
-     *
-     * @DI\Inject("villa.deelname.entities")
      */
     protected $entities;
+
+    /**
+     * @param DeelnameDao $dao
+     * @param \ArrayObject $entities
+     */
+    public function __construct(DeelnameDao $dao, \ArrayObject $entities)
+    {
+        $this->dao = $dao;
+        $this->entities = $entities;
+    }
 }

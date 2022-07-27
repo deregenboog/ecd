@@ -6,8 +6,11 @@ use AppBundle\Controller\AbstractController;
 use IzBundle\Entity\Reservering;
 use IzBundle\Form\KoppelingFilterType;
 use IzBundle\Form\ReserveringType;
+use IzBundle\Service\HulpaanbodDao;
 use IzBundle\Service\HulpaanbodDaoInterface;
+use IzBundle\Service\HulpvraagDao;
 use IzBundle\Service\HulpvraagDaoInterface;
+use IzBundle\Service\ReserveringDao;
 use IzBundle\Service\ReserveringDaoInterface;
 use JMS\DiExtraBundle\Annotation as DI;
 use Symfony\Component\Routing\Annotation\Route;
@@ -29,25 +32,32 @@ class ReserveringenController extends AbstractController
     protected $disabledActions = ['index', 'view', 'delete'];
 
     /**
-     * @var ReserveringDaoInterface
-     *
-     * @DI\Inject("IzBundle\Service\ReserveringDao")
+     * @var ReserveringDao
      */
     protected $dao;
 
     /**
-     * @var HulpvraagDaoInterface
-     *
-     * @DI\Inject("IzBundle\Service\HulpvraagDao")
+     * @var HulpvraagDao
      */
     protected $hulpvraagDao;
 
     /**
-     * @var HulpaanbodDaoInterface
-     *
-     * @DI\Inject("IzBundle\Service\HulpaanbodDao")
+     * @var HulpaanbodDao
      */
     protected $hulpaanbodDao;
+
+    /**
+     * @param ReserveringDao $dao
+     * @param HulpvraagDao $hulpvraagDao
+     * @param HulpaanbodDao $hulpaanbodDao
+     */
+    public function __construct(ReserveringDao $dao, HulpvraagDao $hulpvraagDao, HulpaanbodDao $hulpaanbodDao)
+    {
+        $this->dao = $dao;
+        $this->hulpvraagDao = $hulpvraagDao;
+        $this->hulpaanbodDao = $hulpaanbodDao;
+    }
+
 
     /**
      * @Route("/add")

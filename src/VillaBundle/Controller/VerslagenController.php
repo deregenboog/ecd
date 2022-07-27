@@ -10,6 +10,8 @@ use AppBundle\Exception\UserException;
 use AppBundle\Export\ExportInterface;
 
 use Doctrine\ORM\EntityNotFoundException;
+use GaBundle\Service\VerslagDao;
+use VillaBundle\Service\KlantDao;
 use VillaBundle\Service\KlantDaoInterface;
 use JMS\DiExtraBundle\Annotation as DI;
 use VillaBundle\Entity\Verslag;
@@ -36,32 +38,32 @@ class VerslagenController extends AbstractController
     protected $baseRouteName = 'villa_verslagen_';
 
     /**
-     * @var VerslagDaoInterface
-     *
-     * @DI\Inject("VillaBundle\Service\VerslagDao")
+     * @var VerslagDao
      */
     protected $dao;
 
     /**
-     * @var KlantDaoInterface
-     *
-     * @DI\Inject("VillaBundle\Service\KlantDao")
+     * @var KlantDao
      */
     protected $klantDao;
 
     /**
-     * @var InventarisatieDaoInterface
-     *
-     * @DI\Inject("VillaBundle\Service\InventarisatieDao")
-     */
-    protected $inventarisatieDao;
-
-    /**
      * @var ExportInterface
-     *
-     * @DI\Inject("mw.export.klanten")
      */
     protected $export;
+
+    /**
+     * @param VerslagDao $dao
+     * @param KlantDao $klantDao
+     * @param ExportInterface $export
+     */
+    public function __construct(VerslagDao $dao, KlantDao $klantDao, ExportInterface $export)
+    {
+        $this->dao = $dao;
+        $this->klantDao = $klantDao;
+        $this->export = $export;
+    }
+
 
     /**
      * @Route("/add/{klant}")
@@ -130,7 +132,7 @@ class VerslagenController extends AbstractController
                 $this->addFlash('danger', $message);
             }
 
-            return $this->afterFormSubmitted($request, $entity);
+            return $this->afterFormSubmitted($request, $entity, null);
         }
 
         return [

@@ -23,6 +23,7 @@ use MwBundle\Entity\Document;
 use MwBundle\Entity\Info;
 use MwBundle\Form\InfoType;
 use MwBundle\Form\KlantFilterType;
+use MwBundle\Service\KlantDao;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\Form\FormError;
@@ -43,16 +44,12 @@ class KlantenController extends AbstractController
     protected $searchFilterTypeClass = AppKlantFilterType::class;
 
     /**
-     * @var KlantDaoInterface
-     *
-     * @DI\Inject("MwBundle\Service\KlantDao")
+     * @var KlantDao
      */
     protected $dao;
 
     /**
-     * @var \AppBundle\Service\KlantDaoInterface
-     *
-     * @DI\Inject("AppBundle\Service\KlantDao")
+     * @var \AppBundle\Service\KlantDao
      */
     protected $klantDao;
 
@@ -62,6 +59,19 @@ class KlantenController extends AbstractController
      * @DI\Inject("mw.export.klanten")
      */
     protected $export;
+
+    /**
+     * @param KlantDao $dao
+     * @param \AppBundle\Service\KlantDao $klantDao
+     * @param ExportInterface $export
+     */
+    public function __construct(KlantDao $dao, \AppBundle\Service\KlantDao $klantDao, ExportInterface $export)
+    {
+        $this->dao = $dao;
+        $this->klantDao = $klantDao;
+        $this->export = $export;
+    }
+
 
     /**
      * @Route("/add")
@@ -107,7 +117,7 @@ class KlantenController extends AbstractController
                 $this->addFlash('danger', $message);
             }
 
-            return $this->afterFormSubmitted($request, $entity);
+            return $this->afterFormSubmitted($request, $entity, null);
         }
 
         return [

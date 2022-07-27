@@ -7,6 +7,7 @@ use AppBundle\Entity\Klant;
 use AppBundle\Exception\UserException;
 use AppBundle\Form\ConfirmationType;
 use AppBundle\Form\KlantFilterType;
+use AppBundle\Service\KlantDao;
 use AppBundle\Service\KlantDaoInterface;
 use JMS\DiExtraBundle\Annotation as DI;
 use Symfony\Component\Finder\Exception\AccessDeniedException;
@@ -14,6 +15,7 @@ use UhkBundle\Entity\Deelnemer;
 use UhkBundle\Form\DeelnemerFilterType;
 use UhkBundle\Form\DeelnemerType;
 use UhkBundle\Security\Permissions;
+use UhkBundle\Service\DeelnemerDao;
 use UhkBundle\Service\DeelnemerDaoInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\Form\FormError;
@@ -36,18 +38,25 @@ class DeelnemersController extends AbstractController
 //    protected $disabledActions = ['delete'];
 
     /**
-     * @var DeelnemerDaoInterface
-     *
-     * @DI\Inject("UhkBundle\Service\DeelnemerDao")
+     * @var DeelnemerDao
      */
     protected $dao;
 
     /**
-     * @var KlantDaoInterface
-     *
-     * @DI\Inject("AppBundle\Service\KlantDao")
+     * @var KlantDao
      */
     protected $klantDao;
+
+    /**
+     * @param DeelnemerDao $dao
+     * @param KlantDao $klantDao
+     */
+    public function __construct(DeelnemerDao $dao, KlantDao $klantDao)
+    {
+        $this->dao = $dao;
+        $this->klantDao = $klantDao;
+    }
+
 
     /**
      * @Route("/add")

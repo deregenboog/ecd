@@ -9,6 +9,7 @@ use OekBundle\Entity\Training;
 use OekBundle\Form\EmailMessageType;
 use OekBundle\Form\TrainingFilterType;
 use OekBundle\Form\TrainingType;
+use OekBundle\Service\TrainingDao;
 use OekBundle\Service\TrainingDaoInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\Routing\Annotation\Route;
@@ -28,32 +29,39 @@ class TrainingenController extends AbstractChildController
     protected $baseRouteName = 'oek_trainingen_';
 
     /**
-     * @var TrainingDaoInterface
-     *
-     * @DI\Inject("OekBundle\Service\TrainingDao")
+     * @var TrainingDao
      */
     protected $dao;
 
     /**
      * @var \ArrayObject
-     *
-     * @DI\Inject("oek.training.entities")
      */
     protected $entities;
 
     /**
      * @var ExportInterface
-     *
-     * @DI\Inject("oek.export.presentielijst")
      */
     protected $exportPresentielijst;
 
     /**
      * @var ExportInterface
-     *
-     * @DI\Inject("oek.export.deelnemerslijst")
      */
     protected $exportDeelnemerslijst;
+
+    /**
+     * @param TrainingDao $dao
+     * @param \ArrayObject $entities
+     * @param ExportInterface $exportPresentielijst
+     * @param ExportInterface $exportDeelnemerslijst
+     */
+    public function __construct(TrainingDao $dao, \ArrayObject $entities, ExportInterface $exportPresentielijst, ExportInterface $exportDeelnemerslijst)
+    {
+        $this->dao = $dao;
+        $this->entities = $entities;
+        $this->exportPresentielijst = $exportPresentielijst;
+        $this->exportDeelnemerslijst = $exportDeelnemerslijst;
+    }
+
 
     /**
      * @Route("/{id}/email")

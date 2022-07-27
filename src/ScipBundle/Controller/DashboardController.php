@@ -42,6 +42,9 @@ class DashboardController extends SymfonyController
         if ($this->isGranted('ROLE_SCIP_BEHEER')) {
             $pagination = $this->projectDao->setItemsPerPage(100)->findAll($page);
         } else {
+            $this->addFlash("info","SCIP is gemigreerd naar dagbestding. Het menu-item verdwijnt binnenkort.");
+            return $this->redirectToRoute("dagbesteding_dashboard_index");
+
             $pagination = $this->projectDao->setItemsPerPage(100)->findByMedewerker($this->getMedewerker(), $page);
         }
 

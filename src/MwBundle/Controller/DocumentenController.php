@@ -8,6 +8,7 @@ use JMS\DiExtraBundle\Annotation as DI;
 use MwBundle\Entity\Document;
 use MwBundle\Entity\Vrijwilliger;
 use MwBundle\Form\DocumentType;
+use MwBundle\Service\DocumentDao;
 use MwBundle\Service\DocumentDaoInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -28,18 +29,25 @@ class DocumentenController extends AbstractChildController
     protected $disabledActions = ['index', 'edit'];
 
     /**
-     * @var DocumentDaoInterface
-     *
-     * @DI\Inject("MwBundle\Service\DocumentDao")
+     * @var DocumentDao
      */
     protected $dao;
 
     /**
      * @var \ArrayObject
-     *
-     * @DI\Inject("mw.document.entities")
      */
     protected $entities;
+
+    /**
+     * @param DocumentDao $dao
+     * @param \ArrayObject $entities
+     */
+    public function __construct(DocumentDao $dao, \ArrayObject $entities)
+    {
+        $this->dao = $dao;
+        $this->entities = $entities;
+    }
+
 
     /**
      * @Route("/download/{filename}")
@@ -49,6 +57,7 @@ class DocumentenController extends AbstractChildController
         $document = $this->dao->findByFilename($filename);
 
         $downloadHandler = $this->get('vich_uploader.download_handler');
+
 
         return $downloadHandler->downloadObject($document, 'file');
     }

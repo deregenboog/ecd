@@ -68,7 +68,7 @@ class PostcodesController extends AbstractController
                 $this->addFlash('danger', $message);
             }
 
-            return $this->afterFormSubmitted($request, $entity);
+            return $this->afterFormSubmitted($request, $entity, null);
         }
 
         return [
@@ -107,7 +107,7 @@ class PostcodesController extends AbstractController
                 $this->addFlash('danger', $message);
             }
 
-            return $this->afterFormSubmitted($request, $entity);
+            return $this->afterFormSubmitted($request, $entity, null);
         }
 
         return [

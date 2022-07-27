@@ -1,0 +1,78 @@
+{% extends '::base.html.twig' %}
+{% import '::html.macro.twig' as html %}
+
+{% block title %}
+    Inloop | {{ title }}
+{% endblock %}
+
+{% block subnavigation %}
+    {% include '@Oekraine/subnavigation.html.twig' %}
+{% endblock %}
+
+{% block content %}
+    <h1>{{ title }} {{ locatie }}</h1>
+    <p>
+        <a href="{{ path('oekraine_registraties_locationselect') }}">Locatie wijzigen</a>
+    </p>
+    <ul class="nav nav-tabs">
+        {{ html.navLink('Bezoekersregistratie', path('oekraine_registraties_index', {locatie: locatie.id}), isActiveRoute('oekraine_registraties_index')) }}
+        {{ html.navLink('Nu binnen', path('oekraine_registraties_active', {locatie: locatie.id}), isActiveRoute('oekraine_registraties_active')) }}
+        {{ html.navLink('Recent uitgecheckt', path('oekraine_registraties_history', {locatie: locatie.id}), isActiveRoute('oekraine_registraties_history')) }}
+    </ul>
+    <div id="content">
+        {{ form_start(filter) }}
+            <table class="table table-fixed">
+                {{ colgroup(8, [15, 15, 15]) }}
+                <thead>
+                    <tr>
+                        <th>
+                            {{ form_widget(filter.klant.voornaam) }}
+                            {{ form_errors(filter.klant.voornaam) }}
+                        </th>
+                        <th>
+                            {{ form_widget(filter.klant.achternaam) }}
+                            {{ form_errors(filter.klant.achternaam) }}
+                        </th>
+                        <th>
+                            {{ form_widget(filter.binnen.start) }}
+                            {{ form_errors(filter.binnen.start) }}
+                            {{ form_widget(filter.binnen.end) }}
+                            {{ form_errors(filter.binnen.end) }}
+                        </th>
+                        <th>
+                            {{ form_widget(filter.buiten.start) }}
+                            {{ form_errors(filter.buiten.start) }}
+                            {{ form_widget(filter.buiten.end) }}
+                            {{ form_errors(filter.buiten.end) }}
+                        </th>
+                        <th>
+                        </th>
+
+                        <th>
+                        </th>
+                        <th>
+                        </th>
+                        <th>
+                            <span class="pull-right">
+                                {{ form_widget(filter.filter) }}
+                            </span>
+                        </th>
+                    </tr>
+                </thead>
+            </table>
+        {{ form_end(filter) }}
+        <div id="loader" style="display: none; margin-top: 1em">
+            <h4>Een moment geduld...</h4>
+        </div>
+        <div id="ajaxContainer" style="margin-top: -17px;">
+            {#% include 'OekraineBundle:registraties:_history.html.twig' %#}
+        </div>
+    </div>
+{% endblock %}
+
+{% block scripts %}
+    <script>
+        var locatie_id = {{ locatie.id }};
+    </script>
+    <script src="{{ asset('bundles/inloop/js/registraties/history.js') }}"></script>
+{% endblock %}

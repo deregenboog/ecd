@@ -73,6 +73,9 @@ services:
     InloopBundle\Service\TrainingDao:
         parent: inloop.dao
 
+    InloopBundle\Service\IncidentDao:
+        parent: inloop.dao
+
     inloop.document.entities:
         public: true
         class: ArrayObject
@@ -100,3 +103,9 @@ services:
         arguments:
             -
                 - { key: vrijwilliger, dao: '@InloopBundle\Service\VrijwilligerDao' }
+
+    inloop.incident.entities:
+        public: true
+        class: ArrayObject
+        arguments:
+            - - { key: klant, dao: '@InloopBundle\Service\KlantDao' }

@@ -61,6 +61,11 @@ class TrajectFilter implements FilterInterface
     /**
      * @var \DateTime
      */
+    public $evaluatiedatum;
+
+    /**
+     * @var \DateTime
+     */
     public $einddatum;
 
     /**
@@ -88,10 +93,6 @@ class TrajectFilter implements FilterInterface
      */
     public $zonderOndersteuningsplan;
 
-    /**
-     * @var RapportageFilter
-     */
-    public $rapportage;
 
     public function applyTo(QueryBuilder $builder)
     {
@@ -133,7 +134,7 @@ class TrajectFilter implements FilterInterface
 
         if ($this->project) {
             $builder
-                ->innerJoin('traject.projecten', 'project', 'WITH', 'project = :project')
+                ->innerJoin('deelnames.project', 'project', 'WITH', 'project = :project')
                 ->setParameter('project', $this->project)
             ;
         }
@@ -160,9 +161,36 @@ class TrajectFilter implements FilterInterface
             }
         }
 
-        if ($this->rapportage) {
-            $this->rapportage->applyTo($builder);
+        if ($this->evaluatiedatum) {
+            if ($this->evaluatiedatum->getStart()) {
+                $builder
+                    ->andWhere('traject.evaluatiedatum >= :evaluatiedatum_van')
+                    ->setParameter('evaluatiedatum_van', $this->evaluatiedatum->getStart())
+                ;
+            }
+            if ($this->evaluatiedatum->getEnd()) {
+                $builder
+                    ->andWhere('traject.evaluatiedatum <= :evaluatiedatum_tot')
+                    ->setParameter('evaluatiedatum_tot', $this->evaluatiedatum->getEnd())
+                ;
+            }
         }
+
+        if ($this->startdatum) {
+            if ($this->startdatum->getStart()) {
+                $builder
+                    ->andWhere('traject.startdatum >= :startdatum_van')
+                    ->setParameter('startdatum_van', $this->startdatum->getStart())
+                ;
+            }
+            if ($this->startdatum->getEnd()) {
+                $builder
+                    ->andWhere('traject.startdatum <= :startdatum_tot')
+                    ->setParameter('startdatum_tot', $this->startdatum->getEnd())
+                ;
+            }
+        }
+
 
         if ($this->einddatum) {
             if ($this->einddatum->getStart()) {
@@ -213,8 +241,8 @@ class TrajectFilter implements FilterInterface
 
         if ($this->verlenging) {
             $builder
-                ->andWhere('traject.einddatum <= :two_months_ago')
-                ->setParameter('two_months_ago', new \DateTime('+2 months'))
+                ->andWhere('traject.einddatum <= :two_months_from_now')
+                ->setParameter('two_months_from_now', new \DateTime('+2 months'))
             ;
         }
 

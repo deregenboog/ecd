@@ -1,0 +1,124 @@
+{% extends '::base.html.twig' %}
+{% import '::html.macro.twig' as html %}
+
+{% block title %}
+    Oekraine | {{ title }}
+{% endblock %}
+
+{% block subnavigation %}
+    {% include '@Oekraine/subnavigation.html.twig' %}
+{% endblock %}
+
+{% block content %}
+    <h1>{{ title }}</h1>
+    <p>
+        {{ html.link('Bezoeker toevoegen', path('oekraine_bezoekers_add'), 'add') }}
+    </p>
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                {{ form_start(filter) }}
+                <th>
+                    {{ form_widget(filter.klant.id) }}
+                    {{ form_errors(filter.klant.id) }}
+                </th>
+                <th>
+                    {{ form_widget(filter.klant.voornaam) }}
+                    {{ form_errors(filter.klant.voornaam) }}
+                </th>
+                <th>
+                    {{ form_widget(filter.klant.achternaam) }}
+                    {{ form_errors(filter.klant.achternaam) }}
+                </th>
+                <th>
+                    {{ form_widget(filter.klant.geboortedatumRange.start) }}
+                    {{ form_errors(filter.klant.geboortedatumRange.start) }}
+                    {{ form_widget(filter.klant.geboortedatumRange.end) }}
+                    {{ form_errors(filter.klant.geboortedatumRange.end) }}
+                </th>
+                <th>
+                    {{ form_widget(filter.klant.geslacht) }}
+                    {{ form_errors(filter.klant.geslacht) }}
+                </th>
+                <th>
+                    {{ form_widget(filter.woonlocatie) }}
+                    {{ form_errors(filter.woonlocatie) }}
+                </th>
+                <th>
+                    {{ form_widget(filter.huidigeStatus) }}
+                    {{ form_errors(filter.huidigeStatus) }}
+                </th>
+                <th colspan="2">
+                    {{ form_widget(filter.filter) }}
+                </th>
+                {{ form_end(filter) }}
+            </tr>
+            <tr>
+                <th>
+                    {{ knp_pagination_sortable(pagination, '#', 'bezoeker.id') }}
+                </th>
+                <th>
+                    {{ knp_pagination_sortable(pagination, 'Voornaam', 'bezoeker.appKlant.voornaam') }}
+                </th>
+                <th>
+                    {{ knp_pagination_sortable(pagination, 'Achternaam', 'bezoeker.appKlant.achternaam') }}
+                </th>
+                <th>
+                    {{ knp_pagination_sortable(pagination, 'Geboortedatum', 'bezoeker.appKlant.geboortedatum') }}
+                </th>
+                <th>
+                    {{ knp_pagination_sortable(pagination, 'Geslacht', 'geslacht.volledig') }}
+                </th>
+                <th>
+                    Woonlocatie
+                </th>
+                <th>
+                    Intakedatum
+                </th>
+                <th>
+                    Dossierstatus
+                </th>
+                <th>
+                    Aantal intakes
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for bezoeker in pagination %}
+                <tr data-href="{{ path('oekraine_bezoekers_view', {id: bezoeker.id}) }}">
+                    <td>
+                        {{ bezoeker.id }}
+                    </td>
+                    <td>
+                        {{ bezoeker.appKlant.voornaam }}
+                        {% if bezoeker.appKlant.roepnaam %}({{ bezoeker.appKlant.roepnaam }}){% endif %}
+                    </td>
+                    <td>
+                        {{ bezoeker.appKlant.tussenvoegsel }} {{ bezoeker.appKlant.achternaam }}
+                    </td>
+                    <td>
+                        {{ bezoeker.appKlant.geboortedatum ? bezoeker.appKlant.geboortedatum|date('d-m-Y') }}
+                    </td>
+                    <td>
+                        {{ bezoeker.appKlant.geslacht }}
+                    </td>
+                    <td>
+                        {{ bezoeker.laatsteIntake ? bezoeker.laatsteIntake.woonlocatie }}
+                    </td>
+                    <td>
+                        {{ bezoeker.laatsteIntake ? bezoeker.laatsteIntake.intakedatum|date('d-m-Y') }}
+                    </td>
+                    <td>
+                        {{ bezoeker.huidigeStatus }}
+                    </td>
+                    <td>
+                        {{ bezoeker.intakes|length }}
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <p>
+        {{ knp_pagination_render(pagination) }}
+    </p>
+{% endblock %}

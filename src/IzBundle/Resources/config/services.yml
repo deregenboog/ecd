@@ -4,6 +4,90 @@ imports:
     - { resource: reports.yml }
 
 services:
+    #tbv controller DI named arguments die dan niet eerst hoeven;
+    _defaults:
+        autowire: true
+        autoconfigure: true
+
+    IzBundle\Controller\:
+        resource: '../../Controller'
+        tags: [ 'controller.service_arguments' ]
+
+    IzBundle\Controller\DashboardController:
+        arguments:
+            $hulpaanbiedingenExport: '@iz.export.hulpaanbiedingen'
+            $hulpvragenExport: '@iz.export.hulpvragen'
+            $koppelingenExport: '@iz.export.koppelingen'
+        tags: [ 'controller.service_arguments' ]
+
+    IzBundle\Controller\DocumentenController:
+        arguments:
+           $entities: '@iz.document.entities'
+        tags: [ 'controller.service_arguments' ]
+
+    IzBundle\Controller\EindevaluatiesController:
+        arguments:
+            $entities: '@iz.verslag.entities'
+        tags: [ 'controller.service_arguments' ]
+
+    IzBundle\Controller\HulpaanbiedingenController:
+        arguments:
+            $entities: '@iz.hulpaanbod.entities'
+            $export: '@iz.export.hulpaanbiedingen'
+        tags: [ 'controller.service_arguments' ]
+
+    IzBundle\Controller\HulpvragenController:
+        arguments:
+            $entities: '@iz.hulpvraag.entities'
+            $export: '@iz.export.hulpvragen'
+        tags: [ 'controller.service_arguments' ]
+
+    IzBundle\Controller\IntakesController:
+        arguments:
+            $entities: '@iz.intake.entities'
+            $export: '@iz.export.klanten'
+        tags: [ 'controller.service_arguments' ]
+
+    IzBundle\Controller\IntervisiegroepenController:
+        arguments:
+            $export: '@iz.export.intervisiegroepen'
+        tags: [ 'controller.service_arguments' ]
+
+    IzBundle\Controller\KlantenController:
+        arguments:
+            $export: '@iz.export.klanten'
+        tags: [ 'controller.service_arguments' ]
+
+    IzBundle\Controller\KoppelingenController:
+        arguments:
+            $export: '@iz.export.koppelingen'
+        tags: [ 'controller.service_arguments' ]
+
+    IzBundle\Controller\LidmaatschappenController:
+        arguments:
+            $entities: '@iz.lidmaatschap.entities'
+        tags: [ 'controller.service_arguments' ]
+
+    IzBundle\Controller\RapportagesController:
+        arguments:
+            $export: '@iz.export.report'
+        tags: [ 'controller.service_arguments' ]
+
+    IzBundle\Controller\TussenevaluatiesController:
+        arguments:
+            $entities: '@iz.verslag.entities'
+        tags: [ 'controller.service_arguments' ]
+
+    IzBundle\Controller\VerslagenController:
+        arguments:
+            $entities: '@iz.verslag.entities'
+        tags: [ 'controller.service_arguments' ]
+
+    IzBundle\Controller\VrijwilligersController:
+        arguments:
+            $export: '@iz.export.vrijwilligers'
+        tags: [ 'controller.service_arguments' ]
+
     iz.event.diensten_lookup_subscriber:
         class: IzBundle\Event\DienstenLookupSubscriber
         arguments:

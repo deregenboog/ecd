@@ -20,6 +20,7 @@ use InloopBundle\Form\AfsluitingType;
 use InloopBundle\Form\KlantFilterType;
 use InloopBundle\Form\KlantType;
 use InloopBundle\Pdf\PdfBrief;
+use InloopBundle\Service\KlantDao;
 use InloopBundle\Service\KlantDaoInterface;
 use JMS\DiExtraBundle\Annotation as DI;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
@@ -45,18 +46,25 @@ class KlantenController extends AbstractController
     protected $baseRouteName = 'inloop_klanten_';
 
     /**
-     * @var KlantDaoInterface
-     *
-     * @DI\Inject("InloopBundle\Service\KlantDao")
+     * @var KlantDao
      */
     protected $dao;
 
     /**
-     * @var \AppBundle\Service\KlantDaoInterface
-     *
-     * @DI\Inject("AppBundle\Service\KlantDao")
+     * @var \AppBundle\Service\KlantDao
      */
     protected $klantDao;
+
+    /**
+     * @param KlantDao $dao
+     * @param \AppBundle\Service\KlantDao $klantDao
+     */
+    public function __construct(KlantDao $dao, \AppBundle\Service\KlantDao $klantDao)
+    {
+        $this->dao = $dao;
+        $this->klantDao = $klantDao;
+    }
+
 
     /**
      * @Route("/add")

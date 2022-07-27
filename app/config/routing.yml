@@ -42,6 +42,10 @@ _inloop:
     resource: "@InloopBundle/Resources/config/routing.yml"
     prefix: /inloop
 
+_oekraine:
+    resource: "@OekraineBundle/Resources/config/routing.yml"
+    prefix: /oekraine
+
 _iz:
     resource: "@IzBundle/Resources/config/routing.yml"
     prefix: /iz

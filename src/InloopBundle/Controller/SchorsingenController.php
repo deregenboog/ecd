@@ -11,6 +11,7 @@ use InloopBundle\Form\SchorsingFilterType;
 use InloopBundle\Form\SchorsingType;
 use InloopBundle\Pdf\PdfSchorsingEn;
 use InloopBundle\Pdf\PdfSchorsingNl;
+use InloopBundle\Service\SchorsingDao;
 use InloopBundle\Service\SchorsingDaoInterface;
 use JMS\DiExtraBundle\Annotation as DI;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
@@ -35,18 +36,25 @@ class SchorsingenController extends AbstractController
     protected $baseRouteName = 'inloop_schorsingen_';
 
     /**
-     * @var SchorsingDaoInterface
-     *
-     * @DI\Inject("InloopBundle\Service\SchorsingDao")
+     * @var SchorsingDao
      */
     protected $dao;
 
     /**
      * @var ExportInterface
-     *
-     * @DI\Inject("inloop.export.schorsing")
      */
     protected $export;
+
+    /**
+     * @param SchorsingDao $dao
+     * @param ExportInterface $export
+     */
+    public function __construct(SchorsingDao $dao, ExportInterface $export)
+    {
+        $this->dao = $dao;
+        $this->export = $export;
+    }
+
 
     /**
      * @Route("/{id}/view")
@@ -101,6 +109,7 @@ class SchorsingenController extends AbstractController
 
                 $this->dao->create($entity);
                 $this->addFlash('success', ucfirst($this->entityName).' is opgeslagen.');
+
             } catch(UserException $e) {
 //                $this->get('logger')->error($e->getMessage(), ['exception' => $e]);
                 $message =  $e->getMessage();
@@ -116,7 +125,7 @@ class SchorsingenController extends AbstractController
                 $this->sendSchorsingEmail($entity);
             }
 
-            return $this->afterFormSubmitted($request, $entity);
+            return $this->afterFormSubmitted($request, $entity, $form);
         }
 
         return [
@@ -231,5 +240,30 @@ class SchorsingenController extends AbstractController
         } else {
             $this->addFlash('danger', 'E-mail kon niet verzonden worden.');
         }
+    }
+
+    /**
+     * Override this method so we can apply some own logic to handle submit logic.
+     *
+     * @param Request $request
+     * @param $entity
+     * @param null $form
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
+     */
+    protected function afterFormSubmitted(Request $request, $entity, $form = null)
+    {
+
+        if(null == $form) return parent::afterFormSubmitted($request,$entity);
+
+        $elm = $form->has('submitAndAddIncident');
+        if($elm && $form->get('submitAndAddIncident')->isClicked()) {
+            $params = [
+                "locatie"=>$entity->getLocaties()->first()->getId(),
+                "klant"=>$entity->getKlant()->getId(),
+                "redirect"=>$request->get('redirect'),
+            ];
+            return $this->redirectToRoute("inloop_incidenten_addprefilled",$params);
+        }
+        return parent::afterFormSubmitted($request, $entity);
     }
 }

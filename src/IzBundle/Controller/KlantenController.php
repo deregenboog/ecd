@@ -14,6 +14,7 @@ use IzBundle\Entity\IzKlant;
 use IzBundle\Form\IzDeelnemerCloseType;
 use IzBundle\Form\IzKlantFilterType;
 use IzBundle\Form\IzKlantType;
+use IzBundle\Service\KlantDao;
 use IzBundle\Service\KlantDaoInterface;
 use JMS\DiExtraBundle\Annotation as DI;
 use Symfony\Component\Routing\Annotation\Route;
@@ -37,25 +38,31 @@ class KlantenController extends AbstractController
     protected $baseRouteName = 'iz_klanten_';
 
     /**
-     * @var KlantDaoInterface
-     *
-     * @DI\Inject("IzBundle\Service\KlantDao")
+     * @var KlantDao
      */
     protected $dao;
 
     /**
+     * @var \AppBundle\Service\KlantDao
+     */
+    private $klantDao;
+
+    /**
      * @var AbstractExport
-     *
-     * @DI\Inject("iz.export.klanten")
      */
     protected $export;
 
     /**
-     * @var KlantDaoInterface
-     *
-     * @DI\Inject("AppBundle\Service\KlantDao")
+     * @param KlantDao $dao
+     * @param \AppBundle\Service\KlantDao $klantDao
+     * @param AbstractExport $export
      */
-    private $klantDao;
+    public function __construct(KlantDao $dao, \AppBundle\Service\KlantDao $klantDao, AbstractExport $export)
+    {
+        $this->dao = $dao;
+        $this->klantDao = $klantDao;
+        $this->export = $export;
+    }
 
     /**
      * @Route("/add")

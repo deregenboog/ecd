@@ -6,6 +6,7 @@ use AppBundle\Controller\AbstractController;
 use JMS\DiExtraBundle\Annotation as DI;
 use OekBundle\Entity\Groep;
 use OekBundle\Form\GroepType;
+use OekBundle\Service\GroepDao;
 use OekBundle\Service\GroepDaoInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -21,9 +22,7 @@ class GroepenController extends AbstractController
     protected $baseRouteName = 'oek_groepen_';
 
     /**
-     * @var GroepDaoInterface
-     *
-     * @DI\Inject("OekBundle\Service\GroepDao")
+     * @var GroepDao
      */
     protected $dao;
 }

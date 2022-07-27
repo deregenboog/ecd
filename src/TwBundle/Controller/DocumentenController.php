@@ -16,6 +16,7 @@ use TwBundle\Entity\Verhuurder;
 use TwBundle\Entity\Vrijwilliger;
 use TwBundle\Exception\TwException;
 use TwBundle\Form\DocumentType;
+use TwBundle\Service\DocumentDao;
 use TwBundle\Service\DocumentDaoInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
@@ -30,9 +31,7 @@ class DocumentenController extends SymfonyController
     public $title = 'Documenten';
 
     /**
-     * @var DocumentDaoInterface
-     *
-     * @DI\Inject("TwBundle\Service\DocumentDao")
+     * @var DocumentDao
      */
     private $dao;
 

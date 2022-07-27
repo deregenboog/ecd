@@ -6,6 +6,7 @@ use AppBundle\Controller\AbstractChildController;
 use JMS\DiExtraBundle\Annotation as DI;
 use OekBundle\Entity\Document;
 use OekBundle\Form\DocumentType;
+use OekBundle\Service\DocumentDao;
 use OekBundle\Service\DocumentDaoInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -23,18 +24,25 @@ class DocumentenController extends AbstractChildController
     protected $baseRouteName = 'oek_documenten_';
 
     /**
-     * @var DocumentDaoInterface
-     *
-     * @DI\Inject("OekBundle\Service\DocumentDao")
+     * @var DocumentDao
      */
     protected $dao;
 
     /**
      * @var \ArrayObject
-     *
-     * @DI\Inject("oek.document.entities")
      */
     protected $entities;
+
+    /**
+     * @param DocumentDao $dao
+     * @param \ArrayObject $entities
+     */
+    public function __construct(DocumentDao $dao, \ArrayObject $entities)
+    {
+        $this->dao = $dao;
+        $this->entities = $entities;
+    }
+
 
     /**
      * @Route("/download/{filename}")

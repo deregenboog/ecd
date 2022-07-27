@@ -1,0 +1,122 @@
+{% extends '::base.html.twig' %}
+{% import '::html.macro.twig' as html %}
+
+{% set max_depth = 4 %}
+{% set col_width = (100/(max_depth))|round(0, 'floor') %}
+
+{% block title %}
+    Maatschappelijk werk | {{ title }}
+{% endblock %}
+
+{% block subnavigation %}
+    {% include '@Oekraine/subnavigation.html.twig' %}
+{% endblock %}
+
+{% block content_top %}
+    <h1>{{ entity_name|capitalize }} toevoegen voor {{ entity.klant }}</h1>
+{% endblock %}
+{% if is_granted("ROLE_MW") %}
+    {%  set roleMw = true %}
+{% else %}
+    {%  set roleMw = false %}
+{% endif %}
+{% block content %}
+    {{ form_start(form) }}
+    <div class="col-xs-6">
+        {{ form_row(form.medewerker) }}
+        {{ form_row(form.datum) }}
+
+        {{ form_row(form.locatie) }}
+        {{ form_row(form.contactsoort) }}
+        {{ form_row(form.duur) }}
+        {% if roleMw == true %}
+            {{ form_row(form.accessType) }}
+        {% else %}
+            {{ form_row(form.accessType,{'attr':{'readonly':true},'value':'2'}) }}
+        {% endif %}
+        {{ form_row(form.submit) }}
+    </div>
+    <div class="col-xs-6">
+        {{ form_row(form.opmerking) }}
+        {{ form_end(form,{'render_rest':false}) }}
+        <h2>Vorige verslagen</h2>
+        <div style="max-height: 30em; overflow-y: scroll;">
+
+            {% for verslag in entity.klant.verslagen|filter(verslag => (verslag.type == 1 and roleMw == true) or (verslag.type == 1 and verslag.access == 2) or verslag.type == 2) %}
+
+                <h3>Verslag van {{ verslag.datum|date('d-m-Y') }}</h3>
+                <div class="row">
+                    <div class="col-xs-6">
+                        <dl class="dl-horizontal">
+                            <dt>Locatie</dt>
+                            <dd>{{ verslag.locatie }}</dd>
+                            <dt>Medewerker</dt>
+                            <dd>{{ verslag.medewerker }}</dd>
+                        </dl>
+                    </div>
+                    <div class="col-xs-6">
+                        <dl class="dl-horizontal">
+                            <dt>Contactsoort</dt>
+                            <dd>{{ verslag.contactsoort }}</dd>
+                            {% if verslag.duur %}
+                                <dt>Duur</dt>
+                                <dd>{{ verslag.duur }} minuten</dd>
+                            {% endif %}
+                            <dt>Type</dt>
+                            <dd>{{ verslag.typeAsString }}</dd>
+                        </dl>
+                    </div>
+                </div>
+                <p class="well">{{ verslag.opmerking|nl2br }}</p>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}
+
+{% block stylesheets %}
+    <style>
+        .radio input[type="radio"] {
+            position: relative;
+            margin-left: 0;
+        }
+    </style>
+{% endblock %}
+
+{% block scripts %}
+    <script>
+        $(function() {
+            var radios = $('table.inventarisaties input[type="radio"]');
+            var cellsWithSelect = $('table.inventarisaties td:has(select)');
+            var toggleSelect = function() {
+                cellsWithSelect.each(function(i, cell) {
+                    var radio = $(cell).find('input[type="radio"]');
+                    var select = $(cell).children('select');
+                    if (radio.is(':checked')) {
+                        select.show();
+                    } else {
+                        select.val('');
+                        select.hide();
+                    }
+                });
+            }
+            radios.on('change', function() {
+                toggleSelect();
+            });
+            toggleSelect();
+
+            var duurSelect = $('select#verslag_duur');
+            var toggleDuur = function() {
+                if (1 === $('#verslag_contactsoort label:contains("Face-to-face") input[type="radio"]:checked').length) {
+                    duurSelect.closest('.form-group').show();
+                } else {
+                    duurSelect.val('');
+                    duurSelect.closest('.form-group').hide();
+                }
+            }
+            $('#verslag_contactsoort input[type="radio"]').on('change', function() {
+                toggleDuur();
+            });
+            toggleDuur();
+        });
+    </script>
+{% endblock %}

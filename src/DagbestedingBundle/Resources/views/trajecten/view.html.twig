@@ -52,8 +52,10 @@
         {% endif %}
         <dt>Startdatum</dt>
         <dd>{{ entity.startdatum|date('d-m-Y') }}</dd>
+        <dt>Evaluatiedatum</dt>
+        <dd>{{ entity.evaluatiedatum|if_date('d-m-Y') }}</dd>
         <dt>Geplande einddatum</dt>
-        <dd>{{ entity.einddatum|date('d-m-Y') }}</dd>
+        <dd>{{ entity.einddatum|if_date('d-m-Y') }}</dd>
         <dt>Werklocatie(s)</dt>
         <dd>
             <ul>
@@ -65,11 +67,16 @@
         <dt>Project(en)</dt>
         <dd>
             <ul>
-                {% for project in entity.projecten %}
-                    <li>{{ project }}</li>
+                {% for d in entity.deelnames %}
+{#                    {% for project in projecten %}#}
+                        <li>{{ d.project.naam }}</li>
+{#                    {% endfor %}#}
                 {% endfor %}
+
             </ul>
+            {{ html.link('Project toevoegen', path('dagbesteding_deelnames_add', {'traject': entity.id}), 'add') }}
         </dd>
+
         <dt>Trajectcoach</dt>
         <dd>{{ entity.trajectcoach }}</dd>
         <dt>Ondersteuningsplan verwerkt</dt>
@@ -87,18 +94,22 @@
 {% block content_right %}
     {% if is_granted('ROLE_DAGBESTEDING') %}
         <ul class="nav nav-tabs">
-            <li class="active"><a data-toggle="tab" href="#dagdelen">Dagdelen</a></li>
-            <li><a data-toggle="tab" href="#rapportages">Rapportages</a></li>
+            <li class="active"><a data-toggle="tab" href="#aanwezigheid">Aanwezigheid</a></li>
+            <li><a data-toggle="tab" href="#beschikbaarheid">Beschikbaarheid</a></li>
+            <li><a data-toggle="tab" href="#werkdoelen">Werkdoelen</a></li>
             <li><a data-toggle="tab" href="#contactpersonen">Contactpersonen</a></li>
             <li><a data-toggle="tab" href="#verslagen">Verslagen</a></li>
             <li><a data-toggle="tab" href="#documenten">Documenten</a></li>
         </ul>
         <div class="tab-content">
-            <div id="dagdelen" class="tab-pane active">
-                {% include 'DagbestedingBundle:dagdelen:_list.html.twig' with {traject: entity} %}
+            <div id="aanwezigheid" class="tab-pane active">
+                {% include 'DagbestedingBundle:dagdelen:_list.html.twig' with {traject: entity, deelnemer: entity.deelnemer} %}
             </div>
-            <div id="rapportages" class="tab-pane">
-                {% include 'DagbestedingBundle:rapportages:_list.html.twig' with {traject: entity} %}
+            <div id="beschikbaarheid" class="tab-pane">
+                {% include 'DagbestedingBundle:deelnames:_list.html.twig' with {entity: entity} %}
+            </div>
+            <div id="werkdoelen" class="tab-pane active">
+                {% include 'DagbestedingBundle:werkdoelen:_list.html.twig' with {deelnemer: entity} %}
             </div>
             <div id="contactpersonen" class="tab-pane">
                 {% include 'DagbestedingBundle:contactpersonen:_list.html.twig' with {deelnemer: entity.deelnemer} %}

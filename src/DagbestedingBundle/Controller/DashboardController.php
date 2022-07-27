@@ -11,8 +11,9 @@ use AppBundle\Form\MedewerkerType;
 use AppBundle\Service\AbstractDao;
 use DagbestedingBundle\Filter\TrajectFilter;
 use DagbestedingBundle\Form\TrajectFilterType;
+use DagbestedingBundle\Service\TrajectDao;
 use DagbestedingBundle\Service\TrajectDaoInterface;
-use JMS\DiExtraBundle\Annotation as DI;
+
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
@@ -26,18 +27,25 @@ class DashboardController extends SymfonyController
     protected $title = 'Mijn Dagbesteding';
 
     /**
-     * @var TrajectDaoInterface
-     *
-     * @DI\Inject("DagbestedingBundle\Service\TrajectDao")
+     * @var TrajectDao
      */
     protected $trajectDao;
 
     /**
      * @var AbstractExport
-     *
-     * @DI\Inject("dagbesteding.export.trajecten")
      */
     protected $trajectenExport;
+
+    /**
+     * @param TrajectDao $trajectDao
+     * @param AbstractExport $trajectenExport
+     */
+    public function __construct(TrajectDao $trajectDao, AbstractExport $trajectenExport)
+    {
+        $this->trajectDao = $trajectDao;
+        $this->trajectenExport = $trajectenExport;
+    }
+
 
     /**
      * @Route("/")
@@ -65,7 +73,7 @@ class DashboardController extends SymfonyController
                 'project',
                 'locatie',
                 'startdatum',
-                'rapportage' => ['datum'],
+                'evaluatiedatum',
                 'filter',
                 'download',
             ],
@@ -106,7 +114,7 @@ class DashboardController extends SymfonyController
                 'project',
                 'locatie',
                 'startdatum',
-                'rapportage' => ['datum'],
+                'evaluatiedatum',
                 'filter',
                 'download',
             ],
@@ -147,7 +155,7 @@ class DashboardController extends SymfonyController
                 'project',
                 'locatie',
                 'startdatum',
-                'rapportage' => ['datum'],
+                'evaluatiedatum',
                 'filter',
                 'download',
             ],
@@ -188,7 +196,7 @@ class DashboardController extends SymfonyController
                 'project',
                 'locatie',
                 'startdatum',
-                'rapportage' => ['datum'],
+                'evaluatiedatum',
                 'filter',
                 'download',
             ],

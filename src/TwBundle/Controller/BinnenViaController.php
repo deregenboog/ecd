@@ -5,6 +5,7 @@ namespace TwBundle\Controller;
 use AppBundle\Controller\AbstractController;
 use TwBundle\Entity\BinnenVia;
 use TwBundle\Form\BinnenViaType;
+use TwBundle\Service\BinnenViaDao;
 use TwBundle\Service\BinnenViaDaoInterface;
 use JMS\DiExtraBundle\Annotation as DI;
 use Symfony\Component\Routing\Annotation\Route;
@@ -21,9 +22,17 @@ class BinnenViaController extends AbstractController
     protected $baseRouteName = 'tw_binnenvia_';
 
     /**
-     * @var BinnenViaDaoInterface
-     *
-     * @DI\Inject("TwBundle\Service\BinnenViaDao")
+     * @var BinnenViaDao
      */
     protected $dao;
+
+    /**
+     * @param BinnenViaDao $dao
+     */
+    public function __construct(BinnenViaDao $dao)
+    {
+        $this->dao = $dao;
+    }
+
+
 }

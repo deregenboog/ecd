@@ -23,11 +23,17 @@ class ProjectenController extends AbstractController
     protected $baseRouteName = 'tw_projecten_';
 
     /**
-     * @var ProjectDaoInterface
-     *
-     * @DI\Inject("TwBundle\Service\ProjectDao")
+     * @var ProjectDao
      */
     protected $dao;
+
+    /**
+     * @param ProjectDao $dao
+     */
+    public function __construct(ProjectDao $dao)
+    {
+        $this->dao = $dao;
+    }
 
     /**
      * @Route("/{id}/view")

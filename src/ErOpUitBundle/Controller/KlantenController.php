@@ -35,22 +35,16 @@ class KlantenController extends AbstractController
 
     /**
      * @var KlantDao
-     *
-     * @DI\Inject("ErOpUitBundle\Service\KlantDao")
      */
     protected $dao;
 
     /**
      * @var \AppBundle\Service\KlantDao
-     *
-     * @DI\Inject("AppBundle\Service\KlantDao")
      */
     private $klantDao;
 
     /**
      * @var ExportInterface
-     *
-     * @DI\Inject("eropuit.export.klanten")
      */
     protected $export;
 

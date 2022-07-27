@@ -7,6 +7,7 @@ use AppBundle\Form\ConfirmationType;
 use JMS\DiExtraBundle\Annotation as DI;
 use TwBundle\Entity\Pandeigenaar;
 use TwBundle\Form\PandeigenaarType;
+use TwBundle\Service\PandeigenaarDao;
 use TwBundle\Service\PandeigenaarDaoInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\Routing\Annotation\Route;
@@ -20,11 +21,18 @@ class PandeigenarenController extends SymfonyController
     public $title = 'Pandeigenaren';
 
     /**
-     * @var PandeigenaarDaoInterface
-     *
-     * @DI\Inject("TwBundle\Service\PandeigenaarDao")
+     * @var PandeigenaarDao
      */
     private $pandeigenaarDao;
+
+    /**
+     * @param PandeigenaarDao $pandeigenaarDao
+     */
+    public function __construct(PandeigenaarDao $pandeigenaarDao)
+    {
+        $this->pandeigenaarDao = $pandeigenaarDao;
+    }
+
 
     /**
      * @Route("/")

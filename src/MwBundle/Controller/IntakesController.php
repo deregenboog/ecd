@@ -17,6 +17,7 @@ use InloopBundle\Pdf\PdfIntake;
 use InloopBundle\Security\Permissions;
 use InloopBundle\Service\IntakeDaoInterface;
 use JMS\DiExtraBundle\Annotation as DI;
+use MwBundle\Service\IntakeDao;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\HttpFoundation\Cookie;
 use Symfony\Component\HttpFoundation\Session\Flash\FlashBag;
@@ -41,19 +42,17 @@ class IntakesController extends AbstractController
     protected $baseRouteName = 'mw_intakes_';
 
     /**
-     * @var IntakeDaoInterface
-     *
-     * @DI\Inject("MwBundle\Service\IntakeDao")
+     * @var IntakeDao
      */
     protected $dao;
 
-//     /**
-//      * @var ExportInterface
-//      *
-//      * @DI\Inject("inloop.export.intakes")
-//      */
-//     protected $export;
-
+    /**
+     * @param IntakeDao $dao
+     */
+    public function __construct(IntakeDao $dao)
+    {
+        $this->dao = $dao;
+    }
 
 
     /**
@@ -123,7 +122,7 @@ class IntakesController extends AbstractController
                 $this->addFlash('danger', $message);
             }
 
-            return $this->afterFormSubmitted($request, $entity);
+            return $this->afterFormSubmitted($request, $entity, null);
         }
 
         return [

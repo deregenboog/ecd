@@ -1,0 +1,47 @@
+services:
+    oekraine.dao:
+        abstract: true
+        public: true
+        arguments:
+            - '@doctrine.orm.entity_manager'
+            - '@knp_paginator'
+            - '%pagination.items_per_page%'
+
+    OekraineBundle\Service\DocumentDao:
+        parent: oekraine.dao
+
+    OekraineBundle\Service\IntakeDao:
+        parent: oekraine.dao
+        arguments:
+            - '@event_dispatcher'
+
+    OekraineBundle\Service\BezoekerDao:
+        parent: oekraine.dao
+
+    OekraineBundle\Service\LocatieDao:
+        parent: oekraine.dao
+        arguments:
+            - '@event_dispatcher'
+
+    OekraineBundle\Service\OpmerkingDao:
+        parent: oekraine.dao
+
+    OekraineBundle\Service\RegistratieDao:
+        parent: oekraine.dao
+        arguments:
+            - '@event_dispatcher'
+
+    OekraineBundle\Service\VerslagDao:
+        parent: app.dao.abstract
+
+    oekraine.document.entities:
+        public: true
+        class: ArrayObject
+        arguments:
+            - [ ]
+
+    oekraine.memo.entities:
+        public: true
+        class: ArrayObject
+        arguments:
+            - []

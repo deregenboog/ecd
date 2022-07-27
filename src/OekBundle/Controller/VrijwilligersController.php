@@ -12,6 +12,7 @@ use JMS\DiExtraBundle\Annotation as DI;
 use OekBundle\Entity\Vrijwilliger;
 use OekBundle\Form\VrijwilligerFilterType;
 use OekBundle\Form\VrijwilligerType;
+use OekBundle\Service\VrijwilligerDao;
 use OekBundle\Service\VrijwilligerDaoInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\Form\FormError;
@@ -33,11 +34,14 @@ class VrijwilligersController extends AbstractController
     protected $baseRouteName = 'oek_vrijwilligers_';
 
     /**
-     * @var VrijwilligerDaoInterface
-     *
-     * @DI\Inject("OekBundle\Service\VrijwilligerDao")
+     * @var VrijwilligerDao
      */
     protected $dao;
+
+    /**
+     * @var \AppBundle\Service\VrijwilligerDao
+     */
+    private $vrijwilligerDao;
 
     /**
      * @var ExportInterface
@@ -47,11 +51,17 @@ class VrijwilligersController extends AbstractController
     protected $export;
 
     /**
-     * @var VrijwilligerDaoInterface
-     *
-     * @DI\Inject("AppBundle\Service\VrijwilligerDao")
+     * @param VrijwilligerDao $dao
+     * @param \AppBundle\Service\VrijwilligerDao $vrijwilligerDao
+     * @param ExportInterface $export
      */
-    private $vrijwilligerDao;
+    public function __construct(VrijwilligerDao $dao, \AppBundle\Service\VrijwilligerDao $vrijwilligerDao, ExportInterface $export)
+    {
+        $this->dao = $dao;
+        $this->vrijwilligerDao = $vrijwilligerDao;
+        $this->export = $export;
+    }
+
 
     /**
      * @Route("/add")

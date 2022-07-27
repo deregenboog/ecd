@@ -3,6 +3,53 @@ imports:
     - { resource: exports.yml }
 
 services:
+    #tbv controller DI named arguments die dan niet eerst hoeven;
+    _defaults:
+        autowire: true
+        autoconfigure: true
+
+    OekBundle\Controller\:
+        resource: '../../Controller'
+        tags: [ 'controller.service_arguments' ]
+
+    OekBundle\Controller\DeelnemersController:
+        arguments:
+            $export: '@oek.export.deelnemer'
+        tags: [ 'controller.service_arguments' ]
+
+    OekBundle\Controller\DocumentenController:
+        arguments:
+            $entities: '@oek.document.entities'
+        tags: [ 'controller.service_arguments' ]
+
+    OekBundle\Controller\MemosController:
+        arguments:
+            $entities: '@oek.memo.entities'
+        tags: [ 'controller.service_arguments' ]
+
+    OekBundle\Controller\RapportagesController:
+        arguments:
+            $export: '@oek.export.report'
+        tags: [ 'controller.service_arguments' ]
+
+    OekBundle\Controller\TrainingenController:
+        arguments:
+            $entities: '@oek.training.entities'
+            $exportPresentielijst: '@oek.export.presentielijst'
+            $exportDeelnemerslijst: '@oek.export.deelnemerslijst'
+        tags: [ 'controller.service_arguments' ]
+
+    OekBundle\Controller\VrijwilligersController:
+        arguments:
+            $export: '@oek.export.vrijwilliger'
+        tags: [ 'controller.service_arguments' ]
+
+    OekBundle\Controller\WachtlijstController:
+        arguments:
+            $export: '@oek.export.wachtlijst'
+        tags: [ 'controller.service_arguments' ]
+
+
     oek.event.diensten_lookup_subscriber:
         class: OekBundle\Event\DienstenLookupSubscriber
         arguments:

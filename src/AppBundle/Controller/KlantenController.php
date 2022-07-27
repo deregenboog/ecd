@@ -12,9 +12,8 @@ use AppBundle\Form\KlantFilterType;
 use AppBundle\Form\KlantType;
 use AppBundle\Service\KlantDao;
 use AppBundle\Service\KlantDaoInterface;
-
-
-use Symfony\Component\EventDispatcher\EventDispatcher;
+use Doctrine\Common\Collections\Criteria;
+use JMS\DiExtraBundle\Annotation as DI;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;

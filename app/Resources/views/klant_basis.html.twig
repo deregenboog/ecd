@@ -50,6 +50,7 @@
         <dd>{{ html.link('Voeg partner toe', path('app_klanten_addpartner', {klant: entity.id}), 'heart') }}</dd>
     {% endif %}
 </dl>
+
 <h2>Contactgegevens</h2>
 <p>
     {{ html.link('Bekijken', path('app_klanten_view', {id: klant.id}), 'view') }}
@@ -81,7 +82,7 @@
     <dd>{{ klant.opmerking|nl2br }}</dd>
 </dl>
 
-{{ render(controller('AppBundle:Klanten:_diensten', { id: klant.id } )) }}
+{{ render(controller('AppBundle:Klanten:_diensten', { id: klant.id} )) }}
 
 {%  if module != 'IzIntake' %}
 <h2>ZRMs</h2>

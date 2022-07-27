@@ -17,8 +17,16 @@ class ReportingController extends AbstractRapportagesController
 
     /**
      * @var GenericExport
-     *
-     * @DI\Inject("dagbesteding.export.report")
      */
     protected $export;
+
+    /**
+     * @param GenericExport $export
+     */
+    public function __construct(GenericExport $export)
+    {
+        $this->export = $export;
+    }
+
+
 }
