@@ -21,6 +21,10 @@ final class Version20220616092524 extends AbstractMigration
 ('Riekerhof',NOW()), 
 ('Weesp',NOW()), 
 ('Beethoven hotel',NOW())");
+        $this->addSql("INSERT INTO `oekraine_inkomens` (`naam`,`datum_van`, `datum_tot`) VALUES 
+('Loon',NOW(),DATE_ADD(NOW(),INTERVAL 5 YEAR)), 
+('Leefgeld',NOW(),DATE_ADD(NOW(),INTERVAL 5 YEAR)), 
+('Overig',NOW(),DATE_ADD(NOW(),INTERVAL 5 YEAR))");
         // this up() migration is auto-generated, please modify it to your needs
 
     }

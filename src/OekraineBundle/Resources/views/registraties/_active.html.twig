@@ -45,7 +45,9 @@
                 {{ registratie.bezoeker.appKlant.achternaam }}
             </td>
             <td>
-                {{ registratie.bezoeker.laatsteIntake.woonlocatie }}
+                {% if registratie.bezoeker.laatsteIntake.woonlocatie is defined %}
+                    {{ registratie.bezoeker.laatsteIntake.woonlocatie }}
+                {% endif %}
             </td>
             <td>
                 {{ registratie.binnen|date('H:i') }} uur ({{ registratie.binnen|date('d-m-Y') }})<br>
