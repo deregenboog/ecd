@@ -42,12 +42,12 @@
             <dd>Ja</dd>
         </span>
     {% endif %}
-    {% if entity.partner is defined and entity.partner is not null%}
+    {% if entity.partner is defined and klant.partner is not null%}
         <dt>Partner</dt>
-        <dd>{{ entity.partner }}   {{ html.link('Verwijder partner', path('app_klanten_addpartner', {klant: entity.id, 'partner':'remove'}), 'scissors') }}</dd>
-    {% elseif entity.id is defined and entity.id is not null %}
+        <dd>{{ klant.partner }}   {{ html.link('Verwijder partner', path('app_klanten_addpartner', {klant: klant.id, 'partner':'remove'}), 'scissors') }}</dd>
+    {% elseif klant.id is defined and klant.id is not null %}
         <dt>Partner</dt>
-        <dd>{{ html.link('Voeg partner toe', path('app_klanten_addpartner', {klant: entity.id}), 'heart') }}</dd>
+        <dd>{{ html.link('Voeg partner toe', path('app_klanten_addpartner', {klant: klant.id}), 'heart') }}</dd>
     {% endif %}
 </dl>
 

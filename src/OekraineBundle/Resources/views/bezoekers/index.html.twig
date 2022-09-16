@@ -19,26 +19,26 @@
             <tr>
                 {{ form_start(filter) }}
                 <th>
-                    {{ form_widget(filter.klant.id) }}
-                    {{ form_errors(filter.klant.id) }}
+                    {{ form_widget(filter.appKlant.id) }}
+                    {{ form_errors(filter.appKlant.id) }}
                 </th>
                 <th>
-                    {{ form_widget(filter.klant.voornaam) }}
-                    {{ form_errors(filter.klant.voornaam) }}
+                    {{ form_widget(filter.appKlant.voornaam) }}
+                    {{ form_errors(filter.appKlant.voornaam) }}
                 </th>
                 <th>
-                    {{ form_widget(filter.klant.achternaam) }}
-                    {{ form_errors(filter.klant.achternaam) }}
+                    {{ form_widget(filter.appKlant.achternaam) }}
+                    {{ form_errors(filter.appKlant.achternaam) }}
                 </th>
                 <th>
-                    {{ form_widget(filter.klant.geboortedatumRange.start) }}
-                    {{ form_errors(filter.klant.geboortedatumRange.start) }}
-                    {{ form_widget(filter.klant.geboortedatumRange.end) }}
-                    {{ form_errors(filter.klant.geboortedatumRange.end) }}
+                    {{ form_widget(filter.appKlant.geboortedatumRange.start) }}
+                    {{ form_errors(filter.appKlant.geboortedatumRange.start) }}
+                    {{ form_widget(filter.appKlant.geboortedatumRange.end) }}
+                    {{ form_errors(filter.appKlant.geboortedatumRange.end) }}
                 </th>
                 <th>
-                    {{ form_widget(filter.klant.geslacht) }}
-                    {{ form_errors(filter.klant.geslacht) }}
+                    {{ form_widget(filter.appKlant.geslacht) }}
+                    {{ form_errors(filter.appKlant.geslacht) }}
                 </th>
                 <th>
                     {{ form_widget(filter.woonlocatie) }}
@@ -58,13 +58,13 @@
                     {{ knp_pagination_sortable(pagination, '#', 'bezoeker.id') }}
                 </th>
                 <th>
-                    {{ knp_pagination_sortable(pagination, 'Voornaam', 'bezoeker.appKlant.voornaam') }}
+                    {{ knp_pagination_sortable(pagination, 'Voornaam', 'appKlant.voornaam') }}
                 </th>
                 <th>
-                    {{ knp_pagination_sortable(pagination, 'Achternaam', 'bezoeker.appKlant.achternaam') }}
+                    {{ knp_pagination_sortable(pagination, 'Achternaam', 'appKlant.achternaam') }}
                 </th>
                 <th>
-                    {{ knp_pagination_sortable(pagination, 'Geboortedatum', 'bezoeker.appKlant.geboortedatum') }}
+                    {{ knp_pagination_sortable(pagination, 'Geboortedatum', 'appKlant.geboortedatum') }}
                 </th>
                 <th>
                     {{ knp_pagination_sortable(pagination, 'Geslacht', 'geslacht.volledig') }}
