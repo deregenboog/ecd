@@ -33,7 +33,7 @@ class BezoekerFilter implements FilterInterface
     /**
      * @var AppKlantFilter
      */
-    public $klant;
+    public $appKlant;
 
     /**
      * @var string
@@ -89,8 +89,8 @@ class BezoekerFilter implements FilterInterface
             ;
         }
 
-        if ($this->klant) {
-            $this->klant->applyTo($builder);
+        if ($this->appKlant) {
+            $this->appKlant->applyTo($builder,'appKlant');
         }
     }
 }

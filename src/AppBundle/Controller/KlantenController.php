@@ -11,6 +11,7 @@ use AppBundle\Form\KlantFilterType;
 use AppBundle\Form\KlantType;
 use AppBundle\Service\KlantDaoInterface;
 use Doctrine\Common\Collections\Criteria;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use JMS\DiExtraBundle\Annotation as DI;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
@@ -160,7 +161,7 @@ class KlantenController extends AbstractController
 
     /**
      * @Route("/{klant}/addPartner")
-     * @param Klant $klant
+     * ParamConverter("klant",class="AppBundle:Klant")
      *
      */
     public function addPartnerAction(Request $request, $klant)

@@ -15,7 +15,7 @@ class BezoekerDao extends AbstractDao implements BezoekerDaoInterface
         'defaultSortFieldName' => 'appKlant.achternaam',
         'defaultSortDirection' => 'asc',
         'sortFieldWhitelist' => [
-            'appKlant.id',
+            'bezoeker.id',
             'appKlant.voornaam',
             'appKlant.achternaam',
             'appKlant.geboortedatum',

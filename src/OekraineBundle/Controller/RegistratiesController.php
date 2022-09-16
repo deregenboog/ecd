@@ -108,7 +108,7 @@ class RegistratiesController extends AbstractController
         $form = $this->getForm(BezoekerFilterType::class, $filter, [
             'attr' => ['class' => 'ajaxFilter'],
             'enabled_filters' => [
-                'klant' => ['id', 'voornaam', 'achternaam', 'geboortedatum', 'geslacht'],
+                'appKlant' => ['id', 'voornaam', 'achternaam', 'geboortedatum', 'geslacht'],
                 'woonlocatie',
                 'filter',
             ],
