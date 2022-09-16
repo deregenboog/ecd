@@ -38,8 +38,8 @@
                         {{ form_errors(filter.klant.geslacht) }}
                     </th>
                     <th>
-                        {{ form_widget(filter.locatie) }}
-                        {{ form_errors(filter.locatie) }}
+                        {{ form_widget(filter.intakelocatie) }}
+                        {{ form_errors(filter.intakelocatie) }}
                     </th>
                     <th>
                         {{ form_widget(filter.datum.start) }}
@@ -54,10 +54,10 @@
                     {{ knp_pagination_sortable(pagination, '#', 'bezoeker.id') }}
                 </th>
                 <th>
-                    {{ knp_pagination_sortable(pagination, 'Voornaam', 'bezoeker.appKlant.voornaam') }}
+                    {{ knp_pagination_sortable(pagination, 'Voornaam', 'appKlant.voornaam') }}
                 </th>
                 <th>
-                    {{ knp_pagination_sortable(pagination, 'Achternaam', 'bezoeker.appKlant.achternaam') }}
+                    {{ knp_pagination_sortable(pagination, 'Achternaam', 'appKlant.achternaam') }}
                 </th>
                 <th>
                     {{ knp_pagination_sortable(pagination, 'Geslacht', 'geslacht.volledig') }}
@@ -87,7 +87,7 @@
                     {{ intake.bezoeker.appKlant.geslacht }}
                 </td>
                 <td>
-                    {{ intake.woonlocatie }}
+                    {{ intake.intakelocatie }}
                 </td>
                 <td>
                     {{ intake.intakedatum|date('d-m-Y') }}

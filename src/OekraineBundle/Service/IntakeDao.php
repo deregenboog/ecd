@@ -18,8 +18,10 @@ class IntakeDao extends AbstractDao implements IntakeDaoInterface
         'defaultSortDirection' => 'desc',
         'sortFieldWhitelist' => [
             'intake.intakedatum',
-            'klant.id',
-            'klant.achternaam',
+            'bezoeker.id',
+            'appKlant.id',
+            'appKlant.voornaam',
+            'appKlant.achternaam',
             'geslacht.volledig',
             'intakelocatie.naam',
         ],
@@ -47,10 +49,11 @@ class IntakeDao extends AbstractDao implements IntakeDaoInterface
     public function findAll($page = null, FilterInterface $filter = null)
     {
         $builder = $this->repository->createQueryBuilder($this->alias)
-            ->addSelect('bezoeker,appKlant, woonlocatie, geslacht')
+            ->addSelect('bezoeker,appKlant, woonlocatie, intakelocatie, geslacht')
             ->innerJoin("{$this->alias}.bezoeker", 'bezoeker')
             ->innerJoin("bezoeker.appKlant", 'appKlant')
             ->leftJoin("{$this->alias}.woonlocatie", 'woonlocatie')
+            ->leftJoin("{$this->alias}.intakelocatie", 'intakelocatie')
             ->leftJoin('appKlant.geslacht', 'geslacht')
         ;
 
