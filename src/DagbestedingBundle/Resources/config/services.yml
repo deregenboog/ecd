@@ -2,6 +2,7 @@ imports:
     - { resource: daos.yml }
     - { resource: exports.yml }
     - { resource: reports.yml }
+#    - { resource: services_dev.yml }
 
 services:
     _defaults:
@@ -51,6 +52,7 @@ services:
     DagbestedingBundle\Controller\ReportingController:
         arguments:
             $export: '@dagbesteding.export.report'
+            $reports: !tagged_iterator dagbesteding.rapportage
         tags: [ 'controller.service_arguments' ]
 
     DagbestedingBundle\Controller\TrajectenController:

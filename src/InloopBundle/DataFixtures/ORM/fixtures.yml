@@ -204,17 +204,18 @@ AppBundle\Entity\Inkomen:
 
 InloopBundle\Entity\Aanmelding:
     aanmelding_201:
-        __construct: ['@klant_201','@medewerker_inloop']
+        __construct: ['@klant_991','@medewerker_inloop']
     aanmelding_202:
-        __construct: [ '@klant_202','@medewerker_inloop' ]
+        __construct: [ '@klant_992','@medewerker_inloop' ]
     aanmelding_203:
-        __construct: [ '@klant_203','@medewerker_inloop' ]
+        __construct: [ '@klant_993','@medewerker_inloop' ]
     aanmelding_204:
-        __construct: [ '@klant_204','@medewerker_inloop' ]
+        __construct: [ '@klant_994','@medewerker_inloop' ]
     aanmelding_205:
-        __construct: [ '@klant_205','@medewerker_inloop' ]
+        __construct: [ '@klant_995','@medewerker_inloop' ]
+        
 AppBundle\Entity\Klant:
-    klant_201:
+    klant_991:
         roepnaam: 'ToegangAlles'
         voornaam: 'Test'
         achternaam: 'Inloop'
@@ -242,7 +243,7 @@ AppBundle\Entity\Klant:
         land: '@land_*'
         nationaliteit: '@nationaliteit_*'
         huidigeStatus: '@aanmelding_201'
-    klant_202:
+    klant_992:
         roepnaam: 'ToegangAMOC'
         voornaam: 'Test'
         achternaam: 'Inloop'
@@ -270,7 +271,7 @@ AppBundle\Entity\Klant:
         land: '@land_*'
         nationaliteit: '@nationaliteit_*'
         huidigeStatus: '@aanmelding_202'
-    klant_203:
+    klant_993:
         roepnaam: 'ToegangZeeburg'
         voornaam: 'Test'
         achternaam: 'Inloop'
@@ -298,7 +299,7 @@ AppBundle\Entity\Klant:
         land: '@land_*'
         nationaliteit: '@nationaliteit_*'
         huidigeStatus: '@aanmelding_203'
-    klant_204:
+    klant_994:
         roepnaam: 'ToegangGeen'
         voornaam: 'Test'
         achternaam: 'Inloop'
@@ -326,7 +327,7 @@ AppBundle\Entity\Klant:
         land: '@land_*'
         nationaliteit: '@nationaliteit_*'
         huidigeStatus: '@aanmelding_204'
-    klant_205:
+    klant_995:
         roepnaam: 'ToegangAllesLegaal'
         voornaam: 'Test'
         achternaam: 'Inloop'
@@ -354,6 +355,7 @@ AppBundle\Entity\Klant:
         land: '@land_*'
         nationaliteit: '@nationaliteit_*'
         huidigeStatus: '@aanmelding_205'
+
 AppBundle\Entity\ZrmV2:
     zrm_201:
         financien: 0
@@ -370,7 +372,7 @@ AppBundle\Entity\ZrmV2:
         maatschappelijkeParticipatie: 0
         justitie: 0
         requestModule: 'intakes'
-        klant: '@klant_201'
+        klant: '@klant_991'
         foreignKey: 1
         model: 'ZrmV2'
     zrm_202:
@@ -388,7 +390,7 @@ AppBundle\Entity\ZrmV2:
         maatschappelijkeParticipatie: 0
         justitie: 0
         requestModule: 'intakes'
-        klant: '@klant_202'
+        klant: '@klant_992'
         foreignKey: 2
         model: 'ZrmV2'
     zrm_203:
@@ -406,7 +408,7 @@ AppBundle\Entity\ZrmV2:
         maatschappelijkeParticipatie: 0
         justitie: 0
         requestModule: 'intakes'
-        klant: '@klant_203'
+        klant: '@klant_993'
         foreignKey: 3
         model: 'ZrmV2'
     zrm_204:
@@ -424,7 +426,7 @@ AppBundle\Entity\ZrmV2:
         maatschappelijkeParticipatie: 0
         justitie: 0
         requestModule: 'intakes'
-        klant: '@klant_204'
+        klant: '@klant_994'
         foreignKey: 4
         model: 'ZrmV2'
     zrm_205:
@@ -442,19 +444,23 @@ AppBundle\Entity\ZrmV2:
         maatschappelijkeParticipatie: 0
         justitie: 0
         requestModule: 'intakes'
-        klant: '@klant_205'
+        klant: '@klant_995'
         foreignKey: 5
         model: 'ZrmV2'
 
 InloopBundle\Entity\Intake:
     intake_{1..200}:
         medewerker: '@medewerker_*'
-        intakedatum: '<dateTimeThisYear()>'
+        intakedatum: '<dateTimeThisDecade()>'
         doelgroep: true
         toegangInloophuis: true
         intakelocatie: '@locatie_*'
         klant: '@klant_*'
         verblijfsstatus: '@verblijfsstatus_*'
+        informeleZorg: '0'
+        inloophuis: '1'
+        dagbesteding: '0'
+        hulpverlening: '0'
     intake_201:
         medewerker: '@medewerker_inloop'
         intakedatum: '<dateTimeBetween("-6 days","now")>'
@@ -470,7 +476,7 @@ InloopBundle\Entity\Intake:
         inloophuis: '1'
         dagbesteding: '0'
         hulpverlening: '0'
-        klant: '@klant_201'
+        klant: '@klant_991'
         verblijfsstatus: '@verblijfsstatus_7'
         amocToegangTot: '<dateTimeBetween("-1 days","-1 days")>'
         overigenToegangVan: '<dateTimeBetween("-1 days","-1 days")>'
@@ -490,7 +496,7 @@ InloopBundle\Entity\Intake:
         inloophuis: '1'
         dagbesteding: '0'
         hulpverlening: '0'
-        klant: '@klant_202'
+        klant: '@klant_992'
         verblijfsstatus: '@verblijfsstatus_7'
         amocToegangTot: '<dateTimeBetween("+30 days","+30 days")>'
         overigenToegangVan: '<dateTimeBetween("+30 days","+30 days")>'
@@ -510,7 +516,7 @@ InloopBundle\Entity\Intake:
         inloophuis: '1'
         dagbesteding: '0'
         hulpverlening: '0'
-        klant: '@klant_203'
+        klant: '@klant_993'
         verblijfsstatus: '@verblijfsstatus_7'
         amocToegangTot: '<dateTimeBetween("-1 days","-1 days")>'
         ondroBongToegangVan: '<dateTimeBetween("-2 days","-2 days")>'
@@ -531,7 +537,7 @@ InloopBundle\Entity\Intake:
         inloophuis: '1'
         dagbesteding: '0'
         hulpverlening: '0'
-        klant: '@klant_204'
+        klant: '@klant_994'
         verblijfsstatus: '@verblijfsstatus_7'
         amocToegangTot: '<dateTimeBetween("-1 days","-1 days")>'
         overigenToegangVan: '<dateTimeBetween("+30 days","+30 days")>'
@@ -551,7 +557,7 @@ InloopBundle\Entity\Intake:
         inloophuis: '1'
         dagbesteding: '0'
         hulpverlening: '0'
-        klant: '@klant_205'
+        klant: '@klant_995'
         verblijfsstatus: '@verblijfsstatus_1'
         amocToegangTot: '<dateTimeBetween("-1 days","-1 days")>'
         overigenToegangVan: '<dateTimeBetween("+30 days","+30 days")>'

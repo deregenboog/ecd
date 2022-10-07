@@ -56,6 +56,25 @@ class IntakeDao extends AbstractDao implements IntakeDaoInterface
         return parent::doFindAll($builder, $page, $filter);
     }
 
+    public function getFirstFiveIntakesForTesting()
+    {
+        $builder = $this->repository->createQueryBuilder($this->alias)
+            ->addSelect('klant, intakelocatie, geslacht')
+            ->innerJoin("{$this->alias}.klant", 'klant')
+            ->leftJoin("{$this->alias}.intakelocatie", 'intakelocatie')
+            ->leftJoin('klant.geslacht', 'geslacht')
+            ->where("klant.roepnaam LIKE 'Toegang%' ")
+            ->orderBy("klant.id", "asc")
+//            ->setMaxResults(5)
+        ;
+        $sql = $builder->getQuery()->getSQL();
+//        return parent::doFindAll($builder);
+        $a = $builder->getQuery()->getArrayResult();
+        return $builder;
+
+//        return $this->repository->findOneBy(['username' => $username]);
+    }
+
     /**
      * @param Intake $entity
      *

@@ -22,7 +22,7 @@ class DossierSubscriber implements EventSubscriberInterface
 
 
     public function __construct(
-        KlantDaoInterface $klantDao,
+        BezoekerDao $klantDao,
         AccessUpdater $accessUpdater
     ) {
         $this->klantDao = $klantDao;

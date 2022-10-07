@@ -85,7 +85,7 @@ class IntakeType extends AbstractType
                 'inherit_data' => true,
                 'required'=>true,
             ])
-            ->add('medewerker', MedewerkerType::class)
+//            ->add('medewerker', MedewerkerType::class)
             ->add('intakedatum', AppDateType::class)
             ->add('geinformeerdOpslaanGegevens', CheckboxType::class,['required'=>true])
         ;

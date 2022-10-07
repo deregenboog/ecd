@@ -26,7 +26,7 @@ framework:
         strict_requirements: ~
     form: ~
     validation: { enable_annotations: true }
-    templating:
+    templating: #deprecates since 4.3
         engines: ['twig']
 
 # Twig Configuration

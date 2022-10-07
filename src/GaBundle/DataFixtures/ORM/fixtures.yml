@@ -55,19 +55,19 @@ GaBundle\Entity\Activiteit:
 
 GaBundle\Entity\Klantdossier:
     ga_klantdossier_{1..20}:
-        klant (unique): '@klant_*'
+        __construct: ['<uniqueElements(@klant_{1..300})>']
         aanmelddatum: '<dateTimeThisDecade()>'
     ga_klantdossier_{21..25}:
-        klant (unique): '@klant_*'
+        __construct: ['<uniqueElements(@klant_{1..300})>']
         aanmelddatum: '<dateTimeThisDecade()>'
         afsluitdatum: '<dateTimeThisDecade()>'
 
 GaBundle\Entity\Vrijwilligerdossier:
     ga_vrijwilligerdossier_{1..20}:
-        vrijwilliger (unique): '@vrijwilliger_*'
+        vrijwilliger: '<uniqueElements(@vrijwilliger_{1..150})>'
         aanmelddatum: '<dateTimeThisDecade()>'
     ga_vrijwilligerdossier_{21..25}:
-        vrijwilliger (unique): '@vrijwilliger_*'
+        vrijwilliger: '<uniqueElements(@vrijwilliger_{1..150})>'
         aanmelddatum: '<dateTimeThisDecade()>'
         afsluitdatum: '<dateTimeThisDecade()>'
 
@@ -96,22 +96,24 @@ GaBundle\Entity\Lidmaatschap:
 #        dossier: '@ga_vrijwilligerdossier_*'
 #        activiteit: '@ga_activiteit_*'
 #        status: 'Afwezig'
+#
 
+#######
 GaBundle\Entity\Intake:
     ga_intake_{1..20}:
-        __construct: ['@ga_klantdossier_<current()>']
+        __construct: ['<uniqueElements(@ga_klantdossier_{1..25})>']
         medewerker: '@medewerker_*'
         intakedatum: '<dateTimeThisDecade()>'
         gespreksverslag: '<text()>'
 
 GaBundle\Entity\Verslag:
     ga_verslag_{1..30}:
-        __construct: ['@ga_klantdossier_<current()>']
+        __construct: ['@ga_klantdossier_*']
         dossier: '@ga_klantdossier_*'
         medewerker: '@medewerker_*'
         opmerking: '<text()>'
     ga_verslag_{31..60}:
-        __construct: ['@ga_klantdossier_<current()>']
+        __construct: ['@ga_klantdossier_*']
         dossier: '@ga_vrijwilligerdossier_*'
         medewerker: '@medewerker_*'
         opmerking: '<text()>'

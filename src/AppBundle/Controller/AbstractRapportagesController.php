@@ -31,9 +31,10 @@ abstract class AbstractRapportagesController extends SymfonyController
 
         $formOptions = [];
         if ($request->query->has('rapportage')) {
+            $rapport = $request->query->get('rapportage')['rapport'];
             // get reporting service
             /** @var AbstractReport $report */
-            $report = $this->getReport($request->query->get('rapportage')['rapport']);
+            $report = $this->getReport($rapport);
             if(!$report) throw new AppException("Report cannot be found");
 
 //            $report = $this->container->get($request->query->get('rapportage')['rapport']);

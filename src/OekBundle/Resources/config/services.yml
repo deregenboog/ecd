@@ -30,6 +30,7 @@ services:
     OekBundle\Controller\RapportagesController:
         arguments:
             $export: '@oek.export.report'
+            $reports: !tagged_iterator oek.rapportage
         tags: [ 'controller.service_arguments' ]
 
     OekBundle\Controller\TrainingenController:

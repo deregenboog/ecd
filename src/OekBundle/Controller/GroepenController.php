@@ -25,4 +25,14 @@ class GroepenController extends AbstractController
      * @var GroepDao
      */
     protected $dao;
+
+    /**
+     * @param GroepDao $dao
+     */
+    public function __construct(GroepDao $dao)
+    {
+        $this->dao = $dao;
+    }
+
+
 }

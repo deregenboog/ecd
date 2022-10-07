@@ -25,6 +25,18 @@ abstract class SymfonyController extends \Symfony\Bundle\FrameworkBundle\Control
      */
     protected $baseRouteName;
 
+    /** @var PaginatorInterface */
+    protected $paginator;
+
+    /**
+     * @param PaginatorInterface $paginator
+     */
+    public function __construct(PaginatorInterface $paginator)
+    {
+        $this->paginator = $paginator;
+    }
+
+
     public function getTitle()
     {
         return $this->title;
@@ -71,7 +83,7 @@ abstract class SymfonyController extends \Symfony\Bundle\FrameworkBundle\Control
      */
     protected function getPaginator()
     {
-        return $this->get('knp_paginator');
+        return $this->paginator;
     }
 
     /**

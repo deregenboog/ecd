@@ -5,6 +5,8 @@ namespace AppBundle\Test;
 use Doctrine\ORM\Tools\SchemaTool;
 use Hautelook\AliceBundle\PhpUnit\RecreateDatabaseTrait;
 use Liip\FunctionalTestBundle\Test\WebTestCase as CoreWebTestCase;
+use Liip\TestFixturesBundle\Services\DatabaseToolCollection;
+use Liip\TestFixturesBundle\Services\DatabaseTools\AbstractDatabaseTool;
 use Liip\TestFixturesBundle\Test\FixturesTrait;
 use Symfony\Bundle\FrameworkBundle\Client;
 use Symfony\Component\BrowserKit\Cookie;
@@ -13,7 +15,8 @@ use Symfony\Component\Security\Core\User\UserInterface;
 
 class WebTestCase extends CoreWebTestCase
 {
-    use FixturesTrait;
+//    use FixturesTrait;
+
     use RecreateDatabaseTrait;
 
     /**
@@ -21,30 +24,35 @@ class WebTestCase extends CoreWebTestCase
      */
     protected $client;
 
+    /** @var AbstractDatabaseTool */
+    protected $databaseTool;
+
     protected function setUp()
     {
-        parent::setUp();
 
-         $this->loadFixtureFiles([
+//        parent::setUp();
+//        self::bootKernel();
+
+        $this->databaseTool = static::getContainer()->get(DatabaseToolCollection::class)->get();
+
+        $this->client = $this->makeClient(); // dont know why but this must be called before loading fixtures.
+
+         $this->databaseTool->loadAliceFixture([
+
             '@AppBundle/DataFixtures/ORM/fixtures.yml',
             '@ClipBundle/DataFixtures/ORM/fixtures.yml',
-
-             '@DagbestedingBundle/DataFixtures/ORM/fixtures.yml',
-
+            '@DagbestedingBundle/DataFixtures/ORM/fixtures.yml',
+             '@GaBundle/DataFixtures/ORM/fixtures.yml',
             '@ErOpUitBundle/DataFixtures/ORM/fixtures.yml',
-
-//             '@GaBundle/DataFixtures/ORM/fixtures.yml',
-//             '@HsBundle/DataFixtures/ORM/fixtures.yml',
+             '@HsBundle/DataFixtures/ORM/fixtures.yml',
              '@InloopBundle/DataFixtures/ORM/fixtures.yml',
-//             '@IzBundle/DataFixtures/ORM/fixtures.yml',
-//             '@MwBundle/DataFixtures/ORM/fixtures.yml',
-//             '@TwBundle/DataFixtures/ORM/fixtures.yml',
-//             '@OekBundle/DataFixtures/ORM/fixtures.yml',
+             '@IzBundle/DataFixtures/ORM/fixtures.yml',
+             '@TwBundle/DataFixtures/ORM/fixtures.yml',
+             '@OekBundle/DataFixtures/ORM/fixtures.yml',
 //             '@PfoBundle/DataFixtures/ORM/fixtures.yml',
         ]);
 
-        unset($_GET);
-        $this->client = static::createClient();
+        unset($_GET);//why?
     }
 
     protected function tearDown(): void
@@ -63,6 +71,40 @@ class WebTestCase extends CoreWebTestCase
     }
 
     /**
+     * Override from FixturesTrait, fixtures trait doesn't support Symfony4 loading.
+     * https://github.com/liip/LiipTestFixturesBundle/issues/66
+     */
+//    protected function loadFixtures(array $classNames = [], bool $append = false, ?string $omName = null, string $registryName = 'doctrine', ?int $purgeMode = null): ?AbstractExecutor
+//    {
+//        $dbToolCollection = static::$container->get('liip_test_fixtures.services.database_tool_collection');
+//        $dbTool = $dbToolCollection->get($omName, $registryName, $purgeMode, $this);
+//        $dbTool->setExcludedDoctrineTables($this->excludedDoctrineTables);
+//
+//        return $dbTool->loadFixtures($classNames, $append);
+//    }
+//
+//    public function loadFixtureFiles(array $paths = [], bool $append = false, ?string $omName = null, $registryName = 'doctrine', ?int $purgeMode = null): array
+//    {
+//        $dbToolCollection = self::$container->get('liip_test_fixtures.services.database_tool_collection');
+//        $dbTool = $dbToolCollection->get($omName, $registryName, $purgeMode, $this);
+//        $dbTool->setExcludedDoctrineTables($this->excludedDoctrineTables);
+//
+//        return $dbTool->loadAliceFixture($paths, $append);
+//    }
+
+    public function assertHasErrors(InvitationCode $code, int $number = 0)
+    {
+        self::bootKernel();
+        $errors = self::$container->get('validator')->validate($code);
+        $messages = [];
+        /** @var ConstraintViolation $error */
+        foreach($errors as $error) {
+            $messages[] = $error->getPropertyPath() . ' => ' . $error->getMessage();
+        }
+        $this->assertCount($number, $errors, implode(', ', $messages));
+    }
+
+    /**
      * @param UserInterface $user
      *
      * @see https://symfony.com/doc/3.4/testing/http_authentication.html
@@ -75,7 +117,8 @@ class WebTestCase extends CoreWebTestCase
 
         $session = $this->client->getContainer()->get('session');
 
-        $token = new UsernamePasswordToken($user, null, 'main', array_merge($user->getRoles(), $additionalRoles));
+        $roles = array_merge($user->getRoles(), $additionalRoles);
+        $token = new UsernamePasswordToken($user, null, 'main', $roles);
         $session->set('_security_main', serialize($token));
         $session->save();
 

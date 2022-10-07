@@ -15,6 +15,7 @@ use InloopBundle\Security\Permissions;
 use InloopBundle\Service\IntakeDao;
 use InloopBundle\Service\IntakeDaoInterface;
 use JMS\DiExtraBundle\Annotation as DI;
+use Psr\Container\ContainerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
@@ -42,9 +43,11 @@ class IntakesController extends AbstractController
     /**
      * @param IntakeDao $dao
      */
-    public function __construct(IntakeDao $dao)
+    public function __construct(IntakeDao $dao, ContainerInterface $container)
     {
+        $this->container = $container;
         $this->dao = $dao;
+
     }
 
 
@@ -187,7 +190,7 @@ class IntakesController extends AbstractController
     protected function addParams($entity, Request $request)
     {
         return [
-            'tbc_countries' => $this->container->getParameter('tbc_countries'),
+            //'tbc_countries' => $this->container->getParameter('tbc_countries'),
 
         ];
     }

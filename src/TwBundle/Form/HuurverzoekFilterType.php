@@ -58,8 +58,9 @@ class HuurverzoekFilterType extends AbstractType
         if (in_array('actief', $options['enabled_filters'])) {
             $builder->add('actief', CheckboxType::class, [
                 'required' => false,
-                'label' => 'Actieve huurverzoeken',
-                'data' => false,
+                'label' => 'Alleen actieve huurverzoeken',
+                'data' => true,
+//                'empty_data' => ['isActief' => true],
             ]);
         }
         if (in_array('medewerker', $options['enabled_filters'])) {
@@ -115,7 +116,7 @@ class HuurverzoekFilterType extends AbstractType
                 'startdatum',
                 'actief',
                 'project',
-                'huurovereenkomst'=>['isReservering']
+                'huurovereenkomst'=>['isReservering', 'isActief']
             ],
         ]);
     }

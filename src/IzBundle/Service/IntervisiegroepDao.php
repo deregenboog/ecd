@@ -46,7 +46,7 @@ class IntervisiegroepDao extends AbstractDao implements IntervisiegroepDaoInterf
         $entity = $this->repository->createQueryBuilder('intervisiegroep')
             ->addSelect('lidmaatschap, izVrijwilliger, vrijwilliger, medewerker')
             ->innerJoin('intervisiegroep.lidmaatschappen', 'lidmaatschap')
-            ->innerJoin('lidmaatschap.vrijwilliger', 'izVrijwilliger', 'WITH', 'izVrijwilliger.afsluitDatum > NOW() OR izVrijwilliger.afsluitDatum IS NULL')
+            ->innerJoin('lidmaatschap.vrijwilliger', 'izVrijwilliger', 'WITH', 'izVrijwilliger.afsluitDatum > DATE(\'NOW\') OR izVrijwilliger.afsluitDatum IS NULL')
             ->innerJoin('izVrijwilliger.vrijwilliger', 'vrijwilliger')
             ->leftJoin('intervisiegroep.medewerker', 'medewerker')
             ->where('intervisiegroep.id = :id')

@@ -49,7 +49,7 @@ class Intake
     /**
      * @var Medewerker
      *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Medewerker")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Medewerker", cascade={"persist"})
      * @Gedmo\Versioned
      * @Assert\NotNull
      */

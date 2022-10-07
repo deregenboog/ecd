@@ -71,6 +71,14 @@ nelmio_alice:
 
 
 fidry_alice_data_fixtures:
-    default_purge_mode: delete # default is "delete" but you can change it to "truncate" or "no_purge"
+    default_purge_mode: truncate # default is "delete" but you can change it to "truncate" or "no_purge"
     db_drivers:
         doctrine_orm: ~
+
+#dama_doctrine_test:
+#    enable_static_connection: true
+#    enable_static_meta_data_cache: true
+#    enable_static_query_cache: true
+
+parameters:
+    prevent_save_enabled: '2031-12-24 09:00:00'

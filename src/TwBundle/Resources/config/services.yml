@@ -48,7 +48,6 @@ services:
             $export: '@tw.export.vrijwilliger'
         tags: [ 'controller.service_arguments' ]
 
-
     tw.event.diensten_lookup_subscriber:
         class: TwBundle\Event\DienstenLookupSubscriber
         arguments:

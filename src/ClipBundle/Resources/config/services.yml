@@ -25,6 +25,7 @@ services:
     ClipBundle\Controller\RapportagesController:
       arguments:
         $export: '@clip.export.report'
+        $reports: !tagged_iterator clip.rapportage
       tags: [ 'controller.service_arguments' ]
 
     ClipBundle\Controller\MemosController:

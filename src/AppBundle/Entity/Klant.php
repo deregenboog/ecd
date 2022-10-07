@@ -109,7 +109,7 @@ class Klant extends Persoon
     /**
      * @var Intake
      *
-     * @ORM\ManyToOne(targetEntity="InloopBundle\Entity\Intake")
+     * @ORM\ManyToOne(targetEntity="InloopBundle\Entity\Intake", cascade={"persist"})
      * @ORM\JoinColumn(name="first_intake_id")
      * @Gedmo\Versioned
      */
@@ -161,7 +161,7 @@ class Klant extends Persoon
 
     /**
      * @var BinnenViaOptieKlant
-     * @ORM\OneToOne(targetEntity="MwBundle\Entity\BinnenViaOptieKlant", cascade="persist")
+     * @ORM\OneToOne(targetEntity="MwBundle\Entity\BinnenViaOptieKlant", cascade={"persist"})
      * @ORM\JoinColumn (nullable=true)
      */
     private $mwBinnenViaOptieKlant;
@@ -232,7 +232,7 @@ class Klant extends Persoon
 
     /**
      * @var Medewerker
-     * @ORM\ManyToOne(targetEntity="Medewerker")
+     * @ORM\ManyToOne(targetEntity="Medewerker",cascade={"persist"} )
      * @ORM\JoinColumn(nullable=true)
      * @Gedmo\Versioned
      */
@@ -586,14 +586,26 @@ class Klant extends Persoon
     }
 
 
+    /**
+     * Wat doet deze functie? Geen idee.
+     * Hij is erg verwarrend...
+     *
+     * Hij wordt alleen gebruikt bij mergen van klanten. en dan kan het zijn dat ie werkt, mara verder is
+     * hij stom want hij doet niet wat ie moet doen.
+     *
+     * Let op bij merge nagaan of dit allemaal nog goed gaat.
+     *
+     * @return void
+     */
     public function updateCalculatedFields()
     {
         if (count((array) $this->registraties) > 0) {
-            $this->laatsteRegistratie = $this->registraties[0];
+            $this->laatsteRegistratie = $this->registraties->last();
         }
         if (count((array) $this->intakes) > 0) {
-            $this->laatsteIntake = $this->intakes[0];
-            $this->eersteIntakeDatum = $this->intakes[count((array) $this->intakes) - 1]->getIntakeDatum();
+            $this->laatsteIntake = $this->intakes->last();
+            $eersteIntake = $this->intakes->first();
+            $this->eersteIntakeDatum = $eersteIntake->getIntakeDatum();
         }
     }
 

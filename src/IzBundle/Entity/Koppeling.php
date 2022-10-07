@@ -8,11 +8,7 @@ use AppBundle\Model\TimestampableTrait;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 
-/**
- * @ORM\Entity
- * @ORM\HasLifeCycleCallbacks
- * @Gedmo\Loggable()
- */
+
 class Koppeling
 {
     use TimestampableTrait, IdentifiableTrait;

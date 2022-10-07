@@ -2,8 +2,8 @@ TwBundle\Entity\HuuraanbodAfsluiting:
     tw_afsluiting_huuraanbod_{1..5}:
         naam: 'Reden <current()> afsluiting huuraanbod'
 
-TwBundle\Entity\HuurderAfsluiting:
-    tw_afsluiting_huurder_{1..5}:
+TwBundle\Entity\KlantAfsluiting:
+    tw_afsluiting_klant_{1..5}:
         naam: 'Reden <current()> afsluiting klant'
 
 TwBundle\Entity\HuurovereenkomstAfsluiting:
@@ -18,50 +18,95 @@ TwBundle\Entity\VerhuurderAfsluiting:
     tw_afsluiting_verhuurder_{1..5}:
         naam: 'Reden <current()> afsluiting verhuurder'
 
+TwBundle\Entity\PandeigenaarType:
+    tw_pandeigenaartype_woco:
+        naam: 'Woco'
+    tw_pandeigenaartype_vastgoedbeheer:
+        naam: 'Vastgoedbeheer'
+    tw_pandeigenaar_hotel:
+        naam: 'Hotel'
+
 TwBundle\Entity\Pandeigenaar:
     tw_pandeigenaar_{1..5}:
         naam: '<word()>'
+        pandeigenaartype: '@tw_pandeigenaartype_*'
     tw_pandeigenaar_{6..7}:
         naam: '<word()>'
+        pandeigenaartype: '@tw_pandeigenaartype_*'
         actief: false
 
 TwBundle\Entity\Coordinator:
     tw_coordinator_{1..5}:
-        medewerker (unique): '@medewerker_*'
+        medewerker: '<uniqueElements(@medewerker_{1..50})>'
 
-TwBundle\Entity\Huurder:
-    tw_huurder_{1..100}:
-        klant (unique): '@klant_*'
+TwBundle\Entity\Huurbudget:
+    tw_huurbudget_{1..5}:
+        minVal: '<numberBetween(200,400)>'
+        maxVal: '<numberBetween($minVal,600)>'
+
+TwBundle\Entity\Werk:
+    tw_werk_{1..5}:
+        naam: '<word()>'
+
+TwBundle\Entity\DuurThuisloos:
+    tw_duurthuisloos_{1..5}:
+        naam: '<word()>'
+
+TwBundle\Entity\Project:
+    tw_project_odp:
+        naam: 'Onder de pannen'
+        startdatum: '<dateTimeThisDecade()>'
+    tw_project_tod:
+        naam: 'TOD'
+        startdatum: '<dateTimeThisDecade()>'
+    tw_project_abri:
+        naam: 'ABRI Amsterdam'
+        startdatum: '<dateTimeThisDecade()>'
+
+TwBundle\Entity\IntakeStatus:
+    tw_intakestatus_onbekend:
+        naam: 'Onbekend'
+    tw_intakestatus_live:
+        naam: 'Live'
+    tw_intakestatus_telefonisch:
+        naam: 'Telefonisch'
+
+TwBundle\Entity\Klant:
+    tw_klant_{1..50}:
+        appKlant: '<uniqueElements(@klant_{1..300})>'
         medewerker: '@medewerker_*'
         aanmelddatum: '<dateTimeThisDecade()>'
-        huurbudget: '@huurbudget_*'
-        werk: '@werk_*'
-        duurthuisloos: '@duurthuisloos_*'
+        huurbudget: '@tw_huurbudget_*'
+        werk: '@tw_werk_*'
+        duurthuisloos: '@tw_duurthuisloos_*'
+        intakestatus: '@tw_intakestatus_*'
 
 TwBundle\Entity\Verhuurder:
-    tw_verhuurder_{1..100}:
-        klant (unique): '@klant_*'
+    tw_verhuurder_{1..25}:
+        appKlant: '<uniqueElements(@klant_{1..300})>'
         medewerker: '@medewerker_*'
         aanmelddatum: '<dateTimeThisDecade()>'
+        project: '@tw_project_*'
 
 TwBundle\Entity\Huuraanbod:
-    tw_huuraanbod_{1..75}:
-        verhuurder (unique): '@tw_verhuurder_*'
+    tw_huuraanbod_{1..25}:
+        verhuurder: '<uniqueElements(@tw_verhuurder_{1..25})>'
         medewerker: '@medewerker_*'
         startdatum: '<dateTimeThisDecade()>'
         afsluitdatum: '10%? <afsluitdatum($startdatum)>'
+        project: '@tw_project_*'
 
 TwBundle\Entity\Huurverzoek:
-    tw_huurverzoek_{1..75}:
-        huurder (unique): '@tw_huurder_*'
+    tw_huurverzoek_{1..40}:
+        klant: '<uniqueElements(@tw_klant_{1..50})>'
         medewerker: '@medewerker_*'
         startdatum: '<dateTimeThisDecade()>'
         afsluitdatum: '10%? <afsluitdatum($startdatum)>'
         
 TwBundle\Entity\Huurovereenkomst:
-    tw_huurovereenkomst_{1..50}:
-        huurverzoek (unique): '@tw_huurverzoek_*'
-        huuraanbod (unique): '@tw_huuraanbod_*'
+    tw_huurovereenkomst_{1..20}:
+        huurverzoek: '<uniqueElements(@tw_huurverzoek_{1..40})>'
+        huuraanbod: '<uniqueElements(@tw_huuraanbod_{1..25})>'
         medewerker: '@medewerker_*'
         startdatum: '<dateTimeThisDecade()>'
         einddatum: '50%? <afsluitdatum($startdatum)>'

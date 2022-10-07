@@ -2,12 +2,16 @@
 
 namespace IzBundle\DataFixtures;
 
+use Faker\Generator;
 use Faker\Provider\DateTime;
 use IzBundle\Entity\Hulpaanbod;
 
-final class IzFakerProvider
+ class IzFakerProvider
 {
-    /**
+     private $generator;
+     private $usedElements = [];
+
+     /**
      * @return \DateTime|null
      */
     public function koppelingStartdatum(Hulpaanbod $hulpaanbod = null)

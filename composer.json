@@ -1,9 +1,10 @@
 {
     "name" : "deregenboog/ecd",
     "type" : "project",
+    "minimum-stability": "stable",
     "config" : {
         "platform" : {
-            "php" : "7.2"
+            "php" : "7.4.25"
         }
     },
     "autoload" : {
@@ -21,17 +22,22 @@
             "Tests\\" : "tests/"
         }
     },
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/jtborger/ldaptools-bundle.git"
+        }
+    ],
     "require" : {
         "symfony/symfony" : "^4.0",
-
         "swiftmailer/swiftmailer": "^6.3",
         "symfony/swiftmailer-bundle": "^3.5",
         "symfony/monolog-bundle" : "^3",
         "sensio/framework-extra-bundle" : "^5.2",
         "incenteev/composer-parameter-handler" : "^2.0",
-        "doctrine/orm" : "^2.5",
-        "doctrine/doctrine-bundle" : "^1",
-        "doctrine/doctrine-migrations-bundle" : "^1.2",
+        "doctrine/orm" : "^2",
+        "doctrine/doctrine-bundle" : "^2",
+        "doctrine/doctrine-migrations-bundle" : "*" ,
         "luxifer/doctrine-functions" : "^1.4",
         "knplabs/knp-paginator-bundle" : "^2.5",
         "vich/uploader-bundle" : "^1",
@@ -45,28 +51,29 @@
         "friendsofsymfony/ckeditor-bundle" : "^2.2.0",
         "tecnickcom/tcpdf" : "^6.2",
         "symfony/security-bundle": "^4.0",
-        "ldaptools/ldaptools-bundle": "0.9.2@dev",
         "symfony/dotenv": "^4.0",
         "twig/twig": "^2",
         "zf1/zend-pdf": "^1.12",
         "pear/numbers_words": "^0.18.2",
         "symfony/asset": "^4",
         "symfony/webpack-encore-bundle": "^1.8",
-        "symfony/dependency-injection": "^4.4"
+        "symfony/dependency-injection": "^4.4",
+        "jtborger/ldaptools-bundle": "@dev"
     },
     "require-dev" : {
         "friendsofphp/php-cs-fixer" : "^3",
         "doctrine/doctrine-fixtures-bundle" : "^3",
-        "doctrine/data-fixtures" : "^1",
-        "hautelook/alice-bundle": "^2.7",
+        "doctrine/data-fixtures" : "^1.5",
+        "hautelook/alice-bundle": "^2.9.0",
         "phpunit/phpunit" : "^7",
-        "liip/functional-test-bundle" : "^3",
+        "liip/functional-test-bundle" : "^4",
         "symfony/phpunit-bridge" : "^5",
         "sebastian/phpcpd" : "^4",
         "nelmio/alice": "^3",
-        "theofidry/alice-data-fixtures": "^1",
-        "liip/test-fixtures-bundle": "^1",
-        "rector/rector": "^0.12.16"
+        "theofidry/alice-data-fixtures": "^1.5.2",
+        "liip/test-fixtures-bundle": "^2.4",
+        "rector/rector": "^0.12.16",
+        "dama/doctrine-test-bundle": "^6.7"
     },
     "scripts" : {
         "symfony-scripts": [

@@ -35,7 +35,7 @@ class LidmaatschapType extends AbstractType
                 'query_builder' => function (EntityRepository $repository) use ($lidmaatschap) {
                     $builder = $repository->createQueryBuilder('izVrijwilliger')
                         ->innerJoin('izVrijwilliger.vrijwilliger', 'vrijwilliger')
-                        ->where('izVrijwilliger.afsluitDatum > NOW() OR izVrijwilliger.afsluitDatum IS NULL')
+                        ->where('izVrijwilliger.afsluitDatum > DATE(\'NOW\') OR izVrijwilliger.afsluitDatum IS NULL')
                         ->orderBy('vrijwilliger.achternaam, vrijwilliger.tussenvoegsel, vrijwilliger.voornaam')
                     ;
 
@@ -59,7 +59,7 @@ class LidmaatschapType extends AbstractType
                 'class' => Intervisiegroep::class,
                 'query_builder' => function (EntityRepository $repository) use ($lidmaatschap) {
                     $builder = $repository->createQueryBuilder('intervisiegroep')
-                        ->where('NOW() BETWEEN intervisiegroep.startdatum AND intervisiegroep.einddatum OR intervisiegroep.startdatum IS NULL OR intervisiegroep.einddatum IS NULL')
+                        ->where('DATE(\'NOW\') BETWEEN intervisiegroep.startdatum AND intervisiegroep.einddatum OR intervisiegroep.startdatum IS NULL OR intervisiegroep.einddatum IS NULL')
                         ->orderBy('intervisiegroep.naam')
                     ;
 

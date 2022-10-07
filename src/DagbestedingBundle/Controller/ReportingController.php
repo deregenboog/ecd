@@ -3,6 +3,7 @@
 namespace DagbestedingBundle\Controller;
 
 use AppBundle\Controller\AbstractRapportagesController;
+use AppBundle\Export\ExportInterface;
 use AppBundle\Export\GenericExport;
 use DagbestedingBundle\Form\ReportingType;
 use JMS\DiExtraBundle\Annotation as DI;
@@ -16,16 +17,17 @@ class ReportingController extends AbstractRapportagesController
     protected $formClass = ReportingType::class;
 
     /**
-     * @var GenericExport
+     * @var ExportInterface
      */
     protected $export;
 
     /**
-     * @param GenericExport $export
+     * @param ExportInterface $export
      */
-    public function __construct(GenericExport $export)
+    public function __construct(ExportInterface $export, iterable $reports)
     {
         $this->export = $export;
+        $this->reports = $reports;
     }
 
 

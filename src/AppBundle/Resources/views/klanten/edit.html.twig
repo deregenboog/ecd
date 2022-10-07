@@ -4,8 +4,13 @@
 {% block content_top %}
     <h1>{{ entity_name|capitalize }} {{ entity }} wijzigen</h1>
     <p>
-        {{ html.cancelLink(path(route_base~'view', {id: entity.id})) }}
-        {{ html.link('Annuleren', path(route_base~'view', {id: entity.id})) }}
+        {% if redirect is defined and redirect is not null %}
+            {{ html.cancelLink(redirect) }}
+            {{ html.link('Annuleren', redirect) }}
+        {% else %}
+            {{ html.cancelLink(path(route_base~'view', {id: entity.id})) }}
+            {{ html.link('Annuleren', path(route_base~'view', {id: entity.id})) }}
+        {% endif %}
 
     </p>
 {% endblock %}

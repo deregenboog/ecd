@@ -47,13 +47,13 @@ class Medewerker implements LdapUserInterface, UserInterface
     private $actief = true;
 
     /**
-     * @ORM\Column(name="groups", type="json_array", nullable=true)
+     * @ORM\Column(name="groups", type="json", nullable=true)
      * !! This column is not used / set by LDAP. What is it?!
      */
     private $groepen = [];
 
     /**
-     * @ORM\Column(name="ldap_groups", type="json_array", nullable=true)
+     * @ORM\Column(name="ldap_groups", type="json", nullable=true)
      */
     private $ldapGroups = [];
 
@@ -70,7 +70,7 @@ class Medewerker implements LdapUserInterface, UserInterface
     /**
      * @var array the Symfony roles for this user
      *
-     * @ORM\Column(name="roles", type="json_array", nullable=false)
+     * @ORM\Column(name="roles", type="json", nullable=false)
      */
     private $roles = [];
 

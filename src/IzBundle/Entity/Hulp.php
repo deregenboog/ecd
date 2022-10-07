@@ -403,6 +403,7 @@ abstract class Hulp
         return $this;
     }
 
+
     public function setKoppelingEinddatum(\DateTime $datum = null)
     {
         $this->koppelingEinddatum = $datum;

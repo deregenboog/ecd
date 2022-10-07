@@ -65,6 +65,7 @@ services:
     HsBundle\Controller\RapportagesController:
         arguments:
             $export: '@hs.export.report'
+            $reports: !tagged_iterator hs.rapportage
         tags: [ 'controller.service_arguments' ]
 
     HsBundle\Controller\RegistratiesController:

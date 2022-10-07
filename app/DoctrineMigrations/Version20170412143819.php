@@ -18,7 +18,7 @@ class Version20170412143819 extends AbstractMigration
         // this up() migration is auto-generated, please modify it to your needs
         $this->abortIf('mysql' !== $this->connection->getDatabasePlatform()->getName(), 'Migration can only be executed safely on \'mysql\'.');
 
-        $this->addSql('ALTER TABLE medewerkers CHANGE groups groups LONGTEXT DEFAULT NULL COMMENT \'(DC2Type:json_array)\'');
+        $this->addSql('ALTER TABLE medewerkers CHANGE groups groups LONGTEXT DEFAULT NULL COMMENT \'(DC2Type:json)\'');
     }
 
     /**

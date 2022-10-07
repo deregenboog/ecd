@@ -1,18 +1,22 @@
 <?php
 
-namespace Tests\OekBundle\Controller;
+namespace Tests\IzBundle\Controller;
 
 use AppBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Request;
 
-class TrainingenControllerTest extends WebTestCase
+class DeelnemerControllerTest extends WebTestCase
 {
     public function testSortColumns()
     {
-        $medewerker = $this->getContainer()->get(\AppBundle\Service\MedewerkerDao::class)->findByUsername('oek_user');
+
+        $medewerker = $this->getContainer()->get(\AppBundle\Service\MedewerkerDao::class)->findByUsername('iz_user');
+
         $this->logIn($medewerker);
 
-        $crawler = $this->client->request('GET', '/oek/trainingen/');
+        $crawler = $this->client->request('GET', '/iz/klanten/');
+
+        $this->assertStatusCode(200, $this->client);
 
         $headers = $crawler->filter('tr th a');
         $this->assertGreaterThan(1, $headers->count());

@@ -122,8 +122,8 @@ class HuurverzoekFilter implements FilterInterface
             ;
         }
         else {
-            $builder
-                ->andWhere('huurovereenkomst.id IS NULL');
+//            $builder
+//                ->andWhere('huurovereenkomst.id IS NULL');
         }
 
         if ($this->klant) {
@@ -144,7 +144,7 @@ class HuurverzoekFilter implements FilterInterface
 
         $q = $builder->getQuery();
         $dql = $builder->getDQL();
-//        $sql = $q->getSQL();
+        $sql = $q->getSQL();
 
 
     }

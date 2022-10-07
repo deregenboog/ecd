@@ -30,12 +30,12 @@ class UpdateRecentRegistrationsCommand extends ContainerAwareCommand
         $sql = 'INSERT IGNORE INTO registraties_recent (registratie_id, locatie_id, klant_id, max_buiten)
             SELECT id, locatie_id, klant_id, MAX(buiten) AS max_buiten
             FROM registraties
-            WHERE buiten >= (NOW() + INTERVAL -3 month) AND closed = 1
+            WHERE buiten >= (DATE(\'NOW\') + INTERVAL -3 month) AND closed = 1
             GROUP BY klant_id, locatie_id, DATE(buiten)';
         $this->em->getConnection()->query($sql);
         */
 
-        $sql = 'DELETE FROM registraties_recent WHERE max_buiten < (NOW() + INTERVAL -3 month);';
+        $sql = 'DELETE FROM registraties_recent WHERE max_buiten < (DATE(\'NOW\') + INTERVAL -3 month);';
         $this->em->getConnection()->query($sql);
     }
 }

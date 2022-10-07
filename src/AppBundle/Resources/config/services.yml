@@ -12,6 +12,11 @@ services:
         resource: '../../Controller'
         tags: [ 'controller.service_arguments' ]
 
+    AppBundle\Controller\SymfonyController:
+        arguments:
+            $paginator: '@knp_paginator'
+        tags: [ 'controller.service_arguments' ]
+
     AppBundle\Controller\KlantenController:
         arguments:
              $export: '@AppBundle\Export\Klanten'

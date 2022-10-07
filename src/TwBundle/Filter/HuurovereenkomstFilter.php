@@ -186,6 +186,13 @@ class HuurovereenkomstFilter implements FilterInterface
                 ->setParameter('now', new \DateTime())
             ;
         }
+        else
+        {
+//            $builder
+//                ->andWhere('huurovereenkomst.afsluitdatum IS NOT NULL AND huurovereenkomst.afsluitdatum <= :now')
+//                ->setParameter('now', new \DateTime())
+//            ;
+        }
         if ($this->opzegbriefVerstuurd) {
             $builder
                 ->andWhere('huurovereenkomst.opzegbriefVerstuurd = true')
@@ -212,5 +219,7 @@ class HuurovereenkomstFilter implements FilterInterface
             $builder->andWhere('huuraanbod.project IN (:project)')
                 ->setParameter("project",$this->project);
         }
+
+        $d = $builder->getQuery()->getDQL();
     }
 }

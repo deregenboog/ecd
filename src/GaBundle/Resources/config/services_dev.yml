@@ -2,4 +2,4 @@ services:
     ga.data_fixtures.faker_provider:
         class: GaBundle\DataFixtures\GaFakerProvider
         tags:
-            - { name: hautelook_alice.faker.provider }
+#            - { name: nelmio_alice.faker.provider }

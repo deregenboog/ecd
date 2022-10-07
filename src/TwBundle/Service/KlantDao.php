@@ -32,7 +32,7 @@ class KlantDao extends AbstractDao implements KlantDaoInterface
 //            'ambulantOndersteuner.achternaam',
             'intakeStatus.naam',
             'geslacht.volledig',
-            'bindingRegio.label',
+            'bindingRegio.naam',
             'shortlist.achternaam',
 
         ],

@@ -9,11 +9,11 @@ class DeelnemersControllerTest extends WebTestCase
 {
     public function testSortColumns()
     {
-        $medewerker = $this->getContainer()->get(\AppBundle\Service\MedewerkerDao::class)->find('dagbesteding_user');
+        $medewerker = $this->getContainer()->get(\AppBundle\Service\MedewerkerDao::class)->findByUsername('dagbesteding_user');
         $this->logIn($medewerker);
 
         $crawler = $this->client->request('GET', '/dagbesteding/deelnemers/');
-
+        $t = $crawler->html();
         $headers = $crawler->filter('tr th a');
         $this->assertGreaterThan(1, $headers->count());
 

@@ -35,6 +35,7 @@ services:
     OekraineBundle\Controller\RapportagesController:
         arguments:
             $export: '@oekraine.export.report'
+            $reports: !tagged_iterator oek.rapportage
         tags: [ 'controller.service_arguments' ]
 
     OekraineBundle\Controller\RegistratiesController:

@@ -9,6 +9,7 @@ class AppKernel extends Kernel
 {
     public function registerBundles()
     {
+        $env = $this->getEnvironment();
         $bundles = [
             new Symfony\Bundle\FrameworkBundle\FrameworkBundle(),
             new Symfony\Bundle\TwigBundle\TwigBundle(),
@@ -47,21 +48,26 @@ class AppKernel extends Kernel
             new VillaBundle\VillaBundle(),
         ];
 
-        if ('test' !== $this->getEnvironment()) {
+        if ('test' !== $env) {
             $bundles[] = new LdapTools\Bundle\LdapToolsBundle\LdapToolsBundle();
         }
 
-        if (in_array($this->getEnvironment(), ['dev', 'test'], true)) {
+        if (in_array($env, ['dev', 'test'], true)) {
             $bundles[] = new Symfony\Bundle\DebugBundle\DebugBundle();
             $bundles[] = new Symfony\Bundle\WebProfilerBundle\WebProfilerBundle();
 //            $bundles[] = new Sensio\Bundle\DistributionBundle\SensioDistributionBundle();
+
             $bundles[] = new Doctrine\Bundle\FixturesBundle\DoctrineFixturesBundle();
 
             $bundles[] = new Nelmio\Alice\Bridge\Symfony\NelmioAliceBundle();
             $bundles[] = new Fidry\AliceDataFixtures\Bridge\Symfony\FidryAliceDataFixturesBundle();
+
             $bundles[] = new Hautelook\AliceBundle\HautelookAliceBundle();
-            $bundles[] = new Liip\TestFixturesBundle\LiipTestFixturesBundle();
-            $bundles[] = new Liip\FunctionalTestBundle\LiipFunctionalTestBundle();
+            if ($env === 'test') {
+                $bundles[] = new Liip\TestFixturesBundle\LiipTestFixturesBundle();
+                $bundles[] = new Liip\FunctionalTestBundle\LiipFunctionalTestBundle();
+//                $bundles[] = new DAMA\DoctrineTestBundle\DAMADoctrineTestBundle();
+            }
         }
 
         return $bundles;

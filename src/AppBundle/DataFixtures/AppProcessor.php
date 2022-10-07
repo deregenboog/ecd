@@ -12,6 +12,7 @@ final class AppProcessor implements ProcessorInterface
      */
     public function preProcess(string $fixtureId, $object): void
     {
+
     }
 
     /**

@@ -9,10 +9,12 @@ class KlantenControllerTest extends WebTestCase
 {
     public function testIndex()
     {
-        $medewerker = $this->getContainer()->get(\AppBundle\Service\MedewerkerDao::class)->find('ga_user');
-        $this->logIn($medewerker, 'ROLE_EROPUIT');
+        $medewerker = $this->getContainer()->get(\AppBundle\Service\MedewerkerDao::class)->findByUsername('eou_user');
+        $this->logIn($medewerker);
 
-        $crawler = $this->client->request('GET', $this->getUrl('eropuit_klanten_index'));
+
+        $crawler = $this->client->request('GET', '/eropuit/klanten/');
+
         $this->assertStatusCode(200, $this->client);
 //        var_dump($crawler->html());
         $rows = $crawler->filter('table.table tbody tr');
@@ -24,8 +26,8 @@ class KlantenControllerTest extends WebTestCase
 
     public function testSort()
     {
-        $medewerker = $this->getContainer()->get(\AppBundle\Service\MedewerkerDao::class)->find('ga_user');
-        $this->logIn($medewerker, 'ROLE_EROPUIT');
+        $medewerker = $this->getContainer()->get(\AppBundle\Service\MedewerkerDao::class)->findByUsername('eou_user');
+        $this->logIn($medewerker);
 
         $crawler = $this->client->request('GET', $this->getUrl('eropuit_klanten_index'));
         $this->assertStatusCode(200, $this->client);
@@ -44,8 +46,8 @@ class KlantenControllerTest extends WebTestCase
     public function testFilter()
     {
 
-        $medewerker = $this->getContainer()->get(\AppBundle\Service\MedewerkerDao::class)->find('ga_user');
-        $this->logIn($medewerker, 'ROLE_EROPUIT');
+        $medewerker = $this->getContainer()->get(\AppBundle\Service\MedewerkerDao::class)->findByUsername('eou_user');
+        $this->logIn($medewerker);
 
         $crawler = $this->client->request('GET', $this->getUrl('eropuit_klanten_index'));
         $this->assertStatusCode(200, $this->client);
@@ -61,8 +63,8 @@ class KlantenControllerTest extends WebTestCase
     public function testAddFilter()
     {
 
-        $medewerker = $this->getContainer()->get(\AppBundle\Service\MedewerkerDao::class)->find('ga_user');
-        $this->logIn($medewerker, 'ROLE_EROPUIT');
+        $medewerker = $this->getContainer()->get(\AppBundle\Service\MedewerkerDao::class)->findByUsername('eou_user');
+        $this->logIn($medewerker);
 
         $crawler = $this->client->request('GET', $this->getUrl('eropuit_klanten_add'));
         $this->assertStatusCode(200, $this->client);

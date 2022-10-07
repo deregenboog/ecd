@@ -126,8 +126,13 @@ class PreventSaveForDateRangeEventListener
                         if (($newValue > $this->preventSaveAfterDate && $newValue < $this->preventSaveBeforeDate)
 //                            && !($prevValue > $this->preventSaveAfterDate && $prevValue < $this->preventSaveBeforeDate)
                         ) {
+                            //gebeoortedatum is uitzondering en een die we vaak tegenkomen. of we moeten op veldniveau kunnen uitsluiten
+                            if($fieldname == 'geboortedatum') return;
                             //nieuwe waarde ligt in de range... Mag alleen als oude waarde dat ook lag; zo niet: error.
-                            throw new UserException('ECD is gesloten voor updates in het oude boekjaar in verband met de samenstelling van de cijfers door de accountant. Er kunnen geen items met een datum in het oude jaar worden gewijzigd.');
+                            $details = "";
+                            $details .= "Fieldname: $fieldname. Entity: ".get_class($entity).". Value: ".$newValue->format("Y-d-m")."ID: ";
+//                            $details .= var_export($entity,true);
+                            throw new UserException($details.'ECD is gesloten voor updates in het oude boekjaar in verband met de samenstelling van de cijfers door de accountant. Er kunnen geen items met een datum in het oude jaar worden gewijzigd.');
                         }
                     }
                 }

@@ -14,7 +14,7 @@ $(function() {
         row.addClass('info');
 
         $.get({
-            url: '/inloop/registraties/jsonCanRegister/'+klant_id+'/'+locatie_id,
+            url: '/oekraine/registraties/jsonCanRegister/'+klant_id+'/'+locatie_id,
         }).done(function(response) {
             if (response.allow && response.confirm){
                 var confirmed = confirm(response.message);
@@ -59,7 +59,7 @@ function init() {
 
 function checkin(klant_id, locatie_id) {
     $.post({
-        url: '/inloop/registraties/ajaxAddRegistratie/'+klant_id+'/'+locatie_id,
+        url: '/oekraine/registraties/ajaxAddRegistratie/'+klant_id+'/'+locatie_id,
     }).done(function(data) {
         init();
     }).fail(function() {
@@ -70,7 +70,7 @@ function checkin(klant_id, locatie_id) {
 function enable(id, property, event) {
     $(event.target).hide();
     $.post({
-        url: '/inloop/registraties/'+id+'/'+property+'/1',
+        url: '/oekraine/registraties/'+id+'/'+property+'/1',
     }).done(function(data) {
         $(event.target).prop('checked', data[property]);
         $(event.target).show();
@@ -82,7 +82,7 @@ function enable(id, property, event) {
 function disable(id, property, event) {
     $(event.target).hide();
     $.post({
-        url: '/inloop/registraties/'+id+'/'+property+'/0',
+        url: '/oekraine/registraties/'+id+'/'+property+'/0',
     }).done(function(data) {
         $(event.target).prop('checked', data[property]);
         $(event.target).show();

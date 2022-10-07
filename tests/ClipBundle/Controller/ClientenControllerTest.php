@@ -10,7 +10,8 @@ class ClientenControllerTest extends WebTestCase
     public function testSortColumns()
     {
 
-        $medewerker = $this->getContainer()->get(\AppBundle\Service\MedewerkerDao::class)->find('clip_user');
+        $medewerker = $this->getContainer()->get(\AppBundle\Service\MedewerkerDao::class)->findByUsername('clip_user');
+
         $this->logIn($medewerker);
 
         $crawler = $this->client->request('GET', '/clip/clienten/');
