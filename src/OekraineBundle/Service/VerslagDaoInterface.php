@@ -4,7 +4,7 @@ namespace OekraineBundle\Service;
 
 use AppBundle\Filter\FilterInterface;
 use Knp\Component\Pager\Pagination\PaginationInterface;
-use MwBundle\Entity\Verslag;
+use OekraineBundle\Entity\Verslag;
 
 interface VerslagDaoInterface
 {

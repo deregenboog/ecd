@@ -45,3 +45,9 @@ services:
         class: ArrayObject
         arguments:
             - []
+
+    oekraine.verslag.entities:
+        public: true
+        class: ArrayObject
+        arguments:
+            - - { key: bezoeker, dao: '@OekraineBundle\Service\BezoekerDao' }

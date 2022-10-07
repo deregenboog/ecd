@@ -49,18 +49,18 @@ class KlantDao extends AbstractDao implements KlantDaoInterface
             ->addSelect('COUNT(DISTINCT verslag.id) AS aantalVerslagen')
 
             ;
-        if($filter->isDirty())
-        {
-            $builder
-                ->leftJoin($this->alias.'.verslagen', 'verslag')
-                ->leftJoin('verslag.medewerker','medewerker');
-        }
-        else
-        {
+//        if($filter->isDirty()) //rrrright. dit mag weg?
+//        {
+//            $builder
+//                ->leftJoin($this->alias.'.verslagen', 'verslag')
+//                ->leftJoin('verslag.medewerker','medewerker');
+//        }
+//        else
+//        {
             $builder
                 ->join($this->alias.'.verslagen', 'verslag')
                 ->join('verslag.medewerker','medewerker');
-        }
+//        }
         $builder
             ->leftJoin('klant.maatschappelijkWerker','maatschappelijkWerker')
             ->leftJoin($this->alias.'.verslagen','v2','WITH','verslag.klant = v2.klant AND (verslag.datum < v2.datum OR (verslag.datum = v2.datum AND verslag.id < v2.id))')
