@@ -36,7 +36,7 @@ class Project
      * @var Huuraanbod
      *
      * @ORM\OneToMany(targetEntity="TwBundle\Entity\Huuraanbod",mappedBy="project")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=true)
      */
     private $huuraanbiedingen;
 

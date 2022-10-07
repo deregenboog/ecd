@@ -53,7 +53,7 @@ IzBundle\Entity\AfsluitredenKoppeling:
 IzBundle\Entity\Doelstelling:
     doelstelling_{1..25}:
         project: '@iz_project_*'
-        jaar: '<numberBetween(2016, 2018)>'
+        jaar: '<numberBetween(2020, 2022)>'
         aantal: '<numberBetween(10, 500)>'
 
 IzBundle\Entity\BinnengekomenVia:
@@ -404,7 +404,7 @@ IzBundle\Entity\Hulpvraagsoort:
 
 IzBundle\Entity\IzKlant:
     iz_klant_{1..25}:
-        klant (unique): '@klant_*'
+        klant: '<uniqueElements(@klant_{1..300})>'
         datumAanmelding: '<dateTimeThisDecade()>'
         afsluitDatum: '30%? <dateTimeThisDecade()>'
         afsluiting: '30%? @iz_afsluiting_*'
@@ -412,7 +412,7 @@ IzBundle\Entity\IzKlant:
 
 IzBundle\Entity\IzVrijwilliger:
     iz_vrijwilliger_{26..50}:
-        vrijwilliger (unique): '@vrijwilliger_*'
+        vrijwilliger: '<uniqueElements(@vrijwilliger_{1..50})>'
         datumAanmelding: '<dateTimeThisDecade()>'
         afsluitDatum: '30%? <dateTimeThisDecade()>'
         afsluiting: '30%? @iz_afsluiting_*'
@@ -421,11 +421,11 @@ IzBundle\Entity\IzVrijwilliger:
 IzBundle\Entity\Intake:
     iz_intake_{1..25}:
         izDeelnemer: '@iz_klant_<current()>'
-        intakeDatum: <dateTimeThisDecade()>
+        intakeDatum: '<dateTimeThisDecade()>'
         medewerker: '@medewerker_*'
     iz_intake_{26..50}:
         izDeelnemer: '@iz_vrijwilliger_<current()>'
-        intakeDatum: <dateTimeThisDecade()>
+        intakeDatum: '<dateTimeThisDecade()>'
         medewerker: '@medewerker_*'
 
 IzBundle\Entity\Hulpaanbod:
@@ -455,18 +455,18 @@ IzBundle\Entity\Hulpvraag:
         izKlant: '@iz_klant_*'
         project: '@iz_project_*'
         medewerker: '@medewerker_*'
-        hulpaanbod (unique): '@iz_hulpaanbod_*'
+        hulpaanbod: '<uniqueElements(@iz_hulpaanbod_{1..100})>'
         startdatum: '<dateTimeThisDecade()>'
-        koppelingStartdatum: <koppelingStartdatum($hulpaanbod)>
-        koppelingEinddatum: <koppelingEinddatum($koppelingStartdatum)>
+        koppelingStartdatum: '<koppelingStartdatum($hulpaanbod)>'
+        koppelingEinddatum: '<koppelingEinddatum($koppelingStartdatum)>'
         doelgroep: '@iz_doelgroep_*'
         hulpvraagsoort: '@iz_hulpvraagsoort_*'
         info: '<sentence()>'
-        geschiktVoorExpat: true
+        geschiktVoorExpat: 'true'
         voorkeurGeslacht: '30%? @geslacht_*'
 
 IzBundle\Entity\Verslag:
     iz_verslag_{1..250}:
         izDeelnemer: '@iz_klant_*'
         medewerker: '@medewerker_*'
-        opmerking: <sentence(100)>
+        opmerking: '<sentence(100)>'

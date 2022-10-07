@@ -33,47 +33,48 @@ HsBundle\Entity\Klant:
 
 HsBundle\Entity\Dienstverlener:
     hs_dienstverlener_{1..25}:
-        klant (unique): '@klant_*'
+        klant: '<uniqueElements(@klant_{1..300})>'
         inschrijving: '<dateTimeThisDecade()>'
 
-HsBundle\Entity\Vrijwilliger:
-    hs_vrijwilliger_{1..25}:
-        vrijwilliger (unique): '@vrijwilliger_*'
-        inschrijving: '<dateTimeThisDecade()>'
+#HsBundle\Entity\Vrijwilliger:
+#    hs_vrijwilliger_{1..25}:
+#        vrijwilliger: '<uniqueElements(@vrijwilliger_{1..25})>'
+#        inschrijving: '<dateTimeThisDecade()>'
 
-HsBundle\Entity\Klus:
-    hs_klus_{1..100}:
-        medewerker: '@medewerker_*'
-        klant: '@hs_klant_*'
-        startdatum: '<dateTimeThisDecade()>'
-        einddatum: '50%? <dateTimeThisDecade()>'
-        onHold: '<numberBetween(0, 1)>'
-        addActiviteit: ['@hs_activiteit_*']
-        addDienstverlener: ['@hs_dienstverlener_*']
-        addVrijwilliger: ['@hs_vrijwilliger_*']
+#HsBundle\Entity\Klus:
+#    hs_klus_{1..100}:
+#        medewerker: '@medewerker_*'
+#        klant: '@hs_klant_*'
+#        startdatum: '<dateTimeThisDecade()>'
+#        einddatum: '50%? <dateTimeThisDecade()>'
+#        onHold: '<numberBetween(0, 1)>'
+#        addActiviteit: '@hs_activiteit_*'
+#        addDienstverlener: '@hs_dienstverlener_*'
+#        addVrijwilliger: '@hs_vrijwilliger_*'
 
+######## hieronder staat gecomment. bewust.
 #HsBundle\Entity\Registratie:
 #    hs_registratie_{1..50}:
 #        __construct: ['@hs_klus_*']
 #        activiteit: '@hs_activiteit_*'
 #        medewerker: '@medewerker_*'
-#        datum: '<dateTimeThisYear()>'
-#        start: '<dateTimeThisYear()>'
-#        eind: '<dateTimeThisYear()>'
+#        datum: '<dateTimeThisDecade()>'
+#        start: '<dateTimeThisDecade()>'
+#        eind: '<dateTimeThisDecade()>'
 #
 #HsBundle\Entity\Declaratie:
 #    hs_declaratie_{1..200}:
 #        __construct: ['@medewerker_*']
 #        klus: '@hs_klus_*'
 #        declaratiecategorie: '@hs_declaratiecategorie_*'
-#        datum: '<dateTimeThisYear()>'
+#        datum: '<dateTimeThisDecade()>'
 #        info: '<sentence()>'
 #        bedrag: '<numberBetween(1, 25)>'
 #
 #HsBundle\Entity\Betaling:
 #    hs_betaling_{1..10}:
 #        factuur: '<factuur(@hs_klant_*)>'
-#        datum: '<dateTimeThisYear()>'
+#        datum: '<dateTimeThisDecade()>'
 #        referentie: '<numberBetween(100000, 999999)>'
 #        info: '<sentence()>'
 #        bedrag: '<numberBetween(5, 25)>'

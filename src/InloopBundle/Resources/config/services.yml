@@ -22,6 +22,11 @@ services:
         resource: '../../Controller'
         tags: [ 'controller.service_arguments' ]
 
+    InloopBundle\Controller\IntakesController:
+        arguments:
+            $dao: '@InloopBundle\Service\IntakeDao'
+        tags: [ 'controller.service_arguments' ]
+
     InloopBundle\Controller\DeelnamesController:
         arguments:
             $entities: '@inloop.deelname.entities'

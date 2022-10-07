@@ -130,14 +130,14 @@ class Klant extends Deelnemer
     /**
      * @var IntakeStatus
      * @ORM\ManyToOne(targetEntity="TwBundle\Entity\IntakeStatus",cascade={"persist"})
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=true, options={"default": "NULL"})
      *
      */
     private $intakeStatus;
 
     /**
      * @var Medewerker
-     * @ORM\ManyToOne (targetEntity="AppBundle\Entity\Medewerker",cascade="persist")
+     * @ORM\ManyToOne (targetEntity="AppBundle\Entity\Medewerker",cascade={"persist"})
      * @ORM\JoinColumn(nullable=true)
      */
     private $shortlist;

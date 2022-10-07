@@ -23,9 +23,10 @@ class RapportagesController extends AbstractRapportagesController
     /**
      * @param GenericExport $export
      */
-    public function __construct(GenericExport $export)
+    public function __construct(GenericExport $export, iterable $reports)
     {
         $this->export = $export;
+        $this->reports = $reports;
     }
 
 

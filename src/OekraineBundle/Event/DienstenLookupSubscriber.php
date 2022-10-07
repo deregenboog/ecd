@@ -7,6 +7,8 @@ use AppBundle\Event\Events;
 use AppBundle\Model\Dienst;
 use Doctrine\ORM\EntityManager;
 use OekBundle\Entity\Deelnemer;
+use OekraineBundle\Entity\Aanmelding;
+use OekraineBundle\Entity\Afsluiting;
 use OekraineBundle\Entity\Bezoeker;
 use OekraineBundle\Entity\DossierStatus;
 use OekraineBundle\Entity\Toegang;
@@ -52,12 +54,12 @@ class DienstenLookupSubscriber implements EventSubscriberInterface
                 $this->generator->generate('oekraine_bezoekers_view', ['id' => $bezoeker->getId()])
             );
 
-            if ($bezoeker->getAanmelding()) {
-                $dienst->setVan($bezoeker->getAanmelding()->getDatum());
+            if ($bezoeker->getDossierStatus() instanceof Aanmelding) {
+                $dienst->setVan($bezoeker->getDossierStatus()->getDatum());
             }
 
-            if ($bezoeker->getAfsluiting()) {
-                $dienst->setTot($bezoeker->getAfsluiting()->getDatum());
+            if ($bezoeker->getDossierStatus() instanceof Afsluiting) {
+                $dienst->setTot($bezoeker->getDossierStatus()->getDatum());
             }
 
             $event->addDienst($dienst);

@@ -2,10 +2,13 @@
 
 namespace TwBundle\DataFixtures;
 
+use Faker\Generator;
 use Faker\Provider\DateTime;
 
 class TwFakerProvider
 {
+
+
     /**
      * @return \DateTime|null
      */

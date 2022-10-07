@@ -398,6 +398,7 @@ abstract class AbstractController extends SymfonyController
         return array_merge([
             'entity' => $entity,
             'form' => $form->createView(),
+            'redirect'=>$request->get('redirect')
         ], $this->addParams($entity, $request));
     }
 

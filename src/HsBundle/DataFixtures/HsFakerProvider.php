@@ -3,6 +3,7 @@
 namespace HsBundle\DataFixtures;
 
 use Doctrine\ORM\EntityManager;
+use Faker\Generator;
 use HsBundle\Entity\Factuur;
 use HsBundle\Entity\Klant;
 use HsBundle\Service\FactuurFactoryInterface;
@@ -13,11 +14,13 @@ final class HsFakerProvider
 
     private $factuurFactory;
 
+
     public function __construct(EntityManager $entityManager, FactuurFactoryInterface $factuurFactory)
     {
         $this->entityManager = $entityManager;
         $this->factuurFactory = $factuurFactory;
     }
+
 
     /**
      * @param Klant

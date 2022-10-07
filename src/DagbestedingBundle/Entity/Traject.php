@@ -96,7 +96,7 @@ class Traject
     /**
      * @var Trajectcoach
      *
-     * @ORM\ManyToOne(targetEntity="Trajectcoach", inversedBy="trajecten")
+     * @ORM\ManyToOne(targetEntity="Trajectcoach", inversedBy="trajecten", cascade={"persist"})
      * @ORM\JoinColumn(nullable=false)
      * @Gedmo\Versioned
      */

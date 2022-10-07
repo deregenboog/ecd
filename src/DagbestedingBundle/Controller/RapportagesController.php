@@ -24,15 +24,11 @@ class RapportagesController extends AbstractChildController
 
     /**
      * @var RapportageDao
-     *
-     * @DI\Inject("DagbestedingBundle\Service\RapportageDao")
      */
     protected $dao;
 
     /**
      * @var \ArrayObject
-     *
-     * @DI\Inject("dagbesteding.rapportage.entities")
      */
     protected $entities;
 

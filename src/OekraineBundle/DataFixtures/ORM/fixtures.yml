@@ -449,7 +449,7 @@ AppBundle\Entity\ZrmV2:
 OekraineBundle\Entity\Intake:
     intake_{1..200}:
         medewerker: '@medewerker_*'
-        intakedatum: '<dateTimeThisYear()>'
+        intakedatum: '<dateTimeThisDecade()>'
         doelgroep: true
         toegangInloophuis: true
         intakelocatie: '@locatie_*'

@@ -28,9 +28,10 @@ class HuuraanbiedingenController extends SymfonyController
         'huuraanbod.id',
         'appKlant.achternaam',
         'werkgebied.naam',
-        'appKlant.pplaats',
+        'appKlant.plaats',
         'huuraanbod.startdatum',
         'huuraanbod.afsluitdatum',
+        'huuraanbod.huurprijs',
         'huuraanbod.datumToestemmingAangevraagd',
         'huuraanbod.datumToestemmingToegekend',
         'huurovereenkomst.isReservering',
@@ -39,6 +40,7 @@ class HuuraanbiedingenController extends SymfonyController
         'huuraanbod.isActief',
 
     ];
+
 
     /**
      * @Route("/")

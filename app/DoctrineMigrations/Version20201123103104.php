@@ -25,7 +25,7 @@ final class Version20201123103104 extends AbstractMigration
         $this->addSql('ALTER TABLE odp_huurverzoeken_odp_projecten ADD CONSTRAINT FK_CDF6EEBCFF532D2C FOREIGN KEY (odp_project_id) REFERENCES odp_projecten (id)');
 
         ;
-        $this->addSql('ALTER TABLE odp_deelnemers ADD project_id INT');
+        $this->addSql('ALTER TABLE odp_deelnemers ADD project_id INT NULL DEFAULT NULL');
         $this->addSql('ALTER TABLE odp_deelnemers ADD CONSTRAINT FK_20283999166D1F9C FOREIGN KEY (project_id) REFERENCES odp_projecten (id)');
         $this->addSql('CREATE INDEX IDX_20283999166D1F9C ON odp_deelnemers (project_id)');
 

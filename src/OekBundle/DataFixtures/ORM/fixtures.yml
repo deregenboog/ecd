@@ -31,14 +31,14 @@ OekBundle\Entity\Training:
 
 OekBundle\Entity\Deelnemer:
     oek_deelnemer_{1..50}:
-        klant (unique): '@klant_*'
+        klant: '<uniqueElements(@klant_{1..300})>'
         medewerker: '@medewerker_*'
-        addAanmelding: ['<aanmelding(@oek_verwijzing_door_*, @medewerker_*)>']
-        addAfsluiting: ['<afsluiting(@oek_verwijzing_naar_*, @medewerker_*, $this)>']
+        addAanmelding: '<aanmelding(@oek_verwijzing_door_*, @medewerker_*)>'
+        addAfsluiting: '<afsluiting(@oek_verwijzing_naar_*, @medewerker_*)>'
     oek_deelnemer_{51..100}:
-        klant (unique): '@klant_*'
+        klant: '<uniqueElements(@klant_{1..300})>'
         medewerker: '@medewerker_*'
-        addAanmelding: ['<aanmelding(@oek_verwijzing_door_*, @medewerker_*)>']
+        addAanmelding: '<aanmelding(@oek_verwijzing_door_*, @medewerker_*)>'
 
 OekBundle\Entity\Lidmaatschap:
     oek_lidmaatschap_{1..40}:

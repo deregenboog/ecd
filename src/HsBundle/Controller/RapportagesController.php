@@ -3,6 +3,7 @@
 namespace HsBundle\Controller;
 
 use AppBundle\Controller\AbstractRapportagesController;
+use AppBundle\Export\ExportInterface;
 use AppBundle\Export\GenericExport;
 use HsBundle\Form\RapportageType;
 use JMS\DiExtraBundle\Annotation as DI;
@@ -18,16 +19,17 @@ class RapportagesController extends AbstractRapportagesController
     protected $formClass = RapportageType::class;
 
     /**
-     * @var GenericExport
+     * @var ExportInterface
      */
     protected $export;
 
     /**
      * @param GenericExport $export
      */
-    public function __construct(GenericExport $export)
+    public function __construct(ExportInterface $export, iterable $reports)
     {
         $this->export = $export;
+        $this->reports = $reports;
     }
 
 

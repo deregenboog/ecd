@@ -19,8 +19,8 @@ class Version20181001074038 extends AbstractMigration
         $this->abortIf('mysql' !== $this->connection->getDatabasePlatform()->getName(), 'Migration can only be executed safely on \'mysql\'.');
 
         $this->addSql("ALTER TABLE medewerkers
-            ADD ldap_groups LONGTEXT DEFAULT NULL COMMENT '(DC2Type:json_array)',
-            ADD roles LONGTEXT NOT NULL COMMENT '(DC2Type:json_array)',
+            ADD ldap_groups LONGTEXT DEFAULT NULL COMMENT '(DC2Type:json)',
+            ADD roles LONGTEXT NOT NULL COMMENT '(DC2Type:json)',
             CHANGE uidnumber uidnumber VARCHAR(255) NOT NULL");
     }
 

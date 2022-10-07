@@ -66,6 +66,7 @@ class RegistratieFilterType extends AbstractType
             'data_class' => RegistratieFilter::class,
             'enabled_filters' => [
                 'klant' => ['voornaam', 'achternaam'],
+//                'locatie',
                 'binnen',
                 'woonlocatie',
                 'filter',

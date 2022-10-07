@@ -19,8 +19,6 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 
-use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
-
 /**
  * @Route("/klanten")
  * @Template

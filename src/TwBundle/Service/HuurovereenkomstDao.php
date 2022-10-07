@@ -14,7 +14,7 @@ class HuurovereenkomstDao extends AbstractDao implements HuurovereenkomstDaoInte
         'defaultSortDirection' => 'desc',
         'sortFieldWhitelist' => [
             'huurovereenkomst.id',
-            'klant.achternaam',
+            'appKlant.achternaam',
             'verhuurderKlant.achternaam',
             'verhuurderKlant.plaats',
             'medewerker.voornaam',

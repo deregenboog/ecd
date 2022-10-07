@@ -3,6 +3,7 @@
 namespace OekBundle\DataFixtures;
 
 use AppBundle\Entity\Medewerker;
+use Faker\Generator;
 use Faker\Provider\DateTime;
 use OekBundle\Entity\Aanmelding;
 use OekBundle\Entity\Afsluiting;
@@ -11,11 +12,12 @@ use OekBundle\Entity\VerwijzingNaar;
 
 final class OekFakerProvider
 {
+
     public function aanmelding(VerwijzingDoor $verwijzing, Medewerker $medewerker)
     {
         $aanmelding = new Aanmelding();
         $aanmelding
-            ->setDatum(DateTime::dateTimeBetween('-5 years', '2017-01-01'))
+            ->setDatum(DateTime::dateTimeBetween('-5 years', new \DateTime("first day of this year")))
             ->setVerwijzing($verwijzing)
             ->setMedewerker($medewerker);
 
@@ -26,7 +28,7 @@ final class OekFakerProvider
     {
         $afsluiting = new Afsluiting();
         $afsluiting
-            ->setDatum(DateTime::dateTimeBetween('2017-01-01'))
+            ->setDatum(DateTime::dateTimeBetween(new \DateTime("first day of this year")) )
             ->setVerwijzing($verwijzing)
             ->setMedewerker($medewerker);
 

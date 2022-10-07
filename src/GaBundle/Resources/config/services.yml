@@ -19,6 +19,7 @@ services:
     GaBundle\Controller\RapportagesController:
       arguments:
         $export: '@ga.export.report'
+        $reports: !tagged_iterator ga.rapportage
       tags: [ 'controller.service_arguments' ]
 
     GaBundle\Controller\DeelnamesController:

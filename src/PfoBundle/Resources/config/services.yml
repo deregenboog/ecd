@@ -26,6 +26,7 @@ services:
     PfoBundle\Controller\RapportagesController:
         arguments:
             $export: '@pfo.export.report'
+            $reports: !tagged_iterator pfo.rapportage
         tags: [ 'controller.service_arguments' ]
 
     PfoBundle\Controller\VerslagenController:
@@ -70,6 +71,5 @@ services:
         tags:
             - { name: form.type }
 
-    PfoBundle\DataFixtures\PfoProcessor:
-        tags: [ { name: fidry_alice_data_fixtures.processor } ]
+
 

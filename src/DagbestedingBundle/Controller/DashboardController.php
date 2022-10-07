@@ -69,7 +69,7 @@ class DashboardController extends SymfonyController
                 'klant' => ['naam'],
                 'soort',
                 'resultaatgebied' => ['soort'],
-                'medewerker',
+                'trajectcoach',
                 'project',
                 'locatie',
                 'startdatum',

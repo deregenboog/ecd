@@ -23,6 +23,7 @@ use InloopBundle\Pdf\PdfBrief;
 use InloopBundle\Service\KlantDao;
 use InloopBundle\Service\KlantDaoInterface;
 use JMS\DiExtraBundle\Annotation as DI;
+use Psr\Container\ContainerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\EventDispatcher\GenericEvent;
 use Symfony\Component\Routing\Annotation\Route;
@@ -59,10 +60,11 @@ class KlantenController extends AbstractController
      * @param KlantDao $dao
      * @param \AppBundle\Service\KlantDao $klantDao
      */
-    public function __construct(KlantDao $dao, \AppBundle\Service\KlantDao $klantDao)
+    public function __construct(KlantDao $dao, \AppBundle\Service\KlantDao $klantDao, ContainerInterface $container)
     {
         $this->dao = $dao;
         $this->klantDao = $klantDao;
+        $this->container = $container;
     }
 
 
@@ -354,14 +356,14 @@ class KlantenController extends AbstractController
     {
         return [
             'amoc_landen' => $this->getAmocLanden(),
-            'tbc_countries' => $this->container->getParameter('tbc_countries'),
+//            'tbc_countries' => $this->container->getParameter('tbc_countries'),
 
         ];
     }
 
     protected function getAmocLanden()
     {
-        return $this->getDoctrine()->getEntityManager()->getRepository(Land::class)
+        return $this->getEntityManager()->getRepository(Land::class)
             ->createQueryBuilder('land')
             ->innerJoin(AmocLand::class, 'amoc', 'WITH', 'amoc.land = land')
             ->getquery()

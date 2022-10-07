@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\OdpBundle\Controller;
+namespace Tests\TwBundle\Controller;
 
 use AppBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Request;

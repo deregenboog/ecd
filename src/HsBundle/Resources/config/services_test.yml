@@ -1,4 +1,7 @@
 services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
     hs.data_fixtures.faker_provider:
         class: HsBundle\DataFixtures\HsFakerProvider
         arguments:
@@ -10,4 +13,4 @@ services:
     hs.data_fixtures.processor:
         class: HsBundle\DataFixtures\HsProcessor
         tags:
-            - { name: hautelook_alice.alice.processor }
+            - { name: nelmio_alice.alice.processor }
