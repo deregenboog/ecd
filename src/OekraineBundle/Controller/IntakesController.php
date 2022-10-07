@@ -115,17 +115,17 @@ class IntakesController extends AbstractController
             throw new EntityNotFoundException("Kan intake niet laden.");
         }
 
-        $this->denyAccessUnlessGranted(
-            Permissions::EDIT,
-            $entity,
-            'Je kan alleen intakes wijzigen die in de afgelopen week zijn aangemaakt.'
-        );
+//        $this->denyAccessUnlessGranted(
+//            Permissions::EDIT,
+//            $entity,
+//            'Je kan alleen intakes wijzigen die in de afgelopen week zijn aangemaakt.'
+//        );
 
-        $this->denyAccessUnlessGranted(
-            Permissions::OWNER,
-            $entity,
-            'Je kan alleen intakes wijzigen die door jezelf zijn aangemaakt.'
-        );
+//        $this->denyAccessUnlessGranted(
+//            Permissions::OWNER,
+//            $entity,
+//            'Je kan alleen intakes wijzigen die door jezelf zijn aangemaakt.'
+//        );
 
         return $this->processForm($request, $entity);
 

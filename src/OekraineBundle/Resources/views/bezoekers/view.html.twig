@@ -36,18 +36,15 @@
     </ul>
     {% include '::klant_basis.html.twig' with {klant: entity.appKlant, module: 'Intake'} %}
     {{ render(controller('OekraineBundle:Bezoekers:_intakes', {id: entity.id})) }}
-{#    {{ render(controller('OekraineBundle:Klanten:_opmerkingen', {id: entity.id})) }}#}
+
 {#    {{ render(controller('OekraineBundle:Klanten:_schorsingen', {id: entity.id})) }}#}
-    {{ render(controller('OekraineBundle:Bezoekers:_registraties', {id: entity.id})) }}
+{#    {{ render(controller('OekraineBundle:Bezoekers:_registraties', {id: entity.id})) }}#}
 {% endblock %}
 
 {% block content_right %}
     <ul class="nav nav-tabs">
         <li class="active"><a data-toggle="tab" href="#intake">Laatste intake</a></li>
-{#        <li><a data-toggle="tab" href="#verslagen">Verslagen</a></li>#}
-{#        <li><a data-toggle="tab" href="#opmerkingen">Opmerkingen</a></li>#}
-{#        <li><a data-toggle="tab" href="#schorsingen">Schorsingen</a></li>#}
-{#        <li><a data-toggle="tab" href="#incidenten">Incidenten</a></li>#}
+        <li><a data-toggle="tab" href="#verslagen">Verslagen</a></li>
     </ul>
     <div class="tab-content">
         <div id="intake" class="tab-pane active">
@@ -69,88 +66,10 @@
                 {% endif %}
             {% endif %}
         </div>
-{#        <div id="verslagen" class="tab-pane">#}
-{#            <h2>Verslagen</h2>#}
-{#            <p>#}
-{#                {{ html.link('Verslag toevoegen', path('oekraine_verslagen_add', {klant: entity.id, type: 2}), 'add') }}#}
-{#            </p>#}
-
-{#            {% if is_granted("ROLE_MW") %}#}
-{#                    {%  set roleMw = true %}#}
-{#            {% else %}#}
-{#                    {%  set roleMw = false %}#}
-{#            {% endif %}#}
-
-
-{#            {% for verslag in entity.verslagen|filter(verslag => (verslag.type == 1 and roleMw == true) or (verslag.type == 1 and verslag.access == 2) or verslag.type == 2) %}#}
-
-{#                 <h3>Verslag van {{ verslag.datum|date('d-m-Y') }}</h3>#}
-{#                {% if (verslag.type == 1 and roleMw == true) or verslag.type == 2%}#}
-{#                 <p>#}
-{#                     {{ html.link('Verslag bewerken', path('oekraine_verslagen_edit', {id: verslag.id}), 'edit') }}#}
-{#                 </p>#}
-{#                {% endif %}#}
-
-{#                {% if verslag.type == 2 %}#}
-{#                    {% set class = "bg-info" %}#}
-{#                {% else %}#}
-{#                    {% set class = "" %}#}
-{#                {% endif %}#}
-{#                <div class="row {{class}}">#}
-{#                     <div class="col-xs-6">#}
-{#                         <dl class="dl-horizontal">#}
-{#                             <dt>Locatie</dt>#}
-{#                             <dd>{{ verslag.locatie }}</dd>#}
-{#                             <dt>Medewerker</dt>#}
-{#                             <dd>{{ verslag.medewerker }}</dd>#}
-{#                         </dl>#}
-{#                     </div>#}
-{#                     <div class="col-xs-6">#}
-{#                         <dl class="dl-horizontal">#}
-{#                             <dt>Contactsoort</dt>#}
-{#                             <dd>{{ verslag.contactsoort }}</dd>#}
-{#                             {% if verslag.duur %}#}
-{#                                 <dt>Duur</dt>#}
-{#                                 <dd>{{ verslag.duur }} minuten</dd>#}
-{#                             {% endif %}#}
-{#                             <dt>Type</dt>#}
-{#                             <dd>{{ verslag.typeAsString }}</dd>#}
-{#                         </dl>#}
-{#                     </div>#}
-{#                 </div>#}
-{#                 <p class="well">{{ verslag.opmerking|raw|nl2br }}</p>#}
-
-{#            {% endfor %}#}
-{#        </div>#}
+        <div id="verslagen" class="tab-pane">
+                {% include 'OekraineBundle:bezoekers:_verslagen.html.twig' with {entity: entity }%}
+        </div>
 {#        #}
-{#        <div id="opmerkingen" class="tab-pane">#}
-{#            <h2>Opmerkingen</h2>#}
-{#            <p>#}
-{#                {{ html.link('Opmerking toevoegen', path('oekraine_opmerkingen_add', {klant: entity.id}), 'add') }}#}
-{#            </p>#}
-{#            {% if 0 == entity.opmerkingen|length %}#}
-{#                <p>Geen opmerkingen.</p>#}
-{#            {% else %}#}
-{#                {% for opmerking in entity.opmerkingen %}#}
-{#                    <div data-id="{{ opmerking.id }}">#}
-{#                        <h2>{{ opmerking.created|date('d-m-Y') }}</h2>#}
-{#                        <p class="pull-right">#}
-{#                            <input class="gezien" id="gezien-{{ opmerking.id }}" type="checkbox" {{ opmerking.gezien ? 'checked' }}/>#}
-{#                            <label for="gezien-{{ opmerking.id }}">Opgelost</label>#}
-{#                            <a class="delete" title="Verwijderen">#}
-{#                                <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>#}
-{#                                Verwijderen#}
-{#                            </a>#}
-{#                        </p>#}
-{#                        <p>Categorie: {{ opmerking.categorie }}</p>#}
-{#                        {% if opmerking.medewerker.id != "0"%}#}
-{#                            <p>Door: {{ opmerking.medewerker.naam }}</p>#}
-{#                        {% endif %}#}
-{#                        <div class="well">{{ opmerking.beschrijving }}</div>#}
-{#                    </div>#}
-{#                {% endfor %}#}
-{#            {% endif %}#}
-{#        </div>#}
 {#        <div id="schorsingen" class="tab-pane">#}
 {#            {% include 'OekraineBundle:klanten:_schorsingen.html.twig' with {klant: entity} %}#}
 {#        </div>#}
@@ -158,59 +77,4 @@
 {#            {% include 'OekraineBundle:incidenten:_list.html.twig' with {klant: entity} %}#}
 {#        </div>#}
     </div>
-{% endblock %}
-
-{% block scripts %}
-    <script>
-        $(function() {
-
-            function opmerking_seen(opmerking_id) {
-                $.post({
-                    url: `/inloop/opmerkingen/${opmerking_id}/updateGezien`,
-                }).done(function(data) {
-                    $(this).prop('checked', data.gezien);
-                }).fail(function() {
-                    alert('Er is een fout opgetreden.')
-                });
-            };
-
-            $('#opmerkingen .gezien').on('click', function() {
-                var id = $(this).closest('div').attr('data-id');
-                opmerking_seen(id);
-            });
-
-            function opmerking_remove(opmerking_id) {
-                var confirmed = confirm('Weet u zeker dat u deze opmerking wilt verwijderen?');
-                if (confirmed) {
-                    $.post({
-                        url: `/inloop/opmerkingen/${opmerking_id}/delete`,
-                    }).done(function(data) {
-                        location.reload();
-                    }).fail(function() {
-                        alert('Er is een fout opgetreden.')
-                    });
-                }
-            };
-
-            $('.delete').on('click', function() {
-                var id = $(this).closest('div').attr('data-id');
-                opmerking_remove(id);
-            });
-
-            function schorsing_terugkeergesprekGehad(schorsing_id) {
-                $.post({
-                    url: `/inloop/schorsingen/${schorsing_id}/terugkeergesprekGehad`,
-                }).done(function(data) {
-                    $(this).prop('checked', data.terugkeergesprekGehad);
-                }).fail(function() {
-                    alert('Er is een fout opgetreden.')
-                });
-            };
-
-            $('#schorsingen .terugkeergesprekGehad').on('click', function() {
-                var id = $(this).closest('tr').attr('data-id');
-                schorsing_terugkeergesprekGehad(id);
-            });
-        });
-    </script>
 {% endblock %}
