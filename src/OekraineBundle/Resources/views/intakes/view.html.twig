@@ -13,9 +13,9 @@
     <h1>{{ entity_name|capitalize }}</h1>
     <p>
         {{ html.link('Printen', path(route_base~'view', {id: entity.id, _format: 'pdf'}), 'print') }}
-        {% if is_granted('edit', entity) %}
+{#        {% if is_granted('edit', entity) %}#}
             {{ html.link('Wijzigen', path(route_base~'edit', {id: entity.id}), 'edit') }}
-        {% endif %}
+{#        {% endif %}#}
     </p>
 {% endblock %}
 
