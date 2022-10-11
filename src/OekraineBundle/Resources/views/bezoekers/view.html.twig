@@ -52,9 +52,9 @@
             {% if entity.laatsteIntake %}
                 <p>
                     {{ html.link('Printen', path('oekraine_intakes_view', {id: entity.laatsteIntake.id, _format: 'pdf'}), 'print') }}
-                    {% if is_granted('edit', entity.laatsteIntake) and is_granted('owner', entity.laatsteIntake) %}
+{#                    {% if is_granted('edit', entity.laatsteIntake) and is_granted('owner', entity.laatsteIntake) %}#}
                         {{ html.link('Wijzigen', path('oekraine_intakes_edit', {id: entity.laatsteIntake.id}), 'edit') }}
-                    {% endif %}
+{#                    {% endif %}#}
                     {% if entity.huidigeStatus.aangemeld %}
                         {{ html.link('Intake toevoegen', path('oekraine_intakes_add', {bezoeker: entity.id}), 'add') }}
                     {% endif %}
