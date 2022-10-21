@@ -45,6 +45,7 @@
         <thead>
             <tr>
                 <th>Project</th>
+                <th>Hulpvraagsoort</th>
                 <th>Vrijwilliger</th>
                 <th>Startdatum koppeling</th>
                 <th>Einddatum koppeling</th>
@@ -56,6 +57,7 @@
             {% for hulpvraag in klant.actieveKoppelingen %}
                 <tr data-href="{{ path('iz_koppelingen_view', {id: hulpvraag.id}) }}">
                     <td>{{ hulpvraag.project }}</td>
+                    <td>{{ hulpvraag.hulpvraagsoort }}</td>
                     <td>
                         {{ html.link(
                             hulpvraag.hulpaanbod|naam_vrijwilliger,
