@@ -10,7 +10,7 @@ trait ActivatableTrait
 {
     /**
      * @var bool
-     * @ORM\Column(name="active", type="boolean", nullable=false, options={"default":1})
+     * @ORM\Column(name="`active`", type="boolean", nullable=false, options={"default":1})
      * @Gedmo\Versioned
      */
     protected $actief = true;

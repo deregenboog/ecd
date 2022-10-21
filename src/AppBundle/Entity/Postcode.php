@@ -38,7 +38,7 @@ class Postcode
     private $postcodegebied;
 
     /**
-     * @ORM\Column(type="boolean", nullable=false, options={"default" : 1})
+     * @ORM\Column(name="`system`", type="boolean", nullable=false, options={"default" : 1})
      * @Gedmo\Versioned
      */
     private $system = true;
