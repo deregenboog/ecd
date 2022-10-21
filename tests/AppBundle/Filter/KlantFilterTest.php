@@ -2,6 +2,7 @@
 
 namespace Tests\AppBundle\Filter;
 
+use AppBundle\Entity\Werkgebied;
 use AppBundle\Filter\KlantFilter;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Query\Expr;
@@ -91,7 +92,9 @@ class KlantFilterTest extends TestCase
         $builder = $this->createQueryBuilder();
 
         $filter = $this->createSUT();
-        $filter->stadsdeel = 'Centrum';
+        $wg = new Werkgebied('Centrum',1);
+
+        $filter->stadsdeel = $wg;//'Centrum';
         $filter->applyTo($builder);
 
         $this->assertEquals(
