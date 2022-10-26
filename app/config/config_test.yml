@@ -19,7 +19,7 @@ doctrine:
     dbal:
         driver: pdo_sqlite
         path: '%kernel.cache_dir%/test.db'
-#        memory: true
+        memory: true
     orm:
         dql:
             datetime_functions:
@@ -28,15 +28,12 @@ doctrine:
             string_functions:
                 concat_ws: DoctrineExtensions\Query\Sqlite\ConcatWs
 
-swiftmailer:
-    disable_delivery: true
 
 liip_functional_test: ~
 
-liip_test_fixtures:
-    cache_db:
-        sqlite: liip_functional_test.services_database_backup.sqlite
-
+#liip_test_fixtures:
+#    cache_db:
+#        sqlite: liip_functional_test.services_database_backup.sqlite
 #    cache_sqlite_db: true
 #    query:
 #        max_query_count: 10
