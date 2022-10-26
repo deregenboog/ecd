@@ -2,7 +2,7 @@ UhkBundle\Entity\Deelnemer:
     uhk_deelnemer_{1..50}:
         klant: '<uniqueElements(@klant_{1..300})>'
         aanmeldDatum: '<dateTimeThisDecade()>'
-        aanmeldnaam: '<firstname()>'
+#        aanmeldnaam: '<firstname()>'
         contactpersoonNazorg: '<firstname()> <lastname()>'
 
 UhkBundle\Entity\Verslag:

@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
  */
 final class Version20201123103104 extends AbstractMigration
 {
-    public function up(Schema $schema) : void
+      public function up(Schema $schema): void
     {
         // this up() migration is auto-generated, please modify it to your needs
         $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
@@ -81,7 +81,7 @@ WHERE hp.odp_huurder_id IS NULL AND h.model = 'Klant'");
         SET d.project_id = ha.project_id WHERE d.model = 'Verhuurder'");
     }
 
-    public function down(Schema $schema) : void
+     public function down(Schema $schema): void
     {
         // this down() migration is auto-generated, please modify it to your needs
         $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');

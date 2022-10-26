@@ -10,13 +10,13 @@ use Doctrine\Migrations\AbstractMigration;
  */
 final class Version20191104105518 extends AbstractMigration
 {
-    public function up(Schema $schema) : void
+      public function up(Schema $schema): void
     {
         $this->addSql('ALTER TABLE vrijwilligers ADD geinformeerd_opslaan_gegevens TINYINT(1) NOT NULL');
 
     }
 
-    public function down(Schema $schema) : void
+     public function down(Schema $schema): void
     {
         $this->addSql('ALTER TABLE vrijwilligers DROP geinformeerd_opslaan_gegevens ');
 

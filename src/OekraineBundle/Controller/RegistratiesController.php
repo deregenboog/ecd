@@ -115,7 +115,7 @@ class RegistratiesController extends AbstractController
         $form = $this->getForm(BezoekerFilterType::class, $filter, [
             'attr' => ['class' => 'ajaxFilter'],
             'enabled_filters' => [
-                'klant' => ['id', 'voornaam', 'achternaam', 'geboortedatum', 'geslacht'],
+                'appKlant' => ['id', 'voornaam', 'achternaam', 'geboortedatum', 'geslacht'],
                 'woonlocatie',
                 'filter',
             ],
@@ -168,7 +168,7 @@ class RegistratiesController extends AbstractController
             return $registratie->getBezoeker()->getAppKlant()->getId();
         }, $pagination->getItems());
         $event = new GenericEvent($klantIds, ['geen_activering_klant_ids' => []]);
-        $this->get('event_dispatcher')->dispatch(Events::GEEN_ACTIVERING, $event);
+        $this->eventDispatcher->dispatch(Events::GEEN_ACTIVERING, $event);
 
         return $this->render('OekraineBundle:registraties:_active.html.twig', [
             'locatie' => $locatie,
@@ -205,7 +205,7 @@ class RegistratiesController extends AbstractController
             return $registratie->getBezoeker()->getId();
         }, $pagination->getItems());
         $event = new GenericEvent($klantIds, ['geen_activering_klant_ids' => []]);
-        $this->get('event_dispatcher')->dispatch(Events::GEEN_ACTIVERING, $event);
+        $this->eventDispatcher->dispatch(Events::GEEN_ACTIVERING, $event);
 
         return $this->render('OekraineBundle:registraties:_history.html.twig', [
             'locatie' => $locatie,

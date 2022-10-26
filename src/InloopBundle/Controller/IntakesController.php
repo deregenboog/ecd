@@ -41,12 +41,19 @@ class IntakesController extends AbstractController
     protected $dao;
 
     /**
+     * @var array|mixed $tbc_countries
+     * Array of countries (value=name) which klnanten needs to be tested against TBC and trhow a warning.
+     */
+    protected $tbc_countries = array();
+
+    /**
      * @param IntakeDao $dao
      */
-    public function __construct(IntakeDao $dao, ContainerInterface $container)
+    public function __construct(IntakeDao $dao, ContainerInterface $container, $tbc_countries=[])
     {
         $this->container = $container;
         $this->dao = $dao;
+        $this->tbc_countries = $tbc_countries;
 
     }
 
@@ -93,13 +100,13 @@ class IntakesController extends AbstractController
                 $this->dao->create($entity);
                 $this->addFlash('success', ucfirst($this->entityName).' is opgeslagen.');
             } catch(UserException $e) {
-//                $this->get('logger')->error($e->getMessage(), ['exception' => $e]);
+//                $this->logger->error($e->getMessage(), ['exception' => $e]);
                 $message =  $e->getMessage();
                 $this->addFlash('danger', $message);
 //                return $this->redirectToRoute('app_klanten_index');
             } catch (\Exception $e) {
-                $this->get('logger')->error($e->getMessage(), ['exception' => $e]);
-                $message = $this->container->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
+                $this->logger->error($e->getMessage(), ['exception' => $e]);
+                $message = $this->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
                 $this->addFlash('danger', $message);
             }
 
@@ -109,7 +116,7 @@ class IntakesController extends AbstractController
         return [
             'entity' => $entity,
             'form' => $form->createView(),
-            'tbc_countries'=>$this->container->getParameter('tbc_countries'),
+            'tbc_countries'=>$this->tbc_countries,
         ];
     }
 
@@ -118,6 +125,7 @@ class IntakesController extends AbstractController
      */
     public function editAction(Request $request, $id)
     {
+
          $entity = $this->dao->find($id);
 
         if($entity === null)
@@ -190,7 +198,7 @@ class IntakesController extends AbstractController
     protected function addParams($entity, Request $request)
     {
         return [
-            //'tbc_countries' => $this->container->getParameter('tbc_countries'),
+            'tbc_countries' => $this->tbc_countries,
 
         ];
     }

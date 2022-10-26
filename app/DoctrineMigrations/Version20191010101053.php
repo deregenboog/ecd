@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
  */
 final class Version20191010101053 extends AbstractMigration
 {
-    public function up(Schema $schema) : void
+      public function up(Schema $schema): void
     {
         // this up() migration is auto-generated, please modify it to your needs
         $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
@@ -20,7 +20,7 @@ final class Version20191010101053 extends AbstractMigration
         $this->addSql('ALTER TABLE odp_deelnemers ADD CONSTRAINT FK_20283999C8F722F4 FOREIGN KEY (huurBudget_id) REFERENCES odp_huurbudget (id)');
     }
 
-    public function down(Schema $schema) : void
+     public function down(Schema $schema): void
     {
         // this down() migration is auto-generated, please modify it to your needs
         $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');

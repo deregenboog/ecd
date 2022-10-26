@@ -11,13 +11,15 @@ use AppBundle\Form\ConfirmationType;
 use AppBundle\Model\MedewerkerSubjectInterface;
 use AppBundle\Service\AbstractDao;
 use Doctrine\ORM\EntityNotFoundException;
-use Symfony\Component\EventDispatcher\EventDispatcher;
+use Psr\Log\LoggerInterface;
+use Symfony\Bridge\Monolog\Logger;
+use Symfony\Contracts\EventDispatcher\EventDispatcher;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
-use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 abstract class AbstractController extends SymfonyController
 {
@@ -99,12 +101,29 @@ abstract class AbstractController extends SymfonyController
     protected $eventDispatcher;
 
     /**
+     * @var LoggerInterface
+     */
+    protected $logger;
+
+
+    /**
      * @param EventDispatcherInterface $eventDispatcher
      * @required
      */
     public function setEventDispatcher(EventDispatcherInterface $eventDispatcher)
     {
         $this->eventDispatcher = $eventDispatcher;
+    }
+
+    /**
+     * @param LoggerInterface $logger
+     * @required
+     * @return void
+     */
+    public function setLogger(LoggerInterface $logger)
+    {
+
+        $this->logger = $logger;
     }
 
     public function setDao(AbstractDao $dao)
@@ -200,14 +219,14 @@ abstract class AbstractController extends SymfonyController
         }
         catch(EntityNotFoundException $entityNotFoundException)
         {
-            $message = $this->container->getParameter('kernel.debug') ? $entityNotFoundException->getMessage() : 'Kan '.$this->entityClass.' niet inladen. Waarschijnlijk omdat deze verwijderd of inactief is.';
+            $message = $this->getParameter('kernel.debug') ? $entityNotFoundException->getMessage() : 'Kan '.$this->entityClass.' niet inladen. Waarschijnlijk omdat deze verwijderd of inactief is.';
 
         } catch (UserException $e)
         {
             $message = $e->getMessage();
         }
         catch(\Exception $exception){
-            $message = $this->container->getParameter('kernel.debug') ? $exception->getMessage() : 'Kan '.$this->entityClass.' niet inladen. Onbekende fout.';
+            $message = $this->getParameter('kernel.debug') ? $exception->getMessage() : 'Kan '.$this->entityClass.' niet inladen. Onbekende fout.';
 
         }
         if($message){
@@ -292,7 +311,7 @@ abstract class AbstractController extends SymfonyController
                 $message =  $e->getMessage();
                 $this->addFlash('danger', $message);
             } catch (\Exception $e) {
-                $message = $this->container->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
+                $message = $this->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
                 $this->addFlash('danger', $message);
             }
 
@@ -383,12 +402,12 @@ abstract class AbstractController extends SymfonyController
                 $this->addFlash('success', ucfirst($this->entityName).' is opgeslagen.');
 
             } catch(UserException $e) {
-//                $this->get('logger')->error($e->getMessage(), ['exception' => $e]);
+//                $this->logger->error($e->getMessage(), ['exception' => $e]);
                 $message =  $e->getMessage();
                 $this->addFlash('danger', $message);
             } catch (\Exception $e) {
-                $this->get('logger')->error($e->getMessage(), ['exception' => $e]);
-                $message = $this->container->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
+                $this->logger->error($e->getMessage(), ['exception' => $e]);
+                $message = $this->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
                 $this->addFlash('danger', $message);
             }
 

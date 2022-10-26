@@ -153,8 +153,8 @@ class DoelstellingenController extends AbstractController
                 $this->addFlash('danger',$message);
             }
             catch (\Exception $e) {
-                $this->get('logger')->error($e->getMessage(), ['exception' => $e]);
-                $message = $this->container->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
+                $this->logger->error($e->getMessage(), ['exception' => $e]);
+                $message = $this->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
                 $this->addFlash('danger', $message);
             }
 

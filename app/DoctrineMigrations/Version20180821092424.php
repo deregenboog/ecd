@@ -13,7 +13,7 @@ class Version20180821092424 extends AbstractMigration
     /**
      * @param Schema $schema
      */
-    public function up(Schema $schema)
+      public function up(Schema $schema): void
     {
         $this->addSql('ALTER TABLE schorsingen CHANGE locatie_id locatie_id INT DEFAULT NULL');
         $this->addSql('UPDATE schorsingen SET locatie_id = NULL WHERE locatie_id = 0');
@@ -38,7 +38,7 @@ class Version20180821092424 extends AbstractMigration
     /**
      * @param Schema $schema
      */
-    public function down(Schema $schema)
+     public function down(Schema $schema): void
     {
         $this->throwIrreversibleMigrationException();
     }

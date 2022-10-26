@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
  */
 final class Version20190207093336 extends AbstractMigration
 {
-    public function up(Schema $schema) : void
+      public function up(Schema $schema): void
     {
         // this up() migration is auto-generated, please modify it to your needs
         $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
@@ -20,7 +20,7 @@ final class Version20190207093336 extends AbstractMigration
         $this->addSql('CREATE INDEX IDX_C8EF119C3D707F64 ON zrm_reports (medewerker_id)');
     }
 
-    public function down(Schema $schema) : void
+     public function down(Schema $schema): void
     {
         $this->throwIrreversibleMigrationException();
     }

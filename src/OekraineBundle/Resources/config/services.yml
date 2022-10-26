@@ -43,6 +43,10 @@ services:
             $export: '@oekraine.export.registraties'
         tags: [ 'controller.service_arguments' ]
 
+    OekraineBundle\Controller\VerslagenController:
+        arguments:
+            $entities: '@oekraine.verslag.entities'
+        tags: [ 'controller.service_arguments' ]
 
 
 

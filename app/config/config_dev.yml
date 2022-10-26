@@ -38,8 +38,6 @@ monolog:
         #    type:   chromephp
         #    level:  info
 
-swiftmailer:
-    disable_delivery: true
 
 hautelook_alice:
 #    db_drivers:

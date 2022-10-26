@@ -5,8 +5,11 @@ use Symfony\Component\Dotenv\Dotenv;
 use Symfony\Component\Dotenv\Exception\PathException;
 use Symfony\Component\HttpKernel\Kernel;
 
+
 class AppKernel extends Kernel
 {
+    use \Symfony\Bundle\FrameworkBundle\Kernel\MicroKernelTrait;
+
     public function registerBundles()
     {
         $env = $this->getEnvironment();
@@ -14,7 +17,8 @@ class AppKernel extends Kernel
             new Symfony\Bundle\FrameworkBundle\FrameworkBundle(),
             new Symfony\Bundle\TwigBundle\TwigBundle(),
             new Symfony\Bundle\MonologBundle\MonologBundle(),
-            new Symfony\Bundle\SwiftmailerBundle\SwiftmailerBundle(),
+//            new Symfony\Bundle\SwiftmailerBundle\SwiftmailerBundle(),
+
             new Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle(),
             new Doctrine\Bundle\DoctrineBundle\DoctrineBundle(),
             new Doctrine\Bundle\MigrationsBundle\DoctrineMigrationsBundle(),
@@ -75,28 +79,29 @@ class AppKernel extends Kernel
 
     public function getCacheDir()
     {
-        return $this->getRootDir().'/../var/cache/'.$this->getEnvironment();
+        return $this->getProjectDir().'/var/cache/'.$this->getEnvironment();
     }
 
     public function getLogDir()
     {
-        return $this->getRootDir().'/../var/logs/'.$this->getEnvironment();
+        return $this->getProjectDir().'/var/logs/'.$this->getEnvironment();
     }
+
 
     public function registerContainerConfiguration(LoaderInterface $loader)
     {
-        $loader->load($this->getRootDir().'/config/config_'.$this->getEnvironment().'.yml');
+        $loader->load($this->getProjectDir().'/app/config/config_'.$this->getEnvironment().'.yml');
 
         if ('test' !== $this->getEnvironment()) {
             $dotenv = new Dotenv();
             try {
-                $dotenv->load($this->getRootDir().'/config/.env');
+                $dotenv->load($this->getProjectDir().'/app/config/.env');
             } catch (PathException $e) {
-                $dotenv->load($this->getRootDir().'/config/.env.dist');
+                $dotenv->load($this->getProjectDir().'/app/config/.env.dist');
             }
 
             $profile = getenv('PROFILE');
-            $loader->load($this->getRootDir().'/config/roles_'.$profile.'.yml');
+            $loader->load($this->getProjectDir().'/app/config/roles_'.$profile.'.yml');
         }
     }
 
@@ -107,4 +112,13 @@ class AppKernel extends Kernel
 //        ;
 //        parent::build($containerBuilder);
 //    }
+    protected function configureRoutes(\Symfony\Component\Routing\RouteCollectionBuilder $routes)
+    {
+        // TODO: Implement configureRoutes() method.
+    }
+
+    protected function configureContainer(\Symfony\Component\DependencyInjection\ContainerBuilder $container, LoaderInterface $loader)
+    {
+        $this->registerContainerConfiguration($loader);
+    }
 }

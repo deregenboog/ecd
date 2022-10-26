@@ -30,7 +30,7 @@ class Aanmelding extends MwDossierStatus
     /**
      * @var BinnenViaOptieKlant
      *
-     * @ORM\ManyToOne(targetEntity="MwBundle\Entity\BinnenViaOptieKlant", inversedBy="Aanmelding", )
+     * @ORM\ManyToOne(targetEntity="MwBundle\Entity\BinnenViaOptieKlant", inversedBy="aanmeldingen", )
      * @ORM\JoinColumn(nullable=false)
      * @Gedmo\Versioned
      */

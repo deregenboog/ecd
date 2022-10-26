@@ -42,8 +42,11 @@ security:
             - ROLE_INLOOP_SCHORSINGEN
             - ROLE_INLOOP_OPMERKINGEN
         ROLE_OEKRAINE: [ ]
-        ROLE_OEKRAINE_BEHEER:
+        ROLE_OEKRAINE_LOCATIEHOOFD:
             - ROLE_OEKRAINE
+        ROLE_OEKRAINE_BEHEER:
+            - ROLE OEKRAINE
+            - ROLE_OEKRAINE_LOCATIEHOOFD
         ROLE_MW:
             - CONTROLLER_APP_KLANTEN
             - CONTROLLER_APP_RAPPORTAGES
@@ -268,3 +271,6 @@ ldap_tools:
             ROLE_SPORT: "CN=ECD Sport,CN=Users,DC=cluster,DC=deregenboog"
             ROLE_VILLA: "CN=ECD Villa,CN=Users,DC=cluster,DC=deregenboog"
             ROLE_HRM: "CN=ECD P&O,CN=Users,DC=cluster,DC=deregenboog"
+            ROLE_OEKRAINE: "CN=ECD Oekraine,CN=Users,DC=cluster,DC=deregenboog"
+            ROLE_OEKRAINE_LOCATIEHOOFD: "CN=ECD Oekraine Locatiehoofd,CN=Users,DC=cluster,DC=deregenboog"
+            ROLE_OEKRAINE_BEHEER: "CN=ECD Oekraine Beheer,CN=Users,DC=cluster,DC=deregenboog"

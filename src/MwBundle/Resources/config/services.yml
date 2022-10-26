@@ -13,6 +13,11 @@ services:
         resource: '../../Controller'
         tags: [ 'controller.service_arguments' ]
 
+    MwBundle\Controller\IntakesController:
+        arguments:
+            $tbc_countries: '%tbc_countries%'
+        tags: [ 'controller.service_arguments' ]
+
     MwBundle\Controller\DeelnamesController:
         arguments:
             $entities: '@mw.deelname.entities'

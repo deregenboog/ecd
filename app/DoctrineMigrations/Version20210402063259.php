@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
  */
 final class Version20210402063259 extends AbstractMigration
 {
-    public function up(Schema $schema) : void
+      public function up(Schema $schema): void
     {
         // this up() migration is auto-generated, please modify it to your needs
         $this->addSql("ALTER TABLE `klanten` DROP FOREIGN KEY `FK_F538C5BC815E1ED`; ALTER TABLE `klanten` ADD CONSTRAINT `FK_F538C5BC815E1ED` FOREIGN KEY (`laatste_registratie_id`) REFERENCES `registraties`(`id`) ON DELETE SET NULL ON UPDATE CASCADE;");
@@ -18,7 +18,7 @@ final class Version20210402063259 extends AbstractMigration
 
     }
 
-    public function down(Schema $schema) : void
+     public function down(Schema $schema): void
     {
         // this down() migration is auto-generated, please modify it to your needs
 

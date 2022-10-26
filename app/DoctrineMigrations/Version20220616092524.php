@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
  */
 final class Version20220616092524 extends AbstractMigration
 {
-    public function up(Schema $schema) : void
+      public function up(Schema $schema): void
     {
         $this->addSql("INSERT INTO `oekraine_locaties` (`naam`,`datum_van`) VALUES 
 ('Savoy',NOW()), 
@@ -29,7 +29,7 @@ final class Version20220616092524 extends AbstractMigration
 
     }
 
-    public function down(Schema $schema) : void
+     public function down(Schema $schema): void
     {
         // this down() migration is auto-generated, please modify it to your needs
 

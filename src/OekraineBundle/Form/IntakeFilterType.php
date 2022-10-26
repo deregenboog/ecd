@@ -23,8 +23,8 @@ class IntakeFilterType extends AbstractType
             ]);
         }
 
-        if (in_array('locatie', $options['enabled_filters'])) {
-            $builder->add('locatie', LocatieSelectType::class, [
+        if (in_array('intakelocatie', $options['enabled_filters'])) {
+            $builder->add('intakelocatie', LocatieSelectType::class, [
                 'required' => false,
             ]);
         }
@@ -53,7 +53,7 @@ class IntakeFilterType extends AbstractType
             'data_class' => IntakeFilter::class,
             'enabled_filters' => [
                 'klant' => ['voornaam', 'achternaam', 'geslacht'],
-                'locatie',
+                'intakelocatie',
                 'datum',
                 'filter',
             ],

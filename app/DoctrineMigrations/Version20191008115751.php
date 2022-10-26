@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
  */
 final class Version20191008115751 extends AbstractMigration
 {
-    public function up(Schema $schema) : void
+      public function up(Schema $schema): void
     {
         // this up() migration is auto-generated, please modify it to your needs
         $this->addSql('ALTER TABLE `werkgebieden` ADD `zichtbaar` BOOLEAN NOT NULL DEFAULT TRUE AFTER `naam`');
@@ -43,7 +43,7 @@ final class Version20191008115751 extends AbstractMigration
 
     }
 
-    public function down(Schema $schema) : void
+     public function down(Schema $schema): void
     {
         // this down() migration is auto-generated, please modify it to your needs
         $this->addSql('ALTER TABLE `werkgebieden` DROP `zichtbaar`');

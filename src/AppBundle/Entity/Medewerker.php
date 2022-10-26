@@ -42,12 +42,12 @@ class Medewerker implements LdapUserInterface, UserInterface
     private $email;
 
     /**
-     * @ORM\Column(name="active", type="boolean")
+     * @ORM\Column(name="`active`", type="boolean")
      */
     private $actief = true;
 
     /**
-     * @ORM\Column(name="groups", type="json", nullable=true)
+     * @ORM\Column(name="`groups`", type="json", nullable=true)
      * !! This column is not used / set by LDAP. What is it?!
      */
     private $groepen = [];

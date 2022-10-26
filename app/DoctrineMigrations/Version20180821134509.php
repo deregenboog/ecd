@@ -13,7 +13,7 @@ class Version20180821134509 extends AbstractMigration
     /**
      * @param Schema $schema
      */
-    public function up(Schema $schema)
+      public function up(Schema $schema): void
     {
         $this->addSql('DROP INDEX unique_naam_idx ON iz_hulpvraagsoorten');
         $this->addSql('DROP INDEX unique_naam_idx ON iz_doelgroepen');
@@ -22,7 +22,7 @@ class Version20180821134509 extends AbstractMigration
     /**
      * @param Schema $schema
      */
-    public function down(Schema $schema)
+     public function down(Schema $schema): void
     {
         $this->throwIrreversibleMigrationException();
     }

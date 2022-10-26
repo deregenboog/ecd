@@ -11,6 +11,9 @@ use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
+use Symfony\Component\Mailer\Mailer;
+use Symfony\Component\Mime\Header\Headers;
+use Symfony\Component\Mime\Message;
 
 class IntakeSubscriber implements EventSubscriberInterface
 {
@@ -30,7 +33,7 @@ class IntakeSubscriber implements EventSubscriberInterface
         KlantDaoInterface $klantDao,
         LoggerInterface $logger,
         EngineInterface $templating,
-        \Swift_Mailer $mailer,
+        Mailer $mailer,
         AccessUpdater $accessUpdater,
         $informeleZorgEmail,
         $dagbestedingEmail,
@@ -56,6 +59,7 @@ class IntakeSubscriber implements EventSubscriberInterface
 
     public function afterIntakeCreated(GenericEvent $event)
     {
+
         $intake = $event->getSubject();
         if (!$intake instanceof Intake) {
             return;
@@ -63,7 +67,7 @@ class IntakeSubscriber implements EventSubscriberInterface
 
         $this->checkInloopdossier($intake);
         $this->updateAccess($intake);
-        $this->sendIntakeNotification($intake);
+//        $this->sendIntakeNotification($intake);
     }
 
     public function afterIntakeUpdated(GenericEvent $event)
@@ -118,16 +122,18 @@ class IntakeSubscriber implements EventSubscriberInterface
             'intake' => $intake,
         ]);
 
-        /** @var \Swift_Mime_Message $message */
-        $message = $this->mailer->createMessage()
-            ->setFrom('noreply@deregenboog.org')
-            ->setTo($addresses)
-            ->setSubject('Verzoek')
-            ->setBody($content, 'text/plain')
-        ;
+        /** @var Message $message */
+        $message = new Message();
+        $headers = new Headers();
+
+//        $message->
+//            ->setTo($addresses)
+//            ->setSubject('Verzoek')
+//            ->setBody($content, 'text/plain')
+//        ;
 
         try {
-            $sent = $this->mailer->send($message);
+//            $sent = $this->mailer->send($message);
         } catch (\Exception $e) {
             $sent = false;
         }

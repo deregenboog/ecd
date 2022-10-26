@@ -1,6 +1,6 @@
 <?php
 
-use Symfony\Component\Debug\Debug;
+use Symfony\Component\ErrorHandler\Debug;
 use Symfony\Component\ErrorHandler\DebugClassLoader;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -41,10 +41,14 @@ if (isset($_SERVER['HTTP_CLIENT_IP'])
 }
 
 require __DIR__.'/../../vendor/autoload.php';
-DebugClassLoader::enable();
+
+//DebugClassLoader::enable();
+Debug::enable();
 //
 $kernel = new AppKernel('dev', true);
+
 $request = Request::createFromGlobals();
 $response = $kernel->handle($request);
+
 $response->send();
 $kernel->terminate($request, $response);

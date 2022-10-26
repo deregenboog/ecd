@@ -4,7 +4,10 @@
     "minimum-stability": "stable",
     "config" : {
         "platform" : {
-            "php" : "7.4.25"
+            "php" : "7.4.32"
+        },
+        "allow-plugins": {
+            "symfony/flex": true
         }
     },
     "autoload" : {
@@ -29,15 +32,13 @@
         }
     ],
     "require" : {
-        "symfony/symfony" : "^4.0",
-        "swiftmailer/swiftmailer": "^6.3",
-        "symfony/swiftmailer-bundle": "^3.5",
+        "symfony/symfony" : "4.4.40",
+        "symfony/mailer": "^4.4",
         "symfony/monolog-bundle" : "^3",
         "sensio/framework-extra-bundle" : "^5.2",
-        "incenteev/composer-parameter-handler" : "^2.0",
         "doctrine/orm" : "^2",
         "doctrine/doctrine-bundle" : "^2",
-        "doctrine/doctrine-migrations-bundle" : "*" ,
+        "doctrine/doctrine-migrations-bundle" : "2.*" ,
         "luxifer/doctrine-functions" : "^1.4",
         "knplabs/knp-paginator-bundle" : "^2.5",
         "vich/uploader-bundle" : "^1",
@@ -50,24 +51,25 @@
         "symfony/translation" : "^4.0",
         "friendsofsymfony/ckeditor-bundle" : "^2.2.0",
         "tecnickcom/tcpdf" : "^6.2",
-        "symfony/security-bundle": "^4.0",
-        "symfony/dotenv": "^4.0",
+        "symfony/security-bundle": "^4",
+        "symfony/dotenv": "^4",
         "twig/twig": "^2",
         "zf1/zend-pdf": "^1.12",
         "pear/numbers_words": "^0.18.2",
         "symfony/asset": "^4",
         "symfony/webpack-encore-bundle": "^1.8",
         "symfony/dependency-injection": "^4.4",
-        "jtborger/ldaptools-bundle": "@dev"
+        "jtborger/ldaptools-bundle": "@dev",
+        "symfony/flex": "^1.19"
     },
     "require-dev" : {
+        "symfony/phpunit-bridge" : "^4.4",
         "friendsofphp/php-cs-fixer" : "^3",
         "doctrine/doctrine-fixtures-bundle" : "^3",
         "doctrine/data-fixtures" : "^1.5",
         "hautelook/alice-bundle": "^2.9.0",
         "phpunit/phpunit" : "^7",
         "liip/functional-test-bundle" : "^4",
-        "symfony/phpunit-bridge" : "^5",
         "sebastian/phpcpd" : "^4",
         "nelmio/alice": "^3",
         "theofidry/alice-data-fixtures": "^1.5.2",
@@ -77,19 +79,17 @@
     },
     "scripts" : {
         "symfony-scripts": [
-            "Incenteev\\ParameterHandler\\ScriptHandler::buildParameters",
-            "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::buildBootstrap",
-            "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::clearCache",
-            "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::installAssets",
-            "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::installRequirementsFile",
-            "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::prepareDeploymentTarget"
+
         ],
         "post-install-cmd": [
-            "@symfony-scripts"
+
         ],
         "post-update-cmd": [
-            "@symfony-scripts"
-        ]
+
+        ],
+        "auto-scripts": {
+            "ckeditor:install": "symfony-cmd"
+        }
     },
     "extra" : {
         "symfony-app-dir": "app",
