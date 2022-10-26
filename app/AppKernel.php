@@ -32,7 +32,7 @@ class AppKernel extends Kernel
             new Symfony\WebpackEncoreBundle\WebpackEncoreBundle(),
             new Symfony\Bundle\SecurityBundle\SecurityBundle(),
 
-            new LegacyBundle\LegacyBundle(),
+//            new LegacyBundle\LegacyBundle(),
             new AppBundle\AppBundle(),
             new BuurtboerderijBundle\BuurtboerderijBundle(),
             new ClipBundle\ClipBundle(),
@@ -57,7 +57,7 @@ class AppKernel extends Kernel
         }
 
         if (in_array($env, ['dev', 'test'], true)) {
-            $bundles[] = new Symfony\Bundle\DebugBundle\DebugBundle();
+//            $bundles[] = new Symfony\Bundle\DebugBundle\DebugBundle();
             $bundles[] = new Symfony\Bundle\WebProfilerBundle\WebProfilerBundle();
 //            $bundles[] = new Sensio\Bundle\DistributionBundle\SensioDistributionBundle();
 

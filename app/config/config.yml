@@ -5,27 +5,24 @@ imports:
 
 # Put parameters here that don't need to change on each machine where the app is deployed
 # http://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
-parameters:
-    locale: nl_NL.UTF-8
-    pagination.items_per_page: 20
-    doctrine.orm.naming_strategy.default.class: AppBundle\Service\DoctrineOrmNamingStrategy
 
 framework:
     ide: 'phpstorm://open?file=%%f&line=%%l&/var/www/html/>/Users/jtborger/Documents/webprojects/deregenboog/ecd/'
 #    ide: 'phpstorm'
-    default_locale: '%locale%'
-    translator: { fallbacks: ['nl_NL', 'nl'] }
-    secret: "%secret%"
-    session:
-        name: ECD
-        cookie_lifetime: 0 # until the browser is closed
-        gc_maxlifetime: 28800 # 8 hours
-        save_path: '%kernel.root_dir%/../var/sessions'
-    router:
-        resource: "%kernel.root_dir%/config/routing.yml"
-        strict_requirements: ~
-    form: ~
-    validation: { enable_annotations: true }
+#    default_locale: '%locale%'
+#    translator: { fallbacks: ['nl_NL', 'nl'] }
+#    session:
+#        name: ECD
+#        cookie_lifetime: 0 # until the browser is closed
+#        gc_maxlifetime: 28800 # 8 hours
+#        save_path: '%kernel.root_dir%/../var/sessions'
+#    router:
+#        resource: "%kernel.root_dir%/config/routing.yml"
+#        strict_requirements: ~
+#    mailer:
+#        dsn: 'null://null'
+#    form: ~
+#    validation: { enable_annotations: true }
     templating: #deprecates since 4.3
         engines: ['twig']
 
@@ -107,7 +104,47 @@ doctrine:
                 class: AppBundle\Doctrine\OverledenFilter
                 enabled: false
 
-#jms_di_extra: ~
+# config/packages/doctrine_migrations.yaml
+
+
+doctrine_migrations:
+    # List of namespace/path pairs to search for migrations, at least one required
+    migrations_paths:
+        'Application\Migrations': '%kernel.project_dir%/app/DoctrineMigrations'
+
+    # List of additional migration classes to be loaded, optional
+#    migrations:
+#        - 'App\Migrations\Version123'
+#        - 'App\Migrations\Version123'
+
+    # Connection to use for the migrations
+#    connection: default
+
+    # Entity manager to use for migrations. This overrides the "connection" setting.
+#    em: default
+
+    storage:
+        # Default (SQL table) metadata storage configuration
+        table_storage:
+            table_name: 'migration_versions'
+            version_column_name: 'version'
+            version_column_length: 1024
+            executed_at_column_name: 'executed_at'
+
+    # Possible values: "BY_YEAR", "BY_YEAR_AND_MONTH", false
+    organize_migrations: "BY_YEAR_AND_MONTH"
+
+    # Path to your custom migrations template
+#    custom_template: ~
+
+    # Run all migrations in a transaction.
+    all_or_nothing: false
+
+    # Adds an extra check in the generated migrations to ensure that is executed on the same database type.
+#    check_database_platform: true
+
+    # Whether or not to wrap migrations in a single transaction.
+#    transactional: true
 
 stof_doctrine_extensions:
     orm:
@@ -119,8 +156,6 @@ stof_doctrine_extensions:
 
 knp_paginator: ~
 
-swiftmailer:
-    transport: mail
 
 #mailer:
 #    dsn: 'sendmail://default'
