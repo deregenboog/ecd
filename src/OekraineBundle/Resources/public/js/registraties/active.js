@@ -86,7 +86,7 @@ function checkoutAll(locatie_id) {
     var confirmed = confirm('Weet u zeker dat u iedereen wilt uitchecken?');
     if (confirmed) {
         $.post({
-            url: '/inloop/registraties/checkoutAll/'+locatie_id,
+            url: '/oekraine/registraties/checkoutAll/'+locatie_id,
         }).done(function(data) {
             init();
             resetFilter();
@@ -98,7 +98,7 @@ function checkoutAll(locatie_id) {
 
 function checkout(registratie_id) {
     $.post({
-        url: '/inloop/registraties/registratieCheckOut/'+registratie_id,
+        url: '/oekraine/registraties/registratieCheckOut/'+registratie_id,
     }).done(function(data) {
         init();
         resetFilter();
@@ -111,7 +111,7 @@ function remove(registratie_id) {
     var confirmed = confirm('Weet u zeker dat u deze registratie wilt verwijderen?');
     if (confirmed) {
         $.post({
-            url: '/inloop/registraties/'+registratie_id+'/delete',
+            url: '/oekraine/registraties/'+registratie_id+'/delete',
         }).done(function(data) {
             init();
             resetFilter();
@@ -124,7 +124,7 @@ function remove(registratie_id) {
 function addToQueue(id, property, event) {
     $(event.target).hide();
     $.post({
-        url: '/inloop/registraties/'+id+'/'+property+'/add',
+        url: '/oekraine/registraties/'+id+'/'+property+'/add',
     }).done(function(data) {
         init();
     }).fail(function() {
@@ -135,7 +135,7 @@ function addToQueue(id, property, event) {
 function removeFromQueue(id, property, event) {
     $(event.target).hide();
     $.post({
-        url: '/inloop/registraties/'+id+'/'+property+'/del',
+        url: '/oekraine/registraties/'+id+'/'+property+'/del',
     }).done(function(data) {
         init();
     }).fail(function() {
@@ -150,7 +150,7 @@ function enable(id, property, event, value) {
     }
     $(event.target).hide();
     $.post({
-        url: '/inloop/registraties/'+id+'/'+property+'/'+value,
+        url: '/oekraine/registraties/'+id+'/'+property+'/'+value,
     }).done(function(data) {
         if (data.property == 1)
         {
@@ -170,7 +170,7 @@ function enable(id, property, event, value) {
 function disable(id, property, event) {
     $(event.target).hide();
     $.post({
-        url: '/inloop/registraties/'+id+'/'+property+'/0',
+        url: '/oekraine/registraties/'+id+'/'+property+'/0',
     }).done(function(data) {
         if($(event.target).attr['type'] == 'checkbox') {
             $(event.target).prop('checked', data[property]);
