@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
  */
 final class Version20210115080234 extends AbstractMigration
 {
-    public function up(Schema $schema) : void
+      public function up(Schema $schema): void
     {
         // this up() migration is auto-generated, please modify it to your needs
         $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
@@ -59,7 +59,7 @@ INSERT IGNORE INTO `mw_training` (`id`, `naam`, `active`) VALUES(3, 'Overig', 1)
         $this->addSql("ALTER TABLE `inloop_vrijwilligers` DROP INDEX `IDX_561104804947630C`");
     }
 
-    public function down(Schema $schema) : void
+     public function down(Schema $schema): void
     {
         // this down() migration is auto-generated, please modify it to your needs
         $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');

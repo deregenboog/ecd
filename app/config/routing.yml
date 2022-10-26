@@ -1,7 +1,7 @@
 login:
     path: /login
     defaults:
-        _controller: AppBundle:Security:login
+        _controller: AppBundle\Controller\SecurityController::loginAction
 
 login_check:
     path: /login_check
@@ -9,7 +9,7 @@ login_check:
 logout:
     path: /logout
     defaults:
-        _controller: FrameworkBundle:Redirect:redirect
+        _controller: Symfony\Bundle\FrameworkBundle\Controller\RedirectController::redirectAction
         route: login
 
 _app:
@@ -82,5 +82,5 @@ _villa:
 mw_rapportage_redirect:
     path: /maatschappelijk_werk/rapportage
     defaults:
-        _controller: FrameworkBundle:Redirect:redirect
+        _controller: Symfony\Bundle\FrameworkBundle\Controller\RedirectController::redirectAction
         route: mw_rapportages_index

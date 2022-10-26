@@ -102,7 +102,7 @@ class VrijwilligersController extends AbstractController
         }
 
         $event = new GenericEvent($entity->getVrijwilliger(), ['messages' => []]);
-        $this->get('event_dispatcher')->dispatch(Events::BEFORE_CLOSE, $event);
+        $this->eventDispatcher->dispatch(Events::BEFORE_CLOSE, $event);
 
         return array_merge($response, ['messages' => $event->getArgument('messages')]);
     }
@@ -196,12 +196,12 @@ class VrijwilligersController extends AbstractController
 
                 return $this->redirectToView($izVrijwilliger);
             } catch(UserException $e) {
-//                $this->get('logger')->error($e->getMessage(), ['exception' => $e]);
+//                $this->logger->error($e->getMessage(), ['exception' => $e]);
                 $message =  $e->getMessage();
                 $this->addFlash('danger', $message);
 //                return $this->redirectToRoute('app_klanten_index');
             } catch (\Exception $e) {
-                $message = $this->container->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
+                $message = $this->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
                 $this->addFlash('danger', $message);
             }
 

@@ -466,7 +466,7 @@ class Klant extends Persoon
          * Dus gewoon intake koppelen en queries daarop aanpassen
          *
          */
-        if (0 === count((array) $this->intakes)) {
+        if (0 === count($this->intakes)) {
             $this->eersteIntake = $intake;
         }
 

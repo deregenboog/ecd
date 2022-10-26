@@ -123,7 +123,7 @@ class BezoekersController extends AbstractController
                 $message =  $e->getMessage();
                 $this->addFlash('danger', $message);
             } catch (\Exception $e) {
-                $message = $this->container->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
+                $message = $this->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
                 $this->addFlash('danger', $message);
             }
 
@@ -276,17 +276,17 @@ class BezoekersController extends AbstractController
                 $entityManager->persist($afsluiting);
                 $entityManager->flush();
 
-                $this->get('event_dispatcher')->dispatch(Events::DOSSIER_CHANGED, new GenericEvent($afsluiting));
+                $this->eventDispatcher->dispatch(Events::DOSSIER_CHANGED, new GenericEvent($afsluiting));
 
                 $this->addFlash('success', 'Inloopdossier is afgesloten');
 
             } catch(UserException $e) {
-//                $this->get('logger')->error($e->getMessage(), ['exception' => $e]);
+//                $this->logger->error($e->getMessage(), ['exception' => $e]);
                 $message =  $e->getMessage();
                 $this->addFlash('danger', $message);
 //                return $this->redirectToRoute('app_klanten_index');
             } catch (\Exception $e) {
-                $message = $this->container->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
+                $message = $this->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
                 $this->addFlash('danger', $message);
             }
 
@@ -333,16 +333,16 @@ class BezoekersController extends AbstractController
                 $entityManager->flush();
 
 
-                $this->container->get('event_dispatcher')->dispatch(Events::DOSSIER_CHANGED, new GenericEvent($aanmelding));
+                $this->container->eventDispatcher->dispatch(Events::DOSSIER_CHANGED, new GenericEvent($aanmelding));
 
                 $this->addFlash('success', 'Inloopdossier is heropend');
             } catch(UserException $e) {
-//                $this->get('logger')->error($e->getMessage(), ['exception' => $e]);
+//                $this->logger->error($e->getMessage(), ['exception' => $e]);
                 $message =  $e->getMessage();
                 $this->addFlash('danger', $message);
 //                return $this->redirectToRoute('app_klanten_index');
             } catch (\Exception $e) {
-                $message = $this->container->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
+                $message = $this->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
                 $this->addFlash('danger', $message);
             }
 
@@ -409,22 +409,9 @@ class BezoekersController extends AbstractController
 
     protected function addParams($entity, Request $request)
     {
-        return [
-            'amoc_landen' => $this->getAmocLanden(),
-            'tbc_countries' => $this->container->getParameter('tbc_countries'),
-
-        ];
+        return [];
     }
 
-    protected function getAmocLanden()
-    {
-        return $this->getDoctrine()->getEntityManager()->getRepository(Land::class)
-            ->createQueryBuilder('land')
-            ->innerJoin(AmocLand::class, 'amoc', 'WITH', 'amoc.land = land')
-            ->getquery()
-            ->getResult()
-        ;
-    }
 
     protected function doSearch(Request $request)
     {
@@ -492,7 +479,7 @@ class BezoekersController extends AbstractController
                 $message =  $e->getMessage();
                 $this->addFlash('danger', $message);
             } catch (\Exception $e) {
-                $message = $this->container->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
+                $message = $this->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
                 $this->addFlash('danger', $message);
             }
 

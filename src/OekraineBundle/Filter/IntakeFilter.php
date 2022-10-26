@@ -14,7 +14,7 @@ class IntakeFilter implements FilterInterface
     /**
      * @var Locatie
      */
-    public $locatie;
+    public $intakelocatie;
 
     /**
      * @var AppDateRangeModel
@@ -34,10 +34,10 @@ class IntakeFilter implements FilterInterface
     public function applyTo(QueryBuilder $builder)
     {
 
-        if ($this->locatie) {
+        if ($this->intakelocatie) {
             $builder
                 ->andWhere('intakelocatie = :locatie')
-                ->setParameter('locatie', $this->locatie)
+                ->setParameter('locatie', $this->intakelocatie)
             ;
         }
 
@@ -57,7 +57,7 @@ class IntakeFilter implements FilterInterface
         }
 
         if ($this->klant) {
-            $this->klant->applyTo($builder);
+            $this->klant->applyTo($builder,'appKlant');
         }
     }
 }

@@ -40,6 +40,14 @@ class Project
      */
     private $huuraanbiedingen;
 
+    /**
+     * @var Verhuurder[]
+     *
+     * @ORM\OneToMany(targetEntity="TwBundle\Entity\Verhuurder",mappedBy="project")
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $verhuurders;
+
 
 //    public function __toString()
 //    {

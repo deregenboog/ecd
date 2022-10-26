@@ -35,7 +35,7 @@ abstract class DossierStatus
     /**
      * @var Bezoeker
      *
-     * @ORM\ManyToOne(targetEntity="OekraineBundle\Entity\Bezoeker", inversedBy="statussen")
+     * @ORM\ManyToOne(targetEntity="OekraineBundle\Entity\Bezoeker", inversedBy="dossierStatussen")
      * @ORM\JoinColumn(nullable=false)
      * @Gedmo\Versioned
      */

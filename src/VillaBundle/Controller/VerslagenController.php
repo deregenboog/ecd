@@ -92,7 +92,7 @@ class VerslagenController extends AbstractController
 
         $event = new DienstenLookupEvent($entity->getKlant()->getId());
         if ($event->getKlantId()) {
-            $this->get('event_dispatcher')->dispatch(Events::DIENSTEN_LOOKUP, $event);
+            $this->eventDispatcher->dispatch(Events::DIENSTEN_LOOKUP, $event);
         }
 
         return [
@@ -122,13 +122,13 @@ class VerslagenController extends AbstractController
                 }
                 $this->addFlash('success', ucfirst($this->entityName).' is opgeslagen.');
             } catch(UserException $e) {
-//                $this->get('logger')->error($e->getMessage(), ['exception' => $e]);
+//                $this->logger->error($e->getMessage(), ['exception' => $e]);
                 $message =  $e->getMessage();
                 $this->addFlash('danger', $message);
 //                return $this->redirectToRoute('app_klanten_index');
             } catch (\Exception $e) {
-                $this->get('logger')->error($e->getMessage(), ['exception' => $e]);
-                $message = $this->container->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
+                $this->logger->error($e->getMessage(), ['exception' => $e]);
+                $message = $this->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
                 $this->addFlash('danger', $message);
             }
 

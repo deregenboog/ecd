@@ -23,7 +23,7 @@ class Deelname
     /**
      * @var Traject
      *
-     * @ORM\ManyToOne(targetEntity="DagbestedingBundle\Entity\Traject", inversedBy="projecten")
+     * @ORM\ManyToOne(targetEntity="DagbestedingBundle\Entity\Traject", inversedBy="deelnames")
      * @ORM\JoinColumn (nullable=false)
      * @Gedmo\Versioned
      */
@@ -32,7 +32,7 @@ class Deelname
     /**
      * @var Project
      *
-     * @ORM\ManyToOne(targetEntity="Project", inversedBy="trajecten")
+     * @ORM\ManyToOne(targetEntity="DagbestedingBundle\Entity\Project", inversedBy="deelnames")
      * @ORM\JoinColumn (nullable=false)
      * @Gedmo\Versioned
      */

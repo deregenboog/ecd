@@ -31,7 +31,7 @@
     {{ form_widget(form.adresgegevens) }}
     {{ form_errors(form.adresgegevens) }}
 
-    {% if entity.klant.eersteIntake == entity %}
+    {% if entity.klant.eersteIntake is not same as(entity) %}
     <h2 id="locatiekeuze">Locatiekeuze</h2>
     {{ form_widget(form.toegang) }}
     {{ form_errors(form.toegang) }}
@@ -98,10 +98,11 @@
 {% endblock %}
 {% block scripts %}
     <script>
+
         var toegang = function(name){
             var check = function(statusId)
             {
-                if(statusId == 7) //AMOC klant, regels gelden.
+                if(statusId == "Niet rechthebbend (uit EU, behalve Nederland)") //AMOC klant, regels gelden.
                 {
                     $("#"+name+"_toegang_amocToegangTot").prop("disabled", false);
                     $("#"+name+"_toegang_ondroBongToegangVan").prop("disabled", false);
@@ -124,13 +125,17 @@
             }
 
             var verblijfsstatusElm = $("#"+name+"_toegang_verblijfsstatus");
+
+            var verblijfsStatusTxt = verblijfsstatusElm.find("option:selected").first().html()
+            // var verblijfsstatusId = verblijfsstatusElm.find("option:selected").first().val();
             // console.log(verblijfsstatusElm.find("option:selected").first().val());
-            check(verblijfsstatusElm.find("option:selected").first().val());
+            check(verblijfsStatusTxt);
             verblijfsstatusElm.on('change',function(){
                 check(this.value);
             });
 
         };
+
         toegang($("form").first().attr("name"));
 
         {% if tbc_countries is defined %}

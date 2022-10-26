@@ -65,7 +65,7 @@ class IntakeDao extends AbstractDao implements IntakeDaoInterface
 
     ) {
         $wachtlijstlocaties = $locatieDao->getWachtlijstLocaties();
-
+        $w =[];
         foreach($wachtlijstlocaties as $veld=>$wachtlijst)
         {
             $w[] = $wachtlijst['naam'];

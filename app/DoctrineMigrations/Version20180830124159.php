@@ -13,7 +13,7 @@ class Version20180830124159 extends AbstractMigration
     /**
      * @param Schema $schema
      */
-    public function up(Schema $schema)
+      public function up(Schema $schema): void
     {
         $this->addSql('CREATE VIEW eropuit_klanten (id, klant_id, inschrijfdatum, uitschrijfdatum, uitschrijfreden_id, communicatie_email, communicatie_post, communicatie_telefoon, created, modified) AS
             SELECT lidmaatschap.id, lidmaatschap.klant_id, lidmaatschap.startdatum, lidmaatschap.einddatum, lidmaatschap.groepsactiviteiten_reden_id, lidmaatschap.communicatie_email, lidmaatschap.communicatie_post, lidmaatschap.communicatie_telefoon, lidmaatschap.created, lidmaatschap.modified
@@ -45,7 +45,7 @@ class Version20180830124159 extends AbstractMigration
     /**
      * @param Schema $schema
      */
-    public function down(Schema $schema)
+     public function down(Schema $schema): void
     {
         $this->throwIrreversibleMigrationException();
     }

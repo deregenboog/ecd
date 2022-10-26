@@ -42,8 +42,9 @@ class Deelname
     /**
      * @var Vrijwilliger
      *
-     * @ORM\ManyToOne(targetEntity="Vrijwilliger", inversedBy="deelnames")
+     * @ORM\ManyToOne(targetEntity="Vrijwilliger", inversedBy="trainingDeelnames")
      * @ORM\JoinColumn(name="inloop_vrijwilliger_id", nullable=false)
+     * @TODO verander naam van join column. is wat verwarrend ...
      * @Gedmo\Versioned
      */
     private $vrijwilliger;

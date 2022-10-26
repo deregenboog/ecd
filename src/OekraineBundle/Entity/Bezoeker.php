@@ -7,6 +7,7 @@ use AppBundle\Model\IdentifiableTrait;
 use AppBundle\Model\NotDeletableTrait;
 use AppBundle\Model\TimestampableTrait;
 use AppBundle\Service\NameFormatter;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityNotFoundException;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
@@ -75,8 +76,17 @@ class Bezoeker
      */
     private $registraties;
 
+    /**
+     * @var Verslag[]
+     *
+     * @ORM\OneToMany(targetEntity="OekraineBundle\Entity\Verslag", mappedBy="bezoeker", cascade={"persist"})
+     * @ORM\OrderBy({"datum" = "DESC", "id" = "DESC"})
+     */
+    private $verslagen;
+
     public function __construct(AppKlant $klant = null)
     {
+//        $this->verslagen = new ArrayCollection();
         if ($klant) {
             $this->appKlant = $klant;
         }
@@ -199,6 +209,31 @@ class Bezoeker
         return $this->registraties;
 
     }
+
+    /**
+     * @return Verslag[]
+     */
+    public function getVerslagen()
+    {
+        return $this->verslagen;
+    }
+
+    /**
+     * @param Verslag[] $verslagen
+     */
+    public function setVerslagen(array $verslagen): void
+    {
+        $this->verslagen = $verslagen;
+    }
+
+    /**
+     * @param Verslag $verslag
+     */
+    public function addVerslag(Verslag $verslag): void
+    {
+        $this->verslagen[] = $verslag;
+    }
+
 
 
     public function isDeletable()

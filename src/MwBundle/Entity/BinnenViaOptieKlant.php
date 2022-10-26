@@ -16,5 +16,9 @@ use Gedmo\Mapping\Annotation as Gedmo;
  */
 class BinnenViaOptieKlant extends BinnenVia
 {
-
+    /**
+     * @var Aanmelding[] $aanmeldingen
+     * @ORM\OneToMany(targetEntity="MwBundle\Entity\Aanmelding", mappedBy="binnenViaOptieKlant" )
+     */
+    protected $aanmeldingen;
 }

@@ -13,7 +13,7 @@ class Version20180913143953 extends AbstractMigration
     /**
      * @param Schema $schema
      */
-    public function up(Schema $schema)
+      public function up(Schema $schema): void
     {
         $this->addSql('CREATE VIEW registraties_recent AS
             SELECT klant_id, locatie_id, MAX(buiten) AS max_buiten
@@ -27,7 +27,7 @@ class Version20180913143953 extends AbstractMigration
     /**
      * @param Schema $schema
      */
-    public function down(Schema $schema)
+     public function down(Schema $schema): void
     {
         $this->throwIrreversibleMigrationException();
     }

@@ -89,12 +89,12 @@ class SelectiesController extends SymfonyController
                     $this->addFlash('danger', 'E-mail kon niet verzonden worden.');
                 }
             } catch(UserException $e) {
-//                $this->get('logger')->error($e->getMessage(), ['exception' => $e]);
+//                $this->logger->error($e->getMessage(), ['exception' => $e]);
                 $message =  $e->getMessage();
                 $this->addFlash('danger', $message);
 //                return $this->redirectToRoute('app_klanten_index');
             } catch (\Exception $e) {
-                $message = $this->container->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
+                $message = $this->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
                 $this->addFlash('danger', $message);
             }
         }

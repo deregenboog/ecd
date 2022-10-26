@@ -1,0 +1,46 @@
+{% import '::html.macro.twig' as html %}
+<h2>Verslagen</h2>
+<p>
+    {{ html.link('Verslag toevoegen', path('oekraine_verslagen_add', {bezoeker: entity.id}), 'add') }}
+</p>
+{% if is_granted("ROLE_MW") %}
+    {%  set roleMw = true %}
+{% else %}
+    {%  set roleMw = false %}
+{% endif %}
+
+{% for verslag in entity.verslagen|filter(verslag => (verslag.type == 1 and roleMw == true) or (verslag.type == 1 and verslag.access == 2) or verslag.type == 2) %}
+
+    <h3>Verslag van {{ verslag.datum|date('d-m-Y') }}</h3>
+    <p>
+        {{ html.link('Verslag bewerken', path('oekraine_verslagen_edit', {id: verslag.id}), 'edit') }}
+    </p>
+    {% if verslag.type == 2 %}
+        {% set class = "bg-info" %}
+    {% else %}
+        {% set class = "" %}
+    {% endif %}
+    <div class="row {{class}}">
+        <div class="col-xs-6">
+            <dl class="dl-horizontal">
+                <dt>Locatie</dt>
+                <dd>{{ verslag.locatie }}</dd>
+                <dt>Medewerker</dt>
+                <dd>{{ verslag.medewerker }}</dd>
+            </dl>
+        </div>
+        <div class="col-xs-6">
+            <dl class="dl-horizontal">
+                <dt>Contactsoort</dt>
+                <dd>{{ verslag.contactsoort }}</dd>
+                {% if verslag.duur %}
+                    <dt>Duur</dt>
+                    <dd>{{ verslag.duur }} minuten</dd>
+                {% endif %}
+                <dt>Type</dt>
+                <dd>{{ verslag.typeAsString }}</dd>
+            </dl>
+        </div>
+    </div>
+    <p class="well">{{ verslag.opmerking|raw|nl2br }}</p>
+{% endfor %}

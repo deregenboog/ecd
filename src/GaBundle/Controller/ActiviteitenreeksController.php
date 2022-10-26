@@ -84,12 +84,12 @@ class ActiviteitenreeksController extends AbstractChildController
                 $this->dao->createBatch($activiteiten);
                 $this->addFlash('success', (is_array($activiteiten) || $activiteiten instanceof \Countable ? count($activiteiten) : 0).' activiteiten zijn toegevoegd.');
             } catch(UserException $e) {
-//                $this->get('logger')->error($e->getMessage(), ['exception' => $e]);
+//                $this->logger->error($e->getMessage(), ['exception' => $e]);
                 $message =  $e->getMessage();
                 $this->addFlash('danger', $message);
 //                return $this->redirectToRoute('app_klanten_index');
             }  catch (\Exception $e) {
-                $message = $this->container->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
+                $message = $this->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
                 $this->addFlash('danger', $message);
             }
 

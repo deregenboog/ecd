@@ -22,9 +22,15 @@ services:
         resource: '../../Controller'
         tags: [ 'controller.service_arguments' ]
 
+    InloopBundle\Controller\KlantenController:
+        arguments:
+            $tbc_countries: '%tbc_countries%'
+        tags: [ 'controller.service_arguments' ]
+
     InloopBundle\Controller\IntakesController:
         arguments:
             $dao: '@InloopBundle\Service\IntakeDao'
+            $tbc_countries: '%tbc_countries%'
         tags: [ 'controller.service_arguments' ]
 
     InloopBundle\Controller\DeelnamesController:
@@ -60,6 +66,8 @@ services:
     InloopBundle\Controller\RegistratiesController:
         arguments:
             $export: '@inloop.export.registraties'
+            $tbc_countries: '%tbc_countries%'
+            $tbc_months_period: '%tbc_months_period%'
         tags: [ 'controller.service_arguments' ]
 
     InloopBundle\Controller\SchorsingenController:

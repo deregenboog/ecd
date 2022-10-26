@@ -31,7 +31,7 @@ class DatabaseBackupCommand extends \Symfony\Component\Console\Command\Command
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $backupDir = $this->getContainer()->get('kernel')->getRootDir().'/../backups';
+        $backupDir = $this->getContainer()->get('kernel')->getProjectDir().'/../backups';
         if (!realpath($backupDir)) {
             $output->writeln($backupDir.' does not exist!');
 

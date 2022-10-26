@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
  */
 final class Version20211104144517 extends AbstractMigration
 {
-    public function up(Schema $schema) : void
+      public function up(Schema $schema): void
     {
         // this up() migration is auto-generated, please modify it to your needs
         $this->addSql("UPDATE tw_duurthuisloos SET active = 0");
@@ -45,7 +45,7 @@ UPDATE `tw_duurthuisloos` SET `label` = '>48 mnd' WHERE `tw_duurthuisloos`.`id` 
 
     }
 
-    public function down(Schema $schema) : void
+     public function down(Schema $schema): void
     {
         // this down() migration is auto-generated, please modify it to your needs
 

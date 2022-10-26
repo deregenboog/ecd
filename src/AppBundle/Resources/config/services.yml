@@ -20,6 +20,7 @@ services:
     AppBundle\Controller\KlantenController:
         arguments:
              $export: '@AppBundle\Export\Klanten'
+             $tbc_countries: '%tbc_countries%'
         tags: [ 'controller.service_arguments' ]
 
     AppBundle\Controller\RapportagesController:

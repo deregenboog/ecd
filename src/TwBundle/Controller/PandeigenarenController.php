@@ -61,7 +61,7 @@ class PandeigenarenController extends SymfonyController
                 $this->pandeigenaarDao->create($pandeigenaar);
                 $this->addFlash('success', 'Pandeigenaar is toegevoegd.');
             } catch (\Exception $e) {
-                $message = $this->container->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
+                $message = $this->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
                 $this->addFlash('danger', $message);
             }
 
@@ -86,7 +86,7 @@ class PandeigenarenController extends SymfonyController
             try {
                 $this->pandeigenaarDao->update($pandeigenaar);
             } catch (\Exception $e) {
-                $message = $this->container->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
+                $message = $this->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
                 $this->addFlash('danger', $message);
             }
 
@@ -113,7 +113,7 @@ class PandeigenarenController extends SymfonyController
                     $this->pandeigenaarDao->delete($pandeigenaar);
                     $this->addFlash('success', 'Pandeigenaar is verwijderd.');
                 } catch (\Exception $e) {
-                    $message = $this->container->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
+                    $message = $this->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
                     $this->addFlash('danger', $message);
                 }
             }

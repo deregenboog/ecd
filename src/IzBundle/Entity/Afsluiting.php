@@ -30,7 +30,7 @@ class Afsluiting
     private $naam;
 
     /**
-     * @ORM\Column(name="active", type="boolean", nullable=false)
+     * @ORM\Column(name="`active`", type="boolean", nullable=false)
      * @Gedmo\Versioned
      */
     private $actief = true;

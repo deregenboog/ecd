@@ -18,7 +18,7 @@ InloopBundle\Entity\Locatie:
         nachtopvang: false
         gebruikersruimte: false
         datumVan: '<dateTimeBetween("-30 days","now")>'
-        datumTot: '<dateTimeBetween("now","+2 weeks")>'
+        datumTot: '<dateTimeBetween("now","+2 years")>'
         maatschappelijkWerk: false
         tbcCheck: true
     locatie_De Eik:

@@ -75,13 +75,13 @@ class RegistratiesController extends AbstractController
     /**
      * @var array TBC_Countries from config.
      */
-    protected $tbc_countries;
+    protected $tbc_countries = [];
 
-//    public function __construct(Array $tbc_countries)
-//    {
-//
-//       $this->tbc_countries = $tbc_countries;
-//    }
+    /**
+     * @var int $tbc_months_period
+     */
+    protected $tbc_months_period = 0;
+
     /**
      * @param RegistratieDao $dao
      * @param KlantDao $klantDao
@@ -89,13 +89,16 @@ class RegistratiesController extends AbstractController
      * @param SchorsingDao $schorsingDao
      * @param ExportInterface $export
      */
-    public function __construct(RegistratieDao $dao, KlantDao $klantDao, LocatieDao $locatieDao, SchorsingDao $schorsingDao, ExportInterface $export)
+    public function __construct(RegistratieDao $dao, KlantDao $klantDao, LocatieDao $locatieDao, SchorsingDao $schorsingDao, ExportInterface $export,
+       $tbc_countries=[], $tbc_months_period=0)
     {
         $this->dao = $dao;
         $this->klantDao = $klantDao;
         $this->locatieDao = $locatieDao;
         $this->schorsingDao = $schorsingDao;
         $this->export = $export;
+        $this->tbc_months_period = $tbc_months_period;
+        $this->tbc_countries=$tbc_countries;
     }
 
     /**
@@ -188,7 +191,7 @@ class RegistratiesController extends AbstractController
             return $registratie->getKlant()->getId();
         }, $pagination->getItems());
         $event = new GenericEvent($klantIds, ['geen_activering_klant_ids' => []]);
-        $this->get('event_dispatcher')->dispatch(Events::GEEN_ACTIVERING, $event);
+        $this->eventDispatcher->dispatch(Events::GEEN_ACTIVERING, $event);
 
         return $this->render('InloopBundle:registraties:_active.html.twig', [
             'locatie' => $locatie,
@@ -225,7 +228,7 @@ class RegistratiesController extends AbstractController
             return $registratie->getKlant()->getId();
         }, $pagination->getItems());
         $event = new GenericEvent($klantIds, ['geen_activering_klant_ids' => []]);
-        $this->get('event_dispatcher')->dispatch(Events::GEEN_ACTIVERING, $event);
+        $this->eventDispatcher->dispatch(Events::GEEN_ACTIVERING, $event);
 
         return $this->render('InloopBundle:registraties:_history.html.twig', [
             'locatie' => $locatie,
@@ -269,7 +272,7 @@ class RegistratiesController extends AbstractController
 //        $registratiesSindsMiddernacht = $klant->getRegistratiesSinds(new \DateTime('today midnight'));
 //        if($registratiesSindsMiddernacht->count() >= 2) {
 //
-//            $nachtopvanglocaties = $this->container->getParameter('nachtopvang_locaties');
+//            $nachtopvanglocaties = $this->getParameter('nachtopvang_locaties');
 //            if(in_array($locatie->getNaam(),$nachtopvanglocaties))
 //            {
 //                return new JsonResponse($jsonVar);
@@ -397,7 +400,7 @@ class RegistratiesController extends AbstractController
              */
             if (false && $locatie->isTbcCheck()) {
 
-                $tbcValid = $this->getParameter('tbc_months_period') * 30;
+                $tbcValid = $this->tbc_months_period * 30;
                 $newTbcCheckNeeded = (!$klant->getLaatsteTbcControle() || $klant->getLaatsteTbcControle()->diff(new \DateTime())->days > $tbcValid);
                 if ($newTbcCheckNeeded) {
                     $jsonVar['message'] .= $sep.'Let op: deze persoon heeft een nieuwe TBC-check nodig. Toch inchecken?';
@@ -405,7 +408,7 @@ class RegistratiesController extends AbstractController
                     $sep = $separator;
                 }
             }
-            $tbc_countries = $this->container->getParameter('tbc_countries');
+            $tbc_countries = $this->tbc_countries;
 
 
             if( in_array($klant->getLand()->getNaam(),$tbc_countries)

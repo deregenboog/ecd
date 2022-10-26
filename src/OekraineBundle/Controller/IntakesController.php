@@ -90,13 +90,13 @@ class IntakesController extends AbstractController
                 $this->dao->create($entity);
                 $this->addFlash('success', ucfirst($this->entityName).' is opgeslagen.');
             } catch(UserException $e) {
-//                $this->get('logger')->error($e->getMessage(), ['exception' => $e]);
+//                $this->logger->error($e->getMessage(), ['exception' => $e]);
                 $message =  $e->getMessage();
                 $this->addFlash('danger', $message);
 //                return $this->redirectToRoute('app_bezoekeren_index');
             } catch (\Exception $e) {
-                $this->get('logger')->error($e->getMessage(), ['exception' => $e]);
-                $message = $this->container->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
+                $this->logger->error($e->getMessage(), ['exception' => $e]);
+                $message = $this->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
                 $this->addFlash('danger', $message);
             }
 
@@ -106,7 +106,6 @@ class IntakesController extends AbstractController
         return [
             'entity' => $entity,
             'form' => $form->createView(),
-            'tbc_countries'=>$this->container->getParameter('tbc_countries'),
         ];
     }
 
@@ -122,17 +121,17 @@ class IntakesController extends AbstractController
             throw new EntityNotFoundException("Kan intake niet laden.");
         }
 
-        $this->denyAccessUnlessGranted(
-            Permissions::EDIT,
-            $entity,
-            'Je kan alleen intakes wijzigen die in de afgelopen week zijn aangemaakt.'
-        );
+//        $this->denyAccessUnlessGranted(
+//            Permissions::EDIT,
+//            $entity,
+//            'Je kan alleen intakes wijzigen die in de afgelopen week zijn aangemaakt.'
+//        );
 
-        $this->denyAccessUnlessGranted(
-            Permissions::OWNER,
-            $entity,
-            'Je kan alleen intakes wijzigen die door jezelf zijn aangemaakt.'
-        );
+//        $this->denyAccessUnlessGranted(
+//            Permissions::OWNER,
+//            $entity,
+//            'Je kan alleen intakes wijzigen die door jezelf zijn aangemaakt.'
+//        );
 
         return $this->processForm($request, $entity);
 
@@ -187,7 +186,7 @@ class IntakesController extends AbstractController
     protected function addParams($entity, Request $request)
     {
         return [
-            'tbc_countries' => $this->container->getParameter('tbc_countries'),
+
 
         ];
     }

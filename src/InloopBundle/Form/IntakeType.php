@@ -49,11 +49,13 @@ class IntakeType extends AbstractType
                 'data_class' => get_class($options['data']->getZrm()),
                 'request_module' => 'Intake',
             ]);
+//            $builder->get('zrm')->remove("medewerker"); // erg irritant dat ook hier een medewerker wordt laten zien. @TODO keertje weghalen? navragen
         } else {
             $builder->add('zrm', ZrmType::class, [
                 'label' => 'ZRM',
                 'request_module' => 'Intake',
             ]);
+//            $builder->get('zrm')->remove("medewerker");
         }
 
         $builder->add('submit', SubmitType::class);
@@ -85,7 +87,7 @@ class IntakeType extends AbstractType
                 'inherit_data' => true,
                 'required'=>true,
             ])
-//            ->add('medewerker', MedewerkerType::class)
+            ->add('medewerker', MedewerkerType::class)
             ->add('intakedatum', AppDateType::class)
             ->add('geinformeerdOpslaanGegevens', CheckboxType::class,['required'=>true])
         ;

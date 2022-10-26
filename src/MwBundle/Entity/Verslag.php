@@ -15,8 +15,8 @@ use InloopBundle\Entity\Locatie;
  * @ORM\Table(
  *     name="verslagen",
  *     indexes={
- *         @ORM\Index(name="idx_datum", columns={"datum"}),
- *         @ORM\Index(name="idx_locatie_id", columns={"locatie_id"})
+ *         @ORM\Index(name="idx_datum2", columns={"datum"}),
+ *         @ORM\Index(name="idx_locatie_id2", columns={"locatie_id"})
  *     }
  * )
  * @ORM\HasLifecycleCallbacks

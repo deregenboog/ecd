@@ -24,9 +24,9 @@ class BezoekerFilterType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        if (array_key_exists('klant', $options['enabled_filters'])) {
-            $builder->add('klant', AppKlantFilterType::class, [
-                'enabled_filters' => $options['enabled_filters']['klant'],
+        if (array_key_exists('appKlant', $options['enabled_filters'])) {
+            $builder->add('appKlant', AppKlantFilterType::class, [
+                'enabled_filters' => $options['enabled_filters']['appKlant'],
             ]);
         }
 
@@ -69,7 +69,7 @@ class BezoekerFilterType extends AbstractType
             'data_class' => BezoekerFilter::class,
             'data' => new BezoekerFilter(),
             'enabled_filters' => [
-                'klant' => ['id', 'voornaam', 'achternaam', 'geboortedatumRange', 'geslacht'],
+                'appKlant' => ['id', 'voornaam', 'achternaam', 'geboortedatumRange', 'geslacht'],
                 'woonlocatie',
                 'huidigeStatus',
             ],
