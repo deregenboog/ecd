@@ -1,8 +1,8 @@
-{% extends 'IzBundle:vrijwilligers:view.html.twig' %}
-{% import '::html.macro.twig' as html %}
+{% extends '@Iz/vrijwilligers/view.html.twig' %}
+{% import 'html.macro.twig' as html %}
 
 {% block content_right %}
-    {% include 'IzBundle:vrijwilligers:_tabs.html.twig' with {vrijwilliger: entity, current: 'afsluiting'} %}
+    {% include '@Iz/vrijwilligers/_tabs.html.twig' with {vrijwilliger: entity, current: 'afsluiting'} %}
     <div class="tab-content">
         <div id="afsluiting" class="tab-pane active">
             <h2>Afsluiting</h2>

@@ -161,7 +161,7 @@ class Klant extends Persoon
 
     /**
      * @var BinnenViaOptieKlant
-     * @ORM\OneToOne(targetEntity="MwBundle\Entity\BinnenViaOptieKlant", cascade={"persist"})
+     * @ORM\ManyToOne(targetEntity="MwBundle\Entity\BinnenViaOptieKlant", inversedBy="klant", cascade={"persist"})
      * @ORM\JoinColumn (nullable=true)
      */
     private $mwBinnenViaOptieKlant;
@@ -232,7 +232,7 @@ class Klant extends Persoon
 
     /**
      * @var Medewerker
-     * @ORM\ManyToOne(targetEntity="Medewerker",cascade={"persist"} )
+     * @ORM\ManyToOne(targetEntity="Medewerker", cascade={"persist"} )
      * @ORM\JoinColumn(nullable=true)
      * @Gedmo\Versioned
      */

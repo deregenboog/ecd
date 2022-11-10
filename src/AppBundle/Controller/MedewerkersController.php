@@ -10,13 +10,13 @@ use Doctrine\Common\Collections\ArrayCollection;
 use JMS\DiExtraBundle\Annotation as DI;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
  * @Route("/medewerkers")
  * @Template
- * @Security("has_role('ROLE_USERADMIN')")
+ * @IsGranted("ROLE_USERADMIN")
  */
 class MedewerkersController extends AbstractController
 {

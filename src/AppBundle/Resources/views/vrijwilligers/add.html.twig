@@ -1,5 +1,5 @@
-{% extends '::base.html.twig' %}
-{% import '::html.macro.twig' as html %}
+{% extends 'base.html.twig' %}
+{% import 'html.macro.twig' as html %}
 
 {% block title %}
     {{ title }}
@@ -15,6 +15,6 @@
 
 {% block content %}
     {{ form_start(form) }}
-        {% include 'AppBundle:vrijwilligers:_form.html.twig' %}
+        {% include '@App/vrijwilligers/_form.html.twig' %}
     {{ form_end(form) }}
 {% endblock %}

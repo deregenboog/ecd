@@ -13,6 +13,8 @@ use AppBundle\Service\AbstractDao;
 use Doctrine\ORM\EntityNotFoundException;
 use Psr\Log\LoggerInterface;
 use Symfony\Bridge\Monolog\Logger;
+use Symfony\Component\Routing\Exception\InvalidParameterException;
+use Symfony\Component\Routing\Exception\RouteNotFoundException;
 use Symfony\Contracts\EventDispatcher\EventDispatcher;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
@@ -20,6 +22,7 @@ use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Vich\UploaderBundle\Handler\DownloadHandler;
 
 abstract class AbstractController extends SymfonyController
 {
@@ -197,6 +200,15 @@ abstract class AbstractController extends SymfonyController
             strtolower(str_replace('Controller', '', $refl->getShortName())),
             (new \DateTime())->format('Y-m-d')
         );
+    }
+
+    /**
+     * @Route("/download/{filename}")
+     */
+    public function downloadAction($filename, DownloadHandler $downloadHandler)
+    {
+        $document = $this->dao->findByFilename($filename);
+        return $downloadHandler->downloadObject($document, 'file');
     }
 
     /**
@@ -485,7 +497,14 @@ abstract class AbstractController extends SymfonyController
             throw new AppException(get_class($this).'::baseRouteName not set!');
         }
 
-        return $this->redirectToRoute($this->baseRouteName.'index');
+        try {
+            $url = $this->generateUrl($this->baseRouteName.'index');
+        } catch (RouteNotFoundException $e)
+        {
+            $url = $this->generateUrl("home");
+        }
+
+        return $this->redirect($url);
     }
 
     protected function redirectToView($entity)
@@ -493,8 +512,21 @@ abstract class AbstractController extends SymfonyController
         if (!$this->baseRouteName) {
             throw new AppException(get_class($this).'::baseRouteName not set!');
         }
+        $url = "/";
+        try {
+           $url = $this->generateUrl($this->baseRouteName.'view', ['id' => $entity->getId()]);
+        }
+        catch (RouteNotFoundException $e)
+        {
+                $this->redirectToIndex();
+        }
+        catch (InvalidParameterException $e)
+        {
+            $this->redirectToIndex();
+        }
 
-        return $this->redirectToRoute($this->baseRouteName.'view', ['id' => $entity->getId()]);
+        return $this->redirect($url);
+
     }
 
 

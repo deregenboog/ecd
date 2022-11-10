@@ -7,6 +7,10 @@ services:
       autowire: true
       autoconfigure: true
 
+    GaBundle\Command\:
+      resource: '../../Command'
+      tags: [ 'console.command' ]
+
     GaBundle\Controller\:
       resource: '../../Controller'
       tags: [ 'controller.service_arguments' ]

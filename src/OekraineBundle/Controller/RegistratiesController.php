@@ -134,7 +134,7 @@ class RegistratiesController extends AbstractController
         $page = $request->get('page', 1);
         $pagination = $this->bezoekerDao->findAll($page, $filter);
 
-        return $this->render('OekraineBundle:registraties:_index.html.twig', [
+        return $this->render('@Oekraine/registraties/_index.html.twig', [
             'locatie' => $locatie,
             'filter' => $form->createView(),
             'pagination' => $pagination,
@@ -168,9 +168,9 @@ class RegistratiesController extends AbstractController
             return $registratie->getBezoeker()->getAppKlant()->getId();
         }, $pagination->getItems());
         $event = new GenericEvent($klantIds, ['geen_activering_klant_ids' => []]);
-        $this->eventDispatcher->dispatch(Events::GEEN_ACTIVERING, $event);
+        $this->eventDispatcher->dispatch($event, Events::GEEN_ACTIVERING);
 
-        return $this->render('OekraineBundle:registraties:_active.html.twig', [
+        return $this->render('@Oekraine/registraties/_active.html.twig', [
             'locatie' => $locatie,
             'filter' => isset($form) ? $form->createView() : null,
             'pagination' => $pagination,
@@ -205,9 +205,9 @@ class RegistratiesController extends AbstractController
             return $registratie->getBezoeker()->getId();
         }, $pagination->getItems());
         $event = new GenericEvent($klantIds, ['geen_activering_klant_ids' => []]);
-        $this->eventDispatcher->dispatch(Events::GEEN_ACTIVERING, $event);
+        $this->eventDispatcher->dispatch($event, Events::GEEN_ACTIVERING);
 
-        return $this->render('OekraineBundle:registraties:_history.html.twig', [
+        return $this->render('@Oekraine/registraties/_history.html.twig', [
             'locatie' => $locatie,
             'filter' => isset($form) ? $form->createView() : null,
             'pagination' => $pagination,
@@ -235,16 +235,6 @@ class RegistratiesController extends AbstractController
         $sep = '';
         $separator = PHP_EOL.PHP_EOL;
 
-        $open = $locatie->isOpen();
-
-
-        if ($open !== true) {
-            $jsonVar['allow'] = false;
-            $jsonVar['message'] = 'Deze locatie is nog niet open, klant kan nog niet inchecken!';
-//            $jsonVar['message'] = (string)$open['date'].(string)$open['openingstijd'];
-
-            return new JsonResponse($jsonVar);
-        }
 
         try {
             if ($bezoeker->getLaatsteRegistratie()) {

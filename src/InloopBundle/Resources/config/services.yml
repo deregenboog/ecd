@@ -18,6 +18,10 @@ services:
         autowire: true
         autoconfigure: true
 
+    InloopBundle\Command\:
+        resource: '../../Command'
+        tags: [ 'console.command' ]
+
     InloopBundle\Controller\:
         resource: '../../Controller'
         tags: [ 'controller.service_arguments' ]
@@ -98,7 +102,7 @@ services:
         arguments:
             - '@InloopBundle\Service\KlantDao'
             - "@logger"
-            - "@templating"
+            - "@twig"
             - "@mailer"
             - '@InloopBundle\Service\AccessUpdater'
             - "%informele_zorg_mail%"

@@ -8,6 +8,10 @@ services:
         autowire: true      # Automatically injects dependencies in your services.
         autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
 
+    AppBundle\Command\:
+        resource: '../../Command'
+        tags: [ 'console.command' ]
+
     AppBundle\Controller\:
         resource: '../../Controller'
         tags: [ 'controller.service_arguments' ]
@@ -97,13 +101,15 @@ services:
             - { name: kernel.event_listener, event: ldap_tools_bundle.guard.login.failure, method: onLoginFailure }
 
     twig.extension.routing: # override default routing extension
-        class: AppBundle\Twig\RoutingExtension
+        class: AppBundle\Twig\EcdRoutingExtension
         public: false
         arguments:
             - '@router'
             - '@request_stack'
         tags:
             - { name: twig.extension }
+
+    AppBundle\Doctrine\EcdNamingStrategy: #since autowiring is not on by default per bundle, this must be defined; i guess .
 
     app.twig.app_extension:
         class: AppBundle\Twig\AppExtension

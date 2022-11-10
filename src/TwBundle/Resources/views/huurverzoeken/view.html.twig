@@ -1,5 +1,5 @@
-{% extends '::base-2-col.html.twig' %}
-{% import '::html.macro.twig' as html %}
+{% extends 'base-2-col.html.twig' %}
+{% import 'html.macro.twig' as html %}
 
 {% block title %}
     Tijdelijk Wonen | {{ title }}
@@ -56,5 +56,5 @@
 {% endblock %}
 
 {% block content_right %}
-    {% include 'TwBundle:verslagen:_list.html.twig' with {huurverzoek: huurverzoek} %}
+    {% include '@Tw/verslagen/_list.html.twig' with {huurverzoek: huurverzoek} %}
 {% endblock %}

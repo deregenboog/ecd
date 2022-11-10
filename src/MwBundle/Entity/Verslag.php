@@ -82,7 +82,7 @@ class Verslag
     /**
      * @var int
      *
-     * @ORM\Column(name="aanpassing_verslag", type="integer")
+     * @ORM\Column(name="aanpassing_verslag", type="integer", options={"default":0, "nullable"=true})
      * @Gedmo\Versioned
      */
     private $duur;
@@ -133,6 +133,8 @@ class Verslag
         $this->klant = $klant;
         $this->verslaginventarisaties = new ArrayCollection();
         $this->datum = new \DateTime();
+
+        $this->setDuur(0);
     }
 
     /**

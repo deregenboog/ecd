@@ -1,5 +1,5 @@
-{% extends '::base-2-col.html.twig' %}
-{% import '::html.macro.twig' as html %}
+{% extends 'base-2-col.html.twig' %}
+{% import 'html.macro.twig' as html %}
 
 {% block title %}
     Clip | {{ title }}
@@ -31,7 +31,7 @@
         <dt>Medewerker</dt>
         <dd>{{ entity.behandelaar }}</dd>
     </dl>
-    {% include '::klant_basis.html.twig' with {klant: entity.klant} %}
+    {% include 'klant_basis.html.twig' with {klant: entity.klant} %}
 {% endblock %}
 
 {% block xcontent_right %}
@@ -42,13 +42,13 @@
     </ul>
     <div class="tab-content">
         <div id="vragen" class="tab-pane active">
-            {% include 'ClipBundle:vragen:_list.html.twig' with {client: entity} %}
+            {% include '@Clip/vragen/_list.html.twig' with {client: entity} %}
         </div>
         <div id="contactmomenten" class="tab-pane">
-            {% include 'ClipBundle:contactmomenten:_list.html.twig' with {client: entity} %}
+            {% include '@Clip/contactmomenten/_list.html.twig' with {client: entity} %}
         </div>
         <div id="documenten" class="tab-pane">
-            {% include 'ClipBundle:documenten:_list.html.twig' with {client: entity} %}
+            {% include '@Clip/documenten/_list.html.twig' with {client: entity} %}
         </div>
     </div>
 {% endblock %}

@@ -2,6 +2,7 @@
 
 namespace MwBundle\Entity;
 
+use AppBundle\Entity\Klant;
 use AppBundle\Model\ActivatableTrait;
 use AppBundle\Model\IdentifiableTrait;
 use AppBundle\Model\NameableTrait;
@@ -21,4 +22,12 @@ class BinnenViaOptieKlant extends BinnenVia
      * @ORM\OneToMany(targetEntity="MwBundle\Entity\Aanmelding", mappedBy="binnenViaOptieKlant" )
      */
     protected $aanmeldingen;
+
+    /**
+     * @var Klant
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Klant", mappedBy="mwBinnenViaOptieKlant")
+     */
+    protected $klant;
+
+
 }

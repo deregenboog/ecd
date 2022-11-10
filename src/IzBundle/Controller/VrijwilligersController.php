@@ -102,7 +102,7 @@ class VrijwilligersController extends AbstractController
         }
 
         $event = new GenericEvent($entity->getVrijwilliger(), ['messages' => []]);
-        $this->eventDispatcher->dispatch(Events::BEFORE_CLOSE, $event);
+        $this->eventDispatcher->dispatch($event, Events::BEFORE_CLOSE);
 
         return array_merge($response, ['messages' => $event->getArgument('messages')]);
     }

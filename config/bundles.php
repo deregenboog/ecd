@@ -9,7 +9,7 @@ return [
     Nelmio\Alice\Bridge\Symfony\NelmioAliceBundle::class => ['dev' => true, 'test' => true],
     Fidry\AliceDataFixtures\Bridge\Symfony\FidryAliceDataFixturesBundle::class => ['dev' => true, 'test' => true],
     Hautelook\AliceBundle\HautelookAliceBundle::class => ['dev' => true, 'test' => true],
-    LdapTools\Bundle\LdapToolsBundle\LdapToolsBundle::class => ['all' => true],
+
     Knp\Bundle\PaginatorBundle\KnpPaginatorBundle::class => ['all' => true],
     Liip\FunctionalTestBundle\LiipFunctionalTestBundle::class => ['dev' => true, 'test' => true],
     Liip\TestFixturesBundle\LiipTestFixturesBundle::class => ['dev' => true, 'test' => true],
@@ -23,4 +23,38 @@ return [
     Symfony\Bundle\TwigBundle\TwigBundle::class => ['all' => true],
     Symfony\Bundle\SecurityBundle\SecurityBundle::class => ['all' => true],
     Symfony\Bundle\WebProfilerBundle\WebProfilerBundle::class => ['dev' => true, 'test' => true],
+    Twig\Extra\TwigExtraBundle\TwigExtraBundle::class => ['all' => true],
+
+    LdapTools\Bundle\LdapToolsBundle\LdapToolsBundle::class => ['all'=>true,'test'=>false],
+    
+    AppBundle\AppBundle::class =>['all'=>true],
+    BuurtboerderijBundle\BuurtboerderijBundle::class => ['all'=>true],
+    ClipBundle\ClipBundle::class => ['all'=>true],
+    DagbestedingBundle\DagbestedingBundle::class => ['all'=>true],
+    ErOpUitBundle\ErOpUitBundle::class => ['all'=>true],
+    GaBundle\GaBundle::class => ['all'=>true],
+    HsBundle\HsBundle::class => ['all'=>true],
+    InloopBundle\InloopBundle::class => ['all'=>true],
+    OekraineBundle\OekraineBundle::class => ['all'=>true],
+    IzBundle\IzBundle::class => ['all'=>true],
+    MwBundle\MwBundle::class => ['all'=>true],
+    TwBundle\TwBundle::class => ['all'=>true],
+    OekBundle\OekBundle::class => ['all'=>true],
+    PfoBundle\PfoBundle::class => ['all'=>true],
+//    ScipBundle\ScipBundle::class => ['all'=>true], //uitfaseren. Wordt als het goed is al niet meer gebruikt. 20221110.
+    UhkBundle\UhkBundle::class => ['all'=>true],
+    VillaBundle\VillaBundle::class => ['all'=>true],
+
+    //Test&Dev
+    Symfony\Bundle\WebProfilerBundle\WebProfilerBundle::class => ['dev'=>true,'test'=>true],
+    Doctrine\Bundle\FixturesBundle\DoctrineFixturesBundle::class => ['dev'=>true,'test'=>true],
+    Nelmio\Alice\Bridge\Symfony\NelmioAliceBundle::class => ['dev'=>true,'test'=>true],
+    Fidry\AliceDataFixtures\Bridge\Symfony\FidryAliceDataFixturesBundle::class => ['dev'=>true,'test'=>true],
+    Hautelook\AliceBundle\HautelookAliceBundle::class => ['dev'=>true,'test'=>true],
+
+    //Test only
+    Liip\TestFixturesBundle\LiipTestFixturesBundle::class => ['dev'=>false,'test'=>true],
+    Liip\FunctionalTestBundle\LiipFunctionalTestBundle::class => ['dev'=>false,'test'=>true],
+//           DAMA\DoctrineTestBundle\DAMADoctrineTestBundle::class => ['dev'=>false,'test'=>true],
+
 ];

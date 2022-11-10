@@ -9,6 +9,10 @@ services:
         autowire: true
         autoconfigure: true
 
+    IzBundle\Command\:
+        resource: '../../Command'
+        tags: [ 'console.command' ]
+
     IzBundle\Controller\:
         resource: '../../Controller'
         tags: [ 'controller.service_arguments' ]

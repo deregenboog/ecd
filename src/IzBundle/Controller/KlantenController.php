@@ -107,7 +107,7 @@ class KlantenController extends AbstractController
         }
 
         $event = new GenericEvent($entity->getKlant(), ['messages' => []]);
-        $this->eventDispatcher->dispatch(Events::BEFORE_CLOSE, $event);
+        $this->eventDispatcher->dispatch($event, Events::BEFORE_CLOSE);
 
         return array_merge($response, ['messages' => $event->getArgument('messages')]);
     }
@@ -225,7 +225,7 @@ class KlantenController extends AbstractController
 
         $event = new DienstenLookupEvent($entity->getKlant()->getId(), []);
         if ($event->getKlantId()) {
-            $this->eventDispatcher->dispatch(Events::DIENSTEN_LOOKUP, $event);
+            $this->eventDispatcher->dispatch($event, Events::DIENSTEN_LOOKUP);
         }
 
         return [

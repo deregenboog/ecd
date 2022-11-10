@@ -1,10 +1,10 @@
-{% extends '::base.html.twig' %}
-{% import '::html.macro.twig' as html %}
+{% extends 'base.html.twig' %}
+{% import 'html.macro.twig' as html %}
 
 {% block title %}
     Groepsactiviteiten | {{ title }}
 {% endblock %}
 
 {% block subnavigation %}
-    {% include 'GaBundle::subnavigation.html.twig' %}
+    {% include '@Ga/subnavigation.html.twig' %}
 {% endblock %}

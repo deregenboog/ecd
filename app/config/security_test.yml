@@ -1,41 +1,41 @@
-security:
-    encoders:
-        AppBundle\Entity\Medewerker: plaintext
-
-    providers:
-        database:
-            entity: { class: AppBundle\Entity\Medewerker, property: username }
-
-    firewalls:
-        main:
-            anonymous: ~
-            provider: database
-            pattern: ^/
-            logout: ~
-            logout_on_user_change: true
-
-    access_control:
-        - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/clip/admin, roles: ROLE_CLIP_BEHEER }
-        - { path: ^/clip, roles: ROLE_CLIP }
-        - { path: ^/dagbesteding/admin, roles: ROLE_DAGBESTEDING_BEHEER }
-        - { path: ^/dagbesteding, roles: ROLE_DAGBESTEDING }
-        - { path: ^/eropuit/admin, roles: ROLE_EROPUIT_BEHEER }
-        - { path: ^/eropuit, roles: ROLE_EROPUIT }
-        - { path: ^/ga/admin, roles: ROLE_GA_BEHEER }
-        - { path: ^/ga, roles: ROLE_GA }
-        - { path: ^/hs/admin, roles: ROLE_HOMESERVICE_BEHEER }
-        - { path: ^/hs, roles: ROLE_HOMESERVICE }
-        - { path: ^/inloop/admin, roles: ROLE_INLOOP_BEHEER }
-        - { path: ^/inloop, roles: ROLE_INLOOP }
-        - { path: ^/iz/admin, roles: ROLE_IZ_BEHEER }
-        - { path: ^/iz, roles: ROLE_IZ }
-        - { path: ^/mw/admin, roles: ROLE_MW_BEHEER }
-        - { path: ^/mw, roles: ROLE_MW }
-        - { path: ^/tw/admin, roles: ROLE_TW_BEHEER }
-        - { path: ^/tw, roles: ROLE_TW }
-        - { path: ^/oek/admin, roles: ROLE_OEK_BEHEER }
-        - { path: ^/oek, roles: ROLE_OEK }
-        - { path: ^/pfo/admin, roles: ROLE_PFO_BEHEER }
-        - { path: ^/pfo, roles: ROLE_PFO }
-        - { path: ^/, roles: CONTROLLER_ACCESS_VOTER }
+#security:
+#    encoders:
+#        AppBundle\Entity\Medewerker: plaintext
+#
+#    providers:
+#        database:
+#            entity: { class: AppBundle\Entity\Medewerker, property: username }
+#
+#    firewalls:
+#        main:
+#            anonymous: ~
+#            provider: database
+#            pattern: ^/
+#            logout: ~
+#            logout_on_user_change: true
+#
+#    access_control:
+#        - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+#        - { path: ^/clip/admin, roles: ROLE_CLIP_BEHEER }
+#        - { path: ^/clip, roles: ROLE_CLIP }
+#        - { path: ^/dagbesteding/admin, roles: ROLE_DAGBESTEDING_BEHEER }
+#        - { path: ^/dagbesteding, roles: ROLE_DAGBESTEDING }
+#        - { path: ^/eropuit/admin, roles: ROLE_EROPUIT_BEHEER }
+#        - { path: ^/eropuit, roles: ROLE_EROPUIT }
+#        - { path: ^/ga/admin, roles: ROLE_GA_BEHEER }
+#        - { path: ^/ga, roles: ROLE_GA }
+#        - { path: ^/hs/admin, roles: ROLE_HOMESERVICE_BEHEER }
+#        - { path: ^/hs, roles: ROLE_HOMESERVICE }
+#        - { path: ^/inloop/admin, roles: ROLE_INLOOP_BEHEER }
+#        - { path: ^/inloop, roles: ROLE_INLOOP }
+#        - { path: ^/iz/admin, roles: ROLE_IZ_BEHEER }
+#        - { path: ^/iz, roles: ROLE_IZ }
+#        - { path: ^/mw/admin, roles: ROLE_MW_BEHEER }
+#        - { path: ^/mw, roles: ROLE_MW }
+#        - { path: ^/tw/admin, roles: ROLE_TW_BEHEER }
+#        - { path: ^/tw, roles: ROLE_TW }
+#        - { path: ^/oek/admin, roles: ROLE_OEK_BEHEER }
+#        - { path: ^/oek, roles: ROLE_OEK }
+#        - { path: ^/pfo/admin, roles: ROLE_PFO_BEHEER }
+#        - { path: ^/pfo, roles: ROLE_PFO }
+#        - { path: ^/, roles: CONTROLLER_ACCESS_VOTER }

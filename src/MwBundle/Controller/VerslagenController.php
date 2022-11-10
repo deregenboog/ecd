@@ -104,7 +104,7 @@ class VerslagenController extends AbstractController
 
         $event = new DienstenLookupEvent($entity->getKlant()->getId());
         if ($event->getKlantId()) {
-            $this->eventDispatcher->dispatch(Events::DIENSTEN_LOOKUP, $event);
+            $this->eventDispatcher->dispatch($event, Events::DIENSTEN_LOOKUP);
         }
 
         return [
@@ -147,6 +147,10 @@ class VerslagenController extends AbstractController
             {
                return $this->redirectToRoute("mw_klanten_addmwdossierstatus",['id'=>$entity->getKlant()->getId()]);
 
+            }
+            else
+            {
+                return $this->redirectToRoute("mw_klanten_view",['id'=>$entity->getKlant()->getId()]);
             }
 
             return $this->afterFormSubmitted($request, $entity, null);

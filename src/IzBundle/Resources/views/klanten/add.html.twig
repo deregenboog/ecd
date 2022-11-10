@@ -1,5 +1,5 @@
-{% extends '::add.html.twig' %}
-{% import '::html.macro.twig' as html %}
+{% extends 'add.html.twig' %}
+{% import 'html.macro.twig' as html %}
 
 {% block title %}
     Informele Zorg | {{ title }}
@@ -45,7 +45,7 @@
     {% if creationForm is defined %}
         {% if entity.klant.id %}
             <div class="col-xs-4">
-                {% include '::klant_basis.html.twig' with {klant: entity.klant, module: 'IzIntake'} %}
+                {% include 'klant_basis.html.twig' with {klant: entity.klant, module: 'IzIntake'} %}
             </div>
             <div class="col-xs-8">
                 <ul class="nav nav-tabs">
@@ -61,7 +61,7 @@
         {% else %}
             {{ form_start(creationForm) }}
                 <h2>Basisgegevens</h2>
-                {% include 'AppBundle:klanten:_form.html.twig' with {form: creationForm.klant} %}
+                {% include '@App/klanten/_form.html.twig' with {form: creationForm.klant} %}
                 <h2>Informele Zorg</h2>
                 {{ form(creationForm) }}
             {{ form_end(creationForm) }}

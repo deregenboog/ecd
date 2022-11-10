@@ -1,4 +1,4 @@
-{% import '::html.macro.twig' as html %}
+{% import 'html.macro.twig' as html %}
 {% if klant is defined %}
     {% set url = path('tw_documenten_add', {klant: klant.id}) %}
     {% set entity = klant %}

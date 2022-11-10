@@ -51,7 +51,7 @@ class DeelnamesController extends AbstractChildController
     /**
      * @Route("/")
      */
-    public function downloadAction()
+    public function downloadExportAction()
     {
         ini_set('memory_limit', '512M');
 

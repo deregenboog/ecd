@@ -4,17 +4,114 @@
 # Put parameters here that don't need to change on each machine where the app is deployed
 # https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
+    database_server_version: '5.7.26'
     locale: nl_NL.UTF-8
     cache_type: file_system
     pagination.items_per_page: 20
-    doctrine.orm.naming_strategy.default.class: AppBundle\Service\DoctrineOrmNamingStrategy
+#    doctrine.orm.naming_strategy.default.class: AppBundle\Service\DoctrineOrmNamingStrategy
+    email_policy: dev
+    profile: drg
+    administrator_name: 'Daan van Leeuwen'
+    administrator_email: ecd@deregenboog.org
+    log_email: jborger@deregenboog.org
+    ldap_domain: deregenboog.org
+    ldap_port: 636
+    ldap_servers:
+        - ad3.deregenboog.org
+    ldap_base_dn: 'DC=cluster,DC=deregenboog'
+    ldap_search_user: DEREGENBOOG\auth-ecd
+    ldap_search_password: Up7uonga1t
+    tbc_months_period: 6
+    tbc_countries:
+        - Roemenië
+        - Bulgarije
+        - Estland
+        - Letland
+        - Litouwen
+    amoc_locaties:
+        - AMOC
+        - 'Nachtopvang DRG'
+        - 'Amoc Gebruikersruimte'
+        - 'Nachtopvang De Regenboog Groep'
+    economisch_daklozen_locaties:
+        - 'De Meeuw'
+        - Claverhuis
+        - Gravestein
+        - Postoost
+        - Havelaar
+        - '''t Blommetje'
+        - Tagrijn
+        - 'Casa Jepie'
+        - 'Wachtlijst Economisch Daklozen'
+    amw_locaties:
+        - AMOC
+        - 'Amoc Gebruikersruimte'
+        - 'Nachtopvang DRG'
+        - 'Princehof Inloop'
+        - 'Princehof Gebruikersruimte'
+        - 'Blaka Watra'
+        - 'Blaka Watra Gebruikersruimte'
+        - 'Oud West'
+        - 'De Kloof'
+        - Makom
+        - Zeeburg
+        - 'De Spreekbuis'
+        - 'T6 Inloop'
+        - 'Diverse locaties extern'
+        - Droogbak
+        - 'Penitentiaire Inrichting'
+        - Politie
+    zonderzorg_locaties:
+        - 'Zonder Zorg'
+    spuitomruil_locaties:
+        - 'Princehof gebruikersruimte'
+        - 'Amoc gebruikersruimte'
+    gezin_noodopvang_locaties:
+        - Bloemendaal
+    nachtopvang_locaties:
+        - 'Nachtopvang DRG'
+    iz_specifieke_projecten:
+        - label: '2forT maatje'
+          kpl: '2177'
+        - label: 'BdH - maatje'
+          kpl: '2783'
+        - label: 'Dier en Vriend'
+          kpl: '2725'
+        - label: 'Nieuw Thuis'
+          kpl: '2727'
+        - label: 'Mensen onder elkaar'
+          kpl: '2730'
+    iz_hulpsoorten_zonder_koppelingen:
+        - timeout
+    verblijfsstatus_niet_rechthebbend_id: 7
+    wachtlijst_locaties:
+        - 'Wachtlijst T6'
+        - 'Wachtlijst Economisch Daklozen'
+        - AMOC
+    informele_zorg_mail: ''
+    dagbesteding_mail: ''
+    inloophuis_mail: ''
+    hulpverlening_mail: ''
+    agressie_mail: noreply@deregenboog.org
+    administratiebedrijf_mail: ''
+    prevent_save_enabled: '2023-12-24 09:00:00'
+    prevent_save_modified_before: '2022-01-01'
+    prevent_save_modified_after: '2020-12-31'
+    prevent_save_exclude_entities:
+        - 'DagbestedingBundle\Entity\Rapportage'
+        - 'DagbestedingBundle\Entity\Dagdeel'
+        - 'DagbestedingBundle\Entity\Traject'
+        - 'TwBundle\Entity\Klant'
+        - 'AppBundle\Entity\Klant'
+        - 'AppBundle\Entity\Vrijwilliger'
 
 services:
     # default configuration for services in *this* file
     _defaults:
         autowire: true      # Automatically injects dependencies in your services.
         autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
-
+        bind:
+#            $tbc_countries: '%tbc_countries%'
     # makes classes in src/ available to be used as services
     # this creates a service per class whose id is the fully-qualified class name
     # Exclude old-style bundles.

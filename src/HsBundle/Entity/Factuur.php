@@ -17,7 +17,7 @@ use HsBundle\Exception\InvoiceNotLockedException;
  * @ORM\DiscriminatorColumn(name="class", type="string")
  * @ORM\DiscriminatorMap({"Factuur" = "Factuur", "Creditfactuur" = "Creditfactuur"})
  * @Gedmo\Loggable
- * @ORM\HasLifeCycleCallbacks
+ * @ORM\HasLifecycleCallbacks
  */
 class Factuur
 {

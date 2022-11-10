@@ -7,7 +7,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Entity
- * @ORM\HasLifeCycleCallbacks
+ * @ORM\HasLifecycleCallbacks
  * @Gedmo\Loggable
  */
 class ZrmV1 extends Zrm
