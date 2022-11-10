@@ -5,8 +5,7 @@ namespace DagbestedingBundle\Controller;
 use AppBundle\Controller\AbstractController;
 use DagbestedingBundle\Entity\Trajectcoach;
 use DagbestedingBundle\Form\TrajectcoachType;
-use DagbestedingBundle\Service\TrajectcoachDaoInterface;
-use JMS\DiExtraBundle\Annotation as DI;
+use DagbestedingBundle\Service\TrajectcoachDao;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -22,11 +21,18 @@ class TrajectcoachesController extends AbstractController
     protected $baseRouteName = 'dagbesteding_trajectcoaches_';
 
     /**
-     * @var TrajectcoachDaoInterface
+     * @var TrajectcoachDao
      *
-     * @DI\Inject("DagbestedingBundle\Service\TrajectcoachDao")
      */
     protected $dao;
+
+    /**
+     * @param TrajectcoachDao $dao
+     */
+    public function __construct(TrajectcoachDao $dao)
+    {
+        $this->dao = $dao;
+    }
 
     /**
      * @Route("/{id}/view")

@@ -9,6 +9,10 @@ services:
         autowire: true
         autoconfigure: true
 
+    MwBundle\Command\:
+        resource: '../../Command'
+        tags: [ 'console.command' ]
+
     MwBundle\Controller\:
         resource: '../../Controller'
         tags: [ 'controller.service_arguments' ]

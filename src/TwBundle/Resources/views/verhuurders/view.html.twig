@@ -1,5 +1,5 @@
-{% extends '::base-2-col.html.twig' %}
-{% import '::html.macro.twig' as html %}
+{% extends 'base-2-col.html.twig' %}
+{% import 'html.macro.twig' as html %}
 
 {% block title %}
     Tijdelijk Wonen | {{ title }}
@@ -69,7 +69,7 @@
         <dt>Samenvatting</dt>
         <dd>{{ entity.samenvatting|nl2br }}</dd>
     </dl>
-    {% include '::klant_basis.html.twig' with {klant: entity.appKlant} %}
+    {% include 'klant_basis.html.twig' with {klant: entity.appKlant} %}
 {% endblock %}
 
 {% block content_right %}
@@ -82,14 +82,14 @@
 
     <div class="tab-content">
         <div id="huuraanbiedingen" class="tab-pane active">
-            {% include 'TwBundle:huuraanbiedingen:_list.html.twig' with {verhuurder: entity} %}
-            {% include 'TwBundle:huurovereenkomsten:_list.html.twig' with {verhuurder: entity} %}
+            {% include '@Tw/huuraanbiedingen/_list.html.twig' with {verhuurder: entity} %}
+            {% include '@Tw/huurovereenkomsten/_list.html.twig' with {verhuurder: entity} %}
         </div>
         <div id="verslagen" class="tab-pane">
-            {% include 'TwBundle:verslagen:_list.html.twig' with {verhuurder: entity} %}
+            {% include '@Tw/verslagen/_list.html.twig' with {verhuurder: entity} %}
         </div>
         <div id="documenten" class="tab-pane">
-            {% include 'TwBundle:documenten:_list.html.twig' with {verhuurder: entity} %}
+            {% include '@Tw/documenten/_list.html.twig' with {verhuurder: entity} %}
         </div>
     </div>
 {% endblock %}

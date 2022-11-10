@@ -73,7 +73,7 @@ class KlantenController extends AbstractController
     {
         $event = new DienstenLookupEvent($id);
         if ($event->getKlantId()) {
-            $this->eventDispatcher->dispatch(Events::DIENSTEN_LOOKUP, $event);
+            $this->eventDispatcher->dispatch($event,Events::DIENSTEN_LOOKUP);
         }
 
         return [

@@ -1,5 +1,5 @@
-{% extends '::base.html.twig' %}
-{% import '::html.macro.twig' as html %}
+{% extends 'base.html.twig' %}
+{% import 'html.macro.twig' as html %}
 
 {% block title %}
     Inloop | {{ title }}
@@ -78,11 +78,14 @@
             <h4>Een moment geduld...</h4>
         </div>
         <div id="ajaxContainer" style="margin-top: -17px;">
-            {#% include 'InloopBundle:registraties:_active.html.twig' %#}
+            {#% include '@Inloop/registraties/_active.html.twig' %#}
         </div>
     </div>
 {% endblock %}
 
+
 {% block scripts %}
-    <script src="{{ asset('bundles/inloop/js/registraties/active.js') }}"></script>
+    {{ parent() }}
+
+    {{ encore_entry_script_tags('inloopactive') }}
 {% endblock %}

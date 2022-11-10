@@ -1,12 +1,12 @@
-{% extends '::base.html.twig' %}
-{% import '::html.macro.twig' as html %}
+{% extends 'base.html.twig' %}
+{% import 'html.macro.twig' as html %}
 
 {% block title %}
     {{ title }}
 {% endblock %}
 
 {% block subnavigation %}
-{#    {% include 'AppBundle::subnavigation.html.twig' %}#}
+{#    {% include '@App/subnavigation.html.twig' %}#}
 {% endblock %}
 
 {% block content_top %}

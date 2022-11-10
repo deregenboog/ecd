@@ -1,0 +1,10 @@
+fos_ck_editor:
+  autoload: false
+  jquery: true
+  default_config: basic
+  configs:
+    basic:
+      disableNativeSpellChecker: false
+      removePlugins: 'liststyle,tabletools,tableselection,contextmenu'
+      enterMode: CKEDITOR.ENTER_BR
+      toolbar: [["Bold", "Italic", "Underline"]]

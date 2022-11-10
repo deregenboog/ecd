@@ -1,5 +1,5 @@
-{% extends 'IzBundle::view.html.twig' %}
-{% import '::html.macro.twig' as html %}
+{% extends '@Iz/view.html.twig' %}
+{% import 'html.macro.twig' as html %}
 
 {% block content_top %}
     {% if 'IzBundle\\Entity\\IzKlant' == class(entity.izDeelnemer) %}
@@ -36,17 +36,17 @@
 
 {% block content_left %}
     {% if 'IzBundle\\Entity\\IzKlant' == class(entity.izDeelnemer) %}
-        {% include '::klant_basis.html.twig' with {klant: entity.izDeelnemer.klant, module: 'IzIntake'} %}
+        {% include 'klant_basis.html.twig' with {klant: entity.izDeelnemer.klant, module: 'IzIntake'} %}
     {% else %}
-        {% include '::vrijwilliger_basis.html.twig' with {vrijwilliger: entity.izDeelnemer.vrijwilliger} %}
+        {% include 'vrijwilliger_basis.html.twig' with {vrijwilliger: entity.izDeelnemer.vrijwilliger} %}
     {% endif %}
 {% endblock %}
 
 {% block content_right %}
     {% if 'IzBundle\\Entity\\IzKlant' == class(entity.izDeelnemer) %}
-        {% include 'IzBundle:klanten:_tabs.html.twig' with {klant: entity.izDeelnemer, current: 'intake'} %}
+        {% include '@Iz/klanten/_tabs.html.twig' with {klant: entity.izDeelnemer, current: 'intake'} %}
     {% else %}
-        {% include 'IzBundle:vrijwilligers:_tabs.html.twig' with {vrijwilliger: entity.izDeelnemer, current: 'intake'} %}
+        {% include '@Iz/vrijwilligers/_tabs.html.twig' with {vrijwilliger: entity.izDeelnemer, current: 'intake'} %}
     {% endif %}
     <div class="tab-content">
         <div id="intake" class="tab-pane active">
@@ -71,7 +71,7 @@
                 {% endif %}
             </dl>
             {% if false and entity.zrm %}
-                {% include 'AppBundle:zrms:_detail.html.twig' with {entity: entity.zrm} %}
+                {% include '@App/zrms/_detail.html.twig' with {entity: entity.zrm} %}
             {% endif %}
         </div>
     </div>

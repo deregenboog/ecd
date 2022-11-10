@@ -9,6 +9,7 @@ use DagbestedingBundle\Service\DocumentDao;
 use DagbestedingBundle\Service\DocumentDaoInterface;
 use JMS\DiExtraBundle\Annotation as DI;
 use Symfony\Component\Routing\Annotation\Route;
+use Vich\UploaderBundle\Handler\DownloadHandler;
 
 /**
  * @Route("/documenten")
@@ -43,15 +44,4 @@ class DocumentenController extends AbstractChildController
     }
 
 
-    /**
-     * @Route("/download/{filename}")
-     */
-    public function downloadAction($filename)
-    {
-        $document = $this->dao->findByFilename($filename);
-
-        $downloadHandler = $this->get('vich_uploader.download_handler');
-
-        return $downloadHandler->downloadObject($document, 'file');
-    }
 }

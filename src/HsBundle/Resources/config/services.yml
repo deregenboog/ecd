@@ -9,6 +9,10 @@ services:
         autowire: true
         autoconfigure: true
 
+    HsBundle\Command\:
+        resource: '../../Command'
+        tags: [ 'console.command' ]
+
     HsBundle\Controller\:
         resource: '../../Controller'
         tags: [ 'controller.service_arguments' ]

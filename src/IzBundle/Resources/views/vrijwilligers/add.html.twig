@@ -1,5 +1,5 @@
-{% extends '::add.html.twig' %}
-{% import '::html.macro.twig' as html %}
+{% extends 'add.html.twig' %}
+{% import 'html.macro.twig' as html %}
 
 {% block title %}
     Informele Zorg | {{ title }}
@@ -45,7 +45,7 @@
     {% if creationForm is defined %}
         {% if entity.vrijwilliger.id %}
             <div class="col-xs-4">
-                {% include '::vrijwilliger_basis.html.twig' with {vrijwilliger: entity.vrijwilliger} %}
+                {% include 'vrijwilliger_basis.html.twig' with {vrijwilliger: entity.vrijwilliger} %}
             </div>
             <div class="col-xs-8">
                 <ul class="nav nav-tabs">
@@ -61,7 +61,7 @@
         {% else %}
             {{ form_start(creationForm) }}
                 <h2>Basisgegevens</h2>
-                {% include 'AppBundle:vrijwilligers:_form.html.twig' with {form: creationForm.vrijwilliger} %}
+                {% include '@App/vrijwilligers/_form.html.twig' with {form: creationForm.vrijwilliger} %}
                 <h2>Informele Zorg</h2>
                 {{ form(creationForm) }}
             {{ form_end(creationForm) }}

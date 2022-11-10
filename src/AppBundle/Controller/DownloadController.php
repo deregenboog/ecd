@@ -18,6 +18,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\Routing\Annotation\Route;
+use Vich\UploaderBundle\Handler\DownloadHandler;
 
 /**
  * @Route("/download")
@@ -173,7 +174,7 @@ class DownloadController extends AbstractController
     /**
      * @Route("/view/{id}")
      */
-    public function downloadAction($id)
+    public function downloadsAction($id)
     {
         /**
          * PSEUDO:

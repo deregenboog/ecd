@@ -1,5 +1,5 @@
-{% extends '::base.html.twig' %}
-{% import '::html.macro.twig' as html %}
+{% extends 'base.html.twig' %}
+{% import 'html.macro.twig' as html %}
 
 {% block title %}
     Buurtboerderij | {{ title }}
@@ -42,5 +42,5 @@
         <dt>Afsluitreden</dt>
         <dd>{{ entity.afsluitreden }}</dd>
     </dl>
-    {% include '::vrijwilliger_basis.html.twig' with {vrijwilliger: entity.vrijwilliger} %}
+    {% include 'vrijwilliger_basis.html.twig' with {vrijwilliger: entity.vrijwilliger} %}
 {% endblock %}

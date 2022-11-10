@@ -44,15 +44,4 @@ class DocumentenController extends AbstractChildController
     }
 
 
-    /**
-     * @Route("/download/{filename}")
-     */
-    public function downloadAction($filename)
-    {
-        $document = $this->dao->findByFilename($filename);
-
-        $downloadHandler = $this->get('vich_uploader.download_handler');
-
-        return $downloadHandler->downloadObject($document, 'file');
-    }
 }

@@ -8,12 +8,12 @@ use InloopBundle\Service\KlantDao;
 use InloopBundle\Service\KlantDaoInterface;
 use MwBundle\Entity\Aanmelding;
 use Psr\Log\LoggerInterface;
-use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
 use Symfony\Component\Mailer\Mailer;
 use Symfony\Component\Mime\Header\Headers;
 use Symfony\Component\Mime\Message;
+use Twig\Environment;
 
 class IntakeSubscriber implements EventSubscriberInterface
 {
@@ -22,7 +22,7 @@ class IntakeSubscriber implements EventSubscriberInterface
      */
     private $klantDao;
     private $logger;
-    private $templating;
+    private Environment $twig;
     private $mailer;
     private $informeleZorgEmail;
     private $dagbestedingEmail;
@@ -32,7 +32,7 @@ class IntakeSubscriber implements EventSubscriberInterface
     public function __construct(
         KlantDaoInterface $klantDao,
         LoggerInterface $logger,
-        EngineInterface $templating,
+        Environment $twig,
         Mailer $mailer,
         AccessUpdater $accessUpdater,
         $informeleZorgEmail,
@@ -41,7 +41,7 @@ class IntakeSubscriber implements EventSubscriberInterface
     ) {
         $this->klantDao = $klantDao;
         $this->logger = $logger;
-        $this->templating = $templating;
+        $this->twig = $twig;
         $this->mailer = $mailer;
         $this->accessUpdater = $accessUpdater;
         $this->informeleZorgEmail = $informeleZorgEmail;
@@ -118,7 +118,7 @@ class IntakeSubscriber implements EventSubscriberInterface
             return;
         }
 
-        $content = $this->templating->render('InloopBundle:intakes:aanmelding.txt.twig', [
+        $content = $this->twig->render('InloopBundle:intakes:aanmelding.txt.twig', [
             'intake' => $intake,
         ]);
 

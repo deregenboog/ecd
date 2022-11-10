@@ -1,5 +1,5 @@
-{% extends '::base-2-col.html.twig' %}
-{% import '::html.macro.twig' as html %}
+{% extends 'base-2-col.html.twig' %}
+{% import 'html.macro.twig' as html %}
 
 {% block title %}
     Tijdelijk Wonen | {{ title }}
@@ -86,16 +86,16 @@
     </ul>
     <div class="tab-content">
         <div id="verslagen" class="tab-pane active">
-            {% include 'TwBundle:verslagen:_list.html.twig' with {huurovereenkomst: entity} %}
-            {% include 'TwBundle:verslagen:_list.html.twig' with {huurverzoek: entity.huurverzoek, list_title: 'Verslagen huurverzoek'} %}
-            {% include 'TwBundle:verslagen:_list.html.twig' with {huuraanbod: entity.huuraanbod, list_title: 'Verslagen huuraanbod'} %}
+            {% include '@Tw/verslagen/_list.html.twig' with {huurovereenkomst: entity} %}
+            {% include '@Tw/verslagen/_list.html.twig' with {huurverzoek: entity.huurverzoek, list_title: 'Verslagen huurverzoek'} %}
+            {% include '@Tw/verslagen/_list.html.twig' with {huuraanbod: entity.huuraanbod, list_title: 'Verslagen huuraanbod'} %}
         </div>
         <div id="documenten" class="tab-pane">
-            {% include 'TwBundle:documenten:_list.html.twig' with {huurovereenkomst: entity} %}
+            {% include '@Tw/documenten/_list.html.twig' with {huurovereenkomst: entity} %}
         </div>
         <div id="financieel" class="tab-pane">
-            {% include 'TwBundle:financiele_verslagen:_list.html.twig' with {huurovereenkomst: entity} %}
-            {% include 'TwBundle:financiele_documenten:_list.html.twig' with {huurovereenkomst: entity} %}
+            {% include '@Tw/financiele_verslagen/_list.html.twig' with {huurovereenkomst: entity} %}
+            {% include '@Tw/financiele_documenten/_list.html.twig' with {huurovereenkomst: entity} %}
         </div>
     </div>
 {% endblock %}

@@ -139,7 +139,7 @@ class RegistratieDao extends AbstractDao implements RegistratieDaoInterface
         $registratie->setBuiten($time);
         $this->update($registratie);
 
-        $this->eventDispatcher->dispatch(Events::CHECKOUT, new GenericEvent($registratie));
+        $this->eventDispatcher->dispatch( new GenericEvent($registratie), Events::CHECKOUT);
 
         return true;
     }

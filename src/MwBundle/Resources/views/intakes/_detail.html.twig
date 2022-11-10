@@ -25,7 +25,7 @@
     <dd>{{ entity.Verblijfsstatus }}</dd>
 </dl>
 {% if entity.klant.eersteIntake %}
-    {% include 'InloopBundle:intakes:_locatieToegang.html.twig' with {entity: entity.klant.eersteIntake, verblijfsstatusId: entity.Verblijfsstatus.id} %}
+    {% include '@Inloop/intakes/_locatieToegang.html.twig' with {entity: entity.klant.eersteIntake, verblijfsstatusId: entity.Verblijfsstatus.id} %}
 {% endif %}
 <h2>Legitimatie</h2>
 <dl class="dl-horizontal">
@@ -37,9 +37,9 @@
     <dd>{{ entity.legitimatieGeldigTot ? entity.legitimatieGeldigTot|date('d-m-Y') }}</dd>
 </dl>
 {% if entity.primaireProblematiek %}
-    {% include 'InloopBundle:intakes:_verslaving_v1.html.twig' %}
+    {% include '@Inloop/intakes/_verslaving_v1.html.twig' %}
 {% else %}
-    {% include 'InloopBundle:intakes:_verslaving_v2.html.twig' %}
+    {% include '@Inloop/intakes/_verslaving_v2.html.twig' %}
 {% endif %}
 <h2>Inkomen</h2>
 <dl class="dl-horizontal">
@@ -109,5 +109,5 @@
     <dd>{{ entity.hulpverlening ? 'Ja' : 'Nee' }}</dd>
 </dl>
 {% if entity.zrm %}
-    {% include 'AppBundle:zrms:_detail.html.twig' with {entity: entity.zrm} %}
+    {% include '@App/zrms/_detail.html.twig' with {entity: entity.zrm} %}
 {% endif %}

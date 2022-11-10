@@ -1,5 +1,5 @@
-{% extends '::base-2-col.html.twig' %}
-{% import '::html.macro.twig' as html %}
+{% extends 'base-2-col.html.twig' %}
+{% import 'html.macro.twig' as html %}
 
 {% block title %}
     Inloophuizen | {{ title }}
@@ -14,7 +14,7 @@
 {% endblock %}
 
 {% block content_left %}
-    {% include '::klant_basis.html.twig' with {klant: entity.klant, module: 'Intake'} %}
+    {% include 'klant_basis.html.twig' with {klant: entity.klant, module: 'Intake'} %}
 
 
 {% endblock %}
@@ -31,12 +31,16 @@
     {{ form_widget(form.adresgegevens) }}
     {{ form_errors(form.adresgegevens) }}
 
-    {% if entity.klant.eersteIntake is not same as(entity) %}
+    {% if entity.klant.eersteIntake is same as(entity) %}
     <h2 id="locatiekeuze">Locatiekeuze</h2>
     {{ form_widget(form.toegang) }}
     {{ form_errors(form.toegang) }}
     {% else %}
-     {% include 'InloopBundle:intakes:_locatieToegang.html.twig' with {entity: entity.klant.eersteIntake, verblijfsstatusId: entity.Verblijfsstatus.id} %}
+        {% set verblijfsstatusId = null %}
+        {% if entity.verblijfsstatus is not null %}
+            {% set verblijfsstatusId = entity.verblijfsstatus.id %}
+        {% endif %}
+     {% include '@Inloop/intakes/_locatieToegang.html.twig' with {entity: entity.klant.eersteIntake, verblijfsstatusId: verblijfsstatusId} %}
     {% endif %}
     <h2>Legitimatie</h2>
     {{ form_widget(form.legitimatiebewijs) }}

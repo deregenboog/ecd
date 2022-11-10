@@ -74,6 +74,7 @@ class Medewerker implements LdapUserInterface, UserInterface
      */
     private $roles = [];
 
+
     public function getId()
     {
         return $this->id;

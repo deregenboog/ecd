@@ -14,6 +14,7 @@ use DagbestedingBundle\Form\DeelnameType;
 use DagbestedingBundle\Service\DeelnameDaoInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\Routing\Annotation\Route;
+use Vich\UploaderBundle\Handler\DownloadHandler;
 
 /**
  * @Route("/deelnames")
@@ -60,7 +61,7 @@ class DeelnamesController extends AbstractChildController
     /**
      * @Route("/")
      */
-    public function downloadAction()
+    public function downloadAction($filename=null,DownloadHandler $downloadHandler)
     {
         ini_set('memory_limit', '512M');
 

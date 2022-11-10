@@ -18,5 +18,9 @@ framework:
     ide: 'phpstorm://open?file=%%f&line=%%l&/var/www/html/>/Users/jtborger/Documents/webprojects/deregenboog/ecd/'
     #esi: true
     #fragments: true
+#    templating:
+#        engines:
+#            - twig
     php_errors:
         log: true
+

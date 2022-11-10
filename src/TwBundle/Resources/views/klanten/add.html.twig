@@ -1,5 +1,5 @@
-{% extends '::base.html.twig' %}
-{% import '::html.macro.twig' as html %}
+{% extends 'base.html.twig' %}
+{% import 'html.macro.twig' as html %}
 
 {% block title %}
     Tijdelijk Wonen | {{ title }}
@@ -48,7 +48,7 @@
     {% if creationForm is defined %}
         {% if entity.appKlant.id %}
             <div class="col-xs-4">
-                {% include '::klant_basis.html.twig' with {klant: entity.appKlant, module: 'TwHuurders'} %}
+                {% include 'klant_basis.html.twig' with {klant: entity.appKlant, module: 'TwHuurders'} %}
             </div>
             <div class="col-xs-8">
                 <ul class="nav nav-tabs">

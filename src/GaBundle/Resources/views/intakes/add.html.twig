@@ -1,5 +1,5 @@
-{% extends '::base-2-col.html.twig' %}
-{% import '::html.macro.twig' as html %}
+{% extends 'base-2-col.html.twig' %}
+{% import 'html.macro.twig' as html %}
 
 {% block title %}
     Groepsactiviteiten | {{ title }}
@@ -14,11 +14,11 @@
 {% endblock %}
 
 {% block content_left %}
-    {% include '::klant_basis.html.twig' with {klant: entity.dossier.klant} %}
+    {% include 'klant_basis.html.twig' with {klant: entity.dossier.klant} %}
 {% endblock %}
 
 {% block content_right %}
-    {#% include 'GaBundle:klantdossiers:_tabs.html.twig' with {dossier: entity.dossier, current: 'intake'} %#}
+    {#% include '@Ga/klantdossiers/_tabs.html.twig' with {dossier: entity.dossier, current: 'intake'} %#}
     <div class="tab-content">
         <div id="intakes" class="tab-pane active">
             <h1>{{ entity_name|capitalize }} toevoegen</h1>

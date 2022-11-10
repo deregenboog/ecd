@@ -1,16 +1,16 @@
-{% extends 'GaBundle::view.html.twig' %}
-{% import '::html.macro.twig' as html %}
+{% extends '@Ga/view.html.twig' %}
+{% import 'html.macro.twig' as html %}
 
 {% block content_top %}
     <h1>{{ entity_name|capitalize }} {{ entity }}</h1>
 {% endblock %}
 
 {% block content_left %}
-    {% include '::vrijwilliger_basis.html.twig' with {vrijwilliger: entity.vrijwilliger} %}
+    {% include 'vrijwilliger_basis.html.twig' with {vrijwilliger: entity.vrijwilliger} %}
 {% endblock %}
 
 {% block content_right %}
-    {% include 'GaBundle:vrijwilligers:_tabs.html.twig' with {intake: entity, vrijwilliger: entity.vrijwilliger, current: 'intake'} %}
+    {% include '@Ga/vrijwilligers/_tabs.html.twig' with {intake: entity, vrijwilliger: entity.vrijwilliger, current: 'intake'} %}
     <div class="tab-content">
         <div id="intakes" class="tab-pane active">
             <h2>Intake</h2>

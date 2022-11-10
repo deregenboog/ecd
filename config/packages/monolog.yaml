@@ -1,7 +1,31 @@
 monolog:
-    channels:
-        - deprecation # Deprecations are logged in the dedicated "deprecation" channel when it exists
-
+    channels: ["merge"]
+    handlers:
+        main:
+            type: stream
+            path: "%kernel.logs_dir%/%kernel.environment%.log"
+            level: error
+        merge:
+            level: debug
+            type: stream
+            path: '%kernel.logs_dir%/merge.log'
+            channels: ["merge"]
+        # https://symfony.com/doc/3.4/logging/monolog_email.html
+#        mail:
+#            type: fingers_crossed
+#            action_level: critical
+#            handler: deduplicated
+#        deduplicated:
+#            type: deduplication
+#            handler: swift
+#        swift:
+#            type: swift_mailer
+#            from_email: 'noreply@deregenboog.org'
+#            to_email: '%log_email%'
+#            subject: 'ECD error: %%message%%'
+#            level: debug
+#            formatter: monolog.formatter.html
+#            content_type: text/html
 #when@dev:
 #    monolog:
 #        handlers:

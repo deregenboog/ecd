@@ -156,7 +156,7 @@ class KlantenController extends AbstractController
 
         $event = new DienstenLookupEvent($entity->getId());
         if ($event->getKlantId()) {
-            $this->eventDispatcher->dispatch(Events::DIENSTEN_LOOKUP, $event);
+            $this->eventDispatcher->dispatch($event, Events::DIENSTEN_LOOKUP);
         }
 
         return [
@@ -167,7 +167,7 @@ class KlantenController extends AbstractController
 
     protected function getAmocLanden()
     {
-        return $this->getDoctrine()->getEntityManager()->getRepository(Land::class)
+        return $this->getEntityManager()->getRepository(Land::class)
             ->createQueryBuilder('land')
             ->innerJoin(AmocLand::class, 'amoc', 'WITH', 'amoc.land = land')
             ->getquery()

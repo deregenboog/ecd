@@ -228,7 +228,7 @@ class KlantenController extends AbstractController
                 $entityManager->persist($afsluiting);
                 $entityManager->flush();
 
-                $this->eventDispatcher->dispatch(Events::DOSSIER_CHANGED, new GenericEvent($afsluiting));
+                $this->eventDispatcher->dispatch(new GenericEvent($afsluiting), Events::DOSSIER_CHANGED);
 
                 $this->addFlash('success', 'Inloopdossier is afgesloten');
 

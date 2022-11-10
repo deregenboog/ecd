@@ -1,5 +1,5 @@
-{% extends '::base-2-col.html.twig' %}
-{% import '::html.macro.twig' as html %}
+{% extends 'base-2-col.html.twig' %}
+{% import 'html.macro.twig' as html %}
 
 {% block title %}
     Clip | {{ title }}
@@ -37,7 +37,7 @@
         <dt>Medewerker</dt>
         <dd>{{ entity.medewerker }}</dd>
     </dl>
-    {% include '::vrijwilliger_basis.html.twig' with {vrijwilliger: entity.vrijwilliger} %}
+    {% include 'vrijwilliger_basis.html.twig' with {vrijwilliger: entity.vrijwilliger} %}
 {% endblock %}
 
 {% block content_right %}

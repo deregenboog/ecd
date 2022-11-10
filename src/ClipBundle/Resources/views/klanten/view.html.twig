@@ -1,5 +1,5 @@
-{% extends '::base-2-col.html.twig' %}
-{% import '::html.macro.twig' as html %}
+{% extends 'base-2-col.html.twig' %}
+{% import 'html.macro.twig' as html %}
 
 {% block title %}
     Clip | {{ title }}
@@ -47,13 +47,13 @@
             <li>{{ status }}</li>
         {% endfor %}
     </ul>
-    {% include '::klant_basis.html.twig' with {klant: entity, module: 'MaatschappelijkWerk'} %}
-    {{ render(controller('ClipBundle:Klanten:_mw', {id: entity.id})) }}
-    {{ render(controller('InloopBundle:Klanten:_intakes', {id: entity.id})) }}
-    {{ render(controller('InloopBundle:Klanten:_opmerkingen', {id: entity.id})) }}
-    {{ render(controller('InloopBundle:Klanten:_schorsingen', {id: entity.id})) }}
-    {{ render(controller('InloopBundle:Klanten:_registraties', {id: entity.id})) }}
-    {{ render(controller('ClipBundle:Klanten:_documenten', {id: entity.id})) }}
+    {% include 'klant_basis.html.twig' with {klant: entity, module: 'MaatschappelijkWerk'} %}
+    {{ render(controller('ClipBundle\\Controller\\KlantenController::_mwAction', {id: entity.id})) }}
+    {{ render(controller('InloopBundle\\Controller\\KlantenController::_intakesAction', {id: entity.id})) }}
+    {{ render(controller('InloopBundle\\Controller\\KlantenController::_opmerkingenAction', {id: entity.id})) }}
+    {{ render(controller('InloopBundle\\Controller\\KlantenController::_schorsingenAction', {id: entity.id})) }}
+    {{ render(controller('InloopBundle\\Controller\\KlantenController::_registratiesAction', {id: entity.id})) }}
+    {{ render(controller('ClipBundle\\Controller\\KlantenController::_documentenAction', {id: entity.id})) }}
 
 {% endblock %}
 
