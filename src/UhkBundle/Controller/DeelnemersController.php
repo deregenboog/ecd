@@ -166,7 +166,7 @@ class DeelnemersController extends AbstractController
                 $url = $request->get('redirect');
                 $viewUrl = $this->generateUrl($this->baseRouteName . 'view', ['id' => $entity->getId(),'_fragment'=>'verslagen']);
 
-                $verslagDao = new VerslagDao($this->getEntityManager(),$this->getPaginator(),5);
+                $verslagDao = new VerslagDao($this->getEntityManager(), $this->getPaginator(),5);
                 $verslag = $verslagDao->find($verslagId);
                 $verslagDao->delete($verslag);
 
