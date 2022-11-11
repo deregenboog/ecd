@@ -223,13 +223,13 @@ class KlantFilter implements FilterInterface
         }
         if($this->project && count($this->project)>0)
         {
-//            $builder->andWhere('project IN (:project)')
-//                    ->setParameter('project',$this->project);
-            foreach($this->project as $p)
-            {
-                $builder->andWhere('project = :project')
-                    ->setParameter('project',$p);
-            }
+            $builder->andWhere('project IN (:project)')
+                    ->setParameter('project',$this->project);
+//            foreach($this->project as $p)
+//            {
+//                $builder->andWhere('project = :project')
+//                    ->setParameter('project',$p);
+//            }
 
         }
 

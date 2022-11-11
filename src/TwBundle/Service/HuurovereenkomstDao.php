@@ -15,6 +15,7 @@ class HuurovereenkomstDao extends AbstractDao implements HuurovereenkomstDaoInte
         'sortFieldWhitelist' => [
             'huurovereenkomst.id',
             'klant.achternaam',
+            'klant.aanmelddatum',
             'verhuurderKlant.achternaam',
             'verhuurderKlant.plaats',
             'medewerker.voornaam',
@@ -42,14 +43,14 @@ class HuurovereenkomstDao extends AbstractDao implements HuurovereenkomstDaoInte
             ->innerJoin('huurovereenkomst.medewerker', 'medewerker')
             ->innerJoin('huurverzoek.klant', 'klant')
             ->innerJoin('huuraanbod.verhuurder', 'verhuurder')
-            ->leftJoin('huuraanbod.project','project')
+            ->innerJoin('huuraanbod.project','project')
 
             ->innerJoin('klant.appKlant', 'appKlant')
             ->innerJoin('verhuurder.appKlant', 'verhuurderKlant')
             ->leftJoin('huurovereenkomst.afsluiting', 'afsluiting')
             ->andWhere('afsluiting.tonen IS NULL OR afsluiting.tonen = true')
         ;
-
+//        $sql = $builder->getQuery()->getSQL();
         return parent::doFindAll($builder, $page, $filter);
     }
 
