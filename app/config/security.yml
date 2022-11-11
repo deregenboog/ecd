@@ -83,7 +83,7 @@ security:
         - { path: ^/inloop/schorsingen, roles: ROLE_INLOOP_SCHORSINGEN }
         - { path: ^/inloop/vrijwilligers, roles: ROLE_INLOOP_VRIJWILLIGERS }
         - { path: ^/inloop, roles: ROLE_INLOOP }
-        - { path: ^/oekraine, roles: [ROLE_INLOOP, ROLE_OEKRAINE] }
+        - { path: ^/oekraine, roles: [ROLE_OEKRAINE] }
         - { path: ^/iz/admin, roles: ROLE_IZ_BEHEER }
         - { path: ^/iz, roles: ROLE_IZ }
         - { path: ^/mw/admin, roles: ROLE_MW_BEHEER }

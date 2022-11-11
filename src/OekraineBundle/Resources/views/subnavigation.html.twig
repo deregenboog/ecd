@@ -6,18 +6,13 @@
 </ol>
 <ul class="nav nav-tabs">
     {{ html.navLink('Bezoekersregistratie', path('oekraine_registraties_locationselect'), isActiveRoute('oekraine_registraties_')) }}
-    {% if is_granted('ROLE_INLOOP_KLANTEN') %}
+    {% if is_granted('ROLE_OEKRAINE') %}
         {{ html.navLink('Bezoekers', path('oekraine_bezoekers_index'), isActiveRoute('oekraine_bezoekers_')) }}
-    {% endif %}
-
-    {% if is_granted('ROLE_INLOOP_INTAKES') %}
         {{ html.navLink('Intakes', path('oekraine_intakes_index'), isActiveRoute('oekraine_intakes_')) }}
-    {% endif %}
 
-    {% if is_granted('ROLE_INLOOP_REPORTS') %}
-{#        {{ html.navLink('Rapportage', path('oekraine_rapportages_index'), isActiveRoute('oekraine_rapportages_')) }}#}
+
     {% endif %}
-    {% if is_granted('ROLE_INLOOP_BEHEER') %}
+    {% if is_granted('ROLE_OEKRAINE_BEHEER') %}
         <li role="presentation" class="dropdown {{ isActivePath('inloop/admin') ? 'active' }}">
             <a class="dropdown-toggle active" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
                 Beheer <span class="caret"></span>
