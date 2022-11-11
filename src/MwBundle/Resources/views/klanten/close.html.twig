@@ -25,6 +25,9 @@
 
 {% block scripts %}
     <script>
+   window.onload = function(){
+      if($){
+
         $(function() {
             var toggleCountry = function() {
                 var selectedElm = $('select#afsluiting_reden option:selected');
@@ -54,5 +57,8 @@
             //
             // });
         });
-    </script>
+
+      }
+   }
+   </script>
 {% endblock %}

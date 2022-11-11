@@ -21,6 +21,9 @@
 {% endblock %}
 {% macro tweedeFase() %}
     <script>
+   window.onload = function(){
+      if($){
+
 
         $(function() {
             var fieldTweedefase = $('form input#vrijwilliger_tweedeFase');
@@ -51,7 +54,10 @@
         });
 
 
-    </script>
+
+      }
+   }
+   </script>
 {% endmacro %}
 {% block scripts %}
    {{  _self.tweedeFase() }}

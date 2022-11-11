@@ -32,9 +32,9 @@
     {{ form_errors(form.adresgegevens) }}
 
     {% if entity.klant.eersteIntake is same as(entity) %}
-    <h2 id="locatiekeuze">Locatiekeuze</h2>
-    {{ form_widget(form.toegang) }}
-    {{ form_errors(form.toegang) }}
+        <h2 id="locatiekeuze">Locatiekeuze</h2>
+        {{ form_widget(form.toegang) }}
+        {{ form_errors(form.toegang) }}
     {% else %}
         {% set verblijfsstatusId = null %}
         {% if entity.verblijfsstatus is not null %}
@@ -93,7 +93,7 @@
     {{ form_widget(form.ondersteuning) }}
     {{ form_errors(form.ondersteuning) }}
 
-    {% if for.zrm is defined %}
+    {% if form.zrm is defined %}
         <h2>Zelfredzaamheidmatrix</h2>
         {{ form_widget(form.zrm) }}
         {{ form_errors(form.zrm) }}

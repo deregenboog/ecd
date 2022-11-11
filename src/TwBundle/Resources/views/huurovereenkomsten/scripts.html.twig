@@ -1,5 +1,8 @@
 {% block scripts %}
 <script>
+   window.onload = function(){
+      if($){
+
 
     var checkRequired = function(){
         if($('#huurovereenkomst_isReservering').prop('checked'))
@@ -27,5 +30,8 @@
         checkRequired()
     });
 
-</script>
+
+      }
+   }
+   </script>
 {% endblock %}

@@ -57,6 +57,9 @@
 
 {% block scripts %}
     <script>
+   window.onload = function(){
+      if($){
+
         $(function() {
             function seen(opmerking_id) {
                 $.post({
@@ -91,5 +94,8 @@
                 remove(id);
             });
         });
-    </script>
+
+      }
+   }
+   </script>
 {% endblock %}

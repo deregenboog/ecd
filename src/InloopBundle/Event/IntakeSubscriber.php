@@ -8,9 +8,13 @@ use InloopBundle\Service\KlantDao;
 use InloopBundle\Service\KlantDaoInterface;
 use MwBundle\Entity\Aanmelding;
 use Psr\Log\LoggerInterface;
+use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
+use Symfony\Component\Mailer\Exception\TransportException;
 use Symfony\Component\Mailer\Mailer;
+use Symfony\Component\Mime\Address;
+use Symfony\Component\Mime\Email;
 use Symfony\Component\Mime\Header\Headers;
 use Symfony\Component\Mime\Message;
 use Twig\Environment;
@@ -67,7 +71,7 @@ class IntakeSubscriber implements EventSubscriberInterface
 
         $this->checkInloopdossier($intake);
         $this->updateAccess($intake);
-//        $this->sendIntakeNotification($intake);
+        $this->sendIntakeNotification($intake);
     }
 
     public function afterIntakeUpdated(GenericEvent $event)
@@ -118,27 +122,30 @@ class IntakeSubscriber implements EventSubscriberInterface
             return;
         }
 
-        $content = $this->twig->render('InloopBundle:intakes:aanmelding.txt.twig', [
-            'intake' => $intake,
-        ]);
+//        $content = $this->twig->render('InloopBundle:intakes:aanmelding.txt.twig', [
+//            'intake' => $intake,
+//        ]);
 
-        /** @var Message $message */
-        $message = new Message();
-        $headers = new Headers();
-
-//        $message->
-//            ->setTo($addresses)
-//            ->setSubject('Verzoek')
-//            ->setBody($content, 'text/plain')
-//        ;
+        $message = (new TemplatedEmail())
+            ->addFrom(new Address($intake->getMedewerker()->getEmail(),'ECD Inloop Intake ('.$intake->getMedewerker()->getNaam().')'))
+            ->subject("Verzoek (Inloop intake)")
+            ->textTemplate('@Inloop\intakes\aanmelding.txt.twig')
+            ->context([
+                'intake'=>$intake
+            ])
+        ;
+        foreach($addresses as $rcpt)
+        {
+            $message->addTo($rcpt);
+        }
 
         try {
-//            $sent = $this->mailer->send($message);
-        } catch (\Exception $e) {
+            $sent = $this->mailer->send($message);
+        } catch (TransportException $e) {
             $sent = false;
         }
 
-        if ($sent) {
+        if ($sent === null) {
             $this->logger->debug('Email intake verzonden', ['intake' => $intake->getId(), 'to' => $addresses]);
         } else {
             $this->logger->error('Email intake kon niet worden verzonden', ['intake' => $intake->getId(), 'to' => $addresses]);
