@@ -73,3 +73,5 @@ phpunit
 /app/webroot-dev/php_errors.log
 /app/data/postcodes.csv
 /app/data/postcodes-8-12-2021.csv
+/.env
+/.env.local.php
