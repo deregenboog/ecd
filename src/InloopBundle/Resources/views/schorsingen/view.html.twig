@@ -227,6 +227,9 @@
 
 {% block scripts %}
     <script>
+
+        window.onload = function() {
+    if($){
         $(function() {
             function terugkeergesprekGehad(schorsing_id) {
                 $.post({
@@ -243,5 +246,7 @@
                 terugkeergesprekGehad(id);
             });
         });
-    </script>
+      }
+   }
+   </script>
 {% endblock %}

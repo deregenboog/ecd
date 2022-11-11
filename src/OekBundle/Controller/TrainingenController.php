@@ -4,7 +4,6 @@ namespace OekBundle\Controller;
 
 use AppBundle\Controller\AbstractChildController;
 use AppBundle\Export\ExportInterface;
-use JMS\DiExtraBundle\Annotation as DI;
 use OekBundle\Entity\Training;
 use OekBundle\Form\EmailMessageType;
 use OekBundle\Form\TrainingFilterType;
@@ -12,6 +11,12 @@ use OekBundle\Form\TrainingType;
 use OekBundle\Service\TrainingDao;
 use OekBundle\Service\TrainingDaoInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Symfony\Bridge\Twig\Mime\TemplatedEmail;
+use Symfony\Component\Mailer\Exception\TransportException;
+use Symfony\Component\Mailer\Mailer;
+use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Component\Mime\Address;
+use Symfony\Component\Mime\Email;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -66,34 +71,38 @@ class TrainingenController extends AbstractChildController
     /**
      * @Route("/{id}/email")
      */
-    public function emailAction($id)
+    public function emailAction($id, MailerInterface $mailer)
     {
         /** @var Training $training */
         $training = $this->dao->find($id);
 
         $form = $this->getForm(EmailMessageType::class, null, [
-            'from' => $this->Session->read('Auth.Medewerker.LdapUser.mail'),
+            'from' => $this->getMedewerker()->getEmail(),
             'to' => $training->getDeelnemers(),
         ]);
+
         $form->handleRequest($this->getRequest());
 
         if ($form->isSubmitted() && $form->isValid()) {
-            /** @var \Swift_Mailer $mailer */
-            $mailer = $this->container->get('mailer');
 
-            /** @var \Swift_Mime_Message $message */
-            $message = $mailer->createMessage()
-                ->setFrom($form->get('from')->getData())
-                ->setTo($form->get('from')->getData())
-                ->setBcc(explode(', ', $form->get('to')->getData()))
-                ->setSubject($form->get('subject')->getData())
-                ->setBody($form->get('text')->getData(), 'text/plain')
+
+            $message = (new Email())
+                ->addFrom(new Address($this->getMedewerker()->getEmail(),$this->getMedewerker()->getNaam()))
+                ->addTo(new Address($this->getMedewerker()->getEmail(),'Op eigen kracht trainingen ('.$this->getMedewerker()->getNaam().')'))
+                ->subject($form->get('subject')->getData())
+                ->text($form->get('text')->getData())
             ;
+            foreach(explode(", ",$form->get('to')->getData()) as $rcpt)
+            {
+                $message->addTo($rcpt);
+            }
 
-            if ($mailer->send($message)) {
+            try {
+                $sent = $mailer->send($message);
                 $this->addFlash('success', 'Email is succesvol verzonden');
-            } else {
-                $this->addFlash('danger', 'Email kon niet worden verzonden');
+            } catch (TransportException $e) {
+                $sent = false;
+                $this->addFlash('danger', 'Email kon niet worden verzonden ('.$e->getMessage().')');
             }
 
             return $this->redirectToView($training);

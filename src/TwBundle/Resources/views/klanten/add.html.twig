@@ -71,6 +71,9 @@
 
 {% block scripts %}
 <script>
+   window.onload = function(){
+      if($){
+
     /**
      * OK, This should used more often and then made more generic, but for now:
      *
@@ -123,5 +126,8 @@
         }
         $('#modalPaste').modal('hide');
     }
-</script>
+
+      }
+   }
+   </script>
 {% endblock %}

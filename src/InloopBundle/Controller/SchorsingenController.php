@@ -15,6 +15,11 @@ use InloopBundle\Service\SchorsingDao;
 use InloopBundle\Service\SchorsingDaoInterface;
 use JMS\DiExtraBundle\Annotation as DI;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+use Symfony\Bridge\Twig\Mime\TemplatedEmail;
+use Symfony\Component\Mailer\Exception\TransportException;
+use Symfony\Component\Mailer\Mailer;
+use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Component\Mime\Address;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -46,13 +51,20 @@ class SchorsingenController extends AbstractController
     protected $export;
 
     /**
+     * @var Mailer
+     */
+    protected $mailer;
+    /**
      * @param SchorsingDao $dao
      * @param ExportInterface $export
+     * @param MailerInterface $mailer
+     *
      */
-    public function __construct(SchorsingDao $dao, ExportInterface $export)
+    public function __construct(SchorsingDao $dao, ExportInterface $export, MailerInterface $mailer)
     {
         $this->dao = $dao;
         $this->export = $export;
+        $this->mailer = $mailer;
     }
 
 
@@ -211,35 +223,28 @@ class SchorsingenController extends AbstractController
 
     private function sendSchorsingEmail(Schorsing $schorsing)
     {
-        $content = $this->renderView('InloopBundle:schorsingen:agressiemail.txt.twig', [
-            'schorsing' => $schorsing,
-            'medewerker' => $this->getMedewerker(),
-            'url' => $this->get('router')->generate('inloop_schorsingen_view', ['id' => $schorsing->getId()], Router::ABSOLUTE_URL),
-            'medewerker_types' => Schorsing::DOELWITTEN,
-        ]);
 
-        /** @var \Swift_Mailer $mailer */
-        $mailer = $this->container->get('mailer');
 
-        /** @var \Swift_Mime_Message $message */
-        $message = $mailer->createMessage()
-            ->setFrom('noreply@deregenboog.org')
-            ->setTo($this->getParameter('agressie_mail'))
-            ->setSubject('Bericht naar aanleiding van een schorsing waarbij sprake was van fysieke of verbale agressie')
-            ->setBody($content, 'text/plain')
+        $message = (new TemplatedEmail())
+            ->addFrom(new Address('noreply@deregenboog.org','De Regenboog ECD'))
+            ->addTo($this->getParameter('agressie_mail'))
+            ->subject('Bericht naar aanleiding van een schorsing waarbij sprake was van fysieke of verbale agressie')
+            ->textTemplate('@Inloop\schorsingen\agressiemail.txt.twig')
+            ->context([
+                'schorsing' => $schorsing,
+                'medewerker' => $this->getMedewerker(),
+                'url' => $this->get('router')->generate('inloop_schorsingen_view', ['id' => $schorsing->getId()], Router::ABSOLUTE_URL),
+                'medewerker_types' => Schorsing::DOELWITTEN,
+            ])
         ;
 
         try {
-            $sent = $mailer->send($message);
-        } catch (\Exception $e) {
-            $sent = false;
+            $sent = $this->mailer->send($message);
+            $this->addFlash('success', 'E-mail is verzonden.');
+        } catch (TransportException $e) {
+            $this->addFlash('danger', 'E-mail kon niet verzonden worden.('.$e->getMessage().')');
         }
 
-        if ($sent) {
-            $this->addFlash('success', 'E-mail is verzonden.');
-        } else {
-            $this->addFlash('danger', 'E-mail kon niet verzonden worden.');
-        }
     }
 
     /**

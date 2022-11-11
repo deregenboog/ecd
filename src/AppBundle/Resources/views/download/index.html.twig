@@ -30,6 +30,9 @@
 
 {% block scripts %}
 <script>
+   window.onload = function(){
+      if($){
+
     $('#download_vrijwilligers_download').on('click',
         function(event)
         {
@@ -40,5 +43,8 @@
             }
         }
     );
-</script>
+
+      }
+   }
+   </script>
 {% endblock %}

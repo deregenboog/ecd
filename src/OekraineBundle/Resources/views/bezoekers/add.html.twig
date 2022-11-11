@@ -66,6 +66,9 @@
 {% block scripts %}
     {% if amoc_landen is defined %}
         <script>
+   window.onload = function(){
+      if($){
+
             $(function() {
                 var amoc_landen = [];
                 {% for land in amoc_landen %}
@@ -119,6 +122,9 @@
                     checkTbc(tbc_countries,$('select#klant_land option:selected').text())
                 });
 
-        </script>
+
+      }
+   }
+   </script>
     {% endif %}
 {% endblock %}

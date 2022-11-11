@@ -72,6 +72,9 @@
 {% block scripts %}
     {% if tbc_countries is defined %}
         <script>
+   window.onload = function(){
+      if($){
+
             $(function(){
 
                 var tbc_countries = [];
@@ -106,6 +109,9 @@
                 checkTbc(tbc_countries,$("#klant_land option:selected").text(),$('#klant_laatste_TBC_controle').val());
             });
 
-        </script>
+
+      }
+   }
+   </script>
     {% endif %}
 {% endblock %}

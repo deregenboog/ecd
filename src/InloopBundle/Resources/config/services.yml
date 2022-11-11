@@ -105,9 +105,9 @@ services:
             - "@twig"
             - "@mailer"
             - '@InloopBundle\Service\AccessUpdater'
-            - "%informele_zorg_mail%"
-            - "%dagbesteding_mail%"
-            - "%hulpverlening_mail%"
+            - "%env(INFORMELE_ZORG_MAIL)%"
+            - "%env(DAGBESTEDING_MAIL)%"
+            - "%env(HULPVERLENING_MAIL)%"
         tags:
             - { name: kernel.event_subscriber }
 

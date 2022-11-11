@@ -96,7 +96,13 @@
 {% block scripts %}
     {{ parent() }}
     <script>
+   window.onload = function(){
+      if($){
+
         var locatie_id = {{ locatie.id }};
-    </script>
+
+      }
+   }
+   </script>
     {{ encore_entry_script_tags('inloophistory') }}
 {% endblock %}

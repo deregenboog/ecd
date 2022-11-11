@@ -20,7 +20,7 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class IntakeType extends AbstractType
+class IntakeAndToegangType extends AbstractType
 {
     /**
      * {@inheritdoc}
@@ -30,7 +30,8 @@ class IntakeType extends AbstractType
         $builder
             ->add($this->createAlgemeen($builder, $options))
             ->add($this->createAdresgegevens($builder, $options))
-//            ->add(ToegangType::createToegang($builder, $options))
+            ->add(ToegangType::createToegang($builder, $options))
+
 
             ->add($this->createLegitimatiebewijs($builder, $options))
             ->add($this->createVerslaving($builder, $options))

@@ -88,11 +88,11 @@ parameters:
         - 'Wachtlijst T6'
         - 'Wachtlijst Economisch Daklozen'
         - AMOC
-    informele_zorg_mail: ''
-    dagbesteding_mail: ''
-    inloophuis_mail: ''
-    hulpverlening_mail: ''
-    agressie_mail: noreply@deregenboog.org
+#    informele_zorg_mail: ''
+#    dagbesteding_mail: ''
+#    inloophuis_mail: ''
+#    hulpverlening_mail: ''
+    agressie_mail: '%env(AGRESSIEMAIL)%'
     administratiebedrijf_mail: ''
     prevent_save_enabled: '2023-12-24 09:00:00'
     prevent_save_modified_before: '2022-01-01'

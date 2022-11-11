@@ -63,6 +63,9 @@
 {% block scripts %}
     {% if amoc_landen is defined %}
         <script>
+   window.onload = function(){
+      if($){
+
             $(function() {
                 var amoc_landen = [];
                 {% for land in amoc_landen %}
@@ -83,6 +86,9 @@
 
                 checkAmoc();
             });
-        </script>
+
+      }
+   }
+   </script>
     {% endif %}
 {% endblock %}

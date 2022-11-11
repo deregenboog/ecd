@@ -85,7 +85,9 @@
 
 {% block scripts %}
     <script>
-        $(function() {
+        window.onload = function() {
+        if($){
+            $(function() {
             var radios = $('table.inventarisaties input[type="radio"]');
             var cellsWithSelect = $('table.inventarisaties td:has(select)');
             var toggleSelect = function() {
@@ -119,5 +121,7 @@
             });
             toggleDuur();
         });
-    </script>
+      }
+   }
+   </script>
 {% endblock %}

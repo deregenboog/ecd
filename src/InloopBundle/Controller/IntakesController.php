@@ -7,6 +7,8 @@ use AppBundle\Exception\UserException;
 use AppBundle\Export\ExportInterface;
 use Doctrine\ORM\EntityNotFoundException;
 use InloopBundle\Entity\Intake;
+use InloopBundle\Form\FirstIntakeType;
+use InloopBundle\Form\IntakeAndToegangType;
 use InloopBundle\Form\IntakeFilterType;
 use InloopBundle\Form\IntakeType;
 use InloopBundle\Form\ToegangType;
@@ -31,7 +33,7 @@ class IntakesController extends AbstractController
     protected $title = 'Intakes';
     protected $entityName = 'intake';
     protected $entityClass = Intake::class;
-    protected $formClass = IntakeType::class;
+    protected $formClass = IntakeAndToegangType::class;
     protected $filterFormClass = IntakeFilterType::class;
     protected $baseRouteName = 'inloop_intakes_';
 
@@ -86,6 +88,7 @@ class IntakesController extends AbstractController
             $entity = clone $klant->getLaatsteIntake();
             $this->getEntityManager()->detach($entity);
             $klant->addIntake($entity);
+            $this->formClass = IntakeType::class;//because it is not the first one, dont show toegang form.
         } else {
             $entity = new Intake($klant);
         }
@@ -93,6 +96,7 @@ class IntakesController extends AbstractController
         $form = $this->getForm($this->formClass, $entity, [
             'medewerker' => $this->getMedewerker(),
         ]);
+
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -116,6 +120,7 @@ class IntakesController extends AbstractController
         return [
             'entity' => $entity,
             'form' => $form->createView(),
+
             'tbc_countries'=>$this->tbc_countries,
         ];
     }

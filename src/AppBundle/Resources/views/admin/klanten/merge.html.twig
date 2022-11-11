@@ -60,6 +60,9 @@
 
 {% block scripts %}
     <script>
+   window.onload = function(){
+      if($){
+
         $(function() {
             $('.copy-paste').click(function() {
                 var value = $(this).children('.value').text();
@@ -78,7 +81,10 @@
                 }
             });
         });
-    </script>
+
+      }
+   }
+   </script>
 {% endblock %}
 
 {% macro mergeRow(klanten, form, filter) %}
