@@ -501,7 +501,7 @@ class Intake
     /**
      * @return bool
      */
-    public function isWerkhulp(): bool
+    public function isWerkhulp(): ?bool
     {
         return $this->werkhulp;
     }

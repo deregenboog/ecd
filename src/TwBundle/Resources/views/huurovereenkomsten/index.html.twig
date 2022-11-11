@@ -44,6 +44,12 @@
                     {{ form_errors(filter.medewerker) }}
                 </th>
                 <th>
+                    {{ form_widget(filter.aanmelddatum.start) }}
+                    {{ form_errors(filter.aanmelddatum.start) }}
+                    {{ form_widget(filter.aanmelddatum.end) }}
+                    {{ form_errors(filter.aanmelddatum.end) }}
+                </th>
+                <th>
                     {{ form_widget(filter.startdatum.start) }}
                     {{ form_errors(filter.startdatum.start) }}
                     {{ form_widget(filter.startdatum.end) }}
@@ -65,9 +71,7 @@
                     {{ form_widget(filter.verhuurderKlant.plaats) }}
                     {{ form_errors(filter.verhuurderKlant.plaats) }}
                 </th>
-                <th>
-                    {{ form_widget(filter.isReservering) }}
-                </th>
+
                 <th>
                     {{ form_widget(filter.opzegbriefVerstuurd) }}
                 </th>
@@ -89,6 +93,9 @@
                 {{ knp_pagination_sortable(pagination, 'Medewerker', 'medewerker.voornaam') }}
             </th>
             <th>
+                {{ knp_pagination_sortable(pagination, 'Aanmelddatum', 'klant.aanmelddatum') }}
+            </th>
+            <th>
                 {{ knp_pagination_sortable(pagination, 'Startdatum', 'huurovereenkomst.startdatum') }}
             </th>
             <th>
@@ -100,9 +107,7 @@
             <th>
                 {{ knp_pagination_sortable(pagination, 'Plaats', 'verhuurderKlant.plaats') }}
             </th>
-            <th>
-                {{ knp_pagination_sortable(pagination, 'Reservering', 'huurovereenkomst.isReservering') }}
-            </th>
+
             <th>
                 {{ knp_pagination_sortable(pagination, 'Opzegbrief verstuurd?', 'huurovereenkomst.opzegbriefVerstuurd') }}
             </th>
@@ -129,6 +134,9 @@
                     {{ huurovereenkomst.medewerker }}
                 </td>
                 <td>
+                    {{ huurovereenkomst.klant.aanmelddatum|if_date('d-m-Y') }}
+                </td>
+                <td>
                     {{ huurovereenkomst.startdatum|date('d-m-Y') }}
                 </td>
                 <td>
@@ -147,9 +155,7 @@
                     {{ huurovereenkomst.verhuurder.appKlant.plaats }}
                 </td>
 
-                <td>
-                    {{ huurovereenkomst.isReservering|ja_nee() }}
-                </td>
+
                 <td>
                     {{ huurovereenkomst.opzegbriefVerstuurd|ja_nee() }}
                 </td>

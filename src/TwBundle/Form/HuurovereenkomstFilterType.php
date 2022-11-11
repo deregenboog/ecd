@@ -90,10 +90,14 @@ class HuurovereenkomstFilterType extends AbstractType
         }
 
         if (in_array('actief', $options['enabled_filters'])) {
-            $builder->add('actief', CheckboxType::class, [
-                'required' => false,
-                'label' => 'Actieve koppelingen',
-                'data' => true,
+
+            $builder->add('actief', ChoiceType::class,[
+                'choices' => [
+                    'Lopende koppelingen' => 'lopend',
+                    'Afgesloten koppelingen' => 'afgesloten',
+                    'Alle koppelingen' => 'all'
+                  ],
+                'data'=>true,
             ]);
         }
         if (in_array('opzegbriefVerstuurd', $options['enabled_filters'])) {
@@ -115,6 +119,11 @@ class HuurovereenkomstFilterType extends AbstractType
                 'label' => 'Reserveringen',
                 'data' => $isReservering,
 
+            ]);
+        }
+        if(in_array('aanmelddatum',$options['enabled_filters']['klant'])){
+            $builder->add('aanmelddatum', AppDateRangeType::class, [
+                'required' => false,
             ]);
         }
         if (in_array('project', $options['enabled_filters'])) {
@@ -148,7 +157,7 @@ class HuurovereenkomstFilterType extends AbstractType
             'data' => new HuurovereenkomstFilter(),
             'enabled_filters' => [
                 'id',
-                'klant' => ['automatischeIncasso', 'appKlant' => ['naam']],
+                'klant' => ['automatischeIncasso', 'appKlant' => ['naam'],'aanmelddatum'],
                 'verhuurderKlant' => ['naam', 'plaats'],
                 'medewerker',
                 'startdatum',
