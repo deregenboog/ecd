@@ -99,6 +99,8 @@ yarn-error.log
 
 ###> symfony/framework-bundle ###
 /.env.local
+/.env
+/.env.dev
 /.env.local.php
 /.env.*.local
 /config/secrets/prod/prod.decrypt.private.php
