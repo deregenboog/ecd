@@ -81,7 +81,7 @@ abstract class AbstractDao implements AbstractDaoInterface
         if ($filter) {
             $filter->applyTo($builder);
         }
-//        $sql = $builder->getQuery()->getSQL();
+//       $sql = $builder->getQuery()->getSQL();
 
         if ($page) {
             return $this->paginator->paginate($builder, $page, $this->itemsPerPage, $this->paginationOptions);
