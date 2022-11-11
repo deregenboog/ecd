@@ -43,14 +43,17 @@ class HuurovereenkomstFilter implements FilterInterface
     public $afsluitdatum;
 
     /**
-     * @var bool
+     * @var string
      */
-    public $actief = true;
+    public $actief = 'lopend';
 
     /**
      * @var bool
      */
     public $isReservering;
+
+    /** @var AppDateRangeModel */
+    public $aanmelddatum;
 
     /**
      * @var bool
@@ -179,12 +182,32 @@ class HuurovereenkomstFilter implements FilterInterface
                 ->orWhere('huurovereenkomst.isReservering = 1')
             ;
         }
-
-        if ($this->actief) {
+        if ($this->aanmelddatum) {
+            if ($this->aanmelddatum->getStart()) {
+                $builder
+                    ->andWhere('klant.aanmelddatum >= :aanmelddatum_van')
+                    ->setParameter('aanmelddatum_van', $this->aanmelddatum->getStart())
+                ;
+            }
+            if ($this->aanmelddatum->getEnd()) {
+                $builder
+                    ->andWhere('klant.aanmelddatum <= :aanmelddatum_tot')
+                    ->setParameter('aanmelddatum_tot', $this->aanmelddatum->getEnd())
+                ;
+            }
+        }
+        if ($this->actief == 'lopend') {
             $builder
                 ->andWhere('huurovereenkomst.afsluitdatum IS NULL OR huurovereenkomst.afsluitdatum > :now')
                 ->setParameter('now', new \DateTime())
             ;
+        }else if($this->actief == 'afgesloten') {
+            $builder
+                ->andWhere('huurovereenkomst.afsluitdatum IS NOT NULL AND huurovereenkomst.afsluitdatum <= :now')
+                ->setParameter('now', new \DateTime())
+            ;
+        }else if($this->actief == 'all') {
+
         }
         else
         {

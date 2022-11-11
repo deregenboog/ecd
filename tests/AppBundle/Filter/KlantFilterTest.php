@@ -2,6 +2,7 @@
 
 namespace Tests\AppBundle\Filter;
 
+use AppBundle\Entity\Werkgebied;
 use AppBundle\Filter\KlantFilter;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Query\Expr;
