@@ -1,0 +1,23 @@
+##### PROD #####
+
+# toegang inloop bijwerken
+0 3 * * * /data/www/ecd.deregenboog.org/current/bin/console inloop:access:update > /dev/null
+
+# postblokkade indien overleden
+0 4 * * * /data/www/ecd.deregenboog.org/current/bin/console app:overleden:update > /dev/null
+
+# laatste zrm bijwerken
+*/5 * * * * /data/www/ecd.deregenboog.org/current/bin/console inloop:fix:laatste_zrm > /dev/null
+
+# recente registraties bijwerken
+*/2 * * * * /data/www/ecd.deregenboog.org/current/bin/console inloop:recent-registrations:update > /dev/null
+
+# automatisch uitchecken na sluitingstijd
+0 2,14 * * * /data/www/ecd.deregenboog.org/current/bin/console inloop:unregister:all >> /data/www/ecd.deregenboog.org/current/var/logs/unregister_all.log
+
+# rapportages voorbereiden
+0 0 * * *    /data/www/ecd.deregenboog.org/current/bin/console app:run-sql -e prod /data/www/ecd.deregenboog.org/current/src/InloopBundle/Resources/sql/management_report_views.sql >> /data/www/ecd.deregenboog.org/current/var/logs/management_report_views.log
+15 0 * * *   /data/www/ecd.deregenboog.org/current/bin/console app:run-sql -e prod /data/www/ecd.deregenboog.org/current/src/InloopBundle/Resources/sql/veegploeg_report_views.sql >> /data/www/ecd.deregenboog.org/current/var/logs/veegploeg_report_views.log
+
+# homeservice klantstatussen updaten
+30 0 * * *   /data/www/ecd.deregenboog.org/current/bin/console hs:klant:update -e prod > /dev/null

@@ -6,6 +6,18 @@ Encore
     // public path used by the web server to access the output path
     .setPublicPath('/build')
     .enableVersioning(true)
+
+    .copyFiles([
+        {from: './node_modules/ckeditor4/', to: 'ckeditor/[path][name].[ext]', pattern: /\.(js|css)$/, includeSubdirectories: false},
+        {from: './node_modules/ckeditor4/adapters', to: 'ckeditor/adapters/[path][name].[ext]'},
+        {from: './node_modules/ckeditor4/lang', to: 'ckeditor/lang/[path][name].[ext]'},
+        {from: './node_modules/ckeditor4/plugins', to: 'ckeditor/plugins/[path][name].[ext]'},
+        {from: './node_modules/ckeditor4/skins', to: 'ckeditor/skins/[path][name].[ext]'},
+        {from: './node_modules/ckeditor4/vendor', to: 'ckeditor/vendor/[path][name].[ext]'}
+    ])
+    // Uncomment the following line if you are using Webpack Encore <= 0.24
+    // .addLoader({test: /\.json$/i, include: [require('path').resolve(__dirname, 'node_modules/ckeditor')], loader: 'raw-loader', type: 'javascript/auto'})
+
     // only needed for CDN's or sub-directory deploy
     //.setManifestKeyPrefix('build/')
     /*
@@ -28,6 +40,7 @@ Encore
     .addEntry('oekraineindex','./bundles/oekraine/js/registraties/index.js')
     .addEntry('oekraineactive','./bundles/oekraine/js/registraties/active.js')
     .addEntry('oekrainehistory','./bundles/oekraine/js/registraties/history.js')
+
 
     // will require an extra script tag for runtime.js
     // but, you probably want this, unless you're building a single-page app

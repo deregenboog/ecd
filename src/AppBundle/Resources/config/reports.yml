@@ -12,7 +12,7 @@ services:
         public: true
         arguments:
             - "@doctrine.orm.entity_manager"
-            - "%kernel.root_dir%/config/activering_reports.sql"
+            - "%kernel.root_dir%/../config/sql_reports/activering_reports.sql"
         tags:
             - { name: app.rapportage }
 
@@ -20,7 +20,7 @@ services:
         public: true
         arguments:
             - "@doctrine.orm.entity_manager"
-            - "%kernel.root_dir%/config/geen_hulpverlenerscontact.sql"
+            - "%kernel.root_dir%/../config/sql_reports/geen_hulpverlenerscontact.sql"
         tags:
             - { name: app.rapportage }
     
@@ -28,7 +28,7 @@ services:
         public: true
         arguments:
             - "@doctrine.orm.entity_manager"
-            - "%kernel.root_dir%/config/ladis_report.sql"
+            - "%kernel.root_dir%/../config/sql_reports/ladis_report.sql"
         tags:
             - { name: app.rapportage }
 
@@ -36,7 +36,7 @@ services:
         public: true
         arguments:
             - "@doctrine.orm.entity_manager"
-            - "%kernel.root_dir%/config/management_reports.sql"
+            - "%kernel.root_dir%/../config/sql_reports/management_reports.sql"
         tags:
             - { name: app.rapportage }
 
@@ -44,7 +44,7 @@ services:
         public: true
         arguments:
             - "@doctrine.orm.entity_manager"
-            - "%kernel.root_dir%/config/veegploeg_reports.sql"
+            - "%kernel.root_dir%/../config/sql_reports/veegploeg_reports.sql"
         tags:
             - { name: app.rapportage }
 

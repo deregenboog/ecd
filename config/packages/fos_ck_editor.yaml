@@ -1,6 +1,8 @@
 fos_ck_editor:
-  autoload: false
-  jquery: true
+  base_path: "build/ckeditor"
+  js_path: "build/ckeditor/ckeditor.js"
+  autoload: true
+  jquery: false
   default_config: basic
   configs:
     basic:

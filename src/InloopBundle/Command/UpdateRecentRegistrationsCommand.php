@@ -3,6 +3,8 @@
 namespace InloopBundle\Command;
 
 use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
+use Psr\Container\ContainerInterface;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -14,6 +16,16 @@ class UpdateRecentRegistrationsCommand extends \Symfony\Component\Console\Comman
      */
     private $em;
 
+    /**
+     * @param EntityManager $em
+     */
+    public function __construct(ContainerInterface $container)
+    {
+        $this->em = $container->get('doctrine')->getManager();
+        parent::__construct();
+    }
+
+
     protected function configure()
     {
         $this->setName('inloop:recent-registrations:update');
@@ -21,7 +33,7 @@ class UpdateRecentRegistrationsCommand extends \Symfony\Component\Console\Comman
 
     protected function initialize(InputInterface $input, OutputInterface $output)
     {
-        $this->em = $this->getContainer()->get('doctrine.orm.entity_manager');
+//        $this->em = $entityManager;
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int

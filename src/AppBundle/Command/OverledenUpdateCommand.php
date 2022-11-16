@@ -4,22 +4,34 @@ namespace AppBundle\Command;
 
 use AppBundle\Entity\Klant;
 use Doctrine\ORM\EntityManager;
+use Psr\Container\ContainerInterface;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class OverledenUpdateCommand extends \Symfony\Component\Console\Command\Command
 {
+
+    /**
+     * @var EntityManager
+     */
+    protected $em;
+
+    public function __construct(ContainerInterface $container)
+    {
+        $this->em = $container->get('doctrine')->getManager();
+        parent::__construct();
+    }
+
     protected function configure()
     {
         $this->setName('app:overleden:update');
     }
 
+
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        /* @var EntityManager $em */
-        $em = $this->getContainer()->get('doctrine.orm.entity_manager');
-        $klanten = $em->getRepository(Klant::class)->createQueryBuilder('klant')
+        $klanten = $this->em->getRepository(Klant::class)->createQueryBuilder('klant')
             ->where('klant.overleden = TRUE')
             ->andWhere('klant.geenPost IS NULL OR klant.geenPost = FALSE OR klant.geenEmail IS NULL OR klant.geenEmail = FALSE')
             ->getQuery()
@@ -32,7 +44,7 @@ class OverledenUpdateCommand extends \Symfony\Component\Console\Command\Command
             $klant->setGeenPost(true)->setGeenEmail(true);
         }
 
-        $em->flush();
+        $this->em->flush();
 
         $output->writeln('Finished!');
         return 0;

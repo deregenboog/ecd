@@ -55,50 +55,51 @@ class SelectiesController extends SymfonyController
      */
     public function emailAction(Request $request)
     {
-        $form = $this->getForm(IzEmailMessageType::class);
-        $form->handleRequest($this->getRequest());
+//        $form = $this->getForm(IzEmailMessageType::class);
+//        $form->handleRequest($this->getRequest());
+//
+//        if ($form->isSubmitted() && $form->isValid()) {
+//            /** @var Swift_Mailer $mailer */
+//            $mailer = $this->container->get('mailer');
+//
+//            /** @var Swift_Mime_Message $message */
+//            $message = $mailer->createMessage()
+//                ->setFrom($form->get('from')->getData())
+//                ->setTo(explode(', ', $form->get('to')->getData()))
+//                ->setSubject($form->get('subject')->getData())
+//                ->setBody($form->get('text')->getData(), 'text/plain')
+//            ;
+//
+//            // add attachments
+//            if ($form->get('file1')->getData()) {
+//                $message->attach(\Swift_Attachment::fromPath($form->get('file1')->getData()->getPathName()));
+//            }
+//            if ($form->get('file2')->getData()) {
+//                $message->attach(\Swift_Attachment::fromPath($form->get('file2')->getData()->getPathName()));
+//            }
+//            if ($form->get('file3')->getData()) {
+//                $message->attach(\Swift_Attachment::fromPath($form->get('file3')->getData()->getPathName()));
+//            }
+//
+//            try {
+//                $sent = $mailer->send($message);
+//                if ($sent) {
+//                    $this->addFlash('success', 'E-mail is verzonden.');
+//                } else {
+//                    $this->addFlash('danger', 'E-mail kon niet verzonden worden.');
+//                }
+//            } catch(UserException $e) {
+////                $this->logger->error($e->getMessage(), ['exception' => $e]);
+//                $message =  $e->getMessage();
+//                $this->addFlash('danger', $message);
+////                return $this->redirectToRoute('app_klanten_index');
+//            } catch (\Exception $e) {
+//                $message = $this->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
+//                $this->addFlash('danger', $message);
+//            }
+//        }
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            /** @var Swift_Mailer $mailer */
-            $mailer = $this->container->get('mailer');
-
-            /** @var Swift_Mime_Message $message */
-            $message = $mailer->createMessage()
-                ->setFrom($form->get('from')->getData())
-                ->setTo(explode(', ', $form->get('to')->getData()))
-                ->setSubject($form->get('subject')->getData())
-                ->setBody($form->get('text')->getData(), 'text/plain')
-            ;
-
-            // add attachments
-            if ($form->get('file1')->getData()) {
-                $message->attach(\Swift_Attachment::fromPath($form->get('file1')->getData()->getPathName()));
-            }
-            if ($form->get('file2')->getData()) {
-                $message->attach(\Swift_Attachment::fromPath($form->get('file2')->getData()->getPathName()));
-            }
-            if ($form->get('file3')->getData()) {
-                $message->attach(\Swift_Attachment::fromPath($form->get('file3')->getData()->getPathName()));
-            }
-
-            try {
-                $sent = $mailer->send($message);
-                if ($sent) {
-                    $this->addFlash('success', 'E-mail is verzonden.');
-                } else {
-                    $this->addFlash('danger', 'E-mail kon niet verzonden worden.');
-                }
-            } catch(UserException $e) {
-//                $this->logger->error($e->getMessage(), ['exception' => $e]);
-                $message =  $e->getMessage();
-                $this->addFlash('danger', $message);
-//                return $this->redirectToRoute('app_klanten_index');
-            } catch (\Exception $e) {
-                $message = $this->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
-                $this->addFlash('danger', $message);
-            }
-        }
-
+        $this->addFlash('success', 'E-mails versturen via selecties is uitgeschakeld.');
         return $this->redirectToRoute('iz_selecties_index');
     }
 
