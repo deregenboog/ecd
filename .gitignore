@@ -91,6 +91,7 @@ phpunit
 ###> symfony/webpack-encore-bundle ###
 /node_modules/
 /public/build/
+/public/node_modules/
 npm-debug.log
 yarn-error.log
 ###< symfony/webpack-encore-bundle ###
@@ -98,6 +99,9 @@ yarn-error.log
 ###> symfony/framework-bundle ###
 /.env.local
 /.env
+.env
+.env.local
+/.env.dist
 /.env.dev
 /.env.local.php
 /.env.*.local
