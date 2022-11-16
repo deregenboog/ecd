@@ -21,7 +21,7 @@ use Symfony\Component\Validator\Context\ExecutionContextInterface;
  */
 class Vrijwilliger extends Arbeider implements MemoSubjectInterface, DocumentSubjectInterface
 {
-    use HulpverlenerTrait, MemoSubjectTrait, DocumentSubjectTrait, TimestampableTrait;
+    use HulpverlenerTrait, MemoSubjectTrait, TimestampableTrait, DocumentSubjectTrait;
 
     /**
      * @var Vrijwilliger
@@ -37,6 +37,24 @@ class Vrijwilliger extends Arbeider implements MemoSubjectInterface, DocumentSub
      * @ORM\OrderBy({"startdatum": "desc"})
      */
     protected $klussen;
+
+    /**
+     * @var Document[]
+     *
+     * @ORM\ManyToMany(targetEntity="Document", cascade={"persist"})
+     * @ORM\JoinTable(name="hs_vrijwilliger_document", inverseJoinColumns={@ORM\JoinColumn(unique=true)})
+     */
+    protected $documenten;
+
+
+    /**
+     * @var Memo[]
+     *
+     * @ORM\ManyToMany(targetEntity="Memo", cascade={"persist"})
+     * @ORM\JoinTable(name="hs_vrijwilliger_memo", inverseJoinColumns={@ORM\JoinColumn(unique=true)})
+     * @ORM\OrderBy({"datum": "desc", "id": "desc"})
+     */
+    protected $memos;
 
     public function __construct(AppVrijwilliger $vrijwilliger = null)
     {

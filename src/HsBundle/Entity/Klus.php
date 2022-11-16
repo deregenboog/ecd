@@ -130,6 +130,23 @@ class Klus implements MemoSubjectInterface
      */
     private $medewerker;
 
+    /**
+     * @var Document[]
+     *
+     * @ORM\ManyToMany(targetEntity="Document", cascade={"persist"})
+     * @ORM\JoinTable(name="hs_klus_document", inverseJoinColumns={@ORM\JoinColumn(unique=true)})
+     */
+    protected $documenten;
+
+    /**
+     * @var Memo[]
+     *
+     * @ORM\ManyToMany(targetEntity="Memo", cascade={"persist"})
+     * @ORM\JoinTable(name="hs_klus_memo", inverseJoinColumns={@ORM\JoinColumn(unique=true)})
+     * @ORM\OrderBy({"datum": "desc", "id": "desc"})
+     */
+    protected $memos;
+
     public function __construct(Klant $klant = null, Medewerker $medewerker = null)
     {
         $this->klant = $klant;

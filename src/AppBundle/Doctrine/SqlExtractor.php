@@ -83,7 +83,7 @@ class SqlExtractor
      * @param  Doctrine\ORM\Query\Parameter $paramObj
      * @return int
      */
-    protected function getParamsArray($paramObj)
+    protected static function getParamsArray($paramObj)
     {
         $parameters=array();
         foreach ($paramObj as $val){
@@ -93,7 +93,7 @@ class SqlExtractor
 
         return $parameters;
     }
-    public function getListParamsByDql($dql)
+    public static function getListParamsByDql($dql)
     {
         $parsedDql = preg_split("/:/", $dql);
         $length = is_array($parsedDql) || $parsedDql instanceof \Countable ? count($parsedDql) : 0;

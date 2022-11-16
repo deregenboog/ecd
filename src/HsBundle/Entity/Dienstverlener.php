@@ -34,6 +34,24 @@ class Dienstverlener extends Arbeider implements MemoSubjectInterface, DocumentS
      */
     protected $klussen;
 
+    /**
+     * @var Document[]
+     *
+     * @ORM\ManyToMany(targetEntity="Document", cascade={"persist"})
+     * @ORM\JoinTable(name="hs_dienstverlener_document", inverseJoinColumns={@ORM\JoinColumn(unique=true)})
+     */
+    protected $documenten;
+
+    /**
+     * @var Memo[]
+     *
+     * @ORM\ManyToMany(targetEntity="Memo", cascade={"persist"})
+     * @ORM\JoinTable(name="hs_dienstverlener_memo", inverseJoinColumns={@ORM\JoinColumn(unique=true)})
+     * @ORM\OrderBy({"datum": "desc", "id": "desc"})
+     */
+    protected $memos;
+
+
     public function __construct(AppKlant $klant = null)
     {
         if ($klant) {

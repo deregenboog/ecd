@@ -9,6 +9,7 @@ use AppBundle\Form\ConfirmationType;
 use AppBundle\Form\KlantFilterType;
 use AppBundle\Service\KlantDao;
 use AppBundle\Service\KlantDaoInterface;
+use Doctrine\ORM\Tools\Pagination\Paginator;
 use JMS\DiExtraBundle\Annotation as DI;
 use Symfony\Component\Finder\Exception\AccessDeniedException;
 use UhkBundle\Entity\Deelnemer;
@@ -48,13 +49,20 @@ class DeelnemersController extends AbstractController
     protected $klantDao;
 
     /**
+     * @var VerslagDao
+     */
+    protected $verslagDao;
+
+    /**
      * @param DeelnemerDao $dao
      * @param KlantDao $klantDao
      */
-    public function __construct(DeelnemerDao $dao, KlantDao $klantDao)
+    public function __construct(DeelnemerDao $dao, KlantDao $klantDao, VerslagDao $verslagDao)
     {
         $this->dao = $dao;
         $this->klantDao = $klantDao;
+        $this->verslagDao = $verslagDao;
+
     }
 
 
@@ -69,29 +77,7 @@ class DeelnemersController extends AbstractController
 
         return $this->doSearch($request);
     }
-//
-//    /**
-//     * @Route("/")
-//     * @Template
-//     */
-//    public function indexAction(Request $request)
-//    {
-//        $form = $this->getForm($this->filterFormClass);
-//        $form->handleRequest($request);
-//        $filter = $form->getData();
-//
-//        $page = $request->get('page', 1);
-//        if ($this->isGranted('ROLE_UHK_BEHEER')) {
-//            $pagination = $this->dao->findAll($page, $filter);
-//        } else {
-//            $pagination = $this->dao->findByMedewerker($this->getMedewerker(), $page, $filter);
-//        }
-//
-//        return [
-//            'filter' => isset($form) ? $form->createView() : null,
-//            'pagination' => $pagination,
-//        ];
-//    }
+
 
     /**
      * @Route("/{id}/view")
@@ -163,23 +149,18 @@ class DeelnemersController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             if ($form->get('yes')->isClicked()) {
-                $url = $request->get('redirect');
                 $viewUrl = $this->generateUrl($this->baseRouteName . 'view', ['id' => $entity->getId(),'_fragment'=>'verslagen']);
 
-                $verslagDao = new VerslagDao($this->getEntityManager(), $this->getPaginator(),5);
-                $verslag = $verslagDao->find($verslagId);
-                $verslagDao->delete($verslag);
+                $verslag = $this->verslagDao->find($verslagId);
+                $this->verslagDao->delete($verslag);
 
                 $this->addFlash('success',   'Verslag is verwijderd.');
-
-
                 return $this->redirect($viewUrl);
 
             } else {
                 if (isset($url)) {
                     return $this->redirect($url);
                 }
-
                 return $this->redirectToView($entity);
             }
         }
