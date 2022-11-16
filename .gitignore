@@ -99,7 +99,7 @@ yarn-error.log
 ###> symfony/framework-bundle ###
 /.env.local
 /.env
-.env
+/.env
 .env.local
 /.env.dist
 /.env.dev
