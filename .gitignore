@@ -1,4 +1,4 @@
-/app/config/parameters.yml
+/config/packages/parameters.yml
 /app/SymfonyRequirements.php
 /app/check.php
 
@@ -56,7 +56,7 @@
 !/bin/docker-up.sh
 !/bin/docker-stop.sh
 /app/bootstrap.php.cache
-/.php_cs.cache
+/.php_cs*
 /cache.properties
 
 # Node modules
@@ -86,8 +86,6 @@ phpunit
 
 ###> symfony/phpunit-bridge ###
 .phpunit
-.phpunit.result.cache
-/phpunit.xml
 ###< symfony/phpunit-bridge ###
 
 ###> symfony/webpack-encore-bundle ###
@@ -106,5 +104,4 @@ yarn-error.log
 /config/secrets/prod/prod.decrypt.private.php
 /public/bundles/
 /var/
-/vendor/
 ###< symfony/framework-bundle ###
