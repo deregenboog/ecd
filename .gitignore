@@ -56,8 +56,10 @@
 !/bin/docker-up.sh
 !/bin/docker-stop.sh
 /app/bootstrap.php.cache
-/.php_cs*
+/.php-cs-fixer.dist.php
+/.php-cs-fixer.php
 /cache.properties
+
 
 # Node modules
 /app/webroot/node_modules
