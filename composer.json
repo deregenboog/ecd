@@ -4,7 +4,7 @@
     "minimum-stability": "stable",
     "config" : {
         "platform" : {
-            "php" : "7.4.32"
+            "php" : "7.4.3"
         },
         "allow-plugins": {
             "composer/package-versions-deprecated": true,
@@ -51,7 +51,7 @@
         }
     ],
     "require" : {
-        "php": ">=7.4.25",
+        "php": ">=7.4.3",
         "ext-ctype": "*",
         "ext-iconv": "*",
         "backup-manager/backup-manager": "^1.1",
