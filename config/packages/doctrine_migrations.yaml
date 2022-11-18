@@ -13,13 +13,13 @@ doctrine_migrations:
             executed_at_column_name: 'executed_at'
 
     # Possible values: "BY_YEAR", "BY_YEAR_AND_MONTH", false
-    organize_migrations: "BY_YEAR_AND_MONTH"
+    organize_migrations: "BY_YEAR"
 
     # Path to your custom migrations template
     #    custom_template: ~
 
     # Run all migrations in a transaction.
-    all_or_nothing: false
+    all_or_nothing: true
 
         # Adds an extra check in the generated migrations to ensure that is executed on the same database type.
         #    check_database_platform: true
