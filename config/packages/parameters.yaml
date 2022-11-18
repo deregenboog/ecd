@@ -3,7 +3,6 @@ parameters:
   locale: nl_NL.UTF-8
   cache_type: file_system
   pagination.items_per_page: 20
-  #    doctrine.orm.naming_strategy.default.class: AppBundle\Service\DoctrineOrmNamingStrategy
   email_policy: dev
   profile: drg
   administrator_name: 'Daan van Leeuwen'
