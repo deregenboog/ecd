@@ -1,1 +1,0 @@
-CKEDITOR.plugins.setLang("uicolor","el",{title:"Διεπαφή Επιλογής Χρωμάτων",options:"Επιλογές χρωμάτων",highlight:"Επισήμανση",selected:"Επιλεγμένο Χρώμα",predefined:"Προκαθορισμένα σύνολα χρωμάτων",config:"Επικολλήστε αυτό το κείμενο στο αρχείο config.js"});

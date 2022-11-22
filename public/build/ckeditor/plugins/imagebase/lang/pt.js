@@ -1,1 +1,0 @@
-CKEDITOR.plugins.setLang("imagebase","pt",{captionPlaceholder:"Indique legenda da imagem"});

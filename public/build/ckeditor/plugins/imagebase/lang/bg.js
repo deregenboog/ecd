@@ -1,1 +1,0 @@
-CKEDITOR.plugins.setLang("imagebase","bg",{captionPlaceholder:"Въведете надпис за изображението"});

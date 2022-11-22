@@ -1,1 +1,0 @@
-CKEDITOR.plugins.setLang("imagebase","sr",{captionPlaceholder:"Унесите опис слике"});

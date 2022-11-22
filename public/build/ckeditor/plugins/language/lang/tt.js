@@ -1,1 +1,0 @@
-CKEDITOR.plugins.setLang("language","tt",{button:"Тел сайлау",remove:"Телне бетерү"});

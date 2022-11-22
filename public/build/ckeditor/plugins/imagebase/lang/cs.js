@@ -1,1 +1,0 @@
-CKEDITOR.plugins.setLang("imagebase","cs",{captionPlaceholder:"Zvolte popis obrázku"});

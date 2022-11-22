@@ -1,1 +1,0 @@
-CKEDITOR.plugins.setLang("language","lt",{button:"Nustatyti kalbą",remove:"Pašalinti kalbą"});

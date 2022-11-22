@@ -1,1 +1,0 @@
-CKEDITOR.plugins.setLang("easyimage","az",{commands:{fullImage:"Tam Ölçülü Təsvir",sideImage:"Kənar Təsvir",altText:"Təsvirin alt-yazısını dəyiş",upload:"Təsvir Yüklə"},uploadFailed:"Təsvir şəbəkə xətası səbəbindən yüklənmədi."});

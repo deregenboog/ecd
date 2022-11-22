@@ -1,1 +1,0 @@
-CKEDITOR.plugins.setLang("imagebase","fr",{captionPlaceholder:"Saisir l'attribut caption de l'image"});

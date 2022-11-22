@@ -1,1 +1,0 @@
-CKEDITOR.plugins.setLang("placeholder","ro",{title:"Înlocuitor",toolbar:"Înlocuitor",name:"Înlocuitor",invalidName:"Nume invalid",pathName:"Cale elemente"});

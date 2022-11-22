@@ -1,1 +1,0 @@
-CKEDITOR.plugins.setLang("imagebase","ug",{captionPlaceholder:"رەسىم ماۋزۇسىنى كىرگۈزۈڭ"});

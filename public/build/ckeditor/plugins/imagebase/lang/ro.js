@@ -1,1 +1,0 @@
-CKEDITOR.plugins.setLang("imagebase","ro",{captionPlaceholder:"Introduceți titlul imaginii"});

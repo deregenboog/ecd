@@ -1,1 +1,0 @@
-CKEDITOR.plugins.setLang("imagebase","nb",{captionPlaceholder:"Skriv inn bildetekst"});

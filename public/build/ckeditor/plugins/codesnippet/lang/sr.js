@@ -1,1 +1,0 @@
-CKEDITOR.plugins.setLang("codesnippet","sr",{button:"Налепи делић кода",codeContents:"Садржај кода",emptySnippetError:"Делић кода не може бити празан",language:"Језик",title:"Делић кода",pathName:"Делић кода"});

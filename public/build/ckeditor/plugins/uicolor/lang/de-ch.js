@@ -1,1 +1,0 @@
-CKEDITOR.plugins.setLang("uicolor","de-ch",{title:"UI-Farbpipette",options:"Farboptionen",highlight:"Hervorheben",selected:"Ausgewählte Farbe",predefined:"Vordefinierte Farbsätze",config:"Fügen Sie diese Zeichenfolge in die Datei config.js ein."});

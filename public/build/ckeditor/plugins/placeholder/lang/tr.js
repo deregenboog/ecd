@@ -1,1 +1,0 @@
-CKEDITOR.plugins.setLang("placeholder","tr",{title:"Yer tutucu özellikleri",toolbar:"Yer tutucu oluşturun",name:"Yer Tutucu Adı",invalidName:"Yer tutucu adı boş bırakılamaz ve şu karakterleri içeremez: [, ], <, >",pathName:"yertutucu"});

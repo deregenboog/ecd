@@ -1,1 +1,0 @@
-CKEDITOR.plugins.setLang("placeholder","sl",{title:"Lastnosti ograde",toolbar:"Ograda",name:"Ime ograde",invalidName:"Ograda ne more biti prazna in ne sme vsebovati katerega od naslednjih znakov: [, ], <, >",pathName:"ograda"});

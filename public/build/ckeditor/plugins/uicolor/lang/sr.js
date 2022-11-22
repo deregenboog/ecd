@@ -1,1 +1,0 @@
-CKEDITOR.plugins.setLang("uicolor","sr",{title:"УИ одређивач боје",options:"Подешавања боје",highlight:"Истакни",selected:"Одабрана боја",predefined:"Унапред дефинисане боје",config:"Налепи овај текст и у config.js датотеку"});

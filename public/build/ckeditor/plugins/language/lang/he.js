@@ -1,1 +1,0 @@
-CKEDITOR.plugins.setLang("language","he",{button:"צור שפה",remove:"הסר שפה"});

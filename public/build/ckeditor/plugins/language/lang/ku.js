@@ -1,1 +1,0 @@
-CKEDITOR.plugins.setLang("language","ku",{button:"جێگیرکردنی زمان",remove:"لابردنی زمان"});

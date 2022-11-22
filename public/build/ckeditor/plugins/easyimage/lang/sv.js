@@ -1,1 +1,0 @@
-CKEDITOR.plugins.setLang("easyimage","sv",{commands:{fullImage:"Hel bild",sideImage:"Sidobild",altText:"Ändra bildens alternativa text",upload:"Ladda upp bild"},uploadFailed:"Din bild kunde inte laddas upp p.g.a. ett nätverksfel."});

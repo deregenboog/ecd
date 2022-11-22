@@ -1,1 +1,0 @@
-CKEDITOR.plugins.setLang("imagebase","nl",{captionPlaceholder:"Geef een afbeelding bijschrift"});

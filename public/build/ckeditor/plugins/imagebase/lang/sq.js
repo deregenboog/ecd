@@ -1,1 +1,0 @@
-CKEDITOR.plugins.setLang("imagebase","sq",{captionPlaceholder:"Shto tekstin e fotos"});

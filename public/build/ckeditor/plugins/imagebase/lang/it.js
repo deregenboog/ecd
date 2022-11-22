@@ -1,1 +1,0 @@
-CKEDITOR.plugins.setLang("imagebase","it",{captionPlaceholder:"Inserire la didascalia dell'immagine"});

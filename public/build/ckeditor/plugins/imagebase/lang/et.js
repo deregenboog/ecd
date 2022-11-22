@@ -1,1 +1,0 @@
-CKEDITOR.plugins.setLang("imagebase","et",{captionPlaceholder:"Sisesta pildi pealkiri"});

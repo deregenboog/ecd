@@ -1,1 +1,0 @@
-CKEDITOR.plugins.setLang("language","sq",{button:"Përzgjidhni gjuhën",remove:"Largoni gjuhën"});

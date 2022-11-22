@@ -1,1 +1,0 @@
-CKEDITOR.plugins.setLang("easyimage","da",{commands:{fullImage:"Fuld billedstørrelse",sideImage:"Sidebillede",altText:"Skift billede alternativ-tekst",upload:"Upload billede"},uploadFailed:"Dit billede kunne ikke uploades på grund af en netværksfejl."});

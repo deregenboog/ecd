@@ -1,1 +1,0 @@
-CKEDITOR.plugins.setLang("imagebase","pl",{captionPlaceholder:"Wprowadź podpis obrazka"});

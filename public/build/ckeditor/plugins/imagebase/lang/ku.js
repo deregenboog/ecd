@@ -1,1 +1,0 @@
-CKEDITOR.plugins.setLang("imagebase","ku",{captionPlaceholder:"سەردێڕی وێنەکە بنوسە "});

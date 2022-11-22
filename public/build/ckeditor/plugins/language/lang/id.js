@@ -1,1 +1,0 @@
-CKEDITOR.plugins.setLang("language","id",{button:"Atur Bahasa",remove:"Hapus Bahasa"});

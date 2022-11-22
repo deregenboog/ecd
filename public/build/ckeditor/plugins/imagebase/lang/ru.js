@@ -1,1 +1,0 @@
-CKEDITOR.plugins.setLang("imagebase","ru",{captionPlaceholder:"Введите подпись к изображению"});

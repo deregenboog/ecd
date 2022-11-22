@@ -1,1 +1,0 @@
-CKEDITOR.plugins.setLang("language","ro",{button:"Alege limba",remove:"Șterge limba deja selectată"});

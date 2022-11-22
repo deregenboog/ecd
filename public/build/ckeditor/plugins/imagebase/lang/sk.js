@@ -1,1 +1,0 @@
-CKEDITOR.plugins.setLang("imagebase","sk",{captionPlaceholder:"Zadajte popis obrázka"});

@@ -1,1 +1,0 @@
-CKEDITOR.plugins.setLang("language","de",{button:"Sprache festlegen",remove:"Sprache entfernen"});

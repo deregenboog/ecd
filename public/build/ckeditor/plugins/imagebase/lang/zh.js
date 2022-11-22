@@ -1,1 +1,0 @@
-CKEDITOR.plugins.setLang("imagebase","zh",{captionPlaceholder:"請輸入圖片標題"});

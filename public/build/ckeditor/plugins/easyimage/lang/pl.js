@@ -1,1 +1,0 @@
-CKEDITOR.plugins.setLang("easyimage","pl",{commands:{fullImage:"Obrazek w pełnym rozmiarze",sideImage:"Obrazek boczny",altText:"Zmień tekst alternatywny obrazka",upload:"Prześlij obrazek"},uploadFailed:"Obrazek nie mógł zostać przesłany z powodu błędu połączenia sieciowego."});

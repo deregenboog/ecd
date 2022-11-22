@@ -1,1 +1,0 @@
-CKEDITOR.plugins.setLang("imagebase","fa",{captionPlaceholder:"عنوان تصویر را وارد کنید"});

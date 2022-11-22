@@ -1,1 +1,0 @@
-CKEDITOR.plugins.setLang("easyimage","tr",{commands:{fullImage:"Tam Boy Resim",sideImage:"Yan Resim",altText:"Resmin alt yazısını değiştir",upload:"Resim Yükle"},uploadFailed:"Ağ bağlantısı sorunu yüzünden resminiz yüklenemedi."});

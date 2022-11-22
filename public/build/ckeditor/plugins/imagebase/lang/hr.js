@@ -1,1 +1,0 @@
-CKEDITOR.plugins.setLang("imagebase","hr",{captionPlaceholder:"Unesite naslov slike"});

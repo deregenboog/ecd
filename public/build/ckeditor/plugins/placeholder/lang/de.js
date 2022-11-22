@@ -1,1 +1,0 @@
-CKEDITOR.plugins.setLang("placeholder","de",{title:"Platzhaltereinstellungen",toolbar:"Platzhalter",name:"Platzhaltername",invalidName:"Der Platzhalter darf nicht leer sein und folgende Zeichen nicht enthalten: [, ], <, >",pathName:"Platzhalter"});

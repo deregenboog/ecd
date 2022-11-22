@@ -1,1 +1,0 @@
-CKEDITOR.plugins.setLang("placeholder","lv",{title:"Viettura uzstādījumi",toolbar:"Izveidot vietturi",name:"Viettura nosaukums",invalidName:"Vietturis nevar būt tukšs un nevar saturēt simbolus [, ], <, >",pathName:"vietturis"});
