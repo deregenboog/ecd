@@ -1,4 +1,6 @@
 ldap_tools:
+  general:
+    cache_type: 'stash'
   domains:
     default:
       domain_name: '%ldap_domain%'

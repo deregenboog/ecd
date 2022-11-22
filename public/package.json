@@ -1,6 +1,7 @@
 {
   "name": "ecd",
   "dependencies": {
+    "yarn": "^1.22.19",
     "bootstrap4": "^0.0.1-security",
     "ckeditor4": "^4.10.0",
     "fullcalendar": "^3.9.0",

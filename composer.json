@@ -85,6 +85,7 @@
         "symfony/webpack-encore-bundle": "^1.8",
         "symfony/yaml": "4.4.*",
         "tecnickcom/tcpdf": "^6.2",
+        "tedivm/stash": "^0.17.6",
         "twig/extra-bundle": "^2.12|^3.0",
         "twig/twig": "^2",
         "vich/uploader-bundle": "^1",
