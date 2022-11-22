@@ -8,6 +8,7 @@ use AppBundle\Form\KlantFilterType;
 use AppBundle\Form\MedewerkerType;
 use AppBundle\Form\VrijwilligerFilterType;
 use Doctrine\ORM\EntityRepository;
+use IzBundle\Entity\Hulp;
 use IzBundle\Entity\Hulpaanbod;
 use IzBundle\Entity\Hulpvraag;
 use IzBundle\Entity\Project;
@@ -88,13 +89,15 @@ class KoppelingFilterType extends AbstractType
                 'required' => false,
                 'label' => 'Medewerker hulpvraag',
                 'query_builder' => function (EntityRepository $repo) {
-                    return $repo->createQueryBuilder('medewerker')
-                        ->select('DISTINCT medewerker')
-                        ->innerJoin(Hulpvraag::class, 'hulpvraag', 'WITH', 'hulpvraag.medewerker = medewerker')
-                        ->where('medewerker.actief = :true')
-                        ->setParameter('true', true)
+                    $builder = $repo->createQueryBuilder('medewerker')
+                        ->select('medewerker')
+                        ->innerJoin(Hulp::class, 'hulp', 'WITH', 'hulp.medewerker = medewerker')
+                        ->where('medewerker.actief = true')
                         ->orderBy('medewerker.voornaam', 'ASC')
+                        ->groupBy("medewerker.id")
                     ;
+//                    $sql = SqlExtractor::getFullSQL($builder->getQuery());
+                    return $builder;
                 },
                 'preset' => $options['preset_medewerker'],
             ]);
