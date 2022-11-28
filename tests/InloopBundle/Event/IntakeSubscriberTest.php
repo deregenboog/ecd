@@ -25,7 +25,7 @@ class IntakeSubscriberTest extends TestCase
     public $inloophuisEmail = 'inloophuis@example.org';
     public $hulpverleningEmail = 'hulpverlening@example.org';
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->markTestSkipped();
         return;
