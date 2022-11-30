@@ -22,6 +22,7 @@ class DatabaseBackupCommand extends \Symfony\Component\Console\Command\Command
 {
     protected function configure()
     {
+        ini_set("memory_limit","512M");
         $this
             ->setName('app:database:backup')
             ->addOption('keep', 'k', InputOption::VALUE_OPTIONAL, 'Number of backups to keep', 5)

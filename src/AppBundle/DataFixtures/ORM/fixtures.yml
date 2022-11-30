@@ -635,8 +635,17 @@ AppBundle\Entity\Nationaliteit:
         __construct: ['Burger van Trinidad en Tobago']
     nationaliteit_Vietnamees:
         __construct: ['Vietnamees']
+    nationaliteit_Armeense:
+        __construct: ['Armeense']
+    nationaliteit_Turkmeense:
+        __construct: ['Turkmeense' ]
+    nationaliteit_Tadzjiekse:
+        __construct: ['Tadzjiekse' ]
     nationaliteit_Bosnier:
-        __construct: ['Bosnier']
+        __construct: ['Bosnier' ]
+
+
+
 
 AppBundle\Entity\Medewerker:
     medewerker_jborger:

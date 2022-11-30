@@ -12,6 +12,7 @@ class RunSqlCommand extends \Symfony\Component\Console\Command\Command
 {
     protected function configure()
     {
+        ini_set("memory_limit","512M");
         $this
             ->setName('app:run-sql')
             ->setHelp('Executes the given SQL-script.')

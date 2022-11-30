@@ -75,6 +75,7 @@ services:
     IzBundle\Controller\RapportagesController:
         arguments:
             $export: '@iz.export.report'
+            $reports: !tagged_iterator iz.rapportage
         tags: [ 'controller.service_arguments' ]
 
     IzBundle\Controller\TussenevaluatiesController:
