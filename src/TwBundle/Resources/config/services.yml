@@ -36,6 +36,7 @@ services:
     TwBundle\Controller\RapportagesController:
         arguments:
             $export: '@tw.export.report'
+            $reports: !tagged_iterator tw.rapportage
         tags: [ 'controller.service_arguments' ]
 
     TwBundle\Controller\VerhuurdersController:

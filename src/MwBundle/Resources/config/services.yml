@@ -45,6 +45,7 @@ services:
     MwBundle\Controller\RapportagesController:
         arguments:
             $export: '@mw.export.report'
+            $reports: !tagged_iterator mw.rapportage
         tags: [ 'controller.service_arguments' ]
 
     MwBundle\Controller\VerslagenController:

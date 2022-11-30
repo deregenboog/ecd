@@ -65,6 +65,7 @@ services:
     InloopBundle\Controller\RapportagesController:
         arguments:
             $export: '@inloop.export.report'
+            $reports: !tagged_iterator inloop.rapportage
         tags: [ 'controller.service_arguments' ]
 
     InloopBundle\Controller\RegistratiesController:

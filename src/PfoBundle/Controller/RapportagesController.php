@@ -3,6 +3,7 @@
 namespace PfoBundle\Controller;
 
 use AppBundle\Controller\AbstractRapportagesController;
+use AppBundle\Export\ExportInterface;
 use AppBundle\Export\GenericExport;
 use JMS\DiExtraBundle\Annotation as DI;
 use PfoBundle\Form\RapportageType;
@@ -14,20 +15,5 @@ use Symfony\Component\Routing\Annotation\Route;
 class RapportagesController extends AbstractRapportagesController
 {
     protected $formClass = RapportageType::class;
-
-    /**
-     * @var GenericExport
-     */
-    protected $export;
-
-    /**
-     * @param GenericExport $export
-     */
-    public function __construct(GenericExport $export, iterable $reports)
-    {
-        $this->export = $export;
-        $this->reports = $reports;
-    }
-
 
 }

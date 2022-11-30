@@ -4,80 +4,70 @@ services:
         tags:
             - { name: form.type }
 
-    dagbesteding.report.activering:
-        class: DagbestedingBundle\Report\Activering
+    DagbestedingBundle\Report\Activering:
         arguments:
             - "@doctrine.orm.entity_manager"
-            - "%kernel.root_dir%/config/sql_reports/activering_reports.sql"
+            - "%kernel.project_dir%/config/sql_reports/activering_reports.sql"
         tags:
             - { name: dagbesteding.rapportage, category: Activering }
 
-    dagbesteding.report.dagdelen_per_deelnemer:
-        class: DagbestedingBundle\Report\DagdelenPerDeelnemer
+    DagbestedingBundle\Report\DagdelenPerDeelnemer:
         public: true
         arguments:
             - '@DagbestedingBundle\Service\DagdeelDao'
         tags:
             - { name: dagbesteding.rapportage, category: Dagdelen }
 
-    dagbesteding.report.VerlengingenPerTrajectcoach:
-        class: DagbestedingBundle\Report\VerlengingenPerTrajectcoach
+    DagbestedingBundle\Report\VerlengingenPerTrajectcoach:
         public: true
         arguments:
             - '@DagbestedingBundle\Service\TrajectDao'
         tags:
             - { name: dagbesteding.rapportage, category: Trajecten }
 
-    dagbesteding.report.deelnemers_per_trajectcoach:
-        class: DagbestedingBundle\Report\DeelnemersPerBegeleider
+    DagbestedingBundle\Report\DeelnemersPerBegeleider:
         public: true
         arguments:
             - '@DagbestedingBundle\Service\DeelnemerDao'
         tags:
             - { name: dagbesteding.rapportage, category: Deelnemers }
 
-    dagbesteding.report.deelnemers_per_locatie:
-        class: DagbestedingBundle\Report\DeelnemersPerLocatie
+    DagbestedingBundle\Report\DeelnemersPerLocatie:
         public: true
         arguments:
             - '@DagbestedingBundle\Service\DeelnemerDao'
         tags:
             - { name: dagbesteding.rapportage, category: Deelnemers }
 
-    dagbesteding.report.deelnemers_per_project:
-        class: DagbestedingBundle\Report\DeelnemersPerProject
+    DagbestedingBundle\Report\DeelnemersPerProject:
         public: true
         arguments:
             - '@DagbestedingBundle\Service\DeelnemerDao'
         tags:
             - { name: dagbesteding.rapportage, category: Deelnemers }
 
-    dagbesteding.report.deelnemers_per_resultaatgebiedsoort:
-        class: DagbestedingBundle\Report\DeelnemersPerResultaatgebiedsoort
+    DagbestedingBundle\Report\DeelnemersPerResultaatgebiedsoort:
         public: true
         arguments:
             - '@DagbestedingBundle\Service\DeelnemerDao'
         tags:
             - { name: dagbesteding.rapportage, category: Deelnemers }
 
-    dagbesteding.report.deelnemers_zonder_vog:
-        class: DagbestedingBundle\Report\DeelnemersZonderVOG
+    DagbestedingBundle\Report\DeelnemersZonderVOG:
         public: true
         arguments:
             - '@DagbestedingBundle\Service\DeelnemerDao'
         tags:
             - { name: dagbesteding.rapportage, category: Deelnemers }
 
-    dagbesteding.report.deelnemers_zonder_toestemmingsformulier:
-        class: DagbestedingBundle\Report\DeelnemersZonderToestemmingsformulier
+    DagbestedingBundle\Report\DeelnemersZonderToestemmingsformulier:
         public: true
         arguments:
             - '@DagbestedingBundle\Service\DeelnemerDao'
         tags:
             - { name: dagbesteding.rapportage, category: Deelnemers }
 
-    dagbesteding.report.trajecten_per_afsluiting:
-        class: DagbestedingBundle\Report\TrajectenPerAfsluiting
+    DagbestedingBundle\Report\TrajectenPerAfsluiting:
         public: true
         arguments:
             - '@DagbestedingBundle\Service\TrajectDao'

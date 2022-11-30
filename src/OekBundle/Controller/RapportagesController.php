@@ -16,19 +16,4 @@ class RapportagesController extends AbstractRapportagesController
 {
     protected $formClass = RapportageType::class;
 
-    /**
-     * @var ReportExport
-     */
-    protected $export;
-
-    /**
-     * @param ReportExport $export
-     */
-    public function __construct(ReportExport $export, $reports)
-    {
-        $this->export = $export;
-        $this->reports = $reports;
-    }
-
-
 }
