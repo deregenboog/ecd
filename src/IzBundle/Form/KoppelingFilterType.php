@@ -2,12 +2,14 @@
 
 namespace IzBundle\Form;
 
+use AppBundle\Doctrine\SqlExtractor;
 use AppBundle\Form\AppDateRangeType;
 use AppBundle\Form\FilterType;
 use AppBundle\Form\KlantFilterType;
 use AppBundle\Form\MedewerkerType;
 use AppBundle\Form\VrijwilligerFilterType;
 use Doctrine\ORM\EntityRepository;
+use IzBundle\Entity\Hulp;
 use IzBundle\Entity\Hulpaanbod;
 use IzBundle\Entity\Hulpvraag;
 use IzBundle\Entity\Project;
@@ -94,7 +96,7 @@ class KoppelingFilterType extends AbstractType
                         ->where('medewerker.actief = :true')
                         ->setParameter('true', true)
                         ->orderBy('medewerker.voornaam', 'ASC')
-                    ;
+                        ;
                 },
                 'preset' => $options['preset_medewerker'],
             ]);
@@ -111,7 +113,7 @@ class KoppelingFilterType extends AbstractType
                         ->where('medewerker.actief = :true')
                         ->setParameter('true', true)
                         ->orderBy('medewerker.voornaam', 'ASC')
-                    ;
+                        ;
                 },
                 'preset' => $options['preset_medewerker'],
             ]);
@@ -121,14 +123,15 @@ class KoppelingFilterType extends AbstractType
             $builder->add('medewerker', MedewerkerType::class, [
                 'required' => false,
                 'query_builder' => function (EntityRepository $repo) {
-                    return $repo->createQueryBuilder('medewerker')
-                        ->select('DISTINCT medewerker')
-                        ->leftJoin(Hulpvraag::class, 'hulpvraag', 'WITH', 'hulpvraag.medewerker = medewerker')
-                        ->leftJoin(Hulpaanbod::class, 'hulpaanbod', 'WITH', 'hulpaanbod.medewerker = medewerker')
+                    $builder = $repo->createQueryBuilder('medewerker')
+                        ->select('medewerker')
+                        ->innerJoin(Hulp::class, 'hulp', 'WITH', 'hulp.medewerker = medewerker')
                         ->where('medewerker.actief = true')
-                        ->andWhere('hulpvraag.id IS NOT NULL OR hulpaanbod.id IS NOT NULL')
                         ->orderBy('medewerker.voornaam', 'ASC')
-                        ;
+                        ->groupBy("medewerker.id")
+                    ;
+//                    $sql = SqlExtractor::getFullSQL($builder->getQuery());
+                    return $builder;
                 },
                 'preset' => $options['preset_medewerker'],
             ]);

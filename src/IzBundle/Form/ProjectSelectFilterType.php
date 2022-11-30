@@ -2,6 +2,7 @@
 
 namespace IzBundle\Form;
 
+use AppBundle\Doctrine\SqlExtractor;
 use Doctrine\ORM\EntityRepository;
 use IzBundle\Entity\Hulpvraag;
 use IzBundle\Entity\Koppeling;
@@ -24,9 +25,9 @@ class ProjectSelectFilterType extends AbstractType
             'query_builder' => function (EntityRepository $repo) {
                 $builder = $repo->createQueryBuilder('p');
                 $builder
-                    ->leftJoin(Hulpvraag::class,"koppeling", "WITH","koppeling.project = p")
-                    ->where("koppeling.id IS NOT NULL")
-                    ->andWhere("koppeling.einddatum IS NULL")
+                    ->innerJoin(Hulpvraag::class,"koppeling", "WITH","koppeling.project = p")
+//                    ->where("koppeling.id IS NOT NULL")
+                    ->where("koppeling.einddatum IS NULL")
                     ->andWhere("koppeling.hulpaanbod IS NULL")
 //                    ->andWhere("koppeling.afsluiting IS NULL")
                     ->orWhere($builder->expr()->andX(
@@ -36,6 +37,7 @@ class ProjectSelectFilterType extends AbstractType
                     ->orderBy('p.naam', 'ASC')
                     ->setParameter('now', new \DateTime())
                 ;
+//                $sql = SqlExtractor::getFullSQL($builder->getQuery());
                 return $builder;
             },
         ]);

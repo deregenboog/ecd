@@ -75,3 +75,9 @@ phpunit
 /app/data/postcodes-8-12-2021.csv
 /.env
 /.env.local.php
+
+/templates
+/translations
+/public
+/docker
+/config
