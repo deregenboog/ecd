@@ -660,7 +660,7 @@ AppBundle\Entity\Medewerker:
     medewerker_clip:
         ldapGuid (unique): '<randomNumber()>'
         username: 'clip_user'
-        roles: ['ROLE_CLIP']
+        roles: ['ROLE_CLIP', 'ROLE_CLIP_VRIJWILLIGERS']
         email: '<email()>'
         voornaam: 'Clip'
         achternaam: 'User'

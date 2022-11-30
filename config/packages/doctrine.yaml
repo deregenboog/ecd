@@ -2,7 +2,6 @@ doctrine:
     dbal:
         url: '%env(resolve:DATABASE_URL)%'
         charset: "utf8"
-#        server_version: "%database_server_version%"
         default_table_options:
             charset: "utf8"
             collate: "utf8_general_ci"
@@ -13,12 +12,8 @@ doctrine:
         auto_generate_proxy_classes: true
         naming_strategy: AppBundle\Doctrine\EcdNamingStrategy #dunno but since flex we need this probably due to bundle stuff.
         auto_mapping: true
+        # @todo: because auto_mapping above is true, the mappings below could probably be removed
         mappings:
-            App:
-                is_bundle: false
-                dir: '%kernel.project_dir%/src/Entity'
-                prefix: 'App\Entity'
-                alias: App
             AppBundle:
                 is_bundle: false
                 dir: '%kernel.project_dir%/src/AppBundle/Entity'
@@ -112,7 +107,6 @@ doctrine:
             gedmo_loggable:
                 type: annotation
                 prefix: Gedmo\Loggable\Entity
-                #                dir: "%kernel.root_dir%/../vendor/gedmo/doctrine-extensions/lib/Gedmo/Loggable/Entity"
                 dir: "%kernel.root_dir%/../vendor/gedmo/doctrine-extensions/src/Loggable/Entity"
                 is_bundle: false
                 alias: GedmoLoggable # (optional) it will default to the name set for the mapping
@@ -151,7 +145,3 @@ doctrine:
             overleden:
                 class: AppBundle\Doctrine\OverledenFilter
                 enabled: false
-
-
-
-        

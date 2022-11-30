@@ -10,7 +10,7 @@ trait DocumentSubjectTrait
      * @var Document[]
      *
      * @ORM\ManyToMany(targetEntity="Document", cascade={"persist"})
-     * @ORM\JoinTable(name="hs_klant_document", inverseJoinColumns={@ORM\JoinColumn(unique=true)})
+     * @ORM\JoinTable(inverseJoinColumns={@ORM\JoinColumn(unique=true)})
      */
     protected $documenten;
 

@@ -13,8 +13,7 @@ COUNT=`mysql -h "database" -u$MYSQL_USER -p$MYSQL_PASSWORD -e "SELECT (1) FROM m
 if [ -z "${COUNT}" ]
 then
     >&2 echo "Loading data fixtures"
-    bin/console hautelook_alice:doctrine:fixtures:load -n
+    bin/console app:fixtures:load
 else
     >&2 echo "Skipping data fixtures"
 fi
-

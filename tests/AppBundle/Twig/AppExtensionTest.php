@@ -14,7 +14,7 @@ class AppExtensionTest extends TestCase
      */
     private $extension;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $requestStack = $this->createMock(RequestStack::class);
 
