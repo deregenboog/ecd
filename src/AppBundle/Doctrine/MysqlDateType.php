@@ -18,7 +18,7 @@ class MysqlDateType extends DateType
      */
     public function convertToPHPValue($value, AbstractPlatform $platform)
     {
-        if ($platform instanceof MySqlPlatform && '0000-00-00' === $value) {
+        if ($platform instanceof MySqlPlatform && ('1970-01-01' === $value || '0000-00-00' === $value)) {
             return null;
         }
 
