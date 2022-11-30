@@ -13,7 +13,7 @@ framework:
         name: ECD
         cookie_lifetime: 0 # until the browser is closed
         gc_maxlifetime: 28800 # 8 hours
-        save_path: '%kernel.root_dir%/../var/sessions'
+        save_path: '%kernel.project_dir%/var/sessions'
 
     ide: 'phpstorm://open?file=%%f&line=%%l&/var/www/html/>/Users/jtborger/Documents/webprojects/deregenboog/ecd/'
     #esi: true
