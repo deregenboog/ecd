@@ -140,7 +140,7 @@ class KlantDao extends AbstractDao implements KlantDaoInterface, DoelstellingDao
                     ON (k1.geboortedatum = k2.geboortedatum AND k1.id > k2.id)
                     WHERE k1.disabled = 0
                     AND k2.disabled = 0
-                    AND (k1.geboortedatum IS NULL OR k1.geboortedatum = '0000-00-00')
+                    AND (k1.geboortedatum IS NULL OR k1.geboortedatum = '1970-01-01')
                     ORDER BY k1.achternaam
                 ");
                 $matchedKey = 'geboortedatum';
@@ -157,7 +157,7 @@ class KlantDao extends AbstractDao implements KlantDaoInterface, DoelstellingDao
                     ON (k1.geboortedatum = k2.geboortedatum AND k1.id > k2.id)
                     WHERE k1.disabled = 0
                     AND k2.disabled = 0
-                    AND k1.geboortedatum IS NOT NULL AND k1.geboortedatum != '0000-00-00'
+                    AND k1.geboortedatum IS NOT NULL AND k1.geboortedatum != '1970-01-01'
                     ORDER BY k1.geboortedatum
                 ");
                 $matchedKey = 'formatted_date';

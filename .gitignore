@@ -60,7 +60,6 @@
 /.php-cs-fixer.php
 /cache.properties
 
-
 # Node modules
 /app/webroot/node_modules
 /node_modules
@@ -103,9 +102,6 @@ yarn-error.log
 ###> symfony/framework-bundle ###
 /.env.local
 /.env
-.env.local
-/.env.dist
-/.env.dev
 /.env.local.php
 /.env.*.local
 /config/secrets/prod/prod.decrypt.private.php

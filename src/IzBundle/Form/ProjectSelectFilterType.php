@@ -2,6 +2,7 @@
 
 namespace IzBundle\Form;
 
+use AppBundle\Doctrine\SqlExtractor;
 use Doctrine\ORM\EntityRepository;
 use IzBundle\Entity\Hulpvraag;
 use IzBundle\Entity\Koppeling;

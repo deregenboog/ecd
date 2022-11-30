@@ -225,7 +225,7 @@ class IzKlantRepository extends EntityRepository
                     ->andWhere('hulpvraag.koppelingStartdatum < :startdatum')
                     ->andWhere($builder->expr()->orX(
                         'hulpvraag.koppelingEinddatum IS NULL',
-                        "hulpvraag.koppelingEinddatum = '0000-00-00'",
+                        "hulpvraag.koppelingEinddatum = '1970-01-01'",
                         'hulpvraag.koppelingEinddatum >= :startdatum'
                     ))
                     ->setParameter('startdatum', $startDate)
@@ -269,7 +269,7 @@ class IzKlantRepository extends EntityRepository
                     ->andWhere('hulpvraag.koppelingStartdatum <= :einddatum')
                     ->andWhere($builder->expr()->orX(
                         'hulpvraag.koppelingEinddatum IS NULL',
-                        "hulpvraag.koppelingEinddatum = '0000-00-00'",
+                        "hulpvraag.koppelingEinddatum = '1970-01-01'",
                         'hulpvraag.koppelingEinddatum > :einddatum'
                     ))
                     ->setParameter('einddatum', $endDate)

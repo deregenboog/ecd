@@ -262,7 +262,7 @@ class IzVrijwilligerRepository extends EntityRepository
                     ->andWhere('hulpaanbod.koppelingStartdatum < :startdatum')
                     ->andWhere($builder->expr()->orX(
                         'hulpaanbod.koppelingEinddatum IS NULL',
-                        "hulpaanbod.koppelingEinddatum = '0000-00-00'",
+                        "hulpaanbod.koppelingEinddatum = '1970-01-01'",
                         'hulpaanbod.koppelingEinddatum >= :startdatum'
                     ))
                     ->setParameter('startdatum', $startDate)
@@ -306,7 +306,7 @@ class IzVrijwilligerRepository extends EntityRepository
                     ->andWhere('hulpaanbod.koppelingStartdatum <= :einddatum')
                     ->andWhere($builder->expr()->orX(
                         'hulpaanbod.koppelingEinddatum IS NULL',
-                        "hulpaanbod.koppelingEinddatum = '0000-00-00'",
+                        "hulpaanbod.koppelingEinddatum = '1970-01-01'",
                         'hulpaanbod.koppelingEinddatum > :einddatum'
                     ))
                     ->setParameter('einddatum', $endDate)
