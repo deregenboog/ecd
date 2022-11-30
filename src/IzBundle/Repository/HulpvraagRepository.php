@@ -74,7 +74,7 @@ class HulpvraagRepository extends EntityRepository
         }
 
         if($stadsdeel === 'Overig') {
-           $builder->where('werkgebied.naam IS NULL');
+            $builder->where('werkgebied.naam IS NULL');
         }
         else if($stadsdeel !== 'Overig' && $stadsdeel !== 'Alles')
         {
@@ -300,7 +300,7 @@ class HulpvraagRepository extends EntityRepository
             ->select('COUNT(hulpvraag.id) AS aantal')
             ->innerJoin('hulpvraag.izKlant', 'izKlant')
             ->innerJoin('izKlant.klant', 'klant')
-        ;
+            ;
     }
 
     private function getKoppelingenCountBuilder()
@@ -312,36 +312,36 @@ class HulpvraagRepository extends EntityRepository
             ->innerJoin('hulpvraag.hulpaanbod', 'hulpaanbod')
             ->innerJoin('hulpaanbod.izVrijwilliger', 'izVrijwilliger')
             ->innerJoin('izVrijwilliger.vrijwilliger', 'vrijwilliger')
-        ;
+            ;
     }
 
     private function applyHulpvragenReportFilter(QueryBuilder $builder, $report, \DateTime $startDate, \DateTime $endDate)
     {
         // use hulpvraag.startdatum by default, but use hulpvraag.created if necessary
-        $startdatumDql = "CASE WHEN hulpvraag.startdatum IS NULL OR hulpvraag.startdatum = '0000-00-00'
+        $startdatumDql = "CASE WHEN hulpvraag.startdatum IS NULL OR hulpvraag.startdatum = '1970-01-01'
             THEN hulpvraag.created ELSE hulpvraag.startdatum END";
 
         // use hulpvraag.einddatum by default, but use hulpvraag.koppelingEinddatum if necessary
-        $einddatumDql = "CASE WHEN (hulpvraag.einddatum IS NULL OR hulpvraag.startdatum = '0000-00-00')
+        $einddatumDql = "CASE WHEN (hulpvraag.einddatum IS NULL OR hulpvraag.startdatum = '1970-01-01')
             AND hulpvraag.koppelingEinddatum IS NOT NULL
-            AND hulpvraag.koppelingEinddatum <> '0000-00-00'
+            AND hulpvraag.koppelingEinddatum <> '1970-01-01'
             THEN hulpvraag.koppelingEinddatum ELSE hulpvraag.einddatum END";
 
         // special case because WHERE (CASE WHEN ... THEN ... ELSE ... END) IS NULL does not work in DQL (while it does in SQL)
-        $einddatumIsNullDql = "CASE WHEN (hulpvraag.einddatum IS NULL OR hulpvraag.einddatum = '0000-00-00')
-            AND (hulpvraag.koppelingEinddatum IS NULL OR hulpvraag.koppelingEinddatum = '0000-00-00')
+        $einddatumIsNullDql = "CASE WHEN (hulpvraag.einddatum IS NULL OR hulpvraag.einddatum = '1970-01-01')
+            AND (hulpvraag.koppelingEinddatum IS NULL OR hulpvraag.koppelingEinddatum = '1970-01-01')
             THEN 0 ELSE 1 END";
 
         switch ($report) {
             case 'beginstand':
-            $builder->andWhere("{$startdatumDql} < :startdatum")
-                ->andWhere($builder->expr()->orX(
-                    "{$einddatumIsNullDql} = 0",
-                    "{$einddatumDql} = '0000-00-00'",
-                    "{$einddatumDql} >= :startdatum"
-                ))
-                ->setParameter('startdatum', $startDate);
-            break;
+                $builder->andWhere("{$startdatumDql} < :startdatum")
+                    ->andWhere($builder->expr()->orX(
+                        "{$einddatumIsNullDql} = 0",
+                        "{$einddatumDql} = '1970-01-01'",
+                        "{$einddatumDql} >= :startdatum"
+                    ))
+                    ->setParameter('startdatum', $startDate);
+                break;
             case 'gestart':
                 $builder->andWhere("{$startdatumDql} >= :startdatum")
                     ->andWhere("{$startdatumDql} <= :einddatum")
@@ -358,7 +358,7 @@ class HulpvraagRepository extends EntityRepository
                 $builder->andWhere('hulpvraag.startdatum <= :einddatum')
                     ->andWhere($builder->expr()->orX(
                         "{$einddatumIsNullDql} = 0",
-                        "{$einddatumDql} = '0000-00-00'",
+                        "{$einddatumDql} = '1970-01-01'",
                         "{$einddatumDql} > :einddatum"
                     ))
                     ->setParameter('einddatum', $endDate);
@@ -375,7 +375,7 @@ class HulpvraagRepository extends EntityRepository
                 $builder->andWhere('hulpvraag.koppelingStartdatum < :startdatum')
                     ->andWhere($builder->expr()->orX(
                         'hulpvraag.koppelingEinddatum IS NULL',
-                        "hulpvraag.koppelingEinddatum = '0000-00-00'",
+                        "hulpvraag.koppelingEinddatum = '1970-01-01'",
                         'hulpvraag.koppelingEinddatum >= :startdatum'
                     ))
                     ->setParameter('startdatum', $startDate);
@@ -403,7 +403,7 @@ class HulpvraagRepository extends EntityRepository
                 $builder->andWhere('hulpvraag.koppelingStartdatum <= :einddatum')
                     ->andWhere($builder->expr()->orX(
                         'hulpvraag.koppelingEinddatum IS NULL',
-                        "hulpvraag.koppelingEinddatum = '0000-00-00'",
+                        "hulpvraag.koppelingEinddatum = '1970-01-01'",
                         'hulpvraag.koppelingEinddatum > :einddatum'
                     ))
                     ->setParameter('einddatum', $endDate);
