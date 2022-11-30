@@ -4,90 +4,80 @@ services:
         tags:
             - { name: form.type }
 
-    clip.report.vragen_per_communicatiekanaal:
+    ClipBundle\Report\VragenPerCommunicatiekanaal:
         public: true
-        class: ClipBundle\Report\VragenPerCommunicatiekanaal
         arguments:
             - '@ClipBundle\Service\VraagDao'
             - '@ClipBundle\Service\ContactmomentDao'
         tags:
             - { name: clip.rapportage, category: Vragen }
 
-    clip.report.vragen_per_etniciteit:
+    ClipBundle\Report\VragenPerEtniciteit:
         public: true
-        class: ClipBundle\Report\VragenPerEtniciteit
         arguments:
             - '@ClipBundle\Service\VraagDao'
             - '@ClipBundle\Service\ContactmomentDao'
         tags:
             - { name: clip.rapportage, category: Vragen }
 
-    clip.report.vragen_per_geslacht:
+    ClipBundle\Report\VragenPerGeslacht:
         public: true
-        class: ClipBundle\Report\VragenPerGeslacht
         arguments:
             - '@ClipBundle\Service\VraagDao'
             - '@ClipBundle\Service\ContactmomentDao'
         tags:
             - { name: clip.rapportage, category: Vragen }
 
-    clip.report.vragen_per_viacategorie:
+    ClipBundle\Report\VragenPerViacategorie:
         public: true
-        class: ClipBundle\Report\VragenPerViacategorie
         arguments:
             - '@ClipBundle\Service\VraagDao'
             - '@ClipBundle\Service\ContactmomentDao'
         tags:
             - { name: clip.rapportage, category: Vragen }
 
-    clip.report.vragen_per_hulpvrager:
+    ClipBundle\Report\VragenPerHulpvrager:
         public: true
-        class: ClipBundle\Report\VragenPerHulpvrager
         arguments:
             - '@ClipBundle\Service\VraagDao'
             - '@ClipBundle\Service\ContactmomentDao'
         tags:
             - { name: clip.rapportage, category: Vragen }
 
-    clip.report.vragen_per_leeftijdscategorie:
+    ClipBundle\Report\VragenPerLeeftijdscategorie:
         public: true
-        class: ClipBundle\Report\VragenPerLeeftijdscategorie
         arguments:
             - '@ClipBundle\Service\VraagDao'
             - '@ClipBundle\Service\ContactmomentDao'
         tags:
             - { name: clip.rapportage, category: Vragen }
 
-    clip.report.vragen_per_maand:
+    ClipBundle\Report\VragenPerMaand:
         public: true
-        class: ClipBundle\Report\VragenPerMaand
         arguments:
             - '@ClipBundle\Service\VraagDao'
             - '@ClipBundle\Service\ContactmomentDao'
         tags:
             - { name: clip.rapportage, category: Vragen }
 
-    clip.report.vragen_per_stadsdeel:
+    ClipBundle\Report\VragenPerStadsdeel:
         public: true
-        class: ClipBundle\Report\VragenPerStadsdeel
         arguments:
             - '@ClipBundle\Service\VraagDao'
             - '@ClipBundle\Service\ContactmomentDao'
         tags:
             - { name: clip.rapportage, category: Vragen }
 
-    clip.report.vragen_per_vraagsoort:
+    ClipBundle\Report\VragenPerVraagsoort:
         public: true
-        class: ClipBundle\Report\VragenPerVraagsoort
         arguments:
             - '@ClipBundle\Service\VraagDao'
             - '@ClipBundle\Service\ContactmomentDao'
         tags:
             - { name: clip.rapportage, category: Vragen }
 
-    clip.report.vragen_per_woonplaats:
+    ClipBundle\Report\VragenPerWoonplaats:
         public: true
-        class: ClipBundle\Report\VragenPerWoonplaats
         arguments:
             - '@ClipBundle\Service\VraagDao'
             - '@ClipBundle\Service\ContactmomentDao'

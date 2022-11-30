@@ -4,6 +4,7 @@ namespace AppBundle\Controller;
 
 use AppBundle\Exception\AppException;
 use AppBundle\Exception\ReportException;
+use AppBundle\Export\ExportInterface;
 use AppBundle\Report\AbstractReport;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
@@ -18,6 +19,16 @@ abstract class AbstractRapportagesController extends SymfonyController
      * @var iterable $reports
      */
     protected $reports;
+
+
+    /**
+     * @param ExportInterface $export
+     */
+    public function __construct(ExportInterface $export, iterable $reports)
+    {
+        $this->export = $export;
+        $this->reports = $reports;
+    }
 
     /**
      * @Route("/")
@@ -46,9 +57,8 @@ abstract class AbstractRapportagesController extends SymfonyController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            // get reporting service
+
             /* @var AbstractReport $report */
-//            $report = $this->container->get();
             $report = $this->getReport($form->get('rapport')->getData());
             if(!$report) throw new AppException("Report not found");
 
