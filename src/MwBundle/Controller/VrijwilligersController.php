@@ -11,8 +11,6 @@ use MwBundle\Form\VrijwilligerCloseType;
 use MwBundle\Form\VrijwilligerFilterType;
 use MwBundle\Form\VrijwilligerType;
 use MwBundle\Service\VrijwilligerDao;
-use MwBundle\Service\VrijwilligerDaoInterface;
-use JMS\DiExtraBundle\Annotation as DI;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
 use Symfony\Component\Routing\Annotation\Route;

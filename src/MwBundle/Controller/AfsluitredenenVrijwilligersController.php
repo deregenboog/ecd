@@ -26,4 +26,14 @@ class AfsluitredenenVrijwilligersController extends AbstractController
      * @var AfsluitredenDao
      */
     protected $dao;
+
+    /**
+     * @param AfsluitredenDao $dao
+     */
+    public function __construct(AfsluitredenDao $dao)
+    {
+        $this->dao = $dao;
+    }
+
+
 }
