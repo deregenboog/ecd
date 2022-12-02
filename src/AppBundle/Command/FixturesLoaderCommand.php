@@ -19,9 +19,14 @@ class FixturesLoaderCommand extends Command
      */
     protected $loader;
 
-    public function __construct(LoaderInterface $loader) {
+    public function __construct(LoaderInterface $loader = null) {
         $this->loader = $loader;
         parent::__construct();
+    }
+
+    public function isEnabled(): bool
+    {
+        return in_array(getenv('APP_ENV'), ['dev', 'test']);
     }
 
     protected function configure(): void
