@@ -1,0 +1,3 @@
+services:
+    Fidry\AliceDataFixtures\LoaderInterface:
+        alias: fidry_alice_data_fixtures.doctrine.persister_loader
