@@ -22,7 +22,7 @@ trait OptionalMedewerkerTrait
         return $this->medewerker;
     }
 
-    public function setMedewerker(Medewerker $medewerker)
+    public function setMedewerker(?Medewerker $medewerker)
     {
         $this->medewerker = $medewerker;
 
