@@ -14,11 +14,12 @@ class HuurovereenkomstDao extends AbstractDao implements HuurovereenkomstDaoInte
         'defaultSortDirection' => 'desc',
         'sortFieldWhitelist' => [
             'huurovereenkomst.id',
-            'klant.achternaam',
-            'klant.aanmelddatum',
+            'appKlant.achternaam',
+            'appKlant.aanmelddatum',
             'verhuurderKlant.achternaam',
             'verhuurderKlant.plaats',
             'medewerker.voornaam',
+            'klant.aanmelddatum',
             'huurovereenkomst.startdatum',
             'huurovereenkomst.opzegdatum',
             'huurovereenkomst.einddatum',
@@ -26,7 +27,7 @@ class HuurovereenkomstDao extends AbstractDao implements HuurovereenkomstDaoInte
             'huurovereenkomst.afsluitdatum',
             'huurovereenkomst.isReservering',
             'huurovereenkomst.opzegbriefVerstuurd',
-            'klant.automatischeIncasso',
+            'appKlant.automatischeIncasso',
             'project.naam'
         ],
     ];
