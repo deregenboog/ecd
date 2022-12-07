@@ -95,6 +95,8 @@ phpunit
 /public/node_modules/
 /public/build/ ## now include build and perform local because of version problems on ubuntu.
 ./public/build
+./public/bundles
+
 npm-debug.log
 yarn-error.log
 ###< symfony/webpack-encore-bundle ###
