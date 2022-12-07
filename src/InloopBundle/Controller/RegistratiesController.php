@@ -280,11 +280,16 @@ class RegistratiesController extends AbstractController
 //
 //        }
 
+        /**
+         * Voor gebruikersruimte geldt dat klant minimaal twee mnd geleden ingecheckt moet zijn op de ruimte zoals
+         * staat ingesteld in de toegang (obv eerste intake).
+         * Tevens moet de intake jonger dan 2 mnd zijn.
+         */
         if ($locatie->isGebruikersruimte()) {
             $laatsteRegistratie = $this->dao->findLatestByKlantAndLocatie($klant, $locatie);
             if ($laatsteRegistratie instanceof Registratie
                 && $laatsteRegistratie->getBinnen() < new \DateTime('-2 months')
-                && ($locatie->getId() != $klant->getLaatsteIntake()->getGebruikersruimte()->getId()
+                && ($locatie->getId() != $klant->getEersteIntake()->getGebruikersruimte()->getId()
                     || $klant->getLaatsteIntake()->getIntakedatum() < new \DateTime('-2 months')
                 )
             ) {
@@ -360,7 +365,11 @@ class RegistratiesController extends AbstractController
                 $sep = $separator;
                 $jsonVar['confirm'] = true;
             }
-            if (( ($laatsteRegistratie = $klant->getLaatsteRegistratie()) !== null) && $laatsteRegistratie->getBuiten() !== null  && $laatsteRegistratie->getBuiten()->diff(new \DateTime() )->days > 730  ) {
+            if (( ($laatsteRegistratie = $klant->getLaatsteRegistratie()) !== null)
+                && $laatsteRegistratie->getBuiten() !== null
+                && $laatsteRegistratie->getBuiten()->diff(new \DateTime() )->days > 730
+                && $klant->getLaatsteIntake()->getIntakedatum()->diff(new \DateTime())->days > 365
+            ) {
                 $jsonVar['message'] .= $sep.'Let op: deze persoon heeft zich al twee jaar nergens meer geregistreerd en heeft een nieuwe intake nodig. Toch inchecken?';
                 $sep = $separator;
                 $jsonVar['confirm'] = true;
