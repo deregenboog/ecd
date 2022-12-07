@@ -40,21 +40,20 @@ liip_test_fixtures:
 #    cache_sqlite_db: true
 #    query:
 #        max_query_count: 10
+hautelook_alice:
+#    db_drivers:
+#        orm: ~
+#    locale: "nl_NL"
+#    seed: 1
+#    persist_once: false # Only persist objects once if multiple files are passed
+#    loading_limit: 5    # Maximum number of time the loader will try to load the files passed
+    fixtures_path: 'DataFixtures/ORM' # Path to which to look for fixtures relative to the project directory or the bundle path. May be a string or an array of strings.
+    root_dirs:
+        - '%kernel.project_dir%'
 
-#hautelook_alice:
-#    #    db_drivers:
-#    #        orm: ~
-#    #    locale: "nl_NL"
-#    #    seed: 1
-#    #    persist_once: false # Only persist objects once if multiple files are passed
-#    #    loading_limit: 5    # Maximum number of time the loader will try to load the files passed
-#    fixtures_path: ['DataFixtures','fixtures'] # Path to which to look for fixtures relative to the project directory or the bundle path. May be a string or an array of strings.
-#    root_dirs:
-#        - '%kernel.root_dir%'
-#        - '%kernel.project_dir%'
 nelmio_alice:
-    #    db_drivers:
-    #        orm: ~
+#    db_drivers:
+#        orm: ~
     locale: 'nl_NL' # Default locale for the Faker Generator
     seed: 1 # Value used to make sure Faker generates data consistently across
     # runs, set to null to disable.
@@ -65,7 +64,7 @@ nelmio_alice:
     loading_limit: 5 # Alice may do some recursion to resolve certain values.
     # This parameter defines a limit which will stop the
     # resolution once reached.
-    max_unique_values_retry: 150 # Maximum number of time Alice can try to
+    max_unique_values_retry: 5 # Maximum number of time Alice can try to
     # generate a unique value before stopping and
     # failing.
 

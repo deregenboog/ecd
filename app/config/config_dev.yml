@@ -48,10 +48,10 @@ hautelook_alice:
 #    seed: 1
 #    persist_once: false # Only persist objects once if multiple files are passed
 #    loading_limit: 5    # Maximum number of time the loader will try to load the files passed
-    fixtures_path: ['fixtures','DataFixtures/ORM'] # Path to which to look for fixtures relative to the project directory or the bundle path. May be a string or an array of strings.
+    fixtures_path: 'DataFixtures/ORM' # Path to which to look for fixtures relative to the project directory or the bundle path. May be a string or an array of strings.
     root_dirs:
-        - '%kernel.root_dir%'
         - '%kernel.project_dir%'
+
 nelmio_alice:
 #    db_drivers:
 #        orm: ~
@@ -65,6 +65,6 @@ nelmio_alice:
     loading_limit: 5 # Alice may do some recursion to resolve certain values.
     # This parameter defines a limit which will stop the
     # resolution once reached.
-    max_unique_values_retry: 150 # Maximum number of time Alice can try to
+    max_unique_values_retry: 5 # Maximum number of time Alice can try to
     # generate a unique value before stopping and
     # failing.
