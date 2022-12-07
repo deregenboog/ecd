@@ -15,31 +15,13 @@ web_profiler:
     toolbar: false
     intercept_redirects: false
 
-doctrine:
-    dbal:
-        driver: pdo_sqlite
-        path: '%kernel.cache_dir%/test.db'
-#        memory: true
-    orm:
-        dql:
-            datetime_functions:
-                hour: DoctrineExtensions\Query\Sqlite\Hour
-                minute: DoctrineExtensions\Query\Sqlite\Minute
-            string_functions:
-                concat_ws: DoctrineExtensions\Query\Sqlite\ConcatWs
-
 swiftmailer:
     disable_delivery: true
 
 liip_functional_test: ~
 
-liip_test_fixtures:
-    cache_db:
-        sqlite: liip_functional_test.services_database_backup.sqlite
+liip_test_fixtures: ~
 
-#    cache_sqlite_db: true
-#    query:
-#        max_query_count: 10
 hautelook_alice:
 #    db_drivers:
 #        orm: ~
@@ -68,8 +50,7 @@ nelmio_alice:
     # generate a unique value before stopping and
     # failing.
 
-
 fidry_alice_data_fixtures:
-    default_purge_mode: delete # default is "delete" but you can change it to "truncate" or "no_purge"
+    default_purge_mode: no_purge # default is "delete" but you can change it to "truncate" or "no_purge"
     db_drivers:
         doctrine_orm: ~

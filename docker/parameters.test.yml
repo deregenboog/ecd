@@ -1,18 +1,18 @@
 parameters:
     database_driver: pdo_mysql
-    database_host: database
+    database_host: test-database
     database_port: 3306
     database_name: ecd
     database_user: ecd
     database_password: ecd
     database_server_version: '8.0'
-    secret: 0ac758a6a8664bb4e2e89fb90e80ac668ea89ea6
-    email_policy: prod
+    secret: test
+    email_policy: test
     locale: nl_NL
     profile: drg
-    administrator_name: 'Daan van Leeuwen'
-    administrator_email: ecd@deregenboog.org
-    log_email: jborger@deregenboog.org
+    administrator_name: ''
+    administrator_email: ''
+    log_email: ''
     ldap_domain: ''
     ldap_port: 389
     ldap_servers: []
@@ -96,6 +96,6 @@ parameters:
     agressie_mail: ''
     administratiebedrijf_mail: ''
     prevent_save_enabled: '2022-01-09 09:00:00' #From this moment, it will be enabled.
-    prevent_save_modified_before: '2022-01-01'
+    prevent_save_modified_before: '2021-01-01'
     prevent_save_modified_after: '2020-12-31'
     prevent_save_exclude_entities: []

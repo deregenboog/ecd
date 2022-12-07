@@ -2,63 +2,41 @@
 
 namespace AppBundle\Test;
 
-use Doctrine\ORM\Tools\SchemaTool;
-use Hautelook\AliceBundle\PhpUnit\RecreateDatabaseTrait;
-use Liip\FunctionalTestBundle\Test\WebTestCase as CoreWebTestCase;
-use Liip\TestFixturesBundle\Test\FixturesTrait;
+use Doctrine\DBAL\Connection;
+use Liip\FunctionalTestBundle\Test\WebTestCase as BaseWebTestCase;
 use Symfony\Bundle\FrameworkBundle\Client;
 use Symfony\Component\BrowserKit\Cookie;
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 use Symfony\Component\Security\Core\User\UserInterface;
 
-class WebTestCase extends CoreWebTestCase
+class WebTestCase extends BaseWebTestCase
 {
-    use FixturesTrait;
-    use RecreateDatabaseTrait;
-
     /**
      * @var Client
      */
     protected $client;
 
+    /**
+     * @var Connection
+     */
+    protected $connection;
+
     protected function setUp()
     {
         parent::setUp();
 
-         $this->loadFixtureFiles([
-            '@AppBundle/DataFixtures/ORM/fixtures.yml',
-            '@ClipBundle/DataFixtures/ORM/fixtures.yml',
-
-             '@DagbestedingBundle/DataFixtures/ORM/fixtures.yml',
-
-            '@ErOpUitBundle/DataFixtures/ORM/fixtures.yml',
-
-//             '@GaBundle/DataFixtures/ORM/fixtures.yml',
-//             '@HsBundle/DataFixtures/ORM/fixtures.yml',
-             '@InloopBundle/DataFixtures/ORM/fixtures.yml',
-//             '@IzBundle/DataFixtures/ORM/fixtures.yml',
-//             '@MwBundle/DataFixtures/ORM/fixtures.yml',
-//             '@TwBundle/DataFixtures/ORM/fixtures.yml',
-//             '@OekBundle/DataFixtures/ORM/fixtures.yml',
-//             '@PfoBundle/DataFixtures/ORM/fixtures.yml',
-        ]);
-
         unset($_GET);
         $this->client = static::createClient();
+
+        $this->connection = static::$kernel->getContainer()->get('doctrine')->getConnection();
+        $this->connection->beginTransaction();
+        $this->connection->setAutoCommit(false);
     }
 
     protected function tearDown(): void
     {
-        //see https://stackoverflow.com/questions/36032168/symfony-and-phpunit-memory-leak
-        // Remove properties defined during the test
-        $refl = new \ReflectionObject($this);
-        foreach ($refl->getProperties() as $prop) {
-            if (!$prop->isStatic() && 0 !== strpos($prop->getDeclaringClass()->getName(), 'PHPUnit_')) {
-                $prop->setAccessible(true);
-                $prop->setValue($this, null);
-            }
-        }
-        $this->client = null;
+        $this->connection->rollback();
+
         parent::tearDown();
     }
 
@@ -67,7 +45,7 @@ class WebTestCase extends CoreWebTestCase
      *
      * @see https://symfony.com/doc/3.4/testing/http_authentication.html
      */
-    public function logIn(UserInterface $user, $additionalRoles = []): self
+    protected function logIn(UserInterface $user, $additionalRoles = []): void
     {
         if (!is_array($additionalRoles)) {
             $additionalRoles = [$additionalRoles];
@@ -75,12 +53,12 @@ class WebTestCase extends CoreWebTestCase
 
         $session = $this->client->getContainer()->get('session');
 
-        $token = new UsernamePasswordToken($user, null, 'main', array_merge($user->getRoles(), $additionalRoles));
+        $roles = array_merge($user->getRoles(), $additionalRoles);
+        $token = new UsernamePasswordToken($user, null, 'main', $roles);
         $session->set('_security_main', serialize($token));
         $session->save();
 
         $cookie = new Cookie($session->getName(), $session->getId());
         $this->client->getCookieJar()->set($cookie);
-        return $this;
     }
 }
