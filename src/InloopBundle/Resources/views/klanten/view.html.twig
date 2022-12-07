@@ -145,7 +145,7 @@
                         </p>
                         <p>Categorie: {{ opmerking.categorie }}</p>
                         {% if opmerking.medewerker.id != "0"%}
-                            <p>Door: {{ opmerking.medewerker.naam }}</p>
+                            <p>Door: {{ opmerking.medewerker }}</p>
                         {% endif %}
                         <div class="well">{{ opmerking.beschrijving }}</div>
                     </div>
