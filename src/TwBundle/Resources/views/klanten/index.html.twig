@@ -142,7 +142,9 @@
                     <th>
                         {{ knp_pagination_sortable(pagination, 'Shortlist', 'shortlist.achternaam') }}
                     </th>
-                    <th></th>
+                    <th>
+                        {{ form_row(filter._token) }}
+                    </th>
                 </tr>
             </thead>{{ form_end(filter,{'render_rest':false}) }}
         <tbody>

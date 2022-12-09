@@ -22,6 +22,7 @@
 {% endif %}
 {% block content %}
     {{ form_start(form) }}
+    {{ form_errors(form) }}
     <div class="col-xs-6">
         {{ form_row(form.medewerker) }}
         {{ form_row(form.datum) }}
@@ -34,6 +35,7 @@
         {% else %}
             {{ form_row(form.access,{'attr':{'readonly':true},'value':'2'}) }}
         {% endif %}
+        {{ form_row(form._token) }}
         {{ form_row(form.submit) }}
     </div>
     <div class="col-xs-6">

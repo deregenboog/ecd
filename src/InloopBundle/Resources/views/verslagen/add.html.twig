@@ -34,6 +34,7 @@
         {% else %}
             {{ form_row(form.accessType,{'attr':{'readonly':true},'value':'2'}) }}
         {% endif %}
+        {{ form_row(form._token) }}
         {{ form_row(form.submit) }}
     </div>
     <div class="col-xs-6">
