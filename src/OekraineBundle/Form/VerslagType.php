@@ -10,8 +10,6 @@ use Doctrine\ORM\EntityRepository;
 use FOS\CKEditorBundle\Form\Type\CKEditorType;
 use OekraineBundle\Form\LocatieSelectType;
 use MwBundle\Entity\Contactsoort;
-use MwBundle\Entity\Doorverwijzing;
-use MwBundle\Entity\Trajecthouder;
 use OekraineBundle\Entity\Verslag;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
@@ -83,7 +81,7 @@ class VerslagType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Verslag::class,
-            'attr' => ['novalidate' => 'novalidate'],
+//            'attr' => ['novalidate' => 'novalidate'],
             'inventarisaties' => [],
         ]);
     }

@@ -34,15 +34,11 @@ class VerslagenController extends AbstractChildController
 
     /**
      * @var VerslagDao
-     *
-     * @DI\Inject("OekraineBundle\Service\VerslagDao")
      */
     protected $dao;
 
     /**
      * @var \ArrayObject
-     *
-     * @DI\Inject("oekraine.verslag.entities")
      */
     protected $entities;
 
