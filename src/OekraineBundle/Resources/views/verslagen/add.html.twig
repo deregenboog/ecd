@@ -113,9 +113,11 @@
             var toggleDuur = function() {
                 if (1 === $('#verslag_contactsoort label:contains("Face-to-face") input[type="radio"]:checked').length) {
                     duurSelect.closest('.form-group').show();
+                    duurSelect.closest('select').attr('required','required')
                 } else {
                     duurSelect.val('');
                     duurSelect.closest('.form-group').hide();
+                    duurSelect.closest('select').removeAttr('required')
                 }
             }
             $('#verslag_contactsoort input[type="radio"]').on('change', function() {
@@ -123,6 +125,11 @@
             });
             toggleDuur();
         });
+
+      // CKEDITOR.instances["verslag_opmerking"].on( 'required', function( evt ) {
+      //     alert( 'Article content is required.' );
+      //     evt.cancel();
+      // } );
 
       }
    }

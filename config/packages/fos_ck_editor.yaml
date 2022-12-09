@@ -4,6 +4,7 @@ fos_ck_editor:
   autoload: true
   jquery: false
   default_config: basic
+  input_sync: true
   configs:
     basic:
       disableNativeSpellChecker: false
