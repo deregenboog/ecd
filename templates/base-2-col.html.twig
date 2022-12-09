@@ -6,7 +6,7 @@
 
     <title>ECD | {% block title %}{% endblock %}</title>
 
-    <link href="{{ asset('favicon.png') }}" type="image/png" rel="shortcut icon" />
+    <link href="{{ asset('build/images/favicon.png') }}" type="image/png" rel="shortcut icon" />
     {% block stylesheets  %}
         {# 'app' must match the first argument to addEntry() in webpack.config.js #}
         {{ encore_entry_link_tags('app') }}

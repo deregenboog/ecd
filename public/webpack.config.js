@@ -18,6 +18,12 @@ Encore
     // Uncomment the following line if you are using Webpack Encore <= 0.24
     // .addLoader({test: /\.json$/i, include: [require('path').resolve(__dirname, 'node_modules/ckeditor')], loader: 'raw-loader', type: 'javascript/auto'})
 
+    //copy images
+    .copyFiles({
+        from: './assets/images/',
+        to: 'images/[path][name].[ext]'
+    })
+
     // only needed for CDN's or sub-directory deploy
     //.setManifestKeyPrefix('build/')
     /*
