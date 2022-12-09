@@ -26,6 +26,6 @@ class VerhuurderAfsluiting extends Afsluiting
 
     public function isDeletable()
     {
-        return 0 === count($this->verhuurders);
+        return 0 === (is_array($this->verhuurders) || $this->verhuurders instanceof \Countable ? count($this->verhuurders) : 0);
     }
 }

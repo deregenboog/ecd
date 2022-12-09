@@ -1,5 +1,5 @@
-{% extends '::base.html.twig' %}
-{% import '::html.macro.twig' as html %}
+{% extends 'base.html.twig' %}
+{% import 'html.macro.twig' as html %}
 
 {% block title %}
     Maatschappelijk werk | {{ title }}
@@ -154,7 +154,7 @@
                         </ul>
                     </td>
                     <td>
-                        {{ item.datumLaatsteVerslag|date('d-m-Y') }}
+                        {{ item.datumLaatsteVerslag|if_date('d-m-Y') }}
                     </td>
                     <td>
                         {{ item.aantalVerslagen }}
@@ -171,13 +171,15 @@
 
 {% block scripts %}
     <script>
-        var elmAlleenVerslag = $('#klant_filter_alleenMetVerslag');
-        elmAlleenVerslag.change(function(event){
-            if($(event.target).attr('checked')!='checked')
-            {
-                $('#klant_filter_huidigeMwStatus').val('');
-            }
-        });
-
-    </script>
+   window.onload = function() {
+       if ($) {
+           var elmAlleenVerslag = $('#klant_filter_alleenMetVerslag');
+           elmAlleenVerslag.change(function (event) {
+               if ($(event.target).attr('checked') != 'checked') {
+                   $('#klant_filter_huidigeMwStatus').val('');
+               }
+           });
+       }
+   }
+   </script>
 {% endblock %}

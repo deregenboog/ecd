@@ -25,8 +25,8 @@ class Document implements DocumentInterface, MedewerkerSubjectInterface
 {
     use IdentifiableTrait, NameableTrait, TimestampableTrait, RequiredMedewerkerTrait;
 
-    const TYPE_VOG = 'VOG';
-    const TYPE_OVEREENKOMST = 'Overeenkomst';
+    public const TYPE_VOG = 'VOG';
+    public const TYPE_OVEREENKOMST = 'Overeenkomst';
 
     /**
      * @var string

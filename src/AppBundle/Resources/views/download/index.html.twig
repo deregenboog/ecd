@@ -1,5 +1,5 @@
-{% extends '::base.html.twig' %}
-{% import '::html.macro.twig' as html %}
+{% extends 'base.html.twig' %}
+{% import 'html.macro.twig' as html %}
 
 {% block title %}
   Doelstellingen | {{ title }}
@@ -30,6 +30,9 @@
 
 {% block scripts %}
 <script>
+   window.onload = function(){
+      if($){
+
     $('#download_vrijwilligers_download').on('click',
         function(event)
         {
@@ -40,5 +43,8 @@
             }
         }
     );
-</script>
+
+      }
+   }
+   </script>
 {% endblock %}

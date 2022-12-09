@@ -15,6 +15,7 @@ use InloopBundle\Entity\VwTraining;
 use InloopBundle\Form\IncidentType;
 use InloopBundle\Form\LocatieType;
 use InloopBundle\Form\TrainingType;
+use InloopBundle\Service\IncidentDao;
 use InloopBundle\Service\IncidentDaoInterface;
 use InloopBundle\Service\KlantDaoInterface;
 use InloopBundle\Service\LocatieDaoInterface;
@@ -39,18 +40,24 @@ class IncidentenController extends AbstractChildController
 
 
     /**
-     * @var IncidentDaoInterface
-     *
-     * @DI\Inject("InloopBundle\Service\IncidentDao")
+     * @var IncidentDao
      */
     protected $dao;
 
     /**
      * @var \ArrayObject
-     *
-     * @DI\Inject("inloop.incident.entities")
      */
     protected $entities;
+
+    /**
+     * @param IncidentDao $dao
+     * @param \ArrayObject $entities
+     */
+    public function __construct(IncidentDao $dao, \ArrayObject $entities)
+    {
+        $this->dao = $dao;
+        $this->entities = $entities;
+    }
 
 
     /**

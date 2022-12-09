@@ -190,12 +190,7 @@ class IzVrijwilliger extends IzDeelnemer
         usort($intervisiegroepen, function (Intervisiegroep $a, Intervisiegroep $b) {
             $naamA = $a->getNaam();
             $naamB = $b->getNaam();
-
-            if ($naamA === $naamB) {
-                return 0;
-            }
-
-            return $naamA > $naamB ? 1 : -1;
+            return $naamB <=> $naamA;
         });
 
         return $intervisiegroepen;
@@ -222,6 +217,6 @@ class IzVrijwilliger extends IzDeelnemer
     public function isCloseable()
     {
         return !$this->isAfgesloten() &&
-            0 === count($this->getOpenHulpaanbiedingen()) + count($this->getActieveKoppelingen());
+            0 === (is_array($this->getOpenHulpaanbiedingen()) || $this->getOpenHulpaanbiedingen() instanceof \Countable ? count($this->getOpenHulpaanbiedingen()) : 0) + (is_array($this->getActieveKoppelingen()) || $this->getActieveKoppelingen() instanceof \Countable ? count($this->getActieveKoppelingen()) : 0);
     }
 }

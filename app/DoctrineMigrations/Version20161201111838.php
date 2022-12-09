@@ -2,15 +2,12 @@
 
 namespace Application\Migrations;
 
-use Doctrine\Migrations\AbstractMigration;
 use Doctrine\DBAL\Schema\Schema;
+use Doctrine\Migrations\AbstractMigration;
 
 class Version20161201111838 extends AbstractMigration
 {
-    /**
-     * @param Schema $schema
-     */
-    public function up(Schema $schema)
+    public function up(Schema $schema): void
     {
         $this->abortIf('mysql' != $this->connection->getDatabasePlatform()->getName(), 'Migration can only be executed safely on \'mysql\'.');
 
@@ -19,10 +16,7 @@ class Version20161201111838 extends AbstractMigration
         $this->addSql("UPDATE iz_koppelingen SET discr = 'hulpaanbod' WHERE iz_deelnemer_id IN (SELECT id FROM iz_deelnemers WHERE model = 'Vrijwilliger')");
     }
 
-    /**
-     * @param Schema $schema
-     */
-    public function down(Schema $schema)
+    public function down(Schema $schema): void
     {
         $this->throwIrreversibleMigrationException();
     }

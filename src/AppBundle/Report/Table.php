@@ -154,7 +154,7 @@ class Table
 
     public function render()
     {
-        list($xValues, $yValues) = $this->getAxisLabels();
+        [$xValues, $yValues] = $this->getAxisLabels();
 
         $data = $this->initializePivotStructure(
             $xValues,

@@ -1,5 +1,5 @@
-{% extends '::base-2-col.html.twig' %}
-{% import '::html.macro.twig' as html %}
+{% extends 'base-2-col.html.twig' %}
+{% import 'html.macro.twig' as html %}
 
 {% block title %}
     Dagbesteding | {{ title }}
@@ -73,5 +73,5 @@
 {% endblock %}
 
 {% block content_right %}
-    {% include 'DagbestedingBundle:documenten:_list.html.twig' with {rapportage: entity} %}
+    {% include '@Dagbesteding/documenten/_list.html.twig' with {rapportage: entity} %}
 {% endblock %}

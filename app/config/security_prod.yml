@@ -1,9 +1,0 @@
-imports:
-    - { resource: security.yml }
-
-security:
-    firewalls:
-        main:
-            guard:
-                authenticators:
-                    - ldap_tools.security.ldap_guard_authenticator

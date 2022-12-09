@@ -1,5 +1,5 @@
-{% extends 'IzBundle::view.html.twig' %}
-{% import '::html.macro.twig' as html %}
+{% extends '@Iz/view.html.twig' %}
+{% import 'html.macro.twig' as html %}
 
 {% block content_top %}
     <h1>
@@ -83,5 +83,5 @@
         {% endblock %}
 
 {% block content_right %}
-    {% include 'IzBundle:verslagen:_list.html.twig' with {koppeling: entity} %}
+    {% include '@Iz/verslagen/_list.html.twig' with {koppeling: entity} %}
 {% endblock %}

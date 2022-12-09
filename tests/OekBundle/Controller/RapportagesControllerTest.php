@@ -8,7 +8,7 @@ class RapportagesControllerTest extends WebTestCase
 {
     public function testShowReports()
     {
-        $medewerker = $this->getContainer()->get('AppBundle\Service\MedewerkerDao')->findByUsername('oek_user');
+        $medewerker = $this->getContainer()->get(\AppBundle\Service\MedewerkerDao::class)->findByUsername('oek_user');
         $this->logIn($medewerker);
 
         $crawler = $this->client->request('GET', '/oek/rapportages/');

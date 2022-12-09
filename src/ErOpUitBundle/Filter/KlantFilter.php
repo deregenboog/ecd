@@ -9,8 +9,8 @@ use Doctrine\ORM\QueryBuilder;
 
 class KlantFilter implements FilterInterface
 {
-    const STATUS_ACTIVE = 'Actief';
-    const STATUS_NON_ACTIVE = 'Niet actief';
+    public const STATUS_ACTIVE = 'Actief';
+    public const STATUS_NON_ACTIVE = 'Niet actief';
 
     public $alias = 'klant';
 

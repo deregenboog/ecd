@@ -1,5 +1,5 @@
-{% extends '::base.html.twig' %}
-{% import '::html.macro.twig' as html %}
+{% extends 'base.html.twig' %}
+{% import 'html.macro.twig' as html %}
 
 {% block title %}
     Maatschappelijkwerk | {{ title }}
@@ -25,6 +25,9 @@
 
 {% block scripts %}
     <script>
+   window.onload = function(){
+      if($){
+
         $(function() {
             var toggleCountry = function() {
                 var selectedElm = $('select#afsluiting_reden option:selected');
@@ -54,5 +57,8 @@
             //
             // });
         });
-    </script>
+
+      }
+   }
+   </script>
 {% endblock %}

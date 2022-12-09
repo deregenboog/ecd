@@ -7,6 +7,7 @@ use AppBundle\Entity\Klant;
 use AppBundle\Entity\Opmerking;
 use OekraineBundle\Entity\Locatie;
 use OekraineBundle\Form\OpmerkingType;
+use OekraineBundle\Service\OpmerkingDao;
 use OekraineBundle\Service\OpmerkingDaoInterface;
 use JMS\DiExtraBundle\Annotation as DI;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
@@ -29,11 +30,18 @@ class OpmerkingenController extends AbstractController
     protected $disabledActions = ['view', 'edit'];
 
     /**
-     * @var OpmerkingDaoInterface
-     *
-     * @DI\Inject("OekraineBundle\Service\OpmerkingDao")
+     * @var OpmerkingDao
      */
     protected $dao;
+
+    /**
+     * @param OpmerkingDao $dao
+     */
+    public function __construct(OpmerkingDao $dao)
+    {
+        $this->dao = $dao;
+    }
+
 
     /**
      * @Route("/{klant}", requirements={"klant"="\d+"}, defaults={"locatie" = null})

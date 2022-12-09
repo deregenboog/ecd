@@ -16,7 +16,7 @@ class GeenActiveringSubscriber implements EventSubscriberInterface
 
     public static function getSubscribedEvents()
     {
-        if (class_exists('InloopBundle\Event\Events')) {
+        if (class_exists(\InloopBundle\Event\Events::class)) {
             return [
                 \InloopBundle\Event\Events::GEEN_ACTIVERING => ['provideIds'],
             ];

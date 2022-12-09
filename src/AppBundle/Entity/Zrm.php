@@ -21,7 +21,7 @@ abstract class Zrm
 {
     use IdentifiableTrait, TimestampableTrait, OptionalMedewerkerTrait;
 
-    const ZRM_VERSIONS = [
+    public const ZRM_VERSIONS = [
         ZrmV2::class => '2017-10-05',
         ZrmV1::class => '2010-01-01',
     ];
@@ -61,6 +61,7 @@ abstract class Zrm
      */
     public static function create(\DateTime $datum = null, $requestModule = null)
     {
+        $zrm = null;
         if (!$datum) {
             $datum = new \DateTime();
         }

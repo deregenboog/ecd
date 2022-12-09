@@ -1,11 +1,11 @@
-#/bin/bash
+#!/bin/bash
 
 if [ -z "$*" ]; then
     echo "No version provided!"
     exit 1
 fi
 
-printf "parameters:\n    application_version: $1\n" > app/config/version.yml
-git add app/config/version.yml
+printf "parameters:\n    application_version: $1\n" > ./config/packages/version.yml
+git add ./config/packages/version.yml
 git commit -m "bump version to v$1"
 git tag "v$1"

@@ -7,7 +7,7 @@ use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class SyncCommand extends ContainerAwareCommand
+class SyncCommand extends \Symfony\Component\Console\Command\Command
 {
     /**
      * @var EntityManager
@@ -28,11 +28,12 @@ class SyncCommand extends ContainerAwareCommand
         $this->em = $this->getContainer()->get('doctrine.orm.entity_manager');
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $this->syncAfsluitingen($input, $output);
         $this->syncKlantdossiers($input, $output);
         $this->syncVrijwilligerdossiers($input, $output);
+        return 0;
     }
 
     private function syncAfsluitingen(InputInterface $input, OutputInterface $output)

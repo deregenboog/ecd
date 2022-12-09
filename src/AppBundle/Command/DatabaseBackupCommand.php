@@ -18,10 +18,11 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Process\Process;
 
-class DatabaseBackupCommand extends ContainerAwareCommand
+class DatabaseBackupCommand extends \Symfony\Component\Console\Command\Command
 {
     protected function configure()
     {
+        ini_set("memory_limit","512M");
         $this
             ->setName('app:database:backup')
             ->addOption('keep', 'k', InputOption::VALUE_OPTIONAL, 'Number of backups to keep', 5)
@@ -29,20 +30,20 @@ class DatabaseBackupCommand extends ContainerAwareCommand
         ;
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $backupDir = $this->getContainer()->get('kernel')->getRootDir().'/../backups';
+        $backupDir = $this->getContainer()->get('kernel')->getProjectDir().'/../backups';
         if (!realpath($backupDir)) {
             $output->writeln($backupDir.' does not exist!');
 
-            return;
+            return 0;
         }
 
         $backupDir = realpath($backupDir);
         if (!is_writable($backupDir)) {
             $output->writeln($backupDir.' is not writable!');
 
-            return;
+            return 0;
         }
 
         $ignoreTables = [];
@@ -98,8 +99,9 @@ class DatabaseBackupCommand extends ContainerAwareCommand
         $manager->makeBackup()->run('mysql', [new Destination('local', $filename)], 'null');
 
         $output->writeln(sprintf('Keeping %d newest backups', $input->getOption('keep')));
-        $command = sprintf("ls -tp | grep -v '/$' | tail -n +%d | xargs -I {} rm -- {}", 1 + $input->getOption('keep'));
+        $command = ['ls', '-tp', '|', 'grep', '-v', '\'/$\'', '|', 'tail', '-n', '+%d', '|', 'xargs', '-I', '{}', 'rm', '--', '{}'];
         $process = new Process($command, $backupDir);
         $process->run();
+        return 0;
     }
 }

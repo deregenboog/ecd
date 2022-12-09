@@ -45,19 +45,19 @@ class LocatieDao extends AbstractDao implements LocatieDaoInterface
     public function create(Locatie $locatie)
     {
         $this->doCreate($locatie);
-        $this->eventDispatcher->dispatch(Events::LOCATIE_CHANGED, new GenericEvent($locatie));
+        $this->eventDispatcher->dispatch(new GenericEvent($locatie), Events::LOCATIE_CHANGED);
     }
 
     public function update(Locatie $locatie)
     {
         $this->doUpdate($locatie);
-        $this->eventDispatcher->dispatch(Events::LOCATIE_CHANGED, new GenericEvent($locatie));
+        $this->eventDispatcher->dispatch(new GenericEvent($locatie), Events::LOCATIE_CHANGED);
     }
 
     public function delete(Locatie $locatie)
     {
         $this->doDelete($locatie);
-        $this->eventDispatcher->dispatch(Events::LOCATIE_CHANGED, new GenericEvent($locatie));
+        $this->eventDispatcher->dispatch(new GenericEvent($locatie), Events::LOCATIE_CHANGED);
     }
 
     public function getWachtlijstLocaties()

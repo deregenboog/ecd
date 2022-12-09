@@ -4,17 +4,19 @@ namespace AppBundle\Controller;
 
 use AppBundle\Entity\Medewerker;
 use AppBundle\Form\MedewerkerFilterType;
+use AppBundle\Service\MedewerkerDao;
 use AppBundle\Service\MedewerkerDaoInterface;
+use Doctrine\Common\Collections\ArrayCollection;
 use JMS\DiExtraBundle\Annotation as DI;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
  * @Route("/medewerkers")
  * @Template
- * @Security("has_role('ROLE_USERADMIN')")
+ * @IsGranted("ROLE_USERADMIN")
  */
 class MedewerkersController extends AbstractController
 {
@@ -26,18 +28,25 @@ class MedewerkersController extends AbstractController
     protected $diablesActions = ['add', 'edit', 'delete'];
 
     /**
-     * @var MedewerkerDaoInterface
-     *
-     * @DI\Inject("AppBundle\Service\MedewerkerDao")
+     * @var MedewerkerDao
      */
     protected $dao;
 
     /**
-     * @var MedewerkerDaoInterface
-     *
-     * @DI\Inject("%security.role_hierarchy.roles%")
+     * @var MedewerkerDao
      */
     protected $roleHierarchy;
+
+    /**
+     * @param MedewerkerDao $dao
+     * @param MedewerkerDao $roleHierarchy
+     */
+    public function __construct(MedewerkerDao $dao, array $roleHierarchy)
+    {
+        $this->dao = $dao;
+        $this->roleHierarchy = $roleHierarchy;
+    }
+
 
     /**
      * @Route("/{id}/view")

@@ -7,6 +7,7 @@ use AppBundle\Filter\KlantFilter;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Query\Expr;
 use Doctrine\ORM\QueryBuilder;
+use InloopBundle\Entity\Locatie;
 use PHPUnit\Framework\TestCase;
 
 class KlantFilterTest extends TestCase
@@ -91,10 +92,11 @@ class KlantFilterTest extends TestCase
     {
         $builder = $this->createQueryBuilder();
 
-        $filter = $this->createSUT();
-        $wg = new Werkgebied('Centrum',1);
+        $locatie = new Locatie();
+        $locatie->setNaam("Centrum");
 
-        $filter->stadsdeel = $wg;//'Centrum';
+        $filter = $this->createSUT();
+        $filter->stadsdeel = $locatie;
         $filter->applyTo($builder);
 
         $this->assertEquals(

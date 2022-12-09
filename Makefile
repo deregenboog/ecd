@@ -1,5 +1,12 @@
 install:
 	php composer.phar install
+	cd public && npm install && node_modules/.bin/encore dev
+
+test: install
+	bin/console --env=test doctrine:schema:drop --full-database --force
+	bin/console --env=test doctrine:schema:create
+	bin/console --env=test -n hautelook:fixtures:load --purge-with-truncate
+	vendor/bin/phpunit
 
 docker-build:
 	docker compose build
@@ -16,7 +23,7 @@ docker-down:
 
 docker-test-setup:
 	docker compose -f docker-compose.test.yml build
-	docker compose -f docker-compose.test.yml up -d test-database && sleep 1
+	docker compose -f docker-compose.test.yml up --force-recreate --wait test-database && sleep 1
 	docker compose -f docker-compose.test.yml run --rm test bin/console -n doctrine:migrations:migrate
 	docker compose -f docker-compose.test.yml run --rm test bin/console -n hautelook:fixtures:load --purge-with-truncate
 

@@ -51,7 +51,7 @@ class HuurovereenkomstDao extends AbstractDao implements HuurovereenkomstDaoInte
             ->leftJoin('huurovereenkomst.afsluiting', 'afsluiting')
             ->andWhere('afsluiting.tonen IS NULL OR afsluiting.tonen = true')
         ;
-//        $sql = $builder->getQuery()->getSQL();
+
         return parent::doFindAll($builder, $page, $filter);
     }
 

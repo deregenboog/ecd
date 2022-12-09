@@ -20,8 +20,10 @@ use InloopBundle\Form\AfsluitingType;
 use InloopBundle\Form\KlantFilterType;
 use InloopBundle\Form\KlantType;
 use InloopBundle\Pdf\PdfBrief;
+use InloopBundle\Service\KlantDao;
 use InloopBundle\Service\KlantDaoInterface;
 use JMS\DiExtraBundle\Annotation as DI;
+use Psr\Container\ContainerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\EventDispatcher\GenericEvent;
 use Symfony\Component\Routing\Annotation\Route;
@@ -45,18 +47,33 @@ class KlantenController extends AbstractController
     protected $baseRouteName = 'inloop_klanten_';
 
     /**
-     * @var KlantDaoInterface
-     *
-     * @DI\Inject("InloopBundle\Service\KlantDao")
+     * @var KlantDao
      */
     protected $dao;
 
     /**
-     * @var \AppBundle\Service\KlantDaoInterface
-     *
-     * @DI\Inject("AppBundle\Service\KlantDao")
+     * @var \AppBundle\Service\KlantDao
      */
     protected $klantDao;
+
+    /**
+     * @var array|mixed $tbc_countries List of countries where TBC check is mandatory
+     */
+    protected $tbc_countries=[];
+
+    /**
+     * @param KlantDao $dao
+     * @param \AppBundle\Service\KlantDao $klantDao
+     * @param array $tbc_countries
+     */
+    public function __construct(KlantDao $dao, \AppBundle\Service\KlantDao $klantDao, ContainerInterface $container, $tbc_countries=[])
+    {
+        $this->dao = $dao;
+        $this->klantDao = $klantDao;
+        $this->container = $container;
+        $this->tbc_countries = $tbc_countries;
+    }
+
 
     /**
      * @Route("/add")
@@ -76,6 +93,7 @@ class KlantenController extends AbstractController
      */
     public function viewReport(Request $request, Klant $klant)
     {
+        $data = [];
         $form = $this->createFormBuilder(null, ['method' => 'GET'])
             ->add('startdatum', AppDateType::class, [
                 'required' => true,
@@ -168,7 +186,7 @@ class KlantenController extends AbstractController
                 ->getResult()
             ;
 
-            if (count($klanten) > 0) {
+            if ((is_array($klanten) || $klanten instanceof \Countable ? count($klanten) : 0) > 0) {
                 foreach ($klanten as $klant) {
                     $data[$locatie->getNaam()][] = $klant;
                 }
@@ -210,17 +228,17 @@ class KlantenController extends AbstractController
                 $entityManager->persist($afsluiting);
                 $entityManager->flush();
 
-                $this->get('event_dispatcher')->dispatch(Events::DOSSIER_CHANGED, new GenericEvent($afsluiting));
+                $this->eventDispatcher->dispatch(new GenericEvent($afsluiting), Events::DOSSIER_CHANGED);
 
                 $this->addFlash('success', 'Inloopdossier is afgesloten');
 
             } catch(UserException $e) {
-//                $this->get('logger')->error($e->getMessage(), ['exception' => $e]);
+//                $this->logger->error($e->getMessage(), ['exception' => $e]);
                 $message =  $e->getMessage();
                 $this->addFlash('danger', $message);
 //                return $this->redirectToRoute('app_klanten_index');
             } catch (\Exception $e) {
-                $message = $this->container->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
+                $message = $this->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
                 $this->addFlash('danger', $message);
             }
 
@@ -253,7 +271,7 @@ class KlantenController extends AbstractController
         $klant = $this->dao->find($id);
         $aanmelding = new Aanmelding($klant, $this->getMedewerker());
 
-        if(in_array($klant->getLand()->getNaam(),$this->getParameter('tbc_countries') ) )
+        if(in_array($klant->getLand()->getNaam(),$this->tbc_countries ) )
         {
             $this->addFlash("danger","Let op: klant uit risicoland. Doorverwijzen naar GGD voor TBC controle.");
         }
@@ -267,16 +285,16 @@ class KlantenController extends AbstractController
                 $entityManager->flush();
 
 
-                $this->container->get('event_dispatcher')->dispatch(Events::DOSSIER_CHANGED, new GenericEvent($aanmelding));
+                $this->container->eventDispatcher->dispatch(Events::DOSSIER_CHANGED, new GenericEvent($aanmelding));
 
                 $this->addFlash('success', 'Inloopdossier is heropend');
             } catch(UserException $e) {
-//                $this->get('logger')->error($e->getMessage(), ['exception' => $e]);
+//                $this->logger->error($e->getMessage(), ['exception' => $e]);
                 $message =  $e->getMessage();
                 $this->addFlash('danger', $message);
 //                return $this->redirectToRoute('app_klanten_index');
             } catch (\Exception $e) {
-                $message = $this->container->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
+                $message = $this->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
                 $this->addFlash('danger', $message);
             }
 
@@ -345,14 +363,14 @@ class KlantenController extends AbstractController
     {
         return [
             'amoc_landen' => $this->getAmocLanden(),
-            'tbc_countries' => $this->container->getParameter('tbc_countries'),
+            'tbc_countries' => $this->tbc_countries,
 
         ];
     }
 
     protected function getAmocLanden()
     {
-        return $this->getDoctrine()->getEntityManager()->getRepository(Land::class)
+        return $this->getEntityManager()->getRepository(Land::class)
             ->createQueryBuilder('land')
             ->innerJoin(AmocLand::class, 'amoc', 'WITH', 'amoc.land = land')
             ->getquery()
@@ -392,7 +410,7 @@ class KlantenController extends AbstractController
 
     protected function doAdd(Request $request)
     {
-        $tbc_countries = $this->getParameter('tbc_countries');
+        $tbc_countries = $this->tbc_countries;
         $tbc_countries_string = implode(", ",$tbc_countries);
         $klantId = $request->get('klant');
         if ('new' === $klantId) {
@@ -423,12 +441,12 @@ class KlantenController extends AbstractController
 
                 return $this->redirectToView($inloopKlant);
             } catch(UserException $e) {
-//                $this->get('logger')->error($e->getMessage(), ['exception' => $e]);
+//                $this->logger->error($e->getMessage(), ['exception' => $e]);
                 $message =  $e->getMessage();
                 $this->addFlash('danger', $message);
 //                return $this->redirectToRoute('app_klanten_index');
             } catch (\Exception $e) {
-                $message = $this->container->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
+                $message = $this->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
                 $this->addFlash('danger', $message);
             }
 

@@ -2,8 +2,8 @@
 
 namespace Application\Migrations;
 
-use Doctrine\Migrations\AbstractMigration;
 use Doctrine\DBAL\Schema\Schema;
+use Doctrine\Migrations\AbstractMigration;
 
 /**
  * Auto-generated Migration: Please modify to your needs!
@@ -16,10 +16,8 @@ class Version20180208103259 extends AbstractMigration
      * Non-existing "klanten" and "locaties":
      * - SELECT r.klant_id, k.id FROM registraties r LEFT JOIN klanten k ON r.klant_id = k.id WHERE k.id IS NULL
      * - SELECT r.locatie_id, l.id FROM registraties r LEFT JOIN locaties l ON r.locatie_id = l.id WHERE l.id IS NULL
-     *
-     * @param Schema $schema
      */
-    public function up(Schema $schema)
+    public function up(Schema $schema): void
     {
         // this up() migration is auto-generated, please modify it to your needs
         $this->abortIf('mysql' !== $this->connection->getDatabasePlatform()->getName(), 'Migration can only be executed safely on \'mysql\'.');
@@ -57,10 +55,7 @@ class Version20180208103259 extends AbstractMigration
         $this->addSql('CREATE INDEX IDX_FB4123F44947630C ON registraties (locatie_id)');
     }
 
-    /**
-     * @param Schema $schema
-     */
-    public function down(Schema $schema)
+    public function down(Schema $schema): void
     {
         $this->throwIrreversibleMigrationException();
     }

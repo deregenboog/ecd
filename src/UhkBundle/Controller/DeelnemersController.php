@@ -7,13 +7,16 @@ use AppBundle\Entity\Klant;
 use AppBundle\Exception\UserException;
 use AppBundle\Form\ConfirmationType;
 use AppBundle\Form\KlantFilterType;
+use AppBundle\Service\KlantDao;
 use AppBundle\Service\KlantDaoInterface;
+use Doctrine\ORM\Tools\Pagination\Paginator;
 use JMS\DiExtraBundle\Annotation as DI;
 use Symfony\Component\Finder\Exception\AccessDeniedException;
 use UhkBundle\Entity\Deelnemer;
 use UhkBundle\Form\DeelnemerFilterType;
 use UhkBundle\Form\DeelnemerType;
 use UhkBundle\Security\Permissions;
+use UhkBundle\Service\DeelnemerDao;
 use UhkBundle\Service\DeelnemerDaoInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\Form\FormError;
@@ -36,18 +39,32 @@ class DeelnemersController extends AbstractController
 //    protected $disabledActions = ['delete'];
 
     /**
-     * @var DeelnemerDaoInterface
-     *
-     * @DI\Inject("UhkBundle\Service\DeelnemerDao")
+     * @var DeelnemerDao
      */
     protected $dao;
 
     /**
-     * @var KlantDaoInterface
-     *
-     * @DI\Inject("AppBundle\Service\KlantDao")
+     * @var KlantDao
      */
     protected $klantDao;
+
+    /**
+     * @var VerslagDao
+     */
+    protected $verslagDao;
+
+    /**
+     * @param DeelnemerDao $dao
+     * @param KlantDao $klantDao
+     */
+    public function __construct(DeelnemerDao $dao, KlantDao $klantDao, VerslagDao $verslagDao)
+    {
+        $this->dao = $dao;
+        $this->klantDao = $klantDao;
+        $this->verslagDao = $verslagDao;
+
+    }
+
 
     /**
      * @Route("/add")
@@ -60,29 +77,7 @@ class DeelnemersController extends AbstractController
 
         return $this->doSearch($request);
     }
-//
-//    /**
-//     * @Route("/")
-//     * @Template
-//     */
-//    public function indexAction(Request $request)
-//    {
-//        $form = $this->getForm($this->filterFormClass);
-//        $form->handleRequest($request);
-//        $filter = $form->getData();
-//
-//        $page = $request->get('page', 1);
-//        if ($this->isGranted('ROLE_UHK_BEHEER')) {
-//            $pagination = $this->dao->findAll($page, $filter);
-//        } else {
-//            $pagination = $this->dao->findByMedewerker($this->getMedewerker(), $page, $filter);
-//        }
-//
-//        return [
-//            'filter' => isset($form) ? $form->createView() : null,
-//            'pagination' => $pagination,
-//        ];
-//    }
+
 
     /**
      * @Route("/{id}/view")
@@ -154,23 +149,18 @@ class DeelnemersController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             if ($form->get('yes')->isClicked()) {
-                $url = $request->get('redirect');
                 $viewUrl = $this->generateUrl($this->baseRouteName . 'view', ['id' => $entity->getId(),'_fragment'=>'verslagen']);
 
-                $verslagDao = new VerslagDao($this->getEntityManager(),$this->getPaginator(),5);
-                $verslag = $verslagDao->find($verslagId);
-                $verslagDao->delete($verslag);
+                $verslag = $this->verslagDao->find($verslagId);
+                $this->verslagDao->delete($verslag);
 
                 $this->addFlash('success',   'Verslag is verwijderd.');
-
-
                 return $this->redirect($viewUrl);
 
             } else {
                 if (isset($url)) {
                     return $this->redirect($url);
                 }
-
                 return $this->redirectToView($entity);
             }
         }
@@ -238,12 +228,12 @@ class DeelnemersController extends AbstractController
 
                 return $this->redirectToView($deelnemer);
             } catch(UserException $e) {
-//                $this->get('logger')->error($e->getMessage(), ['exception' => $e]);
+//                $this->logger->error($e->getMessage(), ['exception' => $e]);
                 $message =  $e->getMessage();
                 $this->addFlash('danger', $message);
 //                return $this->redirectToRoute('app_klanten_index');
             } catch (\Exception $e) {
-                $message = $this->container->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
+                $message = $this->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
                 $this->addFlash('danger', $message);
             }
 

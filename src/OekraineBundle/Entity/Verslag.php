@@ -49,7 +49,7 @@ class Verslag
     /**
      * @var Bezoeker
      *
-     * @ORM\ManyToOne(targetEntity="OekraineBundle\Entity\Bezoeker")
+     * @ORM\ManyToOne(targetEntity="OekraineBundle\Entity\Bezoeker", inversedBy="verslagen")
      * @Gedmo\Versioned
      */
     private $bezoeker;

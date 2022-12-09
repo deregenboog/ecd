@@ -8,7 +8,7 @@ use Symfony\Component\HttpFoundation\Request;
 class VrijwilligerControllerTest extends WebTestCase
 {
     public function testAccessDenied() {
-        $medewerker = $this->getContainer()->get('AppBundle\Service\MedewerkerDao')->findByUsername('clip_user');
+        $medewerker = $this->getContainer()->get(\AppBundle\Service\MedewerkerDao::class)->findByUsername('clip_user');
         $this->logIn($medewerker);
 
         $crawler = $this->client->request('GET', '/clip/vrijwilligers/');
@@ -17,7 +17,9 @@ class VrijwilligerControllerTest extends WebTestCase
 
     public function testSortColumns()
     {
-        $medewerker = $this->getContainer()->get('AppBundle\Service\MedewerkerDao')->findByUsername('clip_user');
+        $this->markTestSkipped();
+
+        $medewerker = $this->getContainer()->get(\AppBundle\Service\MedewerkerDao::class)->findByUsername('clip_user');
         $this->logIn($medewerker, ['ROLE_CLIP_VRIJWILLIGERS']);
 
         $crawler = $this->client->request('GET', '/clip/vrijwilligers/');

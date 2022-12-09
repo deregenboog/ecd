@@ -7,6 +7,7 @@ use AppBundle\Controller\AbstractController;
 use AppBundle\Exception\AppException;
 use AppBundle\Exception\UserException;
 use AppBundle\Model\MedewerkerSubjectInterface;
+use InloopBundle\Service\IncidentDao;
 use OekraineBundle\Entity\Incident;
 use OekraineBundle\Entity\Locatie;
 use OekraineBundle\Entity\Training;
@@ -39,18 +40,18 @@ class IncidentenController extends AbstractChildController
 
 
     /**
-     * @var IncidentDaoInterface
-     *
-     * @DI\Inject("OekraineBundle\Service\IncidentDao")
+     * @var IncidentDao
      */
     protected $dao;
 
     /**
-     * @var \ArrayObject
-     *
-     * @DI\Inject("oekraine.incident.entities")
+     * @param IncidentDao $dao
+     * @param \ArrayObject $entities
      */
-    protected $entities;
+    public function __construct(IncidentDao $dao)
+    {
+        $this->dao = $dao;
+    }
 
 
     /**

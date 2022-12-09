@@ -20,10 +20,10 @@ class Schorsing
 {
     use TimestampableTrait;
 
-    const DOELWIT_MEDEWERKER = 1;
-    const DOELWIT_STAGIAIR = 2;
-    const DOELWIT_VRIJWILLIGER = 3;
-    const DOELWITTEN = [
+    public const DOELWIT_MEDEWERKER = 1;
+    public const DOELWIT_STAGIAIR = 2;
+    public const DOELWIT_VRIJWILLIGER = 3;
+    public const DOELWITTEN = [
         self::DOELWIT_MEDEWERKER => 'medewerker',
         self::DOELWIT_STAGIAIR => 'stagiair',
         self::DOELWIT_VRIJWILLIGER => 'vrijwilliger',

@@ -1,12 +1,12 @@
-{% extends '::base-2-col.html.twig' %}
-{% import '::html.macro.twig' as html %}
+{% extends 'base-2-col.html.twig' %}
+{% import 'html.macro.twig' as html %}
 
 {% block title %}
     {{ title }}
 {% endblock %}
 
 {% block subnavigation %}
-    {% include 'AppBundle::subnavigation.html.twig' %}
+    {% include '@App/subnavigation.html.twig' %}
 {% endblock %}
 
 {% block content_top %}
@@ -93,7 +93,7 @@
 {% endblock %}
 
 {% block content_right %}
-    {% include 'AppBundle:klanten:_diensten.html.twig' %}
+    {% include '@App/klanten/_diensten.html.twig' %}
     <h2>ZRMs</h2>
     <p>
         {{ html.viewLink(path('app_zrms_index', {'zrm_filter[klant][id]': entity.id})) }}

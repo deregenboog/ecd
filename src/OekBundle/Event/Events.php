@@ -4,7 +4,7 @@ namespace OekBundle\Event;
 
 class Events
 {
-    const EVENT_DEELNEMER_CREATED = 'oek_deelnemer_created';
+    public const EVENT_DEELNEMER_CREATED = 'oek_deelnemer_created';
 
     public function __construct()
     {

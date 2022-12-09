@@ -1,12 +1,12 @@
-{% extends '::base-2-col.html.twig' %}
-{% import '::html.macro.twig' as html %}
+{% extends 'base-2-col.html.twig' %}
+{% import 'html.macro.twig' as html %}
 
 {% block title %}
     {{ title }}
 {% endblock %}
 
 {% block subnavigation %}
-    {% include 'OekraineBundle::subnavigation.html.twig' %}
+    {% include '@Oekraine/subnavigation.html.twig' %}
 {% endblock %}
 
 {% block content_top %}
@@ -34,11 +34,11 @@
             <li>{{ status }}</li>
         {% endfor %}
     </ul>
-    {% include '::klant_basis.html.twig' with {klant: entity.appKlant, module: 'Intake'} %}
-    {{ render(controller('OekraineBundle:Bezoekers:_intakes', {id: entity.id})) }}
+    {% include 'klant_basis.html.twig' with {klant: entity.appKlant, module: 'Intake'} %}
+    {{ render(controller('OekraineBundle\\Controller\\BezoekersController::_intakesAction', {id: entity.id})) }}
 
-{#    {{ render(controller('OekraineBundle:Klanten:_schorsingen', {id: entity.id})) }}#}
-{#    {{ render(controller('OekraineBundle:Bezoekers:_registraties', {id: entity.id})) }}#}
+{#    {{ render(controller('OekraineBundle\\Controller\\KlantenController::_schorsingenAction', {id: entity.id})) }}#}
+{#    {{ render(controller('OekraineBundle\\Controller\\BezoekersController::_registratiesAction', {id: entity.id})) }}#}
 {% endblock %}
 
 {% block content_right %}
@@ -59,7 +59,7 @@
                         {{ html.link('Intake toevoegen', path('oekraine_intakes_add', {bezoeker: entity.id}), 'add') }}
                     {% endif %}
                 </p>
-                {% include 'OekraineBundle:intakes:_detail.html.twig' with {entity: entity.laatsteIntake} %}
+                {% include '@Oekraine/intakes/_detail.html.twig' with {entity: entity.laatsteIntake} %}
             {% else %}
                 {% if entity.huidigeStatus.aangemeld %}
                     {{ html.link('Intake toevoegen', path('oekraine_intakes_add', {bezoeker: entity.id}), 'add') }}
@@ -67,14 +67,14 @@
             {% endif %}
         </div>
         <div id="verslagen" class="tab-pane">
-                {% include 'OekraineBundle:bezoekers:_verslagen.html.twig' with {entity: entity }%}
+                {% include '@Oekraine/bezoekers/_verslagen.html.twig' with {entity: entity }%}
         </div>
 {#        #}
 {#        <div id="schorsingen" class="tab-pane">#}
-{#            {% include 'OekraineBundle:klanten:_schorsingen.html.twig' with {klant: entity} %}#}
+{#            {% include '@Oekraine/klanten/_schorsingen.html.twig' with {klant: entity} %}#}
 {#        </div>#}
 {#        <div id="incidenten" class="tab-pane">#}
-{#            {% include 'OekraineBundle:incidenten:_list.html.twig' with {klant: entity} %}#}
+{#            {% include '@Oekraine/incidenten/_list.html.twig' with {klant: entity} %}#}
 {#        </div>#}
     </div>
 {% endblock %}

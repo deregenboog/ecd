@@ -1,4 +1,4 @@
-/app/config/parameters.yml
+/config/packages/parameters.yml
 /app/SymfonyRequirements.php
 /app/check.php
 
@@ -56,7 +56,8 @@
 !/bin/docker-up.sh
 !/bin/docker-stop.sh
 /app/bootstrap.php.cache
-/.php_cs.cache
+/.php-cs-fixer.dist.php
+/.php-cs-fixer.php
 /cache.properties
 
 # Node modules
@@ -73,11 +74,38 @@ phpunit
 /app/webroot-dev/php_errors.log
 /app/data/postcodes.csv
 /app/data/postcodes-8-12-2021.csv
-/.env
-/.env.local.php
+/_tmp
 
-/templates
-/translations
-/public
-/docker
-/config
+###> friendsofphp/php-cs-fixer ###
+/.php-cs-fixer.php
+/.php-cs-fixer.cache
+###< friendsofphp/php-cs-fixer ###
+
+###> phpunit/phpunit ###
+/phpunit.xml
+.phpunit.result.cache
+###< phpunit/phpunit ###
+
+###> symfony/phpunit-bridge ###
+.phpunit
+###< symfony/phpunit-bridge ###
+
+###> symfony/webpack-encore-bundle ###
+/public/node_modules/
+/public/build/ ## now include build and perform local because of version problems on ubuntu.
+/public/bundles
+npm-debug.log
+yarn-error.log
+###< symfony/webpack-encore-bundle ###
+
+###> symfony/framework-bundle ###
+/.env
+/.env.local
+/.env.local.php
+/.env.*.local
+/config/secrets/prod/prod.decrypt.private.php
+/var/
+###< symfony/framework-bundle ###
+
+/.php_cs.cache
+/public/build/*

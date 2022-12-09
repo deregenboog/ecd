@@ -5,6 +5,7 @@ namespace IzBundle\Controller;
 use AppBundle\Controller\AbstractController;
 use IzBundle\Entity\EindeVraagAanbod;
 use IzBundle\Form\EindeVraagAanbodType;
+use IzBundle\Service\EindeVraagAanbodDao;
 use IzBundle\Service\EindeVraagAanbodDaoInterface;
 use JMS\DiExtraBundle\Annotation as DI;
 use Symfony\Component\Routing\Annotation\Route;
@@ -22,9 +23,7 @@ class EindeVraagAanbodController extends AbstractController
     protected $baseRouteName = 'iz_eindevraagaanbod_';
 
     /**
-     * @var EindeVraagAanbodDaoInterface
-     *
-     * @DI\Inject("IzBundle\Service\EindeVraagAanbodDao")
+     * @var EindeVraagAanbodDao
      */
     protected $dao;
 

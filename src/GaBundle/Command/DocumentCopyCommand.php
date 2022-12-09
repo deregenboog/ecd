@@ -13,7 +13,7 @@ use Symfony\Component\Filesystem\Exception\FileNotFoundException;
 use Symfony\Component\Filesystem\Exception\IOException;
 use Symfony\Component\Filesystem\Filesystem;
 
-class DocumentCopyCommand extends ContainerAwareCommand
+class DocumentCopyCommand extends \Symfony\Component\Console\Command\Command
 {
     protected function configure()
     {
@@ -24,7 +24,7 @@ class DocumentCopyCommand extends ContainerAwareCommand
         ;
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         /* @var $entityManager EntityManager */
         $entityManager = $this->getContainer()->get('doctrine.orm.entity_manager');
@@ -70,5 +70,6 @@ class DocumentCopyCommand extends ContainerAwareCommand
         }
 
         $output->writeln(sprintf('%d bestanden gekopieerd', $count));
+        return 0;
     }
 }

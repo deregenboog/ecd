@@ -29,8 +29,8 @@ class Deelnemer implements DocumentSubjectInterface
 {
     use IdentifiableTrait, ActivatableTrait, DocumentSubjectTrait, TimestampableTrait;
 
-    const TYPE_WMO = 'WMO';
-    const TYPE_ONDERAANNEMER = 'onderaannemer';
+    public const TYPE_WMO = 'WMO';
+    public const TYPE_ONDERAANNEMER = 'onderaannemer';
 
     /**
      * @var Klant

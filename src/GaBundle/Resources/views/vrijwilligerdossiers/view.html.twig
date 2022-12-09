@@ -1,12 +1,12 @@
-{% extends 'GaBundle::view.html.twig' %}
-{% import '::html.macro.twig' as html %}
+{% extends '@Ga/view.html.twig' %}
+{% import 'html.macro.twig' as html %}
 
 {% block content_top %}
     <h1>{{ entity_name|capitalize }} {{ entity }}</h1>
 {% endblock %}
 
 {% block content_left %}
-    {% include '::vrijwilliger_basis.html.twig' with {vrijwilliger: entity.vrijwilliger} %}
+    {% include 'vrijwilliger_basis.html.twig' with {vrijwilliger: entity.vrijwilliger} %}
 {% endblock %}
 
 {% block content_right %}
@@ -17,7 +17,7 @@
         </p>
     {% endif %}
     {% block tabs %}
-        {% include 'GaBundle:vrijwilligerdossiers:_tabs.html.twig' with {current: 'intake'} %}
+        {% include '@Ga/vrijwilligerdossiers/_tabs.html.twig' with {current: 'intake'} %}
     {% endblock %}
     {% block tab_content %}
         <div class="tab-content">

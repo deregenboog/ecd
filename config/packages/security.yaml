@@ -1,0 +1,81 @@
+security:
+    encoders:
+        AppBundle\Entity\Medewerker: plaintext
+
+    providers:
+        chain_provider:
+            chain:
+                providers: [database, ldap]
+        database:
+            entity: { class: AppBundle\Entity\Medewerker, property: username }
+        ldap:
+            id: ldap_tools.security.user.ldap_user_provider
+
+    firewalls:
+        # disables authentication for assets and the profiler, adapt it according to your needs
+        dev:
+            pattern: ^/(_(profiler|wdt)|css|images|js)/
+            security: false
+
+        main:
+            anonymous: ~
+            # Here we use the chained provider defined previously...
+            provider: chain_provider
+            pattern: ^/
+            logout: ~
+#            logout_on_user_change: true
+            switch_user: { role: ROLE_ADMIN }
+
+        login:
+            anonymous: ~
+            pattern: ^/login$
+#            logout_on_user_change: true
+
+    access_control:
+        - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/admin/klanten, roles: ROLE_TEAMLEIDERS }
+        - { path: ^/admin, roles: ROLE_ADMIN }
+        - { path: ^/medewerkers, roles: ROLE_USERADMIN }
+        - { path: ^/download, roles: ROLE_GLOBALDOWNLOAD }
+        - { path: ^/buurtboerderij, roles: ROLE_BUURTBOERDERIJ }
+        - { path: ^/clip/admin, roles: ROLE_CLIP_BEHEER }
+        - { path: ^/clip/vrijwilligers, roles: ROLE_CLIP_VRIJWILLIGERS }
+        - { path: ^/clip, roles: ROLE_CLIP }
+        - { path: ^/dagbesteding/admin, roles: ROLE_DAGBESTEDING_BEHEER }
+        - { path: ^/dagbesteding, roles: ROLE_DAGBESTEDING }
+        - { path: ^/eropuit/admin, roles: ROLE_EROPUIT_BEHEER }
+        - { path: ^/eropuit, roles: ROLE_EROPUIT }
+        - { path: ^/ga/admin, roles: ROLE_GA_BEHEER }
+        - { path: ^/ga, roles: ROLE_GA }
+        - { path: ^/hs/admin, roles: ROLE_HOMESERVICE_BEHEER }
+        - { path: ^/hs, roles: ROLE_HOMESERVICE }
+        - { path: ^/inloop/admin, roles: ROLE_INLOOP_BEHEER }
+        - { path: ^/inloop/documenten, roles: ROLE_INLOOP_VRIJWILLIGERS }
+        - { path: ^/inloop/intakes, roles: ROLE_INLOOP_INTAKES }
+        - { path: ^/inloop/klanten, roles: ROLE_INLOOP_KLANTEN }
+        - { path: ^/inloop/memos, roles: ROLE_INLOOP_KLANTEN }
+        - { path: ^/inloop/opmerkingen, roles: ROLE_INLOOP_OPMERKINGEN }
+        - { path: ^/inloop/rapportages, roles: ROLE_INLOOP_REPORTS }
+        - { path: ^/inloop/registraties, roles: ROLE_INLOOP_REGISTRATIES }
+        - { path: ^/inloop/schorsingen, roles: ROLE_INLOOP_SCHORSINGEN }
+        - { path: ^/inloop/vrijwilligers, roles: ROLE_INLOOP_VRIJWILLIGERS }
+        - { path: ^/inloop, roles: ROLE_INLOOP }
+        - { path: ^/oekraine, roles: [ROLE_OEKRAINE] }
+        - { path: ^/iz/admin, roles: ROLE_IZ_BEHEER }
+        - { path: ^/iz, roles: ROLE_IZ }
+        - { path: ^/mw/admin, roles: ROLE_MW_BEHEER }
+        - { path: ^/mw, roles: ROLE_MW }
+        - { path: ^/odp/admin, roles: ROLE_ODP_BEHEER }
+        - { path: ^/odp, roles: ROLE_ODP }
+        - { path: ^/tw/admin, roles: ROLE_TW_BEHEER }
+        - { path: ^/tw, roles: ROLE_TW }
+        - { path: ^/oek/admin, roles: ROLE_OEK_BEHEER }
+        - { path: ^/oek, roles: ROLE_OEK }
+        - { path: ^/pfo/admin, roles: ROLE_PFO_BEHEER }
+        - { path: ^/pfo, roles: [ROLE_PFO, ROLE_PFO_BEPERKT] }
+        - { path: ^/scip/admin, roles: ROLE_SCIP_BEHEER }
+        - { path: ^/scip, roles: ROLE_SCIP }
+        - { path: ^/uhk/admin, roles: ROLE_UHK_BEHEER }
+        - { path: ^/uhk, roles: ROLE_UHK }
+        - { path: ^/villa, roles: ROLE_VILLA }
+        - { path: ^/, roles: CONTROLLER_ACCESS_VOTER }

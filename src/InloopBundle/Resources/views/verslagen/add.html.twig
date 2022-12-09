@@ -1,5 +1,5 @@
-{% extends '::base.html.twig' %}
-{% import '::html.macro.twig' as html %}
+{% extends 'base.html.twig' %}
+{% import 'html.macro.twig' as html %}
 
 {% set max_depth = 4 %}
 {% set col_width = (100/(max_depth))|round(0, 'floor') %}
@@ -85,7 +85,9 @@
 
 {% block scripts %}
     <script>
-        $(function() {
+        window.onload = function() {
+        if($){
+            $(function() {
             var radios = $('table.inventarisaties input[type="radio"]');
             var cellsWithSelect = $('table.inventarisaties td:has(select)');
             var toggleSelect = function() {
@@ -119,5 +121,7 @@
             });
             toggleDuur();
         });
-    </script>
+      }
+   }
+   </script>
 {% endblock %}

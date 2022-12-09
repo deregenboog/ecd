@@ -13,10 +13,11 @@ class DeclaratieTest extends TestCase
 {
     /**
      * @dataProvider provideSettersAndArguments
-     * @expectedException \HsBundle\Exception\InvoiceLockedException
      */
     public function testSettingOnLockedDeclaratieResultsInException($method, $args)
     {
+        $this->expectException(\HsBundle\Exception\InvoiceLockedException::class);
+
         $factuur = new Factuur(new Klant());
 
         $declaratie = new Declaratie();

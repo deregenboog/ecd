@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace Application\Migrations;
 
@@ -10,10 +12,10 @@ use Doctrine\Migrations\AbstractMigration;
  */
 final class Version20220225155127 extends AbstractMigration
 {
-    public function up(Schema $schema) : void
+    public function up(Schema $schema): void
     {
         // this up() migration is auto-generated, please modify it to your needs
-        $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
+        $this->abortIf('mysql' !== $this->connection->getDatabasePlatform()->getName(), 'Migration can only be executed safely on \'mysql\'.');
 
         $this->addSql('ALTER TABLE dagbesteding_trajecten DROP FOREIGN KEY FK_670A67F239F86A1D');
 
@@ -27,13 +29,11 @@ final class Version20220225155127 extends AbstractMigration
         $this->addSql('ALTER TABLE dagbesteding_trajecten CHANGE begeleider_id trajectcoach_id INT NOT NULL');
         $this->addSql('ALTER TABLE dagbesteding_trajecten ADD CONSTRAINT FK_670A67F2AEDCD25A FOREIGN KEY (trajectcoach_id) REFERENCES dagbesteding_trajectcoaches (id)');
         $this->addSql('CREATE INDEX IDX_670A67F2AEDCD25A ON dagbesteding_trajecten (trajectcoach_id)');
-
     }
 
-    public function down(Schema $schema) : void
+    public function down(Schema $schema): void
     {
         // this down() migration is auto-generated, please modify it to your needs
-        $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
-
+        $this->abortIf('mysql' !== $this->connection->getDatabasePlatform()->getName(), 'Migration can only be executed safely on \'mysql\'.');
     }
 }

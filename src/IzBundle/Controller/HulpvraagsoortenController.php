@@ -5,6 +5,7 @@ namespace IzBundle\Controller;
 use AppBundle\Controller\AbstractController;
 use IzBundle\Entity\Hulpvraagsoort;
 use IzBundle\Form\HulpvraagsoortType;
+use IzBundle\Service\HulpvraagsoortDao;
 use IzBundle\Service\HulpvraagsoortDaoInterface;
 use JMS\DiExtraBundle\Annotation as DI;
 use Symfony\Component\Routing\Annotation\Route;
@@ -22,11 +23,18 @@ class HulpvraagsoortenController extends AbstractController
     protected $baseRouteName = 'iz_hulpvraagsoorten_';
 
     /**
-     * @var HulpvraagsoortDaoInterface
-     *
-     * @DI\Inject("IzBundle\Service\HulpvraagsoortDao")
+     * @var HulpvraagsoortDao
      */
     protected $dao;
+
+    /**
+     * @param HulpvraagsoortDao $dao
+     */
+    public function __construct(HulpvraagsoortDao $dao)
+    {
+        $this->dao = $dao;
+    }
+
 
     /**
      * @Route("/{id}/view")

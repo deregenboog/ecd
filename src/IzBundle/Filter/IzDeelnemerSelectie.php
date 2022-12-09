@@ -31,6 +31,7 @@ class IzDeelnemerSelectie implements FilterInterface
 
     public function applyTo(QueryBuilder $builder)
     {
+        $entity = null;
         switch (current($builder->getRootAliases())) {
             case 'izKlant':
                 $entity = 'klant';
@@ -47,7 +48,7 @@ class IzDeelnemerSelectie implements FilterInterface
             ;
         }
 
-        if ($this->stadsdelen && count($this->stadsdelen)) {
+        if ($this->stadsdelen && count((array) $this->stadsdelen)) {
             $builder
                 ->andWhere("{$entity}.werkgebied IN (:stadsdelen)")
                 ->setParameter('stadsdelen', $this->stadsdelen)

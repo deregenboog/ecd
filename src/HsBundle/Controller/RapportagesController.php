@@ -3,6 +3,7 @@
 namespace HsBundle\Controller;
 
 use AppBundle\Controller\AbstractRapportagesController;
+use AppBundle\Export\ExportInterface;
 use AppBundle\Export\GenericExport;
 use HsBundle\Form\RapportageType;
 use JMS\DiExtraBundle\Annotation as DI;
@@ -16,11 +17,4 @@ use Symfony\Component\Routing\Annotation\Route;
 class RapportagesController extends AbstractRapportagesController
 {
     protected $formClass = RapportageType::class;
-
-    /**
-     * @var GenericExport
-     *
-     * @DI\Inject("hs.export.report")
-     */
-    protected $export;
 }

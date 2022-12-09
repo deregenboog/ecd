@@ -71,10 +71,10 @@ class GenericExport extends AbstractExport
         foreach ($entities as $entity) {
             if ('array' === $this->class) {
                 if (!is_array($entity)) {
-                    throw new ExportException('Class %s only supports array\'s', __CLASS__);
+                    throw new ExportException('Class %s only supports array\'s', self::class);
                 }
             } elseif (!$entity instanceof $this->class) {
-                throw new ExportException(sprintf('Class %s only supports %s (%s given)', __CLASS__, $this->class, get_class($entity)));
+                throw new ExportException(sprintf('Class %s only supports %s (%s given)', self::class, $this->class, get_class($entity)));
             }
 
             $params = ['entity' => $entity, 'export' => $this];
@@ -125,7 +125,7 @@ class GenericExport extends AbstractExport
                                 ->getStyle()->getNumberFormat()->setFormatCode(NumberFormat::FORMAT_PERCENTAGE_00);
                             break;
                         default:
-                            if (is_array($value) || $value instanceof \Traversable) {
+                            if (is_iterable($value)) {
                                 $values = [];
                                 foreach ($value as $v) {
                                     $values[] = (string) $v;

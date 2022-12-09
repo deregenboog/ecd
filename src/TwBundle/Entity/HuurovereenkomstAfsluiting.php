@@ -26,6 +26,6 @@ class HuurovereenkomstAfsluiting extends Afsluiting
 
     public function isDeletable()
     {
-        return 0 === count($this->huurovereenkomsten);
+        return 0 === (is_array($this->huurovereenkomsten) || $this->huurovereenkomsten instanceof \Countable ? count($this->huurovereenkomsten) : 0);
     }
 }

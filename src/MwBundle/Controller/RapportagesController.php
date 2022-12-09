@@ -14,11 +14,4 @@ use Symfony\Component\Routing\Annotation\Route;
 class RapportagesController extends AbstractRapportagesController
 {
     protected $formClass = RapportageType::class;
-
-    /**
-     * @var ExportInterface
-     *
-     * @DI\Inject("mw.export.report")
-     */
-    protected $export;
 }

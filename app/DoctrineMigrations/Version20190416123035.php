@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace Application\Migrations;
 
@@ -10,10 +12,10 @@ use Doctrine\Migrations\AbstractMigration;
  */
 final class Version20190416123035 extends AbstractMigration
 {
-    public function up(Schema $schema) : void
+    public function up(Schema $schema): void
     {
         // this up() migration is auto-generated, please modify it to your needs
-        $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
+        $this->abortIf('mysql' !== $this->connection->getDatabasePlatform()->getName(), 'Migration can only be executed safely on \'mysql\'.');
 
         $this->addSql('CREATE TABLE scip_werkdoelen (id INT AUTO_INCREMENT NOT NULL, deelnemer_id INT DEFAULT NULL, medewerker_id INT DEFAULT NULL, tekst LONGTEXT DEFAULT NULL, datum DATE NOT NULL, created DATETIME NOT NULL, modified DATETIME NOT NULL, INDEX IDX_6433FE805DFA57A1 (deelnemer_id), INDEX IDX_6433FE803D707F64 (medewerker_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci ENGINE = InnoDB');
         $this->addSql('CREATE TABLE scip_beschikbaarheid (id INT AUTO_INCREMENT NOT NULL, deelname_id INT DEFAULT NULL, maandagVan TIME DEFAULT NULL, maandagTot TIME DEFAULT NULL, dinsdagVan TIME DEFAULT NULL, dinsdagTot TIME DEFAULT NULL, woensdagVan TIME DEFAULT NULL, woensdagTot TIME DEFAULT NULL, donderdagVan TIME DEFAULT NULL, donderdagTot TIME DEFAULT NULL, vrijdagVan TIME DEFAULT NULL, vrijdagTot TIME DEFAULT NULL, zaterdagVan TIME DEFAULT NULL, zaterdagTot TIME DEFAULT NULL, zondagVan TIME DEFAULT NULL, zondagTot TIME DEFAULT NULL, UNIQUE INDEX UNIQ_8897F00FC18FA9D5 (deelname_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci ENGINE = InnoDB');
@@ -46,7 +48,7 @@ final class Version20190416123035 extends AbstractMigration
         $this->addSql('ALTER TABLE scip_deelnames ADD CONSTRAINT FK_FC67EC2F166D1F9C FOREIGN KEY (project_id) REFERENCES scip_projecten (id)');
     }
 
-    public function down(Schema $schema) : void
+    public function down(Schema $schema): void
     {
         $this->throwIrreversibleMigrationException();
     }

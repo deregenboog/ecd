@@ -18,8 +18,12 @@ use InloopBundle\Form\RegistratieFilterType;
 use InloopBundle\Form\RegistratieHistoryFilterType;
 use InloopBundle\Form\RegistratieType;
 use InloopBundle\Security\Permissions;
+use InloopBundle\Service\KlantDao;
 use InloopBundle\Service\KlantDaoInterface;
+use InloopBundle\Service\LocatieDao;
+use InloopBundle\Service\RegistratieDao;
 use InloopBundle\Service\RegistratieDaoInterface;
+use InloopBundle\Service\SchorsingDao;
 use InloopBundle\Service\SchorsingDaoInterface;
 use JMS\DiExtraBundle\Annotation as DI;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
@@ -42,50 +46,61 @@ class RegistratiesController extends AbstractController
     protected $baseRouteName = 'inloop_registraties_';
 
     /**
-     * @var RegistratieDaoInterface
-     *
-     * @DI\Inject("InloopBundle\Service\RegistratieDao")
+     * @var RegistratieDao
      */
     protected $dao;
 
     /**
-     * @var KlantDaoInterface
-     *
-     * @DI\Inject("InloopBundle\Service\KlantDao")
+     * @var KlantDao
      */
     protected $klantDao;
 
     /**
-     * @var LocatieDaoInterface
-     *
-     * @DI\Inject("InloopBundle\Service\LocatieDao")
+     * @var LocatieDao
      */
     protected $locatieDao;
 
     /**
-     * @var SchorsingDaoInterface
-     *
-     * @DI\Inject("InloopBundle\Service\SchorsingDao")
+     * @var SchorsingDao
      */
     protected $schorsingDao;
 
     /**
      * @var ExportInterface
-     *
-     * @DI\Inject("inloop.export.registraties")
      */
     protected $export;
+
+
 
     /**
      * @var array TBC_Countries from config.
      */
-    protected $tbc_countries;
+    protected $tbc_countries = [];
 
-//    public function __construct(Array $tbc_countries)
-//    {
-//
-//       $this->tbc_countries = $tbc_countries;
-//    }
+    /**
+     * @var int $tbc_months_period
+     */
+    protected $tbc_months_period = 0;
+
+    /**
+     * @param RegistratieDao $dao
+     * @param KlantDao $klantDao
+     * @param LocatieDao $locatieDao
+     * @param SchorsingDao $schorsingDao
+     * @param ExportInterface $export
+     */
+    public function __construct(RegistratieDao $dao, KlantDao $klantDao, LocatieDao $locatieDao, SchorsingDao $schorsingDao, ExportInterface $export,
+       $tbc_countries=[], $tbc_months_period=0)
+    {
+        $this->dao = $dao;
+        $this->klantDao = $klantDao;
+        $this->locatieDao = $locatieDao;
+        $this->schorsingDao = $schorsingDao;
+        $this->export = $export;
+        $this->tbc_months_period = $tbc_months_period;
+        $this->tbc_countries=$tbc_countries;
+    }
+
     /**
      * @Route("/")
      */
@@ -142,7 +157,7 @@ class RegistratiesController extends AbstractController
         $page = $request->get('page', 1);
         $pagination = $this->klantDao->findAll($page, $filter);
 
-        return $this->render('InloopBundle:registraties:_index.html.twig', [
+        return $this->render('@Inloop/registraties/_index.html.twig', [
             'locatie' => $locatie,
             'filter' => $form->createView(),
             'pagination' => $pagination,
@@ -176,9 +191,9 @@ class RegistratiesController extends AbstractController
             return $registratie->getKlant()->getId();
         }, $pagination->getItems());
         $event = new GenericEvent($klantIds, ['geen_activering_klant_ids' => []]);
-        $this->get('event_dispatcher')->dispatch(Events::GEEN_ACTIVERING, $event);
+        $this->eventDispatcher->dispatch($event, Events::GEEN_ACTIVERING);
 
-        return $this->render('InloopBundle:registraties:_active.html.twig', [
+        return $this->render('@Inloop/registraties/_active.html.twig', [
             'locatie' => $locatie,
             'filter' => isset($form) ? $form->createView() : null,
             'pagination' => $pagination,
@@ -213,9 +228,9 @@ class RegistratiesController extends AbstractController
             return $registratie->getKlant()->getId();
         }, $pagination->getItems());
         $event = new GenericEvent($klantIds, ['geen_activering_klant_ids' => []]);
-        $this->get('event_dispatcher')->dispatch(Events::GEEN_ACTIVERING, $event);
+        $this->eventDispatcher->dispatch($event, Events::GEEN_ACTIVERING);
 
-        return $this->render('InloopBundle:registraties:_history.html.twig', [
+        return $this->render('@Inloop/registraties/_history.html.twig', [
             'locatie' => $locatie,
             'filter' => isset($form) ? $form->createView() : null,
             'pagination' => $pagination,
@@ -257,7 +272,7 @@ class RegistratiesController extends AbstractController
 //        $registratiesSindsMiddernacht = $klant->getRegistratiesSinds(new \DateTime('today midnight'));
 //        if($registratiesSindsMiddernacht->count() >= 2) {
 //
-//            $nachtopvanglocaties = $this->container->getParameter('nachtopvang_locaties');
+//            $nachtopvanglocaties = $this->getParameter('nachtopvang_locaties');
 //            if(in_array($locatie->getNaam(),$nachtopvanglocaties))
 //            {
 //                return new JsonResponse($jsonVar);
@@ -376,14 +391,14 @@ class RegistratiesController extends AbstractController
             }
 
             $actieveSchorsingen = $this->schorsingDao->findActiefByKlantAndLocatie($klant, $locatie);
-            if (count($actieveSchorsingen) > 0) {
+            if ((is_array($actieveSchorsingen) || $actieveSchorsingen instanceof \Countable ? count($actieveSchorsingen) : 0) > 0) {
                 $jsonVar['message'] .= $sep.'Let op: deze persoon is momenteel op deze locatie geschorst. Toch inchecken?';
                 $sep = $separator;
                 $jsonVar['confirm'] = true;
             }
 
             $terugkeergesprekNodig = $this->schorsingDao->findTerugkeergesprekNodigByKlantAndLocatie($klant, $locatie);
-            if (count($terugkeergesprekNodig) > 0) {
+            if ((is_array($terugkeergesprekNodig) || $terugkeergesprekNodig instanceof \Countable ? count($terugkeergesprekNodig) : 0) > 0) {
                 $jsonVar['message'] .= $sep.'Let op: deze persoon is 14 dagen of langer geschorst geweest en heeft een terugkeergesprek nodig.';
                 $sep = $separator;
                 $jsonVar['confirm'] = true;
@@ -394,7 +409,7 @@ class RegistratiesController extends AbstractController
              */
             if (false && $locatie->isTbcCheck()) {
 
-                $tbcValid = $this->getParameter('tbc_months_period') * 30;
+                $tbcValid = $this->tbc_months_period * 30;
                 $newTbcCheckNeeded = (!$klant->getLaatsteTbcControle() || $klant->getLaatsteTbcControle()->diff(new \DateTime())->days > $tbcValid);
                 if ($newTbcCheckNeeded) {
                     $jsonVar['message'] .= $sep.'Let op: deze persoon heeft een nieuwe TBC-check nodig. Toch inchecken?';
@@ -402,7 +417,7 @@ class RegistratiesController extends AbstractController
                     $sep = $separator;
                 }
             }
-            $tbc_countries = $this->container->getParameter('tbc_countries');
+            $tbc_countries = $this->tbc_countries;
 
 
             if( in_array($klant->getLand()->getNaam(),$tbc_countries)
@@ -413,7 +428,7 @@ class RegistratiesController extends AbstractController
                 $sep = $separator;
             }
 
-            if (count($klant->getOpenstaandeOpmerkingen()) > 0) {
+            if ((is_array($klant->getOpenstaandeOpmerkingen()) || $klant->getOpenstaandeOpmerkingen() instanceof \Countable ? count($klant->getOpenstaandeOpmerkingen()) : 0) > 0) {
                 $opmerkingen = $klant->getOpenstaandeOpmerkingen()->toArray();
                 foreach ($opmerkingen as $opmerking) {
                     $jsonVar['message'] .= $sep.'Openstaande opmerking ('.$opmerking->getCreated()->format('d-m-Y').'): '.$opmerking->getBeschrijving();
@@ -494,7 +509,7 @@ class RegistratiesController extends AbstractController
 
         // set position in queue
         $queue = $this->dao->findShowerQueue($registratie->getLocatie());
-        $registratie->setDouche(1 + count($queue));
+        $registratie->setDouche(1 + (is_array($queue) || $queue instanceof \Countable ? count($queue) : 0));
         $this->dao->update($registratie);
 
         return new JsonResponse(['douche' => $registratie->getDouche()]);
@@ -527,7 +542,7 @@ class RegistratiesController extends AbstractController
 
         // set position in queue
         $queue = $this->dao->findMwQueue($registratie->getLocatie());
-        $registratie->setMw(1 + count($queue));
+        $registratie->setMw(1 + (is_array($queue) || $queue instanceof \Countable ? count($queue) : 0));
         $this->dao->update($registratie);
 
         return new JsonResponse(['mw' => $registratie->getMw()]);
@@ -650,6 +665,7 @@ class RegistratiesController extends AbstractController
 
     public function isAuthorized()
     {
+        $locatie = null;
         if (!parent::isAuthorized()) {
             return false;
         }

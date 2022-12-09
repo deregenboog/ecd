@@ -1,5 +1,5 @@
-{% extends 'InloopBundle:intakes:add.html.twig' %}
-{% import '::html.macro.twig' as html %}
+{% extends '@Inloop/intakes/add.html.twig' %}
+{% import 'html.macro.twig' as html %}
 
 {% block title %}
     Inloophuizen | {{ title }}
@@ -32,7 +32,7 @@
         {{ form_widget(form.toegang) }}
         {{ form_errors(form.toegang) }}
     {% else %}
-        {% include 'InloopBundle:intakes:_locatieToegang.html.twig' with {entity: entity.klant.eersteIntake, verblijfsstatusId: entity.Verblijfsstatus.id} %}
+        {% include '@Inloop/intakes/_locatieToegang.html.twig' with {entity: entity.klant.eersteIntake, verblijfsstatusId: entity.Verblijfsstatus.id} %}
     {% endif %}
 
     {{ form_end(form) }}

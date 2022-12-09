@@ -4,6 +4,85 @@ imports:
     - { resource: reports.yml }
 
 services:
+    #tbv controller DI named arguments die dan niet eerst hoeven;
+    _defaults:
+        autowire: true
+        autoconfigure: true
+
+    HsBundle\Command\:
+        resource: '../../Command'
+        tags: [ 'console.command' ]
+
+    HsBundle\Controller\:
+        resource: '../../Controller'
+        tags: [ 'controller.service_arguments' ]
+
+    HsBundle\Controller\BetalingenController:
+        arguments:
+            $export: '@hs.export.betaling'
+            $entities: '@hs.betaling.entities'
+        tags: [ 'controller.service_arguments' ]
+
+    HsBundle\Controller\DeclaratiesController:
+        arguments:
+            $entities: '@hs.declaratie.entities'
+        tags: [ 'controller.service_arguments' ]
+
+    HsBundle\Controller\DienstverlenersController:
+        arguments:
+            $export: '@hs.export.dienstverlener'
+        tags: [ 'controller.service_arguments' ]
+
+    HsBundle\Controller\DocumentenController:
+        arguments:
+            $entities: '@hs.document.entities'
+        tags: [ 'controller.service_arguments' ]
+
+    HsBundle\Controller\FacturenController:
+        arguments:
+            $entities: '@hs.factuur.entities'
+            $export: '@hs.export.factuur'
+            $factory: '@hs.factory.factuur'
+        tags: [ 'controller.service_arguments' ]
+
+    HsBundle\Controller\HerinneringenController:
+        arguments:
+            $entities: '@hs.herinnering.entities'
+        tags: [ 'controller.service_arguments' ]
+
+    HsBundle\Controller\KlantenController:
+        arguments:
+            $export: '@hs.export.klant'
+        tags: [ 'controller.service_arguments' ]
+
+    HsBundle\Controller\KlussenController:
+        arguments:
+            $entities: '@hs.klus.entities'
+            $export: '@hs.export.klus'
+        tags: [ 'controller.service_arguments' ]
+
+    HsBundle\Controller\MemosController:
+        arguments:
+            $entities: '@hs.memo.entities'
+        tags: [ 'controller.service_arguments' ]
+
+    HsBundle\Controller\RapportagesController:
+        arguments:
+            $export: '@hs.export.report'
+            $reports: !tagged_iterator hs.rapportage
+        tags: [ 'controller.service_arguments' ]
+
+    HsBundle\Controller\RegistratiesController:
+        arguments:
+            $entities: '@hs.registratie.entities'
+            $export: '@hs.export.registratie'
+        tags: [ 'controller.service_arguments' ]
+
+    HsBundle\Controller\VrijwilligersController:
+        arguments:
+            $export: '@hs.export.vrijwilliger'
+        tags: [ 'controller.service_arguments' ]
+
     # Twig extensions
     hs.twig.hs_extension:
         class: HsBundle\Twig\HsExtension

@@ -1,12 +1,12 @@
-{% extends 'GaBundle::view.html.twig' %}
-{% import '::html.macro.twig' as html %}
+{% extends '@Ga/view.html.twig' %}
+{% import 'html.macro.twig' as html %}
 
 {% block content_top %}
     <h1>{{ entity_name|capitalize }} {{ entity }}</h1>
 {% endblock %}
 
 {% block content_left %}
-    {% include '::klant_basis.html.twig' with {klant: entity.klant} %}
+    {% include 'klant_basis.html.twig' with {klant: entity.klant} %}
 {% endblock %}
 
 {% block content_right %}
@@ -17,7 +17,7 @@
         </p>
     {% endif %}
     {% block tabs %}
-        {% include 'GaBundle:klantdossiers:_tabs.html.twig' with {current: 'intake'} %}
+        {% include '@Ga/klantdossiers/_tabs.html.twig' with {current: 'intake'} %}
     {% endblock %}
     {% block tab_content %}
         <div class="tab-content">

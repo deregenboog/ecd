@@ -19,20 +19,18 @@ class DeelnemerTest extends TestCase
         $this->assertInstanceOf(Aanmelding::class, $deelnemer->getDossierStatus());
     }
 
-    /**
-     * @expectedException \RunTimeException
-     */
     public function testCannotCloseNonOpenDossier()
     {
+        $this->expectException(\RunTimeException::class);
+
         $deelnemer = new Deelnemer();
         $deelnemer->addAfsluiting($this->getAfsluiting());
     }
 
-    /**
-     * @expectedException \RunTimeException
-     */
     public function testCannotOpenOpenDossier()
     {
+        $this->expectException(\RunTimeException::class);
+
         $deelnemer = new Deelnemer();
         $deelnemer->addAanmelding($this->getAanmelding());
         $deelnemer->addAanmelding($this->getAanmelding());
@@ -48,11 +46,10 @@ class DeelnemerTest extends TestCase
         $this->assertInstanceOf(Aanmelding::class, $deelnemer->getDossierStatus());
     }
 
-    /**
-     * @expectedException \RunTimeException
-     */
     public function testCannotCloseClosedDossier()
     {
+        $this->expectException(\RunTimeException::class);
+
         $deelnemer = new Deelnemer();
         $deelnemer->addAanmelding($this->getAanmelding());
         $deelnemer->addAfsluiting($this->getAfsluiting());

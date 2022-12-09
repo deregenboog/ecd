@@ -12,6 +12,7 @@ use BuurtboerderijBundle\Entity\Vrijwilliger;
 use BuurtboerderijBundle\Form\VrijwilligerCloseType;
 use BuurtboerderijBundle\Form\VrijwilligerFilterType;
 use BuurtboerderijBundle\Form\VrijwilligerType;
+use BuurtboerderijBundle\Service\VrijwilligerDao;
 use BuurtboerderijBundle\Service\VrijwilligerDaoInterface;
 use JMS\DiExtraBundle\Annotation as DI;
 use Symfony\Component\Routing\Annotation\Route;
@@ -33,25 +34,34 @@ class VrijwilligersController extends AbstractController
     protected $baseRouteName = 'buurtboerderij_vrijwilligers_';
 
     /**
-     * @var VrijwilligerDaoInterface
-     *
-     * @DI\Inject("BuurtboerderijBundle\Service\VrijwilligerDao")
+     * @var VrijwilligerDao
      */
     protected $dao;
 
     /**
      * @var AbstractExport
      *
-     * @DI\Inject("buurtboerderij.export.vrijwilligers")
      */
     protected $export;
 
     /**
-     * @var VrijwilligerDaoInterface
+     * @var VrijwilligerDao
      *
-     * @DI\Inject("AppBundle\Service\VrijwilligerDao")
      */
     private $vrijwilligerDao;
+
+    /**
+     * @param VrijwilligerDao $dao
+     * @param AbstractExport $export
+     * @param VrijwilligerDao $vrijwilligerDao
+     */
+    public function __construct(VrijwilligerDao $dao, AbstractExport $export, VrijwilligerDao $vrijwilligerDao)
+    {
+        $this->dao = $dao;
+        $this->export = $export;
+        $this->vrijwilligerDao = $vrijwilligerDao;
+    }
+
 
     /**
      * @Route("/add")
@@ -169,7 +179,7 @@ class VrijwilligersController extends AbstractController
                 $message = $e->getMessage();
                 $this->addFlash('danger',$message);
             } catch (\Exception $e) {
-                $message = $this->container->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
+                $message = $this->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
                 $this->addFlash('danger', $message);
             }
 

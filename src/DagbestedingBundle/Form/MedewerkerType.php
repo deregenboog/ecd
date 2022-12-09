@@ -19,7 +19,7 @@ class MedewerkerType extends AbstractType
                 return $repository->createQueryBuilder('medewerker')
                     ->innerJoin(Trajectcoach::class, 'trajectcoach', 'WITH', 'trajectcoach.medewerker = medewerker AND trajectcoach.actief = 1')
                     ->orderBy('medewerker.voornaam')
-                ;
+                    ;
             },
         ]);
     }

@@ -28,12 +28,11 @@ class VormVanOvereenkomst
      */
     private $label;
 
-//    /**
-//     * @var Huuraanbod
-//     * @ORM\OneToMany(targetEntity="Huuraanbod")
-//     * @Gedmo\Versioned
-//     */
-//    private $huuraanbod;
+    /**
+     * @var Huuraanbod[]
+     * @ORM\OneToMany(targetEntity="Huuraanbod", mappedBy="vormvanovereenkomst")
+     */
+    private $huuraanbod;
 
 
     /**
@@ -47,6 +46,8 @@ class VormVanOvereenkomst
      * @Gedmo\Versioned
      */
     private $enddate;
+
+
 
 
     public function __construct()
@@ -114,5 +115,22 @@ class VormVanOvereenkomst
         $this->enddate = $enddate;
     }
 
-
+    /**
+     * @return Huuraanbod[]
+     */
+    public function getHuuraanbod(): ?array
+    {
+        return $this->huuraanbod;
     }
+
+    /**
+     * @param Huuraanbod[] $huuraanbod
+     */
+    public function setHuuraanbod(array $huuraanbod): void
+    {
+        $this->huuraanbod = $huuraanbod;
+    }
+
+
+
+}

@@ -1,5 +1,5 @@
-{% extends '::base-2-col.html.twig' %}
-{% import '::html.macro.twig' as html %}
+{% extends 'base-2-col.html.twig' %}
+{% import 'html.macro.twig' as html %}
 
 {% block title %}
     Maatschappelijk werk | {{ title }}
@@ -43,13 +43,13 @@
 {% endblock %}
 
 {% block content_left %}
-    {% include '::klant_basis.html.twig' with {klant: entity, module: 'MaatschappelijkWerk'} %}
+    {% include 'klant_basis.html.twig' with {klant: entity, module: 'MaatschappelijkWerk'} %}
 
-    {{ render(controller('InloopBundle:Klanten:_intakes', {id: entity.id})) }}
-    {{ render(controller('InloopBundle:Klanten:_opmerkingen', {id: entity.id})) }}
-    {{ render(controller('InloopBundle:Klanten:_schorsingen', {id: entity.id})) }}
-    {{ render(controller('InloopBundle:Klanten:_registraties', {id: entity.id})) }}
-    {{ render(controller('MwBundle:Klanten:_documenten', {id: entity.id})) }}
+    {{ render(controller('InloopBundle\\Controller\\KlantenController::_intakesAction', {id: entity.id})) }}
+    {{ render(controller('InloopBundle\\Controller\\KlantenController::_opmerkingenAction', {id: entity.id})) }}
+    {{ render(controller('InloopBundle\\Controller\\KlantenController::_schorsingenAction', {id: entity.id})) }}
+    {{ render(controller('InloopBundle\\Controller\\KlantenController::_registratiesAction', {id: entity.id})) }}
+    {{ render(controller('MwBundle\\Controller\\KlantenController::_documentenAction', {id: entity.id})) }}
 
 {% endblock %}
 
@@ -106,7 +106,7 @@
             <p>
                 {{ html.link('Dossierinformatie wijzigen', path('mw_klanten_infoedit', {klant: entity.id}), 'edit') }}
             </p>
-            {{ render(controller('MwBundle:Klanten:_mw', {id: entity.id})) }}
+            {{ render(controller('MwBundle\\Controller\\KlantenController::_mwAction', {id: entity.id})) }}
         </div>
         <div id="opmerkingen" class="tab-pane">
             <h2>Opmerkingen</h2>
@@ -247,6 +247,9 @@
 
 {% block scripts %}
     <script>
+   window.onload = function(){
+      if($){
+
         $(function() {
 
             function opmerking_seen(opmerking_id) {
@@ -297,5 +300,8 @@
                 schorsing_seen(id);
             });
         });
-    </script>
+
+      }
+   }
+   </script>
 {% endblock %}

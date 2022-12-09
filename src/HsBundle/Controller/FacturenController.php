@@ -16,8 +16,10 @@ use HsBundle\Form\CreditfactuurType;
 use HsBundle\Form\FactuurFilterType;
 use HsBundle\Form\FactuurType;
 use HsBundle\Pdf\PdfFactuur;
+use HsBundle\Service\FactuurDao;
 use HsBundle\Service\FactuurDaoInterface;
 use HsBundle\Service\FactuurFactoryInterface;
+use HsBundle\Service\KlantDao;
 use HsBundle\Service\KlantDaoInterface;
 use JMS\DiExtraBundle\Annotation as DI;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
@@ -41,39 +43,46 @@ class FacturenController extends AbstractChildController
 //     protected $disabledActions = ['edit', 'delete'];
 
     /**
-     * @var FactuurDaoInterface
-     *
-     * @DI\Inject("HsBundle\Service\FactuurDao")
+     * @var FactuurDao
      */
     protected $dao;
 
     /**
      * @var \ArrayObject
-     *
-     * @DI\Inject("hs.factuur.entities")
      */
     protected $entities;
 
     /**
      * @var ExportInterface
-     *
-     * @DI\Inject("hs.export.factuur")
      */
     protected $export;
 
     /**
-     * @var KlantDaoInterface
-     *
-     * @DI\Inject("HsBundle\Service\KlantDao")
+     * @var KlantDao
      */
     protected $klantDao;
 
     /**
      * @var FactuurFactoryInterface
-     *
-     * @DI\Inject("hs.factory.factuur")
      */
     private $factory;
+
+    /**
+     * @param FactuurDao $dao
+     * @param \ArrayObject $entities
+     * @param ExportInterface $export
+     * @param KlantDao $klantDao
+     * @param FactuurFactoryInterface $factory
+     */
+    public function __construct(FactuurDao $dao, KlantDao $klantDao, \ArrayObject $entities, ExportInterface $export,FactuurFactoryInterface $factory)
+    {
+        $this->dao = $dao;
+        $this->entities = $entities;
+        $this->export = $export;
+        $this->klantDao = $klantDao;
+        $this->factory = $factory;
+    }
+
 
     /**
      * @Route("/")
@@ -294,7 +303,7 @@ class FacturenController extends AbstractChildController
         $filename = $this->getZipDownloadFilename();
         $collection = $this->dao->findAll(null, $filter);
 
-        if (0 === count($collection)) {
+        if (0 === (is_array($collection) || $collection instanceof \Countable ? count($collection) : 0)) {
             $this->addFlash('warning', 'Geen definitieve facturen gevonden.');
 
             throw new HsException('Geen definitieve facturen gevonden.');
@@ -335,7 +344,7 @@ class FacturenController extends AbstractChildController
         $filename = $this->getPdfDownloadFilename();
         $collection = $this->dao->findAll(null, $filter);
 
-        if (0 === count($collection)) {
+        if (0 === (is_array($collection) || $collection instanceof \Countable ? count($collection) : 0)) {
             $this->addFlash('warning', 'Geen definitieve facturen gevonden.');
 
             throw new HsException('Geen definitieve facturen gevonden.');

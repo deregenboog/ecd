@@ -6,6 +6,7 @@ use AppBundle\Controller\AbstractController;
 use JMS\DiExtraBundle\Annotation as DI;
 use PfoBundle\Entity\Groep;
 use PfoBundle\Form\GroepType;
+use PfoBundle\Service\GroepDao;
 use PfoBundle\Service\GroepDaoInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -22,9 +23,17 @@ class GroepenController extends AbstractController
     protected $disabledActions = ['delete'];
 
     /**
-     * @var GroepDaoInterface
-     *
-     * @DI\Inject("PfoBundle\Service\GroepDao")
+     * @var GroepDao
      */
     protected $dao;
+
+    /**
+     * @param GroepDao $dao
+     */
+    public function __construct(GroepDao $dao)
+    {
+        $this->dao = $dao;
+    }
+
+
 }

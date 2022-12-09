@@ -14,8 +14,11 @@ use IzBundle\Filter\KoppelingFilter;
 use IzBundle\Form\HulpaanbodFilterType;
 use IzBundle\Form\HulpvraagFilterType;
 use IzBundle\Form\KoppelingFilterType;
+use IzBundle\Service\HulpaanbodDao;
 use IzBundle\Service\HulpaanbodDaoInterface;
+use IzBundle\Service\HulpvraagDao;
 use IzBundle\Service\HulpvraagDaoInterface;
+use IzBundle\Service\KoppelingDao;
 use IzBundle\Service\KoppelingDaoInterface;
 use JMS\DiExtraBundle\Annotation as DI;
 use Symfony\Component\Routing\Annotation\Route;
@@ -31,46 +34,53 @@ class DashboardController extends SymfonyController
     protected $title = 'Mijn IZ';
 
     /**
-     * @var HulpvraagDaoInterface
-     *
-     * @DI\Inject("IzBundle\Service\HulpvraagDao")
+     * @var HulpvraagDao
      */
     protected $hulpvraagDao;
 
     /**
-     * @var HulpaanbodDaoInterface
-     *
-     * @DI\Inject("IzBundle\Service\HulpaanbodDao")
+     * @var HulpaanbodDao
      */
     protected $hulpaanbodDao;
 
     /**
-     * @var KoppelingDaoInterface
-     *
-     * @DI\Inject("IzBundle\Service\KoppelingDao")
+     * @var KoppelingDao
      */
     protected $koppelingDao;
 
     /**
      * @var AbstractExport
-     *
-     * @DI\Inject("iz.export.hulpvragen")
      */
     protected $hulpvragenExport;
 
     /**
      * @var AbstractExport
-     *
-     * @DI\Inject("iz.export.hulpaanbiedingen")
      */
     protected $hulpaanbiedingenExport;
 
     /**
      * @var AbstractExport
-     *
-     * @DI\Inject("iz.export.koppelingen")
      */
     protected $koppelingenExport;
+
+    /**
+     * @param HulpvraagDao $hulpvraagDao
+     * @param HulpaanbodDao $hulpaanbodDao
+     * @param KoppelingDao $koppelingDao
+     * @param AbstractExport $hulpvragenExport
+     * @param AbstractExport $hulpaanbiedingenExport
+     * @param AbstractExport $koppelingenExport
+     */
+    public function __construct(HulpvraagDao $hulpvraagDao, HulpaanbodDao $hulpaanbodDao, KoppelingDao $koppelingDao, AbstractExport $hulpvragenExport, AbstractExport $hulpaanbiedingenExport, AbstractExport $koppelingenExport)
+    {
+        $this->hulpvraagDao = $hulpvraagDao;
+        $this->hulpaanbodDao = $hulpaanbodDao;
+        $this->koppelingDao = $koppelingDao;
+        $this->hulpvragenExport = $hulpvragenExport;
+        $this->hulpaanbiedingenExport = $hulpaanbiedingenExport;
+        $this->koppelingenExport = $koppelingenExport;
+    }
+
 
     /**
      * @Route("/")

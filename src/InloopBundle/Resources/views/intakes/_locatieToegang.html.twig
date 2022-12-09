@@ -1,19 +1,22 @@
-{% import '::html.macro.twig' as html %}
-<h2>Locatiekeuze</h2><h4>(uit eerste intake)</h4>
-{#{% if is_granted('edit', entity) and is_granted('owner', entity) %}#}
+{% import 'html.macro.twig' as html %}
+{% if entity is not null and entity.id is not empty  %}
+    <h2>Locatiekeuze</h2><h4>(uit eerste intake)</h4>
+    {#{% if is_granted('edit', entity) and is_granted('owner', entity) %}#}
+
     {{ html.link('Wijzigen', path('inloop_intakes_edittoegang', {id: entity.id,access:true}), 'edit') }}
-{#{% endif %}#}
-<dl class="dl-horizontal" data-verblijfsstatus-id="{{ verblijfsstatusId }}">
-    <dt>Intakelocatie</dt>
-    <dd>{{ entity.intakelocatie }}</dd>
-    <dt>Toegang inloophuis</dt>
-    <dd>{{ entity.toegangInloophuis ? 'Ja' : 'Nee' }}</dd>
-    <dt>Einddatum toegang AMOC</dt>
-    <dd>{{ entity.amocToegangTot|if_date('d-m-Y') }}</dd>
-    <dt>Startdatum toegang Zeeburg/Transformatorweg</dt>
-    <dd>{{ entity.ondroBongToegangVan|if_date('d-m-Y') }}</dd>
-    <dt>Startdatum toegang overigen</dt>
-    <dd>{{ entity.overigenToegangVan|if_date('d-m-Y') }}</dd>
-    <dt>Toegang gebruikersruimte</dt>
-    <dd>{{ entity.gebruikersruimte }}</dd>
-</dl>
+
+    <dl class="dl-horizontal" data-verblijfsstatus-id="{{ verblijfsstatusId }}">
+        <dt>Intakelocatie</dt>
+        <dd>{{ entity.intakelocatie }}</dd>
+        <dt>Toegang inloophuis</dt>
+        <dd>{{ entity.toegangInloophuis ? 'Ja' : 'Nee' }}</dd>
+        <dt>Einddatum toegang AMOC</dt>
+        <dd>{{ entity.amocToegangTot|if_date('d-m-Y') }}</dd>
+        <dt>Startdatum toegang Zeeburg/Transformatorweg</dt>
+        <dd>{{ entity.ondroBongToegangVan|if_date('d-m-Y') }}</dd>
+        <dt>Startdatum toegang overigen</dt>
+        <dd>{{ entity.overigenToegangVan|if_date('d-m-Y') }}</dd>
+        <dt>Toegang gebruikersruimte</dt>
+        <dd>{{ entity.gebruikersruimte }}</dd>
+    </dl>
+{% endif %}

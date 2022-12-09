@@ -1,5 +1,5 @@
-{% extends '::base-2-col.html.twig' %}
-{% import '::html.macro.twig' as html %}
+{% extends 'base-2-col.html.twig' %}
+{% import 'html.macro.twig' as html %}
 
 {% block title %}
     Maatschappelijk werk | {{ title }}
@@ -14,7 +14,7 @@
 {% endblock %}
 
 {% block content_left %}
-    {% include '::klant_basis.html.twig' with {module: 'MaatschappelijkWerk'} %}
+    {% include 'klant_basis.html.twig' with {module: 'MaatschappelijkWerk'} %}
 {% endblock %}
 
 {% block content_right %}

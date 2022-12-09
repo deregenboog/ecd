@@ -65,7 +65,7 @@ class IntakeDao extends AbstractDao implements IntakeDaoInterface
 
     ) {
         $wachtlijstlocaties = $locatieDao->getWachtlijstLocaties();
-
+        $w =[];
         foreach($wachtlijstlocaties as $veld=>$wachtlijst)
         {
             $w[] = $wachtlijst['naam'];
@@ -181,7 +181,7 @@ class IntakeDao extends AbstractDao implements IntakeDaoInterface
     {
         parent::doCreate($entity);
 
-        $this->eventDispatcher->dispatch(Events::INTAKE_CREATED, new GenericEvent($entity));
+        $this->eventDispatcher->dispatch(new GenericEvent($entity), Events::INTAKE_CREATED);
 
         return $entity;
     }
@@ -195,7 +195,7 @@ class IntakeDao extends AbstractDao implements IntakeDaoInterface
     {
         parent::doUpdate($entity);
 
-        $this->eventDispatcher->dispatch(Events::INTAKE_UPDATED, new GenericEvent($entity));
+        $this->eventDispatcher->dispatch(new GenericEvent($entity), Events::INTAKE_UPDATED);
 
         return $entity;
     }

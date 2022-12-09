@@ -39,7 +39,7 @@ class ReportExport extends AbstractExport
             ++$row;
             ++$row;
             $sheet->getCellByColumnAndRow(1, $row)
-                ->setValue('Startdatum', true)
+                ->setValue('Startdatum')
                 ->getStyle()->getFont()->setBold(true);
             $sheet->getCellByColumnAndRow(2, $row)
                 ->setValue(Date::PHPToExcel($data['startDate']))

@@ -1,0 +1,32 @@
+{
+  "name": "ecd",
+  "dependencies": {
+    "yarn": "^1.22.19",
+    "bootstrap4": "^0.0.1-security",
+    "ckeditor4": "^4.10.0",
+    "fullcalendar": "^3.9.0",
+    "jquery": "^3.3.1",
+    "moment": "^2.20.1",
+    "select2": "^4.1.0-rc.0"
+  },
+  "scripts": {
+    "encore": "encore",
+    "build": "encore production"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.20.2",
+    "@babel/preset-env": "^7.20.2",
+    "@symfony/webpack-encore": "^4.1.1",
+    "bootstrap": "3",
+    "ckeditor": "^4.12.1",
+    "file-loader": "^6.0.0",
+    "less-loader": "^11.0.0",
+    "lodash": "^4.17.21",
+    "popper.js": "^1.16.1",
+    "sass": "^1.42.1",
+    "sass-loader": "^13.0.0",
+    "webpack": "^5.75.0",
+    "webpack-cli": "^4.10.0"
+  },
+  "license": "MIT"
+}

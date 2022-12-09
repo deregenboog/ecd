@@ -4,6 +4,66 @@ imports:
     - { resource: reports.yml }
 
 services:
+    _defaults:
+        autowire: true      # Automatically injects dependencies in your services.
+        autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
+
+    AppBundle\Command\:
+        resource: '../../Command'
+        tags: [ 'console.command' ]
+
+    AppBundle\Controller\:
+        resource: '../../Controller'
+        tags: [ 'controller.service_arguments' ]
+
+    AppBundle\Controller\SymfonyController:
+        arguments:
+            $paginator: '@knp_paginator'
+        tags: [ 'controller.service_arguments' ]
+
+    AppBundle\Controller\KlantenController:
+        arguments:
+             $export: '@AppBundle\Export\Klanten'
+             $tbc_countries: '%tbc_countries%'
+        tags: [ 'controller.service_arguments' ]
+
+    AppBundle\Controller\RapportagesController:
+        arguments:
+            $export: '@AppBundle\Export\ReportExport'
+            $reports: !tagged_iterator app.rapportage
+        tags: [ 'controller.service_arguments' ]
+
+    AppBundle\Controller\ZrmsController:
+        arguments:
+            $entities: '@app.zrm.entities'
+        tags: [ 'controller.service_arguments' ]
+
+    AppBundle\Controller\DocumentenController:
+        arguments:
+            $entities: '@app.document.entities'
+        tags: [ 'controller.service_arguments' ]
+
+    AppBundle\Controller\VrijwilligersController:
+        arguments:
+            $export: '@AppBundle\Export\Vrijwilligers'
+        tags: [ 'controller.service_arguments' ]
+
+    AppBundle\Controller\MedewerkersController:
+        arguments:
+            $roleHierarchy: "%security.role_hierarchy.roles%"
+        tags: [ 'controller.service_arguments' ]
+
+    AppBundle\Controller\DoelstellingenController:
+        arguments:
+            $export:  '@AppBundle\Export\Doelstellingen'
+        tags: [ 'controller.service_arguments' ]
+
+    AppBundle\Controller\DownloadController:
+        arguments:
+            $entities: '@app.document.entities'
+            $downloadServices: !tagged_iterator app.downloads
+        tags: [ 'controller.service_arguments' ]
+
     AppBundle\Event\PreventSaveForDateRangeEventListener:
         arguments:
             - '%prevent_save_enabled%'
@@ -41,13 +101,15 @@ services:
             - { name: kernel.event_listener, event: ldap_tools_bundle.guard.login.failure, method: onLoginFailure }
 
     twig.extension.routing: # override default routing extension
-        class: AppBundle\Twig\RoutingExtension
+        class: AppBundle\Twig\EcdRoutingExtension
         public: false
         arguments:
             - '@router'
             - '@request_stack'
         tags:
             - { name: twig.extension }
+
+    AppBundle\Doctrine\EcdNamingStrategy: #since autowiring is not on by default per bundle, this must be defined; i guess .
 
     app.twig.app_extension:
         class: AppBundle\Twig\AppExtension
@@ -78,11 +140,6 @@ services:
         tags:
             - { name: security.voter }
 
-    app.downloads:
-        class: AppBundle\Service\DownloadsDao
-        arguments:
-            - "@doctrine.orm.entity_manager"
-        public: true
 
     AppBundle\Form\AddressType:
         arguments: ["@doctrine.orm.entity_manager"]
@@ -137,3 +194,18 @@ services:
         tags:
             - { name: kernel.event_subscriber }
 
+
+    app.document.entities:
+        public: true
+        class: ArrayObject
+        arguments:
+            -
+                - { key: klant, dao: '@AppBundle\Service\KlantDao' }
+                - { key: vrijwilliger, dao: '@AppBundle\Service\VrijwilligerDao' }
+
+    app.zrm.entities:
+        public: true
+        class: ArrayObject
+        arguments:
+            -
+                - { key: klant, dao: '@AppBundle\Service\KlantDao' }

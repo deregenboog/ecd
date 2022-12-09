@@ -2,6 +2,7 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\AppBundle;
 use AppBundle\Entity\Klant;
 use AppBundle\Event\DienstenLookupEvent;
 use AppBundle\Event\Events;
@@ -9,6 +10,7 @@ use AppBundle\Export\AbstractExport;
 use AppBundle\Form\ConfirmationType;
 use AppBundle\Form\KlantFilterType;
 use AppBundle\Form\KlantType;
+use AppBundle\Service\KlantDao;
 use AppBundle\Service\KlantDaoInterface;
 use Doctrine\Common\Collections\Criteria;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
@@ -36,23 +38,33 @@ class KlantenController extends AbstractController
 
     /**
      * @var KlantDaoInterface
-     * @DI\Inject("AppBundle\Service\KlantDao")
      */
     protected $searchDao;
 
     /**
      * @var KlantDaoInterface
      *
-     * @DI\Inject("AppBundle\Service\KlantDao")
      */
     protected $dao;
 
     /**
      * @var AbstractExport
-     *
-     * @DI\Inject("app.export.klanten")
      */
     protected $export;
+
+    /** @var array|mixed $tbc_countries List of countries where TBC check is mandatory */
+    protected $tbc_countries = [];
+
+    public function __construct(KlantDao $dao, KlantDao $searchDao, $export, $tbc_countries=[])
+    {
+        $this->searchDao=$searchDao;
+        $this->dao=$dao;
+        $this->export = $export;
+
+        $this->tbc_countries=$tbc_countries;
+
+
+    }
 
     /**
      * @Template
@@ -61,7 +73,7 @@ class KlantenController extends AbstractController
     {
         $event = new DienstenLookupEvent($id);
         if ($event->getKlantId()) {
-            $this->get('event_dispatcher')->dispatch(Events::DIENSTEN_LOOKUP, $event);
+            $this->eventDispatcher->dispatch($event,Events::DIENSTEN_LOOKUP);
         }
 
         return [
@@ -149,12 +161,12 @@ class KlantenController extends AbstractController
 
         $event = new DienstenLookupEvent($entity->getId());
         if ($event->getKlantId()) {
-            $this->get('event_dispatcher')->dispatch(Events::DIENSTEN_LOOKUP, $event);
+            $this->eventDispatcher->dispatch($event,Events::DIENSTEN_LOOKUP);
         }
 
         return [
             'diensten' => $event->getDiensten(),
-            'tbc_countries' => $this->container->getParameter('tbc_countries')
+            'tbc_countries' => $this->tbc_countries
         ];
     }
 

@@ -8,9 +8,9 @@ use OekBundle\Repository\DeelnemerRepository;
 
 abstract class AbstractDeelnemersVerwezen extends AbstractReport
 {
-    const DOOR = 'door';
+    public const DOOR = 'door';
 
-    const NAAR = 'naar';
+    public const NAAR = 'naar';
 
     protected $verwezen;
 

@@ -15,6 +15,7 @@ use TwBundle\Entity\Verhuurder;
 use TwBundle\Entity\FinancieelVerslag;
 use TwBundle\Exception\TwException;
 use TwBundle\Form\VerslagType;
+use TwBundle\Service\FinancieelVerslagDao;
 use TwBundle\Service\FinancieelVerslagDaoInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
@@ -29,9 +30,7 @@ class FinancieleVerslagenController extends SymfonyController
     public $title = 'Financiele Verslagen';
 
     /**
-     * @var FinancieelVerslagDaoInterface
-     *
-     * @DI\Inject("TwBundle\Service\FinancieelVerslagDao")
+     * @var FinancieelVerslagDao
      */
     private $dao;
 
@@ -52,12 +51,12 @@ class FinancieleVerslagenController extends SymfonyController
                 $entityManager->flush();
                 $this->addFlash('success', 'Verslag is toegevoegd.');
             } catch(UserException $e) {
-//                $this->get('logger')->error($e->getMessage(), ['exception' => $e]);
+//                $this->logger->error($e->getMessage(), ['exception' => $e]);
                 $message =  $e->getMessage();
                 $this->addFlash('danger', $message);
 //                return $this->redirectToRoute('app_klanten_index');
             } catch (\Exception $e) {
-                $message = $this->container->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
+                $message = $this->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
                 $this->addFlash('danger', $message);
 
                 return $this->redirectToRoute($routeBase.'_index');
@@ -83,12 +82,12 @@ class FinancieleVerslagenController extends SymfonyController
                 $this->dao->update($entity);
                 $this->addFlash('success', 'Verslag is bijgewerkt.');
             } catch(UserException $e) {
-//                $this->get('logger')->error($e->getMessage(), ['exception' => $e]);
+//                $this->logger->error($e->getMessage(), ['exception' => $e]);
                 $message =  $e->getMessage();
                 $this->addFlash('danger', $message);
 //                return $this->redirectToRoute('app_klanten_index');
             } catch (\Exception $e) {
-                $message = $this->container->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
+                $message = $this->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
                 $this->addFlash('danger', $message);
             }
 

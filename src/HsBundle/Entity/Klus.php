@@ -14,17 +14,17 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\Entity
  * @ORM\Table(name="hs_klussen")
  * @Gedmo\Loggable
- * @ORM\HasLifeCycleCallbacks
+ * @ORM\HasLifecycleCallbacks
  */
 class Klus implements MemoSubjectInterface
 {
     use MemoSubjectTrait, DocumentSubjectTrait, TimestampableTrait;
 
-    const STATUS_OPENSTAAND = 'Openstaand';
-    const STATUS_IN_BEHANDELING = 'In behandeling';
-    const STATUS_ON_HOLD = 'On hold';
-    const STATUS_AFGEROND = 'Afgerond';
-    const STATUS_GEANNULEERD = 'Geannuleerd';
+    public const STATUS_OPENSTAAND = 'Openstaand';
+    public const STATUS_IN_BEHANDELING = 'In behandeling';
+    public const STATUS_ON_HOLD = 'On hold';
+    public const STATUS_AFGEROND = 'Afgerond';
+    public const STATUS_GEANNULEERD = 'Geannuleerd';
 
     /**
      * @ORM\Id
@@ -130,6 +130,23 @@ class Klus implements MemoSubjectInterface
      */
     private $medewerker;
 
+    /**
+     * @var Document[]
+     *
+     * @ORM\ManyToMany(targetEntity="Document", cascade={"persist"})
+     * @ORM\JoinTable(name="hs_klus_document", inverseJoinColumns={@ORM\JoinColumn(unique=true)})
+     */
+    protected $documenten;
+
+    /**
+     * @var Memo[]
+     *
+     * @ORM\ManyToMany(targetEntity="Memo", cascade={"persist"})
+     * @ORM\JoinTable(name="hs_klus_memo", inverseJoinColumns={@ORM\JoinColumn(unique=true)})
+     * @ORM\OrderBy({"datum": "desc", "id": "desc"})
+     */
+    protected $memos;
+
     public function __construct(Klant $klant = null, Medewerker $medewerker = null)
     {
         $this->klant = $klant;
@@ -225,7 +242,7 @@ class Klus implements MemoSubjectInterface
 
     public function removeDienstverlener(Dienstverlener $dienstverlener)
     {
-        if (0 === count($dienstverlener->getRegistraties($this))) {
+        if (0 === (is_array($dienstverlener->getRegistraties($this)) || $dienstverlener->getRegistraties($this) instanceof \Countable ? count($dienstverlener->getRegistraties($this)) : 0)) {
             $this->dienstverleners->removeElement($dienstverlener);
             $dienstverlener->getKlussen()->removeElement($this);
         }
@@ -252,7 +269,7 @@ class Klus implements MemoSubjectInterface
 
     public function removeVrijwilliger(Vrijwilliger $vrijwilliger)
     {
-        if (0 === count($vrijwilliger->getRegistraties($this))) {
+        if (0 === (is_array($vrijwilliger->getRegistraties($this)) || $vrijwilliger->getRegistraties($this) instanceof \Countable ? count($vrijwilliger->getRegistraties($this)) : 0)) {
             $this->vrijwilligers->removeElement($vrijwilliger);
             $vrijwilliger->getKlussen()->removeElement($this);
         }

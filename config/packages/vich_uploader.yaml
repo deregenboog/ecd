@@ -1,0 +1,64 @@
+vich_uploader:
+    db_driver: orm
+    mappings:
+        app_document:
+            namer: vich_uploader.namer_uniqid
+            uri_prefix: /documenten/download
+            upload_destination: '%kernel.root_dir%/../archive/app'
+        clip_document:
+            namer: vich_uploader.namer_uniqid
+            uri_prefix: /clip/documenten/download
+            upload_destination: '%kernel.root_dir%/../archive/clip'
+        dagbesteding_document:
+            namer: vich_uploader.namer_uniqid
+            uri_prefix: /dagbesteding/documenten/download
+            upload_destination: '%kernel.root_dir%/../archive/dagbesteding'
+        ga_document:
+            namer: vich_uploader.namer_uniqid
+            uri_prefix: /ga/documenten/download
+            upload_destination: '%kernel.root_dir%/../archive/ga'
+        hs_document:
+            namer: vich_uploader.namer_uniqid
+            uri_prefix: /hs/documenten/download
+            upload_destination: '%kernel.root_dir%/../archive/hs'
+        inloop_document:
+            namer: vich_uploader.namer_uniqid
+            uri_prefix: /inloop/documenten/download
+            upload_destination: '%kernel.root_dir%/../archive/inloop'
+        iz_document:
+            namer: vich_uploader.namer_uniqid
+            uri_prefix: /iz/documenten/download
+            upload_destination: '%kernel.root_dir%/../archive/iz'
+        mw_document:
+            namer: vich_uploader.namer_uniqid
+            uri_prefix: /mw/documenten/download
+            upload_destination: '%kernel.root_dir%/../archive/mw'
+        tw_document:
+            namer: vich_uploader.namer_uniqid
+            uri_prefix: /tw/documenten/download
+            upload_destination: '%kernel.root_dir%/../archive/tw'
+        oek_document:
+            namer: vich_uploader.namer_uniqid
+            uri_prefix: /oek/documenten/download
+            upload_destination: '%kernel.root_dir%/../archive/oek'
+        pfo_document:
+            namer: vich_uploader.namer_uniqid
+            uri_prefix: /pfo/documenten/download
+            upload_destination: '%kernel.root_dir%/../archive/pfo'
+        scip_document:
+            namer: vich_uploader.namer_uniqid
+            uri_prefix: /scip/documenten/download
+            upload_destination: '%kernel.root_dir%/../archive/scip'
+        uhk_document:
+            namer: vich_uploader.namer_uniqid
+            uri_prefix: /uhk/documenten/download
+            upload_destination: '%kernel.root_dir%/../archive/uhk'
+        villa_document:
+            namer: vich_uploader.namer_uniqid
+            uri_prefix: /villa/documenten/download
+            upload_destination: '%kernel.root_dir%/../archive/villa'
+
+    #mappings:
+    #    products:
+    #        uri_prefix: /images/products
+    #        upload_destination: '%kernel.project_dir%/public/images/products'

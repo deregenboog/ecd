@@ -1,0 +1,5 @@
+nelmio_alice:
+    locale: 'nl_NL'
+    seed: 1
+    loading_limit: 5
+    max_unique_values_retry: 5

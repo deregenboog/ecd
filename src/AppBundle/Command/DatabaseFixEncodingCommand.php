@@ -12,7 +12,7 @@ use Symfony\Component\Console\Output\OutputInterface;
  * Fixes characters like this Ã« (ë), Ã© (é) and Ã¨ (è) caused by UTF8-encoding
  * characters that already are UTF8-encoded.
  */
-class DatabaseFixEncodingCommand extends ContainerAwareCommand
+class DatabaseFixEncodingCommand extends \Symfony\Component\Console\Command\Command
 {
     protected function configure()
     {
@@ -23,7 +23,7 @@ class DatabaseFixEncodingCommand extends ContainerAwareCommand
         ;
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $table = $input->getArgument('table');
         $field = $input->getArgument('field');
@@ -70,5 +70,6 @@ class DatabaseFixEncodingCommand extends ContainerAwareCommand
             $numRows = $connection->executeUpdate($query, [$search, $replacement]);
             $output->writeln($query." ({$numRows} affected)");
         }
+        return 0;
     }
 }

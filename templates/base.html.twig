@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+    <title>ECD | {% block title %}{% endblock %}</title>
+
+    <link href="{{ asset('favicon.png') }}" type="image/png" rel="shortcut icon" />
+    {% block stylesheets  %}
+        {# 'app' must match the first argument to addEntry() in webpack.config.js #}
+        {{ encore_entry_link_tags('app') }}
+    {% endblock %}
+
+    {% block javascripts %}
+        {{ encore_entry_script_tags('app') }}
+    {% endblock %}
+</head>
+<body>
+    {% block header %}
+        {% include 'header.html.twig' %}
+    {% endblock %}
+    <div class="container-fluid">
+        {% block subnavigation %}{% endblock %}
+        <div class="row">
+            {% for type, flash_messages in app.session.flashBag.all %}
+                {% for flash_message in flash_messages %}
+                    <div class="alert alert-{{ type }}" role="alert">{{ flash_message }}</div>
+                {% endfor %}
+            {% endfor %}
+        </div>
+        {% block content_top %}{% endblock %}
+        {% block content %}{% endblock %}
+        {% block content_bottom %}{% endblock %}
+    </div>
+    {% include 'footer.html.twig' %}
+    {% block scripts %}{% endblock %}
+</body>
+</html>

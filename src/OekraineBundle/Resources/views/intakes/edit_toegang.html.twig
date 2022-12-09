@@ -1,5 +1,5 @@
-{% extends 'OekraineBundle:intakes:add.html.twig' %}
-{% import '::html.macro.twig' as html %}
+{% extends '@Oekraine/intakes/add.html.twig' %}
+{% import 'html.macro.twig' as html %}
 
 {% block title %}
     Inloophuizen | {{ title }}
@@ -32,7 +32,7 @@
         {{ form_widget(form.toegang) }}
         {{ form_errors(form.toegang) }}
     {% else %}
-        {% include 'OekraineBundle:intakes:_locatieToegang.html.twig' with {entity: entity.klant.eersteIntake, verblijfsstatusId: entity.Verblijfsstatus.id} %}
+        {% include '@Oekraine/intakes/_locatieToegang.html.twig' with {entity: entity.klant.eersteIntake, verblijfsstatusId: entity.Verblijfsstatus.id} %}
     {% endif %}
 
     {{ form_end(form) }}

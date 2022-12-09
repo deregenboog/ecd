@@ -7,17 +7,18 @@ use AppBundle\Exception\UserException;
 use AppBundle\Form\ConfirmationType;
 use AppBundle\Form\PostcodeFilterType;
 use AppBundle\Form\PostcodeType;
+use AppBundle\Service\PostcodeDao;
 use AppBundle\Service\PostcodeDaoInterface;
 use JMS\DiExtraBundle\Annotation as DI;
 use Symfony\Component\Routing\Annotation\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
  * @Route("/admin/postcodes")
  * @Template
- * @Security("has_role('ROLE_ADMIN')")
+ * @IsGranted("ROLE_ADMIN")
  */
 class PostcodesController extends AbstractController
 {
@@ -29,11 +30,18 @@ class PostcodesController extends AbstractController
     protected $disabledActions = ['view'];
 
     /**
-     * @var PostcodeDaoInterface
-     *
-     * @DI\Inject("AppBundle\Service\PostcodeDao")
+     * @var PostcodeDao
      */
     protected $dao;
+
+    /**
+     * @param PostcodeDao $dao
+     */
+    public function __construct(PostcodeDao $dao)
+    {
+        $this->dao = $dao;
+    }
+
 
     /**
      * @Route("/add")
@@ -55,8 +63,8 @@ class PostcodesController extends AbstractController
                 $message = $e->getMessage();
                 $this->addFlash('danger',$message);
             } catch (\Exception $e) {
-                $this->get('logger')->error($e->getMessage(), ['exception' => $e]);
-                $message = $this->container->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
+                $this->logger->error($e->getMessage(), ['exception' => $e]);
+                $message = $this->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
                 $this->addFlash('danger', $message);
             }
 
@@ -94,8 +102,8 @@ class PostcodesController extends AbstractController
                 $message = $e->getMessage();
                 $this->addFlash('danger',$message);
             } catch (\Exception $e) {
-                $this->get('logger')->error($e->getMessage(), ['exception' => $e]);
-                $message = $this->container->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
+                $this->logger->error($e->getMessage(), ['exception' => $e]);
+                $message = $this->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
                 $this->addFlash('danger', $message);
             }
 

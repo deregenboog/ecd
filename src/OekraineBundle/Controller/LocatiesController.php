@@ -5,6 +5,7 @@ namespace OekraineBundle\Controller;
 use AppBundle\Controller\AbstractController;
 use OekraineBundle\Entity\Locatie;
 use OekraineBundle\Form\LocatieType;
+use OekraineBundle\Service\LocatieDao;
 use OekraineBundle\Service\LocatieDaoInterface;
 use JMS\DiExtraBundle\Annotation as DI;
 use Symfony\Component\Routing\Annotation\Route;
@@ -23,9 +24,17 @@ class LocatiesController extends AbstractController
     protected $baseRouteName = 'oekraine_locaties_';
 
     /**
-     * @var LocatieDaoInterface
-     *
-     * @DI\Inject("OekraineBundle\Service\LocatieDao")
+     * @var LocatieDao
      */
     protected $dao;
+
+    /**
+     * @param LocatieDao $dao
+     */
+    public function __construct(LocatieDao $dao)
+    {
+        $this->dao = $dao;
+    }
+
+
 }

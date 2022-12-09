@@ -11,7 +11,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 class DagdelenRangeModel
 {
-    const DATE_FORMAT = 'd-m-Y';
+    public const DATE_FORMAT = 'd-m-Y';
 
     /**
      * @var Traject

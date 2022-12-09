@@ -1,8 +1,8 @@
-{% extends 'IzBundle::index.html.twig' %}
+{% extends '@Iz/index.html.twig' %}
 
 {% block content %}
     {% if 'email' == action %}
-        {% include 'IzBundle:selecties:_email.html.twig' %}
+        {% include '@Iz/selecties/_email.html.twig' %}
     {% else %}
         {{ form_start(form) }}
             <h1>Selecties</h1>

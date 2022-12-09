@@ -9,7 +9,7 @@ class GroepenControllerTest extends WebTestCase
 {
     public function testSortColumns()
     {
-        $medewerker = $this->getContainer()->get('AppBundle\Service\MedewerkerDao')->findByUsername('oek_user');
+        $medewerker = $this->getContainer()->get(\AppBundle\Service\MedewerkerDao::class)->findByUsername('oek_user');
         $this->logIn($medewerker);
 
         $crawler = $this->client->request('GET', '/oek/groepen/');

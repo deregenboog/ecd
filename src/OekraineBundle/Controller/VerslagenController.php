@@ -46,12 +46,16 @@ class VerslagenController extends AbstractChildController
      */
     protected $entities;
 
-//    /**
-//     * @var ExportInterface
-//     *
-//     * @DI\Inject("mw.export.klanten")
-//     */
-//    protected $export;
+    /**
+     * @param VerslagDao $dao
+     * @param \ArrayObject $entities
+     */
+    public function __construct(VerslagDao $dao, \ArrayObject $entities)
+    {
+        $this->dao = $dao;
+        $this->entities = $entities;
+    }
+
 
     /**
      * @Route("/add")
@@ -85,7 +89,7 @@ class VerslagenController extends AbstractChildController
 
         $event = new DienstenLookupEvent($entity->getBezoeker()->getAppKlant()->getId());
         if ($event->getKlantId()) {
-            $this->get('event_dispatcher')->dispatch(Events::DIENSTEN_LOOKUP, $event);
+            $this->eventDispatcher->dispatch($event, Events::DIENSTEN_LOOKUP);
         }
 
         return [

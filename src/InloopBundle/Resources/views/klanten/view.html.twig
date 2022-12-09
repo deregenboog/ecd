@@ -1,12 +1,12 @@
-{% extends '::base-2-col.html.twig' %}
-{% import '::html.macro.twig' as html %}
+{% extends 'base-2-col.html.twig' %}
+{% import 'html.macro.twig' as html %}
 
 {% block title %}
     {{ title }}
 {% endblock %}
 
 {% block subnavigation %}
-    {% include 'InloopBundle::subnavigation.html.twig' %}
+    {% include '@Inloop/subnavigation.html.twig' %}
 {% endblock %}
 
 {% block content_top %}
@@ -36,11 +36,11 @@
             <li>{{ status }}</li>
         {% endfor %}
     </ul>
-    {% include '::klant_basis.html.twig' with {klant: entity, module: 'Intake'} %}
-    {{ render(controller('InloopBundle:Klanten:_intakes', {id: entity.id})) }}
-{#    {{ render(controller('InloopBundle:Klanten:_opmerkingen', {id: entity.id})) }}#}
-{#    {{ render(controller('InloopBundle:Klanten:_schorsingen', {id: entity.id})) }}#}
-    {{ render(controller('InloopBundle:Klanten:_registraties', {id: entity.id})) }}
+    {% include 'klant_basis.html.twig' with {klant: entity, module: 'Intake'} %}
+    {{ render(controller('InloopBundle\\Controller\\KlantenController::_intakesAction', {id: entity.id})) }}
+{#    {{ render(controller('InloopBundle\Controller\Klanten\_opmerkingenAction', {id: entity.id})) }}#}
+{#    {{ render(controller('InloopBundle\Controller\Klanten\_schorsingenAction', {id: entity.id})) }}#}
+    {{ render(controller('InloopBundle\\Controller\\KlantenController::_registratiesAction', {id: entity.id})) }}
 {% endblock %}
 
 {% block content_right %}
@@ -64,7 +64,7 @@
                         {{ html.link('Intake toevoegen', path('inloop_intakes_add', {klant: entity.id}), 'add') }}
                     {% endif %}
                 </p>
-                {% include 'InloopBundle:intakes:_detail.html.twig' with {entity: entity.laatsteIntake, eersteIntake: entity.eersteIntake} %}
+                {% include '@Inloop/intakes/_detail.html.twig' with {entity: entity.laatsteIntake, eersteIntake: entity.eersteIntake} %}
             {% else %}
                 {% if entity.huidigeStatus.aangemeld %}
                     {{ html.link('Intake toevoegen', path('inloop_intakes_add', {klant: entity.id}), 'add') }}
@@ -153,65 +153,70 @@
             {% endif %}
         </div>
         <div id="schorsingen" class="tab-pane">
-            {% include 'InloopBundle:klanten:_schorsingen.html.twig' with {klant: entity} %}
+            {% include '@Inloop/klanten/_schorsingen.html.twig' with {klant: entity} %}
         </div>
         <div id="incidenten" class="tab-pane">
-            {% include 'InloopBundle:incidenten:_list.html.twig' with {klant: entity} %}
+            {% include '@Inloop/incidenten/_list.html.twig' with {klant: entity} %}
         </div>
     </div>
 {% endblock %}
 
 {% block scripts %}
     <script>
-        $(function() {
+        window.onload = function() {
+            if($) {
+                $(function() {
 
-            function opmerking_seen(opmerking_id) {
-                $.post({
-                    url: `/inloop/opmerkingen/${opmerking_id}/updateGezien`,
-                }).done(function(data) {
-                    $(this).prop('checked', data.gezien);
-                }).fail(function() {
-                    alert('Er is een fout opgetreden.')
-                });
-            };
+                    function opmerking_seen(opmerking_id) {
+                        $.post({
+                            url: `/inloop/opmerkingen/${opmerking_id}/updateGezien`,
+                        }).done(function(data) {
+                            $(this).prop('checked', data.gezien);
+                        }).fail(function() {
+                            alert('Er is een fout opgetreden.')
+                        });
+                    };
 
-            $('#opmerkingen .gezien').on('click', function() {
-                var id = $(this).closest('div').attr('data-id');
-                opmerking_seen(id);
-            });
-
-            function opmerking_remove(opmerking_id) {
-                var confirmed = confirm('Weet u zeker dat u deze opmerking wilt verwijderen?');
-                if (confirmed) {
-                    $.post({
-                        url: `/inloop/opmerkingen/${opmerking_id}/delete`,
-                    }).done(function(data) {
-                        location.reload();
-                    }).fail(function() {
-                        alert('Er is een fout opgetreden.')
+                    $('#opmerkingen .gezien').on('click', function() {
+                        var id = $(this).closest('div').attr('data-id');
+                        opmerking_seen(id);
                     });
-                }
-            };
 
-            $('.delete').on('click', function() {
-                var id = $(this).closest('div').attr('data-id');
-                opmerking_remove(id);
-            });
+                    function opmerking_remove(opmerking_id) {
+                        var confirmed = confirm('Weet u zeker dat u deze opmerking wilt verwijderen?');
+                        if (confirmed) {
+                            $.post({
+                                url: `/inloop/opmerkingen/${opmerking_id}/delete`,
+                            }).done(function(data) {
+                                location.reload();
+                            }).fail(function() {
+                                alert('Er is een fout opgetreden.')
+                            });
+                        }
+                    };
 
-            function schorsing_terugkeergesprekGehad(schorsing_id) {
-                $.post({
-                    url: `/inloop/schorsingen/${schorsing_id}/terugkeergesprekGehad`,
-                }).done(function(data) {
-                    $(this).prop('checked', data.terugkeergesprekGehad);
-                }).fail(function() {
-                    alert('Er is een fout opgetreden.')
+                    $('.delete').on('click', function() {
+                        var id = $(this).closest('div').attr('data-id');
+                        opmerking_remove(id);
+                    });
+
+                    function schorsing_terugkeergesprekGehad(schorsing_id) {
+                        $.post({
+                            url: `/inloop/schorsingen/${schorsing_id}/terugkeergesprekGehad`,
+                        }).done(function(data) {
+                            $(this).prop('checked', data.terugkeergesprekGehad);
+                        }).fail(function() {
+                            alert('Er is een fout opgetreden.')
+                        });
+                    };
+
+                    $('#schorsingen .terugkeergesprekGehad').on('click', function() {
+                        var id = $(this).closest('tr').attr('data-id');
+                        schorsing_terugkeergesprekGehad(id);
+                    });
                 });
-            };
+            }
 
-            $('#schorsingen .terugkeergesprekGehad').on('click', function() {
-                var id = $(this).closest('tr').attr('data-id');
-                schorsing_terugkeergesprekGehad(id);
-            });
-        });
-    </script>
+        }
+   </script>
 {% endblock %}

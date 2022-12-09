@@ -71,7 +71,7 @@ class IntervisiegroepFilter implements FilterInterface
         }
 
         if ($this->actief) {
-            $builder->andWhere('NOW() BETWEEN intervisiegroep.startdatum AND intervisiegroep.einddatum OR intervisiegroep.startdatum IS NULL OR intervisiegroep.einddatum IS NULL');
+            $builder->andWhere('DATE(\'NOW\') BETWEEN intervisiegroep.startdatum AND intervisiegroep.einddatum OR intervisiegroep.startdatum IS NULL OR intervisiegroep.einddatum IS NULL');
         }
 
         if ($this->einddatum) {

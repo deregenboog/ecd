@@ -5,6 +5,7 @@ namespace VillaBundle\Controller;
 use AppBundle\Controller\AbstractController;
 use VillaBundle\Entity\BinnenVia;
 use VillaBundle\Form\BinnenViaType;
+use VillaBundle\Service\BinnenViaDao;
 use VillaBundle\Service\BinnenViaDaoInterface;
 use JMS\DiExtraBundle\Annotation as DI;
 use Symfony\Component\Routing\Annotation\Route;
@@ -21,9 +22,15 @@ class BinnenViaController extends AbstractController
     protected $baseRouteName = 'villa_binnenvia_';
 
     /**
-     * @var BinnenViaDaoInterface
-     *
-     * @DI\Inject("VillaBundle\Service\BinnenViaDao")
+     * @var BinnenViaDao
      */
     protected $dao;
+
+    /**
+     * @param BinnenViaDao $dao
+     */
+    public function __construct(BinnenViaDao $dao)
+    {
+        $this->dao = $dao;
+    }
 }

@@ -11,7 +11,7 @@ class DeelnemersControllerTest extends WebTestCase
     {
         $this->markTestSkipped();
 //
-//        $medewerker = $this->getContainer()->get('AppBundle\Service\MedewerkerDao')->findByUsername('uhk_user');
+//        $medewerker = $this->getContainer()->get(\AppBundle\Service\MedewerkerDao::class)->findByUsername('uhk_user');
 //        $this->logIn($medewerker);
 //
 //        $crawler = $this->client->request('GET', $this->getUrl('ga_klantdossiers_index'));

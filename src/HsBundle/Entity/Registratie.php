@@ -12,7 +12,7 @@ use HsBundle\Exception\InvoiceLockedException;
  * @ORM\Entity
  * @ORM\Table(name="hs_registraties")
  * @Gedmo\Loggable
- * @ORM\HasLifeCycleCallbacks
+ * @ORM\HasLifecycleCallbacks
  */
 class Registratie implements FactuurSubjectInterface
 {

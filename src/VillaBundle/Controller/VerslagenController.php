@@ -10,6 +10,8 @@ use AppBundle\Exception\UserException;
 use AppBundle\Export\ExportInterface;
 
 use Doctrine\ORM\EntityNotFoundException;
+use GaBundle\Service\VerslagDao;
+use VillaBundle\Service\KlantDao;
 use VillaBundle\Service\KlantDaoInterface;
 use JMS\DiExtraBundle\Annotation as DI;
 use VillaBundle\Entity\Verslag;
@@ -36,32 +38,32 @@ class VerslagenController extends AbstractController
     protected $baseRouteName = 'villa_verslagen_';
 
     /**
-     * @var VerslagDaoInterface
-     *
-     * @DI\Inject("VillaBundle\Service\VerslagDao")
+     * @var VerslagDao
      */
     protected $dao;
 
     /**
-     * @var KlantDaoInterface
-     *
-     * @DI\Inject("VillaBundle\Service\KlantDao")
+     * @var KlantDao
      */
     protected $klantDao;
 
     /**
-     * @var InventarisatieDaoInterface
-     *
-     * @DI\Inject("VillaBundle\Service\InventarisatieDao")
-     */
-    protected $inventarisatieDao;
-
-    /**
      * @var ExportInterface
-     *
-     * @DI\Inject("mw.export.klanten")
      */
     protected $export;
+
+    /**
+     * @param VerslagDao $dao
+     * @param KlantDao $klantDao
+     * @param ExportInterface $export
+     */
+    public function __construct(VerslagDao $dao, KlantDao $klantDao, ExportInterface $export)
+    {
+        $this->dao = $dao;
+        $this->klantDao = $klantDao;
+        $this->export = $export;
+    }
+
 
     /**
      * @Route("/add/{klant}")
@@ -90,7 +92,7 @@ class VerslagenController extends AbstractController
 
         $event = new DienstenLookupEvent($entity->getKlant()->getId());
         if ($event->getKlantId()) {
-            $this->get('event_dispatcher')->dispatch(Events::DIENSTEN_LOOKUP, $event);
+            $this->eventDispatcher->dispatch($event, Events::DIENSTEN_LOOKUP);
         }
 
         return [
@@ -120,13 +122,13 @@ class VerslagenController extends AbstractController
                 }
                 $this->addFlash('success', ucfirst($this->entityName).' is opgeslagen.');
             } catch(UserException $e) {
-//                $this->get('logger')->error($e->getMessage(), ['exception' => $e]);
+//                $this->logger->error($e->getMessage(), ['exception' => $e]);
                 $message =  $e->getMessage();
                 $this->addFlash('danger', $message);
 //                return $this->redirectToRoute('app_klanten_index');
             } catch (\Exception $e) {
-                $this->get('logger')->error($e->getMessage(), ['exception' => $e]);
-                $message = $this->container->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
+                $this->logger->error($e->getMessage(), ['exception' => $e]);
+                $message = $this->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
                 $this->addFlash('danger', $message);
             }
 

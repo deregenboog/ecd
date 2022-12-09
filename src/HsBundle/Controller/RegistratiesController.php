@@ -13,6 +13,7 @@ use HsBundle\Entity\Registratie;
 use HsBundle\Filter\RegistratieFilter;
 use HsBundle\Form\RegistratieFilterType;
 use HsBundle\Form\RegistratieType;
+use HsBundle\Service\RegistratieDao;
 use HsBundle\Service\RegistratieDaoInterface;
 use JMS\DiExtraBundle\Annotation as DI;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
@@ -34,25 +35,32 @@ class RegistratiesController extends AbstractChildController
     protected $baseRouteName = 'hs_registraties_';
 
     /**
-     * @var RegistratieDaoInterface
-     *
-     * @DI\Inject("HsBundle\Service\RegistratieDao")
+     * @var RegistratieDao
      */
     protected $dao;
 
     /**
      * @var ExportInterface
-     *
-     * @DI\Inject("hs.export.registratie")
      */
     protected $export;
 
     /**
      * @var \ArrayObject
-     *
-     * @DI\Inject("hs.registratie.entities")
      */
     protected $entities;
+
+    /**
+     * @param RegistratieDao $dao
+     * @param ExportInterface $export
+     * @param \ArrayObject $entities
+     */
+    public function __construct(RegistratieDao $dao, ExportInterface $export, \ArrayObject $entities)
+    {
+        $this->dao = $dao;
+        $this->export = $export;
+        $this->entities = $entities;
+    }
+
 
     /**
      * @Route("/werkbon/{arbeider}")
@@ -83,7 +91,8 @@ class RegistratiesController extends AbstractChildController
      */
     public function addAction(Request $request)
     {
-        list($parentEntity) = $this->getParentConfig($request);
+        $entity = null;
+        [$parentEntity] = $this->getParentConfig($request);
         if (!$parentEntity && !$this->allowEmpty) {
             throw new AppException(sprintf('Kan geen %s aan deze entiteit toevoegen', $this->entityName));
         }
@@ -103,12 +112,12 @@ class RegistratiesController extends AbstractChildController
                 $this->dao->create($entity);
                 $this->addFlash('success', ucfirst($this->entityName).' is toegevoegd.');
             } catch(UserException $e) {
-//                $this->get('logger')->error($e->getMessage(), ['exception' => $e]);
+//                $this->logger->error($e->getMessage(), ['exception' => $e]);
                 $message =  $e->getMessage();
                 $this->addFlash('danger', $message);
 //                return $this->redirectToRoute('app_klanten_index');
             } catch (\Exception $e) {
-                $message = $this->container->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
+                $message = $this->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
                 $this->addFlash('danger', $message);
             }
 

@@ -133,10 +133,10 @@ abstract class Arbeider
 
     public function isDeletable()
     {
-        return 0 === count($this->klussen)
+        return 0 === (is_array($this->klussen) || $this->klussen instanceof \Countable ? count($this->klussen) : 0)
             && 0 === count($this->registraties)
-            && 0 === count($this->memos)
-            && 0 === count($this->documenten)
+            && 0 === (is_array($this->memos) || $this->memos instanceof \Countable ? count($this->memos) : 0)
+            && 0 === (is_array($this->documenten) || $this->documenten instanceof \Countable ? count($this->documenten) : 0)
         ;
     }
 

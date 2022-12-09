@@ -6,6 +6,6 @@ use AppBundle\DependencyInjection\Compiler\AbstractReportsCompilerPass;
 
 class ReportsCompilerPass extends AbstractReportsCompilerPass
 {
-    protected $serviceId = 'IzBundle\Form\RapportageType';
+    protected $serviceId = \IzBundle\Form\RapportageType::class;
     protected $tagId = 'iz.rapportage';
 }

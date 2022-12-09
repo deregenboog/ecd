@@ -29,7 +29,7 @@ use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
-class ImportCommand extends ContainerAwareCommand
+class ImportCommand extends \Symfony\Component\Console\Command\Command
 {
     /**
      * @var ProjectDaoInterface
@@ -75,6 +75,13 @@ class ImportCommand extends ContainerAwareCommand
      * @var array
      */
     private $deelnemers = [];
+    public function __construct(\ScipBundle\Service\ProjectDao $projectDao, \ScipBundle\Service\DeelnemerDao $deelnemerDao, \ScipBundle\Service\DocumentDao $documentDao)
+    {
+        $this->projectDao = $projectDao;
+        parent::__construct();
+        $this->deelnemerDao = $deelnemerDao;
+        $this->documentDao = $documentDao;
+    }
 
     protected function configure()
     {
@@ -87,9 +94,9 @@ class ImportCommand extends ContainerAwareCommand
 
     protected function initialize(InputInterface $input, OutputInterface $output)
     {
-        $this->projectDao = $this->getContainer()->get('ScipBundle\Service\ProjectDao');
-        $this->deelnemerDao = $this->getContainer()->get('ScipBundle\Service\DeelnemerDao');
-        $this->documentDao = $this->getContainer()->get('ScipBundle\Service\DocumentDao');
+        $this->projectDao = $this->projectDao;
+        $this->deelnemerDao = $this->deelnemerDao;
+        $this->documentDao = $this->documentDao;
         $this->entityManager = $this->getContainer()->get('doctrine.orm.entity_manager');
 
         $this->land = $this->entityManager->find(Land::class, 0);
@@ -99,7 +106,7 @@ class ImportCommand extends ContainerAwareCommand
         $this->output = $output;
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         // set higher auto-increment value to make new entities distinguishable
         $this->entityManager->getConnection()->exec('ALTER TABLE `klanten` AUTO_INCREMENT = 5650000');
@@ -130,6 +137,7 @@ class ImportCommand extends ContainerAwareCommand
         $this->output->writeln('');
         $this->output->writeln('Importeren documenten...');
         $this->processDocumenten($data, $path);
+        return 0;
     }
 
     private function processDocumenten($data, $path)
@@ -463,9 +471,7 @@ class FakeUploadedFile extends UploadedFile
             try {
                 $fs->copy($this->getPathname(), $target);
                 $moved = true;
-            } catch (FileNotFoundException $e) {
-                $moved = false;
-            } catch (IOException $e) {
+            } catch (FileNotFoundException|IOException $e) {
                 $moved = false;
             }
             restore_error_handler();

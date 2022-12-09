@@ -5,6 +5,7 @@ namespace ClipBundle\Controller;
 use AppBundle\Export\ExportInterface;
 use ClipBundle\Entity\Vraag;
 use ClipBundle\Filter\VraagFilter;
+use ClipBundle\Service\VraagDao;
 use ClipBundle\Service\VraagDaoInterface;
 use JMS\DiExtraBundle\Annotation as DI;
 use Symfony\Component\Routing\Annotation\Route;
@@ -20,18 +21,25 @@ class OpenstaandeVragenController extends AbstractVragenController
     protected $title = 'Openstaande vragen';
 
     /**
-     * @var VraagDaoInterface
-     *
-     * @DI\Inject("ClipBundle\Service\VraagDao")
+     * @var VraagDao
      */
     protected $dao;
 
     /**
      * @var ExportInterface
-     *
-     * @DI\Inject("clip.export.vragen")
      */
     protected $export;
+
+    /**
+     * @param VraagDaoInterface $dao
+     * @param ExportInterface $export
+     */
+    public function __construct(VraagDao $dao, ExportInterface $export)
+    {
+        $this->dao = $dao;
+        $this->export = $export;
+    }
+
 
     /**
      * @Route("/")

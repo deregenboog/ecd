@@ -1,9 +1,9 @@
-{% extends 'IzBundle:klanten:view.html.twig' %}
-{% import '::html.macro.twig' as html %}
+{% extends '@Iz/klanten/view.html.twig' %}
+{% import 'html.macro.twig' as html %}
 {% set entity = entity.izKlant %}
 
 {% block content_right %}
-    {% include 'IzBundle:klanten:_tabs.html.twig' with {klant: entity, current: 'koppelingen'} %}
+    {% include '@Iz/klanten/_tabs.html.twig' with {klant: entity, current: 'koppelingen'} %}
     <div class="tab-content">
         <div id="koppelingen" class="tab-pane active">
             <h2>Koppelingen</h2>

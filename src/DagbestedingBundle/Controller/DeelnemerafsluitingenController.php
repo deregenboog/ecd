@@ -5,6 +5,7 @@ namespace DagbestedingBundle\Controller;
 use AppBundle\Controller\AbstractController;
 use DagbestedingBundle\Entity\Deelnemerafsluiting;
 use DagbestedingBundle\Form\DeelnemerafsluitingType;
+use DagbestedingBundle\Service\DeelnemerafsluitingDao;
 use DagbestedingBundle\Service\DeelnemerafsluitingDaoInterface;
 use JMS\DiExtraBundle\Annotation as DI;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
@@ -25,11 +26,20 @@ class DeelnemerafsluitingenController extends AbstractController
     protected $templatePath = 'afsluitingen';
 
     /**
-     * @var DeelnemerafsluitingDaoInterface
+     * @var DeelnemerafsluitingDao
      *
      * @DI\Inject("DagbestedingBundle\Service\DeelnemerafsluitingDao")
      */
     protected $dao;
+
+    /**
+     * @param DeelnemerafsluitingDao $dao
+     */
+    public function __construct(DeelnemerafsluitingDao $dao)
+    {
+        $this->dao = $dao;
+    }
+
 
     /**
      * @Route("/{id}/view")

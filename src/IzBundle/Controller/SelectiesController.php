@@ -55,50 +55,51 @@ class SelectiesController extends SymfonyController
      */
     public function emailAction(Request $request)
     {
-        $form = $this->getForm(IzEmailMessageType::class);
-        $form->handleRequest($this->getRequest());
+//        $form = $this->getForm(IzEmailMessageType::class);
+//        $form->handleRequest($this->getRequest());
+//
+//        if ($form->isSubmitted() && $form->isValid()) {
+//            /** @var Swift_Mailer $mailer */
+//            $mailer = $this->container->get('mailer');
+//
+//            /** @var Swift_Mime_Message $message */
+//            $message = $mailer->createMessage()
+//                ->setFrom($form->get('from')->getData())
+//                ->setTo(explode(', ', $form->get('to')->getData()))
+//                ->setSubject($form->get('subject')->getData())
+//                ->setBody($form->get('text')->getData(), 'text/plain')
+//            ;
+//
+//            // add attachments
+//            if ($form->get('file1')->getData()) {
+//                $message->attach(\Swift_Attachment::fromPath($form->get('file1')->getData()->getPathName()));
+//            }
+//            if ($form->get('file2')->getData()) {
+//                $message->attach(\Swift_Attachment::fromPath($form->get('file2')->getData()->getPathName()));
+//            }
+//            if ($form->get('file3')->getData()) {
+//                $message->attach(\Swift_Attachment::fromPath($form->get('file3')->getData()->getPathName()));
+//            }
+//
+//            try {
+//                $sent = $mailer->send($message);
+//                if ($sent) {
+//                    $this->addFlash('success', 'E-mail is verzonden.');
+//                } else {
+//                    $this->addFlash('danger', 'E-mail kon niet verzonden worden.');
+//                }
+//            } catch(UserException $e) {
+////                $this->logger->error($e->getMessage(), ['exception' => $e]);
+//                $message =  $e->getMessage();
+//                $this->addFlash('danger', $message);
+////                return $this->redirectToRoute('app_klanten_index');
+//            } catch (\Exception $e) {
+//                $message = $this->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
+//                $this->addFlash('danger', $message);
+//            }
+//        }
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            /** @var Swift_Mailer $mailer */
-            $mailer = $this->container->get('mailer');
-
-            /** @var Swift_Mime_Message $message */
-            $message = $mailer->createMessage()
-                ->setFrom($form->get('from')->getData())
-                ->setTo(explode(', ', $form->get('to')->getData()))
-                ->setSubject($form->get('subject')->getData())
-                ->setBody($form->get('text')->getData(), 'text/plain')
-            ;
-
-            // add attachments
-            if ($form->get('file1')->getData()) {
-                $message->attach(\Swift_Attachment::fromPath($form->get('file1')->getData()->getPathName()));
-            }
-            if ($form->get('file2')->getData()) {
-                $message->attach(\Swift_Attachment::fromPath($form->get('file2')->getData()->getPathName()));
-            }
-            if ($form->get('file3')->getData()) {
-                $message->attach(\Swift_Attachment::fromPath($form->get('file3')->getData()->getPathName()));
-            }
-
-            try {
-                $sent = $mailer->send($message);
-                if ($sent) {
-                    $this->addFlash('success', 'E-mail is verzonden.');
-                } else {
-                    $this->addFlash('danger', 'E-mail kon niet verzonden worden.');
-                }
-            } catch(UserException $e) {
-//                $this->get('logger')->error($e->getMessage(), ['exception' => $e]);
-                $message =  $e->getMessage();
-                $this->addFlash('danger', $message);
-//                return $this->redirectToRoute('app_klanten_index');
-            } catch (\Exception $e) {
-                $message = $this->container->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
-                $this->addFlash('danger', $message);
-            }
-        }
-
+        $this->addFlash('success', 'E-mails versturen via selecties is uitgeschakeld.');
         return $this->redirectToRoute('iz_selecties_index');
     }
 
@@ -110,7 +111,7 @@ class SelectiesController extends SymfonyController
         $izKlanten = $this->getKlanten($filter);
         $izVrijwilligers = $this->getVrijwilligers($filter);
 
-        if (0 === count($izKlanten) + count($izVrijwilligers)) {
+        if (0 === (is_array($izKlanten) || $izKlanten instanceof \Countable ? count($izKlanten) : 0) + (is_array($izVrijwilligers) || $izVrijwilligers instanceof \Countable ? count($izVrijwilligers) : 0)) {
             throw new NoResultException();
         }
 
@@ -133,7 +134,7 @@ class SelectiesController extends SymfonyController
         $izKlanten = $this->getKlanten($filter);
         $izVrijwilligers = $this->getVrijwilligers($filter);
 
-        if (0 === count($izKlanten) + count($izVrijwilligers)) {
+        if (0 === (is_array($izKlanten) || $izKlanten instanceof \Countable ? count($izKlanten) : 0) + (is_array($izVrijwilligers) || $izVrijwilligers instanceof \Countable ? count($izVrijwilligers) : 0)) {
             throw new NoResultException();
         }
 
@@ -165,7 +166,7 @@ class SelectiesController extends SymfonyController
     private function getKlanten(IzDeelnemerSelectie $filter)
     {
         if (in_array('klanten', $filter->personen)) {
-            return $this->get('IzBundle\Service\KlantDao')->findAll(null, $filter);
+            return $this->get(\IzBundle\Service\KlantDao::class)->findAll(null, $filter);
         }
 
         return new ArrayCollection();
@@ -174,7 +175,7 @@ class SelectiesController extends SymfonyController
     private function getVrijwilligers(IzDeelnemerSelectie $filter)
     {
         if (in_array('vrijwilligers', $filter->personen)) {
-            return $this->get('IzBundle\Service\VrijwilligerDao')->findAll(null, $filter);
+            return $this->get(\IzBundle\Service\VrijwilligerDao::class)->findAll(null, $filter);
         }
 
         return new ArrayCollection();

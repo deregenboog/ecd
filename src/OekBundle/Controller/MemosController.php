@@ -6,6 +6,7 @@ use AppBundle\Controller\AbstractChildController;
 use JMS\DiExtraBundle\Annotation as DI;
 use OekBundle\Entity\Memo;
 use OekBundle\Form\MemoType;
+use OekBundle\Service\MemoDao;
 use OekBundle\Service\MemoDaoInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -23,16 +24,24 @@ class MemosController extends AbstractChildController
     protected $baseRouteName = 'oek_memos_';
 
     /**
-     * @var MemoDaoInterface
-     *
-     * @DI\Inject("OekBundle\Service\MemoDao")
+     * @var MemoDao
      */
     protected $dao;
 
     /**
      * @var \ArrayObject
-     *
-     * @DI\Inject("oek.memo.entities")
      */
     protected $entities;
+
+    /**
+     * @param MemoDao $dao
+     * @param \ArrayObject $entities
+     */
+    public function __construct(MemoDao $dao, \ArrayObject $entities)
+    {
+        $this->dao = $dao;
+        $this->entities = $entities;
+    }
+
+
 }

@@ -1,5 +1,5 @@
 UhkBundle\Entity\Deelnemer:
-    uhk_deelnemer_{2..5}:
+    uhk_deelnemer_{1..5}:
         klant: '@klant_<current()>'
         aanmeldDatum: '<dateTimeThisDecade()>'
         aanmelder: '@medewerker_*'

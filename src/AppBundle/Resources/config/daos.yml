@@ -41,17 +41,8 @@ services:
               arguments:
                   - '@security.access.decision_manager'
 
-    app.document.entities:
-        public: true
-        class: ArrayObject
+    AppBundle\Service\DownloadsDao:
+        class: AppBundle\Service\DownloadsDao
         arguments:
-            -
-              - { key: klant, dao: '@AppBundle\Service\KlantDao' }
-              - { key: vrijwilliger, dao: '@AppBundle\Service\VrijwilligerDao' }
-
-    app.zrm.entities:
+            - "@doctrine.orm.entity_manager"
         public: true
-        class: ArrayObject
-        arguments:
-            -
-              - { key: klant, dao: '@AppBundle\Service\KlantDao' }

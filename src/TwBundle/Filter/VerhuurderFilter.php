@@ -64,7 +64,7 @@ class VerhuurderFilter implements FilterInterface
                 ->setParameter('id', $this->id)
             ;
         }
-        if($this->project && count($this->project) > 0)
+        if($this->project && (is_array($this->project) || $this->project instanceof \Countable ? count($this->project) : 0) > 0)
         {
             $builder
                 ->andWhere('verhuurder.project IN (:project)')

@@ -176,7 +176,7 @@ class HuuraanbodFilter implements FilterInterface
         if ($this->appKlant) {
             $this->appKlant->applyTo($builder,'appKlant');
         }
-        if($this->project && count($this->project)>0)
+        if($this->project && (is_array($this->project) || $this->project instanceof \Countable ? count($this->project) : 0)>0)
         {
             $builder->andWhere('huuraanbod.project IN (:project)')
                 ->setParameter("project",$this->project);

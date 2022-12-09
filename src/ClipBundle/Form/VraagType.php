@@ -60,7 +60,7 @@ class VraagType extends AbstractType
             ])
         ;
 
-        if (1 === count($vraag->getContactmomenten())) {
+        if (1 === (is_array($vraag->getContactmomenten()) || $vraag->getContactmomenten() instanceof \Countable ? count($vraag->getContactmomenten()) : 0)) {
             $this->addEmptyContactmomentFields($builder, $vraag->getContactmoment());
 
         }

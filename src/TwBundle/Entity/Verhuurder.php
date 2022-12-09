@@ -67,7 +67,7 @@ class Verhuurder extends Deelnemer
      * @var Project
      *
      * @ORM\ManyToOne(targetEntity="TwBundle\Entity\Project", inversedBy="verhuurders", cascade={"persist"})
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=true, options={"default": "NULL"})
      * @Gedmo\Versioned
      */
     private $project;

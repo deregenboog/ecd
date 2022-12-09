@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace Application\Migrations;
 
@@ -10,7 +12,7 @@ use Doctrine\Migrations\AbstractMigration;
  */
 final class Version20210212101518 extends AbstractMigration
 {
-    public function up(Schema $schema) : void
+    public function up(Schema $schema): void
     {
         // this up() migration is auto-generated, please modify it to your needs
         $this->addSql("
@@ -19,9 +21,8 @@ INSERT IGNORE INTO `villa_training` (`id`, `naam`, `active`) VALUES(2, 'Werken m
 INSERT IGNORE INTO `villa_training` (`id`, `naam`, `active`) VALUES(3, 'Overig', 1)");
     }
 
-    public function down(Schema $schema) : void
+    public function down(Schema $schema): void
     {
         // this down() migration is auto-generated, please modify it to your needs
-
     }
 }

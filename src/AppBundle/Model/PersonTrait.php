@@ -28,7 +28,7 @@ trait PersonTrait
 
     /**
      * @var Geslacht
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Geslacht")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Geslacht", cascade={"persist"})
      * @ORM\JoinColumn(nullable=true)
      * @Gedmo\Versioned
      */
@@ -38,9 +38,7 @@ trait PersonTrait
     {
         try {
             return $this->getNaam();
-        } catch (EntityNotFoundException $e) {
-            return '';
-        } catch (FatalErrorException $e) {
+        } catch (EntityNotFoundException|FatalErrorException $e) {
             return '';
         }
     }

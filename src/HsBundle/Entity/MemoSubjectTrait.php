@@ -10,7 +10,7 @@ trait MemoSubjectTrait
      * @var Memo[]
      *
      * @ORM\ManyToMany(targetEntity="Memo", cascade={"persist"})
-     * @ORM\JoinTable(inverseJoinColumns={@ORM\JoinColumn(unique=true)})
+     * @ORM\JoinTable(name="hs_klant_memo", inverseJoinColumns={@ORM\JoinColumn(unique=true)})
      * @ORM\OrderBy({"datum": "desc", "id": "desc"})
      */
     protected $memos;

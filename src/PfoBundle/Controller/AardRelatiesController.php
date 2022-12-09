@@ -6,6 +6,7 @@ use AppBundle\Controller\AbstractController;
 use JMS\DiExtraBundle\Annotation as DI;
 use PfoBundle\Entity\AardRelatie;
 use PfoBundle\Form\AardRelatieType;
+use PfoBundle\Service\AardRelatieDao;
 use PfoBundle\Service\AardRelatieDaoInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -22,9 +23,17 @@ class AardRelatiesController extends AbstractController
     protected $disabledActions = ['delete'];
 
     /**
-     * @var AardRelatieDaoInterface
-     *
-     * @DI\Inject("PfoBundle\Service\AardRelatieDao")
+     * @var AardRelatieDao
      */
     protected $dao;
+
+    /**
+     * @param AardRelatieDao $dao
+     */
+    public function __construct(AardRelatieDao $dao)
+    {
+        $this->dao = $dao;
+    }
+
+
 }

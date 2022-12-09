@@ -5,6 +5,7 @@ namespace IzBundle\Controller;
 use AppBundle\Controller\AbstractChildController;
 use IzBundle\Entity\Verslag;
 use IzBundle\Form\VerslagType;
+use IzBundle\Service\VerslagDao;
 use IzBundle\Service\VerslagDaoInterface;
 use JMS\DiExtraBundle\Annotation as DI;
 use Symfony\Component\Routing\Annotation\Route;
@@ -25,18 +26,25 @@ class VerslagenController extends AbstractChildController
     protected $addMethod = 'addVerslag';
 
     /**
-     * @var VerslagDaoInterface
-     *
-     * @DI\Inject("IzBundle\Service\VerslagDao")
+     * @var VerslagDao
      */
     protected $dao;
 
     /**
      * @var \ArrayObject
-     *
-     * @DI\Inject("iz.verslag.entities")
      */
     protected $entities;
+
+    /**
+     * @param VerslagDao $dao
+     * @param \ArrayObject $entities
+     */
+    public function __construct(VerslagDao $dao, \ArrayObject $entities)
+    {
+        $this->dao = $dao;
+        $this->entities = $entities;
+    }
+
 
     /**
      * @Route("/{id}/view")

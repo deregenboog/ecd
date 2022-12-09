@@ -5,16 +5,17 @@ namespace AppBundle\Controller;
 use AppBundle\Entity\Land;
 use AppBundle\Form\LandFilterType;
 use AppBundle\Form\LandType;
+use AppBundle\Service\LandDao;
 use AppBundle\Service\LandDaoInterface;
 use JMS\DiExtraBundle\Annotation as DI;
 use Symfony\Component\Routing\Annotation\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
 /**
  * @Route("/admin/landen")
  * @Template
- * @Security("has_role('ROLE_ADMIN')")
+ * @IsGranted("ROLE_ADMIN")
  */
 class LandenController extends AbstractController
 {
@@ -27,9 +28,18 @@ class LandenController extends AbstractController
     protected $disabledActions = ['view', 'delete'];
 
     /**
-     * @var LandDaoInterface
+     * @var LandDao
      *
-     * @DI\Inject("AppBundle\Service\LandDao")
      */
     protected $dao;
+
+    /**
+     * @param LandDao $dao
+     */
+    public function __construct(LandDao $dao)
+    {
+        $this->dao = $dao;
+    }
+
+
 }

@@ -119,7 +119,7 @@ class FactuurSubjectHelper
         };
 
         $facturen = $entityManager->getRepository(Factuur::class)->findByKlantAndDateRange($klant, $dateRange);
-        if (0 === count($facturen)) {
+        if (0 === (is_array($facturen) || $facturen instanceof \Countable ? count($facturen) : 0)) {
             return $generateNummer($klant, $dateRange);
         }
 

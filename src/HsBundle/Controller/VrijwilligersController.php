@@ -10,6 +10,7 @@ use AppBundle\Form\VrijwilligerFilterType as AppVrijwilligerFilterType;
 use HsBundle\Entity\Vrijwilliger;
 use HsBundle\Form\VrijwilligerFilterType;
 use HsBundle\Form\VrijwilligerType;
+use HsBundle\Service\VrijwilligerDao;
 use HsBundle\Service\VrijwilligerDaoInterface;
 use JMS\DiExtraBundle\Annotation as DI;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
@@ -31,25 +32,32 @@ class VrijwilligersController extends AbstractController
     protected $baseRouteName = 'hs_vrijwilligers_';
 
     /**
-     * @var VrijwilligerDaoInterface
-     *
-     * @DI\Inject("HsBundle\Service\VrijwilligerDao")
+     * @var VrijwilligerDao
      */
     protected $dao;
 
     /**
+     * @var \AppBundle\Service\VrijwilligerDao
+     */
+    private $vrijwilligerDao;
+
+    /**
      * @var ExportInterface
-     *
-     * @DI\Inject("hs.export.vrijwilliger")
      */
     protected $export;
 
     /**
-     * @var VrijwilligerDaoInterface
-     *
-     * @DI\Inject("AppBundle\Service\VrijwilligerDao")
+     * @param VrijwilligerDao $dao
+     * @param \AppBundle\Service\VrijwilligerDao $vrijwilligerDao
+     * @param ExportInterface $export
      */
-    private $vrijwilligerDao;
+    public function __construct(VrijwilligerDao $dao, \AppBundle\Service\VrijwilligerDao $vrijwilligerDao, ExportInterface $export)
+    {
+        $this->dao = $dao;
+        $this->vrijwilligerDao = $vrijwilligerDao;
+        $this->export = $export;
+    }
+
 
     /**
      * @Route("/add")
@@ -126,12 +134,12 @@ class VrijwilligersController extends AbstractController
                     'redirect' => $this->generateUrl('hs_vrijwilligers_view', ['id' => $vrijwilliger->getId()]).'#memos',
                 ]);
             } catch(UserException $e) {
-//                $this->get('logger')->error($e->getMessage(), ['exception' => $e]);
+//                $this->logger->error($e->getMessage(), ['exception' => $e]);
                 $message =  $e->getMessage();
                 $this->addFlash('danger', $message);
 //                return $this->redirectToRoute('app_klanten_index');
             } catch (\Exception $e) {
-                $message = $this->container->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
+                $message = $this->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
                 $this->addFlash('danger', $message);
             }
 

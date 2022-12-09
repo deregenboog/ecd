@@ -9,27 +9,26 @@ class KlantenControllerTest extends WebTestCase
 {
     public function testIndex()
     {
-        $medewerker = $this->getContainer()->get('AppBundle\Service\MedewerkerDao')->findByUsername('ga_user');
-        $this->logIn($medewerker, 'ROLE_EROPUIT');
+        $medewerker = $this->getContainer()->get(\AppBundle\Service\MedewerkerDao::class)->findByUsername('eou_user');
+        $this->logIn($medewerker);
 
         $crawler = $this->client->request('GET', $this->getUrl('eropuit_klanten_index'));
         $this->assertStatusCode(200, $this->client);
-//        var_dump($crawler->html());
-        $rows = $crawler->filter('table.table tbody tr');
-//        file_put_contents("debug.html", $this->client->getResponse()->getContent());
 
-//        $this->assertEquals(17, $rows->count());//was 19, maar failed draarop. Snap nuet waarom, het zouden er 20 moeten zijn als ik zelf test... 2 minder, net als bij VrijwilligerControllerTest?
+        $rows = $crawler->filter('table.table tbody tr');
+
+        // $this->assertEquals(17, $rows->count());//was 19, maar failed draarop. Snap nuet waarom, het zouden er 20 moeten zijn als ik zelf test... 2 minder, net als bij VrijwilligerControllerTest?
         $this->assertGreaterThan(1, $rows->count());
     }
 
     public function testSort()
     {
-        $medewerker = $this->getContainer()->get('AppBundle\Service\MedewerkerDao')->findByUsername('ga_user');
-        $this->logIn($medewerker, 'ROLE_EROPUIT');
+        $medewerker = $this->getContainer()->get(\AppBundle\Service\MedewerkerDao::class)->findByUsername('eou_user');
+        $this->logIn($medewerker);
 
         $crawler = $this->client->request('GET', $this->getUrl('eropuit_klanten_index'));
         $this->assertStatusCode(200, $this->client);
-        $headers = $crawler->filter('table.table tr th a');
+        $headers = $crawler->filter('tr th a.sortable');
         $this->assertGreaterThan(0, $headers->count());
 
         $headers->each(function ($header) {
@@ -43,9 +42,8 @@ class KlantenControllerTest extends WebTestCase
 
     public function testFilter()
     {
-
-        $medewerker = $this->getContainer()->get('AppBundle\Service\MedewerkerDao')->findByUsername('ga_user');
-        $this->logIn($medewerker, 'ROLE_EROPUIT');
+        $medewerker = $this->getContainer()->get(\AppBundle\Service\MedewerkerDao::class)->findByUsername('eou_user');
+        $this->logIn($medewerker);
 
         $crawler = $this->client->request('GET', $this->getUrl('eropuit_klanten_index'));
         $this->assertStatusCode(200, $this->client);
@@ -60,9 +58,8 @@ class KlantenControllerTest extends WebTestCase
 
     public function testAddFilter()
     {
-
-        $medewerker = $this->getContainer()->get('AppBundle\Service\MedewerkerDao')->findByUsername('ga_user');
-        $this->logIn($medewerker, 'ROLE_EROPUIT');
+        $medewerker = $this->getContainer()->get(\AppBundle\Service\MedewerkerDao::class)->findByUsername('eou_user');
+        $this->logIn($medewerker);
 
         $crawler = $this->client->request('GET', $this->getUrl('eropuit_klanten_add'));
         $this->assertStatusCode(200, $this->client);
@@ -72,13 +69,9 @@ class KlantenControllerTest extends WebTestCase
 
         $crawler = $this->client->submit($form);
 
-//        file_put_contents("debug.html", $crawler->html());
-
-
         $rows = $crawler->filter('table.table tbody tr');
 
-//        $this->assertEquals(8, $rows->count());
+        // $this->assertEquals(8, $rows->count());
         $this->assertLessThanOrEqual(1, $this->count());
     }
-
 }

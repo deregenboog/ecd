@@ -6,8 +6,9 @@ use AppBundle\Controller\AbstractController;
 use AppBundle\Export\GenericExport;
 use DagbestedingBundle\Entity\Dagdeel;
 use DagbestedingBundle\Form\DagdeelFilterType;
+use DagbestedingBundle\Service\DagdeelDao;
 use DagbestedingBundle\Service\DagdeelDaoInterface;
-use JMS\DiExtraBundle\Annotation as DI;
+
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -23,16 +24,24 @@ class DagdelenController extends AbstractController
     protected $disabledActions = ['view', 'add', 'edit', 'delete'];
 
     /**
-     * @var DagdeelDaoInterface
-     *
-     * @DI\Inject("DagbestedingBundle\Service\DagdeelDao")
+     * @var DagdeelDao
      */
     protected $dao;
 
     /**
      * @var GenericExport
-     *
-     * @DI\Inject("dagbesteding.export.dagdelen")
      */
     protected $export;
+
+    /**
+     * @param DagdeelDao $dao
+     * @param GenericExport $export
+     */
+    public function __construct(DagdeelDao $dao, GenericExport $export)
+    {
+        $this->dao = $dao;
+        $this->export = $export;
+    }
+
+
 }

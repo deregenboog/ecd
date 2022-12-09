@@ -1,5 +1,5 @@
-{% extends '::base-2-col.html.twig' %}
-{% import '::html.macro.twig' as html %}
+{% extends 'base-2-col.html.twig' %}
+{% import 'html.macro.twig' as html %}
 
 {% block title %}
     Inloophuizen | {{ title }}
@@ -14,7 +14,7 @@
 {% endblock %}
 
 {% block content_left %}
-    {% include '::klant_basis.html.twig' with {klant: entity.bezoeker.appKlant, module: 'Intake'} %}
+    {% include 'klant_basis.html.twig' with {klant: entity.bezoeker.appKlant, module: 'Intake'} %}
 
 
 {% endblock %}
@@ -36,7 +36,7 @@
 {#    {{ form_widget(form.toegang) }}#}
 {#    {{ form_errors(form.toegang) }}#}
 {#    {% else %}#}
-{#     {% include 'OekraineBundle:intakes:_locatieToegang.html.twig' with {entity: entity.klant.eersteIntake, verblijfsstatusId: entity.Verblijfsstatus.id} %}#}
+{#     {% include '@Oekraine/intakes/_locatieToegang.html.twig' with {entity: entity.klant.eersteIntake, verblijfsstatusId: entity.Verblijfsstatus.id} %}#}
 {#    {% endif %}#}
     <h2>Legitimatie</h2>
     {{ form_widget(form.legitimatiebewijs) }}
@@ -95,45 +95,4 @@
         {{ form_errors(form.zrm) }}
     {% endif %}
     {{ form_end(form) }}
-{% endblock %}
-
-{% block scripts %}
-    <script>
-        var toegang = function(name){
-            var check = function(statusId)
-            {
-                if(statusId == 7) //AMOC klant, regels gelden.
-                {
-                    $("#"+name+"_toegang_amocToegangTot").prop("disabled", false);
-                    $("#"+name+"_toegang_ondroBongToegangVan").prop("disabled", false);
-                    $("#"+name+"_toegang_overigenToegangVan").prop("disabled", false);
-
-                    var sixMonths = new Date();
-                    var m = sixMonths.getMonth();
-                    sixMonths.setMonth(m+6);
-                    if($("#"+name+"_toegang_overigenToegangVan").val()== ""){
-                        $("#"+name+"_toegang_overigenToegangVan").val(sixMonths.toLocaleDateString());
-                    }
-                }
-                else  // niet amoc, geen datum regels.
-                {
-                    $("#"+name+"_toegang_amocToegangTot").prop("disabled", true);
-                    $("#"+name+"_toegang_ondroBongToegangVan").prop("disabled", true);
-                    $("#"+name+"_toegang_overigenToegangVan").prop("disabled", true);
-                }
-
-            }
-
-            var verblijfsstatusElm = $("#"+name+"_toegang_verblijfsstatus");
-            // console.log(verblijfsstatusElm.find("option:selected").first().val());
-            check(verblijfsstatusElm.find("option:selected").first().val());
-            verblijfsstatusElm.on('change',function(){
-                check(this.value);
-            });
-
-        };
-        toegang($("form").first().attr("name"));
-
-
-    </script>
 {% endblock %}

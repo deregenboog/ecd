@@ -10,7 +10,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class UpdateAccessCommand extends ContainerAwareCommand
+class UpdateAccessCommand extends \Symfony\Component\Console\Command\Command
 {
     /**
      * @var AccessUpdater
@@ -26,6 +26,13 @@ class UpdateAccessCommand extends ContainerAwareCommand
      * @var KlantDaoInterface
      */
     private $klantDao;
+    public function __construct(\InloopBundle\Service\AccessUpdater $accessUpdater, \InloopBundle\Service\LocatieDao $locatieDao, \InloopBundle\Service\KlantDao $klantDao)
+    {
+        $this->accessUpdater = $accessUpdater;
+        parent::__construct();
+        $this->locatieDao = $locatieDao;
+        $this->klantDao = $klantDao;
+    }
 
     protected function configure()
     {
@@ -38,17 +45,17 @@ class UpdateAccessCommand extends ContainerAwareCommand
 
     protected function initialize(InputInterface $input, OutputInterface $output)
     {
-        $this->accessUpdater = $this->getContainer()->get('InloopBundle\Service\AccessUpdater');
-        $this->locatieDao = $this->getContainer()->get('InloopBundle\Service\LocatieDao');
-        $this->klantDao = $this->getContainer()->get('InloopBundle\Service\KlantDao');
+        $this->accessUpdater = $this->accessUpdater;
+        $this->locatieDao = $this->locatieDao;
+        $this->klantDao = $this->klantDao;
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         if ($input->getOption('locatie') && $input->getOption('klant')) {
             $output->writeln('Do not provide both "locatie" and "klant"');
 
-            return;
+            return 0;
         }
 
         if ($input->getOption('locatie')) {
@@ -57,7 +64,7 @@ class UpdateAccessCommand extends ContainerAwareCommand
             $this->accessUpdater->updateForLocation($locatie);
             $output->writeln('Finished!');
 
-            return;
+            return 0;
         }
 
         if ($input->getOption('klant')) {
@@ -66,11 +73,12 @@ class UpdateAccessCommand extends ContainerAwareCommand
             $this->accessUpdater->updateForClient($klant);
             $output->writeln('Finished!');
 
-            return;
+            return 0;
         }
 
         $output->writeln('Updating access rules for all active locations...');
         $this->accessUpdater->updateAll();
         $output->writeln('Finished!');
+        return 0;
     }
 }

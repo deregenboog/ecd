@@ -12,11 +12,11 @@ use Gedmo\Mapping\Annotation as Gedmo;
  */
 class Herinnering
 {
-    const TYPE_HERINNERING = 'Herinnering';
-    const TYPE_AANMANING = 'Aanmaning';
-    const TYPE_INGEBREKESTELLING = 'Ingebrekestelling';
+    public const TYPE_HERINNERING = 'Herinnering';
+    public const TYPE_AANMANING = 'Aanmaning';
+    public const TYPE_INGEBREKESTELLING = 'Ingebrekestelling';
 
-    const TYPES = [
+    public const TYPES = [
         'Herinnering' => self::TYPE_HERINNERING,
         'Aanmaning' => self::TYPE_AANMANING,
         'Ingebrekestelling' => self::TYPE_INGEBREKESTELLING,

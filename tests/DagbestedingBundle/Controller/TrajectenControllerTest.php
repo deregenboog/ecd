@@ -9,7 +9,7 @@ class TrajectenControllerTest extends WebTestCase
 {
     public function testSortColumns()
     {
-        $medewerker = $this->getContainer()->get('AppBundle\Service\MedewerkerDao')->findByUsername('dagbesteding_user');
+        $medewerker = $this->getContainer()->get(\AppBundle\Service\MedewerkerDao::class)->findByUsername('dagbesteding_user');
         $this->logIn($medewerker);
 
         $crawler = $this->client->request('GET', '/dagbesteding/trajecten/');

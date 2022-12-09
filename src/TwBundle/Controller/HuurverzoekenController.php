@@ -28,9 +28,11 @@ class HuurverzoekenController extends SymfonyController
         'huurverzoek.id',
         'appKlant.achternaam',
         'werkgebied.naam',
+        'huisgenootKlant.achternaam',
         'huurverzoek.startdatum',
         'huurverzoek.afsluitdatum',
         'huurovereenkomst.isReservering',
+        'huurverzoek.isActief',
         'medewerker.achternaam',
         'project.naam'
     ];
@@ -49,19 +51,21 @@ class HuurverzoekenController extends SymfonyController
             ->innerJoin('huurverzoek.medewerker','medewerker')
             ->innerJoin('klant.appKlant', 'appKlant')
             ->leftJoin('klant.huisgenoot','huisgenoot')
+            ->leftJoin('huisgenoot.appKlant', 'huisgenootKlant')
             ->leftJoin('appKlant.werkgebied', 'werkgebied')
             ->leftJoin('huurverzoek.afsluiting', 'afsluiting')
             ->andWhere('huurovereenkomst.id IS NULL') //alleen actieve
-            ->andWhere('huurverzoek.afsluitdatum IS NULL OR huurverzoek.afsluitdatum > :now') // alleen actieve
+//            ->andWhere('huurverzoek.afsluitdatum IS NULL OR huurverzoek.afsluitdatum > :now') // alleen actieve
 //            ->andWhere('huurovereenkomst.id IS NULL')
 //            ->orWhere('huurovereenkomst.isReservering = 1')
-            ->andWhere('afsluiting.tonen IS NULL OR afsluiting.tonen = true')
+//            ->andWhere('afsluiting.tonen IS NULL OR afsluiting.tonen = true')
         ;
         $builder->setParameter("now",new \DateTime('now'));
 
         $filter = $this->getForm(HuurverzoekFilterType::class);
         $filter->handleRequest($this->getRequest());
-        $filter->getData()->applyTo($builder);
+        $d = $filter->getData();
+        $d->applyTo($builder);
         if ($filter->get('download')->isClicked()) {
             return $this->download($builder);
         }
@@ -211,12 +215,12 @@ class HuurverzoekenController extends SymfonyController
 
                 $this->addFlash('success', 'Huurverzoek is afgesloten.');
             } catch(UserException $e) {
-//                $this->get('logger')->error($e->getMessage(), ['exception' => $e]);
+//                $this->logger->error($e->getMessage(), ['exception' => $e]);
                 $message =  $e->getMessage();
                 $this->addFlash('danger', $message);
 //                return $this->redirectToRoute('app_klanten_index');
             } catch (\Exception $e) {
-                $message = $this->container->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
+                $message = $this->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
                 $this->addFlash('danger', $message);
             }
 

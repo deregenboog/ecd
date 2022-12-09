@@ -5,6 +5,7 @@ namespace DagbestedingBundle\Controller;
 use AppBundle\Controller\AbstractChildController;
 use AppBundle\Export\ExportInterface;
 use DagbestedingBundle\Entity\Traject;
+use DagbestedingBundle\Service\DeelnameDao;
 use JMS\DiExtraBundle\Annotation as DI;
 use DagbestedingBundle\Entity\Deelname;
 use DagbestedingBundle\Entity\Deelnemer;
@@ -13,6 +14,7 @@ use DagbestedingBundle\Form\DeelnameType;
 use DagbestedingBundle\Service\DeelnameDaoInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\Routing\Annotation\Route;
+use Vich\UploaderBundle\Handler\DownloadHandler;
 
 /**
  * @Route("/deelnames")
@@ -29,30 +31,37 @@ class DeelnamesController extends AbstractChildController
     protected $disabledActions = ['index', 'view'];
 
     /**
-     * @var DeelnameDaoInterface
-     *
-     * @DI\Inject("DagbestedingBundle\Service\DeelnameDao")
+     * @var DeelnameDao
      */
     protected $dao;
 
     /**
      * @var \ArrayObject
-     *
-     * @DI\Inject("dagbesteding.deelname.entities")
      */
     protected $entities;
 
     /**
      * @var ExportInterface
-     *
-     * @DI\Inject("dagbesteding.export.deelnames")
      */
     protected $export;
 
     /**
+     * @param DeelnameDao $dao
+     * @param \ArrayObject $entities
+     * @param ExportInterface $export
+     */
+    public function __construct(DeelnameDao $dao, \ArrayObject $entities, ExportInterface $export)
+    {
+        $this->dao = $dao;
+        $this->entities = $entities;
+        $this->export = $export;
+    }
+
+
+    /**
      * @Route("/")
      */
-    public function downloadAction()
+    public function downloadAction($filename=null,DownloadHandler $downloadHandler)
     {
         ini_set('memory_limit', '512M');
 

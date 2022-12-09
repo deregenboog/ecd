@@ -15,10 +15,4 @@ class RapportagesController extends AbstractRapportagesController
 {
     protected $formClass = RapportageType::class;
 
-    /**
-     * @var ExportInterface
-     *
-     * @DI\Inject("oekraine.export.report")
-     */
-    protected $export;
 }

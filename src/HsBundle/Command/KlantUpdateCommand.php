@@ -4,24 +4,34 @@ namespace HsBundle\Command;
 
 use Doctrine\ORM\EntityManager;
 use HsBundle\Entity\Klus;
+use Psr\Container\ContainerInterface;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class KlantUpdateCommand extends ContainerAwareCommand
+class KlantUpdateCommand extends \Symfony\Component\Console\Command\Command
 {
+
+    /** @var EntityManager */
+    protected $em;
+
+    public function __construct(ContainerInterface $container)
+    {
+        $this->em = $container->get('doctrine')->getManager();
+        parent::__construct();
+    }
+
     protected function configure()
     {
         $this->setName('hs:klant:update');
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        /* @var $entityManager EntityManager */
-        $entityManager = $this->getContainer()->get('doctrine.orm.entity_manager');
+
 
         // find klussen
-        $klussen = $entityManager->getRepository(Klus::class)->createQueryBuilder('klus')
+        $klussen = $this->em->getRepository(Klus::class)->createQueryBuilder('klus')
             ->where('klus.einddatum <= :today')
             ->andWhere('klus.status != :status_afgerond')
             ->setParameter('today', new \DateTime('today'))
@@ -34,12 +44,12 @@ class KlantUpdateCommand extends ContainerAwareCommand
             /* @var $klus Klus */
             // trigger status update
             $klus->setEinddatum($klus->getEinddatum());
-            $entityManager->flush();
+            $this->em->flush();
         }
-        $output->writeln(sprintf('%d klussen bijgewerkt', count($klussen)));
+        $output->writeln(sprintf('%d klussen bijgewerkt', is_array($klussen) || $klussen instanceof \Countable ? count($klussen) : 0));
 
         // find klussen
-        $klussen = $entityManager->getRepository(Klus::class)->createQueryBuilder('klus')
+        $klussen = $this->em->getRepository(Klus::class)->createQueryBuilder('klus')
             ->where('klus.onHoldTot <= :today')
             ->andWhere('klus.status = :status_on_hold')
             ->setParameter('today', new \DateTime('today'))
@@ -53,9 +63,10 @@ class KlantUpdateCommand extends ContainerAwareCommand
             // trigger status update
             $klus->setOnHold(false);
             $klus->setOnHoldTot(null);
-            $entityManager->flush();
+            $this->em->flush();
         }
-        $output->writeln(sprintf('%d on hold klussen open gezet', count($klussen)));
+        $output->writeln(sprintf('%d on hold klussen open gezet', is_array($klussen) || $klussen instanceof \Countable ? count($klussen) : 0));
+        return 0;
 
     }
 }

@@ -9,6 +9,7 @@ use IzBundle\Entity\Intervisiegroep;
 use IzBundle\Form\IntervisiegroepFilterType;
 use IzBundle\Form\IntervisiegroepType;
 use IzBundle\Form\IzEmailMessageType;
+use IzBundle\Service\IntervisiegroepDao;
 use IzBundle\Service\IntervisiegroepDaoInterface;
 use JMS\DiExtraBundle\Annotation as DI;
 use Symfony\Component\Routing\Annotation\Route;
@@ -29,18 +30,25 @@ class IntervisiegroepenController extends AbstractController
     protected $baseRouteName = 'iz_intervisiegroepen_';
 
     /**
-     * @var IntervisiegroepDaoInterface
-     *
-     * @DI\Inject("IzBundle\Service\IntervisiegroepDao")
+     * @var IntervisiegroepDao
      */
     protected $dao;
 
     /**
      * @var AbstractExport
-     *
-     * @DI\Inject("iz.export.intervisiegroepen")
      */
     protected $export;
+
+    /**
+     * @param IntervisiegroepDao $dao
+     * @param AbstractExport $export
+     */
+    public function __construct(IntervisiegroepDao $dao, AbstractExport $export)
+    {
+        $this->dao = $dao;
+        $this->export = $export;
+    }
+
 
     /**
      * @Route("/{id}/email")
@@ -86,12 +94,12 @@ class IntervisiegroepenController extends AbstractController
                     $this->addFlash('danger', 'E-mail kon niet verzonden worden.');
                 }
             } catch(UserException $e) {
-//                $this->get('logger')->error($e->getMessage(), ['exception' => $e]);
+//                $this->logger->error($e->getMessage(), ['exception' => $e]);
                 $message =  $e->getMessage();
                 $this->addFlash('danger', $message);
 //                return $this->redirectToRoute('app_klanten_index');
             } catch (\Exception $e) {
-                $message = $this->container->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
+                $message = $this->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
                 $this->addFlash('danger', $message);
             }
         }
@@ -105,7 +113,7 @@ class IntervisiegroepenController extends AbstractController
     /**
      * @Route("/{id}/download")
      */
-    public function downloadAction(Request $request, $id)
+    public function downloadExportAction(Request $request, $id)
     {
         ini_set('memory_limit', '512M');
 

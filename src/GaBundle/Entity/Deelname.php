@@ -19,8 +19,8 @@ class Deelname
 {
     use TimestampableTrait;
 
-    const STATUS_AANWEZIG = 'aanwezig';
-    const STATUS_AFWEZIG = 'afwezig';
+    public const STATUS_AANWEZIG = 'aanwezig';
+    public const STATUS_AFWEZIG = 'afwezig';
 
     /**
      * @ORM\Id

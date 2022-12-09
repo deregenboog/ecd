@@ -12,6 +12,7 @@ use ErOpUitBundle\Form\KlantCloseType;
 use ErOpUitBundle\Form\KlantFilterType;
 use ErOpUitBundle\Form\KlantReopenType;
 use ErOpUitBundle\Form\KlantType;
+use ErOpUitBundle\Service\KlantDao;
 use ErOpUitBundle\Service\KlantDaoInterface;
 use JMS\DiExtraBundle\Annotation as DI;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
@@ -33,25 +34,32 @@ class KlantenController extends AbstractController
     protected $baseRouteName = 'eropuit_klanten_';
 
     /**
-     * @var KlantDaoInterface
-     *
-     * @DI\Inject("ErOpUitBundle\Service\KlantDao")
+     * @var KlantDao
      */
     protected $dao;
 
     /**
+     * @var \AppBundle\Service\KlantDao
+     */
+    private $klantDao;
+
+    /**
      * @var ExportInterface
-     *
-     * @DI\Inject("eropuit.export.klanten")
      */
     protected $export;
 
     /**
-     * @var KlantDaoInterface
-     *
-     * @DI\Inject("AppBundle\Service\KlantDao")
+     * @param KlantDao $dao
+     * @param \AppBundle\Service\KlantDao $klantDao
+     * @param ExportInterface $export
      */
-    private $klantDao;
+    public function __construct(KlantDao $dao, \AppBundle\Service\KlantDao $klantDao, ExportInterface $export)
+    {
+        $this->dao = $dao;
+        $this->klantDao = $klantDao;
+        $this->export = $export;
+    }
+
 
     /**
      * @Route("/add")
@@ -151,12 +159,12 @@ class KlantenController extends AbstractController
 
                 return $this->redirectToView($klant);
             } catch(UserException $e) {
-//                $this->get('logger')->error($e->getMessage(), ['exception' => $e]);
+//                $this->logger->error($e->getMessage(), ['exception' => $e]);
                 $message =  $e->getMessage();
                 $this->addFlash('danger', $message);
 //                return $this->redirectToRoute('app_klanten_index');
             } catch (\Exception $e) {
-                $message = $this->container->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
+                $message = $this->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
                 $this->addFlash('danger', $message);
             }
 

@@ -2,13 +2,15 @@ version: '3.9'
 
 services:
   database:
-    image: ecd_database
+    build:
+      context: docker/mysql
+      dockerfile: Dockerfile
   web:
     build: .
     ports:
       - 80:80
     volumes:
-      - "${PWD}:/var/www/html"
+      - ${PWD}:/var/www/html
     environment:
       MYSQL_DATABASE: ecd
       MYSQL_USER: ecd
@@ -19,3 +21,4 @@ services:
       - 81:80
     environment:
       PMA_HOST: database
+

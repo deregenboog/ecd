@@ -1,0 +1,17 @@
+OekraineBundle\Entity\Locatie:
+    oekraine_locatie_Botel:
+        naam: 'Botel'
+        datumVan: '<dateTimeBetween("-30 days","now")>'
+        datumTot: '<dateTimeBetween("now","+2 years")>'
+    oekraine_locatie_Beethoven Hotel:
+        naam: 'Beethoven Hotel'
+        datumVan: '<dateTimeBetween("-30 days","now")>'
+        datumTot: '<dateTimeBetween("now","+2 years")>'
+    oekraine_locatie_Riekerhof:
+        naam: 'Riekerhof'
+        datumVan: '<dateTimeBetween("-30 days","now")>'
+        datumTot: '<dateTimeBetween("now","+2 weeks")>'
+
+#OekraineBundle\Entity\Bezoeker:
+#    bezoeker_{1..50}:
+#        appKlant: '@klant_<current()>'

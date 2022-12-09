@@ -1,5 +1,5 @@
-{% extends '::base-2-col.html.twig' %}
-{% import '::html.macro.twig' as html %}
+{% extends 'base-2-col.html.twig' %}
+{% import 'html.macro.twig' as html %}
 {% import _self as macro %}
 
 {% block title %}
@@ -76,7 +76,7 @@
         <dt>Bijzonderheden</dt>
         <dd>{{ entity.bijzonderheden }}</dd>
     </dl>
-    {% include '::klant_basis.html.twig' with {klant: entity.klant, module: 'Intake'} %}
+    {% include 'klant_basis.html.twig' with {klant: entity.klant, module: 'Intake'} %}
 {% endblock %}
 
 {% block content_right %}
@@ -227,6 +227,9 @@
 
 {% block scripts %}
     <script>
+
+        window.onload = function() {
+    if($){
         $(function() {
             function terugkeergesprekGehad(schorsing_id) {
                 $.post({
@@ -243,5 +246,7 @@
                 terugkeergesprekGehad(id);
             });
         });
-    </script>
+      }
+   }
+   </script>
 {% endblock %}

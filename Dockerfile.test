@@ -27,14 +27,14 @@ RUN locale-gen
 
 WORKDIR /app
 
-COPY composer.json composer.lock composer.phar ./
-RUN php composer.phar install --no-autoloader --no-scripts
+COPY --from=composer:2 /usr/bin/composer /usr/local/bin/composer
+COPY composer.json composer.lock ./
+RUN composer install --no-autoloader --no-scripts
 
 COPY . .
-RUN php composer.phar install
+COPY docker/.env.test .env
+RUN COMPOSER_ALLOW_SUPERUSER=1 composer install
 
-ENV SYMFONY_ENV=test
-ENV SYMFONY_DEBUG=1
-COPY docker/parameters.test.yml app/config/parameters.yml
+ENV APP_ENV=test
 
 ENTRYPOINT [ "php" ]

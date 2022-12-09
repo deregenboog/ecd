@@ -3,18 +3,31 @@
 namespace InloopBundle\Command;
 
 use Doctrine\DBAL\Driver\Connection;
+use Doctrine\ORM\EntityManager;
+use Psr\Container\ContainerInterface;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class FixLaatsteZrmCommand extends ContainerAwareCommand
+class FixLaatsteZrmCommand extends \Symfony\Component\Console\Command\Command
 {
+
+
+    /** @var Connection */
+    protected $conn;
+
+    public function __construct(ContainerInterface $container)
+    {
+        $this->conn = $container->get('database_connection');
+        parent::__construct();
+    }
+
     protected function configure()
     {
         $this->setName('inloop:fix:laatste_zrm');
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $sql = 'UPDATE klanten AS klant
             LEFT JOIN (
@@ -24,10 +37,10 @@ class FixLaatsteZrmCommand extends ContainerAwareCommand
             ) AS laatste_zrm ON laatste_zrm.klant_id = klant.id
             SET klant.last_zrm = laatste_zrm.datum';
 
-        /* @var Connection $conn */
-        $conn = $this->getContainer()->get('database_connection');
-        $n = $conn->exec($sql);
+
+        $n = $this->conn->exec($sql);
 
         $output->writeln(sprintf('%d rows affected', $n));
+        return 0;
     }
 }

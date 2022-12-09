@@ -21,7 +21,7 @@ class WebTestCase extends BaseWebTestCase
      */
     protected $connection;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 
@@ -43,7 +43,7 @@ class WebTestCase extends BaseWebTestCase
     /**
      * @param UserInterface $user
      *
-     * @see https://symfony.com/doc/3.4/testing/http_authentication.html
+     * @see https://symfony.com/doc/4.4/testing/http_authentication.html
      */
     protected function logIn(UserInterface $user, $additionalRoles = []): void
     {
@@ -51,7 +51,7 @@ class WebTestCase extends BaseWebTestCase
             $additionalRoles = [$additionalRoles];
         }
 
-        $session = $this->client->getContainer()->get('session');
+        $session = self::$container->get('session');
 
         $roles = array_merge($user->getRoles(), $additionalRoles);
         $token = new UsernamePasswordToken($user, null, 'main', $roles);

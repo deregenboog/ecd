@@ -6,6 +6,7 @@ use AppBundle\Controller\AbstractController;
 use IzBundle\Entity\Doelstelling;
 use IzBundle\Form\DoelstellingFilterType;
 use IzBundle\Form\DoelstellingType;
+use IzBundle\Service\DoelstellingDao;
 use IzBundle\Service\DoelstellingDaoInterface;
 use JMS\DiExtraBundle\Annotation as DI;
 use Symfony\Component\Routing\Annotation\Route;
@@ -24,9 +25,7 @@ class DoelstellingenController extends AbstractController
     protected $baseRouteName = 'iz_doelstellingen_';
 
     /**
-     * @var DoelstellingDaoInterface
-     *
-     * @DI\Inject("IzBundle\Service\DoelstellingDao")
+     * @var DoelstellingDao
      */
     protected $dao;
 

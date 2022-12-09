@@ -122,7 +122,7 @@ ClipBundle\Entity\Client:
         email: '50%? <email()>'
 #        werkgebied: '80%? @werkgebied_*'
         behandelaar: '@clip_behandelaar_*'
-        aanmelddatum: '<dateTimeThisDecade()>'
+        aanmelddatum: '<dateTimeBetween("first day of january","last day of december")>'
         viacategorie: '50%? @clip_viacategorie_*'
 
 ClipBundle\Entity\Vraag:

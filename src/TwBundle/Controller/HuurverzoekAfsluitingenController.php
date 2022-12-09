@@ -7,6 +7,7 @@ use TwBundle\Entity\HuurverzoekAfsluiting;
 use TwBundle\Service\AfsluitingDaoInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\Routing\Annotation\Route;
+use TwBundle\Service\HuurverzoekAfsluitingDao;
 
 /**
  * @Route("/admin/huurverzoekafsluitingen")
@@ -17,9 +18,7 @@ class HuurverzoekAfsluitingenController extends AfsluitingenController
     public $title = 'Afsluitingen huurverzoeken';
 
     /**
-     * @var AfsluitingDaoInterface
-     *
-     * @DI\Inject("TwBundle\Service\HuurverzoekafsluitingDao")
+     * @var HuurverzoekAfsluitingDao
      */
     protected $dao;
 
@@ -28,4 +27,12 @@ class HuurverzoekAfsluitingenController extends AfsluitingenController
     protected $entityName = 'Afsluiting huurverzoek';
 
     protected $indexRouteName = 'tw_huurverzoekafsluitingen_index';
+
+    /**
+     * @param HuurverzoekAfsluitingDao $dao
+     */
+    public function __construct(HuurverzoekAfsluitingDao $dao)
+    {
+        $this->dao = $dao;
+    }
 }

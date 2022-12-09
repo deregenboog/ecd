@@ -41,9 +41,8 @@ DagbestedingBundle\Entity\Trajectsoort:
         naam: 'OVK'
 
 DagbestedingBundle\Entity\Traject:
-    dagbesteding_traject_{1..30}:
+    dagbesteding_traject_{1..25}:
         deelnemer: '@dagbesteding_deelnemer_*'
         trajectcoach: '@dagbesteding_trajectcoaches_*'
         soort: '@dagbesteding_trajectsoort_*'
         resultaatgebiedsoort: '@dagbesteding_resultaatgebiedsoort_*'
-        # projects: '<numberBetween(1, 3)>x @dagbesteding_project_*'
