@@ -1,5 +1,5 @@
 parameters:
-  database_server_version: '5.7.26'
+  database_server_version: '8'
   locale: nl_NL.UTF-8
   cache_type: file_system
   pagination.items_per_page: 20
@@ -82,12 +82,12 @@ parameters:
     - 'Wachtlijst T6'
     - 'Wachtlijst Economisch Daklozen'
     - AMOC
-  #    informele_zorg_mail: ''
-  #    dagbesteding_mail: ''
-  #    inloophuis_mail: ''
-  #    hulpverlening_mail: ''
+  informele_zorg_mail: '%env(INFORMELE_ZORG_MAIL))%'
+  dagbesteding_mail: '%env(DAGBESTEDING_MAIL))%'
+  inloophuis_mail: '%env(INLOOPHUIS_MAIL)))%'
+  hulpverlening_mail: '%env(HULPVERLENING_MAIL))%'
   agressie_mail: '%env(AGRESSIEMAIL)%'
-  administratiebedrijf_mail: ''
+  administratiebedrijf_mail: '%env(ADMINISTRATIEBEDRIJF_MAIL))%'
   prevent_save_enabled: '2023-12-24 09:00:00'
   prevent_save_modified_before: '2022-01-01'
   prevent_save_modified_after: '2020-12-31'
