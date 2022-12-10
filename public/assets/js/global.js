@@ -29,6 +29,11 @@ $(function() {
         ajaxInProgress = false;
     });
 
+    var requiredCkEditor = function( evt ) {
+        alert( 'Article content is required.' );
+        evt.cancel();
+    };
+
     $('form button[type="submit"]').on('click', function(event) {
         var button = $(this);
         // disable clicked button almost immediately to prevent double click
@@ -39,7 +44,28 @@ $(function() {
                 button.prop('disabled', false);
             }, 1000);
         }, 50);
+
+        makeCkEditorRequired();
+
     });
+    /**
+     * By default, a required attribute on a textarea is rendered by the browsers validation thing
+     * But since CKEDITOR replaces the textarea and set it to display:none, the required attribute is gone.
+     * Thus practically makes it bypass validation.
+     *
+     * Wo dont want that. Therefore we have to implement it manually via this function.
+     * IMO this should be done default by CKEDITOR but who am i...
+     *
+     */
+    var makeCkEditorRequired = function(){
+        for(var instanceName in CKEDITOR.instances) {
+            var instance = CKEDITOR.instances[instanceName]
+            instance.on('required',function(evt){
+                evt.editor.showNotification( 'Dit is een verplicht veld.', 'info' );//warning has to be removed manually while info dissapears after 5 seconds... which is more friendly.
+                evt.cancel();
+            });
+        }
+    };
 
     var adjustUrls = function(event) {
         window.history.replaceState({}, window.document.title, $(event.target).attr('href'));
