@@ -7,12 +7,30 @@ use Symfony\Component\HttpFoundation\Request;
 
 class TrajectcoachesControllerTest extends WebTestCase
 {
+    public function testUserHasNoAccess()
+    {
+        $medewerker = $this->getContainer()->get(\AppBundle\Service\MedewerkerDao::class)->findByUsername('dagbesteding_user');
+        $this->logIn($medewerker);
+
+        $crawler = $this->client->request('GET', '/dagbesteding/admin/trajectcoaches/');
+        $this->assertStatusCode(403, $this->client);
+    }
+
+    public function testAdminHasAccess()
+    {
+        $medewerker = $this->getContainer()->get(\AppBundle\Service\MedewerkerDao::class)->findByUsername('dagbesteding_admin');
+        $this->logIn($medewerker);
+
+        $crawler = $this->client->request('GET', '/dagbesteding/admin/trajectcoaches/');
+        $this->assertStatusCode(200, $this->client);
+    }
+
     public function testSortColumns()
     {
         $medewerker = $this->getContainer()->get(\AppBundle\Service\MedewerkerDao::class)->findByUsername('dagbesteding_admin');
         $this->logIn($medewerker);
 
-        $crawler = $this->client->request('GET', '/dagbesteding/trajectcoaches/');
+        $crawler = $this->client->request('GET', '/dagbesteding/admin/trajectcoaches/');
         $this->assertStatusCode(200, $this->client);
 
         $headers = $crawler->filter('tr th a.sortable');
