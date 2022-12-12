@@ -22,8 +22,6 @@
             {{ html.link('Wijzigen', path(route_base~'edit', {id: entity.id}), 'edit') }}
             {{ html.link('Oekrainedossier afsluiten', path(route_base~'close', {id: entity.id}), 'close') }}
         {% endif %}
-        {{ html.link('Klantrapportage bekijken', path(route_base~'viewreport', {klant: entity.id}), 'list') }}
-
     </p>
 {% endblock %}
 
