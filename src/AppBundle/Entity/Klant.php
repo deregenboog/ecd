@@ -238,6 +238,20 @@ class Klant extends Persoon
      */
     protected $maatschappelijkWerker;
 
+    /**
+     * @var string
+     * @ORM\Column(type="string", length=1024, nullable=true)
+     * @Gedmo\Versioned
+     */
+    protected $voorkeurstaal;
+
+    /**
+     * @var string
+     * @ORM\Column(name="overige_talen", type="string", length=2048, nullable=true)
+     * @Gedmo\Versioned
+     */
+    protected $overigeTalen;
+
     public function isDoorverwijzenNaarAmoc()
     {
         return $this->doorverwijzenNaarAmoc;
@@ -281,8 +295,10 @@ class Klant extends Persoon
     public function setLaatsteZrm($zrm)
     {
         $this->laatseZrm = $zrm;
+
         return $this;
     }
+
     public function setLaastseZrm(\DateTime $laatsteZrm)
     {
         $this->laatsteZrm = $laatsteZrm;
@@ -437,7 +453,6 @@ class Klant extends Persoon
 
     /**
      * @param Incident[] $incidenten
-     * @return Klant
      */
     public function setIncidenten(array $incidenten): Klant
     {
@@ -769,5 +784,27 @@ class Klant extends Persoon
         return $this;
     }
 
+    public function getVoorkeurstaal()
+    {
+        return $this->voorkeurstaal;
+    }
 
+    public function setVoorkeurstaal($voorkeurstaal)
+    {
+        $this->voorkeurstaal = $voorkeurstaal;
+
+        return $this;
+    }
+
+    public function getOverigeTalen()
+    {
+        return $this->overigeTalen;
+    }
+
+    public function setOverigeTalen($overigeTalen)
+    {
+        $this->overigeTalen = $overigeTalen;
+
+        return $this;
+    }
 }

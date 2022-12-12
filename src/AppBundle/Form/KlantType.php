@@ -61,6 +61,8 @@ class KlantType extends AbstractType
             ->add('overleden', CheckboxType::class, ['required' => false])
             ->add('land', LandSelectType::class, ['required' => true])
             ->add('nationaliteit', NationaliteitSelectType::class, ['required' => true])
+            ->add('voorkeurstaal')
+            ->add('overigeTalen')
             ->add('bsn', null, ['label' => 'BSN'])
             ->add('coronaBesmetVanaf', AppDateType::class, ['required' => false])
             ->add('medewerker', MedewerkerType::class, ['required' => true])
