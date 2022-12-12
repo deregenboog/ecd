@@ -1,0 +1,22 @@
+MwBundle\Entity\BinnenViaOptieKlant:
+    mw_binnen_via_klant_{1..4}:
+        naam: '<word()>'
+    mw_binnen_via_klant_5:
+        naam: '<word()>'
+        actief: false
+
+MwBundle\Entity\BinnenViaOptieVW:
+    mw_binnen_via_vw_{1..4}:
+        naam: '<word()>'
+    mw_binnen_via_vw_5:
+        naam: '<word()>'
+        actief: false
+
+MwBundle\Entity\Project:
+    mw_project_{1..4}:
+        naam: '<word()>'
+        medewerker: '@medewerker_*'
+    mw_project_5:
+        naam: '<word()>'
+        medewerker: '@medewerker_*'
+        actief: false

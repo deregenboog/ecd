@@ -10,6 +10,7 @@ use AppBundle\Event\DienstenLookupEvent;
 use AppBundle\Event\Events;
 use AppBundle\Exception\UserException;
 use AppBundle\Export\ExportInterface;
+use AppBundle\Form\BaseType;
 use AppBundle\Form\KlantFilterType as AppKlantFilterType;
 use AppBundle\Service\KlantDaoInterface;
 use MwBundle\Entity\Aanmelding;
@@ -345,7 +346,7 @@ class KlantenController extends AbstractController
     }
 
     /**
-     * @Route("/{id}/add_MwDossierStatus/")
+     * @Route("/{id}/dossierstatus/add")
      */
     public function addMwDossierStatusAction(Request $request, $id)
     {
@@ -387,11 +388,10 @@ class KlantenController extends AbstractController
 
 
     /**
-     * @Route("/{id}/edit_MwDossierStatus/{statusId}")
+     * @Route("/{id}/dossierstatus/{statusId}/edit")
      */
-    public function editMwDossierStatusAction(Request $request, $id,$statusId)
+    public function editMwDossierStatusAction(Request $request, $id, $statusId)
     {
-
         $klant = $this->dao->find($id);
         $mwStatus = $klant->getMwStatus($statusId);
 
@@ -404,7 +404,7 @@ class KlantenController extends AbstractController
         {
             $type = AfsluitingType::class;
         }
-        $form = $this->getForm($type, $mwStatus);
+        $form = $this->getForm($type, $mwStatus, ['mode' => BaseType::MODE_EDIT]);
         $form->handleRequest($this->getRequest());
         if ($form->isSubmitted() && $form->isValid()) {
             try {
