@@ -109,3 +109,4 @@ yarn-error.log
 
 /.php_cs.cache
 /public/build/*
+/app/webroot/build/*

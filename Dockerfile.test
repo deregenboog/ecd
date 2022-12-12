@@ -1,5 +1,7 @@
 FROM php:7.4
 
+ENV APP_ENV=test
+
 COPY docker/php.ini /usr/local/etc/php/
 
 RUN apt-get update && apt-get install -y \
@@ -34,7 +36,5 @@ RUN composer install --no-autoloader --no-scripts
 COPY . .
 COPY docker/.env.test .env
 RUN COMPOSER_ALLOW_SUPERUSER=1 composer install
-
-ENV APP_ENV=test
 
 ENTRYPOINT [ "php" ]
