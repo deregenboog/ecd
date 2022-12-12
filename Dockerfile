@@ -51,3 +51,7 @@ RUN composer install --no-autoloader --no-scripts
 COPY . .
 COPY docker/.env.dev .env
 RUN COMPOSER_ALLOW_SUPERUSER=1 composer install
+
+RUN apt-get update && apt-get install -y acl \
+    && setfacl -dR -m u:"www-data":rwX -m u:1000:rwX var \
+    && setfacl -R -m u:"www-data":rwX -m u:1000:rwX var
