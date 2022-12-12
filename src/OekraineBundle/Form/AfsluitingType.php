@@ -45,11 +45,6 @@ class AfsluitingType extends AbstractType
                 'placeholder' => '',
                 'label' => 'Land van bestemming',
             ])
-            ->add('mwSluiten',CheckboxType::class,[
-                'label'=>"MW dossier (indien aanwezig) ook sluiten?",
-                'required'=>false,
-                'mapped'=>false,
-            ])
             ->add('toelichting')
             ->add('submit', SubmitType::class, ['label' => 'Opslaan'])
         ;

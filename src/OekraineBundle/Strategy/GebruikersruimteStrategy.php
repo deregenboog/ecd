@@ -12,11 +12,11 @@ class GebruikersruimteStrategy implements StrategyInterface
 
     public function supports(Locatie $locatie)
     {
-        if ($locatie->isGebruikersruimte()) {
-            $this->locatie = $locatie;
-
-            return true;
-        }
+//        if ($locatie->isGebruikersruimte()) {
+//            $this->locatie = $locatie;
+//
+//            return true;
+//        }
 
         return false;
     }
