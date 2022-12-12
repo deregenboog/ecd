@@ -3,6 +3,7 @@
 namespace Tests\AppBundle\Entity;
 
 use AppBundle\Entity\Klant;
+use AppBundle\Entity\Taal;
 use AppBundle\Entity\Zrm;
 use InloopBundle\Entity\Intake;
 use InloopBundle\Entity\Locatie;
@@ -55,5 +56,109 @@ class KlantTest extends TestCase
         $d1 = $eersteIntake->getIntakedatum();
         $d2 = $klant->getEersteIntakeDatum();
         $this->assertSame($d1, $d2);
+    }
+
+    public function testSetVoorkeurstaal()
+    {
+        $nederlands = new Taal('Nederlands');
+
+        $klant = new Klant();
+        $klant->setVoorkeurstaal($nederlands);
+
+        $this->assertEquals($nederlands, $klant->getVoorkeurstaal());
+    }
+
+    public function testSetVoorkeurstaalOverridingOverigeTaal()
+    {
+        $nederlands = new Taal('Nederlands');
+
+        $klant = new Klant();
+        $klant->addOverigeTaal($nederlands);
+        $klant->setVoorkeurstaal($nederlands);
+
+        $this->assertEquals($nederlands, $klant->getVoorkeurstaal());
+        $this->assertCount(0, $klant->getOverigeTalen());
+    }
+
+    public function testReplaceVoorkeurstaal()
+    {
+        $nederlands = new Taal('Nederlands');
+        $frans = new Taal('Frans');
+
+        $klant = new Klant();
+        $klant->setVoorkeurstaal($nederlands);
+        $klant->setVoorkeurstaal($frans);
+
+        $this->assertEquals($frans, $klant->getVoorkeurstaal());
+        $this->assertCount(1, $klant->getOverigeTalen());
+        $this->assertEquals($nederlands, $klant->getOverigeTalen()[0]);
+    }
+
+    public function testAddOverigeTaal()
+    {
+        $nederlands = new Taal('Nederlands');
+        $frans = new Taal('Frans');
+
+        $klant = new Klant();
+        $klant->setVoorkeurstaal($nederlands);
+        $klant->addOverigeTaal($frans);
+
+        $this->assertEquals($nederlands, $klant->getVoorkeurstaal());
+        $this->assertCount(1, $klant->getOverigeTalen());
+        $this->assertEquals($frans, $klant->getOverigeTalen()[0]);
+    }
+
+    public function testAddDuplicateOverigeTaal()
+    {
+        $nederlands = new Taal('Nederlands');
+
+        $klant = new Klant();
+        $klant->addOverigeTaal($nederlands);
+        $klant->addOverigeTaal($nederlands);
+
+        $this->assertNull($klant->getVoorkeurstaal());
+        $this->assertCount(1, $klant->getOverigeTalen());
+        $this->assertEquals($nederlands, $klant->getOverigeTalen()[0]);
+    }
+
+    public function testAddOverigeTaalOverridingVoorkeurstaal()
+    {
+        $nederlands = new Taal('Nederlands');
+
+        $klant = new Klant();
+        $klant->setVoorkeurstaal($nederlands);
+        $klant->addOverigeTaal($nederlands);
+
+        $this->assertEquals($nederlands, $klant->getVoorkeurstaal());
+        $this->assertCount(0, $klant->getOverigeTalen());
+    }
+
+    public function testRemoveOverigeTaal()
+    {
+        $nederlands = new Taal('Nederlands');
+        $frans = new Taal('Frans');
+
+        $klant = new Klant();
+        $klant->addOverigeTaal($nederlands);
+        $klant->addOverigeTaal($frans);
+        $klant->removeOverigeTaal($nederlands);
+
+        $this->assertNull($klant->getVoorkeurstaal());
+        $this->assertCount(1, $klant->getOverigeTalen());
+        $this->assertEquals($frans, $klant->getOverigeTalen()[0]);
+    }
+
+    public function testRemoveNonExistingOverigeTaal()
+    {
+        $nederlands = new Taal('Nederlands');
+        $frans = new Taal('Frans');
+
+        $klant = new Klant();
+        $klant->addOverigeTaal($frans);
+        $klant->removeOverigeTaal($nederlands);
+
+        $this->assertNull($klant->getVoorkeurstaal());
+        $this->assertCount(1, $klant->getOverigeTalen());
+        $this->assertEquals($frans, $klant->getOverigeTalen()[0]);
     }
 }

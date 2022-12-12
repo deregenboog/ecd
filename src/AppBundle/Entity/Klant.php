@@ -238,6 +238,12 @@ class Klant extends Persoon
      */
     protected $maatschappelijkWerker;
 
+    /**
+     * @var KlantTaal[]|ArrayCollection
+     * @ORM\OneToMany(targetEntity="KlantTaal", mappedBy="klant", cascade={"persist"})
+     */
+    protected $klantTalen;
+
     public function isDoorverwijzenNaarAmoc()
     {
         return $this->doorverwijzenNaarAmoc;
@@ -261,6 +267,7 @@ class Klant extends Persoon
         $this->verslagen = new ArrayCollection();
         $this->opmerkingen = new ArrayCollection();
         $this->incidenten = new ArrayCollection();
+        $this->klantTalen = new ArrayCollection();
     }
 
     /**
@@ -281,8 +288,10 @@ class Klant extends Persoon
     public function setLaatsteZrm($zrm)
     {
         $this->laatseZrm = $zrm;
+
         return $this;
     }
+
     public function setLaastseZrm(\DateTime $laatsteZrm)
     {
         $this->laatsteZrm = $laatsteZrm;
@@ -437,7 +446,6 @@ class Klant extends Persoon
 
     /**
      * @param Incident[] $incidenten
-     * @return Klant
      */
     public function setIncidenten(array $incidenten): Klant
     {
@@ -769,5 +777,91 @@ class Klant extends Persoon
         return $this;
     }
 
+    public function getVoorkeurstaal()
+    {
+        foreach ($this->klantTalen as $klantTaal) {
+            if ($klantTaal->isVoorkeur()) {
+                return $klantTaal->getTaal();
+            }
+        }
+    }
 
+    public function setVoorkeurstaal(Taal $taal)
+    {
+        $found = false;
+        foreach ($this->klantTalen as $klantTaal) {
+            if ($klantTaal->getTaal() == $taal) {
+                $found = true;
+                $klantTaal->setVoorkeur(true);
+            } else {
+                $klantTaal->setVoorkeur(false);
+            }
+        }
+
+        if (!$found) {
+            $klantTaal = new KlantTaal($this, $taal);
+            $klantTaal->setVoorkeur(true);
+            $this->klantTalen->add($klantTaal);
+        }
+
+        return $this;
+    }
+
+    public function getOverigeTalen()
+    {
+        $talen = new ArrayCollection();
+        foreach ($this->klantTalen as $klantTaal) {
+            if (!$klantTaal->isVoorkeur()) {
+                $talen->add($klantTaal->getTaal());
+            }
+        }
+
+        return $talen;
+    }
+
+    public function addOverigeTaal(Taal $taal)
+    {
+        $found = false;
+        foreach ($this->klantTalen as $klantTaal) {
+            if ($klantTaal->getTaal() == $taal) {
+                $found = true;
+                break;
+            }
+        }
+
+        if (!$found) {
+            $klantTaal = new KlantTaal($this, $taal);
+            $this->klantTalen->add($klantTaal);
+        }
+
+        return $this;
+    }
+
+    /**
+     * Proxy method used by form.
+     */
+    public function addOverigeTalen(Taal $taal)
+    {
+        return $this->addOverigeTaal($taal);
+    }
+
+    public function removeOverigeTaal(Taal $taal)
+    {
+        foreach ($this->klantTalen as $klantTaal) {
+            if ($klantTaal->getTaal() == $taal) {
+                $this->klantTalen->removeElement($klantTaal);
+                break;
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * Proxy method used by form.
+     */
+    public function removeOverigeTalen(Taal $taal)
+    {
+        return $this->removeOverigeTaal($taal);
+    }
 }
