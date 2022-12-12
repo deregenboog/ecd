@@ -50,14 +50,8 @@ class TrajectFilterType extends AbstractType
         }
 
         if (in_array('trajectcoach', $options['enabled_filters'])) {
-            $builder->add('trajectcoach', EntityType::class, [
+            $builder->add('trajectcoach', BaseSelectType::class, [
                 'class' => Trajectcoach::class,
-                'required' => false,
-            ]);
-        }
-
-        if (in_array('trajectcoach', $options['enabled_filters'])) {
-            $builder->add('trajectcoach', MedewerkerType::class, [
                 'required' => false,
             ]);
         }

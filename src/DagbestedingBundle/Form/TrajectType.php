@@ -11,6 +11,7 @@ use DagbestedingBundle\Entity\Project;
 use DagbestedingBundle\Entity\Resultaatgebiedsoort;
 use DagbestedingBundle\Entity\Traject;
 use DagbestedingBundle\Entity\Trajectafsluiting;
+use DagbestedingBundle\Entity\Trajectcoach;
 use DagbestedingBundle\Entity\Trajectsoort;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
@@ -62,7 +63,9 @@ class TrajectType extends AbstractType
                         ],
                         'required'=>false,
                     ])
-                    ->add('trajectcoach')
+                    ->add('trajectcoach', BaseSelectType::class, [
+                        'class' => Trajectcoach::class,
+                    ])
                     ->add('locaties', BaseSelectType::class, [
                         'class' => Locatie::class,
                         'multiple' => true,

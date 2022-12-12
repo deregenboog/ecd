@@ -26,6 +26,7 @@ class TrajectcoachType extends AbstractType
                 ->add('medewerker', MedewerkerType::class, [
                     'placeholder' => '',
                     'required' => false,
+                    'preset' => false,
                     'query_builder' => function (EntityRepository $repository) {
                         return $repository->createQueryBuilder('medewerker')
                             ->leftJoin(Trajectcoach::class, 'trajectcoach', 'WITH', 'trajectcoach.medewerker = medewerker')
