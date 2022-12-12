@@ -16,6 +16,7 @@
                 Beheer <span class="caret"></span>
             </a>
             <ul class="dropdown-menu">
+                {{ html.navLink('Projecten', path('mw_projecten_index'), isActiveRoute('mw_projecten_')) }}
                 {{ html.navLink('Doorverwijzingen', path('mw_doorverwijzingen_index'), isActiveRoute('mw_doorverwijzingen_')) }}
                 {{ html.navLink('Trajecthouders', path('mw_trajecthouders_index'), isActiveRoute('mw_trajecthouders_')) }}
                 {{ html.navLink('Afsluitredenen klanten', path('mw_afsluitredenenklanten_index'), isActiveRoute('mw_afsluitredenenklanten_')) }}

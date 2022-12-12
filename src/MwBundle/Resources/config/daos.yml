@@ -11,6 +11,9 @@ services:
     MwBundle\Service\KlantDao:
         parent: app.dao.abstract
 
+    MwBundle\Service\ProjectDao:
+        parent: app.dao.abstract
+
     MwBundle\Service\TrajecthouderDao:
         parent: app.dao.abstract
 
@@ -41,14 +44,13 @@ services:
             - '@event_dispatcher'
             - '@InloopBundle\Service\LocatieDao'
 
-
     mw.memo.entities:
         public: true
         class: ArrayObject
         arguments:
             -
                 - { key: vrijwilliger, dao: '@MwBundle\Service\VrijwilligerDao' }
-                -
+
     mw.deelname.entities:
         public: true
         class: ArrayObject

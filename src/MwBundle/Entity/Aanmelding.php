@@ -35,6 +35,15 @@ class Aanmelding extends MwDossierStatus
     protected $binnenViaOptieKlant;
 
     /**
+     * @var Project
+     *
+     * @ORM\ManyToOne(targetEntity="MwBundle\Entity\Project")
+     * @ORM\JoinColumn(nullable=true)
+     * @Gedmo\Versioned
+     */
+    protected $project;
+
+    /**
      * @return BinnenViaOptieKlant
      */
     public function getBinnenViaOptieKlant(): ?BinnenViaOptieKlant
@@ -49,6 +58,19 @@ class Aanmelding extends MwDossierStatus
     public function setBinnenViaOptieKlant(BinnenViaOptieKlant $binnenViaOptieKlant): Aanmelding
     {
         $this->binnenViaOptieKlant = $binnenViaOptieKlant;
+
+        return $this;
+    }
+
+    public function getProject(): ?Project
+    {
+        return $this->project;
+    }
+
+    public function setProject(Project $project): Aanmelding
+    {
+        $this->project = $project;
+
         return $this;
     }
 
