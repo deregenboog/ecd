@@ -78,6 +78,7 @@
     </fieldset>
     <div class="row">
         <div class="col-xs-12 text-right">
+            {{ form_row(klantForm._token) }}
             {{ form_row(klantForm.submit) }}
             {{ form_end(klantForm,{render_rest:false}) }}
         </div>

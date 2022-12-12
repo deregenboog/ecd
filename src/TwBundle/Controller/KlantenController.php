@@ -72,7 +72,6 @@ class KlantenController extends AbstractController
     /**
      * @var ExportInterface
      *
-     * @DI\Inject("tw.export.klanten")
      */
     protected $export;
 
