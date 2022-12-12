@@ -21,6 +21,7 @@ use TwBundle\Service\DocumentDaoInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
+use Vich\UploaderBundle\Handler\DownloadHandler;
 
 /**
  * @Route("/documenten")
@@ -36,13 +37,22 @@ class DocumentenController extends SymfonyController
     private $dao;
 
     /**
+     * @param DocumentDao $dao
+     */
+    public function __construct(DocumentDao $dao)
+    {
+        $this->dao = $dao;
+    }
+
+
+    /**
      * @Route("/download/{filename}")
      */
-    public function download($filename)
+    public function download($filename, DownloadHandler $downloadHandler)
     {
         $document = $this->dao->findByFilename($filename);
 
-        $downloadHandler = $this->get('vich_uploader.download_handler');
+//        $downloadHandler = $this->get('vich_uploader.download_handler');
 
         return $downloadHandler->downloadObject($document, 'file');
     }
