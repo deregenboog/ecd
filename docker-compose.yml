@@ -16,6 +16,7 @@ services:
       - ${PWD}/config:/var/www/html/config
       - ${PWD}/public:/var/www/html/public
       - ${PWD}/src:/var/www/html/src
+      - ${PWD}/templates:/var/www/html/templates
       - ${PWD}/tests:/var/www/html/tests
     environment:
       DATABASE_URL: "mysql://ecd:ecd@database:3306/ecd?serverVersion=8.0&charset=utf8"
