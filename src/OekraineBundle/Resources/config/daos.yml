@@ -38,7 +38,8 @@ services:
         public: true
         class: ArrayObject
         arguments:
-            - [ ]
+            -
+                - { key: bezoeker, dao: '@OekraineBundle\Service\BezoekerDao' }
 
     oekraine.memo.entities:
         public: true
@@ -50,4 +51,6 @@ services:
         public: true
         class: ArrayObject
         arguments:
-            - - { key: bezoeker, dao: '@OekraineBundle\Service\BezoekerDao' }
+            -
+                - { key: bezoeker, dao: '@OekraineBundle\Service\BezoekerDao' }
+

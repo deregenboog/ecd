@@ -46,7 +46,6 @@ abstract class AbstractChildController extends AbstractController
      */
     public function addAction(Request $request)
     {
-
         if (!$this->addMethod && !$this->allowEmpty) {
             throw new \RuntimeException('Property $addMethod must be set in class '.get_class($this));
         }
@@ -62,10 +61,9 @@ abstract class AbstractChildController extends AbstractController
             $parentEntity->{$this->addMethod}($entity);
         }
 
-
-        $form = $this->getForm($this->formClass, $entity, [
+        $form = $this->getForm($this->formClass, $entity, array_merge($this->formOptions, [
             'medewerker' => $this->getMedewerker(),
-        ]);
+        ]));
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {

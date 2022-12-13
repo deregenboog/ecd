@@ -35,8 +35,6 @@ class BezoekerDao extends AbstractDao implements BezoekerDaoInterface
     public function findAll($page = null, FilterInterface $filter = null)
     {
         $builder = $this->getAllQueryBuilder($filter);
-//        $sql = $builder->getQuery()->getSQL();
-//        $params = $builder->getQuery()->getParameters();
         if ($page) {
             return $this->paginator->paginate($builder, $page, $this->itemsPerPage, $this->paginationOptions);
         }
@@ -49,9 +47,8 @@ class BezoekerDao extends AbstractDao implements BezoekerDaoInterface
         $builder = $this->repository->createQueryBuilder($this->alias)
             ->select($this->alias.', appKlant, intakes, geslacht')
 //            ->innerJoin('appKlant.huidigeStatus', 'status')
-                ->innerJoin($this->alias.'.appKlant','appKlant')
+            ->innerJoin($this->alias.'.appKlant','appKlant')
             ->leftJoin('appKlant.intakes', 'intakes')//, "WITH","appKlant.eersteIntake = intake")
-
             ->leftJoin('appKlant.geslacht', 'geslacht')
         ;
 

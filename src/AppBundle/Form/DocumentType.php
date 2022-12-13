@@ -16,6 +16,11 @@ class DocumentType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        // only added if explicitly enabled by including in option `enabled_fields`
+        if (in_array('naam', $options['enabled_fields'])) {
+            $builder->add('naam');
+        }
+
         if (!isset($options['data']) || !$options['data']->getId()) {
             $builder->add('file', FileType::class);
         }
@@ -33,6 +38,7 @@ class DocumentType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Document::class,
+            'enabled_fields' => [],
         ]);
     }
 

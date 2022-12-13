@@ -79,7 +79,6 @@ class BezoekersController extends AbstractController
         $this->searchDao = $searchDao;
     }
 
-
     protected function doAdd(Request $request)
     {
         $entityId = $request->get('entity');

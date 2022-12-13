@@ -26,7 +26,6 @@ use Vich\UploaderBundle\Handler\DownloadHandler;
 
 abstract class AbstractController extends SymfonyController
 {
-
     /**
      * Entity to deal with in this controller.
      *
@@ -43,6 +42,11 @@ abstract class AbstractController extends SymfonyController
      * @var string
      */
     protected $formClass;
+
+    /**
+     * @var array
+     */
+    protected $formOptions = [];
 
     /**
      * @var string
@@ -310,7 +314,7 @@ abstract class AbstractController extends SymfonyController
         }
 
         $subEntity = new $this->entityClass($searchEntity);
-        $creationForm = $this->getForm($this->formClass, $subEntity);
+        $creationForm = $this->getForm($this->formClass, $subEntity, $this->formOptions);
         $creationForm->handleRequest($request);
 
         if ($creationForm->isSubmitted() && $creationForm->isValid()) {
@@ -394,9 +398,9 @@ abstract class AbstractController extends SymfonyController
             throw new AppException(get_class($this).'::formClass not set!');
         }
 
-        $form = $this->getForm($this->formClass, $entity, [
+        $form = $this->getForm($this->formClass, $entity, array_merge($this->formOptions, [
             'medewerker' => $this->getMedewerker(),
-        ]);
+        ]));
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {

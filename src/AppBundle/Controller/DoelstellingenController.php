@@ -130,9 +130,9 @@ class DoelstellingenController extends AbstractController
             throw new AppException(get_class($this).'::formClass not set!');
         }
 
-        $form = $this->getForm($this->formClass, $entity, [
+        $form = $this->getForm($this->formClass, $entity, array_merge($this->formOptions, [
             'medewerker' => $this->getMedewerker(),
-        ]);
+        ]));
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
