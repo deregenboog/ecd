@@ -14,7 +14,7 @@ class DevelopmentAuthenticator extends AbstractGuardAuthenticator
 {
     public function supports(Request $request)
     {
-        return $request->query->has('username');
+        return $request->request->has('_username');
     }
 
     public function supportsRememberMe()
@@ -25,7 +25,7 @@ class DevelopmentAuthenticator extends AbstractGuardAuthenticator
     public function getCredentials(Request $request)
     {
         return [
-            'username' => $request->query->get('username'),
+            'username' => $request->request->get('_username'),
         ];
     }
 

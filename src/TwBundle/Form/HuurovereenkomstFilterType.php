@@ -126,6 +126,7 @@ class HuurovereenkomstFilterType extends AbstractType
                 'required' => false,
             ]);
         }
+
         if (in_array('project', $options['enabled_filters'])) {
             $builder->add('project', ProjectSelectFilterType::class, [
                 'label' => 'Project',

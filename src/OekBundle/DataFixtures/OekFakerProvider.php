@@ -12,7 +12,6 @@ use OekBundle\Entity\VerwijzingNaar;
 
 final class OekFakerProvider
 {
-
     public function aanmelding(VerwijzingDoor $verwijzing, Medewerker $medewerker)
     {
         $aanmelding = new Aanmelding();

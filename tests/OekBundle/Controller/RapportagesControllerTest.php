@@ -12,10 +12,9 @@ class RapportagesControllerTest extends WebTestCase
         $this->logIn($medewerker);
 
         $crawler = $this->client->request('GET', '/oek/rapportages/');
-
         $this->assertStatusCode(200, $this->client);
-        $form = $crawler->selectButton('Rapport tonen')->form();
 
+        $form = $crawler->selectButton('Rapport tonen')->form();
         $reports = $crawler->filter('select option');
         $this->assertGreaterThan(1, $reports->count());
 

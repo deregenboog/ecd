@@ -1,0 +1,101 @@
+parameters:
+    database_driver: pdo_mysql
+    database_host: test-database
+    database_port: 3306
+    database_name: ecd
+    database_user: ecd
+    database_password: ecd
+    database_server_version: '8.0'
+    secret: test
+    email_policy: test
+    locale: nl_NL
+    profile: drg
+    administrator_name: ''
+    administrator_email: ''
+    log_email: ''
+    ldap_domain: ''
+    ldap_port: 389
+    ldap_servers: []
+    ldap_base_dn: ''
+    ldap_search_user: ''
+    ldap_search_password: ''
+    tbc_months_period: 6
+    tbc_countries:
+        - Roemenië
+        - Bulgarije
+        - Estland
+        - Letland
+        - Litouwen
+    amoc_locaties:
+        - 'AMOC'
+        - 'Nachtopvang DRG'
+        - 'Amoc Gebruikersruimte'
+    economisch_daklozen_locaties:
+            - 'De Meeuw'
+            - 'Claverhuis'
+            - 'Gravestein'
+            - 'Postoost'
+            - 'Havelaar'
+            - '''t Blommetje'
+            - 'Tagrijn'
+    amw_locaties:
+            - 'Princehof inloop'
+            - 'Princehof gebruikersruimte'
+            - 'Blaka Watra inloop'
+            - 'Blaka Watra gebruikersruimte'
+            - 'Amoc inloop'
+            - 'Amoc Gebruikersruimte'
+            - 'Zeeburg'
+            - 'Spreekbuis'
+            - 'Makom'
+            - 'De Kloof'
+            - 'Oud West'
+            - 'Nachtopvang DRG'
+            - 'Nachtopvang Schuitenhuisstraat'
+            - 'T6 Nachtopvang'
+            - 'T6 Inloop'
+            - 'Tagrijn'
+            - 'Casa Jepie'
+    zonderzorg_locaties:
+            - 'Zonder Zorg'
+    spuitomruil_locaties:
+        - 'Princehof gebruikersruimte'
+        - 'Amoc gebruikersruimte'
+    gezin_noodopvang_locaties:
+        - 'Bloemendaal'
+    nachtopvang_locaties:
+        - 'Nachtopvang DRG'
+    iz_specifieke_projecten:
+        -
+            label: "2forT maatje"
+            kpl: "2177"
+        -
+            label: "BdH - maatje"
+            kpl: "2783"
+        -
+            label: "Dier en Vriend"
+            kpl: "2725"
+        -
+            label: "Nieuw Thuis"
+            kpl: "2727"
+        -
+            label: "Mensen onder elkaar"
+            kpl: "2730"
+    iz_hulpsoorten_zonder_koppelingen:
+        - 'Timeout'
+        - 'timeout'
+        - 'Time Out'
+    verblijfsstatus_niet_rechthebbend_id: 7
+    wachtlijst_locaties:
+        - 'Wachtlijst T6'
+        - 'Wachtlijst Economisch Daklozen'
+    informele_zorg_mail: ''
+    dagbesteding_mail: ''
+    inloophuis_mail: ''
+    hulpverlening_mail: ''
+    agressie_mail: ''
+    administratiebedrijf_mail: ''
+    prevent_save_enabled: '2022-01-09 09:00:00' #From this moment, it will be enabled.
+    prevent_save_modified_before: '2021-01-01'
+    prevent_save_modified_after: '2020-12-31'
+    prevent_save_exclude_entities: []

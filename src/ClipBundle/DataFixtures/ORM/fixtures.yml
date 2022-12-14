@@ -109,7 +109,7 @@ ClipBundle\Entity\Behandelaar:
         naam: '<name()>'
 
 ClipBundle\Entity\Client:
-    clip_client_{1..50}:
+    clip_client_{1..10}:
         voornaam: '50%? <firstname()>'
         achternaam: '50%? <lastname()>'
         geslacht: '50%? @geslacht_*'
@@ -126,7 +126,7 @@ ClipBundle\Entity\Client:
         viacategorie: '50%? @clip_viacategorie_*'
 
 ClipBundle\Entity\Vraag:
-    clip_vraag_{1..125}:
+    clip_vraag_{1..25}:
         client: '@clip_client_*'
         soort: '@clip_vraagsoort_*'
         leeftijdscategorie: '50%? @clip_leeftijdscategorie_*'
@@ -137,7 +137,7 @@ ClipBundle\Entity\Vraag:
         startdatum: '<dateTimeThisDecade()>'
 
 ClipBundle\Entity\Contactmoment:
-    clip_contactmoment_{1..100}:
+    clip_contactmoment_{1..10}:
         vraag: '@clip_vraag_*'
         behandelaar: '@clip_behandelaar_*'
         datum: '<dateTimeThisDecade()>'

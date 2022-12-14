@@ -38,7 +38,8 @@ class HuuraanbiedingenController extends SymfonyController
         'medewerker.achternaam',
         'project.naam',
         'huuraanbod.isActief',
-
+        'appKlant.plaats',
+        'huuraanbod.huurprijs',
     ];
 
 

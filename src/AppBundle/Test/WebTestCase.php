@@ -9,8 +9,11 @@ use Symfony\Component\BrowserKit\Cookie;
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 use Symfony\Component\Security\Core\User\UserInterface;
 
-class WebTestCase extends BaseWebTestCase
+class WebTestCase extends CoreWebTestCase
 {
+    use FixturesTrait;
+    use RecreateDatabaseTrait;
+
     /**
      * @var Client
      */
@@ -21,7 +24,7 @@ class WebTestCase extends BaseWebTestCase
      */
     protected $connection;
 
-    protected function setUp(): void
+    protected function setUp()
     {
         parent::setUp();
 
@@ -44,16 +47,15 @@ class WebTestCase extends BaseWebTestCase
      *
      * @see https://symfony.com/doc/4.4/testing/http_authentication.html
      */
-    protected function logIn(UserInterface $user, $additionalRoles = []): void
+    public function logIn(UserInterface $user, $additionalRoles = []): self
     {
         if (!is_array($additionalRoles)) {
             $additionalRoles = [$additionalRoles];
         }
 
-        $session = self::$container->get('session');
+        $session = $this->client->getContainer()->get('session');
 
-        $roles = array_merge($user->getRoles(), $additionalRoles);
-        $token = new UsernamePasswordToken($user, null, 'main', $roles);
+        $token = new UsernamePasswordToken($user, null, 'main', array_merge($user->getRoles(), $additionalRoles));
         $session->set('_security_main', serialize($token));
         $session->save();
 

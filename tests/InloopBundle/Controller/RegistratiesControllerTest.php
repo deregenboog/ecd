@@ -22,12 +22,9 @@ class RegistratiesControllerTest extends WebTestCase
          */
 //        $intakes = $this->getContainer()->get(\InloopBundle\Service\IntakeDao::class)->getFirstFiveIntakesForTesting();
         foreach ([1, 2, 3, 4, 5] as $value)
-//        foreach($intakes as $intake)
         {
-//            $value = $intake->getId();
             $this->editToegang($value);
         }
-
 
         /**
          * Blaka Watra, De Eik, De Kloof, De Spreekbuis, Derde Schinkel, Droogbak, Makom, Noorderpark, Oud West, Penitentiaire Inrichting, Politie, Princehof Inloop, Valentijn, Vrouwen Nacht Opvang, Westerpark

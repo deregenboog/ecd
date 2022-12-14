@@ -635,23 +635,17 @@ AppBundle\Entity\Nationaliteit:
         __construct: ['Burger van Trinidad en Tobago']
     nationaliteit_Vietnamees:
         __construct: ['Vietnamees']
-    nationaliteit_Armeense:
-        __construct: ['Armeense']
-    nationaliteit_Turkmeense:
-        __construct: ['Turkmeense' ]
-    nationaliteit_Tadzjiekse:
-        __construct: ['Tadzjiekse' ]
     nationaliteit_Bosnier:
         __construct: ['Bosnier']
 
 AppBundle\Entity\Medewerker:
     medewerker_jborger:
         ldapGuid (unique): '<randomNumber()>'
-        username: 'jborger'
+        username: 'admin'
         roles: ['ROLE_ADMIN']
         email: '<email()>'
-        voornaam: 'Jan'
-        achternaam: 'Borger'
+        voornaam: '<firstname()>'
+        achternaam: '<lastname()>'
         eersteBezoek: '<dateTimeThisYear()>'
         laatsteBezoek: '<dateTimeThisYear()>'
     medewerker_clip:
@@ -659,8 +653,8 @@ AppBundle\Entity\Medewerker:
         username: 'clip_user'
         roles: ['ROLE_CLIP']
         email: '<email()>'
-        voornaam: 'Clip'
-        achternaam: 'User'
+        voornaam: '<firstname()>'
+        achternaam: '<lastname()>'
         eersteBezoek: '<dateTimeThisYear()>'
         laatsteBezoek: '<dateTimeThisYear()>'
     medewerker_inloop:
@@ -668,8 +662,8 @@ AppBundle\Entity\Medewerker:
         roles: ['ROLE_INLOOP','ROLE_INLOOP_INTAKES','ROLE_ADMIN']
         username: 'inloop_user'
         email: '<email()>'
-        voornaam: 'Inloop'
-        achternaam: 'User'
+        voornaam: '<firstname()>'
+        achternaam: '<lastname()>'
         eersteBezoek: '<dateTimeThisYear()>'
         laatsteBezoek: '<dateTimeThisYear()>'
     medewerker_dagbesteding:
@@ -677,44 +671,17 @@ AppBundle\Entity\Medewerker:
         roles: [ 'ROLE_DAGBESTEDING' ]
         username: 'dagbesteding_user'
         email: '<email()>'
-        voornaam: 'Dagbesteding'
-        achternaam: 'User'
+        voornaam: '<firstname()>'
+        achternaam: '<lastname()>'
         eersteBezoek: '<dateTimeThisYear()>'
         laatsteBezoek: '<dateTimeThisYear()>'
-    medewerker_dagbesteding_admin:
-        ldapGuid (unique): '<randomNumber()>'
-        roles: [ 'ROLE_DAGBESTEDING_BEHEER' ]
-        username: 'dagbesteding_admin'
-        email: '<email()>'
-        voornaam: 'Dagbesteding'
-        achternaam: 'Admin'
-        eersteBezoek: '<dateTimeThisYear()>'
-        laatsteBezoek: '<dateTimeThisYear()>'
-    medewerker_eropuit:
-        ldapGuid (unique): '<randomNumber()>'
-        roles: [ 'ROLE_EROPUIT' ]
-        username: 'eou_user'
-        email: '<email()>'
-        voornaam: 'EOU'
-        achternaam: 'User'
-        eersteBezoek: '<dateTimeThisYear()>'
-        laatsteBezoek: '<dateTimeThisYear()>'
-    medewerker_eropuit_beheer:
-        ldapGuid (unique): '<randomNumber()>'
-        roles: [ 'ROLE_EROPUIT_BEHEER' ]
-        username: 'eou_admin'
-        email: '<email()>'
-        voornaam: 'EOU'
-        achternaam: 'Beheer'
-        eersteBezoek: '<dateTimeThisDecade()>'
-        laatsteBezoek: '<dateTimeThisDecade()>'
     medewerker_ga:
         ldapGuid (unique): '<randomNumber()>'
         roles: ['ROLE_GA']
         username: 'ga_user'
         email: '<email()>'
-        voornaam: 'GA'
-        achternaam: 'User'
+        voornaam: '<firstname()>'
+        achternaam: '<lastname()>'
         eersteBezoek: '<dateTimeThisYear()>'
         laatsteBezoek: '<dateTimeThisYear()>'
     medewerker_ga_admin:
@@ -722,8 +689,8 @@ AppBundle\Entity\Medewerker:
         roles: ['ROLE_GA_ADMIN']
         username: 'ga_admin'
         email: '<email()>'
-        voornaam: 'GA'
-        achternaam: 'Beheer'
+        voornaam: '<firstname()>'
+        achternaam: '<lastname()>'
         eersteBezoek: '<dateTimeThisYear()>'
         laatsteBezoek: '<dateTimeThisYear()>'
     medewerker_hs:
@@ -731,17 +698,8 @@ AppBundle\Entity\Medewerker:
         roles: ['ROLE_HOMESERVICE']
         username: 'hs_user'
         email: '<email()>'
-        voornaam: 'HS'
-        achternaam: 'User'
-        eersteBezoek: '<dateTimeThisYear()>'
-        laatsteBezoek: '<dateTimeThisYear()>'
-    medewerker_iz:
-        ldapGuid (unique): '<randomNumber()>'
-        roles: [ 'ROLE_IZ' ]
-        username: 'iz_user'
-        email: '<email()>'
-        voornaam: 'IZ'
-        achternaam: 'User'
+        voornaam: '<firstname()>'
+        achternaam: '<lastname()>'
         eersteBezoek: '<dateTimeThisYear()>'
         laatsteBezoek: '<dateTimeThisYear()>'
     medewerker_tw:
@@ -749,8 +707,8 @@ AppBundle\Entity\Medewerker:
         roles: ['ROLE_TW']
         username: 'tw_user'
         email: '<email()>'
-        voornaam: 'TW'
-        achternaam: 'User'
+        voornaam: '<firstname()>'
+        achternaam: '<lastname()>'
         eersteBezoek: '<dateTimeThisYear()>'
         laatsteBezoek: '<dateTimeThisYear()>'
     medewerker_oek:
@@ -758,8 +716,8 @@ AppBundle\Entity\Medewerker:
         roles: ['ROLE_OEK']
         username: 'oek_user'
         email: '<email()>'
-        voornaam: 'Oek'
-        achternaam: 'User'
+        voornaam: '<firstname()>'
+        achternaam: '<lastname()>'
         eersteBezoek: '<dateTimeThisYear()>'
         laatsteBezoek: '<dateTimeThisYear()>'
     medewerker_villa:
@@ -767,8 +725,8 @@ AppBundle\Entity\Medewerker:
         username: 'villa_user'
         roles: [ 'ROLE_VILLA' ]
         email: '<email()>'
-        voornaam: 'Villa'
-        achternaam: 'User'
+        voornaam: '<firstname()>'
+        achternaam: '<lastname()>'
         eersteBezoek: '<dateTimeThisYear()>'
         laatsteBezoek: '<dateTimeThisYear()>'
     medewerker_{1..15}:
@@ -787,7 +745,7 @@ AppBundle\Entity\Klant:
         voornaam: '<firstname()>'
         achternaam: '<lastname()>'
         geslacht: '@geslacht_*'
-        geboortedatum: '<dateTimeThisDecade()>'
+        geboortedatum: '<dateTimeThisYear()>'
         adres: '<streetAddress()>'
         postcode: '<postcode()>'
         plaats: '<city()>'
@@ -807,6 +765,32 @@ AppBundle\Entity\Klant:
         medewerker: '@medewerker_*'
         land: '@land_*'
         nationaliteit: '@nationaliteit_*'
+#    klant_1:
+#        roepnaam: 'Toegang'
+#        voornaam: 'Test'
+#        achternaam: 'Inloop'
+#        geslacht: '@geslacht_*'
+#        geboortedatum: '<dateTimeThisYear()>'
+#        adres: '<streetAddress()>'
+#        postcode: '<postcode()>'
+#        plaats: '<city()>'
+#        mobiel: '<phoneNumber()>'
+#        telefoon: '<phoneNumber()>'
+#        email: '<email()>'
+#        laatsteTbcControle: '<dateTimeThisYear()>'
+#        laatsteZrm: '<dateTimeThisYear()>'
+#        #addIntake: ['@intake_<current()>']
+#        #        laatsteRegistratie: '@registratie_*'
+#        overleden: '10%? 1 : 0'
+#        disabled: '10%? 1 : 0'
+#        werkgebied: '80%? @werkgebied_*'
+#        postcodegebied: '80%? @ggw_gebied_*'
+#        geenPost: '10%? 1 : 0'
+#        geenEmail: '10%? 1 : 0'
+#        medewerker: '@medewerker_*'
+#        land: '@land_*'
+#        nationaliteit: '@nationaliteit_*'
+#        huidigeStatus: '@aanmelding_1'
 
 AppBundle\Entity\Vrijwilliger:
     vrijwilliger_{1..25}:
@@ -814,7 +798,7 @@ AppBundle\Entity\Vrijwilliger:
         voornaam: '<firstname()>'
         achternaam: '<lastname()>'
         geslacht: '@geslacht_*'
-        geboortedatum: '<dateTimeThisDecade()>'
+        geboortedatum: '<dateTimeThisYear()>'
         adres: '<streetAddress()>'
         postcode: '<postcode()>'
         plaats: '<city()>'

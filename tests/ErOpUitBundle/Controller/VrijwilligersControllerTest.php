@@ -41,7 +41,7 @@ class VrijwilligersControllerTest extends WebTestCase
     public function testFilter()
     {
         $medewerker = $this->getContainer()->get(\AppBundle\Service\MedewerkerDao::class)->findByUsername('eou_user');
-        $this->logIn($medewerker);
+        $this->logIn($medewerker, 'ROLE_EROPUIT');
 
         $crawler = $this->client->request('GET', $this->getUrl('eropuit_vrijwilligers_index'));
         $this->assertStatusCode(200, $this->client);
@@ -57,7 +57,7 @@ class VrijwilligersControllerTest extends WebTestCase
     public function testAddFilter()
     {
         $medewerker = $this->getContainer()->get(\AppBundle\Service\MedewerkerDao::class)->findByUsername('eou_user');
-        $this->logIn($medewerker);
+        $this->logIn($medewerker, 'ROLE_EROPUIT');
 
         $crawler = $this->client->request('GET', $this->getUrl('eropuit_vrijwilligers_add'));
         $this->assertStatusCode(200, $this->client);

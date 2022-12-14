@@ -13,8 +13,9 @@ class DagdelenControllerTest extends WebTestCase
         $this->logIn($medewerker);
 
         $crawler = $this->client->request('GET', '/dagbesteding/dagdelen/');
+        $this->assertStatusCode(200, $this->client);
 
-        $headers = $crawler->filter('tr th a');
+        $headers = $crawler->filter('tr th a.sortable');
         $this->assertGreaterThan(1, $headers->count());
 
         $headers->each(function ($header) {
