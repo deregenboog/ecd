@@ -3,6 +3,8 @@
 namespace OekraineBundle\Entity;
 
 use AppBundle\Entity\Klant as AppKlant;
+use AppBundle\Model\DocumentSubjectInterface;
+use AppBundle\Model\DocumentSubjectTrait;
 use AppBundle\Model\IdentifiableTrait;
 use AppBundle\Model\NotDeletableTrait;
 use AppBundle\Model\TimestampableTrait;
@@ -11,8 +13,6 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityNotFoundException;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
-use OekraineBundle\Repository\DossierStatusRepository;
-
 
 /**
  * @ORM\Entity
@@ -20,9 +20,12 @@ use OekraineBundle\Repository\DossierStatusRepository;
  * @ORM\HasLifecycleCallbacks
  * @Gedmo\Loggable
  */
-class Bezoeker
+class Bezoeker implements DocumentSubjectInterface
 {
-    use IdentifiableTrait, TimestampableTrait, NotDeletableTrait;
+    use IdentifiableTrait;
+    use DocumentSubjectTrait;
+    use TimestampableTrait;
+    use NotDeletableTrait;
 
     /**
      * @var AppKlant
