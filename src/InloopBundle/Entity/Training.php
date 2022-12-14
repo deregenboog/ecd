@@ -19,6 +19,14 @@ class Training
 {
     use IdentifiableTrait, NameableTrait, ActivatableTrait;
 
+    /**
+     * @var Deelname[]
+     *
+     * @ORM\OneToMany(targetEntity="Deelname", cascade={"persist"}, mappedBy="training")
+     * ORM\JoinColumn(name="inloopTraining_id", nullable=false)
+     */
+    private $deelnames;
+
     public function isDeletable()
     {
         return false;

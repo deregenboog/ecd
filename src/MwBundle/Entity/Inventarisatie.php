@@ -170,7 +170,7 @@ class Inventarisatie
      */
     public function hasChildren()
     {
-        return count($this->children) > 0;
+        return count((array) $this->children) > 0;
     }
 
     /**

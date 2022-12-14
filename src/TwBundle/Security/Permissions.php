@@ -4,5 +4,5 @@ namespace TwBundle\Security;
 
 class Permissions
 {
-    const OWNER = 'owner';
+    public const OWNER = 'owner';
 }

@@ -46,12 +46,11 @@ abstract class AbstractChildController extends AbstractController
      */
     public function addAction(Request $request)
     {
-
         if (!$this->addMethod && !$this->allowEmpty) {
             throw new \RuntimeException('Property $addMethod must be set in class '.get_class($this));
         }
 
-        list($parentEntity, $this->parentDao) = $this->getParentConfig($request);
+        [$parentEntity, $this->parentDao] = $this->getParentConfig($request);
         if (!$parentEntity && !$this->allowEmpty) {
             throw new AppException(sprintf('Kan geen %s aan deze entiteit toevoegen. Extra data: \n queryString: %s \nUser: ', $this->entityName, $request->getQueryString(), $request->getUserInfo()));
         }
@@ -62,10 +61,9 @@ abstract class AbstractChildController extends AbstractController
             $parentEntity->{$this->addMethod}($entity);
         }
 
-
-        $form = $this->getForm($this->formClass, $entity, [
+        $form = $this->getForm($this->formClass, $entity, array_merge($this->formOptions, [
             'medewerker' => $this->getMedewerker(),
-        ]);
+        ]));
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -73,7 +71,7 @@ abstract class AbstractChildController extends AbstractController
                 $entity->setMedewerker($this->getMedewerker());
             }
             try {
-                $this->beforeCreate($entity,$parentEntity);
+                $this->beforeCreate($entity);
                 $this->persistEntity($entity, $parentEntity);
                 $this->addFlash('success', ucfirst($this->entityName).' is toegevoegd.');
             } catch(UserException $e)
@@ -81,8 +79,8 @@ abstract class AbstractChildController extends AbstractController
                 $message = $e->getMessage();
                 $this->addFlash('danger', $message);
             } catch (\Exception $e) {
-                $this->get('logger')->error($e->getMessage(), ['exception' => $e]);
-                $message = $this->container->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
+                $this->logger->error($e->getMessage(), ['exception' => $e]);
+                $message = $this->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
                 $this->addFlash('danger', $message);
             }
 
@@ -117,7 +115,7 @@ abstract class AbstractChildController extends AbstractController
 
         $entity = $this->dao->find($id);
 
-        list($parentEntity, $this->parentDao) = $this->getParentConfig($request);
+        [$parentEntity, $this->parentDao] = $this->getParentConfig($request);
 
         $form = $this->getForm(ConfirmationType::class);
         $form->handleRequest($request);

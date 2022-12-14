@@ -2,18 +2,15 @@
 
 namespace Application\Migrations;
 
-use Doctrine\Migrations\AbstractMigration;
 use Doctrine\DBAL\Schema\Schema;
+use Doctrine\Migrations\AbstractMigration;
 
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
 class Version20170406144536 extends AbstractMigration
 {
-    /**
-     * @param Schema $schema
-     */
-    public function up(Schema $schema)
+    public function up(Schema $schema): void
     {
         $this->addSql("INSERT INTO postcodegebieden (postcodegebied, van, tot) VALUES ('Slotervaart', '1065', '1065');");
         $this->addSql("UPDATE postcodegebieden SET tot = '1062' WHERE van = '1062' AND tot = '1065';");
@@ -22,10 +19,7 @@ class Version20170406144536 extends AbstractMigration
         $this->addSql("UPDATE postcodegebieden SET tot = '1071' WHERE van = '1071' AND tot = '1077';");
     }
 
-    /**
-     * @param Schema $schema
-     */
-    public function down(Schema $schema)
+    public function down(Schema $schema): void
     {
         $this->throwIrreversibleMigrationException();
     }

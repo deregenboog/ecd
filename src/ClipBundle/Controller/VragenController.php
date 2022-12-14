@@ -10,6 +10,7 @@ use ClipBundle\Form\VraagCloseType;
 use ClipBundle\Form\VraagType;
 use ClipBundle\Form\VragenModel;
 use ClipBundle\Form\VragenType;
+use ClipBundle\Service\VraagDao;
 use ClipBundle\Service\VraagDaoInterface;
 use JMS\DiExtraBundle\Annotation as DI;
 use Symfony\Component\Routing\Annotation\Route;
@@ -28,25 +29,32 @@ class VragenController extends AbstractVragenController
     protected $addMethod = 'addVraag';
 
     /**
-     * @var VraagDaoInterface
-     *
-     * @DI\Inject("ClipBundle\Service\VraagDao")
+     * @var VraagDao
      */
     protected $dao;
 
     /**
      * @var \ArrayObject
-     *
-     * @DI\Inject("clip.vraag.entities")
      */
     protected $entities;
 
     /**
      * @var ExportInterface
-     *
-     * @DI\Inject("clip.export.vragen")
      */
     protected $export;
+
+    /**
+     * @param VraagDao $dao
+     * @param \ArrayObject $entities
+     * @param ExportInterface $export
+     */
+    public function __construct(VraagDao $dao, \ArrayObject $entities, ExportInterface $export)
+    {
+        $this->dao = $dao;
+        $this->entities = $entities;
+        $this->export = $export;
+    }
+
 
     /**
      * @Route("/add")
@@ -55,7 +63,7 @@ class VragenController extends AbstractVragenController
     {
         $this->formClass = VragenType::class;
 
-        list($parentEntity, $this->parentDao) = $this->getParentConfig($request);
+        [$parentEntity, $this->parentDao] = $this->getParentConfig($request);
         $entity = new VragenModel($parentEntity);
         $entity->setClient($parentEntity);
 
@@ -75,12 +83,12 @@ class VragenController extends AbstractVragenController
                 $this->parentDao->update($parentEntity);
                 $this->addFlash('success', ucfirst($this->entityName).' is toegevoegd.');
             }  catch(UserException $e) {
-//                $this->get('logger')->error($e->getMessage(), ['exception' => $e]);
+//                $this->logger->error($e->getMessage(), ['exception' => $e]);
                 $message =  $e->getMessage();
                 $this->addFlash('danger', $message);
 //                return $this->redirectToRoute('app_klanten_index');
             }  catch (\Exception $e) {
-                $message = $this->container->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
+                $message = $this->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
                 $this->addFlash('danger', $message);
             }
 
@@ -117,12 +125,12 @@ class VragenController extends AbstractVragenController
                 $this->dao->update($entity);
                 $this->addFlash('success', ucfirst($this->entityName).' is afgesloten.');
             }  catch(UserException $e) {
-//                $this->get('logger')->error($e->getMessage(), ['exception' => $e]);
+//                $this->logger->error($e->getMessage(), ['exception' => $e]);
                 $message =  $e->getMessage();
                 $this->addFlash('danger', $message);
 //                return $this->redirectToRoute('app_klanten_index');
             }  catch (\Exception $e) {
-                $message = $this->container->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
+                $message = $this->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
                 $this->addFlash('danger', $message);
             }
 

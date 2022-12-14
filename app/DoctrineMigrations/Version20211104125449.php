@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace Application\Migrations;
 
@@ -10,11 +12,10 @@ use Doctrine\Migrations\AbstractMigration;
  */
 final class Version20211104125449 extends AbstractMigration
 {
-    public function up(Schema $schema) : void
+    public function up(Schema $schema): void
     {
         // this up() migration is auto-generated, please modify it to your needs
-        $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
-
+        $this->abortIf('mysql' !== $this->connection->getDatabasePlatform()->getName(), 'Migration can only be executed safely on \'mysql\'.');
 
         $this->addSql('ALTER TABLE tw_inkomen ADD active TINYINT(1) NOT NULL DEFAULT 1');
         $this->addSql('ALTER TABLE tw_deelnemers CHANGE intakeStatus_id intakeStatus_id INT NULL');
@@ -27,13 +28,12 @@ final class Version20211104125449 extends AbstractMigration
         $this->addSql('ALTER TABLE tw_duurthuisloos ADD active TINYINT(1) NOT NULL DEFAULT 1');
         $this->addSql('ALTER TABLE tw_ritme ADD active TINYINT(1) NOT NULL DEFAULT 1');
         $this->addSql('ALTER TABLE tw_werk ADD active TINYINT(1) NOT NULL DEFAULT 1');
-
     }
 
-    public function down(Schema $schema) : void
+    public function down(Schema $schema): void
     {
         // this down() migration is auto-generated, please modify it to your needs
-        $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
+        $this->abortIf('mysql' !== $this->connection->getDatabasePlatform()->getName(), 'Migration can only be executed safely on \'mysql\'.');
 
         $this->addSql('ALTER TABLE tw_alcohol DROP active');
         $this->addSql('ALTER TABLE tw_duurthuisloos DROP active');
@@ -45,6 +45,5 @@ final class Version20211104125449 extends AbstractMigration
         $this->addSql('ALTER TABLE tw_softdrugs DROP active');
         $this->addSql('ALTER TABLE tw_traplopen DROP active');
         $this->addSql('ALTER TABLE tw_werk DROP active');
-
     }
 }

@@ -9,10 +9,12 @@ use AppBundle\Event\Events;
 use AppBundle\Exception\UserException;
 use AppBundle\Export\ExportInterface;
 use Doctrine\ORM\EntityNotFoundException;
+use InloopBundle\Service\VerslagDao;
 use JMS\DiExtraBundle\Annotation as DI;
 use MwBundle\Entity\Verslag;
 use MwBundle\Form\VerslagModel;
 use MwBundle\Form\VerslagType;
+use MwBundle\Service\InventarisatieDao;
 use MwBundle\Service\InventarisatieDaoInterface;
 use MwBundle\Service\VerslagDaoInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
@@ -33,25 +35,32 @@ class VerslagenController extends AbstractController
     protected $baseRouteName = 'inloop_verslagen_';
 
     /**
-     * @var VerslagDaoInterface
-     *
-     * @DI\Inject("InloopBundle\Service\VerslagDao")
+     * @var VerslagDao
      */
     protected $dao;
 
     /**
-     * @var InventarisatieDaoInterface
-     *
-     * @DI\Inject("MwBundle\Service\InventarisatieDao")
+     * @var InventarisatieDao
      */
     protected $inventarisatieDao;
 
     /**
      * @var ExportInterface
-     *
-     * @DI\Inject("mw.export.klanten")
      */
     protected $export;
+
+    /**
+     * @param VerslagDao $dao
+     * @param InventarisatieDao $inventarisatieDao
+     * @param ExportInterface $export
+     */
+    public function __construct(VerslagDao $dao, InventarisatieDao $inventarisatieDao, ExportInterface $export)
+    {
+        $this->dao = $dao;
+        $this->inventarisatieDao = $inventarisatieDao;
+        $this->export = $export;
+    }
+
 
     /**
      * @Route("/add/{klant}")
@@ -85,7 +94,7 @@ class VerslagenController extends AbstractController
 
         $event = new DienstenLookupEvent($entity->getKlant()->getId());
         if ($event->getKlantId()) {
-            $this->get('event_dispatcher')->dispatch(Events::DIENSTEN_LOOKUP, $event);
+            $this->eventDispatcher->dispatch($event, Events::DIENSTEN_LOOKUP);
         }
 
         return [
@@ -114,13 +123,13 @@ class VerslagenController extends AbstractController
                 }
                 $this->addFlash('success', ucfirst($this->entityName).' is opgeslagen.');
             } catch(UserException $e) {
-//                $this->get('logger')->error($e->getMessage(), ['exception' => $e]);
+//                $this->logger->error($e->getMessage(), ['exception' => $e]);
                 $message =  $e->getMessage();
                 $this->addFlash('danger', $message);
 //                return $this->redirectToRoute('app_klanten_index');
             } catch (\Exception $e) {
-                $this->get('logger')->error($e->getMessage(), ['exception' => $e]);
-                $message = $this->container->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
+                $this->logger->error($e->getMessage(), ['exception' => $e]);
+                $message = $this->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
                 $this->addFlash('danger', $message);
             }
 

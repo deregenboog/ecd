@@ -19,8 +19,7 @@ class RapportagesController extends AbstractRapportagesController
 
     /**
      * @var ExportInterface
-     *
-     * @DI\Inject("tw.export.report")
      */
     protected $export;
+
 }

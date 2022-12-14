@@ -8,7 +8,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 class DagdelenModel
 {
-    const DATE_FORMAT = 'd-m-Y';
+    public const DATE_FORMAT = 'd-m-Y';
 
     /**
      * @var Project

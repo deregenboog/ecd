@@ -8,8 +8,8 @@ use AppBundle\Form\VrijwilligerFilterType;
 use GaBundle\Entity\Vrijwilligerdossier;
 use GaBundle\Form\VrijwilligerdossierFilterType;
 use GaBundle\Form\VrijwilligerdossierType;
-use GaBundle\Service\VrijwilligerDaoInterface;
-use GaBundle\Service\VrijwilligerdossierDaoInterface;
+use GaBundle\Service\VrijwilligerDao;
+use GaBundle\Service\VrijwilligerdossierDao;
 use JMS\DiExtraBundle\Annotation as DI;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\Form\FormError;
@@ -30,25 +30,32 @@ class VrijwilligerdossiersController extends DossiersController
     protected $baseRouteName = 'ga_vrijwilligerdossiers_';
 
     /**
-     * @var VrijwilligerdossierDaoInterface
-     *
-     * @DI\Inject("GaBundle\Service\VrijwilligerdossierDao")
+     * @var VrijwilligerdossierDao
      */
     protected $dao;
 
     /**
+     * @var VrijwilligerDao
+     */
+    private $vrijwilligerDao;
+
+    /**
      * @var ExportInterface
-     *
-     * @DI\Inject("ga.export.vrijwilligerdossiers")
      */
     protected $export;
 
     /**
-     * @var VrijwilligerDaoInterface
-     *
-     * @DI\Inject("AppBundle\Service\VrijwilligerDao")
+     * @param VrijwilligerdossierDao $dao
+     * @param VrijwilligerDao $vrijwilligerDao
+     * @param ExportInterface $export
      */
-    private $vrijwilligerDao;
+    public function __construct(VrijwilligerdossierDao $dao, VrijwilligerDao $vrijwilligerDao, ExportInterface $export)
+    {
+        $this->dao = $dao;
+        $this->vrijwilligerDao = $vrijwilligerDao;
+        $this->export = $export;
+    }
+
 
     /**
      * @Route("/add")

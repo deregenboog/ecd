@@ -12,40 +12,36 @@ use PHPUnit\Framework\TestCase;
 
 class FactuurTest extends TestCase
 {
-    /**
-     * @expectedException \HsBundle\Exception\InvoiceLockedException
-     */
     public function testAddingRegistratieToLockedFactuurResultsInException()
     {
+        $this->expectException(\HsBundle\Exception\InvoiceLockedException::class);
+
         $factuur = new Factuur(new Klant());
         $factuur->lock();
         $factuur->addRegistratie(new Registratie());
     }
 
-    /**
-     * @expectedException \HsBundle\Exception\InvoiceLockedException
-     */
     public function testAddingDeclaratieToLockedFactuurResultsInException()
     {
+        $this->expectException(\HsBundle\Exception\InvoiceLockedException::class);
+
         $factuur = new Factuur(new Klant());
         $factuur->lock();
         $factuur->addDeclaratie(new Declaratie());
     }
 
-    /**
-     * @expectedException \HsBundle\Exception\InvoiceNotLockedException
-     */
     public function testAddingBetalingToUnlockedFactuurResultsInException()
     {
+        $this->expectException(\HsBundle\Exception\InvoiceNotLockedException::class);
+
         $factuur = new Factuur(new Klant());
         $factuur->addBetaling(new Betaling());
     }
 
-    /**
-     * @expectedException \HsBundle\Exception\InvoiceNotLockedException
-     */
     public function testAddingHerinneringToUnlockedFactuurResultsInException()
     {
+        $this->expectException(\HsBundle\Exception\InvoiceNotLockedException::class);
+
         $factuur = new Factuur(new Klant());
         $factuur->addHerinnering(new Herinnering());
     }

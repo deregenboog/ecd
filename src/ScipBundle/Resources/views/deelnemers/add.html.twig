@@ -1,5 +1,5 @@
-{% extends '::add.html.twig' %}
-{% import '::html.macro.twig' as html %}
+{% extends 'add.html.twig' %}
+{% import 'html.macro.twig' as html %}
 
 {% block title %}
     SCIP | {{ title }}
@@ -48,7 +48,7 @@
     {% if creationForm is defined %}
         {% if entity.id %}
             <div class="col-xs-4">
-                {% include '::klant_basis.html.twig' with {klant: entity, module: 'Intake'} %}
+                {% include 'klant_basis.html.twig' with {klant: entity, module: 'Intake'} %}
             </div>
             <div class="col-xs-8">
                 <h2>Aanmelding</h2>
@@ -63,6 +63,9 @@
 {% block scripts %}
     {% if amoc_landen is defined %}
         <script>
+   window.onload = function(){
+      if($){
+
             $(function() {
                 var amoc_landen = [];
                 {% for land in amoc_landen %}
@@ -83,6 +86,9 @@
 
                 checkAmoc();
             });
-        </script>
+
+      }
+   }
+   </script>
     {% endif %}
 {% endblock %}

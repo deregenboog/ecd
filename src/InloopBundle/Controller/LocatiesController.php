@@ -5,6 +5,7 @@ namespace InloopBundle\Controller;
 use AppBundle\Controller\AbstractController;
 use InloopBundle\Entity\Locatie;
 use InloopBundle\Form\LocatieType;
+use InloopBundle\Service\LocatieDao;
 use InloopBundle\Service\LocatieDaoInterface;
 use JMS\DiExtraBundle\Annotation as DI;
 use Symfony\Component\Routing\Annotation\Route;
@@ -23,9 +24,17 @@ class LocatiesController extends AbstractController
     protected $baseRouteName = 'inloop_locaties_';
 
     /**
-     * @var LocatieDaoInterface
-     *
-     * @DI\Inject("InloopBundle\Service\LocatieDao")
+     * @var LocatieDao
      */
     protected $dao;
+
+    /**
+     * @param LocatieDao $dao
+     */
+    public function __construct(LocatieDao $dao)
+    {
+        $this->dao = $dao;
+    }
+
+
 }

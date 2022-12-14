@@ -1,12 +1,12 @@
-{% extends '::base-2-col.html.twig' %}
-{% import '::html.macro.twig' as html %}
+{% extends 'base-2-col.html.twig' %}
+{% import 'html.macro.twig' as html %}
 
 {% block title %}
     {{ title }}
 {% endblock %}
 
 {% block subnavigation %}
-    {% include 'OekraineBundle::subnavigation.html.twig' %}
+    {% include '@Oekraine/subnavigation.html.twig' %}
 {% endblock %}
 
 {% block content_top %}
@@ -19,7 +19,7 @@
 {% block content_left %}
     <h1>Rapportage</h1>
     {{ form(form) }}
-    {% include '::klant_basis.html.twig' with {klant: klant, module: 'Intake'} %}
+    {% include 'klant_basis.html.twig' with {klant: klant, module: 'Intake'} %}
 {% endblock %}
 
 {% block content_right %}

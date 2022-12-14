@@ -14,7 +14,7 @@ use HsBundle\Exception\InvoiceLockedException;
  * @ORM\Entity
  * @ORM\Table(name="hs_declaraties")
  * @Gedmo\Loggable
- * @ORM\HasLifeCycleCallbacks
+ * @ORM\HasLifecycleCallbacks
  */
 class Declaratie implements DocumentSubjectInterface, FactuurSubjectInterface
 {

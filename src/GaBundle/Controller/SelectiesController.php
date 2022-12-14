@@ -10,6 +10,8 @@ use GaBundle\Entity\Dossier;
 use GaBundle\Filter\SelectieFilter;
 use GaBundle\Form\EmailMessageType;
 use GaBundle\Form\SelectieType;
+use Symfony\Component\Mailer\Mailer;
+use Symfony\Component\Mime\Message;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\Form\FormError;
@@ -53,39 +55,39 @@ class SelectiesController extends SymfonyController
      */
     public function emailAction(Request $request)
     {
-        $form = $this->getForm(EmailMessageType::class);
-        $form->handleRequest($this->getRequest());
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            /** @var Swift_Mailer $mailer */
-            $mailer = $this->container->get('mailer');
-
-            /** @var Swift_Mime_Message $message */
-            $message = $mailer->createMessage()
-                ->setFrom($form->get('from')->getData())
-                ->setTo(explode(', ', $form->get('to')->getData()))
-                ->setSubject($form->get('subject')->getData())
-                ->setBody($form->get('text')->getData(), 'text/plain')
-            ;
-
-            try {
-                $sent = $mailer->send($message);
-                if ($sent) {
-                    $this->addFlash('success', 'E-mail is verzonden.');
-                } else {
-                    $this->addFlash('danger', 'E-mail kon niet verzonden worden.');
-                }
-            } catch(UserException $e) {
-//                $this->get('logger')->error($e->getMessage(), ['exception' => $e]);
-                $message =  $e->getMessage();
-                $this->addFlash('danger', $message);
-//                return $this->redirectToRoute('app_klanten_index');
-            } catch (\Exception $e) {
-                $message = $this->container->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
-                $this->addFlash('danger', $message);
-            }
-        }
-
+//        $form = $this->getForm(EmailMessageType::class);
+//        $form->handleRequest($this->getRequest());
+//
+//        if ($form->isSubmitted() && $form->isValid()) {
+//            /** @var Mailer $mailer */
+//            $mailer = $this->container->get('mailer');
+//
+//            /** @var Message $message */
+//            $message = $mailer->createMessage()
+//                ->setFrom($form->get('from')->getData())
+//                ->setTo(explode(', ', $form->get('to')->getData()))
+//                ->setSubject($form->get('subject')->getData())
+//                ->setBody($form->get('text')->getData(), 'text/plain')
+//            ;
+//
+//            try {
+//                $sent = $mailer->send($message);
+//                if ($sent) {
+//                    $this->addFlash('success', 'E-mail is verzonden.');
+//                } else {
+//                    $this->addFlash('danger', 'E-mail kon niet verzonden worden.');
+//                }
+//            } catch(UserException $e) {
+////                $this->logger->error($e->getMessage(), ['exception' => $e]);
+//                $message =  $e->getMessage();
+//                $this->addFlash('danger', $message);
+////                return $this->redirectToRoute('app_klanten_index');
+//            } catch (\Exception $e) {
+//                $message = $this->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
+//                $this->addFlash('danger', $message);
+//            }
+//        }
+        $this->addFlash('success', 'E-mails versturen via selecties is uitgeschakeld.');
         return $this->redirectToRoute('ga_selecties_index');
     }
 
@@ -96,7 +98,7 @@ class SelectiesController extends SymfonyController
         $klanten = $this->getKlanten($filter);
         $vrijwilligers = $this->getVrijwilligers($filter);
 
-        if (0 === count($klanten) + count($vrijwilligers)) {
+        if (0 === (is_array($klanten) || $klanten instanceof \Countable ? count($klanten) : 0) + (is_array($vrijwilligers) || $vrijwilligers instanceof \Countable ? count($vrijwilligers) : 0)) {
             throw new NoResultException();
         }
 
@@ -119,7 +121,7 @@ class SelectiesController extends SymfonyController
         $klanten = $this->getKlanten($filter);
         $vrijwilligers = $this->getVrijwilligers($filter);
 
-        if (0 === count($klanten) + count($vrijwilligers)) {
+        if (0 === (is_array($klanten) || $klanten instanceof \Countable ? count($klanten) : 0) + (is_array($vrijwilligers) || $vrijwilligers instanceof \Countable ? count($vrijwilligers) : 0)) {
             throw new NoResultException();
         }
 
@@ -135,7 +137,7 @@ class SelectiesController extends SymfonyController
             ->getResult()
         ;
 
-        if (0 === count($dossiers)) {
+        if (0 === (is_array($dossiers) || $dossiers instanceof \Countable ? count($dossiers) : 0)) {
             throw new NoResultException();
         }
 
@@ -153,7 +155,7 @@ class SelectiesController extends SymfonyController
     private function getKlanten(SelectieFilter $filter)
     {
         if (in_array('klanten', $filter->personen)) {
-            return $this->get('GaBundle\Service\KlantdossierDao')->findAll(null, $filter);
+            return $this->get(\GaBundle\Service\KlantdossierDao::class)->findAll(null, $filter);
         }
 
         return new ArrayCollection();
@@ -162,7 +164,7 @@ class SelectiesController extends SymfonyController
     private function getVrijwilligers(SelectieFilter $filter)
     {
         if (in_array('vrijwilligers', $filter->personen)) {
-            return $this->get('GaBundle\Service\VrijwilligerdossierDao')->findAll(null, $filter);
+            return $this->get(\GaBundle\Service\VrijwilligerdossierDao::class)->findAll(null, $filter);
         }
 
         return new ArrayCollection();

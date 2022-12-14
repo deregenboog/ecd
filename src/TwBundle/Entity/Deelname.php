@@ -42,7 +42,7 @@ class Deelname
     /**
      * @var Vrijwilliger
      *
-     * @ORM\ManyToOne(targetEntity="Vrijwilliger", inversedBy="deelnames")
+     * @ORM\ManyToOne(targetEntity="Vrijwilliger", inversedBy="trainingDeelnames")
      * @ORM\JoinColumn(name="tw_vrijwilliger_id", nullable=false)
      * @Gedmo\Versioned
      */

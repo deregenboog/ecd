@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace Application\Migrations;
 
@@ -10,10 +12,10 @@ use Doctrine\Migrations\AbstractMigration;
  */
 final class Version20210910085049 extends AbstractMigration
 {
-    public function up(Schema $schema) : void
-        {
-            // this up() migration is auto-generated, please modify it to your needs
-            $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
+    public function up(Schema $schema): void
+    {
+        // this up() migration is auto-generated, please modify it to your needs
+        $this->abortIf('mysql' !== $this->connection->getDatabasePlatform()->getName(), 'Migration can only be executed safely on \'mysql\'.');
 
         $this->addSql('RENAME TABLE `odp_superdocumenten` TO `tw_superdocumenten`');
         $this->addSql('RENAME TABLE `odp_coordinatoren` TO `tw_coordinatoren`');
@@ -59,15 +61,12 @@ final class Version20210910085049 extends AbstractMigration
         $this->addSql("UPDATE `tw_deelnemers` SET model = 'Klant' WHERE model = 'Huurder'");
         $this->addSql("UPDATE `tw_afsluitingen` SET discr = 'klant' WHERE discr = 'huurder'");
 
-            $this->addSql("UPDATE `zrm_reports` SET request_module = 'TwHuurder' WHERE request_module = 'OdpHuurder'");
-
-
+        $this->addSql("UPDATE `zrm_reports` SET request_module = 'TwHuurder' WHERE request_module = 'OdpHuurder'");
     }
 
-    public function down(Schema $schema) : void
+    public function down(Schema $schema): void
     {
         // this down() migration is auto-generated, please modify it to your needs
-        $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
-
+        $this->abortIf('mysql' !== $this->connection->getDatabasePlatform()->getName(), 'Migration can only be executed safely on \'mysql\'.');
     }
 }

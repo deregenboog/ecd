@@ -1,0 +1,122 @@
+{% import 'html.macro.twig' as html %}
+{% if module is not defined %}
+    {% set module = app.request.get('module', 'Klant') %}
+{% endif %}
+
+<h2>Basisgegevens</h2>
+<p>
+    {{ html.link('Bekijken', path('app_klanten_view', {id: klant.id}), 'view') }}
+    {{ html.link('Wijzigen', path('app_klanten_edit', {id: klant.id}), 'edit') }}
+{#    {% if klant.partner.id is not defined %}#}
+{#        {{ html.link('Voeg partner toe', path('app_klanten_addpartner', {klant: klant.id}), 'heart') }}#}
+{#    {% else %}#}
+{#        {{ html.link('Verwijder partner', path('app_klanten_addpartner', {klant: klant.id, 'partner':'remove'}), 'scissors') }}#}
+{#    {% endif %}#}
+</p>
+<dl class="dl-horizontal">
+    <dt>Naam</dt>
+    <dd>{{ klant|naam_voor_achter }}</dd>
+    <dt>Geslacht</dt>
+    <dd>{{ klant.geslacht ? klant.geslacht.volledig }}</dd>
+    <dt>Geboortedatum</dt>
+    <dd>{{ klant.geboortedatum ? klant.geboortedatum|date('d-m-Y') }}</dd>
+    <dt>Geboorteland</dt>
+    <dd>{{ klant.land }}</dd>
+    <dt>Nationaliteit</dt>
+    <dd>{{ klant.nationaliteit }}</dd>
+    <dt>BSN</dt>
+    <dd>{{ klant.bsn }}</dd>
+    <dt>Corona besmet vanaf</dt>
+    <dd class="{{ klant.coronaBesmetVanaf? 'bg-danger' }}">{{ klant.coronaBesmetVanaf ? klant.coronaBesmetVanaf|date('d-m-Y') }}</dd>
+    {% if tbc_countries is defined and klant.land.getNaam() in tbc_countries %}
+        <dt>TBC-check?</dt>
+        <dd>{{ klant.laatsteTbcControle is empty ? "" : klant.laatsteTbcControle|date('d-m-Y') }}</dd>
+    {% endif %}
+    <dt>Medewerker</dt>
+    <dd>{{ klant.medewerker }}</dd>
+    <dt>Maatschappelijk werker</dt>
+    <dd>{{ klant.maatschappelijkWerker }}</dd>
+    {% if klant.overleden %}
+        <span class="text-danger">
+            <dt>Overleden</dt>
+            <dd>Ja</dd>
+        </span>
+    {% endif %}
+    {% if klant.partner is defined and klant.partner is not null%}
+        <dt>Partner</dt>
+        <dd>{{ klant.partner }}   {{ html.link('Verwijder partner', path('app_klanten_addpartner', {klant: klant.id, 'partner':'remove'}), 'scissors') }}</dd>
+    {% elseif klant.id is defined and klant.id is not null %}
+        <dt>Partner</dt>
+        <dd>{{ html.link('Voeg partner toe', path('app_klanten_addpartner', {klant: klant.id}), 'heart') }}</dd>
+    {% endif %}
+</dl>
+
+<h2>Contactgegevens</h2>
+<p>
+    {{ html.link('Bekijken', path('app_klanten_view', {id: klant.id}), 'view') }}
+    {{ html.link('Wijzigen', path('app_klanten_edit', {id: klant.id}), 'edit') }}
+</p>
+<dl class="dl-horizontal">
+    <dt>Adres</dt>
+    <dd>
+        {{ klant.adres }}<br>
+        {{ klant.postcode }} {{ klant.plaats }}
+    </dd>
+    <dt>Stadsdeel / Werkgebied</dt>
+    <dd>{{ klant.werkgebied }}</dd>
+    <dt>Postcodegebied</dt>
+    <dd>{{ klant.postcodegebied }}</dd>
+    <dt>Mobiel</dt>
+    <dd>{{ klant.mobiel }}</dd>
+    <dt>Telefoon</dt>
+    <dd>{{ klant.telefoon }}</dd>
+    <dt>E-mail</dt>
+    <dd>{{ klant.email }}</dd>
+</dl>
+<dl class="dl-horizontal">
+    <dt>Postvoorkeur</dt>
+    <dd>{{ klant.geenPost ? 'Geen post' : 'Wel post' }}</dd>
+    <dt>E-mailvoorkeur</dt>
+    <dd>{{ klant.geenEmail ? 'Geen e-mail' : 'Wel e-mail' }}</dd>
+    <dt>Opmerking</dt>
+    <dd>{{ klant.opmerking|nl2br }}</dd>
+</dl>
+
+{{ render(controller('AppBundle\\Controller\\KlantenController::_dienstenAction', { id: klant.id} )) }}
+
+{%  if module != 'IzIntake' %}
+<h2>ZRMs</h2>
+<p>
+    {{ html.link('ZRM-overzicht', path('app_zrms_index', {'zrm_filter[klant][id]': klant.id}), 'view') }}
+    {{ html.link('ZRM toevoegen', path('app_zrms_add', {klant: klant.id, module: module}), 'add') }}
+</p>
+<table class="table table-hover">
+    <tr>
+        <th>Module</th>
+        <th>Datum</th>
+    </tr>
+    {% for zrm in klant.zrms %}
+        {% if zrm.id is defined and zrm.id > 0 %}
+            <tr data-href="{{ path('app_zrms_view', {id: zrm.id}) }}">
+                <td>{{ zrm.requestModule }}</td>
+                <td>{{ zrm.created|date('d-m-Y') }}</td>
+            </tr>
+        {% endif %}
+    {% endfor %}
+</table>
+{% endif %}
+<h2>Documenten</h2>
+<dl class="dl-horizontal">
+    <dt>Toestemmingsformulier</dt>
+    <dd>
+        {% if klant.toestemmingsformulier %}
+            {{ html.link('Toestemmingsformulier downloaden', vich_uploader_asset(klant.toestemmingsformulier, 'file'), 'download') }}
+
+            {% if klant.toestemmingsformulier.medewerker.id == app.user.id or is_granted('ROLE_ADMIN') %}
+            {{ html.link('', path('app_klanten_deletedocument', {klant: klant.id, documentId: klant.toestemmingsformulier.id}), 'delete') }}
+        {% endif %}
+        {% else %}
+            {{ html.link('Toestemmingsformulier toevoegen', path('app_documenten_add', {klant: klant.id, type: 'toestemming'}), 'add') }}
+        {% endif %}
+    </dd>
+</dl>

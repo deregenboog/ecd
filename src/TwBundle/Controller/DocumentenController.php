@@ -16,10 +16,12 @@ use TwBundle\Entity\Verhuurder;
 use TwBundle\Entity\Vrijwilliger;
 use TwBundle\Exception\TwException;
 use TwBundle\Form\DocumentType;
+use TwBundle\Service\DocumentDao;
 use TwBundle\Service\DocumentDaoInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
+use Vich\UploaderBundle\Handler\DownloadHandler;
 
 /**
  * @Route("/documenten")
@@ -30,20 +32,27 @@ class DocumentenController extends SymfonyController
     public $title = 'Documenten';
 
     /**
-     * @var DocumentDaoInterface
-     *
-     * @DI\Inject("TwBundle\Service\DocumentDao")
+     * @var DocumentDao
      */
     private $dao;
 
     /**
+     * @param DocumentDao $dao
+     */
+    public function __construct(DocumentDao $dao)
+    {
+        $this->dao = $dao;
+    }
+
+
+    /**
      * @Route("/download/{filename}")
      */
-    public function download($filename)
+    public function download($filename, DownloadHandler $downloadHandler)
     {
         $document = $this->dao->findByFilename($filename);
 
-        $downloadHandler = $this->get('vich_uploader.download_handler');
+//        $downloadHandler = $this->get('vich_uploader.download_handler');
 
         return $downloadHandler->downloadObject($document, 'file');
     }
@@ -65,12 +74,12 @@ class DocumentenController extends SymfonyController
                 $entityManager->flush();
                 $this->addFlash('success', 'Document is toegevoegd.');
             } catch(UserException $e) {
-//                $this->get('logger')->error($e->getMessage(), ['exception' => $e]);
+//                $this->logger->error($e->getMessage(), ['exception' => $e]);
                 $message =  $e->getMessage();
                 $this->addFlash('danger', $message);
 //                return $this->redirectToRoute('app_klanten_index');
             } catch (\Exception $e) {
-                $message = $this->container->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
+                $message = $this->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
                 $this->addFlash('danger', $message);
 
                 return $this->redirectToRoute($routeBase.'_index');
@@ -111,12 +120,12 @@ class DocumentenController extends SymfonyController
                 $this->dao->update($entity);
                 $this->addFlash('success', 'Document is bijgewerkt.');
             } catch(UserException $e) {
-//                $this->get('logger')->error($e->getMessage(), ['exception' => $e]);
+//                $this->logger->error($e->getMessage(), ['exception' => $e]);
                 $message =  $e->getMessage();
                 $this->addFlash('danger', $message);
 //                return $this->redirectToRoute('app_klanten_index');
             } catch (\Exception $e) {
-                $message = $this->container->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
+                $message = $this->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
                 $this->addFlash('danger', $message);
             }
 

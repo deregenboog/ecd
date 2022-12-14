@@ -14,7 +14,7 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class AutoCloseCommand extends ContainerAwareCommand
+class AutoCloseCommand extends \Symfony\Component\Console\Command\Command
 {
     private $years = 3;
 
@@ -32,7 +32,7 @@ class AutoCloseCommand extends ContainerAwareCommand
         ;
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         /* @var EntityManager $entityManager */
         $entityManager = $this->getContainer()->get('doctrine.orm.entity_manager');
@@ -47,11 +47,11 @@ class AutoCloseCommand extends ContainerAwareCommand
         } catch (NonUniqueResultException $e) {
             $output->writeln("Reden '{$this->redenPattern}' is niet uniek!");
 
-            return;
+            return 0;
         } catch (NoResultException $e) {
             $output->writeln("Reden '{$this->redenPattern}' niet gevonden!");
 
-            return;
+            return 0;
         }
 
         $klanten = $entityManager->getRepository(Klant::class)->createQueryBuilder('klant')
@@ -67,7 +67,7 @@ class AutoCloseCommand extends ContainerAwareCommand
 
         $output->writeln(sprintf(
             '%d klanten gevonden om af te sluiten met reden "%s" en toelichting "%s"',
-            count($klanten),
+            is_array($klanten) || $klanten instanceof \Countable ? count($klanten) : 0,
             $reden->getNaam(),
             $this->toelichting
         ));
@@ -84,5 +84,6 @@ class AutoCloseCommand extends ContainerAwareCommand
         if (!$input->getOption('dry-run')) {
             $entityManager->flush();
         }
+        return 0;
     }
 }

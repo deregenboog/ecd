@@ -1,5 +1,5 @@
-{% extends '::base.html.twig' %}
-{% import '::html.macro.twig' as html %}
+{% extends 'base.html.twig' %}
+{% import 'html.macro.twig' as html %}
 
 {% block title %}
     Op Eigen Kracht | {{ title }}
@@ -70,5 +70,5 @@
             </ul>
         </dd>
     </dl>
-    {% include '::klant_basis.html.twig' with {klant: entity.klant} %}
+    {% include 'klant_basis.html.twig' with {klant: entity.klant} %}
 {% endblock %}

@@ -3,10 +3,9 @@
 namespace OekraineBundle\Controller;
 
 use AppBundle\Controller\AbstractChildController;
+use AppBundle\Form\DocumentType;
 use OekraineBundle\Entity\Document;
-use OekraineBundle\Form\DocumentType;
-use OekraineBundle\Service\DocumentDaoInterface;
-use JMS\DiExtraBundle\Annotation as DI;
+use OekraineBundle\Service\DocumentDao;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -18,33 +17,27 @@ class DocumentenController extends AbstractChildController
     protected $entityName = 'document';
     protected $entityClass = Document::class;
     protected $formClass = DocumentType::class;
+    protected $formOptions = [
+        'enabled_fields' => ['naam'],
+        'data_class' => Document::class,
+    ];
     protected $addMethod = 'addDocument';
     protected $deleteMethod = 'removeDocument';
     protected $baseRouteName = 'oekraine_documenten_';
 
     /**
-     * @var DocumentDaoInterface
-     *
-     * @DI\Inject("OekraineBundle\Service\DocumentDao")
+     * @var DocumentDao
      */
     protected $dao;
 
     /**
      * @var \ArrayObject
-     *
-     * @DI\Inject("oekraine.document.entities")
      */
     protected $entities;
 
-    /**
-     * @Route("/download/{filename}")
-     */
-    public function downloadAction($filename)
+    public function __construct(DocumentDao $dao, \ArrayObject $entities)
     {
-        $document = $this->dao->findByFilename($filename);
-
-        $downloadHandler = $this->get('vich_uploader.download_handler');
-
-        return $downloadHandler->downloadObject($document, 'file');
+        $this->dao = $dao;
+        $this->entities = $entities;
     }
 }

@@ -8,6 +8,7 @@ use JMS\DiExtraBundle\Annotation as DI;
 use MwBundle\Entity\Document;
 use MwBundle\Entity\Vrijwilliger;
 use MwBundle\Form\DocumentType;
+use MwBundle\Service\DocumentDao;
 use MwBundle\Service\DocumentDaoInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -28,31 +29,26 @@ class DocumentenController extends AbstractChildController
     protected $disabledActions = ['index', 'edit'];
 
     /**
-     * @var DocumentDaoInterface
-     *
-     * @DI\Inject("MwBundle\Service\DocumentDao")
+     * @var DocumentDao
      */
     protected $dao;
 
     /**
      * @var \ArrayObject
-     *
-     * @DI\Inject("mw.document.entities")
      */
     protected $entities;
 
     /**
-     * @Route("/download/{filename}")
+     * @param DocumentDao $dao
+     * @param \ArrayObject $entities
      */
-    public function downloadAction($filename)
+    public function __construct(DocumentDao $dao, \ArrayObject $entities)
     {
-        $document = $this->dao->findByFilename($filename);
-
-        $downloadHandler = $this->get('vich_uploader.download_handler');
-
-
-        return $downloadHandler->downloadObject($document, 'file');
+        $this->dao = $dao;
+        $this->entities = $entities;
     }
+
+
 
     /**
      * @Route("/add")
@@ -60,7 +56,7 @@ class DocumentenController extends AbstractChildController
      */
     public function addAction(Request $request)
     {
-        list($parentEntity, $this->parentDao) = $this->getParentConfig($request);
+        [$parentEntity, $this->parentDao] = $this->getParentConfig($request);
         if($parentEntity instanceof Klant)
         {
             $this->addMethod = null;

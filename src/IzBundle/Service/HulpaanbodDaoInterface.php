@@ -31,10 +31,10 @@ interface HulpaanbodDaoInterface
     /**
      * @param Hulpaanbod $koppeling
      */
-    public function update(Hulpaanbod $entity);
+    public function update(Hulpaanbod $koppeling);
 
     /**
      * @param Hulpaanbod $koppeling
      */
-    public function delete(Hulpaanbod $entity);
+    public function delete(Hulpaanbod $koppeling);
 }

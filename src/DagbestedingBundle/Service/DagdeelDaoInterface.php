@@ -8,10 +8,10 @@ use Knp\Component\Pager\Pagination\PaginationInterface;
 
 interface DagdeelDaoInterface
 {
-    const FASE_BEGINSTAND = 'beginstand';
-    const FASE_GESTART = 'gestart';
-    const FASE_GESTOPT = 'gestopt';
-    const FASE_EINDSTAND = 'eindstand';
+    public const FASE_BEGINSTAND = 'beginstand';
+    public const FASE_GESTART = 'gestart';
+    public const FASE_GESTOPT = 'gestopt';
+    public const FASE_EINDSTAND = 'eindstand';
 
     /**
      * @param int             $page

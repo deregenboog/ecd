@@ -1,0 +1,81 @@
+{% import 'html.macro.twig' as html %}
+
+{% if is_granted('CONTROLLER_APP_KLANTEN') %}
+    {{ html.navLink('Klanten', path('app_klanten_index'), isActiveRoute('app_klanten_') or isActiveRoute('app_zrms_')) }}
+{% endif %}
+{% if is_granted('CONTROLLER_APP_VRIJWILLIGERS') %}
+    {{ html.navLink('Vrijwilligers', path('app_vrijwilligers_index'), isActiveRoute('app_vrijwilligers_')) }}
+{% endif %}
+{% if is_granted('ROLE_ADMIN') %}
+    {{ html.navLink('Medewerkers', path('app_medewerkers_index'), isActiveRoute('app_medewerkers_')) }}
+{% endif %}
+{% if is_granted('CONTROLLER_APP_RAPPORTAGES') %}
+    {{ html.navLink('Rapportages', path('app_rapportages_index'), isActiveRoute('app_rapportages_')) }}
+{% endif %}
+{% if is_granted('ROLE_INLOOP') %}
+    {{ html.navLink('Inloophuizen', path('inloop_index'), isActiveRoute('inloop_')) }}
+{% endif %}
+{% if is_granted('ROLE_OEKRAINE') %}
+    {{ html.navLink('Oekraine', path('oekraine_index'), isActiveRoute('oekraine_')) }}
+{% endif %}
+{% if is_granted('ROLE_MW') %}
+    {{ html.navLink('Maatschappelijk werk', path('mw_index'), isActiveRoute('mw_')) }}
+{% endif %}
+{% if is_granted('ROLE_BUURTBOERDERIJ') %}
+    {{ html.navLink('Buurtboerderij', path('buurtboerderij_index'), isActiveRoute('buurtboerderij_')) }}
+{% endif %}
+{% if is_granted('ROLE_CLIP') %}
+    {{ html.navLink('CLIP', path('clip_index'), isActiveRoute('clip_')) }}
+{% endif %}
+{% if is_granted('ROLE_DAGBESTEDING') %}
+    {{ html.navLink('Dagbesteding', path('dagbesteding_index'), isActiveRoute('dagbesteding_')) }}
+{% endif %}
+{% if is_granted('ROLE_EROPUIT') %}
+    {{ html.navLink('ErOpUit-kalender', path('eropuit_index'), isActiveRoute('eropuit_')) }}
+{% endif %}
+{% if is_granted('ROLE_GA') %}
+    {{ html.navLink('Groepsactiviteiten', path('ga_index'), isActiveRoute('ga_')) }}
+{% endif %}
+{% if is_granted('ROLE_HOMESERVICE') %}
+    {{ html.navLink('Homeservice', path('hs_index'), isActiveRoute('hs_')) }}
+{% endif %}
+{% if is_granted('ROLE_IZ') %}
+    {{ html.navLink('Informele zorg', path('iz_index'), isActiveRoute('iz_')) }}
+{% endif %}
+{% if is_granted('ROLE_TW') %}
+    {{ html.navLink('Tijdelijk wonen', path('tw_index'), isActiveRoute('tw_')) }}
+{% endif %}
+{% if is_granted('ROLE_OEK') %}
+    {{ html.navLink('Op eigen kracht', path('oek_index'), isActiveRoute('oek_')) }}
+{% endif %}
+{% if is_granted('ROLE_PFO') %}
+    {{ html.navLink('PFO', path('pfo_index'), isActiveRoute('pfo_')) }}
+{% endif %}
+{#{% if is_granted('ROLE_SCIP') %}#}
+{#    {{ html.navLink('SCIP', path('scip_index'), isActiveRoute('scip_')) }}#}
+{#{% endif %}#}
+{% if is_granted('ROLE_UHK') %}
+    {{ html.navLink('Uit het Krijt', path('uhk_index'), isActiveRoute('uhk_')) }}
+{% endif %}
+{% if is_granted('ROLE_VILLA') %}
+    {{ html.navLink('Villa', path('villa_vrijwilligers_index'), isActiveRoute('villa_')) }}
+{% endif %}
+{% if is_granted('ROLE_ADMIN') %}
+    <li role="presentation" class="dropdown {{ isActivePath('inloop/admin') ? 'active' }}">
+        <a class="dropdown-toggle active" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+            Beheer <span class="caret"></span>
+        </a>
+        <ul class="dropdown-menu">
+            {{ html.navLink('Landen', path('app_landen_index'), isActiveRoute('app_landen_')) }}
+            {{ html.navLink('Postcodes', path('app_postcodes_index'), isActiveRoute('app_postcodes_')) }}
+            {# @todo
+            {{ html.navLink('Geslachten', path('app_geslachten_index'), isActiveRoute('app_geslachten_')) }}
+            {{ html.navLink('Inkomens', path('app_geslachten_index'), isActiveRoute('app_geslachten_')) }}
+            {{ html.navLink('Instanties', path('app_geslachten_index'), isActiveRoute('app_geslachten_')) }}
+            {{ html.navLink('Legitimatiebewijzen', path('app_geslachten_index'), isActiveRoute('app_geslachten_')) }}
+            {{ html.navLink('Nationaliteiten', path('app_geslachten_index'), isActiveRoute('app_geslachten_')) }}
+            {{ html.navLink('Redenen', path('app_geslachten_index'), isActiveRoute('app_geslachten_')) }}
+            #}
+        </ul>
+    </li>
+{% endif %}

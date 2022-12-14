@@ -1,5 +1,5 @@
-{% extends '::base.html.twig' %}
-{% import '::html.macro.twig' as html %}
+{% extends 'base.html.twig' %}
+{% import 'html.macro.twig' as html %}
 {% import _self as macro %}
 
 {% block title %}
@@ -7,7 +7,7 @@
 {% endblock %}
 
 {% block subnavigation %}
-    {% include 'AppBundle::subnavigation.html.twig' %}
+    {% include '@App/subnavigation.html.twig' %}
 {% endblock %}
 
 {% block content %}
@@ -60,6 +60,9 @@
 
 {% block scripts %}
     <script>
+   window.onload = function(){
+      if($){
+
         $(function() {
             $('.copy-paste').click(function() {
                 var value = $(this).children('.value').text();
@@ -78,7 +81,10 @@
                 }
             });
         });
-    </script>
+
+      }
+   }
+   </script>
 {% endblock %}
 
 {% macro mergeRow(klanten, form, filter) %}

@@ -10,6 +10,7 @@ use InloopBundle\Entity\Vrijwilliger;
 use InloopBundle\Form\VrijwilligerCloseType;
 use InloopBundle\Form\VrijwilligerFilterType;
 use InloopBundle\Form\VrijwilligerType;
+use InloopBundle\Service\VrijwilligerDao;
 use InloopBundle\Service\VrijwilligerDaoInterface;
 use JMS\DiExtraBundle\Annotation as DI;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
@@ -31,25 +32,31 @@ class VrijwilligersController extends VrijwilligersControllerAbstract
     protected $baseRouteName = 'inloop_vrijwilligers_';
 
     /**
-     * @var VrijwilligerDaoInterface
-     *
-     * @DI\Inject("InloopBundle\Service\VrijwilligerDao")
+     * @var VrijwilligerDao
      */
     protected $dao;
 
     /**
+     * @var \AppBundle\Service\VrijwilligerDao
+     */
+    protected $vrijwilligerDao;
+
+    /**
      * @var ExportInterface
-     *
-     * @DI\Inject("inloop.export.vrijwilliger")
      */
     protected $export;
 
     /**
-     * @var VrijwilligerDaoInterface
-     *
-     * @DI\Inject("AppBundle\Service\VrijwilligerDao")
+     * @param VrijwilligerDao $dao
+     * @param \AppBundle\Service\VrijwilligerDao $vrijwilligerDao
+     * @param ExportInterface $export
      */
-    protected $vrijwilligerDao;
+    public function __construct(VrijwilligerDao $dao, \AppBundle\Service\VrijwilligerDao $vrijwilligerDao, ExportInterface $export)
+    {
+        $this->dao = $dao;
+        $this->vrijwilligerDao = $vrijwilligerDao;
+        $this->export = $export;
+    }
 
 
 }

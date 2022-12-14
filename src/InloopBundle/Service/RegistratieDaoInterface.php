@@ -10,8 +10,8 @@ use Knp\Component\Pager\Pagination\PaginationInterface;
 
 interface RegistratieDaoInterface
 {
-    const TYPE_NIGHT = true;
-    const TYPE_DAY = false;
+    public const TYPE_NIGHT = true;
+    public const TYPE_DAY = false;
 
     /**
      * @param int             $page
@@ -65,7 +65,7 @@ interface RegistratieDaoInterface
     public function delete(Registratie $entity);
 
     /**
-     * @param Registratie $entity
+     * @param Registratie $registratie
      * @param \DateTime   $time
      *
      * @return Registratie

@@ -17,6 +17,7 @@ use InloopBundle\Pdf\PdfIntake;
 use InloopBundle\Security\Permissions;
 use InloopBundle\Service\IntakeDaoInterface;
 use JMS\DiExtraBundle\Annotation as DI;
+use MwBundle\Service\IntakeDao;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\HttpFoundation\Cookie;
 use Symfony\Component\HttpFoundation\Session\Flash\FlashBag;
@@ -41,19 +42,22 @@ class IntakesController extends AbstractController
     protected $baseRouteName = 'mw_intakes_';
 
     /**
-     * @var IntakeDaoInterface
-     *
-     * @DI\Inject("MwBundle\Service\IntakeDao")
+     * @var IntakeDao
      */
     protected $dao;
 
-//     /**
-//      * @var ExportInterface
-//      *
-//      * @DI\Inject("inloop.export.intakes")
-//      */
-//     protected $export;
-
+    /**
+     * @var array $tbc_countries List of countries where TBC check is mandatory
+     */
+    protected $tbc_countries = [];
+    /**
+     * @param IntakeDao $dao
+     */
+    public function __construct(IntakeDao $dao, $tbc_countries=[])
+    {
+        $this->dao = $dao;
+        $this->tbc_countries=$tbc_countries;
+    }
 
 
     /**
@@ -113,13 +117,13 @@ class IntakesController extends AbstractController
                 $this->dao->create($entity);
                 $this->addFlash('success', ucfirst($this->entityName).' is opgeslagen.');
             } catch(UserException $e) {
-//                $this->get('logger')->error($e->getMessage(), ['exception' => $e]);
+//                $this->logger->error($e->getMessage(), ['exception' => $e]);
                 $message =  $e->getMessage();
                 $this->addFlash('danger', $message);
 //                return $this->redirectToRoute('app_klanten_index');
             } catch (\Exception $e) {
-                $this->get('logger')->error($e->getMessage(), ['exception' => $e]);
-                $message = $this->container->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
+                $this->logger->error($e->getMessage(), ['exception' => $e]);
+                $message = $this->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
                 $this->addFlash('danger', $message);
             }
 
@@ -129,7 +133,7 @@ class IntakesController extends AbstractController
         return [
             'entity' => $entity,
             'form' => $form->createView(),
-            'tbc_countries'=>$this->container->getParameter('tbc_countries'),
+            'tbc_countries'=>$this->tbc_countries,
         ];
     }
 
@@ -210,7 +214,7 @@ class IntakesController extends AbstractController
     protected function addParams($entity, Request $request)
     {
         return [
-            'tbc_countries' => $this->container->getParameter('tbc_countries'),
+            'tbc_countries' => $this->tbc_countries,
 
         ];
     }

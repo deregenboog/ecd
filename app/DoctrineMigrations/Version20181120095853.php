@@ -2,21 +2,18 @@
 
 namespace Application\Migrations;
 
-use Doctrine\Migrations\AbstractMigration;
 use Doctrine\DBAL\Schema\Schema;
+use Doctrine\Migrations\AbstractMigration;
 
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
 class Version20181120095853 extends AbstractMigration
 {
-    /**
-     * @param Schema $schema
-     */
-    public function up(Schema $schema)
+    public function up(Schema $schema): void
     {
         // this up() migration is auto-generated, please modify it to your needs
-        $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
+        $this->abortIf('mysql' !== $this->connection->getDatabasePlatform()->getName(), 'Migration can only be executed safely on \'mysql\'.');
 
         $this->addSql('DROP VIEW eropuit_klanten');
         $this->addSql('DROP VIEW eropuit_vrijwilligers');
@@ -29,10 +26,7 @@ class Version20181120095853 extends AbstractMigration
         $this->addSql('ALTER TABLE eropuit_vrijwilligers ADD CONSTRAINT FK_3D566A3E5D010236 FOREIGN KEY (uitschrijfreden_id) REFERENCES eropuit_uitschrijfredenen (id)');
     }
 
-    /**
-     * @param Schema $schema
-     */
-    public function down(Schema $schema)
+    public function down(Schema $schema): void
     {
         $this->throwIrreversibleMigrationException();
     }

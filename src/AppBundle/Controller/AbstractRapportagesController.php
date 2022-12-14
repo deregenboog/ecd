@@ -2,7 +2,9 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\Exception\AppException;
 use AppBundle\Exception\ReportException;
+use AppBundle\Export\ExportInterface;
 use AppBundle\Report\AbstractReport;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
@@ -12,6 +14,21 @@ use Symfony\Component\HttpFoundation\Request;
 abstract class AbstractRapportagesController extends SymfonyController
 {
     protected $title = 'Rapportages';
+
+    /**
+     * @var iterable $reports
+     */
+    protected $reports;
+
+
+    /**
+     * @param ExportInterface $export
+     */
+    public function __construct(ExportInterface $export, iterable $reports)
+    {
+        $this->export = $export;
+        $this->reports = $reports;
+    }
 
     /**
      * @Route("/")
@@ -25,9 +42,14 @@ abstract class AbstractRapportagesController extends SymfonyController
 
         $formOptions = [];
         if ($request->query->has('rapportage')) {
+            $rapport = $request->query->get('rapportage')['rapport'];
             // get reporting service
             /** @var AbstractReport $report */
-            $report = $this->container->get($request->query->get('rapportage')['rapport']);
+            $report = $this->getReport($rapport);
+            if(!$report) throw new AppException("Report cannot be found");
+
+//            $report = $this->container->get($request->query->get('rapportage')['rapport']);
+//            $report = $this->get($request->query->get('rapportage')['rapport']);
             $formOptions = $report->getFormOptions();
         }
 
@@ -35,9 +57,10 @@ abstract class AbstractRapportagesController extends SymfonyController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            // get reporting service
             /* @var AbstractReport $report */
-            $report = $this->container->get($form->get('rapport')->getData());
+            $report = $this->getReport($form->get('rapport')->getData());
+            if(!$report) throw new AppException("Report not found");
+
             $report->setFilter($form->getData());
 
             try {
@@ -68,6 +91,16 @@ abstract class AbstractRapportagesController extends SymfonyController
         ];
     }
 
+    protected function getReport($name)
+    {
+        foreach($this->reports as $k=>$v)
+        {
+            $c = get_class($v);
+            if($c == $name) return $v;
+        }
+        return false;
+    }
+
     protected function download(AbstractReport $report)
     {
         ini_set('memory_limit', '512M');
@@ -88,4 +121,6 @@ abstract class AbstractRapportagesController extends SymfonyController
 
         return $this->export->create($data)->getResponse($filename);
     }
+
+
 }

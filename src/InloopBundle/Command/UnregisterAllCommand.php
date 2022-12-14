@@ -8,7 +8,7 @@ use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class UnregisterAllCommand extends ContainerAwareCommand
+class UnregisterAllCommand extends \Symfony\Component\Console\Command\Command
 {
     /**
      * @var \DateTime
@@ -19,6 +19,11 @@ class UnregisterAllCommand extends ContainerAwareCommand
      * @var RegistratieDaoInterface
      */
     private $registratieDao;
+    public function __construct(\InloopBundle\Service\RegistratieDao $registratieDao)
+    {
+        $this->registratieDao = $registratieDao;
+        parent::__construct();
+    }
 
     protected function configure()
     {
@@ -28,10 +33,10 @@ class UnregisterAllCommand extends ContainerAwareCommand
     protected function initialize(InputInterface $input, OutputInterface $output)
     {
         $this->now = new \DateTime();
-        $this->registratieDao = $this->getContainer()->get('InloopBundle\Service\RegistratieDao');
+        $this->registratieDao = $this->registratieDao;
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $hour = (int) $this->now->format('H');
 
@@ -44,10 +49,11 @@ class UnregisterAllCommand extends ContainerAwareCommand
         } else {
             $output->writeln('This command must be run between 0:00 and 3:00 or between 12:00 and 15:00');
 
-            return;
+            return 0;
         }
 
         $output->writeln('Complete!');
+        return 0;
     }
 
     public function automaticCheckOut($type, OutputInterface $output)

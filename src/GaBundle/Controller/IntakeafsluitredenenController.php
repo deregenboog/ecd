@@ -7,7 +7,7 @@ use GaBundle\Entity\IntakeAfsluitreden;
 use GaBundle\Form\IntakeAfsluitredenType;
 use JMS\DiExtraBundle\Annotation as DI;
 use Symfony\Component\Routing\Annotation\Route;
-use GaBundle\Service\IntakeAfsluitredenDaoInterface;
+use GaBundle\Service\IntakeAfsluitredenDao;
 
 /**
  * @Route("/intakeafsluitredenen")
@@ -22,9 +22,9 @@ class IntakeafsluitredenenController extends AbstractController
     protected $baseRouteName = 'ga_intakeafsluitredenen_';
 
     /**
-     * @var IntakeAfsluitredenDaoInterface
-     *
-     * @DI\Inject("GaBundle\Service\IntakeAfsluitredenDao")
+     * @var IntakeAfsluitredenDao 
      */
     protected $dao;
+
+
 }

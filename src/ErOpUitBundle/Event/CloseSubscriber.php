@@ -66,6 +66,7 @@ class CloseSubscriber implements EventSubscriberInterface
 
     private function hasErOpUitSubscription(Persoon $persoon)
     {
+        $erOpUit = null;
         if ($persoon instanceof Klant) {
             $erOpUit = $this->entityManager->getRepository(ErOpUitBundle\Entity\Klant::class)
                 ->findOneBy(['klant' => $persoon]);

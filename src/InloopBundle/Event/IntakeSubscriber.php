@@ -4,23 +4,22 @@ namespace InloopBundle\Event;
 
 use InloopBundle\Entity\Intake;
 use InloopBundle\Service\AccessUpdater;
-use InloopBundle\Service\KlantDao;
 use InloopBundle\Service\KlantDaoInterface;
-use MwBundle\Entity\Aanmelding;
 use Psr\Log\LoggerInterface;
-use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
+use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
+use Symfony\Component\Mailer\Exception\TransportException;
+use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Component\Mime\Address;
+use Twig\Environment;
 
 class IntakeSubscriber implements EventSubscriberInterface
 {
-    /**
-     * @var KlantDao
-     */
-    private $klantDao;
-    private $logger;
-    private $templating;
-    private $mailer;
+    private KlantDaoInterface $klantDao;
+    private LoggerInterface $logger;
+    private Environment $twig;
+    private MailerInterface $mailer;
     private $informeleZorgEmail;
     private $dagbestedingEmail;
     private $inloophuisEmail;
@@ -29,8 +28,8 @@ class IntakeSubscriber implements EventSubscriberInterface
     public function __construct(
         KlantDaoInterface $klantDao,
         LoggerInterface $logger,
-        EngineInterface $templating,
-        \Swift_Mailer $mailer,
+        Environment $twig,
+        MailerInterface $mailer,
         AccessUpdater $accessUpdater,
         $informeleZorgEmail,
         $dagbestedingEmail,
@@ -38,7 +37,7 @@ class IntakeSubscriber implements EventSubscriberInterface
     ) {
         $this->klantDao = $klantDao;
         $this->logger = $logger;
-        $this->templating = $templating;
+        $this->twig = $twig;
         $this->mailer = $mailer;
         $this->accessUpdater = $accessUpdater;
         $this->informeleZorgEmail = $informeleZorgEmail;
@@ -56,6 +55,7 @@ class IntakeSubscriber implements EventSubscriberInterface
 
     public function afterIntakeCreated(GenericEvent $event)
     {
+
         $intake = $event->getSubject();
         if (!$intake instanceof Intake) {
             return;
@@ -114,25 +114,30 @@ class IntakeSubscriber implements EventSubscriberInterface
             return;
         }
 
-        $content = $this->templating->render('InloopBundle:intakes:aanmelding.txt.twig', [
-            'intake' => $intake,
-        ]);
+//        $content = $this->twig->render('InloopBundle:intakes:aanmelding.txt.twig', [
+//            'intake' => $intake,
+//        ]);
 
-        /** @var \Swift_Mime_Message $message */
-        $message = $this->mailer->createMessage()
-            ->setFrom('noreply@deregenboog.org')
-            ->setTo($addresses)
-            ->setSubject('Verzoek')
-            ->setBody($content, 'text/plain')
+        $message = (new TemplatedEmail())
+            ->addFrom(new Address($intake->getMedewerker()->getEmail(),'ECD Inloop Intake ('.$intake->getMedewerker()->getNaam().')'))
+            ->subject("Verzoek (Inloop intake)")
+            ->textTemplate('@Inloop\intakes\aanmelding.txt.twig')
+            ->context([
+                'intake'=>$intake
+            ])
         ;
+        foreach($addresses as $rcpt)
+        {
+            $message->addTo($rcpt);
+        }
 
         try {
             $sent = $this->mailer->send($message);
-        } catch (\Exception $e) {
+        } catch (TransportException $e) {
             $sent = false;
         }
 
-        if ($sent) {
+        if ($sent === null) {
             $this->logger->debug('Email intake verzonden', ['intake' => $intake->getId(), 'to' => $addresses]);
         } else {
             $this->logger->error('Email intake kon niet worden verzonden', ['intake' => $intake->getId(), 'to' => $addresses]);

@@ -13,7 +13,7 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputArgument;
 
-class FixDossierstatusCommand extends ContainerAwareCommand
+class FixDossierstatusCommand extends \Symfony\Component\Console\Command\Command
 {
     /**
      * @var EntityManager
@@ -31,7 +31,7 @@ class FixDossierstatusCommand extends ContainerAwareCommand
         $this->addOption('id', null,InputArgument::OPTIONAL, 'Only for this klantId');
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $this->manager = $this->getContainer()->get('doctrine.orm.entity_manager');
 
@@ -46,7 +46,7 @@ class FixDossierstatusCommand extends ContainerAwareCommand
 
 
 
-        $output->writeln(sprintf('%d MwKlanten gevonden from id: %d', count($mwKlanten),$fromId));
+        $output->writeln(sprintf('%d MwKlanten gevonden from id: %d', is_array($mwKlanten) || $mwKlanten instanceof \Countable ? count($mwKlanten) : 0,$fromId));
 
 
 
@@ -71,6 +71,7 @@ class FixDossierstatusCommand extends ContainerAwareCommand
             $this->manager->flush();
         }
         $output->writeln('Succesvol afgerond');
+        return 0;
     }
 
     private function getKlanten()

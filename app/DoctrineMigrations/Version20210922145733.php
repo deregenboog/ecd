@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace Application\Migrations;
 
@@ -10,10 +12,10 @@ use Doctrine\Migrations\AbstractMigration;
  */
 final class Version20210922145733 extends AbstractMigration
 {
-    public function up(Schema $schema) : void
+    public function up(Schema $schema): void
     {
         // this up() migration is auto-generated, please modify it to your needs
-        $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
+        $this->abortIf('mysql' !== $this->connection->getDatabasePlatform()->getName(), 'Migration can only be executed safely on \'mysql\'.');
 
 //        $this->addSql('ALTER TABLE tw_deelnemers DROP FOREIGN KEY FK_20283999C0B11400');
         $this->addSql('CREATE TABLE tw_inkomen (id INT AUTO_INCREMENT NOT NULL, label VARCHAR(255) NOT NULL, `order` INT NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8 COLLATE `utf8_general_ci` ENGINE = InnoDB');
@@ -38,7 +40,7 @@ final class Version20210922145733 extends AbstractMigration
 
         $this->addSql('INSERT INTO tw_pandeigenaartype (`naam`,`active`, created, modified) VALUES ("Eigendom verhuurder",1, NOW(),NOW()),("Hotel",1, NOW(),NOW()),("Vastgoedbeheerder",1, NOW(),NOW()),("Leegstandbeheerder",1, NOW(),NOW())');
 
-        $this->addSql('INSERT INTO tw_inkomen (`label`,`order`) VALUES 
+        $this->addSql('INSERT INTO tw_inkomen (`label`,`order`) VALUES
                                     ("Werk",10),
                                     ("Geen inkomen",20),
                                     ("Uitkering: bijstand/WPI (volledig)",30),
@@ -48,14 +50,14 @@ final class Version20210922145733 extends AbstractMigration
                                     ("Uitkering: AOW",70),
                                     ("Uitkering: Overig",80),
                                     ("Studiefinanciering",90),
-                                    ("Overig",100)                                    
+                                    ("Overig",100)
                             ');
     }
 
-    public function down(Schema $schema) : void
+    public function down(Schema $schema): void
     {
         // this down() migration is auto-generated, please modify it to your needs
-        $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
+        $this->abortIf('mysql' !== $this->connection->getDatabasePlatform()->getName(), 'Migration can only be executed safely on \'mysql\'.');
 
         $this->addSql('ALTER TABLE tw_deelnemers DROP FOREIGN KEY FK_E4317256DE7E5B0');
         $this->addSql('ALTER TABLE tw_deelnemers DROP FOREIGN KEY FK_E43172565721A070');
@@ -64,7 +66,6 @@ final class Version20210922145733 extends AbstractMigration
         $this->addSql('DROP TABLE tw_pandeigenaartype');
         $this->addSql('DROP TABLE tw_pandeigenaar');
 
-
         $this->addSql('DROP INDEX IDX_E4317256DE7E5B0 ON tw_deelnemers');
         $this->addSql('DROP INDEX IDX_E43172565721A070 ON tw_deelnemers');
         $this->addSql('ALTER TABLE tw_deelnemers ADD woningbouwcorporatie_id INT DEFAULT NULL, ADD inschrijvingWoningnet_id INT DEFAULT NULL, DROP inkomen_id, DROP pandeigenaar_id, DROP kwijtschelding, DROP verhuurprijs, CHANGE project_id project_id INT DEFAULT NULL, CHANGE pandeigenaar_toelichting woningbouwcorporatie_toelichting VARCHAR(255) CHARACTER SET utf8 DEFAULT NULL COLLATE `utf8_general_ci`');
@@ -72,7 +73,5 @@ final class Version20210922145733 extends AbstractMigration
         $this->addSql('ALTER TABLE tw_deelnemers ADD CONSTRAINT FK_E4317256D00EBD32 FOREIGN KEY (inschrijvingWoningnet_id) REFERENCES tw_inschrijvingwoningnet (id)');
         $this->addSql('CREATE INDEX IDX_E4317256D00EBD32 ON tw_deelnemers (inschrijvingWoningnet_id)');
         $this->addSql('CREATE INDEX IDX_E4317256C0B11400 ON tw_deelnemers (woningbouwcorporatie_id)');
-
-
     }
 }

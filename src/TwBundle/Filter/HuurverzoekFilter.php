@@ -122,20 +122,20 @@ class HuurverzoekFilter implements FilterInterface
             ;
         }
         else {
-            $builder
-                ->andWhere('huurovereenkomst.id IS NULL');
+//            $builder
+//                ->andWhere('huurovereenkomst.id IS NULL');
         }
 
         if ($this->klant) {
             $this->klant->applyTo($builder,'appKlant');
         }
         if ($this->huisgenoot) {
-            
+
             $builder->andWhere('klant.huisgenoot = :huisgenoot')
                 ->setParameter("huisgenoot",$this->huisgenoot);
         }
 
-        if($this->project && count($this->project)>0)
+        if($this->project && (is_array($this->project) || $this->project instanceof \Countable ? count($this->project) : 0)>0)
         {
             $builder->innerJoin('huurverzoek.projecten', 'project')
                 ->andWhere('project.id IN (:project)')
@@ -144,7 +144,7 @@ class HuurverzoekFilter implements FilterInterface
 
         $q = $builder->getQuery();
         $dql = $builder->getDQL();
-//        $sql = $q->getSQL();
+        $sql = $q->getSQL();
 
 
     }

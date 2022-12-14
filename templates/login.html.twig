@@ -1,0 +1,24 @@
+{% extends 'base.html.twig' %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    {{ encore_entry_link_tags('signin') }}
+{% endblock %}
+
+{% block content %}
+    <form autocomplete="off" class="form-signin" action="{{ path('login') }}" method="post">
+        <h2>Inloggen</h2>
+
+        {% if error %}
+            <p class="text-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</p>
+        {% endif %}
+
+        <label for="username" class="sr-only">Gebruikersnaam</label>
+        <input type="text" id="username" name="_username" value="{{ last_username }}" class="form-control" placeholder="Gebruikersnaam" required autofocus>
+
+        <label for="password" class="sr-only">Wachtwoord</label>
+        <input type="password" id="password" name="_password" class="form-control" placeholder="Wachtwoord" required>
+
+        <button class="btn btn-lg btn-primary btn-block" type="submit">Inloggen</button>
+    </form>
+{% endblock %}

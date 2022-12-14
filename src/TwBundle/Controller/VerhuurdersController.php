@@ -19,6 +19,7 @@ use TwBundle\Form\VerhuurderCloseType;
 use TwBundle\Form\VerhuurderFilterType;
 use TwBundle\Form\VerhuurderSelectType;
 use TwBundle\Form\VerhuurderType;
+use TwBundle\Service\VerhuurderDao;
 use TwBundle\Service\VerhuurderDaoInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
@@ -45,24 +46,31 @@ class VerhuurdersController extends AbstractController
 
 
     /**
-     * @var VerhuurderDaoInterface
-     *
-     * @DI\Inject("TwBundle\Service\VerhuurderDao")
+     * @var VerhuurderDao
      */
     protected $dao;
 
     /**
-     * @var KlantDaoInterface
-     * @DI\Inject("AppBundle\Service\KlantDao")
+     * @var KlantDao
      */
     protected $searchDao;
 
     /**
      * @var ExportInterface
-     *
-     * @DI\Inject("tw.export.verhuurders")
      */
     protected $export;
+
+    /**
+     * @param VerhuurderDao $dao
+     * @param KlantDao $searchDao
+     * @param ExportInterface $export
+     */
+    public function __construct(VerhuurderDao $dao, KlantDao $searchDao, ExportInterface $export)
+    {
+        $this->dao = $dao;
+        $this->searchDao = $searchDao;
+        $this->export = $export;
+    }
 
 
     protected function getDownloadFilename()
@@ -196,12 +204,12 @@ class VerhuurdersController extends AbstractController
 
                 $this->addFlash('success', 'Verhuurder is afgesloten.');
             } catch(UserException $e) {
-//                $this->get('logger')->error($e->getMessage(), ['exception' => $e]);
+//                $this->logger->error($e->getMessage(), ['exception' => $e]);
                 $message =  $e->getMessage();
                 $this->addFlash('danger', $message);
 //                return $this->redirectToRoute('app_klanten_index');
             } catch (\Exception $e) {
-                $message = $this->container->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
+                $message = $this->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
                 $this->addFlash('danger', $message);
             }
 
@@ -233,12 +241,12 @@ class VerhuurdersController extends AbstractController
 
                     $this->addFlash('success', 'Klant is heropend.');
                 } catch(UserException $e) {
-//                $this->get('logger')->error($e->getMessage(), ['exception' => $e]);
+//                $this->logger->error($e->getMessage(), ['exception' => $e]);
                     $message =  $e->getMessage();
                     $this->addFlash('danger', $message);
 //                return $this->redirectToRoute('app_klanten_index');
                 } catch (\Exception $e) {
-                    $message = $this->container->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
+                    $message = $this->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
                     $this->addFlash('danger', $message);
                 }
             }

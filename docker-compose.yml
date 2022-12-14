@@ -2,17 +2,24 @@ version: '3.9'
 
 services:
   database:
-    image: ecd_database
+    build:
+      context: docker/mysql
+      dockerfile: Dockerfile
   web:
     build: .
     ports:
       - 80:80
     volumes:
-      - "${PWD}:/var/www/html"
+      - ${PWD}/app:/var/www/html/app
+      - ${PWD}/archive:/var/www/html/archive
+      - ${PWD}/bin:/var/www/html/bin
+      - ${PWD}/config:/var/www/html/config
+      - ${PWD}/public:/var/www/html/public
+      - ${PWD}/src:/var/www/html/src
+      - ${PWD}/templates:/var/www/html/templates
+      - ${PWD}/tests:/var/www/html/tests
     environment:
-      MYSQL_DATABASE: ecd
-      MYSQL_USER: ecd
-      MYSQL_PASSWORD: ecd
+      DATABASE_URL: "mysql://ecd:ecd@database:3306/ecd?serverVersion=8.0&charset=utf8"
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
     ports:

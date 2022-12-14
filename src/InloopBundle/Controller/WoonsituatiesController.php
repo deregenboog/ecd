@@ -5,6 +5,7 @@ namespace InloopBundle\Controller;
 use AppBundle\Controller\AbstractController;
 use InloopBundle\Entity\Woonsituatie;
 use InloopBundle\Form\WoonsituatieType;
+use InloopBundle\Service\WoonsituatieDao;
 use InloopBundle\Service\WoonsituatieDaoInterface;
 use JMS\DiExtraBundle\Annotation as DI;
 use Symfony\Component\Routing\Annotation\Route;
@@ -23,9 +24,17 @@ class WoonsituatiesController extends AbstractController
     protected $baseRouteName = 'inloop_woonsituaties_';
 
     /**
-     * @var WoonsituatieDaoInterface
-     *
-     * @DI\Inject("InloopBundle\Service\WoonsituatieDao")
+     * @var WoonsituatieDao
      */
     protected $dao;
+
+    /**
+     * @param WoonsituatieDao $dao
+     */
+    public function __construct(WoonsituatieDao $dao)
+    {
+        $this->dao = $dao;
+    }
+
+
 }

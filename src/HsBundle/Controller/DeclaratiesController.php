@@ -16,6 +16,7 @@ use HsBundle\Entity\Klant;
 use HsBundle\Entity\Klus;
 use HsBundle\Entity\Registratie;
 use HsBundle\Form\DeclaratieType;
+use HsBundle\Service\DeclaratieDao;
 use HsBundle\Service\DeclaratieDaoInterface;
 use JMS\DiExtraBundle\Annotation as DI;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
@@ -37,18 +38,25 @@ class DeclaratiesController extends AbstractChildController
     protected $baseRouteName = 'hs_declaraties_';
 
     /**
-     * @var DeclaratieDaoInterface
-     *
-     * @DI\Inject("HsBundle\Service\DeclaratieDao")
+     * @var DeclaratieDao
      */
     protected $dao;
 
     /**
      * @var \ArrayObject
-     *
-     * @DI\Inject("hs.declaratie.entities")
      */
     protected $entities;
+
+    /**
+     * @param DeclaratieDao $dao
+     * @param \ArrayObject $entities
+     */
+    public function __construct(DeclaratieDao $dao, \ArrayObject $entities)
+    {
+        $this->dao = $dao;
+        $this->entities = $entities;
+    }
+
 
     /**
      * @Route("/")
@@ -116,7 +124,8 @@ class DeclaratiesController extends AbstractChildController
      */
     public function addAction(Request $request)
     {
-        list($parentEntity) = $this->getParentConfig($request);
+        $entity = null;
+        [$parentEntity] = $this->getParentConfig($request);
         if (!$parentEntity && !$this->allowEmpty) {
             throw new AppException(sprintf('Kan geen %s aan deze entiteit toevoegen', $this->entityName));
         }
@@ -136,12 +145,12 @@ class DeclaratiesController extends AbstractChildController
                 $this->dao->create($entity);
                 $this->addFlash('success', ucfirst($this->entityName).' is toegevoegd.');
             } catch(UserException $e) {
-//                $this->get('logger')->error($e->getMessage(), ['exception' => $e]);
+//                $this->logger->error($e->getMessage(), ['exception' => $e]);
                 $message =  $e->getMessage();
                 $this->addFlash('danger', $message);
 //                return $this->redirectToRoute('app_klanten_index');
             } catch (\Exception $e) {
-                $message = $this->container->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
+                $message = $this->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
                 $this->addFlash('danger', $message);
             }
 

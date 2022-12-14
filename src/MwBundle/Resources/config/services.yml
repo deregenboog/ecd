@@ -4,6 +4,60 @@ imports:
     - { resource: reports.yml }
 
 services:
+    #tbv controller DI named arguments die dan niet eerst hoeven;
+    _defaults:
+        autowire: true
+        autoconfigure: true
+
+    MwBundle\Command\:
+        resource: '../../Command'
+        tags: [ 'console.command' ]
+
+    MwBundle\Controller\:
+        resource: '../../Controller'
+        tags: [ 'controller.service_arguments' ]
+
+    MwBundle\Controller\IntakesController:
+        arguments:
+            $tbc_countries: '%tbc_countries%'
+        tags: [ 'controller.service_arguments' ]
+
+    MwBundle\Controller\DeelnamesController:
+        arguments:
+            $entities: '@mw.deelname.entities'
+        tags: [ 'controller.service_arguments' ]
+
+    MwBundle\Controller\DocumentenController:
+        arguments:
+            $entities: '@mw.document.entities'
+        tags: [ 'controller.service_arguments' ]
+
+    MwBundle\Controller\KlantenController:
+        arguments:
+            $export: '@mw.export.klanten'
+        tags: [ 'controller.service_arguments' ]
+
+    MwBundle\Controller\MemosController:
+        arguments:
+            $entities: '@mw.memo.entities'
+        tags: [ 'controller.service_arguments' ]
+
+    MwBundle\Controller\RapportagesController:
+        arguments:
+            $export: '@mw.export.report'
+            $reports: !tagged_iterator mw.rapportage
+        tags: [ 'controller.service_arguments' ]
+
+    MwBundle\Controller\VerslagenController:
+        arguments:
+            $export: '@mw.export.klanten'
+        tags: [ 'controller.service_arguments' ]
+
+    MwBundle\Controller\VrijwilligersController:
+        arguments:
+            $export: '@mw.export.vrijwilliger'
+        tags: [ 'controller.service_arguments' ]
+
     MwBundle\Event\DienstenLookupSubscriber:
         arguments:
             - "@doctrine.orm.entity_manager"

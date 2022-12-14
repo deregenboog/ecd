@@ -12,9 +12,9 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class BaseType extends AbstractType
 {
-    const MODE_ADD = 'add';
-    const MODE_EDIT = 'edit';
-    const MODE_CLOSE = 'close';
+    public const MODE_ADD = 'add';
+    public const MODE_EDIT = 'edit';
+    public const MODE_CLOSE = 'close';
 
     /**
      * {@inheritdoc}

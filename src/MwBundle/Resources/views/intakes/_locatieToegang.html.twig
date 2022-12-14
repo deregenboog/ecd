@@ -1,4 +1,4 @@
-{% import '::html.macro.twig' as html %}
+{% import 'html.macro.twig' as html %}
 <h2>Locatiekeuze</h2><h4>(uit eerste intake)</h4>
 {#{% if is_granted('edit', entity) and is_granted('owner', entity) %}#}
     {{ html.link('Wijzigen', path('inloop_intakes_edittoegang', {id: entity.id,access:true}), 'edit') }}

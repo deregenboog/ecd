@@ -5,6 +5,7 @@ namespace MwBundle\Controller;
 use AppBundle\Controller\AbstractController;
 use MwBundle\Entity\Afsluitreden;
 use MwBundle\Form\AfsluitredenType;
+use MwBundle\Service\AfsluitredenDao;
 use MwBundle\Service\AfsluitredenDaoInterface;
 use JMS\DiExtraBundle\Annotation as DI;
 use Symfony\Component\Routing\Annotation\Route;
@@ -22,9 +23,17 @@ class AfsluitredenenVrijwilligersController extends AbstractController
     protected $disabledActions = ['view', 'delete'];
 
     /**
-     * @var AfsluitredenDaoInterface
-     *
-     * @DI\Inject("MwBundle\Service\AfsluitredenDao")
+     * @var AfsluitredenDao
      */
     protected $dao;
+
+    /**
+     * @param AfsluitredenDao $dao
+     */
+    public function __construct(AfsluitredenDao $dao)
+    {
+        $this->dao = $dao;
+    }
+
+
 }

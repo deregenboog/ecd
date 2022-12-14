@@ -5,6 +5,7 @@ namespace IzBundle\Controller;
 use AppBundle\Controller\AbstractController;
 use IzBundle\Entity\BinnengekomenVia;
 use IzBundle\Form\BinnengekomenViaType;
+use IzBundle\Service\BinnengekomenViaDao;
 use IzBundle\Service\BinnengekomenViaDaoInterface;
 use JMS\DiExtraBundle\Annotation as DI;
 use Symfony\Component\Routing\Annotation\Route;
@@ -22,11 +23,18 @@ class BinnengekomenViaOptiesController extends AbstractController
     protected $baseRouteName = 'iz_binnengekomenviaopties_';
 
     /**
-     * @var BinnengekomenViaDaoInterface
-     *
-     * @DI\Inject("IzBundle\Service\BinnengekomenViaDao")
+     * @var BinnengekomenViaDao
      */
     protected $dao;
+
+    /**
+     * @param BinnengekomenViaDao $dao
+     */
+    public function __construct(BinnengekomenViaDao $dao)
+    {
+        $this->dao = $dao;
+    }
+
 
     /**
      * @Route("/{id}/view")

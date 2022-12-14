@@ -9,6 +9,7 @@ use PfoBundle\Entity\Client;
 use PfoBundle\Form\ClientConnectType;
 use PfoBundle\Form\ClientFilterType;
 use PfoBundle\Form\ClientType;
+use PfoBundle\Service\ClientDao;
 use PfoBundle\Service\ClientDaoInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
@@ -29,18 +30,25 @@ class ClientenController extends AbstractController
     protected $disabledActions = ['delete'];
 
     /**
-     * @var ClientDaoInterface
-     *
-     * @DI\Inject("PfoBundle\Service\ClientDao")
+     * @var ClientDao
      */
     protected $dao;
 
     /**
      * @var ExportInterface
-     *
-     * @DI\Inject("pfo.export.client")
      */
     protected $export;
+
+    /**
+     * @param ClientDao $dao
+     * @param ExportInterface $export
+     */
+    public function __construct(ClientDao $dao, ExportInterface $export)
+    {
+        $this->dao = $dao;
+        $this->export = $export;
+    }
+
 
     /**
      * @Route("/{id}/connect")

@@ -1,6 +1,0 @@
-services:
-  _defaults:
-    autowire: true
-    autoconfigure: true
-    bind:
-      $tbc_countries: '%tbc_countries%'

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace Application\Migrations;
 
@@ -10,10 +12,10 @@ use Doctrine\Migrations\AbstractMigration;
  */
 final class Version20190107144904 extends AbstractMigration
 {
-    public function up(Schema $schema) : void
+    public function up(Schema $schema): void
     {
         // this up() migration is auto-generated, please modify it to your needs
-        $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
+        $this->abortIf('mysql' !== $this->connection->getDatabasePlatform()->getName(), 'Migration can only be executed safely on \'mysql\'.');
 
         $this->addSql('CREATE TABLE iz_hulpvraag_succesindicator (hulpvraag_id INT NOT NULL, succesindicator_id INT NOT NULL, INDEX IDX_BDDCA8FA8450D8C (hulpvraag_id), INDEX IDX_BDDCA8FA7B2005C (succesindicator_id), PRIMARY KEY(hulpvraag_id, succesindicator_id)) DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci ENGINE = InnoDB');
         $this->addSql('ALTER TABLE iz_hulpvraag_succesindicator ADD CONSTRAINT FK_BDDCA8FA8450D8C FOREIGN KEY (hulpvraag_id) REFERENCES iz_koppelingen (id) ON DELETE CASCADE');
@@ -32,7 +34,7 @@ final class Version20190107144904 extends AbstractMigration
 //         $this->addSql('DROP TABLE iz_hulpvraag_succesindicatorpersoonlijk');
     }
 
-    public function down(Schema $schema) : void
+    public function down(Schema $schema): void
     {
         $this->throwIrreversibleMigrationException();
     }

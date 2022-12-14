@@ -4,6 +4,51 @@ imports:
     - { resource: reports.yml }
 
 services:
+    #tbv controller DI named arguments die dan niet eerst hoeven;
+    _defaults:
+        autowire: true
+        autoconfigure: true
+
+    TwBundle\Controller\:
+        resource: '../../Controller'
+        tags: [ 'controller.service_arguments' ]
+
+    TwBundle\Controller\DeelnamesController:
+        arguments:
+            $entities: '@tw.deelname.entities'
+        tags: [ 'controller.service_arguments' ]
+
+    TwBundle\Controller\HuurovereenkomstenController:
+        arguments:
+            $export: '@tw.export.koppelingen'
+        tags: [ 'controller.service_arguments' ]
+
+    TwBundle\Controller\KlantenController:
+        arguments:
+            $export: '@tw.export.klanten'
+        tags: [ 'controller.service_arguments' ]
+
+    TwBundle\Controller\MemosController:
+        arguments:
+            $entities: '@tw.memo.entities'
+        tags: [ 'controller.service_arguments' ]
+
+    TwBundle\Controller\RapportagesController:
+        arguments:
+            $export: '@tw.export.report'
+            $reports: !tagged_iterator tw.rapportage
+        tags: [ 'controller.service_arguments' ]
+
+    TwBundle\Controller\VerhuurdersController:
+        arguments:
+            $export: '@tw.export.verhuurders'
+        tags: [ 'controller.service_arguments' ]
+
+    TwBundle\Controller\VrijwilligersController:
+        arguments:
+            $export: '@tw.export.vrijwilliger'
+        tags: [ 'controller.service_arguments' ]
+
     tw.event.diensten_lookup_subscriber:
         class: TwBundle\Event\DienstenLookupSubscriber
         arguments:

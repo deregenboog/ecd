@@ -5,6 +5,7 @@ namespace IzBundle\Controller;
 use AppBundle\Controller\AbstractController;
 use IzBundle\Entity\Succesindicator;
 use IzBundle\Form\SuccesindicatorType;
+use IzBundle\Service\SuccesindicatorDao;
 use IzBundle\Service\SuccesindicatorDaoInterface;
 use JMS\DiExtraBundle\Annotation as DI;
 use Symfony\Component\Routing\Annotation\Route;
@@ -22,11 +23,18 @@ class SuccesindicatorenController extends AbstractController
     protected $baseRouteName = 'iz_succesindicatoren_';
 
     /**
-     * @var SuccesindicatorDaoInterface
-     *
-     * @DI\Inject("IzBundle\Service\SuccesindicatorDao")
+     * @var SuccesindicatorDao
      */
     protected $dao;
+
+    /**
+     * @param SuccesindicatorDao $dao
+     */
+    public function __construct(SuccesindicatorDao $dao)
+    {
+        $this->dao = $dao;
+    }
+
 
     /**
      * @Route("/{id}/view")

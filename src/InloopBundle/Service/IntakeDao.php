@@ -56,6 +56,25 @@ class IntakeDao extends AbstractDao implements IntakeDaoInterface
         return parent::doFindAll($builder, $page, $filter);
     }
 
+    public function getFirstFiveIntakesForTesting()
+    {
+        $builder = $this->repository->createQueryBuilder($this->alias)
+            ->addSelect('klant, intakelocatie, geslacht')
+            ->innerJoin("{$this->alias}.klant", 'klant')
+            ->leftJoin("{$this->alias}.intakelocatie", 'intakelocatie')
+            ->leftJoin('klant.geslacht', 'geslacht')
+            ->where("klant.roepnaam LIKE 'Toegang%' ")
+            ->orderBy("klant.id", "asc")
+//            ->setMaxResults(5)
+        ;
+        $sql = $builder->getQuery()->getSQL();
+//        return parent::doFindAll($builder);
+        $a = $builder->getQuery()->getArrayResult();
+        return $builder;
+
+//        return $this->repository->findOneBy(['username' => $username]);
+    }
+
     /**
      * @param Intake $entity
      *
@@ -65,7 +84,7 @@ class IntakeDao extends AbstractDao implements IntakeDaoInterface
     {
         parent::doCreate($entity);
 
-        $this->eventDispatcher->dispatch(Events::INTAKE_CREATED, new GenericEvent($entity));
+        $this->eventDispatcher->dispatch(new GenericEvent($entity), Events::INTAKE_CREATED);
 
         return $entity;
     }
@@ -79,7 +98,7 @@ class IntakeDao extends AbstractDao implements IntakeDaoInterface
     {
         parent::doUpdate($entity);
 
-        $this->eventDispatcher->dispatch(Events::INTAKE_UPDATED, new GenericEvent($entity));
+        $this->eventDispatcher->dispatch(new GenericEvent($entity), Events::INTAKE_UPDATED);
 
         return $entity;
     }

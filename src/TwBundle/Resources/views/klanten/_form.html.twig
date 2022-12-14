@@ -1,4 +1,4 @@
-{% import '::html.macro.twig' as html %}
+{% import 'html.macro.twig' as html %}
 {% block klantForm %}
 {{ form_start(klantForm) }}
 {% if klantForm.appKlant is defined %}
@@ -6,7 +6,7 @@
         {# Regex voor ontleden gegevens uit aanmeldFormulier
         [\S\v\s]+,\s(.*),\s(.*)[\s-\s](\d{2}:\d{2})?[\v\s\S]*achternaam: (\S*)\s?(\S*)?\s?(\S*)? +(\S*)\v*Telefoon: (.+)\v*E-mail: (.*)\vGeslacht: (.*)\vLeeftijd: (.*)[\v\S\s]*Land: (.*)[\v\S\s]*woning: (.*)#}
         <a href="#" id="pasteRaw" data-regex="[\S\v\s]+,\s(?<maand>[a-z]*)\s(?<dag>[0-31]*),\s(?<jaar>.*) - (?<tijd>\d{2}:\d{2})?[\v\s\S]*achternaam: (?<voornaam>\S*)\s?(?<tussenvoegsel>.*) (?<achternaam>\S*)[\v|\s]*Telefoon: (?<telefoon>.+)[\v|\s]*E-mail: (?<email>.*)[\v|\s]*Geslacht: (?<geslacht>.*)[\v|\s]*Leeftijd: (.*)[\v\S\s]*Land: (?<land>.*)[\v\S\s]*woning: ?(?<zoekregio>.*)">Plak vanuit email</a>
-        {% include 'AppBundle:klanten:_form.html.twig' with {form: klantForm.appKlant} %}
+        {% include '@App/klanten/_form.html.twig' with {form: klantForm.appKlant} %}
 {% endif %}
 <div class="container-fluid">
     <fieldset>
@@ -78,6 +78,7 @@
     </fieldset>
     <div class="row">
         <div class="col-xs-12 text-right">
+            {{ form_row(klantForm._token) }}
             {{ form_row(klantForm.submit) }}
             {{ form_end(klantForm,{render_rest:false}) }}
         </div>

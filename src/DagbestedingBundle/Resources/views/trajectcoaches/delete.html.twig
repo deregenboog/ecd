@@ -1,5 +1,5 @@
-{% extends '::base.html.twig' %}
-{% import '::html.macro.twig' as html %}
+{% extends 'base.html.twig' %}
+{% import 'html.macro.twig' as html %}
 
 {% block title %}
     Dagbesteding | {{ title }}
@@ -10,11 +10,9 @@
 {% endblock %}
 
 {% block content %}
-    <h1>Deelnemer verwijderen</h1>
+    <h1>{{ entity_name|capitalize }} verwijderen</h1>
     <p>
-        Weet u zeker dat u coördinator
-        {{ Trajectcoach }}
-        wilt verwijderen?
+        Weet u zeker dat u {{ entity_name }} <strong>{{ entity }}</strong> wilt verwijderen?
+        {{ form(form) }}
     </p>
-    {{ form(form) }}
 {% endblock %}

@@ -1,5 +1,5 @@
-{% extends '::base-2-col.html.twig' %}
-{% import '::html.macro.twig' as html %}
+{% extends 'base-2-col.html.twig' %}
+{% import 'html.macro.twig' as html %}
 
 {% block title %}
     Homeservice | Dienstverleners
@@ -42,7 +42,7 @@
         <dt>E-mail hulpverlener</dt>
         <dd>{{ entity.hulpverlener.email }}</dd>
     </dl>
-    {% include '::klant_basis.html.twig' with {klant: entity.klant} %}
+    {% include 'klant_basis.html.twig' with {klant: entity.klant} %}
 {% endblock %}
 
 {% block content_right %}

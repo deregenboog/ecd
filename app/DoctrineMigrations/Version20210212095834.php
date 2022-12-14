@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace Application\Migrations;
 
@@ -10,11 +12,10 @@ use Doctrine\Migrations\AbstractMigration;
  */
 final class Version20210212095834 extends AbstractMigration
 {
-    public function up(Schema $schema) : void
+    public function up(Schema $schema): void
     {
         // this up() migration is auto-generated, please modify it to your needs
-        $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
-
+        $this->abortIf('mysql' !== $this->connection->getDatabasePlatform()->getName(), 'Migration can only be executed safely on \'mysql\'.');
 
         $this->addSql('CREATE TABLE villa_documenten (id INT AUTO_INCREMENT NOT NULL, naam VARCHAR(255) NOT NULL, filename VARCHAR(255) NOT NULL, created DATETIME NOT NULL, modified DATETIME NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8 COLLATE `utf8_general_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE villa_afsluitredenen_vrijwilligers (id INT AUTO_INCREMENT NOT NULL, naam VARCHAR(255) NOT NULL, active TINYINT(1) NOT NULL, created DATETIME NOT NULL, modified DATETIME NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8 COLLATE `utf8_general_ci` ENGINE = InnoDB');
@@ -35,14 +36,12 @@ final class Version20210212095834 extends AbstractMigration
         $this->addSql('ALTER TABLE villa_vrijwilliger_memo ADD CONSTRAINT FK_94EC6EFAB4D32439 FOREIGN KEY (memo_id) REFERENCES inloop_memos (id)');
         $this->addSql('ALTER TABLE villa_vrijwilliger_document ADD CONSTRAINT FK_F5C5B6776B43BDC FOREIGN KEY (vrijwilliger_id) REFERENCES villa_vrijwilligers (id) ON DELETE CASCADE');
         $this->addSql('ALTER TABLE villa_vrijwilliger_document ADD CONSTRAINT FK_F5C5B67C33F7837 FOREIGN KEY (document_id) REFERENCES villa_documenten (id) ON DELETE CASCADE');
-
-
     }
 
-    public function down(Schema $schema) : void
+    public function down(Schema $schema): void
     {
         // this down() migration is auto-generated, please modify it to your needs
-        $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
+        $this->abortIf('mysql' !== $this->connection->getDatabasePlatform()->getName(), 'Migration can only be executed safely on \'mysql\'.');
 
         $this->addSql('ALTER TABLE villa_vrijwilliger_document DROP FOREIGN KEY FK_F5C5B67C33F7837');
         $this->addSql('ALTER TABLE villa_vrijwilligers DROP FOREIGN KEY FK_2DA6A732CA12F7AE');
@@ -52,7 +51,6 @@ final class Version20210212095834 extends AbstractMigration
         $this->addSql('ALTER TABLE villa_deelnames DROP FOREIGN KEY FK_BA87C788459F3233');
         $this->addSql('ALTER TABLE villa_vrijwilligers DROP FOREIGN KEY FK_2DA6A7324C676E6B');
 
-
         $this->addSql('DROP TABLE villa_documenten');
         $this->addSql('DROP TABLE villa_afsluitredenen_vrijwilligers');
         $this->addSql('DROP TABLE villa_deelnames');
@@ -61,6 +59,5 @@ final class Version20210212095834 extends AbstractMigration
         $this->addSql('DROP TABLE villa_vrijwilliger_document');
         $this->addSql('DROP TABLE villa_training');
         $this->addSql('DROP TABLE villa_binnen_via');
-
     }
 }

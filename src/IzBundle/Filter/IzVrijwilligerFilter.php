@@ -13,8 +13,8 @@ use IzBundle\Entity\Project;
 
 class IzVrijwilligerFilter implements FilterInterface
 {
-    const ACTIEF_NU = 'nu';
-    const ACTIEF_OOIT = 'ooit';
+    public const ACTIEF_NU = 'nu';
+    public const ACTIEF_OOIT = 'ooit';
 
     /**
      * @var AppDateRangeModel

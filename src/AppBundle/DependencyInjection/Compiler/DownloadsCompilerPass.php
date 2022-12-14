@@ -4,6 +4,6 @@ namespace AppBundle\DependencyInjection\Compiler;
 
 class DownloadsCompilerPass extends AbstractReportsCompilerPass
 {
-    protected $serviceId = 'app.downloads';
+    protected $serviceId = 'AppBundle\Service\DownloadsDao';
     protected $tagId = 'app.downloads';
 }

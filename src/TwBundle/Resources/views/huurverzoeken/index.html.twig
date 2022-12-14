@@ -1,5 +1,5 @@
-{% extends '::base.html.twig' %}
-{% import '::html.macro.twig' as html %}
+{% extends 'base.html.twig' %}
+{% import 'html.macro.twig' as html %}
 
 {% block title %}
     Tijdelijk Wonen | {{ title }}
@@ -113,7 +113,7 @@
                 {{ huurverzoek.huurovereenkomst ? huurverzoek.huurovereenkomst.isReservering|ja_nee : "Nee" }}
             </td>
             <td>
-                {{ huurverzoek.huurovereenkomst ? huurverzoek.huurovereenkomst.isActief|ja_nee : "Nee" }}
+                {{ huurverzoek.isActief|ja_nee }}
             </td>
             <td>
                 {{ html.editLink(path('tw_huurverzoeken_edit', {id: huurverzoek.id})) }}

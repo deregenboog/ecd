@@ -7,16 +7,18 @@ use AppBundle\Event\DienstenLookupEvent;
 use AppBundle\Event\Events;
 use AppBundle\Export\ExportInterface;
 use AppBundle\Form\KlantFilterType;
-use AppBundle\Service\KlantDaoInterface;
+use AppBundle\Service\KlantDao;
 use GaBundle\Entity\KlantDossier;
 use GaBundle\Form\KlantdossierFilterType;
 use GaBundle\Form\KlantdossierType;
-use GaBundle\Service\KlantdossierDaoInterface;
+use GaBundle\Service\KlantdossierDao;
 use JMS\DiExtraBundle\Annotation as DI;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Symfony\Contracts\EventDispatcher\EventDispatcher;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 /**
  * @Route("/klantdossiers")
@@ -32,25 +34,35 @@ class KlantdossiersController extends DossiersController
     protected $baseRouteName = 'ga_klantdossiers_';
 
     /**
-     * @var KlantdossierDaoInterface
-     *
-     * @DI\Inject("GaBundle\Service\KlantdossierDao")
+     * @var KlantdossierDao 
      */
     protected $dao;
 
     /**
+     * @var KlantDao 
+     */
+    private $klantDao;
+
+    /**
      * @var ExportInterface
-     *
-     * @DI\Inject("ga.export.klantdossiers")
      */
     protected $export;
 
+
+
     /**
-     * @var KlantDaoInterface
-     *
-     * @DI\Inject("AppBundle\Service\KlantDao")
+     * @param KlantdossierDao $dao
+     * @param KlantDao $klantDao
+     * @param ExportInterface $export
      */
-    private $klantDao;
+    public function __construct(KlantdossierDao $dao, KlantDao $klantDao, ExportInterface $export)
+    {
+        $this->dao = $dao;
+        $this->klantDao = $klantDao;
+        $this->export = $export;
+//        $this->eventDispatcher = $eventDispatcher;
+    }
+
 
     /**
      * @Route("/add")
@@ -135,7 +147,7 @@ class KlantdossiersController extends DossiersController
 
         $event = new DienstenLookupEvent($entity->getKlant()->getId());
         if ($event->getKlantId()) {
-            $this->get('event_dispatcher')->dispatch(Events::DIENSTEN_LOOKUP, $event);
+            $this->eventDispatcher->dispatch($event, Events::DIENSTEN_LOOKUP);
         }
 
         return [

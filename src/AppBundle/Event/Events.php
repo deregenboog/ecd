@@ -4,7 +4,7 @@ namespace AppBundle\Event;
 
 class Events
 {
-    const DIENSTEN_LOOKUP = 'diensten_lookup';
+    public const DIENSTEN_LOOKUP = 'diensten_lookup';
 
-    const BEFORE_CLOSE = 'before_close';
+    public const BEFORE_CLOSE = 'before_close';
 }

@@ -7,14 +7,14 @@ use AppBundle\Entity\Vrijwilliger;
 use AppBundle\Exception\UserException;
 use AppBundle\Export\ExportInterface;
 use AppBundle\Form\VrijwilligerFilterType;
-use AppBundle\Service\VrijwilligerDaoInterface;
+use AppBundle\Service\VrijwilligerDao;
 use GaBundle\Entity\VrijwilligerIntake;
 use GaBundle\Entity\VrijwilligerLidmaatschap;
 use GaBundle\Entity\VrijwilligerVerslag;
 use GaBundle\Form\AanmeldingType;
 use GaBundle\Form\VrijwilligerIntakeFilterType;
 use GaBundle\Form\VrijwilligerIntakeType;
-use GaBundle\Service\VrijwilligerIntakeDaoInterface;
+use GaBundle\Service\VrijwilligerIntakeDao;
 use JMS\DiExtraBundle\Annotation as DI;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\Form\FormError;
@@ -35,25 +35,32 @@ class VrijwilligerintakesController extends AbstractController
     protected $baseRouteName = 'ga_vrijwilligerintakes_';
 
     /**
-     * @var VrijwilligerIntakeDaoInterface
-     *
-     * @DI\Inject("GaBundle\Service\VrijwilligerIntakeDao")
+     * @var VrijwilligerIntakeDao 
      */
     protected $dao;
 
     /**
+     * @var VrijwilligerDao 
+     */
+    private $vrijwilligerDao;
+
+    /**
      * @var ExportInterface
-     *
-     * @DI\Inject("ga.export.vrijwilligerdossiers")
      */
     protected $export;
 
     /**
-     * @var VrijwilligerDaoInterface
-     *
-     * @DI\Inject("AppBundle\Service\VrijwilligerDao")
+     * @param VrijwilligerIntakeDao $dao
+     * @param VrijwilligerDao $vrijwilligerDao
+     * @param ExportInterface $export
      */
-    private $vrijwilligerDao;
+    public function __construct(VrijwilligerIntakeDao $dao, VrijwilligerDao $vrijwilligerDao, ExportInterface $export)
+    {
+        $this->dao = $dao;
+        $this->vrijwilligerDao = $vrijwilligerDao;
+        $this->export = $export;
+    }
+
 
     /**
      * @Route("/add")
@@ -88,12 +95,12 @@ class VrijwilligerintakesController extends AbstractController
 
                 return $this->redirectToRoute('ga_vrijwilligers_view', ['id' => $intake->getId()]);
             } catch(UserException $e) {
-//                $this->get('logger')->error($e->getMessage(), ['exception' => $e]);
+//                $this->logger->error($e->getMessage(), ['exception' => $e]);
                 $message =  $e->getMessage();
                 $this->addFlash('danger', $message);
 //                return $this->redirectToRoute('app_klanten_index');
             } catch (\Exception $e) {
-                $message = $this->container->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
+                $message = $this->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
                 $this->addFlash('danger', $message);
             }
         }
@@ -164,12 +171,12 @@ class VrijwilligerintakesController extends AbstractController
 
                 return $this->redirectToView($intake);
             } catch(UserException $e) {
-//                $this->get('logger')->error($e->getMessage(), ['exception' => $e]);
+//                $this->logger->error($e->getMessage(), ['exception' => $e]);
                 $message =  $e->getMessage();
                 $this->addFlash('danger', $message);
 //                return $this->redirectToRoute('app_klanten_index');
             } catch (\Exception $e) {
-                $message = $this->container->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
+                $message = $this->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
                 $this->addFlash('danger', $message);
             }
 

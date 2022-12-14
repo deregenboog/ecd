@@ -6,6 +6,6 @@ use AppBundle\DependencyInjection\Compiler\AbstractReportsCompilerPass;
 
 class ReportsCompilerPass extends AbstractReportsCompilerPass
 {
-    protected $serviceId = 'InloopBundle\Form\RapportageType';
+    protected $serviceId = \InloopBundle\Form\RapportageType::class;
     protected $tagId = 'inloop.rapportage';
 }

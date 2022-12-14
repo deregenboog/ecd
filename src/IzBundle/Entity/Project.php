@@ -15,8 +15,8 @@ use Gedmo\Mapping\Annotation as Gedmo;
 class Project
 {
     use TimestampableTrait;
-    const STRATEGY_PRESTATIE_TOTAL = 'total';
-    const STRATEGY_PRESTATIE_STARTED = 'started';
+    public const STRATEGY_PRESTATIE_TOTAL = 'total';
+    public const STRATEGY_PRESTATIE_STARTED = 'started';
 
     /**
      * @ORM\Id

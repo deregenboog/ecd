@@ -5,6 +5,7 @@ namespace ClipBundle\Controller;
 
 use AppBundle\Controller\MemosControllerAbstract;
 use AppBundle\Service\MemoDaoInterface;
+use AppBundle\Service\MemoDao;
 use JMS\DiExtraBundle\Annotation as DI;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -17,16 +18,26 @@ class MemosController extends MemosControllerAbstract
     protected $baseRouteName = 'clip_memos_';
 
     /**
-     * @var MemoDaoInterface
+     * @var MemoDao
      *
-     * @DI\Inject("AppBundle\Service\MemoDao")
      */
     protected $dao;
 
     /**
      * @var \ArrayObject
      *
-     * @DI\Inject("clip.memo.entities")
      */
     protected $entities;
+
+    /**
+     * @param MemoDao $dao
+     * @param \ArrayObject $entities
+     */
+    public function __construct(MemoDao $dao, \ArrayObject $entities)
+    {
+        $this->dao = $dao;
+        $this->entities = $entities;
+    }
+
+
 }

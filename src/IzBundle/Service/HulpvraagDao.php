@@ -111,7 +111,7 @@ class HulpvraagDao extends AbstractDao implements HulpvraagDaoInterface
             ->getQuery()
             ->getResult()
         ;
-        if (count($gereserveerdeHulpvragen)) {
+        if (is_array($gereserveerdeHulpvragen) || $gereserveerdeHulpvragen instanceof \Countable ? count($gereserveerdeHulpvragen) : 0) {
             $builder
                 ->andWhere('hulpvraag NOT IN (:gereserveerdeHulpvragen)')
                 ->setParameter('gereserveerdeHulpvragen', $gereserveerdeHulpvragen)
@@ -124,7 +124,7 @@ class HulpvraagDao extends AbstractDao implements HulpvraagDaoInterface
 
         if (!$filter || $filter->matching) {
             // doelgroepen
-            if (count($hulpaanbod->getDoelgroepen()) > 0) {
+            if ((is_array($hulpaanbod->getDoelgroepen()) || $hulpaanbod->getDoelgroepen() instanceof \Countable ? count($hulpaanbod->getDoelgroepen()) : 0) > 0) {
                 $builder
                     ->andWhere('doelgroep.id IS NULL OR doelgroep IN (:doelgroepen)')
                     ->setParameter('doelgroepen', $hulpaanbod->getDoelgroepen())
@@ -132,7 +132,7 @@ class HulpvraagDao extends AbstractDao implements HulpvraagDaoInterface
             }
 
             // hulpvraagsoorten
-            if (count($hulpaanbod->getHulpvraagsoorten()) > 0) {
+            if ((is_array($hulpaanbod->getHulpvraagsoorten()) || $hulpaanbod->getHulpvraagsoorten() instanceof \Countable ? count($hulpaanbod->getHulpvraagsoorten()) : 0) > 0) {
                 $builder
                     ->andWhere('hulpvraagsoort IN (:hulpvraagsoorten)')
                     ->setParameter('hulpvraagsoorten', $hulpaanbod->getHulpvraagsoorten())

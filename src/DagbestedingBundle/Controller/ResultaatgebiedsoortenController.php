@@ -5,6 +5,7 @@ namespace DagbestedingBundle\Controller;
 use AppBundle\Controller\AbstractController;
 use DagbestedingBundle\Entity\Resultaatgebiedsoort;
 use DagbestedingBundle\Form\ResultaatgebiedsoortType;
+use DagbestedingBundle\Service\ResultaatgebiedsoortDao;
 use DagbestedingBundle\Service\ResultaatgebiedsoortDaoInterface;
 use JMS\DiExtraBundle\Annotation as DI;
 use Symfony\Component\Routing\Annotation\Route;
@@ -22,11 +23,18 @@ class ResultaatgebiedsoortenController extends AbstractController
     protected $baseRouteName = 'dagbesteding_resultaatgebiedsoorten_';
 
     /**
-     * @var ResultaatgebiedsoortDaoInterface
-     *
-     * @DI\Inject("DagbestedingBundle\Service\ResultaatgebiedsoortDao")
+     * @var ResultaatgebiedsoortDao
      */
     protected $dao;
+
+    /**
+     * @param ResultaatgebiedsoortDao $dao
+     */
+    public function __construct(ResultaatgebiedsoortDao $dao)
+    {
+        $this->dao = $dao;
+    }
+
 
     /**
      * @Route("/{id}/view")

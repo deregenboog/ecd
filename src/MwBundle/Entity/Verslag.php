@@ -15,8 +15,8 @@ use InloopBundle\Entity\Locatie;
  * @ORM\Table(
  *     name="verslagen",
  *     indexes={
- *         @ORM\Index(name="idx_datum", columns={"datum"}),
- *         @ORM\Index(name="idx_locatie_id", columns={"locatie_id"})
+ *         @ORM\Index(name="idx_datum2", columns={"datum"}),
+ *         @ORM\Index(name="idx_locatie_id2", columns={"locatie_id"})
  *     }
  * )
  * @ORM\HasLifecycleCallbacks
@@ -82,7 +82,7 @@ class Verslag
     /**
      * @var int
      *
-     * @ORM\Column(name="aanpassing_verslag", type="integer")
+     * @ORM\Column(name="aanpassing_verslag", type="integer", options={"default":0, "nullable"=true})
      * @Gedmo\Versioned
      */
     private $duur;
@@ -94,8 +94,8 @@ class Verslag
      */
     private $verslaginventarisaties;
 
-    const TYPE_MW = 1;
-    const TYPE_INLOOP = 2;
+    public const TYPE_MW = 1;
+    public const TYPE_INLOOP = 2;
 
     protected static $types = [
         self::TYPE_MW => "Maatschappelijk werk-verslag",
@@ -110,8 +110,8 @@ class Verslag
      */
     private $type = self::TYPE_MW;
 
-    const ACCESS_MW = 1;
-    const ACCESS_ALL = 2;
+    public const ACCESS_MW = 1;
+    public const ACCESS_ALL = 2;
 
     public static $accessTypes = [
         self::ACCESS_MW => "Leesbaar alleen binnen MW",
@@ -133,6 +133,8 @@ class Verslag
         $this->klant = $klant;
         $this->verslaginventarisaties = new ArrayCollection();
         $this->datum = new \DateTime();
+
+        $this->setDuur(0);
     }
 
     /**

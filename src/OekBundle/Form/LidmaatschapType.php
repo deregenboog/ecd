@@ -41,7 +41,7 @@ class LidmaatschapType extends AbstractType
                         ->orderBy('groep.naam', 'ASC')
                     ;
 
-                    if (count($options['data']->getDeelnemer()->getGroepen()) > 0) {
+                    if ((is_array($options['data']->getDeelnemer()->getGroepen()) || $options['data']->getDeelnemer()->getGroepen() instanceof \Countable ? count($options['data']->getDeelnemer()->getGroepen()) : 0) > 0) {
                         $builder
                             ->where('groep NOT IN (:groepen)')
                             ->setParameter('groepen', $options['data']->getDeelnemer()->getGroepen())
@@ -77,7 +77,7 @@ class LidmaatschapType extends AbstractType
                         ->addOrderBy('klant.achternaam')
                     ;
 
-                    if (count($options['data']->getGroep()->getDeelnemers()) > 0) {
+                    if ((is_array($options['data']->getGroep()->getDeelnemers()) || $options['data']->getGroep()->getDeelnemers() instanceof \Countable ? count($options['data']->getGroep()->getDeelnemers()) : 0) > 0) {
                         $builder
                             ->where('klant NOT IN (:deelnemers)')
                             ->setParameter('deelnemers', $options['data']->getGroep()->getDeelnemers())

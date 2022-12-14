@@ -8,6 +8,24 @@ services:
         autowire: true
         autoconfigure: true
 
+    ErOpUitBundle\Command\:
+        resource: '../../Command'
+        tags: [ 'console.command' ]
+
+    ErOpUitBundle\Controller\:
+        resource: '../../Controller'
+        tags: [ 'controller.service_arguments' ]
+
+    ErOpUitBundle\Controller\KlantenController:
+        arguments:
+            $export: '@eropuit.export.klanten'
+        tags: [ 'controller.service_arguments' ]
+
+    ErOpUitBundle\Controller\VrijwilligersController:
+        arguments:
+            $export: '@eropuit.export.vrijwilligers'
+        tags: [ 'controller.service_arguments' ]
+
     ErOpUitBundle\Event\CloseSubscriber:
         arguments:
             - "@doctrine.orm.entity_manager"

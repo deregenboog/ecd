@@ -199,9 +199,6 @@ AppBundle\Entity\Inkomen:
         datumVan: '<dateTime("01-01-2010")>'
         datumTot: '<dateTime("01-01-2100")>'
 
-#InloopBundle\Entity\Aanmelding:
-#    aanmelding_1:
-#        __construct: ['@klant_1','@medewerker_inloop']
 InloopBundle\Entity\Aanmelding:
     aanmelding_201:
         __construct: ['@klant_201','@medewerker_inloop']

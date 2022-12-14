@@ -25,13 +25,13 @@ class Project
      */
     private $kpl;
 
-//    /**
-//     * @var ArrayCollection|Deelname[]
-//     *
-//     * @ORM\OneToMany(targetEntity="Deelname", mappedBy="project", cascade={"persist"})
-//     * @ORM\OrderBy({"id" = "DESC"})
-//     */
-//    private $deelnames;
+    /**
+     * @var ArrayCollection|Deelname[]
+     *
+     * @ORM\OneToMany(targetEntity="Deelname", mappedBy="project", cascade={"persist"})
+     * @ORM\OrderBy({"id" = "DESC"})
+     */
+    private $deelnames;
 
 //    /**
 //     * @var ArrayCollection|Traject[]

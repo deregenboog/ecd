@@ -30,7 +30,7 @@ class IntakeType extends AbstractType
         $builder
             ->add($this->createAlgemeen($builder, $options))
             ->add($this->createAdresgegevens($builder, $options))
-            ->add(ToegangType::createToegang($builder, $options))
+//            ->add(ToegangType::createToegang($builder, $options))
 
             ->add($this->createLegitimatiebewijs($builder, $options))
             ->add($this->createVerslaving($builder, $options))
@@ -49,11 +49,13 @@ class IntakeType extends AbstractType
                 'data_class' => get_class($options['data']->getZrm()),
                 'request_module' => 'Intake',
             ]);
+//            $builder->get('zrm')->remove("medewerker"); // erg irritant dat ook hier een medewerker wordt laten zien. @TODO keertje weghalen? navragen
         } else {
             $builder->add('zrm', ZrmType::class, [
                 'label' => 'ZRM',
                 'request_module' => 'Intake',
             ]);
+//            $builder->get('zrm')->remove("medewerker");
         }
 
         $builder->add('submit', SubmitType::class);

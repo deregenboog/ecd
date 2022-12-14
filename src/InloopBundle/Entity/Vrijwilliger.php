@@ -39,6 +39,7 @@ class Vrijwilliger implements MemoSubjectInterface, DocumentSubjectInterface
      * @var Locatie
      *
      * @ORM\ManyToMany(targetEntity="Locatie")
+     * @ORM\JoinTable(name="inloop_vrijwilliger_locatie")
      */
     protected $locaties;
 

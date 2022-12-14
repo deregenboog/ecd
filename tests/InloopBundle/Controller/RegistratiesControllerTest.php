@@ -10,13 +10,13 @@ class RegistratiesControllerTest extends WebTestCase
     public function testToegangInloophuis()
     {
 
-        $medewerker = $this->getContainer()->get('AppBundle\Service\MedewerkerDao')->findByUsername('inloop_user');
+        $medewerker = $this->getContainer()->get(\AppBundle\Service\MedewerkerDao::class)->findByUsername('inloop_user');
         $this->logIn($medewerker);
 
         /**
          * Request edit of intake and submit form to trigger events for access 'calculation'.
          *
-         * First 5 intakes are custom made in fixtures so they represent toegang data which matches several cases which is cheked agains.
+         * First 5 intakes are custom made in fixtures so they represent toegang data which matches several cases which is cheked against.
          */
         foreach ([1, 2, 3, 4, 5] as $value)
         {

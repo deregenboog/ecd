@@ -18,6 +18,13 @@ class Locatie
 {
     use IdentifiableTrait, NameableTrait, ActivatableTrait;
 
+    /**
+     * @var Project[] $projecten
+     * @ORM\OneToMany(targetEntity="DagbestedingBundle\Entity\Project", mappedBy="locatie", cascade={"persist","remove"} )
+     */
+    protected $projecten;
+
+
     public function isDeletable()
     {
         return false;

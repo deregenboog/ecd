@@ -8,7 +8,7 @@ use Knp\Component\Pager\PaginatorInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
-abstract class SymfonyController extends Controller
+abstract class SymfonyController extends \Symfony\Bundle\FrameworkBundle\Controller\AbstractController
 {
     /**
      * @var string
@@ -24,6 +24,18 @@ abstract class SymfonyController extends Controller
      * @var string
      */
     protected $baseRouteName;
+
+    /** @var PaginatorInterface */
+    protected $paginator;
+
+    /**
+     * @param PaginatorInterface $paginator
+     */
+    public function __construct(PaginatorInterface $paginator)
+    {
+        $this->paginator = $paginator;
+    }
+
 
     public function getTitle()
     {
@@ -71,7 +83,7 @@ abstract class SymfonyController extends Controller
      */
     protected function getPaginator()
     {
-        return $this->get('knp_paginator');
+        return $this->paginator;
     }
 
     /**
@@ -85,6 +97,6 @@ abstract class SymfonyController extends Controller
             return $this->get('monolog.logger.'.$channel);
         }
 
-        return $this->get('logger');
+        return $this->logger;
     }
 }

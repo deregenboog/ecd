@@ -24,12 +24,12 @@ class AccessUpdater
     private $em;
 
     /**
-     * @var KlantDaoInterface
+     * @var KlantDao
      */
     private $klantDao;
 
     /**
-     * @var LocatieDaoInterface
+     * @var LocatieDao
      */
     private $locatieDao;
 
@@ -37,8 +37,8 @@ class AccessUpdater
 
     public function __construct(
         EntityManager $em,
-        KlantDaoInterface $klantDao,
-        LocatieDaoInterface $locatieDao
+        KlantDao $klantDao,
+        LocatieDao $locatieDao
     )
     {
         $this->em = $em;
@@ -76,6 +76,7 @@ class AccessUpdater
         ];
 
         if($locatie->isActief()) {
+            dump($params);
             $this->em->getConnection()->executeQuery('DELETE FROM inloop_toegang
                 WHERE locatie_id = :locatie AND klant_id NOT IN (:klanten)', $params, $types);
 
@@ -162,7 +163,7 @@ class AccessUpdater
 
     private function getStrategy(Locatie $locatie)
     {
-        // @todo move to container service
+        // @todo move to  service
         /**
          * Let op:
          * De volgorde is niet willekeurig en daarmee restrictief

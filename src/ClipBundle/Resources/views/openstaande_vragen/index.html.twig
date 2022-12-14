@@ -1,5 +1,5 @@
-{% extends '::base.html.twig' %}
-{% import '::html.macro.twig' as html %}
+{% extends 'base.html.twig' %}
+{% import 'html.macro.twig' as html %}
 
 {% block title %}
     Clip | {{ title }}
@@ -100,6 +100,9 @@
 
 {% block scripts %}
 <script>
+   window.onload = function(){
+      if($){
+
     $(function() {
 
         function vraag_hulpGezocht(vraag_id) {
@@ -121,5 +124,8 @@
         });
 
     });
-</script>
+
+      }
+   }
+   </script>
 {% endblock %}

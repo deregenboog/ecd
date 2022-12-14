@@ -5,8 +5,7 @@ namespace GaBundle\Controller;
 use AppBundle\Controller\AbstractController;
 use GaBundle\Entity\ActiviteitAnnuleringsreden;
 use GaBundle\Form\ActiviteitAnnuleringsredenType;
-use GaBundle\Service\ActiviteitAnnuleringsredenDaoInterface;
-use JMS\DiExtraBundle\Annotation as DI;
+use GaBundle\Service\ActiviteitAnnuleringsredenDao;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
@@ -24,11 +23,18 @@ class ActiviteitAnnuleringsredenenController extends AbstractController
     protected $baseRouteName = 'ga_activiteitannuleringsredenen_';
 
     /**
-     * @var ActiviteitAnnuleringsredenDaoInterface
-     *
-     * @DI\Inject("GaBundle\Service\ActiviteitAnnuleringsredenDao")
+     * @var ActiviteitAnnuleringsredenDao 
      */
     protected $dao;
+
+    /**
+     * @param ActiviteitAnnuleringsredenDao $dao
+     */
+    public function __construct(ActiviteitAnnuleringsredenDao $dao)
+    {
+        $this->dao = $dao;
+    }
+
 
     /**
      * @Route("/{id}/view")

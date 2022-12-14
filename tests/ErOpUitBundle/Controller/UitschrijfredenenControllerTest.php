@@ -8,8 +8,8 @@ class UitschrijfredenenControllerTest extends WebTestCase
 {
     public function testUserHasNoAccessToUitschrijfredenenIndex()
     {
-        $medewerker = $this->getContainer()->get('AppBundle\Service\MedewerkerDao')->findByUsername('ga_user');
-        $this->logIn($medewerker, 'ROLE_EROPUIT');
+        $medewerker = $this->getContainer()->get(\AppBundle\Service\MedewerkerDao::class)->findByUsername('eou_user');
+        $this->logIn($medewerker);
 
         $this->client->request('GET', $this->getUrl('eropuit_uitschrijfredenen_index'));
         $this->assertStatusCode(403, $this->client);
@@ -17,8 +17,8 @@ class UitschrijfredenenControllerTest extends WebTestCase
 
     public function testAdminHasAccessToUitschrijfredenenIndex()
     {
-        $medewerker = $this->getContainer()->get('AppBundle\Service\MedewerkerDao')->findByUsername('ga_admin');
-        $this->logIn($medewerker, 'ROLE_EROPUIT_BEHEER');
+        $medewerker = $this->getContainer()->get(\AppBundle\Service\MedewerkerDao::class)->findByUsername('eou_admin');
+        $this->logIn($medewerker);
 
         $this->client->request('GET', $this->getUrl('eropuit_uitschrijfredenen_index'));
         $this->assertStatusCode(200, $this->client);

@@ -1,5 +1,5 @@
-{% extends '::base-2-col.html.twig' %}
-{% import '::html.macro.twig' as html %}
+{% extends 'base-2-col.html.twig' %}
+{% import 'html.macro.twig' as html %}
 
 {% block title %}
     Inloop | {{ title }}
@@ -14,7 +14,7 @@
 {% endblock %}
 
 {% block content_left %}
-    {% include '::klant_basis.html.twig' with {module: 'Intake'} %}
+    {% include 'klant_basis.html.twig' with {module: 'Intake'} %}
 {% endblock %}
 
 {% block content_right %}
@@ -57,6 +57,9 @@
 
 {% block scripts %}
     <script>
+   window.onload = function(){
+      if($){
+
         $(function() {
             function seen(opmerking_id) {
                 $.post({
@@ -91,5 +94,8 @@
                 remove(id);
             });
         });
-    </script>
+
+      }
+   }
+   </script>
 {% endblock %}

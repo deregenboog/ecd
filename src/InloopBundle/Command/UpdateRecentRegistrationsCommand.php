@@ -3,16 +3,28 @@
 namespace InloopBundle\Command;
 
 use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
+use Psr\Container\ContainerInterface;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class UpdateRecentRegistrationsCommand extends ContainerAwareCommand
+class UpdateRecentRegistrationsCommand extends \Symfony\Component\Console\Command\Command
 {
     /**
      * @var EntityManager
      */
     private $em;
+
+    /**
+     * @param EntityManager $em
+     */
+    public function __construct(ContainerInterface $container)
+    {
+        $this->em = $container->get('doctrine')->getManager();
+        parent::__construct();
+    }
+
 
     protected function configure()
     {
@@ -21,10 +33,10 @@ class UpdateRecentRegistrationsCommand extends ContainerAwareCommand
 
     protected function initialize(InputInterface $input, OutputInterface $output)
     {
-        $this->em = $this->getContainer()->get('doctrine.orm.entity_manager');
+//        $this->em = $entityManager;
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         /*
         $sql = 'INSERT IGNORE INTO registraties_recent (registratie_id, locatie_id, klant_id, max_buiten)
@@ -37,5 +49,6 @@ class UpdateRecentRegistrationsCommand extends ContainerAwareCommand
 
         $sql = 'DELETE FROM registraties_recent WHERE max_buiten < (NOW() + INTERVAL -3 month);';
         $this->em->getConnection()->query($sql);
+        return 0;
     }
 }

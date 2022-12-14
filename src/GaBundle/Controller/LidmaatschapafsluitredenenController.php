@@ -5,8 +5,7 @@ namespace GaBundle\Controller;
 use AppBundle\Controller\AbstractController;
 use GaBundle\Entity\LidmaatschapAfsluitreden;
 use GaBundle\Form\LidmaatschapAfsluitredenType;
-use GaBundle\Service\LidmaatschapAfsluitredenDaoInterface;
-use JMS\DiExtraBundle\Annotation as DI;
+use GaBundle\Service\LidmaatschapAfsluitredenDao;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -21,9 +20,17 @@ class LidmaatschapafsluitredenenController extends AbstractController
     protected $baseRouteName = 'ga_lidmaatschapafsluitredenen_';
 
     /**
-     * @var LidmaatschapAfsluitredenDaoInterface
-     *
-     * @DI\Inject("GaBundle\Service\LidmaatschapAfsluitredenDao")
+     * @var LidmaatschapAfsluitredenDao 
      */
     protected $dao;
+
+    /**
+     * @param LidmaatschapAfsluitredenDao $dao
+     */
+    public function __construct(LidmaatschapAfsluitredenDao $dao)
+    {
+        $this->dao = $dao;
+    }
+
+
 }

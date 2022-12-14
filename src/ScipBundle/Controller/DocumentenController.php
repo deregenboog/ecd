@@ -10,6 +10,7 @@ use ScipBundle\Security\Permissions;
 use ScipBundle\Service\DocumentDaoInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
+use Vich\UploaderBundle\Handler\DownloadHandler;
 
 /**
  * @Route("/documenten")
@@ -41,13 +42,13 @@ class DocumentenController extends AbstractChildController
     /**
      * @Route("/download/{filename}")
      */
-    public function downloadAction(Request $request, $filename)
+    public function downloadDocAction(Request $request, DownloadHandler $downloadHandler, $filename)
     {
         $document = $this->dao->findByFilename($filename);
 
         $this->denyAccessUnlessGranted(Permissions::ACCESS, $document);
 
-        $downloadHandler = $this->get('vich_uploader.download_handler');
+
 
         try {
             return $downloadHandler->downloadObject($document, 'file');

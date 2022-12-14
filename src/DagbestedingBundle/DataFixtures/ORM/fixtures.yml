@@ -23,6 +23,11 @@ DagbestedingBundle\Entity\Deelnemer:
 DagbestedingBundle\Entity\Trajectcoach:
     dagbesteding_trajectcoaches_{1..5}:
         medewerker: '@medewerker_<current()>'
+    dagbesteding_trajectcoaches_{6..7}:
+        medewerker: '@medewerker_<current()>'
+        actief: false
+    dagbesteding_trajectcoaches_8:
+        naam: 'externe coach'
 
 DagbestedingBundle\Entity\Resultaatgebiedsoort:
     dagbesteding_resultaatgebiedsoort_nvt:
@@ -41,9 +46,8 @@ DagbestedingBundle\Entity\Trajectsoort:
         naam: 'OVK'
 
 DagbestedingBundle\Entity\Traject:
-    dagbesteding_traject_{1..30}:
+    dagbesteding_traject_{1..25}:
         deelnemer: '@dagbesteding_deelnemer_*'
         trajectcoach: '@dagbesteding_trajectcoaches_*'
         soort: '@dagbesteding_trajectsoort_*'
         resultaatgebiedsoort: '@dagbesteding_resultaatgebiedsoort_*'
-        # projects: '<numberBetween(1, 3)>x @dagbesteding_project_*'

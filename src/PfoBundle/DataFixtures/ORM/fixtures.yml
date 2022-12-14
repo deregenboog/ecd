@@ -16,7 +16,6 @@ PfoBundle\Entity\Client:
         postcode: '<postcode()>'
         plaats: '<city()>'
 
-
 PfoBundle\Entity\Verslag:
     pfo_verslag_{1..10}:
         client: '@pfo_client_*'

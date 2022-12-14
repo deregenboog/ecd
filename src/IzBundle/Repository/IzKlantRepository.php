@@ -8,11 +8,11 @@ use IzBundle\Entity\Hulpvraag;
 
 class IzKlantRepository extends EntityRepository
 {
-    const REPORT_BEGINSTAND = 'beginstand';
-    const REPORT_GESTART = 'gestart';
-    const REPORT_NIEUW_GESTART = 'nieuw_gestart';
-    const REPORT_AFGESLOTEN = 'afgesloten';
-    const REPORT_EINDSTAND = 'eindstand';
+    public const REPORT_BEGINSTAND = 'beginstand';
+    public const REPORT_GESTART = 'gestart';
+    public const REPORT_NIEUW_GESTART = 'nieuw_gestart';
+    public const REPORT_AFGESLOTEN = 'afgesloten';
+    public const REPORT_EINDSTAND = 'eindstand';
 
     public function countTotal($report, \DateTime $startDate, \DateTime $endDate)
     {
@@ -80,6 +80,7 @@ class IzKlantRepository extends EntityRepository
 
     public function countByStadsdeel($report, \DateTime $startDate, \DateTime $endDate)
     {
+        $eindstand = null;
         $builder = $this->getCountBuilder()
             ->addSelect('werkgebied.naam AS stadsdeel')
             ->leftJoin('klant.werkgebied', 'werkgebied')
@@ -119,6 +120,7 @@ class IzKlantRepository extends EntityRepository
 
     public function countByProjectAndStadsdeel($report, \DateTime $startDate, \DateTime $endDate)
     {
+        $eindstand = null;
         $builder = $this->getCountBuilder()
             ->addSelect('project.naam AS projectnaam')
             ->addSelect('werkgebied.naam AS stadsdeel')
@@ -162,6 +164,7 @@ class IzKlantRepository extends EntityRepository
 
     public function countByDoelgroepAndHulpvraagsoort($report, \DateTime $startDate, \DateTime $endDate)
     {
+        $eindstand = null;
         $builder = $this->getCountBuilder()
             ->addSelect('project.naam AS projectnaam')
             ->addSelect('werkgebied.naam AS stadsdeel')
@@ -273,7 +276,7 @@ class IzKlantRepository extends EntityRepository
                 ;
                 break;
             default:
-                throw new \RuntimeException("Unknown report filter '{$report}' in class ".__CLASS__);
+                throw new \RuntimeException("Unknown report filter '{$report}' in class ".self::class);
         }
     }
 

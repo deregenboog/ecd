@@ -1,5 +1,5 @@
-{% extends '::base.html.twig' %}
-{% import '::html.macro.twig' as html %}
+{% extends 'base.html.twig' %}
+{% import 'html.macro.twig' as html %}
 
 {% block title %}
     Maatschappelijk werk | {{ title }}
@@ -21,6 +21,9 @@
 {% endblock %}
 {% macro tweedeFase() %}
     <script>
+   window.onload = function(){
+      if($){
+
 
         $(function() {
             var fieldTweedefase = $('form input#vrijwilliger_tweedeFase');
@@ -51,7 +54,10 @@
         });
 
 
-    </script>
+
+      }
+   }
+   </script>
 {% endmacro %}
 {% block scripts %}
    {{  _self.tweedeFase() }}

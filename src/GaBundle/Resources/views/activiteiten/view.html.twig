@@ -1,5 +1,5 @@
-{% extends 'GaBundle::view.html.twig' %}
-{% import '::html.macro.twig' as html %}
+{% extends '@Ga/view.html.twig' %}
+{% import 'html.macro.twig' as html %}
 
 {% block content_top %}
     <h1>{{ entity_name|capitalize }} {{ entity }}</h1>
@@ -38,10 +38,10 @@
     </ul>
     <div class="tab-content">
         <div id="deelnemers" class="tab-pane active">
-            {% include 'GaBundle:deelnames:_list.html.twig' with {context: 'klanten'} %}
+            {% include '@Ga/deelnames/_list.html.twig' with {context: 'klanten'} %}
         </div>
         <div id="vrijwilligers" class="tab-pane">
-            {% include 'GaBundle:deelnames:_list.html.twig' with {context: 'vrijwilligers'} %}
+            {% include '@Ga/deelnames/_list.html.twig' with {context: 'vrijwilligers'} %}
         </div>
     </div>
 {% endblock %}

@@ -5,6 +5,7 @@ namespace DagbestedingBundle\Controller;
 use AppBundle\Controller\AbstractController;
 use DagbestedingBundle\Entity\Locatie;
 use DagbestedingBundle\Form\LocatieType;
+use DagbestedingBundle\Service\LocatieDao;
 use DagbestedingBundle\Service\LocatieDaoInterface;
 use JMS\DiExtraBundle\Annotation as DI;
 use Symfony\Component\Routing\Annotation\Route;
@@ -22,11 +23,18 @@ class LocatiesController extends AbstractController
     protected $baseRouteName = 'dagbesteding_locaties_';
 
     /**
-     * @var LocatieDaoInterface
-     *
-     * @DI\Inject("DagbestedingBundle\Service\LocatieDao")
+     * @var LocatieDao
      */
     protected $dao;
+
+    /**
+     * @param LocatieDao $dao
+     */
+    public function __construct(LocatieDao $dao)
+    {
+        $this->dao = $dao;
+    }
+
 
     /**
      * @Route("/{id}/view")

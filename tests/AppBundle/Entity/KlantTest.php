@@ -33,19 +33,27 @@ class KlantTest extends TestCase
         $eersteRegistratie = new Registratie($klant, new Locatie());
         $laatsteRegistratie = new Registratie($klant, new Locatie());
         $eersteIntake = new Intake();
+        $eersteIntake->setIndruk("eerste");
         $laatsteIntake = new Intake();
+        $laatsteIntake->setIndruk("laatste");
 
         // registraties are ordered desc by id
         $klant->getRegistraties()->add($laatsteRegistratie);
         $klant->getRegistraties()->add($eersteRegistratie);
 
-        // intakes are ordered desc by id
-        $klant->getIntakes()->add($laatsteIntake);
+        // intakes are ordered desc by id //?! wtf kan wel zijn maar er is geen ID bekend hier... dus ja. wat bedoel je hier?
         $klant->getIntakes()->add($eersteIntake);
+        $klant->getIntakes()->add($laatsteIntake);
 
-        $klant->updateCalculatedFields();
+//        $intakes = $klant->getIntakes();
+
+        $klant->updateCalculatedFields(); //this one was messy. Cleared it up. Only got called in merge.
+
         $this->assertSame($laatsteRegistratie, $klant->getLaatsteRegistratie());
         $this->assertSame($laatsteIntake, $klant->getLaatsteIntake());
-        $this->assertSame($eersteIntake->getIntakedatum(), $klant->getEersteIntakeDatum());
+
+        $d1 = $eersteIntake->getIntakedatum();
+        $d2 = $klant->getEersteIntakeDatum();
+        $this->assertSame($d1, $d2);
     }
 }

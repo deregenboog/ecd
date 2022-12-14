@@ -5,6 +5,7 @@ namespace ClipBundle\Controller;
 use AppBundle\Controller\AbstractController;
 use ClipBundle\Entity\Vraagsoort;
 use ClipBundle\Form\VraagsoortType;
+use ClipBundle\Service\VraagsoortDao;
 use ClipBundle\Service\VraagsoortDaoInterface;
 use JMS\DiExtraBundle\Annotation as DI;
 use Symfony\Component\Routing\Annotation\Route;
@@ -22,11 +23,18 @@ class VraagsoortenController extends AbstractController
     protected $baseRouteName = 'clip_vraagsoorten_';
 
     /**
-     * @var VraagsoortDaoInterface
-     *
-     * @DI\Inject("ClipBundle\Service\VraagsoortDao")
+     * @var VraagsoortDao
      */
     protected $dao;
+
+    /**
+     * @param VraagsoortDao $dao
+     */
+    public function __construct(VraagsoortDao $dao)
+    {
+        $this->dao = $dao;
+    }
+
 
     /**
      * @Route("/{id}/view")

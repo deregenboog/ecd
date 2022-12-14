@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace Application\Migrations;
 
@@ -10,10 +12,10 @@ use Doctrine\Migrations\AbstractMigration;
  */
 final class Version20211104144517 extends AbstractMigration
 {
-    public function up(Schema $schema) : void
+    public function up(Schema $schema): void
     {
         // this up() migration is auto-generated, please modify it to your needs
-        $this->addSql("UPDATE tw_duurthuisloos SET active = 0");
+        $this->addSql('UPDATE tw_duurthuisloos SET active = 0');
         $this->addSql("
         ALTER TABLE `tw_duurthuisloos` ADD `label` VARCHAR(255) NOT NULL AFTER `id`;
 UPDATE `tw_duurthuisloos` SET `label` = '< 3mnd' WHERE `tw_duurthuisloos`.`id` = 1;
@@ -36,18 +38,15 @@ UPDATE `tw_duurthuisloos` SET `label` = '>48 mnd' WHERE `tw_duurthuisloos`.`id` 
 ('>10 jaar'),
 ('Onbekend')");
 
-        $this->addSql("UPDATE tw_werk SET active = 0");
+        $this->addSql('UPDATE tw_werk SET active = 0');
         $this->addSql("INSERT INTO tw_werk (`label`) VALUES ('1 dag'),
         ('2 dagen'),('3 dagen'),('4 dagen'),('5 dagen'),('Geen werk')");
 
         $this->addSql("INSERT INTO tw_regio (`label`) VALUES ('Overig/onduidelijk')");
-
-
     }
 
-    public function down(Schema $schema) : void
+    public function down(Schema $schema): void
     {
         // this down() migration is auto-generated, please modify it to your needs
-
     }
 }

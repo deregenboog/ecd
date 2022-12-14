@@ -1,4 +1,4 @@
-{% import '::html.macro.twig' as html %}
+{% import 'html.macro.twig' as html %}
 {% if vrijwilliger is defined %}
     {% set entity = vrijwilliger %}
     {% set url = path('oek_memos_add', {vrijwilliger: entity.id}) %}

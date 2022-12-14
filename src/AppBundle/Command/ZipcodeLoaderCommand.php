@@ -11,7 +11,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class ZipcodeLoaderCommand extends ContainerAwareCommand
+class ZipcodeLoaderCommand extends \Symfony\Component\Console\Command\Command
 {
     /**
      * @var EntityManager
@@ -42,7 +42,7 @@ class ZipcodeLoaderCommand extends ContainerAwareCommand
         $this->batchSize = 1000;
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $file = $input->getOption('file');
 
@@ -81,6 +81,7 @@ class ZipcodeLoaderCommand extends ContainerAwareCommand
 //        $this->postLoad();
 
         $output->writeln($i.' postcodes opgeslagen');
+        return 0;
     }
 
     private function getWerkgebied($name)

@@ -31,9 +31,7 @@ class FinancieleDocumentenController extends SymfonyController
     public $title = 'Financiele Documenten';
 
     /**
-     * @var FinancieelDocumentDaoInterface
-     *
-     * @DI\Inject("TwBundle\Service\FinancieelDocumentDao")
+     * @var FinancieelDocumentDao
      */
     private $dao;
 
@@ -66,12 +64,12 @@ class FinancieleDocumentenController extends SymfonyController
                 $entityManager->flush();
                 $this->addFlash('success', 'Document is toegevoegd.');
             } catch(UserException $e) {
-//                $this->get('logger')->error($e->getMessage(), ['exception' => $e]);
+//                $this->logger->error($e->getMessage(), ['exception' => $e]);
                 $message =  $e->getMessage();
                 $this->addFlash('danger', $message);
 //                return $this->redirectToRoute('app_klanten_index');
             } catch (\Exception $e) {
-                $message = $this->container->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
+                $message = $this->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
                 $this->addFlash('danger', $message);
 
                 return $this->redirectToRoute($routeBase.'_index');
@@ -97,12 +95,12 @@ class FinancieleDocumentenController extends SymfonyController
                 $this->dao->update($entity);
                 $this->addFlash('success', 'Document is bijgewerkt.');
             } catch(UserException $e) {
-//                $this->get('logger')->error($e->getMessage(), ['exception' => $e]);
+//                $this->logger->error($e->getMessage(), ['exception' => $e]);
                 $message =  $e->getMessage();
                 $this->addFlash('danger', $message);
 //                return $this->redirectToRoute('app_klanten_index');
             } catch (\Exception $e) {
-                $message = $this->container->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
+                $message = $this->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
                 $this->addFlash('danger', $message);
             }
 

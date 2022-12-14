@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace Application\Migrations;
 
@@ -10,10 +12,10 @@ use Doctrine\Migrations\AbstractMigration;
  */
 final class Version20211202120734 extends AbstractMigration
 {
-    public function up(Schema $schema) : void
+    public function up(Schema $schema): void
     {
         // this up() migration is auto-generated, please modify it to your needs
-        $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
+        $this->abortIf('mysql' !== $this->connection->getDatabasePlatform()->getName(), 'Migration can only be executed safely on \'mysql\'.');
 
         $this->addSql('ALTER TABLE dagbesteding_resultaatgebieden ADD created DATETIME NOT NULL DEFAULT NOW(), ADD modified DATETIME NOT NULL DEFAULT NOW()');
 
@@ -25,7 +27,6 @@ final class Version20211202120734 extends AbstractMigration
         $this->addSql('ALTER TABLE hs_registraties ADD created DATETIME NOT NULL DEFAULT NOW(), ADD modified DATETIME NOT NULL DEFAULT NOW()');
         $this->addSql('ALTER TABLE hs_klussen ADD created DATETIME NOT NULL DEFAULT NOW(), ADD modified DATETIME NOT NULL DEFAULT NOW()');
         $this->addSql('ALTER TABLE hs_declaraties ADD created DATETIME NOT NULL DEFAULT NOW(), ADD modified DATETIME NOT NULL DEFAULT NOW()');
-
 
         $this->addSql('UPDATE woonsituaties SET created = NOW() WHERE created IS NULL');
         $this->addSql('UPDATE woonsituaties SET modified = NOW() WHERE modified IS NULL');
@@ -108,14 +109,11 @@ final class Version20211202120734 extends AbstractMigration
         $this->addSql('UPDATE pfo_clienten SET created = NOW() WHERE created IS NULL');
         $this->addSql('UPDATE pfo_clienten SET modified = NOW() WHERE modified IS NULL');
         $this->addSql('ALTER TABLE pfo_clienten CHANGE created created DATETIME NOT NULL DEFAULT NOW(), CHANGE modified modified DATETIME NOT NULL DEFAULT NOW()');
-
-
     }
 
-    public function down(Schema $schema) : void
+    public function down(Schema $schema): void
     {
         // this down() migration is auto-generated, please modify it to your needs
-        $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
-
+        $this->abortIf('mysql' !== $this->connection->getDatabasePlatform()->getName(), 'Migration can only be executed safely on \'mysql\'.');
     }
 }

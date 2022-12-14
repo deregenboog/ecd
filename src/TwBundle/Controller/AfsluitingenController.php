@@ -5,6 +5,7 @@ namespace TwBundle\Controller;
 use AppBundle\Controller\SymfonyController;
 use AppBundle\Exception\UserException;
 use AppBundle\Form\ConfirmationType;
+use IzBundle\Service\AfsluitingDao;
 use TwBundle\Form\AfsluitingType;
 use TwBundle\Service\AfsluitingDaoInterface;
 use Symfony\Component\Routing\Annotation\Route;
@@ -12,7 +13,7 @@ use Symfony\Component\Routing\Annotation\Route;
 abstract class AfsluitingenController extends SymfonyController
 {
     /**
-     * @var AfsluitingDaoInterface
+     * @var AfsluitingDao
      */
     protected $dao;
 
@@ -30,6 +31,15 @@ abstract class AfsluitingenController extends SymfonyController
      * @var string
      */
     protected $indexRouteName;
+
+    /**
+     * @param AfsluitingDao $dao
+     */
+    public function __construct(AfsluitingDao $dao)
+    {
+        $this->dao = $dao;
+    }
+
 
     /**
      * @Route("/")
@@ -60,12 +70,12 @@ abstract class AfsluitingenController extends SymfonyController
                 $this->dao->create($afsluiting);
                 $this->addFlash('success', $this->entityName.' is toegevoegd.');
             } catch(UserException $e) {
-//                $this->get('logger')->error($e->getMessage(), ['exception' => $e]);
+//                $this->logger->error($e->getMessage(), ['exception' => $e]);
                 $message =  $e->getMessage();
                 $this->addFlash('danger', $message);
 //                return $this->redirectToRoute('app_klanten_index');
             } catch (\Exception $e) {
-                $message = $this->container->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
+                $message = $this->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
                 $this->addFlash('danger', $message);
             }
 
@@ -93,12 +103,12 @@ abstract class AfsluitingenController extends SymfonyController
                 $this->dao->update($afsluiting);
                 $this->addFlash('success', $this->entityName.' is gewijzigd.');
             } catch(UserException $e) {
-//                $this->get('logger')->error($e->getMessage(), ['exception' => $e]);
+//                $this->logger->error($e->getMessage(), ['exception' => $e]);
                 $message =  $e->getMessage();
                 $this->addFlash('danger', $message);
 //                return $this->redirectToRoute('app_klanten_index');
             } catch (\Exception $e) {
-                $message = $this->container->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
+                $message = $this->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
                 $this->addFlash('danger', $message);
             }
 
@@ -125,12 +135,12 @@ abstract class AfsluitingenController extends SymfonyController
                     $this->dao->delete($afsluiting);
                     $this->addFlash('success', $this->entityName.' is verwijderd.');
                 } catch(UserException $e) {
-//                $this->get('logger')->error($e->getMessage(), ['exception' => $e]);
+//                $this->logger->error($e->getMessage(), ['exception' => $e]);
                     $message =  $e->getMessage();
                     $this->addFlash('danger', $message);
 //                return $this->redirectToRoute('app_klanten_index');
                 } catch (\Exception $e) {
-                    $message = $this->container->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
+                    $message = $this->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
                     $this->addFlash('danger', $message);
                 }
             }

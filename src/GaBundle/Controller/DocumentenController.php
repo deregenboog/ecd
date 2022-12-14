@@ -5,9 +5,10 @@ namespace GaBundle\Controller;
 use AppBundle\Controller\AbstractChildController;
 use GaBundle\Entity\Document;
 use GaBundle\Form\DocumentType;
-use GaBundle\Service\DocumentDaoInterface;
+use GaBundle\Service\DocumentDao;
 use JMS\DiExtraBundle\Annotation as DI;
 use Symfony\Component\Routing\Annotation\Route;
+use Vich\UploaderBundle\Handler\DownloadHandler;
 
 /**
  * @Route("/documenten")
@@ -23,30 +24,27 @@ class DocumentenController extends AbstractChildController
     protected $disabledActions = ['index', 'edit'];
 
     /**
-     * @var DocumentDaoInterface
-     *
-     * @DI\Inject("GaBundle\Service\DocumentDao")
+     * @var DocumentDao 
      */
     protected $dao;
 
     /**
      * @var \ArrayObject
-     *
-     * @DI\Inject("ga.document.entities")
      */
     protected $entities;
 
     /**
-     * @Route("/download/{filename}")
+     * @param DocumentDao $dao
+     * @param \ArrayObject $entities
      */
-    public function downloadAction($filename)
+    public function __construct(DocumentDao $dao, \ArrayObject $entities)
     {
-        $document = $this->dao->findByFilename($filename);
-
-        $downloadHandler = $this->get('vich_uploader.download_handler');
-
-        return $downloadHandler->downloadObject($document, 'file');
+        $this->dao = $dao;
+        $this->entities = $entities;
     }
+
+
+
 
     protected function createEntity($parentEntity = null)
     {

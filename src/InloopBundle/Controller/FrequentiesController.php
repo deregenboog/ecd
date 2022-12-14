@@ -5,6 +5,7 @@ namespace InloopBundle\Controller;
 use AppBundle\Controller\AbstractController;
 use InloopBundle\Entity\Frequentie;
 use InloopBundle\Form\FrequentieType;
+use InloopBundle\Service\FrequentieDao;
 use InloopBundle\Service\FrequentieDaoInterface;
 use JMS\DiExtraBundle\Annotation as DI;
 use Symfony\Component\Routing\Annotation\Route;
@@ -23,9 +24,17 @@ class FrequentiesController extends AbstractController
     protected $baseRouteName = 'inloop_frequenties_';
 
     /**
-     * @var FrequentieDaoInterface
-     *
-     * @DI\Inject("InloopBundle\Service\FrequentieDao")
+     * @var FrequentieDao
      */
     protected $dao;
+
+    /**
+     * @param FrequentieDao $dao
+     */
+    public function __construct(FrequentieDao $dao)
+    {
+        $this->dao = $dao;
+    }
+
+
 }

@@ -47,7 +47,7 @@ class Persoon
 
     /**
      * @var Medewerker
-     * @ORM\ManyToOne(targetEntity="Medewerker")
+     * @ORM\ManyToOne(targetEntity="Medewerker", cascade={"persist"})
      * @ORM\JoinColumn(nullable=true)
      * @Gedmo\Versioned
      */
@@ -55,7 +55,7 @@ class Persoon
 
     /**
      * @var Land
-     * @ORM\ManyToOne(targetEntity="Land")
+     * @ORM\ManyToOne(targetEntity="Land", cascade={"persist"})
      * @ORM\JoinColumn(nullable=true)
      * @Gedmo\Versioned
      */
@@ -63,7 +63,7 @@ class Persoon
 
     /**
      * @var Nationaliteit
-     * @ORM\ManyToOne(targetEntity="Nationaliteit")
+     * @ORM\ManyToOne(targetEntity="Nationaliteit",cascade={"persist"})
      * @ORM\JoinColumn(nullable=true)
      * @Gedmo\Versioned
      */

@@ -11,6 +11,7 @@ use AppBundle\Form\ConfirmationType;
 use AppBundle\Form\VrijwilligerFilterType;
 use AppBundle\Form\VrijwilligerType;
 use AppBundle\Repository\DocumentenRepository;
+use AppBundle\Service\VrijwilligerDao;
 use AppBundle\Service\VrijwilligerDaoInterface;
 use Doctrine\Common\Collections\Criteria;
 use JMS\DiExtraBundle\Annotation as DI;
@@ -33,18 +34,25 @@ class VrijwilligersController extends AbstractController
     protected $baseRouteName = 'app_vrijwilligers_';
 
     /**
-     * @var VrijwilligerDaoInterface
-     *
-     * @DI\Inject("AppBundle\Service\VrijwilligerDao")
+     * @var VrijwilligerDao
      */
     protected $dao;
 
     /**
      * @var AbstractExport
-     *
-     * @DI\Inject("app.export.vrijwilligers")
      */
     protected $export;
+
+    /**
+     * @param VrijwilligerDao $dao
+     * @param AbstractExport $export
+     */
+    public function __construct(VrijwilligerDao $dao, AbstractExport $export)
+    {
+        $this->dao = $dao;
+        $this->export = $export;
+    }
+
 
     /**
      * @Route("/{vrijwilliger}/{documentId}/deleteDocument/")

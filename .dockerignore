@@ -1,7 +1,6 @@
 /.*
 /Dockerfile*
 /Makefile
-/app/config/parameters.yml
 /docker/mysql
 /docker-*
 /var

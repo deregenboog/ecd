@@ -10,4 +10,4 @@ services:
     hs.data_fixtures.processor:
         class: HsBundle\DataFixtures\HsProcessor
         tags:
-            - { name: hautelook_alice.alice.processor }
+            - { name: fidry_alice_data_fixtures.processor }

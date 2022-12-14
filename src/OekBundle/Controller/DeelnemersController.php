@@ -7,6 +7,7 @@ use AppBundle\Entity\Klant;
 use AppBundle\Exception\UserException;
 use AppBundle\Export\ExportInterface;
 use AppBundle\Form\KlantFilterType;
+use AppBundle\Service\KlantDao;
 use AppBundle\Service\KlantDaoInterface;
 use Doctrine\ORM\EntityNotFoundException;
 use JMS\DiExtraBundle\Annotation as DI;
@@ -17,6 +18,7 @@ use OekBundle\Form\AanmeldingType;
 use OekBundle\Form\AfsluitingType;
 use OekBundle\Form\DeelnemerFilterType;
 use OekBundle\Form\DeelnemerType;
+use OekBundle\Service\DeelnemerDao;
 use OekBundle\Service\DeelnemerDaoInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\Form\FormError;
@@ -37,25 +39,32 @@ class DeelnemersController extends AbstractController
     protected $baseRouteName = 'oek_deelnemers_';
 
     /**
-     * @var DeelnemerDaoInterface
-     *
-     * @DI\Inject("OekBundle\Service\DeelnemerDao")
+     * @var DeelnemerDao
      */
     protected $dao;
 
     /**
+     * @var KlantDao
+     */
+    private $klantDao;
+
+    /**
      * @var ExportInterface
-     *
-     * @DI\Inject("oek.export.deelnemer")
      */
     protected $export;
 
     /**
-     * @var KlantDaoInterface
-     *
-     * @DI\Inject("AppBundle\Service\KlantDao")
+     * @param DeelnemerDao $dao
+     * @param KlantDao $klantDao
+     * @param ExportInterface $export
      */
-    private $klantDao;
+    public function __construct(DeelnemerDao $dao, KlantDao $klantDao, ExportInterface $export)
+    {
+        $this->dao = $dao;
+        $this->klantDao = $klantDao;
+        $this->export = $export;
+    }
+
 
     /**
      * @Route("/add")
@@ -89,12 +98,12 @@ class DeelnemersController extends AbstractController
 
                 return $this->redirectToRoute('oek_deelnemers_view', ['id' => $deelnemer->getId()]);
             } catch(UserException $e) {
-//                $this->get('logger')->error($e->getMessage(), ['exception' => $e]);
+//                $this->logger->error($e->getMessage(), ['exception' => $e]);
                 $message =  $e->getMessage();
                 $this->addFlash('danger', $message);
 //                return $this->redirectToRoute('app_klanten_index');
             } catch (\Exception $e) {
-                $message = $this->container->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
+                $message = $this->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
                 $this->addFlash('danger', $message);
             }
         }
@@ -125,12 +134,12 @@ class DeelnemersController extends AbstractController
 
                 return $this->redirectToRoute('oek_deelnemers_view', ['id' => $deelnemer->getId()]);
             } catch(UserException $e) {
-//                $this->get('logger')->error($e->getMessage(), ['exception' => $e]);
+//                $this->logger->error($e->getMessage(), ['exception' => $e]);
                 $message =  $e->getMessage();
                 $this->addFlash('danger', $message);
 //                return $this->redirectToRoute('app_klanten_index');
             } catch (\Exception $e) {
-                $message = $this->container->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
+                $message = $this->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
                 $this->addFlash('danger', $message);
             }
         }
@@ -206,12 +215,12 @@ class DeelnemersController extends AbstractController
 
                 return $this->redirectToRoute('oek_deelnemers_view', ['id' => $deelnemer->getId()]);
             } catch(UserException $e) {
-//                $this->get('logger')->error($e->getMessage(), ['exception' => $e]);
+//                $this->logger->error($e->getMessage(), ['exception' => $e]);
                 $message =  $e->getMessage();
                 $this->addFlash('danger', $message);
 //                return $this->redirectToRoute('app_klanten_index');
             } catch (\Exception $e) {
-                $message = $this->container->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
+                $message = $this->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
                 $this->addFlash('danger', $message);
             }
 

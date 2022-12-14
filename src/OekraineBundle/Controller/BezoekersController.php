@@ -21,6 +21,7 @@ use OekraineBundle\Form\AfsluitingType;
 use OekraineBundle\Form\BezoekerFilterType;
 use OekraineBundle\Form\BezoekerType;
 use OekraineBundle\Pdf\PdfBrief;
+use OekraineBundle\Service\BezoekerDao;
 use OekraineBundle\Service\BezoekerDaoInterface;
 use OekraineBundle\Service\KlantDaoInterface;
 use JMS\DiExtraBundle\Annotation as DI;
@@ -46,32 +47,37 @@ class BezoekersController extends AbstractController
     protected $filterFormClass = BezoekerFilterType::class;
     protected $baseRouteName = 'oekraine_bezoekers_';
 
-    /**
-     * @var BezoekerDaoInterface
-     *
-     * @DI\Inject("OekraineBundle\Service\BezoekerDao")
-     */
-    protected $dao;
-
-    /**
-     * @var \AppBundle\Service\KlantDaoInterface
-     *
-     * @DI\Inject("AppBundle\Service\KlantDao")
-     */
-    protected $klantDao;
-
-    /**
-     * @var \AppBundle\Service\KlantDaoInterface
-     *
-     * @DI\Inject("AppBundle\Service\KlantDao")
-     */
-    protected $searchDao;
-
     protected $addMethod = "addBezoeker";
     protected $searchFilterTypeClass = AppKlantFilterType::class;
     protected $searchEntity = AppKlant::class;
     protected $searchEntityName = 'appKlant';
 
+    /**
+     * @var BezoekerDao
+     */
+    protected $dao;
+
+    /**
+     * @var \AppBundle\Service\KlantDao
+     */
+    protected $bezoekerDao;
+
+    /**
+     * @var \AppBundle\Service\KlantDao
+     */
+    protected $searchDao;
+
+    /**
+     * @param BezoekerDao $dao
+     * @param \AppBundle\Service\KlantDao $bezoekerDao
+     * @param \AppBundle\Service\KlantDao $searchDao
+     */
+    public function __construct(BezoekerDao $dao, \AppBundle\Service\KlantDao $bezoekerDao, \AppBundle\Service\KlantDao $searchDao)
+    {
+        $this->dao = $dao;
+        $this->klantDao = $bezoekerDao;
+        $this->searchDao = $searchDao;
+    }
 
     protected function doAdd(Request $request)
     {
@@ -116,7 +122,7 @@ class BezoekersController extends AbstractController
                 $message =  $e->getMessage();
                 $this->addFlash('danger', $message);
             } catch (\Exception $e) {
-                $message = $this->container->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
+                $message = $this->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
                 $this->addFlash('danger', $message);
             }
 
@@ -156,7 +162,7 @@ class BezoekersController extends AbstractController
                 ->where('registratie.klant = :klant')
                 ->andWhere('DATE(registratie.binnen) BETWEEN :start_date AND :end_date')
                 ->setParameters([
-                    'klant' => $klant,
+                    'klant' => $bezoeker,
                     'start_date' => $form->get('startdatum')->getData(),
                     'end_date' => $form->get('einddatum')->getData(),
                 ]);
@@ -180,7 +186,7 @@ class BezoekersController extends AbstractController
                 ->andWhere('schorsing.datumVan >= :start_date')
                 ->andWhere('schorsing.datumTot <= :end_date')
                 ->setParameters([
-                    'klant' => $klant,
+                    'klant' => $bezoeker,
                     'start_date' => $form->get('startdatum')->getData(),
                     'end_date' => $form->get('einddatum')->getData(),
                 ])
@@ -191,13 +197,13 @@ class BezoekersController extends AbstractController
                 'data' => $data,
                 'startDate' => $form->get('startdatum')->getData(),
                 'endDate' => $form->get('einddatum')->getData(),
-                'klant' => $klant,
+                'klant' => $bezoeker,
                 'form' => $form->createView(),
             ];
         }
 
         return [
-            'klant' => $klant,
+            'klant' => $bezoeker,
             'form' => $form->createView(),
         ];
     }
@@ -212,7 +218,7 @@ class BezoekersController extends AbstractController
 
         $data = [];
         foreach ($locaties as $locatie) {
-            $klanten = $em->getRepository(Klant::class)->createQueryBuilder('klant')
+            $bezoekeren = $em->getRepository(Klant::class)->createQueryBuilder('klant')
                 ->select('klant, intake')
                 ->innerJoin('klant.laatsteIntake', 'intake', 'WITH', 'intake.intakedatum < :year_ago')
                 ->innerJoin(Registratie::class, 'registratie', 'WITH', 'registratie.klant = klant')
@@ -227,9 +233,9 @@ class BezoekersController extends AbstractController
                 ->getResult()
             ;
 
-            if (count($klanten) > 0) {
-                foreach ($klanten as $klant) {
-                    $data[$locatie->getNaam()][] = $klant;
+            if (count($bezoekeren) > 0) {
+                foreach ($bezoekeren as $bezoeker) {
+                    $data[$locatie->getNaam()][] = $bezoeker;
                 }
             }
         }
@@ -241,9 +247,9 @@ class BezoekersController extends AbstractController
      * @Route("/{klant}/amoc.pdf")
      * @ParamConverter("klant", class="AppBundle:Klant")
      */
-    public function amocAction(Klant $klant)
+    public function amocAction(Klant $bezoeker)
     {
-        $html = $this->renderView('@Inloop/klanten/amoc_brief.pdf.twig', ['klant' => $klant]);
+        $html = $this->renderView('@Inloop/klanten/amoc_brief.pdf.twig', ['klant' => $bezoeker]);
         $pdf = new PdfBrief($html);
 
         $response = new Response($pdf->Output(null, 'S'));
@@ -258,8 +264,8 @@ class BezoekersController extends AbstractController
      */
     public function closeAction(Request $request, $id)
     {
-        $klant = $this->dao->find($id);
-        $afsluiting = new Afsluiting($klant, $this->getMedewerker());
+        $bezoeker = $this->dao->find($id);
+        $afsluiting = new Afsluiting($bezoeker, $this->getMedewerker());
 
         $form = $this->getForm(AfsluitingType::class, $afsluiting);
         $form->handleRequest($this->getRequest());
@@ -269,37 +275,30 @@ class BezoekersController extends AbstractController
                 $entityManager->persist($afsluiting);
                 $entityManager->flush();
 
-                $this->get('event_dispatcher')->dispatch(Events::DOSSIER_CHANGED, new GenericEvent($afsluiting));
+                $this->eventDispatcher->dispatch(new GenericEvent($afsluiting), Events::DOSSIER_CHANGED);
 
                 $this->addFlash('success', 'Inloopdossier is afgesloten');
 
             } catch(UserException $e) {
-//                $this->get('logger')->error($e->getMessage(), ['exception' => $e]);
+//                $this->logger->error($e->getMessage(), ['exception' => $e]);
                 $message =  $e->getMessage();
                 $this->addFlash('danger', $message);
 //                return $this->redirectToRoute('app_klanten_index');
             } catch (\Exception $e) {
-                $message = $this->container->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
+                $message = $this->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
                 $this->addFlash('danger', $message);
             }
 
-            if(array_key_exists("mwSluiten",$request->get('afsluiting')) )
-            {
-                if($klant->getHuidigeMwStatus() instanceof \MwBundle\Entity\Aanmelding)
-                {
-                    return $this->redirectToRoute("mw_klanten_close",["id"=>$id,"redirect"=>$this->generateUrl("oekraine_klanten_index")]);
-                }
-
-            }
+//
             if ($url = $request->get('redirect')) {
                 return $this->redirect($url);
             }
 
-            return $this->redirectToRoute('oekraine_klanten_index');
+            return $this->redirectToRoute('oekraine_bezoekers_index');
         }
 
         return [
-            'klant' => $klant,
+            'klant' => $bezoeker,
             'form' => $form->createView(),
         ];
     }
@@ -309,10 +308,10 @@ class BezoekersController extends AbstractController
      */
     public function openAction(Request $request, $id)
     {
-        $klant = $this->dao->find($id);
-        $aanmelding = new Aanmelding($klant, $this->getMedewerker());
+        $bezoeker = $this->dao->find($id);
+        $aanmelding = new Aanmelding($bezoeker, $this->getMedewerker());
 
-        if(in_array($klant->getLand()->getNaam(),$this->getParameter('tbc_countries') ) )
+        if(in_array($bezoeker->getAppKlant()->getLand()->getNaam(),$this->getParameter('tbc_countries') ) )
         {
             $this->addFlash("danger","Let op: klant uit risicoland. Doorverwijzen naar GGD voor TBC controle.");
         }
@@ -326,16 +325,16 @@ class BezoekersController extends AbstractController
                 $entityManager->flush();
 
 
-                $this->container->get('event_dispatcher')->dispatch(Events::DOSSIER_CHANGED, new GenericEvent($aanmelding));
+                $this->eventDispatcher->dispatch(Events::DOSSIER_CHANGED, new GenericEvent($aanmelding));
 
                 $this->addFlash('success', 'Inloopdossier is heropend');
             } catch(UserException $e) {
-//                $this->get('logger')->error($e->getMessage(), ['exception' => $e]);
+//                $this->logger->error($e->getMessage(), ['exception' => $e]);
                 $message =  $e->getMessage();
                 $this->addFlash('danger', $message);
 //                return $this->redirectToRoute('app_klanten_index');
             } catch (\Exception $e) {
-                $message = $this->container->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
+                $message = $this->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
                 $this->addFlash('danger', $message);
             }
 
@@ -343,11 +342,11 @@ class BezoekersController extends AbstractController
                 return $this->redirect($url);
             }
 
-            return $this->redirectToRoute('oekraine_klanten_index');
+            return $this->redirectToRoute('oekraine_bezoekers_index');
         }
 
         return [
-            'klant' => $klant,
+            'klant' => $bezoeker,
             'form' => $form->createView(),
         ];
     }
@@ -402,22 +401,9 @@ class BezoekersController extends AbstractController
 
     protected function addParams($entity, Request $request)
     {
-        return [
-            'amoc_landen' => $this->getAmocLanden(),
-            'tbc_countries' => $this->container->getParameter('tbc_countries'),
-
-        ];
+        return [];
     }
 
-    protected function getAmocLanden()
-    {
-        return $this->getDoctrine()->getEntityManager()->getRepository(Land::class)
-            ->createQueryBuilder('land')
-            ->innerJoin(AmocLand::class, 'amoc', 'WITH', 'amoc.land = land')
-            ->getquery()
-            ->getResult()
-        ;
-    }
 
     protected function doSearch(Request $request)
     {
@@ -451,13 +437,13 @@ class BezoekersController extends AbstractController
 
     protected function DEPRECATE_REMOVE_MEdddoAdd(Request $request)
     {
-        $klantId = $request->get('klant');
-        if ('new' === $klantId) {
-            $klant = new Klant();
+        $bezoekerId = $request->get('klant');
+        if ('new' === $bezoekerId) {
+            $bezoeker = new Klant();
         } else {
 
-            $klant = $this->klantDao->find($klantId);
-            $bezoeker = $this->dao->findByKlantId($klantId);
+            $bezoeker = $this->klantDao->find($bezoekerId);
+            $bezoeker = $this->dao->findByKlantId($bezoekerId);
             if ($bezoeker) {
                 // redirect if already exists
                 if ($bezoeker->getHuidigeStatus()) {
@@ -470,7 +456,7 @@ class BezoekersController extends AbstractController
         {
             $bezoeker = new Bezoeker();
         }
-        $bezoeker->setAppKlant($klant);
+        $bezoeker->setAppKlant($bezoeker);
 
 
         $creationForm = $this->getForm(BezoekerType::class, $bezoeker);
@@ -485,7 +471,7 @@ class BezoekersController extends AbstractController
                 $message =  $e->getMessage();
                 $this->addFlash('danger', $message);
             } catch (\Exception $e) {
-                $message = $this->container->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
+                $message = $this->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
                 $this->addFlash('danger', $message);
             }
 

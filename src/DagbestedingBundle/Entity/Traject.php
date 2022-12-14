@@ -22,8 +22,8 @@ class Traject
 {
     use TimestampableTrait;
 
-    const TERMIJN_EVALUATIE = '+11 months';
-    const TERMIJN_EIND = '+1 year -1 day';
+    public const TERMIJN_EVALUATIE = '+6 months';
+    public const TERMIJN_EIND = '+1 year -1 day';
 
     /**
      * @ORM\Id
@@ -96,7 +96,7 @@ class Traject
     /**
      * @var Trajectcoach
      *
-     * @ORM\ManyToOne(targetEntity="Trajectcoach", inversedBy="trajecten")
+     * @ORM\ManyToOne(targetEntity="Trajectcoach", inversedBy="trajecten", cascade={"persist"})
      * @ORM\JoinColumn(nullable=false)
      * @Gedmo\Versioned
      */

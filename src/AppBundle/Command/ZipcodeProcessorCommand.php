@@ -8,7 +8,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class ZipcodeProcessorCommand extends ContainerAwareCommand
+class ZipcodeProcessorCommand extends \Symfony\Component\Console\Command\Command
 {
     /**
      *
@@ -28,7 +28,7 @@ class ZipcodeProcessorCommand extends ContainerAwareCommand
         ;
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $output->writeln(sprintf('Mem usage at start: %s', memory_get_usage()/1048576));
         $files = $input->getArgument('files');
@@ -159,5 +159,6 @@ class ZipcodeProcessorCommand extends ContainerAwareCommand
         fclose($handle);
 
         $output->writeln(sprintf('%d postcodes opgeslagen', count($postcodes)));
+        return 0;
     }
 }

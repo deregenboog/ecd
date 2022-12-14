@@ -5,6 +5,7 @@ namespace InloopBundle\Controller;
 use AppBundle\Controller\AbstractController;
 use InloopBundle\Entity\Gebruikswijze;
 use InloopBundle\Form\GebruikswijzeType;
+use InloopBundle\Service\GebruikswijzeDao;
 use InloopBundle\Service\GebruikswijzeDaoInterface;
 use JMS\DiExtraBundle\Annotation as DI;
 use Symfony\Component\Routing\Annotation\Route;
@@ -23,9 +24,17 @@ class GebruikswijzenController extends AbstractController
     protected $baseRouteName = 'inloop_gebruikswijzen_';
 
     /**
-     * @var GebruikswijzeDaoInterface
-     *
-     * @DI\Inject("InloopBundle\Service\GebruikswijzeDao")
+     * @var GebruikswijzeDao
      */
     protected $dao;
+
+    /**
+     * @param GebruikswijzeDao $dao
+     */
+    public function __construct(GebruikswijzeDao $dao)
+    {
+        $this->dao = $dao;
+    }
+
+
 }
