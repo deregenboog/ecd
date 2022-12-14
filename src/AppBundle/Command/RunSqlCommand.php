@@ -3,6 +3,8 @@
 namespace AppBundle\Command;
 
 use Doctrine\DBAL\Connection;
+use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -10,6 +12,18 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class RunSqlCommand extends \Symfony\Component\Console\Command\Command
 {
+
+    /**
+     * @var EntityManager
+     */
+    protected $entityManager;
+
+    public function __construct(EntityManagerInterface $entityManager)
+    {
+        $this->entityManager = $entityManager;
+        parent::__construct();
+    }
+
     protected function configure()
     {
         ini_set("memory_limit","512M");
@@ -35,7 +49,7 @@ class RunSqlCommand extends \Symfony\Component\Console\Command\Command
 
         if (!$input->getOption('dry-run')) {
             /* @var $connection Connection */
-            $connection = $this->getContainer()->get('doctrine.orm.entity_manager')->getConnection();
+            $connection = $this->entityManager->getConnection();
             $connection->executeQuery($sql);
         }
 
