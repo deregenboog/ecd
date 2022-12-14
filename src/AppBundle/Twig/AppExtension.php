@@ -243,13 +243,8 @@ class AppExtension extends AbstractExtension implements GlobalsInterface
 
     public function moneyFilter($value)
     {
-        // check if locale set in %framework.default_locale% is supported
-        if (setlocale(LC_ALL, 0) && 'C' !== setlocale(LC_ALL, 0)) {
-            return money_format('%+#1n', (float) $value);
-        }
-
-        // or fallback
-        return '€ '.number_format((float) $value, 2, ',', '.');
+        return \NumberFormatter::create("nl_NL",\NumberFormatter::CURRENCY)
+            ->formatCurrency((float)$value,"EUR");
     }
 
     /**
