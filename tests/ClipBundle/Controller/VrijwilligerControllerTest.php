@@ -17,10 +17,8 @@ class VrijwilligerControllerTest extends WebTestCase
 
     public function testSortColumns()
     {
-        $this->markTestSkipped();
-
-        $medewerker = $this->getContainer()->get(\AppBundle\Service\MedewerkerDao::class)->findByUsername('clip_user');
-        $this->logIn($medewerker, ['ROLE_CLIP_VRIJWILLIGERS']);
+        $medewerker = $this->getContainer()->get(\AppBundle\Service\MedewerkerDao::class)->findByUsername('clip_admin');
+        $this->logIn($medewerker);
 
         $crawler = $this->client->request('GET', '/clip/vrijwilligers/');
         $this->assertStatusCode(200, $this->client);

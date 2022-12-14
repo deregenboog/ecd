@@ -36,3 +36,8 @@ docker-test-run:
 
 docker-test-teardown:
 	docker compose -f docker-compose.test.yml stop test-database
+
+docker-test:
+	$(MAKE) docker-test-setup
+	$(MAKE) docker-test-run
+	$(MAKE) docker-test-teardown

@@ -4,30 +4,22 @@ namespace InloopBundle\Event;
 
 use InloopBundle\Entity\Intake;
 use InloopBundle\Service\AccessUpdater;
-use InloopBundle\Service\KlantDao;
 use InloopBundle\Service\KlantDaoInterface;
-use MwBundle\Entity\Aanmelding;
 use Psr\Log\LoggerInterface;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
 use Symfony\Component\Mailer\Exception\TransportException;
-use Symfony\Component\Mailer\Mailer;
+use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Address;
-use Symfony\Component\Mime\Email;
-use Symfony\Component\Mime\Header\Headers;
-use Symfony\Component\Mime\Message;
 use Twig\Environment;
 
 class IntakeSubscriber implements EventSubscriberInterface
 {
-    /**
-     * @var KlantDao
-     */
-    private $klantDao;
-    private $logger;
+    private KlantDaoInterface $klantDao;
+    private LoggerInterface $logger;
     private Environment $twig;
-    private $mailer;
+    private MailerInterface $mailer;
     private $informeleZorgEmail;
     private $dagbestedingEmail;
     private $inloophuisEmail;
@@ -37,7 +29,7 @@ class IntakeSubscriber implements EventSubscriberInterface
         KlantDaoInterface $klantDao,
         LoggerInterface $logger,
         Environment $twig,
-        Mailer $mailer,
+        MailerInterface $mailer,
         AccessUpdater $accessUpdater,
         $informeleZorgEmail,
         $dagbestedingEmail,
