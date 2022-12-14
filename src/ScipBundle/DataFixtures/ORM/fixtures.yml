@@ -10,23 +10,23 @@ ScipBundle\Entity\Project:
 
 ScipBundle\Entity\Toegangsrecht:
     scip_toegangsrecht_1:
-        medewerker: '@medewerker_bhuttinga'
+        medewerker: '@medewerker_jborger'
         projecten: ['@scip_project_*']
     scip_toegangsrecht_{2..5}:
-        medewerker (unqiue): '@medewerker_*'
+        medewerker: '@medewerker_<current()>'
         projecten: ['@scip_project_*']
 
 ScipBundle\Entity\Deelnemer:
-    scip_deelnemer_{1..50}:
-        klant (unique): '@klant_*'
+    scip_deelnemer_{1..5}:
+        klant: '@klant_<current()>'
         labels: ['@scip_label_*']
 
 ScipBundle\Entity\Deelname:
-    scip_deelname_{1..100}:
+    scip_deelname_{1..10}:
         __construct: ['@scip_deelnemer_*', '@scip_project_*']
 
 #ScipBundle\Entity\Beschikbaarheid:
-#    scip_beschikbaarheid_{1..100}:
+#    scip_beschikbaarheid_{1..10}:
 #        deelname: '@scip_deelname_*'
 #        maandagVan: '<dateTimeThisDecade()>'
 #        maandagTot: '<dateTimeThisDecade()>'
@@ -36,14 +36,14 @@ ScipBundle\Entity\Deelname:
 #        vrijdagTot: '<dateTimeThisDecade()>'
 #
 #ScipBundle\Entity\Verslag:
-#    scip_verslag_{1..100}:
+#    scip_verslag_{1..10}:
 #        deelnemer: '@scip_deelnemer_*'
 #        tekst: '<text()>'
 #        datum: '<date()>'
 #        medewerker: '@medewerker_*'
 #
 #ScipBundle\Entity\Werkdoel:
-#    scip_verslag_{1..100}:
+#    scip_verslag_{1..10}:
 #        deelnemer: '@scip_deelnemer_*'
 #        tekst: '<text()>'
 #        datum: '<date()>'

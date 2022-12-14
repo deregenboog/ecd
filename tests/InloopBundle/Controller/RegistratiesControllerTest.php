@@ -10,7 +10,7 @@ class RegistratiesControllerTest extends WebTestCase
     public function testToegangInloophuis()
     {
 
-        $medewerker = $this->getContainer()->get('AppBundle\Service\MedewerkerDao')->find('inloop_user');
+        $medewerker = $this->getContainer()->get('AppBundle\Service\MedewerkerDao')->findByUsername('inloop_user');
         $this->logIn($medewerker);
 
         /**
@@ -22,7 +22,6 @@ class RegistratiesControllerTest extends WebTestCase
         {
             $this->editToegang($value);
         }
-
 
         /**
          * Blaka Watra, De Eik, De Kloof, De Spreekbuis, Derde Schinkel, Droogbak, Makom, Noorderpark, Oud West, Penitentiaire Inrichting, Politie, Princehof Inloop, Valentijn, Vrouwen Nacht Opvang, Westerpark

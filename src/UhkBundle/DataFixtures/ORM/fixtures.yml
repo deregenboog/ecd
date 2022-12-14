@@ -1,19 +1,19 @@
 UhkBundle\Entity\Deelnemer:
-    uhk_deelnemer_{1..50}:
-        klant (unique): '@klant_*'
+    uhk_deelnemer_{2..5}:
+        klant: '@klant_<current()>'
         aanmeldDatum: '<dateTimeThisDecade()>'
-        aanmeldnaam: '<firstname()>'
+        aanmelder: '@medewerker_*'
         contactpersoonNazorg: '<firstname()> <lastname()>'
 
 UhkBundle\Entity\Verslag:
-    uhk_verslag_{1..100}:
+    uhk_verslag_{1..10}:
         deelnemer: '@uhk_deelnemer_*'
         tekst: '<text()>'
-        datum: '<date()>'
+        datum: '<dateTimeThisDecade()>'
         medewerker: '@medewerker_*'
 
 #UhkBundle\Entity\Beschikbaarheid:
-#    uhk_beschikbaarheid_{1..100}:
+#    uhk_beschikbaarheid_{1..10}:
 #        deelname: '@uhk_deelname_*'
 #        maandagVan: '<dateTimeThisDecade()>'
 #        maandagTot: '<dateTimeThisDecade()>'
@@ -24,7 +24,7 @@ UhkBundle\Entity\Verslag:
 #
 
 #UhkBundle\Entity\Werkdoel:
-#    uhk_verslag_{1..100}:
+#    uhk_verslag_{1..10}:
 #        deelnemer: '@uhk_deelnemer_*'
 #        tekst: '<text()>'
 #        datum: '<date()>'

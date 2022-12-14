@@ -32,7 +32,7 @@ class KlantDao extends AbstractDao implements KlantDaoInterface
 //            'ambulantOndersteuner.achternaam',
             'intakeStatus.naam',
             'geslacht.volledig',
-            'bindingRegio.label',
+            'bindingRegio.naam',
             'shortlist.achternaam',
 
         ],
@@ -48,17 +48,14 @@ class KlantDao extends AbstractDao implements KlantDaoInterface
         parent::__construct($entityManager,$paginator,$itemsPerPage);
 
         $this->entityManager->getFilters()->disable('zichtbaar');
-
     }
+
     /**
      * {inheritdoc}.
      */
     public function findAll($page = null, FilterInterface $filter = null)
     {
-
-
         $builder = $this->repository->createQueryBuilder('klant')
-
             ->innerJoin('klant.appKlant', 'appKlant')
             ->leftJoin('appKlant.geslacht','geslacht')
             ->leftJoin('klant.intakeStatus','intakeStatus')
@@ -66,11 +63,9 @@ class KlantDao extends AbstractDao implements KlantDaoInterface
             ->leftJoin('klant.shortlist','shortlist')
             ->innerJoin('klant.projecten','project')
             ->leftJoin('klant.ambulantOndersteuner','ambulantOndersteuner')
-
             ->leftJoin('appKlant.werkgebied', 'werkgebied')
             ->leftJoin('klant.afsluiting', 'afsluiting')
             ->leftJoin('klant.medewerker','medewerker')
-
             ->andWhere('(afsluiting.tonen IS NULL OR afsluiting.tonen = true)')
         ;
 //        $builder = $this->repository->createQueryBuilder($this->alias)

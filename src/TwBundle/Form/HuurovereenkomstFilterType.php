@@ -121,11 +121,15 @@ class HuurovereenkomstFilterType extends AbstractType
 
             ]);
         }
-        if(in_array('aanmelddatum',$options['enabled_filters']['klant'])){
+
+        if (array_key_exists('klant', $options['enabled_filters'])
+            && in_array('aanmelddatum', $options['enabled_filters']['klant']))
+        {
             $builder->add('aanmelddatum', AppDateRangeType::class, [
                 'required' => false,
             ]);
         }
+
         if (in_array('project', $options['enabled_filters'])) {
             $builder->add('project', ProjectSelectFilterType::class, [
                 'label' => 'Project',

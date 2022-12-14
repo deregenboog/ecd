@@ -9,12 +9,13 @@ class DeelnemersControllerTest extends WebTestCase
 {
     public function testSortColumns()
     {
-        $medewerker = $this->getContainer()->get('AppBundle\Service\MedewerkerDao')->find('dagbesteding_user');
+        $medewerker = $this->getContainer()->get('AppBundle\Service\MedewerkerDao')->findByUsername('dagbesteding_user');
         $this->logIn($medewerker);
 
         $crawler = $this->client->request('GET', '/dagbesteding/deelnemers/');
+        $this->assertStatusCode(200, $this->client);
 
-        $headers = $crawler->filter('tr th a');
+        $headers = $crawler->filter('tr th a.sortable');
         $this->assertGreaterThan(1, $headers->count());
 
         $headers->each(function ($header) {

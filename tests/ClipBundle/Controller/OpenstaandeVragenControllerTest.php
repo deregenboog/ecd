@@ -9,12 +9,13 @@ class OpenstaandeVragenControllerTest extends WebTestCase
 {
     public function testSortColumns()
     {
-        $medewerker = $this->getContainer()->get('AppBundle\Service\MedewerkerDao')->find('clip_user');
+        $medewerker = $this->getContainer()->get('AppBundle\Service\MedewerkerDao')->findByUsername('clip_user');
         $this->logIn($medewerker);
 
         $crawler = $this->client->request('GET', '/clip/openstaandevragen/');
+        $this->assertStatusCode(200, $this->client);
 
-        $headers = $crawler->filter('tr th a');
+        $headers = $crawler->filter('tr th a.sortable');
         $this->assertGreaterThan(1, $headers->count());
 
         $headers->each(function ($header) {

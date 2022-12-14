@@ -5,7 +5,6 @@ namespace IzBundle\Form;
 use AppBundle\Doctrine\SqlExtractor;
 use Doctrine\ORM\EntityRepository;
 use IzBundle\Entity\Hulpvraag;
-use IzBundle\Entity\Koppeling;
 use IzBundle\Entity\Project;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;

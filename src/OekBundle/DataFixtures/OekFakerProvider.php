@@ -15,7 +15,7 @@ final class OekFakerProvider
     {
         $aanmelding = new Aanmelding();
         $aanmelding
-            ->setDatum(DateTime::dateTimeBetween('-5 years', '2017-01-01'))
+            ->setDatum(DateTime::dateTimeBetween('-5 years', '2021-12-31'))
             ->setVerwijzing($verwijzing)
             ->setMedewerker($medewerker);
 
@@ -26,7 +26,7 @@ final class OekFakerProvider
     {
         $afsluiting = new Afsluiting();
         $afsluiting
-            ->setDatum(DateTime::dateTimeBetween('2017-01-01'))
+            ->setDatum(DateTime::dateTimeBetween('2022-01-01'))
             ->setVerwijzing($verwijzing)
             ->setMedewerker($medewerker);
 
