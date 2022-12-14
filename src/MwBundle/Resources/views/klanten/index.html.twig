@@ -19,10 +19,6 @@
             {{ form_start(filter) }}
                 <tr>
                     <th colspan="11">
-                        <span class="pull-left">
-                            {{ form_widget(filter.alleenMetVerslag) }}
-                            {{ form_errors(filter.alleenMetVerslag) }}
-                        </span>
                         <span class="pull-right">
                             {{ form_widget(filter.filter) }}
                             {{ form_widget(filter.download) }}
@@ -167,19 +163,4 @@
         </tbody>
     </table>
     {{ knp_pagination_render(pagination) }}
-{% endblock %}
-
-{% block scripts %}
-    <script>
-   window.onload = function() {
-       if ($) {
-           var elmAlleenVerslag = $('#klant_filter_alleenMetVerslag');
-           elmAlleenVerslag.change(function (event) {
-               if ($(event.target).attr('checked') != 'checked') {
-                   $('#klant_filter_huidigeMwStatus').val('');
-               }
-           });
-       }
-   }
-   </script>
 {% endblock %}

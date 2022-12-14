@@ -89,13 +89,6 @@ class KlantFilterType extends AbstractType
             ]);
         }
 
-        if (in_array('alleenMetVerslag', $options['enabled_filters'])) {
-            $builder->add('alleenMetVerslag', CheckboxType::class, [
-                'required' => false,
-                'label' => 'Alleen klanten Maatschappelijk Werk tonen',
-            ]);
-        }
-
         if (in_array('huidigeMwStatus', $options['enabled_filters'])) {
             $builder->add('huidigeMwStatus', ChoiceType::class, [
 
@@ -121,7 +114,6 @@ class KlantFilterType extends AbstractType
                 'maatschappelijkWerker',
                 'laatsteVerslagLocatie',
                 'laatsteVerslagDatum',
-                'alleenMetVerslag',
                 'huidigeMwStatus',
 //                'verslag' => ['medewerker'],
                 'filter',

@@ -46,11 +46,6 @@ class KlantFilter implements FilterInterface
     public $laatsteVerslagDatum;
 
     /**
-     * @var bool
-     */
-    public $alleenMetVerslag = true;
-
-    /**
      * @var AppKlantFilter
      */
     public $klant;
@@ -132,10 +127,6 @@ class KlantFilter implements FilterInterface
         else if($this->huidigeMwStatus == 'Afsluiting') {
             $builder
                 ->andWhere($builder->expr()->isInstanceOf('huidigeMwStatus', Afsluiting::class));
-        }
-
-        if ($this->alleenMetVerslag) {
-            $builder->andWhere('klant.huidigeMwStatus IS NOT NULL');
         }
 
         if ($this->klant) {
