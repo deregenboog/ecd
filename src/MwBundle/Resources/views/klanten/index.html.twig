@@ -18,7 +18,7 @@
         <thead>
             {{ form_start(filter) }}
                 <tr>
-                    <th colspan="11">
+                    <th colspan="10">
                         <span class="pull-right">
                             {{ form_widget(filter.filter) }}
                             {{ form_widget(filter.download) }}
@@ -62,7 +62,6 @@
                         {{ form_widget(filter.laatsteVerslagDatum.end) }}
                         {{ form_errors(filter.laatsteVerslagDatum.end) }}
                     </th>
-                    <th></th>
                     <th>
                         {{ form_widget(filter.huidigeMwStatus) }}
                         {{ form_errors(filter.huidigeMwStatus) }}
@@ -93,9 +92,6 @@
                 </th>
                 <th>
                     {{ knp_pagination_sortable(pagination, 'Laatste verslag', 'datumLaatsteVerslag') }}
-                </th>
-                <th>
-                    {{ knp_pagination_sortable(pagination, 'Aantal verslagen', 'aantalVerslagen') }}
                 </th>
                 <th>Mw Dossierstatus</th>
             </tr>
@@ -151,9 +147,6 @@
                     </td>
                     <td>
                         {{ item.datumLaatsteVerslag|if_date('d-m-Y') }}
-                    </td>
-                    <td>
-                        {{ item.aantalVerslagen }}
                     </td>
                     <td>
                         {{ klant.huidigeMwStatus }}
