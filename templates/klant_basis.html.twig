@@ -42,7 +42,7 @@
             <dd>Ja</dd>
         </span>
     {% endif %}
-    {% if entity.partner is defined and klant.partner is not null%}
+    {% if klant.partner is defined and klant.partner is not null%}
         <dt>Partner</dt>
         <dd>{{ klant.partner }}   {{ html.link('Verwijder partner', path('app_klanten_addpartner', {klant: klant.id, 'partner':'remove'}), 'scissors') }}</dd>
     {% elseif klant.id is defined and klant.id is not null %}
