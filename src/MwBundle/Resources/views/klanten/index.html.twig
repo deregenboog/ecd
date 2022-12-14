@@ -18,7 +18,7 @@
         <thead>
             {{ form_start(filter) }}
                 <tr>
-                    <th colspan="10">
+                    <th colspan="11">
                         <span class="pull-right">
                             {{ form_widget(filter.filter) }}
                             {{ form_widget(filter.download) }}
@@ -66,6 +66,8 @@
                         {{ form_widget(filter.huidigeMwStatus) }}
                         {{ form_errors(filter.huidigeMwStatus) }}
                     </th>
+                    <th>
+                    </th>
                 </tr>
             {{ form_end(filter) }}
             <tr>
@@ -94,6 +96,7 @@
                     {{ knp_pagination_sortable(pagination, 'Laatste verslag', 'datumLaatsteVerslag') }}
                 </th>
                 <th>Mw Dossierstatus</th>
+                <th></th>
             </tr>
         </thead>
         <tbody>
@@ -150,6 +153,9 @@
                     </td>
                     <td>
                         {{ klant.huidigeMwStatus }}
+                    </td>
+                    <td>
+                        {{ html.link('Verslag toevoegen', path('mw_verslagen_add', {klant: klant.id}), 'add') }}
                     </td>
                 </tr>
             {% endfor %}
