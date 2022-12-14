@@ -2,7 +2,7 @@ TwBundle\Entity\HuuraanbodAfsluiting:
     tw_afsluiting_huuraanbod_{1..5}:
         naam: 'Reden <current()> afsluiting huuraanbod'
 
-TwBundle\Entity\HuurderAfsluiting:
+TwBundle\Entity\KlantAfsluiting:
     tw_afsluiting_huurder_{1..5}:
         naam: 'Reden <current()> afsluiting klant'
 
@@ -18,50 +18,61 @@ TwBundle\Entity\VerhuurderAfsluiting:
     tw_afsluiting_verhuurder_{1..5}:
         naam: 'Reden <current()> afsluiting verhuurder'
 
+TwBundle\Entity\PandeigenaarType:
+    tw_pandeigenaartype_{1..2}:
+        naam: '<word()>'
+    tw_pandeigenaar_3:
+        naam: '<word()>'
+        actief: false
+
 TwBundle\Entity\Pandeigenaar:
     tw_pandeigenaar_{1..5}:
         naam: '<word()>'
+        pandeigenaartype: '@tw_pandeigenaartype_*'
     tw_pandeigenaar_{6..7}:
         naam: '<word()>'
+        pandeigenaartype: '@tw_pandeigenaartype_*'
         actief: false
 
 TwBundle\Entity\Coordinator:
     tw_coordinator_{1..5}:
-        medewerker (unique): '@medewerker_*'
+        medewerker: '@medewerker_<current()>'
 
-TwBundle\Entity\Huurder:
-    tw_huurder_{1..100}:
-        klant (unique): '@klant_*'
+TwBundle\Entity\Klant:
+    tw_huurder_{1..10}:
+        __construct: ['@klant_<current()>']
+        # klant: '@klant_<current()>'
         medewerker: '@medewerker_*'
         aanmelddatum: '<dateTimeThisDecade()>'
-        huurbudget: '@huurbudget_*'
-        werk: '@werk_*'
-        duurthuisloos: '@duurthuisloos_*'
+        # huurbudget: '@huurbudget_*'
+        # werk: '@werk_*'
+        # duurthuisloos: '@duurthuisloos_*'
 
 TwBundle\Entity\Verhuurder:
-    tw_verhuurder_{1..100}:
-        klant (unique): '@klant_*'
+    tw_verhuurder_{1..10}:
+        __construct: ['@klant_<current()>']
+        # klant: '@klant_<current()>'
         medewerker: '@medewerker_*'
         aanmelddatum: '<dateTimeThisDecade()>'
 
 TwBundle\Entity\Huuraanbod:
-    tw_huuraanbod_{1..75}:
-        verhuurder (unique): '@tw_verhuurder_*'
+    tw_huuraanbod_{1..8}:
+        verhuurder: '@tw_verhuurder_<current()>'
         medewerker: '@medewerker_*'
         startdatum: '<dateTimeThisDecade()>'
         afsluitdatum: '10%? <afsluitdatum($startdatum)>'
 
 TwBundle\Entity\Huurverzoek:
-    tw_huurverzoek_{1..75}:
-        huurder (unique): '@tw_huurder_*'
+    tw_huurverzoek_{1..8}:
+        klant: '@tw_huurder_<current()>'
         medewerker: '@medewerker_*'
         startdatum: '<dateTimeThisDecade()>'
         afsluitdatum: '10%? <afsluitdatum($startdatum)>'
-        
+
 TwBundle\Entity\Huurovereenkomst:
-    tw_huurovereenkomst_{1..50}:
-        huurverzoek (unique): '@tw_huurverzoek_*'
-        huuraanbod (unique): '@tw_huuraanbod_*'
+    tw_huurovereenkomst_{1..8}:
+        huurverzoek: '@tw_huurverzoek_<current()>'
+        huuraanbod: '@tw_huuraanbod_<current()>'
         medewerker: '@medewerker_*'
         startdatum: '<dateTimeThisDecade()>'
         einddatum: '50%? <afsluitdatum($startdatum)>'

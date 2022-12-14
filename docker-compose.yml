@@ -1,16 +1,14 @@
-version: '2'
+version: '3.9'
 
 services:
   database:
-    image: ecd_database:latest
+    image: ecd_database
   web:
     build: .
-    links:
-      - database
     ports:
-      - "80:80"
+      - 80:80
     volumes:
-      - "ecd-sync:/var/www/html:nocopy"
+      - "${PWD}:/var/www/html"
     environment:
       MYSQL_DATABASE: ecd
       MYSQL_USER: ecd
@@ -18,11 +16,6 @@ services:
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
     ports:
-      - "81:80"
-    links:
-      - database
+      - 81:80
     environment:
       PMA_HOST: database
-volumes:
-  ecd-sync:
-    external: true

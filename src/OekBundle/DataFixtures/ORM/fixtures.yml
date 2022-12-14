@@ -30,22 +30,22 @@ OekBundle\Entity\Training:
         locatie: '<word()>'
 
 OekBundle\Entity\Deelnemer:
-    oek_deelnemer_{1..50}:
-        klant (unique): '@klant_*'
+    oek_deelnemer_{1..5}:
+        klant: '@klant_<current()>'
         medewerker: '@medewerker_*'
-        addAanmelding: ['<aanmelding(@oek_verwijzing_door_*, @medewerker_*)>']
-        addAfsluiting: ['<afsluiting(@oek_verwijzing_naar_*, @medewerker_*, $this)>']
-    oek_deelnemer_{51..100}:
-        klant (unique): '@klant_*'
+        addAanmelding: '<aanmelding(@oek_verwijzing_door_*, @medewerker_*)>'
+        addAfsluiting: '<afsluiting(@oek_verwijzing_naar_*, @medewerker_*)>'
+    oek_deelnemer_{6..10}:
+        klant: '@klant_<current()>'
         medewerker: '@medewerker_*'
-        addAanmelding: ['<aanmelding(@oek_verwijzing_door_*, @medewerker_*)>']
+        addAanmelding: '<aanmelding(@oek_verwijzing_door_*, @medewerker_*)>'
 
 OekBundle\Entity\Lidmaatschap:
-    oek_lidmaatschap_{1..40}:
+    oek_lidmaatschap_{1..10}:
         groep: '@oek_groep_*'
         deelnemer: '@oek_deelnemer_<current()>'
 
 OekBundle\Entity\Deelname:
-    oek_deelname_{1..40}:
+    oek_deelname_{1..10}:
         training: '@oek_training_<current()>'
         deelnemer: '@oek_deelnemer_<current()>'

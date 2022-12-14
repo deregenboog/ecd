@@ -32,25 +32,25 @@ HsBundle\Entity\Klant:
         actief: true
 
 HsBundle\Entity\Dienstverlener:
-    hs_dienstverlener_{1..25}:
-        klant (unique): '@klant_*'
+    hs_dienstverlener_{1..5}:
+        klant: '@klant_<current()>'
         inschrijving: '<dateTimeThisDecade()>'
 
 HsBundle\Entity\Vrijwilliger:
-    hs_vrijwilliger_{1..25}:
-        vrijwilliger (unique): '@vrijwilliger_*'
+    hs_vrijwilliger_{1..5}:
+        vrijwilliger: '@vrijwilliger_<current()>'
         inschrijving: '<dateTimeThisDecade()>'
 
 HsBundle\Entity\Klus:
-    hs_klus_{1..100}:
+    hs_klus_{1..10}:
         medewerker: '@medewerker_*'
         klant: '@hs_klant_*'
         startdatum: '<dateTimeThisDecade()>'
         einddatum: '50%? <dateTimeThisDecade()>'
         onHold: '<numberBetween(0, 1)>'
-        addActiviteit: ['@hs_activiteit_*']
-        addDienstverlener: ['@hs_dienstverlener_*']
-        addVrijwilliger: ['@hs_vrijwilliger_*']
+        addActiviteit: '@hs_activiteit_*'
+        addDienstverlener: '@hs_dienstverlener_*'
+        addVrijwilliger: '@hs_vrijwilliger_*'
 
 #HsBundle\Entity\Registratie:
 #    hs_registratie_{1..50}:
@@ -62,7 +62,7 @@ HsBundle\Entity\Klus:
 #        eind: '<dateTimeThisYear()>'
 #
 #HsBundle\Entity\Declaratie:
-#    hs_declaratie_{1..200}:
+#    hs_declaratie_{1..20}:
 #        __construct: ['@medewerker_*']
 #        klus: '@hs_klus_*'
 #        declaratiecategorie: '@hs_declaratiecategorie_*'
@@ -79,7 +79,7 @@ HsBundle\Entity\Klus:
 #        bedrag: '<numberBetween(5, 25)>'
 
 HsBundle\Entity\Creditfactuur:
-    hs_creditfactuur_{1..10}:
+    hs_creditfactuur_{1..2}:
         __construct: ['@hs_klant_*']
         bedrag: '<numberBetween(-1, -100)>'
         nummer: '<numberBetween(100000, 999999)>'

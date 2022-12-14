@@ -9,7 +9,7 @@ class KlantenControllerTest extends WebTestCase
 {
     public function testIndex()
     {
-        $medewerker = $this->getContainer()->get('AppBundle\Service\MedewerkerDao')->find('ga_user');
+        $medewerker = $this->getContainer()->get('AppBundle\Service\MedewerkerDao')->findByUsername('ga_user');
         $this->logIn($medewerker, 'ROLE_EROPUIT');
 
         $crawler = $this->client->request('GET', $this->getUrl('eropuit_klanten_index'));
@@ -24,7 +24,7 @@ class KlantenControllerTest extends WebTestCase
 
     public function testSort()
     {
-        $medewerker = $this->getContainer()->get('AppBundle\Service\MedewerkerDao')->find('ga_user');
+        $medewerker = $this->getContainer()->get('AppBundle\Service\MedewerkerDao')->findByUsername('ga_user');
         $this->logIn($medewerker, 'ROLE_EROPUIT');
 
         $crawler = $this->client->request('GET', $this->getUrl('eropuit_klanten_index'));
@@ -44,7 +44,7 @@ class KlantenControllerTest extends WebTestCase
     public function testFilter()
     {
 
-        $medewerker = $this->getContainer()->get('AppBundle\Service\MedewerkerDao')->find('ga_user');
+        $medewerker = $this->getContainer()->get('AppBundle\Service\MedewerkerDao')->findByUsername('ga_user');
         $this->logIn($medewerker, 'ROLE_EROPUIT');
 
         $crawler = $this->client->request('GET', $this->getUrl('eropuit_klanten_index'));
@@ -61,7 +61,7 @@ class KlantenControllerTest extends WebTestCase
     public function testAddFilter()
     {
 
-        $medewerker = $this->getContainer()->get('AppBundle\Service\MedewerkerDao')->find('ga_user');
+        $medewerker = $this->getContainer()->get('AppBundle\Service\MedewerkerDao')->findByUsername('ga_user');
         $this->logIn($medewerker, 'ROLE_EROPUIT');
 
         $crawler = $this->client->request('GET', $this->getUrl('eropuit_klanten_add'));

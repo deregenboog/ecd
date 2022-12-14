@@ -43,10 +43,6 @@ security:
             pattern: ^/
             logout: ~
             logout_on_user_change: true
-            # Here we tell it to use the LDAP Guard for authentication...
-            guard:
-                authenticators:
-                    - ldap_tools.security.ldap_guard_authenticator
             switch_user: { role: ROLE_ADMIN }
 
         login:

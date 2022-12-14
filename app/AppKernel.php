@@ -26,6 +26,7 @@ class AppKernel extends Kernel
             new FOS\CKEditorBundle\FOSCKEditorBundle(),
             new Symfony\WebpackEncoreBundle\WebpackEncoreBundle(),
             new Symfony\Bundle\SecurityBundle\SecurityBundle(),
+            new LdapTools\Bundle\LdapToolsBundle\LdapToolsBundle(),
 
             new LegacyBundle\LegacyBundle(),
             new AppBundle\AppBundle(),
@@ -47,9 +48,6 @@ class AppKernel extends Kernel
             new VillaBundle\VillaBundle(),
         ];
 
-        if ('test' !== $this->getEnvironment()) {
-            $bundles[] = new LdapTools\Bundle\LdapToolsBundle\LdapToolsBundle();
-        }
 
         if (in_array($this->getEnvironment(), ['dev', 'test'], true)) {
             $bundles[] = new Symfony\Bundle\DebugBundle\DebugBundle();

@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\OdpBundle\Controller;
+namespace Tests\TwBundle\Controller;
 
 use AppBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Request;
@@ -13,8 +13,9 @@ class HuuraanbiedingenControllerTest extends WebTestCase
         $this->logIn($medewerker);
 
         $crawler = $this->client->request('GET', '/tw/huuraanbiedingen/');
+        $this->assertStatusCode(200, $this->client);
 
-        $headers = $crawler->filter('tr th a');
+        $headers = $crawler->filter('tr th a.sortable');
         $this->assertGreaterThan(1, $headers->count());
 
         $headers->each(function ($header) {
