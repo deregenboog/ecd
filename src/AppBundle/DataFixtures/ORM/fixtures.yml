@@ -663,6 +663,15 @@ AppBundle\Entity\Medewerker:
         achternaam: 'User'
         eersteBezoek: '<dateTimeThisYear()>'
         laatsteBezoek: '<dateTimeThisYear()>'
+    medewerker_clip_admin:
+        ldapGuid (unique): '<randomNumber()>'
+        username: 'clip_admin'
+        roles: ['ROLE_CLIP_BEHEER']
+        email: '<email()>'
+        voornaam: 'Clip'
+        achternaam: 'Admin'
+        eersteBezoek: '<dateTimeThisYear()>'
+        laatsteBezoek: '<dateTimeThisYear()>'
     medewerker_inloop:
         ldapGuid (unique): '<randomNumber()>'
         roles: ['ROLE_INLOOP','ROLE_INLOOP_INTAKES','ROLE_ADMIN']
