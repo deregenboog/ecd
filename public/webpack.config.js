@@ -39,13 +39,13 @@ Encore
     .addEntry('global','./assets/css/global.scss')
     .addEntry('signin','./assets/css/signin.css')
 
-    .addEntry('inloopindex','./bundles/inloop/js/registraties/index.js')
-    .addEntry('inloopactive','./bundles/inloop/js/registraties/active.js')
-    .addEntry('inloophistory','./bundles/inloop/js/registraties/history.js')
+    .addEntry('inloopindex','./bundles/inloop/registraties/index.js')
+    .addEntry('inloopactive','./bundles/inloop/registraties/active.js')
+    .addEntry('inloophistory','./bundles/inloop/registraties/history.js')
 
-    .addEntry('oekraineindex','./bundles/oekraine/js/registraties/index.js')
-    .addEntry('oekraineactive','./bundles/oekraine/js/registraties/active.js')
-    .addEntry('oekrainehistory','./bundles/oekraine/js/registraties/history.js')
+    .addEntry('oekraineindex','./bundles/oekraine/registraties/index.js')
+    .addEntry('oekraineactive','./bundles/oekraine/registraties/active.js')
+    .addEntry('oekrainehistory','./bundles/oekraine/registraties/history.js')
 
 
     // will require an extra script tag for runtime.js
