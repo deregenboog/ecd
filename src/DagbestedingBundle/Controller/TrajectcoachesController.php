@@ -15,7 +15,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class TrajectcoachesController extends AbstractController
 {
     protected $title = 'Trajectcoach';
-    protected $entityName = 'Trajectcoach';
+    protected $entityName = 'trajectcoach';
     protected $entityClass = Trajectcoach::class;
     protected $formClass = TrajectcoachType::class;
     protected $baseRouteName = 'dagbesteding_trajectcoaches_';

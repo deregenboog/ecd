@@ -8,6 +8,7 @@ use Doctrine\DBAL\ParameterType;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\QueryBuilder;
 use OekraineBundle\Entity\Aanmelding;
+use OekraineBundle\Entity\Bezoeker;
 use OekraineBundle\Entity\Locatie;
 use OekraineBundle\Filter\BezoekerFilter;
 use OekraineBundle\Filter\LocatieFilter;
@@ -77,12 +78,12 @@ class AccessUpdater
 
         if($locatie->isActief()) {
             $this->em->getConnection()->executeQuery('DELETE FROM oekraine_toegang
-                WHERE locatie_id = :locatie AND klant_id NOT IN (:klanten)', $params, $types);
+                WHERE locatie_id = :locatie AND bezoeker_id NOT IN (:klanten)', $params, $types);
 
-            $this->em->getConnection()->executeQuery('INSERT INTO oekraine_toegang (klant_id, locatie_id)
+            $this->em->getConnection()->executeQuery('INSERT INTO oekraine_toegang (bezoeker_id, locatie_id)
             SELECT id, :locatie FROM klanten
             WHERE id IN (:klanten)
-            AND id NOT IN (SELECT klant_id FROM oekraine_toegang WHERE locatie_id = :locatie)', $params, $types);
+            AND id NOT IN (SELECT bezoeker_id FROM oekraine_toegang WHERE locatie_id = :locatie)', $params, $types);
         }
         else // locatie gesloten. geen toegang.
         {
@@ -95,11 +96,11 @@ class AccessUpdater
         }
     }
 
-    public function updateForClient(Klant $klant)
+    public function updateForClient(Bezoeker $bezoeker)
     {
         $wasEnabled = $this->em->getFilters()->isEnabled('overleden');
         $this->em->getFilters()->enable('overleden');
-        $this->log("Updating access for ".$klant->getNaam());
+        $this->log("Updating access for ".$bezoeker->getAppKlant()->getNaam());
 
         foreach ($this->getLocations() as $locatie) {
             $this->log($locatie);
@@ -111,28 +112,28 @@ class AccessUpdater
 
             $builder = $this->bezoekerDao->getAllQueryBuilder($filter);
             $builder
-                ->andWhere('klant.id = :klant_id')
-                ->setParameter('klant_id', $klant->getId());
+                ->andWhere('bezoeker.id = :klant_id')
+                ->setParameter('klant_id', $bezoeker->getId());
 
 //            $sql = $builder->getQuery()->getSQL();
             $this->log($builder->getQuery()->getSQL());
 
 
-            $klantIds = $this->getKlantIds($builder);
+            $bezoekerIds = $this->getKlantIds($builder);
 
             $params = [
                 'locatie' => $locatie->getId(),
-                'klant' => $klant->getId(),
+                'klant' => $bezoeker->getId(),
             ];
             $types = [
                 'locatie' => ParameterType::INTEGER,
                 'klant' => ParameterType::INTEGER,
             ];
 
-            if (in_array($klant->getId(), $klantIds)) {
+            if (in_array($bezoeker->getId(), $bezoekerIds)) {
                 $this->log("Access granted");
                 try {
-                    $this->em->getConnection()->executeQuery('INSERT INTO oekraine_toegang (klant_id, locatie_id)
+                    $this->em->getConnection()->executeQuery('INSERT INTO oekraine_toegang (bezoeker_id, locatie_id)
                     VALUES (:klant, :locatie)', $params, $types);
                 }catch(\Exception $e)
                 {
@@ -143,7 +144,7 @@ class AccessUpdater
             } else {
                 $this->log("Access denied");
                 $this->em->getConnection()->executeQuery('DELETE FROM oekraine_toegang
-                    WHERE locatie_id = :locatie AND klant_id = :klant', $params, $types);
+                    WHERE locatie_id = :locatie AND bezoeker_id = :klant', $params, $types);
             }
         }
 
@@ -196,7 +197,7 @@ class AccessUpdater
 
     private function getKlantIds(QueryBuilder $builder)
     {
-        $klantIdArray = $builder->select('klant.id')->distinct(true)->getQuery()->getResult();
+        $klantIdArray = $builder->select('bezoeker.id')->distinct(true)->getQuery()->getResult();
         return array_map(
             function ($klantId) {
                 return $klantId['id'];

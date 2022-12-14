@@ -3,11 +3,9 @@
 namespace OekraineBundle\Controller;
 
 use AppBundle\Controller\AbstractChildController;
+use AppBundle\Form\DocumentType;
 use OekraineBundle\Entity\Document;
-use OekraineBundle\Form\DocumentType;
 use OekraineBundle\Service\DocumentDao;
-use OekraineBundle\Service\DocumentDaoInterface;
-use JMS\DiExtraBundle\Annotation as DI;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -19,6 +17,10 @@ class DocumentenController extends AbstractChildController
     protected $entityName = 'document';
     protected $entityClass = Document::class;
     protected $formClass = DocumentType::class;
+    protected $formOptions = [
+        'enabled_fields' => ['naam'],
+        'data_class' => Document::class,
+    ];
     protected $addMethod = 'addDocument';
     protected $deleteMethod = 'removeDocument';
     protected $baseRouteName = 'oekraine_documenten_';
@@ -33,15 +35,9 @@ class DocumentenController extends AbstractChildController
      */
     protected $entities;
 
-    /**
-     * @param DocumentDao $dao
-     * @param \ArrayObject $entities
-     */
     public function __construct(DocumentDao $dao, \ArrayObject $entities)
     {
         $this->dao = $dao;
         $this->entities = $entities;
     }
-
-
 }

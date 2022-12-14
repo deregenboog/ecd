@@ -56,7 +56,7 @@ class VerslagenController extends AbstractController
     /**
      * @var ExportInterface
      *
-     * @DI\Inject("mw.export.klanten")
+
      */
     protected $export;
 

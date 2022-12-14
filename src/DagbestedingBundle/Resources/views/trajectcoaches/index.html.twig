@@ -18,31 +18,31 @@
     <table class="table table-hover">
         <tr>
             <th>
-                {{ knp_pagination_sortable(pagination, '#', 'Trajectcoach.id') }}
+                {{ knp_pagination_sortable(pagination, '#', 'trajectcoach.id') }}
             </th>
             <th>
-                {{ knp_pagination_sortable(pagination, 'Naam', 'Trajectcoach.displayName') }}
+                {{ knp_pagination_sortable(pagination, 'Naam', 'trajectcoach.displayName') }}
             </th>
             <th>
-                {{ knp_pagination_sortable(pagination, 'Actief', 'Trajectcoach.actief') }}
+                {{ knp_pagination_sortable(pagination, 'Actief', 'trajectcoach.actief') }}
             </th>
             <th>
             </th>
         </tr>
-        {% for Trajectcoach in pagination %}
+        {% for trajectcoach in pagination %}
             <tr>
                 <td>
-                    {{ Trajectcoach.id }}
+                    {{ trajectcoach.id }}
                 </td>
                 <td>
-                    {{ Trajectcoach }}
+                    {{ trajectcoach }}
                 </td>
                 <td>
-                    {{ Trajectcoach.actief ? 'ja' : 'nee' }}
+                    {{ trajectcoach.actief ? 'ja' : 'nee' }}
                 </td>
                 <td>
-                    {{ html.editLink(path('dagbesteding_trajectcoaches_edit', {'id': Trajectcoach.id})) }}
-                    {{ html.deleteLink(path('dagbesteding_trajectcoaches_delete', {'id': Trajectcoach.id})) }}
+                    {{ html.editLink(path('dagbesteding_trajectcoaches_edit', {'id': trajectcoach.id})) }}
+                    {{ html.deleteLink(path('dagbesteding_trajectcoaches_delete', {'id': trajectcoach.id})) }}
                 </td>
             </tr>
         {% endfor %}

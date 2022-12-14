@@ -23,6 +23,11 @@ DagbestedingBundle\Entity\Deelnemer:
 DagbestedingBundle\Entity\Trajectcoach:
     dagbesteding_trajectcoaches_{1..5}:
         medewerker: '@medewerker_<current()>'
+    dagbesteding_trajectcoaches_{6..7}:
+        medewerker: '@medewerker_<current()>'
+        actief: false
+    dagbesteding_trajectcoaches_8:
+        naam: 'externe coach'
 
 DagbestedingBundle\Entity\Resultaatgebiedsoort:
     dagbesteding_resultaatgebiedsoort_nvt:

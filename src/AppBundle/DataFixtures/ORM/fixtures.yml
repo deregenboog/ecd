@@ -681,6 +681,15 @@ AppBundle\Entity\Medewerker:
         achternaam: 'User'
         eersteBezoek: '<dateTimeThisYear()>'
         laatsteBezoek: '<dateTimeThisYear()>'
+    medewerker_dagbesteding_admin:
+        ldapGuid (unique): '<randomNumber()>'
+        roles: [ 'ROLE_DAGBESTEDING_BEHEER' ]
+        username: 'dagbesteding_admin'
+        email: '<email()>'
+        voornaam: 'Dagbesteding'
+        achternaam: 'Admin'
+        eersteBezoek: '<dateTimeThisYear()>'
+        laatsteBezoek: '<dateTimeThisYear()>'
     medewerker_eropuit:
         ldapGuid (unique): '<randomNumber()>'
         roles: [ 'ROLE_EROPUIT' ]

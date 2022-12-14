@@ -22,8 +22,6 @@
             {{ html.link('Wijzigen', path(route_base~'edit', {id: entity.id}), 'edit') }}
             {{ html.link('Oekrainedossier afsluiten', path(route_base~'close', {id: entity.id}), 'close') }}
         {% endif %}
-        {{ html.link('Klantrapportage bekijken', path(route_base~'viewreport', {klant: entity.id}), 'list') }}
-
     </p>
 {% endblock %}
 
@@ -45,6 +43,7 @@
     <ul class="nav nav-tabs">
         <li class="active"><a data-toggle="tab" href="#intake">Laatste intake</a></li>
         <li><a data-toggle="tab" href="#verslagen">Verslagen</a></li>
+        <li><a data-toggle="tab" href="#documenten">Documenten</a></li>
     </ul>
     <div class="tab-content">
         <div id="intake" class="tab-pane active">
@@ -67,9 +66,11 @@
             {% endif %}
         </div>
         <div id="verslagen" class="tab-pane">
-                {% include '@Oekraine/bezoekers/_verslagen.html.twig' with {entity: entity }%}
+            {% include '@Oekraine/bezoekers/_verslagen.html.twig' with {entity: entity } %}
         </div>
-{#        #}
+        <div id="documenten" class="tab-pane">
+            {% include '@Oekraine/bezoekers/_documenten.html.twig' with {entity: entity } %}
+        </div>
 {#        <div id="schorsingen" class="tab-pane">#}
 {#            {% include '@Oekraine/klanten/_schorsingen.html.twig' with {klant: entity} %}#}
 {#        </div>#}
