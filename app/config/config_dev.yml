@@ -3,6 +3,7 @@ imports:
     - { resource: security_dev.yml }
 
 framework:
+    ide: 'phpstorm://open?file=%%f&line=%%l&/var/www/html/>/Users/jtborger/Documents/webprojects/deregenboog/ecd/'
     router:
         resource: "%kernel.root_dir%/config/routing_dev.yml"
         strict_requirements: true
