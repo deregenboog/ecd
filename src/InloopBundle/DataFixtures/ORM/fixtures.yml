@@ -352,7 +352,6 @@ AppBundle\Entity\Klant:
         land: '@land_*'
         nationaliteit: '@nationaliteit_*'
         huidigeStatus: '@aanmelding_205'
-
 AppBundle\Entity\ZrmV2:
     zrm_201:
         financien: 0
