@@ -20,9 +20,3 @@ doctrine_migrations:
 
     # Run all migrations in a transaction.
     all_or_nothing: true
-
-        # Adds an extra check in the generated migrations to ensure that is executed on the same database type.
-        #    check_database_platform: true
-
-        # Whether or not to wrap migrations in a single transaction.
-    #    transactional: true
