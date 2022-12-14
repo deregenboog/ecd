@@ -2,6 +2,7 @@ services:
     _defaults:
         autowire: true
         autoconfigure: true
+
     iz.data_fixtures.faker_provider:
         class: IzBundle\DataFixtures\IzFakerProvider
         tags:

@@ -91,21 +91,22 @@ phpunit
 ###< symfony/phpunit-bridge ###
 
 ###> symfony/webpack-encore-bundle ###
-/node_modules/
 /public/node_modules/
 /public/build/ ## now include build and perform local because of version problems on ubuntu.
-
 /public/bundles
-
 npm-debug.log
 yarn-error.log
 ###< symfony/webpack-encore-bundle ###
 
 ###> symfony/framework-bundle ###
-/.env.local
 /.env
+/.env.local
 /.env.local.php
 /.env.*.local
 /config/secrets/prod/prod.decrypt.private.php
 /var/
 ###< symfony/framework-bundle ###
+
+/.php_cs.cache
+/public/build/*
+/app/webroot/build/*

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace Application\Migrations;
 
@@ -10,10 +12,10 @@ use Doctrine\Migrations\AbstractMigration;
  */
 final class Version20210910112204 extends AbstractMigration
 {
-      public function up(Schema $schema): void
+    public function up(Schema $schema): void
     {
         // this up() migration is auto-generated, please modify it to your needs
-        $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
+        $this->abortIf('mysql' !== $this->connection->getDatabasePlatform()->getName(), 'Migration can only be executed safely on \'mysql\'.');
 
         $this->addSql('ALTER TABLE tw_superdocumenten CHANGE class class VARCHAR(12) NOT NULL');
         $this->addSql('ALTER TABLE tw_superdocumenten RENAME INDEX idx_6e6f9fd53d707f64 TO IDX_1633B5253D707F64');
@@ -99,13 +101,12 @@ final class Version20210910112204 extends AbstractMigration
         $this->addSql('ALTER TABLE tw_vrijwilliger_document RENAME INDEX uniq_8454b6bac33f7837 TO UNIQ_2ED02FBCC33F7837');
         $this->addSql('ALTER TABLE tw_intakes RENAME INDEX uniq_3a1e7f775dfa57a1 TO UNIQ_32F028325DFA57A1');
         $this->addSql('ALTER TABLE tw_intakes RENAME INDEX idx_3a1e7f773d707f64 TO IDX_32F028323D707F64');
-
     }
 
-     public function down(Schema $schema): void
+    public function down(Schema $schema): void
     {
         // this down() migration is auto-generated, please modify it to your needs
-        $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
+        $this->abortIf('mysql' !== $this->connection->getDatabasePlatform()->getName(), 'Migration can only be executed safely on \'mysql\'.');
 
         $this->addSql('ALTER TABLE tw_afsluitingen CHANGE tonen tonen TINYINT(1) DEFAULT \'1\' NOT NULL, CHANGE active active TINYINT(1) DEFAULT NULL');
         $this->addSql('ALTER TABLE tw_deelnames DROP FOREIGN KEY FK_C8B28A18629A95E');
@@ -191,7 +192,5 @@ final class Version20210910112204 extends AbstractMigration
         $this->addSql('ALTER TABLE tw_vrijwilligers RENAME INDEX idx_f49e8aa33d707f64 TO IDX_198B65143D707F64');
         $this->addSql('ALTER TABLE tw_vrijwilligers RENAME INDEX uniq_f49e8aa376b43bdc TO UNIQ_198B651476B43BDC');
         $this->addSql('ALTER TABLE tw_vrijwilligers RENAME INDEX idx_f49e8aa3ca12f7ae TO IDX_198B6514CA12F7AE');
-
-
     }
 }

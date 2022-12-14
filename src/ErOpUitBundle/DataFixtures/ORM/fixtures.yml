@@ -1,9 +1,0 @@
-ErOpUitBundle\Entity\Klant:
-    eropuit_klant_{6..10}:
-        klant: '@klant_<current()>'
-        inschrijfdatum: '<dateTimeThisDecade()>'
-
-ErOpUitBundle\Entity\Vrijwilliger:
-    eropuit_vrijwilliger_{6..10}:
-        vrijwilliger: '@vrijwilliger_<current()>'
-        inschrijfdatum: '<dateTimeThisDecade()>'

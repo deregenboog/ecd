@@ -45,7 +45,7 @@ class GroepenControllerTest extends WebTestCase
         $form = $crawler->selectButton('groep[submit]')->form([
             'groep[naam]' => 'Testgroep',
         ]);
-        $this->client->submit($form, []);
+        $this->client->submit($form);
         $this->assertStatusCode(302, $this->client);
     }
 }

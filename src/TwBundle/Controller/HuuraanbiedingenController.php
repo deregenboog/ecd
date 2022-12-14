@@ -42,7 +42,6 @@ class HuuraanbiedingenController extends SymfonyController
         'huuraanbod.huurprijs',
     ];
 
-
     /**
      * @Route("/")
      */

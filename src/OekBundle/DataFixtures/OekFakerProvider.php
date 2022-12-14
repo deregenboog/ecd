@@ -3,7 +3,6 @@
 namespace OekBundle\DataFixtures;
 
 use AppBundle\Entity\Medewerker;
-use Faker\Generator;
 use Faker\Provider\DateTime;
 use OekBundle\Entity\Aanmelding;
 use OekBundle\Entity\Afsluiting;

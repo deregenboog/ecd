@@ -2,6 +2,7 @@ services:
     _defaults:
         autowire: true
         autoconfigure: true
+    
     hs.data_fixtures.faker_provider:
         class: HsBundle\DataFixtures\HsFakerProvider
         arguments:

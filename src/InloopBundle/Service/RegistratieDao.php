@@ -2,7 +2,6 @@
 
 namespace InloopBundle\Service;
 
-use AppBundle\Doctrine\SqlExtractor;
 use AppBundle\Entity\Klant;
 use AppBundle\Filter\FilterInterface;
 use AppBundle\Service\AbstractDao;
@@ -84,8 +83,6 @@ class RegistratieDao extends AbstractDao implements RegistratieDaoInterface
             ])
             ->setMaxResults(1)
         ;
-//        $sql = SqlExtractor::getFullSQL($builder->getQuery());
-
 
         return $builder->getQuery()->getOneOrNullResult();
     }
@@ -117,7 +114,6 @@ class RegistratieDao extends AbstractDao implements RegistratieDaoInterface
                 'totEnMet' => new \DateTime('today midnight'),
             ])
         ;
-//        $sql = $builder->getQuery()->getSQL();
 
         $registratiesBesmetteKlanten = $builder->getQuery()->getResult();
         foreach($registratiesBesmetteKlanten as $besmetteRegistratie)
@@ -145,7 +141,6 @@ class RegistratieDao extends AbstractDao implements RegistratieDaoInterface
                     ->andWhere(Criteria::expr()->eq("locatie",$locatie))
                     ->orderBy(['id' => 'DESC'])
                 ;
-//                $sql = $criteria->getWhereExpression();
                $match = $besmetteKlant->getRegistraties()->matching($criteria);
                if((is_array($match) || $match instanceof \Countable ? count($match) : 0) > 0)
                {

@@ -121,7 +121,10 @@ class HuurovereenkomstFilterType extends AbstractType
 
             ]);
         }
-        if(array_key_exists('klant',$options['enabled_filters']) && in_array('aanmelddatum',$options['enabled_filters']['klant'])){
+
+        if (array_key_exists('klant', $options['enabled_filters'])
+            && in_array('aanmelddatum', $options['enabled_filters']['klant']))
+        {
             $builder->add('aanmelddatum', AppDateRangeType::class, [
                 'required' => false,
             ]);
@@ -158,7 +161,7 @@ class HuurovereenkomstFilterType extends AbstractType
             'data' => new HuurovereenkomstFilter(),
             'enabled_filters' => [
                 'id',
-                'klant' => ['automatischeIncasso', 'aanmelddatum','appKlant' => ['naam']],
+                'klant' => ['automatischeIncasso', 'aanmelddatum', 'appKlant' => ['naam']],
                 'verhuurderKlant' => ['naam', 'plaats'],
                 'medewerker',
                 'startdatum',

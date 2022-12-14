@@ -57,7 +57,6 @@ abstract class AbstractRapportagesController extends SymfonyController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-
             /* @var AbstractReport $report */
             $report = $this->getReport($form->get('rapport')->getData());
             if(!$report) throw new AppException("Report not found");

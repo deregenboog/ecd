@@ -9,11 +9,8 @@ use Symfony\Component\BrowserKit\Cookie;
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 use Symfony\Component\Security\Core\User\UserInterface;
 
-class WebTestCase extends CoreWebTestCase
+class WebTestCase extends BaseWebTestCase
 {
-    use FixturesTrait;
-    use RecreateDatabaseTrait;
-
     /**
      * @var Client
      */
@@ -24,11 +21,12 @@ class WebTestCase extends CoreWebTestCase
      */
     protected $connection;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 
-        $this->client = $this->makeClient();
+        unset($_GET);
+        $this->client = static::createClient();
 
         $this->connection = static::$kernel->getContainer()->get('doctrine')->getConnection();
         $this->connection->beginTransaction();
@@ -47,15 +45,16 @@ class WebTestCase extends CoreWebTestCase
      *
      * @see https://symfony.com/doc/4.4/testing/http_authentication.html
      */
-    public function logIn(UserInterface $user, $additionalRoles = []): self
+    protected function logIn(UserInterface $user, $additionalRoles = []): void
     {
         if (!is_array($additionalRoles)) {
             $additionalRoles = [$additionalRoles];
         }
 
-        $session = $this->client->getContainer()->get('session');
+        $session = self::$container->get('session');
 
-        $token = new UsernamePasswordToken($user, null, 'main', array_merge($user->getRoles(), $additionalRoles));
+        $roles = array_merge($user->getRoles(), $additionalRoles);
+        $token = new UsernamePasswordToken($user, null, 'main', $roles);
         $session->set('_security_main', serialize($token));
         $session->save();
 

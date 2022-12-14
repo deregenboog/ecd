@@ -9,6 +9,8 @@ class VrijwilligersControllerTest extends WebTestCase
 {
     public function testIndex()
     {
+        $this->markTestSkipped();
+
         $medewerker = $this->getContainer()->get(\AppBundle\Service\MedewerkerDao::class)->findByUsername('eou_user');
         $this->logIn($medewerker);
 
@@ -41,7 +43,7 @@ class VrijwilligersControllerTest extends WebTestCase
     public function testFilter()
     {
         $medewerker = $this->getContainer()->get(\AppBundle\Service\MedewerkerDao::class)->findByUsername('eou_user');
-        $this->logIn($medewerker, 'ROLE_EROPUIT');
+        $this->logIn($medewerker);
 
         $crawler = $this->client->request('GET', $this->getUrl('eropuit_vrijwilligers_index'));
         $this->assertStatusCode(200, $this->client);
@@ -49,7 +51,7 @@ class VrijwilligersControllerTest extends WebTestCase
             'vrijwilliger_filter[vrijwilliger][naam]' => 'asdfasdfasdfasdfasdfasdf',
         ]);
 
-        $crawler = $this->client->submit($form, []);
+        $crawler = $this->client->submit($form);
         $rows = $crawler->filter('table.table tbody tr');
         $this->assertLessThanOrEqual(1, $rows->count());
     }
@@ -57,7 +59,7 @@ class VrijwilligersControllerTest extends WebTestCase
     public function testAddFilter()
     {
         $medewerker = $this->getContainer()->get(\AppBundle\Service\MedewerkerDao::class)->findByUsername('eou_user');
-        $this->logIn($medewerker, 'ROLE_EROPUIT');
+        $this->logIn($medewerker);
 
         $crawler = $this->client->request('GET', $this->getUrl('eropuit_vrijwilligers_add'));
         $this->assertStatusCode(200, $this->client);
@@ -65,7 +67,7 @@ class VrijwilligersControllerTest extends WebTestCase
             'vrijwilliger_filter[naam]' => 'asdfasdfasdfasdfasdfasfasdfasdf',
         ]);
 
-        $crawler = $this->client->submit($form, []);
+        $crawler = $this->client->submit($form);
         $rows = $crawler->filter('table.table tbody tr');
 //        $this->assertEquals(19, $rows->count());
         $this->assertLessThanOrEqual(1,$this->count());

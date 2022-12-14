@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace Application\Migrations;
 
@@ -10,10 +12,10 @@ use Doctrine\Migrations\AbstractMigration;
  */
 final class Version20200114115409 extends AbstractMigration
 {
-      public function up(Schema $schema): void
+    public function up(Schema $schema): void
     {
         // this up() migration is auto-generated, please modify it to your needs
-        $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
+        $this->abortIf('mysql' !== $this->connection->getDatabasePlatform()->getName(), 'Migration can only be executed safely on \'mysql\'.');
 
         $this->addSql('ALTER TABLE pfo_clienten CHANGE telefoon_mobiel mobiel VARCHAR(255), CHANGE woonplaats plaats VARCHAR(255) ');
         $this->addSql('ALTER TABLE pfo_clienten ADD werkgebied VARCHAR(255) DEFAULT NULL, ADD postcodegebied VARCHAR(255) DEFAULT NULL');
@@ -23,15 +25,12 @@ final class Version20200114115409 extends AbstractMigration
 
         $this->addSql('CREATE INDEX IDX_3C237EDD46708ED5 ON pfo_clienten (werkgebied)');
         $this->addSql('CREATE INDEX IDX_3C237EDDFB02B9C2 ON pfo_clienten (postcodegebied)');
-
-
     }
 
-     public function down(Schema $schema): void
+    public function down(Schema $schema): void
     {
         // this down() migration is auto-generated, please modify it to your needs
-        $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
-
+        $this->abortIf('mysql' !== $this->connection->getDatabasePlatform()->getName(), 'Migration can only be executed safely on \'mysql\'.');
 
         $this->addSql('ALTER TABLE pfo_clienten DROP FOREIGN KEY FK_3C237EDD46708ED5');
         $this->addSql('ALTER TABLE pfo_clienten DROP FOREIGN KEY FK_3C237EDDFB02B9C2');
@@ -39,6 +38,5 @@ final class Version20200114115409 extends AbstractMigration
         $this->addSql('DROP INDEX IDX_3C237EDDFB02B9C2 ON pfo_clienten');
 
         $this->addSql('ALTER TABLE pfo_clienten CHANGE woonplaats plaats VARCHAR(255), CHANGE mobiel telefoon_mobiel VARCHAR(255), DROP werkgebied, DROP postcodegebied');
-
     }
 }

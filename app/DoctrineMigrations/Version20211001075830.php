@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace Application\Migrations;
 
@@ -10,10 +12,10 @@ use Doctrine\Migrations\AbstractMigration;
  */
 final class Version20211001075830 extends AbstractMigration
 {
-      public function up(Schema $schema): void
+    public function up(Schema $schema): void
     {
         // this up() migration is auto-generated, please modify it to your needs
-        $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
+        $this->abortIf('mysql' !== $this->connection->getDatabasePlatform()->getName(), 'Migration can only be executed safely on \'mysql\'.');
 
         $this->addSql('CREATE TABLE tw_alcohol (id INT AUTO_INCREMENT NOT NULL, label VARCHAR(255) NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8 COLLATE `utf8_general_ci` ENGINE = InnoDB');
 
@@ -27,14 +29,13 @@ final class Version20211001075830 extends AbstractMigration
         $this->addSql("INSERT INTO tw_alcohol (label) VALUES ('Gebruikt'),('Gebruikt niet'),('Tegen gebruikt')");
     }
 
-     public function down(Schema $schema): void
+    public function down(Schema $schema): void
     {
         // this down() migration is auto-generated, please modify it to your needs
-        $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
+        $this->abortIf('mysql' !== $this->connection->getDatabasePlatform()->getName(), 'Migration can only be executed safely on \'mysql\'.');
 
         $this->addSql('ALTER TABLE tw_deelnemers DROP FOREIGN KEY FK_E43172565357D7EE');
         $this->addSql('DROP TABLE tw_alcohol');
-
 
         $this->addSql('ALTER TABLE tw_deelnemers DROP FOREIGN KEY FK_E4317256452FF74C');
         $this->addSql('ALTER TABLE tw_deelnemers DROP FOREIGN KEY FK_E4317256B4770027');
@@ -42,7 +43,5 @@ final class Version20211001075830 extends AbstractMigration
         $this->addSql('DROP INDEX IDX_E4317256452FF74C ON tw_deelnemers');
         $this->addSql('DROP INDEX IDX_E4317256B4770027 ON tw_deelnemers');
         $this->addSql('ALTER TABLE tw_deelnemers ADD inschrijvingWoningnet TINYINT(1) DEFAULT NULL, DROP toelichtingInkomen, DROP alcohol_id, DROP shortlist_id, DROP inkomensverklaring, CHANGE project_id project_id INT DEFAULT NULL, CHANGE intakeStatus_id intakeStatus_id INT DEFAULT 1 NOT NULL');
-
-
     }
 }
