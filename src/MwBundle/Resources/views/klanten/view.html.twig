@@ -55,13 +55,20 @@
 
 {% block content_right %}
     <ul class="nav nav-tabs">
-        <li class="active"><a data-toggle="tab" href="#verslagen">Verslagen</a></li>
-        <li class=""><a data-toggle="tab" href="#info">Dossier/informatie</a></li>
+        <li class="active"><a data-toggle="tab" href="#info">Dossier/informatie</a></li>
+        <li><a data-toggle="tab" href="#verslagen">Verslagen</a></li>
         <li><a data-toggle="tab" href="#opmerkingen">Opmerkingen</a></li>
         <li><a data-toggle="tab" href="#schorsingen">Schorsingen</a></li>
     </ul>
     <div class="tab-content">
-           <div id="verslagen" class="tab-pane active">
+        <div id="info" class="tab-pane">
+            <h2>Dossierinformatie</h2>
+            <p>
+                {{ html.link('Dossierinformatie wijzigen', path('mw_klanten_infoedit', {klant: entity.id}), 'edit') }}
+            </p>
+            {{ render(controller('MwBundle\\Controller\\KlantenController::_mwAction', {id: entity.id})) }}
+        </div>
+        <div id="verslagen" class="tab-pane active">
             <h2>Verslagen</h2>
             <p>
                 {{ html.link('Verslag toevoegen', path('mw_verslagen_add', {klant: entity.id}), 'add') }}
@@ -100,13 +107,6 @@
                 </div>
                 <p class="well">{{ verslag.opmerking|raw|nl2br }}</p>
             {% endfor %}
-        </div>
-        <div id="info" class="tab-pane">
-            <h2>Dossierinformatie</h2>
-            <p>
-                {{ html.link('Dossierinformatie wijzigen', path('mw_klanten_infoedit', {klant: entity.id}), 'edit') }}
-            </p>
-            {{ render(controller('MwBundle\\Controller\\KlantenController::_mwAction', {id: entity.id})) }}
         </div>
         <div id="opmerkingen" class="tab-pane">
             <h2>Opmerkingen</h2>
