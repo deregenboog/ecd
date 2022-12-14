@@ -1,0 +1,40 @@
+FROM php:7.4
+
+ENV APP_ENV=test
+
+COPY docker/php.ini /usr/local/etc/php/
+
+RUN apt-get update && apt-get install -y \
+    default-mysql-client \
+    g++ \
+    libfreetype6-dev \
+    libicu-dev \
+    libldap2-dev \
+    libjpeg62-turbo-dev \
+    libpng-dev \
+    libzip-dev \
+    locales \
+    zlib1g-dev
+
+RUN docker-php-ext-configure ldap --with-libdir=lib/x86_64-linux-gnu \
+    && docker-php-ext-configure gd --with-freetype=/usr/include/ --with-jpeg=/usr/include/ \
+    && docker-php-ext-install gd intl ldap mysqli pdo_mysql zip
+
+# set timezone
+RUN echo "Europe/Amsterdam" > /etc/timezone && dpkg-reconfigure -f noninteractive tzdata
+
+# install locale
+RUN echo "nl_NL.UTF-8 UTF-8" > /etc/locale.gen
+RUN locale-gen
+
+WORKDIR /app
+
+COPY --from=composer:2 /usr/bin/composer /usr/local/bin/composer
+COPY composer.json composer.lock ./
+RUN composer install --no-autoloader --no-scripts
+
+COPY . .
+COPY docker/.env.test .env
+RUN COMPOSER_ALLOW_SUPERUSER=1 composer install
+
+ENTRYPOINT [ "php" ]

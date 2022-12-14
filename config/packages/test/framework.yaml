@@ -2,10 +2,3 @@ framework:
     test: true
     session:
         storage_id: session.storage.mock_file
-
-liip_functional_test: ~
-
-fidry_alice_data_fixtures:
-    default_purge_mode: no_purge
-    db_drivers:
-        doctrine_orm: ~

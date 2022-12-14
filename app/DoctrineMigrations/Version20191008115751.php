@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace Application\Migrations;
 
@@ -10,11 +12,10 @@ use Doctrine\Migrations\AbstractMigration;
  */
 final class Version20191008115751 extends AbstractMigration
 {
-      public function up(Schema $schema): void
+    public function up(Schema $schema): void
     {
         // this up() migration is auto-generated, please modify it to your needs
         $this->addSql('ALTER TABLE `werkgebieden` ADD `zichtbaar` BOOLEAN NOT NULL DEFAULT TRUE AFTER `naam`');
-
 
         $this->addSql('INSERT IGNORE INTO `werkgebieden` (`naam`,`zichtbaar`) VALUES
                                 (\'Zaanstad - Assendelft\',0),
@@ -37,17 +38,13 @@ final class Version20191008115751 extends AbstractMigration
                                 (\'Overig\',0),
                                 ');
 
-            $this->addSql(file_get_contents(__DIR__ . '/../data/zaanstad_postcodes.sql'));
-
-        
-
+        $this->addSql(file_get_contents(__DIR__.'/../data/zaanstad_postcodes.sql'));
     }
 
-     public function down(Schema $schema): void
+    public function down(Schema $schema): void
     {
         // this down() migration is auto-generated, please modify it to your needs
         $this->addSql('ALTER TABLE `werkgebieden` DROP `zichtbaar`');
-
 
         $this->addSql('DELETE FROM werkgebieden WHERE naam = "Zaanstad - Krommenie"');
         $this->addSql('DELETE FROM werkgebieden WHERE naam = "Zaanstad - Assendelft"');

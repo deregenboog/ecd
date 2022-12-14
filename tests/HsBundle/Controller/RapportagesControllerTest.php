@@ -24,7 +24,7 @@ class RapportagesControllerTest extends WebTestCase
                 continue;
             }
             $form['rapportage[rapport]'] = $report->getAttribute('value');
-            $crawler = $this->client->submit($form, []);
+            $crawler = $this->client->submit($form);
             $this->assertStatusCode(200, $this->client);
         }
     }

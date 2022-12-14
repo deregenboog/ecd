@@ -162,7 +162,7 @@ services:
         arguments: ["%security.role_hierarchy.roles%"]
         tags:
             - { name: form.type }
-    
+
     AppBundle\Form\VrijwilligerType:
         arguments: ["@doctrine.orm.entity_manager"]
         tags:

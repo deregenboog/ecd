@@ -3,13 +3,9 @@
 namespace OekraineBundle\Event;
 
 use OekraineBundle\Entity\DossierStatus;
-use OekraineBundle\Entity\Intake;
 use OekraineBundle\Service\AccessUpdater;
 use OekraineBundle\Service\BezoekerDao;
-use OekraineBundle\Service\KlantDaoInterface;
-use MwBundle\Entity\Aanmelding;
-use Psr\Log\LoggerInterface;
-use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
+use OekraineBundle\Service\BezoekerDaoInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
 
@@ -18,23 +14,20 @@ class DossierSubscriber implements EventSubscriberInterface
     /**
      * @var BezoekerDao
      */
-    private $klantDao;
-
+    private $bezoekerDao;
 
     public function __construct(
-        BezoekerDao $klantDao,
+        BezoekerDaoInterface $bezoekerDao,
         AccessUpdater $accessUpdater
     ) {
-        $this->klantDao = $klantDao;
+        $this->bezoekerDao = $bezoekerDao;
         $this->accessUpdater = $accessUpdater;
-
     }
 
     public static function getSubscribedEvents()
     {
         return [
             Events::DOSSIER_CHANGED => ['afterDossierUpdated'],
-
         ];
     }
 

@@ -1,2 +1,7 @@
-*
-!docker
+/.*
+/Dockerfile*
+/Makefile
+/docker/mysql
+/docker-*
+/var
+/vendor

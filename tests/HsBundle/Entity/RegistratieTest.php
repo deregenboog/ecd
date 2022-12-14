@@ -15,10 +15,11 @@ class RegistratieTest extends TestCase
 {
     /**
      * @dataProvider provideSettersAndArguments
-     * @expectedException \HsBundle\Exception\InvoiceLockedException
      */
     public function testSettingOnLockedRegistratieResultsInException($method, $args)
     {
+        $this->expectException(\HsBundle\Exception\InvoiceLockedException::class);
+
         $factuur = new Factuur(new Klant());
 
         $registratie = new Registratie();

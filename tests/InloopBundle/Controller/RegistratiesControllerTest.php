@@ -3,7 +3,6 @@
 namespace Tests\InloopBundle\Controller;
 
 use AppBundle\Test\WebTestCase;
-use IzBundle\Service\IntakeDao;
 use Symfony\Component\HttpFoundation\Request;
 
 class RegistratiesControllerTest extends WebTestCase
@@ -18,16 +17,11 @@ class RegistratiesControllerTest extends WebTestCase
          * Request edit of intake and submit form to trigger events for access 'calculation'.
          *
          * First 5 intakes are custom made in fixtures so they represent toegang data which matches several cases which is cheked against.
-         *
          */
-//        $intakes = $this->getContainer()->get(\InloopBundle\Service\IntakeDao::class)->getFirstFiveIntakesForTesting();
         foreach ([1, 2, 3, 4, 5] as $value)
-//        foreach($intakes as $intake)
         {
-//            $value = $intake->getId();
             $this->editToegang($value);
         }
-
 
         /**
          * Blaka Watra, De Eik, De Kloof, De Spreekbuis, Derde Schinkel, Droogbak, Makom, Noorderpark, Oud West, Penitentiaire Inrichting, Politie, Princehof Inloop, Valentijn, Vrouwen Nacht Opvang, Westerpark
@@ -60,7 +54,7 @@ class RegistratiesControllerTest extends WebTestCase
         $crawler = $this->client->request('GET', "/inloop/intakes/$id/editToegang");
         $this->assertStatusCode(200, $this->client);
         $form = $crawler->selectButton('toegang[submit]')->form();
-        $crawler = $this->client->submit($form, []);
+        $crawler = $this->client->submit($form);
         $this->assertStatusCode(302, $this->client); // redirect to view.
     }
 

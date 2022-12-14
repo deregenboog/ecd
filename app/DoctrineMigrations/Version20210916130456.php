@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace Application\Migrations;
 
@@ -10,10 +12,10 @@ use Doctrine\Migrations\AbstractMigration;
  */
 final class Version20210916130456 extends AbstractMigration
 {
-      public function up(Schema $schema): void
+    public function up(Schema $schema): void
     {
         // this up() migration is auto-generated, please modify it to your needs
-        $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
+        $this->abortIf('mysql' !== $this->connection->getDatabasePlatform()->getName(), 'Migration can only be executed safely on \'mysql\'.');
 
         $this->addSql('CREATE TABLE tw_huisdieren (id INT AUTO_INCREMENT NOT NULL, label VARCHAR(255) NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8 COLLATE `utf8_general_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE tw_traplopen (id INT AUTO_INCREMENT NOT NULL, label VARCHAR(255) NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8 COLLATE `utf8_general_ci` ENGINE = InnoDB');
@@ -26,7 +28,7 @@ final class Version20210916130456 extends AbstractMigration
         $this->addSql('CREATE TABLE tw_inschrijvingwoningnet (id INT AUTO_INCREMENT NOT NULL, label VARCHAR(255) NOT NULL, `order` INT NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8 COLLATE `utf8_general_ci` ENGINE = InnoDB');
 
         $this->addSql('ALTER TABLE tw_deelnemers ADD dagbesteding_id INT DEFAULT NULL, ADD ritme_id INT DEFAULT NULL, ADD huisdieren_id INT DEFAULT NULL, ADD roken_id INT DEFAULT NULL, ADD softdrugs_id INT DEFAULT NULL, ADD traplopen_id INT DEFAULT NULL, ADD bindingRegio_id INT DEFAULT NULL, ADD moScreening_id INT DEFAULT NULL, ADD inschrijvingWoningnet_id INT DEFAULT NULL ');
-        $this->addSql("ALTER TABLE `tw_deelnemers` ADD `begeleider` VARCHAR(255) NULL AFTER `ambulantOndersteuner_id`");
+        $this->addSql('ALTER TABLE `tw_deelnemers` ADD `begeleider` VARCHAR(255) NULL AFTER `ambulantOndersteuner_id`');
 
         $this->addSql('ALTER TABLE tw_deelnemers ADD CONSTRAINT FK_E4317256A90F3026 FOREIGN KEY (bindingRegio_id) REFERENCES tw_regio (id)');
         $this->addSql('ALTER TABLE tw_deelnemers ADD CONSTRAINT FK_E4317256F9E2779E FOREIGN KEY (dagbesteding_id) REFERENCES tw_dagbesteding (id)');
@@ -60,9 +62,7 @@ final class Version20210916130456 extends AbstractMigration
         $this->addSql("INSERT INTO tw_traplopen (label) VALUES ('Ja'), ('Nee')");
         $this->addSql("INSERT INTO tw_moscreening (label) VALUES ('Niet gescreend'),('Afwijzing voor MO'),('Beschikking voor MO')");
 
-
-
-        $this->addSql("INSERT INTO tw_inschrijvingwoningnet (label,`order`) VALUES 
+        $this->addSql("INSERT INTO tw_inschrijvingwoningnet (label,`order`) VALUES
             ('Geen inschrijving',2), ('Onbekende duur',4),('<1 jaar',6),
                                    ('1 jaar',10),
                                 ('2 jaar',20),
@@ -85,14 +85,14 @@ final class Version20210916130456 extends AbstractMigration
                                 ('19 jaar',190),
                                 ('20 jaar',200),
                                 ('>20 jaar',210)
-                                    
+
         ");
     }
 
-     public function down(Schema $schema): void
+    public function down(Schema $schema): void
     {
         // this down() migration is auto-generated, please modify it to your needs
-        $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
+        $this->abortIf('mysql' !== $this->connection->getDatabasePlatform()->getName(), 'Migration can only be executed safely on \'mysql\'.');
 
         $this->addSql('ALTER TABLE tw_deelnemers DROP FOREIGN KEY FK_E431725693EEEFEC');
         $this->addSql('ALTER TABLE tw_deelnemers DROP FOREIGN KEY FK_E4317256D6E2DB5B');
@@ -125,7 +125,5 @@ final class Version20210916130456 extends AbstractMigration
         $this->addSql('DROP INDEX IDX_E4317256D00EBD32 ON tw_deelnemers');
 
         $this->addSql('ALTER TABLE tw_deelnemers DROP dagbesteding_id, DROP ritme_id, DROP huisdieren_id, DROP roken_id, DROP softdrugs_id, DROP traplopen_id, DROP bindingRegio_id, DROP moScreening_id, DROP inschrijvingWoningnet_id');
-
-
     }
 }

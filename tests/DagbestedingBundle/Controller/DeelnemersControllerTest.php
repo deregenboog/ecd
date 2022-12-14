@@ -13,8 +13,9 @@ class DeelnemersControllerTest extends WebTestCase
         $this->logIn($medewerker);
 
         $crawler = $this->client->request('GET', '/dagbesteding/deelnemers/');
-        $t = $crawler->html();
-        $headers = $crawler->filter('tr th a');
+        $this->assertStatusCode(200, $this->client);
+
+        $headers = $crawler->filter('tr th a.sortable');
         $this->assertGreaterThan(1, $headers->count());
 
         $headers->each(function ($header) {

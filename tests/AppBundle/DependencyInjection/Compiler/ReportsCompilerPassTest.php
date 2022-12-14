@@ -11,21 +11,17 @@ use Symfony\Component\DependencyInjection\Reference;
 
 class ReportsCompilerPassTest extends TestCase
 {
-    /**
-     * @expectedException \AppBundle\Exception\AppException
-     */
     public function testProcessWithoutServiceId()
     {
+        $this->expectException(\AppBundle\Exception\AppException::class);
         $container = $this->createMock(ContainerBuilder::class);
         $pass = new NoServiceIdReportsCompilerPass();
         $pass->process($container);
     }
 
-    /**
-     * @expectedException \AppBundle\Exception\AppException
-     */
     public function testProcessWithoutTagId()
     {
+        $this->expectException(\AppBundle\Exception\AppException::class);
         $container = $this->createMock(ContainerBuilder::class);
         $pass = new NoTagIdReportsCompilerPass();
         $pass->process($container);

@@ -2,7 +2,6 @@
 
 namespace IzBundle\Form;
 
-use AppBundle\Doctrine\SqlExtractor;
 use AppBundle\Form\AppDateRangeType;
 use AppBundle\Form\FilterType;
 use AppBundle\Form\KlantFilterType;

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace Application\Migrations;
 
@@ -10,16 +12,14 @@ use Doctrine\Migrations\AbstractMigration;
  */
 final class Version20211118084245 extends AbstractMigration
 {
-      public function up(Schema $schema): void
+    public function up(Schema $schema): void
     {
         // this up() migration is auto-generated, please modify it to your needs
         $this->addSql("INSERT INTO `tw_intakestatus` (`id`, `naam`, `active`, `created`, `modified`) VALUES (NULL, 'Voorrang STED', '1', NOW(), NOW())");
-
     }
 
-     public function down(Schema $schema): void
+    public function down(Schema $schema): void
     {
         // this down() migration is auto-generated, please modify it to your needs
-
     }
 }

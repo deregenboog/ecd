@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace Application\Migrations;
 
@@ -10,10 +12,10 @@ use Doctrine\Migrations\AbstractMigration;
  */
 final class Version20220114125437 extends AbstractMigration
 {
-      public function up(Schema $schema): void
+    public function up(Schema $schema): void
     {
         // this up() migration is auto-generated, please modify it to your needs
-        $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
+        $this->abortIf('mysql' !== $this->connection->getDatabasePlatform()->getName(), 'Migration can only be executed safely on \'mysql\'.');
 
         $this->addSql('ALTER TABLE dagbesteding_dagdelen ADD created DATETIME NOT NULL DEFAULT NOW(), ADD modified DATETIME NOT NULL DEFAULT NOW()');
 
@@ -22,13 +24,12 @@ final class Version20220114125437 extends AbstractMigration
         $this->addSql('ALTER TABLE scip_deelnemers ADD created DATETIME NOT NULL DEFAULT NOW(), ADD modified DATETIME NOT NULL DEFAULT NOW()');
         $this->addSql('ALTER TABLE uhk_deelnemers ADD created DATETIME NOT NULL DEFAULT NOW(), ADD modified DATETIME NOT NULL DEFAULT NOW()');
         $this->addSql('ALTER TABLE `oek_trainingen` CHANGE `starttijd` `starttijd` TIME NULL');
-
     }
 
-     public function down(Schema $schema): void
+    public function down(Schema $schema): void
     {
         // this down() migration is auto-generated, please modify it to your needs
-        $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
+        $this->abortIf('mysql' !== $this->connection->getDatabasePlatform()->getName(), 'Migration can only be executed safely on \'mysql\'.');
         $this->addSql('ALTER TABLE dagbesteding_dagdelen DROP  created, DROP modified');
 
         $this->addSql('ALTER TABLE oek_deelname_statussen DROP created, DROP modified');

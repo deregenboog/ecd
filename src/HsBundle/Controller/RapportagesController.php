@@ -17,5 +17,4 @@ use Symfony\Component\Routing\Annotation\Route;
 class RapportagesController extends AbstractRapportagesController
 {
     protected $formClass = RapportageType::class;
-
 }

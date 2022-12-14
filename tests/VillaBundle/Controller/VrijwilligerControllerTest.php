@@ -18,7 +18,7 @@ class VrijwilligerControllerTest extends WebTestCase
 
         $this->assertStatusCode(200, $this->client);
 
-        $headers = $crawler->filter('tr th a');
+        $headers = $crawler->filter('tr th a.sortable');
         $this->assertGreaterThan(1, $headers->count());
 
         $headers->each(function ($header) {

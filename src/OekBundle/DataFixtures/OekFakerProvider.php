@@ -3,7 +3,6 @@
 namespace OekBundle\DataFixtures;
 
 use AppBundle\Entity\Medewerker;
-use Faker\Generator;
 use Faker\Provider\DateTime;
 use OekBundle\Entity\Aanmelding;
 use OekBundle\Entity\Afsluiting;
@@ -12,7 +11,6 @@ use OekBundle\Entity\VerwijzingNaar;
 
 final class OekFakerProvider
 {
-
     public function aanmelding(VerwijzingDoor $verwijzing, Medewerker $medewerker)
     {
         $aanmelding = new Aanmelding();

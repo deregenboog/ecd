@@ -1,4 +1,4 @@
 services:
     AppBundle\DataFixtures\AppProcessor:
-        tags: [ { name: fidry_alice_data_fixtures.processor } ]
-
+        tags:
+            - { name: fidry_alice_data_fixtures.processor }

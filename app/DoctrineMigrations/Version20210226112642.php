@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace Application\Migrations;
 
@@ -10,11 +12,10 @@ use Doctrine\Migrations\AbstractMigration;
  */
 final class Version20210226112642 extends AbstractMigration
 {
-      public function up(Schema $schema): void
+    public function up(Schema $schema): void
     {
         // this up() migration is auto-generated, please modify it to your needs
-        $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
-
+        $this->abortIf('mysql' !== $this->connection->getDatabasePlatform()->getName(), 'Migration can only be executed safely on \'mysql\'.');
 
         $this->addSql('ALTER TABLE mw_dossier_statussen ADD binnenViaOptieKlant_id INT NOT NULL DEFAULT 0');
         $this->addSql('INSERT INTO `mw_binnen_via` (`id`, `naam`, `active`, `created`, `modified`, `class`) VALUES (0, "Onbekend", 1, CURRENT_DATE(), CURRENT_DATE(), "BinnenViaOptieKlant")');
@@ -36,20 +37,16 @@ INSERT INTO `mw_binnen_via` (`naam`, `active`, `created`, `modified`, `class`) V
         $this->addSql("UPDATE `mw_binnen_via` SET `id` = '0' WHERE `mw_binnen_via`.`naam` = 'Onbekend'");
         $this->addSql('ALTER TABLE mw_dossier_statussen ADD CONSTRAINT FK_D74783BB305E4E53 FOREIGN KEY (binnenViaOptieKlant_id) REFERENCES mw_binnen_via (id)');
         $this->addSql('CREATE INDEX IDX_D74783BB305E4E53 ON mw_dossier_statussen (binnenViaOptieKlant_id)');
-
-
     }
 
-     public function down(Schema $schema): void
+    public function down(Schema $schema): void
     {
         // this down() migration is auto-generated, please modify it to your needs
-        $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
+        $this->abortIf('mysql' !== $this->connection->getDatabasePlatform()->getName(), 'Migration can only be executed safely on \'mysql\'.');
 
         $this->addSql('ALTER TABLE mw_dossier_statussen DROP FOREIGN KEY FK_D74783BB305E4E53');
         $this->addSql('DROP INDEX IDX_D74783BB305E4E53 ON mw_dossier_statussen');
         $this->addSql('ALTER TABLE mw_dossier_statussen DROP binnenViaOptieKlant_id');
         $this->addSql('DELETE FROM mw_binnen_via WHERE id = 0');
-
-
     }
 }

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace Application\Migrations;
 
@@ -10,10 +12,10 @@ use Doctrine\Migrations\AbstractMigration;
  */
 final class Version20210129130758 extends AbstractMigration
 {
-      public function up(Schema $schema): void
+    public function up(Schema $schema): void
     {
         // this up() migration is auto-generated, please modify it to your needs
-        $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
+        $this->abortIf('mysql' !== $this->connection->getDatabasePlatform()->getName(), 'Migration can only be executed safely on \'mysql\'.');
 
         $this->addSql('CREATE TABLE clip_afsluitredenen_vrijwilligers (id INT AUTO_INCREMENT NOT NULL, naam VARCHAR(255) NOT NULL, active TINYINT(1) NOT NULL, created DATETIME NOT NULL, modified DATETIME NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8 COLLATE `utf8_general_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE clip_deelnames (id INT AUTO_INCREMENT NOT NULL, clip_vrijwilliger_id INT NOT NULL, overig VARCHAR(255) DEFAULT NULL, datum DATE DEFAULT NULL, created DATETIME NOT NULL, modified DATETIME NOT NULL, mwTraining_id INT NOT NULL, INDEX IDX_BDA50576459F3233 (mwTraining_id), INDEX IDX_BDA50576B280D297 (clip_vrijwilliger_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8 COLLATE `utf8_general_ci` ENGINE = InnoDB');
@@ -27,7 +29,6 @@ final class Version20210129130758 extends AbstractMigration
 INSERT IGNORE INTO `clip_training` (`id`, `naam`, `active`) VALUES(1, 'Omgaan met verbale agressie (1)', 1);
 INSERT IGNORE INTO `clip_training` (`id`, `naam`, `active`) VALUES(2, 'Werken met groepen', 1);
 INSERT IGNORE INTO `clip_training` (`id`, `naam`, `active`) VALUES(3, 'Overig', 1)");
-
 
         $this->addSql('CREATE TABLE clip_binnen_via (id INT AUTO_INCREMENT NOT NULL, naam VARCHAR(255) NOT NULL, active TINYINT(1) NOT NULL, created DATETIME NOT NULL, modified DATETIME NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8 COLLATE `utf8_general_ci` ENGINE = InnoDB');
 
@@ -47,13 +48,12 @@ INSERT IGNORE INTO `clip_training` (`id`, `naam`, `active`) VALUES(3, 'Overig', 
         $this->addSql('ALTER TABLE clip_vrijwilliger_memo ADD CONSTRAINT FK_DDCB9E0DB4D32439 FOREIGN KEY (memo_id) REFERENCES clip_memos (id)');
         $this->addSql('ALTER TABLE clip_vrijwilliger_document ADD CONSTRAINT FK_74EC4DF876B43BDC FOREIGN KEY (vrijwilliger_id) REFERENCES clip_vrijwilligers (id) ON DELETE CASCADE');
         $this->addSql('ALTER TABLE clip_vrijwilliger_document ADD CONSTRAINT FK_74EC4DF8C33F7837 FOREIGN KEY (document_id) REFERENCES clip_documenten (id) ON DELETE CASCADE');
-
     }
 
-     public function down(Schema $schema): void
+    public function down(Schema $schema): void
     {
         // this down() migration is auto-generated, please modify it to your needs
-        $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
+        $this->abortIf('mysql' !== $this->connection->getDatabasePlatform()->getName(), 'Migration can only be executed safely on \'mysql\'.');
 
         $this->addSql('ALTER TABLE clip_vrijwilligers DROP FOREIGN KEY FK_E0E2570BCA12F7AE');
         $this->addSql('ALTER TABLE clip_deelnames DROP FOREIGN KEY FK_BDA50576B280D297');
@@ -72,6 +72,5 @@ INSERT IGNORE INTO `clip_training` (`id`, `naam`, `active`) VALUES(3, 'Overig', 
         $this->addSql('DROP TABLE clip_training');
         $this->addSql('DROP TABLE clip_binnen_via');
         $this->addSql('DROP TABLE clip_memos');
-
     }
 }

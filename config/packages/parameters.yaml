@@ -1,20 +1,19 @@
 parameters:
-  database_server_version: '8'
+  database_server_version: '8.0'
   locale: nl_NL.UTF-8
   cache_type: file_system
   pagination.items_per_page: 20
   email_policy: dev
   profile: drg
-  administrator_name: 'Daan van Leeuwen'
-  administrator_email: ecd@deregenboog.org
-  log_email: jborger@deregenboog.org
-  ldap_domain: deregenboog.org
-  ldap_port: 636
-  ldap_servers:
-    - ad3.deregenboog.org
-  ldap_base_dn: 'DC=cluster,DC=deregenboog'
-  ldap_search_user: DEREGENBOOG\auth-ecd
-  ldap_search_password: Up7uonga1t
+  administrator_name: ''
+  administrator_email: ''
+  log_email: ''
+  ldap_domain: ''
+  ldap_port: 389
+  ldap_servers: []
+  ldap_base_dn: ''
+  ldap_search_user: ''
+  ldap_search_password: ''
   tbc_months_period: 6
   tbc_countries:
     - Roemenië

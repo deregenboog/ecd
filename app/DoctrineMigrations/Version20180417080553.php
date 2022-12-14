@@ -2,18 +2,15 @@
 
 namespace Application\Migrations;
 
-use Doctrine\Migrations\AbstractMigration;
 use Doctrine\DBAL\Schema\Schema;
+use Doctrine\Migrations\AbstractMigration;
 
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
 class Version20180417080553 extends AbstractMigration
 {
-    /**
-     * @param Schema $schema
-     */
-      public function up(Schema $schema): void
+    public function up(Schema $schema): void
     {
         // this up() migration is auto-generated, please modify it to your needs
         $this->abortIf('mysql' !== $this->connection->getDatabasePlatform()->getName(), 'Migration can only be executed safely on \'mysql\'.');
@@ -22,10 +19,7 @@ class Version20180417080553 extends AbstractMigration
         $this->addSql('ALTER TABLE odp_huurovereenkomsten DROP INDEX IDX_453FF4A645DA3BB7, ADD UNIQUE INDEX UNIQ_453FF4A645DA3BB7 (huurverzoek_id)');
     }
 
-    /**
-     * @param Schema $schema
-     */
-     public function down(Schema $schema): void
+    public function down(Schema $schema): void
     {
         $this->throwIrreversibleMigrationException();
     }

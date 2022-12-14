@@ -2,21 +2,18 @@
 
 namespace Application\Migrations;
 
-use Doctrine\Migrations\AbstractMigration;
 use Doctrine\DBAL\Schema\Schema;
+use Doctrine\Migrations\AbstractMigration;
 
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
 class Version20181119121422 extends AbstractMigration
 {
-    /**
-     * @param Schema $schema
-     */
-      public function up(Schema $schema): void
+    public function up(Schema $schema): void
     {
         // this up() migration is auto-generated, please modify it to your needs
-        $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
+        $this->abortIf('mysql' !== $this->connection->getDatabasePlatform()->getName(), 'Migration can only be executed safely on \'mysql\'.');
 
         $this->addSql('CREATE TABLE ga_groepen (id INT AUTO_INCREMENT NOT NULL, werkgebied VARCHAR(255) DEFAULT NULL, naam VARCHAR(100) NOT NULL, activiteitenRegistreren TINYINT(1) NOT NULL, startdatum DATE NOT NULL, einddatum DATE DEFAULT NULL, created DATETIME NOT NULL, modified DATETIME NOT NULL, discr VARCHAR(255) NOT NULL, INDEX IDX_EEBF811346708ED5 (werkgebied), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci ENGINE = InnoDB');
         $this->addSql('CREATE TABLE ga_dossiers (id INT AUTO_INCREMENT NOT NULL, afsluitreden_id INT DEFAULT NULL, klant_id INT DEFAULT NULL, vrijwilliger_id INT DEFAULT NULL, aanmelddatum DATE NOT NULL, afsluitdatum DATE DEFAULT NULL, created DATETIME NOT NULL, modified DATETIME NOT NULL, discr VARCHAR(255) NOT NULL, INDEX IDX_470A2E33CA12F7AE (afsluitreden_id), INDEX IDX_470A2E333C427B2F (klant_id), INDEX IDX_470A2E3376B43BDC (vrijwilliger_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci ENGINE = InnoDB');
@@ -56,10 +53,7 @@ class Version20181119121422 extends AbstractMigration
         $this->addSql('ALTER TABLE ga_documenten DROP vrijwilliger_id');
     }
 
-    /**
-     * @param Schema $schema
-     */
-     public function down(Schema $schema): void
+    public function down(Schema $schema): void
     {
         $this->throwIrreversibleMigrationException();
     }

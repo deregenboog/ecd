@@ -403,33 +403,33 @@ IzBundle\Entity\Hulpvraagsoort:
         naam (unique): '<word()>'
 
 IzBundle\Entity\IzKlant:
-    iz_klant_{1..25}:
-        klant: '<uniqueElements(@klant_{1..300})>'
+    iz_klant_{1..10}:
+        klant: '@klant_<current()>'
         datumAanmelding: '<dateTimeThisDecade()>'
         afsluitDatum: '30%? <dateTimeThisDecade()>'
         afsluiting: '30%? @iz_afsluiting_*'
         contactOntstaan: '30%? @iz_ontstaan_contacten_*'
 
 IzBundle\Entity\IzVrijwilliger:
-    iz_vrijwilliger_{26..50}:
-        vrijwilliger: '<uniqueElements(@vrijwilliger_{1..50})>'
+    iz_vrijwilliger_{1..10}:
+        vrijwilliger: '@vrijwilliger_<current()>'
         datumAanmelding: '<dateTimeThisDecade()>'
         afsluitDatum: '30%? <dateTimeThisDecade()>'
         afsluiting: '30%? @iz_afsluiting_*'
         binnengekomenVia: '30%? @iz_binnengekomen_via_*'
 
 IzBundle\Entity\Intake:
-    iz_intake_{1..25}:
+    iz_intake_klant_{1..10}:
         izDeelnemer: '@iz_klant_<current()>'
         intakeDatum: '<dateTimeThisDecade()>'
         medewerker: '@medewerker_*'
-    iz_intake_{26..50}:
+    iz_intake_vrijwilliger_{1..10}:
         izDeelnemer: '@iz_vrijwilliger_<current()>'
         intakeDatum: '<dateTimeThisDecade()>'
         medewerker: '@medewerker_*'
 
 IzBundle\Entity\Hulpaanbod:
-    iz_hulpaanbod_{1..100}:
+    iz_hulpaanbod_{1..10}:
         izVrijwilliger: '@iz_vrijwilliger_*'
         project: '@iz_project_*'
         medewerker: '@medewerker_*'
@@ -441,7 +441,7 @@ IzBundle\Entity\Hulpaanbod:
         voorkeurGeslacht: '30%? @geslacht_*'
 
 IzBundle\Entity\Hulpvraag:
-    iz_hulpvraag_{1..50}:
+    iz_hulpvraag_{1..5}:
         izKlant: '@iz_klant_*'
         project: '@iz_project_*'
         medewerker: '@medewerker_*'
@@ -451,22 +451,22 @@ IzBundle\Entity\Hulpvraag:
         info: '<sentence()>'
         geschiktVoorExpat: true
         voorkeurGeslacht: '30%? @geslacht_*'
-    iz_hulpvraag_{51..100}:
+    iz_hulpvraag_{6..10}:
         izKlant: '@iz_klant_*'
         project: '@iz_project_*'
         medewerker: '@medewerker_*'
-        hulpaanbod: '<uniqueElements(@iz_hulpaanbod_{1..100})>'
+        hulpaanbod: '@iz_hulpaanbod_<current()>'
         startdatum: '<dateTimeThisDecade()>'
         koppelingStartdatum: '<koppelingStartdatum($hulpaanbod)>'
         koppelingEinddatum: '<koppelingEinddatum($koppelingStartdatum)>'
         doelgroep: '@iz_doelgroep_*'
         hulpvraagsoort: '@iz_hulpvraagsoort_*'
         info: '<sentence()>'
-        geschiktVoorExpat: 'true'
+        geschiktVoorExpat: true
         voorkeurGeslacht: '30%? @geslacht_*'
 
 IzBundle\Entity\Verslag:
-    iz_verslag_{1..250}:
+    iz_verslag_{1..20}:
         izDeelnemer: '@iz_klant_*'
         medewerker: '@medewerker_*'
         opmerking: '<sentence(100)>'

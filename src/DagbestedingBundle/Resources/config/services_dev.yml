@@ -2,7 +2,3 @@ services:
     _defaults:
         autowire: true
         autoconfigure: true
-    dagbesteding.data_fixtures.faker_provider:
-        class: DagbestedingBundle\DataFixtures\DagbestedingFakerProvider
-        tags:
-            - { name: nelmio_alice.faker.provider }

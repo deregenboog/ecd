@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace Application\Migrations;
 
@@ -10,10 +12,10 @@ use Doctrine\Migrations\AbstractMigration;
  */
 final class Version20190916093536 extends AbstractMigration
 {
-      public function up(Schema $schema): void
+    public function up(Schema $schema): void
     {
         // this up() migration is auto-generated, please modify it to your needs
-        $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
+        $this->abortIf('mysql' !== $this->connection->getDatabasePlatform()->getName(), 'Migration can only be executed safely on \'mysql\'.');
 
         $this->addSql('ALTER TABLE odp_documenten ADD class VARCHAR(15) NOT NULL');
         $this->addSql('ALTER TABLE odp_documenten RENAME TO odp_superdocumenten');
@@ -24,14 +26,12 @@ final class Version20190916093536 extends AbstractMigration
 
         $this->addSql('CREATE TABLE odp_huurovereenkomst_finverslag LIKE odp_huurovereenkomst_verslag');
         $this->addSql('CREATE TABLE odp_huurovereenkomst_findocument LIKE odp_huurovereenkomst_document');
-
-
     }
 
-     public function down(Schema $schema): void
+    public function down(Schema $schema): void
     {
         // this down() migration is auto-generated, please modify it to your needs
-        $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
+        $this->abortIf('mysql' !== $this->connection->getDatabasePlatform()->getName(), 'Migration can only be executed safely on \'mysql\'.');
 
         $this->addSql('ALTER TABLE odp_superdocumenten DROP class');
         $this->addSql('ALTER TABLE odp_superverslagen DROP class');

@@ -25,7 +25,8 @@ class WebTestCase extends BaseWebTestCase
     {
         parent::setUp();
 
-        $this->client = $this->makeClient();
+        unset($_GET);
+        $this->client = static::createClient();
 
         $this->connection = static::$kernel->getContainer()->get('doctrine')->getConnection();
         $this->connection->beginTransaction();

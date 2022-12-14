@@ -110,7 +110,6 @@ class KlantDao extends AbstractDao implements KlantDaoInterface
             $filter->applyTo($builder);
         }
 
-//        $sql = SqlExtractor::getFullSQL($builder->getQuery());
         if ($page) {
             /**
              * Vanwege de vele left joins in deze query is de total count niet te optimaliseren (door mij) onder de <900ms.

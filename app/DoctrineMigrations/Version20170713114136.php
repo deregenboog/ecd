@@ -2,18 +2,15 @@
 
 namespace Application\Migrations;
 
-use Doctrine\Migrations\AbstractMigration;
 use Doctrine\DBAL\Schema\Schema;
+use Doctrine\Migrations\AbstractMigration;
 
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
 class Version20170713114136 extends AbstractMigration
 {
-    /**
-     * @param Schema $schema
-     */
-      public function up(Schema $schema): void
+    public function up(Schema $schema): void
     {
         // this up() migration is auto-generated, please modify it to your needs
         $this->abortIf('mysql' !== $this->connection->getDatabasePlatform()->getName(), 'Migration can only be executed safely on \'mysql\'.');
@@ -21,7 +18,8 @@ class Version20170713114136 extends AbstractMigration
         $this->addSql('ALTER TABLE zrm_reports ADD CONSTRAINT FK_C8EF119C3C427B2F FOREIGN KEY (klant_id) REFERENCES klanten (id)');
         $this->addSql('CREATE INDEX IDX_C8EF119C3C427B2F ON zrm_reports (klant_id)');
 
-        $this->addSql('CREATE TABLE zrm_v2_reports (
+        $this->addSql(
+            'CREATE TABLE zrm_v2_reports (
                 id INT AUTO_INCREMENT NOT NULL,
                 klant_id int(11) NOT NULL,
                 model VARCHAR(255) NOT NULL,
@@ -45,7 +43,8 @@ class Version20170713114136 extends AbstractMigration
                 PRIMARY KEY(id)
             ) DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE = InnoDB'
         );
-        $this->addSql('CREATE TABLE zrm_v2_settings (
+        $this->addSql(
+            'CREATE TABLE zrm_v2_settings (
                 id INT AUTO_INCREMENT NOT NULL,
                 request_module VARCHAR(50) NOT NULL,
                 financien TINYINT(1) DEFAULT NULL,
@@ -76,10 +75,7 @@ class Version20170713114136 extends AbstractMigration
         $this->addSql("INSERT INTO zrm_v2_settings (request_module, financien, werk_opleiding, tijdsbesteding, huisvesting, huiselijke_relaties, geestelijke_gezondheid, lichamelijke_gezondheid, middelengebruik, basale_adl, instrumentele_adl, sociaal_netwerk, maatschappelijke_participatie, justitie, created, modified) VALUES ('IzIntake', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', NOW(), NOW())");
     }
 
-    /**
-     * @param Schema $schema
-     */
-     public function down(Schema $schema): void
+    public function down(Schema $schema): void
     {
         $this->throwIrreversibleMigrationException();
     }

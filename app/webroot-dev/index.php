@@ -31,11 +31,13 @@ if (isset($_SERVER['HTTP_CLIENT_IP'])
     || isset($_SERVER['HTTP_X_FORWARDED_FOR'])
     || !(
         '192.168.' === substr(@$_SERVER['REMOTE_ADDR'], 0, 8)
-        || '172.18.' === substr(@$_SERVER['REMOTE_ADDR'], 0, 7)
+        || preg_match('/172\.1[6-9]\./', substr(@$_SERVER['REMOTE_ADDR'], 0, 7))
+        || preg_match('/172\.[2-3]\d\./', substr(@$_SERVER['REMOTE_ADDR'], 0, 7))
         || 'cli-server' === PHP_SAPI
         || '127.0.0.1' === $_SERVER['REMOTE_ADDR'])
 ) {
     header('HTTP/1.0 403 Forbidden');
+    var_dump($_SERVER['REMOTE_ADDR']);
 
     exit('You are not allowed to access this file. Check '.basename(__FILE__).' for more information.');
 }
@@ -45,7 +47,7 @@ require __DIR__.'/../../vendor/autoload.php';
 //DebugClassLoader::enable();
 Debug::enable();
 //
-$kernel = new AppKernel('dev', true);
+$kernel = new \App\Kernel('dev', true);
 
 $request = Request::createFromGlobals();
 $response = $kernel->handle($request);
