@@ -643,6 +643,10 @@ AppBundle\Entity\Nationaliteit:
         __construct: ['Tadzjiekse' ]
     nationaliteit_Bosnier:
         __construct: ['Bosnier']
+    nationaliteit_Thais:
+        __construct: [ 'Thaise' ]
+    nationaliteit_Myanmarees:
+        __construct: [ 'Myanmareese' ]
 
 AppBundle\Entity\Medewerker:
     medewerker_jborger:
