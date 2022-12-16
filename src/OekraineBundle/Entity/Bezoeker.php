@@ -39,7 +39,7 @@ class Bezoeker implements DocumentSubjectInterface
     /**
      * @var DossierStatus
      *
-     * @ORM\OneToOne(targetEntity="OekraineBundle\Entity\DossierStatus", cascade={"persist"})
+     * @ORM\OneToOne(targetEntity="DossierStatus", cascade={"persist"})
      * @ORM\JoinColumn(nullable=true)
      * @Gedmo\Versioned
      */
@@ -48,7 +48,7 @@ class Bezoeker implements DocumentSubjectInterface
     /**
      * @var DossierStatus[]
      *
-     * @ORM\OneToMany(targetEntity="OekraineBundle\Entity\DossierStatus", mappedBy="bezoeker")
+     * @ORM\OneToMany(targetEntity="DossierStatus", mappedBy="bezoeker")
      * @ORM\OrderBy({"datum" = "DESC", "id" = "DESC"})
      */
     private $dossierStatussen;
@@ -56,7 +56,7 @@ class Bezoeker implements DocumentSubjectInterface
     /**
      * @var Intake
      *
-     * @ORM\OneToOne(targetEntity="OekraineBundle\Entity\Intake", cascade={"persist"})
+     * @ORM\OneToOne(targetEntity="Intake", cascade={"persist"})
      * @ORM\JoinColumn(nullable=true)
      * @Gedmo\Versioned
      */
@@ -65,16 +65,15 @@ class Bezoeker implements DocumentSubjectInterface
     /**
      * @var Intake[]
      *
-     * @ORM\OneToMany(targetEntity="OekraineBundle\Entity\Intake", mappedBy="bezoeker", fetch="EAGER")
+     * @ORM\OneToMany(targetEntity="Intake", mappedBy="bezoeker", fetch="EAGER")
      * @ORM\OrderBy({"intakedatum" = "DESC", "id" = "DESC"})
      */
     private $intakes;
 
-
     /**
      * @var Registratie[]
      *
-     * @ORM\OneToMany(targetEntity="OekraineBundle\Entity\Registratie", mappedBy="bezoeker")
+     * @ORM\OneToMany(targetEntity="Registratie", mappedBy="bezoeker")
      * @ORM\OrderBy({"binnen" = "DESC", "id" = "DESC"})
      */
     private $registraties;
@@ -82,18 +81,29 @@ class Bezoeker implements DocumentSubjectInterface
     /**
      * @var Verslag[]
      *
-     * @ORM\OneToMany(targetEntity="OekraineBundle\Entity\Verslag", mappedBy="bezoeker", cascade={"persist"})
+     * @ORM\OneToMany(targetEntity="Verslag", mappedBy="bezoeker", cascade={"persist"})
      * @ORM\OrderBy({"datum" = "DESC", "id" = "DESC"})
      */
     private $verslagen;
 
+    /**
+     * @var Incident[]
+     *
+     * @ORM\OneToMany(targetEntity="Incident", mappedBy="bezoeker", cascade={"persist"})
+     * @ORM\OrderBy({"datum" = "DESC", "id" = "DESC"})
+     */
+    private $incidenten;
+
     public function __construct(AppKlant $klant = null)
     {
-//        $this->verslagen = new ArrayCollection();
         if ($klant) {
             $this->appKlant = $klant;
         }
-
+        $this->dossierStatussen = new ArrayCollection();
+        $this->intakes = new ArrayCollection();
+        $this->registraties = new ArrayCollection();
+        $this->verslagen = new ArrayCollection();
+        $this->incidenten = new ArrayCollection();
     }
 
     public function __toString()
@@ -237,7 +247,17 @@ class Bezoeker implements DocumentSubjectInterface
         $this->verslagen[] = $verslag;
     }
 
+    public function getIncidenten()
+    {
+        return $this->incidenten;
+    }
 
+    public function addIncident(Incident $incident): self
+    {
+        $this->incidenten->add($incident);
+
+        return $this;
+    }
 
     public function isDeletable()
     {

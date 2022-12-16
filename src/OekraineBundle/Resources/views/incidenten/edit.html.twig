@@ -1,0 +1,10 @@
+{% extends '@Oekraine/incidenten/add.html.twig' %}
+{% import 'html.macro.twig' as html %}
+
+{% block content_right %}
+    <h2>{{ entity_name|capitalize }} bewerken</h2>
+    <p>
+       {{ html.link('Annuleren', path('oekraine_bezoekers_view', {id: entity.bezoeker.id, '_fragment': 'incidenten'}), 'cancel') }}
+    </p>
+    {{ form(form) }}
+{% endblock %}

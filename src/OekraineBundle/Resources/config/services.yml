@@ -27,6 +27,11 @@ services:
             $entities: '@oekraine.document.entities'
         tags: [ 'controller.service_arguments' ]
 
+    OekraineBundle\Controller\IncidentenController:
+        arguments:
+            $entities: '@oekraine.incident.entities'
+        tags: [ 'controller.service_arguments' ]
+
     OekraineBundle\Controller\MemosController:
         arguments:
             $entities: '@oekraine.memo.entities'
@@ -47,8 +52,6 @@ services:
         arguments:
             $entities: '@oekraine.verslag.entities'
         tags: [ 'controller.service_arguments' ]
-
-
 
     OekraineBundle\Service\AccessUpdater:
         public: true

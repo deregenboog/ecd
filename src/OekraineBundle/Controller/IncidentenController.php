@@ -7,7 +7,7 @@ use AppBundle\Controller\AbstractController;
 use AppBundle\Exception\AppException;
 use AppBundle\Exception\UserException;
 use AppBundle\Model\MedewerkerSubjectInterface;
-use InloopBundle\Service\IncidentDao;
+use OekraineBundle\Service\IncidentDao;
 use OekraineBundle\Entity\Incident;
 use OekraineBundle\Entity\Locatie;
 use OekraineBundle\Entity\Training;
@@ -45,19 +45,24 @@ class IncidentenController extends AbstractChildController
     protected $dao;
 
     /**
+     * @var \ArrayObject
+     */
+    protected $entities;
+
+    /**
      * @param IncidentDao $dao
      * @param \ArrayObject $entities
      */
-    public function __construct(IncidentDao $dao)
+    public function __construct(IncidentDao $dao, \ArrayObject $entities)
     {
         $this->dao = $dao;
+        $this->entities = $entities;
     }
-
 
     /**
      * @Route("/addPrefilled/locatie/{locatie}")
      * @ParamConverter("locatie", class="OekraineBundle:Locatie")
-     * @Template("@Inloop/incidenten/add.html.twig")
+     * @Template("@Oekraine/incidenten/add.html.twig")
      */
     public function addPrefilledAction(Request $request, Locatie $locatie)
     {

@@ -7,16 +7,19 @@ services:
             - '@knp_paginator'
             - '%pagination.items_per_page%'
 
+    OekraineBundle\Service\BezoekerDao:
+        parent: oekraine.dao
+
     OekraineBundle\Service\DocumentDao:
+        parent: oekraine.dao
+
+    OekraineBundle\Service\IncidentDao:
         parent: oekraine.dao
 
     OekraineBundle\Service\IntakeDao:
         parent: oekraine.dao
         arguments:
             - '@event_dispatcher'
-
-    OekraineBundle\Service\BezoekerDao:
-        parent: oekraine.dao
 
     OekraineBundle\Service\LocatieDao:
         parent: oekraine.dao
@@ -47,10 +50,16 @@ services:
         arguments:
             - []
 
-    oekraine.verslag.entities:
+    oekraine.incident.entities:
         public: true
         class: ArrayObject
         arguments:
             -
                 - { key: bezoeker, dao: '@OekraineBundle\Service\BezoekerDao' }
 
+    oekraine.verslag.entities:
+        public: true
+        class: ArrayObject
+        arguments:
+            -
+                - { key: bezoeker, dao: '@OekraineBundle\Service\BezoekerDao' }
