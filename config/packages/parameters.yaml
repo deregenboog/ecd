@@ -6,7 +6,7 @@ parameters:
   email_policy: dev
   profile: drg
   administrator_name: '%env(ADMINISTRATOR_NAME)%'
-  administrator_email: '%env(ADMINISTRATOR_EMAIL)%'
+  administrator_email: '%env(ADMINISTRATOR_MAIL)%'
   log_email: '%env(LOG_EMAIL)%'
   ldap_domain: deregenboog.org
   ldap_port: 636
