@@ -1,19 +1,20 @@
 parameters:
-  database_server_version: '8.0'
+  database_server_version: '8'
   locale: nl_NL.UTF-8
   cache_type: file_system
   pagination.items_per_page: 20
   email_policy: dev
   profile: drg
-  administrator_name: ''
-  administrator_email: ''
-  log_email: ''
-  ldap_domain: ''
-  ldap_port: 389
-  ldap_servers: []
-  ldap_base_dn: ''
-  ldap_search_user: ''
-  ldap_search_password: ''
+  administrator_name: '%env(ADMINISTRATOR_NAME)%'
+  administrator_email: '%env(ADMINISTRATOR_MAIL)%'
+  log_email: '%env(LOG_EMAIL)%'
+  ldap_domain: deregenboog.org
+  ldap_port: 636
+  ldap_servers:
+    - '%env(LDAP_SERVER)%'
+  ldap_base_dn: 'DC=cluster,DC=deregenboog'
+  ldap_search_user: '%env(LDAP_SEARCH_USER)%'
+  ldap_search_password: '%env(LDAP_SEARCH_PASSWORD)%'
   tbc_months_period: 6
   tbc_countries:
     - Roemenië
