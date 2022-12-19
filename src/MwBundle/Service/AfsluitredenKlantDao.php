@@ -3,11 +3,11 @@
 namespace MwBundle\Service;
 
 use AppBundle\Service\AbstractDao;
-use MwBundle\Entity\Afsluitreden;
+use MwBundle\Entity\AfsluitredenKlant;
 
-class AfsluitredenDao extends AbstractDao implements AfsluitredenDaoInterface
+class AfsluitredenKlantDao extends AbstractDao implements AfsluitredenKlantDaoInterface
 {
-    protected $class = Afsluitreden::class;
+    protected $class = AfsluitredenKlant::class;
 
     protected $alias = 'afsluitreden';
 
@@ -22,7 +22,7 @@ class AfsluitredenDao extends AbstractDao implements AfsluitredenDaoInterface
     /**
      * {inheritdoc}.
      */
-    public function create(Afsluitreden $entity)
+    public function create(AfsluitredenKlant $entity)
     {
         $this->doCreate($entity);
     }
@@ -30,16 +30,8 @@ class AfsluitredenDao extends AbstractDao implements AfsluitredenDaoInterface
     /**
      * {inheritdoc}.
      */
-    public function update(Afsluitreden $entity)
+    public function update(AfsluitredenKlant $entity)
     {
         $this->doUpdate($entity);
-    }
-
-    /**
-     * {inheritdoc}.
-     */
-    public function delete(Afsluitreden $entity)
-    {
-        $this->doDelete($entity);
     }
 }

@@ -49,8 +49,6 @@ abstract class MwDossierStatus
      */
     protected $datum;
 
-
-
     public function __construct(Klant $klant, Medewerker $medewerker = null)
     {
         $this->klant = $klant;

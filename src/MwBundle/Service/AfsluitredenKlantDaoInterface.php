@@ -3,10 +3,10 @@
 namespace MwBundle\Service;
 
 use AppBundle\Filter\FilterInterface;
-use MwBundle\Entity\Afsluitreden;
+use MwBundle\Entity\AfsluitredenKlant;
 use Knp\Component\Pager\Pagination\PaginationInterface;
 
-interface AfsluitredenDaoInterface
+interface AfsluitredenKlantDaoInterface
 {
     /**
      * @param int             $page
@@ -19,22 +19,17 @@ interface AfsluitredenDaoInterface
     /**
      * @param int $id
      *
-     * @return Afsluitreden
+     * @return AfsluitredenKlant
      */
     public function find($id);
 
     /**
-     * @param Afsluitreden $entity
+     * @param AfsluitredenKlant $entity
      */
-    public function create(Afsluitreden $entity);
+    public function create(AfsluitredenKlant $entity);
 
     /**
-     * @param Afsluitreden $entity
+     * @param AfsluitredenKlant $entity
      */
-    public function update(Afsluitreden $entity);
-
-    /**
-     * @param Afsluitreden $entity
-     */
-    public function delete(Afsluitreden $entity);
+    public function update(AfsluitredenKlant $entity);
 }

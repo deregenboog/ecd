@@ -3,34 +3,34 @@
 namespace MwBundle\Controller;
 
 use AppBundle\Controller\AbstractController;
-use MwBundle\Entity\Afsluitreden;
-use MwBundle\Form\AfsluitredenType;
-use MwBundle\Service\AfsluitredenDao;
-use MwBundle\Service\AfsluitredenDaoInterface;
+use MwBundle\Entity\AfsluitredenVrijwilliger;
+use MwBundle\Form\AfsluitredenVrijwilligerType;
+use MwBundle\Service\AfsluitredenVrijwilligerDao;
+use MwBundle\Service\AfsluitredenVrijwilligerDaoInterface;
 use JMS\DiExtraBundle\Annotation as DI;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * @Route("/admin/afsluitredenen")
+ * @Route("/admin/afsluitredenen_vrijwilligers")
  */
 class AfsluitredenenVrijwilligersController extends AbstractController
 {
     protected $title = 'Afsluitredenen vrijwilligers';
     protected $entityName = 'afsluitreden';
-    protected $entityClass = Afsluitreden::class;
-    protected $formClass = AfsluitredenType::class;
+    protected $entityClass = AfsluitredenVrijwilliger::class;
+    protected $formClass = AfsluitredenVrijwilligerType::class;
     protected $baseRouteName = 'mw_afsluitredenenvrijwilligers_';
     protected $disabledActions = ['view', 'delete'];
 
     /**
-     * @var AfsluitredenDao
+     * @var AfsluitredenVrijwilligerDao
      */
     protected $dao;
 
     /**
-     * @param AfsluitredenDao $dao
+     * @param AfsluitredenVrijwilligerDao $dao
      */
-    public function __construct(AfsluitredenDao $dao)
+    public function __construct(AfsluitredenVrijwilligerDao $dao)
     {
         $this->dao = $dao;
     }

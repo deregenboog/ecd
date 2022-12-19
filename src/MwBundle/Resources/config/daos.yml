@@ -1,7 +1,7 @@
 services:
     MwBundle\Service\DocumentDao:
         parent: app.dao.abstract
-    
+
     MwBundle\Service\DoorverwijzingDao:
         parent: app.dao.abstract
 
@@ -13,14 +13,17 @@ services:
 
     MwBundle\Service\TrajecthouderDao:
         parent: app.dao.abstract
-    
+
     MwBundle\Service\VerslagDao:
         parent: app.dao.abstract
 
     MwBundle\Service\VrijwilligerDao:
         parent: app.dao.abstract
 
-    MwBundle\Service\AfsluitredenDao:
+    MwBundle\Service\AfsluitredenKlantDao:
+        parent: app.dao.abstract
+
+    MwBundle\Service\AfsluitredenVrijwilligerDao:
         parent: app.dao.abstract
 
     MwBundle\Service\BinnenViaDao:
@@ -52,7 +55,7 @@ services:
         arguments:
             -
                 - { key: vrijwilliger, dao: '@MwBundle\Service\VrijwilligerDao' }
-    
+
     mw.document.entities:
         public: true
         class: ArrayObject
