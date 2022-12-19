@@ -4,6 +4,13 @@ services:
         tags:
             - { name: form.type }
 
+    TwBundle\Report\Afsluitingen:
+        public: true
+        arguments:
+            - '@TwBundle\Service\HuurovereenkomstAfsluitingDao'
+        tags:
+            - { name: tw.rapportage }
+
     TwBundle\Report\Huurders:
         public: true
         arguments:

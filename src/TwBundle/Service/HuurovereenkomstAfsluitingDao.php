@@ -6,7 +6,7 @@ use AppBundle\Service\AbstractDao;
 use TwBundle\Entity\Afsluiting;
 use TwBundle\Entity\HuurovereenkomstAfsluiting;
 
-class HuurovereenkomstAfsluitingDao extends AbstractDao implements AfsluitingDaoInterface
+class HuurovereenkomstAfsluitingDao extends AbstractDao implements HuurovereenkomstAfsluitingDaoInterface
 {
     protected $paginationOptions = [
         'defaultSortFieldName' => 'afsluiting.naam',
@@ -36,5 +36,21 @@ class HuurovereenkomstAfsluitingDao extends AbstractDao implements AfsluitingDao
     public function delete(Afsluiting $afsluiting)
     {
         $this->doDelete($afsluiting);
+    }
+
+    public function countByProject(\DateTime $start, \DateTime $end)
+    {
+        $builder = $this->repository->createQueryBuilder($this->alias)
+            ->select("COUNT({$this->alias}.id) AS aantal", 'project.naam AS projectnaam', 'afsluiting.naam AS afsluitreden')
+            ->innerJoin("{$this->alias}.huurovereenkomsten", 'huurovereenkomst')
+            ->innerJoin('huurovereenkomst.huuraanbod', 'huuraanbod')
+            ->innerJoin('huuraanbod.project', 'project')
+            ->where('huurovereenkomst.afsluitdatum BETWEEN :start AND :end')
+            ->andWhere('huurovereenkomst.isReservering = 0')
+            ->groupBy('project.id')
+            ->setParameters(['start' => $start, 'end' => $end])
+        ;
+
+        return $builder->getQuery()->getResult();
     }
 }
