@@ -8,6 +8,7 @@ EXPOSE 80
 #RUN usermod -u 1000 www-data
 
 RUN apt-get update && apt-get install -y \
+    acl \
     default-mysql-client \
     g++ \
     libfreetype6-dev \
@@ -26,7 +27,6 @@ RUN cat /tmp/xdebug.ini >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini \
     && rm /tmp/xdebug.ini
 #RUN echo "xdebug.remote_host=host.docker.internal" >> usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
 
-
 RUN docker-php-ext-configure ldap --with-libdir=lib/x86_64-linux-gnu \
     && docker-php-ext-configure gd --with-freetype=/usr/include/ --with-jpeg=/usr/include/ \
     && docker-php-ext-install gd intl ldap mysqli pdo_mysql zip
@@ -40,6 +40,11 @@ RUN locale-gen
 
 WORKDIR /var/www/html
 
+# https://symfony.com/doc/4.4/setup/file_permissions.html
+RUN mkdir var \
+    && setfacl -dR -m u:"www-data":rwX -m u:1000:rwX var \
+    && setfacl -R -m u:"www-data":rwX -m u:1000:rwX var
+
 # configure apache
 COPY docker/vhost.conf /etc/apache2/sites-available/app.conf
 RUN a2enmod rewrite headers && a2dissite 000-default && a2ensite app
@@ -51,7 +56,3 @@ RUN composer install --no-autoloader --no-scripts
 COPY . .
 COPY docker/.env.dev .env
 RUN COMPOSER_ALLOW_SUPERUSER=1 composer install
-
-RUN apt-get update && apt-get install -y acl \
-    && setfacl -dR -m u:"www-data":rwX -m u:1000:rwX var \
-    && setfacl -R -m u:"www-data":rwX -m u:1000:rwX var

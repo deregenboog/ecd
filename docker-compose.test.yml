@@ -9,7 +9,3 @@ services:
     build:
       context: .
       dockerfile: Dockerfile.test
-    environment:
-      MYSQL_DATABASE: ecd
-      MYSQL_USER: ecd
-      MYSQL_PASSWORD: ecd
