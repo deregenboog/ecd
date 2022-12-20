@@ -1,23 +1,18 @@
 {% extends 'base-2-col.html.twig' %}
 {% import 'html.macro.twig' as html %}
 
-{% block title %}
-    Oekraine | {{ title }}
-{% endblock %}
-
-{% block subnavigation %}
-    {% include '@Oekraine/subnavigation.html.twig' %}
-{% endblock %}
-
 {% block content_top %}
     <h1>{{ entity_name|capitalize }} toevoegen</h1>
 {% endblock %}
 
 {% block content_left %}
-    {% include 'klant_basis.html.twig' with {klant: entity.klant, module: 'Intake'} %}
+    {% include 'klant_basis.html.twig' with {klant: entity.bezoeker.appKlant, module: 'Incident'} %}
 {% endblock %}
 
 {% block content_right %}
     <h2>{{ entity_name|capitalize }}</h2>
+    <p>
+       {{ html.link('Annuleren', path('oekraine_bezoekers_view', {id: entity.bezoeker.id, '_fragment': 'incidenten'}), 'cancel') }}
+    </p>
     {{ form(form) }}
 {% endblock %}

@@ -2,13 +2,11 @@
 
 namespace OekraineBundle\Entity;
 
-use AppBundle\Entity\Klant;
+use AppBundle\Model\IdentifiableTrait;
 use AppBundle\Model\TimestampableTrait;
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Component\Validator\Constraints as Assert;
-use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
 /**
  * @ORM\Entity
@@ -18,15 +16,8 @@ use Symfony\Component\Validator\Context\ExecutionContextInterface;
  */
 class Incident
 {
+    use IdentifiableTrait;
     use TimestampableTrait;
-
-
-    /**
-     * @ORM\Id
-     * @ORM\Column(type="integer")
-     * @ORM\GeneratedValue
-     */
-    private $id;
 
     /**
      * @ORM\Column(name="datum", type="date", nullable=false)
@@ -38,7 +29,6 @@ class Incident
      * @ORM\Column(name="remark", type="text", nullable=true)
      */
     private $opmerking;
-
 
     /**
      * @var bool
@@ -62,45 +52,37 @@ class Incident
     private $crisisdienst = false;
 
     /**
-     *
      * @ORM\ManyToOne(targetEntity="Locatie")
      * @ORM\JoinColumn(nullable=true)
      */
     private $locatie;
 
-
     /**
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Klant", inversedBy="incidenten", cascade={"persist"})
+     * @ORM\ManyToOne(targetEntity="Bezoeker", inversedBy="incidenten", cascade={"persist"})
      * @ORM\JoinColumn(nullable=false)
      * @Assert\NotNull
      */
-    private $klant;
+    private $bezoeker;
 
-    public function __construct(Klant $klant = null)
+    public function __construct(Bezoeker $bezoeker = null)
     {
-        $this->setKlant($klant);
+        $this->setBezoeker($bezoeker);
         $this->setDatum(new \DateTime());
     }
 
     public function __toString()
     {
-        // TODO: Implement __toString() method.
-        return $this->getDatum()->format("d-m-Y");
+        return sprintf('Incident %s (%s, %s)', $this->bezoeker, $this->datum->format('d-m-Y'), $this->locatie);
     }
 
-    public function getId()
+    public function getBezoeker()
     {
-        return $this->id;
+        return $this->bezoeker;
     }
 
-    public function getKlant()
+    public function setBezoeker($bezoeker)
     {
-        return $this->klant;
-    }
-
-    public function setKlant($klant)
-    {
-        $this->klant = $klant;
+        $this->bezoeker = $bezoeker;
 
         return $this;
     }
