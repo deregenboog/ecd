@@ -19,10 +19,6 @@
             {{ form_start(filter) }}
                 <tr>
                     <th colspan="11">
-                        <span class="pull-left">
-                            {{ form_widget(filter.alleenMetVerslag) }}
-                            {{ form_errors(filter.alleenMetVerslag) }}
-                        </span>
                         <span class="pull-right">
                             {{ form_widget(filter.filter) }}
                             {{ form_widget(filter.download) }}
@@ -66,10 +62,11 @@
                         {{ form_widget(filter.laatsteVerslagDatum.end) }}
                         {{ form_errors(filter.laatsteVerslagDatum.end) }}
                     </th>
-                    <th></th>
                     <th>
                         {{ form_widget(filter.huidigeMwStatus) }}
                         {{ form_errors(filter.huidigeMwStatus) }}
+                    </th>
+                    <th>
                     </th>
                 </tr>
             {{ form_end(filter) }}
@@ -98,10 +95,8 @@
                 <th>
                     {{ knp_pagination_sortable(pagination, 'Laatste verslag', 'datumLaatsteVerslag') }}
                 </th>
-                <th>
-                    {{ knp_pagination_sortable(pagination, 'Aantal verslagen', 'aantalVerslagen') }}
-                </th>
                 <th>Mw Dossierstatus</th>
+                <th></th>
             </tr>
         </thead>
         <tbody>
@@ -157,29 +152,14 @@
                         {{ item.datumLaatsteVerslag|if_date('d-m-Y') }}
                     </td>
                     <td>
-                        {{ item.aantalVerslagen }}
+                        {{ klant.huidigeMwStatus }}
                     </td>
                     <td>
-                        {{ klant.huidigeMwStatus }}
+                        {{ html.link('Verslag toevoegen', path('mw_verslagen_add', {klant: klant.id}), 'add') }}
                     </td>
                 </tr>
             {% endfor %}
         </tbody>
     </table>
     {{ knp_pagination_render(pagination) }}
-{% endblock %}
-
-{% block scripts %}
-    <script>
-   window.onload = function() {
-       if ($) {
-           var elmAlleenVerslag = $('#klant_filter_alleenMetVerslag');
-           elmAlleenVerslag.change(function (event) {
-               if ($(event.target).attr('checked') != 'checked') {
-                   $('#klant_filter_huidigeMwStatus').val('');
-               }
-           });
-       }
-   }
-   </script>
 {% endblock %}
