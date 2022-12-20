@@ -86,7 +86,7 @@ class Intake
      * @ORM\Column(name="datum_intake", type="date", nullable=true)
      * @Gedmo\Versioned
      * @Assert\NotNull
-     * @Assert\Date
+     * @Assert\Type("\DateTime")
      * @NoFutureDate
      */
     private $intakedatum;
@@ -177,7 +177,7 @@ class Intake
      * @var \DateTime
      *
      * @ORM\Column(name="verblijf_in_NL_sinds", type="date", nullable=true)
-     * @Assert\Date
+     * @Assert\Type("\DateTime")
      * @NoFutureDate
      */
     private $verblijfInNederlandSinds;
@@ -187,7 +187,7 @@ class Intake
      *
      * @ORM\Column(name="verblijf_in_amsterdam_sinds", type="date", nullable=true)
      * @Assert\NotNull
-     * @Assert\Date
+     * @Assert\Type("\DateTime")
      * @NoFutureDate
      */
     private $verblijfInAmsterdamSinds;

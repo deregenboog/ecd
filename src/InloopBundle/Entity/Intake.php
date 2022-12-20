@@ -88,7 +88,7 @@ class Intake
      * @ORM\Column(name="datum_intake", type="date", nullable=true)
      * @Gedmo\Versioned
      * @Assert\NotNull
-     * @Assert\Date
+     * @Assert\Type("\DateTime")
      * @NoFutureDate
      */
     private $intakedatum;
@@ -98,7 +98,7 @@ class Intake
      *
      * @ORM\Column(name="amoc_toegang_tot", type="date", nullable=true)
      * @Gedmo\Versioned
-     * @Assert\Date(groups={"toegang"})
+     * @Assert\Type("\DateTime", groups={"toegang"})
      */
     private $amocToegangTot;
 
@@ -107,7 +107,7 @@ class Intake
      *
      * @ORM\Column(name="ondro_bong_toegang_van", type="date", nullable=true)
      * @Gedmo\Versioned
-     * @Assert\Date(groups={"toegang"})
+     * @Assert\Type("\DateTime", groups={"toegang"})
      */
     private $ondroBongToegangVan;
 
@@ -116,7 +116,7 @@ class Intake
      *
      * @ORM\Column(name="overigen_toegang_van", type="date", nullable=true)
      * @Gedmo\Versioned
-     * @Assert\Date(groups={"toegang"})
+     * @Assert\Type("\DateTime", groups={"toegang"})
      */
     private $overigenToegangVan;
 
@@ -226,7 +226,7 @@ class Intake
      * @var \DateTime
      *
      * @ORM\Column(name="verblijf_in_NL_sinds", type="date", nullable=true)
-     * @Assert\Date
+     * @Assert\Type("\DateTime")
      * @NoFutureDate
      */
     private $verblijfInNederlandSinds;
@@ -236,7 +236,7 @@ class Intake
      *
      * @ORM\Column(name="verblijf_in_amsterdam_sinds", type="date", nullable=true)
      * @Assert\NotNull
-     * @Assert\Date
+     * @Assert\Type("\DateTime")
      * @NoFutureDate
      */
     private $verblijfInAmsterdamSinds;

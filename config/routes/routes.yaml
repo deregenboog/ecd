@@ -16,7 +16,7 @@ logout:
     route: login
 
 _app:
-  resource: "AppBundle/Resources/config/routing.yml"
+  resource: "@AppBundle/Resources/config/routing.yml"
   prefix: /
 
 _buurtboerderij:
