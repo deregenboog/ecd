@@ -1,9 +1,11 @@
 {% import 'html.macro.twig' as html %}
 
 <h2>Documenten</h2>
-<p>
-    {{ html.link('Document toevoegen', path('oekraine_documenten_add', {bezoeker: entity.id}), 'upload') }}
-</p>
+{% if entity.huidigeStatus.aangemeld %}
+    <p>
+        {{ html.link('Document toevoegen', path('oekraine_documenten_add', {bezoeker: entity.id}), 'upload') }}
+    </p>
+{% endif %}
 <table class="table table-hover">
     {% for document in entity.documenten %}
         <tr>

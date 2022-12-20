@@ -60,14 +60,14 @@
         <li><a data-toggle="tab" href="#schorsingen">Schorsingen</a></li>
     </ul>
     <div class="tab-content">
-        <div id="info" class="tab-pane">
+        <div id="info" class="tab-pane active">
             <h2>Dossierinformatie</h2>
             <p>
                 {{ html.link('Dossierinformatie wijzigen', path('mw_klanten_infoedit', {klant: entity.id}), 'edit') }}
             </p>
             {{ render(controller('MwBundle\\Controller\\KlantenController::_mwAction', {id: entity.id})) }}
         </div>
-        <div id="verslagen" class="tab-pane active">
+        <div id="verslagen" class="tab-pane">
             <h2>Verslagen</h2>
             <p>
                 {{ html.link('Verslag toevoegen', path('mw_verslagen_add', {klant: entity.id}), 'add') }}

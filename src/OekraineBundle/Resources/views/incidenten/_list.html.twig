@@ -1,9 +1,11 @@
 {% import 'html.macro.twig' as html %}
 
 <h2>Incidenten <small>({{ entity.incidenten|length }} incidenten)</small></h2>
-<p>
-    {{ html.link('Incident toevoegen', path('oekraine_incidenten_add', {'bezoeker': entity.id}), 'add') }}
-</p>
+{% if entity.huidigeStatus.aangemeld %}
+    <p>
+        {{ html.link('Incident toevoegen', path('oekraine_incidenten_add', {'bezoeker': entity.id}), 'add') }}
+    </p>
+{% endif %}
 <table class="table table-hover">
     <thead>
         <tr>

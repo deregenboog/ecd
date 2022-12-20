@@ -1,8 +1,10 @@
 {% import 'html.macro.twig' as html %}
 <h2>Verslagen</h2>
-<p>
-    {{ html.link('Verslag toevoegen', path('oekraine_verslagen_add', {bezoeker: entity.id}), 'add') }}
-</p>
+{% if entity.huidigeStatus.aangemeld %}
+    <p>
+        {{ html.link('Verslag toevoegen', path('oekraine_verslagen_add', {bezoeker: entity.id}), 'add') }}
+    </p>
+{% endif %}
 {% if is_granted("ROLE_MW") %}
     {%  set roleMw = true %}
 {% else %}
