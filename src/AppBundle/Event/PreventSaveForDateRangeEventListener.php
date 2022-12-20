@@ -23,6 +23,8 @@ class PreventSaveForDateRangeEventListener
     /** @var bool  */
     private $enabled = true;
 
+    private $debug = false;
+
     /**
      * @param $preventSaveEnabled
      * @param $preventSaveBefore
@@ -33,7 +35,7 @@ class PreventSaveForDateRangeEventListener
      * This way we can prevent that data gets modified while reports are in the making and get controlled by the accountant.
      * Makes use of LifecycleEvents and the Timestampeable trait. Entities should use this trait for this mechanism to work.
      */
-    public function __construct($preventSaveEnabled,$preventSaveBefore,$preventSaveAfter, $excludeEntities) {
+    public function __construct($preventSaveEnabled,$preventSaveBefore,$preventSaveAfter, $excludeEntities, $debug=false) {
         if(new \DateTime($preventSaveEnabled) > new \DateTime()){
             $this->enabled = false;
             return;
@@ -48,15 +50,17 @@ class PreventSaveForDateRangeEventListener
        $this->preventSaveAfterDate = new \DateTime($preventSaveAfter);
        if(is_array($excludeEntities)) $this->excludeEntities = $excludeEntities;
 
+       $this->debug = $debug;
+
     }
 
     public function preUpdate(LifecycleEventArgs $args)
     {
         if(!$this->enabled) return;
 
-        $entity = $args->getEntity();
+        $entity = $args->getObject();
 
-        $this->getAndCheckForDateField($entity,$args->getEntityManager());
+        $this->getAndCheckForDateField($entity,$args->getObjectManager());
         //if previous don't throw exception, then check for modified date.
 //        $this->getAndCheckModifiedDate($entity);
 
@@ -69,8 +73,8 @@ class PreventSaveForDateRangeEventListener
 
         //For new records; we should also check
         // if there is a date or datum veld in the entity and if that field is set in the period which should be invalidated?
-        $entity = $args->getEntity();
-        $em = $args->getEntityManager();
+        $entity = $args->getObject();
+        $em = $args->getObjectManager();
         $this->getAndCheckForDateField($entity,$em);
     }
 
@@ -80,8 +84,8 @@ class PreventSaveForDateRangeEventListener
 
         //For new records; we should also check
         // if there is a date or datum veld in the entity and if that field is set in the period which should be invalidated?
-        $entity = $args->getEntity();
-        $em = $args->getEntityManager();
+        $entity = $args->getObject();
+        $em = $args->getObjectManager();
         $this->getAndCheckForDateField($entity,$em);
     }
 
@@ -115,8 +119,9 @@ class PreventSaveForDateRangeEventListener
                         if (($newValue > $this->preventSaveAfterDate && $newValue < $this->preventSaveBeforeDate)
                             && !($prevValue > $this->preventSaveAfterDate && $prevValue < $this->preventSaveBeforeDate)) {
                             //nieuwe waarde ligt in de range... Mag alleen als oude waarde dat ook lag; zo niet: error.
-
-                            throw new UserException('ECD is gesloten voor updates in het oude boekjaar in verband met de samenstelling van de cijfers door de accountant. Er kunnen geen items met een datum in het oude jaar worden gewijzigd.');
+                            $details = "";
+                            if($this->debug) $details .= "Fieldname: $fieldname. Entity: ".get_class($entity).". Value: ".$newValue->format("Y-d-m")."ID: ";
+                            throw new UserException($details.'ECD is gesloten voor updates in het oude boekjaar in verband met de samenstelling van de cijfers door de accountant. Er kunnen geen items met een datum in het oude jaar worden gewijzigd.');
                         }
                     }
                     else //idValue === null
@@ -130,7 +135,7 @@ class PreventSaveForDateRangeEventListener
                             if($fieldname == 'geboortedatum') return;
                             //nieuwe waarde ligt in de range... Mag alleen als oude waarde dat ook lag; zo niet: error.
                             $details = "";
-                            $details .= "Fieldname: $fieldname. Entity: ".get_class($entity).". Value: ".$newValue->format("Y-d-m")."ID: ";
+                            if($this->debug) $details .= "Fieldname: $fieldname. Entity: ".get_class($entity).". Value: ".$newValue->format("Y-d-m")."ID: ";
 //                            $details .= var_export($entity,true);
                             throw new UserException($details.'ECD is gesloten voor updates in het oude boekjaar in verband met de samenstelling van de cijfers door de accountant. Er kunnen geen items met een datum in het oude jaar worden gewijzigd.');
                         }
@@ -194,8 +199,9 @@ class PreventSaveForDateRangeEventListener
 
                         if($datumValue  < $this->preventSaveBeforeDate && $datumValue > $this->preventSaveAfterDate)
                         {
-                            $a=1;
-                            throw new PersisterException('ECD is gesloten voor updates in het oude boekjaar in verband met de samenstelling van de cijfers door de accountant. Er kunnen geen items met een datum in het oude jaar worden gewijzigd.');
+                            $details = "";
+                            if($this->debug) $details .= "Fieldname: $leFieldname. Entity: ".get_class($linkedEntity).". Value: ".$datumValue->format("Y-d-m")."ID: ";
+                            throw new PersisterException($details.'ECD is gesloten voor updates in het oude boekjaar in verband met de samenstelling van de cijfers door de accountant. Er kunnen geen items met een datum in het oude jaar worden gewijzigd.');
                         }
                     }
                 }

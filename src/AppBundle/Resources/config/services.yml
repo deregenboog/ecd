@@ -70,6 +70,7 @@ services:
             - '%prevent_save_modified_before%'
             - '%prevent_save_modified_after%'
             - '%prevent_save_exclude_entities%'
+            - '%kernel.debug%'
         tags:
             - { name: doctrine.event_listener, event: preUpdate }
             - { name: doctrine.event_listener, event: prePersist }

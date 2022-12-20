@@ -88,13 +88,13 @@ parameters:
   hulpverlening_mail: '%env(HULPVERLENING_MAIL)%'
   agressie_mail: '%env(AGRESSIEMAIL)%'
   administratiebedrijf_mail: '%env(ADMINISTRATIEBEDRIJF_MAIL)%'
-  prevent_save_enabled: '2023-12-24 09:00:00'
-  prevent_save_modified_before: '2022-01-01'
-  prevent_save_modified_after: '2020-12-31'
+  prevent_save_enabled: '2023-01-16 09:00:00' #vanaf deze datum wordt de check uitgevoerd. #NB: dit werkt eigenlijk niet goed want zodra je deze verzet naar het nieuwe jaar, dan is tijdelijk mogelijk dat het jaar ervoor toch nog wordt gewijzigd.
+  prevent_save_modified_before: '2023-01-01' #als de gecheckte entiteit en datumveld heeft voor deze datum
+  prevent_save_modified_after: '2020-12-31' #en als de gecheckte entiteit een datumveld heeft na deze datum.
   prevent_save_exclude_entities:
-    - 'DagbestedingBundle\Entity\Rapportage'
-    - 'DagbestedingBundle\Entity\Dagdeel'
-    - 'DagbestedingBundle\Entity\Traject'
-    - 'TwBundle\Entity\Klant'
-    - 'AppBundle\Entity\Klant'
-    - 'AppBundle\Entity\Vrijwilliger'
+#    - 'DagbestedingBundle\Entity\Rapportage' # In overleg met Jos, 2022
+#    - 'DagbestedingBundle\Entity\Dagdeel' # In overleg met Jos, 2022
+#    - 'DagbestedingBundle\Entity\Traject' # In overleg met Jos, 2022
+#    - 'TwBundle\Entity\Klant' # In overleg met Jos, 2022
+    - 'AppBundle\Entity\Klant' # In overleg met Jos, 2022
+    - 'AppBundle\Entity\Vrijwilliger' # In overleg met Jos, 2022
