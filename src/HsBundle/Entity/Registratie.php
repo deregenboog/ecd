@@ -6,7 +6,10 @@ use AppBundle\Entity\Medewerker;
 use AppBundle\Model\TimestampableTrait;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
+use HsBundle\Exception\HsException;
 use HsBundle\Exception\InvoiceLockedException;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
 /**
  * @ORM\Entity
@@ -44,6 +47,13 @@ class Registratie implements FactuurSubjectInterface
      * @Gedmo\Versioned
      */
     private $eind;
+
+    /**
+     * @var integer
+     * @ORM\Column(type="integer")
+     * @Gedmo\Versioned
+     */
+    private $dagdelen;
 
     /**
      * @var float
@@ -91,6 +101,8 @@ class Registratie implements FactuurSubjectInterface
      */
     private $medewerker;
 
+
+
     public function __construct(Klus $klus = null, Arbeider $arbeider = null)
     {
         if ($klus) {
@@ -104,10 +116,19 @@ class Registratie implements FactuurSubjectInterface
 
     public function __toString()
     {
-        return $this->datum->format('d-m-Y').' | '
-            .$this->start->format('H:i').' - '
-            .$this->eind->format('H:i')
-        ;
+        if($this->datum->format("Y") <= '2021')
+        {
+            return $this->datum->format('d-m-Y') .' | '
+                .$this->start->format('H:i').' - '
+                .$this->eind->format('H:i')
+                ;
+        }
+        else
+        {
+            return $this->datum->format('d-m-Y')
+                ;
+        }
+
     }
 
     public function getId()
@@ -272,6 +293,47 @@ class Registratie implements FactuurSubjectInterface
 
     public function getDagdelen()
     {
-        return $this->getUren() > 3 ? 2 : 1;
+        if($this->datum->format("Y") < '2022')
+        {
+            return $this->getUren() > 3 ? 2 : 1;
+        }
+        else
+        {
+            return $this->dagdelen;
+        }
     }
+
+    /**
+     * @param int $dagdelen
+     */
+    public function setDagdelen(int $dagdelen): self
+    {
+        if($this->datum->format("Y") < "2022")
+        {
+            throw new HsException("Kan geen dagdelen instellen op registraties voor 2023.");
+        }
+        $this->dagdelen = $dagdelen;
+        return $this;
+    }
+
+    /**
+     * @Assert\Callback
+     */
+    public function validate(ExecutionContextInterface $context, $payload)
+    {
+        if ($this->datum->format("Y") >= '2022' && $this->dagdelen == 0){
+
+            $context->buildViolation('Het is verplicht het aantal dagdelen van deze registratie in te stellen.')
+                ->atPath('dagdelen')
+                ->addViolation();
+        }
+        else if($this->datum->format("Y") <= '2021' && $this->start == null && $this->eind == null)
+        {
+            $context->buildViolation('Het is verplicht het de start en eindtijd van deze registratie in te stellen.')
+                ->atPath('start')
+                ->addViolation();
+
+        }
+    }
+
 }

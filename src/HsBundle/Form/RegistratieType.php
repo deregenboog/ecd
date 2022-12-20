@@ -11,6 +11,7 @@ use HsBundle\Entity\Klus;
 use HsBundle\Entity\Registratie;
 use HsBundle\Entity\Vrijwilliger;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\MoneyType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -92,10 +93,21 @@ class RegistratieType extends AbstractType
                 },
             ])
             ->add('datum', AppDateType::class)
-            ->add('start', AppTimeType::class)
-            ->add('eind', AppTimeType::class)
-//             ->add('reiskosten', MoneyType::class, ['required' => false])
         ;
+        if((new \DateTime('now'))->format("Y") >= '2022' )
+        {
+            $builder
+                ->add('dagdelen', IntegerType::class)
+            ;
+        }
+        else {
+            $builder
+                ->add('start', AppTimeType::class)
+                ->add('eind', AppTimeType::class)
+            ;
+
+        }
+
 
         $builder->add('submit', SubmitType::class);
     }
