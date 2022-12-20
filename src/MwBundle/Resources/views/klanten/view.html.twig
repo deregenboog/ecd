@@ -23,8 +23,7 @@
             {{ html.link('Wijzigen', path('mw_klanten_edit', {id: entity.id}), 'edit') }}
             {{ html.link('Mw dossier afsluiten', path(route_base~'close', {id: entity.id}), 'close') }}
         {% endif %}
-             {{ html.link('Klant toevoegen aan TW', path('tw_klanten_addwithcheck', {id: entity.id}),'add') }}
-
+        {{ html.link('Klant toevoegen aan TW', path('tw_klanten_addwithcheck', {id: entity.id}),'add') }}
     </p>
 
     {% if not entity.laatsteZrm %}

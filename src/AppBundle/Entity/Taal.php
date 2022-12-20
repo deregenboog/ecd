@@ -28,7 +28,8 @@ class Taal
      * @Gedmo\Versioned
      * @var bool
      */
-    private $favoriet = 0;
+    private $favoriet = false;
+
     /**
      * @ORM\Column(type="string")
      * @Gedmo\Versioned
@@ -68,21 +69,15 @@ class Taal
         return $this->naam;
     }
 
-    /**
-     * @return bool|mixed|null
-     */
-    public function getFavoriet()
+    public function isFavoriet(): bool
     {
-        return $this->favoriet;
+        return (bool) $this->favoriet;
     }
 
-    /**
-     * @param bool|mixed|null $favoriet
-     */
-    public function setFavoriet($favoriet): void
+    public function setFavoriet(bool $favoriet): self
     {
         $this->favoriet = $favoriet;
+
+        return $this;
     }
-
-
 }

@@ -33,6 +33,16 @@
         <dd>{{ entity.land }}</dd>
         <dt>Nationaliteit</dt>
         <dd>{{ entity.nationaliteit }}</dd>
+        <dt>Voorkeurstaal</dt>
+        <dd>{{ entity.voorkeurstaal }}</dd>
+        <dt>Overige talen</dt>
+        <dd>
+            <ul>
+                {% for taal in entity.overigeTalen %}
+                    <li>{{ taal }}</li>
+                {% endfor %}
+            </ul>
+        </dd>
         <dt>BSN</dt>
         <dd>{{ entity.bsn }}</dd>
         <dt>Medewerker</dt>
