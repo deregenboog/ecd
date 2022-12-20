@@ -15,9 +15,9 @@ use Symfony\Component\Validator\Constraints as Assert;
 class Afsluiting extends MwDossierStatus
 {
     /**
-     * @var RedenAfsluiting
+     * @var AfsluitredenKlant
      *
-     * @ORM\ManyToOne(targetEntity="RedenAfsluiting")
+     * @ORM\ManyToOne(targetEntity="AfsluitredenKlant")
      * @ORM\JoinColumn(nullable=true)
      * @Gedmo\Versioned
      * @Assert\NotNull
@@ -37,7 +37,6 @@ class Afsluiting extends MwDossierStatus
      * @Assert\NotNull
      */
     protected $resultaat;
-
 
     /**
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Land")
@@ -65,7 +64,7 @@ class Afsluiting extends MwDossierStatus
         return $this->reden;
     }
 
-    public function setReden(RedenAfsluiting $reden)
+    public function setReden(AfsluitredenKlant $reden)
     {
         $this->reden = $reden;
 

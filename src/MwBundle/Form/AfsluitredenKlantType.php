@@ -3,13 +3,13 @@
 namespace MwBundle\Form;
 
 use AppBundle\Form\BaseType;
-use MwBundle\Entity\Afsluitreden;
+use MwBundle\Entity\AfsluitredenKlant;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class AfsluitredenType extends AbstractType
+class AfsluitredenKlantType extends AbstractType
 {
     /**
      * {@inheritdoc}
@@ -18,6 +18,8 @@ class AfsluitredenType extends AbstractType
     {
         $builder
             ->add('naam')
+            ->add('gewicht')
+            ->add('land')
             ->add('actief')
             ->add('submit', SubmitType::class)
         ;
@@ -29,7 +31,7 @@ class AfsluitredenType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => Afsluitreden::class,
+            'data_class' => AfsluitredenKlant::class,
         ]);
     }
 

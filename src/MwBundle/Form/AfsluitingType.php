@@ -8,7 +8,7 @@ use AppBundle\Form\LandSelectType;
 use Doctrine\ORM\EntityRepository;
 use InloopBundle\Form\LocatieSelectType;
 use MwBundle\Entity\Afsluiting;
-use MwBundle\Entity\RedenAfsluiting;
+use MwBundle\Entity\AfsluitredenKlant;
 use MwBundle\Entity\Resultaat;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
@@ -39,7 +39,7 @@ class AfsluitingType extends AbstractType
                         ->orderBy('reden.gewicht, reden.naam')
                     ;
                 },
-                'choice_attr' => function (RedenAfsluiting $reden, $key, $value) {
+                'choice_attr' => function (AfsluitredenKlant $reden, $key, $value) {
                     // adds a class land_0 or land_1
                     return ['class' => 'land_'.(int) $reden->isLand()];
                 },

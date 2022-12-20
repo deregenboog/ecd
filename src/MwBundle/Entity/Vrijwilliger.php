@@ -76,7 +76,7 @@ class Vrijwilliger implements MemoSubjectInterface, DocumentSubjectInterface
     /**
      * @var \DateTime
      *
-     * @ORM\ManyToOne(targetEntity="Afsluitreden")
+     * @ORM\ManyToOne(targetEntity="AfsluitredenVrijwilliger")
      */
     protected $afsluitreden;
 
@@ -178,12 +178,12 @@ class Vrijwilliger implements MemoSubjectInterface, DocumentSubjectInterface
         return $this;
     }
 
-    public function getAfsluitreden()
+    public function getAfsluitredenVrijwilliger()
     {
         return $this->afsluitreden;
     }
 
-    public function setAfsluitreden(?Afsluitreden $afsluitreden)
+    public function setAfsluitredenVrijwilliger(?AfsluitredenVrijwilliger $afsluitreden)
     {
         $this->afsluitreden = $afsluitreden;
 
