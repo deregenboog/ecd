@@ -94,18 +94,17 @@ class RegistratieType extends AbstractType
             ])
             ->add('datum', AppDateType::class)
         ;
-        if((new \DateTime('now'))->format("Y") >= '2022' )
+        if((new \DateTime('now'))->format("Y") <= '2022' )
         {
-            $builder
-                ->add('dagdelen', IntegerType::class)
-            ;
-        }
-        else {
             $builder
                 ->add('start', AppTimeType::class)
                 ->add('eind', AppTimeType::class)
             ;
-
+        }
+        else {
+            $builder
+                ->add('dagdelen', IntegerType::class)
+            ;
         }
 
 

@@ -53,7 +53,7 @@ class Registratie implements FactuurSubjectInterface
      * @ORM\Column(type="integer")
      * @Gedmo\Versioned
      */
-    private $dagdelen;
+    private $dagdelen = 0;
 
     /**
      * @var float
