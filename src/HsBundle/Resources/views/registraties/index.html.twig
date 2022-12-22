@@ -72,13 +72,13 @@
                         {{ entity.klus.klant ? entity.klus.klant.werkgebied }}
                     </td>
                     <td>
-                        {{ entity.datum|date('d-m-Y') }}
+                        {{ entity.datum|if_date('d-m-Y') }}
                     </td>
                     <td>
-                        {{ entity.start|date('H:i') }}
+                        {{ entity.start|if_date('H:i') }}
                     </td>
                     <td>
-                        {{ entity.eind|date('H:i') }}
+                        {{ entity.eind|if_date('H:i') }}
                     </td>
                     <td>
                         {{ entity.uren }}

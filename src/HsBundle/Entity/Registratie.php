@@ -116,7 +116,7 @@ class Registratie implements FactuurSubjectInterface
 
     public function __toString()
     {
-        if($this->datum->format("Y") <= '2021')
+        if($this->datum->format("Y") <= '2022')
         {
             return $this->datum->format('d-m-Y') .' | '
                 .$this->start->format('H:i').' - '
@@ -282,18 +282,25 @@ class Registratie implements FactuurSubjectInterface
 
     public function getUren()
     {
-        if (!$this->start || !$this->eind) {
-            return 0;
+        if($this->datum->format("Y") <= 2022) {
+
+            if (!$this->start || !$this->eind) {
+                return 0;
+            }
+
+            $seconds = $this->eind->getTimestamp() - $this->start->getTimestamp();
+
+            return $seconds / 3600;
         }
-
-        $seconds = $this->eind->getTimestamp() - $this->start->getTimestamp();
-
-        return $seconds / 3600;
+        else
+        {
+            return ($this->dagdelen * 4);//1 dagdeel = 4 uur.
+        }
     }
 
     public function getDagdelen()
     {
-        if($this->datum->format("Y") < '2022')
+        if($this->datum->format("Y") <= '2022')
         {
             return $this->getUren() > 3 ? 2 : 1;
         }
@@ -308,7 +315,7 @@ class Registratie implements FactuurSubjectInterface
      */
     public function setDagdelen(int $dagdelen): self
     {
-        if($this->datum->format("Y") < "2022")
+        if($this->datum->format("Y") <= "2022")
         {
             throw new HsException("Kan geen dagdelen instellen op registraties voor 2023.");
         }
@@ -321,13 +328,13 @@ class Registratie implements FactuurSubjectInterface
      */
     public function validate(ExecutionContextInterface $context, $payload)
     {
-        if ($this->datum->format("Y") >= '2022' && $this->dagdelen == 0){
+        if ($this->datum->format("Y") > '2022' && $this->dagdelen == 0){
 
             $context->buildViolation('Het is verplicht het aantal dagdelen van deze registratie in te stellen.')
                 ->atPath('dagdelen')
                 ->addViolation();
         }
-        else if($this->datum->format("Y") <= '2021' && $this->start == null && $this->eind == null)
+        else if($this->datum->format("Y") <= '2022' && ($this->start == null || $this->eind == null) )
         {
             $context->buildViolation('Het is verplicht het de start en eindtijd van deze registratie in te stellen.')
                 ->atPath('start')

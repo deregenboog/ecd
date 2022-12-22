@@ -1,6 +1,6 @@
 {{ form_start(filter) }}
     <tr>
-        <th colspan="9">
+        <th colspan="11">
             <span class="pull-right">
                 {{ form_widget(filter.filter) }}
                 {{ form_widget(filter.download) }}
@@ -34,9 +34,7 @@
             {{ form_widget(filter.datum.end) }}
             {{ form_errors(filter.datum.end) }}
         </th>
-        <th></th>
-        <th></th>
-        <th></th>
-        <th></th>
+        <th colspan="5"></th>
+
     </tr>
 {{ form_end(filter) }}
