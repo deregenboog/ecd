@@ -1,34 +1,34 @@
 {% import 'html.macro.twig' as html %}
 
-<h2>Uren</h2>
+<h2>Dagdelen</h2>
 <p>
     {% if klus is defined %}
         {% set entity = klus %}
         {% if entity.dienstverleners|length + entity.vrijwilligers|length == 0 %}
             <p>
                 <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
-                Je kunt pas uren registreren als er dienstverleners en/of vrijwilligers aan deze klus gekoppeld zijn.
+                Je kunt pas dagdelen registreren als er dienstverleners en/of vrijwilligers aan deze klus gekoppeld zijn.
             </p>
         {% else %}
             {% set url = path('hs_registraties_add', {klus: entity.id}) %}
             {{ html.addLink(url) }}
-            {{ html.link('Uren toevoegen', url) }}
+            {{ html.link('Dagdelen toevoegen', url) }}
             {% set filterUrl = path('hs_registraties_index', {'registratie_filter[klus]': entity.id }) %}
 
             {{ html.viewLink(filterUrl) }}
-            {{ html.link('Bekijken uren (details)',filterUrl) }}
+            {{ html.link('Bekijken dagdelen (details)',filterUrl) }}
         {% endif %}
     {% elseif dienstverlener is defined %}
         {% set entity = dienstverlener %}
         {% if entity.klussen|length == 0 %}
             <p>
                 <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
-                Je kunt pas uren registreren als deze dienstverlener/vrijwilliger aan een klus gekoppeld is.
+                Je kunt pas dagdelen registreren als deze dienstverlener/vrijwilliger aan een klus gekoppeld is.
             </p>
         {% else %}
             {% set url = path('hs_registraties_add', {arbeider: entity.id}) %}
             {{ html.addLink(url) }}
-            {{ html.link('Uren toevoegen', url) }}
+            {{ html.link('Dagdelen toevoegen', url) }}
             {% set download_url = path('hs_registraties_werkbon', {arbeider: entity.id}) %}
             {{ html.addLink(download_url) }}
             {{ html.link('Werkbon downloaden', download_url) }}

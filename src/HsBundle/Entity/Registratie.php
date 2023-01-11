@@ -294,7 +294,7 @@ class Registratie implements FactuurSubjectInterface
         }
         else
         {
-            return ($this->dagdelen * 4);//1 dagdeel = 4 uur.
+            return ($this->dagdelen * 2);//1 dagdeel = 2 uur.
         }
     }
 
