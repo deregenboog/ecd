@@ -2,6 +2,7 @@
 
 namespace AppBundle\Command;
 
+use App\Kernel;
 use BackupManager\Compressors\CompressorProvider;
 use BackupManager\Compressors\GzipCompressor;
 use BackupManager\Compressors\NullCompressor;
@@ -12,14 +13,41 @@ use BackupManager\Filesystems\Destination;
 use BackupManager\Filesystems\FilesystemProvider;
 use BackupManager\Filesystems\LocalFilesystem;
 use BackupManager\Manager;
+use Doctrine\DBAL\Connection;
+use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\HttpKernel\KernelInterface;
 use Symfony\Component\Process\Process;
 
 class DatabaseBackupCommand extends \Symfony\Component\Console\Command\Command
 {
+    /**
+     * @var EntityManager
+     */
+    protected $entityManager;
+
+    /**
+     * @var Kernel
+     */
+    protected $kernel;
+
+    /**
+     * @var Connection
+     */
+    protected $connection;
+
+    public function __construct(EntityManagerInterface $entityManager, KernelInterface $kernel, Connection $connection)
+    {
+        $this->entityManager = $entityManager;
+        $this->kernel = $kernel;
+        $this->connection = $connection;
+        parent::__construct();
+    }
+
     protected function configure()
     {
         ini_set("memory_limit","512M");
@@ -32,7 +60,8 @@ class DatabaseBackupCommand extends \Symfony\Component\Console\Command\Command
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $backupDir = $this->getContainer()->get('kernel')->getProjectDir().'/backups';
+        $backupDir = $this->kernel->getProjectDir().'/backups';
+
         if (!realpath($backupDir)) {
             $output->writeln($backupDir.' does not exist!');
 
@@ -60,8 +89,7 @@ class DatabaseBackupCommand extends \Symfony\Component\Console\Command\Command
             ];
         }
 
-        /* @var $connection \Doctrine\DBAL\Connection */
-        $connection = $this->getContainer()->get('doctrine')->getConnection();
+        $connection = $this->connection;
         $dbConfig = new Config([
             'mysql' => [
                 'type' => $connection->getDatabasePlatform()->getName(),

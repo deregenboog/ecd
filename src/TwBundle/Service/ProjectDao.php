@@ -67,7 +67,7 @@ class ProjectDao extends AbstractDao implements ProjectDaoInterface
         $builder
 
             ->select("COUNT(kActief.id) AS aantalActief, COUNT(kGestart.id) AS aantalGestart, project.naam AS groep")
-            ->innerJoin("project.huuraanbiedingen", 'aanbod')
+            ->leftJoin("project.huuraanbiedingen", 'aanbod')
             ->leftJoin("aanbod.huurovereenkomst", 'kActief', Join::WITH, "kActief.startdatum <= :einddatum AND (kActief.einddatum >= :startdatum OR kActief.einddatum IS NULL) ")
             ->leftJoin("aanbod.huurovereenkomst",'kGestart', Join::WITH, "kGestart.startdatum >= :startdatum AND kGestart.startdatum <= :einddatum")
             ->leftJoin("kActief.afsluiting", "kaAfsluiting")
