@@ -2,6 +2,7 @@
 
 namespace TwBundle\Service;
 
+use AppBundle\Doctrine\SqlExtractor;
 use AppBundle\Service\AbstractDao;
 use Doctrine\ORM\Query\Expr\Join;
 use TwBundle\Entity\Project;
@@ -64,11 +65,17 @@ class ProjectDao extends AbstractDao implements ProjectDaoInterface
          */
         $builder = $this->repository->createQueryBuilder("project");
 
+        $startDateMin12Month = clone $startdate;
+        $startDateMin12Month = $startDateMin12Month->modify("-12 months");
+
         $builder
 
             ->select("COUNT(kActief.id) AS aantalActief, COUNT(kGestart.id) AS aantalGestart, project.naam AS groep")
             ->leftJoin("project.huuraanbiedingen", 'aanbod')
-            ->leftJoin("aanbod.huurovereenkomst", 'kActief', Join::WITH, "kActief.startdatum <= :einddatum AND (kActief.einddatum >= :startdatum OR kActief.einddatum IS NULL) ")
+            ->leftJoin("aanbod.huurovereenkomst", 'kActief', Join::WITH,
+                "(kActief.startdatum >= :startdatumMin12Month AND  kActief.einddatum >= :startdatum OR kActief.einddatum IS NULL)
+                AND kActief.startdatum <= :einddatum AND (kActief.afsluitdatum >= :startdatum OR kActief.afsluitdatum IS NULL)  
+                ")
             ->leftJoin("aanbod.huurovereenkomst",'kGestart', Join::WITH, "kGestart.startdatum >= :startdatum AND kGestart.startdatum <= :einddatum")
             ->leftJoin("kActief.afsluiting", "kaAfsluiting")
             ->leftJoin("kGestart.afsluiting","ksAfsluiting")
@@ -76,10 +83,11 @@ class ProjectDao extends AbstractDao implements ProjectDaoInterface
             ->andWhere("( (kActief.isReservering  = 0 OR kActief.isReservering IS NULL) AND kGestart.isReservering = 0 OR kGestart.isReservering IS NULL )")
             ->setParameter(":startdatum",$startdate)
             ->setParameter(":einddatum",$enddate)
+            ->setParameter(":startdatumMin12Month", $startDateMin12Month)
             ->groupBy("project.naam")
         ;
 
-//        $sql = $builder->getQuery()->getSQL();
+       # $sql = SqlExtractor::getFullSQL($builder->getQuery());
 
         $result = $builder->getQuery()->getResult();
         return $result;
