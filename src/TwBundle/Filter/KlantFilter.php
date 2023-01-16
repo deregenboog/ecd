@@ -4,13 +4,12 @@ namespace TwBundle\Filter;
 
 use AppBundle\Entity\Medewerker;
 use AppBundle\Filter\FilterInterface;
-use AppBundle\Filter\NullFilterTrait;
 use AppBundle\Filter\KlantFilter as AppKlantFilter;
+use AppBundle\Filter\NullFilterTrait;
 use Doctrine\ORM\QueryBuilder;
 use TwBundle\Entity\Alcohol;
 use TwBundle\Entity\Dagbesteding;
 use TwBundle\Entity\InschrijvingWoningnet;
-use TwBundle\Entity\Intake;
 use TwBundle\Entity\IntakeStatus;
 use TwBundle\Entity\Klant;
 use TwBundle\Entity\Project;
@@ -23,6 +22,10 @@ use TwBundle\Entity\Traplopen;
 class KlantFilter implements FilterInterface
 {
     use NullFilterTrait;
+
+    public const STATUS_ACTIVE = 'ACTIVE';
+    public const STATUS_NON_ACTIVE = 'NON_ACTIVE';
+
     /**
      * @var int
      */
@@ -39,9 +42,9 @@ class KlantFilter implements FilterInterface
     public $aanmelddatum;
 
     /**
-     * @var bool
+     * @var string
      */
-    public $actief;
+    public $status;
 
     /**
      * @var AppKlantFilter
@@ -90,7 +93,6 @@ class KlantFilter implements FilterInterface
 
     /**
      * @var Huisdieren
-     *
      */
     public $huisdieren;
 
@@ -119,13 +121,11 @@ class KlantFilter implements FilterInterface
      */
     public $traplopen;
 
-
     /** @var QueryBuilder */
     private $builder;
 
     public function applyTo(QueryBuilder $builder, $alias = 'klant')
     {
-        $this->builder = $builder;
         if ($this->id) {
             $builder
                 ->andWhere($alias.'.id = :id')
@@ -140,10 +140,9 @@ class KlantFilter implements FilterInterface
 //                $builder->andWhere('klant.inschrijvingWoningnet IS NULL OR klant.inschrijvingWoningnet = false');
 //            }
             $builder->andWhere($alias.'.inschrijvingWoningnet = :inschrijvingWoningnet')
-                ->setParameter("inschrijvingWoningnet",$this->inschrijvingWoningnet)
+                ->setParameter('inschrijvingWoningnet', $this->inschrijvingWoningnet)
                 ;
         }
-
 
         if ($this->aanmelddatum) {
             if ($this->aanmelddatum->getStart()) {
@@ -160,18 +159,15 @@ class KlantFilter implements FilterInterface
             }
         }
 
-
-        if(!is_null($this->gekoppeld))
-        {
-            if($this->gekoppeld == false)//alleen ongekoppeld
-            {
-                $builder->leftJoin($alias.".huurverzoeken","huurverzoeken")
+        if (!is_null($this->gekoppeld)) {
+            if (false == $this->gekoppeld) {//alleen ongekoppeld
+                $builder->leftJoin($alias.'.huurverzoeken', 'huurverzoeken')
 //                    ->orWhere('huurverzoeken IS NULL')
-                    ->leftJoin('huurverzoeken.huurovereenkomst',"huurovereenkomst")
+                    ->leftJoin('huurverzoeken.huurovereenkomst', 'huurovereenkomst')
 //                    ->andWhere('huurovereenkomst IS NULL')
                     //->leftJoin("huurverzoeken.huurovereenkomst","huurovereenkomst")
-                    ->andWhere('(huurovereenkomst IS NULL 
-                        OR huurverzoeken IS NULL 
+                    ->andWhere('(huurovereenkomst IS NULL
+                        OR huurverzoeken IS NULL
                         OR
                         (
                             huurovereenkomst IS NOT NULL
@@ -180,69 +176,70 @@ class KlantFilter implements FilterInterface
                     )
                     ')
                     ;
-            }
-            elseif($this->gekoppeld == true)
-            {
-                $builder->leftJoin($alias.".huurverzoeken","huurverzoeken")
-                    ->leftJoin("huurverzoeken.huurovereenkomst","huurovereenkomst")
-                    ->andWhere("huurovereenkomst.id IS NOT NULL
+            } elseif (true == $this->gekoppeld) {
+                $builder->leftJoin($alias.'.huurverzoeken', 'huurverzoeken')
+                    ->leftJoin('huurverzoeken.huurovereenkomst', 'huurovereenkomst')
+                    ->andWhere('huurovereenkomst.id IS NOT NULL
                         AND (
                             huurovereenkomst.isReservering = false AND
                             (huurovereenkomst.afsluitdatum IS NULL AND
                             huurovereenkomst.startdatum IS NOT NULL)
                             )
-                    ");
+                    ');
             }
         }
 
-        if ($this->actief ) {
-
-            $builder
-                ->andWhere($alias.".aanmelddatum <= :today")
-                 ->andWhere($alias.'.afsluitdatum > :today OR klant.afsluitdatum IS NULL')
-                 ->setParameter('today', new \DateTime('today'))
-            ;
+        switch ($this->status) {
+            case KlantFilter::STATUS_ACTIVE:
+                $builder
+                    ->andWhere($alias.'.aanmelddatum <= :today')
+                    ->andWhere($alias.'.afsluitdatum > :today OR klant.afsluitdatum IS NULL')
+                    ->setParameter('today', new \DateTime('today'))
+                ;
+                break;
+            case KlantFilter::STATUS_NON_ACTIVE:
+                $builder
+                    ->andWhere("${alias}.aanmelddatum IS NULL OR ${alias}.afsluitdatum <= :today")
+                    ->setParameter('today', new \DateTime('today'))
+                ;
+                break;
+            default:
+                break;
         }
 
-        if($this->medewerker)
-        {
+        if ($this->medewerker) {
             $builder->andWhere('medewerker = :medewerker')
-                ->setParameter('medewerker',$this->medewerker);
+                ->setParameter('medewerker', $this->medewerker);
         }
-
-
 
         if ($this->appKlant) {
-            $this->appKlant->applyTo($builder,'appKlant');
+            $this->appKlant->applyTo($builder, 'appKlant');
         }
 
-        if($this->shortlist)
-        {
+        if ($this->shortlist) {
             $builder->andWhere('shortlist = :shortlist')
-                ->setParameter('shortlist',$this->shortlist);
+                ->setParameter('shortlist', $this->shortlist);
         }
-        if($this->project && (is_array($this->project) || $this->project instanceof \Countable ? count($this->project) : 0)>0)
-        {
+        if ($this->project && (is_array($this->project) || $this->project instanceof \Countable ? count($this->project) : 0) > 0) {
             $builder->andWhere('project IN (:project)')
-                    ->setParameter('project',$this->project);
+                    ->setParameter('project', $this->project);
 //            foreach($this->project as $p)
 //            {
 //                $builder->andWhere('project = :project')
 //                    ->setParameter('project',$p);
 //            }
-
         }
 
-        $this->addMultipleOrField('intakeStatus');
-//        $this->addMultipleOrField('project');
-        $this->addMultipleOrField('dagbesteding');
-        $this->addMultipleOrField('ritme');
-        $this->addMultipleOrField('huisdieren');
-        $this->addMultipleOrField('roken');
-        $this->addMultipleOrField('alcohol');
-        $this->addMultipleOrField('softdrugs');
-        $this->addMultipleOrField('traplopen');
-        $this->addMultipleOrField('inkomensverklaring');
+        $this->addMultipleOrField('intakeStatus', $builder);
+        // $this->addMultipleOrField('project', $builder);
+        $this->addMultipleOrField('dagbesteding', $builder);
+        $this->addMultipleOrField('ritme', $builder);
+        $this->addMultipleOrField('huisdieren', $builder);
+        $this->addMultipleOrField('roken', $builder);
+        $this->addMultipleOrField('alcohol', $builder);
+        $this->addMultipleOrField('softdrugs', $builder);
+        $this->addMultipleOrField('traplopen', $builder);
+        $this->addMultipleOrField('inkomensverklaring', $builder);
     }
 
     /**
@@ -250,25 +247,21 @@ class KlantFilter implements FilterInterface
      * Add field and (multiple) values to the filter Query.
      * Check if is an array.
      */
-    private function addMultipleOrField($field)
+    private function addMultipleOrField($field, QueryBuilder $builder)
     {
         $values = $this->$field;
-        if($values && (is_array($values) || $values instanceof \Countable ? count($values) : 0)>0)
-        {
-            $k =array_search(0,$values,true); // 0 is de null value voor 'Onbekend'.
-            if( is_int($k) ) // dit kan vast compacter maar mn hersenen zijn gaar.
-            {
-                $t = array_splice($values,$k,1);
-                $this->builder->andWhere("(klant.$field IN (:$field) OR klant.$field IS NULL)")
-                    ->setParameter($field,$values)
+        if ($values && (is_array($values) || $values instanceof \Countable ? count($values) : 0) > 0) {
+            $k = array_search(0, $values, true); // 0 is de null value voor 'Onbekend'.
+            if (is_int($k)) { // dit kan vast compacter maar mn hersenen zijn gaar.
+                $t = array_splice($values, $k, 1);
+                $builder->andWhere("(klant.$field IN (:$field) OR klant.$field IS NULL)")
+                    ->setParameter($field, $values)
                 ;
-            }
-            else{
-                $this->builder->andWhere("klant.$field IN (:$field)")
-                    ->setParameter($field,$values)
+            } else {
+                $builder->andWhere("klant.$field IN (:$field)")
+                    ->setParameter($field, $values)
                 ;
             }
         }
-
     }
 }
