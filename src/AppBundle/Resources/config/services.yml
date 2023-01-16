@@ -21,6 +21,11 @@ services:
             $paginator: '@knp_paginator'
         tags: [ 'controller.service_arguments' ]
 
+    AppBundle\Controller\Admin\KlantenController:
+        arguments:
+            $logger: '@monolog.logger.merge'
+        tags: [ 'controller.service_arguments' ]
+
     AppBundle\Controller\KlantenController:
         arguments:
              $export: '@AppBundle\Export\Klanten'

@@ -45,7 +45,7 @@ class Klant extends Persoon
     private $mezzoId = 0;
 
     /**
-     * @var Intake[]
+     * @var ArrayCollection<Intake>
      *
      * @ORM\OneToMany(targetEntity="InloopBundle\Entity\Intake", mappedBy="klant")
      * @ORM\OrderBy({"intakedatum" = "DESC", "id" = "DESC"})
@@ -69,7 +69,7 @@ class Klant extends Persoon
     private $verslagen;
 
     /**
-     * @var Registratie[]
+     * @var ArrayCollection<Registratie>
      *
      * @ORM\OneToMany(targetEntity="InloopBundle\Entity\Registratie", mappedBy="klant")
      * @ORM\OrderBy({"id" = "DESC"})
@@ -593,28 +593,28 @@ class Klant extends Persoon
         $this->eersteIntake = $eersteIntake;
     }
 
-
-    /**
-     * Wat doet deze functie? Geen idee.
-     * Hij is erg verwarrend...
-     *
-     * Hij wordt alleen gebruikt bij mergen van klanten. en dan kan het zijn dat ie werkt, mara verder is
-     * hij stom want hij doet niet wat ie moet doen.
-     *
-     * Let op bij merge nagaan of dit allemaal nog goed gaat.
-     *
-     * @return void
-     */
     public function updateCalculatedFields()
     {
-        if (count((array) $this->registraties) > 0) {
-            $this->laatsteRegistratie = $this->registraties->last();
+        $laatsteRegistratie = null;
+        foreach ($this->registraties as $registratie) {
+            if ($laatsteRegistratie == null || $registratie->getBinnen() > $laatsteRegistratie->getBinnen()) {
+                $laatsteRegistratie = $registratie;
+            }
         }
-        if (count((array) $this->intakes) > 0) {
-            $this->laatsteIntake = $this->intakes->last();
-            $eersteIntake = $this->intakes->first();
-            $this->eersteIntakeDatum = $eersteIntake->getIntakeDatum();
+        $this->laatsteRegistratie = $laatsteRegistratie;
+
+        $eersteIntake = null;
+        $laatsteIntake = null;
+        foreach ($this->intakes as $intake) {
+            if ($eersteIntake == null || $intake->getIntakedatum() < $eersteIntake->getIntakedatum()) {
+                $eersteIntake = $intake;
+            }
+            if ($laatsteIntake == null || $intake->getIntakedatum() > $laatsteIntake->getIntakedatum()) {
+                $laatsteIntake = $intake;
+            }
         }
+        $this->laatsteIntake = $laatsteIntake;
+        $this->eersteIntakeDatum = $eersteIntake->getIntakeDatum();
     }
 
     public function isOverleden()
