@@ -40,7 +40,7 @@ services:
 
     VillaBundle\Controller\VrijwilligersController:
         arguments:
-            $export: '@mw.export.vrijwilliger'
+            $export: '@villa.export.vrijwilliger'
         tags: [ 'controller.service_arguments' ]
 
     villa.document.entities:
