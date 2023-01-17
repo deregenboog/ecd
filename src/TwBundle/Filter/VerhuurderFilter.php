@@ -10,6 +10,9 @@ use TwBundle\Entity\Project;
 
 class VerhuurderFilter implements FilterInterface
 {
+    public const STATUS_ACTIVE = 'ACTIVE';
+    public const STATUS_NON_ACTIVE = 'NON_ACTIVE';
+
     /**
      * @var int
      */
@@ -26,9 +29,9 @@ class VerhuurderFilter implements FilterInterface
     public $afsluitdatum;
 
     /**
-     * @var bool
+     * @var string
      */
-    public $actief;
+    public $status;
 
     /**
      * @var bool
@@ -55,7 +58,6 @@ class VerhuurderFilter implements FilterInterface
      */
     public $project;
 
-
     public function applyTo(QueryBuilder $builder)
     {
         if ($this->id) {
@@ -64,11 +66,10 @@ class VerhuurderFilter implements FilterInterface
                 ->setParameter('id', $this->id)
             ;
         }
-        if($this->project && (is_array($this->project) || $this->project instanceof \Countable ? count($this->project) : 0) > 0)
-        {
+        if ($this->project && (is_array($this->project) || $this->project instanceof \Countable ? count($this->project) : 0) > 0) {
             $builder
                 ->andWhere('verhuurder.project IN (:project)')
-                ->setParameter("project",$this->project);
+                ->setParameter('project', $this->project);
         }
         if ($this->aanmelddatum) {
             if ($this->aanmelddatum->getStart()) {
@@ -85,37 +86,41 @@ class VerhuurderFilter implements FilterInterface
             }
         }
 
-
-
-        if ($this->actief) {
-            $builder
-            ->andWhere('verhuurder.aanmelddatum <= :today')
-            ->andWhere('verhuurder.afsluitdatum > :today OR verhuurder.afsluitdatum IS NULL')
-            ->setParameter('today', new \DateTime('today'))
-            ;
+        switch ($this->status) {
+            case VerhuurderFilter::STATUS_ACTIVE:
+                $builder
+                    ->andWhere('verhuurder.aanmelddatum <= :today')
+                    ->andWhere('verhuurder.afsluitdatum > :today OR verhuurder.afsluitdatum IS NULL')
+                    ->setParameter('today', new \DateTime('today'))
+                ;
+                break;
+            case VerhuurderFilter::STATUS_NON_ACTIVE:
+                $builder
+                    ->andWhere('verhuurder.aanmelddatum IS NULL OR verhuurder.afsluitdatum <= :today')
+                    ->setParameter('today', new \DateTime('today'))
+                ;
+                break;
+            default:
+                break;
         }
 
         if ($this->gekoppeld) {
-            $builder
 //                ->andWhere('verhuurder.aanmelddatum <= :today')
 //                ->andWhere('verhuurder.afsluitdatum > :today OR verhuurder.afsluitdatum IS NULL')
 //                ->setParameter('today', new \DateTime('today'))
-            ;
         }
 
-        if($this->medewerker)
-        {
-
+        if ($this->medewerker) {
             $builder
 //                ->leftJoin('huurder.ambulantOndersteuner','ambulantOndersteuner')
 //                ->andWhere('ambulantOndersteuner IS NULL')
                 ->andWhere('verhuurder.medewerker = :medewerker')
 
-                ->setParameter('medewerker',$this->medewerker);
+                ->setParameter('medewerker', $this->medewerker);
         }
 
         if ($this->appKlant) {
-            $this->appKlant->applyTo($builder,'appKlant');
+            $this->appKlant->applyTo($builder, 'appKlant');
         }
     }
 }
