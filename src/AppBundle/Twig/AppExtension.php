@@ -9,7 +9,6 @@ use AppBundle\Service\NameFormatter;
 use AppBundle\Util\DateTimeUtil;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\EntityNotFoundException;
-use Symfony\Component\Debug\Exception\ContextErrorException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Twig\TwigFunction;
@@ -17,6 +16,7 @@ use Twig\TwigFilter;
 use Twig\Extension\AbstractExtension;
 use Twig\Extension\GlobalsInterface;
 use Twig\Environment;
+use Twig\Error\Error;
 
 class AppExtension extends AbstractExtension implements GlobalsInterface
 {
@@ -486,12 +486,15 @@ class AppExtension extends AbstractExtension implements GlobalsInterface
     public function try($value)
     {
         try {
-            if (is_bool($value)) {
-                return (string) $value ? 1 : 0;
+            switch (true) {
+                case is_bool($value):
+                    return (string) $value ? 1 : 0;
+                case $value instanceof \DateTime:
+                    return $value->format('d-m-Y');
+                default:
+                    return (string) $value;
             }
-
-            return (string) $value;
-        } catch (ContextErrorException $e) {
+        } catch (Error $e) {
             return '';
         }
     }
