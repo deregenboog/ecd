@@ -99,6 +99,7 @@ services:
                 Plaats: { expression: 'entity.getVerhuurder().getAppKlant().getPlaats()' }
                 Vorm: { expression: 'entity.getVorm()' }
                 Afsluitdatum: { expression: 'entity.getAfsluitdatum()', type: 'date' }
+                Afsluitreden: { expression: 'entity.getAfsluiting()' }
                 Automatische incasso: { expression: 'entity.getKlant().isAutomatischeIncasso() ? "ja" : "nee"' }
 #                Inschrijving Woningnet: { expression: 'entity.getKlant().isInschrijvingWoningnet() ? "ja" : "nee"' }
                 WA-polis: { expression: 'entity.getKlant().isWaPolis() ? "ja" : "nee"' }
