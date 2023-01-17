@@ -7,9 +7,12 @@ use AppBundle\Exception\UserException;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\NoResultException;
 use GaBundle\Entity\Dossier;
+use GaBundle\Export\SelectionExport;
 use GaBundle\Filter\SelectieFilter;
 use GaBundle\Form\EmailMessageType;
 use GaBundle\Form\SelectieType;
+use GaBundle\Service\KlantdossierDao;
+use GaBundle\Service\VrijwilligerdossierDao;
 use Symfony\Component\Mailer\Mailer;
 use Symfony\Component\Mime\Message;
 use Symfony\Component\Routing\Annotation\Route;
@@ -22,6 +25,28 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class SelectiesController extends SymfonyController
 {
+    /**
+     * @var KlantdossierDao
+     */
+    protected $klantDossierDao;
+
+    /**
+     * @var VrijwilligerDossierDao
+     */
+    protected $vrijwilligerDossierDao;
+
+    /**
+     * @var SelectionExport
+     */
+    protected $export;
+
+    public function __construct(KlantDossierDao $klantDossierDao, VrijwilligerdossierDao $vrijwilligerDossierDao, SelectionExport $export)
+    {
+        $this->klantDossierDao = $klantDossierDao;
+        $this->vrijwilligerDossierDao = $vrijwilligerDossierDao;
+        $this->export = $export;
+    }
+
     /**
      * @Route("/")
      * @Template
@@ -104,11 +129,7 @@ class SelectiesController extends SymfonyController
 
         $filename = sprintf('selecties_%s.xlsx', date('Ymd_His'));
 
-        return $this->get('ga.export.selectie2')
-            ->create($klanten)
-            ->create($vrijwilligers)
-            ->getResponse($filename)
-        ;
+        return $this->export->create($klanten)->create($vrijwilligers)->getResponse($filename);
     }
 
     private function email(SelectieFilter $filter)
@@ -155,7 +176,7 @@ class SelectiesController extends SymfonyController
     private function getKlanten(SelectieFilter $filter)
     {
         if (in_array('klanten', $filter->personen)) {
-            return $this->get(\GaBundle\Service\KlantdossierDao::class)->findAll(null, $filter);
+            return $this->klantDossierDao->findAll(null, $filter);
         }
 
         return new ArrayCollection();
@@ -164,7 +185,7 @@ class SelectiesController extends SymfonyController
     private function getVrijwilligers(SelectieFilter $filter)
     {
         if (in_array('vrijwilligers', $filter->personen)) {
-            return $this->get(\GaBundle\Service\VrijwilligerdossierDao::class)->findAll(null, $filter);
+            return $this->vrijwilligerDossierDao->findAll(null, $filter);
         }
 
         return new ArrayCollection();
