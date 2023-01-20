@@ -11,11 +11,14 @@ use InloopBundle\Form\SchorsingFilterType;
 use InloopBundle\Form\SchorsingType;
 use InloopBundle\Pdf\PdfSchorsingEn;
 use InloopBundle\Pdf\PdfSchorsingNl;
+use InloopBundle\Service\LocatieDao;
+use InloopBundle\Service\LocatieDaoInterface;
 use InloopBundle\Service\SchorsingDao;
 use InloopBundle\Service\SchorsingDaoInterface;
 use JMS\DiExtraBundle\Annotation as DI;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
+use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\Mailer\Exception\TransportException;
 use Symfony\Component\Mailer\Mailer;
 use Symfony\Component\Mailer\MailerInterface;
@@ -54,19 +57,60 @@ class SchorsingenController extends AbstractController
      * @var Mailer
      */
     protected $mailer;
+
+    /**
+     * @var LocatieDaoInterface
+     */
+    protected $locatieDao;
+
     /**
      * @param SchorsingDao $dao
      * @param ExportInterface $export
      * @param MailerInterface $mailer
      *
      */
-    public function __construct(SchorsingDao $dao, ExportInterface $export, MailerInterface $mailer)
+    public function __construct(SchorsingDao $dao, ExportInterface $export, MailerInterface $mailer, LocatieDao $locatieDao)
     {
         $this->dao = $dao;
         $this->export = $export;
         $this->mailer = $mailer;
+        $this->locatieDao = $locatieDao;
     }
 
+
+    /**
+     * @Route("/")
+     * @Template
+     */
+    public function indexAction(Request $request)
+    {
+
+        if (in_array('index', $this->disabledActions)) {
+            throw new AccessDeniedHttpException();
+        }
+
+        if ($this->filterFormClass) {
+            $form = $this->getForm($this->filterFormClass);
+            $form->handleRequest($request);
+            if ($form->isSubmitted() && $form->isValid()) {
+                if ($form->has('download') && $form->get('download')->isClicked()) {
+                    return $this->download($form->getData());
+                }
+            }
+            $filter = $form->getData();
+        } else {
+            $filter = null;
+        }
+
+        $page = $request->get('page', 1);
+        $pagination = $this->dao->findAll($page, $filter);
+
+        return [
+            'filter' => isset($form) ? $form->createView() : null,
+            'allRows' => $this->locatieDao->findAllActiveLocations(),
+            'pagination' => $pagination,
+        ];
+    }
 
     /**
      * @Route("/{id}/view")

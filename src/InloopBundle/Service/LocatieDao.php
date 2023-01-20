@@ -42,6 +42,16 @@ class LocatieDao extends AbstractDao implements LocatieDaoInterface
         $this->eventDispatcher = $eventDispatcher;
     }
 
+
+    public function findAllActiveLocations()
+    {
+        $builder = $this->repository->createQueryBuilder($this->alias);
+        $builder->where("locatie.datumTot > :now")
+                ->andWhere("locatie.datumVan <= :now")
+                ->setParameter(":now", (new \DateTime('now'))->format("Y-m-d"))
+            ;
+        return $this->doFindAll($builder,null);
+    }
     public function create(Locatie $locatie)
     {
         $this->doCreate($locatie);
