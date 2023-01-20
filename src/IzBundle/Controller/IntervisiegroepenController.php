@@ -113,7 +113,7 @@ class IntervisiegroepenController extends AbstractController
     /**
      * @Route("/{id}/download")
      */
-    public function downloadExportAction(Request $request, $id)
+    public function downloadAction(Request $request, $id)
     {
         ini_set('memory_limit', '512M');
 

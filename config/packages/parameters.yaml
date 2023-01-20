@@ -89,9 +89,9 @@ parameters:
   hulpverlening_mail: '%env(HULPVERLENING_MAIL)%'
   agressie_mail: '%env(AGRESSIEMAIL)%'
   administratiebedrijf_mail: '%env(ADMINISTRATIEBEDRIJF_MAIL)%'
-  prevent_save_enabled: '2023-01-13 17:00:00' #vanaf deze datum wordt de check uitgevoerd. #NB: dit werkt eigenlijk niet goed want zodra je deze verzet naar het nieuwe jaar, dan is tijdelijk mogelijk dat het jaar ervoor toch nog wordt gewijzigd.
-  prevent_save_modified_before: '2023-01-01' #als de gecheckte entiteit en datumveld heeft voor deze datum
-  prevent_save_modified_after: '2020-12-31' #en als de gecheckte entiteit een datumveld heeft na deze datum.
+  prevent_save_enabled: '%env(PREVENT_SAVE_ENABLED)%' #vanaf deze datum wordt de check uitgevoerd. #NB: dit werkt eigenlijk niet goed want zodra je deze verzet naar het nieuwe jaar, dan is tijdelijk mogelijk dat het jaar ervoor toch nog wordt gewijzigd.
+  prevent_save_modified_before: '%env(PREVENT_SAVE_MODIFIED_BEFORE)%' #als de gecheckte entiteit en datumveld heeft voor deze datum
+  prevent_save_modified_after: '%env(PREVENT_SAVE_MODIFIED_AFTER)%' #en als de gecheckte entiteit een datumveld heeft na deze datum.
   prevent_save_exclude_entities:
     #    - 'DagbestedingBundle\Entity\Rapportage' # In overleg met Jos, 2022
     #    - 'DagbestedingBundle\Entity\Dagdeel' # In overleg met Jos, 2022
