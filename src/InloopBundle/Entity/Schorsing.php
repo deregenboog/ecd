@@ -7,6 +7,8 @@ use AppBundle\Model\TimestampableTrait;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
+use InloopBundle\Service\LocatieDao;
+use InloopBundle\Service\LocatieDaoInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
@@ -182,6 +184,7 @@ class Schorsing
         $this->locaties = new ArrayCollection();
         $this->redenen = new ArrayCollection();
     }
+
 
     public function __toString()
     {
@@ -437,6 +440,7 @@ class Schorsing
 
     public function getLocaties()
     {
+        $l = $this->locaties;
         return $this->locaties;
     }
 

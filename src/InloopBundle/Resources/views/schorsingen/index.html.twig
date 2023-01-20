@@ -84,11 +84,12 @@
                     {{ schorsing.klant.geslacht }}
                 </td>
                 <td>
-                    <ul>
-                    {% for locatie in schorsing.locaties %}
-                        <li>{{ locatie }}</li>
-                    {% endfor %}
-                    </ul>
+                    {{ schorsing.locaties|filterAllRows(allRows) }}
+{#                    <ul>#}
+{#                    {% for locatie in schorsing.locaties %}#}
+{#                        <li>{{ locatie }}</li>#}
+{#                    {% endfor %}#}
+{#                    </ul>#}
                 </td>
                 <td>
                     {{ schorsing.datumVan|date('d-m-Y') }}
