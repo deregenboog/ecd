@@ -31,8 +31,8 @@
                     <span class="pull-right">
                         {{ html.emailLink(path('iz_intervisiegroepen_email', {id: entity.id})) }}
                         {{ html.link('E-mailen', path('iz_intervisiegroepen_email', {id: entity.id})) }}
-                        {{ html.downloadLink(path('iz_intervisiegroepen_download', {id: entity.id})) }}
-                        {{ html.link('Downloaden', path('iz_intervisiegroepen_download', {id: entity.id})) }}
+                        {{ html.downloadLink(path('iz_intervisiegroepen_downloadexport', {id: entity.id})) }}
+                        {{ html.link('Downloaden', path('iz_intervisiegroepen_downloadexport', {id: entity.id})) }}
                     </span>
                 {% endif %}
             </p>

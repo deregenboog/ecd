@@ -40,13 +40,19 @@ class IntervisiegroepenController extends AbstractController
     protected $export;
 
     /**
+     * @var AbstractExport
+     */
+    protected $vrijwilligersExport;
+
+    /**
      * @param IntervisiegroepDao $dao
      * @param AbstractExport $export
      */
-    public function __construct(IntervisiegroepDao $dao, AbstractExport $export)
+    public function __construct(IntervisiegroepDao $dao, AbstractExport $export, AbstractExport $vrijwilligersExport)
     {
         $this->dao = $dao;
         $this->export = $export;
+        $this->vrijwilligersExport = $vrijwilligersExport;
     }
 
 
@@ -113,7 +119,7 @@ class IntervisiegroepenController extends AbstractController
     /**
      * @Route("/{id}/download")
      */
-    public function downloadAction(Request $request, $id)
+    public function downloadExportAction(Request $request, $id)
     {
         ini_set('memory_limit', '512M');
 
@@ -121,7 +127,7 @@ class IntervisiegroepenController extends AbstractController
 
         $filename = sprintf('selecties_%s.xlsx', date('Ymd_His'));
 
-        return $this->get('iz.export.vrijwilligers')
+        return $this->vrijwilligersExport
             ->create($entity->getVrijwilligers())
             ->getResponse($filename)
         ;

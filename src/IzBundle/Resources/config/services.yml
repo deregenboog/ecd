@@ -55,6 +55,7 @@ services:
     IzBundle\Controller\IntervisiegroepenController:
         arguments:
             $export: '@iz.export.intervisiegroepen'
+            $vrijwilligersExport: '@iz.export.vrijwilligers'
         tags: [ 'controller.service_arguments' ]
 
     IzBundle\Controller\KlantenController:
