@@ -30,7 +30,6 @@ use UhkBundle\Service\VerslagDao;
  */
 class DeelnemersController extends AbstractController
 {
-    protected $title = 'Deelnemers';
     protected $entityName = 'deelnemer';
     protected $entityClass = Deelnemer::class;
     protected $formClass = DeelnemerType::class;

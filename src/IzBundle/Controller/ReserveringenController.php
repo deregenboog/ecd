@@ -23,7 +23,6 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class ReserveringenController extends AbstractController
 {
-    protected $title = 'Reserveringen';
     protected $entityName = 'reservering';
     protected $entityClass = Reservering::class;
     protected $formClass = ReserveringType::class;

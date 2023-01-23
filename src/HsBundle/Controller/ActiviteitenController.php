@@ -18,7 +18,6 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class ActiviteitenController extends AbstractController
 {
-    protected $title = 'Activiteiten';
     protected $entityName = 'activiteit';
     protected $entityClass = Activiteit::class;
     protected $formClass = ActiviteitType::class;

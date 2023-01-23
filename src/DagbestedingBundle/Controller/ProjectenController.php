@@ -16,7 +16,6 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class ProjectenController extends AbstractController
 {
-    protected $title = 'Projecten';
     protected $entityName = 'Project';
     protected $entityClass = Project::class;
     protected $formClass = ProjectType::class;

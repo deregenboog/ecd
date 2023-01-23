@@ -15,7 +15,6 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class UitschrijfredenenController extends AbstractController
 {
-    protected $title = 'Uitschrijfredenen';
     protected $entityName = 'uitschrijfreden';
     protected $entityClass = Uitschrijfreden::class;
     protected $formClass = UitschrijfredenType::class;

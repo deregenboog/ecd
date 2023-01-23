@@ -29,7 +29,6 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class DeelnemersController extends AbstractController
 {
-    protected $title = 'Deelnemers';
     protected $entityName = 'Deelnemer';
     protected $entityClass = Deelnemer::class;
     protected $formClass = DeelnemerType::class;

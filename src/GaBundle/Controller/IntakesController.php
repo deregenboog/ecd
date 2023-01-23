@@ -18,7 +18,6 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class IntakesController extends AbstractChildController
 {
-    protected $title = 'Intakes';
     protected $entityName = 'intake';
     protected $entityClass = Intake::class;
     protected $formClass = IntakeType::class;

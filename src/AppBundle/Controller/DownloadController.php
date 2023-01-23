@@ -25,7 +25,6 @@ use Vich\UploaderBundle\Handler\DownloadHandler;
  */
 class DownloadController extends AbstractController
 {
-    protected $title = 'Download';
     protected $entityName = 'Download';
 //    protected $entityClass = Document::class;
 //    protected $formClass = DocumentType::class;

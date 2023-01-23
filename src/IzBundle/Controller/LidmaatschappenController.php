@@ -15,7 +15,6 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class LidmaatschappenController extends AbstractChildController
 {
-    protected $title = 'Lidmaatschappen';
     protected $entityName = 'lidmaatschap';
     protected $entityClass = Lidmaatschap::class;
     protected $formClass = LidmaatschapType::class;

@@ -24,7 +24,6 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class VragenController extends AbstractVragenController
 {
-    protected $title = 'Vragen';
     protected $formClass = VraagType::class;
     protected $addMethod = 'addVraag';
 

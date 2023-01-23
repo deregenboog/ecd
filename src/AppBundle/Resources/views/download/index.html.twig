@@ -1,14 +1,6 @@
 {% extends 'base.html.twig' %}
 {% import 'html.macro.twig' as html %}
 
-{% block title %}
-  Doelstellingen | {{ title }}
-{% endblock %}
-
-{% block subnavigation %}
-    {% include '@App/subnavigation.html.twig' %}
-{% endblock %}
-
 {% block content %}
 
     {{ form_start(form) }}

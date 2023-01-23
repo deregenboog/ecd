@@ -16,7 +16,6 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class DoelgroepenController extends AbstractController
 {
-    protected $title = 'Doelgroepen';
     protected $entityName = 'doelgroep';
     protected $entityClass = Doelgroep::class;
     protected $formClass = DoelgroepType::class;

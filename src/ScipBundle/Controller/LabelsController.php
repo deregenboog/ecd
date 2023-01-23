@@ -17,7 +17,6 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class LabelsController extends AbstractController
 {
-    protected $title = 'Labels';
     protected $entityName = 'label';
     protected $entityClass = Label::class;
     protected $formClass = LabelType::class;

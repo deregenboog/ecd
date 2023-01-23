@@ -40,7 +40,6 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class BezoekersController extends AbstractController
 {
-    protected $title = 'Bezoekers';
     protected $entityName = 'bezoeker';
     protected $entityClass = Bezoeker::class;
     protected $formClass = BezoekerType::class;

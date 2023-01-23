@@ -13,7 +13,17 @@ abstract class SymfonyController extends \Symfony\Bundle\FrameworkBundle\Control
     /**
      * @var string
      */
+    protected $module;
+
+    /**
+     * @var string
+     */
     protected $title;
+
+    /**
+     * @var string
+     */
+    protected $subnavigation;
 
     /**
      * @var string
@@ -36,10 +46,26 @@ abstract class SymfonyController extends \Symfony\Bundle\FrameworkBundle\Control
         $this->paginator = $paginator;
     }
 
+    public function getModule()
+    {
+        return $this->module;
+    }
 
     public function getTitle()
     {
         return $this->title;
+    }
+
+    public function getSubnavigation()
+    {
+        if ($this->subnavigation) {
+            return $this->subnavigation;
+        }
+
+        $matches = [];
+        if (preg_match('/^(.*)Bundle/', get_class($this), $matches)) {
+            return sprintf('@%s/subnavigation.html.twig', $matches[1]);
+        }
     }
 
     public function getEntityName()

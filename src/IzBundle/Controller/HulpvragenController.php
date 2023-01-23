@@ -26,7 +26,6 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class HulpvragenController extends AbstractChildController
 {
-    protected $title = 'Hulpvragen';
     protected $entityName = 'hulpvraag';
     protected $entityClass = Hulpvraag::class;
     protected $formClass = HulpvraagType::class;

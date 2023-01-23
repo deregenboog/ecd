@@ -1,14 +1,6 @@
 {% extends 'base.html.twig' %}
 {% import 'html.macro.twig' as html %}
 
-{% block title %}
-    Maatschappelijkwerk | {{ title }}
-{% endblock %}
-
-{% block subnavigation %}
-    {% include '@Mw/subnavigation.html.twig' %}
-{% endblock %}
-
 {% block content %}
     <h1>MW dossier afsluiten</h1>
     {{ form_start(form) }}

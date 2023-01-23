@@ -33,7 +33,6 @@ use Symfony\Component\Routing\Router;
  */
 class SchorsingenController extends AbstractController
 {
-    protected $title = 'Schorsingen';
     protected $entityName = 'schorsing';
     protected $entityClass = Schorsing::class;
     protected $formClass = SchorsingType::class;

@@ -15,7 +15,6 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class GroepenController extends AbstractController
 {
-    protected $title = 'Groepen';
     protected $entityName = 'groep';
     protected $entityClass = Groep::class;
     protected $formClass = GroepType::class;
