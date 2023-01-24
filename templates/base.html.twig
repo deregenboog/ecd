@@ -6,8 +6,8 @@
 
     <title>ECD
         {%- block title -%}
-            {% if module %} | {{ module }}{% endif -%}
-            {% if title %} | {{ title }}{% endif -%}
+            {% if module is defined and module is not null %} | {{ module }}{% endif -%}
+            {% if title is defined and title is not null %} | {{ title }}{% endif -%}
         {%- endblock -%}
     </title>
 
@@ -27,7 +27,7 @@
     {% endblock %}
     <div class="container-fluid">
         {% block subnavigation %}
-            {% if subnavigation %}
+            {% if subnavigation is defined and subnavigation is not null %}
                 {% include subnavigation %}
             {% endif %}
         {% endblock %}
