@@ -20,7 +20,6 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class MedewerkersController extends AbstractController
 {
-    protected $title = 'Medewerkers';
     protected $entityName = 'medewerker';
     protected $entityClass = Medewerker::class;
     protected $filterFormClass = MedewerkerFilterType::class;

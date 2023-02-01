@@ -33,7 +33,6 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class FacturenController extends AbstractChildController
 {
-    protected $title = 'Facturen';
     protected $entityName = 'factuur';
     protected $entityClass = Factuur::class;
     protected $formClass = FactuurType::class;

@@ -18,7 +18,6 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class HulpvragersController extends AbstractController
 {
-    protected $title = 'Hulpvragers';
     protected $entityName = 'hulpvrager';
     protected $entityClass = Hulpvrager::class;
     protected $formClass = HulpvragerType::class;

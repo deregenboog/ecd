@@ -1,14 +1,6 @@
 {% extends 'base.html.twig' %}
 {% import 'html.macro.twig' as html %}
 
-{% block title %}
-    {{'@Uhk/UhkBundle::title'}} | {{ title }}
-{% endblock %}
-
-{% block subnavigation %}
-    {% include '@Uhk/subnavigation.html.twig' %}
-{% endblock %}
-
 {% block content %}
     <h1>{{ entity_name|capitalize }} toevoegen</h1>
 

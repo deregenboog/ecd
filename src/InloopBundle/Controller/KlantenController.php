@@ -39,7 +39,6 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class KlantenController extends AbstractController
 {
-    protected $title = 'Klanten';
     protected $entityName = 'klant';
     protected $entityClass = Klant::class;
     protected $formClass = KlantType::class;

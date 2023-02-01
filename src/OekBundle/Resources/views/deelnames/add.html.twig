@@ -1,13 +1,5 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}
-    Op Eigen Kracht | {{ title }}
-{% endblock %}
-
-{% block subnavigation %}
-    {% include '@Oek/subnavigation.html.twig' %}
-{% endblock %}
-
 {% block content %}
     <h1>Deelnemer aan training toevoegen</h1>
     {{ form(form) }}

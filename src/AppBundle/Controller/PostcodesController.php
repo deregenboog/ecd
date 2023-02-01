@@ -22,7 +22,6 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class PostcodesController extends AbstractController
 {
-    protected $title = 'Postcodes';
     protected $entityName = 'postcode';
     protected $entityClass = Postcode::class;
     protected $filterFormClass = PostcodeFilterType::class;

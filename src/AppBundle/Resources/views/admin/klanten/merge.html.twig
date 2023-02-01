@@ -2,14 +2,6 @@
 {% import 'html.macro.twig' as html %}
 {% import _self as macro %}
 
-{% block title %}
-    {{ title }}
-{% endblock %}
-
-{% block subnavigation %}
-    {% include '@App/subnavigation.html.twig' %}
-{% endblock %}
-
 {% block content %}
     <h1>{{ title }}</h1>
     <p>

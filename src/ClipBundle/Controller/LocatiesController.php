@@ -17,7 +17,6 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
  */
 class LocatiesController extends AbstractController
 {
-    protected $title = 'Locaties';
     protected $entityName = 'locatie';
     protected $entityClass = Locatie::class;
     protected $formClass = LocatieType::class;

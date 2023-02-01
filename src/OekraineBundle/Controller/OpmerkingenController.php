@@ -22,7 +22,6 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class OpmerkingenController extends AbstractController
 {
-    protected $title = 'Opmerkingen';
     protected $entityName = 'opmerking';
     protected $entityClass = Opmerking::class;
     protected $formClass = OpmerkingType::class;

@@ -17,7 +17,6 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
  */
 class PeriodesController extends AbstractController
 {
-    protected $title = 'Periodes';
     protected $entityName = 'periode';
     protected $entityClass = Periode::class;
     protected $formClass = PeriodeType::class;

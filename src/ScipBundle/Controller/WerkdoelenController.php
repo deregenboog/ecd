@@ -14,7 +14,6 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class WerkdoelenController extends AbstractChildController
 {
-    protected $title = 'Werkdoelen';
     protected $entityName = 'werkdoel';
     protected $entityClass = Werkdoel::class;
     protected $formClass = WerkdoelType::class;

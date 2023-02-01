@@ -1,13 +1,5 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}
-    Villa | {{ title }}
-{% endblock %}
-
-{% block subnavigation %}
-    {% include '@Villa/subnavigation.html.twig' %}
-{% endblock %}
-
 {% block content %}
     <h1>Training toevoegen voor vrijwilliger {{ entity.vrijwilliger }}</h1>
     {{ form(form) }}

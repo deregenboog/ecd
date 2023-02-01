@@ -22,7 +22,6 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class IntervisiegroepenController extends AbstractController
 {
-    protected $title = 'Intervisiegroepen';
     protected $entityName = 'intervisiegroep';
     protected $entityClass = Intervisiegroep::class;
     protected $formClass = IntervisiegroepType::class;

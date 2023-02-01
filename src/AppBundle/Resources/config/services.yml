@@ -191,6 +191,19 @@ services:
         class: AppBundle\Event\KernelSubscriber
         arguments:
             - '@twig'
+            -
+                App: null
+                Clip: 'CLIP'
+                ErOpUit: 'ErOpUit-kalender'
+                Ga: 'Groepsactiviteiten'
+                Inloop: 'Inloophuizen'
+                Iz: 'Informele zorg'
+                Mw: 'Maatschappelijk werk'
+                Oek: 'Op eigen kracht'
+                Oekraine: 'Oekraïne'
+                Pfo: 'PFO'
+                Tw: 'Tijdelijk wonen'
+                Uhk: 'Uit het krijt'
         tags:
             - { name: kernel.event_subscriber }
 
@@ -215,3 +228,9 @@ services:
         arguments:
             -
                 - { key: klant, dao: '@AppBundle\Service\KlantDao' }
+
+    AppBundle\Twig\FallbackLoader:
+        arguments:
+            - ['%kernel.project_dir%/templates']
+        tags:
+            - { name: twig.loader, priority: -1 }

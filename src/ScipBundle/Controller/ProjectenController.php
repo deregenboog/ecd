@@ -19,7 +19,6 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class ProjectenController extends AbstractController
 {
-    protected $title = 'Projecten';
     protected $entityName = 'project';
     protected $entityClass = Project::class;
     protected $formClass = ProjectType::class;

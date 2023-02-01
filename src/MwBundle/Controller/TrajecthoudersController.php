@@ -17,7 +17,6 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
  */
 class TrajecthoudersController extends AbstractController
 {
-    protected $title = 'Trajecthouders';
     protected $entityName = 'trajecthouder';
     protected $entityClass = Trajecthouder::class;
     protected $formClass = TrajecthouderType::class;

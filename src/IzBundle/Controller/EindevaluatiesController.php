@@ -18,7 +18,6 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class EindevaluatiesController extends AbstractChildController
 {
-    protected $title = 'Eindevaluaties';
     protected $entityName = 'eindevaluatie';
     protected $entityClass = Eindevaluatie::class;
     protected $formClass = VerslagType::class;

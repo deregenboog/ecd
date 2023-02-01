@@ -16,7 +16,6 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class SuccesindicatorenController extends AbstractController
 {
-    protected $title = 'Succesindicatoren';
     protected $entityName = 'succesindicator';
     protected $entityClass = Succesindicator::class;
     protected $formClass = SuccesindicatorType::class;

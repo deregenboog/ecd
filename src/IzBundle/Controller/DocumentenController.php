@@ -17,7 +17,6 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
  */
 class DocumentenController extends AbstractChildController
 {
-    protected $title = 'Documenten';
     protected $entityName = 'document';
     protected $entityClass = Document::class;
     protected $formClass = DocumentType::class;

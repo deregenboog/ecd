@@ -30,7 +30,6 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class KoppelingenController extends AbstractController
 {
-    protected $title = 'Koppelingen';
     protected $entityName = 'koppeling';
     protected $entityClass = Koppeling::class;
     protected $formClass = KoppelingType::class;

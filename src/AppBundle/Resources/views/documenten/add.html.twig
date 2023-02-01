@@ -1,10 +1,6 @@
 {% extends 'base.html.twig' %}
 {% import 'html.macro.twig' as html %}
 
-{% block title %}
-    {{ title }}
-{% endblock %}
-
 {% block content_top %}
     <h1>
         {% if 'Vog' == class(entity, false) %}
