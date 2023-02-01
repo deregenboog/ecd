@@ -13,28 +13,28 @@ class Klantinventarisatie
     /**
      * @var integer
      *
-     * @ORM\Column(name="klant_id", type="integer", nullable=false)
+     * @ORM\Column(name="klant_id", type="integer")
      */
     private $klantId = '0';
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="inventarisatie_id", type="integer", nullable=false)
+     * @ORM\Column(name="inventarisatie_id", type="integer")
      */
     private $inventarisatieId = '0';
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="doorverwijzer_id", type="integer", nullable=false)
+     * @ORM\Column(name="doorverwijzer_id", type="integer")
      */
     private $doorverwijzerId = '0';
 
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="datum", type="date", nullable=false)
+     * @ORM\Column(name="datum", type="date")
      */
     private $datum;
 
@@ -60,7 +60,4 @@ class Klantinventarisatie
      * @ORM\GeneratedValue
      */
     private $id;
-
-
 }
-

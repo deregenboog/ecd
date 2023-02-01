@@ -19,8 +19,18 @@ use Gedmo\Mapping\Annotation as Gedmo;
  */
 class PandeigenaarType
 {
-    use IdentifiableTrait, NameableTrait, ActivatableTrait, TimestampableTrait, NotDeletableTrait;
+    use IdentifiableTrait;
+    use NameableTrait;
+    use ActivatableTrait;
+    use TimestampableTrait;
+    use NotDeletableTrait;
 
+    /**
+     * @var bool
+     * @ORM\Column(name="`active`", type="boolean", options={"default":1})
+     * @Gedmo\Versioned
+     */
+    protected $actief = true;
 
     /**
      * @var ArrayCollection|Pandeigenaar[]
@@ -28,6 +38,22 @@ class PandeigenaarType
      * @ORM\OneToMany(targetEntity="TwBundle\Entity\Pandeigenaar", mappedBy="pandeigenaarType")
      */
     private $pandeigenaars;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(type="datetime")
+     * @Gedmo\Versioned
+     */
+    protected $created;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(type="datetime")
+     * @Gedmo\Versioned
+     */
+    protected $modified;
 
     public function __construct()
     {
@@ -56,5 +82,4 @@ class PandeigenaarType
         $this->pandeigenaars = $pandeigenaars;
         return $this;
     }
-
 }

@@ -2,6 +2,7 @@
 
 namespace AppBundle\Entity;
 
+use AppBundle\Model\IdentifiableTrait;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -10,12 +11,7 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class ZrmV2Report
 {
-    /**
-     * @ORM\Id
-     * @ORM\Column(type="integer")
-     * @ORM\GeneratedValue
-     */
-    private $id;
+    use IdentifiableTrait;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
@@ -81,6 +77,44 @@ class ZrmV2Report
      * @ORM\Column(type="integer", nullable=true)
      */
     private $justitie;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(type="datetime")
+     */
+    protected $created;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(type="datetime")
+     */
+    protected $modified;
+
+    /**
+     * @deprecated
+     * @ORM\Column(type="integer")
+     */
+    private $klant_id;
+
+    /**
+     * @deprecated
+     * @ORM\Column
+     */
+    private $model;
+
+    /**
+     * @deprecated
+     * @ORM\Column(type="integer")
+     */
+    private $foreign_key;
+
+    /**
+     * @deprecated
+     * @ORM\Column
+     */
+    private $request_module;
 
     /**
      * Returns an array with field names as keys and labels as values.

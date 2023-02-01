@@ -22,7 +22,7 @@ class QueueTask
     /**
      * @var string
      *
-     * @ORM\Column(name="foreign_key", type="string", length=36, nullable=false)
+     * @ORM\Column(name="foreign_key", type="string", length=36)
      */
     private $foreignKey;
 
@@ -85,7 +85,7 @@ class QueueTask
     /**
      * @var string
      *
-     * @ORM\Column(name="status", type="string", length=36, nullable=false)
+     * @ORM\Column(name="status", type="string", length=36)
      */
     private $status;
 

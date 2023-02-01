@@ -2,6 +2,7 @@
 
 namespace AppBundle\Entity;
 
+use AppBundle\Model\IdentifiableTrait;
 use AppBundle\Model\TimestampableTrait;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
@@ -13,17 +14,11 @@ use Gedmo\Mapping\Annotation as Gedmo;
  */
 class ZrmSetting
 {
+    use IdentifiableTrait;
     use TimestampableTrait;
 
     /**
-     * @ORM\Id
-     * @ORM\Column(type="integer")
-     * @ORM\GeneratedValue
-     */
-    private $id;
-
-    /**
-     * @ORM\Column(name="request_module", type="string", length=50, nullable=false)
+     * @ORM\Column(name="request_module", type="string", length=50)
      * @Gedmo\Versioned
      */
     private $requestModule;
@@ -93,4 +88,20 @@ class ZrmSetting
      * @Gedmo\Versioned
      */
     private $justitie;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(type="datetime", nullable=true)
+     * @Gedmo\Versioned
+     */
+    protected $created;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(type="datetime", nullable=true)
+     * @Gedmo\Versioned
+     */
+    protected $modified;
 }

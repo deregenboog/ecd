@@ -12,7 +12,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
 class Creditfactuur extends Factuur
 {
     /**
-     * @ORM\Column(type="text", nullable=false)
+     * @ORM\Column(type="text")
      * @Gedmo\Versioned
      */
     private $opmerking;
@@ -68,6 +68,4 @@ class Creditfactuur extends Factuur
     {
         $this->datum = $datum;
     }
-
-
 }

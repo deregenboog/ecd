@@ -19,7 +19,7 @@ class IzKlant extends IzDeelnemer
     /**
      * @var Klant
      * @ORM\OneToOne(targetEntity="AppBundle\Entity\Klant", cascade={"persist"})
-     * @ORM\JoinColumn(name="foreign_key", nullable=true)
+     * @ORM\JoinColumn(name="foreign_key")
      * @Gedmo\Versioned
      */
     protected $klant;
@@ -42,7 +42,7 @@ class IzKlant extends IzDeelnemer
     /**
      * @var string
      *
-     * @ORM\Column(name="organisatie")
+     * @ORM\Column(name="organisatie", length=100, nullable=true)
      * @Gedmo\Versioned
      */
     private $organisatieAanmelder;
@@ -50,7 +50,7 @@ class IzKlant extends IzDeelnemer
     /**
      * @var string
      *
-     * @ORM\Column(name="naam_aanmelder")
+     * @ORM\Column(name="naam_aanmelder", length=100, nullable=true)
      * @Gedmo\Versioned
      */
     private $naamAanmelder;
@@ -58,7 +58,7 @@ class IzKlant extends IzDeelnemer
     /**
      * @var string
      *
-     * @ORM\Column(name="email_aanmelder")
+     * @ORM\Column(name="email_aanmelder", length=100, nullable=true)
      * @Gedmo\Versioned
      */
     private $emailAanmelder;
@@ -66,10 +66,26 @@ class IzKlant extends IzDeelnemer
     /**
      * @var string
      *
-     * @ORM\Column(name="telefoon_aanmelder")
+     * @ORM\Column(name="telefoon_aanmelder", length=100, nullable=true)
      * @Gedmo\Versioned
      */
     private $telefoonAanmelder;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(type="datetime")
+     * @Gedmo\Versioned
+     */
+    protected $created;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(type="datetime")
+     * @Gedmo\Versioned
+     */
+    protected $modified;
 
     public function __construct(Klant $klant = null)
     {
@@ -287,10 +303,9 @@ class IzKlant extends IzDeelnemer
         $oh = is_array($this->getOpenHulpvragen()) || $this->getOpenHulpvragen() instanceof \Countable ? count($this->getOpenHulpvragen()) : 0;
         $ak = is_array($this->getActieveKoppelingen()) || $this->getActieveKoppelingen() instanceof \Countable ? count($this->getActieveKoppelingen()) : 0;
         $afgesloten = $this->isAfgesloten();
-       $oh = ($oh < 0)?0:$oh;
-       $ak = ($ak < 0)?0:$ak;
+        $oh = ($oh < 0) ? 0 : $oh;
+        $ak = ($ak < 0) ? 0 : $ak;
 
-       return ($afgesloten === false && $oh+$ak === 0);
-
+        return ($afgesloten === false && $oh+$ak === 0);
     }
 }

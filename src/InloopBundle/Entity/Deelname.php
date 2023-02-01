@@ -2,6 +2,7 @@
 
 namespace InloopBundle\Entity;
 
+use AppBundle\Model\IdentifiableTrait;
 use AppBundle\Model\TimestampableTrait;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
@@ -16,20 +17,14 @@ use Gedmo\Mapping\Annotation as Gedmo;
  */
 class Deelname
 {
+    use IdentifiableTrait;
     use TimestampableTrait;
-
-    /**
-     * @ORM\Id
-     * @ORM\Column(type="integer")
-     * @ORM\GeneratedValue
-     */
-    private $id;
 
     /**
      * @var Training
      *
      * @ORM\ManyToOne(targetEntity="Training", cascade={"persist"}, inversedBy="deelnames")
-     * @ORM\JoinColumn(name="inloopTraining_id", nullable=false)
+     * @ORM\JoinColumn(name="inloopTraining_id")
      * @Gedmo\Versioned
      */
     private $training;
@@ -43,7 +38,7 @@ class Deelname
      * @var Vrijwilliger
      *
      * @ORM\ManyToOne(targetEntity="Vrijwilliger", inversedBy="trainingDeelnames")
-     * @ORM\JoinColumn(name="inloop_vrijwilliger_id", nullable=false)
+     * @ORM\JoinColumn(name="inloop_vrijwilliger_id")
      * @Gedmo\Versioned
      */
     private $vrijwilliger;
@@ -54,14 +49,25 @@ class Deelname
      */
     protected $datum;
 
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(type="datetime")
+     * @Gedmo\Versioned
+     */
+    protected $created;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(type="datetime")
+     * @Gedmo\Versioned
+     */
+    protected $modified;
+
     public function __construct(Vrijwilliger $vrijwilliger = null)
     {
-        $this->vrijwilliger = $vrijwilliger;;
-    }
-
-    public function getId()
-    {
-        return $this->id;
+        $this->vrijwilliger = $vrijwilliger;
     }
 
     public function getTraining()
@@ -79,7 +85,7 @@ class Deelname
     /**
      * @return Vrijwilliger
      */
-    public function getVrijwilliger():? Vrijwilliger
+    public function getVrijwilliger(): ?Vrijwilliger
     {
         return $this->vrijwilliger;
     }
@@ -95,7 +101,7 @@ class Deelname
     /**
      * @return \DateTime
      */
-    public function getDatum():? \DateTime
+    public function getDatum(): ?\DateTime
     {
         return $this->datum;
     }
@@ -111,7 +117,7 @@ class Deelname
     /**
      * @return string
      */
-    public function getOverig():? string
+    public function getOverig(): ?string
     {
         return $this->overig;
     }
@@ -123,7 +129,4 @@ class Deelname
     {
         $this->overig = $overig;
     }
-
-
-
 }

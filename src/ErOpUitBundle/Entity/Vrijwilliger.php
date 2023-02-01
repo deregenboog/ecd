@@ -19,7 +19,9 @@ use Gedmo\Mapping\Annotation as Gedmo;
  */
 class Vrijwilliger
 {
-    use IdentifiableTrait, TimestampableTrait, NotDeletableTrait;
+    use IdentifiableTrait;
+    use TimestampableTrait;
+    use NotDeletableTrait;
 
     /**
      * @var AppVrijwilliger
@@ -31,7 +33,7 @@ class Vrijwilliger
     private $vrijwilliger;
 
     /**
-     * @ORM\Column(type="date", nullable=false)
+     * @ORM\Column(type="date")
      * @Gedmo\Versioned
      */
     private $inschrijfdatum;
@@ -63,6 +65,22 @@ class Vrijwilliger
      * @ORM\Column(type="boolean", nullable=true)
      */
     private $communicatiePost = true;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(type="datetime")
+     * @Gedmo\Versioned
+     */
+    protected $created;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(type="datetime")
+     * @Gedmo\Versioned
+     */
+    protected $modified;
 
     public function __construct(AppVrijwilliger $vrijwilliger = null)
     {

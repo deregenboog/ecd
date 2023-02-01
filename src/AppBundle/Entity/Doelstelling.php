@@ -17,7 +17,6 @@ use Doctrine\ORM\Event\LifecycleEventArgs;
  */
 class Doelstelling
 {
-
     /**
      * @ORM\Id
      * @ORM\Column(type="integer")
@@ -27,7 +26,7 @@ class Doelstelling
 
     /**
      * @var string
-     * @ORM\Column(type="string",nullable=false)
+     * @ORM\Column(type="string", nullable=true)
      * @Gedmo\Versioned
      */
     private $repository;
@@ -39,13 +38,13 @@ class Doelstelling
     private $label;
 
     /**
-     * @ORM\Column(type="integer", nullable=false)
+     * @ORM\Column(type="integer")
      * @Gedmo\Versioned
      */
     private $jaar;
 
     /**
-     * @ORM\Column(type="integer", nullable=false)
+     * @ORM\Column(type="integer")
      * @Gedmo\Versioned
      */
     private $aantal = 0;
@@ -76,8 +75,7 @@ class Doelstelling
 
     public function getJaar()
     {
-        if($this->jaar == null)
-        {
+        if ($this->jaar == null) {
             $this->jaar =  date('Y');
         }
         return $this->jaar;
@@ -109,7 +107,7 @@ class Doelstelling
 
     public function getRepositoryFriendlyName()
     {
-        return explode("::",$this->repository)[1];
+        return explode("::", $this->repository)[1];
     }
 
     public function getAantal()
@@ -199,9 +197,7 @@ class Doelstelling
      */
     public function validate(ExecutionContextInterface $context, $payload)
     {
-
-        if($this->repository !== null)
-        {
+        if ($this->repository !== null) {
 //            if($this->kpi == null)
 //            {
 //                $context->buildViolation('KPI kan niet leeg zijn.')

@@ -17,7 +17,8 @@ use Gedmo\Mapping\Annotation as Gedmo;
  */
 class Verslag implements MedewerkerSubjectInterface
 {
-    use IdentifiableTrait, TimestampableTrait;
+    use IdentifiableTrait;
+    use TimestampableTrait;
 
     /**
      * @ORM\Column(type="text", nullable=true)
@@ -55,6 +56,22 @@ class Verslag implements MedewerkerSubjectInterface
      * @Gedmo\Versioned
      */
     protected $isEvaluatie = false;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(type="datetime")
+     * @Gedmo\Versioned
+     */
+    protected $created;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(type="datetime")
+     * @Gedmo\Versioned
+     */
+    protected $modified;
 
     public function __construct()
     {
@@ -130,6 +147,4 @@ class Verslag implements MedewerkerSubjectInterface
     {
         $this->isEvaluatie = $isEvaluatie;
     }
-
-
 }

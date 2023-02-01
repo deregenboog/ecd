@@ -30,15 +30,14 @@ class Hi5Intake
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Klant")
-     * @Gedmo\Versioned
+     * @ORM\Column(type="integer", nullable=true)
      */
-    private $klant;
+    private $klant_id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Medewerker")
+     * @ORM\Column(type="integer", nullable=true)
      */
-    private $medewerker;
+    private $medewerker_id;
 
     /**
      * @ORM\Column(name="datum_intake", type="date", nullable=true)
@@ -46,9 +45,9 @@ class Hi5Intake
     private $datumIntake;
 
     /**
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Verblijfsstatus")
+     * @ORM\Column(type="integer", nullable=true)
      */
-    private $verblijfstatus;
+    private $verblijfstatus_id;
 
     /**
      * @ORM\Column(name="postadres", type="string", length=255, nullable=true)
@@ -76,9 +75,9 @@ class Hi5Intake
     private $verblijfInAmsterdamSinds;
 
     /**
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Legitimatie")
+     * @ORM\Column(type="integer", nullable=true)
      */
-    private $legitimatie;
+    private $legitimatie_id;
 
     /**
      * @ORM\Column(name="legitimatie_nummer", type="string", length=255, nullable=true)
@@ -91,32 +90,14 @@ class Hi5Intake
     private $legitimatieGeldigTot;
 
     /**
-     * @ORM\ManyToMany(targetEntity="InloopBundle\Entity\Verslaving")
-     * @ORM\JoinTable(
-     *     name="hi5_intakes_verslavingen",
-     *     joinColumns={@ORM\JoinColumn(name="hi5_intake_id")}
-     * )
+     * @ORM\Column(type="integer", nullable=true)
      */
-    private $verslavingen;
+    private $verslavingsfrequentie_id;
 
     /**
-     * @ORM\ManyToMany(targetEntity="InloopBundle\Entity\Gebruikswijze")
-     * @ORM\Jointable(
-     *     name="hi5_intakes_verslavingsgebruikswijzen",
-     *     joinColumns={@ORM\JoinColumn(name="hi5_intake_id")}
-     * )
+     * @ORM\Column(type="integer", nullable=true)
      */
-    private $verslavingsgebruikswijzen;
-
-    /**
-     * @ORM\ManyToOne(targetEntity="InloopBundle\Entity\Frequentie")
-     */
-    private $verslavingsfrequentie;
-
-    /**
-     * @ORM\ManyToOne(targetEntity="InloopBundle\Entity\Periode")
-     */
-    private $verslavingsperiode;
+    private $verslavingsperiode_id;
 
     /**
      * @ORM\Column(name="verslaving_overig", type="string", length=255, nullable=true)
@@ -124,42 +105,31 @@ class Hi5Intake
     private $verslavingOverig;
 
     /**
-     * @ORM\ManyToOne(targetEntity="InloopBundle\Entity\Woonsituatie")
+     * @ORM\Column(type="integer", nullable=true)
      */
-    private $woonsituatie;
+    private $woonsituatie_id;
 
     /**
-     * @ORM\ManyToMany(targetEntity="InloopBundle\Entity\Instantie")
-     * @ORM\Jointable(
-     *     name="hi5_intakes_instanties",
-     *     joinColumns={@ORM\JoinColumn(name="hi5_intake_id")}
-     * )
+     * @ORM\Column(type="integer", nullable=true)
      */
-    private $instanties;
+    private $locatie1_id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="InloopBundle\Entity\Locatie")
+     * @ORM\Column(type="integer", nullable=true)
      */
-    private $locatie1;
+    private $locatie2_id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="InloopBundle\Entity\Locatie")
+     * @ORM\Column(type="integer", nullable=true)
      */
-    private $locatie2;
+    private $locatie3_id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="InloopBundle\Entity\Locatie")
+     * @ORM\Column(type="integer", nullable=true)
      */
-    private $locatie3;
+    private $werklocatie_id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="InloopBundle\Entity\Locatie")
-     */
-    private $werklocatie;
-
-    /**
-     * @var bool
-     *
      * @ORM\Column(name="mag_gebruiken", type="boolean", nullable=true)
      */
     private $magGebruiken;
@@ -175,44 +145,24 @@ class Hi5Intake
     private $modified;
 
     /**
-     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Inkomen")
-     * @ORM\Jointable(
-     *     name="hi5_intakes_inkomens",
-     *     joinColumns={@ORM\JoinColumn(name="hi5_intake_id")}
-     * )
-     */
-    private $inkomens;
-
-    /**
      * @ORM\Column(name="inkomen_overig", type="string", length=255, nullable=true)
      */
     private $inkomenOverig;
 
     /**
-     * @ORM\ManyToOne(targetEntity="InloopBundle\Entity\Verslaving")
-     * @ORM\Joincolumn(name="primaireproblematiek_id")
+     * @ORM\Column(type="integer", nullable=true)
      */
-    private $primaireproblematiek;
+    private $primaireproblematiek_id;
 
     /**
-     * @ORM\ManyToMany(targetEntity="InloopBundle\Entity\Gebruikswijze")
-     * @ORM\Jointable(
-     *     name="hi5_intakes_primaireproblematieksgebruikswijzen",
-     *     joinColumns={@ORM\JoinColumn(name="hi5_intake_id")},
-     *     inverseJoinColumns={@ORM\JoinColumn(name="primaireproblematieksgebruikswijze_id")}
-     * )
+     * @ORM\Column(type="integer", nullable=true)
      */
-    private $primaireproblematiekGebruikswijzen;
+    private $primaireproblematieksfrequentie_id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="InloopBundle\Entity\Frequentie")
+     * @ORM\Column(type="integer", nullable=true)
      */
-    private $primaireproblematieksfrequentie;
-
-    /**
-     * @ORM\ManyToOne(targetEntity="InloopBundle\Entity\Periode")
-     */
-    private $primaireproblematieksperiode;
+     private $primaireproblematieksperiode_id;
 
     /**
      * @ORM\Column(name="eerste_gebruik", type="date", nullable=true)
@@ -220,12 +170,12 @@ class Hi5Intake
     private $eersteGebruik;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Bedrijfitem")
+     * @ORM\Column(type="integer", nullable=true)
      */
-    private $bedrijfitem1;
+    private $bedrijfitem_1_id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Bedrijfitem")
+     * @ORM\Column(type="integer", nullable=true)
      */
-    private $bedrijfitem2;
+    private $bedrijfitem_2_id;
 }

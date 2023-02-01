@@ -8,7 +8,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
 trait NameableTrait
 {
     /**
-     * @ORM\Column(type="string", length=255, nullable=false)
+     * @ORM\Column
      * @Gedmo\Versioned
      */
     protected $naam;

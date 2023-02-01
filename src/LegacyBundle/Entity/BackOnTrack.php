@@ -15,7 +15,7 @@ class BackOnTrack
     /**
      * @var int
      *
-     * @ORM\Column(name="klant_id", type="integer", nullable=false)
+     * @ORM\Column(name="klant_id", type="integer")
      */
     private $klantId;
 

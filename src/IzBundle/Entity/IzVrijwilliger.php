@@ -19,7 +19,7 @@ class IzVrijwilliger extends IzDeelnemer
     /**
      * @var Vrijwilliger
      * @ORM\OneToOne(targetEntity="AppBundle\Entity\Vrijwilliger", cascade={"persist"})
-     * @ORM\JoinColumn(name="foreign_key", nullable=true)
+     * @ORM\JoinColumn(name="foreign_key")
      * @Gedmo\Versioned
      */
     protected $vrijwilliger;

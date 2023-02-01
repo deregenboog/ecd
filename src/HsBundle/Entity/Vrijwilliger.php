@@ -21,7 +21,10 @@ use Symfony\Component\Validator\Context\ExecutionContextInterface;
  */
 class Vrijwilliger extends Arbeider implements MemoSubjectInterface, DocumentSubjectInterface
 {
-    use HulpverlenerTrait, MemoSubjectTrait, TimestampableTrait, DocumentSubjectTrait;
+    use HulpverlenerTrait;
+    use MemoSubjectTrait;
+    use TimestampableTrait;
+    use DocumentSubjectTrait;
 
     /**
      * @var Vrijwilliger
@@ -67,7 +70,6 @@ class Vrijwilliger extends Arbeider implements MemoSubjectInterface, DocumentSub
 
     public function __toString()
     {
-
         try {
             return NameFormatter::formatInformal($this->vrijwilliger);
         } catch (EntityNotFoundException|FatalErrorException $e) {
@@ -88,16 +90,13 @@ class Vrijwilliger extends Arbeider implements MemoSubjectInterface, DocumentSub
          * But then its too late to catch exceptions.
          * Thus, try a field here (since vrijwilliger is not null) and catch exception. If so, return nul..
          */
-        try
-        {
+        try {
             $this->vrijwilliger->getCreated();
-        }
-        catch(\Doctrine\ORM\EntityNotFoundException $e)
-        {
+        } catch (\Doctrine\ORM\EntityNotFoundException $e) {
             return null;
         }
 
-       return $this->vrijwilliger;
+        return $this->vrijwilliger;
     }
 
     public function setVrijwilliger(AppVrijwilliger $vrijwilliger)
@@ -120,8 +119,7 @@ class Vrijwilliger extends Arbeider implements MemoSubjectInterface, DocumentSub
     public function validate(ExecutionContextInterface $context, $payload)
     {
         if ($this->actief === false && !$this->uitschrijving
-        ){
-
+        ) {
             $context->buildViolation('Het is verplicht een uitschrijf datum in te vullen als iemand inactief is.')
                 ->atPath('uitschrijving')
                 ->addViolation();

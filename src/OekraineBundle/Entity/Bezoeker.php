@@ -40,7 +40,6 @@ class Bezoeker implements DocumentSubjectInterface
      * @var DossierStatus
      *
      * @ORM\OneToOne(targetEntity="DossierStatus", cascade={"persist"})
-     * @ORM\JoinColumn(nullable=true)
      * @Gedmo\Versioned
      */
     private $dossierStatus;
@@ -57,7 +56,6 @@ class Bezoeker implements DocumentSubjectInterface
      * @var Intake
      *
      * @ORM\OneToOne(targetEntity="Intake", cascade={"persist"})
-     * @ORM\JoinColumn(nullable=true)
      * @Gedmo\Versioned
      */
     private $intake;
@@ -187,7 +185,9 @@ class Bezoeker implements DocumentSubjectInterface
     public function getLaatsteIntake()
     {
         $e = $this->intakes->last();
-        if($e == false) $e = null;
+        if ($e == false) {
+            $e = null;
+        }
         return $e;
     }
 
@@ -201,7 +201,9 @@ class Bezoeker implements DocumentSubjectInterface
     public function getLaatsteRegistratie(): ?Registratie
     {
         $r = end($this->registraties);
-        if($r == false) $r = null;
+        if ($r == false) {
+            $r = null;
+        }
 
         return $r;
     }
@@ -220,7 +222,6 @@ class Bezoeker implements DocumentSubjectInterface
     public function getRecenteRegistraties($num=5)
     {
         return $this->registraties;
-
     }
 
     /**

@@ -3,6 +3,7 @@
 namespace HsBundle\Entity;
 
 use AppBundle\Form\Model\AppDateRangeModel;
+use AppBundle\Model\IdentifiableTrait;
 use AppBundle\Model\TimestampableTrait;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
@@ -16,18 +17,13 @@ use HsBundle\Exception\InvoiceNotLockedException;
  * @ORM\InheritanceType("SINGLE_TABLE")
  * @ORM\DiscriminatorColumn(name="class", type="string")
  * @ORM\DiscriminatorMap({"Factuur" = "Factuur", "Creditfactuur" = "Creditfactuur"})
- * @Gedmo\Loggable
  * @ORM\HasLifecycleCallbacks
+ * @Gedmo\Loggable
  */
 class Factuur
 {
+    use IdentifiableTrait;
     use TimestampableTrait;
-    /**
-     * @ORM\Id
-     * @ORM\Column(type="integer")
-     * @ORM\GeneratedValue
-     */
-    protected $id;
 
     /**
      * @ORM\Column(type="string")
@@ -42,13 +38,13 @@ class Factuur
     protected $datum;
 
     /**
-     * @ORM\Column(type="string", nullable=false)
+     * @ORM\Column(type="string")
      * @Gedmo\Versioned
      */
     protected $betreft;
 
     /**
-     * @ORM\Column(type="decimal", scale=2, nullable=true)
+     * @ORM\Column(type="decimal", scale=2)
      * @Gedmo\Versioned
      */
     protected $bedrag;
@@ -60,7 +56,7 @@ class Factuur
     private $locked = false;
 
     /**
-     * @ORM\Column(type="boolean")
+     * @ORM\Column(type="boolean", options={"default":0})
      * @Gedmo\Versioned
      */
     protected $oninbaar = false;
@@ -68,6 +64,7 @@ class Factuur
     /**
      * @var Klant
      * @ORM\ManyToOne(targetEntity="Klant", inversedBy="facturen")
+     * @ORM\JoinColumn(onDelete="CASCADE")
      * @Gedmo\Versioned
      */
     protected $klant;
@@ -118,16 +115,11 @@ class Factuur
          * When an invoice is made during registraties, see if there is a daterange available and if so, set invoice to last date of that month instead of the current month.
          *
          */
-        if(null !== $dateRange)
-        {
-            $this->datum = new \DateTime('last day of '.$dateRange->getEnd()->format("M Y") );
-        }
-        else
-        {
+        if (null !== $dateRange) {
+            $this->datum = new \DateTime('last day of '.$dateRange->getEnd()->format("M Y"));
+        } else {
             $this->datum = new \DateTime('last day of this month');
         }
-
-
     }
 
     public function __toString(): string
@@ -148,11 +140,6 @@ class Factuur
             && 0 === count($this->betalingen)
             && 0 === count($this->herinneringen)
         ;
-    }
-
-    public function getId()
-    {
-        return $this->id;
     }
 
     public function getNummer()
@@ -267,7 +254,7 @@ class Factuur
         }
 
         $this->declaraties->removeElement($declaratie);
-       // $declaratie->setFactuur(null);
+        // $declaratie->setFactuur(null);
 
         $this->updateDatum();
         $this->calculateBedrag();

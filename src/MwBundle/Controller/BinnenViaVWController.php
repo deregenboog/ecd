@@ -16,8 +16,8 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class BinnenViaVWController extends AbstractController
 {
-    protected $title = 'Binnen via-opties (VW)';
-    protected $entityName = 'binnen via-optie (VW)';
+    protected $title = 'Binnen via-opties (vrijwilliger)';
+    protected $entityName = 'binnen via-optie (vrijwilliger)';
     protected $entityClass = BinnenViaOptieVW::class;
     protected $formClass = BinnenViaOptieVWType::class;
     protected $baseRouteName = 'mw_binnenviavw_';
@@ -26,4 +26,9 @@ class BinnenViaVWController extends AbstractController
      * @var BinnenViaDao
      */
     protected $dao;
+
+    public function __construct(BinnenViaDao $dao)
+    {
+        $this->dao = $dao;
+    }
 }

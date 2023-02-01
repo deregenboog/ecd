@@ -19,7 +19,9 @@ use Gedmo\Mapping\Annotation as Gedmo;
  */
 class Klant
 {
-    use IdentifiableTrait, TimestampableTrait, NotDeletableTrait;
+    use IdentifiableTrait;
+    use TimestampableTrait;
+    use NotDeletableTrait;
 
     /**
      * @var AppKlant
@@ -31,7 +33,7 @@ class Klant
     private $klant;
 
     /**
-     * @ORM\Column(type="date", nullable=false)
+     * @ORM\Column(type="date")
      * @Gedmo\Versioned
      */
     private $inschrijfdatum;
@@ -63,6 +65,22 @@ class Klant
      * @ORM\Column(type="boolean", nullable=true)
      */
     private $communicatiePost = true;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(type="datetime")
+     * @Gedmo\Versioned
+     */
+    protected $created;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(type="datetime")
+     * @Gedmo\Versioned
+     */
+    protected $modified;
 
     public function __construct(AppKlant $klant = null)
     {

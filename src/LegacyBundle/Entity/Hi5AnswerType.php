@@ -20,7 +20,7 @@ class Hi5AnswerType
     private $id;
 
     /**
-     * @ORM\Column(name="answer_type", type="string", length=255, nullable=false)
+     * @ORM\Column(name="answer_type", type="string", length=255)
      */
     private $answerType;
 }

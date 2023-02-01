@@ -27,12 +27,16 @@ class Hoofdaannemer
     private $naam;
 
     /**
-     * @ORM\Column(type="datetime")
+     * @var \DateTime
+     *
+     * @ORM\Column(type="datetime", nullable=true)
      */
-    private $created;
+    protected $created;
 
     /**
-     * @ORM\Column(type="datetime")
+     * @var \DateTime
+     *
+     * @ORM\Column(type="datetime", nullable=true)
      */
-    private $modified;
+    protected $modified;
 }

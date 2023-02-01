@@ -21,12 +21,15 @@ use Gedmo\Mapping\Annotation as Gedmo;
  */
 class Succesindicator
 {
-    use IdentifiableTrait, NameableTrait, ActivatableTrait;
+    use IdentifiableTrait;
+    use NameableTrait;
+    use ActivatableTrait;
 
-    public function __toString()
-    {
-        return $this->naam;
-    }
+    /**
+     * @deprecated
+     * @ORM\Column(type="string", length=255)
+     */
+    private $discr;
 
     public function isDeletable()
     {

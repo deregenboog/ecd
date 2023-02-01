@@ -16,12 +16,14 @@ use AppBundle\Model\TimestampableTrait;
  */
 class Verslaginventarisatie
 {
-    use IdentifiableTrait, TimestampableTrait;
+    use IdentifiableTrait;
+    use TimestampableTrait;
 
     /**
      * @var Verslag
      *
      * @ORM\ManyToOne(targetEntity="MwBundle\Entity\Verslag", inversedBy="verslaginventarisaties")
+     * @ORM\JoinColumn(nullable=false, options={"default": 0})
      * @Gedmo\Versioned
      */
     private $verslag;
@@ -30,6 +32,7 @@ class Verslaginventarisatie
      * @var Inventarisatie
      *
      * @ORM\ManyToOne(targetEntity="Inventarisatie", inversedBy="verslaginventarisaties")
+     * @ORM\JoinColumn(nullable=false, options={"default": 0})
      * @Gedmo\Versioned
      */
     private $inventarisatie;
@@ -42,6 +45,22 @@ class Verslaginventarisatie
      * @Gedmo\Versioned
      */
     private $doorverwijzing;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(type="datetime", nullable=true)
+     * @Gedmo\Versioned
+     */
+    protected $created;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(type="datetime", nullable=true)
+     * @Gedmo\Versioned
+     */
+    protected $modified;
 
     public function __construct(Verslag $verslag, Inventarisatie $inventarisatie, Doorverwijzing $doorverwijzing = null)
     {

@@ -4,44 +4,44 @@ namespace IzBundle\Entity;
 
 use AppBundle\Entity\Medewerker;
 use AppBundle\Entity\Zrm;
+use AppBundle\Model\IdentifiableTrait;
+use AppBundle\Model\TimestampableTrait;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Entity
- * @ORM\Table(name="iz_intakes")
+ * @ORM\Table(name="iz_intakes", indexes={
+ *     @ORM\Index(name="iz_deelnemer_id", columns={"iz_deelnemer_id"})
+ * })
  * @ORM\HasLifecycleCallbacks
  * @Gedmo\Loggable
  */
 class Intake
 {
-    /**
-     * @ORM\Id
-     * @ORM\Column(type="integer")
-     * @ORM\GeneratedValue
-     */
-    private $id;
+    use IdentifiableTrait;
+    use TimestampableTrait;
 
     /**
      * @var \DateTime
      *
-     * @ORM\Column(type="datetime")
+     * @ORM\Column(type="datetime", nullable=true)
      * @Gedmo\Versioned
      */
-    private $created;
+    protected $created;
 
     /**
      * @var \DateTime
      *
      * @todo Fix typo modifed => modified
      *
-     * @ORM\Column(name="modifed", type="datetime")
+     * @ORM\Column(name="modifed", type="datetime", nullable=true)
      * @Gedmo\Versioned
      */
-    private $modified;
+    protected $modified;
 
     /**
-     * @ORM\Column(name="intake_datum", type="date")
+     * @ORM\Column(name="intake_datum", type="date", nullable=true)
      * @Gedmo\Versioned
      */
     private $intakeDatum;
@@ -69,7 +69,7 @@ class Intake
     /**
      * @var IzDeelnemer
      * @ORM\OneToOne(targetEntity="IzDeelnemer", inversedBy="intake")
-     * @ORM\JoinColumn(name="iz_deelnemer_id")
+     * @ORM\JoinColumn(name="iz_deelnemer_id", nullable=false)
      * @Gedmo\Versioned
      */
     private $izDeelnemer;
@@ -77,14 +77,13 @@ class Intake
     /**
      * @var Medewerker
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Medewerker")
-     * @ORM\JoinColumn(nullable=false)
      * @Gedmo\Versioned
      */
     private $medewerker;
 
     /**
      * @var string
-     * @ORM\Column(name="gesprek_verslag", type="string", nullable=true)
+     * @ORM\Column(name="gesprek_verslag", type="text", length=65535, nullable=true)
      * @Gedmo\Versioned
      */
     private $gespreksverslag;
@@ -123,12 +122,6 @@ class Intake
     public function __construct()
     {
         $this->intakeDatum = new \DateTime('today');
-
-    }
-
-    public function getId()
-    {
-        return $this->id;
     }
 
     /**
@@ -212,8 +205,7 @@ class Intake
 
     public function getGespreksverslag()
     {
-
-       return $this->gespreksverslag;
+        return $this->gespreksverslag;
     }
 
     public function setGespreksverslag($gespreksverslag = null)
@@ -314,7 +306,7 @@ class Intake
     /**
      * @return mixed
      */
-    public function getOngedocumenteerd():?bool
+    public function getOngedocumenteerd(): ?bool
     {
         return $this->ongedocumenteerd;
     }
@@ -327,9 +319,8 @@ class Intake
         $this->ongedocumenteerd = $ongedocumenteerd;
     }
 
-    public function isOngedocumenteerd():bool
+    public function isOngedocumenteerd(): bool
     {
         return $this->getOngedocumenteerd()??false;
     }
-
 }

@@ -45,7 +45,7 @@ class Inventarisatie
     /**
      * @var bool
      *
-     * @ORM\Column(type="boolean", nullable=false)
+     * @ORM\Column(type="boolean")
      * @Gedmo\Versioned
      */
     private $actief = true;
@@ -61,7 +61,7 @@ class Inventarisatie
     /**
      * @var string
      *
-     * @ORM\Column(type="string", nullable=false)
+     * @ORM\Column(type="string")
      * @Gedmo\Versioned
      */
     private $titel;
@@ -69,7 +69,7 @@ class Inventarisatie
     /**
      * @var string
      *
-     * @ORM\Column(type="string", nullable=false)
+     * @ORM\Column(type="string")
      * @Gedmo\Versioned
      */
     private $actie;
@@ -77,7 +77,7 @@ class Inventarisatie
     /**
      * @var \DateTime
      *
-     * @ORM\Column(type="date", nullable=false)
+     * @ORM\Column(type="date")
      * @Gedmo\Versioned
      */
     private $startdatum;

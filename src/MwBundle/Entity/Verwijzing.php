@@ -18,12 +18,13 @@ use Gedmo\Mapping\Annotation as Gedmo;
  */
 abstract class Verwijzing
 {
-    use IdentifiableTrait, TimestampableTrait;
+    use IdentifiableTrait;
+    use TimestampableTrait;
 
     /**
      * @var string
      *
-     * @ORM\Column(type="string", nullable=false)
+     * @ORM\Column(type="string")
      * @Gedmo\Versioned
      */
     protected $naam;
@@ -31,7 +32,7 @@ abstract class Verwijzing
     /**
      * @var \DateTime
      *
-     * @ORM\Column(type="date", nullable=false)
+     * @ORM\Column(type="date")
      * @Gedmo\Versioned
      */
     protected $startdatum;
@@ -43,6 +44,22 @@ abstract class Verwijzing
      * @Gedmo\Versioned
      */
     protected $einddatum;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(type="datetime", nullable=true)
+     * @Gedmo\Versioned
+     */
+    protected $created;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(type="datetime", nullable=true)
+     * @Gedmo\Versioned
+     */
+    protected $modified;
 
     public function __construct()
     {

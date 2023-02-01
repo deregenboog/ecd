@@ -19,56 +19,39 @@ use Gedmo\Mapping\Annotation as Gedmo;
  */
 class DuurThuisloos
 {
-    use IdentifiableTrait, NameableTrait, ActivatableTrait, TimestampableTrait, NotDeletableTrait;
+    use IdentifiableTrait;
+    use NameableTrait;
+    use ActivatableTrait;
+    use TimestampableTrait;
+    use NotDeletableTrait;
 
+    /**
+     * @var bool
+     * @ORM\Column(name="`active`", type="boolean", options={"default":1})
+     * @Gedmo\Versioned
+     */
+    protected $actief = true;
+
+    /**
+     * @todo Not used, remove both from entity and database.
+     *
+     * @ORM\Column(name="minVal", type="integer", nullable=true)
+     */
+    private $_minVal;
+
+    /**
+     * @todo Not used, remove both from entity and database.
+     *
+     * @ORM\Column(name="maxVal", type="integer", nullable=true)
+     */
+    private $_maxVal;
 
     private function mndJr($val)
     {
-        if($val < 12)
-        {
+        if ($val < 12) {
             return $val ." mnd";
-        }
-        else
-        {
+        } else {
             return ($val/12) ." Jr";
         }
     }
-
-
-//
-//
-//
-//    /**
-//     * @return mixed
-//     */
-//    public function getMinVal()
-//    {
-//        return $this->minVal;
-//    }
-//
-//    /**
-//     * @param mixed $minVal
-//     */
-//    public function setMinVal($minVal): void
-//    {
-//        $this->minVal = $minVal;
-//    }
-//
-//    /**
-//     * @return mixed
-//     */
-//    public function getMaxVal()
-//    {
-//        return $this->maxVal;
-//    }
-//
-//    /**
-//     * @param mixed $maxVal
-//     */
-//    public function setMaxVal($maxVal): void
-//    {
-//        $this->maxVal = $maxVal;
-//    }
-
-
 }

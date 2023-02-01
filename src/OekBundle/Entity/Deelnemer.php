@@ -3,6 +3,7 @@
 namespace OekBundle\Entity;
 
 use AppBundle\Entity\Klant;
+use AppBundle\Model\IdentifiableTrait;
 use AppBundle\Model\RequiredMedewerkerTrait;
 use AppBundle\Model\TimestampableTrait;
 use AppBundle\Model\KlantRelationInterface;
@@ -20,14 +21,9 @@ use Gedmo\Mapping\Annotation as Gedmo;
  */
 class Deelnemer implements KlantRelationInterface
 {
-    use TimestampableTrait, RequiredMedewerkerTrait;
-
-    /**
-     * @ORM\Id
-     * @ORM\Column(type="integer")
-     * @ORM\GeneratedValue
-     */
-    private $id;
+    use IdentifiableTrait;
+    use TimestampableTrait;
+    use RequiredMedewerkerTrait;
 
     /**
      * History of states.
@@ -112,6 +108,22 @@ class Deelnemer implements KlantRelationInterface
      */
     private $opmerking;
 
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(type="datetime")
+     * @Gedmo\Versioned
+     */
+    protected $created;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(type="datetime")
+     * @Gedmo\Versioned
+     */
+    protected $modified;
+
     public function __construct(Klant $klant = null)
     {
         $this->klant = $klant;
@@ -127,11 +139,6 @@ class Deelnemer implements KlantRelationInterface
         } catch (EntityNotFoundException $e) {
             return '';
         }
-    }
-
-    public function getId()
-    {
-        return $this->id;
     }
 
     public function getKlant()

@@ -15,7 +15,6 @@ use Gedmo\Mapping\Annotation as Gedmo;
  */
 class InschrijvingWoningnet
 {
-
     /**
      * @ORM\Id
      * @ORM\Column(type="integer")
@@ -24,13 +23,13 @@ class InschrijvingWoningnet
     private $id;
 
     /**
-     * @ORM\Column(name="label", type="string", nullable=false)
+     * @ORM\Column(name="label", type="string")
      * @Gedmo\Versioned
      */
     private $label;
 
     /**
-     * @ORM\Column(name="order", type="integer", nullable=false)
+     * @ORM\Column(name="order", type="integer")
      * @ORM\GeneratedValue
      * @Gedmo\Versioned
      */
@@ -80,8 +79,4 @@ class InschrijvingWoningnet
     {
         $this->label = $label;
     }
-
-
-
-
 }

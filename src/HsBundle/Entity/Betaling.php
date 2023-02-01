@@ -29,7 +29,7 @@ class Betaling
     private $referentie;
 
     /**
-     * @ORM\Column(type="date", nullable=false)
+     * @ORM\Column(type="date")
      * @Gedmo\Versioned
      */
     private $datum;
@@ -41,7 +41,7 @@ class Betaling
     private $info;
 
     /**
-     * @ORM\Column(type="decimal", scale=2, nullable=false)
+     * @ORM\Column(type="decimal", scale=2)
      * @Gedmo\Versioned
      */
     private $bedrag;
@@ -49,7 +49,7 @@ class Betaling
     /**
      * @var Factuur
      * @ORM\ManyToOne(targetEntity="Factuur", inversedBy="betalingen")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=false, onDelete="CASCADE")
      * @Gedmo\Versioned
      */
     private $factuur;

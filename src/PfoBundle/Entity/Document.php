@@ -4,6 +4,7 @@ namespace PfoBundle\Entity;
 
 use AppBundle\Entity\Medewerker;
 use AppBundle\Model\DocumentInterface;
+use AppBundle\Model\IdentifiableTrait;
 use AppBundle\Model\RequiredMedewerkerTrait;
 use AppBundle\Model\TimestampableTrait;
 use Doctrine\ORM\Mapping as ORM;
@@ -20,14 +21,9 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
  */
 class Document implements DocumentInterface
 {
-    use TimestampableTrait, RequiredMedewerkerTrait;
-
-    /**
-     * @ORM\Id
-     * @ORM\Column(type="integer")
-     * @ORM\GeneratedValue
-     */
-    private $id;
+    use IdentifiableTrait;
+    use TimestampableTrait;
+    use RequiredMedewerkerTrait;
 
     /**
      * @var string
@@ -49,6 +45,22 @@ class Document implements DocumentInterface
      * @Gedmo\Versioned
      */
     private $file;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(type="datetime")
+     * @Gedmo\Versioned
+     */
+    protected $created;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(type="datetime")
+     * @Gedmo\Versioned
+     */
+    protected $modified;
 
     public function __construct(Medewerker $medewerker = null)
     {

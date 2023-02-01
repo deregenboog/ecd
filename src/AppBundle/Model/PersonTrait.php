@@ -29,7 +29,7 @@ trait PersonTrait
     /**
      * @var Geslacht
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Geslacht", cascade={"persist"})
-     * @ORM\JoinColumn(nullable=true)
+     * @ORM\JoinColumn(nullable=false, options={"default":0})
      * @Gedmo\Versioned
      */
     protected $geslacht;

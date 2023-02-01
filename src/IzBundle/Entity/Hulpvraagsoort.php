@@ -12,8 +12,11 @@ use Gedmo\Mapping\Annotation as Gedmo;
  * @ORM\Entity(repositoryClass="IzBundle\Repository\HulpvraagsoortRepository")
  * @ORM\Table(
  *     name="iz_hulpvraagsoorten",
+ *     indexes={
+ *         @ORM\Index(name="id", columns={"id", "naam"})
+ *     },
  *     uniqueConstraints={
- *         @ORM\UniqueConstraint(columns={"naam"})
+ *         @ORM\UniqueConstraint(name="UNIQ_86CE34D4FC4DB938", columns={"naam"})
  *     }
  * )
  * @ORM\HasLifecycleCallbacks
@@ -21,7 +24,9 @@ use Gedmo\Mapping\Annotation as Gedmo;
  */
 class Hulpvraagsoort
 {
-    use IdentifiableTrait, NameableTrait, ActivatableTrait;
+    use IdentifiableTrait;
+    use NameableTrait;
+    use ActivatableTrait;
 
     /**
      * @var string

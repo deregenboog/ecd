@@ -4,6 +4,7 @@ namespace MwBundle\Entity;
 
 use AppBundle\Entity\Klant;
 use AppBundle\Entity\Medewerker;
+use AppBundle\Model\IdentifiableTrait;
 use AppBundle\Model\OptionalMedewerkerTrait;
 use AppBundle\Model\TimestampableTrait;
 use Doctrine\ORM\Event\LifecycleEventArgs;
@@ -13,7 +14,9 @@ use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Entity(repositoryClass="MwBundle\Repository\DossierStatusRepository")
- * @ORM\Table(name="mw_dossier_statussen")
+ * @ORM\Table(name="mw_dossier_statussen", indexes={
+ *     @ORM\Index(name="class", columns={"class", "id", "klant_id"})
+ * })
  * @ORM\HasLifecycleCallbacks
  * @ORM\InheritanceType("SINGLE_TABLE")
  * @ORM\DiscriminatorColumn(name="class", type="string")
@@ -25,14 +28,9 @@ use Gedmo\Mapping\Annotation as Gedmo;
  */
 abstract class MwDossierStatus
 {
-    use TimestampableTrait, OptionalMedewerkerTrait;
-
-    /**
-     * @ORM\Id
-     * @ORM\Column(type="integer")
-     * @ORM\GeneratedValue
-     */
-    protected $id;
+    use IdentifiableTrait;
+    use TimestampableTrait;
+    use OptionalMedewerkerTrait;
 
     /**
      * @var Klant
@@ -44,10 +42,26 @@ abstract class MwDossierStatus
     protected $klant;
 
     /**
-     * @ORM\Column(type="date", nullable=false)
+     * @ORM\Column(type="date")
      * @Gedmo\Versioned
      */
     protected $datum;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(type="datetime")
+     * @Gedmo\Versioned
+     */
+    protected $created;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(type="datetime")
+     * @Gedmo\Versioned
+     */
+    protected $modified;
 
     public function __construct(Klant $klant, Medewerker $medewerker = null)
     {
@@ -56,11 +70,6 @@ abstract class MwDossierStatus
 
         $this->medewerker = $medewerker;
         $this->datum = new \DateTime('now');
-    }
-
-    public function getId()
-    {
-        return $this->id;
     }
 
     public function getKlant()

@@ -16,7 +16,8 @@ use Gedmo\Mapping\Annotation as Gedmo;
  */
 class Huurverzoek
 {
-    use TimestampableTrait, RequiredMedewerkerTrait;
+    use TimestampableTrait;
+    use RequiredMedewerkerTrait;
 
     /**
      * @ORM\Id
@@ -56,7 +57,6 @@ class Huurverzoek
      * @var HuurverzoekAfsluiting
      *
      * @ORM\ManyToOne(targetEntity="HuurverzoekAfsluiting", inversedBy="huurverzoeken", cascade={"persist"})
-     * @ORM\JoinColumn(nullable=true)
      * @Gedmo\Versioned
      */
     private $afsluiting;
@@ -80,6 +80,22 @@ class Huurverzoek
      * )
      */
     protected $projecten;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(type="datetime")
+     * @Gedmo\Versioned
+     */
+    protected $created;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(type="datetime")
+     * @Gedmo\Versioned
+     */
+    protected $modified;
 
     public function __construct()
     {
@@ -157,7 +173,7 @@ class Huurverzoek
         return false;
     }
 
-    public function isActief():bool
+    public function isActief(): bool
     {
         return null === $this->afsluiting;
     }
@@ -219,6 +235,4 @@ class Huurverzoek
         $this->projecten = $projecten;
         return $this;
     }
-
-
 }

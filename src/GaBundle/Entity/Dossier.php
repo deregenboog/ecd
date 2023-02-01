@@ -25,12 +25,15 @@ use Gedmo\Mapping\Annotation as Gedmo;
  */
 abstract class Dossier implements DocumentSubjectInterface
 {
-    use IdentifiableTrait, TimestampableTrait, DocumentSubjectTrait, NotDeletableTrait;
+    use IdentifiableTrait;
+    use TimestampableTrait;
+    use DocumentSubjectTrait;
+    use NotDeletableTrait;
 
     /**
      * @var \DateTime
      *
-     * @ORM\Column(type="date", nullable=false)
+     * @ORM\Column(type="date")
      * @Gedmo\Versioned
      */
     protected $aanmelddatum;
@@ -79,6 +82,30 @@ abstract class Dossier implements DocumentSubjectInterface
      * @ORM\OrderBy({"id": "desc"})
      */
     protected $verslagen;
+
+    /**
+     * @var DocumentInterface[]
+     *
+     * @ORM\ManyToMany(targetEntity="Document", cascade={"persist","remove"}, fetch="EXTRA_LAZY")
+     * @ORM\JoinTable(inverseJoinColumns={@ORM\JoinColumn(unique=true)})
+     */
+    protected $documenten;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(type="datetime")
+     * @Gedmo\Versioned
+     */
+    protected $created;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(type="datetime")
+     * @Gedmo\Versioned
+     */
+    protected $modified;
 
     /**
      * @return \DateTime

@@ -47,7 +47,7 @@ class Registratie
 
     /**
      * @var \DateTime
-     * @ORM\Column(type="datetime", nullable=false)
+     * @ORM\Column(type="datetime")
      * @Gedmo\Versioned
      */
     private $binnen;
@@ -69,14 +69,14 @@ class Registratie
 
     /**
      * @var int
-     * @ORM\Column(type="integer", nullable=false)
+     * @ORM\Column(type="integer")
      * @Gedmo\Versioned
      */
     private $douche = 0;
 
     /**
      * @var int
-     * @ORM\Column(type="integer", nullable=false)
+     * @ORM\Column(type="integer")
      * @Gedmo\Versioned
      */
     private $mw = 0;
@@ -85,35 +85,35 @@ class Registratie
      * @deprecated
      *
      * @var int
-     * @ORM\Column(type="integer", nullable=false)
+     * @ORM\Column(type="integer")
      * @Gedmo\Versioned
      */
     private $gbrv = 0;
 
     /**
      * @var bool
-     * @ORM\Column(type="boolean", nullable=false)
+     * @ORM\Column(type="boolean")
      * @Gedmo\Versioned
      */
     private $kleding = false;
 
     /**
      * @var bool
-     * @ORM\Column(type="boolean", nullable=false)
+     * @ORM\Column(type="boolean")
      * @Gedmo\Versioned
      */
     private $maaltijd = false;
 
     /**
      * @var bool
-     * @ORM\Column(type="boolean", nullable=false)
+     * @ORM\Column(type="boolean")
      * @Gedmo\Versioned
      */
     private $activering = false;
 
     /**
      * @var bool
-     * @ORM\Column(type="boolean", nullable=false)
+     * @ORM\Column(type="boolean")
      * @Gedmo\Versioned
      */
     private $veegploeg = false;
@@ -315,6 +315,4 @@ class Registratie
     {
         $this->aantalSpuiten = $aantalSpuiten;
     }
-
-
 }

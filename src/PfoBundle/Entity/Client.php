@@ -27,7 +27,11 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class Client
 {
-    use IdentifiableTrait, NameTrait, TimestampableTrait, RequiredMedewerkerTrait,AddressTrait;
+    use IdentifiableTrait;
+    use NameTrait;
+    use TimestampableTrait;
+    use RequiredMedewerkerTrait;
+    use AddressTrait;
 
     public const DUBBELE_DIAGNOSE_NEE = 0;
     public const DUBBELE_DIAGNOSE_JA = 1;
@@ -51,18 +55,29 @@ class Client
     /**
      * @var Geslacht
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Geslacht")
-     * @ORM\JoinColumn(nullable=true)
      * @Gedmo\Versioned
      */
     protected $geslacht;
 
+    /**
+     * @ORM\Column(type="string", nullable=true, length=50)
+     * @Gedmo\Versioned
+     */
+    protected $postcode;
+
+    /**
+     * @var Medewerker
+     *
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Medewerker", cascade={"persist"})
+     * @Gedmo\Versioned
+     */
+    protected $medewerker;
 
     /**
      * @ORM\Column(name="telefoon_mobiel", type="string", nullable=true)
      * @Gedmo\Versioned
      */
     //protected $mobiel;
-
 
     /**
      * @var Groep
@@ -85,7 +100,7 @@ class Client
     /**
      * @var bool
      *
-     * @ORM\Column(name="dubbele_diagnose", type="integer")
+     * @ORM\Column(name="dubbele_diagnose", type="integer", nullable=true)
      * @Gedmo\Versioned
      */
     private $dubbeleDiagnose;
@@ -93,7 +108,7 @@ class Client
     /**
      * @var bool
      *
-     * @ORM\Column(name="eerdere_hulpverlening", type="boolean")
+     * @ORM\Column(name="eerdere_hulpverlening", type="boolean", nullable=true)
      * @Gedmo\Versioned
      */
     private $eerdereHulpverlening;
@@ -176,7 +191,7 @@ class Client
      * @ORM\ManyToMany(targetEntity="Document", cascade={"persist"})
      * @ORM\JoinTable(
      *     name="pfo_clienten_documenten",
-     *     inverseJoinColumns={@ORM\JoinColumn(unique=true)}
+     *     inverseJoinColumns={@ORM\JoinColumn(unique=true, onDelete="CASCADE")}
      * )
      * @ORM\OrderBy({"created": "DESC"})
      */

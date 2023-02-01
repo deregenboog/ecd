@@ -15,12 +15,14 @@ use Gedmo\Mapping\Annotation as Gedmo;
  */
 class Periode
 {
-    use IdentifiableTrait, NameableTrait, TimestampableTrait;
+    use IdentifiableTrait;
+    use NameableTrait;
+    use TimestampableTrait;
 
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="datum_van", type="date", nullable=true)
+     * @ORM\Column(name="datum_van", type="date")
      * @Gedmo\Versioned
      */
     private $datumVan;

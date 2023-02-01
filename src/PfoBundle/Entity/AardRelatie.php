@@ -16,12 +16,20 @@ use Gedmo\Mapping\Annotation as Gedmo;
  */
 class AardRelatie
 {
-    use IdentifiableTrait, NameableTrait, TimestampableTrait;
+    use IdentifiableTrait;
+    use NameableTrait;
+    use TimestampableTrait;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     * @Gedmo\Versioned
+     */
+    protected $naam;
 
     /**
      * @var \DateTime
      *
-     * @ORM\Column(type="date")
+     * @ORM\Column(type="date", nullable=true)
      * @Gedmo\Versioned
      */
     private $startdatum;
@@ -29,7 +37,7 @@ class AardRelatie
     /**
      * @var \DateTime
      *
-     * @ORM\Column(type="date")
+     * @ORM\Column(type="date", nullable=true)
      * @Gedmo\Versioned
      */
     private $einddatum;

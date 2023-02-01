@@ -18,7 +18,6 @@ use Gedmo\Mapping\Annotation as Gedmo;
 use TwBundle\Entity\Locatie;
 use TwBundle\Entity\BinnenVia;
 
-
 /**
  * @ORM\Entity
  * @ORM\Table("tw_vrijwilligers")
@@ -27,7 +26,11 @@ use TwBundle\Entity\BinnenVia;
  */
 class Vrijwilliger implements MemoSubjectInterface, DocumentSubjectInterface
 {
-    use IdentifiableTrait, TimestampableTrait, RequiredMedewerkerTrait, MemoSubjectTrait, DocumentSubjectTrait;
+    use IdentifiableTrait;
+    use TimestampableTrait;
+    use RequiredMedewerkerTrait;
+    use MemoSubjectTrait;
+    use DocumentSubjectTrait;
 
     /**
      * @var Vrijwilliger
@@ -44,7 +47,6 @@ class Vrijwilliger implements MemoSubjectInterface, DocumentSubjectInterface
      * @ORM\ManyToMany(targetEntity="TwBundle\Entity\Locatie")
      */
     protected $locaties;
-
 
     /**
      * @var BinnenVia
@@ -69,7 +71,7 @@ class Vrijwilliger implements MemoSubjectInterface, DocumentSubjectInterface
     protected $afsluitdatum;
 
     /**
-     * @var \DateTime
+     * @var Afsluitreden
      *
      * @ORM\ManyToOne(targetEntity="Afsluitreden")
      */
@@ -77,7 +79,7 @@ class Vrijwilliger implements MemoSubjectInterface, DocumentSubjectInterface
 
     /**
      * @var boolean
-     * @ORM\Column(type="boolean", nullable=false)
+     * @ORM\Column(type="boolean")
      */
     protected $stagiair = false;
 
@@ -111,6 +113,21 @@ class Vrijwilliger implements MemoSubjectInterface, DocumentSubjectInterface
      */
     protected $trainingDeelnames;
 
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(type="datetime")
+     * @Gedmo\Versioned
+     */
+    protected $created;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(type="datetime")
+     * @Gedmo\Versioned
+     */
+    protected $modified;
 
     public function __construct(AppVrijwilliger $vrijwilliger = null)
     {
@@ -225,7 +242,7 @@ class Vrijwilliger implements MemoSubjectInterface, DocumentSubjectInterface
     /**
      * @return Medewerker
      */
-    public function getMedewerker():? Medewerker
+    public function getMedewerker(): ?Medewerker
     {
         return $this->medewerker;
     }
@@ -258,7 +275,7 @@ class Vrijwilliger implements MemoSubjectInterface, DocumentSubjectInterface
     /**
      * @return string
      */
-    public function getNotitieIntake():? string
+    public function getNotitieIntake(): ?string
     {
         return $this->notitieIntake;
     }
@@ -274,7 +291,7 @@ class Vrijwilliger implements MemoSubjectInterface, DocumentSubjectInterface
     /**
      * @return \DateTime
      */
-    public function getDatumNotitieIntake():? \DateTime
+    public function getDatumNotitieIntake(): ?\DateTime
     {
         return $this->datumNotitieIntake;
     }
@@ -290,7 +307,7 @@ class Vrijwilliger implements MemoSubjectInterface, DocumentSubjectInterface
     /**
      * @return string
      */
-    public function getTrainingOverig():? string
+    public function getTrainingOverig(): ?string
     {
         return $this->trainingOverig;
     }
@@ -306,7 +323,7 @@ class Vrijwilliger implements MemoSubjectInterface, DocumentSubjectInterface
     /**
      * @return \DateTime
      */
-    public function getTrainingOverigDatum():? \DateTime
+    public function getTrainingOverigDatum(): ?\DateTime
     {
         return $this->trainingOverigDatum;
     }
@@ -343,7 +360,5 @@ class Vrijwilliger implements MemoSubjectInterface, DocumentSubjectInterface
     public function removeDeelname(Deelname $deelname)
     {
         $this->trainingDeelnames->removeElement($deelname);
-
     }
-
 }

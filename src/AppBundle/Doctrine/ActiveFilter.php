@@ -4,12 +4,9 @@ namespace AppBundle\Doctrine;
 
 use AppBundle\Entity\Klant;
 use AppBundle\Entity\Vrijwilliger;
-
 use AppBundle\Model\ActivatableTrait;
 use Doctrine\ORM\Mapping\ClassMetaData;
 use Doctrine\ORM\Query\Filter\SQLFilter;
-
-
 
 class ActiveFilter extends SQLFilter
 {

@@ -4,6 +4,8 @@ namespace GaBundle\Entity;
 
 use AppBundle\Entity\Medewerker;
 use AppBundle\Model\DocumentInterface;
+use AppBundle\Model\IdentifiableTrait;
+use AppBundle\Model\NameableTrait;
 use AppBundle\Model\RequiredMedewerkerTrait;
 use AppBundle\Model\TimestampableTrait;
 use Doctrine\ORM\Mapping as ORM;
@@ -20,21 +22,17 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
  */
 class Document implements DocumentInterface
 {
-    use TimestampableTrait, RequiredMedewerkerTrait;
-
-    /**
-     * @ORM\Id
-     * @ORM\Column(type="integer")
-     * @ORM\GeneratedValue
-     */
-    private $id;
+    use IdentifiableTrait;
+    use NameableTrait;
+    use TimestampableTrait;
+    use RequiredMedewerkerTrait;
 
     /**
      * @var string
      * @ORM\Column
      * @Gedmo\Versioned
      */
-    private $naam;
+    protected $naam;
 
     /**
      * @var string
@@ -50,33 +48,27 @@ class Document implements DocumentInterface
      */
     private $file;
 
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(type="datetime")
+     * @Gedmo\Versioned
+     */
+    protected $created;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(type="datetime")
+     * @Gedmo\Versioned
+     */
+    protected $modified;
+
     public function __construct(Medewerker $medewerker = null)
     {
         if ($medewerker) {
             $this->medewerker = $medewerker;
         }
-    }
-
-    public function __toString()
-    {
-        return $this->naam;
-    }
-
-    public function getId()
-    {
-        return $this->id;
-    }
-
-    public function getNaam()
-    {
-        return $this->naam;
-    }
-
-    public function setNaam($naam)
-    {
-        $this->naam = $naam;
-
-        return $this;
     }
 
     public function getFilename()

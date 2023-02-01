@@ -17,13 +17,15 @@ use Gedmo\Mapping\Annotation as Gedmo;
  */
 class Training
 {
-    use IdentifiableTrait, NameableTrait, ActivatableTrait;
+    use IdentifiableTrait;
+    use NameableTrait;
+    use ActivatableTrait;
 
     /**
      * @var Deelname[]
      *
      * @ORM\OneToMany(targetEntity="Deelname", cascade={"persist"}, mappedBy="training")
-     * ORM\JoinColumn(name="inloopTraining_id", nullable=false)
+     * ORM\JoinColumn(name="inloopTraining_id")
      */
     private $deelnames;
 

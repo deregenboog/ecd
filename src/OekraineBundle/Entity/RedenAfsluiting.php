@@ -35,7 +35,7 @@ class RedenAfsluiting
     /**
      * @var bool
      *
-     * @ORM\Column(type="boolean", nullable=false)
+     * @ORM\Column(type="boolean")
      * @Gedmo\Versioned
      */
     private $actief = true;

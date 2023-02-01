@@ -9,7 +9,10 @@ use AppBundle\Model\IdentifiableTrait;
  * @ORM\Entity
  * @ORM\Table(
  *     name="awbz_hoofdaannemers",
- *     indexes={}
+ *     indexes={
+ *         @ORM\Index(name="idx_awbz_hoofdaannemers_klant_id", columns={"klant_id"}),
+ *         @ORM\Index(name="idx_awbz_hoofdaannemers_hoofdaannemer_id", columns={"hoofdaannemer_id"})
+ *     }
  * )
  */
 class AwbzHoofdaannemer
@@ -22,9 +25,9 @@ class AwbzHoofdaannemer
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Klant")
+     * @ORM\Column(type="integer", nullable=true)
      */
-    private $klant;
+    private $klant_id;
 
     /**
      * @ORM\Column(type="date")
@@ -37,9 +40,9 @@ class AwbzHoofdaannemer
     private $einddatum;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Hoofdaannemer")
+     * @ORM\Column(type="integer", nullable=true)
      */
-    private $hoofdaannemer;
+    private $hoofdaannemer_id;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)

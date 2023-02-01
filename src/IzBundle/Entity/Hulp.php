@@ -12,7 +12,12 @@ use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Entity
- * @ORM\Table(name="iz_koppelingen")
+ * @ORM\Table(name="iz_koppelingen", indexes={
+ *     @ORM\Index(name="discr", columns={"discr", "deleted"}),
+ *     @ORM\Index(name="discr_2", columns={"discr", "deleted", "project_id"}),
+ *     @ORM\Index(name="discr_3", columns={"discr", "deleted", "hulpvraagsoort_id"}),
+ *     @ORM\Index(name="medewerker_id", columns={"medewerker_id", "discr", "deleted"})
+ * })
  * @ORM\HasLifecycleCallbacks
  * @ORM\InheritanceType("SINGLE_TABLE")
  * @ORM\DiscriminatorColumn(name="discr", type="string")
@@ -22,12 +27,12 @@ use Gedmo\Mapping\Annotation as Gedmo;
  */
 abstract class Hulp
 {
+    use TimestampableTrait;
+
     public const DAGDEEL_OVERDAG = 'Overdag';
     public const DAGDEEL_AVOND = 'Avond';
     public const DAGDEEL_WEEKEND = 'Weekend';
     public const DAGDEEL_AVOND_WEEKEND = 'Avond/weekend';
-
-    use TimestampableTrait;
 
     /**
      * @ORM\Id
@@ -44,13 +49,13 @@ abstract class Hulp
     protected $deletedAt;
 
     /**
-     * @ORM\Column(type="datetime")
+     * @ORM\Column(type="date", nullable=true)
      * @Gedmo\Versioned
      */
     protected $startdatum;
 
     /**
-     * @ORM\Column(type="datetime", nullable=true)
+     * @ORM\Column(type="date", nullable=true)
      * @Gedmo\Versioned
      */
     protected $einddatum;
@@ -68,13 +73,13 @@ abstract class Hulp
     protected $eindevaluatiedatum;
 
     /**
-     * @ORM\Column(name="koppeling_startdatum", type="datetime", nullable=true)
+     * @ORM\Column(name="koppeling_startdatum", type="date", nullable=true)
      * @Gedmo\Versioned
      */
     protected $koppelingStartdatum;
 
     /**
-     * @ORM\Column(name="koppeling_einddatum", type="datetime", nullable=true)
+     * @ORM\Column(name="koppeling_einddatum", type="date", nullable=true)
      * @Gedmo\Versioned
      */
     protected $koppelingEinddatum;
@@ -162,7 +167,6 @@ abstract class Hulp
      * @var Geslacht
      *
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Geslacht")
-     * @ORM\JoinColumn(nullable=true)
      */
     protected $voorkeurGeslacht;
 

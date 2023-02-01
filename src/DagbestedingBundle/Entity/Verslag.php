@@ -2,6 +2,7 @@
 
 namespace DagbestedingBundle\Entity;
 
+use AppBundle\Model\IdentifiableTrait;
 use AppBundle\Model\RequiredMedewerkerTrait;
 use AppBundle\Model\TimestampableTrait;
 use Doctrine\ORM\Mapping as ORM;
@@ -15,14 +16,9 @@ use Gedmo\Mapping\Annotation as Gedmo;
  */
 class Verslag
 {
-    use TimestampableTrait, RequiredMedewerkerTrait;
-
-    /**
-     * @ORM\Id
-     * @ORM\Column(type="integer")
-     * @ORM\GeneratedValue
-     */
-    private $id;
+    use IdentifiableTrait;
+    use TimestampableTrait;
+    use RequiredMedewerkerTrait;
 
     /**
      * @var \DateTime
@@ -38,14 +34,25 @@ class Verslag
      */
     private $opmerking;
 
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(type="datetime")
+     * @Gedmo\Versioned
+     */
+    protected $created;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(type="datetime")
+     * @Gedmo\Versioned
+     */
+    protected $modified;
+
     public function __construct()
     {
         $this->datum = new \DateTime();
-    }
-
-    public function getId()
-    {
-        return $this->id;
     }
 
     public function getOpmerking()

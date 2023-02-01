@@ -19,19 +19,27 @@ use Gedmo\Mapping\Annotation as Gedmo;
  */
 class Intervisiegroep
 {
-    use IdentifiableTrait, NameableTrait, TimestampableTrait;
+    use IdentifiableTrait;
+    use NameableTrait;
+    use TimestampableTrait;
+
+    /**
+     * @ORM\Column(type="string", length=100, nullable=true)
+     * @Gedmo\Versioned
+     */
+    protected $naam;
 
     /**
      * @var \DateTime
      *
-     * @ORM\Column(type="date")
+     * @ORM\Column(type="date", nullable=true)
      */
     private $startdatum;
 
     /**
      * @var \DateTime
      *
-     * @ORM\Column(type="date")
+     * @ORM\Column(type="date", nullable=true)
      */
     private $einddatum;
 
@@ -47,6 +55,22 @@ class Intervisiegroep
      * @ORM\OneToMany(targetEntity="Lidmaatschap", mappedBy="intervisiegroep", cascade={"persist"})
      */
     private $lidmaatschappen;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(type="datetime", nullable=true)
+     * @Gedmo\Versioned
+     */
+    protected $created;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(type="datetime", nullable=true)
+     * @Gedmo\Versioned
+     */
+    protected $modified;
 
     public function __construct()
     {

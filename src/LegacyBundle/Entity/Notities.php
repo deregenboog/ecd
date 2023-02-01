@@ -15,28 +15,28 @@ class Notities
     /**
      * @var int
      *
-     * @ORM\Column(name="klant_id", type="integer", nullable=false)
+     * @ORM\Column(name="klant_id", type="integer")
      */
     private $klantId;
 
     /**
      * @var int
      *
-     * @ORM\Column(name="medewerker_id", type="integer", nullable=false)
+     * @ORM\Column(name="medewerker_id", type="integer")
      */
     private $medewerkerId;
 
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="datum", type="datetime", nullable=false)
+     * @ORM\Column(name="datum", type="datetime")
      */
     private $datum;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="opmerking", type="text", length=65535, nullable=false)
+     * @ORM\Column(name="opmerking", type="text", length=65535)
      */
     private $opmerking;
 

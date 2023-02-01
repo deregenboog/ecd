@@ -14,7 +14,8 @@ use Gedmo\Mapping\Annotation as Gedmo;
  */
 class Koppeling
 {
-    use TimestampableTrait, IdentifiableTrait;
+    use TimestampableTrait;
+    use IdentifiableTrait;
 
     /**
      * @var Hulpvraag

@@ -18,7 +18,6 @@ use Gedmo\Mapping\Annotation as Gedmo;
 use ClipBundle\Entity\Locatie;
 use ClipBundle\Entity\BinnenVia;
 
-
 /**
  * @ORM\Entity
  * @ORM\Table("clip_vrijwilligers")
@@ -27,7 +26,11 @@ use ClipBundle\Entity\BinnenVia;
  */
 class Vrijwilliger implements MemoSubjectInterface, DocumentSubjectInterface
 {
-    use IdentifiableTrait, TimestampableTrait, RequiredMedewerkerTrait, MemoSubjectTrait, DocumentSubjectTrait;
+    use IdentifiableTrait;
+    use TimestampableTrait;
+    use RequiredMedewerkerTrait;
+    use MemoSubjectTrait;
+    use DocumentSubjectTrait;
 
     /**
      * @var Vrijwilliger
@@ -44,7 +47,6 @@ class Vrijwilliger implements MemoSubjectInterface, DocumentSubjectInterface
      * @ORM\ManyToMany(targetEntity="ClipBundle\Entity\Locatie")
      */
     protected $locaties;
-
 
     /**
      * @var BinnenVia
@@ -77,7 +79,7 @@ class Vrijwilliger implements MemoSubjectInterface, DocumentSubjectInterface
 
     /**
      * @var boolean
-     * @ORM\Column(type="boolean", nullable=false)
+     * @ORM\Column(type="boolean")
      */
     protected $stagiair = false;
 
@@ -123,6 +125,30 @@ class Vrijwilliger implements MemoSubjectInterface, DocumentSubjectInterface
      */
     protected $trainingDeelnames;
 
+    /**
+     * @var MemoInterface[]
+     *
+     * @ORM\ManyToMany(targetEntity="Memo", cascade={"persist"})
+     * @ORM\JoinTable(inverseJoinColumns={@ORM\JoinColumn(unique=true)})
+     * @ORM\OrderBy({"datum": "desc", "id": "desc"})
+     */
+    protected $memos;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(type="datetime")
+     * @Gedmo\Versioned
+     */
+    protected $created;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(type="datetime")
+     * @Gedmo\Versioned
+     */
+    protected $modified;
 
     public function __construct(AppVrijwilliger $vrijwilliger = null)
     {
@@ -131,6 +157,8 @@ class Vrijwilliger implements MemoSubjectInterface, DocumentSubjectInterface
         }
         $this->locaties = new ArrayCollection();
         $this->trainingDeelnames = new ArrayCollection();
+        $this->memos = new ArrayCollection();
+        $this->documenten = new ArrayCollection();
         $this->datumNotitieIntake = new \DateTime("now");
     }
 
@@ -237,7 +265,7 @@ class Vrijwilliger implements MemoSubjectInterface, DocumentSubjectInterface
     /**
      * @return Medewerker
      */
-    public function getMedewerker():? Medewerker
+    public function getMedewerker(): ?Medewerker
     {
         return $this->medewerker;
     }
@@ -269,7 +297,7 @@ class Vrijwilliger implements MemoSubjectInterface, DocumentSubjectInterface
     /**
      * @return \DateTime
      */
-    public function getStartdatum():? \DateTime
+    public function getStartdatum(): ?\DateTime
     {
         return $this->startdatum;
     }
@@ -285,7 +313,7 @@ class Vrijwilliger implements MemoSubjectInterface, DocumentSubjectInterface
     /**
      * @return Medewerker
      */
-    public function getMedewerkerLocatie():? Medewerker
+    public function getMedewerkerLocatie(): ?Medewerker
     {
         return $this->medewerkerLocatie;
     }
@@ -301,7 +329,7 @@ class Vrijwilliger implements MemoSubjectInterface, DocumentSubjectInterface
     /**
      * @return string
      */
-    public function getNotitieIntake():? string
+    public function getNotitieIntake(): ?string
     {
         return $this->notitieIntake;
     }
@@ -317,7 +345,7 @@ class Vrijwilliger implements MemoSubjectInterface, DocumentSubjectInterface
     /**
      * @return \DateTime
      */
-    public function getDatumNotitieIntake():? \DateTime
+    public function getDatumNotitieIntake(): ?\DateTime
     {
         return $this->datumNotitieIntake;
     }
@@ -333,7 +361,7 @@ class Vrijwilliger implements MemoSubjectInterface, DocumentSubjectInterface
     /**
      * @return string
      */
-    public function getTrainingOverig():? string
+    public function getTrainingOverig(): ?string
     {
         return $this->trainingOverig;
     }
@@ -349,7 +377,7 @@ class Vrijwilliger implements MemoSubjectInterface, DocumentSubjectInterface
     /**
      * @return \DateTime
      */
-    public function getTrainingOverigDatum():? \DateTime
+    public function getTrainingOverigDatum(): ?\DateTime
     {
         return $this->trainingOverigDatum;
     }
@@ -386,7 +414,5 @@ class Vrijwilliger implements MemoSubjectInterface, DocumentSubjectInterface
     public function removeDeelname(Deelname $deelname)
     {
         $this->trainingDeelnames->removeElement($deelname);
-
     }
-
 }

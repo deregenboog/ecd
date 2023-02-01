@@ -26,7 +26,7 @@ class AfsluitredenKlant
 
     /**
      * @var bool
-     * @ORM\Column(name="actief", type="boolean", nullable=false, options={"default":1})
+     * @ORM\Column(type="boolean")
      * @Gedmo\Versioned
      */
     protected $actief = true;
@@ -46,6 +46,22 @@ class AfsluitredenKlant
      * @Gedmo\Versioned
      */
     private $land = false;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(type="datetime")
+     * @Gedmo\Versioned
+     */
+    protected $created;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(type="datetime")
+     * @Gedmo\Versioned
+     */
+    protected $modified;
 
     public function getGewicht()
     {

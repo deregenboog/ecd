@@ -20,7 +20,7 @@ class Incident
     use TimestampableTrait;
 
     /**
-     * @ORM\Column(name="datum", type="date", nullable=false)
+     * @ORM\Column(name="datum", type="date")
      * @Assert\NotNull
      */
     private $datum;
@@ -33,27 +33,26 @@ class Incident
     /**
      * @var bool
      *
-     * @ORM\Column(type="boolean", nullable=false, options={"DEFAULT 0"})
+     * @ORM\Column(type="boolean")
      */
     private $politie = false;
 
     /**
      * @var bool
      *
-     * @ORM\Column(type="boolean", nullable=false, options={"DEFAULT 0"})
+     * @ORM\Column(type="boolean")
      */
     private $ambulance = false;
 
     /**
      * @var bool
      *
-     * @ORM\Column(type="boolean", nullable=false, options={"DEFAULT 0"})
+     * @ORM\Column(type="boolean")
      */
     private $crisisdienst = false;
 
     /**
      * @ORM\ManyToOne(targetEntity="Locatie")
-     * @ORM\JoinColumn(nullable=true)
      */
     private $locatie;
 
@@ -104,8 +103,6 @@ class Incident
         $this->datum = $datum;
         return $this;
     }
-
-
 
     /**
      * @return mixed

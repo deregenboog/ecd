@@ -15,14 +15,14 @@ class Bedrijfitem
     /**
      * @var string
      *
-     * @ORM\Column(name="name", type="string", length=255, nullable=false)
+     * @ORM\Column(name="name", type="string", length=255)
      */
     private $name;
 
     /**
      * @var int
      *
-     * @ORM\Column(name="bedrijfsector_id", type="integer", nullable=false)
+     * @ORM\Column(name="bedrijfsector_id", type="integer")
      */
     private $bedrijfsectorId;
 

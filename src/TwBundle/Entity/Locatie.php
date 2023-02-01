@@ -24,13 +24,13 @@ class Locatie
     private $id;
 
     /**
-     * @ORM\Column(name="naam", nullable=false)
+     * @ORM\Column(name="naam")
      * @Gedmo\Versioned
      */
     private $naam;
 
     /**
-     * @ORM\Column(name="datum_van", type="date", nullable=false)
+     * @ORM\Column(name="datum_van", type="date")
      * @Gedmo\Versioned
      */
     private $datumVan;
@@ -41,6 +41,21 @@ class Locatie
      */
     private $datumTot;
 
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(type="datetime")
+     * @Gedmo\Versioned
+     */
+    protected $created;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(type="datetime")
+     * @Gedmo\Versioned
+     */
+    protected $modified;
 
     public function __toString()
     {

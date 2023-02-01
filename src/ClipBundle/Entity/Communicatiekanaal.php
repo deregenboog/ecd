@@ -17,7 +17,9 @@ use Gedmo\Mapping\Annotation as Gedmo;
  */
 class Communicatiekanaal
 {
-    use IdentifiableTrait, NameableTrait, ActivatableTrait;
+    use IdentifiableTrait;
+    use NameableTrait;
+    use ActivatableTrait;
 
     /**
      * @var ArrayCollection|Vraag[]

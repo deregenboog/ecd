@@ -17,7 +17,8 @@ use Gedmo\Mapping\Annotation as Gedmo;
  */
 class Werkdoel implements MedewerkerSubjectInterface
 {
-    use IdentifiableTrait, TimestampableTrait;
+    use IdentifiableTrait;
+    use TimestampableTrait;
 
     /**
      * @ORM\Column(type="text", nullable=true)
@@ -28,7 +29,7 @@ class Werkdoel implements MedewerkerSubjectInterface
     /**
      * @var Deelnemer
      *
-     * @ORM\ManyToOne(targetEntity="Deelnemer", inversedBy="werkdoelen")
+     * @ORM\ManyToOne(targetEntity="Deelnemer")
      * @Gedmo\Versioned
      */
     protected $deelnemer;
@@ -56,6 +57,22 @@ class Werkdoel implements MedewerkerSubjectInterface
      * @Gedmo\Versioned
      */
     protected $datum;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(type="datetime")
+     * @Gedmo\Versioned
+     */
+    protected $created;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(type="datetime")
+     * @Gedmo\Versioned
+     */
+    protected $modified;
 
     public function __construct()
     {
@@ -133,6 +150,4 @@ class Werkdoel implements MedewerkerSubjectInterface
         $this->traject = $traject;
         return $this;
     }
-
-
 }
