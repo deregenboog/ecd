@@ -93,7 +93,7 @@ class Verslag
 
     public function getOpmerking()
     {
-        return $this->opmerking;
+        return utf8_decode($this->opmerking);
     }
 
     public function setOpmerking($opmerking)
