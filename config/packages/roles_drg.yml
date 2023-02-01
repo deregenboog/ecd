@@ -275,3 +275,4 @@ ldap_tools:
             ROLE_OEKRAINE: "CN=ECD Oekraine,CN=Users,DC=cluster,DC=deregenboog"
             ROLE_OEKRAINE_LOCATIEHOOFD: "CN=ECD Oekraine Locatiehoofd,CN=Users,DC=cluster,DC=deregenboog"
             ROLE_OEKRAINE_BEHEER: "CN=ECD Oekraine Beheer,CN=Users,DC=cluster,DC=deregenboog"
+            ROLE_OEKRAINE_MW: "CN=ECD Oekraine Maatschappelijk werk,CN=Users,DC=cluster,DC=deregenboog"

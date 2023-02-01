@@ -522,7 +522,7 @@ class AppExtension extends AbstractExtension implements GlobalsInterface
      *
      * Checks if $value contains all the rows of an entity/collection. If so, 'fold' back to 'Alle <entityName>'
      */
-    public function filterAllRows($value, $allRows, $invert = true, $message = null)
+    public function filterAllRows($value, $allRows, $invert = true)
     {
 
         if(count($value)<1 || !$value instanceof Collection) return "";
