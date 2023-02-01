@@ -122,6 +122,9 @@ class KlantDao extends AbstractDao implements KlantDaoInterface, DoelstellingDao
     {
         // @todo remove this when disabled field is no longer needed
         $klant->setDisabled(true);
+        $partner = $klant->getPartner();
+        $klant->setPartner(null);
+        $partner->setPartner(null);//wederkerig
         $this->update($klant);
 
         return $this->doDelete($klant);
