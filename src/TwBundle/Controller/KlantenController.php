@@ -24,9 +24,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormError;
-
 use JMS\DiExtraBundle\Annotation as DI;
-
 
 /**
  * @Route("/klanten")
@@ -34,8 +32,6 @@ use JMS\DiExtraBundle\Annotation as DI;
  */
 class KlantenController extends AbstractController
 {
-    public $title = 'Klanten';
-
     public $entityClass = Klant::class;
     protected $entityName = 'klant';
     protected $formClass = KlantType::class;

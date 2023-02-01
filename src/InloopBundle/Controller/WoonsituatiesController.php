@@ -17,7 +17,6 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
  */
 class WoonsituatiesController extends AbstractController
 {
-    protected $title = 'Woonsituaties';
     protected $entityName = 'woonsituatie';
     protected $entityClass = Woonsituatie::class;
     protected $formClass = WoonsituatieType::class;

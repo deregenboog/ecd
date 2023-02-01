@@ -20,7 +20,6 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class BetalingenController extends AbstractChildController
 {
-    protected $title = 'Betalingen';
     protected $entityName = 'betaling';
     protected $entityClass = Betaling::class;
     protected $formClass = BetalingType::class;

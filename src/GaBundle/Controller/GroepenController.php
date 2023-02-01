@@ -22,7 +22,6 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class GroepenController extends AbstractController
 {
-    protected $title = 'Groepen';
     protected $entityName = 'groep';
     protected $entityClass = Groep::class;
     protected $formClass = GroepType::class;

@@ -31,7 +31,6 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class VerslagenController extends AbstractController
 {
-    protected $title = 'Verslagen';
     protected $entityName = 'verslag';
     protected $entityClass = Verslag::class;
     protected $formClass = VerslagType::class;

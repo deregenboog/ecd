@@ -21,7 +21,6 @@ use TwBundle\Service\TrainingDao;
  */
 class TrainingenController extends AbstractController
 {
-    protected $title = 'Trainingen';
     protected $entityName = 'Training';
     protected $entityClass = Training::class;
     protected $formClass = TrainingType::class;

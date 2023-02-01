@@ -17,7 +17,6 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class DoelstellingenController extends AbstractController
 {
-    protected $title = 'Doelstellingen';
     protected $entityName = 'doelstelling';
     protected $entityClass = Doelstelling::class;
     protected $formClass = DoelstellingType::class;

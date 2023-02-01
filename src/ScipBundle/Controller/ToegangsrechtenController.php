@@ -18,7 +18,6 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class ToegangsrechtenController extends AbstractController
 {
-    protected $title = 'Toegangsrechten';
     protected $entityName = 'toegangsrecht';
     protected $entityClass = Toegangsrecht::class;
     protected $formClass = ToegangsrechtType::class;

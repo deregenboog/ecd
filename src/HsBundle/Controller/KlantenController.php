@@ -23,7 +23,6 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class KlantenController extends AbstractController
 {
-    protected $title = 'Klanten';
     protected $entityName = 'klant';
     protected $entityClass = Klant::class;
     protected $formClass = KlantType::class;

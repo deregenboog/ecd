@@ -16,7 +16,6 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class DagdelenController extends AbstractController
 {
-    protected $title = 'Dagdelen';
     protected $entityName = 'dagdeel';
     protected $entityClass = Dagdeel::class;
     protected $filterFormClass = DagdeelFilterType::class;

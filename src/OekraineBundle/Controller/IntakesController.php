@@ -27,7 +27,6 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class IntakesController extends AbstractController
 {
-    protected $title = 'Intakes';
     protected $entityName = 'intake';
     protected $entityClass = Intake::class;
     protected $formClass = IntakeType::class;

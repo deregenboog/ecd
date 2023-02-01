@@ -22,7 +22,6 @@ use Vich\UploaderBundle\Handler\DownloadHandler;
  */
 class DeelnamesController extends AbstractChildController
 {
-    protected $title = 'Deelnames';
     protected $entityName = 'deelname';
     protected $entityClass = Deelname::class;
     protected $formClass = DeelnameType::class;

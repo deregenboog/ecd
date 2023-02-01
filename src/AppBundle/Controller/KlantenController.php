@@ -26,7 +26,6 @@ use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
  */
 class KlantenController extends AbstractController
 {
-    protected $title = 'Klanten';
     protected $entityName = 'klant';
     protected $entityClass = Klant::class;
     protected $formClass = KlantType::class;
@@ -34,7 +33,6 @@ class KlantenController extends AbstractController
     protected $baseRouteName = 'app_klanten_';
     protected $searchFilterTypeClass = KlantFilterType::class;
     protected $searchEntity = Klant::class;
-
 
     /**
      * @var KlantDaoInterface

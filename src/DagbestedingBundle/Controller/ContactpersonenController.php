@@ -13,7 +13,6 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class ContactpersonenController extends AbstractChildController
 {
-    protected $title = 'Contactpersonen';
     protected $entityName = 'Contactpersoon';
     protected $entityClass = Contactpersoon::class;
     protected $formClass = ContactpersoonType::class;

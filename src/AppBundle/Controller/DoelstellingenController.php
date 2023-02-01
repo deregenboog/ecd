@@ -64,7 +64,6 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
  */
 class DoelstellingenController extends AbstractController
 {
-    protected $title = 'Doelstellingen';
     protected $entityName = 'doelstelling';
     protected $entityClass = Doelstelling::class;
     protected $formClass = DoelstellingType::class;

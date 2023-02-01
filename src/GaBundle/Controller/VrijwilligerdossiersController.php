@@ -22,7 +22,6 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class VrijwilligerdossiersController extends DossiersController
 {
-    protected $title = 'Vrijwilligers';
     protected $entityName = 'vrijwilliger';
     protected $entityClass = Vrijwilligerdossier::class;
     protected $formClass = VrijwilligerdossierType::class;

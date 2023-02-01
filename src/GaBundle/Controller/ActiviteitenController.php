@@ -24,7 +24,6 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class ActiviteitenController extends AbstractChildController
 {
-    protected $title = 'Activiteiten';
     protected $entityName = 'activiteit';
     protected $entityClass = Activiteit::class;
     protected $formClass = ActiviteitType::class;

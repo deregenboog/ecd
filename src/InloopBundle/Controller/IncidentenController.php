@@ -31,7 +31,6 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
  */
 class IncidentenController extends AbstractChildController
 {
-    protected $title = 'Incidenten';
     protected $entityName = 'Incident';
     protected $entityClass = Incident::class;
     protected $formClass = IncidentType::class;
