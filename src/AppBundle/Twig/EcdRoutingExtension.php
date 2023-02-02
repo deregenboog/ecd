@@ -4,6 +4,7 @@ namespace AppBundle\Twig;
 
 use Symfony\Bridge\Twig\Extension\RoutingExtension as BaseRoutingExtension;
 use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\Routing\Exception\ExceptionInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Twig\Extension\AbstractExtension;
 use Twig\Node\Expression\ArrayExpression;
@@ -68,7 +69,14 @@ class EcdRoutingExtension extends AbstractExtension
 
         }
 
-        return $this->_getPath($name, $parameters, $relative);
+        try {
+            return $this->_getPath($name, $parameters, $relative);
+        }
+        catch (ExceptionInterface $e)
+        {
+            return false;
+        }
+
     }
 
     /**
