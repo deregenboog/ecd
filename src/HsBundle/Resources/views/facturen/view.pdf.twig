@@ -26,10 +26,12 @@
 </p>
 <p>
     <table>
+
         {% for i, registratie in entity.registraties|orderBy('getDatum') %}
             <tr>
                 <td width="20%">{{ registratie.datum|date('d-m-Y') }}</td>
                 <td width="20%">{{ registratie.activiteit }}</td>
+                <td>{{ registratie.arbeider }}</td>
             {% if registratie.datum|date("Y") <= '2022' %}
                 <td width="15%" align="right">{{ registratie.start|date('H:i') }} uur</td>
                 <td width="15%" align="right">{{ registratie.eind|date('H:i') }} uur</td>
@@ -37,8 +39,8 @@
                 <td width="15%" align="right">{{ (2.5 * registratie.uren)|money }}</td>
             {% else %}
                 <td width="15%" align="right">{{ registratie.dagdelen }} dagdelen</td>
-                <td width="15%" align="right">{% if i == 0 %}à {{ 10|money }}{% endif %}</td>
-                <td width="15%" align="right">{{ (10 * registratie.dagdelen)|money }}</td>
+                <td width="15%" align="right">{% if i == 0 %}à {{ 5|money }}{% endif %}</td>
+                <td width="15%" align="right">{{ (5 * registratie.dagdelen)|money }}</td>
             {% endif %}
 
             </tr>
@@ -46,7 +48,7 @@
         {% for declaratie in entity.declaraties %}
             <tr>
                 <td width="20%">{{ declaratie.datum|date('d-m-Y') }}</td>
-                <td width="65%" colspan="4">
+                <td width="65%" colspan="5">
                     {{ declaratie.declaratieCategorie }}
                     {{ declaratie.info ? '('~declaratie.info~')' }}
                 </td>

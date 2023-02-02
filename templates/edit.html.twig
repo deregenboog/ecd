@@ -3,9 +3,11 @@
 
 {% block content_top %}
     <h1>{{ entity_name|capitalize }} wijzigen</h1>
-    <p>
-        {{ html.link('Annuleren', path(route_base~'index'), 'cancel') }}
-    </p>
+    {% if ( path(route_base~'index') ) %}
+        <p>
+            {{ html.link('Annuleren', path(route_base~'index'), 'cancel') }}
+        </p>
+    {% endif %}
 {% endblock %}
 
 {% block content %}
