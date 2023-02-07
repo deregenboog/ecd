@@ -27,6 +27,15 @@ class DoelgroepenController extends AbstractController
     protected $dao;
 
     /**
+     * @param DoelgroepDao $dao
+     */
+    public function __construct(DoelgroepDao $dao)
+    {
+        $this->dao = $dao;
+    }
+
+
+    /**
      * @Route("/{id}/view")
      */
     public function viewAction(Request $request, $id)
