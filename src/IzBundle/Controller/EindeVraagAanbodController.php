@@ -28,6 +28,15 @@ class EindeVraagAanbodController extends AbstractController
     protected $dao;
 
     /**
+     * @param EindeVraagAanbodDao $dao
+     */
+    public function __construct(EindeVraagAanbodDao $dao)
+    {
+        $this->dao = $dao;
+    }
+
+
+    /**
      * @Route("/{id}/view")
      */
     public function viewAction(Request $request, $id)
