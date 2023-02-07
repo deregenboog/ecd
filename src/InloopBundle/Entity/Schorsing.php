@@ -4,6 +4,7 @@ namespace InloopBundle\Entity;
 
 use AppBundle\Entity\Klant;
 use AppBundle\Model\IdentifiableTrait;
+use AppBundle\Model\TimeframeableTrait;
 use AppBundle\Model\TimestampableTrait;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
@@ -22,6 +23,7 @@ use Symfony\Component\Validator\Context\ExecutionContextInterface;
 class Schorsing
 {
     use IdentifiableTrait;
+    use TimeframeableTrait;
     use TimestampableTrait;
 
     public const DOELWIT_MEDEWERKER = 1;
@@ -32,18 +34,6 @@ class Schorsing
         self::DOELWIT_STAGIAIR => 'stagiair',
         self::DOELWIT_VRIJWILLIGER => 'vrijwilliger',
     ];
-
-    /**
-     * @ORM\Column(name="datum_van", type="date")
-     * @Assert\NotNull
-     */
-    private $datumVan;
-
-    /**
-     * @ORM\Column(name="datum_tot", type="date")
-     * @Assert\NotNull
-     */
-    private $datumTot;
 
     /**
      * @ORM\Column(name="remark", type="text", nullable=true)
@@ -195,34 +185,9 @@ class Schorsing
         $this->redenen = new ArrayCollection();
     }
 
-
     public function __toString()
     {
         return sprintf('%s (%s t/m %s)', $this->klant, $this->datumVan->format('d-m-Y'), $this->datumTot->format('d-m-Y'));
-    }
-
-    public function getDatumVan()
-    {
-        return $this->datumVan;
-    }
-
-    public function setDatumVan($datumVan)
-    {
-        $this->datumVan = $datumVan;
-
-        return $this;
-    }
-
-    public function getDatumTot()
-    {
-        return $this->datumTot;
-    }
-
-    public function setDatumTot($datumTot)
-    {
-        $this->datumTot = $datumTot;
-
-        return $this;
     }
 
     public function getOpmerking()

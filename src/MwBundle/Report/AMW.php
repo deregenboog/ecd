@@ -9,7 +9,6 @@ use MwBundle\Service\VerslagDao;
 
 class AMW extends AbstractReport
 {
-
     protected $title = 'AMW';
 
     protected $xPath = 'type';
@@ -19,12 +18,11 @@ class AMW extends AbstractReport
     protected $nPath = 'aantal';
 
     protected $columns = [
-        'Klanten'=>'aantal',
-        'Verslagen'=>'aantalVerslagen'
+        'Klanten' => 'aantal',
+        'Verslagen' => 'aantalVerslagen',
         ];
 
     protected $yDescription = 'Locatienaam';
-
 
     protected $tables = [];
 
@@ -32,7 +30,6 @@ class AMW extends AbstractReport
      * @var Locatie
      */
     private $locatie;
-
 
     private $amw_locaties;
 
@@ -66,14 +63,12 @@ class AMW extends AbstractReport
         );
 //        $sql = $this->getFullSQL($query);
         $this->result = $query->getResult();
-        $this->resultUnique = $this->dao->getTotalUniqueKlantenForLocaties($this->startDate,$this->endDate,$this->amw_locaties);
-
+        $this->resultUnique = $this->dao->getTotalUniqueKlantenForLocaties($this->startDate, $this->endDate, $this->amw_locaties);
     }
 
     protected function build()
     {
-
-        $table = new Grid($this->result, $this->columns,$this->yPath);
+        $table = new Grid($this->result, $this->columns, $this->yPath);
         $table
             ->setStartDate($this->startDate)
             ->setEndDate($this->endDate)
@@ -82,22 +77,18 @@ class AMW extends AbstractReport
         ;
 
         $report = [
-            'title' => "AMW",
+            'title' => 'AMW',
             'xDescription' => $this->xDescription,
             'yDescription' => $this->yDescription,
             'data' => $table->render(),
         ];
 
-        foreach($this->columns as $k=>$c)
-        {
-            if(isset($this->resultUnique[$k]))
-            {
+        foreach ($this->columns as $k => $c) {
+            if (isset($this->resultUnique[$k])) {
                 $report['data']['Uniek'][$c] = $this->resultUnique[$k];
+            } else {
+                $report['data']['Uniek'][$c] = '';
             }
-            else{
-                $report['data']['Uniek'][$c] = "";
-            }
-
         }
 
         $this->reports[] = $report;

@@ -28,6 +28,9 @@
                 Medewerkers
             </th>
             <th>
+                {{ knp_pagination_sortable(pagination, 'Wachtlijst', 'project.wachtlijst') }}
+            </th>
+            <th>
                 {{ knp_pagination_sortable(pagination, 'Actief', 'project.actief') }}
             </th>
             <th>
@@ -43,6 +46,9 @@
                 </td>
                 <td>
                     {{ entity.medewerkers|implode }}
+                </td>
+                <td>
+                    {{ entity.wachtlijste ? 'ja' : 'nee' }}
                 </td>
                 <td>
                     {{ entity.actief ? 'ja' : 'nee' }}

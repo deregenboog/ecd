@@ -3,32 +3,26 @@
 namespace MwBundle\Controller;
 
 use AppBundle\Controller\AbstractController;
-use AppBundle\Entity\AmocLand;
-use AppBundle\Entity\Klant;
-use AppBundle\Entity\Land;
-use AppBundle\Event\DienstenLookupEvent;
-use AppBundle\Event\Events;
 use AppBundle\Exception\UserException;
 use AppBundle\Export\ExportInterface;
-use AppBundle\Form\BaseType;
 use AppBundle\Form\KlantFilterType as AppKlantFilterType;
-use AppBundle\Service\KlantDaoInterface;
+use AppBundle\Service\KlantDao as AppKlantDao;
+use JMS\DiExtraBundle\Annotation as DI;
 use MwBundle\Entity\Aanmelding;
 use MwBundle\Entity\Afsluiting;
-use MwBundle\Entity\Verslag;
+use MwBundle\Entity\DossierStatus;
+use MwBundle\Entity\Klant;
 use MwBundle\Form\AanmeldingType;
 use MwBundle\Form\AfsluitingType;
-use InloopBundle\Form\KlantType;
-use JMS\DiExtraBundle\Annotation as DI;
-use MwBundle\Entity\Document;
-use MwBundle\Entity\Info;
-use MwBundle\Form\InfoType;
 use MwBundle\Form\KlantFilterType;
+use MwBundle\Form\KlantType;
+use MwBundle\Service\DossierStatusFactory;
 use MwBundle\Service\KlantDao;
-use Symfony\Component\Routing\Annotation\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * @Route("/klanten")
@@ -49,7 +43,7 @@ class KlantenController extends AbstractController
     protected $dao;
 
     /**
-     * @var \AppBundle\Service\KlantDao
+     * @var AppKlantDao
      */
     protected $klantDao;
 
@@ -60,21 +54,16 @@ class KlantenController extends AbstractController
      */
     protected $export;
 
-    /**
-     * @param KlantDao $dao
-     * @param \AppBundle\Service\KlantDao $klantDao
-     * @param ExportInterface $export
-     */
-    public function __construct(KlantDao $dao, \AppBundle\Service\KlantDao $klantDao, ExportInterface $export)
+    public function __construct(KlantDao $dao, AppKlantDao $klantDao, ExportInterface $export)
     {
         $this->dao = $dao;
         $this->klantDao = $klantDao;
         $this->export = $export;
     }
 
-
     /**
-     * @Route("/add")
+     * @Route("/add/{klant?}")
+     * @ParamConverter("klant", class="AppBundle:Klant")
      */
     public function addAction(Request $request)
     {
@@ -86,98 +75,12 @@ class KlantenController extends AbstractController
     }
 
     /**
-     * @Route("/{klant}/info")
+     * @Route("/wachtlijst")
+     * @Template("@Mw/klanten/index.html.twig")
      */
-    public function infoEditAction(Request $request, Klant $klant)
+    public function wachtlijstAction(Request $request)
     {
-        $em = $this->getEntityManager();
-        $entity = $em->getRepository(Info::class)->findOneBy(['klant' => $klant]);
-        if (!$entity) {
-            $entity = new Info($klant);
-        }
-
-        $form = $this->getForm(InfoType::class, $entity);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            try {
-                if (!$entity->getId()) {
-                    $em->persist($entity);
-                }
-                $em->flush();
-                $this->addFlash('success', 'Info is opgeslagen.');
-            } catch(UserException $e) {
-//                $this->logger->error($e->getMessage(), ['exception' => $e]);
-                $message =  $e->getMessage();
-                $this->addFlash('danger', $message);
-//                return $this->redirectToRoute('app_klanten_index');
-            } catch (\Exception $e) {
-                $this->logger->error($e->getMessage(), ['exception' => $e]);
-                $message = $this->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
-                $this->addFlash('danger', $message);
-            }
-
-            return $this->afterFormSubmitted($request, $entity, null);
-        }
-
-        return [
-            'form' => $form->createView(),
-            'klant' => $klant,
-        ];
-    }
-
-    /**
-     * @Template
-     */
-    public function _documentenAction(Request $request, $id)
-    {
-        $klant = $this->dao->find($id);
-        $documenten = $this->getEntityManager()->getRepository(Document::class)
-            ->findBy(['klant' => $klant], ['id' => 'DESC']);
-
-        return [
-            'klant' => $klant,
-            'documenten' => $documenten,
-        ];
-    }
-
-    /**
-     * @Template
-     */
-    public function _mwAction(Request $request, $id)
-    {
-        $klant = $this->dao->find($id);
-        $info = $this->getEntityManager()->getRepository(Info::class)->findOneBy(['klant' => $klant]);
-
-        return [
-            'klant' => $klant,
-            'info' => $info,
-        ];
-    }
-
-    protected function addParams($entity, Request $request)
-    {
-        assert($entity instanceof Klant);
-
-        $event = new DienstenLookupEvent($entity->getId());
-        if ($event->getKlantId()) {
-            $this->eventDispatcher->dispatch($event, Events::DIENSTEN_LOOKUP);
-        }
-
-        return [
-            'diensten' => $event->getDiensten(),
-            'amoc_landen' => $this->getAmocLanden(),
-        ];
-    }
-
-    protected function getAmocLanden()
-    {
-        return $this->getEntityManager()->getRepository(Land::class)
-            ->createQueryBuilder('land')
-            ->innerJoin(AmocLand::class, 'amoc', 'WITH', 'amoc.land = land')
-            ->getquery()
-            ->getResult()
-        ;
+        return $this->indexAction($request);
     }
 
     protected function doSearch(Request $request)
@@ -212,58 +115,26 @@ class KlantenController extends AbstractController
 
     protected function doAdd(Request $request)
     {
-        $klantId = $request->get('klant');
-        if ('new' === $klantId) {
-            $klant = new Klant();
-        } else {
-            $klant = $this->klantDao->find($klantId);
-            if ($klant) {
-                // redirect if already exists
-                $mwKlant = $this->dao->find($klantId);
-                if ($mwKlant) {
-                    return $this->redirectToRoute("mw_klanten_addmwdossierstatus",["id"=>$klantId]);
-                }
-            }
+        $appKlant = $request->get('klant');
+
+        $klant = $this->dao->findOneByKlant($appKlant);
+        if ($klant) {
+            return $this->redirectToView($klant);
         }
 
-        $mwKlant = $klant;
-        $creationForm = $this->getForm(KlantType::class, $mwKlant);
-        $creationForm->handleRequest($request);
+        $klant = new Klant($appKlant, $this->getMedewerker());
+        $this->dao->create($klant);
 
-        if ($creationForm->isSubmitted() && $creationForm->isValid()) {
-            try {
-                $this->dao->create($mwKlant);
-                $this->addFlash('success', ucfirst($this->entityName).' is opgeslagen.');
-
-                return $this->redirectToRoute("mw_klanten_addmwdossierstatus",["id"=>$mwKlant->getId()]);
-            } catch(UserException $e) {
-//                $this->logger->error($e->getMessage(), ['exception' => $e]);
-                $message =  $e->getMessage();
-                $this->addFlash('danger', $message);
-//                return $this->redirectToRoute('app_klanten_index');
-            } catch (\Exception $e) {
-                $message = $this->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
-                $this->addFlash('danger', $message);
-            }
-
-            return $this->redirectToIndex();
-        }
-
-        return [
-            'entity' => $mwKlant,
-            'creationForm' => $creationForm->createView(),
-            'amoc_landen' => $this->getAmocLanden(),
-        ];
+        return $this->redirectToRoute('mw_aanmeldingen_add', ['klant' => $klant->getId()]);
     }
 
     /**
-     * @Route("/{id}/close")
+     * @Route("/{klant}/close")
+     * @ParamConverter("klant", class="MwBundle:Klant")
      */
-    public function closeAction(Request $request, $id)
+    public function closeAction(Request $request, Klant $klant)
     {
-        $klant = $this->dao->find($id);
-
-        $afsluiting = new Afsluiting($klant, $this->getMedewerker());
+        $afsluiting = new Afsluiting($this->getMedewerker());
 
         $form = $this->getForm(AfsluitingType::class, $afsluiting);
         $form->handleRequest($this->getRequest());
@@ -274,22 +145,19 @@ class KlantenController extends AbstractController
                 $entityManager->flush();
 
                 $this->addFlash('success', 'Mw dossier is afgesloten');
-            } catch(UserException $e) {
+            } catch (UserException $e) {
 //                $this->logger->error($e->getMessage(), ['exception' => $e]);
-                $message =  $e->getMessage();
+                $message = $e->getMessage();
                 $this->addFlash('danger', $message);
 //                return $this->redirectToRoute('app_klanten_index');
             } catch (\Exception $e) {
                 $message = $this->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
                 $this->addFlash('danger', $message);
             }
-            if(array_key_exists("inloopSluiten",$request->get('afsluiting')) )
-            {
-                if($klant->getHuidigeStatus() instanceof \InloopBundle\Entity\Aanmelding)
-                {
-                    return $this->redirectToRoute("inloop_klanten_close",["id"=>$id,"redirect"=>$this->generateUrl("mw_klanten_index")]);
+            if (array_key_exists('inloopSluiten', $request->get('afsluiting'))) {
+                if ($klant->getHuidigeStatus() instanceof \InloopBundle\Entity\Aanmelding) {
+                    return $this->redirectToRoute('inloop_klanten_close', ['id' => $id, 'redirect' => $this->generateUrl('mw_klanten_index')]);
                 }
-
             }
             if ($url = $request->get('redirect')) {
                 return $this->redirect($url);
@@ -321,9 +189,9 @@ class KlantenController extends AbstractController
                 $entityManager->flush();
 
                 $this->addFlash('success', 'Mw dossier is heropend');
-            } catch(UserException $e) {
+            } catch (UserException $e) {
 //                $this->logger->error($e->getMessage(), ['exception' => $e]);
-                $message =  $e->getMessage();
+                $message = $e->getMessage();
                 $this->addFlash('danger', $message);
 //                return $this->redirectToRoute('app_klanten_index');
             } catch (\Exception $e) {
@@ -345,26 +213,27 @@ class KlantenController extends AbstractController
     }
 
     /**
-     * @Route("/{id}/dossierstatus/add")
+     * @Route("/{id}/dossierstatussen/add")
+     * @ParamConverter("klant", class="MwBundle:Klant")
+     * @Template
      */
-    public function addMwDossierStatusAction(Request $request, $id)
+    public function dossierstatussenAddAction(Request $request, Klant $klant)
     {
+        $status = DossierStatusFactory::getDossierStatus($klant, $this->getMedewerker());
+        $formType = $this->getFormType($status);
 
-        $klant = $this->dao->find($id);
-        $entity = new Aanmelding($klant,$this->getMedewerker());
-
-        $form = $this->getForm(AanmeldingType::class,$entity);
+        $form = $this->getForm($formType, $status);
         $form->handleRequest($this->getRequest());
         if ($form->isSubmitted() && $form->isValid()) {
             try {
                 $entityManager = $this->getEntityManager();
-                $entityManager->persist($entity);
+                $entityManager->persist($status);
                 $entityManager->flush();
 
-                $this->addFlash('success', 'Mw dossier is aangemaakt');
-            } catch(UserException $e) {
+                $this->addFlash('success', 'Mw dossier is heropend');
+            } catch (UserException $e) {
 //                $this->logger->error($e->getMessage(), ['exception' => $e]);
-                $message =  $e->getMessage();
+                $message = $e->getMessage();
                 $this->addFlash('danger', $message);
 //                return $this->redirectToRoute('app_klanten_index');
             } catch (\Exception $e) {
@@ -376,124 +245,22 @@ class KlantenController extends AbstractController
                 return $this->redirect($url);
             }
 
-            return $this->redirectToView($klant);
+            return $this->redirectToRoute('mw_klanten_view', ['id' => $klant->getId()]);
         }
 
         return [
-            'entity' => $entity,
+            'klant' => $klant,
             'form' => $form->createView(),
         ];
     }
 
-
-    /**
-     * @Route("/{id}/dossierstatus/{statusId}/edit")
-     */
-    public function editMwDossierStatusAction(Request $request, $id, $statusId)
+    private function getFormType(DossierStatus $status): string
     {
-        $klant = $this->dao->find($id);
-        $mwStatus = $klant->getMwStatus($statusId);
-
-        $type = null;
-        if($mwStatus instanceof Aanmelding)
-        {
-            $type = AanmeldingType::class;
+        switch (true) {
+            case $status instanceof Aanmelding:
+                return AanmeldingType::class;
+            default:
+                throw new \LogicException();
         }
-        else if($mwStatus instanceof Afsluiting)
-        {
-            $type = AfsluitingType::class;
-        }
-        $form = $this->getForm($type, $mwStatus, ['mode' => BaseType::MODE_EDIT]);
-        $form->handleRequest($this->getRequest());
-        if ($form->isSubmitted() && $form->isValid()) {
-            try {
-                $entityManager = $this->getEntityManager();
-                $entityManager->persist($mwStatus);
-                $entityManager->flush();
-
-                $this->addFlash('success', 'Mw dossier is gewijzigd');
-            } catch(UserException $e) {
-//                $this->logger->error($e->getMessage(), ['exception' => $e]);
-                $message =  $e->getMessage();
-                $this->addFlash('danger', $message);
-//                return $this->redirectToRoute('app_klanten_index');
-            } catch (\Exception $e) {
-                $message = $this->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
-                $this->addFlash('danger', $message);
-            }
-
-            if ($url = $request->get('redirect')) {
-                return $this->redirect($url);
-            }
-
-            return $this->redirectToRoute('mw_klanten_index');
-        }
-
-        return [
-            'entity' => $mwStatus,
-            'form' => $form->createView(),
-        ];
-    }
-
-    /**
-     * @Route("/{id}/addHiPrio/")
-     */
-    public function addHiPrio(Request $request, $id)
-    {
-        $klant = null;
-        $entityManager = $this->getEntityManager();
-        try {
-            $klant = $this->dao->find($id);
-
-            //Wanneer klant nog niet bestat, dossier aanmaken
-            if(!$klant->getHuidigeMwStatus() instanceof Aanmelding)
-            {
-                $entity = new Aanmelding($klant,$this->getMedewerker());
-                $entity->setDatum(new \DateTime());
-                $entityManager->persist($entity);
-                $entityManager->flush();
-                $this->addFlash('success', 'Mw dossier is aangemaakt');
-            }
-            $locatieRep = $this->getEntityManager()->getRepository("InloopBundle:Locatie");
-            $locatie = $locatieRep->findOneBy(['naam'=>'Wachtlijst Economisch Daklozen']);
-
-                //als nieuwste verslag niet op wachtlijst is, dan op wachtlijst zetten
-                if($klant->getAantalVerslagen() < 1 || $klant->getVerslagen()->first()->getLocatie() !== $locatie) {
-                    $verslag = new Verslag($klant);
-                    $verslag->setDatum(new \DateTime());
-                    $verslag->setOpmerking("Toegevoegd vanuit TW");
-                    $verslag->setMedewerker($this->getMedewerker());
-                    $verslag->setLocatie($locatie);
-
-                    $entityManager->persist($verslag);
-                    $entityManager->flush($verslag);
-                    $this->addFlash('success', 'Klant is op Wachtlijst Economisch Daklozen gezet');
-                }
-                else
-                {
-                    $this->addFlash('danger', 'Klant staat al op Wachtlijst Economisch Daklozen.');
-                }
-
-            } catch(UserException $e) {
-//                $this->logger->error($e->getMessage(), ['exception' => $e]);
-                $message =  $e->getMessage();
-                $this->addFlash('danger', $message);
-//                return $this->redirectToRoute('app_klanten_index');
-            } catch (\Exception $e) {
-                $message = $this->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
-                $this->addFlash('danger', $message);
-            }
-
-            if ($url = $request->get('redirect')) {
-                return $this->redirect($url);
-            }
-
-            return $this->redirectToView($klant);
-
-
-        return [
-            'entity' => $entity,
-            'form' => $form->createView(),
-        ];
     }
 }

@@ -1,0 +1,8 @@
+{% import 'html.macro.twig' as html %}
+
+{% for transition in workflow_transitions(klant) %}
+    {% set transition_title = workflow_metadata(klant, 'title', transition) %}
+    {% set transition_entity = workflow_metadata(klant, 'entity', transition) %}
+    {% set transition_icon = workflow_metadata(klant, 'icon', transition) %}
+    {{ html.link(transition_title, path('mw_dossierstatussen_add', {klant: klant.id, entity: transition_entity}), transition_icon) }}
+{% endfor %}

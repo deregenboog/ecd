@@ -3,16 +3,16 @@
 namespace MwBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use MwBundle\Entity\Resultaat;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity
+ * @ORM\Table(name="mw_afsluitingen")
  * @ORM\HasLifecycleCallbacks
  * @Gedmo\Loggable
  */
-class Afsluiting extends MwDossierStatus
+class Afsluiting extends DossierStatus
 {
     /**
      * @var AfsluitredenKlant
@@ -106,11 +106,13 @@ class Afsluiting extends MwDossierStatus
 
     /**
      * @param mixed $resultaat
+     *
      * @return Afsluiting
      */
     public function setResultaat($resultaat)
     {
         $this->resultaat = $resultaat;
+
         return $this;
     }
 
@@ -124,11 +126,13 @@ class Afsluiting extends MwDossierStatus
 
     /**
      * @param mixed $locatie
+     *
      * @return Afsluiting
      */
     public function setLocatie($locatie)
     {
         $this->locatie = $locatie;
+
         return $this;
     }
 }

@@ -3,12 +3,9 @@
 namespace MwBundle\Form;
 
 use AppBundle\Form\BaseType;
-use MwBundle\Entity\BinnenVia;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolver;
 
 abstract class BinnenViaType extends AbstractType
 {
@@ -23,7 +20,6 @@ abstract class BinnenViaType extends AbstractType
             ->add('submit', SubmitType::class)
         ;
     }
-
 
     /**
      * {@inheritdoc}

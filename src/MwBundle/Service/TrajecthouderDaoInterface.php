@@ -23,13 +23,7 @@ interface TrajecthouderDaoInterface
      */
     public function find($id);
 
-    /**
-     * @param Trajecthouder $entity
-     */
     public function create(Trajecthouder $entity);
 
-    /**
-     * @param Trajecthouder $entity
-     */
     public function update(Trajecthouder $entity);
 }

@@ -2,17 +2,14 @@
 
 namespace MwBundle\Form;
 
-use AppBundle\Entity\Medewerker;
 use AppBundle\Form\AppDateRangeType;
 use AppBundle\Form\FilterType;
 use AppBundle\Form\KlantFilterType as AppKlantFilterType;
 use AppBundle\Form\StadsdeelSelectType;
 use Doctrine\ORM\EntityRepository;
 use InloopBundle\Entity\Locatie;
-use MwBundle\Filter\IntakeFilter;
 use InloopBundle\Service\LocatieDao;
-use InloopBundle\Service\LocatieDaoInterface;
-use MwBundle\Entity\Verslag;
+use MwBundle\Filter\IntakeFilter;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerAwareTrait;
@@ -26,16 +23,15 @@ class IntakeFilterType extends AbstractType implements ContainerAwareInterface
 
     /**
      * IntakeFilterType constructor.
-     * @param  $wachtlijstLocaties
+     *
+     * @param $wachtlijstLocaties
      */
-    protected $wachtlijstLocaties = array();
-
+    protected $wachtlijstLocaties = [];
 
     public function __construct(LocatieDao $locatieDao)
     {
 //        $this->wachtlijstLocaties = $locatieDao->getWachtlijstLocaties();
     }
-
 
     /**
      * {@inheritdoc}
@@ -54,16 +50,17 @@ class IntakeFilterType extends AbstractType implements ContainerAwareInterface
 //            ]);
             $builder->add('locatie', EntityType::class, [
                 'required' => false,
-                'class'=>Locatie::class,
+                'class' => Locatie::class,
 //                'data'=>$this->wachtlijstLocaties,
                 'query_builder' => function (EntityRepository $repository) {
                     $builder = $repository->createQueryBuilder('locatie')
-                        ->select("locatie")
+                        ->select('locatie')
                         ->where('locatie.wachtlijst > 0')
                         ->orderBy('locatie.naam')
 //                        ->setParameter("wachtlijstLocaties",$this->wachtlijstLocaties)
                     ;
                     $sql = $builder->getQuery()->getSQL();
+
                     return $builder;
 //                    ;
                 },

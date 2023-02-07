@@ -92,9 +92,6 @@ class Deelname
         return $this->vrijwilliger;
     }
 
-    /**
-     * @param Vrijwilliger $vrijwilliger
-     */
     public function setVrijwilliger(Vrijwilliger $vrijwilliger): void
     {
         $this->vrijwilliger = $vrijwilliger;
@@ -108,9 +105,6 @@ class Deelname
         return $this->datum;
     }
 
-    /**
-     * @param \DateTime $datum
-     */
     public function setDatum(\DateTime $datum): void
     {
         $this->datum = $datum;

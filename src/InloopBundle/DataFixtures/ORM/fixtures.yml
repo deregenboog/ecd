@@ -1,203 +1,760 @@
 InloopBundle\Entity\Locatie:
-    locatie_blaka_watra:
+    locatie_1:
         naam: 'Blaka Watra'
         nachtopvang: false
         gebruikersruimte: false
-        datumVan: '<dateTimeBetween("-30 days","now")>'
-        datumTot: '<dateTimeBetween("now","+2 years")>'
-        maatschappelijkWerk: false
-    locatie_princehof_gebruikersruimte:
+        maatschappelijkwerk: false
+        datumVan: '<date_create("2010-02-18")>'
+    locatie_2:
         naam: 'Princehof Gebruikersruimte'
         nachtopvang: false
         gebruikersruimte: true
-        datumVan: '<dateTimeBetween("-30 days","now")>'
-        datumTot: '<dateTimeBetween("now","+2 years")>'
-        maatschappelijkWerk: false
-    locatie_amoc:
+        maatschappelijkwerk: false
+        datumVan: '<date_create("2010-02-18")>'
+    locatie_5:
         naam: 'AMOC'
         nachtopvang: false
         gebruikersruimte: false
-        datumVan: '<dateTimeBetween("-30 days","now")>'
-        datumTot: '<dateTimeBetween("now","+2 weeks")>'
-        maatschappelijkWerk: false
-        tbcCheck: true
-    locatie_de_eik:
+        maatschappelijkwerk: false
+        datumVan: '<date_create("2010-04-29")>'
+    locatie_9:
         naam: 'De Eik'
         nachtopvang: false
         gebruikersruimte: false
-        datumVan: '<dateTimeBetween("-30 days","now")>'
-        datumTot: '<dateTimeBetween("now","+2 years")>'
-        maatschappelijkWerk: false
-    locatie_de_kloof:
+        maatschappelijkwerk: false
+        datumVan: '<date_create("2010-04-29")>'
+    locatie_10:
         naam: 'De Kloof'
         nachtopvang: false
         gebruikersruimte: false
-        datumVan: '<dateTimeBetween("-30 days","now")>'
-        datumTot: '<dateTimeBetween("now","+2 years")>'
-        maatschappelijkWerk: false
-    locatie_makom:
+        maatschappelijkwerk: false
+        datumVan: '<date_create("2010-04-29")>'
+    locatie_11:
         naam: 'Makom'
         nachtopvang: false
         gebruikersruimte: false
-        datumVan: '<dateTimeBetween("-30 days","now")>'
-        datumTot: '<dateTimeBetween("now","+2 years")>'
-        maatschappelijkWerk: false
-    locatie_nachtopvang_de_regenboog_groep:
-        naam: 'Nachtopvang DRG'
+        maatschappelijkwerk: false
+        datumVan: '<date_create("2010-04-29")>'
+    locatie_12:
+        naam: 'Nachtopvang De Regenboog Groep'
         nachtopvang: true
         gebruikersruimte: false
-        datumVan: '<dateTimeBetween("-30 days","now")>'
-        datumTot: '<dateTimeBetween("now","+2 years")>'
-        maatschappelijkWerk: false
-    locatie_zeeburg:
-        naam: 'Zeeburg'
+        maatschappelijkwerk: false
+        datumVan: '<date_create("2010-04-29")>'
+    locatie_13:
+        naam: 'Ondro Bong'
         nachtopvang: false
         gebruikersruimte: false
-        datumVan: '<dateTimeBetween("-30 days","now")>'
-        datumTot: '<dateTimeBetween("now","+2 years")>'
-        maatschappelijkWerk: false
-    locatie_transformatorweg:
-        naam: 'Transformatorweg'
-        nachtopvang: false
-        gebruikersruimte: false
-        datumVan: '<dateTimeBetween("-30 days","now")>'
-        datumTot: '<dateTimeBetween("now","+2 years")>'
-        maatschappelijkWerk: false
-    locatie_oud_west:
+        maatschappelijkwerk: false
+        datumVan: '<date_create("2010-04-29")>'
+    locatie_14:
         naam: 'Oud West'
         nachtopvang: false
         gebruikersruimte: false
-        datumVan: '<dateTimeBetween("-30 days","now")>'
-        datumTot: '<dateTimeBetween("now","+2 years")>'
-        maatschappelijkWerk: false
-    locatie_de_spreekbuis:
+        maatschappelijkwerk: false
+        datumVan: '<date_create("2010-04-29")>'
+    locatie_15:
         naam: 'De Spreekbuis'
         nachtopvang: false
         gebruikersruimte: false
-        datumVan: '<dateTimeBetween("-30 days","now")>'
-        datumTot: '<dateTimeBetween("now","+2 years")>'
-        maatschappelijkWerk: false
-    locatie_princehof_inloop:
+        maatschappelijkwerk: false
+        datumVan: '<date_create("2010-04-29")>'
+    locatie_16:
         naam: 'Princehof Inloop'
         nachtopvang: false
         gebruikersruimte: false
-        datumVan: '<dateTimeBetween("-30 days","now")>'
-        datumTot: '<dateTimeBetween("now","+2 years")>'
-        maatschappelijkWerk: false
-    locatie_vrouwen_nacht_opvang:
+        maatschappelijkwerk: false
+        datumVan: '<date_create("2010-04-29")>'
+    locatie_17:
         naam: 'Vrouwen Nacht Opvang'
         nachtopvang: true
         gebruikersruimte: false
-        datumVan: '<dateTimeBetween("-30 days","now")>'
-        datumTot: '<dateTimeBetween("now","+2 years")>'
-        maatschappelijkWerk: false
-    locatie_westerpark:
+        maatschappelijkwerk: false
+        datumVan: '<date_create("2010-04-29")>'
+    locatie_18:
         naam: 'Westerpark'
         nachtopvang: false
         gebruikersruimte: false
-        datumVan: '<dateTimeBetween("-30 days","now")>'
-        datumTot: '<dateTimeBetween("now","+2 years")>'
-        maatschappelijkWerk: false
-    locatie_droogbak:
+        maatschappelijkwerk: false
+        datumVan: '<date_create("2010-04-29")>'
+    locatie_19:
         naam: 'Droogbak'
         nachtopvang: false
         gebruikersruimte: false
-        datumVan: '<dateTimeBetween("-30 days","now")>'
-        datumTot: '<dateTimeBetween("now","+2 years")>'
-        maatschappelijkWerk: false
-    locatie_valentijn:
+        maatschappelijkwerk: false
+        datumVan: '<date_create("2011-11-08")>'
+    locatie_20:
         naam: 'Valentijn'
         nachtopvang: false
         gebruikersruimte: false
-        datumVan: '<dateTimeBetween("-30 days","now")>'
-        datumTot: '<dateTimeBetween("now","+2 years")>'
-        maatschappelijkWerk: false
-    locatie_blaka_watra_gebruikersruimte:
+        maatschappelijkwerk: false
+        datumVan: '<date_create("2011-11-08")>'
+    locatie_21:
         naam: 'Blaka Watra Gebruikersruimte'
         nachtopvang: false
         gebruikersruimte: true
-        datumVan: '<dateTimeBetween("-30 days","now")>'
-        datumTot: '<dateTimeBetween("now","+2 years")>'
-        maatschappelijkWerk: false
-    locatie_amoc_gebruikersruimte:
+        maatschappelijkwerk: false
+        datumVan: '<date_create("2011-11-08")>'
+    locatie_22:
         naam: 'Amoc Gebruikersruimte'
         nachtopvang: false
         gebruikersruimte: true
-        datumVan: '<dateTimeBetween("-30 days","now")>'
-        datumTot: '<dateTimeBetween("now","+2 years")>'
-        maatschappelijkWerk: false
-    locatie_noorderpark:
+        maatschappelijkwerk: false
+        datumVan: '<date_create("2011-11-08")>'
+    locatie_23:
         naam: 'Noorderpark'
         nachtopvang: false
         gebruikersruimte: false
-        datumVan: '<dateTimeBetween("-30 days","now")>'
-        datumTot: '<dateTimeBetween("now","+2 years")>'
-        maatschappelijkWerk: false
-    locatie_derde_schinkel:
+        maatschappelijkwerk: false
+        datumVan: '<date_create("2011-11-08")>'
+    locatie_24:
         naam: 'Derde Schinkel'
         nachtopvang: false
         gebruikersruimte: false
-        datumVan: '<dateTimeBetween("-30 days","now")>'
-        datumTot: '<dateTimeBetween("now","+2 years")>'
-        maatschappelijkWerk: false
-    locatie_politie:
+        maatschappelijkwerk: false
+        datumVan: '<date_create("2014-09-16")>'
+    locatie_25:
         naam: 'Politie'
         nachtopvang: false
         gebruikersruimte: false
-        datumVan: '<dateTimeBetween("-30 days","now")>'
-        datumTot: '<dateTimeBetween("now","+2 years")>'
-        maatschappelijkWerk: true
-    locatie_penitentiaire_inrichting:
+        maatschappelijkwerk: true
+        datumVan: '<date_create("2010-01-01")>'
+    locatie_26:
         naam: 'Penitentiaire Inrichting'
         nachtopvang: false
         gebruikersruimte: false
-        datumVan: '<dateTimeBetween("-30 days","now")>'
-        datumTot: '<dateTimeBetween("now","+2 years")>'
-        maatschappelijkWerk: true
+        maatschappelijkwerk: true
+        datumVan: '<date_create("2010-01-01")>'
+    locatie_27:
+        naam: 'Rederij Kees'
+        nachtopvang: false
+        gebruikersruimte: false
+        maatschappelijkwerk: true
+        datumVan: '<date_create("2010-01-01")>'
+    locatie_28:
+        naam: 'Verbergen locaties'
+        nachtopvang: false
+        gebruikersruimte: false
+        maatschappelijkwerk: true
+        datumVan: '<date_create("2010-01-01")>'
+    locatie_29:
+        naam: 'Westerpark'
+        nachtopvang: false
+        gebruikersruimte: false
+        maatschappelijkwerk: true
+        datumVan: '<date_create("2010-01-01")>'
+    locatie_30:
+        naam: 'De Eik'
+        nachtopvang: false
+        gebruikersruimte: false
+        maatschappelijkwerk: true
+        datumVan: '<date_create("2010-01-01")>'
+
+InloopBundle\Entity\Locatietijd:
+    locatietijd_1:
+        locatie: '@locatie_1'
+        dagVanDeWeek: 1
+        openingstijd: '<date_create("1970-01-01 10:30:00")>'
+        sluitingstijd: '<date_create("1970-01-01 18:30:00")>'
+    locatietijd_2:
+        locatie: '@locatie_1'
+        dagVanDeWeek: 2
+        openingstijd: '<date_create("1970-01-01 10:30:00")>'
+        sluitingstijd: '<date_create("1970-01-01 18:30:00")>'
+    locatietijd_3:
+        locatie: '@locatie_1'
+        dagVanDeWeek: 3
+        openingstijd: '<date_create("1970-01-01 10:30:00")>'
+        sluitingstijd: '<date_create("1970-01-01 18:30:00")>'
+    locatietijd_4:
+        locatie: '@locatie_1'
+        dagVanDeWeek: 4
+        openingstijd: '<date_create("1970-01-01 10:30:00")>'
+        sluitingstijd: '<date_create("1970-01-01 18:30:00")>'
+    locatietijd_5:
+        locatie: '@locatie_1'
+        dagVanDeWeek: 5
+        openingstijd: '<date_create("1970-01-01 10:30:00")>'
+        sluitingstijd: '<date_create("1970-01-01 18:30:00")>'
+    locatietijd_6:
+        locatie: '@locatie_1'
+        dagVanDeWeek: 6
+        openingstijd: '<date_create("1970-01-01 10:30:00")>'
+        sluitingstijd: '<date_create("1970-01-01 18:30:00")>'
+    locatietijd_7:
+        locatie: '@locatie_1'
+        dagVanDeWeek: 0
+        openingstijd: '<date_create("1970-01-01 10:30:00")>'
+        sluitingstijd: '<date_create("1970-01-01 18:30:00")>'
+    locatietijd_8:
+        locatie: '@locatie_2'
+        dagVanDeWeek: 1
+        openingstijd: '<date_create("1970-01-01 10:00:00")>'
+        sluitingstijd: '<date_create("1970-01-01 18:00:00")>'
+    locatietijd_9:
+        locatie: '@locatie_2'
+        dagVanDeWeek: 2
+        openingstijd: '<date_create("1970-01-01 10:00:00")>'
+        sluitingstijd: '<date_create("1970-01-01 18:00:00")>'
+    locatietijd_10:
+        locatie: '@locatie_2'
+        dagVanDeWeek: 3
+        openingstijd: '<date_create("1970-01-01 10:00:00")>'
+        sluitingstijd: '<date_create("1970-01-01 18:00:00")>'
+    locatietijd_11:
+        locatie: '@locatie_2'
+        dagVanDeWeek: 4
+        openingstijd: '<date_create("1970-01-01 10:00:00")>'
+        sluitingstijd: '<date_create("1970-01-01 18:00:00")>'
+    locatietijd_12:
+        locatie: '@locatie_2'
+        dagVanDeWeek: 5
+        openingstijd: '<date_create("1970-01-01 10:00:00")>'
+        sluitingstijd: '<date_create("1970-01-01 18:00:00")>'
+    locatietijd_13:
+        locatie: '@locatie_2'
+        dagVanDeWeek: 6
+        openingstijd: '<date_create("1970-01-01 10:00:00")>'
+        sluitingstijd: '<date_create("1970-01-01 18:00:00")>'
+    locatietijd_14:
+        locatie: '@locatie_2'
+        dagVanDeWeek: 0
+        openingstijd: '<date_create("1970-01-01 10:00:00")>'
+        sluitingstijd: '<date_create("1970-01-01 18:00:00")>'
+    locatietijd_15:
+        locatie: '@locatie_5'
+        dagVanDeWeek: 0
+        openingstijd: '<date_create("1970-01-01 10:00:00")>'
+        sluitingstijd: '<date_create("1970-01-01 20:00:00")>'
+    locatietijd_16:
+        locatie: '@locatie_5'
+        dagVanDeWeek: 1
+        openingstijd: '<date_create("1970-01-01 10:00:00")>'
+        sluitingstijd: '<date_create("1970-01-01 20:00:00")>'
+    locatietijd_17:
+        locatie: '@locatie_5'
+        dagVanDeWeek: 2
+        openingstijd: '<date_create("1970-01-01 10:00:00")>'
+        sluitingstijd: '<date_create("1970-01-01 20:00:00")>'
+    locatietijd_18:
+        locatie: '@locatie_5'
+        dagVanDeWeek: 3
+        openingstijd: '<date_create("1970-01-01 10:00:00")>'
+        sluitingstijd: '<date_create("1970-01-01 20:00:00")>'
+    locatietijd_19:
+        locatie: '@locatie_5'
+        dagVanDeWeek: 4
+        openingstijd: '<date_create("1970-01-01 10:00:00")>'
+        sluitingstijd: '<date_create("1970-01-01 20:00:00")>'
+    locatietijd_20:
+        locatie: '@locatie_5'
+        dagVanDeWeek: 5
+        openingstijd: '<date_create("1970-01-01 10:00:00")>'
+        sluitingstijd: '<date_create("1970-01-01 20:00:00")>'
+    locatietijd_21:
+        locatie: '@locatie_5'
+        dagVanDeWeek: 6
+        openingstijd: '<date_create("1970-01-01 10:00:00")>'
+        sluitingstijd: '<date_create("1970-01-01 20:00:00")>'
+    locatietijd_22:
+        locatie: '@locatie_9'
+        dagVanDeWeek: 0
+        openingstijd: '<date_create("1970-01-01 16:00:00")>'
+        sluitingstijd: '<date_create("1970-01-01 16:00:01")>'
+    locatietijd_23:
+        locatie: '@locatie_10'
+        dagVanDeWeek: 1
+        openingstijd: '<date_create("1970-01-01 08:30:00")>'
+        sluitingstijd: '<date_create("1970-01-01 15:00:00")>'
+    locatietijd_24:
+        locatie: '@locatie_10'
+        dagVanDeWeek: 2
+        openingstijd: '<date_create("1970-01-01 08:30:00")>'
+        sluitingstijd: '<date_create("1970-01-01 15:00:00")>'
+    locatietijd_25:
+        locatie: '@locatie_10'
+        dagVanDeWeek: 3
+        openingstijd: '<date_create("1970-01-01 08:30:00")>'
+        sluitingstijd: '<date_create("1970-01-01 15:00:00")>'
+    locatietijd_26:
+        locatie: '@locatie_10'
+        dagVanDeWeek: 4
+        openingstijd: '<date_create("1970-01-01 08:30:00")>'
+        sluitingstijd: '<date_create("1970-01-01 15:00:00")>'
+    locatietijd_27:
+        locatie: '@locatie_10'
+        dagVanDeWeek: 5
+        openingstijd: '<date_create("1970-01-01 08:30:00")>'
+        sluitingstijd: '<date_create("1970-01-01 15:00:00")>'
+    locatietijd_28:
+        locatie: '@locatie_11'
+        dagVanDeWeek: 0
+        openingstijd: '<date_create("1970-01-01 09:30:00")>'
+        sluitingstijd: '<date_create("1970-01-01 16:00:00")>'
+    locatietijd_29:
+        locatie: '@locatie_11'
+        dagVanDeWeek: 1
+        openingstijd: '<date_create("1970-01-01 12:00:00")>'
+        sluitingstijd: '<date_create("1970-01-01 20:30:00")>'
+    locatietijd_30:
+        locatie: '@locatie_11'
+        dagVanDeWeek: 2
+        openingstijd: '<date_create("1970-01-01 12:00:00")>'
+        sluitingstijd: '<date_create("1970-01-01 20:30:00")>'
+    locatietijd_31:
+        locatie: '@locatie_11'
+        dagVanDeWeek: 3
+        openingstijd: '<date_create("1970-01-01 12:00:00")>'
+        sluitingstijd: '<date_create("1970-01-01 20:30:00")>'
+    locatietijd_32:
+        locatie: '@locatie_11'
+        dagVanDeWeek: 5
+        openingstijd: '<date_create("1970-01-01 09:30:00")>'
+        sluitingstijd: '<date_create("1970-01-01 20:30:00")>'
+    locatietijd_33:
+        locatie: '@locatie_11'
+        dagVanDeWeek: 6
+        openingstijd: '<date_create("1970-01-01 09:30:00")>'
+        sluitingstijd: '<date_create("1970-01-01 13:00:00")>'
+    locatietijd_34:
+        locatie: '@locatie_12'
+        dagVanDeWeek: 0
+        openingstijd: '<date_create("1970-01-01 20:00:00")>'
+        sluitingstijd: '<date_create("1970-01-01 09:00:00")>'
+    locatietijd_35:
+        locatie: '@locatie_12'
+        dagVanDeWeek: 1
+        openingstijd: '<date_create("1970-01-01 20:00:00")>'
+        sluitingstijd: '<date_create("1970-01-01 09:00:00")>'
+    locatietijd_36:
+        locatie: '@locatie_12'
+        dagVanDeWeek: 2
+        openingstijd: '<date_create("1970-01-01 20:00:00")>'
+        sluitingstijd: '<date_create("1970-01-01 09:00:00")>'
+    locatietijd_37:
+        locatie: '@locatie_12'
+        dagVanDeWeek: 3
+        openingstijd: '<date_create("1970-01-01 20:00:00")>'
+        sluitingstijd: '<date_create("1970-01-01 09:00:00")>'
+    locatietijd_38:
+        locatie: '@locatie_12'
+        dagVanDeWeek: 4
+        openingstijd: '<date_create("1970-01-01 20:00:00")>'
+        sluitingstijd: '<date_create("1970-01-01 09:00:00")>'
+    locatietijd_39:
+        locatie: '@locatie_12'
+        dagVanDeWeek: 5
+        openingstijd: '<date_create("1970-01-01 20:00:00")>'
+        sluitingstijd: '<date_create("1970-01-01 09:00:00")>'
+    locatietijd_40:
+        locatie: '@locatie_12'
+        dagVanDeWeek: 6
+        openingstijd: '<date_create("1970-01-01 20:00:00")>'
+        sluitingstijd: '<date_create("1970-01-01 09:00:00")>'
+    locatietijd_41:
+        locatie: '@locatie_13'
+        dagVanDeWeek: 1
+        openingstijd: '<date_create("1970-01-01 11:00:00")>'
+        sluitingstijd: '<date_create("1970-01-01 18:00:00")>'
+    locatietijd_42:
+        locatie: '@locatie_13'
+        dagVanDeWeek: 2
+        openingstijd: '<date_create("1970-01-01 11:00:00")>'
+        sluitingstijd: '<date_create("1970-01-01 18:00:00")>'
+    locatietijd_43:
+        locatie: '@locatie_13'
+        dagVanDeWeek: 3
+        openingstijd: '<date_create("1970-01-01 11:00:00")>'
+        sluitingstijd: '<date_create("1970-01-01 18:00:00")>'
+    locatietijd_44:
+        locatie: '@locatie_13'
+        dagVanDeWeek: 4
+        openingstijd: '<date_create("1970-01-01 11:00:00")>'
+        sluitingstijd: '<date_create("1970-01-01 18:00:00")>'
+    locatietijd_45:
+        locatie: '@locatie_13'
+        dagVanDeWeek: 5
+        openingstijd: '<date_create("1970-01-01 11:00:00")>'
+        sluitingstijd: '<date_create("1970-01-01 18:00:00")>'
+    locatietijd_46:
+        locatie: '@locatie_14'
+        dagVanDeWeek: 0
+        openingstijd: '<date_create("1970-01-01 08:00:00")>'
+        sluitingstijd: '<date_create("1970-01-01 16:00:00")>'
+    locatietijd_47:
+        locatie: '@locatie_14'
+        dagVanDeWeek: 1
+        openingstijd: '<date_create("1970-01-01 08:00:00")>'
+        sluitingstijd: '<date_create("1970-01-01 16:00:00")>'
+    locatietijd_48:
+        locatie: '@locatie_14'
+        dagVanDeWeek: 2
+        openingstijd: '<date_create("1970-01-01 08:00:00")>'
+        sluitingstijd: '<date_create("1970-01-01 21:00:00")>'
+    locatietijd_49:
+        locatie: '@locatie_14'
+        dagVanDeWeek: 3
+        openingstijd: '<date_create("1970-01-01 08:00:00")>'
+        sluitingstijd: '<date_create("1970-01-01 16:00:00")>'
+    locatietijd_50:
+        locatie: '@locatie_14'
+        dagVanDeWeek: 4
+        openingstijd: '<date_create("1970-01-01 08:00:00")>'
+        sluitingstijd: '<date_create("1970-01-01 16:00:00")>'
+    locatietijd_51:
+        locatie: '@locatie_14'
+        dagVanDeWeek: 5
+        openingstijd: '<date_create("1970-01-01 08:00:00")>'
+        sluitingstijd: '<date_create("1970-01-01 16:00:00")>'
+    locatietijd_52:
+        locatie: '@locatie_14'
+        dagVanDeWeek: 6
+        openingstijd: '<date_create("1970-01-01 08:00:00")>'
+        sluitingstijd: '<date_create("1970-01-01 16:00:00")>'
+    locatietijd_53:
+        locatie: '@locatie_15'
+        dagVanDeWeek: 0
+        openingstijd: '<date_create("1970-01-01 08:00:00")>'
+        sluitingstijd: '<date_create("1970-01-01 13:00:00")>'
+    locatietijd_54:
+        locatie: '@locatie_15'
+        dagVanDeWeek: 1
+        openingstijd: '<date_create("1970-01-01 08:00:00")>'
+        sluitingstijd: '<date_create("1970-01-01 13:00:00")>'
+    locatietijd_55:
+        locatie: '@locatie_15'
+        dagVanDeWeek: 2
+        openingstijd: '<date_create("1970-01-01 08:00:00")>'
+        sluitingstijd: '<date_create("1970-01-01 13:00:00")>'
+    locatietijd_56:
+        locatie: '@locatie_15'
+        dagVanDeWeek: 3
+        openingstijd: '<date_create("1970-01-01 08:00:00")>'
+        sluitingstijd: '<date_create("1970-01-01 13:00:00")>'
+    locatietijd_57:
+        locatie: '@locatie_15'
+        dagVanDeWeek: 4
+        openingstijd: '<date_create("1970-01-01 08:00:00")>'
+        sluitingstijd: '<date_create("1970-01-01 13:00:00")>'
+    locatietijd_58:
+        locatie: '@locatie_15'
+        dagVanDeWeek: 5
+        openingstijd: '<date_create("1970-01-01 08:00:00")>'
+        sluitingstijd: '<date_create("1970-01-01 13:00:00")>'
+    locatietijd_59:
+        locatie: '@locatie_15'
+        dagVanDeWeek: 6
+        openingstijd: '<date_create("1970-01-01 08:00:00")>'
+        sluitingstijd: '<date_create("1970-01-01 13:00:00")>'
+    locatietijd_60:
+        locatie: '@locatie_16'
+        dagVanDeWeek: 1
+        openingstijd: '<date_create("1970-01-01 10:00:00")>'
+        sluitingstijd: '<date_create("1970-01-01 16:30:00")>'
+    locatietijd_61:
+        locatie: '@locatie_16'
+        dagVanDeWeek: 2
+        openingstijd: '<date_create("1970-01-01 10:00:00")>'
+        sluitingstijd: '<date_create("1970-01-01 16:30:00")>'
+    locatietijd_62:
+        locatie: '@locatie_16'
+        dagVanDeWeek: 3
+        openingstijd: '<date_create("1970-01-01 10:00:00")>'
+        sluitingstijd: '<date_create("1970-01-01 16:30:00")>'
+    locatietijd_63:
+        locatie: '@locatie_16'
+        dagVanDeWeek: 4
+        openingstijd: '<date_create("1970-01-01 10:00:00")>'
+        sluitingstijd: '<date_create("1970-01-01 16:30:00")>'
+    locatietijd_64:
+        locatie: '@locatie_16'
+        dagVanDeWeek: 5
+        openingstijd: '<date_create("1970-01-01 10:00:00")>'
+        sluitingstijd: '<date_create("1970-01-01 16:30:00")>'
+    locatietijd_65:
+        locatie: '@locatie_16'
+        dagVanDeWeek: 6
+        openingstijd: '<date_create("1970-01-01 10:00:00")>'
+        sluitingstijd: '<date_create("1970-01-01 16:30:00")>'
+    locatietijd_66:
+        locatie: '@locatie_17'
+        dagVanDeWeek: 1
+        openingstijd: '<date_create("1970-01-01 18:30:00")>'
+        sluitingstijd: '<date_create("1970-01-01 23:00:00")>'
+    locatietijd_67:
+        locatie: '@locatie_17'
+        dagVanDeWeek: 2
+        openingstijd: '<date_create("1970-01-01 18:30:00")>'
+        sluitingstijd: '<date_create("1970-01-01 23:00:00")>'
+    locatietijd_68:
+        locatie: '@locatie_17'
+        dagVanDeWeek: 3
+        openingstijd: '<date_create("1970-01-01 18:30:00")>'
+        sluitingstijd: '<date_create("1970-01-01 23:00:00")>'
+    locatietijd_69:
+        locatie: '@locatie_17'
+        dagVanDeWeek: 4
+        openingstijd: '<date_create("1970-01-01 18:30:00")>'
+        sluitingstijd: '<date_create("1970-01-01 23:00:00")>'
+    locatietijd_70:
+        locatie: '@locatie_17'
+        dagVanDeWeek: 5
+        openingstijd: '<date_create("1970-01-01 18:30:00")>'
+        sluitingstijd: '<date_create("1970-01-01 23:00:00")>'
+    locatietijd_71:
+        locatie: '@locatie_17'
+        dagVanDeWeek: 6
+        openingstijd: '<date_create("1970-01-01 18:30:00")>'
+        sluitingstijd: '<date_create("1970-01-01 23:00:00")>'
+    locatietijd_72:
+        locatie: '@locatie_18'
+        dagVanDeWeek: 0
+        openingstijd: '<date_create("1970-01-01 08:30:00")>'
+        sluitingstijd: '<date_create("1970-01-01 18:15:00")>'
+    locatietijd_73:
+        locatie: '@locatie_18'
+        dagVanDeWeek: 1
+        openingstijd: '<date_create("1970-01-01 08:30:00")>'
+        sluitingstijd: '<date_create("1970-01-01 18:15:00")>'
+    locatietijd_74:
+        locatie: '@locatie_18'
+        dagVanDeWeek: 2
+        openingstijd: '<date_create("1970-01-01 08:30:00")>'
+        sluitingstijd: '<date_create("1970-01-01 18:15:00")>'
+    locatietijd_75:
+        locatie: '@locatie_18'
+        dagVanDeWeek: 3
+        openingstijd: '<date_create("1970-01-01 08:30:00")>'
+        sluitingstijd: '<date_create("1970-01-01 18:15:00")>'
+    locatietijd_76:
+        locatie: '@locatie_18'
+        dagVanDeWeek: 4
+        openingstijd: '<date_create("1970-01-01 08:30:00")>'
+        sluitingstijd: '<date_create("1970-01-01 18:15:00")>'
+    locatietijd_77:
+        locatie: '@locatie_18'
+        dagVanDeWeek: 5
+        openingstijd: '<date_create("1970-01-01 08:30:00")>'
+        sluitingstijd: '<date_create("1970-01-01 18:15:00")>'
+    locatietijd_78:
+        locatie: '@locatie_18'
+        dagVanDeWeek: 6
+        openingstijd: '<date_create("1970-01-01 08:30:00")>'
+        sluitingstijd: '<date_create("1970-01-01 18:15:00")>'
+    locatietijd_79:
+        locatie: '@locatie_19'
+        dagVanDeWeek: 0
+        openingstijd: '<date_create("1970-01-01 11:00:00")>'
+        sluitingstijd: '<date_create("1970-01-01 19:00:00")>'
+    locatietijd_80:
+        locatie: '@locatie_19'
+        dagVanDeWeek: 1
+        openingstijd: '<date_create("1970-01-01 11:00:00")>'
+        sluitingstijd: '<date_create("1970-01-01 19:00:00")>'
+    locatietijd_81:
+        locatie: '@locatie_19'
+        dagVanDeWeek: 2
+        openingstijd: '<date_create("1970-01-01 11:00:00")>'
+        sluitingstijd: '<date_create("1970-01-01 19:00:00")>'
+    locatietijd_82:
+        locatie: '@locatie_19'
+        dagVanDeWeek: 3
+        openingstijd: '<date_create("1970-01-01 11:00:00")>'
+        sluitingstijd: '<date_create("1970-01-01 19:00:00")>'
+    locatietijd_83:
+        locatie: '@locatie_19'
+        dagVanDeWeek: 4
+        openingstijd: '<date_create("1970-01-01 11:00:00")>'
+        sluitingstijd: '<date_create("1970-01-01 19:00:00")>'
+    locatietijd_84:
+        locatie: '@locatie_19'
+        dagVanDeWeek: 5
+        openingstijd: '<date_create("1970-01-01 11:00:00")>'
+        sluitingstijd: '<date_create("1970-01-01 19:00:00")>'
+    locatietijd_85:
+        locatie: '@locatie_19'
+        dagVanDeWeek: 6
+        openingstijd: '<date_create("1970-01-01 11:00:00")>'
+        sluitingstijd: '<date_create("1970-01-01 19:00:00")>'
+    locatietijd_86:
+        locatie: '@locatie_20'
+        dagVanDeWeek: 1
+        openingstijd: '<date_create("1970-01-01 09:00:00")>'
+        sluitingstijd: '<date_create("1970-01-01 16:00:00")>'
+    locatietijd_87:
+        locatie: '@locatie_20'
+        dagVanDeWeek: 2
+        openingstijd: '<date_create("1970-01-01 09:00:00")>'
+        sluitingstijd: '<date_create("1970-01-01 16:00:00")>'
+    locatietijd_88:
+        locatie: '@locatie_20'
+        dagVanDeWeek: 3
+        openingstijd: '<date_create("1970-01-01 09:00:00")>'
+        sluitingstijd: '<date_create("1970-01-01 16:00:00")>'
+    locatietijd_89:
+        locatie: '@locatie_20'
+        dagVanDeWeek: 4
+        openingstijd: '<date_create("1970-01-01 09:00:00")>'
+        sluitingstijd: '<date_create("1970-01-01 16:00:00")>'
+    locatietijd_90:
+        locatie: '@locatie_20'
+        dagVanDeWeek: 5
+        openingstijd: '<date_create("1970-01-01 09:00:00")>'
+        sluitingstijd: '<date_create("1970-01-01 16:00:00")>'
+    locatietijd_91:
+        locatie: '@locatie_20'
+        dagVanDeWeek: 6
+        openingstijd: '<date_create("1970-01-01 09:00:00")>'
+        sluitingstijd: '<date_create("1970-01-01 16:00:00")>'
+    locatietijd_92:
+        locatie: '@locatie_21'
+        dagVanDeWeek: 0
+        openingstijd: '<date_create("1970-01-01 11:00:00")>'
+        sluitingstijd: '<date_create("1970-01-01 19:00:00")>'
+    locatietijd_93:
+        locatie: '@locatie_21'
+        dagVanDeWeek: 1
+        openingstijd: '<date_create("1970-01-01 11:00:00")>'
+        sluitingstijd: '<date_create("1970-01-01 19:00:00")>'
+    locatietijd_94:
+        locatie: '@locatie_21'
+        dagVanDeWeek: 2
+        openingstijd: '<date_create("1970-01-01 11:00:00")>'
+        sluitingstijd: '<date_create("1970-01-01 19:00:00")>'
+    locatietijd_95:
+        locatie: '@locatie_21'
+        dagVanDeWeek: 3
+        openingstijd: '<date_create("1970-01-01 11:00:00")>'
+        sluitingstijd: '<date_create("1970-01-01 19:00:00")>'
+    locatietijd_96:
+        locatie: '@locatie_21'
+        dagVanDeWeek: 4
+        openingstijd: '<date_create("1970-01-01 11:00:00")>'
+        sluitingstijd: '<date_create("1970-01-01 19:00:00")>'
+    locatietijd_97:
+        locatie: '@locatie_21'
+        dagVanDeWeek: 5
+        openingstijd: '<date_create("1970-01-01 11:00:00")>'
+        sluitingstijd: '<date_create("1970-01-01 19:00:00")>'
+    locatietijd_98:
+        locatie: '@locatie_21'
+        dagVanDeWeek: 6
+        openingstijd: '<date_create("1970-01-01 11:00:00")>'
+        sluitingstijd: '<date_create("1970-01-01 19:00:00")>'
+    locatietijd_99:
+        locatie: '@locatie_22'
+        dagVanDeWeek: 0
+        openingstijd: '<date_create("1970-01-01 10:00:00")>'
+        sluitingstijd: '<date_create("1970-01-01 20:00:00")>'
+    locatietijd_100:
+        locatie: '@locatie_22'
+        dagVanDeWeek: 1
+        openingstijd: '<date_create("1970-01-01 10:00:00")>'
+        sluitingstijd: '<date_create("1970-01-01 20:00:00")>'
+    locatietijd_101:
+        locatie: '@locatie_22'
+        dagVanDeWeek: 2
+        openingstijd: '<date_create("1970-01-01 10:00:00")>'
+        sluitingstijd: '<date_create("1970-01-01 20:00:00")>'
+    locatietijd_102:
+        locatie: '@locatie_22'
+        dagVanDeWeek: 3
+        openingstijd: '<date_create("1970-01-01 10:00:00")>'
+        sluitingstijd: '<date_create("1970-01-01 20:00:00")>'
+    locatietijd_103:
+        locatie: '@locatie_22'
+        dagVanDeWeek: 4
+        openingstijd: '<date_create("1970-01-01 10:00:00")>'
+        sluitingstijd: '<date_create("1970-01-01 20:00:00")>'
+    locatietijd_104:
+        locatie: '@locatie_22'
+        dagVanDeWeek: 5
+        openingstijd: '<date_create("1970-01-01 10:00:00")>'
+        sluitingstijd: '<date_create("1970-01-01 20:00:00")>'
+    locatietijd_105:
+        locatie: '@locatie_22'
+        dagVanDeWeek: 6
+        openingstijd: '<date_create("1970-01-01 10:00:00")>'
+        sluitingstijd: '<date_create("1970-01-01 20:00:00")>'
+    locatietijd_106:
+        locatie: '@locatie_23'
+        dagVanDeWeek: 0
+        openingstijd: '<date_create("1970-01-01 09:00:00")>'
+        sluitingstijd: '<date_create("1970-01-01 21:00:00")>'
+    locatietijd_107:
+        locatie: '@locatie_23'
+        dagVanDeWeek: 1
+        openingstijd: '<date_create("1970-01-01 09:00:00")>'
+        sluitingstijd: '<date_create("1970-01-01 21:00:00")>'
+    locatietijd_108:
+        locatie: '@locatie_23'
+        dagVanDeWeek: 2
+        openingstijd: '<date_create("1970-01-01 09:00:00")>'
+        sluitingstijd: '<date_create("1970-01-01 21:00:00")>'
+    locatietijd_109:
+        locatie: '@locatie_23'
+        dagVanDeWeek: 3
+        openingstijd: '<date_create("1970-01-01 09:00:00")>'
+        sluitingstijd: '<date_create("1970-01-01 21:00:00")>'
+    locatietijd_110:
+        locatie: '@locatie_23'
+        dagVanDeWeek: 4
+        openingstijd: '<date_create("1970-01-01 09:00:00")>'
+        sluitingstijd: '<date_create("1970-01-01 21:00:00")>'
+    locatietijd_111:
+        locatie: '@locatie_23'
+        dagVanDeWeek: 5
+        openingstijd: '<date_create("1970-01-01 09:00:00")>'
+        sluitingstijd: '<date_create("1970-01-01 21:00:00")>'
+    locatietijd_112:
+        locatie: '@locatie_23'
+        dagVanDeWeek: 6
+        openingstijd: '<date_create("1970-01-01 09:00:00")>'
+        sluitingstijd: '<date_create("1970-01-01 21:00:00")>'
 
 InloopBundle\Entity\Woonsituatie:
-    woonsituatie_1:
-        naam: 'Eigen huis'
-        datumVan: '<dateTime("01-01-2006")>'
-        datumTot: '<dateTime("01-01-2100")>'
-    woonsituatie_2:
+    woonsituatie_10:
+        naam: 'Eigen huis (huur/koop)'
+        datumVan: '<date_create("2010-01-06")>'
+    woonsituatie_11:
+        naam: 'Pension/kosthuis'
+        datumVan: '<date_create("2010-01-06")>'
+    woonsituatie_12:
         naam: 'Ouderlijk huis'
-        datumVan: '<dateTime("01-01-2010")>'
-        datumTot: '<dateTime("01-01-2100")>'
-    woonsituatie_3:
+        datumVan: '<date_create("2010-01-06")>'
+    woonsituatie_13:
         naam: 'Op kamers'
-        datumVan: '<dateTime("01-01-2010")>'
-        datumTot: '<dateTime("01-01-2100")>'
-    woonsituatie_4:
-        naam: 'Klinische voorziening'
-        datumVan: '<dateTime("01-01-2010")>'
-        datumTot: '<dateTime("01-01-2100")>'
-    woonsituatie_5:
-        naam: 'Tehuis voor dak- en thuislozen/sociaal pension'
-        datumVan: '<dateTime("01-01-2010")>'
-        datumTot: '<dateTime("01-01-2100")>'
-    woonsituatie_6:
-        naam: 'Op straat/zwervend'
-        datumVan: '<dateTime("01-01-2010")>'
-        datumTot: '<dateTime("01-01-2100")>'
-    woonsituatie_7:
-        naam: 'Anderszins'
-        datumVan: '<dateTime("01-01-2010")>'
-        datumTot: '<dateTime("01-01-2100")>'
-    woonsituatie_8:
-        naam: 'Onbekend'
-        datumVan: '<dateTime("01-01-2010")>'
-        datumTot: '<dateTime("01-01-2100")>'
-    woonsituatie_9:
+        datumVan: '<date_create("2010-01-06")>'
+    woonsituatie_14:
+        naam: 'Familie/kennissen/relatie'
+        datumVan: '<date_create("2010-01-06")>'
+    woonsituatie_15:
         naam: 'Penitentiaire inrichting'
-        datumVan: '<dateTime("01-01-2010")>'
-        datumTot: '<dateTime("01-01-2100")>'
+        datumVan: '<date_create("2010-01-06")>'
+    woonsituatie_16:
+        naam: 'Klinische voorziening'
+        datumVan: '<date_create("2010-01-06")>'
+    woonsituatie_17:
+        naam: 'Andersoortig instituut'
+        datumVan: '<date_create("2010-01-06")>'
+    woonsituatie_19:
+        naam: 'Tehuis voor vak- en thuislozen/sociaal pension'
+        datumVan: '<date_create("2010-01-06")>'
+    woonsituatie_97:
+        naam: 'Op straat/zwervend'
+        datumVan: '<date_create("2010-01-06")>'
+    woonsituatie_98:
+        naam: 'Anderszins'
+        datumVan: '<date_create("2010-01-06")>'
+    woonsituatie_99:
+        naam: 'Onbekend'
+        datumVan: '<date_create("2010-01-06")>'
 
 AppBundle\Entity\Inkomen:
     inkomen_uitkering:
         naam: 'Uitkering'
-        datumVan: '<dateTime("01-01-2010")>'
-        datumTot: '<dateTime("01-01-2100")>'
+        datumVan: '<date_create("2010-01-01")>'
+        datumTot: '<date_create("2100-01-01")>'
 
 InloopBundle\Entity\Aanmelding:
     aanmelding_201:
@@ -461,7 +1018,7 @@ InloopBundle\Entity\Intake:
         medewerker: '@medewerker_inloop'
         intakedatum: '<dateTimeBetween("-6 days","now")>'
         toegangInloophuis: true
-        intakelocatie: '@locatie_amoc'
+        intakelocatie: '@locatie_5'
         doelgroep: true
         verblijfInAmsterdamSinds: '<dateTimeThisDecade()>'
         inkomens: ['@inkomen_uitkering']
@@ -481,7 +1038,7 @@ InloopBundle\Entity\Intake:
         medewerker: '@medewerker_inloop'
         intakedatum: '<dateTimeBetween("-6 days","now")>'
         toegangInloophuis: true
-        intakelocatie: '@locatie_amoc'
+        intakelocatie: '@locatie_5'
         doelgroep: true
         verblijfInAmsterdamSinds: '<dateTimeThisDecade()>'
         inkomens: ['@inkomen_uitkering']
@@ -501,7 +1058,7 @@ InloopBundle\Entity\Intake:
         medewerker: '@medewerker_inloop'
         intakedatum: '<dateTimeBetween("-6 days","now")>'
         toegangInloophuis: true
-        intakelocatie: '@locatie_amoc'
+        intakelocatie: '@locatie_5'
         doelgroep: true
         verblijfInAmsterdamSinds: '<dateTimeThisDecade()>'
         inkomens: ['@inkomen_uitkering']
@@ -522,7 +1079,7 @@ InloopBundle\Entity\Intake:
         medewerker: '@medewerker_inloop'
         intakedatum: '<dateTimeBetween("-6 days","now")>'
         toegangInloophuis: true
-        intakelocatie: '@locatie_amoc'
+        intakelocatie: '@locatie_5'
         doelgroep: true
         verblijfInAmsterdamSinds: '<dateTimeThisDecade()>'
         inkomens: ['@inkomen_uitkering']
@@ -542,7 +1099,7 @@ InloopBundle\Entity\Intake:
         medewerker: '@medewerker_inloop'
         intakedatum: '<dateTimeBetween("-6 days","now")>'
         toegangInloophuis: true
-        intakelocatie: '@locatie_makom'
+        intakelocatie: '@locatie_11'
         doelgroep: true
         verblijfInAmsterdamSinds: '<dateTimeThisDecade()>'
         inkomens: ['@inkomen_uitkering']
@@ -558,3 +1115,158 @@ InloopBundle\Entity\Intake:
         amocToegangTot: '<dateTimeBetween("-1 days","-1 days")>'
         overigenToegangVan: '<dateTimeBetween("+30 days","+30 days")>'
         zrm: '@zrm_205'
+
+InloopBundle\Entity\Infobaliedoelgroep:
+    infobaliedoelgroep_1:
+        naam: 'De Regenboog Groep'
+    infobaliedoelgroep_2:
+        naam: 'Informatie en advies'
+
+InloopBundle\Entity\Instantie:
+    instantie_1:
+        naam: 'Geen'
+        datumVan: '<date_create("2010-01-13")>'
+        datumTot: '<date_create("2100-01-01")>'
+    instantie_2:
+        naam: 'GGD'
+        datumVan: '<date_create("2010-01-13")>'
+        datumTot: '<date_create("2100-01-01")>'
+    instantie_3:
+        naam: 'Psychiatrie'
+        datumVan: '<date_create("2010-01-13")>'
+        datumTot: '<date_create("2100-01-01")>'
+    instantie_4:
+        naam: 'Reclassering'
+        datumVan: '<date_create("2010-01-01")>'
+        datumTot: '<date_create("2100-01-01")>'
+    instantie_5:
+        naam: 'Verslavingszorg'
+        datumVan: '<date_create("2010-01-13")>'
+        datumTot: '<date_create("2100-01-01")>'
+    instantie_6:
+        naam: 'Overig'
+        datumVan: '<date_create("2010-01-13")>'
+        datumTot: '<date_create("2100-01-01")>'
+    instantie_7:
+        naam: 'Onbekend'
+        datumVan: '<date_create("2010-01-13")>'
+        datumTot: '<date_create("2100-01-01")>'
+
+InloopBundle\Entity\SchorsingReden:
+    schorsingsreden_1:
+        naam: 'Dealen'
+    schorsingsreden_2:
+        naam: 'Drinken'
+    schorsingsreden_3:
+        naam: 'Drugs gebruiken'
+    schorsingsreden_4:
+        naam: 'Stelen'
+    schorsingsreden_5:
+        naam: 'Fysieke agressie'
+    schorsingsreden_6:
+        naam: 'Verbale agressie'
+    schorsingsreden_7:
+        naam: 'Overlast omgeving locatie'
+    schorsingsreden_100:
+        naam: 'Overig'
+
+InloopBundle\Entity\Verslaving:
+    verslaving_1:
+        naam: 'Alcohol'
+        datumVan: '<date_create("2010-01-06")>'
+    verslaving_2:
+        naam: 'Amfetamine'
+        datumVan: '<date_create("2010-01-06")>'
+    verslaving_3:
+        naam: 'Cannabis'
+        datumVan: '<date_create("2010-01-06")>'
+    verslaving_4:
+        naam: 'Cocaine'
+        datumVan: '<date_create("2010-01-06")>'
+    verslaving_5:
+        naam: 'Ecstasy'
+        datumVan: '<date_create("2010-01-06")>'
+    verslaving_6:
+        naam: 'Gokken'
+        datumVan: '<date_create("2010-01-06")>'
+    verslaving_7:
+        naam: 'Heroine'
+        datumVan: '<date_create("2010-01-06")>'
+    verslaving_8:
+        naam: 'Medicijnen'
+        datumVan: '<date_create("2010-01-06")>'
+    verslaving_9:
+        naam: 'Methadon'
+        datumVan: '<date_create("2010-01-06")>'
+
+InloopBundle\Entity\Frequentie:
+    frequentie_1:
+        naam: 'Niet van toepassing'
+        datumVan: '<date_create("2010-01-01")>'
+    frequentie_2:
+        naam: 'Meerdere keren per dag'
+        datumVan: '<date_create("2010-01-13")>'
+    frequentie_3:
+        naam: 'Dagelijks'
+        datumVan: '<date_create("2010-01-13")>'
+    frequentie_4:
+        naam: 'Meerdere keren per week'
+        datumVan: '<date_create("2010-01-13")>'
+    frequentie_5:
+        naam: 'Wekelijks'
+        datumVan: '<date_create("2010-01-13")>'
+    frequentie_6:
+        naam: 'Onregelmatig'
+        datumVan: '<date_create("2010-01-13")>'
+
+InloopBundle\Entity\Gebruikswijze:
+    gebruikswijze_1:
+        naam: 'Basen'
+        datumVan: '<date_create("2010-01-01")>'
+    gebruikswijze_2:
+        naam: 'Chinezen'
+        datumVan: '<date_create("2010-01-01")>'
+    gebruikswijze_3:
+        naam: 'Drinken'
+        datumVan: '<date_create("2010-01-01")>'
+    gebruikswijze_4:
+        naam: 'Roken'
+        datumVan: '<date_create("2010-01-01")>'
+    gebruikswijze_5:
+        naam: 'Slikken'
+        datumVan: '<date_create("2010-01-01")>'
+    gebruikswijze_6:
+        naam: 'Snuiven'
+        datumVan: '<date_create("2010-01-01")>'
+    gebruikswijze_7:
+        naam: 'Spuiten'
+        datumVan: '<date_create("2010-01-01")>'
+
+InloopBundle\Entity\Periode:
+    periode_1:
+        naam: 'Niet van toepassing'
+        datumVan: '<date_create("2010-01-01")>'
+    periode_2:
+        naam: 'Minder dan 3 maanden'
+        datumVan: '<date_create("2010-01-13")>'
+    periode_3:
+        naam: '3 tot 6 maanden'
+        datumVan: '<date_create("2010-01-13")>'
+    periode_4:
+        naam: '6 tot 12 maanden'
+        datumVan: '<date_create("2010-01-13")>'
+    periode_5:
+        naam: '1 tot 2 jaar'
+        datumVan: '<date_create("2010-01-13")>'
+    periode_6:
+        naam: '2 tot 5 jaar'
+        datumVan: '<date_create("2010-01-13")>'
+    periode_7:
+        naam: '5 tot 10 jaar'
+        datumVan: '<date_create("2010-01-13")>'
+    periode_8:
+        naam: 'Meer dan 10 jaar'
+        datumVan: '<date_create("2010-01-13")>'
+    periode_9:
+        naam: 'Onbekend'
+        datumVan: '<date_create("2010-01-13")>'

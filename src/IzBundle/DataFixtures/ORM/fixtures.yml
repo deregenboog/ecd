@@ -51,7 +51,7 @@ IzBundle\Entity\AfsluitredenKoppeling:
         actief: true
 
 IzBundle\Entity\Doelstelling:
-    doelstelling_{1..25}:
+    iz_doelstelling_{1..25}:
         project: '@iz_project_*'
         jaar: '<numberBetween(2020, 2022)>'
         aantal: '<numberBetween(10, 500)>'
@@ -267,12 +267,10 @@ IzBundle\Entity\Project:
     iz_project_MZO - maatje:
         naam: 'MZO - maatje'
         startdatum: '<(new Datetime("2014-01-01"))>'
-        einddatum: NULL
         heeftKoppelingen: true
     iz_project_AV - maatje:
         naam: 'AV - maatje'
         startdatum: '<(new Datetime("2014-01-01"))>'
-        einddatum: NULL
         heeftKoppelingen: true
     iz_project_maatje sport:
         naam: 'maatje sport'
@@ -282,7 +280,6 @@ IzBundle\Entity\Project:
     iz_project_AV - maatje jong:
         naam: 'AV - maatje jong (SY)'
         startdatum: '<(new Datetime("2014-01-01"))>'
-        einddatum: NULL
         heeftKoppelingen: true
     iz_project_maatje telefoon:
         naam: 'maatje telefoon'
@@ -307,57 +304,46 @@ IzBundle\Entity\Project:
     iz_project_BZ - buddy:
         naam: 'BZ - buddy'
         startdatum: '<(new Datetime("2014-01-01"))>'
-        einddatum: NULL
         heeftKoppelingen: true
     iz_project_VONK - maatje:
         naam: 'VONK - maatje'
         startdatum: '<(new Datetime("2014-01-01"))>'
-        einddatum: NULL
         heeftKoppelingen: true
     iz_project_VJN - coach:
         naam: 'VJN - coach'
         startdatum: '<(new Datetime("2014-01-01"))>'
-        einddatum: NULL
         heeftKoppelingen: true
     iz_project_PM - maatje:
         naam: 'PM - maatje'
         startdatum: '<(new Datetime("2014-01-01"))>'
-        einddatum: NULL
         heeftKoppelingen: true
     iz_project_TC - coach:
         naam: 'TC - coach'
         startdatum: '<(new Datetime("2014-01-01"))>'
-        einddatum: NULL
         heeftKoppelingen: true
     iz_project_RBS - buddy:
         naam: 'RBS - buddy'
         startdatum: '<(new Datetime("2014-01-01"))>'
-        einddatum: NULL
         heeftKoppelingen: true
     iz_project_2forT - maatje:
         naam: '2forT - maatje'
         startdatum: '<(new Datetime("2014-01-01"))>'
-        einddatum: NULL
         heeftKoppelingen: true
     iz_project_BdH - maatje:
         naam: 'BdH - maatje'
         startdatum: '<(new Datetime("2014-01-01"))>'
-        einddatum: NULL
         heeftKoppelingen: true
     iz_project_Toeleidingsmaatje:
         naam: 'Toeleidingsmaatje'
         startdatum: '<(new Datetime("2014-01-01"))>'
-        einddatum: NULL
         heeftKoppelingen: true
     iz_project_BT - coach:
         naam: 'BT - coach'
         startdatum: '<(new Datetime("2014-01-01"))>'
-        einddatum: NULL
         heeftKoppelingen: true
     iz_project_Grip op je Geld:
         naam: 'Grip op je Geld'
         startdatum: '<(new Datetime("2015-01-01"))>'
-        einddatum: NULL
         heeftKoppelingen: true
     iz_project_Inloopvrijwilliger:
         naam: 'Inloopvrijwilliger'
@@ -372,12 +358,10 @@ IzBundle\Entity\Project:
     iz_project_RBS - vluchtelingen:
         naam: 'RBS - vluchtelingen'
         startdatum: '<(new Datetime("2016-01-01"))>'
-        einddatum: NULL
         heeftKoppelingen: true
     iz_project_Nazorg:
         naam: 'Nazorg'
         startdatum: '<(new Datetime("2016-08-01"))>'
-        einddatum: NULL
         heeftKoppelingen: false
 
 IzBundle\Entity\EindeVraagAanbod:
@@ -403,7 +387,7 @@ IzBundle\Entity\Hulpvraagsoort:
         naam (unique): '<word()>'
 
 IzBundle\Entity\IzKlant:
-    iz_klant_{1..10}:
+    iz_klant_{11..20}:
         klant: '@klant_<current()>'
         datumAanmelding: '<dateTimeThisDecade()>'
         afsluitDatum: '30%? <dateTimeThisDecade()>'
@@ -419,12 +403,12 @@ IzBundle\Entity\IzVrijwilliger:
         binnengekomenVia: '30%? @iz_binnengekomen_via_*'
 
 IzBundle\Entity\Intake:
-    iz_intake_klant_{1..10}:
-        izDeelnemer: '@iz_klant_<current()>'
+    iz_intake_{1..10}:
+        izDeelnemer: '@iz_vrijwilliger_<current()>'
         intakeDatum: '<dateTimeThisDecade()>'
         medewerker: '@medewerker_*'
-    iz_intake_vrijwilliger_{1..10}:
-        izDeelnemer: '@iz_vrijwilliger_<current()>'
+    iz_intake_{11..20}:
+        izDeelnemer: '@iz_klant_<current()>'
         intakeDatum: '<dateTimeThisDecade()>'
         medewerker: '@medewerker_*'
 

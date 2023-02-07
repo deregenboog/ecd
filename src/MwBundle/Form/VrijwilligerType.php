@@ -4,13 +4,12 @@ namespace MwBundle\Form;
 
 use InloopBundle\Form\VrijwilligerTypeAbstract;
 use MwBundle\Entity\Vrijwilliger;
-use MwBundle\MwBundle;
 use Symfony\Component\Form\FormBuilderInterface;
-
 
 class VrijwilligerType extends VrijwilligerTypeAbstract
 {
     protected $dataClass = Vrijwilliger::class;
+
     /**
      * {@inheritdoc}
      */
@@ -18,8 +17,8 @@ class VrijwilligerType extends VrijwilligerTypeAbstract
     {
         parent::buildForm($builder, $options);
 
-        $builder->remove("tweedeFase");
-        $builder->remove("startDatum");
-        $builder->remove("medewerkerLocatie");
+        $builder->remove('tweedeFase');
+        $builder->remove('startDatum');
+        $builder->remove('medewerkerLocatie');
     }
 }

@@ -31,6 +31,11 @@ interface KlantDaoInterface
     public function findOneByKlant(AppKlant $appKlant);
 
     /**
+     * @param AppKlant $appKlant
+     */
+    public function createForKlant(AppKlant $appKlant);
+
+    /**
      * @param Klant $klant
      */
     public function create(Klant $klant);

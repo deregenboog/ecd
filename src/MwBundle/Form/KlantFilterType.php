@@ -3,27 +3,18 @@
 namespace MwBundle\Form;
 
 use AppBundle\Entity\Medewerker;
-use AppBundle\Entity\Werkgebied;
 use AppBundle\Form\AppDateRangeType;
 use AppBundle\Form\FilterType;
-use AppBundle\Form\MedewerkerFilterType as AppMedewerkerFilterType;
 use AppBundle\Form\KlantFilterType as AppKlantFilterType;
-use AppBundle\Form\WerkgebiedSelectType;
 use Doctrine\ORM\EntityRepository;
-use GaBundle\Form\SelectieType;
-use InloopBundle\Entity\Locatie;
 use InloopBundle\Form\LocatieSelectType;
-use MwBundle\Entity\Aanmelding;
-use MwBundle\Entity\MwDossierStatus;
 use MwBundle\Entity\Verslag;
 use MwBundle\Filter\KlantFilter;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Validator\Constraints\Choice;
 
 class KlantFilterType extends AbstractType
 {
@@ -47,38 +38,24 @@ class KlantFilterType extends AbstractType
         if (in_array('maatschappelijkWerker', $options['enabled_filters'])) {
             $builder->add('maatschappelijkWerker', EntityType::class, [
                 'required' => false,
-                'class'=>Medewerker::class,
+                'class' => Medewerker::class,
                 'query_builder' => function (EntityRepository $repository) {
                     $builder = $repository->createQueryBuilder('medewerker')
-                        ->select("medewerker")
+                        ->select('medewerker')
                         ->innerJoin(Verslag::class, 'verslag', 'WITH', 'verslag.medewerker = medewerker')
                         ->where('verslag.type = 1')
                         ->orderBy('medewerker.voornaam')
                         ->groupBy('verslag.medewerker')
                         ;
                     $sql = $builder->getQuery()->getSQL();
+
                     return $builder;
-                    ;
                 },
             ]);
-
         }
-        if (in_array('gebruikersruimte', $options['enabled_filters'])) {
-            $builder->add('gebruikersruimte', LocatieSelectType::class, [
-                'required' => false,
-                'gebruikersruimte' => true,
-            ]);
-        }
-
 
         if (in_array('laatsteIntakeDatum', $options['enabled_filters'])) {
             $builder->add('laatsteIntakeDatum', AppDateRangeType::class, [
-                'required' => false,
-            ]);
-        }
-
-        if (in_array('laatsteVerslagLocatie', $options['enabled_filters'])) {
-            $builder->add('laatsteVerslagLocatie', LocatieSelectType::class, [
                 'required' => false,
             ]);
         }
@@ -91,11 +68,21 @@ class KlantFilterType extends AbstractType
 
         if (in_array('huidigeMwStatus', $options['enabled_filters'])) {
             $builder->add('huidigeMwStatus', ChoiceType::class, [
+                'choices' => [
+                    'Aangemaakt' => 'aangemaakt',
+                    'Aangemeld' => 'aangemeld',
+                    'Intake Algemeen afgerond' => 'intake_algemeen_afgerond',
+                    'Intake huisvesting afgerond' => 'intake_huisvesting_afgerond',
+                    'Intake inkomen afgerond' => 'intake_inkomen_afgerond',
+                    'Intake welzijn afgerond' => 'intake_welzijn_afgerond',
+                    'Intake administratie afgerond' => 'intake_administratie_afgerond',
+                    'Intake verwachting afgerond' => 'intake_verwachting_afgerond',
+                    'Intake_gezin afgerond' => 'intake_gezin_afgerond',
+                    'In traject' => 'in_traject',
+                    'Afgesloten' => 'afgesloten',
 
-                'choices'=>['Aangemeld'=>'Aanmelding','Afgesloten'=>'Afsluiting'],
+                ],
                 'required' => false,
-               'data'=>'Aanmelding'
-
             ]);
         }
     }

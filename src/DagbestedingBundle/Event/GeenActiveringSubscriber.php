@@ -21,6 +21,7 @@ class GeenActiveringSubscriber implements EventSubscriberInterface
                 \InloopBundle\Event\Events::GEEN_ACTIVERING => ['provideIds'],
             ];
         }
+        return [];
     }
 
     public function __construct(EntityManager $em)

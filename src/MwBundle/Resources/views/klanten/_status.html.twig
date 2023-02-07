@@ -1,0 +1,218 @@
+{% import 'html.macro.twig' as html %}
+
+{% if instanceof(status, 'MwBundle\\Entity\\Aanmelding') %}
+    <h2>Aanmelding</h2>
+    {{ html.link('Bewerken', path('mw_dossierstatussen_edit', {id: status.id}), 'edit') }}
+    <dl>
+        <dt>Datum:</dt>
+        <dd>{{ status.datum|date('d-m-Y') }}</dd>
+        <dt>Medewerker:</dt>
+        <dd>{{ status.medewerker }}</dd>
+        <dt>Project:</dt>
+        <dd>{{ status.project }}</dd>
+        <dt>Binnen via:</dt>
+        <dd>{{ status.binnenVia }}</dd>
+    </dl>
+{% endif %}
+
+{% if instanceof(status, 'MwBundle\\Entity\\Afsluiting') %}
+    <h2>Afsluiting</h2>
+    {{ html.link('Bewerken', path('mw_dossierstatussen_edit', {id: status.id}), 'edit') }}
+    <dl>
+        <dt>Datum:</dt>
+        <dd>{{ status.datum|date('d-m-Y') }}</dd>
+        <dt>Medewerker:</dt>
+        <dd>{{ status.medewerker }}</dd>
+    </dl>
+{% endif %}
+
+{% if instanceof(status, 'MwBundle\\Entity\\IntakeAdministratie') %}
+    <h2>Intake Administratie</h2>
+    {{ html.link('Bewerken', path('mw_dossierstatussen_edit', {id: status.id}), 'edit') }}
+    <dl>
+        <dt>{{ 'mw.intake.administratie.datum.label'|trans }}</dt>
+        <dd>{{ status.datum|date('d-m-Y') }}</dd>
+        <dt>{{ 'mw.intake.administratie.medewerker.label'|trans }}</dt>
+        <dd>{{ status.medewerker }}</dd>
+        <dt>{{ 'mw.intake.administratie.woningnet.label'|trans }}</dt>
+        <dd>{{ status.woningnet|ja_nee }}</dd>
+        <dt>{{ 'mw.intake.administratie.woningnetDuur.label'|trans }}</dt>
+        <dd>{{ status.woningnetDuur }}</dd>
+        <dt>{{ 'mw.intake.administratie.verzekerd.label'|trans }}</dt>
+        <dd>{{ status.verzekerd|ja_nee }}</dd>
+        <dt>{{ 'mw.intake.administratie.digid.label'|trans }}</dt>
+        <dd>{{ status.digid|ja_nee }}</dd>
+        <dt>{{ 'mw.intake.administratie.huisarts.label'|trans }}</dt>
+        <dd>{{ status.huisarts|ja_nee }}</dd>
+        <dt>{{ 'mw.intake.administratie.huisartsContactgegevens.label'|trans }}</dt>
+        <dd>{{ status.huisartsContactgegevens }}</dd>
+        <dt>{{ 'mw.intake.administratie.digitaalVaardig.label'|trans }}</dt>
+        <dd>{{ status.digitaalVaardig|ja_nee }}</dd>
+    </dl>
+{% endif %}
+
+{% if instanceof(status, 'MwBundle\\Entity\\IntakeAlgemeen') %}
+    <h2>Intake Algemeen</h2>
+    {{ html.link('Bewerken', path('mw_dossierstatussen_edit', {id: status.id}), 'edit') }}
+    <dl>
+        <dt>{{ 'mw.intake.algemeen.datum.label'|trans }}</dt>
+        <dd>{{ status.datum|date('d-m-Y') }}</dd>
+        <dt>{{ 'mw.intake.algemeen.medewerker.label'|trans }}</dt>
+        <dd>{{ status.medewerker }}</dd>
+        <dt>{{ 'mw.intake.algemeen.geinformeerd.label'|trans }}</dt>
+        <dd>{{ status.geinformeerd|ja_nee }}</dd>
+        <dt>{{ 'mw.intake.algemeen.talen.label'|trans }}</dt>
+        <dd>{{ status.talen|join }}</dd>
+        <dt>{{ 'mw.intake.algemeen.verblijfsstatus.label'|trans }}</dt>
+        <dd>{{ status.verblijfsstatus }}</dd>
+        <dt>{{ 'mw.intake.algemeen.verblijfsstatusToelichting.label'|trans }}</dt>
+        <dd>{{ status.verblijfsstatusToelichting }}</dd>
+        <dt>{{ 'mw.intake.algemeen.landenRechthebbend.label'|trans }}</dt>
+        <dd>{{ status.landenRechthebbend|join }}</dd>
+        <dt>{{ 'mw.intake.algemeen.jvg.label'|trans }}</dt>
+        <dd>{{ ('mw.intake.algemeen.jvg.choice.'~status.jvg)|trans }}</dd>
+        <dt>{{ 'mw.intake.algemeen.jvgToelichting.label'|trans }}</dt>
+        <dd>{{ status.jvgToelichting }}</dd>
+    </dl>
+{% endif %}
+
+{% if instanceof(status, 'MwBundle\\Entity\\IntakeGezin') %}
+    <h2>Intake Gezin</h2>
+    {{ html.link('Bewerken', path('mw_dossierstatussen_edit', {id: status.id}), 'edit') }}
+    <dl>
+        <dt>{{ 'mw.intake.gezin.datum.label'|trans }}</dt>
+        <dd>{{ status.datum|date('d-m-Y') }}</dd>
+        <dt>{{ 'mw.intake.gezin.medewerker.label'|trans }}</dt>
+        <dd>{{ status.medewerker }}</dd>
+        <dt>{{ 'mw.intake.gezin.gezin.label'|trans }}</dt>
+        <dd>{{ status.gezin|ja_nee }}</dd>
+        <dt>{{ 'mw.intake.gezin.dreigendeDakloosheid.label'|trans }}</dt>
+        <dd>{{ status.dreigendeDakloosheid|ja_nee }}</dd>
+        <dt>{{ 'mw.intake.gezin.dreigendeDakloosheidToelichting.label'|trans }}</dt>
+        <dd>{{ status.dreigendeDakloosheidToelichting }}</dd>
+        <dt>{{ 'mw.intake.gezin.mog.label'|trans }}</dt>
+        <dd>{{ status.mog|ja_nee }}</dd>
+        <dt>{{ 'mw.intake.gezin.regiobinding.label'|trans }}</dt>
+        <dd>{{ status.regiobinding|ja_nee }}</dd>
+        <dt>{{ 'mw.intake.gezin.regiobindingToelichting.label'|trans }}</dt>
+        <dd>{{ status.regiobindingToelichting }}</dd>
+        <dt>{{ 'mw.intake.gezin.okt.label'|trans }}</dt>
+        <dd>{{ status.okt|ja_nee }}</dd>
+        <dt>{{ 'mw.intake.gezin.hulpverleningKinderen.label'|trans }}</dt>
+        <dd>{{ status.hulpverleningKinderen|ja_nee }}</dd>
+        <dt>{{ 'mw.intake.gezin.kinderbijslag.label'|trans }}</dt>
+        <dd>{{ status.kinderbijslag|ja_nee }}</dd>
+        <dt>{{ 'mw.intake.gezin.kindgebondenBudget.label'|trans }}</dt>
+        <dd>{{ status.kindgebondenBudget|ja_nee }}</dd>
+    </dl>
+{% endif %}
+
+{% if instanceof(status, 'MwBundle\\Entity\\IntakeHuisvesting') %}
+    <h2>Intake Huisvesting</h2>
+    {{ html.link('Bewerken', path('mw_dossierstatussen_edit', {id: status.id}), 'edit') }}
+    <dl>
+        <dt>{{ 'mw.intake.huisvesting.datum.label'|trans }}</dt>
+        <dd>{{ status.datum|date('d-m-Y') }}</dd>
+        <dt>{{ 'mw.intake.huisvesting.medewerker.label'|trans }}</dt>
+        <dd>{{ status.medewerker }}</dd>
+        <dt>{{ 'mw.intake.huisvesting.dakloosDuur.label'|trans }}</dt>
+        <dd>{{ status.dakloosDuur }}</dd>
+        <dt>{{ 'mw.intake.huisvesting.dakloosOorzaak.label'|trans }}</dt>
+        <dd>{{ status.dakloosOorzaak }}</dd>
+        <dt>{{ 'mw.intake.huisvesting.huisvesting.label'|trans }}</dt>
+        <dd>{{ status.huisvesting }}</dd>
+        <dt>{{ 'mw.intake.huisvesting.inschrijfadres.label'|trans }}</dt>
+        <dd>{{ status.inschrijfadres }}</dd>
+        <dt>{{ 'mw.intake.huisvesting.regiobinding.label'|trans }}</dt>
+        <dd>{{ status.regiobinding|ja_nee }}</dd>
+        <dt>{{ 'mw.intake.huisvesting.regiobindingToelichting.label'|trans }}</dt>
+        <dd>{{ status.regiobindingToelichting }}</dd>
+    </dl>
+{% endif %}
+
+{% if instanceof(status, 'MwBundle\\Entity\\IntakeInkomen') %}
+    <h2>Intake Inkomen</h2>
+    {{ html.link('Bewerken', path('mw_dossierstatussen_edit', {id: status.id}), 'edit') }}
+    <dl>
+        <dt>{{ 'mw.intake.inkomen.datum.label'|trans }}</dt>
+        <dd>{{ status.datum|date('d-m-Y') }}</dd>
+        <dt>{{ 'mw.intake.inkomen.medewerker.label'|trans }}</dt>
+        <dd>{{ status.medewerker }}</dd>
+        <dt>{{ 'mw.intake.inkomen.inkomsten.label'|trans }}</dt>
+        <dd>{{ status.inkomsten|ja_nee }}</dd>
+        <dt>{{ 'mw.intake.inkomen.inkomstenToelichting.label'|trans }}</dt>
+        <dd>{{ status.inkomstenToelichting }}</dd>
+        <dt>{{ 'mw.intake.inkomen.hulpBijInkomen.label'|trans }}</dt>
+        <dd>{{ status.hulpBijInkomen|ja_nee }}</dd>
+        <dt>{{ 'mw.intake.inkomen.hulpBijInkomenToelichting.label'|trans }}</dt>
+        <dd>{{ status.hulpBijInkomenToelichting }}</dd>
+        <dt>{{ 'mw.intake.inkomen.stadspas.label'|trans }}</dt>
+        <dd>{{ status.stadspas|ja_nee }}</dd>
+        <dt>{{ 'mw.intake.inkomen.schuldenproblematiek.label'|trans }}</dt>
+        <dd>{{ status.schuldenproblematiek|ja_nee }}</dd>
+        <dt>{{ 'mw.intake.inkomen.schuldenproblematiekToelichting.label'|trans }}</dt>
+        <dd>{{ status.schuldenproblematiekToelichting }}</dd>
+    </dl>
+{% endif %}
+
+{% if instanceof(status, 'MwBundle\\Entity\\IntakeVerwachting') %}
+    <h2>Intake Verwachting</h2>
+    {{ html.link('Bewerken', path('mw_dossierstatussen_edit', {id: status.id}), 'edit') }}
+    <dl>
+        <dt>{{ 'mw.intake.verwachting.datum.label'|trans }}</dt>
+        <dd>{{ status.datum|date('d-m-Y') }}</dd>
+        <dt>{{ 'mw.intake.verwachting.medewerker.label'|trans }}</dt>
+        <dd>{{ status.medewerker }}</dd>
+        <dt>{{ 'mw.intake.verwachting.verwachtingen.label'|trans }}</dt>
+        <dd>{{ status.verwachtingen }}</dd>
+        <dt>{{ 'mw.intake.verwachting.plannen.label'|trans }}</dt>
+        <dd>{{ status.plannen }}</dd>
+        <dt>{{ 'mw.intake.verwachting.actiepunten.label'|trans }}</dt>
+        <dd>{{ status.actiepunten }}</dd>
+    </dl>
+{% endif %}
+
+{% if instanceof(status, 'MwBundle\\Entity\\IntakeWelzijn') %}
+    <h2>Intake Welzijn</h2>
+    {{ html.link('Bewerken', path('mw_dossierstatussen_edit', {id: status.id}), 'edit') }}
+    <dl>
+        <dt>{{ 'mw.intake.welzijn.datum.label'|trans }}</dt>
+        <dd>{{ status.datum|date('d-m-Y') }}</dd>
+        <dt>{{ 'mw.intake.welzijn.medewerker.label'|trans }}</dt>
+        <dd>{{ status.medewerker }}</dd>
+        <dt>{{ 'mw.intake.welzijn.sociaalNetwerk.label'|trans }}</dt>
+        <dd>{{ status.sociaalNetwerk }}</dd>
+        <dt>{{ 'mw.intake.welzijn.sociaalNetwerkBekend.label'|trans }}</dt>
+        <dd>{{ status.sociaalNetwerkBekend|ja_nee }}</dd>
+        <dt>{{ 'mw.intake.welzijn.sociaalNetwerkContactgegevens.label'|trans }}</dt>
+        <dd>{{ status.sociaalNetwerkContactgegevens }}</dd>
+        <dt>{{ 'mw.intake.welzijn.andereInstanties.label'|trans }}</dt>
+        <dd>{{ status.andereInstanties|ja_nee }}</dd>
+        <dt>{{ 'mw.intake.welzijn.andereInstantiesContactgegevens.label'|trans }}</dt>
+        <dd>{{ status.andereInstantiesContactgegevens }}</dd>
+        <dt>{{ 'mw.intake.welzijn.dagstructuur.label'|trans }}</dt>
+        <dd>{{ status.dagstructuur|ja_nee }}</dd>
+        <dt>{{ 'mw.intake.welzijn.dagstructuurToelichting.label'|trans }}</dt>
+        <dd>{{ status.dagstructuurToelichting }}</dd>
+        <dt>{{ 'mw.intake.welzijn.fysiekInOrde.label'|trans }}</dt>
+        <dd>{{ status.fysiekInOrde|ja_nee }}</dd>
+        <dt>{{ 'mw.intake.welzijn.fysiekToelichting.label'|trans }}</dt>
+        <dd>{{ status.fysiekToelichting }}</dd>
+        <dt>{{ 'mw.intake.welzijn.psychischeProblemen.label'|trans }}</dt>
+        <dd>{{ status.psychischeProblemen|ja_nee }}</dd>
+        <dt>{{ 'mw.intake.welzijn.psychischeProblemenToelichting.label'|trans }}</dt>
+        <dd>{{ status.psychischeProblemenToelichting }}</dd>
+        <dt>{{ 'mw.intake.welzijn.verslaving.label'|trans }}</dt>
+        <dd><ul>
+            {% for verslaving in status.verslaving %}
+                <li>{{ ('mw.intake.welzijn.verslaving.choice.'~verslaving)|trans }}</li>
+            {% endfor %}
+        </ul></dd>
+        <dt>{{ 'mw.intake.welzijn.verslavingToelichting.label'|trans }}</dt>
+        <dd>{{ status.verslavingToelichting }}</dd>
+        <dt>{{ 'mw.intake.welzijn.justitie.label'|trans }}</dt>
+        <dd>{{ status.justitie|ja_nee }}</dd>
+        <dt>{{ 'mw.intake.welzijn.justitieToelichting.label'|trans }}</dt>
+        <dd>{{ status.justitieToelichting }}</dd>
+    </dl>
+{% endif %}

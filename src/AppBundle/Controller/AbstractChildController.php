@@ -74,8 +74,7 @@ abstract class AbstractChildController extends AbstractController
                 $this->beforeCreate($entity);
                 $this->persistEntity($entity, $parentEntity);
                 $this->addFlash('success', ucfirst($this->entityName).' is toegevoegd.');
-            } catch(UserException $e)
-            {
+            } catch(UserException $e) {
                 $message = $e->getMessage();
                 $this->addFlash('danger', $message);
             } catch (\Exception $e) {
@@ -95,11 +94,13 @@ abstract class AbstractChildController extends AbstractController
             return $this->redirectToView($entity);
         }
 
-        return [
+        $params = [
             'entity' => $entity,
             'parent_entity' => $parentEntity,
             'form' => $form->createView(),
         ];
+
+        return array_merge($params, $this->addParams($entity, $request));
     }
 
     /**
@@ -126,12 +127,9 @@ abstract class AbstractChildController extends AbstractController
 
                 try {
                     $viewUrl = $this->generateUrl($this->baseRouteName.'view', ['id' => $entity->getId()]);
-                }
-                catch(RouteNotFoundException $e)
-                {
+                } catch(RouteNotFoundException $e) {
                    $viewUrl = "";
                 }
-
 
                 if ($parentEntity && $this->deleteMethod) {
                     $parentEntity->{$this->deleteMethod}($entity);
@@ -154,11 +152,13 @@ abstract class AbstractChildController extends AbstractController
             }
         }
 
-        return [
+        $params = [
             'entity' => $entity,
-            'entity_name'=>$this->entityName,
+            'entity_name' => $this->entityName,
             'form' => $form->createView(),
         ];
+
+        return array_merge($params, $this->addParams($entity, $request));
     }
 
     protected function persistEntity($entity, $parentEntity)
@@ -181,9 +181,9 @@ abstract class AbstractChildController extends AbstractController
                 $this->allowEmpty = true;
                 continue;
             }
-            if ($request->query->has($entity['key'])) {
+            if ($request->attributes->has($entity['key']) || $request->query->has($entity['key'])) {
                 return [
-                    $entity['dao']->find($request->query->get($entity['key'])),
+                    $entity['dao']->find($request->get($entity['key'])),
                     $entity['dao'],
                 ];
             }

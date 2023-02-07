@@ -3,28 +3,29 @@
 
 {% block content_top %}
     <h1>{{ entity_name|capitalize }} {{ entity }}</h1>
-    {% if entity.huidigeMwStatus?entity.huidigeMwStatus.afgesloten %}
+
+    {% if workflow_has_marked_place(entity, 'aangemaakt') %}
+        <p class="alert alert-warning">
+            Deze klant is nog niet aangemeld.
+        </p>
+    {% elseif workflow_has_marked_place(entity, 'aangemeld') %}
+        {{ html.link('Wijzigen', path('mw_klanten_edit', {id: entity.id}), 'edit') }}
+    {% elseif workflow_has_marked_place(entity, 'afgesloten') %}
         <p class="alert alert-danger">
-            Dit dossier is afgesloten op ({{ entity.huidigeMwStatus.datum|date("d-m-Y") }}.
-            {% if entity.huidigeMwStatus.resultaat is not empty %} Resultaat: {{ entity.huidigeMwStatus.resultaat|join(', ') }} {% endif %}
-            {{ html.link('Mw dossier heropenen', path(route_base~'open', {id: entity.id}), 'open') }}
+            Dit dossier is afgesloten op {{ entity.dossierStatus.datum|date("d-m-Y") }}.
         </p>
     {% endif %}
-    <p>
-        {% if entity.huidigeMwStatus?entity.huidigeMwStatus.aangemeld %}
-            {{ html.link('Wijzigen', path('mw_klanten_edit', {id: entity.id}), 'edit') }}
-            {{ html.link('Mw dossier afsluiten', path(route_base~'close', {id: entity.id}), 'close') }}
-        {% endif %}
-        {{ html.link('Klant toevoegen aan TW', path('tw_klanten_addwithcheck', {id: entity.id}),'add') }}
-    </p>
 
-    {% if not entity.laatsteZrm %}
+    {{ html.link('Klant toevoegen aan TW', path('tw_klanten_addwithcheck', {id: entity.id}),'add') }}
+    {% include '@Mw/klanten/_transitions.html.twig' with {klant: entity} %}
+
+    {% if not entity.klant.laatsteZrm %}
         <p class="text-danger">
             LET OP: geen ZRM aanwezig. Klik
             {{ html.link('hier', path('app_zrms_add', {klant: entity.id, module: 'MaatschappelijkWerk'})) }}
             om een ZRM toe te voegen.
         </p>
-    {% elseif entity.laatsteZrm < today|date_modify('-6 months') %}
+    {% elseif entity.klant.laatsteZrm < today|date_modify('-6 months') %}
         <p class="text-danger">
             LET OP: laatste ZRM is meer dan 6 maanden oud. Klik
             {{ html.link('hier', path('app_zrms_add', {klant: entity.id, module: 'MaatschappelijkWerk'})) }}
@@ -34,30 +35,19 @@
 {% endblock %}
 
 {% block content_left %}
-    {% include 'klant_basis.html.twig' with {klant: entity, module: 'MaatschappelijkWerk'} %}
-
-    {{ render(controller('InloopBundle\\Controller\\KlantenController::_intakesAction', {id: entity.id})) }}
-    {{ render(controller('InloopBundle\\Controller\\KlantenController::_opmerkingenAction', {id: entity.id})) }}
-    {{ render(controller('InloopBundle\\Controller\\KlantenController::_schorsingenAction', {id: entity.id})) }}
-    {{ render(controller('InloopBundle\\Controller\\KlantenController::_registratiesAction', {id: entity.id})) }}
-    {{ render(controller('MwBundle\\Controller\\KlantenController::_documentenAction', {id: entity.id})) }}
-
+    {% include 'klant_basis.html.twig' with {klant: entity.klant, module: 'MaatschappelijkWerk'} %}
+    {# {{ render(controller('MwBundle\\Controller\\KlantenController::_documentenAction', {id: entity.id})) }} #}
 {% endblock %}
 
 {% block content_right %}
     <ul class="nav nav-tabs">
         <li class="active"><a data-toggle="tab" href="#info">Dossierinformatie</a></li>
         <li><a data-toggle="tab" href="#verslagen">Verslagen</a></li>
-        <li><a data-toggle="tab" href="#opmerkingen">Opmerkingen</a></li>
-        <li><a data-toggle="tab" href="#schorsingen">Schorsingen</a></li>
+        <li><a data-toggle="tab" href="#documenten">Documenten</a></li>
     </ul>
     <div class="tab-content">
         <div id="info" class="tab-pane active">
-            <h2>Dossierinformatie</h2>
-            <p>
-                {{ html.link('Dossierinformatie wijzigen', path('mw_klanten_infoedit', {klant: entity.id}), 'edit') }}
-            </p>
-            {{ render(controller('MwBundle\\Controller\\KlantenController::_mwAction', {id: entity.id})) }}
+            {% include '@Mw/klanten/_info.html.twig' with {klant: entity} %}
         </div>
         <div id="verslagen" class="tab-pane">
             <h2>Verslagen</h2>
@@ -99,139 +89,11 @@
                 <p class="well">{{ verslag.opmerking|raw|nl2br }}</p>
             {% endfor %}
         </div>
-        <div id="opmerkingen" class="tab-pane">
-            <h2>Opmerkingen</h2>
+        <div id="documenten" class="tab-pane">
+            <h2>Documenten</h2>
             <p>
-                {{ html.link('Opmerking toevoegen', path('inloop_opmerkingen_add', {klant: entity.id}), 'add') }}
+                {{ html.link('Document toevoegen', path('mw_documenten_add', {klant: entity.id}), 'add') }}
             </p>
-            {% if 0 == entity.opmerkingen|length %}
-                <p>Geen opmerkingen.</p>
-            {% else %}
-                {% for opmerking in entity.opmerkingen %}
-                    <div data-id="{{ opmerking.id }}">
-                        <h2>{{ opmerking.modified|date('d-m-Y') }}</h2>
-                        <p class="pull-right">
-                            <input class="gezien" id="gezien-{{ opmerking.id }}" type="checkbox" {{ opmerking.gezien ? 'checked' }}/>
-                            <label for="gezien-{{ opmerking.id }}">Opgelost</label>
-                            <a class="delete" title="Verwijderen">
-                                <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
-                                Verwijderen
-                            </a>
-                        </p>
-                        <p>Categorie: {{ opmerking.categorie }}</p>
-                        <div class="well">{{ opmerking.beschrijving }}</div>
-                    </div>
-                {% endfor %}
-            {% endif %}
-        </div>
-        <div id="schorsingen" class="tab-pane">
-            <h2>Huidige schorsingen <small>({{ entity.huidigeSchorsingen|length }} schorsingen)</small></h2>
-            <p>
-                {{ html.link('Schorsing toevoegen', path('inloop_opmerkingen_add', {'klant': entity.id}), 'add') }}
-            </p>
-            {% if 0 == entity.huidigeSchorsingen|length %}
-                <p>Deze persoon is op dit moment niet geschorst.</p>
-            {% else %}
-                <table class="table table-hover">
-                    <thead>
-                        <tr>
-                            <th>Locaties</th>
-                            <th>Begindatum</th>
-                            <th>Einddatum</th>
-                            <th>Redenen</th>
-                            <th>Opmerking</th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for schorsing in entity.huidigeSchorsingen %}
-                            <tr data-id="{{ schorsing.id }}" data-href="{{ path('inloop_schorsingen_view', {id: schorsing.id}) }}" class="{{ entity.id == schorsing.id ? 'info' }}">
-                                <td>
-                                    <ul>
-                                        {% for locatie in schorsing.locaties %}
-                                            <li>{{ locatie }}</li>
-                                        {% endfor %}
-                                    </ul>
-                                </td>
-                                <td>{{ schorsing.datumVan|date('d-m-Y') }}</td>
-                                <td>{{ schorsing.datumTot|date('d-m-Y') }}</td>
-                                <td>
-                                    <ul>
-                                        {% for reden in schorsing.redenen %}
-                                            <li>{{ reden }}</li>
-                                        {% endfor %}
-                                    </ul>
-                                </td>
-                                <td>
-                                    {{ schorsing.opmerking }}<br><br>
-                                    <a href="{{ path('inloop_schorsingen_view', {id: schorsing.id, language: 'nl', _format: 'pdf'}) }}" target="_blank">
-                                        <span class="glyphicon glyphicon-print"></span>
-                                        Printen
-                                    </a>
-                                    <a href="{{ path('inloop_schorsingen_view', {id: schorsing.id, language: 'en', _format: 'pdf'}) }}" target="_blank">
-                                        <span class="glyphicon glyphicon-print"></span>
-                                        Printen Engels
-                                    </a>
-                                    {{ html.link('Wijzigen', path('inloop_schorsingen_edit', {id: schorsing.id}), 'edit') }}
-                                    {% if is_granted('ROLE_TEAMLEIDERS') %}
-                                        {{ html.link('Verwijderen', path('inloop_schorsingen_delete', {id: schorsing.id}), 'delete') }}
-                                    {% endif %}
-                                </td>
-                                <td>
-                                    <input class="gezien" id="gezien-{{ schorsing.id }}" type="checkbox" {{ schorsing.gezien ? 'checked' }}/>
-                                    <label for="gezien-{{ schorsing.id }}">Gezien</label>
-                                </td>
-                            </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
-            {% endif %}
-            <h2>Verlopen schorsingen <small>({{ entity.verlopenSchorsingen|length }} schorsingen)</small></h2>
-            <table class="table table-hover">
-                <thead>
-                    <tr>
-                        <th>Locaties</th>
-                        <th>Begindatum</th>
-                        <th>Einddatum</th>
-                        <th>Redenen</th>
-                        <th>Opmerking</th>
-                        <th></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for schorsing in entity.verlopenSchorsingen %}
-                        <tr data-id="{{ schorsing.id }}" data-href="{{ path('inloop_schorsingen_view', {id: schorsing.id}) }}" class="{{ entity.id == schorsing.id ? 'info' }}">
-                            <td>
-                                <ul>
-                                    {% for locatie in schorsing.locaties %}
-                                        <li>{{ locatie }}</li>
-                                    {% endfor %}
-                                </ul>
-                            </td>
-                            <td>{{ schorsing.datumVan|date('d-m-Y') }}</td>
-                            <td>{{ schorsing.datumTot|date('d-m-Y') }}</td>
-                            <td>
-                                <ul>
-                                    {% for reden in schorsing.redenen %}
-                                        <li>{{ reden }}</li>
-                                    {% endfor %}
-                                </ul>
-                            </td>
-                            <td>
-                                {{ schorsing.opmerking }}<br><br>
-                                {{ html.link('Wijzigen', path('inloop_schorsingen_edit', {id: schorsing.id}), 'edit') }}
-                                {% if is_granted('ROLE_TEAMLEIDERS') %}
-                                    {{ html.link('Verwijderen', path('inloop_schorsingen_delete', {id: schorsing.id}), 'delete') }}
-                                {% endif %}
-                            </td>
-                            <td>
-                                <input class="gezien" id="gezien-{{ schorsing.id }}" type="checkbox" {{ schorsing.gezien ? 'checked' }}/>
-                                <label for="gezien-{{ schorsing.id }}">Gezien</label>
-                            </td>
-                        </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
         </div>
     </div>
 {% endblock %}

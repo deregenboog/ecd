@@ -13,7 +13,6 @@ use MwBundle\Entity\Resultaat;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormError;
@@ -46,10 +45,10 @@ class AfsluitingType extends AbstractType
             ])
             ->add('locatie', LocatieSelectType::class)
             ->add('resultaat', EntityType::class, [
-                'class'=>Resultaat::class,
+                'class' => Resultaat::class,
                 'required' => false,
-                'multiple'=>true,
-                'expanded'=>true,
+                'multiple' => true,
+                'expanded' => true,
                 'placeholder' => 'Resulta(a)t(en)',
                 'query_builder' => function (EntityRepository $repository) {
                     return $repository->createQueryBuilder('resultaat')
@@ -57,7 +56,6 @@ class AfsluitingType extends AbstractType
                         ->orderBy('resultaat.naam')
                         ;
                 },
-
             ])
             ->add('land', LandSelectType::class, [
                 'required' => false,
@@ -65,10 +63,10 @@ class AfsluitingType extends AbstractType
                 'label' => 'Land van bestemming',
             ])
             ->add('toelichting')
-            ->add('inloopSluiten',CheckboxType::class,[
-                'label'=>"Inloopdossier (indien aanwezig) ook sluiten?",
-                'required'=>false,
-                'mapped'=>false,
+            ->add('inloopSluiten', CheckboxType::class, [
+                'label' => 'Inloopdossier (indien aanwezig) ook sluiten?',
+                'required' => false,
+                'mapped' => false,
             ])
             ->add('submit', SubmitType::class, ['label' => 'Opslaan'])
         ;

@@ -4,7 +4,6 @@ namespace MwBundle\Form;
 
 use AppBundle\Form\AppDateRangeType;
 use AppBundle\Form\FilterType;
-use AppBundle\Form\JaNeeType;
 use AppBundle\Form\VrijwilligerFilterType as AppVrijwilligerFilterType;
 use InloopBundle\Form\LocatieSelectType;
 use MwBundle\Filter\VrijwilligerFilter;
@@ -47,7 +46,7 @@ class VrijwilligerFilterType extends AbstractType
         if (in_array('filterOpActiefAlleen', $options['enabled_filters'])) {
             $builder->add('filterOpActiefAlleen', CheckboxType::class, [
                 'required' => false,
-                'label'=>'Alleen actieve vrijwilligers'
+                'label' => 'Alleen actieve vrijwilligers',
             ]);
         }
     }

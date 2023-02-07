@@ -2,9 +2,9 @@
 
 namespace MwBundle\Service;
 
-use AppBundle\Entity\Klant;
 use AppBundle\Filter\FilterInterface;
 use Knp\Component\Pager\Pagination\PaginationInterface;
+use MwBundle\Entity\Klant;
 
 interface KlantDaoInterface
 {
@@ -23,18 +23,9 @@ interface KlantDaoInterface
      */
     public function find($id);
 
-    /**
-     * @param Klant $entity
-     */
     public function create(Klant $entity);
 
-    /**
-     * @param Klant $entity
-     */
     public function update(Klant $entity);
 
-    /**
-     * @param Klant $entity
-     */
     public function delete(Klant $entity);
 }

@@ -5,11 +5,10 @@ namespace MwBundle\Form;
 use AppBundle\Form\AppDateType;
 use AppBundle\Form\BaseSelectType;
 use AppBundle\Form\BaseType;
-use AppBundle\Form\DummyChoiceType;
-use Doctrine\ORM\Mapping\Entity;
+use AppBundle\Form\MedewerkerType;
 use MwBundle\Entity\Aanmelding;
+use MwBundle\Entity\BinnenViaOptieKlant;
 use MwBundle\Entity\Project;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -24,11 +23,16 @@ class AanmeldingType extends AbstractType
     {
         $builder
             ->add('datum', AppDateType::class)
+            ->add('medewerker', MedewerkerType::class)
             ->add('project', BaseSelectType::class, [
                 'class' => Project::class,
-                'disabled' => $options['mode'] != BaseType::MODE_ADD,
+                'disabled' => BaseType::MODE_ADD != $options['mode'],
             ])
-            ->add('binnenViaOptieKlant', BinnenViaOptieKlantSelectType::class)
+            ->add('binnenVia', BaseSelectType::class, [
+                'class' => BinnenViaOptieKlant::class,
+                'disabled' => BaseType::MODE_ADD != $options['mode'],
+            ])
+            // ->add('binnenVia', BinnenViaOptieKlantSelectType::class)
             ->add('submit', SubmitType::class)
         ;
     }
@@ -42,7 +46,6 @@ class AanmeldingType extends AbstractType
             'data_class' => Aanmelding::class,
             'class' => Aanmelding::class,
             'mode' => BaseType::MODE_ADD,
-            // 'allow_extra_fields' => true,
         ]);
     }
 

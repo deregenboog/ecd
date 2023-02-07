@@ -6,10 +6,8 @@ use AppBundle\Controller\AbstractController;
 use MwBundle\Entity\Project;
 use MwBundle\Form\ProjectType;
 use MwBundle\Service\ProjectDao;
-use MwBundle\Service\ProjectDaoInterface;
-use JMS\DiExtraBundle\Annotation as DI;
-use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * @Route("/admin/projecten")
@@ -27,9 +25,6 @@ class ProjectenController extends AbstractController
      */
     protected $dao;
 
-    /**
-     * @param ProjectDao $dao
-     */
     public function __construct(ProjectDao $dao)
     {
         $this->dao = $dao;

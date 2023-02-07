@@ -3,8 +3,8 @@
 namespace MwBundle\Service;
 
 use AppBundle\Filter\FilterInterface;
-use MwBundle\Entity\Project;
 use Knp\Component\Pager\Pagination\PaginationInterface;
+use MwBundle\Entity\Project;
 
 interface ProjectDaoInterface
 {
@@ -23,18 +23,9 @@ interface ProjectDaoInterface
      */
     public function find($id);
 
-    /**
-     * @param Project $project
-     */
     public function create(Project $project);
 
-    /**
-     * @param Project $project
-     */
     public function update(Project $project);
 
-    /**
-     * @param Project $project
-     */
     public function delete(Project $project);
 }

@@ -6,8 +6,6 @@ use AppBundle\Controller\AbstractController;
 use MwBundle\Entity\AfsluitredenVrijwilliger;
 use MwBundle\Form\AfsluitredenVrijwilligerType;
 use MwBundle\Service\AfsluitredenVrijwilligerDao;
-use MwBundle\Service\AfsluitredenVrijwilligerDaoInterface;
-use JMS\DiExtraBundle\Annotation as DI;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -27,13 +25,8 @@ class AfsluitredenenVrijwilligersController extends AbstractController
      */
     protected $dao;
 
-    /**
-     * @param AfsluitredenVrijwilligerDao $dao
-     */
     public function __construct(AfsluitredenVrijwilligerDao $dao)
     {
         $this->dao = $dao;
     }
-
-
 }

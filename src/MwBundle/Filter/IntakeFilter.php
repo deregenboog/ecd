@@ -7,9 +7,7 @@ use AppBundle\Entity\Werkgebied;
 use AppBundle\Filter\FilterInterface;
 use AppBundle\Filter\KlantFilter as AppKlantFilter;
 use AppBundle\Form\Model\AppDateRangeModel;
-use Doctrine\ORM\Query;
 use Doctrine\ORM\QueryBuilder;
-use InloopBundle\Entity\Intake;
 use InloopBundle\Entity\Locatie;
 use MwBundle\Entity\Verslag;
 
@@ -35,25 +33,20 @@ class IntakeFilter implements FilterInterface
      */
     public $klant;
 
-
     public function applyTo(QueryBuilder $builder)
     {
+        $fromClass = $builder->getDQLPart('from')[0]->getFrom();
 
-        $fromClass = $builder->getDQLPart("from")[0]->getFrom();
-
-        switch($fromClass) {
+        switch ($fromClass) {
             case Verslag::class:
                 $this->applyVerslag($builder);
                 break;
             case Klant::class:
-
                 $this->applyIntake($builder);
                 break;
         }
 
-
 //        parent::applyTo($builder);
-
     }
 
     private function applyVerslag(QueryBuilder $builder): void
@@ -90,7 +83,6 @@ class IntakeFilter implements FilterInterface
                 ->setParameter('werkgebied', $this->werkgebied)
             ;
         }
-
     }
 
     private function applyIntake(QueryBuilder $builder): void
@@ -127,6 +119,5 @@ class IntakeFilter implements FilterInterface
                 ->setParameter('werkgebied', $this->werkgebied)
             ;
         }
-
     }
 }

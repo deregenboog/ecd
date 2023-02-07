@@ -3,6 +3,7 @@
 namespace MwBundle\Entity;
 
 use AppBundle\Model\IdentifiableTrait;
+use AppBundle\Model\NameableTrait;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 
@@ -15,15 +16,11 @@ use Gedmo\Mapping\Annotation as Gedmo;
 class Contactsoort
 {
     use IdentifiableTrait;
+    use NameableTrait;
 
     /**
      * @ORM\Column(name="text", type="string")
      * @Gedmo\Versioned
      */
-    private $naam;
-
-    public function __toString()
-    {
-        return (string) $this->naam;
-    }
+    protected $naam;
 }

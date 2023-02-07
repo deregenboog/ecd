@@ -10,6 +10,6 @@ use Gedmo\Mapping\Annotation as Gedmo;
  * @ORM\HasLifecycleCallbacks
  * @Gedmo\Loggable
  */
-class BinnenViaOptieVW extends BinnenVia
+class BinnenViaOptieVrijwilliger extends BinnenVia
 {
 }

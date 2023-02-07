@@ -3,8 +3,8 @@
 namespace MwBundle\Service;
 
 use AppBundle\Filter\FilterInterface;
-use MwBundle\Entity\BinnenVia;
 use Knp\Component\Pager\Pagination\PaginationInterface;
+use MwBundle\Entity\BinnenVia;
 
 interface BinnenViaDaoInterface
 {
@@ -23,18 +23,9 @@ interface BinnenViaDaoInterface
      */
     public function find($id);
 
-    /**
-     * @param BinnenVia $binnenVia
-     */
     public function create(BinnenVia $binnenVia);
 
-    /**
-     * @param BinnenVia $binnenVia
-     */
     public function update(BinnenVia $binnenVia);
 
-    /**
-     * @param BinnenVia $binnenVia
-     */
     public function delete(BinnenVia $binnenVia);
 }

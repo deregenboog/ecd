@@ -16,7 +16,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
  * @ORM\InheritanceType("SINGLE_TABLE")
  * @ORM\DiscriminatorColumn(name="class", type="string")
  * @ORM\DiscriminatorMap({
- *     "BinnenViaOptieVW" = "BinnenViaOptieVW",
+ *     "BinnenViaOptieVW" = "BinnenViaOptieVrijwilliger",
  *     "BinnenViaOptieKlant" = "BinnenViaOptieKlant"
  * })
  * @Gedmo\Loggable

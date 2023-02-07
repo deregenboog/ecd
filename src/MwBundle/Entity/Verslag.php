@@ -38,13 +38,13 @@ class Verslag
     public const ACCESS_ALL = 2;
 
     public static $accessTypes = [
-        self::ACCESS_MW => "Leesbaar alleen binnen MW",
-        self::ACCESS_ALL => "Leesbaar voor inloop en MW",
+        self::ACCESS_MW => 'Leesbaar alleen binnen MW',
+        self::ACCESS_ALL => 'Leesbaar voor inloop en MW',
     ];
 
     protected static $types = [
-        self::TYPE_MW => "Maatschappelijk werk-verslag",
-        self::TYPE_INLOOP => "Inloopverslag",
+        self::TYPE_MW => 'Maatschappelijk werk-verslag',
+        self::TYPE_INLOOP => 'Inloopverslag',
     ];
 
     /**
@@ -158,9 +158,6 @@ class Verslag
         return $this->datum;
     }
 
-    /**
-     * @param \DateTime $datum
-     */
     public function setDatum(\DateTime $datum)
     {
         $this->datum = $datum;
@@ -194,9 +191,6 @@ class Verslag
         return $this->klant;
     }
 
-    /**
-     * @param Klant $klant
-     */
     public function setKlant(Klant $klant)
     {
         $this->klant = $klant;
@@ -212,9 +206,6 @@ class Verslag
         return $this->locatie;
     }
 
-    /**
-     * @param Locatie $locatie
-     */
     public function setLocatie(Locatie $locatie)
     {
         $this->locatie = $locatie;
@@ -230,9 +221,6 @@ class Verslag
         return $this->medewerker;
     }
 
-    /**
-     * @param Medewerker $medewerker
-     */
     public function setMedewerker(Medewerker $medewerker)
     {
         $this->medewerker = $medewerker;
@@ -249,8 +237,6 @@ class Verslag
     }
 
     /**
-     * @param Contactsoort $contactsoort
-     *
      * @return \MwBundle\Entity\Verslag
      */
     public function setContactsoort(Contactsoort $contactsoort)
@@ -301,9 +287,6 @@ class Verslag
         return $this;
     }
 
-    /**
-     * @return int
-     */
     public function getType(): int
     {
         return $this->type;
@@ -314,28 +297,19 @@ class Verslag
         return self::$types[$this->getType()];
     }
 
-    /**
-     * @param int $type
-     */
     public function setType(int $type): void
     {
         if (!in_array($type, array_flip(self::$types))) {
-            throw new \InvalidArgumentException("Verslagtype kan alleen van types zijn zoals vermeld.");
+            throw new \InvalidArgumentException('Verslagtype kan alleen van types zijn zoals vermeld.');
         }
         $this->type = $type;
     }
 
-    /**
-     * @return int
-     */
     public function getAccess(): int
     {
         return $this->access;
     }
 
-    /**
-     * @param int $access
-     */
     public function setAccess(int $access): void
     {
 //        if(is_null($access)) $access = self::$accessTypes[self::ACCESS_ALL];

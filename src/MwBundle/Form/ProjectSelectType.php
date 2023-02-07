@@ -2,7 +2,6 @@
 
 namespace DagbestedingBundle\Form;
 
-
 use DagbestedingBundle\Entity\Project;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;

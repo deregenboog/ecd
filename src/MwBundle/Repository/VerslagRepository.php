@@ -5,7 +5,6 @@ namespace MwBundle\Repository;
 use AppBundle\Repository\DoelstellingRepositoryInterface;
 use AppBundle\Repository\DoelstellingRepositoryTrait;
 use Doctrine\ORM\EntityRepository;
-use Doctrine\ORM\QueryBuilder;
 
 class VerslagRepository extends EntityRepository implements DoelstellingRepositoryInterface
 {
@@ -13,14 +12,10 @@ class VerslagRepository extends EntityRepository implements DoelstellingReposito
 
     private $gezinNoodopvangLocaties = [];
 
-    /**
-     * @param array $gezinNoodopvangLocaties
-     */
     public function setGezinNoodopvangLocaties(array $gezinNoodopvangLocaties): void
     {
         $this->gezinNoodopvangLocaties = $gezinNoodopvangLocaties;
     }
-
 
     public function getCategory(): string
     {
@@ -30,63 +25,66 @@ class VerslagRepository extends EntityRepository implements DoelstellingReposito
     public function initDoelstellingcijfers(): void
     {
         $this->addDoelstellingcijfer(
-            "Alle vastgelegde verslagen in periode",
-            "4150",
-            "MW",
-            function($doelstelling,$startdatum,$einddatum){
-                $r = $this->getAantalVerslagen($startdatum,$einddatum);
+            'Alle vastgelegde verslagen in periode',
+            '4150',
+            'MW',
+            function ($doelstelling, $startdatum, $einddatum) {
+                $r = $this->getAantalVerslagen($startdatum, $einddatum);
+
                 return $r;
             }
         );
-        $locatieStr = implode(", ",$this->gezinNoodopvangLocaties);
+        $locatieStr = implode(', ', $this->gezinNoodopvangLocaties);
         $this->addDoelstellingcijfer(
             "Aantal clienten dat verslag heeft in de periode dat gemaakt is op de locatie(s) $locatieStr .",
             '4155',
-            "Gezinnen noodopvang",
-            function($doelstelling,$startdatum,$einddatum)
-            {
-                $r = $this->getAantalUniekeClientenVoorLocaties($startdatum,$einddatum,$this->gezinNoodopvangLocaties);
+            'Gezinnen noodopvang',
+            function ($doelstelling, $startdatum, $einddatum) {
+                $r = $this->getAantalUniekeClientenVoorLocaties($startdatum, $einddatum, $this->gezinNoodopvangLocaties);
+
                 return $r;
             }
         );
     }
 
-    private function getAantalUniekeClientenVoorLocaties($startdatum,$einddatum,$locaties)
+    private function getAantalUniekeClientenVoorLocaties($startdatum, $einddatum, $locaties)
     {
-        $builder = $this->createQueryBuilder("verslag");
-        $builder->select("COUNT(DISTINCT verslag.klant) AS aantalKlanten")
-            ->leftJoin("verslag.klant", "klant")
-            ->innerJoin("verslag.locatie","locatie")
-            ->andWhere("verslag.type = 1")
-            ->andWhere("locatie.naam IN (:locaties)")
-            ->andWhere("DATE(verslag.datum) BETWEEN :startdatum AND :einddatum")
-            ->setParameter("startdatum",$startdatum)
-            ->setParameter("einddatum",$einddatum)
-            ->setParameter("locaties",$locaties)
+        $builder = $this->createQueryBuilder('verslag');
+        $builder->select('COUNT(DISTINCT verslag.klant) AS aantalKlanten')
+            ->leftJoin('verslag.klant', 'klant')
+            ->innerJoin('verslag.locatie', 'locatie')
+            ->andWhere('verslag.type = 1')
+            ->andWhere('locatie.naam IN (:locaties)')
+            ->andWhere('DATE(verslag.datum) BETWEEN :startdatum AND :einddatum')
+            ->setParameter('startdatum', $startdatum)
+            ->setParameter('einddatum', $einddatum)
+            ->setParameter('locaties', $locaties)
         ;
 
         $query = $builder->getQuery();
         $sql = $query->getSQL();
         $parameters = $query->getParameters();
         $result = $query->getSingleScalarResult();
+
         return $result;
     }
-    private function getAantalVerslagen($startdatum,$einddatum)
+
+    private function getAantalVerslagen($startdatum, $einddatum)
     {
-        $builder = $this->createQueryBuilder("verslag");
-        $builder->select("COUNT(verslag.id) AS aantalVerslagen")
-            ->leftJoin("verslag.klant", "klant")
-            ->andWhere("verslag.type = 1")
-            ->andWhere("DATE(verslag.datum) BETWEEN :startdatum AND :einddatum")
-            ->setParameter("startdatum",$startdatum)
-            ->setParameter("einddatum",$einddatum)
+        $builder = $this->createQueryBuilder('verslag');
+        $builder->select('COUNT(verslag.id) AS aantalVerslagen')
+            ->leftJoin('verslag.klant', 'klant')
+            ->andWhere('verslag.type = 1')
+            ->andWhere('DATE(verslag.datum) BETWEEN :startdatum AND :einddatum')
+            ->setParameter('startdatum', $startdatum)
+            ->setParameter('einddatum', $einddatum)
         ;
 
         $query = $builder->getQuery();
         $sql = $query->getSQL();
         $parameters = $query->getParameters();
         $result = $query->getSingleScalarResult();
+
         return $result;
     }
-
 }

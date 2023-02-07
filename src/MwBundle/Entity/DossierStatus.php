@@ -2,71 +2,59 @@
 
 namespace MwBundle\Entity;
 
-use AppBundle\Entity\Klant;
 use AppBundle\Entity\Medewerker;
 use AppBundle\Model\IdentifiableTrait;
-use AppBundle\Model\OptionalMedewerkerTrait;
+use AppBundle\Model\RequiredMedewerkerTrait;
 use AppBundle\Model\TimestampableTrait;
-use Doctrine\ORM\Event\LifecycleEventArgs;
-use Doctrine\ORM\Mapping\PrePersist;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Entity(repositoryClass="MwBundle\Repository\DossierStatusRepository")
- * @ORM\Table(name="mw_dossier_statussen", indexes={
- *     @ORM\Index(name="class", columns={"class", "id", "klant_id"})
- * })
+ * @ORM\Table(name="mw_dossier_statussen")
  * @ORM\HasLifecycleCallbacks
- * @ORM\InheritanceType("SINGLE_TABLE")
+ * @ORM\InheritanceType("JOINED")
  * @ORM\DiscriminatorColumn(name="class", type="string")
  * @ORM\DiscriminatorMap({
  *     "Aanmelding" = "Aanmelding",
+ *     "IntakeAlgemeen" = "IntakeAlgemeen",
+ *     "IntakeHuisvesting" = "IntakeHuisvesting",
+ *     "IntakeInkomen" = "IntakeInkomen",
+ *     "IntakeWelzijn" = "IntakeWelzijn",
+ *     "IntakeAdministratie" = "IntakeAdministratie",
+ *     "IntakeVerwachting" = "IntakeVerwachting",
+ *     "IntakeGezin" = "IntakeGezin",
  *     "Afsluiting" = "Afsluiting"
  * })
  * @Gedmo\Loggable
  */
-abstract class MwDossierStatus
+abstract class DossierStatus
 {
     use IdentifiableTrait;
+    use RequiredMedewerkerTrait;
     use TimestampableTrait;
-    use OptionalMedewerkerTrait;
 
     /**
      * @var Klant
      *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Klant", inversedBy="mwStatussen")
+     * @ORM\ManyToOne(targetEntity="Klant", inversedBy="mwStatussen")
      * @ORM\JoinColumn(nullable=false)
      * @Gedmo\Versioned
      */
     protected $klant;
 
     /**
-     * @ORM\Column(type="date")
+     * @ORM\Column(type="date", nullable=false)
      * @Gedmo\Versioned
      */
     protected $datum;
 
-    /**
-     * @var \DateTime
-     *
-     * @ORM\Column(type="datetime")
-     * @Gedmo\Versioned
-     */
-    protected $created;
-
-    /**
-     * @var \DateTime
-     *
-     * @ORM\Column(type="datetime")
-     * @Gedmo\Versioned
-     */
-    protected $modified;
-
-    public function __construct(Klant $klant, Medewerker $medewerker = null)
+    public function __construct(Klant $klant = null, Medewerker $medewerker = null)
     {
-        $this->klant = $klant;
-        $klant->setHuidigeMwStatus($this);
+        if ($klant) {
+            $this->klant = $klant;
+            $klant->addDossierStatus($this);
+        }
 
         $this->medewerker = $medewerker;
         $this->datum = new \DateTime('now');
@@ -75,13 +63,6 @@ abstract class MwDossierStatus
     public function getKlant()
     {
         return $this->klant;
-    }
-
-    public function setKlant(Klant $klant)
-    {
-        $this->klant = $klant;
-
-        return $this;
     }
 
     public function getDatum()
@@ -104,14 +85,5 @@ abstract class MwDossierStatus
     public function isAfgesloten()
     {
         return $this instanceof Afsluiting;
-    }
-
-    /**
-     * @PrePersist
-     * @param \Doctrine\ORM\Event\LifecycleEventArgs $event
-     */
-    public function onPrePersist(LifecycleEventArgs $event)
-    {
-        $this->created = $this->modified = new \DateTime();
     }
 }

@@ -4,15 +4,13 @@ namespace MwBundle\Controller;
 
 use AppBundle\Controller\AbstractChildController;
 use AppBundle\Entity\Klant;
-use JMS\DiExtraBundle\Annotation as DI;
 use MwBundle\Entity\Document;
 use MwBundle\Entity\Vrijwilliger;
 use MwBundle\Form\DocumentType;
 use MwBundle\Service\DocumentDao;
-use MwBundle\Service\DocumentDaoInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
 /**
  * @Route("/documenten")
@@ -37,17 +35,11 @@ class DocumentenController extends AbstractChildController
      */
     protected $entities;
 
-    /**
-     * @param DocumentDao $dao
-     * @param \ArrayObject $entities
-     */
     public function __construct(DocumentDao $dao, \ArrayObject $entities)
     {
         $this->dao = $dao;
         $this->entities = $entities;
     }
-
-
 
     /**
      * @Route("/add")
@@ -56,14 +48,12 @@ class DocumentenController extends AbstractChildController
     public function addAction(Request $request)
     {
         [$parentEntity, $this->parentDao] = $this->getParentConfig($request);
-        if($parentEntity instanceof Klant)
-        {
+        if ($parentEntity instanceof Klant) {
             $this->addMethod = null;
-        }
-        elseif($parentEntity instanceof Vrijwilliger)
-        {
+        } elseif ($parentEntity instanceof Vrijwilliger) {
             $this->addMethod = 'addDocument';
         }
+
         return parent::addAction($request);
     }
 

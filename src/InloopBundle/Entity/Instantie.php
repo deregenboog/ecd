@@ -4,6 +4,7 @@ namespace InloopBundle\Entity;
 
 use AppBundle\Model\IdentifiableTrait;
 use AppBundle\Model\NameableTrait;
+use AppBundle\Model\TimeframeableTrait;
 use AppBundle\Model\TimestampableTrait;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
@@ -11,12 +12,14 @@ use Gedmo\Mapping\Annotation as Gedmo;
 /**
  * @ORM\Entity
  * @ORM\Table(name="instanties")
+ * @ORM\HasLifecycleCallbacks
  * @Gedmo\Loggable
  */
 class Instantie
 {
     use IdentifiableTrait;
     use NameableTrait;
+    use TimeframeableTrait;
     use TimestampableTrait;
 
     /**
@@ -34,19 +37,4 @@ class Instantie
      * @Gedmo\Versioned
      */
     protected $modified;
-
-    /**
-     * @deprecated
-     * @ORM\Column(name="datum_van", type="date")
-     * @Gedmo\Versioned
-     */
-    private $datumVan;
-
-    /**
-     * @deprecated
-     * @ORM\Column(name="datum_tot", type="date")
-     * @Gedmo\Versioned
-     */
-    private $datumTot;
-
 }

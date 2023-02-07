@@ -25,7 +25,6 @@ class InfoType extends AbstractType
             ->add('risDatumTot', AppDateType::class, ['required' => false])
         ;
 
-
 //        $trajectbegeleider = $builder->create('trajectbegeleiderForm', ContainerType::class, ['label' => 'Trajectbegeleider/maatschappelijk werker'])
 //            ->add('trajectbegeleider', MedewerkerType::class, ['required' => false])
 //        ;

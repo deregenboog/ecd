@@ -2,8 +2,6 @@
 
 namespace MwBundle\Form;
 
-use AppBundle\Form\AppDateType;
-use AppBundle\Form\AppTimeType;
 use AppBundle\Form\BaseType;
 use OekBundle\Entity\Training;
 use Symfony\Component\Form\AbstractType;

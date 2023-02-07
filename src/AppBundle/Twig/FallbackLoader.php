@@ -33,20 +33,4 @@ class FallbackLoader extends FilesystemLoader
     {
         return preg_replace('#/{2,}#', '/', str_replace('\\', '/', $name));
     }
-
-    private function parseName(string $name, string $default = self::MAIN_NAMESPACE): array
-    {
-        if (isset($name[0]) && '@' == $name[0]) {
-            if (false === $pos = strpos($name, '/')) {
-                throw new LoaderError(sprintf('Malformed namespaced template name "%s" (expecting "@namespace/template_name").', $name));
-            }
-
-            $namespace = substr($name, 1, $pos - 1);
-            $shortname = substr($name, $pos + 1);
-
-            return [$namespace, $shortname];
-        }
-
-        return [$default, $name];
-    }
 }

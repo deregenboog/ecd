@@ -16,6 +16,11 @@ class DossierSubscriber implements EventSubscriberInterface
      */
     private $bezoekerDao;
 
+    /**
+     * @var AccessUpdater
+     */
+    private $accessUpdater;
+
     public function __construct(
         BezoekerDaoInterface $bezoekerDao,
         AccessUpdater $accessUpdater
@@ -39,6 +44,5 @@ class DossierSubscriber implements EventSubscriberInterface
         }
 
         $this->accessUpdater->updateForClient($dossier->getBezoeker());
-
     }
 }

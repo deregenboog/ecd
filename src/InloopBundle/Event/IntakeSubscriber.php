@@ -20,6 +20,7 @@ class IntakeSubscriber implements EventSubscriberInterface
     private LoggerInterface $logger;
     private Environment $twig;
     private MailerInterface $mailer;
+    private AccessUpdater $accessUpdater;
     private $informeleZorgEmail;
     private $dagbestedingEmail;
     private $inloophuisEmail;
@@ -55,7 +56,6 @@ class IntakeSubscriber implements EventSubscriberInterface
 
     public function afterIntakeCreated(GenericEvent $event)
     {
-
         $intake = $event->getSubject();
         if (!$intake instanceof Intake) {
             return;
@@ -94,7 +94,6 @@ class IntakeSubscriber implements EventSubscriberInterface
         }
 
         $this->klantDao->update($klant);
-
     }
     public function sendIntakeNotification(Intake $intake)
     {

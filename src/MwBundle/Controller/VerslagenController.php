@@ -8,23 +8,16 @@ use AppBundle\Event\DienstenLookupEvent;
 use AppBundle\Event\Events;
 use AppBundle\Exception\UserException;
 use AppBundle\Export\ExportInterface;
-
-use Doctrine\ORM\EntityNotFoundException;
-use MwBundle\Service\InventarisatieDao;
-use MwBundle\Service\KlantDao;
-use MwBundle\Service\KlantDaoInterface;
-use JMS\DiExtraBundle\Annotation as DI;
 use MwBundle\Entity\Verslag;
-use MwBundle\Entity\Aanmelding;
 use MwBundle\Form\VerslagModel;
 use MwBundle\Form\VerslagType;
-use MwBundle\Service\InventarisatieDaoInterface;
+use MwBundle\Service\InventarisatieDao;
+use MwBundle\Service\KlantDao;
 use MwBundle\Service\VerslagDao;
-use MwBundle\Service\VerslagDaoInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
-use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * @Route("/verslagen")
@@ -54,17 +47,9 @@ class VerslagenController extends AbstractController
 
     /**
      * @var ExportInterface
-     *
-
      */
     protected $export;
 
-    /**
-     * @param VerslagDao $dao
-     * @param KlantDao $klantDao
-     * @param InventarisatieDao $inventarisatieDao
-     * @param ExportInterface $export
-     */
     public function __construct(VerslagDao $dao, KlantDao $klantDao, InventarisatieDao $inventarisatieDao, ExportInterface $export)
     {
         $this->dao = $dao;
@@ -73,15 +58,14 @@ class VerslagenController extends AbstractController
         $this->export = $export;
     }
 
-
     /**
      * @Route("/add/{klant}")
-     * @ParamConverter("klant", class="AppBundle:Klant")
+     * @ParamConverter("klant", class="MwBundle:Klant")
      */
     public function addAction(Request $request)
     {
         $klant = $request->get('klant');
-        $entity = new Verslag($klant,Verslag::TYPE_MW);
+        $entity = new Verslag($klant, Verslag::TYPE_MW);
 
         $formResult = $this->processForm($request, $entity);
 
@@ -94,6 +78,7 @@ class VerslagenController extends AbstractController
     public function editAction(Request $request, $id)
     {
         $entity = $this->dao->find($id);
+
         return $this->processForm($request, $entity);
     }
 
@@ -128,13 +113,12 @@ class VerslagenController extends AbstractController
                 if ($entity->getId()) {
                     $this->dao->update($entity);
                 } else {
-
                     $this->dao->create($entity);
                 }
                 $this->addFlash('success', ucfirst($this->entityName).' is opgeslagen.');
-            } catch(UserException $e) {
+            } catch (UserException $e) {
 //                $this->logger->error($e->getMessage(), ['exception' => $e]);
-                $message =  $e->getMessage();
+                $message = $e->getMessage();
                 $this->addFlash('danger', $message);
 //                return $this->redirectToRoute('app_klanten_index');
             } catch (\Exception $e) {
@@ -142,17 +126,11 @@ class VerslagenController extends AbstractController
                 $message = $this->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
                 $this->addFlash('danger', $message);
             }
-            if($entity->getKlant()->getHuidigeMwStatus() == null)
-            {
-               return $this->redirectToRoute("mw_klanten_addmwdossierstatus",['id'=>$entity->getKlant()->getId()]);
 
-            }
-            else
-            {
-                return $this->redirectToRoute("mw_klanten_view",['id'=>$entity->getKlant()->getId()]);
-            }
-
-            return $this->afterFormSubmitted($request, $entity, null);
+            return $this->redirectToRoute('mw_klanten_view', [
+                'id' => $entity->getKlant()->getId(),
+                '_fragment' => 'verslagen',
+            ]);
         }
 
         return [

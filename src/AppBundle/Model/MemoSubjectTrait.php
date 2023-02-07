@@ -2,12 +2,13 @@
 
 namespace AppBundle\Model;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 trait MemoSubjectTrait
 {
     /**
-     * @var MemoInterface[]
+     * @var ArrayCollection<MemoInterface>
      *
      * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Memo", cascade={"persist"})
      * @ORM\JoinTable(inverseJoinColumns={@ORM\JoinColumn(unique=true)})
@@ -16,7 +17,7 @@ trait MemoSubjectTrait
     protected $memos;
 
     /**
-     * @return MemoInterface[]
+     * @return ArrayCollection<MemoInterface>
      */
     public function getMemos()
     {

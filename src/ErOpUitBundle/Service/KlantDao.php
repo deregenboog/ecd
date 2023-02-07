@@ -5,6 +5,7 @@ namespace ErOpUitBundle\Service;
 use AppBundle\Entity\Klant as AppKlant;
 use AppBundle\Filter\FilterInterface;
 use AppBundle\Service\AbstractDao;
+use Doctrine\ORM\EntityManager;
 use ErOpUitBundle\Entity\Klant;
 
 class KlantDao extends AbstractDao implements KlantDaoInterface
@@ -62,6 +63,18 @@ class KlantDao extends AbstractDao implements KlantDaoInterface
     public function findOneByKlant(AppKlant $appKlant)
     {
         return $this->repository->findOneBy(['klant' => $appKlant]);
+    }
+
+    /**
+     * {inheritdoc}.
+     */
+    public function createForKlant(AppKlant $appKlant)
+    {
+        $this->entityManager->transactional(function(EntityManager $em) use ($appKlant) {
+            if (!$this->findOneByKlant($appKlant)) {
+                $this->create(new Klant($appKlant));
+            }
+        });
     }
 
     /**

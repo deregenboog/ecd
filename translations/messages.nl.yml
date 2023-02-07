@@ -1,7 +1,190 @@
 # Forms
+None: Niet van toepassing
 Submit: Opslaan
 Filter: Filteren
 Show: Tonen
 Download: Downloaden
 Next: Verder
 File: Document
+
+mw:
+  workflow:
+    aangemaakt: 'Aangemaakt'
+    aangemeld: 'Aangemeld'
+    intake_algemeen_afgerond: 'Intake Algemeen afgerond'
+    intake_huisvesting_afgerond: 'Intake Huisvesting afgerond'
+    intake_inkomen_afgerond: 'Intake Inkomen afgerond'
+    intake_welzijn_afgerond: 'Intake Welzijn afgerond'
+    intake_administratie_afgerond: 'Intake Administratie afgerond'
+    intake_verwachting_afgerond: 'Intake Verwachting afgerond'
+    intake_gezin_afgerond: ''
+    in_traject: 'In traject'
+    afgesloten: 'Afgesloten'
+  intake:
+    administratie:
+      datum:
+        label: 'Datum'
+      medewerker:
+        label: 'Medewerker'
+      woningnet:
+        label: 'Is de cliënt ingeschreven bij Woningnet?'
+      woningnetDuur:
+        label: 'Zo ja, hoe lang?'
+      verzekerd:
+        label: 'Is cliënt verzekerd?'
+      digid:
+        label: 'Heeft cliënt Digid?'
+      huisarts:
+        label: 'Heeft cliënt een huisarts?'
+      huisartsContactgegevens:
+        label: 'Contactgegevens huisarts'
+      digitaalVaardig:
+        label: 'Is cliënt digitaal vaardig?'
+    algemeen:
+      datum:
+        label: 'Datum'
+      medewerker:
+        label: 'Medewerker'
+      geinformeerd:
+        label: 'Is de cliënt geïnformeerd over het opslaan van gegevens en delen van gegevens met derden?'
+      talen:
+        label: 'Welke taal/talen spreekt de cliënt?'
+      verblijfsstatus:
+        label: 'Status van verblijf'
+      verblijfsstatusToelichting:
+        label: 'Toelichting'
+      landenRechthebbend:
+        label: 'In welk(e) land(en) is de cliënt rechthebbend?'
+      jvg:
+        label: 'Is de cliënt gescreend bij de JVG?'
+        choice:
+          niet_gescreend: 'Niet gescreend'
+          toegewezen: 'MO toegewezen'
+          afgewezen: 'MO afgewezen'
+          onbekend: 'Onbekend'
+      jvgToelichting:
+        label: 'Toelichting'
+    gezin:
+      datum:
+        label: 'Datum'
+      medewerker:
+        label: 'Medewerker'
+      gezin:
+        label: 'Is er sprake van een gezin?'
+        help: 'Bij nee zijn onderstaande vragen overbodig'
+      dreigendeDakloosheid:
+        label: 'Is er sprake van dreigende dakloosheid?'
+      dreigendeDakloosheidToelichting:
+        label: 'Toelichting'
+      mog:
+        label: 'Is cliënt gescreend voor MOG?'
+      regiobinding:
+        label: 'Heeft cliënt regiobinding van 4 jaar?'
+      regiobindingToelichting:
+        label: 'Toelichting'
+      okt:
+        label: 'Is OKT betrokken?'
+      hulpverleningKinderen:
+        label: 'Is er een vervolg nodig bij hulpverlening voor de kinderen?'
+      kinderbijslag:
+        label: 'Ontvangt cliënt kinderbijslag?'
+      kindgebondenBudget:
+        label: 'Ontvangt cliënt kindgebonden budget?'
+    huisvesting:
+      datum:
+        label: 'Datum'
+      medewerker:
+        label: 'Medewerker'
+      dakloosDuur:
+        label: 'Hoelang is cliënt al dakloos?'
+      dakloosOorzaak:
+        label: 'Hoe is het gekomen dat cliënt dakloos is?'
+      huisvesting:
+        label: 'Hoe is de huisvestiging op het moment?'
+        choice:
+          straat: 'Op straat'
+          familie: 'Bij familie of kennissen'
+          hotel: 'Pensioen/hostel of hotel'
+      inschrijfadres:
+        label: 'Heeft de cliënt een inschrijfadres?'
+      regiobinding:
+        label: 'Heeft de cliënt (regio)binding?'
+      regiobindingToelichting:
+        label: 'Toelichting'
+    inkomen:
+      datum:
+        label: 'Datum'
+      medewerker:
+        label: 'Medewerker'
+      inkomsten:
+        label: 'Heeft de cliënt inkomsten?'
+      inkomstenToelichting:
+        label: 'Zo ja, wat voor inkomsten heeft de cliënt?'
+      hulpBijInkomen:
+        label: 'Heeft cliënt hulp nodig bij inkomen?'
+      hulpBijInkomenToelichting:
+        label: 'Toelichting'
+      stadspas:
+        label: 'Heeft de cliënt een stadspas?'
+      schuldenproblematiek:
+        label: 'Heeft de cliënt schuldenproblematiek?'
+      schuldenproblematiekToelichting:
+        label: 'Toelichting'
+    verwachting:
+      datum:
+        label: 'Datum'
+      medewerker:
+        label: 'Medewerker'
+      verwachtingen:
+        label: 'Wat zijn de verwachtingen van cliënt betreffend ons dienstaanbod?'
+      plannen:
+        label: 'Wat zijn de plannen van cliënt?'
+      actiepunten:
+        label: 'Wat zijn actiepunten die ondernomen gaan worden?'
+    welzijn:
+      datum:
+        label: 'Datum'
+      medewerker:
+        label: 'Medewerker'
+      sociaalNetwerk:
+        label: 'Hoe ziet het sociale netwerk van cliënt eruit?'
+      sociaalNetwerkBekend:
+        label: 'Zijn er contactgegevens van het sociale netwerk in het geval van nood?'
+      sociaalNetwerkContactgegevens:
+        label: 'Contactgegevens'
+      andereInstanties:
+        label: 'Heeft cliënt reeds contact met andere instanties, en waarbij helpen zij cliënt?'
+      andereInstantiesContactgegevens:
+        label: 'Contactgegevens'
+        help: 'Beschrijf de relatie tot de cliënt, telefoonnummer van de contactpersoon, naam etc.'
+      dagstructuur:
+        label: 'Heeft de cliënt dagstructuur?'
+        help: 'Bijvoorbeeld werk, dagbesteding of opleiding.'
+      dagstructuurToelichting:
+        label: 'Toelichting'
+        help: 'Beschrijf de dagstructuur van de cliënt. Voeg zonodig contactgegevens toe.'
+      fysiekInOrde:
+        label: 'Is de cliënt fysiek in orde?'
+      fysiekToelichting:
+        label: 'Toelichting'
+        help: 'Beschrijf de fysieke problematiek van de cliënt.'
+      psychischeProblemen:
+        label: 'Zijn er psychische problemen op het moment?'
+      psychischeProblemenToelichting:
+        label: 'Toelichting'
+        help: 'Beschrijf de psychische problematiek van de cliënt.'
+      verslaving:
+        label: 'Is er sprake van verslaving of middelengebruik?'
+        choice:
+          softdrugs: 'Soft drugs (wiet, designer drugs, kalmeringsmiddelen etc.)'
+          harddrugs: 'Hard drugs (cocaïne, heroïne, amfetamine etc.)'
+          acohol: 'Alcohol'
+          anders: 'Anders, namelijk'
+      verslavingToelichting:
+        label: 'Toelichting'
+        help: 'Beschrijf overige verslavingen of middelengebruik.'
+      justitie:
+        label: 'Is er contact of onlangs contact geweest met de justitie?'
+      justitieToelichting:
+        label: 'Toelichting'
+        help: 'Beschrijf de situatie en geef naam en telefoonnummer van de contactpersoon.'

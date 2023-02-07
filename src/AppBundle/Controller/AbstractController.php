@@ -153,7 +153,6 @@ abstract class AbstractController extends SymfonyController
      */
     public function indexAction(Request $request)
     {
-
         if (in_array('index', $this->disabledActions)) {
             throw new AccessDeniedHttpException();
         }
@@ -257,8 +256,8 @@ abstract class AbstractController extends SymfonyController
         }
 
         $params = ['entity' => $entity];
-
         $params = array_merge($params, $this->addParams($entity, $request));
+
         return $params;
     }
 

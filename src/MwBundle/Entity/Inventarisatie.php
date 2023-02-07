@@ -20,7 +20,7 @@ class Inventarisatie
     /**
      * @var int
      *
-     * @ORM\Column(type="integer", nullable=true)
+     * @ORM\Column(name="`order`", type="integer", nullable=true)
      * @Gedmo\Versioned
      */
     private $order;

@@ -2,23 +2,27 @@
 
 namespace MwBundle\Entity;
 
-use AppBundle\Entity\Klant;
-use AppBundle\Entity\Medewerker;
-use Doctrine\ORM\Event\LifecycleEventArgs;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
-use MwBundle\Service\BinnenViaKlantDao;
-use Doctrine\ORM\Mapping\PrePersist;
 
 /**
  * @ORM\Entity
+ * @ORM\Table(name="mw_aanmeldingen")
  * @ORM\HasLifecycleCallbacks
  * @Gedmo\Loggable
  */
-class Aanmelding extends MwDossierStatus
+class Aanmelding extends DossierStatus
 {
     public function __toString()
     {
+        if ($this->project) {
+            return sprintf(
+                'Aanmelding bij "%s" op %s',
+                $this->project,
+                $this->datum->format('d-m-Y')
+            );
+        }
+
         return sprintf(
             'Aanmelding op %s',
             $this->datum->format('d-m-Y')
@@ -29,35 +33,27 @@ class Aanmelding extends MwDossierStatus
      * @var BinnenViaOptieKlant
      *
      * @ORM\ManyToOne(targetEntity="BinnenViaOptieKlant")
-     * @ORM\JoinColumn(nullable=false, options={"default": 0})
+     * @ORM\JoinColumn(nullable=false)
      * @Gedmo\Versioned
      */
-    protected $binnenViaOptieKlant;
+    protected $binnenVia;
 
     /**
      * @var Project
      *
-     * @ORM\ManyToOne(targetEntity="MwBundle\Entity\Project")
-     * @ORM\JoinColumn(nullable=true)
+     * @ORM\ManyToOne(targetEntity="Project")
      * @Gedmo\Versioned
      */
     protected $project;
 
-    /**
-     * @return BinnenViaOptieKlant
-     */
-    public function getBinnenViaOptieKlant(): ?BinnenViaOptieKlant
+    public function getBinnenVia(): ?BinnenViaOptieKlant
     {
-        return $this->binnenViaOptieKlant;
+        return $this->binnenVia;
     }
 
-    /**
-     * @param BinnenViaOptieKlant $binnenViaOptieKlant
-     * @return Aanmelding
-     */
-    public function setBinnenViaOptieKlant(BinnenViaOptieKlant $binnenViaOptieKlant): Aanmelding
+    public function setBinnenVia(BinnenViaOptieKlant $binnenVia): self
     {
-        $this->binnenViaOptieKlant = $binnenViaOptieKlant;
+        $this->binnenVia = $binnenVia;
 
         return $this;
     }
@@ -72,18 +68,5 @@ class Aanmelding extends MwDossierStatus
         $this->project = $project;
 
         return $this;
-    }
-
-    /**
-     * @PrePersist
-     * @param \Doctrine\ORM\Event\LifecycleEventArgs $event
-     */
-    public function onPrePersist(LifecycleEventArgs $event)
-    {
-        $this->created = $this->modified = new \DateTime();
-        if (false === empty($this->binnenViaOptieKlant)) {
-            return;
-        }
-        $this->binnenViaOptieKlant = $event->getEntityManager()->getReference('MwBundle:BinnenViaOptieKlant', 0);
     }
 }

@@ -12,23 +12,23 @@ AppBundle\Entity\Werkgebied:
     werkgebied_1:
         __construct: ['Amstelveen', 1]
     werkgebied_2:
-        __construct: ['Centrum',1]
+        __construct: ['Centrum', 1]
     werkgebied_3:
-        __construct: ['Diemen',1]
+        __construct: ['Diemen', 1]
     werkgebied_4:
-        __construct: ['Nieuw-West',1]
+        __construct: ['Nieuw-West', 1]
     werkgebied_5:
-        __construct: ['Noord',1]
+        __construct: ['Noord', 1]
     werkgebied_6:
-        __construct: ['Oost',1]
+        __construct: ['Oost', 1]
     werkgebied_7:
-        __construct: ['West',1]
+        __construct: ['West', 1]
     werkgebied_8:
-        __construct: ['Westpoort',1]
+        __construct: ['Westpoort', 1]
     werkgebied_9:
-        __construct: ['Zuid',1]
+        __construct: ['Zuid', 1]
     werkgebied_10:
-        __construct: ['Zuidoost',1]
+        __construct: ['Zuidoost', 1]
 
 AppBundle\Entity\GgwGebied:
     ggw_gebied_1:
@@ -844,13 +844,523 @@ AppBundle\Entity\Vrijwilliger:
         nationaliteit: '@nationaliteit_*'
 
 AppBundle\Entity\Verblijfsstatus:
-    verblijfsstatus_7:
-#        id: '7'
-        datum_van: '<dateTimeThisYear()>'
-        datum_tot: '<dateTimeBetween("+1 year", "+1 year")>'
-        naam: 'Niet rechthebbend (uit EU, behalve Nederland)'
     verblijfsstatus_1:
-#        id: '1'
         naam: 'Legaal'
-        datum_van: '<dateTimeThisYear()>'
-        datum_tot: '<dateTimeBetween("+1 year", "+1 year")>'
+        datumVan: '<date_create("2010-01-13")>'
+    verblijfsstatus_2:
+        naam: 'Werkvergunning'
+        datumVan: '<date_create("2010-01-13")>'
+    verblijfsstatus_3:
+        naam: 'Niet rechthebbend (uit Nederland, behalve Amsterdam)'
+        datumVan: '<date_create("2010-01-13")>'
+    verblijfsstatus_4:
+        naam: 'Onbekend'
+        datumVan: '<date_create("2010-01-13")>'
+    verblijfsstatus_6:
+        naam: 'Illegaal (uit buiten Europa)'
+        datumVan: '<date_create("2010-01-13")>'
+    verblijfsstatus_7:
+        naam: 'Niet rechthebbend (uit EU, behalve Nederland)'
+        datumVan: '<date_create("2010-01-13")>'
+
+AppBundle\Entity\Categorie:
+    categorie_1:
+        naam: 'Afspraak'
+    categorie_2:
+        naam: 'Bellen'
+    categorie_3:
+        naam: 'Nieuws'
+    categorie_4:
+        naam: 'Overig'
+
+AppBundle\Entity\Inkomen:
+    inkomen_1:
+        naam: 'Loon'
+        datumVan: '<date_create("2010-01-06")>'
+    inkomen_2:
+        naam: 'Uitkering DWI'
+        datumVan: '<date_create("2010-01-06")>'
+    inkomen_3:
+        naam: 'Uitkering UWV'
+        datumVan: '<date_create("2010-01-06")>'
+    inkomen_4:
+        naam: 'Uitkering Wajong'
+        datumVan: '<date_create("2010-01-01")>'
+    inkomen_5:
+        naam: 'Uitkering WAO'
+        datumVan: '<date_create("2010-01-06")>'
+    inkomen_6:
+        naam: 'Uitkering overig'
+        datumVan: '<date_create("2010-01-06")>'
+    inkomen_7:
+        naam: 'Onbekend'
+        datumVan: '<date_create("2010-01-06")>'
+    inkomen_8:
+        naam: 'Geen'
+        datumVan: '<date_create("2010-01-06")>'
+
+AppBundle\Entity\Legitimatie:
+    legitimatie_1:
+        naam: 'Geen'
+        datumVan: '<date_create("2010-01-13")>'
+    legitimatie_2:
+        naam: 'ID-kaart'
+        datumVan: '<date_create("2010-01-13")>'
+    legitimatie_3:
+        naam: 'Nederlands rijbewijs'
+        datumVan: '<date_create("2010-01-13")>'
+    legitimatie_4:
+        naam: 'Paspoort'
+        datumVan: '<date_create("2010-01-13")>'
+    legitimatie_5:
+        naam: 'Verblijfsdocument'
+        datumVan: '<date_create("2010-01-01")>'
+
+AppBundle\Entity\ZrmSetting:
+    zrm_settings_1:
+        request_module: 'Intake'
+        inkomen: 0
+        dagbesteding: 0
+        huisvesting: 0
+        gezinsrelaties: 0
+        geestelijke_gezondheid: 0
+        fysieke_gezondheid: 0
+        verslaving: 0
+        adl_vaardigheden: 0
+        sociaal_netwerk: 0
+        maatschappelijke_participatie: 0
+        justitie: 0
+    zrm_settings_2:
+        request_module: 'MaatschappelijkWerk'
+        inkomen: 1
+        dagbesteding: 1
+        huisvesting: 1
+        gezinsrelaties: 1
+        geestelijke_gezondheid: 1
+        fysieke_gezondheid: 1
+        verslaving: 1
+        adl_vaardigheden: 1
+        sociaal_netwerk: 1
+        maatschappelijke_participatie: 1
+        justitie: 1
+    zrm_settings_3:
+        request_module: 'Awbz'
+        inkomen: 0
+        dagbesteding: 0
+        huisvesting: 0
+        gezinsrelaties: 0
+        geestelijke_gezondheid: 0
+        fysieke_gezondheid: 0
+        verslaving: 0
+        adl_vaardigheden: 0
+        sociaal_netwerk: 0
+        maatschappelijke_participatie: 0
+        justitie: 0
+    zrm_settings_4:
+        request_module: 'Hi5'
+        inkomen: 0
+        dagbesteding: 0
+        huisvesting: 0
+        gezinsrelaties: 0
+        geestelijke_gezondheid: 0
+        fysieke_gezondheid: 0
+        verslaving: 0
+        adl_vaardigheden: 0
+        sociaal_netwerk: 0
+        maatschappelijke_participatie: 0
+        justitie: 0
+    zrm_settings_5:
+        request_module: 'GroepsactiviteitenIntake'
+        inkomen: 0
+        dagbesteding: 0
+        huisvesting: 0
+        gezinsrelaties: 0
+        geestelijke_gezondheid: 0
+        fysieke_gezondheid: 0
+        verslaving: 0
+        adl_vaardigheden: 0
+        sociaal_netwerk: 0
+        maatschappelijke_participatie: 0
+        justitie: 0
+    zrm_settings_6:
+        request_module: 'IzIntake'
+
+AppBundle\Entity\Taal:
+    taal_Nederlands:
+        naam: 'Nederlands'
+        favoriet: true
+    taal_Engels:
+        naam: 'Engels'
+        favoriet: true
+    taal_Onbekend:
+        naam: 'Onbekend'
+        favoriet: false
+    taal_Slowaaks:
+        naam: 'Slowaaks'
+        favoriet: false
+    taal_Tsjechisch:
+        naam: 'Tsjechisch'
+        favoriet: false
+    taal_Georgisch:
+        naam: 'Georgisch'
+        favoriet: false
+    taal_Tadzjikistan:
+        naam: 'Tadzjikistan'
+        favoriet: false
+    taal_Oekraïens:
+        naam: 'Oekraïens'
+        favoriet: true
+    taal_Moldavisch:
+        naam: 'Moldavisch'
+        favoriet: false
+    taal_Kazachstan:
+        naam: 'Kazachstan'
+        favoriet: false
+    taal_Belarus:
+        naam: 'Belarus (Wit-Rusland)'
+        favoriet: false
+    taal_Azerbajdsjan:
+        naam: 'Azerbajdsjan'
+        favoriet: false
+    taal_Russisch:
+        naam: 'Russisch'
+        favoriet: true
+    taal_Sloveens:
+        naam: 'Sloveens'
+        favoriet: false
+    taal_Kroatisch:
+        naam: 'Kroatisch'
+        favoriet: false
+    taal_Lets:
+        naam: 'Lets'
+        favoriet: false
+    taal_Estnisch:
+        naam: 'Estnisch'
+        favoriet: false
+    taal_Litouws:
+        naam: 'Litouws'
+        favoriet: false
+    taal_Albanees:
+        naam: 'Albanees'
+        favoriet: false
+    taal_Bulgaars:
+        naam: 'Bulgaars'
+        favoriet: true
+    taal_Deens:
+        naam: 'Deens'
+        favoriet: false
+    taal_Duits:
+        naam: 'Duits'
+        favoriet: true
+    taal_Fins:
+        naam: 'Fins'
+        favoriet: false
+    taal_Frans:
+        naam: 'Frans'
+        favoriet: true
+    taal_Jemenitisch:
+        naam: 'Jemenitisch'
+        favoriet: false
+    taal_Grieks:
+        naam: 'Grieks'
+        favoriet: false
+    taal_Hongaars:
+        naam: 'Hongaars'
+        favoriet: false
+    taal_Iers:
+        naam: 'Iers'
+        favoriet: false
+    taal_IJslands:
+        naam: 'IJslands'
+        favoriet: false
+    taal_Italiaans:
+        naam: 'Italiaans'
+        favoriet: false
+    taal_Joegoslavisch:
+        naam: 'Joegoslavisch'
+        favoriet: false
+    taal_Luxemburgs:
+        naam: 'Luxemburgs'
+        favoriet: false
+    taal_Maltees:
+        naam: 'Maltees'
+        favoriet: false
+    taal_Noors:
+        naam: 'Noors'
+        favoriet: false
+    taal_Oostenrijks:
+        naam: 'Oostenrijks'
+        favoriet: false
+    taal_Pools:
+        naam: 'Pools'
+        favoriet: true
+    taal_Portugees:
+        naam: 'Portugees'
+        favoriet: false
+    taal_Roemeens:
+        naam: 'Roemeens'
+        favoriet: true
+    taal_Spaans:
+        naam: 'Spaans'
+        favoriet: true
+    taal_Zweeds:
+        naam: 'Zweeds'
+        favoriet: false
+    taal_Zwitsers:
+        naam: 'Zwitsers'
+        favoriet: false
+    taal_Eritres:
+        naam: 'Eritres'
+        favoriet: false
+    taal_Macedonisch:
+        naam: 'Macedonisch'
+        favoriet: false
+    taal_Algerijns:
+        naam: 'Algerijns'
+        favoriet: false
+    taal_Angolees:
+        naam: 'Angolees'
+        favoriet: false
+    taal_Burundisch:
+        naam: 'Burundisch'
+        favoriet: false
+    taal_Burkina Faso:
+        naam: 'Burkina Faso'
+        favoriet: false
+    taal_Centrafrikaans:
+        naam: 'Centrafrikaans'
+        favoriet: false
+    taal_Kongolees:
+        naam: 'Kongolees'
+        favoriet: false
+    taal_Egyptisch:
+        naam: 'Egyptisch'
+        favoriet: false
+    taal_Etiopisch:
+        naam: 'Etiopisch'
+        favoriet: false
+    taal_Gambiaans:
+        naam: 'Gambiaans'
+        favoriet: false
+    taal_Ghanees:
+        naam: 'Ghanees'
+        favoriet: false
+    taal_Guinees:
+        naam: 'Guinees'
+        favoriet: false
+    taal_Ivoriaans:
+        naam: 'Ivoriaans'
+        favoriet: false
+    taal_Kameroens:
+        naam: 'Kameroens'
+        favoriet: false
+    taal_Kenyaans:
+        naam: 'Kenyaans'
+        favoriet: false
+    taal_Liberiaans:
+        naam: 'Liberiaans'
+        favoriet: false
+    taal_Libisch:
+        naam: 'Libisch'
+        favoriet: false
+    taal_Malinees:
+        naam: 'Malinees'
+        favoriet: false
+    taal_Marokkaans:
+        naam: 'Marokkaans'
+        favoriet: false
+    taal_Mauritanisch:
+        naam: 'Mauritanisch'
+        favoriet: false
+    taal_Niger:
+        naam: 'Niger'
+        favoriet: false
+    taal_Nigeriaans:
+        naam: 'Nigeriaans'
+        favoriet: false
+    taal_Oegandees:
+        naam: 'Oegandees'
+        favoriet: false
+    taal_Guineebissaus:
+        naam: 'Guineebissaus'
+        favoriet: false
+    taal_Zuidafrikaans:
+        naam: 'Zuidafrikaans'
+        favoriet: false
+    taal_Senegalees:
+        naam: 'Senegalees'
+        favoriet: false
+    taal_Sierraleoons:
+        naam: 'Sierraleoons'
+        favoriet: false
+    taal_Soedanees:
+        naam: 'Soedanees'
+        favoriet: false
+    taal_Somalisch:
+        naam: 'Somalisch'
+        favoriet: false
+    taal_Tanzaniaans:
+        naam: 'Tanzaniaans'
+        favoriet: false
+    taal_Togolees:
+        naam: 'Togolees'
+        favoriet: false
+    taal_Tunesisch:
+        naam: 'Tunesisch'
+        favoriet: false
+    taal_Canadees:
+        naam: 'Canadees'
+        favoriet: false
+    taal_Cubaans:
+        naam: 'Cubaans'
+        favoriet: false
+    taal_Jamaicaans:
+        naam: 'Jamaicaans'
+        favoriet: false
+    taal_Mexicaans:
+        naam: 'Mexicaans'
+        favoriet: false
+    taal_Nicaraguaans:
+        naam: 'Nicaraguaans'
+        favoriet: false
+    taal_Argentijns:
+        naam: 'Argentijns'
+        favoriet: false
+    taal_Braziliaans:
+        naam: 'Braziliaans'
+        favoriet: false
+    taal_Chileens:
+        naam: 'Chileens'
+        favoriet: false
+    taal_Colombiaans:
+        naam: 'Colombiaans'
+        favoriet: false
+    taal_Ecuadoraans:
+        naam: 'Ecuadoraans'
+        favoriet: false
+    taal_Guyaans:
+        naam: 'Guyaans'
+        favoriet: false
+    taal_Peruaans:
+        naam: 'Peruaans'
+        favoriet: false
+    taal_Surinaams:
+        naam: 'Surinaams'
+        favoriet: false
+    taal_Venezolaans:
+        naam: 'Venezolaans'
+        favoriet: false
+    taal_Afghaans:
+        naam: 'Afghaans'
+        favoriet: false
+    taal_Bhutaans:
+        naam: 'Bhutaans'
+        favoriet: false
+    taal_Burmaans:
+        naam: 'Burmaans'
+        favoriet: false
+    taal_Srilankaans:
+        naam: 'Srilankaans'
+        favoriet: false
+    taal_Chinees:
+        naam: 'Chinees'
+        favoriet: false
+    taal_Cyprisch:
+        naam: 'Cyprisch'
+        favoriet: false
+    taal_India:
+        naam: 'India'
+        favoriet: false
+    taal_Indonesisch:
+        naam: 'Indonesisch'
+        favoriet: false
+    taal_Iraaks:
+        naam: 'Iraaks'
+        favoriet: false
+    taal_Iraans:
+        naam: 'Iraans'
+        favoriet: false
+    taal_Israëlisch:
+        naam: 'Israëlisch'
+        favoriet: false
+    taal_Japans:
+        naam: 'Japans'
+        favoriet: false
+    taal_Laotiaans:
+        naam: 'Laotiaans'
+        favoriet: false
+    taal_Libanees:
+        naam: 'Libanees'
+        favoriet: false
+    taal_Maldivisch:
+        naam: 'Maldivisch'
+        favoriet: false
+    taal_Mongolisch:
+        naam: 'Mongolisch'
+        favoriet: false
+    taal_Nepalees:
+        naam: 'Nepalees'
+        favoriet: false
+    taal_Pakistaans:
+        naam: 'Pakistaans'
+        favoriet: false
+    taal_Singaporaans:
+        naam: 'Singaporaans'
+        favoriet: false
+    taal_Syrisch:
+        naam: 'Syrisch'
+        favoriet: false
+    taal_Turks:
+        naam: 'Turks'
+        favoriet: false
+    taal_Zuidkoreaans:
+        naam: 'Zuidkoreaans'
+        favoriet: false
+    taal_Bangladesh:
+        naam: 'Bangladesh'
+        favoriet: false
+    taal_Australisch:
+        naam: 'Australisch'
+        favoriet: false
+    taal_Nieuwzeelands:
+        naam: 'Nieuwzeelands'
+        favoriet: false
+    taal_Westsamoaans:
+        naam: 'Westsamoaans'
+        favoriet: false
+    taal_Amerikaans:
+        naam: 'Amerikaans'
+        favoriet: false
+    taal_Servisch:
+        naam: 'Servisch'
+        favoriet: false
+    taal_Overig:
+        naam: 'Overig'
+        favoriet: false
+    taal_Indiaas:
+        naam: 'Indiaas'
+        favoriet: false
+    taal_Trinidad en Tobago:
+        naam: 'Trinidad en Tobago'
+        favoriet: false
+    taal_Vietnamees:
+        naam: 'Vietnamees'
+        favoriet: false
+    taal_Bosnier:
+        naam: 'Bosnier'
+        favoriet: false
+    taal_Thais:
+        naam: 'Thais'
+        favoriet: false
+    taal_Armeens:
+        naam: 'Armeens'
+        favoriet: false
+    taal_Turkmeens:
+        naam: 'Turkmeens'
+        favoriet: false
+    taal_Tadzjieks:
+        naam: 'Tadzjieks'
+        favoriet: false
+    taal_Myanmarees:
+        naam: 'Myanmarees'
+        favoriet: false

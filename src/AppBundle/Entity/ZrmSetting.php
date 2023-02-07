@@ -10,6 +10,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
 /**
  * @ORM\Entity
  * @ORM\Table(name="zrm_settings")
+ * @ORM\HasLifecycleCallbacks
  * @Gedmo\Loggable
  */
 class ZrmSetting
@@ -23,11 +24,25 @@ class ZrmSetting
      */
     private $requestModule;
 
+    public function setRequestModule($requestModule)
+    {
+        $this->requestModule = $requestModule;
+
+        return $this;
+    }
+
     /**
      * @ORM\Column(type="boolean", nullable=true)
      * @Gedmo\Versioned
      */
     private $inkomen;
+
+    public function setInkomen($inkomen)
+    {
+        $this->inkomen = $inkomen;
+
+        return $this;
+    }
 
     /**
      * @ORM\Column(type="boolean", nullable=true)
@@ -35,11 +50,25 @@ class ZrmSetting
      */
     private $dagbesteding;
 
+    public function setDagbesteding($dagbesteding)
+    {
+        $this->dagbesteding = $dagbesteding;
+
+        return $this;
+    }
+
     /**
      * @ORM\Column(type="boolean", nullable=true)
      * @Gedmo\Versioned
      */
     private $huisvesting;
+
+    public function setHuisvesting($huisvesting)
+    {
+        $this->huisvesting = $huisvesting;
+
+        return $this;
+    }
 
     /**
      * @ORM\Column(type="boolean", nullable=true)
@@ -47,17 +76,38 @@ class ZrmSetting
      */
     private $gezinsrelaties;
 
-    /**
-     * @ORM\Column(type="boolean", nullable=true)
-     * @Gedmo\Versioned
-     */
-    private $geestelijke_gezondheid;
+    public function setGezinsrelaties($gezinsrelaties)
+    {
+        $this->gezinsrelaties = $gezinsrelaties;
+
+        return $this;
+    }
 
     /**
-     * @ORM\Column(type="boolean", nullable=true)
+     * @ORM\Column(name="geestelijke_gezondheid", type="boolean", nullable=true)
      * @Gedmo\Versioned
      */
-    private $fysieke_gezondheid;
+    private $geestelijkeGezondheid;
+
+    public function setGeestelijkeGezondheid($geestelijkeGezondheid)
+    {
+        $this->geestelijkeGezondheid = $geestelijkeGezondheid;
+
+        return $this;
+    }
+
+    /**
+     * @ORM\Column(name="fysieke_gezondheid", type="boolean", nullable=true)
+     * @Gedmo\Versioned
+     */
+    private $fysiekeGezondheid;
+
+    public function setFysiekeGezondheid($fysiekeGezondheid)
+    {
+        $this->fysiekeGezondheid = $fysiekeGezondheid;
+
+        return $this;
+    }
 
     /**
      * @ORM\Column(type="boolean", nullable=true)
@@ -65,29 +115,64 @@ class ZrmSetting
      */
     private $verslaving;
 
-    /**
-     * @ORM\Column(type="boolean", nullable=true)
-     * @Gedmo\Versioned
-     */
-    private $adl_vaardigheden;
+    public function setVerslaving($verslaving)
+    {
+        $this->verslaving = $verslaving;
+
+        return $this;
+    }
 
     /**
-     * @ORM\Column(type="boolean", nullable=true)
+     * @ORM\Column(name="adl_vaardigheden", type="boolean", nullable=true)
      * @Gedmo\Versioned
      */
-    private $sociaal_netwerk;
+    private $adlVaardigheden;
+
+    public function setAdlVaardigheden($adlVaardigheden)
+    {
+        $this->adlVaardigheden = $adlVaardigheden;
+
+        return $this;
+    }
 
     /**
-     * @ORM\Column(type="boolean", nullable=true)
+     * @ORM\Column(name="sociaal_netwerk", type="boolean", nullable=true)
      * @Gedmo\Versioned
      */
-    private $maatschappelijke_participatie;
+    private $sociaalNetwerk;
+
+    public function setSociaalNetwerk($sociaalNetwerk)
+    {
+        $this->sociaalNetwerk = $sociaalNetwerk;
+
+        return $this;
+    }
+
+    /**
+     * @ORM\Column(name="maatschappelijke_participatie", type="boolean", nullable=true)
+     * @Gedmo\Versioned
+     */
+    private $maatschappelijkeParticipatie;
+
+    public function setMaatschappelijkeParticipatie($maatschappelijkeParticipatie)
+    {
+        $this->maatschappelijkeParticipatie = $maatschappelijkeParticipatie;
+
+        return $this;
+    }
 
     /**
      * @ORM\Column(type="boolean", nullable=true)
      * @Gedmo\Versioned
      */
     private $justitie;
+
+    public function setjustitie($justitie)
+    {
+        $this->justitie = $justitie;
+
+        return $this;
+    }
 
     /**
      * @var \DateTime

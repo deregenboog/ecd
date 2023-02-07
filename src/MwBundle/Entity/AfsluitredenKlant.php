@@ -74,6 +74,7 @@ class AfsluitredenKlant
 
         return $this;
     }
+
     public function isLand()
     {
         return $this->land;

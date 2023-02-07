@@ -19,7 +19,6 @@ class VerslagModel
     private $inventarisaties;
     private $data = [];
 
-
     public function getVerslag()
     {
         return $this->verslag;

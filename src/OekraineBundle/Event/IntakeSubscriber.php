@@ -26,12 +26,6 @@ class IntakeSubscriber implements EventSubscriberInterface
     private $inloophuisEmail;
     private $hulpverleningEmail;
 
-    public function __construct(
-    ) {
-
-
-    }
-
     public static function getSubscribedEvents()
     {
         return[];
@@ -47,7 +41,6 @@ class IntakeSubscriber implements EventSubscriberInterface
         if (!$intake instanceof Intake) {
             return;
         }
-
     }
 
     public function afterIntakeUpdated(GenericEvent $event)
@@ -56,8 +49,5 @@ class IntakeSubscriber implements EventSubscriberInterface
         if (!$intake instanceof Intake) {
             return;
         }
-
     }
-
-
 }

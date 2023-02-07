@@ -85,7 +85,7 @@ class AppExtension extends AbstractExtension implements GlobalsInterface
             new TwigFunction('isActivePath', [$this, 'isActivePath']),
             new TwigFunction('colgroup', [$this, 'colgroup'], ['is_safe' => ['html']]),
             new TwigFunction('asset', [$this, 'asset']),
-            ];
+        ];
     }
 
     public function getFilters()
@@ -421,7 +421,7 @@ class AppExtension extends AbstractExtension implements GlobalsInterface
             $values[] = (string) $item;
         }
 
-        return implode($values, $separator);
+        return implode($separator, $values);
     }
 
     public function colgroup($n, array $percentages = [])

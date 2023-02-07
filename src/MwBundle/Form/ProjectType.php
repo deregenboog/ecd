@@ -21,9 +21,10 @@ class ProjectType extends AbstractType
             ->add('naam')
             ->add('medewerkers', MedewerkerType::class, [
                 'required' => true,
-                'preset'=> false,
+                'preset' => false,
                 'multiple' => true,
             ])
+            ->add('wachtlijst')
             ->add('actief')
             ->add('submit', SubmitType::class, ['label' => 'Opslaan'])
         ;

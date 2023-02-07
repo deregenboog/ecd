@@ -15,7 +15,7 @@ use InloopBundle\Entity\Registratie;
 use InloopBundle\Entity\Schorsing;
 use MwBundle\Entity\Aanmelding;
 use MwBundle\Entity\BinnenViaOptieKlant;
-use MwBundle\Entity\MwDossierStatus;
+use MwBundle\Entity\DossierStatus as MwDossierStatus;
 use MwBundle\Entity\Verslag;
 
 /**
@@ -47,7 +47,7 @@ class Klant extends Persoon
     private $mezzoId = 0;
 
     /**
-     * @var ArrayCollection<Intake>
+     * @var Collection<Intake>
      *
      * @ORM\OneToMany(targetEntity="InloopBundle\Entity\Intake", mappedBy="klant")
      * @ORM\OrderBy({"intakedatum" = "DESC", "id" = "DESC"})
@@ -71,7 +71,7 @@ class Klant extends Persoon
     private $verslagen;
 
     /**
-     * @var ArrayCollection<Registratie>
+     * @var Collection<Registratie>
      *
      * @ORM\OneToMany(targetEntity="InloopBundle\Entity\Registratie", mappedBy="klant")
      * @ORM\OrderBy({"id" = "DESC"})
@@ -142,16 +142,16 @@ class Klant extends Persoon
     private $statussen;
 
     /**
-     * @var MwDossierStatus[]
+     * @var DossierStatus[]
      *
-     * @ORM\OneToMany(targetEntity="MwBundle\Entity\MwDossierStatus", mappedBy="klant")
+     * @ORM\OneToMany(targetEntity="MwBundle\Entity\DossierStatus", mappedBy="klant")
      */
     private $mwStatussen;
 
     /**
-     * @var MwDossierStatus
+     * @var DossierStatus
      *
-     * @ORM\OneToOne(targetEntity="MwBundle\Entity\MwDossierStatus", cascade={"persist"})
+     * @ORM\OneToOne(targetEntity="MwBundle\Entity\DossierStatus", cascade={"persist"})
      * @Gedmo\Versioned
      */
     private $huidigeMwStatus;
@@ -450,6 +450,7 @@ class Klant extends Persoon
     public function addIncident(Incident $incident): Klant
     {
         $this->incidenten->add($incident);
+
         return $this;
     }
     public function getIntakes()
@@ -539,10 +540,12 @@ class Klant extends Persoon
     {
         return count((array) $this->verslagen);
     }
+
     public function getEersteVerslag()
     {
         return $this->verslagen->first();
     }
+
     public function getOpmerkingen()
     {
         return $this->opmerkingen;
@@ -647,7 +650,7 @@ class Klant extends Persoon
     }
 
     /**
-     * @return MwDossierStatus[]
+     * @return DossierStatus[]
      */
     public function getMwStatussen()
     {
@@ -655,8 +658,10 @@ class Klant extends Persoon
         $prevDosStat = null;
         $t = [];
 //        removal of duplicate entries.
-        foreach ($this->mwStatussen as $mwDosStat) {
-            if (!$prevDosStat instanceof $mwDosStat) {
+        foreach($this->mwStatussen as $mwDosStat)
+        {
+            if(!$prevDosStat instanceof $mwDosStat)
+            {
                 $t[] = $mwDosStat;
             }
             $prevDosStat = $mwDosStat;
@@ -665,7 +670,7 @@ class Klant extends Persoon
     }
 
     /**
-     * @param MwDossierStatus[] $mwStatussen
+     * @param DossierStatus[] $mwStatussen
      * @return Klant
      */
     public function setMwStatussen(array $mwStatussen): Klant
@@ -675,9 +680,9 @@ class Klant extends Persoon
     }
 
     /**
-     * @return MwDossierStatus
+     * @return DossierStatus
      */
-    public function getHuidigeMwStatus(): ?MwDossierStatus
+    public function getHuidigeMwStatus(): ?DossierStatus
     {
         return $this->huidigeMwStatus;
     }
@@ -685,8 +690,9 @@ class Klant extends Persoon
     public function getLaatsteBinnenViaOptieKlant(): ?BinnenViaOptieKlant
     {
         $binnenViaOptieKlant = null;
-        foreach ($this->getMwStatussen() as $mwStatus) {
-            if ($mwStatus instanceof Aanmelding) {
+        foreach($this->getMwStatussen() as $mwStatus)
+        {
+            if($mwStatus instanceof Aanmelding){
                 $binnenViaOptieKlant = $mwStatus->getBinnenViaOptieKlant();
             }
         }
@@ -695,17 +701,20 @@ class Klant extends Persoon
 
     public function getMwStatus($id)
     {
-        foreach ($this->getMwStatussen() as $mwStatus) {
-            if ($mwStatus->getId() == $id) {
+        foreach($this->getMwStatussen() as $mwStatus)
+        {
+            if($mwStatus->getId() == $id)
+            {
                 return $mwStatus;
             }
         }
     }
+
     /**
-     * @param MwDossierStatus $huidigeMwStatus
+     * @param DossierStatus $huidigeMwStatus
      * @return Klant
      */
-    public function setHuidigeMwStatus(MwDossierStatus $huidigeMwStatus): Klant
+    public function setHuidigeMwStatus(DossierStatus $huidigeMwStatus): Klant
     {
         $this->huidigeMwStatus = $huidigeMwStatus;
         return $this;

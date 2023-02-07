@@ -37,14 +37,16 @@ class KernelSubscriber implements EventSubscriberInterface
     public function onKernelController(ControllerEvent $event)
     {
         $controller = $event->getController();
+        if (is_array($controller)) {
+            $controller = $controller[0];
+        }
 
-        if (is_array($controller) && $controller[0] instanceof SymfonyController) {
-            $c = $controller[0];
-            $this->twig->addGlobal('module', $c->getModule() ?: $this->getDefaultModule($c));
-            $this->twig->addGlobal('title', $c->getTitle() ?: $this->getDefaultTitle($c));
-            $this->twig->addGlobal('subnavigation', $c->getSubnavigation() ?: $this->getDefaultSubnavigation($c));
-            $this->twig->addGlobal('entity_name', $c->getEntityName());
-            $this->twig->addGlobal('route_base', $c->getBaseRouteName());
+        if ($controller instanceof SymfonyController) {
+            $this->twig->addGlobal('module', $controller->getModule() ?: $this->getDefaultModule($controller));
+            $this->twig->addGlobal('title', $controller->getTitle() ?: $this->getDefaultTitle($controller));
+            $this->twig->addGlobal('subnavigation', $controller->getSubnavigation() ?: $this->getDefaultSubnavigation($controller));
+            $this->twig->addGlobal('entity_name', $controller->getEntityName());
+            $this->twig->addGlobal('route_base', $controller->getBaseRouteName());
         }
     }
 

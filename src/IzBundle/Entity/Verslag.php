@@ -6,7 +6,6 @@ use AppBundle\Entity\Medewerker;
 use AppBundle\Model\IdentifiableTrait;
 use AppBundle\Model\TimestampableTrait;
 use Doctrine\ORM\Mapping as ORM;
-use ErOpUitBundle\Form\KlantCloseType;
 use Gedmo\Mapping\Annotation as Gedmo;
 
 /**

@@ -1,4 +1,13 @@
 services:
+    MwBundle\Service\DossierStatusDao:
+        parent: app.dao.abstract
+
+    MwBundle\Service\AanmeldingDao:
+        parent: app.dao.abstract
+
+    MwBundle\Service\AfsluitingDao:
+        parent: app.dao.abstract
+
     MwBundle\Service\DocumentDao:
         parent: app.dao.abstract
 
@@ -29,7 +38,7 @@ services:
     MwBundle\Service\AfsluitredenVrijwilligerDao:
         parent: app.dao.abstract
 
-    MwBundle\Service\BinnenViaDao:
+    MwBundle\Service\BinnenViaVrijwilligerDao:
         parent: app.dao.abstract
 
     MwBundle\Service\BinnenViaKlantDao:
@@ -43,6 +52,13 @@ services:
         arguments:
             - '@event_dispatcher'
             - '@InloopBundle\Service\LocatieDao'
+
+    mw.dossierstatus.entities:
+        public: true
+        class: ArrayObject
+        arguments:
+            -
+                - { key: klant, dao: '@MwBundle\Service\KlantDao' }
 
     mw.memo.entities:
         public: true

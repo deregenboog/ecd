@@ -1,19 +1,10 @@
 {% import 'html.macro.twig' as html %}
 
-<h3>Dossierstatus</h3>
-<dl class="dl-horizontal">
-    <dt>Status:</dt>
-    <dd>
-        <ul>
-            {% for status in klant.mwStatussen %}
-                <li>{{ status }}{{ html.link('', path('mw_klanten_editmwdossierstatus', {id: klant.id,statusId:status.id}), 'edit') }}</li>
-            {% endfor %}
-        </ul>
-    </dd>
-    <dt>Binnen via:</dt>
-    <dd>{{ klant.laatsteBinnenViaOptieKlant}}{{ html.link('', path('mw_klanten_editmwdossierstatus', {id: klant.id,statusId:klant.mwStatussen.last.id|default(0)}), 'edit') }}</dd>
-</dl>
-{% if info %}
+{% include '@Mw/klanten/_transitions.html.twig' %}
+{% for status in klant.dossierStatussen %}
+    {% include '@Mw/klanten/_status.html.twig' %}
+{% endfor %}
+{% if info is defined %}
    <h3>Info</h3>
     <div class="row">
         <div class="col-xs-6">
@@ -39,7 +30,6 @@
                 <dd>{{ info.trajecthouderExternTelefoon }}</dd>
                 <dt>Overige externe contactpersonen</dt>
                 <dd>{{ info.overigeContactpersonenExtern }}</dd>
-
             </dl>
         </div>
     </div>
@@ -116,5 +106,4 @@
             </dl>
         </div>
     </div>
-
 {% endif %}

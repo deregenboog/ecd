@@ -9,7 +9,6 @@ use MwBundle\Service\VerslagDao;
 
 class ZonderZorg extends AbstractReport
 {
-
     protected $title = 'Zonder zorg';
 
     protected $xPath = 'type';
@@ -19,7 +18,7 @@ class ZonderZorg extends AbstractReport
 //    protected $nPath = 'aantal';
 
     protected $columns = [
-        'Klanten'=>'numContacten',
+        'Klanten' => 'numContacten',
         ];
 
     protected $yDescription = 'Aantal contacten';
@@ -63,28 +62,23 @@ class ZonderZorg extends AbstractReport
 //            $d[] = ['Aantal'=> $row['numContacten']];
 //        }
         $this->result = $rows;
-
-
-
     }
 
     protected function build()
     {
-
-        $table = new Grid($this->result, $this->columns,$this->yPath);
+        $table = new Grid($this->result, $this->columns, $this->yPath);
         $table
             ->setStartDate($this->startDate)
             ->setEndDate($this->endDate)
             ->setYSort(false)
             ->setYTotals(true)
         ;
-         $report = [
+        $report = [
             'title' => 'Zonder zorg (face-to-face)',
             'xDescription' => $this->xDescription,
             'yDescription' => $this->yDescription,
             'data' => $table->render(),
         ];
-
 
         $this->reports[] = $report;
     }

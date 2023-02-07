@@ -1,0 +1,4 @@
+services:
+    MwBundle\DataFixtures\MwProcessor:
+        tags:
+            - { name: fidry_alice_data_fixtures.processor }

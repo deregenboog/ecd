@@ -1,0 +1,10 @@
+{% extends 'add.html.twig' %}
+{% import 'html.macro.twig' as html %}
+
+{% block content_top %}
+    <h1>{{ klant }} toevoegen</h1>
+{% endblock %}
+
+{% block content %}
+    {{ form(form) }}
+{% endblock %}

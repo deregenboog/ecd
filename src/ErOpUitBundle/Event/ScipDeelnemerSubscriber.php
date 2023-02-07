@@ -5,7 +5,6 @@ namespace ErOpUitBundle\Event;
 use ErOpUitBundle\Entity\Klant;
 use ErOpUitBundle\Service\KlantDaoInterface;
 use ScipBundle\Event\Events;
-use ScipBundle\Entity\Deelnemer;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
 
@@ -30,23 +29,16 @@ class ScipDeelnemerSubscriber implements EventSubscriberInterface
 
     public function addToEropuit(GenericEvent $event)
     {
-        /* @var $deelnemer Deelnemer */
-        $deelnemer = $event->getSubject();
-
         // do nothing if not client
-        if (!$deelnemer->getKlant() instanceof \AppBundle\Entity\Klant) {
+        $klant = $event->getSubject()->getKlant();
+        if (!$klant) {
             return;
         }
 
-        $klant = $deelnemer->getKlant();
-
-        // do nothing if already exists
+        // create if not already exists
         $erOpUitDossier = $this->klantDao->findOneByKlant($klant);
-        if ($erOpUitDossier instanceof Klant) {
-            return;
+        if (!$erOpUitDossier) {
+            $this->klantDao->create(new Klant($klant));
         }
-
-        $erOpUitDossier = new Klant($klant);
-        $this->klantDao->create($erOpUitDossier);
     }
 }

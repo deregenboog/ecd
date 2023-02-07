@@ -2,6 +2,8 @@
 
 namespace AppBundle\Entity;
 
+use AppBundle\Model\IdentifiableTrait;
+use AppBundle\Model\NameableTrait;
 use AppBundle\Model\TimestampableTrait;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
@@ -14,14 +16,9 @@ use Gedmo\Mapping\Annotation as Gedmo;
  */
 class Taal
 {
+    use IdentifiableTrait;
+    use NameableTrait;
     use TimestampableTrait;
-
-    /**
-     * @ORM\Id
-     * @ORM\Column(type="integer")
-     * @ORM\GeneratedValue
-     */
-    private $id;
 
     /**
      * @ORM\Column(type="boolean")
@@ -36,12 +33,6 @@ class Taal
      */
     private $afkorting = '';
 
-    /**
-     * @ORM\Column(type="string")
-     * @Gedmo\Versioned
-     */
-    private $naam;
-
     public function __construct($naam = null, $afkorting = '', $favoriet=null)
     {
         $this->naam = $naam;
@@ -49,24 +40,9 @@ class Taal
         $this->favoriet = $favoriet;
     }
 
-    public function __toString()
-    {
-        return $this->naam;
-    }
-
-    public function getId()
-    {
-        return $this->id;
-    }
-
     public function getAfkorting()
     {
         return $this->afkorting;
-    }
-
-    public function getNaam()
-    {
-        return $this->naam;
     }
 
     public function isFavoriet(): bool

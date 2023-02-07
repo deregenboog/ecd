@@ -24,8 +24,6 @@ interface IntakeDaoInterface
     public function find($id);
 
     /**
-     * @param Intake $entity
-     *
      * @return Intake
      */
     public function update(Intake $entity);

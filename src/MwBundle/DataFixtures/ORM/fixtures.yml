@@ -1,3 +1,100 @@
+MwBundle\Entity\Klant:
+    mw_klant_{15..25}:
+        __construct: ['@klant_<current()>', '@medewerker_*']
+
+MwBundle\Entity\Aanmelding:
+    mw_aanmelding_{16..25}:
+        __construct: ['@mw_klant_<current()>', '@medewerker_*']
+        binnenVia: '@mw_binnen_via_klant_*'
+        project: '@mw_project_*'
+
+MwBundle\Entity\IntakeAlgemeen:
+    mw_intake_algemeen_{17..25}:
+        __construct: ['@mw_klant_<current()>', '@medewerker_*']
+        geinformeerd: true
+        talen: ['@taal_*']
+        verblijfsstatus: '@verblijfsstatus_*'
+        verblijfsstatusToelichting: '<text()>'
+        landenRechthebbend: ['@land_*']
+        jvg: 'toegewezen'
+        jvgToelichting: '<text()>'
+
+MwBundle\Entity\IntakeHuisvesting:
+    mw_intake_huisvesting_{18..25}:
+        __construct: ['@mw_klant_<current()>', '@medewerker_*']
+        dakloosDuur: '<words(2, true)>'
+        dakloosOorzaak: '<text()>'
+        huisvesting: 'familie'
+        inschrijfadres: '<words(5, true)>'
+        regiobinding: true
+        regiobindingToelichting: '<text()>'
+
+MwBundle\Entity\IntakeInkomen:
+    mw_intake_inkomen_{19..25}:
+        __construct: ['@mw_klant_<current()>', '@medewerker_*']
+        inkomsten: true
+        inkomstenToelichting: '<text()>'
+        hulpBijInkomen: false
+        hulpBijInkomenToelichting: '<text()>'
+        stadspas: true
+        schuldenproblematiek: true
+        schuldenproblematiekToelichting: '<text()>'
+
+MwBundle\Entity\IntakeWelzijn:
+    mw_intake_welzijn_{20..25}:
+        __construct: ['@mw_klant_<current()>', '@medewerker_*']
+        sociaalNetwerk: '<text()>'
+        sociaalNetwerkBekend: true
+        sociaalNetwerkContactgegevens: '<text()>'
+        andereInstanties: true
+        andereInstantiesContactgegevens: '<text()>'
+        dagstructuur: true
+        dagstructuurToelichting: '<text()>'
+        fysiekInOrde: true
+        fysiekToelichting: '<text()>'
+        psychischeProblemen: true
+        psychischeProblemenToelichting: '<text()>'
+        verslaving: ['harddrugs', 'anders']
+        verslavingToelichting: '<text()>'
+        justitie: true
+        justitieToelichting: '<text()>'
+
+MwBundle\Entity\IntakeAdministratie:
+    mw_intake_administratie_{21..25}:
+        __construct: ['@mw_klant_<current()>', '@medewerker_*']
+        woningnet: true
+        woningnetDuur: '<text()>'
+        verzekerd: true
+        digid: true
+        huisarts: true
+        huisartsContactgegevens: '<text()>'
+        digitaalVaardig: true
+
+MwBundle\Entity\IntakeVerwachting:
+    mw_intake_verwachting_{22..25}:
+        __construct: ['@mw_klant_<current()>', '@medewerker_*']
+        verwachtingen: '<text()>'
+        plannen: '<text()>'
+        actiepunten: '<text()>'
+
+MwBundle\Entity\IntakeGezin:
+    mw_intake_gezin_{23..25}:
+        __construct: ['@mw_klant_<current()>', '@medewerker_*']
+        gezin: true
+        dreigendeDakloosheid: true
+        dreigendeDakloosheidToelichting: '<text()>'
+        mog: true
+        regiobinding: true
+        regiobindingToelichting: '<text()>'
+        okt: true
+        hulpverleningKinderen: true
+        kinderbijslag: true
+        kindgebondenBudget: true
+
+MwBundle\Entity\Afsluiting:
+    mw_afsluiting_{24..25}:
+        __construct: ['@mw_klant_<current()>', '@medewerker_*']
+
 MwBundle\Entity\BinnenViaOptieKlant:
     mw_binnen_via_klant_{1..4}:
         naam: '<word()>'
@@ -5,18 +102,986 @@ MwBundle\Entity\BinnenViaOptieKlant:
         naam: '<word()>'
         actief: false
 
-MwBundle\Entity\BinnenViaOptieVW:
-    mw_binnen_via_vw_{1..4}:
+MwBundle\Entity\BinnenViaOptieVrijwilliger:
+    mw_binnen_via_vrijwilliger_{1..4}:
         naam: '<word()>'
-    mw_binnen_via_vw_5:
+    mw_binnen_via_vrijwilliger_5:
         naam: '<word()>'
         actief: false
 
 MwBundle\Entity\Project:
     mw_project_{1..4}:
         naam: '<word()>'
-        medewerker: '@medewerker_*'
+        medewerkers: ['@medewerker_*']
     mw_project_5:
         naam: '<word()>'
-        medewerker: '@medewerker_*'
+        medewerkers: ['@medewerker_*']
         actief: false
+
+MwBundle\Entity\Trajecthouder:
+    verwijzing_51:
+        naam: 'Lopend hulpverleningscontract'
+        startdatum: '<date_create("2011-03-16")>'
+    verwijzing_52:
+        naam: 'Trajecthouder Mentrum'
+        startdatum: '<date_create("2011-03-16")>'
+    verwijzing_53:
+        naam: 'Trajecthouder Volksbond'
+        startdatum: '<date_create("2011-03-16")>'
+    verwijzing_54:
+        naam: 'Trajecthouder HvO-Querido'
+        startdatum: '<date_create("2011-03-16")>'
+    verwijzing_55:
+        naam: 'Trajecthouder GGD'
+        startdatum: '<date_create("2011-03-16")>'
+    verwijzing_56:
+        naam: 'Trajecthouder Jellinek'
+        startdatum: '<date_create("2011-03-16")>'
+
+MwBundle\Entity\Contactsoort:
+    contactsoort_1:
+        naam: 'Clientgebonden'
+    contactsoort_2:
+        naam: 'Telefonisch'
+    contactsoort_3:
+        naam: 'Face-to-face'
+
+MwBundle\Entity\Doorverwijzing:
+    verwijzing_4:
+        naam: 'DWI/Fibu'
+        startdatum: '<date_create("2010-03-16")>'
+    verwijzing_5:
+        naam: 'GGD V&A'
+        startdatum: '<date_create("2010-03-16")>'
+    verwijzing_6:
+        naam: 'Jellinek/Mentrum  JOT teams'
+        startdatum: '<date_create("2010-03-16")>'
+    verwijzing_7:
+        naam: 'GGD Poliklinieken en AMT'
+        startdatum: '<date_create("2010-03-16")>'
+    verwijzing_8:
+        naam: 'Nachtopvang voorzieningen'
+        startdatum: '<date_create("2010-03-16")>'
+    verwijzing_9:
+        naam: 'Instroomhuis'
+        startdatum: '<date_create("2010-03-16")>'
+    verwijzing_10:
+        naam: 'Jellinek/Mentrum ACT en Rehab'
+        startdatum: '<date_create("2010-03-16")>'
+    verwijzing_11:
+        naam: 'Inloop voozieningen'
+        startdatum: '<date_create("2010-03-16")>'
+    verwijzing_12:
+        naam: 'Sociale pensions'
+        startdatum: '<date_create("2010-03-16")>'
+    verwijzing_13:
+        naam: 'Regenboog/AMOC'
+        startdatum: '<date_create("2010-03-16")>'
+    verwijzing_14:
+        naam: 'Leger des Heils'
+        startdatum: '<date_create("2010-03-16")>'
+    verwijzing_15:
+        naam: 'HVO/Querido'
+        startdatum: '<date_create("2010-03-16")>'
+    verwijzing_16:
+        naam: 'Reclassering'
+        startdatum: '<date_create("2010-03-16")>'
+    verwijzing_17:
+        naam: 'Dagbesteding'
+        startdatum: '<date_create("2010-03-16")>'
+    verwijzing_18:
+        naam: 'MDHG'
+        startdatum: '<date_create("2010-03-16")>'
+    verwijzing_19:
+        naam: 'Streetcornerwork WorkForce'
+        startdatum: '<date_create("2010-03-16")>'
+    verwijzing_20:
+        naam: 'Klinieken'
+        startdatum: '<date_create("2010-03-16")>'
+    verwijzing_21:
+        naam: 'AMW'
+        startdatum: '<date_create("2010-03-16")>'
+    verwijzing_22:
+        naam: 'Streetcornerwork veldwerk'
+        startdatum: '<date_create("2010-03-16")>'
+    verwijzing_23:
+        naam: 'Zorginstellingen buiten Amsterdam'
+        startdatum: '<date_create("2010-03-16")>'
+    verwijzing_24:
+        naam: 'Schuldhulpverlening'
+        startdatum: '<date_create("2010-03-16")>'
+    verwijzing_25:
+        naam: 'UWV'
+        startdatum: '<date_create("2010-03-16")>'
+    verwijzing_26:
+        naam: 'Ziekenhuizen'
+        startdatum: '<date_create("2010-03-16")>'
+    verwijzing_27:
+        naam: 'Huisvestingsorganisaties'
+        startdatum: '<date_create("2010-03-16")>'
+    verwijzing_28:
+        naam: 'Bewindvoerders'
+        startdatum: '<date_create("2010-03-16")>'
+    verwijzing_29:
+        naam: 'Jeugdhulpverlening'
+        startdatum: '<date_create("2010-03-16")>'
+    verwijzing_30:
+        naam: 'Drugspastoraat'
+        startdatum: '<date_create("2010-03-16")>'
+    verwijzing_31:
+        naam: 'Overige instanties'
+        startdatum: '<date_create("2010-03-16")>'
+    verwijzing_32:
+        naam: 'De Meren'
+        startdatum: '<date_create("2010-03-16")>'
+    verwijzing_33:
+        naam: 'Tandarts'
+        startdatum: '<date_create("2010-03-16")>'
+    verwijzing_34:
+        naam: 'Zorginstellingen binnen Amsterdam'
+        startdatum: '<date_create("2010-03-16")>'
+    verwijzing_35:
+        naam: 'Deurwaarder'
+        startdatum: '<date_create("2010-03-16")>'
+    verwijzing_36:
+        naam: 'GGD 24 uursdienst'
+        startdatum: '<date_create("2010-03-16")>'
+    verwijzing_37:
+        naam: 'Ziekenfonds'
+        startdatum: '<date_create("2010-03-16")>'
+    verwijzing_38:
+        naam: 'Huisarts'
+        startdatum: '<date_create("2010-03-16")>'
+    verwijzing_39:
+        naam: 'GGZ InGeest verwijzing_Buitenamstel)'
+        startdatum: '<date_create("2010-03-16")>'
+    verwijzing_40:
+        naam: 'Verpleeghuizen'
+        startdatum: '<date_create("2010-03-16")>'
+    verwijzing_41:
+        naam: 'Ombudsman'
+        startdatum: '<date_create("2010-03-16")>'
+    verwijzing_42:
+        naam: 'Apotheek'
+        startdatum: '<date_create("2010-03-16")>'
+    verwijzing_43:
+        naam: 'Advocaat'
+        startdatum: '<date_create("2010-03-16")>'
+    verwijzing_44:
+        naam: 'RBG overig'
+        startdatum: '<date_create("2010-03-16")>'
+    verwijzing_45:
+        naam: 'RBG Buddyzorg'
+        startdatum: '<date_create("2010-03-16")>'
+    verwijzing_46:
+        naam: 'RBG Vriendendiensten'
+        startdatum: '<date_create("2010-03-16")>'
+    verwijzing_47:
+        naam: 'Politie'
+        startdatum: '<date_create("2010-03-16")>'
+    verwijzing_48:
+        naam: 'Justitie'
+        startdatum: '<date_create("2010-03-16")>'
+    verwijzing_49:
+        naam: 'Rechtbank'
+        startdatum: '<date_create("2010-03-16")>'
+    verwijzing_57:
+        naam: 'Land van herkomst'
+        startdatum: '<date_create("2011-03-16")>'
+    verwijzing_58:
+        naam: 'Ambassade'
+        startdatum: '<date_create("2011-03-16")>'
+    verwijzing_59:
+        naam: 'Hulpverlening in land van herkomst/buiten NL'
+        startdatum: '<date_create("2011-03-16")>'
+    verwijzing_60:
+        naam: 'Familie/vrienden'
+        startdatum: '<date_create("2011-03-16")>'
+    verwijzing_61:
+        naam: 'Dokter Valckenier'
+        startdatum: '<date_create("2011-03-16")>'
+
+MwBundle\Entity\Inventarisatie:
+    inventarisatie_35:
+        order: 1
+        actief: 1
+        titel: 'Wonen'
+        actie: ''
+        startdatum: '<date_create("2010-01-01")>'
+        depth: 0
+    inventarisatie_36:
+        order: 2
+        actief: 1
+        titel: 'Dagbesteding'
+        actie: ''
+        startdatum: '<date_create("2010-01-01")>'
+        left: '@inventarisatie_37'
+        right: '@inventarisatie_64'
+        depth: 0
+    inventarisatie_37:
+        order: 3
+        actief: 1
+        titel: 'Inkomen'
+        actie: ''
+        startdatum: '<date_create("2010-01-01")>'
+        left: '@inventarisatie_65'
+        right: '@inventarisatie_76'
+        depth: 0
+    inventarisatie_38:
+        order: 4
+        actief: 1
+        titel: 'Schulden'
+        actie: ''
+        startdatum: '<date_create("2010-01-01")>'
+        left: '@inventarisatie_77'
+        right: '@inventarisatie_84'
+        depth: 0
+    inventarisatie_39:
+        order: 5
+        actief: 1
+        titel: 'Verslaving'
+        actie: ''
+        startdatum: '<date_create("2010-01-01")>'
+        left: '@inventarisatie_85'
+        right: '@inventarisatie_96'
+        depth: 0
+    inventarisatie_40:
+        order: 6
+        actief: 1
+        titel: 'Psychiatrie'
+        actie: ''
+        startdatum: '<date_create("2010-01-01")>'
+        left: '@inventarisatie_97'
+        right: '@inventarisatie_104'
+        depth: 0
+    inventarisatie_41:
+        order: 7
+        actief: 1
+        titel: 'Repatrieringswens'
+        actie: ''
+        startdatum: '<date_create("2010-01-01")>'
+        left: '@inventarisatie_105'
+        right: '@inventarisatie_116'
+        depth: 0
+    inventarisatie_42:
+        order: 8
+        actief: 1
+        titel: 'Sociaal netwerk'
+        actie: ''
+        startdatum: '<date_create("2010-01-01")>'
+        left: '@inventarisatie_117'
+        right: '@inventarisatie_124'
+        depth: 0
+    inventarisatie_43:
+        order: 9
+        actief: 1
+        titel: 'Psychosociaal'
+        actie: ''
+        startdatum: '<date_create("2010-01-01")>'
+        left: '@inventarisatie_125'
+        depth: 0
+    inventarisatie_44:
+        order: 10
+        actief: 1
+        titel: 'Medische zorg'
+        actie: ''
+        startdatum: '<date_create("2010-01-01")>'
+        depth: 0
+    inventarisatie_45:
+        order: 11
+        actief: 1
+        titel: 'Prostitutie'
+        actie: ''
+        startdatum: '<date_create("2010-01-01")>'
+        depth: 0
+    inventarisatie_46:
+        order: 12
+        actief: 1
+        titel: 'Justitie'
+        actie: ''
+        startdatum: '<date_create("2010-01-01")>'
+        depth: 0
+    inventarisatie_47:
+        order: 13
+        actief: 1
+        titel: 'Lopend hulpverleningscontact'
+        startdatum: '<date_create("2010-01-01")>'
+        actie: 'D'
+        depth: 0
+    inventarisatie_48:
+        order: 1
+        parent: '@inventarisatie_35'
+        actief: 1
+        titel: 'Dakloos'
+        startdatum: '<date_create("2010-01-01")>'
+        actie: 'N'
+        depth: 1
+    inventarisatie_49:
+        order: 2
+        actief: 1
+        titel: 'Eigen netwerk'
+        startdatum: '<date_create("2010-01-01")>'
+        actie: 'N'
+        right: '@inventarisatie_36'
+        depth: 0
+    inventarisatie_50:
+        order: 3
+        parent: '@inventarisatie_35'
+        actief: 1
+        titel: 'Eigen woning'
+        startdatum: '<date_create("2010-01-01")>'
+        actie: 'N'
+        depth: 1
+    inventarisatie_51:
+        order: 4
+        parent: '@inventarisatie_35'
+        actief: 1
+        titel: 'Pension etc'
+        startdatum: '<date_create("2010-01-01")>'
+        actie: 'S'
+        depth: 1
+    inventarisatie_52:
+        order: 1
+        parent: '@inventarisatie_48'
+        actief: 1
+        titel: 'Rechthebbend'
+        startdatum: '<date_create("2010-01-01")>'
+        actie: 'N'
+        depth: 2
+    inventarisatie_53:
+        order: 2
+        parent: '@inventarisatie_48'
+        actief: 1
+        titel: 'Niet rechthebbend'
+        startdatum: '<date_create("2010-01-01")>'
+        actie: 'N'
+        depth: 2
+    inventarisatie_54:
+        order: 1
+        parent: '@inventarisatie_52'
+        actief: 1
+        titel: 'Hulpvraag'
+        startdatum: '<date_create("2010-01-01")>'
+        actie: 'Doorverwijzer'
+        depth: 3
+    inventarisatie_55:
+        order: 2
+        parent: '@inventarisatie_52'
+        actief: 1
+        titel: 'Geen hulpvraag'
+        startdatum: '<date_create("2010-01-01")>'
+        actie: 'S'
+        depth: 3
+    inventarisatie_56:
+        order: 1
+        parent: '@inventarisatie_53'
+        actief: 1
+        titel: 'Hulpvraag'
+        startdatum: '<date_create("2010-01-01")>'
+        actie: 'Doorverwijzer'
+        depth: 3
+    inventarisatie_57:
+        order: 2
+        parent: '@inventarisatie_53'
+        actief: 1
+        titel: 'Geen hulpvraag'
+        startdatum: '<date_create("2010-01-01")>'
+        actie: 'S'
+        depth: 3
+    inventarisatie_58:
+        order: 1
+        parent: '@inventarisatie_49'
+        actief: 1
+        titel: 'Rechthebbend'
+        startdatum: '<date_create("2010-01-01")>'
+        actie: 'N'
+        depth: 1
+    inventarisatie_59:
+        order: 2
+        parent: '@inventarisatie_49'
+        actief: 1
+        titel: 'Niet rechthebbend'
+        startdatum: '<date_create("2010-01-01")>'
+        actie: 'Doorverwijzer'
+        right: '@inventarisatie_35'
+        depth: 1
+    inventarisatie_60:
+        order: 1
+        parent: '@inventarisatie_58'
+        actief: 1
+        titel: 'Hulpvraag'
+        startdatum: '<date_create("2010-01-01")>'
+        actie: 'Doorverwijzer'
+        depth: 2
+    inventarisatie_61:
+        order: 2
+        parent: '@inventarisatie_58'
+        actief: 1
+        titel: 'Geen hulpvraag'
+        startdatum: '<date_create("2010-01-01")>'
+        actie: 'S'
+        depth: 2
+    inventarisatie_62:
+        order: 1
+        parent: '@inventarisatie_50'
+        actief: 1
+        titel: 'Dreigende uithuiszetting'
+        startdatum: '<date_create("2010-01-01")>'
+        actie: 'Doorverwijzer'
+        depth: 2
+    inventarisatie_63:
+        order: 2
+        parent: '@inventarisatie_50'
+        actief: 1
+        titel: 'Geen dreigende uithuiszetting'
+        startdatum: '<date_create("2010-01-01")>'
+        actie: 'Doorverwijzer'
+        depth: 2
+    inventarisatie_64:
+        order: 1
+        parent: '@inventarisatie_44'
+        actief: 1
+        titel: 'Noodzakelijk'
+        startdatum: '<date_create("2010-01-01")>'
+        actie: 'Doorverwijzer'
+        depth: 1
+    inventarisatie_65:
+        order: 2
+        parent: '@inventarisatie_44'
+        actief: 1
+        titel: 'Niet noodzakelijk'
+        startdatum: '<date_create("2010-01-01")>'
+        actie: 'S'
+        depth: 1
+    inventarisatie_66:
+        order: 1
+        parent: '@inventarisatie_45'
+        actief: 1
+        titel: 'Ja'
+        startdatum: '<date_create("2010-01-01")>'
+        actie: 'N'
+        depth: 1
+    inventarisatie_67:
+        order: 2
+        parent: '@inventarisatie_45'
+        actief: 1
+        titel: 'Nee'
+        startdatum: '<date_create("2010-01-01")>'
+        actie: 'S'
+        depth: 1
+    inventarisatie_68:
+        order: 1
+        parent: '@inventarisatie_66'
+        actief: 1
+        titel: 'Hulpvraag'
+        startdatum: '<date_create("2010-01-01")>'
+        actie: 'Doorverwijzer'
+        depth: 2
+    inventarisatie_69:
+        order: 2
+        parent: '@inventarisatie_66'
+        actief: 1
+        titel: 'Geen hulpvraag'
+        startdatum: '<date_create("2010-01-01")>'
+        actie: 'S'
+        depth: 2
+    inventarisatie_70:
+        order: 1
+        parent: '@inventarisatie_46'
+        actief: 1
+        titel: 'Ja'
+        startdatum: '<date_create("2010-01-01")>'
+        actie: 'Doorverwijzer'
+        depth: 1
+    inventarisatie_71:
+        order: 2
+        parent: '@inventarisatie_46'
+        actief: 1
+        titel: 'Nee'
+        startdatum: '<date_create("2010-01-01")>'
+        actie: 'S'
+        depth: 1
+    inventarisatie_72:
+        order: 1
+        parent: '@inventarisatie_42'
+        actief: 1
+        titel: 'Hulpvraag'
+        startdatum: '<date_create("2010-01-01")>'
+        actie: 'Doorverwijzer'
+        left: '@inventarisatie_120'
+        right: '@inventarisatie_121'
+        depth: 1
+    inventarisatie_73:
+        order: 2
+        parent: '@inventarisatie_42'
+        actief: 1
+        titel: 'Geen hulpvraag'
+        startdatum: '<date_create("2010-01-01")>'
+        actie: 'S'
+        left: '@inventarisatie_122'
+        right: '@inventarisatie_123'
+        depth: 1
+    inventarisatie_74:
+        order: 1
+        parent: '@inventarisatie_76'
+        actief: 1
+        titel: 'Duidelijk'
+        startdatum: '<date_create("2010-01-01")>'
+        actie: 'Doorverwijzer'
+        depth: 2
+    inventarisatie_75:
+        order: 2
+        parent: '@inventarisatie_76'
+        actief: 1
+        titel: '(Nog) niet duidelijk'
+        startdatum: '<date_create("2010-01-01")>'
+        actie: 'Doorverwijzer'
+        depth: 2
+    inventarisatie_76:
+        order: 1
+        parent: '@inventarisatie_43'
+        actief: 1
+        titel: 'Hulpvraag'
+        startdatum: '<date_create("2010-01-01")>'
+        actie: 'N'
+        depth: 1
+    inventarisatie_77:
+        order: 2
+        parent: '@inventarisatie_43'
+        actief: 1
+        titel: 'Geen hulpvraag'
+        startdatum: '<date_create("2010-01-01")>'
+        actie: 'S'
+        depth: 1
+    inventarisatie_78:
+        order: 1
+        parent: '@inventarisatie_41'
+        titel: 'Ja, binnen Nederland'
+        startdatum: '<date_create("2010-01-01")>'
+        actie: 'D'
+        left: '@inventarisatie_108'
+        depth: 1
+    inventarisatie_79:
+        order: 2
+        parent: '@inventarisatie_41'
+        titel: 'Ja, binnen EU'
+        startdatum: '<date_create("2010-01-01")>'
+        actie: 'Doorverwijzer'
+        right: '@inventarisatie_111'
+        depth: 1
+    inventarisatie_80:
+        order: 3
+        parent: '@inventarisatie_41'
+        titel: 'Ja, buiten EU'
+        startdatum: '<date_create("2010-01-01")>'
+        actie: 'Doorverwijzer'
+        left: '@inventarisatie_112'
+        right: '@inventarisatie_113'
+        depth: 1
+    inventarisatie_81:
+        order: 4
+        parent: '@inventarisatie_41'
+        actief: 1
+        titel: 'Nee'
+        startdatum: '<date_create("2010-01-01")>'
+        actie: 'S'
+        left: '@inventarisatie_114'
+        right: '@inventarisatie_115'
+        depth: 1
+    inventarisatie_82:
+        order: 2
+        parent: '@inventarisatie_40'
+        actief: 1
+        titel: 'Niet van toepassing'
+        startdatum: '<date_create("2010-01-01")>'
+        actie: 'S'
+        left: '@inventarisatie_102'
+        right: '@inventarisatie_103'
+        depth: 1
+    inventarisatie_83:
+        order: 1
+        parent: '@inventarisatie_40'
+        actief: 1
+        titel: 'Vermoeden'
+        startdatum: '<date_create("2010-01-01")>'
+        actie: 'Doorverwijzer'
+        left: '@inventarisatie_100'
+        depth: 1
+    inventarisatie_84:
+        order: 1
+        parent: '@inventarisatie_39'
+        actief: 1
+        titel: 'Ja'
+        startdatum: '<date_create("2010-01-01")>'
+        actie: 'N'
+        left: '@inventarisatie_88'
+        right: '@inventarisatie_93'
+        depth: 1
+    inventarisatie_85:
+        order: 2
+        parent: '@inventarisatie_39'
+        actief: 1
+        titel: 'Nee'
+        startdatum: '<date_create("2010-01-01")>'
+        actie: 'S'
+        left: '@inventarisatie_94'
+        right: '@inventarisatie_95'
+        depth: 1
+    inventarisatie_86:
+        order: 2
+        parent: '@inventarisatie_84'
+        actief: 1
+        titel: 'Hulpvraag'
+        startdatum: '<date_create("2010-01-01")>'
+        actie: 'Doorverwijzer'
+        left: '@inventarisatie_91'
+        right: '@inventarisatie_92'
+        depth: 2
+    inventarisatie_87:
+        order: 1
+        parent: '@inventarisatie_84'
+        actief: 1
+        titel: 'Geen hulpvraag'
+        startdatum: '<date_create("2010-01-01")>'
+        actie: 'S'
+        left: '@inventarisatie_89'
+        right: '@inventarisatie_90'
+        depth: 2
+    inventarisatie_88:
+        order: 1
+        parent: '@inventarisatie_37'
+        actief: 1
+        titel: 'Ja'
+        startdatum: '<date_create("2010-01-01")>'
+        actie: 'S'
+        left: '@inventarisatie_68'
+        right: '@inventarisatie_69'
+        depth: 1
+    inventarisatie_89:
+        order: 2
+        parent: '@inventarisatie_37'
+        actief: 1
+        titel: 'Nee'
+        startdatum: '<date_create("2010-01-01")>'
+        actie: 'N'
+        left: '@inventarisatie_70'
+        right: '@inventarisatie_75'
+        depth: 1
+    inventarisatie_90:
+        order: 2
+        parent: '@inventarisatie_89'
+        actief: 1
+        titel: 'Rechthebbend'
+        startdatum: '<date_create("2010-01-01")>'
+        actie: 'Doorverwijzer'
+        left: '@inventarisatie_73'
+        right: '@inventarisatie_74'
+        depth: 2
+    inventarisatie_91:
+        order: 1
+        parent: '@inventarisatie_89'
+        actief: 1
+        titel: 'Niet rechthebbend'
+        startdatum: '<date_create("2010-01-01")>'
+        actie: 'S'
+        left: '@inventarisatie_71'
+        right: '@inventarisatie_72'
+        depth: 2
+    inventarisatie_92:
+        order: 1
+        parent: '@inventarisatie_38'
+        actief: 1
+        titel: 'Ja'
+        startdatum: '<date_create("2010-01-01")>'
+        actie: 'Doorverwijzer'
+        left: '@inventarisatie_80'
+        right: '@inventarisatie_81'
+        depth: 1
+    inventarisatie_93:
+        order: 2
+        parent: '@inventarisatie_38'
+        actief: 1
+        titel: 'Nee'
+        startdatum: '<date_create("2010-01-01")>'
+        actie: 'S'
+        left: '@inventarisatie_82'
+        right: '@inventarisatie_83'
+        depth: 1
+    inventarisatie_94:
+        order: 2
+        parent: '@inventarisatie_36'
+        actief: 1
+        titel: 'Wel'
+        startdatum: '<date_create("2010-01-01")>'
+        actie: 'N'
+        left: '@inventarisatie_50'
+        right: '@inventarisatie_63'
+        depth: 1
+    inventarisatie_95:
+        order: 1
+        parent: '@inventarisatie_36'
+        actief: 1
+        titel: 'Niet'
+        startdatum: '<date_create("2010-01-01")>'
+        actie: 'N'
+        left: '@inventarisatie_40'
+        right: '@inventarisatie_49'
+        depth: 1
+    inventarisatie_96:
+        order: 2
+        parent: '@inventarisatie_95'
+        actief: 1
+        titel: 'Hulpvraag'
+        startdatum: '<date_create("2010-01-01")>'
+        actie: 'N'
+        left: '@inventarisatie_43'
+        right: '@inventarisatie_48'
+        depth: 2
+    inventarisatie_97:
+        order: 1
+        parent: '@inventarisatie_95'
+        actief: 1
+        titel: 'Geen hulpvraag'
+        startdatum: '<date_create("2010-01-01")>'
+        actie: 'S'
+        left: '@inventarisatie_41'
+        right: '@inventarisatie_42'
+        depth: 2
+    inventarisatie_98:
+        order: 1
+        parent: '@inventarisatie_96'
+        actief: 1
+        titel: 'Rechthebbend'
+        startdatum: '<date_create("2010-01-01")>'
+        actie: 'Doorverwijzer'
+        left: '@inventarisatie_44'
+        right: '@inventarisatie_45'
+        depth: 3
+    inventarisatie_99:
+        order: 2
+        parent: '@inventarisatie_96'
+        actief: 1
+        titel: 'Niet rechthebbend'
+        startdatum: '<date_create("2010-01-01")>'
+        actie: 'Doorverwijzer'
+        left: '@inventarisatie_46'
+        right: '@inventarisatie_47'
+        depth: 3
+    inventarisatie_100:
+        order: 1
+        parent: '@inventarisatie_94'
+        actief: 1
+        titel: 'Via uitkerende instantie'
+        startdatum: '<date_create("2010-01-01")>'
+        actie: 'S'
+        left: '@inventarisatie_51'
+        right: '@inventarisatie_52'
+        depth: 2
+    inventarisatie_102:
+        order: 2
+        parent: '@inventarisatie_94'
+        actief: 1
+        titel: 'Niet via uitkerende instantie'
+        startdatum: '<date_create("2010-01-01")>'
+        actie: 'N'
+        left: '@inventarisatie_53'
+        right: '@inventarisatie_62'
+        depth: 2
+    inventarisatie_103:
+        order: 1
+        parent: '@inventarisatie_102'
+        actief: 1
+        titel: 'Recht op uitkering'
+        startdatum: '<date_create("2010-01-01")>'
+        actie: 'N'
+        left: '@inventarisatie_54'
+        right: '@inventarisatie_59'
+        depth: 3
+    inventarisatie_104:
+        order: 2
+        parent: '@inventarisatie_102'
+        actief: 1
+        titel: 'Geen recht op uitkering'
+        startdatum: '<date_create("2010-01-01")>'
+        actie: 'S'
+        left: '@inventarisatie_60'
+        right: '@inventarisatie_61'
+        depth: 3
+    inventarisatie_105:
+        order: 1
+        parent: '@inventarisatie_103'
+        actief: 1
+        titel: 'Heeft uitkering'
+        startdatum: '<date_create("2010-01-01")>'
+        actie: 'Doorverwijzer'
+        left: '@inventarisatie_55'
+        right: '@inventarisatie_56'
+        depth: 4
+    inventarisatie_106:
+        order: 2
+        parent: '@inventarisatie_103'
+        actief: 1
+        titel: 'Heeft geen uitkering'
+        startdatum: '<date_create("2010-01-01")>'
+        actie: 'Doorverwijzer'
+        left: '@inventarisatie_57'
+        right: '@inventarisatie_58'
+        depth: 4
+    inventarisatie_107:
+        order: 1
+        parent: '@inventarisatie_47'
+        actief: 1
+        titel: 'Ja'
+        startdatum: '<date_create("2010-01-01")>'
+        actie: 'Trajecthouder'
+        depth: 1
+    inventarisatie_108:
+        order: 2
+        parent: '@inventarisatie_47'
+        actief: 1
+        titel: 'Nee'
+        startdatum: '<date_create("2010-01-01")>'
+        actie: 'S'
+        depth: 1
+    inventarisatie_111:
+        order: 0
+        parent: '@inventarisatie_36'
+        actief: 1
+        titel: 'Niets te melden'
+        startdatum: '<date_create("2010-01-01")>'
+        actie: 'S'
+        left: '@inventarisatie_38'
+        right: '@inventarisatie_39'
+        depth: 1
+    inventarisatie_112:
+        order: 0
+        parent: '@inventarisatie_37'
+        actief: 1
+        titel: 'Niets te melden'
+        startdatum: '<date_create("2010-01-01")>'
+        actie: 'S'
+        left: '@inventarisatie_66'
+        right: '@inventarisatie_67'
+        depth: 1
+    inventarisatie_113:
+        order: 0
+        parent: '@inventarisatie_38'
+        actief: 1
+        titel: 'Niets te melden'
+        startdatum: '<date_create("2010-01-01")>'
+        actie: 'S'
+        left: '@inventarisatie_78'
+        right: '@inventarisatie_79'
+        depth: 1
+    inventarisatie_114:
+        order: 0
+        parent: '@inventarisatie_39'
+        actief: 1
+        titel: 'Niets te melden'
+        startdatum: '<date_create("2010-01-01")>'
+        actie: 'S'
+        left: '@inventarisatie_86'
+        right: '@inventarisatie_87'
+        depth: 1
+    inventarisatie_115:
+        order: 0
+        parent: '@inventarisatie_40'
+        actief: 1
+        titel: 'Niets te melden'
+        startdatum: '<date_create("2010-01-01")>'
+        actie: 'S'
+        left: '@inventarisatie_98'
+        right: '@inventarisatie_99'
+        depth: 1
+    inventarisatie_116:
+        order: 0
+        parent: '@inventarisatie_41'
+        actief: 1
+        titel: 'Niets te melden'
+        startdatum: '<date_create("2010-01-01")>'
+        actie: 'S'
+        left: '@inventarisatie_106'
+        right: '@inventarisatie_107'
+        depth: 1
+    inventarisatie_117:
+        order: 0
+        parent: '@inventarisatie_42'
+        actief: 1
+        titel: 'Niets te melden'
+        startdatum: '<date_create("2010-01-01")>'
+        actie: 'S'
+        left: '@inventarisatie_118'
+        right: '@inventarisatie_119'
+        depth: 1
+    inventarisatie_118:
+        order: 0
+        parent: '@inventarisatie_43'
+        actief: 1
+        titel: 'Niets te melden'
+        startdatum: '<date_create("2010-01-01")>'
+        actie: 'S'
+        left: '@inventarisatie_126'
+        depth: 1
+    inventarisatie_119:
+        order: 0
+        parent: '@inventarisatie_44'
+        actief: 1
+        titel: 'Niets te melden'
+        startdatum: '<date_create("2010-01-01")>'
+        actie: 'S'
+        depth: 1
+    inventarisatie_120:
+        order: 0
+        parent: '@inventarisatie_35'
+        actief: 1
+        titel: 'Niets te melden'
+        startdatum: '<date_create("2010-01-01")>'
+        actie: 'S'
+        depth: 1
+    inventarisatie_121:
+        order: 0
+        parent: '@inventarisatie_45'
+        actief: 1
+        titel: 'Niets te melden'
+        startdatum: '<date_create("2010-01-01")>'
+        actie: 'S'
+        depth: 1
+    inventarisatie_122:
+        order: 0
+        parent: '@inventarisatie_46'
+        actief: 1
+        titel: 'Niets te melden'
+        startdatum: '<date_create("2010-01-01")>'
+        actie: 'S'
+        depth: 1
+    inventarisatie_123:
+        order: 0
+        parent: '@inventarisatie_47'
+        actief: 1
+        titel: 'Niets te melden'
+        startdatum: '<date_create("2010-01-01")>'
+        actie: 'S'
+        depth: 1
+    inventarisatie_124:
+        order: 20
+        actief: 1
+        titel: 'AWBZ indicatie'
+        actie: 'D'
+        startdatum: '<date_create("2010-01-01")>'
+        depth: 0
+    inventarisatie_125:
+        order: 1
+        parent: '@inventarisatie_124'
+        actief: 1
+        titel: 'Ja'
+        actie: 'S'
+        startdatum: '<date_create("2010-01-01")>'
+        depth: 1
+    inventarisatie_126:
+        order: 2
+        parent: '@inventarisatie_124'
+        actief: 1
+        titel: 'Nee'
+        actie: 'S'
+        startdatum: '<date_create("2010-01-01")>'
+        depth: 1

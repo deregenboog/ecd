@@ -18,6 +18,9 @@ services:
       - ${PWD}/src:/var/www/html/src
       - ${PWD}/templates:/var/www/html/templates
       - ${PWD}/tests:/var/www/html/tests
+      - ${PWD}/translations:/var/www/html/translations
+      - ${PWD}/vendor:/var/www/html/vendor
+    env_file: docker/.env.dev
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
     ports:

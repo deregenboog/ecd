@@ -3,13 +3,11 @@
 namespace MwBundle\Controller;
 
 use AppBundle\Controller\AbstractController;
-use JMS\DiExtraBundle\Annotation as DI;
 use MwBundle\Entity\Trajecthouder;
 use MwBundle\Form\TrajecthouderType;
 use MwBundle\Service\TrajecthouderDao;
-use MwBundle\Service\TrajecthouderDaoInterface;
-use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * @Route("/trajecthouders")
@@ -28,13 +26,8 @@ class TrajecthoudersController extends AbstractController
      */
     protected $dao;
 
-    /**
-     * @param TrajecthouderDao $dao
-     */
     public function __construct(TrajecthouderDao $dao)
     {
         $this->dao = $dao;
     }
-
-
 }

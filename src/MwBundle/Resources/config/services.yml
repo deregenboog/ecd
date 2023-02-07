@@ -17,11 +17,6 @@ services:
         resource: '../../Controller'
         tags: [ 'controller.service_arguments' ]
 
-    MwBundle\Controller\IntakesController:
-        arguments:
-            $tbc_countries: '%tbc_countries%'
-        tags: [ 'controller.service_arguments' ]
-
     MwBundle\Controller\DeelnamesController:
         arguments:
             $entities: '@mw.deelname.entities'
@@ -30,6 +25,11 @@ services:
     MwBundle\Controller\DocumentenController:
         arguments:
             $entities: '@mw.document.entities'
+        tags: [ 'controller.service_arguments' ]
+
+    MwBundle\Controller\DossierStatussenController:
+        arguments:
+            $entities: '@mw.dossierstatus.entities'
         tags: [ 'controller.service_arguments' ]
 
     MwBundle\Controller\KlantenController:

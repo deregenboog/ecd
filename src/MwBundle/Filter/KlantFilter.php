@@ -10,22 +10,12 @@ use Doctrine\ORM\QueryBuilder;
 use InloopBundle\Entity\Locatie;
 use MwBundle\Entity\Aanmelding;
 use MwBundle\Entity\Afsluiting;
-use MwBundle\Entity\MwDossierStatus;
+use MwBundle\Entity\DossierStatus;
 use MwBundle\Entity\Verslag;
 
 class KlantFilter implements FilterInterface
 {
-    /**
-     * @var Locatie
-     */
-    public $gebruikersruimte;
-
-    /**
-     * @var Locatie
-     */
-    public $laatsteVerslagLocatie;
-
-    /**
+   /**
      * @var Medewerker
      */
     public $maatschappelijkWerker;
@@ -51,19 +41,18 @@ class KlantFilter implements FilterInterface
     public $klant;
 
     /**
-     * @var MwDossierStatus;
+     * @var DossierStatus;
      */
     public $huidigeMwStatus = 'Aanmelding';
 
     public function applyTo(QueryBuilder $builder)
     {
-            if ($this->gebruikersruimte) {
+        if ($this->gebruikersruimte) {
             $builder
                 ->andWhere('laatsteIntake.gebruikersruimte = :gebruikersruimte')
                 ->setParameter('gebruikersruimte', $this->gebruikersruimte)
             ;
         }
-
 
         if ($this->laatsteVerslagLocatie) {
             $builder
@@ -80,12 +69,11 @@ class KlantFilter implements FilterInterface
 //                ;
 //
 //        }
-        if($this->maatschappelijkWerker)
-        {
+        if ($this->maatschappelijkWerker) {
             $builder
                 ->andWhere('maatschappelijkWerker = :maatschappelijkWerker')
 
-                ->setParameter('maatschappelijkWerker',$this->maatschappelijkWerker)
+                ->setParameter('maatschappelijkWerker', $this->maatschappelijkWerker)
             ;
         }
 
@@ -119,12 +107,10 @@ class KlantFilter implements FilterInterface
             }
         }
 
-        if($this->huidigeMwStatus == 'Aanmelding')
-        {
+        if ('Aanmelding' == $this->huidigeMwStatus) {
             $builder
                 ->andWhere($builder->expr()->isInstanceOf('huidigeMwStatus', Aanmelding::class));
-        }
-        else if($this->huidigeMwStatus == 'Afsluiting') {
+        } elseif ('Afsluiting' == $this->huidigeMwStatus) {
             $builder
                 ->andWhere($builder->expr()->isInstanceOf('huidigeMwStatus', Afsluiting::class));
         }
@@ -139,13 +125,12 @@ class KlantFilter implements FilterInterface
         $isDirty = false;
         $r = new \ReflectionClass($this);
         $d = $r->getDefaultProperties();
-        foreach($r->getProperties() as $prop)
-        {
-            if($prop->getValue($this) != $d[$prop->getName()])
-            {
+        foreach ($r->getProperties() as $prop) {
+            if ($prop->getValue($this) != $d[$prop->getName()]) {
                 return true;
             }
         }
+
         return $isDirty;
     }
 }

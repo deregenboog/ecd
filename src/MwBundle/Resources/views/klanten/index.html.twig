@@ -37,14 +37,6 @@
                         {{ form_errors(filter.klant.geslacht) }}
                     </th>
                     <th>
-                        {{ form_widget(filter.gebruikersruimte) }}
-                        {{ form_errors(filter.gebruikersruimte) }}
-                    </th>
-                    <th>
-                        {{ form_widget(filter.laatsteVerslagLocatie) }}
-                        {{ form_errors(filter.laatsteVerslagLocatie) }}
-                    </th>
-                    <th>
                         {{ form_widget(filter.maatschappelijkWerker) }}
                         {{ form_errors(filter.maatschappelijkWerker) }}
                     </th>
@@ -76,29 +68,29 @@
                     {{ knp_pagination_sortable(pagination, 'Geslacht', 'geslacht.volledig') }}
                 </th>
                 <th>
-                    {{ knp_pagination_sortable(pagination, 'Gebruikersruimte', 'gebruikersruimte.naam') }}
-                </th>
-                <th>
-                    {{ knp_pagination_sortable(pagination, 'Verslaglocatie', 'laatsteVerslagLocatie.naam') }}
-                </th>
-                <th>
                     {{ knp_pagination_sortable(pagination, 'Maatschappelijk werker', 'maatschappelijkWerker.voornaam') }}
                 </th>
                 <th>
                     {{ knp_pagination_sortable(pagination, 'Laatste verslag', 'datumLaatsteVerslag') }}
                 </th>
-                <th>Mw Dossierstatus</th>
-                <th></th>
+                <th>
+                    {{ knp_pagination_sortable(pagination, 'Dossierstatus', 'klant.marking') }}
+                </th>
+                <th>
+                    Acties
+                </th>
             </tr>
         </thead>
         <tbody>
-            {% for item in pagination %}
-                {% set klant = item[0] %}
+            {% for klant in pagination %}
+
                 {% set rowColorClass = '' %}
-                {%  if(date(item.datumLaatsteVerslag) < date("-3 months")) %}
-                    {% set rowColorClass = 'warning' %}
-                {% elseif(date(item.datumLaatsteVerslag) < date("-6 months")) %}
-                    {%  set rowColorClass = 'danger' %}
+                {% if klant.verslagen|length > 0 %}
+                    {% if date(klant.verslagen|last.datum) < date("-3 months") %}
+                        {% set rowColorClass = 'warning' %}
+                    {% elseif date(klant.verslagen|last.datum) < date("-6 months") %}
+                        {% set rowColorClass = 'danger' %}
+                    {% endif %}
                 {% endif %}
 
                 <tr class="{{ rowColorClass }}" data-href="{{ path(route_base~'view', {id: klant.id}) }}">
@@ -109,18 +101,13 @@
                         {{ klant }}
                     </td>
                     <td>
-                        {{ klant.geboortedatum ? klant.geboortedatum|date('d-m-Y') }}
+                        {{ klant.klant.geboortedatum ? klant.klant.geboortedatum|date('d-m-Y') }}
                     </td>
                     <td>
-                        {{ klant.geslacht }}
+                        {{ klant.klant.geslacht }}
                     </td>
                     <td>
-                        {{ klant.laatsteIntake ? klant.laatsteIntake.gebruikersruimte }}
-                    </td>
-                    <td>
-                        {{ item.laatsteVerslagLocatie }}
-                    </td>
-                    <td>
+                        {{ klant.medewerker }}
                         <ul>
                             {% if klant.maatschappelijkWerker is defined and klant.maatschappelijkWerker is not null %}
                                 <li>{{ klant.maatschappelijkWerker }}</li>
@@ -141,13 +128,23 @@
                         </ul>
                     </td>
                     <td>
-                        {{ item.datumLaatsteVerslag|if_date('d-m-Y') }}
+                        {# {{ item.datumLaatsteVerslag|if_date('d-m-Y') }} #}
                     </td>
                     <td>
-                        {{ klant.huidigeMwStatus }}
+                        {% set place = 'mw.workflow.' ~ workflow_marked_places(klant)|first %}
+                        {{ place|trans }}
+                        ({{ (klant.dossierstatus ? klant.dossierstatus.datum : klant.created)|date('d-m-Y') }})
                     </td>
                     <td>
-                        {{ html.link('Verslag toevoegen', path('mw_verslagen_add', {klant: klant.id}), 'add') }}
+                        {% set transitions = workflow_transitions(klant) %}
+                        {% if transitions|length > 0 %}
+                            {% set transition = transitions|first %}
+                            {% set transition_title = workflow_metadata(klant, 'title', transition) %}
+                            {% set transition_entity = workflow_metadata(klant, 'entity', transition) %}
+                            {% set transition_icon = workflow_metadata(klant, 'icon', transition) %}
+                            {{ html.link(transition_title, path('mw_dossierstatussen_add', {klant: klant.id, entity: transition_entity}), transition_icon) }}<br>
+                        {% endif %}
+                        {{ html.link('Verslag toevoegen', path('mw_verslagen_add', {klant: klant.id}), 'add') }}<br>
                     </td>
                 </tr>
             {% endfor %}

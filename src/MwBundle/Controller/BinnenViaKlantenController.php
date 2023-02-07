@@ -5,23 +5,19 @@ namespace MwBundle\Controller;
 use AppBundle\Controller\AbstractController;
 use MwBundle\Entity\BinnenViaOptieKlant;
 use MwBundle\Form\BinnenViaOptieKlantType;
-use MwBundle\Form\BinnenViaType;
-use MwBundle\Service\BinnenViaDao;
-use MwBundle\Service\BinnenViaDaoInterface;
-use JMS\DiExtraBundle\Annotation as DI;
 use MwBundle\Service\BinnenViaKlantDao;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * @Route("/admin/binnenviaKlant")
+ * @Route("/admin/binnen_via_klanten")
  */
-class BinnenViaKlantController extends AbstractController
+class BinnenViaKlantenController extends AbstractController
 {
-    protected $title = 'Binnen via-opties (klant)';
-    protected $entityName = 'binnen via-optie (klant)';
+    protected $title = 'Binnen via-opties (klanten)';
+    protected $entityName = 'binnen via-optie (klanten)';
     protected $entityClass = BinnenViaOptieKlant::class;
     protected $formClass = BinnenViaOptieKlantType::class;
-    protected $baseRouteName = 'mw_binnenviaklant_';
+    protected $baseRouteName = 'mw_binnenviaklanten_';
 
     /**
      * @var BinnenViaKlantDao

@@ -2,9 +2,7 @@
 
 namespace MwBundle\Controller;
 
-
 use AppBundle\Export\ExportInterface;
-
 use InloopBundle\Controller\VrijwilligersControllerAbstract;
 use MwBundle\Entity\Vrijwilliger;
 use MwBundle\Form\VrijwilligerCloseType;
@@ -12,7 +10,6 @@ use MwBundle\Form\VrijwilligerFilterType;
 use MwBundle\Form\VrijwilligerType;
 use MwBundle\Service\VrijwilligerDao;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -43,17 +40,10 @@ class VrijwilligersController extends VrijwilligersControllerAbstract
      */
     protected $export;
 
-    /**
-     * @param VrijwilligerDao $dao
-     * @param \AppBundle\Service\VrijwilligerDao $vrijwilligerDao
-     * @param ExportInterface $export
-     */
     public function __construct(VrijwilligerDao $dao, \AppBundle\Service\VrijwilligerDao $vrijwilligerDao, ExportInterface $export)
     {
         $this->dao = $dao;
         $this->vrijwilligerDao = $vrijwilligerDao;
         $this->export = $export;
     }
-
-
 }

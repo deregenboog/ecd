@@ -4,7 +4,6 @@ namespace ErOpUitBundle\Event;
 
 use ErOpUitBundle\Entity\Klant;
 use ErOpUitBundle\Service\KlantDaoInterface;
-use IzBundle\Entity\Intake;
 use IzBundle\Entity\IzKlant;
 use IzBundle\Event\Events;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
@@ -31,23 +30,20 @@ class IzIntakeSubscriber implements EventSubscriberInterface
 
     public function addToEropuit(GenericEvent $event)
     {
-        /* @var $izIntake Intake */
-        $izIntake = $event->getSubject();
-
         // do nothing if not client
-        if (!$izIntake->getIzDeelnemer() instanceof IzKlant) {
+        $izDeelnemer = $event->getSubject()->getIzDeelnemer();
+        if (!$izDeelnemer instanceof IzKlant) {
+            return;
+        }
+        $klant = $izDeelnemer->getKlant();
+        if (!$klant) {
             return;
         }
 
-        $klant = $izIntake->getIzDeelnemer()->getKlant();
-
-        // do nothing if already exists
+        // create if not already exists
         $erOpUitDossier = $this->klantDao->findOneByKlant($klant);
-        if ($erOpUitDossier instanceof Klant) {
-            return;
+        if (!$erOpUitDossier) {
+            $this->klantDao->createForKlant($klant);
         }
-
-        $erOpUitDossier = new Klant($klant);
-        $this->klantDao->create($erOpUitDossier);
     }
 }

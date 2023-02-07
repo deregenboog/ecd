@@ -1,0 +1,111 @@
+framework:
+    workflows:
+        mw_dossier:
+            type: 'state_machine'
+            supports:
+                - MwBundle\Entity\Klant
+            initial_marking: aangemaakt
+            places:
+                - aangemaakt
+                - aangemeld
+                - intake_algemeen_afgerond
+                - intake_huisvesting_afgerond
+                - intake_inkomen_afgerond
+                - intake_welzijn_afgerond
+                - intake_administratie_afgerond
+                - intake_verwachting_afgerond
+                - intake_gezin_afgerond
+                - in_traject
+                - afgesloten
+            transitions:
+                aanmelden:
+                    from:
+                        - aangemaakt
+                        - afgesloten
+                    to:
+                        - aangemeld
+                    metadata:
+                        title: Klant aanmelden
+                        entity: aanmelding
+                        icon: add
+                intake_algemeen:
+                    from:
+                        - aangemeld
+                    to:
+                        - intake_algemeen_afgerond
+                    metadata:
+                        title: Intake Algemeen toevoegen
+                        entity: intake_aanmelding
+                        icon: add
+                intake_huisvesting:
+                    from:
+                        - intake_algemeen_afgerond
+                    to:
+                        - intake_huisvesting_afgerond
+                    metadata:
+                        title: Intake Huisvesting toevoegen
+                        entity: intake_huisvesting
+                        icon: add
+                intake_inkomen:
+                    from:
+                        - intake_huisvesting_afgerond
+                    to:
+                        - intake_inkomen_afgerond
+                    metadata:
+                        title: Intake Inkomen toevoegen
+                        entity: intake_inkomen
+                        icon: add
+                intake_welzijn:
+                    from:
+                        - intake_inkomen_afgerond
+                    to:
+                        - intake_welzijn_afgerond
+                    metadata:
+                        title: Intake Welzijn toevoegen
+                        entity: intake_welzijn
+                        icon: add
+                intake_administratie:
+                    from:
+                        - intake_welzijn_afgerond
+                    to:
+                        - intake_administratie_afgerond
+                    metadata:
+                        title: Intake Administratie toevoegen
+                        entity: intake_administratie
+                        icon: add
+                intake_verwachting:
+                    from:
+                        - intake_administratie_afgerond
+                    to:
+                        - intake_verwachting_afgerond
+                    metadata:
+                        title: Intake Verwachting toevoegen
+                        entity: intake_verwachting
+                        icon: add
+                intake_gezin:
+                    from:
+                        - intake_verwachting_afgerond
+                    to:
+                        - in_traject
+                    metadata:
+                        title: Intake Gezin toevoegen
+                        entity: intake_gezin
+                        icon: add
+                afsluiten:
+                    from:
+                        - aangemaakt
+                        - aangemeld
+                        - intake_algemeen_afgerond
+                        - intake_huisvesting_afgerond
+                        - intake_inkomen_afgerond
+                        - intake_welzijn_afgerond
+                        - intake_administratie_afgerond
+                        - intake_verwachting_afgerond
+                        - intake_gezin_afgerond
+                        - in_traject
+                    to:
+                        - afgesloten
+                    metadata:
+                        title: Dossier afsluiten
+                        entity: intake_afsluiting
+                        icon: close

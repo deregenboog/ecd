@@ -6,20 +6,15 @@ use AppBundle\Form\AppDateType;
 use AppBundle\Form\AppTextareaType;
 use AppBundle\Form\BaseType;
 use AppBundle\Form\MedewerkerType;
-use Doctrine\ORM\EntityRepository;
 use FOS\CKEditorBundle\Form\Type\CKEditorType;
 use InloopBundle\Form\LocatieSelectType;
 use MwBundle\Entity\Contactsoort;
-use MwBundle\Entity\Doorverwijzing;
-use MwBundle\Entity\Trajecthouder;
 use MwBundle\Entity\Verslag;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\Form\FormEvent;
-use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class VerslagType extends AbstractType
@@ -62,18 +57,17 @@ class VerslagType extends AbstractType
 //                    'rows' => 10,
 //                ],
 //            ])
-            ->add('opmerking', CKEditorType::class, ['attr' => ['rows' => 10,'cols'=>50],'required'=>true])
-            ->add('accessType', ChoiceType::class,[
-                'required'=>true,
-                'label'=>'Zichtbaar voor',
-                'choices'=>[
-                    Verslag::$accessTypes[Verslag::ACCESS_MW]=>Verslag::ACCESS_MW,
-                    Verslag::$accessTypes[Verslag::ACCESS_ALL]=>Verslag::ACCESS_ALL,
+            ->add('opmerking', CKEditorType::class, ['attr' => ['rows' => 10, 'cols' => 50], 'required' => true])
+            ->add('accessType', ChoiceType::class, [
+                'required' => true,
+                'label' => 'Zichtbaar voor',
+                'choices' => [
+                    Verslag::$accessTypes[Verslag::ACCESS_MW] => Verslag::ACCESS_MW,
+                    Verslag::$accessTypes[Verslag::ACCESS_ALL] => Verslag::ACCESS_ALL,
                     ],
                 ])
             ->add('submit', SubmitType::class)
         ;
-
     }
 
     /**

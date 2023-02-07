@@ -5,7 +5,6 @@ namespace MwBundle\Command;
 use AppBundle\Entity\Attachment;
 use Doctrine\ORM\EntityManager;
 use MwBundle\Entity\Document;
-use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -71,6 +70,7 @@ class DocumentCopyCommand extends \Symfony\Component\Console\Command\Command
         }
 
         $output->writeln(sprintf('%d bestanden gekopieerd', $count));
+
         return 0;
     }
 }
