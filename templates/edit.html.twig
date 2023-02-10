@@ -3,10 +3,8 @@
 
 {% block content_top %}
     <h1>{{ entity_name|capitalize }} wijzigen</h1>
-    {% if ( path(route_base~'index') ) %}
-        <p>
-            {{ html.link('Annuleren', path(route_base~'index'), 'cancel') }}
-        </p>
+    {% if route_exists(route_base~'index') %}
+        {{ html.link('Annuleren', path(route_base~'index'), 'cancel') }}
     {% endif %}
 {% endblock %}
 

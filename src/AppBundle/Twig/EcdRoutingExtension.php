@@ -2,10 +2,9 @@
 
 namespace AppBundle\Twig;
 
-use Symfony\Bridge\Twig\Extension\RoutingExtension as BaseRoutingExtension;
 use Symfony\Component\HttpFoundation\RequestStack;
-use Symfony\Component\Routing\Exception\ExceptionInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use Symfony\Component\Routing\RouterInterface;
 use Twig\Extension\AbstractExtension;
 use Twig\Node\Expression\ArrayExpression;
 use Twig\Node\Expression\ConstantExpression;
@@ -15,9 +14,9 @@ use Twig\TwigFunction;
 class EcdRoutingExtension extends AbstractExtension
 {
     /**
-     * @var UrlGeneratorInterface
+     * @var RouterInterface
      */
-    private $generator;
+    private $router;
 
     /**
      * @var RequestStack
@@ -25,14 +24,12 @@ class EcdRoutingExtension extends AbstractExtension
     private $requestStack;
 
     public function __construct(
-        UrlGeneratorInterface $generator,
+        RouterInterface $router,
         RequestStack $requestStack
     ) {
-        $this->generator = $generator;
+        $this->router = $router;
         $this->requestStack = $requestStack;
-
     }
-
 
     /**
      * {@inheritdoc}
@@ -42,9 +39,15 @@ class EcdRoutingExtension extends AbstractExtension
     public function getFunctions()
     {
         return [
+            new TwigFunction('route_exists', [$this, 'routeExists']),
             new TwigFunction('url', [$this, 'getUrl'], ['is_safe_callback' => [$this, 'isUrlGenerationSafe']]),
             new TwigFunction('path', [$this, 'getPath'], ['is_safe_callback' => [$this, 'isUrlGenerationSafe']]),
         ];
+    }
+
+    function routeExists($name)
+    {
+        return (null === $this->router->getRouteCollection()->get($name)) ? false : true;
     }
 
     /**
@@ -56,27 +59,15 @@ class EcdRoutingExtension extends AbstractExtension
      */
     public function getPath($name, $parameters = [], $relative = false)
     {
-
         if (!array_key_exists('redirect', $parameters)) {
-
            $url = $this->requestStack->getCurrentRequest()->getPathInfo();
-
-           if($url = "_fragment")
-           {
+           if($url = "_fragment") {
                $url = $this->requestStack->getMasterRequest()->getPathInfo();
            }
            $parameters['redirect'] = $url;
-
         }
 
-        try {
-            return $this->_getPath($name, $parameters, $relative);
-        }
-        catch (ExceptionInterface $e)
-        {
-            return false;
-        }
-
+        return $this->_getPath($name, $parameters, $relative);
     }
 
     /**
@@ -88,7 +79,7 @@ class EcdRoutingExtension extends AbstractExtension
      */
     public function _getPath($name, $parameters = [], $relative = false)
     {
-        return $this->generator->generate($name, $parameters, $relative ? UrlGeneratorInterface::RELATIVE_PATH : UrlGeneratorInterface::ABSOLUTE_PATH);
+        return $this->router->generate($name, $parameters, $relative ? UrlGeneratorInterface::RELATIVE_PATH : UrlGeneratorInterface::ABSOLUTE_PATH);
     }
 
     /**
@@ -107,9 +98,6 @@ class EcdRoutingExtension extends AbstractExtension
         return $this->_getUrl($name, $parameters, $schemeRelative);
     }
 
-
-
-
     /**
      * @param string $name
      * @param array  $parameters
@@ -119,7 +107,7 @@ class EcdRoutingExtension extends AbstractExtension
      */
     public function _getUrl($name, $parameters = [], $schemeRelative = false)
     {
-        return $this->generator->generate($name, $parameters, $schemeRelative ? UrlGeneratorInterface::NETWORK_PATH : UrlGeneratorInterface::ABSOLUTE_URL);
+        return $this->router->generate($name, $parameters, $schemeRelative ? UrlGeneratorInterface::NETWORK_PATH : UrlGeneratorInterface::ABSOLUTE_URL);
     }
 
     /**
