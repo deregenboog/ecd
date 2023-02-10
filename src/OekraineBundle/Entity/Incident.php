@@ -109,7 +109,7 @@ class Incident
      */
     public function getOpmerking()
     {
-        return $this->opmerking;
+        return utf8_decode($this->opmerking);
     }
 
     /**
@@ -118,7 +118,7 @@ class Incident
      */
     public function setOpmerking($opmerking)
     {
-        $this->opmerking = $opmerking;
+        $this->opmerking = utf8_encode($opmerking);;
         return $this;
     }
 

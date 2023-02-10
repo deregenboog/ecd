@@ -29,6 +29,15 @@ class DoelstellingenController extends AbstractController
     protected $dao;
 
     /**
+     * @param DoelstellingDao $dao
+     */
+    public function __construct(DoelstellingDao $dao)
+    {
+        $this->dao = $dao;
+    }
+
+
+    /**
      * @Route("/{id}/view")
      */
     public function viewAction(Request $request, $id)

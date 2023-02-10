@@ -131,8 +131,9 @@ class Intake
     /**
      * @var string
      *
-     * @ORM\Column(length=6, nullable=true)
+     * @ORM\Column(length=7, nullable=true)
      * @Gedmo\Versioned
+     * @Assert\Length(min=6,max=7,allowEmptyString="true")
      */
     private $postcode;
 

@@ -194,14 +194,14 @@ class Intake
     /**
      * @var string
      *
-     * @ORM\Column(name="opmerking_andere_instanties", nullable=true)
+     * @ORM\Column(name="opmerking_andere_instanties", type="text", nullable=true)
      */
     private $opmerkingAndereInstanties;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="medische_achtergrond", nullable=true)
+     * @ORM\Column(name="medische_achtergrond", type="text", nullable=true)
      */
     private $medischeAchtergrond;
 
@@ -209,14 +209,14 @@ class Intake
     /**
      * @var string
      *
-     * @ORM\Column(name="toekomstplannen", nullable=true)
+     * @ORM\Column(name="toekomstplannen", type="text", nullable=true)
      */
     private $toekomstplannen;
 
     /**
      * @var string
      *
-     * @ORM\Column(nullable=true)
+     * @ORM\Column(type="text", nullable=true)
      */
     private $indruk;
 

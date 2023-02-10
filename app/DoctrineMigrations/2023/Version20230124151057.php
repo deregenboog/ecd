@@ -20,7 +20,7 @@ final class Version20230124151057 extends AbstractMigration
     public function up(Schema $schema): void
     {
         $this->abortIf('mysql' != $this->connection->getDatabasePlatform()->getName(), 'Migration can only be executed safely on \'mysql\'.');
-//
+
         $this->addSql('CREATE TABLE orphan_rows_backup (id INT AUTO_INCREMENT NOT NULL, table_name VARCHAR(50) NOT NULL, left_col_name VARCHAR(50) NOT NULL, orphan_col_name VARCHAR(50) NOT NULL, left_id INT NOT NULL, orphan_id INT NOT NULL, extra_row_data TEXT DEFAULT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8 COLLATE `utf8_general_ci` ENGINE = InnoDB');
 
         $this->addSql('ALTER TABLE clip_clienten DROP FOREIGN KEY FK_B7F4C67EFB02B9C2');
