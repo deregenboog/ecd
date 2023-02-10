@@ -9,7 +9,9 @@ use AppBundle\Model\IdentifiableTrait;
  * @ORM\Entity
  * @ORM\Table(
  *     name="awbz_indicaties",
- *     indexes={}
+ *     indexes={
+ *         @ORM\Index(name="idx_awbz_indicaties_klant_id", columns={"klant_id"})
+ *     }
  * )
  */
 class AwbzIndicatie
@@ -22,9 +24,9 @@ class AwbzIndicatie
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Klant")
+     * @ORM\Column(type="integer", nullable=true)
      */
-    private $klant;
+    private $klant_id;
 
     /**
      * @ORM\Column(type="date")
@@ -37,10 +39,35 @@ class AwbzIndicatie
     private $einddatum;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Hoofdaannemer")
+     * @ORM\Column(type="integer", nullable=true)
      */
-    private $hoofdaannemer;
+    private $begeleiding_per_week;
 
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $activering_per_week;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $hoofdaannemer_id;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $aangevraagd_id;
+
+    /**
+     * @ORM\Column(type="date", nullable=true)
+     */
+    private $aangevraagd_datum;
+
+
+    /**
+     * @ORM\Column(type="boolean", nullable=true, options={"default" : 0})
+     */
+    private $aangevraagd_niet;
     /**
      * @ORM\Column(type="datetime", nullable=true)
      */

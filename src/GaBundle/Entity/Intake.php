@@ -3,6 +3,7 @@
 namespace GaBundle\Entity;
 
 use AppBundle\Entity\Medewerker;
+use AppBundle\Model\IdentifiableTrait;
 use AppBundle\Model\TimestampableTrait;
 use AppBundle\Service\NameFormatter;
 use Doctrine\ORM\EntityNotFoundException;
@@ -17,14 +18,8 @@ use Gedmo\Mapping\Annotation as Gedmo;
  */
 class Intake
 {
+    use IdentifiableTrait;
     use TimestampableTrait;
-
-    /**
-     * @ORM\Id
-     * @ORM\Column(type="integer")
-     * @ORM\GeneratedValue
-     */
-    protected $id;
 
     /**
      * @var Medewerker
@@ -108,6 +103,22 @@ class Intake
      */
     protected $gezinMetKinderen;
 
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(type="datetime")
+     * @Gedmo\Versioned
+     */
+    protected $created;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(type="datetime")
+     * @Gedmo\Versioned
+     */
+    protected $modified;
+
     public function __construct(KlantDossier $dossier)
     {
         $this->setDossier($dossier);
@@ -121,11 +132,6 @@ class Intake
         } catch (EntityNotFoundException $e) {
             return '';
         }
-    }
-
-    public function getId()
-    {
-        return $this->id;
     }
 
     public function getDossier()

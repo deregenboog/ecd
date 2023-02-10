@@ -17,7 +17,8 @@ use Gedmo\Mapping\Annotation as Gedmo;
  */
 class Huurovereenkomst
 {
-    use TimestampableTrait, RequiredMedewerkerTrait;
+    use TimestampableTrait;
+    use RequiredMedewerkerTrait;
 
     public static function getVormChoices()
     {
@@ -54,7 +55,7 @@ class Huurovereenkomst
     private $opzegdatum;
 
     /**
-     * @ORM\Column(name="opzegbrief_verstuurd", type="boolean", nullable=false)
+     * @ORM\Column(name="opzegbrief_verstuurd", type="boolean")
      * @Gedmo\Versioned
      */
     private $opzegbriefVerstuurd = false;
@@ -81,7 +82,6 @@ class Huurovereenkomst
      * @var HuurovereenkomstAfsluiting
      *
      * @ORM\ManyToOne(targetEntity="HuurovereenkomstAfsluiting", inversedBy="huurovereenkomsten", cascade={"persist"})
-     * @ORM\JoinColumn(nullable=true)
      * @Gedmo\Versioned
      */
     private $afsluiting;
@@ -127,9 +127,9 @@ class Huurovereenkomst
      *
      * @ORM\ManyToMany(targetEntity="Document", cascade={"persist"}, fetch="LAZY")
      * @ORM\JoinTable(name="tw_huurovereenkomst_document",
-     *      joinColumns={@ORM\JoinColumn(name="huurovereenkomst_id", referencedColumnName="id")},
+     *     joinColumns={@ORM\JoinColumn(name="huurovereenkomst_id", referencedColumnName="id")},
      *     inverseJoinColumns={@ORM\JoinColumn(name="document_id", referencedColumnName="id")}
-     *     )
+     * )
      */
     private $documenten;
 
@@ -146,7 +146,7 @@ class Huurovereenkomst
 
     /**
      * @var bool
-     * @ORM\Column(type="boolean", nullable=false)
+     * @ORM\Column(type="boolean")
      * @Gedmo\Versioned()
      */
     private $isReservering = false;
@@ -154,12 +154,26 @@ class Huurovereenkomst
     /**
      * @var HuurovereenkomstType
      *
-     * @ORM\ManyToOne(targetEntity="HuurovereenkomstType", inversedBy="huurovereenkomsten", cascade={"persist"})
-     * @ORM\JoinColumn(nullable=true)
+     * @ORM\ManyToOne(targetEntity="HuurovereenkomstType", cascade={"persist"})
      * @Gedmo\Versioned
      */
     private $huurovereenkomstType;
 
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(type="datetime")
+     * @Gedmo\Versioned
+     */
+    protected $created;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(type="datetime")
+     * @Gedmo\Versioned
+     */
+    protected $modified;
 
     public function __construct()
     {
@@ -299,7 +313,6 @@ class Huurovereenkomst
     {
         $this->financieledocumenten[] = $document;
         return $this;
-
     }
 
     /**
@@ -415,6 +428,4 @@ class Huurovereenkomst
         $this->huurovereenkomstType = $huurovereenkomstType;
         return $this;
     }
-
-
 }

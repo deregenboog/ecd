@@ -14,7 +14,8 @@ use Gedmo\Mapping\Annotation as Gedmo;
  */
 class Contactmoment
 {
-    use TimestampableTrait, OptionalBehandelaarTrait;
+    use TimestampableTrait;
+    use OptionalBehandelaarTrait;
 
     /**
      * @ORM\Id
@@ -45,6 +46,22 @@ class Contactmoment
      * @Gedmo\Versioned
      */
     private $vraag;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(type="datetime")
+     * @Gedmo\Versioned
+     */
+    protected $created;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(type="datetime")
+     * @Gedmo\Versioned
+     */
+    protected $modified;
 
     public function __construct()
     {

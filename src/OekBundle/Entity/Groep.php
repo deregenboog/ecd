@@ -51,6 +51,22 @@ class Groep
      */
     private $trainingen;
 
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(type="datetime")
+     * @Gedmo\Versioned
+     */
+    protected $created;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(type="datetime")
+     * @Gedmo\Versioned
+     */
+    protected $modified;
+
     public function __construct()
     {
         $this->lidmaatschappen = new ArrayCollection();

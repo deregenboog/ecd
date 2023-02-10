@@ -10,7 +10,6 @@ use Gedmo\Mapping\Annotation as Gedmo;
 use MwBundle\Service\BinnenViaKlantDao;
 use Doctrine\ORM\Mapping\PrePersist;
 
-
 /**
  * @ORM\Entity
  * @ORM\HasLifecycleCallbacks
@@ -26,23 +25,14 @@ class Aanmelding extends MwDossierStatus
         );
     }
 
-
     /**
      * @var BinnenViaOptieKlant
      *
-     * @ORM\ManyToOne(targetEntity="MwBundle\Entity\BinnenViaOptieKlant", inversedBy="aanmeldingen", )
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\ManyToOne(targetEntity="BinnenViaOptieKlant")
+     * @ORM\JoinColumn(nullable=false, options={"default": 0})
      * @Gedmo\Versioned
      */
     protected $binnenViaOptieKlant;
-
-
-    public function __construct(Klant $klant, Medewerker $medewerker = null)
-    {
-        //
-
-        parent::__construct($klant, $medewerker);
-    }
 
     /**
      * @return BinnenViaOptieKlant

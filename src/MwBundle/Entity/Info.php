@@ -16,19 +16,18 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class Info
 {
+    use IdentifiableTrait;
     public const INSTANTIES = [
         0 => 'DWI',
         1 => 'UWV',
         2 => 'Anders',
     ];
 
-    use IdentifiableTrait;
-
     /**
      * @var Klant
      *
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Klant")
-     * @ORM\JoinColumn(unique=true, nullable=false)
+     * @ORM\JoinColumn(unique=true)
      * @Gedmo\Versioned
      * @Assert\NotNull
      */
@@ -48,7 +47,6 @@ class Info
 
     /**
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Medewerker")
-     * @ORM\JoinColumn(nullable=true)
      * @Gedmo\Versioned
      */
     private $casemanager;
@@ -68,7 +66,6 @@ class Info
 
     /**
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Medewerker")
-     * @ORM\JoinColumn(nullable=true)
      * @Gedmo\Versioned
      */
     private $trajectbegeleider;
@@ -756,6 +753,4 @@ class Info
     {
         $this->risDatumTot = $risDatumTot;
     }
-
-
 }

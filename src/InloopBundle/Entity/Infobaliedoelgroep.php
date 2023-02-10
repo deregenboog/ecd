@@ -15,5 +15,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
  */
 class Infobaliedoelgroep
 {
-    use IdentifiableTrait, NameableTrait, NotDeletableTrait;
+    use IdentifiableTrait;
+    use NameableTrait;
+    use NotDeletableTrait;
 }

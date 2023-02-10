@@ -29,7 +29,9 @@ use MwBundle\Entity\Verslag;
  *         @ORM\Index(name="idx_klanten_werkgebied", columns={"werkgebied"}),
  *         @ORM\Index(name="idx_klanten_postcodegebied", columns={"postcodegebied"}),
  *         @ORM\Index(name="idx_klanten_geboortedatum", columns={"geboortedatum"}),
- *         @ORM\Index(name="idx_klanten_first_intake_date", columns={"first_intake_date"})
+ *         @ORM\Index(name="idx_klanten_first_intake_date", columns={"first_intake_date"}),
+ *         @ORM\Index(name="achternaam", columns={"achternaam", "id", "geslacht_id", "laste_intake_id", "huidigeMwStatus_id"}),
+ *         @ORM\Index(name="corona_besmet_idx", columns={"corona_besmet_vanaf"})
  *     }
  * )
  * @Gedmo\Loggable
@@ -128,7 +130,6 @@ class Klant extends Persoon
      * @var DossierStatus
      *
      * @ORM\OneToOne(targetEntity="InloopBundle\Entity\DossierStatus", cascade={"persist"})
-     * @ORM\JoinColumn(nullable=true)
      * @Gedmo\Versioned
      */
     private $huidigeStatus;
@@ -137,7 +138,6 @@ class Klant extends Persoon
      * @var DossierStatus[]
      *
      * @ORM\OneToMany(targetEntity="InloopBundle\Entity\DossierStatus", mappedBy="klant")
-     * @ORM\JoinColumn(nullable=true)
      */
     private $statussen;
 
@@ -145,7 +145,6 @@ class Klant extends Persoon
      * @var MwDossierStatus[]
      *
      * @ORM\OneToMany(targetEntity="MwBundle\Entity\MwDossierStatus", mappedBy="klant")
-     * @ORM\JoinColumn(nullable=true)
      */
     private $mwStatussen;
 
@@ -153,16 +152,13 @@ class Klant extends Persoon
      * @var MwDossierStatus
      *
      * @ORM\OneToOne(targetEntity="MwBundle\Entity\MwDossierStatus", cascade={"persist"})
-     * @ORM\JoinColumn(nullable=true)
      * @Gedmo\Versioned
      */
     private $huidigeMwStatus;
 
-
     /**
      * @var BinnenViaOptieKlant
-     * @ORM\ManyToOne(targetEntity="MwBundle\Entity\BinnenViaOptieKlant", inversedBy="klant", cascade={"persist"})
-     * @ORM\JoinColumn (nullable=true)
+     * @ORM\ManyToOne(targetEntity="MwBundle\Entity\BinnenViaOptieKlant", cascade={"persist"})
      */
     private $mwBinnenViaOptieKlant;
 
@@ -190,7 +186,7 @@ class Klant extends Persoon
     /**
      * @var bool
      *
-     * @ORM\Column(name="doorverwijzen_naar_amoc", type="boolean")
+     * @ORM\Column(name="doorverwijzen_naar_amoc", type="boolean", nullable=true, options={"default":0})
      * @Gedmo\Versioned
      */
     private $doorverwijzenNaarAmoc = false;
@@ -225,7 +221,6 @@ class Klant extends Persoon
      * @var Klant
      *
      * @ORM\OneToOne(targetEntity="AppBundle\Entity\Klant", cascade={"persist"})
-     * @ORM\JoinColumn(nullable=true)
      * @Gedmo\Versioned
      */
     protected $partner;
@@ -233,7 +228,6 @@ class Klant extends Persoon
     /**
      * @var Medewerker
      * @ORM\ManyToOne(targetEntity="Medewerker", cascade={"persist"} )
-     * @ORM\JoinColumn(nullable=true)
      * @Gedmo\Versioned
      */
     protected $maatschappelijkWerker;
@@ -457,7 +451,6 @@ class Klant extends Persoon
     {
         $this->incidenten->add($incident);
         return $this;
-
     }
     public function getIntakes()
     {
@@ -542,7 +535,7 @@ class Klant extends Persoon
         return $this;
     }
 
-    public function getAantalVerslagen():int
+    public function getAantalVerslagen(): int
     {
         return count((array) $this->verslagen);
     }
@@ -647,7 +640,9 @@ class Klant extends Persoon
 
     public function isToestemmingsformulierAanwezig(): bool
     {
-        if(null !== $this->getToestemmingsformulier()) return true;
+        if (null !== $this->getToestemmingsformulier()) {
+            return true;
+        }
         return false;
     }
 
@@ -660,10 +655,8 @@ class Klant extends Persoon
         $prevDosStat = null;
         $t = [];
 //        removal of duplicate entries.
-        foreach($this->mwStatussen as $mwDosStat)
-        {
-            if(!$prevDosStat instanceof $mwDosStat)
-            {
+        foreach ($this->mwStatussen as $mwDosStat) {
+            if (!$prevDosStat instanceof $mwDosStat) {
                 $t[] = $mwDosStat;
             }
             $prevDosStat = $mwDosStat;
@@ -692,9 +685,8 @@ class Klant extends Persoon
     public function getLaatsteBinnenViaOptieKlant(): ?BinnenViaOptieKlant
     {
         $binnenViaOptieKlant = null;
-        foreach($this->getMwStatussen() as $mwStatus)
-        {
-            if($mwStatus instanceof Aanmelding){
+        foreach ($this->getMwStatussen() as $mwStatus) {
+            if ($mwStatus instanceof Aanmelding) {
                 $binnenViaOptieKlant = $mwStatus->getBinnenViaOptieKlant();
             }
         }
@@ -703,14 +695,11 @@ class Klant extends Persoon
 
     public function getMwStatus($id)
     {
-        foreach($this->getMwStatussen() as $mwStatus)
-        {
-            if($mwStatus->getId() == $id)
-            {
+        foreach ($this->getMwStatussen() as $mwStatus) {
+            if ($mwStatus->getId() == $id) {
                 return $mwStatus;
             }
         }
-
     }
     /**
      * @param MwDossierStatus $huidigeMwStatus

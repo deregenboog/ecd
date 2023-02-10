@@ -26,7 +26,8 @@ use Gedmo\Mapping\Annotation as Gedmo;
  */
 abstract class Groep
 {
-    use TimestampableTrait, NotDeletableTrait;
+    use TimestampableTrait;
+    use NotDeletableTrait;
 
     /**
      * @ORM\Id
@@ -36,7 +37,7 @@ abstract class Groep
     protected $id;
 
     /**
-     * @ORM\Column(length=100, nullable=false)
+     * @ORM\Column(length=100)
      * @Gedmo\Versioned
      */
     protected $naam;
@@ -45,19 +46,19 @@ abstract class Groep
      * @var Werkgebied
      *
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Werkgebied")
-     * @ORM\JoinColumn(name="werkgebied", referencedColumnName="naam", nullable=true)
+     * @ORM\JoinColumn(name="werkgebied", referencedColumnName="naam")
      * @Gedmo\Versioned
      */
     protected $werkgebied;
 
     /**
-     * @ORM\Column(type="boolean", nullable=false)
+     * @ORM\Column(type="boolean")
      * @Gedmo\Versioned
      */
     protected $activiteitenRegistreren = true;
 
     /**
-     * @ORM\Column(type="date", nullable=false)
+     * @ORM\Column(type="date")
      * @Gedmo\Versioned
      */
     protected $startdatum;
@@ -82,6 +83,22 @@ abstract class Groep
      * @ORM\OrderBy({"datum": "desc"})
      */
     protected $activiteiten;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(type="datetime")
+     * @Gedmo\Versioned
+     */
+    protected $created;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(type="datetime")
+     * @Gedmo\Versioned
+     */
+    protected $modified;
 
     public function __construct()
     {
@@ -233,7 +250,7 @@ abstract class Groep
     public function getType()
     {
         $class =  (new \ReflectionClass($this))->getShortName();
-        switch ($class){
+        switch ($class) {
             case "GroepErOpUit":
                 return "Er Op Uit";
             case "GroepBuurtmaatjes":
@@ -247,7 +264,5 @@ abstract class Groep
             default:
                 return "Onbekend";
         }
-
-
     }
 }

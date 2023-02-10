@@ -2,6 +2,8 @@
 
 namespace AppBundle\Entity;
 
+use AppBundle\Model\IdentifiableTrait;
+use AppBundle\Model\NameableTrait;
 use AppBundle\Model\TimestampableTrait;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
@@ -14,54 +16,37 @@ use Gedmo\Mapping\Annotation as Gedmo;
  */
 class Inkomen
 {
+    use IdentifiableTrait;
+    use NameableTrait;
     use TimestampableTrait;
 
     /**
-     * @ORM\Id
-     * @ORM\Column(type="integer")
-     * @ORM\GeneratedValue
-     */
-    private $id;
-
-    /**
-     * @ORM\Column(name="naam", nullable=false)
-     * @Gedmo\Versioned
-     */
-    private $naam;
-
-    /**
-     * @ORM\Column(name="datum_van", type="date", nullable=false)
+     * @ORM\Column(name="datum_van", type="date")
      * @Gedmo\Versioned
      */
     private $datumVan;
 
     /**
-     * @ORM\Column(name="datum_tot", type="date", nullable=false)
+     * @ORM\Column(name="datum_tot", type="date", nullable=true)
      * @Gedmo\Versioned
      */
     private $datumTot;
 
-    public function __toString()
-    {
-        return $this->naam;
-    }
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(type="datetime", nullable=true)
+     * @Gedmo\Versioned
+     */
+    protected $created;
 
-    public function getId()
-    {
-        return $this->id;
-    }
-
-    public function getNaam()
-    {
-        return $this->naam;
-    }
-
-    public function setNaam($naam)
-    {
-        $this->naam = $naam;
-
-        return $this;
-    }
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(type="datetime", nullable=true)
+     * @Gedmo\Versioned
+     */
+    protected $modified;
 
     public function getDatumVan()
     {

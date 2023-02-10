@@ -15,7 +15,8 @@ use Gedmo\Mapping\Annotation as Gedmo;
  */
 class Lidmaatschap
 {
-    use IdentifiableTrait, TimestampableTrait;
+    use IdentifiableTrait;
+    use TimestampableTrait;
 
     /**
      * @var Groep
@@ -49,7 +50,7 @@ class Lidmaatschap
 
     /**
      * @ORM\ManyToOne(targetEntity="LidmaatschapAfsluitreden")
-     * @ORM\JoinColumn(name="groepsactiviteiten_reden_id", nullable=true)
+     * @ORM\JoinColumn(name="groepsactiviteiten_reden_id")
      * @Gedmo\Versioned
      */
     protected $afsluitreden;
@@ -71,6 +72,22 @@ class Lidmaatschap
      * @Gedmo\Versioned
      */
     protected $communicatiePost = true;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(type="datetime")
+     * @Gedmo\Versioned
+     */
+    protected $created;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(type="datetime")
+     * @Gedmo\Versioned
+     */
+    protected $modified;
 
     public function __construct(Groep $groep = null, Dossier $dossier = null)
     {

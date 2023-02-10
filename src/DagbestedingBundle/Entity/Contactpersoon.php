@@ -31,7 +31,7 @@ class Contactpersoon
     /**
      * @var string
      *
-     * @ORM\Column(type="string", nullable=false)
+     * @ORM\Column(type="string")
      * @Gedmo\Versioned
      */
     private $soort;
@@ -39,7 +39,7 @@ class Contactpersoon
     /**
      * @var string
      *
-     * @ORM\Column(type="string", nullable=false)
+     * @ORM\Column(type="string")
      * @Gedmo\Versioned
      */
     private $naam;

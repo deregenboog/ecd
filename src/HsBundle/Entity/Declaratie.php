@@ -18,7 +18,8 @@ use HsBundle\Exception\InvoiceLockedException;
  */
 class Declaratie implements DocumentSubjectInterface, FactuurSubjectInterface
 {
-    use DocumentSubjectTrait, TimestampableTrait;
+    use DocumentSubjectTrait;
+    use TimestampableTrait;
 
     /**
      * @ORM\Id
@@ -51,7 +52,7 @@ class Declaratie implements DocumentSubjectInterface, FactuurSubjectInterface
     /**
      * @var Klus
      * @ORM\ManyToOne(targetEntity="Klus", inversedBy="declaraties")
-     * @ORM\JoinColumn(nullable=true)
+     * @ORM\JoinColumn(onDelete="CASCADE")
      * @Gedmo\Versioned
      */
     private $klus;
@@ -84,11 +85,11 @@ class Declaratie implements DocumentSubjectInterface, FactuurSubjectInterface
 
     public function __construct(Klus $klus = null, Medewerker $medewerker = null)
     {
-        if($klus){
+        if ($klus) {
             $this->setKlus($klus);
         }
 
-        if($medewerker) {
+        if ($medewerker) {
             $this->setMedewerker($medewerker);
         }
 

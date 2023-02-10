@@ -2,65 +2,36 @@
 
 namespace InloopBundle\Entity;
 
+use AppBundle\Model\IdentifiableTrait;
+use AppBundle\Model\NameableTrait;
+use AppBundle\Model\TimestampableTrait;
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Entity
  * @ORM\Table(name="redenen")
+ * @Gedmo\Loggable
  */
 class SchorsingReden
 {
-    /**
-     * @ORM\Id
-     * @ORM\Column(type="integer")
-     * @ORM\GeneratedValue
-     */
-    private $id;
+    use IdentifiableTrait;
+    use NameableTrait;
+    use TimestampableTrait;
 
     /**
-     * @ORM\Column()
-     */
-    private $naam;
-
-    /**
+     * @var \DateTime
+     *
      * @ORM\Column(type="datetime", nullable=true)
+     * @Gedmo\Versioned
      */
-    private $created;
+    protected $created;
 
     /**
+     * @var \DateTime
+     *
      * @ORM\Column(type="datetime", nullable=true)
+     * @Gedmo\Versioned
      */
-    private $modified;
-
-    public function __toString()
-    {
-        return $this->naam;
-    }
-
-    public function getId()
-    {
-        return $this->id;
-    }
-
-    public function getNaam()
-    {
-        return $this->naam;
-    }
-
-    public function setNaam($naam)
-    {
-        $this->naam = $naam;
-
-        return $this;
-    }
-
-    public function getCreated()
-    {
-        return $this->created;
-    }
-
-    public function getModified()
-    {
-        return $this->modified;
-    }
+    protected $modified;
 }

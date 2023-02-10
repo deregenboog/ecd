@@ -15,42 +15,42 @@ class Contactjournals
     /**
      * @var int
      *
-     * @ORM\Column(name="klant_id", type="integer", nullable=false)
+     * @ORM\Column(name="klant_id", type="integer")
      */
     private $klantId;
 
     /**
      * @var int
      *
-     * @ORM\Column(name="medewerker_id", type="integer", nullable=false)
+     * @ORM\Column(name="medewerker_id", type="integer")
      */
     private $medewerkerId;
 
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="datum", type="date", nullable=false)
+     * @ORM\Column(name="datum", type="date")
      */
     private $datum;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="text", type="text", length=65535, nullable=false)
+     * @ORM\Column(name="text", type="text", length=65535)
      */
     private $text;
 
     /**
      * @var bool
      *
-     * @ORM\Column(name="is_tb", type="boolean", nullable=false)
+     * @ORM\Column(name="is_tb", type="boolean")
      */
     private $isTb;
 
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="created", type="datetime", nullable=false)
+     * @ORM\Column(name="created", type="datetime")
      */
     private $created;
 

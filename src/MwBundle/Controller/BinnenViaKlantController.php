@@ -17,8 +17,8 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class BinnenViaKlantController extends AbstractController
 {
-    protected $title = 'Binnen via-opties (Klant)';
-    protected $entityName = 'binnen via-optie (Klant)';
+    protected $title = 'Binnen via-opties (klant)';
+    protected $entityName = 'binnen via-optie (klant)';
     protected $entityClass = BinnenViaOptieKlant::class;
     protected $formClass = BinnenViaOptieKlantType::class;
     protected $baseRouteName = 'mw_binnenviaklant_';
@@ -28,13 +28,8 @@ class BinnenViaKlantController extends AbstractController
      */
     protected $dao;
 
-    /**
-     * @param BinnenViaDao $dao
-     */
     public function __construct(BinnenViaKlantDao $dao)
     {
         $this->dao = $dao;
     }
-
-
 }

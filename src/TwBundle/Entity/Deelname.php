@@ -28,7 +28,7 @@ class Deelname
     /**
      * @var Training
      *
-     * @ORM\ManyToOne(targetEntity="TwBundle\Entity\Training", cascade={"persist"}, inversedBy="deelnames")
+     * @ORM\ManyToOne(targetEntity="TwBundle\Entity\Training", cascade={"persist"})
      * @ORM\JoinColumn(name="mwTraining_id", nullable=false)
      * @Gedmo\Versioned
      */
@@ -54,9 +54,25 @@ class Deelname
      */
     protected $datum;
 
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(type="datetime")
+     * @Gedmo\Versioned
+     */
+    protected $created;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(type="datetime")
+     * @Gedmo\Versioned
+     */
+    protected $modified;
+
     public function __construct(Vrijwilliger $vrijwilliger = null)
     {
-        $this->vrijwilliger = $vrijwilliger;;
+        $this->vrijwilliger = $vrijwilliger;
     }
 
     public function getId()
@@ -79,7 +95,7 @@ class Deelname
     /**
      * @return Vrijwilliger
      */
-    public function getVrijwilliger():? Vrijwilliger
+    public function getVrijwilliger(): ?Vrijwilliger
     {
         return $this->vrijwilliger;
     }
@@ -95,7 +111,7 @@ class Deelname
     /**
      * @return \DateTime
      */
-    public function getDatum():? \DateTime
+    public function getDatum(): ?\DateTime
     {
         return $this->datum;
     }
@@ -111,7 +127,7 @@ class Deelname
     /**
      * @return string
      */
-    public function getOverig():? string
+    public function getOverig(): ?string
     {
         return $this->overig;
     }
@@ -123,7 +139,4 @@ class Deelname
     {
         $this->overig = $overig;
     }
-
-
-
 }

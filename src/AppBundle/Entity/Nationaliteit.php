@@ -2,6 +2,8 @@
 
 namespace AppBundle\Entity;
 
+use AppBundle\Model\IdentifiableTrait;
+use AppBundle\Model\NameableTrait;
 use AppBundle\Model\TimestampableTrait;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
@@ -14,14 +16,9 @@ use Gedmo\Mapping\Annotation as Gedmo;
  */
 class Nationaliteit
 {
+    use IdentifiableTrait;
+    use NameableTrait;
     use TimestampableTrait;
-
-    /**
-     * @ORM\Id
-     * @ORM\Column(type="integer")
-     * @ORM\GeneratedValue
-     */
-    private $id;
 
     /**
      * @ORM\Column(type="string")
@@ -30,10 +27,20 @@ class Nationaliteit
     private $afkorting;
 
     /**
-     * @ORM\Column(type="string")
+     * @var \DateTime
+     *
+     * @ORM\Column(type="datetime", nullable=true)
      * @Gedmo\Versioned
      */
-    private $naam;
+    protected $created;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(type="datetime", nullable=true)
+     * @Gedmo\Versioned
+     */
+    protected $modified;
 
     public function __construct($naam = null, $afkorting = '')
     {
@@ -41,23 +48,8 @@ class Nationaliteit
         $this->afkorting = $afkorting;
     }
 
-    public function __toString()
-    {
-        return $this->naam;
-    }
-
-    public function getId()
-    {
-        return $this->id;
-    }
-
     public function getAfkorting()
     {
         return $this->afkorting;
-    }
-
-    public function getNaam()
-    {
-        return $this->naam;
     }
 }

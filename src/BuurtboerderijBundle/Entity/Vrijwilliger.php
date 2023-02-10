@@ -17,7 +17,9 @@ use Gedmo\Mapping\Annotation as Gedmo;
  */
 class Vrijwilliger
 {
-    use IdentifiableTrait, TimestampableTrait, RequiredMedewerkerTrait;
+    use IdentifiableTrait;
+    use TimestampableTrait;
+    use RequiredMedewerkerTrait;
 
     /**
      * @var Vrijwilliger
@@ -48,6 +50,22 @@ class Vrijwilliger
      * @ORM\ManyToOne(targetEntity="Afsluitreden")
      */
     protected $afsluitreden;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(type="datetime")
+     * @Gedmo\Versioned
+     */
+    protected $created;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(type="datetime")
+     * @Gedmo\Versioned
+     */
+    protected $modified;
 
     public function __construct(AppVrijwilliger $vrijwilliger = null)
     {

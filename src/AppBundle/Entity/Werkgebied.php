@@ -8,7 +8,9 @@ use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Entity
- * @ORM\Table(name="werkgebieden")
+ * @ORM\Table(name="werkgebieden", uniqueConstraints={
+ *     @ORM\Index(name="naam", columns={"naam", "zichtbaar"})
+ * })
  * @Gedmo\Loggable
  */
 class Werkgebied
@@ -21,7 +23,7 @@ class Werkgebied
     private $naam;
 
     /**
-     * @ORM\Column(type="boolean", nullable=false)
+     * @ORM\Column(type="boolean", options={"default":1})
      * @Gedmo\Versioned
      */
     private $zichtbaar;
@@ -36,12 +38,9 @@ class Werkgebied
     {
         try {
             return $this->naam;
-        }
-        catch(EntityNotFoundException|Exception $e)
-        {
+        } catch (EntityNotFoundException|Exception $e) {
             return "";
         }
-
     }
 
     public function getNaam()

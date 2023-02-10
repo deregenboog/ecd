@@ -19,7 +19,9 @@ use Gedmo\Mapping\Annotation as Gedmo;
  */
 abstract class Zrm
 {
-    use IdentifiableTrait, TimestampableTrait, OptionalMedewerkerTrait;
+    use IdentifiableTrait;
+    use TimestampableTrait;
+    use OptionalMedewerkerTrait;
 
     public const ZRM_VERSIONS = [
         ZrmV2::class => '2017-10-05',
@@ -34,22 +36,38 @@ abstract class Zrm
     protected $klant;
 
     /**
-     * @ORM\Column(name="model", type="string", nullable=false)
+     * @ORM\Column(length=50, nullable=true)
      * @Gedmo\Versioned
      */
     protected $model;
 
     /**
-     * @ORM\Column(name="foreign_key", type="integer", nullable=false)
+     * @ORM\Column(name="foreign_key", type="integer", nullable=true)
      * @Gedmo\Versioned
      */
     protected $foreignKey;
 
     /**
-     * @ORM\Column(name="request_module", type="string", nullable=false)
+     * @ORM\Column(name="request_module", length=50)
      * @Gedmo\Versioned
      */
     protected $requestModule;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(type="datetime", nullable=true)
+     * @Gedmo\Versioned
+     */
+    protected $created;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(type="datetime", nullable=true)
+     * @Gedmo\Versioned
+     */
+    protected $modified;
 
     public function __clone()
     {

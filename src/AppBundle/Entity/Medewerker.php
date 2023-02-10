@@ -2,6 +2,7 @@
 
 namespace AppBundle\Entity;
 
+use AppBundle\Model\IdentifiableTrait;
 use AppBundle\Model\NameTrait;
 use AppBundle\Model\TimestampableTrait;
 use Doctrine\ORM\Mapping as ORM;
@@ -17,14 +18,9 @@ use Symfony\Component\Security\Core\User\UserInterface;
  */
 class Medewerker implements LdapUserInterface, UserInterface
 {
-    use NameTrait, TimestampableTrait;
-
-    /**
-     * @ORM\Id
-     * @ORM\Column(type="integer")
-     * @ORM\GeneratedValue
-     */
-    private $id;
+    use IdentifiableTrait;
+    use NameTrait;
+    use TimestampableTrait;
 
     /**
      * @ORM\Column(name="uidnumber")
@@ -42,7 +38,9 @@ class Medewerker implements LdapUserInterface, UserInterface
     private $email;
 
     /**
-     * @ORM\Column(name="`active`", type="boolean")
+     * @var bool
+     *
+     * @ORM\Column(name="`active`", type="integer", options={"default":1})
      */
     private $actief = true;
 
@@ -58,27 +56,37 @@ class Medewerker implements LdapUserInterface, UserInterface
     private $ldapGroups = [];
 
     /**
-     * @ORM\Column(name="eerste_bezoek", type="datetime", nullable=true)
+     * @ORM\Column(name="eerste_bezoek", type="datetime")
      */
     private $eersteBezoek;
 
     /**
-     * @ORM\Column(name="laatste_bezoek", type="datetime", nullable=true)
+     * @ORM\Column(name="laatste_bezoek", type="datetime")
      */
     private $laatsteBezoek;
 
     /**
      * @var array the Symfony roles for this user
      *
-     * @ORM\Column(name="roles", type="json", nullable=false)
+     * @ORM\Column(name="roles", type="json")
      */
     private $roles = [];
 
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(type="datetime", nullable=true)
+     * @Gedmo\Versioned
+     */
+    protected $created;
 
-    public function getId()
-    {
-        return $this->id;
-    }
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(type="datetime", nullable=true)
+     * @Gedmo\Versioned
+     */
+    protected $modified;
 
     /**
      * Get the GUID used to uniquely identify the user in LDAP.
@@ -177,7 +185,7 @@ class Medewerker implements LdapUserInterface, UserInterface
      */
     public function isActief()
     {
-        return $this->actief;
+        return (bool) $this->actief;
     }
 
     /**

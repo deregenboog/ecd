@@ -24,14 +24,14 @@ class Locatie
     private $id;
 
     /**
-     * @ORM\Column(name="naam", nullable=false)
+     * @ORM\Column(name="naam")
      * @Gedmo\Versioned
      */
     private $naam;
 
 
     /**
-     * @ORM\Column(name="datum_van", type="date", nullable=false)
+     * @ORM\Column(name="datum_van", type="date")
      * @Gedmo\Versioned
      */
     private $datumVan;
@@ -94,7 +94,6 @@ class Locatie
 
     public function isOpen(\DateTime $date = null)
     {
-
         return true;
     }
 
@@ -107,11 +106,9 @@ class Locatie
     {
         $now = new \DateTime("now");
 
-        if($this->datumTot == null || ($this->datumVan < $now && $this->datumTot > $now) ) {
+        if ($this->datumTot == null || ($this->datumVan < $now && $this->datumTot > $now)) {
             return true;
         }
         return false;
     }
-
-
 }

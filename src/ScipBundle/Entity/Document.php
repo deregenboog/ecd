@@ -23,7 +23,10 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
  */
 class Document implements DocumentInterface, MedewerkerSubjectInterface
 {
-    use IdentifiableTrait, NameableTrait, TimestampableTrait, RequiredMedewerkerTrait;
+    use IdentifiableTrait;
+    use NameableTrait;
+    use TimestampableTrait;
+    use RequiredMedewerkerTrait;
 
     public const TYPE_VOG = 'VOG';
     public const TYPE_OVEREENKOMST = 'Overeenkomst';
@@ -48,6 +51,22 @@ class Document implements DocumentInterface, MedewerkerSubjectInterface
      * @Gedmo\Versioned
      */
     private $file;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(type="datetime")
+     * @Gedmo\Versioned
+     */
+    protected $created;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(type="datetime")
+     * @Gedmo\Versioned
+     */
+    protected $modified;
 
     public function __construct(Medewerker $medewerker = null)
     {

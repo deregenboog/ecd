@@ -2,6 +2,8 @@
 
 namespace GaBundle\Entity;
 
+use AppBundle\Model\IdentifiableTrait;
+use AppBundle\Model\NameableTrait;
 use AppBundle\Model\NotDeletableTrait;
 use AppBundle\Model\TimestampableTrait;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -17,20 +19,10 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class Activiteit
 {
-    use TimestampableTrait, NotDeletableTrait;
-
-    /**
-     * @ORM\Id
-     * @ORM\Column(type="integer")
-     * @ORM\GeneratedValue
-     */
-    private $id;
-
-    /**
-     * @ORM\Column(type="string")
-     * @Gedmo\Versioned
-     */
-    private $naam;
+    use IdentifiableTrait;
+    use NameableTrait;
+    use TimestampableTrait;
+    use NotDeletableTrait;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
@@ -54,7 +46,6 @@ class Activiteit
      * @var Groep
      *
      * @ORM\ManyToOne(targetEntity="Groep", inversedBy="activiteiten")
-     * @ORM\JoinColumn(nullable=true)
      * @Gedmo\Versioned
      */
     private $groep;
@@ -63,7 +54,6 @@ class Activiteit
      * @var ActiviteitAnnuleringsreden
      *
      * @ORM\ManyToOne(targetEntity="ActiviteitAnnuleringsreden")
-     * @ORM\JoinColumn(nullable=true)
      * @Gedmo\Versioned
      */
     private $annuleringsreden;
@@ -76,6 +66,22 @@ class Activiteit
      * @Assert\GreaterThanOrEqual(0)
      */
     private $aantalAnoniemeDeelnemers = 0;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(type="datetime")
+     * @Gedmo\Versioned
+     */
+    protected $created;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(type="datetime")
+     * @Gedmo\Versioned
+     */
+    protected $modified;
 
     /**
      * @return int
@@ -103,23 +109,6 @@ class Activiteit
     public function __toString()
     {
         return sprintf('%s (%s)', $this->naam, $this->datum->format('d-m-Y'));
-    }
-
-    public function getId()
-    {
-        return $this->id;
-    }
-
-    public function getNaam()
-    {
-        return $this->naam;
-    }
-
-    public function setNaam($naam)
-    {
-        $this->naam = $naam;
-
-        return $this;
     }
 
     public function getDatum()

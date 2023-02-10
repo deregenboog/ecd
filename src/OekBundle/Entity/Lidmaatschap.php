@@ -2,6 +2,7 @@
 
 namespace OekBundle\Entity;
 
+use AppBundle\Model\IdentifiableTrait;
 use AppBundle\Model\TimestampableTrait;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
@@ -14,14 +15,8 @@ use Gedmo\Mapping\Annotation as Gedmo;
  */
 class Lidmaatschap
 {
+    use IdentifiableTrait;
     use TimestampableTrait;
-
-    /**
-     * @ORM\Id
-     * @ORM\Column(type="integer")
-     * @ORM\GeneratedValue
-     */
-    private $id;
 
     /**
      * @var Groep
@@ -41,15 +36,26 @@ class Lidmaatschap
      */
     private $deelnemer;
 
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(type="datetime")
+     * @Gedmo\Versioned
+     */
+    protected $created;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(type="datetime")
+     * @Gedmo\Versioned
+     */
+    protected $modified;
+
     public function __construct(Groep $groep = null, Deelnemer $deelnemer = null)
     {
         $this->groep = $groep;
         $this->deelnemer = $deelnemer;
-    }
-
-    public function getId()
-    {
-        return $this->id;
     }
 
     public function getGroep()

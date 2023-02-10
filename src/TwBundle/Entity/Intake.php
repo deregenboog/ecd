@@ -4,6 +4,7 @@ namespace TwBundle\Entity;
 
 use AppBundle\Entity\Medewerker;
 use AppBundle\Entity\Zrm;
+use AppBundle\Model\IdentifiableTrait;
 use AppBundle\Model\RequiredMedewerkerTrait;
 use AppBundle\Model\TimestampableTrait;
 use Doctrine\ORM\Mapping as ORM;
@@ -17,14 +18,9 @@ use Gedmo\Mapping\Annotation as Gedmo;
  */
 class Intake
 {
-    use TimestampableTrait, RequiredMedewerkerTrait;
-
-    /**
-     * @ORM\Id
-     * @ORM\Column(type="integer")
-     * @ORM\GeneratedValue
-     */
-    private $id;
+    use IdentifiableTrait;
+    use TimestampableTrait;
+    use RequiredMedewerkerTrait;
 
     /**
      * @ORM\Column(name="intake_datum", type="date")
@@ -41,16 +37,26 @@ class Intake
     /**
      * @var Deelnemer
      *
-     * @ORM\OneToOne(targetEntity="Deelnemer", inversedBy="intake")
+     * @ORM\OneToOne(targetEntity="Deelnemer")
      * @Gedmo\Versioned
      */
     private $deelnemer;
 
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(type="datetime")
+     * @Gedmo\Versioned
+     */
+    protected $created;
 
-    public function getId()
-    {
-        return $this->id;
-    }
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(type="datetime")
+     * @Gedmo\Versioned
+     */
+    protected $modified;
 
     public function getIntakeDatum()
     {
@@ -61,5 +67,4 @@ class Intake
     {
         return $this->deelnemer;
     }
-
 }

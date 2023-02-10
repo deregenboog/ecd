@@ -2,7 +2,6 @@
 
 namespace AppBundle\Model;
 
-use AppBundle\Report\Activering;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 
@@ -10,7 +9,7 @@ trait ActivatableTrait
 {
     /**
      * @var bool
-     * @ORM\Column(name="`active`", type="boolean", nullable=false, options={"default":1})
+     * @ORM\Column(name="`active`", type="boolean")
      * @Gedmo\Versioned
      */
     protected $actief = true;
@@ -24,11 +23,11 @@ trait ActivatableTrait
     {
         return $this->actief;
     }
+
     public function setActief(bool $actief)
     {
         $this->actief = $actief;
 
         return $this;
     }
-
 }

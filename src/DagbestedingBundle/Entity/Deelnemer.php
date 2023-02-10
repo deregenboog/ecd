@@ -3,13 +3,13 @@
 namespace DagbestedingBundle\Entity;
 
 use AppBundle\Entity\Klant;
+use AppBundle\Model\IdentifiableTrait;
 use AppBundle\Model\RequiredMedewerkerTrait;
 use AppBundle\Model\TimestampableTrait;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
-
 
 /**
  * @ORM\Entity
@@ -19,16 +19,9 @@ use Gedmo\Mapping\Annotation as Gedmo;
  */
 class Deelnemer
 {
-    use TimestampableTrait, RequiredMedewerkerTrait;
-
-    /**
-     * @var int
-     *
-     * @ORM\Id
-     * @ORM\Column(type="integer")
-     * @ORM\GeneratedValue
-     */
-    private $id;
+    use IdentifiableTrait;
+    use TimestampableTrait;
+    use RequiredMedewerkerTrait;
 
     /**
      * @var string
@@ -58,7 +51,6 @@ class Deelnemer
      * @var Afsluiting
      *
      * @ORM\ManyToOne(targetEntity="Afsluiting", cascade={"persist"})
-     * @ORM\JoinColumn(nullable=true)
      * @Gedmo\Versioned
      */
     private $afsluiting;
@@ -113,6 +105,21 @@ class Deelnemer
      */
     private $werkbegeleider;
 
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(type="datetime")
+     * @Gedmo\Versioned
+     */
+    protected $created;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(type="datetime")
+     * @Gedmo\Versioned
+     */
+    protected $modified;
 
     public function __construct()
     {
@@ -121,7 +128,6 @@ class Deelnemer
         $this->contactpersonen = new ArrayCollection();
         $this->verslagen = new ArrayCollection();
         $this->documenten = new ArrayCollection();
-
     }
 
     public function __toString()
@@ -264,7 +270,7 @@ class Deelnemer
     /**
      * @return string
      */
-    public function getWerkbegeleider():? string
+    public function getWerkbegeleider(): ?string
     {
         return $this->werkbegeleider;
     }

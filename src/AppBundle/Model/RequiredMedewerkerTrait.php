@@ -11,7 +11,7 @@ trait RequiredMedewerkerTrait
     /**
      * @var Medewerker
      *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Medewerker")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Medewerker", cascade={"persist"})
      * @ORM\JoinColumn(nullable=false)
      * @Gedmo\Versioned
      */

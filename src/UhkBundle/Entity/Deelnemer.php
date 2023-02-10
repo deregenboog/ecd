@@ -31,7 +31,11 @@ use Gedmo\Mapping\Annotation as Gedmo;
  */
 class Deelnemer implements KlantRelationInterface, DocumentSubjectInterface
 {
-    use IdentifiableTrait, ActivatableTrait, UsesKlantTrait, DocumentSubjectTrait, TimestampableTrait;
+    use IdentifiableTrait;
+    use ActivatableTrait;
+    use UsesKlantTrait;
+    use DocumentSubjectTrait;
+    use TimestampableTrait;
 
     /**
      * @var Klant
@@ -99,11 +103,9 @@ class Deelnemer implements KlantRelationInterface, DocumentSubjectInterface
         $this->verslagen = new ArrayCollection();
         $this->documenten = new ArrayCollection();
         $this->medewerker = $medewerker;
-        if(!$this->aanmelddatum)
-        {
+        if (!$this->aanmelddatum) {
             $this->aanmelddatum = new \DateTime('now');
         }
-
     }
 
     public function __toString()
@@ -225,5 +227,4 @@ class Deelnemer implements KlantRelationInterface, DocumentSubjectInterface
     {
         return $this->klantFieldName;
     }
-
 }

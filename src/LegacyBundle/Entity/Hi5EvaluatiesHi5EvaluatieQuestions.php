@@ -20,32 +20,32 @@ class Hi5EvaluatiesHi5EvaluatieQuestions
     private $id;
 
     /**
-     * @ORM\Column(name="hi5_evaluatie_id", type="integer", nullable=false)
+     * @ORM\Column(name="hi5_evaluatie_id", type="integer")
      */
     private $hi5EvaluatieId;
 
     /**
-     * @ORM\Column(name="hi5_evaluatie_question_id", type="integer", nullable=false)
+     * @ORM\Column(name="hi5_evaluatie_question_id", type="integer")
      */
     private $hi5EvaluatieQuestionId;
 
     /**
-     * @ORM\Column(name="hi5er_radio", type="integer", nullable=false)
+     * @ORM\Column(name="hi5er_radio", type="integer")
      */
     private $hi5erRadio;
 
     /**
-     * @ORM\Column(name="hi5er_details", type="text", length=65535, nullable=false)
+     * @ORM\Column(name="hi5er_details", type="text", length=65535)
      */
     private $hi5erDetails;
 
     /**
-     * @ORM\Column(name="wb_radio", type="integer", nullable=false)
+     * @ORM\Column(name="wb_radio", type="integer")
      */
     private $wbRadio;
 
     /**
-     * @ORM\Column(name="wb_details", type="text", length=65535, nullable=false)
+     * @ORM\Column(name="wb_details", type="text", length=65535)
      */
     private $wbDetails;
 }

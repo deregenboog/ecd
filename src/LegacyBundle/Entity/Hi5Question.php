@@ -20,17 +20,17 @@ class Hi5Question
     private $id;
 
     /**
-     * @ORM\Column(name="question", type="string", length=255, nullable=false)
+     * @ORM\Column(name="question", type="string", length=255)
      */
     private $question;
 
     /**
-     * @ORM\Column(name="category", type="string", length=255, nullable=false)
+     * @ORM\Column(name="category", type="string", length=255)
      */
     private $category;
 
     /**
-     * @ORM\Column(name="order", type="integer", nullable=false)
+     * @ORM\Column(name="order", type="integer")
      */
     private $order;
 }

@@ -5,6 +5,7 @@ namespace HsBundle\Entity;
 use AppBundle\Entity\Geslacht;
 use AppBundle\Model\ActivatableTrait;
 use AppBundle\Model\AddressTrait;
+use AppBundle\Model\IdentifiableTrait;
 use AppBundle\Model\NameTrait;
 use AppBundle\Model\RequiredMedewerkerTrait;
 use AppBundle\Model\TimestampableTrait;
@@ -14,24 +15,25 @@ use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Entity
- * @ORM\Table(
- *     name="hs_klanten",
- *     uniqueConstraints={@ORM\UniqueConstraint(name="unique_erp_id_idx", columns={"erp_id"})}
- * )
+ * @ORM\Table(name="hs_klanten", uniqueConstraints={
+ *     @ORM\UniqueConstraint(name="unique_erp_id_idx", columns={"erp_id"})
+ * })
  * @ORM\HasLifecycleCallbacks
  * @Gedmo\Loggable
  */
 class Klant implements MemoSubjectInterface, DocumentSubjectInterface
 {
-    use NameTrait, AddressTrait, HulpverlenerTrait, RequiredMedewerkerTrait,
-        MemoSubjectTrait, DocumentSubjectTrait, TimestampableTrait
-        ;
-    /**
-     * @ORM\Id
-     * @ORM\Column(type="integer")
-     * @ORM\GeneratedValue
-     */
-    private $id;
+    use IdentifiableTrait;
+    use NameTrait;
+    use AddressTrait;
+    use HulpverlenerTrait;
+    use RequiredMedewerkerTrait;
+    use MemoSubjectTrait;
+    use DocumentSubjectTrait;
+    use TimestampableTrait;
+
+    public const STATUS_OK = 1;
+    public const STATUS_GEEN_NIEUWE_KLUS = 2;
 
     /**
      * @ORM\Column(name="erp_id", type="integer", nullable=true)
@@ -60,7 +62,7 @@ class Klant implements MemoSubjectInterface, DocumentSubjectInterface
     private $geslacht;
 
     /**
-     * @ORM\Column(type="date", nullable=false)
+     * @ORM\Column(type="date")
      * @Gedmo\Versioned
      */
     private $inschrijving;
@@ -79,13 +81,39 @@ class Klant implements MemoSubjectInterface, DocumentSubjectInterface
 
     /**
      * !LET OP: actief betekent in de context van HS: heeft geen lopende/openstaande klussen. Dus niet een soort 'verwijderen'.
-     * @ORM\Column(type="boolean", nullable=false)
+     * @ORM\Column(type="boolean")
      * @Gedmo\Versioned
      */
     private $actief = false;
 
-    public const STATUS_OK = 1;
-    public const STATUS_GEEN_NIEUWE_KLUS = 2;
+    /**
+     * @ORM\Column(type="string", nullable=true)
+     * @Gedmo\Versioned
+     */
+    protected $postcode;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\GgwGebied")
+     * @ORM\JoinColumn(name="postcodegebied", referencedColumnName="naam")
+     * @Gedmo\Versioned
+     */
+    private $postcodegebied;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(type="datetime")
+     * @Gedmo\Versioned
+     */
+    protected $created;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(type="datetime")
+     * @Gedmo\Versioned
+     */
+    protected $modified;
 
     protected static $statussen = [
         "Nieuwe klussen mogelijk" => self::STATUS_OK,
@@ -95,7 +123,7 @@ class Klant implements MemoSubjectInterface, DocumentSubjectInterface
     /**
      * @var int
      *
-     * @ORM\Column(name="status", type="integer", options={"default":1})
+     * @ORM\Column(type="integer", options={"default":1})
      * @Gedmo\Versioned
      */
     private $status = self::STATUS_OK;
@@ -127,7 +155,7 @@ class Klant implements MemoSubjectInterface, DocumentSubjectInterface
     private $saldo = 0.0;
 
     /**
-     * @ORM\Column(type="boolean", nullable=false)
+     * @ORM\Column(type="boolean")
      * @Gedmo\Versioned
      */
     private $afwijkendFactuuradres = false;
@@ -241,7 +269,7 @@ class Klant implements MemoSubjectInterface, DocumentSubjectInterface
      */
     public function getStatusAsString(): string
     {
-        return array_search($this->status,self::$statussen);
+        return array_search($this->status, self::$statussen);
     }
 
     public function getStatussen(): array

@@ -13,7 +13,6 @@ use Gedmo\Mapping\Annotation as Gedmo;
  */
 class VormVanOvereenkomst
 {
-
     /**
      * @ORM\Id
      * @ORM\Column(type="integer")
@@ -53,8 +52,6 @@ class VormVanOvereenkomst
     public function __construct()
     {
         $this->startdate = new \DateTime();
-
-
     }
 
     public function __toString()
@@ -130,7 +127,4 @@ class VormVanOvereenkomst
     {
         $this->huuraanbod = $huuraanbod;
     }
-
-
-
 }

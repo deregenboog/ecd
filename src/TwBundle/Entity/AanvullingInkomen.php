@@ -18,13 +18,16 @@ use Gedmo\Mapping\Annotation as Gedmo;
  */
 class AanvullingInkomen
 {
-    use IdentifiableTrait, NameableTrait, ActivatableTrait, TimestampableTrait, NotDeletableTrait;
+    use IdentifiableTrait;
+    use NameableTrait;
+    use ActivatableTrait;
+    use TimestampableTrait;
+    use NotDeletableTrait;
 
     /**
      * @var Verhuurders[]
      *
      * @ORM\OneToMany(targetEntity="TwBundle\Entity\Verhuurder",mappedBy="aanvullingInkomen")
-     * @ORM\JoinColumn(nullable=true)
      */
     private $verhuurders;
 }

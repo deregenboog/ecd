@@ -3,6 +3,7 @@
 namespace InloopBundle\Entity;
 
 use AppBundle\Entity\Klant;
+use AppBundle\Model\IdentifiableTrait;
 use AppBundle\Model\TimestampableTrait;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
@@ -20,6 +21,7 @@ use Symfony\Component\Validator\Context\ExecutionContextInterface;
  */
 class Schorsing
 {
+    use IdentifiableTrait;
     use TimestampableTrait;
 
     public const DOELWIT_MEDEWERKER = 1;
@@ -32,20 +34,13 @@ class Schorsing
     ];
 
     /**
-     * @ORM\Id
-     * @ORM\Column(type="integer")
-     * @ORM\GeneratedValue
-     */
-    private $id;
-
-    /**
-     * @ORM\Column(name="datum_van", type="date", nullable=false)
+     * @ORM\Column(name="datum_van", type="date")
      * @Assert\NotNull
      */
     private $datumVan;
 
     /**
-     * @ORM\Column(name="datum_tot", type="date", nullable=false)
+     * @ORM\Column(name="datum_tot", type="date")
      * @Assert\NotNull
      */
     private $datumTot;
@@ -68,35 +63,35 @@ class Schorsing
     /**
      * @var bool
      *
-     * @ORM\Column(type="boolean", nullable=false, options={"DEFAULT 0"})
+     * @ORM\Column(type="boolean", options={"default":0})
      */
     private $gezien = false;
 
     /**
      * @var bool
      *
-     * @ORM\Column(type="boolean", nullable=false, options={"DEFAULT 0"})
+     * @ORM\Column(type="boolean")
      */
     private $terugkeergesprekGehad = false;
 
     /**
      * @var bool
      *
-     * @ORM\Column(type="boolean", nullable=false, options={"DEFAULT 0"})
+     * @ORM\Column(type="boolean", options={"default":0})
      */
     private $aangifte = false;
 
     /**
      * @var bool
      *
-     * @ORM\Column(type="boolean", nullable=false, options={"DEFAULT 0"})
+     * @ORM\Column(type="boolean", options={"default":0})
      */
     private $nazorg = false;
 
     /**
      * @var bool
      *
-     * @ORM\Column(type="boolean", nullable=false, options={"DEFAULT 0"})
+     * @ORM\Column(type="boolean", options={"default":0})
      */
     private $agressie = false;
 
@@ -148,7 +143,6 @@ class Schorsing
     /**
      * @deprecated
      * @ORM\ManyToOne(targetEntity="Locatie")
-     * @ORM\JoinColumn(nullable=true)
      */
     private $locatie;
 
@@ -177,6 +171,22 @@ class Schorsing
      */
     private $klant;
 
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(type="datetime")
+     * @Gedmo\Versioned
+     */
+    protected $created;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(type="datetime")
+     * @Gedmo\Versioned
+     */
+    protected $modified;
+
     public function __construct(Klant $klant = null)
     {
         $this->setKlant($klant);
@@ -189,11 +199,6 @@ class Schorsing
     public function __toString()
     {
         return sprintf('%s (%s t/m %s)', $this->klant, $this->datumVan->format('d-m-Y'), $this->datumTot->format('d-m-Y'));
-    }
-
-    public function getId()
-    {
-        return $this->id;
     }
 
     public function getDatumVan()
@@ -277,7 +282,9 @@ class Schorsing
     public function heeftTerugkeergesprekNodig(): bool
     {
         $duration = date_diff($this->datumTot, $this->datumVan);
-        if($duration->days >= 14) return true;
+        if ($duration->days >= 14) {
+            return true;
+        }
 
         return false;
     }

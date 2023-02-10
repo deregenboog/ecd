@@ -20,14 +20,14 @@ class Hi5IntakesAnswer
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Hi5Intake")
+     * @ORM\Column(type="integer")
      */
-    private $hi5Intake;
+    private $hi5_intake_id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Hi5Answer")
+     * @ORM\Column(type="integer")
      */
-    private $hi5Answer;
+    private $hi5_answer_id;
 
     /**
      * @ORM\Column(name="hi5_answer_text", type="text", length=65535, nullable=true)

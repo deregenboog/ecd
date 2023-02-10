@@ -11,7 +11,9 @@ use AppBundle\Entity\Inkomen;
  * @ORM\Entity
  * @ORM\Table(
  *     name="awbz_intakes",
- *     indexes={}
+ *     indexes={
+ *         @ORM\Index(name="idx_awbz_intakes_klant_id", columns={"klant_id"})
+ *     }
  * )
  */
 class AwbzIntake
@@ -24,14 +26,14 @@ class AwbzIntake
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Klant")
+     * @ORM\Column(type="integer", nullable=true)
      */
-    private $klant;
+    private $klant_id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Medewerker")
+     * @ORM\Column(type="integer", nullable=true)
      */
-    private $medewerker;
+    private $medewerker_id;
 
     /**
      * @ORM\Column(type="date", nullable=true)
@@ -39,9 +41,9 @@ class AwbzIntake
     private $datum_intake;
 
     /**
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Verblijfsstatus")
+     * @ORM\Column(type="integer", nullable=true)
      */
-    private $verblijfstatus;
+    private $verblijfstatus_id;
 
     /**
      * @ORM\Column(nullable=true)
@@ -61,21 +63,21 @@ class AwbzIntake
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="verblijf_in_NL_sinds", type="date", nullable=true)
+     * @ORM\Column(type="date", nullable=true)
      */
-    private $verblijfInNederlandSinds;
+    private $verblijf_in_NL_sinds;
 
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="verblijf_in_amsterdam_sinds", type="date", nullable=true)
+     * @ORM\Column(type="date", nullable=true)
      */
-    private $verblijfInAmsterdamSinds;
+    private $verblijf_in_amsterdam_sinds;
 
     /**
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Legitimatie")
+     * @ORM\Column(type="integer", nullable=true)
      */
-    private $legitimatie;
+    private $legitimatie_id;
 
     /**
      * @var string
@@ -92,21 +94,19 @@ class AwbzIntake
     private $legitimatieGeldigTot;
 
     /**
-     * @ORM\ManyToOne(targetEntity="InloopBundle\Entity\Frequentie")
-     * @ORM\JoinColumn(name="verslavingsfrequentie_id", nullable=true)
+     * @ORM\Column(type="integer", nullable=true)
      */
-    private $frequentie;
+    private $verslavingsfrequentie_id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="InloopBundle\Entity\Periode")
-     * @ORM\JoinColumn(name="verslavingsperiode_id", nullable=true)
+     * @ORM\Column(type="integer", nullable=true)
      */
-    private $periode;
+    private $verslavingsperiode_id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="InloopBundle\Entity\Woonsituatie")
+     * @ORM\Column(type="integer", nullable=true)
      */
-    private $woonsituatie;
+    private $woonsituatie_id;
 
     /**
      * @ORM\Column(type="text", name="verwachting_dienstaanbod", nullable=true)
@@ -129,16 +129,14 @@ class AwbzIntake
     private $medischeAchtergrond;
 
     /**
-     * @ORM\ManyToOne(targetEntity="InloopBundle\Entity\Locatie")
-     * @ORM\JoinColumn(name="locatie1_id", nullable=true)
+     * @ORM\Column(type="integer", nullable=true)
      */
-    private $gebruikersruimte;
+    private $locatie1_id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="InloopBundle\Entity\Locatie")
-     * @ORM\JoinColumn(name="locatie2_id", nullable=true)
+     * @ORM\Column(type="integer", nullable=true)
      */
-    private $intakelocatie;
+    private $locatie2_id;
 
     /**
      * @ORM\Column(type="text", nullable=true)
@@ -196,30 +194,19 @@ class AwbzIntake
     private $magGebruiken;
 
     /**
-     * @ORM\ManyToOne(targetEntity="InloopBundle\Entity\Verslaving")
+     * @ORM\Column(type="integer", nullable=true)
      */
-    private $primaireProblematiek;
+    private $primaireProblematiek_id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="InloopBundle\Entity\Frequentie")
-     * @ORM\JoinColumn(name="primaireproblematieksfrequentie_id")
+     * @ORM\Column(type="integer", nullable=true)
      */
-    private $primaireProblematiekFrequentie;
+    private $primaireproblematieksfrequentie_id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="InloopBundle\Entity\Periode")
-     * @ORM\JoinColumn(name="primaireproblematieksperiode_id")
+     * @ORM\Column(type="integer", nullable=true)
      */
-    private $primaireProblematiekPeriode;
-
-    /**
-     * @ORM\ManyToMany(targetEntity="InloopBundle\Entity\Gebruikswijze")
-     * @ORM\JoinTable(
-     *     name="awbz_intakes_primaireproblematieksgebruikswijzen",
-     *     inverseJoinColumns=@ORM\JoinColumn(name="primaireproblematieksgebruikswijze_id")
-     * )
-     */
-    private $primaireProblematiekGebruikswijzen;
+    private $primaireproblematieksperiode_id;
 
     /**
      * @ORM\Column(name="eerste_gebruik", type="date", nullable=true)
@@ -227,37 +214,12 @@ class AwbzIntake
     private $eersteGebruik;
 
     /**
-     * @ORM\ManyToOne(targetEntity="InloopBundle\Entity\Locatie")
-     * @ORM\JoinColumn(name="locatie3_id")
+     * @ORM\Column(type="integer", nullable=true)
      */
-    private $locatie3;
+    private $locatie3_id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="InloopBundle\Entity\Infobaliedoelgroep")
+     * @ORM\Column(type="integer", nullable=true)
      */
-    private $infobaliedoelgroep;
-
-    /**
-     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Inkomen")
-     * @ORM\JoinTable(name="inkomens_awbz_intakes")
-     */
-    private $inkomens;
-
-    /**
-     * @ORM\ManyToMany(targetEntity="InloopBundle\Entity\Verslaving")
-     * @ORM\JoinTable(name="awbz_intakes_verslavingen")
-     */
-    private $verslavingen;
-
-    /**
-     * @ORM\ManyToMany(targetEntity="InloopBundle\Entity\Gebruikswijze")
-     * @ORM\JoinTable(name="awbz_intakes_verslavingsgebruikswijzen")
-     */
-    private $gebruikswijzen;
-
-    /**
-     * @ORM\ManyToMany(targetEntity="InloopBundle\Entity\Instantie")
-     * @ORM\JoinTable(name="instanties_awbz_intakes")
-     */
-    private $instanties;
+    private $infobaliedoelgroep_id;
 }

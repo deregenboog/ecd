@@ -24,9 +24,11 @@ use Gedmo\Mapping\Annotation as Gedmo;
  * @ORM\HasLifecycleCallbacks
  * @Gedmo\Loggable
  */
-abstract class Deelnemer  implements KlantRelationInterface
+abstract class Deelnemer implements KlantRelationInterface
 {
-    use TimestampableTrait, OptionalMedewerkerTrait, UsesKlantTrait;
+    use TimestampableTrait;
+    use OptionalMedewerkerTrait;
+    use UsesKlantTrait;
 
     /**
      * @var int
@@ -64,7 +66,7 @@ abstract class Deelnemer  implements KlantRelationInterface
     /**
      * @var bool
      *
-     * @ORM\Column(type="boolean", nullable=false)
+     * @ORM\Column(type="boolean")
      * @Gedmo\Versioned
      */
     protected $wpi = false;
@@ -72,7 +74,6 @@ abstract class Deelnemer  implements KlantRelationInterface
     /**
      * @var Inkomen
      * @ORM\ManyToOne(targetEntity="TwBundle\Entity\Inkomen",cascade={"persist"})
-     * @ORM\JoinColumn(nullable=true)
      */
     protected $inkomen;
 
@@ -114,7 +115,6 @@ abstract class Deelnemer  implements KlantRelationInterface
     /**
      * @var Medewerker
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Medewerker")
-     * @ORM\JoinColumn(nullable=true)
      */
     private $ambulantOndersteuner;
 
@@ -124,55 +124,63 @@ abstract class Deelnemer  implements KlantRelationInterface
      */
     private $begeleider;
 
-
     /**
      * @var Dagbesteding
      * @ORM\ManyToOne(targetEntity="TwBundle\Entity\Dagbesteding",cascade={"persist"})
-     * @ORM\JoinColumn(nullable=true)
      */
     private $dagbesteding;
 
     /**
      * @var Ritme
      * @ORM\ManyToOne(targetEntity="TwBundle\Entity\Ritme",cascade={"persist"})
-     * @ORM\JoinColumn(nullable=true)
      */
     private $ritme;
 
     /**
      * @var Huisdieren
      * @ORM\ManyToOne(targetEntity="TwBundle\Entity\Huisdieren",cascade={"persist"})
-     * @ORM\JoinColumn(nullable=true)
      */
     private $huisdieren;
 
     /**
      * @var Roken
      * @ORM\ManyToOne(targetEntity="TwBundle\Entity\Roken",cascade={"persist"})
-     * @ORM\JoinColumn(nullable=true)
      */
     private $roken;
 
     /**
      * @var Softdrugs
      * @ORM\ManyToOne(targetEntity="TwBundle\Entity\Softdrugs",cascade={"persist"})
-     * @ORM\JoinColumn(nullable=true)
      */
     private $softdrugs;
 
     /**
      * @var Alcohol
      * @ORM\ManyToOne(targetEntity="TwBundle\Entity\Alcohol",cascade={"persist"})
-     * @ORM\JoinColumn(nullable=true)
      */
     private $alcohol;
 
     /**
      * @var Traplopen
      * @ORM\ManyToOne(targetEntity="TwBundle\Entity\Traplopen",cascade={"persist"})
-     * @ORM\JoinColumn(nullable=true)
      */
     private $traplopen;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(type="datetime")
+     * @Gedmo\Versioned
+     */
+    protected $created;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(type="datetime")
+     * @Gedmo\Versioned
+     */
+    protected $modified;
 
     /**
      * @return Dagbesteding
@@ -505,18 +513,16 @@ abstract class Deelnemer  implements KlantRelationInterface
     }
 
 
-    public abstract function getHuurovereenkomsten();
+    abstract public function getHuurovereenkomsten();
 
     public function isGekoppeld()
     {
-        foreach($this->getHuurovereenkomsten() as $hoe)
-        {
+        foreach ($this->getHuurovereenkomsten() as $hoe) {
             /** @var Huurovereenkomst $hoe */
             $hoe = $hoe;
-            if($hoe->isReservering() == false && $hoe->isActief() == true && $hoe->getAfsluitdatum() == null && $hoe->getStartdatum() != null
+            if ($hoe->isReservering() == false && $hoe->isActief() == true && $hoe->getAfsluitdatum() == null && $hoe->getStartdatum() != null
                 && $this->getAfsluitdatum() == null
-            )
-            {
+            ) {
                 return true;
             }
         }

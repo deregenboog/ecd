@@ -3,6 +3,7 @@
 namespace HsBundle\Entity;
 
 use AppBundle\Entity\Medewerker;
+use AppBundle\Model\IdentifiableTrait;
 use AppBundle\Model\TimestampableTrait;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
@@ -19,13 +20,8 @@ use Symfony\Component\Validator\Context\ExecutionContextInterface;
  */
 class Registratie implements FactuurSubjectInterface
 {
+    use IdentifiableTrait;
     use TimestampableTrait;
-    /**
-     * @ORM\Id
-     * @ORM\Column(type="integer")
-     * @ORM\GeneratedValue
-     */
-    private $id;
 
     /**
      * @var \DateTime
@@ -36,21 +32,21 @@ class Registratie implements FactuurSubjectInterface
 
     /**
      * @var \DateTime
-     * @ORM\Column(type="time")
+     * @ORM\Column(type="time", nullable=true)
      * @Gedmo\Versioned
      */
     private $start;
 
     /**
      * @var \DateTime
-     * @ORM\Column(type="time")
+     * @ORM\Column(type="time", nullable=true)
      * @Gedmo\Versioned
      */
     private $eind;
 
     /**
      * @var integer
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="integer", options={"default":0})
      * @Gedmo\Versioned
      */
     private $dagdelen = 0;
@@ -72,7 +68,7 @@ class Registratie implements FactuurSubjectInterface
     /**
      * @var Factuur
      * @ORM\ManyToOne(targetEntity="Factuur", inversedBy="registraties", cascade={"persist"})
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(onDelete="CASCADE")
      * @Gedmo\Versioned
      */
     private $factuur;
@@ -101,8 +97,6 @@ class Registratie implements FactuurSubjectInterface
      */
     private $medewerker;
 
-
-
     public function __construct(Klus $klus = null, Arbeider $arbeider = null)
     {
         if ($klus) {
@@ -116,19 +110,15 @@ class Registratie implements FactuurSubjectInterface
 
     public function __toString()
     {
-        if($this->datum->format("Y") <= '2022')
-        {
+        if ($this->datum->format("Y") <= '2022') {
             return $this->datum->format('d-m-Y') .' | '
                 .$this->start->format('H:i').' - '
                 .$this->eind->format('H:i')
                 ;
-        }
-        else
-        {
+        } else {
             return $this->datum->format('d-m-Y')
                 ;
         }
-
     }
 
     public function getId()
@@ -282,8 +272,7 @@ class Registratie implements FactuurSubjectInterface
 
     public function getUren()
     {
-        if($this->datum->format("Y") <= 2022) {
-
+        if ($this->datum->format("Y") <= 2022) {
             if (!$this->start || !$this->eind) {
                 return 0;
             }
@@ -291,21 +280,16 @@ class Registratie implements FactuurSubjectInterface
             $seconds = $this->eind->getTimestamp() - $this->start->getTimestamp();
 
             return $seconds / 3600;
-        }
-        else
-        {
+        } else {
             return ($this->dagdelen * 2);//1 dagdeel = 2 uur.
         }
     }
 
     public function getDagdelen()
     {
-        if($this->datum->format("Y") <= '2022')
-        {
+        if ($this->datum->format("Y") <= '2022') {
             return $this->getUren() > 3 ? 2 : 1;
-        }
-        else
-        {
+        } else {
             return $this->dagdelen;
         }
     }
@@ -315,8 +299,7 @@ class Registratie implements FactuurSubjectInterface
      */
     public function setDagdelen(int $dagdelen): self
     {
-        if($this->datum->format("Y") <= "2022")
-        {
+        if ($this->datum->format("Y") <= "2022") {
             throw new HsException("Kan geen dagdelen instellen op registraties voor 2023.");
         }
         $this->dagdelen = $dagdelen;
@@ -328,19 +311,14 @@ class Registratie implements FactuurSubjectInterface
      */
     public function validate(ExecutionContextInterface $context, $payload)
     {
-        if ($this->datum->format("Y") > '2022' && $this->dagdelen == 0){
-
+        if ($this->datum->format("Y") > '2022' && $this->dagdelen == 0) {
             $context->buildViolation('Het is verplicht het aantal dagdelen van deze registratie in te stellen.')
                 ->atPath('dagdelen')
                 ->addViolation();
-        }
-        else if($this->datum->format("Y") <= '2022' && ($this->start == null || $this->eind == null) )
-        {
+        } elseif ($this->datum->format("Y") <= '2022' && ($this->start == null || $this->eind == null)) {
             $context->buildViolation('Het is verplicht het de start en eindtijd van deze registratie in te stellen.')
                 ->atPath('start')
                 ->addViolation();
-
         }
     }
-
 }

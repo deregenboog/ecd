@@ -2,6 +2,7 @@
 
 namespace AppBundle\Entity;
 
+use AppBundle\Model\IdentifiableTrait;
 use AppBundle\Model\TimestampableTrait;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
@@ -14,16 +15,10 @@ use Gedmo\Mapping\Annotation as Gedmo;
  */
 class Geslacht
 {
+    use IdentifiableTrait;
     use TimestampableTrait;
 
     public const AFKORTING_ONBEKEND = 'O';
-
-    /**
-     * @ORM\Id
-     * @ORM\Column(type="integer")
-     * @ORM\GeneratedValue
-     */
-    private $id;
 
     /**
      * @ORM\Column(type="string")
@@ -37,6 +32,22 @@ class Geslacht
      */
     private $volledig;
 
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(type="datetime", nullable=true)
+     * @Gedmo\Versioned
+     */
+    protected $created;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(type="datetime", nullable=true)
+     * @Gedmo\Versioned
+     */
+    protected $modified;
+
     public function __construct($volledig, $afkorting = null)
     {
         $this->volledig = $volledig;
@@ -46,11 +57,6 @@ class Geslacht
     public function __toString()
     {
         return $this->volledig;
-    }
-
-    public function getId()
-    {
-        return $this->id;
     }
 
     public function getAfkorting()

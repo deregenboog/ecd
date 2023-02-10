@@ -13,7 +13,6 @@ use Gedmo\Mapping\Annotation as Gedmo;
  */
 class Aanmelding extends DossierStatus implements InitialStateInterface
 {
-
     public function __toString()
     {
         return sprintf(

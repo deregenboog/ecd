@@ -17,7 +17,7 @@ class Hulpvraag extends Hulp
     /**
      * @var IzKlant
      * @ORM\ManyToOne(targetEntity="IzKlant", inversedBy="hulpvragen")
-     * @ORM\JoinColumn(name="iz_deelnemer_id", nullable=false)
+     * @ORM\JoinColumn(name="iz_deelnemer_id")
      * @Gedmo\Versioned
      */
     protected $izKlant;
@@ -25,7 +25,7 @@ class Hulpvraag extends Hulp
     /**
      * @var Hulpaanbod
      * @ORM\OneToOne(targetEntity="Hulpaanbod")
-     * @ORM\JoinColumn(name="iz_koppeling_id", nullable=true)
+     * @ORM\JoinColumn(name="iz_koppeling_id")
      * @Gedmo\Versioned
      */
     protected $hulpaanbod;
@@ -40,9 +40,15 @@ class Hulpvraag extends Hulp
     /**
      * @var bool
      *
-     * @ORM\Column(name="expat", type="boolean", nullable=false)
+     * @ORM\Column(name="expat", type="boolean")
      */
     private $geschiktVoorExpat = false;
+
+    /**
+     * @deprecated
+     * @ORM\Column(name="spreekt_nederlands", type="boolean", nullable=true, options={"default":1})
+     */
+    private $spreektNederlands;
 
     /**
      * @var Reservering

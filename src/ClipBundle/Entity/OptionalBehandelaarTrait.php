@@ -11,12 +11,11 @@ trait OptionalBehandelaarTrait
      * @var Behandelaar
      *
      * @ORM\ManyToOne(targetEntity="Behandelaar")
-     * @ORM\JoinColumn(nullable=true)
      * @Gedmo\Versioned
      */
     protected $behandelaar;
 
-    public function getBehandelaar():?Behandelaar
+    public function getBehandelaar(): ?Behandelaar
     {
         return $this->behandelaar;
     }

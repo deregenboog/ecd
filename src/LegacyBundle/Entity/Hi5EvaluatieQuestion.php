@@ -20,12 +20,12 @@ class Hi5EvaluatieQuestion
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Hi5EvaluatieParagraph")
+     * @ORM\Column(type="integer")
      */
-    private $hi5EvaluatieParagraph;
+    private $hi5_evaluatie_paragraph_id;
 
     /**
-     * @ORM\Column(name="text", type="string", length=255, nullable=false)
+     * @ORM\Column(name="text", type="string", length=255)
      */
     private $text;
 }

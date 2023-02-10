@@ -16,37 +16,40 @@ use Gedmo\Mapping\Annotation as Gedmo;
  */
 class Locatietijd
 {
-    use IdentifiableTrait, TimestampableTrait;
+    use IdentifiableTrait;
+    use TimestampableTrait;
 
     /**
      * @var Locatie
      *
      * @ORM\ManyToOne(targetEntity="Locatie", inversedBy="locatietijden")
+     * @ORM\JoinColumn(nullable=false)
      * @Gedmo\Versioned
      */
     private $locatie;
 
     /**
-     * @ORM\Column(name="dag_van_de_week", type="integer", nullable=false)
+     * @ORM\Column(name="dag_van_de_week", type="integer")
      * @Gedmo\Versioned
      */
     private $dagVanDeWeek;
 
     /**
-     * @ORM\Column(name="openingstijd", type="mysql_time", nullable=false)
+     * @ORM\Column(name="openingstijd", type="time")
      * @Gedmo\Versioned
      */
     private $openingstijd;
 
     /**
-     * @ORM\Column(name="sluitingstijd", type="time", nullable=false)
+     * @ORM\Column(name="sluitingstijd", type="time")
      * @Gedmo\Versioned
      */
     private $sluitingstijd;
 
     public function __toString()
     {
-        return sprintf('%s %s-%s (%s)',
+        return sprintf(
+            '%s %s-%s (%s)',
             DateTimeUtil::dayOfWeek($this->getDagVanDeWeek()),
             $this->openingstijd->format('H:i'),
             $this->sluitingstijd->format('H:i'),

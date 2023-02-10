@@ -18,7 +18,9 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class Klus implements MemoSubjectInterface
 {
-    use MemoSubjectTrait, DocumentSubjectTrait, TimestampableTrait;
+    use MemoSubjectTrait;
+    use DocumentSubjectTrait;
+    use TimestampableTrait;
 
     public const STATUS_OPENSTAAND = 'Openstaand';
     public const STATUS_IN_BEHANDELING = 'In behandeling';
@@ -35,7 +37,7 @@ class Klus implements MemoSubjectInterface
 
     /**
      * @var \DateTime
-     * @ORM\Column(type="date", nullable=false)
+     * @ORM\Column(type="date")
      * @Gedmo\Versioned
      */
     private $startdatum;
@@ -64,7 +66,7 @@ class Klus implements MemoSubjectInterface
 
     /**
      * @var bool
-     * @ORM\Column(type="boolean", nullable=false)
+     * @ORM\Column(type="boolean")
      * @Gedmo\Versioned
      */
     private $onHold = false;
@@ -86,6 +88,7 @@ class Klus implements MemoSubjectInterface
     /**
      * @var Klant
      * @ORM\ManyToOne(targetEntity="Klant", inversedBy="klussen", cascade={"persist"})
+     * @ORM\JoinColumn(onDelete="CASCADE")
      * @Gedmo\Versioned
      */
     private $klant;

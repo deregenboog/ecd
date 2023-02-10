@@ -25,20 +25,20 @@ class Postcode
 
     /**
      * @ORM\ManyToOne(targetEntity="Werkgebied")
-     * @ORM\JoinColumn(name="stadsdeel", referencedColumnName="naam", nullable=false)
+     * @ORM\JoinColumn(name="stadsdeel", referencedColumnName="naam")
      * @Gedmo\Versioned
      */
     private $stadsdeel;
 
     /**
      * @ORM\ManyToOne(targetEntity="GgwGebied")
-     * @ORM\JoinColumn(name="postcodegebied", referencedColumnName="naam", nullable=true)
+     * @ORM\JoinColumn(name="postcodegebied", referencedColumnName="naam")
      * @Gedmo\Versioned
      */
     private $postcodegebied;
 
     /**
-     * @ORM\Column(name="`system`", type="boolean", nullable=false, options={"default" : 1})
+     * @ORM\Column(name="`system`", type="boolean", options={"default" : 1})
      * @Gedmo\Versioned
      */
     private $system = true;

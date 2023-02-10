@@ -2,6 +2,7 @@
 
 namespace DagbestedingBundle\Entity;
 
+use AppBundle\Model\IdentifiableTrait;
 use AppBundle\Model\OptionalMedewerkerTrait;
 use AppBundle\Model\TimestampableTrait;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -16,18 +17,13 @@ use Gedmo\Mapping\Annotation as Gedmo;
  */
 class Rapportage
 {
-    use TimestampableTrait, OptionalMedewerkerTrait;
-
-    /**
-     * @ORM\Id
-     * @ORM\Column(type="integer")
-     * @ORM\GeneratedValue
-     */
-    private $id;
+    use IdentifiableTrait;
+    use TimestampableTrait;
+    use OptionalMedewerkerTrait;
 
     /**
      * @var Traject
-     * @ORM\ManyToOne(targetEntity="Traject", inversedBy="rapportages")
+     * @ORM\ManyToOne(targetEntity="Traject")
      * @Gedmo\Versioned
      */
     private $traject;
@@ -35,7 +31,7 @@ class Rapportage
     /**
      * @var \DateTime
      *
-     * @ORM\Column(type="date", nullable=false)
+     * @ORM\Column(type="date")
      * @Gedmo\Versioned
      */
     private $datum;
@@ -48,6 +44,22 @@ class Rapportage
      * @ORM\OrderBy({"id" = "DESC"})
      */
     private $documenten;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(type="datetime")
+     * @Gedmo\Versioned
+     */
+    protected $created;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(type="datetime")
+     * @Gedmo\Versioned
+     */
+    protected $modified;
 
     public function __construct(\DateTime $datum = null)
     {
@@ -74,11 +86,6 @@ class Rapportage
         if ($this->datum < new \DateTime('+1 month')) {
             return 'almost';
         }
-    }
-
-    public function getId()
-    {
-        return $this->id;
     }
 
     public function getTraject()

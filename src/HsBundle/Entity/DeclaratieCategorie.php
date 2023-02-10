@@ -27,13 +27,13 @@ class DeclaratieCategorie
     private $naam;
 
     /**
-     * @ORM\Column(type="datetime", nullable=false)
+     * @ORM\Column(type="datetime")
      * @Gedmo\Versioned
      */
     private $created;
 
     /**
-     * @ORM\Column(type="datetime", nullable=false)
+     * @ORM\Column(type="datetime")
      * @Gedmo\Versioned
      */
     private $modified;

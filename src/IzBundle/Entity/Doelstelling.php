@@ -38,7 +38,7 @@ class Doelstelling
     private $project;
 
     /**
-     * @ORM\Column(type="integer", nullable=false)
+     * @ORM\Column(type="integer")
      * @Gedmo\Versioned
      */
     private $jaar;
@@ -57,7 +57,7 @@ class Doelstelling
     private $stadsdeel;
 
     /**
-     * @ORM\Column(type="integer", nullable=false)
+     * @ORM\Column(type="integer")
      * @Gedmo\Versioned
      */
     private $aantal = 0;

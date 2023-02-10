@@ -4,6 +4,7 @@ namespace MwBundle\Entity;
 
 use AppBundle\Entity\Klant;
 use AppBundle\Entity\Medewerker;
+use AppBundle\Model\IdentifiableTrait;
 use AppBundle\Model\TimestampableTrait;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
@@ -15,8 +16,11 @@ use InloopBundle\Entity\Locatie;
  * @ORM\Table(
  *     name="verslagen",
  *     indexes={
- *         @ORM\Index(name="idx_datum2", columns={"datum"}),
- *         @ORM\Index(name="idx_locatie_id2", columns={"locatie_id"})
+ *         @ORM\Index(name="id", columns={"id", "klant_id", "created"}),
+ *         @ORM\Index(name="klant_id", columns={"klant_id", "verslagType"}),
+ *         @ORM\Index(name="klant_id_med_id", columns={"klant_id", "medewerker_id", "verslagType"}),
+ *         @ORM\Index(name="idx_datum", columns={"datum"}),
+ *         @ORM\Index(name="idx_locatie_id", columns={"locatie_id"}),
  *     }
  * )
  * @ORM\HasLifecycleCallbacks
@@ -24,23 +28,33 @@ use InloopBundle\Entity\Locatie;
  */
 class Verslag
 {
+    use IdentifiableTrait;
     use TimestampableTrait;
 
-    /**
-     * @ORM\Id
-     * @ORM\Column(type="integer")
-     * @ORM\GeneratedValue
-     */
-    private $id;
+    public const TYPE_MW = 1;
+    public const TYPE_INLOOP = 2;
+
+    public const ACCESS_MW = 1;
+    public const ACCESS_ALL = 2;
+
+    public static $accessTypes = [
+        self::ACCESS_MW => "Leesbaar alleen binnen MW",
+        self::ACCESS_ALL => "Leesbaar voor inloop en MW",
+    ];
+
+    protected static $types = [
+        self::TYPE_MW => "Maatschappelijk werk-verslag",
+        self::TYPE_INLOOP => "Inloopverslag",
+    ];
 
     /**
-     * @ORM\Column(type="date")
+     * @ORM\Column(type="date", nullable=true)
      * @Gedmo\Versioned
      */
     private $datum;
 
     /**
-     * @ORM\Column(type="text", nullable=false)
+     * @ORM\Column(type="text", length=65535, nullable=true)
      * @Gedmo\Versioned
      */
     private $opmerking;
@@ -82,7 +96,7 @@ class Verslag
     /**
      * @var int
      *
-     * @ORM\Column(name="aanpassing_verslag", type="integer", options={"default":0, "nullable"=true})
+     * @ORM\Column(name="aanpassing_verslag", type="integer", nullable=true)
      * @Gedmo\Versioned
      */
     private $duur;
@@ -94,14 +108,6 @@ class Verslag
      */
     private $verslaginventarisaties;
 
-    public const TYPE_MW = 1;
-    public const TYPE_INLOOP = 2;
-
-    protected static $types = [
-        self::TYPE_MW => "Maatschappelijk werk-verslag",
-        self::TYPE_INLOOP => "Inloopverslag",
-        ];
-
     /**
      * @var int
      *
@@ -110,21 +116,28 @@ class Verslag
      */
     private $type = self::TYPE_MW;
 
-    public const ACCESS_MW = 1;
-    public const ACCESS_ALL = 2;
-
-    public static $accessTypes = [
-        self::ACCESS_MW => "Leesbaar alleen binnen MW",
-        self::ACCESS_ALL => "Leesbaar voor inloop en MW",
-
-    ];
-
     /**
      * @var int
      * @ORM\Column(name="accessType", type="integer", options={"default":1})
      * @Gedmo\Versioned
      */
     private $access = self::ACCESS_ALL;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(type="datetime", nullable=true)
+     * @Gedmo\Versioned
+     */
+    protected $created;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(type="datetime", nullable=true)
+     * @Gedmo\Versioned
+     */
+    protected $modified;
 
     public function __construct(Klant $klant, $type = 1)
     {
@@ -135,14 +148,6 @@ class Verslag
         $this->datum = new \DateTime();
 
         $this->setDuur(0);
-    }
-
-    /**
-     * @return int
-     */
-    public function getId()
-    {
-        return $this->id;
     }
 
     /**
@@ -314,7 +319,9 @@ class Verslag
      */
     public function setType(int $type): void
     {
-        if(!in_array($type,array_flip(self::$types))) throw new \InvalidArgumentException("Verslagtype kan alleen van types zijn zoals vermeld.");
+        if (!in_array($type, array_flip(self::$types))) {
+            throw new \InvalidArgumentException("Verslagtype kan alleen van types zijn zoals vermeld.");
+        }
         $this->type = $type;
     }
 
@@ -335,7 +342,6 @@ class Verslag
         $this->access = $access;
     }
 
-
 //     /**
 //      * Only one root per Verslaginventarisatie is allowed.
 //      */
@@ -353,6 +359,4 @@ class Verslag
 
 //         return $this;
 //     }
-
-
 }

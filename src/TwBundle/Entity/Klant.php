@@ -13,7 +13,6 @@ use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Validator\Context\ExecutionContextInterface;
 use TwBundle\Entity\Project;
 
-
 /**
  * @ORM\Entity
  * @ORM\HasLifecycleCallbacks
@@ -25,7 +24,6 @@ class Klant extends Deelnemer
      * @var KlantAfsluiting
      *
      * @ORM\ManyToOne(targetEntity="KlantAfsluiting", inversedBy="huurders", cascade={"persist"})
-     * @ORM\JoinColumn(nullable=true)
      * @Gedmo\Versioned
      */
     protected $afsluiting;
@@ -66,7 +64,6 @@ class Klant extends Deelnemer
     /**
      * @var Huurbudget
      * @ORM\ManyToOne(targetEntity="Huurbudget",cascade={"persist"})
-     * @ORM\JoinColumn(nullable=true)
      * @ORM\OrderBy({"maxValue" = "ASC"})
      */
     private $huurbudget;
@@ -74,7 +71,6 @@ class Klant extends Deelnemer
     /**
      * @var DuurThuisloos
      * @ORM\ManyToOne(targetEntity="TwBundle\Entity\DuurThuisloos",cascade={"persist"})
-     * @ORM\JoinColumn(nullable=true)
      * @ORM\OrderBy({"maxValue" = "ASC"})
      */
     private $duurThuisloos;
@@ -82,7 +78,6 @@ class Klant extends Deelnemer
     /**
      * @var Werk
      * @ORM\ManyToOne(targetEntity="TwBundle\Entity\Werk",cascade={"persist"})
-     * @ORM\JoinColumn(nullable=true)
      */
     private $werk;
 
@@ -97,9 +92,8 @@ class Klant extends Deelnemer
      * @ORM\ManyToMany(targetEntity="Project")
      * @ORM\JoinTable(
      *     name="tw_huurders_tw_projecten",
-     *     joinColumns={@ORM\JoinColumn(name="tw_huurder_id",nullable=true)},
-     *     inverseJoinColumns={@ORM\JoinColumn(name="tw_project_id",nullable=true)},
-     *
+     *     joinColumns={@ORM\JoinColumn(name="tw_huurder_id")},
+     *     inverseJoinColumns={@ORM\JoinColumn(name="tw_project_id")}
      * )
      */
     protected $projecten;
@@ -111,34 +105,27 @@ class Klant extends Deelnemer
      */
     private $zrm;
 
-
     /**
      * @var Regio
      * @ORM\ManyToOne(targetEntity="TwBundle\Entity\Regio",cascade={"persist"})
-     * @ORM\JoinColumn(nullable=true)
      */
     private $bindingRegio;
-
 
     /**
      * @var MoScreening
      * @ORM\ManyToOne(targetEntity="TwBundle\Entity\MoScreening",cascade={"persist"})
-     * @ORM\JoinColumn(nullable=true)
      */
     private $moScreening;
 
     /**
      * @var IntakeStatus
      * @ORM\ManyToOne(targetEntity="TwBundle\Entity\IntakeStatus",cascade={"persist"})
-     * @ORM\JoinColumn(nullable=true, options={"default": "NULL"})
-     *
      */
     private $intakeStatus;
 
     /**
      * @var Medewerker
      * @ORM\ManyToOne (targetEntity="AppBundle\Entity\Medewerker",cascade={"persist"})
-     * @ORM\JoinColumn(nullable=true)
      */
     private $shortlist;
 
@@ -151,14 +138,21 @@ class Klant extends Deelnemer
     /**
      * @var Klant
      * @ORM\OneToOne(targetEntity="Klant")
-     * @ORM\JoinColumn(name="huisgenoot_id", referencedColumnName="id", nullable=true)
+     * @ORM\JoinColumn(name="huisgenoot_id", referencedColumnName="id")
      * @Gedmo\Versioned
      */
     private $huisgenoot;
 
+    /**
+     * @todo Not used. Remove from entity and db schema.
+     * @ORM\Column(name="huurprijs", type="integer", nullable=true)
+     * @Gedmo\Versioned
+     */
+    private $_huurprijs;
+
     public function __construct(AppKlant $klant = null)
     {
-        if(null !== $klant){
+        if (null !== $klant) {
             $this->appKlant = $klant;
         }
         parent::__construct();
@@ -517,7 +511,6 @@ class Klant extends Deelnemer
             $context->buildViolation('Zrm is verplicht wanneer er geen MO screening is geweest. Maak de Zrm of pas de screening aan.')
                 ->atPath('moScreening')
                 ->addViolation();
-
         }
     }
 }

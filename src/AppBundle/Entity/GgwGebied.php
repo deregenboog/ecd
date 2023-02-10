@@ -15,7 +15,7 @@ class GgwGebied
 {
     /**
      * @ORM\Id
-     * @ORM\Column(type="string", nullable=false)
+     * @ORM\Column(type="string")
      * @ORM\GeneratedValue(strategy="NONE")
      * @Gedmo\Versioned
      */

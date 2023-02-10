@@ -18,7 +18,6 @@ class Afsluiting extends MwDossierStatus
      * @var AfsluitredenKlant
      *
      * @ORM\ManyToOne(targetEntity="AfsluitredenKlant")
-     * @ORM\JoinColumn(nullable=true)
      * @Gedmo\Versioned
      * @Assert\NotNull
      */
@@ -31,8 +30,10 @@ class Afsluiting extends MwDossierStatus
     protected $toelichting;
 
     /**
+     * @var Resultaat
      *
      * @ORM\ManyToMany(targetEntity="Resultaat")
+     * @ORM\JoinTable(name="mw_afsluiting_resultaat")
      * @ORM\JoinColumn(nullable=false)
      * @Assert\NotNull
      */
@@ -130,7 +131,4 @@ class Afsluiting extends MwDossierStatus
         $this->locatie = $locatie;
         return $this;
     }
-
-
-
 }

@@ -18,7 +18,10 @@ use Gedmo\SoftDeleteable\Traits\SoftDeleteable;
  */
 class Reservering
 {
-    use IdentifiableTrait, RequiredMedewerkerTrait, TimestampableTrait, SoftDeleteable;
+    use IdentifiableTrait;
+    use RequiredMedewerkerTrait;
+    use TimestampableTrait;
+    use SoftDeleteable;
 
     /**
      * @var \DateTime
@@ -28,13 +31,13 @@ class Reservering
     protected $deletedAt;
 
     /**
-     * @ORM\Column(type="date", nullable=false)
+     * @ORM\Column(type="date")
      * @Gedmo\Versioned
      */
     protected $startdatum;
 
     /**
-     * @ORM\Column(type="date", nullable=false)
+     * @ORM\Column(type="date")
      * @Gedmo\Versioned
      */
     protected $einddatum;
@@ -54,6 +57,22 @@ class Reservering
      * @Gedmo\Versioned
      */
     protected $hulpaanbod;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(type="datetime")
+     * @Gedmo\Versioned
+     */
+    protected $created;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(type="datetime")
+     * @Gedmo\Versioned
+     */
+    protected $modified;
 
     public function __construct(Hulpvraag $hulpvraag = null, Hulpaanbod $hulpaanbod = null)
     {

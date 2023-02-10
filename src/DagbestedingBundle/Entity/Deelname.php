@@ -18,13 +18,13 @@ use Gedmo\Mapping\Annotation as Gedmo;
  */
 class Deelname
 {
-    use IdentifiableTrait, ActivatableTrait;
+    use IdentifiableTrait;
+    use ActivatableTrait;
 
     /**
      * @var Traject
      *
      * @ORM\ManyToOne(targetEntity="DagbestedingBundle\Entity\Traject", inversedBy="deelnames")
-     * @ORM\JoinColumn (nullable=false)
      * @Gedmo\Versioned
      */
     private $traject;
@@ -33,7 +33,6 @@ class Deelname
      * @var Project
      *
      * @ORM\ManyToOne(targetEntity="DagbestedingBundle\Entity\Project", inversedBy="deelnames")
-     * @ORM\JoinColumn (nullable=false)
      * @Gedmo\Versioned
      */
     private $project;
@@ -44,6 +43,14 @@ class Deelname
      * @ORM\OneToOne(targetEntity="Beschikbaarheid", mappedBy="deelname", cascade={"persist", "remove"})
      */
     private $beschibaarheid;
+
+    /**
+     * @var bool
+     *
+     * @ORM\Column(name="`active`", type="boolean", options={"default":1})
+     * @Gedmo\Versioned
+     */
+    protected $actief = true;
 
     public function __construct(Traject $traject = null, Project $project = null)
     {

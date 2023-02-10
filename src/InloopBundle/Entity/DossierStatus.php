@@ -23,7 +23,8 @@ use Gedmo\Mapping\Annotation as Gedmo;
  */
 abstract class DossierStatus
 {
-    use TimestampableTrait, OptionalMedewerkerTrait;
+    use TimestampableTrait;
+    use OptionalMedewerkerTrait;
 
     /**
      * @ORM\Id
@@ -42,10 +43,26 @@ abstract class DossierStatus
     protected $klant;
 
     /**
-     * @ORM\Column(type="date", nullable=false)
+     * @ORM\Column(type="date")
      * @Gedmo\Versioned
      */
     protected $datum;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(type="datetime")
+     * @Gedmo\Versioned
+     */
+    protected $created;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(type="datetime")
+     * @Gedmo\Versioned
+     */
+    protected $modified;
 
     public function __construct(Klant $klant, Medewerker $medewerker = null)
     {

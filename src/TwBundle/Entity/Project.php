@@ -18,10 +18,21 @@ use Gedmo\Mapping\Annotation as Gedmo;
  */
 class Project
 {
-    use IdentifiableTrait, NameableTrait, ActivatableTrait, TimestampableTrait, NotDeletableTrait;
+    use IdentifiableTrait;
+    use NameableTrait;
+    use ActivatableTrait;
+    use TimestampableTrait;
+    use NotDeletableTrait;
 
     /**
-     * @ORM\Column(type="date", nullable=false)
+     * @var bool
+     * @ORM\Column(name="`active`", type="boolean", options={"default":1})
+     * @Gedmo\Versioned
+     */
+    protected $actief = true;
+
+    /**
+     * @ORM\Column(type="date")
      * @Gedmo\Versioned
      */
     private $startdatum;
@@ -36,7 +47,6 @@ class Project
      * @var Huuraanbod
      *
      * @ORM\OneToMany(targetEntity="TwBundle\Entity\Huuraanbod",mappedBy="project")
-     * @ORM\JoinColumn(nullable=true)
      */
     private $huuraanbiedingen;
 
@@ -44,7 +54,6 @@ class Project
      * @var Verhuurder[]
      *
      * @ORM\OneToMany(targetEntity="TwBundle\Entity\Verhuurder",mappedBy="project")
-     * @ORM\JoinColumn(nullable=true)
      */
     private $verhuurders;
 

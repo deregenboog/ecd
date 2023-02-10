@@ -3,6 +3,7 @@
 namespace ClipBundle\Entity;
 
 use AppBundle\Model\AddressTrait;
+use AppBundle\Model\IdentifiableTrait;
 use AppBundle\Model\PersonTrait;
 use AppBundle\Model\TimestampableTrait;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -17,16 +18,11 @@ use Gedmo\Mapping\Annotation as Gedmo;
  */
 class Client
 {
-    use TimestampableTrait, OptionalBehandelaarTrait, PersonTrait, AddressTrait;
-
-    /**
-     * @var int
-     *
-     * @ORM\Id
-     * @ORM\Column(type="integer")
-     * @ORM\GeneratedValue
-     */
-    private $id;
+    use IdentifiableTrait;
+    use TimestampableTrait;
+    use OptionalBehandelaarTrait;
+    use PersonTrait;
+    use AddressTrait;
 
     /**
      * @var string
@@ -69,7 +65,6 @@ class Client
      * @var Viacategorie
      *
      * @ORM\ManyToOne(targetEntity="Viacategorie", inversedBy="clienten")
-     * @ORM\JoinColumn(nullable=true)
      * @Gedmo\Versioned
      */
     private $viacategorie;
@@ -98,17 +93,28 @@ class Client
      */
     private $organisatie;
 
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(type="datetime")
+     * @Gedmo\Versioned
+     */
+    protected $created;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(type="datetime")
+     * @Gedmo\Versioned
+     */
+    protected $modified;
+
     public function __construct()
     {
         $this->aanmelddatum = new \DateTime();
 
         $this->documenten = new ArrayCollection();
         $this->vragen = new ArrayCollection();
-    }
-
-    public function getId()
-    {
-        return $this->id;
     }
 
     public function getAanmelddatum()
@@ -146,7 +152,6 @@ class Client
         }
 
         usort($contactmomenten, function (Contactmoment $contactmoment1, Contactmoment $contactmoment2) {
-
             if ($contactmoment1->getDatum() > $contactmoment2->getDatum()) {
                 return -1;
             } elseif ($contactmoment1->getDatum() < $contactmoment2->getDatum()) {
@@ -232,7 +237,7 @@ class Client
     /**
      * @return string
      */
-    public function getOrganisatie():? string
+    public function getOrganisatie(): ?string
     {
         return $this->organisatie;
     }
@@ -244,6 +249,4 @@ class Client
     {
         $this->organisatie = $organisatie;
     }
-
-
 }

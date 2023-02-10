@@ -3,8 +3,8 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Gegenereerd op: 23 nov 2022 om 10:40
--- Serverversie: 8.0.31-0ubuntu0.20.04.1
+-- Gegenereerd op: 20 jan 2023 om 08:18
+-- Serverversie: 8.0.31-0ubuntu0.20.04.2
 -- PHP-versie: 7.4.3
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
@@ -1154,7 +1154,7 @@ CREATE TABLE `ext_log_entries` (
   `object_id` varchar(64) DEFAULT NULL,
   `object_class` varchar(255) NOT NULL,
   `version` int NOT NULL,
-  `data` longtext COMMENT '(DC2Type:array)',
+  `data` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci COMMENT '(DC2Type:array)',
   `username` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
@@ -2194,11 +2194,12 @@ CREATE TABLE `hs_registraties` (
   `activiteit_id` int NOT NULL,
   `medewerker_id` int NOT NULL,
   `datum` date NOT NULL,
-  `start` time NOT NULL,
-  `eind` time NOT NULL,
+  `start` time DEFAULT NULL,
+  `eind` time DEFAULT NULL,
   `reiskosten` double DEFAULT NULL,
   `created` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `modified` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
+  `modified` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `dagdelen` int NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
 -- --------------------------------------------------------
@@ -3141,7 +3142,7 @@ CREATE TABLE `iz_verslagen` (
   `id` int NOT NULL,
   `iz_deelnemer_id` int NOT NULL,
   `medewerker_id` int NOT NULL,
-  `opmerking` longtext,
+  `opmerking` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
   `created` datetime DEFAULT NULL,
   `modified` datetime DEFAULT NULL,
   `iz_koppeling_id` int DEFAULT NULL,
@@ -3240,6 +3241,19 @@ CREATE TABLE `klantinventarisaties` (
   `datum` date NOT NULL,
   `created` datetime DEFAULT NULL,
   `modified` datetime DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+
+-- --------------------------------------------------------
+
+--
+-- Tabelstructuur voor tabel `klant_taal`
+--
+
+CREATE TABLE `klant_taal` (
+  `id` int NOT NULL,
+  `klant_id` int NOT NULL,
+  `taal_id` int NOT NULL,
+  `voorkeur` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
 -- --------------------------------------------------------
@@ -3412,9 +3426,9 @@ CREATE TABLE `medewerkers` (
   `modified` datetime DEFAULT NULL,
   `uidnumber` varchar(255) NOT NULL,
   `active` int NOT NULL DEFAULT '1',
-  `groups` longtext COMMENT '(DC2Type:json_array)',
-  `ldap_groups` longtext COMMENT '(DC2Type:json_array)',
-  `roles` longtext NOT NULL COMMENT '(DC2Type:json_array)'
+  `groups` longtext CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci,
+  `ldap_groups` longtext CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci,
+  `roles` longtext CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
 -- --------------------------------------------------------
@@ -3424,7 +3438,8 @@ CREATE TABLE `medewerkers` (
 --
 
 CREATE TABLE `migration_versions` (
-  `version` varchar(255) COLLATE utf8mb3_unicode_ci NOT NULL
+  `version` varchar(1024) COLLATE utf8mb3_unicode_ci NOT NULL,
+  `executed_at` datetime DEFAULT NULL COMMENT '(DC2Type:datetime_immutable)'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
 
 --
@@ -3653,7 +3668,13 @@ INSERT INTO `migration_versions` (`version`) VALUES
 ('20220713103910'),
 ('20220713121540'),
 ('20220713144250'),
-('20221007085836');
+('20221007085836'),
+('20221116145922'),
+('20221213141832'),
+('20221214132028'),
+('20221215092017'),
+('20221216090600'),
+('20221220160029');
 
 -- --------------------------------------------------------
 
@@ -3934,6 +3955,17 @@ CREATE TABLE `oekraine_bezoekers` (
 -- --------------------------------------------------------
 
 --
+-- Tabelstructuur voor tabel `oekraine_bezoeker_document`
+--
+
+CREATE TABLE `oekraine_bezoeker_document` (
+  `bezoeker_id` int NOT NULL,
+  `document_id` int NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+
+-- --------------------------------------------------------
+
+--
 -- Tabelstructuur voor tabel `oekraine_documenten`
 --
 
@@ -3974,14 +4006,14 @@ CREATE TABLE `oekraine_dossier_statussen` (
 CREATE TABLE `oekraine_incidenten` (
   `id` int NOT NULL,
   `locatie_id` int DEFAULT NULL,
-  `klant_id` int NOT NULL,
   `datum` date NOT NULL,
   `remark` longtext,
   `politie` tinyint(1) NOT NULL,
   `ambulance` tinyint(1) NOT NULL,
   `crisisdienst` tinyint(1) NOT NULL,
   `created` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `modified` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
+  `modified` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `bezoeker_id` int NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
 -- --------------------------------------------------------
@@ -4947,6 +4979,21 @@ CREATE TABLE `scip_werkdoelen` (
 CREATE TABLE `stadsdelen` (
   `postcode` varchar(255) NOT NULL,
   `stadsdeel` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+
+-- --------------------------------------------------------
+
+--
+-- Tabelstructuur voor tabel `talen`
+--
+
+CREATE TABLE `talen` (
+  `id` int NOT NULL,
+  `favoriet` tinyint(1) NOT NULL,
+  `afkorting` varchar(255) NOT NULL,
+  `naam` varchar(255) NOT NULL,
+  `created` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `modified` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
 -- --------------------------------------------------------
@@ -7961,6 +8008,15 @@ ALTER TABLE `klantinventarisaties`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexen voor tabel `klant_taal`
+--
+ALTER TABLE `klant_taal`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `UNIQ_84884583C427B2FA41FDDD` (`klant_id`,`taal_id`),
+  ADD KEY `IDX_84884583C427B2F` (`klant_id`),
+  ADD KEY `IDX_8488458A41FDDD` (`taal_id`);
+
+--
 -- Indexen voor tabel `landen`
 --
 ALTER TABLE `landen`
@@ -8189,6 +8245,14 @@ ALTER TABLE `oekraine_bezoekers`
   ADD UNIQUE KEY `UNIQ_7027BCA1733DE450` (`intake_id`);
 
 --
+-- Indexen voor tabel `oekraine_bezoeker_document`
+--
+ALTER TABLE `oekraine_bezoeker_document`
+  ADD PRIMARY KEY (`bezoeker_id`,`document_id`),
+  ADD UNIQUE KEY `UNIQ_DEE5EC46C33F7837` (`document_id`),
+  ADD KEY `IDX_DEE5EC468AEEBAAE` (`bezoeker_id`);
+
+--
 -- Indexen voor tabel `oekraine_documenten`
 --
 ALTER TABLE `oekraine_documenten`
@@ -8211,7 +8275,7 @@ ALTER TABLE `oekraine_dossier_statussen`
 ALTER TABLE `oekraine_incidenten`
   ADD PRIMARY KEY (`id`),
   ADD KEY `IDX_18404EA04947630C` (`locatie_id`),
-  ADD KEY `IDX_18404EA03C427B2F` (`klant_id`);
+  ADD KEY `IDX_18404EA08AEEBAAE` (`bezoeker_id`);
 
 --
 -- Indexen voor tabel `oekraine_inkomens`
@@ -8673,6 +8737,12 @@ ALTER TABLE `scip_werkdoelen`
 --
 ALTER TABLE `stadsdelen`
   ADD PRIMARY KEY (`postcode`);
+
+--
+-- Indexen voor tabel `talen`
+--
+ALTER TABLE `talen`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexen voor tabel `tmp_open_days`
@@ -10256,6 +10326,12 @@ ALTER TABLE `klantinventarisaties`
   MODIFY `id` int NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT voor een tabel `klant_taal`
+--
+ALTER TABLE `klant_taal`
+  MODIFY `id` int NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT voor een tabel `landen`
 --
 ALTER TABLE `landen`
@@ -10673,6 +10749,12 @@ ALTER TABLE `scip_verslagen`
 -- AUTO_INCREMENT voor een tabel `scip_werkdoelen`
 --
 ALTER TABLE `scip_werkdoelen`
+  MODIFY `id` int NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT voor een tabel `talen`
+--
+ALTER TABLE `talen`
   MODIFY `id` int NOT NULL AUTO_INCREMENT;
 
 --
@@ -11966,6 +12048,13 @@ ALTER TABLE `klanten`
   ADD CONSTRAINT `werkgebied` FOREIGN KEY (`werkgebied`) REFERENCES `werkgebieden` (`naam`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
+-- Beperkingen voor tabel `klant_taal`
+--
+ALTER TABLE `klant_taal`
+  ADD CONSTRAINT `FK_84884583C427B2F` FOREIGN KEY (`klant_id`) REFERENCES `klanten` (`id`),
+  ADD CONSTRAINT `FK_8488458A41FDDD` FOREIGN KEY (`taal_id`) REFERENCES `talen` (`id`);
+
+--
 -- Beperkingen voor tabel `mw_afsluiting_resultaat`
 --
 ALTER TABLE `mw_afsluiting_resultaat`
@@ -12043,6 +12132,13 @@ ALTER TABLE `oekraine_bezoekers`
   ADD CONSTRAINT `FK_7027BCA1EF862509` FOREIGN KEY (`dossierStatus_id`) REFERENCES `oekraine_dossier_statussen` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
 
 --
+-- Beperkingen voor tabel `oekraine_bezoeker_document`
+--
+ALTER TABLE `oekraine_bezoeker_document`
+  ADD CONSTRAINT `FK_DEE5EC468AEEBAAE` FOREIGN KEY (`bezoeker_id`) REFERENCES `oekraine_bezoekers` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `FK_DEE5EC46C33F7837` FOREIGN KEY (`document_id`) REFERENCES `oekraine_documenten` (`id`) ON DELETE CASCADE;
+
+--
 -- Beperkingen voor tabel `oekraine_documenten`
 --
 ALTER TABLE `oekraine_documenten`
@@ -12061,8 +12157,8 @@ ALTER TABLE `oekraine_dossier_statussen`
 -- Beperkingen voor tabel `oekraine_incidenten`
 --
 ALTER TABLE `oekraine_incidenten`
-  ADD CONSTRAINT `FK_18404EA03C427B2F` FOREIGN KEY (`klant_id`) REFERENCES `klanten` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
-  ADD CONSTRAINT `FK_18404EA04947630C` FOREIGN KEY (`locatie_id`) REFERENCES `oekraine_locaties` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
+  ADD CONSTRAINT `FK_18404EA04947630C` FOREIGN KEY (`locatie_id`) REFERENCES `oekraine_locaties` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
+  ADD CONSTRAINT `FK_18404EA08AEEBAAE` FOREIGN KEY (`bezoeker_id`) REFERENCES `oekraine_bezoekers` (`id`);
 
 --
 -- Beperkingen voor tabel `oekraine_inkomens_intakes`

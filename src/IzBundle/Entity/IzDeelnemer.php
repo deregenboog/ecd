@@ -2,6 +2,7 @@
 
 namespace IzBundle\Entity;
 
+use AppBundle\Model\IdentifiableTrait;
 use AppBundle\Model\OptionalMedewerkerTrait;
 use AppBundle\Model\TimestampableTrait;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -17,21 +18,16 @@ use Gedmo\Mapping\Annotation as Gedmo;
  * )
  * @ORM\HasLifecycleCallbacks
  * @ORM\InheritanceType("SINGLE_TABLE")
- * @ORM\DiscriminatorColumn(name="model", type="string")
+ * @ORM\DiscriminatorColumn(name="model", type="string", length=50)
  * @ORM\DiscriminatorMap({"Klant" = "IzKlant", "Vrijwilliger" = "IzVrijwilliger"})
  * @Gedmo\Loggable
  * @Gedmo\SoftDeleteable
  */
 abstract class IzDeelnemer
 {
-    use TimestampableTrait, OptionalMedewerkerTrait;
-
-    /**
-     * @ORM\Id
-     * @ORM\Column(type="integer")
-     * @ORM\GeneratedValue
-     */
-    protected $id;
+    use IdentifiableTrait;
+    use TimestampableTrait;
+    use OptionalMedewerkerTrait;
 
     /**
      * @var \DateTime
@@ -54,13 +50,13 @@ abstract class IzDeelnemer
     protected $intake;
 
     /**
-     * @ORM\Column(name="datum_aanmelding", type="date")
+     * @ORM\Column(name="datum_aanmelding", type="date", nullable=true)
      * @Gedmo\Versioned
      */
     protected $datumAanmelding;
 
     /**
-     * @var Project[]
+     * @var Collection<int, Project>
      * @ORM\ManyToMany(targetEntity="Project")
      * @ORM\JoinTable(
      *     name="iz_deelnemers_iz_projecten",
@@ -110,17 +106,28 @@ abstract class IzDeelnemer
      */
     protected $documenten;
 
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(type="datetime", nullable=true)
+     * @Gedmo\Versioned
+     */
+    protected $created;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(type="datetime", nullable=true)
+     * @Gedmo\Versioned
+     */
+    protected $modified;
+
     public function __construct()
     {
         $this->koppelingen = new ArrayCollection();
         $this->projecten = new ArrayCollection();
         $this->verslagen = new ArrayCollection();
         $this->documenen = new ArrayCollection();
-    }
-
-    public function getId()
-    {
-        return $this->id;
     }
 
     public function getAfsluiting()

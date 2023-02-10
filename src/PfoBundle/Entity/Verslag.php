@@ -3,6 +3,7 @@
 namespace PfoBundle\Entity;
 
 use AppBundle\Entity\Medewerker;
+use AppBundle\Model\IdentifiableTrait;
 use AppBundle\Model\TimestampableTrait;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
@@ -16,25 +17,19 @@ use Gedmo\Mapping\Annotation as Gedmo;
  */
 class Verslag
 {
+    use IdentifiableTrait;
     use TimestampableTrait;
 
     /**
-     * @ORM\Id
-     * @ORM\Column(type="integer")
-     * @ORM\GeneratedValue
-     */
-    private $id;
-
-    /**
      * @var string
-     * @ORM\Column(name="contact_type", type="string")
+     * @ORM\Column(name="contact_type", type="string", length=50, nullable=true)
      * @Gedmo\Versioned
      */
     private $type;
 
     /**
      * @var string
-     * @ORM\Column(type="text")
+     * @ORM\Column(type="text", length=65535, nullable=true)
      * @Gedmo\Versioned
      */
     private $verslag;
@@ -42,7 +37,6 @@ class Verslag
     /**
      * @var Medewerker
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Medewerker")
-     * @ORM\JoinColumn(nullable=false)
      * @Gedmo\Versioned
      */
     private $medewerker;
@@ -59,6 +53,22 @@ class Verslag
      */
     private $clienten;
 
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(type="datetime")
+     * @Gedmo\Versioned
+     */
+    protected $created;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(type="datetime")
+     * @Gedmo\Versioned
+     */
+    protected $modified;
+
     public function __construct(Medewerker $medewerker = null)
     {
         if ($medewerker) {
@@ -70,11 +80,6 @@ class Verslag
     public function __toString()
     {
         return sprintf('%s (%s, %s)', $this->onderwerp, $this->medewerker, $this->created->format('d-m-Y'));
-    }
-
-    public function getId()
-    {
-        return $this->id;
     }
 
     public function getType()

@@ -21,7 +21,10 @@ use Symfony\Component\Validator\Context\ExecutionContextInterface;
  */
 class Trajectcoach
 {
-    use IdentifiableTrait, OptionalMedewerkerTrait, ActivatableTrait, TimestampableTrait;
+    use IdentifiableTrait;
+    use OptionalMedewerkerTrait;
+    use ActivatableTrait;
+    use TimestampableTrait;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
@@ -41,6 +44,22 @@ class Trajectcoach
      * @ORM\OneToMany(targetEntity="Traject", mappedBy="trajectcoach")
      */
     private $trajecten;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(type="datetime")
+     * @Gedmo\Versioned
+     */
+    protected $created;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(type="datetime")
+     * @Gedmo\Versioned
+     */
+    protected $modified;
 
     public function __construct()
     {

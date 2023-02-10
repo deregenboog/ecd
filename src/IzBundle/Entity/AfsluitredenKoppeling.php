@@ -3,6 +3,8 @@
 namespace IzBundle\Entity;
 
 use AppBundle\Model\ActivatableTrait;
+use AppBundle\Model\IdentifiableTrait;
+use AppBundle\Model\NameableTrait;
 use AppBundle\Model\TimestampableTrait;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
@@ -15,42 +17,37 @@ use Gedmo\Mapping\Annotation as Gedmo;
  */
 class AfsluitredenKoppeling
 {
-    use TimestampableTrait, ActivatableTrait;
+    use IdentifiableTrait;
+    use NameableTrait;
+    use TimestampableTrait;
+    use ActivatableTrait;
 
     /**
-     * @ORM\Id
-     * @ORM\Column(type="integer")
-     * @ORM\GeneratedValue
-     */
-    private $id;
-
-    /**
-     * @ORM\Column(type="string", length=255, nullable=false)
+     * @ORM\Column(type="string", length=255, nullable=true)
      * @Gedmo\Versioned
      */
-    private $naam;
+    protected $naam;
 
+    /**
+     * @var bool
+     * @ORM\Column(name="`active`", type="boolean", nullable=true)
+     * @Gedmo\Versioned
+     */
+    protected $actief = true;
 
-    public function __toString()
-    {
-        return $this->getNaam();
-    }
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(type="datetime", nullable=true)
+     * @Gedmo\Versioned
+     */
+    protected $created;
 
-    public function getId()
-    {
-        return $this->id;
-    }
-
-    public function getNaam()
-    {
-        return $this->naam;
-    }
-
-    public function setNaam($naam)
-    {
-        $this->naam = $naam;
-
-        return $this;
-    }
-
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(type="datetime", nullable=true)
+     * @Gedmo\Versioned
+     */
+    protected $modified;
 }

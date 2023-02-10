@@ -2,7 +2,6 @@
 
 namespace OekraineBundle\Entity;
 
-
 use AppBundle\Entity\Legitimatie;
 use AppBundle\Entity\Medewerker;
 use AppBundle\Entity\Verblijfsstatus;
@@ -147,7 +146,7 @@ class Intake
      * @var Verblijfsstatus
      *
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Verblijfsstatus")
-     * @ORM\JoinColumn(name="verblijfstatus_id", nullable=true)
+     * @ORM\JoinColumn(name="verblijfstatus_id")
      * @Assert\NotNull(groups={"toegang"})
      */
     private $verblijfsstatus;
@@ -252,7 +251,6 @@ class Intake
 
     public function __construct(Bezoeker $bezoeker = null)
     {
-
         $this->setBezoeker($bezoeker);
         $this->created = new \DateTime();
         $this->modified = new \DateTime();
@@ -275,7 +273,6 @@ class Intake
         $this->informeleZorg = null;
         $this->werkhulp = null;
         $this->hulpverlening = null;
-
     }
 
     /**
@@ -768,7 +765,6 @@ class Intake
         $root = $context->getRoot();
         if ($root instanceof Form && $root->getName()) {
             if ($root->getName() == "toegang") {
-
             }
         }
         return $context->getValidator()->validate();
