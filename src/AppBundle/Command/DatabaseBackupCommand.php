@@ -98,7 +98,7 @@ class DatabaseBackupCommand extends \Symfony\Component\Console\Command\Command
                 'user' => $connection->getUsername(),
                 'pass' => $connection->getPassword(),
                 'database' => $connection->getDatabase(),
-                'singleTransaction' => true,
+                'singleTransaction' => false,
                 'ignoreTables' => $ignoreTables,
             ],
         ]);
