@@ -11,4 +11,4 @@ security:
                 authenticators:
                     - security.development_guard_authenticator
                     - ldap_tools.security.ldap_guard_authenticator
-                entry_point: security.development_guard_authenticator
+                entry_point: ldap_tools.security.ldap_guard_authenticator
