@@ -29,7 +29,7 @@ class InschrijvingWoningnet
     private $label;
 
     /**
-     * @ORM\Column(name="order", type="integer")
+     * @ORM\Column(name="`order`", type="integer")
      * @ORM\GeneratedValue
      * @Gedmo\Versioned
      */

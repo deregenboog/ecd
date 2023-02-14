@@ -11,6 +11,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
 /**
  * @ORM\Entity
  * @ORM\Table(name="verslavingsperiodes")
+ * @ORM\HasLifecycleCallbacks
  * @Gedmo\Loggable
  */
 class Periode

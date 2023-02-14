@@ -5,7 +5,7 @@ install:
 test: install
 	bin/console --env=test doctrine:schema:drop --full-database --force
 	bin/console --env=test doctrine:schema:create
-	PREVENT_SAVE_ENABLED=false bin/console --env=test -n hautelook:fixtures:load --purge-with-truncate
+	PREVENT_SAVE_ENABLED=false bin/console --env=test -n hautelook:fixtures:load
 	vendor/bin/phpunit
 
 docker-build:
@@ -13,7 +13,7 @@ docker-build:
 	docker compose up --force-recreate --wait database && sleep 1
 	docker compose run --rm php bin/console -n doctrine:migrations:sync-metadata-storage
 	docker compose run --rm php bin/console -n doctrine:migrations:migrate
-	docker compose run --rm -e PREVENT_SAVE_ENABLED=false php bin/console -n hautelook:fixtures:load --purge-with-truncate
+	docker compose run --rm -e PREVENT_SAVE_ENABLED=false php bin/console -n hautelook:fixtures:load
 	docker compose run --rm php bin/console -n inloop:access:update
 
 docker-up:
@@ -30,7 +30,7 @@ docker-test-setup:
 	docker compose -f docker-compose.test.yml build
 	docker compose -f docker-compose.test.yml up --force-recreate --wait test-database && sleep 1
 	docker compose -f docker-compose.test.yml run --rm test bin/console -n doctrine:migrations:migrate
-	docker compose -f docker-compose.test.yml run --rm -e PREVENT_SAVE_ENABLED=false test bin/console -n hautelook:fixtures:load --purge-with-truncate
+	docker compose -f docker-compose.test.yml run --rm -e PREVENT_SAVE_ENABLED=false test bin/console -n hautelook:fixtures:load
 
 docker-test-run:
 	docker compose -f docker-compose.test.yml build test

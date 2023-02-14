@@ -656,7 +656,6 @@ AppBundle\Entity\AmocLand:
     amoc_ro:
         __construct: ['@land_Roemenië']
 
-
 AppBundle\Entity\Medewerker:
     medewerker_jborger:
         ldapGuid (unique): '<randomNumber()>'
@@ -855,13 +854,143 @@ AppBundle\Entity\Vrijwilliger:
         nationaliteit: '@nationaliteit_*'
 
 AppBundle\Entity\Verblijfsstatus:
-    verblijfsstatus_7:
-#        id: '7'
-        datum_van: '<dateTimeThisYear()>'
-        datum_tot: '<dateTimeBetween("+1 year", "+1 year")>'
-        naam: 'Europees Burger (Niet Nederlands)'
     verblijfsstatus_1:
-#        id: '1'
         naam: 'Legaal'
-        datum_van: '<dateTimeThisYear()>'
-        datum_tot: '<dateTimeBetween("+1 year", "+1 year")>'
+        datumVan: '<date_create("2010-01-13")>'
+    verblijfsstatus_2:
+        naam: 'Werkvergunning'
+        datumVan: '<date_create("2010-01-13")>'
+    verblijfsstatus_3:
+        naam: 'Niet rechthebbend (uit Nederland, behalve Amsterdam)'
+        datumVan: '<date_create("2010-01-13")>'
+    verblijfsstatus_4:
+        naam: 'Onbekend'
+        datumVan: '<date_create("2010-01-13")>'
+    verblijfsstatus_6:
+        naam: 'Illegaal (uit buiten Europa)'
+        datumVan: '<date_create("2010-01-13")>'
+    verblijfsstatus_7:
+        naam: 'Niet rechthebbend (uit EU, behalve Nederland)'
+        datumVan: '<date_create("2010-01-13")>'
+
+AppBundle\Entity\Categorie:
+    categorie_1:
+        naam: 'Afspraak'
+    categorie_2:
+        naam: 'Bellen'
+    categorie_3:
+        naam: 'Nieuws'
+    categorie_4:
+        naam: 'Overig'
+
+AppBundle\Entity\Inkomen:
+    inkomen_1:
+        naam: 'Loon'
+        datumVan: '<date_create("2010-01-06")>'
+    inkomen_2:
+        naam: 'Uitkering DWI'
+        datumVan: '<date_create("2010-01-06")>'
+    inkomen_3:
+        naam: 'Uitkering UWV'
+        datumVan: '<date_create("2010-01-06")>'
+    inkomen_4:
+        naam: 'Uitkering Wajong'
+        datumVan: '<date_create("2010-01-01")>'
+    inkomen_5:
+        naam: 'Uitkering WAO'
+        datumVan: '<date_create("2010-01-06")>'
+    inkomen_6:
+        naam: 'Uitkering overig'
+        datumVan: '<date_create("2010-01-06")>'
+    inkomen_7:
+        naam: 'Onbekend'
+        datumVan: '<date_create("2010-01-06")>'
+    inkomen_8:
+        naam: 'Geen'
+        datumVan: '<date_create("2010-01-06")>'
+
+AppBundle\Entity\Legitimatie:
+    legitimatie_1:
+        naam: 'Geen'
+        datumVan: '<date_create("2010-01-13")>'
+    legitimatie_2:
+        naam: 'ID-kaart'
+        datumVan: '<date_create("2010-01-13")>'
+    legitimatie_3:
+        naam: 'Nederlands rijbewijs'
+        datumVan: '<date_create("2010-01-13")>'
+    legitimatie_4:
+        naam: 'Paspoort'
+        datumVan: '<date_create("2010-01-13")>'
+    legitimatie_5:
+        naam: 'Verblijfsdocument'
+        datumVan: '<date_create("2010-01-01")>'
+
+AppBundle\Entity\ZrmSetting:
+    zrm_settings_1:
+        request_module: 'Intake'
+        inkomen: 0
+        dagbesteding: 0
+        huisvesting: 0
+        gezinsrelaties: 0
+        geestelijke_gezondheid: 0
+        fysieke_gezondheid: 0
+        verslaving: 0
+        adl_vaardigheden: 0
+        sociaal_netwerk: 0
+        maatschappelijke_participatie: 0
+        justitie: 0
+    zrm_settings_2:
+        request_module: 'MaatschappelijkWerk'
+        inkomen: 1
+        dagbesteding: 1
+        huisvesting: 1
+        gezinsrelaties: 1
+        geestelijke_gezondheid: 1
+        fysieke_gezondheid: 1
+        verslaving: 1
+        adl_vaardigheden: 1
+        sociaal_netwerk: 1
+        maatschappelijke_participatie: 1
+        justitie: 1
+    zrm_settings_3:
+        request_module: 'Awbz'
+        inkomen: 0
+        dagbesteding: 0
+        huisvesting: 0
+        gezinsrelaties: 0
+        geestelijke_gezondheid: 0
+        fysieke_gezondheid: 0
+        verslaving: 0
+        adl_vaardigheden: 0
+        sociaal_netwerk: 0
+        maatschappelijke_participatie: 0
+        justitie: 0
+    zrm_settings_4:
+        request_module: 'Hi5'
+        inkomen: 0
+        dagbesteding: 0
+        huisvesting: 0
+        gezinsrelaties: 0
+        geestelijke_gezondheid: 0
+        fysieke_gezondheid: 0
+        verslaving: 0
+        adl_vaardigheden: 0
+        sociaal_netwerk: 0
+        maatschappelijke_participatie: 0
+        justitie: 0
+    zrm_settings_5:
+        request_module: 'GroepsactiviteitenIntake'
+        inkomen: 0
+        dagbesteding: 0
+        huisvesting: 0
+        gezinsrelaties: 0
+        geestelijke_gezondheid: 0
+        fysieke_gezondheid: 0
+        verslaving: 0
+        adl_vaardigheden: 0
+        sociaal_netwerk: 0
+        maatschappelijke_participatie: 0
+        justitie: 0
+    zrm_settings_6:
+        request_module: 'IzIntake'
