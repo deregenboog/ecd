@@ -5,7 +5,9 @@
     <li class="active">{{ title }}</li>
 </ol>
 <ul class="nav nav-tabs">
-    {{ html.navLink('Bezoekersregistratie', path('inloop_registraties_locationselect'), isActiveRoute('inloop_registraties_')) }}
+    {% if is_granted('ROLE_INLOOP_REGISTRATIES') %}
+        {{ html.navLink('Bezoekersregistratie', path('inloop_registraties_locationselect'), isActiveRoute('inloop_registraties_')) }}
+    {% endif %}
     {% if is_granted('ROLE_INLOOP_KLANTEN') %}
         {{ html.navLink('Klanten', path('inloop_klanten_index'), isActiveRoute('inloop_klanten_')) }}
     {% endif %}

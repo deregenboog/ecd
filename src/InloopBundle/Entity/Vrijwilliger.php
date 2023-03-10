@@ -48,13 +48,6 @@ class Vrijwilliger implements MemoSubjectInterface, DocumentSubjectInterface
      */
     protected $locaties;
 
-   /**
-    * @deprecated
-    * @var Locatie
-    *
-    * @ORM\ManyToOne(targetEntity="Locatie")
-    */
-   protected $locatie;
 
     /**
      * @var BinnenVia
@@ -253,21 +246,6 @@ class Vrijwilliger implements MemoSubjectInterface, DocumentSubjectInterface
         return $this;
     }
 
-    /**
-     * @return Locatie
-     */
-    public function getLocatie(): ?Locatie
-    {
-        return $this->locatie;
-    }
-
-    /**
-     * @param Locatie $locatie
-     */
-    public function setLocatie(Locatie $locatie): void
-    {
-        $this->locatie = $locatie;
-    }
 
     public function isActief()
     {
