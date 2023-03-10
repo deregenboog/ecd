@@ -149,18 +149,6 @@ class Registratie
      */
     protected $modified;
 
-    /**
-     * @deprecated
-     * @ORM\Column(type="integer", nullable=true)
-     */
-    private $klant_id_before_constraint;
-
-    /**
-     * @deprecated
-     * @ORM\Column(type="integer", nullable=true)
-     */
-    private $locatie_id_before_constraint;
-
     public function __construct(Klant $klant, Locatie $locatie)
     {
         $this->setKlant($klant);
