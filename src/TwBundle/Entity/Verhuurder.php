@@ -69,12 +69,6 @@ class Verhuurder extends Deelnemer
     private $project;
 
     /**
-     * @todo Not used. Remove from entity and db schema.
-     * @ORM\Column(name="kwijtschelding", type="boolean")
-     */
-    private $_kwijtschelding;
-
-    /**
      * @var integer
      * @ORM\Column(type="integer", nullable=true)
      */

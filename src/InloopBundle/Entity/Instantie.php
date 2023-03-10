@@ -35,18 +35,4 @@ class Instantie
      */
     protected $modified;
 
-    /**
-     * @deprecated
-     * @ORM\Column(name="datum_van", type="date")
-     * @Gedmo\Versioned
-     */
-    private $datumVan;
-
-    /**
-     * @deprecated
-     * @ORM\Column(name="datum_tot", type="date")
-     * @Gedmo\Versioned
-     */
-    private $datumTot;
-
 }

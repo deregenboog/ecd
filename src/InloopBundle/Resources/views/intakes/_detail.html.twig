@@ -36,11 +36,8 @@
     <dt>Geldig tot</dt>
     <dd>{{ entity.legitimatieGeldigTot ? entity.legitimatieGeldigTot|date('d-m-Y') }}</dd>
 </dl>
-{% if entity.primaireProblematiek %}
-    {% include '@Inloop/intakes/_verslaving_v1.html.twig' %}
-{% else %}
-    {% include '@Inloop/intakes/_verslaving_v2.html.twig' %}
-{% endif %}
+{% include '@Inloop/intakes/_verslaving_v2.html.twig' %}
+
 <h2>Inkomen</h2>
 <dl class="dl-horizontal">
     <dt>Inkomen</dt>

@@ -733,7 +733,7 @@ class Klant extends Persoon
     /**
      * @return Klant
      */
-    public function getPartner()
+    public function getPartner(): ?Klant
     {
         return $this->partner;
     }
@@ -742,7 +742,7 @@ class Klant extends Persoon
      * @param Klant $partner
      * @return Persoon
      */
-    public function setPartner($partner)
+    public function setPartner(?Klant $partner)
     {
         $this->partner = $partner;
         return $this;

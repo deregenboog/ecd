@@ -143,12 +143,6 @@ class Klant extends Deelnemer
      */
     private $huisgenoot;
 
-    /**
-     * @todo Not used. Remove from entity and db schema.
-     * @ORM\Column(name="huurprijs", type="integer", nullable=true)
-     * @Gedmo\Versioned
-     */
-    private $_huurprijs;
 
     public function __construct(AppKlant $klant = null)
     {
