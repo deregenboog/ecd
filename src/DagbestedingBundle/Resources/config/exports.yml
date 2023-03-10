@@ -71,6 +71,7 @@ services:
                 Trajectcoach: { expression: 'entity.getTrajectcoach()' }
                 Project(en): { expression: 'export.getProjecten(entity)' }
                 Locatie(s): { expression: 'export.getLocaties(entity)' }
+                Resultaatgebied(en): { expression: 'export.getResultaatgebieden(entity)' }
                 Evaluatiedatum: { expression: 'entity.getEvaluatiedatum()', type: 'date' }
                 BSN: { expression: 'entity.getDeelnemer().getKlant().getBsn()' }
                 Geslacht: { expression: 'entity.getDeelnemer().getKlant().getGeslacht()' }
