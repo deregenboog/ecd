@@ -39,4 +39,15 @@ class TrajectenExport extends GenericExport
 
         return implode(', ', $data);
     }
+
+    public function getResultaatgebieden(Traject $traject)
+    {
+        $data = [];
+
+        foreach ($traject->getResultaatgebieden() as $d) {
+            $data[] = $d->getSoort()->getNaam();
+        }
+
+        return implode(', ', $data);
+    }
 }
