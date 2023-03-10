@@ -18,7 +18,7 @@ class VrijwilligerDao extends AbstractDao implements VrijwilligerDaoInterface
             'appVrijwilliger.achternaam',
             'vrijwilliger.aanmelddatum',
             'vrijwilliger.afsluitdatum',
-            'locatie.naam',
+            'locaties.naam',
             'werkgebied.naam',
         ],
     ];
@@ -36,7 +36,7 @@ class VrijwilligerDao extends AbstractDao implements VrijwilligerDaoInterface
             ->select("{$this->alias}, appVrijwilliger")
             ->innerJoin('vrijwilliger.vrijwilliger', 'appVrijwilliger')
             ->leftJoin('vrijwilliger.locaties', 'locaties')
-            ->leftJoin('vrijwilliger.locatie','locatie')
+//            ->leftJoin('vrijwilliger.locatie','locatie')
             ->leftJoin('appVrijwilliger.werkgebied', 'werkgebied')
         ;
 
