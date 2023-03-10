@@ -22,6 +22,7 @@ final class Version20230310105234 extends AbstractMigration
         // this up() migration is auto-generated, please modify it to your needs
         $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
 
+        $this->addSql("ALTER TABLE inloop_vrijwilligers DROP FOREIGN KEY FK_561104804947630C");
         $this->addSql('ALTER TABLE inloop_vrijwilligers DROP locatie_id, CHANGE created created DATETIME NOT NULL, CHANGE modified modified DATETIME NOT NULL');
 //
     }
