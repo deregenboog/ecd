@@ -9,6 +9,6 @@ security:
         main:
             guard:
                 authenticators:
-                    - security.development_guard_authenticator
+#                    - security.development_guard_authenticator
                     - ldap_tools.security.ldap_guard_authenticator
                 entry_point: ldap_tools.security.ldap_guard_authenticator
