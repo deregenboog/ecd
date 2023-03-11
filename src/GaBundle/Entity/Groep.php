@@ -20,9 +20,11 @@ use Gedmo\Mapping\Annotation as Gedmo;
  *     "Buurtmaatjes" = "GroepBuurtmaatjes",
  *     "Kwartiermaken" = "GroepKwartiermaken",
  *     "OpenHuis" = "GroepOpenHuis",
- *     "Organisatie" = "GroepOrganisatie"
+ *     "Organisatie" = "GroepOrganisatie",
+ *     "IZ" = "GroepIZ"
  * })
  * @Gedmo\Loggable
+ * @TODO De view van add moet dynamisch ipv statisch deze types listen.
  */
 abstract class Groep
 {
