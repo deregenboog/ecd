@@ -17,7 +17,8 @@ ALTER TABLE tmp_visits
     ADD INDEX idx_tmp_visits_klant_id (klant_id),
     ADD INDEX idx_tmp_visits_date (`date`),
     ADD INDEX idx_tmp_visits_duration (`duration`),
-    ADD INDEX idx_tmp_visits_gender (gender)
+    ADD INDEX idx_tmp_visits_gender (gender),
+    ADD INDEX locatie_gender_date (locatie_id,gender,`date`)
 ;
 
 -- OPEN DAYS
@@ -58,7 +59,9 @@ ALTER TABLE tmp_visitors
     ADD INDEX idx_tmp_visitors_date (`date`),
     ADD INDEX idx_tmp_visitors_woonsituatie_id (`woonsituatie_id`),
     ADD INDEX idx_tmp_visitors_verblijfstatus_id (`verblijfstatus_id`),
-    ADD INDEX idx_tmp_visitors_geslacht (geslacht)
+    ADD INDEX idx_tmp_visitors_geslacht (geslacht),
+    ADD KEY `verslaving_id` (`verslaving_id`,`geslacht`,`date`,`klant_id`),
+    ADD KEY `verslaving_id_2` (`verslaving_id`,`date`,`klant_id`)
 ;
 
 -- AVERAGE DURATION

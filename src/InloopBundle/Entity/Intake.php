@@ -322,7 +322,43 @@ class Intake
      */
     private $infobaliedoelgroep;
 
+    /**
+     *
+     * @var Verslaving
+     *
+     * @ORM\ManyToOne(targetEntity="Verslaving")
+     */
+    private $primaireProblematiek;
 
+    /**
+     *
+     * @var Frequentie
+     *
+     * @ORM\ManyToOne(targetEntity="Frequentie")
+     * @ORM\JoinColumn(name="primaireproblematieksfrequentie_id")
+     */
+    private $primaireProblematiekFrequentie;
+
+    /**
+     *
+     * @var Periode
+     *
+     * @ORM\ManyToOne(targetEntity="Periode")
+     * @ORM\JoinColumn(name="primaireproblematieksperiode_id")
+     */
+    private $primaireProblematiekPeriode;
+
+    /**
+     *
+     * @var Gebruikswijze
+     *
+     * @ORM\ManyToMany(targetEntity="Gebruikswijze")
+     * @ORM\JoinTable(
+     *     name="intakes_primaireproblematieksgebruikswijzen",
+     *     inverseJoinColumns=@ORM\JoinColumn(name="primaireproblematieksgebruikswijze_id")
+     * )
+     */
+    private $primaireProblematiekGebruikswijzen;
 
     /**
      * @var Verslaving[]
@@ -819,6 +855,32 @@ class Intake
     }
 
     /**
+     * @deprecated
+     */
+    public function getPrimaireProblematiek()
+    {
+        return $this->primaireProblematiek;
+    }
+
+
+    public function getPrimaireProblematiekFrequentie()
+    {
+        return $this->primaireProblematiekFrequentie;
+    }
+
+
+    public function getPrimaireProblematiekPeriode()
+    {
+        return $this->primaireProblematiekPeriode;
+    }
+
+
+    public function getPrimaireProblematiekGebruikswijzen()
+    {
+        return $this->primaireProblematiekGebruikswijzen;
+    }
+
+    /**
      * @return bool
      */
     public function isDoelgroep()
@@ -1218,4 +1280,28 @@ class Intake
         }
         return $context->getValidator()->validate();
     }
+
+    /**
+     * @deprecated
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $klant_id_before_constraint;
+
+    /**
+     * @deprecated
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $medewerker_id_before_constraint;
+
+    /**
+     * @deprecated
+     * @ORM\Column(type="boolean", nullable=true, options={"default":0})
+     */
+    private $toegang_vrouwen_nacht_opvang;
+
+    /**
+     * @deprecated
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $woonsituatie_id_before_constraint;
 }

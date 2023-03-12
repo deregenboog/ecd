@@ -85,6 +85,7 @@ class AppExtension extends AbstractExtension implements GlobalsInterface
             new TwigFunction('isActivePath', [$this, 'isActivePath']),
             new TwigFunction('colgroup', [$this, 'colgroup'], ['is_safe' => ['html']]),
             new TwigFunction('asset', [$this, 'asset']),
+            new TwigFunction('sleep', [$this, 'sleep']),
             ];
     }
 
@@ -533,5 +534,10 @@ class AppExtension extends AbstractExtension implements GlobalsInterface
         if( (count($d) > count($allRows)/2) && $invert) return implode(", ",$value);
         if(count($d) > 0) return 'Alles behalve: '.implode(", ",$d);
         return "Alle ".$this->getClass($value[0],false)."(s)";
+    }
+
+    public function sleep($length=1)
+    {
+        sleep($length);
     }
 }

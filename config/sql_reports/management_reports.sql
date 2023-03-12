@@ -75,100 +75,101 @@ order by Aantal desc
 -- HEAD: Regiobinding en woonsituatie van bezoekers
 -- FIELDS: 0.naam - Bezoekers; 0.Met regiobinding - Met regiobinding; 0.Zonder regiobinding - Zonder regiobinding; 0.Regiobinding onbekend - Regiobinding onbekend; 0.Totaal - Totaal
 -- ARRAY
--- !DISABLE
+-- !DISABLE --werkt niet.
 (SELECT
-    'Dakloos' AS 'naam',
-    (SELECT COUNT(distinct klant_id)
-    FROM `tmp_visitors` `tv`
-    WHERE
-        `woonsituatie_id` IN (97) AND
-        `verblijfstatus_id` IN (1, 2) AND
-        `date` between :from and :until) AS 'Met regiobinding',
+     'Dakloos' AS 'naam',
+     (SELECT COUNT(distinct klant_id)
+      FROM `tmp_visitors` `tv`
+      WHERE
+              `woonsituatie_id` IN (97) AND
+              `verblijfstatus_id` IN (1, 2) AND
+          `date` between :from and :until) AS 'Met regiobinding',
 
-    (SELECT COUNT(distinct klant_id)
-    FROM `tmp_visitors` `tv`
-    WHERE
-        `woonsituatie_id` IN (97) AND
-        `verblijfstatus_id` IN (7, 4, 6, 7)
+     (SELECT COUNT(distinct klant_id)
+      FROM `tmp_visitors` `tv`
+      WHERE
+              `woonsituatie_id` IN (97) AND
+              `verblijfstatus_id` IN (7, 4, 6, 7)
         AND `date` between :from and :until
-    ) AS 'Zonder regiobinding',
-    (SELECT COUNT(distinct klant_id)
-    FROM `tmp_visitors` `tv`
-    WHERE
-        `woonsituatie_id` IN (97) AND
-        `verblijfstatus_id` IS NULL
+     ) AS 'Zonder regiobinding',
+     (SELECT COUNT(distinct klant_id)
+      FROM `tmp_visitors` `tv`
+      WHERE
+              `woonsituatie_id` IN (97) AND
+          `verblijfstatus_id` IS NULL
         AND `date` between :from and :until) AS 'Regiobinding onbekend',
-    (SELECT COUNT(distinct klant_id)
-    FROM `tmp_visitors` `tv`
-    WHERE
-        `woonsituatie_id` IN (97) AND
-        (`verblijfstatus_id` IN (1, 2, 7, 4, 6, 7) or `verblijfstatus_id` is null)
+     (SELECT COUNT(distinct klant_id)
+      FROM `tmp_visitors` `tv`
+      WHERE
+              `woonsituatie_id` IN (97) AND
+          (`verblijfstatus_id` IN (1, 2, 7, 4, 6, 7) or `verblijfstatus_id` is null)
         AND `date` between :from and :until) AS 'Totaal')
 UNION
 (SELECT
-    'Thuisloos',
-    (
-    SELECT COUNT(distinct klant_id)
-    FROM `tmp_visitors` `tv`
-    WHERE
-        `woonsituatie_id` IN (10, 14, 19, 11, 13, 16, 12, 15, 17) AND
-        `verblijfstatus_id` IN (1, 2) AND `date` between :from and :until
-),
-    (
-    SELECT COUNT(distinct klant_id)
-    FROM `tmp_visitors` `tv`
-    WHERE
-        `woonsituatie_id` IN (10, 14, 19, 11, 13, 16, 12, 15, 17) AND
-        `verblijfstatus_id` IN (3, 4, 6) AND `date` between :from and :until
-),
-    (
-    SELECT COUNT(distinct klant_id)
-    FROM `tmp_visitors` `tv`
-    WHERE
-        `woonsituatie_id` IN (10, 14, 19, 11, 13, 16, 12, 15, 17) AND
-        `verblijfstatus_id` IS NULL AND `date` between :from and :until
-),
-    (
-    SELECT COUNT(distinct klant_id)
-    FROM `tmp_visitors` `tv`
-    WHERE
-        `woonsituatie_id` IN (10, 14, 19, 11, 13, 16, 12, 15, 17) AND
-        (`verblijfstatus_id` IN (1, 2, 3, 4, 6)  or `verblijfstatus_id` is null)
-    AND `date` between :from and :until
-)
+     'Thuisloos',
+     (
+         SELECT COUNT(distinct klant_id)
+         FROM `tmp_visitors` `tv`
+         WHERE
+                 `woonsituatie_id` IN (10, 14, 19, 11, 13, 16, 12, 15, 17) AND
+                 `verblijfstatus_id` IN (1, 2) AND `date` between :from and :until
+     ),
+     (
+         SELECT COUNT(distinct klant_id)
+         FROM `tmp_visitors` `tv`
+         WHERE
+                 `woonsituatie_id` IN (10, 14, 19, 11, 13, 16, 12, 15, 17) AND
+                 `verblijfstatus_id` IN (3, 4, 6) AND `date` between :from and :until
+     ),
+     (
+         SELECT COUNT(distinct klant_id)
+         FROM `tmp_visitors` `tv`
+         WHERE
+                 `woonsituatie_id` IN (10, 14, 19, 11, 13, 16, 12, 15, 17) AND
+             `verblijfstatus_id` IS NULL AND `date` between :from and :until
+     ),
+     (
+         SELECT COUNT(distinct klant_id)
+         FROM `tmp_visitors` `tv`
+         WHERE
+                 `woonsituatie_id` IN (10, 14, 19, 11, 13, 16, 12, 15, 17) AND
+             (`verblijfstatus_id` IN (1, 2, 3, 4, 6)  or `verblijfstatus_id` is null)
+           AND `date` between :from and :until
+     )
 )
 UNION
 (SELECT
-    'Woonsituatie onbekend',
-    (
-    SELECT COUNT(distinct klant_id)
-    FROM `tmp_visitors` `tv`
-    WHERE
-        `woonsituatie_id` IS NULL AND
-        `verblijfstatus_id` IN (1, 2) AND `date` between :from and :until
-),
-    (
-    SELECT COUNT(distinct klant_id)
-    FROM `tmp_visitors` `tv`
-    WHERE
-        `woonsituatie_id` IS NULL AND
-        `verblijfstatus_id` IN (3, 4, 6, 7) AND `date` between :from and :until
-),
-    (
-    SELECT COUNT(distinct klant_id)
-    FROM `tmp_visitors` `tv`
-    WHERE
-        `woonsituatie_id` IS NULL AND
-        `verblijfstatus_id` IS NULL AND `date` between :from and :until
-),
-    (
-    SELECT COUNT(distinct klant_id)
-    FROM `tmp_visitors` `tv`
-    WHERE
-        `woonsituatie_id` IS NULL AND
-        (`verblijfstatus_id` IN (1, 2, 3, 4, 6, 7)  or `verblijfstatus_id` is null)
-     AND `date` between :from and :until
-))
+     'Woonsituatie onbekend',
+     (
+         SELECT COUNT(distinct klant_id)
+         FROM `tmp_visitors` `tv`
+         WHERE
+             `woonsituatie_id` IS NULL AND
+                 `verblijfstatus_id` IN (1, 2) AND `date` between :from and :until
+     ),
+     (
+         SELECT COUNT(distinct klant_id)
+         FROM `tmp_visitors` `tv`
+         WHERE
+             `woonsituatie_id` IS NULL AND
+                 `verblijfstatus_id` IN (3, 4, 6, 7) AND `date` between :from and :until
+     ),
+     (
+         SELECT COUNT(distinct klant_id)
+         FROM `tmp_visitors` `tv`
+         WHERE
+             `woonsituatie_id` IS NULL AND
+             `verblijfstatus_id` IS NULL AND `date` between :from and :until
+     ),
+     (
+         SELECT COUNT(distinct klant_id)
+         FROM `tmp_visitors` `tv`
+         WHERE
+             `woonsituatie_id` IS NULL AND
+             (`verblijfstatus_id` IN (1, 2, 3, 4, 6, 7)  or `verblijfstatus_id` is null)
+           AND `date` between :from and :until
+     )
+)
 ;
 
 -- START 13. Geboortelanden
@@ -234,7 +235,7 @@ SELECT
     (SELECT COUNT(distinct klant_id) FROM `tmp_visitors` `tv` WHERE `tv`.`verslaving_id` <=> `v`.`id` AND `tv`.`geslacht` = 'Vrouw' AND `date` between :from and :until) AS 'Aantal vrouwen',
     (SELECT COUNT(distinct klant_id) FROM `tmp_visitors` `tv` WHERE `tv`.`verslaving_id` <=> `v`.`id` AND `date` between :from and :until) AS 'Totaal'
 FROM (select naam, id from `verslavingen` union select 'Onbekend' naam, null id) v
-ORDER BY 4 desc
+-- ORDER BY 4 desc -- Disabled by JTB to prevent filesort.
 ;
 
 -- START 19. - Gemiddelde verblijfsduur.sql
