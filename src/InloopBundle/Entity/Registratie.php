@@ -16,8 +16,8 @@ use Gedmo\Mapping\Annotation as Gedmo;
  *     @ORM\Index(name="binnen", columns={"binnen"}),
  *     @ORM\Index(name="klant_locatie_binnen_buiten", columns={"klant_id", "locatie_id", "binnen", "buiten"}),
  *     @ORM\Index(name="klant_id", columns={"klant_id"}),
- *     @ORM\Index(name"locatie_date_binnen", columns={"locatie_id","binnen","douche","maaltijd","activering","veegploeg","kleding"}),
- *     @ORM\Index(name="locatie_date_klant", columns={"locatie_id","binnen","activering","veegploeg","klant_id"}
+ *     @ORM\Index(name="locatie_date_binnen", columns={"locatie_id","binnen","douche","maaltijd","activering","veegploeg","kleding"}),
+ *     @ORM\Index(name="locatie_date_klant", columns={"locatie_id","binnen","activering","veegploeg","klant_id"})
  * })
  * @ORM\HasLifecycleCallbacks
  * @Gedmo\Loggable

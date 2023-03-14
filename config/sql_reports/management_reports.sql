@@ -183,7 +183,7 @@ SELECT
     (SELECT COUNT(distinct klant_id) FROM `tmp_visitors` `tv` WHERE `tv`.`land_id` = `l`.`id` AND `tv`.`geslacht` = 'Vrouw' AND `date` between :from and :until) AS 'Aantal vrouwen',
     (SELECT COUNT(distinct klant_id) FROM `tmp_visitors` `tv` WHERE `tv`.`land_id` = `l`.`id` AND `date` between :from and :until) AS 'Totaal'
 FROM `landen` `l`
-ORDER BY 4 DESC
+-- ORDER BY 4 DESC
 LIMIT 10
 ;
 
@@ -249,9 +249,9 @@ SELECT *
   FROM (
 (SELECT
     `naam`,
-    IFNULL((SELECT SEC_TO_TIME(AVG(duration)) FROM `tmp_visits` `tv` WHERE `tv`.`locatie_id` = `tl`.`id` AND `tv`.`gender` = 'Man' AND `date` between :from and :until), '-') AS 'Gem verblijfsduur mannen',
-    IFNULL((SELECT SEC_TO_TIME(AVG(duration)) FROM `tmp_visits` `tv` WHERE `tv`.`locatie_id` = `tl`.`id` AND `tv`.`gender` = 'Vrouw' AND `date` between :from and :until), '-') AS 'Gem verblijfsduur vrouwen',
-    IFNULL((SELECT SEC_TO_TIME(AVG(duration)) FROM `tmp_visits` `tv` WHERE `tv`.`locatie_id` = `tl`.`id` AND `date` between :from and :until), '-') AS 'Gem verblijfsduur totaal',
+    IFNULL((SELECT SEC_TO_TIME(AVG(duration)) FROM `tmp_visits` `tv` USE INDEX (locatie_gender_date) WHERE `tv`.`locatie_id` = `tl`.`id` AND `tv`.`gender` = 'Man' AND `date` between :from and :until), '-') AS 'Gem verblijfsduur mannen',
+    IFNULL((SELECT SEC_TO_TIME(AVG(duration)) FROM `tmp_visits` `tv` USE INDEX (locatie_gender_date) WHERE `tv`.`locatie_id` = `tl`.`id` AND `tv`.`gender` = 'Vrouw' AND `date` between :from and :until), '-') AS 'Gem verblijfsduur vrouwen',
+    IFNULL((SELECT SEC_TO_TIME(AVG(duration)) FROM `tmp_visits` `tv` USE INDEX (locatie_gender_date) WHERE `tv`.`locatie_id` = `tl`.`id` AND `date` between :from and :until), '-') AS 'Gem verblijfsduur totaal',
     naam as order_name
 FROM `locaties` `tl`
 WHERE tl.datum_van <= :until AND (tl.datum_tot >= :from OR tl.datum_tot IS NULL)

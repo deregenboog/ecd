@@ -61,7 +61,8 @@ ALTER TABLE tmp_visitors
     ADD INDEX idx_tmp_visitors_verblijfstatus_id (`verblijfstatus_id`),
     ADD INDEX idx_tmp_visitors_geslacht (geslacht),
     ADD KEY `verslaving_id` (`verslaving_id`,`geslacht`,`date`,`klant_id`),
-    ADD KEY `verslaving_id_2` (`verslaving_id`,`date`,`klant_id`)
+    ADD KEY `verslaving_id_2` (`verslaving_id`,`date`,`klant_id`),
+    ADD KEY `land_id` (`land_id`,`geslacht`,`date`,`klant_id`)
 ;
 
 -- AVERAGE DURATION
