@@ -127,6 +127,10 @@ security:
             - ROLE_TW_VRIJWILLIGERS
         ROLE_TW_BEHEER:
             - ROLE_TW
+        ROLE_TW2:
+            - ROLE_TW2
+        ROLE_TW_BEHEER2:
+            - ROLE_TW_BEHEER
         ROLE_OEK: []
         ROLE_OEK_BEHEER:
             - ROLE_OEK
@@ -228,9 +232,9 @@ ldap_tools:
             ROLE_ADMIN: "CN=ECD Admin,CN=Users,DC=cluster,DC=deregenboog"
             ROLE_VOLUNTEERS: "CN=ECD Volunteers,CN=Users,DC=cluster,DC=deregenboog"
             ROLE_STAGE: "CN=ECD Stage,CN=Users,DC=cluster,DC=deregenboog"
-            ROLE_PORTIER: "CN=ECD Portier,CN=Users,DC=cluster,DC=deregenboog"
+            ROLE_PORTIER: "CN=ECD Inloop Portier,CN=Users,DC=cluster,DC=deregenboog"
             ROLE_MLO: "CN=ECD MLO,CN=Users,DC=cluster,DC=deregenboog"
-            ROLE_INLOOP_VRIJWILLIGERS: "CN=ECD inloop vrijwilliger,CN=Users,DC=cluster,DC=deregenboog"
+            ROLE_INLOOP_VRIJWILLIGERS: "CN=ECD Inloop vrijwilliger,CN=Users,DC=cluster,DC=deregenboog"
             ROLE_INLOOP_TEAMLEIDERS: "CN=ECD inloop teamleider,CN=Users,DC=cluster,DC=deregenboog"
             ROLE_INLOOP_DAGCOORDINATOR: "CN=ECD inloop dagco,CN=Users,DC=cluster,DC=deregenboog"
             ROLE_MW: "CN=ECD Maatschappelijk,CN=Users,DC=cluster,DC=deregenboog"
@@ -252,8 +256,8 @@ ldap_tools:
             ROLE_OEK_BEHEER: "CN=ECD Op Eigen Kracht Beheer,CN=Users,DC=cluster,DC=deregenboog"
             ROLE_TW: "CN=ECD Onder de Pannen,CN=Users,DC=cluster,DC=deregenboog" #bw compatiblity
             ROLE_TW_BEHEER: "CN=ECD Onder de Pannen Beheer,CN=Users,DC=cluster,DC=deregenboog" #bw comp.
-#            ROLE_TW: "CN=ECD Tijdelijk Wonen,CN=Users,DC=cluster,DC=deregenboog"
-#            ROLE_TW_BEHEER: "CN=ECD Tijdelijk Wonen Beheer,CN=Users,DC=cluster,DC=deregenboog"
+            ROLE_TW2: "CN=ECD Tijdelijk Wonen,CN=Users,DC=cluster,DC=deregenboog"
+            ROLE_TW_BEHEER2: "CN=ECD Tijdelijk Wonen Beheer,CN=Users,DC=cluster,DC=deregenboog"
             ROLE_ADMINISTRATIEBEDRIJF: "CN=administratiebedrijf,CN=Users,DC=cluster,DC=deregenboog"
             ROLE_DAGBESTEDING: "CN=ECD Trajectbegeleider,CN=Users,DC=cluster,DC=deregenboog"
             ROLE_DAGBESTEDING_BEHEER: "CN=ECD Dagbesteding Beheer,CN=Users,DC=cluster,DC=deregenboog"
