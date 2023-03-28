@@ -12,6 +12,7 @@
                 {% if icon == 'cancel' %}{% set icon = 'arrow-left' %}{% endif %}
                 {% if icon == 'connect' %}{% set icon = 'paperclip' %}{% endif %}
                 {% if icon == 'email' %}{% set icon = 'envelope' %}{% endif %}
+                {% if icon == 'all' %}{% set icon = 'modal-window' %}{% endif %}
                 <span class="glyphicon glyphicon-{{ icon }}" aria-hidden="true"></span>
             {% endif %}
             {% if label %}
