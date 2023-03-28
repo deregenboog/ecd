@@ -46,16 +46,16 @@ a img {
 
 h1, h2, h3, h4 {
 }
-h1 {
+h1, span.h1 {
     color: #003d4c;
 }
-h2 {
+h2, span.h2 {
     color: #759c46;
 }
-h3 {
+h3, span.h3 {
     color: #759c46;
 }
-h4 {
+h4, span.h4 {
     color: #993;
 }
 

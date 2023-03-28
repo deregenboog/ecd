@@ -248,7 +248,7 @@ class KlantFilterType extends AbstractType
                 'bindingRegio',
                 'shortlist',
 //                'wpi',
-//                'medewerker',
+                'medewerker',
 //                'ambulantOndersteuner',
             ],
             'validation_groups' => false,

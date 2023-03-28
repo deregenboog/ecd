@@ -124,6 +124,7 @@ class KlantFilter implements FilterInterface
     /** @var QueryBuilder */
     private $builder;
 
+
     public function applyTo(QueryBuilder $builder, $alias = 'klant')
     {
         if ($this->id) {
