@@ -81,6 +81,10 @@ class KlantDao extends AbstractDao implements KlantDaoInterface
 
     public function update(Klant $entity)
     {
+        //update huisgenoot ook, maar werkt niet want bij unsetten gaat het fout
+        //computeChangeSet op UnitOfWork werkt niet, zie https://stackoverflow.com/questions/9057558/is-there-a-built-in-way-to-get-all-of-the-changed-updated-fields-in-a-doctrine-2
+//        $updatedEntities = $this->entityManager->getUnitOfWork()->getScheduledEntityUpdates();
+
         $this->doUpdate($entity);
     }
 
