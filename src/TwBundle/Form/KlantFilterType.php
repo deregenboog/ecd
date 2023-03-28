@@ -173,6 +173,15 @@ class KlantFilterType extends AbstractType
                 'multiple' => true,
                 'choices' => $this->loadChoices(Ritme::class),
             ])
+            ->add('heeftHuisgenoot', ChoiceType::class, [
+                'required' => false,
+                'multiple' => true,
+                'choices' => [
+                    'Onbekend'=>null,
+                    'Ja'=>true,
+                    'Nee'=>false
+                ],
+            ])
             ->add('huisdieren', ChoiceType::class, [
                 'required' => false,
                 'multiple' => true,
@@ -249,7 +258,7 @@ class KlantFilterType extends AbstractType
                 'shortlist',
 //                'wpi',
                 'medewerker',
-//                'ambulantOndersteuner',
+                'heeftHuisgenoot',
             ],
             'validation_groups' => false,
 //                function(FormInterface $form) {

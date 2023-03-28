@@ -486,7 +486,7 @@ class Klant extends Deelnemer
      * @param Klant $huisgenoot
      * @return Klant
      */
-    public function setHuisgenoot(Klant $huisgenoot): ?Klant
+    public function setHuisgenoot(?Klant $huisgenoot): ?Klant
     {
         $this->huisgenoot = $huisgenoot;
         return $this;

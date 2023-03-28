@@ -121,6 +121,9 @@ class KlantFilter implements FilterInterface
      */
     public $traplopen;
 
+    /** @var boolean */
+    public $heeftHuisgenoot;
+
     /** @var QueryBuilder */
     private $builder;
 
@@ -213,6 +216,10 @@ class KlantFilter implements FilterInterface
                 ->setParameter('medewerker', $this->medewerker);
         }
 
+        if($this->heeftHuisgenoot)
+        {
+            $builder->andWhere($alias.'.huisgenoot IS NOT NULL');
+        }
         if ($this->appKlant) {
             $this->appKlant->applyTo($builder, 'appKlant');
         }
