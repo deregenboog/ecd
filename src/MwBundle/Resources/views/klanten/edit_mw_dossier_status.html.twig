@@ -1,4 +1,4 @@
-{% extends 'add.html.twig' %}
+{% extends '@Mw/klanten/close.html.twig' %}
 {% import 'html.macro.twig' as html %}
 
 {% block content_top %}
@@ -6,8 +6,4 @@
     <p>
         {{ html.link('Annuleren', path('mw_klanten_view', {id: entity.klant.id}), 'cancel') }}
     </p>
-{% endblock %}
-
-{% block content %}
-    {{ form(form) }}
 {% endblock %}
