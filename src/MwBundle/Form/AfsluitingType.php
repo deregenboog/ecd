@@ -14,6 +14,8 @@ use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
+use Symfony\Component\Form\Extension\Core\Type\MoneyType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormError;
@@ -64,6 +66,9 @@ class AfsluitingType extends AbstractType
                 'placeholder' => '',
                 'label' => 'Land van bestemming',
             ])
+            ->add('datumRepatriering',AppDateType::class, ["required"=>false])
+            ->add('kosten',MoneyType::class,["required"=>false])
+            ->add('zachteLanding')
             ->add('toelichting')
             ->add('inloopSluiten',CheckboxType::class,[
                 'label'=>"Inloopdossier (indien aanwezig) ook sluiten?",
@@ -75,8 +80,11 @@ class AfsluitingType extends AbstractType
 
         $builder->addEventListener(FormEvents::POST_SUBMIT, function (FormEvent $event) {
             $form = $event->getForm();
-            if ($form->get('reden')->getData()->isLand() && !$form->get('land')->getData()) {
-                $form->get('land')->addError(new FormError('Selecteer een land'));
+            if ($form->get('reden')->getData()->isLand()){
+
+             if(!$form->get('land')->getData()) $form->get('land')->addError(new FormError('Selecteer een land'));
+            if(!$form->get('kosten')->getData()) $form->get('kosten')->addError(new FormError('Voer de kosten in'));
+            if(!$form->get('datumRepatriering')->getData()) $form->get('datumRepatriering')->addError(new FormError('Voer de datum in'));
             }
         });
     }

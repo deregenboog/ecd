@@ -407,9 +407,18 @@ class KlantenController extends AbstractController
         $form->handleRequest($this->getRequest());
         if ($form->isSubmitted() && $form->isValid()) {
             try {
-                $entityManager = $this->getEntityManager();
-                $entityManager->persist($mwStatus);
-                $entityManager->flush();
+
+//                $entityManager = $this->getEntityManager();
+//                $entityManager->persist($mwStatus);
+//                $entityManager->flush();
+
+                if ($mwStatus->getId()) {
+                    $this->beforeUpdate($klant);
+                    $this->dao->update($klant);
+                } else {
+                    $this->beforeCreate($klant);
+                    $this->dao->create($klant);
+                }
 
                 $this->addFlash('success', 'Mw dossier is gewijzigd');
             } catch(UserException $e) {

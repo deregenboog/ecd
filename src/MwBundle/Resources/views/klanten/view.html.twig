@@ -58,6 +58,8 @@
                 {{ html.link('Dossierinformatie wijzigen', path('mw_klanten_infoedit', {klant: entity.id}), 'edit') }}
             </p>
             {{ render(controller('MwBundle\\Controller\\KlantenController::_mwAction', {id: entity.id})) }}
+
+
         </div>
         <div id="verslagen" class="tab-pane">
             <h2>Verslagen</h2>
