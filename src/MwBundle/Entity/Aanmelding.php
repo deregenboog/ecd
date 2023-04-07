@@ -34,6 +34,8 @@ class Aanmelding extends MwDossierStatus
      */
     protected $binnenViaOptieKlant;
 
+
+
     /**
      * @return BinnenViaOptieKlant
      */
@@ -51,6 +53,7 @@ class Aanmelding extends MwDossierStatus
         $this->binnenViaOptieKlant = $binnenViaOptieKlant;
         return $this;
     }
+
 
     /**
      * @PrePersist
