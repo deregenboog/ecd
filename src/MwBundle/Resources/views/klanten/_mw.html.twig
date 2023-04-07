@@ -29,14 +29,16 @@
 </dl>
 <hr>
 {% if info %}
-   <h3>Info</h3>
+   <h3>Algemene dossierinformatie</h3>
     <div class="row">
         <div class="col-xs-6">
-            <dl class="dl-horizontal">
-                <dt>RIS</dt>
-                <dd>{{ info.risDatumTot|if_date }}</dd>
-                <dt>Maatschappelijk werker</dt>
-                <dd>{{ klant.maatschappelijkWerker }}</dd>
+            <dl  class="dl-horizontal">
+                    <dt>RIS</dt>
+                    <dd>{{ info.risDatumTot|if_date }}</dd>
+                    <dt>Maatschappelijk werker</dt>
+                    <dd>{{ klant.maatschappelijkWerker }}</dd>
+                    <dt>Is gezin?</dt>
+                    <dd>{{ info.isGezin|ja_nee }}</dd>
             </dl>
         </div>
     </div>

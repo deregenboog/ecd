@@ -211,6 +211,12 @@ class Info
      */
     private $risDatumTot;
 
+    /**
+     * @var boolean
+     * @ORM\Column(type="boolean")
+     */
+    protected $isGezin;
+
     public function __construct(Klant $klant)
     {
         $this->klant = $klant;
@@ -752,5 +758,21 @@ class Info
     public function setRisDatumTot($risDatumTot): void
     {
         $this->risDatumTot = $risDatumTot;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isGezin(): bool
+    {
+        return $this->isGezin;
+    }
+
+    /**
+     * @param bool $isGezin
+     */
+    public function setIsGezin(bool $isGezin): void
+    {
+        $this->isGezin = $isGezin;
     }
 }
