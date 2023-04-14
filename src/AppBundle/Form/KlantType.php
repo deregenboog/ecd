@@ -75,7 +75,7 @@ class KlantType extends AbstractType
             ->add('adres')
             ->add('postcode')
             ->add('plaats')
-            ->add('briefadres',AppDateType::class,['label'=>'Is briefadres tot'])
+            ->add('briefadres',AppDateType::class,['label'=>'Is briefadres tot','required'=>false])
             ->add('email')
             ->add('mobiel')
             ->add('telefoon')

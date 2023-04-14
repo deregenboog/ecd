@@ -63,6 +63,14 @@
     <dl class="dl-horizontal">
         <dt>Adres</dt>
         <dd>
+            {% if entity.briefadres is not null %}
+                {% set class='' %}
+                {% if date(entity.briefadres) < date("+6 weeks")  %}
+                    {% set class="text-danger" %}
+                {% endif %}
+                <p>Let op, adres is briefadres.</p>
+                <p class="{{ class }}">Verloopt op {{ entity.briefadres|if_date("d-m-Y") }}</p>
+            {% endif %}
             {{ entity.adres }}<br>
             {{ entity.postcode }} {{ entity.plaats }}
         </dd>
