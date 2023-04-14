@@ -9,9 +9,9 @@ use AppBundle\Report\Table;
 use Doctrine\ORM\EntityManager;
 
 
-class RepatrieringenPerKlant extends AbstractSqlFileReport
+class RepatrieringenPerInloopKlant extends AbstractSqlFileReport
 {
 
-    protected $title = 'Repatriëringen per MW klant';
+    protected $title = 'Repatriëringen per inloopklant';
 
 }

@@ -55,3 +55,11 @@ services:
             - "%kernel.project_dir%/config/sql_reports/repatrieringen_per_klant.sql"
         tags:
             - { name: mw.rapportage, category: Repatriëring }
+
+    MwBundle\Report\RepatrieringenPerInloopKlant:
+        public: true
+        arguments:
+            - "@doctrine.orm.entity_manager"
+            - "%kernel.project_dir%/config/sql_reports/repatrieringen_per_inloopklant.sql"
+        tags:
+            - { name: mw.rapportage, category: Repatriëring }
