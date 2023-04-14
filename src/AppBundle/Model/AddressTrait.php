@@ -67,6 +67,7 @@ trait AddressTrait
      */
     protected $telefoon;
 
+
     public static function KoppelPostcodeWerkgebiedClosure(FormEvent $event, $em)
     {
         /* @var Persoon $data */
@@ -201,4 +202,7 @@ trait AddressTrait
 
         return $this;
     }
+
+
+
 }

@@ -7,6 +7,7 @@ use AppBundle\Entity\Postcode;
 use AppBundle\Util\PostcodeFormatter;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
+use Faker\Provider\Address;
 use Symfony\Component\Debug\Exception\FatalThrowableError;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
@@ -74,9 +75,11 @@ class KlantType extends AbstractType
             ->add('adres')
             ->add('postcode')
             ->add('plaats')
+            ->add('briefadres',AppDateType::class,['label'=>'Is briefadres tot','required'=>false])
             ->add('email')
             ->add('mobiel')
             ->add('telefoon')
+
             ->add('opmerking', AppTextareaType::class, ['required' => false])
             ->add('geenPost',null, ['label' => 'Geen post'])
             ->add('geenEmail')

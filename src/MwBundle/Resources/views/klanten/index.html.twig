@@ -101,13 +101,25 @@
             {% for item in pagination %}
                 {% set klant = item[0] %}
                 {% set rowColorClass = '' %}
-                {%  if(date(item.datumLaatsteVerslag) < date("-3 months")) %}
-                    {% set rowColorClass = 'warning' %}
-                {% elseif(date(item.datumLaatsteVerslag) < date("-6 months")) %}
+                {% set ttactive = "" %}
+                {% set tttext = "" %}
+                {% if(date(item.datumLaatsteVerslag) < date("-6 months")) %}
                     {%  set rowColorClass = 'danger' %}
+                    {% set ttactive = "tooltip" %}
+                    {% set tttext = "Laatste verslag meer dan 6 maanden geleden." %}
+                {% elseif(date(item.datumLaatsteVerslag) < date("-3 months")) %}
+                    {% set rowColorClass = 'warning' %}
+                    {% set ttactive = "tooltip" %}
+                    {% set tttext = "Laatste verslag meer dan 3 maanden geleden." %}
+                {% endif %}
+                {% if klant.briefadres is not null and date(klant.briefadres) < date("+6 weeks")  %}
+                    {% set rowColorClass = 'danger' %}
+                    {% set ttactive = "tooltip" %}
+                    {% set tttext = tttext ~ " Briefadres loopt binnenkort af." %}
                 {% endif %}
 
-                <tr class="{{ rowColorClass }}" data-href="{{ path(route_base~'view', {id: klant.id}) }}">
+                <tr href="#" data-toggle="{{ ttactive }}" title="{{ tttext }}" data-container="body"
+                        class="{{ rowColorClass }}" data-href="{{ path(route_base~'view', {id: klant.id}) }}">
                     <td>
                         {{ klant.id }}
                     </td>
