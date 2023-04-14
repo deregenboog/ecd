@@ -16,6 +16,7 @@ use MwBundle\Entity\Verslag;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
@@ -34,36 +35,11 @@ class VerslagType extends AbstractType
             ->add('datum', AppDateType::class, [
                 'required' => true,
             ])
-            ->add('duur', ChoiceType::class, [
-                'label' => 'Duur gesprek (aantal hulpverleners x aantal uren)',
-                'placeholder' => '',
-                'choices' => [
-                        '0:20 uur' => 20,
-                    '0:40 uur' => 40,
-                    '1:00 uur' => 60,
-                    '1:20 uur' => 80,
-                    '1:40 uur' => 100,
-                    '2:00 uur' => 120,
-                    '4:00 uur' => 240,
-                    '6:00 uur' => 360,
-                    '8:00 uur' => 480,
-                ],
-            ])
             ->add('locatie', LocatieSelectType::class)
-            ->add('contactsoort', EntityType::class, [
-                'class' => Contactsoort::class,
-                'required' => true,
-                'expanded' => true,
-            ])
-//            ->add('opmerking', AppTextareaType::class, [
-//                'required' => true,
-//                'attr' => [
-//                    'cols' => 50,
-//                    'rows' => 10,
-//                ],
-//            ])
+            ->add('aantalContactmomenten', IntegerType::class)
+
             ->add('opmerking', CKEditorType::class, ['attr' => ['rows' => 10,'cols'=>50],'required'=>true])
-            ->add('accessType', ChoiceType::class,[
+            ->add('access', ChoiceType::class,[
                 'required'=>true,
                 'label'=>'Zichtbaar voor',
                 'choices'=>[
@@ -82,9 +58,8 @@ class VerslagType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => VerslagModel::class,
+            'data_class' => Verslag::class,
             'attr' => ['novalidate' => 'novalidate'],
-            'inventarisaties' => [],
         ]);
     }
 

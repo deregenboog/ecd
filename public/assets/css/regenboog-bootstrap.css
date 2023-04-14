@@ -75,10 +75,10 @@ th {
 }
 
 th a.asc:after {
-    content: ' ⇣';
+    content: '\2193';
 }
 th a.desc:after {
-    content: ' ⇡';
+    content: '\2191';
 }
 th label.col-sm-2 {
     width:100%

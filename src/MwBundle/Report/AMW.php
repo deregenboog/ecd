@@ -20,7 +20,7 @@ class AMW extends AbstractReport
 
     protected $columns = [
         'Klanten'=>'aantal',
-        'Verslagen'=>'aantalVerslagen'
+        'Aantal contactmomenten'=>'aantalContactmomenten'
         ];
 
     protected $yDescription = 'Locatienaam';
