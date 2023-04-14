@@ -31,7 +31,6 @@ class AddressType extends AbstractType
             ->add('adres')
             ->add('postcode')
             ->add('plaats')
-            ->add('briefadres',AppDateType::class,['label'=>'Is briefadres tot'])
             ->add('email')
             ->add('telefoon')
             ->add('mobiel')

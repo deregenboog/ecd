@@ -24,7 +24,6 @@ final class Version20230414091426 extends AbstractMigration
 
         $this->addSql('ALTER TABLE klanten ADD briefadres DATE DEFAULT NULL');
 
-        $this->addSql('ALTER TABLE vrijwilligers ADD briefadres DATE DEFAULT NULL');
 
     }
 
@@ -35,7 +34,6 @@ final class Version20230414091426 extends AbstractMigration
 
         $this->addSql('ALTER TABLE klanten DROP briefadres');
 
-        $this->addSql('ALTER TABLE vrijwilligers DROP briefadres');
 
     }
 }
