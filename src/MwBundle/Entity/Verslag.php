@@ -85,28 +85,13 @@ class Verslag
      */
     private $medewerker;
 
-    /**
-     * @var Contactsoort
-     *
-     * @ORM\ManyToOne(targetEntity="Contactsoort")
-     * @Gedmo\Versioned
-     */
-    private $contactsoort;
 
     /**
-     * @var int
-     *
-     * @ORM\Column(name="aanpassing_verslag", type="integer", nullable=true)
-     * @Gedmo\Versioned
+     * @var integer
+     * @ORM\Column(type="integer", nullable=false)
      */
-    private $duur;
+    private $aantalContactmomenten = 1;
 
-    /**
-     * @var Verslaginventarisatie
-     *
-     * @ORM\OneToMany(targetEntity="Verslaginventarisatie", mappedBy="verslag", cascade={"persist"})
-     */
-    private $verslaginventarisaties;
 
     /**
      * @var int
@@ -144,10 +129,7 @@ class Verslag
         $this->setType($type);
 
         $this->klant = $klant;
-        $this->verslaginventarisaties = new ArrayCollection();
         $this->datum = new \DateTime();
-
-        $this->setDuur(0);
     }
 
     /**
@@ -240,66 +222,7 @@ class Verslag
         return $this;
     }
 
-    /**
-     * @return Contactsoort
-     */
-    public function getContactsoort()
-    {
-        return $this->contactsoort;
-    }
 
-    /**
-     * @param Contactsoort $contactsoort
-     *
-     * @return \MwBundle\Entity\Verslag
-     */
-    public function setContactsoort(Contactsoort $contactsoort)
-    {
-        $this->contactsoort = $contactsoort;
-
-        return $this;
-    }
-
-    /**
-     * @return int
-     */
-    public function getDuur()
-    {
-        return $this->duur;
-    }
-
-    /**
-     * @param int $duur
-     *
-     * @return \MwBundle\Entity\Verslag
-     */
-    public function setDuur($duur)
-    {
-        $this->duur = $duur;
-
-        return $this;
-    }
-
-    /**
-     * @return Verslaginventarisatie
-     */
-    public function getVerslaginventarisaties()
-    {
-        return $this->verslaginventarisaties;
-    }
-
-    /**
-     * @param Verslaginventarisatie[] $verslaginventarisaties
-     */
-    public function setVerslaginventarisaties($verslaginventarisaties)
-    {
-        foreach ($this->verslaginventarisaties as $verslaginventarisatie) {
-            $verslaginventarisatie->setVerslag(null);
-        }
-        $this->verslaginventarisaties = $verslaginventarisaties;
-
-        return $this;
-    }
 
     /**
      * @return int
@@ -342,21 +265,21 @@ class Verslag
         $this->access = $access;
     }
 
-//     /**
-//      * Only one root per Verslaginventarisatie is allowed.
-//      */
-//     private function removeVerslaginventarisatieForRoot(Inventarisatie $rootInventarisatie)
-//     {
-//         if (!$rootInventarisatie->isRoot()) {
-//             throw new \InvalidArgumentException('Non-root node provided!');
-//         }
+    /**
+     * @return int
+     */
+    public function getAantalContactmomenten(): int
+    {
+        return $this->aantalContactmomenten;
+    }
 
-//         foreach ($this->verslaginventarisaties as $verslaginventarisatie) {
-//             if ($verslaginventarisatie->getInventarisatie()->getRoot() === $rootInventarisatie) {
-//                 $this->verslaginventarisaties->removeElement($verslaginventarisatie);
-//             }
-//         }
+    /**
+     * @param int $aantalContactmomenten
+     */
+    public function setAantalContactmomenten(int $aantalContactmomenten): void
+    {
+        $this->aantalContactmomenten = $aantalContactmomenten;
+    }
 
-//         return $this;
-//     }
+
 }

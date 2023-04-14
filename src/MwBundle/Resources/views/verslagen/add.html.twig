@@ -15,17 +15,16 @@
         {{ form_row(form.datum) }}
 
         {{ form_row(form.locatie) }}
-        {{ form_row(form.contactsoort) }}
-        {{ form_row(form.duur) }}
-        {{ form_row(form.accessType) }}
+        {{ form_row(form.aantalContactmomenten) }}
+        {{ form_row(form.access) }}
 
+        {{ form_row(form.opmerking) }}
         {{ form_row(form.submit) }}
+        {{ form_end(form) }}
     </div>
     <div class="col-xs-6">
-        {{ form_row(form.opmerking) }}
-        {{ form_end(form) }}
         <h2>Vorige verslagen</h2>
-        <div style="max-height: 30em; overflow-y: scroll;">
+        <div>
             {% for verslag in entity.klant.verslagen %}
                 <h3>Verslag van {{ verslag.datum|date('d-m-Y') }}</h3>
                 <div class="row">
@@ -39,16 +38,17 @@
                     </div>
                     <div class="col-xs-6">
                         <dl class="dl-horizontal">
-                            <dt>Contactsoort</dt>
-                            <dd>{{ verslag.contactsoort }}</dd>
-                            {% if verslag.duur %}
-                                <dt>Duur</dt>
-                                <dd>{{ verslag.duur }} minuten</dd>
-                            {% endif %}
+                            <dt>Aantal contactmomenten</dt>
+                            <dd>{{ verslag.aantalContactmomenten }}</dd>
+                            <dt>Type</dt>
+                            <dd>{{ verslag.typeAsString }}</dd>
                         </dl>
                     </div>
+                    <div class="col-xs-12">
+                        <p class="well">{{ verslag.opmerking|raw|nl2br }}</p>
+                    </div>
                 </div>
-                <p class="well">{{ verslag.opmerking|raw|nl2br }}</p>
+
             {% endfor %}
         </div>
     </div>
