@@ -55,7 +55,7 @@ class Incidenten extends AbstractReport
     protected function init()
     {
         $builder = $this->entityManager->getRepository(Incident::class)->createQueryBuilder('incident')
-            ->select("SUM(incident.politie) AS politie, SUM(incident.ambulance) AS ambulance, SUM(incident.crisisdienst) as crisisdienst, locatie.naam AS locatienaam")
+            ->select("COUNT(incident.id) AS incidenten, SUM(incident.politie) AS politie, SUM(incident.ambulance) AS ambulance, SUM(incident.crisisdienst) as crisisdienst, locatie.naam AS locatienaam")
             ->innerJoin('incident.locatie', 'locatie')
             ->where('DATE(incident.datum) BETWEEN :start_date AND :end_date')
             ->groupBy("incident.locatie")
@@ -79,19 +79,21 @@ class Incidenten extends AbstractReport
     {
         $totals = [
             'locatienaam'=>'Totaal',
+            'incidenten'=>0,
             'politie'=>0,
             'ambulance'=>0,
             'crisisdienst'=>0,
         ];
         foreach($this->data as $i)
         {
+            $totals['incidenten'] += $i['incidenten'];
             $totals['politie'] += $i['politie'];
             $totals['ambulance'] += $i['ambulance'];
             $totals['crisisdienst'] += $i['crisisdienst'];
         }
         $this->data[] = $totals;
 
-        $listing = new Listing($this->data, ['Locatie'=>'locatienaam','Politie' => 'politie', 'Ambulance' => 'ambulance', 'Crisisdienst' => 'crisisdienst']);
+        $listing = new Listing($this->data, ['Locatie'=>'locatienaam','Aantal incidenten'=>'incidenten','Politie' => 'politie', 'Ambulance' => 'ambulance', 'Crisisdienst' => 'crisisdienst']);
         $listing->setStartDate($this->startDate)->setEndDate($this->endDate);
 
         $this->reports[] = [
