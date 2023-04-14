@@ -7,6 +7,7 @@ use AppBundle\Entity\Postcode;
 use AppBundle\Util\PostcodeFormatter;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
+use Faker\Provider\Address;
 use Symfony\Component\Debug\Exception\FatalThrowableError;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
@@ -71,12 +72,14 @@ class KlantType extends AbstractType
             ->add('coronaBesmetVanaf', AppDateType::class, ['required' => false])
             ->add('medewerker', MedewerkerType::class, ['required' => true])
             ->add('maatschappelijkWerker', MedewerkerType::class, ['required' => false,'preset'=>false])
-            ->add('adres')
-            ->add('postcode')
-            ->add('plaats')
-            ->add('email')
-            ->add('mobiel')
-            ->add('telefoon')
+//            ->add('adres')
+//            ->add('postcode')
+//            ->add('plaats')
+//            ->add('email')
+//            ->add('mobiel')
+//            ->add('telefoon')
+//
+            ->add('adres',AddressType::class,['required'=>false])
             ->add('opmerking', AppTextareaType::class, ['required' => false])
             ->add('geenPost',null, ['label' => 'Geen post'])
             ->add('geenEmail')

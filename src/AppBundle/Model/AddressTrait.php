@@ -67,6 +67,13 @@ trait AddressTrait
      */
     protected $telefoon;
 
+    /**
+     * @var \DateTime Moment tot wanneer dit adres een briefadres is
+     * @ORM\Column(nullable=true, type="date")
+     * @Gedmo\Versioned()
+     */
+    protected $briefadres;
+
     public static function KoppelPostcodeWerkgebiedClosure(FormEvent $event, $em)
     {
         /* @var Persoon $data */
@@ -201,4 +208,29 @@ trait AddressTrait
 
         return $this;
     }
+
+    /**
+     * @return \DateTime
+     */
+    public function getBriefadres(): ?\DateTime
+    {
+        return $this->briefadres;
+    }
+
+    /**
+     * @param \DateTime $briefadres
+     */
+    public function setBriefadres(?\DateTime $briefadres): void
+    {
+        $this->briefadres = $briefadres;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isBriefadres(): bool
+    {
+        return (bool)$this->briefadres;
+    }
+
 }

@@ -35,12 +35,13 @@
                 </div>
                 <div class="col-xs-6">
                     <h2>Contactgegevens</h2>
-                    {{ form_row(form.adres) }}
-                    {{ form_row(form.postcode) }}
-                    {{ form_row(form.plaats) }}
-                    {{ form_row(form.email) }}
-                    {{ form_row(form.telefoon) }}
-                    {{ form_row(form.mobiel) }}
+                    {{ form_row(form.adres.adres) }}
+                    {{ form_row(form.adres.postcode) }}
+                    {{ form_row(form.adres.plaats) }}
+                    {{ form_row(form.adres.briefadres) }}
+                    {{ form_row(form.adres.email) }}
+                    {{ form_row(form.adres.telefoon) }}
+                    {{ form_row(form.adres.mobiel) }}
                     {{ form_row(form.geenPost) }}
                     {{ form_row(form.geenEmail) }}
 
