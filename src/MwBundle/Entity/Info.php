@@ -26,8 +26,7 @@ class Info
     /**
      * @var Klant
      *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Klant")
-     * @ORM\JoinColumn(unique=true)
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Klant", cascade={"persist"}, inversedBy="info")
      * @Gedmo\Versioned
      * @Assert\NotNull
      */
@@ -213,9 +212,9 @@ class Info
 
     /**
      * @var boolean
-     * @ORM\Column(type="boolean")
+     * @ORM\Column(type="boolean", nullable=false)
      */
-    protected $isGezin;
+    protected $isGezin = 0;
 
     public function __construct(Klant $klant)
     {
@@ -763,7 +762,7 @@ class Info
     /**
      * @return bool
      */
-    public function isGezin(): bool
+    public function isGezin(): ?bool
     {
         return $this->isGezin;
     }

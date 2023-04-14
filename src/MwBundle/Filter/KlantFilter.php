@@ -2,6 +2,7 @@
 
 namespace MwBundle\Filter;
 
+use AppBundle\Doctrine\SqlExtractor;
 use AppBundle\Entity\Medewerker;
 use AppBundle\Filter\FilterInterface;
 use AppBundle\Filter\KlantFilter as AppKlantFilter;
@@ -49,6 +50,11 @@ class KlantFilter implements FilterInterface
      * @var AppKlantFilter
      */
     public $klant;
+
+    /**
+     * @var boolean
+     */
+    public $isGezin;
 
     /**
      * @var MwDossierStatus;
@@ -128,10 +134,27 @@ class KlantFilter implements FilterInterface
             $builder
                 ->andWhere($builder->expr()->isInstanceOf('huidigeMwStatus', Afsluiting::class));
         }
+        if($this->isGezin=='1')
+        {
+            $builder
+                ->andWhere('info.isGezin = 1');
+        }
+        elseif($this->isGezin=="0")
+        {
+            $builder
+                ->andWhere('info.isGezin = 0');
+        }
+        elseif($this->isGezin=="null")
+        {
+            $builder
+                ->andWhere('info.isGezin = 0 OR info.isGezin IS NULL or info.isGezin =1 ');
+        }
 
         if ($this->klant) {
             $this->klant->applyTo($builder);
         }
+
+        $sql = SqlExtractor::getFullSQL($builder->getQuery());
     }
 
     public function isDirty()
