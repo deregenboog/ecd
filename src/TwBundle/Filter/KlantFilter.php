@@ -165,7 +165,7 @@ class KlantFilter implements FilterInterface
 
         if (!is_null($this->gekoppeld)) {
             if (false == $this->gekoppeld) {//alleen ongekoppeld
-                $builder->leftJoin($alias.'.huurverzoeken', 'huurverzoeken')
+                $builder->leftJoin($alias.'.huurverzoeken', 'huurverzoeken', 'WITH', '(huurverzoeken.afsluiting IS NULL)')
 //                    ->orWhere('huurverzoeken IS NULL')
                     ->leftJoin('huurverzoeken.huurovereenkomst', 'huurovereenkomst')
 //                    ->andWhere('huurovereenkomst IS NULL')
