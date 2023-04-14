@@ -1,4 +1,7 @@
 services:
+    MwBundle\Service\:
+        resource: '../../Service/*'
+
     MwBundle\Service\DocumentDao:
         parent: app.dao.abstract
 

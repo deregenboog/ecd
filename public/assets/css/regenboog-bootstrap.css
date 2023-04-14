@@ -80,6 +80,9 @@ th a.asc:after {
 th a.desc:after {
     content: ' ⇡';
 }
+th label.col-sm-2 {
+    width:100%
+}
 table.table.table-hover tr[data-id]:hover,
 table.table.table-hover tr[data-href]:hover {
     cursor: pointer;

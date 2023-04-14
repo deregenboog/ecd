@@ -86,7 +86,7 @@ abstract class Deelnemer implements KlantRelationInterface
     protected $klantmanager;
 
     /**
-     * @var Klant
+     * @var AppKlant
      *
      * @ORM\OneToOne(targetEntity="AppBundle\Entity\Klant", cascade={"persist"})
      * @ORM\JoinColumn(nullable=false)

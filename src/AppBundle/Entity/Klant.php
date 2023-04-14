@@ -15,6 +15,7 @@ use InloopBundle\Entity\Registratie;
 use InloopBundle\Entity\Schorsing;
 use MwBundle\Entity\Aanmelding;
 use MwBundle\Entity\BinnenViaOptieKlant;
+use MwBundle\Entity\Info;
 use MwBundle\Entity\MwDossierStatus;
 use MwBundle\Entity\Verslag;
 
@@ -161,6 +162,14 @@ class Klant extends Persoon
      * @ORM\ManyToOne(targetEntity="MwBundle\Entity\BinnenViaOptieKlant", cascade={"persist"})
      */
     private $mwBinnenViaOptieKlant;
+
+    /**
+     * @var Info
+     *
+     * @ORM\OneToOne(targetEntity="MwBundle\Entity\Info", cascade={"persist"})
+     * @ORM\JoinColumn(name="info_id")
+     */
+    private $info;
 
     /**
      * @var Registratie
@@ -853,4 +862,22 @@ class Klant extends Persoon
     {
         return $this->removeOverigeTaal($taal);
     }
+
+    /**
+     * @return Info
+     */
+    public function getInfo(): ?Info
+    {
+        return $this->info;
+    }
+
+    /**
+     * @param Info $info
+     */
+    public function setInfo(?Info $info): void
+    {
+        $this->info = $info;
+    }
+
+
 }
