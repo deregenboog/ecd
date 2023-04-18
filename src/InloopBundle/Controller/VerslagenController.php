@@ -38,10 +38,6 @@ class VerslagenController extends AbstractController
      */
     protected $dao;
 
-    /**
-     * @var InventarisatieDao
-     */
-    protected $inventarisatieDao;
 
     /**
      * @var ExportInterface
@@ -50,13 +46,11 @@ class VerslagenController extends AbstractController
 
     /**
      * @param VerslagDao $dao
-     * @param InventarisatieDao $inventarisatieDao
      * @param ExportInterface $export
      */
-    public function __construct(VerslagDao $dao, InventarisatieDao $inventarisatieDao, ExportInterface $export)
+    public function __construct(VerslagDao $dao, ExportInterface $export)
     {
         $this->dao = $dao;
-        $this->inventarisatieDao = $inventarisatieDao;
         $this->export = $export;
     }
 
@@ -98,11 +92,10 @@ class VerslagenController extends AbstractController
 
         return [
             'diensten' => $event->getDiensten(),
-            'inventarisaties' => $this->inventarisatieDao->findAllAsTree(),
         ];
     }
 
-    protected function processForm(Request $request, $entity = null)
+    protected function pprocessForm(Request $request, $entity = null)
     {
         $inventarisaties = $this->inventarisatieDao->findAllAsTree();
         $model = new VerslagModel($entity, $inventarisaties);
