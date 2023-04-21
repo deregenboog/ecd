@@ -97,6 +97,12 @@ class Declaratie implements DocumentSubjectInterface, FactuurSubjectInterface
         $this->datum = new \DateTime('now');
     }
 
+    public function __toString()
+    {
+        return $this->getDatum()->format("d-m-Y")." ".$this->getInfo().". € ".$this->getBedrag();
+    }
+
+
     public function getId()
     {
         return $this->id;

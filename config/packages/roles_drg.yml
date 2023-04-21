@@ -177,6 +177,7 @@ security:
             - ROLE_TW_BEHEER
             - ROLE_OEK
             - ROLE_OEK_BEHEER
+            - ROLE_OEKRAINE_BEHEER
             - ROLE_INLOOP
             - ROLE_INLOOP_BEHEER
             - ROLE_BACK_ON_TRACK_COORDINATOR
