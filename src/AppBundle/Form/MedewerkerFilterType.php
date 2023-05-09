@@ -73,6 +73,7 @@ class MedewerkerFilterType extends AbstractType
                 'naam',
                 'rol',
                 'actief',
+                'download'
             ],
         ]);
     }

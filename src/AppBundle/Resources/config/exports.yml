@@ -56,6 +56,20 @@ services:
               Prestatie: { expression: 'entity.getActueel()' }
               Percentage: { expression: 'entity.getActueel() / entity.getAantal()', type: 'percentage' }
 
+    AppBundle\Export\Medewerkers:
+        public: true
+        class: AppBundle\Export\MedewerkersExport
+        arguments:
+            $class: AppBundle\Entity\Medewerker
+            $configuration:
+                Username: { expression: 'entity.getUsername()' }
+                Naam: { expression: 'entity.getNaam()' }
+                E-mail: { expression: 'entity.getEmail()' }
+                Actief: { expression: 'entity.isActief()' }
+                Laatste bezoek: { expression: 'entity.getLaatsteBezoek()' }
+                Roles: { expression: 'export.getRoleHierarchy(entity)' }
+            $roleHierarchy: "%security.role_hierarchy.roles%"
+
     AppBundle\Export\ReportExport:
         public: true
 #        class: AppBundle\Export\ReportExport

@@ -56,6 +56,7 @@ services:
     AppBundle\Controller\MedewerkersController:
         arguments:
             $roleHierarchy: "%security.role_hierarchy.roles%"
+            $export: '@AppBundle\Export\Medewerkers'
         tags: [ 'controller.service_arguments' ]
 
     AppBundle\Controller\DoelstellingenController:

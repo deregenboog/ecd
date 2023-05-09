@@ -156,7 +156,7 @@ services:
                 Afsluitreden: { expression: 'entity.getAfsluitredenKoppeling()' }
                 Succesindicatoren: { expression: 'entity.getSuccesindicatoren()' }
                 Project: { expression: 'entity.getProject()' }
-                Medewerker hulpvraag: { expression: 'entity.getMedewerker()' }
+                Coordinator: { expression: 'entity.getMedewerker()' }
                 Medewerker hulpaanbod: { expression: 'entity.getHulpaanbod().getMedewerker()' }
                 Nummer deelnemer: { expression: 'entity.getIzKlant().getKlant().getId()' }
                 Intakedatum deelnemer: { expression: 'entity.getIzKlant().getIntake().getIntakeDatum()', condition: 'entity.getIzKlant().getIntake()', type: 'date' }

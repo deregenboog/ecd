@@ -3,6 +3,7 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\Medewerker;
+use AppBundle\Export\AbstractExport;
 use AppBundle\Form\MedewerkerFilterType;
 use AppBundle\Service\MedewerkerDao;
 use AppBundle\Service\MedewerkerDaoInterface;
@@ -37,13 +38,19 @@ class MedewerkersController extends AbstractController
     protected $roleHierarchy;
 
     /**
+     * @var AbstractExport
+     */
+    protected $export;
+
+    /**
      * @param MedewerkerDao $dao
      * @param MedewerkerDao $roleHierarchy
      */
-    public function __construct(MedewerkerDao $dao, array $roleHierarchy)
+    public function __construct(MedewerkerDao $dao, array $roleHierarchy, AbstractExport  $export)
     {
         $this->dao = $dao;
         $this->roleHierarchy = $roleHierarchy;
+        $this->export = $export;
     }
 
 

@@ -38,6 +38,7 @@ parameters:
     - 'STED West'
     - 'STED Zuid'
     - 'STED Zuid-Oost'
+    - 'STED Gezinnen'
   amw_locaties:
     - AMOC
     - 'Amoc Gebruikersruimte'
