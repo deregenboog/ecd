@@ -15,6 +15,9 @@ use Gedmo\Mapping\Annotation as Gedmo;
  *     @ORM\Index(name="id_2", columns={"id", "datum_van"}),
  *     @ORM\Index(name="id_3", columns={"id", "datum_van", "datum_tot"}),
  *     @ORM\Index(name="datum_tot", columns={"id", "datum_tot"})
+ *     @ORM\Index(name="datum_van", columns={"datum_van","datum_tot","naam", "id"})
+ *     @ORM\Index(name="naam", columns={"naam", "datum_van","datum_tot","id"})
+ *
  * })
  * @ORM\HasLifecycleCallbacks
  * @Gedmo\Loggable
