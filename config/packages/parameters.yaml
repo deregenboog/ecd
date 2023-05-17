@@ -1,6 +1,6 @@
 parameters:
+#  application_version: 'abc'
   database_server_version: '8'
-  locale: nl_NL.UTF-8
   cache_type: file_system
   pagination.items_per_page: 20
   email_policy: dev
@@ -12,6 +12,7 @@ parameters:
   ldap_port: 636
   ldap_servers:
     - '%env(LDAP_SERVER)%'
+  ldap_server: '%env(LDAP_SERVER)%'
   ldap_base_dn: 'DC=cluster,DC=deregenboog'
   ldap_search_user: '%env(LDAP_SEARCH_USER)%'
   ldap_search_password: '%env(LDAP_SEARCH_PASSWORD)%'

@@ -102,10 +102,12 @@ services:
     AppBundle\Event\LoginEventListener:
         arguments:
             - '@doctrine.orm.entity_manager'
-            - '@?ldap_tools.security.user.ldap_user_provider'
+            - '@security.user.provider.concrete.ecd_ldap'
+            - '@security.untracked_token_storage'
         tags:
-            - { name: kernel.event_listener, event: ldap_tools_bundle.login.success, method: onLoginSuccess }
-            - { name: kernel.event_listener, event: ldap_tools_bundle.guard.login.failure, method: onLoginFailure }
+            #            - { name: kernel.event_listener, event: ldap_tools_bundle.login.success, method: onLoginSuccess }
+            #            - { name: kernel.event_listener, event: ldap_tools_bundle.guard.login.failure, method: onLoginFailure }
+            - { name: kernel.event_listener, event: Symfony\Component\Security\Http\Event\LoginSuccessEvent, method: onLoginSuccess }
 
     twig.extension.routing: # override default routing extension
         class: AppBundle\Twig\EcdRoutingExtension
@@ -123,7 +125,7 @@ services:
         public: false
         arguments:
             - '@request_stack'
-            - '%locale%'
+            - '%kernel.default_locale%'
             - '%administrator_name%'
             - '%administrator_email%'
             - '%tbc_months_period%'

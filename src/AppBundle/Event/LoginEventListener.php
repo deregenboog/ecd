@@ -3,16 +3,16 @@
 namespace AppBundle\Event;
 
 use AppBundle\Entity\Medewerker;
+use AppBundle\Security\LdapUserProvider;
 use Doctrine\ORM\EntityManagerInterface;
-use LdapTools\Bundle\LdapToolsBundle\Event\LdapLoginEvent;
-use LdapTools\Bundle\LdapToolsBundle\Event\AuthenticationHandlerEvent;
-use LdapTools\Bundle\LdapToolsBundle\Security\User\LdapUserProvider;
-use LdapTools\Exception\LdapConnectionException;
-use MongoDB\Driver\Exception\AuthenticationException;
-use Symfony\Component\Security\Core\Exception\AccessDeniedException;
+use Symfony\Component\Ldap\Security\LdapUser;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
+use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 use Symfony\Component\Security\Core\Exception\AuthenticationCredentialsNotFoundException;
+use Symfony\Component\Security\Csrf\TokenStorage\TokenStorageInterface;
+use Symfony\Component\Security\Http\Event\LoginSuccessEvent;
 
-class LoginEventListener
+class LoginEventListener implements \Symfony\Component\EventDispatcher\EventSubscriberInterface
 {
     /**
      * @var EntityManagerInterface
@@ -24,65 +24,82 @@ class LoginEventListener
      */
     protected $ldapUserProvider;
 
-    /**
-     * @param EntityManagerInterface $em
-     */
-    public function __construct(EntityManagerInterface $em, LdapUserProvider $ldapUserProvider = null)
+    public function __construct(EntityManagerInterface $em, LdapUserProvider $ldapUserProvider = null, TokenStorage $tokenStorage)
     {
         $this->em = $em;
         $this->ldapUserProvider = $ldapUserProvider;
+        $this->tokenStorage = $tokenStorage;
     }
 
     /**
      * Persists or updates the user in the database.
-     *
-     * @param LdapLoginEvent $event
      */
-    public function onLoginSuccess(LdapLoginEvent $event)
+    public function onLoginSuccess(LoginSuccessEvent $event)
     {
-        /** @var Medewerker $medewerker */
-        $medewerker = $event->getUser();
+        /** @var LdapUser $ldapUser */
+        $ldapUser = $event->getUser(); //user made by ldapUserProvider is only a mockup user. No check to database yet.
 
-
-        if (!$medewerker->isActief())
-        {
-            throw new AuthenticationCredentialsNotFoundException(sprintf("Gebruiker %s is inactief in ECD en mag niet inloggen.",$medewerker->getUsername()));
+        if (!$ldapUser->isActief()) {
+            throw new AuthenticationCredentialsNotFoundException(sprintf('Gebruiker %s is inactief in ECD en mag niet inloggen.', $ldapUser->getUserIdentifier()));
         }
-        if (!$medewerker->getId()) {
+
+        $repository = $this->em->getRepository(Medewerker::class);
+        $username = $ldapUser->getUserIdentifier();
+        $medewerker = $repository->findOneByUsername($username);
+
+        if ($medewerker == null || $medewerker->getUsername() == null) {
+            $medewerker = new Medewerker();
             $medewerker->setEersteBezoek(new \DateTime());
-            $this->em->persist($medewerker);
-        } else {
-
-            $ldapMedewerker = $this->ldapUserProvider->loadUserByUsername($event->getToken()->getUsername());
-            $medewerker
-                ->setLdapGuid($ldapMedewerker->getLdapGuid())
-                ->setLdapGroups($ldapMedewerker->getLdapGroups())
-                ->setEmail($ldapMedewerker->getEmail())
-                ->setActief($ldapMedewerker->isActief())
-                ->setRoles($ldapMedewerker->getRoles())
-                ->setVoornaam($ldapMedewerker->getVoornaam())
-                ->setAchternaam($ldapMedewerker->getAchternaam())
-            ;
+            $medewerker->setUsername($ldapUser->getUserIdentifier());
         }
 
-        $medewerker->setLaatsteBezoek(new \DateTime());
+        //update all ldap fields with each logon.
+        $medewerker
+            ->setLdapGuid($ldapUser->getLdapGuid())
+            ->setLdapGroups($ldapUser->getLdapGroups())
+            ->setEmail($ldapUser->getEmail())
+            ->setActief($ldapUser->isActief())
+            ->setRoles($ldapUser->getRoles())
+            ->setVoornaam($ldapUser->getVoornaam())
+            ->setAchternaam($ldapUser->getAchternaam())
+            ->setLaatsteBezoek(new \DateTime());
+        ;
+
+        //        $medewerker->setLdapGuid($ldapUser->getExtraFields()["ldapGuid"]);
+//        $medewerker->setVoornaam($ldapUser->getExtraFields()["voornaam"]);
+//        $medewerker->setAchternaam($ldapUser->getExtraFields()["achternaam"]);
+//        $medewerker->setActief($ldapUser->getExtraFields()["actief"]);
+//        $medewerker->setEmail($ldapUser->getExtraFields()["email"]);
+//        $medewerker->setRoles($ldapUser->getRoles());
+
+        $this->em->persist($medewerker);
         $this->em->flush();
+        // Login user
+        $token = new UsernamePasswordToken($medewerker, null, 'main', $medewerker->getRoles());
+        $this->tokenStorage->setToken($token);
+
+        return $medewerker;
     }
 
     /**
      * Gives more details when authentication fails.
-     *
-     * @param AuthenticationHandlerEvent $event
      */
     public function onLoginFailure(AuthenticationHandlerEvent $event)
     {
         $exc = $event->getException();
         $prevExc = $exc->getPrevious();
         throw $prevExc;
-
-        if($prevExc instanceof LdapConnectionException)
-        {
+        if ($prevExc instanceof LdapConnectionException) {
             throw new \LogicException($prevExc->getMessage());
         }
+    }
+
+    /**
+     * @return array<string, mixed>
+     */
+    public static function getSubscribedEvents(): array
+    {
+        return [];
+      //  return ['ldap_tools_bundle.login.success' => 'onLoginSuccess', 'ldap_tools_bundle.guard.login.failure' => 'onLoginFailure'];
     }
 }

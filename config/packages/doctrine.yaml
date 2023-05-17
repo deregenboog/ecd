@@ -8,106 +8,19 @@ doctrine:
         types:
             mysql_date: AppBundle\Doctrine\MysqlDateType
             mysql_time: AppBundle\Doctrine\MysqlTimeType
+
+        # IMPORTANT: You MUST configure your server version,
+        # either here or in the DATABASE_URL env var (see .env file)
+        #server_version: '15'
     orm:
         auto_generate_proxy_classes: true
-        naming_strategy: AppBundle\Doctrine\EcdNamingStrategy #dunno but since flex we need this probably due to bundle stuff.
+        naming_strategy: AppBundle\Doctrine\EcdNamingStrategy
         auto_mapping: true
-        # @todo: because auto_mapping above is true, the mappings below could probably be removed
         mappings:
-            AppBundle:
-                is_bundle: false
-                dir: '%kernel.project_dir%/src/AppBundle/Entity'
-                prefix: 'AppBundle\Entity'
-                alias: AppBundle
-            BuurtboerderijBundle:
-                is_bundle: false
-                dir: '%kernel.project_dir%/src/BuurtboerderijBundle/Entity'
-                prefix: 'BuurtboerderijBundle\Entity'
-                alias: BuurtboerderijBundle
-            ClipBundle:
-                is_bundle: false
-                dir: '%kernel.project_dir%/src/ClipBundle/Entity'
-                prefix: 'ClipBundle\Entity'
-                alias: ClipBundle
-            DagbestedingBundle:
-                is_bundle: false
-                dir: '%kernel.project_dir%/src/DagbestedingBundle/Entity'
-                prefix: 'DagbestedingBundle\Entity'
-                alias: DagbestedingBundle
-            ErOpUitBundle:
-                is_bundle: false
-                dir: '%kernel.project_dir%/src/ErOpUitBundle/Entity'
-                prefix: 'ErOpUitBundle\Entity'
-                alias: ErOpUitBundle
-            GaBundle:
-                is_bundle: false
-                dir: '%kernel.project_dir%/src/GaBundle/Entity'
-                prefix: 'GaBundle\Entity'
-                alias: GaBundle
-            HsBundle:
-                is_bundle: false
-                dir: '%kernel.project_dir%/src/HsBundle/Entity'
-                prefix: 'HsBundle\Entity'
-                alias: HsBundle
-            InloopBundle:
-                is_bundle: false
-                dir: '%kernel.project_dir%/src/InloopBundle/Entity'
-                prefix: 'InloopBundle\Entity'
-                alias: InloopBundle
-            IzBundle:
-                is_bundle: false
-                dir: '%kernel.project_dir%/src/IzBundle/Entity'
-                prefix: 'IzBundle\Entity'
-                alias: IzBundle
-            LegacyBundle:
-                is_bundle: false
-                dir: '%kernel.project_dir%/src/LegacyBundle/Entity'
-                prefix: 'LegacyBundle\Entity'
-                alias: LegacyBundle
-            MwBundle:
-                is_bundle: false
-                dir: '%kernel.project_dir%/src/MwBundle/Entity'
-                prefix: 'MwBundle\Entity'
-                alias: MwBundle
-            OekBundle:
-                is_bundle: false
-                dir: '%kernel.project_dir%/src/OekBundle/Entity'
-                prefix: 'OekBundle\Entity'
-                alias: OekBundle
-            OekraineBundle:
-                is_bundle: false
-                dir: '%kernel.project_dir%/src/OekraineBundle/Entity'
-                prefix: 'OekraineBundle\Entity'
-                alias: OekraineBundle
-            PfoBundle:
-                is_bundle: false
-                dir: '%kernel.project_dir%/src/PfoBundle/Entity'
-                prefix: 'PfoBundle\Entity'
-                alias: PfoBundle
-            ScipBundle:
-                is_bundle: false
-                dir: '%kernel.project_dir%/src/ScipBundle/Entity'
-                prefix: 'ScipBundle\Entity'
-                alias: ScipBundle
-            TwBundle:
-                is_bundle: false
-                dir: '%kernel.project_dir%/src/TwBundle/Entity'
-                prefix: 'TwBundle\Entity'
-                alias: TwBundle
-            UhkBundle:
-                is_bundle: false
-                dir: '%kernel.project_dir%/src/UhkBundle/Entity'
-                prefix: 'UhkBundle\Entity'
-                alias: UhkBundle
-            VillaBundle:
-                is_bundle: false
-                dir: '%kernel.project_dir%/src/VillaBundle/Entity'
-                prefix: 'VillaBundle\Entity'
-                alias: VillaBundle
             gedmo_loggable:
                 type: annotation
                 prefix: Gedmo\Loggable\Entity
-                dir: "%kernel.root_dir%/../vendor/gedmo/doctrine-extensions/src/Loggable/Entity"
+                dir: "%kernel.project_dir%/vendor/gedmo/doctrine-extensions/src/Loggable/Entity"
                 is_bundle: false
                 alias: GedmoLoggable # (optional) it will default to the name set for the mapping
         dql:
@@ -145,3 +58,22 @@ doctrine:
             overleden:
                 class: AppBundle\Doctrine\OverledenFilter
                 enabled: false
+when@prod:
+    doctrine:
+        orm:
+            auto_generate_proxy_classes: false
+            proxy_dir: '%kernel.build_dir%/doctrine/orm/Proxies'
+            query_cache_driver:
+                type: pool
+                pool: doctrine.system_cache_pool
+            result_cache_driver:
+                type: pool
+                pool: doctrine.result_cache_pool
+
+    framework:
+        cache:
+            pools:
+                doctrine.result_cache_pool:
+                    adapter: cache.app
+                doctrine.system_cache_pool:
+                    adapter: cache.system

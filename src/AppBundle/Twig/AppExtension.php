@@ -11,11 +11,11 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\EntityNotFoundException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
-use Twig\TwigFunction;
-use Twig\TwigFilter;
+use Twig\Environment;
 use Twig\Extension\AbstractExtension;
 use Twig\Extension\GlobalsInterface;
-use Twig\Environment;
+use Twig\TwigFilter;
+use Twig\TwigFunction;
 use Twig\Error\Error;
 
 class AppExtension extends AbstractExtension implements GlobalsInterface
@@ -24,6 +24,11 @@ class AppExtension extends AbstractExtension implements GlobalsInterface
      * @var RequestStack
      */
     private $requestStack;
+
+    /**
+     * @var string
+     */
+    private $locale;
 
     /**
      * @var string
@@ -53,13 +58,13 @@ class AppExtension extends AbstractExtension implements GlobalsInterface
         $tbcMonthsPeriod
     ) {
         $this->requestStack = $requestStack;
-        setlocale(LC_MONETARY, $locale);
+        $this->locale = $locale;
         $this->administratorName = $administratorName;
         $this->administratorEmail = $administratorEmail;
         $this->tbcMonthsPeriod = $tbcMonthsPeriod;
     }
 
-    public function getGlobals()
+    public function getGlobals(): array
     {
         return [
             'tab' => "\t",
@@ -72,11 +77,10 @@ class AppExtension extends AbstractExtension implements GlobalsInterface
             'title' => null,
             'entity_name' => null,
             'route_base' => null,
-
         ];
     }
 
-    public function getFunctions()
+    public function getFunctions(): array
     {
         return [
             new TwigFunction('class', [$this, 'getClass']),
@@ -89,7 +93,7 @@ class AppExtension extends AbstractExtension implements GlobalsInterface
             ];
     }
 
-    public function getFilters()
+    public function getFilters(): array
     {
         return [
             new TwigFilter('apply_filter', [$this, 'applyFilter'], [
@@ -103,7 +107,7 @@ class AppExtension extends AbstractExtension implements GlobalsInterface
             new TwigFilter('nl2ws', [$this, 'nl2wsFilter']),
             new TwigFilter('unique', [$this, 'uniqueFilter']),
             new TwigFilter('color', [$this, 'colorFilter'], ['is_safe' => ['html']]),
-            new TwigFilter('colorIf',[$this, 'colorIfFilter'], ['is_safe' => ['html'],'is_variadic'=>true]),
+            new TwigFilter('colorIf', [$this, 'colorIfFilter'], ['is_safe' => ['html'], 'is_variadic' => true]),
             new TwigFilter('green', [$this, 'greenFilter'], ['is_safe' => ['html']]),
             new TwigFilter('red', [$this, 'redFilter'], ['is_safe' => ['html']]),
             new TwigFilter('orderBy', [$this, 'orderBy']),
@@ -243,15 +247,11 @@ class AppExtension extends AbstractExtension implements GlobalsInterface
         return preg_replace("/(\s|\t)+/", ' ', $value);
     }
 
-    public function moneyFilter($value)
+    public function moneyFilter($value, $currency = 'EUR')
     {
-        // check if locale set in %framework.default_locale% is supported
-        if (setlocale(LC_ALL, 0) && 'C' !== setlocale(LC_ALL, 0)) {
-            return money_format('%+#1n', (float) $value);
-        }
+        $fmt = new \NumberFormatter($this->locale, \NumberFormatter::CURRENCY);
 
-        // or fallback
-        return '€ '.number_format((float) $value, 2, ',', '.');
+        return $fmt->formatCurrency($value, $currency);
     }
 
     /**
@@ -261,33 +261,32 @@ class AppExtension extends AbstractExtension implements GlobalsInterface
      *
      * @return string
      */
-    public function saldoFilter($value)
+    public function saldoFilter($value, $currency = 'EUR')
     {
         return $this->colorFilter(
-            $this->moneyFilter((float) $value),
+            $this->moneyFilter((float) $value, $currency),
             ($value < 0) ? 'red' : 'green'
         );
     }
 
-    public function colorIfFilter($value,array $options = []){
+    public function colorIfFilter($value, array $options = [])
+    {
         $color = null;
         $cases = $options[0];
         $colors = $options[1];
 
-        foreach($cases as $k=>$v)
-        {
-            if($value == $v)
-            {
+        foreach ($cases as $k => $v) {
+            if ($value == $v) {
                 $color = $colors[$k];
             }
         }
-        if($color)
-        {
-            return $this->colorFilter($value,$color);
+        if ($color) {
+            return $this->colorFilter($value, $color);
         }
-        return $value;
 
+        return $value;
     }
+
     /**
      * Inversed version of "saldo" filter.
      *
@@ -422,7 +421,7 @@ class AppExtension extends AbstractExtension implements GlobalsInterface
             $values[] = (string) $item;
         }
 
-        return implode($values, $separator);
+        return implode($separator, $values);
     }
 
     public function colgroup($n, array $percentages = [])

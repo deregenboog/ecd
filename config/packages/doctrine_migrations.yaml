@@ -4,6 +4,8 @@ doctrine_migrations:
     migrations_paths:
         'Application\Migrations': '%kernel.project_dir%/app/DoctrineMigrations'
 #        'DoctrineMigrations': '%kernel.project_dir%/migrations'
+    enable_profiler: false
+
     storage:
         # Default (SQL table) metadata storage configuration
         table_storage:

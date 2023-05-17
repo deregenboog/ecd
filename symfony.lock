@@ -1,16 +1,4 @@
 {
-    "dama/doctrine-test-bundle": {
-        "version": "6.7",
-        "recipe": {
-            "repo": "github.com/symfony/recipes-contrib",
-            "branch": "main",
-            "version": "4.0",
-            "ref": "56eaa387b5e48ebcc7c95a893b47dfa1ad51449c"
-        },
-        "files": [
-            "config/packages/test/dama_doctrine_test_bundle.yaml"
-        ]
-    },
     "doctrine/annotations": {
         "version": "1.13",
         "recipe": {
@@ -97,9 +85,6 @@
             "fixtures/.gitignore"
         ]
     },
-    "jtborger/ldaptools-bundle": {
-        "version": "dev-master"
-    },
     "knplabs/knp-paginator-bundle": {
         "version": "v2.8.0"
     },
@@ -175,6 +160,18 @@
             "config/bootstrap.php"
         ]
     },
+    "symfony/debug-bundle": {
+        "version": "5.4",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "main",
+            "version": "5.3",
+            "ref": "5aa8aa48234c8eb6dbdd7b3cd5d791485d2cec4b"
+        },
+        "files": [
+            "config/packages/debug.yaml"
+        ]
+    },
     "symfony/flex": {
         "version": "1.19",
         "recipe": {
@@ -219,6 +216,15 @@
         "files": [
             "config/packages/mailer.yaml"
         ]
+    },
+    "symfony/maker-bundle": {
+        "version": "1.43",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "main",
+            "version": "1.0",
+            "ref": "fadbfe33303a76e25cb63401050439aa9b1a9c7f"
+        }
     },
     "symfony/monolog-bundle": {
         "version": "3.8",

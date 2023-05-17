@@ -1,0 +1,14 @@
+services:
+  Symfony\Component\Ldap\Ldap:
+    arguments: ['@Symfony\Component\Ldap\Adapter\ExtLdap\Adapter']
+    tags:
+      - ldap
+  Symfony\Component\Ldap\Adapter\ExtLdap\Adapter:
+    arguments:
+      -   host: '%ldap_server%'
+          port: '%ldap_port%'#636 #389
+          encryption: ssl
+          options:
+            protocol_version: 3
+            referrals: false
+

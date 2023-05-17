@@ -36,7 +36,7 @@ class EcdRoutingExtension extends AbstractExtension
      *
      * @return TwigFunction[]
      */
-    public function getFunctions()
+    public function getFunctions(): array
     {
         return [
             new TwigFunction('route_exists', [$this, 'routeExists']),
@@ -60,11 +60,12 @@ class EcdRoutingExtension extends AbstractExtension
     public function getPath($name, $parameters = [], $relative = false)
     {
         if (!array_key_exists('redirect', $parameters)) {
-           $url = $this->requestStack->getCurrentRequest()->getPathInfo();
-           if($url = "_fragment") {
-               $url = $this->requestStack->getMasterRequest()->getPathInfo();
-           }
-           $parameters['redirect'] = $url;
+            $url = $this->requestStack->getCurrentRequest()->getPathInfo();
+
+            if ($url = '_fragment') {
+                $url = $this->requestStack->getMainRequest()->getPathInfo();
+            }
+            $parameters['redirect'] = $url;
         }
 
         return $this->_getPath($name, $parameters, $relative);
@@ -138,7 +139,7 @@ class EcdRoutingExtension extends AbstractExtension
     {
         // support named arguments
         $paramsNode = $argsNode->hasNode('parameters') ? $argsNode->getNode('parameters') : (
-        $argsNode->hasNode(1) ? $argsNode->getNode(1) : null
+            $argsNode->hasNode(1) ? $argsNode->getNode(1) : null
         );
 
         if (null === $paramsNode || $paramsNode instanceof ArrayExpression && \count($paramsNode) <= 2 &&
@@ -153,7 +154,7 @@ class EcdRoutingExtension extends AbstractExtension
     /**
      * {@inheritdoc}
      */
-    public function getName()
+    public function getName(): string
     {
         return 'routing';
     }

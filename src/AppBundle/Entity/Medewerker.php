@@ -6,17 +6,22 @@ use AppBundle\Model\IdentifiableTrait;
 use AppBundle\Model\NameTrait;
 use AppBundle\Model\TimestampableTrait;
 use Doctrine\ORM\Mapping as ORM;
+use Exception;
 use Gedmo\Mapping\Annotation as Gedmo;
-use LdapTools\Bundle\LdapToolsBundle\Security\User\LdapUserInterface;
+use Symfony\Component\Ldap\Security\LdapUser;
+use Symfony\Component\Security\Core\User\EquatableInterface;
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * @ORM\Entity
+ *
  * @ORM\Table(name="medewerkers")
+ * ORM\Entity(repositoryClass="AppBundle\Repository\MedewerkerRepository")
  * @ORM\HasLifecycleCallbacks
  * @Gedmo\Loggable
  */
-class Medewerker implements LdapUserInterface, UserInterface
+class Medewerker implements UserInterface, PasswordAuthenticatedUserInterface,EquatableInterface
 {
     use IdentifiableTrait;
     use NameTrait;
@@ -72,21 +77,16 @@ class Medewerker implements LdapUserInterface, UserInterface
      */
     private $roles = [];
 
-    /**
-     * @var \DateTime
-     *
-     * @ORM\Column(type="datetime", nullable=true)
-     * @Gedmo\Versioned
-     */
-    protected $created;
+    public function getId()
+    {
+        return $this->id;
+    }
 
-    /**
-     * @var \DateTime
-     *
-     * @ORM\Column(type="datetime", nullable=true)
-     * @Gedmo\Versioned
-     */
-    protected $modified;
+    public function setId($id)
+    {
+        $this->id = $id;
+        return $this;
+    }
 
     /**
      * Get the GUID used to uniquely identify the user in LDAP.
@@ -110,7 +110,12 @@ class Medewerker implements LdapUserInterface, UserInterface
         return $this;
     }
 
-    public function getUsername()
+    public function getUserIdentifier(): string
+    {
+        return $this->username;
+    }
+
+    public function getUsername(): string
     {
         return $this->username;
     }
@@ -224,9 +229,6 @@ class Medewerker implements LdapUserInterface, UserInterface
         return $this->laatsteBezoek;
     }
 
-    /**
-     * @param \DateTime $laatsteBezoek
-     */
     public function setLaatsteBezoek(\DateTime $laatsteBezoek)
     {
         $this->laatsteBezoek = $laatsteBezoek;
@@ -257,8 +259,6 @@ class Medewerker implements LdapUserInterface, UserInterface
 
     /**
      * Sets the roles for the user.
-     *
-     * @param array $roles
      */
     public function setRoles(array $roles)
     {
@@ -275,7 +275,7 @@ class Medewerker implements LdapUserInterface, UserInterface
      *
      * @return string The password
      */
-    public function getPassword()
+    public function getPassword(): ?string
     {
         return '';
     }
@@ -302,4 +302,34 @@ class Medewerker implements LdapUserInterface, UserInterface
     {
         return $this;
     }
+
+    public function supportsClass($class): bool
+    {
+        return LdapUser::class === $class;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function isEqualTo(UserInterface $user): bool
+    {
+        if (!$user instanceof self) {
+            return false;
+        }
+
+        if ($this->getPassword() !== $user->getPassword()) {
+            return false;
+        }
+
+        if ($this->getSalt() !== $user->getSalt()) {
+            return false;
+        }
+
+        if ($this->getUserIdentifier() !== $user->getUserIdentifier()) {
+            return false;
+        }
+
+        return true;
+    }
+
 }
