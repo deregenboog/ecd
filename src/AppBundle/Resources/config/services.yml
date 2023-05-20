@@ -95,10 +95,6 @@ services:
         tags:
             - { name: security.voter }
 
-    AppBundle\Event\LoadUserEventListener:
-        tags:
-            - { name: kernel.event_listener, event: ldap_tools_bundle.load_user.after, method: afterUserLoad }
-
     AppBundle\Event\LoginEventListener:
         arguments:
             - '@doctrine.orm.entity_manager'
