@@ -273,11 +273,11 @@ class Locatie
             }
         }
 
-//        $debug['date'] = $date;
-//        $debug['openingstijd'] = $openingstijd;
-//        $debug['sluitingstijd'] = $sluitingstijd;
-//        return $debug;
-        return false;
+        $debug['date'] = $date;
+        $debug['openingstijd'] = $openingstijd;
+        $debug['sluitingstijd'] = $sluitingstijd;
+        return $debug;
+//        return false;
     }
 
     public function getClosingTimeByDayOfWeek($dayOfWeek)

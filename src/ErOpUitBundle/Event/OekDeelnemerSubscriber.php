@@ -16,7 +16,7 @@ class OekDeelnemerSubscriber extends ScipDeelnemerSubscriber implements EventSub
      */
     private $klantDao;
 
-    public static function getSubscribedEvents()
+    public static function getSubscribedEvents(): array
     {
         return [
             Events::EVENT_DEELNEMER_CREATED => ['addToEropuit'],

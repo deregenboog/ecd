@@ -45,7 +45,7 @@ class IntakeSubscriber implements EventSubscriberInterface
         $this->hulpverleningEmail = $hulpverleningEmail;
     }
 
-    public static function getSubscribedEvents()
+    public static function getSubscribedEvents(): array
     {
         return [
             Events::INTAKE_CREATED => ['afterIntakeCreated'],

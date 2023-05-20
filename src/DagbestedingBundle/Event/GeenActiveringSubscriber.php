@@ -14,7 +14,7 @@ class GeenActiveringSubscriber implements EventSubscriberInterface
      */
     private $em;
 
-    public static function getSubscribedEvents()
+    public static function getSubscribedEvents(): array
     {
         if (class_exists(\InloopBundle\Event\Events::class)) {
             return [

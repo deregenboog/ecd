@@ -12,7 +12,7 @@ use HsBundle\Entity\Klant;
 
 class KlantUpdater implements EventSubscriber
 {
-    public function getSubscribedEvents()
+    public function getSubscribedEvents(): array
     {
         return [
             Events::postPersist,

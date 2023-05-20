@@ -12,7 +12,7 @@ class WachtlijstControllerTest extends WebTestCase
         $this->markTestSkipped();
 
         $medewerker = $this->getContainer()->get(\AppBundle\Service\MedewerkerDao::class)->findByUsername('oek_user');
-        $this->logIn($medewerker);
+        $this->client->loginUser($medewerker);
 
         $crawler = $this->client->request('GET', '/oek/wachtlijst/');
         $this->assertStatusCode(200, $this->client);

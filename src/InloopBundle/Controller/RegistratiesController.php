@@ -331,10 +331,10 @@ class RegistratiesController extends AbstractController
 
         $open = $locatie->isOpen();
 
-
         if ($open !== true) {
             $jsonVar['allow'] = false;
             $jsonVar['message'] = 'Deze locatie is nog niet open, klant kan nog niet inchecken!';
+            $jsonVar['debug'] = $open;
 //            $jsonVar['message'] = (string)$open['date'].(string)$open['openingstijd'];
 
             return new JsonResponse($jsonVar);

@@ -56,7 +56,7 @@ class IntakeAndToegangType extends AbstractType
                 'label' => 'ZRM',
                 'request_module' => 'Intake',
             ]);
-//            $builder->get('zrm')->remove("medewerker");
+            $builder->get('zrm')->remove("medewerker");
         }
 
         $builder->add('submit', SubmitType::class);

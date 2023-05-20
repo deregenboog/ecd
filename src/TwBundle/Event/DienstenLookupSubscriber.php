@@ -24,7 +24,7 @@ class DienstenLookupSubscriber implements EventSubscriberInterface
      */
     private $generator;
 
-    public static function getSubscribedEvents()
+    public static function getSubscribedEvents(): array
     {
         return [
             Events::DIENSTEN_LOOKUP => ['provideDienstenInfo'],

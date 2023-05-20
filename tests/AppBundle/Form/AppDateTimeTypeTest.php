@@ -3,18 +3,16 @@
 namespace Tests\AppBundle\Form;
 
 use AppBundle\Form\AppDateTimeType;
-use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\Form\FormInterface;
+use Symfony\Component\Form\Forms;
 
-class AppDateTimeTypeTest extends KernelTestCase
+class AppDateTimeTypeTest extends TestCase
 {
     public function testTwoDigitYearResultsInCorrectDate()
     {
-        self::bootKernel();
-        $container = static::$kernel->getContainer();
-
         /** @var $form FormInterface */
-        $form = $container->get('form.factory')->create(AppDateTimeType::class);
+        $form = Forms::createFormFactory()->create(AppDateTimeType::class);
         $form->submit([
             'date' => '23-11-17',
             'time' => '10:12',
@@ -25,11 +23,8 @@ class AppDateTimeTypeTest extends KernelTestCase
 
     public function testFourDigitYearResultsInCorrectDate()
     {
-        self::bootKernel();
-        $container = static::$kernel->getContainer();
-
         /** @var $form FormInterface */
-        $form = $container->get('form.factory')->create(AppDateTimeType::class);
+        $form = Forms::createFormFactory()->create(AppDateTimeType::class);
         $form->submit([
             'date' => '23-11-1917',
             'time' => '10:12',

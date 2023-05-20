@@ -17,7 +17,7 @@ use Doctrine\ORM\Event\LifecycleEventArgs;
 
 class FactuurSubscriber implements EventSubscriber
 {
-    public function getSubscribedEvents()
+    public function getSubscribedEvents(): array
     {
         return [
             Events::preRemove,

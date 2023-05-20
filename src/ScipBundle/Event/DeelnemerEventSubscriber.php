@@ -21,7 +21,7 @@ class DeelnemerEventSubscriber implements EventSubscriber
         $this->eventDispatcher = $eventDispatcher;
     }
 
-    public function getSubscribedEvents()
+    public function getSubscribedEvents(): array
     {
         return [
             DoctrineEvents::postPersist,

@@ -17,7 +17,7 @@ class IzIntakeSubscriber implements EventSubscriberInterface
      */
     private $klantDao;
 
-    public static function getSubscribedEvents()
+    public static function getSubscribedEvents(): array
     {
         return [
             Events::EVENT_INTAKE_CREATED => ['addToEropuit'],

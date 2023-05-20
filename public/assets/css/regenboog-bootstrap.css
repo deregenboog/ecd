@@ -80,7 +80,7 @@ th a.asc:after {
 th a.desc:after {
     content: '\2191';
 }
-th label.col-sm-2 {
+th label.col-sm-2, th label.col-sm-2-100 {
     width:100%
 }
 table.table.table-hover tr[data-id]:hover,

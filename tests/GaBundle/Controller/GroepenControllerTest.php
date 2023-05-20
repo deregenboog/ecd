@@ -10,7 +10,7 @@ class GroepenControllerTest extends WebTestCase
     public function testSort()
     {
         $medewerker = $this->getContainer()->get(\AppBundle\Service\MedewerkerDao::class)->findByUsername('ga_user');
-        $this->logIn($medewerker);
+        $this->client->loginUser($medewerker);
 
         $crawler = $this->client->request('GET', $this->getUrl('ga_groepen_index'));
 
@@ -30,7 +30,7 @@ class GroepenControllerTest extends WebTestCase
     public function testAdd()
     {
         $medewerker = $this->getContainer()->get(\AppBundle\Service\MedewerkerDao::class)->findByUsername('ga_user');
-        $this->logIn($medewerker);
+        $this->client->loginUser($medewerker);
 
         $crawler = $this->client->request('GET', $this->getUrl('ga_groepen_add'));
         $this->assertEquals(1, $crawler->selectLink('ErOpUit')->count());

@@ -5,12 +5,12 @@ namespace Tests\HsBundle\Event;
 use AppBundle\Entity\Klant;
 use AppBundle\Event\DienstenLookupEvent;
 use AppBundle\Event\Events;
+use AppBundle\Model\Dienst;
 use HsBundle\Entity\Dienstverlener;
 use HsBundle\Event\DienstenLookupSubscriber;
 use HsBundle\Service\DienstverlenerDaoInterface;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
-use AppBundle\Model\Dienst;
 
 class DienstenLookupSubscriberTest extends TestCase
 {

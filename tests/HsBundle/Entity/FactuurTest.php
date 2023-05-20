@@ -63,9 +63,7 @@ class FactuurTest extends TestCase
         $registratie->setDatum(new \DateTime('first day of next month'));
         $factuur->addRegistratie($registratie);
 
-        //See note in Factuur.php about #824.
+        // See note in Factuur.php about #824.
         $this->assertEquals($lastDayOfNextMonth->format('Y-m-d'), $factuur->getDatum()->format('Y-m-d'));
-
-
     }
 }

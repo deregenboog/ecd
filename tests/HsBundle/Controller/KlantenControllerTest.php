@@ -10,7 +10,7 @@ class KlantenControllerTest extends WebTestCase
     public function testSortColumns()
     {
         $medewerker = $this->getContainer()->get(\AppBundle\Service\MedewerkerDao::class)->findByUsername('hs_user');
-        $this->logIn($medewerker);
+        $this->client->loginUser($medewerker);
 
         $crawler = $this->client->request('GET', '/hs/klanten/');
         $this->assertStatusCode(200, $this->client);

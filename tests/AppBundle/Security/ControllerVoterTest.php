@@ -8,14 +8,12 @@ use Symfony\Component\Security\Core\Authorization\Voter\VoterInterface;
 use Symfony\Component\Security\Core\Role\Role;
 use Symfony\Component\Security\Core\Role\RoleHierarchyInterface;
 
-
 class ControllerVoterTest extends TestCase
 {
     // ik heb het uitgezet. ik snap het niet en het is deprecated voor een deel.
 
     public function testVoteOnUnsupportedAttribute()
     {
-
         $this->markTestSkipped();
 //        $token = $this->getMockForAbstractClass(TokenInterface::class);
 //        $token->method('getRoles')->willReturn(['CONTROLLER_APP_KLANTEN']);
