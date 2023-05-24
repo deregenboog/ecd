@@ -233,6 +233,9 @@ class Locatie
         if (!$date instanceof \DateTime) {
             $date = new \DateTime();
         }
+        $openingstijd = new \DateTime();
+        $sluitingstijd = new \DateTime();
+
         $locatietijd = $this->getLocatietijd($date->format('w'));
 
         if ($locatietijd) {
@@ -276,8 +279,8 @@ class Locatie
         $debug['date'] = $date;
         $debug['openingstijd'] = $openingstijd;
         $debug['sluitingstijd'] = $sluitingstijd;
-        return $debug;
-//        return false;
+//        return $debug;
+        return false;
     }
 
     public function getClosingTimeByDayOfWeek($dayOfWeek)

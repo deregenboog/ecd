@@ -201,7 +201,7 @@ class DashboardController extends SymfonyController
         ];
     }
 
-    protected function getMedewerker()
+    protected function getMedewerker(): ?Medewerker
     {
         $medewerkerId = (int) $this->getRequest()->get('medewerker');
         if ($medewerkerId) {

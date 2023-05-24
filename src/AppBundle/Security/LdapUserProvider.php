@@ -61,7 +61,7 @@ class LdapUserProvider extends \Symfony\Component\Ldap\Security\LdapUserProvider
         $this->rolesGroups = $rolesGroups;
     }
 
-    protected function loadUser($username, Entry $entry)
+    protected function loadUser($username, Entry $entry): UserInterface
     {
         $roles = ['ROLE_USER']; // Actually we should be using $this->defaultRoles, but it's private. Has to be redesigned.
 
@@ -131,7 +131,7 @@ class LdapUserProvider extends \Symfony\Component\Ldap\Security\LdapUserProvider
     /**
      * {@inheritdoc}
      */
-    public function supportsClass(string $class)
+    public function supportsClass(string $class): bool
     {
         return Medewerker::class === $class;
     }

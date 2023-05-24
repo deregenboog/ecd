@@ -11,8 +11,6 @@ use Knp\Component\Pager\Paginator;
 use MwBundle\Entity\Aanmelding;
 use MwBundle\Entity\Afsluiting;
 use MwBundle\Entity\AfsluitredenKlant;
-use MwBundle\Service\AfsluitredenKlantDao;
-use Psr\Container\ContainerInterface;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -27,9 +25,10 @@ class CloseOldDossiers extends \Symfony\Component\Console\Command\Command
     private $manager;
 
 
-    public function __construct(ContainerInterface $container)
+    public function __construct()
     {
-        $this->manager = $container->get('doctrine')->getManager();
+        $this->manager = $this->getContainer()->get('doctrine')->getManager();
+
         parent::__construct();
     }
 

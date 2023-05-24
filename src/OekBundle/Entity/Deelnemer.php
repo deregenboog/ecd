@@ -141,7 +141,7 @@ class Deelnemer implements KlantRelationInterface
         }
     }
 
-    public function getKlant()
+    public function getKlant(): Klant
     {
         return $this->klant;
     }
@@ -308,7 +308,7 @@ class Deelnemer implements KlantRelationInterface
         return $trainingen;
     }
 
-    public function getKlantFieldName()
+    public function getKlantFieldName(): string
     {
         return "klant";
     }

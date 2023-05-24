@@ -4,7 +4,6 @@ namespace InloopBundle\Command;
 
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
-use Psr\Container\ContainerInterface;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -19,9 +18,9 @@ class UpdateRecentRegistrationsCommand extends \Symfony\Component\Console\Comman
     /**
      * @param EntityManager $em
      */
-    public function __construct(ContainerInterface $container)
+    public function __construct()
     {
-        $this->em = $container->get('doctrine')->getManager();
+        $this->em = $this->getContainer()->get('doctrine')->getManager();
         parent::__construct();
     }
 

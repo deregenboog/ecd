@@ -7,7 +7,6 @@ use AppBundle\Entity\Doelstelling;
 use AppBundle\Filter\DoelstellingFilter;
 use AppBundle\Filter\FilterInterface;
 use AppBundle\Repository\DoelstellingRepositoryInterface;
-use Psr\Container\ContainerInterface;
 use Symfony\Component\DependencyInjection\Container;
 use Symfony\Component\Security\Core\Authorization\AccessDecisionManagerInterface;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
@@ -29,7 +28,7 @@ class DoelstellingDao extends AbstractDao
     protected $alias = 'doelstelling';
 
     /**
-     * @var ContainerInterface $serviceContainer
+     * @var Container $serviceContainer
      */
     protected $serviceContainer;
 
@@ -39,10 +38,10 @@ class DoelstellingDao extends AbstractDao
     protected $decisionManager;
 
     /**
-     * @param ContainerInterface $container
+     * @param Container $container
      * @required
      */
-    public function setServiceContainer(ContainerInterface $container)
+    public function setServiceContainer(Container $container)
     {
         $this->serviceContainer = $container;
     }

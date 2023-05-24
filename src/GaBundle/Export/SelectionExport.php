@@ -3,6 +3,7 @@
 namespace GaBundle\Export;
 
 use AppBundle\Export\ExportException;
+use AppBundle\Export\ExportInterface;
 use AppBundle\Export\GenericExport;
 use IzBundle\Entity\IzDeelnemer;
 use IzBundle\Entity\IzKlant;
@@ -69,7 +70,7 @@ class SelectionExport extends GenericExport
         return $sheet;
     }
 
-    public function create($entities)
+    public function create($entities): ExportInterface
     {
         if (!$this->excel) {
             $this->class = $this->class1;

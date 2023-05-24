@@ -65,7 +65,7 @@
         "pear/numbers_words": "^0.18.2",
         "phpdocumentor/reflection-docblock": "^5.3",
         "phpoffice/phpspreadsheet": "^1.0",
-        "sensio/framework-extra-bundle": "^5.1",
+        "sensio/framework-extra-bundle": "^6",
         "shivas/versioning-bundle": "^3",
         "stof/doctrine-extensions-bundle": "^1.7",
         "symfony/console": "5.4.*",
@@ -103,7 +103,7 @@
         "symfony/phpunit-bridge": "^6.2",
         "symfony/stopwatch": "5.4.*",
         "symfony/web-profiler-bundle": "5.4.*",
-        "theofidry/alice-data-fixtures": "^1.4"
+        "theofidry/alice-data-fixtures": "^1.5"
     },
     "extra" : {
         "symfony": {

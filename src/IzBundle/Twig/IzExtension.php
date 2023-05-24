@@ -10,7 +10,7 @@ use Twig\Extension\AbstractExtension;
 
 class IzExtension extends AbstractExtension
 {
-    public function getFilters()
+    public function getFilters(): array
     {
         return [
             new TwigFilter('naam_klant', [$this, 'naamKlant']),

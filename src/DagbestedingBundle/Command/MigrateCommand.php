@@ -70,12 +70,12 @@ class MigrateCommand extends Command
     private $locatieRep;
 
     private $projectLocations = [];
-    
+
     private $projectTrajectcoaches=[];
-    
+
     /** @var InputInterface */
     private $input;
-    
+
     /** @var OutputInterface */
     private $output;
 
@@ -142,12 +142,12 @@ class MigrateCommand extends Command
         $this->mapAndCreateProjects($em);
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        
+
         $this->input = $input;
         $this->output = $output;
-        
+
         $this->init();
 
 
@@ -422,7 +422,7 @@ class MigrateCommand extends Command
             unset($this->projectLocations[$k]);
             $this->projectLocations[$K] = $v;
         }
-        
+
         foreach($this->projectTrajectcoaches as $k=>$v)
         {
             $K = strtoupper($k);
