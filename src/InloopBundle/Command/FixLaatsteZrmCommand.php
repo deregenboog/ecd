@@ -2,7 +2,10 @@
 
 namespace InloopBundle\Command;
 
+use Doctrine\Bundle\DoctrineBundle\Middleware\ConnectionNameAwareInterface;
 use Doctrine\DBAL\Driver\Connection;
+use Doctrine\DBAL\DriverManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -14,9 +17,9 @@ class FixLaatsteZrmCommand extends \Symfony\Component\Console\Command\Command
     /** @var Connection */
     protected $conn;
 
-    public function __construct()
+    public function __construct(EntityManagerInterface $em)
     {
-        $this->conn = $this->getContainer()->get('database_connection');
+        $this->conn = $em->getConnection();
         parent::__construct();
     }
 

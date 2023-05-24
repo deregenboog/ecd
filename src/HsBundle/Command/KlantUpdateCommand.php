@@ -3,6 +3,7 @@
 namespace HsBundle\Command;
 
 use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use HsBundle\Entity\Klus;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputInterface;
@@ -14,9 +15,9 @@ class KlantUpdateCommand extends \Symfony\Component\Console\Command\Command
     /** @var EntityManager */
     protected $em;
 
-    public function __construct()
+    public function __construct(EntityManagerInterface $em)
     {
-        $this->em = $this->getContainer()->get('doctrine')->getManager();
+        $this->em = $em;
         parent::__construct();
     }
 

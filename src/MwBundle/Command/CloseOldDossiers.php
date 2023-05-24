@@ -7,6 +7,7 @@ use Doctrine\DBAL\Exception;
 use Doctrine\DBAL\ParameterType;
 use Doctrine\DBAL\Result;
 use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\Paginator;
 use MwBundle\Entity\Aanmelding;
 use MwBundle\Entity\Afsluiting;
@@ -25,9 +26,9 @@ class CloseOldDossiers extends \Symfony\Component\Console\Command\Command
     private $manager;
 
 
-    public function __construct()
+    public function __construct(EntityManagerInterface $manager)
     {
-        $this->manager = $this->getContainer()->get('doctrine')->getManager();
+        $this->manager = $manager;
 
         parent::__construct();
     }

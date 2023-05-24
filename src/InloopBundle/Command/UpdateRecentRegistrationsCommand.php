@@ -18,9 +18,9 @@ class UpdateRecentRegistrationsCommand extends \Symfony\Component\Console\Comman
     /**
      * @param EntityManager $em
      */
-    public function __construct()
+    public function __construct(EntityManagerInterface $em)
     {
-        $this->em = $this->getContainer()->get('doctrine')->getManager();
+        $this->em = $em;
         parent::__construct();
     }
 
