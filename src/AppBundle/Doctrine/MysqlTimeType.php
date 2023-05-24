@@ -9,7 +9,7 @@ use Doctrine\DBAL\Types\TimeType;
 
 class MysqlTimeType extends TimeType
 {
-    public function getName()
+    public function getName(): string
     {
         return 'mysql_time';
     }
@@ -17,7 +17,7 @@ class MysqlTimeType extends TimeType
     /**
      * {@inheritdoc}
      */
-    public function convertToPHPValue($value, AbstractPlatform $platform)
+    public function convertToPHPValue($value, AbstractPlatform $platform): mixed
     {
         try {
             return parent::convertToPHPValue($value, $platform);

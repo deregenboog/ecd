@@ -150,7 +150,7 @@ class Inventarisatie
     /**
      * @return Inventarisatie
      */
-    public function getParent()
+    public function getParent(): ?string
     {
         return $this->parent;
     }

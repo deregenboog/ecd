@@ -7,7 +7,7 @@ use Doctrine\ORM\Query\Filter\SQLFilter;
 
 class VerblijfsstatusFilter extends SQLFilter
 {
-    public function addFilterConstraint(ClassMetadata $targetEntity, $targetTableAlias)
+    public function addFilterConstraint(ClassMetadata $targetEntity, $targetTableAlias): string
     {
         // @todo
         return '';

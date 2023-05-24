@@ -33,7 +33,7 @@ class AfsluitredenKoppelingType extends AbstractType
         ]);
     }
 
-    public function getParent()
+    public function getParent(): ?string
     {
         return BaseType::class;
     }

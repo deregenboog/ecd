@@ -85,7 +85,7 @@ class IntakeFilterType extends AbstractType implements ContainerAwareInterface
     /**
      * {@inheritdoc}
      */
-    public function getParent()
+    public function getParent(): ?string
     {
         return FilterType::class;
     }

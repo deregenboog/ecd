@@ -10,7 +10,7 @@ class EcdNamingStrategy extends DefaultNamingStrategy implements NamingStrategy
     /**
      * {@inheritdoc}
      */
-    public function classToTableName($className)
+    public function classToTableName($className): string
     {
         if (str_contains($className, '\\')) {
             return substr($className, strrpos($className, '\\') + 1);
@@ -19,7 +19,7 @@ class EcdNamingStrategy extends DefaultNamingStrategy implements NamingStrategy
         return $className;
     }
 
-    public function classToBundleName($className)
+    public function classToBundleName($className): string
     {
         $bundleName = "";
         if (str_contains($className, 'Bundle')) {
@@ -31,7 +31,7 @@ class EcdNamingStrategy extends DefaultNamingStrategy implements NamingStrategy
     /**
      * {@inheritdoc}
      */
-    public function propertyToColumnName($propertyName, $className = null)
+    public function propertyToColumnName($propertyName, $className = null): string
     {
         return $propertyName;
     }
@@ -39,7 +39,7 @@ class EcdNamingStrategy extends DefaultNamingStrategy implements NamingStrategy
     /**
      * {@inheritdoc}
      */
-    public function embeddedFieldToColumnName($propertyName, $embeddedColumnName, $className = null, $embeddedClassName = null)
+    public function embeddedFieldToColumnName($propertyName, $embeddedColumnName, $className = null, $embeddedClassName = null): string
     {
         return $propertyName . '_' . $embeddedColumnName;
     }
@@ -47,7 +47,7 @@ class EcdNamingStrategy extends DefaultNamingStrategy implements NamingStrategy
     /**
      * {@inheritdoc}
      */
-    public function referenceColumnName()
+    public function referenceColumnName(): string
     {
         return 'id';
     }
@@ -58,7 +58,7 @@ class EcdNamingStrategy extends DefaultNamingStrategy implements NamingStrategy
      * @param string       $propertyName
      * @param class-string $className
      */
-    public function joinColumnName($propertyName, $className = null)
+    public function joinColumnName($propertyName, $className = null): string
     {
         return $propertyName . '_' . $this->referenceColumnName();
     }
@@ -66,7 +66,7 @@ class EcdNamingStrategy extends DefaultNamingStrategy implements NamingStrategy
     /**
      * {@inheritdoc}
      */
-    public function joinTableName($sourceEntity, $targetEntity, $propertyName = null)
+    public function joinTableName($sourceEntity, $targetEntity, $propertyName = null): string
     {
         $scbn = $this->classToBundleName($sourceEntity);
         $sctn = $this->classToTableName($sourceEntity);
@@ -79,7 +79,7 @@ class EcdNamingStrategy extends DefaultNamingStrategy implements NamingStrategy
     /**
      * {@inheritdoc}
      */
-    public function joinKeyColumnName($entityName, $referencedColumnName = null)
+    public function joinKeyColumnName($entityName, $referencedColumnName = null): string
     {
         return strtolower($this->classToTableName($entityName) . '_' .
             ($referencedColumnName ?: $this->referenceColumnName()));

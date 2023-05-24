@@ -72,7 +72,7 @@ class AbstractSqlFileReport extends AbstractReport
 
             if ($sql) {
                 $reports[$key]['run'] = $sql;
-                $result = $this->em->getConnection()->fetchAll($sql);
+                $result = $this->em->getConnection()->fetchAllAssociative($sql);
                 $reports[$key]['result'] = $result;
             }
         }

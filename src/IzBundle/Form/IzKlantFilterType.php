@@ -176,7 +176,7 @@ class IzKlantFilterType extends AbstractType
     /**
      * {@inheritdoc}
      */
-    public function getParent()
+    public function getParent(): ?string
     {
         return FilterType::class;
     }
