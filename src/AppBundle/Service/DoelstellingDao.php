@@ -10,6 +10,8 @@ use AppBundle\Repository\DoelstellingRepositoryInterface;
 use Symfony\Component\DependencyInjection\Container;
 use Symfony\Component\Security\Core\Authorization\AccessDecisionManagerInterface;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
+use Twig\Token;
 
 class DoelstellingDao extends AbstractDao
 {
@@ -38,14 +40,25 @@ class DoelstellingDao extends AbstractDao
     protected $decisionManager;
 
     /**
-     * @param Container $container
-     * @required
+     * @var
      */
-    public function setServiceContainer(Container $container)
+    protected $tokenStorage;
+
+    /**
+     * @var AuthorizationCheckerInterface
+     */
+    protected $authorizationChecker;
+
+
+    public function setTokenStorage(TokenStorageInterface $tokenStorage)
     {
-        $this->serviceContainer = $container;
+        $this->tokenStorage = $tokenStorage;
     }
 
+    public function setAuthorizationChecker(AuthorizationCheckerInterface $authorizationChecker)
+    {
+        $this->authorizationChecker = $authorizationChecker;
+    }
     /**
      * Sets decision manager via service definition. This way we can decide if user has access to certain doelstellingen.
      * @param AccessDecisionManagerInterface $decisionManager
@@ -107,12 +120,12 @@ class DoelstellingDao extends AbstractDao
      */
     private function connectDoelstellingenInterfaceReposToResult($doelstellingen,$filter = null)
     {
-        $token = $this->serviceContainer->get("security.token_storage")->getToken();
+        $token = $this->tokenStorage->getToken();
         $user = $token->getUser();
-        $roles = $token->getRoles();
+        $roles = $user->getRoles();
 
-        $hasRoleDoelstellingenBeheer = $this->serviceContainer->get("security.authorization_checker")->isGranted("ROLE_DOELSTELLING_BEHEER");
-        $hasRoleAdmin = $this->serviceContainer->get("security.authorization_checker")->isGranted("ROLE_ADMIN");
+        $hasRoleDoelstellingenBeheer = $this->authorizationChecker->isGranted("ROLE_DOELSTELLING_BEHEER");
+        $hasRoleAdmin = $this->authorizationChecker->isGranted("ROLE_ADMIN");
 
         $fullAccess = ($hasRoleDoelstellingenBeheer || $hasRoleAdmin);
 

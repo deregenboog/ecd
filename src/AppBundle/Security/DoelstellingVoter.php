@@ -40,7 +40,7 @@ class DoelstellingVoter extends Voter
 
         /** @var User $user */
         $user = $token->getUser();
-        $roles = $token->getRoles();
+        $roles = $user->getRoles();
 
 
         //list($class,$method) = explode("::",$subject);
