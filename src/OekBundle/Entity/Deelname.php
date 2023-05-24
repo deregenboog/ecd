@@ -2,6 +2,7 @@
 
 namespace OekBundle\Entity;
 
+use AppBundle\Entity\Klant;
 use AppBundle\Model\IdentifiableTrait;
 use AppBundle\Model\KlantRelationInterface;
 use AppBundle\Model\TimestampableTrait;
@@ -143,12 +144,12 @@ class Deelname implements KlantRelationInterface
         return DeelnameStatus::STATUS_AANGEMELD === $this->deelnameStatus->getStatus();
     }
 
-    public function getKlant()
+    public function getKlant(): Klant
     {
         return $this->getDeelnemer();
     }
 
-    public function getKlantFieldName()
+    public function getKlantFieldName(): string
     {
         return "Deelnemer";
     }

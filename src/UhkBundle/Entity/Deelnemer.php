@@ -120,7 +120,7 @@ class Deelnemer implements KlantRelationInterface, DocumentSubjectInterface
     /**
      * @return Klant
      */
-    public function getKlant()
+    public function getKlant(): Klant
     {
         return $this->klant;
     }
@@ -223,7 +223,7 @@ class Deelnemer implements KlantRelationInterface, DocumentSubjectInterface
     }
 
 
-    public function getKlantFieldName()
+    public function getKlantFieldName(): string
     {
         return $this->klantFieldName;
     }

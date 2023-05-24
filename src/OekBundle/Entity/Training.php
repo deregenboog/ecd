@@ -2,6 +2,7 @@
 
 namespace OekBundle\Entity;
 
+use AppBundle\Entity\Klant;
 use AppBundle\Model\IdentifiableTrait;
 use AppBundle\Model\KlantRelationInterface;
 use AppBundle\Model\TimestampableTrait;
@@ -199,11 +200,11 @@ class Training implements KlantRelationInterface
         return 0 == $this->deelnames->count();
     }
 
-    public function getKlant()
+    public function getKlant(): Klant
     {
         return $this->getDeelnames();
     }
-    public function getKlantFieldName()
+    public function getKlantFieldName(): string
     {
         return "Deelnames";
     }

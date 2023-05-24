@@ -14,5 +14,5 @@ interface KlantRelationInterface
     /**
      * @return string Name of klant field in entity.
      */
-    public function getKlantFieldName();
+    public function getKlantFieldName(): string;
 }

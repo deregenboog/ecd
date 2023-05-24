@@ -133,7 +133,7 @@ class Intake
      *
      * @ORM\Column(length=7, nullable=true)
      * @Gedmo\Versioned
-     * @Assert\Length(min=6,max=7,allowEmptyString="true")
+     * @Assert\Length(min=6,max=7)
      */
     private $postcode;
 

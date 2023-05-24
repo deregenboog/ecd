@@ -340,7 +340,7 @@ abstract class Deelnemer implements KlantRelationInterface
         return $this->id;
     }
 
-    public function getKlant()
+    public function getKlant(): \AppBundle\Entity\Klant
     {
         return $this->appKlant;
     }
@@ -454,7 +454,7 @@ abstract class Deelnemer implements KlantRelationInterface
         return $this;
     }
 
-    public function getKlantFieldName()
+    public function getKlantFieldName(): string
     {
         return "klant";
     }
