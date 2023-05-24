@@ -11,6 +11,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\EntityNotFoundException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Polyfill\Intl\Icu\Exception\MethodArgumentValueNotImplementedException;
 use Twig\Environment;
 use Twig\Extension\AbstractExtension;
 use Twig\Extension\GlobalsInterface;
@@ -249,9 +250,21 @@ class AppExtension extends AbstractExtension implements GlobalsInterface
 
     public function moneyFilter($value, $currency = 'EUR')
     {
-        $fmt = new \NumberFormatter($this->locale, \NumberFormatter::CURRENCY);
 
-        return $fmt->formatCurrency($value, $currency);
+
+        try {
+            $fmt = new \NumberFormatter($this->locale, \NumberFormatter::CURRENCY);
+
+            return $fmt->formatCurrency($value, $currency);
+        } catch (MethodArgumentValueNotImplementedException $e) {
+
+        } catch (\Exception $e) {
+            //better safe than sorry?
+        }
+
+        return $currency." ".$value;
+
+
     }
 
     /**

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "c172063b93beaa02c5aea507bf421162",
+    "content-hash": "206a7ccf013e962d7dbb7af6cc1ebe3f",
     "packages": [
         {
             "name": "backup-manager/backup-manager",
@@ -2184,6 +2184,59 @@
             "time": "2022-08-28T14:42:14+00:00"
         },
         {
+            "name": "kwn/number-to-words",
+            "version": "2.6.4",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/kwn/number-to-words.git",
+                "reference": "c4c14c84374baaeef35c47373c500ec7aa28b1b5"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/kwn/number-to-words/zipball/c4c14c84374baaeef35c47373c500ec7aa28b1b5",
+                "reference": "c4c14c84374baaeef35c47373c500ec7aa28b1b5",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.4"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^9.6.7",
+                "squizlabs/php_codesniffer": "^3.7.2"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "NumberToWords\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Karol Wnuk",
+                    "email": "k.wnuk@ascetic.pl"
+                }
+            ],
+            "description": "Multi language standalone PHP number to words converter. Fully tested, open for extensions and new languages.",
+            "keywords": [
+                "currency",
+                "money",
+                "number",
+                "numbers",
+                "string",
+                "to",
+                "words"
+            ],
+            "support": {
+                "issues": "https://github.com/kwn/number-to-words/issues",
+                "source": "https://github.com/kwn/number-to-words/tree/2.6.4"
+            },
+            "time": "2023-05-03T17:11:50+00:00"
+        },
+        {
             "name": "laminas/laminas-code",
             "version": "4.7.1",
             "source": {
@@ -2848,130 +2901,6 @@
                 "source": "https://github.com/nikolaposa/version/tree/master"
             },
             "time": "2019-08-11T08:31:54+00:00"
-        },
-        {
-            "name": "pear/math_biginteger",
-            "version": "v1.0.3",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/pear/Math_BigInteger.git",
-                "reference": "33d4357543037a458fad3e8c837a01b93104e592"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/pear/Math_BigInteger/zipball/33d4357543037a458fad3e8c837a01b93104e592",
-                "reference": "33d4357543037a458fad3e8c837a01b93104e592",
-                "shasum": ""
-            },
-            "require": {
-                "ext-pcre": "*",
-                "php": ">=4.2.0"
-            },
-            "suggest": {
-                "ext-bcmath": "Allows using the BCMath extension internally for computation. Faster than native implementation.",
-                "ext-gmp": "Allows using the GNU Multiple Precision extension internally for computation. If you are doing a lot of computation this is the recommended extension."
-            },
-            "type": "library",
-            "autoload": {
-                "psr-0": {
-                    "Math_": "./"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Jim Wigginton",
-                    "email": "terrafrost@php.net"
-                }
-            ],
-            "description": "Pure-PHP arbitrary precission integer arithmetic library. If GMP or BCMath are available they are used.",
-            "homepage": "https://github.com/pear/Math_BigInteger",
-            "keywords": [
-                "arbitrary",
-                "bcmath",
-                "gmp",
-                "integer",
-                "precision"
-            ],
-            "support": {
-                "issues": "http://pear.php.net/bugs/search.php?cmd=display&package_name[]=Math_BigInteger",
-                "source": "https://github.com/pear/Math_BigInteger"
-            },
-            "time": "2016-04-12T05:46:52+00:00"
-        },
-        {
-            "name": "pear/numbers_words",
-            "version": "v0.18.2",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/pear/Numbers_Words.git",
-                "reference": "e4d1d8e20def443b69fbf3028d1029950d101c9d"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/pear/Numbers_Words/zipball/e4d1d8e20def443b69fbf3028d1029950d101c9d",
-                "reference": "e4d1d8e20def443b69fbf3028d1029950d101c9d",
-                "shasum": ""
-            },
-            "require": {
-                "pear/math_biginteger": ">=1.0.2",
-                "php": ">=5.3.2"
-            },
-            "require-dev": {
-                "phpunit/phpunit": "*"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-0": {
-                    "Numbers": "./"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "include-path": [
-                "./"
-            ],
-            "license": [
-                "PHP-3.01"
-            ],
-            "authors": [
-                {
-                    "name": "Kouber Saparev",
-                    "email": "kouber@php.net"
-                },
-                {
-                    "name": "Igor Feghali",
-                    "email": "ifeghali@php.net"
-                },
-                {
-                    "name": "Xavier Noguer",
-                    "email": "xnoguer.php@gmail.com"
-                },
-                {
-                    "name": "Hadar Porat",
-                    "email": "hpman28@gmail.com"
-                },
-                {
-                    "name": "Piotr Klaban",
-                    "email": "makler@man.torun.pl"
-                },
-                {
-                    "name": "Marcelo Subtil Marcal",
-                    "email": "msmarcal@php.net"
-                }
-            ],
-            "description": "Allows converting numbers written in arabic digits to words in several languages. You can convert an integer between -infinity and infinity.",
-            "homepage": "https://github.com/pear/Numbers_Words",
-            "keywords": [
-                "numbers"
-            ],
-            "support": {
-                "issues": "http://pear.php.net/bugs/search.php?cmd=display&package_name[]=Numbers_Words",
-                "source": "https://github.com/pear/Numbers_Words"
-            },
-            "time": "2018-02-13T13:58:45+00:00"
         },
         {
             "name": "phpdocumentor/reflection-common",
@@ -11810,68 +11739,6 @@
                 }
             ],
             "time": "2020-10-26T13:14:26+00:00"
-        },
-        {
-            "name": "sebastian/phpcpd",
-            "version": "6.0.3",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/sebastianbergmann/phpcpd.git",
-                "reference": "f3683aa0db2e8e09287c2bb33a595b2873ea9176"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpcpd/zipball/f3683aa0db2e8e09287c2bb33a595b2873ea9176",
-                "reference": "f3683aa0db2e8e09287c2bb33a595b2873ea9176",
-                "shasum": ""
-            },
-            "require": {
-                "ext-dom": "*",
-                "php": ">=7.3",
-                "phpunit/php-file-iterator": "^3.0",
-                "phpunit/php-timer": "^5.0",
-                "sebastian/cli-parser": "^1.0",
-                "sebastian/version": "^3.0"
-            },
-            "bin": [
-                "phpcpd"
-            ],
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "6.0-dev"
-                }
-            },
-            "autoload": {
-                "classmap": [
-                    "src/"
-                ]
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "BSD-3-Clause"
-            ],
-            "authors": [
-                {
-                    "name": "Sebastian Bergmann",
-                    "email": "sebastian@phpunit.de",
-                    "role": "lead"
-                }
-            ],
-            "description": "Copy/Paste Detector (CPD) for PHP code.",
-            "homepage": "https://github.com/sebastianbergmann/phpcpd",
-            "support": {
-                "issues": "https://github.com/sebastianbergmann/phpcpd/issues",
-                "source": "https://github.com/sebastianbergmann/phpcpd/tree/6.0.3"
-            },
-            "funding": [
-                {
-                    "url": "https://github.com/sebastianbergmann",
-                    "type": "github"
-                }
-            ],
-            "abandoned": true,
-            "time": "2020-12-07T05:39:23+00:00"
         },
         {
             "name": "sebastian/recursion-context",

@@ -4,6 +4,7 @@ namespace GaBundle\Service;
 
 use GaBundle\Form\ActiviteitenReeksModel;
 use Numbers_Words;
+use NumberToWords\NumberToWords;
 
 class ActiviteitenreeksGenerator
 {
@@ -83,8 +84,9 @@ class ActiviteitenreeksGenerator
     }
     public static function Nth($n)
     {
-        $nw = new Numbers_Words();
-        $s = $nw->toWords($n);
+        $nw = new NumberToWords();
+        $numberTransformer = $nw->getNumberTransformer('en');
+        $s = $numberTransformer->toWords($n);
         $replacements = array(
             'one' => 'first',
             'two' => 'second',
