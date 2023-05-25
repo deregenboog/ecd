@@ -10,6 +10,7 @@ use AppBundle\Filter\FilterInterface;
 use AppBundle\Form\ConfirmationType;
 use AppBundle\Model\MedewerkerSubjectInterface;
 use AppBundle\Service\AbstractDao;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityNotFoundException;
 use Psr\Log\LoggerInterface;
 use Symfony\Bridge\Monolog\Logger;
@@ -131,6 +132,17 @@ abstract class AbstractController extends SymfonyController
     {
 
         $this->logger = $logger;
+    }
+
+
+    /**
+     * @param EntityManagerInterface $entityManager
+     * @required
+     * @return void
+     */
+    public function setEntityManager(EntityManagerInterface $entityManager)
+    {
+        $this->entityManager = $entityManager;
     }
 
     public function setDao(AbstractDao $dao)

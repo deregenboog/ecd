@@ -4,6 +4,7 @@ namespace AppBundle\Controller;
 
 use AppBundle\Entity\Medewerker;
 use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -39,11 +40,15 @@ abstract class SymfonyController extends \Symfony\Bundle\FrameworkBundle\Control
     protected $paginator;
 
     /**
-     * @param PaginatorInterface $paginator
+     * @var EntityManagerInterface
      */
-    public function __construct(PaginatorInterface $paginator)
+    protected $entityManager;
+
+
+    public function __construct(PaginatorInterface $paginator, EntityManagerInterface $entityManager)
     {
         $this->paginator = $paginator;
+        $this->entityManager = $entityManager;
     }
 
     public function getModule()
@@ -101,7 +106,7 @@ abstract class SymfonyController extends \Symfony\Bundle\FrameworkBundle\Control
      */
     protected function getEntityManager()
     {
-        return $this->getDoctrine()->getManager();
+        return $this->entityManager;
     }
 
     /**
