@@ -137,8 +137,8 @@ class KlantDao extends AbstractDao implements KlantDaoInterface
 
                 $countSql = "SELECT COUNT(*) AS count FROM (".$fullSql.") tmp"; //wrap into subquery.
                 $countStmt = $this->entityManager->getConnection()->prepare($countSql);
-                $countStmt->execute();
-                $count = $countStmt->fetchColumn(0);
+                $result = $countStmt->executeQuery();
+                $count = $result->fetchOne(0);
             }
             $query = $this->entityManager->createQuery($dql)->setHint('knp_paginator.count', $count);
 

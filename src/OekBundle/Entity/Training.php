@@ -202,7 +202,7 @@ class Training implements KlantRelationInterface
 
     public function getKlant(): Klant
     {
-        return $this->getDeelnames();
+        return $this->getDeelnames()->first()->getDeelnemer()->getKlant();
     }
     public function getKlantFieldName(): string
     {

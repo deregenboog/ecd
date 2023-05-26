@@ -130,7 +130,6 @@ abstract class AbstractController extends SymfonyController
      */
     public function setLogger(LoggerInterface $logger)
     {
-
         $this->logger = $logger;
     }
 

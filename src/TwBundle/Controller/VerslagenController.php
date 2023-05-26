@@ -6,6 +6,7 @@ use AppBundle\Controller\SymfonyController;
 use AppBundle\Exception\UserException;
 use AppBundle\Form\ConfirmationType;
 use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use JMS\DiExtraBundle\Annotation as DI;
 use TwBundle\Entity\Huuraanbod;
 use TwBundle\Entity\Klant;
@@ -37,9 +38,10 @@ class VerslagenController extends SymfonyController
     /**
      * @param VerslagDao $dao
      */
-    public function __construct(VerslagDao $dao)
+    public function __construct(VerslagDao $dao, EntityManagerInterface $entityManager)
     {
         $this->dao = $dao;
+        $this->entityManager = $entityManager;
     }
 
     /**

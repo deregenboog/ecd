@@ -146,7 +146,7 @@ class Deelname implements KlantRelationInterface
 
     public function getKlant(): Klant
     {
-        return $this->getDeelnemer();
+        return $this->getDeelnemer()->getKlant();
     }
 
     public function getKlantFieldName(): string
