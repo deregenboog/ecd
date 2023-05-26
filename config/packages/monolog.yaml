@@ -1,5 +1,6 @@
 # config/packages/prod/monolog.yaml
 monolog:
+    channels: ["merge"]
     handlers:
         # this "file_log" key could be anything
         file_log:
