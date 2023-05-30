@@ -14,7 +14,10 @@ use Gedmo\Mapping\Annotation as Gedmo;
  * @ORM\Entity
  * @ORM\Table(
  *     name="iz_deelnemers",
- *     uniqueConstraints={@ORM\UniqueConstraint(name="unique_model_foreign_key_idx", columns={"model", "foreign_key"})}
+ *     uniqueConstraints={@ORM\UniqueConstraint(name="unique_model_foreign_key_idx", columns={"model", "foreign_key"})},
+ *     indexes={
+ *      @ORM\Index(name="idx_id_afsluiting_deleted_model",columns={"id","iz_afsluiting_id","deleted","model"})
+ *     }
  * )
  * @ORM\HasLifecycleCallbacks
  * @ORM\InheritanceType("SINGLE_TABLE")
@@ -25,6 +28,8 @@ use Gedmo\Mapping\Annotation as Gedmo;
  */
 abstract class IzDeelnemer
 {
+    public const IDX_ID_AFSLUITING_DELETED_MODEL = "idx_id_afsluiting_deleted_model"; //nessecary for OUTUT INDEX WALKER. See KopplingenDao
+    public const TABLE_NAME = "iz_deelnemers";
     use IdentifiableTrait;
     use TimestampableTrait;
     use OptionalMedewerkerTrait;

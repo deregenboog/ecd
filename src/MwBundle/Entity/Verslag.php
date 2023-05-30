@@ -21,7 +21,6 @@ use InloopBundle\Entity\Locatie;
  *         @ORM\Index(name="klant_id_med_id", columns={"klant_id", "medewerker_id", "verslagType"}),
  *         @ORM\Index(name="idx_datum", columns={"datum"}),
  *         @ORM\Index(name="idx_locatie_id", columns={"locatie_id"}),
- *         @ORM\Index(name="idx_datum_contactsoort_locatie", columns={"datum","contactsoort_id","locatie_id"}),
  *     }
  * )
  * @ORM\HasLifecycleCallbacks

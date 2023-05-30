@@ -2,7 +2,9 @@
 
 namespace IzBundle\Service;
 
+use AppBundle\Filter\FilterInterface;
 use AppBundle\Service\AbstractDao;
+use Doctrine\ORM\QueryBuilder;
 use IzBundle\Entity\IzDeelnemer;
 
 class DeelnemerDao extends AbstractDao implements DeelnemerDaoInterface

@@ -14,6 +14,9 @@ use Gedmo\Mapping\Annotation as Gedmo;
  */
 class Hulpvraag extends Hulp
 {
+    public const TABLE_NAME = 'iz_koppelingen'; //nessecary for INDEX OUTPUT WALKER see KoppelingenDao.
+    public const IDX_DEELNEMER_DISCR_DELETED_EINDDATUM_KOPPELING = 'idx_deelnemer_discr_deleted_einddatum_koppeling';
+
     /**
      * @var IzKlant
      * @ORM\ManyToOne(targetEntity="IzKlant", inversedBy="hulpvragen")
