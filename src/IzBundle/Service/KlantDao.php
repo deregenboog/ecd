@@ -5,8 +5,13 @@ namespace IzBundle\Service;
 use AppBundle\Entity\Klant;
 use AppBundle\Filter\FilterInterface;
 use AppBundle\Service\AbstractDao;
+use Doctrine\ORM\Query;
 use Doctrine\ORM\Query\Expr;
+use IzBundle\Entity\IzDeelnemer;
 use IzBundle\Entity\IzKlant;
+use IzBundle\Entity\Koppeling;
+use ShipMonk\Doctrine\MySql\IndexHint;
+use ShipMonk\Doctrine\MySql\UseIndexSqlWalker;
 
 class KlantDao extends AbstractDao implements KlantDaoInterface
 {
@@ -56,6 +61,7 @@ class KlantDao extends AbstractDao implements KlantDaoInterface
         if ($filter) {
             $filter->applyTo($builder);
         }
+
 
         if ($page) {
             return $this->paginator->paginate($builder, $page, $this->itemsPerPage, $this->paginationOptions);

@@ -66,6 +66,7 @@
         "phpdocumentor/reflection-docblock": "^5.3",
         "phpoffice/phpspreadsheet": "^1.0",
         "sensio/framework-extra-bundle": "^6",
+        "shipmonk/doctrine-mysql-index-hints": "^2.1",
         "shivas/versioning-bundle": "^4",
         "stof/doctrine-extensions-bundle": "^1.7",
         "symfony/console": "5.4.*",
@@ -112,7 +113,7 @@
         "symfony-app-dir": "app",
         "symfony-bin-dir" : "bin",
         "symfony-var-dir": "var",
-        "symfony-web-dir": "app/webroot",
+        "symfony-web-dir": "public",
         "symfony-tests-dir": "tests",
         "symfony-assets-install": "relative",
         "incenteev-parameters" : {
