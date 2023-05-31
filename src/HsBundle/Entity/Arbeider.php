@@ -163,4 +163,6 @@ abstract class Arbeider
 
         return $this;
     }
+
+    abstract public function __toString(): string;
 }
