@@ -108,10 +108,13 @@ class RegistratiesController extends AbstractController
     {
         $locaties = $this->getEntityManager()->getRepository(Locatie::class)
             ->createQueryBuilder('locatie')
+            ->leftJoin('locatie.locatieTypes','locatieTypes')
             ->where('locatie.maatschappelijkWerk = false')
             ->andWhere('locatie.datumVan <= DATE(CURRENT_TIMESTAMP())')
             ->andWhere('locatie.datumTot > DATE(CURRENT_TIMESTAMP()) OR locatie.datumTot IS NULL')
+            ->andWhere('locatieTypes.naam IN(:naam)')
             ->orderBy('locatie.naam')
+            ->setParameter('naam','Inloop')
             ->getQuery()
             ->getResult()
         ;

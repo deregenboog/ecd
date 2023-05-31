@@ -3,6 +3,7 @@
 namespace InloopBundle\Form;
 
 use ClipBundle\Entity\Behandelaar;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
 use InloopBundle\Entity\Locatie;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -16,7 +17,6 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class LocatieTypeSelectType extends AbstractType
 {
-
     /**
      * {@inheritdoc}
      */
@@ -40,7 +40,7 @@ class LocatieTypeSelectType extends AbstractType
                     ;
                     return $builder;
                 };
-            }
+            },
         ]);
     }
 }

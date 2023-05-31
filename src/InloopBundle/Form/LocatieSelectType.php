@@ -38,11 +38,20 @@ class LocatieSelectType extends AbstractType
                     if ($options['gebruikersruimte']) {
                         $builder->andWhere('locatie.gebruikersruimte = true');
                     }
+                    if ($options['locatietypes']) {
+                        $builder
+                            ->leftJoin('locatie.locatieTypes','locatieTypes')
+                            ->andWhere('locatieTypes.naam IN (:locatietypes)')
+                            ->setParameter('locatietypes',$options['locatietypes'])
+                        ;
+
+                    }
 
                     return $builder;
                 };
             },
             'gebruikersruimte' => false,
+            'locatietypes'=>[],
         ]);
     }
 }

@@ -184,7 +184,7 @@ class Locatie
         return $this->datumTot;
     }
 
-    public function setDatumTot(\DateTime $datumTot)
+    public function setDatumTot(?\DateTime $datumTot)
     {
         $this->datumTot = $datumTot;
 

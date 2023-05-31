@@ -6,6 +6,7 @@ use AppBundle\Form\AppDateRangeType;
 use AppBundle\Form\FilterType;
 use AppBundle\Form\KlantFilterType as AppKlantFilterType;
 use Doctrine\DBAL\Types\TextType;
+use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\QueryBuilder;
@@ -14,6 +15,7 @@ use InloopBundle\Entity\Afsluiting;
 use InloopBundle\Entity\Locatie;
 use InloopBundle\Filter\KlantFilter;
 use InloopBundle\Filter\LocatieFilter;
+use NumberToWords\Grammar\Form;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -26,27 +28,32 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class LocatieFilterType extends AbstractType
 {
+    /** @var EntityRepository */
+    protected $locatieTypeRepo;
+
+    public function __construct(EntityManagerInterface $entityManager)
+    {
+        $this->locatieTypeRepo = $entityManager->getRepository(\InloopBundle\Entity\LocatieType::class);
+
+    }
     /**
      * {@inheritdoc}
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        $defaultLocatieType = $this->locatieTypeRepo->findBy(["naam"=>"Inloop"]);
+
         if (in_array('naam', $options['enabled_filters'])) {
             $builder->add('naam');
         }
 
         if (in_array('locatieTypes', $options['enabled_filters'])) {
-//            $builder->add('locatieTypes', EntityType::class, [
-//                'class' => \InloopBundle\Entity\LocatieType::class,
-//                'required' => false,
-//                'query_builder' => function (EntityRepository $repository): QueryBuilder {
-//                    return $repository->createQueryBuilder('locatie_type')
-//                        ->orderBy('locatie_type.naam')
-//                    ;
-//
-//               },
-//            ]);
-            $builder->add('locatieTypes',LocatieTypeSelectType::class,['multiple'=>true]);
+            $builder->add('locatieTypes',LocatieTypeSelectType::class,[
+                'multiple'=>true,
+                'required'=>false,
+                'data'=> $defaultLocatieType,
+
+            ]);
         }
 
         if (in_array('status', $options['enabled_filters'])) {

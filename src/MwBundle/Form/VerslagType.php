@@ -35,7 +35,7 @@ class VerslagType extends AbstractType
             ->add('datum', AppDateType::class, [
                 'required' => true,
             ])
-            ->add('locatie', LocatieSelectType::class)
+            ->add('locatie', LocatieSelectType::class,['locatietypes'=>$options['locatieTypes']])
             ->add('aantalContactmomenten', IntegerType::class)
 
             ->add('opmerking', CKEditorType::class, ['attr' => ['rows' => 10,'cols'=>50],'required'=>true])
@@ -60,6 +60,7 @@ class VerslagType extends AbstractType
         $resolver->setDefaults([
             'data_class' => Verslag::class,
             'attr' => ['novalidate' => 'novalidate'],
+            'locatieTypes'=>["Maatschappelijk werk","Virtueel"],
         ]);
     }
 

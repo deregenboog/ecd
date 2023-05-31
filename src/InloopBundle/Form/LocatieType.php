@@ -30,7 +30,7 @@ class LocatieType extends AbstractType
                 'multiple'=>true,
             ])
             ->add('datumVan', AppDateType::class)
-            ->add('datumTot', AppDateType::class)
+            ->add('datumTot', AppDateType::class, ['required'=>false])
             ->add('submit', SubmitType::class)
         ;
     }
