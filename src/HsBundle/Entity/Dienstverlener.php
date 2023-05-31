@@ -63,7 +63,7 @@ class Dienstverlener extends Arbeider implements MemoSubjectInterface, DocumentS
         parent::__construct();
     }
 
-    public function __toString()
+    public function __toString(): string
     {
         try {
             //return NameFormatter::formatFormal($this->klant);
