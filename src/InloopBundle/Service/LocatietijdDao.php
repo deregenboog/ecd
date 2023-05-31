@@ -3,7 +3,7 @@
 namespace InloopBundle\Service;
 
 use AppBundle\Service\AbstractDao;
-use InloopBundle\Entity\Locatietijd;
+use AppBundle\Entity\Locatietijd;
 
 class LocatietijdDao extends AbstractDao implements LocatietijdDaoInterface
 {

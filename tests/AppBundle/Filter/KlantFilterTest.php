@@ -6,7 +6,7 @@ use AppBundle\Filter\KlantFilter;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Query\Expr;
 use Doctrine\ORM\QueryBuilder;
-use InloopBundle\Entity\Locatie;
+use AppBundle\Entity\Locatie;
 use PHPUnit\Framework\TestCase;
 
 class KlantFilterTest extends TestCase

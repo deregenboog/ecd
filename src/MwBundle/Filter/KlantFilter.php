@@ -8,7 +8,7 @@ use AppBundle\Filter\FilterInterface;
 use AppBundle\Filter\KlantFilter as AppKlantFilter;
 use AppBundle\Form\Model\AppDateRangeModel;
 use Doctrine\ORM\QueryBuilder;
-use InloopBundle\Entity\Locatie;
+use AppBundle\Entity\Locatie;
 use MwBundle\Entity\Aanmelding;
 use MwBundle\Entity\Afsluiting;
 use MwBundle\Entity\MwDossierStatus;

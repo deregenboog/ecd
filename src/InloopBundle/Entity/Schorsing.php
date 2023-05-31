@@ -12,6 +12,7 @@ use InloopBundle\Service\LocatieDao;
 use InloopBundle\Service\LocatieDaoInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Validator\Context\ExecutionContextInterface;
+use AppBundle\Entity\Locatie;
 
 /**
  * @ORM\Entity(repositoryClass="InloopBundle\Repository\SchorsingRepository")
@@ -142,12 +143,12 @@ class Schorsing
 
     /**
      * @deprecated
-     * @ORM\ManyToOne(targetEntity="Locatie")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Locatie")
      */
     private $locatie;
 
     /**
-     * @ORM\ManyToMany(targetEntity="Locatie")
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Locatie")
      * @ORM\JoinTable(name="schorsing_locatie")
      * @Assert\Count(min=1, minMessage="Selecteer tenminste één locatie")
      */

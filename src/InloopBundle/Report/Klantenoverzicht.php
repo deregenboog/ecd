@@ -7,7 +7,7 @@ use AppBundle\Entity\Klant;
 use AppBundle\Report\AbstractReport;
 use AppBundle\Report\Listing;
 use Doctrine\ORM\EntityManager;
-use InloopBundle\Entity\Locatie;
+use AppBundle\Entity\Locatie;
 
 class Klantenoverzicht extends AbstractReport
 {

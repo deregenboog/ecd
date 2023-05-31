@@ -4,6 +4,7 @@ namespace InloopBundle\Entity;
 
 use AppBundle\Entity\Klant;
 use AppBundle\Model\TimestampableTrait;
+use AppBundle\Entity\Locatie;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 
@@ -36,7 +37,7 @@ class Registratie
 
     /**
      * @var Locatie
-     * @ORM\ManyToOne(targetEntity="Locatie")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Locatie")
      * @Gedmo\Versioned
      */
     private $locatie;

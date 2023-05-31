@@ -2,8 +2,8 @@
 
 namespace Tests\InloopBundle\Entity;
 
-use InloopBundle\Entity\Locatie;
-use InloopBundle\Entity\Locatietijd;
+use AppBundle\Entity\Locatie;
+use AppBundle\Entity\Locatietijd;
 use PHPUnit\Framework\TestCase;
 
 class LocatieTest extends TestCase

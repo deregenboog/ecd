@@ -11,7 +11,7 @@ use AppBundle\Form\AppDateType;
 use AppBundle\Form\KlantFilterType as AppKlantFilterType;
 use InloopBundle\Entity\Aanmelding;
 use InloopBundle\Entity\Afsluiting;
-use InloopBundle\Entity\Locatie;
+use AppBundle\Entity\Locatie;
 use InloopBundle\Entity\Registratie;
 use InloopBundle\Entity\Schorsing;
 use InloopBundle\Event\Events;

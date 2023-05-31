@@ -1,12 +1,13 @@
 <?php
 
-namespace InloopBundle\Entity;
+namespace AppBundle\Entity;
 
 use AppBundle\Model\IdentifiableTrait;
 use AppBundle\Model\TimestampableTrait;
 use AppBundle\Util\DateTimeUtil;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
+
 
 /**
  * @ORM\Entity
@@ -22,7 +23,7 @@ class Locatietijd
     /**
      * @var Locatie
      *
-     * @ORM\ManyToOne(targetEntity="Locatie", inversedBy="locatietijden")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Locatie", inversedBy="locatietijden")
      * @ORM\JoinColumn(nullable=false)
      * @Gedmo\Versioned
      */

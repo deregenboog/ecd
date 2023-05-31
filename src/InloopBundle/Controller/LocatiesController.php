@@ -3,7 +3,7 @@
 namespace InloopBundle\Controller;
 
 use AppBundle\Controller\AbstractController;
-use InloopBundle\Entity\Locatie;
+use AppBundle\Entity\Locatie;
 use InloopBundle\Form\LocatieType;
 use InloopBundle\Service\LocatieDao;
 use InloopBundle\Service\LocatieDaoInterface;

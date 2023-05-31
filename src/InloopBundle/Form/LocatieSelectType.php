@@ -3,7 +3,7 @@
 namespace InloopBundle\Form;
 
 use Doctrine\ORM\EntityRepository;
-use InloopBundle\Entity\Locatie;
+use AppBundle\Entity\Locatie;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\OptionsResolver\Options;

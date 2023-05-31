@@ -3,6 +3,8 @@
 namespace InloopBundle\Entity;
 
 use AppBundle\Entity\Klant;
+use AppBundle\Entity\Locatie;
+
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -21,7 +23,7 @@ class RecenteRegistratie
 
     /**
      * @var Locatie
-     * @ORM\ManyToOne(targetEntity="Locatie")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Locatie")
      */
     private $locatie;
 

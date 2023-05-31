@@ -4,7 +4,7 @@ namespace MwBundle\Form;
 
 use AppBundle\Entity\Klant;
 use AppBundle\Entity\Medewerker;
-use InloopBundle\Entity\Locatie;
+use AppBundle\Entity\Locatie;
 use MwBundle\Entity\Contactsoort;
 use MwBundle\Entity\Doorverwijzing;
 use MwBundle\Entity\Inventarisatie;

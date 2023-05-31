@@ -4,7 +4,7 @@ namespace MwBundle\Form;
 
 use AppBundle\Form\RapportageType as BaseRapportageType;
 use Doctrine\ORM\EntityRepository;
-use InloopBundle\Entity\Locatie;
+use AppBundle\Entity\Locatie;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\FormBuilderInterface;
 

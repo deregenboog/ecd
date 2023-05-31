@@ -2,7 +2,7 @@
 
 namespace InloopBundle\Security;
 
-use InloopBundle\Entity\Locatie;
+use AppBundle\Entity\Locatie;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 

@@ -3,7 +3,7 @@
 namespace InloopBundle\Strategy;
 
 use Doctrine\ORM\QueryBuilder;
-use InloopBundle\Entity\Locatie;
+use AppBundle\Entity\Locatie;
 use InloopBundle\Entity\RecenteRegistratie;
 
 class GebruikersruimteStrategy implements StrategyInterface

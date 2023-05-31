@@ -9,7 +9,7 @@ use AppBundle\Model\TimestampableTrait;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
-use InloopBundle\Entity\Locatie;
+use AppBundle\Entity\Locatie;
 
 /**
  * @ORM\Entity
@@ -68,7 +68,7 @@ class Verslag
     private $klant;
 
     /**
-     * @ORM\ManyToOne(targetEntity="InloopBundle\Entity\Locatie")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Locatie")
      * @Gedmo\Versioned
      */
     private $locatie;

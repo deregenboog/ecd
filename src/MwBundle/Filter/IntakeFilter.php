@@ -10,7 +10,7 @@ use AppBundle\Form\Model\AppDateRangeModel;
 use Doctrine\ORM\Query;
 use Doctrine\ORM\QueryBuilder;
 use InloopBundle\Entity\Intake;
-use InloopBundle\Entity\Locatie;
+use AppBundle\Entity\Locatie;
 use MwBundle\Entity\Verslag;
 
 class IntakeFilter implements FilterInterface

@@ -8,7 +8,7 @@ use Doctrine\Common\Collections\Collection;
 use AppBundle\Entity\Klant;
 use AppBundle\Entity\Medewerker;
 use AppBundle\Entity\Legitimatie;
-use InloopBundle\Entity\Locatie;
+use AppBundle\Entity\Locatie;
 
 /**
  * Hi5Intakes.

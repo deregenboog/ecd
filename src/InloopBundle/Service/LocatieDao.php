@@ -4,7 +4,7 @@ namespace InloopBundle\Service;
 
 use AppBundle\Service\AbstractDao;
 use Doctrine\ORM\EntityManager;
-use InloopBundle\Entity\Locatie;
+use AppBundle\Entity\Locatie;
 use InloopBundle\Event\Events;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;

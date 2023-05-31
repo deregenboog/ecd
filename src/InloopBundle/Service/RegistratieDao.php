@@ -8,7 +8,7 @@ use AppBundle\Service\AbstractDao;
 use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\EntityManager;
 use InloopBundle\Entity\Aanmelding;
-use InloopBundle\Entity\Locatie;
+use AppBundle\Entity\Locatie;
 use InloopBundle\Entity\RecenteRegistratie;
 use InloopBundle\Entity\Registratie;
 use InloopBundle\Event\Events;

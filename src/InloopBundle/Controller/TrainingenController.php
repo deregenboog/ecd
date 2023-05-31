@@ -3,7 +3,7 @@
 namespace InloopBundle\Controller;
 
 use AppBundle\Controller\AbstractController;
-use InloopBundle\Entity\Locatie;
+use AppBundle\Entity\Locatie;
 use InloopBundle\Entity\Training;
 use InloopBundle\Entity\VwTraining;
 use InloopBundle\Form\LocatieType;

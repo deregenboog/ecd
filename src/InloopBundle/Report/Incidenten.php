@@ -8,7 +8,7 @@ use AppBundle\Report\AbstractReport;
 use AppBundle\Report\Listing;
 use Doctrine\ORM\EntityManager;
 use InloopBundle\Entity\Incident;
-use InloopBundle\Entity\Locatie;
+use AppBundle\Entity\Locatie;
 
 class Incidenten extends AbstractReport
 {

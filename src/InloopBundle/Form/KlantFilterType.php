@@ -8,7 +8,7 @@ use AppBundle\Form\KlantFilterType as AppKlantFilterType;
 use Doctrine\ORM\EntityRepository;
 use InloopBundle\Entity\Aanmelding;
 use InloopBundle\Entity\Afsluiting;
-use InloopBundle\Entity\Locatie;
+use AppBundle\Entity\Locatie;
 use InloopBundle\Filter\KlantFilter;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;

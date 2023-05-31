@@ -3,7 +3,7 @@
 namespace InloopBundle\Service;
 
 use AppBundle\Filter\FilterInterface;
-use InloopBundle\Entity\Locatie;
+use AppBundle\Entity\Locatie;
 use Knp\Component\Pager\Pagination\PaginationInterface;
 
 interface LocatieDaoInterface

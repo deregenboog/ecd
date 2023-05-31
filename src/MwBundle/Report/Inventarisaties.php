@@ -4,7 +4,7 @@ namespace MwBundle\Report;
 
 use AppBundle\Report\AbstractReport;
 use AppBundle\Report\Grid;
-use InloopBundle\Entity\Locatie;
+use AppBundle\Entity\Locatie;
 use MwBundle\Service\InventarisatieDaoInterface;
 
 class Inventarisaties extends AbstractReport

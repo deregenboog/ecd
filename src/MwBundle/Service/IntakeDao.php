@@ -10,7 +10,7 @@ use AppBundle\Service\AbstractDao;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Query\Expr\Join;
 use InloopBundle\Entity\Intake;
-use InloopBundle\Entity\Locatie;
+use AppBundle\Entity\Locatie;
 use InloopBundle\Event\Events;
 use InloopBundle\Service\LocatieDao;
 use InloopBundle\Service\LocatieDaoInterface;

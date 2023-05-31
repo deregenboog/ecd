@@ -24,7 +24,7 @@ class Toegang
      * @var Locatie
      *
      * @ORM\Id
-     * @ORM\ManyToOne(targetEntity="Locatie")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Locatie")
      */
     private $locatie;
 

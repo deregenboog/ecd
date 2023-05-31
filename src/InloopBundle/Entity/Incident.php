@@ -9,6 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Validator\Context\ExecutionContextInterface;
+use AppBundle\Entity\Locatie;
 
 /**
  * @ORM\Entity
@@ -54,7 +55,7 @@ class Incident
     private $crisisdienst = false;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Locatie")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Locatie")
      */
     private $locatie;
 

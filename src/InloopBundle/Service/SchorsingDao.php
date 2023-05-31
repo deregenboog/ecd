@@ -5,7 +5,7 @@ namespace InloopBundle\Service;
 use AppBundle\Entity\Klant;
 use AppBundle\Filter\FilterInterface;
 use AppBundle\Service\AbstractDao;
-use InloopBundle\Entity\Locatie;
+use AppBundle\Entity\Locatie;
 use InloopBundle\Entity\Schorsing;
 
 class SchorsingDao extends AbstractDao implements SchorsingDaoInterface
