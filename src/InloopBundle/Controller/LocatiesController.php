@@ -4,6 +4,7 @@ namespace InloopBundle\Controller;
 
 use AppBundle\Controller\AbstractController;
 use InloopBundle\Entity\Locatie;
+use InloopBundle\Form\LocatieFilterType;
 use InloopBundle\Form\LocatieType;
 use InloopBundle\Service\LocatieDao;
 use InloopBundle\Service\LocatieDaoInterface;
@@ -20,6 +21,7 @@ class LocatiesController extends AbstractController
     protected $entityName = 'locatie';
     protected $entityClass = Locatie::class;
     protected $formClass = LocatieType::class;
+    protected $filterFormClass = LocatieFilterType::class;
     protected $baseRouteName = 'inloop_locaties_';
 
     /**

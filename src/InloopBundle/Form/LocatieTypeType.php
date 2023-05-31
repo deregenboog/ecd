@@ -2,22 +2,17 @@
 
 namespace InloopBundle\Form;
 
-use AppBundle\Form\AppDateType;
+use AppBundle\Form\AppTimeType;
 use AppBundle\Form\BaseType;
-use Doctrine\DBAL\Types\BooleanType;
-use Doctrine\DBAL\Types\IntegerType;
-use InloopBundle\Entity\Locatie;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use AppBundle\Form\DagSelectType;
+use InloopBundle\Entity\Locatietijd;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Validator\Constraints\Choice;
 
-class LocatieType extends AbstractType
+class LocatieTypeType extends AbstractType
 {
     /**
      * {@inheritdoc}
@@ -25,12 +20,7 @@ class LocatieType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('naam')
-            ->add('locatieTypes',LocatieTypeSelectType::class,[
-                'multiple'=>true,
-            ])
-            ->add('datumVan', AppDateType::class)
-            ->add('datumTot', AppDateType::class)
+        ->add('naam',TextType::class)
             ->add('submit', SubmitType::class)
         ;
     }
@@ -49,7 +39,7 @@ class LocatieType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'class' => Locatie::class,
+            'class' => \InloopBundle\Entity\LocatieType::class,
         ]);
     }
 }

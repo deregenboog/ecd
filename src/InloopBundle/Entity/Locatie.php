@@ -5,6 +5,8 @@ namespace InloopBundle\Entity;
 use AppBundle\Model\IdentifiableTrait;
 use AppBundle\Model\NameableTrait;
 use AppBundle\Model\TimestampableTrait;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 
@@ -26,6 +28,12 @@ class Locatie
     use IdentifiableTrait;
     use NameableTrait;
     use TimestampableTrait;
+
+    /**
+     * @var Collection<int,LocatieType>
+     * @ORM\ManyToMany(targetEntity="LocatieType",inversedBy="locaties")
+     */
+    private $locatieTypes;
 
     /**
      * @ORM\Column(name="nachtopvang", type="boolean", options={"default"=0})
@@ -331,4 +339,23 @@ class Locatie
     {
         return $this->wachtlijst;
     }
+
+    /**
+     * @return Collection
+     */
+    public function getLocatieTypes(): ?Collection
+    {
+        return $this->locatieTypes;
+    }
+
+    /**
+     * @param Collection $locatieTypes
+     */
+    public function setLocatieTypes(?Collection $locatieTypes): void
+    {
+        $this->locatieTypes = $locatieTypes;
+    }
+
+
+
 }
