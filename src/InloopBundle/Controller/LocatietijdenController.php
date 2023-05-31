@@ -3,7 +3,7 @@
 namespace InloopBundle\Controller;
 
 use AppBundle\Controller\AbstractChildController;
-use AppBundle\Entity\Locatietijd;
+use InloopBundle\Entity\Locatietijd;
 use InloopBundle\Form\LocatietijdType;
 use InloopBundle\Service\LocatietijdDao;
 use InloopBundle\Service\LocatietijdDaoInterface;

@@ -7,7 +7,7 @@ use AppBundle\Entity\Klant;
 use AppBundle\Export\ExportInterface;
 use DagbestedingBundle\Service\LocatieDaoInterface;
 use Doctrine\ORM\EntityNotFoundException;
-use AppBundle\Entity\Locatie;
+use InloopBundle\Entity\Locatie;
 use InloopBundle\Entity\Registratie;
 use InloopBundle\Event\Events;
 use InloopBundle\Filter\KlantFilter;
@@ -123,7 +123,7 @@ class RegistratiesController extends AbstractController
 
     /**
      * @Route("/{locatie}", requirements={"locatie" = "\d+"})
-     * @ParamConverter("locatie", class="AppBundle:Locatie")
+     * @ParamConverter("locatie", class="InloopBundle:Locatie")
      */
     public function indexAction(Request $request)
     {

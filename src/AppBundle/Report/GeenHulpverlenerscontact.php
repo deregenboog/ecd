@@ -3,7 +3,7 @@
 namespace AppBundle\Report;
 
 use AppBundle\Entity\Geslacht;
-use AppBundle\Entity\Locatie;
+use InloopBundle\Entity\Locatie;
 
 class GeenHulpverlenerscontact extends AbstractSqlFileReport
 {

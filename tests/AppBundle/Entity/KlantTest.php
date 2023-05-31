@@ -6,7 +6,7 @@ use AppBundle\Entity\Klant;
 use AppBundle\Entity\Taal;
 use AppBundle\Entity\Zrm;
 use InloopBundle\Entity\Intake;
-use AppBundle\Entity\Locatie;
+use InloopBundle\Entity\Locatie;
 use InloopBundle\Entity\Registratie;
 use PHPUnit\Framework\TestCase;
 

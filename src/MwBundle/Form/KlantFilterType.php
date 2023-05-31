@@ -11,7 +11,7 @@ use AppBundle\Form\KlantFilterType as AppKlantFilterType;
 use AppBundle\Form\WerkgebiedSelectType;
 use Doctrine\ORM\EntityRepository;
 use GaBundle\Form\SelectieType;
-use AppBundle\Entity\Locatie;
+use InloopBundle\Entity\Locatie;
 use InloopBundle\Form\LocatieSelectType;
 use MwBundle\Entity\Aanmelding;
 use MwBundle\Entity\MwDossierStatus;

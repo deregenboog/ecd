@@ -33,7 +33,7 @@ class Registratie
 
     /**
      * @var Locatie
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Locatie")
+     * @ORM\ManyToOne(targetEntity="Locatie")
      * @Gedmo\Versioned
      */
     private $locatie;

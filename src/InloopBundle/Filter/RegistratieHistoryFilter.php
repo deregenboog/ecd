@@ -4,7 +4,7 @@ namespace InloopBundle\Filter;
 
 use AppBundle\Form\Model\AppDateRangeModel;
 use Doctrine\ORM\QueryBuilder;
-use AppBundle\Entity\Locatie;
+use InloopBundle\Entity\Locatie;
 use InloopBundle\Entity\RecenteRegistratie;
 
 class RegistratieHistoryFilter extends RegistratieFilter

@@ -10,7 +10,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
 use InloopBundle\Entity\DossierStatus;
 use InloopBundle\Entity\Incident;
 use InloopBundle\Entity\Intake;
-use AppBundle\Entity\Locatie;
+use InloopBundle\Entity\Locatie;
 use InloopBundle\Entity\Registratie;
 use InloopBundle\Entity\Schorsing;
 use MwBundle\Entity\Aanmelding;

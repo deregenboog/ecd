@@ -8,7 +8,7 @@ use AppBundle\Form\FilterType;
 use AppBundle\Form\KlantFilterType as AppKlantFilterType;
 use AppBundle\Form\StadsdeelSelectType;
 use Doctrine\ORM\EntityRepository;
-use AppBundle\Entity\Locatie;
+use InloopBundle\Entity\Locatie;
 use MwBundle\Filter\IntakeFilter;
 use InloopBundle\Service\LocatieDao;
 use InloopBundle\Service\LocatieDaoInterface;

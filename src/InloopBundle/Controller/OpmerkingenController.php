@@ -5,7 +5,7 @@ namespace InloopBundle\Controller;
 use AppBundle\Controller\AbstractController;
 use AppBundle\Entity\Klant;
 use AppBundle\Entity\Opmerking;
-use AppBundle\Entity\Locatie;
+use InloopBundle\Entity\Locatie;
 use InloopBundle\Form\OpmerkingType;
 use InloopBundle\Service\OpmerkingDao;
 use InloopBundle\Service\OpmerkingDaoInterface;
@@ -46,7 +46,7 @@ class OpmerkingenController extends AbstractController
      * @Route("/{klant}", requirements={"klant"="\d+"}, defaults={"locatie" = null})
      * @Route("/{klant}/{locatie}", requirements={"klant"="\d+", "locatie"="\d+"})
      * @ParamConverter("klant", class="AppBundle:Klant")
-     * @ParamConverter("locatie", class="AppBundle:Locatie")
+     * @ParamConverter("locatie", class="InloopBundle:Locatie")
      */
     public function indexAction(Request $request)
     {

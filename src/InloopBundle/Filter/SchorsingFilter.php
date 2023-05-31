@@ -6,7 +6,7 @@ use AppBundle\Filter\FilterInterface;
 use AppBundle\Filter\KlantFilter as AppKlantFilter;
 use AppBundle\Form\Model\AppDateRangeModel;
 use Doctrine\ORM\QueryBuilder;
-use AppBundle\Entity\Locatie;
+use InloopBundle\Entity\Locatie;
 
 class SchorsingFilter implements FilterInterface
 {

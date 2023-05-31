@@ -3,7 +3,6 @@
 namespace InloopBundle\Entity;
 
 use AppBundle\Entity\Klant;
-use AppBundle\Entity\Locatie;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -25,7 +24,7 @@ class Toegang
      * @var Locatie
      *
      * @ORM\Id
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Locatie")
+     * @ORM\ManyToOne(targetEntity="Locatie")
      */
     private $locatie;
 

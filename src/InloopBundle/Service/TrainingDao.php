@@ -3,7 +3,7 @@
 namespace InloopBundle\Service;
 
 use AppBundle\Service\AbstractDao;
-use AppBundle\Entity\Locatie;
+use InloopBundle\Entity\Locatie;
 use InloopBundle\Entity\Training;
 use InloopBundle\Entity\VwTraining;
 

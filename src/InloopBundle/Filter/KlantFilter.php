@@ -7,7 +7,7 @@ use AppBundle\Filter\KlantFilter as AppKlantFilter;
 use AppBundle\Form\Model\AppDateRangeModel;
 use Doctrine\ORM\QueryBuilder;
 use InloopBundle\Entity\Aanmelding;
-use AppBundle\Entity\Locatie;
+use InloopBundle\Entity\Locatie;
 use InloopBundle\Entity\Toegang;
 use InloopBundle\Strategy\StrategyInterface;
 

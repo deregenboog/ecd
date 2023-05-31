@@ -6,7 +6,7 @@ use AppBundle\Entity\Geslacht;
 use AppBundle\Form\Model\AppDateRangeModel;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\QueryBuilder;
-use AppBundle\Entity\Locatie;
+use InloopBundle\Entity\Locatie;
 
 class SchorsingRepository extends EntityRepository
 {

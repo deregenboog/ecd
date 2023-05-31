@@ -52,7 +52,7 @@ class Incident
     private $crisisdienst = false;
 
     /**
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Locatie")
+     * @ORM\ManyToOne(targetEntity="Locatie")
      */
     private $locatie;
 

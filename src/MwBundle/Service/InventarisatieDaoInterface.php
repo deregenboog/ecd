@@ -2,7 +2,7 @@
 
 namespace MwBundle\Service;
 
-use AppBundle\Entity\Locatie;
+use InloopBundle\Entity\Locatie;
 
 interface InventarisatieDaoInterface
 {

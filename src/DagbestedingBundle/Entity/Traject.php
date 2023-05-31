@@ -125,7 +125,7 @@ class Traject
     /**
      * @var ArrayCollection|Locatie[]
      *
-     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Locatie")
+     * @ORM\ManyToMany(targetEntity="Locatie")
      * @ORM\JoinTable(name="dagbesteding_traject_locatie")
      * @ORM\OrderBy({"naam" = "ASC"})
      */

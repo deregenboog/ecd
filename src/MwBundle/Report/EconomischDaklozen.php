@@ -4,7 +4,7 @@ namespace MwBundle\Report;
 
 use AppBundle\Report\AbstractReport;
 use AppBundle\Report\Grid;
-use AppBundle\Entity\Locatie;
+use InloopBundle\Entity\Locatie;
 use MwBundle\Service\VerslagDao;
 
 class EconomischDaklozen extends AbstractReport

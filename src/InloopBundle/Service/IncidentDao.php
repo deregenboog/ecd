@@ -5,7 +5,7 @@ namespace InloopBundle\Service;
 use AppBundle\Entity\Klant;
 use AppBundle\Filter\FilterInterface;
 use AppBundle\Service\AbstractDao;
-use AppBundle\Entity\Locatie;
+use InloopBundle\Entity\Locatie;
 use InloopBundle\Entity\Incident;
 
 class IncidentDao extends AbstractDao implements IncidentDaoInterface

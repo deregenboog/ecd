@@ -4,7 +4,7 @@ namespace InloopBundle\Event;
 
 use InloopBundle\Entity\DossierStatus;
 use InloopBundle\Entity\Intake;
-use AppBundle\Entity\Locatie;
+use InloopBundle\Entity\Locatie;
 use InloopBundle\Service\AccessUpdater;
 use InloopBundle\Service\KlantDao;
 use InloopBundle\Service\KlantDaoInterface;

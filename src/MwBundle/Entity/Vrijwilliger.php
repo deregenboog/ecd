@@ -15,7 +15,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
-use AppBundle\Entity\Locatie;
+use InloopBundle\Entity\Locatie;
 use MwBundle\Entity\BinnenVia;
 
 /**
@@ -44,7 +44,7 @@ class Vrijwilliger implements MemoSubjectInterface, DocumentSubjectInterface
     /**
      * @var Collection<int, Locatie>
      *
-     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Locatie")
+     * @ORM\ManyToMany(targetEntity="InloopBundle\Entity\Locatie")
      */
     protected $locaties;
 

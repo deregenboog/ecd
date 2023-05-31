@@ -6,7 +6,7 @@ use AppBundle\Form\AppDateType;
 use AppBundle\Form\BaseType;
 use Doctrine\DBAL\Types\BooleanType;
 use Doctrine\DBAL\Types\IntegerType;
-use AppBundle\Entity\Locatie;
+use InloopBundle\Entity\Locatie;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;

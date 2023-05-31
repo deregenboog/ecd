@@ -3,7 +3,7 @@
 namespace InloopBundle\Strategy;
 
 use Doctrine\ORM\QueryBuilder;
-use AppBundle\Entity\Locatie;
+use InloopBundle\Entity\Locatie;
 
 class AmocStrategy implements StrategyInterface
 {

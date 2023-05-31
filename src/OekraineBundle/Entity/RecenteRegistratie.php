@@ -21,7 +21,7 @@ class RecenteRegistratie
 
     /**
      * @var Locatie
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Locatie")
+     * @ORM\ManyToOne(targetEntity="Locatie")
      */
     private $locatie;
 

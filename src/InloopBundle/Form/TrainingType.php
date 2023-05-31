@@ -5,7 +5,7 @@ namespace InloopBundle\Form;
 use AppBundle\Form\AppDateType;
 use AppBundle\Form\BaseType;
 use Doctrine\DBAL\Types\BooleanType;
-use AppBundle\Entity\Locatie;
+use InloopBundle\Entity\Locatie;
 use InloopBundle\Entity\VwTraining;
 use InloopBundle\Service\TrainingDaoInterface;
 use Symfony\Component\Form\AbstractType;

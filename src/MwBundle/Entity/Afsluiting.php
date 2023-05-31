@@ -47,7 +47,7 @@ class Afsluiting extends MwDossierStatus
     protected $land;
 
     /**
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Locatie")
+     * @ORM\ManyToOne(targetEntity="InloopBundle\Entity\Locatie")
      * @Assert\NotNull
      */
     protected $locatie;

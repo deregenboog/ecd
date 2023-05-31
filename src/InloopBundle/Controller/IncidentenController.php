@@ -8,7 +8,7 @@ use AppBundle\Exception\AppException;
 use AppBundle\Exception\UserException;
 use AppBundle\Model\MedewerkerSubjectInterface;
 use InloopBundle\Entity\Incident;
-use AppBundle\Entity\Locatie;
+use InloopBundle\Entity\Locatie;
 use InloopBundle\Entity\Training;
 use AppBundle\Entity\Klant;
 use InloopBundle\Entity\VwTraining;
@@ -61,7 +61,7 @@ class IncidentenController extends AbstractChildController
 
     /**
      * @Route("/addPrefilled/locatie/{locatie}")
-     * @ParamConverter("locatie", class="AppBundle:Locatie")
+     * @ParamConverter("locatie", class="InloopBundle:Locatie")
      * @Template("@Inloop/incidenten/add.html.twig")
      */
     public function addPrefilledAction(Request $request, Locatie $locatie)

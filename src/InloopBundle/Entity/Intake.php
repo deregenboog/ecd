@@ -17,7 +17,6 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Form\Form;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Validator\Context\ExecutionContextInterface;
-use AppBundle\Entity\Locatie;
 
 /**
  * @ORM\Entity
@@ -59,7 +58,7 @@ class Intake
     /**
      * @var Locatie
      *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Locatie")
+     * @ORM\ManyToOne(targetEntity="Locatie")
      * @ORM\JoinColumn(name="locatie2_id")
      * @Gedmo\Versioned
      */
@@ -68,7 +67,7 @@ class Intake
     /**
      * @var Locatie
      *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Locatie")
+     * @ORM\ManyToOne(targetEntity="Locatie")
      * @ORM\JoinColumn(name="locatie1_id")
      * @Gedmo\Versioned
      */
@@ -77,7 +76,7 @@ class Intake
     /**
      * @var Locatie
      *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Locatie")
+     * @ORM\ManyToOne(targetEntity="Locatie")
      * @ORM\JoinColumn(name="locatie3_id")
      * @Gedmo\Versioned
      */

@@ -8,7 +8,7 @@ use Doctrine\DBAL\ParameterType;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\QueryBuilder;
 use InloopBundle\Entity\Aanmelding;
-use AppBundle\Entity\Locatie;
+use InloopBundle\Entity\Locatie;
 use InloopBundle\Filter\KlantFilter;
 use InloopBundle\Filter\LocatieFilter;
 use InloopBundle\Strategy\AmocStrategy;

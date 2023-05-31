@@ -4,7 +4,7 @@ namespace MwBundle\Service;
 
 use AppBundle\Service\AbstractDao;
 use Gedmo\Tree\Entity\Repository\NestedTreeRepository;
-use AppBundle\Entity\Locatie;
+use InloopBundle\Entity\Locatie;
 use MwBundle\Entity\Inventarisatie;
 
 class InventarisatieDao extends AbstractDao implements InventarisatieDaoInterface

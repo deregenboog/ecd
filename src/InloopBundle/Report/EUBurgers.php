@@ -10,7 +10,7 @@ use AppBundle\Report\Table;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManager;
 use InloopBundle\Entity\Intake;
-use AppBundle\Entity\Locatie;
+use InloopBundle\Entity\Locatie;
 use InloopBundle\Entity\Registratie;
 use InloopBundle\Entity\Verslaving;
 use MwBundle\Entity\Doorverwijzing;

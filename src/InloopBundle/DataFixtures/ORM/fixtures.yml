@@ -1,4 +1,4 @@
-AppBundle\Entity\Locatie:
+InloopBundle\Entity\Locatie:
     locatie_blaka_watra:
         naam: 'Blaka Watra'
         nachtopvang: false
