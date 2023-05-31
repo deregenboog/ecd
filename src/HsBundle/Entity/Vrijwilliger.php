@@ -68,7 +68,7 @@ class Vrijwilliger extends Arbeider implements MemoSubjectInterface, DocumentSub
         parent::__construct();
     }
 
-    public function __toString()
+    public function __toString(): string
     {
         try {
             return NameFormatter::formatInformal($this->vrijwilliger);
