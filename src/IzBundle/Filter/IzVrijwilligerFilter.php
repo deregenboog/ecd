@@ -6,10 +6,15 @@ use AppBundle\Entity\Medewerker;
 use AppBundle\Filter\FilterInterface;
 use AppBundle\Filter\VrijwilligerFilter;
 use AppBundle\Form\Model\AppDateRangeModel;
+use Doctrine\ORM\Query;
 use Doctrine\ORM\QueryBuilder;
 use IzBundle\Entity\Doelgroep;
+use IzBundle\Entity\Hulpvraag;
 use IzBundle\Entity\Hulpvraagsoort;
+use IzBundle\Entity\IzDeelnemer;
 use IzBundle\Entity\Project;
+use ShipMonk\Doctrine\MySql\IndexHint;
+use ShipMonk\Doctrine\MySql\UseIndexSqlWalker;
 
 class IzVrijwilligerFilter implements FilterInterface
 {
@@ -215,11 +220,22 @@ class IzVrijwilligerFilter implements FilterInterface
 
     private function getIds(QueryBuilder $builder)
     {
+        $query = $builder->getQuery();
+        $query
+            ->setHint(Query::HINT_CUSTOM_OUTPUT_WALKER, UseIndexSqlWalker::class);
+        $query
+            ->setHint(UseIndexSqlWalker::class, [
+                IndexHint::use(Hulpvraag::IDX_DEELNEMER_DISCR_DELETED_EINDDATUM_KOPPELING, Hulpvraag::TABLE_NAME),
+                IndexHint::use(IzDeelnemer::IDX_ID_AFSLUITING_DELETED_MODEL, IzDeelnemer::TABLE_NAME)
+            ])
+        ;
+//        $sql = SqlExtractor::getFullSQL($query);
+
+        $result = $query->getResult();
         return array_map(
             function (array $item) {
                 return $item['id'];
-            },
-            $builder->getQuery()->getResult()
+            }, $result
         );
     }
 }
