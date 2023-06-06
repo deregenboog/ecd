@@ -53,7 +53,7 @@ when@prod:
                 path: "%kernel.logs_dir%/%kernel.environment%.log"
                 # log *all* messages (debug is lowest level)
                 level: error
-                max_files: 30
+                max_files: 7
             syslog_handler:
                 type: syslog
                 # log error-level messages and higher
