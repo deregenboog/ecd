@@ -5,32 +5,84 @@
 -- !DISABLE
 -- SUMMARY
 (SELECT
-    `naam`,
+    `tl`.`naam`,
     IFNULL((SELECT COUNT(*) FROM `verslagen` `v` WHERE `v`.`locatie_id` = `tl`.`id` AND `v`.`contactsoort_id` is null AND v.`datum` between :from and :until), '-') AS 'Onbekend',
     IFNULL((SELECT COUNT(*) FROM `verslagen` `v` WHERE `v`.`locatie_id` = `tl`.`id` AND `v`.`contactsoort_id` = 3 AND v.`datum` between :from and :until), '-') AS 'Facetoface contacten',
     IFNULL((SELECT COUNT(*) FROM `verslagen` `v` WHERE `v`.`locatie_id` = `tl`.`id` AND `v`.`contactsoort_id` = 2 AND v.`datum` between :from and :until), '-') AS 'Telefonische consulten',
     IFNULL((SELECT COUNT(*) FROM `verslagen` `v` WHERE `v`.`locatie_id` = `tl`.`id` AND `v`.`contactsoort_id` = 1 AND v.`datum` between :from and :until), '-') AS 'Clientgebonden contacten',
     IFNULL((SELECT COUNT(distinct klant_id) FROM `verslagen` `v` WHERE `v`.`locatie_id` = `tl`.`id` AND  `v`.`contactsoort_id` is not null AND v.`datum` between :from and :until), '-') AS 'Aantal unieke bezoekers'
 FROM `locaties` `tl`
+INNER JOIN inloop_locatie_locatietype ill on tl.id = ill.locatie_id
+INNER JOIN locatie_type lt on ill.locatietype_id = lt.id AND lt.naam IN (:locatietypes)
 WHERE tl.datum_van <= :until AND (tl.datum_tot >= :from OR tl.datum_tot IS NULL)
-ORDER BY `naam`)
+ORDER BY `tl`.`naam`)
 UNION
 (SELECT
     'Overige locaties',
-    IFNULL((SELECT COUNT(*) FROM `verslagen` `v` WHERE `v`.`contactsoort_id` is null AND v.locatie_id is null AND v.`datum` between :from and :until), '-') AS 'Onbekend',
-    IFNULL((SELECT COUNT(*) FROM `verslagen` `v` WHERE `v`.`contactsoort_id` = 3 AND v.locatie_id is null AND v.`datum` between :from and :until), '-') AS 'Face-to-face contacten',
-    IFNULL((SELECT COUNT(*) FROM `verslagen` `v` WHERE `v`.`contactsoort_id` = 2 AND v.locatie_id is null AND v.`datum` between :from and :until), '-') AS 'Telefonische consulten',
-    IFNULL((SELECT COUNT(*) FROM `verslagen` `v` WHERE `v`.`contactsoort_id` = 1 AND v.locatie_id is null AND v.`datum` between :from and :until), '-') AS 'Clientgebonden contacten',
-    IFNULL((SELECT COUNT(distinct klant_id) FROM `verslagen` `v` WHERE v.`datum` between :from and :until AND v.locatie_id is null), '-') AS 'Aantal unieke bezoekers'
+    IFNULL((SELECT COUNT(*)
+            FROM `verslagen` `v`
+                INNER JOIN inloop_locatie_locatietype ill on v.locatie_id = ill.locatie_id
+                INNER JOIN locatie_type lt on ill.locatietype_id = lt.id AND lt.naam IN (:locatietypes)
+            WHERE `v`.`contactsoort_id` is null AND v.locatie_id is null AND v.`datum` between :from and :until)
+        , '-')
+        AS 'Onbekend',
+    IFNULL((SELECT COUNT(*)
+            FROM `verslagen` `v`
+                 INNER JOIN inloop_locatie_locatietype ill on v.locatie_id = ill.locatie_id
+                 INNER JOIN locatie_type lt on ill.locatietype_id = lt.id AND lt.naam IN (:locatietypes)
+            WHERE `v`.`contactsoort_id` = 3 AND v.locatie_id is null AND v.`datum` between :from and :until)
+        , '-')
+        AS 'Face-to-face contacten',
+    IFNULL((SELECT COUNT(*)
+            FROM `verslagen` `v`
+                 INNER JOIN inloop_locatie_locatietype ill on v.locatie_id = ill.locatie_id
+                 INNER JOIN locatie_type lt on ill.locatietype_id = lt.id AND lt.naam IN (:locatietypes)
+            WHERE `v`.`contactsoort_id` = 2 AND v.locatie_id is null AND v.`datum` between :from and :until)
+        , '-')
+        AS 'Telefonische consulten',
+    IFNULL((SELECT COUNT(*)
+            FROM `verslagen` `v`
+                 INNER JOIN inloop_locatie_locatietype ill on v.locatie_id = ill.locatie_id
+                 INNER JOIN locatie_type lt on ill.locatietype_id = lt.id AND lt.naam IN (:locatietypes)
+            WHERE `v`.`contactsoort_id` = 1 AND v.locatie_id is null AND v.`datum` between :from and :until)
+        , '-')
+        AS 'Clientgebonden contacten',
+    IFNULL((SELECT COUNT(distinct klant_id)
+            FROM `verslagen` `v`
+                 INNER JOIN inloop_locatie_locatietype ill on v.locatie_id = ill.locatie_id
+                 INNER JOIN locatie_type lt on ill.locatietype_id = lt.id AND lt.naam IN (:locatietypes)
+            WHERE v.`datum` between :from and :until AND v.locatie_id is null)
+        , '-')
+        AS 'Aantal unieke bezoekers'
 )
 UNION
 (SELECT
     'Alle locaties samen',
-    IFNULL((SELECT COUNT(*) FROM `verslagen` `v` WHERE `v`.`contactsoort_id` is null AND v.`datum` between :from and :until), '-') AS 'Onbekend',
-    IFNULL((SELECT COUNT(*) FROM `verslagen` `v` WHERE `v`.`contactsoort_id` = 3 AND v.`datum` between :from and :until), '-') AS 'Face-to-face contacten',
-    IFNULL((SELECT COUNT(*) FROM `verslagen` `v` WHERE `v`.`contactsoort_id` = 2 AND v.`datum` between :from and :until), '-') AS 'Telefonische consulten',
-    IFNULL((SELECT COUNT(*) FROM `verslagen` `v` WHERE `v`.`contactsoort_id` = 1 AND v.`datum` between :from and :until), '-') AS 'Clientgebonden contacten',
-    IFNULL((SELECT COUNT(distinct klant_id) FROM `verslagen` `v` WHERE v.`datum` between :from and :until), '-') AS 'Aantal unieke bezoekers'
+    IFNULL((SELECT COUNT(*)
+            FROM `verslagen` `v`
+                 INNER JOIN inloop_locatie_locatietype ill on v.locatie_id = ill.locatie_id
+                 INNER JOIN locatie_type lt on ill.locatietype_id = lt.id AND lt.naam IN (:locatietypes)
+            WHERE `v`.`contactsoort_id` is null AND v.`datum` between :from and :until), '-') AS 'Onbekend',
+    IFNULL((SELECT COUNT(*)
+            FROM `verslagen` `v`
+                 INNER JOIN inloop_locatie_locatietype ill on v.locatie_id = ill.locatie_id
+                 INNER JOIN locatie_type lt on ill.locatietype_id = lt.id AND lt.naam IN (:locatietypes)
+            WHERE `v`.`contactsoort_id` = 3 AND v.`datum` between :from and :until), '-') AS 'Face-to-face contacten',
+    IFNULL((SELECT COUNT(*)
+            FROM `verslagen` `v`
+                 INNER JOIN inloop_locatie_locatietype ill on v.locatie_id = ill.locatie_id
+                 INNER JOIN locatie_type lt on ill.locatietype_id = lt.id AND lt.naam IN (:locatietypes)
+            WHERE `v`.`contactsoort_id` = 2 AND v.`datum` between :from and :until), '-') AS 'Telefonische consulten',
+    IFNULL((SELECT COUNT(*)
+            FROM `verslagen` `v`
+                 INNER JOIN inloop_locatie_locatietype ill on v.locatie_id = ill.locatie_id
+                 INNER JOIN locatie_type lt on ill.locatietype_id = lt.id AND lt.naam IN (:locatietypes)
+            WHERE `v`.`contactsoort_id` = 1 AND v.`datum` between :from and :until), '-') AS 'Clientgebonden contacten',
+    IFNULL((SELECT COUNT(distinct klant_id)
+            FROM `verslagen` `v`
+                 INNER JOIN inloop_locatie_locatietype ill on v.locatie_id = ill.locatie_id
+                 INNER JOIN locatie_type lt on ill.locatietype_id = lt.id AND lt.naam IN (:locatietypes)
+            WHERE v.`datum` between :from and :until), '-') AS 'Aantal unieke bezoekers'
 )
 ;
 

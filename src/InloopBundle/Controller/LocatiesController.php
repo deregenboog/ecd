@@ -37,5 +37,4 @@ class LocatiesController extends AbstractController
         $this->dao = $dao;
     }
 
-
 }

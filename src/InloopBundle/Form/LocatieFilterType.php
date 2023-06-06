@@ -42,7 +42,6 @@ class LocatieFilterType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $defaultLocatieType = $this->locatieTypeRepo->findBy(["naam"=>"Inloop"]);
-
         if (in_array('naam', $options['enabled_filters'])) {
             $builder->add('naam');
         }
@@ -70,6 +69,12 @@ class LocatieFilterType extends AbstractType
             ->add('filter', SubmitType::class, ['label' => 'Filteren'])
 //             ->add('download', SubmitType::class, ['label' => 'Downloaden'])
         ;
+
+        $builder->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event) use ($defaultLocatieType) {
+           $data = $event->getData();
+           $data->locatieTypes = $defaultLocatieType;
+
+        });
     }
 
     /**

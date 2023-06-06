@@ -7,7 +7,7 @@
 SELECT *
   FROM (
 (SELECT
-    `naam`,
+    l.`naam`,
     cast(IFNULL(`open_days`, 0) as UNSIGNED) AS 'Dagen geopend',
     (SELECT COUNT(DISTINCT `klant_id`) FROM `tmp_visits` WHERE `locatie_id` = `l`.`id` AND `gender` = 'Man' AND `date` between :from and :until) AS 'Mannen uniek',
     (SELECT COUNT(DISTINCT `klant_id`) FROM `tmp_visits` WHERE `locatie_id` = `l`.`id` AND `gender` = 'Vrouw' AND `date` between :from and :until) AS 'Vrouwen uniek',
@@ -18,16 +18,18 @@ SELECT *
     IFNULL(ROUND(((SELECT COUNT(DISTINCT klant_id, date) FROM `tmp_visits` WHERE `locatie_id` = `l`.`id` AND `gender` = 'Man' AND `date` between :from and :until) / `o`.`open_days`), 1), 0) AS 'Mannen per dag',
     IFNULL(ROUND(((SELECT COUNT(DISTINCT klant_id, date) FROM `tmp_visits` WHERE `locatie_id` = `l`.`id` AND `gender` = 'Vrouw' AND `date` between :from and :until) / `o`.`open_days`), 1), 0) AS 'Vrouwen per dag',
     IFNULL(ROUND(((SELECT COUNT(DISTINCT klant_id, date) FROM `tmp_visits` WHERE `locatie_id` = `l`.`id` AND `date` between :from and :until) / `o`.`open_days`), 1), 0) AS 'Totaal per dag',
-    naam as order_naam
+    l.naam as order_naam
 FROM `locaties` `l` USE INDEX (naam)
-LEFT
-    JOIN (SELECT count(open_day) AS open_days, locatie_id
+LEFT JOIN
+    (SELECT count(open_day) AS open_days, locatie_id
             FROM tmp_open_days USE INDEX (locatie_id)
            WHERE `open_day` between :from and :until
            GROUP BY tmp_open_days.locatie_id) o
     ON `l`.`id` = `o`.`locatie_id`
+INNER JOIN `inloop_locatie_locatietype` AS ill ON l.id = ill.locatie_id
+INNER JOIN locatie_type lt ON ill.locatietype_id = lt.id AND lt.naam IN (:locatietypes)
 WHERE l.datum_van <= :until AND (l.datum_tot >= :from OR l.datum_tot IS NULL)
-ORDER BY `naam`)
+ORDER BY l.`naam`)
 UNION
 (SELECT
     'Alle locaties samen',
@@ -196,7 +198,7 @@ LIMIT 10
 -- !DISABLE
 SELECT * FROM (
     (SELECT
-        `naam`,
+        tl.`naam`,
         IFNULL((SELECT SUM(IF(`douche` = -1, 1, 0)) FROM `tmp_inloopdiensten` `tr` WHERE `tr`.`locatie_id` = `tl`.`id` AND `date` >= :from AND `date` <= :until), 0) AS 'Aantal douches',
         IFNULL((SELECT SUM(`maaltijd`) FROM `tmp_inloopdiensten` `tr` WHERE `tr`.`locatie_id` = `tl`.`id` AND `date` >= :from AND `date` <= :until), 0) AS 'Aantal maaltijden',
         IFNULL((SELECT SUM(`activering`) FROM `tmp_inloopdiensten` `tr` WHERE `tr`.`locatie_id` = `tl`.`id` AND `date` >= :from AND `date` <= :until), 0) AS 'Aantal activeringen',
@@ -204,8 +206,10 @@ SELECT * FROM (
         IFNULL((SELECT SUM(`kleding`) FROM `tmp_inloopdiensten` `tr` WHERE `tr`.`locatie_id` = `tl`.`id` AND `date` >= :from AND `date` <= :until), 0) AS 'Aantal kleding',
         IFNULL((SELECT SUM(`veegploeg`) FROM `tmp_inloopdiensten` `tr` WHERE `tr`.`locatie_id` = `tl`.`id` AND `date` >= :from AND `date` <= :until), 0) AS 'Aantal veegploeg',
         IFNULL((SELECT COUNT(distinct `klant_id`) FROM `tmp_inloopdiensten` `tr` WHERE `tr`.`locatie_id` = `tl`.`id` AND `date` >= :from AND `date` <= :until AND `tr`.`veegploeg` = 1), 0) AS 'Aantal personen veegploeg',
-        naam as order_name
+        tl.naam as order_name
     FROM `locaties` `tl`
+     INNER JOIN `inloop_locatie_locatietype` AS ill ON tl.id = ill.locatie_id
+     INNER JOIN locatie_type lt ON ill.locatietype_id = lt.id AND lt.naam IN (:locatietypes)
     WHERE tl.datum_van <= :until AND (tl.datum_tot >= :from OR tl.datum_tot IS NULL)
     )
 UNION
@@ -248,12 +252,14 @@ FROM (select naam, id from `verslavingen` union select 'Onbekend' naam, null id)
 SELECT *
   FROM (
 (SELECT
-    `naam`,
+    tl.`naam`,
     IFNULL((SELECT SEC_TO_TIME(AVG(duration)) FROM `tmp_visits` `tv` USE INDEX (locatie_gender_date) WHERE `tv`.`locatie_id` = `tl`.`id` AND `tv`.`gender` = 'Man' AND `date` between :from and :until), '-') AS 'Gem verblijfsduur mannen',
     IFNULL((SELECT SEC_TO_TIME(AVG(duration)) FROM `tmp_visits` `tv` USE INDEX (locatie_gender_date) WHERE `tv`.`locatie_id` = `tl`.`id` AND `tv`.`gender` = 'Vrouw' AND `date` between :from and :until), '-') AS 'Gem verblijfsduur vrouwen',
     IFNULL((SELECT SEC_TO_TIME(AVG(duration)) FROM `tmp_visits` `tv` USE INDEX (locatie_gender_date) WHERE `tv`.`locatie_id` = `tl`.`id` AND `date` between :from and :until), '-') AS 'Gem verblijfsduur totaal',
-    naam as order_name
+    tl.naam as order_name
 FROM `locaties` `tl`
+ INNER JOIN `inloop_locatie_locatietype` AS ill ON tl.id = ill.locatie_id
+ INNER JOIN locatie_type lt ON ill.locatietype_id = lt.id AND lt.naam IN (:locatietypes)
 WHERE tl.datum_van <= :until AND (tl.datum_tot >= :from OR tl.datum_tot IS NULL)
 )
 UNION

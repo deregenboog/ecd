@@ -16,6 +16,9 @@ class AbstractSqlFileReport extends AbstractReport
      */
     protected $sqlFile;
 
+    protected $params = [];
+
+
     public function __construct(EntityManager $em, $sqlFile)
     {
         $this->em = $em;
@@ -24,6 +27,8 @@ class AbstractSqlFileReport extends AbstractReport
 
     protected function init()
     {
+        $this->initParams();
+
         $reports = $this->getData();
 
         foreach ($reports as $report) {
@@ -44,8 +49,16 @@ class AbstractSqlFileReport extends AbstractReport
                 'data' => $listing->render(),
             ];
         }
+
     }
 
+    private function initParams()
+    {
+        $this->params += [
+            ':from' => sprintf("'%s'", $this->startDate->format('Y-m-d')),
+            ':until' =>  sprintf("'%s'", $this->endDate->format('Y-m-d')),
+        ];
+    }
     protected function build()
     {
         foreach ($this->reports as $i => $report) {
@@ -82,16 +95,10 @@ class AbstractSqlFileReport extends AbstractReport
 
     protected function replacePlaceholders($sql)
     {
-        $search = [
-            ':from',
-            ':until',
-        ];
-        $replace = [
-            sprintf("'%s'", $this->startDate->format('Y-m-d')),
-            sprintf("'%s'", $this->endDate->format('Y-m-d')),
-        ];
+        $k = array_keys($this->params);
+        $v = array_values($this->params);
 
-        return str_replace($search, $replace, $sql);
+        return str_replace(array_keys($this->params), array_values($this->params), $sql);
     }
 
     /**

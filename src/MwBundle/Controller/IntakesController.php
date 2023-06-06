@@ -51,6 +51,12 @@ class IntakesController extends AbstractController
      */
     protected $tbc_countries = [];
     /**
+     * Let op: MW kent geen intakes, en intakes worden (deels) misbruikt voor wachtlijsten.
+     * Dit was een quick & dirty tijdelijk oplossing, en zoals zovaak is het uit de hand gelopen.
+     * Dit moet worden omgebouwd.
+     *
+     * T6 loopt over inloop intakes, de rest (STED) loopt over verslagen. Daarom moet er eerst een type worden gekozen...
+     *
      * @param IntakeDao $dao
      */
     public function __construct(IntakeDao $dao, $tbc_countries=[])

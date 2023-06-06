@@ -26,8 +26,8 @@ class LocatieFilter implements FilterInterface
 
         if($this->naam) {
             $builder
-                ->andWhere('locatie.naam = :naam')
-                ->setParameter('naam',$this->naam);
+                ->andWhere('locatie.naam LIKE :naam')
+                ->setParameter('naam',"%".$this->naam."%");
 
         }
 
