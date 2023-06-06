@@ -232,7 +232,7 @@ class IzKlantFilter implements FilterInterface
                 IndexHint::use(IzDeelnemer::IDX_ID_AFSLUITING_DELETED_MODEL, IzDeelnemer::TABLE_NAME)
                 ])
             ;
-        $sql = SqlExtractor::getFullSQL($query);
+//        $sql = SqlExtractor::getFullSQL($query);
 
         $result = $query->getResult();
         return array_map(
