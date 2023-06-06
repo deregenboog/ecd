@@ -8,8 +8,10 @@ CREATE TABLE `tmp_visits` IGNORE AS
         `g`.`volledig` AS 'gender',
         SUM(TIME_TO_SEC(TIMEDIFF(`buiten`, `binnen`))) AS 'duration'
     FROM `registraties` `r`
-    INNER JOIN `klanten` `k` ON `r`.`klant_id` = `k`.`id`
-    INNER JOIN `geslachten` `g` ON `k`.`geslacht_id` = `g`.`id`
+             INNER JOIN `klanten` `k` ON `r`.`klant_id` = `k`.`id`
+             INNER JOIN `geslachten` `g` ON `k`.`geslacht_id` = `g`.`id`
+             INNER JOIN `inloop_locatie_locatietype` AS ill ON r.locatie_id = ill.locatie_id
+             INNER JOIN locatie_type lt ON ill.locatietype_id = lt.id AND lt.naam IN ('Inloop')
     WHERE YEAR(r.binnen) > '2020'
     GROUP BY `r`.`locatie_id`, `r`.`klant_id`, DATE(`r`.`binnen`), `g`.`volledig`
 ;
@@ -27,10 +29,12 @@ ALTER TABLE tmp_visits
 -- OPEN DAYS
 DROP TABLE IF EXISTS `tmp_open_days`;
 CREATE TABLE `tmp_open_days` AS
-    SELECT DISTINCT `locatie_id`, DATE(`binnen`) AS 'open_day'
-    FROM `registraties`
-    WHERE `locatie_id` != 0
-    ORDER BY `locatie_id`
+    SELECT DISTINCT r.`locatie_id`, DATE(r.`binnen`) AS 'open_day'
+    FROM `registraties` AS r
+     INNER JOIN `inloop_locatie_locatietype` AS ill ON r.locatie_id = ill.locatie_id
+     INNER JOIN locatie_type lt ON ill.locatietype_id = lt.id AND lt.naam IN ('Inloop')
+    WHERE r.`locatie_id` != 0
+    ORDER BY r.`locatie_id`
 ;
 ALTER TABLE tmp_open_days
     ADD INDEX idx_tmp_open_days_locatie_id (locatie_id),
@@ -56,6 +60,8 @@ CREATE TABLE `tmp_visitors` AS
     LEFT JOIN `landen` `l` ON `k`.`land_id` = `l`.`id`
     LEFT JOIN `intakes` `i` ON `k`.`laste_intake_id` = `i`.`id`
     LEFT JOIN `verslavingen` `v` ON `i`.`primaireproblematiek_id` = `v`.`id`
+    INNER JOIN `inloop_locatie_locatietype` AS ill ON r.locatie_id = ill.locatie_id
+    INNER JOIN locatie_type lt ON ill.locatietype_id = lt.id AND lt.naam IN ('Inloop')
 WHERE YEAR(`binnen`) > 2020
 ;
 ALTER TABLE tmp_visitors
@@ -98,6 +104,8 @@ SELECT
 FROM `registraties` `r`
          INNER JOIN `klanten` `k` ON `r`.`klant_id` = `k`.`id`
          INNER JOIN `geslachten` `g` ON `k`.`geslacht_id` = `g`.`id`
+         INNER JOIN `inloop_locatie_locatietype` AS ill ON r.locatie_id = ill.locatie_id
+         INNER JOIN locatie_type lt ON ill.locatietype_id = lt.id AND lt.naam IN ('Inloop')
 WHERE YEAR(r.binnen) > '2020'
 GROUP BY `r`.`locatie_id`, `r`.`klant_id`, `r`.`binnen`
 ;

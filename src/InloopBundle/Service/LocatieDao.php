@@ -2,8 +2,10 @@
 
 namespace InloopBundle\Service;
 
+use AppBundle\Filter\FilterInterface;
 use AppBundle\Service\AbstractDao;
 use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\QueryBuilder;
 use InloopBundle\Entity\Locatie;
 use InloopBundle\Event\Events;
 use Knp\Component\Pager\PaginatorInterface;
@@ -41,7 +43,6 @@ class LocatieDao extends AbstractDao implements LocatieDaoInterface
         parent::__construct($entityManager, $paginator, $itemsPerPage);
         $this->eventDispatcher = $eventDispatcher;
     }
-
 
     public function findAllActiveLocations()
     {

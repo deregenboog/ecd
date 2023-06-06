@@ -8,6 +8,32 @@
         {{ html.link(entity_name|capitalize~' toevoegen', path(route_base ~ 'add')) }}
     </p>
     <table class="table table-hover">
+        <thead>
+        <tr>
+            {{ form_start(filter) }}
+            <tr>
+                <th colspan="6">
+                        <span class="pull-right">
+                            {{ form_widget(filter.filter) }}
+                        </span>
+                </th>
+            </tr>
+            <th></th>
+            <th>
+                {{ form_widget(filter.naam) }}
+                {{ form_errors(filter.naam) }}
+            </th>
+            <th>
+                {{ form_widget(filter.locatieTypes) }}
+                {{ form_errors(filter.locatieTypes) }}
+            </th>
+            <th colspan="">
+                {{ form_widget(filter.status) }}
+                {{ form_errors(filter.status) }}
+            </th>
+            <th colspan="2"> </th>
+            {{ form_end(filter) }}
+        </tr>
         <tr>
             <th>
                 {{ knp_pagination_sortable(pagination, '#', 'locatie.id') }}
@@ -16,7 +42,7 @@
                 {{ knp_pagination_sortable(pagination, 'Naam', 'locatie.naam') }}
             </th>
             <th>
-                {{ knp_pagination_sortable(pagination, 'Heeft wachtlijst', 'locatie.wachtlijst') }}
+                {{ knp_pagination_sortable(pagination, 'Locatietype(s)', 'locatie.locatieTypes') }}
             </th>
             <th>
                 {{ knp_pagination_sortable(pagination, 'Datum van', 'locatie.datumVan') }}
@@ -36,7 +62,7 @@
                     {{ entity }}
                 </td>
                 <td>
-                    {{ entity.wachtlijst|ja_nee }}
+                    {{ entity.locatieTypes|implode }}
                 </td>
                 <td>
                     {{ entity.datumVan ? entity.datumVan|date('d-m-Y') }}

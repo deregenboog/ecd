@@ -22,6 +22,9 @@ services:
         resource: '../../Command'
         tags: [ 'console.command' ]
 
+    InloopBundle\Form\:
+        resource: '../../Form'
+
     InloopBundle\Controller\:
         resource: '../../Controller'
         tags: [ 'controller.service_arguments' ]
@@ -168,3 +171,8 @@ services:
         tags:
             - app.doelstelling
         public: true
+
+    InloopBundle\Form\LocatieTypeSelectType:
+        class: InloopBundle\Form\LocatieTypeSelectType
+        arguments:
+            - "@doctrine.orm.default_entity_manager"
