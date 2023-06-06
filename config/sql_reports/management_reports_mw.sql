@@ -85,38 +85,4 @@ ORDER BY 2 DESC
 )
 ;
 
--- START 26. Aantal doorverwijzingen, per maand en per jaar, per locatie en in totaal
--- HEAD: MW doorverwijzingen per locatie
--- FIELDS: 0.naam - Locatie; 0.cnt - Aantal doorverwijzingen
--- ARRAY
--- !DISABLE
--- SUMMARY
-# DEZE DOET FEITELIJK NIKS WANT iv DOET NIKS MEER. EN HIJ IS HEEL TRAAG...#JTB 20230509
-# (
-# select l.naam, count(distinct iv.id) cnt
-#   from locaties l
-#   left
-#   join verslagen v
-#     on (v.locatie_id = l.id and v.datum between :from and :until)
-#   left
-#   join inventarisaties_verslagen iv
-#     on (v.id = iv.verslag_id)
-#   WHERE l.datum_van <= :until AND (l.datum_tot >= :from OR l.datum_tot IS NULL)
-#  group by 1
-# )
-# UNION
-# (
-# select 'Alle locaties samen' naam, count(distinct iv.id) cnt
-#   from locaties l
-#   left
-#   join verslagen v
-#     on (v.locatie_id = l.id and v.datum between :from and :until)
-#   left
-#   join inventarisaties_verslagen iv
-#     on (v.id = iv.verslag_id)
-#   WHERE l.datum_van <= :until AND (l.datum_tot >= :from OR l.datum_tot IS NULL)
-#  group by 1
-# )
-# ;
-
 -- END FILE: keep this at the end of the file
