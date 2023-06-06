@@ -7,6 +7,7 @@ use AppBundle\Exception\UserException;
 use AppBundle\Form\ConfirmationType;
 use AppBundle\Model\MedewerkerSubjectInterface;
 use AppBundle\Service\AbstractDao;
+use Doctrine\DBAL\Exception\ForeignKeyConstraintViolationException;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
@@ -137,8 +138,42 @@ abstract class AbstractChildController extends AbstractController
                     $parentEntity->{$this->deleteMethod}($entity);
                     $this->parentDao->update($parentEntity);
                 }
-                $this->dao->delete($entity);
-                $this->addFlash('success', ucfirst($this->entityName).' is verwijderd.');
+
+                try{
+                    $this->dao->delete($entity);
+                    $this->addFlash('success', ucfirst($this->entityName).' is verwijderd.');
+                }
+                catch(ForeignKeyConstraintViolationException $exception)
+                {
+                    /**
+                     * Regex to filter out the foreign key which prevents the deletion.
+                     * From there, with class metadata and reflection, the tablename gets matched to the entity,
+                     * so a helpful errormessage can be displayed.
+                     *
+                     * https://regex101.com/r/0Fajyz/1
+                     */
+                    $re = '/.*\(`.*`\..*`(.*)`, CONSTRAINT .*/m';
+
+                    preg_match_all($re, $exception->getMessage(), $matches, PREG_SET_ORDER, 0);
+                    $entityRaw = null;
+                    if( sizeof($matches) > 0 && is_array($matches[0]) && null !== $matches[0][1] )
+                    {
+                        $entityRaw = $matches[0][1];
+                    }
+                    $md = $this->entityManager->getMetadataFactory()->getAllMetadata();
+                    $entityName = "'onbekend'";
+                    foreach($md as $classMetadata)
+                    {
+                        if($classMetadata->getTableName() == $entityRaw) {
+                            $refl = $classMetadata->getReflectionClass();
+                            $entityName = $refl->getShortName();
+                        }
+
+                    }
+
+                    $this->addFlash('danger', ucfirst($this->entityName).sprintf(' kan niet verwijderd worden omdat er nog een of meerdere onderdelen van het type %s aanwezig zijn. Verwijder deze eerst om verder te gaan.',strtolower($entityName) ) );
+                }
+
 
                 if ($url && false === strpos($viewUrl, $url)) {
                     return $this->redirect($url);
