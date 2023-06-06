@@ -29,8 +29,7 @@ final class Version20230531092710 extends AbstractMigration
         $this->addSql('INSERT INTO locatie_type (naam, created, modified) VALUES ("Maatschappelijk werk",CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)');
         $this->addSql('INSERT INTO locatie_type (naam, created, modified) VALUES ("Wachtlijst",CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)');
         $this->addSql('INSERT INTO locatie_type (naam, created, modified) VALUES ("Virtueel",CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)');
-        $this->addSql('INSERT INTO inloop_locatie_locatietype (locatie_id,locatietype_id) SELECT l.id, 3 FROM locaties AS l WHERE l.wachtlijst = 1');
-        $this->addSql('INSERT INTO inloop_locatie_locatietype (locatie_id, locatietype_id) SELECT l.id, (SELECT id FROM locatie_type WHERE naam = "Wachtlijst") FROM locaties AS l WHERE wachtlijst = 1');
+        $this->addSql('INSERT INTO inloop_locatie_locatietype (locatie_id, locatietype_id) SELECT DISTINCT l.id, (SELECT id FROM locatie_type WHERE naam = "Wachtlijst") FROM locaties AS l WHERE wachtlijst = 1');
 
     }
 
