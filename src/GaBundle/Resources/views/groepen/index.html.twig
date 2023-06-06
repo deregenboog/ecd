@@ -32,7 +32,7 @@
                         {{ form_errors(filter.einddatum.end) }}
                     </th>
                     <th>Type</th>
-                    <th colspan="4">
+                    <th colspan="5">
                         <span class="pull-right">
                             {{ form_widget(filter.filter) }}
                             {{ form_widget(filter.download) }}
@@ -56,6 +56,7 @@
                 <th>Aantal activiteiten</th>
                 <th>Aantal leden</th>
                 <th>Type</th>
+                <th></th>
             </tr>
         </thead>
         <tbody>
@@ -81,6 +82,10 @@
                     </td>
                     <td>
                         {{ groep.getType() }}
+                    </td>
+                    <td>
+                        {{ html.editLink(path(route_base~'edit', {id: groep.id})) }}
+                        {{ html.deleteLink(path(route_base~'delete', {id: groep.id})) }}
                     </td>
                 </tr>
             {% endfor %}
