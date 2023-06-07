@@ -26,7 +26,8 @@ class LocatieSelectType extends AbstractType
     {
         $resolver->setDefaults([
             'class' => Locatie::class,
-            'placeholder' => '',
+            'placeholder' => 'Alle locaties',
+            'required' => false,
             'query_builder' => function (Options $options) {
                 return function (EntityRepository $repository) use ($options) {
                     $builder = $repository->createQueryBuilder('locatie')
