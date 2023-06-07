@@ -22,7 +22,7 @@ use MwBundle\Exception\MwException;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
 
-class IntakeDao extends AbstractDao implements IntakeDaoInterface
+class WachtlijstDao extends AbstractDao implements WachtlijstDaoInterface
 {
     protected $paginationOptions = [
 //        'defaultSortFieldName' => 'verslag.datum',

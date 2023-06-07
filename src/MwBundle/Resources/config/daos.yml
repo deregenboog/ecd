@@ -38,7 +38,7 @@ services:
     MwBundle\Service\DeelnameDao:
         parent: app.dao.abstract
 
-    MwBundle\Service\IntakeDao:
+    MwBundle\Service\WachtlijstDao:
         parent: app.dao.abstract
         arguments:
             - '@event_dispatcher'
