@@ -76,7 +76,11 @@ class LocatieDao extends AbstractDao implements LocatieDaoInterface
         $builder = $this->entityManager->createQueryBuilder("locatie");
         $builder->select("locatie.naam")
             ->from(Locatie::class,"locatie")
-            ->where("locatie.wachtlijst > 0");
+            ->innerJoin('locatie.locatieTypes','locatietypes')
+            ->where("locatie.wachtlijst > 0")
+            ->andWhere('locatietypes.naam IN (:locatietypes)')
+            ->setParameter('locatietypes',['Wachtlijst']);
+        ;
         $wachtlijstlocaties = $builder->getQuery()->getResult();
         return $wachtlijstlocaties;
     }

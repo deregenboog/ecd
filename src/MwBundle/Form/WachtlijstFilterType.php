@@ -9,7 +9,8 @@ use AppBundle\Form\KlantFilterType as AppKlantFilterType;
 use AppBundle\Form\StadsdeelSelectType;
 use Doctrine\ORM\EntityRepository;
 use InloopBundle\Entity\Locatie;
-use MwBundle\Filter\IntakeFilter;
+use InloopBundle\Form\LocatieSelectType;
+use MwBundle\Filter\WachtlijstFilter;
 use InloopBundle\Service\LocatieDao;
 use InloopBundle\Service\LocatieDaoInterface;
 use MwBundle\Entity\Verslag;
@@ -20,12 +21,12 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class IntakeFilterType extends AbstractType implements ContainerAwareInterface
+class WachtlijstFilterType extends AbstractType implements ContainerAwareInterface
 {
     use ContainerAwareTrait;
 
     /**
-     * IntakeFilterType constructor.
+     * WachtlijstFilterType constructor.
      * @param  $wachtlijstLocaties
      */
     protected $wachtlijstLocaties = array();
@@ -33,7 +34,7 @@ class IntakeFilterType extends AbstractType implements ContainerAwareInterface
 
     public function __construct(LocatieDao $locatieDao)
     {
-//        $this->wachtlijstLocaties = $locatieDao->getWachtlijstLocaties();
+        $this->wachtlijstLocaties = $locatieDao->getWachtlijstLocaties();
     }
 
 
@@ -49,24 +50,9 @@ class IntakeFilterType extends AbstractType implements ContainerAwareInterface
         }
 
         if (in_array('locatie', $options['enabled_filters'])) {
-//            $builder->add('locatie', LocatieSelectType::class, [
-//                'required' => false,
-//            ]);
-            $builder->add('locatie', EntityType::class, [
-                'required' => false,
-                'class'=>Locatie::class,
-//                'data'=>$this->wachtlijstLocaties,
-                'query_builder' => function (EntityRepository $repository) {
-                    $builder = $repository->createQueryBuilder('locatie')
-                        ->select("locatie")
-                        ->where('locatie.wachtlijst > 0')
-                        ->orderBy('locatie.naam')
-//                        ->setParameter("wachtlijstLocaties",$this->wachtlijstLocaties)
-                    ;
-                    $sql = $builder->getQuery()->getSQL();
-                    return $builder;
-//                    ;
-                },
+            $builder->add('locatie', LocatieSelectType::class,[
+                'locatietypes' => ['Wachtlijst'],
+                'placeholder' => 'T6 wachtlijsten (default)'
             ]);
         }
         if (in_array('werkgebied', $options['enabled_filters'])) {
@@ -96,7 +82,7 @@ class IntakeFilterType extends AbstractType implements ContainerAwareInterface
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => IntakeFilter::class,
+            'data_class' => WachtlijstFilter::class,
             'enabled_filters' => [
                 'klant' => ['id', 'voornaam', 'achternaam', 'geslacht'],
                 'werkgebied',

@@ -13,7 +13,7 @@ use InloopBundle\Entity\Intake;
 use InloopBundle\Entity\Locatie;
 use MwBundle\Entity\Verslag;
 
-class IntakeFilter implements FilterInterface
+class WachtlijstFilter implements FilterInterface
 {
     /**
      * @var Werkgebied

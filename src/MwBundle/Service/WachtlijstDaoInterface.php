@@ -6,7 +6,7 @@ use AppBundle\Filter\FilterInterface;
 use InloopBundle\Entity\Intake;
 use Knp\Component\Pager\Pagination\PaginationInterface;
 
-interface IntakeDaoInterface
+interface WachtlijstDaoInterface
 {
     /**
      * @param int             $page
