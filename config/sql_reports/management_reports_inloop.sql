@@ -185,8 +185,7 @@ SELECT
     (SELECT COUNT(distinct klant_id) FROM `tmp_visitors` `tv` WHERE `tv`.`land_id` = `l`.`id` AND `tv`.`geslacht` = 'Vrouw' AND `date` between :from and :until) AS 'Aantal vrouwen',
     (SELECT COUNT(distinct klant_id) FROM `tmp_visitors` `tv` WHERE `tv`.`land_id` = `l`.`id` AND `date` between :from and :until) AS 'Totaal'
 FROM `landen` `l`
--- ORDER BY 4 DESC
-LIMIT 10
+ORDER BY 4 DESC
 ;
 
 -- START 14-15-16. - Douches, maaltijden en dagdelen.sql
