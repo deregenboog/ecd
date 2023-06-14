@@ -54,7 +54,7 @@
     {% endif %}
     {% if klant.partner is defined and klant.partner is not null%}
         <dt>Partner</dt>
-        <dd>{{ klant.partner }}   {{ html.link('Verwijder partner', path('app_klanten_addpartner', {klant: klant.id, 'partner':'remove'}), 'scissors') }}</dd>
+        <dd>{{ html.link(klant.partner, path('app_klanten_view', {id: klant.partner.id}) ) }}   {{ html.link('Verwijder partner', path('app_klanten_addpartner', {klant: klant.id, 'partner':'remove'}), 'scissors') }}</dd>
     {% elseif klant.id is defined and klant.id is not null %}
         <dt>Partner</dt>
         <dd>{{ html.link('Voeg partner toe', path('app_klanten_addpartner', {klant: klant.id}), 'heart') }}</dd>
