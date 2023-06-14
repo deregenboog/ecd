@@ -133,6 +133,7 @@ services:
             - '%administrator_name%'
             - '%administrator_email%'
             - '%tbc_months_period%'
+            - '@AppBundle\Service\ECDHelper'
         tags:
             - { name: twig.extension }
 

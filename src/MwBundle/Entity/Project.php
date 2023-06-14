@@ -38,4 +38,14 @@ class Project
     {
         return $this->medewerkers;
     }
+
+    /**
+     * @param ArrayCollection $medewerkers
+     */
+    public function setMedewerkers(ArrayCollection $medewerkers): void
+    {
+        $this->medewerkers = $medewerkers;
+    }
+
+
 }

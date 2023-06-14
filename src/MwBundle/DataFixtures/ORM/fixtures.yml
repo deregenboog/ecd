@@ -12,11 +12,11 @@ MwBundle\Entity\BinnenViaOptieVW:
         naam: '<word()>'
         actief: false
 
-MwBundle\Entity\Project:
-    mw_project_{1..4}:
-        naam: '<word()>'
-        medewerker: '@medewerker_*'
-    mw_project_5:
-        naam: '<word()>'
-        medewerker: '@medewerker_*'
-        actief: false
+#MwBundle\Entity\Project:
+#    mw_project_{1..4}:
+#        naam: '<word()>'
+#        medewerkers: '3x @medewerker_*'
+#    mw_project_5:
+#        naam: '<word()>'
+#        medewerkers: '5x @medewerker_*'
+#        actief: false

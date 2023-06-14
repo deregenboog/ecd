@@ -3,6 +3,7 @@
 namespace Tests\AppBundle\Twig;
 
 use AppBundle\Entity\Klant;
+use AppBundle\Service\ECDHelper;
 use AppBundle\Twig\AppExtension;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -18,7 +19,7 @@ class AppExtensionTest extends TestCase
     {
         $requestStack = $this->createMock(RequestStack::class);
 
-        $this->extension = new AppExtension($requestStack, 'nl_NL', 'Admin', 'admin@example.org', 6);
+        $this->extension = new AppExtension($requestStack, 'nl_NL', 'Admin', 'admin@example.org', 6, new ECDHelper());
     }
 
     /**
