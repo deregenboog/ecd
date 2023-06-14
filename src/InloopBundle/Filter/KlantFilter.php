@@ -56,7 +56,7 @@ class KlantFilter implements FilterInterface
     public function __construct(StrategyInterface $strategy = null)
     {
             $this->strategy = $strategy;
-            $this->huidigeStatus = Aanmelding::class;
+//            $this->huidigeStatus = Aanmelding::class;
     }
 
     public function applyTo(QueryBuilder $builder)

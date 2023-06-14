@@ -59,6 +59,7 @@ class KlantFilterType extends AbstractType
             $builder->add('huidigeStatus', ChoiceType::class, [
                 'required' => false,
                 'choices' => [
+                    'Alle dossiers' => null,
                     'Aangemeld' => Aanmelding::class,
                     'Afgesloten' => Afsluiting::class,
                 ],
