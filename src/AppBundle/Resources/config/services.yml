@@ -121,6 +121,9 @@ services:
 
     AppBundle\Doctrine\EcdNamingStrategy: #since autowiring is not on by default per bundle, this must be defined; i guess .
 
+    AppBundle\Service\ECDHelper:
+        public: false
+
     app.twig.app_extension:
         class: AppBundle\Twig\AppExtension
         public: false

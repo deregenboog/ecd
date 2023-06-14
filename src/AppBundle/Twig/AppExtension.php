@@ -5,6 +5,7 @@ namespace AppBundle\Twig;
 use AppBundle\Entity\Geslacht;
 use AppBundle\Entity\Persoon;
 use AppBundle\Exception\AppException;
+use AppBundle\Service\ECDHelper;
 use AppBundle\Service\NameFormatter;
 use AppBundle\Util\DateTimeUtil;
 use Doctrine\Common\Collections\Collection;
@@ -56,13 +57,15 @@ class AppExtension extends AbstractExtension implements GlobalsInterface
         $locale,
         $administratorName,
         $administratorEmail,
-        $tbcMonthsPeriod
+        $tbcMonthsPeriod,
+        ECDHelper $ecdHelper
     ) {
         $this->requestStack = $requestStack;
         $this->locale = $locale;
         $this->administratorName = $administratorName;
         $this->administratorEmail = $administratorEmail;
         $this->tbcMonthsPeriod = $tbcMonthsPeriod;
+        $this->ecdHelper = $ecdHelper;
     }
 
     public function getGlobals(): array
@@ -129,7 +132,7 @@ class AppExtension extends AbstractExtension implements GlobalsInterface
             new TwigFilter('if_date', [$this, 'ifDate'], [
                 'needs_environment' => true,
             ]),
-            new TwigFilter('filterAllRows',[$this,'filterAllRows']),
+            new TwigFilter('filterAllRows',[$this->ecdHelper,'filterAllRows']),
         ];
     }
 
@@ -526,27 +529,6 @@ class AppExtension extends AbstractExtension implements GlobalsInterface
         return '';
     }
 
-    /**
-     * @param $value
-     * @param $allRows
-     * @param $invert If true, returns 'alles behalve'. If false, it shows list of $value.
-     * @param $message
-     * @return string
-     *
-     * Checks if $value contains all the rows of an entity/collection. If so, 'fold' back to 'Alle <entityName>'
-     */
-    public function filterAllRows($value, $allRows, $invert = true)
-    {
-
-        if(count($value)<1 || !$value instanceof Collection) return "";
-
-        $value = $value->toArray();
-        $d = array_diff($allRows,$value);
-
-        if( (count($d) > count($allRows)/2) && $invert) return implode(", ",$value);
-        if(count($d) > 0) return 'Alles behalve: '.implode(", ",$d);
-        return "Alle ".$this->getClass($value[0],false)."(s)";
-    }
 
     public function sleep($length=1)
     {

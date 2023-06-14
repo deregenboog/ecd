@@ -5,6 +5,8 @@ namespace InloopBundle\Controller;
 use AppBundle\Controller\AbstractController;
 use AppBundle\Entity\Klant;
 use AppBundle\Export\ExportInterface;
+use AppBundle\Service\ECDHelper;
+use AppBundle\Twig\AppExtension;
 use DagbestedingBundle\Service\LocatieDaoInterface;
 use Doctrine\ORM\EntityNotFoundException;
 use InloopBundle\Entity\Locatie;
@@ -248,7 +250,7 @@ class RegistratiesController extends AbstractController
      *
      * @Route("/jsonCanRegister/{klant}/{locatie}")
      */
-    public function jsonCanRegisterAction(Klant $klant, Locatie $locatie, $h = 1)
+    public function jsonCanRegisterAction(Klant $klant, Locatie $locatie, $h = 1, ECDHelper $ECDHelper)
     {
         $this->denyAccessUnlessGranted(Permissions::REGISTER, $locatie);
 
@@ -395,7 +397,15 @@ class RegistratiesController extends AbstractController
 
             $actieveSchorsingen = $this->schorsingDao->findActiefByKlantAndLocatie($klant, $locatie);
             if ((is_array($actieveSchorsingen) || $actieveSchorsingen instanceof \Countable ? count($actieveSchorsingen) : 0) > 0) {
-                $jsonVar['message'] .= $sep.'Let op: deze persoon is momenteel op deze locatie geschorst. Toch inchecken?';
+                $alleLocaties = $this->locatieDao->findAllActiveLocationsOfTypeInloop();
+                $schorsingsLocaties = [];
+                foreach($actieveSchorsingen as $schorsing)
+                {
+                    $schorsingsLocaties = array_merge($schorsing->getLocaties()->toArray(),$schorsingsLocaties);
+                }
+                $l = $ECDHelper->filterAllRows($schorsingsLocaties,$alleLocaties);
+
+                $jsonVar['message'] .= $sep.'Let op: deze persoon is momenteel op deze locatie(s) geschorst: '.$l.'.  Toch inchecken?';
                 $sep = $separator;
                 $jsonVar['confirm'] = true;
             }
