@@ -19,18 +19,18 @@ class Aanmelding extends MwDossierStatus
 {
     public function __toString()
     {
-        if ($this->project) {
-            return sprintf(
-                'Aanmelding bij "%s" op %s',
+        $return = sprintf(
+            'Aanmelding op %s door %s',
+            $this->datum->format('d-m-Y'),
+            $this->medewerker
+        );
+        if($this->project)
+        {
+            $return .= sprintf(" bij %s",
                 $this->project,
-                $this->datum->format('d-m-Y')
             );
         }
-
-        return sprintf(
-            'Aanmelding op %s',
-            $this->datum->format('d-m-Y')
-        );
+        return $return;
     }
 
 
@@ -43,14 +43,6 @@ class Aanmelding extends MwDossierStatus
      */
     protected $binnenViaOptieKlant;
 
-    /**
-     * @var Project
-     *
-     * @ORM\ManyToOne(targetEntity="MwBundle\Entity\Project")
-     * @ORM\JoinColumn(nullable=true)
-     * @Gedmo\Versioned
-     */
-    protected $project;
 
     /**
      * @return BinnenViaOptieKlant
@@ -70,17 +62,6 @@ class Aanmelding extends MwDossierStatus
         return $this;
     }
 
-    public function getProject(): ?Project
-    {
-        return $this->project;
-    }
-
-    public function setProject(Project $project): Aanmelding
-    {
-        $this->project = $project;
-
-        return $this;
-    }
 
     /**
      * @PrePersist

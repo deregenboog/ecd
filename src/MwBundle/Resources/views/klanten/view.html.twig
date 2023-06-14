@@ -5,18 +5,12 @@
     <h1>{{ entity_name|capitalize }} {{ entity }}</h1>
     {% if entity.huidigeMwStatus?entity.huidigeMwStatus.afgesloten %}
         <p class="alert alert-danger">
-            Dit dossier is afgesloten op ({{ entity.huidigeMwStatus.datum|date("d-m-Y") }}.
+            Dit dossier is afgesloten op {{ entity.huidigeMwStatus.datum|date("d-m-Y") }}.
             {% if entity.huidigeMwStatus.resultaat is not empty %} Resultaat: {{ entity.huidigeMwStatus.resultaat|join(', ') }} {% endif %}
             {{ html.link('Mw dossier heropenen', path(route_base~'open', {id: entity.id}), 'open') }}
         </p>
     {% endif %}
-    <p>
-        {% if entity.huidigeMwStatus?entity.huidigeMwStatus.aangemeld %}
-            {{ html.link('Wijzigen', path('mw_klanten_edit', {id: entity.id}), 'edit') }}
-            {{ html.link('Mw dossier afsluiten', path(route_base~'close', {id: entity.id}), 'close') }}
-        {% endif %}
-        {{ html.link('Klant toevoegen aan TW', path('tw_klanten_addwithcheck', {id: entity.id}),'add') }}
-    </p>
+
 
     {% if not entity.laatsteZrm %}
         <p class="text-danger">
@@ -34,6 +28,19 @@
 {% endblock %}
 
 {% block content_left %}
+    <h2>Maatschappelijkwerk dossier</h2>
+    <p>
+        {% if entity.huidigeMwStatus?entity.huidigeMwStatus.aangemeld %}
+            {{ html.link('Wijzigen', path('mw_klanten_editmwdossierstatus', {id: entity.id, statusId: entity.huidigeMwStatus.id}), 'edit') }}
+            {{ html.link('Mw dossier afsluiten', path(route_base~'close', {id: entity.id}), 'close') }}
+        {% endif %}
+        {{ html.link('Klant toevoegen aan TW', path('tw_klanten_addwithcheck', {id: entity.id}),'add') }}
+    </p>
+    <ul>
+        {% for status in entity.mwStatussen %}
+            <li>{{ status }}</li>
+        {% endfor %}
+    </ul>
     {% include 'klant_basis.html.twig' with {klant: entity, module: 'MaatschappelijkWerk'} %}
 
     {{ render(controller('InloopBundle\\Controller\\KlantenController::_intakesAction', {id: entity.id})) }}
@@ -53,10 +60,7 @@
     </ul>
     <div class="tab-content">
         <div id="info" class="tab-pane active">
-            <h2>Dossierinformatie</h2>
-            <p>
-                {{ html.link('Dossierinformatie wijzigen', path('mw_klanten_infoedit', {klant: entity.id}), 'edit') }}
-            </p>
+
             {{ render(controller('MwBundle\\Controller\\KlantenController::_mwAction', {id: entity.id})) }}
 
 

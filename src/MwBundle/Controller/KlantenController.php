@@ -26,6 +26,7 @@ use MwBundle\Entity\Info;
 use MwBundle\Form\InfoType;
 use MwBundle\Form\KlantFilterType;
 use MwBundle\Service\KlantDao;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\Form\FormError;
@@ -111,10 +112,8 @@ class KlantenController extends AbstractController
                 $em->flush();
                 $this->addFlash('success', 'Info is opgeslagen.');
             } catch(UserException $e) {
-//                $this->logger->error($e->getMessage(), ['exception' => $e]);
                 $message =  $e->getMessage();
                 $this->addFlash('danger', $message);
-//                return $this->redirectToRoute('app_klanten_index');
             } catch (\Exception $e) {
                 $this->logger->error($e->getMessage(), ['exception' => $e]);
                 $message = $this->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
@@ -241,10 +240,8 @@ class KlantenController extends AbstractController
 
                 return $this->redirectToRoute("mw_klanten_addmwdossierstatus",["id"=>$mwKlant->getId()]);
             } catch(UserException $e) {
-//                $this->logger->error($e->getMessage(), ['exception' => $e]);
                 $message =  $e->getMessage();
                 $this->addFlash('danger', $message);
-//                return $this->redirectToRoute('app_klanten_index');
             } catch (\Exception $e) {
                 $message = $this->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
                 $this->addFlash('danger', $message);
@@ -279,10 +276,8 @@ class KlantenController extends AbstractController
 
                 $this->addFlash('success', 'Mw dossier is afgesloten');
             } catch(UserException $e) {
-//                $this->logger->error($e->getMessage(), ['exception' => $e]);
                 $message =  $e->getMessage();
                 $this->addFlash('danger', $message);
-//                return $this->redirectToRoute('app_klanten_index');
             } catch (\Exception $e) {
                 $message = $this->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
                 $this->addFlash('danger', $message);
@@ -374,10 +369,8 @@ class KlantenController extends AbstractController
 
                 $this->addFlash('success', 'Mw dossier is aangemaakt');
             } catch(UserException $e) {
-//                $this->logger->error($e->getMessage(), ['exception' => $e]);
                 $message =  $e->getMessage();
                 $this->addFlash('danger', $message);
-//                return $this->redirectToRoute('app_klanten_index');
             } catch (\Exception $e) {
                 $message = $this->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
                 $this->addFlash('danger', $message);
@@ -398,7 +391,7 @@ class KlantenController extends AbstractController
 
 
     /**
-     * @Route("/{id}/dossierstatus/{statusId}/edit")
+     * @Route("/{id}/dossierstatus/{statusId}/edit")]
      */
     public function editMwDossierStatusAction(Request $request, $id, $statusId)
     {
@@ -406,23 +399,27 @@ class KlantenController extends AbstractController
         $mwStatus = $klant->getMwStatus($statusId);
 
         $type = null;
+        //prevents certain fields from being edited (like project)
+        $formEditMode = BaseType::MODE_EDIT;
+
         if($mwStatus instanceof Aanmelding)
         {
             $type = AanmeldingType::class;
+            if($mwStatus->getProject() == null)//possibly an old aanmelding without project. Possible to set even while editting.
+            {
+                $formEditMode = BaseType::MODE_ADD;
+            }
         }
         else if($mwStatus instanceof Afsluiting)
         {
             $type = AfsluitingType::class;
         }
-        $form = $this->getForm($type, $mwStatus, ['mode' => BaseType::MODE_EDIT]);
+
+
+        $form = $this->getForm($type, $mwStatus, ['mode' => $formEditMode]);
         $form->handleRequest($this->getRequest());
         if ($form->isSubmitted() && $form->isValid()) {
             try {
-
-//                $entityManager = $this->getEntityManager();
-//                $entityManager->persist($mwStatus);
-//                $entityManager->flush();
-
                 if ($mwStatus->getId()) {
                     $this->beforeUpdate($klant);
                     $this->dao->update($klant);
@@ -433,10 +430,8 @@ class KlantenController extends AbstractController
 
                 $this->addFlash('success', 'Mw dossier is gewijzigd');
             } catch(UserException $e) {
-//                $this->logger->error($e->getMessage(), ['exception' => $e]);
                 $message =  $e->getMessage();
                 $this->addFlash('danger', $message);
-//                return $this->redirectToRoute('app_klanten_index');
             } catch (\Exception $e) {
                 $message = $this->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
                 $this->addFlash('danger', $message);

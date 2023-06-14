@@ -12,6 +12,7 @@ use InloopBundle\Entity\Locatie;
 use MwBundle\Entity\Aanmelding;
 use MwBundle\Entity\Afsluiting;
 use MwBundle\Entity\MwDossierStatus;
+use MwBundle\Entity\Project;
 use MwBundle\Entity\Verslag;
 
 class KlantFilter implements FilterInterface
@@ -55,6 +56,9 @@ class KlantFilter implements FilterInterface
      * @var boolean
      */
     public $isGezin;
+
+    /** @var Project */
+    public $project;
 
     /**
      * @var MwDossierStatus;
@@ -150,11 +154,19 @@ class KlantFilter implements FilterInterface
                 ->andWhere('info.isGezin = 0 OR info.isGezin IS NULL or info.isGezin =1 ');
         }
 
+        if($this->project)
+        {
+            $builder
+                ->innerJoin("huidigeMwStatus.project","project")
+                ->andWhere("project = :project")
+                ->setParameter("project",$this->project);
+        }
+
         if ($this->klant) {
             $this->klant->applyTo($builder);
         }
 
-        $sql = SqlExtractor::getFullSQL($builder->getQuery());
+//        $sql = SqlExtractor::getFullSQL($builder->getQuery());
     }
 
     public function isDirty()

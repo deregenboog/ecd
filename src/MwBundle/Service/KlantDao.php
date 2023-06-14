@@ -77,32 +77,23 @@ class KlantDao extends AbstractDao implements KlantDaoInterface
             ->addSelect('COUNT(DISTINCT verslag.id) AS aantalVerslagen')
 
             ;
-//        if($filter->isDirty()) //rrrright. dit mag weg?
-//        {
-//            $builder
-//                ->leftJoin($this->alias.'.verslagen', 'verslag')
-//                ->leftJoin('verslag.medewerker','medewerker');
-//        }
-//        else
-//        {
-            $builder
-                ->leftJoin($this->alias.'.verslagen', 'verslag')
-                ->leftJoin('verslag.medewerker','medewerker')
-                 ->leftJoin('klant.info','info');
-//        }
+
+        $builder
+            ->leftJoin($this->alias.'.verslagen', 'verslag')
+            ->leftJoin('verslag.medewerker','medewerker')
+             ->leftJoin('klant.info','info');
+
         $builder
             ->leftJoin('klant.maatschappelijkWerker','maatschappelijkWerker')
             ->leftJoin($this->alias.'.verslagen','v2','WITH','verslag.klant = v2.klant AND (verslag.datum < v2.datum OR (verslag.datum = v2.datum AND verslag.id < v2.id))')
             ->where('v2.id IS NULL')
             ->leftJoin($this->alias.'.geslacht', 'geslacht')
-//            ->addSelect('\'2020-07-01\' AS datumLaatsteVerslag')
-//            ->addSelect('1 AS aantalVerslagen')
-//            ->leftJoin($this->alias.'.huidigeStatus', 'status')
             ->leftJoin($this->alias.'.intakes', 'intake')
             ->leftJoin($this->alias.'.laatsteIntake', 'laatsteIntake')
             ->leftJoin('laatsteIntake.intakelocatie', 'laatsteIntakeLocatie')
             ->leftJoin('verslag.locatie','locatie')
             ->leftJoin($this->alias.'.huidigeMwStatus', 'huidigeMwStatus')
+            ->leftJoin('huidigeMwStatus.project','project')
             ->leftJoin('laatsteIntake.gebruikersruimte', 'gebruikersruimte')
 
             ->groupBy('klant.achternaam, klant.id')

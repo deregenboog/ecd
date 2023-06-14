@@ -1,43 +1,39 @@
 {% import 'html.macro.twig' as html %}
 
-<h3>Dossierstatus</h3>
-<dl class="dl-horizontal">
-    <p>
-        {{ html.link('Dossierstatus bewerken', path('mw_klanten_editmwdossierstatus', {id: klant.id,statusId:klant.mwStatussen.last.id|default(0)}), 'edit') }}
-    </p>
-    <dt>Status:</dt>
-    <dd>
-        <ul>
-            {% for status in klant.mwStatussen %}
-                <li>{{ status }}{{ html.link('', path('mw_klanten_editmwdossierstatus', {id: klant.id,statusId:status.id}), 'edit') }}</li>
-            {% endfor %}
-        </ul>
-    </dd>
-    {% if klant.huidigeMwStatus.reden is defined and klant.huidigeMwStatus.reden.isLand == true %}
-        <dt>Land repatriering</dt>
-        <dd>{{ klant.huidigeMwStatus.land }}</dd>
-        <dt>Datum repatriering</dt>
-        <dd>{{ klant.huidigeMwStatus.datumRepatriering|if_date('d-m-Y') }}</dd>
-        <dt>Kosten repatriering</dt>
-        <dd>{{ klant.huidigeMwStatus.kosten|money }}</dd>
-        <dt>Zachte landing?</dt>
-        <dd>{{ klant.huidigeMwStatus.zachteLanding|ja_nee }}</dd>
-    {% endif %}
-    <dt>Binnen via:</dt>
-    <dd>{{ klant.laatsteBinnenViaOptieKlant}}{{ html.link('', path('mw_klanten_editmwdossierstatus', {id: klant.id,statusId:klant.mwStatussen.last.id|default(0)}), 'edit') }}</dd>
-</dl>
-<hr>
+{% if klant.huidigeMwStatus.reden is defined and klant.huidigeMwStatus.reden.isLand == true %}
+    <h3 class="text-warning">Repatriering</h3>
+    <div class="row">
+        <div class="col-xs-6">
+        <dl class="dl-horizontal">
+            <dt>Land repatriering</dt>
+            <dd>{{ klant.huidigeMwStatus.land }}</dd>
+            <dt>Datum repatriering</dt>
+            <dd>{{ klant.huidigeMwStatus.datumRepatriering|if_date('d-m-Y') }}</dd>
+            <dt>Kosten repatriering</dt>
+            <dd>{{ klant.huidigeMwStatus.kosten|money }}</dd>
+            <dt>Zachte landing?</dt>
+            <dd>{{ klant.huidigeMwStatus.zachteLanding|ja_nee }}</dd>
+        </dl>
+        </div>
+    </div>
+{% endif %}
+
+
 {% if info %}
    <h3>Algemene dossierinformatie</h3>
     <div class="row">
         <div class="col-xs-6">
             <dl  class="dl-horizontal">
-                    <dt>RIS</dt>
-                    <dd>{{ info.risDatumTot|if_date }}</dd>
-                    <dt>Maatschappelijk werker</dt>
-                    <dd>{{ klant.maatschappelijkWerker }}</dd>
-                    <dt>Is gezin?</dt>
-                    <dd>{{ info.isGezin|ja_nee }}</dd>
+                {% if instanceof(klant.huidigeMwStatus, 'MwBundle\\Entity\\Aanmelding') %}
+                    <dt>Project</dt>
+                    <dd>{{ klant.huidigeMwStatus.project }}</dd>
+                {% endif %}
+                <dt>RIS</dt>
+                <dd>{{ info.risDatumTot|if_date }}</dd>
+                <dt>Maatschappelijk werker</dt>
+                <dd>{{ klant.maatschappelijkWerker }}</dd>
+                <dt>Is gezin?</dt>
+                <dd>{{ info.isGezin|ja_nee }}</dd>
             </dl>
         </div>
     </div>

@@ -73,9 +73,11 @@ class Afsluiting extends MwDossierStatus
     public function __toString()
     {
         return sprintf(
-            'Afsluiting op %s (%s)',
+            'Afsluiting op %s (%s) door (%s)',
             $this->datum->format('d-m-Y'),
-            $this->reden
+            $this->reden,
+            $this->medewerker
+
         );
     }
 
