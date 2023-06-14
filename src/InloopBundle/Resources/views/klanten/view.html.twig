@@ -141,7 +141,7 @@
             {% endif %}
         </div>
         <div id="schorsingen" class="tab-pane">
-            {% include '@Inloop/klanten/_schorsingen.html.twig' with {klant: entity} %}
+            {% include '@Inloop/klanten/_schorsingen.html.twig' with {klant: entity, allRows: allRows } %}
         </div>
         <div id="incidenten" class="tab-pane">
             {% include '@Inloop/incidenten/_list.html.twig' with {klant: entity} %}

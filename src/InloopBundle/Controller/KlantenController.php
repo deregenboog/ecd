@@ -22,6 +22,7 @@ use InloopBundle\Form\KlantType;
 use InloopBundle\Pdf\PdfBrief;
 use InloopBundle\Service\KlantDao;
 use InloopBundle\Service\KlantDaoInterface;
+use InloopBundle\Service\LocatieDao;
 use JMS\DiExtraBundle\Annotation as DI;
 use Psr\Container\ContainerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
@@ -56,6 +57,11 @@ class KlantenController extends AbstractController
     protected $klantDao;
 
     /**
+     * @var LocatieDao
+     */
+    protected $locatieDao;
+
+    /**
      * @var array|mixed $tbc_countries List of countries where TBC check is mandatory
      */
     protected $tbc_countries=[];
@@ -65,14 +71,26 @@ class KlantenController extends AbstractController
      * @param \AppBundle\Service\KlantDao $klantDao
      * @param array $tbc_countries
      */
-    public function __construct(KlantDao $dao, \AppBundle\Service\KlantDao $klantDao, ContainerInterface $container, $tbc_countries=[])
+    public function __construct(KlantDao $dao, \AppBundle\Service\KlantDao $klantDao, LocatieDao $locatieDao, ContainerInterface $container, $tbc_countries=[])
     {
         $this->dao = $dao;
         $this->klantDao = $klantDao;
         $this->container = $container;
         $this->tbc_countries = $tbc_countries;
+        $this->locatieDao = $locatieDao;
     }
 
+    /**
+     * @Route("/{id}/view")
+     * @Template
+     */
+    public function viewAction(Request $request, $id)
+    {
+        $response = parent::viewAction($request, $id);
+        $response['allRows'] = $this->locatieDao->findAllActiveLocationsOfTypeInloop();
+
+        return $response;
+    }
 
     /**
      * @Route("/add")

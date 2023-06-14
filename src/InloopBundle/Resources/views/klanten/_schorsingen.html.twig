@@ -1,4 +1,5 @@
 {% import 'html.macro.twig' as html %}
+{% import '@Inloop/schorsingen/view.html.twig' as schorsingenMacro %}
 
 
         <h2>Huidige schorsingen <small>({{ klant.huidigeSchorsingen|length }} schorsingen)</small></h2>
@@ -8,111 +9,8 @@
         {% if 0 == klant.huidigeSchorsingen|length %}
             <p>Deze persoon is op dit moment niet geschorst.</p>
         {% else %}
-            <table class="table table-hover">
-                <thead>
-                    <tr>
-                        <th>Locaties</th>
-                        <th>Begindatum</th>
-                        <th>Einddatum</th>
-                        <th>Redenen</th>
-                        <th>Opmerking</th>
-                        <th></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for schorsing in klant.huidigeSchorsingen %}
-                        <tr data-id="{{ schorsing.id }}" data-href="{{ path('inloop_schorsingen_view', {id: schorsing.id}) }}" class="{{ klant.id == schorsing.id ? 'info' }}">
-                            <td>
-                                <ul>
-                                    {% for locatie in schorsing.locaties %}
-                                        <li>{{ locatie }}</li>
-                                    {% endfor %}
-                                </ul>
-                            </td>
-                            <td>{{ schorsing.datumVan|date('d-m-Y') }}</td>
-                            <td>{{ schorsing.datumTot|date('d-m-Y') }}</td>
-                            <td>
-                                <ul>
-                                    {% for reden in schorsing.redenen %}
-                                        <li>{{ reden }}</li>
-                                    {% endfor %}
-                                </ul>
-                            </td>
-                            <td>
-                                {{ schorsing.opmerking }}<br><br>
-                                <a href="{{ path('inloop_schorsingen_view', {id: schorsing.id, language: 'nl', _format: 'pdf'}) }}" target="_blank">
-                                    <span class="glyphicon glyphicon-print"></span>
-                                    Printen
-                                </a>
-                                <a href="{{ path('inloop_schorsingen_view', {id: schorsing.id, language: 'en', _format: 'pdf'}) }}" target="_blank">
-                                    <span class="glyphicon glyphicon-print"></span>
-                                    Printen Engels
-                                </a>
-                                {{ html.link('Wijzigen', path('inloop_schorsingen_edit', {id: schorsing.id}), 'edit') }}
-                                {% if is_granted('ROLE_TEAMLEIDERS') %}
-                                    {{ html.link('Verwijderen', path('inloop_schorsingen_delete', {id: schorsing.id}), 'delete') }}
-                                {% endif %}
-                            </td>
-                            <td>
-                                {% if schorsing.heeftTerugkeergesprekNodig %}
-                                    <input class="terugkeergesprekGehad" id="terugkeergesprekGehad-{{ schorsing.id }}" type="checkbox" {{ schorsing.terugkeergesprekGehad ? 'checked' }}/>
-                                    <label for="terugkeergesprekGehad-{{ schorsing.id }}">Terugkeergesprek gehad?</label>
-                                {% else %}
-                                    n.v.t.
-                                {% endif %}
-                            </td>
-                        </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
+
+            {{ schorsingenMacro.schorsingenTabel(klant.huidigeSchorsingen, klant, allRows, route_base) }}
         {% endif %}
         <h2>Verlopen schorsingen <small>({{ klant.verlopenSchorsingen|length }} schorsingen)</small></h2>
-        <table class="table table-hover">
-            <thead>
-                <tr>
-                    <th>Locaties</th>
-                    <th>Begindatum</th>
-                    <th>Einddatum</th>
-                    <th>Redenen</th>
-                    <th>Opmerking</th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for schorsing in klant.verlopenSchorsingen %}
-                    <tr data-id="{{ schorsing.id }}" data-href="{{ path('inloop_schorsingen_view', {id: schorsing.id}) }}" class="{{ klant.id == schorsing.id ? 'info' }}">
-                        <td>
-                            <ul>
-                                {% for locatie in schorsing.locaties %}
-                                    <li>{{ locatie }}</li>
-                                {% endfor %}
-                            </ul>
-                        </td>
-                        <td>{{ schorsing.datumVan|date('d-m-Y') }}</td>
-                        <td>{{ schorsing.datumTot|date('d-m-Y') }}</td>
-                        <td>
-                            <ul>
-                                {% for reden in schorsing.redenen %}
-                                    <li>{{ reden }}</li>
-                                {% endfor %}
-                            </ul>
-                        </td>
-                        <td>
-                            {{ schorsing.opmerking }}<br><br>
-                            {{ html.link('Wijzigen', path('inloop_schorsingen_edit', {id: schorsing.id}), 'edit') }}
-                            {% if is_granted('ROLE_TEAMLEIDERS') %}
-                                {{ html.link('Verwijderen', path('inloop_schorsingen_delete', {id: schorsing.id}), 'delete') }}
-                            {% endif %}
-                        </td>
-                        <td>
-                            {% if schorsing.heeftTerugkeergesprekNodig %}
-                                <input class="terugkeergesprekGehad" id="terugkeergesprekGehad-{{ schorsing.id }}" type="checkbox" {{ schorsing.terugkeergesprekGehad ? 'checked' }}/>
-                                <label for="terugkeergesprekGehad-{{ schorsing.id }}">Terugkeergesprek gehad?</label>
-                            {% else %}
-                                n.v.t.
-                            {% endif %}
-                        </td>
-                    </tr>
-                {% endfor %}
-            </tbody>
-        </table>
+        {{ schorsingenMacro.schorsingenTabel(klant.verlopenSchorsingen, klant, allRows, route_base) }}

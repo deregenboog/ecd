@@ -2,6 +2,7 @@
 
 namespace InloopBundle\Service;
 
+use AppBundle\Doctrine\SqlExtractor;
 use AppBundle\Filter\FilterInterface;
 use AppBundle\Service\AbstractDao;
 use Doctrine\ORM\EntityManager;
@@ -47,12 +48,27 @@ class LocatieDao extends AbstractDao implements LocatieDaoInterface
     public function findAllActiveLocations()
     {
         $builder = $this->repository->createQueryBuilder($this->alias);
-        $builder->where("locatie.datumTot > :now")
+        $builder->where("(locatie.datumTot IS NULL OR locatie.datumTot > :now)")
                 ->andWhere("locatie.datumVan <= :now")
                 ->setParameter(":now", (new \DateTime('now'))->format("Y-m-d"))
             ;
         return $this->doFindAll($builder,null);
     }
+    public function findAllActiveLocationsOfTypeInloop()
+    {
+        $builder = $this->repository->createQueryBuilder($this->alias);
+        $builder->innerJoin("locatie.locatieTypes","locatieTypes")
+            ->where("(locatie.datumTot IS NULL OR locatie.datumTot > :now)")
+            ->andWhere("locatie.datumVan <= :now")
+            ->andWhere("locatieTypes.naam IN (:locatietypes)")
+
+            ->setParameter("now", (new \DateTime('now'))->format("Y-m-d"))
+            ->setParameter("locatietypes",['Inloop'])
+        ;
+//        $sql = SqlExtractor::getFullSQL($builder->getQuery());
+        return $this->doFindAll($builder,null);
+    }
+
     public function create(Locatie $locatie)
     {
         $this->doCreate($locatie);
