@@ -18,11 +18,12 @@
     <dl class="dl-horizontal">
         <dt>Locaties</dt>
         <dd>
-            <ul>
-                {% for locatie in entity.locaties %}
-                    <li>{{ locatie }}</li>
-                {% endfor %}
-            </ul>
+            {{ entity.locaties|filterAllRows(allRows) }}
+{#            <ul>#}
+{#                {% for locatie in entity.locaties %}#}
+{#                    <li>{{ locatie }}</li>#}
+{#                {% endfor %}#}
+{#            </ul>#}
         </dd>
         <dt>Begindatum</dt>
         <dd>{{ entity.datumVan|date('d-m-Y') }}</dd>
@@ -87,63 +88,7 @@
             {% if 0 == entity.klant.huidigeSchorsingen|length %}
                 <p>Deze persoon is op dit moment niet geschorst.</p>
             {% else %}
-                <table class="table table-hover">
-                    <thead>
-                        <tr>
-                            <th>Locaties</th>
-                            <th>Begindatum</th>
-                            <th>Einddatum</th>
-                            <th>Redenen</th>
-                            <th>Opmerking</th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for schorsing in entity.klant.huidigeSchorsingen %}
-                            <tr data-id="{{ schorsing.id }}" data-href="{{ path(route_base~'view', {id: schorsing.id}) }}" class="{{ entity.id == schorsing.id ? 'info' }}">
-                                <td>
-                                    <ul>
-                                        {% for locatie in schorsing.locaties %}
-                                            <li>{{ locatie }}</li>
-                                        {% endfor %}
-                                    </ul>
-                                </td>
-                                <td>{{ schorsing.datumVan|date('d-m-Y') }}</td>
-                                <td>{{ schorsing.datumTot|date('d-m-Y') }}</td>
-                                <td>
-                                    <ul>
-                                        {% for reden in schorsing.redenen %}
-                                            <li>{{ reden }}</li>
-                                        {% endfor %}
-                                    </ul>
-                                </td>
-                                <td>
-                                    {{ schorsing.opmerking }}<br><br>
-                                    <a href="{{ path(route_base~'view', {id: schorsing.id, language: 'nl', _format: 'pdf'}) }}" target="_blank">
-                                        <span class="glyphicon glyphicon-print"></span>
-                                        Printen
-                                    </a>
-                                    <a href="{{ path(route_base~'view', {id: schorsing.id, language: 'en', _format: 'pdf'}) }}" target="_blank">
-                                        <span class="glyphicon glyphicon-print"></span>
-                                        Printen Engels
-                                    </a>
-                                    {{ html.link('Wijzigen', path(route_base~'edit', {id: schorsing.id}), 'edit') }}
-                                    {% if is_granted('ROLE_TEAMLEIDERS') %}
-                                        {{ html.link('Verwijderen', path(route_base~'delete', {id: schorsing.id}), 'delete') }}
-                                    {% endif %}
-                                </td>
-                                <td>
-                                    {% if schorsing.heeftTerugkeergesprekNodig %}
-                                        <input class="terugkeergesprekGehad" id="terugkeergesprekGehad-{{ schorsing.id }}" type="checkbox" {{ schorsing.terugkeergesprekGehad ? 'checked' }}/>
-                                        <label for="terugkeergesprekGehad-{{ schorsing.id }}">Terugkeergesprek gehad?</label>
-                                    {% else %}
-                                        n.v.t.
-                                    {% endif %}
-                                </td>
-                            </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
+                {{ macro.schorsingenTabel(entity.klant.huidigeSchorsingen, entity, allRows, route_base) }}
             {% endif %}
             <h2>Verlopen schorsingen <small>({{ entity.klant.verlopenSchorsingen|length }} schorsingen)</small></h2>
             {#
@@ -151,67 +96,77 @@
                 {{ html.link('Alle schorsingen van '~entity.klant, path('inloop_schorsingen_index', {'schorsing_filter[klant][id]': entity.klant.id}), 'view') }}
             </p>
             #}
-            <table class="table table-hover">
-                <thead>
-                    <tr>
-                        <th>Locaties</th>
-                        <th>Begindatum</th>
-                        <th>Einddatum</th>
-                        <th>Redenen</th>
-                        <th>Opmerking</th>
-                        <th></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for schorsing in entity.klant.verlopenSchorsingen %}
-                        <tr data-id="{{ schorsing.id }}" data-href="{{ path(route_base~'view', {id: schorsing.id}) }}" class="{{ entity.id == schorsing.id ? 'info' }}">
-                            <td>
-                                <ul>
-                                    {% for locatie in schorsing.locaties %}
-                                        <li>{{ locatie }}</li>
-                                    {% endfor %}
-                                </ul>
-                            </td>
-                            <td>{{ schorsing.datumVan|date('d-m-Y') }}</td>
-                            <td>{{ schorsing.datumTot|date('d-m-Y') }}</td>
-                            <td>
-                                <ul>
-                                    {% for reden in schorsing.redenen %}
-                                        <li>{{ reden }}</li>
-                                    {% endfor %}
-                                </ul>
-                            </td>
-                            <td>
-                                {{ schorsing.opmerking }}<br><br>
-                                {{ html.link('Wijzigen', path(route_base~'edit', {id: schorsing.id}), 'edit') }}
-                                {% if is_granted('ROLE_TEAMLEIDERS') %}
-                                    {{ html.link('Verwijderen', path(route_base~'delete', {id: schorsing.id}), 'delete') }}
-                                {% endif %}
-                            </td>
-                            <td>
-                                {% if schorsing.heeftTerugkeergesprekNodig %}
-                                    <input class="terugkeergesprekGehad" id="terugkeergesprekGehad-{{ schorsing.id }}" type="checkbox" {{ schorsing.terugkeergesprekGehad ? 'checked' }}/>
-                                    <label for="terugkeergesprekGehad-{{ schorsing.id }}">Terugkeergesprek gehad?</label>
-                                {% else %}
-                                    n.v.t.
-                                {% endif %}
-                            </td>
-                        </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
+            {{ macro.schorsingenTabel(entity.klant.verlopenSchorsingen, entity, allRows, route_base) }}
         </div>
     </div>
 {% endblock %}
+
+{% macro schorsingenTabel(schorsingen, entity, allRows, route_base) %}
+<table class="table table-hover">
+    <thead>
+    <tr>
+        <th>Locaties</th>
+        <th>Begindatum</th>
+        <th>Einddatum</th>
+        <th>Redenen</th>
+        <th>Opmerking</th>
+        <th></th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for schorsing in schorsingen %}
+        <tr data-id="{{ schorsing.id }}" data-href="{{ path(route_base~'view', {id: schorsing.id}) }}" class="{{ entity.id == schorsing.id ? 'info' }}">
+            <td>
+                {{ schorsing.locaties|filterAllRows(allRows) }}
+            </td>
+            <td>{{ schorsing.datumVan|date('d-m-Y') }}</td>
+            <td>{{ schorsing.datumTot|date('d-m-Y') }}</td>
+            <td>
+                <ul>
+                    {% for reden in schorsing.redenen %}
+                        <li>{{ reden }}</li>
+                    {% endfor %}
+                </ul>
+            </td>
+            <td>
+                {{ schorsing.opmerking }}<br><br>
+                {% if schorsing.datumTot > date() %}
+                <a href="{{ path(route_base~'view', {id: schorsing.id, language: 'nl', _format: 'pdf'}) }}" target="_blank">
+                    <span class="glyphicon glyphicon-print"></span>
+                    Printen
+                </a>
+                <a href="{{ path(route_base~'view', {id: schorsing.id, language: 'en', _format: 'pdf'}) }}" target="_blank">
+                    <span class="glyphicon glyphicon-print"></span>
+                    Printen Engels
+                </a>
+                {% endif %}
+                {{ html.link('Wijzigen', path(route_base~'edit', {id: schorsing.id}), 'edit') }}
+                {% if is_granted('ROLE_TEAMLEIDERS') %}
+                    {{ html.link('Verwijderen', path(route_base~'delete', {id: schorsing.id}), 'delete') }}
+                {% endif %}
+            </td>
+            <td>
+                {% if schorsing.heeftTerugkeergesprekNodig %}
+                    <input class="terugkeergesprekGehad" id="terugkeergesprekGehad-{{ schorsing.id }}" type="checkbox" {{ schorsing.terugkeergesprekGehad ? 'checked' }}/>
+                    <label for="terugkeergesprekGehad-{{ schorsing.id }}">Terugkeergesprek gehad?</label>
+                {% else %}
+                    n.v.t.
+                {% endif %}
+            </td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+{% endmacro %}
 
 {% macro doelwit(key) %}
     {%- apply spaceless %}
     {% if key == 1 %}
         {% set value = 'medewerker' %}
     {% elseif key == 2 %}
-        {% set color = 'stagiair' %}
+        {% set value = 'stagiair' %}
     {% elseif key == 3 %}
-        {% set color = 'vrijwilliger' %}
+        {% set value = 'vrijwilliger' %}
     {% endif %}
     {{ value }}
     {% endapply -%}

@@ -126,6 +126,7 @@ class SchorsingenController extends AbstractController
 
         return [
             'entity' => $entity,
+            'allRows' => $this->locatieDao->findAllActiveLocationsOfTypeInloop(),
         ];
     }
 
