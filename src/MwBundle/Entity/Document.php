@@ -5,6 +5,7 @@ namespace MwBundle\Entity;
 use AppBundle\Entity\Klant;
 use AppBundle\Entity\Medewerker;
 use AppBundle\Model\DocumentInterface;
+use AppBundle\Model\IdentifiableTrait;
 use AppBundle\Model\RequiredMedewerkerTrait;
 use AppBundle\Model\TimestampableTrait;
 use Doctrine\ORM\Mapping as ORM;
@@ -21,14 +22,9 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
  */
 class Document implements DocumentInterface
 {
-    use TimestampableTrait, RequiredMedewerkerTrait;
-
-    /**
-     * @ORM\Id
-     * @ORM\Column(type="integer")
-     * @ORM\GeneratedValue
-     */
-    private $id;
+    use IdentifiableTrait;
+    use TimestampableTrait;
+    use RequiredMedewerkerTrait;
 
     /**
      * @var string
@@ -58,9 +54,33 @@ class Document implements DocumentInterface
      */
     private $klant;
 
+    /**
+     * @var Medewerker
+     *
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Medewerker", cascade={"persist"})
+     * @Gedmo\Versioned
+     */
+    protected $medewerker;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(type="datetime")
+     * @Gedmo\Versioned
+     */
+    protected $created;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(type="datetime")
+     * @Gedmo\Versioned
+     */
+    protected $modified;
+
     public function __construct($klant = null, Medewerker $medewerker = null)
     {
-        if($klant instanceof Klant) {
+        if ($klant instanceof Klant) {
             $this->klant = $klant;
         }
 
@@ -72,11 +92,6 @@ class Document implements DocumentInterface
     public function __toString()
     {
         return $this->naam;
-    }
-
-    public function getId()
-    {
-        return $this->id;
     }
 
     public function getNaam()

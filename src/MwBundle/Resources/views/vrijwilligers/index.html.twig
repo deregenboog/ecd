@@ -1,14 +1,6 @@
 {% extends 'base.html.twig' %}
 {% import 'html.macro.twig' as html %}
 
-{% block title %}
-    Maatschappelijk werk | Klanten
-{% endblock %}
-
-{% block subnavigation %}
-    {% include '@Mw/subnavigation.html.twig' %}
-{% endblock %}
-
 {% block content %}
     <h1>{{ title }}</h1>
 
@@ -79,7 +71,7 @@
                 Actief
             </th>
             <th>
-                {{ knp_pagination_sortable(pagination, 'Locatie', 'locatie.naam') }}
+                Locatie(s)
             </th>
             <th>
                 {{ knp_pagination_sortable(pagination, 'Stadsdeel', 'werkgebied.naam') }}

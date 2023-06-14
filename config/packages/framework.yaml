@@ -2,7 +2,8 @@
 framework:
     secret: '%env(APP_SECRET)%'
     #csrf_protection: true
-    #http_method_override: true
+    http_method_override: false
+    ide: phpstorm
 
     # Enables session support. Note that the session will ONLY be started if you read or write from it.
     # Remove or comment this section to explicitly disable session support.
@@ -10,17 +11,19 @@ framework:
         handler_id: null
         cookie_secure: auto
         cookie_samesite: lax
+        storage_factory_id: session.storage.factory.native
         name: ECD
         cookie_lifetime: 0 # until the browser is closed
         gc_maxlifetime: 28800 # 8 hours
         save_path: '%kernel.project_dir%/var/sessions'
 
-    ide: 'phpstorm://open?file=%%f&line=%%l&/var/www/html/>/Users/jtborger/Documents/webprojects/deregenboog/ecd/'
     #esi: true
     #fragments: true
-#    templating:
-#        engines:
-#            - twig
     php_errors:
         log: true
 
+when@test:
+    framework:
+        test: true
+        session:
+            storage_factory_id: session.storage.factory.mock_file

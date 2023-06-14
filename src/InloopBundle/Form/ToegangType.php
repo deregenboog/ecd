@@ -36,7 +36,7 @@ class ToegangType extends AbstractType
     /**
      * {@inheritdoc}
      */
-    public function getParent()
+    public function getParent(): ?string
     {
         return BaseType::class;
     }
@@ -68,6 +68,7 @@ class ToegangType extends AbstractType
             ])
             ->add('intakelocatie', LocatieSelectType::class, [
                 'required' => true,
+                'locatietypes'=>['Inloop'],
             ])
             ->add('toegangInloophuis', CheckboxType::class, [
                 'required' => false,

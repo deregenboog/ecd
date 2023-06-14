@@ -23,7 +23,26 @@ use Gedmo\Mapping\Annotation as Gedmo;
  */
 abstract class BinnenVia
 {
-    use IdentifiableTrait, NameableTrait, ActivatableTrait, TimestampableTrait;
+    use IdentifiableTrait;
+    use NameableTrait;
+    use ActivatableTrait;
+    use TimestampableTrait;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(type="datetime")
+     * @Gedmo\Versioned
+     */
+    protected $created;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(type="datetime")
+     * @Gedmo\Versioned
+     */
+    protected $modified;
 
     public function isDeletable()
     {

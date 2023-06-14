@@ -2,6 +2,8 @@
 
 namespace OekBundle\Entity;
 
+use AppBundle\Entity\Klant;
+use AppBundle\Model\IdentifiableTrait;
 use AppBundle\Model\KlantRelationInterface;
 use AppBundle\Model\TimestampableTrait;
 use Doctrine\ORM\Mapping as ORM;
@@ -15,14 +17,8 @@ use Gedmo\Mapping\Annotation as Gedmo;
  */
 class Deelname implements KlantRelationInterface
 {
+    use IdentifiableTrait;
     use TimestampableTrait;
-
-    /**
-     * @ORM\Id
-     * @ORM\Column(type="integer")
-     * @ORM\GeneratedValue
-     */
-    private $id;
 
     /**
      * @var Training
@@ -70,16 +66,27 @@ class Deelname implements KlantRelationInterface
      */
     private $doorverwezenNaar;
 
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(type="datetime")
+     * @Gedmo\Versioned
+     */
+    protected $created;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(type="datetime")
+     * @Gedmo\Versioned
+     */
+    protected $modified;
+
     public function __construct(Training $training = null, Deelnemer $deelnemer = null)
     {
         $this->training = $training;
         $this->deelnemer = $deelnemer;
         $this->deelnameStatus = new DeelnameStatus($this);
-    }
-
-    public function getId()
-    {
-        return $this->id;
     }
 
     public function getTraining()
@@ -137,20 +144,20 @@ class Deelname implements KlantRelationInterface
         return DeelnameStatus::STATUS_AANGEMELD === $this->deelnameStatus->getStatus();
     }
 
-    public function getKlant()
+    public function getKlant(): Klant
     {
-        return $this->getDeelnemer();
+        return $this->getDeelnemer()->getKlant();
     }
 
-    public function getKlantFieldName()
+    public function getKlantFieldName(): string
     {
-      return "Deelnemer";
+        return "Deelnemer";
     }
 
     /**
      * @return string
      */
-    public function getDoorverwezenNaar():? string
+    public function getDoorverwezenNaar(): ?string
     {
         return $this->doorverwezenNaar;
     }
@@ -162,6 +169,4 @@ class Deelname implements KlantRelationInterface
     {
         $this->doorverwezenNaar = $doorverwezenNaar;
     }
-
-
 }

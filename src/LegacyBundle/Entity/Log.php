@@ -6,14 +6,11 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity
- * @ORM\Table(
- *     name="logs",
- *     indexes={
- *         @ORM\Index(columns={"model", "foreign_key", "created"}),
- *         @ORM\Index(columns={"model", "foreign_key"}),
- *         @ORM\Index(columns={"medewerker_id"})
- *     }
- * )
+ * @ORM\Table(name="logs", indexes={
+ *     @ORM\Index(name="idx_logs_model_foreign_key_created", columns={"model", "foreign_key", "created"}),
+ *     @ORM\Index(name="idx_logs_model_foreign_key", columns={"model", "foreign_key"}),
+ *     @ORM\Index(name="idx_logs_medewerker_id", columns={"medewerker_id"})
+ * })
  */
 class Log
 {

@@ -6,10 +6,12 @@ use AppBundle\Form\AppDateType;
 use AppBundle\Form\AppTimeType;
 use AppBundle\Form\BaseType;
 use Doctrine\ORM\EntityRepository;
+use HsBundle\Entity\Arbeider;
 use HsBundle\Entity\Dienstverlener;
 use HsBundle\Entity\Klus;
 use HsBundle\Entity\Registratie;
 use HsBundle\Entity\Vrijwilliger;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\MoneyType;
@@ -30,12 +32,12 @@ class RegistratieType extends AbstractType
         $registratie = $options['data'];
 
         if ($registratie->getKlus() && !$registratie->getArbeider()) {
-            $builder->add('arbeider', null, [
+            $builder->add('arbeider', EntityType::class, [
+                'class' => Arbeider::class,
                 'label' => 'Dienstverlener/vrijwilliger',
                 'required' => true,
                 'query_builder' => function (EntityRepository $repository) use ($registratie) {
                     return $repository->createQueryBuilder('arbeider')
-                        ->select('arbeider, dienstverlener, vrijwilliger, klant, basisvrijwilliger')
                         ->leftJoin(Dienstverlener::class, 'dienstverlener', 'WITH', 'dienstverlener = arbeider')
                         ->leftJoin(Vrijwilliger::class, 'vrijwilliger', 'WITH', 'vrijwilliger = arbeider')
                         ->leftJoin('dienstverlener.klant', 'klant')
@@ -124,7 +126,7 @@ class RegistratieType extends AbstractType
     /**
      * {@inheritdoc}
      */
-    public function getParent()
+    public function getParent(): ?string
     {
         return BaseType::class;
     }

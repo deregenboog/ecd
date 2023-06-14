@@ -1,12 +1,5 @@
 {% extends 'base.html.twig' %}
-
-{% block title %}
-    Maatschappelijk werk | {{ title }}
-{% endblock %}
-
-{% block subnavigation %}
-    {% include '@Mw/subnavigation.html.twig' %}
-{% endblock %}
+{% import 'html.macro.twig' as html %}
 
 {% block content %}
     <h1>Training toevoegen voor vrijwilliger {{ entity.vrijwilliger }}</h1>

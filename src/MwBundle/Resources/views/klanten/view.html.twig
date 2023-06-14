@@ -1,14 +1,6 @@
 {% extends 'base-2-col.html.twig' %}
 {% import 'html.macro.twig' as html %}
 
-{% block title %}
-    Maatschappelijk werk | {{ title }}
-{% endblock %}
-
-{% block subnavigation %}
-    {% include '@Mw/subnavigation.html.twig' %}
-{% endblock %}
-
 {% block content_top %}
     <h1>{{ entity_name|capitalize }} {{ entity }}</h1>
     {% if entity.huidigeMwStatus?entity.huidigeMwStatus.afgesloten %}
@@ -66,6 +58,8 @@
                 {{ html.link('Dossierinformatie wijzigen', path('mw_klanten_infoedit', {klant: entity.id}), 'edit') }}
             </p>
             {{ render(controller('MwBundle\\Controller\\KlantenController::_mwAction', {id: entity.id})) }}
+
+
         </div>
         <div id="verslagen" class="tab-pane">
             <h2>Verslagen</h2>
@@ -93,12 +87,9 @@
                     </div>
                     <div class="col-xs-6">
                         <dl class="dl-horizontal">
-                            <dt>Contactsoort</dt>
-                            <dd>{{ verslag.contactsoort }}</dd>
-                            {% if verslag.duur %}
-                                <dt>Duur</dt>
-                                <dd>{{ verslag.duur }} minuten</dd>
-                            {% endif %}
+                            <dt>Aantal contactmomenten</dt>
+                            <dd>{{ verslag.aantalContactmomenten }}</dd>
+
                             <dt>Type</dt>
                             <dd>{{ verslag.typeAsString }}</dd>
                         </dl>

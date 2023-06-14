@@ -10,7 +10,7 @@ use Doctrine\ORM\Events;
 
 class PostcodeSubscriber implements EventSubscriber
 {
-    public function getSubscribedEvents()
+    public function getSubscribedEvents(): array
     {
         return [
             Events::postPersist,

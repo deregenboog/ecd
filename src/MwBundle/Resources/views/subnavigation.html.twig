@@ -8,7 +8,7 @@
     {{ html.navLink('Klanten', path('mw_klanten_index'), isActiveRoute('mw_klanten_')) }}
     {{ html.navLink('Vrijwilligers', path('mw_vrijwilligers_index'), isActiveRoute('mw_vrijwilligers_')) }}
 
-    {{ html.navLink('Wachtlijst', path('mw_intakes_index'), isActiveRoute('mw_intakes_')) }}
+    {{ html.navLink('Wachtlijst', path('mw_wachtlijst_index'), isActiveRoute('mw_wachtlijst_')) }}
     {{ html.navLink('Rapportages', path('mw_rapportages_index'), isActiveRoute('mw_rapportages_')) }}
     {% if is_granted('ROLE_MW_BEHEER') %}
         <li role="presentation" class="dropdown {{ isActivePath('mw/admin') ? 'active' }}">

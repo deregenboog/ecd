@@ -2,7 +2,6 @@
 
 namespace OekraineBundle\Entity;
 
-
 use AppBundle\Entity\Legitimatie;
 use AppBundle\Entity\Medewerker;
 use AppBundle\Entity\Verblijfsstatus;
@@ -147,7 +146,7 @@ class Intake
      * @var Verblijfsstatus
      *
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Verblijfsstatus")
-     * @ORM\JoinColumn(name="verblijfstatus_id", nullable=true)
+     * @ORM\JoinColumn(name="verblijfstatus_id")
      * @Assert\NotNull(groups={"toegang"})
      */
     private $verblijfsstatus;
@@ -195,14 +194,14 @@ class Intake
     /**
      * @var string
      *
-     * @ORM\Column(name="opmerking_andere_instanties", nullable=true)
+     * @ORM\Column(name="opmerking_andere_instanties", type="text", nullable=true)
      */
     private $opmerkingAndereInstanties;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="medische_achtergrond", nullable=true)
+     * @ORM\Column(name="medische_achtergrond", type="text", nullable=true)
      */
     private $medischeAchtergrond;
 
@@ -210,14 +209,14 @@ class Intake
     /**
      * @var string
      *
-     * @ORM\Column(name="toekomstplannen", nullable=true)
+     * @ORM\Column(name="toekomstplannen", type="text", nullable=true)
      */
     private $toekomstplannen;
 
     /**
      * @var string
      *
-     * @ORM\Column(nullable=true)
+     * @ORM\Column(type="text", nullable=true)
      */
     private $indruk;
 
@@ -252,7 +251,6 @@ class Intake
 
     public function __construct(Bezoeker $bezoeker = null)
     {
-
         $this->setBezoeker($bezoeker);
         $this->created = new \DateTime();
         $this->modified = new \DateTime();
@@ -275,7 +273,6 @@ class Intake
         $this->informeleZorg = null;
         $this->werkhulp = null;
         $this->hulpverlening = null;
-
     }
 
     /**
@@ -768,7 +765,6 @@ class Intake
         $root = $context->getRoot();
         if ($root instanceof Form && $root->getName()) {
             if ($root->getName() == "toegang") {
-
             }
         }
         return $context->getValidator()->validate();

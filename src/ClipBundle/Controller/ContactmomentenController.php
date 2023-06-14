@@ -20,7 +20,6 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class ContactmomentenController extends AbstractChildController
 {
-    protected $title = 'Contactmomenten';
     protected $entityName = 'contactmoment';
     protected $entityClass = Contactmoment::class;
     protected $formClass = ContactmomentType::class;

@@ -8,7 +8,7 @@ use Doctrine\DBAL\Types\DateType;
 
 class MysqlDateType extends DateType
 {
-    public function getName()
+    public function getName(): string
     {
         return 'mysql_date';
     }
@@ -16,7 +16,7 @@ class MysqlDateType extends DateType
     /**
      * {@inheritdoc}
      */
-    public function convertToPHPValue($value, AbstractPlatform $platform)
+    public function convertToPHPValue($value, AbstractPlatform $platform): mixed
     {
         if ($platform instanceof MySqlPlatform && ('1970-01-01' === $value || '0000-00-00' === $value)) {
             return null;

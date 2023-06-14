@@ -11,7 +11,7 @@ class RegistratieHistoryFilterType extends AbstractType
     /**
      * {@inheritdoc}
      */
-    public function getParent()
+    public function getParent(): ?string
     {
         return RegistratieFilterType::class;
     }

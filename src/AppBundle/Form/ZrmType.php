@@ -36,7 +36,7 @@ class ZrmType extends AbstractType
             $builder->add('requestModule', ChoiceType::class, [
                 'required' => true,
                 'label' => 'Module',
-                'placeholder' => 'Selecteer eem module',
+                'placeholder' => 'Selecteer een module',
                 'choices' => [
                     'Intake' => 'Intake',
                     'IzIntake' => 'IzIntake',
@@ -63,7 +63,7 @@ class ZrmType extends AbstractType
         ]);
     }
 
-    public function getParent()
+    public function getParent(): ?string
     {
         return BaseType::class;
     }

@@ -73,6 +73,7 @@ class KlantDao extends AbstractDao implements KlantDaoInterface
             ->select('klant, laatsteIntake, gebruikersruimte')
             ->addSelect('verslag.datum AS datumLaatsteVerslag')
             ->addSelect('locatie.naam AS laatsteVerslagLocatie')
+            ->addSelect('info.isGezin AS isGezin')
             ->addSelect('COUNT(DISTINCT verslag.id) AS aantalVerslagen')
 
             ;
@@ -86,7 +87,8 @@ class KlantDao extends AbstractDao implements KlantDaoInterface
 //        {
             $builder
                 ->leftJoin($this->alias.'.verslagen', 'verslag')
-                ->leftJoin('verslag.medewerker','medewerker');
+                ->leftJoin('verslag.medewerker','medewerker')
+                 ->leftJoin('klant.info','info');
 //        }
         $builder
             ->leftJoin('klant.maatschappelijkWerker','maatschappelijkWerker')
@@ -102,6 +104,7 @@ class KlantDao extends AbstractDao implements KlantDaoInterface
             ->leftJoin('verslag.locatie','locatie')
             ->leftJoin($this->alias.'.huidigeMwStatus', 'huidigeMwStatus')
             ->leftJoin('laatsteIntake.gebruikersruimte', 'gebruikersruimte')
+
             ->groupBy('klant.achternaam, klant.id')
             ;
 
@@ -134,8 +137,8 @@ class KlantDao extends AbstractDao implements KlantDaoInterface
 
                 $countSql = "SELECT COUNT(*) AS count FROM (".$fullSql.") tmp"; //wrap into subquery.
                 $countStmt = $this->entityManager->getConnection()->prepare($countSql);
-                $countStmt->execute();
-                $count = $countStmt->fetchColumn(0);
+                $result = $countStmt->executeQuery();
+                $count = $result->fetchOne(0);
             }
             $query = $this->entityManager->createQuery($dql)->setHint('knp_paginator.count', $count);
 

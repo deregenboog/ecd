@@ -45,7 +45,7 @@ class Toegangsrecht
     /**
      * @return Medewerker
      */
-    public function getMedewerker()
+    public function getMedewerker(): ?Medewerker
     {
         return $this->medewerker;
     }

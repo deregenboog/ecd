@@ -10,9 +10,12 @@ use AppBundle\Filter\FilterInterface;
 use AppBundle\Form\ConfirmationType;
 use AppBundle\Model\MedewerkerSubjectInterface;
 use AppBundle\Service\AbstractDao;
+use Doctrine\DBAL\Exception\ForeignKeyConstraintViolationException;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityNotFoundException;
 use Psr\Log\LoggerInterface;
 use Symfony\Bridge\Monolog\Logger;
+use Symfony\Component\HttpFoundation\Session\Flash\FlashBag;
 use Symfony\Component\Routing\Exception\InvalidParameterException;
 use Symfony\Component\Routing\Exception\RouteNotFoundException;
 use Symfony\Contracts\EventDispatcher\EventDispatcher;
@@ -129,8 +132,18 @@ abstract class AbstractController extends SymfonyController
      */
     public function setLogger(LoggerInterface $logger)
     {
-
         $this->logger = $logger;
+    }
+
+
+    /**
+     * @param EntityManagerInterface $entityManager
+     * @required
+     * @return void
+     */
+    public function setEntityManager(EntityManagerInterface $entityManager)
+    {
+        $this->entityManager = $entityManager;
     }
 
     public function setDao(AbstractDao $dao)
@@ -460,25 +473,58 @@ abstract class AbstractController extends SymfonyController
                 $url = $request->get('redirect');
                 $viewUrl = $this->generateUrl($this->baseRouteName.'view', ['id' => $id]);
 
-                if(method_exists($entity,"setActief"))
-                {
-                    $entity->setActief(false);
-                    $this->dao->update($entity);
-                }
-                else
-                {
-                    $this->dao->delete($entity);
-                }
-
-                $this->addFlash('success', ucfirst($this->entityName).' is verwijderd.');
-
-                if (!$this->forceRedirect) {
-                    if ($url && false === strpos($viewUrl, $url)) {
-                        return $this->redirect($url);
+                try{
+                    if(method_exists($entity,"setActief"))
+                    {
+                        $entity->setActief(false);
+                        $this->dao->update($entity);
                     }
+                    else
+                    {
+                        $this->dao->delete($entity);
+                    }
+                    $this->addFlash('success', ucfirst($this->entityName).' is verwijderd.');
+
+                    if (!$this->forceRedirect) {
+                        if ($url && false === strpos($viewUrl, $url)) {
+                            return $this->redirect($url);
+                        }
+                    }
+
+                    return $this->redirectToIndex();
+                }
+                catch(ForeignKeyConstraintViolationException $exception)
+                {
+                    /**
+                     * Regex to filter out the foreign key which prevents the deletion.
+                     * From there, with class metadata and reflection, the tablename gets matched to the entity,
+                     * so a helpful errormessage can be displayed.
+                     *
+                     * https://regex101.com/r/0Fajyz/1
+                     */
+                    $re = '/.*\(`.*`\..*`(.*)`, CONSTRAINT .*/m';
+
+                    preg_match_all($re, $exception->getMessage(), $matches, PREG_SET_ORDER, 0);
+                    $entityRaw = null;
+                    if( sizeof($matches) > 0 && is_array($matches[0]) && null !== $matches[0][1] )
+                    {
+                        $entityRaw = $matches[0][1];
+                    }
+                    $md = $this->entityManager->getMetadataFactory()->getAllMetadata();
+                    $entityName = "'onbekend'";
+                    foreach($md as $classMetadata)
+                    {
+                        if($classMetadata->getTableName() == $entityRaw) {
+                            $refl = $classMetadata->getReflectionClass();
+                            $entityName = $refl->getShortName();
+                        }
+
+                    }
+
+                    $this->addFlash('danger', ucfirst($this->entityName).sprintf(' kan niet verwijderd worden omdat er nog een of meerdere onderdelen van het type %s aanwezig zijn. Verwijder deze eerst om verder te gaan.',strtolower($entityName) ) );
                 }
 
-                return $this->redirectToIndex();
+
             } else {
                 if (isset($url)) {
                     return $this->redirect($url);

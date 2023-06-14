@@ -32,11 +32,19 @@ services:
         tags:
             - { name: app.rapportage }
 
-    AppBundle\Report\Management:
+    AppBundle\Report\ManagementInloop:
         public: true
         arguments:
             - "@doctrine.orm.entity_manager"
-            - "%kernel.project_dir%/config/sql_reports/management_reports.sql"
+            - "%kernel.project_dir%/config/sql_reports/management_reports_inloop.sql"
+        tags:
+            - { name: app.rapportage }
+
+    AppBundle\Report\ManagementMW:
+        public: true
+        arguments:
+            - "@doctrine.orm.entity_manager"
+            - "%kernel.project_dir%/config/sql_reports/management_reports_mw.sql"
         tags:
             - { name: app.rapportage }
 

@@ -3,55 +3,41 @@
 namespace TwBundle\Form;
 
 use AppBundle\Entity\Medewerker;
-use AppBundle\Form\AppEntityType;
-use AppBundle\Form\ChoiceEntityType;
-use AppBundle\Form\EntityChoiceLoader;
-use AppBundle\Form\MedewerkerType;
 use AppBundle\Form\AppDateRangeType;
 use AppBundle\Form\FilterType;
 use AppBundle\Form\KlantFilterType as AppKlantFilterType;
 use AppBundle\Form\StadsdeelSelectType;
-use AppBundle\Validator\EmptyOptionValidationGroupResolver;
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManager;
-use Doctrine\ORM\EntityRepository;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\ChoiceList\View\ChoiceView;
 use Symfony\Component\Form\Exception\OutOfBoundsException;
-use Symfony\Component\Form\Exception\TransformationFailedException;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\ResetType;
-use Symfony\Component\Form\FormEvent;
-use Symfony\Component\Form\FormEvents;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
-
+use Symfony\Component\OptionsResolver\OptionsResolver;
 use TwBundle\Entity\Alcohol;
 use TwBundle\Entity\Dagbesteding;
 use TwBundle\Entity\Huisdieren;
 use TwBundle\Entity\IntakeStatus;
-use TwBundle\Entity\Klant;
 use TwBundle\Entity\Regio;
 use TwBundle\Entity\Ritme;
 use TwBundle\Entity\Roken;
 use TwBundle\Entity\Softdrugs;
 use TwBundle\Entity\Traplopen;
-use TwBundle\Entity\Verhuurder;
-use PfoBundle\Entity\Client;
-use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolver;
 use TwBundle\Filter\KlantFilter;
 
 class KlantFilterType extends AbstractType
 {
     /** @var EntityManager */
     private $entityManager = null;
+
     public function __construct($entityManager)
     {
-        $this->entityManager=$entityManager;
+        $this->entityManager = $entityManager;
     }
 
     /**
@@ -62,13 +48,9 @@ class KlantFilterType extends AbstractType
         if (array_key_exists('appKlant', $options['enabled_filters'])) {
             $builder->add('appKlant', AppKlantFilterType::class, [
                 'enabled_filters' => $options['enabled_filters']['appKlant'],
-
             ]);
             StadsdeelSelectType::$showOnlyZichtbaar = 0;
         }
-
-
-
 
 //        if (in_array('automatischeIncasso', $options['enabled_filters'])) {
 //            $builder->add('automatischeIncasso', ChoiceType::class, [
@@ -108,15 +90,13 @@ class KlantFilterType extends AbstractType
         if (in_array('medewerker', $options['enabled_filters'])) {
             $builder->add('medewerker', \TwBundle\Form\MedewerkerType::class, [
                 'required' => false,
-                'preset'=>false
-
+                'preset' => false,
             ]);
         }
         if (in_array('shortlist', $options['enabled_filters'])) {
             $builder->add('shortlist', \TwBundle\Form\MedewerkerType::class, [
                 'required' => false,
-                'preset'=>false
-
+                'preset' => false,
             ]);
         }
         if (in_array('aanmelddatum', $options['enabled_filters'])) {
@@ -134,36 +114,40 @@ class KlantFilterType extends AbstractType
         if (in_array('gekoppeld', $options['enabled_filters'])) {
             $builder->add('gekoppeld', ChoiceType::class, [
                 'label' => 'Gekoppeld?',
-                'choices'=>[
-                    'Onbekend'=>null,
-                    'Gekoppeld'=>true,
-                    'Niet gekoppeld'=>false,
-                    ],
+                'choices' => [
+                    'Ja en nee' => null,
+                    'Gekoppeld' => true,
+                    'Niet gekoppeld' => false,
+                ],
                 'required' => false,
 //                'data' => false,
             ]);
         }
 
-        if (in_array('actief', $options['enabled_filters'])) {
-            $builder->add('actief', CheckboxType::class, [
-                'label' => 'Alleen actieve dossiers',
+        if (in_array('status', $options['enabled_filters'])) {
+            $builder->add('status', ChoiceType::class, [
                 'required' => false,
-                'data' => false,
+                'choices' => [
+                    'Actief' => KlantFilter::STATUS_ACTIVE,
+                    'Niet actief' => KlantFilter::STATUS_NON_ACTIVE,
+                ],
             ]);
         }
+
         if (in_array('project', $options['enabled_filters'])) {
             $builder->add('project', ProjectSelectFilterType::class, [
                 'label' => 'Project',
                 'required' => false,
-                'multiple'=>true,
+                'multiple' => true,
 //                'data' => false,
             ]);
         }
+
         if (in_array('bindingRegio', $options['enabled_filters'])) {
             $builder->add('bindingRegio', ChoiceType::class, [
                 'label' => 'Binding',
-                'choices'=> $this->loadChoices(Regio::class),
-                'multiple'=>true,
+                'choices' => $this->loadChoices(Regio::class),
+                'multiple' => true,
                 'required' => false,
             ]);
         }
@@ -171,64 +155,71 @@ class KlantFilterType extends AbstractType
         if (in_array('intakeStatus', $options['enabled_filters'])) {
             $builder->add('intakeStatus', ChoiceType::class, [
                 'required' => false,
-                'multiple'=>true,
-                'choices'=> $this->loadChoices(IntakeStatus::class),
+                'multiple' => true,
+                'choices' => $this->loadChoices(IntakeStatus::class),
             ]);
         }
 
         //extra filtervelden
         $builder
-            ->add('dagbesteding',ChoiceType::class,[
-                'required'=>false,
-                'multiple'=>true,
-                'label'=>'Dagbesteding',
-                'choices'=> $this->loadChoices(Dagbesteding::class),
+            ->add('dagbesteding', ChoiceType::class, [
+                'required' => false,
+                'multiple' => true,
+                'label' => 'Dagbesteding',
+                'choices' => $this->loadChoices(Dagbesteding::class),
             ])
-            ->add('ritme',ChoiceType::class,[
-                'required'=>false,
-                'multiple'=>true,
-                'choices'=> $this->loadChoices(Ritme::class),
+            ->add('ritme', ChoiceType::class, [
+                'required' => false,
+                'multiple' => true,
+                'choices' => $this->loadChoices(Ritme::class),
             ])
-            ->add('huisdieren',ChoiceType::class,[
-                'required'=>false,
-                'multiple'=>true,
-                'choices'=> $this->loadChoices(Huisdieren::class),
+            ->add('heeftHuisgenoot', ChoiceType::class, [
+                'required' => false,
+                'multiple' => true,
+                'choices' => [
+                    'Onbekend'=>null,
+                    'Ja'=>true,
+                    'Nee'=>false
+                ],
             ])
-            ->add('roken',ChoiceType::class,[
-                'required'=>false,
-                'multiple'=>true,
-                'choices'=> $this->loadChoices(Roken::class),
+            ->add('huisdieren', ChoiceType::class, [
+                'required' => false,
+                'multiple' => true,
+                'choices' => $this->loadChoices(Huisdieren::class),
             ])
-            ->add('softdrugs',ChoiceType::class,[
-                'required'=>false,
-                'multiple'=>true,
-                'choices'=> $this->loadChoices(Softdrugs::class),
+            ->add('roken', ChoiceType::class, [
+                'required' => false,
+                'multiple' => true,
+                'choices' => $this->loadChoices(Roken::class),
             ])
-            ->add('alcohol',ChoiceType::class,[
-                'required'=>false,
-                'multiple'=>true,
-                'choices'=> $this->loadChoices(Alcohol::class)
-
+            ->add('softdrugs', ChoiceType::class, [
+                'required' => false,
+                'multiple' => true,
+                'choices' => $this->loadChoices(Softdrugs::class),
+            ])
+            ->add('alcohol', ChoiceType::class, [
+                'required' => false,
+                'multiple' => true,
+                'choices' => $this->loadChoices(Alcohol::class),
             ])
             ->add('inkomensverklaring', ChoiceType::class, [
                  'label' => 'Inkomensverklaring',
-                 'choices'=>[
-                     'Onbekend'=>null,
-                     'Ja'=>true,
-                     'Nee'=>false,
+                 'choices' => [
+                     'Onbekend' => null,
+                     'Ja' => true,
+                     'Nee' => false,
                  ],
-                 'multiple'=>true,
+                 'multiple' => true,
                  'required' => false,
 //                 'data' => false,
              ])
-            ->add('traplopen',ChoiceType::class,[
-                'required'=>false,
-                'multiple'=>true,
+            ->add('traplopen', ChoiceType::class, [
+                'required' => false,
+                'multiple' => true,
 
-                'choices'=> $this->loadChoices(Traplopen::class),
+                'choices' => $this->loadChoices(Traplopen::class),
             ])
         ;
-
 
         $builder
             ->add('filter', SubmitType::class, ['label' => 'Filteren'])
@@ -240,7 +231,7 @@ class KlantFilterType extends AbstractType
     /**
      * {@inheritdoc}
      */
-    public function getParent()
+    public function getParent(): ?string
     {
         return FilterType::class;
     }
@@ -254,7 +245,7 @@ class KlantFilterType extends AbstractType
             'data_class' => KlantFilter::class,
             'data' => new KlantFilter(),
             'enabled_filters' => [
-                'appKlant' => ['id', 'naam', 'geslacht','geboortedatumRange'],
+                'appKlant' => ['id', 'naam', 'geslacht', 'geboortedatumRange'],
 //                'automatischeIncasso',
 //                'inschrijvingWoningnet',
 //                'waPolis',
@@ -262,15 +253,14 @@ class KlantFilterType extends AbstractType
                 'aanmelddatum',
                 'gekoppeld',
                 'intakeStatus',
-                'actief',
-
+                'status',
                 'bindingRegio',
                 'shortlist',
 //                'wpi',
-//                'medewerker',
-//                'ambulantOndersteuner',
+                'medewerker',
+                'heeftHuisgenoot',
             ],
-            'validation_groups' => false
+            'validation_groups' => false,
 //                function(FormInterface $form) {
 //                    foreach($form->getData() as$k=> $v)
 //                    {
@@ -291,15 +281,12 @@ class KlantFilterType extends AbstractType
     }
 
     /**
-     * @param FormView $view
-     * @param FormInterface $form
      * @param array $options
      *
-     * Make empty options for multi inputs.
+     * Make empty options for multi inputs
      */
     public function finishView(FormView $view, FormInterface $form, array $options)
     {
-
 //        foreach($view->children as $k=>$formElm)
 //        {
 //            if(($c = $form->get($k)->getConfig()) && $c->getOption('multiple')===true )
@@ -314,13 +301,13 @@ class KlantFilterType extends AbstractType
     private function loadChoices($class)
     {
         $r = $this->entityManager->getRepository($class);
-        $c = $r->findBy(['actief'=>true]);
+        $c = $r->findBy(['actief' => true]);
 
-        $choices = ['Onbekend'=>0];
-        foreach($c as $e)
-        {
-            $choices[$e->getNaam()]=$e->getId();
+        $choices = ['Onbekend' => 0];
+        foreach ($c as $e) {
+            $choices[$e->getNaam()] = $e->getId();
         }
+
         return $choices;
     }
 }

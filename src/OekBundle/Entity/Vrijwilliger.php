@@ -27,7 +27,13 @@ use Symfony\Component\Validator\Context\ExecutionContextInterface;
  */
 class Vrijwilliger implements MemoSubjectInterface, DocumentSubjectInterface, ActivatableInterface
 {
-    use IdentifiableTrait, TimestampableTrait, RequiredMedewerkerTrait, MemoSubjectTrait, DocumentSubjectTrait, ActivatableTrait, NotDeletableTrait;
+    use IdentifiableTrait;
+    use TimestampableTrait;
+    use RequiredMedewerkerTrait;
+    use MemoSubjectTrait;
+    use DocumentSubjectTrait;
+    use ActivatableTrait;
+    use NotDeletableTrait;
 
     public const STATUS_ACTIEF = 1;
     public const STATUS_VERWIJDERD = 0;
@@ -57,7 +63,29 @@ class Vrijwilliger implements MemoSubjectInterface, DocumentSubjectInterface, Ac
      */
     protected $afsluitdatum;
 
+    /**
+     * @var DocumentInterface[]
+     *
+     * @ORM\ManyToMany(targetEntity="Document", cascade={"persist","remove"}, fetch="EXTRA_LAZY")
+     * @ORM\JoinTable(inverseJoinColumns={@ORM\JoinColumn(unique=true, onDelete="RESTRICT")})
+     */
+    protected $documenten;
 
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(type="datetime")
+     * @Gedmo\Versioned
+     */
+    protected $created;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(type="datetime")
+     * @Gedmo\Versioned
+     */
+    protected $modified;
 
     public function __construct(AppVrijwilliger $vrijwilliger = null)
     {
@@ -133,13 +161,10 @@ class Vrijwilliger implements MemoSubjectInterface, DocumentSubjectInterface, Ac
     public function validate(ExecutionContextInterface $context, $payload)
     {
         if ($this->actief === false ?? $this->afsluitddatum
-        ){
-
+        ) {
             $context->buildViolation('Het is verplicht een afsluitdatum in te vullen als iemand inactief is.')
                 ->atPath('afsluitdatum')
                 ->addViolation();
         }
     }
-
-
 }

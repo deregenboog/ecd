@@ -24,7 +24,8 @@ use Gedmo\Mapping\Annotation as Gedmo;
  */
 abstract class Afsluiting
 {
-    use TimestampableTrait, ActivatableTrait;
+    use TimestampableTrait;
+    use ActivatableTrait;
 
     /**
      * @ORM\Id
@@ -39,12 +40,27 @@ abstract class Afsluiting
      */
     protected $naam;
 
-
     /**
      * @ORM\Column(type="boolean", nullable=true)
      * @Gedmo\Versioned
      */
     protected $tonen = true;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(type="datetime")
+     * @Gedmo\Versioned
+     */
+    protected $created;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(type="datetime")
+     * @Gedmo\Versioned
+     */
+    protected $modified;
 
     public function __toString()
     {

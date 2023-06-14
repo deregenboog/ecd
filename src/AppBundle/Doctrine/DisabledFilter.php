@@ -12,7 +12,7 @@ use Doctrine\ORM\Query\Filter\SQLFilter;
 
 class DisabledFilter extends SQLFilter
 {
-    public function addFilterConstraint(ClassMetadata $targetEntity, $targetTableAlias)
+    public function addFilterConstraint(ClassMetadata $targetEntity, $targetTableAlias): string
     {
         if (in_array($targetEntity->getName(), [Klant::class,
             Vrijwilliger::class,

@@ -1,14 +1,6 @@
 {% extends 'base-2-col.html.twig' %}
 {% import 'html.macro.twig' as html %}
 
-{% block title %}
-    Inloophuizen | Rapportages
-{% endblock %}
-
-{% block subnavigation %}
-    {% include '@Inloop/subnavigation.html.twig' %}
-{% endblock %}
-
 {% block content_left %}
     <h1>Rapportages</h1>
     {{ form(form) }}

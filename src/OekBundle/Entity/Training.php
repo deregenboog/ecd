@@ -2,6 +2,8 @@
 
 namespace OekBundle\Entity;
 
+use AppBundle\Entity\Klant;
+use AppBundle\Model\IdentifiableTrait;
 use AppBundle\Model\KlantRelationInterface;
 use AppBundle\Model\TimestampableTrait;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -16,14 +18,8 @@ use Gedmo\Mapping\Annotation as Gedmo;
  */
 class Training implements KlantRelationInterface
 {
+    use IdentifiableTrait;
     use TimestampableTrait;
-
-    /**
-     * @ORM\Id
-     * @ORM\Column(type="integer")
-     * @ORM\GeneratedValue
-     */
-    private $id;
 
     /**
      * @ORM\Column(type="string")
@@ -69,6 +65,22 @@ class Training implements KlantRelationInterface
      */
     private $groep;
 
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(type="datetime")
+     * @Gedmo\Versioned
+     */
+    protected $created;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(type="datetime")
+     * @Gedmo\Versioned
+     */
+    protected $modified;
+
     public function __construct()
     {
         $this->deelnames = new ArrayCollection();
@@ -77,11 +89,6 @@ class Training implements KlantRelationInterface
     public function __toString()
     {
         return sprintf('%s (%s)', $this->naam, $this->groep);
-    }
-
-    public function getId()
-    {
-        return $this->id;
     }
 
     public function getNaam()
@@ -155,10 +162,8 @@ class Training implements KlantRelationInterface
 
     public function getDeelnames()
     {
-
-        foreach($this->deelnames as $dn)
-        {
-            if($dn->getStatus() == DeelnameStatus::STATUS_VERWIJDERD) {
+        foreach ($this->deelnames as $dn) {
+            if ($dn->getStatus() == DeelnameStatus::STATUS_VERWIJDERD) {
                 $this->deelnames->removeElement($dn);
             }
         }
@@ -169,7 +174,9 @@ class Training implements KlantRelationInterface
     {
         $deelnemers = new ArrayCollection();
         foreach ($this->deelnames as $deelname) {
-            if($deelname->getStatus() == DeelnameStatus::STATUS_VERWIJDERD) continue;
+            if ($deelname->getStatus() == DeelnameStatus::STATUS_VERWIJDERD) {
+                continue;
+            }
             $deelnemers->add($deelname->getDeelnemer());
         }
 
@@ -193,11 +200,11 @@ class Training implements KlantRelationInterface
         return 0 == $this->deelnames->count();
     }
 
-    public function getKlant()
+    public function getKlant(): Klant
     {
-        return $this->getDeelnames();
+        return $this->getDeelnames()->first()->getDeelnemer()->getKlant();
     }
-    public function getKlantFieldName()
+    public function getKlantFieldName(): string
     {
         return "Deelnames";
     }

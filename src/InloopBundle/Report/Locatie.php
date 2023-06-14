@@ -138,7 +138,7 @@ class Locatie extends AbstractReport
         ;
         $count['uniqueVisits'] = $builder->getQuery()->getSingleScalarResult();
 
-        $count['totalVisits'] = $this->entityManager->getConnection()->fetchColumn('SELECT COUNT(*) AS cnt FROM tmp_registrations');
+        $count['totalVisits'] = $this->entityManager->getConnection()->fetchOne('SELECT COUNT(*) AS cnt FROM tmp_registrations');
 
         $sql = 'SELECT
                 SUM(ABS(douche)) AS douche,
@@ -146,7 +146,7 @@ class Locatie extends AbstractReport
                 SUM(maaltijd) AS maaltijd,
                 SUM(activering) AS activering
             FROM tmp_registrations';
-        $r = $this->entityManager->getConnection()->fetchAll($sql);
+        $r = $this->entityManager->getConnection()->fetchAllAssociative($sql);
         $count['shower'] = $r[0]['douche'];
         $count['clothes'] = $r[0]['kleding'];
         $count['meals'] = $r[0]['maaltijd'];
@@ -189,10 +189,10 @@ class Locatie extends AbstractReport
         $count['intakes'] = $builder->getQuery()->getSingleScalarResult();
 
         $sql = 'SELECT COUNT(distinct klant_id) AS cnt FROM tmp_registrations ';
-        $count['unique_visitors'] = $this->entityManager->getConnection()->fetchColumn($sql);
+        $count['unique_visitors'] = $this->entityManager->getConnection()->fetchOne($sql);
 
         $sql = 'SELECT COUNT(*) AS cnt FROM (SELECT COUNT(*) AS cnt FROM tmp_registrations GROUP BY klant_id HAVING cnt >= 4) AS subq';
-        $count['unique_visitors_4_or_more_visits'] = $this->entityManager->getConnection()->fetchColumn($sql);
+        $count['unique_visitors_4_or_more_visits'] = $this->entityManager->getConnection()->fetchOne($sql);
 
         $sql = "SELECT COUNT(*) AS cnt
             FROM (
@@ -200,7 +200,7 @@ class Locatie extends AbstractReport
                 WHERE created >= '{$this->startDate->format('Y-m-d')}' AND created < '{$endDatePlusOneDay->format('Y-m-d')}'
                 GROUP BY klant_id
             ) AS subq ";
-        $count['new_clients'] = $this->entityManager->getConnection()->fetchColumn($sql);
+        $count['new_clients'] = $this->entityManager->getConnection()->fetchOne($sql);
 
         $sql = 'SELECT naam, COUNT(*) AS cnt
             FROM (
@@ -211,7 +211,7 @@ class Locatie extends AbstractReport
             JOIN locaties l ON l.id = locatie_id
             GROUP BY locatie_id';
 
-        $unique_per_location = $this->entityManager->getConnection()->fetchAll($sql);
+        $unique_per_location = $this->entityManager->getConnection()->fetchAllAssociative($sql);
 
         return [$count, $unique_per_location];
     }

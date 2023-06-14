@@ -16,7 +16,6 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class DoelgroepenController extends AbstractController
 {
-    protected $title = 'Doelgroepen';
     protected $entityName = 'doelgroep';
     protected $entityClass = Doelgroep::class;
     protected $formClass = DoelgroepType::class;
@@ -26,6 +25,15 @@ class DoelgroepenController extends AbstractController
      * @var DoelgroepDao
      */
     protected $dao;
+
+    /**
+     * @param DoelgroepDao $dao
+     */
+    public function __construct(DoelgroepDao $dao)
+    {
+        $this->dao = $dao;
+    }
+
 
     /**
      * @Route("/{id}/view")

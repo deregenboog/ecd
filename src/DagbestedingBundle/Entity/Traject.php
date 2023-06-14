@@ -3,6 +3,7 @@
 namespace DagbestedingBundle\Entity;
 
 use AppBundle\Form\Model\AppDateRangeModel;
+use AppBundle\Model\IdentifiableTrait;
 use AppBundle\Model\TimestampableTrait;
 use DagbestedingBundle\Form\DagdelenRangeModel;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -20,17 +21,11 @@ use Symfony\Component\Config\Definition\Exception\Exception;
  */
 class Traject
 {
+    use IdentifiableTrait;
     use TimestampableTrait;
 
     public const TERMIJN_EVALUATIE = '+6 months';
     public const TERMIJN_EIND = '+1 year -1 day';
-
-    /**
-     * @ORM\Id
-     * @ORM\Column(type="integer")
-     * @ORM\GeneratedValue
-     */
-    private $id;
 
     /**
      * @var Deelnemer
@@ -70,7 +65,7 @@ class Traject
     private $dagdelen;
 
     /**
-     * @ORM\Column(type="date", nullable=false)
+     * @ORM\Column(type="date")
      * @Gedmo\Versioned
      */
     private $startdatum;
@@ -82,7 +77,7 @@ class Traject
     private $evaluatiedatum;
 
     /**
-     * @ORM\Column(type="date", nullable=false)
+     * @ORM\Column(type="date")
      * @Gedmo\Versioned
      */
     private $einddatum;
@@ -97,7 +92,6 @@ class Traject
      * @var Trajectcoach
      *
      * @ORM\ManyToOne(targetEntity="Trajectcoach", inversedBy="trajecten", cascade={"persist"})
-     * @ORM\JoinColumn(nullable=false)
      * @Gedmo\Versioned
      */
     private $trajectcoach;
@@ -106,7 +100,6 @@ class Traject
      * @var Trajectafsluiting
      *
      * @ORM\ManyToOne(targetEntity="Trajectafsluiting", cascade={"persist"})
-     * @ORM\JoinColumn(nullable=true)
      * @Gedmo\Versioned
      */
     private $afsluiting;
@@ -138,20 +131,13 @@ class Traject
      */
     private $locaties;
 
-//    /**
-//     * @var ArrayCollection|Project[]
-//     *
-//     * @ORM\ManyToMany(targetEntity="Project", cascade={"persist"})
-//     * @ORM\JoinTable(name="dagbesteding_traject_project")
-//     * @ORM\OrderBy({"naam" = "ASC"})
-//     */
-//    private $projecten;
-
     /**
      * @var ArrayCollection|Project[]
-     * ORM\OneToMany(targetEntity="Project", mappedBy="trajecten",cascade={"persist","remove"} )
+     *
+     * @ORM\ManyToMany(targetEntity="Project", inversedBy="trajecten", cascade={"persist"})
+     * @ORM\OrderBy({"naam" = "ASC"})
      */
-    protected $projecten;
+    private $projecten;
 
     /**
      * @var ArrayCollection|Deelname[]
@@ -175,7 +161,6 @@ class Traject
      * @ORM\Column(name="deleted", type="datetime", nullable=true)
      */
     protected $deletedAt;
-
 
     /**
      * @var ArrayCollection|Werkdoel[]
@@ -216,11 +201,6 @@ class Traject
         );
     }
 
-    public function getId()
-    {
-        return $this->id;
-    }
-
     public function getDeelnemer()
     {
         return $this->deelnemer;
@@ -256,8 +236,7 @@ class Traject
 
         $this->startdatum = $startdatum;
 
-        if(null!==$this->getEvaluatiedatum()) {
-
+        if (null!==$this->getEvaluatiedatum()) {
             $evaluatiedatum = clone $startdatum;
             $evaluatiedatum->modify(self::TERMIJN_EVALUATIE);
             $this->setEvaluatiedatum($evaluatiedatum);
@@ -286,7 +265,7 @@ class Traject
     /**
      * @return \DateTime
      */
-    public function getEvaluatiedatum():? \DateTime
+    public function getEvaluatiedatum(): ?\DateTime
     {
         return $this->evaluatiedatum;
     }
@@ -305,7 +284,6 @@ class Traject
 
     public function isDeletable(): bool
     {
-
         return 0 === count($this->dagdelen)
             && 0 === count($this->documenten)
             && 0 === count($this->verslagen)
@@ -431,8 +409,7 @@ class Traject
 
     public function addLocatie(Locatie $locatie)
     {
-        if(!$this->locaties->contains($locatie))
-        {
+        if (!$this->locaties->contains($locatie)) {
             $this->locaties[] = $locatie;
         }
 
@@ -442,14 +419,12 @@ class Traject
     public function getProjecten($inclusiefHistorischeProjecten = false)
     {
         return new Exception("Projecten niet meer beschikbaar op traject. Alleen via deelname");
-
     }
 
     public function addProject(Project $project)
     {
         return new Exception("Projecten niet meer beschikbaar op traject. Alleen via deelname");
     }
-
 
     /**
      * @return Deelname[]|ArrayCollection

@@ -10,7 +10,7 @@ class VragenControllerTest extends WebTestCase
     public function testSortColumns()
     {
         $medewerker = $this->getContainer()->get(\AppBundle\Service\MedewerkerDao::class)->findByUsername('clip_user');
-        $this->logIn($medewerker);
+        $this->client->loginUser($medewerker);
 
         $crawler = $this->client->request('GET', '/clip/vragen/');
         $this->assertStatusCode(200, $this->client);

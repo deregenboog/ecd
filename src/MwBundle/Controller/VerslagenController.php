@@ -32,7 +32,6 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class VerslagenController extends AbstractController
 {
-    protected $title = 'Verslagen';
     protected $entityName = 'verslag';
     protected $entityClass = Verslag::class;
     protected $formClass = VerslagType::class;
@@ -109,14 +108,14 @@ class VerslagenController extends AbstractController
 
         return [
             'diensten' => $event->getDiensten(),
-            'inventarisaties' => $this->inventarisatieDao->findAllAsTree(),
+//            'inventarisaties' => $this->inventarisatieDao->findAllAsTree(),
         ];
     }
 
-    protected function processForm(Request $request, $entity = null)
+    protected function ddprocessForm(Request $request, $entity = null)
     {
-        $inventarisaties = $this->inventarisatieDao->findAllAsTree();
-        $model = new VerslagModel($entity, $inventarisaties);
+//        $inventarisaties = $this->inventarisatieDao->findAllAsTree();
+//        $model = new VerslagModel($entity, $inventarisaties);
 
         $form = $this->getForm($this->formClass, $model, [
             'medewerker' => $this->getMedewerker(),

@@ -24,7 +24,7 @@ class CloseSubscriber implements EventSubscriberInterface
      */
     private $generator;
 
-    public static function getSubscribedEvents()
+    public static function getSubscribedEvents(): array
     {
         return [
             Events::BEFORE_CLOSE => ['provideBeforeCloseMessage'],

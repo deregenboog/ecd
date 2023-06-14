@@ -16,7 +16,8 @@ use Gedmo\Mapping\Annotation as Gedmo;
  */
 class Vraag
 {
-    use OptionalBehandelaarTrait, TimestampableTrait;
+    use OptionalBehandelaarTrait;
+    use TimestampableTrait;
 
     /**
      * @ORM\Id
@@ -60,7 +61,6 @@ class Vraag
      * @var Hulpvrager
      *
      * @ORM\ManyToOne(targetEntity="Hulpvrager", inversedBy="vragen")
-     * @ORM\JoinColumn(nullable=true)
      * @Gedmo\Versioned
      */
     protected $hulpvrager;
@@ -69,7 +69,6 @@ class Vraag
      * @var Communicatiekanaal
      *
      * @ORM\ManyToOne(targetEntity="Communicatiekanaal", inversedBy="vragen")
-     * @ORM\JoinColumn(nullable=true)
      * @Gedmo\Versioned
      */
     protected $communicatiekanaal;
@@ -78,13 +77,12 @@ class Vraag
      * @var Leeftijdscategorie
      *
      * @ORM\ManyToOne(targetEntity="Leeftijdscategorie", inversedBy="vragen")
-     * @ORM\JoinColumn(nullable=true)
      * @Gedmo\Versioned
      */
     protected $leeftijdscategorie;
 
     /**
-     * @ORM\Column(type="date", nullable=false)
+     * @ORM\Column(type="date")
      * @Gedmo\Versioned
      */
     protected $startdatum;
@@ -118,13 +116,29 @@ class Vraag
      */
     protected $hulpCollegaGezocht = false;
 
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(type="datetime")
+     * @Gedmo\Versioned
+     */
+    protected $created;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(type="datetime")
+     * @Gedmo\Versioned
+     */
+    protected $modified;
+
     public function __construct(?Contactmoment $contactmoment = null)
     {
         $this->documenten = new ArrayCollection();
         $this->contactmomenten = new ArrayCollection();
 
         $this->setStartdatum(new \DateTime());
-        $contactmoment = ($contactmoment == null)? new Contactmoment():$contactmoment;
+        $contactmoment = ($contactmoment == null) ? new Contactmoment() : $contactmoment;
         $this->setContactmoment($contactmoment);
     }
 
@@ -341,7 +355,7 @@ class Vraag
     /**
      * @return bool
      */
-    public function isHulpCollegaGezocht():? bool
+    public function isHulpCollegaGezocht(): ?bool
     {
         return $this->hulpCollegaGezocht;
     }
@@ -353,5 +367,4 @@ class Vraag
     {
         $this->hulpCollegaGezocht = $hulpCollegaGezocht;
     }
-
 }

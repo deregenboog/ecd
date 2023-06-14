@@ -20,7 +20,8 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
  */
 class Document implements DocumentInterface
 {
-    use TimestampableTrait, RequiredMedewerkerTrait;
+    use TimestampableTrait;
+    use RequiredMedewerkerTrait;
 
     /**
      * @ORM\Id
@@ -49,6 +50,22 @@ class Document implements DocumentInterface
      * @Gedmo\Versioned
      */
     private $file;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(type="datetime")
+     * @Gedmo\Versioned
+     */
+    protected $created;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(type="datetime")
+     * @Gedmo\Versioned
+     */
+    protected $modified;
 
     public function __construct(Medewerker $medewerker = null)
     {

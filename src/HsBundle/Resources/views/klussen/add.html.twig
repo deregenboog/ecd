@@ -1,14 +1,6 @@
 {% extends 'base.html.twig' %}
 {% import 'html.macro.twig' as html %}
 
-{% block title %}
-    Homeservice | Facturen
-{% endblock %}
-
-{% block subnavigation %}
-    {% include '@Hs/subnavigation.html.twig' %}
-{% endblock %}
-
 {% block content %}
     {% if entity is defined %}
         <h1>Klus toevoegen voor {{ entity }}</h1>

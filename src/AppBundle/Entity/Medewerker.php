@@ -2,29 +2,30 @@
 
 namespace AppBundle\Entity;
 
+use AppBundle\Model\IdentifiableTrait;
 use AppBundle\Model\NameTrait;
 use AppBundle\Model\TimestampableTrait;
 use Doctrine\ORM\Mapping as ORM;
+use Exception;
 use Gedmo\Mapping\Annotation as Gedmo;
-use LdapTools\Bundle\LdapToolsBundle\Security\User\LdapUserInterface;
+use Symfony\Component\Ldap\Security\LdapUser;
+use Symfony\Component\Security\Core\User\EquatableInterface;
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * @ORM\Entity
+ *
  * @ORM\Table(name="medewerkers")
+ * ORM\Entity(repositoryClass="AppBundle\Repository\MedewerkerRepository")
  * @ORM\HasLifecycleCallbacks
  * @Gedmo\Loggable
  */
-class Medewerker implements LdapUserInterface, UserInterface
+class Medewerker implements UserInterface, PasswordAuthenticatedUserInterface,EquatableInterface
 {
-    use NameTrait, TimestampableTrait;
-
-    /**
-     * @ORM\Id
-     * @ORM\Column(type="integer")
-     * @ORM\GeneratedValue
-     */
-    private $id;
+    use IdentifiableTrait;
+    use NameTrait;
+    use TimestampableTrait;
 
     /**
      * @ORM\Column(name="uidnumber")
@@ -42,7 +43,9 @@ class Medewerker implements LdapUserInterface, UserInterface
     private $email;
 
     /**
-     * @ORM\Column(name="`active`", type="boolean")
+     * @var bool
+     *
+     * @ORM\Column(name="`active`", type="integer", options={"default":1})
      */
     private $actief = true;
 
@@ -58,26 +61,31 @@ class Medewerker implements LdapUserInterface, UserInterface
     private $ldapGroups = [];
 
     /**
-     * @ORM\Column(name="eerste_bezoek", type="datetime", nullable=true)
+     * @ORM\Column(name="eerste_bezoek", type="datetime")
      */
     private $eersteBezoek;
 
     /**
-     * @ORM\Column(name="laatste_bezoek", type="datetime", nullable=true)
+     * @ORM\Column(name="laatste_bezoek", type="datetime")
      */
     private $laatsteBezoek;
 
     /**
      * @var array the Symfony roles for this user
      *
-     * @ORM\Column(name="roles", type="json", nullable=false)
+     * @ORM\Column(name="roles", type="json")
      */
     private $roles = [];
-
 
     public function getId()
     {
         return $this->id;
+    }
+
+    public function setId($id)
+    {
+        $this->id = $id;
+        return $this;
     }
 
     /**
@@ -102,7 +110,12 @@ class Medewerker implements LdapUserInterface, UserInterface
         return $this;
     }
 
-    public function getUsername()
+    public function getUserIdentifier(): string
+    {
+        return $this->username;
+    }
+
+    public function getUsername(): string
     {
         return $this->username;
     }
@@ -177,7 +190,7 @@ class Medewerker implements LdapUserInterface, UserInterface
      */
     public function isActief()
     {
-        return $this->actief;
+        return (bool) $this->actief;
     }
 
     /**
@@ -216,9 +229,6 @@ class Medewerker implements LdapUserInterface, UserInterface
         return $this->laatsteBezoek;
     }
 
-    /**
-     * @param \DateTime $laatsteBezoek
-     */
     public function setLaatsteBezoek(\DateTime $laatsteBezoek)
     {
         $this->laatsteBezoek = $laatsteBezoek;
@@ -249,8 +259,6 @@ class Medewerker implements LdapUserInterface, UserInterface
 
     /**
      * Sets the roles for the user.
-     *
-     * @param array $roles
      */
     public function setRoles(array $roles)
     {
@@ -267,7 +275,7 @@ class Medewerker implements LdapUserInterface, UserInterface
      *
      * @return string The password
      */
-    public function getPassword()
+    public function getPassword(): ?string
     {
         return '';
     }
@@ -294,4 +302,34 @@ class Medewerker implements LdapUserInterface, UserInterface
     {
         return $this;
     }
+
+    public function supportsClass($class): bool
+    {
+        return LdapUser::class === $class;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function isEqualTo(UserInterface $user): bool
+    {
+        if (!$user instanceof self) {
+            return false;
+        }
+
+        if ($this->getPassword() !== $user->getPassword()) {
+            return false;
+        }
+
+        if ($this->getSalt() !== $user->getSalt()) {
+            return false;
+        }
+
+        if ($this->getUserIdentifier() !== $user->getUserIdentifier()) {
+            return false;
+        }
+
+        return true;
+    }
+
 }

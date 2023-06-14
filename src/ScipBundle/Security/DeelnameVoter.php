@@ -28,7 +28,7 @@ class DeelnameVoter extends Voter
         $this->toegangsrechtenDao = $toegangsrechtenDao;
     }
 
-    protected function supports($attribute, $subject)
+    protected function supports($attribute, $subject): bool
     {
         if (!in_array($attribute, [Permissions::ACCESS])) {
             return false;
@@ -41,7 +41,7 @@ class DeelnameVoter extends Voter
         return true;
     }
 
-    protected function voteOnAttribute($attribute, $subject, TokenInterface $token)
+    protected function voteOnAttribute($attribute, $subject, TokenInterface $token): bool
     {
         assert($subject instanceof Deelname);
 

@@ -12,6 +12,6 @@ use Doctrine\ORM\EntityManager;
 class RepatrieringenPerKlant extends AbstractSqlFileReport
 {
 
-    protected $title = 'Repatriëringen per klant';
+    protected $title = 'Repatriëringen per MW klant';
 
 }

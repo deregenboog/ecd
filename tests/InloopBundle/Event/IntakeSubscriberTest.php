@@ -6,9 +6,9 @@ use AppBundle\Entity\Klant;
 use AppBundle\Entity\Medewerker;
 use InloopBundle\Entity\Intake;
 use InloopBundle\Entity\Toegang;
-use InloopBundle\Service\KlantDaoInterface;
 use InloopBundle\Event\IntakeSubscriber;
 use InloopBundle\Service\AccessUpdater;
+use InloopBundle\Service\KlantDaoInterface;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
@@ -42,10 +42,11 @@ class IntakeSubscriberTest extends TestCase
     public function testAccessAmocOnly()
     {
         $this->markTestIncomplete();
+
         return;
 
         $intake = new Intake(new Klant());
-        $intake->setIntakedatum(new \DateTime("three weeks ago"));
+        $intake->setIntakedatum(new \DateTime('three weeks ago'));
         $intake->setInloophuis(true);
         $intake->setVerblijfsstatus();
 
@@ -64,7 +65,7 @@ class IntakeSubscriberTest extends TestCase
         $test = $this;
         $this->mailer->expects($this->once())
             ->method('send')
-            ->with($this->callback(function (Message $message) use ($test) {
+            ->with($this->callback(function (Message $message) {
                 return $message instanceof Message;
             }))
         ;
@@ -116,7 +117,7 @@ class IntakeSubscriberTest extends TestCase
 
         $intake = new Intake(new Klant());
         $intake->setMedewerker((new Medewerker())->setEmail('info@example.com'));
-        $intake->setDagbesteding(true)->setHulpverlening(true)->setInloophuis((false));
+        $intake->setDagbesteding(true)->setHulpverlening(true)->setInloophuis(false);
 
         $this->mailer->expects($this->once())->method('send');
 

@@ -15,7 +15,6 @@ use Gedmo\Mapping\Annotation as Gedmo;
  */
 class Huurbudget
 {
-
     /**
      * @ORM\Id
      * @ORM\Column(type="integer")
@@ -39,12 +38,10 @@ class Huurbudget
     public function __toString(): string
     {
         $retStr = "";
-        if(isset($this->minVal))
-        {
+        if (isset($this->minVal)) {
             $retStr .= "> ".$this->minVal;
         }
-        if(isset($this->maxVal))
-        {
+        if (isset($this->maxVal)) {
             $retStr .= "< ".$this->maxVal;
         }
         $retStr .= " Euro";
@@ -88,6 +85,4 @@ class Huurbudget
     {
         $this->maxVal = $maxVal;
     }
-
-
 }

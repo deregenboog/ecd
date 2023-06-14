@@ -7,9 +7,10 @@ use Symfony\Component\HttpFoundation\Request;
 
 class VrijwilligerControllerTest extends WebTestCase
 {
-    public function testAccessDenied() {
+    public function testAccessDenied()
+    {
         $medewerker = $this->getContainer()->get(\AppBundle\Service\MedewerkerDao::class)->findByUsername('clip_user');
-        $this->logIn($medewerker);
+        $this->client->loginUser($medewerker);
 
         $crawler = $this->client->request('GET', '/clip/vrijwilligers/');
         $this->assertStatusCode(403, $this->client);
@@ -18,7 +19,7 @@ class VrijwilligerControllerTest extends WebTestCase
     public function testSortColumns()
     {
         $medewerker = $this->getContainer()->get(\AppBundle\Service\MedewerkerDao::class)->findByUsername('clip_admin');
-        $this->logIn($medewerker);
+        $this->client->loginUser($medewerker);
 
         $crawler = $this->client->request('GET', '/clip/vrijwilligers/');
         $this->assertStatusCode(200, $this->client);

@@ -9,13 +9,16 @@ use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Entity
- * @ORM\Table(
- *     name="registraties",
- *     indexes={
- *         @ORM\Index(columns={"klant_id"}),
- *         @ORM\Index(columns={"locatie_id", "closed", "binnen_date"})
- *     }
- * )
+ * @ORM\Table(name="registraties", indexes={
+ *     @ORM\Index(name="klant_id", columns={"klant_id"}),
+ *     @ORM\Index(name="idx_registraties_klant_id_locatie_id", columns={"klant_id", "locatie_id"}),
+ *     @ORM\Index(name="idx_registraties_locatie_id_closed", columns={"locatie_id", "closed"}),
+ *     @ORM\Index(name="binnen", columns={"binnen"}),
+ *     @ORM\Index(name="klant_locatie_binnen_buiten", columns={"klant_id", "locatie_id", "binnen", "buiten"}),
+ *     @ORM\Index(name="klant_id", columns={"klant_id"}),
+ *     @ORM\Index(name="locatie_date_binnen", columns={"locatie_id","binnen","douche","maaltijd","activering","veegploeg","kleding"}),
+ *     @ORM\Index(name="locatie_date_klant", columns={"locatie_id","binnen","activering","veegploeg","klant_id"})
+ * })
  * @ORM\HasLifecycleCallbacks
  * @Gedmo\Loggable
  */
@@ -47,7 +50,7 @@ class Registratie
 
     /**
      * @var \DateTime
-     * @ORM\Column(type="datetime", nullable=false)
+     * @ORM\Column(type="datetime")
      * @Gedmo\Versioned
      */
     private $binnen;
@@ -69,14 +72,14 @@ class Registratie
 
     /**
      * @var int
-     * @ORM\Column(type="integer", nullable=false)
+     * @ORM\Column(type="integer")
      * @Gedmo\Versioned
      */
     private $douche = 0;
 
     /**
      * @var int
-     * @ORM\Column(type="integer", nullable=false)
+     * @ORM\Column(type="integer")
      * @Gedmo\Versioned
      */
     private $mw = 0;
@@ -85,35 +88,35 @@ class Registratie
      * @deprecated
      *
      * @var int
-     * @ORM\Column(type="integer", nullable=false)
+     * @ORM\Column(type="integer")
      * @Gedmo\Versioned
      */
     private $gbrv = 0;
 
     /**
      * @var bool
-     * @ORM\Column(type="boolean", nullable=false)
+     * @ORM\Column(type="boolean")
      * @Gedmo\Versioned
      */
     private $kleding = false;
 
     /**
      * @var bool
-     * @ORM\Column(type="boolean", nullable=false)
+     * @ORM\Column(type="boolean")
      * @Gedmo\Versioned
      */
     private $maaltijd = false;
 
     /**
      * @var bool
-     * @ORM\Column(type="boolean", nullable=false)
+     * @ORM\Column(type="boolean")
      * @Gedmo\Versioned
      */
     private $activering = false;
 
     /**
      * @var bool
-     * @ORM\Column(type="boolean", nullable=false)
+     * @ORM\Column(type="boolean")
      * @Gedmo\Versioned
      */
     private $veegploeg = false;
@@ -131,6 +134,22 @@ class Registratie
      * @Gedmo\Versioned
      */
     private $closed = false;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(type="datetime", nullable=true)
+     * @Gedmo\Versioned
+     */
+    protected $created;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(type="datetime", nullable=true)
+     * @Gedmo\Versioned
+     */
+    protected $modified;
 
     public function __construct(Klant $klant, Locatie $locatie)
     {
@@ -308,6 +327,4 @@ class Registratie
     {
         $this->aantalSpuiten = $aantalSpuiten;
     }
-
-
 }

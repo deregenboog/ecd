@@ -15,7 +15,8 @@ use Gedmo\Mapping\Annotation as Gedmo;
  */
 class Woonsituatie
 {
-    use TimestampableTrait, NotDeletableTrait;
+    use TimestampableTrait;
+    use NotDeletableTrait;
 
     /**
      * @ORM\Id
@@ -25,13 +26,13 @@ class Woonsituatie
     private $id;
 
     /**
-     * @ORM\Column(name="naam", nullable=false)
+     * @ORM\Column(name="naam")
      * @Gedmo\Versioned
      */
     private $naam;
 
     /**
-     * @ORM\Column(name="datum_van", type="date", nullable=false)
+     * @ORM\Column(name="datum_van", type="date")
      * @Gedmo\Versioned
      */
     private $datumVan;

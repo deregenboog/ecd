@@ -17,7 +17,8 @@ use Gedmo\Mapping\Annotation as Gedmo;
  */
 class Huuraanbod
 {
-    use TimestampableTrait, OptionalMedewerkerTrait;
+    use TimestampableTrait;
+    use OptionalMedewerkerTrait;
 
     /**
      * @ORM\Id
@@ -47,7 +48,6 @@ class Huuraanbod
      */
     private $huurovereenkomst;
 
-
     /**
      * @var int
      * @ORM\Column(type="integer", nullable=true)
@@ -71,7 +71,6 @@ class Huuraanbod
      * @var HuuraanbodAfsluiting
      *
      * @ORM\ManyToOne(targetEntity="HuuraanbodAfsluiting", inversedBy="huuraanbiedingen", cascade={"persist"})
-     * @ORM\JoinColumn(nullable=true)
      * @Gedmo\Versioned
      */
     private $afsluiting;
@@ -101,15 +100,28 @@ class Huuraanbod
      * @var Project
      *
      * @ORM\ManyToOne(targetEntity="TwBundle\Entity\Project", inversedBy="huuraanbiedingen", cascade={"persist"})
-     * @ORM\JoinColumn(nullable=false)
      * @Gedmo\Versioned
      */
     private $project;
 
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(type="datetime")
+     * @Gedmo\Versioned
+     */
+    protected $created;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(type="datetime")
+     * @Gedmo\Versioned
+     */
+    protected $modified;
 
     public function __construct()
     {
-
         $this->startdatum = new \DateTime();
 
         $this->verslagen = new ArrayCollection();
@@ -184,7 +196,7 @@ class Huuraanbod
         return false;
     }
 
-    public function isActief():bool
+    public function isActief(): bool
     {
         return null === $this->afsluiting;
     }
@@ -304,7 +316,4 @@ class Huuraanbod
         $this->huurprijs = $huurprijs;
         return $this;
     }
-
-
-
 }

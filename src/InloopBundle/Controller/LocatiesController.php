@@ -4,6 +4,7 @@ namespace InloopBundle\Controller;
 
 use AppBundle\Controller\AbstractController;
 use InloopBundle\Entity\Locatie;
+use InloopBundle\Form\LocatieFilterType;
 use InloopBundle\Form\LocatieType;
 use InloopBundle\Service\LocatieDao;
 use InloopBundle\Service\LocatieDaoInterface;
@@ -17,10 +18,10 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
  */
 class LocatiesController extends AbstractController
 {
-    protected $title = 'Locaties';
     protected $entityName = 'locatie';
     protected $entityClass = Locatie::class;
     protected $formClass = LocatieType::class;
+    protected $filterFormClass = LocatieFilterType::class;
     protected $baseRouteName = 'inloop_locaties_';
 
     /**
@@ -35,6 +36,5 @@ class LocatiesController extends AbstractController
     {
         $this->dao = $dao;
     }
-
 
 }

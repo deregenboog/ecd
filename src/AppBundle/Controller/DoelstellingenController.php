@@ -15,9 +15,6 @@ use AppBundle\Service\DoelstellingDao;
 use AppBundle\Service\DoelstellingDaoInterface;
 use AppBundle\Form\DoelstellingFilterType;
 use AppBundle\Filter\DoelstellingFilter;
-
-use JMS\DiExtraBundle\Annotation as DI;
-use Psr\Container\ContainerInterface;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
@@ -64,7 +61,6 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
  */
 class DoelstellingenController extends AbstractController
 {
-    protected $title = 'Doelstellingen';
     protected $entityName = 'doelstelling';
     protected $entityClass = Doelstelling::class;
     protected $formClass = DoelstellingType::class;

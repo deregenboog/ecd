@@ -17,7 +17,6 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
  */
 class InfobaliedoelgroepenController extends AbstractController
 {
-    protected $title = 'Infobaliedoelgroepen';
     protected $entityName = 'infobaliedoelgroep';
     protected $entityClass = Infobaliedoelgroep::class;
     protected $formClass = InfobaliedoelgroepType::class;

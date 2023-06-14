@@ -9,14 +9,11 @@ use Symfony\Component\Debug\Exception\FatalErrorException;
 
 /**
  * @ORM\Entity
- * @ORM\Table(
- *     name="vrijwilligers",
- *     indexes={
- *         @ORM\Index(name="idx_vrijwilligers_werkgebied", columns={"werkgebied"}),
- *         @ORM\Index(name="idx_vrijwilligers_postcodegebied", columns={"postcodegebied"}),
- *         @ORM\Index(name="idx_vrijwilligers_geboortedatum", columns={"geboortedatum"})
- *     }
- * )
+ * @ORM\Table(name="vrijwilligers", indexes={
+ *     @ORM\Index(name="idx_vrijwilligers_werkgebied", columns={"werkgebied"}),
+ *     @ORM\Index(name="idx_vrijwilligers_postcodegebied", columns={"postcodegebied"}),
+ *     @ORM\Index(name="idx_vrijwilligers_geboortedatum", columns={"geboortedatum"})
+ * })
  * @Gedmo\Loggable
  */
 class Vrijwilliger extends Persoon
@@ -24,25 +21,22 @@ class Vrijwilliger extends Persoon
     use DocumentSubjectTrait;
 
     /**
-     * @ORM\Column(name="vog_aangevraagd", type="boolean")
+     * @ORM\Column(name="vog_aangevraagd", type="boolean", options={"default": 0})
      * @Gedmo\Versioned
      */
     protected $vogAangevraagd = false;
 
     /**
-     * @ORM\Column(name="vog_aanwezig", type="boolean")
+     * @ORM\Column(name="vog_aanwezig", type="boolean", options={"default": 0})
      * @Gedmo\Versioned
      */
     protected $vogAanwezig = false;
 
     /**
-     * @ORM\Column(name="overeenkomst_aanwezig", type="boolean")
+     * @ORM\Column(name="overeenkomst_aanwezig", type="boolean", options={"default": 0})
      * @Gedmo\Versioned
      */
     protected $overeenkomstAanwezig = false;
-
-
-
 
     /**
      * @return bool
@@ -106,7 +100,9 @@ class Vrijwilliger extends Persoon
 
     public function getVog(): ?Vog
     {
-        if(!$this->getDocumenten()) return null;
+        if (!$this->getDocumenten()) {
+            return null;
+        }
         foreach ($this->getDocumenten() as $document) {
             if ($document instanceof Vog) {
                 return $document;
@@ -156,7 +152,9 @@ class Vrijwilliger extends Persoon
 
     public function getOvereenkomst(): ?Overeenkomst
     {
-        if(!$this->getDocumenten()) return null;
+        if (!$this->getDocumenten()) {
+            return null;
+        }
 
         foreach ($this->documenten as $document) {
             if ($document instanceof Overeenkomst) {
@@ -174,5 +172,4 @@ class Vrijwilliger extends Persoon
 
         return $this;
     }
-
 }

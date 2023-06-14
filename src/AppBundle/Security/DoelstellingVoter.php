@@ -23,7 +23,7 @@ class DoelstellingVoter extends Voter
         $this->decisionManager = $decisionManager;
     }
 
-    protected function supports($attribute, $subject)
+    protected function supports($attribute, $subject): bool
     {
         if (!in_array($attribute, [self::EDIT])) {
             return false;
@@ -35,12 +35,12 @@ class DoelstellingVoter extends Voter
         return true;
     }
 
-    protected function voteOnAttribute($attribute, $subject, TokenInterface $token)
+    protected function voteOnAttribute($attribute, $subject, TokenInterface $token): bool
     {
 
         /** @var User $user */
         $user = $token->getUser();
-        $roles = $token->getRoles();
+        $roles = $user->getRoles();
 
 
         //list($class,$method) = explode("::",$subject);

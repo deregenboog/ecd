@@ -24,17 +24,17 @@ class Hi5Answer
     /**
      * @var string
      *
-     * @ORM\Column(name="answer", type="string", length=255, nullable=false)
+     * @ORM\Column(name="answer", type="string", length=255)
      */
     private $answer;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Hi5Question")
+     * @ORM\Column(type="integer")
      */
-    private $hi5Question;
+    private $hi5_question_id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Hi5AnswerType")
+     * @ORM\Column(type="integer")
      */
-    private $hi5AnswerType;
+    private $hi5_answer_type_id;
 }

@@ -27,7 +27,10 @@ use Gedmo\Mapping\Annotation as Gedmo;
  */
 class Deelnemer implements DocumentSubjectInterface
 {
-    use IdentifiableTrait, ActivatableTrait, DocumentSubjectTrait, TimestampableTrait;
+    use IdentifiableTrait;
+    use ActivatableTrait;
+    use DocumentSubjectTrait;
+    use TimestampableTrait;
 
     public const TYPE_WMO = 'WMO';
     public const TYPE_ONDERAANNEMER = 'onderaannemer';
@@ -385,7 +388,7 @@ class Deelnemer implements DocumentSubjectInterface
     /**
      * @return \DateTime
      */
-    public function getEvaluatiedatum():? \DateTime
+    public function getEvaluatiedatum(): ?\DateTime
     {
         return $this->evaluatiedatum;
     }
@@ -397,6 +400,4 @@ class Deelnemer implements DocumentSubjectInterface
     {
         $this->evaluatiedatum = $evaluatiedatum;
     }
-
-
 }

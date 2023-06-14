@@ -1,6 +1,6 @@
 parameters:
+#  application_version: 'abc'
   database_server_version: '8'
-  locale: nl_NL.UTF-8
   cache_type: file_system
   pagination.items_per_page: 20
   email_policy: dev
@@ -12,6 +12,7 @@ parameters:
   ldap_port: 636
   ldap_servers:
     - '%env(LDAP_SERVER)%'
+  ldap_server: '%env(LDAP_SERVER)%'
   ldap_base_dn: 'DC=cluster,DC=deregenboog'
   ldap_search_user: '%env(LDAP_SEARCH_USER)%'
   ldap_search_password: '%env(LDAP_SEARCH_PASSWORD)%'
@@ -28,15 +29,17 @@ parameters:
     - 'Amoc Gebruikersruimte'
     - 'Nachtopvang De Regenboog Groep'
   economisch_daklozen_locaties:
-    - 'De Meeuw'
-    - Claverhuis
-    - Gravestein
-    - Postoost
-    - Havelaar
-    - '''t Blommetje'
-    - Tagrijn
-    - 'Casa Jepie'
-    - 'Wachtlijst Economisch Daklozen'
+    - 'STED Amstelland'
+    - 'STED Centrum'
+    - 'STED Nieuw-West'
+    - 'STED Noord'
+    - 'STED NWI'
+    - 'STED Oost'
+    - 'STED Teleport'
+    - 'STED West'
+    - 'STED Zuid'
+    - 'STED Zuid-Oost'
+    - 'STED Gezinnen'
   amw_locaties:
     - AMOC
     - 'Amoc Gebruikersruimte'
@@ -77,24 +80,36 @@ parameters:
       kpl: '2730'
   iz_hulpsoorten_zonder_koppelingen:
     - timeout
+    - 'Time out'
   verblijfsstatus_niet_rechthebbend_id: 7
   wachtlijst_locaties:
-    - 'Wachtlijst T6'
+    - 'Wachtlijst T6 Project'
     - 'Wachtlijst Economisch Daklozen'
-    - AMOC
   informele_zorg_mail: '%env(INFORMELE_ZORG_MAIL)%'
   dagbesteding_mail: '%env(DAGBESTEDING_MAIL)%'
   inloophuis_mail: '%env(INLOOPHUIS_MAIL)%'
   hulpverlening_mail: '%env(HULPVERLENING_MAIL)%'
   agressie_mail: '%env(AGRESSIEMAIL)%'
   administratiebedrijf_mail: '%env(ADMINISTRATIEBEDRIJF_MAIL)%'
-  prevent_save_enabled: '2023-01-16 09:00:00' #vanaf deze datum wordt de check uitgevoerd. #NB: dit werkt eigenlijk niet goed want zodra je deze verzet naar het nieuwe jaar, dan is tijdelijk mogelijk dat het jaar ervoor toch nog wordt gewijzigd.
-  prevent_save_modified_before: '2023-01-01' #als de gecheckte entiteit en datumveld heeft voor deze datum
-  prevent_save_modified_after: '2020-12-31' #en als de gecheckte entiteit een datumveld heeft na deze datum.
+  prevent_save_enabled: '%env(PREVENT_SAVE_ENABLED)%' #vanaf deze datum wordt de check uitgevoerd. #NB: dit werkt eigenlijk niet goed want zodra je deze verzet naar het nieuwe jaar, dan is tijdelijk mogelijk dat het jaar ervoor toch nog wordt gewijzigd.
+  prevent_save_modified_before: '%env(PREVENT_SAVE_MODIFIED_BEFORE)%' #als de gecheckte entiteit en datumveld heeft voor deze datum
+  prevent_save_modified_after: '%env(PREVENT_SAVE_MODIFIED_AFTER)%' #en als de gecheckte entiteit een datumveld heeft na deze datum.
   prevent_save_exclude_entities:
-#    - 'DagbestedingBundle\Entity\Rapportage' # In overleg met Jos, 2022
-#    - 'DagbestedingBundle\Entity\Dagdeel' # In overleg met Jos, 2022
-#    - 'DagbestedingBundle\Entity\Traject' # In overleg met Jos, 2022
-#    - 'TwBundle\Entity\Klant' # In overleg met Jos, 2022
+    #    - 'DagbestedingBundle\Entity\Rapportage' # In overleg met Jos, 2022
+    #    - 'DagbestedingBundle\Entity\Dagdeel' # In overleg met Jos, 2022
+    #    - 'DagbestedingBundle\Entity\Traject' # In overleg met Jos, 2022
+    #    - 'TwBundle\Entity\Klant' # In overleg met Jos, 2022
     - 'AppBundle\Entity\Klant' # In overleg met Jos, 2022
     - 'AppBundle\Entity\Vrijwilliger' # In overleg met Jos, 2022
+#     - DagbestedingBundle\Entity\Rapportage
+#     - DagbestedingBundle\Entity\Dagdeel
+#     - DagbestedingBundle\Entity\Traject
+#     - DagbestedingBundle\Entity\Project
+#     - DagbestedingBundle\Entity\Deelnemer
+#     - DagbestedingBundle\Entity\Deelname
+#     - DagbestedingBundle\Entity\Verslag
+#     - DagbestedingBundle\Entity\Document
+#     - DagbestedingBundle\Entity\Werkdoel
+#     - TwBundle\Entity\Klant
+#     - AppBundle\Entity\Toestemmingsformulier
+

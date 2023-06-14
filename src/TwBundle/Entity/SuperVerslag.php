@@ -18,7 +18,8 @@ use Gedmo\Mapping\Annotation as Gedmo;
  */
 abstract class SuperVerslag
 {
-    use TimestampableTrait, RequiredMedewerkerTrait;
+    use TimestampableTrait;
+    use RequiredMedewerkerTrait;
 
     /**
      * @ORM\Id
@@ -41,6 +42,22 @@ abstract class SuperVerslag
      */
     private $opmerking;
 
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(type="datetime")
+     * @Gedmo\Versioned
+     */
+    protected $created;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(type="datetime")
+     * @Gedmo\Versioned
+     */
+    protected $modified;
+
     public function __construct()
     {
         $this->datum = new \DateTime();
@@ -53,12 +70,12 @@ abstract class SuperVerslag
 
     public function getOpmerking()
     {
-        return $this->opmerking;
+        return utf8_decode($this->opmerking);
     }
 
     public function setOpmerking($opmerking)
     {
-        $this->opmerking = $opmerking;
+        $this->opmerking = utf8_encode($opmerking);
 
         return $this;
     }

@@ -10,9 +10,11 @@
             {{ form_row(child) }}
         {%- endfor -%}
     </table>
-    {%- for child in form %}
-        {{ form_row(child) }}
-    {%- endfor -%}
+{#    JTB 230518 Somehow, this stopped working with update to 5.4... but dont know the reason for doubling this loop...results in the same thing. #}
+{#    {%- for child in form %}#}
+{#        {{ form_row(child) }}#}
+{#        {{ child.vars.name }}#}
+{#    {%- endfor -%}#}
 {% endblock %}
 
 {% block zrm_item_row %}

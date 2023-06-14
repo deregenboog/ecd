@@ -36,21 +36,21 @@ class BotVerslag
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="created", type="datetime", nullable=false)
+     * @ORM\Column(name="created", type="datetime")
      */
     private $created;
 
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="modified", type="datetime", nullable=false)
+     * @ORM\Column(name="modified", type="datetime")
      */
     private $modified;
 
     /**
      * @var int
      *
-     * @ORM\Column(name="klant_id", type="integer", nullable=false)
+     * @ORM\Column(name="klant_id", type="integer")
      */
     private $klantId;
 

@@ -16,5 +16,23 @@ use Gedmo\Mapping\Annotation as Gedmo;
  */
 class LidmaatschapAfsluitreden
 {
-    use IdentifiableTrait, NameableTrait, TimestampableTrait;
+    use IdentifiableTrait;
+    use NameableTrait;
+    use TimestampableTrait;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(type="datetime", nullable=true)
+     * @Gedmo\Versioned
+     */
+    protected $created;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(type="datetime", nullable=true)
+     * @Gedmo\Versioned
+     */
+    protected $modified;
 }

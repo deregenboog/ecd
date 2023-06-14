@@ -13,6 +13,7 @@ use AppBundle\Export\ExportInterface;
 use AppBundle\Form\BaseType;
 use AppBundle\Form\KlantFilterType as AppKlantFilterType;
 use AppBundle\Service\KlantDaoInterface;
+use Doctrine\ORM\Mapping as ORM;
 use MwBundle\Entity\Aanmelding;
 use MwBundle\Entity\Afsluiting;
 use MwBundle\Entity\Verslag;
@@ -33,10 +34,12 @@ use Symfony\Component\HttpFoundation\Request;
 /**
  * @Route("/klanten")
  * @Template
+ * @ORM\Embeddable
+ * @ORM\Entity
+ * @ORM\Table(name="klanten_controller")
  */
 class KlantenController extends AbstractController
 {
-    protected $title = 'Klanten';
     protected $entityName = 'klant';
     protected $entityClass = Klant::class;
     protected $formClass = KlantType::class;
@@ -92,7 +95,8 @@ class KlantenController extends AbstractController
     public function infoEditAction(Request $request, Klant $klant)
     {
         $em = $this->getEntityManager();
-        $entity = $em->getRepository(Info::class)->findOneBy(['klant' => $klant]);
+        //$entity = $em->getRepository(Info::class)->findOneBy(['klant' => $klant]);
+        $entity = $klant->getInfo();
         if (!$entity) {
             $entity = new Info($klant);
         }
@@ -102,9 +106,8 @@ class KlantenController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             try {
-                if (!$entity->getId()) {
-                    $em->persist($entity);
-                }
+                $klant->setInfo($entity);
+                $em->persist($klant);
                 $em->flush();
                 $this->addFlash('success', 'Info is opgeslagen.');
             } catch(UserException $e) {
@@ -351,15 +354,22 @@ class KlantenController extends AbstractController
     public function addMwDossierStatusAction(Request $request, $id)
     {
 
+
+        /** @var Klant $klant */
         $klant = $this->dao->find($id);
+
         $entity = new Aanmelding($klant,$this->getMedewerker());
+        $info = new Info($klant);
+
 
         $form = $this->getForm(AanmeldingType::class,$entity);
         $form->handleRequest($this->getRequest());
         if ($form->isSubmitted() && $form->isValid()) {
             try {
+                $klant->setHuidigeMwStatus($entity);
+                $klant->setInfo($info);
                 $entityManager = $this->getEntityManager();
-                $entityManager->persist($entity);
+                $entityManager->persist($klant);
                 $entityManager->flush();
 
                 $this->addFlash('success', 'Mw dossier is aangemaakt');
@@ -408,9 +418,18 @@ class KlantenController extends AbstractController
         $form->handleRequest($this->getRequest());
         if ($form->isSubmitted() && $form->isValid()) {
             try {
-                $entityManager = $this->getEntityManager();
-                $entityManager->persist($mwStatus);
-                $entityManager->flush();
+
+//                $entityManager = $this->getEntityManager();
+//                $entityManager->persist($mwStatus);
+//                $entityManager->flush();
+
+                if ($mwStatus->getId()) {
+                    $this->beforeUpdate($klant);
+                    $this->dao->update($klant);
+                } else {
+                    $this->beforeCreate($klant);
+                    $this->dao->create($klant);
+                }
 
                 $this->addFlash('success', 'Mw dossier is gewijzigd');
             } catch(UserException $e) {

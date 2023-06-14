@@ -1,20 +1,19 @@
 -- START
 -- HEAD: Repatrieringen per klant
--- FIELDS:  dossierNummer - Dossiernummer; herkomstLand - Land van herkomst; vertrekLand - Land van vertrek; datum - Vertrekdatum
+-- FIELDS:  dossierNummer - Dossiernummer; herkomstLand - Land van herkomst; vertrekLand - Land van vertrek; datum - Afsluitdatum; kosten - Kosten; zachteLanding -Zachte landing; datumRepatriering - Datum repatriering
 -- ARRAY
 -- !DISABLE
 -- SUMMARY
-SELECT hl.land AS herkomstLand, vl.land AS vertrekLand, k.id AS dossierNummer, ids.datum
-FROM klanten AS k
-LEFT JOIN inloop_dossier_statussen AS ids ON ids.id = k.huidigeStatus_id
-LEFT JOIN landen AS hl ON hl.id = k.land_id
-LEFT JOIN landen AS vl ON vl.id = ids.land_id
-WHERE
-ids.class = "Afsluiting"
-AND ids.reden_id = 2
-AND
---ids.datum BETWEEN '2019-01-01' AND '2019-12-31'
-ids.datum BETWEEN :from AND :until
+SELECT hl.land AS herkomstLand, vl.land AS vertrekLand, k.id AS dossierNummer, mds.datum, mds.kosten, mds.zachteLanding, mds.datumRepatriering
+ FROM klanten AS k
+          LEFT JOIN mw_dossier_statussen AS mds ON mds.id = k.huidigeMwStatus_id
+          LEFT JOIN landen AS hl ON hl.id = k.land_id
+          LEFT JOIN landen AS vl ON vl.id = mds.land_id
+ WHERE
+         mds.class = "Afsluiting"
+   AND mds.reden_id = 4
+   AND
+     mds.datum BETWEEN :from AND :until
 
 ;
 --

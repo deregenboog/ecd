@@ -2,9 +2,9 @@
 
 namespace AppBundle\Twig;
 
-use Symfony\Bridge\Twig\Extension\RoutingExtension as BaseRoutingExtension;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use Symfony\Component\Routing\RouterInterface;
 use Twig\Extension\AbstractExtension;
 use Twig\Node\Expression\ArrayExpression;
 use Twig\Node\Expression\ConstantExpression;
@@ -14,9 +14,9 @@ use Twig\TwigFunction;
 class EcdRoutingExtension extends AbstractExtension
 {
     /**
-     * @var UrlGeneratorInterface
+     * @var RouterInterface
      */
-    private $generator;
+    private $router;
 
     /**
      * @var RequestStack
@@ -24,26 +24,30 @@ class EcdRoutingExtension extends AbstractExtension
     private $requestStack;
 
     public function __construct(
-        UrlGeneratorInterface $generator,
+        RouterInterface $router,
         RequestStack $requestStack
     ) {
-        $this->generator = $generator;
+        $this->router = $router;
         $this->requestStack = $requestStack;
-
     }
-
 
     /**
      * {@inheritdoc}
      *
      * @return TwigFunction[]
      */
-    public function getFunctions()
+    public function getFunctions(): array
     {
         return [
+            new TwigFunction('route_exists', [$this, 'routeExists']),
             new TwigFunction('url', [$this, 'getUrl'], ['is_safe_callback' => [$this, 'isUrlGenerationSafe']]),
             new TwigFunction('path', [$this, 'getPath'], ['is_safe_callback' => [$this, 'isUrlGenerationSafe']]),
         ];
+    }
+
+    function routeExists($name)
+    {
+        return (null === $this->router->getRouteCollection()->get($name)) ? false : true;
     }
 
     /**
@@ -55,17 +59,13 @@ class EcdRoutingExtension extends AbstractExtension
      */
     public function getPath($name, $parameters = [], $relative = false)
     {
-
         if (!array_key_exists('redirect', $parameters)) {
+            $url = $this->requestStack->getCurrentRequest()->getPathInfo();
 
-           $url = $this->requestStack->getCurrentRequest()->getPathInfo();
-
-           if($url = "_fragment")
-           {
-               $url = $this->requestStack->getMasterRequest()->getPathInfo();
-           }
-           $parameters['redirect'] = $url;
-
+            if ($url = '_fragment') {
+                $url = $this->requestStack->getMainRequest()->getPathInfo();
+            }
+            $parameters['redirect'] = $url;
         }
 
         return $this->_getPath($name, $parameters, $relative);
@@ -80,7 +80,7 @@ class EcdRoutingExtension extends AbstractExtension
      */
     public function _getPath($name, $parameters = [], $relative = false)
     {
-        return $this->generator->generate($name, $parameters, $relative ? UrlGeneratorInterface::RELATIVE_PATH : UrlGeneratorInterface::ABSOLUTE_PATH);
+        return $this->router->generate($name, $parameters, $relative ? UrlGeneratorInterface::RELATIVE_PATH : UrlGeneratorInterface::ABSOLUTE_PATH);
     }
 
     /**
@@ -99,9 +99,6 @@ class EcdRoutingExtension extends AbstractExtension
         return $this->_getUrl($name, $parameters, $schemeRelative);
     }
 
-
-
-
     /**
      * @param string $name
      * @param array  $parameters
@@ -111,7 +108,7 @@ class EcdRoutingExtension extends AbstractExtension
      */
     public function _getUrl($name, $parameters = [], $schemeRelative = false)
     {
-        return $this->generator->generate($name, $parameters, $schemeRelative ? UrlGeneratorInterface::NETWORK_PATH : UrlGeneratorInterface::ABSOLUTE_URL);
+        return $this->router->generate($name, $parameters, $schemeRelative ? UrlGeneratorInterface::NETWORK_PATH : UrlGeneratorInterface::ABSOLUTE_URL);
     }
 
     /**
@@ -142,7 +139,7 @@ class EcdRoutingExtension extends AbstractExtension
     {
         // support named arguments
         $paramsNode = $argsNode->hasNode('parameters') ? $argsNode->getNode('parameters') : (
-        $argsNode->hasNode(1) ? $argsNode->getNode(1) : null
+            $argsNode->hasNode(1) ? $argsNode->getNode(1) : null
         );
 
         if (null === $paramsNode || $paramsNode instanceof ArrayExpression && \count($paramsNode) <= 2 &&
@@ -157,7 +154,7 @@ class EcdRoutingExtension extends AbstractExtension
     /**
      * {@inheritdoc}
      */
-    public function getName()
+    public function getName(): string
     {
         return 'routing';
     }

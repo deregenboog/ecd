@@ -2,53 +2,59 @@
 
 namespace InloopBundle\Entity;
 
+use AppBundle\Model\IdentifiableTrait;
+use AppBundle\Model\NameableTrait;
 use AppBundle\Model\TimestampableTrait;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Entity
- * @ORM\Table(name="locaties")
+ * @ORM\Table(name="locaties", indexes={
+ *     @ORM\Index(name="id", columns={"id", "naam", "datum_van", "datum_tot"}),
+ *     @ORM\Index(name="id_2", columns={"id", "datum_van"}),
+ *     @ORM\Index(name="id_3", columns={"id", "datum_van", "datum_tot"}),
+ *     @ORM\Index(name="datum_tot", columns={"id", "datum_tot"}),
+ *     @ORM\Index(name="datum_van", columns={"datum_van","datum_tot","naam", "id"}),
+ *     @ORM\Index(name="naam", columns={"naam", "datum_van","datum_tot","id"})
+ * })
  * @ORM\HasLifecycleCallbacks
  * @Gedmo\Loggable
  */
 class Locatie
 {
+    use IdentifiableTrait;
+    use NameableTrait;
     use TimestampableTrait;
 
     /**
-     * @ORM\Id
-     * @ORM\Column(type="integer")
-     * @ORM\GeneratedValue
+     * @var Collection<int,LocatieType>
+     * @ORM\ManyToMany(targetEntity="LocatieType",inversedBy="locaties")
      */
-    private $id;
+    private $locatieTypes;
 
     /**
-     * @ORM\Column(name="naam", nullable=false)
-     * @Gedmo\Versioned
-     */
-    private $naam;
-
-    /**
-     * @ORM\Column(name="nachtopvang", type="boolean", nullable=false, options={"default"=0})
+     * @ORM\Column(name="nachtopvang", type="boolean", options={"default"=0})
      * @Gedmo\Versioned
      */
     private $nachtopvang = false;
 
     /**
-     * @ORM\Column(name="gebruikersruimte", type="boolean", nullable=false, options={"default"=0})
+     * @ORM\Column(name="gebruikersruimte", type="boolean", options={"default"=0})
      * @Gedmo\Versioned
      */
     private $gebruikersruimte = false;
 
     /**
-     * @ORM\Column(name="maatschappelijkwerk", type="boolean", nullable=false, options={"default"=0})
+     * @ORM\Column(name="maatschappelijkwerk", type="boolean", nullable=true, options={"default"=0})
      * @Gedmo\Versioned
      */
     private $maatschappelijkWerk = false;
 
     /**
-     * @ORM\Column(name="tbc_check", type="boolean", nullable=false, options={"default"=0})
+     * @ORM\Column(name="tbc_check", type="boolean", options={"default"=0})
      * @Gedmo\Versioned
      */
     private $tbcCheck = false;
@@ -60,7 +66,7 @@ class Locatie
     private $wachtlijst = 0; //0=geen, 1=normaal via intakes / 2=economisch via verslag
 
     /**
-     * @ORM\Column(name="datum_van", type="date", nullable=false)
+     * @ORM\Column(name="datum_van", type="date")
      * @Gedmo\Versioned
      */
     private $datumVan;
@@ -80,28 +86,6 @@ class Locatie
     private $locatietijden;
 
     private $openingTimeCorrection = 30 * 60; // 30 minutes
-
-    public function __toString()
-    {
-        return $this->naam;
-    }
-
-    public function getId()
-    {
-        return $this->id;
-    }
-
-    public function getNaam()
-    {
-        return $this->naam;
-    }
-
-    public function setNaam($naam)
-    {
-        $this->naam = $naam;
-
-        return $this;
-    }
 
     /**
      * @deprecated
@@ -200,7 +184,7 @@ class Locatie
         return $this->datumTot;
     }
 
-    public function setDatumTot(\DateTime $datumTot)
+    public function setDatumTot(?\DateTime $datumTot)
     {
         $this->datumTot = $datumTot;
 
@@ -254,10 +238,12 @@ class Locatie
 
     public function isOpen(\DateTime $date = null)
     {
-
         if (!$date instanceof \DateTime) {
             $date = new \DateTime();
         }
+        $openingstijd = new \DateTime();
+        $sluitingstijd = new \DateTime();
+
         $locatietijd = $this->getLocatietijd($date->format('w'));
 
         if ($locatietijd) {
@@ -298,9 +284,9 @@ class Locatie
             }
         }
 
-//        $debug['date'] = $date;
-//        $debug['openingstijd'] = $openingstijd;
-//        $debug['sluitingstijd'] = $sluitingstijd;
+        $debug['date'] = $date;
+        $debug['openingstijd'] = $openingstijd;
+        $debug['sluitingstijd'] = $sluitingstijd;
 //        return $debug;
         return false;
     }
@@ -323,7 +309,7 @@ class Locatie
     {
         $now = new \DateTime("now");
 
-        if($this->datumTot == null || ($this->datumVan < $now && $this->datumTot > $now) ) {
+        if ($this->datumTot == null || ($this->datumVan < $now && $this->datumTot > $now)) {
             return true;
         }
         return false;
@@ -333,7 +319,7 @@ class Locatie
      */
     public function isWachtlijst(): bool
     {
-        return ($this->wachtlijst > 0)?true:false;
+        return ($this->wachtlijst > 0) ? true : false;
     }
 
     /**
@@ -353,6 +339,23 @@ class Locatie
     {
         return $this->wachtlijst;
     }
+
+    /**
+     * @return Collection
+     */
+    public function getLocatieTypes(): ?Collection
+    {
+        return $this->locatieTypes;
+    }
+
+    /**
+     * @param Collection $locatieTypes
+     */
+    public function setLocatieTypes(?Collection $locatieTypes): void
+    {
+        $this->locatieTypes = $locatieTypes;
+    }
+
 
 
 }

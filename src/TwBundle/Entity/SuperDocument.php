@@ -22,7 +22,8 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
  */
 abstract class SuperDocument implements DocumentInterface
 {
-    use TimestampableTrait, RequiredMedewerkerTrait;
+    use TimestampableTrait;
+    use RequiredMedewerkerTrait;
 
     /**
      * @ORM\Id
@@ -58,7 +59,21 @@ abstract class SuperDocument implements DocumentInterface
      */
     private $file;
 
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(type="datetime")
+     * @Gedmo\Versioned
+     */
+    protected $created;
 
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(type="datetime")
+     * @Gedmo\Versioned
+     */
+    protected $modified;
 
     public function __construct()
     {

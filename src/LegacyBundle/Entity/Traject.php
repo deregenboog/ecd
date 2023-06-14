@@ -15,56 +15,56 @@ class Traject
     /**
      * @var int
      *
-     * @ORM\Column(name="klant_id", type="integer", nullable=false)
+     * @ORM\Column(name="klant_id", type="integer")
      */
     private $klantId;
 
     /**
      * @var int
      *
-     * @ORM\Column(name="trajectbegeleider_id", type="integer", nullable=false)
+     * @ORM\Column(name="trajectbegeleider_id", type="integer")
      */
     private $trajectbegeleiderId;
 
     /**
      * @var int
      *
-     * @ORM\Column(name="werkbegeleider_id", type="integer", nullable=false)
+     * @ORM\Column(name="werkbegeleider_id", type="integer")
      */
     private $werkbegeleiderId;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="klant_telefoonnummer", type="string", length=255, nullable=false)
+     * @ORM\Column(name="klant_telefoonnummer", type="string", length=255)
      */
     private $klantTelefoonnummer;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="administratienummer", type="string", length=255, nullable=false)
+     * @ORM\Column(name="administratienummer", type="string", length=255)
      */
     private $administratienummer;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="klantmanager", type="string", length=255, nullable=false)
+     * @ORM\Column(name="klantmanager", type="string", length=255)
      */
     private $klantmanager;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="manager_telefoonnummer", type="string", length=255, nullable=false)
+     * @ORM\Column(name="manager_telefoonnummer", type="string", length=255)
      */
     private $managerTelefoonnummer;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="manager_email", type="string", length=255, nullable=false)
+     * @ORM\Column(name="manager_email", type="string", length=255)
      */
     private $managerEmail;
 

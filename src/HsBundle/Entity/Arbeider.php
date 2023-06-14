@@ -27,13 +27,13 @@ abstract class Arbeider
     protected $id;
 
     /**
-     * @ORM\Column(type="boolean", nullable=false)
+     * @ORM\Column(type="boolean")
      * @Gedmo\Versioned
      */
     protected $actief = true;
 
     /**
-     * @ORM\Column(type="date", nullable=false)
+     * @ORM\Column(type="date")
      * @Gedmo\Versioned
      */
     protected $inschrijving;
@@ -163,4 +163,6 @@ abstract class Arbeider
 
         return $this;
     }
+
+    abstract public function __toString(): string;
 }

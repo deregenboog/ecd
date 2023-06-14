@@ -17,7 +17,6 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class DoelstellingenController extends AbstractController
 {
-    protected $title = 'Doelstellingen';
     protected $entityName = 'doelstelling';
     protected $entityClass = Doelstelling::class;
     protected $formClass = DoelstellingType::class;
@@ -28,6 +27,15 @@ class DoelstellingenController extends AbstractController
      * @var DoelstellingDao
      */
     protected $dao;
+
+    /**
+     * @param DoelstellingDao $dao
+     */
+    public function __construct(DoelstellingDao $dao)
+    {
+        $this->dao = $dao;
+    }
+
 
     /**
      * @Route("/{id}/view")

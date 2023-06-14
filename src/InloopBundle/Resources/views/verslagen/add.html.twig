@@ -4,14 +4,6 @@
 {% set max_depth = 4 %}
 {% set col_width = (100/(max_depth))|round(0, 'floor') %}
 
-{% block title %}
-    Maatschappelijk werk | {{ title }}
-{% endblock %}
-
-{% block subnavigation %}
-    {% include '@Inloop/subnavigation.html.twig' %}
-{% endblock %}
-
 {% block content_top %}
     <h1>{{ entity_name|capitalize }} toevoegen voor {{ entity.klant }}</h1>
 {% endblock %}
@@ -27,12 +19,11 @@
         {{ form_row(form.datum) }}
 
         {{ form_row(form.locatie) }}
-        {{ form_row(form.contactsoort) }}
-        {{ form_row(form.duur) }}
+        {{ form_row(form.aantalContactmomenten) }}
         {% if roleMw == true %}
-            {{ form_row(form.accessType) }}
+            {{ form_row(form.access) }}
         {% else %}
-            {{ form_row(form.accessType,{'attr':{'readonly':true},'value':'2'}) }}
+            {{ form_row(form.access,{'attr':{'readonly':true},'value':'2'}) }}
         {% endif %}
         {{ form_row(form._token) }}
         {{ form_row(form.submit) }}
@@ -57,12 +48,8 @@
                     </div>
                     <div class="col-xs-6">
                         <dl class="dl-horizontal">
-                            <dt>Contactsoort</dt>
-                            <dd>{{ verslag.contactsoort }}</dd>
-                            {% if verslag.duur %}
-                                <dt>Duur</dt>
-                                <dd>{{ verslag.duur }} minuten</dd>
-                            {% endif %}
+                            <dt>Aantal contactmomenten</dt>
+                            <dd>{{ verslag.aantalContactmomenten }}</dd>
                             <dt>Type</dt>
                             <dd>{{ verslag.typeAsString }}</dd>
                         </dl>

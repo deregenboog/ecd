@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\HsBundle\Event;
+namespace Tests\HsBundle\Service;
 
 use HsBundle\Entity\Declaratie;
 use HsBundle\Entity\Dienstverlener;

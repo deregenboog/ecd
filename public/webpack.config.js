@@ -13,7 +13,9 @@ Encore
         {from: './node_modules/ckeditor4/lang', to: 'ckeditor/lang/[path][name].[ext]'},
         {from: './node_modules/ckeditor4/plugins', to: 'ckeditor/plugins/[path][name].[ext]'},
         {from: './node_modules/ckeditor4/skins', to: 'ckeditor/skins/[path][name].[ext]'},
-        {from: './node_modules/ckeditor4/vendor', to: 'ckeditor/vendor/[path][name].[ext]'}
+        {from: './node_modules/ckeditor4/vendor', to: 'ckeditor/vendor/[path][name].[ext]'},
+        {from: '../src/InloopBundle/Resources/public', to: '../bundles/inloop/[path][name].[ext]', pattern: /\.(js|css)$/, includeSubdirectories: true},
+        {from: '../src/OekraineBundle/Resources/public', to: '../bundles/oekraine/[path][name].[ext]', pattern: /\.(js|css)$/, includeSubdirectories: true},
     ])
     // Uncomment the following line if you are using Webpack Encore <= 0.24
     // .addLoader({test: /\.json$/i, include: [require('path').resolve(__dirname, 'node_modules/ckeditor')], loader: 'raw-loader', type: 'javascript/auto'})

@@ -146,7 +146,6 @@ class ActiviteitenreeksGeneratorTest extends TestCase
 
     public function testGeneratorGeneratesNothingWhenNothingInDateRange()
     {
-
         $activiteit = new Activiteit();
         $data = new ActiviteitenReeksModel($activiteit);
         $data

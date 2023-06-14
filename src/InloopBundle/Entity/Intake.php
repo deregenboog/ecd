@@ -131,8 +131,9 @@ class Intake
     /**
      * @var string
      *
-     * @ORM\Column(nullable=true)
+     * @ORM\Column(length=7, nullable=true)
      * @Gedmo\Versioned
+     * @Assert\Length(min=6,max=7)
      */
     private $postcode;
 
@@ -188,7 +189,7 @@ class Intake
      * @var Verblijfsstatus
      *
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Verblijfsstatus")
-     * @ORM\JoinColumn(name="verblijfstatus_id", nullable=true)
+     * @ORM\JoinColumn(name="verblijfstatus_id")
      * @Assert\NotNull(groups={"toegang"})
      */
     private $verblijfsstatus;
@@ -244,21 +245,21 @@ class Intake
     /**
      * @var string
      *
-     * @ORM\Column(name="opmerking_andere_instanties", nullable=true)
+     * @ORM\Column(name="opmerking_andere_instanties", type="text", length=65535, nullable=true)
      */
     private $opmerkingAndereInstanties;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="medische_achtergrond", nullable=true)
+     * @ORM\Column(name="medische_achtergrond", type="text", length=65535, nullable=true)
      */
     private $medischeAchtergrond;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="verwachting_dienstaanbod", nullable=true)
+     * @ORM\Column(name="verwachting_dienstaanbod", type="text", length=65535, nullable=true)
      * @Assert\NotBlank
      */
     private $verwachtingDienstaanbod;
@@ -266,7 +267,7 @@ class Intake
     /**
      * @var string
      *
-     * @ORM\Column(name="toekomstplannen", nullable=true)
+     * @ORM\Column(name="toekomstplannen", type="text", length=65535, nullable=true)
      * @Assert\NotBlank
      */
     private $toekomstplannen;
@@ -274,42 +275,42 @@ class Intake
     /**
      * @var string
      *
-     * @ORM\Column(nullable=true)
+     * @ORM\Column(type="text", length=65535, nullable=true)
      */
     private $indruk;
 
     /**
      * @var bool
      *
-     * @ORM\Column(name="informele_zorg", nullable=true)
+     * @ORM\Column(name="informele_zorg", type="boolean", nullable=true, options={"default":0})
      */
     private $informeleZorg = false;
 
     /**
      * @var bool
      *
-     * @ORM\Column(nullable=false)
+     * @ORM\Column(type="boolean", nullable=true, options={"default":0})
      */
     private $dagbesteding = false;
 
     /**
      * @var bool
      *
-     * @ORM\Column(nullable=false)
+     * @ORM\Column(type="boolean", nullable=true, options={"default":0})
      */
     private $inloophuis = false;
 
     /**
      * @var bool
      *
-     * @ORM\Column(nullable=false)
+     * @ORM\Column(type="boolean", nullable=true, options={"default":0})
      */
     private $hulpverlening = false;
 
     /**
      * @var bool
      *
-     * @ORM\Column(nullable=false)
+     * @ORM\Column(type="boolean", nullable=true)
      * @Assert\NotNull
      */
     private $doelgroep;
@@ -322,7 +323,6 @@ class Intake
     private $infobaliedoelgroep;
 
     /**
-     * @deprecated
      *
      * @var Verslaving
      *
@@ -331,7 +331,6 @@ class Intake
     private $primaireProblematiek;
 
     /**
-     * @deprecated
      *
      * @var Frequentie
      *
@@ -341,7 +340,6 @@ class Intake
     private $primaireProblematiekFrequentie;
 
     /**
-     * @deprecated
      *
      * @var Periode
      *
@@ -351,7 +349,6 @@ class Intake
     private $primaireProblematiekPeriode;
 
     /**
-     * @deprecated
      *
      * @var Gebruikswijze
      *
@@ -433,9 +430,24 @@ class Intake
      */
     protected $geinformeerdOpslaanGegevens = false;
 
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(type="datetime", nullable=true)
+     * @Gedmo\Versioned
+     */
+    protected $created;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(type="datetime", nullable=true)
+     * @Gedmo\Versioned
+     */
+    protected $modified;
+
     public function __construct(Klant $klant = null)
     {
-
         $this->created = new \DateTime();
         $this->modified = new \DateTime();
         $this->intakedatum = new \DateTime();
@@ -850,25 +862,19 @@ class Intake
         return $this->primaireProblematiek;
     }
 
-    /**
-     * @deprecated
-     */
+
     public function getPrimaireProblematiekFrequentie()
     {
         return $this->primaireProblematiekFrequentie;
     }
 
-    /**
-     * @deprecated
-     */
+
     public function getPrimaireProblematiekPeriode()
     {
         return $this->primaireProblematiekPeriode;
     }
 
-    /**
-     * @deprecated
-     */
+
     public function getPrimaireProblematiekGebruikswijzen()
     {
         return $this->primaireProblematiekGebruikswijzen;
@@ -1270,9 +1276,32 @@ class Intake
         $root = $context->getRoot();
         if ($root instanceof Form && $root->getName()) {
             if ($root->getName() == "toegang") {
-
             }
         }
         return $context->getValidator()->validate();
     }
+
+    /**
+     * @deprecated
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $klant_id_before_constraint;
+
+    /**
+     * @deprecated
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $medewerker_id_before_constraint;
+
+    /**
+     * @deprecated
+     * @ORM\Column(type="boolean", nullable=true, options={"default":0})
+     */
+    private $toegang_vrouwen_nacht_opvang;
+
+    /**
+     * @deprecated
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $woonsituatie_id_before_constraint;
 }

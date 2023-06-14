@@ -2,8 +2,10 @@
 
 namespace InloopBundle\Service;
 
+use AppBundle\Filter\FilterInterface;
 use AppBundle\Service\AbstractDao;
 use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\QueryBuilder;
 use InloopBundle\Entity\Locatie;
 use InloopBundle\Event\Events;
 use Knp\Component\Pager\PaginatorInterface;
@@ -42,6 +44,15 @@ class LocatieDao extends AbstractDao implements LocatieDaoInterface
         $this->eventDispatcher = $eventDispatcher;
     }
 
+    public function findAllActiveLocations()
+    {
+        $builder = $this->repository->createQueryBuilder($this->alias);
+        $builder->where("locatie.datumTot > :now")
+                ->andWhere("locatie.datumVan <= :now")
+                ->setParameter(":now", (new \DateTime('now'))->format("Y-m-d"))
+            ;
+        return $this->doFindAll($builder,null);
+    }
     public function create(Locatie $locatie)
     {
         $this->doCreate($locatie);
@@ -65,7 +76,11 @@ class LocatieDao extends AbstractDao implements LocatieDaoInterface
         $builder = $this->entityManager->createQueryBuilder("locatie");
         $builder->select("locatie.naam")
             ->from(Locatie::class,"locatie")
-            ->where("locatie.wachtlijst > 0");
+            ->innerJoin('locatie.locatieTypes','locatietypes')
+            ->where("locatie.wachtlijst > 0")
+            ->andWhere('locatietypes.naam IN (:locatietypes)')
+            ->setParameter('locatietypes',['Wachtlijst']);
+        ;
         $wachtlijstlocaties = $builder->getQuery()->getResult();
         return $wachtlijstlocaties;
     }

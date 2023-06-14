@@ -3,6 +3,7 @@
 namespace AppBundle\Entity;
 
 use AppBundle\Model\AddressTrait;
+use AppBundle\Model\IdentifiableTrait;
 use AppBundle\Model\PersonTrait;
 use AppBundle\Model\TimestampableTrait;
 use Doctrine\DBAL\Exception\DriverException;
@@ -23,14 +24,10 @@ use Symfony\Component\Validator\Context\ExecutionContextInterface;
  */
 class Persoon
 {
-    use PersonTrait, AddressTrait, TimestampableTrait;
-
-    /**
-     * @ORM\Id
-     * @ORM\Column(type="integer")
-     * @ORM\GeneratedValue
-     */
-    protected $id;
+    use IdentifiableTrait;
+    use PersonTrait;
+    use AddressTrait;
+    use TimestampableTrait;
 
     /**
      * @var \DateTime
@@ -48,7 +45,6 @@ class Persoon
     /**
      * @var Medewerker
      * @ORM\ManyToOne(targetEntity="Medewerker", cascade={"persist"})
-     * @ORM\JoinColumn(nullable=true)
      * @Gedmo\Versioned
      */
     protected $medewerker;
@@ -56,7 +52,7 @@ class Persoon
     /**
      * @var Land
      * @ORM\ManyToOne(targetEntity="Land", cascade={"persist"})
-     * @ORM\JoinColumn(nullable=true)
+     * @ORM\JoinColumn(nullable=false, options={"default":1})
      * @Gedmo\Versioned
      */
     protected $land;
@@ -64,19 +60,19 @@ class Persoon
     /**
      * @var Nationaliteit
      * @ORM\ManyToOne(targetEntity="Nationaliteit",cascade={"persist"})
-     * @ORM\JoinColumn(nullable=true)
+     * @ORM\JoinColumn(nullable=false, options={"default":1})
      * @Gedmo\Versioned
      */
     protected $nationaliteit;
 
     /**
-     * @ORM\Column(name="geen_post", type="boolean")
+     * @ORM\Column(name="geen_post", type="boolean", nullable=true)
      * @Gedmo\Versioned
      */
     protected $geenPost = false;
 
     /**
-     * @ORM\Column(name="geen_email", type="boolean")
+     * @ORM\Column(name="geen_email", type="boolean", nullable=true)
      * @Gedmo\Versioned
      */
     protected $geenEmail = false;
@@ -88,16 +84,26 @@ class Persoon
     protected $opmerking;
 
     /**
-     * @ORM\Column(type="boolean")
+     * @ORM\Column(type="boolean", nullable=true, options={"default": 0})
      * @Gedmo\Versioned
      */
     protected $disabled = false;
 
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(type="datetime", nullable=true)
+     * @Gedmo\Versioned
+     */
+    protected $created;
 
-    public function getId()
-    {
-        return $this->id;
-    }
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(type="datetime", nullable=true)
+     * @Gedmo\Versioned
+     */
+    protected $modified;
 
     public function isGeenPost()
     {
@@ -183,12 +189,12 @@ class Persoon
 
     public function getOpmerking()
     {
-        return $this->opmerking;
+        return utf8_decode($this->opmerking);
     }
 
     public function setOpmerking($opmerking)
     {
-        $this->opmerking = $opmerking;
+        $this->opmerking = utf8_encode($opmerking);
 
         return $this;
     }
@@ -221,13 +227,11 @@ class Persoon
     public function validate(ExecutionContextInterface $context, $payload)
     {
         if (!$this->voornaam && !$this->achternaam ||
-            ( strlen(trim($this->voornaam)) < 1 && strlen(trim($this->achternaam)) < 1)
-        ){
-
+            (strlen(trim($this->voornaam)) < 1 && strlen(trim($this->achternaam)) < 1)
+        ) {
             $context->buildViolation('Het is verplicht een voor- of achternaam in te vullen.')
                 ->atPath('achternaam')
                 ->addViolation();
         }
     }
-
 }

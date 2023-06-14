@@ -9,7 +9,6 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 
-
 /**
  * @ORM\Entity
  * @ORM\Table(name="dagbesteding_projecten")
@@ -18,7 +17,16 @@ use Gedmo\Mapping\Annotation as Gedmo;
  */
 class Project
 {
-    use IdentifiableTrait, NameableTrait, ActivatableTrait;
+    use IdentifiableTrait;
+    use NameableTrait;
+    use ActivatableTrait;
+
+    /**
+     * @var bool
+     * @ORM\Column(name="`active`", type="boolean", options={"default":1})
+     * @Gedmo\Versioned
+     */
+    protected $actief = true;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
@@ -33,24 +41,17 @@ class Project
      */
     private $deelnames;
 
-//    /**
-//     * @var ArrayCollection|Traject[]
-//     *
-//     * @ORM\ManyToMany(targetEntity="Traject", cascade={"persist"})
-//     * @ORM\JoinTable(name="dagbesteding_traject_project")
-//     * @ORM\OrderBy({"naam" = "ASC"})
-//     */
-//    private $trajecten;
-
     /**
-     * @ORM\OneToMany(targetEntity="TrajectProject", mappedBy="project",cascade={"persist","remove"} )
+     * @var ArrayCollection|Traject[]
+     *
+     * @ORM\ManyToMany(targetEntity="Traject", mappedBy="projecten", cascade={"persist"})
+     * @ORM\JoinTable(name="dagbesteding_traject_project")
      */
-    protected $trajecten;
+    private $trajecten;
 
     /**
      * @var Locatie
      * @ORM\ManyToOne(targetEntity="DagbestedingBundle\Entity\Locatie", inversedBy="projecten")
-     * @ORM\JoinColumn(nullable=true)
      * @Gedmo\Versioned
      */
     protected $locatie;
@@ -130,7 +131,4 @@ class Project
         $this->locatie = $locatie;
         return $this;
     }
-
-
-
 }

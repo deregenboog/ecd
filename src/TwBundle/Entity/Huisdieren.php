@@ -19,6 +19,9 @@ use Gedmo\Mapping\Annotation as Gedmo;
  */
 class Huisdieren
 {
-    use IdentifiableTrait, NameableTrait, ActivatableTrait, TimestampableTrait, NotDeletableTrait;
-
+    use IdentifiableTrait;
+    use NameableTrait;
+    use ActivatableTrait;
+    use TimestampableTrait;
+    use NotDeletableTrait;
 }

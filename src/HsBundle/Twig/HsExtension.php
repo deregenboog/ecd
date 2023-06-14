@@ -8,7 +8,7 @@ use Twig\TwigFilter;
 
 class HsExtension extends AbstractExtension
 {
-    public function getFilters()
+    public function getFilters(): array
     {
         return [
             new TwigFilter('status_color', [$this, 'statusColorFilter'], ['is_safe' => ['html']]),
@@ -40,7 +40,7 @@ class HsExtension extends AbstractExtension
         return sprintf('<span style="color: %s;">%s</span>', $color, $value);
     }
 
-    public function getTests()
+    public function getTests(): array
     {
         return array (
             new TwigFilter("instanceof",array($this,"isInstanceOf")),

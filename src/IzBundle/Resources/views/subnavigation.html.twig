@@ -12,7 +12,6 @@
     {{ html.navLink('Hulpaanbiedingen', path('iz_hulpaanbiedingen_index'), isActiveRoute('iz_hulpaanbiedingen_')) }}
     {{ html.navLink('Koppelingen', path('iz_koppelingen_index'), isActiveRoute('iz_koppelingen_')) }}
     {{ html.navLink('Rapportages', path('iz_rapportages_index'), isActiveRoute('iz_rapportages_')) }}
-    {{ html.navLink('Selecties', path('iz_selecties_index'), isActiveRoute('iz_selecties_')) }}
     {{ html.navLink('Intervisiegroepen', path('iz_intervisiegroepen_index'), isActiveRoute('iz_intervisiegroepen_')) }}
     {% if is_granted('ROLE_IZ_BEHEER') %}
         <li role="presentation" class="dropdown {{ isActivePath('iz/admin') ? 'active' }}">

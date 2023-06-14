@@ -15,6 +15,7 @@ use InloopBundle\Entity\Registratie;
 use InloopBundle\Entity\Schorsing;
 use MwBundle\Entity\Aanmelding;
 use MwBundle\Entity\BinnenViaOptieKlant;
+use MwBundle\Entity\Info;
 use MwBundle\Entity\MwDossierStatus;
 use MwBundle\Entity\Verslag;
 
@@ -29,7 +30,9 @@ use MwBundle\Entity\Verslag;
  *         @ORM\Index(name="idx_klanten_werkgebied", columns={"werkgebied"}),
  *         @ORM\Index(name="idx_klanten_postcodegebied", columns={"postcodegebied"}),
  *         @ORM\Index(name="idx_klanten_geboortedatum", columns={"geboortedatum"}),
- *         @ORM\Index(name="idx_klanten_first_intake_date", columns={"first_intake_date"})
+ *         @ORM\Index(name="idx_klanten_first_intake_date", columns={"first_intake_date"}),
+ *         @ORM\Index(name="achternaam", columns={"achternaam", "id", "geslacht_id", "laste_intake_id", "huidigeMwStatus_id"}),
+ *         @ORM\Index(name="corona_besmet_idx", columns={"corona_besmet_vanaf"})
  *     }
  * )
  * @Gedmo\Loggable
@@ -39,13 +42,20 @@ class Klant extends Persoon
     use DocumentSubjectTrait;
 
     /**
+     * @var \DateTime Moment tot wanneer dit adres een briefadres is
+     * @ORM\Column(nullable=true, type="date")
+     * @Gedmo\Versioned()
+     */
+    protected $briefadres;
+
+    /**
      * @ORM\Column(name="MezzoID", type="integer")
      * @Gedmo\Versioned
      */
     private $mezzoId = 0;
 
     /**
-     * @var Intake[]
+     * @var ArrayCollection<Intake>
      *
      * @ORM\OneToMany(targetEntity="InloopBundle\Entity\Intake", mappedBy="klant")
      * @ORM\OrderBy({"intakedatum" = "DESC", "id" = "DESC"})
@@ -69,7 +79,7 @@ class Klant extends Persoon
     private $verslagen;
 
     /**
-     * @var Registratie[]
+     * @var ArrayCollection<Registratie>
      *
      * @ORM\OneToMany(targetEntity="InloopBundle\Entity\Registratie", mappedBy="klant")
      * @ORM\OrderBy({"id" = "DESC"})
@@ -128,7 +138,6 @@ class Klant extends Persoon
      * @var DossierStatus
      *
      * @ORM\OneToOne(targetEntity="InloopBundle\Entity\DossierStatus", cascade={"persist"})
-     * @ORM\JoinColumn(nullable=true)
      * @Gedmo\Versioned
      */
     private $huidigeStatus;
@@ -137,7 +146,6 @@ class Klant extends Persoon
      * @var DossierStatus[]
      *
      * @ORM\OneToMany(targetEntity="InloopBundle\Entity\DossierStatus", mappedBy="klant")
-     * @ORM\JoinColumn(nullable=true)
      */
     private $statussen;
 
@@ -145,7 +153,6 @@ class Klant extends Persoon
      * @var MwDossierStatus[]
      *
      * @ORM\OneToMany(targetEntity="MwBundle\Entity\MwDossierStatus", mappedBy="klant")
-     * @ORM\JoinColumn(nullable=true)
      */
     private $mwStatussen;
 
@@ -153,18 +160,23 @@ class Klant extends Persoon
      * @var MwDossierStatus
      *
      * @ORM\OneToOne(targetEntity="MwBundle\Entity\MwDossierStatus", cascade={"persist"})
-     * @ORM\JoinColumn(nullable=true)
      * @Gedmo\Versioned
      */
     private $huidigeMwStatus;
 
-
     /**
      * @var BinnenViaOptieKlant
-     * @ORM\ManyToOne(targetEntity="MwBundle\Entity\BinnenViaOptieKlant", inversedBy="klant", cascade={"persist"})
-     * @ORM\JoinColumn (nullable=true)
+     * @ORM\ManyToOne(targetEntity="MwBundle\Entity\BinnenViaOptieKlant", cascade={"persist"})
      */
     private $mwBinnenViaOptieKlant;
+
+    /**
+     * @var Info
+     *
+     * @ORM\OneToOne(targetEntity="MwBundle\Entity\Info", cascade={"persist"})
+     * @ORM\JoinColumn(name="info_id")
+     */
+    private $info;
 
     /**
      * @var Registratie
@@ -190,7 +202,7 @@ class Klant extends Persoon
     /**
      * @var bool
      *
-     * @ORM\Column(name="doorverwijzen_naar_amoc", type="boolean")
+     * @ORM\Column(name="doorverwijzen_naar_amoc", type="boolean", nullable=true, options={"default":0})
      * @Gedmo\Versioned
      */
     private $doorverwijzenNaarAmoc = false;
@@ -225,7 +237,6 @@ class Klant extends Persoon
      * @var Klant
      *
      * @ORM\OneToOne(targetEntity="AppBundle\Entity\Klant", cascade={"persist"})
-     * @ORM\JoinColumn(nullable=true)
      * @Gedmo\Versioned
      */
     protected $partner;
@@ -233,7 +244,6 @@ class Klant extends Persoon
     /**
      * @var Medewerker
      * @ORM\ManyToOne(targetEntity="Medewerker", cascade={"persist"} )
-     * @ORM\JoinColumn(nullable=true)
      * @Gedmo\Versioned
      */
     protected $maatschappelijkWerker;
@@ -457,7 +467,6 @@ class Klant extends Persoon
     {
         $this->incidenten->add($incident);
         return $this;
-
     }
     public function getIntakes()
     {
@@ -542,7 +551,7 @@ class Klant extends Persoon
         return $this;
     }
 
-    public function getAantalVerslagen():int
+    public function getAantalVerslagen(): int
     {
         return count((array) $this->verslagen);
     }
@@ -593,28 +602,28 @@ class Klant extends Persoon
         $this->eersteIntake = $eersteIntake;
     }
 
-
-    /**
-     * Wat doet deze functie? Geen idee.
-     * Hij is erg verwarrend...
-     *
-     * Hij wordt alleen gebruikt bij mergen van klanten. en dan kan het zijn dat ie werkt, mara verder is
-     * hij stom want hij doet niet wat ie moet doen.
-     *
-     * Let op bij merge nagaan of dit allemaal nog goed gaat.
-     *
-     * @return void
-     */
     public function updateCalculatedFields()
     {
-        if (count((array) $this->registraties) > 0) {
-            $this->laatsteRegistratie = $this->registraties->last();
+        $laatsteRegistratie = null;
+        foreach ($this->registraties as $registratie) {
+            if ($laatsteRegistratie == null || $registratie->getBinnen() > $laatsteRegistratie->getBinnen()) {
+                $laatsteRegistratie = $registratie;
+            }
         }
-        if (count((array) $this->intakes) > 0) {
-            $this->laatsteIntake = $this->intakes->last();
-            $eersteIntake = $this->intakes->first();
-            $this->eersteIntakeDatum = $eersteIntake->getIntakeDatum();
+        $this->laatsteRegistratie = $laatsteRegistratie;
+
+        $eersteIntake = null;
+        $laatsteIntake = null;
+        foreach ($this->intakes as $intake) {
+            if ($eersteIntake == null || $intake->getIntakedatum() < $eersteIntake->getIntakedatum()) {
+                $eersteIntake = $intake;
+            }
+            if ($laatsteIntake == null || $intake->getIntakedatum() > $laatsteIntake->getIntakedatum()) {
+                $laatsteIntake = $intake;
+            }
         }
+        $this->laatsteIntake = $laatsteIntake;
+        $this->eersteIntakeDatum = $eersteIntake->getIntakeDatum();
     }
 
     public function isOverleden()
@@ -647,7 +656,9 @@ class Klant extends Persoon
 
     public function isToestemmingsformulierAanwezig(): bool
     {
-        if(null !== $this->getToestemmingsformulier()) return true;
+        if (null !== $this->getToestemmingsformulier()) {
+            return true;
+        }
         return false;
     }
 
@@ -660,10 +671,8 @@ class Klant extends Persoon
         $prevDosStat = null;
         $t = [];
 //        removal of duplicate entries.
-        foreach($this->mwStatussen as $mwDosStat)
-        {
-            if(!$prevDosStat instanceof $mwDosStat)
-            {
+        foreach ($this->mwStatussen as $mwDosStat) {
+            if (!$prevDosStat instanceof $mwDosStat) {
                 $t[] = $mwDosStat;
             }
             $prevDosStat = $mwDosStat;
@@ -692,9 +701,8 @@ class Klant extends Persoon
     public function getLaatsteBinnenViaOptieKlant(): ?BinnenViaOptieKlant
     {
         $binnenViaOptieKlant = null;
-        foreach($this->getMwStatussen() as $mwStatus)
-        {
-            if($mwStatus instanceof Aanmelding){
+        foreach ($this->getMwStatussen() as $mwStatus) {
+            if ($mwStatus instanceof Aanmelding) {
                 $binnenViaOptieKlant = $mwStatus->getBinnenViaOptieKlant();
             }
         }
@@ -703,14 +711,11 @@ class Klant extends Persoon
 
     public function getMwStatus($id)
     {
-        foreach($this->getMwStatussen() as $mwStatus)
-        {
-            if($mwStatus->getId() == $id)
-            {
+        foreach ($this->getMwStatussen() as $mwStatus) {
+            if ($mwStatus->getId() == $id) {
                 return $mwStatus;
             }
         }
-
     }
     /**
      * @param MwDossierStatus $huidigeMwStatus
@@ -744,7 +749,7 @@ class Klant extends Persoon
     /**
      * @return Klant
      */
-    public function getPartner()
+    public function getPartner(): ?Klant
     {
         return $this->partner;
     }
@@ -753,7 +758,7 @@ class Klant extends Persoon
      * @param Klant $partner
      * @return Persoon
      */
-    public function setPartner($partner)
+    public function setPartner(?Klant $partner)
     {
         $this->partner = $partner;
         return $this;
@@ -863,5 +868,45 @@ class Klant extends Persoon
     public function removeOverigeTalen(Taal $taal)
     {
         return $this->removeOverigeTaal($taal);
+    }
+
+    /**
+     * @return Info
+     */
+    public function getInfo(): ?Info
+    {
+        return $this->info;
+    }
+
+    /**
+     * @param Info $info
+     */
+    public function setInfo(?Info $info): void
+    {
+        $this->info = $info;
+    }
+
+    /**
+     * @return \DateTime
+     */
+    public function getBriefadres(): ?\DateTime
+    {
+        return $this->briefadres;
+    }
+
+    /**
+     * @param \DateTime $briefadres
+     */
+    public function setBriefadres(?\DateTime $briefadres): void
+    {
+        $this->briefadres = $briefadres;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isBriefadres(): bool
+    {
+        return (bool)$this->briefadres;
     }
 }

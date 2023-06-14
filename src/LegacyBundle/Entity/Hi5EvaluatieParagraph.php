@@ -20,7 +20,7 @@ class Hi5EvaluatieParagraph
     private $id;
 
     /**
-     * @ORM\Column(name="text", type="string", length=255, nullable=false)
+     * @ORM\Column(name="text", type="string", length=255)
      */
     private $text;
 }

@@ -2,14 +2,22 @@
 
 namespace IzBundle\Filter;
 
+use AppBundle\Doctrine\SqlExtractor;
 use AppBundle\Entity\Medewerker;
 use AppBundle\Filter\FilterInterface;
 use AppBundle\Filter\KlantFilter;
 use AppBundle\Form\Model\AppDateRangeModel;
+use Doctrine\ORM\Query;
 use Doctrine\ORM\QueryBuilder;
 use IzBundle\Entity\Doelgroep;
+use IzBundle\Entity\Hulp;
+use IzBundle\Entity\Hulpvraag;
 use IzBundle\Entity\Hulpvraagsoort;
+use IzBundle\Entity\IzDeelnemer;
+use IzBundle\Entity\Koppeling;
 use IzBundle\Entity\Project;
+use ShipMonk\Doctrine\MySql\IndexHint;
+use ShipMonk\Doctrine\MySql\UseIndexSqlWalker;
 
 class IzKlantFilter implements FilterInterface
 {
@@ -174,10 +182,10 @@ class IzKlantFilter implements FilterInterface
                 ->andHaving('COUNT(actieveHulpvraag) = 0')
                 ->setParameter('now', new \DateTime())
             ;
-
+            $ids = $this->getIds($subBuilder);
             $builder
                 ->andWhere('izKlant.id IN (:zonder_actieve_hulpvraag)')
-                ->setParameter('zonder_actieve_hulpvraag', $this->getIds($subBuilder))
+                ->setParameter('zonder_actieve_hulpvraag', $ids)
             ;
         }
 
@@ -215,11 +223,22 @@ class IzKlantFilter implements FilterInterface
 
     private function getIds(QueryBuilder $builder)
     {
+        $query = $builder->getQuery();
+        $query
+            ->setHint(Query::HINT_CUSTOM_OUTPUT_WALKER, UseIndexSqlWalker::class);
+        $query
+            ->setHint(UseIndexSqlWalker::class, [
+                IndexHint::use(Hulpvraag::IDX_DEELNEMER_DISCR_DELETED_EINDDATUM_KOPPELING, Hulpvraag::TABLE_NAME),
+                IndexHint::use(IzDeelnemer::IDX_ID_AFSLUITING_DELETED_MODEL, IzDeelnemer::TABLE_NAME)
+                ])
+            ;
+//        $sql = SqlExtractor::getFullSQL($query);
+
+        $result = $query->getResult();
         return array_map(
             function (array $item) {
                 return $item['id'];
-            },
-            $builder->getQuery()->getResult()
+            }, $result
         );
     }
 }

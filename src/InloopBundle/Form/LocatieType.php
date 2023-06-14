@@ -7,6 +7,7 @@ use AppBundle\Form\BaseType;
 use Doctrine\DBAL\Types\BooleanType;
 use Doctrine\DBAL\Types\IntegerType;
 use InloopBundle\Entity\Locatie;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -25,16 +26,11 @@ class LocatieType extends AbstractType
     {
         $builder
             ->add('naam')
-            ->add('wachtlijst',ChoiceType::class, [
-                'required'=>false,
-                'choices'  => [
-                    'Nee' => 0,
-                    'Normaal (via intakes)' => 1,
-                    'Economisch (via verslagen)' => 2,
-                ],
+            ->add('locatieTypes',LocatieTypeSelectType::class,[
+                'multiple'=>true,
             ])
             ->add('datumVan', AppDateType::class)
-            ->add('datumTot', AppDateType::class)
+            ->add('datumTot', AppDateType::class, ['required'=>false])
             ->add('submit', SubmitType::class)
         ;
     }
@@ -42,7 +38,7 @@ class LocatieType extends AbstractType
     /**
      * {@inheritdoc}
      */
-    public function getParent()
+    public function getParent(): ?string
     {
         return BaseType::class;
     }

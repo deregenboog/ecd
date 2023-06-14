@@ -1,19 +1,14 @@
 {% extends 'base.html.twig' %}
 {% import 'html.macro.twig' as html %}
 
-{% block title %}
-    Tijdelijk Wonen | {{ title }}
-{% endblock %}
-
-{% block subnavigation %}
-    {% include '@Tw/tw_subnavigation.html.twig' %}
-{% endblock %}
-
 {% block content %}
     <h1>{{ title }}</h1>
     <p>
         {{ html.addLink(path('tw_klanten_add')) }}
         {{ html.link('Klant toevoegen', path('tw_klanten_add')) }}
+        | <span class="h4">Filter snelkoppelingen:</span>
+        {{ html.link('Mijn dossiers (actief)',path('tw_klanten_index',{'klant_filter[medewerker]':app.user.id,'klant_filter[status]':'ACTIVE'}),'user') }}
+        {{ html.link('Alle dossiers (actief)',path('tw_klanten_index',{'klant_filter[medewerker]':null,'klant_filter[status]':'ACTIVE'}),'all') }}
     </p>
     <table class="table table-hover mb-0">
         <thead>
@@ -21,12 +16,20 @@
                 <tr>
                     <th colspan="2"></th>
                     <th>
+                        {{ form_label(filter.medewerker) }}
+                        {{ form_widget(filter.medewerker) }}
+                    </th>
+                    <th>
                         {{ form_label(filter.dagbesteding) }}
                         {{ form_widget(filter.dagbesteding) }}
                     </th>
                     <th>
                         {{ form_label(filter.ritme) }}
                         {{ form_widget(filter.ritme) }}
+                    </th>
+                    <th>
+                        {{ form_label(filter.heeftHuisgenoot) }}
+                        {{ form_widget(filter.heeftHuisgenoot) }}
                     </th>
                     <th>
                         {{ form_label(filter.huisdieren) }}
@@ -58,8 +61,8 @@
                         {{ form_errors(filter.gekoppeld) }}
                     </th>
                     <th>
-                        {{ form_label(filter.actief) }}
-                        {{ form_widget(filter.actief) }}
+                        {{ form_label(filter.status) }}
+                        {{ form_widget(filter.status) }}
                     </th>
 
                     <th>

@@ -15,28 +15,28 @@ class I18n
     /**
      * @var string
      *
-     * @ORM\Column(name="locale", type="string", length=6, nullable=false)
+     * @ORM\Column(name="locale", type="string", length=6)
      */
     private $locale;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="model", type="string", length=255, nullable=false)
+     * @ORM\Column(name="model", type="string", length=255)
      */
     private $model;
 
     /**
      * @var int
      *
-     * @ORM\Column(name="foreign_key", type="integer", nullable=false)
+     * @ORM\Column(name="foreign_key", type="integer")
      */
     private $foreignKey;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="field", type="string", length=255, nullable=false)
+     * @ORM\Column(name="field", type="string", length=255)
      */
     private $field;
 

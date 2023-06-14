@@ -1,10 +1,6 @@
 {% extends 'base.html.twig' %}
 {% import 'html.macro.twig' as html %}
 
-{% block title %}
-    {{ title }}
-{% endblock %}
-
 {% block subnavigation %}
 {% endblock %}
 
@@ -20,6 +16,7 @@
                     <th colspan="4">
                         <span class="pull-right">
                             {{ form_widget(filter.filter) }}
+                            {{ form_widget(filter.download) }}
                         </span>
                     </th>
                 </tr>

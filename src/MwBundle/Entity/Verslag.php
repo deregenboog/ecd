@@ -4,6 +4,7 @@ namespace MwBundle\Entity;
 
 use AppBundle\Entity\Klant;
 use AppBundle\Entity\Medewerker;
+use AppBundle\Model\IdentifiableTrait;
 use AppBundle\Model\TimestampableTrait;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
@@ -15,8 +16,11 @@ use InloopBundle\Entity\Locatie;
  * @ORM\Table(
  *     name="verslagen",
  *     indexes={
- *         @ORM\Index(name="idx_datum2", columns={"datum"}),
- *         @ORM\Index(name="idx_locatie_id2", columns={"locatie_id"})
+ *         @ORM\Index(name="id", columns={"id", "klant_id", "created"}),
+ *         @ORM\Index(name="klant_id", columns={"klant_id", "verslagType"}),
+ *         @ORM\Index(name="klant_id_med_id", columns={"klant_id", "medewerker_id", "verslagType"}),
+ *         @ORM\Index(name="idx_datum", columns={"datum"}),
+ *         @ORM\Index(name="idx_locatie_id", columns={"locatie_id"}),
  *     }
  * )
  * @ORM\HasLifecycleCallbacks
@@ -24,23 +28,33 @@ use InloopBundle\Entity\Locatie;
  */
 class Verslag
 {
+    use IdentifiableTrait;
     use TimestampableTrait;
 
-    /**
-     * @ORM\Id
-     * @ORM\Column(type="integer")
-     * @ORM\GeneratedValue
-     */
-    private $id;
+    public const TYPE_MW = 1;
+    public const TYPE_INLOOP = 2;
+
+    public const ACCESS_MW = 1;
+    public const ACCESS_ALL = 2;
+
+    public static $accessTypes = [
+        self::ACCESS_MW => "Leesbaar alleen binnen MW",
+        self::ACCESS_ALL => "Leesbaar voor inloop en MW",
+    ];
+
+    protected static $types = [
+        self::TYPE_MW => "Maatschappelijk werk-verslag",
+        self::TYPE_INLOOP => "Inloopverslag",
+    ];
 
     /**
-     * @ORM\Column(type="date")
+     * @ORM\Column(type="date", nullable=true)
      * @Gedmo\Versioned
      */
     private $datum;
 
     /**
-     * @ORM\Column(type="text", nullable=false)
+     * @ORM\Column(type="text", length=65535, nullable=true)
      * @Gedmo\Versioned
      */
     private $opmerking;
@@ -71,36 +85,13 @@ class Verslag
      */
     private $medewerker;
 
-    /**
-     * @var Contactsoort
-     *
-     * @ORM\ManyToOne(targetEntity="Contactsoort")
-     * @Gedmo\Versioned
-     */
-    private $contactsoort;
 
     /**
-     * @var int
-     *
-     * @ORM\Column(name="aanpassing_verslag", type="integer", options={"default":0, "nullable"=true})
-     * @Gedmo\Versioned
+     * @var integer
+     * @ORM\Column(type="integer", nullable=false)
      */
-    private $duur;
+    private $aantalContactmomenten = 1;
 
-    /**
-     * @var Verslaginventarisatie
-     *
-     * @ORM\OneToMany(targetEntity="Verslaginventarisatie", mappedBy="verslag", cascade={"persist"})
-     */
-    private $verslaginventarisaties;
-
-    public const TYPE_MW = 1;
-    public const TYPE_INLOOP = 2;
-
-    protected static $types = [
-        self::TYPE_MW => "Maatschappelijk werk-verslag",
-        self::TYPE_INLOOP => "Inloopverslag",
-        ];
 
     /**
      * @var int
@@ -110,15 +101,6 @@ class Verslag
      */
     private $type = self::TYPE_MW;
 
-    public const ACCESS_MW = 1;
-    public const ACCESS_ALL = 2;
-
-    public static $accessTypes = [
-        self::ACCESS_MW => "Leesbaar alleen binnen MW",
-        self::ACCESS_ALL => "Leesbaar voor inloop en MW",
-
-    ];
-
     /**
      * @var int
      * @ORM\Column(name="accessType", type="integer", options={"default":1})
@@ -126,23 +108,28 @@ class Verslag
      */
     private $access = self::ACCESS_ALL;
 
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(type="datetime", nullable=true)
+     * @Gedmo\Versioned
+     */
+    protected $created;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(type="datetime", nullable=true)
+     * @Gedmo\Versioned
+     */
+    protected $modified;
+
     public function __construct(Klant $klant, $type = 1)
     {
         $this->setType($type);
 
         $this->klant = $klant;
-        $this->verslaginventarisaties = new ArrayCollection();
         $this->datum = new \DateTime();
-
-        $this->setDuur(0);
-    }
-
-    /**
-     * @return int
-     */
-    public function getId()
-    {
-        return $this->id;
     }
 
     /**
@@ -168,7 +155,7 @@ class Verslag
      */
     public function getOpmerking()
     {
-        return $this->opmerking;
+        return utf8_decode($this->opmerking);
     }
 
     /**
@@ -176,7 +163,7 @@ class Verslag
      */
     public function setOpmerking($opmerking)
     {
-        $this->opmerking = $opmerking;
+        $this->opmerking = utf8_encode($opmerking);
 
         return $this;
     }
@@ -235,66 +222,7 @@ class Verslag
         return $this;
     }
 
-    /**
-     * @return Contactsoort
-     */
-    public function getContactsoort()
-    {
-        return $this->contactsoort;
-    }
 
-    /**
-     * @param Contactsoort $contactsoort
-     *
-     * @return \MwBundle\Entity\Verslag
-     */
-    public function setContactsoort(Contactsoort $contactsoort)
-    {
-        $this->contactsoort = $contactsoort;
-
-        return $this;
-    }
-
-    /**
-     * @return int
-     */
-    public function getDuur()
-    {
-        return $this->duur;
-    }
-
-    /**
-     * @param int $duur
-     *
-     * @return \MwBundle\Entity\Verslag
-     */
-    public function setDuur($duur)
-    {
-        $this->duur = $duur;
-
-        return $this;
-    }
-
-    /**
-     * @return Verslaginventarisatie
-     */
-    public function getVerslaginventarisaties()
-    {
-        return $this->verslaginventarisaties;
-    }
-
-    /**
-     * @param Verslaginventarisatie[] $verslaginventarisaties
-     */
-    public function setVerslaginventarisaties($verslaginventarisaties)
-    {
-        foreach ($this->verslaginventarisaties as $verslaginventarisatie) {
-            $verslaginventarisatie->setVerslag(null);
-        }
-        $this->verslaginventarisaties = $verslaginventarisaties;
-
-        return $this;
-    }
 
     /**
      * @return int
@@ -314,7 +242,9 @@ class Verslag
      */
     public function setType(int $type): void
     {
-        if(!in_array($type,array_flip(self::$types))) throw new \InvalidArgumentException("Verslagtype kan alleen van types zijn zoals vermeld.");
+        if (!in_array($type, array_flip(self::$types))) {
+            throw new \InvalidArgumentException("Verslagtype kan alleen van types zijn zoals vermeld.");
+        }
         $this->type = $type;
     }
 
@@ -335,24 +265,21 @@ class Verslag
         $this->access = $access;
     }
 
+    /**
+     * @return int
+     */
+    public function getAantalContactmomenten(): int
+    {
+        return $this->aantalContactmomenten;
+    }
 
-//     /**
-//      * Only one root per Verslaginventarisatie is allowed.
-//      */
-//     private function removeVerslaginventarisatieForRoot(Inventarisatie $rootInventarisatie)
-//     {
-//         if (!$rootInventarisatie->isRoot()) {
-//             throw new \InvalidArgumentException('Non-root node provided!');
-//         }
-
-//         foreach ($this->verslaginventarisaties as $verslaginventarisatie) {
-//             if ($verslaginventarisatie->getInventarisatie()->getRoot() === $rootInventarisatie) {
-//                 $this->verslaginventarisaties->removeElement($verslaginventarisatie);
-//             }
-//         }
-
-//         return $this;
-//     }
+    /**
+     * @param int $aantalContactmomenten
+     */
+    public function setAantalContactmomenten(int $aantalContactmomenten): void
+    {
+        $this->aantalContactmomenten = $aantalContactmomenten;
+    }
 
 
 }

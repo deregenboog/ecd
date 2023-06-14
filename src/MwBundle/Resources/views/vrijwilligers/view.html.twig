@@ -1,14 +1,6 @@
 {% extends 'base-2-col.html.twig' %}
 {% import 'html.macro.twig' as html %}
 
-{% block title %}
-    Maatschappelijk werk | {{ title }}
-{% endblock %}
-
-{% block subnavigation %}
-    {% include '@Mw/subnavigation.html.twig' %}
-{% endblock %}
-
 {% block content_top %}
     {% if not entity.actief %}
         <div class="alert alert-danger">Dossier is afgesloten</div>
@@ -88,7 +80,7 @@
                     {{ html.link(entity_name|capitalize~' afsluiten', path('mw_vrijwilligers_close', {id: entity.id}), 'close') }}
                 {% endif %}
                 <dl class="dl-horizontal">
-                    <dt>Reden afsluiting</dt><dd>{{ entity.afsluitreden }}</dd>
+                    <dt>Reden afsluiting</dt><dd>{{ entity.afsluitredenVrijwilliger }}</dd>
                     <dt>Datum afsluiting</dt><dd>{{ entity.afsluitdatum|if_date('d-m-Y') }}</dd>
 {#                    <dt>Medewerker</dt><dd>{{ entity.medewerker }}</dd>#}
 

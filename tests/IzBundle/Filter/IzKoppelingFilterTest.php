@@ -12,7 +12,7 @@ use IzBundle\Entity\Project;
 use IzBundle\Filter\KoppelingFilter;
 use PHPUnit\Framework\TestCase;
 
-class KoppelingFilterTest extends TestCase
+class IzKoppelingFilterTest extends TestCase
 {
     public function testKlantFilter()
     {

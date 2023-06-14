@@ -36,7 +36,7 @@ class DocumentVoter extends Voter
         $this->deelnemerDao = $deelnemerDao;
     }
 
-    protected function supports($attribute, $subject)
+    protected function supports($attribute, $subject): bool
     {
         if (!in_array($attribute, [Permissions::ACCESS])) {
             return false;
@@ -49,7 +49,7 @@ class DocumentVoter extends Voter
         return true;
     }
 
-    protected function voteOnAttribute($attribute, $subject, TokenInterface $token)
+    protected function voteOnAttribute($attribute, $subject, TokenInterface $token): bool
     {
         assert($subject instanceof Document);
 

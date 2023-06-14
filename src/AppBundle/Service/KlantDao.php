@@ -122,6 +122,9 @@ class KlantDao extends AbstractDao implements KlantDaoInterface, DoelstellingDao
     {
         // @todo remove this when disabled field is no longer needed
         $klant->setDisabled(true);
+        $partner = $klant->getPartner();
+        $klant->setPartner(null);
+        if($partner !== null) $partner->setPartner(null);//wederkerig
         $this->update($klant);
 
         return $this->doDelete($klant);
@@ -131,7 +134,7 @@ class KlantDao extends AbstractDao implements KlantDaoInterface, DoelstellingDao
     {
         switch ($mode) {
             case self::DUPLICATE_MODE_UNKNOWN_BIRTHDAY:
-                $pairs = $this->entityManager->getConnection()->fetchAll("
+                $pairs = $this->entityManager->getConnection()->fetchAllAssociative("
                     SELECT k1.id id1, k2.id id2, k1.geboortedatum,
                         CONCAT_WS(' ', k1.voornaam, k1.roepnaam, k1.achternaam) AS name1,
                         CONCAT_WS(' ', k2.voornaam, k2.roepnaam, k2.achternaam) AS name2
@@ -147,7 +150,7 @@ class KlantDao extends AbstractDao implements KlantDaoInterface, DoelstellingDao
                 break;
 
             case self::DUPLICATE_MODE_SAME_BIRTHDAY:
-                $pairs = $this->entityManager->getConnection()->fetchAll("
+                $pairs = $this->entityManager->getConnection()->fetchAllAssociative("
                     SELECT k1.id id1, k2.id id2, k1.geboortedatum,
                         DATE_FORMAT(k1.geboortedatum, '%e %b %Y') AS formatted_date,
                         CONCAT_WS(' ', k1.voornaam, k1.roepnaam, k1.achternaam) AS name1,
@@ -164,7 +167,7 @@ class KlantDao extends AbstractDao implements KlantDaoInterface, DoelstellingDao
                 break;
 
             case self::DUPLICATE_MODE_SAME_SURNAME:
-                $pairs = $this->entityManager->getConnection()->fetchAll("
+                $pairs = $this->entityManager->getConnection()->fetchAllAssociative("
                         select k1.id id1, k2.id id2, k1.achternaam, concat_ws(' ', k1.voornaam, k1.roepnaam, k1.achternaam) name1, concat_ws(' ', k2.voornaam, k2.roepnaam, k2.achternaam) name2, k1.geboortedatum
                         from klanten k1
                         join klanten k2
@@ -177,7 +180,7 @@ class KlantDao extends AbstractDao implements KlantDaoInterface, DoelstellingDao
                 break;
 
             case self::DUPLICATE_MODE_SURNAME_LIKE_FIRSTNAME:
-                $pairs = $this->entityManager->getConnection()->fetchAll("
+                $pairs = $this->entityManager->getConnection()->fetchAllAssociative("
                     SELECT k1.id id1, k2.id id2, k2.achternaam, k1.geboortedatum,
                         CONCAT_WS(' ', k1.voornaam, k1.roepnaam, k1.achternaam) AS name1,
                         CONCAT_WS(' ', k2.voornaam, k2.roepnaam, k2.achternaam) AS name2

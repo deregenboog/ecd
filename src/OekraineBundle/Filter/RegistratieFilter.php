@@ -89,7 +89,7 @@ class RegistratieFilter implements FilterInterface
 
 
         if ($this->klant) {
-            $this->klant->applyTo($builder);
+            $this->klant->applyTo($builder,'appKlant');
         }
     }
 }

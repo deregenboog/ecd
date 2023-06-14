@@ -3,6 +3,7 @@
 namespace OekBundle\Entity;
 
 use AppBundle\Model\ActivatableTrait;
+use AppBundle\Model\IdentifiableTrait;
 use AppBundle\Model\TimestampableTrait;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
@@ -21,16 +22,8 @@ use Gedmo\Mapping\Annotation as Gedmo;
  */
 abstract class Verwijzing
 {
+    use IdentifiableTrait;
     use TimestampableTrait;
-
-    /**
-     * @var int
-     *
-     * @ORM\Id
-     * @ORM\Column(type="integer")
-     * @ORM\GeneratedValue
-     */
-    private $id;
 
     /**
      * @var string
@@ -48,14 +41,25 @@ abstract class Verwijzing
      */
     private $actief = true;
 
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(type="datetime")
+     * @Gedmo\Versioned
+     */
+    protected $created;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(type="datetime")
+     * @Gedmo\Versioned
+     */
+    protected $modified;
+
     public function __toString()
     {
         return $this->naam;
-    }
-
-    public function getId()
-    {
-        return $this->id;
     }
 
     public function getNaam()

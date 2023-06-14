@@ -5,10 +5,10 @@ namespace GaBundle\Controller;
 use AppBundle\Entity\Vrijwilliger;
 use AppBundle\Export\ExportInterface;
 use AppBundle\Form\VrijwilligerFilterType;
+use AppBundle\Service\VrijwilligerDao;
 use GaBundle\Entity\Vrijwilligerdossier;
 use GaBundle\Form\VrijwilligerdossierFilterType;
 use GaBundle\Form\VrijwilligerdossierType;
-use GaBundle\Service\VrijwilligerDao;
 use GaBundle\Service\VrijwilligerdossierDao;
 use JMS\DiExtraBundle\Annotation as DI;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
@@ -22,7 +22,6 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class VrijwilligerdossiersController extends DossiersController
 {
-    protected $title = 'Vrijwilligers';
     protected $entityName = 'vrijwilliger';
     protected $entityClass = Vrijwilligerdossier::class;
     protected $formClass = VrijwilligerdossierType::class;

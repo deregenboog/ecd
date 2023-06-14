@@ -2,6 +2,9 @@
 
 namespace IzBundle\Entity;
 
+use AppBundle\Model\ActivatableTrait;
+use AppBundle\Model\IdentifiableTrait;
+use AppBundle\Model\NameableTrait;
 use AppBundle\Model\TimestampableTrait;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
@@ -14,58 +17,38 @@ use Gedmo\Mapping\Annotation as Gedmo;
  */
 class Afsluiting
 {
+    use IdentifiableTrait;
+    use NameableTrait;
+    use ActivatableTrait;
     use TimestampableTrait;
 
     /**
-     * @ORM\Id
-     * @ORM\Column(type="integer")
-     * @ORM\GeneratedValue
-     */
-    private $id;
-
-    /**
-     * @ORM\Column(type="string", length=255, nullable=false)
+     * @ORM\Column(type="string", length=255, nullable=true)
      * @Gedmo\Versioned
      */
-    private $naam;
+    protected $naam;
 
     /**
-     * @ORM\Column(name="`active`", type="boolean", nullable=false)
+     * @var bool
+     *
+     * @ORM\Column(name="`active`", type="boolean", nullable=true)
      * @Gedmo\Versioned
      */
-    private $actief = true;
+    protected $actief = true;
 
-    public function __toString()
-    {
-        return $this->getNaam();
-    }
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(type="datetime", nullable=true)
+     * @Gedmo\Versioned
+     */
+    protected $created;
 
-    public function getId()
-    {
-        return $this->id;
-    }
-
-    public function getNaam()
-    {
-        return $this->naam;
-    }
-
-    public function setNaam($naam)
-    {
-        $this->naam = $naam;
-
-        return $this;
-    }
-
-    public function isActief()
-    {
-        return $this->actief;
-    }
-
-    public function setActief($actief)
-    {
-        $this->actief = (bool) $actief;
-
-        return $this;
-    }
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(type="datetime", nullable=true)
+     * @Gedmo\Versioned
+     */
+    protected $modified;
 }

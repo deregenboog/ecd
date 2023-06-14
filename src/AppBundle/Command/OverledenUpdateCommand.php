@@ -4,7 +4,7 @@ namespace AppBundle\Command;
 
 use AppBundle\Entity\Klant;
 use Doctrine\ORM\EntityManager;
-use Psr\Container\ContainerInterface;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -17,9 +17,9 @@ class OverledenUpdateCommand extends \Symfony\Component\Console\Command\Command
      */
     protected $em;
 
-    public function __construct(ContainerInterface $container)
+    public function __construct(EntityManagerInterface $em)
     {
-        $this->em = $container->get('doctrine')->getManager();
+        $this->em = $em;
         parent::__construct();
     }
 

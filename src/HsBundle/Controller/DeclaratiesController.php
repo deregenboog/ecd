@@ -30,7 +30,6 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class DeclaratiesController extends AbstractChildController
 {
-    protected $title = 'Declaraties';
     protected $entityName = 'declaratie';
     protected $entityClass = Declaratie::class;
     protected $formClass = DeclaratieType::class;

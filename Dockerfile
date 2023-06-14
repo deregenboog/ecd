@@ -1,12 +1,21 @@
+#Dockerimage to create test-database
+
 FROM php:7.4-apache
 
 ENV APP_ENV=dev
 
+#all files that should be copied in one place.
 COPY docker/php.ini /usr/local/etc/php/
+COPY docker/xdebug.ini /tmp/xdebug.ini
+COPY docker/vhost.conf /etc/apache2/sites-available/app.conf
+
+COPY --from=composer:2 /usr/bin/composer /usr/local/bin/composer
+COPY composer.json composer.lock ./
 
 EXPOSE 80
 #RUN usermod -u 1000 www-data
 
+# tie all RUN commands into one command for one layer.
 RUN apt-get update && apt-get install -y \
     acl \
     default-mysql-client \
@@ -18,25 +27,21 @@ RUN apt-get update && apt-get install -y \
     libpng-dev \
     libzip-dev \
     locales \
-    zlib1g-dev
-
-RUN pecl install xdebug-3.1.6 && docker-php-ext-enable xdebug
-COPY docker/xdebug.ini /tmp/xdebug.ini
-
-RUN cat /tmp/xdebug.ini >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini \
+    zlib1g-dev \
+&& pecl install xdebug-3.1.6 && docker-php-ext-enable xdebug \
+  #copy stuff..
+&& cat /tmp/xdebug.ini >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini \
     && rm /tmp/xdebug.ini
 #RUN echo "xdebug.remote_host=host.docker.internal" >> usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
 
-RUN docker-php-ext-configure ldap --with-libdir=lib/x86_64-linux-gnu \
+&& docker-php-ext-configure ldap --with-libdir=lib/x86_64-linux-gnu \
     && docker-php-ext-configure gd --with-freetype=/usr/include/ --with-jpeg=/usr/include/ \
-    && docker-php-ext-install gd intl ldap mysqli pdo_mysql zip
-
+    && docker-php-ext-install gd intl ldap mysqli pdo_mysql zip \
 # set timezone
-RUN echo "Europe/Amsterdam" > /etc/timezone && dpkg-reconfigure -f noninteractive tzdata
-
+&& echo "Europe/Amsterdam" > /etc/timezone && dpkg-reconfigure -f noninteractive tzdata \
 # install locale
-RUN echo "nl_NL.UTF-8 UTF-8" > /etc/locale.gen
-RUN locale-gen
+&& echo "nl_NL.UTF-8 UTF-8" > /etc/locale.gen \
+&& locale-gen
 
 WORKDIR /var/www/html
 
@@ -46,12 +51,11 @@ RUN mkdir var \
     && setfacl -R -m u:"www-data":rwX -m u:1000:rwX var
 
 # configure apache
-COPY docker/vhost.conf /etc/apache2/sites-available/app.conf
-RUN a2enmod rewrite headers && a2dissite 000-default && a2ensite app
 
-COPY --from=composer:2 /usr/bin/composer /usr/local/bin/composer
-COPY composer.json composer.lock ./
-RUN composer install --no-autoloader --no-scripts
+&& a2enmod rewrite headers && a2dissite 000-default && a2ensite app
+
+
+&& composer install --no-autoloader --no-scripts
 
 COPY . .
 COPY docker/.env.dev .env

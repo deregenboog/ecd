@@ -34,9 +34,9 @@ class KlantTest extends TestCase
         $eersteRegistratie = new Registratie($klant, new Locatie());
         $laatsteRegistratie = new Registratie($klant, new Locatie());
         $eersteIntake = new Intake();
-        $eersteIntake->setIndruk("eerste");
+        $eersteIntake->setIndruk('eerste');
         $laatsteIntake = new Intake();
-        $laatsteIntake->setIndruk("laatste");
+        $laatsteIntake->setIndruk('laatste');
 
         // registraties are ordered desc by id
         $klant->getRegistraties()->add($laatsteRegistratie);
@@ -48,7 +48,7 @@ class KlantTest extends TestCase
 
 //        $intakes = $klant->getIntakes();
 
-        $klant->updateCalculatedFields(); //this one was messy. Cleared it up. Only got called in merge.
+        $klant->updateCalculatedFields(); // this one was messy. Cleared it up. Only got called in merge.
 
         $this->assertSame($laatsteRegistratie, $klant->getLaatsteRegistratie());
         $this->assertSame($laatsteIntake, $klant->getLaatsteIntake());

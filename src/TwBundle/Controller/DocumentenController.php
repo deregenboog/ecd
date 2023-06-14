@@ -6,6 +6,7 @@ use AppBundle\Controller\SymfonyController;
 use AppBundle\Exception\UserException;
 use AppBundle\Form\ConfirmationType;
 use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use InloopBundle\Security\Permissions;
 use JMS\DiExtraBundle\Annotation as DI;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
@@ -39,9 +40,10 @@ class DocumentenController extends SymfonyController
     /**
      * @param DocumentDao $dao
      */
-    public function __construct(DocumentDao $dao)
+    public function __construct(DocumentDao $dao, EntityManagerInterface $entityManager)
     {
         $this->dao = $dao;
+        $this->entityManager = $entityManager;
     }
 
 

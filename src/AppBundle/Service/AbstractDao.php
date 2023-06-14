@@ -2,6 +2,7 @@
 
 namespace AppBundle\Service;
 
+use AppBundle\Doctrine\SqlExtractor;
 use AppBundle\Entity\Klant;
 use AppBundle\Filter\FilterInterface;
 use AppBundle\Model\ActivatableInterface;
@@ -81,7 +82,7 @@ abstract class AbstractDao implements AbstractDaoInterface
         if ($filter) {
             $filter->applyTo($builder);
         }
-//       $sql = $builder->getQuery()->getSQL();
+//       $sql = SqlExtractor::getFullSQL($builder->getQuery());
 
         if ($page) {
             return $this->paginator->paginate($builder, $page, $this->itemsPerPage, $this->paginationOptions);

@@ -10,7 +10,7 @@ class VrijwilligersControllerTest extends WebTestCase
     public function testIndex()
     {
         $medewerker = $this->getContainer()->get(\AppBundle\Service\MedewerkerDao::class)->findByUsername('eou_user');
-        $this->logIn($medewerker);
+        $this->client->loginUser($medewerker);
 
         $crawler = $this->client->request('GET', $this->getUrl('eropuit_vrijwilligers_index'));
         $this->assertStatusCode(200, $this->client);
@@ -22,7 +22,7 @@ class VrijwilligersControllerTest extends WebTestCase
     public function testSort()
     {
         $medewerker = $this->getContainer()->get(\AppBundle\Service\MedewerkerDao::class)->findByUsername('eou_user');
-        $this->logIn($medewerker);
+        $this->client->loginUser($medewerker);
 
         $crawler = $this->client->request('GET', $this->getUrl('eropuit_vrijwilligers_index'));
         $this->assertStatusCode(200, $this->client);
@@ -41,7 +41,7 @@ class VrijwilligersControllerTest extends WebTestCase
     public function testFilter()
     {
         $medewerker = $this->getContainer()->get(\AppBundle\Service\MedewerkerDao::class)->findByUsername('eou_user');
-        $this->logIn($medewerker);
+        $this->client->loginUser($medewerker);
 
         $crawler = $this->client->request('GET', $this->getUrl('eropuit_vrijwilligers_index'));
         $this->assertStatusCode(200, $this->client);
@@ -57,7 +57,7 @@ class VrijwilligersControllerTest extends WebTestCase
     public function testAddFilter()
     {
         $medewerker = $this->getContainer()->get(\AppBundle\Service\MedewerkerDao::class)->findByUsername('eou_user');
-        $this->logIn($medewerker);
+        $this->client->loginUser($medewerker);
 
         $crawler = $this->client->request('GET', $this->getUrl('eropuit_vrijwilligers_add'));
         $this->assertStatusCode(200, $this->client);
@@ -68,6 +68,6 @@ class VrijwilligersControllerTest extends WebTestCase
         $crawler = $this->client->submit($form);
         $rows = $crawler->filter('table.table tbody tr');
 //        $this->assertEquals(19, $rows->count());
-        $this->assertLessThanOrEqual(1,$this->count());
+        $this->assertLessThanOrEqual(1, $this->count());
     }
 }

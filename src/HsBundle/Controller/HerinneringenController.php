@@ -20,7 +20,6 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class HerinneringenController extends AbstractChildController
 {
-    protected $title = 'Herinneringen';
     protected $entityName = 'herinnering';
     protected $entityClass = Herinnering::class;
     protected $formClass = HerinneringType::class;

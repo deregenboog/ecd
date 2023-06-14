@@ -2,6 +2,7 @@
 
 namespace AppBundle\Entity;
 
+use AppBundle\Model\IdentifiableTrait;
 use AppBundle\Model\TimestampableTrait;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
@@ -14,23 +15,17 @@ use Gedmo\Mapping\Annotation as Gedmo;
  */
 class Land
 {
+    use IdentifiableTrait;
     use TimestampableTrait;
 
     /**
-     * @ORM\Id
-     * @ORM\Column(type="integer")
-     * @ORM\GeneratedValue
-     */
-    private $id;
-
-    /**
-     * @ORM\Column(name="AFK2", type="string", length=5, nullable=false)
+     * @ORM\Column(name="AFK2", type="string", length=5)
      * @Gedmo\Versioned
      */
     private $afkorting2;
 
     /**
-     * @ORM\Column(name="AFK3", type="string", length=5, nullable=false)
+     * @ORM\Column(name="AFK3", type="string", length=5)
      * @Gedmo\Versioned
      */
     private $afkorting3;
@@ -40,6 +35,22 @@ class Land
      * @Gedmo\Versioned
      */
     private $land;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(type="datetime", nullable=true)
+     * @Gedmo\Versioned
+     */
+    protected $created;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(type="datetime", nullable=true)
+     * @Gedmo\Versioned
+     */
+    protected $modified;
 
     public function __construct($land = null, $afkorting2 = '', $afkorting3 = '')
     {
@@ -51,11 +62,6 @@ class Land
     public function __toString()
     {
         return $this->land;
-    }
-
-    public function getId()
-    {
-        return $this->id;
     }
 
     public function getAfkorting2()

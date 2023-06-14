@@ -4,16 +4,13 @@ namespace AppBundle\Doctrine;
 
 use AppBundle\Entity\Klant;
 use AppBundle\Entity\Vrijwilliger;
-
 use AppBundle\Model\ActivatableTrait;
 use Doctrine\ORM\Mapping\ClassMetaData;
 use Doctrine\ORM\Query\Filter\SQLFilter;
 
-
-
 class ActiveFilter extends SQLFilter
 {
-    public function addFilterConstraint(ClassMetadata $targetEntity, $targetTableAlias)
+    public function addFilterConstraint(ClassMetadata $targetEntity, $targetTableAlias): string
     {
         $traits = $targetEntity->getReflectionClass()->getTraitNames();
 

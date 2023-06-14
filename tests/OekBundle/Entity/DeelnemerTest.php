@@ -21,7 +21,7 @@ class DeelnemerTest extends TestCase
 
     public function testCannotCloseNonOpenDossier()
     {
-        $this->expectException(\RunTimeException::class);
+        $this->expectException(\RuntimeException::class);
 
         $deelnemer = new Deelnemer();
         $deelnemer->addAfsluiting($this->getAfsluiting());
@@ -29,7 +29,7 @@ class DeelnemerTest extends TestCase
 
     public function testCannotOpenOpenDossier()
     {
-        $this->expectException(\RunTimeException::class);
+        $this->expectException(\RuntimeException::class);
 
         $deelnemer = new Deelnemer();
         $deelnemer->addAanmelding($this->getAanmelding());
@@ -48,7 +48,7 @@ class DeelnemerTest extends TestCase
 
     public function testCannotCloseClosedDossier()
     {
-        $this->expectException(\RunTimeException::class);
+        $this->expectException(\RuntimeException::class);
 
         $deelnemer = new Deelnemer();
         $deelnemer->addAanmelding($this->getAanmelding());

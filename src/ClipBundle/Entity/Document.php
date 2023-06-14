@@ -19,7 +19,8 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
  */
 class Document implements DocumentInterface
 {
-    use TimestampableTrait, RequiredBehandelaarTrait;
+    use TimestampableTrait;
+    use OptionalBehandelaarTrait;
 
     /**
      * @ORM\Id
@@ -54,6 +55,21 @@ class Document implements DocumentInterface
      */
     protected $medewerker;
 
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(type="datetime")
+     * @Gedmo\Versioned
+     */
+    protected $created;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(type="datetime")
+     * @Gedmo\Versioned
+     */
+    protected $modified;
 
     public function getId()
     {

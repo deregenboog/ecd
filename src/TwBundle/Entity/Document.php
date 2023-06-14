@@ -15,5 +15,4 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
  */
 class Document extends SuperDocument
 {
-
 }

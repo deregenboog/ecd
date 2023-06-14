@@ -1,14 +1,6 @@
 {% extends 'base.html.twig' %}
 {% import 'html.macro.twig' as html %}
 
-{% block title %}
-    Op Eigen Kracht | Trainingen
-{% endblock %}
-
-{% block subnavigation %}
-    {% include '@Oek/subnavigation.html.twig' %}
-{% endblock %}
-
 {% block content %}
     <h1>E-mail deelnemers van {{ entity_name }} {{ training }}</h1>
     {{ form(form) }}

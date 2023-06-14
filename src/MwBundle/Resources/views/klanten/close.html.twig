@@ -1,14 +1,6 @@
 {% extends 'base.html.twig' %}
 {% import 'html.macro.twig' as html %}
 
-{% block title %}
-    Maatschappelijkwerk | {{ title }}
-{% endblock %}
-
-{% block subnavigation %}
-    {% include '@Mw/subnavigation.html.twig' %}
-{% endblock %}
-
 {% block content %}
     <h1>MW dossier afsluiten</h1>
     {{ form_start(form) }}
@@ -16,6 +8,9 @@
     {{ form_row(form.reden) }}
     {{ form_row(form.locatie) }}
     {{ form.land is defined ? form_row(form.land) }}
+    {{ form_row(form.datumRepatriering) }}
+    {{ form_row(form.kosten) }}
+    {{ form_row(form.zachteLanding) }}
     {{ form_row(form.resultaat) }}
     {{ form_row(form.toelichting) }}
     {{ form_row(form.inloopSluiten) }}
@@ -33,9 +28,15 @@
                 var selectedElm = $('select#afsluiting_reden option:selected');
                 if (/land_1/i.test(selectedElm.attr('class'))) {
                     $('#afsluiting_land').closest('.form-group').show();
+                    $('#afsluiting_kosten').closest('.form-group').show();
+                    $('#afsluiting_datumRepatriering').closest('.form-group').show();
+                    $('#afsluiting_zachteLanding').closest('.form-group').show();
                 } else {
                     $('#afsluiting_land option:selected').prop('selected', false);
                     $('#afsluiting_land').closest('.form-group').hide();
+                    $('#afsluiting_kosten').closest('.form-group').hide();
+                    $('#afsluiting_datumRepatriering').closest('.form-group').hide();
+                    $('#afsluiting_zachteLanding').closest('.form-group').hide();
                 }
             };
 

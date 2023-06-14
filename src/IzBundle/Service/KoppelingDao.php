@@ -5,6 +5,7 @@ namespace IzBundle\Service;
 use AppBundle\Filter\FilterInterface;
 use AppBundle\Service\AbstractDao;
 use IzBundle\Entity\Hulpvraag;
+use IzBundle\Entity\Koppeling;
 
 class KoppelingDao extends AbstractDao implements KoppelingDaoInterface
 {

@@ -1,14 +1,6 @@
 {% extends 'base-2-col.html.twig' %}
 {% import 'html.macro.twig' as html %}
 
-{% block title %}
-    Maatschappelijk werk | {{ title }}
-{% endblock %}
-
-{% block subnavigation %}
-    {% include '@Mw/subnavigation.html.twig' %}
-{% endblock %}
-
 {% block content_top %}
     <h1>Info wijzigen</h1>
 {% endblock %}
@@ -19,6 +11,7 @@
 
 {% block content_right %}
     {{ form_start(form) }}
+    {{ form_row(form.isGezin) }}
     {{ form_row(form.risForm) }}
 
 {#    {{ form_row(form.trajectbegeleiderForm) }}#}

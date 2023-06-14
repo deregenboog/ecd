@@ -26,7 +26,6 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class TrajectenController extends AbstractChildController
 {
-    protected $title = 'Trajecten';
     protected $entityName = 'Traject';
     protected $entityClass = Traject::class;
     protected $formClass = TrajectType::class;

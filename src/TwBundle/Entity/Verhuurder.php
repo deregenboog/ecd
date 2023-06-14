@@ -18,7 +18,6 @@ class Verhuurder extends Deelnemer
      * @var VerhuurderAfsluiting
      *
      * @ORM\ManyToOne(targetEntity="VerhuurderAfsluiting", inversedBy="verhuurders", cascade={"persist"})
-     * @ORM\JoinColumn(nullable=true)
      * @Gedmo\Versioned
      */
     protected $afsluiting;
@@ -51,14 +50,12 @@ class Verhuurder extends Deelnemer
      */
     private $pandeigenaarToelichting;
 
-
-
     /**
      * "Kleine schuld, grote winst".
      *
      * @var bool
      *
-     * @ORM\Column(type="boolean", nullable=false)
+     * @ORM\Column(type="boolean")
      * @Gedmo\Versioned
      */
     private $ksgw = false;
@@ -67,16 +64,9 @@ class Verhuurder extends Deelnemer
      * @var Project
      *
      * @ORM\ManyToOne(targetEntity="TwBundle\Entity\Project", inversedBy="verhuurders", cascade={"persist"})
-     * @ORM\JoinColumn(nullable=true, options={"default": "NULL"})
      * @Gedmo\Versioned
      */
     private $project;
-
-//    /**
-//     * @var boolean
-//     * @ORM\Column(type="boolean",nullable=true)
-//     */
-//    private $kwijtschelding;
 
     /**
      * @var integer
@@ -98,7 +88,6 @@ class Verhuurder extends Deelnemer
      */
     private $aanvullingInkomen;
 
-
     /**
      * @var Kwijtschelding
      *
@@ -113,10 +102,9 @@ class Verhuurder extends Deelnemer
      */
     private $samenvatting;
 
-
     public function __construct(AppKlant $appKlant = null)
     {
-        if(null !== $appKlant){
+        if (null !== $appKlant) {
             $this->appKlant = $appKlant;
         }
 
@@ -275,27 +263,6 @@ class Verhuurder extends Deelnemer
         return $this;
     }
 
-//    /**
-//     * @return bool
-//     */
-//    public function isKwijtschelding(): bool
-//    {
-//        return $this->kwijtschelding;
-//    }
-//
-//    /**
-//     * @param bool $kwijtschelding
-//     * @return Verhuurder
-//     */
-//    public function setKwijtschelding(bool $kwijtschelding): Verhuurder
-//    {
-//        $this->kwijtschelding = $kwijtschelding;
-//        return $this;
-//    }
-
-
-
-
     /**
      * @return int
      */
@@ -369,5 +336,4 @@ class Verhuurder extends Deelnemer
         $this->samenvatting = $samenvatting;
         return $this;
     }
-
 }

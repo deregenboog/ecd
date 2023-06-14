@@ -1,14 +1,6 @@
 {% extends 'base-2-col.html.twig' %}
 {% import 'html.macro.twig' as html %}
 
-{% block title %}
-    {{ title }}
-{% endblock %}
-
-{% block subnavigation %}
-    {% include '@App/subnavigation.html.twig' %}
-{% endblock %}
-
 {% block content_top %}
     <h1>{{ entity_name|capitalize }} {{ entity }}</h1>
     <p>
@@ -71,6 +63,14 @@
     <dl class="dl-horizontal">
         <dt>Adres</dt>
         <dd>
+            {% if entity.briefadres is not null %}
+                {% set class='' %}
+                {% if date(entity.briefadres) < date("+6 weeks")  %}
+                    {% set class="text-danger" %}
+                {% endif %}
+                <p>Let op, adres is briefadres.</p>
+                <p class="{{ class }}">Verloopt op {{ entity.briefadres|if_date("d-m-Y") }}</p>
+            {% endif %}
             {{ entity.adres }}<br>
             {{ entity.postcode }} {{ entity.plaats }}
         </dd>

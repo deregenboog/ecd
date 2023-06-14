@@ -15,7 +15,7 @@ class RegistratieVoter extends Voter
         $this->vrijwilligersLocaties = $vrijwilligersLocaties;
     }
 
-    protected function supports($attribute, $subject)
+    protected function supports($attribute, $subject): bool
     {
         if (!in_array($attribute, [Permissions::REGISTER])) {
             return false;
@@ -28,7 +28,7 @@ class RegistratieVoter extends Voter
         return true;
     }
 
-    protected function voteOnAttribute($attribute, $subject, TokenInterface $token)
+    protected function voteOnAttribute($attribute, $subject, TokenInterface $token): bool
     {
         assert($subject instanceof Locatie);
 

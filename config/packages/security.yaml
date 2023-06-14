@@ -1,36 +1,78 @@
-security:
-    encoders:
-        AppBundle\Entity\Medewerker: plaintext
+when@dev:
+#    services:
+#        security.development_guard_authenticator:
+#            class: AppBundle\Security\DevelopmentAuthenticator
+#            arguments:
+#                - '@security.user.provider.concrete.database'
+#    security:
+#        firewalls:
+#            main:
+#                provider: chain_provider
+#                custom_authenticator:
+#                    - security.development_guard_authenticator
+#                entry_point: ldap_tools.security.ldap_guard_authenticator
+#
+#when@prod:
+#    security:
+#        firewalls:
+#            main:
+#                authenticators:
+#                    - ldap_tools.security.ldap_guard_authenticator
 
+security:
+    enable_authenticator_manager: true
+    # https://symfony.com/doc/current/security.html#registering-the-user-hashing-passwords
+    password_hashers:
+        AppBundle\Entity\Medewerker: plaintext
+    # https://symfony.com/doc/current/security.html#loading-the-user-the-user-provider
     providers:
         chain_provider:
             chain:
-                providers: [database, ldap]
+                providers: [database,ecd_ldap]
         database:
-            entity: { class: AppBundle\Entity\Medewerker, property: username }
-        ldap:
-            id: ldap_tools.security.user.ldap_user_provider
-
+            entity:
+                class: 'AppBundle\Entity\Medewerker'
+                property: 'username'
+        ecd_ldap:
+            ldap:
+                service: Symfony\Component\Ldap\Ldap
+                base_dn: 'DC=cluster,DC=DEREGENBOOG'
+                search_dn: "%ldap_search_user%"
+                search_password: '%ldap_search_password%'
+                default_roles: ROLE_USER
+#                uid_key: 'username'
+                extra_fields:
+                    - givenName
+                    - sn
+                    - mail
+                    - memberOf
+                    - objectguid
+                    - UserAccountControl
     firewalls:
-        # disables authentication for assets and the profiler, adapt it according to your needs
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
-
         main:
-            anonymous: ~
+            lazy: true
+           #anonymous: ~
             # Here we use the chained provider defined previously...
             provider: chain_provider
             pattern: ^/
             logout: ~
-#            logout_on_user_change: true
+            # https://symfony.com/doc/current/security/impersonating_user.html
             switch_user: { role: ROLE_ADMIN }
-
+            form_login_ldap:
+                service: Symfony\Component\Ldap\Ldap
+#                provider: chain_provider
+                dn_string: 'DEREGENBOOG\{username}'
+                login_path: login
+                check_path: login
         login:
-            anonymous: ~
+           # anonymous: ~
             pattern: ^/login$
-#            logout_on_user_change: true
 
+    # Easy way to control access for large sections of your site
+    # Note: Only the *first* access control that matches will be used
     access_control:
         - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/admin/klanten, roles: ROLE_TEAMLEIDERS }

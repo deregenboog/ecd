@@ -23,4 +23,20 @@ class AfsluitredenVrijwilliger
     use ActivatableTrait;
     use TimestampableTrait;
     use NotDeletableTrait;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(type="datetime")
+     * @Gedmo\Versioned
+     */
+    protected $created;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(type="datetime")
+     * @Gedmo\Versioned
+     */
+    protected $modified;
 }

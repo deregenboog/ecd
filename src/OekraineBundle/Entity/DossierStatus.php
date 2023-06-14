@@ -23,7 +23,8 @@ use Gedmo\Mapping\Annotation as Gedmo;
  */
 abstract class DossierStatus
 {
-    use TimestampableTrait, OptionalMedewerkerTrait;
+    use TimestampableTrait;
+    use OptionalMedewerkerTrait;
 
     /**
      * @ORM\Id
@@ -42,7 +43,7 @@ abstract class DossierStatus
     protected $bezoeker;
 
     /**
-     * @ORM\Column(type="date", nullable=false)
+     * @ORM\Column(type="date")
      * @Gedmo\Versioned
      */
     protected $datum;

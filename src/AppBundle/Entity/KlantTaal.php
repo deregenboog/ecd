@@ -41,12 +41,13 @@ class KlantTaal
     /**
      * @var bool
      *
-     * @ORM\Column(type="boolean", nullable=false)
+     * @ORM\Column(type="boolean")
      * @Gedmo\Versioned
      */
     private $voorkeur = false;
 
-    public function __construct(Klant $klant, Taal $taal) {
+    public function __construct(Klant $klant, Taal $taal)
+    {
         $this->klant = $klant;
         $this->taal = $taal;
     }

@@ -13,7 +13,7 @@ use IzBundle\Entity\Koppeling;
 
 class FoutieveInvoerFilter extends SQLFilter
 {
-    public function addFilterConstraint(ClassMetadata $targetEntity, $targetTableAlias)
+    public function addFilterConstraint(ClassMetadata $targetEntity, $targetTableAlias): string
     {
         if (in_array($targetEntity->getName(), [IzDeelnemer::class, IzKlant::class, IzVrijwilliger::class])) {
             return sprintf('%s.iz_afsluiting_id IS NULL OR %s.iz_afsluiting_id <> 10', $targetTableAlias, $targetTableAlias);

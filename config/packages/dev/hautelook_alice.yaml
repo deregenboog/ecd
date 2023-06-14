@@ -1,4 +1,0 @@
-hautelook_alice:
-    fixtures_path: 'DataFixtures/ORM'
-    root_dirs:
-        - '%kernel.project_dir%'

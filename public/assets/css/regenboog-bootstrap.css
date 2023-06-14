@@ -46,16 +46,16 @@ a img {
 
 h1, h2, h3, h4 {
 }
-h1 {
+h1, span.h1 {
     color: #003d4c;
 }
-h2 {
+h2, span.h2 {
     color: #759c46;
 }
-h3 {
+h3, span.h3 {
     color: #759c46;
 }
-h4 {
+h4, span.h4 {
     color: #993;
 }
 
@@ -75,10 +75,13 @@ th {
 }
 
 th a.asc:after {
-    content: ' ⇣';
+    content: '\2193';
 }
 th a.desc:after {
-    content: ' ⇡';
+    content: '\2191';
+}
+th label.col-sm-2, th label.col-sm-2-100 {
+    width:100%
 }
 table.table.table-hover tr[data-id]:hover,
 table.table.table-hover tr[data-href]:hover {

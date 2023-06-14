@@ -8,15 +8,14 @@ use AppBundle\Form\KlantFilterType;
 use AppBundle\Form\MedewerkerType;
 use AppBundle\Form\StadsdeelSelectType;
 use Doctrine\ORM\EntityRepository;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use TwBundle\Entity\Klant;
-use TwBundle\Entity\Verhuurder;
-use TwBundle\Filter\VerhuurderFilter;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use TwBundle\Entity\Verhuurder;
+use TwBundle\Filter\VerhuurderFilter;
 
 class VerhuurderFilterType extends AbstractType
 {
@@ -56,26 +55,30 @@ class VerhuurderFilterType extends AbstractType
             ]);
         }
 
-        if (in_array('actief', $options['enabled_filters'])) {
-            $builder->add('actief', CheckboxType::class, [
-                'label' => 'Alleen actieve dossiers',
+        if (in_array('status', $options['enabled_filters'])) {
+            $builder->add('status', ChoiceType::class, [
+                'label' => 'Status',
+                'choices' => [
+                    'Actief' => VerhuurderFilter::STATUS_ACTIVE,
+                    'Niet actief' => VerhuurderFilter::STATUS_NON_ACTIVE,
+                ],
                 'required' => false,
-                'data' => false,
             ]);
         }
+
         if (in_array('gekoppeld', $options['enabled_filters'])) {
             $builder->add('gekoppeld', ChoiceType::class, [
                 'label' => 'Gekoppeld?',
-                'choices'=>[
-                    'Onbekend'=>null,
-                    'Gekoppeld'=>true,
-                    'Niet gekoppeld'=>false,
+                'choices' => [
+                    'Onbekend' => null,
+                    'Gekoppeld' => true,
+                    'Niet gekoppeld' => false,
                 ],
                 'required' => false,
-
                 'data' => false,
             ]);
         }
+
         if (in_array('ambulantOndersteuner', $options['enabled_filters'])) {
             $builder->add('ambulantOndersteuner', MedewerkerType::class, [
                 'required' => false,
@@ -86,10 +89,11 @@ class VerhuurderFilterType extends AbstractType
                 },
             ]);
         }
+
         if (in_array('medewerker', $options['enabled_filters'])) {
             $builder->add('medewerker', MedewerkerType::class, [
                 'required' => false,
-                'preset'=>false,
+                'preset' => false,
                 'query_builder' => function (EntityRepository $repository) {
                     return $repository->createQueryBuilder('medewerker')
                         ->innerJoin(Verhuurder::class, 'verhuurder', 'WITH', 'verhuurder.medewerker = medewerker')
@@ -97,6 +101,7 @@ class VerhuurderFilterType extends AbstractType
                 },
             ]);
         }
+
         if (in_array('project', $options['enabled_filters'])) {
             $builder->add('project', ProjectSelectFilterType::class, [
                 'label' => 'Project',
@@ -114,7 +119,7 @@ class VerhuurderFilterType extends AbstractType
     /**
      * {@inheritdoc}
      */
-    public function getParent()
+    public function getParent(): ?string
     {
         return FilterType::class;
     }
@@ -131,12 +136,12 @@ class VerhuurderFilterType extends AbstractType
                 'appKlant' => ['naam'],
                 'aanmelddatum',
 //                'afsluitdatum',
-                'actief',
+                'status',
                 'gekoppeld',
 //                'wpi',
 //                'ksgw',
                 'medewerker',
-                'project'
+                'project',
             ],
         ]);
     }

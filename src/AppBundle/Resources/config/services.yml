@@ -21,6 +21,16 @@ services:
             $paginator: '@knp_paginator'
         tags: [ 'controller.service_arguments' ]
 
+    AppBundle\Controller\AbstractController:
+        calls:
+            - setEntityManager: ['@doctrine.orm.default_entity_manager']
+        tags: [ 'controller.service_arguments' ]
+
+    AppBundle\Controller\Admin\KlantenController:
+        arguments:
+            $logger: '@monolog.logger.merge'
+        tags: [ 'controller.service_arguments' ]
+
     AppBundle\Controller\KlantenController:
         arguments:
              $export: '@AppBundle\Export\Klanten'
@@ -51,6 +61,7 @@ services:
     AppBundle\Controller\MedewerkersController:
         arguments:
             $roleHierarchy: "%security.role_hierarchy.roles%"
+            $export: '@AppBundle\Export\Medewerkers'
         tags: [ 'controller.service_arguments' ]
 
     AppBundle\Controller\DoelstellingenController:
@@ -89,17 +100,15 @@ services:
         tags:
             - { name: security.voter }
 
-    AppBundle\Event\LoadUserEventListener:
-        tags:
-            - { name: kernel.event_listener, event: ldap_tools_bundle.load_user.after, method: afterUserLoad }
-
     AppBundle\Event\LoginEventListener:
         arguments:
             - '@doctrine.orm.entity_manager'
-            - '@?ldap_tools.security.user.ldap_user_provider'
+            - '@security.user.provider.concrete.ecd_ldap'
+            - '@security.untracked_token_storage'
         tags:
-            - { name: kernel.event_listener, event: ldap_tools_bundle.login.success, method: onLoginSuccess }
-            - { name: kernel.event_listener, event: ldap_tools_bundle.guard.login.failure, method: onLoginFailure }
+            #            - { name: kernel.event_listener, event: ldap_tools_bundle.login.success, method: onLoginSuccess }
+            #            - { name: kernel.event_listener, event: ldap_tools_bundle.guard.login.failure, method: onLoginFailure }
+            - { name: kernel.event_listener, event: Symfony\Component\Security\Http\Event\LoginSuccessEvent, method: onLoginSuccess }
 
     twig.extension.routing: # override default routing extension
         class: AppBundle\Twig\EcdRoutingExtension
@@ -117,7 +126,7 @@ services:
         public: false
         arguments:
             - '@request_stack'
-            - '%locale%'
+            - '%kernel.default_locale%'
             - '%administrator_name%'
             - '%administrator_email%'
             - '%tbc_months_period%'
@@ -186,6 +195,19 @@ services:
         class: AppBundle\Event\KernelSubscriber
         arguments:
             - '@twig'
+            -
+                App: null
+                Clip: 'CLIP'
+                ErOpUit: 'ErOpUit-kalender'
+                Ga: 'Groepsactiviteiten'
+                Inloop: 'Inloophuizen'
+                Iz: 'Informele zorg'
+                Mw: 'Maatschappelijk werk'
+                Oek: 'Op eigen kracht'
+                Oekraine: 'Oekraïne'
+                Pfo: 'PFO'
+                Tw: 'Tijdelijk wonen'
+                Uhk: 'Uit het krijt'
         tags:
             - { name: kernel.event_subscriber }
 
@@ -210,3 +232,9 @@ services:
         arguments:
             -
                 - { key: klant, dao: '@AppBundle\Service\KlantDao' }
+
+    AppBundle\Twig\FallbackLoader:
+        arguments:
+            - ['%kernel.project_dir%/templates']
+        tags:
+            - { name: twig.loader, priority: -1 }

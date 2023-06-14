@@ -15,21 +15,38 @@ use Gedmo\Mapping\Annotation as Gedmo;
  */
 class Lidmaatschap
 {
-    use IdentifiableTrait, TimestampableTrait;
+    use IdentifiableTrait;
+    use TimestampableTrait;
 
     /**
      * @var Intervisiegroep
      *
      * @ORM\ManyToOne(targetEntity="Intervisiegroep", inversedBy="lidmaatschappen")
-     * @ORM\JoinColumn(name="iz_intervisiegroep_id")
+     * @ORM\JoinColumn(name="iz_intervisiegroep_id", nullable=false)
      */
     private $intervisiegroep;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(type="datetime", nullable=true)
+     * @Gedmo\Versioned
+     */
+    protected $created;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(type="datetime", nullable=true)
+     * @Gedmo\Versioned
+     */
+    protected $modified;
 
     /**
      * @var IzVrijwilliger
      *
      * @ORM\ManyToOne(targetEntity="IzVrijwilliger", inversedBy="lidmaatschappen")
-     * @ORM\JoinColumn(name="iz_deelnemer_id")
+     * @ORM\JoinColumn(name="iz_deelnemer_id", nullable=false)
      */
     private $vrijwilliger;
 

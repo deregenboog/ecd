@@ -2,6 +2,8 @@
 
 namespace GaBundle\Entity;
 
+use AppBundle\Model\IdentifiableTrait;
+use AppBundle\Model\NameableTrait;
 use AppBundle\Model\TimestampableTrait;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
@@ -14,23 +16,29 @@ use Gedmo\Mapping\Annotation as Gedmo;
  */
 class Reden
 {
+    use IdentifiableTrait;
+    use NameableTrait;
     use TimestampableTrait;
-
-    /**
-     * @ORM\Id
-     * @ORM\Column(type="integer")
-     * @ORM\GeneratedValue
-     */
-    private $id;
 
     /**
      * @ORM\Column(length=100, nullable=true)
      * @Gedmo\Versioned
      */
-    private $naam;
+    protected $naam;
 
-    public function getId()
-    {
-        return $this->id;
-    }
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(type="datetime")
+     * @Gedmo\Versioned
+     */
+    protected $created;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(type="datetime")
+     * @Gedmo\Versioned
+     */
+    protected $modified;
 }

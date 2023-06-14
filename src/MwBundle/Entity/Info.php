@@ -16,19 +16,17 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class Info
 {
+    use IdentifiableTrait;
     public const INSTANTIES = [
         0 => 'DWI',
         1 => 'UWV',
         2 => 'Anders',
     ];
 
-    use IdentifiableTrait;
-
     /**
      * @var Klant
      *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Klant")
-     * @ORM\JoinColumn(unique=true, nullable=false)
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Klant", cascade={"persist"}, inversedBy="info")
      * @Gedmo\Versioned
      * @Assert\NotNull
      */
@@ -48,7 +46,6 @@ class Info
 
     /**
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Medewerker")
-     * @ORM\JoinColumn(nullable=true)
      * @Gedmo\Versioned
      */
     private $casemanager;
@@ -68,7 +65,6 @@ class Info
 
     /**
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Medewerker")
-     * @ORM\JoinColumn(nullable=true)
      * @Gedmo\Versioned
      */
     private $trajectbegeleider;
@@ -213,6 +209,12 @@ class Info
      * @Gedmo\Versioned
      */
     private $risDatumTot;
+
+    /**
+     * @var boolean
+     * @ORM\Column(type="boolean", nullable=false)
+     */
+    protected $isGezin = 0;
 
     public function __construct(Klant $klant)
     {
@@ -757,5 +759,19 @@ class Info
         $this->risDatumTot = $risDatumTot;
     }
 
+    /**
+     * @return bool
+     */
+    public function isGezin(): ?bool
+    {
+        return $this->isGezin;
+    }
 
+    /**
+     * @param bool $isGezin
+     */
+    public function setIsGezin(bool $isGezin): void
+    {
+        $this->isGezin = $isGezin;
+    }
 }

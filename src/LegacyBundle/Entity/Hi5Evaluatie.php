@@ -7,9 +7,12 @@ use AppBundle\Entity\Medewerker;
 use AppBundle\Entity\Klant;
 
 /**
- * Hi5Evaluaties.
- *
- * @ORM\Table(name="hi5_evaluaties", indexes={@ORM\Index(name="idx_hi5_evaluaties_klant_id", columns={"klant_id"})})
+ * @ORM\Table(
+ *     name="hi5_evaluaties",
+ *     indexes={
+ *         @ORM\Index(name="idx_hi5_evaluaties_klant_id", columns={"klant_id"})
+ *     }
+ * )
  * @ORM\Entity
  */
 class Hi5Evaluatie
@@ -22,86 +25,86 @@ class Hi5Evaluatie
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Klant")
+     * @ORM\Column(type="integer")
      */
-    private $klant;
+    private $klant_id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Medewerker")
+     * @ORM\Column(type="integer")
      */
-    private $medewerker;
+    private $medewerker_id;
 
     /**
-     * @ORM\Column(name="datumevaluatie", type="date", nullable=false)
+     * @ORM\Column(name="datumevaluatie", type="date")
      */
     private $datumevaluatie;
 
     /**
-     * @ORM\Column(name="werkproject", type="string", length=255, nullable=false)
+     * @ORM\Column(name="werkproject", type="string", length=255)
      */
     private $werkproject;
 
     /**
-     * @ORM\Column(name="aantal_dagdelen", type="integer", nullable=false)
+     * @ORM\Column(name="aantal_dagdelen", type="integer")
      */
     private $aantalDagdelen;
 
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="startdatumtraject", type="date", nullable=false)
+     * @ORM\Column(name="startdatumtraject", type="date")
      */
     private $startdatumtraject;
 
     /**
-     * @ORM\Column(name="datum_intake", type="date", nullable=false)
+     * @ORM\Column(name="datum_intake", type="date")
      */
     private $datumIntake;
 
     /**
-     * @ORM\Column(name="verslagvan", type="date", nullable=false)
+     * @ORM\Column(name="verslagvan", type="date")
      */
     private $verslagvan;
 
     /**
-     * @ORM\Column(name="verslagtm", type="date", nullable=false)
+     * @ORM\Column(name="verslagtm", type="date")
      */
     private $verslagtm;
 
     /**
-     * @ORM\Column(name="extraanwezigen", type="string", length=255, nullable=false)
+     * @ORM\Column(name="extraanwezigen", type="string", length=255)
      */
     private $extraanwezigen;
 
     /**
-     * @ORM\Column(name="opmerkingen_overige", type="text", length=65535, nullable=false)
+     * @ORM\Column(name="opmerkingen_overige", type="text", length=65535)
      */
     private $opmerkingenOverige;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="afspraken_afgelopen", type="text", length=65535, nullable=false)
+     * @ORM\Column(name="afspraken_afgelopen", type="text", length=65535)
      */
     private $afsprakenAfgelopen;
 
     /**
-     * @ORM\Column(name="watdoejij", type="text", length=65535, nullable=false)
+     * @ORM\Column(name="watdoejij", type="text", length=65535)
      */
     private $watdoejij;
 
     /**
-     * @ORM\Column(name="watdoetb", type="text", length=65535, nullable=false)
+     * @ORM\Column(name="watdoetb", type="text", length=65535)
      */
     private $watdoetb;
 
     /**
-     * @ORM\Column(name="watdoewb", type="text", length=65535, nullable=false)
+     * @ORM\Column(name="watdoewb", type="text", length=65535)
      */
     private $watdoewb;
 
     /**
-     * @ORM\Column(name="created", type="datetime", nullable=false)
+     * @ORM\Column(name="created", type="datetime")
      */
     private $created;
 

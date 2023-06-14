@@ -19,6 +19,16 @@ use Gedmo\Mapping\Annotation as Gedmo;
  */
 class Alcohol
 {
-    use IdentifiableTrait, NameableTrait, ActivatableTrait, TimestampableTrait, NotDeletableTrait;
+    use IdentifiableTrait;
+    use NameableTrait;
+    use ActivatableTrait;
+    use TimestampableTrait;
+    use NotDeletableTrait;
 
-  }
+    /**
+     * @var bool
+     * @ORM\Column(name="`active`", type="boolean", options={"default":1})
+     * @Gedmo\Versioned
+     */
+    protected $actief = true;
+}

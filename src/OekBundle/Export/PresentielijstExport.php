@@ -4,12 +4,13 @@ namespace OekBundle\Export;
 
 use AppBundle\Exception\AppException;
 use AppBundle\Export\AbstractExport;
+use AppBundle\Export\ExportInterface;
 use OekBundle\Entity\Training;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 
 class PresentielijstExport extends AbstractExport
 {
-    public function create($training)
+    public function create($training): ExportInterface
     {
         if (!$training instanceof Training) {
             throw new AppException(sprintf(

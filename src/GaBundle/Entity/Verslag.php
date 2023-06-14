@@ -2,6 +2,7 @@
 
 namespace GaBundle\Entity;
 
+use AppBundle\Model\IdentifiableTrait;
 use AppBundle\Model\TimestampableTrait;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
@@ -14,25 +15,17 @@ use Gedmo\Mapping\Annotation as Gedmo;
  */
 class Verslag
 {
+    use IdentifiableTrait;
     use TimestampableTrait;
 
     /**
-     * @ORM\Id
-     * @ORM\Column(type="integer")
-     * @ORM\GeneratedValue
-     */
-    protected $id;
-
-    /**
      * @ORM\ManyToOne(targetEntity="Dossier", inversedBy="verslagen")
-     * @ORM\JoinColumn(nullable=true)
      * @Gedmo\Versioned
      */
     protected $dossier;
 
     /**
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Medewerker")
-     * @ORM\JoinColumn(nullable=true)
      * @Gedmo\Versioned
      */
     protected $medewerker;
@@ -43,10 +36,21 @@ class Verslag
      */
     protected $opmerking;
 
-    public function getId()
-    {
-        return $this->id;
-    }
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(type="datetime")
+     * @Gedmo\Versioned
+     */
+    protected $created;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(type="datetime")
+     * @Gedmo\Versioned
+     */
+    protected $modified;
 
     /**
      * @return mixed
@@ -89,7 +93,7 @@ class Verslag
      */
     public function getOpmerking()
     {
-        return $this->opmerking;
+        return utf8_decode($this->opmerking);
     }
 
     /**
@@ -97,7 +101,7 @@ class Verslag
      */
     public function setOpmerking($opmerking)
     {
-        $this->opmerking = $opmerking;
+        $this->opmerking = utf8_encode($opmerking);
 
         return $this;
     }

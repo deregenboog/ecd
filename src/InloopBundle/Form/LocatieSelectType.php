@@ -14,7 +14,7 @@ class LocatieSelectType extends AbstractType
     /**
      * {@inheritdoc}
      */
-    public function getParent()
+    public function getParent(): ?string
     {
         return EntityType::class;
     }
@@ -26,7 +26,8 @@ class LocatieSelectType extends AbstractType
     {
         $resolver->setDefaults([
             'class' => Locatie::class,
-            'placeholder' => '',
+            'placeholder' => 'Alle locaties',
+            'required' => false,
             'query_builder' => function (Options $options) {
                 return function (EntityRepository $repository) use ($options) {
                     $builder = $repository->createQueryBuilder('locatie')
@@ -38,11 +39,20 @@ class LocatieSelectType extends AbstractType
                     if ($options['gebruikersruimte']) {
                         $builder->andWhere('locatie.gebruikersruimte = true');
                     }
+                    if ($options['locatietypes']) {
+                        $builder
+                            ->leftJoin('locatie.locatieTypes','locatieTypes')
+                            ->andWhere('locatieTypes.naam IN (:locatietypes)')
+                            ->setParameter('locatietypes',$options['locatietypes'])
+                        ;
+
+                    }
 
                     return $builder;
                 };
             },
             'gebruikersruimte' => false,
+            'locatietypes'=>[],
         ]);
     }
 }

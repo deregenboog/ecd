@@ -26,7 +26,6 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class DienstverlenersController extends AbstractController
 {
-    protected $title = 'Dienstverleners';
     protected $entityName = 'dienstverlener';
     protected $entityClass = Dienstverlener::class;
     protected $formClass = DienstverlenerType::class;

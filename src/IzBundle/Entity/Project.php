@@ -2,6 +2,8 @@
 
 namespace IzBundle\Entity;
 
+use AppBundle\Model\IdentifiableTrait;
+use AppBundle\Model\NameableTrait;
 use AppBundle\Model\TimestampableTrait;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
@@ -14,25 +16,21 @@ use Gedmo\Mapping\Annotation as Gedmo;
  */
 class Project
 {
+    use IdentifiableTrait;
+    use NameableTrait;
     use TimestampableTrait;
+
     public const STRATEGY_PRESTATIE_TOTAL = 'total';
     public const STRATEGY_PRESTATIE_STARTED = 'started';
 
     /**
-     * @ORM\Id
-     * @ORM\Column(type="integer")
-     * @ORM\GeneratedValue
-     */
-    private $id;
-
-    /**
-     * @ORM\Column(type="string")
+     * @ORM\Column(type="string", nullable=true)
      * @Gedmo\Versioned
      */
-    private $naam;
+    protected $naam;
 
     /**
-     * @ORM\Column(type="date", nullable=false)
+     * @ORM\Column(type="date", nullable=true)
      * @Gedmo\Versioned
      */
     private $startdatum;
@@ -44,38 +42,16 @@ class Project
     private $einddatum;
 
     /**
-     * @ORM\Column(name="heeft_koppelingen", type="boolean", nullable=false)
+     * @ORM\Column(name="heeft_koppelingen", type="boolean", nullable=true)
      * @Gedmo\Versioned
      */
     private $heeftKoppelingen = true;
 
     /**
-     * @ORM\Column(name="prestatie_strategy", nullable=false)
+     * @ORM\Column(name="prestatie_strategy")
      * @Gedmo\Versioned
      */
     private $prestatieStrategy = self::STRATEGY_PRESTATIE_TOTAL;
-
-    public function getId()
-    {
-        return $this->id;
-    }
-
-    public function __toString()
-    {
-        return $this->naam;
-    }
-
-    public function getNaam()
-    {
-        return $this->naam;
-    }
-
-    public function setNaam($naam)
-    {
-        $this->naam = $naam;
-
-        return $this;
-    }
 
     public function getHeeftKoppelingen()
     {

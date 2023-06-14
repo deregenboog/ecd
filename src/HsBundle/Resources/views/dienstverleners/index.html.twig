@@ -1,14 +1,6 @@
 {% extends 'base.html.twig' %}
 {% import 'html.macro.twig' as html %}
 
-{% block title %}
-    Homeservice | Dienstverleners
-{% endblock %}
-
-{% block subnavigation %}
-    {% include '@Hs/subnavigation.html.twig' %}
-{% endblock %}
-
 {% set add_route = 'hs_dienstverleners_add' %}
 {% set view_route = 'hs_dienstverleners_view' %}
 {% set edit_route = 'hs_dienstverleners_edit' %}

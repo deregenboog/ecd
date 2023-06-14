@@ -6,6 +6,7 @@ use AppBundle\Form\BaseType;
 use AppBundle\Form\AppDateType;
 use HsBundle\Entity\Creditfactuur;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -22,7 +23,7 @@ class CreditfactuurType extends AbstractType
             ->add('datum', AppDateType::class)
             ->add('betreft')
             ->add('opmerking', null, ['label' => 'Memo'])
-            ->add('bedrag')
+            ->add('bedrag', NumberType::class)
             ->add('submit', SubmitType::class)
         ;
     }
@@ -40,7 +41,7 @@ class CreditfactuurType extends AbstractType
     /**
      * {@inheritdoc}
      */
-    public function getParent()
+    public function getParent(): ?string
     {
         return BaseType::class;
     }

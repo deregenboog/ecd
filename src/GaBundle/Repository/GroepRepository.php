@@ -2,9 +2,11 @@
 
 namespace GaBundle\Repository;
 
+use AppBundle\Doctrine\SqlExtractor;
 use AppBundle\Repository\DoelstellingRepositoryInterface;
 use AppBundle\Repository\DoelstellingRepositoryTrait;
 use Doctrine\ORM\EntityRepository;
+use GaBundle\Entity\Activiteit;
 use GaBundle\Entity\Deelname;
 use GaBundle\Entity\Klantdossier;
 use GaBundle\Entity\Vrijwilligerdossier;
@@ -38,27 +40,34 @@ class GroepRepository extends EntityRepository implements DoelstellingRepository
          * subquery in from ... ivm aggregatie.
          * (SUM)
          */
-        $subselect = $this->createQueryBuilder('activiteiten')
-            ->select('groep_id, SUM(aantalAnoniemeDeelnemers) AS aantalAnoniemeDeelnemers')
-            ->from("groep.activiteiten",'activiteiten')
-//            ->where("activiteiten.groep = :groep_id")
-            ->groupBy('activiteiten.groep')
+        /**
+         * SELECT SUM(a.aantalAnoniemeDeelnemers)
+        FROM ga_activiteiten AS a
+        WHERE a.datum BETWEEN '2022-01-01 00:00:00' AND '2022-12-31 00:00:00'
+        AND a.groep_id = g0_.id
+         */
+        $subselect = $this->createQueryBuilder('a3')
+            ->select('SUM( a2.aantalAnoniemeDeelnemers) AS a')
+            ->resetDQLPart("from") //reset the from part as it points default to groep as we're in the groep repository.
+            ->from(Activiteit::class,'a2')
+            ->where("a2.groep = groep AND a2.datum BETWEEN :start AND :eind" )
+            ->groupBy('a2.groep')
+            ->setParameter('start', $startDate)
+            ->setParameter('eind', $endDate)
             ;
-        $subselect->getDQL();
+
         $builder = $this->createQueryBuilder('groep');
         $builder
             ->select("CONCAT(groep.naam, ' (', IFNULL(werkgebied,'-'),  ')') AS groepnaam")
             ->addSelect('COUNT(DISTINCT activiteit) AS aantal_activiteiten')
             ->addSelect('COUNT(deelname) AS aantal_deelnames')
             ->addSelect('COUNT(DISTINCT klant) AS aantal_deelnemers')
-            ->addSelect('IFNULL(SUM( activiteit.aantalAnoniemeDeelnemers), 0) AS aantal_anonieme_deelnames')
+            ->addSelect("(".$subselect->getDQL().") aantal_anonieme_deelnames")
             ->leftJoin('groep.werkgebied', 'werkgebied')
             ->leftJoin('groep.activiteiten', 'activiteit', 'WITH', 'activiteit.datum BETWEEN :start AND :eind')
-//            ->leftJoin('activiteiten',sprintf('(%s)',$subselect->getQuery()->getSQL(),'ga2','ga2.groep_id = groep.id'))
             ->leftJoin('activiteit.deelnames', 'deelname', 'WITH', 'deelname.status = :aanwezig')
             ->leftJoin(Klantdossier::class, 'dossier', 'WITH', 'deelname.dossier = dossier')
             ->leftJoin('dossier.klant', 'klant')
-            ->where('deelname IS NOT NULL OR activiteit.aantalAnoniemeDeelnemers > 0 ')
             ->groupBy('groepnaam')
             ->orderBy('groep.naam')
             ->setParameter('start', $startDate)
@@ -66,6 +75,7 @@ class GroepRepository extends EntityRepository implements DoelstellingRepository
             ->setParameter('aanwezig', Deelname::STATUS_AANWEZIG)
         ;
 
+//        $sql = SqlExtractor::getFullSQL($builder->getQuery());
         return $builder->getQuery()->getResult();
     }
 

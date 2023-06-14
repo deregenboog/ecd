@@ -25,7 +25,6 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class TrainingenController extends AbstractChildController
 {
-    protected $title = 'Trainingen';
     protected $entityName = 'training';
     protected $entityClass = Training::class;
     protected $formClass = TrainingType::class;

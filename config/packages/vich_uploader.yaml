@@ -62,7 +62,3 @@ vich_uploader:
             uri_prefix: /villa/documenten/download
             upload_destination: '%kernel.project_dir%/archive/villa'
 
-    #mappings:
-    #    products:
-    #        uri_prefix: /images/products
-    #        upload_destination: '%kernel.project_dir%/public/images/products'

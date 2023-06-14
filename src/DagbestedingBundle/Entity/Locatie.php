@@ -16,7 +16,9 @@ use Gedmo\Mapping\Annotation as Gedmo;
  */
 class Locatie
 {
-    use IdentifiableTrait, NameableTrait, ActivatableTrait;
+    use IdentifiableTrait;
+    use NameableTrait;
+    use ActivatableTrait;
 
     /**
      * @var Project[] $projecten

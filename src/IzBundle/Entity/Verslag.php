@@ -3,6 +3,7 @@
 namespace IzBundle\Entity;
 
 use AppBundle\Entity\Medewerker;
+use AppBundle\Model\IdentifiableTrait;
 use AppBundle\Model\TimestampableTrait;
 use Doctrine\ORM\Mapping as ORM;
 use ErOpUitBundle\Form\KlantCloseType;
@@ -23,14 +24,8 @@ use Gedmo\Mapping\Annotation as Gedmo;
  */
 class Verslag
 {
+    use IdentifiableTrait;
     use TimestampableTrait;
-
-    /**
-     * @ORM\Id
-     * @ORM\Column(type="integer")
-     * @ORM\GeneratedValue
-     */
-    protected $id;
 
     /**
      * @ORM\Column(type="text", nullable=true)
@@ -41,7 +36,7 @@ class Verslag
     /**
      * @var IzDeelnemer
      * @ORM\ManyToOne(targetEntity="IzDeelnemer", inversedBy="verslagen")
-     * @ORM\JoinColumn(name="iz_deelnemer_id")
+     * @ORM\JoinColumn(name="iz_deelnemer_id", nullable=false)
      * @Gedmo\Versioned
      */
     protected $izDeelnemer;
@@ -61,11 +56,22 @@ class Verslag
      * @Gedmo\Versioned
      */
     protected $medewerker;
-    
-    public function getId()
-    {
-        return $this->id;
-    }
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(type="datetime", nullable=true)
+     * @Gedmo\Versioned
+     */
+    protected $created;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(type="datetime", nullable=true)
+     * @Gedmo\Versioned
+     */
+    protected $modified;
 
     public function getIzDeelnemer()
     {
@@ -93,7 +99,7 @@ class Verslag
 
     public function getOpmerking()
     {
-        return $this->opmerking;
+        return utf8_decode($this->opmerking);
     }
 
     public function setOpmerking($opmerking)

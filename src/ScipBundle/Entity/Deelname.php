@@ -18,7 +18,8 @@ use Gedmo\Mapping\Annotation as Gedmo;
  */
 class Deelname
 {
-    use IdentifiableTrait, ActivatableTrait;
+    use IdentifiableTrait;
+    use ActivatableTrait;
 
     /**
      * @var Deelnemer

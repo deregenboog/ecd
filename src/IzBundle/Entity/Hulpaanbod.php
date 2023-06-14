@@ -14,10 +14,13 @@ use Gedmo\Mapping\Annotation as Gedmo;
  */
 class Hulpaanbod extends Hulp
 {
+    public const TABLE_NAME = 'iz_koppelingen'; //nessecary for INDEX OUTPUT WALKER see KoppelingenDao.
+    public const IDX_DEELNEMER_DISCR_DELETED_EINDDATUM_KOPPELING = 'idx_deelnemer_discr_deleted_einddatum_koppeling';
+
     /**
      * @var IzVrijwilliger
      * @ORM\ManyToOne(targetEntity="IzVrijwilliger", inversedBy="hulpaanbiedingen")
-     * @ORM\JoinColumn(name="iz_deelnemer_id", nullable=false)
+     * @ORM\JoinColumn(name="iz_deelnemer_id")
      * @Gedmo\Versioned
      */
     private $izVrijwilliger;
@@ -25,7 +28,7 @@ class Hulpaanbod extends Hulp
     /**
      * @var Hulpvraag
      * @ORM\OneToOne(targetEntity="Hulpvraag")
-     * @ORM\JoinColumn(name="iz_koppeling_id", nullable=true)
+     * @ORM\JoinColumn(name="iz_koppeling_id")
      * @Gedmo\Versioned
      */
     private $hulpvraag;
@@ -39,9 +42,15 @@ class Hulpaanbod extends Hulp
     /**
      * @var bool
      *
-     * @ORM\Column(name="expat", type="boolean", nullable=false)
+     * @ORM\Column(name="expat", type="boolean")
      */
     private $expat = false;
+
+    /**
+     * @deprecated
+     * @ORM\Column(name="voorkeur_voor_nederlands", type="boolean", nullable=true)
+     */
+    private $voorkeurVoorNederlands;
 
     /**
      * @var bool

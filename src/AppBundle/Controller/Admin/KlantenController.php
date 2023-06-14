@@ -10,6 +10,7 @@ use AppBundle\Service\KlantDao;
 use AppBundle\Service\KlantDaoInterface;
 use Doctrine\ORM\EntityManager;
 use JMS\DiExtraBundle\Annotation as DI;
+use Monolog\Logger;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
@@ -21,7 +22,6 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class KlantenController extends AbstractController
 {
-    protected $title = 'Klanten';
     protected $entityName = 'klant';
     protected $entityClass = Klant::class;
     protected $baseRouteName = 'app_admin_klanten_';
@@ -32,13 +32,15 @@ class KlantenController extends AbstractController
     protected $dao;
 
     /**
-     * @param KlantDao $dao
+     * @var LoggerInterface
      */
-    public function __construct(KlantDao $dao)
+    protected $logger;
+
+    public function __construct(KlantDao $dao, LoggerInterface $logger)
     {
         $this->dao = $dao;
+        $this->logger = $logger;
     }
-
 
     /**
      * @Route("/duplicates/{mode}")
@@ -89,24 +91,12 @@ class KlantenController extends AbstractController
             $em->beginTransaction();
             try {
                 $selected = $form->get('klanten')->getData();
-                $logger = $this->getLogger('merge');
                 $this->dao->create($entity);
-                $this->moveAssociations($entity, $selected, $em, $logger);
-                $this->disableMerged($entity, $selected, $em, $logger);
+                $this->moveAssociations($entity, $selected, $em);
+                $this->disableMerged($entity, $selected, $em);
                 $em->commit();
 
-                // reload entity and update calculated fields
-                $em->clear();
-                $entity = $this->dao->find($entity->getId());
-                $entity->updateCalculatedFields();
-                $this->dao->update($entity);
-
                 $this->addFlash('success', 'De dossiers zijn samengevoegd.');
-            } catch(UserException $e) {
-//                $this->logger->error($e->getMessage(), ['exception' => $e]);
-                $message =  $e->getMessage();
-                $this->addFlash('danger', $message);
-                return $this->redirectToRoute('app_klanten_index');
             }  catch (\Exception $e) {
                 $em->rollback();
 
@@ -114,8 +104,14 @@ class KlantenController extends AbstractController
                 $message = $this->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
                 $this->addFlash('danger', $message);
 
-                return $this->redirectToRoute('app_klanten_index');
+                return $this->redirectToRoute('app_admin_klanten_duplicates');
             }
+
+            // reload entity and update calculated fields
+            $em->clear();
+            $entity = $this->dao->find($entity->getId());
+            $entity->updateCalculatedFields();
+            $this->dao->update($entity);
 
             return $this->redirectToRoute('app_klanten_view', ['id' => $entity->getId()]);
         }
@@ -130,9 +126,8 @@ class KlantenController extends AbstractController
      * @param Klant           $entity  new entity
      * @param Klant[]         $klanten original entities
      * @param EntityManager   $em
-     * @param LoggerInterface $logger
      */
-    private function moveAssociations($entity, $klanten, EntityManager $em, LoggerInterface $logger)
+    private function moveAssociations($entity, $klanten, EntityManager $em)
     {
         $dqls = [];
         $allMetadata = $em->getMetadataFactory()->getAllMetadata();
@@ -159,28 +154,27 @@ class KlantenController extends AbstractController
             'new' => $entity->getId(),
             'old' => array_map(function ($klant) { return $klant->getId(); }, $klanten),
         ];
-        $logger->debug('Start moving associations', $context);
+        $this->logger->debug('Start moving associations', $context);
 
         foreach ($dqls as $dql) {
             $count = $em->createQuery($dql)->execute();
-            $logger->debug($dql, ['count' => $count]);
+            $this->logger->debug($dql, ['count' => $count]);
         }
 
-        $logger->debug('Finished moving associations', $context);
+        $this->logger->debug('Finished moving associations', $context);
     }
 
     /**
      * @param Klant           $entity  new entity
      * @param Klant[]         $klanten
      * @param EntityManager   $em
-     * @param LoggerInterface $logger
      */
-    private function disableMerged($entity, $klanten, EntityManager $em, LoggerInterface $logger)
+    private function disableMerged($entity, $klanten, EntityManager $em)
     {
         foreach ($klanten as $klant) {
             $klant->setMerged($entity);
             $context = ['id' => $klant->getId(), 'merged_id' => $entity->getId()];
-            $logger->debug('Disabling merged', $context);
+            $this->logger->debug('Disabling merged', $context);
         }
 
         $em->flush();

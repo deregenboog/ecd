@@ -14,6 +14,10 @@ class DevelopmentAuthenticator extends AbstractGuardAuthenticator
 {
     public function supports(Request $request)
     {
+        //Supports only on private network ranges. IE not in a production environment.
+        $serverIp = $request->server->get('SERVER_ADDR');
+        if($this->is_public_ip($serverIp)) return false;
+
         return $request->request->has('_username');
     }
 
@@ -52,5 +56,14 @@ class DevelopmentAuthenticator extends AbstractGuardAuthenticator
     public function onAuthenticationFailure(Request $request, AuthenticationException $exception)
     {
         return new RedirectResponse('/logout');
+    }
+
+    public function is_public_ip($ip=NULL) : bool
+    {
+        return filter_var(
+            $ip,
+            FILTER_VALIDATE_IP,
+            FILTER_FLAG_IPV4 | FILTER_FLAG_IPV6 | FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE
+        ) === $ip ? TRUE : FALSE;
     }
 }

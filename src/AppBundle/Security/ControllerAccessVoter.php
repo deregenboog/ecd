@@ -27,12 +27,12 @@ class ControllerAccessVoter extends Voter
         $this->requestStack = $requestStack;
     }
 
-    protected function supports($attribute, $subject)
+    protected function supports($attribute, $subject): bool
     {
         return 'CONTROLLER_ACCESS_VOTER' === $attribute;
     }
 
-    protected function voteOnAttribute($attribute, $subject, TokenInterface $token)
+    protected function voteOnAttribute($attribute, $subject, TokenInterface $token): bool
     {
         $controller = $this->requestStack->getCurrentRequest()->get('_controller');
         if ('Symfony\Bundle\FrameworkBundle\Controller\RedirectController::redirectAction' === $controller) {
@@ -43,7 +43,7 @@ class ControllerAccessVoter extends Voter
 
         $controllerRole = $this->getControllerRole($controller);
 
-        return $this->decisionManager->decide($token, [$controllerRole]);
+        return (bool) $this->decisionManager->decide($token, [$controllerRole]);
     }
 
     private function getControllerRole($controller)

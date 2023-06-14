@@ -12,7 +12,7 @@ class VrijwilligerdossiersControllerTest extends WebTestCase
         $this->markTestSkipped();
 
         $medewerker = $this->getContainer()->get(\AppBundle\Service\MedewerkerDao::class)->findByUsername('ga_user');
-        $this->logIn($medewerker);
+        $this->client->loginUser($medewerker);
 
         $crawler = $this->client->request('GET', $this->getUrl('ga_vrijwilligerdossiers_index'));
 

@@ -10,11 +10,18 @@ use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\HasLifeCycleCallbacks
+ * @ORM\Table(name="iz_koppelingen",
+ *     indexes={
+ *       @ORM\Index(name="idx_deelnemer_discr_deleted_einddatum_koppeling", columns={"iz_deelnemer_id","discr","deleted","einddatum","iz_koppeling_id"})
+ *     }
+ * )
  * @Gedmo\Loggable()
  */
 class Koppeling
 {
-    use TimestampableTrait, IdentifiableTrait;
+
+    use TimestampableTrait;
+    use IdentifiableTrait;
 
     /**
      * @var Hulpvraag

@@ -1,12 +1,5 @@
 {% extends 'base.html.twig' %}
-
-{% block title %}
-    Tijdelijk wonen | {{ title }}
-{% endblock %}
-
-{% block subnavigation %}
-    {% include '@Tw/tw_subnavigation.html.twig' %}
-{% endblock %}
+{% import 'html.macro.twig' as html %}
 
 {% block content %}
     <h1>{{ entity_name|capitalize }} toevoegen</h1>

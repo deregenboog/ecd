@@ -2,8 +2,8 @@ inloop_annotations:
     resource: "@InloopBundle/Controller"
     type: annotation
 
-inloop_index:
-    path: /
-    defaults:
-        _controller: Symfony\Bundle\FrameworkBundle\Controller\RedirectController::redirectAction
-        route: inloop_registraties_locationselect
+#inloop_index:
+#    path: /
+#    defaults:
+##        _controller: Symfony\Bundle\FrameworkBundle\Controller\RedirectController::redirectAction
+#        route: inloop_index

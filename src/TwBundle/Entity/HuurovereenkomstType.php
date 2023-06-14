@@ -18,5 +18,9 @@ use Gedmo\Mapping\Annotation as Gedmo;
  */
 class HuurovereenkomstType
 {
-    use IdentifiableTrait, NameableTrait, ActivatableTrait, TimestampableTrait, NotDeletableTrait;
+    use IdentifiableTrait;
+    use NameableTrait;
+    use ActivatableTrait;
+    use TimestampableTrait;
+    use NotDeletableTrait;
 }

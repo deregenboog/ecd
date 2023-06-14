@@ -21,6 +21,8 @@ class InfoType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+
+
         $ris = $builder->create('risForm', ContainerType::class, ['label' => 'RIS'])
             ->add('risDatumTot', AppDateType::class, ['required' => false])
         ;
@@ -60,9 +62,11 @@ class InfoType extends AbstractType
         $builder->add($woningnet);
 
         $builder
+             ->add('isGezin')
             ->add($ris)
 //            ->add($trajectbegeleider)
             ->add($trajecthouder)
+
             ->add('overigeContactpersonenExtern', AppTextareaType::class, [
                 'attr' => ['rows' => 5],
                 'required' => false,
@@ -107,7 +111,7 @@ class InfoType extends AbstractType
     /**
      * {@inheritdoc}
      */
-    public function getParent()
+    public function getParent(): ?string
     {
         return BaseType::class;
     }

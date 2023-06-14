@@ -2,7 +2,7 @@
 
 namespace InloopBundle\Entity;
 
-use AppBundle\Entity\Klant;
+use AppBundle\Model\IdentifiableTrait;
 use AppBundle\Model\TimestampableTrait;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
@@ -18,18 +18,11 @@ use Symfony\Component\Validator\Context\ExecutionContextInterface;
  */
 class Incident
 {
+    use IdentifiableTrait;
     use TimestampableTrait;
 
-
     /**
-     * @ORM\Id
-     * @ORM\Column(type="integer")
-     * @ORM\GeneratedValue
-     */
-    private $id;
-
-    /**
-     * @ORM\Column(name="datum", type="date", nullable=false)
+     * @ORM\Column(name="datum", type="date")
      * @Assert\NotNull
      */
     private $datum;
@@ -39,35 +32,31 @@ class Incident
      */
     private $opmerking;
 
-
     /**
      * @var bool
      *
-     * @ORM\Column(type="boolean", nullable=false, options={"DEFAULT 0"})
+     * @ORM\Column(type="boolean", options={"default":0})
      */
     private $politie = false;
 
     /**
      * @var bool
      *
-     * @ORM\Column(type="boolean", nullable=false, options={"DEFAULT 0"})
+     * @ORM\Column(type="boolean", options={"default":0})
      */
     private $ambulance = false;
 
     /**
      * @var bool
      *
-     * @ORM\Column(type="boolean", nullable=false, options={"DEFAULT 0"})
+     * @ORM\Column(type="boolean", options={"default":0})
      */
     private $crisisdienst = false;
 
     /**
-     *
      * @ORM\ManyToOne(targetEntity="Locatie")
-     * @ORM\JoinColumn(nullable=true)
      */
     private $locatie;
-
 
     /**
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Klant", inversedBy="incidenten", cascade={"persist"})
@@ -86,11 +75,6 @@ class Incident
     {
         // TODO: Implement __toString() method.
         return $this->getDatum()->format("d-m-Y");
-    }
-
-    public function getId()
-    {
-        return $this->id;
     }
 
     public function getKlant()
@@ -123,14 +107,12 @@ class Incident
         return $this;
     }
 
-
-
     /**
      * @return mixed
      */
     public function getOpmerking()
     {
-        return $this->opmerking;
+        return utf8_decode($this->opmerking);
     }
 
     /**
@@ -139,7 +121,7 @@ class Incident
      */
     public function setOpmerking($opmerking)
     {
-        $this->opmerking = $opmerking;
+        $this->opmerking = utf8_encode($opmerking);
         return $this;
     }
 

@@ -98,6 +98,13 @@ class KlantFilterType extends AbstractType
 
             ]);
         }
+
+        if (in_array('gezin', $options['enabled_filters'])) {
+            $builder->add('isGezin', ChoiceType::class, [
+                'choices'=>['Ja'=>'1','Nee'=>'0', 'Onbekend'=>'null'],
+                'required' => false,
+            ]);
+        }
     }
 
     /**
@@ -115,6 +122,7 @@ class KlantFilterType extends AbstractType
                 'laatsteVerslagLocatie',
                 'laatsteVerslagDatum',
                 'huidigeMwStatus',
+                'gezin',
 //                'verslag' => ['medewerker'],
                 'filter',
                 'download',
@@ -125,7 +133,7 @@ class KlantFilterType extends AbstractType
     /**
      * {@inheritdoc}
      */
-    public function getParent()
+    public function getParent(): ?string
     {
         return FilterType::class;
     }

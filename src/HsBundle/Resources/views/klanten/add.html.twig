@@ -1,14 +1,6 @@
 {% extends 'base.html.twig' %}
 {% import 'html.macro.twig' as html %}
 
-{% block title %}
-    Homeservice | Klanten
-{% endblock %}
-
-{% block subnavigation %}
-    {% include '@Hs/subnavigation.html.twig' %}
-{% endblock %}
-
 {% block content %}
     <h1>Klant toevoegen</h1>
     {% if filterForm is defined %}

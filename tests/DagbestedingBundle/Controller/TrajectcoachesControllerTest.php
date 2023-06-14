@@ -10,7 +10,7 @@ class TrajectcoachesControllerTest extends WebTestCase
     public function testUserHasNoAccess()
     {
         $medewerker = $this->getContainer()->get(\AppBundle\Service\MedewerkerDao::class)->findByUsername('dagbesteding_user');
-        $this->logIn($medewerker);
+        $this->client->loginUser($medewerker);
 
         $crawler = $this->client->request('GET', '/dagbesteding/admin/trajectcoaches/');
         $this->assertStatusCode(403, $this->client);
@@ -19,7 +19,7 @@ class TrajectcoachesControllerTest extends WebTestCase
     public function testAdminHasAccess()
     {
         $medewerker = $this->getContainer()->get(\AppBundle\Service\MedewerkerDao::class)->findByUsername('dagbesteding_admin');
-        $this->logIn($medewerker);
+        $this->client->loginUser($medewerker);
 
         $crawler = $this->client->request('GET', '/dagbesteding/admin/trajectcoaches/');
         $this->assertStatusCode(200, $this->client);
@@ -28,7 +28,7 @@ class TrajectcoachesControllerTest extends WebTestCase
     public function testSortColumns()
     {
         $medewerker = $this->getContainer()->get(\AppBundle\Service\MedewerkerDao::class)->findByUsername('dagbesteding_admin');
-        $this->logIn($medewerker);
+        $this->client->loginUser($medewerker);
 
         $crawler = $this->client->request('GET', '/dagbesteding/admin/trajectcoaches/');
         $this->assertStatusCode(200, $this->client);

@@ -29,7 +29,6 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class VrijwilligersController extends AbstractController
 {
-    protected $title = 'Vrijwilligers';
     protected $entityName = 'vrijwilliger';
     protected $entityClass = IzVrijwilliger::class;
     protected $formClass = IzVrijwilligerType::class;

@@ -73,6 +73,7 @@ class MedewerkerFilterType extends AbstractType
                 'naam',
                 'rol',
                 'actief',
+                'download'
             ],
         ]);
     }
@@ -80,7 +81,7 @@ class MedewerkerFilterType extends AbstractType
     /**
      * {@inheritdoc}
      */
-    public function getParent()
+    public function getParent(): ?string
     {
         return FilterType::class;
     }

@@ -23,7 +23,7 @@ trait AddressTrait
     protected $adres;
 
     /**
-     * @ORM\Column(type="string", nullable=true)
+     * @ORM\Column(type="string", length=6, nullable=true)
      * @Gedmo\Versioned
      */
     protected $postcode;
@@ -36,14 +36,14 @@ trait AddressTrait
 
     /**
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Werkgebied")
-     * @ORM\JoinColumn(name="werkgebied", referencedColumnName="naam", nullable=true)
+     * @ORM\JoinColumn(name="werkgebied", referencedColumnName="naam")
      * @Gedmo\Versioned
      */
     private $werkgebied;
 
     /**
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\GgwGebied")
-     * @ORM\JoinColumn(name="postcodegebied", referencedColumnName="naam", nullable=true)
+     * @ORM\JoinColumn(name="postcodegebied", referencedColumnName="naam", options={"length":50})
      * @Gedmo\Versioned
      */
     private $postcodegebied;
@@ -66,6 +66,7 @@ trait AddressTrait
      * @Gedmo\Versioned
      */
     protected $telefoon;
+
 
     public static function KoppelPostcodeWerkgebiedClosure(FormEvent $event, $em)
     {
@@ -201,4 +202,7 @@ trait AddressTrait
 
         return $this;
     }
+
+
+
 }

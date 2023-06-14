@@ -19,8 +19,11 @@ use Gedmo\Mapping\Annotation as Gedmo;
  */
 class Pandeigenaar
 {
-    use IdentifiableTrait, NameableTrait, ActivatableTrait, TimestampableTrait, NotDeletableTrait;
-
+    use IdentifiableTrait;
+    use NameableTrait;
+    use ActivatableTrait;
+    use TimestampableTrait;
+    use NotDeletableTrait;
 
     /**
      * @var ArrayCollection|Verhuurder[]
@@ -37,12 +40,26 @@ class Pandeigenaar
      */
     private $pandeigenaarType;
 
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(type="datetime")
+     * @Gedmo\Versioned
+     */
+    protected $created;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(type="datetime")
+     * @Gedmo\Versioned
+     */
+    protected $modified;
+
     public function __construct()
     {
         $this->verhuurders = new ArrayCollection();
     }
-
-
 
     public function isDeletable()
     {
@@ -66,7 +83,4 @@ class Pandeigenaar
         $this->pandeigenaarType = $pandeigenaarType;
         return $this;
     }
-
-
-
 }

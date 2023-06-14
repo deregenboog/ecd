@@ -41,7 +41,7 @@ class Verslag
     private $datum;
 
     /**
-     * @ORM\Column(type="text", nullable=false)
+     * @ORM\Column(type="text")
      * @Gedmo\Versioned
      */
     private $opmerking;
@@ -83,19 +83,18 @@ class Verslag
     /**
      * @var int
      *
-     * @ORM\Column(name="aanpassing_verslag", type="integer", options={"default": NULL, "nullable": true})
+     * @ORM\Column(name="aanpassing_verslag", type="integer", nullable=true)
      * @Gedmo\Versioned
      */
     private $duur = 0;
 
-
-    const TYPE_MW = 1;
-    const TYPE_INLOOP = 2;
+    public const TYPE_MW = 1;
+    public const TYPE_INLOOP = 2;
 
     protected static $types = [
         self::TYPE_MW => "Maatschappelijk werk-verslag (Oekraine)",
         self::TYPE_INLOOP => "Inloopverslag (Oekraine)",
-        ];
+    ];
 
     /**
      * @var int
@@ -105,8 +104,8 @@ class Verslag
      */
     private $type = self::TYPE_MW;
 
-    const ACCESS_MW = 1;
-    const ACCESS_ALL = 2;
+    public const ACCESS_MW = 1;
+    public const ACCESS_ALL = 2;
 
     public static $accessTypes = [
         self::ACCESS_MW => "Alleen leesbaar voor MW-ers (Oekraine)",
@@ -115,7 +114,7 @@ class Verslag
 
     /**
      * @var int
-     * @ORM\Column(name="accessType", type="integer", options={"default":2})
+     * @ORM\Column(name="accessType", type="integer", options={"default":1})
      * @Gedmo\Versioned
      */
     private $access = self::ACCESS_ALL;
@@ -158,7 +157,7 @@ class Verslag
      */
     public function getOpmerking()
     {
-        return $this->opmerking;
+        return utf8_decode($this->opmerking);
     }
 
     /**
@@ -166,7 +165,7 @@ class Verslag
      */
     public function setOpmerking($opmerking)
     {
-        $this->opmerking = $opmerking;
+        $this->opmerking = utf8_encode($opmerking);;
 
         return $this;
     }
@@ -285,7 +284,9 @@ class Verslag
      */
     public function setType(int $type): void
     {
-        if(!in_array($type,array_flip(self::$types))) throw new \InvalidArgumentException("Verslagtype kan alleen van types zijn zoals vermeld.");
+        if (!in_array($type, array_flip(self::$types))) {
+            throw new \InvalidArgumentException("Verslagtype kan alleen van types zijn zoals vermeld.");
+        }
         $this->type = $type;
     }
 
@@ -305,7 +306,4 @@ class Verslag
 //        if(is_null($access)) $access = self::$accessTypes[self::ACCESS_ALL];
         $this->access = $access;
     }
-
-
-
 }

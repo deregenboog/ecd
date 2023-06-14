@@ -2,6 +2,7 @@
 
 namespace GaBundle\Entity;
 
+use AppBundle\Model\IdentifiableTrait;
 use AppBundle\Model\TimestampableTrait;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
@@ -17,17 +18,11 @@ use Gedmo\Mapping\Annotation as Gedmo;
  */
 class Deelname
 {
+    use IdentifiableTrait;
     use TimestampableTrait;
 
     public const STATUS_AANWEZIG = 'aanwezig';
     public const STATUS_AFWEZIG = 'afwezig';
-
-    /**
-     * @ORM\Id
-     * @ORM\Column(type="integer")
-     * @ORM\GeneratedValue
-     */
-    protected $id;
 
     /**
      * @var Activiteit
@@ -57,6 +52,22 @@ class Deelname
      */
     protected $status = self::STATUS_AANWEZIG;
 
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(type="datetime")
+     * @Gedmo\Versioned
+     */
+    protected $created;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(type="datetime")
+     * @Gedmo\Versioned
+     */
+    protected $modified;
+
     public function __construct(Activiteit $activiteit = null, Dossier $dossier = null)
     {
         $this->activiteit = $activiteit;
@@ -66,11 +77,6 @@ class Deelname
     public function __toString()
     {
         return sprintf('%s aan %s', $this->dossier, $this->activiteit);
-    }
-
-    public function getId()
-    {
-        return $this->id;
     }
 
     public function getActiviteit()
