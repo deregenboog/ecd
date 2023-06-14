@@ -19,21 +19,29 @@ class Aanmelding extends MwDossierStatus
 {
     public function __toString()
     {
-        return sprintf(
-            'Aanmelding op %s',
-            $this->datum->format('d-m-Y')
+        $return = sprintf(
+            'Aanmelding op %s door %s',
+            $this->datum->format('d-m-Y'),
+            $this->medewerker
         );
+        if($this->project)
+        {
+            $return .= sprintf(" bij %s",
+                $this->project,
+            );
+        }
+        return $return;
     }
+
 
     /**
      * @var BinnenViaOptieKlant
      *
-     * @ORM\ManyToOne(targetEntity="BinnenViaOptieKlant")
+     * @ORM\ManyToOne(targetEntity="MwBundle\Entity\BinnenViaOptieKlant", inversedBy="aanmeldingen", )
      * @ORM\JoinColumn(nullable=false, options={"default": 0})
      * @Gedmo\Versioned
      */
     protected $binnenViaOptieKlant;
-
 
 
     /**

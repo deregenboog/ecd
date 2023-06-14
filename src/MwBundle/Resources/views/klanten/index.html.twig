@@ -51,6 +51,10 @@
                         {{ form_errors(filter.laatsteVerslagLocatie) }}
                     </th>
                     <th>
+                        {{ form_widget(filter.project) }}
+                        {{ form_errors(filter.project) }}
+                    </th>
+                    <th>
                         {{ form_widget(filter.maatschappelijkWerker) }}
                         {{ form_errors(filter.maatschappelijkWerker) }}
                     </th>
@@ -86,6 +90,9 @@
                 </th>
                 <th>
                     {{ knp_pagination_sortable(pagination, 'Verslaglocatie', 'laatsteVerslagLocatie.naam') }}
+                </th>
+                <th>
+                    {{ knp_pagination_sortable(pagination, 'Project', 'project.naam') }}
                 </th>
                 <th>
                     {{ knp_pagination_sortable(pagination, 'Maatschappelijk werker', 'maatschappelijkWerker.voornaam') }}
@@ -137,6 +144,9 @@
                     </td>
                     <td>
                         {{ item.laatsteVerslagLocatie }}
+                    </td>
+                    <td>
+                        {{ klant.huidigeMwStatus.project }}
                     </td>
                     <td>
                         <ul>

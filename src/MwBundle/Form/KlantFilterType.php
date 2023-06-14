@@ -15,6 +15,7 @@ use InloopBundle\Entity\Locatie;
 use InloopBundle\Form\LocatieSelectType;
 use MwBundle\Entity\Aanmelding;
 use MwBundle\Entity\MwDossierStatus;
+use MwBundle\Entity\Project;
 use MwBundle\Entity\Verslag;
 use MwBundle\Filter\KlantFilter;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -45,6 +46,7 @@ class KlantFilterType extends AbstractType
 //            ]);
 //        }
         if (in_array('maatschappelijkWerker', $options['enabled_filters'])) {
+
             $builder->add('maatschappelijkWerker', EntityType::class, [
                 'required' => false,
                 'class'=>Medewerker::class,
@@ -53,7 +55,7 @@ class KlantFilterType extends AbstractType
                         ->select("medewerker")
                         ->innerJoin(Verslag::class, 'verslag', 'WITH', 'verslag.medewerker = medewerker')
                         ->where('verslag.type = 1')
-                        ->orderBy('medewerker.voornaam')
+//                        ->orderBy('medewerker.voornaam')
                         ->groupBy('verslag.medewerker')
                         ;
                     $sql = $builder->getQuery()->getSQL();
@@ -105,6 +107,13 @@ class KlantFilterType extends AbstractType
                 'required' => false,
             ]);
         }
+
+        if (in_array('project', $options['enabled_filters'])) {
+            $builder->add('project', ProjectSelectType::class, [
+                'required' => false,
+
+            ]);
+        }
     }
 
     /**
@@ -123,6 +132,7 @@ class KlantFilterType extends AbstractType
                 'laatsteVerslagDatum',
                 'huidigeMwStatus',
                 'gezin',
+                'project',
 //                'verslag' => ['medewerker'],
                 'filter',
                 'download',

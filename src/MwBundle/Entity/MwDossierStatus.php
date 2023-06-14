@@ -63,6 +63,15 @@ abstract class MwDossierStatus
      */
     protected $modified;
 
+    /**
+     * @var Project
+     *
+     * @ORM\ManyToOne(targetEntity="MwBundle\Entity\Project", inversedBy="aanmeldingen")
+     * @ORM\JoinColumn(nullable=true)
+     * @Gedmo\Versioned
+     */
+    protected $project;
+
     public function __construct(Klant $klant, Medewerker $medewerker = null)
     {
         $this->klant = $klant;
@@ -104,6 +113,18 @@ abstract class MwDossierStatus
     public function isAfgesloten()
     {
         return $this instanceof Afsluiting;
+    }
+
+    public function getProject(): ?Project
+    {
+        return $this->project;
+    }
+
+    public function setProject(Project $project): MwDossierStatus
+    {
+        $this->project = $project;
+
+        return $this;
     }
 
     /**
