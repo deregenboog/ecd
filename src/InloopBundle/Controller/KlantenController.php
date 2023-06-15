@@ -87,7 +87,7 @@ class KlantenController extends AbstractController
     public function viewAction(Request $request, $id)
     {
         $response = parent::viewAction($request, $id);
-        $response['allRows'] = $this->locatieDao->findAllActiveLocationsOfTypeInloop();
+        if(is_array($response)) $response['allRows'] = $this->locatieDao->findAllActiveLocationsOfTypeInloop();
 
         return $response;
     }
@@ -355,12 +355,13 @@ class KlantenController extends AbstractController
     /**
      * @Template
      */
-    public function _schorsingenAction($id)
+    public function _schorsingenAction($id, $allRows = [])
     {
         $entity = $this->dao->find($id);
 
         return [
             'klant' => $entity,
+            'allRows' => $allRows,
         ];
     }
 

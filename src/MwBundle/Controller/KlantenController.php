@@ -14,6 +14,7 @@ use AppBundle\Form\BaseType;
 use AppBundle\Form\KlantFilterType as AppKlantFilterType;
 use AppBundle\Service\KlantDaoInterface;
 use Doctrine\ORM\Mapping as ORM;
+use InloopBundle\Service\LocatieDao;
 use MwBundle\Entity\Aanmelding;
 use MwBundle\Entity\Afsluiting;
 use MwBundle\Entity\Verslag;
@@ -59,6 +60,12 @@ class KlantenController extends AbstractController
     protected $klantDao;
 
     /**
+     * @var LocatieDao
+     */
+    protected $locatieDao;
+
+
+    /**
      * @var ExportInterface
      *
      * @DI\Inject("mw.export.klanten")
@@ -70,13 +77,24 @@ class KlantenController extends AbstractController
      * @param \AppBundle\Service\KlantDao $klantDao
      * @param ExportInterface $export
      */
-    public function __construct(KlantDao $dao, \AppBundle\Service\KlantDao $klantDao, ExportInterface $export)
+    public function __construct(KlantDao $dao, \AppBundle\Service\KlantDao $klantDao, LocatieDao $locatieDao, ExportInterface $export)
     {
         $this->dao = $dao;
         $this->klantDao = $klantDao;
+        $this->locatieDao = $locatieDao;
         $this->export = $export;
     }
 
+
+    /**
+     * @Route("/{id}/view")
+     */
+    public function viewAction(Request $request, $id)
+    {
+        $response =  parent::viewAction($request, $id);
+        if(is_array($response)) $response['allRows'] = $this->locatieDao->findAllActiveLocationsOfTypeInloop();
+        return $response;
+    }
 
     /**
      * @Route("/add")
