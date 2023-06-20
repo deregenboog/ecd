@@ -12,6 +12,11 @@ services:
         resource: '../../Command'
         tags: [ 'console.command' ]
 
+    AppBundle\Command\DatabaseBackupCommand:
+        arguments:
+            $dsn: '%env(resolve:DATABASE_URL)%'
+        tags: [ 'console.command' ]
+
     AppBundle\Controller\:
         resource: '../../Controller'
         tags: [ 'controller.service_arguments' ]

@@ -14,6 +14,8 @@ use BackupManager\Filesystems\FilesystemProvider;
 use BackupManager\Filesystems\LocalFilesystem;
 use BackupManager\Manager;
 use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\DriverManager;
+use Doctrine\DBAL\Tools\DsnParser;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
@@ -40,11 +42,13 @@ class DatabaseBackupCommand extends \Symfony\Component\Console\Command\Command
      */
     protected $connection;
 
-    public function __construct(EntityManagerInterface $entityManager, KernelInterface $kernel, Connection $connection)
+    public function __construct(EntityManagerInterface $entityManager, KernelInterface $kernel, Connection $connection, $dsn)
     {
         $this->entityManager = $entityManager;
         $this->kernel = $kernel;
         $this->connection = $connection;
+        $this->dsn = $dsn;
+
         parent::__construct();
     }
 
@@ -90,14 +94,18 @@ class DatabaseBackupCommand extends \Symfony\Component\Console\Command\Command
         }
 
         $connection = $this->connection;
+        $dsnParser = new DsnParser();
+        $connectionParams = $dsnParser
+            ->parse($this->dsn);
+
         $dbConfig = new Config([
             'mysql' => [
                 'type' => $connection->getDatabasePlatform()->getName(),
-                'host' => $connection->getHost(),
-                'port' => $connection->getPort(),
-                'user' => $connection->getUsername(),
-                'pass' => $connection->getPassword(),
-                'database' => $connection->getDatabase(),
+                'host' => $connectionParams['host'],
+                'port' => $connectionParams['port'],
+                'user' => $connectionParams['user'],
+                'pass' => $connectionParams['password'],
+                'database' => $connectionParams['dbname'],
                 'singleTransaction' => false,
                 'ignoreTables' => $ignoreTables,
             ],
