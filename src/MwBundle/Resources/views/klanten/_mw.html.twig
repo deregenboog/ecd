@@ -21,6 +21,7 @@
 
 {% if info %}
    <h3>Algemene dossierinformatie</h3>
+    {{ html.link('Wijzigen', path('mw_klanten_infoedit', {klant: klant.id}), 'edit') }}
     <div class="row">
         <div class="col-xs-6">
             <dl  class="dl-horizontal">
