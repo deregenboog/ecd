@@ -13,8 +13,10 @@ use InloopBundle\Filter\KlantFilter;
 use InloopBundle\Filter\LocatieFilter;
 use InloopBundle\Strategy\AmocStrategy;
 use InloopBundle\Strategy\GebruikersruimteStrategy;
+use InloopBundle\Strategy\IntakelocatieStrategy;
 use InloopBundle\Strategy\OndroBongStrategy;
-use InloopBundle\Strategy\VerblijfsstatusStrategy;
+use InloopBundle\Strategy\SpecificLocationStrategy;
+use InloopBundle\Strategy\ToegangOverigStrategy;
 
 class AccessUpdater
 {
@@ -35,22 +37,59 @@ class AccessUpdater
 
     private $debug = false;
 
+    private $amoc_locaties = [];
+
+    private $intake_locaties = [];
+
+    private $amocVerblijfsstatus = "";
+
+
+    /**
+     * The access updater works as follows:
+     *
+     * It works based on LOCATION. Not on KLANT.
+     * So, it checks for a location which klanten are allowed,
+     * based on certain fields of first intake.
+     *
+     * So, if only access for a certain KLANT should be refreshed, it acts the same way, although the query will be restricted
+     * to specific klantId.
+     *
+     * The strategies used are combined in an AND manner ... uitzoeken.
+
+     *
+     * @param EntityManager $em
+     * @param KlantDao $klantDao
+     * @param LocatieDao $locatieDao
+     * @param $amoc_locaties
+     * @param $intake_locaties
+     */
     public function __construct(
         EntityManager $em,
         KlantDao $klantDao,
-        LocatieDao $locatieDao
+        LocatieDao $locatieDao,
+        $amoc_locaties,
+        $intake_locaties,
+        $amocVerblijfsstatus
     )
     {
         $this->em = $em;
         $this->klantDao = $klantDao;
         $this->locatieDao = $locatieDao;
+        $this->amoc_locaties = $amoc_locaties;
+        $this->intake_locaties = $intake_locaties;
+        $this->amocVerblijfsstatus = $amocVerblijfsstatus;
+
     }
 
     public function updateAll()
     {
+        $this->em->getConnection()->beginTransaction();
+        $this->em->getConnection()->executeQuery('DELETE FROM inloop_toegang');
+
         foreach ($this->getLocations() as $locatie) {
             $this->updateForLocation($locatie);
         }
+        $this->em->getConnection()->commit();
     }
 
     public function updateForLocation(Locatie $locatie)
@@ -60,7 +99,7 @@ class AccessUpdater
 
         $this->em->getFilters()->enable('overleden');
 
-        $filter = new KlantFilter($this->getStrategy($locatie));
+        $filter = new KlantFilter($this->getStrategies($locatie));
         $filter->huidigeStatus = Aanmelding::class; // alleen klanten met inloopdossier mogen toegang
 
         $builder = $this->klantDao->getAllQueryBuilder($filter);
@@ -76,7 +115,7 @@ class AccessUpdater
         ];
 
         if($locatie->isActief()) {
-            dump($params);
+//            dump($params);
             $this->em->getConnection()->executeQuery('DELETE FROM inloop_toegang
                 WHERE locatie_id = :locatie AND klant_id NOT IN (:klanten)', $params, $types);
 
@@ -101,13 +140,14 @@ class AccessUpdater
         $wasEnabled = $this->em->getFilters()->isEnabled('overleden');
         $this->em->getFilters()->enable('overleden');
         $this->log("Updating access for ".$klant->getNaam());
-
-        foreach ($this->getLocations() as $locatie) {
+        $inloopLocaties = $this->getLocations();
+        foreach ($inloopLocaties as $locatie) {
             $this->log($locatie);
-            $strategy = $this->getStrategy($locatie);
-            $this->log("Strategy used: ".get_class($strategy));
+            $strategies = $this->getStrategies($locatie);
+//            $this->log("Strategies used: ".get_class($strategy));
 
-            $filter = new KlantFilter($strategy);
+            $filter = new KlantFilter($strategies);
+
             $filter->huidigeStatus = Aanmelding::class; //alleen klanten met een inloopdossier mogen toegang.
 
             $builder = $this->klantDao->getAllQueryBuilder($filter);
@@ -116,7 +156,7 @@ class AccessUpdater
                 ->setParameter('klant_id', $klant->getId());
 
 //            $sql = $builder->getQuery()->getSQL();
-            $this->log($builder->getQuery()->getSQL());
+//            $this->log($builder->getQuery()->getSQL());
 
 
             $klantIds = $this->getKlantIds($builder);
@@ -155,15 +195,11 @@ class AccessUpdater
 
     private function getLocations()
     {
-        $filter = new LocatieFilter();
-        $filter->actief = true;
-
-        return $this->locatieDao->findAll(null, $filter);
+        return $this->locatieDao->findAllActiveLocationsOfTypeInloop();
     }
 
-    private function getStrategy(Locatie $locatie)
+    private function getStrategies(Locatie $locatie)
     {
-        // @todo move to  service
         /**
          * Let op:
          * De volgorde is niet willekeurig en daarmee restrictief
@@ -173,24 +209,33 @@ class AccessUpdater
          * ze sluiten elkaar eigenlijk altijd uit.
          *
          * De eerste strategie voor een locatie bepaalt of er toegang wordt verleend de klant.
-         * Dwz: strategie is van toepassing op de locatie(s), dan wordt er alleen mogelijk toegang verleend tot die locaties, en niet tot andere locaties.
-         * mogelijk = aan de hand van de gestelde criteria.
+         * Dwz: strategie is van toepassing op de locatie(s), dan wordt er alleen mogelijk toegang verleend tot die locatie
          * Dus locatie is mutual exclusive. De eerste strategie die geldt voor de locatie, is de gene die bepaald op klant toegang heeft.
+         *
+         * Dat werkt dus niet wanneer een strategie in theorie geldt voor alle mogelijke loacties,
+         * en alleen op basis van de query bepaald kan worden of iemand wel of geen toegang heeft.
+         *
+         * Dus moet er gestapeld kunnen worden.
+         *
          *
          */
         $strategies = [
+            new SpecificLocationStrategy($this->locatieDao),
+            new IntakelocatieStrategy($this->intake_locaties),
+            new AmocStrategy($this->amoc_locaties, $this->amocVerblijfsstatus),
             new GebruikersruimteStrategy(),
-            new AmocStrategy(),
-            new OndroBongStrategy(),
-            new VerblijfsstatusStrategy(),
+            new ToegangOverigStrategy($this->intake_locaties),
         ];
+
+        $supportedStrategies = [];
 
         foreach ($strategies as $strategy) {
             if ($strategy->supports($locatie)) {
-                return $strategy;
+                $supportedStrategies[] = $strategy;
             }
 
         }
+        return $supportedStrategies;
 
         throw new \LogicException('No supported strategy found!');
     }

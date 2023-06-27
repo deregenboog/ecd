@@ -87,6 +87,13 @@ class Locatie
 
     private $openingTimeCorrection = 30 * 60; // 30 minutes
 
+
+    /**
+     * @ORM\ManyToMany(targetEntity="Locatie", mappedBy="specifiekeLocaties")
+     * @var Collection<int, Intake>
+     */
+    private Collection $accessIntakes;
+
     /**
      * @deprecated
      */

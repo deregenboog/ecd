@@ -6,7 +6,6 @@ Encore
     // public path used by the web server to access the output path
     .setPublicPath('/build')
     .enableVersioning(true)
-
     .copyFiles([
         {from: './node_modules/ckeditor4/', to: 'ckeditor/[path][name].[ext]', pattern: /\.(js|css)$/, includeSubdirectories: false},
         {from: './node_modules/ckeditor4/adapters', to: 'ckeditor/adapters/[path][name].[ext]'},

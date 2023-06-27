@@ -5,7 +5,7 @@ namespace InloopBundle\Strategy;
 use Doctrine\ORM\QueryBuilder;
 use InloopBundle\Entity\Locatie;
 
-class VerblijfsstatusStrategy implements StrategyInterface
+class ToegangOverigStrategy implements StrategyInterface
 {
     // @todo do not define database ID here
     /*
@@ -15,8 +15,35 @@ class VerblijfsstatusStrategy implements StrategyInterface
 
     private $verblijsstatusNietRechthebbend = "Niet rechthebbend (uit EU, behalve Nederland)";
 
+    /** @var Locatie */
+    private $locatie;
+
+    /** @var array  */
+    private $intakeLocaties = [];
+
+    /**
+     * @param array $intake_locaties
+     */
+    public function __construct(array $intake_locaties)
+    {
+        $this->intakeLocaties = $intake_locaties;
+    }
+
+
     public function supports(Locatie $locatie)
     {
+        $this->locatie = $locatie;
+
+        if($locatie->isGebruikersruimte()) return false;
+
+        //and make sure the location is not specified in intake related rules.
+        foreach($this->intakeLocaties as $intakeLocatie)
+        {
+            if($intakeLocatie["name"] == $locatie->getNaam()) {
+                $this->permittedLocaties = $intakeLocatie["locaties"];
+                return false;
+            }
+        }
         return true;
     }
 
@@ -37,27 +64,18 @@ class VerblijfsstatusStrategy implements StrategyInterface
          */
         $builder
             ->leftJoin("eersteIntake.verblijfsstatus","verblijfsstatus")
-            ->andWhere($builder->expr()->orX(
+            ->orWhere($builder->expr()->orX(
                 'eersteIntake.verblijfsstatus IS NULL',
                     'verblijfsstatus.naam != :niet_rechthebbend',
-//                    $builder->expr()->andX(
-//                        'eersteIntake.verblijfsstatus = :niet_rechthebbend_id',
-//    //                    'laatsteIntake.overigenToegangVan <= :today',
-////                        "eersteIntake.intakedatum < '2017-06-01'"
-//                    ),//Deprecated since oktober 2020.
+
                     $builder->expr()->andX(
                         'verblijfsstatus.naam = :niet_rechthebbend',
                         'eersteIntake.overigenToegangVan <= :today'
-//                        ,"eersteIntake.intakedatum >= '2017-06-01'", // niet meer relevant in overleg janneke 2020-09
-//                        "eersteIntake.intakedatum < :six_months_ago" //Kijkt niet meer naar intakedatum sinds 2020-10.
                     )
             ))
-            ->setParameters([
-                'niet_rechthebbend' => $this->verblijsstatusNietRechthebbend,
-                'today' => new \DateTime('today'),
-//                'three_months_ago' => new \DateTime('-3 months'),
-//                'six_months_ago' => new \DateTime('-6 months'),
-            ])
+
+            ->setParameter('niet_rechthebbend', $this->verblijsstatusNietRechthebbend)
+            ->setParameter('today', new \DateTime('today'))
         ;
     }
 }

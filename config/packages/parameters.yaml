@@ -24,10 +24,24 @@ parameters:
     - Letland
     - Litouwen
   amoc_locaties:
-    - AMOC
+    - 'AMOC'
     - 'Nachtopvang DRG'
     - 'Amoc Gebruikersruimte'
-    - 'Nachtopvang De Regenboog Groep'
+  intake_locaties:
+    -
+      name: 'Villa Zaanstad'
+      locaties:
+        - 'Villa Zaanstad'
+    -
+      name: 'AMOC West'
+      locaties:
+        - 'AMOC West'
+        - 'Nachtopvang DRG'
+    -
+      name: 'AMOC'
+      locaties:
+        - '%amoc_locaties%'
+
   economisch_daklozen_locaties:
     - 'STED Amstelland'
     - 'STED Centrum'
@@ -41,7 +55,7 @@ parameters:
     - 'STED Zuid-Oost'
     - 'STED Gezinnen'
   amw_locaties:
-    - AMOC
+    - 'AMOC'
     - 'Amoc Gebruikersruimte'
     - 'Nachtopvang DRG'
     - 'Princehof Inloop'
@@ -50,21 +64,21 @@ parameters:
     - 'Blaka Watra Gebruikersruimte'
     - 'Oud West'
     - 'De Kloof'
-    - Makom
-    - Zeeburg
+    - 'Makom'
+    - 'Zeeburg'
     - 'De Spreekbuis'
     - 'T6 Inloop'
     - 'Diverse locaties extern'
-    - Droogbak
+    - 'Droogbak'
     - 'Penitentiaire Inrichting'
-    - Politie
+    - 'Politie'
   zonderzorg_locaties:
     - 'Zonder Zorg'
   spuitomruil_locaties:
     - 'Princehof gebruikersruimte'
     - 'Amoc gebruikersruimte'
   gezin_noodopvang_locaties:
-    - Bloemendaal
+    - 'Bloemendaal'
   nachtopvang_locaties:
     - 'Nachtopvang DRG'
   iz_specifieke_projecten:
@@ -81,7 +95,8 @@ parameters:
   iz_hulpsoorten_zonder_koppelingen:
     - timeout
     - 'Time out'
-  verblijfsstatus_niet_rechthebbend_id: 7
+  amocverblijfsstatus: 'Niet rechthebbend (uit EU, behalve Nederland)'
+#  verblijfsstatus_niet_rechthebbend_id: 7
   wachtlijst_locaties:
     - 'Wachtlijst T6 Project'
     - 'Wachtlijst Economisch Daklozen'

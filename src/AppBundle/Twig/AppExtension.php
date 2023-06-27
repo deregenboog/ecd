@@ -434,7 +434,7 @@ class AppExtension extends AbstractExtension implements GlobalsInterface
     {
         $values = [];
         foreach ($collection as $item) {
-            $values[] = (string) $item;
+            $values[] = (string) $item; //explicit cast to string...
         }
 
         return implode($separator, $values);

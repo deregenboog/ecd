@@ -3,12 +3,15 @@
 namespace InloopBundle\Controller;
 
 use AppBundle\Controller\AbstractController;
+use AppBundle\Exception\UserException;
 use InloopBundle\Entity\Locatie;
 use InloopBundle\Form\LocatieFilterType;
 use InloopBundle\Form\LocatieType;
 use InloopBundle\Service\LocatieDao;
 use InloopBundle\Service\LocatieDaoInterface;
 use JMS\DiExtraBundle\Annotation as DI;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
@@ -29,12 +32,51 @@ class LocatiesController extends AbstractController
      */
     protected $dao;
 
+    protected $intakelocaties = [];
+
     /**
      * @param LocatieDao $dao
      */
-    public function __construct(LocatieDao $dao)
+    public function __construct(LocatieDao $dao, $intakelocaties = [])
     {
         $this->dao = $dao;
+        $this->intakelocaties = $intakelocaties;
     }
 
+    /**
+     * Route("/{id}/edit")
+     * @Template
+     */
+    public function ddeditAction(Request $request, $id)
+    {
+        if (in_array('edit', $this->disabledActions)) {
+            throw new AccessDeniedHttpException();
+        }
+
+        $entity = $this->dao->find($id);
+        foreach($this->intakelocaties as $intakeLocatie)
+        {
+            if($intakeLocatie["name"] == $entity->getNaam()){
+                //Geef waarschuwing want naam is gekoppeld aan acties.
+                $this->addFlash('danger', sprintf("Let op, deze locatie heeft speciale functionaliteit in ECD. De naam mag niet aangepast worden."));
+            }
+        }
+
+        return $this->processForm($request, $entity);
+    }
+
+    protected function beforeUpdate($locatie)
+    {
+        $uow = $this->entityManager->getUnitOfWork();
+        $uow->computeChangeSets(); // do not compute changes if inside a listener
+        $changeset = $uow->getEntityChangeSet($locatie);
+
+        foreach($this->intakelocaties as $intakeLocatie)
+        {
+            if(isset($changeset["naam"]) && in_array($intakeLocatie["name"], $changeset["naam"]) ){
+
+                throw new UserException(sprintf("Let op, deze locatie heeft speciale functionaliteit in ECD. De naam mag niet aangepast worden."));
+            }
+        }
+    }
 }
