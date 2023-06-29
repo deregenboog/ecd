@@ -403,12 +403,14 @@ class KlantenController extends AbstractController
         ]);
         $filterForm->handleRequest($request);
 
+        $naam = $request->get('klant_filter')["naam"];
+
         if ($filterForm->isSubmitted() && $filterForm->isValid()) {
             $count = (int) $this->klantDao->countAll($filterForm->getData());
             if (0 === $count) {
                 $this->addFlash('info', sprintf('De zoekopdracht leverde geen resultaten op. Maak een nieuwe %s aan.', $this->entityName));
 
-                return $this->redirectToRoute($this->baseRouteName.'add', ['klant' => 'new']);
+                return $this->redirectToRoute($this->baseRouteName.'add', ['klant' => 'new','naam'=>$naam ]);
             }
 
             if ($count > 100) {
@@ -432,7 +434,7 @@ class KlantenController extends AbstractController
         $tbc_countries_string = implode(", ",$tbc_countries);
         $klantId = $request->get('klant');
         if ('new' === $klantId) {
-            $klant = new Klant();
+            $klant = new Klant($request);
         } else {
             $klant = $this->klantDao->find($klantId);
             if ($klant) {

@@ -39,10 +39,6 @@ class AccessUpdater
 
     private $debug = false;
 
-    private $amoc_locaties = [];
-
-    private $intake_locaties = [];
-
     private $amocVerblijfsstatus = "";
 
     private $accessStrategies = [];

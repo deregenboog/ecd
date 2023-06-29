@@ -14,7 +14,7 @@ InloopBundle\Entity\Locatie:
         datumTot: '<dateTimeBetween("now","+2 years")>'
         maatschappelijkWerk: false
     locatie_amoc:
-        naam: 'AMOC'
+        naam: 'AMOC Oost'
         nachtopvang: false
         gebruikersruimte: false
         datumVan: '<dateTimeBetween("-30 days","now")>'

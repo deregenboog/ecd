@@ -26,6 +26,7 @@ final class Version20230623100537 extends AbstractMigration
         $this->addSql('ALTER TABLE locaties_accessintakes ADD CONSTRAINT FK_466C3B7F4947630C FOREIGN KEY (locatie_id) REFERENCES locaties (id) ON DELETE CASCADE');
         $this->addSql('ALTER TABLE intakes DROP ondro_bong_toegang_van');
         $this->addSql('ALTER TABLE intakes DROP amoc_toegang_tot');
+        $this->addSql('UPDATE locaties SET naam = "AMOC Oost" WHERE naam = "AMOC"');
 
     }
 
@@ -37,6 +38,7 @@ final class Version20230623100537 extends AbstractMigration
         $this->addSql('DROP TABLE locaties_accessintakes');
         $this->addSql('ALTER TABLE intakes ADD ondro_bong_toegang_van date DEFAULT NULL');
         $this->addSql('ALTER TABLE intakes ADD amoc_toegang_tot date DEFAULT NULL');
+        $this->addSql('UPDATE locaties SET naam = "AMOC" WHERE naam = "AMOC Oost"');
 
     }
 }

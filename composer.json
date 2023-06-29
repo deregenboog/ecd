@@ -86,6 +86,7 @@
         "symfony/yaml": "5.4.*",
         "tecnickcom/tcpdf": "^6.2",
         "tedivm/stash": "^0.17.6",
+        "theiconic/name-parser": "^1.2",
         "twig/extra-bundle": "^2.12",
         "vich/uploader-bundle": "^1",
         "zf1/zend-pdf": "^1.12"

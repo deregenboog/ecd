@@ -18,6 +18,8 @@ use MwBundle\Entity\BinnenViaOptieKlant;
 use MwBundle\Entity\Info;
 use MwBundle\Entity\MwDossierStatus;
 use MwBundle\Entity\Verslag;
+use Symfony\Component\HttpFoundation\Request;
+use TheIconic\NameParser\Parser;
 
 /**
  * @ORM\Entity
@@ -269,7 +271,7 @@ class Klant extends Persoon
         return $this;
     }
 
-    public function __construct()
+    public function __construct(?Request $request)
     {
         $this->intakes = new ArrayCollection();
         $this->registraties = new ArrayCollection();
@@ -278,8 +280,42 @@ class Klant extends Persoon
         $this->opmerkingen = new ArrayCollection();
         $this->incidenten = new ArrayCollection();
         $this->klantTalen = new ArrayCollection();
+
+        if($request)
+        {
+
+           $naamParts = $this::parseNaam($request->get('naam'));
+
+            $this->setVoornaam($naamParts['voornaam']);
+            $this->setTussenvoegsel($naamParts['tussenvoegsel']);
+            $this->setAchternaam($naamParts['achternaam']);
+        }
     }
 
+    public static function parseNaam(string $name = ""): array
+    {
+        $parser = new Parser();
+        $parsedName = $parser->parse($name);
+
+
+        $naamParts['voornaam'] = '';
+        $naamParts['roepnaam'] = '';
+        $naamParts['tussenvoegsel'] = '';
+        $naamParts['achternaam'] = '';
+
+        $parser = new Parser();
+
+        $parsedName = $parser->parse($name);
+
+        $naamParts['voornaam'] = $parsedName->getFirstName();
+        $naamParts['roepnaam'] = $parsedName->getGivenName();
+        $naamParts['tussenvoegsel'] = $parsedName->getLastnamePrefix();
+        $naamParts['achternaam'] = $parsedName->getLastName(true);
+
+        return $naamParts;
+
+
+    }
     /**
      * @see https://www.doctrine-project.org/projects/doctrine-orm/en/2.5/cookbook/implementing-wakeup-or-clone.html#safely-implementing-clone
      */

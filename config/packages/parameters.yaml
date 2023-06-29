@@ -24,8 +24,8 @@ parameters:
     - Letland
     - Litouwen
   access_strategies:
-    amoc:
-      - 'AMOC'
+    amoc_oost:
+      - 'AMOC Oost'
       - 'Nachtopvang DRG'
     villa_zaanstad:
       - 'Villa Zaanstad'
@@ -45,7 +45,7 @@ parameters:
     - 'STED Zuid-Oost'
     - 'STED Gezinnen'
   amw_locaties:
-    - 'AMOC'
+    - 'AMOC Oost'
     - 'Amoc Gebruikersruimte'
     - 'Nachtopvang DRG'
     - 'Princehof Inloop'
