@@ -24,8 +24,8 @@ final class Version20230623100537 extends AbstractMigration
         $this->addSql('CREATE TABLE locaties_accessintakes (intake_id INT NOT NULL, locatie_id INT NOT NULL, INDEX IDX_466C3B7F733DE450 (intake_id), INDEX IDX_466C3B7F4947630C (locatie_id), PRIMARY KEY(intake_id, locatie_id)) DEFAULT CHARACTER SET utf8 COLLATE `utf8_general_ci` ENGINE = InnoDB');
         $this->addSql('ALTER TABLE locaties_accessintakes ADD CONSTRAINT FK_466C3B7F733DE450 FOREIGN KEY (intake_id) REFERENCES intakes (id) ON DELETE CASCADE');
         $this->addSql('ALTER TABLE locaties_accessintakes ADD CONSTRAINT FK_466C3B7F4947630C FOREIGN KEY (locatie_id) REFERENCES locaties (id) ON DELETE CASCADE');
-        $this->addSql('ALTER TABLE intakes ADD specifiek_toegang_van DATE DEFAULT NULL');
-        $this->addSql('ALTER TABLE intakes ADD toegangIntakelocatie tinyint(1) DEFAULT NULL');
+        $this->addSql('ALTER TABLE intakes DROP ondro_bong_toegang_van');
+        $this->addSql('ALTER TABLE intakes DROP amoc_toegang_tot');
 
     }
 
@@ -35,8 +35,8 @@ final class Version20230623100537 extends AbstractMigration
         $this->addSql('ALTER TABLE locaties_accessintakes DROP FOREIGN KEY FK_466C3B7F733DE450');
         $this->addSql('ALTER TABLE locaties_accessintakes DROP FOREIGN KEY FK_466C3B7F4947630C');
         $this->addSql('DROP TABLE locaties_accessintakes');
-        $this->addSql('ALTER TABLE intakes DROP specifiek_toegang_van');
-        $this->addSql('ALTER TABLE intakes DROP toegangIntakelocatie');
+        $this->addSql('ALTER TABLE intakes ADD ondro_bong_toegang_van date DEFAULT NULL');
+        $this->addSql('ALTER TABLE intakes ADD amoc_toegang_tot date DEFAULT NULL');
 
     }
 }

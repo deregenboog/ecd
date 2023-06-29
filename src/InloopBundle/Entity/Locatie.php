@@ -89,7 +89,7 @@ class Locatie
 
 
     /**
-     * @ORM\ManyToMany(targetEntity="Locatie", mappedBy="specifiekeLocaties")
+     * @ORM\ManyToMany(targetEntity="Intake", mappedBy="specifiekeLocaties")
      * @var Collection<int, Intake>
      */
     private Collection $accessIntakes;

@@ -122,12 +122,18 @@ class IntakesController extends AbstractController
             return $this->afterFormSubmitted($request, $entity, null);
         }
 
-        return [
+        return array_merge([
             'entity' => $entity,
             'form' => $form->createView(),
+            'redirect'=>$request->get('redirect')
+        ], $this->addParams($entity, $request));
 
-            'tbc_countries'=>$this->tbc_countries,
-        ];
+//        return [
+//            'entity' => $entity,
+//            'form' => $form->createView(),
+//
+//            'tbc_countries'=>$this->tbc_countries,
+//        ];
     }
 
     /**

@@ -92,11 +92,6 @@ class Intake
      */
     private Collection $specifiekeLocaties;
 
-    /**
-     * @var bool if true, only toegang tot intakelocatie and linked locations is permitted.
-     * @ORM\Column(nullable=true)
-     */
-    private bool $toegangIntakelocatie;
 
     /**
      * @var \DateTime
@@ -108,33 +103,6 @@ class Intake
      * @NoFutureDate
      */
     private $intakedatum;
-
-    /**
-     * @var \DateTime
-     *
-     * @ORM\Column(name="amoc_toegang_tot", type="date", nullable=true)
-     * @Gedmo\Versioned
-     * @Assert\Type("\DateTime", groups={"toegang"})
-     */
-    private $amocToegangTot;
-
-    /**
-     * @var \DateTime
-     *
-     * @ORM\Column(name="ondro_bong_toegang_van", type="date", nullable=true)
-     * @Gedmo\Versioned
-     * @Assert\Type("\DateTime", groups={"toegang"})
-     */
-    private $ondroBongToegangVan;
-
-    /**
-     * @var \DateTime
-     *
-     * @ORM\Column(name="specifiek_toegang_van", type="date", nullable=true)
-     * @Gedmo\Versioned
-     * @Assert\Type("\DateTime", groups={"toegang"})
-     */
-    private $specifiekToegangVan;
 
     /**
      * @var \DateTime
@@ -1307,39 +1275,6 @@ class Intake
     {
         $this->specifiekeLocaties = $specifiekeLocaties;
     }
-
-    /**
-     * @return \DateTime
-     */
-    public function getSpecifiekToegangVan(): ?\DateTime
-    {
-        return $this->specifiekToegangVan;
-    }
-
-    /**
-     * @param \DateTime $specifiekToegangVan
-     */
-    public function setSpecifiekToegangVan(?\DateTime $specifiekToegangVan): void
-    {
-        $this->specifiekToegangVan = $specifiekToegangVan;
-    }
-
-    /**
-     * @return bool
-     */
-    public function isToegangIntakelocatie(): ?bool
-    {
-        return $this->toegangIntakelocatie;
-    }
-
-    /**
-     * @param bool $toegangIntakelocatie
-     */
-    public function setToegangIntakelocatie(?bool $toegangIntakelocatie): void
-    {
-        $this->toegangIntakelocatie = $toegangIntakelocatie;
-    }
-
 
 
     /**

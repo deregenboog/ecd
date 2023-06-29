@@ -56,18 +56,26 @@ class ToegangType extends AbstractType
 
     public static function createToegang(FormBuilderInterface $builder, array $options)
     {
-        return $builder
+        $x = $builder
             ->create('toegang', null, [
                 'compound' => true,
                 'inherit_data' => true,
-                'required'=>true,
+                'required' => true,
 
-            ])
+            ]);
+
+        if (! ($builder->has('algemeen') && $builder->get('algemeen')->has('intakedatum'))) {
+            $x->add('intakedatum',AppDateType::class,[
+                'label'=>'Intakedatum eerste intake'
+            ]);
+        }
+       $x
             ->add('verblijfsstatus', VerblijfsstatusSelectType::class, [
                 'required' => true,
             ])
             ->add('intakelocatie', LocatieSelectType::class, [
                 'required' => true,
+                'placeholder'=>'',
                 'locatietypes'=>['Inloop'],
             ])
             ->add('toegangInloophuis', CheckboxType::class, [
@@ -79,7 +87,7 @@ class ToegangType extends AbstractType
                 'locatietypes' => ['Inloop'],
             ])
             ->add('overigenToegangVan', AppDateType::class, [
-                'label' => 'Startdatum toegang (rest, algemeen))',
+                'label' => 'Startdatum toegang overig)',
                 'required'=>false,
             ])
             ->add('gebruikersruimte', LocatieSelectType::class, [
@@ -88,8 +96,9 @@ class ToegangType extends AbstractType
                 'placeholder'=>'Kies een gebruikersruimte'
 
             ])
-
         ;
+       return $x;
+
     }
 
 }

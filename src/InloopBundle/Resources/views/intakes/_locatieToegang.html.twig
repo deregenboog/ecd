@@ -1,6 +1,6 @@
 {% import 'html.macro.twig' as html %}
 {% if entity is not null and entity.id is not empty  %}
-    <h2>Locatiekeuze</h2><h4>(uit eerste intake)</h4>
+    <h2>Locatiekeuze / toegang</h2>
     {#{% if is_granted('edit', entity) and is_granted('owner', entity) %}#}
 
     {{ html.link('Wijzigen', path('inloop_intakes_edittoegang', {id: entity.id,access:true}), 'edit') }}
@@ -10,8 +10,6 @@
         <dd>{{ entity.intakelocatie }}</dd>
         <dt>Toegang inloophuis</dt>
         <dd>{{ entity.toegangInloophuis ? 'Ja' : 'Nee' }}</dd>
-        <dt>Toegang op basis van intakelocatie?</dt>
-        <dd>{{ entity.toegangIntakelocatie ? 'Ja' : 'Nee' }}</dd>
         <dt>Toegang specifieke locaties</dt>
         <dd>{{ entity.specifiekeLocaties|implode }}</dd>
         <dt>Startdatum toegang overigen</dt>
