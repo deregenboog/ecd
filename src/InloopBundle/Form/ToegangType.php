@@ -73,23 +73,11 @@ class ToegangType extends AbstractType
             ->add('toegangInloophuis', CheckboxType::class, [
                 'required' => false,
             ])
-            ->add('toegangIntakelocatie', CheckboxType::class, [
-                'label' => 'Alleen toegang tot intake- en aanverwante locaties. (Villa Zaanstad, AMOC, AMOC West)',
-                'required' => false,
-            ])
-//            ->add('amocToegangTot', AppDateType::class, [
-//                'label' => 'Einddatum toegang AMOC',
-//                'required'=>false,
-//            ])
             ->add('specifiekeLocaties', LocatieSelectType::class, [
                 'required' => false,
                 'multiple'=> true,
                 'locatietypes' => ['Inloop'],
             ])
-//            ->add('specifiekToegangVan', AppDateType::class, [
-//                'label' => 'Startdatum toegang specifieke locaties',
-//                'required'=>false,
-//            ])
             ->add('overigenToegangVan', AppDateType::class, [
                 'label' => 'Startdatum toegang (rest, algemeen))',
                 'required'=>false,

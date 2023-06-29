@@ -7,15 +7,19 @@
 
 {% block content_right %}
 <p>
-    Om klanten toegang te geven tot inloophuizen worden de onderstaande velden gebruikt. Deze staan opgeslagen in de eerste intake.<br />
+    Om klanten toegang te geven tot inloophuizen worden de onderstaande velden gebruikt. <br />
     Het werkt als volgt:
     <ol>
         <li>Klanten hebben geen toegang tot een van de inloophuizen wanneer het vinkje 'Toegang inloophuizen' <b>uit</b> staat.</li>
         <li>Alleen inloophuizen zonder specifieke toegangsregels zijn voor algemeen gebruik toegankelijk.</li>
         <li>Klanten met de verblijfsstatus 'Niet rechthebbend, wel EU' hebben, hebben alleen toegang tot de algemene inloophuizen vanaf de 'Startdatum overig'.</li>
-        <li>Wanneer het vinkje 'Alleen toegang tot intake- en aanverwante locaties' aan staat, krijgt de klant alleen toegang tot de intakelocatie + aanverwante locaties.
         <li>Extra of specifieke toegang kan via 'Specifieke locaties' worden opgegeven.</li>
-        <li>AMOC is alleen toegankelijk als je een intake hebt gehad op AMOC, of als je langer dan 6 maanden geleden een intake hebt gehad op AMOC West.</li>
+        <li>Afhankelijk van de intakelocatie: </li>
+        <ol>
+            <li>AMOC is alleen toegankelijk als je een intake hebt gehad op AMOC, of als de eerste intake op AMOC West was dat en langer dan 6 maanden geleden is.</li>
+            <li>AMOC West is alleen toegankelijk als je een intake op AMOC West hebt gehad</li>
+            <li>Villa Zaanstad is alleen toegankelijk als je een intake in Villa Zaanstand hebt gehad.</li>
+        </ol>
         <li>Voor de gebruikersruimte is alleen de geselecteerde gebruikersruimte toegankelijk, waarbij de overige regels (intake niet ouder dan 2mnd, recent geweest) in acht worden genomen.</li>
     </ol>
 </p>

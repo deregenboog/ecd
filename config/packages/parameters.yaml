@@ -23,25 +23,15 @@ parameters:
     - Estland
     - Letland
     - Litouwen
-  amoc_locaties:
-    - 'AMOC'
-    - 'Nachtopvang DRG'
-    - 'Amoc Gebruikersruimte'
-  intake_locaties:
-    -
-      name: 'Villa Zaanstad'
-      locaties:
-        - 'Villa Zaanstad'
-    -
-      name: 'AMOC West'
-      locaties:
-        - 'AMOC West'
-        - 'Nachtopvang DRG'
-    -
-      name: 'AMOC'
-      locaties:
-        - '%amoc_locaties%'
-
+  access_strategies:
+    amoc:
+      - 'AMOC'
+      - 'Nachtopvang DRG'
+    villa_zaanstad:
+      - 'Villa Zaanstad'
+    amoc_west:
+      - 'AMOC West'
+      - 'Nachtopvang DRG'
   economisch_daklozen_locaties:
     - 'STED Amstelland'
     - 'STED Centrum'

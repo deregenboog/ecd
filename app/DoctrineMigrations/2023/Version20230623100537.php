@@ -36,7 +36,7 @@ final class Version20230623100537 extends AbstractMigration
         $this->addSql('ALTER TABLE locaties_accessintakes DROP FOREIGN KEY FK_466C3B7F4947630C');
         $this->addSql('DROP TABLE locaties_accessintakes');
         $this->addSql('ALTER TABLE intakes DROP specifiek_toegang_van');
-        $this->addSql('ALTER TABLE intakes ADD toegangIntakelocatie tinyint(1) DEFAULT NULL');
+        $this->addSql('ALTER TABLE intakes DROP toegangIntakelocatie');
 
     }
 }

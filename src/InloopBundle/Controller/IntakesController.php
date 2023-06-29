@@ -47,19 +47,19 @@ class IntakesController extends AbstractController
      */
     protected $tbc_countries = array();
 
-    protected $locatiesIntakelocatieStrategy = [];
+    protected $accessStrategies = [];
 
     protected $amocVerblijfsstatus = "";
 
     /**
      * @param IntakeDao $dao
      */
-    public function __construct(IntakeDao $dao, ContainerInterface $container, $tbc_countries=[], $locatiesIntakelocatieStrategy=[],$amocVerblijfsstatus="")
+    public function __construct(IntakeDao $dao, ContainerInterface $container, $tbc_countries=[], $accessStrategies=[],$amocVerblijfsstatus="")
     {
         $this->container = $container;
         $this->dao = $dao;
         $this->tbc_countries = $tbc_countries;
-        $this->locatiesIntakelocatieStrategy = $locatiesIntakelocatieStrategy;
+        $this->accessStrategies = $accessStrategies;
         $this->amocVerblijfsstatus = $amocVerblijfsstatus;
 
     }
@@ -168,11 +168,11 @@ class IntakesController extends AbstractController
         $entity = $this->dao->find($id);
         $return = $this->processForm($request, $entity);
 
-        if(is_array($return)) {
-            $return['amocVerblijfsstatus'] = $this->amocVerblijfsstatus;
-            $return['locatiesIntakelocatieStrategy'] = json_encode($this->locatiesIntakelocatieStrategy);
-
-        }
+//        if(is_array($return)) {
+//            $return['amocVerblijfsstatus'] = $this->amocVerblijfsstatus;
+//            $return['accessStrategies'] = json_encode($this->accessStrategies);
+//
+//        }
 
         return $return;
     }
@@ -216,7 +216,8 @@ class IntakesController extends AbstractController
     {
         return [
             'tbc_countries' => $this->tbc_countries,
-
+            'amocVerblijfsstatus' => $this->amocVerblijfsstatus,
+            'accessStrategies' => json_encode($this->accessStrategies),
         ];
     }
 }

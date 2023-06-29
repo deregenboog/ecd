@@ -96,8 +96,6 @@
     <script >
     window.onload = function() {
         if ($) {
-            {#console.log('{{ amocVerblijfsstatus }}');#}
-            {#console.log({{ locatiesIntakelocatieStrategy|raw }});#}
 
             $(function () {
                 var toegang = function (name) {
@@ -107,10 +105,10 @@
 
                         var statusId =  $("#" + name + "_toegang_verblijfsstatus").find(":selected").first().text()
                         var intakelocatie =  $("#" + name + "_toegang_intakelocatie").find(":selected").first().text()
-                        var locatiesIntakelocatieStrategy = {{ locatiesIntakelocatieStrategy|raw }};
+                        var accessStrategies = {{ accessStrategies|raw }};
                         var toegang_intakelocatieElm =  $("#" + name + "_toegang_toegangIntakelocatie");
 
-                        if (statusId == "{{ amocVerblijfsstatus }}") //AMOC klant, intakelocatie regels
+                        if (statusId == "{{ amocVerblijfsstatus }}") //AMOC (+west) klant
                         {
                             // $("#" + name + "_toegang_overigenToegangVan").prop("disabled", false);
                             var sixMonths = new Date();
@@ -118,23 +116,16 @@
                             sixMonths.setMonth(m + 6);
                             if ($("#" + name + "_toegang_overigenToegangVan").val() == "") {
                                 $("#" + name + "_toegang_overigenToegangVan").val(sixMonths.toLocaleDateString());
+
                             }
+                            $("#" + name + "_toegang_overigenToegangVan").prop("readonly",false);
                         }
                         else  // niet amoc, geen datum regels.
                         {
                             $("#" + name + "_toegang_overigenToegangVan").val(null);
+                            $("#" + name + "_toegang_overigenToegangVan").prop("readonly","readonly");
                         }
 
-                        locatiesIntakelocatieStrategy.every(v => {
-
-                            if(v.name == intakelocatie){
-                                toegang_intakelocatieElm.prop('checked','checked');
-                                return false;
-                            }
-                            toegang_intakelocatieElm.prop('checked',false);
-                            return true;
-
-                        });
 
                     }//end check()
 

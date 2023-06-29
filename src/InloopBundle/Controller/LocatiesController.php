@@ -32,15 +32,15 @@ class LocatiesController extends AbstractController
      */
     protected $dao;
 
-    protected $intakelocaties = [];
+    protected $accessStrategies = [];
 
     /**
      * @param LocatieDao $dao
      */
-    public function __construct(LocatieDao $dao, $intakelocaties = [])
+    public function __construct(LocatieDao $dao, $accessStrategies = [])
     {
         $this->dao = $dao;
-        $this->intakelocaties = $intakelocaties;
+        $this->accessStrategies = $accessStrategies;
     }
 
     /**
@@ -71,9 +71,10 @@ class LocatiesController extends AbstractController
         $uow->computeChangeSets(); // do not compute changes if inside a listener
         $changeset = $uow->getEntityChangeSet($locatie);
 
-        foreach($this->intakelocaties as $intakeLocatie)
+        foreach($this->accessStrategies as $strategy => $intakeLocaties)
         {
-            if(isset($changeset["naam"]) && in_array($intakeLocatie["name"], $changeset["naam"]) ){
+            $t = array_intersect($intakeLocaties, $changeset["naam"]);
+            if(isset($changeset["naam"]) && array_intersect($intakeLocaties, $changeset["naam"]) ){
 
                 throw new UserException(sprintf("Let op, deze locatie heeft speciale functionaliteit in ECD. De naam mag niet aangepast worden."));
             }

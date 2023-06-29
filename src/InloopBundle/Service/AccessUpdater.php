@@ -2,6 +2,8 @@
 
 namespace InloopBundle\Service;
 
+use App\InloopBundle\Strategy\AmocWestStrategy;
+use App\InloopBundle\Strategy\VillaZaanstadStrategy;
 use AppBundle\Entity\Klant;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\ParameterType;
@@ -43,6 +45,10 @@ class AccessUpdater
 
     private $amocVerblijfsstatus = "";
 
+    private $accessStrategies = [];
+
+    private array $strategies = [];
+
 
     /**
      * The access updater works as follows:
@@ -60,24 +66,30 @@ class AccessUpdater
      * @param EntityManager $em
      * @param KlantDao $klantDao
      * @param LocatieDao $locatieDao
-     * @param $amoc_locaties
      * @param $intake_locaties
      */
     public function __construct(
         EntityManager $em,
         KlantDao $klantDao,
         LocatieDao $locatieDao,
-        $amoc_locaties,
-        $intake_locaties,
+        $accessStrategies,
         $amocVerblijfsstatus
     )
     {
         $this->em = $em;
         $this->klantDao = $klantDao;
         $this->locatieDao = $locatieDao;
-        $this->amoc_locaties = $amoc_locaties;
-        $this->intake_locaties = $intake_locaties;
+        $this->accessStrategies = $accessStrategies;
         $this->amocVerblijfsstatus = $amocVerblijfsstatus;
+
+        $this->strategies = [
+            new SpecificLocationStrategy($this->locatieDao),
+            new AmocWestStrategy($this->accessStrategies),
+            new VillaZaanstadStrategy($this->accessStrategies),
+            new AmocStrategy($this->accessStrategies, $this->amocVerblijfsstatus),
+            new GebruikersruimteStrategy(),
+            new ToegangOverigStrategy($this->accessStrategies),
+        ];
 
     }
 
@@ -99,7 +111,7 @@ class AccessUpdater
 
         $this->em->getFilters()->enable('overleden');
 
-        $filter = new KlantFilter($this->getStrategies($locatie));
+        $filter = new KlantFilter($this->getSupportedStrategies($locatie));
         $filter->huidigeStatus = Aanmelding::class; // alleen klanten met inloopdossier mogen toegang
 
         $builder = $this->klantDao->getAllQueryBuilder($filter);
@@ -143,7 +155,7 @@ class AccessUpdater
         $inloopLocaties = $this->getLocations();
         foreach ($inloopLocaties as $locatie) {
             $this->log($locatie);
-            $strategies = $this->getStrategies($locatie);
+            $strategies = $this->getSupportedStrategies($locatie);
 //            $this->log("Strategies used: ".get_class($strategy));
 
             $filter = new KlantFilter($strategies);
@@ -198,7 +210,7 @@ class AccessUpdater
         return $this->locatieDao->findAllActiveLocationsOfTypeInloop();
     }
 
-    private function getStrategies(Locatie $locatie)
+    private function getSupportedStrategies(Locatie $locatie)
     {
         /**
          * Let op:
@@ -219,25 +231,19 @@ class AccessUpdater
          *
          *
          */
-        $strategies = [
-            new SpecificLocationStrategy($this->locatieDao),
-            new IntakelocatieStrategy($this->intake_locaties),
-            new AmocStrategy($this->amoc_locaties, $this->amocVerblijfsstatus),
-            new GebruikersruimteStrategy(),
-            new ToegangOverigStrategy($this->intake_locaties),
-        ];
 
         $supportedStrategies = [];
 
-        foreach ($strategies as $strategy) {
+        foreach ($this->strategies as $strategy) {
             if ($strategy->supports($locatie)) {
                 $supportedStrategies[] = $strategy;
             }
 
         }
-        return $supportedStrategies;
 
-        throw new \LogicException('No supported strategy found!');
+        if(count($supportedStrategies) < 1) throw new \LogicException('No supported strategy found!');
+
+        return $supportedStrategies;
     }
 
     private function getKlantIds(QueryBuilder $builder)

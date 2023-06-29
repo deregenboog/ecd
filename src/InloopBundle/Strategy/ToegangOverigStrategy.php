@@ -22,11 +22,15 @@ class ToegangOverigStrategy implements StrategyInterface
     private $intakeLocaties = [];
 
     /**
-     * @param array $intake_locaties
+     * @param array $accessStrategies
      */
-    public function __construct(array $intake_locaties)
+    public function __construct(array $accessStrategies)
     {
-        $this->intakeLocaties = $intake_locaties;
+        array_walk($accessStrategies, function($v,$k){
+            $this->intakeLocaties = array_merge($this->intakeLocaties,$v);
+        });
+
+       $this->intakeLocaties = array_unique($this->intakeLocaties);
     }
 
 
@@ -37,14 +41,7 @@ class ToegangOverigStrategy implements StrategyInterface
         if($locatie->isGebruikersruimte()) return false;
 
         //and make sure the location is not specified in intake related rules.
-        foreach($this->intakeLocaties as $intakeLocatie)
-        {
-            if($intakeLocatie["name"] == $locatie->getNaam()) {
-                $this->permittedLocaties = $intakeLocatie["locaties"];
-                return false;
-            }
-        }
-        return true;
+        return !in_array($locatie->getNaam(),$this->intakeLocaties);
     }
 
     /**
@@ -64,15 +61,21 @@ class ToegangOverigStrategy implements StrategyInterface
          */
         $builder
             ->leftJoin("eersteIntake.verblijfsstatus","verblijfsstatus")
-            ->orWhere($builder->expr()->orX(
-                'eersteIntake.verblijfsstatus IS NULL',
-                    'verblijfsstatus.naam != :niet_rechthebbend',
 
-                    $builder->expr()->andX(
-                        'verblijfsstatus.naam = :niet_rechthebbend',
-                        'eersteIntake.overigenToegangVan <= :today'
+            ->orWhere(
+                $builder->expr()->andX('eersteIntake.toegangInloophuis = true',
+                    $builder->expr()->orX(
+                    'eersteIntake.verblijfsstatus IS NULL',
+                        'verblijfsstatus.naam != :niet_rechthebbend',
+
+                        $builder->expr()->andX(
+                            'verblijfsstatus.naam = :niet_rechthebbend',
+                            'eersteIntake.overigenToegangVan <= :today'
+                        )
                     )
-            ))
+                )
+            )
+
 
             ->setParameter('niet_rechthebbend', $this->verblijsstatusNietRechthebbend)
             ->setParameter('today', new \DateTime('today'))

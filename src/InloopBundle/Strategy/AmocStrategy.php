@@ -9,6 +9,8 @@ use InloopBundle\Entity\Locatie;
 class AmocStrategy implements StrategyInterface
 {
 
+    private $accessStrategyName = "amoc";
+
     /** @var Locatie */
     private $locatie;
 
@@ -24,9 +26,9 @@ class AmocStrategy implements StrategyInterface
      *
      * @param string[] $amoc_locaties
      */
-    public function __construct(array $amoc_locaties, $amocVerblijfsstatus)
+    public function __construct(array $accessStrategies, $amocVerblijfsstatus)
     {
-        $this->amoc_locaties = $amoc_locaties;
+        $this->amoc_locaties = $accessStrategies[$this->accessStrategyName];
         $this->amocVerblijfsstatus = $amocVerblijfsstatus;
     }
 
@@ -38,9 +40,7 @@ class AmocStrategy implements StrategyInterface
     {
         $this->locatie = $locatie;
 
-        $supported = in_array($locatie->getNaam(), $this->amoc_locaties);
-        return $supported;
-//        return in_array($locatie->getId(), $this->locatieIds);
+        return in_array($locatie->getNaam(), $this->amoc_locaties);
     }
 
     /**
@@ -51,7 +51,7 @@ class AmocStrategy implements StrategyInterface
      */
     public function buildQuery(QueryBuilder $builder)
     {
-        $builder->orWhere("(eersteIntakeLocatie.naam = 'AMOC' OR (eersteIntakeLocatie.naam = 'AMOC West' AND eersteIntake.intakedatum < :sixmonthsago) )");
+        $builder->orWhere("( eersteIntake.toegangInloophuis = true AND (eersteIntakeLocatie.naam = 'AMOC' OR (eersteIntakeLocatie.naam = 'AMOC West' AND eersteIntake.intakedatum < :sixmonthsago) ) )");
 //        $builder->setParameter('locatie',$this->locatie->getNaam());
         $builder->setParameter('sixmonthsago',new \DateTime("-6 months") );
 

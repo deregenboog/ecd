@@ -36,14 +36,14 @@ services:
 
     InloopBundle\Controller\LocatiesController:
         arguments:
-            $intakelocaties: '%intake_locaties%'
+            $accessStrategies: '%access_strategies%'
         tags: [ 'controller.service_arguments' ]
 
     InloopBundle\Controller\IntakesController:
         arguments:
             $dao: '@InloopBundle\Service\IntakeDao'
             $tbc_countries: '%tbc_countries%'
-            $locatiesIntakelocatieStrategy: '%intake_locaties%'
+            $accessStrategies: '%access_strategies%'
             $amocVerblijfsstatus: '%amocverblijfsstatus%'
         tags: [ 'controller.service_arguments' ]
 
@@ -106,8 +106,7 @@ services:
             - '@doctrine.orm.entity_manager'
             - '@InloopBundle\Service\KlantDao'
             - '@InloopBundle\Service\LocatieDao'
-            - "%amoc_locaties%"
-            - "%intake_locaties%"
+            - "%access_strategies%"
             - "%amocverblijfsstatus%"
 
     InloopBundle\Event\IntakeSubscriber:
