@@ -11,14 +11,19 @@ InloopBundle\Entity\Locatie:
         nachtopvang: false
         gebruikersruimte: true
         datumVan: '<dateTimeBetween("-30 days","now")>'
-        datumTot: '<dateTimeBetween("now","+2 years")>'
         maatschappelijkWerk: false
     locatie_amoc:
-        naam: 'AMOC Oost'
+        naam: 'AMOC Stadhouderskade'
         nachtopvang: false
         gebruikersruimte: false
         datumVan: '<dateTimeBetween("-30 days","now")>'
-        datumTot: '<dateTimeBetween("now","+2 weeks")>'
+        maatschappelijkWerk: false
+        tbcCheck: true
+    locatie_amoc_west:
+        naam: 'AMOC West'
+        nachtopvang: false
+        gebruikersruimte: false
+        datumVan: '<dateTimeBetween("-30 days","now")>'
         maatschappelijkWerk: false
         tbcCheck: true
     locatie_de_eik:
@@ -91,8 +96,8 @@ InloopBundle\Entity\Locatie:
         datumVan: '<dateTimeBetween("-30 days","now")>'
         datumTot: '<dateTimeBetween("now","+2 years")>'
         maatschappelijkWerk: false
-    locatie_westerpark:
-        naam: 'Westerpark'
+    locatie_villa_zaanstad:
+        naam: 'Villa Zaanstad'
         nachtopvang: false
         gebruikersruimte: false
         datumVan: '<dateTimeBetween("-30 days","now")>'
@@ -100,13 +105,6 @@ InloopBundle\Entity\Locatie:
         maatschappelijkWerk: false
     locatie_droogbak:
         naam: 'Droogbak'
-        nachtopvang: false
-        gebruikersruimte: false
-        datumVan: '<dateTimeBetween("-30 days","now")>'
-        datumTot: '<dateTimeBetween("now","+2 years")>'
-        maatschappelijkWerk: false
-    locatie_valentijn:
-        naam: 'Valentijn'
         nachtopvang: false
         gebruikersruimte: false
         datumVan: '<dateTimeBetween("-30 days","now")>'
@@ -123,20 +121,6 @@ InloopBundle\Entity\Locatie:
         naam: 'Amoc Gebruikersruimte'
         nachtopvang: false
         gebruikersruimte: true
-        datumVan: '<dateTimeBetween("-30 days","now")>'
-        datumTot: '<dateTimeBetween("now","+2 years")>'
-        maatschappelijkWerk: false
-    locatie_noorderpark:
-        naam: 'Noorderpark'
-        nachtopvang: false
-        gebruikersruimte: false
-        datumVan: '<dateTimeBetween("-30 days","now")>'
-        datumTot: '<dateTimeBetween("now","+2 years")>'
-        maatschappelijkWerk: false
-    locatie_derde_schinkel:
-        naam: 'Derde Schinkel'
-        nachtopvang: false
-        gebruikersruimte: false
         datumVan: '<dateTimeBetween("-30 days","now")>'
         datumTot: '<dateTimeBetween("now","+2 years")>'
         maatschappelijkWerk: false
@@ -210,6 +194,10 @@ InloopBundle\Entity\Aanmelding:
         __construct: ['@klant_204','@medewerker_inloop']
     aanmelding_205:
         __construct: ['@klant_205','@medewerker_inloop']
+    aanmelding_206:
+        __construct: [ '@klant_206','@medewerker_inloop' ]
+    aanmelding_207:
+        __construct: [ '@klant_207','@medewerker_inloop' ]
 
 AppBundle\Entity\Klant:
     klant_201:
@@ -352,6 +340,62 @@ AppBundle\Entity\Klant:
         land: '@land_*'
         nationaliteit: '@nationaliteit_*'
         huidigeStatus: '@aanmelding_205'
+    klant_206:
+        roepnaam: 'ToegangAmocWest'
+        voornaam: 'Test'
+        achternaam: 'Inloop'
+        geslacht: '@geslacht_*'
+        geboortedatum: '<dateTimeThisDecade()>'
+        adres: '<streetAddress()>'
+        postcode: '<postcode()>'
+        plaats: '<city()>'
+        mobiel: '<phoneNumber()>'
+        telefoon: '<phoneNumber()>'
+        email: '<email()>'
+        laatsteTbcControle: '<dateTimeThisDecade()>'
+        laatsteZrm: '<dateTimeThisDecade()>'
+        # addIntake: ['@intake_1']
+        eersteIntake: '@intake_206'
+        laatsteIntake: '@intake_206'
+        # laatsteRegistratie: '@registratie_*'
+        overleden: '0'
+        disabled: '0'
+        werkgebied: '80%? @werkgebied_*'
+        postcodegebied: '80%? @ggw_gebied_*'
+        geenPost: '10%? 1 : 0'
+        geenEmail: '10%? 1 : 0'
+        medewerker: '@medewerker_*'
+        land: '@land_*'
+        nationaliteit: '@nationaliteit_*'
+        huidigeStatus: '@aanmelding_206'
+    klant_207:
+        roepnaam: 'ToegangVillaZaanstad'
+        voornaam: 'Test'
+        achternaam: 'Inloop'
+        geslacht: '@geslacht_*'
+        geboortedatum: '<dateTimeThisDecade()>'
+        adres: '<streetAddress()>'
+        postcode: '<postcode()>'
+        plaats: '<city()>'
+        mobiel: '<phoneNumber()>'
+        telefoon: '<phoneNumber()>'
+        email: '<email()>'
+        laatsteTbcControle: '<dateTimeThisDecade()>'
+        laatsteZrm: '<dateTimeThisDecade()>'
+        # addIntake: ['@intake_1']
+        eersteIntake: '@intake_207'
+        laatsteIntake: '@intake_207'
+        # laatsteRegistratie: '@registratie_*'
+        overleden: '0'
+        disabled: '0'
+        werkgebied: '80%? @werkgebied_*'
+        postcodegebied: '80%? @ggw_gebied_*'
+        geenPost: '10%? 1 : 0'
+        geenEmail: '10%? 1 : 0'
+        medewerker: '@medewerker_*'
+        land: '@land_*'
+        nationaliteit: '@nationaliteit_*'
+        huidigeStatus: '@aanmelding_207'
 AppBundle\Entity\ZrmV2:
     zrm_201:
         financien: 0
@@ -443,6 +487,42 @@ AppBundle\Entity\ZrmV2:
         klant: '@klant_205'
         foreignKey: 5
         model: 'ZrmV2'
+    zrm_206:
+        financien: 0
+        werkOpleiding: 0
+        tijdsbesteding: 0
+        huisvesting: 0
+        huiselijkeRelaties: 0
+        geestelijkeGezondheid: 0
+        lichamelijkeGezondheid: 0
+        middelenGebruik: 0
+        basaleAdl: 0
+        instrumenteleAdl: 0
+        sociaalNetwerk: 0
+        maatschappelijkeParticipatie: 0
+        justitie: 0
+        requestModule: 'intakes'
+        klant: '@klant_206'
+        foreignKey: 6
+        model: 'ZrmV2'
+    zrm_207:
+        financien: 0
+        werkOpleiding: 0
+        tijdsbesteding: 0
+        huisvesting: 0
+        huiselijkeRelaties: 0
+        geestelijkeGezondheid: 0
+        lichamelijkeGezondheid: 0
+        middelenGebruik: 0
+        basaleAdl: 0
+        instrumenteleAdl: 0
+        sociaalNetwerk: 0
+        maatschappelijkeParticipatie: 0
+        justitie: 0
+        requestModule: 'intakes'
+        klant: '@klant_207'
+        foreignKey: 7
+        model: 'ZrmV2'
 
 InloopBundle\Entity\Intake:
     intake_{1..20}:
@@ -457,11 +537,11 @@ InloopBundle\Entity\Intake:
         inloophuis: 1
         dagbesteding: <numberBetween(0, 1)>
         hulpverlening: <numberBetween(0, 1)>
-    intake_201:
+    intake_201: #toegangAllesAmocWestOverigNu
         medewerker: '@medewerker_inloop'
         intakedatum: '<dateTimeBetween("-6 days","now")>'
         toegangInloophuis: true
-        intakelocatie: '@locatie_amoc'
+        intakelocatie: '@locatie_amoc_west'
         doelgroep: true
         verblijfInAmsterdamSinds: '<dateTimeThisDecade()>'
         inkomens: ['@inkomen_uitkering']
@@ -474,10 +554,9 @@ InloopBundle\Entity\Intake:
         hulpverlening: 0
         klant: '@klant_201'
         verblijfsstatus: '@verblijfsstatus_7'
-        amocToegangTot: '<dateTimeBetween("-1 days","-1 days")>'
         overigenToegangVan: '<dateTimeBetween("-1 days","-1 days")>'
         zrm: '@zrm_201'
-    intake_202:
+    intake_202: #toegangAmoc
         medewerker: '@medewerker_inloop'
         intakedatum: '<dateTimeBetween("-6 days","now")>'
         toegangInloophuis: true
@@ -494,10 +573,9 @@ InloopBundle\Entity\Intake:
         hulpverlening: 0
         klant: '@klant_202'
         verblijfsstatus: '@verblijfsstatus_7'
-        amocToegangTot: '<dateTimeBetween("+30 days","+30 days")>'
         overigenToegangVan: '<dateTimeBetween("+30 days","+30 days")>'
         zrm: '@zrm_202'
-    intake_203:
+    intake_203: #toegangzeeburg
         medewerker: '@medewerker_inloop'
         intakedatum: '<dateTimeBetween("-6 days","now")>'
         toegangInloophuis: true
@@ -514,11 +592,9 @@ InloopBundle\Entity\Intake:
         hulpverlening: 0
         klant: '@klant_203'
         verblijfsstatus: '@verblijfsstatus_7'
-        amocToegangTot: '<dateTimeBetween("-1 days","-1 days")>'
-        ondroBongToegangVan: '<dateTimeBetween("-2 days","-2 days")>'
         overigenToegangVan: '<dateTimeBetween("+30 days","+30 days")>'
         zrm: '@zrm_203'
-    intake_204:
+    intake_204: #toeganggeen
         medewerker: '@medewerker_inloop'
         intakedatum: '<dateTimeBetween("-6 days","now")>'
         toegangInloophuis: true
@@ -538,7 +614,7 @@ InloopBundle\Entity\Intake:
         amocToegangTot: '<dateTimeBetween("-1 days","-1 days")>'
         overigenToegangVan: '<dateTimeBetween("+30 days","+30 days")>'
         zrm: '@zrm_204'
-    intake_205:
+    intake_205: #toegangLegaal
         medewerker: '@medewerker_inloop'
         intakedatum: '<dateTimeBetween("-6 days","now")>'
         toegangInloophuis: true
@@ -558,3 +634,43 @@ InloopBundle\Entity\Intake:
         amocToegangTot: '<dateTimeBetween("-1 days","-1 days")>'
         overigenToegangVan: '<dateTimeBetween("+30 days","+30 days")>'
         zrm: '@zrm_205'
+    intake_206: #toegangAmocWest
+        medewerker: '@medewerker_inloop'
+        intakedatum: '<dateTimeBetween("-6 days","now")>'
+        toegangInloophuis: true
+        intakelocatie: '@locatie_amoc_west'
+        doelgroep: true
+        verblijfInAmsterdamSinds: '<dateTimeThisDecade()>'
+        inkomens: [ '@inkomen_uitkering' ]
+        verwachtingDienstaanbod: 'test'
+        toekomstplannen: 'test'
+        woonsituatie: '@woonsituatie_*'
+        informeleZorg: 0
+        inloophuis: 1
+        dagbesteding: 0
+        hulpverlening: 0
+        klant: '@klant_206'
+        verblijfsstatus: '@verblijfsstatus_1'
+        amocToegangTot: '<dateTimeBetween("-1 days","-1 days")>'
+        overigenToegangVan: '<dateTimeBetween("+30 days","+30 days")>'
+        zrm: '@zrm_206'
+    intake_207: #toegangVillaZaanstad
+        medewerker: '@medewerker_inloop'
+        intakedatum: '<dateTimeBetween("-6 days","now")>'
+        toegangInloophuis: true
+        intakelocatie: '@locatie_villa_zaanstad
+        doelgroep: true
+        verblijfInAmsterdamSinds: '<dateTimeThisDecade()>'
+        inkomens: [ '@inkomen_uitkering' ]
+        verwachtingDienstaanbod: 'test'
+        toekomstplannen: 'test'
+        woonsituatie: '@woonsituatie_*'
+        informeleZorg: 0
+        inloophuis: 1
+        dagbesteding: 0
+        hulpverlening: 0
+        klant: '@klant_207'
+        verblijfsstatus: '@verblijfsstatus_1'
+        amocToegangTot: '<dateTimeBetween("-1 days","-1 days")>'
+        overigenToegangVan: '<dateTimeBetween("+30 days","+30 days")>'
+        zrm: '@zrm_207'

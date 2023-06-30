@@ -13,7 +13,7 @@ class VerblijfsstatusStrategy implements StrategyInterface
      */
     private $verblijfsstatusIdNietRechthebbend = 7;
 
-    private $verblijsstatusNietRechthebbend = "Niet rechthebbend (uit EU, behalve Nederland)";
+    private $verblijsstatusNietRechthebbend = "Europees Burger (Niet Nederlands)";
 
     public function supports(Locatie $locatie)
     {

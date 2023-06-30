@@ -13,7 +13,7 @@ class ToegangOverigStrategy implements StrategyInterface
      */
     private $verblijfsstatusIdNietRechthebbend = 7;
 
-    private $verblijsstatusNietRechthebbend = "Niet rechthebbend (uit EU, behalve Nederland)";
+    private $verblijsstatusNietRechthebbend = "Europees Burger (Niet Nederlands)";
 
     /** @var Locatie */
     private $locatie;

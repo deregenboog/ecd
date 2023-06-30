@@ -9,7 +9,7 @@ use InloopBundle\Entity\Locatie;
 class AmocStrategy implements StrategyInterface
 {
 
-    private $accessStrategyName = "amoc_oost";
+    private $accessStrategyName = "amoc_stadhouderskade";
 
     /** @var Locatie */
     private $locatie;
@@ -51,7 +51,7 @@ class AmocStrategy implements StrategyInterface
      */
     public function buildQuery(QueryBuilder $builder)
     {
-        $builder->orWhere("( eersteIntake.toegangInloophuis = true AND (eersteIntakeLocatie.naam = 'AMOC Oost' OR (eersteIntakeLocatie.naam = 'AMOC West' AND eersteIntake.intakedatum < :sixmonthsago) ) )");
+        $builder->orWhere("( eersteIntake.toegangInloophuis = true AND (eersteIntakeLocatie.naam = 'AMOC Stadhouderskade' OR (eersteIntakeLocatie.naam = 'AMOC West' AND eersteIntake.intakedatum < :sixmonthsago) ) )");
 //        $builder->setParameter('locatie',$this->locatie->getNaam());
         $builder->setParameter('sixmonthsago',new \DateTime("-6 months") );
 

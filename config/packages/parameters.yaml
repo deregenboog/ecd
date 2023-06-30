@@ -24,8 +24,9 @@ parameters:
     - Letland
     - Litouwen
   access_strategies:
-    amoc_oost:
-      - 'AMOC Oost'
+    amoc_stadhouderskade:
+      - 'AMOC Stadhouderskade'
+      - 'AMOC West'
       - 'Nachtopvang DRG'
     villa_zaanstad:
       - 'Villa Zaanstad'
@@ -45,7 +46,7 @@ parameters:
     - 'STED Zuid-Oost'
     - 'STED Gezinnen'
   amw_locaties:
-    - 'AMOC Oost'
+    - 'AMOC Stadhouderskade'
     - 'Amoc Gebruikersruimte'
     - 'Nachtopvang DRG'
     - 'Princehof Inloop'
@@ -85,7 +86,7 @@ parameters:
   iz_hulpsoorten_zonder_koppelingen:
     - timeout
     - 'Time out'
-  amocverblijfsstatus: 'Niet rechthebbend (uit EU, behalve Nederland)'
+  amocverblijfsstatus: 'Europees Burger (Niet Nederlands)'
 #  verblijfsstatus_niet_rechthebbend_id: 7
   wachtlijst_locaties:
     - 'Wachtlijst T6 Project'

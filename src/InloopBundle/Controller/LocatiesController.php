@@ -43,37 +43,14 @@ class LocatiesController extends AbstractController
         $this->accessStrategies = $accessStrategies;
     }
 
-    /**
-     * Route("/{id}/edit")
-     * @Template
-     */
-    public function ddeditAction(Request $request, $id)
-    {
-        if (in_array('edit', $this->disabledActions)) {
-            throw new AccessDeniedHttpException();
-        }
-
-        $entity = $this->dao->find($id);
-        foreach($this->intakelocaties as $intakeLocatie)
-        {
-            if($intakeLocatie["name"] == $entity->getNaam()){
-                //Geef waarschuwing want naam is gekoppeld aan acties.
-                $this->addFlash('danger', sprintf("Let op, deze locatie heeft speciale functionaliteit in ECD. De naam mag niet aangepast worden."));
-            }
-        }
-
-        return $this->processForm($request, $entity);
-    }
-
     protected function beforeUpdate($locatie)
     {
         $uow = $this->entityManager->getUnitOfWork();
         $uow->computeChangeSets(); // do not compute changes if inside a listener
         $changeset = $uow->getEntityChangeSet($locatie);
 
-        foreach($this->accessStrategies as $strategy => $intakeLocaties)
-        {
-            $t = array_intersect($intakeLocaties, $changeset["naam"]);
+        foreach($this->accessStrategies as $strategy => $intakeLocaties) {
+
             if(isset($changeset["naam"]) && array_intersect($intakeLocaties, $changeset["naam"]) ){
 
                 throw new UserException(sprintf("Let op, deze locatie heeft speciale functionaliteit in ECD. De naam mag niet aangepast worden."));
