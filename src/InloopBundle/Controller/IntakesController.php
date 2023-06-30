@@ -47,14 +47,20 @@ class IntakesController extends AbstractController
      */
     protected $tbc_countries = array();
 
+    protected $accessStrategies = [];
+
+    protected $amocVerblijfsstatus = "";
+
     /**
      * @param IntakeDao $dao
      */
-    public function __construct(IntakeDao $dao, ContainerInterface $container, $tbc_countries=[])
+    public function __construct(IntakeDao $dao, ContainerInterface $container, $tbc_countries=[], $accessStrategies=[],$amocVerblijfsstatus="")
     {
         $this->container = $container;
         $this->dao = $dao;
         $this->tbc_countries = $tbc_countries;
+        $this->accessStrategies = $accessStrategies;
+        $this->amocVerblijfsstatus = $amocVerblijfsstatus;
 
     }
 
@@ -116,12 +122,18 @@ class IntakesController extends AbstractController
             return $this->afterFormSubmitted($request, $entity, null);
         }
 
-        return [
+        return array_merge([
             'entity' => $entity,
             'form' => $form->createView(),
+            'redirect'=>$request->get('redirect')
+        ], $this->addParams($entity, $request));
 
-            'tbc_countries'=>$this->tbc_countries,
-        ];
+//        return [
+//            'entity' => $entity,
+//            'form' => $form->createView(),
+//
+//            'tbc_countries'=>$this->tbc_countries,
+//        ];
     }
 
     /**
@@ -160,8 +172,15 @@ class IntakesController extends AbstractController
     {
         $this->formClass = ToegangType::class;
         $entity = $this->dao->find($id);
-        return $this->processForm($request, $entity);
+        $return = $this->processForm($request, $entity);
 
+//        if(is_array($return)) {
+//            $return['amocVerblijfsstatus'] = $this->amocVerblijfsstatus;
+//            $return['accessStrategies'] = json_encode($this->accessStrategies);
+//
+//        }
+
+        return $return;
     }
 
 
@@ -203,7 +222,8 @@ class IntakesController extends AbstractController
     {
         return [
             'tbc_countries' => $this->tbc_countries,
-
+            'amocVerblijfsstatus' => $this->amocVerblijfsstatus,
+            'accessStrategies' => json_encode($this->accessStrategies),
         ];
     }
 }

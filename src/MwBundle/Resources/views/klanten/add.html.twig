@@ -54,8 +54,8 @@
 
 {% block scripts %}
     {% if amoc_landen is defined %}
-        <script>
-   window.onload = function(){
+    <script>
+    window.onload = function(){
       if($){
 
             $(function() {
@@ -68,7 +68,7 @@
                     var selected = parseInt($('select#klant_land').val());
                     if (amoc_landen.indexOf(selected) != -1) {
                         console.log($('select#klant_land'));
-                        $('select#klant_land').closest('div').append('<p>Personen uit dit land worden doorgestuurd naar AMOC. Op het volgende scherm is een verwijsbrief uit te printen.</p>');
+                        $('select#klant_land').closest('div').append('<p>Personen uit dit land worden doorgestuurd naar AMOC West. Op het volgende scherm is een verwijsbrief uit te printen.</p>');
                     }
                 };
 
@@ -78,9 +78,8 @@
 
                 checkAmoc();
             });
-
-      }
-   }
+      }//end jquery
+   };//end onload
    </script>
-    {% endif %}
+{% endif %}
 {% endblock %}

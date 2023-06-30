@@ -29,6 +29,9 @@ class LocatieType extends AbstractType
             ->add('locatieTypes',LocatieTypeSelectType::class,[
                 'multiple'=>true,
             ])
+            ->add('gebruikersruimte',CheckboxType::class,[
+                'required'=>false,
+            ])
             ->add('datumVan', AppDateType::class)
             ->add('datumTot', AppDateType::class, ['required'=>false])
             ->add('submit', SubmitType::class)

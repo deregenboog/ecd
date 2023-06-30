@@ -14,9 +14,9 @@ use InloopBundle\Strategy\StrategyInterface;
 class KlantFilter implements FilterInterface
 {
     /**
-     * @var StrategyInterface
+     * @var StrategyInterface[]
      */
-    public $strategy;
+    public $strategies;
 
     /**
      * @var int
@@ -53,9 +53,9 @@ class KlantFilter implements FilterInterface
      */
     public $huidigeStatus;
 
-    public function __construct(StrategyInterface $strategy = null)
+    public function __construct(array $strategies = [])
     {
-            $this->strategy = $strategy;
+            $this->strategies = $strategies;
 //            $this->huidigeStatus = Aanmelding::class;
     }
 
@@ -66,15 +66,16 @@ class KlantFilter implements FilterInterface
             ->leftJoin('klant.schorsingen', 'schorsing')
         ;
 
-        if ($this->strategy) {
+        if ($this->strategies) {
             $builder
                 ->addSelect('huidigeStatus')
                 ->innerJoin('klant.huidigeStatus', 'huidigeStatus', 'WITH', 'huidigeStatus INSTANCE OF '.Aanmelding::class)
-                ->andWhere('eersteIntake.toegangInloophuis = true')
             ;
 
-            $this->strategy->buildQuery($builder);
-
+            foreach($this->strategies as $strategy) {
+                if(!$strategy instanceof StrategyInterface) continue;
+                $strategy->buildQuery($builder);
+            }
         }
 
         if ($this->locatie) {

@@ -34,10 +34,17 @@ services:
             $tbc_countries: '%tbc_countries%'
         tags: [ 'controller.service_arguments' ]
 
+    InloopBundle\Controller\LocatiesController:
+        arguments:
+            $accessStrategies: '%access_strategies%'
+        tags: [ 'controller.service_arguments' ]
+
     InloopBundle\Controller\IntakesController:
         arguments:
             $dao: '@InloopBundle\Service\IntakeDao'
             $tbc_countries: '%tbc_countries%'
+            $accessStrategies: '%access_strategies%'
+            $amocVerblijfsstatus: '%amocverblijfsstatus%'
         tags: [ 'controller.service_arguments' ]
 
     InloopBundle\Controller\DeelnamesController:
@@ -93,14 +100,14 @@ services:
             $export: '@inloop.export.vrijwilliger'
         tags: [ 'controller.service_arguments' ]
 
-
-
     InloopBundle\Service\AccessUpdater:
         public: true
         arguments:
             - '@doctrine.orm.entity_manager'
             - '@InloopBundle\Service\KlantDao'
             - '@InloopBundle\Service\LocatieDao'
+            - "%access_strategies%"
+            - "%amocverblijfsstatus%"
 
     InloopBundle\Event\IntakeSubscriber:
         arguments:

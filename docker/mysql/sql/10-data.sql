@@ -202,7 +202,7 @@ INSERT INTO `legitimaties` (`id`, `naam`, `datum_van`, `datum_tot`, `created`, `
 INSERT INTO `locaties` (`id`, `naam`, `nachtopvang`, `gebruikersruimte`, `datum_van`, `datum_tot`, `created`, `modified`, `maatschappelijkwerk`, `tbc_check`) VALUES
 (1, 'Blaka Watra', 0, 0, '2010-02-18', NULL, NULL, NULL, 0, 0),
 (2, 'Princehof Gebruikersruimte', 0, 1, '2010-02-18', NULL, NULL, '2016-10-31 09:39:08', 0, 0),
-(5, 'AMOC', 0, 0, '2010-04-29', NULL, NULL, NULL, 0, 0),
+(5, 'AMOC Stadhouderskade', 0, 0, '2010-04-29', NULL, NULL, NULL, 0, 0),
 (9, 'De Eik', 0, 0, '2010-04-29', NULL, NULL, NULL, 0, 0),
 (10, 'De Kloof', 0, 0, '2010-04-29', NULL, NULL, NULL, 0, 0),
 (11, 'Makom', 0, 0, '2010-04-29', NULL, NULL, NULL, 0, 0),
@@ -378,7 +378,7 @@ INSERT INTO `verblijfstatussen` (`id`, `naam`, `datum_van`, `datum_tot`, `create
 (3, 'Niet rechthebbend (uit Nederland, behalve Amsterdam)', '2010-01-13', NULL, NULL, '2011-03-11 10:24:17'),
 (4, 'Onbekend', '2010-01-13', NULL, NULL, NULL),
 (6, 'Illegaal (uit buiten Europa)', '0000-00-00', NULL, '2011-03-11 10:24:17', '2011-03-11 10:24:17'),
-(7, 'Niet rechthebbend (uit EU, behalve Nederland)', '0000-00-00', NULL, '2011-03-11 10:24:17', '2011-03-11 10:24:17');
+(7, 'Europees Burger (Niet Nederlands)', '0000-00-00', NULL, '2011-03-11 10:24:17', '2011-03-11 10:24:17');
 
 INSERT INTO `verslavingen` (`id`, `naam`, `datum_van`, `datum_tot`, `created`, `modified`) VALUES
 (1, 'Alcohol', '2010-01-06', NULL, NULL, NULL),

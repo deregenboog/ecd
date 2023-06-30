@@ -2,23 +2,45 @@
 
 namespace InloopBundle\Strategy;
 
+use AppBundle\Doctrine\SqlExtractor;
 use Doctrine\ORM\QueryBuilder;
 use InloopBundle\Entity\Locatie;
 
 class AmocStrategy implements StrategyInterface
 {
-    // @todo do not define database ID here
-//    private $locatieIds = [5, 12, 22];
-//    private $locatieIds = [3, 7, 17];
-//@todo Instead of IDs now work with names. Is slower but more reliable when IDs of dev and prod differ. JTB 20190716
 
-    private $amoc_locaties = ['AMOC','Nachtopvang De Regenboog Groep','Nachtopvang DRG','Amoc Gebruikersruimte'];
+    private $accessStrategyName = "amoc_stadhouderskade";
 
+    /** @var Locatie */
+    private $locatie;
+
+    private $amoc_locaties = [];
+
+    private $amocVerblijfsstatus = "";
+
+    /**
+     * Deze strategie houdt in dat alleen voor de AMOC locaties mensen geselecteerd worden die ofwel geen specifieke
+     * AMOC toegang tot hebben, of dat deze nog in de toekomst ligt.
+     *
+     * Er wordt niet gekeken naar verblijfsstatus.
+     *
+     * @param string[] $amoc_locaties
+     */
+    public function __construct(array $accessStrategies, $amocVerblijfsstatus)
+    {
+        $this->amoc_locaties = $accessStrategies[$this->accessStrategyName];
+        $this->amocVerblijfsstatus = $amocVerblijfsstatus;
+    }
+
+    /**
+     * @param Locatie $locatie
+     * @return bool
+     */
     public function supports(Locatie $locatie)
     {
-        $supported = in_array($locatie->getNaam(), $this->amoc_locaties);
-        return $supported;
-//        return in_array($locatie->getId(), $this->locatieIds);
+        $this->locatie = $locatie;
+
+        return in_array($locatie->getNaam(), $this->amoc_locaties);
     }
 
     /**
@@ -29,6 +51,10 @@ class AmocStrategy implements StrategyInterface
      */
     public function buildQuery(QueryBuilder $builder)
     {
-        $builder->andWhere('eersteIntake.amocToegangTot IS NULL OR eersteIntake.amocToegangTot >= DATE(CURRENT_TIMESTAMP())');
+        $builder->orWhere("( eersteIntake.toegangInloophuis = true AND (eersteIntakeLocatie.naam = 'AMOC Stadhouderskade' OR (eersteIntakeLocatie.naam = 'AMOC West' AND eersteIntake.intakedatum < :sixmonthsago) ) )");
+//        $builder->setParameter('locatie',$this->locatie->getNaam());
+        $builder->setParameter('sixmonthsago',new \DateTime("-6 months") );
+
+
     }
 }

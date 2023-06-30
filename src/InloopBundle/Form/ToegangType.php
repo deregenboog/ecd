@@ -56,40 +56,49 @@ class ToegangType extends AbstractType
 
     public static function createToegang(FormBuilderInterface $builder, array $options)
     {
-        return $builder
+        $x = $builder
             ->create('toegang', null, [
                 'compound' => true,
                 'inherit_data' => true,
-                'required'=>true,
+                'required' => true,
 
-            ])
+            ]);
+
+        if (! ($builder->has('algemeen') && $builder->get('algemeen')->has('intakedatum'))) {
+            $x->add('intakedatum',AppDateType::class,[
+                'label'=>'Intakedatum eerste intake'
+            ]);
+        }
+       $x
             ->add('verblijfsstatus', VerblijfsstatusSelectType::class, [
                 'required' => true,
             ])
             ->add('intakelocatie', LocatieSelectType::class, [
                 'required' => true,
+                'placeholder'=>'',
                 'locatietypes'=>['Inloop'],
             ])
             ->add('toegangInloophuis', CheckboxType::class, [
                 'required' => false,
             ])
-            ->add('amocToegangTot', AppDateType::class, [
-                'label' => 'Einddatum toegang AMOC',
-                'required'=>false,
-            ])
-            ->add('ondroBongToegangVan', AppDateType::class, [
-                'label' => 'Startdatum toegang Zeeburg/Transformatorweg',
-                'required'=>false,
+            ->add('specifiekeLocaties', LocatieSelectType::class, [
+                'required' => false,
+                'multiple'=> true,
+                'locatietypes' => ['Inloop'],
             ])
             ->add('overigenToegangVan', AppDateType::class, [
-                'label' => 'Startdatum toegang overigen',
+                'label' => 'Startdatum toegang overig)',
                 'required'=>false,
             ])
             ->add('gebruikersruimte', LocatieSelectType::class, [
                 'required' => false,
                 'gebruikersruimte' => true,
+                'placeholder'=>'Kies een gebruikersruimte'
+
             ])
         ;
+       return $x;
+
     }
 
 }

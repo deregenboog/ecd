@@ -53,67 +53,62 @@
 {% endblock %}
 
 {% block scripts %}
-    {% if amoc_landen is defined %}
-        <script>
-   window.onload = function(){
-      if($){
+    <script>
+        window.onload = function(){
+            if($){
+                $(function() {
+                    {% if amoc_landen is defined %}
+                        var amoc_landen = [];
+                        {% for land in amoc_landen %}
+                        amoc_landen.push({{ land.id }});
+                        {% endfor %}
 
-            $(function() {
-                var amoc_landen = [];
-                {% for land in amoc_landen %}
-                    amoc_landen.push({{ land.id }});
-                {% endfor %}
+                        var checkAmoc = function() {
+                            var selected = parseInt($('select#klant_land').val());
+                            if (amoc_landen.indexOf(selected) != -1) {
+                                console.log($('select#klant_land'));
+                                $('select#klant_land').closest('div').append('<p>Personen uit dit land worden doorgestuurd naar AMOC West. Op het volgende scherm is een verwijsbrief uit te printen.</p>');
+                            }
+                        };
 
-                var checkAmoc = function() {
-                    var selected = parseInt($('select#klant_land').val());
-                    if (amoc_landen.indexOf(selected) != -1) {
-                        console.log($('select#klant_land'));
-                        $('select#klant_land').closest('div').append('<p>Personen uit dit land worden doorgestuurd naar AMOC. Op het volgende scherm is een verwijsbrief uit te printen.</p>');
-                    }
-                };
+                        $('select#klant_land').on('change', function() {
+                            checkAmoc();
+                        });
 
-                $('select#klant_land').on('change', function() {
-                    checkAmoc();
-                });
-
-                checkAmoc();
-            });
-        </script>
-    {% endif %}
-    {% if tbc_countries is defined %}
-        <script>
-                $(function(){
-                    var tbc_countries = [];
-                    {% for country in tbc_countries %}
+                        checkAmoc();
+                    {% endif %}
+                    {% if tbc_countries is defined %}
+                        var tbc_countries = [];
+                        {% for country in tbc_countries %}
                         tbc_countries.push("{{ country }}");
-                    {% endfor %}
+                        {% endfor %}
 
-                    var checkTbc = function(tbc_countries,selectedCountry){
-                        if(jQuery.inArray(selectedCountry,tbc_countries) !== -1)
-                        {
-                            alert("Klant uit risicoland voor TBC besmetting. Naar GGD sturen voor TBC controle.");
-                            $('#klant_laatsteTbcControle').removeClass("hidden");
-                            $("label[for='klant_laatsteTbcControle']").removeClass("hidden");
+                        var checkTbc = function(tbc_countries,selectedCountry){
+                            if(jQuery.inArray(selectedCountry,tbc_countries) !== -1)
+                            {
+                                alert("Klant uit risicoland voor TBC besmetting. Naar GGD sturen voor TBC controle.");
+                                $('#klant_laatsteTbcControle').removeClass("hidden");
+                                $("label[for='klant_laatsteTbcControle']").removeClass("hidden");
 
-                        }
-                        else {
-                            $('#klant_laatsteTbcControle').addClass("hidden");
-                            $("label[for='klant_laatsteTbcControle']").addClass("hidden");
+                            }
+                            else {
+                                $('#klant_laatsteTbcControle').addClass("hidden");
+                                $("label[for='klant_laatsteTbcControle']").addClass("hidden");
 
-                        }
-                        // console.log(event.data.tbc_countries,$(this).find("option:selected").text());
-                    };
+                            }
+                            // console.log(event.data.tbc_countries,$(this).find("option:selected").text());
+                        };
 
-                    $('select#klant_land').change({'tbc_countries':tbc_countries},function(event){
-                        checkTbc(event.data.tbc_countries,$(this).find("option:selected").text() );
-                    });
+                        $('select#klant_land').change({'tbc_countries':tbc_countries},function(event){
+                            checkTbc(event.data.tbc_countries,$(this).find("option:selected").text() );
+                        });
 
-                    checkTbc(tbc_countries,$('select#klant_land option:selected').text())
+                        checkTbc(tbc_countries,$('select#klant_land option:selected').text());
+                    {% endif %}
                 });
 
+            }//end jquery
+        };//end onload
+    </script>
 
-      }
-   }
-   </script>
-    {% endif %}
 {% endblock %}

@@ -2,6 +2,7 @@
 
 namespace InloopBundle\Service;
 
+use AppBundle\Doctrine\SqlExtractor;
 use AppBundle\Entity\Klant;
 use AppBundle\Filter\FilterInterface;
 use AppBundle\Service\AbstractDao;
@@ -53,12 +54,14 @@ class KlantDao extends AbstractDao implements KlantDaoInterface
 
             ->leftJoin('laatsteIntake.intakelocatie', 'laatsteIntakeLocatie')
             ->leftJoin('laatsteIntake.gebruikersruimte', 'gebruikersruimte')
+
+            ->leftJoin('eersteIntake.intakelocatie', 'eersteIntakeLocatie')
         ;
 
         if ($filter) {
             $filter->applyTo($builder);
         }
-
+        $sql = SqlExtractor::getFullSQL($builder->getQuery());
         return $builder;
     }
 

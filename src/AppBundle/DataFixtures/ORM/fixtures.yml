@@ -848,7 +848,7 @@ AppBundle\Entity\Verblijfsstatus:
 #        id: '7'
         datum_van: '<dateTimeThisYear()>'
         datum_tot: '<dateTimeBetween("+1 year", "+1 year")>'
-        naam: 'Niet rechthebbend (uit EU, behalve Nederland)'
+        naam: 'Europees Burger (Niet Nederlands)'
     verblijfsstatus_1:
 #        id: '1'
         naam: 'Legaal'

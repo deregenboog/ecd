@@ -93,67 +93,76 @@
     {{ form_end(form) }}
 {% endblock %}
 {% block scripts %}
-    <script>
+    <script >
+    window.onload = function() {
+        if ($) {
 
-        var toegang = function(name){
-            var check = function(statusId)
-            {
-                if(statusId == "Niet rechthebbend (uit EU, behalve Nederland)") //AMOC klant, regels gelden.
-                {
-                    $("#"+name+"_toegang_amocToegangTot").prop("disabled", false);
-                    $("#"+name+"_toegang_ondroBongToegangVan").prop("disabled", false);
-                    $("#"+name+"_toegang_overigenToegangVan").prop("disabled", false);
+            $(function () {
+                var toegang = function (name) {
 
-                    var sixMonths = new Date();
-                    var m = sixMonths.getMonth();
-                    sixMonths.setMonth(m+6);
-                    if($("#"+name+"_toegang_overigenToegangVan").val()== ""){
-                        $("#"+name+"_toegang_overigenToegangVan").val(sixMonths.toLocaleDateString());
-                    }
-                }
-                else  // niet amoc, geen datum regels.
-                {
-                    $("#"+name+"_toegang_amocToegangTot").prop("disabled", true);
-                    $("#"+name+"_toegang_ondroBongToegangVan").prop("disabled", true);
-                    $("#"+name+"_toegang_overigenToegangVan").prop("disabled", true);
-                }
+                    var check = function () {
 
-            }
 
-            var verblijfsstatusElm = $("#"+name+"_toegang_verblijfsstatus");
+                        var statusId =  $("#" + name + "_toegang_verblijfsstatus").find(":selected").first().text()
+                        var intakelocatie =  $("#" + name + "_toegang_intakelocatie").find(":selected").first().text()
+                        var accessStrategies = {{ accessStrategies|raw }};
+                        var toegang_intakelocatieElm =  $("#" + name + "_toegang_toegangIntakelocatie");
 
-            var verblijfsStatusTxt = verblijfsstatusElm.find("option:selected").first().html()
-            // var verblijfsstatusId = verblijfsstatusElm.find("option:selected").first().val();
-            // console.log(verblijfsstatusElm.find("option:selected").first().val());
-            check(verblijfsStatusTxt);
-            verblijfsstatusElm.on('change',function(){
-                check(this.value);
+                        if (statusId == "{{ amocVerblijfsstatus }}") //AMOC (+west) klant
+                        {
+                            // $("#" + name + "_toegang_overigenToegangVan").prop("disabled", false);
+                            var sixMonths = new Date();
+                            var m = sixMonths.getMonth();
+                            sixMonths.setMonth(m + 6);
+                            if ($("#" + name + "_toegang_overigenToegangVan").val() == "") {
+                                $("#" + name + "_toegang_overigenToegangVan").val(sixMonths.toLocaleDateString());
+
+                            }
+                            $("#" + name + "_toegang_overigenToegangVan").prop("readonly",false);
+                        }
+                        else  // niet amoc, geen datum regels.
+                        {
+                            $("#" + name + "_toegang_overigenToegangVan").val(null);
+                            $("#" + name + "_toegang_overigenToegangVan").prop("readonly","readonly");
+                        }
+
+
+                    }//end check()
+
+                    var verblijfsstatusElm = $("#" + name + "_toegang_verblijfsstatus");
+                    var intakelocatieElm = $("#" + name + "_toegang_intakelocatie");
+
+                    verblijfsstatusElm.on('change', function () {
+                        check();
+                    });
+
+                    intakelocatieElm.on('change',function(){ check(); } );
+
+
+                    check(); // init.
+                };
+
+                toegang($("form").first().attr("name"));
             });
 
-        };
 
-        toegang($("form").first().attr("name"));
-
-        {% if tbc_countries is defined %}
-            $(function(){
+            {% if tbc_countries is defined %}
+            $(function () {
 
                 var tbc_countries = [];
                 {% for country in tbc_countries %}
                 tbc_countries.push("{{ country }}");
                 {% endfor %}
 
-                var checkTbc = function(tbc_countries,selectedCountry,laatsteTbcControle){
-                    if(jQuery.inArray(selectedCountry,tbc_countries) !== -1 )
-                    {
-                        if(laatsteTbcControle == "")
-                        {
+                var checkTbc = function (tbc_countries, selectedCountry, laatsteTbcControle) {
+                    if (jQuery.inArray(selectedCountry, tbc_countries) !== -1) {
+                        if (laatsteTbcControle == "") {
                             alert("Klant uit risicoland voor TBC besmetting. Naar GGD sturen voor TBC controle.");
                         }
                         $('#klant_laatsteTbcControle').removeClass("hidden");
                         $("label[for='klant_laatsteTbcControle']").removeClass("hidden");
 
-                    }
-                    else {
+                    } else {
                         $('#klant_laatsteTbcControle').addClass("hidden");
                         $("label[for='klant_laatsteTbcControle']").addClass("hidden");
 
@@ -162,9 +171,10 @@
                 };
 
 
-
-                checkTbc(tbc_countries,"{{ entity.klant.getLand().getNaam() }}","{{ entity.klant.getLaatsteTbcControle()|date("m-d-Y") }}");
+                checkTbc(tbc_countries, "{{ entity.klant.getLand().getNaam() }}", "{{ entity.klant.getLaatsteTbcControle()|date("m-d-Y") }}");
             });
-        {% endif %}
+        } //end if($)
+    }//end window.onload
+    {% endif %}
     </script>
 {% endblock %}

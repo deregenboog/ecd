@@ -11,6 +11,7 @@ use AppBundle\Entity\Zrm;
 use AppBundle\Model\TimestampableTrait;
 use AppBundle\Validator\NoFutureDate;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
@@ -83,6 +84,16 @@ class Intake
     private $locatie3;
 
     /**
+     * @var Locatie
+     *
+     * @ORM\ManyToMany(targetEntity="Locatie", inversedBy="accessIntakes")
+     * @ORM\JoinTable(name="locaties_accessintakes")
+     * @var Collection<int, Locatie>
+     */
+    private Collection $specifiekeLocaties;
+
+
+    /**
      * @var \DateTime
      *
      * @ORM\Column(name="datum_intake", type="date", nullable=true)
@@ -92,24 +103,6 @@ class Intake
      * @NoFutureDate
      */
     private $intakedatum;
-
-    /**
-     * @var \DateTime
-     *
-     * @ORM\Column(name="amoc_toegang_tot", type="date", nullable=true)
-     * @Gedmo\Versioned
-     * @Assert\Type("\DateTime", groups={"toegang"})
-     */
-    private $amocToegangTot;
-
-    /**
-     * @var \DateTime
-     *
-     * @ORM\Column(name="ondro_bong_toegang_van", type="date", nullable=true)
-     * @Gedmo\Versioned
-     * @Assert\Type("\DateTime", groups={"toegang"})
-     */
-    private $ondroBongToegangVan;
 
     /**
      * @var \DateTime
@@ -1266,6 +1259,23 @@ class Intake
     {
         $this->geinformeerdOpslaanGegevens = $geinformeerdOpslaanGegevens;
     }
+
+    /**
+     * @return Collection
+     */
+    public function getSpecifiekeLocaties(): Collection
+    {
+        return $this->specifiekeLocaties;
+    }
+
+    /**
+     * @param Collection $specifiekeLocaties
+     */
+    public function setSpecifiekeLocaties(Collection $specifiekeLocaties): void
+    {
+        $this->specifiekeLocaties = $specifiekeLocaties;
+    }
+
 
     /**
      * Assert\Callback
