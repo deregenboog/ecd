@@ -128,12 +128,6 @@ class IntakesController extends AbstractController
             'redirect'=>$request->get('redirect')
         ], $this->addParams($entity, $request));
 
-//        return [
-//            'entity' => $entity,
-//            'form' => $form->createView(),
-//
-//            'tbc_countries'=>$this->tbc_countries,
-//        ];
     }
 
     /**
@@ -149,6 +143,7 @@ class IntakesController extends AbstractController
             throw new EntityNotFoundException("Kan intake niet laden.");
         }
 
+
         $this->denyAccessUnlessGranted(
             Permissions::EDIT,
             $entity,
@@ -160,6 +155,15 @@ class IntakesController extends AbstractController
             $entity,
             'Je kan alleen intakes wijzigen die door jezelf zijn aangemaakt.'
         );
+
+
+        if($entity->getId() == $entity->getKlant()->getEersteIntake()->getId())
+        {
+            $this->formClass = IntakeAndToegangType::class;//because it is not the first one, dont show toegang form.
+        }
+        else {
+            $this->formClass = IntakeType::class;//because it is not the first one, dont show toegang form.
+        }
 
         return $this->processForm($request, $entity);
 
@@ -173,12 +177,6 @@ class IntakesController extends AbstractController
         $this->formClass = ToegangType::class;
         $entity = $this->dao->find($id);
         $return = $this->processForm($request, $entity);
-
-//        if(is_array($return)) {
-//            $return['amocVerblijfsstatus'] = $this->amocVerblijfsstatus;
-//            $return['accessStrategies'] = json_encode($this->accessStrategies);
-//
-//        }
 
         return $return;
     }

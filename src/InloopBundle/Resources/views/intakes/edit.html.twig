@@ -2,7 +2,7 @@
 {% import 'html.macro.twig' as html %}
 
 {% block content_top %}
-    <h1>{{ entity_name|capitalize }} toevoegen</h1>
+    <h1>{{ entity_name|capitalize }} bewerken</h1>
 {% endblock %}
 
 {% block content_left %}
@@ -14,7 +14,6 @@
 {% block content_right %}
     {% include '@Inloop/intakes/_form.html.twig' %}
 {% endblock %}
-
 {% block scripts %}
     {% include '@Inloop/intakes/_form_scripts.html.twig' %}
 {% endblock %}
