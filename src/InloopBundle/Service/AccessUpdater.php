@@ -4,6 +4,7 @@ namespace InloopBundle\Service;
 
 use App\InloopBundle\Strategy\AmocWestStrategy;
 use App\InloopBundle\Strategy\VillaZaanstadStrategy;
+use AppBundle\Doctrine\SqlExtractor;
 use AppBundle\Entity\Klant;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\ParameterType;
@@ -84,7 +85,7 @@ class AccessUpdater
             new VillaZaanstadStrategy($this->accessStrategies),
             new AmocStrategy($this->accessStrategies, $this->amocVerblijfsstatus),
             new GebruikersruimteStrategy(),
-            new ToegangOverigStrategy($this->accessStrategies),
+            new ToegangOverigStrategy($this->accessStrategies, $this->em),
         ];
 
     }
@@ -158,12 +159,13 @@ class AccessUpdater
 
             $filter->huidigeStatus = Aanmelding::class; //alleen klanten met een inloopdossier mogen toegang.
 
+
             $builder = $this->klantDao->getAllQueryBuilder($filter);
             $builder
                 ->andWhere('klant.id = :klant_id')
                 ->setParameter('klant_id', $klant->getId());
 
-//            $sql = $builder->getQuery()->getSQL();
+            $sql = SqlExtractor::getFullSQL($builder->getQuery());
 //            $this->log($builder->getQuery()->getSQL());
 
 

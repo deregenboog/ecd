@@ -2,6 +2,8 @@
 
 namespace InloopBundle\Strategy;
 
+use AppBundle\Doctrine\SqlExtractor;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\QueryBuilder;
 use InloopBundle\Entity\Locatie;
 
@@ -21,11 +23,14 @@ class ToegangOverigStrategy implements StrategyInterface
     /** @var array  */
     private $intakeLocaties = [];
 
+    /** @var EntityManagerInterface  */
+    private $em;
     /**
      * @param array $accessStrategies
      */
-    public function __construct(array $accessStrategies)
+    public function __construct(array $accessStrategies,EntityManagerInterface $em)
     {
+        $this->em = $em;
         array_walk($accessStrategies, function($v,$k){
             $this->intakeLocaties = array_merge($this->intakeLocaties,$v);
         });
@@ -42,6 +47,8 @@ class ToegangOverigStrategy implements StrategyInterface
 
         //and make sure the location is not specified in intake related rules.
         return !in_array($locatie->getNaam(),$this->intakeLocaties);
+
+
     }
 
     /**
@@ -72,13 +79,36 @@ class ToegangOverigStrategy implements StrategyInterface
                             'verblijfsstatus.naam = :niet_rechthebbend',
                             'eersteIntake.overigenToegangVan <= :today'
                         )
-                    )
+                    ),
+                    'eersteIntakeLocatie.naam NOT IN (:intakelocaties)'
+
                 )
             )
-
-
             ->setParameter('niet_rechthebbend', $this->verblijsstatusNietRechthebbend)
             ->setParameter('today', new \DateTime('today'))
+            ->setParameter("intakelocaties",$this->intakeLocaties)
+//            ->setParameter("locatie",$this->locatie->getNaam())
         ;
+
+
+//        $subselect = $this->em->createQueryBuilder();
+//        $subselect->select("ll")
+//            ->from(Locatie::class,"ll");
+//        $subselect->select('COUNT(ll.id) AS c')
+////            ->from(Locatie::class,"locatie")
+//            ->where("ll.naam = :locatie AND ll.naam NOT IN (:accessStrategiesLocaties)")
+//            ->setParameter("locatie",$this->locatie->getNaam())
+//            ->setParameter("accessStrategiesLocaties",$this->intakeLocaties)
+//        ;
+//        $sql = SqlExtractor::getFullSQL($subselect->getQuery());
+//        $dql = $subselect->getDQL();
+//
+//        $builder
+//            ->addSelect("(".$dql.") geldig")
+//            ->andWhere("geldig.c = true")
+//        ;
+//
+//        $builder->setParameter("accessStrategiesLocaties",$this->intakeLocaties);
+//        $sql = SqlExtractor::getFullSQL($builder->getQuery());
     }
 }

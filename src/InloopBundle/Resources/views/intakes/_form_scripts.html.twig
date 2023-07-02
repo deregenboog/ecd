@@ -20,8 +20,13 @@
                             var sixMonths = new Date();
                             var m = sixMonths.getMonth();
                             sixMonths.setMonth(m + 6);
+                            var options = {
+                                year: 'numeric',
+                                month: '2-digit',
+                                day: '2-digit',
+                            }
                             if ($("#" + name + "_toegang_overigenToegangVan").val() == "") {
-                                $("#" + name + "_toegang_overigenToegangVan").val(sixMonths.toLocaleDateString());
+                                $("#" + name + "_toegang_overigenToegangVan").val(sixMonths.toLocaleDateString('nl-NL',options));
 
                             }
                             $("#" + name + "_toegang_overigenToegangVan").prop("readonly",false);
