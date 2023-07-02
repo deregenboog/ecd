@@ -32,6 +32,7 @@
 # Docker
 /.mysql/*
 .docker-sync/
+/docker/.env.dev
 
 # Composer
 /vendor/
