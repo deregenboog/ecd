@@ -79,7 +79,7 @@ class IntakeType extends AbstractType
         ]);
     }
 
-    private function createAlgemeen(FormBuilderInterface $builder, array $options)
+    protected function createAlgemeen(FormBuilderInterface $builder, array $options)
     {
         return $builder
             ->create('algemeen', null, [
@@ -89,12 +89,17 @@ class IntakeType extends AbstractType
             ])
             ->add('medewerker', MedewerkerType::class)
             ->add('intakedatum', AppDateType::class)
+            ->add('intakelocatie', LocatieSelectType::class, [
+                'required' => true,
+                'placeholder'=>'',
+                'locatietypes'=>['Inloop'],
+            ])
             ->add('geinformeerdOpslaanGegevens', CheckboxType::class,['required'=>true])
         ;
 
     }
 
-    private function createAdresgegevens(FormBuilderInterface $builder, array $options)
+    protected function createAdresgegevens(FormBuilderInterface $builder, array $options)
     {
         return $builder
             ->create('adresgegevens', null, [
@@ -119,7 +124,7 @@ class IntakeType extends AbstractType
     }
 
 
-    private function createLegitimatiebewijs(FormBuilderInterface $builder, array $options)
+    protected function createLegitimatiebewijs(FormBuilderInterface $builder, array $options)
     {
         return $builder
             ->create('legitimatiebewijs', null, [
@@ -132,7 +137,7 @@ class IntakeType extends AbstractType
         ;
     }
 
-    private function createVerslaving(FormBuilderInterface $builder, array $options)
+    protected function createVerslaving(FormBuilderInterface $builder, array $options)
     {
         $verslaving = $builder->create('verslaving', null, [
             'compound' => true,
@@ -192,7 +197,7 @@ class IntakeType extends AbstractType
         return $verslaving;
     }
 
-    private function createInkomen(FormBuilderInterface $builder, array $options)
+    protected function createInkomen(FormBuilderInterface $builder, array $options)
     {
         return $builder
             ->create('inkomen', null, [
@@ -211,7 +216,7 @@ class IntakeType extends AbstractType
         ;
     }
 
-    private function createWoonsituatie(FormBuilderInterface $builder, array $options)
+    protected function createWoonsituatie(FormBuilderInterface $builder, array $options)
     {
         return $builder
             ->create('woonsituaties', null, [
@@ -227,7 +232,7 @@ class IntakeType extends AbstractType
             ;
     }
 
-    private function createOverigeHulpverlening(FormBuilderInterface $builder, array $options)
+    protected function createOverigeHulpverlening(FormBuilderInterface $builder, array $options)
     {
         return $builder
             ->create('overigeHulpverlening', null, [
@@ -244,7 +249,7 @@ class IntakeType extends AbstractType
         ;
     }
 
-    private function createVerwachtingenPlannen(FormBuilderInterface $builder, array $options)
+    protected function createVerwachtingenPlannen(FormBuilderInterface $builder, array $options)
     {
         return $builder
             ->create('verwachtingenPlannen', null, [
@@ -257,7 +262,7 @@ class IntakeType extends AbstractType
         ;
     }
 
-    private function createIndrukDoelgroep(FormBuilderInterface $builder, array $options)
+    protected function createIndrukDoelgroep(FormBuilderInterface $builder, array $options)
     {
         return $builder
             ->create('indrukDoelgroep', null, [
@@ -270,7 +275,7 @@ class IntakeType extends AbstractType
         ;
     }
 
-    private function createOndersteuning(FormBuilderInterface $builder, array $options)
+    protected function createOndersteuning(FormBuilderInterface $builder, array $options)
     {
         return $builder
             ->create('ondersteuning', null, [

@@ -85,7 +85,7 @@ class AccessUpdater
             new VillaZaanstadStrategy($this->accessStrategies),
             new AmocStrategy($this->accessStrategies, $this->amocVerblijfsstatus),
             new GebruikersruimteStrategy(),
-            new ToegangOverigStrategy($this->accessStrategies, $this->em),
+            new ToegangOverigStrategy($this->accessStrategies, $this->amocVerblijfsstatus, $this->em),
         ];
 
     }
@@ -153,6 +153,7 @@ class AccessUpdater
         foreach ($inloopLocaties as $locatie) {
             $this->log($locatie);
             $strategies = $this->getSupportedStrategies($locatie);
+//            dump($strategies);
 //            $this->log("Strategies used: ".get_class($strategy));
 
             $filter = new KlantFilter($strategies);
@@ -235,8 +236,8 @@ class AccessUpdater
         foreach ($this->strategies as $strategy) {
             if ($strategy->supports($locatie)) {
                 $supportedStrategies[] = $strategy;
-            }
 
+            }
         }
 
         if(count($supportedStrategies) < 1) throw new \LogicException('No supported strategy found!');

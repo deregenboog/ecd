@@ -6,16 +6,12 @@ use AppBundle\Doctrine\SqlExtractor;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\QueryBuilder;
 use InloopBundle\Entity\Locatie;
+use function Symfony\Component\DependencyInjection\Loader\Configurator\expr;
 
 class ToegangOverigStrategy implements StrategyInterface
 {
-    // @todo do not define database ID here
-    /*
-     * @deprecated
-     */
-    private $verblijfsstatusIdNietRechthebbend = 7;
 
-    private $verblijsstatusNietRechthebbend = "Europees Burger (Niet Nederlands)";
+    private $verblijsstatusNietRechthebbend;
 
     /** @var Locatie */
     private $locatie;
@@ -28,7 +24,7 @@ class ToegangOverigStrategy implements StrategyInterface
     /**
      * @param array $accessStrategies
      */
-    public function __construct(array $accessStrategies,EntityManagerInterface $em)
+    public function __construct(array $accessStrategies,string $amocVerblijfsstatus, EntityManagerInterface $em)
     {
         $this->em = $em;
         array_walk($accessStrategies, function($v,$k){
@@ -36,6 +32,7 @@ class ToegangOverigStrategy implements StrategyInterface
         });
 
        $this->intakeLocaties = array_unique($this->intakeLocaties);
+       $this->verblijsstatusNietRechthebbend = $amocVerblijfsstatus;
     }
 
 
@@ -47,9 +44,13 @@ class ToegangOverigStrategy implements StrategyInterface
 
         //and make sure the location is not specified in intake related rules.
         return !in_array($locatie->getNaam(),$this->intakeLocaties);
-
-
     }
+
+    public function isExclusive(): bool
+    {
+        return false;
+    }
+
 
     /**
      * {@inheritdoc}
@@ -64,6 +65,7 @@ class ToegangOverigStrategy implements StrategyInterface
          * - geen verblijfsstatus heeft
          * - of de veblijfsstatus niet gelijk is aan 'Niet rechthebben, (uit EU behalve NL)
          * - OF de verblijffstatus WEL gelijk is aan 'niet rechthebbend' EN de toegang 'overigen' al is ingegaan (in het verleden ligt)
+         * waarbij Villa Zaanstad als intakelocatie een uitzondering heeft: die mogen hier niet komen.
          *
          */
         $builder
@@ -71,44 +73,23 @@ class ToegangOverigStrategy implements StrategyInterface
 
             ->orWhere(
                 $builder->expr()->andX('eersteIntake.toegangInloophuis = true',
-                    $builder->expr()->orX(
-                    'eersteIntake.verblijfsstatus IS NULL',
-                        'verblijfsstatus.naam != :niet_rechthebbend',
+                        'eersteIntakeLocatie.naam != :villa_zaanstad',
+                        $builder->expr()->orX(
+                        'eersteIntake.verblijfsstatus IS NULL',
+                            'verblijfsstatus.naam != :niet_rechthebbend',
 
                         $builder->expr()->andX(
                             'verblijfsstatus.naam = :niet_rechthebbend',
                             'eersteIntake.overigenToegangVan <= :today'
-                        )
+                        ),
                     ),
-                    'eersteIntakeLocatie.naam NOT IN (:intakelocaties)'
-
                 )
             )
             ->setParameter('niet_rechthebbend', $this->verblijsstatusNietRechthebbend)
             ->setParameter('today', new \DateTime('today'))
-            ->setParameter("intakelocaties",$this->intakeLocaties)
-//            ->setParameter("locatie",$this->locatie->getNaam())
+            ->setParameter("villa_zaanstad","Villa Zaanstad")
         ;
 
-
-//        $subselect = $this->em->createQueryBuilder();
-//        $subselect->select("ll")
-//            ->from(Locatie::class,"ll");
-//        $subselect->select('COUNT(ll.id) AS c')
-////            ->from(Locatie::class,"locatie")
-//            ->where("ll.naam = :locatie AND ll.naam NOT IN (:accessStrategiesLocaties)")
-//            ->setParameter("locatie",$this->locatie->getNaam())
-//            ->setParameter("accessStrategiesLocaties",$this->intakeLocaties)
-//        ;
-//        $sql = SqlExtractor::getFullSQL($subselect->getQuery());
-//        $dql = $subselect->getDQL();
-//
-//        $builder
-//            ->addSelect("(".$dql.") geldig")
-//            ->andWhere("geldig.c = true")
-//        ;
-//
-//        $builder->setParameter("accessStrategiesLocaties",$this->intakeLocaties);
 //        $sql = SqlExtractor::getFullSQL($builder->getQuery());
     }
 }

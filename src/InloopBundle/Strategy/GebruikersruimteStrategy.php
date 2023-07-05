@@ -29,6 +29,7 @@ class GebruikersruimteStrategy implements StrategyInterface
         return false;
     }
 
+
     public function buildQuery(QueryBuilder $builder)
     {
         $builder
