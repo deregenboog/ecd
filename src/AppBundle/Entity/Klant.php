@@ -271,7 +271,7 @@ class Klant extends Persoon
         return $this;
     }
 
-    public function __construct(?Request $request)
+    public function __construct(?Request $request = null)
     {
         $this->intakes = new ArrayCollection();
         $this->registraties = new ArrayCollection();

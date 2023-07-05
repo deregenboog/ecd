@@ -72,12 +72,16 @@ class ToegangType extends AbstractType
        $x
             ->add('verblijfsstatus', VerblijfsstatusSelectType::class, [
                 'required' => true,
-            ])
-            ->add('intakelocatie', LocatieSelectType::class, [
+            ]);
+        if (! ($builder->has('algemeen') && $builder->get('algemeen')->has('intakelocatie'))) {
+            $x->
+            add('intakelocatie', LocatieSelectType::class, [
                 'required' => true,
-                'placeholder'=>'',
-                'locatietypes'=>['Inloop'],
-            ])
+                'placeholder' => '',
+                'locatietypes' => ['Inloop'],
+            ]);
+        }
+        $x
             ->add('toegangInloophuis', CheckboxType::class, [
                 'required' => false,
             ])

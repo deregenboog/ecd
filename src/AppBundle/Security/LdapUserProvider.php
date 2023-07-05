@@ -83,7 +83,7 @@ class LdapUserProvider extends \Symfony\Component\Ldap\Security\LdapUserProvider
 
         $flags = $this->findFlags($usercontrol); //for documentation purpose, this is left here...
 
-        dump(($usercontrol & 2));
+//        dump(($usercontrol & 2));
         $isAccountEnabled = !($usercontrol & 2) == 2;
 
         $user = new Medewerker();
