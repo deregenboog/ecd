@@ -108,12 +108,20 @@ services:
     AppBundle\Event\LoginEventListener:
         arguments:
             - '@doctrine.orm.entity_manager'
-            - '@security.user.provider.concrete.ecd_ldap'
             - '@security.untracked_token_storage'
         tags:
-            #            - { name: kernel.event_listener, event: ldap_tools_bundle.login.success, method: onLoginSuccess }
-            #            - { name: kernel.event_listener, event: ldap_tools_bundle.guard.login.failure, method: onLoginFailure }
             - { name: kernel.event_listener, event: Symfony\Component\Security\Http\Event\LoginSuccessEvent, method: onLoginSuccess }
+
+    AppBundle\Event\CheckLdapGroupsListener:
+        arguments:
+            - '@security.ldap_locator'
+            - '%ldap_base_dn%'
+            - '%env(LDAP_SEARCH_USER)%'
+            - '%env(LDAP_SEARCH_PASSWORD)%'
+            - '%roles_groups%'
+        tags:
+            - { name: kernel.event_listener, event: Symfony\Component\Security\Http\Event\CheckPassportEvent, method: onCheckPassport }
+
 
     twig.extension.routing: # override default routing extension
         class: AppBundle\Twig\EcdRoutingExtension

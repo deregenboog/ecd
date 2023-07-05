@@ -36,7 +36,7 @@ security:
         ecd_ldap:
             ldap:
                 service: Symfony\Component\Ldap\Ldap
-                base_dn: 'DC=cluster,DC=DEREGENBOOG'
+                base_dn: '%ldap_base_dn%'
                 search_dn: "%ldap_search_user%"
                 search_password: '%ldap_search_password%'
                 default_roles: ROLE_USER

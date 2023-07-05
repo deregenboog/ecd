@@ -178,7 +178,7 @@ class Medewerker implements UserInterface, PasswordAuthenticatedUserInterface,Eq
         return $this->ldapGroups;
     }
 
-    public function setLdapGroups(array $ldapGroups = [])
+    public function setLdapGroups($ldapGroups = [])
     {
         $this->ldapGroups = $ldapGroups;
 

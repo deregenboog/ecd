@@ -53,6 +53,8 @@ class LdapUserProvider extends \Symfony\Component\Ldap\Security\LdapUserProvider
         67108864 => 'PARTIAL_SECRETS_ACCOUNT'
     );
 
+
+
     /**
      * @param array $rolesGroups
      */
@@ -61,7 +63,9 @@ class LdapUserProvider extends \Symfony\Component\Ldap\Security\LdapUserProvider
         $this->rolesGroups = $rolesGroups;
     }
 
-    protected function loadUser($username, Entry $entry): UserInterface
+
+
+    public function loadUser($username, Entry $entry): UserInterface
     {
         $roles = ['ROLE_USER']; // Actually we should be using $this->defaultRoles, but it's private. Has to be redesigned.
 
@@ -83,7 +87,6 @@ class LdapUserProvider extends \Symfony\Component\Ldap\Security\LdapUserProvider
 
         $flags = $this->findFlags($usercontrol); //for documentation purpose, this is left here...
 
-//        dump(($usercontrol & 2));
         $isAccountEnabled = !($usercontrol & 2) == 2;
 
         $user = new Medewerker();
