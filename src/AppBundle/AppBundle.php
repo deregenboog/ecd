@@ -19,5 +19,6 @@ class AppBundle extends Bundle
         $container->addCompilerPass(new DoelstellingenCompilerPass());
         $container->addCompilerPass(new DownloadsCompilerPass());
         $container->addCompilerPass(new LdapCompilerPass());
+
     }
 }

@@ -24,10 +24,9 @@ class LoginEventListener implements \Symfony\Component\EventDispatcher\EventSubs
      */
     protected $ldapUserProvider;
 
-    public function __construct(EntityManagerInterface $em, LdapUserProvider $ldapUserProvider = null, TokenStorage $tokenStorage)
+    public function __construct(EntityManagerInterface $em, TokenStorage $tokenStorage)
     {
         $this->em = $em;
-        $this->ldapUserProvider = $ldapUserProvider;
         $this->tokenStorage = $tokenStorage;
     }
 
@@ -36,7 +35,7 @@ class LoginEventListener implements \Symfony\Component\EventDispatcher\EventSubs
      */
     public function onLoginSuccess(LoginSuccessEvent $event)
     {
-        /** @var LdapUser $ldapUser */
+        /** @var Medewerker $ldapUser */
         $ldapUser = $event->getUser(); //user made by ldapUserProvider is only a mockup user. No check to database yet.
 
         if (!$ldapUser->isActief()) {
@@ -65,13 +64,6 @@ class LoginEventListener implements \Symfony\Component\EventDispatcher\EventSubs
             ->setLaatsteBezoek(new \DateTime());
         ;
 
-        //        $medewerker->setLdapGuid($ldapUser->getExtraFields()["ldapGuid"]);
-//        $medewerker->setVoornaam($ldapUser->getExtraFields()["voornaam"]);
-//        $medewerker->setAchternaam($ldapUser->getExtraFields()["achternaam"]);
-//        $medewerker->setActief($ldapUser->getExtraFields()["actief"]);
-//        $medewerker->setEmail($ldapUser->getExtraFields()["email"]);
-//        $medewerker->setRoles($ldapUser->getRoles());
-
         $this->em->persist($medewerker);
         $this->em->flush();
         // Login user
@@ -88,10 +80,11 @@ class LoginEventListener implements \Symfony\Component\EventDispatcher\EventSubs
     {
         $exc = $event->getException();
         $prevExc = $exc->getPrevious();
-        throw $prevExc;
+//        throw $prevExc;
         if ($prevExc instanceof LdapConnectionException) {
             throw new \LogicException($prevExc->getMessage());
         }
+        throw $exc;
     }
 
     /**
@@ -99,7 +92,6 @@ class LoginEventListener implements \Symfony\Component\EventDispatcher\EventSubs
      */
     public static function getSubscribedEvents(): array
     {
-        return [];
-      //  return ['ldap_tools_bundle.login.success' => 'onLoginSuccess', 'ldap_tools_bundle.guard.login.failure' => 'onLoginFailure'];
+        return [LoginSuccessEvent::class];
     }
 }
