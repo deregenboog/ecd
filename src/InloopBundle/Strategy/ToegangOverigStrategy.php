@@ -73,7 +73,8 @@ class ToegangOverigStrategy implements StrategyInterface
 
             ->orWhere(
                 $builder->expr()->andX('eersteIntake.toegangInloophuis = true',
-                        'eersteIntakeLocatie.naam != :villa_zaanstad',
+                        $builder->expr()->orX('eersteIntakeLocatie.naam != :villa_zaanstad',
+                        'eersteIntakeLocatie.naam IS NULL'),
                         $builder->expr()->orX(
                         'eersteIntake.verblijfsstatus IS NULL',
                             'verblijfsstatus.naam != :niet_rechthebbend',

@@ -118,6 +118,8 @@ security:
         ROLE_DAGBESTEDING: []
         ROLE_DAGBESTEDING_BEHEER:
             - ROLE_DAGBESTEDING
+        ROLE_DAGBESTEDING_TMP:
+            - ROLE_DAGBESTEDING
         ROLE_HOMESERVICE:
             - CONTROLLER_APP_KLANTEN
             - CONTROLLER_APP_VRIJWILLIGERS
@@ -267,6 +269,7 @@ parameters:
         ROLE_TW_BEHEER2: "CN=ECD Tijdelijk Wonen Beheer,CN=Users,DC=cluster,DC=deregenboog"
         ROLE_ADMINISTRATIEBEDRIJF: "CN=administratiebedrijf,CN=Users,DC=cluster,DC=deregenboog"
         ROLE_DAGBESTEDING: "CN=ECD Trajectbegeleider,CN=Users,DC=cluster,DC=deregenboog"
+        ROLE_DAGBESTEDING_TMP: "CN=ECD Dagbesteding,CN=Users,DC=cluster,DC=deregenboog"
         ROLE_DAGBESTEDING_BEHEER: "CN=ECD Dagbesteding Beheer,CN=Users,DC=cluster,DC=deregenboog"
         ROLE_CLIP: "CN=ECD CLIP,CN=Users,DC=cluster,DC=deregenboog"
         ROLE_CLIP_BEHEER: "CN=ECD CLIP Beheer,CN=Users,DC=cluster,DC=deregenboog"
