@@ -103,6 +103,7 @@
 
 {% macro schorsingenTabel(schorsingen, entity, allRows, route_base) %}
     {% import 'html.macro.twig' as html %}
+    {% set route_base = 'inloop_schorsingen_' %}
 <table class="table table-hover">
     <thead>
     <tr>
