@@ -107,6 +107,7 @@ class CheckLdapGroupsListener implements EventSubscriberInterface
                 }
 
                 $entry = $entries[0];
+                $roles[] = 'ROLE_USER';
                 foreach ($entry->getAttribute('memberOf') as $groupLine) { // Iterate through each group entry line
                     if (false !== $key = array_search($groupLine, $this->rolesGroups)) { // Check if the group is in the mapping
                         $roles[] = $key; // Map the group to the role the user will have

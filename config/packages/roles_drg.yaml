@@ -72,7 +72,6 @@ security:
             - ROLE_INLOOP_REGISTRATIES
             - ROLE_INLOOP_OPMERKINGEN
             - ROLE_INLOOP_SCHORSINGEN
-            - ROLE_USER
         ROLE_PFO_BEPERKT: []
         ROLE_PFO_BEHEER: []
         ROLE_PFO:
@@ -166,7 +165,6 @@ security:
         ROLE_HRM:
             - ROLE_USERADMIN
         ROLE_ADMIN:
-            - ROLE_USER
             - ROLE_MW
             - ROLE_MW_BEHEER
             - ROLE_REPORT
