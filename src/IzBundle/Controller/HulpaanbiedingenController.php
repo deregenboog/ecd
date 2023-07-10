@@ -80,7 +80,7 @@ class HulpaanbiedingenController extends AbstractChildController
         return $this->processForm($request, $entity);
     }
 
-    protected function addParams($entity, Request $request)
+    protected function addParams($entity, Request $request): array
     {
         if ('iz_hulpaanbiedingen_view' === $request->get('_route')) {
             $form = $this->getForm(HulpvraagFilterType::class, new HulpvraagFilter(), [

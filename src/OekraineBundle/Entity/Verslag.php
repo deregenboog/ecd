@@ -88,10 +88,12 @@ class Verslag
      */
     private $duur = 0;
 
-    public const TYPE_MW = 1;
-    public const TYPE_INLOOP = 2;
+    public const TYPE_PSYCH = 4;
+    public const TYPE_MW = 2;
+    public const TYPE_INLOOP = 1;
 
     protected static $types = [
+        self::TYPE_PSYCH => "Psychologen verslag (Oekraine)",
         self::TYPE_MW => "Maatschappelijk werk-verslag (Oekraine)",
         self::TYPE_INLOOP => "Inloopverslag (Oekraine)",
     ];
@@ -104,12 +106,14 @@ class Verslag
      */
     private $type = self::TYPE_MW;
 
-    public const ACCESS_MW = 1;
-    public const ACCESS_ALL = 2;
+    public const ACCESS_PSYCH = 4;
+    public const ACCESS_MW = 2;
+    public const ACCESS_INLOOP = 1;
 
     public static $accessTypes = [
+        self::ACCESS_PSYCH => "Leesbaar voor MW-psychologen (Oekraine)",
         self::ACCESS_MW => "Alleen leesbaar voor MW-ers (Oekraine)",
-        self::ACCESS_ALL => "Leesbaar voor inloop en MW (Oekraine)",
+        self::ACCESS_INLOOP => "Leesbaar voor inloop en MW (Oekraine)",
     ];
 
     /**
@@ -117,12 +121,11 @@ class Verslag
      * @ORM\Column(name="accessType", type="integer", options={"default":1})
      * @Gedmo\Versioned
      */
-    private $access = self::ACCESS_ALL;
+    private $access = self::ACCESS_INLOOP;
 
-    public function __construct($type = 2)
+    public function __construct($type = self::TYPE_INLOOP)
     {
         $this->setType($type);
-//        $this->bezoeker = $bezoeker;
         $this->datum = new \DateTime();
     }
 
@@ -303,7 +306,12 @@ class Verslag
      */
     public function setAccess(int $access): void
     {
-//        if(is_null($access)) $access = self::$accessTypes[self::ACCESS_ALL];
+//        if(is_null($access)) $access = self::$accessTypes[self::ACCESS_INLOOP];
         $this->access = $access;
+    }
+
+    public function getAccessAsString(): string
+    {
+        return self::$accessTypes[$this->access];
     }
 }

@@ -185,6 +185,7 @@ security:
             - ROLE_OEK
             - ROLE_OEK_BEHEER
             - ROLE_OEKRAINE_BEHEER
+            - ROLE_OEKRAINE_PSYCH
             - ROLE_INLOOP
             - ROLE_INLOOP_BEHEER
             - ROLE_BACK_ON_TRACK_COORDINATOR
@@ -295,3 +296,5 @@ parameters:
         ROLE_OEKRAINE_LOCATIEHOOFD: "CN=ECD Oekraine Locatiehoofd,CN=Users,DC=cluster,DC=deregenboog"
         ROLE_OEKRAINE_BEHEER: "CN=ECD Oekraine Beheer,CN=Users,DC=cluster,DC=deregenboog"
         ROLE_OEKRAINE_MW: "CN=ECD Oekraine Maatschappelijk werk,CN=Users,DC=cluster,DC=deregenboog"
+        ROLE_OEKRAINE_PSYCH: "CN=ECD Oekraine Psychologen,CN=Users,DC=cluster,DC=deregenboog"
+

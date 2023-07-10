@@ -53,20 +53,14 @@ class VerslagType extends AbstractType
                 'required' => true,
                 'expanded' => true,
             ])
-//            ->add('opmerking', AppTextareaType::class, [
-//                'required' => true,
-//                'attr' => [
-//                    'cols' => 50,
-//                    'rows' => 10,
-//                ],
-//            ])
             ->add('opmerking', CKEditorType::class, ['attr' => ['rows' => 10,'cols'=>50],'required'=>true])
             ->add('access', ChoiceType::class,[
                 'required'=>true,
                 'label'=>'Zichtbaar voor',
                 'choices'=>[
+                    Verslag::$accessTypes[Verslag::ACCESS_PSYCH]=>Verslag::ACCESS_PSYCH,
                     Verslag::$accessTypes[Verslag::ACCESS_MW]=>Verslag::ACCESS_MW,
-                    Verslag::$accessTypes[Verslag::ACCESS_ALL]=>Verslag::ACCESS_ALL,
+                    Verslag::$accessTypes[Verslag::ACCESS_INLOOP]=>Verslag::ACCESS_INLOOP,
                     ],
                 ])
             ->add('submit', SubmitType::class)

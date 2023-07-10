@@ -97,7 +97,7 @@ class VerslagenController extends AbstractController
         return $this->processForm($request, $entity);
     }
 
-    protected function addParams($entity, Request $request)
+    protected function addParams($entity, Request $request): array
     {
         assert($entity instanceof Verslag);
 
@@ -108,57 +108,7 @@ class VerslagenController extends AbstractController
 
         return [
             'diensten' => $event->getDiensten(),
-//            'inventarisaties' => $this->inventarisatieDao->findAllAsTree(),
         ];
     }
 
-    protected function ddprocessForm(Request $request, $entity = null)
-    {
-//        $inventarisaties = $this->inventarisatieDao->findAllAsTree();
-//        $model = new VerslagModel($entity, $inventarisaties);
-
-        $form = $this->getForm($this->formClass, $model, [
-            'medewerker' => $this->getMedewerker(),
-            'inventarisaties' => $inventarisaties,
-        ]);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            try {
-                if ($entity->getId()) {
-                    $this->dao->update($entity);
-                } else {
-
-                    $this->dao->create($entity);
-                }
-                $this->addFlash('success', ucfirst($this->entityName).' is opgeslagen.');
-            } catch(UserException $e) {
-//                $this->logger->error($e->getMessage(), ['exception' => $e]);
-                $message =  $e->getMessage();
-                $this->addFlash('danger', $message);
-//                return $this->redirectToRoute('app_klanten_index');
-            } catch (\Exception $e) {
-                $this->logger->error($e->getMessage(), ['exception' => $e]);
-                $message = $this->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
-                $this->addFlash('danger', $message);
-            }
-            if($entity->getKlant()->getHuidigeMwStatus() == null)
-            {
-               return $this->redirectToRoute("mw_klanten_addmwdossierstatus",['id'=>$entity->getKlant()->getId()]);
-
-            }
-            else
-            {
-                return $this->redirectToRoute("mw_klanten_view",['id'=>$entity->getKlant()->getId()]);
-            }
-
-            return $this->afterFormSubmitted($request, $entity, null);
-        }
-
-        return [
-            'entity' => $entity,
-            'form' => $form->createView(),
-            'inventarisaties' => $inventarisaties,
-        ];
-    }
 }

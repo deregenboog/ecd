@@ -81,7 +81,7 @@ class GroepenController extends AbstractController
         return [];
     }
 
-    protected function addParams($entity, Request $request)
+    protected function addParams($entity, Request $request): array
     {
         if (!$entity->getId()) {
             return [];

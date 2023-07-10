@@ -137,7 +137,7 @@ class KlantdossiersController extends DossiersController
         return $this->processForm($request, $dossier);
     }
 
-    protected function addParams($entity, Request $request)
+    protected function addParams($entity, Request $request): array
     {
         assert($entity instanceof Klantdossier);
 

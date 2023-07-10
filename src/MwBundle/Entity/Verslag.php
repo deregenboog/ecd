@@ -32,6 +32,7 @@ class Verslag
     use IdentifiableTrait;
     use TimestampableTrait;
 
+
     public const TYPE_MW = 1;
     public const TYPE_INLOOP = 2;
 
@@ -41,6 +42,7 @@ class Verslag
     public static $accessTypes = [
         self::ACCESS_MW => "Leesbaar alleen binnen MW",
         self::ACCESS_ALL => "Leesbaar voor inloop en MW",
+
     ];
 
     protected static $types = [
@@ -262,7 +264,7 @@ class Verslag
      */
     public function setAccess(int $access): void
     {
-//        if(is_null($access)) $access = self::$accessTypes[self::ACCESS_ALL];
+//        if(is_null($access)) $access = self::$accessTypes[self::ACCESS_INLOOP];
         $this->access = $access;
     }
 

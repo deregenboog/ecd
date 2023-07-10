@@ -85,7 +85,7 @@ class VerslagenController extends AbstractController
         return $this->processForm($request, $entity);
     }
 
-    protected function addParams($entity, Request $request)
+    protected function addParams($entity, Request $request): array
     {
         assert($entity instanceof Verslag);
 
