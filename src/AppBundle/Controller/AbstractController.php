@@ -623,7 +623,7 @@ abstract class AbstractController extends SymfonyController
         return;
     }
 
-    protected function addParams($entity, Request $request)
+    protected function addParams($entity, Request $request): array
     {
         return [];
     }

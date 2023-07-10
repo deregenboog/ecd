@@ -153,7 +153,7 @@ class KlantenController extends AbstractController
         ];
 
     }
-    protected function addParams($entity, Request $request)
+    protected function addParams($entity, Request $request): array
     {
         assert($entity instanceof Klant);
 

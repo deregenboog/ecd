@@ -96,11 +96,14 @@ abstract class AbstractChildController extends AbstractController
             return $this->redirectToView($entity);
         }
 
-        return [
+
+        $return = [
             'entity' => $entity,
             'parent_entity' => $parentEntity,
             'form' => $form->createView(),
         ];
+        return array_merge($return,$this->addParams($entity,$request));
+
     }
 
     /**
@@ -189,11 +192,12 @@ abstract class AbstractChildController extends AbstractController
             }
         }
 
-        return [
+        $return = [
             'entity' => $entity,
             'entity_name'=>$this->entityName,
             'form' => $form->createView(),
         ];
+        return array_merge($return, $this->addParams($entity,$request));
     }
 
     protected function persistEntity($entity, $parentEntity)

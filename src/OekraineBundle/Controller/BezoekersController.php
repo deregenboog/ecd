@@ -15,6 +15,7 @@ use OekraineBundle\Entity\Afsluiting;
 use OekraineBundle\Entity\Bezoeker;
 use OekraineBundle\Entity\Locatie;
 use OekraineBundle\Entity\Registratie;
+use OekraineBundle\Entity\Verslag;
 use OekraineBundle\Event\Events;
 use OekraineBundle\Form\AanmeldingType;
 use OekraineBundle\Form\AfsluitingType;
@@ -40,6 +41,8 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class BezoekersController extends AbstractController
 {
+    use AccessProfileTrait;
+
     protected $entityName = 'bezoeker';
     protected $entityClass = Bezoeker::class;
     protected $formClass = BezoekerType::class;
@@ -243,22 +246,6 @@ class BezoekersController extends AbstractController
     }
 
     /**
-     * @Route("/{klant}/amoc.pdf")
-     * @ParamConverter("klant", class="AppBundle:Klant")
-     */
-    public function amocAction(Klant $bezoeker)
-    {
-        $html = $this->renderView('@Inloop/klanten/amoc_brief.pdf.twig', ['klant' => $bezoeker]);
-        $pdf = new PdfBrief($html);
-
-        $response = new Response($pdf->Output(null, 'S'));
-        $response->headers->set('Content-type', 'application/pdf');
-        $response->headers->set('Content-Transfer-Encoding', 'binary');
-
-        return $response;
-    }
-
-    /**
      * @Route("/{id}/close")
      */
     public function closeAction(Request $request, $id)
@@ -276,7 +263,7 @@ class BezoekersController extends AbstractController
 
                 $this->eventDispatcher->dispatch(new GenericEvent($afsluiting), Events::DOSSIER_CHANGED);
 
-                $this->addFlash('success', 'Inloopdossier is afgesloten');
+                $this->addFlash('success', 'Oekrainedossier is afgesloten');
 
             } catch(UserException $e) {
 //                $this->logger->error($e->getMessage(), ['exception' => $e]);
@@ -398,9 +385,13 @@ class BezoekersController extends AbstractController
         ];
     }
 
-    protected function addParams($entity, Request $request)
+    protected function addParams($entity, Request $request): array
     {
-        return [];
+        $accessProfile = Verslag::ACCESS_INLOOP;
+
+        return [
+            'accessProfile' => $this->getAccessProfile(),
+        ];
     }
 
 

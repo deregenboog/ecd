@@ -16,15 +16,7 @@ class VerslagDao extends AbstractDao implements VerslagDaoInterface
 
     public function create(Verslag $entity)
     {
-//        if($entity->getKlant()->getHuidigeMwStatus() == null)
-//        {
-//            $mwAanmelding = new Aanmelding($entity->getKlant(),$entity->getMedewerker());
-//            $entity->getKlant()->setHuidigeMwStatus($mwAanmelding);
-//
-//        }
         $this->doCreate($entity);
-
-
     }
 
     public function update(Verslag $entity)
@@ -48,11 +40,6 @@ class VerslagDao extends AbstractDao implements VerslagDaoInterface
         $builder = $this->repository->createQueryBuilder('verslagen');
 
         $builder = self::buildUniqueKlantenVoorLocatiesQuery($builder,$startdatum,$einddatum,$locatieNamen);
-
-//            ->setParameter("totKlant",5)
-            ;
-
-//        $sql = SqlExtractor::getFullSQL($builder->getQuery());
 
         return $builder->getQuery();
 

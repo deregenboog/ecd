@@ -216,7 +216,7 @@ class IntakesController extends AbstractController
         return $response;
     }
 
-    protected function addParams($entity, Request $request)
+    protected function addParams($entity, Request $request): array
     {
         return [
             'tbc_countries' => $this->tbc_countries,

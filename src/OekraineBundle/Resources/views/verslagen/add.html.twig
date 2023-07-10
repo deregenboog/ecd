@@ -4,6 +4,11 @@
 {% set max_depth = 4 %}
 {% set col_width = (100/(max_depth))|round(0, 'floor') %}
 
+{#Should be set in controller#}
+{% if accessProfile is not defined %}
+    {% set accessProfile = 1 %}
+{% endif %}
+
 {% block content_top %}
     <h1>{{ entity_name|capitalize }} toevoegen voor {{ entity.bezoeker }}</h1>
 {% endblock %}
@@ -34,8 +39,9 @@
         {{ form_row(form.opmerking) }}
         {{ form_end(form,{'render_rest':false}) }}
         <h2>Vorige verslagen</h2>
+
         <div style="max-height: 30em; overflow-y: scroll;">
-            {% for verslag in entity.bezoeker.verslagen|filter(verslag => (verslag.type == 1 and roleMw == true) or (verslag.type == 1 and verslag.access == 2) or verslag.type == 2) %}
+            {% for verslag in entity.bezoeker.verslagen|filter(verslag => (verslag.access <= accessProfile) ) %}
 
                 <h3>Verslag van {{ verslag.datum|date('d-m-Y') }}</h3>
                 <div class="row">

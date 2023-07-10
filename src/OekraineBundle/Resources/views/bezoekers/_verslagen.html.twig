@@ -5,13 +5,24 @@
         {{ html.link('Verslag toevoegen', path('oekraine_verslagen_add', {bezoeker: entity.id}), 'add') }}
     </p>
 {% endif %}
+{#Should be set in controller#}
+{% if accessProfile is not defined %}
+    {% set accessProfile = 1 %}
+{% endif %}
+
 {% if is_granted("ROLE_MW") %}
     {%  set roleMw = true %}
 {% else %}
     {%  set roleMw = false %}
 {% endif %}
 
-{% for verslag in entity.verslagen|filter(verslag => (verslag.type == 1 and roleMw == true) or (verslag.type == 1 and verslag.access == 2) or verslag.type == 2) %}
+{% if is_granted("ROLE_OEKRAINE_PSYCH") %}
+    {%  set rolePsych = true %}
+{% else %}
+    {%  set rolePsych = false %}
+{% endif %}
+
+{% for verslag in entity.verslagen|filter(verslag => (verslag.access <= accessProfile) ) %}
 
     <h3>Verslag van {{ verslag.datum|date('d-m-Y') }}</h3>
     <p>
@@ -25,6 +36,8 @@
     <div class="row {{class}}">
         <div class="col-xs-6">
             <dl class="dl-horizontal">
+                <dt>Zichtbaarheid</dt>
+                <dd>{{ verslag.accessAsString }}</dd>
                 <dt>Locatie</dt>
                 <dd>{{ verslag.locatie }}</dd>
                 <dt>Medewerker</dt>
