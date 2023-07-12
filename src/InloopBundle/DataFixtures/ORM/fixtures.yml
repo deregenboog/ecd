@@ -658,7 +658,7 @@ InloopBundle\Entity\Intake:
         medewerker: '@medewerker_inloop'
         intakedatum: '<dateTimeBetween("-6 days","now")>'
         toegangInloophuis: true
-        intakelocatie: '@locatie_villa_zaanstad
+        intakelocatie: '@locatie_villa_zaanstad'
         doelgroep: true
         verblijfInAmsterdamSinds: '<dateTimeThisDecade()>'
         inkomens: [ '@inkomen_uitkering' ]

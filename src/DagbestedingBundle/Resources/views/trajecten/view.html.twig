@@ -90,8 +90,6 @@
             <li><a data-toggle="tab" href="#beschikbaarheid">Beschikbaarheid</a></li>
             <li><a data-toggle="tab" href="#werkdoelen">Werkdoelen</a></li>
             <li><a data-toggle="tab" href="#contactpersonen">Contactpersonen</a></li>
-            <li><a data-toggle="tab" href="#verslagen">Verslagen</a></li>
-            <li><a data-toggle="tab" href="#documenten">Documenten</a></li>
         </ul>
         <div class="tab-content">
             <div id="aanwezigheid" class="tab-pane active">
@@ -105,12 +103,6 @@
             </div>
             <div id="contactpersonen" class="tab-pane">
                 {% include '@Dagbesteding/contactpersonen/_list.html.twig' with {deelnemer: entity.deelnemer} %}
-            </div>
-            <div id="verslagen" class="tab-pane">
-                {% include '@Dagbesteding/verslagen/_list.html.twig' with {traject: entity} %}
-            </div>
-            <div id="documenten" class="tab-pane">
-                {% include '@Dagbesteding/documenten/_list.html.twig' with {traject: entity} %}
             </div>
         </div>
     {% else %}

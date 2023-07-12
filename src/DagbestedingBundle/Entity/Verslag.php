@@ -35,6 +35,12 @@ class Verslag
     private $opmerking;
 
     /**
+     * @var Deelnemer
+     * @ORM\ManyToOne(targetEntity="DagbestedingBundle\Entity\Deelnemer",inversedBy="verslagen")
+     */
+    private $deelnemer;
+
+    /**
      * @var \DateTime
      *
      * @ORM\Column(type="datetime")
@@ -78,4 +84,22 @@ class Verslag
 
         return $this;
     }
+
+    /**
+     * @return Deelnemer
+     */
+    public function getDeelnemer(): Deelnemer
+    {
+        return $this->deelnemer;
+    }
+
+    /**
+     * @param Deelnemer $deelnemer
+     */
+    public function setDeelnemer(Deelnemer $deelnemer): void
+    {
+        $this->deelnemer = $deelnemer;
+    }
+
+
 }

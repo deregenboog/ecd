@@ -104,23 +104,6 @@ class Traject
      */
     private $afsluiting;
 
-    /**
-     * @var ArrayCollection|Verslag[]
-     *
-     * @ORM\ManyToMany(targetEntity="Verslag", cascade={"persist"})
-     * @ORM\JoinTable(name="dagbesteding_traject_verslag")
-     * @ORM\OrderBy({"datum" = "DESC", "id" = "DESC"})
-     */
-    private $verslagen;
-
-    /**
-     * @var ArrayCollection|Document[]
-     *
-     * @ORM\ManyToMany(targetEntity="Document", cascade={"persist"})
-     * @ORM\JoinTable(name="dagbesteding_traject_document")
-     * @ORM\OrderBy({"id" = "DESC"})
-     */
-    private $documenten;
 
     /**
      * @var ArrayCollection|Locatie[]
@@ -295,17 +278,7 @@ class Traject
         return null === $this->afsluiting;
     }
 
-    public function getVerslagen()
-    {
-        return $this->verslagen;
-    }
 
-    public function addVerslag(Verslag $verslag)
-    {
-        $this->verslagen[] = $verslag;
-
-        return $this;
-    }
 
     public function getAfsluiting()
     {
