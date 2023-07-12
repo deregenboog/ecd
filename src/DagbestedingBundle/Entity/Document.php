@@ -25,6 +25,22 @@ class Document
     use TimestampableTrait;
     use RequiredMedewerkerTrait;
 
+
+    public const TYPE_DIVERS = 'Divers';
+    public const TYPE_TOESTEMMINGSVERKLARING = 'Toestemmingsverklaring';
+    public const TYPE_ONDERSTEUNINGSPLAN = 'Ondersteuningsplan';
+    public const TYPE_CV = 'CV';
+    public const TYPE_VOORSTELPROFIEL= 'Voorstelprofiel';
+
+
+    public const TYPES = [
+        'Divers' => self::TYPE_DIVERS,
+        'Toestemmingsverklaring' => self::TYPE_TOESTEMMINGSVERKLARING,
+        'Ondersteuningsplan' => self::TYPE_ONDERSTEUNINGSPLAN,
+        'CV' => self::TYPE_CV,
+        'Voorstelprofiel'=> self::TYPE_VOORSTELPROFIEL,
+    ];
+
     /**
      * @var string
      * @ORM\Column
@@ -45,6 +61,13 @@ class Document
     private $deelnemer;
 
     /**
+     * @var int
+     * @ORM\Column()
+     * @deprecated Can be removed after succesful migration of data // 20230712 JTB
+     */
+    private $traject_id;
+
+    /**
      * @var \DateTime
      *
      * @ORM\Column(type="datetime")
@@ -59,6 +82,13 @@ class Document
      * @Gedmo\Versioned
      */
     protected $modified;
+
+    /**
+     * @var string
+     * @ORM\Column()
+     */
+    protected $type = self::TYPE_DIVERS;
+
 
     public function getFilename()
     {
@@ -99,5 +129,23 @@ class Document
     {
         $this->deelnemer = $deelnemer;
     }
+
+    /**
+     * @return string
+     */
+    public function getType(): string
+    {
+        return $this->type;
+    }
+
+    /**
+     * @param string $type
+     */
+    public function setType(string $type): void
+    {
+        $this->type = $type;
+    }
+
+
 
 }
