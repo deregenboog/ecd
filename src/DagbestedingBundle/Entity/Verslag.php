@@ -41,6 +41,13 @@ class Verslag
     private $deelnemer;
 
     /**
+     * @var int
+     * @ORM\Column()
+     * @deprecated Can be removed after succesful migration of data // 20230712 JTB
+     */
+    private $traject_id;
+
+    /**
      * @var \DateTime
      *
      * @ORM\Column(type="datetime")
