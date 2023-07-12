@@ -39,6 +39,12 @@ class Document
     private $file;
 
     /**
+     * @var Deelnemer
+     * @ORM\ManyToOne(targetEntity="DagbestedingBundle\Entity\Deelnemer", inversedBy="documenten")
+     */
+    private $deelnemer;
+
+    /**
      * @var \DateTime
      *
      * @ORM\Column(type="datetime")
@@ -77,4 +83,21 @@ class Document
 
         return $this;
     }
+
+    /**
+     * @return Deelnemer
+     */
+    public function getDeelnemer(): Deelnemer
+    {
+        return $this->deelnemer;
+    }
+
+    /**
+     * @param Deelnemer $deelnemer
+     */
+    public function setDeelnemer(Deelnemer $deelnemer): void
+    {
+        $this->deelnemer = $deelnemer;
+    }
+
 }

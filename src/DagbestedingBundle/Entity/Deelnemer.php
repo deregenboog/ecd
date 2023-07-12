@@ -67,8 +67,8 @@ class Deelnemer
     /**
      * @var ArrayCollection|Verslag[]
      *
-     * @ORM\ManyToMany(targetEntity="Verslag", cascade={"persist"})
-     * @ORM\JoinTable(name="dagbesteding_deelnemer_verslag")
+     * @ORM\OneToMany(targetEntity="Verslag", mappedBy="deelnemer", cascade={"persist"})
+     * ORM\JoinTable(name="dagbesteding_deelnemer_verslag")
      * @ORM\OrderBy({"datum" = "DESC", "id" = "DESC"})
      */
     private $verslagen;
@@ -76,8 +76,8 @@ class Deelnemer
     /**
      * @var ArrayCollection|Document[]
      *
-     * @ORM\ManyToMany(targetEntity="Document", cascade={"persist"})
-     * @ORM\JoinTable(name="dagbesteding_deelnemer_document")
+     * @ORM\OneToMany(targetEntity="Document", mappedBy="deelnemer", cascade={"persist"})
+     * ORM\JoinTable(name="dagbesteding_deelnemer_document")
      * @ORM\OrderBy({"id" = "DESC"})
      */
     private $documenten;
@@ -284,6 +284,8 @@ class Deelnemer
         $this->werkbegeleider = $werkbegeleider;
         return $this;
     }
+
+
 
     public function reopen()
     {
