@@ -88,8 +88,6 @@
         <ul class="nav nav-tabs">
             <li class="active"><a data-toggle="tab" href="#aanwezigheid">Aanwezigheid</a></li>
             <li><a data-toggle="tab" href="#beschikbaarheid">Beschikbaarheid</a></li>
-            <li><a data-toggle="tab" href="#werkdoelen">Werkdoelen</a></li>
-            <li><a data-toggle="tab" href="#contactpersonen">Contactpersonen</a></li>
         </ul>
         <div class="tab-content">
             <div id="aanwezigheid" class="tab-pane active">
@@ -98,12 +96,7 @@
             <div id="beschikbaarheid" class="tab-pane">
                 {% include '@Dagbesteding/deelnames/_list.html.twig' with {entity: entity} %}
             </div>
-            <div id="werkdoelen" class="tab-pane active">
-                {% include '@Dagbesteding/werkdoelen/_list.html.twig' with {deelnemer: entity} %}
-            </div>
-            <div id="contactpersonen" class="tab-pane">
-                {% include '@Dagbesteding/contactpersonen/_list.html.twig' with {deelnemer: entity.deelnemer} %}
-            </div>
+
         </div>
     {% else %}
         {% include '@Dagbesteding/dagdelen/_list.html.twig' with {traject: entity} %}

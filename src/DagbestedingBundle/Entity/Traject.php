@@ -145,23 +145,14 @@ class Traject
      */
     protected $deletedAt;
 
-    /**
-     * @var ArrayCollection|Werkdoel[]
-     *
-     * @ORM\OneToMany(targetEntity="DagbestedingBundle\Entity\Werkdoel", mappedBy="traject", cascade={"persist"})
-     * @ORM\OrderBy({"datum" = "DESC", "id" = "DESC"})
-     */
-    private $werkdoelen;
+
 
     public function __construct()
     {
-        $this->documenten = new ArrayCollection();
         $this->locaties = new ArrayCollection();
         $this->projecten = new ArrayCollection();
         $this->deelnames = new ArrayCollection();
         $this->resultaatgebieden = new ArrayCollection();
-        $this->verslagen = new ArrayCollection();
-        $this->werkdoelen = new ArrayCollection();
 
         $this->setStartdatum(new \DateTime());
     }
@@ -268,8 +259,6 @@ class Traject
     public function isDeletable(): bool
     {
         return 0 === count($this->dagdelen)
-            && 0 === count($this->documenten)
-            && 0 === count($this->verslagen)
         ;
     }
 
@@ -463,36 +452,7 @@ class Traject
     }
 
 
-    /**
-     * @return Werkdoel[]|ArrayCollection
-     */
-    public function getWerkdoelen()
-    {
-        return $this->werkdoelen;
-    }
 
-    /**
-     * @param Werkdoel[]|ArrayCollection $werkdoelen
-     * @return Deelnemer
-     */
-    public function setWerkdoelen($werkdoelen)
-    {
-        $this->werkdoelen = $werkdoelen;
-        return $this;
-    }
-
-    /**
-     * @param Werkdoel $werkdoel
-     * @return $this
-     */
-    public function addWerkdoel(Werkdoel $werkdoel)
-    {
-        $this->werkdoelen[] = $werkdoel;
-        $werkdoel->setTraject($this);
-        $werkdoel->setDeelnemer($this->deelnemer);
-
-        return $this;
-    }
 
     public function countDagdelenByMonth()
     {

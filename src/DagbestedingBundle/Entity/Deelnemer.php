@@ -99,6 +99,14 @@ class Deelnemer
     private $contactpersonen;
 
     /**
+     * @var ArrayCollection|Werkdoel[]
+     *
+     * @ORM\OneToMany(targetEntity="DagbestedingBundle\Entity\Werkdoel", mappedBy="deelnemer", cascade={"persist"})
+     * @ORM\OrderBy({"datum" = "DESC", "id" = "DESC"})
+     */
+    private $werkdoelen;
+
+    /**
      * @var string
      *
      * @ORM\Column(nullable=true)
@@ -201,6 +209,37 @@ class Deelnemer
     public function addDocument(Document $document)
     {
         $this->documenten[] = $document;
+
+        return $this;
+    }
+
+    /**
+     * @return Werkdoel[]|ArrayCollection
+     */
+    public function getWerkdoelen()
+    {
+        return $this->werkdoelen;
+    }
+
+    /**
+     * @param Werkdoel[]|ArrayCollection $werkdoelen
+     * @return Deelnemer
+     */
+    public function setWerkdoelen($werkdoelen)
+    {
+        $this->werkdoelen = $werkdoelen;
+        return $this;
+    }
+
+    /**
+     * @param Werkdoel $werkdoel
+     * @return $this
+     */
+    public function addWerkdoel(Werkdoel $werkdoel)
+    {
+        $this->werkdoelen[] = $werkdoel;
+
+        $werkdoel->setDeelnemer($this);
 
         return $this;
     }
