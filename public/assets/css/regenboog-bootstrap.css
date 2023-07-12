@@ -138,3 +138,8 @@ table.table.mb-0
 {
     margin-bottom:0;
 }
+
+div.sub-content, ul.nav-tabs.sub-content > li.active > a
+{
+    background-color:#eeeeee;
+}
