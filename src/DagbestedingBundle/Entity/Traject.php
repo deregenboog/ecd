@@ -268,8 +268,6 @@ class Traject
     public function isDeletable(): bool
     {
         return 0 === count($this->dagdelen)
-            && 0 === count($this->documenten)
-            && 0 === count($this->verslagen)
         ;
     }
 

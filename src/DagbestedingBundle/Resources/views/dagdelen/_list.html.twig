@@ -17,41 +17,7 @@
     <span style="color: {{ color }}">{{ value }}</span>
 {% endmacro %}
 
-{#<h2>Beschikbaarheid</h2>#}
-{#<table class="table">#}
-{#    <thead>#}
-{#    <tr>#}
-{#        <th>Project</th>#}
-{#        <th>Beschikbaarheid</th>#}
-{#    </tr>#}
-{#    </thead>#}
-{#    <tbody>#}
-{#    {% for deelname in deelnemer.deelnames %}#}
-{#        <tr>#}
-{#            <td>#}
-{#                {{ deelname.project }}#}
-{#            </td>#}
-{#            <td>#}
-{#                {% if deelname.beschikbaarheid %}#}
-{#                    {{ dagbestedingmacro.beschikbaarheid(deelname.beschikbaarheid) }}#}
-{#                {% else %}#}
-{#                    {{ html.link('Beschikbaarheid opgeven', path('dagbesteding_deelnames_edit', {id: deelname.id}), 'add') }}#}
-{#                {% endif %}#}
-{#            </td>#}
-{#            <td>#}
-{#                {% if 'Project' == class(entity, false) %}#}
-{#                    {{ html.link('Naar deelnemer', path('dagbesteding_deelnames_view', {id: deelname.deelnemer.id}), 'view') }}#}
-{#                {% elseif 'Deelnemer' == class(entity, false) %}#}
-{#                    {{ html.link('Naar project', path('dagbesteding_projecten_view', {id: deelname.project.id}), 'view') }}#}
-{#                {% endif %}#}
-{#                {{ html.link('Wijzigen', path('dagbesteding_deelnames_edit', {id: deelname.id}), 'edit') }}#}
-{#                {{ html.link('Verwijderen', path('dagbesteding_deelnames_delete', {id: deelname.id}), 'delete') }}#}
-{#            </td>#}
-{#        </tr>#}
-{#    {% endfor %}#}
-{#    </tbody>#}
-{#</table>#}
-<h2>Dagdelen</h2>
+<h3>Dagdelen</h3>
 <table class="table">
     <tr>
         <th></th>
