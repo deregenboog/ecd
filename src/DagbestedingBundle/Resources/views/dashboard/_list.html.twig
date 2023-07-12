@@ -80,7 +80,7 @@
         {% if traject.evaluatiedatum and date(traject.evaluatiedatum) < date("+1 month")  %}
             {% set class = 'alert-warning' %}
         {% endif %}
-        <tr data-href="{{ path('dagbesteding_trajecten_view', {id: traject.id}) }}" class="{{ class }}">
+        <tr data-href="{{ path('dagbesteding_deelnemers_view', {id: traject.deelnemer.id}) }}" class="{{ class }}">
             <td>
                 {{ traject.deelnemer.klant.naam }}
             </td>
