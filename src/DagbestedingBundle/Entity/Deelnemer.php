@@ -194,10 +194,22 @@ class Deelnemer
         return $this->verslagen;
     }
 
-    public function addVerslag(Verslag $verslag)
+    public function addVerslag(Verslag $verslag): self
     {
-        $this->verslagen[] = $verslag;
+        $this->verslagen->add($verslag);
 
+        return $this;
+    }
+
+    public function addIntakeverslag(Intakeverslag $intakeverslag): self
+    {
+        $this->verslagen->add($intakeverslag);
+        return $this;
+    }
+
+    public function addEvaluatieverslag(Evaluatieverslag $evaluatieverslag): self
+    {
+        $this->verslagen->add($evaluatieverslag);
         return $this;
     }
 
