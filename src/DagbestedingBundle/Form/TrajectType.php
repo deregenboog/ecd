@@ -44,6 +44,7 @@ class TrajectType extends AbstractType
                     ->add('closeDeelnemer',CheckboxType::class,[
                         'label'=>'Deelnemer ook afsluiten na afsluiten traject?',
                         'mapped'=>false,
+                        'required' => false,
 
                 ])
                     ->add('submit', SubmitType::class, ['label' => 'Afsluiten'])
