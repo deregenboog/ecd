@@ -59,7 +59,7 @@ class TrajectType extends AbstractType
                     ->add('startdatum', AppDateType::class)
                     ->add('evaluatiedatum', AppDateType::class,[
                         'attr'=> [
-                            "placeholder"=>(new \DateTime())->modify(Traject::TERMIJN_EVALUATIE)->format("d-m-Y")
+                            "placeholder"=>'dd-mm-jjjj: '.(new \DateTime())->modify(Traject::TERMIJN_EVALUATIE)->format("d-m-Y")
                         ],
                         'required'=>false,
                     ])
