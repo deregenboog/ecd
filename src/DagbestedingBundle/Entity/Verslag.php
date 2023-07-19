@@ -13,6 +13,13 @@ use Gedmo\Mapping\Annotation as Gedmo;
  * @ORM\Table(name="dagbesteding_verslagen")
  * @ORM\HasLifecycleCallbacks
  * @Gedmo\Loggable
+ * @ORM\InheritanceType("SINGLE_TABLE")
+ * @ORM\DiscriminatorColumn(name="discr", type="string", length=15)
+ * @ORM\DiscriminatorMap({
+ *     "verslag" = "Verslag",
+ *     "intake" = "Intakeverslag",
+ *     "evaluatie" = "Evaluatieverslag"
+ * })
  */
 class Verslag
 {
@@ -26,26 +33,26 @@ class Verslag
      * @ORM\Column(type="datetime")
      * @Gedmo\Versioned
      */
-    private $datum;
+    protected $datum;
 
     /**
      * @ORM\Column(type="text", nullable=true)
      * @Gedmo\Versioned
      */
-    private $opmerking;
+    protected $opmerking;
 
     /**
      * @var Deelnemer
      * @ORM\ManyToOne(targetEntity="DagbestedingBundle\Entity\Deelnemer",inversedBy="verslagen")
      */
-    private $deelnemer;
+    protected $deelnemer;
 
     /**
      * @var int
      * @ORM\Column()
      * @deprecated Can be removed after succesful migration of data // 20230712 JTB
      */
-    private $traject_id;
+    protected $traject_id;
 
     /**
      * @var \DateTime
@@ -107,6 +114,5 @@ class Verslag
     {
         $this->deelnemer = $deelnemer;
     }
-
 
 }

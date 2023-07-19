@@ -3,21 +3,33 @@
 <p>
     {% if deelnemer is defined %}
         {% set url = path('dagbesteding_verslagen_add', {deelnemer: deelnemer.id}) %}
-    {% elseif traject is defined %}
-        {% set url = path('dagbesteding_verslagen_add', {traject: traject.id}) %}
     {% endif %}
     {% if url is defined and deelnemer.isActief %}
         {{ html.addLink(url) }}
         {{ html.link('Verslag toevoegen', url) }}
+        {{ html.addLink(path('dagbesteding_intakeverslagen_add', {deelnemer: deelnemer.id})) }}
+        {{ html.link('Intakeverslag toevoegen', path('dagbesteding_intakeverslagen_add', {deelnemer: deelnemer.id})) }}
+{#        {{ html.addLink(path('dagbesteding_evaluatieverslagen_add', {deelnemer: deelnemer.id})) }}#}
+{#        {{ html.link('Evaluatieverslag toevoegen', path('dagbesteding_evaluatieverslagen_add', {deelnemer: deelnemer.id})) }}#}
+
     {% endif %}
 </p>
 <h3>Verslagen</h3>
 <table class="table">
     {% for verslag in entity.verslagen %}
+        {% set type = "" %}
+        {% if class(verslag, false) != "Verslag"  %}
+            {% set type = class(verslag, false)  %}
+        {% endif %}
         <tr>
             <td>{{ verslag.datum|date('d-m-Y') }}</td>
             <td>{{ verslag.medewerker }}</td>
-            <td>{{ verslag.opmerking|nl2br }}</td>
+            <td>
+                {% if type %}
+                    <h4>{{ type }}</h4>
+                {% endif %}
+                {{ verslag.opmerking|raw }}
+            </td>
             <td>
                 {{ html.editLink(path('dagbesteding_verslagen_edit', {id: verslag.id})) }}
                 {{ html.deleteLink(path('dagbesteding_verslagen_delete', {id: verslag.id})) }}
