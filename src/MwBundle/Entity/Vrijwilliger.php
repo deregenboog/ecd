@@ -17,6 +17,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use InloopBundle\Entity\Locatie;
 use MwBundle\Entity\BinnenVia;
+use PHPUnit\Framework\Error\Deprecated;
 
 /**
  * @ORM\Entity
@@ -189,6 +190,7 @@ class Vrijwilliger implements MemoSubjectInterface, DocumentSubjectInterface
 
         return $this;
     }
+
 
     public function getAfsluitredenVrijwilliger()
     {

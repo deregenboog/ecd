@@ -6,6 +6,7 @@ use AppBundle\Entity\Klant;
 use AppBundle\Model\IdentifiableTrait;
 use AppBundle\Model\KlantRelationInterface;
 use AppBundle\Model\TimestampableTrait;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 
@@ -41,9 +42,9 @@ class Deelname implements KlantRelationInterface
     /**
      * History of states.
      *
-     * @var DeelnameStatus[]
+     * @var ArrayCollection|DeelnameStatus[]
      *
-     * @ORM\OneToMany(targetEntity="DeelnameStatus", cascade={"persist"}, mappedBy="deelname")
+     * @ORM\OneToMany(targetEntity="DeelnameStatus", mappedBy="deelname")
      * @ORM\OrderBy({"datum": "desc", "id": "desc"})
      */
     private $deelnameStatussen;
@@ -87,6 +88,7 @@ class Deelname implements KlantRelationInterface
         $this->training = $training;
         $this->deelnemer = $deelnemer;
         $this->deelnameStatus = new DeelnameStatus($this);
+        $this->deelnameStatussen = new ArrayCollection();
     }
 
     public function getTraining()
@@ -132,16 +134,21 @@ class Deelname implements KlantRelationInterface
 
     public function setDeelnameStatus(DeelnameStatus $deelnameStatus)
     {
-        $this->deelnameStatussen[] = $deelnameStatus;
+        $this->deelnameStatussen->add($deelnameStatus);
 
         $this->deelnameStatus = $deelnameStatus;
 
         return $this;
     }
 
+    public function getDeelnameStatussen()
+    {
+        return $this->deelnameStatussen;
+    }
+
     public function isDeletable()
     {
-        return DeelnameStatus::STATUS_AANGEMELD === $this->deelnameStatus->getStatus();
+        return (DeelnameStatus::STATUS_AANGEMELD === $this->deelnameStatus->getStatus() || DeelnameStatus::STATUS_VERWIJDERD === $this->getDeelnameStatus());
     }
 
     public function getKlant(): Klant

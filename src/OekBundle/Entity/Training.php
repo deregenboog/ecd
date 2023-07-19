@@ -160,14 +160,17 @@ class Training implements KlantRelationInterface
         }
     }
 
-    public function getDeelnames()
+    public function getDeelnames($withVerwijderd = false)
     {
+        $deelnames = new ArrayCollection();
         foreach ($this->deelnames as $dn) {
-            if ($dn->getStatus() == DeelnameStatus::STATUS_VERWIJDERD) {
-                $this->deelnames->removeElement($dn);
+
+            if ($withVerwijderd === false && $dn->getStatus() === DeelnameStatus::STATUS_VERWIJDERD) {
+                continue;
             }
+            $deelnames->add($dn);
         }
-        return $this->deelnames;
+        return $deelnames;
     }
 
     public function getDeelnemers()
@@ -197,12 +200,13 @@ class Training implements KlantRelationInterface
 
     public function isDeletable()
     {
-        return 0 == $this->deelnames->count();
+        return 0 == $this->getDeelnames()->count();
     }
 
-    public function getKlant(): Klant
+    public function getKlant(): ?Klant
     {
-        return $this->getDeelnames()->first()->getDeelnemer()->getKlant();
+         if($deelname = $this->getDeelnames()->first()) return $deelname->getDeelnemer()->getKlant();
+         return null;
     }
     public function getKlantFieldName(): string
     {

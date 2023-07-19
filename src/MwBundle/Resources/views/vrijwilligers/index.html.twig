@@ -91,7 +91,7 @@
             <td>
                 {% if not vrijwilliger.actief %}
                     {{ vrijwilliger.afsluitdatum|if_date('d-m-Y') }}
-                    ({{ vrijwilliger.afsluitreden }})
+                    ({{ vrijwilliger.afsluitredenvrijwilliger }})
                 {% endif %}
             </td>
             <td>{{ vrijwilliger.actief|ja_nee }}</td>

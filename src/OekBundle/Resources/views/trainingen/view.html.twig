@@ -8,6 +8,7 @@
         {{ html.link('Training wijzigen', path('oek_trainingen_edit', {id: entity.id})) }}
         {% if entity.deletable %}
             {{ html.deleteLink(path('oek_trainingen_delete', {id: entity.id})) }}
+            {{ html.link('Training verwijderen', path('oek_trainingen_delete', {id: entity.id})) }}
         {% endif %}
     </p>
 {% endblock %}
