@@ -474,6 +474,8 @@ abstract class AbstractController extends SymfonyController
                 $viewUrl = $this->generateUrl($this->baseRouteName.'view', ['id' => $id]);
 
                 try{
+
+                    $this->beforeDelete($entity);
                     if(method_exists($entity,"setActief"))
                     {
                         $entity->setActief(false);
@@ -483,6 +485,7 @@ abstract class AbstractController extends SymfonyController
                     {
                         $this->dao->delete($entity);
                     }
+                    $this->afterDelete($entity);
                     $this->addFlash('success', ucfirst($this->entityName).' is verwijderd.');
 
                     if (!$this->forceRedirect) {
@@ -609,6 +612,16 @@ abstract class AbstractController extends SymfonyController
     }
 
     protected function afterFind($entity)
+    {
+        return;
+    }
+
+    protected function beforeDelete($entity)
+    {
+        return;
+    }
+
+    protected function afterDelete($entity)
     {
         return;
     }

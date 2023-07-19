@@ -32,7 +32,7 @@ class DeelnameStatus
     /**
      * @var Deelname
      *
-     * @ORM\ManyToOne(targetEntity="Deelname", inversedBy="deelnameStatussen")
+     * @ORM\ManyToOne(targetEntity="Deelname", cascade={"persist","remove"}, inversedBy="deelnameStatussen")
      * @ORM\JoinColumn(name="oekDeelname_id", nullable=false)
      * @Gedmo\Versioned
      */

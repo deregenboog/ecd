@@ -135,12 +135,13 @@ abstract class AbstractChildController extends AbstractController
                 {
                    $viewUrl = "";
                 }
-
-
+                $this->beforeDelete($entity);
                 if ($parentEntity && $this->deleteMethod) {
                     $parentEntity->{$this->deleteMethod}($entity);
                     $this->parentDao->update($parentEntity);
                 }
+
+
 
                 try{
                     $this->dao->delete($entity);
@@ -176,7 +177,7 @@ abstract class AbstractChildController extends AbstractController
 
                     $this->addFlash('danger', ucfirst($this->entityName).sprintf(' kan niet verwijderd worden omdat er nog een of meerdere onderdelen van het type %s aanwezig zijn. Verwijder deze eerst om verder te gaan.',strtolower($entityName) ) );
                 }
-
+                $this->afterDelete($entity);
 
                 if ($url && false === strpos($viewUrl, $url)) {
                     return $this->redirect($url);

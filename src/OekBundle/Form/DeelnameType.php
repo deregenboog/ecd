@@ -52,7 +52,7 @@ class DeelnameType extends AbstractType
                 'class' => Training::class,
                 'query_builder' => function (EntityRepository $repository) use ($deelname) {
                     return $repository->createQueryBuilder('training')
-                        ->where('training.einddatum >= :now')
+                        ->where('training.einddatum >= :now OR (training.einddatum IS NULL AND training.startdatum >= :now)')
                         ->setParameter('now', new \DateTime('today'))
                         ->orderBy('training.naam', 'ASC')
                     ;
@@ -74,13 +74,15 @@ class DeelnameType extends AbstractType
                     $builder = $repository->createQueryBuilder('deelnemer')
                         ->select('deelnemer, klant')
                         ->innerJoin('deelnemer.klant', 'klant')
+                        ->leftJoin('deelnemer.afsluiting','afsluiting')
+                        ->where('afsluiting IS NULL')
                         ->orderBy('klant.achternaam')
                         ->addOrderBy('klant.voornaam')
                     ;
 
                     if ((is_array($deelname->getTraining()->getDeelnemers()) || $deelname->getTraining()->getDeelnemers() instanceof \Countable ? count($deelname->getTraining()->getDeelnemers()) : 0) > 0) {
                         $builder
-                            ->where('deelnemer NOT IN (:deelnemers)')
+                            ->andWhere('deelnemer NOT IN (:deelnemers)')
                             ->setParameter('deelnemers', $deelname->getTraining()->getDeelnemers())
                         ;
                     }

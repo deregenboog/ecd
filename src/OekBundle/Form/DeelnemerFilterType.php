@@ -12,9 +12,11 @@ use OekBundle\Filter\DeelnemerFilter;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use TwBundle\Filter\KlantFilter;
 
 class DeelnemerFilterType extends AbstractType
 {
@@ -66,10 +68,13 @@ class DeelnemerFilterType extends AbstractType
             ]);
         }
 
-        if (in_array('actief', $options['enabled_filters'])) {
-            $builder->add('actief', CheckboxType::class, [
-                'label' => 'Alleen actieve dossiers',
+        if (in_array('status', $options['enabled_filters'])) {
+            $builder->add('actief', ChoiceType::class, [
                 'required' => false,
+                'choices' => [
+                    'Actief' => 'true',
+                    'Niet actief' => 'false',
+                ],
             ]);
         }
 
@@ -96,7 +101,7 @@ class DeelnemerFilterType extends AbstractType
                 'heeftAfgerondeTraining',
                 'aanmelddatum',
                 'afsluitdatum',
-                'actief',
+                'status',
             ],
         ]);
     }

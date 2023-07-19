@@ -4,6 +4,7 @@ namespace OekBundle\Controller;
 
 use AppBundle\Controller\AbstractChildController;
 use AppBundle\Export\ExportInterface;
+use OekBundle\Entity\DeelnameStatus;
 use OekBundle\Entity\Training;
 use OekBundle\Form\EmailMessageType;
 use OekBundle\Form\TrainingFilterType;
@@ -12,6 +13,7 @@ use OekBundle\Service\TrainingDao;
 use OekBundle\Service\TrainingDaoInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Mailer\Exception\TransportException;
 use Symfony\Component\Mailer\Mailer;
 use Symfony\Component\Mailer\MailerInterface;
@@ -141,5 +143,25 @@ class TrainingenController extends AbstractChildController
         return $this->exportDeelnemerslijst
             ->create($training->getDeelnames())
             ->getResponse($filename);
+    }
+
+    protected function beforeDelete($entity)
+    {
+        //if delete is called, make sure all deelnames with status Verwijderd are removed otherwise FK constraint kicks in.
+        foreach($entity->getDeelnames(true) as $dn)
+        {
+            //ok deelnamestatus moet ook verwijderd worden... hoe een mooiere manier om childs te verwijderen
+            //sowieso: klopt die FKC wel?
+            // wat houdt verwijderd in? moet dat niet zijn: gestopt.
+            //
+            if($dn->getStatus() == DeelnameStatus::STATUS_VERWIJDERD){ //most recent = verwijderd, dus alle voorliggende mogen ook weg.
+                foreach($dn->getDeelnameStatussen() as $ds)
+                {
+                    $this->entityManager->remove($ds);
+                }
+            }
+        }
+        $this->entityManager->flush();
+
     }
 }
