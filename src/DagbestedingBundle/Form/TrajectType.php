@@ -54,8 +54,12 @@ class TrajectType extends AbstractType
             case BaseType::MODE_EDIT:
             default:
                 $builder
-                    ->add('soort', TrajectsoortSelectType::class)
-                    ->add('resultaatgebiedsoort', ResultaatgebiedsoortSelectType::class)
+                    ->add('soort', TrajectsoortSelectType::class,[
+                        'required'=>true,
+                    ])
+                    ->add('resultaatgebiedsoort', ResultaatgebiedsoortSelectType::class,[
+                        'required'=>true,
+                    ])
                     ->add('ondersteuningsplanVerwerkt')
                     ->add('startdatum', AppDateType::class)
                     ->add('evaluatiedatum', AppDateType::class,[

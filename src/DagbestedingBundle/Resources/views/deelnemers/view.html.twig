@@ -54,7 +54,11 @@
         <div id="trajecten" class="tab-pane active">
 
             <div class="ml-2 p-0">
-                {% include '@Dagbesteding/trajecten/_view.html.twig' with {entity: entity.trajecten.first} %}
+                {% if entity.trajecten.first == true %}
+                    {% include '@Dagbesteding/trajecten/_view.html.twig' with {entity: entity.trajecten.first} %}
+                {% else %}
+
+                {% endif %}
             </div>
 
             {% include '@Dagbesteding/trajecten/_list.html.twig' with {deelnemer: entity} %}

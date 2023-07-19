@@ -1,7 +1,10 @@
 {% import 'html.macro.twig' as html %}
 <h2>Trajecten</h2>
 <p>
+    {% set url = path('dagbesteding_trajecten_add', {deelnemer: entity.id}) %}
 
+    {{ html.addLink(url) }}
+    {{ html.link('Traject toevoegen', url) }}
 
 </p>
 <table class="table table-hover">
