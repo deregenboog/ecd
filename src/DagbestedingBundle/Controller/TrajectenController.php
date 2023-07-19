@@ -147,6 +147,11 @@ class TrajectenController extends AbstractChildController
                 $message = $this->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
                 $this->addFlash('danger', $message);
             }
+            if($form->get('closeDeelnemer') == true)
+            {
+                //redirect to close deelnemer.
+                return $this->redirectToRoute('dagbesteding_deelnemers_close',["id"=>$entity->getDeelnemer()->getId()]);
+            }
 
             return $this->redirectToView($entity);
         }

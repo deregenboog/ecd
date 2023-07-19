@@ -1,7 +1,7 @@
 {% import 'html.macro.twig' as html %}
 <h2>Contactpersonen</h2>
 <p>
-    {% if deelnemer is defined %}
+    {% if deelnemer is defined and deelnemer.isActief %}
         {% set url = path('dagbesteding_contactpersonen_add', {deelnemer: deelnemer.id}) %}
     {% endif %}
     {% if url is defined %}

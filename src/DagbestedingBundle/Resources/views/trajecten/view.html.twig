@@ -4,7 +4,7 @@
 {% block content_top %}
     <h1>Traject van {{ entity.deelnemer.klant }}</h1>
     <p>
-        {% if is_granted('ROLE_DAGBESTEDING') %}
+        {% if is_granted('ROLE_DAGBESTEDING')  %}
             {% if entity.actief %}
                 {{ html.link('Wijzigen', path('dagbesteding_trajecten_edit', {id: entity.id}), 'edit') }}
                 {{ html.link('Afsluiten', path('dagbesteding_trajecten_close', {id: entity.id}), 'close') }}

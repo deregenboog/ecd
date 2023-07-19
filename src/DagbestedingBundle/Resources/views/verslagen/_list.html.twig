@@ -6,7 +6,7 @@
     {% elseif traject is defined %}
         {% set url = path('dagbesteding_verslagen_add', {traject: traject.id}) %}
     {% endif %}
-    {% if url is defined %}
+    {% if url is defined and deelnemer.isActief %}
         {{ html.addLink(url) }}
         {{ html.link('Verslag toevoegen', url) }}
     {% endif %}
