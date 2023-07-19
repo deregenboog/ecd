@@ -18,6 +18,7 @@ class MemoDao extends AbstractDao implements MemoDaoInterface
     ];
 
     protected $class = Memo::class;
+    protected $alias = 'memo';
 
     /**
      * {inheritdoc}.

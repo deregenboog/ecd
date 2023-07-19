@@ -9,6 +9,7 @@ use Doctrine\ORM\EntityManager;
 class VerslagDao extends AbstractDao implements VerslagDaoInterface
 {
     protected $class = Verslag::class;
+    protected $alias = 'verslag';
 
     public function __construct(EntityManager $entityManager)
     {

@@ -7,6 +7,7 @@ use AppBundle\Controller\AbstractChildController;
 use DagbestedingBundle\Entity\Verslag;
 use DagbestedingBundle\Form\VerslagType;
 use DagbestedingBundle\Service\VerslagDao;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -41,5 +42,13 @@ class IntakeverslagenController extends AbstractChildController
         $this->entities = $entities;
     }
 
-
+    /**
+     * @Route("/")
+     * @param Request $request
+     * @return array|\Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
+     */
+    public function indexAction(Request $request)
+    {
+        return $this->redirect($request->get('redirect'));
+    }
 }
