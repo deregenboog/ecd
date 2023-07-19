@@ -2,6 +2,8 @@
 
 namespace DagbestedingBundle\Form;
 
+use App\DagbestedingBundle\Form\ResultaatgebiedsoortSelectType;
+use App\DagbestedingBundle\Form\TrajectsoortSelectType;
 use AppBundle\Form\AppDateType;
 use AppBundle\Form\BaseSelectType;
 use AppBundle\Form\BaseType;
@@ -46,15 +48,8 @@ class TrajectType extends AbstractType
             case BaseType::MODE_EDIT:
             default:
                 $builder
-                    ->add('soort', EntityType::class, [
-                        'class' => Trajectsoort::class,
-                        'placeholder' => '',
-                    ])
-                    ->add('resultaatgebiedsoort', EntityType::class, [
-                        'class' => Resultaatgebiedsoort::class,
-                        'label' => 'Resultaatgebied',
-                        'placeholder' => '',
-                    ])
+                    ->add('soort', TrajectsoortSelectType::class)
+                    ->add('resultaatgebiedsoort', ResultaatgebiedsoortSelectType::class)
                     ->add('ondersteuningsplanVerwerkt')
                     ->add('startdatum', AppDateType::class)
                     ->add('evaluatiedatum', AppDateType::class,[
