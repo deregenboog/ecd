@@ -17,6 +17,7 @@ use DagbestedingBundle\Entity\Trajectcoach;
 use DagbestedingBundle\Entity\Trajectsoort;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -40,6 +41,11 @@ class TrajectType extends AbstractType
                         'required' => true,
                         'placeholder' => 'Selecteer een item',
                     ])
+                    ->add('closeDeelnemer',CheckboxType::class,[
+                        'label'=>'Deelnemer ook afsluiten na afsluiten traject?',
+                        'mapped'=>false,
+
+                ])
                     ->add('submit', SubmitType::class, ['label' => 'Afsluiten'])
                 ;
                 break;

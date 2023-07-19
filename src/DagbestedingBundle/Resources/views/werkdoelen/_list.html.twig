@@ -1,8 +1,10 @@
 {% import 'html.macro.twig' as html %}
 <h2>Werkdoelen</h2>
-<p>
-    {{ html.link('Toevoegen', path('dagbesteding_werkdoelen_add', {deelnemer: entity.id}), 'add') }}
-</p>
+{% if(deelnemer.isActief ) %}
+    <p>
+        {{ html.link('Toevoegen', path('dagbesteding_werkdoelen_add', {deelnemer: entity.id}), 'add') }}
+    </p>
+{% endif %}
 {% for werkdoel in entity.werkdoelen %}
     <div class="well">
         <p class="text-right">

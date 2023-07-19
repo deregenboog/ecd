@@ -18,7 +18,7 @@
         <div id="algemeen" class="tab-pane active">
             <h3>Trajectinformatie</h3>
             <p>
-                {% if is_granted('ROLE_DAGBESTEDING') %}
+                {% if is_granted('ROLE_DAGBESTEDING') and entity.deelnemer.isActief %}
                     {% if url is defined %}
                         {{ html.addLink(url) }}
                         {{ html.link('Traject toevoegen', url) }}
@@ -80,7 +80,9 @@
                         {% endfor %}
 
                     </ul>
-                    {{ html.link('Project toevoegen', path('dagbesteding_deelnames_add', {'traject': entity.id}), 'add') }}
+                    {% if ( entity.deelnemer.isActief ) %}
+                        {{ html.link('Project toevoegen', path('dagbesteding_deelnames_add', {'traject': entity.id}), 'add') }}
+                    {% endif %}
                 </dd>
 
                 <dt>Trajectcoach</dt>

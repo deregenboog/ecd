@@ -9,7 +9,7 @@
     {% elseif rapportage is defined %}
         {% set url = path('dagbesteding_documenten_add', {rapportage: rapportage.id}) %}
     {% endif %}
-    {% if url is defined %}
+    {% if url is defined and deelnemer.isActief %}
         {{ html.link('Document toevoegen', url, 'add') }}
     {% endif %}
 </p>
