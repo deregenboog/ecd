@@ -250,7 +250,7 @@ class Traject
      */
     public function setEvaluatiedatum($evaluatiedatum): Traject
     {
-        $evaluatiedatum = $evaluatiedatum ?? (new \DateTime())->modify(self::TERMIJN_EVALUATIE);
+//        $evaluatiedatum = $evaluatiedatum ?? (new \DateTime())->modify(self::TERMIJN_EVALUATIE);
         $this->evaluatiedatum = $evaluatiedatum;
         return $this;
     }
