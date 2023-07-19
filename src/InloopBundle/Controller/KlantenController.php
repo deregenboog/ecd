@@ -403,7 +403,8 @@ class KlantenController extends AbstractController
         ]);
         $filterForm->handleRequest($request);
 
-        $naam = $request->get('klant_filter')["naam"];
+        $naam = "";
+        if($filter = $request->get('klant_filter')) $naam = $filter["naam"];
 
         if ($filterForm->isSubmitted() && $filterForm->isValid()) {
             $count = (int) $this->klantDao->countAll($filterForm->getData());

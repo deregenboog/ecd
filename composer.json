@@ -62,7 +62,6 @@
         "friendsofsymfony/ckeditor-bundle": "^2.4",
         "knplabs/knp-paginator-bundle": "^5",
         "kwn/number-to-words": "^2.6",
-        "league/flysystem": "^2.0",
         "luxifer/doctrine-functions": "^1.4",
         "phpdocumentor/reflection-docblock": "^5.3",
         "phpoffice/phpspreadsheet": "^1.0",
@@ -133,10 +132,12 @@
             "assets:install %PUBLIC_DIR%": "symfony-cmd"
         },
         "post-install-cmd": [
-            "@auto-scripts"
+            "@auto-scripts",
+            "php bin/fix-backup-manager.php"
         ],
         "post-update-cmd": [
-            "@auto-scripts"
+            "@auto-scripts",
+            "php bin/fix-backup-manager.php"
         ]
     },
     "conflict": {

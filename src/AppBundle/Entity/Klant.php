@@ -283,8 +283,8 @@ class Klant extends Persoon
 
         if($request)
         {
-
-           $naamParts = $this::parseNaam($request->get('naam'));
+            if(!$naam = $request->get('naam') ) $naam = "";
+            $naamParts = $this::parseNaam($naam);
 
             $this->setVoornaam($naamParts['voornaam']);
             $this->setTussenvoegsel($naamParts['tussenvoegsel']);
