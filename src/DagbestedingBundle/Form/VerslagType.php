@@ -6,6 +6,7 @@ use AppBundle\Form\AppDateType;
 use AppBundle\Form\AppTextareaType;
 use AppBundle\Form\BaseType;
 use DagbestedingBundle\Entity\Verslag;
+use FOS\CKEditorBundle\Form\Type\CKEditorType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -21,7 +22,7 @@ class VerslagType extends AbstractType
         $builder
             ->add('medewerker', \AppBundle\Form\MedewerkerType::class)
             ->add('datum', AppDateType::class)
-            ->add('opmerking', AppTextareaType::class)
+            ->add('opmerking', CKEditorType::class)
             ->add('submit', SubmitType::class, ['label' => 'Opslaan'])
         ;
     }

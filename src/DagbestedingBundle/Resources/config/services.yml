@@ -70,6 +70,16 @@ services:
             $entities: '@dagbesteding.verslag.entities'
         tags: [ 'controller.service_arguments' ]
 
+    DagbestedingBundle\Controller\IntakeverslagenController:
+        arguments:
+            $entities: '@dagbesteding.verslag.entities'
+        tags: ['controller.service_arguments']
+
+    DagbestedingBundle\Controller\EvaluatieverslagenController:
+        arguments:
+            $entities: '@dagbesteding.verslag.entities'
+        tags: [ 'controller.service_arguments' ]
+
     DagbestedingBundle\Controller\WerkdoelenController:
         arguments:
             $entities: '@dagbesteding.werkdoel.entities'

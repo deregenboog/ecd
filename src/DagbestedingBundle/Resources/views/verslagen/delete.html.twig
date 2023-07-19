@@ -9,7 +9,7 @@
         <dt>Datum</dt>
         <dd>{{ entity.datum ? entity.datum|date('d-m-Y') }}</dd>
         <dt>Verslag</dt>
-        <dd>{{ entity.opmerking|nl2br }}</dd>
+        <dd>{{ entity.opmerking|raw }}</dd>
     </dl>
     <p>
         Weet u zeker dat u bovenstaand verslag wilt verwijderen?
