@@ -33,7 +33,9 @@ RUN apt-get update && apt-get install -y \
 
 WORKDIR /app
 #first do composer so we can prevent compser installing each time we modify sourcecode.... adds extra layer.
+COPY ./composer.json composer.json
 COPY ./composer.lock composer.lock
+
 COPY docker/.env.test .env
 RUN COMPOSER_ALLOW_SUPERUSER=1 composer install --no-autoloader --no-scripts
 COPY . .

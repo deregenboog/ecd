@@ -74,6 +74,7 @@ abstract class AbstractChildController extends AbstractController
             try {
                 $this->beforeCreate($entity);
                 $this->persistEntity($entity, $parentEntity);
+                $this->afterCreate($entity);
                 $this->addFlash('success', ucfirst($this->entityName).' is toegevoegd.');
             } catch(UserException $e)
             {
