@@ -60,6 +60,16 @@ class SchorsingDao extends AbstractDao implements SchorsingDaoInterface
         return $builder->getQuery()->getResult();
     }
 
+    public function findALlActief()
+    {
+        $builder = $this->repository->createQueryBuilder($this->alias)
+            ->where("{$this->alias}.datumTot >= DATE(CURRENT_TIMESTAMP())")
+
+        ;
+
+        return $builder->getQuery()->getResult();
+    }
+
     public function findTerugkeergesprekNodigByKlantAndLocatie(Klant $klant, Locatie $locatie)
     {
         $builder = $this->repository->createQueryBuilder($this->alias)

@@ -331,8 +331,11 @@ abstract class AbstractController extends SymfonyController
         $creationForm->handleRequest($request);
 
         if ($creationForm->isSubmitted() && $creationForm->isValid()) {
+
             try {
+                $this->beforeCreate($subEntity);
                 $this->dao->create($subEntity);
+                $this->afterCreate($subEntity);
                 $this->addFlash('success', ucfirst($this->entityName) . ' is opgeslagen.');
 
                 return $this->redirectToView($subEntity);
@@ -424,9 +427,11 @@ abstract class AbstractController extends SymfonyController
                 if ($entity->getId()) {
                     $this->beforeUpdate($entity);
                     $this->dao->update($entity);
+                    $this->afterUpdate($entity);
                 } else {
                     $this->beforeCreate($entity);
                     $this->dao->create($entity);
+                    $this->afterCreate($entity);
                 }
                 $this->addFlash('success', ucfirst($this->entityName).' is opgeslagen.');
 
@@ -631,10 +636,21 @@ abstract class AbstractController extends SymfonyController
         return;
     }
 
+    protected function afterUpdate($entity)
+    {
+        return;
+    }
+
     protected function beforeCreate($entity)
     {
         return;
     }
+
+    protected function afterCreate($entity)
+    {
+        return;
+    }
+
 
     protected function addParams($entity, Request $request): array
     {
