@@ -25,12 +25,11 @@
         {{ form_row(form.datum) }}
 
         {{ form_row(form.locatie) }}
-        {{ form_row(form.contactsoort) }}
-        {{ form_row(form.duur) }}
+        {{ form_row(form.aantalContactmomenten) }}
         {% if roleMw == true %}
             {{ form_row(form.access) }}
         {% else %}
-            {{ form_row(form.access,{'attr':{'readonly':true},'value':'2'}) }}
+            {{ form_row(form.access,{'value':'1'}) }}
         {% endif %}
         {{ form_row(form._token) }}
         {{ form_row(form.submit) }}
@@ -80,56 +79,4 @@
             margin-left: 0;
         }
     </style>
-{% endblock %}
-
-{% block scripts %}
-    <script>
-   window.onload = function(){
-      if($){
-
-        $(function() {
-            var radios = $('table.inventarisaties input[type="radio"]');
-            var cellsWithSelect = $('table.inventarisaties td:has(select)');
-            var toggleSelect = function() {
-                cellsWithSelect.each(function(i, cell) {
-                    var radio = $(cell).find('input[type="radio"]');
-                    var select = $(cell).children('select');
-                    if (radio.is(':checked')) {
-                        select.show();
-                    } else {
-                        select.val('');
-                        select.hide();
-                    }
-                });
-            }
-            radios.on('change', function() {
-                toggleSelect();
-            });
-            toggleSelect();
-
-            var duurSelect = $('select#verslag_duur');
-            var toggleDuur = function() {
-                if (1 === $('#verslag_contactsoort label:contains("Face-to-face") input[type="radio"]:checked').length) {
-                    duurSelect.closest('.form-group').show();
-                    duurSelect.closest('select').attr('required','required')
-                } else {
-                    duurSelect.val('');
-                    duurSelect.closest('.form-group').hide();
-                    duurSelect.closest('select').removeAttr('required')
-                }
-            }
-            $('#verslag_contactsoort input[type="radio"]').on('change', function() {
-                toggleDuur();
-            });
-            toggleDuur();
-        });
-
-      // CKEDITOR.instances["verslag_opmerking"].on( 'required', function( evt ) {
-      //     alert( 'Article content is required.' );
-      //     evt.cancel();
-      // } );
-
-      }
-   }
-   </script>
 {% endblock %}

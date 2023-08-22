@@ -32,6 +32,7 @@ class VerslagenController extends AbstractChildController
     protected $baseRouteName = 'oekraine_verslagen_';
     protected $addMethod = "addVerslag";
 
+
     /**
      * @var VerslagDao
      */
@@ -61,6 +62,7 @@ class VerslagenController extends AbstractChildController
      */
     public function addAction(Request $request)
     {
+
         //afhankelijk van de rol wordt er een type ingesteld. dat werkt goed op deze manier.
 
         $type = Verslag::TYPE_INLOOP;
@@ -81,10 +83,19 @@ class VerslagenController extends AbstractChildController
      */
     public function editAction(Request $request, $id)
     {
+
         $entity = $this->dao->find($id);
-        /** Alleen mensen van MW mogen dat soort verslagen bewerken. Mocht iemand de URL manipuleren....  */
-        if($entity->getType() == 1 && !$this->isGranted("ROLE_MW")) throw new EntityNotFoundException("Kan verslag niet vinden (of geen toegang tot verslag)");
+
+        /** Alleen mensen van MW / psychologen mogen dat soort verslagen bewerken. Mocht iemand de URL manipuleren....  */
+        if($entity->getType() == Verslag::TYPE_MW && !$this->isGranted("ROLE_MW")) throw new EntityNotFoundException("MW verslag, geen rechten.");
+        if($entity->getType() == Verslag::TYPE_PSYCH && !$this->isGranted("ROLE_OEKRAINE_PSYCH")) throw new EntityNotFoundException("MW Psychologen verslag, geen rechten.");
+
         return $this->processForm($request, $entity);
+    }
+
+    protected function beforeGetForm(&$type, &$data, &$options): void
+    {
+        $options['accessProfile'] = $this->getAccessProfile();
     }
 
     protected function addParams($entity, Request $request): array

@@ -7,6 +7,7 @@ use AppBundle\Exception\AppException;
 use AppBundle\Exception\UserException;
 use AppBundle\Export\ExportInterface;
 use AppBundle\Filter\FilterInterface;
+use AppBundle\Form\BaseType;
 use AppBundle\Form\ConfirmationType;
 use AppBundle\Model\MedewerkerSubjectInterface;
 use AppBundle\Service\AbstractDao;
@@ -15,6 +16,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityNotFoundException;
 use Psr\Log\LoggerInterface;
 use Symfony\Bridge\Monolog\Logger;
+use Symfony\Component\Form\Form;
 use Symfony\Component\HttpFoundation\Session\Flash\FlashBag;
 use Symfony\Component\Routing\Exception\InvalidParameterException;
 use Symfony\Component\Routing\Exception\RouteNotFoundException;
@@ -455,6 +457,13 @@ abstract class AbstractController extends SymfonyController
         ], $this->addParams($entity, $request));
     }
 
+    protected function getForm($type, $data = null, array $options = [])
+    {
+        $this->beforeGetForm($type,$data,$options);
+        $form = parent::getForm($type, $data, $options);
+        return $this->afterGetForm($form);
+    }
+
     /**
      * @Route("/{id}/delete")
      * @Template
@@ -651,6 +660,15 @@ abstract class AbstractController extends SymfonyController
         return;
     }
 
+    protected function beforeGetForm(&$type,&$data,&$options): void
+    {
+
+    }
+
+    protected function afterGetForm($form): Form
+    {
+        return $form;
+    }
 
     protected function addParams($entity, Request $request): array
     {
