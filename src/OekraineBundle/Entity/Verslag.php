@@ -76,9 +76,17 @@ class Verslag
      * @var Contactsoort
      *
      * @ORM\ManyToOne(targetEntity="MwBundle\Entity\Contactsoort")
+     * @ORM\JoinColumn(nullable=true)
      * @Gedmo\Versioned
      */
     private $contactsoort;
+
+
+    /**
+     * @var integer
+     * @ORM\Column(type="integer", nullable=false)
+     */
+    private $aantalContactmomenten = 1;
 
     /**
      * @var int
@@ -314,4 +322,22 @@ class Verslag
     {
         return self::$accessTypes[$this->access];
     }
+
+    /**
+     * @return int
+     */
+    public function getAantalContactmomenten(): int
+    {
+        return $this->aantalContactmomenten;
+    }
+
+    /**
+     * @param int $aantalContactmomenten
+     */
+    public function setAantalContactmomenten(int $aantalContactmomenten): void
+    {
+        $this->aantalContactmomenten = $aantalContactmomenten;
+    }
+
+
 }

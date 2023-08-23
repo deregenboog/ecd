@@ -27,9 +27,12 @@
 
 {% block content %}
     <h1>Er is een fout opgetreden</h1>
+    <p>Details:  {{ exception.message }}</p>
     <p>
         Neem contact op met {{ administrator_name }}
-        (<a href="mailto:{{ administrator_email }}?subject=ECD%20foutmelding">{{ administrator_email }}</a>)
+        {% set currentPath = app.request.pathInfo %}
+        {% set body = "Hi!\n\nIk krijg deze foutmelding:\r\n'" ~ exception.message ~ "'. \r\nDat gebeurt op deze pagina: " ~ currentPath ~ " ." %}
+        (<a href="mailto:{{ administrator_email }}?subject=ECD%20foutmelding&body={{ body|url_encode}}">{{ administrator_email }}</a>)
         als dit probleem zich blijft voordoen.
     </p>
 {% endblock %}

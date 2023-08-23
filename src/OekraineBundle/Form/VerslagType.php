@@ -14,6 +14,7 @@ use OekraineBundle\Entity\Verslag;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
@@ -27,41 +28,30 @@ class VerslagType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        $accessChoices = [
+            Verslag::$accessTypes[Verslag::ACCESS_PSYCH]=>Verslag::ACCESS_PSYCH,
+            Verslag::$accessTypes[Verslag::ACCESS_MW]=>Verslag::ACCESS_MW,
+            Verslag::$accessTypes[Verslag::ACCESS_INLOOP]=>Verslag::ACCESS_INLOOP,
+        ];
+
+        //only access options that you are allowed to, should be selectable.
+        $choiceAttr = [];
+        foreach($accessChoices as $k=>$v) {
+            if($v > $options['accessProfile']) $choiceAttr[$k] = ['disabled' => 'disabled'];
+        }
         $builder
             ->add('medewerker', MedewerkerType::class)
             ->add('datum', AppDateType::class, [
                 'required' => true,
             ])
-            ->add('duur', ChoiceType::class, [
-                'label' => 'Duur gesprek (aantal hulpverleners x aantal uren)',
-                'placeholder' => '',
-                'choices' => [
-                        '0:20 uur' => 20,
-                    '0:40 uur' => 40,
-                    '1:00 uur' => 60,
-                    '1:20 uur' => 80,
-                    '1:40 uur' => 100,
-                    '2:00 uur' => 120,
-                    '4:00 uur' => 240,
-                    '6:00 uur' => 360,
-                    '8:00 uur' => 480,
-                ],
-            ])
             ->add('locatie', LocatieSelectType::class)
-            ->add('contactsoort', EntityType::class, [
-                'class' => Contactsoort::class,
-                'required' => true,
-                'expanded' => true,
-            ])
+            ->add('aantalContactmomenten', IntegerType::class)
             ->add('opmerking', CKEditorType::class, ['attr' => ['rows' => 10,'cols'=>50],'required'=>true])
             ->add('access', ChoiceType::class,[
                 'required'=>true,
                 'label'=>'Zichtbaar voor',
-                'choices'=>[
-                    Verslag::$accessTypes[Verslag::ACCESS_PSYCH]=>Verslag::ACCESS_PSYCH,
-                    Verslag::$accessTypes[Verslag::ACCESS_MW]=>Verslag::ACCESS_MW,
-                    Verslag::$accessTypes[Verslag::ACCESS_INLOOP]=>Verslag::ACCESS_INLOOP,
-                    ],
+                'choices'=>$accessChoices,
+                'choice_attr'=>$choiceAttr,
                 ])
             ->add('submit', SubmitType::class)
         ;
@@ -77,6 +67,7 @@ class VerslagType extends AbstractType
             'data_class' => Verslag::class,
 //            'attr' => ['novalidate' => 'novalidate'],
             'inventarisaties' => [],
+            'accessProfile'=>[],
         ]);
     }
 
