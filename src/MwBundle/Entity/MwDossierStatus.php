@@ -72,6 +72,7 @@ abstract class MwDossierStatus
      */
     protected $project;
 
+
     public function __construct(Klant $klant, Medewerker $medewerker = null)
     {
         $this->klant = $klant;

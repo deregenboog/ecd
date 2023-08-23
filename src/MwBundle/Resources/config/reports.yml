@@ -29,8 +29,10 @@ services:
     MwBundle\Report\AMW:
         public: true
         arguments:
-            - '@MwBundle\Service\VerslagDao'
-            - '%amw_locaties%'
+            $dao: '@MwBundle\Service\VerslagDao'
+            $locatieDao: '@InloopBundle\Service\LocatieDao'
+            $klantDao: '@MwBundle\Service\KlantDao'
+            $amw_locaties: '%amw_locaties%'
         tags:
             - { name: mw.rapportage, category: Klanten }
 

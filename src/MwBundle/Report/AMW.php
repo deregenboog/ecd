@@ -4,7 +4,9 @@ namespace MwBundle\Report;
 
 use AppBundle\Report\AbstractReport;
 use AppBundle\Report\Grid;
+use MwBundle\Service\KlantDao;
 use InloopBundle\Entity\Locatie;
+use InloopBundle\Service\LocatieDao;
 use MwBundle\Service\VerslagDao;
 
 class AMW extends AbstractReport
@@ -14,16 +16,13 @@ class AMW extends AbstractReport
 
     protected $xPath = 'type';
 
-    protected $yPath = 'locatienaam';
+//    protected $yPath = 'locatienaam';
 
     protected $nPath = 'aantal';
 
-    protected $columns = [
-        'Klanten'=>'aantal',
-        'Aantal contactmomenten'=>'aantalContactmomenten'
-        ];
 
-    protected $yDescription = 'Locatienaam';
+
+//    protected $yDescription = 'Locatienaam';
 
 
     protected $tables = [];
@@ -36,10 +35,42 @@ class AMW extends AbstractReport
 
     private $amw_locaties;
 
-    public function __construct(VerslagDao $dao, $amw_locaties)
+    /** @var LocatieDao */
+    private $locatieDao;
+
+    /** @var KlantDao  */
+    private $klantDao;
+
+    public function __construct(VerslagDao $dao, LocatieDao $locatieDao, KlantDao $klantDao, $amw_locaties)
     {
-        $this->amw_locaties = $amw_locaties;
+//        $this->amw_locaties = $amw_locaties;
         $this->dao = $dao;
+        $this->locatieDao = $locatieDao;
+
+        $this->klantDao = $klantDao;
+
+        $this->filterLocations($locatieDao->findAllActiveLocationsOfTypeMW());
+
+    }
+
+    private function filterLocations($allLocations)
+    {
+        /**
+         * Filter: alles STED, alles Wchtlijst, alles Zonder Zorg, T6.
+         */
+        foreach($allLocations as $k=> $locatie)
+        {
+            $naam = $locatie->getNaam();
+            if(strpos($naam, "Zonder ") !== false
+                || strpos($naam,"T6") !== false
+                || strpos($naam,"STED") !== false
+                || strpos($naam,"Wachtlijst") !== false
+            ) {
+                //skip locatie
+                continue;
+            }
+            $this->amw_locaties[] = $locatie->getNaam();
+        }
     }
 
     public function setFilter(array $filter)
@@ -60,20 +91,24 @@ class AMW extends AbstractReport
         $query = $this->dao->countUniqueKlantenVoorLocaties(
             $this->startDate,
             $this->endDate,
-            $this->amw_locaties
-            //[31,36,37,38,42,43] //remote locations hardcoded...
-//            [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21]
-        );
-//        $sql = $this->getFullSQL($query);
-        $this->result = $query->getResult();
-        $this->resultUnique = $this->dao->getTotalUniqueKlantenForLocaties($this->startDate,$this->endDate,$this->amw_locaties);
+            $this->amw_locaties);
+
+        $this->resultKlantenVerslagen = $query->getResult();
+        $this->resultKlantenVerslagenTotalUnique = $this->dao->getTotalUniqueKlantenForLocaties($this->startDate,$this->endDate,$this->amw_locaties);
+
+        $this->resultAfsluitingen = $this->klantDao->findAllAfsluitredenenAfgeslotenKlanten($this->startDate,$this->endDate);
 
     }
 
-    protected function build()
+    protected function buildAantalKlantenVerslagenContactmomenten()
     {
+        $columns = [
+            'Klanten'=>'aantalKlanten',
+            'Verslagen'=>'aantalVerslagen',
+            'Aantal contactmomenten'=>'aantalContactmomenten'
+        ];
 
-        $table = new Grid($this->result, $this->columns,$this->yPath);
+        $table = new Grid($this->resultKlantenVerslagen, $columns,"locatienaam");
         $table
             ->setStartDate($this->startDate)
             ->setEndDate($this->endDate)
@@ -82,17 +117,17 @@ class AMW extends AbstractReport
         ;
 
         $report = [
-            'title' => "AMW",
-            'xDescription' => $this->xDescription,
-            'yDescription' => $this->yDescription,
+            'title' => "Aantal klanten en verslagen",
+//            'xDescription' => $this->xDescription,
+            'yDescription' => "Locatienaam",
             'data' => $table->render(),
         ];
 
-        foreach($this->columns as $k=>$c)
+        foreach($columns as $k=>$c)
         {
-            if(isset($this->resultUnique[$k]))
+            if(isset($this->resultKlantenVerslagenTotalUnique[$k]))
             {
-                $report['data']['Uniek'][$c] = $this->resultUnique[$k];
+                $report['data']['Uniek'][$c] = $this->resultKlantenVerslagenTotalUnique[$k];
             }
             else{
                 $report['data']['Uniek'][$c] = "";
@@ -100,6 +135,35 @@ class AMW extends AbstractReport
 
         }
 
-        $this->reports[] = $report;
+        return $report;
+    }
+
+    protected function buildAfsluitingen()
+    {
+        $columns = [
+            'Aantal afsluitingen'=>'aantal',
+//            'Afsluitreden'=>'naam',
+        ];
+        $table = new Grid($this->resultAfsluitingen, $columns,"naam");
+        $table
+            ->setStartDate($this->startDate)
+            ->setEndDate($this->endDate)
+            ->setYSort(false)
+            ->setYTotals(false)
+        ;
+
+        $report = [
+            'title' => "Aantal afsluitingen per afsluitreden",
+            'yDescription' => "Afsluitreden",
+            'data' => $table->render(),
+        ];
+        return $report;
+    }
+
+    protected function build()
+    {
+
+        $this->reports[] = $this->buildAantalKlantenVerslagenContactmomenten();
+        $this->reports[] = $this->buildAfsluitingen();
     }
 }

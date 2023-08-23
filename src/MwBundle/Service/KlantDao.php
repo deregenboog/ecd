@@ -7,6 +7,7 @@ use AppBundle\Entity\Klant;
 use AppBundle\Filter\FilterInterface;
 use AppBundle\Service\AbstractDao;
 use MwBundle\Entity\Aanmelding;
+use MwBundle\Entity\Afsluiting;
 
 class KlantDao extends AbstractDao implements KlantDaoInterface
 {
@@ -140,6 +141,40 @@ class KlantDao extends AbstractDao implements KlantDaoInterface
         return $builder->getQuery()->getResult();
     }
 
+
+    public function findAllAfsluitredenenAfgeslotenKlanten($startdatum, $einddatum)
+    {
+        $builder = $this->repository->createQueryBuilder('klant');
+
+        $builder
+//            ->resetDQLPart("select")
+//            ->select("COUNT(afsluitreden) AS afsluitreden, afsluitreden.naam")
+            ->innerJoin("klant.huidigeMwStatus","mwStatus")
+            ->where("mwStatus INSTANCE OF :afgesloten")
+            ->andWhere("mwStatus.datum BETWEEN :startdatum AND :einddatum")
+            ->setParameter("afgesloten",(new \ReflectionClass(Afsluiting::class))->getShortName())
+            ->setParameter("startdatum",$startdatum)
+            ->setParameter("einddatum",$einddatum)
+        ;
+
+//        return $builder->getQuery()->getResult();
+
+        $countAfsluitingenSql = "
+SELECT COUNT(r.id) AS aantal, r.naam AS naam
+  FROM klanten k0_
+      INNER JOIN mw_dossier_statussen m1_
+                ON k0_.huidigeMwStatus_id = m1_.id AND m1_.class IN ('Aanmelding', 'Afsluiting')
+    INNER JOIN mw_afsluiting_redenen AS r ON r.id = m1_.reden_id
+  WHERE (m1_.class IN ('Afsluiting') AND
+         (m1_.datum BETWEEN '2022-01-01 00:00:00' AND '2022-07-20 00:00:00'))
+    AND ((k0_.disabled IS NULL OR k0_.disabled = 0))
+    AND (k0_.deleted IS NULL)
+GROUP BY r.naam";
+
+        $countStmt = $this->entityManager->getConnection()->prepare($countAfsluitingenSql);
+        $result = $countStmt->executeQuery();
+        return $result->fetchAllAssociative();
+    }
     public function countResultatenPerLocatie($page = null, FilterInterface $filter = null)
     {
         $builder = $this->repository->createQueryBuilder('klant')
