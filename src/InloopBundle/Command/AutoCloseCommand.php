@@ -4,6 +4,7 @@ namespace InloopBundle\Command;
 
 use AppBundle\Entity\Klant;
 use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\NoResultException;
 use InloopBundle\Entity\Afsluiting;
@@ -16,29 +17,37 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class AutoCloseCommand extends \Symfony\Component\Console\Command\Command
 {
-    private $years = 3;
+    private $years = 1;
 
     private $toelichting = 'Automatisch door systeem afgesloten.';
 
     private $redenPattern = '%geen inloophuis bezocht%';
+
+    /** @var EntityManager  */
+    private $entityManager;
+
+    public function __construct(EntityManagerInterface $entityManager)
+    {
+        $this->entityManager = $entityManager;
+        parent::__construct();
+    }
+
 
     protected function configure()
     {
         $this
             ->setName('inloop:automatisch-afsluiten')
             ->setHelp(sprintf('Sluit inloopdossiers automatisch af als er %d jaar geen inloophuis bezocht is.', $this->years))
-            ->addArgument('batch-size', InputArgument::OPTIONAL, 'Batch size', 100)
+            ->addArgument('batch-size', InputArgument::OPTIONAL, 'Batch size', 500)
             ->addOption('dry-run')
         ;
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        /* @var EntityManager $entityManager */
-        $entityManager = $this->getContainer()->get('doctrine.orm.entity_manager');
 
         try {
-            $reden = $entityManager->getRepository(RedenAfsluiting::class)->createQueryBuilder('reden')
+            $reden = $this->entityManager->getRepository(RedenAfsluiting::class)->createQueryBuilder('reden')
                 ->where('reden.naam LIKE :reden')
                 ->setParameter('reden', $this->redenPattern)
                 ->getQuery()
@@ -54,7 +63,7 @@ class AutoCloseCommand extends \Symfony\Component\Console\Command\Command
             return 0;
         }
 
-        $klanten = $entityManager->getRepository(Klant::class)->createQueryBuilder('klant')
+        $klanten = $this->entityManager->getRepository(Klant::class)->createQueryBuilder('klant')
             ->innerJoin(Registratie::class, 'registratie', 'WITH', 'registratie.klant = klant')
             ->leftJoin('klant.huidigeStatus', 'status')
             ->where('status NOT INSTANCE OF '.Afsluiting::class)
@@ -77,12 +86,12 @@ class AutoCloseCommand extends \Symfony\Component\Console\Command\Command
             if (!$input->getOption('dry-run')) {
                 $afsluiting = new Afsluiting($klant);
                 $afsluiting->setReden($reden)->setToelichting($this->toelichting);
-                $entityManager->persist($afsluiting);
+                $this->entityManager->persist($afsluiting);
             }
         }
 
         if (!$input->getOption('dry-run')) {
-            $entityManager->flush();
+            $this->entityManager->flush();
         }
         return 0;
     }
