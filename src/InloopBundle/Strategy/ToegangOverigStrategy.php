@@ -73,7 +73,7 @@ class ToegangOverigStrategy implements StrategyInterface
 
             ->orWhere(
                 $builder->expr()->andX('eersteIntake.toegangInloophuis = true',
-                        $builder->expr()->orX('eersteIntakeLocatie.naam != :villa_zaanstad',
+                        $builder->expr()->orX('eersteIntakeLocatie.naam != :villa_westerweide',
                         'eersteIntakeLocatie.naam IS NULL'),
                         $builder->expr()->orX(
                         'eersteIntake.verblijfsstatus IS NULL',
@@ -88,7 +88,7 @@ class ToegangOverigStrategy implements StrategyInterface
             )
             ->setParameter('niet_rechthebbend', $this->verblijsstatusNietRechthebbend)
             ->setParameter('today', new \DateTime('today'))
-            ->setParameter("villa_zaanstad","Villa Zaanstad")
+            ->setParameter("villa_westerweide","Villa Westerweide")
         ;
 
 //        $sql = SqlExtractor::getFullSQL($builder->getQuery());
