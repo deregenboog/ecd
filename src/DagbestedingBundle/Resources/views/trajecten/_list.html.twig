@@ -3,7 +3,7 @@
 <p>
     {% set url = path('dagbesteding_trajecten_add', {deelnemer: entity.id}) %}
 
-    {% if entity.trajecten.first != false and entity.trajecten.first.afsluitdatum is not null %}
+    {% if entity.trajecten.first == false or (entity.trajecten.first != false and entity.trajecten.first.afsluitdatum is not null) %}
         {{ html.addLink(url) }}
         {{ html.link('Traject toevoegen', url) }}
     {% endif %}
