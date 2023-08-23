@@ -2,6 +2,7 @@
 
 namespace IzBundle\Service;
 
+use AppBundle\Doctrine\SqlExtractor;
 use AppBundle\Entity\Geslacht;
 use AppBundle\Filter\FilterInterface;
 use AppBundle\Service\AbstractDao;
@@ -124,7 +125,8 @@ class HulpaanbodDao extends AbstractDao implements HulpaanbodDaoInterface
             ->groupBy('hulpaanbod.id')
             ->setParameter('hulpvraagsoortenZonderKoppelingen',$this->hulpsoortenZonderKoppelingen)
             ;
-        $sql = $geenDeelnemerMetHulpTimeout->getQuery()->getSQL();
+
+//        $sql = SqlExtractor::getFullSQL($geenDeelnemerMetHulpTimeout->getQuery());
         $r = $geenDeelnemerMetHulpTimeout->getQuery()->getResult();
         if(is_array($r) || $r instanceof \Countable ? count($r) : 0) {
             $builder
@@ -228,7 +230,7 @@ class HulpaanbodDao extends AbstractDao implements HulpaanbodDaoInterface
                 ;
             }
         }
-//        $sql = $builder->getQuery()->getSQL();
+//        $sql = SqlExtractor::getFullSQL($builder->getQuery());
 
         return $this->paginator->paginate($builder, $page, $this->itemsPerPage, $this->paginationOptions);
     }
