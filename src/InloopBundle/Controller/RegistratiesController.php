@@ -160,7 +160,7 @@ class RegistratiesController extends AbstractController
         $this->getEntityManager()->getFilters()->enable('overleden');
 
         $page = $request->get('page', 1);
-        $pagination = $this->klantDao->findAll($page, $filter);
+        $pagination = $this->klantDao->findAllAangemeld($page, $filter);
 
         return $this->render('@Inloop/registraties/_index.html.twig', [
             'locatie' => $locatie,

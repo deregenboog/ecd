@@ -42,6 +42,18 @@ class KlantDao extends AbstractDao implements KlantDaoInterface
         return $builder->getQuery()->getResult();
     }
 
+    public function findAllAangemeld($page = null, FilterInterface $filter = null)
+    {
+        $builder = $this->getAllQueryBuilder($filter);
+        $builder->andWhere("status INSTANCE OF  ".Aanmelding::class);
+        if ($page) {
+            return $this->paginator->paginate($builder, $page, $this->itemsPerPage, $this->paginationOptions);
+        }
+
+        return $builder->getQuery()->getResult();
+
+    }
+
     public function getAllQueryBuilder(FilterInterface $filter = null)
     {
         $builder = $this->repository->createQueryBuilder($this->alias)
@@ -61,7 +73,7 @@ class KlantDao extends AbstractDao implements KlantDaoInterface
         if ($filter) {
             $filter->applyTo($builder);
         }
-        $sql = SqlExtractor::getFullSQL($builder->getQuery());
+//        $sql = SqlExtractor::getFullSQL($builder->getQuery());
         return $builder;
     }
 
