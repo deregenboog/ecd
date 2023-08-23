@@ -28,8 +28,8 @@ parameters:
       - 'AMOC Stadhouderskade'
       - 'AMOC West'
       - 'Nachtopvang DRG'
-    villa_zaanstad:
-      - 'Villa Zaanstad'
+    villa_westerweide:
+      - 'Villa Westerweide'
     amoc_west:
       - 'AMOC West'
       - 'Nachtopvang DRG'

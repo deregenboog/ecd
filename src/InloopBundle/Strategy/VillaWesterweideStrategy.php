@@ -6,7 +6,7 @@ use Doctrine\ORM\QueryBuilder;
 use InloopBundle\Entity\Locatie;
 use InloopBundle\Strategy\StrategyInterface;
 
-class VillaZaanstadStrategy implements StrategyInterface
+class VillaWesterweideStrategy implements StrategyInterface
 {
 
     /**
@@ -15,7 +15,7 @@ class VillaZaanstadStrategy implements StrategyInterface
      * Intake locatie Villa Zaanstad = toegang tot Villa Zaanstad.
      */
 
-    private $accessStrategyName = "villa_zaanstad";
+    private $accessStrategyName = "villa_westerweide";
 
     private Locatie $locatie;
 

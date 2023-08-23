@@ -3,7 +3,7 @@
 namespace InloopBundle\Service;
 
 use App\InloopBundle\Strategy\AmocWestStrategy;
-use App\InloopBundle\Strategy\VillaZaanstadStrategy;
+use App\InloopBundle\Strategy\VillaWesterweideStrategy;
 use AppBundle\Doctrine\SqlExtractor;
 use AppBundle\Entity\Klant;
 use Doctrine\DBAL\Connection;
@@ -82,7 +82,7 @@ class AccessUpdater
         $this->strategies = [
             new SpecificLocationStrategy($this->locatieDao),
             new AmocWestStrategy($this->accessStrategies),
-            new VillaZaanstadStrategy($this->accessStrategies),
+            new VillaWesterweideStrategy($this->accessStrategies),
             new AmocStrategy($this->accessStrategies, $this->amocVerblijfsstatus),
             new GebruikersruimteStrategy(),
             new ToegangOverigStrategy($this->accessStrategies, $this->amocVerblijfsstatus, $this->em),
