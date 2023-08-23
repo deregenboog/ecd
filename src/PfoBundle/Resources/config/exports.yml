@@ -6,7 +6,7 @@ services:
             - PfoBundle\Entity\Client
             -
                 Nummer: { expression: 'entity.getId()' }
-                Voornaam: { expression: 'entity.getRoepnaam()' }
+                Voornaam: { expression: 'entity.getVoornaam()' }
                 Tussenvoegsel: { expression: 'entity.getTussenvoegsel()' }
                 Achternaam: { expression: 'entity.getAchternaam()' }
                 Geslacht: { expression: 'entity.getGeslacht()' }
