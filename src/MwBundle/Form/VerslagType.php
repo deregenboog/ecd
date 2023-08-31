@@ -35,7 +35,10 @@ class VerslagType extends AbstractType
             ->add('datum', AppDateType::class, [
                 'required' => true,
             ])
-            ->add('locatie', LocatieSelectType::class,['locatietypes'=>$options['locatieTypes']])
+            ->add('locatie', LocatieSelectType::class,[
+                'locatietypes'=>$options['locatieTypes'],
+                'required'=>true
+            ])
             ->add('aantalContactmomenten', IntegerType::class)
 
             ->add('opmerking', CKEditorType::class, ['attr' => ['rows' => 10,'cols'=>50],'required'=>true])
