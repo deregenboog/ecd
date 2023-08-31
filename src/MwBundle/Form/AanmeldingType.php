@@ -27,6 +27,7 @@ class AanmeldingType extends AbstractType
             ->add('project', BaseSelectType::class, [
                 'class' => Project::class,
                 'disabled' => $options['mode'] != BaseType::MODE_ADD,
+                'required'=>true,
             ])
             ->add('binnenViaOptieKlant', BinnenViaOptieKlantSelectType::class)
             ->add('submit', SubmitType::class)

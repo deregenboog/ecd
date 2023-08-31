@@ -241,9 +241,11 @@ class KlantenController extends AbstractController
             if ($klant) {
                 // redirect if already exists
                 $mwKlant = $this->dao->find($klantId);
-                if ($mwKlant) {
+                if ($mwKlant && !$mwKlant->getHuidigeMwStatus() instanceof Aanmelding) {
                     return $this->redirectToRoute("mw_klanten_addmwdossierstatus",["id"=>$klantId]);
                 }
+                $this->addFlash("warning","Deze klant is al aangemeld. Wanneer u de klant opnieuw wilt aanmelden dient het dossier eerst gesloten te worden.");
+                return $this->redirectToRoute("mw_klanten_view",["id"=>$klantId]);
             }
         }
 
@@ -283,6 +285,13 @@ class KlantenController extends AbstractController
         $klant = $this->dao->find($id);
 
         $afsluiting = new Afsluiting($klant, $this->getMedewerker());
+
+        /**
+         * Copy project data from aanmelding to afsluiting so the project gets maintained in de afsluiting.
+         */
+        if(null !== $klant->getAanmelding() && null !== $project = $klant->getAanmelding()->getProject()){
+            $afsluiting->setProject($project);
+        };
 
         $form = $this->getForm(AfsluitingType::class, $afsluiting);
         $form->handleRequest($this->getRequest());

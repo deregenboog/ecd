@@ -32,7 +32,17 @@ services:
             $dao: '@MwBundle\Service\VerslagDao'
             $locatieDao: '@InloopBundle\Service\LocatieDao'
             $klantDao: '@MwBundle\Service\KlantDao'
-            $amw_locaties: '%amw_locaties%'
+            $locaties: '%amw_locaties%'
+        tags:
+            - { name: mw.rapportage, category: Klanten }
+
+    MwBundle\Report\BegeleidThuis:
+        public: true
+        arguments:
+            $dao: '@MwBundle\Service\VerslagDao'
+            $locatieDao: '@InloopBundle\Service\LocatieDao'
+            $klantDao: '@MwBundle\Service\KlantDao'
+            $locaties: '%amw_locaties%'
         tags:
             - { name: mw.rapportage, category: Klanten }
 

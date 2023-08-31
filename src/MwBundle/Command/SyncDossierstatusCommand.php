@@ -5,6 +5,7 @@ namespace MwBundle\Command;
 use AppBundle\Entity\Klant;
 use Doctrine\ORM\EntityManager;
 
+use Doctrine\ORM\EntityManagerInterface;
 use MwBundle\Entity\Aanmelding;
 use MwBundle\Entity\Afsluiting;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
@@ -21,7 +22,18 @@ class SyncDossierstatusCommand extends \Symfony\Component\Console\Command\Comman
     private $manager;
 
 
-
+    /**
+     * @param EntityManagerInterface $manager
+     */
+    public function __construct(EntityManagerInterface $manager)
+    {
+        $this->manager = $manager;
+        parent::__construct();
+    }
+    /**
+     * Creates mwDossierStatus for MW klanten die gesynchroniseerd is aan het inloopdossier, als ze die hebben.
+     * Zo niet dan maakt ie sowieso een nieuwe aan.
+     */
     protected function configure()
     {
         $this->setName('mw:dossierstatus:sync');
@@ -35,7 +47,6 @@ class SyncDossierstatusCommand extends \Symfony\Component\Console\Command\Comman
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $this->manager = $this->getContainer()->get('doctrine.orm.entity_manager');
 
         // get clients that haven't visited within the configured interval
 //        $klanten = $this->getKlanten();
@@ -73,7 +84,7 @@ class SyncDossierstatusCommand extends \Symfony\Component\Console\Command\Comman
                 $output->writeln(sprintf('Afsluiting toevoegen voor #%d', $klant->getId()));
                 $klant->setHuidigeMwStatus($status);
             }
-            else
+            else //klant heeft geen inloopdossier.
             {
                 $status = new Aanmelding($klant);
                 $output->writeln(sprintf('Aanmelding toevoegen voor #%d (geen InloopDossier)', $klant->getId()));

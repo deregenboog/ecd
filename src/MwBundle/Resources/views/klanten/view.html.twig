@@ -31,14 +31,14 @@
 {% block content_left %}
     <h2>Maatschappelijkwerk dossier</h2>
     <p>
-        {% if entity.huidigeMwStatus?entity.huidigeMwStatus.aangemeld %}
-            {{ html.link('Wijzigen', path('mw_klanten_editmwdossierstatus', {id: entity.id, statusId: entity.huidigeMwStatus.id}), 'edit') }}
+        {% if entity.aanmelding %}
+            {{ html.link('Wijzigen', path('mw_klanten_editmwdossierstatus', {id: entity.id, statusId: entity.aanmelding.id}), 'edit') }}
             {{ html.link('Mw dossier afsluiten', path(route_base~'close', {id: entity.id}), 'close') }}
         {% endif %}
         {{ html.link('Klant toevoegen aan TW', path('tw_klanten_addwithcheck', {id: entity.id}),'add') }}
     </p>
     <ul>
-        {% for status in entity.mwStatussen %}
+        {% for status in entity.mwStatussen|sort((a, b) => b.datum <=> a.datum ?: b.id <=> a.id) %}
             <li>{{ status }}</li>
         {% endfor %}
     </ul>
@@ -59,10 +59,7 @@
     </ul>
     <div class="tab-content">
         <div id="info" class="tab-pane active">
-
             {{ render(controller('MwBundle\\Controller\\KlantenController::_mwAction', {id: entity.id})) }}
-
-
         </div>
         <div id="verslagen" class="tab-pane">
             <h2>Verslagen</h2>

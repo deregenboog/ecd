@@ -9,10 +9,10 @@ use InloopBundle\Entity\Locatie;
 use InloopBundle\Service\LocatieDao;
 use MwBundle\Service\VerslagDao;
 
-class AMW extends AbstractReport
+class BegeleidThuis extends AbstractReport
 {
 
-    protected $title = 'AMW';
+    protected $title = 'Begeleid thuis';
 
     protected $xPath = 'type';
 
@@ -33,9 +33,6 @@ class AMW extends AbstractReport
     private $locatie;
 
 
-    /**
-     * @var Locaties die voor dit rapport gelden
-     */
     private $locaties;
 
     /** @var LocatieDao */
@@ -59,15 +56,15 @@ class AMW extends AbstractReport
     private function filterLocations($allLocations)
     {
         /**
-         * Filter: alles STED, alles Wchtlijst, alles Zonder Zorg, T6.
+         * Filter: alleen 'zonder zorg'
          */
         foreach($allLocations as $k=> $locatie)
         {
             $naam = $locatie->getNaam();
-            if(strpos($naam, "Zonder ") !== false
-                || strpos($naam,"T6") !== false
-                || strpos($naam,"STED") !== false
-                || strpos($naam,"Wachtlijst") !== false
+            if(strpos($naam, "Zonder ") === false
+//                || strpos($naam,"T6") !== false
+//                || strpos($naam,"STED") !== false
+//                || strpos($naam,"Wachtlijst") !== false
             ) {
                 //skip locatie
                 continue;

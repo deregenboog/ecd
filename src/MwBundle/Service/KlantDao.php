@@ -142,39 +142,92 @@ class KlantDao extends AbstractDao implements KlantDaoInterface
     }
 
 
-    public function findAllAfsluitredenenAfgeslotenKlanten($startdatum, $einddatum)
+    public function findAllAfsluitredenenAfgeslotenKlantenForLocaties($startdatum, $einddatum,$locaties = [])
     {
         $builder = $this->repository->createQueryBuilder('klant');
 
+        /**
+         * Deze query vraagt velden van een subclass.
+         * Dit kan niet direct omdat er geen relatie is tussen klant en afsluiting, dat gaat via dossierstatus
+         * En je moet dus eerst de subclass van de abstract dossierStatus vragen
+         * en dan daarop de velden pakken.
+         * dat doe je door de joinen op de subclass.
+         */
         $builder
-//            ->resetDQLPart("select")
-//            ->select("COUNT(afsluitreden) AS afsluitreden, afsluitreden.naam")
+            ->resetDQLPart("select")
+            ->select("COUNT(afsluitreden) AS aantal, afsluitreden.naam AS naam")
             ->innerJoin("klant.huidigeMwStatus","mwStatus")
+            ->leftJoin("MwBundle\Entity\Afsluiting","afsluiting","WITH","afsluiting = mwStatus")
+            ->innerJoin("afsluiting.reden", "afsluitreden")
+            ->leftJoin("afsluiting.locatie",'locatie')
             ->where("mwStatus INSTANCE OF :afgesloten")
             ->andWhere("mwStatus.datum BETWEEN :startdatum AND :einddatum")
+            ->andWhere("locatie.naam IN (:locaties)")
+            ->groupBy("afsluitreden.naam")
+            ->orderBy("afsluitreden.naam","ASC")
             ->setParameter("afgesloten",(new \ReflectionClass(Afsluiting::class))->getShortName())
+            ->setParameter("startdatum",$startdatum)
+            ->setParameter("einddatum",$einddatum)
+            ->setParameter("locaties",$locaties)
+        ;
+
+//        $sql = SqlExtractor::getFullSQL($builder->getQuery());// $builder->getQuery()->getResult();
+
+        return $builder->getQuery()->getResult();
+    }
+
+    public function findAllNieuweKlantenForLocaties($startdatum, $einddatum,$locaties=[])
+    {
+        $builder = $this->repository->createQueryBuilder('klant');
+
+
+        $builder
+            ->resetDQLPart("select")
+            ->select("COUNT(binnenvia) AS aantal, binnenvia.naam AS naam")
+            ->innerJoin("klant.huidigeMwStatus","mwStatus")
+            ->leftJoin("MwBundle\Entity\Aanmelding","aanmelding","WITH","aanmelding = mwStatus")
+            ->innerJoin("aanmelding.binnenViaOptieKlant", "binnenvia")
+            ->leftJoin("aanmelding.locatie","locatie")
+            ->where("mwStatus INSTANCE OF :aanmelding")
+            ->andWhere("mwStatus.datum BETWEEN :startdatum AND :einddatum")
+            ->andWhere("locatie.naam IN (:locaties)")
+            ->groupBy("binnenvia.naam")
+            ->orderBy("binnenvia.naam","ASC")
+            ->setParameter("aanmelding",(new \ReflectionClass(Aanmelding::class))->getShortName())
+            ->setParameter("startdatum",$startdatum)
+            ->setParameter("einddatum",$einddatum)
+            ->setParameter("locaties",$locaties)
+        ;
+
+//        $sql = SqlExtractor::getFullSQL($builder->getQuery());// $builder->getQuery()->getResult();
+
+        return $builder->getQuery()->getResult();
+    }
+
+    public function getDoorlooptijdPerLocatie($startdatum,$einddatum, $locaties) {
+
+        $builder = $this->repository->createQueryBuilder('klant');
+
+        $builder
+            ->resetDQLPart("select")
+            ->select("COUNT(binnenvia) AS aantal, binnenvia.naam AS naam")
+            ->innerJoin("klant.huidigeMwStatus","mwStatus")
+            ->leftJoin("MwBundle\Entity\Aanmelding","aanmelding","WITH","aanmelding = mwStatus")
+            ->innerJoin("aanmelding.binnenViaOptieKlant", "binnenvia")
+            ->where("mwStatus INSTANCE OF :aanmelding")
+            ->andWhere("mwStatus.datum BETWEEN :startdatum AND :einddatum")
+            ->groupBy("binnenvia.naam")
+            ->orderBy("binnenvia.naam","ASC")
+            ->setParameter("aanmelding",(new \ReflectionClass(Aanmelding::class))->getShortName())
             ->setParameter("startdatum",$startdatum)
             ->setParameter("einddatum",$einddatum)
         ;
 
-//        return $builder->getQuery()->getResult();
+//        $sql = SqlExtractor::getFullSQL($builder->getQuery());// $builder->getQuery()->getResult();
 
-        $countAfsluitingenSql = "
-SELECT COUNT(r.id) AS aantal, r.naam AS naam
-  FROM klanten k0_
-      INNER JOIN mw_dossier_statussen m1_
-                ON k0_.huidigeMwStatus_id = m1_.id AND m1_.class IN ('Aanmelding', 'Afsluiting')
-    INNER JOIN mw_afsluiting_redenen AS r ON r.id = m1_.reden_id
-  WHERE (m1_.class IN ('Afsluiting') AND
-         (m1_.datum BETWEEN '2022-01-01 00:00:00' AND '2022-07-20 00:00:00'))
-    AND ((k0_.disabled IS NULL OR k0_.disabled = 0))
-    AND (k0_.deleted IS NULL)
-GROUP BY r.naam";
-
-        $countStmt = $this->entityManager->getConnection()->prepare($countAfsluitingenSql);
-        $result = $countStmt->executeQuery();
-        return $result->fetchAllAssociative();
+        return $builder->getQuery()->getResult();
     }
+
     public function countResultatenPerLocatie($page = null, FilterInterface $filter = null)
     {
         $builder = $this->repository->createQueryBuilder('klant')
