@@ -5,3 +5,8 @@
 /docker-*
 /var
 /vendor
+/backups
+/public/bundles/
+/public/node_modules/
+/app/data/
+

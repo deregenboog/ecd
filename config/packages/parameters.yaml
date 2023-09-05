@@ -48,6 +48,7 @@ parameters:
   amw_locaties:
     - 'AMOC Stadhouderskade'
     - 'Amoc Gebruikersruimte'
+    - 'AMOC West'
     - 'Nachtopvang DRG'
     - 'Princehof Inloop'
     - 'Princehof Gebruikersruimte'

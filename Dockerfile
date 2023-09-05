@@ -31,7 +31,7 @@ RUN apt-get update && apt-get install -y \
 && pecl install xdebug-3.1.6 && docker-php-ext-enable xdebug \
   #copy stuff..
 && cat /tmp/xdebug.ini >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini \
-    && rm /tmp/xdebug.ini
+    && rm /tmp/xdebug.ini \
 #RUN echo "xdebug.remote_host=host.docker.internal" >> usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
 
 && docker-php-ext-configure ldap --with-libdir=lib/x86_64-linux-gnu \
@@ -48,11 +48,11 @@ WORKDIR /var/www/html
 # https://symfony.com/doc/4.4/setup/file_permissions.html
 RUN mkdir var \
     && setfacl -dR -m u:"www-data":rwX -m u:1000:rwX var \
-    && setfacl -R -m u:"www-data":rwX -m u:1000:rwX var
+    && setfacl -R -m u:"www-data":rwX -m u:1000:rwX var \
 
 # configure apache
 
-&& a2enmod rewrite headers && a2dissite 000-default && a2ensite app
+&& a2enmod rewrite headers && a2dissite 000-default && a2ensite app \
 
 
 && composer install --no-autoloader --no-scripts
