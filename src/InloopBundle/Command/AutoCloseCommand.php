@@ -2,6 +2,7 @@
 
 namespace InloopBundle\Command;
 
+use AppBundle\Doctrine\SqlExtractor;
 use AppBundle\Entity\Klant;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
@@ -63,14 +64,18 @@ class AutoCloseCommand extends \Symfony\Component\Console\Command\Command
             return 0;
         }
 
-        $klanten = $this->entityManager->getRepository(Klant::class)->createQueryBuilder('klant')
+        $builder = $this->entityManager->getRepository(Klant::class)->createQueryBuilder('klant')
             ->innerJoin(Registratie::class, 'registratie', 'WITH', 'registratie.klant = klant')
             ->leftJoin('klant.huidigeStatus', 'status')
             ->where('status NOT INSTANCE OF '.Afsluiting::class)
             ->groupBy('klant.id')
             ->having('MAX(registratie.binnen) < :long_time_ago')
             ->setParameter('long_time_ago', new \DateTime(sprintf('-%d years', $this->years)))
-            ->setMaxResults($input->getArgument('batch-size'))
+            ->setMaxResults($input->getArgument('batch-size'));
+
+//        $sql = SqlExtractor::getFullSQL($builder->getQuery());
+//        $output->writeln($sql);
+        $klanten = $builder
             ->getQuery()
             ->getResult();
 
@@ -80,6 +85,7 @@ class AutoCloseCommand extends \Symfony\Component\Console\Command\Command
             $reden->getNaam(),
             $this->toelichting
         ));
+
         foreach ($klanten as $klant) {
             $output->writeln(sprintf(' - klant %d afsluiten', $klant->getId()));
 
