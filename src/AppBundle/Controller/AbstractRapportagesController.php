@@ -48,8 +48,6 @@ abstract class AbstractRapportagesController extends SymfonyController
             $report = $this->getReport($rapport);
             if(!$report) throw new AppException("Report cannot be found");
 
-//            $report = $this->container->get($request->query->get('rapportage')['rapport']);
-//            $report = $this->get($request->query->get('rapportage')['rapport']);
             $formOptions = $report->getFormOptions();
         }
 

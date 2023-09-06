@@ -92,7 +92,7 @@ class VerslagDao extends AbstractDao implements VerslagDaoInterface
         WHERE l.naam IN ("De Meeuw","Claverhuis","Gravestein","Postoost","Havelaar","\'t Blommetje","Tagrijn","Casa Jepie")
         AND (v.datum BETWEEN '2020-01-01 00:00:00' AND '2021-05-28 00:00:00')
          */
-        $builder->select('COUNT(DISTINCT verslagen.klant) AS Klanten')
+        $builder->select('COUNT(DISTINCT verslagen.bezoeker) AS Klanten')
             ->leftJoin('verslagen.locatie', 'locatie')
             ->where('locatie.naam IN(:locaties)')
             ->andWhere('verslagen.datum BETWEEN :startdatum AND :einddatum')
@@ -109,7 +109,13 @@ class VerslagDao extends AbstractDao implements VerslagDaoInterface
 
     public static function buildUniqueKlantenVoorLocatiesQuery($builder, $startdatum, $einddatum, $locaties)
     {
-        $builder->addSelect('COUNT(DISTINCT verslagen.klant) AS aantal, COUNT(verslagen.id) AS aantalVerslagen, locatie.naam AS locatienaam')
+        $builder->addSelect('COUNT(DISTINCT verslagen.bezoeker) AS aantalKlanten, 
+        COUNT(verslagen.id) AS aantalVerslagen, 
+        COUNT(verslagen.aantalContactmomenten) AS aantalContactmomenten,
+        SUM(CASE WHEN verslagen.type = 1 THEN 1 ELSE 0 END) as aantalTypeInloop,
+        SUM(CASE WHEN verslagen.type = 2 THEN 1 ELSE 0 END) as aantalTypeMW,
+        SUM(CASE WHEN verslagen.type = 4 THEN 1 ELSE 0 END) as aantalTypePsych, 
+        locatie.naam AS locatienaam')
         ->leftJoin('verslagen.locatie', 'locatie')
         ->where('locatie.naam IN(:locaties)')
         ->andWhere('verslagen.datum BETWEEN :startdatum AND :einddatum')
