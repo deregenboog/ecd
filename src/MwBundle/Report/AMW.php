@@ -102,9 +102,9 @@ class AMW extends AbstractReport
 
         $this->resultAfsluitingen = $this->klantDao->findAllAfsluitredenenAfgeslotenKlantenForLocaties($this->startDate,$this->endDate,$this->locaties);
 
-//        $this->resultAanmeldingen = $this->klantDao->findAllNieuweKlantenForLocaties($this->startDate,$this->endDate,$this->locaties);
+//        $this->resultAanmeldingen = $this->bezoekerDao->findAllNieuweKlantenForLocaties($this->startDate,$this->endDate,$this->locaties);
 
-//        $this->resultDoorlooptijd = $this->klantDao->getDoorlooptijdPerLocatie($this->startDate,$this->endDate,$this->locaties);
+//        $this->resultDoorlooptijd = $this->bezoekerDao->getDoorlooptijdPerLocatie($this->startDate,$this->endDate,$this->locaties);
 
     }
 
