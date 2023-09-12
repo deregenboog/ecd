@@ -1,4 +1,7 @@
 services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
     MwBundle\Service\:
         resource: '../../Service/*'
 

@@ -5,6 +5,7 @@ namespace MwBundle\Command;
 use AppBundle\Entity\Klant;
 use Doctrine\ORM\EntityManager;
 
+use Doctrine\ORM\EntityManagerInterface;
 use MwBundle\Entity\Aanmelding;
 use MwBundle\Entity\Afsluiting;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
@@ -20,6 +21,14 @@ class FixDossierstatusCommand extends \Symfony\Component\Console\Command\Command
      */
     private $manager;
 
+    /**
+     * @param EntityManager $manager
+     */
+    public function __construct(EntityManagerInterface $manager)
+    {
+        $this->manager = $manager;
+        parent::__construct();
+    }
 
 
     protected function configure()
@@ -33,8 +42,6 @@ class FixDossierstatusCommand extends \Symfony\Component\Console\Command\Command
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $this->manager = $this->getContainer()->get('doctrine.orm.entity_manager');
-
         // get clients that haven't visited within the configured interval
 //        $klanten = $this->getKlanten();
 
@@ -57,7 +64,6 @@ class FixDossierstatusCommand extends \Symfony\Component\Console\Command\Command
 
             foreach($klant->getMwStatussen() as $mwStatus)
             {
-
                 if($mwStatus instanceof $vorigeMwStatus)
                 {
                     $output->writeln(sprintf("DossierStatus aan het verwijderen (id: %s)",$vorigeMwStatus->getId()) );
@@ -90,7 +96,7 @@ class FixDossierstatusCommand extends \Symfony\Component\Console\Command\Command
             ->select('klant')
             ->leftJoin('klant.huidigeStatus', 'status')
             ->leftJoin('klant.verslagen', 'verslag')
-
+            ->where("klant.huidigeMwStatus IS NOT NULL")
             ->andWhere('verslag.id IS NOT NULL')
 
             ->groupBy('klant.id');
@@ -108,7 +114,7 @@ class FixDossierstatusCommand extends \Symfony\Component\Console\Command\Command
         if($fromDate !== null)
         {
             $builder->andWhere('verslag.datum >= :fromDate')
-                ->andWhere("klant.huidigeMwStatus IS NULL")
+//                ->andWhere("klant.huidigeMwStatus IS NULL") //waarom staat dit hier?
                 ->setParameter("fromDate",$fromDate);
         }
         $builder->setMaxResults(5000);

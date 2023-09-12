@@ -3,6 +3,7 @@
 namespace MwBundle\Command;
 
 use AppBundle\Entity\Klant;
+use AppBundle\Entity\Medewerker;
 use Doctrine\DBAL\Exception;
 use Doctrine\DBAL\ParameterType;
 use Doctrine\DBAL\Result;
@@ -12,6 +13,7 @@ use Knp\Component\Pager\Paginator;
 use MwBundle\Entity\Aanmelding;
 use MwBundle\Entity\Afsluiting;
 use MwBundle\Entity\AfsluitredenKlant;
+use MwBundle\Entity\Resultaat;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -51,10 +53,15 @@ class CloseOldDossiers extends \Symfony\Component\Console\Command\Command
         $afsluitreden = $afsluitredenRepo->findOneBy(["naam"=>"Client uit beeld"]);
         if($afsluitreden == false)
         {
-            throw new Exception("Cannot find afsluitreden");
+            throw new \Exception("Cannot find afsluitreden");
         }
 
-
+        $defaultMedewerkerRepo = $this->manager->getRepository(Medewerker::class);
+        $defaultMedewerker = $defaultMedewerkerRepo->findOneBy(["username"=>"jvloo"]);
+        if($defaultMedewerker == false)
+        {
+            throw new \Exception("Cannot find default medewerker (jvloo)");
+        }
 
         foreach ($mwKlanten as $klant) {
 
@@ -65,8 +72,20 @@ class CloseOldDossiers extends \Symfony\Component\Console\Command\Command
 
             $output->writeln(sprintf("Bezig met klant %s",$klant->getId() ) );
 
-            $afsluiting = new Afsluiting($klant);
+            $aanmelding = $klant->getHuidigeMwStatus();
+            if(!$aanmelding instanceof Aanmelding) {
+                $output->writeln("Laatste status klant is geen aanmelding. Skippen.");
+                continue;
+            }
+
+            $afsluiting = new Afsluiting();
+            $afsluiting->setKlant($klant);
+
             $afsluiting->setReden($afsluitreden);
+            $afsluiting->setMedewerker($defaultMedewerker);
+            $afsluiting->setLocatie($aanmelding->getLocatie());
+            $afsluiting->setProject($aanmelding->getProject());
+
             $klant->setHuidigeMwStatus($afsluiting);
 
 

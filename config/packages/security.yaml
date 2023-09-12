@@ -1,4 +1,4 @@
-when@dev:
+#when@dev:
 #    services:
 #        security.development_guard_authenticator:
 #            class: AppBundle\Security\DevelopmentAuthenticator
@@ -10,7 +10,7 @@ when@dev:
 #                provider: chain_provider
 #                custom_authenticator:
 #                    - security.development_guard_authenticator
-#                entry_point: ldap_tools.security.ldap_guard_authenticator
+#                entry_point: security.development_guard_authenticator
 #
 #when@prod:
 #    security:
