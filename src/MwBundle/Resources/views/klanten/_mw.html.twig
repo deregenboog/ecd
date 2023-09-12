@@ -1,6 +1,6 @@
 {% import 'html.macro.twig' as html %}
 
-{% if klant.huidigeMwStatus.reden is defined and klant.huidigeMwStatus.reden.isLand == true %}
+{% if klant.huidigeMwStatus.reden is defined and klant.huidigeMwStatus.reden is not null and klant.huidigeMwStatus.reden.isLand == true %}
     <h3 class="text-warning">Repatriering</h3>
     <div class="row">
         <div class="col-xs-6">
@@ -21,14 +21,14 @@
 
 {% if info %}
    <h3>Algemene dossierinformatie</h3>
-    {{ html.link('Wijzigen', path('mw_klanten_infoedit', {klant: klant.id}), 'edit') }}
+    {% if klant.huidigeMwStatus? instanceof(klant.huidigeMwStatus, "MwBundle\\Entity\\Aanmelding") %}
+        {{ html.link('Wijzigen', path('mw_klanten_infoedit', {klant: klant.id}), 'edit') }}
+    {% endif %}
     <div class="row">
         <div class="col-xs-6">
             <dl  class="dl-horizontal">
-                {% if instanceof(klant.huidigeMwStatus, 'MwBundle\\Entity\\Aanmelding') %}
                     <dt>Project</dt>
-                    <dd>{{ klant.huidigeMwStatus.project }}</dd>
-                {% endif %}
+                    <dd>{{ klant.getAanmelding.project }}</dd>
                 <dt>RIS</dt>
                 <dd>{{ info.risDatumTot|if_date }}</dd>
                 <dt>Maatschappelijk werker</dt>

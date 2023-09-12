@@ -31,15 +31,27 @@
 {% block content_left %}
     <h2>Maatschappelijkwerk dossier</h2>
     <p>
-        {% if entity.huidigeMwStatus?entity.huidigeMwStatus.aangemeld %}
-            {{ html.link('Wijzigen', path('mw_klanten_editmwdossierstatus', {id: entity.id, statusId: entity.huidigeMwStatus.id}), 'edit') }}
+        {% if entity.huidigeMwStatus? instanceof(entity.huidigeMwStatus, "MwBundle\\Entity\\Aanmelding") %}
+
+           {% if is_granted("ROLE_MW_BEHEER") %}
+               {{ html.link('Wijzigen', path('mw_klanten_editmwdossierstatus', {id: entity.id, statusId: entity.aanmelding.id}), 'edit') }}
+           {% endif %}
+
             {{ html.link('Mw dossier afsluiten', path(route_base~'close', {id: entity.id}), 'close') }}
+
+            {{ html.link('Klant toevoegen aan TW', path('tw_klanten_addwithcheck', {id: entity.id}),'add') }}
         {% endif %}
-        {{ html.link('Klant toevoegen aan TW', path('tw_klanten_addwithcheck', {id: entity.id}),'add') }}
     </p>
     <ul>
-        {% for status in entity.mwStatussen %}
-            <li>{{ status }}</li>
+        {% for status in entity.mwStatussen|sort((a, b) => b.datum <=> a.datum ?: b.id <=> a.id) %}
+            <li>
+                {% if is_granted("ROLE_ADMIN") %}
+                    {{ html.link(status, path('mw_klanten_editmwdossierstatus', {id: status.klant.id, statusId: status.id}), 'edit') }} {{ html.link('', path('mw_klanten_deletemwdossierstatus', {id: status.klant.id, statusId: status.id}), 'remove') }}
+                {% else %}
+                    {{ status }}
+                {% endif %}
+            </li>
+
         {% endfor %}
     </ul>
     {% include 'klant_basis.html.twig' with {klant: entity, module: 'MaatschappelijkWerk'} %}
@@ -59,16 +71,15 @@
     </ul>
     <div class="tab-content">
         <div id="info" class="tab-pane active">
-
             {{ render(controller('MwBundle\\Controller\\KlantenController::_mwAction', {id: entity.id})) }}
-
-
         </div>
         <div id="verslagen" class="tab-pane">
             <h2>Verslagen</h2>
-            <p>
-                {{ html.link('Verslag toevoegen', path('mw_verslagen_add', {klant: entity.id}), 'add') }}
-            </p>
+            {% if entity.huidigeMwStatus? instanceof(entity.huidigeMwStatus, "MwBundle\\Entity\\Aanmelding") %}
+                <p>
+                    {{ html.link('Verslag toevoegen', path('mw_verslagen_add', {klant: entity.id}), 'add') }}
+                </p>
+            {% endif %}
             {% for verslag in entity.verslagen %}
                 <h3>Verslag van {{ verslag.datum|date('d-m-Y') }}</h3>
                 <p>
@@ -103,9 +114,11 @@
         </div>
         <div id="opmerkingen" class="tab-pane">
             <h2>Opmerkingen</h2>
-            <p>
-                {{ html.link('Opmerking toevoegen', path('inloop_opmerkingen_add', {klant: entity.id}), 'add') }}
-            </p>
+            {% if entity.huidigeMwStatus? instanceof(entity.huidigeMwStatus, "MwBundle\\Entity\\Aanmelding") %}
+                <p>
+                    {{ html.link('Opmerking toevoegen', path('inloop_opmerkingen_add', {klant: entity.id}), 'add') }}
+                </p>
+            {% endif %}
             {% if 0 == entity.opmerkingen|length %}
                 <p>Geen opmerkingen.</p>
             {% else %}

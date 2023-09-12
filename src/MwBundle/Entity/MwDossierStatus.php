@@ -6,11 +6,16 @@ use AppBundle\Entity\Klant;
 use AppBundle\Entity\Medewerker;
 use AppBundle\Model\IdentifiableTrait;
 use AppBundle\Model\OptionalMedewerkerTrait;
+use AppBundle\Model\RequiredMedewerkerTrait;
 use AppBundle\Model\TimestampableTrait;
+use ClipBundle\Entity\RequiredBehandelaarTrait;
+use Doctrine\Common\Annotations\Annotation\Required;
 use Doctrine\ORM\Event\LifecycleEventArgs;
 use Doctrine\ORM\Mapping\PrePersist;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
 /**
  * @ORM\Entity(repositoryClass="MwBundle\Repository\DossierStatusRepository")
@@ -30,7 +35,7 @@ abstract class MwDossierStatus
 {
     use IdentifiableTrait;
     use TimestampableTrait;
-    use OptionalMedewerkerTrait;
+    use RequiredMedewerkerTrait;
 
     /**
      * @var Klant
@@ -38,12 +43,14 @@ abstract class MwDossierStatus
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Klant", inversedBy="mwStatussen")
      * @ORM\JoinColumn(nullable=false)
      * @Gedmo\Versioned
+     * @Assert\Type("AppBundle\Entity\Klant")
      */
     protected $klant;
 
     /**
      * @ORM\Column(type="date")
      * @Gedmo\Versioned
+     * @Assert\Type("\DateTimeInterface")
      */
     protected $datum;
 
@@ -67,16 +74,30 @@ abstract class MwDossierStatus
      * @var Project
      *
      * @ORM\ManyToOne(targetEntity="MwBundle\Entity\Project", inversedBy="aanmeldingen")
-     * @ORM\JoinColumn(nullable=true)
+     * @ORM\JoinColumn(nullable=false)
+     * @Assert\NotNull()
      * @Gedmo\Versioned
      */
     protected $project;
 
-    public function __construct(Klant $klant, Medewerker $medewerker = null)
-    {
-        $this->klant = $klant;
-        $klant->setHuidigeMwStatus($this);
+    /**
+     * @ORM\ManyToOne(targetEntity="InloopBundle\Entity\Locatie")
+     * @Assert\NotNull
+     */
+    protected $locatie;
 
+    /**
+     * @var BinnenViaOptieKlant
+     *
+     * @ORM\ManyToOne(targetEntity="MwBundle\Entity\BinnenViaOptieKlant", inversedBy="aanmeldingen", )
+     * @ORM\JoinColumn(nullable=false, options={"default": 0})
+     * @Gedmo\Versioned
+     */
+    protected $binnenViaOptieKlant;
+
+
+    public function __construct(Medewerker $medewerker = null)
+    {
         $this->medewerker = $medewerker;
         $this->datum = new \DateTime('now');
     }
@@ -128,6 +149,42 @@ abstract class MwDossierStatus
     }
 
     /**
+     * @return mixed
+     */
+    public function getLocatie()
+    {
+        return $this->locatie;
+    }
+
+    /**
+     * @param mixed $locatie
+     * @return Afsluiting
+     */
+    public function setLocatie($locatie)
+    {
+        $this->locatie = $locatie;
+        return $this;
+    }
+
+    /**
+     * @return BinnenViaOptieKlant
+     */
+    public function getBinnenViaOptieKlant(): ?BinnenViaOptieKlant
+    {
+        return $this->binnenViaOptieKlant;
+    }
+
+    /**
+     * @param BinnenViaOptieKlant $binnenViaOptieKlant
+     * @return Aanmelding
+     */
+    public function setBinnenViaOptieKlant(BinnenViaOptieKlant $binnenViaOptieKlant): Aanmelding
+    {
+        $this->binnenViaOptieKlant = $binnenViaOptieKlant;
+        return $this;
+    }
+
+    /**
      * @PrePersist
      * @param \Doctrine\ORM\Event\LifecycleEventArgs $event
      */
@@ -135,4 +192,17 @@ abstract class MwDossierStatus
     {
         $this->created = $this->modified = new \DateTime();
     }
+
+    abstract public function validate(ExecutionContextInterface $context, $payload);
+
+    protected function parentValidate(ExecutionContextInterface $context, $payload){
+
+        if($this->klant->getHuidigeMwStatus() instanceof $this)
+        {
+            $context->buildViolation('Kan geen dubbele aanmelding/afsluiting op een dossier hebben. Huidige dossier status is al een aanmelding of afsluiting.')
+                ->atPath('datum')
+                ->addViolation();
+        }
+    }
+
 }

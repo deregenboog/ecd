@@ -311,7 +311,7 @@ class BezoekersController extends AbstractController
                 $entityManager->flush();
 
 
-                $this->eventDispatcher->dispatch(Events::DOSSIER_CHANGED, new GenericEvent($aanmelding));
+                $this->eventDispatcher->dispatch(new GenericEvent($aanmelding), Events::DOSSIER_CHANGED);
 
                 $this->addFlash('success', 'Inloopdossier is heropend');
             } catch(UserException $e) {

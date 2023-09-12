@@ -124,7 +124,7 @@ class VerslagDao extends AbstractDao implements VerslagDaoInterface
 
     public static function buildUniqueKlantenVoorLocatiesQuery($builder, $startdatum, $einddatum, $locaties)
     {
-        $builder->addSelect('COUNT(DISTINCT verslagen.klant) AS aantal, SUM(verslagen.aantalContactmomenten) AS aantalContactmomenten, locatie.naam AS locatienaam')
+        $builder->addSelect('COUNT(DISTINCT verslagen.klant) AS aantalKlanten, COUNT(verslagen.id) AS aantalVerslagen, SUM(verslagen.aantalContactmomenten) AS aantalContactmomenten, locatie.naam AS locatienaam')
         ->leftJoin('verslagen.locatie', 'locatie')
         ->where('locatie.naam IN(:locaties)')
         ->andWhere('verslagen.datum BETWEEN :startdatum AND :einddatum')

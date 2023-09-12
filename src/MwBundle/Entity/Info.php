@@ -10,7 +10,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity
- * @ORM\Table(name="verslaginfos")
+ * @ORM\Table(name="mw_dossier_info")
  * @ORM\HasLifecycleCallbacks
  * @Gedmo\Loggable
  */

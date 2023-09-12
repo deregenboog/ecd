@@ -1,4 +1,7 @@
 services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
     MwBundle\Form\RapportageType:
         tags:
             - { name: form.type }
@@ -29,8 +32,20 @@ services:
     MwBundle\Report\AMW:
         public: true
         arguments:
-            - '@MwBundle\Service\VerslagDao'
-            - '%amw_locaties%'
+            $dao: '@MwBundle\Service\VerslagDao'
+            $locatieDao: '@InloopBundle\Service\LocatieDao'
+            $klantDao: '@MwBundle\Service\KlantDao'
+            $locaties: '%amw_locaties%'
+        tags:
+            - { name: mw.rapportage, category: Klanten }
+
+    MwBundle\Report\BegeleidThuis:
+        public: true
+        arguments:
+            $dao: '@MwBundle\Service\VerslagDao'
+            $locatieDao: '@InloopBundle\Service\LocatieDao'
+            $klantDao: '@MwBundle\Service\KlantDao'
+            $locaties: '%amw_locaties%'
         tags:
             - { name: mw.rapportage, category: Klanten }
 

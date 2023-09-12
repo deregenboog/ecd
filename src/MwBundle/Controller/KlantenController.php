@@ -13,8 +13,11 @@ use AppBundle\Export\ExportInterface;
 use AppBundle\Form\BaseType;
 use AppBundle\Form\KlantFilterType as AppKlantFilterType;
 use AppBundle\Service\KlantDaoInterface;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Mapping as ORM;
 use InloopBundle\Service\LocatieDao;
+use Knp\Component\Pager\Paginator;
+use Knp\Component\Pager\PaginatorInterface;
 use MwBundle\Entity\Aanmelding;
 use MwBundle\Entity\Afsluiting;
 use MwBundle\Entity\Verslag;
@@ -27,6 +30,7 @@ use MwBundle\Entity\Info;
 use MwBundle\Form\InfoType;
 use MwBundle\Form\KlantFilterType;
 use MwBundle\Service\KlantDao;
+use MwBundle\Service\MwDossierStatusDao;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
@@ -241,9 +245,11 @@ class KlantenController extends AbstractController
             if ($klant) {
                 // redirect if already exists
                 $mwKlant = $this->dao->find($klantId);
-                if ($mwKlant) {
+                if ($mwKlant && !$mwKlant->getHuidigeMwStatus() instanceof Aanmelding) {
                     return $this->redirectToRoute("mw_klanten_addmwdossierstatus",["id"=>$klantId]);
                 }
+                $this->addFlash("warning","Deze klant is al aangemeld. Wanneer u de klant opnieuw wilt aanmelden dient het dossier eerst gesloten te worden.");
+                return $this->redirectToRoute("mw_klanten_view",["id"=>$klantId]);
             }
         }
 
@@ -282,14 +288,25 @@ class KlantenController extends AbstractController
     {
         $klant = $this->dao->find($id);
 
-        $afsluiting = new Afsluiting($klant, $this->getMedewerker());
+        $hds = $klant->getHuidigeMwStatus();
+        $afsluiting = new Afsluiting($this->getMedewerker());
+        $afsluiting->setKlant($klant);
+
+
+        /**
+         * Copy project data from aanmelding to afsluiting so the project gets maintained in de afsluiting.
+         */
+        if(null !== $klant->getAanmelding() && null !== $project = $klant->getAanmelding()->getProject()){
+            $afsluiting->setProject($project);
+        };
 
         $form = $this->getForm(AfsluitingType::class, $afsluiting);
         $form->handleRequest($this->getRequest());
         if ($form->isSubmitted() && $form->isValid()) {
             try {
                 $entityManager = $this->getEntityManager();
-                $entityManager->persist($afsluiting);
+                $klant->setHuidigeMwStatus($afsluiting);
+                $entityManager->persist($klant);
                 $entityManager->flush();
 
                 $this->addFlash('success', 'Mw dossier is afgesloten');
@@ -327,14 +344,17 @@ class KlantenController extends AbstractController
     public function openAction(Request $request, $id)
     {
         $klant = $this->dao->find($id);
-        $aanmelding = new Aanmelding($klant, $this->getMedewerker());
+        $aanmelding = new Aanmelding($this->getMedewerker());
+        $aanmelding->setKlant($klant);
+
 
         $form = $this->getForm(AanmeldingType::class, $aanmelding);
         $form->handleRequest($this->getRequest());
         if ($form->isSubmitted() && $form->isValid()) {
             try {
                 $entityManager = $this->getEntityManager();
-                $entityManager->persist($aanmelding);
+                $klant->setHuidigeMwStatus($aanmelding);
+                $entityManager->persist($klant);
                 $entityManager->flush();
 
                 $this->addFlash('success', 'Mw dossier is heropend');
@@ -371,7 +391,8 @@ class KlantenController extends AbstractController
         /** @var Klant $klant */
         $klant = $this->dao->find($id);
 
-        $entity = new Aanmelding($klant,$this->getMedewerker());
+        $entity = new Aanmelding($this->getMedewerker());
+        $entity->setKlant($klant);
         $info = new Info($klant);
 
 
@@ -469,6 +490,23 @@ class KlantenController extends AbstractController
     }
 
     /**
+     * @Route("/{id}/dossierstatus/{statusId}/delete")]
+     * @Template("delete.html.twig")
+     */
+    public function deleteMwDossierStatusAction(Request $request, $id, $statusId)
+    {
+        $this->dao = new MwDossierStatusDao($this->entityManager, new Paginator($this->eventDispatcher));
+        $return = parent::deleteAction($request,$statusId);
+
+        if(is_array($return)){
+            $return['entity_name'] = 'Dossierstatus';
+        }
+        return $return;
+
+    }
+
+
+    /**
      * @Route("/{id}/addHiPrio/")
      */
     public function addHiPrio(Request $request, $id)
@@ -481,7 +519,9 @@ class KlantenController extends AbstractController
             //Wanneer klant nog niet bestat, dossier aanmaken
             if(!$klant->getHuidigeMwStatus() instanceof Aanmelding)
             {
-                $entity = new Aanmelding($klant,$this->getMedewerker());
+                $entity = new Aanmelding($this->getMedewerker());
+                $entity->setKlant($klant);
+                $klant->setHuidigeMwStatus($entity);
                 $entity->setDatum(new \DateTime());
                 $entityManager->persist($entity);
                 $entityManager->flush();

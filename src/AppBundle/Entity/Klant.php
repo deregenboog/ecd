@@ -155,6 +155,8 @@ class Klant extends Persoon
      * @var MwDossierStatus[]
      *
      * @ORM\OneToMany(targetEntity="MwBundle\Entity\MwDossierStatus", mappedBy="klant")
+     * @ORM\OrderBy({"datum" = "ASC","id" = "ASC"})
+     * oudste eerst... eerst op datum, dan op id.
      */
     private $mwStatussen;
 
@@ -281,7 +283,7 @@ class Klant extends Persoon
         $this->incidenten = new ArrayCollection();
         $this->klantTalen = new ArrayCollection();
 
-        if($request)
+        if($request)//ik vind dit een heel slecht verhaal, ookal heb ik het zelf gemaakt :( doe er wat aan!
         {
             if(!$naam = $request->get('naam') ) $naam = "";
             $naamParts = $this::parseNaam($naam);
@@ -763,6 +765,23 @@ class Klant extends Persoon
         return $this;
     }
 
+    /**
+     * @param $meestRecent
+     * @return Aanmelding|null
+     */
+    public function getAanmelding($meestRecent=true): ?Aanmelding
+    {
+        $aanmelding = null;
+        foreach($this->mwStatussen as $mds)
+        {
+            if($mds instanceof Aanmelding){
+                $aanmelding = $mds;
+                if(!$meestRecent) break; //als het niet de meest recente moet zijn, pakt hij de eerste die hij tegenkomt. anders gaat ie door tot de laatste = meest recente aanmelding
+            }
+
+        }
+        return $aanmelding;
+    }
     /**
      * @return mixed
      */

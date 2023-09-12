@@ -7,13 +7,12 @@ use AppBundle\Report\Grid;
 use MwBundle\Service\KlantDao;
 use InloopBundle\Entity\Locatie;
 use InloopBundle\Service\LocatieDao;
-use MwBundle\Service\MwDossierStatusDao;
 use MwBundle\Service\VerslagDao;
 
-class AMW extends AbstractReport
+class BegeleidThuis extends AbstractReport
 {
 
-    protected $title = 'AMW';
+    protected $title = 'Begeleid thuis';
 
     protected $xPath = 'type';
 
@@ -34,9 +33,6 @@ class AMW extends AbstractReport
     private $locatie;
 
 
-    /**
-     * @var Locaties die voor dit rapport gelden
-     */
     private $locaties;
 
     /** @var LocatieDao */
@@ -45,15 +41,11 @@ class AMW extends AbstractReport
     /** @var KlantDao  */
     private $klantDao;
 
-    /** @var MwDossierStatusDao  */
-    private $mdsDao;
-
-    public function __construct(VerslagDao $dao, LocatieDao $locatieDao, KlantDao $klantDao, MwDossierStatusDao $mdsDao, $locaties)
+    public function __construct(VerslagDao $dao, LocatieDao $locatieDao, KlantDao $klantDao, $locaties)
     {
 //        $this->locaties = $locaties;
         $this->dao = $dao;
         $this->locatieDao = $locatieDao;
-        $this->mdsDao = $mdsDao;
 
         $this->klantDao = $klantDao;
 
@@ -64,15 +56,15 @@ class AMW extends AbstractReport
     private function filterLocations($allLocations)
     {
         /**
-         * Filter: alles STED, alles Wchtlijst, alles Zonder Zorg, T6.
+         * Filter: alleen 'zonder zorg'
          */
         foreach($allLocations as $k=> $locatie)
         {
             $naam = $locatie->getNaam();
-            if(strpos($naam, "Zonder ") !== false
-                || strpos($naam,"T6") !== false
-                || strpos($naam,"STED") !== false
-                || strpos($naam,"Wachtlijst") !== false
+            if(strpos($naam, "Zonder ") === false
+//                || strpos($naam,"T6") !== false
+//                || strpos($naam,"STED") !== false
+//                || strpos($naam,"Wachtlijst") !== false
             ) {
                 //skip locatie
                 continue;
@@ -107,8 +99,7 @@ class AMW extends AbstractReport
 
         $this->resultAfsluitingen = $this->klantDao->findAllAfsluitredenenAfgeslotenKlantenForLocaties($this->startDate,$this->endDate,$this->locaties);
 
-        $this->resultAanmeldingen = $this->mdsDao->findAllAanmeldingenForLocaties($this->startDate,$this->endDate,$this->locaties);
-        $this->resultBinnenVia = $this->mdsDao->findAllAanmeldingenBinnenVia($this->startDate,$this->endDate,$this->locaties);
+//        $this->resultAanmeldingen = $this->bezoekerDao->findAllNieuweKlantenForLocaties($this->startDate,$this->endDate,$this->locaties);
 
 //        $this->resultDoorlooptijd = $this->bezoekerDao->getDoorlooptijdPerLocatie($this->startDate,$this->endDate,$this->locaties);
 
@@ -189,29 +180,7 @@ class AMW extends AbstractReport
         ;
 
         $report = [
-            'title' => "Aantal aanmeldingen per locatie",
-            'yDescription' => "Locatie",
-            'data' => $table->render(),
-        ];
-        return $report;
-    }
-
-    protected function buildBinnenVia()
-    {
-        $columns = [
-            'Aantal aanmeldingen'=>'aantal',
-//            'Afsluitreden'=>'naam',
-        ];
-        $table = new Grid($this->resultBinnenVia, $columns,"naam");
-        $table
-            ->setStartDate($this->startDate)
-            ->setEndDate($this->endDate)
-            ->setYSort(false)
-            ->setYTotals(true)
-        ;
-
-        $report = [
-            'title' => "Aantal aanmeldingen per 'binnen via' optie",
+            'title' => "Aantal aanmeldingen per binnen via optie",
             'yDescription' => "Binnen via",
             'data' => $table->render(),
         ];
@@ -223,7 +192,6 @@ class AMW extends AbstractReport
 
         $this->reports[] = $this->buildAantalKlantenVerslagenContactmomenten();
         $this->reports[] = $this->buildAfsluitingen();
-        $this->reports[] = $this->buildAanmeldingen();
-        $this->reports[] = $this->buildBinnenVia();
+//        $this->reports[] = $this->buildAanmeldingen();
     }
 }

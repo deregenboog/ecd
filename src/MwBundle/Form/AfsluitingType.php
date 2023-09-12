@@ -46,7 +46,9 @@ class AfsluitingType extends AbstractType
                     return ['class' => 'land_'.(int) $reden->isLand()];
                 },
             ])
-            ->add('locatie', LocatieSelectType::class)
+            ->add('locatie', LocatieSelectType::class,[
+            'required'  =>true,
+            ])
             ->add('resultaat', EntityType::class, [
                 'class'=>Resultaat::class,
                 'required' => false,
@@ -97,6 +99,7 @@ class AfsluitingType extends AbstractType
         $resolver->setDefaults([
             'data_class' => Afsluiting::class,
             'allow_extra_fields' => true,
+            'mode' => BaseType::MODE_ADD,
         ]);
     }
 

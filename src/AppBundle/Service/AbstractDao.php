@@ -17,6 +17,7 @@ use Doctrine\ORM\EntityNotFoundException;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\QueryBuilder;
 
+use Knp\Component\Pager\Paginator;
 use Knp\Component\Pager\PaginatorInterface;
 
 abstract class AbstractDao implements AbstractDaoInterface
@@ -54,7 +55,7 @@ abstract class AbstractDao implements AbstractDaoInterface
      */
     protected $searchEntityName = '';
 
-    public function __construct(EntityManager $entityManager, PaginatorInterface $paginator, $itemsPerPage)
+    public function __construct(EntityManagerInterface $entityManager, PaginatorInterface $paginator = null, $itemsPerPage=10)
     {
         if (!$this->class) {
             throw new \RuntimeException('Class must be set');
