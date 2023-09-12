@@ -37,6 +37,11 @@ class Afsluiting extends MwDossierStatus
      * @ORM\JoinTable(name="mw_afsluiting_resultaat")
      * @ORM\JoinColumn(nullable=false)
      * @Assert\NotNull
+     * Assert\Count(min=1,minMessage="Er moet tenminste een resultaat worden gekozen.")
+     * @Assert\Expression(
+     *     "!this.getRedenHeeftResultaatNodig()",
+     *     message="Als de begeleiding is afgerond of overgedragen is er een resultaat nodig."
+     * )
      */
     protected $resultaat;
 
@@ -45,12 +50,6 @@ class Afsluiting extends MwDossierStatus
      * @Gedmo\Versioned
      */
     protected $land;
-
-    /**
-     * @ORM\ManyToOne(targetEntity="InloopBundle\Entity\Locatie")
-     * @Assert\NotNull
-     */
-    protected $locatie;
 
     /**
      * @var boolean
@@ -91,6 +90,25 @@ class Afsluiting extends MwDossierStatus
     {
         $this->reden = $reden;
         return $this;
+    }
+
+    public function getRedenHeeftResultaatNodig(): bool
+    {
+        /**
+         * Afsluitredenen die over begeleiding gaan (afgerond, overgedragen) hebben een resultaat nodig. Andere afsluitredenen niet.
+         */
+        $pos = strpos($this->reden,"Begeleiding");
+
+
+        if($pos!==false && count($this->getResultaat()) > 0)
+        {
+            return false;
+        }
+        else if($pos === false)
+        {
+            return false;
+        }
+        return true;
     }
 
     public function getToelichting()
@@ -135,23 +153,6 @@ class Afsluiting extends MwDossierStatus
         return $this;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getLocatie()
-    {
-        return $this->locatie;
-    }
-
-    /**
-     * @param mixed $locatie
-     * @return Afsluiting
-     */
-    public function setLocatie($locatie)
-    {
-        $this->locatie = $locatie;
-        return $this;
-    }
 
     /**
      * @return bool
@@ -216,8 +217,8 @@ class Afsluiting extends MwDossierStatus
             $this->setKosten(null);
             $this->setLand(null);
             $this->setDatumRepatriering(null);
-
         }
+        parent::parentValidate($context,$payload);
     }
 
 
