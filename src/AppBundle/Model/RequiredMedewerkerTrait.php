@@ -5,6 +5,7 @@ namespace AppBundle\Model;
 use AppBundle\Entity\Medewerker;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
+use Symfony\Component\Validator\Constraints as Assert;
 
 trait RequiredMedewerkerTrait
 {
@@ -13,6 +14,7 @@ trait RequiredMedewerkerTrait
      *
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Medewerker", cascade={"persist"})
      * @ORM\JoinColumn(nullable=false)
+     * @Assert\NotNull()
      * @Gedmo\Versioned
      */
     protected $medewerker;

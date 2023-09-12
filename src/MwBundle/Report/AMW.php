@@ -7,6 +7,7 @@ use AppBundle\Report\Grid;
 use MwBundle\Service\KlantDao;
 use InloopBundle\Entity\Locatie;
 use InloopBundle\Service\LocatieDao;
+use MwBundle\Service\MwDossierStatusDao;
 use MwBundle\Service\VerslagDao;
 
 class AMW extends AbstractReport
@@ -44,11 +45,15 @@ class AMW extends AbstractReport
     /** @var KlantDao  */
     private $klantDao;
 
-    public function __construct(VerslagDao $dao, LocatieDao $locatieDao, KlantDao $klantDao, $locaties)
+    /** @var MwDossierStatusDao  */
+    private $mdsDao;
+
+    public function __construct(VerslagDao $dao, LocatieDao $locatieDao, KlantDao $klantDao, MwDossierStatusDao $mdsDao, $locaties)
     {
 //        $this->locaties = $locaties;
         $this->dao = $dao;
         $this->locatieDao = $locatieDao;
+        $this->mdsDao = $mdsDao;
 
         $this->klantDao = $klantDao;
 
@@ -102,7 +107,8 @@ class AMW extends AbstractReport
 
         $this->resultAfsluitingen = $this->klantDao->findAllAfsluitredenenAfgeslotenKlantenForLocaties($this->startDate,$this->endDate,$this->locaties);
 
-//        $this->resultAanmeldingen = $this->bezoekerDao->findAllNieuweKlantenForLocaties($this->startDate,$this->endDate,$this->locaties);
+        $this->resultAanmeldingen = $this->mdsDao->findAllAanmeldingenForLocaties($this->startDate,$this->endDate,$this->locaties);
+        $this->resultBinnenVia = $this->mdsDao->findAllAanmeldingenBinnenVia($this->startDate,$this->endDate,$this->locaties);
 
 //        $this->resultDoorlooptijd = $this->bezoekerDao->getDoorlooptijdPerLocatie($this->startDate,$this->endDate,$this->locaties);
 
@@ -183,7 +189,29 @@ class AMW extends AbstractReport
         ;
 
         $report = [
-            'title' => "Aantal aanmeldingen per binnen via optie",
+            'title' => "Aantal aanmeldingen per locatie",
+            'yDescription' => "Locatie",
+            'data' => $table->render(),
+        ];
+        return $report;
+    }
+
+    protected function buildBinnenVia()
+    {
+        $columns = [
+            'Aantal aanmeldingen'=>'aantal',
+//            'Afsluitreden'=>'naam',
+        ];
+        $table = new Grid($this->resultBinnenVia, $columns,"naam");
+        $table
+            ->setStartDate($this->startDate)
+            ->setEndDate($this->endDate)
+            ->setYSort(false)
+            ->setYTotals(true)
+        ;
+
+        $report = [
+            'title' => "Aantal aanmeldingen per 'binnen via' optie",
             'yDescription' => "Binnen via",
             'data' => $table->render(),
         ];
@@ -195,6 +223,7 @@ class AMW extends AbstractReport
 
         $this->reports[] = $this->buildAantalKlantenVerslagenContactmomenten();
         $this->reports[] = $this->buildAfsluitingen();
-//        $this->reports[] = $this->buildAanmeldingen();
+        $this->reports[] = $this->buildAanmeldingen();
+        $this->reports[] = $this->buildBinnenVia();
     }
 }

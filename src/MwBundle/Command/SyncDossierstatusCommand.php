@@ -74,19 +74,22 @@ class SyncDossierstatusCommand extends \Symfony\Component\Console\Command\Comman
             $huidigeStatus = $klant->getHuidigeStatus();
 
             if($huidigeStatus && $huidigeStatus->isAangemeld()) {
-                $status = new Aanmelding($klant);
+                $status = new Aanmelding();
+                $status->setKlant($klant);
                 $output->writeln(sprintf('Aanmelding toevoegen voor #%d', $klant->getId()));
                 $klant->setHuidigeMwStatus($status);
             }
             elseif($huidigeStatus && $huidigeStatus->isAfgesloten())
             {
-                $status = new Afsluiting($klant);
+                $status = new Afsluiting();
+                $status->setKlant($klant);
                 $output->writeln(sprintf('Afsluiting toevoegen voor #%d', $klant->getId()));
                 $klant->setHuidigeMwStatus($status);
             }
             else //klant heeft geen inloopdossier.
             {
-                $status = new Aanmelding($klant);
+                $status = new Aanmelding();
+                $status->setKlant();
                 $output->writeln(sprintf('Aanmelding toevoegen voor #%d (geen InloopDossier)', $klant->getId()));
                 $klant->setHuidigeMwStatus($status);
             }

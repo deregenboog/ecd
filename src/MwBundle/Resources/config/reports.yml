@@ -1,4 +1,7 @@
 services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
     MwBundle\Form\RapportageType:
         tags:
             - { name: form.type }

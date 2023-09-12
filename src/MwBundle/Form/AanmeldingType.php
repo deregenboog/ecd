@@ -7,6 +7,8 @@ use AppBundle\Form\BaseSelectType;
 use AppBundle\Form\BaseType;
 use AppBundle\Form\DummyChoiceType;
 use Doctrine\ORM\Mapping\Entity;
+use InloopBundle\Form\LocatieSelectType;
+use InloopBundle\Form\LocatieTypeSelectType;
 use MwBundle\Entity\Aanmelding;
 use MwBundle\Entity\Project;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -24,6 +26,9 @@ class AanmeldingType extends AbstractType
     {
         $builder
             ->add('datum', AppDateType::class)
+            ->add("locatie",LocatieSelectType::class,[
+                'locatietypes'=>'Maatschappelijk Werk'
+            ])
             ->add('project', BaseSelectType::class, [
                 'class' => Project::class,
                 'disabled' => $options['mode'] != BaseType::MODE_ADD,
