@@ -393,7 +393,12 @@ class KlantenController extends AbstractController
 
         $entity = new Aanmelding($this->getMedewerker());
         $entity->setKlant($klant);
-        $info = new Info($klant);
+        $info = $klant->getInfo();
+        if(!$info)
+        {
+            $info = new Info($klant);
+        }
+
 
 
         $form = $this->getForm(AanmeldingType::class,$entity);

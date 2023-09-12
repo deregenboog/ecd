@@ -90,8 +90,9 @@ abstract class MwDossierStatus
      * @var BinnenViaOptieKlant
      *
      * @ORM\ManyToOne(targetEntity="MwBundle\Entity\BinnenViaOptieKlant", inversedBy="aanmeldingen", )
-     * @ORM\JoinColumn(nullable=false, options={"default": 0})
+     * @ORM\JoinColumn(nullable=true, options={"default": 0})
      * @Gedmo\Versioned
+     * @Assert\Expression("!this.isAangemeld() or value != null")
      */
     protected $binnenViaOptieKlant;
 
