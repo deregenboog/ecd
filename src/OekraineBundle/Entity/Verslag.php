@@ -73,28 +73,10 @@ class Verslag
     private $medewerker;
 
     /**
-     * @var Contactsoort
-     *
-     * @ORM\ManyToOne(targetEntity="MwBundle\Entity\Contactsoort")
-     * @ORM\JoinColumn(nullable=true)
-     * @Gedmo\Versioned
-     */
-    private $contactsoort;
-
-
-    /**
      * @var integer
      * @ORM\Column(type="integer", nullable=false)
      */
     private $aantalContactmomenten = 1;
-
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="aanpassing_verslag", type="integer", nullable=true)
-     * @Gedmo\Versioned
-     */
-    private $duur = 0;
 
     public const TYPE_PSYCH = 4;
     public const TYPE_MW = 2;
@@ -236,43 +218,19 @@ class Verslag
     }
 
     /**
-     * @return Contactsoort
-     */
-    public function getContactsoort()
-    {
-        return $this->contactsoort;
-    }
-
-    /**
-     * @param Contactsoort $contactsoort
-     *
-     * @return Verslag
-     */
-    public function setContactsoort(Contactsoort $contactsoort)
-    {
-        $this->contactsoort = $contactsoort;
-
-        return $this;
-    }
-
-    /**
      * @return int
      */
-    public function getDuur()
+    public function getAantalContactmomenten(): int
     {
-        return $this->duur;
+        return $this->aantalContactmomenten;
     }
 
     /**
-     * @param int $duur
-     *
-     * @return Verslag
+     * @param int $aantalContactmomenten
      */
-    public function setDuur($duur)
+    public function setAantalContactmomenten(int $aantalContactmomenten): void
     {
-        $this->duur = $duur;
-
-        return $this;
+        $this->aantalContactmomenten = $aantalContactmomenten;
     }
 
 
@@ -322,22 +280,4 @@ class Verslag
     {
         return self::$accessTypes[$this->access];
     }
-
-    /**
-     * @return int
-     */
-    public function getAantalContactmomenten(): int
-    {
-        return $this->aantalContactmomenten;
-    }
-
-    /**
-     * @param int $aantalContactmomenten
-     */
-    public function setAantalContactmomenten(int $aantalContactmomenten): void
-    {
-        $this->aantalContactmomenten = $aantalContactmomenten;
-    }
-
-
 }

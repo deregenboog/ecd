@@ -30,8 +30,8 @@
             {% for y, series in report.data %}
                 <tr>
                     <td>
-                        {% if report.yLookupCollection.y is defined %}
-                            {{ report.yLookupCollection.y }}
+                        {% if report.yLookupCollection[(y)]is defined %}
+                            {{ report.yLookupCollection[(y)]|raw }}
                         {% else %}
                             {{ y }}
                         {% endif %}

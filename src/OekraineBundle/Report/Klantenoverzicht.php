@@ -7,6 +7,7 @@ use AppBundle\Entity\Klant;
 use AppBundle\Report\AbstractReport;
 use AppBundle\Report\Listing;
 use Doctrine\ORM\EntityManager;
+use OekraineBundle\Entity\Bezoeker;
 use OekraineBundle\Entity\Locatie;
 
 class Klantenoverzicht extends AbstractReport
@@ -62,11 +63,12 @@ class Klantenoverzicht extends AbstractReport
 
     protected function init()
     {
-        $builder = $this->entityManager->getRepository(Klant::class)->createQueryBuilder('klant')
+        $builder = $this->entityManager->getRepository(Bezoeker::class)->createQueryBuilder('bezoeker')
             ->select("CONCAT_WS(' ', klant.voornaam, klant.tussenvoegsel, klant.achternaam) AS naam, klant.roepnaam, klant.geboortedatum, COUNT(registratie.id) AS aantal")
-            ->innerJoin('klant.registraties', 'registratie')
+            ->innerJoin("bezoeker.appKlant","klant")
+            ->innerJoin('bezoeker.registraties', 'registratie')
             ->where('DATE(registratie.binnen) BETWEEN :start_date AND :end_date')
-            ->groupBy('klant.id')
+            ->groupBy('bezoeker.id')
             ->orderBy('klant.achternaam')
             ->setParameters([
                 'start_date' => $this->startDate,

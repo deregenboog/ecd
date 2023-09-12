@@ -54,12 +54,8 @@
                     </div>
                     <div class="col-xs-6">
                         <dl class="dl-horizontal">
-                            <dt>Contactsoort</dt>
-                            <dd>{{ verslag.contactsoort }}</dd>
-                            {% if verslag.duur %}
-                                <dt>Duur</dt>
-                                <dd>{{ verslag.duur }} minuten</dd>
-                            {% endif %}
+                            <dt>Aantal contactmomenten</dt>
+                            <dd>{{ verslag.aantalContactmomenten }}</dd>
                             <dt>Type</dt>
                             <dd>{{ verslag.typeAsString }}</dd>
                         </dl>

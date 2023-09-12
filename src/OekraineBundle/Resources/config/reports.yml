@@ -1,16 +1,17 @@
 services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
     OekraineBundle\Form\RapportageType:
         tags:
             - { name: form.type }
 
-    OekraineBundle\Report\Klantenoverzicht:
+    OekraineBundle\Report\Klanten:
         public: true
-        arguments:
-            - "@doctrine.orm.entity_manager"
         tags:
             - { name: oekraine.rapportage }
 
-    OekraineBundle\Report\Locatie:
+    OekraineBundle\Report\Klantenoverzicht:
         public: true
         arguments:
             - "@doctrine.orm.entity_manager"
