@@ -19,7 +19,7 @@ services:
             - '@MwBundle\Service\VerslagDao'
             - '%economisch_daklozen_locaties%'
         tags:
-            - { name: mw.rapportage, category: Klanten }
+            - { name: mw.rapportage, category: Archief }
 
     MwBundle\Report\ZonderZorg:
         public: true
@@ -27,25 +27,31 @@ services:
             - '@MwBundle\Service\VerslagDao'
             - '%zonderzorg_locaties%'
         tags:
-            - { name: mw.rapportage, category: Klanten }
+            - { name: mw.rapportage, category: Archief }
 
     MwBundle\Report\AMW:
         public: true
         arguments:
-            $dao: '@MwBundle\Service\VerslagDao'
-            $locatieDao: '@InloopBundle\Service\LocatieDao'
-            $klantDao: '@MwBundle\Service\KlantDao'
             $locaties: '%amw_locaties%'
+        tags:
+            - { name: mw.rapportage, category: Klanten }
+
+    MwBundle\Report\STED:
+        public: true
+        arguments:
+            $locaties: '%economisch_daklozen_locaties%'
         tags:
             - { name: mw.rapportage, category: Klanten }
 
     MwBundle\Report\BegeleidThuis:
         public: true
         arguments:
-            $dao: '@MwBundle\Service\VerslagDao'
-            $locatieDao: '@InloopBundle\Service\LocatieDao'
-            $klantDao: '@MwBundle\Service\KlantDao'
-            $locaties: '%amw_locaties%'
+            $locaties: '%zonderzorg_locaties%'
+        tags:
+            - { name: mw.rapportage, category: Klanten }
+
+    MwBundle\Report\T6:
+        public: true
         tags:
             - { name: mw.rapportage, category: Klanten }
 

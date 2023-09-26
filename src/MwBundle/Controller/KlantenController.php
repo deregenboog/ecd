@@ -289,6 +289,9 @@ class KlantenController extends AbstractController
         $klant = $this->dao->find($id);
 
         $hds = $klant->getHuidigeMwStatus();
+        if(!$hds instanceof Aanmelding){
+            throw new UserException("Kan geen dossier sluiten dat nu niet aangemeld is.");
+        }
         $afsluiting = new Afsluiting($this->getMedewerker());
         $afsluiting->setKlant($klant);
 
