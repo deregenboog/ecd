@@ -2,6 +2,7 @@
 
 namespace InloopBundle\Report;
 
+use AppBundle\Doctrine\SqlExtractor;
 use AppBundle\Entity\Geslacht;
 use AppBundle\Entity\Klant;
 use AppBundle\Entity\Land;
@@ -311,7 +312,7 @@ class EUBurgers extends AbstractReport
             $builder->andWhere('klant.land IN (:landen)')->setParameter('landen', $this->landen);
         }
 
-//        echo $this->getFullSQL($builder->getQuery());
+//        $sql = SqlExtractor::getFullSQL($builder->getQuery());
         $klanten = $builder->getQuery()->getResult();
         //@todo deze klantenlijst wordt al gefilterd op delete en disabled dus dat hoeft niet in de joins verderop.
 
@@ -379,6 +380,7 @@ class EUBurgers extends AbstractReport
              *
              */
         }
+        $x = count($klanten);
 
         foreach ($this->landen as $land) {
             $count['amoc_landen'][$land->getId()] = $land->getNaam();

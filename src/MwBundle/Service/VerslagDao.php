@@ -39,23 +39,20 @@ class VerslagDao extends AbstractDao implements VerslagDaoInterface
     }
 
 
-    public function countUniqueKlantenVoorLocaties(
-        \DateTime $startdatum,
-        \DateTime $einddatum,
-        $locatieNamen
-    ) {
+
+    public function countUniqueKlantenVoorLocaties(\DateTime $startdatum, \DateTime $einddatum, $locatieNamen,$actieveKlanten=[]) {
 
 
         $builder = $this->repository->createQueryBuilder('verslagen');
 
-        $builder = self::buildUniqueKlantenVoorLocatiesQuery($builder,$startdatum,$einddatum,$locatieNamen);
+        $builder = self::buildUniqueKlantenVoorLocatiesQuery($builder,$startdatum,$einddatum,$locatieNamen,$actieveKlanten);
 
 //            ->setParameter("totKlant",5)
             ;
 
 //        $sql = SqlExtractor::getFullSQL($builder->getQuery());
 
-        return $builder->getQuery();
+        return $builder->getQuery()->getResult();
 
     }
 
@@ -99,7 +96,7 @@ class VerslagDao extends AbstractDao implements VerslagDaoInterface
 
     }
 
-    public function getTotalUniqueKlantenForLocaties($startdatum,$einddatum,$locaties): array
+    public function getTotalUniqueKlantenForLocaties($startdatum,$einddatum,$locaties, $actieveKlanten=[]): array
     {
         $builder = $this->repository->createQueryBuilder("verslagen");
         /**
@@ -108,32 +105,52 @@ class VerslagDao extends AbstractDao implements VerslagDaoInterface
         AND (v.datum BETWEEN '2020-01-01 00:00:00' AND '2021-05-28 00:00:00')
          */
         $builder->select('COUNT(DISTINCT verslagen.klant) AS Klanten')
+            ->addSelect('SUM(CASE WHEN (verslagen.type = 1) THEN 1 ELSE 0 END) AS aantalMw')
+            ->addSelect('SUM(CASE WHEN (verslagen.type = 2) THEN 1 ELSE 0 END) AS aantalInloop')
             ->leftJoin('verslagen.locatie', 'locatie')
             ->where('locatie.naam IN(:locaties)')
             ->andWhere('verslagen.datum BETWEEN :startdatum AND :einddatum')
-            ->setParameters([
-                'startdatum' => $startdatum,
-                'einddatum' => $einddatum,
-                'locaties' => $locaties
-            ])
+            ->setParameter('startdatum', $startdatum)
+            ->setParameter('einddatum',$einddatum)
+            ->setParameter('locaties',$locaties)
 //            ->groupBy('locatie.naam')
-            ;
+        ;
+
+        if(count($actieveKlanten)>0){
+            $builder
+                ->andWhere('verslagen.klant IN (:actieveKlanten)')
+                ->setParameter('actieveKlanten',$actieveKlanten)
+                ;
+        }
+
+
+//        $sql = SqlExtractor::getFullSQL($builder->getQuery());
 
         return $builder->getQuery()->getSingleResult();
     }
 
-    public static function buildUniqueKlantenVoorLocatiesQuery($builder, $startdatum, $einddatum, $locaties)
+    public static function buildUniqueKlantenVoorLocatiesQuery($builder, $startdatum, $einddatum, $locaties, $actieveKlanten)
     {
         $builder->addSelect('COUNT(DISTINCT verslagen.klant) AS aantalKlanten, COUNT(verslagen.id) AS aantalVerslagen, SUM(verslagen.aantalContactmomenten) AS aantalContactmomenten, locatie.naam AS locatienaam')
-        ->leftJoin('verslagen.locatie', 'locatie')
-        ->where('locatie.naam IN(:locaties)')
-        ->andWhere('verslagen.datum BETWEEN :startdatum AND :einddatum')
-        ->setParameters([
-            'startdatum' => $startdatum,
-            'einddatum' => $einddatum,
-            'locaties' => $locaties
-        ])
-        ->groupBy('locatie.naam');
+            ->addSelect('SUM(CASE WHEN (verslagen.type = 1) THEN 1 ELSE 0 END) AS aantalMw')
+            ->addSelect('SUM(CASE WHEN (verslagen.type = 2) THEN 1 ELSE 0 END) AS aantalInloop')
+            ->leftJoin('verslagen.locatie', 'locatie')
+            ->where('locatie.naam IN(:locaties)')
+            ->andWhere('verslagen.datum BETWEEN :startdatum AND :einddatum')
+
+            ->groupBy('locatie.naam')
+            ->setParameter("startdatum",$startdatum)
+            ->setParameter("einddatum",$einddatum)
+            ->setParameter("locaties",$locaties)
+
+        ;
+        if(count($actieveKlanten) > 0)
+        {
+            $builder
+                ->andWhere('verslagen.klant IN (:actieveKlanten)')
+                ->setParameter("actieveKlanten",$actieveKlanten)
+            ;
+        }
 
         return $builder;
     }

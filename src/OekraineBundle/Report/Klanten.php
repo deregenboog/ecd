@@ -100,13 +100,6 @@ class Klanten extends AbstractReport
         $this->resultKlantenVerslagen = $query->getResult();
 
         $this->resultKlantenVerslagenTotalUnique = $this->dao->getTotalUniqueKlantenForLocaties($this->startDate,$this->endDate,$this->locaties);
-
-//        $this->resultAfsluitingen = $this->bezoekerDao->findAllAfsluitredenenAfgeslotenKlantenForLocaties($this->startDate,$this->endDate,$this->locaties);
-
-//        $this->resultAanmeldingen = $this->bezoekerDao->findAllNieuweKlantenForLocaties($this->startDate,$this->endDate,$this->locaties);
-
-//        $this->resultDoorlooptijd = $this->bezoekerDao->getDoorlooptijdPerLocatie($this->startDate,$this->endDate,$this->locaties);
-
     }
 
     protected function buildAantalKlantenVerslagenContactmomenten()

@@ -10,7 +10,7 @@ use MwBundle\Service\VerslagDao;
 class EconomischDaklozen extends AbstractReport
 {
 
-    protected $title = 'Economisch daklozen';
+    protected $title = 'Economisch daklozen (oud, archief)';
 
     protected $xPath = 'type';
 
@@ -54,15 +54,12 @@ class EconomischDaklozen extends AbstractReport
 
     protected function init()
     {
-        $query = $this->dao->countUniqueKlantenVoorLocaties(
+
+        $this->result = $this->dao->countUniqueKlantenVoorLocaties(
             $this->startDate,
             $this->endDate,
             $this->economisch_daklozen_locaties
-            //[31,36,37,38,42,43] //remote locations hardcoded...
-//            [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21]
         );
-//        $sql = $this->getFullSQL($query);
-        $this->result = $query->getResult();
         $this->resultUnique = $this->dao->getTotalUniqueKlantenForLocaties($this->startDate,$this->endDate,$this->economisch_daklozen_locaties);
 
 
