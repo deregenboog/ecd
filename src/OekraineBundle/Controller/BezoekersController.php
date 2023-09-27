@@ -8,6 +8,7 @@ use AppBundle\Entity\Klant;
 use AppBundle\Entity\Klant as AppKlant;
 use AppBundle\Entity\Land;
 use AppBundle\Exception\UserException;
+use AppBundle\Export\ExportInterface;
 use AppBundle\Form\AppDateType;
 use AppBundle\Form\KlantFilterType as AppKlantFilterType;
 use OekraineBundle\Entity\Aanmelding;
@@ -17,6 +18,7 @@ use OekraineBundle\Entity\Locatie;
 use OekraineBundle\Entity\Registratie;
 use OekraineBundle\Entity\Verslag;
 use OekraineBundle\Event\Events;
+use OekraineBundle\Export\BezoekerExport;
 use OekraineBundle\Form\AanmeldingType;
 use OekraineBundle\Form\AfsluitingType;
 use OekraineBundle\Form\BezoekerFilterType;
@@ -70,15 +72,21 @@ class BezoekersController extends AbstractController
     protected $searchDao;
 
     /**
+     * @var ExportInterface
+     */
+    protected $export;
+
+    /**
      * @param BezoekerDao $dao
      * @param \AppBundle\Service\KlantDao $bezoekerDao
      * @param \AppBundle\Service\KlantDao $searchDao
      */
-    public function __construct(BezoekerDao $dao, \AppBundle\Service\KlantDao $bezoekerDao, \AppBundle\Service\KlantDao $searchDao)
+    public function __construct(BezoekerDao $dao, \AppBundle\Service\KlantDao $bezoekerDao, \AppBundle\Service\KlantDao $searchDao, BezoekerExport $export)
     {
         $this->dao = $dao;
         $this->klantDao = $bezoekerDao;
         $this->searchDao = $searchDao;
+        $this->export = $export;
     }
 
     protected function doAdd(Request $request)
