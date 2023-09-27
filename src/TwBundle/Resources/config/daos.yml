@@ -1,4 +1,12 @@
 services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+
+    TwBundle\Service\:
+        resource: '../../Service/'
+        parent: app.dao.abstract
+
     TwBundle\Service\CoordinatorDao:
         parent: app.dao.abstract
 
