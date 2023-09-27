@@ -41,7 +41,10 @@
                     {{ form_errors(filter.huidigeStatus) }}
                 </th>
                 <th colspan="2">
-                    {{ form_widget(filter.filter) }}
+                    <span class="pull-right">
+                        {{ form_widget(filter.filter) }}
+                        {{ form_widget(filter.download) }}
+                    </span>
                 </th>
                 {{ form_end(filter) }}
             </tr>

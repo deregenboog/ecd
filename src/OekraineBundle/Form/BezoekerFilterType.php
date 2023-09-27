@@ -48,7 +48,7 @@ class BezoekerFilterType extends AbstractType
 
         $builder
             ->add('filter', SubmitType::class, ['label' => 'Filteren'])
-//             ->add('download', SubmitType::class, ['label' => 'Downloaden'])
+             ->add('download', SubmitType::class, ['label' => 'Downloaden'])
         ;
     }
 
