@@ -4,6 +4,7 @@ namespace DagbestedingBundle\Entity;
 
 use AppBundle\Entity\Klant;
 use AppBundle\Model\IdentifiableTrait;
+use AppBundle\Model\OptionalMedewerkerTrait;
 use AppBundle\Model\RequiredMedewerkerTrait;
 use AppBundle\Model\TimestampableTrait;
 use Doctrine\Common\Collections\ArrayCollection;
