@@ -87,7 +87,6 @@ security:
             - ROLE_INLOOP_SCHORSINGEN
             - ROLE_INLOOP_VRIJWILLIGERS
             - ROLE_INLOOP_BEHEER
-            - CONTROLLER_ADMIN
             - ROLE_SECRETARIAAT
             - CONTROLLER_APP_KLANTEN
             - CONTROLLER_APP_RAPPORTAGES
@@ -118,8 +117,6 @@ security:
         ROLE_DAGBESTEDING: []
         ROLE_DAGBESTEDING_BEHEER:
             - ROLE_DAGBESTEDING
-        ROLE_DAGBESTEDING_TMP:
-            - ROLE_DAGBESTEDING
         ROLE_HOMESERVICE:
             - CONTROLLER_APP_KLANTEN
             - CONTROLLER_APP_VRIJWILLIGERS
@@ -136,7 +133,7 @@ security:
         ROLE_TW_BEHEER:
             - ROLE_TW
         ROLE_TW2:
-            - ROLE_TW2
+            - ROLE_TW
         ROLE_TW_BEHEER2:
             - ROLE_TW_BEHEER
         ROLE_OEK: []
@@ -164,7 +161,7 @@ security:
             - CONTROLLER_APP_VRIJWILLIGERS
         ROLE_VILLA:
             - CONTROLLER_APP_VRIJWILLIGERS
-        ROLE_HRM:
+        ROLE_PZ:
             - ROLE_USERADMIN
         ROLE_ADMIN:
             - ROLE_MW
@@ -172,7 +169,6 @@ security:
             - ROLE_REPORT
             - ROLE_PORTIER
             - ROLE_MLO
-            - ROLE_HI5
             - ROLE_CLIP
             - ROLE_CLIP_BEHEER
             - ROLE_DAGBESTEDING
@@ -188,12 +184,8 @@ security:
             - ROLE_OEKRAINE_PSYCH
             - ROLE_INLOOP
             - ROLE_INLOOP_BEHEER
-            - ROLE_BACK_ON_TRACK_COORDINATOR
-            - ROLE_BACK_ON_TRACK_COACH
-            - ROLE_VOLUNTEERS
             - ROLE_STAGE
             - ROLE_PFO
-            - ROLE_TRAJECTBEGELEIDER
             - ROLE_TEAMLEIDERS
             - ROLE_IZ
             - ROLE_IZ_BEHEER
@@ -210,7 +202,7 @@ security:
             - CONTROLLER_APP_ZRMS
             - CONTROLLER_MEDEWERKERS
             - CONTROLLER_APP_DOWNLOAD
-            - ROLE_HRM
+            - ROLE_PZ
             - ROLE_BUURTBOERDERIJ
             - ROLE_SECRETARIAAT
             - ROLE_PROGRAMMACOORDINATOR
@@ -240,21 +232,24 @@ security:
 parameters:
     roles_groups:
         ROLE_ADMIN: "CN=ECD Admin,CN=Users,DC=cluster,DC=deregenboog"
+#        Mag weggehaald worden na bericht van monique op 1 november 2023.
         ROLE_VOLUNTEERS: "CN=ECD Volunteers,CN=Users,DC=cluster,DC=deregenboog"
         ROLE_STAGE: "CN=ECD Stage,CN=Users,DC=cluster,DC=deregenboog"
         ROLE_PORTIER: "CN=ECD Inloop Portier,CN=Users,DC=cluster,DC=deregenboog"
+#        Navragen bij monique wat de status is per 1/11/23
         ROLE_MLO: "CN=ECD MLO,CN=Users,DC=cluster,DC=deregenboog"
         ROLE_INLOOP_VRIJWILLIGERS: "CN=ECD Inloop vrijwilliger,CN=Users,DC=cluster,DC=deregenboog"
         ROLE_INLOOP_TEAMLEIDERS: "CN=ECD Inloop teamleider,CN=Users,DC=cluster,DC=deregenboog"
         ROLE_INLOOP_DAGCOORDINATOR: "CN=ECD Inloop dagco,CN=Users,DC=cluster,DC=deregenboog"
         ROLE_MW: "CN=ECD Maatschappelijk,CN=Users,DC=cluster,DC=deregenboog"
         ROLE_MW_BEHEER: "CN=ECD MW Beheer,CN=Users,DC=cluster,DC=deregenboog"
-        ROLE_HI5: "CN=ECD Hi5,CN=Users,DC=cluster,DC=deregenboog"
-#        ROLE_TRAJECTBEGELEIDER: "CN=ECD Trajectbegeleider,CN=Users,DC=cluster,DC=deregenboog"
+#        doet niks...mag eruit per 1/11/23
         ROLE_WERKBEGELEIDER: "CN=ECD Werkbegeleider,CN=Users,DC=cluster,DC=deregenboog"
+#        Uitfaseren 1/11/23; vergaarbak net als MLO. Weg ermee.
         ROLE_TEAMLEIDERS: "CN=ECD Teamleiders,CN=Users,DC=cluster,DC=deregenboog"
         ROLE_PFO_BEPERKT: "CN=ECD PFO Beperkt,CN=Users,DC=cluster,DC=deregenboog"
         ROLE_PFO: "CN=ECD PFO,CN=Users,DC=cluster,DC=deregenboog"
+#        Mag dit worden uitgefaseerd?
         ROLE_BACK_ON_TRACK_COORDINATOR: "CN=ECD Back On Track Coordinator,CN=Users,DC=cluster,DC=deregenboog"
         ROLE_BACK_ON_TRACK_COACH: "CN=ECD Back on Track Coach,CN=Users,DC=cluster,DC=deregenboog"
         ROLE_GA: "CN=ECD Groepsactiviteit,CN=Users,DC=cluster,DC=deregenboog"
@@ -268,9 +263,9 @@ parameters:
         ROLE_TW_BEHEER: "CN=ECD Onder de Pannen Beheer,CN=Users,DC=cluster,DC=deregenboog" #bw comp.
         ROLE_TW2: "CN=ECD Tijdelijk Wonen,CN=Users,DC=cluster,DC=deregenboog"
         ROLE_TW_BEHEER2: "CN=ECD Tijdelijk Wonen Beheer,CN=Users,DC=cluster,DC=deregenboog"
+#        mag weg per 1/11/23
         ROLE_ADMINISTRATIEBEDRIJF: "CN=administratiebedrijf,CN=Users,DC=cluster,DC=deregenboog"
-        ROLE_DAGBESTEDING: "CN=ECD Trajectbegeleider,CN=Users,DC=cluster,DC=deregenboog"
-        ROLE_DAGBESTEDING_TMP: "CN=ECD Dagbesteding,CN=Users,DC=cluster,DC=deregenboog"
+        ROLE_DAGBESTEDING: "CN=ECD Dagbesteding,CN=Users,DC=cluster,DC=deregenboog"
         ROLE_DAGBESTEDING_BEHEER: "CN=ECD Dagbesteding Beheer,CN=Users,DC=cluster,DC=deregenboog"
         ROLE_CLIP: "CN=ECD CLIP,CN=Users,DC=cluster,DC=deregenboog"
         ROLE_CLIP_BEHEER: "CN=ECD CLIP Beheer,CN=Users,DC=cluster,DC=deregenboog"
@@ -278,20 +273,17 @@ parameters:
         ROLE_HOMESERVICE_BEHEER: "CN=ECD Homeservice Beheer,CN=Users,DC=cluster,DC=deregenboog"
         ROLE_SCIP: "CN=ECD SCIP,CN=Users,DC=cluster,DC=deregenboog"
         ROLE_SCIP_BEHEER: "CN=ECD SCIP Beheer,CN=Users,DC=cluster,DC=deregenboog"
-        ROLE_SKIP_BEHEER: "CN=ECD SKIP Beheer,CN=Users,DC=cluster,DC=deregenboog" # because of typo in LDAP-group
         ROLE_EROPUIT: "CN=ECD ErOpUit,CN=Users,DC=cluster,DC=deregenboog"
         ROLE_EROPUIT_BEHEER: "CN=ECD ErOpUit Beheer,CN=Users,DC=cluster,DC=deregenboog"
         ROLE_BUURTBOERDERIJ: "CN=ECD Buurtboerderij,CN=Users,DC=cluster,DC=deregenboog"
         ROLE_SECRETARIAAT: "CN=ECD Secretariaat,CN=Users,DC=cluster,DC=deregenboog"
         ROLE_MANAGEMENT: "CN=ECD Management,CN=Users,DC=cluster,DC=deregenboog"
         ROLE_PROGRAMMACOORDINATOR: "CN=ECD Programmacoordinator,CN=Users,DC=cluster,DC=deregenboog"
-        ROLE_PROGRAMMACOORDINATORA: "CN=ECD Programmacoördinator,CN=Users,DC=cluster,DC=deregenboog"
-        ROLE_PROGRAMMACOORDINATORB: "CN=ECD Programma Co\u00f6rdinator,CN=Users,DC=cluster,DC=deregenboog"
         ROLE_UHK: "CN=ECD Uit het Krijt,CN=Users,DC=cluster,DC=deregenboog"
         ROLE_UHK_BEHEER: "CN=ECD Uit het Krijt Beheer,CN=Users,DC=cluster,DC=deregenboog"
         ROLE_SPORT: "CN=ECD Sport,CN=Users,DC=cluster,DC=deregenboog"
         ROLE_VILLA: "CN=ECD Villa,CN=Users,DC=cluster,DC=deregenboog"
-        ROLE_HRM: "CN=ECD P&O,CN=Users,DC=cluster,DC=deregenboog"
+        ROLE_PZ: "CN=ECD PZ,CN=Users,DC=cluster,DC=deregenboog"
         ROLE_OEKRAINE: "CN=ECD Oekraine,CN=Users,DC=cluster,DC=deregenboog"
         ROLE_OEKRAINE_LOCATIEHOOFD: "CN=ECD Oekraine Locatiehoofd,CN=Users,DC=cluster,DC=deregenboog"
         ROLE_OEKRAINE_BEHEER: "CN=ECD Oekraine Beheer,CN=Users,DC=cluster,DC=deregenboog"

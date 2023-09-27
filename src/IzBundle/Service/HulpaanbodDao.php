@@ -122,6 +122,9 @@ class HulpaanbodDao extends AbstractDao implements HulpaanbodDaoInterface
             ->innerJoin('hulpaanbod.izVrijwilliger','izVrijwilliger')
 
             ->where('hulpvraagsoorten.naam IN(:hulpvraagsoortenZonderKoppelingen)')
+            ->andWhere('hulpaanbod.einddatum IS NULL')
+            ->andWhere('hulpaanbod.koppelingEinddatum IS NULL')
+            ->andWhere('hulpaanbod.koppelingStartdatum IS NULL')
             ->groupBy('hulpaanbod.id')
             ->setParameter('hulpvraagsoortenZonderKoppelingen',$this->hulpsoortenZonderKoppelingen)
             ;
