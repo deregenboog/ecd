@@ -45,6 +45,8 @@ class VerslagDao extends AbstractDao implements VerslagDaoInterface
 
     }
 
+
+
     public function countKlantenZonderZorg(\DateTime $startdatum,\DateTime $einddatum,$locatieNamen)
     {
         /**
@@ -128,4 +130,6 @@ class VerslagDao extends AbstractDao implements VerslagDaoInterface
 
         return $builder;
     }
+
+
 }

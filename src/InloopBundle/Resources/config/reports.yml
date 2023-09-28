@@ -30,3 +30,18 @@ services:
             - "@doctrine.orm.entity_manager"
         tags:
             - { name: inloop.rapportage }
+
+    InloopBundle\Report\RepatrieringenPerInloopKlant:
+        public: true
+        arguments:
+            - "@doctrine.orm.entity_manager"
+            - "%kernel.project_dir%/config/sql_reports/repatrieringen_per_inloopklant.sql"
+        tags:
+            - { name: inloop.rapportage, category: Repatriëring }
+
+    InloopBundle\Report\RepatrieringenPerLand:
+        public: true
+        arguments:
+            - "@doctrine.orm.entity_manager"
+        tags:
+            - { name: inloop.rapportage, category: Repatriëring }

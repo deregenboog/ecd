@@ -42,6 +42,7 @@ security:
             - ROLE_INLOOP_OPMERKINGEN
         ROLE_INLOOP_TEAMLEIDERS:
             - ROLE_INLOOP_DAGCOORDINATOR
+            - ROLE_INLOOP_REPORTS
         ROLE_MLO:
             - CONTROLLER_APP_KLANTEN
             - CONTROLLER_APP_VRIJWILLIGERS
@@ -77,23 +78,23 @@ security:
         ROLE_PFO:
             - ROLE_PFO_BEHEER #andersom geredeneerd. Historisch zo gegegroeid. Beheer is om consistent te zijn met de rest van ECD.
         ROLE_TEAMLEIDERS:
-            - ROLE_GA
-            - ROLE_MW
-            - ROLE_MW_BEHEER
-            - ROLE_INLOOP_INTAKES
-            - ROLE_INLOOP_OPMERKINGEN
-            - ROLE_INLOOP_REGISTRATIES
-            - ROLE_INLOOP_REPORTS
-            - ROLE_INLOOP_SCHORSINGEN
-            - ROLE_INLOOP_VRIJWILLIGERS
-            - ROLE_INLOOP_BEHEER
-            - ROLE_SECRETARIAAT
-            - CONTROLLER_APP_KLANTEN
-            - CONTROLLER_APP_RAPPORTAGES
-            - CONTROLLER_APP_DOELSTELLINGEN
-            - CONTROLLER_APP_ZRMS
-            - CONTROLLER_APP_VRIJWILLIGERS
-            - CONTROLLER_ATTACHMENTS
+#            - ROLE_GA
+#            - ROLE_MW
+#            - ROLE_MW_BEHEER
+#            - ROLE_INLOOP_INTAKES
+#            - ROLE_INLOOP_OPMERKINGEN
+#            - ROLE_INLOOP_REGISTRATIES
+#            - ROLE_INLOOP_REPORTS
+#            - ROLE_INLOOP_SCHORSINGEN
+#            - ROLE_INLOOP_VRIJWILLIGERS
+#            - ROLE_INLOOP_BEHEER
+#            - ROLE_SECRETARIAAT
+#            - CONTROLLER_APP_KLANTEN
+#            - CONTROLLER_APP_RAPPORTAGES
+#            - CONTROLLER_APP_DOELSTELLINGEN
+#            - CONTROLLER_APP_ZRMS
+#            - CONTROLLER_APP_VRIJWILLIGERS
+#            - CONTROLLER_ATTACHMENTS
         ROLE_IZ:
             - ROLE_EROPUIT
             - CONTROLLER_APP_KLANTEN
@@ -221,6 +222,7 @@ security:
             - CONTROLLER_APP_DOELSTELLINGEN
         ROLE_MANAGEMENT:
             - CONTROLLER_APP_DOELSTELLINGEN
+            - CONTROLLER_APP_RAPPORTAGES
         ROLE_SECRETARIAAT:
             - ROLE_GLOBALDOWNLOAD
             - CONTROLLER_APP_KLANTEN

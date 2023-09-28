@@ -6,28 +6,6 @@ services:
         tags:
             - { name: form.type }
 
-    MwBundle\Report\Inventarisaties:
-        public: true
-        arguments:
-            - '@MwBundle\Service\InventarisatieDao'
-        tags:
-            - { name: mw.rapportage, category: Inventarisaties }
-
-    MwBundle\Report\EconomischDaklozen:
-        public: true
-        arguments:
-            - '@MwBundle\Service\VerslagDao'
-            - '%economisch_daklozen_locaties%'
-        tags:
-            - { name: mw.rapportage, category: Archief }
-
-    MwBundle\Report\ZonderZorg:
-        public: true
-        arguments:
-            - '@MwBundle\Service\VerslagDao'
-            - '%zonderzorg_locaties%'
-        tags:
-            - { name: mw.rapportage, category: Archief }
 
     MwBundle\Report\AMW:
         public: true
@@ -55,6 +33,11 @@ services:
         tags:
             - { name: mw.rapportage, category: Klanten }
 
+    MwBundle\Report\Amstelland:
+        public: true
+        tags:
+            - { name: mw.rapportage, category: Klanten }
+
 #    MwBundle\Report\Resultaten:
 #        public: true
 #        arguments:
@@ -77,10 +60,26 @@ services:
         tags:
             - { name: mw.rapportage, category: Repatriëring }
 
-    MwBundle\Report\RepatrieringenPerInloopKlant:
+
+    MwBundle\Report\Inventarisaties:
         public: true
         arguments:
-            - "@doctrine.orm.entity_manager"
-            - "%kernel.project_dir%/config/sql_reports/repatrieringen_per_inloopklant.sql"
+            - '@MwBundle\Service\InventarisatieDao'
         tags:
-            - { name: mw.rapportage, category: Repatriëring }
+            - { name: mw.rapportage, category: Inventarisaties }
+
+    MwBundle\Report\EconomischDaklozen:
+        public: true
+        arguments:
+            - '@MwBundle\Service\VerslagDao'
+            - '%economisch_daklozen_locaties%'
+        tags:
+            - { name: mw.rapportage, category: Archief }
+
+    MwBundle\Report\ZonderZorg:
+        public: true
+        arguments:
+            - '@MwBundle\Service\VerslagDao'
+            - '%zonderzorg_locaties%'
+        tags:
+            - { name: mw.rapportage, category: Archief }

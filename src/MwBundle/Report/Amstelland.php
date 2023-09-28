@@ -10,10 +10,10 @@ use InloopBundle\Entity\Locatie;
 use InloopBundle\Service\LocatieDao;
 use MwBundle\Service\VerslagDao;
 
-class T6 extends  AbstractMwReport
+class Amstelland extends  AbstractMwReport
 {
 
-    protected $title = 'T6';
+    protected $title = 'Amstelland';
 
     protected function filterLocations($allLocations)
     {
@@ -23,10 +23,8 @@ class T6 extends  AbstractMwReport
         foreach($allLocations as $k=> $locatie)
         {
             $naam = $locatie->getNaam();
-            if(strpos($naam, "T6 ") !== false
-                || strpos($naam,"Wachtlijst T6") !== false
-            )
-            {
+            if(strpos($naam, "Amstelland") !== false
+            ) {
                 $this->locaties[] = $locatie->getNaam();
             }
 

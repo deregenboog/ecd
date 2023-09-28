@@ -56,6 +56,22 @@ class VerslagDao extends AbstractDao implements VerslagDaoInterface
 
     }
 
+    public function countUniqueKlantenEnGezinnenVoorLocaties(\DateTime $startdatum, \DateTime $einddatum, $locatieNamen,$actieveKlanten=[]) {
+
+
+        $builder = $this->repository->createQueryBuilder('verslagen');
+
+        $builder = self::buildUniqueKlantenEnGezinnenVoorLocatiesQuery($builder,$startdatum,$einddatum,$locatieNamen,$actieveKlanten);
+
+//            ->setParameter("totKlant",5)
+        ;
+
+//        $sql = SqlExtractor::getFullSQL($builder->getQuery());
+
+        return $builder->getQuery()->getResult();
+
+    }
+
     public function countKlantenZonderZorg(\DateTime $startdatum,\DateTime $einddatum,$locatieNamen)
     {
         /**
@@ -96,33 +112,14 @@ class VerslagDao extends AbstractDao implements VerslagDaoInterface
 
     }
 
-    public function getTotalUniqueKlantenForLocaties($startdatum,$einddatum,$locaties, $actieveKlanten=[]): array
+    public function getTotalUniqueKlantenEnGezinnenForLocaties($startdatum,$einddatum,$locaties, $actieveKlanten=[]): array
     {
-        $builder = $this->repository->createQueryBuilder("verslagen");
-        /**
-         * SELECT COUNT(DISTINCT v.klant_id) AS totKlanten FROM verslagen v INNER JOIN locaties l ON v.locatie_id = l.id
-        WHERE l.naam IN ("De Meeuw","Claverhuis","Gravestein","Postoost","Havelaar","\'t Blommetje","Tagrijn","Casa Jepie")
-        AND (v.datum BETWEEN '2020-01-01 00:00:00' AND '2021-05-28 00:00:00')
-         */
-        $builder->select('COUNT(DISTINCT verslagen.klant) AS Klanten')
-            ->addSelect('SUM(CASE WHEN (verslagen.type = 1) THEN 1 ELSE 0 END) AS aantalMw')
-            ->addSelect('SUM(CASE WHEN (verslagen.type = 2) THEN 1 ELSE 0 END) AS aantalInloop')
-            ->leftJoin('verslagen.locatie', 'locatie')
-            ->where('locatie.naam IN(:locaties)')
-            ->andWhere('verslagen.datum BETWEEN :startdatum AND :einddatum')
-            ->setParameter('startdatum', $startdatum)
-            ->setParameter('einddatum',$einddatum)
-            ->setParameter('locaties',$locaties)
-//            ->groupBy('locatie.naam')
+        $builder = $this->repository->createQueryBuilder('verslagen');
+
+        $builder = self::buildTotalUniqueKlantenEnGezinnenVoorLocatiesQuery($builder,$startdatum,$einddatum,$locaties,$actieveKlanten);
+
+//            ->setParameter("totKlant",5)
         ;
-
-        if(count($actieveKlanten)>0){
-            $builder
-                ->andWhere('verslagen.klant IN (:actieveKlanten)')
-                ->setParameter('actieveKlanten',$actieveKlanten)
-                ;
-        }
-
 
 //        $sql = SqlExtractor::getFullSQL($builder->getQuery());
 
@@ -139,6 +136,64 @@ class VerslagDao extends AbstractDao implements VerslagDaoInterface
             ->andWhere('verslagen.datum BETWEEN :startdatum AND :einddatum')
 
             ->groupBy('locatie.naam')
+            ->setParameter("startdatum",$startdatum)
+            ->setParameter("einddatum",$einddatum)
+            ->setParameter("locaties",$locaties)
+
+        ;
+        if(count($actieveKlanten) > 0)
+        {
+            $builder
+                ->andWhere('verslagen.klant IN (:actieveKlanten)')
+                ->setParameter("actieveKlanten",$actieveKlanten)
+            ;
+        }
+
+        return $builder;
+    }
+
+    public static function buildUniqueKlantenEnGezinnenVoorLocatiesQuery($builder, $startdatum, $einddatum, $locaties, $actieveKlanten)
+    {
+        $builder->addSelect('COUNT(DISTINCT verslagen.klant) AS aantalKlanten, COUNT(verslagen.id) AS aantalVerslagen, SUM(verslagen.aantalContactmomenten) AS aantalContactmomenten, locatie.naam AS locatienaam')
+            ->addSelect('SUM(CASE WHEN (info.isGezin = 1) THEN 1 ELSE 0 END) AS aantalGezinnen')
+            ->addSelect('SUM(CASE WHEN (verslagen.type = 1) THEN 1 ELSE 0 END) AS aantalMw')
+            ->addSelect('SUM(CASE WHEN (verslagen.type = 2) THEN 1 ELSE 0 END) AS aantalInloop')
+            ->leftJoin('verslagen.locatie', 'locatie')
+            ->innerJoin('verslagen.klant','klant')
+            ->innerJoin('klant.info','info')
+            ->where('locatie.naam IN(:locaties)')
+            ->andWhere('verslagen.datum BETWEEN :startdatum AND :einddatum')
+
+            ->groupBy('locatie.naam')
+            ->setParameter("startdatum",$startdatum)
+            ->setParameter("einddatum",$einddatum)
+            ->setParameter("locaties",$locaties)
+
+        ;
+        if(count($actieveKlanten) > 0)
+        {
+            $builder
+                ->andWhere('verslagen.klant IN (:actieveKlanten)')
+                ->setParameter("actieveKlanten",$actieveKlanten)
+            ;
+        }
+
+        return $builder;
+    }
+
+    public static function buildTotalUniqueKlantenEnGezinnenVoorLocatiesQuery($builder, $startdatum, $einddatum, $locaties, $actieveKlanten)
+    {
+        $builder->addSelect('COUNT(DISTINCT verslagen.klant) AS aantalKlanten, COUNT(verslagen.id) AS aantalVerslagen, SUM(verslagen.aantalContactmomenten) AS aantalContactmomenten, locatie.naam AS locatienaam')
+            ->addSelect('SUM(CASE WHEN (info.isGezin = 1) THEN 1 ELSE 0 END) AS aantalGezinnen')
+            ->addSelect('SUM(CASE WHEN (verslagen.type = 1) THEN 1 ELSE 0 END) AS aantalMw')
+            ->addSelect('SUM(CASE WHEN (verslagen.type = 2) THEN 1 ELSE 0 END) AS aantalInloop')
+            ->leftJoin('verslagen.locatie', 'locatie')
+            ->innerJoin('verslagen.klant','klant')
+            ->innerJoin('klant.info','info')
+            ->where('locatie.naam IN(:locaties)')
+            ->andWhere('verslagen.datum BETWEEN :startdatum AND :einddatum')
+
+//            ->groupBy('locatie.naam')
             ->setParameter("startdatum",$startdatum)
             ->setParameter("einddatum",$einddatum)
             ->setParameter("locaties",$locaties)
