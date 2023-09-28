@@ -22,6 +22,12 @@ services:
         resource: '../../Controller'
         tags: [ 'controller.service_arguments' ]
 
+    OekraineBundle\Controller\BezoekersController:
+        arguments:
+            $export: '@oekraine.export.bezoekers'
+        tags: [ 'controller.service_arguments' ]
+
+
     OekraineBundle\Controller\DocumentenController:
         arguments:
             $entities: '@oekraine.document.entities'

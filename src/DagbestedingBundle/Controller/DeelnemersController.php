@@ -131,6 +131,8 @@ class DeelnemersController extends AbstractController
             $creationForm = $this->getForm(DeelnemerType::class, $entity);
             $creationForm->handleRequest($request);
 
+
+
             if ($creationForm->isSubmitted() && $creationForm->isValid()) {
                 try {
                     $this->dao->create($entity);

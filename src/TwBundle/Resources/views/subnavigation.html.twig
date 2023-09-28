@@ -20,18 +20,20 @@
                 Beheer <span class="caret"></span>
             </a>
             <ul class="dropdown-menu">
-                {{ html.navLink('Afsluitingen huuraanbiedingen', path('tw_huuraanbodafsluitingen_index'), isActiveRoute('tw_huuraanbiedingafsluitingen_')) }}
-                {{ html.navLink('Afsluitingen klanten', path('tw_huurderafsluitingen_index'), isActiveRoute('tw_huurderafsluitingen_')) }}
-                {{ html.navLink('Afsluitingen huurverzoeken', path('tw_huurverzoekafsluitingen_index'), isActiveRoute('tw_huurverzoekafsluitingen_')) }}
-                {{ html.navLink('Afsluitingen koppelingen', path('tw_huurovereenkomstafsluitingen_index'), isActiveRoute('tw_huurovereenkomstafsluitingen_')) }}
-                {{ html.navLink('Afsluitingen verhuurders', path('tw_verhuurderafsluitingen_index'), isActiveRoute('tw_verhuurderafsluitingen_')) }}
+                {{ html.navLink('Afsluitingredenen huuraanbiedingen', path('tw_huuraanbodafsluitingen_index'), isActiveRoute('tw_huuraanbiedingafsluitingen_')) }}
+                {{ html.navLink('Afsluitingredenen klanten', path('tw_huurderafsluitingen_index'), isActiveRoute('tw_huurderafsluitingen_')) }}
+                {{ html.navLink('Afsluitingredenen huurverzoeken', path('tw_huurverzoekafsluitingen_index'), isActiveRoute('tw_huurverzoekafsluitingen_')) }}
+                {{ html.navLink('Afsluitingredenen koppelingen', path('tw_huurovereenkomstafsluitingen_index'), isActiveRoute('tw_huurovereenkomstafsluitingen_')) }}
+                {{ html.navLink('Afsluitingredenen verhuurders', path('tw_verhuurderafsluitingen_index'), isActiveRoute('tw_verhuurderafsluitingen_')) }}
+                {{ html.navLink('Afsluitredenen vrijwilligers', path('tw_afsluitredenenvrijwilligers_index'), isActiveRoute('tw_afsluitredenenvrijwilligers_')) }}
                 {{ html.navLink('Coördinatoren', path('tw_coordinatoren_index'), isActiveRoute('tw_coordinatoren_')) }}
                 {{ html.navLink('Pandeigenaren', path('tw_pandeigenaren_index'), isActiveRoute('tw_pandeigenaren_')) }}
                 {{ html.navLink('Projecten', path('tw_projecten_index'), isActiveRoute('tw_projecten_')) }}
-                {{ html.navLink('Afsluitredenen vrijwilligers', path('tw_afsluitredenenvrijwilligers_index'), isActiveRoute('tw_afsluitredenenvrijwilligers_')) }}
                 {{ html.navLink('Trainingen vrijwilligers', path('tw_trainingen_index'), isActiveRoute('tw_trainingen_')) }}
-                {{ html.navLink('Binnen via-opties', path('tw_binnenvia_index'), isActiveRoute('tw_binnenvia_')) }}
                 {{ html.navLink('Vrijwilligers locaties', path('tw_locaties_index'), isActiveRoute('tw_binnenvia_')) }}
+                {{ html.navLink('Binnen via-opties', path('tw_binnenvia_index'), isActiveRoute('tw_binnenvia_')) }}
+                {{ html.navLink('Intake statussen', path('tw_intakestatus_index'), isActiveRoute('tw_intakestatus_')) }}
+
             </ul>
         </li>
     {% endif %}

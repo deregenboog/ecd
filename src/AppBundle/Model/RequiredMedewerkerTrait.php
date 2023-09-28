@@ -14,7 +14,6 @@ trait RequiredMedewerkerTrait
      *
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Medewerker", cascade={"persist"})
      * @ORM\JoinColumn(nullable=false)
-     * @Assert\NotNull()
      * @Gedmo\Versioned
      */
     protected $medewerker;
