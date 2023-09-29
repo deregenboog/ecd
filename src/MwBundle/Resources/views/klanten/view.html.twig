@@ -56,8 +56,8 @@
     </ul>
     {% include 'klant_basis.html.twig' with {klant: entity, module: 'MaatschappelijkWerk'} %}
 
-    {{ render(controller('InloopBundle\\Controller\\KlantenController::_intakesAction', {id: entity.id})) }}
-    {{ render(controller('InloopBundle\\Controller\\KlantenController::_registratiesAction', {id: entity.id})) }}
+{#    {{ render(controller('InloopBundle\\Controller\\KlantenController::_intakesAction', {id: entity.id})) }}#}
+{#    {{ render(controller('InloopBundle\\Controller\\KlantenController::_registratiesAction', {id: entity.id})) }}#}
     {{ render(controller('MwBundle\\Controller\\KlantenController::_documentenAction', {id: entity.id})) }}
 
 {% endblock %}
