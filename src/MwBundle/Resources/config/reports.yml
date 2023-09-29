@@ -60,14 +60,6 @@ services:
         tags:
             - { name: mw.rapportage, category: Repatriëring }
 
-
-    MwBundle\Report\Inventarisaties:
-        public: true
-        arguments:
-            - '@MwBundle\Service\InventarisatieDao'
-        tags:
-            - { name: mw.rapportage, category: Inventarisaties }
-
     MwBundle\Report\EconomischDaklozen:
         public: true
         arguments:
