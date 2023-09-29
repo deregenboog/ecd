@@ -112,6 +112,21 @@ class VerslagDao extends AbstractDao implements VerslagDaoInterface
 
     }
 
+
+    public function getTotalUniqueKlantenForLocaties($startdatum,$einddatum,$locaties, $actieveKlanten=[]): array
+    {
+        $builder = $this->repository->createQueryBuilder('verslagen');
+
+        $builder = self::buildTotalUniqueKlantenEnGezinnenVoorLocatiesQuery($builder,$startdatum,$einddatum,$locaties,$actieveKlanten);
+
+//            ->setParameter("totKlant",5)
+        ;
+
+//        $sql = SqlExtractor::getFullSQL($builder->getQuery());
+
+        return $builder->getQuery()->getSingleResult();
+    }
+
     public function getTotalUniqueKlantenEnGezinnenForLocaties($startdatum,$einddatum,$locaties, $actieveKlanten=[]): array
     {
         $builder = $this->repository->createQueryBuilder('verslagen');
@@ -180,6 +195,7 @@ class VerslagDao extends AbstractDao implements VerslagDaoInterface
 
         return $builder;
     }
+
 
     public static function buildTotalUniqueKlantenEnGezinnenVoorLocatiesQuery($builder, $startdatum, $einddatum, $locaties, $actieveKlanten)
     {
