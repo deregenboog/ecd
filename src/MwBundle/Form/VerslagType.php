@@ -9,7 +9,6 @@ use AppBundle\Form\MedewerkerType;
 use Doctrine\ORM\EntityRepository;
 use FOS\CKEditorBundle\Form\Type\CKEditorType;
 use InloopBundle\Form\LocatieSelectType;
-use MwBundle\Entity\Contactsoort;
 use MwBundle\Entity\Doorverwijzing;
 use MwBundle\Entity\Trajecthouder;
 use MwBundle\Entity\Verslag;

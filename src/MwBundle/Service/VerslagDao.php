@@ -100,9 +100,8 @@ class VerslagDao extends AbstractDao implements VerslagDaoInterface
                         HAVING SUM(v.aantalContactmomenten) >= 5) AS d)";
         $conn = $this->entityManager->getConnection();
         $statement = $conn->prepare($query);
-        //['locatienamen'=>$locatieNamen,'contactsoortid'=>1,'startdatum'=>$startdatum->format("Y-m-d"),'einddatum'=>$einddatum->format("Y-m-d")]
+
         $statement->bindValue("locatienamen",implode(", ",$locatieNamen));
-        $statement->bindValue("contactsoortid",3);
         $statement->bindValue("startdatum",$startdatum,"datetime");
         $statement->bindValue("einddatum",$einddatum,"datetime");
 

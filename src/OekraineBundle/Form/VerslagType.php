@@ -8,8 +8,6 @@ use AppBundle\Form\BaseType;
 use AppBundle\Form\MedewerkerType;
 use Doctrine\ORM\EntityRepository;
 use FOS\CKEditorBundle\Form\Type\CKEditorType;
-use OekraineBundle\Form\LocatieSelectType;
-use MwBundle\Entity\Contactsoort;
 use OekraineBundle\Entity\Verslag;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
