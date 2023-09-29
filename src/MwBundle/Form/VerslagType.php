@@ -45,6 +45,7 @@ class VerslagType extends AbstractType
             ->add('access', ChoiceType::class,[
                 'required'=>true,
                 'label'=>'Zichtbaar voor',
+                'placeholder'=>'Kies een optie',
                 'choices'=>[
                     Verslag::$accessTypes[Verslag::ACCESS_MW]=>Verslag::ACCESS_MW,
                     Verslag::$accessTypes[Verslag::ACCESS_ALL]=>Verslag::ACCESS_ALL,
@@ -62,7 +63,7 @@ class VerslagType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Verslag::class,
-            'attr' => ['novalidate' => 'novalidate'],
+//            'attr' => ['novalidate' => 'novalidate'],
             'locatieTypes'=>["Maatschappelijk werk","Virtueel"],
         ]);
     }

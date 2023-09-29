@@ -109,7 +109,7 @@ class Verslag
      * @ORM\Column(name="accessType", type="integer", options={"default":1})
      * @Gedmo\Versioned
      */
-    private $access = self::ACCESS_ALL;
+    private $access;
 
     /**
      * @var \DateTime
