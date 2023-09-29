@@ -12,7 +12,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Entity
- * @ORM\Table("mw_afsluiting_redenen")
+ * @ORM\Table("mw_afsluitredenen_klanten")
  * @ORM\HasLifecycleCallbacks
  * @Gedmo\Loggable
  */

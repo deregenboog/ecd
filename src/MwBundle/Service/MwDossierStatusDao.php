@@ -179,7 +179,7 @@ SELECT
     ROUND(AVG(DATEDIFF(e.datum, e.prev_datum))) AS avg_duration
 FROM
     EventPairs e
-    INNER JOIN mw_afsluiting_redenen mar ON mar.id = e.reden_id
+    INNER JOIN mw_afsluitredenen_klanten mar ON mar.id = e.reden_id
     INNER JOIN locaties l ON l.id = e.locatie_id
 WHERE
         e.class = 'Afsluiting'
@@ -224,7 +224,7 @@ SELECT
     count(klant_id) AS aantal
 FROM
     EventPairs e
-    INNER JOIN mw_afsluiting_redenen mar ON mar.id = e.reden_id
+    INNER JOIN mw_afsluitredenen_klanten mar ON mar.id = e.reden_id
     INNER JOIN locaties l ON l.id = e.locatie_id
 WHERE
         e.class = 'Afsluiting'

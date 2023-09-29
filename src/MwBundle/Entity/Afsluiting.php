@@ -36,8 +36,6 @@ class Afsluiting extends MwDossierStatus
      * @ORM\ManyToMany(targetEntity="Resultaat")
      * @ORM\JoinTable(name="mw_afsluiting_resultaat")
      * @ORM\JoinColumn(nullable=false)
-     * @Assert\NotNull
-     * Assert\Count(min=1,minMessage="Er moet tenminste een resultaat worden gekozen.")
      * @Assert\Expression(
      *     "!this.getRedenHeeftResultaatNodig()",
      *     message="Als de begeleiding is afgerond of overgedragen is er een resultaat nodig."
