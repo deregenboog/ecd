@@ -235,13 +235,15 @@ class KlantenController extends AbstractController
     public function closeAction(Request $request, $id)
     {
         $klant = $this->dao->find($id);
-        $afsluiting = new Afsluiting($klant, $this->getMedewerker());
+        $afsluiting = new Afsluiting($this->getMedewerker());
+        $afsluiting->setKlant($klant);
 
         $form = $this->getForm(AfsluitingType::class, $afsluiting);
         $form->handleRequest($this->getRequest());
         if ($form->isSubmitted() && $form->isValid()) {
             try {
                 $entityManager = $this->getEntityManager();
+                $klant->setHuidigeStatus($afsluiting);
                 $entityManager->persist($afsluiting);
                 $entityManager->flush();
 
@@ -286,7 +288,8 @@ class KlantenController extends AbstractController
     public function openAction(Request $request, $id)
     {
         $klant = $this->dao->find($id);
-        $aanmelding = new Aanmelding($klant, $this->getMedewerker());
+        $aanmelding = new Aanmelding($this->getMedewerker());
+        $aanmelding->setKlant($klant);
 
         if(in_array($klant->getLand()->getNaam(),$this->tbc_countries ) )
         {
@@ -298,11 +301,11 @@ class KlantenController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             try {
                 $entityManager = $this->getEntityManager();
+                $klant->setHuidigeStatus($aanmelding);
                 $entityManager->persist($aanmelding);
                 $entityManager->flush();
 
-
-                $this->container->eventDispatcher->dispatch(Events::DOSSIER_CHANGED, new GenericEvent($aanmelding));
+                $this->eventDispatcher->dispatch(new GenericEvent($aanmelding), Events::DOSSIER_CHANGED);
 
                 $this->addFlash('success', 'Inloopdossier is heropend');
             } catch(UserException $e) {
@@ -462,10 +465,8 @@ class KlantenController extends AbstractController
 
                 return $this->redirectToView($inloopKlant);
             } catch(UserException $e) {
-//                $this->logger->error($e->getMessage(), ['exception' => $e]);
                 $message =  $e->getMessage();
                 $this->addFlash('danger', $message);
-//                return $this->redirectToRoute('app_klanten_index');
             } catch (\Exception $e) {
                 $message = $this->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
                 $this->addFlash('danger', $message);

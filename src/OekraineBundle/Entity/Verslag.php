@@ -8,8 +8,6 @@ use AppBundle\Model\TimestampableTrait;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
-use MwBundle\Entity\Contactsoort;
-use OekraineBundle\Entity\Locatie;
 
 /**
  * @ORM\Entity

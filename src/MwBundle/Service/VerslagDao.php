@@ -100,9 +100,8 @@ class VerslagDao extends AbstractDao implements VerslagDaoInterface
                         HAVING SUM(v.aantalContactmomenten) >= 5) AS d)";
         $conn = $this->entityManager->getConnection();
         $statement = $conn->prepare($query);
-        //['locatienamen'=>$locatieNamen,'contactsoortid'=>1,'startdatum'=>$startdatum->format("Y-m-d"),'einddatum'=>$einddatum->format("Y-m-d")]
+
         $statement->bindValue("locatienamen",implode(", ",$locatieNamen));
-        $statement->bindValue("contactsoortid",3);
         $statement->bindValue("startdatum",$startdatum,"datetime");
         $statement->bindValue("einddatum",$einddatum,"datetime");
 
@@ -110,6 +109,21 @@ class VerslagDao extends AbstractDao implements VerslagDaoInterface
 
         return $result;
 
+    }
+
+
+    public function getTotalUniqueKlantenForLocaties($startdatum,$einddatum,$locaties, $actieveKlanten=[]): array
+    {
+        $builder = $this->repository->createQueryBuilder('verslagen');
+
+        $builder = self::buildTotalUniqueKlantenEnGezinnenVoorLocatiesQuery($builder,$startdatum,$einddatum,$locaties,$actieveKlanten);
+
+//            ->setParameter("totKlant",5)
+        ;
+
+//        $sql = SqlExtractor::getFullSQL($builder->getQuery());
+
+        return $builder->getQuery()->getSingleResult();
     }
 
     public function getTotalUniqueKlantenEnGezinnenForLocaties($startdatum,$einddatum,$locaties, $actieveKlanten=[]): array
@@ -180,6 +194,7 @@ class VerslagDao extends AbstractDao implements VerslagDaoInterface
 
         return $builder;
     }
+
 
     public static function buildTotalUniqueKlantenEnGezinnenVoorLocatiesQuery($builder, $startdatum, $einddatum, $locaties, $actieveKlanten)
     {

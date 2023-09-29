@@ -5,7 +5,7 @@ namespace OekraineBundle\Form;
 use AppBundle\Entity\Klant;
 use AppBundle\Entity\Medewerker;
 use OekraineBundle\Entity\Locatie;
-use MwBundle\Entity\Contactsoort;
+
 use OekraineBundle\Entity\Verslag;
 
 use Symfony\Component\Validator\Constraints as Assert;
@@ -101,50 +101,13 @@ class VerslagModel
         $this->verslag->setAccess($accessType);
     }
 
-    /**
-     * @Assert\NotNull
-     */
-    public function getContactsoort()
-    {
-        return $this->verslag->getContactsoort();
-    }
-
-    public function setContactsoort(Contactsoort $contactsoort)
-    {
-        return $this->verslag->setContactsoort($contactsoort);
-    }
-
-    /**
-     * @Assert\Type("integer")
-     */
-    public function getDuur()
-    {
-        return $this->verslag->getDuur();
-    }
-
-    public function setDuur($duur)
-    {
-        return $this->verslag->setDuur($duur);
-    }
 
     /**
      * @Assert\Callback
      */
     public function validate(ExecutionContextInterface $context, $payload)
     {
-        if (1 === preg_match('/face/i', (string) $this->getContactsoort())
-            && is_null($this->getDuur())
-        ) {
-            $context->buildViolation('Geef het aantal minuten op')
-                ->atPath('duur')
-                ->addViolation();
-        } elseif (0 === preg_match('/face/i', (string) $this->getContactsoort())
-            && !is_null($this->getDuur())
-            ) {
-            $context->buildViolation('Geef alleen het aantal minuten op voor contactsoort face-to-face')
-                    ->atPath('duur')
-                    ->addViolation();
-        }
+
     }
 
     public function __construct(Verslag $verslag)
@@ -152,16 +115,5 @@ class VerslagModel
         $this->verslag = $verslag;
     }
 
-//    public function __get($property)
-//    {
-//        return $this->data[$property];
-//    }
-//
-//    public function __set($property, $value)
-//    {
-//        $this->data[$property] = $value;
-//
-//        return $this;
-//    }
 
 }

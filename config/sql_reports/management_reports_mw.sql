@@ -50,7 +50,7 @@ UNION
 ORDER BY naam ASC
 ;
 
--- START 25.- MW Aantal unieke personen waar face to face contact mee is geweest uitsplitsen per nationaliteit per periode waar de rapportage betrekking op heeft.
+-- START 25.- MW Aantal unieke personen waar  contact mee is geweest uitsplitsen per nationaliteit per periode waar de rapportage betrekking op heeft.
 -- HEAD:  Nationaliteit van bezoekers in contact met MW
 -- FIELDS: n.nationaliteit - Nationaliteit; 0.cnt - Aantal unieke personen
 -- ARRAY
@@ -61,8 +61,7 @@ select n.naam nationaliteit, count(distinct klant_id) cnt
     on (v.klant_id = k.id)
   join nationaliteiten n
     on (k.nationaliteit_id = n.id)
- where contactsoort_id = 3
-   and v.datum between :from and :until
+ where v.datum between :from and :until
  group by 1
  order by cnt DESC
 ;

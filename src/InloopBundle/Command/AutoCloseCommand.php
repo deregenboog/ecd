@@ -4,6 +4,7 @@ namespace InloopBundle\Command;
 
 use AppBundle\Doctrine\SqlExtractor;
 use AppBundle\Entity\Klant;
+use AppBundle\Entity\Medewerker;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\NonUniqueResultException;
@@ -23,6 +24,8 @@ class AutoCloseCommand extends \Symfony\Component\Console\Command\Command
     private $toelichting = 'Automatisch door systeem afgesloten.';
 
     private $redenPattern = '%geen inloophuis bezocht%';
+
+    private $defaultUsername = 'jvloo';
 
     /** @var EntityManager  */
     private $entityManager;
@@ -64,6 +67,25 @@ class AutoCloseCommand extends \Symfony\Component\Console\Command\Command
             return 0;
         }
 
+        try {
+            $defaultMedewerker = $this->entityManager->getRepository(Medewerker::class)
+                ->createQueryBuilder('medewerker')
+                ->where('medewerker.username = :defaultUsername')
+                ->setParameter("defaultUsername",$this->defaultUsername)
+                ->getQuery()
+                ->getSingleResult()
+            ;
+        } catch (NonUniqueResultException $e) {
+            $output->writeln("Default username '{$this->defaultUsername}' is niet uniek! Teveel resultaten...");
+
+            return 0;
+        } catch (NoResultException $e) {
+            $output->writeln("Username '{$this->defaultUsername}' niet gevonden!");
+
+            return 0;
+        }
+
+
         $builder = $this->entityManager->getRepository(Klant::class)->createQueryBuilder('klant')
             ->innerJoin(Registratie::class, 'registratie', 'WITH', 'registratie.klant = klant')
             ->leftJoin('klant.huidigeStatus', 'status')
@@ -90,7 +112,8 @@ class AutoCloseCommand extends \Symfony\Component\Console\Command\Command
             $output->writeln(sprintf(' - klant %d afsluiten', $klant->getId()));
 
             if (!$input->getOption('dry-run')) {
-                $afsluiting = new Afsluiting($klant);
+                $afsluiting = new Afsluiting($defaultMedewerker);
+                $afsluiting->setKlant($klant);
                 $afsluiting->setReden($reden)->setToelichting($this->toelichting);
                 $this->entityManager->persist($afsluiting);
             }

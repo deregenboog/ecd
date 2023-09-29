@@ -39,21 +39,20 @@ class DienstenLookupSubscriber implements EventSubscriberInterface
     {
         $klant = $event->getKlant();
 
-        /* @var $verslag Verslag */
-        $verslag = $this->entityManager->getRepository(Verslag::class)->findOneBy(
-            ['klant' => $klant],
-            ['datum' => 'asc']
-        );
+//        /* @var $verslag Verslag */
+//        $verslag = $this->entityManager->getRepository(Verslag::class)->findOneBy(
+//            ['klant' => $klant],
+//            ['datum' => 'asc']
+//        );
 
-        if ($verslag && $klant->getHuidigeMwStatus() && $klant->getHuidigeMwStatus()->isAangemeld()) {
+        if ($klant->getHuidigeMwStatus()) {
             $dienst = new Dienst(
                 'Maatschappeljk werk',
                 $this->generator->generate('mw_klanten_view', ['id' => $klant->getId()])
             );
+            $dienst->setOmschrijving($klant->getHuidigeMwStatus());
 
-            if ($verslag->getDatum()) {
-                $dienst->setVan($verslag->getDatum());
-            }
+//            $dienst->setVan($klant->getHuidigeMwStatus())
 
             $event->addDienst($dienst);
         }
