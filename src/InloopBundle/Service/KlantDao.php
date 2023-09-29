@@ -84,7 +84,8 @@ class KlantDao extends AbstractDao implements KlantDaoInterface
      */
     public function create(Klant $entity)
     {
-        $aanmelding = new Aanmelding($entity, $entity->getMedewerker());
+        $aanmelding = new Aanmelding($entity->getMedewerker());
+        $aanmelding->setKlant($entity);
         $entity->setHuidigeStatus($aanmelding);
 
         return parent::doCreate($entity);

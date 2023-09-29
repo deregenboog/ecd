@@ -64,11 +64,8 @@ abstract class DossierStatus
      */
     protected $modified;
 
-    public function __construct(Klant $klant, Medewerker $medewerker = null)
+    public function __construct(Medewerker $medewerker = null)
     {
-        $this->klant = $klant;
-        $klant->setHuidigeStatus($this);
-
         $this->medewerker = $medewerker;
         $this->datum = new \DateTime('now');
     }

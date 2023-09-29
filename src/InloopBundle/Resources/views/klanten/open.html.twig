@@ -3,5 +3,8 @@
 
 {% block content %}
     <h1>Inloopdossier heropenen</h1>
+    {% if instanceof(klant.getHuidigeStatus(), 'InloopBundle\\Entity\\Afsluiting') %}
+        <h4>Let op: dit dossier is eerder afgesloten met als reden: {{ klant.getHuidigeStatus().getReden() }} </h4>
+    {% endif %}
     {{ form(form) }}
 {% endblock %}

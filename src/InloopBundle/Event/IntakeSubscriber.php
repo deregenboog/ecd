@@ -90,7 +90,7 @@ class IntakeSubscriber implements EventSubscriberInterface
         $klant = $intake->getKlant();
         if($klant->getHuidigeStatus() == null)
         {
-            $klant->setHuidigeStatus(new \InloopBundle\Entity\Aanmelding($klant,$intake->getMedewerker() ));
+            $klant->setHuidigeStatus(new \InloopBundle\Entity\Aanmelding($intake->getMedewerker() ));
         }
 
         $this->klantDao->update($klant);
