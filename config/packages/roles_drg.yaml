@@ -40,9 +40,13 @@ security:
             - ROLE_INLOOP_REGISTRATIES
             - ROLE_INLOOP_SCHORSINGEN
             - ROLE_INLOOP_OPMERKINGEN
+        ROLE_INLOOP_LOCATIEHOOFD:
+            - ROLE_INLOOP_TEAMLEIDERS
         ROLE_INLOOP_TEAMLEIDERS:
             - ROLE_INLOOP_DAGCOORDINATOR
             - ROLE_INLOOP_REPORTS
+            - ROLE_MW_BEHEER
+            - ROLE_INLOOP_BEHEER
         ROLE_MLO:
             - CONTROLLER_APP_KLANTEN
             - CONTROLLER_APP_VRIJWILLIGERS
@@ -64,6 +68,8 @@ security:
             - CONTROLLER_APP_DOELSTELLINGEN
             - CONTROLLER_APP_ZRMS
             - CONTROLLER_ATTACHMENTS
+        ROLE_MW_BEHEER:
+            - ROLE_MW
         ROLE_VOLUNTEERS:
             - ROLE_INLOOP_REGISTRATIES
         ROLE_STAGE:
@@ -242,6 +248,7 @@ parameters:
         ROLE_MLO: "CN=ECD MLO,CN=Users,DC=cluster,DC=deregenboog"
         ROLE_INLOOP_VRIJWILLIGERS: "CN=ECD Inloop vrijwilliger,CN=Users,DC=cluster,DC=deregenboog"
         ROLE_INLOOP_TEAMLEIDERS: "CN=ECD Inloop teamleider,CN=Users,DC=cluster,DC=deregenboog"
+        ROLE_INLOOP_LOCATIEHOOFD: "CN=ECD Inloop locatiehoofd,CN=Users,DC=cluster,DC=deregenboog"
         ROLE_INLOOP_DAGCOORDINATOR: "CN=ECD Inloop dagco,CN=Users,DC=cluster,DC=deregenboog"
         ROLE_MW: "CN=ECD Maatschappelijk,CN=Users,DC=cluster,DC=deregenboog"
         ROLE_MW_BEHEER: "CN=ECD MW Beheer,CN=Users,DC=cluster,DC=deregenboog"
