@@ -13,6 +13,7 @@ services:
     build:
       dockerfile: Dockerfile
     volumes:
+      - ${PWD}/.env:/var/www/html/.env
       - ${PWD}/app:/var/www/html/app
       - ${PWD}/config:/var/www/html/config
       - ${PWD}/public:/var/www/html/public
