@@ -5,35 +5,30 @@ services:
     build:
       context: docker/mysql
       dockerfile: Dockerfile
-  web:
+
+  nginx:
     image: nginx:latest
     ports:
-      - 8080:80
+      - 80:80
     volumes:
       - ${PWD}/docker/nginx.conf:/etc/nginx/conf.d/default.conf
-#      - ${PWD}/app:/var/www/html/app
-#      - ${PWD}/archive:/var/www/html/archive
-#      - ${PWD}/bin:/var/www/html/bin
-#      - ${PWD}/config:/var/www/html/config
       - ${PWD}/public:/var/www/html/public
-#      - ${PWD}/src:/var/www/html/src
-#      - ${PWD}/templates:/var/www/html/templates
-#      - ${PWD}/tests:/var/www/html/tests
-    links:
-      - app
-  app:
+
+  fpm:
     build: .
-    ports:
-      - 8081:80
+#    image: php:fpm
+#    ports:
+#      - 8081:80
     volumes:
       - ${PWD}/app:/var/www/html/app
       - ${PWD}/archive:/var/www/html/archive
-      - ${PWD}/bin:/var/www/html/bin
+#      - ${PWD}/docker:/var/www/html/docker
       - ${PWD}/config:/var/www/html/config
-      - ${PWD}/public:/var/www/html/public
       - ${PWD}/src:/var/www/html/src
       - ${PWD}/templates:/var/www/html/templates
-      - ${PWD}/tests:/var/www/html/tests
+  #      - ${PWD}/tests:/var/www/html/tests
+  #      - ${PWD}:/var/www/html #alles, handig ovor testen of debuggen maar hoeft niet.
+
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
     ports:
