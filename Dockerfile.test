@@ -3,7 +3,7 @@ FROM php:7.4
 
 ENV APP_ENV=test
 
-COPY docker/php.ini /usr/local/etc/php/
+COPY docker/php/php.ini /usr/local/etc/php/
 
 COPY --from=composer:2 /usr/bin/composer /usr/local/bin/composer
 COPY composer.json composer.lock ./
@@ -32,14 +32,11 @@ RUN apt-get update && apt-get install -y \
 && locale-gen
 
 WORKDIR /app
-#first do composer so we can prevent compser installing each time we modify sourcecode.... adds extra layer.
-COPY ./composer.json composer.json
-COPY ./composer.lock composer.lock
-
-COPY docker/.env.test .env
-RUN COMPOSER_ALLOW_SUPERUSER=1 composer install --no-autoloader --no-scripts
 COPY . .
+COPY docker/php/.env.test .env
 
-RUN  composer install
+RUN COMPOSER_ALLOW_SUPERUSER=1 composer install --no-autoloader --no-scripts
+
+RUN composer install
 
 ENTRYPOINT [ "php" ]
