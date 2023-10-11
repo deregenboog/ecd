@@ -23,9 +23,9 @@ class BegeleidThuis extends  AbstractMwReport
         {
             $naam = $locatie->getNaam();
             if(strpos($naam, "Zonder ") === false
-//                || strpos($naam,"T6") !== false
-//                || strpos($naam,"STED") !== false
-//                || strpos($naam,"Wachtlijst") !== false
+                && strpos($naam,"Vriendenhuis") === false
+                && strpos($naam,"Omslag") === false
+                && strpos($naam,"Begeleid thuis") === false
             ) {
                 //skip locatie
                 continue;

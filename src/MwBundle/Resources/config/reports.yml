@@ -6,6 +6,10 @@ services:
         tags:
             - { name: form.type }
 
+    MwBundle\Report\CaseloadMedewerkers:
+        public: true
+        tags:
+            - { name: mw.rapportage, category: Algemeen }
 
     MwBundle\Report\AMW:
         public: true
