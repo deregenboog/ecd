@@ -65,7 +65,7 @@ class STED extends  AbstractMwReport
 
     }
 
-    protected function buildAantalKlantenVerslagenContactmomenten($data,$total,$titel)
+    protected function buildAantalKlantenVerslagenContactmomenten($data,$total,$titel,$columns=[])
     {
         $columns = [
             'Klanten'=>'aantalKlanten',
@@ -76,34 +76,7 @@ class STED extends  AbstractMwReport
             'MW verslagen'=>'aantalMw',
         ];
 
-        $table = new Grid($data, $columns,"locatienaam");
-        $table
-            ->setStartDate($this->startDate)
-            ->setEndDate($this->endDate)
-            ->setYSort(false)
-            ->setYTotals(true)
-        ;
-
-        $report = [
-            'title' => $titel,
-//            'xDescription' => $this->xDescription,
-            'yDescription' => "Locatienaam",
-            'data' => $table->render(),
-        ];
-
-        foreach($columns as $k=>$c)
-        {
-            if(isset($total[$k]))
-            {
-                $report['data']['Uniek'][$c] = $total[$k];
-            }
-            else{
-                $report['data']['Uniek'][$c] = "";
-            }
-
-        }
-
-        return $report;
+        return parent::buildAantalKlantenVerslagenContactmomenten($data,$total,$titel,$columns);
     }
 
 }

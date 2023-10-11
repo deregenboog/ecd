@@ -56,6 +56,8 @@ class VerslagDao extends AbstractDao implements VerslagDaoInterface
 
     }
 
+
+
     public function countUniqueKlantenEnGezinnenVoorLocaties(\DateTime $startdatum, \DateTime $einddatum, $locatieNamen,$actieveKlanten=[]) {
 
 
@@ -109,6 +111,32 @@ class VerslagDao extends AbstractDao implements VerslagDaoInterface
 
         return $result;
 
+    }
+
+    public function countContactmomentenPerMedewerker($startdatum, $einddatum, $actieveKlanten)
+    {
+        $builder = $this->repository->createQueryBuilder('verslagen');
+
+        $builder->addSelect('SUM(verslagen.aantalContactmomenten) AS aantal, COUNT(verslagen.id) AS aantalVerslagen, CONCAT_WS(\' \',medewerker.voornaam, medewerker.tussenvoegsel, medewerker.achternaam) AS naam')
+            ->leftJoin('verslagen.medewerker', 'medewerker')
+            ->andWhere('verslagen.datum BETWEEN :startdatum AND :einddatum')
+
+            ->groupBy('naam')
+            ->orderBy('medewerker.achternaam','ASC')
+
+            ->setParameter("startdatum",$startdatum)
+            ->setParameter("einddatum",$einddatum)
+
+        ;
+        if(count($actieveKlanten) > 0)
+        {
+            $builder
+                ->andWhere('verslagen.klant IN (:actieveKlanten)')
+                ->setParameter("actieveKlanten",$actieveKlanten)
+            ;
+        }
+
+        return $builder->getQuery()->getResult();
     }
 
 

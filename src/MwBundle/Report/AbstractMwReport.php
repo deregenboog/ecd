@@ -98,15 +98,18 @@ abstract class AbstractMwReport extends AbstractReport
 
     }
 
-    protected function buildAantalKlantenVerslagenContactmomenten($data,$total,$titel)
+    protected function buildAantalKlantenVerslagenContactmomenten($data,$total,$titel, $columns=[])
     {
-        $columns = [
-            'Klanten'=>'aantalKlanten',
-            'Verslagen'=>'aantalVerslagen',
-            'Aantal contactmomenten'=>'aantalContactmomenten',
-            'Inloopverslagen'=>'aantalInloop',
-            'MW verslagen'=>'aantalMw',
-        ];
+        if(count($columns)<1) {
+
+            $columns = [
+                'Klanten'=>'aantalKlanten',
+                'Verslagen'=>'aantalVerslagen',
+                'Aantal contactmomenten'=>'aantalContactmomenten',
+                'Inloopverslagen'=>'aantalInloop',
+                'MW verslagen'=>'aantalMw',
+            ];
+        }
 
         $table = new Grid($data, $columns,"locatienaam");
         $table

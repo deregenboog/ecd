@@ -29,6 +29,7 @@ class AMW extends AbstractMwReport
                 || strpos($naam,"T6") !== false
                 || strpos($naam,"STED") !== false
                 || strpos($naam,"Wachtlijst") !== false
+                || strpos($naam,"Amstelland") !== false
             ) {
                 //skip locatie
                 continue;
