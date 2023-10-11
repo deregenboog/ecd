@@ -7,13 +7,14 @@ use AppBundle\Entity\Klant;
 use AppBundle\Exception\UserException;
 use AppBundle\Export\ExportInterface;
 use AppBundle\Form\KlantFilterType as AppKlantFilterType;
+use AppBundle\Service\KlantDao;
 use AppBundle\Service\KlantDaoInterface;
 use HsBundle\Entity\Dienstverlener;
 use HsBundle\Form\DienstverlenerFilterType;
 use HsBundle\Form\DienstverlenerType;
 use HsBundle\Service\DienstverlenerDao;
 use HsBundle\Service\DienstverlenerDaoInterface;
-use HsBundle\Service\KlantDao;
+
 use JMS\DiExtraBundle\Annotation as DI;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\Form\FormError;
