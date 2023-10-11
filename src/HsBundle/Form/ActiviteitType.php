@@ -18,6 +18,7 @@ class ActiviteitType extends AbstractType
     {
         $builder
             ->add('naam')
+            ->add('actief')
             ->add('submit', SubmitType::class)
         ;
     }

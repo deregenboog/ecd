@@ -16,6 +16,9 @@
                 <th>
                     {{ knp_pagination_sortable(pagination, 'Naam', 'activiteit.naam') }}
                 </th>
+                <th>
+                    {{ knp_pagination_sortable(pagination, 'Actief', 'activiteit.actief') }}
+                </th>
                 <th></th>
             </tr>
         </thead>
@@ -27,6 +30,9 @@
                 </td>
                 <td>
                     {{ activiteit.naam }}
+                </td>
+                <td>
+                    {{ activiteit.actief|ja_nee }}
                 </td>
                 <td>
                     {{ html.editLink(path('hs_activiteiten_edit', {id: activiteit.id})) }}

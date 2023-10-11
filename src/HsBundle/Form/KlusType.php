@@ -39,6 +39,7 @@ class KlusType extends AbstractType
                 'query_builder' => function (EntityRepository $repository) {
                     return $repository->createQueryBuilder('activiteit')
                         ->orderBy('activiteit.naam')
+                        ->where('activiteit.actief = 1')
                     ;
                 },
             ])
