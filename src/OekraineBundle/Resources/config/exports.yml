@@ -51,6 +51,7 @@ services:
                 E-mail: { expression: 'entity.getAppKlant().getEmail()' }
                 Mobiel: { expression: 'entity.getAppKlant().getMobiel()' }
                 Telefoon: { expression: 'entity.getAppKlant().getTelefoon()' }
+                Bsn: { expression: 'entity.getAppKlant().getBsn()' }
                 Werkgebied: { expression: 'entity.getAppKlant().getWerkgebied()' }
                 GGW-gebied: { expression: 'entity.getAppKlant().getPostcodegebied()' }
 #                Geboorteland: { expression: 'entity.getAppKlant().getGeboorteland()' }
