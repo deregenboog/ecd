@@ -16,7 +16,7 @@ RUN [ "docker-entrypoint.sh", "mysqld", "--datadir", "/mysql-data" ]
 
 
 FROM mysql:8.0
-
+#
 # Copy datadir from build-stage
 COPY --from=build-stage /mysql-data /var/lib/mysql
 
