@@ -8,7 +8,9 @@ services:
       -   host: '%ldap_server%'
           port: '%ldap_port%'#636 #389
           encryption: ssl
+          debug: true
           options:
             protocol_version: 3
             referrals: false
+            debug_level: 7
 

@@ -6,11 +6,12 @@ services:
       context: docker/nginx
       dockerfile: Dockerfile
     ports:
-      - 80:80
+      - 8080:80
     volumes:
       - ${PWD}/public:/var/www/html/public
   php:
     build:
+      context: docker/php
       dockerfile: Dockerfile
     volumes:
       - ${PWD}/.env:/var/www/html/.env
@@ -18,6 +19,7 @@ services:
       - ${PWD}/config:/var/www/html/config
       - ${PWD}/public:/var/www/html/public
       - ${PWD}/src:/var/www/html/src
+      - ${PWD}/bin:/var/www/html/bin
       - ${PWD}/templates:/var/www/html/templates
       - ${PWD}/translations:/var/www/html/translations
   database:
