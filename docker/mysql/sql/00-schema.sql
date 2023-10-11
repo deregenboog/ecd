@@ -689,6 +689,14 @@ CREATE TABLE `contactjournals` (
 
 -- --------------------------------------------------------
 
+--
+-- Tabelstructuur voor tabel `contactsoorts`
+--
+
+CREATE TABLE `contactsoorts` (
+  `id` int NOT NULL,
+  `text` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
 -- --------------------------------------------------------
 
@@ -4158,9 +4166,11 @@ CREATE TABLE `oekraine_verslagen` (
   `bezoeker_id` int DEFAULT NULL,
   `locatie_id` int DEFAULT NULL,
   `medewerker_id` int DEFAULT NULL,
+  `contactsoort_id` int DEFAULT NULL,
   `datum` date NOT NULL,
   `opmerking` longtext NOT NULL,
   `medewerker` varchar(255) DEFAULT NULL,
+  `aanpassing_verslag` int DEFAULT NULL,
   `verslagType` int NOT NULL DEFAULT '1',
   `accessType` int NOT NULL DEFAULT '1',
   `created` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -6019,6 +6029,8 @@ CREATE TABLE `verslagen` (
   `modified` datetime DEFAULT NULL,
   `medewerker` varchar(255) DEFAULT NULL,
   `locatie_id` int DEFAULT NULL,
+  `aanpassing_verslag` int DEFAULT NULL,
+  `contactsoort_id` int DEFAULT NULL,
   `verslagType` int NOT NULL DEFAULT '1',
   `accessType` int NOT NULL DEFAULT '1'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
@@ -8337,6 +8349,7 @@ ALTER TABLE `oekraine_verslagen`
   ADD PRIMARY KEY (`id`),
   ADD KEY `IDX_C15C9D6F8AEEBAAE` (`bezoeker_id`),
   ADD KEY `IDX_C15C9D6F3D707F64` (`medewerker_id`),
+  ADD KEY `IDX_C15C9D6FD3899023` (`contactsoort_id`),
   ADD KEY `idx_datum` (`datum`),
   ADD KEY `idx_locatie_id` (`locatie_id`);
 
@@ -9222,6 +9235,7 @@ ALTER TABLE `verslagen`
   ADD KEY `idx_datum` (`datum`),
   ADD KEY `IDX_2BBABA713C427B2F` (`klant_id`),
   ADD KEY `IDX_2BBABA713D707F64` (`medewerker_id`),
+  ADD KEY `IDX_2BBABA71D3899023` (`contactsoort_id`),
   ADD KEY `klant_id_med_id` (`klant_id`,`medewerker_id`,`verslagType`),
   ADD KEY `id` (`id`,`klant_id`,`created`) USING BTREE,
   ADD KEY `klant_id` (`klant_id`,`verslagType`);
@@ -12200,7 +12214,7 @@ ALTER TABLE `oekraine_verslagen`
   ADD CONSTRAINT `FK_C15C9D6F3D707F64` FOREIGN KEY (`medewerker_id`) REFERENCES `medewerkers` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   ADD CONSTRAINT `FK_C15C9D6F4947630C` FOREIGN KEY (`locatie_id`) REFERENCES `oekraine_locaties` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   ADD CONSTRAINT `FK_C15C9D6F8AEEBAAE` FOREIGN KEY (`bezoeker_id`) REFERENCES `oekraine_bezoekers` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
-
+  ADD CONSTRAINT `FK_C15C9D6FD3899023` FOREIGN KEY (`contactsoort_id`) REFERENCES `contactsoorts` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
 
 --
 -- Beperkingen voor tabel `oek_deelnames`
@@ -12677,7 +12691,8 @@ ALTER TABLE `uhk_verslagen`
 ALTER TABLE `verslagen`
   ADD CONSTRAINT `FK_2BBABA713C427B2F` FOREIGN KEY (`klant_id`) REFERENCES `klanten` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   ADD CONSTRAINT `FK_2BBABA713D707F64` FOREIGN KEY (`medewerker_id`) REFERENCES `medewerkers` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
-  ADD CONSTRAINT `FK_2BBABA714947630C` FOREIGN KEY (`locatie_id`) REFERENCES `locaties` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
+  ADD CONSTRAINT `FK_2BBABA714947630C` FOREIGN KEY (`locatie_id`) REFERENCES `locaties` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
+  ADD CONSTRAINT `FK_2BBABA71D3899023` FOREIGN KEY (`contactsoort_id`) REFERENCES `contactsoorts` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
 
 --
 -- Beperkingen voor tabel `verslaginfos`
