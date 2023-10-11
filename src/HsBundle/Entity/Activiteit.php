@@ -2,6 +2,7 @@
 
 namespace HsBundle\Entity;
 
+use AppBundle\Model\ActivatableTrait;
 use AppBundle\Model\IdentifiableTrait;
 use AppBundle\Model\NameableTrait;
 use AppBundle\Model\TimestampableTrait;
@@ -20,6 +21,7 @@ class Activiteit
     use IdentifiableTrait;
     use NameableTrait;
     use TimestampableTrait;
+    use ActivatableTrait;
 
     /**
      * @var \DateTime
