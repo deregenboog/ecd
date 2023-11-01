@@ -41,8 +41,6 @@ security:
             - ROLE_INLOOP_SCHORSINGEN
             - ROLE_INLOOP_OPMERKINGEN
         ROLE_INLOOP_LOCATIEHOOFD:
-            - ROLE_INLOOP_TEAMLEIDERS
-        ROLE_INLOOP_TEAMLEIDERS:
             - ROLE_INLOOP_DAGCOORDINATOR
             - ROLE_INLOOP_REPORTS
             - ROLE_MW_BEHEER
@@ -83,24 +81,6 @@ security:
         ROLE_PFO_BEHEER: []
         ROLE_PFO:
             - ROLE_PFO_BEHEER #andersom geredeneerd. Historisch zo gegegroeid. Beheer is om consistent te zijn met de rest van ECD.
-        ROLE_TEAMLEIDERS:
-#            - ROLE_GA
-#            - ROLE_MW
-#            - ROLE_MW_BEHEER
-#            - ROLE_INLOOP_INTAKES
-#            - ROLE_INLOOP_OPMERKINGEN
-#            - ROLE_INLOOP_REGISTRATIES
-#            - ROLE_INLOOP_REPORTS
-#            - ROLE_INLOOP_SCHORSINGEN
-#            - ROLE_INLOOP_VRIJWILLIGERS
-#            - ROLE_INLOOP_BEHEER
-#            - ROLE_SECRETARIAAT
-#            - CONTROLLER_APP_KLANTEN
-#            - CONTROLLER_APP_RAPPORTAGES
-#            - CONTROLLER_APP_DOELSTELLINGEN
-#            - CONTROLLER_APP_ZRMS
-#            - CONTROLLER_APP_VRIJWILLIGERS
-#            - CONTROLLER_ATTACHMENTS
         ROLE_IZ:
             - ROLE_EROPUIT
             - CONTROLLER_APP_KLANTEN
@@ -146,10 +126,6 @@ security:
         ROLE_OEK: []
         ROLE_OEK_BEHEER:
             - ROLE_OEK
-        ROLE_WERKBEGELEIDER: []
-        ROLE_ADMINISTRATIEBEDRIJF:
-            - ROLE_DOELSTELLING_BEHEER
-            - ROLE_INLOOP_VRIJWILLIGERS
         ROLE_SCIP:
             - CONTROLLER_APP_KLANTEN
         ROLE_SCIP_BEHEER:
@@ -247,20 +223,15 @@ parameters:
 #        Navragen bij monique wat de status is per 1/11/23
         ROLE_MLO: "CN=ECD MLO,CN=Users,DC=cluster,DC=deregenboog"
         ROLE_INLOOP_VRIJWILLIGERS: "CN=ECD Inloop vrijwilliger,CN=Users,DC=cluster,DC=deregenboog"
-        ROLE_INLOOP_TEAMLEIDERS: "CN=ECD Inloop teamleider,CN=Users,DC=cluster,DC=deregenboog"
+#        ROLE_INLOOP_TEAMLEIDERS: "CN=ECD Inloop teamleider,CN=Users,DC=cluster,DC=deregenboog" #uit per 1/11
         ROLE_INLOOP_LOCATIEHOOFD: "CN=ECD Inloop locatiehoofd,CN=Users,DC=cluster,DC=deregenboog"
         ROLE_INLOOP_DAGCOORDINATOR: "CN=ECD Inloop dagco,CN=Users,DC=cluster,DC=deregenboog"
         ROLE_MW: "CN=ECD Maatschappelijk,CN=Users,DC=cluster,DC=deregenboog"
         ROLE_MW_BEHEER: "CN=ECD MW Beheer,CN=Users,DC=cluster,DC=deregenboog"
 #        doet niks...mag eruit per 1/11/23
-        ROLE_WERKBEGELEIDER: "CN=ECD Werkbegeleider,CN=Users,DC=cluster,DC=deregenboog"
-#        Uitfaseren 1/11/23; vergaarbak net als MLO. Weg ermee.
-        ROLE_TEAMLEIDERS: "CN=ECD Teamleiders,CN=Users,DC=cluster,DC=deregenboog"
+        #ROLE_WERKBEGELEIDER: "CN=ECD Werkbegeleider,CN=Users,DC=cluster,DC=deregenboog"
         ROLE_PFO_BEPERKT: "CN=ECD PFO Beperkt,CN=Users,DC=cluster,DC=deregenboog"
         ROLE_PFO: "CN=ECD PFO,CN=Users,DC=cluster,DC=deregenboog"
-#        Mag dit worden uitgefaseerd?
-        ROLE_BACK_ON_TRACK_COORDINATOR: "CN=ECD Back On Track Coordinator,CN=Users,DC=cluster,DC=deregenboog"
-        ROLE_BACK_ON_TRACK_COACH: "CN=ECD Back on Track Coach,CN=Users,DC=cluster,DC=deregenboog"
         ROLE_GA: "CN=ECD Groepsactiviteit,CN=Users,DC=cluster,DC=deregenboog"
         ROLE_GA_BEHEER: "CN=ECD Beheer Groepsactiviteit,CN=Users,DC=cluster,DC=deregenboog"
         ROLE_IZ: "CN=ECD IZ,CN=Users,DC=cluster,DC=deregenboog"
@@ -272,8 +243,6 @@ parameters:
         ROLE_TW_BEHEER: "CN=ECD Onder de Pannen Beheer,CN=Users,DC=cluster,DC=deregenboog" #bw comp.
         ROLE_TW2: "CN=ECD Tijdelijk Wonen,CN=Users,DC=cluster,DC=deregenboog"
         ROLE_TW_BEHEER2: "CN=ECD Tijdelijk Wonen Beheer,CN=Users,DC=cluster,DC=deregenboog"
-#        mag weg per 1/11/23
-        ROLE_ADMINISTRATIEBEDRIJF: "CN=administratiebedrijf,CN=Users,DC=cluster,DC=deregenboog"
         ROLE_DAGBESTEDING: "CN=ECD Dagbesteding,CN=Users,DC=cluster,DC=deregenboog"
         ROLE_DAGBESTEDING_BEHEER: "CN=ECD Dagbesteding Beheer,CN=Users,DC=cluster,DC=deregenboog"
         ROLE_CLIP: "CN=ECD CLIP,CN=Users,DC=cluster,DC=deregenboog"
