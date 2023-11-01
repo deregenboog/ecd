@@ -3,6 +3,7 @@
 namespace AppBundle\Event;
 
 use AppBundle\Entity\Medewerker;
+use AppBundle\Exception\UserException;
 use AppBundle\Security\LdapUserProvider;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Ldap\Security\LdapUser;
@@ -39,7 +40,7 @@ class LoginEventListener implements \Symfony\Component\EventDispatcher\EventSubs
         $ldapUser = $event->getUser(); //user made by ldapUserProvider is only a mockup user. No check to database yet.
 
         if (!$ldapUser->isActief()) {
-            throw new AuthenticationCredentialsNotFoundException(sprintf('Gebruiker %s is inactief in ECD en mag niet inloggen.', $ldapUser->getUserIdentifier()));
+            throw new UserException(sprintf('Gebruiker %s is inactief in ECD en mag niet inloggen.', $ldapUser->getUserIdentifier()),403 );
         }
 
         $repository = $this->em->getRepository(Medewerker::class);
