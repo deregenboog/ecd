@@ -6,7 +6,7 @@
 </ol>
 <ul class="nav nav-tabs">
     {% if is_granted('ROLE_INLOOP_REGISTRATIES') %}
-        {{ html.navLink('Bezoekersregistratie', path('inloop_registraties_locationselect'), isActiveRoute('inloop_registraties_')) }}
+        {{ html.navLink('Bezoekersregistratie', path('inloop_registraties_locationselect',{'locatieType': 'Inloop'}), isActiveRoute(['inloop_registraties_','Inloop'],"AND")) }}
     {% endif %}
     {% if is_granted('ROLE_INLOOP_KLANTEN') %}
         {{ html.navLink('Klanten', path('inloop_klanten_index'), isActiveRoute('inloop_klanten_')) }}
@@ -19,6 +19,9 @@
     {% endif %}
     {% if is_granted('ROLE_INLOOP_SCHORSINGEN') %}
         {{ html.navLink('Schorsingen', path('inloop_schorsingen_index'), isActiveRoute('inloop_schorsingen_')) }}
+    {% endif %}
+    {% if is_granted('ROLE_INLOOP_REGISTRATIES') %}
+        {{ html.navLink('Nachtopvang', path('inloop_registraties_locationselect',{'locatieType': 'Nachtopvang'}), isActiveRoute(['inloop_registraties_','Nachtopvang'],"AND")) }}
     {% endif %}
     {#{ html.navLink('Opmerkingen', path('inloop_opmerkingen_index'), isActiveRoute('inloop_opmerkingen_')) }#}
     {% if is_granted('ROLE_INLOOP_REPORTS') %}

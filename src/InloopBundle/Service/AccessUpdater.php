@@ -4,6 +4,7 @@ namespace InloopBundle\Service;
 
 use App\InloopBundle\Strategy\AmocWestStrategy;
 use App\InloopBundle\Strategy\VillaWesterweideStrategy;
+use App\InloopBundle\Strategy\WinteropvangEUBurgers;
 use AppBundle\Doctrine\SqlExtractor;
 use AppBundle\Entity\Klant;
 use Doctrine\DBAL\Connection;
@@ -84,7 +85,9 @@ class AccessUpdater
             new AmocWestStrategy($this->accessStrategies),
             new VillaWesterweideStrategy($this->accessStrategies),
             new AmocStrategy($this->accessStrategies, $this->amocVerblijfsstatus),
+            new WinteropvangEUBurgers($this->accessStrategies,$this->amocVerblijfsstatus, $this->em),
             new GebruikersruimteStrategy(),
+
             new ToegangOverigStrategy($this->accessStrategies, $this->amocVerblijfsstatus, $this->em),
         ];
 
@@ -166,7 +169,7 @@ class AccessUpdater
                 ->andWhere('klant.id = :klant_id')
                 ->setParameter('klant_id', $klant->getId());
 
-            $sql = SqlExtractor::getFullSQL($builder->getQuery());
+//            $sql = SqlExtractor::getFullSQL($builder->getQuery());
 //            $this->log($builder->getQuery()->getSQL());
 
 
@@ -206,7 +209,8 @@ class AccessUpdater
 
     private function getLocations()
     {
-        return $this->locatieDao->findAllActiveLocationsOfTypeInloop();
+        return $this->locatieDao->findAllActiveLocationsOfTypes(['Inloop','Nachtopvang']);
+//        return $this->locatieDao->findAllActiveLocationsOfTypeInloop();
     }
 
     private function getSupportedStrategies(Locatie $locatie)
@@ -247,6 +251,8 @@ class AccessUpdater
 
     private function getKlantIds(QueryBuilder $builder)
     {
+//        $sql = SqlExtractor::getFullSQL($builder->select('klant.id')->distinct(true)->getQuery());
+
         $klantIdArray = $builder->select('klant.id')->distinct(true)->getQuery()->getResult();
         return array_map(
             function ($klantId) {

@@ -341,17 +341,35 @@ class AppExtension extends AbstractExtension implements GlobalsInterface
         return $object instanceof $class;
     }
 
-    public function isActiveRoute($patterns)
+    /**
+     * If mode is OR, if one of pattersn are matched, true is returned.
+     * If mode is AND, all patterns must be matched.
+     * @param $patterns
+     * @param $mode
+     * @return bool
+     */
+    public function isActiveRoute($patterns, $mode="OR")
     {
         if (!is_array($patterns)) {
             $patterns = [$patterns];
         }
 
         $route = $this->requestStack->getCurrentRequest()->attributes->get('_route');
+        $routeParams = $this->requestStack->getCurrentRequest()->attributes->get('_route_params');//->getQueryString();
+
+        $noMatches = 0;
         foreach ($patterns as $pattern) {
-            if (0 === strpos($route, $pattern) || 0 === strpos($route, 'app_'.$pattern)) {
-                return true;
+            if (0 === strpos($route, $pattern) || 0 === strpos($route, 'app_'.$pattern) || false!==in_array($pattern,$routeParams) ) {
+                $noMatches++;
             }
+        }
+        if($noMatches > 0 && $mode == 'AND' && $noMatches == count($patterns))
+        {
+            return true;
+        }
+        elseif($noMatches > 0 && $mode == "OR")
+        {
+            return true;
         }
 
         return false;

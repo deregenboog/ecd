@@ -12,11 +12,32 @@ MwBundle\Entity\BinnenViaOptieVW:
         naam: '<word()>'
         actief: false
 
-#MwBundle\Entity\Project:
-#    mw_project_{1..4}:
-#        naam: '<word()>'
-#        medewerkers: '3x @medewerker_*'
-#    mw_project_5:
-#        naam: '<word()>'
-#        medewerkers: '5x @medewerker_*'
-#        actief: false
+MwBundle\Entity\AfsluitredenKlant:
+    mw_afsluitreden_klant_{1..4}:
+        naam: '<word()>'
+        actief: 1
+
+MwBundle\Entity\Project:
+    mw_project_{1..4}:
+        naam: '<word()>'
+        medewerkers: '3x @medewerker*'
+    mw_project_5:
+        naam: '<word()>'
+        medewerkers: '5x @medewerker*'
+        actief: false
+
+MwBundle\Entity\Aanmelding:
+    mw_aanmelding_{1..25}:
+        __construct: ['@medewerker*']
+        binnenViaOptieKlant: '@mw_binnen_via_klant*'
+        project: '@mw_project*'
+        locatie: '@locatie*'
+        klant: '@klant_<current()>'
+
+#MwBundle\Entity\Afsluiting:
+#    mw_afsluiting_{1..10}:
+#        __construct: ['@medewerker*']
+#        klant: '@klant*'
+#        project: '@mw_project*'
+#        locatie: '@locatie*'
+#        reden: '@mw_afsluitreden_klant*'

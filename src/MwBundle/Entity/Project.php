@@ -40,9 +40,9 @@ class Project
     }
 
     /**
-     * @param ArrayCollection $medewerkers
+     * @param $medewerkers
      */
-    public function setMedewerkers(ArrayCollection $medewerkers): void
+    public function setMedewerkers($medewerkers): void
     {
         $this->medewerkers = $medewerkers;
     }

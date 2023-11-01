@@ -54,6 +54,22 @@ class LocatieDao extends AbstractDao implements LocatieDaoInterface
             ;
         return $this->doFindAll($builder,null);
     }
+    public function findAllActiveLocationsOfTypes(array $types,$mode = "OR")
+    {
+        $builder = $this->repository->createQueryBuilder($this->alias);
+        $builder->innerJoin("locatie.locatieTypes","locatieTypes")
+            ->where("(locatie.datumTot IS NULL OR locatie.datumTot > :now)")
+            ->andWhere("locatie.datumVan <= :now")
+            ->andWhere("locatieTypes.naam IN (:locatietypes)")
+
+            ->setParameter("now", (new \DateTime('now'))->format("Y-m-d"))
+            ->setParameter("locatietypes",$types)
+        ;
+        //['Inloop']
+
+        $sql = SqlExtractor::getFullSQL($builder->getQuery());
+        return $this->doFindAll($builder,null);
+    }
     public function findAllActiveLocationsOfTypeInloop()
     {
         $builder = $this->repository->createQueryBuilder($this->alias);

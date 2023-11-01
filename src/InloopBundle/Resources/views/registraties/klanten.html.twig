@@ -4,12 +4,13 @@
 {% block content %}
     <h1>{{ title }} {{ locatie }}</h1>
     <p>
-        <a href="{{ path('inloop_registraties_locationselect') }}">Locatie wijzigen</a>
+        <a href="{{ path('inloop_registraties_locationselect',{'locatieType': locatieType}) }}">Locatie wijzigen</a>
     </p>
     <ul class="nav nav-tabs">
-        {{ html.navLink('Bezoekersregistratie', path('inloop_registraties_index', {locatie: locatie.id}), isActiveRoute('inloop_registraties_index')) }}
-        {{ html.navLink('Nu binnen', path('inloop_registraties_active', {locatie: locatie.id}), isActiveRoute('inloop_registraties_active')) }}
-        {{ html.navLink('Recent uitgecheckt', path('inloop_registraties_history', {locatie: locatie.id}), isActiveRoute('inloop_registraties_history')) }}
+
+        {{ html.navLink('Bezoekersregistratie', path('inloop_registraties_klanten', {locatie: locatie.id, locatieType: locatieType}), isActiveRoute('inloop_registraties_klanten')) }}
+        {{ html.navLink('Nu binnen', path('inloop_registraties_active', {locatie: locatie.id, locatieType: locatieType}), isActiveRoute('inloop_registraties_active')) }}
+        {{ html.navLink('Recent uitgecheckt', path('inloop_registraties_history', {locatie: locatie.id, locatieType: locatieType}), isActiveRoute('inloop_registraties_history')) }}
     </ul>
     <div id="content">
         {{ form_start(filter) }}
