@@ -1,6 +1,19 @@
+InloopBundle\Entity\LocatieType:
+    lt_mw:
+        naam: 'Maatschappelijk werk'
+    lt_inloop:
+        naam: 'Inloop'
+    lt_wachtlijst:
+        naam: 'Wachtlijst'
+    lt_virtueel:
+        naam: 'Virtueel'
+    lt_nachtopvang:
+        naam: 'Nachtopvang'
+
 InloopBundle\Entity\Locatie:
     locatie_blaka_watra:
         naam: 'Blaka Watra'
+        locatieTypes: ['@lt_inloop']
         nachtopvang: false
         gebruikersruimte: false
         datumVan: '<dateTimeBetween("-30 days","now")>'
@@ -8,12 +21,14 @@ InloopBundle\Entity\Locatie:
         maatschappelijkWerk: false
     locatie_princehof_gebruikersruimte:
         naam: 'Princehof Gebruikersruimte'
+        locatieTypes: ['@lt_inloop']
         nachtopvang: false
         gebruikersruimte: true
         datumVan: '<dateTimeBetween("-30 days","now")>'
         maatschappelijkWerk: false
     locatie_amoc:
         naam: 'AMOC Stadhouderskade'
+        locatieTypes: ['@lt_inloop','@lt_mw']
         nachtopvang: false
         gebruikersruimte: false
         datumVan: '<dateTimeBetween("-30 days","now")>'
@@ -21,6 +36,7 @@ InloopBundle\Entity\Locatie:
         tbcCheck: true
     locatie_amoc_west:
         naam: 'AMOC West'
+        locatieTypes: ['@lt_inloop','@lt_mw']
         nachtopvang: false
         gebruikersruimte: false
         datumVan: '<dateTimeBetween("-30 days","now")>'
@@ -28,6 +44,7 @@ InloopBundle\Entity\Locatie:
         tbcCheck: true
     locatie_de_eik:
         naam: 'De Eik'
+        locatieTypes: ['@lt_inloop']
         nachtopvang: false
         gebruikersruimte: false
         datumVan: '<dateTimeBetween("-30 days","now")>'
@@ -35,6 +52,7 @@ InloopBundle\Entity\Locatie:
         maatschappelijkWerk: false
     locatie_de_kloof:
         naam: 'De Kloof'
+        locatieTypes: ['@lt_inloop']
         nachtopvang: false
         gebruikersruimte: false
         datumVan: '<dateTimeBetween("-30 days","now")>'
@@ -42,10 +60,18 @@ InloopBundle\Entity\Locatie:
         maatschappelijkWerk: false
     locatie_makom:
         naam: 'Makom'
+        locatieTypes: ['@lt_inloop','@lt_mw']
         nachtopvang: false
         gebruikersruimte: false
         datumVan: '<dateTimeBetween("-30 days","now")>'
         datumTot: '<dateTimeBetween("now","+2 years")>'
+        maatschappelijkWerk: false
+    locatie_makom_winter:
+        naam: 'Makom (winteropvang)'
+        locatieTypes: [ '@lt_nachtopvang']
+        nachtopvang: false
+        gebruikersruimte: false
+        datumVan: '<dateTimeBetween("-30 days","now")>'
         maatschappelijkWerk: false
     locatie_nachtopvang_de_regenboog_groep:
         naam: 'Nachtopvang DRG'
@@ -56,6 +82,7 @@ InloopBundle\Entity\Locatie:
         maatschappelijkWerk: false
     locatie_zeeburg:
         naam: 'Zeeburg'
+        locatieTypes: ['@lt_inloop','@lt_mw']
         nachtopvang: false
         gebruikersruimte: false
         datumVan: '<dateTimeBetween("-30 days","now")>'
@@ -63,6 +90,7 @@ InloopBundle\Entity\Locatie:
         maatschappelijkWerk: false
     locatie_transformatorweg:
         naam: 'Transformatorweg'
+        locatieTypes: ['@lt_inloop','@lt_mw']
         nachtopvang: false
         gebruikersruimte: false
         datumVan: '<dateTimeBetween("-30 days","now")>'
@@ -70,6 +98,7 @@ InloopBundle\Entity\Locatie:
         maatschappelijkWerk: false
     locatie_oud_west:
         naam: 'Oud West'
+        locatieTypes: ['@lt_inloop']
         nachtopvang: false
         gebruikersruimte: false
         datumVan: '<dateTimeBetween("-30 days","now")>'
@@ -77,6 +106,7 @@ InloopBundle\Entity\Locatie:
         maatschappelijkWerk: false
     locatie_de_spreekbuis:
         naam: 'De Spreekbuis'
+        locatieTypes: ['@lt_inloop']
         nachtopvang: false
         gebruikersruimte: false
         datumVan: '<dateTimeBetween("-30 days","now")>'
@@ -84,6 +114,7 @@ InloopBundle\Entity\Locatie:
         maatschappelijkWerk: false
     locatie_princehof_inloop:
         naam: 'Princehof Inloop'
+        locatieTypes: ['@lt_inloop']
         nachtopvang: false
         gebruikersruimte: false
         datumVan: '<dateTimeBetween("-30 days","now")>'
@@ -91,6 +122,7 @@ InloopBundle\Entity\Locatie:
         maatschappelijkWerk: false
     locatie_vrouwen_nacht_opvang:
         naam: 'Vrouwen Nacht Opvang'
+
         nachtopvang: true
         gebruikersruimte: false
         datumVan: '<dateTimeBetween("-30 days","now")>'
@@ -98,6 +130,7 @@ InloopBundle\Entity\Locatie:
         maatschappelijkWerk: false
     locatie_villa_zaanstad:
         naam: 'Villa Zaanstad'
+        locatieTypes: ['@lt_inloop']
         nachtopvang: false
         gebruikersruimte: false
         datumVan: '<dateTimeBetween("-30 days","now")>'
@@ -105,6 +138,7 @@ InloopBundle\Entity\Locatie:
         maatschappelijkWerk: false
     locatie_droogbak:
         naam: 'Droogbak'
+        locatieTypes: ['@lt_inloop','@lt_mw']
         nachtopvang: false
         gebruikersruimte: false
         datumVan: '<dateTimeBetween("-30 days","now")>'
@@ -372,8 +406,8 @@ AppBundle\Entity\Klant:
         geenPost: '10%? 1 : 0'
         geenEmail: '10%? 1 : 0'
         medewerker: '@medewerker_*'
-        land: '@land_*'
-        nationaliteit: '@nationaliteit_*'
+        land: '@land_Roemenië'
+        nationaliteit: '@nationaliteit_Roemeense'
         huidigeStatus: '@aanmelding_206'
     klant_207:
         roepnaam: 'ToegangVillaZaanstad'

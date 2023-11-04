@@ -1,10 +1,13 @@
 HsBundle\Entity\Activiteit:
     hs_activiteit_1:
         naam: 'Schilderen'
+        actief: 1
     hs_activiteit_2:
         naam: 'Verhuizen'
+        actief: 1
     hs_activiteit_3:
         naam: 'Overig'
+        actief: 1
 
 HsBundle\Entity\DeclaratieCategorie:
     hs_declaratiecategorie_1:

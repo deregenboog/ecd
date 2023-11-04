@@ -13,7 +13,7 @@
     {{ html.navLink('Rapportages', path('app_rapportages_index'), isActiveRoute('app_rapportages_')) }}
 {% endif %}
 {% if is_granted('ROLE_INLOOP') %}
-    {{ html.navLink('Inloophuizen', path('inloop_index'), isActiveRoute('inloop_')) }}
+    {{ html.navLink('Inloophuizen', path('inloop_registraties_locationselect',{locatieType: 'Inloop'}), isActiveRoute('inloop_')) }}
 {% endif %}
 {% if is_granted('ROLE_OEKRAINE') %}
     {{ html.navLink('Oekraine', path('oekraine_index'), isActiveRoute('oekraine_')) }}

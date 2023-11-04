@@ -648,6 +648,15 @@ AppBundle\Entity\Nationaliteit:
     nationaliteit_Myanmarees:
         __construct: [ 'Myanmareese' ]
 
+AppBundle\Entity\AmocLand:
+    amoc_fr:
+        __construct: ['@land_Frankrijk']
+    amoc_be:
+        __construct: ['@land_België']
+    amoc_ro:
+        __construct: ['@land_Roemenië']
+
+
 AppBundle\Entity\Medewerker:
     medewerker_jborger:
         ldapGuid (unique): '<randomNumber()>'
@@ -820,6 +829,7 @@ AppBundle\Entity\Klant:
         medewerker: '@medewerker_*'
         land: '@land_*'
         nationaliteit: '@nationaliteit_*'
+        huidigeMwStatus: '@mw_aanmelding_<current()>'
 
 AppBundle\Entity\Vrijwilliger:
     vrijwilliger_{1..25}:

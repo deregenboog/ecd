@@ -356,13 +356,22 @@ class Locatie
     }
 
     /**
-     * @param Collection $locatieTypes
+     * @param  $locatieTypes
      */
-    public function setLocatieTypes(?Collection $locatieTypes): void
+    public function setLocatieTypes($locatieTypes): void
     {
         $this->locatieTypes = $locatieTypes;
     }
 
+    public function hasLocatieType(LocatieType $locatieType): bool
+    {
+        $r = false;
+//        $erOpUit = $this->entityManager->getRepository(ErOpUitBundle\Entity\Klant::class)
+//            ->findOneBy(['klant' => $persoon]);
+        $r = $this->locatieTypes->contains($locatieType);
+
+        return $r;
+    }
 
 
 }

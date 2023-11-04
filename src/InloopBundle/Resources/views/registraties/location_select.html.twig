@@ -7,7 +7,7 @@
     <ul>
         {% for locatie in locaties %}
             <li>
-                <a href="{{ path('inloop_registraties_index', {locatie: locatie.id}) }}">{{ locatie }}</a>
+                <a href="{{ path('inloop_registraties_klanten', {locatie: locatie.id, locatieType: locatieType}) }}">{{ locatie }}</a>
             </li>
         {% endfor %}
     </ul>

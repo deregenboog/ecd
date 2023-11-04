@@ -3,6 +3,7 @@
 namespace InloopBundle\Controller;
 
 use AppBundle\Controller\AbstractController;
+use AppBundle\Doctrine\SqlExtractor;
 use AppBundle\Entity\Klant;
 use AppBundle\Export\ExportInterface;
 use AppBundle\Service\ECDHelper;
@@ -10,6 +11,7 @@ use AppBundle\Twig\AppExtension;
 use DagbestedingBundle\Service\LocatieDaoInterface;
 use Doctrine\ORM\EntityNotFoundException;
 use InloopBundle\Entity\Locatie;
+use InloopBundle\Entity\LocatieType;
 use InloopBundle\Entity\Registratie;
 use InloopBundle\Event\Events;
 use InloopBundle\Filter\KlantFilter;
@@ -104,11 +106,14 @@ class RegistratiesController extends AbstractController
     }
 
     /**
-     * @Route("/")
+     * @Route("/locatieSelect/{locatieType}", requirements={"locatieType" = "\S+"})
+     * @ParamConverter("locatieType",class="InloopBundle:LocatieType",options={"mapping": {"locatieType"="naam"}})
      */
-    public function locationSelectAction(Request $request)
+    public function locationSelectAction(Request $request, $locatieType)
     {
-        $locaties = $this->getEntityManager()->getRepository(Locatie::class)
+        $locatieTypeStr = (string)$locatieType;
+
+        $builder = $this->getEntityManager()->getRepository(Locatie::class)
             ->createQueryBuilder('locatie')
             ->leftJoin('locatie.locatieTypes','locatieTypes')
             ->where('locatie.maatschappelijkWerk = false')
@@ -116,23 +121,32 @@ class RegistratiesController extends AbstractController
             ->andWhere('locatie.datumTot > DATE(CURRENT_TIMESTAMP()) OR locatie.datumTot IS NULL')
             ->andWhere('locatieTypes.naam IN(:naam)')
             ->orderBy('locatie.naam')
-            ->setParameter('naam','Inloop')
+            ->setParameter('naam',$locatieTypeStr)
+            ;
+
+//        $sql = SqlExtractor::getFullSQL($locaties->getQuery());
+
+        $locaties = $builder
             ->getQuery()
             ->getResult()
         ;
 
         return [
             'locaties' => $locaties,
+            'locatieType'=>$locatieTypeStr,
         ];
     }
 
     /**
-     * @Route("/{locatie}", requirements={"locatie" = "\d+"})
+     * @Route("/klanten/{locatieType}/{locatie}", name="inloop_registraties_klanten", requirements={"locatie" = "\d+", "locatieType"="\S+"})
      * @ParamConverter("locatie", class="InloopBundle:Locatie")
+     * @ParamConverter("locatieType",class="InloopBundle:LocatieType",options={"mapping": {"locatieType"="naam"}})
      */
-    public function indexAction(Request $request)
+    public function klantenAction(Request $request)
     {
         $locatie = $request->get('locatie');
+        $locatieType = $request->get('locatieType');
+
 
         $this->denyAccessUnlessGranted(Permissions::REGISTER, $locatie);
 
@@ -154,6 +168,7 @@ class RegistratiesController extends AbstractController
             return [
                 'locatie' => $locatie,
                 'filter' => $form->createView(),
+                'locatieType'=>$locatieType,
             ];
         }
 
@@ -162,21 +177,29 @@ class RegistratiesController extends AbstractController
         $page = $request->get('page', 1);
         $pagination = $this->klantDao->findAllAangemeld($page, $filter);
 
-        return $this->render('@Inloop/registraties/_index.html.twig', [
+        return $this->render('@Inloop/registraties/_klanten.html.twig', [
             'locatie' => $locatie,
             'filter' => $form->createView(),
             'pagination' => $pagination,
+            'locatieType' => $locatieType,
         ]);
     }
 
     /**
-     * @Route("/active/{locatie}")
+     * Route("/active/{locatie}")
+     *
+     * @Route("/active/{locatieType}/{locatie}", name="inloop_registraties_active", requirements={"locatie" = "\d+", "locatieType"="\S+"})
+     * @ParamConverter("locatie", class="InloopBundle:Locatie")
+     * @ParamConverter("locatieType",class="InloopBundle:LocatieType",options={"mapping": {"locatieType"="naam"}})
      */
     public function activeAction(Request $request, Locatie $locatie)
     {
         $this->denyAccessUnlessGranted(Permissions::REGISTER, $locatie);
 
+        $locatieType = $request->get('locatieType');
+
         $filter = new RegistratieFilter($locatie);
+
         $form = $this->getForm(RegistratieFilterType::class, $filter, [
             'attr' => ['class' => 'ajaxFilter'],
         ]);
@@ -186,6 +209,7 @@ class RegistratiesController extends AbstractController
             return [
                 'locatie' => $locatie,
                 'filter' => $form->createView(),
+                'locatieType'=>$locatieType,
             ];
         }
 
@@ -200,6 +224,7 @@ class RegistratiesController extends AbstractController
 
         return $this->render('@Inloop/registraties/_active.html.twig', [
             'locatie' => $locatie,
+            'locatieType'=>$locatieType,
             'filter' => isset($form) ? $form->createView() : null,
             'pagination' => $pagination,
             'geen_activering_klant_ids' => $event->getArgument('geen_activering_klant_ids'),
@@ -207,11 +232,17 @@ class RegistratiesController extends AbstractController
     }
 
     /**
-     * @Route("/history/{locatie}")
+     * Route("/history/{locatie}")
+     *
+     * @Route("/history/{locatieType}/{locatie}", name="inloop_registraties_history", requirements={"locatie" = "\d+", "locatieType"="\S+"})
+     * @ParamConverter("locatie", class="InloopBundle:Locatie")
+     * @ParamConverter("locatieType",class="InloopBundle:LocatieType",options={"mapping": {"locatieType"="naam"}})
      */
     public function historyAction(Request $request, Locatie $locatie)
     {
         $this->denyAccessUnlessGranted(Permissions::REGISTER, $locatie);
+
+        $locatieType = $request->get('locatieType');
 
         $filter = new RegistratieHistoryFilter($locatie);
         $form = $this->getForm(RegistratieHistoryFilterType::class, $filter, [
@@ -223,6 +254,7 @@ class RegistratiesController extends AbstractController
             return [
                 'locatie' => $locatie,
                 'filter' => $form->createView(),
+                'locatieType'=>$locatieType,
             ];
         }
 
@@ -237,6 +269,7 @@ class RegistratiesController extends AbstractController
 
         return $this->render('@Inloop/registraties/_history.html.twig', [
             'locatie' => $locatie,
+            'locatieType'=>$locatieType,
             'filter' => isset($form) ? $form->createView() : null,
             'pagination' => $pagination,
             'geen_activering_klant_ids' => $event->getArgument('geen_activering_klant_ids'),
