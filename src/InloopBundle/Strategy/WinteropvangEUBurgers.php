@@ -25,7 +25,10 @@ class WinteropvangEUBurgers implements StrategyInterface
     /** @var EntityManagerInterface  */
     private $entityManager;
 
-    private LocatieType $locatieType;
+    /**
+     * @var LocatieType|object|null
+     */
+    private $locatieType;
 
     /**
      * deze strategie geldt alleen voor locatie die als type 'Nachtopvang' hebben.
