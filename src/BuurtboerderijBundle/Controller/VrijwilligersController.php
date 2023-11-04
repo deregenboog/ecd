@@ -13,8 +13,6 @@ use BuurtboerderijBundle\Form\VrijwilligerCloseType;
 use BuurtboerderijBundle\Form\VrijwilligerFilterType;
 use BuurtboerderijBundle\Form\VrijwilligerType;
 use BuurtboerderijBundle\Service\VrijwilligerDao;
-use BuurtboerderijBundle\Service\VrijwilligerDaoInterface;
-use JMS\DiExtraBundle\Annotation as DI;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\Form\FormError;
@@ -44,7 +42,7 @@ class VrijwilligersController extends AbstractController
     protected $export;
 
     /**
-     * @var VrijwilligerDao
+     * @var \AppBundle\Service\VrijwilligerDao
      *
      */
     private $vrijwilligerDao;
@@ -54,7 +52,7 @@ class VrijwilligersController extends AbstractController
      * @param AbstractExport $export
      * @param VrijwilligerDao $vrijwilligerDao
      */
-    public function __construct(VrijwilligerDao $dao, AbstractExport $export, VrijwilligerDao $vrijwilligerDao)
+    public function __construct(VrijwilligerDao $dao, AbstractExport $export, \AppBundle\Service\VrijwilligerDao $vrijwilligerDao)
     {
         $this->dao = $dao;
         $this->export = $export;
