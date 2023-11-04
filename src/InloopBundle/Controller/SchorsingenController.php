@@ -106,7 +106,7 @@ class SchorsingenController extends AbstractController
 
         return [
             'filter' => isset($form) ? $form->createView() : null,
-            'allRows' => $this->locatieDao->findAllActiveLocationsOfTypeInloop(),
+            'allRows' => $this->locatieDao->findAllActiveLocationsOfTypes(['Inloop','Nachtopvang']),
             'pagination' => $pagination,
         ];
     }
@@ -126,7 +126,7 @@ class SchorsingenController extends AbstractController
 
         return [
             'entity' => $entity,
-            'allRows' => $this->locatieDao->findAllActiveLocationsOfTypeInloop(),
+            'allRows' => $this->locatieDao->findAllActiveLocationsOfTypes(['Inloop','Nachtopvang']),
         ];
     }
 

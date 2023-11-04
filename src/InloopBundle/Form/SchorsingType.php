@@ -29,7 +29,7 @@ class SchorsingType extends AbstractType
             ->add('locaties', LocatieSelectType::class, [
                 'multiple' => true,
                 'expanded' => true,
-                'locatietypes' => ['Inloop']
+                'locatietypes' => ['Inloop','Nachtopvang']
             ])
             ->add('datumTot', AppDateType::class, [
                 'label' => 'Schorsen t/m',

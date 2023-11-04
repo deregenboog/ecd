@@ -82,7 +82,7 @@ class LocatiesController extends AbstractController
                 //already exists. so it is an edit. Perhaps inlooptype removed? then remove from schorsing to prevent future updates to go wrong as they rely on count
                 $hasInloopType = false;
                 foreach ($locatieTypes as $locatieType) {
-                    if ($locatieType->getNaam() === "Inloop") {
+                    if (in_array($locatieType->getNaam(),["Inloop",'Nachtopvang']) ) {
                         $hasInloopType = true;
                         break;
                     }
@@ -96,7 +96,7 @@ class LocatiesController extends AbstractController
                     continue;
                 }
             }
-            $allLocations = $this->dao->findAllActiveLocationsOfTypeInloop();
+            $allLocations = $this->dao->findAllActiveLocationsOfTypes(['Inloop','Nachtopvang']);
             //this should work as we only modify one location at a time. Goes wrong when we mess with the database of course...
             //how to make this more robust... because, when one is not geschorst for one specific location, we cannot know.
             if(count($schorsingLocaties) == (count($allLocations) -1) ) {
