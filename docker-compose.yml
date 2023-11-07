@@ -20,6 +20,12 @@ services:
       - ${PWD}/bin:/var/www/html/bin
       - ${PWD}/templates:/var/www/html/templates
       - ${PWD}/translations:/var/www/html/translations
+  node:
+    image: node
+    volumes:
+      - ${PWD}/public:/var/www/html/public
+    working_dir: /var/www/html/public
+    command: npm install && yarn encode dev watch
   database:
     build:
       context: docker/mysql
