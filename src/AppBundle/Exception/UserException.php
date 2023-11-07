@@ -2,9 +2,11 @@
 
 namespace AppBundle\Exception;
 
+use Symfony\Component\HttpKernel\Exception\HttpException;
+
 /**
  * Exception that will be shown to the user.
  */
-class UserException extends \RuntimeException
+class UserException extends HttpException
 {
 }
