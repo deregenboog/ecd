@@ -17,7 +17,7 @@ docker-build:
 
 docker-up:
 	docker compose up -d
-	docker compose exec --user $$(id -u):$$(id -g) web bash
+	docker compose exec --user $$(id -u):$$(id -g) php bash
 
 docker-stop:
 	docker compose stop
