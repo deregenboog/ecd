@@ -8,12 +8,8 @@ use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 class SecurityController extends \Symfony\Bundle\FrameworkBundle\Controller\AbstractController
 {
-    public function loginAction(Request $request, AuthenticationUtils $authenticationUtils)
+    public function loginAction(Request $request, AuthenticationUtils $authUtils)
     {
-        /* @var $authUtils AuthenticationUtils */
-//        $authUtils = $this->get('security.authentication_utils');
-        $authUtils = $authenticationUtils;
-
         // get the login error if there is one
         $error = $authUtils->getLastAuthenticationError();
 
