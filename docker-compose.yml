@@ -11,10 +11,8 @@ services:
       - ${PWD}/public:/var/www/html/public
   php:
     build:
-      context: docker/php
-      dockerfile: Dockerfile
+      dockerfile: docker/php/Dockerfile
     volumes:
-      - ${PWD}/.env:/var/www/html/.env
       - ${PWD}/app:/var/www/html/app
       - ${PWD}/config:/var/www/html/config
       - ${PWD}/public:/var/www/html/public
