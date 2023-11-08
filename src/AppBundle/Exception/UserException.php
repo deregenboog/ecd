@@ -10,8 +10,6 @@ use Symfony\Component\HttpKernel\Exception\HttpException;
 class UserException extends HttpException
 {
 
-
-
     public function __construct($code, $message=null)
     {
         //BW compatible...
