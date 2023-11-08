@@ -11,7 +11,8 @@ services:
       - ${PWD}/public:/var/www/html/public
   php:
     build:
-      dockerfile: docker/php/Dockerfile
+      context: docker/php
+      dockerfile: Dockerfile
     volumes:
       - ${PWD}/.env.local:/var/www/html/.env.local #mount so you can adapt .env variables w/o rebuilding.
       - ${PWD}/app:/var/www/html/app
