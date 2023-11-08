@@ -11,9 +11,9 @@ test: install
 docker-build:
 	docker compose build
 	docker compose up --force-recreate --wait database && sleep 1
-	docker compose run --rm web bin/console -n doctrine:migrations:migrate
-	docker compose run --rm web bin/console -n hautelook:fixtures:load --purge-with-truncate
-	docker compose run --rm web bin/console -n inloop:access:update
+	docker compose run --rm php bin/console -n doctrine:migrations:migrate
+	docker compose run --rm php bin/console -n hautelook:fixtures:load --purge-with-truncate
+	docker compose run --rm php bin/console -n inloop:access:update
 
 docker-up:
 	docker compose up -d
