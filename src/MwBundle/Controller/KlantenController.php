@@ -172,11 +172,11 @@ class KlantenController extends AbstractController
     public function _mwAction(Request $request, $id)
     {
         $klant = $this->dao->find($id);
-        $info = $this->getEntityManager()->getRepository(Info::class)->findOneBy(['klant' => $klant]);
+
 
         return [
             'klant' => $klant,
-            'info' => $info,
+            'info' => $klant->getInfo(),
         ];
     }
 

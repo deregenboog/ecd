@@ -89,10 +89,14 @@ class IntakesController extends AbstractController
     {
         $klant = $request->get('klant');
 
+        /**
+         * Baseer een nieuwe intake altijd op de voorlaatste. Zodat je alleen de gewijzigde input hoeft in te geven.
+         */
         if ($klant->getLaatsteIntake()) {
             $entity = clone $klant->getLaatsteIntake();
             $this->getEntityManager()->detach($entity);
             $klant->addIntake($entity);
+
             $this->formClass = IntakeType::class;//because it is not the first one, dont show toegang form.
         } else {
             $entity = new Intake($klant);
