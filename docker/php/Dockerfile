@@ -25,21 +25,20 @@ COPY --from=composer:2 /usr/bin/composer /usr/local/bin/composer
 
 # configure
 ENV APP_ENV=dev
-COPY php.ini /usr/local/etc/php/
-COPY xdebug.ini /tmp/xdebug.ini
-RUN cat /tmp/xdebug.ini >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini \
-    && rm /tmp/xdebug.ini \
-    # && echo "xdebug.remote_host=host.docker.internal" >> usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini \
+COPY docker/php/php.ini /usr/local/etc/php/
+COPY docker/php/xdebug.ini /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
+RUN \
     # set timezone
-    && echo "Europe/Amsterdam" > /etc/timezone && dpkg-reconfigure -f noninteractive tzdata \
+    echo "Europe/Amsterdam" > /etc/timezone && dpkg-reconfigure -f noninteractive tzdata \
     # install locale
     && echo "nl_NL.UTF-8 UTF-8" > /etc/locale.gen \
-    && locale-gen
+    && locale-gen \
 
 WORKDIR /var/www/html
-#seperate layer for composer.
-COPY ../../composer.json ../../composer.lock ./
+
+COPY composer.json composer.lock ./
+
 RUN composer install --no-autoloader --no-scripts
-COPY ../../. . #why?
-COPY .env.dev .env
+COPY . .
+COPY docker/php/.env.dev .env
 RUN COMPOSER_ALLOW_SUPERUSER=1 composer install

@@ -11,10 +11,10 @@ services:
       - ${PWD}/public:/var/www/html/public
   php:
     build:
-      context: docker/php
-      dockerfile: Dockerfile
+#      context: docker/php #wont work due to copy command outside context (composer.json)
+      dockerfile: docker/php/Dockerfile
     volumes:
-      - ${PWD}/.env:/var/www/html/.env
+      - ${PWD}/.env.local:/var/www/html/.env.local #mount so you can adapt .env variables w/o rebuilding.
       - ${PWD}/app:/var/www/html/app
       - ${PWD}/config:/var/www/html/config
       - ${PWD}/public:/var/www/html/public
@@ -22,6 +22,12 @@ services:
       - ${PWD}/bin:/var/www/html/bin
       - ${PWD}/templates:/var/www/html/templates
       - ${PWD}/translations:/var/www/html/translations
+  node:
+    image: node
+    volumes:
+      - ${PWD}/public:/var/www/html/public
+    working_dir: /var/www/html/public
+    command: npm install && yarn encode dev watch
   database:
     build:
       context: docker/mysql
