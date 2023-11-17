@@ -11,8 +11,8 @@ services:
       - ${PWD}/public:/var/www/html/public
   php:
     build:
-      context: docker/php
-      dockerfile: Dockerfile
+#      context: docker/php #wont work due to copy command outside context (composer.json)
+      dockerfile: docker/php/Dockerfile
     volumes:
       - ${PWD}/.env.local:/var/www/html/.env.local #mount so you can adapt .env variables w/o rebuilding.
       - ${PWD}/app:/var/www/html/app

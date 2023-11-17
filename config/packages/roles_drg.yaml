@@ -226,7 +226,7 @@ parameters:
 #        ROLE_INLOOP_TEAMLEIDERS: "CN=ECD Inloop teamleider,CN=Users,DC=cluster,DC=deregenboog" #uit per 1/11
         ROLE_INLOOP_LOCATIEHOOFD: "CN=ECD Inloop locatiehoofd,CN=Users,DC=cluster,DC=deregenboog"
         ROLE_INLOOP_DAGCOORDINATOR: "CN=ECD Inloop dagco,CN=Users,DC=cluster,DC=deregenboog"
-        ROLE_MW: "CN=ECD Maatschappelijk,CN=Users,DC=cluster,DC=deregenboog"
+        ROLE_MW: "CN=ECD Maatschappelijk Werk,CN=Users,DC=cluster,DC=deregenboog"
         ROLE_MW_BEHEER: "CN=ECD MW Beheer,CN=Users,DC=cluster,DC=deregenboog"
 #        doet niks...mag eruit per 1/11/23
         #ROLE_WERKBEGELEIDER: "CN=ECD Werkbegeleider,CN=Users,DC=cluster,DC=deregenboog"
