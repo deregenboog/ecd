@@ -35,10 +35,12 @@ class ControllerAccessVoter extends Voter
     protected function voteOnAttribute($attribute, $subject, TokenInterface $token): bool
     {
         $controller = $this->requestStack->getCurrentRequest()->get('_controller');
-        if ('Symfony\Bundle\FrameworkBundle\Controller\RedirectController::redirectAction' === $controller) {
-            return true;
-        } elseif (!$controller) {
-            throw new \InvalidArgumentException('Request has no controller.');
+        switch ((string) $controller) {
+            case 'error_controller::preview':
+            case 'Symfony\Bundle\FrameworkBundle\Controller\RedirectController::redirectAction':
+                return true;
+            case '':
+                throw new \InvalidArgumentException('Request has no controller.');
         }
 
         $controllerRole = $this->getControllerRole($controller);

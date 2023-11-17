@@ -218,29 +218,17 @@ AppBundle\Entity\Inkomen:
         datumTot: '<dateTime("01-01-2100")>'
 
 InloopBundle\Entity\Aanmelding:
-    aanmelding_201:
-        __construct: ['@medewerker_inloop']
-        klant: '@klant_201'
-    aanmelding_202:
-        __construct: ['@medewerker_inloop']
-        klant: '@klant_202'
-    aanmelding_203:
-        __construct: ['@medewerker_inloop']
-        klant: '@klant_203'
-    aanmelding_204:
-        __construct: ['@medewerker_inloop']
-        klant: '@klant_204'
-    aanmelding_205:
-        __construct: ['@medewerker_inloop']
-        klant: '@klant_205'
-    aanmelding_206:
+    aanmelding_{1..25}:
         __construct: [ '@medewerker_inloop' ]
-        klant: '@klant_206'
-    aanmelding_207:
-        __construct: [ '@medewerker_inloop' ]
-        klant: '@klant_207'
+        klant: '@klant_<current()>'
+    aanmelding_{201..207}:
+        __construct: ['@medewerker_inloop']
+        klant: '@klant_<current()>'
 
 AppBundle\Entity\Klant:
+    klant_{5..10}:
+        addIntake: '@intake_<current()>'
+        huidigeStatus: '@aanmelding_<current()>'
     klant_201:
         roepnaam: 'ToegangAlles'
         voornaam: 'Test'
@@ -566,7 +554,7 @@ AppBundle\Entity\ZrmV2:
         model: 'ZrmV2'
 
 InloopBundle\Entity\Intake:
-    intake_{1..20}:
+    intake_{1..25}:
         medewerker: '@medewerker_*'
         intakedatum: '<dateTimeThisYear()>'
         doelgroep: true
@@ -574,10 +562,10 @@ InloopBundle\Entity\Intake:
         intakelocatie: '@locatie_*'
         klant: '@klant_*'
         verblijfsstatus: '@verblijfsstatus_*'
-        informeleZorg: <numberBetween(0, 1)>
+        informeleZorg: '<numberBetween(0, 1)>'
         inloophuis: 1
-        dagbesteding: <numberBetween(0, 1)>
-        hulpverlening: <numberBetween(0, 1)>
+        dagbesteding: '<numberBetween(0, 1)>'
+        hulpverlening: '<numberBetween(0, 1)>'
     intake_201: #toegangAllesAmocWestOverigNu
         medewerker: '@medewerker_inloop'
         intakedatum: '<dateTimeBetween("-6 days","now")>'

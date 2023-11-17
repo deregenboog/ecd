@@ -818,7 +818,8 @@ AppBundle\Entity\Klant:
         email: '<email()>'
         laatsteTbcControle: '<dateTimeThisYear()>'
         laatsteZrm: '<dateTimeThisYear()>'
-#        addIntake: ['@intake_<current()>']
+        addIntake: '@intake_<current()>'
+        huidigeStatus: '@aanmelding_<current()>'
 #        laatsteRegistratie: '@registratie_*'
         overleden: '10%? 1 : 0'
         disabled: '10%? 1 : 0'
