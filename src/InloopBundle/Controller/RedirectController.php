@@ -20,6 +20,6 @@ class RedirectController extends SymfonyController
             return $this->redirectToRoute('inloop_vrijwilligers_index');
         }
 
-        return $this->redirectToRoute('inloop_registraties_locationselect');
+        return $this->redirectToRoute('inloop_registraties_locationselect',['Inloop']);
     }
 }

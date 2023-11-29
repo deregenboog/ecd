@@ -73,6 +73,13 @@ InloopBundle\Entity\Locatie:
         gebruikersruimte: false
         datumVan: '<dateTimeBetween("-30 days","now")>'
         maatschappelijkWerk: false
+    locatie_slotermeerlaan:
+        naam: 'Slotermeerlaan (WKR)'
+        locatieTypes: [ '@lt_nachtopvang' ]
+        nachtopvang: false
+        gebruikersruimte: false
+        datumVan: '<dateTimeBetween("-30 days","now")>'
+        maatschappelijkWerk: false
     locatie_nachtopvang_de_regenboog_groep:
         naam: 'Nachtopvang DRG'
         nachtopvang: true
@@ -122,7 +129,7 @@ InloopBundle\Entity\Locatie:
         maatschappelijkWerk: false
     locatie_vrouwen_nacht_opvang:
         naam: 'Vrouwen Nacht Opvang'
-
+        locatieTypes: ['@lt_inloop']
         nachtopvang: true
         gebruikersruimte: false
         datumVan: '<dateTimeBetween("-30 days","now")>'
@@ -425,6 +432,7 @@ AppBundle\Entity\Klant:
         land: '@land_*'
         nationaliteit: '@nationaliteit_*'
         huidigeStatus: '@aanmelding_207'
+
 AppBundle\Entity\ZrmV2:
     zrm_201:
         financien: 0
@@ -703,3 +711,40 @@ InloopBundle\Entity\Intake:
         amocToegangTot: '<dateTimeBetween("-1 days","-1 days")>'
         overigenToegangVan: '<dateTimeBetween("+30 days","+30 days")>'
         zrm: '@zrm_207'
+
+InloopBundle\Entity\Locatietijd:
+    loctijd0_{@locatie_*}:
+        dagVanDeWeek: '0'
+        openingstijd: '<(new \DateTime("2006-01-01 00:01:00"))>'
+        sluitingstijd: '<(new \DateTime("2006-01-01 23:01:00"))>'
+        locatie: '<current()>'
+    loctijd1_{@locatie_*}:
+        dagVanDeWeek: '1'
+        openingstijd: '<(new \DateTime("2006-01-01 00:01:00"))>'
+        sluitingstijd: '<(new \DateTime("2006-01-01 23:01:00"))>'
+        locatie: '<current()>'
+    loctijd2_{@locatie_*}:
+        dagVanDeWeek: '2'
+        openingstijd: '<(new \DateTime("2006-01-01 00:01:00"))>'
+        sluitingstijd: '<(new \DateTime("2006-01-01 23:01:00"))>'
+        locatie: '<current()>'
+    loctijd3_{@locatie_*}:
+        dagVanDeWeek: '3'
+        openingstijd: '<(new \DateTime("2006-01-01 00:01:00"))>'
+        sluitingstijd: '<(new \DateTime("2006-01-01 23:01:00"))>'
+        locatie: '<current()>'
+    loctijd4_{@locatie_*}:
+        dagVanDeWeek: '4'
+        openingstijd: '<(new \DateTime("2006-01-01 00:01:00"))>'
+        sluitingstijd: '<(new \DateTime("2006-01-01 23:01:00"))>'
+        locatie: '<current()>'
+    loctijd5_{@locatie_*}:
+        dagVanDeWeek: '5'
+        openingstijd: '<(new \DateTime("2006-01-01 00:01:00"))>'
+        sluitingstijd: '<(new \DateTime("2006-01-01 23:01:00"))>'
+        locatie: '<current()>'
+    loctijd6_{@locatie_*}:
+        dagVanDeWeek: '6'
+        openingstijd: '<(new \DateTime("2006-01-01 00:01:00"))>'
+        sluitingstijd: '<(new \DateTime("2006-01-01 23:01:00"))>'
+        locatie: '<current()>'

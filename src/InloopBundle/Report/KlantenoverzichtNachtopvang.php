@@ -69,7 +69,7 @@ class KlantenoverzichtNachtopvang extends AbstractReport
             ->innerJoin('locatie.locatieTypes','locatieTypes')
             ->where('DATE(registratie.binnen) BETWEEN :start_date AND :end_date')
             ->andWhere("locatieTypes.naam = 'Nachtopvang'")
-            ->groupBy('klant.id')
+            ->groupBy('klant.id, locatie.id')
             ->orderBy('klant.achternaam')
             ->setParameters([
                 'start_date' => $this->startDate,
