@@ -31,6 +31,7 @@ doctrine:
                 hour: DoctrineExtensions\Query\Mysql\Hour
                 ifnull: DoctrineExtensions\Query\Mysql\IfNull
                 minute: DoctrineExtensions\Query\Mysql\Minute
+                dayofweek: DoctrineExtensions\Query\Mysql\DayOfWeek
                 now: DoctrineExtensions\Query\Mysql\Now
                 time: Luxifer\DQL\Datetime\Time
                 time_diff: DoctrineExtensions\Query\Mysql\TimeDiff

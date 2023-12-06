@@ -1,4 +1,7 @@
 services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
     InloopBundle\Form\RapportageType:
         tags:
             - { name: form.type }
