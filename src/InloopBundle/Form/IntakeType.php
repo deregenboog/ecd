@@ -48,12 +48,14 @@ class IntakeType extends AbstractType
                 'label' => 'ZRM',
                 'data_class' => get_class($options['data']->getZrm()),
                 'request_module' => 'Intake',
+                'required'=>false,
             ]);
 //            $builder->get('zrm')->remove("medewerker"); // erg irritant dat ook hier een medewerker wordt laten zien. @TODO keertje weghalen? navragen
         } else {
             $builder->add('zrm', ZrmType::class, [
                 'label' => 'ZRM',
                 'request_module' => 'Intake',
+                'required'=>false,
             ]);
 //            $builder->get('zrm')->remove("medewerker");
         }
