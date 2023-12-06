@@ -67,7 +67,7 @@ class LocatieDao extends AbstractDao implements LocatieDaoInterface
         ;
         //['Inloop']
 
-        $sql = SqlExtractor::getFullSQL($builder->getQuery());
+//        $sql = SqlExtractor::getFullSQL($builder->getQuery());
         return $this->doFindAll($builder,null);
     }
     public function findAllActiveLocationsOfTypeInloop()
