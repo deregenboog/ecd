@@ -368,7 +368,7 @@ class RegistratiesController extends AbstractController
         }
 
         $open = $locatie->isOpen();
-//        $open = true; //vanwege niet goed te traceren fouten (openingstijden kloppen, toch zegt ie gesloten) dit nu zo gedaan.
+        $open = true; //vanwege niet goed te traceren fouten (openingstijden kloppen, toch zegt ie gesloten) dit nu zo gedaan.
 
         if ($open !== true) {
             $jsonVar['allow'] = false;
