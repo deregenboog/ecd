@@ -78,7 +78,7 @@ class Locatietijd
     /**
      * @return int
      */
-    public function getDagVanDeWeek()
+    public function getDagVanDeWeek(): int
     {
         return $this->dagVanDeWeek;
     }

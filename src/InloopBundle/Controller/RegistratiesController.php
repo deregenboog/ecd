@@ -368,12 +368,14 @@ class RegistratiesController extends AbstractController
         }
 
         $open = $locatie->isOpen();
+//        $open = true; //vanwege niet goed te traceren fouten (openingstijden kloppen, toch zegt ie gesloten) dit nu zo gedaan.
 
         if ($open !== true) {
             $jsonVar['allow'] = false;
             $jsonVar['message'] = 'Deze locatie is nog niet open, klant kan nog niet inchecken!';
-            $jsonVar['debug'] = $open;
-//            $jsonVar['message'] = (string)$open['date'].(string)$open['openingstijd'];
+//            $jsonVar['debug'] = $open;
+//
+            $jsonVar['message'] .= "\n\n".$open['message'];
 
             return new JsonResponse($jsonVar);
         }
