@@ -253,9 +253,8 @@ class Locatie
         }
         $openingstijd = new \DateTime();
         $sluitingstijd = new \DateTime();
-
+        $debug['message'] = null;
         $locatietijd = $this->getLocatietijd($date->format('w'));
-//        $locatietijd = null;
 
         if ($locatietijd) {
             $openingstijd = (clone $locatietijd->getOpeningstijd())
@@ -286,45 +285,52 @@ class Locatie
             }
 
             $debug['message'] = 'Er gaat iets mis in het berekenen van de openingstijd. Dag van de week: '."\n\n".$date->format('w');
-            $debug['message'] .= "\n\n".$date;
             $debug['date'] = $date;
             $debug['openingstijd'] = $openingstijd;
             $debug['sluitingstijd'] = $sluitingstijd;
 
-            return $debug;
+//            return $debug;
         }
 
-        //wat is dit nou? dan doen we opeens alsof het gisteren is? why..?!
-//        $locatietijd = $this->getLocatietijd($date->format('w') - 1);
-//        if ($locatietijd && $locatietijd->getOpeningstijd() > $locatietijd->getSluitingstijd()) {
-//            $openingstijd = (clone $locatietijd->getOpeningstijd())
-//                ->setDate($date->format('Y'), $date->format('m'), $date->format('d'))
-//                ->modify('-1 day')
-//                ->modify("-{$this->openingTimeCorrection} seconds")
-//            ;
-//            $sluitingstijd = (clone $locatietijd->getSluitingstijd())
-//                ->setDate($date->format('Y'), $date->format('m'), $date->format('d'))
-//                ->modify('-1 day')
-//                ->modify("+{$this->openingTimeCorrection} seconds")
-//            ;
-//            if ($openingstijd > $sluitingstijd) {
-//                $sluitingstijd->modify('+1 day');
-//            }
-//            if ($date >= $openingstijd && $date <= $sluitingstijd) {
-//                return true;
-//            }
-//
-//        }
-//        else
-//        {
-//          }
-        $debug['message'] = 'Kan geen $locatietijd vinden voor dag van de week.'."\n\n".$date->format('w');
-        $debug['message'] .= "\n\nDate (nu): ".$date->format("d-m-Y H:i:s");
-        $debug['message'] .= "\nOpeningstijd: ".$openingstijd->format("d-m-Y H:i:s");
-        $debug['message'] .= "\nSluitingstijd: ".$sluitingstijd->format("d-m-Y H:i:s");
-        return $debug;
+        /**
+         * Ok, nu kan het dus zijn dat ie nog niet open is op de dag dat wordt gevraagd.
+         * Dat kan komen, doordat de sluitingstijd bv. na middernacht is. en dus eigenlijk de volgende dag.
+         * Op die 'volgende dag' is er dan bv geen locatietijd aanwezig. Bv nachtopvang
+         * die gaat open om 1500 en sluit om 0200
+         * maar 0200 is dan de volgende dag.
+         *
+         * dus we doen dan net, alsof het gister was... dat is die -1.
+         */
+        $locatietijd = $this->getLocatietijd($date->format('w') - 1);
+        if ($locatietijd && $locatietijd->getOpeningstijd() > $locatietijd->getSluitingstijd()) {
+            $openingstijd = (clone $locatietijd->getOpeningstijd())
+                ->setDate($date->format('Y'), $date->format('m'), $date->format('d'))
+                ->modify('-1 day')
+                ->modify("-{$this->openingTimeCorrection} seconds");
+            $sluitingstijd = (clone $locatietijd->getSluitingstijd())
+                ->setDate($date->format('Y'), $date->format('m'), $date->format('d'))
+                ->modify('-1 day')
+                ->modify("+{$this->openingTimeCorrection} seconds");
+            if ($openingstijd > $sluitingstijd) {
+                $sluitingstijd->modify('+1 day');
+            }
+            if ($date >= $openingstijd && $date <= $sluitingstijd) {
+                return true;
+            }
 
-        return false;
+            //geen $locatietijd, bv omdat er geen openingstijden zijn op die dag.
+            $debug['message'] .= '\n\nKan geen geschikte $locatietijd vinden voor dag van de week'."\n\n".$date->format('w');
+            $debug['message'] .= "\nOok de sluitingsdatum en dag terugzetten geeft niet het gewenste resultaat (in geval van sluiting na middernacht scenario)";
+            $debug['message'] .= "\n\nDate (nu): ".$date->format("d-m-Y H:i:s");
+            $debug['message'] .= "\nOpeningstijd: ".$openingstijd->format("d-m-Y H:i:s");
+            $debug['message'] .= "\nSluitingstijd: ".$sluitingstijd->format("d-m-Y H:i:s");
+            return $debug;
+
+            return false;
+
+        }
+
+
     }
 
     public function getClosingTimeByDayOfWeek($dayOfWeek)
