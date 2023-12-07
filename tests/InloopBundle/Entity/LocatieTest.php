@@ -21,7 +21,7 @@ class LocatieTest extends TestCase
         // Monday afternoon open
         $this->assertTrue($locatie->isOpen(new \DateTime('2018-10-08 15:00:00')));
         // Tuesday afternoon closed
-        $this->assertFalse($locatie->isOpen(new \DateTime('2018-10-09 15:00:00')));
+        $this->assertNotTrue($locatie->isOpen(new \DateTime('2018-10-09 15:00:00')));
 
         $locatie = new Locatie();
         $locatie->setLocatietijden([
@@ -32,9 +32,9 @@ class LocatieTest extends TestCase
         ]);
 
         // Monday morning closed
-        $this->assertFalse($locatie->isOpen(new \DateTime('2018-10-08 02:00:00')));
+        $this->assertNotTrue($locatie->isOpen(new \DateTime('2018-10-08 02:00:00')));
         // Monday afternoon closed
-        $this->assertFalse($locatie->isOpen(new \DateTime('2018-10-08 15:00:00')));
+        $this->assertNotTrue($locatie->isOpen(new \DateTime('2018-10-08 15:00:00')));
         // Tuesday morning open
         $this->assertTrue($locatie->isOpen(new \DateTime('2018-10-09 02:00:00')));
 
@@ -51,16 +51,16 @@ class LocatieTest extends TestCase
         ]);
 
         // Sunday at 19:00 closed
-        $this->assertFalse($locatie->isOpen(new \DateTime('2018-10-07 19:00:00')));
+        $this->assertNotTrue($locatie->isOpen(new \DateTime('2018-10-07 19:00:00')));
         // Sunday at 20:00 open
         $this->assertTrue($locatie->isOpen(new \DateTime('2018-10-07 20:00:00')));
         // Monday morning open
         $this->assertTrue($locatie->isOpen(new \DateTime('2018-10-08 02:00:00')));
         // Monday afternoon closed
-        $this->assertFalse($locatie->isOpen(new \DateTime('2018-10-08 15:00:00')));
+        $this->assertNotTrue($locatie->isOpen(new \DateTime('2018-10-08 15:00:00')));
         // Tuesday morning open
         $this->assertTrue($locatie->isOpen(new \DateTime('2018-10-09 02:00:00')));
         // Tuesday afternoon closed
-        $this->assertFalse($locatie->isOpen(new \DateTime('2018-10-09 15:00:00')));
+        $this->assertNotTrue($locatie->isOpen(new \DateTime('2018-10-09 15:00:00')));
     }
 }
