@@ -687,7 +687,7 @@ AppBundle\Entity\Medewerker:
         laatsteBezoek: '<dateTimeThisYear()>'
     medewerker_inloop:
         ldapGuid (unique): '<randomNumber()>'
-        roles: ['ROLE_INLOOP','ROLE_INLOOP_INTAKES','ROLE_ADMIN']
+        roles: ['ROLE_INLOOP_DAGCOORDINATOR']
         username: 'inloop_user'
         email: '<email()>'
         voornaam: 'Inloop'

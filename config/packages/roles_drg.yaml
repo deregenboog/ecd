@@ -11,7 +11,8 @@ security:
         ROLE_PORTIER:
             - ROLE_INLOOP_REGISTRATIES
             - ROLE_INLOOP_OPMERKINGEN
-        ROLE_INLOOP: []
+        ROLE_INLOOP:
+            - CONTROLLER_APP_KLANTEN
         ROLE_INLOOP_INTAKES:
             - ROLE_INLOOP
             - ROLE_INLOOP_KLANTEN
@@ -36,6 +37,7 @@ security:
             - ROLE_INLOOP_SCHORSINGEN
             - ROLE_INLOOP_VRIJWILLIGERS
         ROLE_INLOOP_DAGCOORDINATOR:
+            - ROLE_INLOOP
             - ROLE_INLOOP_INTAKES
             - ROLE_INLOOP_REGISTRATIES
             - ROLE_INLOOP_SCHORSINGEN
