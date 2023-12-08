@@ -32,7 +32,7 @@ RUN \
     echo "Europe/Amsterdam" > /etc/timezone && dpkg-reconfigure -f noninteractive tzdata \
     # install locale
     && echo "nl_NL.UTF-8 UTF-8" > /etc/locale.gen \
-    && locale-gen \
+    && locale-gen
 
 WORKDIR /var/www/html
 

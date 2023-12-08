@@ -1,17 +1,17 @@
-#when@dev:
-#    services:
-#        security.development_guard_authenticator:
-#            class: AppBundle\Security\DevelopmentAuthenticator
-#            arguments:
-#                - '@security.user.provider.concrete.database'
-#    security:
-#        firewalls:
-#            main:
-#                provider: chain_provider
-#                custom_authenticator:
-#                    - security.development_guard_authenticator
-#                entry_point: security.development_guard_authenticator
-#
+when@dev:
+    services:
+        AppBundle\Security\DevelopmentAuthenticator:
+            arguments:
+                - '%kernel.environment%'
+                - '@router'
+    security:
+        firewalls:
+            main:
+                provider: chain_provider
+                custom_authenticators:
+                    - AppBundle\Security\DevelopmentAuthenticator
+                entry_point: AppBundle\Security\DevelopmentAuthenticator
+
 #when@prod:
 #    security:
 #        firewalls:
