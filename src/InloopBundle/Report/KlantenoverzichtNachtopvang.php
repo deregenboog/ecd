@@ -41,6 +41,7 @@ class KlantenoverzichtNachtopvang extends AbstractReport
         $this->locatieDao = $locatieDao;
     }
 
+
     public function getFormOptions()
     {
         return [
@@ -63,7 +64,15 @@ class KlantenoverzichtNachtopvang extends AbstractReport
             $this->geslacht = $filter['geslacht'];
         }
 
-        return parent::setFilter($filter);
+         parent::setFilter($filter);
+        $this->weekStartDate = $this->getFirstMondayOfWeek($this->startDate);
+        $this->weekEndDate = clone $this->weekStartDate;
+        $this->weekEndDate->modify("+6 days");
+
+        $this->setEndDate($this->weekEndDate);
+        $this->setStartDate($this->weekStartDate);
+
+        return $filter;
     }
 
     protected function init_old()
@@ -100,9 +109,7 @@ class KlantenoverzichtNachtopvang extends AbstractReport
 
     protected function init()
     {
-        $this->weekStartDate = $this->getFirstMondayOfWeek($this->startDate);
-        $this->weekEndDate = clone $this->weekStartDate;
-        $this->weekEndDate->modify("+6 days");
+
 
         $locaties = $this->locatieDao->findAllActiveLocationsOfTypes(["Nachtopvang"]);
 
@@ -126,7 +133,7 @@ class KlantenoverzichtNachtopvang extends AbstractReport
                 ->innerJoin('klant.land', 'land')
                 ->innerJoin('klant.nationaliteit', 'nationaliteit')
                 ->leftJoin('r.locatie','locatie')
-                ->where('DATE(r.binnen) BETWEEN :start_date AND :end_date')
+                ->where('r.binnen BETWEEN :start_date AND :end_date')
                 ->andWhere("locatie.naam = :locatienaam")
                 ->groupBy('klant.id')
                 ->orderBy('klant.achternaam')
@@ -143,9 +150,10 @@ class KlantenoverzichtNachtopvang extends AbstractReport
 
     protected function build()
     {
-        $tmpDate = clone ($this->weekStartDate);
+
         foreach($this->data as $locatieNaam=>$locatieData)
         {
+            $tmpDate = clone ($this->weekStartDate);
             foreach ($locatieData as $title => $data) {
                 $listing = new Listing($data, ['Naam' => 'naam',
                         'Geboortedatum'=> 'geboortedatum',
