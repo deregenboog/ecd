@@ -670,7 +670,7 @@ AppBundle\Entity\Medewerker:
     medewerker_clip:
         ldapGuid (unique): '<randomNumber()>'
         username: 'clip_user'
-        roles: ['ROLE_CLIP']
+        roles: ['ROLE_USER','ROLE_CLIP']
         email: '<email()>'
         voornaam: 'Clip'
         achternaam: 'User'
@@ -679,7 +679,7 @@ AppBundle\Entity\Medewerker:
     medewerker_clip_admin:
         ldapGuid (unique): '<randomNumber()>'
         username: 'clip_admin'
-        roles: ['ROLE_CLIP_BEHEER']
+        roles: ['ROLE_USER','ROLE_CLIP_BEHEER']
         email: '<email()>'
         voornaam: 'Clip'
         achternaam: 'Admin'
@@ -687,7 +687,7 @@ AppBundle\Entity\Medewerker:
         laatsteBezoek: '<dateTimeThisYear()>'
     medewerker_inloop:
         ldapGuid (unique): '<randomNumber()>'
-        roles: ['ROLE_INLOOP_DAGCOORDINATOR']
+        roles: ['ROLE_USER','ROLE_INLOOP_DAGCOORDINATOR']
         username: 'inloop_user'
         email: '<email()>'
         voornaam: 'Inloop'
@@ -696,7 +696,7 @@ AppBundle\Entity\Medewerker:
         laatsteBezoek: '<dateTimeThisYear()>'
     medewerker_dagbesteding:
         ldapGuid (unique): '<randomNumber()>'
-        roles: [ 'ROLE_DAGBESTEDING' ]
+        roles: [ 'ROLE_USER','ROLE_DAGBESTEDING' ]
         username: 'dagbesteding_user'
         email: '<email()>'
         voornaam: 'Dagbesteding'
@@ -714,7 +714,7 @@ AppBundle\Entity\Medewerker:
         laatsteBezoek: '<dateTimeThisYear()>'
     medewerker_eropuit:
         ldapGuid (unique): '<randomNumber()>'
-        roles: [ 'ROLE_EROPUIT' ]
+        roles: [ 'ROLE_USER','ROLE_EROPUIT' ]
         username: 'eou_user'
         email: '<email()>'
         voornaam: 'EOU'
@@ -723,7 +723,7 @@ AppBundle\Entity\Medewerker:
         laatsteBezoek: '<dateTimeThisYear()>'
     medewerker_eropuit_beheer:
         ldapGuid (unique): '<randomNumber()>'
-        roles: [ 'ROLE_EROPUIT_BEHEER' ]
+        roles: [ 'ROLE_USER','ROLE_EROPUIT_BEHEER' ]
         username: 'eou_admin'
         email: '<email()>'
         voornaam: 'EOU'
@@ -732,7 +732,7 @@ AppBundle\Entity\Medewerker:
         laatsteBezoek: '<dateTimeThisDecade()>'
     medewerker_ga:
         ldapGuid (unique): '<randomNumber()>'
-        roles: ['ROLE_GA']
+        roles: ['ROLE_USER','ROLE_GA']
         username: 'ga_user'
         email: '<email()>'
         voornaam: 'GA'
@@ -741,7 +741,7 @@ AppBundle\Entity\Medewerker:
         laatsteBezoek: '<dateTimeThisYear()>'
     medewerker_ga_admin:
         ldapGuid (unique): '<randomNumber()>'
-        roles: ['ROLE_GA_ADMIN']
+        roles: ['ROLE_USER','ROLE_GA_ADMIN']
         username: 'ga_admin'
         email: '<email()>'
         voornaam: 'GA'
@@ -750,7 +750,7 @@ AppBundle\Entity\Medewerker:
         laatsteBezoek: '<dateTimeThisYear()>'
     medewerker_hs:
         ldapGuid (unique): '<randomNumber()>'
-        roles: ['ROLE_HOMESERVICE']
+        roles: ['ROLE_USER','ROLE_HOMESERVICE']
         username: 'hs_user'
         email: '<email()>'
         voornaam: 'HS'
@@ -759,7 +759,7 @@ AppBundle\Entity\Medewerker:
         laatsteBezoek: '<dateTimeThisYear()>'
     medewerker_iz:
         ldapGuid (unique): '<randomNumber()>'
-        roles: [ 'ROLE_IZ' ]
+        roles: ['ROLE_USER', 'ROLE_IZ' ]
         username: 'iz_user'
         email: '<email()>'
         voornaam: 'IZ'
@@ -768,7 +768,7 @@ AppBundle\Entity\Medewerker:
         laatsteBezoek: '<dateTimeThisYear()>'
     medewerker_tw:
         ldapGuid (unique): '<randomNumber()>'
-        roles: ['ROLE_TW']
+        roles: ['ROLE_USER','ROLE_TW']
         username: 'tw_user'
         email: '<email()>'
         voornaam: 'TW'
@@ -777,7 +777,7 @@ AppBundle\Entity\Medewerker:
         laatsteBezoek: '<dateTimeThisYear()>'
     medewerker_oek:
         ldapGuid (unique): '<randomNumber()>'
-        roles: ['ROLE_OEK']
+        roles: ['ROLE_USER','ROLE_OEK']
         username: 'oek_user'
         email: '<email()>'
         voornaam: 'Oek'
@@ -787,7 +787,7 @@ AppBundle\Entity\Medewerker:
     medewerker_villa:
         ldapGuid (unique): '<randomNumber()>'
         username: 'villa_user'
-        roles: [ 'ROLE_VILLA' ]
+        roles: ['ROLE_USER', 'ROLE_VILLA' ]
         email: '<email()>'
         voornaam: 'Villa'
         achternaam: 'User'
