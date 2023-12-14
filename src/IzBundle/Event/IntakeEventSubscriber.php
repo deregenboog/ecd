@@ -30,9 +30,9 @@ class IntakeEventSubscriber implements EventSubscriber
 
     public function postPersist(LifecycleEventArgs $args)
     {
-        if ($args->getEntity() instanceof Intake) {
+        if ($args->getObject() instanceof Intake) {
             $this->eventDispatcher->dispatch(
-                new GenericEvent($args->getEntity()),
+                new GenericEvent($args->getObject()),
                 Events::EVENT_INTAKE_CREATED
             );
         }
