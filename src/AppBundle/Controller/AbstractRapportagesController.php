@@ -20,6 +20,9 @@ abstract class AbstractRapportagesController extends SymfonyController
      */
     protected $reports;
 
+    protected $formClass;
+
+    protected $export;
 
     /**
      * @param ExportInterface $export
