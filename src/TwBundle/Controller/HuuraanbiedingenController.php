@@ -6,7 +6,9 @@ use AppBundle\Controller\SymfonyController;
 use AppBundle\Exception\UserException;
 use AppBundle\Export\ExportInterface;
 use AppBundle\Form\ConfirmationType;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\QueryBuilder;
+use Knp\Component\Pager\PaginatorInterface;
 use TwBundle\Entity\Huuraanbod;
 use TwBundle\Entity\Verhuurder;
 use TwBundle\Form\HuuraanbodCloseType;
@@ -15,6 +17,7 @@ use TwBundle\Form\HuuraanbodType;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\Form\FormError;
+
 
 /**
  * @Route("/huuraanbiedingen")
@@ -41,6 +44,15 @@ class HuuraanbiedingenController extends SymfonyController
         'appKlant.plaats',
         'huuraanbod.huurprijs',
     ];
+
+    protected $export = null;
+
+    public function __construct(PaginatorInterface $paginator, EntityManagerInterface $entityManager, $export)
+    {
+        $this->export = $export;
+        parent::__construct($paginator,$entityManager);
+    }
+
 
     /**
      * @Route("/")
@@ -92,12 +104,12 @@ class HuuraanbiedingenController extends SymfonyController
         $huuraanbiedingen = $builder->getQuery()->getResult();
 
         $this->autoRender = false;
-        $filename = sprintf('onder-de-pannen-huuraanbiedingen-%s.xlsx', (new \DateTime())->format('d-m-Y'));
+        $filename = sprintf('tw-huuraanbiedingen-%s.xlsx', (new \DateTime())->format('d-m-Y'));
 
-        /* @var $export ExportInterface */
-        $export = $this->container->get('tw.export.huuraanbiedingen');
+        /* @var $this->export ExportInterface */
+//        $export = $this->container->get('tw.export.huuraanbiedingen');
 
-        return $export->create($huuraanbiedingen)->getResponse($filename);
+        return $this->export->create($huuraanbiedingen)->getResponse($filename);
     }
 
     /**
