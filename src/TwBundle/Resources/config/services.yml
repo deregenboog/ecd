@@ -23,6 +23,11 @@ services:
             $export: '@tw.export.koppelingen'
         tags: [ 'controller.service_arguments' ]
 
+    TwBundle\Controller\HuuraanbiedingenController:
+        arguments:
+            $export: '@tw.export.huuraanbiedingen'
+        tags: [ 'controller.service_arguments' ]
+
     TwBundle\Controller\KlantenController:
         arguments:
             $export: '@tw.export.klanten'
