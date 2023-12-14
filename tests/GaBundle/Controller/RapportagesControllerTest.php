@@ -20,12 +20,12 @@ class RapportagesControllerTest extends WebTestCase
         $this->assertGreaterThan(1, $reports->count());
 
         foreach ($reports as $report) {
-            if ('' === $report->getAttribute('value')) {
-                continue;
+            $value = $report->getAttribute('value');
+            if ($value) {
+                $form['rapportage[rapport]'] = $value;
+                $crawler = $this->client->submit($form);
+                $this->assertStatusCode(200, $this->client);
             }
-            $form['rapportage[rapport]'] = $report->getAttribute('value');
-            $crawler = $this->client->submit($form, []);
-            $this->assertStatusCode(200, $this->client);
         }
     }
 }
