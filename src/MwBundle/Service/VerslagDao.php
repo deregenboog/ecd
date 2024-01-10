@@ -50,7 +50,7 @@ class VerslagDao extends AbstractDao implements VerslagDaoInterface
 //            ->setParameter("totKlant",5)
             ;
 
-//        $sql = SqlExtractor::getFullSQL($builder->getQuery());
+        $sql = SqlExtractor::getFullSQL($builder->getQuery());
 
         return $builder->getQuery()->getResult();
 
