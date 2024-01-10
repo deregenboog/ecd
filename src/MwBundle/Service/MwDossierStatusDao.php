@@ -112,28 +112,29 @@ class MwDossierStatusDao extends AbstractDao
         datum,
         LAG(datum) OVER (PARTITION BY klant_id ORDER BY datum) AS prev_datum,
         LAG(class) OVER (PARTITION BY klant_id ORDER BY datum) AS prev_class,
-        LEAD(class) OVER (PARTITION BY klant_id ORDER BY datum) AS next_class
+        LEAD(class) OVER (PARTITION BY klant_id ORDER BY datum) AS next_class,
+        ROW_NUMBER() OVER (PARTITION BY klant_id ORDER BY datum DESC) AS row_num
        
     FROM
         mw_dossier_statussen 
         
 )
 SELECT
- DISTINCT e.klant_id
+  e.klant_id
 FROM
     EventPairs e
   
 WHERE
         (
           (e.class = 'Afsluiting'
-              AND e.prev_class = 'Aanmelding'
+            AND datum BETWEEN :startdate AND :enddate
           )
-          OR
-          (e.class = 'Aanmelding'
-              AND e.next_class IS NULL
+            OR
+          (
+             e.class = 'Aanmelding'
           )
-          AND datum BETWEEN :startdate AND :enddate
-      )
+      ) 
+      AND e.row_num = 1
 
 ";
 
@@ -146,7 +147,7 @@ WHERE
         $aar = $result->fetchAllAssociative();
 
         /**
-         * As result cannot return a simple array but only associative, map the klant_id field as the value so it gets one dimension.
+         * As result cannot?? return a simple array but only associative, map the klant_id field as the value so it gets one dimension.
          */
         array_walk($aar,function(&$v,$k){
             $v = $v['klant_id'];
@@ -173,6 +174,7 @@ WHERE
     FROM
         mw_dossier_statussen 
 )
+
 SELECT
     mar.naam AS naam,
     count(klant_id) AS aantal,
@@ -215,7 +217,7 @@ GROUP BY reden_id"; //wrap into subquery.
         class,
         datum,
         LAG(datum) OVER (PARTITION BY klant_id ORDER BY datum) AS prev_datum,
-        LAG(class) OVER (PARTITION BY klant_id ORDER BY datum) AS prev_class
+        LAG(class) OVER (PARTITION BY klant_id ORDER BY datum) AS prev_class        
     FROM
         mw_dossier_statussen 
 )

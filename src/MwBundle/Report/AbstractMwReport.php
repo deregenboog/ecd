@@ -128,9 +128,9 @@ abstract class AbstractMwReport extends AbstractReport
 
         foreach($columns as $k=>$c)
         {
-            if(isset($total[$k]))
+            if(isset($total[$c]))
             {
-                $report['data']['Uniek'][$c] = $total[$k];
+                $report['data']['Uniek'][$c] = $total[$c];
             }
             else{
                 $report['data']['Uniek'][$c] = "";
@@ -231,8 +231,8 @@ abstract class AbstractMwReport extends AbstractReport
     protected function build()
     {
 
-        $this->reports[] = $this->buildAantalKlantenVerslagenContactmomenten($this->resultKlantenVerslagen,$this->resultKlantenVerslagenTotalUnique,'Aantal verslagen en contactmomenten van klanten die actief waren in de periode');
-        $this->reports[] = $this->buildAantalKlantenVerslagenContactmomenten($this->resultKlantenVerslagenWOActief,$this->resultKlantenVerslagenTotalUniqueWOActief,'Aantal verslagen en contactmomenten (oud)');
+//        $this->reports[] = $this->buildAantalKlantenVerslagenContactmomenten($this->resultKlantenVerslagen,$this->resultKlantenVerslagenTotalUnique,'Aantal verslagen en contactmomenten van klanten die actief waren in de periode');
+        $this->reports[] = $this->buildAantalKlantenVerslagenContactmomenten($this->resultKlantenVerslagenWOActief,$this->resultKlantenVerslagenTotalUniqueWOActief,'Aantal verslagen en contactmomenten');
         $this->reports[] = $this->buildAanmeldingen($this->resultAanmeldingen);
         $this->reports[] = $this->buildBinnenVia($this->resultBinnenVia);
         $this->reports[] = $this->buildAfsluitingen($this->resultAfsluitingen);
