@@ -149,6 +149,7 @@ security:
         ROLE_PZ:
             - ROLE_USERADMIN
         ROLE_ADMIN:
+            - ROLE_USER
             - ROLE_MW
             - ROLE_MW_BEHEER
             - ROLE_REPORT
