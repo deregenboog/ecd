@@ -29,16 +29,18 @@ COPY docker/php/php.ini /usr/local/etc/php/
 COPY docker/php/xdebug.ini /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
 RUN \
     # set timezone
-    echo "Europe/Amsterdam" > /etc/timezone && dpkg-reconfigure -f noninteractive tzdata \
+    echo "Europe/Amsterdam" > /etc/timezone \
+    && dpkg-reconfigure -f noninteractive tzdata \
     # install locale
     && echo "nl_NL.UTF-8 UTF-8" > /etc/locale.gen \
     && locale-gen
 
+# install PHP packages
 WORKDIR /var/www/html
-
 COPY composer.json composer.lock ./
-
 RUN composer install --no-autoloader --no-scripts
+
+# copy application code
 COPY . .
 COPY docker/php/.env.dev .env
 RUN COMPOSER_ALLOW_SUPERUSER=1 composer install

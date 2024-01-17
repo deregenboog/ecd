@@ -38,7 +38,7 @@ class KlantUpdater implements EventSubscriber
 
     private function handleEvent(LifecycleEventArgs $args)
     {
-        $entity = $args->getEntity();
+        $entity = $args->getObject();
 
         if ($entity instanceof Factuur) {
             $this->updateSaldo($entity->getKlant(), $args->getEntityManager());

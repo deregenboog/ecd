@@ -66,7 +66,7 @@ class EmailMessageType extends AbstractType
     /**
      * {@inheritdoc}
      */
-    public function getBlockPrefix()
+    public function getBlockPrefix(): string
     {
         return 'oek_email_message';
     }

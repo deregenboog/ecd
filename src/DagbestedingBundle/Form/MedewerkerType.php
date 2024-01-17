@@ -32,7 +32,7 @@ class MedewerkerType extends AbstractType
         return \AppBundle\Form\MedewerkerType::class;
     }
 
-    public function getBlockPrefix()
+    public function getBlockPrefix(): string
     {
         return 'dagbesteding_medewerker';
     }
