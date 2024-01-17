@@ -82,7 +82,7 @@ services:
 
     AppBundle\Event\PreventSaveForDateRangeEventListener:
         arguments:
-            - '%prevent_save_enabled%'
+            - '%env(bool:PREVENT_SAVE_ENABLED)%'
             - '%prevent_save_modified_before%'
             - '%prevent_save_modified_after%'
             - '%prevent_save_exclude_entities%'
