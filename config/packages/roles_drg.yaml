@@ -59,6 +59,8 @@ security:
             - CONTROLLER_APP_KLANTEN
         ROLE_OEKRAINE_LOCATIEHOOFD:
             - ROLE_OEKRAINE
+        ROLE_OEKRAINE_PSYCH:
+            - ROLE_OEKRAINE
         ROLE_OEKRAINE_BEHEER:
             - ROLE OEKRAINE
             - ROLE_OEKRAINE_LOCATIEHOOFD
