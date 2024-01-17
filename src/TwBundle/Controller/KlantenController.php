@@ -192,8 +192,8 @@ class KlantenController extends AbstractController
      */
     public function addWithCheck($id = null)
     {
-        $entityManager = $this->getEntityManager();
-//        $appKlant = $entityManager->find(AppKlant::class, $id);
+        // $entityManager = $this->getEntityManager();
+        // $appKlant = $entityManager->find(AppKlant::class, $id);
         $klantRepo = $this->getEntityManager()->getRepository("TwBundle:Klant");
         $klant = $klantRepo->findOneBy(['appKlant'=>$id]);
 

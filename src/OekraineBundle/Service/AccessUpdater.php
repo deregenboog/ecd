@@ -5,7 +5,7 @@ namespace OekraineBundle\Service;
 use AppBundle\Entity\Klant;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\ParameterType;
-use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\QueryBuilder;
 use OekraineBundle\Entity\Aanmelding;
 use OekraineBundle\Entity\Bezoeker;
@@ -20,7 +20,7 @@ use OekraineBundle\Strategy\VerblijfsstatusStrategy;
 class AccessUpdater
 {
     /**
-     * @var EntityManager
+     * @var EntityManagerInterface
      */
     private $em;
 
@@ -37,7 +37,7 @@ class AccessUpdater
     private $debug = false;
 
     public function __construct(
-        EntityManager $em,
+        EntityManagerInterface $em,
         BezoekerDaoInterface $bezoekerDao,
         LocatieDaoInterface $locatieDao
     )

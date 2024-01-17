@@ -3,21 +3,19 @@
 namespace AppBundle\Event;
 
 use AppBundle\Exception\UserException;
-use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Event\LifecycleEventArgs;
 use Doctrine\ORM\Persisters\PersisterException;
 
 class PreventSaveForDateRangeEventListener
 {
-    private $preventSaveBefore;
-
-    /** @var DateTime */
+    /** @var \DateTime */
     private $preventSaveBeforeDate;
 
     /** @var \DateTime */
     private $preventSaveAfterDate;
 
-    /** @var Array */
+    /** @var array */
     private $excludeEntities = [];
 
     /** @var bool  */
@@ -41,13 +39,11 @@ class PreventSaveForDateRangeEventListener
             return;
         }
 
-       $this->preventSaveBefore=$preventSaveBefore;
        $this->preventSaveBeforeDate = new \DateTime($preventSaveBefore);
        $this->preventSaveAfterDate = new \DateTime($preventSaveAfter);
        if(is_array($excludeEntities)) $this->excludeEntities = $excludeEntities;
 
        $this->debug = $debug;
-
     }
 
     public function preUpdate(LifecycleEventArgs $args)
@@ -85,7 +81,7 @@ class PreventSaveForDateRangeEventListener
         $this->getAndCheckForDateField($entity,$em);
     }
 
-    private function getAndCheckForDateField($entity, EntityManager $em): void
+    private function getAndCheckForDateField($entity, EntityManagerInterface $em): void
     {
         if(in_array(get_class($entity),$this->excludeEntities)) return;
 

@@ -3,7 +3,7 @@
 namespace AppBundle\Report;
 
 use AppBundle\Entity\ZrmV1;
-use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 
 class ZrmScorePerPostcodegebied extends AbstractReport
 {
@@ -23,7 +23,7 @@ class ZrmScorePerPostcodegebied extends AbstractReport
 
     protected $class = ZrmV1::class;
 
-    public function __construct(EntityManager $em)
+    public function __construct(EntityManagerInterface $em)
     {
         $this->em = $em;
     }

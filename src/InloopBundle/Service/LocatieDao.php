@@ -5,7 +5,7 @@ namespace InloopBundle\Service;
 use AppBundle\Doctrine\SqlExtractor;
 use AppBundle\Filter\FilterInterface;
 use AppBundle\Service\AbstractDao;
-use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\QueryBuilder;
 use InloopBundle\Entity\Locatie;
 use InloopBundle\Event\Events;
@@ -36,7 +36,7 @@ class LocatieDao extends AbstractDao implements LocatieDaoInterface
     private $eventDispatcher;
 
     public function __construct(
-        EntityManager $entityManager,
+        EntityManagerInterface $entityManager,
         PaginatorInterface $paginator,
         $itemsPerPage,
         EventDispatcherInterface $eventDispatcher

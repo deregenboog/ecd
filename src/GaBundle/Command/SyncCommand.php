@@ -2,17 +2,23 @@
 
 namespace GaBundle\Command;
 
-use Doctrine\ORM\EntityManager;
-use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class SyncCommand extends \Symfony\Component\Console\Command\Command
 {
     /**
-     * @var EntityManager
+     * @var EntityManagerInterface
      */
     private $em;
+
+    public function __construct(EntityManagerInterface $em)
+    {
+        $this->em = $em;
+
+        parent::__construct();
+    }
 
     protected function configure()
     {
@@ -21,11 +27,6 @@ class SyncCommand extends \Symfony\Component\Console\Command\Command
             ->setDescription('Sync data between old and new GA-module')
             ->addOption('dry-run')
         ;
-    }
-
-    protected function initialize(InputInterface $input, OutputInterface $output)
-    {
-        $this->em = $this->getContainer()->get('doctrine.orm.entity_manager');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int

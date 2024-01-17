@@ -3,7 +3,7 @@
 namespace AppBundle\Command;
 
 use Doctrine\DBAL\Connection;
-use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -12,8 +12,20 @@ use Symfony\Component\Console\Output\OutputInterface;
  * Fixes characters like this Ã« (ë), Ã© (é) and Ã¨ (è) caused by UTF8-encoding
  * characters that already are UTF8-encoded.
  */
-class DatabaseFixEncodingCommand extends \Symfony\Component\Console\Command\Command
+class DatabaseFixEncodingCommand extends Command
 {
+    /**
+     * @var Connection
+     */
+    protected $connection;
+
+    public function __construct(Connection $connection)
+    {
+        $this->connection = $connection;
+
+        parent::__construct();
+    }
+
     protected function configure()
     {
         $this
@@ -62,12 +74,10 @@ class DatabaseFixEncodingCommand extends \Symfony\Component\Console\Command\Comm
 //             'ö', 'ø', 'ù', 'ú', 'û', 'ý', 'þ', 'ÿ'=>'y'
 //         ];
 
-        /* @var Connection $connection */
-        $connection = $this->getContainer()->get('database_connection');
         foreach ($replacements as $replacement) {
             $search = utf8_encode($replacement);
             $query = "UPDATE `{$table}` SET `{$field}` = REPLACE(`{$field}`, '{$search}', '{$replacement}');";
-            $numRows = $connection->executeUpdate($query, [$search, $replacement]);
+            $numRows = $this->connection->executeUpdate($query, [$search, $replacement]);
             $output->writeln($query." ({$numRows} affected)");
         }
         return 0;

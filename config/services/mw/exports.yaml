@@ -1,6 +1,9 @@
 services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+
     mw.export.klanten:
-        public: true
         class: AppBundle\Export\GenericExport
         arguments:
             - array
@@ -23,11 +26,9 @@ services:
                 Aantal verslagen: { expression: 'entity[0].getAantalVerslagen()' }
 
     mw.export.report:
-        public: true
         class: AppBundle\Export\ReportExport
 
     mw.export.vrijwilliger:
-        public: true
         class: AppBundle\Export\GenericExport
         arguments:
             - MwBundle\Entity\Vrijwilliger
@@ -60,7 +61,6 @@ services:
                 Overeenkomst aanwezig: { expression: 'entity.getVrijwilliger().getOvereenkomstAanwezig()' }
 
     mw.export.vrijwilligerdownload:
-        public: true
         class: AppBundle\Export\GenericExport
         arguments:
             - MwBundle\Entity\Vrijwilliger

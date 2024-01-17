@@ -2,7 +2,7 @@
 
 namespace OekraineBundle\Event;
 
-use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use OekraineBundle\Entity\RecenteRegistratie;
 use OekraineBundle\Entity\Registratie;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
@@ -11,7 +11,7 @@ use Symfony\Component\EventDispatcher\GenericEvent;
 class RegistratieSubscriber implements EventSubscriberInterface
 {
     /**
-     * @var EntityManager
+     * @var EntityManagerInterface
      */
     private $entityManager;
 
@@ -22,7 +22,7 @@ class RegistratieSubscriber implements EventSubscriberInterface
         ];
     }
 
-    public function __construct(EntityManager $entityManager)
+    public function __construct(EntityManagerInterface $entityManager)
     {
         $this->entityManager = $entityManager;
     }

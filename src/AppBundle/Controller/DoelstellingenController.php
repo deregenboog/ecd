@@ -87,7 +87,6 @@ class DoelstellingenController extends AbstractController
         $this->export = $export;
     }
 
-
     /**
      * @Route("/")
      * @Template

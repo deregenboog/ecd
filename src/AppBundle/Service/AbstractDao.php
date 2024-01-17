@@ -8,15 +8,11 @@ use AppBundle\Filter\FilterInterface;
 use AppBundle\Model\ActivatableInterface;
 use AppBundle\Service\AbstractDaoInterface;
 use AppBundle\Model\UsesKlantTrait;
-
-
 use Doctrine\DBAL\Exception\ForeignKeyConstraintViolationException;
-use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityNotFoundException;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\QueryBuilder;
-
 use Knp\Component\Pager\Paginator;
 use Knp\Component\Pager\PaginatorInterface;
 

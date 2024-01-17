@@ -2,12 +2,12 @@
 
 namespace AppBundle\Report;
 
-use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 
 class AbstractSqlFileReport extends AbstractReport
 {
     /**
-     * @var EntityManager
+     * @var EntityManagerInterface
      */
     protected $em;
 
@@ -19,7 +19,7 @@ class AbstractSqlFileReport extends AbstractReport
     protected $params = [];
 
 
-    public function __construct(EntityManager $em, $sqlFile)
+    public function __construct(EntityManagerInterface $em, $sqlFile)
     {
         $this->em = $em;
         $this->sqlFile = $sqlFile;

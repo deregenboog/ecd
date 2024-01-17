@@ -1,11 +1,11 @@
 services:
-    clip.form.rapportage:
-        class: ClipBundle\Form\RapportageType
-        tags:
-            - { name: form.type }
+    _defaults:
+        autowire: true
+        autoconfigure: true
+
+    ClipBundle\Form\RapportageType:
 
     ClipBundle\Report\VragenPerCommunicatiekanaal:
-        public: true
         arguments:
             - '@ClipBundle\Service\VraagDao'
             - '@ClipBundle\Service\ContactmomentDao'
@@ -13,7 +13,6 @@ services:
             - { name: clip.rapportage, category: Vragen }
 
     ClipBundle\Report\VragenPerEtniciteit:
-        public: true
         arguments:
             - '@ClipBundle\Service\VraagDao'
             - '@ClipBundle\Service\ContactmomentDao'
@@ -21,7 +20,6 @@ services:
             - { name: clip.rapportage, category: Vragen }
 
     ClipBundle\Report\VragenPerGeslacht:
-        public: true
         arguments:
             - '@ClipBundle\Service\VraagDao'
             - '@ClipBundle\Service\ContactmomentDao'
@@ -29,7 +27,6 @@ services:
             - { name: clip.rapportage, category: Vragen }
 
     ClipBundle\Report\VragenPerViacategorie:
-        public: true
         arguments:
             - '@ClipBundle\Service\VraagDao'
             - '@ClipBundle\Service\ContactmomentDao'
@@ -37,7 +34,6 @@ services:
             - { name: clip.rapportage, category: Vragen }
 
     ClipBundle\Report\VragenPerHulpvrager:
-        public: true
         arguments:
             - '@ClipBundle\Service\VraagDao'
             - '@ClipBundle\Service\ContactmomentDao'
@@ -45,7 +41,6 @@ services:
             - { name: clip.rapportage, category: Vragen }
 
     ClipBundle\Report\VragenPerLeeftijdscategorie:
-        public: true
         arguments:
             - '@ClipBundle\Service\VraagDao'
             - '@ClipBundle\Service\ContactmomentDao'
@@ -53,7 +48,6 @@ services:
             - { name: clip.rapportage, category: Vragen }
 
     ClipBundle\Report\VragenPerMaand:
-        public: true
         arguments:
             - '@ClipBundle\Service\VraagDao'
             - '@ClipBundle\Service\ContactmomentDao'
@@ -61,7 +55,6 @@ services:
             - { name: clip.rapportage, category: Vragen }
 
     ClipBundle\Report\VragenPerStadsdeel:
-        public: true
         arguments:
             - '@ClipBundle\Service\VraagDao'
             - '@ClipBundle\Service\ContactmomentDao'
@@ -69,7 +62,6 @@ services:
             - { name: clip.rapportage, category: Vragen }
 
     ClipBundle\Report\VragenPerVraagsoort:
-        public: true
         arguments:
             - '@ClipBundle\Service\VraagDao'
             - '@ClipBundle\Service\ContactmomentDao'
@@ -77,7 +69,6 @@ services:
             - { name: clip.rapportage, category: Vragen }
 
     ClipBundle\Report\VragenPerWoonplaats:
-        public: true
         arguments:
             - '@ClipBundle\Service\VraagDao'
             - '@ClipBundle\Service\ContactmomentDao'

@@ -5,7 +5,6 @@ namespace TwBundle\Controller;
 use AppBundle\Controller\SymfonyController;
 use AppBundle\Exception\UserException;
 use AppBundle\Form\ConfirmationType;
-use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use InloopBundle\Security\Permissions;
 use JMS\DiExtraBundle\Annotation as DI;
@@ -183,7 +182,7 @@ class DocumentenController extends SymfonyController
         ];
     }
 
-    private function findEntity(EntityManager $entityManager)
+    private function findEntity(EntityManagerInterface $entityManager)
     {
         switch (true) {
             case $this->getRequest()->query->has('klant'):

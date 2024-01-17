@@ -1,111 +1,40 @@
 services:
-    inloop.dao:
-        abstract: true
-        public: true
-        arguments:
-            - '@doctrine.orm.entity_manager'
-            - '@knp_paginator'
-            - '%pagination.items_per_page%'
+    _defaults:
+        autowire: true
+        autoconfigure: true
+        bind:
+            $itemsPerPage: '%pagination.items_per_page%'
 
-    InloopBundle\Service\AfsluitredenDao:
-        parent: inloop.dao
+    InloopBundle\Service\:
+        resource: '%kernel.project_dir%/src/InloopBundle/Service/'
 
-    InloopBundle\Service\BinnenViaDao:
-        parent: inloop.dao
-
-    InloopBundle\Service\DocumentDao:
-        parent: inloop.dao
-
-    InloopBundle\Service\FrequentieDao:
-        parent: inloop.dao
-
-    InloopBundle\Service\GebruikswijzeDao:
-        parent: inloop.dao
-
-    InloopBundle\Service\InfobaliedoelgroepDao:
-        parent: inloop.dao
-
-    InloopBundle\Service\IntakeDao:
-        parent: inloop.dao
-        arguments:
-            - '@event_dispatcher'
-
-    InloopBundle\Service\KlantDao:
-        parent: inloop.dao
-
-    InloopBundle\Service\LocatieDao:
-        parent: inloop.dao
-        arguments:
-            - '@event_dispatcher'
-
-    InloopBundle\Service\LocatietijdDao:
-        parent: inloop.dao
-
-    InloopBundle\Service\OpmerkingDao:
-        parent: inloop.dao
-
-    InloopBundle\Service\PeriodeDao:
-        parent: inloop.dao
-
-    InloopBundle\Service\RegistratieDao:
-        parent: inloop.dao
-        arguments:
-            - '@event_dispatcher'
-
-    InloopBundle\Service\SchorsingDao:
-        parent: inloop.dao
-
-    InloopBundle\Service\VerslavingDao:
-        parent: inloop.dao
-
-    InloopBundle\Service\VrijwilligerDao:
-        parent: inloop.dao
-
-    InloopBundle\Service\WoonsituatieDao:
-        parent: inloop.dao
-
-    InloopBundle\Service\VerslagDao:
-        parent: app.dao.abstract
-
-    InloopBundle\Service\DeelnameDao:
-        parent: inloop.dao
-
-    InloopBundle\Service\TrainingDao:
-        parent: inloop.dao
-
-    InloopBundle\Service\IncidentDao:
-        parent: inloop.dao
+    InloopBundle\Service\LocatieDaoInterface: '@InloopBundle\Service\LocatieDao'
 
     inloop.document.entities:
-        public: true
         class: ArrayObject
         arguments:
             -
               - { key: vrijwilliger, dao: '@InloopBundle\Service\VrijwilligerDao' }
 
     inloop.locatietijd.entities:
-        public: true
         class: ArrayObject
         arguments:
             -
               - { key: locatie, dao: '@InloopBundle\Service\LocatieDao' }
 
     inloop.memo.entities:
-        public: true
         class: ArrayObject
         arguments:
             -
               - { key: vrijwilliger, dao: '@InloopBundle\Service\VrijwilligerDao' }
               -
     inloop.deelname.entities:
-        public: true
         class: ArrayObject
         arguments:
             -
                 - { key: vrijwilliger, dao: '@InloopBundle\Service\VrijwilligerDao' }
 
     inloop.incident.entities:
-        public: true
         class: ArrayObject
         arguments:
             - - { key: klant, dao: '@InloopBundle\Service\KlantDao' }

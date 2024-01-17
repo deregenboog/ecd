@@ -7,7 +7,7 @@ use AppBundle\Entity\Postcode;
 use AppBundle\Entity\Vrijwilliger;
 use AppBundle\Entity\Werkgebied;
 use AppBundle\Util\PostcodeFormatter;
-use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Component\Form\FormEvent;
@@ -103,7 +103,7 @@ trait AddressTrait
         }
     }
 
-    public function koppelPostcodeWerkgebied(EntityManager $entityManager)
+    public function koppelPostcodeWerkgebied(EntityManagerInterface $entityManager)
     {
        self::_koppelPostcodeWerkgebied($this,$entityManager);
     }

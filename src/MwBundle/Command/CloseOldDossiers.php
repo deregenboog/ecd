@@ -7,14 +7,12 @@ use AppBundle\Entity\Medewerker;
 use Doctrine\DBAL\Exception;
 use Doctrine\DBAL\ParameterType;
 use Doctrine\DBAL\Result;
-use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\Paginator;
 use MwBundle\Entity\Aanmelding;
 use MwBundle\Entity\Afsluiting;
 use MwBundle\Entity\AfsluitredenKlant;
 use MwBundle\Entity\Resultaat;
-use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -23,7 +21,7 @@ use Symfony\Component\Console\Input\InputArgument;
 class CloseOldDossiers extends \Symfony\Component\Console\Command\Command
 {
     /**
-     * @var EntityManager
+     * @var EntityManagerInterface
      */
     private $manager;
 

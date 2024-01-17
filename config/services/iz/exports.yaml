@@ -1,6 +1,9 @@
 services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+
     iz.export.klanten:
-        public: true
         class: IzBundle\Export\IzKlantenExport
         arguments:
             - IzBundle\Entity\IzKlant
@@ -37,7 +40,6 @@ services:
                 Toestemmingsformulier aanwezig: { expression: 'entity.getKlant().isToestemmingsformulierAanwezig() ? "ja":"nee"' }
 
     iz.export.intervisiegroepen:
-        public: true
         class: AppBundle\Export\GenericExport
         arguments:
             - IzBundle\Entity\Intervisiegroep
@@ -45,7 +47,6 @@ services:
                 Naam: { expression: 'entity.getNaam()' }
 
     iz.export.vrijwilligers:
-        public: true
         class: IzBundle\Export\IzVrijwilligersExport
         arguments:
             - IzBundle\Entity\IzVrijwilliger
@@ -83,7 +84,6 @@ services:
                 Overeenkomst aanwezig: { expression: 'entity.getVrijwilliger().isOvereenkomstAanwezig()' }
 
     iz.export.hulpvragen:
-        public: true
         class: AppBundle\Export\GenericExport
         arguments:
             - IzBundle\Entity\Hulpvraag
@@ -117,7 +117,6 @@ services:
                 Hulpvraagsoort: { expression: 'entity.getHulpvraagsoort()' }
 
     iz.export.hulpaanbiedingen:
-        public: true
         class: AppBundle\Export\GenericExport
         arguments:
             - IzBundle\Entity\Hulpaanbod
@@ -146,7 +145,6 @@ services:
                 Hulpvraagsoorten: { expression: 'entity.getHulpvraagsoorten()' }
 
     iz.export.koppelingen:
-        public: true
         class: AppBundle\Export\GenericExport
         arguments:
             - IzBundle\Entity\Hulpvraag
@@ -203,11 +201,9 @@ services:
                 Stagiair: { expression: 'entity.getHulpaanbod().getIzVrijwilliger().getIntake().isStagiair() ? "ja" : "nee"', condition: 'entity.getHulpaanbod().getIzVrijwilliger().getIntake()' }
 
     iz.export.report:
-        public: true
         class: AppBundle\Export\ReportExport
 
     iz.export.selectievrijwilligersdownload:
-        public: true
         class: AppBundle\Export\GenericExport
         arguments:
             - IzBundle\Entity\IzVrijwilliger

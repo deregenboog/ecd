@@ -2,13 +2,24 @@
 
 namespace InloopBundle\Command;
 
-use Doctrine\DBAL\Driver\Connection;
-use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
+use Doctrine\DBAL\Connection;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class FixAccessFromEersteIntakeCommand extends \Symfony\Component\Console\Command\Command
 {
+    /**
+     * @var Connection
+     */
+    private $conn;
+
+    public function __construct(Connection $conn)
+    {
+        $this->conn = $conn;
+
+        parent::__construct();
+    }
+
     protected function configure()
     {
         $this->setName('inloop:fix:access_eerste_intake');
@@ -32,9 +43,7 @@ class FixAccessFromEersteIntakeCommand extends \Symfony\Component\Console\Comman
                     AND k.laste_intake_id IS NOT NULL
                     AND k.first_intake_id != k.laste_intake_id';
 
-        /* @var Connection $conn */
-        $conn = $this->getContainer()->get('database_connection');
-        $n = $conn->exec($sql);
+        $n = $this->conn->exec($sql);
 
         $output->writeln(sprintf('%d rows affected', $n));
         return 0;

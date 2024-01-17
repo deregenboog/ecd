@@ -3,7 +3,7 @@
 namespace TwBundle\Service;
 
 use AppBundle\Service\AbstractDao;
-use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use TwBundle\Entity\FinancieelVerslag;
 
 
@@ -11,7 +11,7 @@ class FinancieelVerslagDao extends AbstractDao implements FinancieelVerslagDaoIn
 {
     protected $class = FinancieelVerslag::class;
 
-    public function __construct(EntityManager $entityManager)
+    public function __construct(EntityManagerInterface $entityManager)
     {
         $this->entityManager = $entityManager;
         $this->repository = $entityManager->getRepository($this->class);

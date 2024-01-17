@@ -13,31 +13,26 @@ parameters:
         vwspreekbuis: 15
 
 services:
-    #tbv controller DI named arguments die dan niet eerst hoeven;
     _defaults:
         autowire: true
         autoconfigure: true
 
     InloopBundle\Command\:
         resource: '%kernel.project_dir%/src/InloopBundle/Command'
-        tags: [ 'console.command' ]
 
     InloopBundle\Form\:
         resource: '%kernel.project_dir%/src/InloopBundle/Form'
 
     InloopBundle\Controller\:
         resource: '%kernel.project_dir%/src/InloopBundle/Controller'
-        tags: [ 'controller.service_arguments' ]
 
     InloopBundle\Controller\KlantenController:
         arguments:
             $tbc_countries: '%tbc_countries%'
-        tags: [ 'controller.service_arguments' ]
 
     InloopBundle\Controller\LocatiesController:
         arguments:
             $accessStrategies: '%access_strategies%'
-        tags: [ 'controller.service_arguments' ]
 
     InloopBundle\Controller\IntakesController:
         arguments:
@@ -45,63 +40,51 @@ services:
             $tbc_countries: '%tbc_countries%'
             $accessStrategies: '%access_strategies%'
             $amocVerblijfsstatus: '%amocverblijfsstatus%'
-        tags: [ 'controller.service_arguments' ]
 
     InloopBundle\Controller\DeelnamesController:
         arguments:
             $entities: '@inloop.deelname.entities'
-        tags: [ 'controller.service_arguments' ]
 
     InloopBundle\Controller\DocumentenController:
         arguments:
             $entities: '@inloop.document.entities'
-        tags: [ 'controller.service_arguments' ]
 
     InloopBundle\Controller\IncidentenController:
         arguments:
             $entities: '@inloop.incident.entities'
-        tags: [ 'controller.service_arguments' ]
 
     InloopBundle\Controller\LocatietijdenController:
         arguments:
             $entities: '@inloop.locatietijd.entities'
-        tags: [ 'controller.service_arguments' ]
 
     InloopBundle\Controller\MemosController:
         arguments:
             $entities: '@inloop.memo.entities'
-        tags: [ 'controller.service_arguments' ]
 
     InloopBundle\Controller\RapportagesController:
         arguments:
             $export: '@inloop.export.report'
             $reports: !tagged_iterator inloop.rapportage
-        tags: [ 'controller.service_arguments' ]
 
     InloopBundle\Controller\RegistratiesController:
         arguments:
             $export: '@inloop.export.registraties'
             $tbc_countries: '%tbc_countries%'
             $tbc_months_period: '%tbc_months_period%'
-        tags: [ 'controller.service_arguments' ]
 
     InloopBundle\Controller\SchorsingenController:
         arguments:
             $export: '@inloop.export.schorsing'
-        tags: [ 'controller.service_arguments' ]
 
     InloopBundle\Controller\VerslagenController:
         arguments:
             $export: '@mw.export.klanten'
-        tags: [ 'controller.service_arguments' ]
 
     InloopBundle\Controller\VrijwilligersController:
         arguments:
             $export: '@inloop.export.vrijwilliger'
-        tags: [ 'controller.service_arguments' ]
 
     InloopBundle\Service\AccessUpdater:
-        public: true
         arguments:
             - '@doctrine.orm.entity_manager'
             - '@InloopBundle\Service\KlantDao'
@@ -119,46 +102,27 @@ services:
             - "%env(INFORMELE_ZORG_MAIL)%"
             - "%env(DAGBESTEDING_MAIL)%"
             - "%env(HULPVERLENING_MAIL)%"
-        tags:
-            - { name: kernel.event_subscriber }
 
     InloopBundle\Event\DossierSubscriber:
         arguments:
             - '@InloopBundle\Service\KlantDao'
             - '@InloopBundle\Service\AccessUpdater'
-        tags:
-            - { name: kernel.event_subscriber }
 
     InloopBundle\Event\LocatieSubscriber:
         arguments:
             - '@InloopBundle\Service\AccessUpdater'
-        tags:
-            - { name: kernel.event_subscriber }
 
     InloopBundle\Event\DienstenLookupSubscriber:
-        arguments:
-            - "@doctrine.orm.entity_manager"
-            - "@router"
-        tags:
-            - { name: kernel.event_subscriber }
 
     InloopBundle\Event\RegistratieSubscriber:
-        arguments:
-            - "@doctrine.orm.entity_manager"
-        tags:
-            - { name: kernel.event_subscriber }
 
     InloopBundle\Security\IntakeVoter:
         arguments:
             - "@security.access.decision_manager"
-        tags:
-            - { name: security.voter }
 
     InloopBundle\Security\RegistratieVoter:
         arguments:
             - "%inloop.vrijwilligers_locaties%"
-        tags:
-            - { name: security.voter }
 
 
     registratie_metadata:
@@ -167,19 +131,13 @@ services:
             - InloopBundle\Entity\Registratie
 
     InloopBundle\Repository\RegistratieRepository:
-        class: InloopBundle\Repository\RegistratieRepository
         arguments:
-            - "@doctrine.orm.entity_manager"
-            - "@registratie_metadata"
+            $class: "@registratie_metadata"
         calls:
             - method: setSpuitomruilLocaties
               arguments:
                   - '%spuitomruil_locaties%'
         tags:
             - app.doelstelling
-        public: true
 
     InloopBundle\Form\LocatieTypeSelectType:
-        class: InloopBundle\Form\LocatieTypeSelectType
-        arguments:
-            - "@doctrine.orm.default_entity_manager"

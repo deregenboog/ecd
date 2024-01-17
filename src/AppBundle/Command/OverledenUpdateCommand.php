@@ -3,9 +3,7 @@
 namespace AppBundle\Command;
 
 use AppBundle\Entity\Klant;
-use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
@@ -13,7 +11,7 @@ class OverledenUpdateCommand extends \Symfony\Component\Console\Command\Command
 {
 
     /**
-     * @var EntityManager
+     * @var EntityManagerInterface
      */
     protected $em;
 

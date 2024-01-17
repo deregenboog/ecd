@@ -2,13 +2,13 @@
 
 namespace AppBundle\Report;
 
-use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 
 class ManagementMW extends AbstractSqlFileReport
 {
     protected $title = 'Managementrapportage MW';
 
-    public function __construct(EntityManager $em, $sqlFile)
+    public function __construct(EntityManagerInterface $em, $sqlFile)
     {
         $this->params += [
             ':locatietypes' => "'".implode("','",[

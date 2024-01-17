@@ -2,15 +2,12 @@
 
 namespace IzBundle\DataFixtures;
 
-use Faker\Generator;
+use Faker\Provider\Base;
 use Faker\Provider\DateTime;
 use IzBundle\Entity\Hulpaanbod;
 
- class IzFakerProvider
+ final class IzFakerProvider extends Base
 {
-     private $generator;
-     private $usedElements = [];
-
      /**
      * @return \DateTime|null
      */

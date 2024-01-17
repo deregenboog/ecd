@@ -1,9 +1,0 @@
-services:
-    _defaults:
-        autowire: true
-        autoconfigure: true
-
-    oek.data_fixtures.faker_provider:
-        class: OekBundle\DataFixtures\OekFakerProvider
-        tags:
-            - { name: nelmio_alice.faker.provider }

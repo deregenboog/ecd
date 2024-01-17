@@ -1,44 +1,26 @@
 services:
-    OekBundle\Service\DeelnemerDao:
-        parent: app.dao.abstract
+    _defaults:
+        autowire: true
+        autoconfigure: true
+        bind:
+            $itemsPerPage: '%pagination.items_per_page%'
 
-    OekBundle\Service\DocumentDao:
-        parent: app.dao.abstract
-
-    OekBundle\Service\GroepDao:
-        parent: app.dao.abstract
-
-    OekBundle\Service\MemoDao:
-        parent: app.dao.abstract
-
-    OekBundle\Service\TrainingDao:
-        parent: app.dao.abstract
-
-    OekBundle\Service\VerwijzingDoorDao:
-        parent: app.dao.abstract
-
-    OekBundle\Service\VerwijzingNaarDao:
-        parent: app.dao.abstract
-
-    OekBundle\Service\VrijwilligerDao:
-        parent: app.dao.abstract
+    OekBundle\Service\:
+        resource: '%kernel.project_dir%/src/OekBundle/Service/'
 
     oek.document.entities:
-        public: true
         class: ArrayObject
         arguments:
             -
               - { key: vrijwilliger, dao: '@OekBundle\Service\VrijwilligerDao' }
 
     oek.memo.entities:
-        public: true
         class: ArrayObject
         arguments:
             -
               - { key: vrijwilliger, dao: '@OekBundle\Service\VrijwilligerDao' }
 
     oek.training.entities:
-        public: true
         class: ArrayObject
         arguments:
             -

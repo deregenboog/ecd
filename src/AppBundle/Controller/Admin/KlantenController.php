@@ -8,7 +8,7 @@ use AppBundle\Exception\UserException;
 use AppBundle\Form\KlantMergeType;
 use AppBundle\Service\KlantDao;
 use AppBundle\Service\KlantDaoInterface;
-use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use JMS\DiExtraBundle\Annotation as DI;
 use Monolog\Logger;
 use Psr\Log\LoggerInterface;
@@ -125,9 +125,9 @@ class KlantenController extends AbstractController
     /**
      * @param Klant           $entity  new entity
      * @param Klant[]         $klanten original entities
-     * @param EntityManager   $em
+     * @param EntityManagerInterface   $em
      */
-    private function moveAssociations($entity, $klanten, EntityManager $em)
+    private function moveAssociations($entity, $klanten, EntityManagerInterface $em)
     {
         $dqls = [];
         $allMetadata = $em->getMetadataFactory()->getAllMetadata();
@@ -167,9 +167,9 @@ class KlantenController extends AbstractController
     /**
      * @param Klant           $entity  new entity
      * @param Klant[]         $klanten
-     * @param EntityManager   $em
+     * @param EntityManagerInterface   $em
      */
-    private function disableMerged($entity, $klanten, EntityManager $em)
+    private function disableMerged($entity, $klanten, EntityManagerInterface $em)
     {
         foreach ($klanten as $klant) {
             $klant->setMerged($entity);

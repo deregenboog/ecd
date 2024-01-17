@@ -9,7 +9,7 @@ use AppBundle\Doctrine\SqlExtractor;
 use AppBundle\Entity\Klant;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\ParameterType;
-use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\QueryBuilder;
 use InloopBundle\Entity\Aanmelding;
 use InloopBundle\Entity\Locatie;
@@ -25,7 +25,7 @@ use InloopBundle\Strategy\ToegangOverigStrategy;
 class AccessUpdater
 {
     /**
-     * @var EntityManager
+     * @var EntityManagerInterface
      */
     private $em;
 
@@ -61,13 +61,13 @@ class AccessUpdater
      * The strategies used are combined in an AND manner ... uitzoeken.
 
      *
-     * @param EntityManager $em
+     * @param EntityManagerInterface $em
      * @param KlantDao $klantDao
      * @param LocatieDao $locatieDao
      * @param $intake_locaties
      */
     public function __construct(
-        EntityManager $em,
+        EntityManagerInterface $em,
         KlantDao $klantDao,
         LocatieDao $locatieDao,
         $accessStrategies,

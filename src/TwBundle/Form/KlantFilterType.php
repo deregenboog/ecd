@@ -7,7 +7,7 @@ use AppBundle\Form\AppDateRangeType;
 use AppBundle\Form\FilterType;
 use AppBundle\Form\KlantFilterType as AppKlantFilterType;
 use AppBundle\Form\StadsdeelSelectType;
-use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\ChoiceList\View\ChoiceView;
 use Symfony\Component\Form\Exception\OutOfBoundsException;
@@ -32,10 +32,10 @@ use TwBundle\Filter\KlantFilter;
 
 class KlantFilterType extends AbstractType
 {
-    /** @var EntityManager */
+    /** @var EntityManagerInterface */
     private $entityManager = null;
 
-    public function __construct($entityManager)
+    public function __construct(EntityManagerInterface $entityManager)
     {
         $this->entityManager = $entityManager;
     }

@@ -1,6 +1,9 @@
 services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+
     inloop.export.vrijwilliger:
-        public: true
         class: AppBundle\Export\GenericExport
         arguments:
             - InloopBundle\Entity\Vrijwilliger
@@ -34,7 +37,6 @@ services:
                 Overeenkomst aanwezig: { expression: 'entity.getVrijwilliger().getOvereenkomstAanwezig()' }
 
     inloop.export.vrijwilligerdownload:
-        public: true
         class: AppBundle\Export\GenericExport
         arguments:
             - InloopBundle\Entity\Vrijwilliger
@@ -60,7 +62,6 @@ services:
             - { name: app.downloads }
 
     inloop.export.registraties:
-        public: true
         class: InloopBundle\Export\RegistratiesExport
         arguments:
             - InloopBundle\Entity\Registratie
@@ -94,7 +95,6 @@ services:
                 Woonsituatie: { expression: 'entity.getKlant().getLaatsteIntake().getWoonsituatie()', condition: 'entity.getKlant().getLaatsteIntake()' }
 
     inloop.export.schorsing:
-        public: true
         class: AppBundle\Export\GenericExport
         arguments:
             - InloopBundle\Entity\Schorsing
@@ -110,5 +110,4 @@ services:
                 Redenen: { expression: 'entity.getRedenen()' }
 
     inloop.export.report:
-        public: true
         class: AppBundle\Export\ReportExport

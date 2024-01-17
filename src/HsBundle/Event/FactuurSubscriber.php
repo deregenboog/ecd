@@ -4,7 +4,7 @@ namespace HsBundle\Event;
 
 use AppBundle\Form\Model\AppDateRangeModel;
 use Doctrine\Common\EventSubscriber;
-use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Events;
 use HsBundle\Entity\Creditfactuur;
 use HsBundle\Entity\Declaratie;

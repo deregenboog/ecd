@@ -3,13 +3,14 @@
 namespace OekBundle\DataFixtures;
 
 use AppBundle\Entity\Medewerker;
+use Faker\Provider\Base;
 use Faker\Provider\DateTime;
 use OekBundle\Entity\Aanmelding;
 use OekBundle\Entity\Afsluiting;
 use OekBundle\Entity\VerwijzingDoor;
 use OekBundle\Entity\VerwijzingNaar;
 
-final class OekFakerProvider
+final class OekFakerProvider extends Base
 {
     public function aanmelding(VerwijzingDoor $verwijzing, Medewerker $medewerker)
     {

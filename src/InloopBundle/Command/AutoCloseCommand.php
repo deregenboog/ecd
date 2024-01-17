@@ -5,14 +5,12 @@ namespace InloopBundle\Command;
 use AppBundle\Doctrine\SqlExtractor;
 use AppBundle\Entity\Klant;
 use AppBundle\Entity\Medewerker;
-use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\NoResultException;
 use InloopBundle\Entity\Afsluiting;
 use InloopBundle\Entity\RedenAfsluiting;
 use InloopBundle\Entity\Registratie;
-use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -27,7 +25,7 @@ class AutoCloseCommand extends \Symfony\Component\Console\Command\Command
 
     private $defaultUsername = 'jvloo';
 
-    /** @var EntityManager  */
+    /** @var EntityManagerInterface  */
     private $entityManager;
 
     public function __construct(EntityManagerInterface $entityManager)

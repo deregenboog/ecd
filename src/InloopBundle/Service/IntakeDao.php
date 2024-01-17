@@ -4,7 +4,7 @@ namespace InloopBundle\Service;
 
 use AppBundle\Filter\FilterInterface;
 use AppBundle\Service\AbstractDao;
-use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use InloopBundle\Entity\Intake;
 use InloopBundle\Event\Events;
 use Knp\Component\Pager\PaginatorInterface;
@@ -35,7 +35,7 @@ class IntakeDao extends AbstractDao implements IntakeDaoInterface
     private $eventDispatcher;
 
     public function __construct(
-        EntityManager $entityManager,
+        EntityManagerInterface $entityManager,
         PaginatorInterface $paginator,
         $itemsPerPage,
         EventDispatcherInterface $eventDispatcher

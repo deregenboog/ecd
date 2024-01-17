@@ -18,10 +18,10 @@ use DagbestedingBundle\Entity\Trajectsoort;
 use DagbestedingBundle\Entity\Verslag;
 use DagbestedingBundle\Entity\Werkdoel;
 use DagbestedingBundle\Service\LocatieDao;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
 use ScipBundle\Entity\Deelnemer;
 use ScipBundle\Service\DeelnemerDao;
-use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -29,7 +29,8 @@ use Symfony\Component\HttpFoundation\Request;
 
 class MigrateCommand extends Command
 {
-    private $kernel;
+    /** @var EntityManagerInterface */
+    private $em;
 
     /** @var DeelnemerDao */
     private $scipDeelnemerDao;
@@ -40,7 +41,7 @@ class MigrateCommand extends Command
     /** @var \DagbestedingBundle\Service\ProjectDao */
     private $dbProjectenDao;
 
-    /** @var \DagbestedingBundle\Service\TrajectcoachDaoa */
+    /** @var \DagbestedingBundle\Service\TrajectcoachDao */
     private $trajectcoachDao;
 
     /** @var LocatieDao */
@@ -79,6 +80,23 @@ class MigrateCommand extends Command
     /** @var OutputInterface */
     private $output;
 
+    public function __construct(
+        EntityManagerInterface $em,
+        DeelnemerDao $scipDeelnemerDao,
+        \DagbestedingBundle\Service\DeelnemerDao $dbDeelnemerDao,
+        \DagbestedingBundle\Service\ProjectDao $dbProjectenDao,
+        \DagbestedingBundle\Service\TrajectcoachDao $trajectcoachDao,
+        LocatieDao $locatieDao
+    ) {
+        $this->em = $em;
+        $this->scipDeelnemerDao = $scipDeelnemerDao;
+        $this->dbDeelnemerDao = $dbDeelnemerDao;
+        $this->dbProjectenDao = $dbProjectenDao;
+        $this->trajectcoachDao = $trajectcoachDao;
+        $this->locatieDao = $locatieDao;
+        parent::__construct();
+    }
+
     protected function configure()
     {
         $this->setName('dagbesteding:deelnemers:migratescip')
@@ -112,34 +130,25 @@ class MigrateCommand extends Command
         $this->projectTrajectcoaches["Tobi Vroegh"] = "Sapho Post";
         $this->projectTrajectcoaches["Webbureau"] = "Mirjam Snitjer";
 
-        $this->scipDeelnemerDao = $this->getContainer()->get('ScipBundle\Service\DeelnemerDao');
-        $this->dbDeelnemerDao = $this->getContainer()->get('DagbestedingBundle\Service\DeelnemerDao');
-        $this->dbProjectenDao = $this->getContainer()->get('DagbestedingBundle\Service\ProjectDao');
-        $this->trajectcoachDao = $this->getContainer()->get('DagbestedingBundle\Service\TrajectcoachDao');
-        $this->locatieDao = $this->getContainer()->get('DagbestedingBundle\Service\LocatieDao');
+        $this->locatieRep = $this->em->getRepository(Locatie::class);
+        $this->trajectCoachRep = $this->em->getRepository(Trajectcoach::class);
 
-        $em = $this->getContainer()->get('doctrine.orm.default_entity_manager');
-
-        $this->locatieRep = $em->getRepository(Locatie::class);
-        $this->trajectCoachRep = $em->getRepository(Trajectcoach::class);
-
-        $this->defaultResultaatgebiedSoort = $em->getRepository(Resultaatgebiedsoort::class)
+        $this->defaultResultaatgebiedSoort = $this->em->getRepository(Resultaatgebiedsoort::class)
             ->findOneBy(["naam"=>"NVT"]);
 
-        $this->defaultTrajectsoort = $em->getRepository(Trajectsoort::class)
+        $this->defaultTrajectsoort = $this->em->getRepository(Trajectsoort::class)
             ->findOneBy(["naam"=>"SCIP"]);
 
-        $this->wmoTrajectsoort = $em->getRepository(Trajectsoort::class)
+        $this->wmoTrajectsoort = $this->em->getRepository(Trajectsoort::class)
             ->findOneBy(["naam"=>"WMO"]);
 
         $this->defaultTrajectcoach = $this->trajectCoachRep
             ->findOneBy(["id"=>"20837"]); //20837
 
-        $this->defaultMedewerker = $em->getRepository(Medewerker::class)
+        $this->defaultMedewerker = $this->em->getRepository(Medewerker::class)
             ->findOneBy(["username"=>"slovdahl"]); //slovdahl
 
-
-        $this->mapAndCreateProjects($em);
+        $this->mapAndCreateProjects();
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
@@ -206,7 +215,7 @@ class MigrateCommand extends Command
         }
 
         $deleteEmptyBeschikbaarheid = "DELETE FROM `dagbesteding_beschikbaarheid` WHERE `maandagVan` IS NULL AND `maandagTot` IS NULL AND `dinsdagVan`IS NULL AND `dinsdagTot`IS NULL AND `woensdagVan`IS NULL AND `woensdagTot`IS NULL AND `donderdagVan`IS NULL AND `donderdagTot`IS NULL AND `vrijdagVan`IS NULL AND `vrijdagTot`IS NULL AND `zaterdagVan`IS NULL AND `zaterdagTot`IS NULL AND `zondagVan`IS NULL AND `zondagTot` IS NULL";
-        $connection = $this->getContainer()->get('doctrine.orm.entity_manager')->getConnection();
+        $connection = $this->em->getConnection();
         $connection->executeQuery($deleteEmptyBeschikbaarheid);
     }
 
@@ -382,11 +391,11 @@ class MigrateCommand extends Command
         return $dbDeelnemer;
     }
 
-    private function mapAndCreateProjects($em)
+    private function mapAndCreateProjects()
     {
-        $dbProjectRep = $em->getRepository(Project::class);
+        $dbProjectRep = $this->em->getRepository(Project::class);
 
-        $scipProjectRep = $em->getRepository(\ScipBundle\Entity\Project::class);
+        $scipProjectRep = $this->em->getRepository(\ScipBundle\Entity\Project::class);
 
        $this->output->writeln("Map SCIP projects to DB projects");
         //map existing projects

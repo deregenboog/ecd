@@ -3,9 +3,8 @@
 namespace PfoBundle\Command;
 
 use AppBundle\Entity\Klant;
-use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use PfoBundle\Entity\Client;
-use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -13,6 +12,18 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class UpdateStadsdeelPostcodegebiedCommand extends \Symfony\Component\Console\Command\Command
 {
+    /**
+     * @var EntityManagerInterface
+     */
+    private $em;
+
+    public function __construct(EntityManagerInterface $em)
+    {
+        $this->em = $em;
+
+        parent::__construct();
+    }
+
     protected function configure()
     {
         $this
@@ -22,9 +33,8 @@ class UpdateStadsdeelPostcodegebiedCommand extends \Symfony\Component\Console\Co
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        /* @var EntityManager $em */
-        $em = $this->getContainer()->get('doctrine.orm.entity_manager');
-        $clienten = $em->getRepository(Client::class)->createQueryBuilder('client')
+        /* @var EntityManagerInterface $em */
+        $clienten = $this->em->getRepository(Client::class)->createQueryBuilder('client')
             ->where('client.werkgebied IS NULL')
             ->getQuery()
             ->getResult();
@@ -33,11 +43,11 @@ class UpdateStadsdeelPostcodegebiedCommand extends \Symfony\Component\Console\Co
 
         foreach ($clienten as $client) {
             /* @var Client $client */
-            $client->koppelPostcodeWerkgebied($em);
+            $client->koppelPostcodeWerkgebied($this->em);
             $output->writeln("Update ".$client->getNaam());
         }
 
-        $em->flush();
+        $this->em->flush();
 
         $output->writeln('Finished!');
         return 0;

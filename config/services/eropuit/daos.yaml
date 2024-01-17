@@ -1,10 +1,10 @@
 services:
-    ErOpUitBundle\Service\KlantDao:
-        parent: app.dao.abstract
+    _defaults:
+        autowire: true
+        autoconfigure: true
+        bind:
+            $itemsPerPage: '%pagination.items_per_page%'
 
-    ErOpUitBundle\Service\UitschrijfredenDao:
-        parent: app.dao.abstract
+    ErOpUitBundle\Service\:
+        resource: '%kernel.project_dir%/src/ErOpUitBundle/Service/'
 
-    ErOpUitBundle\Service\VrijwilligerDao:
-        parent: app.dao.abstract
-        

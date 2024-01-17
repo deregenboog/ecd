@@ -1,64 +1,31 @@
 services:
-    oekraine.dao:
-        abstract: true
-        public: true
-        arguments:
-            - '@doctrine.orm.entity_manager'
-            - '@knp_paginator'
-            - '%pagination.items_per_page%'
+    _defaults:
+        autowire: true
+        autoconfigure: true
+        bind:
+            $itemsPerPage: '%pagination.items_per_page%'
 
-    OekraineBundle\Service\BezoekerDao:
-        parent: oekraine.dao
-
-    OekraineBundle\Service\DocumentDao:
-        parent: oekraine.dao
-
-    OekraineBundle\Service\IncidentDao:
-        parent: oekraine.dao
-
-    OekraineBundle\Service\IntakeDao:
-        parent: oekraine.dao
-        arguments:
-            - '@event_dispatcher'
-
-    OekraineBundle\Service\LocatieDao:
-        parent: oekraine.dao
-        arguments:
-            - '@event_dispatcher'
-
-    OekraineBundle\Service\OpmerkingDao:
-        parent: oekraine.dao
-
-    OekraineBundle\Service\RegistratieDao:
-        parent: oekraine.dao
-        arguments:
-            - '@event_dispatcher'
-
-    OekraineBundle\Service\VerslagDao:
-        parent: app.dao.abstract
+    OekraineBundle\Service\:
+        resource: '%kernel.project_dir%/src/OekraineBundle/Service/'
 
     oekraine.document.entities:
-        public: true
         class: ArrayObject
         arguments:
             -
                 - { key: bezoeker, dao: '@OekraineBundle\Service\BezoekerDao' }
 
     oekraine.memo.entities:
-        public: true
         class: ArrayObject
         arguments:
             - []
 
     oekraine.incident.entities:
-        public: true
         class: ArrayObject
         arguments:
             -
                 - { key: bezoeker, dao: '@OekraineBundle\Service\BezoekerDao' }
 
     oekraine.verslag.entities:
-        public: true
         class: ArrayObject
         arguments:
             -

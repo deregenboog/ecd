@@ -6,7 +6,7 @@ use AppBundle\Controller\AbstractController;
 use AppBundle\Exception\UserException;
 use AppBundle\Export\ExportInterface;
 use AppBundle\Form\ConfirmationType;
-use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use JMS\DiExtraBundle\Annotation as DI;
 use TwBundle\Entity\Huuraanbod;
 use TwBundle\Entity\Huurovereenkomst;
@@ -186,7 +186,7 @@ class HuurovereenkomstenController extends AbstractController
         return sprintf('tijdelijk-wonen-koppelingen-%s.xlsx', (new \DateTime())->format('d-m-Y'));
     }
 
-    private function findEntity(EntityManager $entityManager)
+    private function findEntity(EntityManagerInterface $entityManager)
     {
         switch (true) {
             case $this->getRequest()->query->has('huurverzoek'):

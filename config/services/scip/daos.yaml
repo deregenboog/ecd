@@ -1,52 +1,33 @@
 services:
-    ScipBundle\Service\DeelnameDao:
-        parent: app.dao.abstract
+    _defaults:
+        autowire: true
+        autoconfigure: true
+        bind:
+            $itemsPerPage: '%pagination.items_per_page%'
 
-    ScipBundle\Service\DeelnemerDao:
-        parent: app.dao.abstract
-    
-    ScipBundle\Service\DocumentDao:
-        parent: app.dao.abstract
-    
-    ScipBundle\Service\LabelDao:
-        parent: app.dao.abstract
-
-    ScipBundle\Service\ProjectDao:
-        parent: app.dao.abstract
-
-    ScipBundle\Service\ToegangsrechtDao:
-        parent: app.dao.abstract
-
-    ScipBundle\Service\VerslagDao:
-        parent: app.dao.abstract
-
-    ScipBundle\Service\WerkdoelDao:
-        parent: app.dao.abstract
+    ScipBundle\Service\:
+        resource: '%kernel.project_dir%/src/ScipBundle/Service/'
 
     scip.deelname.entities:
-        public: true
         class: ArrayObject
         arguments:
             -
               - { key: deelnemer, dao: '@ScipBundle\Service\DeelnemerDao' }
               - { key: project, dao: '@ScipBundle\Service\ProjectDao' }
-    
+
     scip.document.entities:
-        public: true
         class: ArrayObject
         arguments:
             -
               - { key: deelnemer, dao: '@ScipBundle\Service\DeelnemerDao' }
 
     scip.verslag.entities:
-        public: true
         class: ArrayObject
         arguments:
             -
               - { key: deelnemer, dao: '@ScipBundle\Service\DeelnemerDao' }
 
     scip.werkdoel.entities:
-        public: true
         class: ArrayObject
         arguments:
             -

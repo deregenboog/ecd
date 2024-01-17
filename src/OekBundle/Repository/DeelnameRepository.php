@@ -10,8 +10,6 @@ use OekBundle\Report\AbstractDeelnemersVerwezen;
 
 class DeelnameRepository extends EntityRepository
 {
-
-
     private function getCountBuilder()
     {
         return $this->createQueryBuilder('deelname')
@@ -20,8 +18,6 @@ class DeelnameRepository extends EntityRepository
 
         ;
     }
-
-
 
     public function getAantalDeelnamesPerStadsdeel($startdatum,$eindddatum)
     {

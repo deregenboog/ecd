@@ -2,13 +2,24 @@
 
 namespace InloopBundle\Command;
 
-use Doctrine\DBAL\Driver\Connection;
-use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
+use Doctrine\DBAL\Connection;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class FixLaatsteIntakeCommand extends \Symfony\Component\Console\Command\Command
 {
+    /**
+     * @var Connection
+     */
+    private $conn;
+
+    public function __construct(Connection $conn)
+    {
+        $this->conn = $conn;
+
+        parent::__construct();
+    }
+
     protected function configure()
     {
         $this->setName('inloop:fix:laatste_intake');
@@ -25,9 +36,7 @@ class FixLaatsteIntakeCommand extends \Symfony\Component\Console\Command\Command
             LEFT JOIN intakes AS intake ON intake.klant_id = klant.id AND intake.datum_intake = laatste_intake.datum_intake
             SET klant.laste_intake_id = intake.id';
 
-        /* @var Connection $conn */
-        $conn = $this->getContainer()->get('database_connection');
-        $n = $conn->exec($sql);
+        $n = $this->conn->exec($sql);
 
         $output->writeln(sprintf('%d rows affected', $n));
         return 0;

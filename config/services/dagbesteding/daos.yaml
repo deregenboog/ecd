@@ -1,48 +1,9 @@
 services:
-    DagbestedingBundle\Service\ContactpersoonDao:
-        parent: app.dao.abstract
+    _defaults:
+        autowire: true
+        autoconfigure: true
+        bind:
+            $itemsPerPage: '%pagination.items_per_page%'
 
-    DagbestedingBundle\Service\DagdeelDao:
-        parent: app.dao.abstract
-
-    DagbestedingBundle\Service\DeelnemerDao:
-        parent: app.dao.abstract
-
-    DagbestedingBundle\Service\DeelnemerafsluitingDao:
-        parent: app.dao.abstract
-
-    DagbestedingBundle\Service\DocumentDao:
-        parent: app.dao.abstract
-
-    DagbestedingBundle\Service\LocatieDao:
-        parent: app.dao.abstract
-
-    DagbestedingBundle\Service\ProjectDao:
-        parent: app.dao.abstract
-
-    DagbestedingBundle\Service\RapportageDao:
-        parent: app.dao.abstract
-
-    DagbestedingBundle\Service\ResultaatgebiedsoortDao:
-        parent: app.dao.abstract
-
-    DagbestedingBundle\Service\TrajectDao:
-        parent: app.dao.abstract
-
-    DagbestedingBundle\Service\TrajectafsluitingDao:
-        parent: app.dao.abstract
-
-    DagbestedingBundle\Service\TrajectcoachDao:
-        parent: app.dao.abstract
-
-    DagbestedingBundle\Service\TrajectsoortDao:
-        parent: app.dao.abstract
-
-    DagbestedingBundle\Service\VerslagDao:
-        parent: app.dao.abstract
-
-    DagbestedingBundle\Service\DeelnameDao:
-        parent: app.dao.abstract
-
-    DagbestedingBundle\Service\WerkdoelDao:
-        parent: app.dao.abstract
+    DagbestedingBundle\Service\:
+        resource: '%kernel.project_dir%/src/DagbestedingBundle/Service/'

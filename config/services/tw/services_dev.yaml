@@ -1,8 +1,0 @@
-services:
-    _defaults:
-        autowire: true
-        autoconfigure: true
-    tw.data_fixtures.faker_provider:
-        class: TwBundle\DataFixtures\TwFakerProvider
-        tags:
-            - { name: nelmio_alice.faker.provider }

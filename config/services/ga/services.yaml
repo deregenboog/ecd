@@ -9,92 +9,69 @@ services:
 
     GaBundle\Command\:
       resource: '%kernel.project_dir%/src/GaBundle/Command'
-      tags: [ 'console.command' ]
 
     GaBundle\Controller\:
       resource: '%kernel.project_dir%/src/GaBundle/Controller'
-      tags: [ 'controller.service_arguments' ]
 
     GaBundle\Controller\IntakesController:
       arguments:
         $entities: '@ga.intake.entities'
-      tags: [ 'controller.service_arguments' ]
 
     GaBundle\Controller\RapportagesController:
       arguments:
         $export: '@ga.export.report'
         $reports: !tagged_iterator ga.rapportage
-      tags: [ 'controller.service_arguments' ]
 
     GaBundle\Controller\DeelnamesController:
       arguments:
         $entities: '@ga.deelname.entities'
-      tags: [ 'controller.service_arguments' ]
 
     GaBundle\Controller\DocumentenController:
       arguments:
         $entities: '@ga.document.entities'
-      tags: [ 'controller.service_arguments' ]
 
     GaBundle\Controller\LidmaatschappenController:
       arguments:
         $entities: '@ga.lidmaatschap.entities'
-      tags: [ 'controller.service_arguments' ]
 
     GaBundle\Controller\ActiviteitenController:
       arguments:
         $entities: '@ga.activiteit.entities'
         $export: '@ga.export.activiteiten'
-      tags: [ 'controller.service_arguments' ]
 
     GaBundle\Controller\ActiviteitenreeksController:
       arguments:
         $entities: '@ga.activiteit.entities'
-      tags: [ 'controller.service_arguments' ]
 
     GaBundle\Controller\GroepenController:
       arguments:
         $export: '@ga.export.groepen'
-      tags: [ 'controller.service_arguments' ]
 
     GaBundle\Controller\MemosController:
       arguments:
         $entities: '@ga.memo.entities'
-      tags: [ 'controller.service_arguments' ]
 
     GaBundle\Controller\VerslagenController:
       arguments:
         $entities: '@ga.verslag.entities'
-      tags: [ 'controller.service_arguments' ]
 
     GaBundle\Controller\VrijwilligerdossiersController:
       arguments:
         $export: '@ga.export.vrijwilligerdossiers'
-      tags: [ 'controller.service_arguments' ]
 
     GaBundle\Controller\VrijwilligerintakesController:
       arguments:
         $export: '@ga.export.vrijwilligerdossiers'
-      tags: [ 'controller.service_arguments' ]
 
     GaBundle\Controller\KlantdossiersController:
       arguments:
         $export: '@ga.export.klantdossiers'
-      tags: [ 'controller.service_arguments' ]
 
     GaBundle\Event\DienstenLookupSubscriber:
-        arguments:
-            - "@doctrine.orm.entity_manager"
-            - "@router"
-        tags:
-            - { name: kernel.event_subscriber }
 
     GaBundle\Form\RapportageType:
-        tags:
-            - { name: form.type }
 
     GaBundle\Report\DeelnemersTotaal:
-        public: true
         arguments:
             -
               Buurtmaatjes: "@ga.repository.groep_buurtmaatjes"
@@ -106,7 +83,6 @@ services:
             - { name: ga.rapportage, title: Deelnemers totaal }
 
     GaBundle\Report\DeelnemersPerGroep:
-        public: true
         arguments:
             -
               Buurtmaatjes: "@ga.repository.groep_buurtmaatjes"
@@ -118,7 +94,6 @@ services:
             - { name: ga.rapportage, title: Deelnemers per groep }
 
     GaBundle\Report\DeelnemersPerStadsdeel:
-        public: true
         arguments:
             -
               Buurtmaatjes: "@ga.repository.groep_buurtmaatjes"
@@ -130,7 +105,6 @@ services:
             - { name: ga.rapportage, title: Deelnemers per stadsdeel }
 
     GaBundle\Report\DeelnemersPerGroepStadsdeel:
-        public: true
         arguments:
             -
               Buurtmaatjes: "@ga.repository.groep_buurtmaatjes"
@@ -142,7 +116,6 @@ services:
             - { name: ga.rapportage, title: Deelnemers per groep en stadsdeel }
 
     GaBundle\Report\VrijwilligersTotaal:
-        public: true
         arguments:
             -
               Buurtmaatjes: "@ga.repository.groep_buurtmaatjes"
@@ -154,7 +127,6 @@ services:
             - { name: ga.rapportage, title: Buurtmaatjes vrijwilligers totaal }
 
     GaBundle\Report\VrijwilligersPerGroep:
-        public: true
         arguments:
             -
               Buurtmaatjes: "@ga.repository.groep_buurtmaatjes"
@@ -166,7 +138,6 @@ services:
             - { name: ga.rapportage, title: Buurtmaatjes vrijwilligers per groep }
 
     GaBundle\Report\VrijwilligersPerGroepStadsdeel:
-        public: true
         arguments:
             -
               Buurtmaatjes: "@ga.repository.groep_buurtmaatjes"
@@ -183,10 +154,7 @@ services:
         - 'GaBundle\Entity\Groep'
 
     GaBundle\Repository\GroepRepository:
-      class: GaBundle\Repository\GroepRepository
       arguments:
-        - "@doctrine.orm.entity_manager"
-        - "@groep_metadata"
+        $class: "@groep_metadata"
       tags:
         - app.doelstelling
-      public: true

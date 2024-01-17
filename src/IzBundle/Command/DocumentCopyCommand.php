@@ -3,9 +3,8 @@
 namespace IzBundle\Command;
 
 use AppBundle\Entity\Attachment;
-use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use IzBundle\Entity\Document;
-use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -15,6 +14,18 @@ use Symfony\Component\Filesystem\Filesystem;
 
 class DocumentCopyCommand extends \Symfony\Component\Console\Command\Command
 {
+    /**
+     * @var EntityManagerInterface
+     */
+    private $em;
+
+    public function __construct(EntityManagerInterface $em)
+    {
+        $this->em = $em;
+
+        parent::__construct();
+    }
+
     protected function configure()
     {
         $this
@@ -26,24 +37,23 @@ class DocumentCopyCommand extends \Symfony\Component\Console\Command\Command
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        /* @var $entityManager EntityManager */
-        $entityManager = $this->getContainer()->get('doctrine.orm.entity_manager');
+        /* @var $entityManager EntityManagerInterface */
         $archiveDir = realpath(__DIR__.'/../../../archive');
         $fs = new Filesystem();
         $count = 0;
 
         $filename = $input->getArgument('filename');
         if ($filename) {
-            $documents = $entityManager->getRepository(Document::class)->findByFilename($filename);
+            $documents = $this->em->getRepository(Document::class)->findByFilename($filename);
         } else {
-            $documents = $entityManager->getRepository(Document::class)->findAll();
+            $documents = $this->em->getRepository(Document::class)->findAll();
         }
 
         foreach ($documents as $document) {
             // prevent caching issue
-            $entityManager->clear();
+            $this->em->clear();
 
-            $attachment = $entityManager->getRepository(Attachment::class)->findOneBy([
+            $attachment = $this->em->getRepository(Attachment::class)->findOneBy([
                 'basename' => $document->getFilename(),
                 'model' => 'IzDeelnemer',
             ]);

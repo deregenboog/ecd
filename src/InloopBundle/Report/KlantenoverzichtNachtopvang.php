@@ -7,7 +7,7 @@ use AppBundle\Entity\Geslacht;
 use AppBundle\Entity\Klant;
 use AppBundle\Report\AbstractReport;
 use AppBundle\Report\Listing;
-use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use InloopBundle\Entity\Locatie;
 use InloopBundle\Service\LocatieDao;
 
@@ -28,14 +28,14 @@ class KlantenoverzichtNachtopvang extends AbstractReport
     protected $data = [];
 
     /**
-     * @var EntityManager
+     * @var EntityManagerInterface
      */
     private $entityManager;
 
     private $weekStartDate;
     private $weekEndDate;
 
-    public function __construct(EntityManager $entityManager, LocatieDao $locatieDao)
+    public function __construct(EntityManagerInterface $entityManager, LocatieDao $locatieDao)
     {
         $this->entityManager = $entityManager;
         $this->locatieDao = $locatieDao;
@@ -142,7 +142,7 @@ class KlantenoverzichtNachtopvang extends AbstractReport
                     'end_date' => $this->weekEndDate,
                     "locatienaam"=>$locatie->getNaam(),
                 ]);
-            
+
             $this->data[$locatie->getNaam()][] = $builder->getQuery()->getResult();
         }
 

@@ -1,6 +1,9 @@
 services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+
     hs.export.klant:
-        public: true
         class: AppBundle\Export\GenericExport
         arguments:
             - HsBundle\Entity\Klant
@@ -21,7 +24,6 @@ services:
                 Saldo: { expression: 'entity.getSaldo()' }
 
     hs.export.dienstverlener:
-        public: true
         class: AppBundle\Export\GenericExport
         arguments:
             - HsBundle\Entity\Dienstverlener
@@ -41,7 +43,6 @@ services:
                 Werkgebied: { expression: 'entity.getKlant().getWerkgebied()' }
 
     hs.export.vrijwilliger:
-        public: true
         class: AppBundle\Export\GenericExport
         arguments:
             - HsBundle\Entity\Vrijwilliger
@@ -61,7 +62,6 @@ services:
                 Werkgebied: { expression: 'entity.getVrijwilliger().getWerkgebied()' }
 
     hs.export.registratie:
-        public: true
         class: AppBundle\Export\GenericExport
         arguments:
             - HsBundle\Entity\Registratie
@@ -79,20 +79,18 @@ services:
 #                Reiskosten:  { expression: 'entity.getReiskosten()' }
 
     hs.export.klus:
-        public: true
         class: AppBundle\Export\GenericExport
         arguments:
             - HsBundle\Entity\Klus
             -
                 Status: { expression: 'entity.getStatus()' }
-                Startdatum: { expression: 'entity.getStartdatum()', type: 'date' } 
+                Startdatum: { expression: 'entity.getStartdatum()', type: 'date' }
                 Einddatum: { expression: 'entity.getEinddatum()', type: 'date' }
-                Klant: { expression: 'entity.getKlant()' } 
-                Stadsdeel: { expression: 'entity.getKlant().getWerkgebied()' } 
-                Activiteiten: { expression: 'entity.getActiviteitenAsString()' } 
+                Klant: { expression: 'entity.getKlant()' }
+                Stadsdeel: { expression: 'entity.getKlant().getWerkgebied()' }
+                Activiteiten: { expression: 'entity.getActiviteitenAsString()' }
 
     hs.export.factuur:
-        public: true
         class: AppBundle\Export\GenericExport
         arguments:
             - HsBundle\Entity\Factuur
@@ -105,7 +103,6 @@ services:
                 Saldo: { expression: 'entity.getSaldo()', type: 'money' }
 
     hs.export.betaling:
-        public: true
         class: AppBundle\Export\GenericExport
         arguments:
             - HsBundle\Entity\Betaling
@@ -117,12 +114,10 @@ services:
                 Bedrag: { expression: 'entity.getBedrag()', type: 'money' }
 
     hs.export.report:
-        public: true
         class: AppBundle\Export\ReportExport
 
 
     hs.export.vrijwilligersdownload:
-        public: true
         class: AppBundle\Export\GenericExport
         arguments:
             - HsBundle\Entity\Vrijwilliger

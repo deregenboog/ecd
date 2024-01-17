@@ -1,6 +1,9 @@
 services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+
     tw.export.klanten:
-        public: true
         class: AppBundle\Export\GenericExport
         arguments:
             - TwBundle\Entity\Klant
@@ -30,7 +33,6 @@ services:
                 Is gekoppeld: { expression: 'entity.isGekoppeld() ? "Ja" : "Nee"' }
 
     tw.export.verhuurders:
-        public: true
         class: AppBundle\Export\GenericExport
         arguments:
             - TwBundle\Entity\Verhuurder
@@ -57,7 +59,6 @@ services:
                 Is gekoppeld: { expression: 'entity.isGekoppeld() ? "Ja" : "Nee"' }
 
     tw.export.huurverzoeken:
-        public: true
         class: AppBundle\Export\GenericExport
         arguments:
             - TwBundle\Entity\Huurverzoek
@@ -70,7 +71,6 @@ services:
                 Afsluitdatum: { expression: 'entity.getAfsluitdatum()', type: 'date' }
 
     tw.export.huuraanbiedingen:
-        public: true
         class: AppBundle\Export\GenericExport
         arguments:
             - TwBundle\Entity\Huuraanbod
@@ -83,7 +83,6 @@ services:
                 Afsluitdatum: { expression: 'entity.getAfsluitdatum()', type: 'date' }
 
     tw.export.koppelingen:
-        public: true
         class: AppBundle\Export\GenericExport
         arguments:
             - TwBundle\Entity\Huurovereenkomst
@@ -105,7 +104,6 @@ services:
                 WA-polis: { expression: 'entity.getKlant().isWaPolis() ? "ja" : "nee"' }
 
     tw.export.vrijwilliger:
-        public: true
         class: AppBundle\Export\GenericExport
         arguments:
             - TwBundle\Entity\Vrijwilliger
@@ -140,7 +138,6 @@ services:
                 Overeenkomst aanwezig: { expression: 'entity.getVrijwilliger().getOvereenkomstAanwezig()' }
 
     tw.export.vrijwilligersdownload:
-        public: true
         class: AppBundle\Export\GenericExport
         arguments:
             - TwBundle\Entity\Vrijwilliger
@@ -167,5 +164,4 @@ services:
             - { name: app.downloads }
 
     tw.export.report:
-        public: true
         class: AppBundle\Export\ReportExport
