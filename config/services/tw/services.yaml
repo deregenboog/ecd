@@ -1,0 +1,75 @@
+imports:
+    - { resource: daos.yaml }
+    - { resource: exports.yaml }
+    - { resource: reports.yaml }
+
+services:
+    #tbv controller DI named arguments die dan niet eerst hoeven;
+    _defaults:
+        autowire: true
+        autoconfigure: true
+
+    TwBundle\Controller\:
+        resource: '%kernel.project_dir%/src/TwBundle/Controller'
+        tags: [ 'controller.service_arguments' ]
+
+    TwBundle\Controller\DeelnamesController:
+        arguments:
+            $entities: '@tw.deelname.entities'
+        tags: [ 'controller.service_arguments' ]
+
+    TwBundle\Controller\HuurovereenkomstenController:
+        arguments:
+            $export: '@tw.export.koppelingen'
+        tags: [ 'controller.service_arguments' ]
+
+    TwBundle\Controller\HuuraanbiedingenController:
+        arguments:
+            $export: '@tw.export.huuraanbiedingen'
+        tags: [ 'controller.service_arguments' ]
+
+    TwBundle\Controller\KlantenController:
+        arguments:
+            $export: '@tw.export.klanten'
+        tags: [ 'controller.service_arguments' ]
+
+    TwBundle\Controller\MemosController:
+        arguments:
+            $entities: '@tw.memo.entities'
+        tags: [ 'controller.service_arguments' ]
+
+    TwBundle\Controller\RapportagesController:
+        arguments:
+            $export: '@tw.export.report'
+            $reports: !tagged_iterator tw.rapportage
+        tags: [ 'controller.service_arguments' ]
+
+    TwBundle\Controller\VerhuurdersController:
+        arguments:
+            $export: '@tw.export.verhuurders'
+        tags: [ 'controller.service_arguments' ]
+
+    TwBundle\Controller\VrijwilligersController:
+        arguments:
+            $export: '@tw.export.vrijwilliger'
+        tags: [ 'controller.service_arguments' ]
+
+    tw.event.diensten_lookup_subscriber:
+        class: TwBundle\Event\DienstenLookupSubscriber
+        arguments:
+            - "@doctrine.orm.entity_manager"
+            - "@router"
+        tags:
+            - { name: kernel.event_subscriber }
+
+    TwBundle\Form\KlantFilterType:
+        arguments:
+            - "@doctrine.orm.entity_manager"
+        tags:
+            - { name: form.type }
+
+    TwBundle\Security\DocumentVoter:
+        arguments:
+            - "@security.access.decision_manager"
+        tags:
+            - { name: security.voter }

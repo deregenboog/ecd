@@ -1,0 +1,16 @@
+mw_annotations:
+    prefix: /mw
+    resource: "../../src/MwBundle/Controller"
+    type: annotation
+
+mw_index:
+    path: /mw/
+    defaults:
+        _controller: Symfony\Bundle\FrameworkBundle\Controller\RedirectController::redirectAction
+        route: mw_klanten_index
+
+mw_rapportage_redirect:
+  path: /maatschappelijk_werk/rapportage
+  defaults:
+    _controller: Symfony\Bundle\FrameworkBundle\Controller\RedirectController::redirectAction
+    route: mw_rapportages_index

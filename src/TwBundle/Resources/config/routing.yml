@@ -1,9 +1,0 @@
-tw_annotations:
-    resource: "@TwBundle/Controller"
-    type: annotation
-
-tw_index:
-    path: /
-    defaults:
-        _controller: Symfony\Bundle\FrameworkBundle\Controller\RedirectController::redirectAction
-        route: tw_klanten_index

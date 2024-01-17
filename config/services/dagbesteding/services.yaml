@@ -1,0 +1,163 @@
+imports:
+    - { resource: daos.yaml }
+    - { resource: exports.yaml }
+    - { resource: reports.yaml }
+#    - { resource: services_dev.yml }
+
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+
+    DagbestedingBundle\Command\:
+        resource: '%kernel.project_dir%/src/DagbestedingBundle/Command'
+        tags: [ 'console.command' ]
+
+    DagbestedingBundle\Controller\:
+        resource: '%kernel.project_dir%/src/DagbestedingBundle/Controller'
+        tags: [ 'controller.service_arguments' ]
+
+    DagbestedingBundle\Controller\ContactpersonenController:
+        arguments:
+            $entities: '@dagbesteding.contactpersoon.entities'
+        tags: [ 'controller.service_arguments' ]
+
+    DagbestedingBundle\Controller\DagdelenController:
+        arguments:
+            $export: '@dagbesteding.export.dagdelen'
+        tags: [ 'controller.service_arguments' ]
+
+    DagbestedingBundle\Controller\DashboardController:
+        arguments:
+            $trajectenExport: '@dagbesteding.export.trajecten'
+        tags: [ 'controller.service_arguments' ]
+
+    DagbestedingBundle\Controller\DeelnamesController:
+        arguments:
+            $entities: '@dagbesteding.deelname.entities'
+            $export: '@dagbesteding.export.deelnames'
+        tags: [ 'controller.service_arguments']
+
+    DagbestedingBundle\Controller\DeelnemersController:
+        arguments:
+            $export: '@dagbesteding.export.deelnemers'
+        tags: [ 'controller.service_arguments' ]
+
+    DagbestedingBundle\Controller\DocumentenController:
+        arguments:
+            $entities: '@dagbesteding.document.entities'
+        tags: [ 'controller.service_arguments' ]
+
+    DagbestedingBundle\Controller\RapportagesController:
+        arguments:
+            $entities: '@dagbesteding.rapportage.entities'
+        tags: [ 'controller.service_arguments' ]
+
+    DagbestedingBundle\Controller\ReportingController:
+        arguments:
+            $export: '@dagbesteding.export.report'
+            $reports: !tagged_iterator dagbesteding.rapportage
+        tags: [ 'controller.service_arguments' ]
+
+    DagbestedingBundle\Controller\TrajectenController:
+        arguments:
+            $entities: '@dagbesteding.traject.entities'
+            $export: '@dagbesteding.export.trajecten'
+        tags: [ 'controller.service_arguments' ]
+
+    DagbestedingBundle\Controller\VerslagenController:
+        arguments:
+            $entities: '@dagbesteding.verslag.entities'
+        tags: [ 'controller.service_arguments' ]
+
+    DagbestedingBundle\Controller\IntakeverslagenController:
+        arguments:
+            $entities: '@dagbesteding.verslag.entities'
+        tags: ['controller.service_arguments']
+
+    DagbestedingBundle\Controller\EvaluatieverslagenController:
+        arguments:
+            $entities: '@dagbesteding.verslag.entities'
+        tags: [ 'controller.service_arguments' ]
+
+    DagbestedingBundle\Controller\WerkdoelenController:
+        arguments:
+            $entities: '@dagbesteding.werkdoel.entities'
+        tags: [ 'controller.service_arguments' ]
+
+
+
+
+
+    dagbesteding.contactpersoon.entities:
+        public: true
+        class: ArrayObject
+        arguments:
+            -
+              - { key: deelnemer, dao: '@DagbestedingBundle\Service\DeelnemerDao' }
+
+    dagbesteding.dagdeel.entities:
+        public: true
+        class: ArrayObject
+        arguments:
+            -
+              - { key: traject, dao: '@DagbestedingBundle\Service\TrajectDao' }
+
+    dagbesteding.document.entities:
+        public: true
+        class: ArrayObject
+        arguments:
+            -
+              - { key: deelnemer, dao: '@DagbestedingBundle\Service\DeelnemerDao' }
+              - { key: traject, dao: '@DagbestedingBundle\Service\TrajectDao' }
+              - { key: rapportage, dao: '@DagbestedingBundle\Service\RapportageDao' }
+
+    dagbesteding.traject.entities:
+        public: true
+        class: ArrayObject
+        arguments:
+            -
+              - { key: deelnemer, dao: '@DagbestedingBundle\Service\DeelnemerDao' }
+
+    dagbesteding.deelname.entities:
+        public: true
+        class: ArrayObject
+        arguments:
+            - - { key: traject, dao: '@DagbestedingBundle\Service\TrajectDao' }
+              - { key: project, dao: '@DagbestedingBundle\Service\ProjectDao' }
+
+    dagbesteding.werkdoel.entities:
+        public: true
+        class: ArrayObject
+        arguments:
+            - - { key: traject, dao: '@DagbestedingBundle\Service\TrajectDao' }
+              - { key: deelnemer, dao: '@DagbestedingBundle\Service\DeelnemerDao' }
+
+
+    dagbesteding.rapportage.entities:
+        public: true
+        class: ArrayObject
+        arguments:
+            -
+              - { key: traject, dao: '@DagbestedingBundle\Service\TrajectDao' }
+
+    dagbesteding.verslag.entities:
+        public: true
+        class: ArrayObject
+        arguments:
+            -
+              - { key: deelnemer, dao: '@DagbestedingBundle\Service\DeelnemerDao' }
+              - { key: traject, dao: '@DagbestedingBundle\Service\TrajectDao' }
+
+    DagbestedingBundle\Event\DienstenLookupSubscriber:
+        arguments:
+            - "@doctrine.orm.entity_manager"
+            - "@router"
+        tags:
+            - { name: kernel.event_subscriber }
+
+    DagbestedingBundle\Event\GeenActiveringSubscriber:
+        arguments:
+            - "@doctrine.orm.entity_manager"
+        tags:
+            - { name: kernel.event_subscriber }

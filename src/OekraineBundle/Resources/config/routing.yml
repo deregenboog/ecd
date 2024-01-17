@@ -1,9 +1,0 @@
-oekraine_annotations:
-    resource: "@OekraineBundle/Controller"
-    type: annotation
-
-oekraine_index:
-    path: /
-    defaults:
-        _controller: Symfony\Bundle\FrameworkBundle\Controller\RedirectController::redirectAction
-        route: oekraine_registraties_locationselect

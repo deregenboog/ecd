@@ -1,0 +1,10 @@
+Uhk_annotations:
+    prefix: /uhk
+    resource: "../../src/UhkBundle/Controller"
+    type: annotation
+
+uhk_index:
+    path: /uhk/
+    defaults:
+        _controller: Symfony\Bundle\FrameworkBundle\Controller\RedirectController::redirectAction
+        route: uhk_deelnemers_index

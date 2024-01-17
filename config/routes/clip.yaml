@@ -1,0 +1,10 @@
+clip_annotations:
+    prefix: /clip
+    resource: "../../src/ClipBundle/Controller"
+    type: annotation
+
+clip_index:
+    path: /clip/
+    defaults:
+        _controller: Symfony\Bundle\FrameworkBundle\Controller\RedirectController::redirectAction
+        route: clip_openstaandevragen_index

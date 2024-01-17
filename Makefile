@@ -11,6 +11,7 @@ test: install
 docker-build:
 	docker compose build
 	docker compose up --force-recreate --wait database && sleep 1
+	docker compose run --rm php bin/console -n doctrine:migrations:sync-metadata-storage
 	docker compose run --rm php bin/console -n doctrine:migrations:migrate
 	docker compose run --rm -e PREVENT_SAVE_ENABLED='false' php bin/console -n hautelook:fixtures:load --purge-with-truncate
 	docker compose run --rm php bin/console -n inloop:access:update

@@ -1,0 +1,10 @@
+iz_annotations:
+    prefix: /iz
+    resource: "../../src/IzBundle/Controller"
+    type: annotation
+
+iz_index:
+    path: /iz/
+    defaults:
+        _controller: Symfony\Bundle\FrameworkBundle\Controller\RedirectController::redirectAction
+        route: iz_dashboard_index
