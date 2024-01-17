@@ -70,7 +70,7 @@ class EmailMessageType extends AbstractType
     /**
      * {@inheritdoc}
      */
-    public function getBlockPrefix()
+    public function getBlockPrefix(): string
     {
         return 'ga_email_message';
     }

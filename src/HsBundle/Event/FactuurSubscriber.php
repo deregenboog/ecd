@@ -28,7 +28,7 @@ class FactuurSubscriber implements EventSubscriber
 
     public function preRemove($args)
     {
-        $entity = $args->getEntity();
+        $entity = $args->getObject();
         $entityManager = $args->getEntityManager();
 
         if ($entity instanceof FactuurSubjectInterface) {

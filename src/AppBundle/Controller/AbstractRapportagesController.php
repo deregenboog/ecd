@@ -20,6 +20,9 @@ abstract class AbstractRapportagesController extends SymfonyController
      */
     protected $reports;
 
+    protected $formClass;
+
+    protected $export;
 
     /**
      * @param ExportInterface $export
@@ -42,7 +45,7 @@ abstract class AbstractRapportagesController extends SymfonyController
 
         $formOptions = [];
         if ($request->query->has('rapportage')) {
-            $rapport = $request->query->get('rapportage')['rapport'];
+            $rapport = $request->query->all('rapportage')['rapport'];
             // get reporting service
             /** @var AbstractReport $report */
             $report = $this->getReport($rapport);

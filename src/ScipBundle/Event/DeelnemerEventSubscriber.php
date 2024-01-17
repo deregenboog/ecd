@@ -30,10 +30,10 @@ class DeelnemerEventSubscriber implements EventSubscriber
 
     public function postPersist(LifecycleEventArgs $args)
     {
-        $i = $args->getEntity();
-        if ($args->getEntity() instanceof Deelnemer) {
+        $i = $args->getObject();
+        if ($args->getObject() instanceof Deelnemer) {
             $this->eventDispatcher->dispatch(
-                new GenericEvent($args->getEntity()),
+                new GenericEvent($args->getObject()),
                 Events::EVENT_DEELNEMER_CREATED
             );
         }
