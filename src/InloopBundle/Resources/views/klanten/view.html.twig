@@ -65,9 +65,11 @@
         </div>
         <div id="verslagen" class="tab-pane">
             <h2>Verslagen</h2>
-            <p>
-                {{ html.link('Verslag toevoegen', path('inloop_verslagen_add', {klant: entity.id, type: 2}), 'add') }}
-            </p>
+            {% if entity.huidigeMwStatus? instanceof(entity.huidigeMwStatus, "MwBundle\\Entity\\Aanmelding") %}
+                <p>
+                    {{ html.link('Verslag toevoegen', path('inloop_verslagen_add', {klant: entity.id, type: 2}), 'add') }}
+                </p>
+            {% endif %}
 
             {% if is_granted("ROLE_MW") %}
                     {%  set roleMw = true %}

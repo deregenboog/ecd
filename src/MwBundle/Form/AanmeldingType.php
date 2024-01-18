@@ -27,7 +27,8 @@ class AanmeldingType extends AbstractType
         $builder
             ->add('datum', AppDateType::class)
             ->add("locatie",LocatieSelectType::class,[
-                'locatietypes'=>'Maatschappelijk Werk'
+                'locatietypes'=>'Maatschappelijk Werk',
+                'required'=>true,
             ])
             ->add('project', BaseSelectType::class, [
                 'class' => Project::class,
