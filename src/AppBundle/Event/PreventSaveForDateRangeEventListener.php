@@ -35,15 +35,11 @@ class PreventSaveForDateRangeEventListener
      * This way we can prevent that data gets modified while reports are in the making and get controlled by the accountant.
      * Makes use of LifecycleEvents and the Timestampeable trait. Entities should use this trait for this mechanism to work.
      */
-    public function __construct($preventSaveEnabled,$preventSaveBefore,$preventSaveAfter, $excludeEntities, $debug=false) {
-        if(new \DateTime($preventSaveEnabled) > new \DateTime()){
-            $this->enabled = false;
+    public function __construct(bool $enabled, string $preventSaveBefore, string $preventSaveAfter, array $excludeEntities, bool $debug = false) {
+        $this->enabled = $enabled;
+        if (!$this->enabled) {
             return;
-        }//not yet enabled.
-        else if(null == $preventSaveBefore){
-            $this->enabled = false;
-            return;
-        };
+        }
 
        $this->preventSaveBefore=$preventSaveBefore;
        $this->preventSaveBeforeDate = new \DateTime($preventSaveBefore);
