@@ -1,4 +1,7 @@
 parameters:
+  # default values for env vars (in case not defined)
+  env(PREVENT_SAVE_ENABLED): 'true'
+
 #  application_version: 'abc'
   database_server_version: '8'
   cache_type: file_system
@@ -97,7 +100,6 @@ parameters:
   hulpverlening_mail: '%env(HULPVERLENING_MAIL)%'
   agressie_mail: '%env(AGRESSIEMAIL)%'
   administratiebedrijf_mail: '%env(ADMINISTRATIEBEDRIJF_MAIL)%'
-  prevent_save_enabled: '%env(PREVENT_SAVE_ENABLED)%' #vanaf deze datum wordt de check uitgevoerd. #NB: dit werkt eigenlijk niet goed want zodra je deze verzet naar het nieuwe jaar, dan is tijdelijk mogelijk dat het jaar ervoor toch nog wordt gewijzigd.
   prevent_save_modified_before: '%env(PREVENT_SAVE_MODIFIED_BEFORE)%' #als de gecheckte entiteit en datumveld heeft voor deze datum
   prevent_save_modified_after: '%env(PREVENT_SAVE_MODIFIED_AFTER)%' #en als de gecheckte entiteit een datumveld heeft na deze datum.
   prevent_save_exclude_entities:
