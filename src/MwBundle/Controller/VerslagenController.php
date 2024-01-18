@@ -22,6 +22,7 @@ use MwBundle\Service\InventarisatieDaoInterface;
 use MwBundle\Service\VerslagDao;
 use MwBundle\Service\VerslagDaoInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+use Symfony\Component\Form\Form;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
@@ -81,6 +82,10 @@ class VerslagenController extends AbstractController
     public function addAction(Request $request)
     {
         $klant = $request->get('klant');
+        if(!$klant->getHuidigeMwStatus() instanceof Aanmelding)
+        {
+            throw new UserException("Kan geen verslag toevoegen aan een klant met een gesloten dossier.");
+        }
         $entity = new Verslag($klant,Verslag::TYPE_MW);
 
         $formResult = $this->processForm($request, $entity);

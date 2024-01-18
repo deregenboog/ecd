@@ -51,7 +51,7 @@ class LocatieFilter implements FilterInterface
             }
             if ($this->status == self::STATUS_INACTIEF) {
                 $builder
-                    ->andWhere('locatie.datumVan >= :today')
+                    ->andWhere('locatie.datumVan <= :today')
                     ->andWhere('locatie.datumTot <= :today OR locatie.datumTot IS NULL')
                     ->setParameter('today', new \DateTime('today'))
                 ;

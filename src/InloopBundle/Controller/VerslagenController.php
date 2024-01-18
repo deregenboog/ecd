@@ -11,6 +11,7 @@ use AppBundle\Export\ExportInterface;
 use Doctrine\ORM\EntityNotFoundException;
 use InloopBundle\Service\VerslagDao;
 use JMS\DiExtraBundle\Annotation as DI;
+use MwBundle\Entity\Aanmelding;
 use MwBundle\Entity\Verslag;
 use MwBundle\Form\VerslagModel;
 use MwBundle\Form\VerslagType;
@@ -62,10 +63,13 @@ class VerslagenController extends AbstractController
     public function addAction(Request $request)
     {
         $klant = $request->get('klant');
-//        $type = $request->get('type');
+
+        if(!$klant->getHuidigeMwStatus() instanceof Aanmelding)
+        {
+            throw new UserException("Kan geen verslag toevoegen aan een klant zonder een lopend MW dossier.");
+        }
 
         $entity = new Verslag($klant, Verslag::ACCESS_ALL);
-//        $entity->setType($type);
 
         return $this->processForm($request, $entity);
     }

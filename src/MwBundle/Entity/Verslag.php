@@ -10,6 +10,8 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use InloopBundle\Entity\Locatie;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
 /**
  * @ORM\Entity
@@ -53,6 +55,7 @@ class Verslag
     /**
      * @ORM\Column(type="date", nullable=true)
      * @Gedmo\Versioned
+     *
      */
     private $datum;
 
@@ -284,5 +287,21 @@ class Verslag
         $this->aantalContactmomenten = $aantalContactmomenten;
     }
 
+    /**
+     * @param ExecutionContextInterface $context
+     * @param $payload
+     * @return void
+     * @Assert\Callback()
+     */
+    public function validate(ExecutionContextInterface $context, $payload)
+    {
+        //Kijk of, wanneer het dossier gesloten is, de datum niet na de afgesloten datum ligt.
+        if(!$this->getKlant()->getHuidigeMwStatus() instanceof Aanmelding && $this->datum > $this->getKlant()->getHuidigeMwStatus()->getDatum()) {
+
+            $context->buildViolation('De datum van dit verslag mag niet groter zijn dan de datum waarop het dossier is afgesloten. ('.$this->getKlant()->getHuidigeMwStatus()->getDatum()->format("d-m-Y").")")
+                ->atPath('datum')
+                ->addViolation();
+        }
+    }
 
 }
