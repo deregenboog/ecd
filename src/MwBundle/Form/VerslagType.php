@@ -9,6 +9,7 @@ use AppBundle\Form\MedewerkerType;
 use Doctrine\ORM\EntityRepository;
 use FOS\CKEditorBundle\Form\Type\CKEditorType;
 use InloopBundle\Form\LocatieSelectType;
+use MwBundle\Entity\Aanmelding;
 use MwBundle\Entity\Doorverwijzing;
 use MwBundle\Entity\Trajecthouder;
 use MwBundle\Entity\Verslag;
@@ -33,6 +34,7 @@ class VerslagType extends AbstractType
             ->add('medewerker', MedewerkerType::class)
             ->add('datum', AppDateType::class, [
                 'required' => true,
+
             ])
             ->add('locatie', LocatieSelectType::class,[
                 'locatietypes'=>$options['locatieTypes'],

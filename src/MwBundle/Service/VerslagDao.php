@@ -4,6 +4,7 @@ namespace MwBundle\Service;
 
 use AppBundle\Doctrine\SqlExtractor;
 use AppBundle\Entity\Klant;
+use AppBundle\Exception\UserException;
 use AppBundle\Service\AbstractDao;
 use Doctrine\ORM\QueryBuilder;
 use MwBundle\Entity\Aanmelding;
@@ -17,12 +18,10 @@ class VerslagDao extends AbstractDao implements VerslagDaoInterface
 
     public function create(Verslag $entity)
     {
-//        if($entity->getKlant()->getHuidigeMwStatus() == null)
-//        {
-//            $mwAanmelding = new Aanmelding($entity->getKlant(),$entity->getMedewerker());
-//            $entity->getKlant()->setHuidigeMwStatus($mwAanmelding);
-//
-//        }
+        if(!$entity->getKlant()->getHuidigeMwStatus() instanceof Aanmelding)
+        {
+            throw new UserException("Kan geen verslagen toevoegen aan klanten zonder open MW dossier.");
+        }
         $this->doCreate($entity);
 
 

@@ -416,6 +416,7 @@ abstract class AbstractController extends SymfonyController
             throw new AppException(get_class($this).'::formClass not set!');
         }
 
+
         $form = $this->getForm($this->formClass, $entity, array_merge($this->formOptions, [
             'medewerker' => $this->getMedewerker(),
         ]));
