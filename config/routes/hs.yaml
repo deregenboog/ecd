@@ -1,0 +1,10 @@
+hs_annotations:
+    prefix: /hs
+    resource: "../../src/HsBundle/Controller"
+    type: annotation
+
+hs_index:
+    path: /hs/
+    defaults:
+        _controller: Symfony\Bundle\FrameworkBundle\Controller\RedirectController::redirectAction
+        route: hs_klanten_index

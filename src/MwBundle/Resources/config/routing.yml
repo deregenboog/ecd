@@ -1,9 +1,0 @@
-mw_annotations:
-    resource: "@MwBundle/Controller"
-    type: annotation
-
-mw_index:
-    path: /
-    defaults:
-        _controller: Symfony\Bundle\FrameworkBundle\Controller\RedirectController::redirectAction
-        route: mw_klanten_index

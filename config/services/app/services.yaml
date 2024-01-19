@@ -1,0 +1,257 @@
+imports:
+    - { resource: daos.yaml }
+    - { resource: exports.yaml }
+    - { resource: reports.yaml }
+
+services:
+    _defaults:
+        autowire: true      # Automatically injects dependencies in your services.
+        autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
+
+    AppBundle\Command\:
+        resource: '%kernel.project_dir%/src/AppBundle/Command'
+        tags: [ 'console.command' ]
+
+    AppBundle\Command\DatabaseBackupCommand:
+        arguments:
+            $dsn: '%env(resolve:DATABASE_URL)%'
+        tags: [ 'console.command' ]
+
+    AppBundle\Controller\:
+        resource: '%kernel.project_dir%/src/AppBundle/Controller'
+        tags: [ 'controller.service_arguments' ]
+
+    AppBundle\Controller\SymfonyController:
+        arguments:
+            $paginator: '@knp_paginator'
+        tags: [ 'controller.service_arguments' ]
+
+    AppBundle\Controller\AbstractController:
+        calls:
+            - setEntityManager: ['@doctrine.orm.default_entity_manager']
+        tags: [ 'controller.service_arguments' ]
+
+    AppBundle\Controller\Admin\KlantenController:
+        arguments:
+            $logger: '@monolog.logger.merge'
+        tags: [ 'controller.service_arguments' ]
+
+    AppBundle\Controller\KlantenController:
+        arguments:
+             $export: '@AppBundle\Export\Klanten'
+             $tbc_countries: '%tbc_countries%'
+        tags: [ 'controller.service_arguments' ]
+
+    AppBundle\Controller\RapportagesController:
+        arguments:
+            $export: '@AppBundle\Export\ReportExport'
+            $reports: !tagged_iterator app.rapportage
+        tags: [ 'controller.service_arguments' ]
+
+    AppBundle\Controller\ZrmsController:
+        arguments:
+            $entities: '@app.zrm.entities'
+        tags: [ 'controller.service_arguments' ]
+
+    AppBundle\Controller\DocumentenController:
+        arguments:
+            $entities: '@app.document.entities'
+        tags: [ 'controller.service_arguments' ]
+
+    AppBundle\Controller\VrijwilligersController:
+        arguments:
+            $export: '@AppBundle\Export\Vrijwilligers'
+        tags: [ 'controller.service_arguments' ]
+
+    AppBundle\Controller\MedewerkersController:
+        arguments:
+            $roleHierarchy: "%security.role_hierarchy.roles%"
+            $export: '@AppBundle\Export\Medewerkers'
+        tags: [ 'controller.service_arguments' ]
+
+    AppBundle\Controller\DoelstellingenController:
+        arguments:
+            $export:  '@AppBundle\Export\Doelstellingen'
+        tags: [ 'controller.service_arguments' ]
+
+    AppBundle\Controller\DownloadController:
+        arguments:
+            $entities: '@app.document.entities'
+            $downloadServices: !tagged_iterator app.downloads
+        tags: [ 'controller.service_arguments' ]
+
+    AppBundle\Event\PreventSaveForDateRangeEventListener:
+        arguments:
+            - '%env(bool:PREVENT_SAVE_ENABLED)%'
+            - '%prevent_save_modified_before%'
+            - '%prevent_save_modified_after%'
+            - '%prevent_save_exclude_entities%'
+            - '%kernel.debug%'
+        tags:
+            - { name: doctrine.event_listener, event: preUpdate }
+            - { name: doctrine.event_listener, event: prePersist }
+            - { name: doctrine.event_listener, event: preRemove }
+
+    AppBundle\Security\ControllerAccessVoter:
+        arguments:
+            - '@security.access.decision_manager'
+            - '@request_stack'
+        tags:
+            - { name: security.voter }
+
+    AppBundle\Security\ControllerVoter:
+        arguments:
+            - '@security.role_hierarchy'
+        tags:
+            - { name: security.voter }
+
+    AppBundle\Event\LoginEventListener:
+        arguments:
+            - '@doctrine.orm.entity_manager'
+            - '@security.untracked_token_storage'
+        tags:
+            - { name: kernel.event_listener, event: Symfony\Component\Security\Http\Event\LoginSuccessEvent, method: onLoginSuccess }
+
+    AppBundle\Event\CheckLdapGroupsListener:
+        arguments:
+            - '@security.ldap_locator'
+            - '%ldap_base_dn%'
+            - '%env(LDAP_SEARCH_USER)%'
+            - '%env(LDAP_SEARCH_PASSWORD)%'
+            - '%roles_groups%'
+        tags:
+            - { name: kernel.event_listener, event: Symfony\Component\Security\Http\Event\CheckPassportEvent, method: onCheckPassport }
+
+
+    twig.extension.routing: # override default routing extension
+        class: AppBundle\Twig\EcdRoutingExtension
+        public: false
+        arguments:
+            - '@router'
+            - '@request_stack'
+        tags:
+            - { name: twig.extension }
+
+    AppBundle\Doctrine\EcdNamingStrategy: #since autowiring is not on by default per bundle, this must be defined; i guess .
+
+    AppBundle\Service\ECDHelper:
+        public: false
+
+    app.twig.app_extension:
+        class: AppBundle\Twig\AppExtension
+        public: false
+        arguments:
+            - '@request_stack'
+            - '%kernel.default_locale%'
+            - '%administrator_name%'
+            - '%administrator_email%'
+            - '%tbc_months_period%'
+            - '@AppBundle\Service\ECDHelper'
+        tags:
+            - { name: twig.extension }
+
+    app.doelstelling:
+#    AppBundle\Controller\DoelstellingenController:
+        class: AppBundle\Form\DoelstellingType
+        arguments:
+            - '@security.authorization_checker'
+            - '@AppBundle\Service\DoelstellingDao'
+        tags:
+            - { name: form.type }
+        public: true
+
+    voter.doelstelling:
+        class: AppBundle\Security\DoelstellingVoter
+        arguments:
+            - '@security.access.decision_manager'
+        tags:
+            - { name: security.voter }
+
+
+    AppBundle\Form\AddressType:
+        arguments: ["@doctrine.orm.entity_manager"]
+        tags:
+            - { name: form.type }
+
+    AppBundle\Form\KlantType:
+        arguments:
+          - "@doctrine.orm.entity_manager"
+          - $tbc_countries: '%tbc_countries%'
+        tags:
+            - { name: form.type }
+
+    AppBundle\Form\KlantMergeType:
+        arguments: ["@doctrine.orm.entity_manager"]
+        tags:
+            - { name: form.type }
+
+    AppBundle\Form\MedewerkerFilterType:
+        arguments: ["%security.role_hierarchy.roles%"]
+        tags:
+            - { name: form.type }
+
+    AppBundle\Form\VrijwilligerType:
+        arguments: ["@doctrine.orm.entity_manager"]
+        tags:
+            - { name: form.type }
+
+    AppBundle\Form\MedewerkerType:
+        arguments: ["@security.token_storage"]
+        tags:
+            - { name: form.type }
+
+
+    AppBundle\Form\DownloadVrijwilligersType:
+        arguments:
+            - ["@doctrine.orm.entity_manager"]
+            - !tagged app.downloads
+        tags:
+            - { name: form.type }
+
+    app.event.kernel_subscriber:
+        class: AppBundle\Event\KernelSubscriber
+        arguments:
+            - '@twig'
+            -
+                App: null
+                Clip: 'CLIP'
+                ErOpUit: 'ErOpUit-kalender'
+                Ga: 'Groepsactiviteiten'
+                Inloop: 'Inloophuizen'
+                Iz: 'Informele zorg'
+                Mw: 'Maatschappelijk werk'
+                Oek: 'Op eigen kracht'
+                Oekraine: 'Oekraïne'
+                Pfo: 'PFO'
+                Tw: 'Tijdelijk wonen'
+                Uhk: 'Uit het krijt'
+        tags:
+            - { name: kernel.event_subscriber }
+
+    AppBundle\Event\DienstenLookupSubscriber:
+        arguments:
+            - '@AppBundle\Service\KlantDao'
+        tags:
+            - { name: kernel.event_subscriber }
+
+
+    app.document.entities:
+        public: true
+        class: ArrayObject
+        arguments:
+            -
+                - { key: klant, dao: '@AppBundle\Service\KlantDao' }
+                - { key: vrijwilliger, dao: '@AppBundle\Service\VrijwilligerDao' }
+
+    app.zrm.entities:
+        public: true
+        class: ArrayObject
+        arguments:
+            -
+                - { key: klant, dao: '@AppBundle\Service\KlantDao' }
+
+    AppBundle\Twig\FallbackLoader:
+        arguments:
+            - ['%kernel.project_dir%/templates']
+        tags:
+            - { name: twig.loader, priority: -1 }

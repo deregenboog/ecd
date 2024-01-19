@@ -1,0 +1,10 @@
+villa_annotations:
+    prefix: /villa
+    resource: "../../src/VillaBundle/Controller"
+    type: annotation
+
+villa_index:
+    path: /villa/
+    defaults:
+        _controller: Symfony\Bundle\FrameworkBundle\Controller\RedirectController::redirectAction
+        route: villa_vrijwilligers_index

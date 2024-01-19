@@ -1,0 +1,51 @@
+imports:
+    - { resource: daos.yaml }
+    - { resource: exports.yaml }
+#    - { resource: reports.yaml }
+
+services:
+    #tbv controller DI named arguments die dan niet eerst hoeven;
+    _defaults:
+        autowire: true
+        autoconfigure: true
+
+    VillaBundle\Controller\:
+        resource: '%kernel.project_dir%/src/VillaBundle/Controller'
+        tags: [ 'controller.service_arguments' ]
+
+    VillaBundle\Controller\DeelnamesController:
+        arguments:
+            $entities: '@villa.deelname.entities'
+        tags: [ 'controller.service_arguments' ]
+
+    VillaBundle\Controller\DocumentenController:
+        arguments:
+            $entities: '@villa.document.entities'
+        tags: [ 'controller.service_arguments' ]
+
+    VillaBundle\Controller\KlantenController:
+        arguments:
+            $export: '@mw.export.klanten'
+        tags: [ 'controller.service_arguments' ]
+
+    VillaBundle\Controller\MemosController:
+        arguments:
+            $entities: '@villa.memo.entities'
+        tags: [ 'controller.service_arguments' ]
+
+    VillaBundle\Controller\VerslagenController:
+        arguments:
+            $export: '@mw.export.klanten'
+        tags: [ 'controller.service_arguments' ]
+
+    VillaBundle\Controller\VrijwilligersController:
+        arguments:
+            $export: '@villa.export.vrijwilliger'
+        tags: [ 'controller.service_arguments' ]
+
+    villa.document.entities:
+        public: true
+        class: ArrayObject
+        arguments:
+            -
+              - { key: vrijwilliger, dao: '@VillaBundle\Service\VrijwilligerDao' }

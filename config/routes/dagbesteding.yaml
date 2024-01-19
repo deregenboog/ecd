@@ -1,0 +1,4 @@
+dagbesteding_annotations:
+    prefix: /dagbesteding
+    resource: "../../src/DagbestedingBundle/Controller"
+    type: annotation

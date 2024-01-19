@@ -1,0 +1,93 @@
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+
+    TwBundle\Service\:
+        resource: '%kernel.project_dir%/src/TwBundle/Service/'
+        parent: app.dao.abstract
+
+    TwBundle\Service\CoordinatorDao:
+        parent: app.dao.abstract
+
+    TwBundle\Service\DocumentDao:
+        arguments:
+            - '@doctrine.orm.entity_manager'
+
+    TwBundle\Service\FinancieelDocumentDao:
+        arguments:
+            - '@doctrine.orm.entity_manager'
+            -
+
+    TwBundle\Service\HuuraanbodDao:
+        parent: app.dao.abstract
+
+    TwBundle\Service\HuuraanbodAfsluitingDao:
+        parent: app.dao.abstract
+
+    TwBundle\Service\KlantDao:
+        parent: app.dao.abstract
+
+    TwBundle\Service\HuurderAfsluitingDao:
+        parent: app.dao.abstract
+
+    TwBundle\Service\HuurovereenkomstDao:
+        parent: app.dao.abstract
+
+    TwBundle\Service\HuurovereenkomstAfsluitingDao:
+        parent: app.dao.abstract
+
+    TwBundle\Service\HuurverzoekAfsluitingDao:
+        parent: app.dao.abstract
+
+    TwBundle\Service\VerhuurderDao:
+        arguments:
+            - '@doctrine.orm.entity_manager'
+        parent: app.dao.abstract
+
+    TwBundle\Service\VerhuurderAfsluitingDao:
+        parent: app.dao.abstract
+
+    TwBundle\Service\VerslagDao:
+        arguments:
+            - '@doctrine.orm.entity_manager'
+
+    TwBundle\Service\FinancieelVerslagDao:
+        arguments:
+            - '@doctrine.orm.entity_manager'
+
+    TwBundle\Service\PandeigenaarDao:
+        parent: app.dao.abstract
+
+    TwBundle\Service\ProjectDao:
+        parent: app.dao.abstract
+
+    TwBundle\Service\DeelnameDao:
+        parent: app.dao.abstract
+
+    TwBundle\Service\TrainingDao:
+        parent: app.dao.abstract
+
+    TwBundle\Service\VrijwilligerDao:
+        parent: app.dao.abstract
+
+    TwBundle\Service\LocatieDao:
+        parent: app.dao.abstract
+
+    TwBundle\Service\AfsluitredenDao:
+        parent: app.dao.abstract
+
+    TwBundle\Service\BinnenViaDao:
+        parent: app.dao.abstract
+
+    tw.memo.entities:
+        public: true
+        class: ArrayObject
+        arguments:
+            - - { key: vrijwilliger, dao: '@TwBundle\Service\VrijwilligerDao' }
+
+    tw.deelname.entities:
+        public: true
+        class: ArrayObject
+        arguments:
+            - - { key: vrijwilliger, dao: '@TwBundle\Service\VrijwilligerDao' }

@@ -1,0 +1,10 @@
+eropuit_annotations:
+    prefix: /eropuit
+    resource: "../../src/ErOpUitBundle/Controller"
+    type: annotation
+
+eropuit_index:
+    path: /eropuit/
+    defaults:
+        _controller: Symfony\Bundle\FrameworkBundle\Controller\RedirectController::redirectAction
+        route: eropuit_klanten_index

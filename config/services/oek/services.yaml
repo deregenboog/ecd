@@ -1,0 +1,138 @@
+imports:
+    - { resource: daos.yaml }
+    - { resource: exports.yaml }
+
+services:
+    #tbv controller DI named arguments die dan niet eerst hoeven;
+    _defaults:
+        autowire: true
+        autoconfigure: true
+
+    OekBundle\Controller\:
+        resource: '%kernel.project_dir%/src/OekBundle/Controller'
+        tags: [ 'controller.service_arguments' ]
+
+    OekBundle\Controller\DeelnemersController:
+        arguments:
+            $export: '@oek.export.deelnemer'
+        tags: [ 'controller.service_arguments' ]
+
+    OekBundle\Controller\DocumentenController:
+        arguments:
+            $entities: '@oek.document.entities'
+        tags: [ 'controller.service_arguments' ]
+
+    OekBundle\Controller\MemosController:
+        arguments:
+            $entities: '@oek.memo.entities'
+        tags: [ 'controller.service_arguments' ]
+
+    OekBundle\Controller\RapportagesController:
+        arguments:
+            $export: '@oek.export.report'
+            $reports: !tagged_iterator oek.rapportage
+        tags: [ 'controller.service_arguments' ]
+
+    OekBundle\Controller\TrainingenController:
+        arguments:
+            $entities: '@oek.training.entities'
+            $exportPresentielijst: '@oek.export.presentielijst'
+            $exportDeelnemerslijst: '@oek.export.deelnemerslijst'
+        tags: [ 'controller.service_arguments' ]
+
+    OekBundle\Controller\VrijwilligersController:
+        arguments:
+            $export: '@oek.export.vrijwilliger'
+        tags: [ 'controller.service_arguments' ]
+
+    OekBundle\Controller\WachtlijstController:
+        arguments:
+            $export: '@oek.export.wachtlijst'
+        tags: [ 'controller.service_arguments' ]
+
+
+    oek.event.diensten_lookup_subscriber:
+        class: OekBundle\Event\DienstenLookupSubscriber
+        arguments:
+            - "@doctrine.orm.entity_manager"
+            - "@router"
+        tags:
+            - { name: kernel.event_subscriber }
+
+    deelnemer_metadata:
+        class: Doctrine\ORM\Mapping\ClassMetadata
+        arguments:
+            - 'OekBundle\Entity\Deelnemer'
+
+    deelname_metadata:
+        class: Doctrine\ORM\Mapping\ClassMetadata
+        arguments:
+            - 'OekBundle\Entity\Deelname'
+
+    OekBundle\Repository\DeelnemerRepository:
+        class: OekBundle\Repository\DeelnemerRepository
+        arguments:
+            - "@doctrine.orm.entity_manager"
+            - "@deelnemer_metadata"
+        tags:
+            - app.doelstelling
+        public: true
+
+    OekBundle\Repository\DeelnameRepository:
+        class: OekBundle\Repository\DeelnameRepository
+        arguments:
+            - "@doctrine.orm.entity_manager"
+            - "@deelname_metadata"
+        public: true
+
+    oek.repository.training:
+        class: Doctrine\ORM\EntityRepository
+        factory: ["@doctrine", getRepository]
+        arguments:
+            - OekBundle\Entity\Training
+
+    oek.form.rapportage:
+        class: OekBundle\Form\RapportageType
+        tags:
+            - { name: form.type }
+
+    OekBundle\Report\DeelnemersPerTrainingGroep:
+        public: true
+        arguments:
+            - '@OekBundle\Repository\DeelnemerRepository'
+        tags:
+            - { name: oek.rapportage, category: Deelnemers }
+
+    OekBundle\Report\DeelnemersVerwezenDoor:
+        public: true
+        arguments:
+            - '@OekBundle\Repository\DeelnemerRepository'
+        tags:
+            - { name: oek.rapportage, category: Deelnemers }
+
+    OekBundle\Report\DeelnemersVerwezenNaar:
+        public: true
+        arguments:
+            - '@OekBundle\Repository\DeelnemerRepository'
+        tags:
+            - { name: oek.rapportage, category: Deelnemers }
+
+    OekBundle\Report\TrainingenPerGroepNaam:
+        public: true
+        arguments:
+            - "@oek.repository.training"
+        tags:
+            - { name: oek.rapportage, category: Trainingen }
+
+    OekBundle\Report\DeelnamesPerStadsdeel:
+        public: true
+        arguments:
+            - '@OekBundle\Repository\DeelnameRepository'
+        tags:
+            - { name: oek.rapportage, category: Deelnemers }
+
+    OekBundle\Event\DeelnemerEventSubscriber:
+        arguments:
+            - '@event_dispatcher'
+        tags:
+            - { name: doctrine.event_subscriber }

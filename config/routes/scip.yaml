@@ -1,0 +1,10 @@
+# scip_annotations:
+#     prefix: /scip
+#     resource: "../../src/ScipBundle/Controller"
+#     type: annotation
+
+# scip_index:
+#     path: /scip/
+#     defaults:
+#         _controller: Symfony\Bundle\FrameworkBundle\Controller\RedirectController::redirectAction
+#         route: scip_dashboard_index

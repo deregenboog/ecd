@@ -1,0 +1,10 @@
+oek_annotations:
+    prefix: /oek
+    resource: "../../src/OekBundle/Controller"
+    type: annotation
+
+oek_index:
+    path: /oek/
+    defaults:
+        _controller: Symfony\Bundle\FrameworkBundle\Controller\RedirectController::redirectAction
+        route: oek_deelnemers_index

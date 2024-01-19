@@ -1,0 +1,6 @@
+home:
+    path: /
+
+app_annotations:
+    resource: "../../src/AppBundle/Controller"
+    type: annotation

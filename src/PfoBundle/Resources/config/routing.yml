@@ -1,9 +1,0 @@
-pfo_annotations:
-    resource: "@PfoBundle/Controller"
-    type: annotation
-
-pfo_index:
-    path: /
-    defaults:
-        _controller: Symfony\Bundle\FrameworkBundle\Controller\RedirectController::redirectAction
-        route: pfo_clienten_index

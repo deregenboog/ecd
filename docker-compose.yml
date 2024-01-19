@@ -27,7 +27,7 @@ services:
     volumes:
       - ${PWD}/public:/var/www/html/public
     working_dir: /var/www/html/public
-    command: npm install && yarn encode dev watch
+    command: npm install && yarn encore dev watch
   database:
     build:
       context: docker/mysql
