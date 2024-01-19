@@ -5,7 +5,7 @@ namespace MwBundle\Report;
 use AppBundle\Entity\Klant;
 use AppBundle\Report\AbstractReport;
 use AppBundle\Report\Table;
-use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use MwBundle\Entity\Afsluiting;
 
 
@@ -26,11 +26,11 @@ class RepatrieringenPerLand extends AbstractReport
     protected $tables = [];
 
     /**
-     * @var EntityManager
+     * @var EntityManagerInterface
      */
     private $entityManager;
 
-    public function __construct(EntityManager $entityManager)
+    public function __construct(EntityManagerInterface $entityManager)
     {
         $this->entityManager = $entityManager;
     }

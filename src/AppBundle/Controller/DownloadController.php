@@ -65,7 +65,6 @@ class DownloadController extends AbstractController
         $this->downloadServices = $downloadServices;
     }
 
-
     /**
      * @Route("/")
      * @param Request $request
@@ -110,8 +109,7 @@ class DownloadController extends AbstractController
 
     }
 
-
-    private function handleDownloads($form,$request)
+    private function handleDownloads($form, $request)
     {
         $serviceId = null;
         ini_set('memory_limit', '768M');

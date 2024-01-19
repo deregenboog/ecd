@@ -4,7 +4,7 @@ namespace TwBundle\Service;
 
 use AppBundle\Filter\FilterInterface;
 use AppBundle\Service\AbstractDao;
-use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\Pagination\PaginationInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use TwBundle\Entity\Klant;
@@ -43,7 +43,7 @@ class KlantDao extends AbstractDao implements KlantDaoInterface
     protected $alias = 'klant';
     protected $searchEntityName = 'appKlant';
 
-    public function __construct(EntityManager $entityManager, PaginatorInterface $paginator, $itemsPerPage)
+    public function __construct(EntityManagerInterface $entityManager, PaginatorInterface $paginator, $itemsPerPage)
     {
         parent::__construct($entityManager,$paginator,$itemsPerPage);
 

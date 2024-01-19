@@ -3,22 +3,22 @@
 namespace IzBundle\Command;
 
 use AppBundle\Entity\Medewerker;
-use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use IzBundle\Entity\Hulpaanbod;
 use IzBundle\Entity\Hulpvraag;
 use IzBundle\Entity\Koppeling;
 use IzBundle\Entity\Verslag;
-use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Bundle\FrameworkBundle\Routing\Router;
 use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Routing\RouterInterface;
 
 class KoppelingenSplitCommand extends \Symfony\Component\Console\Command\Command
 {
     /**
-     * @var EntityManager
+     * @var EntityManagerInterface
      */
     private $em;
 
@@ -37,6 +37,14 @@ class KoppelingenSplitCommand extends \Symfony\Component\Console\Command\Command
      */
     private $host;
 
+    public function __construct(EntityManagerInterface $em, RouterInterface $router)
+    {
+        $this->em = $em;
+        $this->router = $router;
+
+        parent::__construct();
+    }
+
     protected function configure()
     {
         $this
@@ -48,8 +56,6 @@ class KoppelingenSplitCommand extends \Symfony\Component\Console\Command\Command
 
     protected function initialize(InputInterface $input, OutputInterface $output)
     {
-        $this->em = $this->getContainer()->get('doctrine.orm.entity_manager');
-        $this->router = $this->getContainer()->get('router');
         $this->admin = $this->em->getRepository(Medewerker::class)->findOneBy(['username' => 'bhuttinga']);
         $this->host = $input->getArgument('host');
     }

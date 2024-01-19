@@ -1,62 +1,26 @@
 services:
-    HsBundle\Service\ActiviteitDao:
-        parent: app.dao.abstract
+    _defaults:
+        autowire: true
+        autoconfigure: true
+        bind:
+            $itemsPerPage: '%pagination.items_per_page%'
 
-    HsBundle\Service\ArbeiderDao:
-        parent: app.dao.abstract
-
-    HsBundle\Service\BetalingDao:
-        parent: app.dao.abstract
-
-    HsBundle\Service\DeclaratieCategorieDao:
-        parent: app.dao.abstract
-
-    HsBundle\Service\DeclaratieDao:
-        parent: app.dao.abstract
-
-    HsBundle\Service\DienstverlenerDao:
-        parent: app.dao.abstract
-
-    HsBundle\Service\DocumentDao:
-        parent: app.dao.abstract
-
-    HsBundle\Service\FactuurDao:
-        parent: app.dao.abstract
-
-    HsBundle\Service\HerinneringDao:
-        parent: app.dao.abstract
-
-    HsBundle\Service\KlantDao:
-        parent: app.dao.abstract
-
-    HsBundle\Service\KlusDao:
-        parent: app.dao.abstract
-
-    HsBundle\Service\MemoDao:
-        parent: app.dao.abstract
-
-    HsBundle\Service\RegistratieDao:
-        parent: app.dao.abstract
-
-    HsBundle\Service\VrijwilligerDao:
-        parent: app.dao.abstract
+    HsBundle\Service\:
+        resource: '%kernel.project_dir%/src/HsBundle/Service/'
 
     hs.betaling.entities:
-        public: true
         class: ArrayObject
         arguments:
             -
               - { key: factuur, dao: '@HsBundle\Service\FactuurDao' }
 
     hs.declaratie.entities:
-        public: true
         class: ArrayObject
         arguments:
             -
               - { key: klus, dao: '@HsBundle\Service\KlusDao' }
 
     hs.document.entities:
-        public: true
         class: ArrayObject
         arguments:
             -
@@ -66,21 +30,18 @@ services:
               - { key: klus, dao: '@HsBundle\Service\KlusDao' }
 
     hs.factuur.entities:
-        public: true
         class: ArrayObject
         arguments:
             -
               - { key: klant, dao: '@HsBundle\Service\KlantDao' }
 
     hs.herinnering.entities:
-        public: true
         class: ArrayObject
         arguments:
             -
               - { key: factuur, dao: '@HsBundle\Service\FactuurDao' }
 
     hs.klus.entities:
-        public: true
         class: ArrayObject
         arguments:
             -
@@ -88,7 +49,6 @@ services:
               - { key: klant, dao: '@HsBundle\Service\KlantDao' }
 
     hs.memo.entities:
-        public: true
         class: ArrayObject
         arguments:
             -
@@ -98,7 +58,6 @@ services:
               - { key: vrijwilliger, dao: '@HsBundle\Service\VrijwilligerDao' }
 
     hs.registratie.entities:
-        public: true
         class: ArrayObject
         arguments:
             -

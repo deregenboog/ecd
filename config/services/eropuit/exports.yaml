@@ -1,6 +1,9 @@
 services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+
     eropuit.export.klanten:
-        public: true
         class: AppBundle\Export\GenericExport
         arguments:
             - ErOpUitBundle\Entity\Klant
@@ -28,7 +31,6 @@ services:
                 E-mailvoorkeur: { expression: 'entity.getKlant().getGeenEmail() ? "Geen e-mail" : "Wel e-mail"' }
 
     eropuit.export.vrijwilligers:
-        public: true
         class: AppBundle\Export\GenericExport
         arguments:
             - ErOpUitBundle\Entity\Vrijwilliger
@@ -56,7 +58,6 @@ services:
                 E-mailvoorkeur: { expression: 'entity.getVrijwilliger().getGeenEmail() ? "Geen e-mail" : "Wel e-mail"' }
 
     eropuit.export.vrijwilligersdownload:
-        public: true
         class: AppBundle\Export\GenericExport
         arguments:
             - ErOpUitBundle\Entity\Vrijwilliger

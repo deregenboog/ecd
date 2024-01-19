@@ -1,229 +1,199 @@
 services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+
     IzBundle\Form\RapportageType:
-        tags:
-            - { name: form.type }
 
     IzBundle\Report\Managementrapportage:
-        public: true
         arguments:
             - "@iz.repository.iz_hulpvraag"
             - "@iz.repository.doelstelling"
-            - "@iz.repository.project"
+            - '@IzBundle\Repository\ProjectRepository'
         tags:
             - { name: iz.rapportage, category: Management }
 
     IzBundle\Report\HulpvraagsoortPerDoelgroepPerStadsdeelNieuw:
-        public: true
         arguments:
             - "@iz.repository.iz_hulpvraag"
         tags:
             - { name: iz.rapportage, category: Management }
 
     IzBundle\Report\HulpvraagsoortPerDoelgroepPerStadsdeelBeginstand:
-        public: true
         arguments:
             - "@iz.repository.iz_hulpvraag"
         tags:
             - { name: iz.rapportage, category: Management }
 
     IzBundle\Report\HulpvragenPerProjectStadsdeel:
-        public: true
         arguments:
             - "@iz.repository.iz_hulpvraag"
         tags:
             - { name: iz.rapportage, category: Hulpvragen }
 
     IzBundle\Report\KoppelingenTotaal:
-        public: true
         arguments:
             - "@iz.repository.iz_hulpvraag"
         tags:
             - { name: iz.rapportage, category: Koppelingen }
 
     IzBundle\Report\KoppelingenPerAfsluitreden:
-        public: true
         arguments:
             - "@iz.repository.iz_hulpvraag"
         tags:
             - { name: iz.rapportage, category: Koppelingen }
 
     IzBundle\Report\KoppelingenPerCoordinator:
-        public: true
         arguments:
             - "@iz.repository.iz_hulpvraag"
         tags:
             - { name: iz.rapportage, category: Koppelingen }
 
     IzBundle\Report\KoppelingenPerStadsdeel:
-        public: true
         arguments:
             - "@iz.repository.iz_hulpvraag"
         tags:
             - { name: iz.rapportage, category: Koppelingen }
 
     IzBundle\Report\KoppelingenPerPostcodegebied:
-        public: true
         arguments:
             - "@iz.repository.iz_hulpvraag"
         tags:
             - { name: iz.rapportage, category: Koppelingen }
 
     IzBundle\Report\KoppelingenPerProject:
-        public: true
         arguments:
             - "@iz.repository.iz_hulpvraag"
         tags:
             - { name: iz.rapportage, category: Koppelingen }
 
     IzBundle\Report\KoppelingenPerProjectAfsluitreden:
-        public: true
         arguments:
             - "@iz.repository.iz_hulpvraag"
         tags:
             - { name: iz.rapportage, category: Koppelingen }
 
     IzBundle\Report\KoppelingenPerProjectStadsdeel:
-        public: true
         arguments:
             - "@iz.repository.iz_hulpvraag"
         tags:
             - { name: iz.rapportage, category: Koppelingen }
 
     IzBundle\Report\KoppelingenPerProjectPostcodegebied:
-        public: true
         arguments:
             - "@iz.repository.iz_hulpvraag"
         tags:
             - { name: iz.rapportage, category: Koppelingen }
 
     IzBundle\Report\KoppelingenPerHulpvraagsoortStadsdeel:
-        public: true
         arguments:
             - "@iz.repository.iz_hulpvraag"
         tags:
             - { name: iz.rapportage, category: Koppelingen }
 
     IzBundle\Report\KoppelingenPerHulpvraagsoortPostcodegebied:
-        public: true
         arguments:
             - "@iz.repository.iz_hulpvraag"
         tags:
             - { name: iz.rapportage, category: Koppelingen }
 
     IzBundle\Report\KoppelingenPerDoelgroepStadsdeel:
-        public: true
         arguments:
             - "@iz.repository.iz_hulpvraag"
         tags:
             - { name: iz.rapportage, category: Koppelingen }
 
     IzBundle\Report\KoppelingenPerDoelgroepPostcodegebied:
-        public: true
         arguments:
             - "@iz.repository.iz_hulpvraag"
         tags:
             - { name: iz.rapportage, category: Koppelingen }
 
     IzBundle\Report\KlantenTotaal:
-        public: true
         arguments:
             - "@iz.repository.iz_klant"
         tags:
             - { name: iz.rapportage, category: Deelnemers }
 
     IzBundle\Report\KlantenTotaalNamenlijst:
-        public: true
         arguments:
             - "@iz.repository.iz_klant"
         tags:
             - { name: iz.rapportage, category: Deelnemers }
 
     IzBundle\Report\KlantenPerProject:
-        public: true
         arguments:
             - "@iz.repository.iz_klant"
         tags:
             - { name: iz.rapportage, category: Deelnemers }
 
     IzBundle\Report\KlantenPerStadsdeel:
-        public: true
         arguments:
             - "@iz.repository.iz_klant"
         tags:
             - { name: iz.rapportage, category: Deelnemers }
 
     IzBundle\Report\KlantenPerProjectStadsdeel:
-        public: true
         arguments:
             - "@iz.repository.iz_klant"
         tags:
             - { name: iz.rapportage, category: Deelnemers }
 
     IzBundle\Report\KlantenDoelgroepPerHulpvraagsoort:
-        public: true
         arguments:
             - "@iz.repository.iz_hulpvraag"
         tags:
             - { name: iz.rapportage, category: Deelnemers }
 
     IzBundle\Report\SuccesindicatorenPerHulpvraagsoort:
-        public: true
         arguments:
             - "@iz.repository.iz_hulpvraag"
         tags:
             - { name: iz.rapportage, category: Succesindicatoren }
 
     IzBundle\Report\VrijwilligersTotaal:
-        public: true
         arguments:
             - "@iz.repository.iz_vrijwilliger"
         tags:
             - { name: iz.rapportage, category: Vrijwilligers }
 
     IzBundle\Report\VrijwilligersTotaalNamenlijst:
-        public: true
         arguments:
             - "@iz.repository.iz_vrijwilliger"
         tags:
             - { name: iz.rapportage, category: Vrijwilligers }
 
     IzBundle\Report\VrijwilligersPerProject:
-        public: true
         arguments:
             - "@iz.repository.iz_vrijwilliger"
         tags:
             - { name: iz.rapportage, category: Vrijwilligers }
 
     IzBundle\Report\VrijwilligersPerProjectNamenlijst:
-        public: true
         arguments:
             - "@iz.repository.iz_vrijwilliger"
         tags:
             - { name: iz.rapportage, category: Vrijwilligers }
 
     IzBundle\Report\VrijwilligersPerStadsdeelKlant:
-        public: true
         arguments:
             - "@iz.repository.iz_vrijwilliger"
         tags:
             - { name: iz.rapportage, category: Vrijwilligers }
 
     IzBundle\Report\VrijwilligersPerStadsdeelVrijwilliger:
-        public: true
         arguments:
             - "@iz.repository.iz_vrijwilliger"
         tags:
             - { name: iz.rapportage, category: Vrijwilligers }
 
     IzBundle\Report\VrijwilligersPerProjectStadsdeelKlant:
-        public: true
         arguments:
             - "@iz.repository.iz_vrijwilliger"
         tags:
             - { name: iz.rapportage, category: Vrijwilligers }
 
     IzBundle\Report\VrijwilligersPerProjectStadsdeelVrijwilliger:
-        public: true
         arguments:
             - "@iz.repository.iz_vrijwilliger"
         tags:

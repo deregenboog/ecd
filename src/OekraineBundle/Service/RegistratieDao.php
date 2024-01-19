@@ -6,7 +6,7 @@ use AppBundle\Entity\Klant;
 use AppBundle\Filter\FilterInterface;
 use AppBundle\Service\AbstractDao;
 use Doctrine\Common\Collections\Criteria;
-use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use OekraineBundle\Entity\Aanmelding;
 use OekraineBundle\Entity\Bezoeker;
 use OekraineBundle\Entity\Locatie;
@@ -50,7 +50,7 @@ class RegistratieDao extends AbstractDao implements RegistratieDaoInterface
     protected $alias = 'registratie';
 
     public function __construct(
-        EntityManager $entityManager,
+        EntityManagerInterface $entityManager,
         PaginatorInterface $paginator,
         $itemsPerPage,
         EventDispatcherInterface $eventDispatcher

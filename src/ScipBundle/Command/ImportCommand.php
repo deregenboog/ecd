@@ -7,7 +7,7 @@ use AppBundle\Entity\Klant;
 use AppBundle\Entity\Land;
 use AppBundle\Entity\Medewerker;
 use AppBundle\Entity\Nationaliteit;
-use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\NoResultException;
 use ScipBundle\Entity\Beschikbaarheid;
@@ -18,7 +18,6 @@ use ScipBundle\Entity\Project;
 use ScipBundle\Service\DeelnemerDaoInterface;
 use ScipBundle\Service\DocumentDaoInterface;
 use ScipBundle\Service\ProjectDaoInterface;
-use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -28,6 +27,7 @@ use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Vich\UploaderBundle\Handler\UploadHandler;
 
 class ImportCommand extends \Symfony\Component\Console\Command\Command
 {
@@ -47,7 +47,7 @@ class ImportCommand extends \Symfony\Component\Console\Command\Command
     private $documentDao;
 
     /**
-     * @var EntityManager
+     * @var EntityManagerInterface
      */
     private $entityManager;
 
@@ -72,15 +72,27 @@ class ImportCommand extends \Symfony\Component\Console\Command\Command
     private $output;
 
     /**
+     * @var UploadHandler
+     */
+    private $uploader;
+
+    /**
      * @var array
      */
     private $deelnemers = [];
-    public function __construct(\ScipBundle\Service\ProjectDao $projectDao, \ScipBundle\Service\DeelnemerDao $deelnemerDao, \ScipBundle\Service\DocumentDao $documentDao)
-    {
+    public function __construct(
+        EntityManagerInterface $em,
+        UploadHandler $uploader,
+        \ScipBundle\Service\ProjectDao $projectDao,
+        \ScipBundle\Service\DeelnemerDao $deelnemerDao,
+        \ScipBundle\Service\DocumentDao $documentDao
+    ) {
+        $this->entityManager = $em;
+        $this->uploader = $uploader;
         $this->projectDao = $projectDao;
-        parent::__construct();
         $this->deelnemerDao = $deelnemerDao;
         $this->documentDao = $documentDao;
+        parent::__construct();
     }
 
     protected function configure()
@@ -94,11 +106,6 @@ class ImportCommand extends \Symfony\Component\Console\Command\Command
 
     protected function initialize(InputInterface $input, OutputInterface $output)
     {
-        $this->projectDao = $this->projectDao;
-        $this->deelnemerDao = $this->deelnemerDao;
-        $this->documentDao = $this->documentDao;
-        $this->entityManager = $this->getContainer()->get('doctrine.orm.entity_manager');
-
         $this->land = $this->entityManager->find(Land::class, 0);
         $this->nationaliteit = $this->entityManager->find(Nationaliteit::class, 0);
         $this->geslacht = $this->entityManager->find(Geslacht::class, 3);
@@ -146,8 +153,6 @@ class ImportCommand extends \Symfony\Component\Console\Command\Command
             'username' => 'bhuttinga',
         ]);
 
-        $uploader = $this->getContainer()->get('vich_uploader.upload_handler');
-
         foreach (new \DirectoryIterator($path) as $item) {
             if ($item->isDir() && !$item->isDot()) {
                 $this->output->writeln(sprintf('  - Directory: %s', $item->getFilename()));
@@ -189,7 +194,7 @@ class ImportCommand extends \Symfony\Component\Console\Command\Command
                                 $deelnemer->addDocument($document);
                                 $this->deelnemerDao->update($deelnemer);
 
-                                $uploader->upload($document, 'file');
+                                $this->uploader->upload($document, 'file');
                             }
                         }
                     }

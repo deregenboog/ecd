@@ -1,15 +1,14 @@
 services:
-    UhkBundle\Service\VerslagDao:
-        parent: app.dao.abstract
+    _defaults:
+        autowire: true
+        autoconfigure: true
+        bind:
+            $itemsPerPage: '%pagination.items_per_page%'
 
-    UhkBundle\Service\DeelnemerDao:
-        parent: app.dao.abstract
-
-    UhkBundle\Service\DocumentDao:
-        parent: app.dao.abstract
+    UhkBundle\Service\:
+        resource: '%kernel.project_dir%/src/UhkBundle/Service/'
 
     uhk.document.entities:
-        public: true
         class: ArrayObject
         arguments:
             -

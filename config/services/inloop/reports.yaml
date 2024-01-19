@@ -2,56 +2,35 @@ services:
     _defaults:
         autowire: true
         autoconfigure: true
+
     InloopBundle\Form\RapportageType:
-        tags:
-            - { name: form.type }
 
     InloopBundle\Report\EUBurgers:
-        public: true
-        arguments:
-            - "@doctrine.orm.entity_manager"
         tags:
             - { name: inloop.rapportage }
 
     InloopBundle\Report\Klantenoverzicht:
-        public: true
-        arguments:
-            - "@doctrine.orm.entity_manager"
         tags:
             - { name: inloop.rapportage }
 
     InloopBundle\Report\Locatie:
-        public: true
-        arguments:
-            - "@doctrine.orm.entity_manager"
         tags:
             - { name: inloop.rapportage }
 
     InloopBundle\Report\Incidenten:
-        public: true
-        arguments:
-            - "@doctrine.orm.entity_manager"
         tags:
             - { name: inloop.rapportage }
 
     InloopBundle\Report\KlantenoverzichtNachtopvang:
-        public: true
-        arguments:
-            - "@doctrine.orm.entity_manager"
         tags:
             - { name: inloop.rapportage }
 
     InloopBundle\Report\RepatrieringenPerInloopKlant:
-        public: true
         arguments:
-            - "@doctrine.orm.entity_manager"
-            - "%kernel.project_dir%/config/sql_reports/repatrieringen_per_inloopklant.sql"
+            $sqlFile: "%kernel.project_dir%/config/sql_reports/repatrieringen_per_inloopklant.sql"
         tags:
             - { name: inloop.rapportage, category: Repatriëring }
 
     InloopBundle\Report\RepatrieringenPerLand:
-        public: true
-        arguments:
-            - "@doctrine.orm.entity_manager"
         tags:
             - { name: inloop.rapportage, category: Repatriëring }

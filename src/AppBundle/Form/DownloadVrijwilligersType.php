@@ -4,6 +4,7 @@ namespace AppBundle\Form;
 
 use AppBundle\Entity\GgwGebied;
 use AppBundle\Filter\DownloadVrijwilligersFilter;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
@@ -16,13 +17,12 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 class DownloadVrijwilligersType extends AbstractType
 {
    private $choices = [];
-    public function __construct(array $entitymanager = [],$exports=null)
+    public function __construct(array $exports = [])
     {
         $this->getOnderdeelChoices($exports);
-
     }
 
-    private function getOnderdeelChoices($exports) {
+    private function getOnderdeelChoices(array $exports = []) {
         foreach($exports as $e)
         {
             $this->choices[$e->getFriendlyName()] = $e->getServiceId();

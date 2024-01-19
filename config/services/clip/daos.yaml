@@ -1,60 +1,19 @@
 services:
-    ClipBundle\Service\BehandelaarDao:
-        parent: app.dao.abstract
+    _defaults:
+        autowire: true
+        autoconfigure: true
+        bind:
+            $itemsPerPage: '%pagination.items_per_page%'
 
-    ClipBundle\Service\ClientDao:
-        parent: app.dao.abstract
-
-    ClipBundle\Service\CommunicatiekanaalDao:
-        parent: app.dao.abstract
-
-    ClipBundle\Service\ContactmomentDao:
-        parent: app.dao.abstract
-
-    ClipBundle\Service\DocumentDao:
-        parent: app.dao.abstract
-
-    ClipBundle\Service\HulpvragerDao:
-        parent: app.dao.abstract
-
-    ClipBundle\Service\LeeftijdscategorieDao:
-        parent: app.dao.abstract
-
-    ClipBundle\Service\ViacategorieDao:
-        parent: app.dao.abstract
-
-    ClipBundle\Service\VraagDao:
-        parent: app.dao.abstract
-
-    ClipBundle\Service\VraagsoortDao:
-        parent: app.dao.abstract
-
-    ClipBundle\Service\AfsluitredenDao:
-        parent: app.dao.abstract
-
-    ClipBundle\Service\BinnenViaDao:
-        parent: app.dao.abstract
-
-    ClipBundle\Service\DeelnameDao:
-        parent: app.dao.abstract
-
-    ClipBundle\Service\VrijwilligerDao:
-        parent: app.dao.abstract
-
-    ClipBundle\Service\KlantDao:
-        parent: app.dao.abstract
-
-    ClipBundle\Service\LocatieDao:
-        parent: app.dao.abstract
+    ClipBundle\Service\:
+        resource: '%kernel.project_dir%/src/ClipBundle/Service/'
 
     clip.memo.entities:
-        public: true
         class: ArrayObject
         arguments:
             - - { key: vrijwilliger, dao: '@ClipBundle\Service\VrijwilligerDao' }
               -
     clip.deelname.entities:
-        public: true
         class: ArrayObject
         arguments:
             - - { key: vrijwilliger, dao: '@ClipBundle\Service\VrijwilligerDao' }

@@ -2,20 +2,20 @@
 
 namespace HsBundle\DataFixtures;
 
-use Doctrine\ORM\EntityManager;
-use Faker\Generator;
+use Doctrine\ORM\EntityManagerInterface;
+use Faker\Provider\Base;
 use HsBundle\Entity\Factuur;
 use HsBundle\Entity\Klant;
 use HsBundle\Service\FactuurFactoryInterface;
 
-final class HsFakerProvider
+final class HsFakerProvider extends Base
 {
     private $entityManager;
 
     private $factuurFactory;
 
 
-    public function __construct(EntityManager $entityManager, FactuurFactoryInterface $factuurFactory)
+    public function __construct(EntityManagerInterface $entityManager, FactuurFactoryInterface $factuurFactory)
     {
         $this->entityManager = $entityManager;
         $this->factuurFactory = $factuurFactory;

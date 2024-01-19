@@ -7,7 +7,7 @@ use AppBundle\Entity\Klant;
 use AppBundle\Exception\AppException;
 use AppBundle\Filter\FilterInterface;
 use AppBundle\Service\AbstractDao;
-use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Query\Expr\Join;
 use InloopBundle\Entity\Intake;
 use InloopBundle\Entity\Locatie;
@@ -57,7 +57,7 @@ class WachtlijstDao extends AbstractDao implements WachtlijstDaoInterface
     private $eventDispatcher;
 
     public function __construct(
-        EntityManager $entityManager,
+        EntityManagerInterface $entityManager,
         PaginatorInterface $paginator,
         $itemsPerPage,
         EventDispatcherInterface $eventDispatcher,

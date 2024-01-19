@@ -2,13 +2,13 @@
 
 namespace TwBundle\Service;
 
-use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use TwBundle\Entity\Document;
 use TwBundle\Entity\FinancieelDocument;
 
 class FinancieelDocumentDao implements FinancieelDocumentDaoInterface
 {
-    public function __construct(EntityManager $entityManager)
+    public function __construct(EntityManagerInterface $entityManager)
     {
         $this->entityManager = $entityManager;
         $this->repository = $entityManager->getRepository(FinancieelDocument::class);

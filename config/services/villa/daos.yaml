@@ -1,30 +1,19 @@
 services:
-    VillaBundle\Service\DocumentDao:
-        parent: app.dao.abstract
+    _defaults:
+        autowire: true
+        autoconfigure: true
+        bind:
+            $itemsPerPage: '%pagination.items_per_page%'
 
-    VillaBundle\Service\AfsluitredenDao:
-        parent: app.dao.abstract
-
-    VillaBundle\Service\BinnenViaDao:
-        parent: app.dao.abstract
-
-    VillaBundle\Service\DeelnameDao:
-        parent: app.dao.abstract
-
-    VillaBundle\Service\VrijwilligerDao:
-        parent: app.dao.abstract
-
-    VillaBundle\Service\KlantDao:
-        parent: app.dao.abstract
+    VillaBundle\Service\:
+        resource: '%kernel.project_dir%/src/VillaBundle/Service/'
 
     villa.memo.entities:
-        public: true
         class: ArrayObject
         arguments:
             - - { key: vrijwilliger, dao: '@VillaBundle\Service\VrijwilligerDao' }
               -
     villa.deelname.entities:
-        public: true
         class: ArrayObject
         arguments:
             - - { key: vrijwilliger, dao: '@VillaBundle\Service\VrijwilligerDao' }

@@ -2,7 +2,7 @@
 
 namespace UhkBundle\Service;
 
-use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use UhkBundle\Entity\Document;
 
 class DocumentDao implements DocumentDaoInterface
@@ -21,7 +21,7 @@ class DocumentDao implements DocumentDaoInterface
 
     protected $alias = 'document';
 
-    public function __construct(EntityManager $entityManager)
+    public function __construct(EntityManagerInterface $entityManager)
     {
         $this->entityManager = $entityManager;
         $this->repository = $entityManager->getRepository(Document::class);

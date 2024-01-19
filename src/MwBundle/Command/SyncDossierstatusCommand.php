@@ -3,12 +3,9 @@
 namespace MwBundle\Command;
 
 use AppBundle\Entity\Klant;
-use Doctrine\ORM\EntityManager;
-
 use Doctrine\ORM\EntityManagerInterface;
 use MwBundle\Entity\Aanmelding;
 use MwBundle\Entity\Afsluiting;
-use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -17,7 +14,7 @@ use Symfony\Component\Console\Input\InputArgument;
 class SyncDossierstatusCommand extends \Symfony\Component\Console\Command\Command
 {
     /**
-     * @var EntityManager
+     * @var EntityManagerInterface
      */
     private $manager;
 

@@ -6,7 +6,7 @@ use AppBundle\Entity\Geslacht;
 use AppBundle\Entity\Klant;
 use AppBundle\Report\AbstractReport;
 use AppBundle\Report\Listing;
-use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use OekraineBundle\Entity\Bezoeker;
 use OekraineBundle\Entity\Locatie;
 
@@ -27,11 +27,11 @@ class Klantenoverzicht extends AbstractReport
     protected $data = [];
 
     /**
-     * @var EntityManager
+     * @var EntityManagerInterface
      */
     private $entityManager;
 
-    public function __construct(EntityManager $entityManager)
+    public function __construct(EntityManagerInterface $entityManager)
     {
         $this->entityManager = $entityManager;
     }

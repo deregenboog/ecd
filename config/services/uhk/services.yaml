@@ -3,27 +3,22 @@ imports:
     - { resource: exports.yaml }
 
 services:
-    #tbv controller DI named arguments die dan niet eerst hoeven;
     _defaults:
         autowire: true
         autoconfigure: true
 
     UhkBundle\Controller\:
         resource: '%kernel.project_dir%/src/UhkBundle/Controller'
-        tags: [ 'controller.service_arguments' ]
 
     UhkBundle\Controller\DocumentenController:
         arguments:
             $entities: '@uhk.document.entities'
-        tags: [ 'controller.service_arguments' ]
 
     UhkBundle\Controller\VerslagenController:
         arguments:
             $entities: '@uhk.verslag.entities'
-        tags: [ 'controller.service_arguments' ]
 
     uhk.verslag.entities:
-        public: true
         class: ArrayObject
         arguments:
             -

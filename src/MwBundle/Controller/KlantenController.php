@@ -547,7 +547,7 @@ class KlantenController extends AbstractController
                     $verslag->setLocatie($locatie);
 
                     $entityManager->persist($verslag);
-                    $entityManager->flush($verslag);
+                    $entityManager->flush();
                     $this->addFlash('success', 'Klant is op Wachtlijst Economisch Daklozen gezet');
                 }
                 else

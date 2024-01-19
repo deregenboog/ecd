@@ -1,7 +1,9 @@
 services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
 
     oekraine.export.registraties:
-        public: true
         class: OekraineBundle\Export\RegistratiesExport
         arguments:
             - OekraineBundle\Entity\Registratie
@@ -35,7 +37,6 @@ services:
                 Woonsituatie: { expression: 'entity.getAppKlant().getLaatsteIntake().getWoonsituatie()', condition: 'entity.getAppKlant().getLaatsteIntake()' }
 
     oekraine.export.bezoekers:
-        public: true
         class: OekraineBundle\Export\BezoekerExport
         arguments:
             - OekraineBundle\Entity\Bezoeker
@@ -77,5 +78,4 @@ services:
 #                Woonsituatie: { expression: 'entity.getAppKlant().getLaatsteIntake().getWoonsituatie()', condition: 'entity.getAppKlant().getLaatsteIntake()' }
 
     oekraine.export.report:
-        public: true
         class: AppBundle\Export\ReportExport

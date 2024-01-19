@@ -1,38 +1,14 @@
 services:
-    app.dao.abstract:
-        abstract: true
-        public: true
-        arguments:
-            - '@doctrine.orm.entity_manager'
-            - '@knp_paginator'
-            - '%pagination.items_per_page%'
+    _defaults:
+        autowire: true
+        autoconfigure: true
+        bind:
+            $itemsPerPage: '%pagination.items_per_page%'
 
-    AppBundle\Service\DocumentDao:
-        parent: app.dao.abstract
-
-    AppBundle\Service\KlantDao:
-        parent: app.dao.abstract
-
-    AppBundle\Service\LandDao:
-        parent: app.dao.abstract
-
-    AppBundle\Service\MedewerkerDao:
-        parent: app.dao.abstract
-
-    AppBundle\Service\MemoDao:
-        parent: app.dao.abstract
-
-    AppBundle\Service\PostcodeDao:
-        parent: app.dao.abstract
-
-    AppBundle\Service\ZrmDao:
-        parent: app.dao.abstract
-
-    AppBundle\Service\VrijwilligerDao:
-        parent: app.dao.abstract
+    AppBundle\Service\:
+        resource: '%kernel.project_dir%/src/AppBundle/Service/'
 
     AppBundle\Service\DoelstellingDao:
-        parent: app.dao.abstract
         calls:
             - method: setTokenStorage
               arguments:
@@ -45,7 +21,5 @@ services:
                   - '@security.access.decision_manager'
 
     AppBundle\Service\DownloadsDao:
-        class: AppBundle\Service\DownloadsDao
         arguments:
-            - "@doctrine.orm.entity_manager"
-        public: true
+            $taggedExports: !tagged_iterator app.downloads

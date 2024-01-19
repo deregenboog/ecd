@@ -2,71 +2,25 @@ services:
     _defaults:
         autowire: true
         autoconfigure: true
+        bind:
+            $itemsPerPage: '%pagination.items_per_page%'
 
     MwBundle\Service\:
         resource: '%kernel.project_dir%/src/MwBundle/Service/*'
 
-    MwBundle\Service\DocumentDao:
-        parent: app.dao.abstract
-
-    MwBundle\Service\DoorverwijzingDao:
-        parent: app.dao.abstract
-
-    MwBundle\Service\InventarisatieDao:
-        parent: app.dao.abstract
-
-    MwBundle\Service\KlantDao:
-        parent: app.dao.abstract
-
-    MwBundle\Service\ProjectDao:
-        parent: app.dao.abstract
-
-    MwBundle\Service\TrajecthouderDao:
-        parent: app.dao.abstract
-
-    MwBundle\Service\VerslagDao:
-        parent: app.dao.abstract
-
-    MwBundle\Service\VrijwilligerDao:
-        parent: app.dao.abstract
-
-    MwBundle\Service\AfsluitredenKlantDao:
-        parent: app.dao.abstract
-
-    MwBundle\Service\AfsluitredenVrijwilligerDao:
-        parent: app.dao.abstract
-
-    MwBundle\Service\BinnenViaDao:
-        parent: app.dao.abstract
-
-    MwBundle\Service\BinnenViaKlantDao:
-        parent: app.dao.abstract
-
-    MwBundle\Service\DeelnameDao:
-        parent: app.dao.abstract
-
-    MwBundle\Service\WachtlijstDao:
-        parent: app.dao.abstract
-        arguments:
-            - '@event_dispatcher'
-            - '@InloopBundle\Service\LocatieDao'
-
     mw.memo.entities:
-        public: true
         class: ArrayObject
         arguments:
             -
                 - { key: vrijwilliger, dao: '@MwBundle\Service\VrijwilligerDao' }
 
     mw.deelname.entities:
-        public: true
         class: ArrayObject
         arguments:
             -
                 - { key: vrijwilliger, dao: '@MwBundle\Service\VrijwilligerDao' }
 
     mw.document.entities:
-        public: true
         class: ArrayObject
         arguments:
             -

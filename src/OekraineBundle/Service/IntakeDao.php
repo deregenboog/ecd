@@ -4,7 +4,7 @@ namespace OekraineBundle\Service;
 
 use AppBundle\Filter\FilterInterface;
 use AppBundle\Service\AbstractDao;
-use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use OekraineBundle\Entity\Intake;
 use OekraineBundle\Event\Events;
 use Knp\Component\Pager\PaginatorInterface;
@@ -37,7 +37,7 @@ class IntakeDao extends AbstractDao implements IntakeDaoInterface
     private $eventDispatcher;
 
     public function __construct(
-        EntityManager $entityManager,
+        EntityManagerInterface $entityManager,
         PaginatorInterface $paginator,
         $itemsPerPage,
         EventDispatcherInterface $eventDispatcher

@@ -1,6 +1,9 @@
 services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+
     villa.export.vrijwilliger:
-        public: true
         class: AppBundle\Export\GenericExport
         arguments:
             - VillaBundle\Entity\Vrijwilliger
@@ -32,5 +35,4 @@ services:
               Overeenkomst aanwezig: { expression: 'entity.getVrijwilliger().getOvereenkomstAanwezig()' }
 
     villa.export.report:
-        public: true
         class: AppBundle\Export\ReportExport

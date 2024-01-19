@@ -3,15 +3,14 @@
 namespace AppBundle\Service;
 
 use AppBundle\Entity\Document;
-use AppBundle\Exception\AppException;
 use AppBundle\Filter\FilterInterface;
-use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 
 class DownloadsDao
 {
-    public function __construct(EntityManager $entityManager, $taggedExports)
+    public function __construct(EntityManagerInterface $entityManager, iterable $taggedExports)
     {
-        foreach($taggedExports as $id=>$export)
+        foreach ($taggedExports as $id => $export)
         {
             $export->setServiceId($id);
         }

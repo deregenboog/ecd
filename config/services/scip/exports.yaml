@@ -1,6 +1,9 @@
 services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+
     scip.export.deelnames:
-        public: true
         class: AppBundle\Export\GenericExport
         arguments:
             - ScipBundle\Entity\Deelname

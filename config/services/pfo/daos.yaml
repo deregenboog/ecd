@@ -1,28 +1,20 @@
 services:
-    PfoBundle\Service\AardRelatieDao:
-        parent: app.dao.abstract
+    _defaults:
+        autowire: true
+        autoconfigure: true
+        bind:
+            $itemsPerPage: '%pagination.items_per_page%'
 
-    PfoBundle\Service\ClientDao:
-        parent: app.dao.abstract
-
-    PfoBundle\Service\DocumentDao:
-        parent: app.dao.abstract
-
-    PfoBundle\Service\GroepDao:
-        parent: app.dao.abstract
-
-    PfoBundle\Service\VerslagDao:
-        parent: app.dao.abstract
+    PfoBundle\Service\:
+        resource: '%kernel.project_dir%/src/PfoBundle/Service/'
 
     pfo.document.entities:
-        public: true
         class: ArrayObject
         arguments:
             -
               - { key: client, dao: '@PfoBundle\Service\ClientDao' }
 
     pfo.verslag.entities:
-        public: true
         class: ArrayObject
         arguments:
             -

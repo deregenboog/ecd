@@ -4,61 +4,46 @@ imports:
     - { resource: reports.yaml }
 
 services:
-    #tbv controller DI named arguments die dan niet eerst hoeven;
     _defaults:
         autowire: true
         autoconfigure: true
 
     MwBundle\Command\:
         resource: '%kernel.project_dir%/src/MwBundle/Command'
-        tags: [ 'console.command' ]
 
     MwBundle\Controller\:
         resource: '%kernel.project_dir%/src/MwBundle/Controller'
-        tags: [ 'controller.service_arguments' ]
 
     MwBundle\Controller\DeelnamesController:
         arguments:
             $entities: '@mw.deelname.entities'
-        tags: [ 'controller.service_arguments' ]
 
     MwBundle\Controller\DocumentenController:
         arguments:
             $entities: '@mw.document.entities'
-        tags: [ 'controller.service_arguments' ]
 
     MwBundle\Controller\KlantenController:
         arguments:
             $export: '@mw.export.klanten'
-        tags: [ 'controller.service_arguments' ]
 
     MwBundle\Controller\MemosController:
         arguments:
             $entities: '@mw.memo.entities'
-        tags: [ 'controller.service_arguments' ]
 
     MwBundle\Controller\RapportagesController:
         arguments:
             $export: '@mw.export.report'
             $reports: !tagged_iterator mw.rapportage
-        tags: [ 'controller.service_arguments' ]
 
     MwBundle\Controller\VerslagenController:
         arguments:
             $export: '@mw.export.klanten'
-        tags: [ 'controller.service_arguments' ]
 
     MwBundle\Controller\VrijwilligersController:
         arguments:
             $export: '@mw.export.vrijwilliger'
-        tags: [ 'controller.service_arguments' ]
 
     MwBundle\Event\DienstenLookupSubscriber:
-        arguments:
-            - "@doctrine.orm.entity_manager"
-            - "@router"
-        tags:
-            - { name: kernel.event_subscriber }
 
     verslag_metadata:
         class: Doctrine\ORM\Mapping\ClassMetadata
@@ -66,17 +51,14 @@ services:
             - MwBundle\Entity\Verslag
 
     MwBundle\Repository\VerslagRepository:
-        class: MwBundle\Repository\VerslagRepository
         arguments:
-            - "@doctrine.orm.entity_manager"
-            - "@verslag_metadata"
+            $class: "@verslag_metadata"
         calls:
             - method: setGezinNoodopvangLocaties
               arguments:
                   - "%gezin_noodopvang_locaties%"
         tags:
             - app.doelstelling
-        public: true
 
     MwBundle\Form\WachtlijstFilterType:
         arguments:
@@ -95,27 +77,21 @@ services:
             - MwBundle\Entity\Info
 
     MwBundle\Repository\KlantRepository:
-        class: MwBundle\Repository\KlantRepository
         arguments:
-            - "@doctrine.orm.entity_manager"
-            - "@klant_metadata"
+            $class: "@klant_metadata"
         calls:
             - method: setEconomischDaklozenLocaties
               arguments:
                   - "%economisch_daklozen_locaties%"
         tags:
             - app.doelstelling
-        public: true
 
     MwBundle\Repository\KlantInfoRepository:
-        class: MwBundle\Repository\KlantInfoRepository
         arguments:
-            - "@doctrine.orm.entity_manager"
-            - "@klantinfo_metadata"
+            $class: "@klantinfo_metadata"
         calls:
             - method: setEconomischDaklozenLocaties
               arguments:
                   - "%economisch_daklozen_locaties%"
         tags:
             - app.doelstelling
-        public: true

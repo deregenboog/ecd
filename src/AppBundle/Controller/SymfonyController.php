@@ -3,13 +3,12 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\Medewerker;
-use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Psr\Log\LoggerInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
-abstract class SymfonyController extends \Symfony\Bundle\FrameworkBundle\Controller\AbstractController
+abstract class SymfonyController extends AbstractController
 {
     /**
      * @var string
@@ -102,7 +101,7 @@ abstract class SymfonyController extends \Symfony\Bundle\FrameworkBundle\Control
     }
 
     /**
-     * @return EntityManager
+     * @return EntityManagerInterface
      */
     protected function getEntityManager()
     {

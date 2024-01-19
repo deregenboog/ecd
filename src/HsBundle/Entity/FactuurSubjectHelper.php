@@ -4,7 +4,7 @@ namespace HsBundle\Entity;
 
 use AppBundle\Form\Model\AppDateRangeModel;
 use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use HsBundle\Exception\InvoiceLockedException;
@@ -15,10 +15,10 @@ class FactuurSubjectHelper
     private $entityManager;
     /**
      * @param FactuurSubjectInterface $entity
-     * @param EntityManager $entityManager
+     * @param EntityManagerInterface $entityManager
      * @throws \HsBundle\Exception\InvoiceLockedException
      */
-    public function beforeUpdateEntity($entity, EntityManager $entityManager)
+    public function beforeUpdateEntity($entity, EntityManagerInterface $entityManager)
     {
         $this->entityManager = $entityManager;
         $klant = $entity->getKlus()->getKlant();
@@ -76,7 +76,7 @@ class FactuurSubjectHelper
     private function findOrCreateFactuur(
         Klant $klant,
         AppDateRangeModel $dateRange,
-        EntityManager $entityManager
+        EntityManagerInterface $entityManager
     ) {
         // find non-locked invoice within date range...
         $facturen = $entityManager->getRepository(Factuur::class)
@@ -101,7 +101,7 @@ class FactuurSubjectHelper
         return $factuur;
     }
 
-    private function getNummer(Klant $klant, AppDateRangeModel $dateRange, EntityManager $entityManager)
+    private function getNummer(Klant $klant, AppDateRangeModel $dateRange, EntityManagerInterface $entityManager)
     {
         $generateNummer = function (Klant $klant, AppDateRangeModel $dateRange) {
             return sprintf(

@@ -2,7 +2,6 @@
 
 namespace AppBundle\Controller;
 
-
 use AppBundle\Exception\AppException;
 use AppBundle\Exception\UserException;
 use AppBundle\Export\ExportInterface;

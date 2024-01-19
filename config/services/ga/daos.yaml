@@ -1,68 +1,20 @@
 services:
-    GaBundle\Service\ActiviteitAnnuleringsredenDao:
-        parent: app.dao.abstract
+    _defaults:
+        autowire: true
+        autoconfigure: true
+        bind:
+            $itemsPerPage: '%pagination.items_per_page%'
 
-    GaBundle\Service\ActiviteitDao:
-        parent: app.dao.abstract
+    GaBundle\Service\:
+        resource: '%kernel.project_dir%/src/GaBundle/Service/'
 
-    GaBundle\Service\DeelnameDao:
-        parent: app.dao.abstract
-
-    GaBundle\Service\DocumentDao:
-        parent: app.dao.abstract
-
-    GaBundle\Service\DossierAfsluitredenDao:
-        parent: app.dao.abstract
-
-    GaBundle\Service\DossierDao:
-        parent: app.dao.abstract
-
-    GaBundle\Service\GroepDao:
-        parent: app.dao.abstract
-
-    GaBundle\Service\KlantdossierDao:
-        parent: app.dao.abstract
-
-    GaBundle\Service\MemoDao:
-        parent: app.dao.abstract
-        
     GaBundle\Service\KlantLidmaatschapDao:
-        public: true
         arguments:
-            - '@doctrine.orm.entity_manager'
-            - '@knp_paginator'
-            - 100
-
-    GaBundle\Service\IntakeDao:
-        parent: app.dao.abstract
-
-    GaBundle\Service\IntakeAfsluitredenDao:
-        parent: app.dao.abstract
-
-    GaBundle\Service\LidmaatschapAfsluitredenDao:
-        parent: app.dao.abstract
-
-    GaBundle\Service\LidmaatschapDao:
-        parent: app.dao.abstract
-
-    GaBundle\Service\VerslagDao:
-        parent: app.dao.abstract
-
-    GaBundle\Service\VrijwilligerDao:
-        parent: app.dao.abstract
-
-    GaBundle\Service\VrijwilligerIntakeDao:
-        parent: app.dao.abstract
-
-    GaBundle\Service\VrijwilligerdossierDao:
-        parent: app.dao.abstract
+            $itemsPerPage: 100
 
     GaBundle\Service\VrijwilligerLidmaatschapDao:
-        public: true
         arguments:
-            - '@doctrine.orm.entity_manager'
-            - '@knp_paginator'
-            - 100
+            $itemsPerPage: 100
 
     ga.repository.groep_buurtmaatjes:
         class: Doctrine\ORM\EntityRepository
@@ -95,7 +47,6 @@ services:
             - GaBundle\Entity\GroepOrganisatie
 
     ga.activiteit.entities:
-        public: true
         class: ArrayObject
         arguments:
             -
@@ -103,7 +54,6 @@ services:
               - { key: groep, dao: '@GaBundle\Service\GroepDao' }
 
     ga.deelname.entities:
-        public: true
         class: ArrayObject
         arguments:
             -
@@ -111,27 +61,23 @@ services:
               - { key: dossier, dao: '@GaBundle\Service\DossierDao' }
 
     ga.document.entities:
-        public: true
         class: ArrayObject
         arguments:
             -
               - { key: vrijwilliger, dao: '@AppBundle\Service\VrijwilligerDao' }
 
     ga.memo.entities:
-        public: true
         class: ArrayObject
         arguments:
             - - { key: vrijwilliger, dao: '@AppBundle\Service\VrijwilligerDao' }
 
     ga.intake.entities:
-        public: true
         class: ArrayObject
         arguments:
             -
               - { key: dossier, dao: '@GaBundle\Service\DossierDao' }
-    
+
     ga.lidmaatschap.entities:
-        public: true
         class: ArrayObject
         arguments:
             -
@@ -139,7 +85,6 @@ services:
               - { key: groep, dao: '@GaBundle\Service\GroepDao' }
 
     ga.verslag.entities:
-        public: true
         class: ArrayObject
         arguments:
             -

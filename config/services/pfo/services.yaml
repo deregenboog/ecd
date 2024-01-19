@@ -4,45 +4,34 @@ imports:
     - { resource: reports.yaml }
 
 services:
-    #tbv controller DI named arguments die dan niet eerst hoeven;
     _defaults:
         autowire: true
         autoconfigure: true
 
     PfoBundle\Command\:
         resource: '%kernel.project_dir%/src/PfoBundle/Command'
-        tags: [ 'console.command' ]
 
     PfoBundle\Controller\:
         resource: '%kernel.project_dir%/src/PfoBundle/Controller'
-        tags: [ 'controller.service_arguments' ]
 
     PfoBundle\Controller\ClientenController:
         arguments:
             $export: '@pfo.export.client'
-        tags: [ 'controller.service_arguments' ]
 
     PfoBundle\Controller\DocumentenController:
         arguments:
             $entities: '@pfo.document.entities'
-        tags: [ 'controller.service_arguments' ]
 
     PfoBundle\Controller\RapportagesController:
         arguments:
             $export: '@pfo.export.report'
             $reports: !tagged_iterator pfo.rapportage
-        tags: [ 'controller.service_arguments' ]
 
     PfoBundle\Controller\VerslagenController:
         arguments:
             $entities: '@pfo.verslag.entities'
-        tags: [ 'controller.service_arguments' ]
 
     PfoBundle\Form\ClientType:
-        arguments:
-            - "@doctrine.orm.entity_manager"
-        tags:
-            - { name: form.type }
 
     pfo.repository.client:
         class: Doctrine\ORM\EntityRepository
@@ -56,13 +45,10 @@ services:
             - 'PfoBundle\Entity\Client'
 
     PfoBundle\Repository\ClientRepository:
-        class: PfoBundle\Repository\ClientRepository
         arguments:
-            - "@doctrine.orm.entity_manager"
-            - "@client_metadata"
+            $class: "@client_metadata"
         tags:
             - app.doelstelling
-        public: true
 
     pfo.repository.verslag:
         class: Doctrine\ORM\EntityRepository
@@ -70,10 +56,4 @@ services:
         arguments:
             - PfoBundle\Entity\Verslag
 
-    pfo.form.rapportage:
-        class: PfoBundle\Form\RapportageType
-        tags:
-            - { name: form.type }
-
-
-
+    PfoBundle\Form\RapportageType:

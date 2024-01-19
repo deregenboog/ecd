@@ -5,8 +5,7 @@ namespace AppBundle\Command;
 use AppBundle\Entity\GgwGebied;
 use AppBundle\Entity\Postcode;
 use AppBundle\Entity\Werkgebied;
-use Doctrine\ORM\EntityManager;
-use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -14,7 +13,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 class ZipcodeLoaderCommand extends \Symfony\Component\Console\Command\Command
 {
     /**
-     * @var EntityManager
+     * @var EntityManagerInterface
      */
     private $entityManager;
 
@@ -28,6 +27,13 @@ class ZipcodeLoaderCommand extends \Symfony\Component\Console\Command\Command
      */
     private $cache = [];
 
+    public function __construct(EntityManagerInterface $em)
+    {
+        $this->entityManager = $em;
+
+        parent::__construct();
+    }
+
     protected function configure()
     {
         $this
@@ -38,7 +44,6 @@ class ZipcodeLoaderCommand extends \Symfony\Component\Console\Command\Command
 
     protected function initialize(InputInterface $input, OutputInterface $output)
     {
-        $this->entityManager = $this->getContainer()->get('doctrine.orm.entity_manager');
         $this->batchSize = 1000;
     }
 

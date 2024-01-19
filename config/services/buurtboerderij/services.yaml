@@ -4,14 +4,12 @@ imports:
 
 services:
     _defaults:
-        autowire: true      # Automatically injects dependencies in your services.
-        autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
+        autowire: true
+        autoconfigure: true
 
     BuurtboerderijBundle\Controller\:
         resource: '%kernel.project_dir%/src/BuurtboerderijBundle/Controller'
-        tags: [ 'controller.service_arguments' ]
 
     BuurtboerderijBundle\Controller\VrijwilligersController:
         arguments:
             $export: '@buurtboerderij.export.vrijwilligers'
-        tags: [ 'controller.service_arguments' ]

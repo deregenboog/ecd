@@ -1,6 +1,9 @@
 services:
-    BuurtboerderijBundle\Service\AfsluitredenDao:
-        parent: app.dao.abstract
+    _defaults:
+        autowire: true
+        autoconfigure: true
+        bind:
+            $itemsPerPage: '%pagination.items_per_page%'
 
-    BuurtboerderijBundle\Service\VrijwilligerDao:
-        parent: app.dao.abstract
+    BuurtboerderijBundle\Service\:
+        resource: '%kernel.project_dir%/src/BuurtboerderijBundle/Service/'

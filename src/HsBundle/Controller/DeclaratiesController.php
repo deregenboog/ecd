@@ -6,7 +6,7 @@ use AppBundle\Controller\AbstractChildController;
 use AppBundle\Exception\AppException;
 use AppBundle\Exception\UserException;
 use AppBundle\Form\Model\AppDateRangeModel;
-use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use HsBundle\Entity\Arbeider;
 use HsBundle\Entity\Creditfactuur;
 use HsBundle\Entity\Declaratie;

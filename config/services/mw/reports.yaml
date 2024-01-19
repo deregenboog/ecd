@@ -2,70 +2,56 @@ services:
     _defaults:
         autowire: true
         autoconfigure: true
+
     MwBundle\Form\RapportageType:
-        tags:
-            - { name: form.type }
 
     MwBundle\Report\CaseloadMedewerkers:
-        public: true
         tags:
             - { name: mw.rapportage, category: Algemeen }
 
     MwBundle\Report\AMW:
-        public: true
         arguments:
             $locaties: '%amw_locaties%'
         tags:
             - { name: mw.rapportage, category: Klanten }
 
     MwBundle\Report\STED:
-        public: true
         arguments:
             $locaties: '%economisch_daklozen_locaties%'
         tags:
             - { name: mw.rapportage, category: Klanten }
 
     MwBundle\Report\BegeleidThuis:
-        public: true
         arguments:
             $locaties: '%zonderzorg_locaties%'
         tags:
             - { name: mw.rapportage, category: Klanten }
 
     MwBundle\Report\T6:
-        public: true
         tags:
             - { name: mw.rapportage, category: Klanten }
 
     MwBundle\Report\Amstelland:
-        public: true
         tags:
             - { name: mw.rapportage, category: Klanten }
 
 #    MwBundle\Report\Resultaten:
-#        public: true
 #        arguments:
 #            - '@MwBundle\Service\KlantDao'
 #        tags:
 #            - { name: mw.rapportage, category: Klanten }
 
     MwBundle\Report\RepatrieringenPerLand:
-        public: true
-        arguments:
-            - "@doctrine.orm.entity_manager"
         tags:
             - { name: mw.rapportage, category: Repatriëring }
 
     MwBundle\Report\RepatrieringenPerKlant:
-        public: true
         arguments:
-            - "@doctrine.orm.entity_manager"
-            - "%kernel.project_dir%/config/sql_reports/repatrieringen_per_klant.sql"
+            $sqlFile: "%kernel.project_dir%/config/sql_reports/repatrieringen_per_klant.sql"
         tags:
             - { name: mw.rapportage, category: Repatriëring }
 
     MwBundle\Report\EconomischDaklozen:
-        public: true
         arguments:
             - '@MwBundle\Service\VerslagDao'
             - '%economisch_daklozen_locaties%'
@@ -73,7 +59,6 @@ services:
             - { name: mw.rapportage, category: Archief }
 
     MwBundle\Report\ZonderZorg:
-        public: true
         arguments:
             - '@MwBundle\Service\VerslagDao'
             - '%zonderzorg_locaties%'

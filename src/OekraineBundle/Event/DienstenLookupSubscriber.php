@@ -5,7 +5,7 @@ namespace OekraineBundle\Event;
 use AppBundle\Event\DienstenLookupEvent;
 use AppBundle\Event\Events;
 use AppBundle\Model\Dienst;
-use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use OekBundle\Entity\Deelnemer;
 use OekraineBundle\Entity\Aanmelding;
 use OekraineBundle\Entity\Afsluiting;
@@ -18,7 +18,7 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 class DienstenLookupSubscriber implements EventSubscriberInterface
 {
     /**
-     * @var EntityManager
+     * @var EntityManagerInterface
      */
     private $entityManager;
 
@@ -34,7 +34,7 @@ class DienstenLookupSubscriber implements EventSubscriberInterface
         ];
     }
 
-    public function __construct(EntityManager $entityManager, UrlGeneratorInterface $generator)
+    public function __construct(EntityManagerInterface $entityManager, UrlGeneratorInterface $generator)
     {
         $this->entityManager = $entityManager;
         $this->generator = $generator;

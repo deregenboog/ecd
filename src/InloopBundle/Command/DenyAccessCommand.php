@@ -3,20 +3,26 @@
 namespace InloopBundle\Command;
 
 use AppBundle\Entity\Klant;
-use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use InloopBundle\Entity\Registratie;
-use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class DenyAccessCommand extends \Symfony\Component\Console\Command\Command
 {
     /**
-     * @var EntityManager
+     * @var EntityManagerInterface
      */
     private $manager;
 
     private $interval = '-2 months';
+
+    public function __construct(EntityManagerInterface $em)
+    {
+        $this->manager = $em;
+
+        parent::__construct();
+    }
 
     protected function configure()
     {
@@ -25,8 +31,6 @@ class DenyAccessCommand extends \Symfony\Component\Console\Command\Command
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $this->manager = $this->getContainer()->get('doctrine.orm.entity_manager');
-
         // get clients that haven't visited within the configured interval
         $klanten = $this->getKlanten();
         $output->writeln(sprintf('%d klanten gevonden', is_array($klanten) || $klanten instanceof \Countable ? count($klanten) : 0));
