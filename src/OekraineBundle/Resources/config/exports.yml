@@ -45,6 +45,7 @@ services:
                 Tussenvoegsel: { expression: 'entity.getAppKlant().getTussenvoegsel()' }
                 Achternaam: { expression: 'entity.getAppKlant().getAchternaam()' }
                 Geslacht: { expression: 'entity.getAppKlant().getGeslacht()' }
+                Geboortedatum: { expression: 'entity.getAppKlant().getGeboortedatum()', type: 'date' }
                 Adres: { expression: 'entity.getAppKlant().getAdres()' }
                 Postcode: { expression: 'entity.getAppKlant().getPostcode()' }
                 Woonplaats: { expression: 'entity.getAppKlant().getPlaats()' }
