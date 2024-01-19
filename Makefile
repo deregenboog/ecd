@@ -34,7 +34,7 @@ docker-test-setup:
 
 docker-test-run:
 	docker compose -f docker-compose.test.yml build test
-	docker compose -f docker-compose.test.yml run --rm test vendor/bin/phpunit $(tests)
+	docker compose -f docker-compose.test.yml run --rm -e SYMFONY_DEPRECATIONS_HELPER=max[direct]=0 test vendor/bin/phpunit $(tests)
 
 docker-test-teardown:
 	docker compose -f docker-compose.test.yml stop test-database
