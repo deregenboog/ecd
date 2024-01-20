@@ -1,6 +1,25 @@
 # This file is the entry point to configure your own services.
 # Files in the packages/ subdirectory configure your dependencies.
 
+imports:
+    - { resource: services/app/services.yaml }
+    - { resource: services/buurtboerderij/services.yaml }
+    - { resource: services/clip/services.yaml }
+    - { resource: services/dagbesteding/services.yaml }
+    - { resource: services/eropuit/services.yaml }
+    - { resource: services/ga/services.yaml }
+    - { resource: services/hs/services.yaml }
+    - { resource: services/inloop/services.yaml }
+    - { resource: services/iz/services.yaml }
+    - { resource: services/mw/services.yaml }
+    - { resource: services/oek/services.yaml }
+    - { resource: services/oekraine/services.yaml }
+    - { resource: services/pfo/services.yaml }
+    - { resource: services/scip/services.yaml }
+    - { resource: services/tw/services.yaml }
+    - { resource: services/uhk/services.yaml }
+    - { resource: services/villa/services.yaml }
+
 # Put parameters here that don't need to change on each machine where the app is deployed
 # https://symfony.com/doc/current/best_practices.html#use-parameters-for-application-configuration
 parameters:

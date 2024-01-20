@@ -22,15 +22,5 @@ class AppExtension extends Extension
     {
         $configuration = new Configuration();
         $config = $this->processConfiguration($configuration, $configs);
-
-        $dir = $container->getParameter('kernel.project_dir').'/config/services/app';
-        $loader = new Loader\YamlFileLoader($container, new FileLocator($dir));
-        $loader->load('services.yaml');
-
-        try {
-            $loader->load(sprintf('services_%s.yaml', $container->getParameter('kernel.environment')));
-        } catch (FileLocatorFileNotFoundException $exception) {
-            // ignore
-        }
     }
 }
