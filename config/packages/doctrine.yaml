@@ -79,8 +79,8 @@ doctrine:
                 dir: "%kernel.project_dir%/src/TwBundle/Entity"
             uhk:
                 type: annotation
-                prefix: UkhBundle\Entity
-                dir: "%kernel.project_dir%/src/UkhBundle/Entity"
+                prefix: UhkBundle\Entity
+                dir: "%kernel.project_dir%/src/UhkBundle/Entity"
             villa:
                 type: annotation
                 prefix: VillaBundle\Entity

@@ -3,7 +3,7 @@
 namespace Tests\AppBundle\Filter;
 
 use AppBundle\Filter\KlantFilter;
-use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Query\Expr;
 use Doctrine\ORM\QueryBuilder;
 use InloopBundle\Entity\Locatie;
@@ -115,7 +115,7 @@ class KlantFilterTest extends TestCase
 
     private function createQueryBuilder()
     {
-        $emStub = $this->createConfiguredMock(EntityManager::class, [
+        $emStub = $this->createConfiguredMock(EntityManagerInterface::class, [
             'getExpressionBuilder' => new Expr(),
         ]);
 

@@ -4,7 +4,7 @@ namespace Tests\HsBundle\Event;
 
 use AppBundle\Entity\Medewerker;
 use AppBundle\Test\WebTestCase;
-use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use HsBundle\Entity\Dienstverlener;
 use HsBundle\Entity\Factuur;
 use HsBundle\Entity\Klus;
@@ -13,7 +13,7 @@ use HsBundle\Entity\Registratie;
 class FactuurSubscriberTest extends WebTestCase
 {
     /**
-     * @var EntityManager
+     * @var EntityManagerInterface
      */
     private $entityManager;
 

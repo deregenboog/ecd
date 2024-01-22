@@ -6,7 +6,7 @@ use AppBundle\Entity\Medewerker;
 use AppBundle\Filter\KlantFilter;
 use AppBundle\Filter\VrijwilligerFilter;
 use AppBundle\Form\Model\AppDateRangeModel;
-use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\QueryBuilder;
 use IzBundle\Entity\Project;
 use IzBundle\Filter\KoppelingFilter;
@@ -158,7 +158,7 @@ class IzKoppelingFilterTest extends TestCase
 
     private function createQueryBuilder()
     {
-        $emStub = $this->createMock(EntityManager::class);
+        $emStub = $this->createMock(EntityManagerInterface::class);
 
         return new QueryBuilder($emStub);
     }

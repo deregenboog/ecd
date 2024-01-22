@@ -283,7 +283,7 @@ class SchorsingenController extends AbstractController
         ;
 
         try {
-            $sent = $this->mailer->send($message);
+            $this->mailer->send($message);
             $this->addFlash('success', 'E-mail is verzonden.');
         } catch (TransportException $e) {
             $this->addFlash('danger', 'E-mail kon niet verzonden worden.('.$e->getMessage().')');
@@ -296,7 +296,7 @@ class SchorsingenController extends AbstractController
      *
      * @param Request $request
      * @param $entity
-     * @param null $form
+     * @param $form
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
      */
     protected function afterFormSubmitted(Request $request, $entity, $form = null)
