@@ -2,6 +2,7 @@
 
 namespace App;
 
+use AppBundle\DependencyInjection\Compiler\LdapCompilerPass;
 use AppBundle\DependencyInjection\Compiler\ReportsCompilerPass;
 use Symfony\Bundle\FrameworkBundle\Kernel\MicroKernelTrait;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -30,6 +31,8 @@ class Kernel extends BaseKernel
 
     public function build(ContainerBuilder $container)
     {
+        $container->addCompilerPass(new LdapCompilerPass());
+
         $this->addReportsCompilerPasses($container);
     }
 

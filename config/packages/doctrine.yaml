@@ -17,16 +17,78 @@ doctrine:
         naming_strategy: AppBundle\Doctrine\EcdNamingStrategy
         auto_mapping: true
         mappings:
-            gedmo_loggable:
+            app:
                 type: annotation
-                prefix: Gedmo\Loggable\Entity
-                dir: "%kernel.project_dir%/vendor/gedmo/doctrine-extensions/src/Loggable/Entity"
-                is_bundle: false
-                alias: GedmoLoggable # (optional) it will default to the name set for the mapping
+                prefix: AppBundle\Entity
+                dir: "%kernel.project_dir%/src/AppBundle/Entity"
+            buurtboerderij:
+                type: annotation
+                prefix: BuurtboerderijBundle\Entity
+                dir: "%kernel.project_dir%/src/BuurtboerderijBundle/Entity"
+            clip:
+                type: annotation
+                prefix: ClipBundle\Entity
+                dir: "%kernel.project_dir%/src/ClipBundle/Entity"
+            dagbesteding:
+                type: annotation
+                prefix: DagbestedingBundle\Entity
+                dir: "%kernel.project_dir%/src/DagbestedingBundle/Entity"
+            eropuit:
+                type: annotation
+                prefix: ErOpUitBundle\Entity
+                dir: "%kernel.project_dir%/src/ErOpUitBundle/Entity"
+            ga:
+                type: annotation
+                prefix: GaBundle\Entity
+                dir: "%kernel.project_dir%/src/GaBundle/Entity"
+            hs:
+                type: annotation
+                prefix: HsBundle\Entity
+                dir: "%kernel.project_dir%/src/HsBundle/Entity"
+            inloop:
+                type: annotation
+                prefix: InloopBundle\Entity
+                dir: "%kernel.project_dir%/src/InloopBundle/Entity"
+            iz:
+                type: annotation
+                prefix: IzBundle\Entity
+                dir: "%kernel.project_dir%/src/IzBundle/Entity"
+            mw:
+                type: annotation
+                prefix: MwBundle\Entity
+                dir: "%kernel.project_dir%/src/MwBundle/Entity"
+            oek:
+                type: annotation
+                prefix: OekBundle\Entity
+                dir: "%kernel.project_dir%/src/OekBundle/Entity"
+            oekraine:
+                type: annotation
+                prefix: OekraineBundle\Entity
+                dir: "%kernel.project_dir%/src/OekraineBundle/Entity"
+            pfo:
+                type: annotation
+                prefix: PfoBundle\Entity
+                dir: "%kernel.project_dir%/src/PfoBundle/Entity"
             scip:
                 type: annotation
                 prefix: ScipBundle\Entity
                 dir: "%kernel.project_dir%/src/ScipBundle/Entity"
+            tw:
+                type: annotation
+                prefix: TwBundle\Entity
+                dir: "%kernel.project_dir%/src/TwBundle/Entity"
+            uhk:
+                type: annotation
+                prefix: UkhBundle\Entity
+                dir: "%kernel.project_dir%/src/UkhBundle/Entity"
+            villa:
+                type: annotation
+                prefix: VillaBundle\Entity
+                dir: "%kernel.project_dir%/src/VillaBundle/Entity"
+            gedmo_loggable:
+                type: annotation
+                prefix: Gedmo\Loggable\Entity
+                dir: "%kernel.project_dir%/vendor/gedmo/doctrine-extensions/src/Loggable/Entity"
         dql:
             datetime_functions:
                 date: Luxifer\DQL\Datetime\Date
