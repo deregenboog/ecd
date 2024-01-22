@@ -1,0 +1,27 @@
+{% extends 'iz/hulpvragen/view.html.twig' %}
+{% import 'html.macro.twig' as html %}
+{% block content_right %}
+    <div class="tab-content">
+        <div id="koppelingen" class="tab-pane active">
+        <h2>Hulpvraag wijzigen</h2>
+        <p>
+            {{ html.cancelLink(path('iz_hulpvragen_view', {id: entity.id})) }}
+            {{ html.link('Annuleren', path('iz_hulpvragen_view', {id: entity.id})) }}
+        </p>
+        {{ form(form) }}
+        </div>
+    </div>
+{% endblock %}
+
+{% block scripts %}
+    <script type="text/javascript">
+        $(function() {
+            // copy title from input to label
+            $('input[type="radio"], input[type="checkbox"]').each(function() {
+                if ($(this).attr('title')) {
+                    $(this).closest('label').attr('title', $(this).attr('title'));
+                }
+            });
+        });
+    </script>
+{% endblock %}

@@ -219,7 +219,7 @@ class KlantenController extends AbstractController
      */
     public function amocAction(Klant $klant)
     {
-        $html = $this->renderView('@Inloop/klanten/amoc_brief.pdf.twig', ['klant' => $klant]);
+        $html = $this->renderView('inloop/klanten/amoc_brief.pdf.twig', ['klant' => $klant]);
         $pdf = new PdfBrief($html);
 
         $response = new Response($pdf->Output(null, 'S'));

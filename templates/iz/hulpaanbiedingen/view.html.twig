@@ -1,0 +1,199 @@
+{% extends 'iz/view.html.twig' %}
+{% import 'html.macro.twig' as html %}
+
+{% block content_top %}
+    <h1>{{ entity_name|capitalize }} {{ entity|naam_vrijwilliger }}</h1>
+{% endblock %}
+
+{% block content_left %}
+    <h2>Hulpaanbod</h2>
+    <p>
+        {% if not entity.afgesloten %}
+            {{ html.link('Bewerken', path(route_base~'edit', {id: entity.id}), 'edit') }}
+            {% if not entity.gekoppeld %}
+                {{ html.link('Afsluiten', path(route_base~'close', {id: entity.id}), 'close') }}
+            {% endif %}
+        {% endif %}
+    </p>
+    <dl class="dl-horizontal">
+        <dt>Vrijwilliger</dt>
+        <dd>{{ html.link(entity|naam_vrijwilliger, path('iz_vrijwilligers_view', {id: entity.izVrijwilliger.id})) }}</dd>
+        <dt>Medewerker</dt>
+        <dd>{{ entity.medewerker }}</dd>
+        <dt>Startdatum</dt>
+        <dd>{{ entity.startdatum|date('d-m-Y') }}</dd>
+        {% if entity.afgesloten %}
+            <dt>Afsluitdatum</dt>
+            <dd>{{ entity.einddatum ? entity.einddatum|date('d-m-Y') }}</dd>
+            <dt>Afsluitreden</dt>
+            <dd>{{ entity.eindeVraagAanbod }}</dd>
+        {% endif %}
+    </dl>
+    <dl class="dl-horizontal">
+        <dt>Project</dt>
+        <dd>{{ entity.project }}</dd>
+        <dt>Hulpvraagsoorten</dt>
+        <dd>
+            <ul>
+                {% for hulpvraagsoort in entity.hulpvraagsoorten %}
+                    <li>{{ hulpvraagsoort }}</li>
+                {% endfor %}
+            </ul>
+        </dd>
+        <dt>Doelgroepen</dt>
+        <dd>
+            <ul>
+                {% for doelgroep in entity.doelgroepen %}
+                    <li>{{ doelgroep }}</li>
+                {% endfor %}
+            </ul>
+        </dd>
+        <dt>Dagdeel</dt>
+        <dd>{{ entity.dagdeel ?: 'Geen voorkeur' }}</dd>
+        <dt>Expat</dt>
+        <dd>{{ entity.expat ? 'Ja' : 'Nee' }}</dd>
+        <dt>Voorkeur geslacht</dt>
+        <dd>{{ entity.voorkeurGeslacht ?: 'Geen voorkeur' }}</dd>
+        <dt>Matchingsinformatie</dt>
+        <dd><div class="well">{{ entity.info }}</div></dd>
+    </dl>
+    {% include 'vrijwilliger_basis.html.twig' with {vrijwilliger: entity.izVrijwilliger.vrijwilliger} %}
+{% endblock %}
+
+{% block content_right %}
+    <ul class="nav nav-tabs">
+        <li class="active"><a data-toggle="tab" href="#matching">Matching</a></li>
+        <li><a data-toggle="tab" href="#verslagen">Verslagen</a></li>
+    </ul>
+    <div class="tab-content">
+        <div id="matching" class="tab-pane active">
+            {% if entity.gekoppeld %}
+                <h2>Koppeling</h2>
+                {{ html.viewLink(path('iz_koppelingen_view', {id: entity.koppeling.hulpvraag.id})) }}
+                {{ html.link('Naar koppeling', path('iz_koppelingen_view', {id: entity.koppeling.hulpvraag.id})) }}
+            {% elseif entity.gereserveerd %}
+                <h2>Reservering</h2>
+                <p>
+                    {{ html.link('Reservering bewerken', path('iz_reserveringen_edit', {id: entity.huidigeReservering.id}), 'edit') }}
+                    {{ html.link('Reservering omzetten in koppeling', path('iz_koppelingen_add', {hulpvraag: entity.huidigeReservering.hulpvraag.id, hulpaanbod: entity.huidigeReservering.hulpaanbod.id}), 'paperclip') }}
+                </p>
+                <p>
+                    {{ entity.huidigeReservering.medewerker }} heeft dit hulpaanbod
+                    <strong>
+                        van {{ entity.huidigeReservering.startdatum|date('d-m-Y') }}
+                        tot {{ entity.huidigeReservering.einddatum|date('d-m-Y') }}
+                    </strong>
+                    gereserveerd voor hulpvraag
+                    <strong>
+                        {{ html.link(entity.huidigeReservering.hulpvraag, path('iz_hulpvragen_view', {id: entity.huidigeReservering.hulpvraag.id})) }}
+                    </strong>.
+                </p>
+            {% elseif not entity.afgesloten and kandidaten is defined %}
+                <h2>Kandidaten</h2>
+                <table class="table table-hover">
+                    <thead>
+                        {{ form_start(filter) }}
+                            <tr>
+                                <th>
+                                    {{ form_widget(filter.startdatum) }}
+                                    {{ form_errors(filter.startdatum) }}
+                                </th>
+                                <th>
+                                    {{ form_widget(filter.klant.voornaam) }}
+                                    {{ form_errors(filter.klant.voornaam) }}
+                                    {{ form_widget(filter.klant.achternaam) }}
+                                    {{ form_errors(filter.klant.achternaam) }}
+                                </th>
+                                <th>
+                                    {{ form_widget(filter.klant.geslacht) }}
+                                    {{ form_errors(filter.klant.geslacht) }}
+                                </th>
+                                <th>
+                                    {{ form_widget(filter.klant.geboortedatumRange.start) }}
+                                    {{ form_errors(filter.klant.geboortedatumRange.start) }}
+                                    {{ form_widget(filter.klant.geboortedatumRange.end) }}
+                                    {{ form_errors(filter.klant.geboortedatumRange.end) }}
+                                </th>
+                                <th>
+                                    {{ form_widget(filter.klant.stadsdeel) }}
+                                    {{ form_errors(filter.klant.stadsdeel) }}
+                                </th>
+                                <th>
+                                    {{ form_widget(filter.hulpvraagsoort) }}
+                                    {{ form_errors(filter.hulpvraagsoort) }}
+                                </th>
+                                <th>
+                                    {{ form_widget(filter.doelgroep) }}
+                                    {{ form_errors(filter.doelgroep) }}
+                                </th>
+                                <th colspan="2">
+                                    {{ form_widget(filter.matching) }}
+                                    {{ form_errors(filter.matching) }}
+                                </th>
+                                <th>
+                                    {{ form_widget(filter.filter) }}
+                                </th>
+                            </tr>
+                        {{ form_end(filter) }}
+                        <tr>
+                            <th>
+                                {{ knp_pagination_sortable(kandidaten, 'Startdatum hulpvraag', 'hulpvraag.startdatum') }}
+                            </th>
+                            <th>
+                                {{ knp_pagination_sortable(kandidaten, 'Deelnemer', 'klant.achternaam') }}
+                            </th>
+                            <th>
+                                {{ knp_pagination_sortable(kandidaten, 'Geslacht', 'geslacht.volledig') }}
+                            </th>
+                            <th>
+                                {{ knp_pagination_sortable(kandidaten, 'Geboortedatum', 'klant.geboortedatum') }}
+                            </th>
+                            <th>
+                                {{ knp_pagination_sortable(kandidaten, 'Stadsdeel', 'stadsdeel.naam') }}
+                            </th>
+                            <th>
+                                {{ knp_pagination_sortable(kandidaten, 'Hulpvraagsoort', 'hulpvraagsoort.naam') }}
+                            </th>
+                            <th>
+                                {{ knp_pagination_sortable(kandidaten, 'Doelgroep', 'doelgroep.naam') }}
+                            </th>
+                            <th>
+                                {{ knp_pagination_sortable(kandidaten, 'Geschikt voor expat', 'hulpvraag.geschiktVoorExpat') }}
+                            </th>
+                            <th>Matchingsinformatie</th>
+                            <th>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for hulpvraag in kandidaten %}
+                            <tr data-href="{{ path('iz_hulpvragen_view', {id: hulpvraag.id}) }}">
+                                <td>{{ hulpvraag.startdatum|date('d-m-Y') }}</td>
+                                <td>{{ hulpvraag|naam_klant }}</td>
+                                <td>
+                                    {{ hulpvraag.izKlant.klant.geslacht }}
+                                </td>
+                                <td>
+                                    {{ hulpvraag.izKlant.klant.geboortedatum ? hulpvraag.izKlant.klant.geboortedatum|date('d-m-Y') }}
+                                </td>
+                                <td>{{ hulpvraag.izKlant.klant.werkgebied }}</td>
+                                <td>{{ hulpvraag.hulpvraagsoort }}</td>
+                                <td>{{ hulpvraag.doelgroep }}</td>
+                                <td>{{ hulpvraag.geschiktVoorExpat ? 'Ja' : 'Nee' }}</td>
+                                <td>{{ hulpvraag.info }}</td>
+                                <td>
+                                    {{ html.link('Reserveren', path('iz_reserveringen_add', {hulpvraag: hulpvraag.id, hulpaanbod: entity.id}), 'tag') }}
+                                    {{ html.link('Koppelen', path('iz_koppelingen_add', {hulpvraag: hulpvraag.id, hulpaanbod: entity.id}), 'paperclip') }}
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                {{ knp_pagination_render(kandidaten) }}
+            {% endif %}
+        </div>
+        <div id="verslagen" class="tab-pane">
+            {% include 'iz/verslagen/_list.html.twig' with {hulpaanbod: entity} %}
+        </div>
+    </div>
+{% endblock %}

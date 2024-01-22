@@ -1,0 +1,79 @@
+{% extends 'base-2-col.html.twig' %}
+{% import 'html.macro.twig' as html %}
+
+{% block content_top %}
+    <h1>
+        Deelnemer {{ entity.klant }}
+    </h1>
+{% endblock %}
+
+{% block content_left %}
+    <h2>Deelnemer dagbesteding</h2>
+    <p>
+        {% if entity.actief %}
+            {{ html.editLink(path('dagbesteding_deelnemers_edit', {id: entity.id})) }}
+            {{ html.link('Wijzigen', path('dagbesteding_deelnemers_edit', {id: entity.id})) }}
+            {{ html.closeLink(path('dagbesteding_deelnemers_close', {id: entity.id})) }}
+            {{ html.link('Afsluiten', path('dagbesteding_deelnemers_close', {id: entity.id})) }}
+        {% else %}
+            {{ html.link('Heropenen', path('dagbesteding_deelnemers_reopen', {id: entity.id}), 'open') }}
+        {% endif %}
+        {% if entity.deletable %}
+            {{ html.deleteLink(path('dagbesteding_deelnemers_delete', {id: entity.id})) }}
+            {{ html.link('Verwijderen', path('dagbesteding_deelnemers_delete', {id: entity.id})) }}
+        {% endif %}
+    </p>
+    <dl class="dl-horizontal">
+        <dt>Aanmelddatum</dt>
+        <dd>{{ entity.aanmelddatum|date('d-m-Y') }}</dd>
+        <dt>Medewerker</dt>
+        <dd>{{ entity.medewerker }}</dd>
+        <dt>Werkbegeleider</dt>
+        <dd>{{ entity.werkbegeleider }}</dd>
+        <dt>RIS nummer</dt>
+        <dd>{{ entity.RisDossiernummer }}</dd>
+        <dt>Afsluitdatum</dt>
+        <dd>{{ entity.afsluitdatum|if_date('d-m-Y') }}</dd>
+        <dt>Reden afsluiting</dt>
+        <dd>{{ entity.afsluiting }}</dd>
+    </dl>
+    {% include 'klant_basis.html.twig' with {klant: entity.klant} %}
+{% endblock %}
+
+{% block content_right %}
+    <ul class="nav nav-tabs">
+        <li class="active"><a data-toggle="tab" href="#trajecten">Trajecten</a></li>
+
+        <li><a data-toggle="tab" href="#contactpersonen">Contactpersonen</a></li>
+        <li><a data-toggle="tab" href="#verslagen">Verslagen</a></li>
+        <li><a data-toggle="tab" href="#documenten">Documenten</a></li>
+        <li><a data-toggle="tab" href="#werkdoelen">Werkdoelen</a></li>
+
+    </ul>
+    <div class="tab-content">
+        <div id="trajecten" class="tab-pane active">
+
+            <div class="ml-2 p-0">
+                {% if entity.trajecten.first == true %}
+                    {% include 'dagbesteding/trajecten/_view.html.twig' with {entity: entity.trajecten.first} %}
+                {% endif %}
+            </div>
+
+            {% include 'dagbesteding/trajecten/_list.html.twig' with {deelnemer: entity} %}
+
+        </div>
+
+        <div id="contactpersonen" class="tab-pane">
+            {% include 'dagbesteding/contactpersonen/_list.html.twig' with {deelnemer: entity} %}
+        </div>
+        <div id="verslagen" class="tab-pane">
+            {% include 'dagbesteding/verslagen/_list.html.twig' with {deelnemer: entity} %}
+        </div>
+        <div id="documenten" class="tab-pane">
+            {% include 'dagbesteding/documenten/_list.html.twig' with {deelnemer: entity} %}
+        </div>
+        <div id="werkdoelen" class="tab-pane">
+            {% include 'dagbesteding/werkdoelen/_list.html.twig' with {deelnemer: entity} %}
+        </div>
+    </div>
+{% endblock %}

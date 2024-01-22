@@ -1,0 +1,42 @@
+{% extends 'inloop/intakes/add.html.twig' %}
+{% import 'html.macro.twig' as html %}
+
+{% block content_top %}
+    <h1>Toegang wijzigen</h1>
+{% endblock %}
+
+{% block content_right %}
+<p>
+    Om klanten toegang te geven tot inloophuizen worden de onderstaande velden gebruikt. <br />
+    Het werkt als volgt:
+    <ol>
+        <li>Klanten hebben geen toegang tot een van de inloophuizen wanneer het vinkje 'Toegang inloophuizen' <b>uit</b> staat.</li>
+        <li>Alleen inloophuizen zonder specifieke toegangsregels zijn voor algemeen gebruik toegankelijk.</li>
+        <li>Klanten met de verblijfsstatus '{{ amocVerblijfsstatus }}', hebben alleen toegang tot de algemene inloophuizen vanaf de 'Startdatum toegang overig'.</li>
+        <li>Extra of specifieke toegang kan via 'Specifieke locaties' worden opgegeven (en staat los van alle andere regels).</li>
+        <li>Afhankelijk van de intakelocatie: </li>
+        <ol>
+            <li>AMOC is alleen toegankelijk als je een intake hebt gehad op AMOC, of als de eerste intake op AMOC West is afgenomen en dit langer dan 6 maanden geleden is.</li>
+            <li>AMOC West is alleen toegankelijk als je een intake op AMOC West hebt gehad</li>
+            <li>Villa Zaanstad is alleen toegankelijk als je een intake in Villa Zaanstand hebt gehad.</li>
+        </ol>
+        <li>Voor de gebruikersruimte is alleen de geselecteerde gebruikersruimte toegankelijk, waarbij de overige regels (intake niet ouder dan 2mnd, recent geweest) in acht worden genomen.</li>
+    </ol>
+</p>
+    {{ form_start(form) }}
+    {{ form_errors(form) }}
+
+    {% if entity.klant.eersteIntake == entity %}
+        <h2 id="locatiekeuze">Toegang</h2>
+        {{ form_widget(form.toegang) }}
+        {{ form_errors(form.toegang) }}
+    {% else %}
+        {% include 'inloop/intakes/_locatieToegang.html.twig' with {entity: entity.klant.eersteIntake, verblijfsstatusId: entity.Verblijfsstatus.id} %}
+    {% endif %}
+
+    {{ form_end(form) }}
+{% endblock %}
+
+{% block scripts %}
+    {{ parent() }}
+{% endblock %}

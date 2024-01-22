@@ -121,7 +121,7 @@ class IntakeSubscriber implements EventSubscriberInterface
         $message = (new TemplatedEmail())
             ->addFrom(new Address($intake->getMedewerker()->getEmail(),'ECD Inloop Intake ('.$intake->getMedewerker()->getNaam().')'))
             ->subject("Verzoek (Inloop intake)")
-            ->textTemplate('@Inloop\intakes\aanmelding.txt.twig')
+            ->textTemplate('inloop\intakes\aanmelding.txt.twig')
             ->context([
                 'intake'=>$intake
             ])

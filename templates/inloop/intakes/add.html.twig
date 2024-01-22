@@ -1,0 +1,20 @@
+{% extends 'base-2-col.html.twig' %}
+{% import 'html.macro.twig' as html %}
+
+{% block content_top %}
+    <h1>{{ entity_name|capitalize }} toevoegen</h1>
+{% endblock %}
+
+{% block content_left %}
+    {% include 'klant_basis.html.twig' with {klant: entity.klant, module: 'Intake'} %}
+
+
+{% endblock %}
+
+{% block content_right %}
+    {% include 'inloop/intakes/_form.html.twig' %}
+{% endblock %}
+
+{% block scripts %}
+    {% include 'inloop/intakes/_form_scripts.html.twig' %}
+{% endblock %}

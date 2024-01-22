@@ -72,7 +72,7 @@ class HerinneringenController extends AbstractChildController
 
     private function createPdf(Herinnering $entity)
     {
-        $html = $this->renderView('@Hs/herinneringen/view.pdf.twig', ['entity' => $entity]);
+        $html = $this->renderView('hs/herinneringen/view.pdf.twig', ['entity' => $entity]);
 
         return new PdfHerinnering($html, $entity);
     }

@@ -1,0 +1,67 @@
+{% extends 'base-2-col.html.twig' %}
+{% import 'html.macro.twig' as html %}
+
+{% block content_top %}
+    {% if not entity.actief %}
+        <div class="alert alert-danger">Dossier is afgesloten</div>
+    {% endif %}
+    <h1>{{ entity_name|capitalize }} {{ entity }}</h1>
+{% endblock %}
+
+{% block content_left %}
+
+    {% include 'klant_basis.html.twig' with {klant: entity.klant} %}
+{% endblock %}
+
+
+{% block content_right %}
+    <ul class="nav nav-tabs">
+        <li class="active"><a data-toggle="tab" href="#intake">Intake</a></li>
+{#        <li><a data-toggle="tab" href="#contactpersonen">Contactpersonen</a></li>#}
+        <li><a data-toggle="tab" href="#verslagen">Verslagen</a></li>
+        <li><a data-toggle="tab" href="#nazorg">Nazorg</a></li>
+        <li><a data-toggle="tab" href="#documenten">Documenten</a></li>
+    </ul>
+    <div class="tab-content">
+        <div id="intake" class="tab-pane active">
+            <h2>Aanmelding</h2>
+            <dl class="dl-horizontal">
+                {{ html.link('Wijzigen', path('uhk_deelnemers_edit', {id: entity.id}), 'edit') }}
+                {% if entity.actief == true %}
+                    {{ html.link('Deactiveren', path('uhk_deelnemers_delete', {id: entity.id}), 'delete') }}
+                {% elseif entity.actief == false %}
+                    {{ html.link('Activeren', path('uhk_deelnemers_open', {id: entity.id}), 'open') }}
+                {% endif %}
+                <dl class="dl-horizontal">
+                    <dt>Medewerker</dt>
+                    <dd>{{ entity.medewerker }}</dd>
+                    <dt>Aanmelddatum</dt>
+                    <dd>{{ entity.aanmelddatum|if_date('d-m-Y') }}</dd>
+                </dl>
+                <dl class="dl-horizontal">
+                    <dt>Aanmelder</dt>
+                    <dd>{{ entity.aanmelder }}</dd>
+                </dl>
+            </dl>
+        </div>
+{#        <div id="contactpersonen" class="tab-pane">#}
+{#            {% include 'dagbesteding/contactpersonen/_list.html.twig' with {deelnemer: entity} %}#}
+{#        </div>#}
+        <div id="verslagen" class="tab-pane">
+            {% include 'uhk/verslagen/_list.html.twig' with {deelnemer: entity} %}
+        </div>
+        <div id="nazorg" class="tab-pane ">
+            <h2>Nazorg</h2>
+            <dl class="dl-horizontal">
+                {{ html.link('Wijzigen', path('uhk_deelnemers_edit', {id: entity.id}), 'edit') }}
+                <dl class="dl-horizontal">
+                    <dt>Nazorg contactpersoon</dt>
+                    <dd>{{ entity.contactpersoonNazorg }}</dd>
+                </dl>
+            </dl>
+        </div>
+        <div id="documenten" class="tab-pane">
+            {% include 'uhk/documenten/_list.html.twig' with {deelnemer: entity} %}
+        </div>
+    </div>
+{% endblock %}

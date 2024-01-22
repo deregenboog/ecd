@@ -1,0 +1,52 @@
+{% extends 'base-2-col.html.twig' %}
+{% import 'html.macro.twig' as html %}
+
+{% block content_left %}
+    <h1>
+        Huurverzoek van {{ huurverzoek.klant.appKlant }}
+    </h1>
+    <p>
+        {% if huurverzoek.actief %}
+            {{ html.editLink(path('tw_huurverzoeken_edit', {id: huurverzoek.id})) }}
+            {{ html.link('Wijzigen', path('tw_huurverzoeken_edit', {id: huurverzoek.id})) }}
+            {{ html.closeLink(path('tw_huurverzoeken_close', {id: huurverzoek.id})) }}
+            {{ html.link('Afsluiten', path('tw_huurverzoeken_close', {id: huurverzoek.id})) }}
+        {% endif %}
+        {% if huurverzoek.deletable %}
+            {{ html.deleteLink(path('tw_huurverzoeken_delete', {id: huurverzoek.id})) }}
+            {{ html.link('Verwijderen', path('tw_huurverzoeken_delete', {id: huurverzoek.id})) }}
+        {% endif %}
+    </p>
+    <dl class="dl-horizontal">
+        <dt>#</dt>
+        <dd>{{ huurverzoek.id }}</dd>
+        <dt>Klant</dt>
+        <dd>{{ html.link(huurverzoek.klant.appKlant, path('tw_klanten_view', {id: huurverzoek.klant.id})) }}</dd>
+        <dt>Project(en)</dt>
+        <dd><ul>
+            {% for project in huurverzoek.projecten %}
+                <li>{{ project.naam }}</li>
+            {% endfor %}
+            </ul>
+        </dd>
+        <dt>Startdatum</dt>
+        <dd>{{ huurverzoek.startdatum|date('d-m-Y') }}</dd>
+        <dt>Afsluitdatum</dt>
+        <dd>{{ huurverzoek.afsluitdatum ? huurverzoek.afsluitdatum|date('d-m-Y') }}</dd>
+        <dt>Reden afsluiting</dt>
+        <dd>{{ huurverzoek.afsluiting }}</dd>
+        <dt>Koppeling</dt>
+        <dd>
+            {% if huurverzoek.huurovereenkomst %}
+                {{ html.link(huurverzoek.huurovereenkomst, path('tw_huurovereenkomsten_view', {id: huurverzoek.huurovereenkomst.id})) }}
+            {% elseif huurverzoek.actief %}
+                {{ html.addLink(path('tw_huurovereenkomsten_add', {huurverzoek: huurverzoek.id})) }}
+                {{ html.link('Maak koppeling', path('tw_huurovereenkomsten_add', {huurverzoek: huurverzoek.id})) }}
+            {% endif %}
+        </dd>
+    </dl>
+{% endblock %}
+
+{% block content_right %}
+    {% include 'tw/verslagen/_list.html.twig' with {huurverzoek: huurverzoek} %}
+{% endblock %}

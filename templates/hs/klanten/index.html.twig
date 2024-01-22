@@ -1,0 +1,79 @@
+{% extends 'base.html.twig' %}
+{% import 'html.macro.twig' as html %}
+
+{% set add_route = 'hs_klanten_add' %}
+{% set view_route = 'hs_klanten_view' %}
+{% set edit_route = 'hs_klanten_edit' %}
+{% set delete_route = 'hs_klanten_delete' %}
+
+{% block content %}
+    <h1>Klanten</h1>
+    <p>
+        {{ html.addLink(path(add_route)) }}
+        {{ html.link('Klant toevoegen', path(add_route)) }}
+    </p>
+    <table class="table table-hover">
+        <thead>
+            {% include 'hs/klanten/_filter.html.twig' %}
+            <tr>
+                <th>
+                    {{ knp_pagination_sortable(pagination, '#', 'klant.id') }}
+                </th>
+                <th>
+                    {{ knp_pagination_sortable(pagination, 'Naam', 'klant.achternaam') }}
+                </th>
+                <th>
+                    Hulpverlener
+                </th>
+                <th>
+                    Contactgegevens
+                </th>
+                <th>
+                    {{ knp_pagination_sortable(pagination, 'Stadsdeel', 'werkgebied.naam') }}
+                </th>
+                <th>
+                    {{ knp_pagination_sortable(pagination, 'Afwijkend factuuradres', 'klant.afwijkendFactuuradres') }}
+                </th>
+                <th>
+                    {{ knp_pagination_sortable(pagination, 'Saldo', 'klant.saldo') }}
+                </th>
+                <th>
+                    {{ knp_pagination_sortable(pagination, 'Actief', 'klant.actief') }}
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for entity in pagination %}
+            <tr data-href="{{ path(view_route, {id: entity.id}) }}">
+                <td>{{ entity.id }}</td>
+                <td>{{ entity }}</td>
+                <td>
+                    {{ entity.hulpverlener.naam }}<br>
+                    {{ entity.hulpverlener.organisatie }}
+                </td>
+                <td>
+                    {{ entity.adres }}<br>
+                    {{ entity.postcode }} {{ entity.plaats }}
+                    {% if entity.telefoon %}<br>{{ entity.telefoon }}{% endif %}
+                    {% if entity.mobiel %}<br>{{ entity.mobiel }}{% endif %}
+                </td>
+                <td>{{ entity.werkgebied }}</td>
+                <td>{{ entity.afwijkendFactuuradres ? 'Ja' : 'Nee' }}</td>
+                <td>
+                    {% if entity.saldo > 0 %}
+                        <span style="color: green">{{ entity.saldo|money }}</span>
+                    {% elseif entity.saldo < 0 %}
+                        <span style="color: red">{{ entity.saldo|money }}</span>
+                    {% else %}
+                        {{ entity.saldo|saldo }}
+                    {% endif %}
+                </td>
+                <td>
+                    {{ entity.actief ? 'Actief'|green : 'Niet actief'|red }}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {{ knp_pagination_render(pagination) }}
+{% endblock %}

@@ -250,12 +250,12 @@ class SchorsingenController extends AbstractController
     {
         switch (strtolower($language)) {
             case 'en':
-                $template = '@Inloop/schorsingen/view.en.pdf.twig';
+                $template = 'inloop/schorsingen/view.en.pdf.twig';
                 $pdfClass = PdfSchorsingEn::class;
                 break;
             case 'nl':
             default:
-                $template = '@Inloop/schorsingen/view.nl.pdf.twig';
+                $template = 'inloop/schorsingen/view.nl.pdf.twig';
                 $pdfClass = PdfSchorsingNl::class;
                 break;
         }
@@ -273,7 +273,7 @@ class SchorsingenController extends AbstractController
             ->addFrom(new Address('noreply@deregenboog.org','De Regenboog ECD'))
             ->addTo($this->getParameter('agressie_mail'))
             ->subject('Bericht naar aanleiding van een schorsing waarbij sprake was van fysieke of verbale agressie')
-            ->textTemplate('@Inloop\schorsingen\agressiemail.txt.twig')
+            ->textTemplate('inloop\schorsingen\agressiemail.txt.twig')
             ->context([
                 'schorsing' => $schorsing,
                 'medewerker' => $this->getMedewerker(),

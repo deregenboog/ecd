@@ -1,0 +1,16 @@
+{% extends 'base-2-col.html.twig' %}
+{% import 'html.macro.twig' as html %}
+
+{% block subnavigation %}
+{% endblock %}
+
+{% block content_top %}
+{% endblock %}
+
+{% block content_left %}
+    {% include 'klant_basis.html.twig' with {klant: entity.klant} %}
+{% endblock %}
+
+{% block content_right %}
+    {% include 'app/zrms/_detail.html.twig' %}
+{% endblock %}

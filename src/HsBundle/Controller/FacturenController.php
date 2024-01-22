@@ -408,9 +408,9 @@ class FacturenController extends AbstractChildController
     private function createPdf(Factuur $entity)
     {
         if ($entity instanceof Creditfactuur) {
-            $html = $this->renderView('@Hs/credit_facturen/view.pdf.twig', ['entity' => $entity]);
+            $html = $this->renderView('hs/credit_facturen/view.pdf.twig', ['entity' => $entity]);
         } else {
-            $html = $this->renderView('@Hs/facturen/view.pdf.twig', ['entity' => $entity]);
+            $html = $this->renderView('hs/facturen/view.pdf.twig', ['entity' => $entity]);
         }
 
         return new PdfFactuur($html, $entity);

@@ -1,0 +1,47 @@
+{% extends 'ga/view.html.twig' %}
+{% import 'html.macro.twig' as html %}
+
+{% block content_top %}
+    <h1>{{ entity_name|capitalize }} {{ entity }}</h1>
+    <p>
+        {{ html.link('Aanwezigheid registreren', path('ga_activiteiten_editdeelnames', {id: entity.id}), 'list') }}
+        {{ html.link(entity_name|capitalize ~ ' wijzigen', path(route_base~'edit', {id: entity.id}), 'edit') }}
+        {% if not entity.geannuleerd %}
+            {{ html.link(entity_name|capitalize ~ ' annuleren', path(route_base~'cancel', {id: entity.id}), 'cancel') }}
+        {% endif %}
+    </p>
+{% endblock %}
+
+{% block content_left %}
+    <dl class="dl-horizontal">
+        {% if entity.geannuleerd %}
+            <dt>Annuleringsreden</dt>
+            <dd><span class="text-danger">{{ entity.annuleringsreden }}</span></dd>
+        {% endif %}
+        <dt>Naam</dt>
+        <dd>{{ entity }}</dd>
+        <dt>Groep</dt>
+        <dd>{{ entity.groep ? html.link(entity.groep, path('ga_groepen_view', {id: entity.groep.id})) }}</dd>
+        <dt>Datum</dt>
+        <dd>{{ entity.datum|date('d-m-Y') }}</dd>
+        {% if entity.aantalAnoniemeDeelnemers > 0 %}
+            <dt>Anonieme deelnemers</dt>
+            <dd>{{ entity.aantalAnoniemeDeelnemers }}</dd>
+        {% endif %}
+    </dl>
+{% endblock %}
+
+{% block content_right %}
+    <ul class="nav nav-tabs">
+        <li class="active"><a data-toggle="tab" href="#deelnemers">Deelnemers</a></li>
+        <li><a data-toggle="tab" href="#vrijwilligers">Vrijwilligers</a></li>
+    </ul>
+    <div class="tab-content">
+        <div id="deelnemers" class="tab-pane active">
+            {% include 'ga/deelnames/_list.html.twig' with {context: 'klanten'} %}
+        </div>
+        <div id="vrijwilligers" class="tab-pane">
+            {% include 'ga/deelnames/_list.html.twig' with {context: 'vrijwilligers'} %}
+        </div>
+    </div>
+{% endblock %}

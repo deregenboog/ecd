@@ -1,0 +1,77 @@
+{% extends 'base.html.twig' %}
+{% import 'html.macro.twig' as html %}
+
+{% block content %}
+    <h1>{{ title }}</h1>
+    <p>
+        {{ html.link(entity_name|capitalize~' toevoegen', path(route_base~'add'), 'add') }}
+    </p>
+    {% include 'scip/deelnemers/_filter.html.twig' %}
+    <table class="table table-hover">
+        {{ colgroup(7) }}
+        <thead>
+            <tr>
+                <th>
+                    {{ knp_pagination_sortable(pagination, '#', 'klant.id') }}
+                </th>
+                <th>
+                    {{ knp_pagination_sortable(pagination, 'Naam', 'klant.achternaam') }}
+                </th>
+                <th>
+                    {{ knp_pagination_sortable(pagination, 'Type', 'deelnemer.type') }}
+                </th>
+                <th>
+                    Projecten
+                </th>
+                <th>
+                    Labels
+                </th>
+                <th>
+                    VOG
+                </th>
+                <th>
+                    Overeenkomst
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for entity in pagination|filter(entity => is_granted('access', entity)) %}
+                {# als evaluateidtum, en als ie in het verleden of op vandaag ligt, dan rood               #}
+                {% if entity.evaluatiedatum and date() >= date(entity.evaluatiedatum) %}
+                    {% set evaluatieClass = "danger" %}
+                {# als evaluateidtum, en als ie in het als ie binnen een week is, dan geel               #}
+                {% elseif entity.evaluatiedatum and date("+1 week") >= date(entity.evaluatiedatum)  %}
+                    {% set evaluatieClass = "warning" %}
+                {% else %}
+                    {% set evaluatieClass = "" %}
+                {% endif %}
+                <tr data-href="{{ path(route_base~'view', {id: entity.id}) }}" class="{{ not entity.actief ? 'warning' }} {{ evaluatieClass }}">
+                    <td>{{ entity.klant.id }}</td>
+                    <td>{{ entity }}</td>
+                    <td>{{ entity.type }}</td>
+                    <td>
+                        <ul>
+                            {% for project in entity.projecten %}
+                                <li>{{ project }}</li>
+                            {% endfor %}
+                        </ul>
+                    </td>
+                    <td>
+                        <ul>
+                            {% for label in entity.labels %}
+                                <li>{{ label }}</li>
+                            {% endfor %}
+                        </ul>
+                    </td>
+                    <td>
+                        {{ entity.hasVog ? 'Ja' : 'Nee' }}
+                    </td>
+                    <td>
+                        {{ entity.hasOvereenkomst ? 'Ja' : 'Nee' }}
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {{ knp_pagination_render(pagination) }}
+{% endblock %}

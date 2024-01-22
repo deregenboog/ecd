@@ -1,0 +1,61 @@
+{% extends 'base-2-col.html.twig' %}
+{% import 'html.macro.twig' as html %}
+
+{% block content_top %}
+    <h1>Dienstverlener {{ entity }}</h1>
+    <p>
+        {{ html.editLink(path('hs_dienstverleners_edit', {id: entity.id})) }}
+        {{ html.link('Wijzigen', path('hs_dienstverleners_edit', {id: entity.id})) }}
+        {% if entity.deletable %}
+            {{ html.deleteLink(path('hs_dienstverleners_delete', {id: entity.id})) }}
+            {{ html.link('Verwijderen', path('hs_dienstverleners_delete', {id: entity.id})) }}
+        {% endif %}
+    </p>
+{% endblock %}
+
+{% block content_left %}
+    <dl class="dl-horizontal">
+        <dt>Status</dt>
+        <dd>{{ entity.actief ? 'Actief'|green : 'Niet actief'|red }}</dd>
+        <dt>Naam</dt>
+        <dd>{{ entity }}</dd>
+        <dt>Rijbewijs</dt>
+        <dd>{{ entity.rijbewijs ? 'Ja' : (entity.rijbewijs is null ? 'Onbekend' : 'Nee') }}</dd>
+        <dt>Inschrijving</dt>
+        <dd>{{ entity.inschrijving ? entity.inschrijving|date('d-m-Y') }}</dd>
+    </dl>
+    <dl class="dl-horizontal">
+        <dt>Naam hulpverlener</dt>
+        <dd>{{ entity.hulpverlener.naam }}</dd>
+        <dt>Organisatie hulpverlener</dt>
+        <dd>{{ entity.hulpverlener.organisatie }}</dd>
+        <dt>Telefoon hulpverlener</dt>
+        <dd>{{ entity.hulpverlener.telefoon }}</dd>
+        <dt>E-mail hulpverlener</dt>
+        <dd>{{ entity.hulpverlener.email }}</dd>
+    </dl>
+    {% include 'klant_basis.html.twig' with {klant: entity.klant} %}
+{% endblock %}
+
+{% block content_right %}
+    <ul class="nav nav-tabs">
+        <li class="active"><a data-toggle="tab" href="#klussen">Klussen</a></li>
+        <li><a data-toggle="tab" href="#registraties">Uren</a></li>
+        <li><a data-toggle="tab" href="#memos">Dienstverlenerinfo</a></li>
+        <li><a data-toggle="tab" href="#documenten">Documenten</a></li>
+    </ul>
+    <div class="tab-content">
+        <div id="klussen" class="tab-pane active">
+            {% include 'hs/klussen/_list.html.twig' with {dienstverlener: entity} %}
+        </div>
+        <div id="registraties" class="tab-pane">
+            {% include 'hs/registraties/_list.html.twig' with {dienstverlener: entity} %}
+        </div>
+        <div id="memos" class="tab-pane">
+            {% include 'hs/memos/_list.html.twig' with {dienstverlener: entity} %}
+        </div>
+        <div id="documenten" class="tab-pane">
+            {% include 'hs/documenten/_list.html.twig' with {dienstverlener: entity} %}
+        </div>
+    </div>
+{% endblock %}
