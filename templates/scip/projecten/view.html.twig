@@ -1,0 +1,55 @@
+{% extends 'base-2-col.html.twig' %}
+{% import 'html.macro.twig' as html %}
+
+{% block content_top %}
+    <h1>{{ entity_name|capitalize }} {{ entity }}</h1>
+    <p>
+        {{ html.link('Wijzigen', path(route_base~'edit', {id: entity.id}), 'edit') }}
+        {{ html.link('Verwijderen', path(route_base~'delete', {id: entity.id}), 'delete') }}
+    </p>
+{% endblock %}
+
+{% block content_left %}
+    <dl class="dl-horizontal">
+        <dt>Naam</dt>
+        <dd>{{ entity.naam }}</dd>
+        <dt>KPL</dt>
+        <dd>{{ entity.kpl }}</dd>
+        <dt>Actief</dt>
+        <dd>{{ entity.actief|ja_nee }}</dd>
+    </dl>
+{% endblock %}
+
+{% block content_right %}
+    <ul class="nav nav-tabs">
+        <li class="active"><a data-toggle="tab" href="#deelnemers">Vrijwilligers</a></li>
+        <li><a data-toggle="tab" href="#gebruikers">Gebruikers</a></li>
+    </ul>
+    <div class="tab-content">
+        <div id="deelnemers" class="tab-pane active">
+            <h2>Vrijwilligers</h2>
+            <p>
+                {{ html.link('Toevoegen', path('scip_deelnames_add', {project: entity.id}), 'add') }}
+            </p>
+            {% include 'scip/deelnames/_list.html.twig' %}
+        </div>
+        <div id="gebruikers" class="tab-pane">
+            <h2>Gebruikers</h2>
+            <p>
+                {% if is_granted('ROLE_SCIP_BEHEER') %}
+                    {{ html.link('Toegangsrechten beheren', path('scip_toegangsrechten_index'), 'edit') }}
+                {% endif %}
+            </p>
+            <ul>
+                {% for toegangsrecht in entity.toegangsrechten %}
+                    <li>
+                        {{ toegangsrecht.medewerker }}
+                        {% if is_granted('ROLE_SCIP_BEHEER') %}
+                            {{ html.link('Wijzigen', path('scip_toegangsrechten_edit', {id: toegangsrecht.id}), 'edit') }}
+                        {% endif %}
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+{% endblock %}

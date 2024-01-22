@@ -1,0 +1,59 @@
+{% extends 'iz/view.html.twig' %}
+{% import 'html.macro.twig' as html %}
+
+{% block content_left %}
+    <h2>{{ entity_name|capitalize    }}</h2>
+    <dl class="dl-horizontal">
+        <dt>#</dt>
+        <dd>{{ entity.id }}</dd>
+        <dt>Naam</dt>
+        <dd>{{ entity }}</dd>
+        <dt>Startdatum</dt>
+        <dd>{{ entity.startdatum|date('d-m-Y') }}</dd>
+        <dt>Einddatum</dt>
+        <dd>{{ entity.einddatum|date('d-m-Y') }}</dd>
+        <dt>Medewerker</dt>
+        <dd>{{ entity.medewerker }}</dd>
+    </dl>
+{% endblock %}
+
+{% block content_right %}
+    <ul class="nav nav-tabs">
+        <li class="active"><a data-toggle="tab" href="#vrijwilligers">Vrijwilligers</a></li>
+    </ul>
+    <div class="tab-content">
+        <div id="vrijwilligers" class="tab-pane active">
+            <h2>Vrijwilligers</h2>
+            <p>
+                {{ html.addLink(path('iz_lidmaatschappen_add', {intervisiegroep: entity.id})) }}
+                {{ html.link('Vrijwilliger toevoegen', path('iz_lidmaatschappen_add', {intervisiegroep: entity.id})) }}
+                {% if entity.vrijwilligers|length > 0 %}
+                    <span class="pull-right">
+                        {{ html.emailLink(path('iz_intervisiegroepen_email', {id: entity.id})) }}
+                        {{ html.link('E-mailen', path('iz_intervisiegroepen_email', {id: entity.id})) }}
+                        {{ html.downloadLink(path('iz_intervisiegroepen_downloadexport', {id: entity.id})) }}
+                        {{ html.link('Downloaden', path('iz_intervisiegroepen_downloadexport', {id: entity.id})) }}
+                    </span>
+                {% endif %}
+            </p>
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>Naam</th>
+                        <th>E-mail</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for lidmaatschap in entity.lidmaatschappen|filter(lidmaatschap => not lidmaatschap.vrijwilliger.afsluitDatum or lidmaatschap.vrijwilliger.afsluitDatum > today) %}
+                        <tr data-href="{{ path('iz_vrijwilligers_view', {id: lidmaatschap.vrijwilliger.id}) }}">
+                            <td>{{ lidmaatschap.vrijwilliger }}</td>
+                            <td>{{ lidmaatschap.vrijwilliger.vrijwilliger.email }}</td>
+                            <td>{{ html.deleteLink(path('iz_lidmaatschappen_delete', {id: lidmaatschap.id})) }}</td>
+                        </tr>
+                    {% endfor%}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}

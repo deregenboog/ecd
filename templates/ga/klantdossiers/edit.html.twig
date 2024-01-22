@@ -1,0 +1,12 @@
+{% extends 'ga/klantdossiers/view.html.twig' %}
+{% import 'html.macro.twig' as html %}
+
+{% block content_right %}
+    <h1>Deelnemer wijzigen</h1>
+    <p class="alert alert-warning">
+        Hier kunt u alleen de Groepsactiviteiten-gegevens voor deze {{ entity_name }} wijzigen.
+        Klik {{ html.link('hier', path('app_klanten_view', {id: entity.klant.id })) }}
+        om naar het basisdossier van deze {{ entity_name }} te gaan.
+    </p>
+    {{ form(form) }}
+{% endblock %}

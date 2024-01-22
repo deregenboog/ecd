@@ -1,0 +1,29 @@
+{% if 'IzBundle\\Entity\\IzVrijwilliger' == class(parent_entity) %}
+    {% set base_template = 'iz/vrijwilligers/view.html.twig' %}
+    {% set cancel_url = path('iz_vrijwilligers_view', {id: parent_entity.id}) %}
+    {% set entity_name = 'Vrijwilliger' %}
+    {% set entity = parent_entity %}
+{% elseif 'IzBundle\\Entity\\Intervisiegroep' == class(parent_entity) %}
+    {% set base_template = 'iz/intervisiegroepen/view.html.twig' %}
+    {% set cancel_url = path('iz_intervisiegroepen_view', {id: parent_entity.id}) %}
+    {% set entity_name = 'Intervisiegroep' %}
+    {% set entity = parent_entity %}
+{% endif %}
+{% extends base_template %}
+{% import 'html.macro.twig' as html %}
+
+{% block content_right %}
+    <ul class="nav nav-tabs">
+        <li class="active"><a data-toggle="tab" href="#vrijwilligers">Vrijwilligers</a></li>
+    </ul>
+    <div class="tab-content">
+        <div id="vrijwilligers" class="tab-pane active">
+            <h2>Vrijwilligers</h2>
+            <p>
+                {{ html.cancelLink(cancel_url) }}
+                {{ html.link('Annuleren', cancel_url) }}
+            </p>
+            {{ form(form) }}
+        </div>
+    </div>
+{% endblock %}

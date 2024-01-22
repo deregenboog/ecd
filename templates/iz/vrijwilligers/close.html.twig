@@ -1,0 +1,19 @@
+{% extends 'iz/vrijwilligers/view.html.twig' %}
+{% import 'html.macro.twig' as html %}
+
+{% block content_right %}
+    {% include 'iz/vrijwilligers/_tabs.html.twig' with {vrijwilliger: entity, current: 'afsluiting'} %}
+    <div class="tab-content">
+        <div id="afsluiting" class="tab-pane active">
+            <h2>Afsluiting</h2>
+            <p>
+                {{ html.cancelLink(path('iz_vrijwilligers_view', {id: entity.id, _fragment: 'afsluiting'})) }}
+                {{ html.link('Annuleren', path('iz_vrijwilligers_view', {id: entity.id, _fragment: 'afsluiting'})) }}
+            </p>
+            {% for message in messages %}
+                <p class="text-danger">{{ message|raw }}</p>
+            {% endfor %}
+            {{ form(form) }}
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,69 @@
+{% extends 'base.html.twig' %}
+{% import 'html.macro.twig' as html %}
+
+{% set add_route = 'hs_klussen_add' %}
+{% set view_route = 'hs_klussen_view' %}
+{% set edit_route = 'hs_klussen_edit' %}
+{% set delete_route = 'hs_klussen_delete' %}
+
+{% block content %}
+    <h1>Klussen</h1>
+    <p>
+        {{ html.addLink(path(add_route)) }}
+        {{ html.link('Homeservice-klus (zonder klant) toevoegen', path(add_route)) }}
+    </p>
+    <table class="table table-hover">
+        <thead>
+            {% include 'hs/klussen/_filter.html.twig' %}
+            <tr>
+                <th>
+                    {{ knp_pagination_sortable(pagination, 'Klant', 'klant.achternaam') }}
+                </th>
+                <th>
+                    {{ knp_pagination_sortable(pagination, 'Stadsdeel', 'werkgebied.naam') }}
+                </th>
+                <th>
+                    {{ knp_pagination_sortable(pagination, 'Activiteit', 'activiteit.naam') }}
+                </th>
+                <th>
+                    {{ knp_pagination_sortable(pagination, 'Status', 'klus.status') }}
+                </th>
+                <th>
+                    {{ knp_pagination_sortable(pagination, 'Startdatum', 'klus.startdatum') }}
+                </th>
+                <th>
+                    {{ knp_pagination_sortable(pagination, 'Einddatum', 'klus.einddatum') }}
+                </th>
+                <th>
+                    {{ knp_pagination_sortable(pagination, 'Annuleringsdatum', 'klus.annuleringsdatum') }}
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for entity in pagination %}
+                <tr data-href="{{ path(view_route, {id: entity.id}) }}">
+                    <td>{{ entity.klant }}</td>
+                    <td>{{ entity.klant ? entity.klant.werkgebied }}</td>
+                    <td>
+                        <ul>
+                            {% for activiteit in entity.activiteiten %}
+                                <li>{{ activiteit }}</li>
+                            {% endfor %}
+                        </ul>
+                    </td>
+                    <td>{{ entity.status|status_color }}</td>
+                    <td>{{ entity.startdatum|date('d-m-Y') }}</td>
+                    <td>
+                        {% if entity.status == constant('\\\HsBundle\\Entity\\Klus::STATUS_ON_HOLD') %}
+                            ({{ entity.onHoldTot ? entity.onHoldTot|date('d-m-Y') : '-' }})
+                        {% else %}
+                            {{ entity.einddatum ? entity.einddatum|date('d-m-Y') : '-' }}
+                         {% endif %}
+                    </td>
+                    <td>{{ entity.annuleringsdatum ? entity.annuleringsdatum|date('d-m-Y') }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {{ knp_pagination_render(pagination) }}
+{% endblock %}

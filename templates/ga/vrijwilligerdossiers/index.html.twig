@@ -1,0 +1,118 @@
+{% extends 'ga/index.html.twig' %}
+{% import 'html.macro.twig' as html %}
+
+{% block content %}
+    <h1>{{ title }}</h1>
+    <p>
+        {{ html.addLink(path(route_base~'add')) }}
+        {{ html.link(entity_name|capitalize ~ ' toevoegen', path(route_base~'add')) }}
+    </p>
+    <table class="table table-hover">
+        <thead>
+            {{ form_start(filter) }}
+                <tr>
+                    <th colspan="3">
+                    </th>
+                    <th>
+                        {{ form_widget(filter.actief) }}
+                    </th>
+                    <th colspan="3">
+                        <span class="pull-right">
+                            {{ form_widget(filter.filter) }}
+                            {{ form_widget(filter.download) }}
+                        </span>
+                    </th>
+                </tr>
+                <tr>
+                    <th>
+                        {{ form_widget(filter.vrijwilliger.id) }}
+                        {{ form_errors(filter.vrijwilliger.id) }}
+                    </th>
+                    <th>
+                        {{ form_widget(filter.vrijwilliger.naam) }}
+                        {{ form_errors(filter.vrijwilliger.naam) }}
+                    </th>
+                    <th>
+                        {{ form_widget(filter.aanmelddatum.start) }}
+                        {{ form_errors(filter.aanmelddatum.start) }}
+                        {{ form_widget(filter.aanmelddatum.end) }}
+                        {{ form_errors(filter.aanmelddatum.end) }}
+                    </th>
+                    <th>
+                        {{ form_widget(filter.afsluitdatum.start) }}
+                        {{ form_errors(filter.afsluitdatum.start) }}
+                        {{ form_widget(filter.afsluitdatum.end) }}
+                        {{ form_errors(filter.afsluitdatum.end) }}
+                    </th>
+                    <th>
+                        {{ form_widget(filter.vrijwilliger.stadsdeel) }}
+                        {{ form_errors(filter.vrijwilliger.stadsdeel) }}
+                    </th>
+                    <th>
+                        {{ form_widget(filter.groep) }}
+                        {{ form_errors(filter.groep) }}
+                    </th>
+                    <th>
+                        {{ form_widget(filter.medewerker) }}
+                        {{ form_errors(filter.medewerker) }}
+                    </th>
+                </tr>
+            {{ form_end(filter) }}
+            <tr>
+                <th>
+                    {{ knp_pagination_sortable(pagination, '#', 'vrijwilliger.id') }}
+                </th>
+                <th>
+                    {{ knp_pagination_sortable(pagination, 'Vrijwilliger', 'vrijwilliger.achternaam') }}
+                </th>
+                <th>
+                    {{ knp_pagination_sortable(pagination, 'Aanmelddatum', 'dossier.aanmelddatum') }}
+                </th>
+                <th>
+                    {{ knp_pagination_sortable(pagination, 'Afsluitdatum', 'dossier.afsluitdatum') }}
+                </th>
+                <th>
+                    {{ knp_pagination_sortable(pagination, 'Stadsdeel', 'werkgebied.naam') }}
+                </th>
+                <th>
+                    {{ knp_pagination_sortable(pagination, 'Groep(en)', 'groep.naam') }}
+                </th>
+                <th>
+                    {{ knp_pagination_sortable(pagination, 'Medewerker', 'medewerker.voornaam') }}
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for dossier in pagination %}
+                <tr data-href="{{ path(route_base~'view', {id: dossier.id}) }}" class="{{ dossier.afgesloten ? 'danger' }}">
+                    <td>
+                        {{ dossier.vrijwilliger.id }}
+                    </td>
+                    <td>
+                        {{ dossier.vrijwilliger.naam }}
+                    </td>
+                    <td>
+                        {{ dossier.aanmelddatum|date('d-m-Y') }}
+                    </td>
+                    <td>
+                        {{ dossier.afsluitdatum ? dossier.afsluitdatum|date('d-m-Y') }}
+                    </td>
+                    <td>
+                        {{ dossier.vrijwilliger.werkgebied }}
+                    </td>
+                    <td>
+                        <ul>
+                            {% for lidmaatschap in dossier.actieveLidmaatschappen %}
+                                <li>{{ lidmaatschap.groep.naam }}</li>
+                            {% endfor %}
+                        </ul>
+                    </td>
+                    <td>
+                        {{ dossier.medewerker }}
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {{ knp_pagination_render(pagination) }}
+{% endblock %}

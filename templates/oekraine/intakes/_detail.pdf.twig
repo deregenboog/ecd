@@ -1,0 +1,188 @@
+<h2>Algemeen</h2>
+<table cellspacing="0" cellpadding="2" border="1">
+    <tr>
+        <td>Medewerker</td>
+        <td>{{ entity.medewerker }}</td>
+    </tr>
+    <tr>
+        <td>Datum intake</td>
+        <td>{{ entity.intakedatum|date('d-m-Y') }}</td>
+    </tr>
+</table>
+
+<h2>Adresgegevens</h2>
+<table cellspacing="0" cellpadding="2" border="1">
+    <tr>
+        <td>Adres</td>
+        <td>{{ entity.postadres }}</td>
+    </tr>
+    <tr>
+        <td>Postcode</td>
+        <td>{{ entity.postcode }}</td>
+    </tr>
+    <tr>
+        <td>Woonplaats</td>
+        <td>{{ entity.woonplaats }}</td>
+    </tr>
+    <tr>
+        <td>Telefoonnummer</td>
+        <td>{{ entity.telefoonnummer }}</td>
+    </tr>
+    <tr>
+        <td>In Nederland sinds</td>
+        <td>{{ entity.verblijfInNederlandSinds ? entity.verblijfInNederlandSinds|date('d-m-Y') }}</td>
+    </tr>
+    <tr>
+        <td>In Amsterdam sinds</td>
+        <td>{{ entity.verblijfInAmsterdamSinds ? entity.verblijfInAmsterdamSinds|date('d-m-Y') }}</td>
+    </tr>
+    <tr>
+        <td>Verblijfsstatus</td>
+        <td>{{ entity.Verblijfsstatus }}</td>
+    </tr>
+</table>
+
+<h2>Locatiekeuze</h2>
+<table cellspacing="0" cellpadding="2" border="1">
+    <tr>
+        <td>Intakelocatie</td>
+        <td>{{ entity.intakelocatie }}</td>
+    </tr>
+    <tr>
+        <td>Toegang inloophuis</td>
+        <td>{{ entity.toegangInloophuis ? 'Ja' : 'Nee' }}</td>
+    </tr>
+    <tr>
+        <td>Einddatum toegang AMOC</td>
+        <td>{{ entity.amocToegangTot|if_date('d-m-Y') }}</td>
+    </tr>
+    <tr>
+        <td>Startdatum toegang Zeeburg/Transformatorweg</td>
+        <td>{{ entity.ondroBongToegangVan|if_date('d-m-Y') }}</td>
+    </tr>
+    <tr>
+        <td>Startdatum toegang overigen</td>
+        <td>{{ entity.overigenToegangVan|if_date('d-m-Y') }}</td>
+    </tr>
+    <tr>
+        <td>Toegang gebruikersruimte</td>
+        <td>{{ entity.gebruikersruimte }}</td>
+    </tr>
+</table>
+
+<h2>Legitimatie</h2>
+<table cellspacing="0" cellpadding="2" border="1">
+    <tr>
+        <td>Legitimatie</td>
+        <td>{{ entity.legitimatie }}</td>
+    </tr>
+    <tr>
+        <td>Nummer</td>
+        <td>{{ entity.legitimatieNummer }}</td>
+    </tr>
+    <tr>
+        <td>Geldig tot</td>
+        <td>{{ entity.legitimatieGeldigTot ? entity.legitimatieGeldigTot|date('d-m-Y') }}</td>
+    </tr>
+</table>
+
+{% if entity.primaireProblematiek %}
+    {% include 'oekraine/intakes/_verslaving_v1.pdf.twig' %}
+{% else %}
+    {% include 'oekraine/intakes/_verslaving_v2.pdf.twig' %}
+{% endif %}
+
+<h2>Inkomen en woonsituatie</h2>
+<table cellspacing="0" cellpadding="2" border="1">
+    <tr>
+        <td>Inkomen</td>
+        <td>
+            <ul>
+                {% for inkomen in entity.inkomens %}
+                    <li>{{ inkomen }}</li>
+                {% endfor %}
+                {% if entity.inkomenOverig %}
+                    <li>{{ entity.inkomenOverig }}</li>
+                {% endif %}
+            </ul>
+        </td>
+    </tr>
+    <tr>
+        <td>Woonsituatie</td>
+        <td>{{ entity.woonsituatie }}</td>
+    </tr>
+</table>
+
+<h2>Overige hulpverlening</h2>
+<table cellspacing="0" cellpadding="2" border="1">
+    <tr>
+        <td>Contact met andere instanties?</td>
+        <td>
+            <ul>
+                {% for instantie in entity.instanties %}
+                    <li>{{ instantie }}</li>
+                {% endfor %}
+            </ul>
+        </td>
+    </tr>
+    <tr>
+        <td>Opmerkingen van andere instanties?</td>
+        <td>{{ entity.opmerkingAndereInstanties }}</td>
+    </tr>
+    <tr>
+        <td>Relevante medische achtergrond</td>
+        <td>{{ entity.medischeAchtergrond }}</td>
+    </tr>
+</table>
+
+<h2>Verwachtingen en plannen</h2>
+<table cellspacing="0" cellpadding="2" border="1">
+    <tr>
+        <td>Wat verwacht de client van het dienstaanbod?</td>
+        <td>{{ entity.verwachtingDienstaanbod }}</td>
+    </tr>
+    <tr>
+        <td>Wat zijn de toekomstplannen van de client?</td>
+        <td>{{ entity.toekomstplannen }}</td>
+    </tr>
+</table>
+
+<h2>Indruk</h2>
+<table cellspacing="0" cellpadding="2" border="1">
+    <tr>
+        <td>Indruk van client</td>
+        <td>{{ entity.indruk }}</td>
+    </tr>
+    <tr>
+        <td>Behoort deze ciënt tot de doelgroep?</td>
+        <td>
+            {% if entity.doelgroep %}
+                Ja
+            {% elseif entity.infobaliedoelgroep %}
+                {{ entity.infobaliedoelgroep }}
+            {% else %}
+                Nee
+            {% endif %}
+        </td>
+    </tr>
+</table>
+
+<h2>Ondersteuning</h2>
+<table cellspacing="0" cellpadding="2" border="1">
+    <tr>
+        <td>Zou je het leuk vinden om iedere week met iemand samen iets te ondernemen?</td>
+        <td>{{ entity.informeleZorg ? 'Ja' : 'Nee' }}</td>
+    </tr>
+    <tr>
+        <td>Zou je het leuk vinden om overdag iets te doen te hebben?</td>
+        <td>{{ entity.dagbesteding ? 'Ja' : 'Nee' }}</td>
+    </tr>
+    <tr>
+        <td>Zou je een plek in de buurt willen hebben waar je iedere dag koffie kan drinken en mensen kan ontmoeten?</td>
+        <td>{{ entity.inloophuis ? 'Ja' : 'Nee' }}</td>
+    </tr>
+    <tr>
+        <td>Heeft u hulp nodig met regelzaken?</td>
+        <td>{{ entity.hulpverlening ? 'Ja' : 'Nee' }}</td>
+    </tr>
+</table>

@@ -1,0 +1,33 @@
+{% extends 'ga/klantdossiers/view.html.twig' %}
+{% import 'html.macro.twig' as html %}
+
+{% block tabs %}
+    {% include 'ga/klantdossiers/_tabs.html.twig' with {current: 'afsluiting'} %}
+{% endblock %}
+
+{% block tab_content %}
+    <div class="tab-content">
+        <div id="afsluiting" class="tab-pane active">
+            <h2>Afsluiting</h2>
+            {% if entity.afgesloten %}
+                {{ html.link('Dossier heropenen', path(route_base~'open', {id: entity.id}), 'add') }}
+                <dl class="dl-horizontal">
+                    <dt>Datum afsluiting</dt>
+                    <dd>{{ entity.afsluitdatum ? entity.afsluitdatum|date('d-m-Y') }}</dd>
+                    <dt>Reden afsluiting</dt>
+                    <dd>{{ entity.afsluitreden }}</dd>
+                </dl>
+            {% else %}
+                {% if entity.actieveLidmaatschappen|length > 0 %}
+                    <p class="alert alert-danger">
+                        Deze persoon is nog lid van een of meer
+                        <a href="{{ path('ga_klantdossiers_viewgroepen', {id: entity.id}) }}">groepen</a>.
+                        Beëindig deze lidmaatschappen voor je het dossier sluit.
+                    </p>
+                {% else %}
+                    {{ html.link('Afsluiten', path('ga_klantdossiers_close', {id: entity.id}), 'close') }}
+                {% endif %}
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}

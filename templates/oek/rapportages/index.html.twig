@@ -1,0 +1,14 @@
+{% extends 'base-2-col.html.twig' %}
+{% import 'html.macro.twig' as html %}
+
+{% block content_left %}
+    <h1>Rapportages</h1>
+    {{ form(form) }}
+{% endblock %}
+
+{% block content_right %}
+    <h2>Rapport {{ title is defined ? '"'~title~'"' }}</h2>
+    {% if reports is defined %}
+        {{ include('oek/rapportages/_pivot_tables.html.twig') }}
+    {% endif %}
+{% endblock %}

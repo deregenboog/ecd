@@ -1,0 +1,20 @@
+{% extends 'iz/intakes/view.html.twig' %}
+{% import 'html.macro.twig' as html %}
+
+{% block content_right %}
+    {% if 'IzBundle\\Entity\\IzKlant' == class(entity.izDeelnemer) %}
+        {% include 'iz/klanten/_tabs.html.twig' with {klant: entity.izDeelnemer, current: 'intake'} %}
+    {% else %}
+        {% include 'iz/vrijwilligers/_tabs.html.twig' with {vrijwilliger: entity.izDeelnemer, current: 'intake'} %}
+    {% endif %}
+    <div class="tab-content">
+        <div id="intake" class="tab-pane active">
+            <h2>Intake toevoegen</h2>
+            <p>
+                {{ html.cancelLink(path('iz_klanten_view', {id: entity.izDeelnemer.id})) }}
+                {{ html.link('Annuleren', path('iz_klanten_view', {id: entity.izDeelnemer.id})) }}
+            </p>
+            {{ form(form) }}
+        </div>
+    </div>
+{% endblock %}

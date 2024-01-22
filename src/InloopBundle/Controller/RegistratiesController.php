@@ -177,7 +177,7 @@ class RegistratiesController extends AbstractController
         $page = $request->get('page', 1);
         $pagination = $this->klantDao->findAllAangemeld($page, $filter);
 
-        return $this->render('@Inloop/registraties/_klanten.html.twig', [
+        return $this->render('inloop/registraties/_klanten.html.twig', [
             'locatie' => $locatie,
             'filter' => $form->createView(),
             'pagination' => $pagination,
@@ -222,7 +222,7 @@ class RegistratiesController extends AbstractController
         $event = new GenericEvent($klantIds, ['geen_activering_klant_ids' => []]);
         $this->eventDispatcher->dispatch($event, Events::GEEN_ACTIVERING);
 
-        return $this->render('@Inloop/registraties/_active.html.twig', [
+        return $this->render('inloop/registraties/_active.html.twig', [
             'locatie' => $locatie,
             'locatieType'=>$locatieType,
             'filter' => isset($form) ? $form->createView() : null,
@@ -267,7 +267,7 @@ class RegistratiesController extends AbstractController
         $event = new GenericEvent($klantIds, ['geen_activering_klant_ids' => []]);
         $this->eventDispatcher->dispatch($event, Events::GEEN_ACTIVERING);
 
-        return $this->render('@Inloop/registraties/_history.html.twig', [
+        return $this->render('inloop/registraties/_history.html.twig', [
             'locatie' => $locatie,
             'locatieType'=>$locatieType,
             'filter' => isset($form) ? $form->createView() : null,

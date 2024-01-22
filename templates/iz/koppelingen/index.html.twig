@@ -1,0 +1,74 @@
+{% extends 'iz/index.html.twig' %}
+{% import 'html.macro.twig' as html %}
+
+{% block content %}
+    <h1>{{ title }}</h1>
+    <table class="table table-hover">
+        <thead>
+            {% include 'iz/koppelingen/_filter.html.twig' %}
+            <tr>
+                <th>
+                    {{ knp_pagination_sortable(pagination, 'Deelnemer', 'klant.achternaam') }}
+                </th>
+                <th>
+                    {{ knp_pagination_sortable(pagination, 'Vrijwilliger', 'vrijwilliger.achternaam') }}
+                </th>
+                <th>
+                    {{ knp_pagination_sortable(pagination, 'Startdatum koppeling', 'hulpvraag.koppelingStartdatum') }}
+                </th>
+                <th>
+                    {{ knp_pagination_sortable(pagination, 'Einddatum koppeling', 'hulpvraag.koppelingEinddatum') }}
+                </th>
+                <th>
+                    {{ knp_pagination_sortable(pagination, 'Project', 'project.naam') }}
+                </th>
+                <th>
+                    {{ knp_pagination_sortable(pagination, 'Hulpvraagsoort', 'hulpvraagsoort.naam') }}
+                </th>
+                <th>
+                    {{ knp_pagination_sortable(pagination, 'Doelgroep', 'doelgroep.naam') }}
+                </th>
+                <th>
+                    {{ knp_pagination_sortable(pagination, 'Coordinator', 'medewerkerHulpvraag.voornaam') }}
+                </th>
+                <th>
+                    {{ knp_pagination_sortable(pagination, 'Stadsdeel', 'werkgebied.naam') }}
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for hulpvraag in pagination %}
+                <tr data-href="{{ path('iz_koppelingen_view', {id: hulpvraag.id}) }}">
+                    <td>
+                        {{ hulpvraag|naam_klant }}
+                    </td>
+                    <td>
+                        {{ hulpvraag.koppeling.hulpaanbod|naam_vrijwilliger }}
+                    </td>
+                    <td>
+                        {{ hulpvraag.koppeling.startdatum is empty ? "" : hulpvraag.koppeling.startdatum|date('d-m-Y') }}
+                    </td>
+                    <td>
+                        {{ hulpvraag.koppeling.einddatum is empty ? "" : hulpvraag.koppeling.einddatum|date('d-m-Y') }}
+                    </td>
+                    <td>
+                        {{ hulpvraag.project }}
+                    </td>
+                    <td>
+                        {{ hulpvraag.hulpvraagsoort }}
+                    </td>
+                    <td>
+                        {{ hulpvraag.doelgroep }}
+                    </td>
+                    <td>
+                        {{ hulpvraag.medewerker }}
+                    </td>
+                    <td>
+                        {{ hulpvraag.izKlant.klant.werkgebied }}
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {{ knp_pagination_render(pagination) }}
+{% endblock %}

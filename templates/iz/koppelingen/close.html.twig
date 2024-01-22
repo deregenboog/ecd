@@ -1,0 +1,10 @@
+{% extends 'iz/koppelingen/view.html.twig' %}
+{% import 'html.macro.twig' as html %}
+{% block content_right %}
+    <h2>Koppeling beëindigen</h2>
+    <p>
+        {{ html.cancelLink(path('iz_koppelingen_view', {id: entity.id})) }}
+        {{ html.link('Annuleren', path('iz_koppelingen_view', {id: entity.id})) }}
+    </p>
+    {{ form(form) }}
+{% endblock %}

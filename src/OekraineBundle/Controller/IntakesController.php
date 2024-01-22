@@ -156,7 +156,7 @@ class IntakesController extends AbstractController
         $entity = new Intake();
         $form = $this->getForm($this->formClass, $entity);
 
-        $html = $this->renderView('@Inloop/intakes/form.pdf.twig', [
+        $html = $this->renderView('inloop/intakes/form.pdf.twig', [
             'entity' => $entity,
             'form' => $form->createView(),
         ]);
@@ -172,7 +172,7 @@ class IntakesController extends AbstractController
 
     private function viewPdf(Intake $entity)
     {
-        $html = $this->renderView('@Inloop/intakes/view.pdf.twig', ['entity' => $entity]);
+        $html = $this->renderView('inloop/intakes/view.pdf.twig', ['entity' => $entity]);
         $pdf = new PdfIntake($html, $entity);
 
         $response = new Response($pdf->Output(null, 'S'));

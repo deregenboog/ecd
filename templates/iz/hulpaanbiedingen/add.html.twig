@@ -1,0 +1,30 @@
+{% extends 'iz/vrijwilligers/view.html.twig' %}
+{% import 'html.macro.twig' as html %}
+{% set entity = parent_entity %}
+
+{% block content_right %}
+    {% include 'iz/vrijwilligers/_tabs.html.twig' with {vrijwilliger: entity, current: 'koppelingen'} %}
+    <div class="tab-content">
+        <div id="koppelingen" class="tab-pane active">
+        <h2>Hulpaanbod toevoegen</h2>
+        <p>
+            {{ html.cancelLink(path('iz_vrijwilligers_view', {id: entity.id})) }}
+            {{ html.link('Annuleren', path('iz_vrijwilligers_view', {id: entity.id})) }}
+        </p>
+        {{ form(form) }}
+        </div>
+    </div>
+{% endblock %}
+
+{% block scripts %}
+    <script type="text/javascript">
+        $(function() {
+            // copy title from input to label
+            $('input[type="radio"], input[type="checkbox"]').each(function() {
+                if ($(this).attr('title')) {
+                    $(this).closest('label').attr('title', $(this).attr('title'));
+                }
+            });
+        });
+    </script>
+{% endblock %}

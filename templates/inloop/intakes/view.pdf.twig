@@ -1,0 +1,3 @@
+<h1>{{ entity_name|capitalize }}</h1>
+{% include 'klant_basis.pdf.twig'. with {klant: entity.klant} %}
+{% include 'inloop/intakes/_detail.pdf.twig' %}
