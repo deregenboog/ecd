@@ -106,7 +106,7 @@ class KlantenController extends AbstractController
 
     /**
      * @Route("/{klant}/rapportage")
-     * @ParamConverter("klant", class="AppBundle:Klant")
+     * @ParamConverter("klant", class="AppBundle\Entity\Klant")
      */
     public function viewReport(Request $request, Klant $klant)
     {
@@ -215,7 +215,7 @@ class KlantenController extends AbstractController
 
     /**
      * @Route("/{klant}/amoc.pdf")
-     * @ParamConverter("klant", class="AppBundle:Klant")
+     * @ParamConverter("klant", class="AppBundle\Entity\Klant")
      */
     public function amocAction(Klant $klant)
     {

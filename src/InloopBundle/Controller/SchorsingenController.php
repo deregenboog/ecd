@@ -146,7 +146,7 @@ class SchorsingenController extends AbstractController
 
     /**
      * @Route("/add/{klant}")
-     * @ParamConverter("klant", class="AppBundle:Klant")
+     * @ParamConverter("klant", class="AppBundle\Entity\Klant")
      */
     public function addAction(Request $request)
     {

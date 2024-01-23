@@ -45,8 +45,8 @@ class OpmerkingenController extends AbstractController
     /**
      * @Route("/{klant}", requirements={"klant"="\d+"}, defaults={"locatie" = null})
      * @Route("/{klant}/{locatie}", requirements={"klant"="\d+", "locatie"="\d+"})
-     * @ParamConverter("klant", class="AppBundle:Klant")
-     * @ParamConverter("locatie", class="InloopBundle:Locatie")
+     * @ParamConverter("klant", class="AppBundle\Entity\Klant")
+     * @ParamConverter("locatie", class="InloopBundle\Entity\Locatie")
      */
     public function indexAction(Request $request)
     {
@@ -69,7 +69,7 @@ class OpmerkingenController extends AbstractController
 
     /**
      * @Route("/add/{klant}")
-     * @ParamConverter("klant", class="AppBundle:Klant")
+     * @ParamConverter("klant", class="AppBundle\Entity\Klant")
      */
     public function addAction(Request $request)
     {
@@ -81,7 +81,7 @@ class OpmerkingenController extends AbstractController
 
     /**
      * @Route("/{opmerking}/delete", methods={"POST"})
-     * @ParamConverter("opmerking", class="AppBundle:Opmerking")
+     * @ParamConverter("opmerking", class="AppBundle\Entity\Opmerking")
      */
     public function deleteAction(Request $request, $opmerking)
     {

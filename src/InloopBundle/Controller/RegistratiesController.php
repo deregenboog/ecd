@@ -139,8 +139,8 @@ class RegistratiesController extends AbstractController
 
     /**
      * @Route("/klanten/{locatieType}/{locatie}", name="inloop_registraties_klanten", requirements={"locatie" = "\d+", "locatieType"="\S+"})
-     * @ParamConverter("locatie", class="InloopBundle:Locatie")
-     * @ParamConverter("locatieType",class="InloopBundle:LocatieType",options={"mapping": {"locatieType"="naam"}})
+     * @ParamConverter("locatie", class="InloopBundle\Entity\Locatie")
+     * @ParamConverter("locatieType",class="InloopBundle\Entity\LocatieType",options={"mapping": {"locatieType"="naam"}})
      */
     public function klantenAction(Request $request)
     {
@@ -189,8 +189,8 @@ class RegistratiesController extends AbstractController
      * Route("/active/{locatie}")
      *
      * @Route("/active/{locatieType}/{locatie}", name="inloop_registraties_active", requirements={"locatie" = "\d+", "locatieType"="\S+"})
-     * @ParamConverter("locatie", class="InloopBundle:Locatie")
-     * @ParamConverter("locatieType",class="InloopBundle:LocatieType",options={"mapping": {"locatieType"="naam"}})
+     * @ParamConverter("locatie", class="InloopBundle\Entity\Locatie")
+     * @ParamConverter("locatieType",class="InloopBundle\Entity\LocatieType",options={"mapping": {"locatieType"="naam"}})
      */
     public function activeAction(Request $request, Locatie $locatie)
     {
@@ -235,8 +235,8 @@ class RegistratiesController extends AbstractController
      * Route("/history/{locatie}")
      *
      * @Route("/history/{locatieType}/{locatie}", name="inloop_registraties_history", requirements={"locatie" = "\d+", "locatieType"="\S+"})
-     * @ParamConverter("locatie", class="InloopBundle:Locatie")
-     * @ParamConverter("locatieType",class="InloopBundle:LocatieType",options={"mapping": {"locatieType"="naam"}})
+     * @ParamConverter("locatie", class="InloopBundle\Entity\Locatie")
+     * @ParamConverter("locatieType",class="InloopBundle\Entity\LocatieType",options={"mapping": {"locatieType"="naam"}})
      */
     public function historyAction(Request $request, Locatie $locatie)
     {
@@ -520,7 +520,7 @@ class RegistratiesController extends AbstractController
 
     /**
      * @Route("/{registratie}/delete")
-     * @ParamConverter("registratie", class="InloopBundle:Registratie")
+     * @ParamConverter("registratie", class="InloopBundle\Entity\Registratie")
      */
     public function deleteAction(Request $request, $registratie)
     {

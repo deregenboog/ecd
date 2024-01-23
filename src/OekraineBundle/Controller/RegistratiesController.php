@@ -101,7 +101,7 @@ class RegistratiesController extends AbstractController
 
     /**
      * @Route("/{locatie}", requirements={"locatie" = "\d+"})
-     * @ParamConverter("locatie", class="OekraineBundle:Locatie")
+     * @ParamConverter("locatie", class="OekraineBundle\Entity\Locatie")
      */
     public function indexAction(Request $request)
     {
@@ -341,7 +341,7 @@ class RegistratiesController extends AbstractController
 
     /**
      * @Route("/{registratie}/delete")
-     * @ParamConverter("registratie", class="OekraineBundle:Registratie")
+     * @ParamConverter("registratie", class="OekraineBundle\Entity\Registratie")
      */
     public function deleteAction(Request $request, $registratie)
     {
