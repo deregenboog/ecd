@@ -21,9 +21,5 @@ class ErOpUitExtension extends Extension
     {
         $configuration = new Configuration();
         $config = $this->processConfiguration($configuration, $configs);
-
-        $dir = $container->getParameter('kernel.project_dir').'/config/services/eropuit';
-        $loader = new Loader\YamlFileLoader($container, new FileLocator($dir));
-        $loader->load('services.yaml');
     }
 }

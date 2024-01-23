@@ -1,6 +1,6 @@
 <?php
 
-namespace ScipBundle\Form;
+namespace UhkBundle\Form;
 
 use AppBundle\Form\MedewerkerType;
 use Doctrine\ORM\EntityRepository;
