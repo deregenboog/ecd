@@ -85,7 +85,12 @@ class DevelopmentAuthenticator extends AbstractAuthenticator
 
     public function onAuthenticationFailure(Request $request, AuthenticationException $exception): ?Response
     {
-        return new RedirectResponse($this->router->generate('logout'));
+        /**
+         * when returning null, the request continues, thus the next authenticator in the chain_provider will be called.
+         * We want this to happen to fall back to other authenticators.
+         */
+        return null;
+        //return new RedirectResponse($this->router->generate('logout'));
     }
 
     public function isPublicIP($ip=NULL) : bool
