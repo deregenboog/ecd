@@ -1,0 +1,47 @@
+name: Test
+on:
+  - push
+env:
+  DATABASE_URL: "mysql://ecd:ecd@127.0.0.1:3306/ecd?serverVersion=8.0&charset=utf8"
+  SYMFONY_DEPRECATIONS_HELPER: "max[self]=0"
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    services:
+      mysql:
+        image: mysql:8.0
+        env:
+          MYSQL_ROOT_PASSWORD: ecd
+          MYSQL_DATABASE: ecd
+          MYSQL_USER: ecd
+          MYSQL_PASSWORD: ecd
+        ports:
+        - 3306:3306
+        options: >-
+          --health-cmd="mysqladmin ping"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=3
+    steps:
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '7.4'
+          # extensions: imagick
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Init database
+        run: |
+          mysql --protocol=tcp -h 127.0.0.1 --port 3306 -u root -pecd ecd -e "SET GLOBAL sql_mode = 'STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION';"
+          mysql --protocol=tcp -h 127.0.0.1 --port 3306 -u ecd -pecd ecd < docker/mysql/sql/00-schema.sql
+          mysql --protocol=tcp -h 127.0.0.1 --port 3306 -u ecd -pecd ecd < docker/mysql/sql/10-data.sql
+      - name: Composer
+        run: mv .env.test .env && php composer.phar install
+      - name: Migrations
+        run: bin/console -n doctrine:migrations:migrate
+      - name: Fixtures
+        run: PREVENT_SAVE_ENABLED=false bin/console -n hautelook:fixtures:load
+      - name: NPM
+        run: cd public && npm install && yarn encore dev build
+      - name: PHPUnit
+        run: vendor/bin/phpunit
