@@ -7,6 +7,6 @@
 /vendor
 /backups
 /public/bundles/
-/public/node_modules/
+/node_modules/
 /app/data/
 

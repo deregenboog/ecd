@@ -25,8 +25,8 @@ services:
   node:
     image: node
     volumes:
-      - ${PWD}/public:/var/www/html/public
-    working_dir: /var/www/html/public
+      - ${PWD}:/var/www/html
+    working_dir: /var/www/html
     command: npm install && yarn encore dev watch
   database:
     build:
