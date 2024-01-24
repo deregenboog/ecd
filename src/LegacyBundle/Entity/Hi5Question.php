@@ -30,7 +30,7 @@ class Hi5Question
     private $category;
 
     /**
-     * @ORM\Column(name="order", type="integer")
+     * @ORM\Column(name="`order`", type="integer")
      */
     private $order;
 }

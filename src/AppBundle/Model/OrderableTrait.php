@@ -8,7 +8,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
 trait OrderableTrait
 {
     /**
-     * @ORM\Column(name="order", type="integer")
+     * @ORM\Column(name="`order`", type="integer")
      * @ORM\GeneratedValue
      * @Gedmo\Versioned
      */

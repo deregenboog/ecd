@@ -1,7 +1,15 @@
 PfoBundle\Entity\Groep:
-    pfo_groep_{1..5}:
+    pfo_groep_1:
         naam: 'Verslaving'
-        startdatum: '<dateTimeThisDecade()>'
+    pfo_groep_2:
+        naam: 'Psychiatrie'
+    pfo_groep_3:
+        naam: 'Interne coaching'
+    pfo_groep_4:
+        naam: 'Intervisiegroep'
+    pfo_groep_5:
+        naam: 'Back On Track'
+        startdatum: '<date_create("2014-07-17")>'
 
 PfoBundle\Entity\Client:
     pfo_client_{1..10}:
@@ -22,3 +30,31 @@ PfoBundle\Entity\Verslag:
         medewerker: '@medewerker_*'
         verslag: <sentence(100)>
         type: 'Telefonisch'
+
+PfoBundle\Entity\AardRelatie:
+    pfo_aard_relatie_3:
+        naam: 'Partner van verslaafde'
+    pfo_aard_relatie_4:
+        naam: 'Ouder van verslaafde'
+    pfo_aard_relatie_5:
+        naam: 'Kind van verslaafde'
+    pfo_aard_relatie_6:
+        naam: 'Grootouder van verslaafde'
+    pfo_aard_relatie_7:
+        naam: 'Broer/zus van verslaafde'
+    pfo_aard_relatie_8:
+        naam: 'Overig van verslaafde'
+    pfo_aard_relatie_9:
+        naam: 'Partner van psychiatrisch patient'
+    pfo_aard_relatie_10:
+        naam: 'Ouder van psychiatrisch patient'
+    pfo_aard_relatie_11:
+        naam: 'Kind van psychiatrisch patient'
+    pfo_aard_relatie_12:
+        naam: 'Grootouder van psychiatrisch patient'
+    pfo_aard_relatie_13:
+        naam: 'Broer/zus van psychiatrisch patient'
+    pfo_aard_relatie_14:
+        naam: 'Overig van psychiatrisch patient'
+    pfo_aard_relatie_15:
+        naam: 'Overig'

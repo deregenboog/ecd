@@ -748,3 +748,144 @@ InloopBundle\Entity\Locatietijd:
         openingstijd: '<(new \DateTime("2006-01-01 00:01:00"))>'
         sluitingstijd: '<(new \DateTime("2006-01-01 23:01:00"))>'
         locatie: '<current()>'
+
+InloopBundle\Entity\Infobaliedoelgroep:
+    infobaliedoelgroep_1:
+        naam: 'De Regenboog Groep'
+    infobaliedoelgroep_2:
+        naam: 'Informatie en advies'
+
+InloopBundle\Entity\Instantie:
+    instantie_1:
+        naam: 'Geen'
+    instantie_2:
+        naam: 'GGD'
+    instantie_3:
+        naam: 'Psychiatrie'
+    instantie_4:
+        naam: 'Reclassering'
+    instantie_5:
+        naam: 'Verslavingszorg'
+    instantie_6:
+        naam: 'Overig'
+    instantie_7:
+        naam: 'Onbekend'
+
+InloopBundle\Entity\SchorsingReden:
+    schorsingsreden_1:
+        naam: 'Dealen'
+    schorsingsreden_2:
+        naam: 'Drinken'
+    schorsingsreden_3:
+        naam: 'Drugs gebruiken'
+    schorsingsreden_4:
+        naam: 'Stelen'
+    schorsingsreden_5:
+        naam: 'Fysieke agressie'
+    schorsingsreden_6:
+        naam: 'Verbale agressie'
+    schorsingsreden_7:
+        naam: 'Overlast omgeving locatie'
+    schorsingsreden_100:
+        naam: 'Overig'
+
+InloopBundle\Entity\Verslaving:
+    verslaving_1:
+        naam: 'Alcohol'
+        datumVan: '<date_create("2010-01-06")>'
+    verslaving_2:
+        naam: 'Amfetamine'
+        datumVan: '<date_create("2010-01-06")>'
+    verslaving_3:
+        naam: 'Cannabis'
+        datumVan: '<date_create("2010-01-06")>'
+    verslaving_4:
+        naam: 'Cocaine'
+        datumVan: '<date_create("2010-01-06")>'
+    verslaving_5:
+        naam: 'Ecstasy'
+        datumVan: '<date_create("2010-01-06")>'
+    verslaving_6:
+        naam: 'Gokken'
+        datumVan: '<date_create("2010-01-06")>'
+    verslaving_7:
+        naam: 'Heroine'
+        datumVan: '<date_create("2010-01-06")>'
+    verslaving_8:
+        naam: 'Medicijnen'
+        datumVan: '<date_create("2010-01-06")>'
+    verslaving_9:
+        naam: 'Methadon'
+        datumVan: '<date_create("2010-01-06")>'
+
+InloopBundle\Entity\Frequentie:
+    frequentie_1:
+        naam: 'Niet van toepassing'
+        datumVan: '<date_create("2010-01-01")>'
+    frequentie_2:
+        naam: 'Meerdere keren per dag'
+        datumVan: '<date_create("2010-01-13")>'
+    frequentie_3:
+        naam: 'Dagelijks'
+        datumVan: '<date_create("2010-01-13")>'
+    frequentie_4:
+        naam: 'Meerdere keren per week'
+        datumVan: '<date_create("2010-01-13")>'
+    frequentie_5:
+        naam: 'Wekelijks'
+        datumVan: '<date_create("2010-01-13")>'
+    frequentie_6:
+        naam: 'Onregelmatig'
+        datumVan: '<date_create("2010-01-13")>'
+
+InloopBundle\Entity\Gebruikswijze:
+    gebruikswijze_1:
+        naam: 'Basen'
+        datumVan: '<date_create("2010-01-01")>'
+    gebruikswijze_2:
+        naam: 'Chinezen'
+        datumVan: '<date_create("2010-01-01")>'
+    gebruikswijze_3:
+        naam: 'Drinken'
+        datumVan: '<date_create("2010-01-01")>'
+    gebruikswijze_4:
+        naam: 'Roken'
+        datumVan: '<date_create("2010-01-01")>'
+    gebruikswijze_5:
+        naam: 'Slikken'
+        datumVan: '<date_create("2010-01-01")>'
+    gebruikswijze_6:
+        naam: 'Snuiven'
+        datumVan: '<date_create("2010-01-01")>'
+    gebruikswijze_7:
+        naam: 'Spuiten'
+        datumVan: '<date_create("2010-01-01")>'
+
+InloopBundle\Entity\Periode:
+    periode_1:
+        naam: 'Niet van toepassing'
+        datumVan: '<date_create("2010-01-01")>'
+    periode_2:
+        naam: 'Minder dan 3 maanden'
+        datumVan: '<date_create("2010-01-13")>'
+    periode_3:
+        naam: '3 tot 6 maanden'
+        datumVan: '<date_create("2010-01-13")>'
+    periode_4:
+        naam: '6 tot 12 maanden'
+        datumVan: '<date_create("2010-01-13")>'
+    periode_5:
+        naam: '1 tot 2 jaar'
+        datumVan: '<date_create("2010-01-13")>'
+    periode_6:
+        naam: '2 tot 5 jaar'
+        datumVan: '<date_create("2010-01-13")>'
+    periode_7:
+        naam: '5 tot 10 jaar'
+        datumVan: '<date_create("2010-01-13")>'
+    periode_8:
+        naam: 'Meer dan 10 jaar'
+        datumVan: '<date_create("2010-01-13")>'
+    periode_9:
+        naam: 'Onbekend'
+        datumVan: '<date_create("2010-01-13")>'

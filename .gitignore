@@ -23,7 +23,6 @@
 # SQL data
 /app/sql/*
 !/app/sql/00-schema.sql
-!/app/sql/10-data.sql
 
 # Uploads
 /archive/*

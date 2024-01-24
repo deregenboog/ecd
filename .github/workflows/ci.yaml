@@ -34,7 +34,6 @@ jobs:
         run: |
           mysql --protocol=tcp -h 127.0.0.1 --port 3306 -u root -pecd ecd -e "SET GLOBAL sql_mode = 'STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION';"
           mysql --protocol=tcp -h 127.0.0.1 --port 3306 -u ecd -pecd ecd < docker/mysql/sql/00-schema.sql
-          mysql --protocol=tcp -h 127.0.0.1 --port 3306 -u ecd -pecd ecd < docker/mysql/sql/10-data.sql
       - name: Composer
         run: mv .env.test .env && php composer.phar install
       - name: Migrations
