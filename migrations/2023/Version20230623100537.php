@@ -25,7 +25,7 @@ final class Version20230623100537 extends AbstractMigration
         $this->addSql('ALTER TABLE locaties_accessintakes ADD CONSTRAINT FK_466C3B7F733DE450 FOREIGN KEY (intake_id) REFERENCES intakes (id) ON DELETE CASCADE');
         $this->addSql('ALTER TABLE locaties_accessintakes ADD CONSTRAINT FK_466C3B7F4947630C FOREIGN KEY (locatie_id) REFERENCES locaties (id) ON DELETE CASCADE');
 
-        $this->addSql('INSERT INTO locaties_accessintakes (intake_id, locatie_id) 
+        $this->addSql('INSERT INTO locaties_accessintakes (intake_id, locatie_id)
 SELECT i.id, (SELECT l.id FROM locaties l WHERE l.naam = \'Zeeburg\') AS lid FROM intakes i WHERE i.ondro_bong_toegang_van < NOW()');
         $this->addSql('ALTER TABLE intakes DROP amoc_toegang_tot');
 //        $this->addSql('ALTER TABLE intakes DROP ondro_bong_toegang_van');
