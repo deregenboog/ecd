@@ -1,7 +1,5 @@
 when@dev: &dev
     hautelook_alice:
-        fixtures_path: 'DataFixtures/ORM'
-        root_dirs:
-            - '%kernel.project_dir%'
+        fixtures_path: fixtures
 
 when@test: *dev
