@@ -57,9 +57,6 @@
 /.php-cs-fixer.php
 /cache.properties
 
-# Node modules
-/app/webroot/node_modules
-/node_modules
 # Environment-specific configuration
 /app/config/.env
 
@@ -90,9 +87,8 @@ phpunit
 ###< symfony/phpunit-bridge ###
 
 ###> symfony/webpack-encore-bundle ###
-/public/node_modules/
-/public/build/ ## now include build and perform local because of version problems on ubuntu.
-/public/bundles
+/node_modules/
+/public/build/
 npm-debug.log
 yarn-error.log
 ###< symfony/webpack-encore-bundle ###
