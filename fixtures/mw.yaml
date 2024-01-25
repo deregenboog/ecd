@@ -13,7 +13,11 @@ MwBundle\Entity\BinnenViaOptieVW:
         actief: false
 
 MwBundle\Entity\AfsluitredenKlant:
-    mw_afsluitreden_klant_{1..4}:
+    mw_afsluitreden_klant_1:
+        naam: 'Gerepatrieerd'
+        actief: 1
+        land: 1
+    mw_afsluitreden_klant_{2..4}:
         naam: '<word()>'
         actief: 1
 

@@ -26,6 +26,8 @@ class AMW extends AbstractMwReport
         {
             $naam = $locatie->getNaam();
             if(strpos($naam, "Zonder ") !== false
+                || strpos($naam,"Dobre ") !== false
+                || strpos($naam,"Begeleid ") !== false
                 || strpos($naam,"T6") !== false
                 || strpos($naam,"STED") !== false
                 || strpos($naam,"Wachtlijst") !== false

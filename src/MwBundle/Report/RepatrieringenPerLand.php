@@ -59,6 +59,7 @@ class RepatrieringenPerLand extends AbstractReport
     {
         foreach ($this->tables as $title => $data) {
             $table = new Table($data, $this->xPath, $this->yPath, $this->nPath);
+            $table->setYTotals(true);
             $table->setStartDate($this->startDate)->setEndDate($this->endDate)->setYTotals(false)->setYSort(false);
 
             $this->reports[] = [

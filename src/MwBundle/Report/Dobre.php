@@ -4,15 +4,16 @@ namespace MwBundle\Report;
 
 use AppBundle\Report\AbstractReport;
 use AppBundle\Report\Grid;
+use MwBundle\Report\AbstractMwReport;
 use MwBundle\Service\KlantDao;
 use InloopBundle\Entity\Locatie;
 use InloopBundle\Service\LocatieDao;
 use MwBundle\Service\VerslagDao;
 
-class BegeleidThuis extends  AbstractMwReport
+class Dobre extends  AbstractMwReport
 {
 
-    protected $title = 'Begeleid thuis';
+    protected $title = 'Dobre 020';
 
     protected function filterLocations($allLocations)
     {
@@ -22,10 +23,7 @@ class BegeleidThuis extends  AbstractMwReport
         foreach($allLocations as $k=> $locatie)
         {
             $naam = $locatie->getNaam();
-            if(strpos($naam, "Zonder ") === false
-                && strpos($naam,"Vriendenhuis") === false
-                && strpos($naam,"Omslag") === false
-                && strpos($naam,"Begeleid ") === false
+            if(strpos($naam, "Dobre ") === false
             ) {
                 //skip locatie
                 continue;

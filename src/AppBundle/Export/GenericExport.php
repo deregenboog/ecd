@@ -97,7 +97,7 @@ class GenericExport extends AbstractExport
                 if (!is_null($value)) {
                     switch (@$config['type']) {
                         case 'money':
-                            $sheet->getCellByColumnAndRow($column, $this->row)
+                            $sheet->getCell([$column, $this->row])
                                 ->setValue($value)
                                 ->getStyle()->getNumberFormat()->setFormatCode(NumberFormat::FORMAT_CURRENCY_EUR_SIMPLE);
                             break;
@@ -106,21 +106,21 @@ class GenericExport extends AbstractExport
                                 $value = new \DateTime($value);
                             }
                             $value = @Date::PHPToExcel($value);
-                            $sheet->getCellByColumnAndRow($column, $this->row)
+                            $sheet->getCell([$column, $this->row])
                                 ->setValue($value)
-                                ->getStyle()->getNumberFormat()->setFormatCode(NumberFormat::FORMAT_DATE_YYYYMMDD2);
+                                ->getStyle()->getNumberFormat()->setFormatCode(NumberFormat::FORMAT_DATE_YYYYMMDD);
                             break;
                         case 'time':
                             if (!$value instanceof \DateTime) {
                                 $value = new \DateTime($value);
                             }
                             $value = @Date::PHPToExcel($value);
-                            $sheet->getCellByColumnAndRow($column, $this->row)
+                            $sheet->getCell([$column, $this->row])
                                 ->setValue($value)
                                 ->getStyle()->getNumberFormat()->setFormatCode(NumberFormat::FORMAT_DATE_TIME3);
                             break;
                         case 'percentage':
-                            $sheet->getCellByColumnAndRow($column, $this->row)
+                            $sheet->getCell([$column, $this->row])
                                 ->setValue($value)
                                 ->getStyle()->getNumberFormat()->setFormatCode(NumberFormat::FORMAT_PERCENTAGE_00);
                             break;
@@ -132,7 +132,7 @@ class GenericExport extends AbstractExport
                                 }
                                 $value = implode(', ', $values);
                             }
-                            $sheet->getCellByColumnAndRow($column, $this->row)
+                            $sheet->getCell([$column, $this->row])
                                 ->setValue($value);
                             break;
                     }
@@ -159,7 +159,7 @@ class GenericExport extends AbstractExport
 
         $column = 1;
         foreach ($this->headers as $header) {
-            $sheet->getCellByColumnAndRow($column, 1)
+            $sheet->getCell([$column, 1])
                 ->setValue($header)
                 ->getStyle()->getFont()->setBold(true);
             $sheet->getColumnDimensionByColumn($column)->setAutoSize(true);

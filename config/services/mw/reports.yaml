@@ -27,6 +27,10 @@ services:
         tags:
             - { name: mw.rapportage, category: Klanten }
 
+    MwBundle\Report\Dobre:
+        tags:
+            - { name: mw.rapportage, category: Klanten }
+
     MwBundle\Report\T6:
         tags:
             - { name: mw.rapportage, category: Klanten }

@@ -59,7 +59,7 @@ class SelectionExport extends GenericExport
             $sheet = $this->excel->getActiveSheet();
             $column = 1;
             foreach ($this->headers as $header) {
-                $sheet->getCellByColumnAndRow($column, 1)
+                $sheet->getCell([$column, 1])
                     ->setValue($header)
                     ->getStyle()->getFont()->setBold(true);
                 $sheet->getColumnDimensionByColumn($column)->setAutoSize(true);
