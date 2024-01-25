@@ -14,7 +14,7 @@ class Kernel extends BaseKernel
     private $reports = [
         \AppBundle\Form\DoelstellingType::class => 'app.doelstelling',
         \AppBundle\Form\RapportageType::class => 'app.rapportage',
-        \AppBundle\Service\DownloadsDao::class => 'app.downloads',
+        \AppBundle\Form\DownloadVrijwilligersType::class => 'app.downloads',
         \ClipBundle\Form\RapportageType::class => 'clip.rapportage',
         \DagbestedingBundle\Form\RapportageType::class => 'dagbesteding.rapportage',
         \GaBundle\Form\RapportageType::class => 'ga.rapportage',
