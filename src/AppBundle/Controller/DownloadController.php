@@ -94,7 +94,7 @@ class DownloadController extends AbstractController
         $page = $request->get('page', 1);
         $pagination = $this->downloadDao->findAll($page, $filter);
 
-        $view = $this->renderView("@App/download/index.html.twig",
+        $view = $this->renderView("app/download/index.html.twig",
             [
                 'pagination'=>$pagination,
                 'form'=>$form->createView(),

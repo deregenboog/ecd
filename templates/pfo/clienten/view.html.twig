@@ -1,0 +1,121 @@
+{% extends 'base-2-col.html.twig' %}
+{% import 'html.macro.twig' as html %}
+
+{% block content_top %}
+    <h1>{{ entity_name|capitalize }} {{ entity }}</h1>
+    <p>
+        {{ html.link(entity_name|capitalize~' wijzigen', path(route_base~'edit', {id: entity.id}), 'edit') }}
+        {{ html.link(entity_name|capitalize~' koppelen', path(route_base~'connect', {id: entity.id}), 'edit') }}
+    </p>
+{% endblock %}
+
+{% block content_left %}
+    <h2>Basisgegevens</h2>
+    <dl class="dl-horizontal">
+        <dt>Voornaam</dt>
+        <dd>{{ entity.voornaam }}</dd>
+        <dt>Tussenvoegsel</dt>
+        <dd>{{ entity.tussenvoegsel }}</dd>
+        <dt>Achternaam</dt>
+        <dd>{{ entity.achternaam }}</dd>
+        <dt>Geboortedatum</dt>
+        <dd>{{ entity.geboortedatum ? entity.geboortedatum|date('d-m-Y') }}</dd>
+    </dl>
+    <h2>Contactgegevens</h2>
+    <dl class="dl-horizontal">
+        <dt>Adres</dt>
+        <dd>{{ entity.adres }}</dd>
+        <dt>Postcode</dt>
+        <dd>{{ entity.postcode }}</dd>
+        <dt>Plaats</dt>
+        <dd>{{ entity.plaats }}</dd>
+        <dt>Telefoon</dt>
+        <dd>{{ entity.telefoon }}</dd>
+        <dt>Mobiel</dt>
+        <dd>{{ entity.mobiel }}</dd>
+        <dt>E-mail</dt>
+        <dd>{{ entity.email }}</dd>
+        <dt>Notitie</dt>
+        <dd>{{ entity.notitie }}</dd>
+    </dl>
+    <h2>Aanmeldgegevens</h2>
+    <dl class="dl-horizontal">
+        <dt>Eerste contact</dt>
+        <dd>{{ entity.created|date('d-m-Y') }}</dd>
+        <dt>Medewerker</dt>
+        <dd>{{ entity.medewerker }}</dd>
+        <dt>Groep</dt>
+        <dd>{{ entity.groep }}</dd>
+        <dt>Aard van de relatie</dt>
+        <dd>{{ entity.aardRelatie }}</dd>
+        <dt>Dubbele diagnose?</dt>
+        <dd>{{ entity.mobiel }}</dd>
+        <dt>Eerder hulpverlening ontvangen?</dt>
+        <dd>{{ entity.email }}</dd>
+        <dt>Via</dt>
+        <dd>{{ entity.via }}</dd>
+    </dl>
+    <strong>Andere betrokken hulpverleners</strong>
+    <p>{{ entity.hulpverleners|nl2br }}</p>
+    <strong>Andere belangrijke contacten</strong>
+    <p>{{ entity.contacten|nl2br }}</p>
+    <dl class="dl-horizontal">
+        <dt>Begeleidingsformulier overhandigd</dt>
+        <dd>{{ entity.begeleidingsformulierOverhandigd ? entity.begeleidingsformulierOverhandigd|date('d-m-Y') }}</dd>
+        <dt>Brief huisarts verstuurd</dt>
+        <dd>{{ entity.briefHuisartsVerstuurd ? entity.briefHuisartsVerstuurd|date('d-m-Y') }}</dd>
+        <dt>Evaluatieformulier overhandigd</dt>
+        <dd>{{ entity.evaluatieformulierOverhandigd ? entity.evaluatieformulierOverhandigd|date('d-m-Y') }}</dd>
+        <dt>Datum afgesloten</dt>
+        <dd>{{ entity.afsluitdatum ? entity.afsluitdatum|date('d-m-Y') }}</dd>
+    </dl>
+{% endblock %}
+
+{% block content_right %}
+    <ul class="nav nav-tabs">
+        <li class="active"><a data-toggle="tab" href="#koppelingen">Koppelingen</a></li>
+        {%
+            set verslagIcon, verslagLink = '<span class="glyphicon-lock glyphicon"></span>', '#'
+        %}
+        {%  if is_granted("ROLE_PFO") and not is_granted("ROLE_PFO_BEPERKT") %}
+                {% set verslagIcon = ''  %}
+                {% set verslagLink = '#verslagen' %}
+
+
+        {% endif %}
+
+        <li><a data-toggle="tab" href="{{ verslagLink }}" >{{ verslagIcon|raw }}Verslagen</a></li>
+        <li><a data-toggle="tab" href="#documenten">Documenten</a></li>
+    </ul>
+    <div class="tab-content">
+        <div id="koppelingen" class="tab-pane active">
+            <h2>Koppelingen</h2>
+            {% if entity.gekoppeld %}
+                <p>Dit profiel is gekoppeld aan:</p>
+                <ul>
+                    {% if entity.hoofdclient %}
+                        <li><a href="{{ path('pfo_clienten_view', {id: entity.hoofdclient.id}) }}">{{ entity.hoofdclient }} (hoofdclient)</a></li>
+                        {% for gekoppeldeClient in entity.hoofdclient.gekoppeldeClienten %}
+                            {% if gekoppeldeClient != entity %}
+                                <li><a href="{{ path('pfo_clienten_view', {id: gekoppeldeClient.id}) }}">{{ gekoppeldeClient }}</a></li>
+                            {% endif %}
+                        {% endfor %}
+                    {% endif %}
+                    {% for gekoppeldeClient in entity.gekoppeldeClienten %}
+                        <li><a href="{{ path('pfo_clienten_view', {id: gekoppeldeClient.id}) }}">{{ gekoppeldeClient }}</a></li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <p>Dit profiel is niet gekoppeld</p>
+            {% endif %}
+        </div>
+        <div id="verslagen" class="tab-pane">
+           {% if not is_granted('ROLE_PFO_BEPERT') and is_granted("ROLE_PFO") %}
+                {% include 'pfo/verslagen/_list.html.twig' with {client: entity} %}
+            {% endif %}
+        </div>
+        <div id="documenten" class="tab-pane">
+            {% include 'pfo/documenten/_list.html.twig' with {client: entity} %}
+        </div>
+    </div>
+{% endblock %}

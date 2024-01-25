@@ -1,0 +1,48 @@
+{% extends 'base.html.twig' %}
+{% import 'html.macro.twig' as html %}
+
+{% block content %}
+    <h1>{{ title }}</h1>
+    <p>
+        {{ html.link(entity_name|capitalize~' toevoegen', path(route_base~'add'), 'add') }}
+    </p>
+    {% include 'eropuit/klanten/_filter.html.twig' %}
+    <table class="table table-hover">
+        {{ colgroup(5) }}
+        <thead>
+            <tr>
+                <th>
+                    {{ knp_pagination_sortable(pagination, '#', 'appKlant.id') }}
+                </th>
+                <th>
+                    {{ knp_pagination_sortable(pagination, 'Naam', 'appKlant.achternaam') }}
+                </th>
+                <th>
+                    {{ knp_pagination_sortable(pagination, 'Inschrijfdatum', 'klant.inschrijfdatum') }}
+                </th>
+                <th>
+                    {{ knp_pagination_sortable(pagination, 'Uitschrijfdatum', 'klant.uitschrijfdatum') }}
+                </th>
+                <th>
+                    {{ knp_pagination_sortable(pagination, 'Stadsdeel', 'werkgebied.naam') }}
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for entity in pagination %}
+                <tr data-href="{{ path(route_base~'view', {id: entity.id}) }}" class="{{ entity.uitgeschreven ? 'warning' }}">
+                    <td>{{ entity.klant.id }}</td>
+                    <td>{{ entity }}</td>
+                    <td>{{ entity.inschrijfdatum|date('d-m-Y') }}</td>
+                    <td>
+                        {% if entity.uitschrijfdatum %}
+                            {{ entity.uitschrijfdatum|date('d-m-Y') }} ({{ entity.uitschrijfreden }})
+                        {% endif %}
+                    </td>
+                    <td>{{ entity.klant.werkgebied }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {{ knp_pagination_render(pagination) }}
+{% endblock %}

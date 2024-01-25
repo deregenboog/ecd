@@ -1,5 +1,23 @@
 twig:
     default_path: '%kernel.project_dir%/templates'
+    paths:
+        'templates/app': 'App'
+        'templates/buurtboerderij': 'Buurtboerderij'
+        'templates/clip': 'Clip'
+        'templates/dagbesteding': 'Dagbesteding'
+        'templates/eropuit': 'ErOpUit'
+        'templates/ga': 'Ga'
+        'templates/hs': 'Hs'
+        'templates/inloop': 'Inloop'
+        'templates/iz': 'Iz'
+        'templates/mw': 'Mw'
+        'templates/oek': 'Oek'
+        'templates/oekraine': 'Oekraine'
+        'templates/pfo': 'Pfo'
+        'templates/scip': 'Scip'
+        'templates/tw': 'Tw'
+        'templates/uhk': 'Uhk'
+        'templates/villa': 'Villa'
     debug: '%kernel.debug%'
     strict_variables: '%kernel.debug%'
     exception_controller: null

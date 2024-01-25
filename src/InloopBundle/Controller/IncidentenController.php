@@ -62,7 +62,7 @@ class IncidentenController extends AbstractChildController
     /**
      * @Route("/addPrefilled/locatie/{locatie}")
      * @ParamConverter("locatie", class="InloopBundle:Locatie")
-     * @Template("@Inloop/incidenten/add.html.twig")
+     * @Template("inloop/incidenten/add.html.twig")
      */
     public function addPrefilledAction(Request $request, Locatie $locatie)
     {

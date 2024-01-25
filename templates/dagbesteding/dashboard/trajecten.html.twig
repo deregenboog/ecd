@@ -1,0 +1,18 @@
+{% extends 'base.html.twig' %}
+{% import 'html.macro.twig' as html %}
+
+{% block content %}
+    <h1>{{ title }}</h1>
+    <ul class="nav nav-tabs">
+        <li class="active"><a href="{{ path('dagbesteding_dashboard_trajecten') }}">Actieve trajecten</a></li>
+        <li><a href="{{ path('dagbesteding_dashboard_afwezigen') }}">Afwezigen</a></li>
+        <li><a href="{{ path('dagbesteding_dashboard_verlengingen') }}">Aanstaande verlengingen</a></li>
+        <li><a href="{{ path('dagbesteding_dashboard_ondersteuningsplan') }}">Zonder ondersteuningsplan</a></li>
+    </ul>
+    <div class="tab-content">
+        <div id="trajecten" class="tab-pane active">
+            <h2>Actieve trajecten</h2>
+            {% include 'dagbesteding/dashboard/_list.html.twig' %}
+        </div>
+    </div>
+{% endblock %}
