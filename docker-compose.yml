@@ -27,9 +27,14 @@ services:
   node:
     image: node
     volumes:
-      - ${PWD}/public:/var/www/html/public
-    working_dir: /var/www/html/public
-    command: npm install && yarn encore dev watch
+      - ${PWD}:/var/www/html
+    working_dir: /var/www/html
+    command:
+      - /bin/sh
+      - -c
+      - |
+        npm install
+        yarn encore dev
   database:
     build:
       context: docker/mysql

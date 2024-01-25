@@ -3,10 +3,8 @@
 /Makefile
 /docker/mysql
 /docker-*
+/app/data/
+/backups
+/node_modules/
 /var
 /vendor
-/backups
-/public/bundles/
-/public/node_modules/
-/app/data/
-
