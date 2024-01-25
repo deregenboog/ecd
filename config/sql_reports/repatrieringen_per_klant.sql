@@ -5,15 +5,16 @@
 -- !DISABLE
 -- SUMMARY
 SELECT hl.land AS herkomstLand, vl.land AS vertrekLand, k.id AS dossierNummer, mds.datum, mds.kosten, mds.zachteLanding, mds.datumRepatriering
- FROM klanten AS k
-          LEFT JOIN mw_dossier_statussen AS mds ON mds.id = k.huidigeMwStatus_id
-          LEFT JOIN landen AS hl ON hl.id = k.land_id
-          LEFT JOIN landen AS vl ON vl.id = mds.land_id
- WHERE
-         mds.class = "Afsluiting"
-   AND mds.reden_id = 4
-   AND
-     mds.datum BETWEEN :from AND :until
+FROM klanten AS k
+         LEFT JOIN mw_dossier_statussen AS mds ON mds.id = k.huidigeMwStatus_id
+         LEFT JOIN landen AS hl ON hl.id = k.land_id
+         LEFT JOIN landen AS vl ON vl.id = mds.land_id
+         INNER JOIN mw_afsluitredenen_klanten AS mak ON mak.id = mds.reden_id
+WHERE
+        mds.class = "Afsluiting"
+  AND mak.land = 1
+  AND
+    mds.datum BETWEEN :from AND :until
 
 ;
 --

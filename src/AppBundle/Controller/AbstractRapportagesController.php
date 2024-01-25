@@ -111,6 +111,7 @@ abstract class AbstractRapportagesController extends SymfonyController
             'startDate' => $report->getStartDate(),
             'endDate' => $report->getEndDate(),
             'reports' => $report->getReports(),
+            'totals' => '100'
         ];
 
         $filename = sprintf(

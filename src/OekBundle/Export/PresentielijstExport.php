@@ -28,7 +28,7 @@ class PresentielijstExport extends AbstractExport
         $aantal = $training->getGroep()->getAantalBijeenkomsten();
         if ($aantal > 1) {
             foreach (range(1, $aantal) as $i) {
-                $sheet->getCellByColumnAndRow($i + 1, 1)
+                $sheet->getCell([$i + 1, 1])
                     ->setValue('Bijeenkomst '.$i)
                     ->getStyle()->getFont()->setBold(true);
             }
@@ -36,7 +36,7 @@ class PresentielijstExport extends AbstractExport
 
         $deelnames = $training->getDeelnames();
         foreach ($deelnames as $i => $deelname) {
-            $sheet->getCellByColumnAndRow(1, $i + 2)
+            $sheet->getCell([1, $i + 2])
                 ->setValue((string) $deelname->getDeelnemer())
                 ->getStyle()->getFont()->setBold(true);
         }
