@@ -7,11 +7,14 @@ env:
 jobs:
   lint:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        php-version: ['7.4.3', '8.1.2']
     steps:
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: '7.4'
+          php-version: ${{ matrix.php-version }}
       - name: Checkout
         uses: actions/checkout@v4
       - name: Composer
@@ -28,6 +31,9 @@ jobs:
         run: bin/console lint:container
   test:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        php-version: ['7.4.3', '8.1.2']
     services:
       mysql:
         image: mysql:8.0
@@ -47,7 +53,7 @@ jobs:
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: '7.4'
+          php-version: ${{ matrix.php-version }}
       - name: Checkout
         uses: actions/checkout@v4
       - name: Composer

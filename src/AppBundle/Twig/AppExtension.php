@@ -139,7 +139,7 @@ class AppExtension extends AbstractExtension implements GlobalsInterface
     /**
      * @see https://github.com/marcj/twig-apply_filter-bundle
      */
-    public function applyFilter(Environment $env, $context = [], $value, $filters)
+    public function applyFilter(Environment $env, array $context, $value, $filters)
     {
         $name = 'apply_filter_'.md5($filters);
         $template = $env->createTemplate(sprintf('{{ %s|%s }}', $name, $filters));

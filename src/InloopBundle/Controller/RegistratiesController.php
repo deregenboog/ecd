@@ -283,7 +283,7 @@ class RegistratiesController extends AbstractController
      *
      * @Route("/jsonCanRegister/{klant}/{locatie}")
      */
-    public function jsonCanRegisterAction(Klant $klant, Locatie $locatie, $h = 1, ECDHelper $ECDHelper)
+    public function jsonCanRegisterAction(Klant $klant, Locatie $locatie, ECDHelper $ECDHelper, $h = 1)
     {
         $this->denyAccessUnlessGranted(Permissions::REGISTER, $locatie);
 
