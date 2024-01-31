@@ -2,6 +2,12 @@ install:
 	php composer.phar install
 	npm install && yarn encore dev
 
+lint:
+	vendor/bin/parallel-lint src/ tests/
+	bin/console lint:twig templates/
+	bin/console lint:yaml --parse-tags config/
+	bin/console lint:container
+
 test: install
 	bin/console --env=test doctrine:schema:drop --full-database --force
 	bin/console --env=test doctrine:schema:create
@@ -25,6 +31,13 @@ docker-stop:
 
 docker-down:
 	docker compose down
+
+docker-lint:
+	docker compose -f docker-compose.test.yml build test
+	docker compose -f docker-compose.test.yml run --rm test vendor/bin/parallel-lint src/ tests/
+	docker compose -f docker-compose.test.yml run --rm test bin/console lint:twig templates/
+	docker compose -f docker-compose.test.yml run --rm test bin/console lint:yaml --parse-tags config/
+	docker compose -f docker-compose.test.yml run --rm test bin/console lint:container
 
 docker-test-setup:
 	docker compose -f docker-compose.test.yml build

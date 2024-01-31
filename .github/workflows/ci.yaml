@@ -5,6 +5,27 @@ env:
   DATABASE_URL: "mysql://ecd:ecd@127.0.0.1:3306/ecd?serverVersion=8.0&charset=utf8"
   SYMFONY_DEPRECATIONS_HELPER: "max[self]=0"
 jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '7.4'
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Composer
+        run: mv .env.test .env && php composer.phar install
+      - name: NPM
+        run: npm install && yarn encore dev
+      - name: Lint code
+        run: vendor/bin/parallel-lint src/ tests/
+      - name: Lint templates
+        run: bin/console lint:twig templates/
+      - name: Lint config
+        run: bin/console lint:yaml --parse-tags config/
+      - name: Lint container
+        run: bin/console lint:container
   test:
     runs-on: ubuntu-latest
     services:
@@ -27,20 +48,19 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           php-version: '7.4'
-          # extensions: imagick
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
+      - name: Composer
+        run: mv .env.test .env && php composer.phar install
+      - name: NPM
+        run: npm install && yarn encore dev
       - name: Init database
         run: |
           mysql --protocol=tcp -h 127.0.0.1 --port 3306 -u root -pecd ecd -e "SET GLOBAL sql_mode = 'STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION';"
           mysql --protocol=tcp -h 127.0.0.1 --port 3306 -u ecd -pecd ecd < docker/mysql/sql/00-schema.sql
-      - name: Composer
-        run: mv .env.test .env && php composer.phar install
       - name: Migrations
         run: bin/console -n doctrine:migrations:migrate
       - name: Fixtures
         run: PREVENT_SAVE_ENABLED=false bin/console -n hautelook:fixtures:load
-      - name: NPM
-        run: npm install && yarn encore dev
       - name: PHPUnit
         run: vendor/bin/phpunit
