@@ -12,6 +12,7 @@ use Symfony\Component\Ldap\Security\LdapUser;
 use Symfony\Component\Security\Core\User\EquatableInterface;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Security\Core\Role\Role;
 
 /**
  * @ORM\Entity

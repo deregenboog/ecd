@@ -19,6 +19,7 @@ RUN apt-get update && apt-get install -y \
     libzip-dev \
     locales \
     zlib1g-dev \
+    && pecl install xdebug-3.1.6 && docker-php-ext-enable xdebug \
     && docker-php-ext-configure ldap --with-libdir=lib/x86_64-linux-gnu --with-ldap-sasl \
     && docker-php-ext-configure gd --with-freetype=/usr/include/ --with-jpeg=/usr/include/ \
     && docker-php-ext-install gd intl ldap mysqli pdo_mysql zip

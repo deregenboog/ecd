@@ -8,7 +8,7 @@ use Doctrine\ORM\EntityRepository;
 
 class VerslagRepository extends EntityRepository
 {
-    public function findAll()
+    public function findAll(): array
     {
         $builder = $this->createQueryBuilder("verslag");
         $builder->where("verslag INSTANCE OF Verslag");

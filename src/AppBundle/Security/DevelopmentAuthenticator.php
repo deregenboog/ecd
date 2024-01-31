@@ -50,7 +50,7 @@ class DevelopmentAuthenticator extends AbstractAuthenticator
         return $request->request->has('_username');
     }
 
-    public function authenticate(Request $request)
+    public function authenticate(Request $request): Passport
     {
         $username = $request->request->get('_username');
         $password = $request->request->get('_password');
@@ -73,7 +73,7 @@ class DevelopmentAuthenticator extends AbstractAuthenticator
         ));
     }
 
-    public function start(Request $request, AuthenticationException $authException = null)
+    public function start(Request $request, AuthenticationException $authException = null): Response
     {
         return new RedirectResponse($this->router->generate('login'));
     }

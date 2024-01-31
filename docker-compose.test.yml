@@ -9,3 +9,5 @@ services:
     build:
       context: .
       dockerfile: Dockerfile.test
+    volumes:
+      - ${PWD}/build:/app/build
