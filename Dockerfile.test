@@ -1,4 +1,8 @@
-#Docker image for container to run tests on.
+FROM node AS assets
+WORKDIR /app
+COPY . .
+RUN npm install && yarn encore dev
+
 FROM php:7.4
 
 # install dependencies
@@ -40,5 +44,7 @@ RUN composer install --no-autoloader --no-scripts
 COPY . .
 COPY docker/php/.env.test .env
 RUN COMPOSER_ALLOW_SUPERUSER=1 composer install
+
+COPY --from=assets /app/public/build /app/public/build
 
 ENTRYPOINT [ "php" ]
