@@ -43,7 +43,7 @@ class LocatiesController extends AbstractController
     /**
      * @param LocatieDao $dao
      */
-    public function __construct(LocatieDao $dao, $accessStrategies = [], SchorsingDao $schorsingDao)
+    public function __construct(LocatieDao $dao, array $accessStrategies, SchorsingDao $schorsingDao)
     {
         $this->dao = $dao;
         $this->accessStrategies = $accessStrategies;

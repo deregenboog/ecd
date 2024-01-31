@@ -223,7 +223,7 @@ abstract class AbstractController extends SymfonyController
     /**
      * @Route("/download/{filename}")
      */
-    public function downloadAction($filename, DownloadHandler $downloadHandler)
+    public function downloadAction(DownloadHandler $downloadHandler, $filename)
     {
         $document = $this->dao->findByFilename($filename);
         return $downloadHandler->downloadObject($document, 'file');

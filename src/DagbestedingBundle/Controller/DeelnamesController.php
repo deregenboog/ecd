@@ -60,7 +60,7 @@ class DeelnamesController extends AbstractChildController
     /**
      * @Route("/")
      */
-    public function downloadAction($filename=null,DownloadHandler $downloadHandler)
+    public function downloadAction(DownloadHandler $downloadHandler, $filename = null)
     {
         ini_set('memory_limit', '512M');
 
