@@ -1,8 +1,8 @@
-var Encore = require('@symfony/webpack-encore');
+const Encore = require('@symfony/webpack-encore');
 
 Encore
     // directory where compiled assets will be stored
-    .setOutputPath('./build/')
+    .setOutputPath('./public/build/')
     // public path used by the web server to access the output path
     .setPublicPath('/build')
     .enableVersioning(true)
@@ -13,8 +13,6 @@ Encore
         {from: './node_modules/ckeditor4/plugins', to: 'ckeditor/plugins/[path][name].[ext]'},
         {from: './node_modules/ckeditor4/skins', to: 'ckeditor/skins/[path][name].[ext]'},
         {from: './node_modules/ckeditor4/vendor', to: 'ckeditor/vendor/[path][name].[ext]'},
-        {from: '../src/InloopBundle/Resources/public', to: '../bundles/inloop/[path][name].[ext]', pattern: /\.(js|css)$/, includeSubdirectories: true},
-        {from: '../src/OekraineBundle/Resources/public', to: '../bundles/oekraine/[path][name].[ext]', pattern: /\.(js|css)$/, includeSubdirectories: true},
     ])
     // Uncomment the following line if you are using Webpack Encore <= 0.24
     // .addLoader({test: /\.json$/i, include: [require('path').resolve(__dirname, 'node_modules/ckeditor')], loader: 'raw-loader', type: 'javascript/auto'})
@@ -22,11 +20,12 @@ Encore
     //copy images
     .copyFiles({
         from: './assets/images/',
-        to: 'images/[path][name].[ext]'
+        to: 'public/images/[path][name].[ext]'
     })
 
     // only needed for CDN's or sub-directory deploy
     //.setManifestKeyPrefix('build/')
+
     /*
      * ENTRY CONFIG
      *
@@ -40,14 +39,13 @@ Encore
     .addEntry('global','./assets/css/global.scss')
     .addEntry('signin','./assets/css/signin.css')
 
-    .addEntry('inloopindex','./bundles/inloop/registraties/index.js')
-    .addEntry('inloopactive','./bundles/inloop/registraties/active.js')
-    .addEntry('inloophistory','./bundles/inloop/registraties/history.js')
+    .addEntry('inloopindex','./assets/js/inloop/registraties/index.js')
+    .addEntry('inloopactive','./assets/js/inloop/registraties/active.js')
+    .addEntry('inloophistory','./assets/js/inloop/registraties/history.js')
 
-    .addEntry('oekraineindex','./bundles/oekraine/registraties/index.js')
-    .addEntry('oekraineactive','./bundles/oekraine/registraties/active.js')
-    .addEntry('oekrainehistory','./bundles/oekraine/registraties/history.js')
-
+    .addEntry('oekraineindex','./assets/js/oekraine/registraties/index.js')
+    .addEntry('oekraineactive','./assets/js/oekraine/registraties/active.js')
+    .addEntry('oekrainehistory','./assets/js/oekraine/registraties/history.js')
 
     // will require an extra script tag for runtime.js
     // but, you probably want this, unless you're building a single-page app
@@ -58,14 +56,14 @@ Encore
     // enables hashed filenames (e.g. app.abc123.css)
     .enableVersioning(Encore.isProduction())
 
-// uncomment if you use TypeScript
-//.enableTypeScriptLoader()
+    // uncomment if you use TypeScript
+    //.enableTypeScriptLoader()
 
-// uncomment if you use Sass/SCSS files
-.enableSassLoader()
-.enableLessLoader()
+    // uncomment if you use Sass/SCSS files
+    .enableSassLoader()
+    .enableLessLoader()
 
-// uncomment if you're having problems with a jQuery plugin
+    // uncomment if you're having problems with a jQuery plugin
     .autoProvidejQuery()
     .autoProvideVariables({
         $: 'jquery',

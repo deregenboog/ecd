@@ -41,6 +41,6 @@ jobs:
       - name: Fixtures
         run: PREVENT_SAVE_ENABLED=false bin/console -n hautelook:fixtures:load
       - name: NPM
-        run: cd public && npm install && yarn encore dev build
+        run: npm install && yarn encore dev
       - name: PHPUnit
         run: vendor/bin/phpunit
