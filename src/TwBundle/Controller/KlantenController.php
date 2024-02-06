@@ -194,7 +194,7 @@ class KlantenController extends AbstractController
     {
         // $entityManager = $this->getEntityManager();
         // $appKlant = $entityManager->find(AppKlant::class, $id);
-        $klantRepo = $this->getEntityManager()->getRepository("TwBundle:Klant");
+        $klantRepo = $this->getEntityManager()->getRepository(Klant::class);
         $klant = $klantRepo->findOneBy(['appKlant'=>$id]);
 
         if($klant==null)

@@ -183,6 +183,9 @@ services:
         tags:
             - { name: twig.loader, priority: -1 }
 
+    sensio_framework_extra.view.guesser: # overrides default template guesser
+        class: AppBundle\Twig\TemplateGuesser
+
 when@dev: &dev
     services:
         _defaults:

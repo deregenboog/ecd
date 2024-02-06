@@ -15,7 +15,6 @@ services:
       dockerfile: docker/php/Dockerfile
     volumes:
       - ${PWD}/.env.local:/var/www/html/.env.local #mount so you can adapt .env variables w/o rebuilding.
-      - ${PWD}/app:/var/www/html/app
       - ${PWD}/bin:/var/www/html/bin
       - ${PWD}/config:/var/www/html/config
       - ${PWD}/fixtures:/var/www/html/fixtures

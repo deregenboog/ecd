@@ -6,7 +6,7 @@ services:
     uhk.export.deelnemers:
         class: AppBundle\Export\GenericExport
         arguments:
-            - UhkBundle\Entity\deelnemer
+            - UhkBundle\Entity\Deelnemer
             -
                 Nummer: { expression: 'entity.getVrijwilliger().getId()' }
                 Geslacht: { expression: 'entity.getVrijwilliger().getGeslacht()' }

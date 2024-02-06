@@ -117,7 +117,7 @@ class KlantenoverzichtNachtopvang extends AbstractReport
 
             $builder = $this->entityManager->getRepository(Klant::class)->createQueryBuilder('klant')
                 ->select(
-                    "CONCAT_WS(' ', klant.voornaam, klant.tussenvoegsel, klant.achternaam) AS naam, 
+                    "CONCAT_WS(' ', klant.voornaam, klant.tussenvoegsel, klant.achternaam) AS naam,
                     klant.geboortedatum,
                     nationaliteit.naam AS nationaliteitnaam,
                     land.land AS landnaam,

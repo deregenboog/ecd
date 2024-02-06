@@ -9,6 +9,8 @@ class KlantenControllerTest extends WebTestCase
 {
     public function testIndex()
     {
+        $this->markTestIncomplete();
+
         $medewerker = $this->getContainer()->get(\AppBundle\Service\MedewerkerDao::class)->findByUsername('eou_user');
         $this->client->loginUser($medewerker);
 

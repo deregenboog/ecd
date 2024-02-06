@@ -107,9 +107,9 @@ class RegistratiesController extends AbstractController
 
     /**
      * @Route("/locatieSelect/{locatieType}", requirements={"locatieType" = "\S+"})
-     * @ParamConverter("locatieType",class="InloopBundle:LocatieType",options={"mapping": {"locatieType"="naam"}})
+     * @ParamConverter("locatieType", class="InloopBundle\Entity\LocatieType", options={"mapping": {"locatieType"="naam"}})
      */
-    public function locationSelectAction(Request $request, $locatieType)
+    public function locationSelectAction(Request $request, LocatieType $locatieType)
     {
         $locatieTypeStr = (string)$locatieType;
 

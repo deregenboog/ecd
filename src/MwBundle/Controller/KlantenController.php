@@ -15,6 +15,7 @@ use AppBundle\Form\KlantFilterType as AppKlantFilterType;
 use AppBundle\Service\KlantDaoInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Mapping as ORM;
+use InloopBundle\Entity\Locatie;
 use InloopBundle\Service\LocatieDao;
 use Knp\Component\Pager\Paginator;
 use Knp\Component\Pager\PaginatorInterface;
@@ -535,7 +536,7 @@ class KlantenController extends AbstractController
                 $entityManager->flush();
                 $this->addFlash('success', 'Mw dossier is aangemaakt');
             }
-            $locatieRep = $this->getEntityManager()->getRepository("InloopBundle:Locatie");
+            $locatieRep = $this->getEntityManager()->getRepository(Locatie::class);
             $locatie = $locatieRep->findOneBy(['naam'=>'Wachtlijst Economisch Daklozen']);
 
                 //als nieuwste verslag niet op wachtlijst is, dan op wachtlijst zetten

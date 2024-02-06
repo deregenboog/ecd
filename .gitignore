@@ -1,35 +1,9 @@
-/app/SymfonyRequirements.php
-/app/check.php
-
-# Temp dir
-/app/tmp/*
-!/app/tmp/cache/models/.gitkeep
-!/app/tmp/cache/persistent/.gitkeep
-!/app/tmp/cache/views/.gitkeep
-!/app/tmp/etiketten/.gitkeep
-!/app/tmp/logs/.gitkeep
-!/app/tmp/sessions/.gitkeep
-!/app/tmp/tests/.gitkeep
-
-# Symfony cache/logs/sessions
-/var/*
-!/var/cache/.gitkeep
-!/var/logs/.gitkeep
-!/var/sessions/.gitkeep
-
 # Backups
 /backups/*
-
-# SQL data
-/app/sql/*
-!/app/sql/00-schema.sql
 
 # Uploads
 /archive/*
 !/archive/.gitkeep
-
-# Docker
-/.mysql/*
 
 # Composer
 /vendor/
@@ -42,7 +16,7 @@
 # PhpStorm
 .idea
 
-#macOS
+# MacOS
 .DS_Store
 
 # Custom tools
@@ -52,23 +26,6 @@
 !/bin/docker-build.sh
 !/bin/docker-up.sh
 !/bin/docker-stop.sh
-/app/bootstrap.php.cache
-/.php-cs-fixer.dist.php
-/.php-cs-fixer.php
-/cache.properties
-
-# Environment-specific configuration
-/app/config/.env
-
-# PHPUnit
-phpunit
-/phpunit.xml
-/coverage/*
-
-/app/webroot-dev/php_errors.log
-/app/data/postcodes.csv
-/app/data/postcodes-8-12-2021.csv
-/_tmp
 
 ###> friendsofphp/php-cs-fixer ###
 /.php-cs-fixer.php
@@ -102,6 +59,3 @@ yarn-error.log
 /config/secrets/prod/prod.decrypt.private.php
 /var/
 ###< symfony/framework-bundle ###
-
-/.php_cs.cache
-/public/build/*
