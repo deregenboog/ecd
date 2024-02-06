@@ -1,6 +1,6 @@
 buurtboerderij_annotations:
     prefix: /buurtboerderij
-    resource: "@BuurtboerderijBundle/Controller"
+    resource: "../../src/BuurtboerderijBundle/Controller"
     type: annotation
 
 buurtboerderij_index:
