@@ -78,6 +78,7 @@ phpunit
 ###> phpunit/phpunit ###
 /phpunit.xml
 .phpunit.result.cache
+/build/
 ###< phpunit/phpunit ###
 
 ###> symfony/phpunit-bridge ###
@@ -104,4 +105,3 @@ yarn-error.log
 
 /.php_cs.cache
 /public/build/*
-/app/webroot/build/*

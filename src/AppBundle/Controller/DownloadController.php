@@ -100,13 +100,12 @@ class DownloadController extends AbstractController
                 'form'=>$form->createView(),
             ]
         );
-       return new Response($view);
-        return [
-            'filter' => isset($form) ? $form->createView() : null,
-            'pagination' => $view,
-            'action'=>'index'
-        ];
-
+        return new Response($view);
+        // return [
+        //     'filter' => isset($form) ? $form->createView() : null,
+        //     'pagination' => $view,
+        //     'action'=>'index'
+        // ];
     }
 
     private function handleDownloads($form, $request)

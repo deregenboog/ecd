@@ -57,7 +57,7 @@ class GenericExport extends AbstractExport
         $this->dao = $dao;
     }
 
-    public function create($entities)
+    public function create($entities): ExportInterface
     {
         $sheet = $this->prepare();
 

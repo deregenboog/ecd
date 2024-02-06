@@ -69,4 +69,4 @@ jobs:
       - name: Fixtures
         run: PREVENT_SAVE_ENABLED=false bin/console -n hautelook:fixtures:load
       - name: PHPUnit
-        run: vendor/bin/phpunit
+        run: XDEBUG_MODE=coverage vendor/bin/phpunit --coverage-text
