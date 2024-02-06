@@ -183,6 +183,11 @@ services:
         tags:
             - { name: twig.loader, priority: -1 }
 
+    security.user.provider.ldap:
+        class: AppBundle\Security\LdapUserProvider
+        calls:
+            - setRolesGroups: ['%roles_groups%']
+
 when@dev: &dev
     services:
         _defaults:
