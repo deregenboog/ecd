@@ -186,12 +186,3 @@ services:
     sensio_framework_extra.view.guesser: # overrides default template guesser
         class: AppBundle\Twig\TemplateGuesser
 
-when@dev: &dev
-    services:
-        _defaults:
-            autowire: true
-            autoconfigure: true
-
-        AppBundle\DataFixtures\AppProcessor:
-
-when@test: *dev
