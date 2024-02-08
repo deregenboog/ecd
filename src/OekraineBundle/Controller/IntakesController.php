@@ -65,7 +65,7 @@ class IntakesController extends AbstractController
 
     /**
      * @Route("/add/{bezoeker}")
-     * @ParamConverter("bezoeker", class="OekraineBundle:Bezoeker")
+     * @ParamConverter("bezoeker", class="OekraineBundle\Entity\Bezoeker")
      */
     public function addAction(Request $request)
     {

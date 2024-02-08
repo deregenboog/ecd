@@ -147,7 +147,7 @@ class BezoekersController extends AbstractController
 
     /**
      * @Route("/{klant}/rapportage")
-     * @ParamConverter("klant", class="OekraineBundle:Bezoeker")
+     * @ParamConverter("klant", class="OekraineBundle\Entity\Bezoeker")
      */
     public function viewReport(Request $request, Bezoeker $bezoeker)
     {
