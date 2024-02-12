@@ -142,3 +142,25 @@ ClipBundle\Entity\Contactmoment:
         behandelaar: '@clip_behandelaar_*'
         datum: '<dateTimeThisDecade()>'
         opmerking: '<sentence()>'
+
+ClipBundle\Entity\Locatie:
+    clip_locatie_{1..3}:
+        naam: 'CLIP locatie <current()>'
+        datumVan: '<dateTimeThisDecade()>'
+        datumTot: '<dateTimeThisDecade()>'
+
+ClipBundle\Entity\BinnenVia:
+    clip_binnenvia_{1..3}:
+        naam: 'CLIP binnen via <current()>'
+
+ClipBundle\Entity\Training:
+    clip_training_{1..10}:
+        naam: 'CLIP training <current()>'
+
+ClipBundle\Entity\Vrijwilliger:
+    clip_vrijwilliger_{1..10}:
+        vrijwilliger: '@vrijwilliger_<current()>'
+        medewerker: '@medewerker_*'
+        aanmelddatum: '<dateTimeThisDecade()>'
+        binnenVia: '@clip_binnenvia_*'
+        notitieIntake: '<text()>'

@@ -3,6 +3,7 @@
 namespace GaBundle\Controller;
 
 use AppBundle\Controller\AbstractChildController;
+use AppBundle\Controller\DisableIndexActionTrait;
 use GaBundle\Entity\Verslag;
 use GaBundle\Form\VerslagType;
 use GaBundle\Service\VerslagDaoInterface;
@@ -13,6 +14,8 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class VerslagenController extends AbstractChildController
 {
+    use DisableIndexActionTrait;
+
     protected $entityName = 'verslag';
     protected $entityClass = Verslag::class;
     protected $formClass = VerslagType::class;

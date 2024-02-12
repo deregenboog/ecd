@@ -3,6 +3,7 @@
 namespace VillaBundle\Controller;
 
 use AppBundle\Controller\AbstractChildController;
+use AppBundle\Controller\DisableIndexActionTrait;
 use VillaBundle\Entity\Document;
 use VillaBundle\Form\DocumentType;
 use VillaBundle\Service\DocumentDaoInterface;
@@ -13,6 +14,8 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class DocumentenController extends AbstractChildController
 {
+    use DisableIndexActionTrait;
+
     protected $entityName = 'Document';
     protected $entityClass = Document::class;
     protected $formClass = DocumentType::class;

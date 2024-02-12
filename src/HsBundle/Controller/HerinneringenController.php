@@ -3,6 +3,7 @@
 namespace HsBundle\Controller;
 
 use AppBundle\Controller\AbstractChildController;
+use AppBundle\Controller\DisableIndexActionTrait;
 use HsBundle\Entity\Herinnering;
 use HsBundle\Form\HerinneringType;
 use HsBundle\Pdf\PdfHerinnering;
@@ -18,6 +19,8 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class HerinneringenController extends AbstractChildController
 {
+    use DisableIndexActionTrait;
+
     protected $entityName = 'herinnering';
     protected $entityClass = Herinnering::class;
     protected $formClass = HerinneringType::class;

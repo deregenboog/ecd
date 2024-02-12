@@ -3,6 +3,7 @@
 namespace AppBundle\Controller\Admin;
 
 use AppBundle\Controller\AbstractController;
+use AppBundle\Controller\DisableIndexActionTrait;
 use AppBundle\Entity\Klant;
 use AppBundle\Exception\UserException;
 use AppBundle\Form\KlantMergeType;
@@ -21,6 +22,8 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class KlantenController extends AbstractController
 {
+    use DisableIndexActionTrait;
+
     protected $entityName = 'klant';
     protected $entityClass = Klant::class;
     protected $baseRouteName = 'app_admin_klanten_';

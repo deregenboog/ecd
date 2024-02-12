@@ -3,6 +3,7 @@
 namespace OekBundle\Controller;
 
 use AppBundle\Controller\AbstractChildController;
+use AppBundle\Controller\DisableIndexActionTrait;
 use OekBundle\Entity\Memo;
 use OekBundle\Form\MemoType;
 use OekBundle\Service\MemoDaoInterface;
@@ -13,6 +14,8 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class MemosController extends AbstractChildController
 {
+    use DisableIndexActionTrait;
+
     protected $title = 'Memo\'s';
     protected $entityName = 'info';
     protected $entityClass = Memo::class;

@@ -1,9 +1,3 @@
-groepsactiviteiten_klanten_index:
-    path: groepsactiviteiten_klanten
-
-groepsactiviteiten_vrijwilligers_index:
-    path: groepsactiviteiten_vrijwilligers
-
 ga_annotations:
     prefix: /ga
     resource: "../../src/GaBundle/Controller"

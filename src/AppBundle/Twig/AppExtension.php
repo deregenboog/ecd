@@ -539,7 +539,6 @@ class AppExtension extends AbstractExtension implements GlobalsInterface
         }
     }
 
-
     /**
      * Like default date filter, but prints nothing if no date is provided
      * (instead of printing todays date).

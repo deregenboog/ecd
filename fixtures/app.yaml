@@ -657,6 +657,15 @@ AppBundle\Entity\AmocLand:
         __construct: ['@land_Roemenië']
 
 AppBundle\Entity\Medewerker:
+    admin:
+        ldapGuid (unique): '<randomNumber()>'
+        username: 'admin'
+        roles: ['ROLE_ADMIN']
+        email: '<email()>'
+        voornaam: 'Ad'
+        achternaam: 'Min'
+        eersteBezoek: '<dateTimeThisYear()>'
+        laatsteBezoek: '<dateTimeThisYear()>'
     medewerker_jborger:
         ldapGuid (unique): '<randomNumber()>'
         username: 'jborger'

@@ -3,6 +3,7 @@
 namespace InloopBundle\Controller;
 
 use AppBundle\Controller\AbstractChildController;
+use AppBundle\Controller\DisableIndexActionTrait;
 use InloopBundle\Entity\Document;
 use InloopBundle\Form\DocumentType;
 use InloopBundle\Service\DocumentDaoInterface;
@@ -14,6 +15,8 @@ use Vich\UploaderBundle\Handler\DownloadHandler;
  */
 class DocumentenController extends AbstractChildController
 {
+    use DisableIndexActionTrait;
+
     protected $entityName = 'document';
     protected $entityClass = Document::class;
     protected $formClass = DocumentType::class;

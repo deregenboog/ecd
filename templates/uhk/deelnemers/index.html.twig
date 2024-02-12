@@ -47,19 +47,19 @@
         {{ form_end(filter) }}
         <tr>
             <th>
-                {{ knp_pagination_sortable(pagination, '#', 'appKlant.id') }}
+                {{ knp_pagination_sortable(pagination, '#', 'klant.id') }}
             </th>
             <th>
-                {{ knp_pagination_sortable(pagination, 'Deelnemer', 'appKlant.achternaam') }}
+                {{ knp_pagination_sortable(pagination, 'Deelnemer', 'klant.achternaam') }}
             </th>
             <th>
-                {{ knp_pagination_sortable(pagination, 'Stadsdeel', 'werkgebied.naam') }}
+                Stadsdeel
             </th>
             <th>
                 {{ knp_pagination_sortable(pagination, 'Aanmelddatum', 'deelnemer.aanmelddatum') }}
             </th>
             <th>
-                {{ knp_pagination_sortable(pagination, 'Medewerker', 'medewerker.naam') }}
+                Medewerker
             </th>
             <th>
                 {{ knp_pagination_sortable(pagination, 'Actief', 'deelnemer.actief') }}

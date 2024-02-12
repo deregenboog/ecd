@@ -3,6 +3,7 @@
 namespace DagbestedingBundle\Controller;
 
 use AppBundle\Controller\AbstractChildController;
+use AppBundle\Controller\DisableIndexActionTrait;
 use DagbestedingBundle\Entity\Rapportage;
 use DagbestedingBundle\Form\RapportageType;
 use DagbestedingBundle\Service\RapportageDaoInterface;
@@ -13,6 +14,8 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class RapportagesController extends AbstractChildController
 {
+    use DisableIndexActionTrait;
+
     protected $entityName = 'Rapportage';
     protected $entityClass = Rapportage::class;
     protected $formClass = RapportageType::class;

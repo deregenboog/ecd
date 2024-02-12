@@ -3,6 +3,7 @@
 namespace HsBundle\Controller;
 
 use AppBundle\Controller\AbstractChildController;
+use AppBundle\Controller\DisableIndexActionTrait;
 use HsBundle\Entity\Document;
 use HsBundle\Form\DocumentType;
 use HsBundle\Service\DocumentDaoInterface;
@@ -14,6 +15,8 @@ use Vich\UploaderBundle\Handler\DownloadHandler;
  */
 class DocumentenController extends AbstractChildController
 {
+    use DisableIndexActionTrait;
+
     protected $entityName = 'document';
     protected $entityClass = Document::class;
     protected $formClass = DocumentType::class;

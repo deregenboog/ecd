@@ -25,8 +25,6 @@ class DeelnemerafsluitingenController extends AbstractController
 
     /**
      * @var DeelnemerafsluitingDaoInterface
-     *
-     * @DI\Inject("DagbestedingBundle\Service\DeelnemerafsluitingDao")
      */
     protected $dao;
 

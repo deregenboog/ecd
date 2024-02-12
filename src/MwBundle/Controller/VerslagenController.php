@@ -3,6 +3,7 @@
 namespace MwBundle\Controller;
 
 use AppBundle\Controller\AbstractController;
+use AppBundle\Controller\DisableIndexActionTrait;
 use AppBundle\Entity\Klant;
 use AppBundle\Event\DienstenLookupEvent;
 use AppBundle\Event\Events;
@@ -27,6 +28,8 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class VerslagenController extends AbstractController
 {
+    use DisableIndexActionTrait;
+
     protected $entityName = 'verslag';
     protected $entityClass = Verslag::class;
     protected $formClass = VerslagType::class;

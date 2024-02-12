@@ -3,6 +3,7 @@
 namespace IzBundle\Controller;
 
 use AppBundle\Controller\AbstractController;
+use AppBundle\Controller\DisableIndexActionTrait;
 use IzBundle\Entity\Reservering;
 use IzBundle\Form\KoppelingFilterType;
 use IzBundle\Form\ReserveringType;
@@ -19,6 +20,8 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class ReserveringenController extends AbstractController
 {
+    use DisableIndexActionTrait;
+
     protected $entityName = 'reservering';
     protected $entityClass = Reservering::class;
     protected $formClass = ReserveringType::class;

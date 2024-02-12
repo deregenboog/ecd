@@ -3,6 +3,7 @@
 namespace HsBundle\Controller;
 
 use AppBundle\Controller\AbstractChildController;
+use AppBundle\Controller\DisableIndexActionTrait;
 use HsBundle\Entity\Memo;
 use HsBundle\Form\MemoType;
 use HsBundle\Service\MemoDaoInterface;
@@ -15,6 +16,8 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class MemosController extends AbstractChildController
 {
+    use DisableIndexActionTrait;
+
     protected $title = 'Memo\'s';
     protected $entityName = 'info';
     protected $entityClass = Memo::class;

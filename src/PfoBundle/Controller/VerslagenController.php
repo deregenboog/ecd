@@ -3,6 +3,7 @@
 namespace PfoBundle\Controller;
 
 use AppBundle\Controller\AbstractChildController;
+use AppBundle\Controller\DisableIndexActionTrait;
 use PfoBundle\Entity\Verslag;
 use PfoBundle\Form\VerslagType;
 use PfoBundle\Service\VerslagDaoInterface;
@@ -13,6 +14,8 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class VerslagenController extends AbstractChildController
 {
+    use DisableIndexActionTrait;
+
     protected $entityName = 'verslag';
     protected $entityClass = Verslag::class;
     protected $formClass = VerslagType::class;

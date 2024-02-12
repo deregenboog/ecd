@@ -3,6 +3,7 @@
 namespace GaBundle\Controller;
 
 use AppBundle\Controller\AbstractChildController;
+use AppBundle\Controller\DisableIndexActionTrait;
 use GaBundle\Entity\Intake;
 use GaBundle\Form\IntakeType;
 use GaBundle\Service\IntakeDaoInterface;
@@ -16,6 +17,8 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class IntakesController extends AbstractChildController
 {
+    use DisableIndexActionTrait;
+
     protected $entityName = 'intake';
     protected $entityClass = Intake::class;
     protected $formClass = IntakeType::class;

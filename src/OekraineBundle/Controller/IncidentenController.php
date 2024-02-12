@@ -4,6 +4,7 @@ namespace OekraineBundle\Controller;
 
 use AppBundle\Controller\AbstractChildController;
 use AppBundle\Controller\AbstractController;
+use AppBundle\Controller\DisableIndexActionTrait;
 use AppBundle\Exception\AppException;
 use AppBundle\Exception\UserException;
 use AppBundle\Model\MedewerkerSubjectInterface;
@@ -30,6 +31,8 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
  */
 class IncidentenController extends AbstractChildController
 {
+    use DisableIndexActionTrait;
+
     protected $entityName = 'Incident';
     protected $entityClass = Incident::class;
     protected $formClass = IncidentType::class;

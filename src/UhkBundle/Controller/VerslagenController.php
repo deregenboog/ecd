@@ -3,6 +3,7 @@
 namespace UhkBundle\Controller;
 
 use AppBundle\Controller\AbstractChildController;
+use AppBundle\Controller\DisableIndexActionTrait;
 use UhkBundle\Entity\Verslag;
 use UhkBundle\Form\VerslagType;
 use UhkBundle\Service\VerslagDaoInterface;
@@ -13,6 +14,8 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class VerslagenController extends AbstractChildController
 {
+    use DisableIndexActionTrait;
+
     protected $entityName = 'verslag';
     protected $entityClass = Verslag::class;
     protected $formClass = VerslagType::class;

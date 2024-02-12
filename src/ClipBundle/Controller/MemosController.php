@@ -2,6 +2,7 @@
 
 namespace ClipBundle\Controller;
 
+use AppBundle\Controller\DisableIndexActionTrait;
 use AppBundle\Controller\MemosControllerAbstract;
 use AppBundle\Service\MemoDaoInterface;
 use Symfony\Component\Routing\Annotation\Route;
@@ -11,6 +12,7 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class MemosController extends MemosControllerAbstract
 {
+    use DisableIndexActionTrait;
 
     protected $baseRouteName = 'clip_memos_';
 

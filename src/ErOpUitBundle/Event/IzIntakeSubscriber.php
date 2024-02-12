@@ -31,7 +31,7 @@ class IzIntakeSubscriber implements EventSubscriberInterface
 
     public function addToEropuit(GenericEvent $event)
     {
-        /* @var $izIntake Intake */
+        /** @var $izIntake Intake */
         $izIntake = $event->getSubject();
 
         // do nothing if not client
