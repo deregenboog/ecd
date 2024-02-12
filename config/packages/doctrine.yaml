@@ -125,6 +125,7 @@ doctrine:
             overleden:
                 class: AppBundle\Doctrine\OverledenFilter
                 enabled: false
+
 when@prod:
     doctrine:
         orm:
@@ -144,3 +145,10 @@ when@prod:
                     adapter: cache.app
                 doctrine.system_cache_pool:
                     adapter: cache.system
+
+when@test:
+    doctrine:
+        dbal:
+            connections:
+                default:
+                    use_savepoints: true

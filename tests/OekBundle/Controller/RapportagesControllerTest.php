@@ -3,17 +3,19 @@
 namespace Tests\OekBundle\Controller;
 
 use AppBundle\Service\MedewerkerDao;
-use AppBundle\Test\WebTestCase;
+use Liip\FunctionalTestBundle\Test\WebTestCase;
 
 class RapportagesControllerTest extends WebTestCase
 {
     public function testShowReports()
     {
-        $medewerker = $this->getContainer()->get(MedewerkerDao::class)->findByUsername('oek_user');
-        $this->client->loginUser($medewerker);
+        $client = static::createClient();
 
-        $crawler = $this->client->request('GET', '/oek/rapportages/');
-        $this->assertStatusCode(200, $this->client);
+        $medewerker = $this->getContainer()->get(MedewerkerDao::class)->findByUsername('oek_user');
+        $client->loginUser($medewerker);
+
+        $crawler = $client->request('GET', '/oek/rapportages/');
+        $this->assertStatusCode(200, $client);
 
         $form = $crawler->selectButton('Rapport tonen')->form();
         $reports = $crawler->filter('select option');
@@ -23,8 +25,8 @@ class RapportagesControllerTest extends WebTestCase
             $value = $report->getAttribute('value');
             if ($value) {
                 $form['rapportage[rapport]'] = $value;
-                $crawler = $this->client->submit($form);
-                $this->assertStatusCode(200, $this->client);
+                $crawler = $client->submit($form);
+                $this->assertStatusCode(200, $client);
             }
         }
     }

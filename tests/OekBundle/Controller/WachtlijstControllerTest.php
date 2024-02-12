@@ -3,7 +3,7 @@
 namespace Tests\OekBundle\Controller;
 
 use AppBundle\Service\MedewerkerDao;
-use AppBundle\Test\WebTestCase;
+use Liip\FunctionalTestBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Request;
 
 class WachtlijstControllerTest extends WebTestCase
@@ -13,21 +13,21 @@ class WachtlijstControllerTest extends WebTestCase
         $this->markTestSkipped();
 
         $medewerker = $this->getContainer()->get(MedewerkerDao::class)->findByUsername('oek_user');
-        $this->client->loginUser($medewerker);
+        $client->loginUser($medewerker);
 
-        $crawler = $this->client->request('GET', '/oek/wachtlijst/');
-        $this->assertStatusCode(200, $this->client);
+        $crawler = $client->request('GET', '/oek/wachtlijst/');
+        $this->assertStatusCode(200, $client);
 
         $headers = $crawler->filter('tr th a.sortable');
         $this->assertGreaterThan(1, $headers->count());
 
-        $headers->each(function ($header) {
+        $headers->each(function ($header) use ($client) {
             // @see https://github.com/KnpLabs/knp-components/issues/160
             $request = Request::create($header->link()->getUri());
             $_GET = $request->query->all();
 
-            $this->client->click($header->link());
-            $this->assertStatusCode(200, $this->client);
+            $client->click($header->link());
+            $this->assertStatusCode(200, $client);
         });
     }
 }

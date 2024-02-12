@@ -3,14 +3,14 @@
 namespace Tests\HsBundle\Event;
 
 use AppBundle\Entity\Medewerker;
-use AppBundle\Test\WebTestCase;
 use Doctrine\ORM\EntityManagerInterface;
 use HsBundle\Entity\Dienstverlener;
 use HsBundle\Entity\Factuur;
 use HsBundle\Entity\Klus;
 use HsBundle\Entity\Registratie;
+use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
-class FactuurSubscriberTest extends WebTestCase
+class FactuurSubscriberTest extends KernelTestCase
 {
     /**
      * @var EntityManagerInterface
@@ -20,16 +20,15 @@ class FactuurSubscriberTest extends WebTestCase
     protected function setUp(): void
     {
         $this->markTestSkipped();
-
-        parent::setUp();
-        $this->entityManager = $this->client->getContainer()->get('doctrine.orm.entity_manager');
     }
 
     public function testCreatingRegistratieResultsInCreatedFactuur()
     {
-        $medewerker = $this->entityManager->getReference(Medewerker::class, 1);
-        $klus = $this->entityManager->getReference(Klus::class, 1);
-        $dienstverlener = $this->entityManager->getReference(Dienstverlener::class, 1);
+        $em = $this->getContainer()->get('doctrine.orm.entity_manager');
+
+        $medewerker = $em->getReference(Medewerker::class, 1);
+        $klus = $em->getReference(Klus::class, 1);
+        $dienstverlener = $em->getReference(Dienstverlener::class, 1);
 
         $registratie = new Registratie($klus, $dienstverlener);
         $registratie
@@ -39,8 +38,8 @@ class FactuurSubscriberTest extends WebTestCase
             ->setMedewerker($medewerker)
         ;
 
-        $this->entityManager->persist($registratie);
-        $this->entityManager->flush();
+        $em->persist($registratie);
+        $em->flush();
 
         $this->assertEquals(5.0, $registratie->getFactuur()->getBedrag());
 
@@ -49,23 +48,27 @@ class FactuurSubscriberTest extends WebTestCase
 
     public function testUpdatingRegistratieResultsInUpdatedFactuur()
     {
+        $em = $this->getContainer()->get('doctrine.orm.entity_manager');
+
         $registratie = $this->testCreatingRegistratieResultsInCreatedFactuur();
         $registratie->setStart(new \DateTime('09:00'));
 
-        $this->entityManager->flush();
+        $em->flush();
 
         $this->assertEquals(7.5, $registratie->getFactuur()->getBedrag());
     }
 
     public function testUpdatingToAnotherMonthRegistratieResultsInCreatedFactuurAndRemovedEmptyFactuur()
     {
+        $em = $this->getContainer()->get('doctrine.orm.entity_manager');
+
         $registratie = $this->testCreatingRegistratieResultsInCreatedFactuur();
         $oudeFactuur = $registratie->getFactuur();
         $this->assertEquals(5.0, $oudeFactuur->getBedrag());
 
         $registratie->setDatum(new \DateTime('-1 month'));
 
-        $this->entityManager->flush();
+        $em->flush();
 
         // new Factuur created
         $this->assertNotEquals($oudeFactuur->getId(), $registratie->getFactuur()->getId());
