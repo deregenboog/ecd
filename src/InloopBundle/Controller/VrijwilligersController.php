@@ -12,7 +12,6 @@ use InloopBundle\Form\VrijwilligerFilterType;
 use InloopBundle\Form\VrijwilligerType;
 use InloopBundle\Service\VrijwilligerDao;
 use InloopBundle\Service\VrijwilligerDaoInterface;
-use JMS\DiExtraBundle\Annotation as DI;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;

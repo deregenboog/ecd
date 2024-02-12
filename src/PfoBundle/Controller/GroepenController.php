@@ -3,7 +3,6 @@
 namespace PfoBundle\Controller;
 
 use AppBundle\Controller\AbstractController;
-use JMS\DiExtraBundle\Annotation as DI;
 use PfoBundle\Entity\Groep;
 use PfoBundle\Form\GroepType;
 use PfoBundle\Service\GroepDao;

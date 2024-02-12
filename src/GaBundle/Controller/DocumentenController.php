@@ -6,7 +6,6 @@ use AppBundle\Controller\AbstractChildController;
 use GaBundle\Entity\Document;
 use GaBundle\Form\DocumentType;
 use GaBundle\Service\DocumentDao;
-use JMS\DiExtraBundle\Annotation as DI;
 use Symfony\Component\Routing\Annotation\Route;
 use Vich\UploaderBundle\Handler\DownloadHandler;
 
@@ -23,7 +22,7 @@ class DocumentenController extends AbstractChildController
     protected $disabledActions = ['index', 'edit'];
 
     /**
-     * @var DocumentDao 
+     * @var DocumentDao
      */
     protected $dao;
 

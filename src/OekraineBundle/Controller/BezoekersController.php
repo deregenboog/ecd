@@ -27,7 +27,6 @@ use OekraineBundle\Pdf\PdfBrief;
 use OekraineBundle\Service\BezoekerDao;
 use OekraineBundle\Service\BezoekerDaoInterface;
 use OekraineBundle\Service\KlantDaoInterface;
-use JMS\DiExtraBundle\Annotation as DI;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\EventDispatcher\GenericEvent;
 use Symfony\Component\Routing\Annotation\Route;

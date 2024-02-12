@@ -7,7 +7,6 @@ use InloopBundle\Entity\Woonsituatie;
 use InloopBundle\Form\WoonsituatieType;
 use InloopBundle\Service\WoonsituatieDao;
 use InloopBundle\Service\WoonsituatieDaoInterface;
-use JMS\DiExtraBundle\Annotation as DI;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 

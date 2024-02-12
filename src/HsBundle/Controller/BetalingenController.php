@@ -9,7 +9,6 @@ use HsBundle\Form\BetalingFilterType;
 use HsBundle\Form\BetalingType;
 use HsBundle\Service\BetalingDao;
 use HsBundle\Service\BetalingDaoInterface;
-use JMS\DiExtraBundle\Annotation as DI;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;

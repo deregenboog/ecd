@@ -7,7 +7,6 @@ use ClipBundle\Entity\Afsluitreden;
 use ClipBundle\Form\AfsluitredenType;
 use ClipBundle\Service\AfsluitredenDao;
 use ClipBundle\Service\AfsluitredenDaoInterface;
-use JMS\DiExtraBundle\Annotation as DI;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**

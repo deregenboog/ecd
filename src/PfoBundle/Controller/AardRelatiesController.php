@@ -3,7 +3,6 @@
 namespace PfoBundle\Controller;
 
 use AppBundle\Controller\AbstractController;
-use JMS\DiExtraBundle\Annotation as DI;
 use PfoBundle\Entity\AardRelatie;
 use PfoBundle\Form\AardRelatieType;
 use PfoBundle\Service\AardRelatieDao;

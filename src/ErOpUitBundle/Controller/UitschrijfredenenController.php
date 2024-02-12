@@ -7,7 +7,6 @@ use ErOpUitBundle\Entity\Uitschrijfreden;
 use ErOpUitBundle\Form\UitschrijfredenType;
 use ErOpUitBundle\Service\UitschrijfredenDao;
 use ErOpUitBundle\Service\UitschrijfredenDaoInterface;
-use JMS\DiExtraBundle\Annotation as DI;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**

@@ -6,7 +6,6 @@ use AppBundle\Controller\AbstractChildController;
 use VillaBundle\Entity\Deelname;
 
 use VillaBundle\Form\DeelnameType;
-use JMS\DiExtraBundle\Annotation as DI;
 use Symfony\Component\Routing\Annotation\Route;
 use VillaBundle\Service\DeelnameDao;
 use VillaBundle\Service\DeelnameDaoInterface;

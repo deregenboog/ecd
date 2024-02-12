@@ -13,7 +13,6 @@ use Doctrine\ORM\EntityNotFoundException;
 use MwBundle\Service\InventarisatieDao;
 use MwBundle\Service\KlantDao;
 use MwBundle\Service\KlantDaoInterface;
-use JMS\DiExtraBundle\Annotation as DI;
 use MwBundle\Entity\Verslag;
 use MwBundle\Entity\Aanmelding;
 use MwBundle\Form\VerslagModel;

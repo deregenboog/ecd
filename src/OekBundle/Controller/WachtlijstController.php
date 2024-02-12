@@ -5,7 +5,6 @@ namespace OekBundle\Controller;
 use AppBundle\Controller\AbstractController;
 use AppBundle\Export\ExportInterface;
 use AppBundle\Filter\FilterInterface;
-use JMS\DiExtraBundle\Annotation as DI;
 use OekBundle\Form\DeelnemerFilterType;
 use OekBundle\Service\DeelnemerDao;
 use OekBundle\Service\DeelnemerDaoInterface;

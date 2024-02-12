@@ -3,7 +3,6 @@
 namespace ScipBundle\Controller;
 
 use AppBundle\Controller\AbstractChildController;
-use JMS\DiExtraBundle\Annotation as DI;
 use ScipBundle\Entity\Document;
 use ScipBundle\Form\DocumentType;
 use ScipBundle\Security\Permissions;
@@ -26,15 +25,11 @@ class DocumentenController extends AbstractChildController
 
     /**
      * @var DocumentDaoInterface
-     *
-     * @DI\Inject("ScipBundle\Service\DocumentDao")
      */
     protected $dao;
 
     /**
      * @var \ArrayObject
-     *
-     * @DI\Inject("scip.document.entities")
      */
     protected $entities;
 

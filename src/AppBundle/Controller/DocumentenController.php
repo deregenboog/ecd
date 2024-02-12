@@ -9,7 +9,6 @@ use AppBundle\Entity\Vog;
 use AppBundle\Form\DocumentType;
 use AppBundle\Service\DocumentDao;
 use AppBundle\Service\DocumentDaoInterface;
-use JMS\DiExtraBundle\Annotation as DI;
 use Symfony\Component\Routing\Annotation\Route;
 use Vich\UploaderBundle\Handler\DownloadHandler;
 

@@ -3,7 +3,6 @@
 namespace PfoBundle\Controller;
 
 use AppBundle\Controller\AbstractChildController;
-use JMS\DiExtraBundle\Annotation as DI;
 use PfoBundle\Entity\Document;
 use PfoBundle\Form\DocumentType;
 use PfoBundle\Service\DocumentDao;

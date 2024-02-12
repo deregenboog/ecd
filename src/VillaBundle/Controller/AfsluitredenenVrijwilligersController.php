@@ -7,7 +7,6 @@ use VillaBundle\Entity\Afsluitreden;
 use VillaBundle\Form\AfsluitredenType;
 use VillaBundle\Service\AfsluitredenDao;
 use VillaBundle\Service\AfsluitredenDaoInterface;
-use JMS\DiExtraBundle\Annotation as DI;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**

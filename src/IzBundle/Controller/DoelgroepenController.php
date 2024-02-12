@@ -7,7 +7,6 @@ use IzBundle\Entity\Doelgroep;
 use IzBundle\Form\DoelgroepType;
 use IzBundle\Service\DoelgroepDao;
 use IzBundle\Service\DoelgroepDaoInterface;
-use JMS\DiExtraBundle\Annotation as DI;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 

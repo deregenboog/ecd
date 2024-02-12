@@ -2,7 +2,6 @@
 
 namespace TwBundle\Controller;
 
-use JMS\DiExtraBundle\Annotation as DI;
 use TwBundle\Entity\HuurverzoekAfsluiting;
 use TwBundle\Service\AfsluitingDaoInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;

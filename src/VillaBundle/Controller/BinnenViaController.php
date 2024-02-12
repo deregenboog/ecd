@@ -7,7 +7,6 @@ use VillaBundle\Entity\BinnenVia;
 use VillaBundle\Form\BinnenViaType;
 use VillaBundle\Service\BinnenViaDao;
 use VillaBundle\Service\BinnenViaDaoInterface;
-use JMS\DiExtraBundle\Annotation as DI;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**

@@ -11,7 +11,6 @@ use InloopBundle\Form\TrainingType;
 use InloopBundle\Service\LocatieDao;
 use InloopBundle\Service\LocatieDaoInterface;
 use InloopBundle\Service\TrainingDao;
-use JMS\DiExtraBundle\Annotation as DI;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 

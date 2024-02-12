@@ -15,7 +15,6 @@ use IzBundle\Form\IzVrijwilligerFilterType;
 use IzBundle\Form\IzVrijwilligerType;
 use IzBundle\Service\VrijwilligerDao;
 use IzBundle\Service\VrijwilligerDaoInterface;
-use JMS\DiExtraBundle\Annotation as DI;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\EventDispatcher\GenericEvent;
@@ -47,8 +46,6 @@ class VrijwilligersController extends AbstractController
 
     /**
      * @var AbstractExport
-     *
-     * @DI\Inject("iz.export.vrijwilligers")
      */
     protected $export;
 

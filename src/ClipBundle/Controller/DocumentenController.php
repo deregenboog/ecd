@@ -7,7 +7,6 @@ use ClipBundle\Entity\Document;
 use ClipBundle\Form\DocumentType;
 use ClipBundle\Service\DocumentDao;
 use ClipBundle\Service\DocumentDaoInterface;
-use JMS\DiExtraBundle\Annotation as DI;
 use Symfony\Component\Routing\Annotation\Route;
 use Vich\UploaderBundle\Handler\DownloadHandler;
 

@@ -7,7 +7,6 @@ use HsBundle\Entity\Activiteit;
 use HsBundle\Form\ActiviteitType;
 use HsBundle\Service\ActiviteitDao;
 use HsBundle\Service\ActiviteitDaoInterface;
-use JMS\DiExtraBundle\Annotation as DI;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;

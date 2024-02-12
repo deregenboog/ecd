@@ -7,7 +7,6 @@ use AppBundle\Export\ExportInterface;
 use AppBundle\Export\GenericExport;
 use AppBundle\Export\ReportExport;
 use GaBundle\Form\RapportageType;
-use JMS\DiExtraBundle\Annotation as DI;
 use Psr\Container\ContainerInterface;
 use Symfony\Component\Routing\Annotation\Route;
 

@@ -14,7 +14,6 @@ use ErOpUitBundle\Form\KlantReopenType;
 use ErOpUitBundle\Form\KlantType;
 use ErOpUitBundle\Service\KlantDao;
 use ErOpUitBundle\Service\KlantDaoInterface;
-use JMS\DiExtraBundle\Annotation as DI;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;

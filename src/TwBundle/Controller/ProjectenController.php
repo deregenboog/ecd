@@ -7,7 +7,6 @@ use AppBundle\Controller\AbstractController;
 use TwBundle\Entity\Project;
 use TwBundle\Form\ProjectType;
 use TwBundle\Service\ProjectDao;
-use JMS\DiExtraBundle\Annotation as DI;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 

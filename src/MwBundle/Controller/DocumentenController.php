@@ -4,7 +4,6 @@ namespace MwBundle\Controller;
 
 use AppBundle\Controller\AbstractChildController;
 use AppBundle\Entity\Klant;
-use JMS\DiExtraBundle\Annotation as DI;
 use MwBundle\Entity\Document;
 use MwBundle\Entity\Vrijwilliger;
 use MwBundle\Form\DocumentType;

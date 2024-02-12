@@ -7,7 +7,6 @@ use AppBundle\Form\LandFilterType;
 use AppBundle\Form\LandType;
 use AppBundle\Service\LandDao;
 use AppBundle\Service\LandDaoInterface;
-use JMS\DiExtraBundle\Annotation as DI;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;

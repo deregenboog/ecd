@@ -7,7 +7,6 @@ use ClipBundle\Entity\Deelname;
 
 use ClipBundle\Form\DeelnameType;
 use ClipBundle\Service\DeelnameDao;
-use JMS\DiExtraBundle\Annotation as DI;
 use Symfony\Component\Routing\Annotation\Route;
 use ClipBundle\Service\DeelnameDaoInterface;
 

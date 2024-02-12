@@ -14,7 +14,6 @@ use ErOpUitBundle\Form\VrijwilligerReopenType;
 use ErOpUitBundle\Form\VrijwilligerType;
 use ErOpUitBundle\Service\VrijwilligerDao;
 use ErOpUitBundle\Service\VrijwilligerDaoInterface;
-use JMS\DiExtraBundle\Annotation as DI;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;

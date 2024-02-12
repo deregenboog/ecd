@@ -7,7 +7,6 @@ use MwBundle\Entity\Project;
 use MwBundle\Form\ProjectType;
 use MwBundle\Service\ProjectDao;
 use MwBundle\Service\ProjectDaoInterface;
-use JMS\DiExtraBundle\Annotation as DI;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 

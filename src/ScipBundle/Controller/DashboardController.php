@@ -3,7 +3,6 @@
 namespace ScipBundle\Controller;
 
 use AppBundle\Controller\SymfonyController;
-use JMS\DiExtraBundle\Annotation as DI;
 use ScipBundle\Service\ProjectDaoInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
@@ -19,8 +18,6 @@ class DashboardController extends SymfonyController
 
     /**
      * @var ProjectDaoInterface
-     *
-     * @DI\Inject("ScipBundle\Service\ProjectDao")
      */
     protected $projectDao;
 

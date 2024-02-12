@@ -23,7 +23,6 @@ use InloopBundle\Pdf\PdfBrief;
 use InloopBundle\Service\KlantDao;
 use InloopBundle\Service\KlantDaoInterface;
 use InloopBundle\Service\LocatieDao;
-use JMS\DiExtraBundle\Annotation as DI;
 use Psr\Container\ContainerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\EventDispatcher\GenericEvent;

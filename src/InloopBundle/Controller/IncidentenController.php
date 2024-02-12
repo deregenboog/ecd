@@ -19,7 +19,6 @@ use InloopBundle\Service\IncidentDao;
 use InloopBundle\Service\IncidentDaoInterface;
 use InloopBundle\Service\KlantDaoInterface;
 use InloopBundle\Service\LocatieDaoInterface;
-use JMS\DiExtraBundle\Annotation as DI;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;

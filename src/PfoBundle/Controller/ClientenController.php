@@ -4,7 +4,6 @@ namespace PfoBundle\Controller;
 
 use AppBundle\Controller\AbstractController;
 use AppBundle\Export\ExportInterface;
-use JMS\DiExtraBundle\Annotation as DI;
 use PfoBundle\Entity\Client;
 use PfoBundle\Form\ClientConnectType;
 use PfoBundle\Form\ClientFilterType;

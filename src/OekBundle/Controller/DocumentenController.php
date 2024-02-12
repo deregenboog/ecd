@@ -3,7 +3,6 @@
 namespace OekBundle\Controller;
 
 use AppBundle\Controller\AbstractChildController;
-use JMS\DiExtraBundle\Annotation as DI;
 use OekBundle\Entity\Document;
 use OekBundle\Form\DocumentType;
 use OekBundle\Service\DocumentDao;

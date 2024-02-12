@@ -11,7 +11,6 @@ use HsBundle\Form\KlantFilterType;
 use HsBundle\Form\KlantType;
 use HsBundle\Service\KlantDao;
 use HsBundle\Service\KlantDaoInterface;
-use JMS\DiExtraBundle\Annotation as DI;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;

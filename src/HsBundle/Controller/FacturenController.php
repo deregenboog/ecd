@@ -21,7 +21,6 @@ use HsBundle\Service\FactuurDaoInterface;
 use HsBundle\Service\FactuurFactoryInterface;
 use HsBundle\Service\KlantDao;
 use HsBundle\Service\KlantDaoInterface;
-use JMS\DiExtraBundle\Annotation as DI;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;

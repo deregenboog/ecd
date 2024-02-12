@@ -8,7 +8,6 @@ use IzBundle\Entity\Intake;
 use IzBundle\Form\IntakeType;
 use IzBundle\Service\IntakeDao;
 use IzBundle\Service\IntakeDaoInterface;
-use JMS\DiExtraBundle\Annotation as DI;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**

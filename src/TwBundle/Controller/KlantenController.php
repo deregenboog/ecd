@@ -24,7 +24,6 @@ use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormError;
-use JMS\DiExtraBundle\Annotation as DI;
 
 /**
  * @Route("/klanten")

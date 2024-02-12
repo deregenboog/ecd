@@ -6,7 +6,6 @@ use AppBundle\Controller\AbstractChildController;
 use GaBundle\Entity\Memo;
 use GaBundle\Form\MemoType;
 use GaBundle\Service\MemoDao;
-use JMS\DiExtraBundle\Annotation as DI;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -23,7 +22,7 @@ class MemosController extends AbstractChildController
     protected $baseRouteName = 'ga_memos_';
 
     /**
-     * @var MemoDao 
+     * @var MemoDao
      */
     protected $dao;
 

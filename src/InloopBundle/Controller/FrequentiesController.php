@@ -7,7 +7,6 @@ use InloopBundle\Entity\Frequentie;
 use InloopBundle\Form\FrequentieType;
 use InloopBundle\Service\FrequentieDao;
 use InloopBundle\Service\FrequentieDaoInterface;
-use JMS\DiExtraBundle\Annotation as DI;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 

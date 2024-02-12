@@ -10,7 +10,6 @@ use TwBundle\Form\LocatieType;
 use TwBundle\Form\TrainingType;
 use TwBundle\Service\LocatieDao;
 use TwBundle\Service\LocatieDaoInterface;
-use JMS\DiExtraBundle\Annotation as DI;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use TwBundle\Service\TrainingDao;

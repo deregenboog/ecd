@@ -8,7 +8,6 @@ use AppBundle\Exception\UserException;
 use AppBundle\Export\ExportInterface;
 use AppBundle\Form\ConfirmationType;
 use AppBundle\Form\VrijwilligerFilterType as AppVrijwilligerFilterType;
-use JMS\DiExtraBundle\Annotation as DI;
 use OekBundle\Entity\Vrijwilliger;
 use OekBundle\Form\VrijwilligerFilterType;
 use OekBundle\Form\VrijwilligerType;
@@ -44,8 +43,6 @@ class VrijwilligersController extends AbstractController
 
     /**
      * @var ExportInterface
-     *
-     * @DI\Inject("oek.export.vrijwilliger")
      */
     protected $export;
 

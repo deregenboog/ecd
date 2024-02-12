@@ -3,7 +3,6 @@
 namespace ScipBundle\Controller;
 
 use AppBundle\Controller\AbstractController;
-use JMS\DiExtraBundle\Annotation as DI;
 use ScipBundle\Entity\Toegangsrecht;
 use ScipBundle\Form\ToegangsrechtFilterType;
 use ScipBundle\Form\ToegangsrechtType;
@@ -28,8 +27,6 @@ class ToegangsrechtenController extends AbstractController
 
     /**
      * @var ToegangsrechtDaoInterface
-     *
-     * @DI\Inject("ScipBundle\Service\ToegangsrechtDao")
      */
     protected $dao;
 

@@ -7,7 +7,6 @@ use GaBundle\Entity\Intake;
 use GaBundle\Form\IntakeFilterType;
 use GaBundle\Form\IntakeType;
 use GaBundle\Service\IntakeDao;
-use JMS\DiExtraBundle\Annotation as DI;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;

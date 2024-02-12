@@ -13,7 +13,6 @@ use AppBundle\Service\KlantDao;
 use AppBundle\Service\KlantDaoInterface;
 use Doctrine\ORM\QueryBuilder;
 
-use JMS\DiExtraBundle\Annotation as DI;
 use TwBundle\Entity\Verhuurder;
 use TwBundle\Form\VerhuurderCloseType;
 use TwBundle\Form\VerhuurderFilterType;

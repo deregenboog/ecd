@@ -7,7 +7,6 @@ use ClipBundle\Entity\Viacategorie;
 use ClipBundle\Form\ViacategorieType;
 use ClipBundle\Service\ViacategorieDao;
 use ClipBundle\Service\ViacategorieDaoInterface;
-use JMS\DiExtraBundle\Annotation as DI;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 

@@ -7,7 +7,6 @@ use HsBundle\Entity\Document;
 use HsBundle\Form\DocumentType;
 use HsBundle\Service\DocumentDao;
 use HsBundle\Service\DocumentDaoInterface;
-use JMS\DiExtraBundle\Annotation as DI;
 use Symfony\Component\Routing\Annotation\Route;
 use Vich\UploaderBundle\Handler\DownloadHandler;
 

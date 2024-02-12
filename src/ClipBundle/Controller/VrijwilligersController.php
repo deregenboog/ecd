@@ -12,7 +12,6 @@ use ClipBundle\Form\VrijwilligerCloseType;
 use ClipBundle\Form\VrijwilligerFilterType;
 use ClipBundle\Form\VrijwilligerType;
 use ClipBundle\Service\VrijwilligerDaoInterface;
-use JMS\DiExtraBundle\Annotation as DI;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
 use Symfony\Component\Routing\Annotation\Route;

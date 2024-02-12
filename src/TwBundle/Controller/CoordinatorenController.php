@@ -5,7 +5,6 @@ namespace TwBundle\Controller;
 use AppBundle\Controller\SymfonyController;
 use AppBundle\Exception\UserException;
 use AppBundle\Form\ConfirmationType;
-use JMS\DiExtraBundle\Annotation as DI;
 use TwBundle\Entity\Coordinator;
 use TwBundle\Form\CoordinatorType;
 use TwBundle\Service\CoordinatorDao;

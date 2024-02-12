@@ -4,7 +4,6 @@ namespace DagbestedingBundle\Controller;
 
 use AppBundle\Controller\AbstractChildController;
 use DagbestedingBundle\Service\WerkdoelDao;
-use JMS\DiExtraBundle\Annotation as DI;
 use DagbestedingBundle\Entity\Werkdoel;
 use DagbestedingBundle\Form\WerkdoelType;
 use DagbestedingBundle\Service\WerkdoelDaoInterface;

@@ -7,7 +7,6 @@ use BuurtboerderijBundle\Entity\Afsluitreden;
 use BuurtboerderijBundle\Form\AfsluitredenType;
 use BuurtboerderijBundle\Service\AfsluitredenDao;
 use BuurtboerderijBundle\Service\AfsluitredenDaoInterface;
-use JMS\DiExtraBundle\Annotation as DI;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
