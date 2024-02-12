@@ -5,7 +5,6 @@ namespace TwBundle\Controller;
 use AppBundle\Controller\SymfonyController;
 use AppBundle\Exception\UserException;
 use AppBundle\Form\ConfirmationType;
-use IzBundle\Service\AfsluitingDao;
 use TwBundle\Form\AfsluitingType;
 use TwBundle\Service\AfsluitingDaoInterface;
 use Symfony\Component\Routing\Annotation\Route;
@@ -13,7 +12,7 @@ use Symfony\Component\Routing\Annotation\Route;
 abstract class AfsluitingenController extends SymfonyController
 {
     /**
-     * @var AfsluitingDao
+     * @var AfsluitingDaoInterface
      */
     protected $dao;
 
@@ -32,14 +31,10 @@ abstract class AfsluitingenController extends SymfonyController
      */
     protected $indexRouteName;
 
-    /**
-     * @param AfsluitingDao $dao
-     */
-    public function __construct(AfsluitingDao $dao)
+    public function __construct(AfsluitingDaoInterface $dao)
     {
         $this->dao = $dao;
     }
-
 
     /**
      * @Route("/")

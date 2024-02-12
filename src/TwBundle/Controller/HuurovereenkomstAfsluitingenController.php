@@ -3,7 +3,6 @@
 namespace TwBundle\Controller;
 
 use TwBundle\Entity\HuurovereenkomstAfsluiting;
-use TwBundle\Service\AfsluitingDaoInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\Routing\Annotation\Route;
 use TwBundle\Service\HuurovereenkomstAfsluitingDaoInterface;
