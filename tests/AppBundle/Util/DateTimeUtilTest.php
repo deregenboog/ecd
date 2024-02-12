@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\AppBundle\Util;
 
 use AppBundle\Util\DateTimeUtil;

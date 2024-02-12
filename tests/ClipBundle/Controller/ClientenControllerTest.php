@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\ClipBundle\Controller;
 
 use AppBundle\Service\MedewerkerDao;

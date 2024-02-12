@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\GaBundle\Controller;
 
 use AppBundle\Service\MedewerkerDao;

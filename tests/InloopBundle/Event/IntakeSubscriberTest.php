@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\InloopBundle\Event;
 
 use AppBundle\Entity\Klant;

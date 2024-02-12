@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\HsBundle\Entity;
 
 use HsBundle\Entity\Dienstverlener;
