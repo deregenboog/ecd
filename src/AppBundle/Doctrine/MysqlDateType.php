@@ -13,9 +13,6 @@ class MysqlDateType extends DateType
         return 'mysql_date';
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function convertToPHPValue($value, AbstractPlatform $platform): ?\DateTimeInterface
     {
         if ($platform instanceof MySQLPlatform && ('1970-01-01' === $value || '0000-00-00' === $value)) {
