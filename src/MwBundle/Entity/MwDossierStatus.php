@@ -75,7 +75,11 @@ abstract class MwDossierStatus
      *
      * @ORM\ManyToOne(targetEntity="MwBundle\Entity\Project", inversedBy="aanmeldingen")
      * @ORM\JoinColumn(nullable=false)
-     * @Assert\NotNull()
+     * Assert\NotNull()
+     * @Assert\Expression(
+     *     "this.typeOf() in ['Afsluiting'] or this.getProject()",
+     *     message="Bij een aanmelding is een project verplicht."
+     * )
      * @Gedmo\Versioned
      */
     protected $project;
@@ -101,6 +105,14 @@ abstract class MwDossierStatus
     {
         $this->medewerker = $medewerker;
         $this->datum = new \DateTime('now');
+    }
+
+    public function typeOf(): string
+    {
+        $className = get_class($this);
+        $ref = new \ReflectionClass($className);
+
+        return $ref->getShortName();
     }
 
     public function getKlant()

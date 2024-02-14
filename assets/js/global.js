@@ -58,12 +58,14 @@ $(function() {
      *
      */
     var makeCkEditorRequired = function(){
-        for(var instanceName in CKEDITOR.instances) {
-            var instance = CKEDITOR.instances[instanceName]
-            instance.on('required',function(evt){
-                evt.editor.showNotification( 'Dit is een verplicht veld.', 'info' );//warning has to be removed manually while info dissapears after 5 seconds... which is more friendly.
-                evt.cancel();
-            });
+        if( typeof CKEDITOR  !== "undefined" ) {
+            for (var instanceName in CKEDITOR.instances) {
+                var instance = CKEDITOR.instances[instanceName]
+                instance.on('required', function (evt) {
+                    evt.editor.showNotification('Dit is een verplicht veld.', 'info');//warning has to be removed manually while info dissapears after 5 seconds... which is more friendly.
+                    evt.cancel();
+                });
+            }
         }
     };
 

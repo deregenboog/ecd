@@ -21,6 +21,7 @@ use Knp\Component\Pager\Paginator;
 use Knp\Component\Pager\PaginatorInterface;
 use MwBundle\Entity\Aanmelding;
 use MwBundle\Entity\Afsluiting;
+use MwBundle\Entity\Project;
 use MwBundle\Entity\Verslag;
 use MwBundle\Form\AanmeldingType;
 use MwBundle\Form\AfsluitingType;
@@ -387,8 +388,6 @@ class KlantenController extends AbstractController
      */
     public function addMwDossierStatusAction(Request $request, $id)
     {
-
-
         /** @var Klant $klant */
         $klant = $this->dao->find($id);
 
@@ -399,8 +398,6 @@ class KlantenController extends AbstractController
         {
             $info = new Info($klant);
         }
-
-
 
         $form = $this->getForm(AanmeldingType::class,$entity);
         $form->handleRequest($this->getRequest());
@@ -520,21 +517,22 @@ class KlantenController extends AbstractController
         $klant = null;
         $entityManager = $this->getEntityManager();
         try {
-            $klant = $this->dao->find($id);
+                $klant = $this->dao->find($id);
+                //Wanneer klant nog niet bestat, dossier aanmaken
+                if(!$klant->getHuidigeMwStatus() instanceof Aanmelding)
+                {
+                    return $this->redirectToRoute('mw_klanten_addmwdossierstatus',[
+                        'id'=>$klant->getId(),
+                        'redirect'=>$this->generateUrl("mw_klanten_addhiprio",[
+                            'id'=>$klant->getId(),
+                        ])
+                    ]);
+                }
 
-            //Wanneer klant nog niet bestat, dossier aanmaken
-            if(!$klant->getHuidigeMwStatus() instanceof Aanmelding)
-            {
-                $entity = new Aanmelding($this->getMedewerker());
-                $entity->setKlant($klant);
-                $klant->setHuidigeMwStatus($entity);
-                $entity->setDatum(new \DateTime());
-                $entityManager->persist($entity);
-                $entityManager->flush();
-                $this->addFlash('success', 'Mw dossier is aangemaakt');
-            }
-            $locatieRep = $this->getEntityManager()->getRepository(Locatie::class);
-            $locatie = $locatieRep->findOneBy(['naam'=>'Wachtlijst Economisch Daklozen']);
+                $locatieRep = $this->getEntityManager()->getRepository(Locatie::class);
+                $locatie = $locatieRep->findOneBy(['naam'=>'Wachtlijst STED']);
+
+            $v = $klant->getAantalVerslagen();
 
                 //als nieuwste verslag niet op wachtlijst is, dan op wachtlijst zetten
                 if($klant->getAantalVerslagen() < 1 || $klant->getVerslagen()->first()->getLocatie() !== $locatie) {
@@ -543,6 +541,7 @@ class KlantenController extends AbstractController
                     $verslag->setOpmerking("Toegevoegd vanuit TW");
                     $verslag->setMedewerker($this->getMedewerker());
                     $verslag->setLocatie($locatie);
+                    $verslag->setAccess(Verslag::ACCESS_MW);
 
                     $entityManager->persist($verslag);
                     $entityManager->flush();
@@ -554,10 +553,8 @@ class KlantenController extends AbstractController
                 }
 
             } catch(UserException $e) {
-//                $this->logger->error($e->getMessage(), ['exception' => $e]);
                 $message =  $e->getMessage();
                 $this->addFlash('danger', $message);
-//                return $this->redirectToRoute('app_klanten_index');
             } catch (\Exception $e) {
                 $message = $this->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
                 $this->addFlash('danger', $message);
@@ -569,10 +566,5 @@ class KlantenController extends AbstractController
 
             return $this->redirectToView($klant);
 
-
-        return [
-            'entity' => $entity,
-            'form' => $form->createView(),
-        ];
     }
 }

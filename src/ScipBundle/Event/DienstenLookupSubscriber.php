@@ -37,25 +37,7 @@ class DienstenLookupSubscriber implements EventSubscriberInterface
 
     public function provideDienstenInfo(DienstenLookupEvent $event)
     {
-        $klant = $event->getKlant();
+        return; //scip is er al lang uit.
 
-        /* @var $deelnemer Deelnemer */
-        $deelnemer = $this->entityManager->getRepository(Deelnemer::class)
-            ->findOneBy(['klant' => $klant]);
-
-        if ($deelnemer) {
-            $dienst = new Dienst(
-                'SCIP',
-                $this->generator->generate('scip_deelnemers_view', ['id' => $deelnemer->getId()])
-            );
-
-            $projecten = [];
-            foreach ($deelnemer->getProjecten() as $project) {
-                $projecten[] = (string) $project;
-            }
-            $dienst->setOmschrijving(implode($projecten, ', '));
-
-            $event->addDienst($dienst);
-        }
     }
 }

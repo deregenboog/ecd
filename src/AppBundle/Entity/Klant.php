@@ -6,6 +6,7 @@ use AppBundle\Model\DocumentSubjectTrait;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\PersistentCollection;
 use Gedmo\Mapping\Annotation as Gedmo;
 use InloopBundle\Entity\DossierStatus;
 use InloopBundle\Entity\Incident;
@@ -591,7 +592,8 @@ class Klant extends Persoon
 
     public function getAantalVerslagen(): int
     {
-        return count((array) $this->verslagen);
+        if(!$this->verslagen instanceof PersistentCollection) return 0;
+        return $this->verslagen->count();//count((array) $this->verslagen);
     }
     public function getEersteVerslag()
     {
