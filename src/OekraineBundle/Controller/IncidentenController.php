@@ -60,7 +60,7 @@ class IncidentenController extends AbstractChildController
 
     /**
      * @Route("/addPrefilled/locatie/{locatie}")
-     * @ParamConverter("locatie", class="OekraineBundle:Locatie")
+     * @ParamConverter("locatie", class="OekraineBundle\Entity\Locatie")
      * @Template("oekraine/incidenten/add.html.twig")
      */
     public function addPrefilledAction(Request $request, Locatie $locatie)

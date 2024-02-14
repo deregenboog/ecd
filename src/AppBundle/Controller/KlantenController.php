@@ -171,8 +171,7 @@ class KlantenController extends AbstractController
 
     /**
      * @Route("/{klant}/addPartner")
-     * ParamConverter("klant",class="AppBundle:Klant")
-     *
+     * ParamConverter("klant", class="AppBundle\Entity\Klant")
      */
     public function addPartnerAction(Request $request, $klant)
     {
