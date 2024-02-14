@@ -34,5 +34,12 @@ services:
               VOG aanwezig: { expression: 'entity.getVrijwilliger().getVogAanwezig()' }
               Overeenkomst aanwezig: { expression: 'entity.getVrijwilliger().getOvereenkomstAanwezig()' }
 
+    villa.export.slaper:
+      class: AppBundle\Export\GenericExport
+      arguments:
+        - VillaBundle\Entity\Slaper
+        - Nummer: { expression: 'entity.getAppKlant().getId()' }
+
+
     villa.export.report:
         class: AppBundle\Export\ReportExport

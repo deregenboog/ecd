@@ -247,9 +247,9 @@ parameters:
         ROLE_REPORT: "CN=ECD Report,CN=Users,DC=cluster,DC=deregenboog"
         ROLE_OEK: "CN=ECD Op Eigen Kracht,CN=Users,DC=cluster,DC=deregenboog"
         ROLE_OEK_BEHEER: "CN=ECD Op Eigen Kracht Beheer,CN=Users,DC=cluster,DC=deregenboog"
-        ROLE_TW: "CN=ECD Onder de Pannen,CN=Users,DC=cluster,DC=deregenboog" #bw compatiblity
+        ROLE_TW2: "CN=ECD Onder de Pannen,CN=Users,DC=cluster,DC=deregenboog" #bw compatiblity
         ROLE_TW_BEHEER: "CN=ECD Onder de Pannen Beheer,CN=Users,DC=cluster,DC=deregenboog" #bw comp.
-        ROLE_TW2: "CN=ECD Tijdelijk Wonen,CN=Users,DC=cluster,DC=deregenboog"
+        ROLE_TW: "CN=ECD Tijdelijk Wonen,CN=Users,DC=cluster,DC=deregenboog"
         ROLE_TW_BEHEER2: "CN=ECD Tijdelijk Wonen Beheer,CN=Users,DC=cluster,DC=deregenboog"
         ROLE_DAGBESTEDING: "CN=ECD Dagbesteding,CN=Users,DC=cluster,DC=deregenboog"
         ROLE_DAGBESTEDING_BEHEER: "CN=ECD Dagbesteding Beheer,CN=Users,DC=cluster,DC=deregenboog"

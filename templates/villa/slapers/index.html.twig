@@ -1,0 +1,83 @@
+{% extends 'base.html.twig' %}
+{% import 'html.macro.twig' as html %}
+
+{% block content %}
+    <h1>{{ title }}</h1>
+
+    <p>
+        {{ html.addLink(path('villa_slapers_add')) }}
+        {{ html.link(entity_name|capitalize~' toevoegen', path('villa_slapers_add')) }}
+    </p>
+
+    <table class="table table-hover">
+        {{ form_start(filter) }}
+            <tr>
+                <th colspan="7">
+                    <span class="pull-right">
+                        {{ form_widget(filter.filter) }}
+                        {{ form_widget(filter.download) }}
+                    </span>
+                </th>
+            </tr>
+            <tr>
+                <th>
+                    {{ form_widget(filter.klant.id) }}
+                    {{ form_errors(filter.klant.id) }}
+                </th>
+                <th>
+                    {{ form_widget(filter.klant.naam) }}
+                    {{ form_errors(filter.klant.naam) }}
+                </th>
+                <th>
+{#                    {{ form_widget(filter.filterOpActiefAlleen) }}#}
+{#                    {{ form_errors(filter.filterOpActiefAlleen) }}#}
+                </th>
+
+            </tr>
+        {{ form_end(filter) }}
+        <tr>
+            <th>
+                {{ knp_pagination_sortable(pagination, '#', 'appKlant.id') }}
+            </th>
+            <th>
+                {{ knp_pagination_sortable(pagination, 'Slaper', 'appKlant.achternaam') }}
+            </th>
+            <th>
+                {{ knp_pagination_sortable(pagination, 'Status', 'slaper.dossierstatus') }}
+            </th>
+            <th>
+                Actief
+            </th>
+            <th>
+                {{ knp_pagination_sortable(pagination, 'Stadsdeel', 'werkgebied.naam') }}
+            </th>
+        </tr>
+        {% for slaper in pagination %}
+        <tr data-href="{{ path('villa_slapers_view', {id: slaper.id}) }}" class="{{ not slaper.actief ? 'danger' }}">
+            <td>
+                {{ slaper.appKlant.id }}
+            </td>
+            <td>
+                {{ slaper }}
+            </td>
+            <td>
+                {{ slaper.dossierstatus.datum|date('d-m-Y') }}
+            </td>
+            <td>
+                {% if not slaper.actief %}
+                    {{ slaper.afsluitdatum|if_date('d-m-Y') }}
+                    ({{ slaper.afsluitreden }})
+                {% endif %}
+            </td>
+            <td>{{ slaper.actief|ja_nee }}</td>
+            <td>
+                {{ slaper.appKlant.werkgebied }}
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    <p>
+        {{ knp_pagination_render(pagination) }}
+    </p>
+{% endblock %}
