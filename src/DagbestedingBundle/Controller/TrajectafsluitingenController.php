@@ -7,7 +7,6 @@ use DagbestedingBundle\Entity\Trajectafsluiting;
 use DagbestedingBundle\Form\TrajectafsluitingType;
 use DagbestedingBundle\Service\TrajectafsluitingDao;
 use DagbestedingBundle\Service\TrajectafsluitingDaoInterface;
-use JMS\DiExtraBundle\Annotation as DI;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 

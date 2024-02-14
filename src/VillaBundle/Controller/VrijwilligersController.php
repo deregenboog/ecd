@@ -12,7 +12,6 @@ use VillaBundle\Form\VrijwilligerFilterType;
 use VillaBundle\Form\VrijwilligerType;
 use VillaBundle\Service\VrijwilligerDao;
 use VillaBundle\Service\VrijwilligerDaoInterface;
-use JMS\DiExtraBundle\Annotation as DI;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
 use Symfony\Component\Routing\Annotation\Route;

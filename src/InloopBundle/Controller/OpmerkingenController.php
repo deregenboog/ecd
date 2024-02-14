@@ -9,7 +9,6 @@ use InloopBundle\Entity\Locatie;
 use InloopBundle\Form\OpmerkingType;
 use InloopBundle\Service\OpmerkingDao;
 use InloopBundle\Service\OpmerkingDaoInterface;
-use JMS\DiExtraBundle\Annotation as DI;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;

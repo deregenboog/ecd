@@ -12,7 +12,6 @@ use TwBundle\Form\VrijwilligerFilterType;
 use TwBundle\Form\VrijwilligerType;
 use TwBundle\Service\VrijwilligerDao;
 use TwBundle\Service\VrijwilligerDaoInterface;
-use JMS\DiExtraBundle\Annotation as DI;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
 use Symfony\Component\Routing\Annotation\Route;

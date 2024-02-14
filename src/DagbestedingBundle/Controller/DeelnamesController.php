@@ -6,7 +6,6 @@ use AppBundle\Controller\AbstractChildController;
 use AppBundle\Export\ExportInterface;
 use DagbestedingBundle\Entity\Traject;
 use DagbestedingBundle\Service\DeelnameDao;
-use JMS\DiExtraBundle\Annotation as DI;
 use DagbestedingBundle\Entity\Deelname;
 use DagbestedingBundle\Entity\Deelnemer;
 use DagbestedingBundle\Entity\Project;

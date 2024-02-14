@@ -10,7 +10,6 @@ use GaBundle\Entity\Vrijwilligerdossier;
 use GaBundle\Form\VrijwilligerdossierFilterType;
 use GaBundle\Form\VrijwilligerdossierType;
 use GaBundle\Service\VrijwilligerdossierDao;
-use JMS\DiExtraBundle\Annotation as DI;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;

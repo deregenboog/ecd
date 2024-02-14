@@ -15,7 +15,6 @@ use DagbestedingBundle\Form\TrajectFilterType;
 use DagbestedingBundle\Form\TrajectType;
 use DagbestedingBundle\Service\TrajectDao;
 use DagbestedingBundle\Service\TrajectDaoInterface;
-use JMS\DiExtraBundle\Annotation as DI;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
@@ -35,22 +34,16 @@ class TrajectenController extends AbstractChildController
 
     /**
      * @var TrajectDao
-     *
-     * @DI\Inject("DagbestedingBundle\Service\TrajectDao")
      */
     protected $dao;
 
     /**
      * @var \ArrayObject
-     *
-     * @DI\Inject("dagbesteding.traject.entities")
      */
     protected $entities;
 
     /**
      * @var GenericExport
-     *
-     * @DI\Inject("dagbesteding.export.trajecten")
      */
     protected $export;
 

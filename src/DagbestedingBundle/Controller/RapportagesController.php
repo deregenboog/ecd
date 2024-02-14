@@ -7,7 +7,6 @@ use DagbestedingBundle\Entity\Rapportage;
 use DagbestedingBundle\Form\RapportageType;
 use DagbestedingBundle\Service\RapportageDao;
 use DagbestedingBundle\Service\RapportageDaoInterface;
-use JMS\DiExtraBundle\Annotation as DI;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**

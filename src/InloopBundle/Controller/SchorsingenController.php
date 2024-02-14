@@ -15,7 +15,6 @@ use InloopBundle\Service\LocatieDao;
 use InloopBundle\Service\LocatieDaoInterface;
 use InloopBundle\Service\SchorsingDao;
 use InloopBundle\Service\SchorsingDaoInterface;
-use JMS\DiExtraBundle\Annotation as DI;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;

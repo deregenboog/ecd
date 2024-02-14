@@ -3,7 +3,6 @@
 namespace MwBundle\Controller;
 
 use AppBundle\Controller\AbstractController;
-use JMS\DiExtraBundle\Annotation as DI;
 use MwBundle\Entity\Doorverwijzing;
 use MwBundle\Form\DoorverwijzingType;
 use MwBundle\Service\DoorverwijzingDao;

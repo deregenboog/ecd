@@ -7,7 +7,6 @@ use TwBundle\Entity\BinnenVia;
 use TwBundle\Form\BinnenViaType;
 use TwBundle\Service\BinnenViaDao;
 use TwBundle\Service\BinnenViaDaoInterface;
-use JMS\DiExtraBundle\Annotation as DI;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**

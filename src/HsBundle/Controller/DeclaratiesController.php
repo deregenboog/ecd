@@ -18,7 +18,6 @@ use HsBundle\Entity\Registratie;
 use HsBundle\Form\DeclaratieType;
 use HsBundle\Service\DeclaratieDao;
 use HsBundle\Service\DeclaratieDaoInterface;
-use JMS\DiExtraBundle\Annotation as DI;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;

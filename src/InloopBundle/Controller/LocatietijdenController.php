@@ -7,7 +7,6 @@ use InloopBundle\Entity\Locatietijd;
 use InloopBundle\Form\LocatietijdType;
 use InloopBundle\Service\LocatietijdDao;
 use InloopBundle\Service\LocatietijdDaoInterface;
-use JMS\DiExtraBundle\Annotation as DI;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 

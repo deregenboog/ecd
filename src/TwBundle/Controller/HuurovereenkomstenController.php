@@ -7,7 +7,6 @@ use AppBundle\Exception\UserException;
 use AppBundle\Export\ExportInterface;
 use AppBundle\Form\ConfirmationType;
 use Doctrine\ORM\EntityManagerInterface;
-use JMS\DiExtraBundle\Annotation as DI;
 use TwBundle\Entity\Huuraanbod;
 use TwBundle\Entity\Huurovereenkomst;
 use TwBundle\Entity\Huurverzoek;

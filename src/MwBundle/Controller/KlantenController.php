@@ -25,7 +25,6 @@ use MwBundle\Entity\Verslag;
 use MwBundle\Form\AanmeldingType;
 use MwBundle\Form\AfsluitingType;
 use InloopBundle\Form\KlantType;
-use JMS\DiExtraBundle\Annotation as DI;
 use MwBundle\Entity\Document;
 use MwBundle\Entity\Info;
 use MwBundle\Form\InfoType;
@@ -72,8 +71,6 @@ class KlantenController extends AbstractController
 
     /**
      * @var ExportInterface
-     *
-     * @DI\Inject("mw.export.klanten")
      */
     protected $export;
 

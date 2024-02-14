@@ -10,7 +10,6 @@ use GaBundle\Form\ActiviteitenReeksModel;
 use GaBundle\Form\ActiviteitenReeksType;
 use GaBundle\Service\ActiviteitDao;
 use GaBundle\Service\ActiviteitenreeksGenerator;
-use JMS\DiExtraBundle\Annotation as DI;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
@@ -28,7 +27,7 @@ class ActiviteitenreeksController extends AbstractChildController
     protected $baseRouteName = 'ga_activiteiten_';
 
     /**
-     * @var ActiviteitDao 
+     * @var ActiviteitDao
      */
     protected $dao;
 

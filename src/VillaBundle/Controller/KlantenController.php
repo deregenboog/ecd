@@ -17,7 +17,6 @@ use VillaBundle\Entity\Afsluiting;
 use VillaBundle\Form\AanmeldingType;
 use VillaBundle\Form\AfsluitingType;
 use InloopBundle\Form\KlantType;
-use JMS\DiExtraBundle\Annotation as DI;
 use VillaBundle\Entity\Document;
 use VillaBundle\Entity\Info;
 use VillaBundle\Form\InfoType;

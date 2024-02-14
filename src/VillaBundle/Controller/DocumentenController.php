@@ -7,7 +7,6 @@ use VillaBundle\Entity\Document;
 use VillaBundle\Form\DocumentType;
 use VillaBundle\Service\DocumentDao;
 use VillaBundle\Service\DocumentDaoInterface;
-use JMS\DiExtraBundle\Annotation as DI;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**

@@ -7,7 +7,6 @@ use MwBundle\Entity\AfsluitredenVrijwilliger;
 use MwBundle\Form\AfsluitredenVrijwilligerType;
 use MwBundle\Service\AfsluitredenVrijwilligerDao;
 use MwBundle\Service\AfsluitredenVrijwilligerDaoInterface;
-use JMS\DiExtraBundle\Annotation as DI;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**

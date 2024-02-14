@@ -10,7 +10,6 @@ use GaBundle\Entity\Vrijwilligerdossier;
 use GaBundle\Form\DeelnameType;
 use GaBundle\Service\ActiviteitDao;
 use GaBundle\Service\DeelnameDao;
-use JMS\DiExtraBundle\Annotation as DI;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -28,12 +27,12 @@ class DeelnamesController extends AbstractChildController
     protected $baseRouteName = 'ga_deelnames_';
 
     /**
-     * @var DeelnameDao 
+     * @var DeelnameDao
      */
     protected $dao;
 
     /**
-     * @var ActiviteitDao 
+     * @var ActiviteitDao
      */
     protected $activiteitDao;
 

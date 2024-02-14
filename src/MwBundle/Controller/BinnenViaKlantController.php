@@ -8,7 +8,6 @@ use MwBundle\Form\BinnenViaOptieKlantType;
 use MwBundle\Form\BinnenViaType;
 use MwBundle\Service\BinnenViaDao;
 use MwBundle\Service\BinnenViaDaoInterface;
-use JMS\DiExtraBundle\Annotation as DI;
 use MwBundle\Service\BinnenViaKlantDao;
 use Symfony\Component\Routing\Annotation\Route;
 

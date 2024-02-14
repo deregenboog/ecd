@@ -3,7 +3,6 @@
 namespace TwBundle\Controller;
 
 use IzBundle\Service\AfsluitingDao;
-use JMS\DiExtraBundle\Annotation as DI;
 use TwBundle\Entity\HuuraanbodAfsluiting;
 use TwBundle\Service\AfsluitingDaoInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;

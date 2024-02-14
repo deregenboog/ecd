@@ -10,7 +10,6 @@ use GaBundle\Form\LidmaatschapCloseType;
 use GaBundle\Form\LidmaatschapReopenType;
 use GaBundle\Form\LidmaatschapType;
 use GaBundle\Service\LidmaatschapDao;
-use JMS\DiExtraBundle\Annotation as DI;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -29,7 +28,7 @@ class LidmaatschappenController extends AbstractChildController
     protected $disabledActions = ['delete'];
 
     /**
-     * @var LidmaatschapDao 
+     * @var LidmaatschapDao
      */
     protected $dao;
 

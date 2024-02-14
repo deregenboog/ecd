@@ -7,7 +7,6 @@ use InloopBundle\Entity\Infobaliedoelgroep;
 use InloopBundle\Form\InfobaliedoelgroepType;
 use InloopBundle\Service\InfobaliedoelgroepDao;
 use InloopBundle\Service\InfobaliedoelgroepDaoInterface;
-use JMS\DiExtraBundle\Annotation as DI;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 

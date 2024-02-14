@@ -9,7 +9,6 @@ use ClipBundle\Form\ClientFilterType;
 use ClipBundle\Form\ClientType;
 use ClipBundle\Service\ClientDao;
 use ClipBundle\Service\ClientDaoInterface;
-use JMS\DiExtraBundle\Annotation as DI;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 

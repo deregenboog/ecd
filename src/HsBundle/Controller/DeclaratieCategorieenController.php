@@ -7,7 +7,6 @@ use HsBundle\Entity\DeclaratieCategorie;
 use HsBundle\Form\DeclaratieCategorieType;
 use HsBundle\Service\DeclaratieCategorieDao;
 use HsBundle\Service\DeclaratieCategorieDaoInterface;
-use JMS\DiExtraBundle\Annotation as DI;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;

@@ -11,7 +11,6 @@ use IzBundle\Form\IntervisiegroepType;
 use IzBundle\Form\IzEmailMessageType;
 use IzBundle\Service\IntervisiegroepDao;
 use IzBundle\Service\IntervisiegroepDaoInterface;
-use JMS\DiExtraBundle\Annotation as DI;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;

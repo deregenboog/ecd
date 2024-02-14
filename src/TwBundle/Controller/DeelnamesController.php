@@ -6,7 +6,6 @@ use AppBundle\Controller\AbstractChildController;
 use TwBundle\Entity\Deelname;
 
 use TwBundle\Form\DeelnameType;
-use JMS\DiExtraBundle\Annotation as DI;
 use Symfony\Component\Routing\Annotation\Route;
 use TwBundle\Service\DeelnameDao;
 use TwBundle\Service\DeelnameDaoInterface;

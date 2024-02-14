@@ -7,7 +7,6 @@ use DagbestedingBundle\Entity\Deelnemerafsluiting;
 use DagbestedingBundle\Form\DeelnemerafsluitingType;
 use DagbestedingBundle\Service\DeelnemerafsluitingDao;
 use DagbestedingBundle\Service\DeelnemerafsluitingDaoInterface;
-use JMS\DiExtraBundle\Annotation as DI;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;

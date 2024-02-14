@@ -15,7 +15,6 @@ use GaBundle\Form\AanmeldingType;
 use GaBundle\Form\VrijwilligerIntakeFilterType;
 use GaBundle\Form\VrijwilligerIntakeType;
 use GaBundle\Service\VrijwilligerIntakeDao;
-use JMS\DiExtraBundle\Annotation as DI;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;
@@ -35,12 +34,12 @@ class VrijwilligerintakesController extends AbstractController
     protected $baseRouteName = 'ga_vrijwilligerintakes_';
 
     /**
-     * @var VrijwilligerIntakeDao 
+     * @var VrijwilligerIntakeDao
      */
     protected $dao;
 
     /**
-     * @var VrijwilligerDao 
+     * @var VrijwilligerDao
      */
     private $vrijwilligerDao;
 

@@ -11,7 +11,6 @@ use GaBundle\Service\GroepDao;
 use GaBundle\Service\KlantLidmaatschapDao;
 use GaBundle\Service\LidmaatschapDao;
 use GaBundle\Service\VrijwilligerLidmaatschapDao;
-use JMS\DiExtraBundle\Annotation as DI;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
@@ -29,17 +28,17 @@ class GroepenController extends AbstractController
     protected $baseRouteName = 'ga_groepen_';
 
     /**
-     * @var GroepDao 
+     * @var GroepDao
      */
     protected $dao;
 
     /**
-     * @var LidmaatschapDao 
+     * @var LidmaatschapDao
      */
     protected $klantLidmaatschapDao;
 
     /**
-     * @var LidmaatschapDao 
+     * @var LidmaatschapDao
      */
     protected $vrijwilligerLidmaatschapDao;
 

@@ -7,7 +7,6 @@ use HsBundle\Entity\Memo;
 use HsBundle\Form\MemoType;
 use HsBundle\Service\MemoDao;
 use HsBundle\Service\MemoDaoInterface;
-use JMS\DiExtraBundle\Annotation as DI;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\Routing\Annotation\Route;
 

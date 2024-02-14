@@ -3,7 +3,6 @@
 namespace OekBundle\Controller;
 
 use AppBundle\Controller\AbstractController;
-use JMS\DiExtraBundle\Annotation as DI;
 use OekBundle\Entity\VerwijzingNaar;
 use OekBundle\Form\VerwijzingType;
 use OekBundle\Service\VerwijzingNaarDao;

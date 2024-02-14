@@ -7,7 +7,6 @@ use AppBundle\Exception\UserException;
 use AppBundle\Form\ConfirmationType;
 use Doctrine\ORM\EntityManagerInterface;
 use InloopBundle\Security\Permissions;
-use JMS\DiExtraBundle\Annotation as DI;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use TwBundle\Entity\Document;
 use TwBundle\Entity\Klant;

@@ -7,7 +7,6 @@ use IzBundle\Entity\Document;
 use IzBundle\Form\DocumentType;
 use IzBundle\Service\DocumentDao;
 use IzBundle\Service\DocumentDaoInterface;
-use JMS\DiExtraBundle\Annotation as DI;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 

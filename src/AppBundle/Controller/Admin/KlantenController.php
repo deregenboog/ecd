@@ -9,7 +9,6 @@ use AppBundle\Form\KlantMergeType;
 use AppBundle\Service\KlantDao;
 use AppBundle\Service\KlantDaoInterface;
 use Doctrine\ORM\EntityManagerInterface;
-use JMS\DiExtraBundle\Annotation as DI;
 use Monolog\Logger;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Routing\Annotation\Route;

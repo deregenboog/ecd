@@ -10,7 +10,6 @@ use AppBundle\Form\KlantFilterType;
 use AppBundle\Service\KlantDao;
 use AppBundle\Service\KlantDaoInterface;
 use Doctrine\ORM\Tools\Pagination\Paginator;
-use JMS\DiExtraBundle\Annotation as DI;
 use Symfony\Component\Finder\Exception\AccessDeniedException;
 use UhkBundle\Entity\Deelnemer;
 use UhkBundle\Form\DeelnemerFilterType;

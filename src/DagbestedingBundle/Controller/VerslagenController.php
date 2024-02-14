@@ -7,7 +7,6 @@ use DagbestedingBundle\Entity\Verslag;
 use DagbestedingBundle\Form\VerslagType;
 use DagbestedingBundle\Service\VerslagDao;
 use DagbestedingBundle\Service\VerslagDaoInterface;
-use JMS\DiExtraBundle\Annotation as DI;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**

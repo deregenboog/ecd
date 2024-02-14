@@ -3,7 +3,6 @@
 namespace OekBundle\Controller;
 
 use AppBundle\Controller\AbstractChildController;
-use JMS\DiExtraBundle\Annotation as DI;
 use OekBundle\Entity\Memo;
 use OekBundle\Form\MemoType;
 use OekBundle\Service\MemoDao;

@@ -7,7 +7,6 @@ use AppBundle\Entity\Klant;
 use AppBundle\Exception\UserException;
 use AppBundle\Form\KlantFilterType;
 use AppBundle\Service\KlantDaoInterface;
-use JMS\DiExtraBundle\Annotation as DI;
 use ScipBundle\Entity\Deelnemer;
 use ScipBundle\Form\DeelnemerFilterType;
 use ScipBundle\Form\DeelnemerType;
@@ -34,15 +33,11 @@ class DeelnemersController extends AbstractController
 
     /**
      * @var DeelnemerDaoInterface
-     *
-     * @DI\Inject("ScipBundle\Service\DeelnemerDao")
      */
     protected $dao;
 
     /**
      * @var KlantDaoInterface
-     *
-     * @DI\Inject("AppBundle\Service\KlantDao")
      */
     protected $klantDao;
 

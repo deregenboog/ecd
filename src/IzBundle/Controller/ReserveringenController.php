@@ -12,7 +12,6 @@ use IzBundle\Service\HulpvraagDao;
 use IzBundle\Service\HulpvraagDaoInterface;
 use IzBundle\Service\ReserveringDao;
 use IzBundle\Service\ReserveringDaoInterface;
-use JMS\DiExtraBundle\Annotation as DI;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;

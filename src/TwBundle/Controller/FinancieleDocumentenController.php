@@ -6,7 +6,6 @@ use AppBundle\Controller\SymfonyController;
 use AppBundle\Exception\UserException;
 use AppBundle\Form\ConfirmationType;
 use Doctrine\ORM\EntityManagerInterface;
-use JMS\DiExtraBundle\Annotation as DI;
 use TwBundle\Entity\Document;
 use TwBundle\Entity\FinancieelDocument;
 use TwBundle\Entity\Klant;

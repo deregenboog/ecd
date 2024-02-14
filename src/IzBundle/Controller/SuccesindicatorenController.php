@@ -7,7 +7,6 @@ use IzBundle\Entity\Succesindicator;
 use IzBundle\Form\SuccesindicatorType;
 use IzBundle\Service\SuccesindicatorDao;
 use IzBundle\Service\SuccesindicatorDaoInterface;
-use JMS\DiExtraBundle\Annotation as DI;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 

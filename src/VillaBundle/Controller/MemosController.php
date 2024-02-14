@@ -6,7 +6,6 @@ namespace VillaBundle\Controller;
 use AppBundle\Controller\MemosControllerAbstract;
 use AppBundle\Service\MemoDao;
 use AppBundle\Service\MemoDaoInterface;
-use JMS\DiExtraBundle\Annotation as DI;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**

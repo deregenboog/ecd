@@ -3,7 +3,6 @@
 namespace UhkBundle\Controller;
 
 use AppBundle\Controller\AbstractChildController;
-use JMS\DiExtraBundle\Annotation as DI;
 use UhkBundle\Entity\Document;
 use UhkBundle\Form\DocumentType;
 use UhkBundle\Service\DocumentDao;

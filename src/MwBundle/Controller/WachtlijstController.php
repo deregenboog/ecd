@@ -16,7 +16,6 @@ use InloopBundle\Form\ToegangType;
 use InloopBundle\Pdf\PdfIntake;
 use InloopBundle\Security\Permissions;
 use InloopBundle\Service\IntakeDaoInterface;
-use JMS\DiExtraBundle\Annotation as DI;
 use MwBundle\Service\WachtlijstDao;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\HttpFoundation\Cookie;

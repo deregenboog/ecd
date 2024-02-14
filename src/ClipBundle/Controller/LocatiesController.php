@@ -7,7 +7,6 @@ use ClipBundle\Entity\Locatie;
 use ClipBundle\Form\LocatieType;
 use ClipBundle\Service\LocatieDao;
 use ClipBundle\Service\LocatieDaoInterface;
-use JMS\DiExtraBundle\Annotation as DI;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 

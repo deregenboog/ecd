@@ -7,7 +7,6 @@ use DagbestedingBundle\Entity\Locatie;
 use DagbestedingBundle\Form\LocatieType;
 use DagbestedingBundle\Service\LocatieDao;
 use DagbestedingBundle\Service\LocatieDaoInterface;
-use JMS\DiExtraBundle\Annotation as DI;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 

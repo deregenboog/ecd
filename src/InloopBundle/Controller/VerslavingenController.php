@@ -7,7 +7,6 @@ use InloopBundle\Entity\Verslaving;
 use InloopBundle\Form\VerslavingType;
 use InloopBundle\Service\VerslavingDao;
 use InloopBundle\Service\VerslavingDaoInterface;
-use JMS\DiExtraBundle\Annotation as DI;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 

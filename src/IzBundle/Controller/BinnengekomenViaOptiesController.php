@@ -7,7 +7,6 @@ use IzBundle\Entity\BinnengekomenVia;
 use IzBundle\Form\BinnengekomenViaType;
 use IzBundle\Service\BinnengekomenViaDao;
 use IzBundle\Service\BinnengekomenViaDaoInterface;
-use JMS\DiExtraBundle\Annotation as DI;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 

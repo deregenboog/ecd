@@ -6,7 +6,6 @@ use AppBundle\Controller\AbstractRapportagesController;
 use AppBundle\Export\ExportInterface;
 use AppBundle\Export\GenericExport;
 use DagbestedingBundle\Form\ReportingType;
-use JMS\DiExtraBundle\Annotation as DI;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**

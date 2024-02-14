@@ -4,7 +4,6 @@ namespace TwBundle\Controller;
 
 use AppBundle\Controller\AbstractRapportagesController;
 use AppBundle\Export\ExportInterface;
-use JMS\DiExtraBundle\Annotation as DI;
 use TwBundle\Form\RapportageType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\Routing\Annotation\Route;

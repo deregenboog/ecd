@@ -10,7 +10,6 @@ use AppBundle\Form\KlantFilterType;
 use AppBundle\Service\KlantDao;
 use AppBundle\Service\KlantDaoInterface;
 use Doctrine\ORM\EntityNotFoundException;
-use JMS\DiExtraBundle\Annotation as DI;
 use OekBundle\Entity\Aanmelding;
 use OekBundle\Entity\Afsluiting;
 use OekBundle\Entity\Deelnemer;

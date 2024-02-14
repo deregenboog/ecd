@@ -6,7 +6,6 @@ use AppBundle\Controller\AbstractRapportagesController;
 use AppBundle\Export\ExportInterface;
 use AppBundle\Export\GenericExport;
 use HsBundle\Form\RapportageType;
-use JMS\DiExtraBundle\Annotation as DI;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\Routing\Annotation\Route;
 

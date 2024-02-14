@@ -5,7 +5,6 @@ namespace GaBundle\Controller;
 use AppBundle\Controller\AbstractController;
 use GaBundle\Entity\DossierAfsluitreden;
 use GaBundle\Form\DossierAfsluitredenType;
-use JMS\DiExtraBundle\Annotation as DI;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
@@ -24,7 +23,7 @@ class DossierAfsluitredenenController extends AbstractController
     protected $baseRouteName = 'ga_dossierafsluitredenen_';
 
     /**
-     * @var DossierAfsluitredenDao 
+     * @var DossierAfsluitredenDao
      */
     protected $dao;
 

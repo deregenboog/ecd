@@ -8,7 +8,6 @@ use HsBundle\Form\HerinneringType;
 use HsBundle\Pdf\PdfHerinnering;
 use HsBundle\Service\HerinneringDao;
 use HsBundle\Service\HerinneringDaoInterface;
-use JMS\DiExtraBundle\Annotation as DI;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;

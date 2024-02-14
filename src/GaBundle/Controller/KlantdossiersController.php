@@ -12,7 +12,6 @@ use GaBundle\Entity\KlantDossier;
 use GaBundle\Form\KlantdossierFilterType;
 use GaBundle\Form\KlantdossierType;
 use GaBundle\Service\KlantdossierDao;
-use JMS\DiExtraBundle\Annotation as DI;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Contracts\EventDispatcher\EventDispatcher;
 use Symfony\Component\Form\FormError;
@@ -34,12 +33,12 @@ class KlantdossiersController extends DossiersController
     protected $baseRouteName = 'ga_klantdossiers_';
 
     /**
-     * @var KlantdossierDao 
+     * @var KlantdossierDao
      */
     protected $dao;
 
     /**
-     * @var KlantDao 
+     * @var KlantDao
      */
     private $klantDao;
 

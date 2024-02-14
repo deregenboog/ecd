@@ -13,7 +13,6 @@ use Doctrine\ORM\EntityNotFoundException;
 use GaBundle\Service\VerslagDao;
 use VillaBundle\Service\KlantDao;
 use VillaBundle\Service\KlantDaoInterface;
-use JMS\DiExtraBundle\Annotation as DI;
 use VillaBundle\Entity\Verslag;
 use VillaBundle\Entity\Aanmelding;
 use VillaBundle\Form\VerslagModel;

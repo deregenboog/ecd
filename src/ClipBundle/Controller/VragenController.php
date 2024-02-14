@@ -12,7 +12,6 @@ use ClipBundle\Form\VragenModel;
 use ClipBundle\Form\VragenType;
 use ClipBundle\Service\VraagDao;
 use ClipBundle\Service\VraagDaoInterface;
-use JMS\DiExtraBundle\Annotation as DI;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\JsonResponse;

@@ -13,7 +13,6 @@ use AppBundle\Form\DownloadVrijwilligersType;
 use AppBundle\Service\DocumentDao;
 use AppBundle\Service\DocumentDaoInterface;
 use AppBundle\Service\DownloadsDao;
-use JMS\DiExtraBundle\Annotation as DI;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;

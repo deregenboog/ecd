@@ -7,7 +7,6 @@ use TwBundle\Entity\Afsluitreden;
 use TwBundle\Form\AfsluitredenType;
 use TwBundle\Service\AfsluitredenDao;
 use TwBundle\Service\AfsluitredenDaoInterface;
-use JMS\DiExtraBundle\Annotation as DI;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**

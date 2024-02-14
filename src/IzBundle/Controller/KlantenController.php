@@ -16,7 +16,6 @@ use IzBundle\Form\IzKlantFilterType;
 use IzBundle\Form\IzKlantType;
 use IzBundle\Service\KlantDao;
 use IzBundle\Service\KlantDaoInterface;
-use JMS\DiExtraBundle\Annotation as DI;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\EventDispatcher\GenericEvent;

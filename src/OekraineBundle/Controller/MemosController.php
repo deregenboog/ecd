@@ -7,7 +7,6 @@ namespace OekraineBundle\Controller;
 use AppBundle\Controller\MemosControllerAbstract;
 use AppBundle\Service\MemoDaoInterface;
 use GaBundle\Service\MemoDao;
-use JMS\DiExtraBundle\Annotation as DI;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -23,8 +22,6 @@ class MemosController extends MemosControllerAbstract
 
     /**
      * @var \ArrayObject
-     *
-     * @DI\Inject("oekraine.memo.entities")
      */
     protected $entities;
 

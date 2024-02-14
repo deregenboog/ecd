@@ -9,7 +9,6 @@ use InloopBundle\Form\DeelnameType;
 use AppBundle\Form\MemoType;
 use AppBundle\Service\MemoDaoInterface;
 use InloopBundle\Service\DeelnameDao;
-use JMS\DiExtraBundle\Annotation as DI;
 use Symfony\Component\Routing\Annotation\Route;
 use InloopBundle\Service\DeelnameDaoInterface;
 

@@ -17,7 +17,6 @@ use DagbestedingBundle\Form\DeelnemerType;
 use DagbestedingBundle\Service\DeelnemerDao;
 use DagbestedingBundle\Service\DeelnemerDaoInterface;
 use IzBundle\Service\KlantDaoInterface;
-use JMS\DiExtraBundle\Annotation as DI;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\Form\FormError;
@@ -37,15 +36,11 @@ class DeelnemersController extends AbstractController
 
     /**
      * @var DeelnemerDao
-     *
-     * @DI\Inject("DagbestedingBundle\Service\DeelnemerDao")
      */
     protected $dao;
 
     /**
      * @var GenericExport
-     *
-     * @DI\Inject("dagbesteding.export.deelnemers")
      */
     protected $export;
 

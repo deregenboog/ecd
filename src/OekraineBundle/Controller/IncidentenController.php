@@ -19,7 +19,6 @@ use OekraineBundle\Form\TrainingType;
 use OekraineBundle\Service\IncidentDaoInterface;
 use OekraineBundle\Service\KlantDaoInterface;
 use OekraineBundle\Service\LocatieDaoInterface;
-use JMS\DiExtraBundle\Annotation as DI;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;

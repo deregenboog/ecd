@@ -7,7 +7,6 @@ use InloopBundle\Entity\Periode;
 use InloopBundle\Form\PeriodeType;
 use InloopBundle\Service\PeriodeDao;
 use InloopBundle\Service\PeriodeDaoInterface;
-use JMS\DiExtraBundle\Annotation as DI;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 

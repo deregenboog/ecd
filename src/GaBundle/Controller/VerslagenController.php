@@ -6,7 +6,6 @@ use AppBundle\Controller\AbstractChildController;
 use GaBundle\Entity\Verslag;
 use GaBundle\Form\VerslagType;
 use GaBundle\Service\VerslagDao;
-use JMS\DiExtraBundle\Annotation as DI;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -21,7 +20,7 @@ class VerslagenController extends AbstractChildController
     protected $addMethod = 'addVerslag';
 
     /**
-     * @var VerslagDao 
+     * @var VerslagDao
      */
     protected $dao;
 

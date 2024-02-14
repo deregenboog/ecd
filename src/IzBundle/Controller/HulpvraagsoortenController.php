@@ -7,7 +7,6 @@ use IzBundle\Entity\Hulpvraagsoort;
 use IzBundle\Form\HulpvraagsoortType;
 use IzBundle\Service\HulpvraagsoortDao;
 use IzBundle\Service\HulpvraagsoortDaoInterface;
-use JMS\DiExtraBundle\Annotation as DI;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 

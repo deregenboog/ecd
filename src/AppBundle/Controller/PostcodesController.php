@@ -9,7 +9,6 @@ use AppBundle\Form\PostcodeFilterType;
 use AppBundle\Form\PostcodeType;
 use AppBundle\Service\PostcodeDao;
 use AppBundle\Service\PostcodeDaoInterface;
-use JMS\DiExtraBundle\Annotation as DI;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;

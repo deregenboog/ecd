@@ -29,7 +29,6 @@ use InloopBundle\Service\RegistratieDao;
 use InloopBundle\Service\RegistratieDaoInterface;
 use InloopBundle\Service\SchorsingDao;
 use InloopBundle\Service\SchorsingDaoInterface;
-use JMS\DiExtraBundle\Annotation as DI;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;

@@ -7,7 +7,6 @@ use OekraineBundle\Entity\Locatie;
 use OekraineBundle\Form\LocatieType;
 use OekraineBundle\Service\LocatieDao;
 use OekraineBundle\Service\LocatieDaoInterface;
-use JMS\DiExtraBundle\Annotation as DI;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 

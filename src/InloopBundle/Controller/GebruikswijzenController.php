@@ -7,7 +7,6 @@ use InloopBundle\Entity\Gebruikswijze;
 use InloopBundle\Form\GebruikswijzeType;
 use InloopBundle\Service\GebruikswijzeDao;
 use InloopBundle\Service\GebruikswijzeDaoInterface;
-use JMS\DiExtraBundle\Annotation as DI;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 

@@ -16,7 +16,6 @@ use InloopBundle\Pdf\PdfIntake;
 use InloopBundle\Security\Permissions;
 use InloopBundle\Service\IntakeDao;
 use InloopBundle\Service\IntakeDaoInterface;
-use JMS\DiExtraBundle\Annotation as DI;
 use Psr\Container\ContainerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\Routing\Annotation\Route;
