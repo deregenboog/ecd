@@ -357,11 +357,6 @@ abstract class Deelnemer implements KlantRelationInterface
         return $this;
     }
 
-    public function getIntake()
-    {
-        return $this->intake;
-    }
-
     public function getAanmelddatum()
     {
         return $this->aanmelddatum;
@@ -389,7 +384,6 @@ abstract class Deelnemer implements KlantRelationInterface
     public function reopen()
     {
         $this->afsluitdatum = null;
-        $this->afsluiting = null;
 
         return $this;
     }

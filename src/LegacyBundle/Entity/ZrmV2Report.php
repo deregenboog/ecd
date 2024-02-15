@@ -1,6 +1,6 @@
 <?php
 
-namespace AppBundle\Entity;
+namespace LegacyBundle\Entity;
 
 use AppBundle\Model\IdentifiableTrait;
 use Doctrine\ORM\Mapping as ORM;

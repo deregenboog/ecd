@@ -27,6 +27,12 @@ class NieuweArbeidersPerStadsdeel extends AbstractReport
 
     protected $tables = [];
 
+    protected $data = [];
+
+    private DienstverlenerDaoInterface $dienstverlenerDao;
+
+    private VrijwilligerDaoInterface $vrijwilligerDao;
+
     public function __construct(
         DienstverlenerDaoInterface $dienstverlenerDao,
         VrijwilligerDaoInterface $vrijwilligerDao

@@ -38,7 +38,7 @@ class Werkgebied
     {
         try {
             return $this->naam;
-        } catch (EntityNotFoundException|Exception $e) {
+        } catch (EntityNotFoundException|\Exception $e) {
             return "";
         }
     }

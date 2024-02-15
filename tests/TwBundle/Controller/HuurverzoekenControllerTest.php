@@ -2,6 +2,7 @@
 
 namespace Tests\TwBundle\Controller;
 
+use AppBundle\Service\MedewerkerDao;
 use AppBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -9,7 +10,7 @@ class HuurverzoekenControllerTest extends WebTestCase
 {
     public function testSortColumns()
     {
-        $medewerker = $this->getContainer()->get(\AppBundle\Service\MedewerkerDao::class)->findByUsername('tw_user');
+        $medewerker = $this->getContainer()->get(MedewerkerDao::class)->findByUsername('tw_user');
         $this->client->loginUser($medewerker);
 
         $crawler = $this->client->request('GET', '/tw/huurverzoeken/');

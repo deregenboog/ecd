@@ -63,11 +63,6 @@ class BezoekersController extends AbstractController
     /**
      * @var \AppBundle\Service\KlantDao
      */
-    protected $bezoekerDao;
-
-    /**
-     * @var \AppBundle\Service\KlantDao
-     */
     protected $searchDao;
 
     /**
@@ -80,10 +75,9 @@ class BezoekersController extends AbstractController
      * @param \AppBundle\Service\KlantDao $bezoekerDao
      * @param \AppBundle\Service\KlantDao $searchDao
      */
-    public function __construct(BezoekerDao $dao, \AppBundle\Service\KlantDao $bezoekerDao, \AppBundle\Service\KlantDao $searchDao, BezoekerExport $export)
+    public function __construct(BezoekerDao $dao, \AppBundle\Service\KlantDao $searchDao, BezoekerExport $export)
     {
         $this->dao = $dao;
-        $this->klantDao = $bezoekerDao;
         $this->searchDao = $searchDao;
         $this->export = $export;
     }
@@ -188,19 +182,6 @@ class BezoekersController extends AbstractController
                 ->orderBy('aantal', 'DESC')
                 ->getQuery()
                 ->getScalarResult();
-
-            $data['schorsingen'] = $this->getEntityManager()->getRepository(Schorsing::class)->createQueryBuilder('schorsing')
-                ->select('COUNT(schorsing.id)')
-                ->where('schorsing.klant = :klant')
-                ->andWhere('schorsing.datumVan >= :start_date')
-                ->andWhere('schorsing.datumTot <= :end_date')
-                ->setParameters([
-                    'klant' => $bezoeker,
-                    'start_date' => $form->get('startdatum')->getData(),
-                    'end_date' => $form->get('einddatum')->getData(),
-                ])
-                ->getQuery()
-                ->getSingleScalarResult();
 
             return [
                 'data' => $data,
@@ -410,7 +391,7 @@ class BezoekersController extends AbstractController
         $filterForm->handleRequest($request);
 
         if ($filterForm->isSubmitted() && $filterForm->isValid()) {
-            $count = (int) $this->klantDao->countAll($filterForm->getData());
+            $count = (int) $this->searchDao->countAll($filterForm->getData());
             if (0 === $count) {
                 $this->addFlash('info', sprintf('De zoekopdracht leverde geen resultaten op. Maak een nieuwe %s aan.', $this->entityName));
 
@@ -423,7 +404,7 @@ class BezoekersController extends AbstractController
 
             return [
                 'filterForm' => $filterForm->createView(),
-                'klanten' => $this->klantDao->findAll(null, $filterForm->getData()),
+                'klanten' => $this->searchDao->findAll(null, $filterForm->getData()),
             ];
         }
 
@@ -439,7 +420,7 @@ class BezoekersController extends AbstractController
             $bezoeker = new Klant();
         } else {
 
-            $bezoeker = $this->klantDao->find($bezoekerId);
+            $bezoeker = $this->searchDao->find($bezoekerId);
             $bezoeker = $this->dao->findByKlantId($bezoekerId);
             if ($bezoeker) {
                 // redirect if already exists

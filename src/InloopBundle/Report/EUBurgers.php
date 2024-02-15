@@ -47,6 +47,8 @@ class EUBurgers extends AbstractReport
      */
     private $entityManager;
 
+    private $locatieArray;
+
     public function __construct(EntityManagerInterface $entityManager)
     {
         $this->entityManager = $entityManager;
@@ -76,11 +78,10 @@ class EUBurgers extends AbstractReport
             ;
 
 
-            $locatie_lijst = array_map(function ($row) {
-                return (int)$row['id'];
+            $this->locatieArray = array_map(function ($row) {
+                return (int) $row['id'];
             }, $builder->getQuery()->getScalarResult());
-            $this->locatie = implode(",",$locatie_lijst);
-            $this->locatieArray = $locatie_lijst;
+            $this->locatie = implode(",", $this->locatieArray);
         }
 
         if (array_key_exists('geslacht', $filter)) {
@@ -105,8 +106,8 @@ class EUBurgers extends AbstractReport
             return;
         }
 
-        $refStartDate = (clone $this->startDate);
-        $refEndDate = (clone $this->endDate);
+        $refStartDate = clone $this->startDate;
+        $refEndDate = clone $this->endDate;
 
         switch ($this->referentieperiode) {
             case 0: // last year

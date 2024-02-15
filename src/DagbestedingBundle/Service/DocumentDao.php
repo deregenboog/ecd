@@ -2,10 +2,11 @@
 
 namespace DagbestedingBundle\Service;
 
+use AppBundle\Service\AbstractDao;
 use DagbestedingBundle\Entity\Document;
 use Doctrine\ORM\EntityManagerInterface;
 
-class DocumentDao implements DocumentDaoInterface
+class DocumentDao extends AbstractDao implements DocumentDaoInterface
 {
     public function __construct(EntityManagerInterface $entityManager)
     {

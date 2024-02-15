@@ -2,6 +2,7 @@
 
 namespace Tests\VillaBundle\Controller;
 
+use AppBundle\Service\MedewerkerDao;
 use AppBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -11,7 +12,7 @@ class VrijwilligerControllerTest extends WebTestCase
     {
         $this->markTestSkipped();
 
-        $medewerker = $this->getContainer()->get(\AppBundle\Service\MedewerkerDao::class)->findByUsername('villa_user');
+        $medewerker = $this->getContainer()->get(MedewerkerDao::class)->findByUsername('villa_user');
         $this->client->loginUser($medewerker);
 
         $crawler = $this->client->request('GET', '/villa/vrijwilligers/');

@@ -9,7 +9,6 @@ use MwBundle\Service\VerslagDao;
 
 class EconomischDaklozen extends AbstractReport
 {
-
     protected $title = 'Economisch daklozen (oud, archief)';
 
     protected $xPath = 'type';
@@ -33,9 +32,13 @@ class EconomischDaklozen extends AbstractReport
      */
     private $locatie;
 
+    private $result;
+    private $resultUnique;
+    private $economischDaklozenLocaties;
+
     public function __construct(VerslagDao $dao, $economischDaklozenLocaties)
     {
-        $this->economisch_daklozen_locaties = $economischDaklozenLocaties;
+        $this->economischDaklozenLocaties = $economischDaklozenLocaties;
         $this->dao = $dao;
     }
 
@@ -58,11 +61,9 @@ class EconomischDaklozen extends AbstractReport
         $this->result = $this->dao->countUniqueKlantenVoorLocaties(
             $this->startDate,
             $this->endDate,
-            $this->economisch_daklozen_locaties
+            $this->economischDaklozenLocaties
         );
-        $this->resultUnique = $this->dao->getTotalUniqueKlantenForLocaties($this->startDate,$this->endDate,$this->economisch_daklozen_locaties);
-
-
+        $this->resultUnique = $this->dao->getTotalUniqueKlantenForLocaties($this->startDate, $this->endDate, $this->economischDaklozenLocaties);
     }
 
     protected function build()

@@ -5,7 +5,7 @@ namespace AppBundle\Doctrine;
 use AppBundle\Entity\Klant;
 use AppBundle\Entity\Vrijwilliger;
 use AppBundle\Model\ActivatableTrait;
-use Doctrine\ORM\Mapping\ClassMetaData;
+use Doctrine\ORM\Mapping\ClassMetadata;
 use Doctrine\ORM\Query\Filter\SQLFilter;
 
 class ActiveFilter extends SQLFilter
@@ -15,7 +15,7 @@ class ActiveFilter extends SQLFilter
         $traits = $targetEntity->getReflectionClass()->getTraitNames();
 
         if (in_array(ActivatableTrait::class, $traits) ){
-            return sprintf('(%s.active = 1)', $targetTableAlias, $targetTableAlias);
+            return sprintf('(%s.active = 1)', $targetTableAlias);
         }
 
         return '';

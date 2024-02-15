@@ -260,14 +260,13 @@ class Vraag
 
     /**
      * Returns the last contactmoment.
-     *
-     * @return Contactmoment
      */
-    public function getContactmoment()
+    public function getContactmoment(): ?Contactmoment
     {
         if (count($this->contactmomenten) > 0) {
             return $this->contactmomenten->last();
         }
+        return null;
     }
 
     /**

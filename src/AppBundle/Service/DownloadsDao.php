@@ -5,16 +5,26 @@ namespace AppBundle\Service;
 use AppBundle\Entity\Document;
 use AppBundle\Filter\FilterInterface;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\EntityRepository;
 
 class DownloadsDao
 {
+    /**
+     * @var EntityManagerInterface
+     */
+    protected $entityManager;
+
+    /**
+     * @var EntityRepository
+     */
+    protected $repository;
+
     public function __construct(EntityManagerInterface $entityManager, iterable $taggedExports)
     {
         foreach ($taggedExports as $id => $export)
         {
             $export->setServiceId($id);
         }
-        $this->taggedExports = $taggedExports;
 
         $this->entityManager = $entityManager;
         $this->repository = $entityManager->getRepository(Document::class);
@@ -25,15 +35,6 @@ class DownloadsDao
         return $this->repository->find($id);
     }
 
-    public function findAll($page = null, FilterInterface $filter = null)
-    {
-//        $r = [];
-//        foreach($this->handler as $k=>$i)
-//        {
-//            $r[] = $i;
-//        }
-        return $this->taggedExports;
-    }
     public function findByFilename($filename)
     {
         return $this->repository->findOneByFilename($filename);

@@ -178,6 +178,7 @@ security:
             - ROLE_IZ
             - ROLE_IZ_BEHEER
             - ROLE_GA
+            - ROLE_GA_BEHEER
             - ROLE_SCIP
             - ROLE_SCIP_BEHEER
             - ROLE_UHK

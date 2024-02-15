@@ -16,6 +16,7 @@ use Symfony\Component\EventDispatcher\GenericEvent;
 
 class LocatieSubscriber implements EventSubscriberInterface
 {
+    private AccessUpdater $accessUpdater;
 
     public function __construct(
         AccessUpdater $accessUpdater
@@ -42,6 +43,5 @@ class LocatieSubscriber implements EventSubscriberInterface
         }
 
         $this->accessUpdater->updateForLocation($entity);
-
     }
 }

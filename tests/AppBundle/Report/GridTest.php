@@ -1,7 +1,8 @@
 <?php
 
-namespace AppBundle\Report;
+namespace Tests\AppBundle\Report;
 
+use AppBundle\Report\Grid;
 use PHPUnit\Framework\TestCase;
 
 class GridTest extends TestCase

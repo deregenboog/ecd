@@ -5,8 +5,8 @@ namespace InloopBundle\Controller;
 use AppBundle\Controller\AbstractController;
 use AppBundle\Entity\Vrijwilliger as AppVrijwilliger;
 use AppBundle\Exception\UserException;
-use AppBundle\Export\ExportInterface;
 use AppBundle\Form\VrijwilligerFilterType as AppVrijwilligerFilterType;
+use AppBundle\Service\VrijwilligerDaoInterface as AppVrijwilligerDaoInterface;
 use InloopBundle\Entity\Vrijwilliger;
 use InloopBundle\Form\VrijwilligerCloseType;
 use InloopBundle\Form\VrijwilligerFilterType;
@@ -33,26 +33,9 @@ abstract class VrijwilligersControllerAbstract extends AbstractController
     protected $formClassClose = VrijwilligerCloseType::class;
     protected $disabledActions = ['delete'];
 
-//    /**
-//     * @var VrijwilligerDaoInterface
-//     *
-//     * DI\Inject("InloopBundle\Service\VrijwilligerDao")
-//     */
-//    protected $dao;
-//
-//    /**
-//     * @var ExportInterface
-//     *
-//     * DI\Inject("inloop.export.vrijwilliger")
-//     */
-//    protected $export;
+   protected $dao;
 
-//    /**
-//     * @var VrijwilligerDaoInterface
-//     *
-//     * DI\Inject("AppBundle\Service\VrijwilligerDao")
-//     */
-//    private $vrijwilligerDao;
+   protected AppVrijwilligerDaoInterface $vrijwilligerDao;
 
     /**
      * @Route("/add")

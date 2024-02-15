@@ -2,6 +2,7 @@
 
 namespace InloopBundle\Entity;
 
+use AppBundle\Entity\Klant;
 use AppBundle\Model\IdentifiableTrait;
 use AppBundle\Model\TimestampableTrait;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -63,7 +64,7 @@ class Incident
      * @ORM\JoinColumn(nullable=false)
      * @Assert\NotNull
      */
-    private $klant;
+    private Klant $klant;
 
     public function __construct(Klant $klant = null)
     {
@@ -82,7 +83,7 @@ class Incident
         return $this->klant;
     }
 
-    public function setKlant($klant)
+    public function setKlant(Klant $klant)
     {
         $this->klant = $klant;
 

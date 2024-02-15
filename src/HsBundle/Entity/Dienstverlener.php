@@ -3,6 +3,7 @@
 namespace HsBundle\Entity;
 
 use AppBundle\Entity\Klant as AppKlant;
+use AppBundle\Model\TimestampableTrait;
 use AppBundle\Service\NameFormatter;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityNotFoundException;
@@ -20,6 +21,7 @@ class Dienstverlener extends Arbeider implements MemoSubjectInterface, DocumentS
     use HulpverlenerTrait;
     use MemoSubjectTrait;
     use DocumentSubjectTrait;
+    use TimestampableTrait;
 
     /**
      * @var Klant

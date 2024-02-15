@@ -2,11 +2,12 @@
 
 namespace TwBundle\Service;
 
+use AppBundle\Service\AbstractDao;
 use Doctrine\ORM\EntityManagerInterface;
-use TwBundle\Entity\Document;
+use Doctrine\ORM\EntityRepository;
 use TwBundle\Entity\FinancieelDocument;
 
-class FinancieelDocumentDao implements FinancieelDocumentDaoInterface
+class FinancieelDocumentDao extends AbstractDao implements FinancieelDocumentDaoInterface
 {
     public function __construct(EntityManagerInterface $entityManager)
     {

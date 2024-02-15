@@ -62,24 +62,21 @@ class PandeigenaarType
 
     public function isDeletable()
     {
-        return 0 === (is_array($this->verhuurders) || $this->verhuurders instanceof \Countable ? count($this->verhuurders) : 0);
+        return 0 === count($this->pandeigenaars);
     }
 
-    /**
-     * @return ArrayCollection|Pandeigenaar[]
-     */
-    public function getPandeigenaars()
+    public function getPandeigenaars(): ArrayCollection
     {
         return $this->pandeigenaars;
     }
 
-    /**
-     * @param ArrayCollection|Pandeigenaar[] $pandeigenaars
-     * @return PandeigenaarType
-     */
-    public function setPandeigenaars($pandeigenaars)
+    public function addPandeigenaar(Pandeigenaar $pandeigenaar): self
     {
-        $this->pandeigenaars = $pandeigenaars;
+        if (!$this->pandeigenaars->contains($pandeigenaar)) {
+            $this->pandeigenaars[] = $pandeigenaar;
+            $pandeigenaar->setPandeigenaarType($this);
+        }
+
         return $this;
     }
 }

@@ -5,6 +5,7 @@ namespace MwBundle\Form;
 
 use AppBundle\Form\BaseType;
 use MwBundle\Entity\BinnenVia;
+use MwBundle\Entity\BinnenViaOptieKlant;
 use MwBundle\Entity\BinnenViaOptieVW;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
@@ -14,8 +15,6 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class BinnenViaOptieKlantType extends BinnenViaType
 {
-
-
     /**
      * {@inheritdoc}
      */
@@ -23,9 +22,7 @@ class BinnenViaOptieKlantType extends BinnenViaType
     {
         $resolver->setDefaults([
 
-            'class'=>BinnenViaOptieKlant::class,
+            'class' => BinnenViaOptieKlant::class,
         ]);
     }
-
-
 }

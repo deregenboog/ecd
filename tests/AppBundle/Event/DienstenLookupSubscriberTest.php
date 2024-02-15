@@ -1,8 +1,11 @@
 <?php
 
-namespace AppBundle\Event;
+namespace Tests\AppBundle\Event;
 
 use AppBundle\Entity\Klant;
+use AppBundle\Event\DienstenLookupEvent;
+use AppBundle\Event\DienstenLookupSubscriber;
+use AppBundle\Event\Events;
 use AppBundle\Service\KlantDaoInterface;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;

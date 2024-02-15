@@ -2,6 +2,7 @@
 
 namespace Tests\InloopBundle\Controller;
 
+use AppBundle\Service\MedewerkerDao;
 use AppBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -12,7 +13,7 @@ class RegistratiesControllerTest extends WebTestCase
         $this->markTestSkipped();
         return true;
 
-        $medewerker = $this->getContainer()->get(\AppBundle\Service\MedewerkerDao::class)->findByUsername('inloop_user');
+        $medewerker = $this->getContainer()->get(MedewerkerDao::class)->findByUsername('inloop_user');
         $this->client->loginUser($medewerker);
 
         /*

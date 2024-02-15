@@ -8,7 +8,6 @@ use AppBundle\Util\PostcodeFormatter;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
 use Faker\Provider\Address;
-use Symfony\Component\Debug\Exception\FatalThrowableError;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -32,7 +31,7 @@ class KlantType extends AbstractType
     public function __construct(EntityManagerInterface $entityManager, array $tbc_countries)
     {
         $this->entityManager = $entityManager;
-        $this->tbc_countries = $tbc_countries;
+        $this->tbcCountries = $tbc_countries;
     }
 
     /**
@@ -81,21 +80,14 @@ class KlantType extends AbstractType
 
         ;
 
-        try
+        if(null !== ($builder->getData()) && in_array((string)$builder->getData()->getLand(),$this->tbcCountries))
         {
-            if(null !== ($builder->getData()) && in_array((string)$builder->getData()->getLand(),$this->tbc_countries))
-            {
-                $builder->add('laatste_TBC_controle', AppDateType::class,
-                    [
-                        'label' => 'TBC-check?',
-                        'required' => false,
-                    ]
-                );
-            }
-        }
-        catch(FatalThrowableError $e)
-        {
-
+            $builder->add('laatste_TBC_controle', AppDateType::class,
+                [
+                    'label' => 'TBC-check?',
+                    'required' => false,
+                ]
+            );
         }
 
         $builder->addEventListener(FormEvents::SUBMIT, function (FormEvent $event){

@@ -3,6 +3,7 @@
 namespace AppBundle\Report;
 
 use Doctrine\ORM\EntityManagerInterface;
+use LogicException;
 
 class AbstractSqlFileReport extends AbstractReport
 {
@@ -49,7 +50,6 @@ class AbstractSqlFileReport extends AbstractReport
                 'data' => $listing->render(),
             ];
         }
-
     }
 
     private function initParams()
@@ -117,16 +117,14 @@ class AbstractSqlFileReport extends AbstractReport
             $matches = [];
             preg_match('/-- HEAD:\s*(.*)\n/m', $report, $matches);
             if (empty($matches[1])) {
-                debug('Head not found:');
-                debug($report);
+                throw new LogicException('Head not found: '.$report);
             }
             $head = $matches[1];
 
             $matches = [];
             preg_match('/-- FIELDS:\s*(.*)\n/m', $report, $matches);
             if (empty($matches[1])) {
-                debug('Fields not found:');
-                debug($report);
+                throw new LogicException('Fields not found: '.$report);
             }
             $fields = $matches[1];
             $fields = preg_split("/[\s]*[;][\s]*/", $fields);

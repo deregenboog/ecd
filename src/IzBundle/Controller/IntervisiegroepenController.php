@@ -11,8 +11,11 @@ use IzBundle\Form\IntervisiegroepType;
 use IzBundle\Form\IzEmailMessageType;
 use IzBundle\Service\IntervisiegroepDao;
 use IzBundle\Service\IntervisiegroepDaoInterface;
-use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
+use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Component\Mime\Email;
+use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
@@ -68,30 +71,33 @@ class IntervisiegroepenController extends AbstractController
         $form->handleRequest($this->getRequest());
 
         if ($form->isSubmitted() && $form->isValid()) {
-            /** @var Swift_Mailer $mailer */
-            $mailer = $this->container->get('mailer');
-
-            /** @var Swift_Mime_Message $message */
-            $message = $mailer->createMessage()
-                ->setFrom($form->get('from')->getData())
-                ->setTo(explode(', ', $form->get('to')->getData()))
-                ->setSubject($form->get('subject')->getData())
-                ->setBody($form->get('text')->getData(), 'text/plain')
+            $message = (new Email())
+                ->from($form->get('from')->getData())
+                ->to(explode(', ', $form->get('to')->getData()))
+                ->subject($form->get('subject')->getData())
+                ->text($form->get('text')->getData(), 'text/plain')
             ;
 
             // add attachments
             if ($form->get('file1')->getData()) {
-                $message->attach(\Swift_Attachment::fromPath($form->get('file1')->getData()->getPathName()));
+                $message->attachFromPath($form->get('file1')->getData()->getPathName());
             }
             if ($form->get('file2')->getData()) {
-                $message->attach(\Swift_Attachment::fromPath($form->get('file2')->getData()->getPathName()));
+                $message->attachFromPath($form->get('file2')->getData()->getPathName());
             }
             if ($form->get('file3')->getData()) {
-                $message->attach(\Swift_Attachment::fromPath($form->get('file3')->getData()->getPathName()));
+                $message->attachFromPath($form->get('file3')->getData()->getPathName());
             }
 
+            /** @var MailerInterface $mailer */
+            $mailer = $this->container->get('mailer');
             try {
-                $sent = $mailer->send($message);
+                try {
+                    $sent = true;
+                    $mailer->send($message);
+                } catch (TransportExceptionInterface $e) {
+                    $sent = false;
+                }
                 if ($sent) {
                     $this->addFlash('success', 'E-mail is verzonden.');
                 } else {

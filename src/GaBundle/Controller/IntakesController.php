@@ -4,7 +4,6 @@ namespace GaBundle\Controller;
 
 use AppBundle\Controller\AbstractChildController;
 use GaBundle\Entity\Intake;
-use GaBundle\Form\IntakeFilterType;
 use GaBundle\Form\IntakeType;
 use GaBundle\Service\IntakeDao;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
@@ -20,7 +19,6 @@ class IntakesController extends AbstractChildController
     protected $entityName = 'intake';
     protected $entityClass = Intake::class;
     protected $formClass = IntakeType::class;
-    protected $filterFormClass = IntakeFilterType::class;
     protected $allowEmpty = true;
     protected $baseRouteName = 'ga_intakes_';
 
@@ -43,7 +41,6 @@ class IntakesController extends AbstractChildController
         $this->dao = $dao;
         $this->entities = $entities;
     }
-
 
     /**
      * @Route("/{id}/view")

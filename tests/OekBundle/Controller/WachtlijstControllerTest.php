@@ -2,6 +2,7 @@
 
 namespace Tests\OekBundle\Controller;
 
+use AppBundle\Service\MedewerkerDao;
 use AppBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -11,7 +12,7 @@ class WachtlijstControllerTest extends WebTestCase
     {
         $this->markTestSkipped();
 
-        $medewerker = $this->getContainer()->get(\AppBundle\Service\MedewerkerDao::class)->findByUsername('oek_user');
+        $medewerker = $this->getContainer()->get(MedewerkerDao::class)->findByUsername('oek_user');
         $this->client->loginUser($medewerker);
 
         $crawler = $this->client->request('GET', '/oek/wachtlijst/');

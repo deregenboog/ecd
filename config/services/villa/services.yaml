@@ -18,18 +18,6 @@ services:
         arguments:
             $entities: '@villa.document.entities'
 
-    VillaBundle\Controller\KlantenController:
-        arguments:
-            $export: '@mw.export.klanten'
-
-    VillaBundle\Controller\MemosController:
-        arguments:
-            $entities: '@villa.memo.entities'
-
-    VillaBundle\Controller\VerslagenController:
-        arguments:
-            $export: '@mw.export.klanten'
-
     VillaBundle\Controller\VrijwilligersController:
         arguments:
             $export: '@villa.export.vrijwilliger'

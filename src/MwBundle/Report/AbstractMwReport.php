@@ -29,7 +29,7 @@ abstract class AbstractMwReport extends AbstractReport
 
 
     /**
-     * @var Locaties die voor dit rapport gelden
+     * Locaties die voor dit rapport gelden
      */
     protected $locaties;
 
@@ -41,6 +41,16 @@ abstract class AbstractMwReport extends AbstractReport
 
     /** @var MwDossierStatusDao  */
     protected $mdsDao;
+
+    protected $actieveKlanten;
+    protected $resultKlantenVerslagen;
+    protected $resultKlantenVerslagenWOActief;
+    protected $resultKlantenVerslagenTotalUnique;
+    protected $resultKlantenVerslagenTotalUniqueWOActief;
+    protected $resultAanmeldingen;
+    protected $resultBinnenVia;
+    protected $resultAfsluitingen;
+    protected $resultDoorlooptijd;
 
     public function __construct(VerslagDao $dao, LocatieDao $locatieDao, KlantDao $klantDao, MwDossierStatusDao $mdsDao, $locaties = [])
     {

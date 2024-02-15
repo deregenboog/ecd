@@ -209,9 +209,8 @@ class Locatie
     /**
      * Off by 0. zondag = 0. zaterdag - 6.
      * Gets locatietijden for day of week.
-     * @return Locatietijd
      */
-    public function getLocatietijd(int $dayOfWeek)
+    public function getLocatietijd(int $dayOfWeek): ?Locatietijd
     {
 //        $dayOfWeek = (int) $dayOfWeek;
         while ($dayOfWeek >= 7) {
@@ -223,6 +222,8 @@ class Locatie
                 return $locatietijd;
             }
         }
+
+        return null;
     }
 
     /**

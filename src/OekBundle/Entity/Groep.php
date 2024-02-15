@@ -141,8 +141,8 @@ class Groep
 
     public function removeTraining(Training $training)
     {
-        if ($this->klanten->contains($training)) {
-            $training->removeGroep($this);
+        if ($this->trainingen->contains($training)) {
+            $training->setGroep(null);
             $this->trainingen->removeElement($training);
         }
 

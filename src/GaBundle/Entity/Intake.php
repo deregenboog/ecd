@@ -162,21 +162,6 @@ class Intake
         return $this;
     }
 
-    /**
-     * @return \DateTime
-     */
-    public function getAfsluitdatum()
-    {
-        return $this->afsluitdatum;
-    }
-
-    public function setAfsluitdatum(\DateTime $datum)
-    {
-        $this->afsluitdatum = $datum;
-
-        return $this;
-    }
-
     public function isDeletable()
     {
         return false;

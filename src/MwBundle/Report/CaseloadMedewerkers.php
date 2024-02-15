@@ -12,7 +12,6 @@ use MwBundle\Service\VerslagDao;
 
 class CaseloadMedewerkers extends AbstractReport
 {
-
     protected $title = 'Contactmomenten per medewerker';
 
     protected $xPath = 'type';
@@ -27,9 +26,8 @@ class CaseloadMedewerkers extends AbstractReport
 
     protected $tables = [];
 
-
     /**
-     * @var Locaties die voor dit rapport gelden
+     * Locaties die voor dit rapport gelden
      */
     protected $locaties;
 
@@ -41,6 +39,10 @@ class CaseloadMedewerkers extends AbstractReport
 
     /** @var MwDossierStatusDao  */
     protected $mdsDao;
+
+    private $actieveKlanten;
+
+    private $resultContactmomentenPerMedewerker;
 
     public function __construct(VerslagDao $dao, LocatieDao $locatieDao, KlantDao $klantDao, MwDossierStatusDao $mdsDao)
     {
@@ -103,10 +105,8 @@ class CaseloadMedewerkers extends AbstractReport
         return $report;
     }
 
-
     protected function build()
     {
         $this->reports[] = $this->buildAantalContactmomentenPerMedewerker($this->resultContactmomentenPerMedewerker,'Aantal verslagen en contactmomenten per medewerker');
-
     }
 }

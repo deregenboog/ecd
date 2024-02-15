@@ -2,13 +2,14 @@
 
 namespace Tests\HsBundle\Controller;
 
+use AppBundle\Service\MedewerkerDao;
 use AppBundle\Test\WebTestCase;
 
 class RapportagesControllerTest extends WebTestCase
 {
     public function testShowReports()
     {
-        $medewerker = $this->getContainer()->get(\AppBundle\Service\MedewerkerDao::class)->findByUsername('hs_user');
+        $medewerker = $this->getContainer()->get(MedewerkerDao::class)->findByUsername('hs_user');
         $this->client->loginUser($medewerker);
 
         $crawler = $this->client->request('GET', '/hs/rapportages/');

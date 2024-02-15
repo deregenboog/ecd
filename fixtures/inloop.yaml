@@ -648,7 +648,6 @@ InloopBundle\Entity\Intake:
         hulpverlening: 0
         klant: '@klant_204'
         verblijfsstatus: '@verblijfsstatus_7'
-        amocToegangTot: '<dateTimeBetween("-1 days","-1 days")>'
         overigenToegangVan: '<dateTimeBetween("+30 days","+30 days")>'
         zrm: '@zrm_204'
     intake_205: #toegangLegaal
@@ -668,7 +667,6 @@ InloopBundle\Entity\Intake:
         hulpverlening: 0
         klant: '@klant_205'
         verblijfsstatus: '@verblijfsstatus_1'
-        amocToegangTot: '<dateTimeBetween("-1 days","-1 days")>'
         overigenToegangVan: '<dateTimeBetween("+30 days","+30 days")>'
         zrm: '@zrm_205'
     intake_206: #toegangAmocWest
@@ -688,7 +686,6 @@ InloopBundle\Entity\Intake:
         hulpverlening: 0
         klant: '@klant_206'
         verblijfsstatus: '@verblijfsstatus_1'
-        amocToegangTot: '<dateTimeBetween("-1 days","-1 days")>'
         overigenToegangVan: '<dateTimeBetween("+30 days","+30 days")>'
         zrm: '@zrm_206'
     intake_207: #toegangVillaZaanstad
@@ -708,7 +705,6 @@ InloopBundle\Entity\Intake:
         hulpverlening: 0
         klant: '@klant_207'
         verblijfsstatus: '@verblijfsstatus_1'
-        amocToegangTot: '<dateTimeBetween("-1 days","-1 days")>'
         overigenToegangVan: '<dateTimeBetween("+30 days","+30 days")>'
         zrm: '@zrm_207'
 

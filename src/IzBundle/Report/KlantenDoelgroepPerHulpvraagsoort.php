@@ -18,6 +18,8 @@ class KlantenDoelgroepPerHulpvraagsoort extends AbstractKoppelingenReport
 
     protected $yDescription = 'Hulpvraagsoort';
 
+    private $doelgroepen;
+
     protected function init()
     {
         $this->doelgroepen = $this->repository->countDoelgroepenByHulpvraagsoort($this->startDate, $this->endDate);

@@ -156,7 +156,7 @@ class DeelnemersController extends AbstractController
                 return $this->redirect($viewUrl);
 
             } else {
-                if (isset($url)) {
+                if ($url = $request->get('redirect')) {
                     return $this->redirect($url);
                 }
                 return $this->redirectToView($entity);

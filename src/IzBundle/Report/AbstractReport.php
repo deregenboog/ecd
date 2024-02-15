@@ -36,6 +36,8 @@ abstract class AbstractReport extends BaseAbstractReport
 
     protected $gestart;
 
+    protected $nieuwGestart;
+
     protected $afgesloten;
 
     protected $eindstand;

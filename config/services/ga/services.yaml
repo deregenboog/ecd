@@ -59,10 +59,6 @@ services:
       arguments:
         $export: '@ga.export.vrijwilligerdossiers'
 
-    GaBundle\Controller\VrijwilligerintakesController:
-      arguments:
-        $export: '@ga.export.vrijwilligerdossiers'
-
     GaBundle\Controller\KlantdossiersController:
       arguments:
         $export: '@ga.export.klantdossiers'

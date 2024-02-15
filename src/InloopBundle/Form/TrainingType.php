@@ -6,7 +6,7 @@ use AppBundle\Form\AppDateType;
 use AppBundle\Form\BaseType;
 use Doctrine\DBAL\Types\BooleanType;
 use InloopBundle\Entity\Locatie;
-use InloopBundle\Entity\VwTraining;
+use InloopBundle\Entity\Training;
 use InloopBundle\Service\TrainingDaoInterface;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
@@ -42,7 +42,7 @@ class TrainingType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'class' => VwTraining::class,
+            'class' => Training::class,
         ]);
     }
 }

@@ -88,7 +88,6 @@ class HuurverzoekenController extends SymfonyController
 
         $huurverzoeken = $builder->getQuery()->getResult();
 
-        $this->autoRender = false;
         $filename = sprintf('onder-de-pannen-huurverzoeken-%s.xlsx', (new \DateTime())->format('d-m-Y'));
 
         /* @var $export ExportInterface */

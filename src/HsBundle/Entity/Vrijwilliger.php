@@ -9,8 +9,8 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityNotFoundException;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
+use Symfony\Component\ErrorHandler\Error\FatalError;
 use Symfony\Component\Validator\Constraints as Assert;
-use Symfony\Component\Debug\Exception\FatalErrorException;
 use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
 /**
@@ -72,7 +72,7 @@ class Vrijwilliger extends Arbeider implements MemoSubjectInterface, DocumentSub
     {
         try {
             return NameFormatter::formatInformal($this->vrijwilliger);
-        } catch (EntityNotFoundException|FatalErrorException $e) {
+        } catch (EntityNotFoundException|FatalError $e) {
             return '(verwijderd)';
         }
     }

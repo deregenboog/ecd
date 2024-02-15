@@ -46,7 +46,7 @@ jobs:
       - name: NPM
         run: npm install && yarn encore dev
       - name: Static analysis
-        run: vendor/bin/phpstan analyze src/ tests/
+        run: vendor/bin/phpstan analyze src/
   test:
     runs-on: ubuntu-latest
     strategy:

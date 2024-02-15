@@ -41,6 +41,8 @@ class DatabaseBackupCommand extends Command
      */
     protected $connection;
 
+    private $dsn;
+
     public function __construct(EntityManagerInterface $entityManager, KernelInterface $kernel, Connection $connection, $dsn)
     {
         $this->entityManager = $entityManager;

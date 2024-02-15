@@ -39,9 +39,8 @@ class VerslagDao extends AbstractDao implements VerslagDaoInterface
 
 
 
-    public function countUniqueKlantenVoorLocaties(\DateTime $startdatum, \DateTime $einddatum, $locatieNamen,$actieveKlanten=[]) {
-
-
+    public function countUniqueKlantenVoorLocaties(\DateTime $startdatum, \DateTime $einddatum, $locatieNamen, $actieveKlanten=[])
+    {
         $builder = $this->repository->createQueryBuilder('verslagen');
 
         $builder = self::buildUniqueKlantenVoorLocatiesQuery($builder,$startdatum,$einddatum,$locatieNamen,$actieveKlanten);
@@ -83,7 +82,7 @@ class VerslagDao extends AbstractDao implements VerslagDaoInterface
 
         $query = "
         (SELECT SUM(c.c) AS numContacten, 'Minder dan vijf' AS label
-                    FROM 
+                    FROM
                     (SELECT COUNT(DISTINCT v.klant_id) as c
                         FROM `verslagen` `v`
                                  INNER JOIN locaties l ON v.locatie_id = l.id AND l.naam IN (:locatienamen)
@@ -92,7 +91,7 @@ class VerslagDao extends AbstractDao implements VerslagDaoInterface
                         HAVING SUM(v.aantalContactmomenten) < 5) AS c)
         UNION
         (SELECT SUM(d.c) AS numContacten, 'Vijf of meer' AS label
-                    FROM 
+                    FROM
                     (SELECT COUNT(DISTINCT v.klant_id) AS c
                         FROM `verslagen` `v`
                         INNER JOIN locaties l ON v.locatie_id = l.id AND l.naam IN (:locatienamen)

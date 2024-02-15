@@ -7,6 +7,7 @@ use AppBundle\Entity\Doelstelling;
 use AppBundle\Filter\DoelstellingFilter;
 use AppBundle\Filter\FilterInterface;
 use AppBundle\Repository\DoelstellingRepositoryInterface;
+use Exception;
 use Symfony\Component\DependencyInjection\Container;
 use Symfony\Component\Security\Core\Authorization\AccessDecisionManagerInterface;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
@@ -85,7 +86,7 @@ class DoelstellingDao extends AbstractDao
             }
       }
         return $cijfers;
-            
+
     }
     public function findAll($page = null, FilterInterface $filter = null)
     {

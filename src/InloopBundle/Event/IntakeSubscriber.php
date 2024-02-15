@@ -20,6 +20,7 @@ class IntakeSubscriber implements EventSubscriberInterface
     private LoggerInterface $logger;
     private Environment $twig;
     private MailerInterface $mailer;
+    private AccessUpdater $accessUpdater;
     private $informeleZorgEmail;
     private $dagbestedingEmail;
     private $inloophuisEmail;
@@ -132,12 +133,13 @@ class IntakeSubscriber implements EventSubscriberInterface
         }
 
         try {
-            $sent = $this->mailer->send($message);
+            $sent = true;
+            $this->mailer->send($message);
         } catch (TransportException $e) {
             $sent = false;
         }
 
-        if ($sent === null) {
+        if ($sent) {
             $this->logger->debug('Email intake verzonden', ['intake' => $intake->getId(), 'to' => $addresses]);
         } else {
             $this->logger->error('Email intake kon niet worden verzonden', ['intake' => $intake->getId(), 'to' => $addresses]);

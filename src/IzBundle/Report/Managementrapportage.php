@@ -32,6 +32,11 @@ class Managementrapportage extends AbstractReport
     private $data = [];
 
     /**
+     * @var DoelstellingRepository
+     */
+    private $doelstellingRepository;
+
+    /**
      * @var Project[]
      */
     private $projecten;

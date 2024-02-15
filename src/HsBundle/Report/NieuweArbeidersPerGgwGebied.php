@@ -27,6 +27,12 @@ class NieuweArbeidersPerGgwGebied extends AbstractReport
 
     protected $tables = [];
 
+    private $dienstverlenerDao;
+
+    private $vrijwilligerDao;
+
+    private $data;
+
     public function __construct(
         DienstverlenerDaoInterface $dienstverlenerDao,
         VrijwilligerDaoInterface $vrijwilligerDao

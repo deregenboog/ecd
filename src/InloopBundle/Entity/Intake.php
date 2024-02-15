@@ -500,26 +500,6 @@ class Intake
     }
 
     /**
-     * @param \DateTime $amocToegangTot
-     */
-    public function setAmocToegangTot(\DateTime $amocToegangTot = null)
-    {
-        $this->amocToegangTot = $amocToegangTot;
-
-        return $this;
-    }
-
-    /**
-     * @param \DateTime $ondroBongToegangVan
-     */
-    public function setOndroBongToegangVan(\DateTime $ondroBongToegangVan = null)
-    {
-        $this->ondroBongToegangVan = $ondroBongToegangVan;
-
-        return $this;
-    }
-
-    /**
      * @param \DateTime $overigenToegangVan
      */
     public function setOverigenToegangVan(\DateTime $overigenToegangVan = null)
@@ -1168,16 +1148,6 @@ class Intake
     public function getMedewerker()
     {
         return $this->medewerker;
-    }
-
-    public function getAmocToegangTot()
-    {
-        return $this->amocToegangTot;
-    }
-
-    public function getOndroBongToegangVan()
-    {
-        return $this->ondroBongToegangVan;
     }
 
     public function getOverigenToegangVan()

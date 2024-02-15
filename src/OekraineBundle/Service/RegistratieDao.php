@@ -120,8 +120,6 @@ class RegistratieDao extends AbstractDao implements RegistratieDaoInterface
 
     public function delete(Registratie $entity)
     {
-        $this->removeFromQueues($entity);
-
         return parent::doDelete($entity);
     }
 
@@ -135,7 +133,6 @@ class RegistratieDao extends AbstractDao implements RegistratieDaoInterface
             $time = new \DateTime();
         }
 
-        $this->removeFromQueues($registratie);
         $registratie->setBuiten($time);
         $this->update($registratie);
 
@@ -143,22 +140,6 @@ class RegistratieDao extends AbstractDao implements RegistratieDaoInterface
 
         return true;
     }
-
-    public function removeFromQueues(Registratie $registratie)
-    {
-        if ($registratie->getDouche() > 0) {
-            $registratie->setDouche(0);
-            $this->update($registratie);
-            $this->reorderShowerQueue($registratie->getLocatie());
-        }
-
-        if ($registratie->getMw() > 0) {
-            $registratie->setMw(0);
-            $this->update($registratie);
-            $this->reorderMwQueue($registratie->getLocatie());
-        }
-    }
-
 
     public function checkoutBezoekerFromAllLocations(Bezoeker $bezoeker)
     {
@@ -233,7 +214,6 @@ class RegistratieDao extends AbstractDao implements RegistratieDaoInterface
 //            ->leftJoin('bezoeker.dossierStatus', 'huidigeStatus', 'WITH', 'huidigeStatus INSTANCE OF '.Aanmelding::class)
 //            ->where("{$this->alias}.closed = true")
         ;
-
 
         $this->paginationOptions['defaultSortFieldName'] = 'registratie.buiten';
         return parent::doFindAll($builder, $page, $filter);

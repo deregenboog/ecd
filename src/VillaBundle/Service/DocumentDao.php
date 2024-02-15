@@ -2,10 +2,11 @@
 
 namespace VillaBundle\Service;
 
-use VillaBundle\Entity\Document;
+use AppBundle\Service\AbstractDao;
 use Doctrine\ORM\EntityManagerInterface;
+use VillaBundle\Entity\Document;
 
-class DocumentDao implements DocumentDaoInterface
+class DocumentDao extends AbstractDao implements DocumentDaoInterface
 {
     public function __construct(EntityManagerInterface $entityManager)
     {

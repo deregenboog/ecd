@@ -191,7 +191,7 @@ class Training implements KlantRelationInterface
         return $this->groep;
     }
 
-    public function setGroep(Groep $groep)
+    public function setGroep(?Groep $groep)
     {
         $this->groep = $groep;
 

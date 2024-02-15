@@ -15,7 +15,6 @@ use MwBundle\Service\KlantDao;
 use MwBundle\Service\KlantDaoInterface;
 use MwBundle\Entity\Verslag;
 use MwBundle\Entity\Aanmelding;
-use MwBundle\Form\VerslagModel;
 use MwBundle\Form\VerslagType;
 use MwBundle\Service\InventarisatieDaoInterface;
 use MwBundle\Service\VerslagDao;

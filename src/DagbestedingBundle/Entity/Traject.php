@@ -145,8 +145,6 @@ class Traject
      */
     protected $deletedAt;
 
-
-
     public function __construct()
     {
         $this->locaties = new ArrayCollection();
@@ -348,18 +346,6 @@ class Traject
         if ($soort != $this->getResultaatgebiedsoort()) {
             $this->setResultaatgebied(new Resultaatgebied($soort));
         }
-
-        return $this;
-    }
-
-    public function getDocumenten()
-    {
-        return $this->documenten;
-    }
-
-    public function addDocument(Document $document)
-    {
-        $this->documenten[] = $document;
 
         return $this;
     }

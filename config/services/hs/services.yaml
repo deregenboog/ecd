@@ -35,7 +35,6 @@ services:
         arguments:
             $entities: '@hs.factuur.entities'
             $export: '@hs.export.factuur'
-            $factory: '@HsBundle\Service\FactuurFactory'
 
     HsBundle\Controller\HerinneringenController:
         arguments:
@@ -84,10 +83,6 @@ services:
     HsBundle\Event\KlantUpdater:
 
     # Other services
-    HsBundle\Service\FactuurFactory:
-        arguments:
-            - '@HsBundle\Service\FactuurDao'
-
     HsBundle\Repository\KlusRepository:
         arguments:
             $class: "@klus_metadata"
@@ -104,8 +99,6 @@ when@dev: &dev
         _defaults:
             autowire: true
             autoconfigure: true
-
-        HsBundle\DataFixtures\HsFakerProvider:
 
         HsBundle\DataFixtures\HsProcessor:
 

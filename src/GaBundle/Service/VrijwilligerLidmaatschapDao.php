@@ -34,12 +34,4 @@ class VrijwilligerLidmaatschapDao extends LidmaatschapDao
 
         return $this->doFindAll($builder, $page);
     }
-
-    public function findOneByGroepAndVrijwilliger(Groep $groep, Vrijwilliger $vrijwilliger)
-    {
-        return $this->repository->findOneBy([
-            'groep' => $groep,
-            'vrijwilliger' => $vrijwilliger,
-        ]);
-    }
 }

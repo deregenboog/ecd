@@ -3,7 +3,7 @@
 namespace AppBundle\Doctrine;
 
 use Doctrine\DBAL\Platforms\AbstractPlatform;
-use Doctrine\DBAL\Platforms\MySqlPlatform;
+use Doctrine\DBAL\Platforms\MySQLPlatform;
 use Doctrine\DBAL\Types\ConversionException;
 use Doctrine\DBAL\Types\TimeType;
 
@@ -17,13 +17,13 @@ class MysqlTimeType extends TimeType
     /**
      * {@inheritdoc}
      */
-    public function convertToPHPValue($value, AbstractPlatform $platform): mixed
+    public function convertToPHPValue($value, AbstractPlatform $platform): ?\DateTimeInterface
     {
         try {
             return parent::convertToPHPValue($value, $platform);
         } catch (ConversionException $exception) {
             $matches = [];
-            if ($platform instanceof MySqlPlatform
+            if ($platform instanceof MySQLPlatform
                 && 1 === preg_match('/^-(\d{2}):(\d{2}):(\d{2})$/', $value, $matches)
             ) {
                 array_shift($matches);

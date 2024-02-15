@@ -97,9 +97,9 @@ class VerhuurdersController extends AbstractController
         $entityManager = $this->getEntityManager();
 
         if ($this->getRequest()->query->has('klantId')) {
-            $klant = new Klant();
+            $klant = new AppKlant();
             if ('new' !== $this->getRequest()->query->get('klantId')) {
-                $klant = $entityManager->find(Klant::class, $this->getRequest()->query->get('klantId'));
+                $klant = $entityManager->find(AppKlant::class, $this->getRequest()->query->get('klantId'));
             }
 
             $verhuurder = new Verhuurder();
@@ -144,7 +144,7 @@ class VerhuurdersController extends AbstractController
 
         if ($selectionForm->isSubmitted() && $selectionForm->isValid()) {
             $verhuurder = $selectionForm->getData();
-            if ($verhuurder->getKlant() instanceof Klant) {
+            if ($verhuurder->getKlant() instanceof AppKlant) {
                 $id = $verhuurder->getKlant()->getId();
             } else {
                 $id = 'new';

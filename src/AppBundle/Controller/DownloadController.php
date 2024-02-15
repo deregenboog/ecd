@@ -13,6 +13,7 @@ use AppBundle\Form\DownloadVrijwilligersType;
 use AppBundle\Service\DocumentDao;
 use AppBundle\Service\DocumentDaoInterface;
 use AppBundle\Service\DownloadsDao;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
@@ -24,116 +25,47 @@ use Vich\UploaderBundle\Handler\DownloadHandler;
  */
 class DownloadController extends AbstractController
 {
-    protected $entityName = 'Download';
-//    protected $entityClass = Document::class;
-//    protected $formClass = DocumentType::class;
-    protected $filterFormClass = DownloadVrijwilligersType::class;
-    protected $addMethod = 'addDocument';
-    protected $baseRouteName = 'app_download_';
-
-    /**
-     * @var DocumentDao
-     */
-    protected $dao;
-
-    /**
-     * @var DownloadsDao
-     */
-    protected $downloadDao;
-
-    /**
-     * @var \ArrayObject
-     */
-    protected $entities;
-
-    /**
-     * iterable $downloadServices
-     */
     protected $downloadServices;
 
-    /**
-     * @param DocumentDao $dao
-     * @param DownloadsDao $downloadDao
-     * @param \ArrayObject $entities
-     */
-    public function __construct(DocumentDao $dao, DownloadsDao $downloadDao, \ArrayObject $entities, iterable $downloadServices)
+    public function __construct(iterable $downloadServices)
     {
-        $this->dao = $dao;
-        $this->downloadDao = $downloadDao;
-        $this->entities = $entities;
         $this->downloadServices = $downloadServices;
     }
 
     /**
      * @Route("/")
-     * @param Request $request
+     * @Template
      */
     public function indexAction(Request $request)
     {
-        $form = null;
-        if (in_array('index', $this->disabledActions)) {
-            throw new AccessDeniedHttpException();
+        $form = $this->getForm(DownloadVrijwilligersType::class);
+        $form->handleRequest($request);
+        if ($form->isSubmitted()) {
+            return $this->handleDownloads($form);
         }
 
-
-        if ($this->filterFormClass) {
-            $form = $this->getForm(DownloadVrijwilligersType::class);
-            $form->handleRequest($request);
-            if ($form->isSubmitted()) {
-//
-                return $this->handleDownloads($form,$request);
-//                if ($form->has('download') && $form->get('download')->isClicked()) {
-//                    return $this->download($form->getData());
-//                }
-            }
-            $filter = null;
-        } else {
-            $filter = null;
-        }
-        $page = $request->get('page', 1);
-        $pagination = $this->downloadDao->findAll($page, $filter);
-
-        $view = $this->renderView("app/download/index.html.twig",
-            [
-                'pagination'=>$pagination,
-                'form'=>$form->createView(),
-            ]
-        );
-        return new Response($view);
-        // return [
-        //     'filter' => isset($form) ? $form->createView() : null,
-        //     'pagination' => $view,
-        //     'action'=>'index'
-        // ];
+        return [
+            'form' => $form->createView(),
+        ];
     }
 
-    private function handleDownloads($form, $request)
+    private function handleDownloads($form)
     {
-        $serviceId = null;
         ini_set('memory_limit', '768M');
         ini_set('max_execution_time', '300');
-
 
         $exports = [];
         $onderdelen = $form->get('onderdeel')->getData();
 
-
-        $ds = array();
-        foreach($this->downloadServices as $v)
-        {
-            $ds[get_class($v)] = $v;
-        }
-
-
         //leluk maar iterator_apply geeft ook gedoe.
         $t = [];
-        foreach($this->downloadServices as $k=>$v)
+        foreach($this->downloadServices as $v)
         {
             $t[$v->getServiceId()] = $v;
         }
         $this->downloadServices = $t;
 
-        foreach($onderdelen as $k=>$serviceId)
+        foreach($onderdelen as $serviceId)
         {
             if(!array_key_exists($serviceId,$this->downloadServices))
             {
@@ -142,7 +74,6 @@ class DownloadController extends AbstractController
             }
             $export = $this->downloadServices[$serviceId];
             $dao = $export->getDao();
-            $filename = $this->getDownloadFilename();
             $collection = $dao->findAll(null, null);
 
             $sheet = $export->create($collection)->getSheet();
@@ -162,9 +93,7 @@ class DownloadController extends AbstractController
         }
 
         return $export->getResponse(sprintf("Download Vrijwilligers %s.xlsx",(new \DateTime())->format('Y-m-d')));
-
     }
-
 
     /**
      * @Route("/view/{id}")
@@ -203,27 +132,5 @@ class DownloadController extends AbstractController
         $collection = $dao->findAll(null, null);
 
         return $export->create($collection)->getResponse($filename);
-    }
-
-
-    public function createEntity($parentEntity = null)
-    {
-        switch ($this->getRequest()->get('type')) {
-            case 'vog':
-                $this->addMethod = 'setVog';
-
-                return new Vog();
-            case 'overeenkomst':
-                $this->addMethod = 'setOvereenkomst';
-
-                return new Overeenkomst();
-            case 'toestemming':
-                $this->addMethod = 'setToestemmingsformulier';
-
-                return new Toestemmingsformulier();
-            default:
-
-                return new Document();
-        }
     }
 }
