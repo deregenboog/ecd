@@ -29,6 +29,24 @@ jobs:
         run: bin/console lint:yaml --parse-tags config/
       - name: Lint container
         run: bin/console lint:container
+  static-analysis:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        php-version: ['7.4.3', '8.1.2']
+    steps:
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php-version }}
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Composer
+        run: mv .env.test .env && php composer.phar install
+      - name: NPM
+        run: npm install && yarn encore dev
+      - name: Static analysis
+        run: vendor/bin/phpstan analyze src/ tests/
   test:
     runs-on: ubuntu-latest
     strategy:
