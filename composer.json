@@ -64,7 +64,7 @@
         "kwn/number-to-words": "^2.6",
         "luxifer/doctrine-functions": "^1.4",
         "phpdocumentor/reflection-docblock": "^5.3",
-        "phpoffice/phpspreadsheet": "^1.0",
+        "phpoffice/phpspreadsheet": "^1.29",
         "sensio/framework-extra-bundle": "^6",
         "shipmonk/doctrine-mysql-index-hints": "^2.1",
         "shivas/versioning-bundle": "^4",

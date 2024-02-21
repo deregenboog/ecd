@@ -2,34 +2,26 @@
 
 namespace AppBundle\Controller;
 
-use AppBundle\Entity\Document;
-use AppBundle\Entity\Overeenkomst;
-use AppBundle\Entity\Toestemmingsformulier;
-use AppBundle\Entity\Vog;
-use AppBundle\Export\ExportException;
-use AppBundle\Form\DocumentType;
-use AppBundle\Form\DoelstellingFilterType;
+use AppBundle\Export\GenericExport;
+use AppBundle\Service\AbstractDao;
 use AppBundle\Form\DownloadVrijwilligersType;
-use AppBundle\Service\DocumentDao;
-use AppBundle\Service\DocumentDaoInterface;
-use AppBundle\Service\DownloadsDao;
+use PhpOffice\PhpSpreadsheet\IOFactory;
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\Routing\Annotation\Route;
-use Vich\UploaderBundle\Handler\DownloadHandler;
 
 /**
  * @Route("/download")
  */
 class DownloadController extends AbstractController
 {
-    protected $downloadServices;
+    private $downloadServices = [];
 
     public function __construct(iterable $downloadServices)
     {
-        $this->downloadServices = $downloadServices;
+        $this->downloadServices = $downloadServices instanceof \Traversable ? iterator_to_array($downloadServices) : $downloadServices;
     }
 
     /**
@@ -38,7 +30,9 @@ class DownloadController extends AbstractController
      */
     public function indexAction(Request $request)
     {
-        $form = $this->getForm(DownloadVrijwilligersType::class);
+        $form = $this->getForm(DownloadVrijwilligersType::class, null, [
+            'download_services' => $this->downloadServices,
+        ]);
         $form->handleRequest($request);
         if ($form->isSubmitted()) {
             return $this->handleDownloads($form);
@@ -55,82 +49,44 @@ class DownloadController extends AbstractController
         ini_set('max_execution_time', '300');
 
         $exports = [];
-        $onderdelen = $form->get('onderdeel')->getData();
+        foreach ($form->get('onderdeel')->getData() as $i) {
+            /** @var GenericExport $exportService */
+            $exportService = $this->downloadServices[$i];
 
-        //leluk maar iterator_apply geeft ook gedoe.
-        $t = [];
-        foreach($this->downloadServices as $v)
-        {
-            $t[$v->getServiceId()] = $v;
-        }
-        $this->downloadServices = $t;
-
-        foreach($onderdelen as $serviceId)
-        {
-            if(!array_key_exists($serviceId,$this->downloadServices))
-            {
-                continue;
-//                throw new ExportException(sprintf("Export with serviceId: %s cannot be found",$id));
-            }
-            $export = $this->downloadServices[$serviceId];
-            $dao = $export->getDao();
+            /** @var AbstractDao $dao */
+            $dao = $exportService->getDao();
             $collection = $dao->findAll(null, null);
-
-            $sheet = $export->create($collection)->getSheet();
             unset($dao);
+
+            // get worksheet
+            $exports[] = $exportService->create($collection)->getSheet();
             unset($collection);
-
-            $exports[] = $sheet;
-
-
-        }
-        array_pop($exports);//last one is already in... the last Export is used as carrier for the rest.
-//        $export = $this->container->get($serviceId);
-        $export = $this->downloadServices[$serviceId];
-        foreach($exports as $sheet)
-        {
-            $export->addSheet($sheet);
         }
 
-        return $export->getResponse(sprintf("Download Vrijwilligers %s.xlsx",(new \DateTime())->format('Y-m-d')));
-    }
-
-    /**
-     * @Route("/view/{id}")
-     */
-    public function downloadsAction($id)
-    {
-        /**
-         * PSEUDO:
-         * naam en action / route werkte niet gaf 403. raar.
-         *
-         * ServiceId ophalen. Daarna doen zoals nu bij de download het geval is.
-         * Evt later met filters bouwen.
-         * Evt form maken met vinkjes per onderdeel, afhankelijk van hoe snel eea werkt.
-         *
-         * Hoe werkt het nu:
-         * exports met de tag app.download worden in de service DownloadsDao gestopt, met hun Id
-         * serviceId wordt alleen via de compiler pass toegevoegd, niet via de autowiring
-         * Vraag me niet waarom. Misschien moet ik replaceArgument gebruiken  in de compilerPass Process functie, daar wordt ie als argument toegevoegd.
-         * daar maar dat vind de rest nie tleuk.
-         *
-         *
-         */
-
-        if(!$this->container->has($id))
-        {
-         throw new ExportException(sprintf("Export with serviceId: %s cannot be found",$id));
+        // create new spreadsheet and remove default worksheet
+        $spreadsheet = new Spreadsheet();
+        $spreadsheet->removeSheetByIndex(0);
+        foreach ($exports as $i => $sheet) {
+            // add sheets from exports as external sheets
+            // @see https://phpspreadsheet.readthedocs.io/en/latest/topics/worksheets/#copying-worksheets
+            $spreadsheet->addExternalSheet(clone $sheet, $i);
         }
-        $export = $this->container->get($id);
-        $dao = $export->getDao();
 
+        // create writer
+        $writer = IOFactory::createWriter($spreadsheet, 'Xlsx');
+        $filename = sprintf("Download Vrijwilligers %s.xlsx", (new \DateTime())->format('Y-m-d'));
 
-        ini_set('memory_limit', '1024M');
-        ini_set('max_execution_time', '300');
+        // write to output buffer
+        // @see https://www.php.net/manual/en/wrappers.php.php
+        ob_start();
+        $writer->save('php://output');
+        $content = ob_get_clean();
 
-        $filename = $this->getDownloadFilename();
-        $collection = $dao->findAll(null, null);
-
-        return $export->create($collection)->getResponse($filename);
+        return new Response($content, Response::HTTP_OK, [
+            'Content-Type' => 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+            'Content-Disposition' => sprintf('attachment; filename="%s";', $filename),
+            'Content-Transfer-Encoding' => 'UTF-8',
+            'Cache-Control' => 'max-age=0',
+        ]);
     }
 }
