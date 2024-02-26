@@ -3,12 +3,13 @@
 namespace DagbestedingBundle\Filter;
 
 use AppBundle\Filter\FilterInterface;
+use AppBundle\Form\Model\AppDateRangeModel;
 use Doctrine\ORM\QueryBuilder;
 
 class RapportageFilter implements FilterInterface
 {
     /**
-     * @var \DateTime
+     * @var AppDateRangeModel
      */
     public $datum;
 

@@ -10,7 +10,6 @@ use AppBundle\Export\AbstractExport;
 use AppBundle\Form\ConfirmationType;
 use AppBundle\Form\VrijwilligerFilterType;
 use AppBundle\Form\VrijwilligerType;
-use AppBundle\Repository\DocumentenRepository;
 use AppBundle\Service\VrijwilligerDao;
 use AppBundle\Service\VrijwilligerDaoInterface;
 use Doctrine\Common\Collections\Criteria;

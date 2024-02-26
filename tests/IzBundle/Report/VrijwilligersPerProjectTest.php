@@ -91,7 +91,7 @@ class VrijwilligersPerProjectTest extends TestCase
             ],
         ];
 
-        $this->assertEquals($expected, $report->getReports());
+        $this->assertSame($expected, $report->getReports());
     }
 
     private function createSUT()

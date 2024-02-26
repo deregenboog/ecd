@@ -10,15 +10,12 @@ use PHPUnit\Framework\TestCase;
 class ListingTest extends TestCase
 {
     /**
-     * @param array $input
-     * @param array $output
-     *
      * @dataProvider dataProvider
      */
-    public function testTableRendering($input, $output)
+    public function testTableRendering(array $input, array $output)
     {
         $listing = new Listing($input, ['Naam' => 'naam', 'Aantal registraties' => 'aantal']);
-        $this->assertEquals($output, $listing->render());
+        $this->assertSame($output, $listing->render());
     }
 
     public function dataProvider()
@@ -28,11 +25,11 @@ class ListingTest extends TestCase
                 [ // input
                     [
                         'naam' => 'Piet Jansen',
-                        'aantal' => '1',
+                        'aantal' => 1,
                     ],
                     [
                         'naam' => 'Jan Pietersen',
-                        'aantal' => '1',
+                        'aantal' => 1,
                     ],
                 ],
                 [ // output

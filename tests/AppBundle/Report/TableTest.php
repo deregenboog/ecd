@@ -18,7 +18,7 @@ class TableTest extends TestCase
     public function testTableRendering($input, $output)
     {
         $table = new Table($input, 'kolom', 'projectnaam', 'aantal');
-        $this->assertEquals($output, $table->render());
+        $this->assertSame($output, $table->render());
     }
 
     public function dataProvider()
