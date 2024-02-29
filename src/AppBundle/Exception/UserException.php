@@ -17,6 +17,10 @@ class UserException extends HttpException
             $message = $code;
             $code = 500;
         }
+        if(!is_int($code)) {
+            $code = 500;
+            $message .= " Errorcode is not int: ".$code;
+        }
         parent::__construct($code,$message);
     }
 }

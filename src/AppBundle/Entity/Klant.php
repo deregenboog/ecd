@@ -4,8 +4,10 @@ namespace AppBundle\Entity;
 
 use AppBundle\Model\DocumentSubjectTrait;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\PersistentCollection;
 use Gedmo\Mapping\Annotation as Gedmo;
 use InloopBundle\Entity\DossierStatus;
 use InloopBundle\Entity\Incident;
@@ -584,7 +586,7 @@ class Klant extends Persoon
 
     public function getAantalVerslagen(): int
     {
-        return count((array) $this->verslagen);
+        return $this->verslagen->count();
     }
     public function getEersteVerslag()
     {
