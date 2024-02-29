@@ -6,7 +6,6 @@ use AppBundle\Doctrine\SqlExtractor;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\QueryBuilder;
 use InloopBundle\Entity\Locatie;
-use function Symfony\Component\DependencyInjection\Loader\Configurator\expr;
 
 class ToegangOverigStrategy implements StrategyInterface
 {

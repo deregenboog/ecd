@@ -10,7 +10,6 @@ use AppBundle\Exception\UserException;
 use AppBundle\Export\ExportInterface;
 use Doctrine\ORM\EntityNotFoundException;
 use OekraineBundle\Entity\Verslag;
-use OekraineBundle\Form\VerslagModel;
 use OekraineBundle\Form\VerslagType;
 use OekraineBundle\Service\VerslagDao;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;

@@ -5,7 +5,7 @@ namespace AppBundle\Doctrine;
 use AppBundle\Entity\Klant;
 use AppBundle\Entity\Vrijwilliger;
 
-use Doctrine\ORM\Mapping\ClassMetaData;
+use Doctrine\ORM\Mapping\ClassMetadata;
 use Doctrine\ORM\Query\Filter\SQLFilter;
 
 

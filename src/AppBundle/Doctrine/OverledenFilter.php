@@ -3,7 +3,7 @@
 namespace AppBundle\Doctrine;
 
 use AppBundle\Entity\Klant;
-use Doctrine\ORM\Mapping\ClassMetaData;
+use Doctrine\ORM\Mapping\ClassMetadata;
 use Doctrine\ORM\Query\Filter\SQLFilter;
 
 class OverledenFilter extends SQLFilter

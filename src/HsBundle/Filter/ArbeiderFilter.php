@@ -30,6 +30,11 @@ class ArbeiderFilter implements FilterInterface
      */
     public $status = self::STATUS_ACTIVE;
 
+    /**
+     * @var string
+     */
+    public $alias;
+
     public function applyTo(QueryBuilder $builder)
     {
         if ($this->id) {

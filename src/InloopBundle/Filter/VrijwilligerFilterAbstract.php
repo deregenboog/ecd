@@ -26,9 +26,6 @@ abstract class VrijwilligerFilterAbstract implements FilterInterface
      */
     public $afsluitdatum;
 
-    /**
-     * @var Locaties
-     */
     public $locaties;
 
     /**

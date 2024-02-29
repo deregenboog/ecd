@@ -103,32 +103,12 @@ class DagdelenModel
 
     private function getDagdeelModel($dagdeelNaam)
     {
-        if (array_key_exists($dagdeelNaam, $this->dagdelen)) {
-            return $this->dagdelen[$dagdeelNaam];
-        }
-
-        return;
-
-        foreach ($this->dagdelen as $dagdeel) {
-            if ($dagdeel->getDagdeel() === $dagdeelNaam) {
-                return new DagdeelModel($dagdeel->getAanwezigheid());
-            }
-        }
-
-        return new DagdeelModel();
+        return $this->dagdelen[$dagdeelNaam];
     }
 
     private function setDagdeelModel($dagdeelNaam, DagdeelModel $dagdeelModel)
     {
-        foreach ($this->dagdelen as $dagdeel) {
-            if ($dagdeel->getDagdeel() === $dagdeelNaam) {
-                $dagdeel->setAanwezigheid($dagdeelModel->getAanwezigheid());
-
-                return $this;
-            }
-        }
-
-        $this->addDagdeel(new Dagdeel($this->project, $this->datum, $dagdeelNaam, $dagdeelModel->getAanwezigheid()));
+        $this->dagdelen[$dagdeelNaam] = $dagdeelModel;
 
         return $this;
     }

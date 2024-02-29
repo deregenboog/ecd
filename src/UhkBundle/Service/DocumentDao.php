@@ -2,10 +2,11 @@
 
 namespace UhkBundle\Service;
 
+use AppBundle\Service\AbstractDao;
 use Doctrine\ORM\EntityManagerInterface;
 use UhkBundle\Entity\Document;
 
-class DocumentDao implements DocumentDaoInterface
+class DocumentDao extends AbstractDao implements DocumentDaoInterface
 {
     protected $paginationOptions = [
         'defaultSortFieldName' => 'document.naam',

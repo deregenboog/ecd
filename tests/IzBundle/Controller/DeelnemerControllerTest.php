@@ -2,6 +2,7 @@
 
 namespace Tests\IzBundle\Controller;
 
+use AppBundle\Service\MedewerkerDao;
 use AppBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -9,7 +10,7 @@ class DeelnemerControllerTest extends WebTestCase
 {
     public function testSortColumns()
     {
-        $medewerker = $this->getContainer()->get(\AppBundle\Service\MedewerkerDao::class)->findByUsername('iz_user');
+        $medewerker = $this->getContainer()->get(MedewerkerDao::class)->findByUsername('iz_user');
 
         $this->client->loginUser($medewerker);
 

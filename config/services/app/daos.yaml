@@ -19,7 +19,3 @@ services:
             - method: setDecisionManager
               arguments:
                   - '@security.access.decision_manager'
-
-    AppBundle\Service\DownloadsDao:
-        arguments:
-            $taggedExports: !tagged_iterator app.downloads

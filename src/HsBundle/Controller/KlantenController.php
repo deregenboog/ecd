@@ -103,8 +103,8 @@ class KlantenController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $url = $request->get('redirect');
             if ($form->get('yes')->isClicked()) {
-                $url = $request->get('redirect');
                 $viewUrl = $this->generateUrl($this->baseRouteName.'view', ['id' => $entity->getId()]);
 
                 if($entity->isDeletable() )
@@ -116,8 +116,6 @@ class KlantenController extends AbstractController
                 {
                     $this->addFlash('error', ucfirst($this->entityName).'heeft nog facturen/klussen of andere gegevens aan zich gekoppeld en is daarom niet verwijderd.');
                 }
-
-
 
                 if (!$this->forceRedirect) {
                     if ($url && false === strpos($viewUrl, $url)) {

@@ -459,15 +459,6 @@ class Klus implements MemoSubjectInterface
         return $this->status;
     }
 
-    /**
-     * @return string
-     */
-    public function getStatusAsString(): string
-    {
-        return array_search($this->status, self::$statussen);
-    }
-
-
     private function updateStatus()
     {
         if ($this->annuleringsdatum instanceof \DateTime && $this->annuleringsdatum <= new \DateTime('today')) {

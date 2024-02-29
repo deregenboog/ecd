@@ -41,6 +41,7 @@ class CheckLdapGroupsListener implements EventSubscriberInterface
 
     private $rolesGroups;
 
+    private $extraFields;
 
     public function __construct(ContainerInterface $ldapLocator, $ldapBaseDn, $ldapSearchUser, $ldapSearchPassword, $rolesGroups=[])
     {

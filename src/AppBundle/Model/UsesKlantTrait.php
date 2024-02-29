@@ -6,7 +6,6 @@ use AppBundle\Entity\Klant;
 use AppBundle\Entity\Medewerker;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityNotFoundException;
-
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\PersistentCollection;
 use Gedmo\Mapping\Annotation as Gedmo;
@@ -24,7 +23,6 @@ trait UsesKlantTrait
      *
      * Due to the way disabled Klant is implemented (via Doctrine Constraint Filter) it does not give you a null.
      * Symfony thinks it gets the full object, and while lazy loaded, it errors when retrieving a field of the relation (ie. in template).
-     *
      *
      * @param $entity
      * @return bool
@@ -69,13 +67,12 @@ trait UsesKlantTrait
                     $this->tryLoadKlant($res);
                 }
                 return true;
-
             }
             catch(EntityNotFoundException $e)
             {
                 throw $e;
             }
         }
+        return false;
     }
-
 }

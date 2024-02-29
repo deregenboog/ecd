@@ -19,6 +19,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
 abstract class Arbeider
 {
     use TimestampableTrait;
+
     /**
      * @ORM\Id
      * @ORM\Column(type="integer")
@@ -49,6 +50,10 @@ abstract class Arbeider
      * @Gedmo\Versioned
      */
     protected $rijbewijs;
+
+    protected $klussen;
+    protected $documenten;
+    protected $memos;
 
     /**
      * @var ArrayCollection|Registratie[]

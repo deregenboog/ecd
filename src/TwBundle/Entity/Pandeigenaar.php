@@ -66,6 +66,33 @@ class Pandeigenaar
         return 0 === count($this->verhuurders);
     }
 
+    public function getVerhuurders(): ArrayCollection
+    {
+        return $this->verhuurders;
+    }
+
+    public function addVerhuurder(Verhuurder $verhuurder): self
+    {
+        if (!$this->verhuurders->contains($verhuurder)) {
+            $this->verhuurders[] = $verhuurder;
+            $verhuurder->setPandeigenaar($this);
+        }
+
+        return $this;
+    }
+
+    public function removeVerhuurder(Verhuurder $verhuurder): self
+    {
+        if ($this->verhuurders->contains($verhuurder)) {
+            $this->verhuurders->removeElement($verhuurder);
+            if ($verhuurder->getPandeigenaar() === $this) {
+                $verhuurder->setPandeigenaar(null);
+            }
+        }
+
+        return $this;
+    }
+
     /**
      * @return PandeigenaarType
      */
@@ -81,6 +108,7 @@ class Pandeigenaar
     public function setPandeigenaarType(PandeigenaarType $pandeigenaarType): Pandeigenaar
     {
         $this->pandeigenaarType = $pandeigenaarType;
+
         return $this;
     }
 }

@@ -21,9 +21,9 @@ class LoginEventListener implements \Symfony\Component\EventDispatcher\EventSubs
     protected $em;
 
     /**
-     * @var LdapUserProvider
+     * @var TokenStorage
      */
-    protected $ldapUserProvider;
+    protected $tokenStorage;
 
     public function __construct(EntityManagerInterface $em, TokenStorage $tokenStorage)
     {
@@ -68,24 +68,10 @@ class LoginEventListener implements \Symfony\Component\EventDispatcher\EventSubs
         $this->em->persist($medewerker);
         $this->em->flush();
         // Login user
-        $token = new UsernamePasswordToken($medewerker, null, 'main', $medewerker->getRoles());
+        $token = new UsernamePasswordToken($medewerker, 'main', $medewerker->getRoles());
         $this->tokenStorage->setToken($token);
 
         return $medewerker;
-    }
-
-    /**
-     * Gives more details when authentication fails.
-     */
-    public function onLoginFailure(AuthenticationHandlerEvent $event)
-    {
-        $exc = $event->getException();
-        $prevExc = $exc->getPrevious();
-//        throw $prevExc;
-        if ($prevExc instanceof LdapConnectionException) {
-            throw new \LogicException($prevExc->getMessage());
-        }
-        throw $exc;
     }
 
     /**

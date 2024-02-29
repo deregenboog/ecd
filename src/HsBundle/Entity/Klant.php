@@ -117,7 +117,7 @@ class Klant implements MemoSubjectInterface, DocumentSubjectInterface
 
     protected static $statussen = [
         "Nieuwe klussen mogelijk" => self::STATUS_OK,
-        "Geen nieuwe klussen"=>self::STATUS_GEEN_NIEUWE_KLUS
+        "Geen nieuwe klussen" => self::STATUS_GEEN_NIEUWE_KLUS,
     ];
 
     /**

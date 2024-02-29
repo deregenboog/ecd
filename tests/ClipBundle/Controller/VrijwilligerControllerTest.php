@@ -2,6 +2,7 @@
 
 namespace Tests\ClipBundle\Controller;
 
+use AppBundle\Service\MedewerkerDao;
 use AppBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -9,16 +10,16 @@ class VrijwilligerControllerTest extends WebTestCase
 {
     public function testAccessDenied()
     {
-        $medewerker = $this->getContainer()->get(\AppBundle\Service\MedewerkerDao::class)->findByUsername('clip_user');
+        $medewerker = $this->getContainer()->get(MedewerkerDao::class)->findByUsername('clip_user');
         $this->client->loginUser($medewerker);
 
-        $crawler = $this->client->request('GET', '/clip/vrijwilligers/');
+        $this->client->request('GET', '/clip/vrijwilligers/');
         $this->assertStatusCode(403, $this->client);
     }
 
     public function testSortColumns()
     {
-        $medewerker = $this->getContainer()->get(\AppBundle\Service\MedewerkerDao::class)->findByUsername('clip_admin');
+        $medewerker = $this->getContainer()->get(MedewerkerDao::class)->findByUsername('clip_admin');
         $this->client->loginUser($medewerker);
 
         $crawler = $this->client->request('GET', '/clip/vrijwilligers/');

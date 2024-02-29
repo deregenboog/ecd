@@ -2,6 +2,7 @@
 
 namespace Tests\ErOpUitBundle\Controller;
 
+use AppBundle\Service\MedewerkerDao;
 use AppBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -9,7 +10,7 @@ class VrijwilligersControllerTest extends WebTestCase
 {
     public function testIndex()
     {
-        $medewerker = $this->getContainer()->get(\AppBundle\Service\MedewerkerDao::class)->findByUsername('eou_user');
+        $medewerker = $this->getContainer()->get(MedewerkerDao::class)->findByUsername('eou_user');
         $this->client->loginUser($medewerker);
 
         $crawler = $this->client->request('GET', $this->getUrl('eropuit_vrijwilligers_index'));
@@ -21,7 +22,7 @@ class VrijwilligersControllerTest extends WebTestCase
 
     public function testSort()
     {
-        $medewerker = $this->getContainer()->get(\AppBundle\Service\MedewerkerDao::class)->findByUsername('eou_user');
+        $medewerker = $this->getContainer()->get(MedewerkerDao::class)->findByUsername('eou_user');
         $this->client->loginUser($medewerker);
 
         $crawler = $this->client->request('GET', $this->getUrl('eropuit_vrijwilligers_index'));
@@ -40,7 +41,7 @@ class VrijwilligersControllerTest extends WebTestCase
 
     public function testFilter()
     {
-        $medewerker = $this->getContainer()->get(\AppBundle\Service\MedewerkerDao::class)->findByUsername('eou_user');
+        $medewerker = $this->getContainer()->get(MedewerkerDao::class)->findByUsername('eou_user');
         $this->client->loginUser($medewerker);
 
         $crawler = $this->client->request('GET', $this->getUrl('eropuit_vrijwilligers_index'));
@@ -56,7 +57,7 @@ class VrijwilligersControllerTest extends WebTestCase
 
     public function testAddFilter()
     {
-        $medewerker = $this->getContainer()->get(\AppBundle\Service\MedewerkerDao::class)->findByUsername('eou_user');
+        $medewerker = $this->getContainer()->get(MedewerkerDao::class)->findByUsername('eou_user');
         $this->client->loginUser($medewerker);
 
         $crawler = $this->client->request('GET', $this->getUrl('eropuit_vrijwilligers_add'));

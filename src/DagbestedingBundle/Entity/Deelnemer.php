@@ -161,11 +161,6 @@ class Deelnemer
         return $this;
     }
 
-    public function getIntake()
-    {
-        return $this->intake;
-    }
-
     public function getAanmelddatum()
     {
         return $this->aanmelddatum;

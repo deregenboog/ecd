@@ -8,7 +8,7 @@ use AppBundle\Event\Events;
 use AppBundle\Export\ExportInterface;
 use AppBundle\Form\KlantFilterType;
 use AppBundle\Service\KlantDao;
-use GaBundle\Entity\KlantDossier;
+use GaBundle\Entity\Klantdossier;
 use GaBundle\Form\KlantdossierFilterType;
 use GaBundle\Form\KlantdossierType;
 use GaBundle\Service\KlantdossierDao;

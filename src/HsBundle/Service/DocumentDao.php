@@ -2,10 +2,11 @@
 
 namespace HsBundle\Service;
 
+use AppBundle\Service\AbstractDao;
 use Doctrine\ORM\EntityManagerInterface;
 use HsBundle\Entity\Document;
 
-class DocumentDao implements DocumentDaoInterface
+class DocumentDao extends AbstractDao implements DocumentDaoInterface
 {
     public function __construct(EntityManagerInterface $entityManager)
     {

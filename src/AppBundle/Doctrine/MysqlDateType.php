@@ -3,7 +3,7 @@
 namespace AppBundle\Doctrine;
 
 use Doctrine\DBAL\Platforms\AbstractPlatform;
-use Doctrine\DBAL\Platforms\MySqlPlatform;
+use Doctrine\DBAL\Platforms\MySQLPlatform;
 use Doctrine\DBAL\Types\DateType;
 
 class MysqlDateType extends DateType
@@ -16,9 +16,9 @@ class MysqlDateType extends DateType
     /**
      * {@inheritdoc}
      */
-    public function convertToPHPValue($value, AbstractPlatform $platform): mixed
+    public function convertToPHPValue($value, AbstractPlatform $platform): ?\DateTimeInterface
     {
-        if ($platform instanceof MySqlPlatform && ('1970-01-01' === $value || '0000-00-00' === $value)) {
+        if ($platform instanceof MySQLPlatform && ('1970-01-01' === $value || '0000-00-00' === $value)) {
             return null;
         }
 

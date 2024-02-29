@@ -709,35 +709,4 @@ class RegistratiesController extends AbstractController
 
         return new JsonResponse(['aantalSpuiten' => $registratie->getAantalSpuiten()]);
     }
-
-    public function isAuthorized()
-    {
-        $locatie = null;
-        if (!parent::isAuthorized()) {
-            return false;
-        }
-
-        $user_groups = $this->AuthExt->user('Group');
-        if (empty($user_groups)) {
-            return false;
-        }
-
-        $username = $this->AuthExt->user('username');
-        $volunteers = $this->getParameter('ACL.volunteers');
-
-        $request = $this->getRequest();
-        if ($this->getRequest()->attributes->has('locatie')) {
-            $locatie = $this->getRequest()->attributes->get('locatie');
-        } elseif ($this->getRequest()->attributes->has('registratie')) {
-            $locatie = $this->getRequest()->attributes->get('registratie')->getLocatie();
-        }
-
-        if ($locatie && isset($volunteers[$username])) {
-            if ($locatie->getId() != $volunteers[$username]) {
-                return false;
-            }
-        }
-
-        return true;
-    }
 }

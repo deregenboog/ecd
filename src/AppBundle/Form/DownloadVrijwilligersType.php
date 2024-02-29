@@ -3,6 +3,7 @@
 namespace AppBundle\Form;
 
 use AppBundle\Entity\GgwGebied;
+use AppBundle\Export\GenericExport;
 use AppBundle\Filter\DownloadVrijwilligersFilter;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
@@ -16,62 +17,33 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class DownloadVrijwilligersType extends AbstractType
 {
-   private $choices = [];
-    public function __construct(array $exports = [])
-    {
-        $this->getOnderdeelChoices($exports);
-    }
-
-    private function getOnderdeelChoices(array $exports = []) {
-        foreach($exports as $e)
-        {
-            $this->choices[$e->getFriendlyName()] = $e->getServiceId();
-        }
-    }
-
     /**
      * {@inheritdoc}
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        $choices = [];
+        foreach ($options['download_services'] as $i => $service) {
+            /** @var int $i */
+            /** @var GenericExport $service */
+            $choices[$service->getFriendlyName()] = $i;
+        }
+
         $builder
-            ->add('onderdeel', ChoiceType::class,
-                [
-                    'required' => true,
-                    'multiple' => true,
-                    'expanded'=> true,
-                    'choices'=>$this->choices,
-                ]
-            )
+            ->add('onderdeel', ChoiceType::class, [
+                'required' => true,
+                'multiple' => true,
+                'expanded' => true,
+                'choices' => $choices,
+            ])
             ->add('download', SubmitType::class)
         ;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function configureOptions(OptionsResolver $resolver)
     {
-//        $resolver->setDefaults([
-//            'label' => 'Onderdeel',
-//            'data_class'=> DownloadVrijwilligersFilter::class,
-//            'required' => true,
-//            'multiple' => true,
-//            'expanded'=> true,
-//            'query_builder' => function (EntityRepository $repository) {
-//                return $repository->createQueryBuilder('postcodegebied')
-//                    ->orderBy('postcodegebied.naam');
-//            },
-//        ]);
+        $resolver->setDefaults([
+            'download_services' => [],
+        ]);
     }
-
-
-
-    /**
-     * {@inheritdoc}
-     */
-//    public function getParent(): ?string
-//    {
-//        return FormType::class;
-//    }
 }

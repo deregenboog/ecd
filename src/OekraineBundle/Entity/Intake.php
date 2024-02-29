@@ -10,7 +10,6 @@ use AppBundle\Validator\NoFutureDate;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
-use phpDocumentor\Reflection\DocBlock\Tags\Var_;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Form\Form;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -121,10 +120,6 @@ class Intake
      * @Gedmo\Versioned
      */
     private $telefoonnummer;
-
-
-
-
 
     /**
      * @var Inkomen[]
@@ -256,7 +251,6 @@ class Intake
         $this->modified = new \DateTime();
         $this->intakedatum = new \DateTime();
         $this->inkomens = new ArrayCollection();
-        $this->instanties = new ArrayCollection();
 
         if ($bezoeker) {
             $bezoeker->addIntake($this);
@@ -357,16 +351,6 @@ class Intake
     }
 
     /**
-     * @param \OekraineBundle\Entity\Woonsituatie $woonsituatie
-     */
-    public function setWoonsituatie($woonsituatie)
-    {
-        $this->woonsituatie = $woonsituatie;
-
-        return $this;
-    }
-
-    /**
      * @param \DateTime $verblijfInNederlandSinds
      */
     public function setVerblijfInNederlandSinds(\DateTime $verblijfInNederlandSinds = null)
@@ -402,18 +386,6 @@ class Intake
     public function setMedischeAchtergrond($medischeAchtergrond)
     {
         $this->medischeAchtergrond = $medischeAchtergrond;
-
-        return $this;
-    }
-
-
-
-    /**
-     * @param Instantie[] $instanties
-     */
-    public function setInstanties($instanties)
-    {
-        $this->instanties = $instanties;
 
         return $this;
     }
@@ -548,18 +520,6 @@ class Intake
         $this->toekomstplannen = $toekomstplannen;
 
         return $this;
-    }
-
-
-
-    public function getVerslavingen()
-    {
-        return $this->verslavingen;
-    }
-
-    public function getInstanties()
-    {
-        return $this->instanties;
     }
 
     public function getOpmerkingAndereInstanties()
@@ -734,12 +694,6 @@ class Intake
         return $this->inkomenOverig;
     }
 
-    public function getWoonsituatie()
-    {
-        return $this->woonsituatie;
-    }
-
-
     /**
      * @return bool
      */
@@ -754,19 +708,5 @@ class Intake
     public function setGeinformeerdOpslaanGegevens(bool $geinformeerdOpslaanGegevens): void
     {
         $this->geinformeerdOpslaanGegevens = $geinformeerdOpslaanGegevens;
-    }
-
-    /**
-     * Assert\Callback
-     */
-    public function validate(ExecutionContextInterface $context, $payload)
-    {
-        return;
-        $root = $context->getRoot();
-        if ($root instanceof Form && $root->getName()) {
-            if ($root->getName() == "toegang") {
-            }
-        }
-        return $context->getValidator()->validate();
     }
 }

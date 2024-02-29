@@ -11,11 +11,10 @@ use VillaBundle\VillaBundle;
 class VrijwilligerType extends VrijwilligerTypeAbstract
 {
     protected $dataClass = Vrijwilliger::class;
-    protected $locatieSelectClass = LocatieSelectType::class;
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        parent::buildForm($builder,$options);
+        parent::buildForm($builder, $options);
         $builder->remove("locaties");
     }
 }

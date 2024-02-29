@@ -223,45 +223,6 @@ class RegistratieDao extends AbstractDao implements RegistratieDaoInterface
         }
     }
 
-    public function delKlantFromShowerList($registratie_id, &$registraties, &$registratie_data)
-    {
-        $registraties_list = [];
-
-        foreach ($registraties as $key => $registratie) {
-            if ($registratie['Registratie']['douche'] > 0) {
-                $registraties_list[$registratie['Registratie']['id']] = $registratie['Registratie']['douche'];
-            }
-        }
-
-        asort($registraties_list);
-        $r_to_save = [];
-
-        if ($registratie_data['Registratie']['douche'] > 0) {
-            unset($registraties_list[$registratie_id]);
-            $r_to_save[$registratie_data['Registratie']['id']]['id'] = $registratie_data['Registratie']['id'];
-            $r_to_save[$registratie_data['Registratie']['id']]['douche'] = -1;
-            $inc = 1;
-            foreach ($registraties_list as $key => $value) {
-                $r_to_save[$key]['id'] = $key;
-                $r_to_save[$key]['douche'] = $inc;
-                ++$inc;
-            }
-        } elseif (-1 == $registratie_data['Registratie']['douche']) {
-            $r_to_save[$registratie_data['Registratie']['id']]['id'] = $registratie_data['Registratie']['id'];
-            $r_to_save[$registratie_data['Registratie']['id']]['douche'] = 0;
-        }
-        $this->saveAll($r_to_save);
-        foreach ($registraties as $r_key => $registratie_value) {
-            foreach ($r_to_save as $registratie_saved) {
-                if ($registratie_value['Registratie']['id'] == $registratie_saved['id']) {
-                    $registraties[$r_key]['Registratie']['douche'] = $registratie_saved['douche'];
-                }
-            }
-        }
-
-        return $registraties;
-    }
-
     public function checkoutKlantFromAllLocations(Klant $klant)
     {
         $registraties = $this->repository->createQueryBuilder('registratie')
@@ -310,39 +271,6 @@ class RegistratieDao extends AbstractDao implements RegistratieDaoInterface
         ;
 
         return $builder->getQuery()->getResult();
-    }
-
-    public function getActiveRegistraties(Locatie $locatie)
-    {
-        $builder = $this->repository->createQueryBuilder('registratie')
-            ->leftJoin('registratie.klant', 'klant')
-            ->andwhere('registratie.locatie = :locatie')
-            ->andwhere('registratie.closed = false')
-            ->setParameter('locatie', $locatie)
-        ;
-
-        if ($locatie->isGebruikersruimte()) {
-            $builder
-                ->leftJoin('klant.laatsteIntake', 'intake')
-                ->orderBy('intake.magGebruiken', 'ASC')
-                ->addOrderBy('registratie.created', 'DESC')
-            ;
-        }
-
-        $regularKlanten = $builder->getQuery()->getResult();
-
-        if ($locatie->isGebruikersruimte()) {
-            $gebruikers = [];
-            foreach ($regularKlanten as $registratie) {
-                if (!$registratie->getKlant()->getLaatsteIntake()->isMagGebruiken()) {
-                    continue;
-                }
-
-                array_unshift($gebruikers, $klant);
-            }
-        }
-
-        return [$regularKlanten, $gebruikers];
     }
 
     public function findActive($page = null, FilterInterface $filter = null)

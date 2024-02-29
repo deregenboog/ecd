@@ -127,6 +127,6 @@ abstract class SymfonyController extends AbstractController
             return $this->get('monolog.logger.'.$channel);
         }
 
-        return $this->logger;
+        return $this->get('monolog.logger');
     }
 }

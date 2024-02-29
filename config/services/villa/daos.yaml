@@ -8,11 +8,6 @@ services:
     VillaBundle\Service\:
         resource: '%kernel.project_dir%/src/VillaBundle/Service/'
 
-    villa.memo.entities:
-        class: ArrayObject
-        arguments:
-            - - { key: vrijwilliger, dao: '@VillaBundle\Service\VrijwilligerDao' }
-              -
     villa.deelname.entities:
         class: ArrayObject
         arguments:

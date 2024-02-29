@@ -25,6 +25,8 @@ class NieuweKlantenPerStadsdeel extends AbstractReport
 
     protected $tables = [];
 
+    private $data;
+
     public function __construct(KlantDaoInterface $dao)
     {
         $this->dao = $dao;

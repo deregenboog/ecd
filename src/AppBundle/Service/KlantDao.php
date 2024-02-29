@@ -14,6 +14,9 @@ class KlantDao extends AbstractDao implements KlantDaoInterface, DoelstellingDao
     public const DUPLICATE_MODE_SAME_SURNAME = 'same_surname';
     public const DUPLICATE_MODE_SURNAME_LIKE_FIRSTNAME = 'surname_like_firstname';
 
+    private $sets;
+    private $setIndexes;
+
     protected $paginationOptions = [
         'defaultSortFieldName' => 'klant.achternaam',
         'defaultSortDirection' => 'asc',
@@ -195,23 +198,6 @@ class KlantDao extends AbstractDao implements KlantDaoInterface, DoelstellingDao
                     AND k2.disabled = 0
                     AND k1.id != k2.id
                     ORDER BY k2.achternaam
-                ");
-                $matchedKey = 'achternaam';
-                break;
-
-            case 'less_relaxed_surname':
-                $pairs = $this->query("
-                    SELECT k1.id id1, k2.id id2, k2.achternaam, concat_ws(' ', k1.voornaam, k1.roepnaam, k1.achternaam) name1, concat_ws(' ', k2.voornaam, k2.roepnaam, k2.achternaam) name2, k1.geboortedatum
-                    FROM klanten AS k1
-                    INNER JOIN klanten AS k2
-                    ON (
-                        (TRIM(k1.voornaam) = TRIM(k2.achternaam) AND (SUBSTR(k1.achternaam, 1, 1) = SUBSTR(k2.voornaam, 1, 1)) OR SUBSTR(k1.achternaam, 1, 1) = SUBSTR(k2.roepnaam, 1, 1)))
-                        OR
-                        (TRIM(k1.roepnaam) = TRIM(k2.achternaam) AND (SUBSTR(k1.achternaam, 1, 1) = SUBSTR(k2.roepnaam, 1, 1) OR  SUBSTR(k1.achternaam, 1, 1) = SUBSTR(k2.voornaam, 1, 1))
-                    )
-                    WHERE k1.disabled = 0
-                    AND k2.disabled = 0
-                    ORDER BY name1
                 ");
                 $matchedKey = 'achternaam';
                 break;

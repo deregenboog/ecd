@@ -2,6 +2,7 @@
 
 namespace Tests\ErOpUitBundle\Controller;
 
+use AppBundle\Service\MedewerkerDao;
 use AppBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -11,7 +12,7 @@ class KlantenControllerTest extends WebTestCase
     {
         $this->markTestIncomplete();
 
-        $medewerker = $this->getContainer()->get(\AppBundle\Service\MedewerkerDao::class)->findByUsername('eou_user');
+        $medewerker = $this->getContainer()->get(MedewerkerDao::class)->findByUsername('eou_user');
         $this->client->loginUser($medewerker);
 
         $crawler = $this->client->request('GET', $this->getUrl('eropuit_klanten_index'));
@@ -25,7 +26,7 @@ class KlantenControllerTest extends WebTestCase
 
     public function testSort()
     {
-        $medewerker = $this->getContainer()->get(\AppBundle\Service\MedewerkerDao::class)->findByUsername('eou_user');
+        $medewerker = $this->getContainer()->get(MedewerkerDao::class)->findByUsername('eou_user');
         $this->client->loginUser($medewerker);
 
         $crawler = $this->client->request('GET', $this->getUrl('eropuit_klanten_index'));
@@ -44,7 +45,7 @@ class KlantenControllerTest extends WebTestCase
 
     public function testFilter()
     {
-        $medewerker = $this->getContainer()->get(\AppBundle\Service\MedewerkerDao::class)->findByUsername('eou_user');
+        $medewerker = $this->getContainer()->get(MedewerkerDao::class)->findByUsername('eou_user');
         $this->client->loginUser($medewerker);
 
         $crawler = $this->client->request('GET', $this->getUrl('eropuit_klanten_index'));
@@ -60,7 +61,7 @@ class KlantenControllerTest extends WebTestCase
 
     public function testAddFilter()
     {
-        $medewerker = $this->getContainer()->get(\AppBundle\Service\MedewerkerDao::class)->findByUsername('eou_user');
+        $medewerker = $this->getContainer()->get(MedewerkerDao::class)->findByUsername('eou_user');
         $this->client->loginUser($medewerker);
 
         $crawler = $this->client->request('GET', $this->getUrl('eropuit_klanten_add'));

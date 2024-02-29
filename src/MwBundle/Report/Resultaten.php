@@ -9,7 +9,6 @@ use MwBundle\Service\KlantDao;
 
 class Resultaten extends AbstractReport
 {
-
     protected $title = 'Resultaten';
 
     protected $xPath = 'type';
@@ -21,17 +20,13 @@ class Resultaten extends AbstractReport
     protected $columns = [
         'Klanten'=>'aantal',
         'Verslagen'=>'aantalVerslagen'
-        ];
+    ];
 
     protected $yDescription = 'Locatienaam';
 
-
     protected $tables = [];
 
-    /**
-     * @var Locatie
-     */
-    private $locatie;
+    private $result;
 
     public function __construct(KlantDao $dao)
     {
@@ -59,12 +54,10 @@ class Resultaten extends AbstractReport
         );
 //        $sql = $this->getFullSQL($query);
         $this->result = $query->getResult();
-
     }
 
     protected function build()
     {
-
         $table = new Grid($this->result, $this->columns,$this->yPath);
         $table
             ->setStartDate($this->startDate)

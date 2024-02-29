@@ -4,7 +4,7 @@ namespace MwBundle\Controller;
 
 
 use AppBundle\Export\ExportInterface;
-
+use AppBundle\Service\VrijwilligerDao as AppVrijwilligerDao;
 use InloopBundle\Controller\VrijwilligersControllerAbstract;
 use MwBundle\Entity\Vrijwilliger;
 use MwBundle\Form\VrijwilligerCloseType;
@@ -34,21 +34,11 @@ class VrijwilligersController extends VrijwilligersControllerAbstract
     protected $dao;
 
     /**
-     * @var \AppBundle\Service\VrijwilligerDao
-     */
-    protected $vrijwilligerDao;
-
-    /**
      * @var ExportInterface
      */
     protected $export;
 
-    /**
-     * @param VrijwilligerDao $dao
-     * @param \AppBundle\Service\VrijwilligerDao $vrijwilligerDao
-     * @param ExportInterface $export
-     */
-    public function __construct(VrijwilligerDao $dao, \AppBundle\Service\VrijwilligerDao $vrijwilligerDao, ExportInterface $export)
+    public function __construct(VrijwilligerDao $dao, AppVrijwilligerDao $vrijwilligerDao, ExportInterface $export)
     {
         $this->dao = $dao;
         $this->vrijwilligerDao = $vrijwilligerDao;

@@ -2,9 +2,8 @@
 
 namespace TwBundle\Controller;
 
-
 use AppBundle\Export\ExportInterface;
-
+use AppBundle\Service\VrijwilligerDao as AppVrijwilligerDao;
 use InloopBundle\Controller\VrijwilligersControllerAbstract;
 use TwBundle\Entity\Vrijwilliger;
 use TwBundle\Form\VrijwilligerCloseType;
@@ -13,7 +12,6 @@ use TwBundle\Form\VrijwilligerType;
 use TwBundle\Service\VrijwilligerDao;
 use TwBundle\Service\VrijwilligerDaoInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -35,11 +33,6 @@ class VrijwilligersController extends VrijwilligersControllerAbstract
     protected $dao;
 
     /**
-     * @var \AppBundle\Service\VrijwilligerDao
-     */
-    protected $vrijwilligerDao;
-
-    /**
      * @var ExportInterface
      */
     protected $export;
@@ -49,7 +42,7 @@ class VrijwilligersController extends VrijwilligersControllerAbstract
      * @param \AppBundle\Service\VrijwilligerDao $vrijwilligerDao
      * @param ExportInterface $export
      */
-    public function __construct(VrijwilligerDao $dao, \AppBundle\Service\VrijwilligerDao $vrijwilligerDao, ExportInterface $export)
+    public function __construct(VrijwilligerDao $dao, AppVrijwilligerDao $vrijwilligerDao, ExportInterface $export)
     {
         $this->dao = $dao;
         $this->vrijwilligerDao = $vrijwilligerDao;

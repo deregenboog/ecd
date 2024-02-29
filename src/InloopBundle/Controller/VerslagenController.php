@@ -97,44 +97,4 @@ class VerslagenController extends AbstractController
             'diensten' => $event->getDiensten(),
         ];
     }
-
-    protected function pprocessForm(Request $request, $entity = null)
-    {
-        $inventarisaties = $this->inventarisatieDao->findAllAsTree();
-        $model = new VerslagModel($entity, $inventarisaties);
-
-        $form = $this->getForm($this->formClass, $model, [
-            'medewerker' => $this->getMedewerker(),
-            'inventarisaties' => $inventarisaties,
-        ]);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            try {
-                if ($entity->getId()) {
-                    $this->dao->update($entity);
-                } else {
-                    $this->dao->create($entity);
-                }
-                $this->addFlash('success', ucfirst($this->entityName).' is opgeslagen.');
-            } catch(UserException $e) {
-//                $this->logger->error($e->getMessage(), ['exception' => $e]);
-                $message =  $e->getMessage();
-                $this->addFlash('danger', $message);
-//                return $this->redirectToRoute('app_klanten_index');
-            } catch (\Exception $e) {
-                $this->logger->error($e->getMessage(), ['exception' => $e]);
-                $message = $this->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
-                $this->addFlash('danger', $message);
-            }
-
-            return $this->afterFormSubmitted($request, $entity, null);
-        }
-
-        return [
-            'entity' => $entity,
-            'form' => $form->createView(),
-            'inventarisaties' => $inventarisaties,
-        ];
-    }
 }

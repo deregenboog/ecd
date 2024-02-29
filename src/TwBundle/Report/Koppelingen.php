@@ -8,7 +8,6 @@ use AppBundle\Report\Table;
 use TwBundle\Service\HuurovereenkomstDaoInterface;
 use TwBundle\Service\ProjectDaoInterface;
 
-
 class Koppelingen extends AbstractReport
 {
     protected $title = 'Koppelingen';
@@ -20,6 +19,18 @@ class Koppelingen extends AbstractReport
 //    protected $xPath = 'ddd';
 
     protected $xDescription = 'Actieve koppelingen binnen de opgegeven periode';
+
+    /**
+     * @var ProjectDaoInterface
+     */
+    private $projectDao;
+
+    private $koppelingenPerProjectData;
+
+    private $columns = [
+        'Actief' => 'aantalActief',
+        'Gestart' => 'aantalGestart',
+    ];
 
     public function __construct(HuurovereenkomstDaoInterface $dao, ProjectDaoInterface $projectDao)
     {
@@ -59,7 +70,6 @@ class Koppelingen extends AbstractReport
 
     private function buildProjectTable($result)
     {
-        $this->columns = ["Actief"=>"aantalActief", "Gestart"=>"aantalGestart"];
         $table = new Grid($result, $this->columns, "groep");
         $table
             ->setStartDate($this->startDate)

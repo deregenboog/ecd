@@ -10,9 +10,8 @@ use InloopBundle\Entity\Locatie;
 use InloopBundle\Service\LocatieDao;
 use MwBundle\Service\VerslagDao;
 
-class STED extends  AbstractMwReport
+class STED extends AbstractMwReport
 {
-
     protected $title = 'STED';
 
     protected function filterLocations($allLocations)
@@ -21,7 +20,7 @@ class STED extends  AbstractMwReport
         /**
          * Filter: alleen 'zonder zorg'
          */
-        foreach($allLocations as $k=> $locatie)
+        foreach($allLocations as $locatie)
         {
             $naam = $locatie->getNaam();
             if(
@@ -33,10 +32,8 @@ class STED extends  AbstractMwReport
             ) {
                 $this->locaties[] = $locatie->getNaam();
             }
-
         }
     }
-
 
     protected function init()
     {
@@ -62,21 +59,19 @@ class STED extends  AbstractMwReport
 
         $this->resultAfsluitingen = $this->mdsDao->findAllAfsluitredenenAfgeslotenKlantenForLocaties($this->startDate,$this->endDate,$this->locaties);
         $this->resultDoorlooptijd = $this->mdsDao->findDoorlooptijdForLocaties($this->startDate,$this->endDate,$this->locaties);
-
     }
 
-    protected function buildAantalKlantenVerslagenContactmomenten($data,$total,$titel,$columns=[])
+    protected function buildAantalKlantenVerslagenContactmomenten($data, $total, $titel, $columns = [])
     {
         $columns = [
-            'Klanten'=>'aantalKlanten',
-            'Aantal gezinnen'=>'aantalGezinnen',
-            'Verslagen'=>'aantalVerslagen',
-            'Aantal contactmomenten'=>'aantalContactmomenten',
-            'Inloopverslagen'=>'aantalInloop',
-            'MW verslagen'=>'aantalMw',
+            'Klanten' => 'aantalKlanten',
+            'Aantal gezinnen' => 'aantalGezinnen',
+            'Verslagen' => 'aantalVerslagen',
+            'Aantal contactmomenten' => 'aantalContactmomenten',
+            'Inloopverslagen' => 'aantalInloop',
+            'MW verslagen' => 'aantalMw',
         ];
 
-        return parent::buildAantalKlantenVerslagenContactmomenten($data,$total,$titel,$columns);
+        return parent::buildAantalKlantenVerslagenContactmomenten($data, $total, $titel, $columns);
     }
-
 }

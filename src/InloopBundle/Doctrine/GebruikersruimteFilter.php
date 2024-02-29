@@ -1,8 +1,8 @@
 <?php
 
-namespace AppBundle\Doctrine;
+namespace InloopBundle\Doctrine;
 
-use Doctrine\ORM\Mapping\ClassMetaData;
+use Doctrine\ORM\Mapping\ClassMetadata;
 use Doctrine\ORM\Query\Filter\SQLFilter;
 
 class GebruikersruimteFilter extends SQLFilter

@@ -4,6 +4,7 @@ namespace IzBundle\Entity;
 
 use AppBundle\Entity\Medewerker;
 use AppBundle\Exception\UserException;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 
@@ -54,7 +55,7 @@ class Hulpvraag extends Hulp
     private $spreektNederlands;
 
     /**
-     * @var Reservering
+     * @var ArrayCollection|Reservering[]
      * @ORM\OneToMany(targetEntity="Reservering", mappedBy="hulpvraag")
      */
     protected $reserveringen;

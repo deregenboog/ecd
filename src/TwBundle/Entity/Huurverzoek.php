@@ -203,22 +203,6 @@ class Huurverzoek
     }
 
     /**
-     * @return Huuraanbod
-     */
-    public function getReservering(): Huuraanbod
-    {
-        return $this->reservering;
-    }
-
-    /**
-     * @param Huuraanbod $reservering
-     */
-    public function setReservering(Huuraanbod $reservering): void
-    {
-        $this->reservering = $reservering;
-    }
-
-    /**
      * @return Project[]
      */
     public function getProjecten() //: ?array

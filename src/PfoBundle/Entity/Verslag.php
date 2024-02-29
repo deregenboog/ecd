@@ -77,11 +77,6 @@ class Verslag
         $this->clienten = new ArrayCollection();
     }
 
-    public function __toString()
-    {
-        return sprintf('%s (%s, %s)', $this->onderwerp, $this->medewerker, $this->created->format('d-m-Y'));
-    }
-
     public function getType()
     {
         return $this->type;

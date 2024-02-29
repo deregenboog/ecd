@@ -11,19 +11,15 @@ use OekraineBundle\Service\VerslagDao;
 
 class Klanten extends AbstractReport
 {
-
     protected $title = 'Klanten en verslagen';
 
     protected $xPath = 'type';
 
-//    protected $yPath = 'locatienaam';
+    // protected $yPath = 'locatienaam';
 
     protected $nPath = 'aantal';
 
-
-
-//    protected $yDescription = 'Locatienaam';
-
+    // protected $yDescription = 'Locatienaam';
 
     protected $tables = [];
 
@@ -33,8 +29,9 @@ class Klanten extends AbstractReport
     private $locatie;
 
     public $yLookupCollection;
+
     /**
-     * @var Locaties die voor dit rapport gelden
+     * Locaties die voor dit rapport gelden.
      */
     private $locaties = [];
 
@@ -43,6 +40,9 @@ class Klanten extends AbstractReport
 
     /** @var BezoekerDao  */
     private $bezoekerDao;
+
+    private $resultKlantenVerslagen;
+    private $resultKlantenVerslagenTotalUnique;
 
     public function __construct(VerslagDao $dao, LocatieDao $locatieDao, BezoekerDao $bezoekerDao)
     {
@@ -144,61 +144,13 @@ class Klanten extends AbstractReport
         return $report;
     }
 
-    protected function buildAfsluitingen()
-    {
-        $columns = [
-            'Aantal afsluitingen'=>'aantal',
-//            'Afsluitreden'=>'naam',
-        ];
-        $table = new Grid($this->resultAfsluitingen, $columns,"naam");
-        $table
-            ->setStartDate($this->startDate)
-            ->setEndDate($this->endDate)
-            ->setYSort(false)
-            ->setYTotals(true)
-        ;
-
-        $report = [
-            'title' => "Aantal afsluitingen per afsluitreden",
-            'yDescription' => "Afsluitreden",
-            'data' => $table->render(),
-        ];
-        return $report;
-    }
-
-    protected function buildAanmeldingen()
-    {
-        $columns = [
-            'Aantal aanmeldingen'=>'aantal',
-//            'Afsluitreden'=>'naam',
-        ];
-        $table = new Grid($this->resultAanmeldingen, $columns,"naam");
-        $table
-            ->setStartDate($this->startDate)
-            ->setEndDate($this->endDate)
-            ->setYSort(false)
-            ->setYTotals(true)
-        ;
-
-        $report = [
-            'title' => "Aantal aanmeldingen per binnen via optie",
-            'yDescription' => "Binnen via",
-            'data' => $table->render(),
-        ];
-        return $report;
-    }
-
     public function YLookupCollection($p = null)
     {
         return $p;
     }
 
-
     protected function build()
     {
-
         $this->reports[] = $this->buildAantalKlantenVerslagenContactmomenten();
-//        $this->reports[] = $this->buildAfsluitingen();
-//        $this->reports[] = $this->buildAanmeldingen();
     }
 }

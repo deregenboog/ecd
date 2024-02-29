@@ -2,13 +2,14 @@
 
 namespace Tests\GaBundle\Controller;
 
+use AppBundle\Service\MedewerkerDao;
 use AppBundle\Test\WebTestCase;
 
 class RapportagesControllerTest extends WebTestCase
 {
     public function testShowReports()
     {
-        $medewerker = $this->getContainer()->get(\AppBundle\Service\MedewerkerDao::class)->findByUsername('ga_user');
+        $medewerker = $this->getContainer()->get(MedewerkerDao::class)->findByUsername('ga_user');
         $this->client->loginUser($medewerker);
 
         $crawler = $this->client->request('GET', '/ga/rapportages/');

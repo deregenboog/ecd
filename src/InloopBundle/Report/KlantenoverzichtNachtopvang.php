@@ -38,9 +38,8 @@ class KlantenoverzichtNachtopvang extends AbstractReport
     public function __construct(EntityManagerInterface $entityManager, LocatieDao $locatieDao)
     {
         $this->entityManager = $entityManager;
-        $this->locatieDao = $locatieDao;
+        $this->dao = $locatieDao;
     }
-
 
     public function getFormOptions()
     {
@@ -109,9 +108,7 @@ class KlantenoverzichtNachtopvang extends AbstractReport
 
     protected function init()
     {
-
-
-        $locaties = $this->locatieDao->findAllActiveLocationsOfTypes(["Nachtopvang"]);
+        $locaties = $this->dao->findAllActiveLocationsOfTypes(["Nachtopvang"]);
 
         foreach ($locaties as $locatie) {
 

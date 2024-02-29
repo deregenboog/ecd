@@ -20,13 +20,15 @@ class ZonderZorg extends AbstractReport
 
     protected $columns = [
         'Klanten'=>'numContacten',
-        ];
+    ];
 
     protected $yDescription = 'Aantal contacten';
 
     protected $zonderzorg_locaties = [];
 
     protected $tables = [];
+
+    protected $result;
 
     /**
      * @var Locatie

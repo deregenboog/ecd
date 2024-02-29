@@ -190,11 +190,6 @@ abstract class Dossier implements DocumentSubjectInterface
         return new ArrayCollection($activiteiten);
     }
 
-    public function getStatussen()
-    {
-        return $this->statussen;
-    }
-
     public function getDeelnames()
     {
         return $this->deelnames;

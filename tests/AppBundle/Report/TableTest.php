@@ -1,7 +1,8 @@
 <?php
 
-namespace AppBundle\Report;
+namespace Tests\AppBundle\Report;
 
+use AppBundle\Report\Table;
 use PHPUnit\Framework\TestCase;
 
 class TableTest extends TestCase

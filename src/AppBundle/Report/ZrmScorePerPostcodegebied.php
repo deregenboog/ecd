@@ -23,6 +23,8 @@ class ZrmScorePerPostcodegebied extends AbstractReport
 
     protected $class = ZrmV1::class;
 
+    private EntityManagerInterface $em;
+
     public function __construct(EntityManagerInterface $em)
     {
         $this->em = $em;

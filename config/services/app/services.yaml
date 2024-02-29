@@ -62,8 +62,7 @@ services:
 
     AppBundle\Controller\DownloadController:
         arguments:
-            $entities: '@app.document.entities'
-            $downloadServices: !tagged_iterator app.downloads
+            - !tagged_iterator app.downloads
 
     AppBundle\Event\PreventSaveForDateRangeEventListener:
         arguments:
@@ -140,10 +139,6 @@ services:
 
     AppBundle\Form\MedewerkerType:
         arguments: ["@security.token_storage"]
-
-    AppBundle\Form\DownloadVrijwilligersType:
-        arguments:
-            $exports: !tagged_iterator app.downloads
 
     AppBundle\Event\KernelSubscriber:
         arguments:

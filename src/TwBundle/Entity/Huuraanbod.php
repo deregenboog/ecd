@@ -250,22 +250,6 @@ class Huuraanbod
     }
 
     /**
-     * @return Huurverzoek
-     */
-    public function getReservering(): Huurverzoek
-    {
-        return $this->reservering;
-    }
-
-    /**
-     * @param Huurverzoek $reservering
-     */
-    public function setReservering(Huurverzoek $reservering): void
-    {
-        $this->reservering = $reservering;
-    }
-
-    /**
      * @return VormVanOvereenkomst
      */
     public function getVormvanovereenkomst(): ?VormVanOvereenkomst

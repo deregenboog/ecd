@@ -72,7 +72,7 @@ abstract class AbstractReport
             $this->startDate = $filter['startdatum'];
         }
 
-        if (array_key_exists('startdatum', $filter)) {
+        if (array_key_exists('einddatum', $filter)) {
             $this->endDate = $filter['einddatum'];
         }
 

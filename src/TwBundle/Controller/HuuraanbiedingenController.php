@@ -103,7 +103,6 @@ class HuuraanbiedingenController extends SymfonyController
 
         $huuraanbiedingen = $builder->getQuery()->getResult();
 
-        $this->autoRender = false;
         $filename = sprintf('tw-huuraanbiedingen-%s.xlsx', (new \DateTime())->format('d-m-Y'));
 
         /* @var $this->export ExportInterface */

@@ -7,7 +7,7 @@ use AppBundle\Service\NameFormatter;
 use Doctrine\ORM\EntityNotFoundException;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
-use Symfony\Component\Debug\Exception\FatalErrorException;
+use Symfony\Component\ErrorHandler\Error\FatalError;
 
 trait PersonTrait
 {
@@ -38,7 +38,7 @@ trait PersonTrait
     {
         try {
             return $this->getNaam();
-        } catch (EntityNotFoundException|FatalErrorException $e) {
+        } catch (EntityNotFoundException|FatalError $e) {
             return '';
         }
     }

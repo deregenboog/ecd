@@ -4,6 +4,7 @@ namespace MwBundle\Command;
 
 use AppBundle\Entity\Klant;
 use Doctrine\ORM\EntityManagerInterface;
+use InloopBundle\Entity\Registratie;
 use MwBundle\Entity\Aanmelding;
 use MwBundle\Entity\Afsluiting;
 use Symfony\Component\Console\Input\InputInterface;
@@ -44,10 +45,6 @@ class SyncDossierstatusCommand extends \Symfony\Component\Console\Command\Comman
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-
-        // get clients that haven't visited within the configured interval
-//        $klanten = $this->getKlanten();
-
         $fromId = $input->getOption('fromId');
         $id = $input->getOption('id');
         $onlyWithoutInloop = $input->getOption('onlyWithoutInloopDossier');
@@ -62,9 +59,7 @@ class SyncDossierstatusCommand extends \Symfony\Component\Console\Command\Comman
             $mwKlanten = $this->getMwKlanten($fromId,$id,$vanafVerslagDatum);
         }
 
-
         $output->writeln(sprintf('%d MwKlanten gevonden from id: %d', is_array($mwKlanten) || $mwKlanten instanceof \Countable ? count($mwKlanten) : 0,$fromId));
-
 
         foreach ($mwKlanten as $klant) {
 
@@ -86,7 +81,7 @@ class SyncDossierstatusCommand extends \Symfony\Component\Console\Command\Comman
             else //klant heeft geen inloopdossier.
             {
                 $status = new Aanmelding();
-                $status->setKlant();
+                $status->setKlant($klant);
                 $output->writeln(sprintf('Aanmelding toevoegen voor #%d (geen InloopDossier)', $klant->getId()));
                 $klant->setHuidigeMwStatus($status);
             }
@@ -96,21 +91,6 @@ class SyncDossierstatusCommand extends \Symfony\Component\Console\Command\Comman
         }
         $output->writeln('Succesvol afgerond');
         return 0;
-    }
-
-    private function getKlanten()
-    {
-        return $this->manager->getRepository(Klant::class)->createQueryBuilder('klant')
-            ->select('klant, intake')
-            ->innerJoin('klant.laatsteIntake', 'intake', 'WITH', 'intake.toegangInloophuis = 1 AND intake.magGebruiken = 1')
-            ->innerJoin(Registratie::class, 'registratie', 'WITH', 'registratie.klant = klant')
-            ->innerJoin('registratie.locatie', 'locatie', 'WITH', 'locatie.gebruikersruimte = 1')
-            ->groupBy('klant.id')
-            ->having('MAX(registratie.binnen) < :date')
-            ->setParameter('date', new \DateTime($this->interval))
-            ->getQuery()
-            ->getResult()
-            ;
     }
 
     private function getMwKlanten($fromId=null,$id=null,$fromDate=null)

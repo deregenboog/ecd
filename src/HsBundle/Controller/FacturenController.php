@@ -18,7 +18,6 @@ use HsBundle\Form\FactuurType;
 use HsBundle\Pdf\PdfFactuur;
 use HsBundle\Service\FactuurDao;
 use HsBundle\Service\FactuurDaoInterface;
-use HsBundle\Service\FactuurFactoryInterface;
 use HsBundle\Service\KlantDao;
 use HsBundle\Service\KlantDaoInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
@@ -61,26 +60,18 @@ class FacturenController extends AbstractChildController
     protected $klantDao;
 
     /**
-     * @var FactuurFactoryInterface
-     */
-    private $factory;
-
-    /**
      * @param FactuurDao $dao
      * @param \ArrayObject $entities
      * @param ExportInterface $export
      * @param KlantDao $klantDao
-     * @param FactuurFactoryInterface $factory
      */
-    public function __construct(FactuurDao $dao, KlantDao $klantDao, \ArrayObject $entities, ExportInterface $export,FactuurFactoryInterface $factory)
+    public function __construct(FactuurDao $dao, KlantDao $klantDao, \ArrayObject $entities, ExportInterface $export)
     {
         $this->dao = $dao;
         $this->entities = $entities;
         $this->export = $export;
         $this->klantDao = $klantDao;
-        $this->factory = $factory;
     }
-
 
     /**
      * @Route("/")

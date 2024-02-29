@@ -20,6 +20,10 @@ class DossierSubscriber implements EventSubscriberInterface
      */
     private $klantDao;
 
+    /**
+     * @var AccessUpdater
+     */
+    private $accessUpdater;
 
     public function __construct(
         KlantDaoInterface $klantDao,

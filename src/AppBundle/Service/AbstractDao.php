@@ -97,7 +97,7 @@ abstract class AbstractDao implements AbstractDaoInterface
 
     public function findOneBySearchEntity($searchEntity)
     {
-        if(!$this->searchEntityName) throw new Exception("SearchEntityName in DAO niet geset");
+        if(!$this->searchEntityName) throw new \Exception("SearchEntityName in DAO niet geset");
         $entity = $this->repository->findOneBy([$this->searchEntityName => $searchEntity]);
         $this->tryLoadKlant($entity);
         return $entity;

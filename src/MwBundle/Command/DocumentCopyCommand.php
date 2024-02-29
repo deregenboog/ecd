@@ -59,7 +59,7 @@ class DocumentCopyCommand extends \Symfony\Component\Console\Command\Command
             ]);
 
             if (!$attachment) {
-                $output->writeln(sprintf('ERROR: Attachment %s not found!', $source, $destination));
+                $output->writeln(sprintf('ERROR: Attachment %s not found!', $document->getFilename()));
                 continue;
             }
 

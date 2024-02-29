@@ -62,7 +62,7 @@ class Hulpaanbod extends Hulp
     private $coachend;
 
     /**
-     * @var Reservering
+     * @var ArrayCollection|Reservering[]
      * @ORM\OneToMany(targetEntity="Reservering", mappedBy="hulpaanbod")
      */
     protected $reserveringen;

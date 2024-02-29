@@ -2,6 +2,7 @@
 
 namespace Tests\GaBundle\Controller;
 
+use AppBundle\Service\MedewerkerDao;
 use AppBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -9,7 +10,7 @@ class GroepenControllerTest extends WebTestCase
 {
     public function testSort()
     {
-        $medewerker = $this->getContainer()->get(\AppBundle\Service\MedewerkerDao::class)->findByUsername('ga_user');
+        $medewerker = $this->getContainer()->get(MedewerkerDao::class)->findByUsername('ga_user');
         $this->client->loginUser($medewerker);
 
         $crawler = $this->client->request('GET', $this->getUrl('ga_groepen_index'));
@@ -29,7 +30,7 @@ class GroepenControllerTest extends WebTestCase
 
     public function testAdd()
     {
-        $medewerker = $this->getContainer()->get(\AppBundle\Service\MedewerkerDao::class)->findByUsername('ga_user');
+        $medewerker = $this->getContainer()->get(MedewerkerDao::class)->findByUsername('ga_user');
         $this->client->loginUser($medewerker);
 
         $crawler = $this->client->request('GET', $this->getUrl('ga_groepen_add'));

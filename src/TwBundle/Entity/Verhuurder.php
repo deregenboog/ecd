@@ -97,6 +97,7 @@ class Verhuurder extends Deelnemer
     private $kwijtschelding;
 
     /**
+     * @var string
      * @ORM\Column(type="text", nullable=true)
      * @Gedmo\Versioned
      */
@@ -184,7 +185,7 @@ class Verhuurder extends Deelnemer
         return $this->pandeigenaar;
     }
 
-    public function setPandeigenaar(Pandeigenaar $pandeigenaar)
+    public function setPandeigenaar(?Pandeigenaar $pandeigenaar): self
     {
         $this->pandeigenaar = $pandeigenaar;
 
@@ -317,23 +318,15 @@ class Verhuurder extends Deelnemer
         return $this;
     }
 
-
-
-    /**
-     * @return mixed
-     */
-    public function getSamenvatting()
+    public function getSamenvatting(): ?string
     {
         return $this->samenvatting;
     }
 
-    /**
-     * @param mixed $samenvatting
-     * @return Huuraanbod
-     */
-    public function setSamenvatting($samenvatting)
+    public function setSamenvatting(?string $samenvatting): self
     {
         $this->samenvatting = $samenvatting;
+
         return $this;
     }
 }

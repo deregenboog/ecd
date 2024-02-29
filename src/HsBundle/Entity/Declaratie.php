@@ -216,14 +216,12 @@ class Declaratie implements DocumentSubjectInterface, FactuurSubjectInterface
         return $this;
     }
 
-    /**
-     * @return Document
-     */
-    public function getDocument()
+    public function getDocument(): ?Document
     {
         if (count($this->documenten) > 0) {
             return $this->documenten[0];
         }
+        return null;
     }
 
     /**

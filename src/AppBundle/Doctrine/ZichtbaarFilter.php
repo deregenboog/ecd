@@ -2,7 +2,7 @@
 
 namespace AppBundle\Doctrine;
 
-use Doctrine\ORM\Mapping\ClassMetaData;
+use Doctrine\ORM\Mapping\ClassMetadata;
 use Doctrine\ORM\Query\Filter\SQLFilter;
 use AppBundle\Entity\Werkgebied;
 

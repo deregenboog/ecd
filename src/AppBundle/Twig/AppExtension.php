@@ -47,6 +47,8 @@ class AppExtension extends AbstractExtension implements GlobalsInterface
      */
     private $tbcMonthsPeriod;
 
+    private $ecdHelper;
+
     public static function getRedirectUri(Request $request)
     {
         return preg_replace('/^.*[?&]redirect=([^&]*).*/', '$1', $request->getRequestUri());
@@ -359,7 +361,10 @@ class AppExtension extends AbstractExtension implements GlobalsInterface
 
         $noMatches = 0;
         foreach ($patterns as $pattern) {
-            if (0 === strpos($route, $pattern) || 0 === strpos($route, 'app_'.$pattern) || false!==in_array($pattern,$routeParams) ) {
+            if (0 === strpos($route, $pattern)
+                || 0 === strpos($route, 'app_'.$pattern)
+                || false !== in_array($pattern, (array) $routeParams)
+            ) {
                 $noMatches++;
             }
         }
@@ -534,6 +539,7 @@ class AppExtension extends AbstractExtension implements GlobalsInterface
         }
     }
 
+
     /**
      * Like default date filter, but prints nothing if no date is provided
      * (instead of printing todays date).
@@ -541,7 +547,8 @@ class AppExtension extends AbstractExtension implements GlobalsInterface
     public function ifDate(Environment $env, $date, $format = null, $timezone = null)
     {
         if ($date) {
-            return twig_date_format_filter($env, $date, $format, $timezone);
+            $c = $env->getFilter('date')->getCallable();
+            return $c($env, $date, $format, $timezone);
         }
 
         return '';

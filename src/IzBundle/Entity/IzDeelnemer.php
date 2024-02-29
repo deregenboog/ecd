@@ -132,7 +132,7 @@ abstract class IzDeelnemer
         $this->koppelingen = new ArrayCollection();
         $this->projecten = new ArrayCollection();
         $this->verslagen = new ArrayCollection();
-        $this->documenen = new ArrayCollection();
+        $this->documenten = new ArrayCollection();
     }
 
     public function getAfsluiting()

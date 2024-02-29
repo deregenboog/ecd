@@ -32,10 +32,6 @@ services:
       arguments:
         $entities: '@clip.deelname.entities'
 
-    ClipBundle\Controller\KlantenController:
-      arguments:
-        $export: '@mw.export.klanten'
-
     ClipBundle\Controller\DocumentenController:
       arguments:
         $entities: '@clip.document.entities'

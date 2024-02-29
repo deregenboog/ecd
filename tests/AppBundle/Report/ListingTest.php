@@ -1,7 +1,8 @@
 <?php
 
-namespace AppBundle\Report;
+namespace Tests\AppBundle\Report;
 
+use AppBundle\Report\Listing;
 use PHPUnit\Framework\TestCase;
 
 class ListingTest extends TestCase

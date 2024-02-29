@@ -1,6 +1,6 @@
 <?php
 
-namespace AppBundle\Security;
+namespace Tests\AppBundle\Security;
 
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;

@@ -170,6 +170,13 @@ abstract class Hulp
      */
     protected $voorkeurGeslacht;
 
+    /**
+     * ORM mapping is defined in implementations (i.e. Hulpaanbod, Hulpvraag).
+     *
+     * @var Reservering
+     */
+    protected $reserveringen;
+
     public function __construct()
     {
         $this->startdatum = new \DateTime('today');
@@ -375,16 +382,9 @@ abstract class Hulp
         }
     }
 
-    public function setKoppeling(Koppeling $koppeling)
-    {
-        if ($this->getKoppeling()) {
-            throw new UserException('Deze entiteit is al gekoppeld.');
-        }
+    abstract public function getKoppeling();
 
-        $this->hulpaanbod = $koppeling->getHulpaanbod();
-
-        return $this;
-    }
+    abstract public function setKoppeling(Koppeling $koppeling);
 
     public function isGekoppeld()
     {

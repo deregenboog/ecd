@@ -64,7 +64,7 @@ class Vrijwilliger implements MemoSubjectInterface, DocumentSubjectInterface, Ac
     protected $afsluitdatum;
 
     /**
-     * @var DocumentInterface[]
+     * @var Document[]
      *
      * @ORM\ManyToMany(targetEntity="Document", cascade={"persist","remove"}, fetch="EXTRA_LAZY")
      * @ORM\JoinTable(inverseJoinColumns={@ORM\JoinColumn(unique=true, onDelete="RESTRICT")})
@@ -160,7 +160,7 @@ class Vrijwilliger implements MemoSubjectInterface, DocumentSubjectInterface, Ac
      */
     public function validate(ExecutionContextInterface $context, $payload)
     {
-        if ($this->actief === false ?? $this->afsluitddatum
+        if ($this->actief === false ?? $this->afsluitdatum
         ) {
             $context->buildViolation('Het is verplicht een afsluitdatum in te vullen als iemand inactief is.')
                 ->atPath('afsluitdatum')
