@@ -4,6 +4,7 @@ namespace AppBundle\Entity;
 
 use AppBundle\Model\DocumentSubjectTrait;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\PersistentCollection;
@@ -592,8 +593,8 @@ class Klant extends Persoon
 
     public function getAantalVerslagen(): int
     {
-        if(!$this->verslagen instanceof PersistentCollection) return 0;
-        return $this->verslagen->count();//count((array) $this->verslagen);
+        if(!$this->verslagen instanceof Collection) return 0;
+        return $this->verslagen->count();
     }
     public function getEersteVerslag()
     {
