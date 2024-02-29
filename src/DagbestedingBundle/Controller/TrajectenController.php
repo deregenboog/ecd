@@ -13,7 +13,6 @@ use DagbestedingBundle\Form\DagdelenRangeModel;
 use DagbestedingBundle\Form\DagdelenRangeType;
 use DagbestedingBundle\Form\TrajectFilterType;
 use DagbestedingBundle\Form\TrajectType;
-use DagbestedingBundle\Service\TrajectDao;
 use DagbestedingBundle\Service\TrajectDaoInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
@@ -33,7 +32,7 @@ class TrajectenController extends AbstractChildController
     protected $addMethod = 'addTraject';
 
     /**
-     * @var TrajectDao
+     * @var TrajectDaoInterface
      */
     protected $dao;
 
@@ -47,18 +46,12 @@ class TrajectenController extends AbstractChildController
      */
     protected $export;
 
-    /**
-     * @param TrajectDao $dao
-     * @param \ArrayObject $entities
-     * @param GenericExport $export
-     */
-    public function __construct(TrajectDao $dao, \ArrayObject $entities, GenericExport $export)
+    public function __construct(TrajectDaoInterface $dao, \ArrayObject $entities, GenericExport $export)
     {
         $this->dao = $dao;
         $this->entities = $entities;
         $this->export = $export;
     }
-
 
     /**
      * @Route("/add")

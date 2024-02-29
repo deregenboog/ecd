@@ -16,9 +16,7 @@ use HsBundle\Form\CreditfactuurType;
 use HsBundle\Form\FactuurFilterType;
 use HsBundle\Form\FactuurType;
 use HsBundle\Pdf\PdfFactuur;
-use HsBundle\Service\FactuurDao;
 use HsBundle\Service\FactuurDaoInterface;
-use HsBundle\Service\KlantDao;
 use HsBundle\Service\KlantDaoInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
@@ -37,10 +35,10 @@ class FacturenController extends AbstractChildController
     protected $filterFormClass = FactuurFilterType::class;
     protected $addMethod = 'addFactuur';
     protected $baseRouteName = 'hs_facturen_';
-//     protected $disabledActions = ['edit', 'delete'];
+    // protected $disabledActions = ['edit', 'delete'];
 
     /**
-     * @var FactuurDao
+     * @var FactuurDaoInterface
      */
     protected $dao;
 
@@ -55,17 +53,11 @@ class FacturenController extends AbstractChildController
     protected $export;
 
     /**
-     * @var KlantDao
+     * @var KlantDaoInterface
      */
     protected $klantDao;
 
-    /**
-     * @param FactuurDao $dao
-     * @param \ArrayObject $entities
-     * @param ExportInterface $export
-     * @param KlantDao $klantDao
-     */
-    public function __construct(FactuurDao $dao, KlantDao $klantDao, \ArrayObject $entities, ExportInterface $export)
+    public function __construct(FactuurDaoInterface $dao, KlantDaoInterface $klantDao, \ArrayObject $entities, ExportInterface $export)
     {
         $this->dao = $dao;
         $this->entities = $entities;

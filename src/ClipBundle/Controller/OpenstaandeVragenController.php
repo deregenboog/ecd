@@ -5,7 +5,6 @@ namespace ClipBundle\Controller;
 use AppBundle\Export\ExportInterface;
 use ClipBundle\Entity\Vraag;
 use ClipBundle\Filter\VraagFilter;
-use ClipBundle\Service\VraagDao;
 use ClipBundle\Service\VraagDaoInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
@@ -20,7 +19,7 @@ class OpenstaandeVragenController extends AbstractVragenController
     protected $title = 'Openstaande vragen';
 
     /**
-     * @var VraagDao
+     * @var VraagDaoInterface
      */
     protected $dao;
 
@@ -29,16 +28,11 @@ class OpenstaandeVragenController extends AbstractVragenController
      */
     protected $export;
 
-    /**
-     * @param VraagDaoInterface $dao
-     * @param ExportInterface $export
-     */
-    public function __construct(VraagDao $dao, ExportInterface $export)
+    public function __construct(VraagDaoInterface $dao, ExportInterface $export)
     {
         $this->dao = $dao;
         $this->export = $export;
     }
-
 
     /**
      * @Route("/")

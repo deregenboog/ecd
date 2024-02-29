@@ -8,7 +8,7 @@ use AppBundle\Exception\UserException;
 use GaBundle\Entity\Activiteit;
 use GaBundle\Form\ActiviteitenReeksModel;
 use GaBundle\Form\ActiviteitenReeksType;
-use GaBundle\Service\ActiviteitDao;
+use GaBundle\Service\ActiviteitDaoInterface;
 use GaBundle\Service\ActiviteitenreeksGenerator;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
@@ -27,7 +27,7 @@ class ActiviteitenreeksController extends AbstractChildController
     protected $baseRouteName = 'ga_activiteiten_';
 
     /**
-     * @var ActiviteitDao
+     * @var ActiviteitDaoInterface
      */
     protected $dao;
 
@@ -36,16 +36,11 @@ class ActiviteitenreeksController extends AbstractChildController
      */
     protected $entities;
 
-    /**
-     * @param ActiviteitDao $dao
-     * @param \ArrayObject $entities
-     */
-    public function __construct(ActiviteitDao $dao, \ArrayObject $entities)
+    public function __construct(ActiviteitDaoInterface $dao, \ArrayObject $entities)
     {
         $this->dao = $dao;
         $this->entities = $entities;
     }
-
 
     /**
      * @Route("/add")

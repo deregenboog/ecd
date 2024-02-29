@@ -3,10 +3,9 @@
 namespace TwBundle\Controller;
 
 use AppBundle\Controller\AbstractController;
-
 use TwBundle\Entity\Project;
 use TwBundle\Form\ProjectType;
-use TwBundle\Service\ProjectDao;
+use TwBundle\Service\ProjectDaoInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -21,14 +20,11 @@ class ProjectenController extends AbstractController
     protected $baseRouteName = 'tw_projecten_';
 
     /**
-     * @var ProjectDao
+     * @var ProjectDaoInterface
      */
     protected $dao;
 
-    /**
-     * @param ProjectDao $dao
-     */
-    public function __construct(ProjectDao $dao)
+    public function __construct(ProjectDaoInterface $dao)
     {
         $this->dao = $dao;
     }

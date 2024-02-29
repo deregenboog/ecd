@@ -6,7 +6,7 @@ use AppBundle\Service\AbstractDao;
 use MwBundle\Entity\AfsluitredenKlant;
 use MwBundle\Entity\Resultaat;
 
-class ResultaatDao extends AbstractDao
+class ResultaatDao extends AbstractDao implements ResultaatDaoInterface
 {
     protected $class = Resultaat::class;
 

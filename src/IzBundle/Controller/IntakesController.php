@@ -6,7 +6,6 @@ use AppBundle\Controller\AbstractChildController;
 use AppBundle\Export\AbstractExport;
 use IzBundle\Entity\Intake;
 use IzBundle\Form\IntakeType;
-use IzBundle\Service\IntakeDao;
 use IzBundle\Service\IntakeDaoInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -23,7 +22,7 @@ class IntakesController extends AbstractChildController
     protected $disabledActions = ['index'];
 
     /**
-     * @var IntakeDao
+     * @var IntakeDaoInterface
      */
     protected $dao;
 
@@ -37,17 +36,10 @@ class IntakesController extends AbstractChildController
      */
     protected $export;
 
-    /**
-     * @param IntakeDao $dao
-     * @param \ArrayObject $entities
-     * @param AbstractExport $export
-     */
-    public function __construct(IntakeDao $dao, \ArrayObject $entities, AbstractExport $export)
+    public function __construct(IntakeDaoInterface $dao, \ArrayObject $entities, AbstractExport $export)
     {
         $this->dao = $dao;
         $this->entities = $entities;
         $this->export = $export;
     }
-
-
 }

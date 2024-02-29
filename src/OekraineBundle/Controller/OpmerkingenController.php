@@ -7,7 +7,6 @@ use AppBundle\Entity\Klant;
 use AppBundle\Entity\Opmerking;
 use OekraineBundle\Entity\Locatie;
 use OekraineBundle\Form\OpmerkingType;
-use OekraineBundle\Service\OpmerkingDao;
 use OekraineBundle\Service\OpmerkingDaoInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\Routing\Annotation\Route;
@@ -28,18 +27,14 @@ class OpmerkingenController extends AbstractController
     protected $disabledActions = ['view', 'edit'];
 
     /**
-     * @var OpmerkingDao
+     * @var OpmerkingDaoInterface
      */
     protected $dao;
 
-    /**
-     * @param OpmerkingDao $dao
-     */
-    public function __construct(OpmerkingDao $dao)
+    public function __construct(OpmerkingDaoInterface $dao)
     {
         $this->dao = $dao;
     }
-
 
     /**
      * @Route("/{klant}", requirements={"klant"="\d+"}, defaults={"locatie" = null})

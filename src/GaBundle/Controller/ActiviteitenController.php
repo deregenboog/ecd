@@ -11,7 +11,7 @@ use GaBundle\Form\ActiviteitCancelType;
 use GaBundle\Form\ActiviteitFilterType;
 use GaBundle\Form\ActiviteitType;
 use GaBundle\Form\DeelnamesType;
-use GaBundle\Service\ActiviteitDao;
+use GaBundle\Service\ActiviteitDaoInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -31,7 +31,7 @@ class ActiviteitenController extends AbstractChildController
     protected $baseRouteName = 'ga_activiteiten_';
 
     /**
-     * @var ActiviteitDao
+     * @var ActiviteitDaoInterface
      */
     protected $dao;
 
@@ -45,18 +45,12 @@ class ActiviteitenController extends AbstractChildController
      */
     protected $export;
 
-    /**
-     * @param ActiviteitDao $dao
-     * @param \ArrayObject $entities
-     * @param AbstractExport $export
-     */
-    public function __construct(ActiviteitDao $dao, \ArrayObject $entities, AbstractExport $export)
+    public function __construct(ActiviteitDaoInterface $dao, \ArrayObject $entities, AbstractExport $export)
     {
         $this->dao = $dao;
         $this->entities = $entities;
         $this->export = $export;
     }
-
 
     /**
      * @Route("/calendar")

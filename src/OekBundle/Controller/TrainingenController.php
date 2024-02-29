@@ -9,7 +9,6 @@ use OekBundle\Entity\Training;
 use OekBundle\Form\EmailMessageType;
 use OekBundle\Form\TrainingFilterType;
 use OekBundle\Form\TrainingType;
-use OekBundle\Service\TrainingDao;
 use OekBundle\Service\TrainingDaoInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
@@ -35,7 +34,7 @@ class TrainingenController extends AbstractChildController
     protected $baseRouteName = 'oek_trainingen_';
 
     /**
-     * @var TrainingDao
+     * @var TrainingDaoInterface
      */
     protected $dao;
 
@@ -54,20 +53,13 @@ class TrainingenController extends AbstractChildController
      */
     protected $exportDeelnemerslijst;
 
-    /**
-     * @param TrainingDao $dao
-     * @param \ArrayObject $entities
-     * @param ExportInterface $exportPresentielijst
-     * @param ExportInterface $exportDeelnemerslijst
-     */
-    public function __construct(TrainingDao $dao, \ArrayObject $entities, ExportInterface $exportPresentielijst, ExportInterface $exportDeelnemerslijst)
+    public function __construct(TrainingDaoInterface $dao, \ArrayObject $entities, ExportInterface $exportPresentielijst, ExportInterface $exportDeelnemerslijst)
     {
         $this->dao = $dao;
         $this->entities = $entities;
         $this->exportPresentielijst = $exportPresentielijst;
         $this->exportDeelnemerslijst = $exportDeelnemerslijst;
     }
-
 
     /**
      * @Route("/{id}/email")
@@ -162,6 +154,5 @@ class TrainingenController extends AbstractChildController
             }
         }
         $this->entityManager->flush();
-
     }
 }

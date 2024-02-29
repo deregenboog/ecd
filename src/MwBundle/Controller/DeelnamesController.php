@@ -4,11 +4,9 @@ namespace MwBundle\Controller;
 
 use AppBundle\Controller\AbstractChildController;
 use MwBundle\Entity\Deelname;
-
 use MwBundle\Form\DeelnameType;
-use MwBundle\Service\DeelnameDao;
-use Symfony\Component\Routing\Annotation\Route;
 use MwBundle\Service\DeelnameDaoInterface;
+use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * @Route("/deelnames")
@@ -24,7 +22,7 @@ class DeelnamesController extends AbstractChildController
     protected $baseRouteName = 'mw_deelname_';
 
     /**
-     * @var DeelnameDao
+     * @var DeelnameDaoInterface
      */
     protected $dao;
 
@@ -33,15 +31,9 @@ class DeelnamesController extends AbstractChildController
      */
     protected $entities;
 
-    /**
-     * @param DeelnameDao $dao
-     * @param \ArrayObject $entities
-     */
-    public function __construct(DeelnameDao $dao, \ArrayObject $entities)
+    public function __construct(DeelnameDaoInterface $dao, \ArrayObject $entities)
     {
         $this->dao = $dao;
         $this->entities = $entities;
     }
-
-
 }

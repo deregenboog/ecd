@@ -8,7 +8,6 @@ use AppBundle\Entity\Klant;
 use AppBundle\Export\ExportInterface;
 use AppBundle\Service\ECDHelper;
 use AppBundle\Twig\AppExtension;
-use DagbestedingBundle\Service\LocatieDaoInterface;
 use Doctrine\ORM\EntityNotFoundException;
 use InloopBundle\Entity\Locatie;
 use InloopBundle\Entity\LocatieType;
@@ -22,12 +21,9 @@ use InloopBundle\Form\RegistratieFilterType;
 use InloopBundle\Form\RegistratieHistoryFilterType;
 use InloopBundle\Form\RegistratieType;
 use InloopBundle\Security\Permissions;
-use InloopBundle\Service\KlantDao;
 use InloopBundle\Service\KlantDaoInterface;
-use InloopBundle\Service\LocatieDao;
-use InloopBundle\Service\RegistratieDao;
+use InloopBundle\Service\LocatieDaoInterface;
 use InloopBundle\Service\RegistratieDaoInterface;
-use InloopBundle\Service\SchorsingDao;
 use InloopBundle\Service\SchorsingDaoInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\Routing\Annotation\Route;
@@ -49,22 +45,22 @@ class RegistratiesController extends AbstractController
     protected $baseRouteName = 'inloop_registraties_';
 
     /**
-     * @var RegistratieDao
+     * @var RegistratieDaoInterface
      */
     protected $dao;
 
     /**
-     * @var KlantDao
+     * @var KlantDaoInterface
      */
     protected $klantDao;
 
     /**
-     * @var LocatieDao
+     * @var LocatieDaoInterface
      */
     protected $locatieDao;
 
     /**
-     * @var SchorsingDao
+     * @var SchorsingDaoInterface
      */
     protected $schorsingDao;
 
@@ -72,8 +68,6 @@ class RegistratiesController extends AbstractController
      * @var ExportInterface
      */
     protected $export;
-
-
 
     /**
      * @var array TBC_Countries from config.
@@ -85,15 +79,8 @@ class RegistratiesController extends AbstractController
      */
     protected $tbc_months_period = 0;
 
-    /**
-     * @param RegistratieDao $dao
-     * @param KlantDao $klantDao
-     * @param LocatieDao $locatieDao
-     * @param SchorsingDao $schorsingDao
-     * @param ExportInterface $export
-     */
-    public function __construct(RegistratieDao $dao, KlantDao $klantDao, LocatieDao $locatieDao, SchorsingDao $schorsingDao, ExportInterface $export,
-       $tbc_countries=[], $tbc_months_period=0)
+    public function __construct(RegistratieDaoInterface $dao, KlantDaoInterface $klantDao, LocatieDaoInterface $locatieDao, SchorsingDaoInterface $schorsingDao, ExportInterface $export,
+        $tbc_countries = [], $tbc_months_period = 0)
     {
         $this->dao = $dao;
         $this->klantDao = $klantDao;
@@ -101,7 +88,7 @@ class RegistratiesController extends AbstractController
         $this->schorsingDao = $schorsingDao;
         $this->export = $export;
         $this->tbc_months_period = $tbc_months_period;
-        $this->tbc_countries=$tbc_countries;
+        $this->tbc_countries = $tbc_countries;
     }
 
     /**

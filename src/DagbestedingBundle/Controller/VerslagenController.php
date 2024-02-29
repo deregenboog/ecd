@@ -5,7 +5,6 @@ namespace DagbestedingBundle\Controller;
 use AppBundle\Controller\AbstractChildController;
 use DagbestedingBundle\Entity\Verslag;
 use DagbestedingBundle\Form\VerslagType;
-use DagbestedingBundle\Service\VerslagDao;
 use DagbestedingBundle\Service\VerslagDaoInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -21,7 +20,7 @@ class VerslagenController extends AbstractChildController
     protected $baseRouteName = 'dagbesteding_verslagen_';
 
     /**
-     * @var VerslagDao
+     * @var VerslagDaoInterface
      */
     protected $dao;
 
@@ -30,15 +29,9 @@ class VerslagenController extends AbstractChildController
      */
     protected $entities;
 
-    /**
-     * @param VerslagDao $dao
-     * @param \ArrayObject $entities
-     */
-    public function __construct(VerslagDao $dao, \ArrayObject $entities)
+    public function __construct(VerslagDaoInterface $dao, \ArrayObject $entities)
     {
         $this->dao = $dao;
         $this->entities = $entities;
     }
-
-
 }

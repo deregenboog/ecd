@@ -5,7 +5,6 @@ namespace DagbestedingBundle\Controller;
 use AppBundle\Controller\AbstractChildController;
 use DagbestedingBundle\Entity\Rapportage;
 use DagbestedingBundle\Form\RapportageType;
-use DagbestedingBundle\Service\RapportageDao;
 use DagbestedingBundle\Service\RapportageDaoInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -21,7 +20,7 @@ class RapportagesController extends AbstractChildController
     protected $baseRouteName = 'dagbesteding_rapportages_';
 
     /**
-     * @var RapportageDao
+     * @var RapportageDaoInterface
      */
     protected $dao;
 
@@ -30,15 +29,9 @@ class RapportagesController extends AbstractChildController
      */
     protected $entities;
 
-    /**
-     * @param RapportageDao $dao
-     * @param \ArrayObject $entities
-     */
-    public function __construct(RapportageDao $dao, \ArrayObject $entities)
+    public function __construct(RapportageDaoInterface $dao, \ArrayObject $entities)
     {
         $this->dao = $dao;
         $this->entities = $entities;
     }
-
-
 }

@@ -14,11 +14,8 @@ use IzBundle\Filter\KoppelingFilter;
 use IzBundle\Form\HulpaanbodFilterType;
 use IzBundle\Form\HulpvraagFilterType;
 use IzBundle\Form\KoppelingFilterType;
-use IzBundle\Service\HulpaanbodDao;
 use IzBundle\Service\HulpaanbodDaoInterface;
-use IzBundle\Service\HulpvraagDao;
 use IzBundle\Service\HulpvraagDaoInterface;
-use IzBundle\Service\KoppelingDao;
 use IzBundle\Service\KoppelingDaoInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
@@ -33,17 +30,17 @@ class DashboardController extends SymfonyController
     protected $title = 'Mijn IZ';
 
     /**
-     * @var HulpvraagDao
+     * @var HulpvraagDaoInterface
      */
     protected $hulpvraagDao;
 
     /**
-     * @var HulpaanbodDao
+     * @var HulpaanbodDaoInterface
      */
     protected $hulpaanbodDao;
 
     /**
-     * @var KoppelingDao
+     * @var KoppelingDaoInterface
      */
     protected $koppelingDao;
 
@@ -62,15 +59,7 @@ class DashboardController extends SymfonyController
      */
     protected $koppelingenExport;
 
-    /**
-     * @param HulpvraagDao $hulpvraagDao
-     * @param HulpaanbodDao $hulpaanbodDao
-     * @param KoppelingDao $koppelingDao
-     * @param AbstractExport $hulpvragenExport
-     * @param AbstractExport $hulpaanbiedingenExport
-     * @param AbstractExport $koppelingenExport
-     */
-    public function __construct(HulpvraagDao $hulpvraagDao, HulpaanbodDao $hulpaanbodDao, KoppelingDao $koppelingDao, AbstractExport $hulpvragenExport, AbstractExport $hulpaanbiedingenExport, AbstractExport $koppelingenExport)
+    public function __construct(HulpvraagDaoInterface $hulpvraagDao, HulpaanbodDaoInterface $hulpaanbodDao, KoppelingDaoInterface $koppelingDao, AbstractExport $hulpvragenExport, AbstractExport $hulpaanbiedingenExport, AbstractExport $koppelingenExport)
     {
         $this->hulpvraagDao = $hulpvraagDao;
         $this->hulpaanbodDao = $hulpaanbodDao;
@@ -79,7 +68,6 @@ class DashboardController extends SymfonyController
         $this->hulpaanbiedingenExport = $hulpaanbiedingenExport;
         $this->koppelingenExport = $koppelingenExport;
     }
-
 
     /**
      * @Route("/")

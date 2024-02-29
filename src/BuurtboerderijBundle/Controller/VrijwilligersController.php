@@ -12,7 +12,7 @@ use BuurtboerderijBundle\Entity\Vrijwilliger;
 use BuurtboerderijBundle\Form\VrijwilligerCloseType;
 use BuurtboerderijBundle\Form\VrijwilligerFilterType;
 use BuurtboerderijBundle\Form\VrijwilligerType;
-use BuurtboerderijBundle\Service\VrijwilligerDao;
+use BuurtboerderijBundle\Service\VrijwilligerDaoInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\Form\FormError;
@@ -31,7 +31,7 @@ class VrijwilligersController extends AbstractController
     protected $baseRouteName = 'buurtboerderij_vrijwilligers_';
 
     /**
-     * @var VrijwilligerDao
+     * @var VrijwilligerDaoInterface
      */
     protected $dao;
 
@@ -42,23 +42,16 @@ class VrijwilligersController extends AbstractController
     protected $export;
 
     /**
-     * @var \AppBundle\Service\VrijwilligerDao
-     *
+     * @var \AppBundle\Service\VrijwilligerDaoInterface
      */
     private $vrijwilligerDao;
 
-    /**
-     * @param VrijwilligerDao $dao
-     * @param AbstractExport $export
-     * @param VrijwilligerDao $vrijwilligerDao
-     */
-    public function __construct(VrijwilligerDao $dao, AbstractExport $export, \AppBundle\Service\VrijwilligerDao $vrijwilligerDao)
+    public function __construct(VrijwilligerDaoInterface $dao, AbstractExport $export, \AppBundle\Service\VrijwilligerDaoInterface $vrijwilligerDao)
     {
         $this->dao = $dao;
         $this->export = $export;
         $this->vrijwilligerDao = $vrijwilligerDao;
     }
-
 
     /**
      * @Route("/add")

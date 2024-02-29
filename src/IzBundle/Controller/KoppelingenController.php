@@ -13,11 +13,8 @@ use IzBundle\Entity\Koppeling;
 use IzBundle\Form\KoppelingCloseType;
 use IzBundle\Form\KoppelingFilterType;
 use IzBundle\Form\KoppelingType;
-use IzBundle\Service\HulpaanbodDao;
 use IzBundle\Service\HulpaanbodDaoInterface;
-use IzBundle\Service\HulpvraagDao;
 use IzBundle\Service\HulpvraagDaoInterface;
-use IzBundle\Service\KoppelingDao;
 use IzBundle\Service\KoppelingDaoInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
@@ -37,17 +34,17 @@ class KoppelingenController extends AbstractController
     protected $disabledActions = ['delete'];
 
     /**
-     * @var KoppelingDao
+     * @var KoppelingDaoInterface
      */
     protected $dao;
 
     /**
-     * @var HulpvraagDao
+     * @var HulpvraagDaoInterface
      */
     protected $hulpvraagDao;
 
     /**
-     * @var HulpaanbodDao
+     * @var HulpaanbodDaoInterface
      */
     protected $hulpaanbodDao;
 
@@ -56,20 +53,13 @@ class KoppelingenController extends AbstractController
      */
     protected $export;
 
-    /**
-     * @param KoppelingDao $dao
-     * @param HulpvraagDao $hulpvraagDao
-     * @param HulpaanbodDao $hulpaanbodDao
-     * @param AbstractExport $export
-     */
-    public function __construct(KoppelingDao $dao, HulpvraagDao $hulpvraagDao, HulpaanbodDao $hulpaanbodDao, AbstractExport $export)
+    public function __construct(KoppelingDaoInterface $dao, HulpvraagDaoInterface $hulpvraagDao, HulpaanbodDaoInterface $hulpaanbodDao, AbstractExport $export)
     {
         $this->dao = $dao;
         $this->hulpvraagDao = $hulpvraagDao;
         $this->hulpaanbodDao = $hulpaanbodDao;
         $this->export = $export;
     }
-
 
     /**
      * @Route("/add")

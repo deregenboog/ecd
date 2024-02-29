@@ -11,8 +11,8 @@ use GaBundle\Export\SelectionExport;
 use GaBundle\Filter\SelectieFilter;
 use GaBundle\Form\EmailMessageType;
 use GaBundle\Form\SelectieType;
-use GaBundle\Service\KlantdossierDao;
-use GaBundle\Service\VrijwilligerdossierDao;
+use GaBundle\Service\KlantdossierDaoInterface;
+use GaBundle\Service\VrijwilligerdossierDaoInterface;
 use Symfony\Component\Mailer\Mailer;
 use Symfony\Component\Mime\Message;
 use Symfony\Component\Routing\Annotation\Route;
@@ -26,12 +26,12 @@ use Symfony\Component\HttpFoundation\Request;
 class SelectiesController extends SymfonyController
 {
     /**
-     * @var KlantdossierDao
+     * @var KlantdossierDaoInterface
      */
     protected $klantDossierDao;
 
     /**
-     * @var VrijwilligerDossierDao
+     * @var VrijwilligerDossierDaoInterface
      */
     protected $vrijwilligerDossierDao;
 
@@ -40,7 +40,7 @@ class SelectiesController extends SymfonyController
      */
     protected $export;
 
-    public function __construct(KlantDossierDao $klantDossierDao, VrijwilligerdossierDao $vrijwilligerDossierDao, SelectionExport $export)
+    public function __construct(KlantDossierDaoInterface $klantDossierDao, VrijwilligerdossierDaoInterface $vrijwilligerDossierDao, SelectionExport $export)
     {
         $this->klantDossierDao = $klantDossierDao;
         $this->vrijwilligerDossierDao = $vrijwilligerDossierDao;

@@ -14,7 +14,6 @@ use TwBundle\Entity\Verhuurder;
 use TwBundle\Exception\TwException;
 use TwBundle\Form\DocumentType;
 use TwBundle\Service\DocumentDaoInterface;
-use TwBundle\Service\FinancieelDocumentDao;
 use TwBundle\Service\FinancieelDocumentDaoInterface;
 use TwBundle\Service\FinancieelVerslagDaoInterface;
 use Symfony\Component\Routing\Annotation\Route;
@@ -30,7 +29,7 @@ class FinancieleDocumentenController extends SymfonyController
     public $title = 'Financiele Documenten';
 
     /**
-     * @var FinancieelDocumentDao
+     * @var FinancieelDocumentDaoInterface
      */
     private $dao;
 

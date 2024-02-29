@@ -11,9 +11,7 @@ use AppBundle\Form\MedewerkerType;
 use AppBundle\Service\AbstractDao;
 use DagbestedingBundle\Filter\TrajectFilter;
 use DagbestedingBundle\Form\TrajectFilterType;
-use DagbestedingBundle\Service\TrajectDao;
 use DagbestedingBundle\Service\TrajectDaoInterface;
-
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
@@ -27,7 +25,7 @@ class DashboardController extends SymfonyController
     protected $title = 'Mijn Dagbesteding';
 
     /**
-     * @var TrajectDao
+     * @var TrajectDaoInterface
      */
     protected $trajectDao;
 
@@ -36,16 +34,11 @@ class DashboardController extends SymfonyController
      */
     protected $trajectenExport;
 
-    /**
-     * @param TrajectDao $trajectDao
-     * @param AbstractExport $trajectenExport
-     */
-    public function __construct(TrajectDao $trajectDao, AbstractExport $trajectenExport)
+    public function __construct(TrajectDaoInterface $trajectDao, AbstractExport $trajectenExport)
     {
         $this->trajectDao = $trajectDao;
         $this->trajectenExport = $trajectenExport;
     }
-
 
     /**
      * @Route("/")

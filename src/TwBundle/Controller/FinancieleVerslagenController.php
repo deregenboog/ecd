@@ -14,7 +14,6 @@ use TwBundle\Entity\Verhuurder;
 use TwBundle\Entity\FinancieelVerslag;
 use TwBundle\Exception\TwException;
 use TwBundle\Form\VerslagType;
-use TwBundle\Service\FinancieelVerslagDao;
 use TwBundle\Service\FinancieelVerslagDaoInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
@@ -29,7 +28,7 @@ class FinancieleVerslagenController extends SymfonyController
     public $title = 'Financiele Verslagen';
 
     /**
-     * @var FinancieelVerslagDao
+     * @var FinancieelVerslagDaoInterface
      */
     private $dao;
 

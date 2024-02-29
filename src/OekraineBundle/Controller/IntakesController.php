@@ -12,7 +12,6 @@ use OekraineBundle\Form\IntakeType;
 use OekraineBundle\Form\ToegangType;
 use OekraineBundle\Pdf\PdfIntake;
 use OekraineBundle\Security\Permissions;
-use OekraineBundle\Service\IntakeDao;
 use OekraineBundle\Service\IntakeDaoInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\Routing\Annotation\Route;
@@ -33,18 +32,14 @@ class IntakesController extends AbstractController
     protected $baseRouteName = 'oekraine_intakes_';
 
     /**
-     * @var IntakeDao
+     * @var IntakeDaoInterface
      */
     protected $dao;
 
-    /**
-     * @param IntakeDao $dao
-     */
-    public function __construct(IntakeDao $dao)
+    public function __construct(IntakeDaoInterface $dao)
     {
         $this->dao = $dao;
     }
-
 
     /**
      * @Route("/{id}/view")

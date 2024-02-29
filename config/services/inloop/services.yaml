@@ -82,6 +82,7 @@ services:
 
     InloopBundle\Controller\VrijwilligersController:
         arguments:
+            $dao: '@InloopBundle\Service\VrijwilligerDao'
             $export: '@inloop.export.vrijwilliger'
 
     InloopBundle\Service\AccessUpdater:

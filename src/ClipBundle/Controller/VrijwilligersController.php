@@ -3,8 +3,7 @@
 namespace ClipBundle\Controller;
 
 use AppBundle\Export\ExportInterface;
-use AppBundle\Service\VrijwilligerDao as AppVrijwilligerDao;
-use ClipBundle\Service\VrijwilligerDao;
+use AppBundle\Service\VrijwilligerDaoInterface as AppVrijwilligerDaoInterface;
 use ClipBundle\Entity\Vrijwilliger;
 use ClipBundle\Form\VrijwilligerCloseType;
 use ClipBundle\Form\VrijwilligerFilterType;
@@ -28,7 +27,7 @@ class VrijwilligersController extends VrijwilligersControllerAbstract
     protected $formClassClose = VrijwilligerCloseType::class;
 
     /**
-     * @var VrijwilligerDao
+     * @var VrijwilligerDaoInterface
      */
     protected $dao;
 
@@ -37,7 +36,7 @@ class VrijwilligersController extends VrijwilligersControllerAbstract
      */
     protected $export;
 
-    public function __construct(VrijwilligerDao $dao, AppVrijwilligerDao $vrijwilligerDao, ExportInterface $export)
+    public function __construct(VrijwilligerDaoInterface $dao, AppVrijwilligerDaoInterface $vrijwilligerDao, ExportInterface $export)
     {
         $this->dao = $dao;
         $this->vrijwilligerDao = $vrijwilligerDao;

@@ -14,7 +14,6 @@ use InloopBundle\Form\IntakeType;
 use InloopBundle\Form\ToegangType;
 use InloopBundle\Pdf\PdfIntake;
 use InloopBundle\Security\Permissions;
-use InloopBundle\Service\IntakeDao;
 use InloopBundle\Service\IntakeDaoInterface;
 use Psr\Container\ContainerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
@@ -36,7 +35,7 @@ class IntakesController extends AbstractController
     protected $baseRouteName = 'inloop_intakes_';
 
     /**
-     * @var IntakeDao
+     * @var IntakeDaoInterface
      */
     protected $dao;
 
@@ -50,19 +49,14 @@ class IntakesController extends AbstractController
 
     protected $amocVerblijfsstatus = "";
 
-    /**
-     * @param IntakeDao $dao
-     */
-    public function __construct(IntakeDao $dao, ContainerInterface $container, $tbc_countries=[], $accessStrategies=[],$amocVerblijfsstatus="")
+    public function __construct(IntakeDaoInterface $dao, ContainerInterface $container, $tbc_countries = [], $accessStrategies = [], $amocVerblijfsstatus = '')
     {
         $this->container = $container;
         $this->dao = $dao;
         $this->tbc_countries = $tbc_countries;
         $this->accessStrategies = $accessStrategies;
         $this->amocVerblijfsstatus = $amocVerblijfsstatus;
-
     }
-
 
     /**
      * @Route("/{id}/view")

@@ -5,7 +5,6 @@ namespace VillaBundle\Controller;
 use AppBundle\Controller\AbstractChildController;
 use VillaBundle\Entity\Document;
 use VillaBundle\Form\DocumentType;
-use VillaBundle\Service\DocumentDao;
 use VillaBundle\Service\DocumentDaoInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -22,7 +21,7 @@ class DocumentenController extends AbstractChildController
     protected $baseRouteName = 'villa_documenten_';
 
     /**
-     * @var DocumentDao
+     * @var DocumentDaoInterface
      */
     protected $dao;
 
@@ -31,15 +30,9 @@ class DocumentenController extends AbstractChildController
      */
     protected $entities;
 
-    /**
-     * @param DocumentDao $dao
-     * @param \ArrayObject $entities
-     */
-    public function __construct(DocumentDao $dao, \ArrayObject $entities)
+    public function __construct(DocumentDaoInterface $dao, \ArrayObject $entities)
     {
         $this->dao = $dao;
         $this->entities = $entities;
     }
-
-
 }

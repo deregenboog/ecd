@@ -3,7 +3,6 @@
 namespace DagbestedingBundle\Controller;
 
 use AppBundle\Controller\AbstractChildController;
-use DagbestedingBundle\Service\WerkdoelDao;
 use DagbestedingBundle\Entity\Werkdoel;
 use DagbestedingBundle\Form\WerkdoelType;
 use DagbestedingBundle\Service\WerkdoelDaoInterface;
@@ -22,7 +21,7 @@ class WerkdoelenController extends AbstractChildController
     protected $disabledActions = ['index', 'view'];
 
     /**
-     * @var WerkdoelDao
+     * @var WerkdoelDaoInterface
      */
     protected $dao;
 
@@ -31,15 +30,9 @@ class WerkdoelenController extends AbstractChildController
      */
     protected $entities;
 
-    /**
-     * @param WerkdoelDao $dao
-     * @param \ArrayObject $entities
-     */
-    public function __construct(WerkdoelDao $dao, \ArrayObject $entities)
+    public function __construct(WerkdoelDaoInterface $dao, \ArrayObject $entities)
     {
         $this->dao = $dao;
         $this->entities = $entities;
     }
-
-
 }

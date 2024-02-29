@@ -5,7 +5,6 @@ namespace PfoBundle\Controller;
 use AppBundle\Controller\AbstractController;
 use PfoBundle\Entity\AardRelatie;
 use PfoBundle\Form\AardRelatieType;
-use PfoBundle\Service\AardRelatieDao;
 use PfoBundle\Service\AardRelatieDaoInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -22,17 +21,12 @@ class AardRelatiesController extends AbstractController
     protected $disabledActions = ['delete'];
 
     /**
-     * @var AardRelatieDao
+     * @var AardRelatieDaoInterface
      */
     protected $dao;
 
-    /**
-     * @param AardRelatieDao $dao
-     */
-    public function __construct(AardRelatieDao $dao)
+    public function __construct(AardRelatieDaoInterface $dao)
     {
         $this->dao = $dao;
     }
-
-
 }

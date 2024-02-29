@@ -7,14 +7,11 @@ use AppBundle\Entity\Klant;
 use AppBundle\Exception\UserException;
 use AppBundle\Export\ExportInterface;
 use AppBundle\Form\KlantFilterType as AppKlantFilterType;
-use AppBundle\Service\KlantDao;
 use AppBundle\Service\KlantDaoInterface;
 use HsBundle\Entity\Dienstverlener;
 use HsBundle\Form\DienstverlenerFilterType;
 use HsBundle\Form\DienstverlenerType;
-use HsBundle\Service\DienstverlenerDao;
 use HsBundle\Service\DienstverlenerDaoInterface;
-
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;
@@ -33,12 +30,12 @@ class DienstverlenersController extends AbstractController
     protected $baseRouteName = 'hs_dienstverleners_';
 
     /**
-     * @var DienstverlenerDao
+     * @var DienstverlenerDaoInterface
      */
     protected $dao;
 
     /**
-     * @var KlantDao
+     * @var KlantDaoInterface
      */
     private $klantDao;
 
@@ -47,18 +44,12 @@ class DienstverlenersController extends AbstractController
      */
     protected $export;
 
-    /**
-     * @param DienstverlenerDao $dao
-     * @param KlantDao $klantDao
-     * @param ExportInterface $export
-     */
-    public function __construct(DienstverlenerDao $dao, KlantDao $klantDao, ExportInterface $export)
+    public function __construct(DienstverlenerDaoInterface $dao, KlantDaoInterface $klantDao, ExportInterface $export)
     {
         $this->dao = $dao;
         $this->klantDao = $klantDao;
         $this->export = $export;
     }
-
 
     /**
      * @Route("/add")

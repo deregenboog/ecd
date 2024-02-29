@@ -5,7 +5,6 @@ namespace IzBundle\Controller;
 use AppBundle\Controller\AbstractController;
 use IzBundle\Entity\EindeVraagAanbod;
 use IzBundle\Form\EindeVraagAanbodType;
-use IzBundle\Service\EindeVraagAanbodDao;
 use IzBundle\Service\EindeVraagAanbodDaoInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
@@ -22,18 +21,14 @@ class EindeVraagAanbodController extends AbstractController
     protected $baseRouteName = 'iz_eindevraagaanbod_';
 
     /**
-     * @var EindeVraagAanbodDao
+     * @var EindeVraagAanbodDaoInterface
      */
     protected $dao;
 
-    /**
-     * @param EindeVraagAanbodDao $dao
-     */
-    public function __construct(EindeVraagAanbodDao $dao)
+    public function __construct(EindeVraagAanbodDaoInterface $dao)
     {
         $this->dao = $dao;
     }
-
 
     /**
      * @Route("/{id}/view")

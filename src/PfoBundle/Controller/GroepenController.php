@@ -5,7 +5,6 @@ namespace PfoBundle\Controller;
 use AppBundle\Controller\AbstractController;
 use PfoBundle\Entity\Groep;
 use PfoBundle\Form\GroepType;
-use PfoBundle\Service\GroepDao;
 use PfoBundle\Service\GroepDaoInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -21,17 +20,12 @@ class GroepenController extends AbstractController
     protected $disabledActions = ['delete'];
 
     /**
-     * @var GroepDao
+     * @var GroepDaoInterface
      */
     protected $dao;
 
-    /**
-     * @param GroepDao $dao
-     */
-    public function __construct(GroepDao $dao)
+    public function __construct(GroepDaoInterface $dao)
     {
         $this->dao = $dao;
     }
-
-
 }

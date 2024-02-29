@@ -6,7 +6,6 @@ use AppBundle\Controller\AbstractChildController;
 use HsBundle\Entity\Herinnering;
 use HsBundle\Form\HerinneringType;
 use HsBundle\Pdf\PdfHerinnering;
-use HsBundle\Service\HerinneringDao;
 use HsBundle\Service\HerinneringDaoInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
@@ -26,7 +25,7 @@ class HerinneringenController extends AbstractChildController
     protected $baseRouteName = 'hs_herinneringen_';
 
     /**
-     * @var HerinneringDao
+     * @var HerinneringDaoInterface
      */
     protected $dao;
 
@@ -35,16 +34,11 @@ class HerinneringenController extends AbstractChildController
      */
     protected $entities;
 
-    /**
-     * @param HerinneringDao $dao
-     * @param \ArrayObject $entities
-     */
-    public function __construct(HerinneringDao $dao, \ArrayObject $entities)
+    public function __construct(HerinneringDaoInterface $dao, \ArrayObject $entities)
     {
         $this->dao = $dao;
         $this->entities = $entities;
     }
-
 
     /**
      * @Route("/{id}/view")

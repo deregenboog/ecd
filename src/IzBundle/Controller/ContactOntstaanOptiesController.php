@@ -5,7 +5,6 @@ namespace IzBundle\Controller;
 use AppBundle\Controller\AbstractController;
 use IzBundle\Entity\ContactOntstaan;
 use IzBundle\Form\ContactOntstaanType;
-use IzBundle\Service\ContactOntstaanDao;
 use IzBundle\Service\ContactOntstaanDaoInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
@@ -22,18 +21,14 @@ class ContactOntstaanOptiesController extends AbstractController
     protected $baseRouteName = 'iz_contactontstaanopties_';
 
     /**
-     * @var ContactOntstaanDao
+     * @var ContactOntstaanDaoInterface
      */
     protected $dao;
 
-    /**
-     * @param ContactOntstaanDao $dao
-     */
-    public function __construct(ContactOntstaanDao $dao)
+    public function __construct(ContactOntstaanDaoInterface $dao)
     {
         $this->dao = $dao;
     }
-
 
     /**
      * @Route("/{id}/view")

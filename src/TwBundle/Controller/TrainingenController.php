@@ -8,11 +8,10 @@ use TwBundle\Entity\Training;
 use TwBundle\Entity\VwTraining;
 use TwBundle\Form\LocatieType;
 use TwBundle\Form\TrainingType;
-use TwBundle\Service\LocatieDao;
 use TwBundle\Service\LocatieDaoInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-use TwBundle\Service\TrainingDao;
+use TwBundle\Service\TrainingDaoInterface;
 
 /**
  * @Route("/trainingen")
@@ -26,17 +25,12 @@ class TrainingenController extends AbstractController
     protected $baseRouteName = 'tw_trainingen_';
 
     /**
-     * @var TrainingDao
+     * @var TrainingDaoInterface
      */
     protected $dao;
 
-    /**
-     * @param TrainingDao $dao
-     */
-    public function __construct(TrainingDao $dao)
+    public function __construct(TrainingDaoInterface $dao)
     {
         $this->dao = $dao;
     }
-
-
 }

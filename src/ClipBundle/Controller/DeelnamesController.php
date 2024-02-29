@@ -6,7 +6,6 @@ use AppBundle\Controller\AbstractChildController;
 use ClipBundle\Entity\Deelname;
 
 use ClipBundle\Form\DeelnameType;
-use ClipBundle\Service\DeelnameDao;
 use Symfony\Component\Routing\Annotation\Route;
 use ClipBundle\Service\DeelnameDaoInterface;
 
@@ -24,7 +23,7 @@ class DeelnamesController extends AbstractChildController
     protected $baseRouteName = 'clip_deelname_';
 
     /**
-     * @var DeelnameDao
+     * @var DeelnameDaoInterface
      */
     protected $dao;
 
@@ -33,15 +32,9 @@ class DeelnamesController extends AbstractChildController
      */
     protected $entities;
 
-    /**
-     * @param DeelnameDaoInterface $dao
-     * @param \ArrayObject $entities
-     */
-    public function __construct(DeelnameDao $dao, \ArrayObject $entities)
+    public function __construct(DeelnameDaoInterface $dao, \ArrayObject $entities)
     {
         $this->dao = $dao;
         $this->entities = $entities;
     }
-
-
 }

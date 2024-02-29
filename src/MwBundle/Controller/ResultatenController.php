@@ -8,7 +8,7 @@ use MwBundle\Entity\Resultaat;
 use MwBundle\Form\AfsluitredenKlantType;
 use MwBundle\Form\ResultaatType;
 use MwBundle\Service\AfsluitredenKlantDao;
-use MwBundle\Service\ResultaatDao;
+use MwBundle\Service\ResultaatDaoInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -24,11 +24,11 @@ class ResultatenController extends AbstractController
     protected $disabledActions = ['view', 'delete'];
 
     /**
-     * @var ResultaatDao
+     * @var ResultaatDaoInterface
      */
     protected $dao;
 
-    public function __construct(ResultaatDao $dao)
+    public function __construct(ResultaatDaoInterface $dao)
     {
         $this->dao = $dao;
     }

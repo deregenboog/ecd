@@ -16,7 +16,7 @@ use InloopBundle\Form\ToegangType;
 use InloopBundle\Pdf\PdfIntake;
 use InloopBundle\Security\Permissions;
 use InloopBundle\Service\IntakeDaoInterface;
-use MwBundle\Service\WachtlijstDao;
+use MwBundle\Service\WachtlijstDaoInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\HttpFoundation\Cookie;
 use Symfony\Component\HttpFoundation\Session\Flash\FlashBag;
@@ -41,7 +41,7 @@ class WachtlijstController extends AbstractController
     protected $baseRouteName = 'mw_wachtlijst_';
 
     /**
-     * @var WachtlijstDao
+     * @var WachtlijstDaoInterface
      */
     protected $dao;
 
@@ -52,16 +52,11 @@ class WachtlijstController extends AbstractController
      *
      * Dit is zo vanwege de bedrijfsprocessen waarbij iemand die bij T6 op de wachtlijst echt nog niet wordt gezien door een MW-er
      * Terwijl dat bij STED wachtlijsten al wel zo is, en er dus daardoor al een dossier is.
-     *
-     *
-     *
-     * @param WachtlijstDao $dao
      */
-    public function __construct(WachtlijstDao $dao)
+    public function __construct(WachtlijstDaoInterface $dao)
     {
         $this->dao = $dao;
     }
-
 
     /**
      * @Route("/")

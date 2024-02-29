@@ -7,16 +7,14 @@ use AppBundle\Entity\Klant;
 use AppBundle\Exception\UserException;
 use AppBundle\Export\GenericExport;
 use AppBundle\Form\KlantFilterType;
-use AppBundle\Service\KlantDao;
+use AppBundle\Service\KlantDaoInterface;
 use DagbestedingBundle\Entity\Deelnemer;
 use DagbestedingBundle\Form\DeelnemerCloseType;
 use DagbestedingBundle\Form\DeelnemerFilterType;
 use DagbestedingBundle\Form\DeelnemerReopenType;
 use DagbestedingBundle\Form\DeelnemerSelectType;
 use DagbestedingBundle\Form\DeelnemerType;
-use DagbestedingBundle\Service\DeelnemerDao;
 use DagbestedingBundle\Service\DeelnemerDaoInterface;
-use IzBundle\Service\KlantDaoInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\Form\FormError;
@@ -35,7 +33,7 @@ class DeelnemersController extends AbstractController
     protected $baseRouteName = 'dagbesteding_deelnemers_';
 
     /**
-     * @var DeelnemerDao
+     * @var DeelnemerDaoInterface
      */
     protected $dao;
 
@@ -45,22 +43,16 @@ class DeelnemersController extends AbstractController
     protected $export;
 
     /**
-     * @var KlantDao
+     * @var KlantDaoInterface
      */
     private $klantDao;
 
-    /**
-     * @param DeelnemerDao $dao
-     * @param GenericExport $export
-     * @param KlantDaoInterface $klantDao
-     */
-    public function __construct(DeelnemerDao $dao, KlantDao $klantDao, GenericExport $export)
+    public function __construct(DeelnemerDaoInterface $dao, KlantDaoInterface $klantDao, GenericExport $export)
     {
         $this->dao = $dao;
         $this->export = $export;
         $this->klantDao = $klantDao;
     }
-
 
     /**
      * @Route("/add")

@@ -8,16 +8,12 @@ use AppBundle\Event\DienstenLookupEvent;
 use AppBundle\Event\Events;
 use AppBundle\Exception\UserException;
 use AppBundle\Export\ExportInterface;
-
 use Doctrine\ORM\EntityNotFoundException;
-use MwBundle\Service\InventarisatieDao;
-use MwBundle\Service\KlantDao;
 use MwBundle\Service\KlantDaoInterface;
 use MwBundle\Entity\Verslag;
 use MwBundle\Entity\Aanmelding;
 use MwBundle\Form\VerslagType;
 use MwBundle\Service\InventarisatieDaoInterface;
-use MwBundle\Service\VerslagDao;
 use MwBundle\Service\VerslagDaoInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\Form\Form;
@@ -37,41 +33,32 @@ class VerslagenController extends AbstractController
     protected $baseRouteName = 'mw_verslagen_';
 
     /**
-     * @var VerslagDao
+     * @var VerslagDaoInterface
      */
     protected $dao;
 
     /**
-     * @var KlantDao
+     * @var KlantDaoInterface
      */
     protected $klantDao;
 
     /**
-     * @var InventarisatieDao
+     * @var InventarisatieDaoInterface
      */
     protected $inventarisatieDao;
 
     /**
      * @var ExportInterface
-     *
-
      */
     protected $export;
 
-    /**
-     * @param VerslagDao $dao
-     * @param KlantDao $klantDao
-     * @param InventarisatieDao $inventarisatieDao
-     * @param ExportInterface $export
-     */
-    public function __construct(VerslagDao $dao, KlantDao $klantDao, InventarisatieDao $inventarisatieDao, ExportInterface $export)
+    public function __construct(VerslagDaoInterface $dao, KlantDaoInterface $klantDao, InventarisatieDaoInterface $inventarisatieDao, ExportInterface $export)
     {
         $this->dao = $dao;
         $this->klantDao = $klantDao;
         $this->inventarisatieDao = $inventarisatieDao;
         $this->export = $export;
     }
-
 
     /**
      * @Route("/add/{klant}")

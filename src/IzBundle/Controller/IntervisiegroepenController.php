@@ -9,7 +9,6 @@ use IzBundle\Entity\Intervisiegroep;
 use IzBundle\Form\IntervisiegroepFilterType;
 use IzBundle\Form\IntervisiegroepType;
 use IzBundle\Form\IzEmailMessageType;
-use IzBundle\Service\IntervisiegroepDao;
 use IzBundle\Service\IntervisiegroepDaoInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
@@ -31,7 +30,7 @@ class IntervisiegroepenController extends AbstractController
     protected $baseRouteName = 'iz_intervisiegroepen_';
 
     /**
-     * @var IntervisiegroepDao
+     * @var IntervisiegroepDaoInterface
      */
     protected $dao;
 
@@ -45,17 +44,12 @@ class IntervisiegroepenController extends AbstractController
      */
     protected $vrijwilligersExport;
 
-    /**
-     * @param IntervisiegroepDao $dao
-     * @param AbstractExport $export
-     */
-    public function __construct(IntervisiegroepDao $dao, AbstractExport $export, AbstractExport $vrijwilligersExport)
+    public function __construct(IntervisiegroepDaoInterface $dao, AbstractExport $export, AbstractExport $vrijwilligersExport)
     {
         $this->dao = $dao;
         $this->export = $export;
         $this->vrijwilligersExport = $vrijwilligersExport;
     }
-
 
     /**
      * @Route("/{id}/email")

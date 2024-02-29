@@ -25,7 +25,7 @@ class ZrmsController extends AbstractChildController
     protected $addMethod = 'addZrm';
 
     /**
-     * @var ZrmDao
+     * @var ZrmDaoInterface
      */
     protected $dao;
 
@@ -34,16 +34,11 @@ class ZrmsController extends AbstractChildController
      */
     protected $entities;
 
-    /**
-     * @param ZrmDaoInterface $dao
-     * @param \ArrayObject $entities
-     */
-    public function __construct(ZrmDao $dao, \ArrayObject $entities)
+    public function __construct(ZrmDaoInterface $dao, \ArrayObject $entities)
     {
         $this->dao = $dao;
         $this->entities = $entities;
     }
-
 
     protected function createEntity($parentEntity = null)
     {

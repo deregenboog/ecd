@@ -9,22 +9,18 @@ use AppBundle\Exception\UserException;
 use AppBundle\Export\ExportInterface;
 use AppBundle\Form\ConfirmationType;
 use AppBundle\Form\KlantFilterType;
-use AppBundle\Service\KlantDao;
 use AppBundle\Service\KlantDaoInterface;
 use Doctrine\ORM\QueryBuilder;
-
 use TwBundle\Entity\Verhuurder;
 use TwBundle\Form\VerhuurderCloseType;
 use TwBundle\Form\VerhuurderFilterType;
 use TwBundle\Form\VerhuurderSelectType;
 use TwBundle\Form\VerhuurderType;
-use TwBundle\Service\VerhuurderDao;
 use TwBundle\Service\VerhuurderDaoInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormError;
-
 
 /**
  * @Route("/verhuurders")
@@ -43,34 +39,27 @@ class VerhuurdersController extends AbstractController
     protected $searchEntity = AppKlant::class;
     protected $searchEntityName = 'appKlant';
 
-
     /**
-     * @var VerhuurderDao
+     * @var VerhuurderDaoInterface
      */
     protected $dao;
 
     /**
-     * @var KlantDao
+     * @var KlantDaoInterface
      */
-    protected $searchDao;
+    protected $searchDaoInterface;
 
     /**
      * @var ExportInterface
      */
     protected $export;
 
-    /**
-     * @param VerhuurderDao $dao
-     * @param KlantDao $searchDao
-     * @param ExportInterface $export
-     */
-    public function __construct(VerhuurderDao $dao, KlantDao $searchDao, ExportInterface $export)
+    public function __construct(VerhuurderDaoInterface $dao, KlantDaoInterface $searchDao, ExportInterface $export)
     {
         $this->dao = $dao;
         $this->searchDao = $searchDao;
         $this->export = $export;
     }
-
 
     protected function getDownloadFilename()
     {

@@ -2,11 +2,8 @@
 
 namespace OekraineBundle\Controller;
 
-
-
 use AppBundle\Controller\MemosControllerAbstract;
 use AppBundle\Service\MemoDaoInterface;
-use GaBundle\Service\MemoDao;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -14,26 +11,21 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class MemosController extends MemosControllerAbstract
 {
-
     /**
-     * @var MemoDao
+     * @var MemoDaoInterface
      */
     protected $dao;
 
     /**
      * @var \ArrayObject
+     *
+     * @DI\Inject("oekraine.memo.entities")
      */
     protected $entities;
 
-    /**
-     * @param MemoDao $dao
-     * @param \ArrayObject $entities
-     */
-    public function __construct(MemoDao $dao, \ArrayObject $entities)
+    public function __construct(MemoDaoInterface $dao, \ArrayObject $entities)
     {
         $this->dao = $dao;
         $this->entities = $entities;
     }
-
-
 }

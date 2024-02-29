@@ -7,7 +7,6 @@ use AppBundle\Entity\Klant;
 use AppBundle\Exception\UserException;
 use AppBundle\Form\ConfirmationType;
 use AppBundle\Form\KlantFilterType;
-use AppBundle\Service\KlantDao;
 use AppBundle\Service\KlantDaoInterface;
 use Doctrine\ORM\Tools\Pagination\Paginator;
 use Symfony\Component\Finder\Exception\AccessDeniedException;
@@ -15,13 +14,12 @@ use UhkBundle\Entity\Deelnemer;
 use UhkBundle\Form\DeelnemerFilterType;
 use UhkBundle\Form\DeelnemerType;
 use UhkBundle\Security\Permissions;
-use UhkBundle\Service\DeelnemerDao;
 use UhkBundle\Service\DeelnemerDaoInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
-use UhkBundle\Service\VerslagDao;
+use UhkBundle\Service\VerslagDaoInterface;
 
 /**
  * @Route("/deelnemers")
@@ -37,30 +35,25 @@ class DeelnemersController extends AbstractController
 //    protected $disabledActions = ['delete'];
 
     /**
-     * @var DeelnemerDao
+     * @var DeelnemerDaoInterface
      */
     protected $dao;
 
     /**
-     * @var KlantDao
+     * @var KlantDaoInterface
      */
     protected $klantDao;
 
     /**
-     * @var VerslagDao
+     * @var VerslagDaoInterface
      */
     protected $verslagDao;
 
-    /**
-     * @param DeelnemerDao $dao
-     * @param KlantDao $klantDao
-     */
-    public function __construct(DeelnemerDao $dao, KlantDao $klantDao, VerslagDao $verslagDao)
+    public function __construct(DeelnemerDaoInterface $dao, KlantDaoInterface $klantDao, VerslagDaoInterface $verslagDao)
     {
         $this->dao = $dao;
         $this->klantDao = $klantDao;
         $this->verslagDao = $verslagDao;
-
     }
 
 

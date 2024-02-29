@@ -14,7 +14,7 @@ use TwBundle\Exception\TwException;
 use TwBundle\Form\HuurovereenkomstCloseType;
 use TwBundle\Form\HuurovereenkomstFilterType;
 use TwBundle\Form\HuurovereenkomstType;
-use TwBundle\Service\HuurovereenkomstDao;
+use TwBundle\Service\HuurovereenkomstDaoInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
@@ -33,7 +33,7 @@ class HuurovereenkomstenController extends AbstractController
     protected $baseRouteName = 'tw_huurovereenkomsten_';
 
     /**
-     * @var HuurovereenkomstDao
+     * @var HuurovereenkomstDaoInterface
      */
     protected $dao;
 
@@ -42,16 +42,11 @@ class HuurovereenkomstenController extends AbstractController
      */
     protected $export;
 
-    /**
-     * @param HuurovereenkomstDao $dao
-     * @param ExportInterface $export
-     */
-    public function __construct(HuurovereenkomstDao $dao, ExportInterface $export)
+    public function __construct(HuurovereenkomstDaoInterface $dao, ExportInterface $export)
     {
         $this->dao = $dao;
         $this->export = $export;
     }
-
 
     public function dafterFind($entity)
     {

@@ -7,10 +7,10 @@ use AppBundle\Export\AbstractExport;
 use GaBundle\Entity\Groep;
 use GaBundle\Form\GroepFilterType;
 use GaBundle\Form\GroepType;
-use GaBundle\Service\GroepDao;
-use GaBundle\Service\KlantLidmaatschapDao;
-use GaBundle\Service\LidmaatschapDao;
-use GaBundle\Service\VrijwilligerLidmaatschapDao;
+use GaBundle\Service\GroepDaoInterface;
+use GaBundle\Service\KlantLidmaatschapDaoInterface;
+use GaBundle\Service\LidmaatschapDaoInterface;
+use GaBundle\Service\VrijwilligerLidmaatschapDaoInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
@@ -28,17 +28,17 @@ class GroepenController extends AbstractController
     protected $baseRouteName = 'ga_groepen_';
 
     /**
-     * @var GroepDao
+     * @var GroepDaoInterface
      */
     protected $dao;
 
     /**
-     * @var LidmaatschapDao
+     * @var LidmaatschapDaoInterface
      */
     protected $klantLidmaatschapDao;
 
     /**
-     * @var LidmaatschapDao
+     * @var LidmaatschapDaoInterface
      */
     protected $vrijwilligerLidmaatschapDao;
 
@@ -47,20 +47,13 @@ class GroepenController extends AbstractController
      */
     protected $export;
 
-    /**
-     * @param GroepDao $dao
-     * @param KlantLidmaatschapDao $klantLidmaatschapDao
-     * @param VrijwilligerLidmaatschapDao $vrijwilligerLidmaatschapDao
-     * @param AbstractExport $export
-     */
-    public function __construct(GroepDao $dao, KlantLidmaatschapDao $klantLidmaatschapDao, VrijwilligerLidmaatschapDao $vrijwilligerLidmaatschapDao, AbstractExport $export)
+    public function __construct(GroepDaoInterface $dao, LidmaatschapDaoInterface $klantLidmaatschapDao, LidmaatschapDaoInterface $vrijwilligerLidmaatschapDao, AbstractExport $export)
     {
         $this->dao = $dao;
         $this->klantLidmaatschapDao = $klantLidmaatschapDao;
         $this->vrijwilligerLidmaatschapDao = $vrijwilligerLidmaatschapDao;
         $this->export = $export;
     }
-
 
     /**
      * @Route("/add")

@@ -5,7 +5,6 @@ namespace PfoBundle\Controller;
 use AppBundle\Controller\AbstractChildController;
 use PfoBundle\Entity\Verslag;
 use PfoBundle\Form\VerslagType;
-use PfoBundle\Service\VerslagDao;
 use PfoBundle\Service\VerslagDaoInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -22,7 +21,7 @@ class VerslagenController extends AbstractChildController
     protected $disabledActions = ['deleted'];
 
     /**
-     * @var VerslagDao
+     * @var VerslagDaoInterface
      */
     protected $dao;
 
@@ -31,14 +30,9 @@ class VerslagenController extends AbstractChildController
      */
     protected $entities;
 
-    /**
-     * @param VerslagDao $dao
-     * @param \ArrayObject $entities
-     */
-    public function __construct(VerslagDao $dao, \ArrayObject $entities)
+    public function __construct(VerslagDaoInterface $dao, \ArrayObject $entities)
     {
         $this->dao = $dao;
         $this->entities = $entities;
     }
-
 }

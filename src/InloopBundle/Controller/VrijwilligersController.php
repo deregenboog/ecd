@@ -6,12 +6,11 @@ use AppBundle\Controller\AbstractController;
 use AppBundle\Entity\Vrijwilliger as AppVrijwilliger;
 use AppBundle\Export\ExportInterface;
 use AppBundle\Form\VrijwilligerFilterType as AppVrijwilligerFilterType;
-use AppBundle\Service\VrijwilligerDao as AppVrijwilligerDao;
+use AppBundle\Service\VrijwilligerDaoInterface as AppVrijwilligerDaoInterface;
 use InloopBundle\Entity\Vrijwilliger;
 use InloopBundle\Form\VrijwilligerCloseType;
 use InloopBundle\Form\VrijwilligerFilterType;
 use InloopBundle\Form\VrijwilligerType;
-use InloopBundle\Service\VrijwilligerDao;
 use InloopBundle\Service\VrijwilligerDaoInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\Form\FormError;
@@ -31,7 +30,7 @@ class VrijwilligersController extends VrijwilligersControllerAbstract
     protected $baseRouteName = 'inloop_vrijwilligers_';
 
     /**
-     * @var VrijwilligerDao
+     * @var VrijwilligerDaoInterface
      */
     protected $dao;
 
@@ -40,12 +39,10 @@ class VrijwilligersController extends VrijwilligersControllerAbstract
      */
     protected $export;
 
-    public function __construct(VrijwilligerDao $dao, AppVrijwilligerDao $vrijwilligerDao, ExportInterface $export)
+    public function __construct(VrijwilligerDaoInterface $dao, AppVrijwilligerDaoInterface $vrijwilligerDao, ExportInterface $export)
     {
         $this->dao = $dao;
         $this->vrijwilligerDao = $vrijwilligerDao;
         $this->export = $export;
     }
-
-
 }

@@ -5,7 +5,6 @@ namespace OekBundle\Controller;
 use AppBundle\Controller\AbstractController;
 use OekBundle\Entity\Groep;
 use OekBundle\Form\GroepType;
-use OekBundle\Service\GroepDao;
 use OekBundle\Service\GroepDaoInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -20,17 +19,12 @@ class GroepenController extends AbstractController
     protected $baseRouteName = 'oek_groepen_';
 
     /**
-     * @var GroepDao
+     * @var GroepDaoInterface
      */
     protected $dao;
 
-    /**
-     * @param GroepDao $dao
-     */
-    public function __construct(GroepDao $dao)
+    public function __construct(GroepDaoInterface $dao)
     {
         $this->dao = $dao;
     }
-
-
 }

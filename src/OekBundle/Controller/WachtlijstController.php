@@ -6,7 +6,6 @@ use AppBundle\Controller\AbstractController;
 use AppBundle\Export\ExportInterface;
 use AppBundle\Filter\FilterInterface;
 use OekBundle\Form\DeelnemerFilterType;
-use OekBundle\Service\DeelnemerDao;
 use OekBundle\Service\DeelnemerDaoInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
@@ -24,7 +23,7 @@ class WachtlijstController extends AbstractController
     protected $disabledActions = ['view', 'add', 'edit', 'delete'];
 
     /**
-     * @var DeelnemerDao
+     * @var DeelnemerDaoInterface
      */
     protected $dao;
 
@@ -33,16 +32,11 @@ class WachtlijstController extends AbstractController
      */
     protected $export;
 
-    /**
-     * @param DeelnemerDao $dao
-     * @param ExportInterface $export
-     */
-    public function __construct(DeelnemerDao $dao, ExportInterface $export)
+    public function __construct(DeelnemerDaoInterface $dao, ExportInterface $export)
     {
         $this->dao = $dao;
         $this->export = $export;
     }
-
 
     /**
      * @Route("/")

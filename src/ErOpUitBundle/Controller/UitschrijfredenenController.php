@@ -5,7 +5,6 @@ namespace ErOpUitBundle\Controller;
 use AppBundle\Controller\AbstractController;
 use ErOpUitBundle\Entity\Uitschrijfreden;
 use ErOpUitBundle\Form\UitschrijfredenType;
-use ErOpUitBundle\Service\UitschrijfredenDao;
 use ErOpUitBundle\Service\UitschrijfredenDaoInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -20,17 +19,12 @@ class UitschrijfredenenController extends AbstractController
     protected $baseRouteName = 'eropuit_uitschrijfredenen_';
 
     /**
-     * @var UitschrijfredenDao
+     * @var UitschrijfredenDaoInterface
      */
     protected $dao;
 
-    /**
-     * @param UitschrijfredenDao $dao
-     */
-    public function __construct(UitschrijfredenDao $dao)
+    public function __construct(UitschrijfredenDaoInterface $dao)
     {
         $this->dao = $dao;
     }
-
-
 }

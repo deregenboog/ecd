@@ -5,7 +5,6 @@ namespace InloopBundle\Controller;
 use AppBundle\Controller\AbstractController;
 use InloopBundle\Entity\Verslaving;
 use InloopBundle\Form\VerslavingType;
-use InloopBundle\Service\VerslavingDao;
 use InloopBundle\Service\VerslavingDaoInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
@@ -22,17 +21,12 @@ class VerslavingenController extends AbstractController
     protected $baseRouteName = 'inloop_verslavingen_';
 
     /**
-     * @var VerslavingDao
+     * @var VerslavingDaoInterface
      */
     protected $dao;
 
-    /**
-     * @param VerslavingDao $dao
-     */
-    public function __construct(VerslavingDao $dao)
+    public function __construct(VerslavingDaoInterface $dao)
     {
         $this->dao = $dao;
     }
-
-
 }

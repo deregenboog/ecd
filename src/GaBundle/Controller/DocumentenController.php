@@ -5,7 +5,7 @@ namespace GaBundle\Controller;
 use AppBundle\Controller\AbstractChildController;
 use GaBundle\Entity\Document;
 use GaBundle\Form\DocumentType;
-use GaBundle\Service\DocumentDao;
+use GaBundle\Service\DocumentDaoInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Vich\UploaderBundle\Handler\DownloadHandler;
 
@@ -22,7 +22,7 @@ class DocumentenController extends AbstractChildController
     protected $disabledActions = ['index', 'edit'];
 
     /**
-     * @var DocumentDao
+     * @var DocumentDaoInterface
      */
     protected $dao;
 
@@ -31,18 +31,11 @@ class DocumentenController extends AbstractChildController
      */
     protected $entities;
 
-    /**
-     * @param DocumentDao $dao
-     * @param \ArrayObject $entities
-     */
-    public function __construct(DocumentDao $dao, \ArrayObject $entities)
+    public function __construct(DocumentDaoInterface $dao, \ArrayObject $entities)
     {
         $this->dao = $dao;
         $this->entities = $entities;
     }
-
-
-
 
     protected function createEntity($parentEntity = null)
     {

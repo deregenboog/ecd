@@ -5,7 +5,6 @@ namespace TwBundle\Controller;
 use AppBundle\Controller\AbstractController;
 use TwBundle\Entity\Afsluitreden;
 use TwBundle\Form\AfsluitredenType;
-use TwBundle\Service\AfsluitredenDao;
 use TwBundle\Service\AfsluitredenDaoInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -22,17 +21,12 @@ class AfsluitredenenVrijwilligersController extends AbstractController
     protected $disabledActions = ['view', 'delete'];
 
     /**
-     * @var AfsluitredenDao
+     * @var AfsluitredenDaoInterface
      */
     protected $dao;
 
-    /**
-     * @param AfsluitredenDao $dao
-     */
-    public function __construct(AfsluitredenDao $dao)
+    public function __construct(AfsluitredenDaoInterface $dao)
     {
         $this->dao = $dao;
     }
-
-
 }

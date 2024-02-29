@@ -5,7 +5,6 @@ namespace OekBundle\Controller;
 use AppBundle\Controller\AbstractController;
 use OekBundle\Entity\VerwijzingDoor;
 use OekBundle\Form\VerwijzingType;
-use OekBundle\Service\VerwijzingDoorDao;
 use OekBundle\Service\VerwijzingDoorDaoInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -22,17 +21,12 @@ class VerwijzingenDoorController extends AbstractController
     protected $disabledActions = ['view', 'delete'];
 
     /**
-     * @var VerwijzingDoorDao
+     * @var VerwijzingDoorDaoInterface
      */
     protected $dao;
 
-    /**
-     * @param VerwijzingDoorDao $dao
-     */
-    public function __construct(VerwijzingDoorDao $dao)
+    public function __construct(VerwijzingDoorDaoInterface $dao)
     {
         $this->dao = $dao;
     }
-
-
 }

@@ -6,7 +6,7 @@ use AppBundle\Controller\AbstractController;
 use TwBundle\Entity\IntakeStatus;
 use TwBundle\Form\IntakeStatusType;
 use Symfony\Component\Routing\Annotation\Route;
-use TwBundle\Service\IntakeStatusDao;
+use TwBundle\Service\IntakeStatusDaoInterface;
 
 /**
  * @Route("/intakestatus")
@@ -20,17 +20,12 @@ class IntakeStatusController extends AbstractController
     protected $baseRouteName = 'tw_intakestatus_';
 
     /**
-     * @var IntakeStatusDao
+     * @var IntakeStatusDaoInterface
      */
     protected $dao;
 
-    /**
-     * @param IntakeStatusDao $dao
-     */
-    public function __construct(IntakeStatusDao $dao)
+    public function __construct(IntakeStatusDaoInterface $dao)
     {
         $this->dao = $dao;
     }
-
-
 }

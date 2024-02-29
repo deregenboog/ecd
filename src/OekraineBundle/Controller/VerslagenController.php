@@ -11,7 +11,7 @@ use AppBundle\Export\ExportInterface;
 use Doctrine\ORM\EntityNotFoundException;
 use OekraineBundle\Entity\Verslag;
 use OekraineBundle\Form\VerslagType;
-use OekraineBundle\Service\VerslagDao;
+use OekraineBundle\Service\VerslagDaoInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
@@ -33,7 +33,7 @@ class VerslagenController extends AbstractChildController
 
 
     /**
-     * @var VerslagDao
+     * @var VerslagDaoInterface
      */
     protected $dao;
 
@@ -42,16 +42,11 @@ class VerslagenController extends AbstractChildController
      */
     protected $entities;
 
-    /**
-     * @param VerslagDao $dao
-     * @param \ArrayObject $entities
-     */
-    public function __construct(VerslagDao $dao, \ArrayObject $entities)
+    public function __construct(VerslagDaoInterface $dao, \ArrayObject $entities)
     {
         $this->dao = $dao;
         $this->entities = $entities;
     }
-
 
     /**
      * @Route("/add")

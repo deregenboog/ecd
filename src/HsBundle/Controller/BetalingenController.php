@@ -7,7 +7,6 @@ use AppBundle\Export\ExportInterface;
 use HsBundle\Entity\Betaling;
 use HsBundle\Form\BetalingFilterType;
 use HsBundle\Form\BetalingType;
-use HsBundle\Service\BetalingDao;
 use HsBundle\Service\BetalingDaoInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
@@ -27,7 +26,7 @@ class BetalingenController extends AbstractChildController
     protected $baseRouteName = 'hs_betalingen_';
 
     /**
-     * @var BetalingDao
+     * @var BetalingDaoInterface
      */
     protected $dao;
 
@@ -41,18 +40,12 @@ class BetalingenController extends AbstractChildController
      */
     protected $export;
 
-    /**
-     * @param BetalingDao $dao
-     * @param \ArrayObject $entities
-     * @param ExportInterface $export
-     */
-    public function __construct(BetalingDao $dao, \ArrayObject $entities, ExportInterface $export)
+    public function __construct(BetalingDaoInterface $dao, \ArrayObject $entities, ExportInterface $export)
     {
         $this->dao = $dao;
         $this->entities = $entities;
         $this->export = $export;
     }
-
 
     /**
      * @Route("/{id}/view")

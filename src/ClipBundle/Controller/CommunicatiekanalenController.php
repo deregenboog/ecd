@@ -5,7 +5,6 @@ namespace ClipBundle\Controller;
 use AppBundle\Controller\AbstractController;
 use ClipBundle\Entity\Communicatiekanaal;
 use ClipBundle\Form\CommunicatiekanaalType;
-use ClipBundle\Service\CommunicatiekanaalDao;
 use ClipBundle\Service\CommunicatiekanaalDaoInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
@@ -24,18 +23,14 @@ class CommunicatiekanalenController extends AbstractController
     protected $baseRouteName = 'clip_communicatiekanalen_';
 
     /**
-     * @var CommunicatiekanaalDao
+     * @var CommunicatiekanaalDaoInterface
      */
     protected $dao;
 
-    /**
-     * @param CommunicatiekanaalDao $dao
-     */
-    public function __construct(CommunicatiekanaalDao $dao)
+    public function __construct(CommunicatiekanaalDaoInterface $dao)
     {
         $this->dao = $dao;
     }
-
 
     /**
      * @Route("/{id}/view")
