@@ -28,6 +28,7 @@ class AppDateType extends AbstractType
             'widget' => 'single_text',
             'format' => 'dd-MM-yyyy',
             'attr' => ['placeholder' => 'dd-mm-jjjj'],
+            'attr'=> ['readonly'=>false],
             'html5' => false,
         ]);
     }

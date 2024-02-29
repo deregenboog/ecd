@@ -16,9 +16,10 @@ class Aanmelding extends DossierStatus implements InitialStateInterface
     public function __toString()
     {
         return sprintf(
-            'Aanmelding op %s door %s',
-            $this->datum->format('d-m-Y'),
-            $this->medewerker,
+            'Aanmelding op %s door %s, via %s',
+            $this->getDatum()->format('d-m-Y'),
+            $this->getMedewerker(),
+            $this->getAangemeldVia(),
         );
     }
 

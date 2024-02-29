@@ -4,8 +4,13 @@ namespace VillaBundle\Form;
 
 use AppBundle\Form\AppDateType;
 use AppBundle\Form\BaseType;
+use AppBundle\Form\DisabledMedewerkerType;
+use AppBundle\Form\HiddenMedewerkerType;
 use AppBundle\Form\MedewerkerType;
 use Doctrine\ORM\EntityRepository;
+use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use VillaBundle\Entity\Aanmelding;
 use VillaBundle\Entity\VerwijzingDoor;
 use Symfony\Component\Form\AbstractType;
@@ -21,11 +26,21 @@ class AanmeldingType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('datum', AppDateType::class, ['data' => new \DateTime('today'), 'required' => true])
+            ->add('datum', AppDateType::class, [
+                'data' => new \DateTime('today'),
+                'required' => true
+            ])
+//            ->add('datum', DateTimeType::class)
+            ->add('aangemeldVia',TextType::class,[
+//                'required'=>true,
+            ])
 
-            ->add('medewerker', MedewerkerType::class)
-            ->add('submit', SubmitType::class, ['label' => 'Opslaan'])
+            ->add('medewerker', MedewerkerType::class,[
+
+            ])
         ;
+
+        $builder->add('submit', SubmitType::class, ['label' => 'Opslaan']);
     }
 
     /**

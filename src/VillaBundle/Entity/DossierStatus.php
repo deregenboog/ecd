@@ -2,9 +2,12 @@
 
 namespace VillaBundle\Entity;
 
+use AppBundle\Model\DossierStatusInterface;
+use AppBundle\Model\DossierStatusTrait;
 use AppBundle\Model\IdentifiableTrait;
 use AppBundle\Model\RequiredMedewerkerTrait;
 use AppBundle\Model\TimestampableTrait;
+use AppBundle\Util\FormTypeMapper;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 
@@ -20,65 +23,92 @@ use Gedmo\Mapping\Annotation as Gedmo;
  * })
  * @Gedmo\Loggable
  */
-abstract class DossierStatus
+abstract class DossierStatus implements DossierStatusInterface
 {
     use IdentifiableTrait;
     use TimestampableTrait;
     use RequiredMedewerkerTrait;
+    use DossierStatusTrait;
 
     /**
      * @var Slaper
      *
-     * @ORM\ManyToOne(targetEntity="Slaper")
+     * @ORM\ManyToOne(targetEntity="Slaper", inversedBy="dossierStatussen")
+     * @ORM\JoinColumn(nullable=false)
      * @Gedmo\Versioned
      */
     protected $slaper;
 
     /**
-     * @ORM\Column(type="date")
-     * @Gedmo\Versioned
+     * @var string
+     * @ORM\Column(type="string", nullable=true)
      */
-    protected $datum;
+    protected $aangemeldVia;
 
+    public function __construct()
+    {
+        $this->initializeDossierStatusTrait();
+    }
 
-    /**
-     * @var \DateTime
-     *
-     * @ORM\Column(type="datetime")
-     * @Gedmo\Versioned
-     */
-    protected $created;
-
-    /**
-     * @var \DateTime
-     *
-     * @ORM\Column(type="datetime")
-     * @Gedmo\Versioned
-     */
-    protected $modified;
 
     public function getSlaper()
     {
         return $this->slaper;
     }
 
-    public function setSlaper(Slaper $slaper)
+    public function setSlaper(?Slaper $slaper)
     {
         $this->slaper = $slaper;
+        $this->entity = $slaper;
 
         return $this;
     }
 
-    public function getDatum()
+    /**
+     * @return string
+     */
+    public function getAangemeldVia(): ?string
     {
-        return $this->datum;
+        return $this->aangemeldVia;
     }
 
-    public function setDatum($datum)
+    /**
+     * @param string $aangemeldVia
+     */
+    public function setAangemeldVia(string $aangemeldVia): void
     {
-        $this->datum = $datum;
+        $this->aangemeldVia = $aangemeldVia;
+    }
 
-        return $this;
+    public function isAfgesloten(): bool
+    {
+        if(get_class($this) == Afsluiting::class) return true;
+        return false;
+    }
+
+    public function isAangemeld(): bool
+    {
+        return !$this->isAfgesloten();
+    }
+
+
+    public function mapClasses(): void
+    {
+        $this->openClass = Aanmelding::class;
+        $this->closedClass = Afsluiting::class;
+        $this->entityClass = Slaper::class;
+    }
+
+    public function setEntity($entity): void
+    {
+        $this->entity = $entity;
+        $this->slaper = $entity;
+    }
+
+    public function getFormType(): string
+    {
+
+        return FormTypeMapper::mapEntityToFQCNFormType(get_class($this));
     }
 
 }

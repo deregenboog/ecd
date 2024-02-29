@@ -105,6 +105,31 @@
 </div>
 {% endmacro %}
 
+{% macro modalWindow(modalId, title, body, onclick) %}
+<!-- Modal -->
+<script> let modalWindowId = "#{{ modalId }}"; </script>
+<div class="modal fade" id="{{ modalId }}" tabindex="-1" role="dialog" aria-labelledby="eventModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalLabel">{{ title }}</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="saveEvent">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endmacro %}
+
 {% macro fieldsetToggle(fieldsetName,toggleId, autoInit = false) %}
     {% block script %}
         <script>

@@ -3,14 +3,19 @@
 namespace VillaBundle\Entity;
 
 use AppBundle\Entity\Klant;
+use AppBundle\Model\DossierStatusTrait;
+use AppBundle\Model\HasDossierStatusInterface;
+use AppBundle\Model\HasDossierStatusTrait;
 use AppBundle\Model\IdentifiableTrait;
 use AppBundle\Model\RequiredMedewerkerTrait;
 use AppBundle\Model\TimestampableTrait;
 use AppBundle\Model\KlantRelationInterface;
 use AppBundle\Service\NameFormatter;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\EntityNotFoundException;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\PersistentCollection;
 use Gedmo\Mapping\Annotation as Gedmo;
 use VillaBundle\Entity\DossierStatus;
 
@@ -20,11 +25,12 @@ use VillaBundle\Entity\DossierStatus;
  * @ORM\HasLifecycleCallbacks
  * @Gedmo\Loggable
  */
-class Slaper implements KlantRelationInterface
+class Slaper implements KlantRelationInterface, HasDossierStatusInterface
 {
     use IdentifiableTrait;
     use TimestampableTrait;
     use RequiredMedewerkerTrait;
+    use HasDossierStatusTrait;
 
     public const TYPE_RESPIJT = 1;
     public const TYPE_LOGEER = 2;
@@ -34,19 +40,19 @@ class Slaper implements KlantRelationInterface
         self::TYPE_LOGEER => "WMO Logeeropvang",
     ];
 
-
-    /**
-     * @var DossierStatus
-     *
-     * @ORM\OneToOne(targetEntity="DossierStatus", cascade={"persist"})
-     * @Gedmo\Versioned
-     */
-    private $dossierStatus;
+//
+//    /**
+//     * @var DossierStatus
+//     *
+//     * ORM\OneToOne(targetEntity="DossierStatus", cascade={"persist"})
+//     * @Gedmo\Versioned
+//     */
+//    private $dossierStatus;
 
     /**
      * @var DossierStatus[]
      *
-     * @ORM\OneToMany(targetEntity="DossierStatus", mappedBy="slaper")
+     * @ORM\OneToMany(targetEntity="DossierStatus", cascade={"persist"}, mappedBy="slaper", orphanRemoval="true")
      * @ORM\OrderBy({"datum" = "DESC", "id" = "DESC"})
      */
     private $dossierStatussen;
@@ -96,10 +102,19 @@ class Slaper implements KlantRelationInterface
      */
     private $redenSlapen;
 
+    /**
+     * @var Collection|Overnachting[]
+     * @ORM\OneToMany(targetEntity="VillaBundle\Entity\Overnachting",cascade={"persist"}, mappedBy="slaper", orphanRemoval="true")
+     * @ORM\OrderBy({"datum" = "DESC", "id" = "DESC"})
+     */
+    private $overnachtingen;
 
 
     public function __construct(Klant $klant = null)
     {
+        $this->initializeTrait();
+        $this->overnachtingen = new ArrayCollection();
+
         $this->appKlant = $klant;
 
     }
@@ -132,18 +147,6 @@ class Slaper implements KlantRelationInterface
         // @todo: implement for real
         return false;
     }
-
-    public function getDossierStatussen()
-    {
-        return $this->dossierStatussen;
-    }
-
-
-    public function getDossierStatus()
-    {
-        return $this->dossierStatus;
-    }
-
 
     public function getOpmerking()
     {
@@ -220,6 +223,36 @@ class Slaper implements KlantRelationInterface
     {
         $this->redenSlapen = $redenSlapen;
     }
+
+    /**
+     * @return Collection|Overnachting[]
+     */
+    public function getOvernachtingen()
+    {
+        return $this->overnachtingen;
+    }
+
+    /**
+     * @param Collection|Overnachting[] $overnachtingen
+     */
+    public function setOvernachtingen($overnachtingen): void
+    {
+        $this->overnachtingen = $overnachtingen;
+    }
+
+    public function addOvernachting(Overnachting $overnachting): void
+    {
+        $this->overnachtingen->add($overnachting);
+    }
+
+    public function removeOvernachting(Overnachting $overnachting): void
+    {
+        if($this->overnachtingen->has($overnachting)){
+
+            $this->overnachtingen->removeElement($overnachting);
+        }
+    }
+
 
 
 

@@ -7,13 +7,30 @@
             dit formulier en klik nogmaals op "Opslaan".
         </div>
     {%- endif %}
-    {{- parent() -}}
+    {# Add the id attribute to existing form attributes #}
+    {% set attr = form.vars.attr|merge({'id': form.vars.id}) %}
+    {# Call the parent form_start block with the updated attr variable:
+       In theory, this does allow the form to inherit attributes from its parent form,
+       create new attributes, or overwrite existing ones #}
+    {{ parent(form.vars | merge({'attr': attr})) }}
+
 {%- endblock form_start %}
 
 {% block without_label %}
     {{ form_widget(form) }}
 {% endblock without_label %}
 
+{#Override form_label to not display empty div for empty label. Although it might break/alter display for forms the way one is used to... #}
+{% block form_label -%}
+    {%- if label is same as(false) -%}
+        <div class=""></div>
+    {%- else -%}
+        {%- set label_attr = label_attr|merge({class: (label_attr.class|default('') ~ ' ' ~ block('form_label_class'))|trim}) -%}
+        {{- parent() -}}
+    {%- endif -%}
+{%- endblock form_label %}
+
+{#Seems redundant as it is the same as in the bootstrap layout? #}
 {% block form_label_class -%}
     col-sm-2
 {%- endblock form_label_class %}

@@ -53,7 +53,7 @@
             </th>
         </tr>
         {% for slaper in pagination %}
-        <tr data-href="{{ path('villa_slapers_view', {id: slaper.id}) }}" class="{{ not slaper.actief ? 'danger' }}">
+        <tr data-href="{{ path('villa_slapers_view', {id: slaper.id}) }}" class="">
             <td>
                 {{ slaper.appKlant.id }}
             </td>
@@ -61,15 +61,15 @@
                 {{ slaper }}
             </td>
             <td>
-                {{ slaper.dossierstatus.datum|date('d-m-Y') }}
+{#                {{ slaper.dossierstatus.datum|date('d-m-Y') }}#}
             </td>
             <td>
-                {% if not slaper.actief %}
-                    {{ slaper.afsluitdatum|if_date('d-m-Y') }}
-                    ({{ slaper.afsluitreden }})
-                {% endif %}
+{#                {% if not slaper.actief %}#}
+{#                    {{ slaper.afsluitdatum|if_date('d-m-Y') }}#}
+{#                    ({{ slaper.afsluitreden }})#}
+{#                {% endif %}#}
             </td>
-            <td>{{ slaper.actief|ja_nee }}</td>
+{#            <td>{{ slaper.actief|ja_nee }}</td>#}
             <td>
                 {{ slaper.appKlant.werkgebied }}
             </td>

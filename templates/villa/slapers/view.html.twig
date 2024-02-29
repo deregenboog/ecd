@@ -3,293 +3,141 @@
 
 {% block content_top %}
     <h1>{{ entity_name|capitalize }} {{ entity }}</h1>
-    {% if entity.huidigeMwStatus?entity.huidigeMwStatus.afgesloten %}
+    {% if entity.dossierStatus?entity.dossierStatus.afgesloten %}
         <p class="alert alert-danger">
-            Dit dossier is afgesloten op ({{ entity.huidigeMwStatus.datum|date("d-m-Y") }}.
-            {% if entity.huidigeMwStatus.resultaat is not empty %} Resultaat: {{ entity.huidigeMwStatus.resultaat|join(', ') }} {% endif %}
-            {{ html.link('Mw dossier heropenen', path(route_base~'open', {id: entity.id}), 'open') }}
+            Dit dossier is afgesloten op ({{ entity.dossierStatus.datum|date("d-m-Y") }}).
+            {% if entity.dossierStatus.resultaat is defined%} Resultaat: {{ entity.dossierStatus.resultaat|join(', ') }} {% endif %}
+            {{ html.link('Dossier heropenen', path(route_base~'open', {id: entity.id}), 'open') }}
         </p>
     {% endif %}
     <p>
-        {% if entity.huidigeMwStatus?entity.huidigeMwStatus.aangemeld %}
-            {{ html.link('Wijzigen', path('villa_klanten_edit', {id: entity.id}), 'edit') }}
-            {{ html.link('Mw dossier afsluiten', path(route_base~'close', {id: entity.id}), 'close') }}
+        {% if entity.dossierStatus?entity.dossierStatus.aangemeld %}
+            {{ html.link('Status wijzigen', path('villa_slapers_editdossierstatus', {id: entity.id}), 'edit') }}
+            {{ html.link('Dossier afsluiten', path(route_base~'close', {id: entity.id}), 'close') }}
         {% endif %}
 {#        {{ html.link('Klantrapportage bekijken', path(route_base~'viewreport', {klant: entity.id}), 'list') }}#}
     </p>
 
-    {% if not entity.laatsteZrm %}
-        <p class="text-danger">
-            LET OP: geen ZRM aanwezig. Klik
-            {{ html.link('hier', path('app_zrms_add', {klant: entity.id, module: 'MaatschappelijkWerk'})) }}
-            om een ZRM toe te voegen.
-        </p>
-    {% elseif entity.laatsteZrm < today|date_modify('-6 months') %}
-        <p class="text-danger">
-            LET OP: laatste ZRM is meer dan 6 maanden oud. Klik
-            {{ html.link('hier', path('app_zrms_add', {klant: entity.id, module: 'MaatschappelijkWerk'})) }}
-            om een nieuwe ZRM toe te voegen.
-        </p>
-    {% endif %}
 {% endblock %}
 
 {% block content_left %}
     <ul>
-        {% for status in entity.mwStatussen %}
+        {% for status in entity.dossierStatussen %}
             <li>{{ status }}</li>
         {% endfor %}
     </ul>
-    {% include 'klant_basis.html.twig' with {klant: entity, module: 'MaatschappelijkWerk'} %}
-    {{ render(controller('VillaBundle\\Controller\\KlantenController::_mwAction', {id: entity.id})) }}
-    {{ render(controller('InloopBundle\\Controller\\KlantenController::_intakesAction', {id: entity.id})) }}
-    {{ render(controller('InloopBundle\\Controller\\KlantenController::_opmerkingenAction', {id: entity.id})) }}
-    {{ render(controller('InloopBundle\\Controller\\KlantenController::_schorsingenAction', {id: entity.id})) }}
-    {{ render(controller('InloopBundle\\Controller\\KlantenController::_registratiesAction', {id: entity.id})) }}
-    {{ render(controller('VillaBundle\\Controller\\KlantenController::_documentenAction', {id: entity.id})) }}
+    {% include 'klant_basis.html.twig' with {klant: entity.appKlant} %}
+
 
 {% endblock %}
 
 {% block content_right %}
     <ul class="nav nav-tabs">
-        <li class="active"><a data-toggle="tab" href="#verslagen">Verslagen</a></li>
-        <li><a data-toggle="tab" href="#opmerkingen">Opmerkingen</a></li>
-        <li><a data-toggle="tab" href="#schorsingen">Schorsingen</a></li>
+        <li class="active"><a data-toggle="tab" href="#dossier">Dossier</a></li>
+        <li><a data-toggle="tab" href="#nachten">Nachten</a></li>
+
     </ul>
     <div class="tab-content">
-        <div id="verslagen" class="tab-pane active">
-            <h2>Verslagen</h2>
+        <div id="dossier" class="tab-pane active">
+            <h2>Dossier</h2>
             <p>
-                {{ html.link('Verslag toevoegen', path('villa_verslagen_add', {klant: entity.id}), 'add') }}
+                {{ html.link('Dossier wijzigen', path('villa_slapers_edit', {id: entity.id})) }}
             </p>
-            {% for verslag in entity.verslagen %}
-                <h3>Verslag van {{ verslag.datum|date('d-m-Y') }}</h3>
-                <p>
-                    {{ html.link('Verslag bewerken', path('villa_verslagen_edit', {id: verslag.id}), 'edit') }}
-                </p>
-                {% if verslag.type == 2 %}
-                    {% set class = "bg-info" %}
-                {% else %}
-                    {% set class = "" %}
-                {% endif %}
-                <div class="row {{class}}">
-                    <div class="col-xs-6">
-                        <dl class="dl-horizontal">
-                            <dt>Locatie</dt>
-                            <dd>{{ verslag.locatie }}</dd>
-                            <dt>Medewerker</dt>
-                            <dd>{{ verslag.medewerker }}</dd>
-                        </dl>
-                    </div>
-                    <div class="col-xs-6">
-                        <dl class="dl-horizontal">
-                            <dt>Contactsoort</dt>
-                            <dd>{{ verslag.contactsoort }}</dd>
-                            {% if verslag.duur %}
-                                <dt>Duur</dt>
-                                <dd>{{ verslag.duur }} minuten</dd>
-                            {% endif %}
-                            <dt>Type</dt>
-                            <dd>{{ verslag.typeAsString }}</dd>
-                        </dl>
-                    </div>
-                </div>
-                <p class="well">{{ verslag.opmerking|nl2br }}</p>
-            {% endfor %}
+            <dl class="dl-horizontal">
+                <dt>Aanmelddatum</dt><dd>{{ entity.dossierStatus.datum|if_date('d-m-Y') }}</dd>
+                <dt>Medewerker aanmelding</dt><dd>{{ entity.medewerker }}</dd>
+                <dt>Contactpersoon</dt><dd>{{ entity.contactpersoon }}</dd>
+                <dt>Contactgegevens contactpersoon</dt><dd>{{ entity.contactgegevensContactpersoon }}</dd>
+{#                <dt>Notitie datum</dt><dd class="text-info">{{ entity.datumNotitieIntake|if_date('d-m-Y') }}</dd>#}
+                <dt>Reden slapen</dt><dd>{{ entity.redenSlapen|raw }}</dd>
+                <dt>Opmerking</dt><dd>{{ entity.opmerking }}</dd>
+            </dl>
         </div>
-        <div id="opmerkingen" class="tab-pane">
-            <h2>Opmerkingen</h2>
-            <p>
-                {{ html.link('Opmerking toevoegen', path('inloop_opmerkingen_add', {klant: entity.id}), 'add') }}
-            </p>
-            {% if 0 == entity.opmerkingen|length %}
-                <p>Geen opmerkingen.</p>
-            {% else %}
-                {% for opmerking in entity.opmerkingen %}
-                    <div data-id="{{ opmerking.id }}">
-                        <h2>{{ opmerking.modified|date('d-m-Y') }}</h2>
-                        <p class="pull-right">
-                            <input class="gezien" id="gezien-{{ opmerking.id }}" type="checkbox" {{ opmerking.gezien ? 'checked' }}/>
-                            <label for="gezien-{{ opmerking.id }}">Opgelost</label>
-                            <a class="delete" title="Verwijderen">
-                                <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
-                                Verwijderen
-                            </a>
-                        </p>
-                        <p>Categorie: {{ opmerking.categorie }}</p>
-                        <div class="well">{{ opmerking.beschrijving }}</div>
-                    </div>
-                {% endfor %}
-            {% endif %}
+        <div id="nachten" class="tab-pane">
+            <h2>Overnachtingen</h2>
+            <a href="#">Nieuwe overnachting</a>
+
+            <div id="calendar-holder" data-events-url="{{ path('fc_load_events') }}" data-calendar-id="villa-slapers">
+
+            </div>
         </div>
-        <div id="schorsingen" class="tab-pane">
-            <h2>Huidige schorsingen <small>({{ entity.huidigeSchorsingen|length }} schorsingen)</small></h2>
-            <p>
-                {{ html.link('Schorsing toevoegen', path('inloop_opmerkingen_add', {'klant': entity.id}), 'add') }}
-            </p>
-            {% if 0 == entity.huidigeSchorsingen|length %}
-                <p>Deze persoon is op dit moment niet geschorst.</p>
-            {% else %}
-                <table class="table table-hover">
-                    <thead>
-                        <tr>
-                            <th>Locaties</th>
-                            <th>Begindatum</th>
-                            <th>Einddatum</th>
-                            <th>Redenen</th>
-                            <th>Opmerking</th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for schorsing in entity.huidigeSchorsingen %}
-                            <tr data-id="{{ schorsing.id }}" data-href="{{ path('inloop_schorsingen_view', {id: schorsing.id}) }}" class="{{ entity.id == schorsing.id ? 'info' }}">
-                                <td>
-                                    <ul>
-                                        {% for locatie in schorsing.locaties %}
-                                            <li>{{ locatie }}</li>
-                                        {% endfor %}
-                                    </ul>
-                                </td>
-                                <td>{{ schorsing.datumVan|date('d-m-Y') }}</td>
-                                <td>{{ schorsing.datumTot|date('d-m-Y') }}</td>
-                                <td>
-                                    <ul>
-                                        {% for reden in schorsing.redenen %}
-                                            <li>{{ reden }}</li>
-                                        {% endfor %}
-                                    </ul>
-                                </td>
-                                <td>
-                                    {{ schorsing.opmerking }}<br><br>
-                                    <a href="{{ path('inloop_schorsingen_view', {id: schorsing.id, language: 'nl', _format: 'pdf'}) }}" target="_blank">
-                                        <span class="glyphicon glyphicon-print"></span>
-                                        Printen
-                                    </a>
-                                    <a href="{{ path('inloop_schorsingen_view', {id: schorsing.id, language: 'en', _format: 'pdf'}) }}" target="_blank">
-                                        <span class="glyphicon glyphicon-print"></span>
-                                        Printen Engels
-                                    </a>
-                                    {{ html.link('Wijzigen', path('inloop_schorsingen_edit', {id: schorsing.id}), 'edit') }}
-                                    {% if is_granted('ROLE_TEAMLEIDERS') %}
-                                        {{ html.link('Verwijderen', path('inloop_schorsingen_delete', {id: schorsing.id}), 'delete') }}
-                                    {% endif %}
-                                </td>
-                                <td>
-                                    <input class="gezien" id="gezien-{{ schorsing.id }}" type="checkbox" {{ schorsing.gezien ? 'checked' }}/>
-                                    <label for="gezien-{{ schorsing.id }}">Gezien</label>
-                                </td>
-                            </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
-            {% endif %}
-            <h2>Verlopen schorsingen <small>({{ entity.verlopenSchorsingen|length }} schorsingen)</small></h2>
-            <table class="table table-hover">
-                <thead>
-                    <tr>
-                        <th>Locaties</th>
-                        <th>Begindatum</th>
-                        <th>Einddatum</th>
-                        <th>Redenen</th>
-                        <th>Opmerking</th>
-                        <th></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for schorsing in entity.verlopenSchorsingen %}
-                        <tr data-id="{{ schorsing.id }}" data-href="{{ path('inloop_schorsingen_view', {id: schorsing.id}) }}" class="{{ entity.id == schorsing.id ? 'info' }}">
-                            <td>
-                                <ul>
-                                    {% for locatie in schorsing.locaties %}
-                                        <li>{{ locatie }}</li>
-                                    {% endfor %}
-                                </ul>
-                            </td>
-                            <td>{{ schorsing.datumVan|date('d-m-Y') }}</td>
-                            <td>{{ schorsing.datumTot|date('d-m-Y') }}</td>
-                            <td>
-                                <ul>
-                                    {% for reden in schorsing.redenen %}
-                                        <li>{{ reden }}</li>
-                                    {% endfor %}
-                                </ul>
-                            </td>
-                            <td>
-                                {{ schorsing.opmerking }}<br><br>
-                                {{ html.link('Wijzigen', path('inloop_schorsingen_edit', {id: schorsing.id}), 'edit') }}
-                                {% if is_granted('ROLE_TEAMLEIDERS') %}
-                                    {{ html.link('Verwijderen', path('inloop_schorsingen_delete', {id: schorsing.id}), 'delete') }}
-                                {% endif %}
-                            </td>
-                            <td>
-                                <input class="gezien" id="gezien-{{ schorsing.id }}" type="checkbox" {{ schorsing.gezien ? 'checked' }}/>
-                                <label for="gezien-{{ schorsing.id }}">Gezien</label>
-                            </td>
-                        </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        </div>
+
     </div>
+    {{  html.modalWindow('testModal','Test','<h2>Hallo</h2>',"function(){alert(1);}") }}
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    {{ encore_entry_link_tags('calendar') }}
 {% endblock %}
 
 {% block scripts %}
-    <script>
-   window.onload = function(){
-      if($){
+    {{ encore_entry_script_tags('calendar') }}
+<script>
+    var editUrl = "{{ path('villa_overnachtingen_edit', {'id': 'replace_id'}) }}";
+    var addUrl = "{{ path('villa_overnachtingen_ajaxsubmit', {'slaper': entity.id}) }}";
+    var formUrl = "{{ path('villa_overnachtingen_ajaxform', {'overnachting[datum]': 'replace_date'}) }}";
 
-        $(function() {
+document.addEventListener('calendarInitialized', function(e) {
+    // Access the additional data from the event's detail property
+    // console.log('Calendar has been initialized with date info:', e.detail.dateInfo);
+    // Example: You can now use the date info or other details as needed
 
-            function opmerking_seen(opmerking_id) {
-                $.post({
-                    url: `/inloop/opmerkingen/${opmerking_id}/updateGezien`,
-                }).done(function(data) {
-                    $(this).prop('checked', data.gezien);
-                }).fail(function() {
-                    alert('Er is een fout opgetreden.')
-                });
-            };
+    let calendar = e.detail.calendar;
 
-            $('#opmerkingen .gezien').on('click', function() {
-                var id = $(this).closest('div').attr('data-id');
-                opmerking_seen(id);
-            });
+    calendar.on("dateClick",function (info){
 
-            function opmerking_remove(opmerking_id) {
-                var confirmed = confirm('Weet u zeker dat u deze opmerking wilt verwijderen?');
-                if (confirmed) {
-                    $.post({
-                        url: `/inloop/opmerkingen/${opmerking_id}/delete`,
-                    }).done(function(data) {
-                        location.reload();
-                    }).fail(function() {
-                        alert('Er is een fout opgetreden.')
-                    });
+        // Depending on whether it's a new event or an existing one, adjust the AJAX URL
+        let eventId = null;
+
+        editUrl = editUrl.replace('replace_id', (eventId||"") );
+        formUrl = formUrl.replace('replace_date', info.dateStr);
+        addUrl = addUrl.replace('replace_id',(eventId || "null") );
+
+        $.get(formUrl, function(data) {
+            // Load form into modal
+
+            $('#testModal .modal-body').html(data.formHtml);
+            $('#testModal').modal('show');
+        });
+
+        // Setup save button click event
+        $('#saveEvent').off('click').on('click', function(e) {
+
+            var $modal = $(this).closest('.modal');
+
+            var $form = $modal.find('form');
+            var formData = $form.serialize();
+
+            $.post(addUrl, formData, function(response) {
+                if(response.success == true) {
+
+                    $modal.modal('hide');
+                    calendar.refetchEvents(); // Refresh events on the calendar
                 }
-            };
-
-            $('.delete').on('click', function() {
-                var id = $(this).closest('div').attr('data-id');
-                opmerking_remove(id);
-            });
-
-            function schorsing_seen(schorsing_id) {
-                $.post({
-                    url: `/inloop/schorsingen/${schorsing_id}/updateGezien`,
-                }).done(function(data) {
-                    $(this).prop('checked', data.gezien);
-                }).fail(function() {
-                    alert('Er is een fout opgetreden.')
-                });
-            };
-
-            $('#schorsingen .gezien').on('click', function() {
-                var id = $(this).closest('tr').attr('data-id');
-                schorsing_seen(id);
+                else {
+                    alert("Something went wrong when saving the form. This is the error(s) I got back: "+response.errors.flatten);
+                }
             });
         });
 
-      }
-   }
-   </script>
+        // Optionally, setup delete button click event
+        $('#deleteEvent').off('click').on('click', function() {
+            if (eventId) {
+                $.post('/path/to/delete/event', { id: eventId }, function(response) {
+                    $('#eventModal').modal('hide');
+                    e.detail.calendar.refetchEvents(); // Refresh events
+                });
+            }
+        });
+
+    });
+
+    calendar.on("eventClick",function (info){
+        console.log(info);
+    });
+});
+
+</script>
 {% endblock %}
+

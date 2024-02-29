@@ -21,4 +21,5 @@ class Afsluiting extends DossierStatus
 
         );
     }
+
 }

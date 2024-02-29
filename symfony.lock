@@ -380,6 +380,9 @@
             "webpack.config.js"
         ]
     },
+    "tattali/calendar-bundle": {
+        "version": "v1.2.3"
+    },
     "theofidry/alice-data-fixtures": {
         "version": "1.5",
         "recipe": {

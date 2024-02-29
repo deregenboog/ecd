@@ -1,73 +1,28 @@
 <?php
 
-namespace VillaBundle\Controller;
+namespace AppBundle\Controller;
 
-use AppBundle\Controller\AbstractController;
-use AppBundle\Controller\DossierStatusControllerInterface;
-use AppBundle\Controller\DossierStatusControllerTrait;
-use AppBundle\Entity\Klant as AppKlant;
-use AppBundle\Export\ExportInterface;
-use AppBundle\Form\KlantFilterType as AppKlantFilterType;
-use AppBundle\Service\KlantDao;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
-use VillaBundle\Entity\Slaper;
-use VillaBundle\Form\SlaperFilterType;
-use VillaBundle\Form\SlaperType;
-use VillaBundle\Service\SlaperDao;
 
-/**
- * @Route("/slapers")
- *
- * @Template
- */
-class SlapersController extends AbstractController implements DossierStatusControllerInterface
+trait AjaxControllerTrait
 {
-    use DossierStatusControllerTrait;
 
-    protected $entityName = 'slaper';
-    protected $entityClass = Slaper::class;
-    protected $formClass = SlaperType::class;
-    protected $filterFormClass = SlaperFilterType::class;
-    protected $baseRouteName = 'villa_slapers_';
 
-    protected $searchFilterTypeClass = AppKlantFilterType::class;
-    protected $searchEntity = AppKlant::class;
-    protected $searchEntityName = 'appKlant';
-    protected $searchDao;
-    protected $addMethod = 'doAdd';
-
-    /**
-     * @var SlaperDao
-     */
     protected $dao;
 
     /**
-     * @var KlantDao
+     * @return void make sure that $formClass, $formOptions, $entityClass, $dao, $entityManager are existing
      */
-    private $klantDao;
+    abstract protected function setPropertiesForAjax(): void;
 
-    /**
-     * @var ExportInterface
-     */
-    protected $export;
+    abstract public function beforeDelete($entity);
+    abstract public function afterDelete($entity);
 
-    public function __construct(SlaperDao $dao, KlantDao $klantDao, ExportInterface $export)
-    {
-        $this->dao = $dao;
-        $this->klantDao = $klantDao;
-        $this->searchDao = $klantDao;
-        $this->export = $export;
-    }
+    abstract public function getForm($formClass, $entity, $formOptions);
 
-    protected function getDownloadFilename()
-    {
-
-        return sprintf('op-eigen-kracht-slapers-%s.xlsx', (new \DateTime())->format('d-m-Y'));
-    }
+    abstract public function renderView($template, $options);
 
     /**
      * @Route("/ajax/form/{id}", name="ajax_form", defaults={"id"=null}, methods={"GET"})
@@ -80,7 +35,7 @@ class SlapersController extends AbstractController implements DossierStatusContr
         }
 
         $form = $this->getForm($this->formClass, $entity, $this->formOptions);
-        $formHtml = $this->renderView('edit.html.twig', [
+        $formHtml = $this->renderView('path_to_your_form_template.html.twig', [
             'form' => $form->createView(),
         ]);
 
@@ -133,5 +88,7 @@ class SlapersController extends AbstractController implements DossierStatusContr
             return new JsonResponse(['error' => 'Could not delete entity'], Response::HTTP_BAD_REQUEST);
         }
     }
+
+
 
 }
