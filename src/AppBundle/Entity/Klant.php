@@ -593,7 +593,6 @@ class Klant extends Persoon
 
     public function getAantalVerslagen(): int
     {
-        if(!$this->verslagen instanceof Collection) return 0;
         return $this->verslagen->count();
     }
     public function getEersteVerslag()
