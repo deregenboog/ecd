@@ -9,7 +9,6 @@ use InloopBundle\Entity\Locatie;
 
 class ToegangOverigStrategy implements StrategyInterface
 {
-
     private $verblijsstatusNietRechthebbend;
 
     /** @var Locatie */
@@ -20,6 +19,7 @@ class ToegangOverigStrategy implements StrategyInterface
 
     /** @var EntityManagerInterface  */
     private $em;
+
     /**
      * @param array $accessStrategies
      */
@@ -49,7 +49,6 @@ class ToegangOverigStrategy implements StrategyInterface
     {
         return false;
     }
-
 
     /**
      * {@inheritdoc}

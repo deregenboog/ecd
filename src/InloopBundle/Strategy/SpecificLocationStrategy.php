@@ -21,7 +21,6 @@ class SpecificLocationStrategy implements StrategyInterface
         $this->locatieDao = $locatieDao;
     }
 
-
     public function supports(Locatie $locatie)
     {
         $this->locatie = $locatie;

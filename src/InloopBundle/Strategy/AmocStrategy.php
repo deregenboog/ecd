@@ -54,7 +54,5 @@ class AmocStrategy implements StrategyInterface
         $builder->orWhere("( eersteIntake.toegangInloophuis = true AND (eersteIntakeLocatie.naam = 'AMOC Stadhouderskade' OR (eersteIntakeLocatie.naam = 'AMOC West' AND eersteIntake.intakedatum < :sixmonthsago) ) )");
 //        $builder->setParameter('locatie',$this->locatie->getNaam());
         $builder->setParameter('sixmonthsago',new \DateTime("-4 months") );
-
-
     }
 }
