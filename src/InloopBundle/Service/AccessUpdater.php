@@ -78,16 +78,14 @@ class AccessUpdater
         $this->amocVerblijfsstatus = $amocVerblijfsstatus;
 
         $this->strategies = [
-            new SpecificLocationStrategy($this->locatieDao),
+            new SpecificLocationStrategy(),
             new AmocWestStrategy($this->accessStrategies),
             new VillaWesterweideStrategy($this->accessStrategies),
             new AmocStrategy($this->accessStrategies, $this->amocVerblijfsstatus),
             new WinteropvangEUBurgers($this->accessStrategies,$this->amocVerblijfsstatus, $this->em),
             new GebruikersruimteStrategy(),
-
             new ToegangOverigStrategy($this->accessStrategies, $this->amocVerblijfsstatus, $this->em),
         ];
-
     }
 
     public function updateAll()

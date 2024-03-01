@@ -4,26 +4,15 @@ namespace InloopBundle\Strategy;
 
 use Doctrine\ORM\QueryBuilder;
 use InloopBundle\Entity\Locatie;
-use InloopBundle\Service\LocatieDaoInterface;
 
 class SpecificLocationStrategy implements StrategyInterface
 {
-
-    protected LocatieDaoInterface  $locatieDao;
-
     protected Locatie $locatie;
-
-    /**
-     * @param LocatieDaoInterface $locatieDao
-     */
-    public function __construct(LocatieDaoInterface $locatieDao)
-    {
-        $this->locatieDao = $locatieDao;
-    }
 
     public function supports(Locatie $locatie)
     {
         $this->locatie = $locatie;
+
         return true;
     }
 
