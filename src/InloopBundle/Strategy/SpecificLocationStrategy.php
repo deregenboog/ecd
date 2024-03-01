@@ -29,8 +29,8 @@ class SpecificLocationStrategy implements StrategyInterface
          */
         $builder
             ->leftJoin("eersteIntake.specifiekeLocaties","specifiekeLocaties")
-            ->orWhere("(eersteIntake.toegangInloophuis = true AND specifiekeLocaties IN (:locaties) )")
-            ->setParameter("locaties",$this->locatie)
+            ->orWhere("(eersteIntake.toegangInloophuis = true AND :locatie IN specifiekeLocaties)")
+            ->setParameter("locatie", $this->locatie)
         ;
     }
 }
