@@ -7,7 +7,6 @@ use AppBundle\Export\ExportInterface;
 use ClipBundle\Entity\Client;
 use ClipBundle\Form\ClientFilterType;
 use ClipBundle\Form\ClientType;
-use ClipBundle\Service\ClientDao;
 use ClipBundle\Service\ClientDaoInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
@@ -26,7 +25,7 @@ class ClientenController extends AbstractController
     protected $baseRouteName = 'clip_clienten_';
 
     /**
-     * @var ClientDao
+     * @var ClientDaoInterface
      */
     protected $dao;
 
@@ -35,15 +34,9 @@ class ClientenController extends AbstractController
      */
     protected $export;
 
-    /**
-     * @param ClientDao $dao
-     * @param ExportInterface $export
-     */
-    public function __construct(ClientDao $dao, ExportInterface $export)
+    public function __construct(ClientDaoInterface $dao, ExportInterface $export)
     {
         $this->dao = $dao;
         $this->export = $export;
     }
-
-
 }

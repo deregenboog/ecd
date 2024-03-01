@@ -5,7 +5,6 @@ namespace DagbestedingBundle\Controller;
 use AppBundle\Controller\AbstractController;
 use DagbestedingBundle\Entity\Project;
 use DagbestedingBundle\Form\ProjectType;
-use DagbestedingBundle\Service\ProjectDao;
 use DagbestedingBundle\Service\ProjectDaoInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
@@ -21,18 +20,14 @@ class ProjectenController extends AbstractController
     protected $baseRouteName = 'dagbesteding_projecten_';
 
     /**
-     * @var ProjectDao
+     * @var ProjectDaoInterface
      */
     protected $dao;
 
-    /**
-     * @param ProjectDao $dao
-     */
-    public function __construct(ProjectDao $dao)
+    public function __construct(ProjectDaoInterface $dao)
     {
         $this->dao = $dao;
     }
-
 
     /**
      * @Route("/{id}/view")

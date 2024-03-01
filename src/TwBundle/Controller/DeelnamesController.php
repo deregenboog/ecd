@@ -4,10 +4,8 @@ namespace TwBundle\Controller;
 
 use AppBundle\Controller\AbstractChildController;
 use TwBundle\Entity\Deelname;
-
 use TwBundle\Form\DeelnameType;
 use Symfony\Component\Routing\Annotation\Route;
-use TwBundle\Service\DeelnameDao;
 use TwBundle\Service\DeelnameDaoInterface;
 
 /**
@@ -24,7 +22,7 @@ class DeelnamesController extends AbstractChildController
     protected $baseRouteName = 'tw_deelname_';
 
     /**
-     * @var DeelnameDao
+     * @var DeelnameDaoInterface
      */
     protected $dao;
 
@@ -33,15 +31,9 @@ class DeelnamesController extends AbstractChildController
      */
     protected $entities;
 
-    /**
-     * @param DeelnameDao $dao
-     * @param \ArrayObject $entities
-     */
-    public function __construct(DeelnameDao $dao, \ArrayObject $entities)
+    public function __construct(DeelnameDaoInterface $dao, \ArrayObject $entities)
     {
         $this->dao = $dao;
         $this->entities = $entities;
     }
-
-
 }

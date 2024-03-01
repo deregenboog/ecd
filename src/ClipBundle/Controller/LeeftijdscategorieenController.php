@@ -5,7 +5,6 @@ namespace ClipBundle\Controller;
 use AppBundle\Controller\AbstractController;
 use ClipBundle\Entity\Leeftijdscategorie;
 use ClipBundle\Form\LeeftijdscategorieType;
-use ClipBundle\Service\LeeftijdscategorieDao;
 use ClipBundle\Service\LeeftijdscategorieDaoInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
@@ -22,18 +21,14 @@ class LeeftijdscategorieenController extends AbstractController
     protected $baseRouteName = 'clip_leeftijdscategorieen_';
 
     /**
-     * @var LeeftijdscategorieDao
+     * @var LeeftijdscategorieDaoInterface
      */
     protected $dao;
 
-    /**
-     * @param LeeftijdscategorieDao $dao
-     */
-    public function __construct(LeeftijdscategorieDao $dao)
+    public function __construct(LeeftijdscategorieDaoInterface $dao)
     {
         $this->dao = $dao;
     }
-
 
     /**
      * @Route("/{id}/view")

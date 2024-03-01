@@ -15,7 +15,6 @@ use TwBundle\Entity\Verhuurder;
 use TwBundle\Entity\Vrijwilliger;
 use TwBundle\Exception\TwException;
 use TwBundle\Form\DocumentType;
-use TwBundle\Service\DocumentDao;
 use TwBundle\Service\DocumentDaoInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
@@ -31,19 +30,15 @@ class DocumentenController extends SymfonyController
     public $title = 'Documenten';
 
     /**
-     * @var DocumentDao
+     * @var DocumentDaoInterface
      */
     private $dao;
 
-    /**
-     * @param DocumentDao $dao
-     */
-    public function __construct(DocumentDao $dao, EntityManagerInterface $entityManager)
+    public function __construct(DocumentDaoInterface $dao, EntityManagerInterface $entityManager)
     {
         $this->dao = $dao;
         $this->entityManager = $entityManager;
     }
-
 
     /**
      * @Route("/download/{filename}")

@@ -5,7 +5,7 @@ namespace GaBundle\Controller;
 use AppBundle\Controller\AbstractChildController;
 use GaBundle\Entity\Verslag;
 use GaBundle\Form\VerslagType;
-use GaBundle\Service\VerslagDao;
+use GaBundle\Service\VerslagDaoInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -20,7 +20,7 @@ class VerslagenController extends AbstractChildController
     protected $addMethod = 'addVerslag';
 
     /**
-     * @var VerslagDao
+     * @var VerslagDaoInterface
      */
     protected $dao;
 
@@ -29,16 +29,11 @@ class VerslagenController extends AbstractChildController
      */
     protected $entities;
 
-    /**
-     * @param VerslagDao $dao
-     * @param \ArrayObject $entities
-     */
-    public function __construct(VerslagDao $dao, \ArrayObject $entities)
+    public function __construct(VerslagDaoInterface $dao, \ArrayObject $entities)
     {
         $this->dao = $dao;
         $this->entities = $entities;
     }
-
 
     protected function createEntity($parentEntity = null)
     {

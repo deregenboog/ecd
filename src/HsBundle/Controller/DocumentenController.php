@@ -5,7 +5,6 @@ namespace HsBundle\Controller;
 use AppBundle\Controller\AbstractChildController;
 use HsBundle\Entity\Document;
 use HsBundle\Form\DocumentType;
-use HsBundle\Service\DocumentDao;
 use HsBundle\Service\DocumentDaoInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Vich\UploaderBundle\Handler\DownloadHandler;
@@ -23,7 +22,7 @@ class DocumentenController extends AbstractChildController
     protected $baseRouteName = 'hs_documenten_';
 
     /**
-     * @var DocumentDao
+     * @var DocumentDaoInterface
      */
     protected $dao;
 
@@ -32,16 +31,9 @@ class DocumentenController extends AbstractChildController
      */
     protected $entities;
 
-    /**
-     * @param DocumentDao $dao
-     * @param \ArrayObject $entities
-     */
-    public function __construct(DocumentDao $dao, \ArrayObject $entities)
+    public function __construct(DocumentDaoInterface $dao, \ArrayObject $entities)
     {
         $this->dao = $dao;
         $this->entities = $entities;
     }
-
-
-
 }

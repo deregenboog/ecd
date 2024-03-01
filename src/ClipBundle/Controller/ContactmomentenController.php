@@ -7,7 +7,6 @@ use AppBundle\Export\ExportInterface;
 use ClipBundle\Entity\Contactmoment;
 use ClipBundle\Form\ContactmomentFilterType;
 use ClipBundle\Form\ContactmomentType;
-use ClipBundle\Service\ContactmomentDao;
 use ClipBundle\Service\ContactmomentDaoInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
@@ -27,7 +26,7 @@ class ContactmomentenController extends AbstractChildController
     protected $baseRouteName = 'clip_contactmomenten_';
 
     /**
-     * @var ContactmomentDao
+     * @var ContactmomentDaoInterface
      */
     protected $dao;
 
@@ -41,18 +40,12 @@ class ContactmomentenController extends AbstractChildController
      */
     protected $export;
 
-    /**
-     * @param ContactmomentDao $dao
-     * @param \ArrayObject $entities
-     * @param ExportInterface $export
-     */
-    public function __construct(ContactmomentDao $dao, \ArrayObject $entities, ExportInterface $export)
+    public function __construct(ContactmomentDaoInterface $dao, \ArrayObject $entities, ExportInterface $export)
     {
         $this->dao = $dao;
         $this->entities = $entities;
         $this->export = $export;
     }
-
 
     /**
      * @Route("/{id}/view")

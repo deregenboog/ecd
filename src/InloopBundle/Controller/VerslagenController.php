@@ -9,14 +9,13 @@ use AppBundle\Event\Events;
 use AppBundle\Exception\UserException;
 use AppBundle\Export\ExportInterface;
 use Doctrine\ORM\EntityNotFoundException;
-use InloopBundle\Service\VerslagDao;
+use InloopBundle\Service\VerslagDaoInterface;
 use MwBundle\Entity\Aanmelding;
 use MwBundle\Entity\Verslag;
 use MwBundle\Form\VerslagModel;
 use MwBundle\Form\VerslagType;
 use MwBundle\Service\InventarisatieDao;
 use MwBundle\Service\InventarisatieDaoInterface;
-use MwBundle\Service\VerslagDaoInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
@@ -34,26 +33,20 @@ class VerslagenController extends AbstractController
     protected $baseRouteName = 'inloop_verslagen_';
 
     /**
-     * @var VerslagDao
+     * @var VerslagDaoInterface
      */
     protected $dao;
-
 
     /**
      * @var ExportInterface
      */
     protected $export;
 
-    /**
-     * @param VerslagDao $dao
-     * @param ExportInterface $export
-     */
-    public function __construct(VerslagDao $dao, ExportInterface $export)
+    public function __construct(VerslagDaoInterface $dao, ExportInterface $export)
     {
         $this->dao = $dao;
         $this->export = $export;
     }
-
 
     /**
      * @Route("/add/{klant}")

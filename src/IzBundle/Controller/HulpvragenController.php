@@ -11,9 +11,7 @@ use IzBundle\Form\HulpaanbodFilterType;
 use IzBundle\Form\HulpvraagCloseType;
 use IzBundle\Form\HulpvraagFilterType;
 use IzBundle\Form\HulpvraagType;
-use IzBundle\Service\HulpaanbodDao;
 use IzBundle\Service\HulpaanbodDaoInterface;
-use IzBundle\Service\HulpvraagDao;
 use IzBundle\Service\HulpvraagDaoInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
@@ -35,12 +33,12 @@ class HulpvragenController extends AbstractChildController
     protected $forceRedirect = true;
 
     /**
-     * @var HulpvraagDao
+     * @var HulpvraagDaoInterface
      */
     protected $dao;
 
     /**
-     * @var HulpaanbodDao
+     * @var HulpaanbodDaoInterface
      */
     protected $hulpaanbodDao;
 
@@ -54,20 +52,13 @@ class HulpvragenController extends AbstractChildController
      */
     protected $export;
 
-    /**
-     * @param HulpvraagDao $dao
-     * @param HulpaanbodDao $hulpaanbodDao
-     * @param \ArrayObject $entities
-     * @param AbstractExport $export
-     */
-    public function __construct(HulpvraagDao $dao, HulpaanbodDao $hulpaanbodDao, \ArrayObject $entities, AbstractExport $export)
+    public function __construct(HulpvraagDaoInterface $dao, HulpaanbodDaoInterface $hulpaanbodDao, \ArrayObject $entities, AbstractExport $export)
     {
         $this->dao = $dao;
         $this->hulpaanbodDao = $hulpaanbodDao;
         $this->entities = $entities;
         $this->export = $export;
     }
-
 
     /**
      * @Route("/{id}/close")

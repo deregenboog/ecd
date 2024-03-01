@@ -15,6 +15,14 @@ services:
         arguments:
             $entities: '@tw.deelname.entities'
 
+    TwBundle\Controller\HuurderAfsluitingenController:
+        arguments:
+            $dao: '@TwBundle\Service\HuurderAfsluitingDao'
+
+    TwBundle\Controller\HuurverzoekAfsluitingenController:
+        arguments:
+            $dao: '@TwBundle\Service\HuurverzoekAfsluitingDao'
+
     TwBundle\Controller\HuurovereenkomstenController:
         arguments:
             $export: '@tw.export.koppelingen'
@@ -39,6 +47,10 @@ services:
     TwBundle\Controller\VerhuurdersController:
         arguments:
             $export: '@tw.export.verhuurders'
+
+    TwBundle\Controller\VerhuurderAfsluitingenController:
+        arguments:
+            $dao: '@TwBundle\Service\VerhuurderAfsluitingDao'
 
     TwBundle\Controller\VrijwilligersController:
         arguments:

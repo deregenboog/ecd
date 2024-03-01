@@ -12,7 +12,6 @@ use ErOpUitBundle\Form\KlantCloseType;
 use ErOpUitBundle\Form\KlantFilterType;
 use ErOpUitBundle\Form\KlantReopenType;
 use ErOpUitBundle\Form\KlantType;
-use ErOpUitBundle\Service\KlantDao;
 use ErOpUitBundle\Service\KlantDaoInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\Form\FormError;
@@ -33,12 +32,12 @@ class KlantenController extends AbstractController
     protected $baseRouteName = 'eropuit_klanten_';
 
     /**
-     * @var KlantDao
+     * @var KlantDaoInterface
      */
     protected $dao;
 
     /**
-     * @var \AppBundle\Service\KlantDao
+     * @var \AppBundle\Service\KlantDaoInterface
      */
     private $klantDao;
 
@@ -47,18 +46,12 @@ class KlantenController extends AbstractController
      */
     protected $export;
 
-    /**
-     * @param KlantDao $dao
-     * @param \AppBundle\Service\KlantDao $klantDao
-     * @param ExportInterface $export
-     */
-    public function __construct(KlantDao $dao, \AppBundle\Service\KlantDao $klantDao, ExportInterface $export)
+    public function __construct(KlantDaoInterface $dao, \AppBundle\Service\KlantDaoInterface $klantDao, ExportInterface $export)
     {
         $this->dao = $dao;
         $this->klantDao = $klantDao;
         $this->export = $export;
     }
-
 
     /**
      * @Route("/add")

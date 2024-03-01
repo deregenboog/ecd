@@ -8,9 +8,7 @@ use InloopBundle\Entity\Locatie;
 use InloopBundle\Entity\Schorsing;
 use InloopBundle\Form\LocatieFilterType;
 use InloopBundle\Form\LocatieType;
-use InloopBundle\Service\LocatieDao;
 use InloopBundle\Service\LocatieDaoInterface;
-use InloopBundle\Service\SchorsingDao;
 use InloopBundle\Service\SchorsingDaoInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
@@ -30,19 +28,18 @@ class LocatiesController extends AbstractController
     protected $baseRouteName = 'inloop_locaties_';
 
     /**
-     * @var LocatieDao
+     * @var LocatieDaoInterface
      */
     protected $dao;
 
     protected $accessStrategies = [];
 
-    /** @var SchorsingDao  */
+    /**
+     * @var SchorsingDaoInterface
+     */
     protected $schorsingDao;
 
-    /**
-     * @param LocatieDao $dao
-     */
-    public function __construct(LocatieDao $dao, array $accessStrategies, SchorsingDao $schorsingDao)
+    public function __construct(LocatieDaoInterface $dao, array $accessStrategies, SchorsingDaoInterface $schorsingDao)
     {
         $this->dao = $dao;
         $this->accessStrategies = $accessStrategies;

@@ -10,9 +10,7 @@ use AppBundle\Form\DoelstellingType;
 use AppBundle\Model\MedewerkerSubjectInterface;
 use AppBundle\Report\AbstractReport;
 use AppBundle\Entity\Doelstelling;
-
 use AppBundle\Service\DoelstellingDao;
-use AppBundle\Service\DoelstellingDaoInterface;
 use AppBundle\Form\DoelstellingFilterType;
 use AppBundle\Filter\DoelstellingFilter;
 use Symfony\Component\Form\FormError;
@@ -54,7 +52,6 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
  * This can / should be revisited when upgraded.
  * First but foremost it is necessary to get all the right data. And see if one-dimensional is good enough. This is what I designed it for. If two or three dimensions needed
  * we should consider another approach.
- *
  */
 /**
  * @Route("/app/doelstellingen")
@@ -65,10 +62,11 @@ class DoelstellingenController extends AbstractController
     protected $entityClass = Doelstelling::class;
     protected $formClass = DoelstellingType::class;
     protected $filterFormClass = DoelstellingFilterType::class;
+
     /**
-     * @var DoelstellingDao $dao
+     * @var DoelstellingDao
      */
-    protected $dao = DoelstellingDao::class;
+    protected $dao;
 
     protected $baseRouteName = "app_doelstellingen_";
 
@@ -77,10 +75,6 @@ class DoelstellingenController extends AbstractController
      */
     protected $export;
 
-    /**
-     * @param DoelstellingDao|string $dao
-     * @param ExportInterface $export
-     */
     public function __construct(DoelstellingDao $dao, ExportInterface $export)
     {
         $this->dao = $dao;

@@ -5,7 +5,6 @@ namespace IzBundle\Controller;
 use AppBundle\Controller\AbstractChildController;
 use IzBundle\Entity\Eindevaluatie;
 use IzBundle\Form\VerslagType;
-use IzBundle\Service\VerslagDao;
 use IzBundle\Service\VerslagDaoInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
@@ -24,7 +23,7 @@ class EindevaluatiesController extends AbstractChildController
     protected $addMethod = 'addEindevaluatie';
 
     /**
-     * @var VerslagDao
+     * @var VerslagDaoInterface
      */
     protected $dao;
 
@@ -33,16 +32,11 @@ class EindevaluatiesController extends AbstractChildController
      */
     protected $entities;
 
-    /**
-     * @param VerslagDao $dao
-     * @param \ArrayObject $entities
-     */
-    public function __construct(VerslagDao $dao, \ArrayObject $entities)
+    public function __construct(VerslagDaoInterface $dao, \ArrayObject $entities)
     {
         $this->dao = $dao;
         $this->entities = $entities;
     }
-
 
     /**
      * @Route("/{id}/view")

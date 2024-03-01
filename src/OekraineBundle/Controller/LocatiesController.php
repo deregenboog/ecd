@@ -5,7 +5,6 @@ namespace OekraineBundle\Controller;
 use AppBundle\Controller\AbstractController;
 use OekraineBundle\Entity\Locatie;
 use OekraineBundle\Form\LocatieType;
-use OekraineBundle\Service\LocatieDao;
 use OekraineBundle\Service\LocatieDaoInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
@@ -22,17 +21,12 @@ class LocatiesController extends AbstractController
     protected $baseRouteName = 'oekraine_locaties_';
 
     /**
-     * @var LocatieDao
+     * @var LocatieDaoInterface
      */
     protected $dao;
 
-    /**
-     * @param LocatieDao $dao
-     */
-    public function __construct(LocatieDao $dao)
+    public function __construct(LocatieDaoInterface $dao)
     {
         $this->dao = $dao;
     }
-
-
 }

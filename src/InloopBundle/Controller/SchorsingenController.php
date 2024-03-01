@@ -11,9 +11,7 @@ use InloopBundle\Form\SchorsingFilterType;
 use InloopBundle\Form\SchorsingType;
 use InloopBundle\Pdf\PdfSchorsingEn;
 use InloopBundle\Pdf\PdfSchorsingNl;
-use InloopBundle\Service\LocatieDao;
 use InloopBundle\Service\LocatieDaoInterface;
-use InloopBundle\Service\SchorsingDao;
 use InloopBundle\Service\SchorsingDaoInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
@@ -42,7 +40,7 @@ class SchorsingenController extends AbstractController
     protected $baseRouteName = 'inloop_schorsingen_';
 
     /**
-     * @var SchorsingDao
+     * @var SchorsingDaoInterface
      */
     protected $dao;
 
@@ -61,20 +59,13 @@ class SchorsingenController extends AbstractController
      */
     protected $locatieDao;
 
-    /**
-     * @param SchorsingDao $dao
-     * @param ExportInterface $export
-     * @param MailerInterface $mailer
-     *
-     */
-    public function __construct(SchorsingDao $dao, ExportInterface $export, MailerInterface $mailer, LocatieDao $locatieDao)
+    public function __construct(SchorsingDaoInterface $dao, ExportInterface $export, MailerInterface $mailer, LocatieDaoInterface $locatieDao)
     {
         $this->dao = $dao;
         $this->export = $export;
         $this->mailer = $mailer;
         $this->locatieDao = $locatieDao;
     }
-
 
     /**
      * @Route("/")

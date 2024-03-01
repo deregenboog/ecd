@@ -5,7 +5,6 @@ namespace DagbestedingBundle\Controller;
 use AppBundle\Controller\AbstractController;
 use DagbestedingBundle\Entity\Trajectafsluiting;
 use DagbestedingBundle\Form\TrajectafsluitingType;
-use DagbestedingBundle\Service\TrajectafsluitingDao;
 use DagbestedingBundle\Service\TrajectafsluitingDaoInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -23,18 +22,14 @@ class TrajectafsluitingenController extends AbstractController
     protected $templatePath = 'afsluitingen';
 
     /**
-     * @var TrajectafsluitingDao
+     * @var TrajectafsluitingDaoInterface
      */
     protected $dao;
 
-    /**
-     * @param TrajectafsluitingDao $dao
-     */
-    public function __construct(TrajectafsluitingDao $dao)
+    public function __construct(TrajectafsluitingDaoInterface $dao)
     {
         $this->dao = $dao;
     }
-
 
     /**
      * @Route("/{id}/view")

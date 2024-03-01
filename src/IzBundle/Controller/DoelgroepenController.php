@@ -5,7 +5,6 @@ namespace IzBundle\Controller;
 use AppBundle\Controller\AbstractController;
 use IzBundle\Entity\Doelgroep;
 use IzBundle\Form\DoelgroepType;
-use IzBundle\Service\DoelgroepDao;
 use IzBundle\Service\DoelgroepDaoInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
@@ -21,18 +20,14 @@ class DoelgroepenController extends AbstractController
     protected $baseRouteName = 'iz_doelgroepen_';
 
     /**
-     * @var DoelgroepDao
+     * @var DoelgroepDaoInterface
      */
     protected $dao;
 
-    /**
-     * @param DoelgroepDao $dao
-     */
-    public function __construct(DoelgroepDao $dao)
+    public function __construct(DoelgroepDaoInterface $dao)
     {
         $this->dao = $dao;
     }
-
 
     /**
      * @Route("/{id}/view")

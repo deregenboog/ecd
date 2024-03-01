@@ -13,7 +13,6 @@ use IzBundle\Entity\IzVrijwilliger;
 use IzBundle\Form\IzDeelnemerCloseType;
 use IzBundle\Form\IzVrijwilligerFilterType;
 use IzBundle\Form\IzVrijwilligerType;
-use IzBundle\Service\VrijwilligerDao;
 use IzBundle\Service\VrijwilligerDaoInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
@@ -35,12 +34,12 @@ class VrijwilligersController extends AbstractController
     protected $baseRouteName = 'iz_vrijwilligers_';
 
     /**
-     * @var VrijwilligerDao
+     * @var VrijwilligerDaoInterface
      */
     protected $dao;
 
     /**
-     * @var \AppBundle\Service\VrijwilligerDao
+     * @var \AppBundle\Service\VrijwilligerDaoInterface
      */
     private $vrijwilligerDao;
 
@@ -49,18 +48,12 @@ class VrijwilligersController extends AbstractController
      */
     protected $export;
 
-    /**
-     * @param VrijwilligerDao $dao
-     * @param \AppBundle\Service\VrijwilligerDao $vrijwilligerDao
-     * @param AbstractExport $export
-     */
-    public function __construct(VrijwilligerDao $dao, \AppBundle\Service\VrijwilligerDao $vrijwilligerDao, AbstractExport $export)
+    public function __construct(VrijwilligerDaoInterface $dao, \AppBundle\Service\VrijwilligerDaoInterface $vrijwilligerDao, AbstractExport $export)
     {
         $this->dao = $dao;
         $this->vrijwilligerDao = $vrijwilligerDao;
         $this->export = $export;
     }
-
 
     /**
      * @Route("/add")

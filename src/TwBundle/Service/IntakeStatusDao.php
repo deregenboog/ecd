@@ -5,7 +5,7 @@ namespace TwBundle\Service;
 use AppBundle\Service\AbstractDao;
 use TwBundle\Entity\IntakeStatus;
 
-class IntakeStatusDao extends AbstractDao
+class IntakeStatusDao extends AbstractDao implements IntakeStatusDaoInterface
 {
     protected $class = IntakeStatus::class;
 

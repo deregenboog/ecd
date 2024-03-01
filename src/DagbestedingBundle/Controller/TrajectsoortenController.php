@@ -5,7 +5,6 @@ namespace DagbestedingBundle\Controller;
 use AppBundle\Controller\AbstractController;
 use DagbestedingBundle\Entity\Trajectsoort;
 use DagbestedingBundle\Form\TrajectsoortType;
-use DagbestedingBundle\Service\TrajectsoortDao;
 use DagbestedingBundle\Service\TrajectsoortDaoInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
@@ -22,18 +21,14 @@ class TrajectsoortenController extends AbstractController
     protected $baseRouteName = 'dagbesteding_trajectsoorten_';
 
     /**
-     * @var TrajectsoortDao
+     * @var TrajectsoortDaoInterface
      */
     protected $dao;
 
-    /**
-     * @param TrajectsoortDao $dao
-     */
-    public function __construct(TrajectsoortDao $dao)
+    public function __construct(TrajectsoortDaoInterface $dao)
     {
         $this->dao = $dao;
     }
-
 
     /**
      * @Route("/{id}/view")

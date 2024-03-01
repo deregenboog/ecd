@@ -8,7 +8,6 @@ use AppBundle\Entity\Memo;
 use InloopBundle\Form\DeelnameType;
 use AppBundle\Form\MemoType;
 use AppBundle\Service\MemoDaoInterface;
-use InloopBundle\Service\DeelnameDao;
 use Symfony\Component\Routing\Annotation\Route;
 use InloopBundle\Service\DeelnameDaoInterface;
 
@@ -26,7 +25,7 @@ class DeelnamesController extends AbstractChildController
     protected $baseRouteName = 'inloop_deelname_';
 
     /**
-     * @var DeelnameDao
+     * @var DeelnameDaoInterface
      */
     protected $dao;
 
@@ -35,15 +34,9 @@ class DeelnamesController extends AbstractChildController
      */
     protected $entities;
 
-    /**
-     * @param DeelnameDao $dao
-     * @param \ArrayObject $entities
-     */
-    public function __construct(DeelnameDao $dao, \ArrayObject $entities)
+    public function __construct(DeelnameDaoInterface $dao, \ArrayObject $entities)
     {
         $this->dao = $dao;
         $this->entities = $entities;
     }
-
-
 }

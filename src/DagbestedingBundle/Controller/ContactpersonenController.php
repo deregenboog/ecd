@@ -5,7 +5,7 @@ namespace DagbestedingBundle\Controller;
 use AppBundle\Controller\AbstractChildController;
 use DagbestedingBundle\Entity\Contactpersoon;
 use DagbestedingBundle\Form\ContactpersoonType;
-use DagbestedingBundle\Service\ContactpersoonDao;
+use DagbestedingBundle\Service\ContactpersoonDaoInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -20,7 +20,7 @@ class ContactpersonenController extends AbstractChildController
     protected $baseRouteName = 'dagbesteding_contactpersonen_';
 
     /**
-     * @var ContactpersoonDao
+     * @var ContactpersoonDaoInterface
      */
     protected $dao;
 
@@ -29,15 +29,9 @@ class ContactpersonenController extends AbstractChildController
      */
     protected $entities;
 
-    /**
-     * @param ContactpersoonDao $dao
-     * @param \ArrayObject $entities
-     */
-    public function __construct(ContactpersoonDao $dao,\ArrayObject $entities)
+    public function __construct(ContactpersoonDaoInterface $dao, \ArrayObject $entities)
     {
         $this->dao = $dao;
         $this->entities = $entities;
     }
-
-
 }

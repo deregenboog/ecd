@@ -28,18 +28,14 @@ class PostcodesController extends AbstractController
     protected $disabledActions = ['view'];
 
     /**
-     * @var PostcodeDao
+     * @var PostcodeDaoInterface
      */
     protected $dao;
 
-    /**
-     * @param PostcodeDao $dao
-     */
-    public function __construct(PostcodeDao $dao)
+    public function __construct(PostcodeDaoInterface $dao)
     {
         $this->dao = $dao;
     }
-
 
     /**
      * @Route("/add")

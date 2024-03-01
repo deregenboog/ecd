@@ -14,6 +14,14 @@ services:
     MwBundle\Controller\:
         resource: '%kernel.project_dir%/src/MwBundle/Controller'
 
+    MwBundle\Controller\BinnenViaKlantController:
+        arguments:
+            $dao: '@MwBundle\Service\BinnenViaKlantDao'
+
+    MwBundle\Controller\BinnenViaVWController:
+        arguments:
+            $dao: '@MwBundle\Service\BinnenViaDao'
+
     MwBundle\Controller\DeelnamesController:
         arguments:
             $entities: '@mw.deelname.entities'

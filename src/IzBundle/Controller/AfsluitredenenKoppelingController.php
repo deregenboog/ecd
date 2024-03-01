@@ -5,7 +5,6 @@ namespace IzBundle\Controller;
 use AppBundle\Controller\AbstractController;
 use IzBundle\Entity\AfsluitredenKoppeling;
 use IzBundle\Form\AfsluitredenKoppelingType;
-use IzBundle\Service\AfsluitredenKoppelingDao;
 use IzBundle\Service\AfsluitredenKoppelingDaoInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
@@ -22,18 +21,14 @@ class AfsluitredenenKoppelingController extends AbstractController
     protected $baseRouteName = 'iz_afsluitredenenkoppeling_';
 
     /**
-     * @var AfsluitredenKoppelingDao
+     * @var AfsluitredenKoppelingDaoInterface
      */
     protected $dao;
 
-    /**
-     * @param AfsluitredenKoppelingDao $dao
-     */
-    public function __construct(AfsluitredenKoppelingDao $dao)
+    public function __construct(AfsluitredenKoppelingDaoInterface $dao)
     {
         $this->dao = $dao;
     }
-
 
     /**
      * @Route("/{id}/view")

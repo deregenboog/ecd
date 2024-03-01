@@ -6,7 +6,6 @@ use AppBundle\Controller\AbstractController;
 use IzBundle\Entity\Doelstelling;
 use IzBundle\Form\DoelstellingFilterType;
 use IzBundle\Form\DoelstellingType;
-use IzBundle\Service\DoelstellingDao;
 use IzBundle\Service\DoelstellingDaoInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
@@ -23,18 +22,14 @@ class DoelstellingenController extends AbstractController
     protected $baseRouteName = 'iz_doelstellingen_';
 
     /**
-     * @var DoelstellingDao
+     * @var DoelstellingDaoInterface
      */
     protected $dao;
 
-    /**
-     * @param DoelstellingDao $dao
-     */
-    public function __construct(DoelstellingDao $dao)
+    public function __construct(DoelstellingDaoInterface $dao)
     {
         $this->dao = $dao;
     }
-
 
     /**
      * @Route("/{id}/view")

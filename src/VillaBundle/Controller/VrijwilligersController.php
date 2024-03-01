@@ -2,18 +2,15 @@
 
 namespace VillaBundle\Controller;
 
-
 use AppBundle\Export\ExportInterface;
-use AppBundle\Service\VrijwilligerDao as AppVrijwilligerDao;
+use AppBundle\Service\VrijwilligerDaoInterface as AppVrijwilligerDaoInterface;
 use InloopBundle\Controller\VrijwilligersControllerAbstract;
 use VillaBundle\Entity\Vrijwilliger;
 use VillaBundle\Form\VrijwilligerCloseType;
 use VillaBundle\Form\VrijwilligerFilterType;
 use VillaBundle\Form\VrijwilligerType;
-use VillaBundle\Service\VrijwilligerDao;
 use VillaBundle\Service\VrijwilligerDaoInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -30,7 +27,7 @@ class VrijwilligersController extends VrijwilligersControllerAbstract
     protected $formClassClose = VrijwilligerCloseType::class;
 
     /**
-     * @var VrijwilligerDao
+     * @var VrijwilligerDaoInterface
      */
     protected $dao;
 
@@ -39,7 +36,7 @@ class VrijwilligersController extends VrijwilligersControllerAbstract
      */
     protected $export;
 
-    public function __construct(VrijwilligerDao $dao, AppVrijwilligerDao $vrijwilligerDao, ExportInterface $export)
+    public function __construct(VrijwilligerDaoInterface $dao, AppVrijwilligerDaoInterface $vrijwilligerDao, ExportInterface $export)
     {
         $this->dao = $dao;
         $this->vrijwilligerDao = $vrijwilligerDao;

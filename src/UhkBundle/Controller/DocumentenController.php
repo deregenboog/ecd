@@ -5,7 +5,6 @@ namespace UhkBundle\Controller;
 use AppBundle\Controller\AbstractChildController;
 use UhkBundle\Entity\Document;
 use UhkBundle\Form\DocumentType;
-use UhkBundle\Service\DocumentDao;
 use UhkBundle\Service\DocumentDaoInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -22,7 +21,7 @@ class DocumentenController extends AbstractChildController
     protected $baseRouteName = 'uhk_documenten_';
 
     /**
-     * @var DocumentDao
+     * @var DocumentDaoInterface
      */
     protected $dao;
 
@@ -31,16 +30,9 @@ class DocumentenController extends AbstractChildController
      */
     protected $entities;
 
-    /**
-     * @param DocumentDao $dao
-     * @param \ArrayObject $entities
-     */
-    public function __construct(DocumentDao $dao, \ArrayObject $entities)
+    public function __construct(DocumentDaoInterface $dao, \ArrayObject $entities)
     {
         $this->dao = $dao;
         $this->entities = $entities;
     }
-
-
-
 }

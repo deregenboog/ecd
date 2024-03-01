@@ -5,7 +5,6 @@ namespace VillaBundle\Controller;
 use AppBundle\Controller\AbstractController;
 use VillaBundle\Entity\Afsluitreden;
 use VillaBundle\Form\AfsluitredenType;
-use VillaBundle\Service\AfsluitredenDao;
 use VillaBundle\Service\AfsluitredenDaoInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -22,14 +21,11 @@ class AfsluitredenenVrijwilligersController extends AbstractController
     protected $disabledActions = ['view', 'delete'];
 
     /**
-     * @var AfsluitredenDao
+     * @var AfsluitredenDaoInterface
      */
     protected $dao;
 
-    /**
-     * @param AfsluitredenDao $dao
-     */
-    public function __construct(AfsluitredenDao $dao)
+    public function __construct(AfsluitredenDaoInterface $dao)
     {
         $this->dao = $dao;
     }

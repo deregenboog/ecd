@@ -26,18 +26,12 @@ class LandenController extends AbstractController
     protected $disabledActions = ['view', 'delete'];
 
     /**
-     * @var LandDao
-     *
+     * @var LandDaoInterface
      */
     protected $dao;
 
-    /**
-     * @param LandDao $dao
-     */
-    public function __construct(LandDao $dao)
+    public function __construct(LandDaoInterface $dao)
     {
         $this->dao = $dao;
     }
-
-
 }

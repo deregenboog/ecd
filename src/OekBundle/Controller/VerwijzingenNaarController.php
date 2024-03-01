@@ -5,7 +5,6 @@ namespace OekBundle\Controller;
 use AppBundle\Controller\AbstractController;
 use OekBundle\Entity\VerwijzingNaar;
 use OekBundle\Form\VerwijzingType;
-use OekBundle\Service\VerwijzingNaarDao;
 use OekBundle\Service\VerwijzingNaarDaoInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -22,17 +21,12 @@ class VerwijzingenNaarController extends AbstractController
     protected $disabledActions = ['view', 'delete'];
 
     /**
-     * @var VerwijzingNaarDao
+     * @var VerwijzingNaarDaoInterface
      */
     protected $dao;
 
-    /**
-     * @param VerwijzingNaarDao $dao
-     */
-    public function __construct(VerwijzingNaarDao $dao)
+    public function __construct(VerwijzingNaarDaoInterface $dao)
     {
         $this->dao = $dao;
     }
-
-
 }

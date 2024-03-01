@@ -14,7 +14,6 @@ use TwBundle\Entity\Verhuurder;
 use TwBundle\Entity\Verslag;
 use TwBundle\Exception\TwException;
 use TwBundle\Form\VerslagType;
-use TwBundle\Service\VerslagDao;
 use TwBundle\Service\VerslagDaoInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
@@ -29,14 +28,11 @@ class VerslagenController extends SymfonyController
     public $title = 'Verslagen';
 
     /**
-     * @var VerslagDao
+     * @var VerslagDaoInterface
      */
     private $dao;
 
-    /**
-     * @param VerslagDao $dao
-     */
-    public function __construct(VerslagDao $dao, EntityManagerInterface $entityManager)
+    public function __construct(VerslagDaoInterface $dao, EntityManagerInterface $entityManager)
     {
         $this->dao = $dao;
         $this->entityManager = $entityManager;

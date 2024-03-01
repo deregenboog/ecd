@@ -5,7 +5,6 @@ namespace MwBundle\Controller;
 use AppBundle\Controller\AbstractController;
 use MwBundle\Entity\Project;
 use MwBundle\Form\ProjectType;
-use MwBundle\Service\ProjectDao;
 use MwBundle\Service\ProjectDaoInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
@@ -22,14 +21,11 @@ class ProjectenController extends AbstractController
     protected $baseRouteName = 'mw_projecten_';
 
     /**
-     * @var ProjectDao
+     * @var ProjectDaoInterface
      */
     protected $dao;
 
-    /**
-     * @param ProjectDao $dao
-     */
-    public function __construct(ProjectDao $dao)
+    public function __construct(ProjectDaoInterface $dao)
     {
         $this->dao = $dao;
     }

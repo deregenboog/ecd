@@ -7,7 +7,6 @@ use AppBundle\Entity\Klant;
 use AppBundle\Exception\UserException;
 use AppBundle\Export\ExportInterface;
 use AppBundle\Form\KlantFilterType;
-use AppBundle\Service\KlantDao;
 use AppBundle\Service\KlantDaoInterface;
 use Doctrine\ORM\EntityNotFoundException;
 use OekBundle\Entity\Aanmelding;
@@ -17,7 +16,6 @@ use OekBundle\Form\AanmeldingType;
 use OekBundle\Form\AfsluitingType;
 use OekBundle\Form\DeelnemerFilterType;
 use OekBundle\Form\DeelnemerType;
-use OekBundle\Service\DeelnemerDao;
 use OekBundle\Service\DeelnemerDaoInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\Form\FormError;
@@ -37,12 +35,12 @@ class DeelnemersController extends AbstractController
     protected $baseRouteName = 'oek_deelnemers_';
 
     /**
-     * @var DeelnemerDao
+     * @var DeelnemerDaoInterface
      */
     protected $dao;
 
     /**
-     * @var KlantDao
+     * @var KlantDaoInterface
      */
     private $klantDao;
 
@@ -51,18 +49,12 @@ class DeelnemersController extends AbstractController
      */
     protected $export;
 
-    /**
-     * @param DeelnemerDao $dao
-     * @param KlantDao $klantDao
-     * @param ExportInterface $export
-     */
-    public function __construct(DeelnemerDao $dao, KlantDao $klantDao, ExportInterface $export)
+    public function __construct(DeelnemerDaoInterface $dao, KlantDaoInterface $klantDao, ExportInterface $export)
     {
         $this->dao = $dao;
         $this->klantDao = $klantDao;
         $this->export = $export;
     }
-
 
     /**
      * @Route("/add")

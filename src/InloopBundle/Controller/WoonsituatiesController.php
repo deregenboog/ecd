@@ -5,7 +5,6 @@ namespace InloopBundle\Controller;
 use AppBundle\Controller\AbstractController;
 use InloopBundle\Entity\Woonsituatie;
 use InloopBundle\Form\WoonsituatieType;
-use InloopBundle\Service\WoonsituatieDao;
 use InloopBundle\Service\WoonsituatieDaoInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
@@ -22,17 +21,12 @@ class WoonsituatiesController extends AbstractController
     protected $baseRouteName = 'inloop_woonsituaties_';
 
     /**
-     * @var WoonsituatieDao
+     * @var WoonsituatieDaoInterface
      */
     protected $dao;
 
-    /**
-     * @param WoonsituatieDao $dao
-     */
-    public function __construct(WoonsituatieDao $dao)
+    public function __construct(WoonsituatieDaoInterface $dao)
     {
         $this->dao = $dao;
     }
-
-
 }

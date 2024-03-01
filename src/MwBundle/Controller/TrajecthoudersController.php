@@ -5,7 +5,6 @@ namespace MwBundle\Controller;
 use AppBundle\Controller\AbstractController;
 use MwBundle\Entity\Trajecthouder;
 use MwBundle\Form\TrajecthouderType;
-use MwBundle\Service\TrajecthouderDao;
 use MwBundle\Service\TrajecthouderDaoInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
@@ -23,17 +22,12 @@ class TrajecthoudersController extends AbstractController
     protected $disabledActions = ['view', 'delete'];
 
     /**
-     * @var TrajecthouderDao
+     * @var TrajecthouderDaoInterface
      */
     protected $dao;
 
-    /**
-     * @param TrajecthouderDao $dao
-     */
-    public function __construct(TrajecthouderDao $dao)
+    public function __construct(TrajecthouderDaoInterface $dao)
     {
         $this->dao = $dao;
     }
-
-
 }

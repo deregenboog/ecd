@@ -10,7 +10,6 @@ use ClipBundle\Form\VraagCloseType;
 use ClipBundle\Form\VraagType;
 use ClipBundle\Form\VragenModel;
 use ClipBundle\Form\VragenType;
-use ClipBundle\Service\VraagDao;
 use ClipBundle\Service\VraagDaoInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
@@ -27,7 +26,7 @@ class VragenController extends AbstractVragenController
     protected $addMethod = 'addVraag';
 
     /**
-     * @var VraagDao
+     * @var VraagDaoInterface
      */
     protected $dao;
 
@@ -41,18 +40,12 @@ class VragenController extends AbstractVragenController
      */
     protected $export;
 
-    /**
-     * @param VraagDao $dao
-     * @param \ArrayObject $entities
-     * @param ExportInterface $export
-     */
-    public function __construct(VraagDao $dao, \ArrayObject $entities, ExportInterface $export)
+    public function __construct(VraagDaoInterface $dao, \ArrayObject $entities, ExportInterface $export)
     {
         $this->dao = $dao;
         $this->entities = $entities;
         $this->export = $export;
     }
-
 
     /**
      * @Route("/add")

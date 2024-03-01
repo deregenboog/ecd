@@ -20,10 +20,8 @@ use InloopBundle\Form\AfsluitingType;
 use InloopBundle\Form\KlantFilterType;
 use InloopBundle\Form\KlantType;
 use InloopBundle\Pdf\PdfBrief;
-use InloopBundle\Service\KlantDao;
 use InloopBundle\Service\KlantDaoInterface;
-use InloopBundle\Service\LocatieDao;
-use Psr\Container\ContainerInterface;
+use InloopBundle\Service\LocatieDaoInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\EventDispatcher\GenericEvent;
 use Symfony\Component\Routing\Annotation\Route;
@@ -46,35 +44,29 @@ class KlantenController extends AbstractController
     protected $baseRouteName = 'inloop_klanten_';
 
     /**
-     * @var KlantDao
+     * @var KlantDaoInterface
      */
     protected $dao;
 
     /**
-     * @var \AppBundle\Service\KlantDao
+     * @var \AppBundle\Service\KlantDaoInterface
      */
     protected $klantDao;
 
     /**
-     * @var LocatieDao
+     * @var LocatieDaoInterface
      */
     protected $locatieDao;
 
     /**
-     * @var array|mixed $tbc_countries List of countries where TBC check is mandatory
+     * @var array List of countries where TBC check is mandatory
      */
-    protected $tbc_countries=[];
+    protected $tbc_countries = [];
 
-    /**
-     * @param KlantDao $dao
-     * @param \AppBundle\Service\KlantDao $klantDao
-     * @param array $tbc_countries
-     */
-    public function __construct(KlantDao $dao, \AppBundle\Service\KlantDao $klantDao, LocatieDao $locatieDao, ContainerInterface $container, $tbc_countries=[])
+    public function __construct(KlantDaoInterface $dao, \AppBundle\Service\KlantDaoInterface $klantDao, LocatieDaoInterface $locatieDao, $tbc_countries = [])
     {
         $this->dao = $dao;
         $this->klantDao = $klantDao;
-        $this->container = $container;
         $this->tbc_countries = $tbc_countries;
         $this->locatieDao = $locatieDao;
     }

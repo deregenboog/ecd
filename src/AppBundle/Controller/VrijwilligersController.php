@@ -32,7 +32,7 @@ class VrijwilligersController extends AbstractController
     protected $baseRouteName = 'app_vrijwilligers_';
 
     /**
-     * @var VrijwilligerDao
+     * @var VrijwilligerDaoInterface
      */
     protected $dao;
 
@@ -41,11 +41,7 @@ class VrijwilligersController extends AbstractController
      */
     protected $export;
 
-    /**
-     * @param VrijwilligerDao $dao
-     * @param AbstractExport $export
-     */
-    public function __construct(VrijwilligerDao $dao, AbstractExport $export)
+    public function __construct(VrijwilligerDaoInterface $dao, AbstractExport $export)
     {
         $this->dao = $dao;
         $this->export = $export;

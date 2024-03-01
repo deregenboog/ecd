@@ -5,7 +5,6 @@ namespace DagbestedingBundle\Controller;
 use AppBundle\Controller\AbstractChildController;
 use AppBundle\Export\ExportInterface;
 use DagbestedingBundle\Entity\Traject;
-use DagbestedingBundle\Service\DeelnameDao;
 use DagbestedingBundle\Entity\Deelname;
 use DagbestedingBundle\Entity\Deelnemer;
 use DagbestedingBundle\Entity\Project;
@@ -29,7 +28,7 @@ class DeelnamesController extends AbstractChildController
     protected $disabledActions = ['index', 'view'];
 
     /**
-     * @var DeelnameDao
+     * @var DeelnameDaoInterface
      */
     protected $dao;
 
@@ -43,18 +42,12 @@ class DeelnamesController extends AbstractChildController
      */
     protected $export;
 
-    /**
-     * @param DeelnameDao $dao
-     * @param \ArrayObject $entities
-     * @param ExportInterface $export
-     */
-    public function __construct(DeelnameDao $dao, \ArrayObject $entities, ExportInterface $export)
+    public function __construct(DeelnameDaoInterface $dao, \ArrayObject $entities, ExportInterface $export)
     {
         $this->dao = $dao;
         $this->entities = $entities;
         $this->export = $export;
     }
-
 
     /**
      * @Route("/")

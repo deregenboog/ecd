@@ -52,7 +52,7 @@ class KlantenController extends AbstractController
     /** @var array|mixed $tbc_countries List of countries where TBC check is mandatory */
     protected $tbc_countries = [];
 
-    public function __construct(KlantDao $dao, KlantDao $searchDao, $export, $tbc_countries=[])
+    public function __construct(KlantDaoInterface $dao, KlantDaoInterface $searchDao, $export, $tbc_countries = [])
     {
         $this->searchDao=$searchDao;
         $this->dao=$dao;

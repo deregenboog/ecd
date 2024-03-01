@@ -5,7 +5,6 @@ namespace InloopBundle\Controller;
 use AppBundle\Controller\AbstractChildController;
 use InloopBundle\Entity\Locatietijd;
 use InloopBundle\Form\LocatietijdType;
-use InloopBundle\Service\LocatietijdDao;
 use InloopBundle\Service\LocatietijdDaoInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
@@ -24,7 +23,7 @@ class LocatietijdenController extends AbstractChildController
     protected $addMethod = 'addLocatietijd';
 
     /**
-     * @var LocatietijdDao
+     * @var LocatietijdDaoInterface
      */
     protected $dao;
 
@@ -33,15 +32,9 @@ class LocatietijdenController extends AbstractChildController
      */
     protected $entities;
 
-    /**
-     * @param LocatietijdDao $dao
-     * @param \ArrayObject $entities
-     */
-    public function __construct(LocatietijdDao $dao, \ArrayObject $entities)
+    public function __construct(LocatietijdDaoInterface $dao, \ArrayObject $entities)
     {
         $this->dao = $dao;
         $this->entities = $entities;
     }
-
-
 }

@@ -5,7 +5,6 @@ namespace HsBundle\Controller;
 use AppBundle\Controller\AbstractController;
 use HsBundle\Entity\Activiteit;
 use HsBundle\Form\ActiviteitType;
-use HsBundle\Service\ActiviteitDao;
 use HsBundle\Service\ActiviteitDaoInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
@@ -23,18 +22,14 @@ class ActiviteitenController extends AbstractController
     protected $baseRouteName = 'hs_activiteiten_';
 
     /**
-     * @var ActiviteitDao
+     * @var ActiviteitDaoInterface
      */
     protected $dao;
 
-    /**
-     * @param ActiviteitDao $dao
-     */
-    public function __construct(ActiviteitDao $dao)
+    public function __construct(ActiviteitDaoInterface $dao)
     {
         $this->dao = $dao;
     }
-
 
     /**
      * @Route("/{id}/view")

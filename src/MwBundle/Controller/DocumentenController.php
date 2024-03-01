@@ -7,7 +7,6 @@ use AppBundle\Entity\Klant;
 use MwBundle\Entity\Document;
 use MwBundle\Entity\Vrijwilliger;
 use MwBundle\Form\DocumentType;
-use MwBundle\Service\DocumentDao;
 use MwBundle\Service\DocumentDaoInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -27,7 +26,7 @@ class DocumentenController extends AbstractChildController
     protected $disabledActions = ['index', 'edit'];
 
     /**
-     * @var DocumentDao
+     * @var DocumentDaoInterface
      */
     protected $dao;
 
@@ -36,17 +35,11 @@ class DocumentenController extends AbstractChildController
      */
     protected $entities;
 
-    /**
-     * @param DocumentDao $dao
-     * @param \ArrayObject $entities
-     */
-    public function __construct(DocumentDao $dao, \ArrayObject $entities)
+    public function __construct(DocumentDaoInterface $dao, \ArrayObject $entities)
     {
         $this->dao = $dao;
         $this->entities = $entities;
     }
-
-
 
     /**
      * @Route("/add")

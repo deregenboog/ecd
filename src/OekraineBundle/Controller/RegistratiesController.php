@@ -5,7 +5,6 @@ namespace OekraineBundle\Controller;
 use AppBundle\Controller\AbstractController;
 use AppBundle\Entity\Klant;
 use AppBundle\Export\ExportInterface;
-use DagbestedingBundle\Service\LocatieDaoInterface;
 use Doctrine\ORM\EntityNotFoundException;
 use OekraineBundle\Entity\Locatie;
 use OekraineBundle\Entity\Registratie;
@@ -20,9 +19,7 @@ use OekraineBundle\Form\RegistratieHistoryFilterType;
 use OekraineBundle\Form\RegistratieType;
 use OekraineBundle\Security\Permissions;
 use OekraineBundle\Service\BezoekerDaoInterface;
-use OekraineBundle\Service\BezoekerDao;
-use OekraineBundle\Service\LocatieDao;
-use OekraineBundle\Service\RegistratieDao;
+use OekraineBundle\Service\LocatieDaoInterface;
 use OekraineBundle\Service\RegistratieDaoInterface;
 use OekraineBundle\Service\SchorsingDaoInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
@@ -45,17 +42,17 @@ class RegistratiesController extends AbstractController
     protected $baseRouteName = 'oekraine_registraties_';
 
     /**
-     * @var RegistratieDao
+     * @var RegistratieDaoInterface
      */
     protected $dao;
 
     /**
-     * @var BezoekerDao
+     * @var BezoekerDaoInterface
      */
     protected $bezoekerDao;
 
     /**
-     * @var LocatieDao
+     * @var LocatieDaoInterface
      */
     protected $locatieDao;
 
@@ -64,13 +61,7 @@ class RegistratiesController extends AbstractController
      */
     protected $export;
 
-    /**
-     * @param RegistratieDao $dao
-     * @param BezoekerDao $bezoekerDao
-     * @param LocatieDao $locatieDao
-     * @param ExportInterface $export
-     */
-    public function __construct(RegistratieDao $dao, BezoekerDao $bezoekerDao, LocatieDao $locatieDao, ExportInterface $export)
+    public function __construct(RegistratieDaoInterface $dao, BezoekerDaoInterface $bezoekerDao, LocatieDaoInterface $locatieDao, ExportInterface $export)
     {
         $this->dao = $dao;
         $this->bezoekerDao = $bezoekerDao;

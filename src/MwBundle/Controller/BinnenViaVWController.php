@@ -6,7 +6,6 @@ use AppBundle\Controller\AbstractController;
 use MwBundle\Entity\BinnenViaOptieVW;
 use MwBundle\Form\BinnenViaOptieVWType;
 use MwBundle\Form\BinnenViaType;
-use MwBundle\Service\BinnenViaDao;
 use MwBundle\Service\BinnenViaDaoInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -22,11 +21,11 @@ class BinnenViaVWController extends AbstractController
     protected $baseRouteName = 'mw_binnenviavw_';
 
     /**
-     * @var BinnenViaDao
+     * @var BinnenViaDaoInterface
      */
     protected $dao;
 
-    public function __construct(BinnenViaDao $dao)
+    public function __construct(BinnenViaDaoInterface $dao)
     {
         $this->dao = $dao;
     }

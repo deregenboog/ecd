@@ -5,7 +5,6 @@ namespace ClipBundle\Controller;
 use AppBundle\Controller\AbstractController;
 use ClipBundle\Entity\Hulpvrager;
 use ClipBundle\Form\HulpvragerType;
-use ClipBundle\Service\HulpvragerDao;
 use ClipBundle\Service\HulpvragerDaoInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
@@ -23,18 +22,14 @@ class HulpvragersController extends AbstractController
     protected $baseRouteName = 'clip_hulpvragers_';
 
     /**
-     * @var HulpvragerDao
+     * @var HulpvragerDaoInterface
      */
     protected $dao;
 
-    /**
-     * @param HulpvragerDao $dao
-     */
-    public function __construct(HulpvragerDao $dao)
+    public function __construct(HulpvragerDaoInterface $dao)
     {
         $this->dao = $dao;
     }
-
 
     /**
      * @Route("/{id}/view")

@@ -12,11 +12,10 @@ use AppBundle\Exception\UserException;
 use AppBundle\Export\ExportInterface;
 use AppBundle\Form\BaseType;
 use AppBundle\Form\KlantFilterType as AppKlantFilterType;
-use AppBundle\Service\KlantDaoInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Mapping as ORM;
 use InloopBundle\Entity\Locatie;
-use InloopBundle\Service\LocatieDao;
+use InloopBundle\Service\LocatieDaoInterface;
 use Knp\Component\Pager\Paginator;
 use Knp\Component\Pager\PaginatorInterface;
 use MwBundle\Entity\Aanmelding;
@@ -30,7 +29,7 @@ use MwBundle\Entity\Document;
 use MwBundle\Entity\Info;
 use MwBundle\Form\InfoType;
 use MwBundle\Form\KlantFilterType;
-use MwBundle\Service\KlantDao;
+use MwBundle\Service\KlantDaoInterface;
 use MwBundle\Service\MwDossierStatusDao;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -55,39 +54,32 @@ class KlantenController extends AbstractController
     protected $searchFilterTypeClass = AppKlantFilterType::class;
 
     /**
-     * @var KlantDao
+     * @var KlantDaoInterface
      */
     protected $dao;
 
     /**
-     * @var \AppBundle\Service\KlantDao
+     * @var \AppBundle\Service\KlantDaoInterface
      */
     protected $klantDao;
 
     /**
-     * @var LocatieDao
+     * @var LocatieDaoInterface
      */
     protected $locatieDao;
-
 
     /**
      * @var ExportInterface
      */
     protected $export;
 
-    /**
-     * @param KlantDao $dao
-     * @param \AppBundle\Service\KlantDao $klantDao
-     * @param ExportInterface $export
-     */
-    public function __construct(KlantDao $dao, \AppBundle\Service\KlantDao $klantDao, LocatieDao $locatieDao, ExportInterface $export)
+    public function __construct(KlantDaoInterface $dao, \AppBundle\Service\KlantDaoInterface $klantDao, LocatieDaoInterface $locatieDao, ExportInterface $export)
     {
         $this->dao = $dao;
         $this->klantDao = $klantDao;
         $this->locatieDao = $locatieDao;
         $this->export = $export;
     }
-
 
     /**
      * @Route("/{id}/view")

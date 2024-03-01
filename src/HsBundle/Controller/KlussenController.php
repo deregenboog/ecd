@@ -9,7 +9,6 @@ use HsBundle\Form\KlusCancelType;
 use HsBundle\Form\KlusCloseType;
 use HsBundle\Form\KlusFilterType;
 use HsBundle\Form\KlusType;
-use HsBundle\Service\KlusDao;
 use HsBundle\Service\KlusDaoInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
@@ -29,7 +28,7 @@ class KlussenController extends AbstractChildController
     protected $baseRouteName = 'hs_klussen_';
 
     /**
-     * @var KlusDao
+     * @var KlusDaoInterface
      */
     protected $dao;
 
@@ -43,18 +42,12 @@ class KlussenController extends AbstractChildController
      */
     protected $entities;
 
-    /**
-     * @param KlusDao $dao
-     * @param ExportInterface $export
-     * @param \ArrayObject $entities
-     */
-    public function __construct(KlusDao $dao, ExportInterface $export, \ArrayObject $entities)
+    public function __construct(KlusDaoInterface $dao, ExportInterface $export, \ArrayObject $entities)
     {
         $this->dao = $dao;
         $this->export = $export;
         $this->entities = $entities;
     }
-
 
     /**
      * @Route("/{id}/close")

@@ -5,7 +5,6 @@ namespace HsBundle\Controller;
 use AppBundle\Controller\AbstractChildController;
 use HsBundle\Entity\Memo;
 use HsBundle\Form\MemoType;
-use HsBundle\Service\MemoDao;
 use HsBundle\Service\MemoDaoInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\Routing\Annotation\Route;
@@ -25,7 +24,7 @@ class MemosController extends AbstractChildController
     protected $baseRouteName = 'hs_memos_';
 
     /**
-     * @var MemoDao
+     * @var MemoDaoInterface
      */
     protected $dao;
 
@@ -34,15 +33,9 @@ class MemosController extends AbstractChildController
      */
     protected $entities;
 
-    /**
-     * @param MemoDao $dao
-     * @param \ArrayObject $entities
-     */
-    public function __construct(MemoDao $dao, \ArrayObject $entities)
+    public function __construct(MemoDaoInterface $dao, \ArrayObject $entities)
     {
         $this->dao = $dao;
         $this->entities = $entities;
     }
-
-
 }

@@ -24,7 +24,6 @@ use OekraineBundle\Form\AfsluitingType;
 use OekraineBundle\Form\BezoekerFilterType;
 use OekraineBundle\Form\BezoekerType;
 use OekraineBundle\Pdf\PdfBrief;
-use OekraineBundle\Service\BezoekerDao;
 use OekraineBundle\Service\BezoekerDaoInterface;
 use OekraineBundle\Service\KlantDaoInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
@@ -56,29 +55,24 @@ class BezoekersController extends AbstractController
     protected $searchEntityName = 'appKlant';
 
     /**
-     * @var BezoekerDao
+     * @var BezoekerDaoInterface
      */
     protected $dao;
 
     /**
-     * @var \AppBundle\Service\KlantDao
+     * @var \AppBundle\Service\KlantDaoInterface
      */
-    protected $searchDao;
+    protected $klantDao;
 
     /**
      * @var ExportInterface
      */
     protected $export;
 
-    /**
-     * @param BezoekerDao $dao
-     * @param \AppBundle\Service\KlantDao $bezoekerDao
-     * @param \AppBundle\Service\KlantDao $searchDao
-     */
-    public function __construct(BezoekerDao $dao, \AppBundle\Service\KlantDao $searchDao, BezoekerExport $export)
+    public function __construct(BezoekerDaoInterface $dao, \AppBundle\Service\KlantDaoInterface $klantDao, BezoekerExport $export)
     {
         $this->dao = $dao;
-        $this->searchDao = $searchDao;
+        $this->klantDao = $klantDao;
         $this->export = $export;
     }
 
@@ -391,7 +385,7 @@ class BezoekersController extends AbstractController
         $filterForm->handleRequest($request);
 
         if ($filterForm->isSubmitted() && $filterForm->isValid()) {
-            $count = (int) $this->searchDao->countAll($filterForm->getData());
+            $count = (int) $this->klantDao->countAll($filterForm->getData());
             if (0 === $count) {
                 $this->addFlash('info', sprintf('De zoekopdracht leverde geen resultaten op. Maak een nieuwe %s aan.', $this->entityName));
 
@@ -404,7 +398,7 @@ class BezoekersController extends AbstractController
 
             return [
                 'filterForm' => $filterForm->createView(),
-                'klanten' => $this->searchDao->findAll(null, $filterForm->getData()),
+                'klanten' => $this->klantDao->findAll(null, $filterForm->getData()),
             ];
         }
 
@@ -420,7 +414,7 @@ class BezoekersController extends AbstractController
             $bezoeker = new Klant();
         } else {
 
-            $bezoeker = $this->searchDao->find($bezoekerId);
+            $bezoeker = $this->klantDao->find($bezoekerId);
             $bezoeker = $this->dao->findByKlantId($bezoekerId);
             if ($bezoeker) {
                 // redirect if already exists

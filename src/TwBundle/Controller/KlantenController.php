@@ -8,7 +8,6 @@ use AppBundle\Exception\UserException;
 use AppBundle\Export\ExportInterface;
 use AppBundle\Form\ConfirmationType;
 use AppBundle\Form\KlantFilterType as AppKlantFilterType;
-
 use phpDocumentor\Reflection\Types\Null_;
 use TwBundle\Entity\Klant;
 use TwBundle\Exception\TwException;
@@ -17,7 +16,6 @@ use TwBundle\Form\KlantFilterType;
 use TwBundle\Form\HuurderSelectType;
 use TwBundle\Form\KlantRawType;
 use TwBundle\Form\KlantType;
-use TwBundle\Service\KlantDao;
 use TwBundle\Service\KlantDaoInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -55,27 +53,21 @@ class KlantenController extends AbstractController
     ];
 
     /**
-     * @var KlantDao
+     * @var KlantDaoInterface
      */
     protected $dao;
 
     /**
-     * @var \AppBundle\Service\KlantDao
+     * @var \AppBundle\Service\KlantDaoInterface
      */
     protected $searchDao;
 
     /**
      * @var ExportInterface
-     *
      */
     protected $export;
 
-    /**
-     * @param KlantDao $dao
-     * @param \AppBundle\Service\KlantDao $searchDao
-     * @param ExportInterface $export
-     */
-    public function __construct(KlantDao $dao, \AppBundle\Service\KlantDao $searchDao, ExportInterface $export)
+    public function __construct(KlantDaoInterface $dao, \AppBundle\Service\KlantDaoInterface $searchDao, ExportInterface $export)
     {
         $this->dao = $dao;
         $this->searchDao = $searchDao;

@@ -7,7 +7,7 @@ use AppBundle\Export\AbstractExport;
 use AppBundle\Form\MedewerkerEditType;
 use AppBundle\Form\MedewerkerFilterType;
 use AppBundle\Form\MedewerkerType;
-use AppBundle\Service\MedewerkerDao;
+use AppBundle\Service\MedewerkerDaoInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
@@ -28,12 +28,12 @@ class MedewerkersController extends AbstractController
     protected $diablesActions = ['add'];
 
     /**
-     * @var MedewerkerDao
+     * @var MedewerkerDaoInterface
      */
     protected $dao;
 
     /**
-     * @var MedewerkerDao
+     * @var array
      */
     protected $roleHierarchy;
 
@@ -42,17 +42,12 @@ class MedewerkersController extends AbstractController
      */
     protected $export;
 
-    /**
-     * @param MedewerkerDao $dao
-     * @param MedewerkerDao $roleHierarchy
-     */
-    public function __construct(MedewerkerDao $dao, array $roleHierarchy, AbstractExport  $export)
+    public function __construct(MedewerkerDaoInterface $dao, array $roleHierarchy, AbstractExport $export)
     {
         $this->dao = $dao;
         $this->roleHierarchy = $roleHierarchy;
         $this->export = $export;
     }
-
 
     /**
      * @Route("/{id}/view")

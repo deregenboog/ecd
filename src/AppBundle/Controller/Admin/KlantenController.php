@@ -26,7 +26,7 @@ class KlantenController extends AbstractController
     protected $baseRouteName = 'app_admin_klanten_';
 
     /**
-     * @var KlantDao
+     * @var KlantDaoInterface
      */
     protected $dao;
 
@@ -35,7 +35,7 @@ class KlantenController extends AbstractController
      */
     protected $logger;
 
-    public function __construct(KlantDao $dao, LoggerInterface $logger)
+    public function __construct(KlantDaoInterface $dao, LoggerInterface $logger)
     {
         $this->dao = $dao;
         $this->logger = $logger;

@@ -5,7 +5,7 @@ namespace MwBundle\Controller;
 use AppBundle\Controller\AbstractController;
 use MwBundle\Entity\AfsluitredenKlant;
 use MwBundle\Form\AfsluitredenKlantType;
-use MwBundle\Service\AfsluitredenKlantDao;
+use MwBundle\Service\AfsluitredenKlantDaoInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -21,11 +21,11 @@ class AfsluitredenenKlantenController extends AbstractController
     protected $disabledActions = ['view', 'delete'];
 
     /**
-     * @var AfsluitredenKlantDao
+     * @var AfsluitredenKlantDaoInterface
      */
     protected $dao;
 
-    public function __construct(AfsluitredenKlantDao $dao)
+    public function __construct(AfsluitredenKlantDaoInterface $dao)
     {
         $this->dao = $dao;
     }

@@ -5,7 +5,6 @@ namespace HsBundle\Controller;
 use AppBundle\Controller\AbstractController;
 use HsBundle\Entity\DeclaratieCategorie;
 use HsBundle\Form\DeclaratieCategorieType;
-use HsBundle\Service\DeclaratieCategorieDao;
 use HsBundle\Service\DeclaratieCategorieDaoInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
@@ -24,18 +23,14 @@ class DeclaratieCategorieenController extends AbstractController
     protected $baseRouteName = 'hs_declaratiecategorieen_';
 
     /**
-     * @var DeclaratieCategorieDao
+     * @var DeclaratieCategorieDaoInterface
      */
     protected $dao;
 
-    /**
-     * @param DeclaratieCategorieDao $dao
-     */
-    public function __construct(DeclaratieCategorieDao $dao)
+    public function __construct(DeclaratieCategorieDaoInterface $dao)
     {
         $this->dao = $dao;
     }
-
 
     /**
      * @Route("/{id}/view")

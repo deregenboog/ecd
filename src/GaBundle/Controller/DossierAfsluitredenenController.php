@@ -8,7 +8,7 @@ use GaBundle\Form\DossierAfsluitredenType;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
-use GaBundle\Service\DossierAfsluitredenDao;
+use GaBundle\Service\DossierAfsluitredenDaoInterface;
 
 /**
  * @Route("/dossierafsluitredenen")
@@ -23,18 +23,14 @@ class DossierAfsluitredenenController extends AbstractController
     protected $baseRouteName = 'ga_dossierafsluitredenen_';
 
     /**
-     * @var DossierAfsluitredenDao
+     * @var DossierAfsluitredenDaoInterface
      */
     protected $dao;
 
-    /**
-     * @param DossierAfsluitredenDao $dao
-     */
-    public function __construct(DossierAfsluitredenDao $dao)
+    public function __construct(DossierAfsluitredenDaoInterface $dao)
     {
         $this->dao = $dao;
     }
-
 
     /**
      * @Route("/{id}/view")

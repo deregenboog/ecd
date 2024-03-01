@@ -5,7 +5,6 @@ namespace IzBundle\Controller;
 use AppBundle\Controller\AbstractChildController;
 use IzBundle\Entity\Lidmaatschap;
 use IzBundle\Form\LidmaatschapType;
-use IzBundle\Service\LidmaatschapDao;
 use IzBundle\Service\LidmaatschapDaoInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -22,7 +21,7 @@ class LidmaatschappenController extends AbstractChildController
     protected $disabledActions = ['index', 'view', 'edit'];
 
     /**
-     * @var LidmaatschapDao
+     * @var LidmaatschapDaoInterface
      */
     protected $dao;
 
@@ -31,15 +30,9 @@ class LidmaatschappenController extends AbstractChildController
      */
     protected $entities;
 
-    /**
-     * @param LidmaatschapDao $dao
-     * @param \ArrayObject $entities
-     */
-    public function __construct(LidmaatschapDao $dao, \ArrayObject $entities)
+    public function __construct(LidmaatschapDaoInterface $dao, \ArrayObject $entities)
     {
         $this->dao = $dao;
         $this->entities = $entities;
     }
-
-
 }

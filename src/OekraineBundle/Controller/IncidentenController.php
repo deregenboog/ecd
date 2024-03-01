@@ -36,9 +36,8 @@ class IncidentenController extends AbstractChildController
     protected $baseRouteName = 'oekraine_incidenten_';
     protected $addMethod = 'addIncident';
 
-
     /**
-     * @var IncidentDao
+     * @var IncidentDaoInterface
      */
     protected $dao;
 
@@ -47,11 +46,7 @@ class IncidentenController extends AbstractChildController
      */
     protected $entities;
 
-    /**
-     * @param IncidentDao $dao
-     * @param \ArrayObject $entities
-     */
-    public function __construct(IncidentDao $dao, \ArrayObject $entities)
+    public function __construct(IncidentDaoInterface $dao, \ArrayObject $entities)
     {
         $this->dao = $dao;
         $this->entities = $entities;

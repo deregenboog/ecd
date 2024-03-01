@@ -7,11 +7,11 @@ use AppBundle\Event\DienstenLookupEvent;
 use AppBundle\Event\Events;
 use AppBundle\Export\ExportInterface;
 use AppBundle\Form\KlantFilterType;
-use AppBundle\Service\KlantDao;
+use AppBundle\Service\KlantDaoInterface;
 use GaBundle\Entity\Klantdossier;
 use GaBundle\Form\KlantdossierFilterType;
 use GaBundle\Form\KlantdossierType;
-use GaBundle\Service\KlantdossierDao;
+use GaBundle\Service\KlantdossierDaoInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Contracts\EventDispatcher\EventDispatcher;
 use Symfony\Component\Form\FormError;
@@ -33,12 +33,12 @@ class KlantdossiersController extends DossiersController
     protected $baseRouteName = 'ga_klantdossiers_';
 
     /**
-     * @var KlantdossierDao
+     * @var KlantdossierDaoInterface
      */
     protected $dao;
 
     /**
-     * @var KlantDao
+     * @var KlantDaoInterface
      */
     private $klantDao;
 
@@ -47,21 +47,13 @@ class KlantdossiersController extends DossiersController
      */
     protected $export;
 
-
-
-    /**
-     * @param KlantdossierDao $dao
-     * @param KlantDao $klantDao
-     * @param ExportInterface $export
-     */
-    public function __construct(KlantdossierDao $dao, KlantDao $klantDao, ExportInterface $export)
+    public function __construct(KlantdossierDaoInterface $dao, KlantDaoInterface $klantDao, ExportInterface $export)
     {
         $this->dao = $dao;
         $this->klantDao = $klantDao;
         $this->export = $export;
-//        $this->eventDispatcher = $eventDispatcher;
+        // $this->eventDispatcher = $eventDispatcher;
     }
-
 
     /**
      * @Route("/add")

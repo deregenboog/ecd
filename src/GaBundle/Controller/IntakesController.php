@@ -5,7 +5,7 @@ namespace GaBundle\Controller;
 use AppBundle\Controller\AbstractChildController;
 use GaBundle\Entity\Intake;
 use GaBundle\Form\IntakeType;
-use GaBundle\Service\IntakeDao;
+use GaBundle\Service\IntakeDaoInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -23,7 +23,7 @@ class IntakesController extends AbstractChildController
     protected $baseRouteName = 'ga_intakes_';
 
     /**
-     * @var IntakeDao
+     * @var IntakeDaoInterface
      */
     protected $dao;
 
@@ -32,11 +32,7 @@ class IntakesController extends AbstractChildController
      */
     protected $entities;
 
-    /**
-     * @param IntakeDao $dao
-     * @param \ArrayObject $entities
-     */
-    public function __construct(IntakeDao $dao, \ArrayObject $entities)
+    public function __construct(IntakeDaoInterface $dao, \ArrayObject $entities)
     {
         $this->dao = $dao;
         $this->entities = $entities;

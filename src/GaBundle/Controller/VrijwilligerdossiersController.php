@@ -5,11 +5,11 @@ namespace GaBundle\Controller;
 use AppBundle\Entity\Vrijwilliger;
 use AppBundle\Export\ExportInterface;
 use AppBundle\Form\VrijwilligerFilterType;
-use AppBundle\Service\VrijwilligerDao;
+use AppBundle\Service\VrijwilligerDaoInterface;
 use GaBundle\Entity\Vrijwilligerdossier;
 use GaBundle\Form\VrijwilligerdossierFilterType;
 use GaBundle\Form\VrijwilligerdossierType;
-use GaBundle\Service\VrijwilligerdossierDao;
+use GaBundle\Service\VrijwilligerdossierDaoInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;
@@ -28,12 +28,12 @@ class VrijwilligerdossiersController extends DossiersController
     protected $baseRouteName = 'ga_vrijwilligerdossiers_';
 
     /**
-     * @var VrijwilligerdossierDao
+     * @var VrijwilligerdossierDaoInterface
      */
     protected $dao;
 
     /**
-     * @var VrijwilligerDao
+     * @var VrijwilligerDaoInterface
      */
     private $vrijwilligerDao;
 
@@ -42,18 +42,12 @@ class VrijwilligerdossiersController extends DossiersController
      */
     protected $export;
 
-    /**
-     * @param VrijwilligerdossierDao $dao
-     * @param VrijwilligerDao $vrijwilligerDao
-     * @param ExportInterface $export
-     */
-    public function __construct(VrijwilligerdossierDao $dao, VrijwilligerDao $vrijwilligerDao, ExportInterface $export)
+    public function __construct(VrijwilligerdossierDaoInterface $dao, VrijwilligerDaoInterface $vrijwilligerDao, ExportInterface $export)
     {
         $this->dao = $dao;
         $this->vrijwilligerDao = $vrijwilligerDao;
         $this->export = $export;
     }
-
 
     /**
      * @Route("/add")

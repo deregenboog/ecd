@@ -5,7 +5,6 @@ namespace IzBundle\Controller;
 use AppBundle\Controller\AbstractController;
 use IzBundle\Entity\Afsluiting;
 use IzBundle\Form\AfsluitingType;
-use IzBundle\Service\AfsluitingDao;
 use IzBundle\Service\AfsluitingDaoInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
@@ -22,18 +21,14 @@ class AfsluitredenenDeelnemerController extends AbstractController
     protected $baseRouteName = 'iz_afsluitredenendeelnemer_';
 
     /**
-     * @var AfsluitingDao
+     * @var AfsluitingDaoInterface
      */
     protected $dao;
 
-    /**
-     * @param AfsluitingDao $dao
-     */
-    public function __construct(AfsluitingDao $dao)
+    public function __construct(AfsluitingDaoInterface $dao)
     {
         $this->dao = $dao;
     }
-
 
     /**
      * @Route("/{id}/view")

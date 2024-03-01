@@ -7,7 +7,6 @@ use AppBundle\Entity\Overeenkomst;
 use AppBundle\Entity\Toestemmingsformulier;
 use AppBundle\Entity\Vog;
 use AppBundle\Form\DocumentType;
-use AppBundle\Service\DocumentDao;
 use AppBundle\Service\DocumentDaoInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Vich\UploaderBundle\Handler\DownloadHandler;
@@ -24,7 +23,7 @@ class DocumentenController extends AbstractChildController
     protected $baseRouteName = 'app_documenten_';
 
     /**
-     * @var DocumentDao
+     * @var DocumentDaoInterface
      */
     protected $dao;
 
@@ -33,18 +32,11 @@ class DocumentenController extends AbstractChildController
      */
     protected $entities;
 
-    /**
-     * @param DocumentDao $dao
-     * @param \ArrayObject $entities
-     */
-    public function __construct(DocumentDao $dao, \ArrayObject $entities)
+    public function __construct(DocumentDaoInterface $dao, \ArrayObject $entities)
     {
         $this->dao = $dao;
         $this->entities = $entities;
     }
-
-
-
 
     public function createEntity($parentEntity = null)
     {
@@ -62,7 +54,6 @@ class DocumentenController extends AbstractChildController
 
                 return new Toestemmingsformulier();
             default:
-
                 return new Document();
         }
     }

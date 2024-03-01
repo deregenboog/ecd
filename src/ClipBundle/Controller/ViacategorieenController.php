@@ -5,7 +5,6 @@ namespace ClipBundle\Controller;
 use AppBundle\Controller\AbstractController;
 use ClipBundle\Entity\Viacategorie;
 use ClipBundle\Form\ViacategorieType;
-use ClipBundle\Service\ViacategorieDao;
 use ClipBundle\Service\ViacategorieDaoInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
@@ -22,18 +21,14 @@ class ViacategorieenController extends AbstractController
     protected $baseRouteName = 'clip_viacategorieen_';
 
     /**
-     * @var ViacategorieDao
+     * @var ViacategorieDaoInterface
      */
     protected $dao;
 
-    /**
-     * @param ViacategorieDao $dao
-     */
-    public function __construct(ViacategorieDao $dao)
+    public function __construct(ViacategorieDaoInterface $dao)
     {
         $this->dao = $dao;
     }
-
 
     /**
      * @Route("/{id}/view")

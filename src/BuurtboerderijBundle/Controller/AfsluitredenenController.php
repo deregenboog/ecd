@@ -5,7 +5,6 @@ namespace BuurtboerderijBundle\Controller;
 use AppBundle\Controller\AbstractController;
 use BuurtboerderijBundle\Entity\Afsluitreden;
 use BuurtboerderijBundle\Form\AfsluitredenType;
-use BuurtboerderijBundle\Service\AfsluitredenDao;
 use BuurtboerderijBundle\Service\AfsluitredenDaoInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -21,17 +20,12 @@ class AfsluitredenenController extends AbstractController
     protected $disabledActions = ['view', 'delete'];
 
     /**
-     * @var AfsluitredenDao
+     * @var AfsluitredenDaoInterface
      */
     protected $dao;
 
-    /**
-     * @param AfsluitredenDao $dao
-     */
-    public function __construct(AfsluitredenDao $dao)
+    public function __construct(AfsluitredenDaoInterface $dao)
     {
         $this->dao = $dao;
     }
-
-
 }

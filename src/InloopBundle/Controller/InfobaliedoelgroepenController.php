@@ -5,7 +5,6 @@ namespace InloopBundle\Controller;
 use AppBundle\Controller\AbstractController;
 use InloopBundle\Entity\Infobaliedoelgroep;
 use InloopBundle\Form\InfobaliedoelgroepType;
-use InloopBundle\Service\InfobaliedoelgroepDao;
 use InloopBundle\Service\InfobaliedoelgroepDaoInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
@@ -22,17 +21,12 @@ class InfobaliedoelgroepenController extends AbstractController
     protected $baseRouteName = 'inloop_infobaliedoelgroepen_';
 
     /**
-     * @var InfobaliedoelgroepDao
+     * @var InfobaliedoelgroepDaoInterface
      */
     protected $dao;
 
-    /**
-     * @param InfobaliedoelgroepDao $dao
-     */
-    public function __construct(InfobaliedoelgroepDao $dao)
+    public function __construct(InfobaliedoelgroepDaoInterface $dao)
     {
         $this->dao = $dao;
     }
-
-
 }

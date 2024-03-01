@@ -32,6 +32,7 @@ services:
 
     GaBundle\Controller\LidmaatschappenController:
       arguments:
+        $dao: '@GaBundle\Service\LidmaatschapDao'
         $entities: '@ga.lidmaatschap.entities'
 
     GaBundle\Controller\ActiviteitenController:
@@ -45,6 +46,8 @@ services:
 
     GaBundle\Controller\GroepenController:
       arguments:
+        $klantLidmaatschapDao: '@GaBundle\Service\KlantLidmaatschapDao'
+        $vrijwilligerLidmaatschapDao: '@GaBundle\Service\VrijwilligerLidmaatschapDao'
         $export: '@ga.export.groepen'
 
     GaBundle\Controller\MemosController:
