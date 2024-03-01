@@ -2,15 +2,13 @@
 
 namespace InloopBundle\Strategy;
 
-use AppBundle\Doctrine\SqlExtractor;
-use AppBundle\Entity\AmocLand;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\QueryBuilder;
 use InloopBundle\Entity\Locatie;
 use InloopBundle\Entity\LocatieType;
 use InloopBundle\Strategy\StrategyInterface;
 
-class WinteropvangEUBurgers implements StrategyInterface
+final class WinteropvangEUBurgers implements StrategyInterface
 {
     private $accessStrategyName = "winteropvang_euburgers";
 
@@ -46,9 +44,7 @@ class WinteropvangEUBurgers implements StrategyInterface
      */
     public function supports(Locatie $locatie)
     {
-        $this->locatie = $locatie;
-        $r =  $locatie->hasLocatieType($this->locatieType);
-        return $r;
+        return $locatie->hasLocatieType($this->locatieType);
     }
 
     /**
@@ -59,6 +55,6 @@ class WinteropvangEUBurgers implements StrategyInterface
      */
     public function buildQuery(QueryBuilder $builder)
     {
-       $builder->orWhere('huidigeStatus IS NOT NULL');
+        $builder->orWhere('huidigeStatus IS NOT NULL');
     }
 }

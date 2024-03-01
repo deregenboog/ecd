@@ -6,7 +6,7 @@ use Doctrine\ORM\QueryBuilder;
 use InloopBundle\Entity\Locatie;
 use InloopBundle\Strategy\StrategyInterface;
 
-class VillaWesterweideStrategy implements StrategyInterface
+final class VillaWesterweideStrategy implements StrategyInterface
 {
     /**
      * This strategy looks if intake locatie  is linked to certain locaties where access is only granted to.
@@ -31,8 +31,6 @@ class VillaWesterweideStrategy implements StrategyInterface
 
     public function supports(Locatie $locatie)
     {
-        $this->locatie = $locatie;
-
         return in_array($locatie->getNaam(),$this->intakeLocaties);
     }
 

@@ -6,7 +6,7 @@ use Doctrine\ORM\QueryBuilder;
 use InloopBundle\Entity\Locatie;
 use InloopBundle\Entity\RecenteRegistratie;
 
-class GebruikersruimteStrategy implements StrategyInterface
+final class GebruikersruimteStrategy implements StrategyInterface
 {
     private $locatie;
 

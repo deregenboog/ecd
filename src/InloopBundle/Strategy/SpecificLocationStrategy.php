@@ -5,7 +5,7 @@ namespace InloopBundle\Strategy;
 use Doctrine\ORM\QueryBuilder;
 use InloopBundle\Entity\Locatie;
 
-class SpecificLocationStrategy implements StrategyInterface
+final class SpecificLocationStrategy implements StrategyInterface
 {
     protected Locatie $locatie;
 
