@@ -2,8 +2,8 @@
 
 namespace Tests\InloopBundle\Strategy;
 
-use Doctrine\ORM\QueryBuilder;
 use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\QueryBuilder;
 use InloopBundle\Entity\Locatie;
 use InloopBundle\Strategy\AmocStrategy;
 use Tests\AppBundle\PHPUnit\DoctrineTestCase;
@@ -46,10 +46,10 @@ class AmocStrategyTest extends DoctrineTestCase
     public function supportsDataProvider()
     {
         return [
-            [(new Locatie)->setNaam('AMOC Stadhouderskade'), true],
-            [(new Locatie)->setNaam('AMOC West'), true],
-            [(new Locatie)->setNaam('Nachtopvang DRG'), true],
-            [(new Locatie)->setNaam('Villa Westerweide'), false],
+            [(new Locatie())->setNaam('AMOC Stadhouderskade'), true],
+            [(new Locatie())->setNaam('AMOC West'), true],
+            [(new Locatie())->setNaam('Nachtopvang DRG'), true],
+            [(new Locatie())->setNaam('Villa Westerweide'), false],
         ];
     }
 

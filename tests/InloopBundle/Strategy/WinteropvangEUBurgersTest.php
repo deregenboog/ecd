@@ -2,9 +2,9 @@
 
 namespace Tests\InloopBundle\Strategy;
 
+use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\QueryBuilder;
-use Doctrine\ORM\EntityManager;
 use InloopBundle\Entity\Locatie;
 use InloopBundle\Entity\LocatieType;
 use InloopBundle\Strategy\WinteropvangEUBurgers;

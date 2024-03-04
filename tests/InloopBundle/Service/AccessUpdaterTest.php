@@ -4,34 +4,24 @@ namespace Tests\InloopBundle\Service;
 
 use AppBundle\Entity\Klant;
 use AppBundle\Filter\FilterInterface;
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\DBAL\Connection;
 use Doctrine\ORM\AbstractQuery;
-use Doctrine\ORM\Configuration;
 use Doctrine\ORM\EntityManager;
-use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\Mapping\ClassMetadata;
 use Doctrine\ORM\Query\FilterCollection;
 use Doctrine\ORM\QueryBuilder;
-use InloopBundle\Entity\Aanmelding;
 use InloopBundle\Entity\Locatie;
 use InloopBundle\Entity\LocatieType;
-use InloopBundle\Filter\KlantFilter;
 use InloopBundle\Service\AccessUpdater;
 use InloopBundle\Service\KlantDao;
 use InloopBundle\Service\KlantDaoInterface;
 use InloopBundle\Service\LocatieDao;
-use InloopBundle\Service\LocatieDaoInterface;
-use InloopBundle\Strategy\AmocStrategy;
-use InloopBundle\Strategy\SpecificLocationStrategy;
-use Knp\Component\Pager\PaginatorInterface;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Tests\AppBundle\PHPUnit\DoctrineTestCase;
 
 class AccessUpdaterTest extends DoctrineTestCase
 {
-    const ACCESS_STRATEGIES = [
+    public const ACCESS_STRATEGIES = [
         'amoc_stadhouderskade' => [
             'AMOC Stadhouderskade',
             'AMOC West',
@@ -46,9 +36,9 @@ class AccessUpdaterTest extends DoctrineTestCase
         ],
     ];
 
-    const AMOC_VERBLIJFSSTATUS = 'Europees Burger (Niet Nederlands)';
+    public const AMOC_VERBLIJFSSTATUS = 'Europees Burger (Niet Nederlands)';
 
-    const BASE_DQL = 'SELECT DISTINCT klant.id
+    public const BASE_DQL = 'SELECT DISTINCT klant.id
         FROM AppBundle\Entity\Klant klant
         INNER JOIN klant.huidigeStatus status
         LEFT JOIN klant.intakes intake
@@ -110,7 +100,7 @@ class AccessUpdaterTest extends DoctrineTestCase
                 $this->equalToIgnoringWhitespace('DELETE FROM inloop_toegang
                     WHERE locatie_id = :locatie
                         AND klant_id NOT IN (:klanten)'),
-                ['locatie' => 654, 'klanten' => [11, 22, 33]]
+                ['locatie' => 654, 'klanten' => [11, 22, 33]],
             ],
             [
                 $this->equalToIgnoringWhitespace('INSERT INTO inloop_toegang (klant_id, locatie_id)
@@ -122,7 +112,7 @@ class AccessUpdaterTest extends DoctrineTestCase
                             FROM inloop_toegang
                             WHERE locatie_id = :locatie
                         )'),
-                ['locatie' => 654, 'klanten' => [11, 22, 33]]
+                ['locatie' => 654, 'klanten' => [11, 22, 33]],
             ],
         );
         $klantDao = $this->getKlantDao(['id' => 11], ['id' => 22], ['id' => 33]);
@@ -142,7 +132,7 @@ class AccessUpdaterTest extends DoctrineTestCase
         $locatie->setNaam('AMOC Stadhouderskade');
         $updater->updateForLocation($locatie);
 
-        $expectedDQL = self::BASE_DQL . "
+        $expectedDQL = self::BASE_DQL."
             INNER JOIN klant.huidigeStatus huidigeStatus WITH huidigeStatus INSTANCE OF InloopBundle\Entity\Aanmelding
             LEFT JOIN eersteIntake.specifiekeLocaties specifiekeLocaties
             WHERE (
@@ -171,7 +161,7 @@ class AccessUpdaterTest extends DoctrineTestCase
                 $this->equalToIgnoringWhitespace('DELETE FROM inloop_toegang
                     WHERE locatie_id = :locatie
                         AND klant_id NOT IN (:klanten)'),
-                ['locatie' => 654, 'klanten' => [11, 22, 33]]
+                ['locatie' => 654, 'klanten' => [11, 22, 33]],
             ],
             [
                 $this->equalToIgnoringWhitespace('INSERT INTO inloop_toegang (klant_id, locatie_id)
@@ -183,7 +173,7 @@ class AccessUpdaterTest extends DoctrineTestCase
                             FROM inloop_toegang
                             WHERE locatie_id = :locatie
                         )'),
-                ['locatie' => 654, 'klanten' => [11, 22, 33]]
+                ['locatie' => 654, 'klanten' => [11, 22, 33]],
             ],
         );
         $klantDao = $this->getKlantDao(['id' => 11], ['id' => 22], ['id' => 33]);
@@ -203,7 +193,7 @@ class AccessUpdaterTest extends DoctrineTestCase
         $locatie->setNaam('AMOC West');
         $updater->updateForLocation($locatie);
 
-        $expectedDQL = self::BASE_DQL . "
+        $expectedDQL = self::BASE_DQL."
             INNER JOIN klant.huidigeStatus huidigeStatus
             WITH huidigeStatus INSTANCE OF InloopBundle\Entity\Aanmelding
             LEFT JOIN eersteIntake.specifiekeLocaties specifiekeLocaties
@@ -218,7 +208,7 @@ class AccessUpdaterTest extends DoctrineTestCase
                 $this->equalToIgnoringWhitespace('DELETE FROM inloop_toegang
                     WHERE locatie_id = :locatie
                         AND klant_id NOT IN (:klanten)'),
-                ['locatie' => 654, 'klanten' => [11, 22, 33]]
+                ['locatie' => 654, 'klanten' => [11, 22, 33]],
             ],
             [
                 $this->equalToIgnoringWhitespace('INSERT INTO inloop_toegang (klant_id, locatie_id)
@@ -230,7 +220,7 @@ class AccessUpdaterTest extends DoctrineTestCase
                             FROM inloop_toegang
                             WHERE locatie_id = :locatie
                         )'),
-                ['locatie' => 654, 'klanten' => [11, 22, 33]]
+                ['locatie' => 654, 'klanten' => [11, 22, 33]],
             ],
         );
         $klantDao = $this->getKlantDao(['id' => 11], ['id' => 22], ['id' => 33]);
@@ -250,7 +240,7 @@ class AccessUpdaterTest extends DoctrineTestCase
         $locatie->setGebruikersruimte(true);
         $updater->updateForLocation($locatie);
 
-        $expectedDQL = self::BASE_DQL . "
+        $expectedDQL = self::BASE_DQL."
             INNER JOIN klant.huidigeStatus huidigeStatus WITH huidigeStatus INSTANCE OF InloopBundle\Entity\Aanmelding
             LEFT JOIN eersteIntake.specifiekeLocaties specifiekeLocaties
             INNER JOIN eersteIntake.gebruikersruimte eersteIntakeGebruikersruimte
@@ -276,7 +266,7 @@ class AccessUpdaterTest extends DoctrineTestCase
                 $this->equalToIgnoringWhitespace('DELETE FROM inloop_toegang
                     WHERE locatie_id = :locatie
                         AND klant_id NOT IN (:klanten)'),
-                ['locatie' => 654, 'klanten' => [11, 22, 33]]
+                ['locatie' => 654, 'klanten' => [11, 22, 33]],
             ],
             [
                 $this->equalToIgnoringWhitespace('INSERT INTO inloop_toegang (klant_id, locatie_id)
@@ -288,7 +278,7 @@ class AccessUpdaterTest extends DoctrineTestCase
                             FROM inloop_toegang
                             WHERE locatie_id = :locatie
                         )'),
-                ['locatie' => 654, 'klanten' => [11, 22, 33]]
+                ['locatie' => 654, 'klanten' => [11, 22, 33]],
             ],
         );
         $klantDao = $this->getKlantDao(['id' => 11], ['id' => 22], ['id' => 33]);
@@ -308,7 +298,7 @@ class AccessUpdaterTest extends DoctrineTestCase
         $locatie->setNaam('Villa Westerweide');
         $updater->updateForLocation($locatie);
 
-        $expectedDQL = self::BASE_DQL . "
+        $expectedDQL = self::BASE_DQL."
             INNER JOIN klant.huidigeStatus huidigeStatus WITH huidigeStatus INSTANCE OF InloopBundle\Entity\Aanmelding
             LEFT JOIN eersteIntake.specifiekeLocaties specifiekeLocaties
             WHERE (
@@ -332,7 +322,7 @@ class AccessUpdaterTest extends DoctrineTestCase
                 $this->equalToIgnoringWhitespace('DELETE FROM inloop_toegang
                     WHERE locatie_id = :locatie
                         AND klant_id NOT IN (:klanten)'),
-                ['locatie' => 654, 'klanten' => [11, 22, 33]]
+                ['locatie' => 654, 'klanten' => [11, 22, 33]],
             ],
             [
                 $this->equalToIgnoringWhitespace('INSERT INTO inloop_toegang (klant_id, locatie_id)
@@ -344,7 +334,7 @@ class AccessUpdaterTest extends DoctrineTestCase
                             FROM inloop_toegang
                             WHERE locatie_id = :locatie
                         )'),
-                ['locatie' => 654, 'klanten' => [11, 22, 33]]
+                ['locatie' => 654, 'klanten' => [11, 22, 33]],
             ],
         );
         $klantDao = $this->getKlantDao(['id' => 11], ['id' => 22], ['id' => 33]);
@@ -364,7 +354,7 @@ class AccessUpdaterTest extends DoctrineTestCase
         $locatie->method('hasLocatieType')->willReturn(true);
         $updater->updateForLocation($locatie);
 
-        $expectedDQL = self::BASE_DQL . "
+        $expectedDQL = self::BASE_DQL."
             INNER JOIN klant.huidigeStatus huidigeStatus WITH huidigeStatus INSTANCE OF InloopBundle\Entity\Aanmelding
             LEFT JOIN eersteIntake.specifiekeLocaties specifiekeLocaties
             LEFT JOIN eersteIntake.verblijfsstatus verblijfsstatus
@@ -397,7 +387,7 @@ class AccessUpdaterTest extends DoctrineTestCase
                 $this->equalToIgnoringWhitespace('DELETE FROM inloop_toegang
                     WHERE locatie_id = :locatie
                         AND klant_id NOT IN (:klanten)'),
-                ['locatie' => 654, 'klanten' => [11, 22, 33]]
+                ['locatie' => 654, 'klanten' => [11, 22, 33]],
             ],
             [
                 $this->equalToIgnoringWhitespace('INSERT INTO inloop_toegang (klant_id, locatie_id)
@@ -409,7 +399,7 @@ class AccessUpdaterTest extends DoctrineTestCase
                             FROM inloop_toegang
                             WHERE locatie_id = :locatie
                         )'),
-                ['locatie' => 654, 'klanten' => [11, 22, 33]]
+                ['locatie' => 654, 'klanten' => [11, 22, 33]],
             ],
         );
         $klantDao = $this->getKlantDao(['id' => 11], ['id' => 22], ['id' => 33]);
@@ -428,7 +418,7 @@ class AccessUpdaterTest extends DoctrineTestCase
         $locatie->method('isActief')->willReturn(true);
         $updater->updateForLocation($locatie);
 
-        $expectedDQL = self::BASE_DQL . "
+        $expectedDQL = self::BASE_DQL."
             INNER JOIN klant.huidigeStatus huidigeStatus WITH huidigeStatus INSTANCE OF InloopBundle\Entity\Aanmelding
             LEFT JOIN eersteIntake.specifiekeLocaties specifiekeLocaties
             LEFT JOIN eersteIntake.verblijfsstatus verblijfsstatus
@@ -463,7 +453,7 @@ class AccessUpdaterTest extends DoctrineTestCase
             [
                 $this->equalToIgnoringWhitespace('DELETE FROM inloop_toegang
                     WHERE locatie_id = :locatie'),
-                ['locatie' => 654]
+                ['locatie' => 654],
             ],
         );
         $klantDao = $this->getKlantDao();
@@ -489,12 +479,12 @@ class AccessUpdaterTest extends DoctrineTestCase
             [
                 $this->equalToIgnoringWhitespace('INSERT INTO inloop_toegang (klant_id, locatie_id)
                     VALUES (:klant, :locatie)'),
-                ['locatie' => 987, 'klant' => 321]
+                ['locatie' => 987, 'klant' => 321],
             ],
             [
                 $this->equalToIgnoringWhitespace('INSERT INTO inloop_toegang (klant_id, locatie_id)
                     VALUES (:klant, :locatie)'),
-                ['locatie' => 654, 'klant' => 321]
+                ['locatie' => 654, 'klant' => 321],
             ],
         );
         $klantDao = $this->getKlantDao(['id' => 321], ['id' => 32], ['id' => 3]);
@@ -527,13 +517,13 @@ class AccessUpdaterTest extends DoctrineTestCase
                 $this->equalToIgnoringWhitespace('DELETE FROM inloop_toegang
                     WHERE locatie_id = :locatie
                     AND klant_id = :klant'),
-                ['locatie' => 987, 'klant' => 321]
+                ['locatie' => 987, 'klant' => 321],
             ],
             [
                 $this->equalToIgnoringWhitespace('DELETE FROM inloop_toegang
                     WHERE locatie_id = :locatie
                     AND klant_id = :klant'),
-                ['locatie' => 654, 'klant' => 321]
+                ['locatie' => 654, 'klant' => 321],
             ],
         );
         $klantDao = $this->getKlantDao(['id' => 123], ['id' => 12], ['id' => 1]);
@@ -608,8 +598,7 @@ class AccessUpdaterTest extends DoctrineTestCase
         $builder->method('getQuery')->willReturn($query);
         $em->method('createQueryBuilder')->willReturn($builder);
 
-        return new class($em) extends KlantDao
-        {
+        return new class($em) extends KlantDao {
             private QueryBuilder $builder;
 
             public function getBuilder(): QueryBuilder

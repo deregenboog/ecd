@@ -4,9 +4,7 @@ namespace Tests\InloopBundle\Strategy;
 
 use AppBundle\Entity\Klant;
 use Doctrine\ORM\QueryBuilder;
-use Doctrine\ORM\EntityManager;
 use InloopBundle\Entity\Locatie;
-use InloopBundle\Service\LocatieDaoInterface;
 use InloopBundle\Strategy\ToegangOverigStrategy;
 use Tests\AppBundle\PHPUnit\DoctrineTestCase;
 
@@ -50,14 +48,14 @@ class ToegangOverigStrategyTest extends DoctrineTestCase
     public function supportsDataProvider()
     {
         return [
-            [new Locatie, true],
-            [(new Locatie)->setNaam(''), true],
-            [(new Locatie)->setNaam('<overigen>'), true],
-            [(new Locatie)->setGebruikersruimte(true), false],
-            [(new Locatie)->setNaam('AMOC Stadhouderskade'), false],
-            [(new Locatie)->setNaam('AMOC West'), false],
-            [(new Locatie)->setNaam('Nachtopvang DRG'), false],
-            [(new Locatie)->setNaam('Villa Westerweide'), false],
+            [new Locatie(), true],
+            [(new Locatie())->setNaam(''), true],
+            [(new Locatie())->setNaam('<overigen>'), true],
+            [(new Locatie())->setGebruikersruimte(true), false],
+            [(new Locatie())->setNaam('AMOC Stadhouderskade'), false],
+            [(new Locatie())->setNaam('AMOC West'), false],
+            [(new Locatie())->setNaam('Nachtopvang DRG'), false],
+            [(new Locatie())->setNaam('Villa Westerweide'), false],
         ];
     }
 

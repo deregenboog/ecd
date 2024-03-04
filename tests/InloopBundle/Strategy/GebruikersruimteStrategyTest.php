@@ -3,8 +3,8 @@
 namespace Tests\InloopBundle\Strategy;
 
 use AppBundle\Entity\Klant;
-use Doctrine\ORM\QueryBuilder;
 use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\QueryBuilder;
 use InloopBundle\Entity\Locatie;
 use InloopBundle\Strategy\GebruikersruimteStrategy;
 use Tests\AppBundle\PHPUnit\DoctrineTestCase;
@@ -31,9 +31,9 @@ class GebruikersruimteStrategyTest extends DoctrineTestCase
     public function supportsDataProvider()
     {
         return [
-            [new Locatie, false],
-            [(new Locatie)->setGebruikersruimte(false), false],
-            [(new Locatie)->setGebruikersruimte(true), true],
+            [new Locatie(), false],
+            [(new Locatie())->setGebruikersruimte(false), false],
+            [(new Locatie())->setGebruikersruimte(true), true],
         ];
     }
 
@@ -43,7 +43,7 @@ class GebruikersruimteStrategyTest extends DoctrineTestCase
         $builder = (new QueryBuilder($em))->select('klant')->from(Klant::class, 'klant');
 
         // 'buildQuery' depends on a call to 'supports', so call that first
-        $locatie = (new Locatie)->setGebruikersruimte(true);
+        $locatie = (new Locatie())->setGebruikersruimte(true);
         $this->strategy->supports($locatie);
 
         $this->strategy->buildQuery($builder);

@@ -2,9 +2,8 @@
 
 namespace Tests\InloopBundle\Strategy;
 
-use AppBundle\Entity\Klant;
-use Doctrine\ORM\QueryBuilder;
 use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\QueryBuilder;
 use InloopBundle\Entity\Locatie;
 use InloopBundle\Strategy\VillaWesterweideStrategy;
 use Tests\AppBundle\PHPUnit\DoctrineTestCase;
@@ -46,10 +45,10 @@ class VillaWesterweideStrategyTest extends DoctrineTestCase
     public function supportsDataProvider()
     {
         return [
-            [(new Locatie)->setNaam('Villa Westerweide'), true],
-            [(new Locatie)->setNaam('AMOC Stadhouderskade'), false],
-            [(new Locatie)->setNaam('AMOC West'), false],
-            [(new Locatie)->setNaam('Nachtopvang DRG'), false],
+            [(new Locatie())->setNaam('Villa Westerweide'), true],
+            [(new Locatie())->setNaam('AMOC Stadhouderskade'), false],
+            [(new Locatie())->setNaam('AMOC West'), false],
+            [(new Locatie())->setNaam('Nachtopvang DRG'), false],
         ];
     }
 
@@ -59,11 +58,11 @@ class VillaWesterweideStrategyTest extends DoctrineTestCase
         $builder = new QueryBuilder($em);
 
         $this->strategy->buildQuery($builder);
-        $expectedDQL = "SELECT
+        $expectedDQL = 'SELECT
             WHERE (
                 eersteIntake.toegangInloophuis = true
                 AND eersteIntakeLocatie.naam IN (:toegestaneLocatiesVoorIntakelocatie)
-            )";
+            )';
         $this->assertEqualsIgnoringWhitespace($expectedDQL, $builder->getDQL());
     }
 }

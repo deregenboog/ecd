@@ -3,10 +3,9 @@
 namespace Tests\InloopBundle\Strategy;
 
 use AppBundle\Entity\Klant;
-use Doctrine\ORM\QueryBuilder;
 use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\QueryBuilder;
 use InloopBundle\Entity\Locatie;
-use InloopBundle\Service\LocatieDaoInterface;
 use InloopBundle\Strategy\SpecificLocationStrategy;
 use Tests\AppBundle\PHPUnit\DoctrineTestCase;
 
@@ -32,7 +31,7 @@ class SpecificLocationStrategyTest extends DoctrineTestCase
     public function supportsDataProvider()
     {
         return [
-            [new Locatie, true],
+            [new Locatie(), true],
         ];
     }
 
