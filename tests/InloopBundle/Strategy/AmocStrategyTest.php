@@ -43,7 +43,7 @@ class AmocStrategyTest extends DoctrineTestCase
         $em = $this->createMock(EntityManager::class);
         $builder = new QueryBuilder($em);
 
-        $this->strategy->buildQuery($builder);
+        $this->strategy->buildQuery($builder, new Locatie());
         $expectedDQL = "SELECT
             WHERE (
                 eersteIntake.toegangInloophuis = true

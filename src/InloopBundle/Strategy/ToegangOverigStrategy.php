@@ -44,7 +44,7 @@ final class ToegangOverigStrategy implements StrategyInterface
      * @see \InloopBundle\Strategy\StrategyInterface::buildQuery()
      * @see https://github.com/deregenboog/ecd/issues/249
      */
-    public function buildQuery(QueryBuilder $builder)
+    public function buildQuery(QueryBuilder $builder, Locatie $locatie)
     {
         /*
          * Selecteer alle klanten, waarbij de eerste intake

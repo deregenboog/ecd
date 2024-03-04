@@ -47,7 +47,7 @@ class ToegangOverigStrategyTest extends DoctrineTestCase
         $em = $this->getEntityManagerMock();
         $builder = (new QueryBuilder($em))->select('klant')->from(Klant::class, 'klant');
 
-        $this->strategy->buildQuery($builder);
+        $this->strategy->buildQuery($builder, new Locatie());
         $expectedDQL = "SELECT klant
             FROM AppBundle\Entity\Klant klant
             LEFT JOIN eersteIntake.verblijfsstatus verblijfsstatus

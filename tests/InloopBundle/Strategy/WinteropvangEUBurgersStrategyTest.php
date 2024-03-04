@@ -47,7 +47,7 @@ class WinteropvangEUBurgersStrategyTest extends DoctrineTestCase
         $em = $this->createMock(EntityManager::class);
         $builder = new QueryBuilder($em);
 
-        $this->strategy->buildQuery($builder);
+        $this->strategy->buildQuery($builder, new Locatie());
         $expectedDQL = 'SELECT WHERE huidigeStatus IS NOT NULL';
         $this->assertEqualsIgnoringWhitespace($expectedDQL, $builder->getDQL());
     }

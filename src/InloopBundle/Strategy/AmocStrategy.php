@@ -37,10 +37,9 @@ final class AmocStrategy implements StrategyInterface
      * @see \InloopBundle\Strategy\StrategyInterface::buildQuery()
      * @see https://github.com/deregenboog/ecd/issues/249
      */
-    public function buildQuery(QueryBuilder $builder)
+    public function buildQuery(QueryBuilder $builder, Locatie $locatie)
     {
         $builder->orWhere("( eersteIntake.toegangInloophuis = true AND (eersteIntakeLocatie.naam = 'AMOC Stadhouderskade' OR (eersteIntakeLocatie.naam = 'AMOC West' AND eersteIntake.intakedatum < :four_months_ago) ) )");
-        // $builder->setParameter('locatie',$this->locatie->getNaam());
         $builder->setParameter('four_months_ago', new \DateTime('-4 months'));
     }
 }

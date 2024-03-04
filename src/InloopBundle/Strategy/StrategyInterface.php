@@ -9,5 +9,5 @@ interface StrategyInterface
 {
     public function supports(Locatie $locatie): bool;
 
-    public function buildQuery(QueryBuilder $builder);
+    public function buildQuery(QueryBuilder $builder, Locatie $locatie);
 }

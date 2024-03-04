@@ -9,15 +9,9 @@ use Doctrine\ORM\QueryBuilder;
 use InloopBundle\Entity\Aanmelding;
 use InloopBundle\Entity\Locatie;
 use InloopBundle\Entity\Toegang;
-use InloopBundle\Strategy\StrategyInterface;
 
 class KlantFilter implements FilterInterface
 {
-    /**
-     * @var StrategyInterface[]
-     */
-    public $strategies;
-
     /**
      * @var int
      */
@@ -53,30 +47,12 @@ class KlantFilter implements FilterInterface
      */
     public $huidigeStatus;
 
-    public function __construct(array $strategies = [])
-    {
-        $this->strategies = $strategies;
-//            $this->huidigeStatus = Aanmelding::class;
-    }
-
     public function applyTo(QueryBuilder $builder)
     {
         $builder
             ->addSelect('schorsing')
             ->leftJoin('klant.schorsingen', 'schorsing')
         ;
-
-        if ($this->strategies) {
-            $builder
-                ->addSelect('huidigeStatus')
-                ->innerJoin('klant.huidigeStatus', 'huidigeStatus', 'WITH', 'huidigeStatus INSTANCE OF '.Aanmelding::class)
-            ;
-
-            foreach($this->strategies as $strategy) {
-                if(!$strategy instanceof StrategyInterface) continue;
-                $strategy->buildQuery($builder);
-            }
-        }
 
         if ($this->locatie) {
             $builder

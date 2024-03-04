@@ -195,7 +195,7 @@ class AccessUpdater
         $builder->select('klant.id')->distinct(true);
 
         foreach ($this->getSupportedStrategies($locatie) as $strategy) {
-            $strategy->buildQuery($builder);
+            $strategy->buildQuery($builder, $locatie);
         }
         $builder->andWhere(sprintf('status INSTANCE OF %s', Aanmelding::class)); // only active clients
 
