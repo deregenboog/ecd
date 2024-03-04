@@ -55,7 +55,7 @@ class KlantFilter implements FilterInterface
 
     public function __construct(array $strategies = [])
     {
-            $this->strategies = $strategies;
+        $this->strategies = $strategies;
 //            $this->huidigeStatus = Aanmelding::class;
     }
 

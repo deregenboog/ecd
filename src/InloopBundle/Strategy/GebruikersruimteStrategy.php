@@ -14,11 +14,8 @@ final class GebruikersruimteStrategy implements StrategyInterface
      * Deze strategie werkt alleen voor gebruikersruimtes.
      * Als iemand toegnag heeft tot een gebruikesrruimte, en voldoet aan de ovirge voorwaarden (niet langer dan 2 mnd weggeweest, of nieuw, en daarbij een intake van < 2 mnd
      * dan mag ie naar binnen.
-     *
-     * @param Locatie $locatie
-     * @return bool
      */
-    public function supports(Locatie $locatie)
+    public function supports(Locatie $locatie): bool
     {
         if ($locatie->isGebruikersruimte()) {
             $this->locatie = $locatie;
@@ -41,8 +38,8 @@ final class GebruikersruimteStrategy implements StrategyInterface
             ->having('COUNT(recenteRegistratie) > 0') // recent geregistreerd op deze locatie
             ->orHaving('COUNT(registratie.id) = 0') // of nog nooit geregistreerd op deze locatie
             ->orHaving('MAX(laatsteIntake.intakedatum) > :two_months_ago') // of recent intake gehad
-            ->setParameter('locatie_id',$this->locatie->getId() )
-            ->setParameter('two_months_ago', new \DateTime('-2 months') )
+            ->setParameter('locatie_id', $this->locatie->getId())
+            ->setParameter('two_months_ago', new \DateTime('-2 months'))
         ;
     }
 }

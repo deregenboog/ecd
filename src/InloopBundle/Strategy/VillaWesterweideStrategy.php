@@ -4,7 +4,6 @@ namespace InloopBundle\Strategy;
 
 use Doctrine\ORM\QueryBuilder;
 use InloopBundle\Entity\Locatie;
-use InloopBundle\Strategy\StrategyInterface;
 
 final class VillaWesterweideStrategy implements StrategyInterface
 {
@@ -13,30 +12,24 @@ final class VillaWesterweideStrategy implements StrategyInterface
      * Ie. intake locatie AMOC West = toegang tot AMOC West and Nachtopvang DRG.
      * Intake locatie Villa Zaanstad = toegang tot Villa Zaanstad.
      */
-
-    private $accessStrategyName = "villa_westerweide";
+    private const ACCESS_STRATEGY_NAME = 'villa_westerweide';
 
     private Locatie $locatie;
 
     private $intakeLocaties = [];
 
-    /**
-     * @param array $accessStrategies
-     */
     public function __construct(array $accessStrategies)
     {
-        $intakeLocaties = $accessStrategies[$this->accessStrategyName];
+        $intakeLocaties = $accessStrategies[self::ACCESS_STRATEGY_NAME];
         $this->intakeLocaties = $intakeLocaties;
     }
 
-    public function supports(Locatie $locatie)
+    public function supports(Locatie $locatie): bool
     {
-        return in_array($locatie->getNaam(),$this->intakeLocaties);
+        return in_array($locatie->getNaam(), $this->intakeLocaties);
     }
 
     /**
-     * {@inheritdoc}
-     *
      * @see \InloopBundle\Strategy\StrategyInterface::buildQuery()
      * @see https://github.com/deregenboog/ecd/issues/249
      */
@@ -44,6 +37,5 @@ final class VillaWesterweideStrategy implements StrategyInterface
     {
         $builder->orWhere('( eersteIntake.toegangInloophuis = true AND eersteIntakeLocatie.naam IN (:toegestaneLocatiesVoorIntakelocatie) )');
         $builder->setParameter('toegestaneLocatiesVoorIntakelocatie', $this->intakeLocaties);
-
     }
 }

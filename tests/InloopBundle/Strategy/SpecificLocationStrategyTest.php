@@ -17,7 +17,8 @@ class SpecificLocationStrategyTest extends DoctrineTestCase
     {
         parent::setUp();
 
-        $this->strategy = new SpecificLocationStrategy();
+        self::bootKernel();
+        $this->strategy = $this->getContainer()->get(SpecificLocationStrategy::class);
     }
 
     /**

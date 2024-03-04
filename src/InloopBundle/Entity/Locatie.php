@@ -87,12 +87,18 @@ class Locatie
 
     private $openingTimeCorrection = 30 * 60; // 30 minutes. correctie op de openingstijd. Openingstijd gaat een half uur eerder al open... en een half uur langer door.
 
-
     /**
      * @ORM\ManyToMany(targetEntity="Intake", mappedBy="specifiekeLocaties")
      * @var Collection<int, Intake>
      */
     private Collection $accessIntakes;
+
+    public function __construct()
+    {
+        $this->locatieTypes = new ArrayCollection();
+        $this->locatietijden = new ArrayCollection();
+        $this->accessIntakes = new ArrayCollection();
+    }
 
     /**
      * @deprecated

@@ -17,7 +17,8 @@ class GebruikersruimteStrategyTest extends DoctrineTestCase
     {
         parent::setUp();
 
-        $this->strategy = new GebruikersruimteStrategy();
+        self::bootKernel();
+        $this->strategy = $this->getContainer()->get(GebruikersruimteStrategy::class);
     }
 
     /**

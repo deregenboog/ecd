@@ -90,7 +90,7 @@ parameters:
   iz_hulpsoorten_zonder_koppelingen:
     - timeout
     - 'Time out'
-  amocverblijfsstatus: 'Europees Burger (Niet Nederlands)'
+  amoc_verblijfsstatus: 'Europees Burger (Niet Nederlands)'
   wachtlijst_locaties:
     - 'Wachtlijst T6 Project'
     - 'Wachtlijst Economisch Daklozen'

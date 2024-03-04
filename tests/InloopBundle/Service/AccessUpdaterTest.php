@@ -21,23 +21,6 @@ use Tests\AppBundle\PHPUnit\DoctrineTestCase;
 
 class AccessUpdaterTest extends DoctrineTestCase
 {
-    public const ACCESS_STRATEGIES = [
-        'amoc_stadhouderskade' => [
-            'AMOC Stadhouderskade',
-            'AMOC West',
-            'Nachtopvang DRG',
-        ],
-        'villa_westerweide' => [
-            'Villa Westerweide',
-        ],
-        'amoc_west' => [
-            'AMOC West',
-            'Nachtopvang DRG',
-        ],
-    ];
-
-    public const AMOC_VERBLIJFSSTATUS = 'Europees Burger (Niet Nederlands)';
-
     public const BASE_DQL = 'SELECT DISTINCT klant.id
         FROM AppBundle\Entity\Klant klant
         INNER JOIN klant.huidigeStatus status
@@ -49,6 +32,13 @@ class AccessUpdaterTest extends DoctrineTestCase
         LEFT JOIN laatsteIntake.gebruikersruimte gebruikersruimte
         LEFT JOIN eersteIntake.intakelocatie eersteIntakeLocatie
         LEFT JOIN klant.schorsingen schorsing';
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        self::bootKernel();
+    }
 
     public function testUpdateAll()
     {
@@ -82,8 +72,7 @@ class AccessUpdaterTest extends DoctrineTestCase
                 $em,
                 $this->createMock(KlantDao::class),
                 $locatieDao,
-                self::ACCESS_STRATEGIES,
-                self::AMOC_VERBLIJFSSTATUS,
+                $this->getContainer()->get(StrategyContainer::class)->getStrategies(),
             ])
             ->setMethods(['updateForLocation'])
             ->getMock();
@@ -121,12 +110,11 @@ class AccessUpdaterTest extends DoctrineTestCase
             $em,
             $klantDao,
             $this->createMock(LocatieDao::class),
-            self::ACCESS_STRATEGIES,
-            self::AMOC_VERBLIJFSSTATUS
+            $this->getContainer()->get(StrategyContainer::class)->getStrategies()
         );
 
         $locatie = $this->getMockBuilder(Locatie::class)
-            ->setMethods(['getId', 'isActief', 'hasLocatieType'])->getMock();
+            ->setMethods(['getId', 'isActief'])->getMock();
         $locatie->method('getId')->willReturn(654);
         $locatie->method('isActief')->willReturn(true);
         $locatie->setNaam('AMOC Stadhouderskade');
@@ -144,7 +132,7 @@ class AccessUpdaterTest extends DoctrineTestCase
                             eersteIntakeLocatie.naam = 'AMOC Stadhouderskade'
                             OR (
                                 eersteIntakeLocatie.naam = 'AMOC West'
-                                AND eersteIntake.intakedatum < :sixmonthsago
+                                AND eersteIntake.intakedatum < :four_months_ago
                             )
                         )
                     )
@@ -182,12 +170,11 @@ class AccessUpdaterTest extends DoctrineTestCase
             $em,
             $klantDao,
             $this->createMock(LocatieDao::class),
-            self::ACCESS_STRATEGIES,
-            self::AMOC_VERBLIJFSSTATUS
+            $this->getContainer()->get(StrategyContainer::class)->getStrategies()
         );
 
         $locatie = $this->getMockBuilder(Locatie::class)
-            ->setMethods(['getId', 'isActief', 'hasLocatieType'])->getMock();
+            ->setMethods(['getId', 'isActief'])->getMock();
         $locatie->method('getId')->willReturn(654);
         $locatie->method('isActief')->willReturn(true);
         $locatie->setNaam('AMOC West');
@@ -197,7 +184,7 @@ class AccessUpdaterTest extends DoctrineTestCase
             INNER JOIN klant.huidigeStatus huidigeStatus
             WITH huidigeStatus INSTANCE OF InloopBundle\Entity\Aanmelding
             LEFT JOIN eersteIntake.specifiekeLocaties specifiekeLocaties
-            WHERE (((eersteIntake.toegangInloophuis = true AND :locatie IN specifiekeLocaties)) OR ((eersteIntake.toegangInloophuis = true AND eersteIntakeLocatie.naam IN (:toegestaneLocatiesVoorIntakelocatie))) OR ((eersteIntake.toegangInloophuis = true AND (eersteIntakeLocatie.naam = 'AMOC Stadhouderskade' OR (eersteIntakeLocatie.naam = 'AMOC West' AND eersteIntake.intakedatum < :sixmonthsago))))) AND status INSTANCE OF InloopBundle\Entity\Aanmelding";
+            WHERE (((eersteIntake.toegangInloophuis = true AND :locatie IN specifiekeLocaties)) OR ((eersteIntake.toegangInloophuis = true AND eersteIntakeLocatie.naam IN (:toegestaneLocatiesVoorIntakelocatie))) OR ((eersteIntake.toegangInloophuis = true AND (eersteIntakeLocatie.naam = 'AMOC Stadhouderskade' OR (eersteIntakeLocatie.naam = 'AMOC West' AND eersteIntake.intakedatum < :four_months_ago))))) AND status INSTANCE OF InloopBundle\Entity\Aanmelding";
         $this->assertEqualsIgnoringWhitespace($expectedDQL, $klantDao->getBuilder()->getDQL());
     }
 
@@ -229,12 +216,11 @@ class AccessUpdaterTest extends DoctrineTestCase
             $em,
             $klantDao,
             $this->createMock(LocatieDao::class),
-            self::ACCESS_STRATEGIES,
-            self::AMOC_VERBLIJFSSTATUS
+            $this->getContainer()->get(StrategyContainer::class)->getStrategies()
         );
 
         $locatie = $this->getMockBuilder(Locatie::class)
-            ->setMethods(['getId', 'isActief', 'hasLocatieType'])->getMock();
+            ->setMethods(['getId', 'isActief'])->getMock();
         $locatie->method('getId')->willReturn(654);
         $locatie->method('isActief')->willReturn(true);
         $locatie->setGebruikersruimte(true);
@@ -287,12 +273,11 @@ class AccessUpdaterTest extends DoctrineTestCase
             $em,
             $klantDao,
             $this->createMock(LocatieDao::class),
-            self::ACCESS_STRATEGIES,
-            self::AMOC_VERBLIJFSSTATUS
+            $this->getContainer()->get(StrategyContainer::class)->getStrategies()
         );
 
         $locatie = $this->getMockBuilder(Locatie::class)
-            ->setMethods(['getId', 'isActief', 'hasLocatieType'])->getMock();
+            ->setMethods(['getId', 'isActief'])->getMock();
         $locatie->method('getId')->willReturn(654);
         $locatie->method('isActief')->willReturn(true);
         $locatie->setNaam('Villa Westerweide');
@@ -343,8 +328,7 @@ class AccessUpdaterTest extends DoctrineTestCase
             $em,
             $klantDao,
             $this->createMock(LocatieDao::class),
-            self::ACCESS_STRATEGIES,
-            self::AMOC_VERBLIJFSSTATUS
+            $this->getContainer()->get(StrategyContainer::class)->getStrategies()
         );
 
         $locatie = $this->getMockBuilder(Locatie::class)
@@ -408,12 +392,11 @@ class AccessUpdaterTest extends DoctrineTestCase
             $em,
             $klantDao,
             $this->createMock(LocatieDao::class),
-            self::ACCESS_STRATEGIES,
-            self::AMOC_VERBLIJFSSTATUS
+            $this->getContainer()->get(StrategyContainer::class)->getStrategies()
         );
 
         $locatie = $this->getMockBuilder(Locatie::class)
-            ->setMethods(['getId', 'isActief', 'hasLocatieType'])->getMock();
+            ->setMethods(['getId', 'isActief'])->getMock();
         $locatie->method('getId')->willReturn(654);
         $locatie->method('isActief')->willReturn(true);
         $updater->updateForLocation($locatie);
@@ -462,12 +445,11 @@ class AccessUpdaterTest extends DoctrineTestCase
             $em,
             $klantDao,
             $this->createMock(LocatieDao::class),
-            self::ACCESS_STRATEGIES,
-            self::AMOC_VERBLIJFSSTATUS
+            $this->getContainer()->get(StrategyContainer::class)->getStrategies()
         );
 
         $locatie = $this->getMockBuilder(Locatie::class)
-            ->setMethods(['getId', 'isActief', 'hasLocatieType'])->getMock();
+            ->setMethods(['getId', 'isActief'])->getMock();
         $locatie->method('getId')->willReturn(654);
         $locatie->method('isActief')->willReturn(false);
         $updater->updateForLocation($locatie);
@@ -501,8 +483,7 @@ class AccessUpdaterTest extends DoctrineTestCase
             $em,
             $klantDao,
             $locatieDao,
-            self::ACCESS_STRATEGIES,
-            self::AMOC_VERBLIJFSSTATUS
+            $this->getContainer()->get(StrategyContainer::class)->getStrategies()
         );
 
         $klant = $this->createMock(Klant::class);
@@ -540,8 +521,7 @@ class AccessUpdaterTest extends DoctrineTestCase
             $em,
             $klantDao,
             $locatieDao,
-            self::ACCESS_STRATEGIES,
-            self::AMOC_VERBLIJFSSTATUS
+            $this->getContainer()->get(StrategyContainer::class)->getStrategies()
         );
 
         $klant = $this->createMock(Klant::class);

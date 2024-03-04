@@ -7,7 +7,7 @@ use InloopBundle\Entity\Locatie;
 
 interface StrategyInterface
 {
-    public function supports(Locatie $locatie);
+    public function supports(Locatie $locatie): bool;
 
     public function buildQuery(QueryBuilder $builder);
 }

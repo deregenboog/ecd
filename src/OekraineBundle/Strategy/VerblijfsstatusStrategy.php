@@ -15,7 +15,7 @@ class VerblijfsstatusStrategy implements StrategyInterface
 
     private $verblijsstatusNietRechthebbend = "Europees Burger (Niet Nederlands)";
 
-    public function supports(Locatie $locatie)
+    public function supports(Locatie $locatie): bool
     {
         return true;
     }

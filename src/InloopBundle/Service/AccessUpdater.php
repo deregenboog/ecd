@@ -17,7 +17,7 @@ use InloopBundle\Strategy\GebruikersruimteStrategy;
 use InloopBundle\Strategy\SpecificLocationStrategy;
 use InloopBundle\Strategy\ToegangOverigStrategy;
 use InloopBundle\Strategy\VillaWesterweideStrategy;
-use InloopBundle\Strategy\WinteropvangEUBurgers;
+use InloopBundle\Strategy\WinteropvangEUBurgersStrategy;
 
 class AccessUpdater
 {
@@ -38,12 +38,7 @@ class AccessUpdater
 
     private $debug = false;
 
-    private $amocVerblijfsstatus = "";
-
-    private $accessStrategies = [];
-
-    private array $strategies = [];
-
+    private iterable $strategies;
 
     /**
      * The access updater works as follows:
@@ -56,36 +51,18 @@ class AccessUpdater
      * to specific klantId.
      *
      * The strategies used are combined in an AND manner ... uitzoeken.
-
-     *
-     * @param EntityManagerInterface $em
-     * @param KlantDao $klantDao
-     * @param LocatieDao $locatieDao
-     * @param $intake_locaties
      */
     public function __construct(
         EntityManagerInterface $em,
         KlantDao $klantDao,
         LocatieDao $locatieDao,
-        $accessStrategies,
-        $amocVerblijfsstatus
+        iterable $strategies
     )
     {
         $this->em = $em;
         $this->klantDao = $klantDao;
         $this->locatieDao = $locatieDao;
-        $this->accessStrategies = $accessStrategies;
-        $this->amocVerblijfsstatus = $amocVerblijfsstatus;
-
-        $this->strategies = [
-            new SpecificLocationStrategy(),
-            new AmocWestStrategy($this->accessStrategies),
-            new VillaWesterweideStrategy($this->accessStrategies),
-            new AmocStrategy($this->accessStrategies, $this->amocVerblijfsstatus),
-            new WinteropvangEUBurgers($this->accessStrategies,$this->amocVerblijfsstatus, $this->em),
-            new GebruikersruimteStrategy(),
-            new ToegangOverigStrategy($this->accessStrategies, $this->amocVerblijfsstatus, $this->em),
-        ];
+        $this->strategies = $strategies;
     }
 
     public function updateAll()
@@ -101,7 +78,6 @@ class AccessUpdater
 
     public function updateForLocation(Locatie $locatie)
     {
-
         $wasEnabled = $this->em->getFilters()->isEnabled('overleden');
 
         $this->em->getFilters()->enable('overleden');
@@ -235,11 +211,10 @@ class AccessUpdater
         foreach ($this->strategies as $strategy) {
             if ($strategy->supports($locatie)) {
                 $supportedStrategies[] = $strategy;
-
             }
         }
 
-        if(count($supportedStrategies) < 1) throw new \LogicException('No supported strategy found!');
+        if (count($supportedStrategies) < 1) throw new \LogicException('No supported strategy found!');
 
         return $supportedStrategies;
     }
@@ -253,7 +228,6 @@ class AccessUpdater
             function ($klantId) {
                 return $klantId['id'];
             }, $klantIdArray
-
         );
     }
 

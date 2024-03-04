@@ -4,7 +4,6 @@ namespace InloopBundle\Strategy;
 
 use Doctrine\ORM\QueryBuilder;
 use InloopBundle\Entity\Locatie;
-use InloopBundle\Strategy\StrategyInterface;
 
 final class AmocWestStrategy implements StrategyInterface
 {
@@ -13,38 +12,30 @@ final class AmocWestStrategy implements StrategyInterface
      * Ie. intake locatie AMOC West = toegang tot AMOC West and Nachtopvang DRG.
      * Intake locatie Villa Zaanstad = toegang tot Villa Zaanstad.
      */
-
-    private $accessStrategyName = "amoc_west";
+    private const ACCESS_STRATEGY_NAME = 'amoc_west';
 
     private Locatie $locatie;
 
-    private $intakeLocaties = [];
+    private array $intakeLocaties = [];
 
-    /**
-     * @param array $accessStrategies
-     */
     public function __construct(array $accessStrategies)
     {
-        $intakeLocaties = $accessStrategies[$this->accessStrategyName];
-        $this->intakeLocaties = $intakeLocaties;
+        $this->intakeLocaties = $accessStrategies[self::ACCESS_STRATEGY_NAME];
     }
 
-    public function supports(Locatie $locatie)
+    public function supports(Locatie $locatie): bool
     {
-        $this->locatie = $locatie;
-
-        return in_array($locatie->getNaam(),$this->intakeLocaties);
+        return in_array($locatie->getNaam(), $this->intakeLocaties);
     }
 
     /**
-     * {@inheritdoc}
-     *
      * @see \InloopBundle\Strategy\StrategyInterface::buildQuery()
      * @see https://github.com/deregenboog/ecd/issues/249
      */
     public function buildQuery(QueryBuilder $builder)
     {
-        $builder->orWhere('(eersteIntake.toegangInloophuis = true AND eersteIntakeLocatie.naam IN (:toegestaneLocatiesVoorIntakelocatie) )');
-        $builder->setParameter('toegestaneLocatiesVoorIntakelocatie', $this->intakeLocaties);
+        $builder
+            ->orWhere('(eersteIntake.toegangInloophuis = true AND eersteIntakeLocatie.naam IN (:toegestaneLocatiesVoorIntakelocatie))')
+            ->setParameter('toegestaneLocatiesVoorIntakelocatie', $this->intakeLocaties);
     }
 }

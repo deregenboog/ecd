@@ -14,7 +14,7 @@ class AmocStrategy implements StrategyInterface
 
     private $amoc_locaties = ['AMOC','Nachtopvang De Regenboog Groep','Nachtopvang DRG','Amoc Gebruikersruimte'];
 
-    public function supports(Locatie $locatie)
+    public function supports(Locatie $locatie): bool
     {
         $supported = in_array($locatie->getNaam(), $this->amoc_locaties);
         return $supported;

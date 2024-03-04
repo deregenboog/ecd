@@ -7,7 +7,6 @@ use Doctrine\ORM\QueryBuilder;
 use InloopBundle\Entity\Locatie;
 use InloopBundle\Strategy\ToegangOverigStrategy;
 use Tests\AppBundle\PHPUnit\DoctrineTestCase;
-use Tests\InloopBundle\Service\AccessUpdaterTest;
 
 class ToegangOverigStrategyTest extends DoctrineTestCase
 {
@@ -17,12 +16,8 @@ class ToegangOverigStrategyTest extends DoctrineTestCase
     {
         parent::setUp();
 
-        $em = $this->getEntityManagerMock();
-        $this->strategy = new ToegangOverigStrategy(
-            AccessUpdaterTest::ACCESS_STRATEGIES,
-            AccessUpdaterTest::AMOC_VERBLIJFSSTATUS,
-            $em
-        );
+        self::bootKernel();
+        $this->strategy = $this->getContainer()->get(ToegangOverigStrategy::class);
     }
 
     /**

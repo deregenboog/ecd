@@ -7,7 +7,6 @@ use Doctrine\ORM\QueryBuilder;
 use InloopBundle\Entity\Locatie;
 use InloopBundle\Strategy\AmocStrategy;
 use Tests\AppBundle\PHPUnit\DoctrineTestCase;
-use Tests\InloopBundle\Service\AccessUpdaterTest;
 
 class AmocStrategyTest extends DoctrineTestCase
 {
@@ -17,10 +16,8 @@ class AmocStrategyTest extends DoctrineTestCase
     {
         parent::setUp();
 
-        $this->strategy = new AmocStrategy(
-            AccessUpdaterTest::ACCESS_STRATEGIES,
-            AccessUpdaterTest::AMOC_VERBLIJFSSTATUS,
-        );
+        self::bootKernel();
+        $this->strategy = $this->getContainer()->get(AmocStrategy::class);
     }
 
     /**
@@ -47,7 +44,17 @@ class AmocStrategyTest extends DoctrineTestCase
         $builder = new QueryBuilder($em);
 
         $this->strategy->buildQuery($builder);
-        $expectedDQL = "SELECT WHERE ( eersteIntake.toegangInloophuis = true AND (eersteIntakeLocatie.naam = 'AMOC Stadhouderskade' OR (eersteIntakeLocatie.naam = 'AMOC West' AND eersteIntake.intakedatum < :sixmonthsago) ) )";
+        $expectedDQL = "SELECT
+            WHERE (
+                eersteIntake.toegangInloophuis = true
+                AND (
+                    eersteIntakeLocatie.naam = 'AMOC Stadhouderskade'
+                    OR (
+                        eersteIntakeLocatie.naam = 'AMOC West'
+                        AND eersteIntake.intakedatum < :four_months_ago
+                    )
+                )
+            )";
         $this->assertEqualsIgnoringWhitespace($expectedDQL, $builder->getDQL());
     }
 }
