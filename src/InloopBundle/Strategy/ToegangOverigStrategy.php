@@ -40,11 +40,6 @@ final class ToegangOverigStrategy implements StrategyInterface
         return !in_array($locatie->getNaam(), $this->intakeLocaties);
     }
 
-    public function isExclusive(): bool
-    {
-        return false;
-    }
-
     /**
      * @see \InloopBundle\Strategy\StrategyInterface::buildQuery()
      * @see https://github.com/deregenboog/ecd/issues/249

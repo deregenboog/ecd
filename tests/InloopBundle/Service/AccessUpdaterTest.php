@@ -30,8 +30,7 @@ class AccessUpdaterTest extends DoctrineTestCase
         LEFT JOIN klant.eersteIntake eersteIntake
         LEFT JOIN laatsteIntake.intakelocatie laatsteIntakeLocatie
         LEFT JOIN laatsteIntake.gebruikersruimte gebruikersruimte
-        LEFT JOIN eersteIntake.intakelocatie eersteIntakeLocatie
-        LEFT JOIN klant.schorsingen schorsing';
+        LEFT JOIN eersteIntake.intakelocatie eersteIntakeLocatie';
 
     protected function setUp(): void
     {
@@ -121,7 +120,6 @@ class AccessUpdaterTest extends DoctrineTestCase
         $updater->updateForLocation($locatie);
 
         $expectedDQL = self::BASE_DQL."
-            INNER JOIN klant.huidigeStatus huidigeStatus WITH huidigeStatus INSTANCE OF InloopBundle\Entity\Aanmelding
             LEFT JOIN eersteIntake.specifiekeLocaties specifiekeLocaties
             WHERE (
                 ((eersteIntake.toegangInloophuis = true AND :locatie IN specifiekeLocaties))
@@ -181,8 +179,6 @@ class AccessUpdaterTest extends DoctrineTestCase
         $updater->updateForLocation($locatie);
 
         $expectedDQL = self::BASE_DQL."
-            INNER JOIN klant.huidigeStatus huidigeStatus
-            WITH huidigeStatus INSTANCE OF InloopBundle\Entity\Aanmelding
             LEFT JOIN eersteIntake.specifiekeLocaties specifiekeLocaties
             WHERE (((eersteIntake.toegangInloophuis = true AND :locatie IN specifiekeLocaties)) OR ((eersteIntake.toegangInloophuis = true AND eersteIntakeLocatie.naam IN (:toegestaneLocatiesVoorIntakelocatie))) OR ((eersteIntake.toegangInloophuis = true AND (eersteIntakeLocatie.naam = 'AMOC Stadhouderskade' OR (eersteIntakeLocatie.naam = 'AMOC West' AND eersteIntake.intakedatum < :four_months_ago))))) AND status INSTANCE OF InloopBundle\Entity\Aanmelding";
         $this->assertEqualsIgnoringWhitespace($expectedDQL, $klantDao->getBuilder()->getDQL());
@@ -227,7 +223,6 @@ class AccessUpdaterTest extends DoctrineTestCase
         $updater->updateForLocation($locatie);
 
         $expectedDQL = self::BASE_DQL."
-            INNER JOIN klant.huidigeStatus huidigeStatus WITH huidigeStatus INSTANCE OF InloopBundle\Entity\Aanmelding
             LEFT JOIN eersteIntake.specifiekeLocaties specifiekeLocaties
             INNER JOIN eersteIntake.gebruikersruimte eersteIntakeGebruikersruimte
             LEFT JOIN klant.registraties registratie WITH registratie.locatie = :locatie_id
@@ -284,7 +279,6 @@ class AccessUpdaterTest extends DoctrineTestCase
         $updater->updateForLocation($locatie);
 
         $expectedDQL = self::BASE_DQL."
-            INNER JOIN klant.huidigeStatus huidigeStatus WITH huidigeStatus INSTANCE OF InloopBundle\Entity\Aanmelding
             LEFT JOIN eersteIntake.specifiekeLocaties specifiekeLocaties
             WHERE (
                 ((
@@ -339,7 +333,6 @@ class AccessUpdaterTest extends DoctrineTestCase
         $updater->updateForLocation($locatie);
 
         $expectedDQL = self::BASE_DQL."
-            INNER JOIN klant.huidigeStatus huidigeStatus WITH huidigeStatus INSTANCE OF InloopBundle\Entity\Aanmelding
             LEFT JOIN eersteIntake.specifiekeLocaties specifiekeLocaties
             LEFT JOIN eersteIntake.verblijfsstatus verblijfsstatus
             WHERE (
@@ -402,7 +395,6 @@ class AccessUpdaterTest extends DoctrineTestCase
         $updater->updateForLocation($locatie);
 
         $expectedDQL = self::BASE_DQL."
-            INNER JOIN klant.huidigeStatus huidigeStatus WITH huidigeStatus INSTANCE OF InloopBundle\Entity\Aanmelding
             LEFT JOIN eersteIntake.specifiekeLocaties specifiekeLocaties
             LEFT JOIN eersteIntake.verblijfsstatus verblijfsstatus
             WHERE (

@@ -164,7 +164,7 @@ services:
 
 when@test:
     services:
-        # For testing the AccessUpdater, we need the configure Tagged Services with Priority.
+        # For testing the AccessUpdater, we need the configured Tagged Services with Priority.
         Tests\InloopBundle\Service\StrategyContainer:
             public: true
             arguments:

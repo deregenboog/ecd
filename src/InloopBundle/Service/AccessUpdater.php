@@ -2,7 +2,6 @@
 
 namespace InloopBundle\Service;
 
-use AppBundle\Doctrine\SqlExtractor;
 use AppBundle\Entity\Klant;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\ParameterType;
@@ -11,13 +10,6 @@ use Doctrine\ORM\QueryBuilder;
 use InloopBundle\Entity\Aanmelding;
 use InloopBundle\Entity\Locatie;
 use InloopBundle\Filter\KlantFilter;
-use InloopBundle\Strategy\AmocStrategy;
-use InloopBundle\Strategy\AmocWestStrategy;
-use InloopBundle\Strategy\GebruikersruimteStrategy;
-use InloopBundle\Strategy\SpecificLocationStrategy;
-use InloopBundle\Strategy\ToegangOverigStrategy;
-use InloopBundle\Strategy\VillaWesterweideStrategy;
-use InloopBundle\Strategy\WinteropvangEUBurgersStrategy;
 
 class AccessUpdater
 {
@@ -70,7 +62,8 @@ class AccessUpdater
         $this->em->getConnection()->beginTransaction();
         $this->em->getConnection()->executeQuery('DELETE FROM inloop_toegang');
 
-        foreach ($this->getLocations() as $locatie) {
+        $locaties = $this->locatieDao->findAllActiveLocationsOfTypes(['Inloop', 'Nachtopvang']);
+        foreach ($locaties as $locatie) {
             $this->updateForLocation($locatie);
         }
         $this->em->getConnection()->commit();
@@ -78,15 +71,12 @@ class AccessUpdater
 
     public function updateForLocation(Locatie $locatie)
     {
+        // enable filter and store original state
         $wasEnabled = $this->em->getFilters()->isEnabled('overleden');
-
         $this->em->getFilters()->enable('overleden');
 
-        $filter = new KlantFilter($this->getSupportedStrategies($locatie));
-        $filter->huidigeStatus = Aanmelding::class; // alleen klanten met inloopdossier mogen toegang
-
-        $builder = $this->klantDao->getAllQueryBuilder($filter);
-        $klantIds = $this->getKlantIds($builder);
+        // get clients that are granted access
+        $klantIds = $this->getKlantIds($locatie);
 
         $params = [
             'locatie' => $locatie->getId(),
@@ -123,28 +113,13 @@ class AccessUpdater
         $wasEnabled = $this->em->getFilters()->isEnabled('overleden');
         $this->em->getFilters()->enable('overleden');
         $this->log("Updating access for ".$klant->getNaam());
-        $inloopLocaties = $this->getLocations();
-        foreach ($inloopLocaties as $locatie) {
+
+        $locaties = $this->locatieDao->findAllActiveLocationsOfTypes(['Inloop', 'Nachtopvang']);
+        foreach ($locaties as $locatie) {
             $this->log($locatie);
-            $strategies = $this->getSupportedStrategies($locatie);
-//            dump($strategies);
-//            $this->log("Strategies used: ".get_class($strategy));
 
-            $filter = new KlantFilter($strategies);
-
-            $filter->huidigeStatus = Aanmelding::class; //alleen klanten met een inloopdossier mogen toegang.
-
-
-            $builder = $this->klantDao->getAllQueryBuilder($filter);
-            $builder
-                ->andWhere('klant.id = :klant_id')
-                ->setParameter('klant_id', $klant->getId());
-
-//            $sql = SqlExtractor::getFullSQL($builder->getQuery());
-//            $this->log($builder->getQuery()->getSQL());
-
-
-            $klantIds = $this->getKlantIds($builder);
+            // get clients that are granted access
+            $klantIds = $this->getKlantIds($locatie, $klant);
 
             $params = [
                 'locatie' => $locatie->getId(),
@@ -178,12 +153,6 @@ class AccessUpdater
         }
     }
 
-    private function getLocations()
-    {
-        return $this->locatieDao->findAllActiveLocationsOfTypes(['Inloop','Nachtopvang']);
-//        return $this->locatieDao->findAllActiveLocationsOfTypeInloop();
-    }
-
     private function getSupportedStrategies(Locatie $locatie)
     {
         /**
@@ -202,8 +171,6 @@ class AccessUpdater
          * en alleen op basis van de query bepaald kan worden of iemand wel of geen toegang heeft.
          *
          * Dus moet er gestapeld kunnen worden.
-         *
-         *
          */
 
         $supportedStrategies = [];
@@ -214,20 +181,34 @@ class AccessUpdater
             }
         }
 
-        if (count($supportedStrategies) < 1) throw new \LogicException('No supported strategy found!');
+        if (count($supportedStrategies) < 1) {
+            throw new \LogicException('No supported strategy found!');
+        }
 
         return $supportedStrategies;
     }
 
-    private function getKlantIds(QueryBuilder $builder)
+    private function getKlantIds(Locatie $locatie, Klant $klant = null)
     {
-//        $sql = SqlExtractor::getFullSQL($builder->select('klant.id')->distinct(true)->getQuery());
+        // build query for finding clients
+        $builder = $this->klantDao->getAllQueryBuilder();
+        $builder->select('klant.id')->distinct(true);
 
-        $klantIdArray = $builder->select('klant.id')->distinct(true)->getQuery()->getResult();
+        foreach ($this->getSupportedStrategies($locatie) as $strategy) {
+            $strategy->buildQuery($builder);
+        }
+        $builder->andWhere(sprintf('status INSTANCE OF %s', Aanmelding::class)); // only active clients
+
+        // limit to client, if provided
+        if ($klant instanceof Klant) {
+            $builder->andWhere('klant.id = :klant_id')
+                ->setParameter('klant_id', $klant->getId());
+        }
+
         return array_map(
             function ($klantId) {
                 return $klantId['id'];
-            }, $klantIdArray
+            }, $builder->getQuery()->getResult()
         );
     }
 
