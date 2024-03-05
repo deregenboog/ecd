@@ -44,4 +44,6 @@ interface TrajectDaoInterface
     public function delete(Traject $traject);
 
     public function countByAfsluiting($fase, \DateTime $startdate, \DateTime $enddate);
+
+    public function getVerlengingenPerTrajectcoach(\DateTime $startdate, \DateTime $enddate);
 }

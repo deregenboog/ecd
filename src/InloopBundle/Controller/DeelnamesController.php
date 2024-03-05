@@ -3,6 +3,7 @@
 namespace InloopBundle\Controller;
 
 use AppBundle\Controller\AbstractChildController;
+use AppBundle\Controller\DisableIndexActionTrait;
 use InloopBundle\Entity\Deelname;
 use AppBundle\Entity\Memo;
 use InloopBundle\Form\DeelnameType;
@@ -16,6 +17,8 @@ use InloopBundle\Service\DeelnameDaoInterface;
  */
 class DeelnamesController extends AbstractChildController
 {
+    use DisableIndexActionTrait;
+
     protected $title = 'Trainingsdeelnames';
     protected $entityName = 'deelname';
     protected $entityClass = Deelname::class;

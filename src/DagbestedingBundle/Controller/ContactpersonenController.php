@@ -3,6 +3,7 @@
 namespace DagbestedingBundle\Controller;
 
 use AppBundle\Controller\AbstractChildController;
+use AppBundle\Controller\DisableIndexActionTrait;
 use DagbestedingBundle\Entity\Contactpersoon;
 use DagbestedingBundle\Form\ContactpersoonType;
 use DagbestedingBundle\Service\ContactpersoonDaoInterface;
@@ -13,6 +14,8 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class ContactpersonenController extends AbstractChildController
 {
+    use DisableIndexActionTrait;
+
     protected $entityName = 'Contactpersoon';
     protected $entityClass = Contactpersoon::class;
     protected $formClass = ContactpersoonType::class;

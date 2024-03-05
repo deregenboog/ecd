@@ -3,6 +3,7 @@
 namespace DagbestedingBundle\Controller;
 
 use AppBundle\Controller\AbstractChildController;
+use AppBundle\Controller\DisableIndexActionTrait;
 use DagbestedingBundle\Entity\Werkdoel;
 use DagbestedingBundle\Form\WerkdoelType;
 use DagbestedingBundle\Service\WerkdoelDaoInterface;
@@ -13,6 +14,8 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class WerkdoelenController extends AbstractChildController
 {
+    use DisableIndexActionTrait;
+
     protected $entityName = 'werkdoel';
     protected $entityClass = Werkdoel::class;
     protected $formClass = WerkdoelType::class;

@@ -3,6 +3,7 @@
 namespace IzBundle\Controller;
 
 use AppBundle\Controller\AbstractChildController;
+use AppBundle\Controller\DisableIndexActionTrait;
 use IzBundle\Entity\Verslag;
 use IzBundle\Form\VerslagType;
 use IzBundle\Service\VerslagDaoInterface;
@@ -16,6 +17,8 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class VerslagenController extends AbstractChildController
 {
+    use DisableIndexActionTrait;
+
     protected $entityName = 'verslag';
     protected $entityClass = Verslag::class;
     protected $formClass = VerslagType::class;

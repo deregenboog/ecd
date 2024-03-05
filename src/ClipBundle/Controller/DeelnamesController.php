@@ -3,17 +3,19 @@
 namespace ClipBundle\Controller;
 
 use AppBundle\Controller\AbstractChildController;
+use AppBundle\Controller\DisableIndexActionTrait;
 use ClipBundle\Entity\Deelname;
-
 use ClipBundle\Form\DeelnameType;
-use Symfony\Component\Routing\Annotation\Route;
 use ClipBundle\Service\DeelnameDaoInterface;
+use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * @Route("/deelnames")
  */
 class DeelnamesController extends AbstractChildController
 {
+    use DisableIndexActionTrait;
+
     protected $title = 'Trainingsdeelnames';
     protected $entityName = 'deelname';
     protected $entityClass = Deelname::class;

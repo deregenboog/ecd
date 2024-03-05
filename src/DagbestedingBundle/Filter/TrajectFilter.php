@@ -5,6 +5,7 @@ namespace DagbestedingBundle\Filter;
 use AppBundle\Entity\Medewerker;
 use AppBundle\Filter\FilterInterface;
 use AppBundle\Filter\KlantFilter;
+use AppBundle\Form\Model\AppDateRangeModel;
 use DagbestedingBundle\Entity\Locatie;
 use DagbestedingBundle\Entity\Project;
 use DagbestedingBundle\Entity\Trajectcoach;
@@ -54,22 +55,22 @@ class TrajectFilter implements FilterInterface
     public $locatie;
 
     /**
-     * @var \DateTime
+     * @var AppDateRangeModel
      */
     public $startdatum;
 
     /**
-     * @var \DateTime
+     * @var AppDateRangeModel
      */
     public $evaluatiedatum;
 
     /**
-     * @var \DateTime
+     * @var AppDateRangeModel
      */
     public $einddatum;
 
     /**
-     * @var \DateTime
+     * @var AppDateRangeModel
      */
     public $afsluitdatum;
 
@@ -175,22 +176,6 @@ class TrajectFilter implements FilterInterface
                 ;
             }
         }
-
-        if ($this->startdatum) {
-            if ($this->startdatum->getStart()) {
-                $builder
-                    ->andWhere('traject.startdatum >= :startdatum_van')
-                    ->setParameter('startdatum_van', $this->startdatum->getStart())
-                ;
-            }
-            if ($this->startdatum->getEnd()) {
-                $builder
-                    ->andWhere('traject.startdatum <= :startdatum_tot')
-                    ->setParameter('startdatum_tot', $this->startdatum->getEnd())
-                ;
-            }
-        }
-
 
         if ($this->einddatum) {
             if ($this->einddatum->getStart()) {

@@ -1,9 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\VillaBundle\Controller;
 
 use AppBundle\Service\MedewerkerDao;
-use AppBundle\Test\WebTestCase;
+use Liip\FunctionalTestBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Request;
 
 class VrijwilligerControllerTest extends WebTestCase
@@ -12,23 +14,25 @@ class VrijwilligerControllerTest extends WebTestCase
     {
         $this->markTestSkipped();
 
+        $client = static::createClient();
+
         $medewerker = $this->getContainer()->get(MedewerkerDao::class)->findByUsername('villa_user');
-        $this->client->loginUser($medewerker);
+        $client->loginUser($medewerker);
 
-        $crawler = $this->client->request('GET', '/villa/vrijwilligers/');
+        $crawler = $client->request('GET', '/villa/vrijwilligers/');
 
-        $this->assertStatusCode(200, $this->client);
+        $this->assertStatusCode(200, $client);
 
         $headers = $crawler->filter('tr th a.sortable');
         $this->assertGreaterThan(1, $headers->count());
 
-        $headers->each(function ($header) {
+        $headers->each(function ($header) use ($client) {
             // @see https://github.com/KnpLabs/knp-components/issues/160
             $request = Request::create($header->link()->getUri());
             $_GET = $request->query->all();
 
-            $this->client->click($header->link());
-            $this->assertStatusCode(200, $this->client);
+            $client->click($header->link());
+            $this->assertStatusCode(200, $client);
         });
     }
 }

@@ -3,6 +3,7 @@
 namespace DagbestedingBundle\Controller;
 
 use AppBundle\Controller\AbstractChildController;
+use AppBundle\Controller\DisableIndexActionTrait;
 use DagbestedingBundle\Entity\Document;
 use DagbestedingBundle\Form\DocumentType;
 use DagbestedingBundle\Service\DocumentDaoInterface;
@@ -14,6 +15,8 @@ use Vich\UploaderBundle\Handler\DownloadHandler;
  */
 class DocumentenController extends AbstractChildController
 {
+    use DisableIndexActionTrait;
+
     protected $entityName = 'Document';
     protected $entityClass = Document::class;
     protected $formClass = DocumentType::class;

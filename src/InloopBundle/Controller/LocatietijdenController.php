@@ -3,6 +3,7 @@
 namespace InloopBundle\Controller;
 
 use AppBundle\Controller\AbstractChildController;
+use AppBundle\Controller\DisableIndexActionTrait;
 use InloopBundle\Entity\Locatietijd;
 use InloopBundle\Form\LocatietijdType;
 use InloopBundle\Service\LocatietijdDaoInterface;
@@ -15,6 +16,8 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
  */
 class LocatietijdenController extends AbstractChildController
 {
+    use DisableIndexActionTrait;
+
     protected $title = 'Openingstijden';
     protected $entityName = 'openingstijd';
     protected $entityClass = Locatietijd::class;

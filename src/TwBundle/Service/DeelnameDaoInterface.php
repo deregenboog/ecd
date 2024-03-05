@@ -9,13 +9,6 @@ use TwBundle\Entity\Deelname;
 interface DeelnameDaoInterface
 {
     /**
-     * @param int $page
-     *
-     * @return PaginationInterface
-     */
-    public function findAll($page = null, FilterInterface $filter = null);
-
-    /**
      * @param int $id
      *
      * @return Deelname

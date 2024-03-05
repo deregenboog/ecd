@@ -3,6 +3,7 @@
 namespace OekraineBundle\Controller;
 
 use AppBundle\Controller\AbstractChildController;
+use AppBundle\Controller\DisableIndexActionTrait;
 use AppBundle\Form\DocumentType;
 use OekraineBundle\Entity\Document;
 use OekraineBundle\Service\DocumentDaoInterface;
@@ -13,6 +14,8 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class DocumentenController extends AbstractChildController
 {
+    use DisableIndexActionTrait;
+
     protected $entityName = 'document';
     protected $entityClass = Document::class;
     protected $formClass = DocumentType::class;

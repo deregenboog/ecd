@@ -2,6 +2,7 @@
 
 namespace OekraineBundle\Controller;
 
+use AppBundle\Controller\DisableIndexActionTrait;
 use AppBundle\Controller\MemosControllerAbstract;
 use AppBundle\Service\MemoDaoInterface;
 use Symfony\Component\Routing\Annotation\Route;
@@ -11,6 +12,8 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class MemosController extends MemosControllerAbstract
 {
+    use DisableIndexActionTrait;
+
     /**
      * @var MemoDaoInterface
      */
@@ -18,8 +21,6 @@ class MemosController extends MemosControllerAbstract
 
     /**
      * @var \ArrayObject
-     *
-     * @DI\Inject("oekraine.memo.entities")
      */
     protected $entities;
 

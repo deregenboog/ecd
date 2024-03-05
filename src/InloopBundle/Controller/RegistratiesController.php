@@ -3,6 +3,7 @@
 namespace InloopBundle\Controller;
 
 use AppBundle\Controller\AbstractController;
+use AppBundle\Controller\DisableIndexActionTrait;
 use AppBundle\Doctrine\SqlExtractor;
 use AppBundle\Entity\Klant;
 use AppBundle\Export\ExportInterface;
@@ -38,6 +39,8 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class RegistratiesController extends AbstractController
 {
+    use DisableIndexActionTrait;
+
     protected $title = 'Bezoekersregistratie';
     protected $entityName = 'registratie';
     protected $entityClass = Registratie::class;

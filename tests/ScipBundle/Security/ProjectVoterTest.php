@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ScipBundle\Security;
 
 use AppBundle\Entity\Medewerker;

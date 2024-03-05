@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\GaBundle\Report;
 
 use GaBundle\Report\DeelnemersTotaal;
@@ -8,31 +10,10 @@ use PHPUnit\Framework\TestCase;
 
 class DeelnemersTotaalTest extends TestCase
 {
-    private $startDate;
-
-    private $endDate;
-
-    public function testReportConstruction()
+    public function testGetReports()
     {
-        $report = $this->createSUT();
-
-        $expected = [[
-            'title' => '',
-            'data' => [[
-                'Aantal activiteiten' => 55,
-                'Aantal deelnemers' => 433,
-                'Aantal deelnames' => 43,
-                'Aantal anonieme deelnames' => 10,
-            ]], ],
-        ];
-
-        $this->assertEquals($expected, $report->getReports());
-    }
-
-    private function createSUT()
-    {
-        $this->startDate = new \DateTime('2016-01-01');
-        $this->endDate = new \DateTime('2016-12-31');
+        $startDate = new \DateTime('2016-01-01');
+        $endDate = new \DateTime('2016-12-31');
 
         $repository = $this->createMock(GroepRepository::class);
         $repository->method('countDeelnemers')->willReturn([
@@ -43,8 +24,18 @@ class DeelnemersTotaalTest extends TestCase
         ]);
 
         $report = new DeelnemersTotaal([$repository]);
-        $report->setStartDate($this->startDate)->setEndDate($this->endDate);
+        $report->setStartDate($startDate)->setEndDate($endDate);
 
-        return $report;
+        $expected = [[
+            'title' => '',
+            'data' => [[
+                'Aantal activiteiten' => 55,
+                'Aantal deelnemers' => 433,
+                'Aantal deelnames' => 43,
+                'Aantal anonieme deelnames' => 10,
+            ]],
+        ]];
+
+        $this->assertSame($expected, $report->getReports());
     }
 }

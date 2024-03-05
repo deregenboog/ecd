@@ -3,6 +3,7 @@
 namespace VillaBundle\Controller;
 
 use AppBundle\Controller\AbstractChildController;
+use AppBundle\Controller\DisableIndexActionTrait;
 use VillaBundle\Entity\Deelname;
 use VillaBundle\Form\DeelnameType;
 use Symfony\Component\Routing\Annotation\Route;
@@ -13,6 +14,8 @@ use VillaBundle\Service\DeelnameDaoInterface;
  */
 class DeelnamesController extends AbstractChildController
 {
+    use DisableIndexActionTrait;
+
     protected $title = 'Trainingsdeelnames';
     protected $entityName = 'deelname';
     protected $entityClass = Deelname::class;

@@ -1,16 +1,18 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\HsBundle\Event;
 
 use AppBundle\Entity\Medewerker;
-use AppBundle\Test\WebTestCase;
 use Doctrine\ORM\EntityManagerInterface;
 use HsBundle\Entity\Dienstverlener;
 use HsBundle\Entity\Factuur;
 use HsBundle\Entity\Klus;
 use HsBundle\Entity\Registratie;
+use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
-class FactuurSubscriberTest extends WebTestCase
+class FactuurSubscriberTest extends KernelTestCase
 {
     /**
      * @var EntityManagerInterface
@@ -22,7 +24,9 @@ class FactuurSubscriberTest extends WebTestCase
         $this->markTestSkipped();
 
         parent::setUp();
-        $this->entityManager = $this->client->getContainer()->get('doctrine.orm.entity_manager');
+
+        self::bootKernel();
+        $this->entityManager = $this->getContainer()->get('doctrine.orm.entity_manager');
     }
 
     public function testCreatingRegistratieResultsInCreatedFactuur()

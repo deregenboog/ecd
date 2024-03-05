@@ -3,22 +3,18 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Exception\AppException;
-use AppBundle\Exception\ReportException;
 use AppBundle\Exception\UserException;
 use AppBundle\Export\ExportInterface;
 use AppBundle\Form\DoelstellingType;
 use AppBundle\Model\MedewerkerSubjectInterface;
-use AppBundle\Report\AbstractReport;
 use AppBundle\Entity\Doelstelling;
-use AppBundle\Service\DoelstellingDao;
-use AppBundle\Form\DoelstellingFilterType;
 use AppBundle\Filter\DoelstellingFilter;
-use Symfony\Component\Form\FormError;
+use AppBundle\Form\DoelstellingFilterType;
+use AppBundle\Service\DoelstellingDao;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-
 
 /**
  * This controller/doelstellingen module works as follows:
@@ -52,8 +48,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
  * This can / should be revisited when upgraded.
  * First but foremost it is necessary to get all the right data. And see if one-dimensional is good enough. This is what I designed it for. If two or three dimensions needed
  * we should consider another approach.
- */
-/**
+ *
  * @Route("/app/doelstellingen")
  */
 class DoelstellingenController extends AbstractController

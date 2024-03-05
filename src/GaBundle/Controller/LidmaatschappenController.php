@@ -3,6 +3,7 @@
 namespace GaBundle\Controller;
 
 use AppBundle\Controller\AbstractChildController;
+use AppBundle\Controller\DisableIndexActionTrait;
 use GaBundle\Entity\Klantdossier;
 use GaBundle\Entity\Lidmaatschap;
 use GaBundle\Entity\Vrijwilligerdossier;
@@ -20,6 +21,8 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class LidmaatschappenController extends AbstractChildController
 {
+    use DisableIndexActionTrait;
+
     protected $entityName = 'lidmaatschap';
     protected $entityClass = Lidmaatschap::class;
     protected $formClass = LidmaatschapType::class;

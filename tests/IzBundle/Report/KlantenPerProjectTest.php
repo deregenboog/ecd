@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\IzBundle\Report;
 
 use IzBundle\Report\KlantenPerProject;
@@ -89,7 +91,7 @@ class KlantenPerProjectTest extends TestCase
             ],
         ];
 
-        $this->assertEquals($expected, $report->getReports());
+        $this->assertSame($expected, $report->getReports());
     }
 
     private function createSUT()

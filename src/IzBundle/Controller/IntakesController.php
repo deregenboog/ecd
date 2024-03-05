@@ -3,6 +3,7 @@
 namespace IzBundle\Controller;
 
 use AppBundle\Controller\AbstractChildController;
+use AppBundle\Controller\DisableIndexActionTrait;
 use AppBundle\Export\AbstractExport;
 use IzBundle\Entity\Intake;
 use IzBundle\Form\IntakeType;
@@ -14,6 +15,8 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class IntakesController extends AbstractChildController
 {
+    use DisableIndexActionTrait;
+
     protected $entityName = 'intake';
     protected $entityClass = Intake::class;
     protected $formClass = IntakeType::class;

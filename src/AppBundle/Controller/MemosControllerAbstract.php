@@ -10,7 +10,7 @@ use Symfony\Component\Routing\Annotation\Route;
 /**
  * @Route("/memos")
  */
-class MemosControllerAbstract extends AbstractChildController
+abstract class MemosControllerAbstract extends AbstractChildController
 {
     protected $title = 'Memo\'s';
     protected $entityName = 'memo';
@@ -19,5 +19,4 @@ class MemosControllerAbstract extends AbstractChildController
     protected $addMethod = 'addMemo';
     protected $deleteMethod = 'removeMemo';
     protected $baseRouteName = 'inloop_memos_';
-
 }

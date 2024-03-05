@@ -3,6 +3,7 @@
 namespace IzBundle\Controller;
 
 use AppBundle\Controller\AbstractChildController;
+use AppBundle\Controller\DisableIndexActionTrait;
 use IzBundle\Entity\Lidmaatschap;
 use IzBundle\Form\LidmaatschapType;
 use IzBundle\Service\LidmaatschapDaoInterface;
@@ -13,6 +14,8 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class LidmaatschappenController extends AbstractChildController
 {
+    use DisableIndexActionTrait;
+
     protected $entityName = 'lidmaatschap';
     protected $entityClass = Lidmaatschap::class;
     protected $formClass = LidmaatschapType::class;

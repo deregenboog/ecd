@@ -14,9 +14,6 @@ class MysqlTimeType extends TimeType
         return 'mysql_time';
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function convertToPHPValue($value, AbstractPlatform $platform): ?\DateTimeInterface
     {
         try {

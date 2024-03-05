@@ -3,6 +3,7 @@
 namespace IzBundle\Controller;
 
 use AppBundle\Controller\AbstractChildController;
+use AppBundle\Controller\DisableIndexActionTrait;
 use IzBundle\Entity\Tussenevaluatie;
 use IzBundle\Form\VerslagType;
 use IzBundle\Service\VerslagDaoInterface;
@@ -16,6 +17,8 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class TussenevaluatiesController extends AbstractChildController
 {
+    use DisableIndexActionTrait;
+
     protected $entityName = 'tussenevaluatie';
     protected $entityClass = Tussenevaluatie::class;
     protected $formClass = VerslagType::class;

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\AppBundle\Form;
 
 use AppBundle\Form\AppDateType;

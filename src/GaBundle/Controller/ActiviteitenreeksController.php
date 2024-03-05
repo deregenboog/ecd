@@ -3,6 +3,7 @@
 namespace GaBundle\Controller;
 
 use AppBundle\Controller\AbstractChildController;
+use AppBundle\Controller\DisableIndexActionTrait;
 use AppBundle\Exception\AppException;
 use AppBundle\Exception\UserException;
 use GaBundle\Entity\Activiteit;
@@ -20,6 +21,8 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class ActiviteitenreeksController extends AbstractChildController
 {
+    use DisableIndexActionTrait;
+
     protected $title = 'Reeks activiteiten';
     protected $entityName = 'reeks activiteiten';
     protected $entityClass = Activiteit::class;

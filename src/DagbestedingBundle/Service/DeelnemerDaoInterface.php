@@ -50,4 +50,8 @@ interface DeelnemerDaoInterface
     public function countByProject($fase, \DateTime $startdate, \DateTime $enddate);
 
     public function countByResultaatgebiedsoort($fase, \DateTime $startdate, \DateTime $enddate);
+
+    public function deelnemersZonderToestemmingsformulier($fase, \DateTime $startdate, \DateTime $enddate);
+
+    public function deelnemersZonderVOG($fase, \DateTime $startdate, \DateTime $enddate);
 }

@@ -3,6 +3,7 @@
 namespace ClipBundle\Controller;
 
 use AppBundle\Controller\AbstractChildController;
+use AppBundle\Controller\DisableIndexActionTrait;
 use ClipBundle\Entity\Document;
 use ClipBundle\Form\DocumentType;
 use ClipBundle\Service\DocumentDaoInterface;
@@ -14,6 +15,8 @@ use Vich\UploaderBundle\Handler\DownloadHandler;
  */
 class DocumentenController extends AbstractChildController
 {
+    use DisableIndexActionTrait;
+
     protected $entityName = 'Document';
     protected $entityClass = Document::class;
     protected $formClass = DocumentType::class;

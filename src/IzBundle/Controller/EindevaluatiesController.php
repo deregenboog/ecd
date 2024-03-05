@@ -3,6 +3,7 @@
 namespace IzBundle\Controller;
 
 use AppBundle\Controller\AbstractChildController;
+use AppBundle\Controller\DisableIndexActionTrait;
 use IzBundle\Entity\Eindevaluatie;
 use IzBundle\Form\VerslagType;
 use IzBundle\Service\VerslagDaoInterface;
@@ -16,6 +17,8 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class EindevaluatiesController extends AbstractChildController
 {
+    use DisableIndexActionTrait;
+
     protected $entityName = 'eindevaluatie';
     protected $entityClass = Eindevaluatie::class;
     protected $formClass = VerslagType::class;

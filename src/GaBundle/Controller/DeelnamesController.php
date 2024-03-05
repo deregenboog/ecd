@@ -3,6 +3,7 @@
 namespace GaBundle\Controller;
 
 use AppBundle\Controller\AbstractChildController;
+use AppBundle\Controller\DisableIndexActionTrait;
 use GaBundle\Entity\Activiteit;
 use GaBundle\Entity\Deelname;
 use GaBundle\Entity\Klantdossier;
@@ -20,6 +21,8 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class DeelnamesController extends AbstractChildController
 {
+    use DisableIndexActionTrait;
+
     protected $entityName = 'deelname';
     protected $entityClass = Deelname::class;
     protected $formClass = DeelnameType::class;

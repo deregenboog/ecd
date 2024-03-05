@@ -2,6 +2,7 @@
 
 namespace DagbestedingBundle\Controller;
 
+use AppBundle\Controller\DisableIndexActionTrait;
 use DagbestedingBundle\Entity\Evaluatieverslag;
 use DagbestedingBundle\Entity\Intakeverslag;
 use AppBundle\Controller\AbstractChildController;
@@ -16,6 +17,8 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class EvaluatieverslagenController extends AbstractChildController
 {
+    use DisableIndexActionTrait;
+
     protected $entityName = 'Evaluatie';
     protected $entityClass = Evaluatieverslag::class;
     protected $formClass = VerslagType::class;

@@ -1,9 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\InloopBundle\Controller;
 
 use AppBundle\Service\MedewerkerDao;
-use AppBundle\Test\WebTestCase;
+use Liip\FunctionalTestBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Request;
 
 class RegistratiesControllerTest extends WebTestCase
@@ -14,7 +16,7 @@ class RegistratiesControllerTest extends WebTestCase
         return true;
 
         $medewerker = $this->getContainer()->get(MedewerkerDao::class)->findByUsername('inloop_user');
-        $this->client->loginUser($medewerker);
+        $client->loginUser($medewerker);
 
         /*
          * Request edit of intake and submit form to trigger events for access 'calculation'.
@@ -53,18 +55,18 @@ class RegistratiesControllerTest extends WebTestCase
 
     private function editToegang($id)
     {
-        $crawler = $this->client->request('GET', "/inloop/intakes/$id/editToegang");
-        $this->assertStatusCode(200, $this->client);
+        $crawler = $client->request('GET', "/inloop/intakes/$id/editToegang");
+        $this->assertStatusCode(200, $client);
         $form = $crawler->selectButton('toegang[submit]')->form();
-        $crawler = $this->client->submit($form);
-        $this->assertStatusCode(302, $this->client); // redirect to view.
+        $crawler = $client->submit($form);
+        $this->assertStatusCode(302, $client); // redirect to view.
     }
 
     private function checkIntakeOnDiensten($id, $xPathExpression)
     {
-        $crawler = $this->client->request('GET', "/inloop/intakes/$id/view");
+        $crawler = $client->request('GET', "/inloop/intakes/$id/view");
 //        file_put_contents("/tmp/debug.html", $crawler->html());
-        $this->assertStatusCode(200, $this->client);
+        $this->assertStatusCode(200, $client);
         $node = $crawler->filterXPath($xPathExpression);
         $this->assertTrue(1 == $node->count());
     }

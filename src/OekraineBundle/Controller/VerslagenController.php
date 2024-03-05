@@ -4,6 +4,7 @@ namespace OekraineBundle\Controller;
 
 use AppBundle\Controller\AbstractChildController;
 use AppBundle\Controller\AbstractController;
+use AppBundle\Controller\DisableIndexActionTrait;
 use AppBundle\Event\DienstenLookupEvent;
 use AppBundle\Event\Events;
 use AppBundle\Exception\UserException;
@@ -23,6 +24,7 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class VerslagenController extends AbstractChildController
 {
+    use DisableIndexActionTrait;
     use AccessProfileTrait;
 
     protected $entityName = 'verslag';

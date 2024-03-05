@@ -2,6 +2,7 @@
 
 namespace DagbestedingBundle\Controller;
 
+use AppBundle\Controller\DisableIndexActionTrait;
 use DagbestedingBundle\Entity\Intakeverslag;
 use AppBundle\Controller\AbstractChildController;
 use DagbestedingBundle\Entity\Verslag;
@@ -12,10 +13,11 @@ use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * @Route("/intakeverslagen")
-
  */
 class IntakeverslagenController extends AbstractChildController
 {
+    use DisableIndexActionTrait;
+
     protected $entityName = 'Intakeverslag';
     protected $entityClass = Intakeverslag::class;
     protected $formClass = VerslagType::class;
@@ -36,15 +38,5 @@ class IntakeverslagenController extends AbstractChildController
     {
         $this->dao = $dao;
         $this->entities = $entities;
-    }
-
-    /**
-     * @Route("/")
-     * @param Request $request
-     * @return array|\Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
-     */
-    public function indexAction(Request $request)
-    {
-        return $this->redirect($request->get('redirect'));
     }
 }
