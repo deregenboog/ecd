@@ -2,9 +2,6 @@
 
 namespace InloopBundle\Service;
 
-use App\InloopBundle\Strategy\AmocWestStrategy;
-use App\InloopBundle\Strategy\VillaWesterweideStrategy;
-use App\InloopBundle\Strategy\WinteropvangEUBurgers;
 use AppBundle\Doctrine\SqlExtractor;
 use AppBundle\Entity\Klant;
 use Doctrine\DBAL\Connection;
@@ -14,13 +11,13 @@ use Doctrine\ORM\QueryBuilder;
 use InloopBundle\Entity\Aanmelding;
 use InloopBundle\Entity\Locatie;
 use InloopBundle\Filter\KlantFilter;
-use InloopBundle\Filter\LocatieFilter;
 use InloopBundle\Strategy\AmocStrategy;
+use InloopBundle\Strategy\AmocWestStrategy;
 use InloopBundle\Strategy\GebruikersruimteStrategy;
-use InloopBundle\Strategy\IntakelocatieStrategy;
-use InloopBundle\Strategy\OndroBongStrategy;
 use InloopBundle\Strategy\SpecificLocationStrategy;
 use InloopBundle\Strategy\ToegangOverigStrategy;
+use InloopBundle\Strategy\VillaWesterweideStrategy;
+use InloopBundle\Strategy\WinteropvangEUBurgers;
 
 class AccessUpdater
 {
@@ -81,16 +78,14 @@ class AccessUpdater
         $this->amocVerblijfsstatus = $amocVerblijfsstatus;
 
         $this->strategies = [
-            new SpecificLocationStrategy($this->locatieDao),
+            new SpecificLocationStrategy(),
             new AmocWestStrategy($this->accessStrategies),
             new VillaWesterweideStrategy($this->accessStrategies),
             new AmocStrategy($this->accessStrategies, $this->amocVerblijfsstatus),
             new WinteropvangEUBurgers($this->accessStrategies,$this->amocVerblijfsstatus, $this->em),
             new GebruikersruimteStrategy(),
-
             new ToegangOverigStrategy($this->accessStrategies, $this->amocVerblijfsstatus, $this->em),
         ];
-
     }
 
     public function updateAll()

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\InloopBundle\Strategy;
+namespace InloopBundle\Strategy;
 
 use Doctrine\ORM\QueryBuilder;
 use InloopBundle\Entity\Locatie;
@@ -8,7 +8,6 @@ use InloopBundle\Strategy\StrategyInterface;
 
 class AmocWestStrategy implements StrategyInterface
 {
-
     /**
      * This strategy looks if intake locatie  is linked to certain locaties where access is only granted to.
      * Ie. intake locatie AMOC West = toegang tot AMOC West and Nachtopvang DRG.
@@ -21,17 +20,14 @@ class AmocWestStrategy implements StrategyInterface
 
     private $intakeLocaties = [];
 
-
     /**
      * @param array $accessStrategies
      */
     public function __construct(array $accessStrategies)
     {
-
         $intakeLocaties = $accessStrategies[$this->accessStrategyName];
         $this->intakeLocaties = $intakeLocaties;
     }
-
 
     public function supports(Locatie $locatie)
     {
@@ -50,6 +46,5 @@ class AmocWestStrategy implements StrategyInterface
     {
         $builder->orWhere('(eersteIntake.toegangInloophuis = true AND eersteIntakeLocatie.naam IN (:toegestaneLocatiesVoorIntakelocatie) )');
         $builder->setParameter('toegestaneLocatiesVoorIntakelocatie', $this->intakeLocaties);
-
     }
 }

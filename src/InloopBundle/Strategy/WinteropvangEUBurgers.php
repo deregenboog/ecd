@@ -1,6 +1,6 @@
 <?php
 
-namespace App\InloopBundle\Strategy;
+namespace InloopBundle\Strategy;
 
 use AppBundle\Doctrine\SqlExtractor;
 use AppBundle\Entity\AmocLand;
@@ -12,7 +12,6 @@ use InloopBundle\Strategy\StrategyInterface;
 
 class WinteropvangEUBurgers implements StrategyInterface
 {
-
     private $accessStrategyName = "winteropvang_euburgers";
 
     /** @var Locatie */
@@ -39,7 +38,6 @@ class WinteropvangEUBurgers implements StrategyInterface
 //        $this->amocVerblijfsstatus = $amocVerblijfsstatus;
         $this->entityManager = $entityManager;
         $this->locatieType = $this->entityManager->getRepository(LocatieType::class)->findOneBy(["naam"=>"Nachtopvang"]);
-
     }
 
     /**
