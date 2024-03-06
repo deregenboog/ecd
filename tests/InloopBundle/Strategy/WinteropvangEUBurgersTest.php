@@ -9,6 +9,7 @@ use InloopBundle\Entity\Locatie;
 use InloopBundle\Entity\LocatieType;
 use InloopBundle\Strategy\WinteropvangEUBurgers;
 use Tests\AppBundle\PHPUnit\DoctrineTestCase;
+use Tests\InloopBundle\Service\AccessUpdaterTest;
 
 class WinteropvangEUBurgersTest extends DoctrineTestCase
 {
@@ -29,21 +30,8 @@ class WinteropvangEUBurgersTest extends DoctrineTestCase
             ->willReturn($locTypeRepo);
 
         $this->strategy = new WinteropvangEUBurgers(
-            [
-                'amoc_stadhouderskade' => [
-                    'AMOC Stadhouderskade',
-                    'AMOC West',
-                    'Nachtopvang DRG',
-                ],
-                'villa_westerweide' => [
-                    'Villa Westerweide',
-                ],
-                'amoc_west' => [
-                    'AMOC West',
-                    'Nachtopvang DRG',
-                ],
-            ],
-            'Europees Burger (Niet Nederlands)',
+            AccessUpdaterTest::ACCESS_STRATEGIES,
+            AccessUpdaterTest::AMOC_VERBLIJFSSTATUS,
             $em
         );
     }

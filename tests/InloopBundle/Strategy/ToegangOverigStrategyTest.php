@@ -7,6 +7,7 @@ use Doctrine\ORM\QueryBuilder;
 use InloopBundle\Entity\Locatie;
 use InloopBundle\Strategy\ToegangOverigStrategy;
 use Tests\AppBundle\PHPUnit\DoctrineTestCase;
+use Tests\InloopBundle\Service\AccessUpdaterTest;
 
 class ToegangOverigStrategyTest extends DoctrineTestCase
 {
@@ -18,21 +19,8 @@ class ToegangOverigStrategyTest extends DoctrineTestCase
 
         $em = $this->getEntityManagerMock();
         $this->strategy = new ToegangOverigStrategy(
-            [
-                'amoc_stadhouderskade' => [
-                    'AMOC Stadhouderskade',
-                    'AMOC West',
-                    'Nachtopvang DRG',
-                ],
-                'villa_westerweide' => [
-                    'Villa Westerweide',
-                ],
-                'amoc_west' => [
-                    'AMOC West',
-                    'Nachtopvang DRG',
-                ],
-            ],
-            'Europees Burger (Niet Nederlands)',
+            AccessUpdaterTest::ACCESS_STRATEGIES,
+            AccessUpdaterTest::AMOC_VERBLIJFSSTATUS,
             $em
         );
     }

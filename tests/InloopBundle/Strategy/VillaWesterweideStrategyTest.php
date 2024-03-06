@@ -7,6 +7,7 @@ use Doctrine\ORM\QueryBuilder;
 use InloopBundle\Entity\Locatie;
 use InloopBundle\Strategy\VillaWesterweideStrategy;
 use Tests\AppBundle\PHPUnit\DoctrineTestCase;
+use Tests\InloopBundle\Service\AccessUpdaterTest;
 
 class VillaWesterweideStrategyTest extends DoctrineTestCase
 {
@@ -16,22 +17,7 @@ class VillaWesterweideStrategyTest extends DoctrineTestCase
     {
         parent::setUp();
 
-        $this->strategy = new VillaWesterweideStrategy(
-            [
-                'amoc_stadhouderskade' => [
-                    'AMOC Stadhouderskade',
-                    'AMOC West',
-                    'Nachtopvang DRG',
-                ],
-                'villa_westerweide' => [
-                    'Villa Westerweide',
-                ],
-                'amoc_west' => [
-                    'AMOC West',
-                    'Nachtopvang DRG',
-                ],
-            ]
-        );
+        $this->strategy = new VillaWesterweideStrategy(AccessUpdaterTest::ACCESS_STRATEGIES);
     }
 
     /**
