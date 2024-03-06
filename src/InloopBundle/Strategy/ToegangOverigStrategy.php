@@ -2,12 +2,11 @@
 
 namespace InloopBundle\Strategy;
 
-use AppBundle\Doctrine\SqlExtractor;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\QueryBuilder;
 use InloopBundle\Entity\Locatie;
 
-class ToegangOverigStrategy implements StrategyInterface
+final class ToegangOverigStrategy implements StrategyInterface
 {
     private $verblijsstatusNietRechthebbend;
 
@@ -30,15 +29,13 @@ class ToegangOverigStrategy implements StrategyInterface
             $this->intakeLocaties = array_merge($this->intakeLocaties,$v);
         });
 
-       $this->intakeLocaties = array_unique($this->intakeLocaties);
-       $this->verblijsstatusNietRechthebbend = $amocVerblijfsstatus;
+        $this->intakeLocaties = array_unique($this->intakeLocaties);
+        $this->verblijsstatusNietRechthebbend = $amocVerblijfsstatus;
     }
 
 
     public function supports(Locatie $locatie)
     {
-        $this->locatie = $locatie;
-
         if($locatie->isGebruikersruimte()) return false;
 
         //and make sure the location is not specified in intake related rules.
@@ -64,11 +61,9 @@ class ToegangOverigStrategy implements StrategyInterface
          * - of de veblijfsstatus niet gelijk is aan 'Niet rechthebben, (uit EU behalve NL)
          * - OF de verblijffstatus WEL gelijk is aan 'niet rechthebbend' EN de toegang 'overigen' al is ingegaan (in het verleden ligt)
          * waarbij Villa Zaanstad als intakelocatie een uitzondering heeft: die mogen hier niet komen.
-         *
          */
         $builder
             ->leftJoin("eersteIntake.verblijfsstatus","verblijfsstatus")
-
             ->orWhere(
                 $builder->expr()->andX('eersteIntake.toegangInloophuis = true',
                         $builder->expr()->orX('eersteIntakeLocatie.naam != :villa_westerweide',
@@ -88,7 +83,5 @@ class ToegangOverigStrategy implements StrategyInterface
             ->setParameter('today', new \DateTime('today'))
             ->setParameter("villa_westerweide","Villa Westerweide")
         ;
-
-//        $sql = SqlExtractor::getFullSQL($builder->getQuery());
     }
 }

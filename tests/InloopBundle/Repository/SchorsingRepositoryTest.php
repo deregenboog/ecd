@@ -12,9 +12,9 @@ use InloopBundle\Entity\DossierStatus;
 use InloopBundle\Entity\Locatie;
 use InloopBundle\Entity\Schorsing;
 use InloopBundle\Repository\SchorsingRepository;
-use Tests\AppBundle\Repository\RepositoryTestCase;
+use Tests\AppBundle\PHPUnit\DoctrineTestCase;
 
-class SchorsingRepositoryTest extends RepositoryTestCase
+class SchorsingRepositoryTest extends DoctrineTestCase
 {
     public function testFilterByLocatie()
     {

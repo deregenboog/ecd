@@ -5,9 +5,9 @@ namespace Tests\InloopBundle\Repository;
 use Doctrine\ORM\Mapping\ClassMetadata;
 use InloopBundle\Entity\DossierStatus;
 use InloopBundle\Repository\DossierStatusRepository;
-use Tests\AppBundle\Repository\RepositoryTestCase;
+use Tests\AppBundle\PHPUnit\DoctrineTestCase;
 
-class DossierStatusRepositoryTest extends RepositoryTestCase
+class DossierStatusRepositoryTest extends DoctrineTestCase
 {
     public function testFindCurrentByKlantId()
     {

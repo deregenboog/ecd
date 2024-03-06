@@ -5,8 +5,9 @@ namespace Tests\AppBundle\Repository;
 use AppBundle\Entity\Postcodegebied;
 use AppBundle\Repository\PostcodegebiedRepository;
 use Doctrine\ORM\Mapping\ClassMetadata;
+use Tests\AppBundle\PHPUnit\DoctrineTestCase;
 
-class PostcodegebiedRepositoryTest extends RepositoryTestCase
+class PostcodegebiedRepositoryTest extends DoctrineTestCase
 {
     public function testFindOneByPostcode()
     {

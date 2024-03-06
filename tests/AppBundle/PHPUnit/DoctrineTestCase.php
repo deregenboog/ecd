@@ -1,17 +1,16 @@
 <?php
 
-namespace Tests\AppBundle\Repository;
+namespace Tests\AppBundle\PHPUnit;
 
 use Doctrine\ORM\AbstractQuery;
 use Doctrine\ORM\Configuration;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
-use PHPUnit\Framework\Constraint\IsEqual;
 use PHPUnit\Framework\ExpectationFailedException;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
-class RepositoryTestCase extends TestCase
+class DoctrineTestCase extends TestCase
 {
     /**
      * Asserts that two variables are equal, ignoring differences in whitespace.
@@ -35,7 +34,7 @@ class RepositoryTestCase extends TestCase
     {
         $em = $this->getMockBuilder(EntityManager::class)
             ->disableOriginalConstructor()
-            ->setMethodsExcept(['createQueryBuilder'])
+            ->setMethodsExcept(['createQueryBuilder', 'getExpressionBuilder'])
             ->getMock();
 
         $em->method('getConfiguration')->willReturn(new Configuration());

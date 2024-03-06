@@ -2,11 +2,10 @@
 
 namespace InloopBundle\Strategy;
 
-use AppBundle\Doctrine\SqlExtractor;
 use Doctrine\ORM\QueryBuilder;
 use InloopBundle\Entity\Locatie;
 
-class AmocStrategy implements StrategyInterface
+final class AmocStrategy implements StrategyInterface
 {
 
     private $accessStrategyName = "amoc_stadhouderskade";

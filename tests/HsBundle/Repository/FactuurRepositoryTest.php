@@ -7,9 +7,9 @@ use Doctrine\ORM\Mapping\ClassMetadata;
 use HsBundle\Entity\Factuur;
 use HsBundle\Entity\Klant;
 use HsBundle\Repository\FactuurRepository;
-use Tests\AppBundle\Repository\RepositoryTestCase;
+use Tests\AppBundle\PHPUnit\DoctrineTestCase;
 
-class FactuurRepositoryTest extends RepositoryTestCase
+class FactuurRepositoryTest extends DoctrineTestCase
 {
     public function testFindNonLockedByKlantAndDateRange()
     {

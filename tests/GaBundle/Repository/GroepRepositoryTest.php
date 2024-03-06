@@ -10,9 +10,9 @@ use GaBundle\Entity\Groep;
 use GaBundle\Entity\Klantdossier;
 use GaBundle\Entity\Vrijwilligerdossier;
 use GaBundle\Repository\GroepRepository;
-use Tests\AppBundle\Repository\RepositoryTestCase;
+use Tests\AppBundle\PHPUnit\DoctrineTestCase;
 
-class GroepRepositoryTest extends RepositoryTestCase
+class GroepRepositoryTest extends DoctrineTestCase
 {
     public function testCountDeelnemers()
     {

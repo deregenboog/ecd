@@ -1,11 +1,10 @@
 <?php
 
-namespace Tests\AppBundle\Repository;
+namespace Tests\AppBundle\PHPUnit;
 
 use PHPUnit\Framework\Constraint\Constraint;
 use PHPUnit\Framework\ExpectationFailedException;
 use SebastianBergmann\Comparator\ComparisonFailure;
-use SebastianBergmann\Comparator\Factory as ComparatorFactory;
 use SebastianBergmann\Comparator\ScalarComparator;
 
 final class IsEqualIgnoringWhitespace extends Constraint

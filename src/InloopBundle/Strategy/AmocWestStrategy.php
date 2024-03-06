@@ -6,7 +6,7 @@ use Doctrine\ORM\QueryBuilder;
 use InloopBundle\Entity\Locatie;
 use InloopBundle\Strategy\StrategyInterface;
 
-class AmocWestStrategy implements StrategyInterface
+final class AmocWestStrategy implements StrategyInterface
 {
     /**
      * This strategy looks if intake locatie  is linked to certain locaties where access is only granted to.
