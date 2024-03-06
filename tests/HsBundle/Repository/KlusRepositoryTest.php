@@ -11,9 +11,9 @@ use HsBundle\Entity\Factuur;
 use HsBundle\Entity\Klant;
 use HsBundle\Entity\Klus;
 use HsBundle\Repository\KlusRepository;
-use Tests\AppBundle\Repository\RepositoryTestCase;
+use Tests\AppBundle\PHPUnit\DoctrineTestCase;
 
-class KlusRepositoryTest extends RepositoryTestCase
+class KlusRepositoryTest extends DoctrineTestCase
 {
     public function testFindNonLockedByKlantAndDateRange()
     {
