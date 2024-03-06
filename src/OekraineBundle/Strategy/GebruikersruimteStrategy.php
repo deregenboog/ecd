@@ -10,7 +10,7 @@ class GebruikersruimteStrategy implements StrategyInterface
 {
     private $locatie;
 
-    public function supports(Locatie $locatie)
+    public function supports(Locatie $locatie): bool
     {
 //        if ($locatie->isGebruikersruimte()) {
 //            $this->locatie = $locatie;

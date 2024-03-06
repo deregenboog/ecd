@@ -7,7 +7,6 @@ use Doctrine\ORM\QueryBuilder;
 use InloopBundle\Entity\Locatie;
 use InloopBundle\Strategy\AmocWestStrategy;
 use Tests\AppBundle\PHPUnit\DoctrineTestCase;
-use Tests\InloopBundle\Service\AccessUpdaterTest;
 
 class AmocWestStrategyTest extends DoctrineTestCase
 {
@@ -17,7 +16,8 @@ class AmocWestStrategyTest extends DoctrineTestCase
     {
         parent::setUp();
 
-        $this->strategy = new AmocWestStrategy(AccessUpdaterTest::ACCESS_STRATEGIES);
+        self::bootKernel();
+        $this->strategy = $this->getContainer()->get(AmocWestStrategy::class);
     }
 
     /**
@@ -43,9 +43,12 @@ class AmocWestStrategyTest extends DoctrineTestCase
         $em = $this->createMock(EntityManager::class);
         $builder = new QueryBuilder($em);
 
-        $this->strategy->buildQuery($builder);
+        $this->strategy->buildQuery($builder, new Locatie());
         $expectedDQL = 'SELECT
-            WHERE (eersteIntake.toegangInloophuis = true AND eersteIntakeLocatie.naam IN (:toegestaneLocatiesVoorIntakelocatie))';
+            WHERE (
+                eersteIntake.toegangInloophuis = true
+                AND eersteIntakeLocatie.naam IN (:toegestaneLocatiesVoorIntakelocatie)
+            )';
         $this->assertEqualsIgnoringWhitespace($expectedDQL, $builder->getDQL());
     }
 }

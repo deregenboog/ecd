@@ -7,30 +7,24 @@ use InloopBundle\Entity\Locatie;
 
 final class SpecificLocationStrategy implements StrategyInterface
 {
-    protected Locatie $locatie;
-
-    public function supports(Locatie $locatie)
+    public function supports(Locatie $locatie): bool
     {
-        $this->locatie = $locatie;
-
         return true;
     }
 
     /**
-     * {@inheritdoc}
-     *
      * @see \InloopBundle\Strategy\StrategyInterface::buildQuery()
      * @see https://github.com/deregenboog/ecd/issues/249
      */
-    public function buildQuery(QueryBuilder $builder)
+    public function buildQuery(QueryBuilder $builder, Locatie $locatie)
     {
-        /**
+        /*
          * Selecteer alle klanten die specifieke locaties hebben genoemd in hun toegangsprofiel.
          */
         $builder
-            ->leftJoin("eersteIntake.specifiekeLocaties","specifiekeLocaties")
-            ->orWhere("(eersteIntake.toegangInloophuis = true AND :locatie IN specifiekeLocaties)")
-            ->setParameter("locatie", $this->locatie)
+            ->leftJoin('eersteIntake.specifiekeLocaties', 'specifiekeLocaties')
+            ->orWhere('(eersteIntake.toegangInloophuis = true AND :locatie IN specifiekeLocaties)')
+            ->setParameter('locatie', $locatie)
         ;
     }
 }

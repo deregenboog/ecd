@@ -7,7 +7,6 @@ use Doctrine\ORM\QueryBuilder;
 use InloopBundle\Entity\Locatie;
 use InloopBundle\Strategy\ToegangOverigStrategy;
 use Tests\AppBundle\PHPUnit\DoctrineTestCase;
-use Tests\InloopBundle\Service\AccessUpdaterTest;
 
 class ToegangOverigStrategyTest extends DoctrineTestCase
 {
@@ -17,12 +16,8 @@ class ToegangOverigStrategyTest extends DoctrineTestCase
     {
         parent::setUp();
 
-        $em = $this->getEntityManagerMock();
-        $this->strategy = new ToegangOverigStrategy(
-            AccessUpdaterTest::ACCESS_STRATEGIES,
-            AccessUpdaterTest::AMOC_VERBLIJFSSTATUS,
-            $em
-        );
+        self::bootKernel();
+        $this->strategy = $this->getContainer()->get(ToegangOverigStrategy::class);
     }
 
     /**
@@ -52,7 +47,7 @@ class ToegangOverigStrategyTest extends DoctrineTestCase
         $em = $this->getEntityManagerMock();
         $builder = (new QueryBuilder($em))->select('klant')->from(Klant::class, 'klant');
 
-        $this->strategy->buildQuery($builder);
+        $this->strategy->buildQuery($builder, new Locatie());
         $expectedDQL = "SELECT klant
             FROM AppBundle\Entity\Klant klant
             LEFT JOIN eersteIntake.verblijfsstatus verblijfsstatus

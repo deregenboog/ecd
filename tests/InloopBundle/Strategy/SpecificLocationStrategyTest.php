@@ -17,7 +17,8 @@ class SpecificLocationStrategyTest extends DoctrineTestCase
     {
         parent::setUp();
 
-        $this->strategy = new SpecificLocationStrategy();
+        self::bootKernel();
+        $this->strategy = $this->getContainer()->get(SpecificLocationStrategy::class);
     }
 
     /**
@@ -40,11 +41,7 @@ class SpecificLocationStrategyTest extends DoctrineTestCase
         $em = $this->createMock(EntityManager::class);
         $builder = (new QueryBuilder($em))->select('klant')->from(Klant::class, 'klant');
 
-        // 'buildQuery' depends on a call to 'supports', so call that first
-        $locatie = new Locatie();
-        $this->strategy->supports($locatie);
-
-        $this->strategy->buildQuery($builder);
+        $this->strategy->buildQuery($builder, new Locatie());
         $expectedDQL = "SELECT klant
             FROM AppBundle\Entity\Klant klant
             LEFT JOIN eersteIntake.specifiekeLocaties specifiekeLocaties

@@ -17,7 +17,8 @@ class GebruikersruimteStrategyTest extends DoctrineTestCase
     {
         parent::setUp();
 
-        $this->strategy = new GebruikersruimteStrategy();
+        self::bootKernel();
+        $this->strategy = $this->getContainer()->get(GebruikersruimteStrategy::class);
     }
 
     /**
@@ -42,11 +43,8 @@ class GebruikersruimteStrategyTest extends DoctrineTestCase
         $em = $this->createMock(EntityManager::class);
         $builder = (new QueryBuilder($em))->select('klant')->from(Klant::class, 'klant');
 
-        // 'buildQuery' depends on a call to 'supports', so call that first
         $locatie = (new Locatie())->setGebruikersruimte(true);
-        $this->strategy->supports($locatie);
-
-        $this->strategy->buildQuery($builder);
+        $this->strategy->buildQuery($builder, $locatie);
         $expectedDQL = "SELECT klant
             FROM AppBundle\Entity\Klant klant
             INNER JOIN eersteIntake.gebruikersruimte eersteIntakeGebruikersruimte

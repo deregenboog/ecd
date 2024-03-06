@@ -8,9 +8,9 @@ use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use PHPUnit\Framework\ExpectationFailedException;
 use PHPUnit\Framework\MockObject\MockObject;
-use PHPUnit\Framework\TestCase;
+use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
-class DoctrineTestCase extends TestCase
+class DoctrineTestCase extends KernelTestCase
 {
     /**
      * Asserts that two variables are equal, ignoring differences in whitespace.

@@ -9,9 +9,6 @@ use SebastianBergmann\Comparator\ScalarComparator;
 
 final class IsEqualIgnoringWhitespace extends Constraint
 {
-    /**
-     * @var mixed
-     */
     private $value;
 
     public function __construct($value)
@@ -47,10 +44,7 @@ final class IsEqualIgnoringWhitespace extends Constraint
                 return false;
             }
 
-            throw new ExpectationFailedException(
-                trim($description . "\n" . $f->getMessage()),
-                $f,
-            );
+            throw new ExpectationFailedException(trim($description."\n".$f->getMessage()), $f);
         }
 
         return true;
@@ -64,7 +58,7 @@ final class IsEqualIgnoringWhitespace extends Constraint
     public function toString(): string
     {
         if (is_string($this->value)) {
-            if (strpos($this->value, "\n") !== false) {
+            if (false !== strpos($this->value, "\n")) {
                 return 'is equal to <text>';
             }
 

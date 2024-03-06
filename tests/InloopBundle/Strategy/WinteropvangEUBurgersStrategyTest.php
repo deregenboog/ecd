@@ -3,37 +3,21 @@
 namespace Tests\InloopBundle\Strategy;
 
 use Doctrine\ORM\EntityManager;
-use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\QueryBuilder;
 use InloopBundle\Entity\Locatie;
-use InloopBundle\Entity\LocatieType;
-use InloopBundle\Strategy\WinteropvangEUBurgers;
+use InloopBundle\Strategy\WinteropvangEUBurgersStrategy;
 use Tests\AppBundle\PHPUnit\DoctrineTestCase;
-use Tests\InloopBundle\Service\AccessUpdaterTest;
 
-class WinteropvangEUBurgersTest extends DoctrineTestCase
+class WinteropvangEUBurgersStrategyTest extends DoctrineTestCase
 {
-    private WinteropvangEUBurgers $strategy;
+    private WinteropvangEUBurgersStrategy $strategy;
 
     protected function setUp(): void
     {
         parent::setUp();
 
-        $locTypeRepo = $this->createMock(EntityRepository::class);
-        $locTypeRepo->method('findOneBy')
-            ->with(['naam' => 'Nachtopvang'])
-            ->willReturn(new LocatieType());
-
-        $em = $this->getEntityManagerMock();
-        $em->method('getRepository')
-            ->with(LocatieType::class)
-            ->willReturn($locTypeRepo);
-
-        $this->strategy = new WinteropvangEUBurgers(
-            AccessUpdaterTest::ACCESS_STRATEGIES,
-            AccessUpdaterTest::AMOC_VERBLIJFSSTATUS,
-            $em
-        );
+        self::bootKernel();
+        $this->strategy = $this->getContainer()->get(WinteropvangEUBurgersStrategy::class);
     }
 
     /**
@@ -63,7 +47,7 @@ class WinteropvangEUBurgersTest extends DoctrineTestCase
         $em = $this->createMock(EntityManager::class);
         $builder = new QueryBuilder($em);
 
-        $this->strategy->buildQuery($builder);
+        $this->strategy->buildQuery($builder, new Locatie());
         $expectedDQL = 'SELECT WHERE huidigeStatus IS NOT NULL';
         $this->assertEqualsIgnoringWhitespace($expectedDQL, $builder->getDQL());
     }

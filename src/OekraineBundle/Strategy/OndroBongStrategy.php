@@ -11,7 +11,7 @@ class OndroBongStrategy extends VerblijfsstatusStrategy
     private $locatieIds = [13,19];
     private $ondroBongoLocaties = ['Zeeburg','Transformatorweg','T6 Inloop'];
 
-    public function supports(Locatie $locatie)
+    public function supports(Locatie $locatie): bool
     {
 //        return in_array($locatie->getId(), $this->locatieIds);
         $supported = in_array($locatie->getNaam(), $this->ondroBongoLocaties);
