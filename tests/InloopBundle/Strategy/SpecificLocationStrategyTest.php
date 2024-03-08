@@ -46,7 +46,7 @@ class SpecificLocationStrategyTest extends DoctrineTestCase
             FROM AppBundle\Entity\Klant klant
             LEFT JOIN eersteIntake.specifiekeLocaties specifiekeLocaties
             WHERE (eersteIntake.toegangInloophuis = true
-                AND :locatie IN specifiekeLocaties)";
+                AND :locatie IN (specifiekeLocaties))";
         $this->assertEqualsIgnoringWhitespace($expectedDQL, $builder->getDQL());
     }
 }

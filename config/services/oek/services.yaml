@@ -105,6 +105,8 @@ services:
     OekBundle\Event\DeelnemerEventSubscriber:
         arguments:
             - '@event_dispatcher'
+        tags:
+            - doctrine.event_subscriber
 
 when@dev: &dev
     services:

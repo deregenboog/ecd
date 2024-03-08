@@ -2,13 +2,20 @@
 
 namespace HsBundle\Event;
 
+
+use Doctrine\Bundle\DoctrineBundle\EventSubscriber\EventSubscriberInterface;
+use Doctrine\Common\EventArgs;
 use Doctrine\Common\EventSubscriber;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Event\LifecycleEventArgs;
+use Doctrine\ORM\Event\PostPersistEventArgs;
+use Doctrine\ORM\Event\PostRemoveEventArgs;
+use Doctrine\ORM\Event\PostUpdateEventArgs;
 use Doctrine\ORM\Events;
 use HsBundle\Entity\Betaling;
 use HsBundle\Entity\Factuur;
 use HsBundle\Entity\Klant;
+
 
 class KlantUpdater implements EventSubscriber
 {
@@ -21,22 +28,22 @@ class KlantUpdater implements EventSubscriber
         ];
     }
 
-    public function postPersist(LifecycleEventArgs $args)
+    public function postPersist(PostPersistEventArgs $args)
     {
         $this->handleEvent($args);
     }
 
-    public function postUpdate(LifecycleEventArgs $args)
+    public function postUpdate(PostUpdateEventArgs $args)
     {
         $this->handleEvent($args);
     }
 
-    public function postRemove(LifecycleEventArgs $args)
+    public function postRemove(PostRemoveEventArgs $args)
     {
         $this->handleEvent($args);
     }
 
-    private function handleEvent(LifecycleEventArgs $args)
+    private function handleEvent(EventArgs $args)
     {
         $entity = $args->getObject();
 

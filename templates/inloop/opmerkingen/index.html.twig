@@ -40,7 +40,7 @@
     {% endif %}
     <p>
         {% if locatie %}
-            {{ html.link('Terug', path('inloop_registraties_index', {locatie: locatie.id}), 'cancel') }}
+            {{ html.link('Terug', path('inloop_registraties_klanten', {locatie: locatie.id, locatieType: "Inloop"}), 'cancel') }}
         {% else %}
             {{ html.link('Terug', path('inloop_klanten_view', {id: klant.id}), 'cancel') }}
         {% endif %}

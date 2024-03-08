@@ -879,7 +879,7 @@ AppBundle\Entity\Verblijfsstatus:
         naam: 'Illegaal (uit buiten Europa)'
         datumVan: '<date_create("2010-01-13")>'
     verblijfsstatus_7:
-        naam: 'Niet rechthebbend (uit EU, behalve Nederland)'
+        naam: 'Europees Burger (Niet Nederlands)'
         datumVan: '<date_create("2010-01-13")>'
 
 AppBundle\Entity\Categorie:

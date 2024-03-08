@@ -2,6 +2,7 @@
 
 namespace InloopBundle\Strategy;
 
+use AppBundle\Doctrine\SqlExtractor;
 use Doctrine\ORM\QueryBuilder;
 use InloopBundle\Entity\Locatie;
 
@@ -23,7 +24,7 @@ final class SpecificLocationStrategy implements StrategyInterface
          */
         $builder
             ->leftJoin('eersteIntake.specifiekeLocaties', 'specifiekeLocaties')
-            ->orWhere('(eersteIntake.toegangInloophuis = true AND :locatie IN specifiekeLocaties)')
+            ->orWhere('(eersteIntake.toegangInloophuis = true AND :locatie IN (specifiekeLocaties) )')
             ->setParameter('locatie', $locatie)
         ;
     }

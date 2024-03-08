@@ -2,10 +2,12 @@
 
 namespace InloopBundle\Service;
 
+use AppBundle\Doctrine\SqlExtractor;
 use AppBundle\Entity\Klant;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\ParameterType;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\Query\QueryException;
 use Doctrine\ORM\QueryBuilder;
 use InloopBundle\Entity\Aanmelding;
 use InloopBundle\Entity\Locatie;
@@ -194,7 +196,8 @@ class AccessUpdater
         $builder = $this->klantDao->getAllQueryBuilder();
         $builder->select('klant.id')->distinct(true);
 
-        foreach ($this->getSupportedStrategies($locatie) as $strategy) {
+        $strategies = $this->getSupportedStrategies($locatie);
+        foreach ($strategies as $strategy) {
             $strategy->buildQuery($builder, $locatie);
         }
         $builder->andWhere(sprintf('status INSTANCE OF %s', Aanmelding::class)); // only active clients
@@ -205,10 +208,22 @@ class AccessUpdater
                 ->setParameter('klant_id', $klant->getId());
         }
 
+//        $sql = SqlExtractor::getFullSQL($builder->getQuery());
+
+        try {
+            $result = $builder->getQuery()->getResult();
+        }
+        catch(QueryException $e)
+        {
+            $query = $builder->getQuery();
+//            $sql = SqlExtractor::getFullSQL($query);
+            $result = [];
+        }
+
         return array_map(
             function ($klantId) {
                 return $klantId['id'];
-            }, $builder->getQuery()->getResult()
+            }, $result
         );
     }
 
