@@ -337,7 +337,7 @@ class AccessUpdaterTest extends DoctrineTestCase
             LEFT JOIN eersteIntake.verblijfsstatus verblijfsstatus
             WHERE (
                 ((eersteIntake.toegangInloophuis = true AND :locatie IN (specifiekeLocaties)))
-                OR huidigeStatus IS NOT NULL
+                OR klant.huidigeStatus IS NOT NULL
                 OR (
                     eersteIntake.toegangInloophuis = true
                     AND (
