@@ -135,8 +135,8 @@ InloopBundle\Entity\Locatie:
         datumVan: '<dateTimeBetween("-30 days","now")>'
         datumTot: '<dateTimeBetween("now","+2 years")>'
         maatschappelijkWerk: false
-    locatie_villa_zaanstad:
-        naam: 'Villa Zaanstad'
+    locate_villa_westerweide:
+        naam: 'Villa Westerweide'
         locatieTypes: ['@lt_inloop']
         nachtopvang: false
         gebruikersruimte: false
@@ -692,7 +692,7 @@ InloopBundle\Entity\Intake:
         medewerker: '@medewerker_inloop'
         intakedatum: '<dateTimeBetween("-6 days","now")>'
         toegangInloophuis: true
-        intakelocatie: '@locatie_villa_zaanstad'
+        intakelocatie: '@locate_villa_westerweide'
         doelgroep: true
         verblijfInAmsterdamSinds: '<dateTimeThisDecade()>'
         inkomens: [ '@inkomen_uitkering' ]

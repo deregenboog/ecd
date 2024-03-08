@@ -32,6 +32,7 @@ final class ToegangOverigStrategy implements StrategyInterface
 
     public function supports(Locatie $locatie): bool
     {
+
         if ($locatie->isGebruikersruimte()) {
             return false;
         }
@@ -53,6 +54,7 @@ final class ToegangOverigStrategy implements StrategyInterface
          * - OF de verblijffstatus WEL gelijk is aan 'niet rechthebbend' EN de toegang 'overigen' al is ingegaan (in het verleden ligt)
          * waarbij Villa Zaanstad als intakelocatie een uitzondering heeft: die mogen hier niet komen.
          */
+
         $builder
             ->leftJoin('eersteIntake.verblijfsstatus', 'verblijfsstatus')
             ->orWhere(

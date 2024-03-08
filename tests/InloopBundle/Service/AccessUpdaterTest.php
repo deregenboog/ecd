@@ -122,7 +122,7 @@ class AccessUpdaterTest extends DoctrineTestCase
         $expectedDQL = self::BASE_DQL."
             LEFT JOIN eersteIntake.specifiekeLocaties specifiekeLocaties
             WHERE (
-                ((eersteIntake.toegangInloophuis = true AND :locatie IN specifiekeLocaties))
+                ((eersteIntake.toegangInloophuis = true AND :locatie IN (specifiekeLocaties)))
                 OR (
                     (
                         eersteIntake.toegangInloophuis = true
@@ -180,7 +180,7 @@ class AccessUpdaterTest extends DoctrineTestCase
 
         $expectedDQL = self::BASE_DQL."
             LEFT JOIN eersteIntake.specifiekeLocaties specifiekeLocaties
-            WHERE (((eersteIntake.toegangInloophuis = true AND :locatie IN specifiekeLocaties)) OR ((eersteIntake.toegangInloophuis = true AND eersteIntakeLocatie.naam IN (:toegestaneLocatiesVoorIntakelocatie))) OR ((eersteIntake.toegangInloophuis = true AND (eersteIntakeLocatie.naam = 'AMOC Stadhouderskade' OR (eersteIntakeLocatie.naam = 'AMOC West' AND eersteIntake.intakedatum < :four_months_ago))))) AND status INSTANCE OF InloopBundle\Entity\Aanmelding";
+            WHERE (((eersteIntake.toegangInloophuis = true AND :locatie IN (specifiekeLocaties))) OR ((eersteIntake.toegangInloophuis = true AND eersteIntakeLocatie.naam IN (:toegestaneLocatiesVoorIntakelocatie))) OR ((eersteIntake.toegangInloophuis = true AND (eersteIntakeLocatie.naam = 'AMOC Stadhouderskade' OR (eersteIntakeLocatie.naam = 'AMOC West' AND eersteIntake.intakedatum < :four_months_ago))))) AND status INSTANCE OF InloopBundle\Entity\Aanmelding";
         $this->assertEqualsIgnoringWhitespace($expectedDQL, $klantDao->getBuilder()->getDQL());
     }
 
@@ -229,7 +229,7 @@ class AccessUpdaterTest extends DoctrineTestCase
             LEFT JOIN InloopBundle\Entity\RecenteRegistratie recent WITH recent.klant = klant AND recent.locatie = :locatie_id
             LEFT JOIN recent.registratie recenteRegistratie WITH DATE(recenteRegistratie.buiten) > :two_months_ago
             WHERE (
-                ((eersteIntake.toegangInloophuis = true AND :locatie IN specifiekeLocaties))
+                ((eersteIntake.toegangInloophuis = true AND :locatie IN (specifiekeLocaties)))
                 OR ((eersteIntake.toegangInloophuis = true AND eersteIntakeGebruikersruimte.id = :locatie_id))
             )
             AND status INSTANCE OF InloopBundle\Entity\Aanmelding
@@ -283,7 +283,7 @@ class AccessUpdaterTest extends DoctrineTestCase
             WHERE (
                 ((
                     eersteIntake.toegangInloophuis = true
-                    AND :locatie IN specifiekeLocaties
+                    AND :locatie IN (specifiekeLocaties)
                 ))
                 OR ((
                     eersteIntake.toegangInloophuis = true
@@ -336,7 +336,7 @@ class AccessUpdaterTest extends DoctrineTestCase
             LEFT JOIN eersteIntake.specifiekeLocaties specifiekeLocaties
             LEFT JOIN eersteIntake.verblijfsstatus verblijfsstatus
             WHERE (
-                ((eersteIntake.toegangInloophuis = true AND :locatie IN specifiekeLocaties))
+                ((eersteIntake.toegangInloophuis = true AND :locatie IN (specifiekeLocaties)))
                 OR huidigeStatus IS NOT NULL
                 OR (
                     eersteIntake.toegangInloophuis = true
@@ -400,7 +400,7 @@ class AccessUpdaterTest extends DoctrineTestCase
             WHERE (
                 ((
                     eersteIntake.toegangInloophuis = true
-                    AND :locatie IN specifiekeLocaties
+                    AND :locatie IN (specifiekeLocaties)
                 ))
                 OR (
                     eersteIntake.toegangInloophuis = true

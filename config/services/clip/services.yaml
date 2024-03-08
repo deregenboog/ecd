@@ -73,3 +73,5 @@ services:
 
     clip.event_subscriber.postcode:
         class: ClipBundle\Event\PostcodeSubscriber
+        tags:
+          - doctrine.event_subscriber

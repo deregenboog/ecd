@@ -33,6 +33,7 @@ final class WinteropvangEUBurgersStrategy implements StrategyInterface
      */
     public function buildQuery(QueryBuilder $builder, Locatie $locatie)
     {
-        $builder->orWhere('huidigeStatus IS NOT NULL');
+
+        $builder->orWhere('klant.huidigeStatus IS NOT NULL');
     }
 }
