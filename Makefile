@@ -46,7 +46,6 @@ docker-test-setup:
 	docker compose -f docker-compose.test.yml run --rm -e PREVENT_SAVE_ENABLED=false test bin/console -n hautelook:fixtures:load
 
 docker-test-run:
-	docker compose -f docker-compose.test.yml build test
 	docker compose -f docker-compose.test.yml run --rm \
 		--user $$(id -u):$$(id -g) \
 		-e SYMFONY_DEPRECATIONS_HELPER=max[direct]=0 \
@@ -57,7 +56,4 @@ docker-test-run:
 docker-test-teardown:
 	docker compose -f docker-compose.test.yml stop test-database
 
-docker-test:
-	$(MAKE) docker-test-setup
-	$(MAKE) docker-test-run
-	$(MAKE) docker-test-teardown
+docker-test: docker-test-setup docker-test-run docker-test-teardown
