@@ -24,7 +24,6 @@ use Gedmo\Mapping\Annotation as Gedmo;
  *     "IZ" = "GroepIZ"
  * })
  * @Gedmo\Loggable
- * @TODO De view van add moet dynamisch ipv statisch deze types listen.
  */
 abstract class Groep
 {
@@ -249,22 +248,6 @@ abstract class Groep
             && $this->einddatum <= new \DateTime('today');
     }
 
-    public function getType()
-    {
-        $class =  (new \ReflectionClass($this))->getShortName();
-        switch ($class) {
-            case "GroepErOpUit":
-                return "Er Op Uit";
-            case "GroepBuurtmaatjes":
-                return "Buurtmaatjes";
-            case "GroepKwartiermaken":
-                return "Kwartiermaken";
-            case "GroepOpenHuis":
-                return "Open Huis";
-            case "GroepOrganisatie":
-                return "Organisatie";
-            default:
-                return "Onbekend";
-        }
-    }
+    abstract public static function getType(): string;
+
 }

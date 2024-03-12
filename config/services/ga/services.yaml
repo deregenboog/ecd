@@ -72,78 +72,43 @@ services:
 
     GaBundle\Report\DeelnemersTotaal:
         arguments:
-            -
-              Buurtmaatjes: "@ga.repository.groep_buurtmaatjes"
-              ErOpUit: "@ga.repository.groep_eropuit"
-              Kwartiermaken: "@ga.repository.groep_kwartiermaken"
-              Open Huis: "@ga.repository.groep_openhuis"
-              Organisatie: "@ga.repository.groep_organisatie"
+          $repositories: !tagged_iterator ga.groep_type
         tags:
             - { name: ga.rapportage, title: Deelnemers totaal }
 
     GaBundle\Report\DeelnemersPerGroep:
         arguments:
-            -
-              Buurtmaatjes: "@ga.repository.groep_buurtmaatjes"
-              ErOpUit: "@ga.repository.groep_eropuit"
-              Kwartiermaken: "@ga.repository.groep_kwartiermaken"
-              Open Huis: "@ga.repository.groep_openhuis"
-              Organisatie: "@ga.repository.groep_organisatie"
+          $repositories: !tagged_iterator ga.groep_type
         tags:
             - { name: ga.rapportage, title: Deelnemers per groep }
 
     GaBundle\Report\DeelnemersPerStadsdeel:
         arguments:
-            -
-              Buurtmaatjes: "@ga.repository.groep_buurtmaatjes"
-              ErOpUit: "@ga.repository.groep_eropuit"
-              Kwartiermaken: "@ga.repository.groep_kwartiermaken"
-              Open Huis: "@ga.repository.groep_openhuis"
-              Organisatie: "@ga.repository.groep_organisatie"
+          $repositories: !tagged_iterator ga.groep_type
         tags:
             - { name: ga.rapportage, title: Deelnemers per stadsdeel }
 
     GaBundle\Report\DeelnemersPerGroepStadsdeel:
         arguments:
-            -
-              Buurtmaatjes: "@ga.repository.groep_buurtmaatjes"
-              ErOpUit: "@ga.repository.groep_eropuit"
-              Kwartiermaken: "@ga.repository.groep_kwartiermaken"
-              Open Huis: "@ga.repository.groep_openhuis"
-              Organisatie: "@ga.repository.groep_organisatie"
+          $repositories: !tagged_iterator ga.groep_type
         tags:
             - { name: ga.rapportage, title: Deelnemers per groep en stadsdeel }
 
     GaBundle\Report\VrijwilligersTotaal:
         arguments:
-            -
-              Buurtmaatjes: "@ga.repository.groep_buurtmaatjes"
-              ErOpUit: "@ga.repository.groep_eropuit"
-              Kwartiermaken: "@ga.repository.groep_kwartiermaken"
-              Open Huis: "@ga.repository.groep_openhuis"
-              Organisatie: "@ga.repository.groep_organisatie"
+          $repositories: !tagged_iterator ga.groep_type
         tags:
             - { name: ga.rapportage, title: Buurtmaatjes vrijwilligers totaal }
 
     GaBundle\Report\VrijwilligersPerGroep:
         arguments:
-            -
-              Buurtmaatjes: "@ga.repository.groep_buurtmaatjes"
-              ErOpUit: "@ga.repository.groep_eropuit"
-              Kwartiermaken: "@ga.repository.groep_kwartiermaken"
-              Open Huis: "@ga.repository.groep_openhuis"
-              Organisatie: "@ga.repository.groep_organisatie"
+          $repositories: !tagged_iterator ga.groep_type
         tags:
             - { name: ga.rapportage, title: Buurtmaatjes vrijwilligers per groep }
 
     GaBundle\Report\VrijwilligersPerGroepStadsdeel:
         arguments:
-            -
-              Buurtmaatjes: "@ga.repository.groep_buurtmaatjes"
-              ErOpUit: "@ga.repository.groep_eropuit"
-              Kwartiermaken: "@ga.repository.groep_kwartiermaken"
-              Open Huis: "@ga.repository.groep_openhuis"
-              Organisatie: "@ga.repository.groep_organisatie"
+          $repositories: !tagged_iterator ga.groep_type
         tags:
             - { name: ga.rapportage, title: Buurtmaatjes vrijwilligers per groep en stadsdeel }
 

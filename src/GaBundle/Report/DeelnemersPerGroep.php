@@ -12,7 +12,9 @@ class DeelnemersPerGroep extends AbstractReport
     {
         $data = [];
         foreach ($this->repositories as $group => $repository) {
-            $data[$group] = $repository->countDeelnemersPerGroep($this->startDate, $this->endDate);
+
+            $title = $repository->getRepositoryTitle();
+            $data[$title] = $repository->countDeelnemersPerGroep($this->startDate, $this->endDate);
         }
         $this->data = $data;
     }

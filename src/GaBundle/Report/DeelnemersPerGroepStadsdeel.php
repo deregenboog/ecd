@@ -16,7 +16,8 @@ class DeelnemersPerGroepStadsdeel extends AbstractReport
     {
         $data = [];
         foreach ($this->repositories as $group => $repository) {
-            $data[$group] = $repository->countDeelnemersPerGroepStadsdeel($this->startDate, $this->endDate);
+            $title = $repository->getRepositoryTitle();
+            $data[$title] = $repository->countDeelnemersPerGroepStadsdeel($this->startDate, $this->endDate);
         }
         $this->data = $data;
     }

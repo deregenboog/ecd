@@ -12,8 +12,9 @@ class VrijwilligersTotaal extends AbstractReport
     {
         $data = [];
         foreach ($this->repositories as $group => $repository) {
+            $title = $repository->getRepositoryTitle();
             $data[] = array_merge(
-                ['group' => $group],
+                ['group' => $title],
                 $repository->countVrijwilligers($this->startDate, $this->endDate)
             );
         }

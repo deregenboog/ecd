@@ -14,7 +14,8 @@ class VrijwilligersPerGroep extends AbstractReport
     {
         $data = [];
         foreach ($this->repositories as $group => $repository) {
-            $data[$group] = $repository->countVrijwilligersPerGroep($this->startDate, $this->endDate);
+            $title = $repository->getRepositoryTitle();
+            $data[$title] = $repository->countVrijwilligersPerGroep($this->startDate, $this->endDate);
         }
         $this->data = $data;
     }
