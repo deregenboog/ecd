@@ -13,7 +13,6 @@ use AppBundle\Model\KlantRelationInterface;
 use AppBundle\Model\TimestampableTrait;
 use AppBundle\Model\UsesKlantTrait;
 use AppBundle\Service\NameFormatter;
-
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\EntityNotFoundException;
@@ -97,12 +96,12 @@ class Deelnemer implements KlantRelationInterface, DocumentSubjectInterface
      */
     protected $documenten;
 
-    public function __construct(Klant $klant = null, Medewerker $medewerker = null)
+    public function __construct(?Klant $klant = null, ?Medewerker $medewerker = null)
     {
         $this->klant = $klant;
+        $this->medewerker = $this->aanmelder = $medewerker;
         $this->verslagen = new ArrayCollection();
         $this->documenten = new ArrayCollection();
-        $this->medewerker = $medewerker;
         if (!$this->aanmelddatum) {
             $this->aanmelddatum = new \DateTime('now');
         }
