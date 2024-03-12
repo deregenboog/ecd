@@ -1,6 +1,7 @@
 FROM node AS assets
 WORKDIR /app
-COPY . .
+COPY assets assets
+COPY package.json package-lock.json webpack.config.js yarn.lock ./
 RUN npm install && yarn encore dev
 
 FROM php:7.4
