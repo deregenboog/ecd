@@ -598,15 +598,15 @@ abstract class AbstractController extends SymfonyController
 
     protected function createEntity($parentEntity = null)
     {
-        $x = $this->getEntity();
+        $entity = $this->getEntity();
         if($parentEntity!== null)
         {
             $class = (new \ReflectionClass($parentEntity))->getShortName();
-            if(is_callable([$x,"set".$class])) {
-                $x->{"set".ucfirst($class)}($parentEntity);
+            if(is_callable([$entity,"set".$class])) {
+                $entity->{"set".ucfirst($class)}($parentEntity);
             }
         }
-        return $x;
+        return $entity;
     }
 
     /**

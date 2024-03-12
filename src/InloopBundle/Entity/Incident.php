@@ -68,7 +68,10 @@ class Incident
 
     public function __construct(Klant $klant = null)
     {
-        $this->setKlant($klant);
+        if(null!==$klant) {
+            $this->setKlant($klant);
+        }
+
         $this->setDatum(new \DateTime());
     }
 
