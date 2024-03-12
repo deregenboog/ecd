@@ -66,7 +66,7 @@ class Incident
      */
     private Klant $klant;
 
-    public function __construct(Klant $klant = null)
+    public function __construct(?Klant $klant = null)
     {
         if(null!==$klant) {
             $this->setKlant($klant);
