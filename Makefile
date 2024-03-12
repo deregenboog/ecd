@@ -26,6 +26,10 @@ docker-up:
 	docker compose up -d
 	docker compose exec --user $$(id -u):$$(id -g) php bash
 
+docker-up-debug:
+	XDEBUG_MODE=debug,develop docker compose up -d
+	docker compose exec --user $$(id -u):$$(id -g) php bash
+
 docker-stop:
 	docker compose stop
 
