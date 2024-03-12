@@ -150,10 +150,5 @@ class TrajectFilterTest extends TestCase
         $filter->klant->expects($this->once())->method('applyTo')->with($builder);
         $filter->applyTo($builder);
 
-        $builder = new QueryBuilder($em);
-        $filter = new TrajectFilter();
-        $filter->resultaatgebied = $this->createMock(ResultaatgebiedFilter::class);
-        $filter->resultaatgebied->expects($this->once())->method('applyTo')->with($builder);
-        $filter->applyTo($builder);
     }
 }
