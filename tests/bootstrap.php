@@ -9,7 +9,7 @@ if (file_exists(dirname(__DIR__).'/config/bootstrap.php')) {
 } elseif (method_exists(Dotenv::class, 'bootEnv')) {
     (new Dotenv())->bootEnv(dirname(__DIR__).'/.env');
 }
-umask(0000);
+
 if ($_SERVER['APP_DEBUG']) {
     umask(0000);
 }

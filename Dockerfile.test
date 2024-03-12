@@ -36,6 +36,11 @@ RUN \
     && echo "nl_NL.UTF-8 UTF-8" > /etc/locale.gen \
     && locale-gen
 
+# user/group ID build args
+ARG UID
+ARG GID
+USER ${UID}:${GID}
+
 # install PHP packages
 WORKDIR /app
 COPY composer.json composer.lock ./
@@ -44,8 +49,8 @@ RUN composer install --no-autoloader --no-scripts
 # copy application code
 COPY . .
 COPY docker/php/.env.test .env
-RUN COMPOSER_ALLOW_SUPERUSER=1 composer install
+RUN composer install
 
-COPY --from=assets /app/public/build /app/public/build
+COPY --from=assets --chown=${UID}:${GID} /app/public/build /app/public/build
 
 ENTRYPOINT [ "php" ]

@@ -40,7 +40,7 @@ docker-lint:
 	docker compose -f docker-compose.test.yml run --rm test bin/console lint:container
 
 docker-test-setup:
-	docker compose -f docker-compose.test.yml build
+	docker compose -f docker-compose.test.yml build --build-arg UID=$$(id -u) --build-arg GID=$$(id -g)
 	docker compose -f docker-compose.test.yml up --force-recreate --wait test-database && sleep 1
 	docker compose -f docker-compose.test.yml run --rm test bin/console -n doctrine:migrations:migrate
 	docker compose -f docker-compose.test.yml run --rm -e PREVENT_SAVE_ENABLED=false test bin/console -n hautelook:fixtures:load
