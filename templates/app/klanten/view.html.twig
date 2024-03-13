@@ -13,83 +13,8 @@
 {% endblock %}
 
 {% block content_left %}
-    <h2>Persoonsgegevens</h2>
-    <dl class="dl-horizontal">
-        <dt>Naam</dt>
-        <dd>{{ entity }}</dd>
-        <dt>Geslacht</dt>
-        <dd>{{ entity.geslacht.volledig }}</dd>
-        <dt>Geboortedatum</dt>
-        <dd>{{ entity.geboortedatum ? entity.geboortedatum|date('d-m-Y') }}</dd>
-        <dt>Geboorteland</dt>
-        <dd>{{ entity.land }}</dd>
-        <dt>Nationaliteit</dt>
-        <dd>{{ entity.nationaliteit }}</dd>
-        <dt>Voorkeurstaal</dt>
-        <dd>{{ entity.voorkeurstaal }}</dd>
-        <dt>Overige talen</dt>
-        <dd>
-            <ul>
-                {% for taal in entity.overigeTalen %}
-                    <li>{{ taal }}</li>
-                {% endfor %}
-            </ul>
-        </dd>
-        <dt>BSN</dt>
-        <dd>{{ entity.bsn }}</dd>
-        <dt>Medewerker</dt>
-        <dd>{{ entity.medewerker }}</dd>
-        <dt>Maatschappelijk werker</dt>
-        <dd>{{ entity.maatschappelijkWerker }}</dd>
-        <dt>Corona besmet vanaf</dt>
-        <dd class="{{ entity.coronaBesmetVanaf? 'bg-danger'}}">{{ entity.coronaBesmetVanaf ? entity.coronaBesmetVanaf|date('d-m-Y') }}</dd>
-        {% if entity.land.getNaam() in tbc_countries %}
-            <dt>TBC-check?</dt>
-            <dd>{{ entity.laatsteTbcControle|date('d-m-Y') }}</dd>
-        {% endif %}
-        {% if entity.overleden %}
-            <dt>Overleden</dt>
-            <dd class="text-danger">Ja</dd>
-        {% endif %}
-        {% if entity.partner %}
-            <dt>Partner</dt>
-            <dd>{{ html.link(entity.partner, path('app_klanten_view', {id: entity.partner.id}) ) }}   {{ html.link('Verwijder partner', path('app_klanten_addpartner', {klant: entity.id, 'partner':'remove'}), 'scissors') }}</dd>
-        {% else %}
-            <dt>Partner</dt>
-            <dd>{{ html.link('Voeg partner toe', path('app_klanten_addpartner', {klant: entity.id}), 'heart') }}</dd>
-        {% endif %}
-    </dl>
-    <h2>Contactgegevens</h2>
-    <dl class="dl-horizontal">
-        <dt>Adres</dt>
-        <dd>
-            {% if entity.briefadres is not null %}
-                {% set class='' %}
-                {% if date(entity.briefadres) < date("+6 weeks")  %}
-                    {% set class="text-danger" %}
-                {% endif %}
-                <p>Let op, adres is briefadres.</p>
-                <p class="{{ class }}">Verloopt op {{ entity.briefadres|if_date("d-m-Y") }}</p>
-            {% endif %}
-            {{ entity.adres }}<br>
-            {{ entity.postcode }} {{ entity.plaats }}
-        </dd>
-        <dt>Werkgebied</dt>
-        <dd>{{ entity.werkgebied }}</dd>
-        <dt>Postcodegebied</dt>
-        <dd>{{ entity.postcodegebied }}</dd>
-        <dt>Mobiel</dt>
-        <dd>{{ entity.mobiel }}</dd>
-        <dt>Telefoon</dt>
-        <dd>{{ entity.telefoon }}</dd>
-        <dt>E-mail</dt>
-        <dd>{{ entity.email }}</dd>
-        <dt>Postvoorkeur</dt>
-        <dd>{{ entity.geenPost|postvoorkeur }}</dd>
-        <dt>E-mailvoorkeur</dt>
-        <dd>{{ entity.geenEmail|emailvoorkeur }}</dd>
-
-    </dl>
+    {% include 'app/klanten/_persoonsgegevens.html.twig' with {klant: entity} %}
+    {% include 'app/klanten/_contactgegevens.html.twig' with {klant: entity} %}
     <h2>Medewerker</h2>
     <dl class="dl-horizontal">
         <dt>Medewerker</dt>
