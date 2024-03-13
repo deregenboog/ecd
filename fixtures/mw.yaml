@@ -1005,3 +1005,61 @@ MwBundle\Entity\Inventarisatie:
         actie: 'S'
         startdatum: '<date_create("2010-01-01")>'
         depth: 1
+
+MwBundle\Entity\Resultaat:
+    mw_resultaat_1:
+        naam: 'Administratie op orde'
+    mw_resultaat_2:
+        naam: 'Doorstroom AZC'
+    mw_resultaat_3:
+        naam: 'Doorstroom LVV'
+    mw_resultaat_4:
+        naam: 'Doorstroom MOO'
+    mw_resultaat_5:
+        naam: 'Herstel woningnet'
+    mw_resultaat_6:
+        naam: 'Huisvesting eigen netwerk binnen Amsterdam'
+    mw_resultaat_7:
+        naam: 'Huisvesting eigen netwerk buiten Amsterdam'
+    mw_resultaat_8:
+        naam: 'Huisvesting via Onder de pannen/Parentshouse/200woningen'
+    mw_resultaat_9:
+        naam: 'huisvesting zelfstandig binnen Amsterdam'
+    mw_resultaat_10:
+        naam: 'Huisvesting zelfstandig buiten Amsterdam'
+    mw_resultaat_11:
+        naam: 'Inkomen op orde'
+    mw_resultaat_12:
+        naam: 'Jippie, het gaat weer helemaal top!'
+    mw_resultaat_13:
+        naam: 'Organiseren somatische zorg'
+    mw_resultaat_14:
+        naam: 'Overdracht naar buurteam'
+    mw_resultaat_15:
+        naam: 'Plaatsing MO/BW'
+    mw_resultaat_16:
+        naam: 'Plaatsing NOIZ'
+    mw_resultaat_17:
+        naam: 'Plaatsing Passantenpension'
+    mw_resultaat_18:
+        naam: 'Plaatsing T6'
+    mw_resultaat_19:
+        naam: 'Postadres geregeld'
+    mw_resultaat_20:
+        naam: 'Psychiatrie stabiel'
+    mw_resultaat_21:
+        naam: 'Somatisch stabiel'
+    mw_resultaat_22:
+        naam: 'Toeleiding schuldhulpverlening'
+    mw_resultaat_23:
+        naam: 'Toeleiding Werk met verblijf'
+    mw_resultaat_24:
+        naam: 'Urgentie toegekend'
+    mw_resultaat_25:
+        naam: 'Verslaving stabiel'
+    mw_resultaat_26:
+        naam: 'Verwijzing GGD'
+    mw_resultaat_27:
+        naam: 'Verwijzing GGZ'
+    mw_resultaat_28:
+        naam: 'Werk gevonden/behouden'
