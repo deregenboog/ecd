@@ -70,7 +70,34 @@ class GroepenController extends AbstractController
             }
         }
 
-        return [];
+        $groupTypes = $this->getGroupTypes();
+        return ['groupTypes'=>$groupTypes];
+    }
+
+    /**
+     * Retrieves an array of group types.
+     *
+     * This method retrieves the group types available based on the entity class used
+     * in the current context. It uses the EntityManager instance to get the ClassMetadata
+     * for the entity class, then iterates through the discriminator map to build an array
+     * of group types. The array keys represent the short names of the entity classes, while
+     * the values represent the corresponding discriminator values.
+     *
+     * @return array An associative array of group types, where the keys are the short names
+     *               of entity classes and the values are the corresponding discriminator values.
+     */
+    private function getGroupTypes(): array
+    {
+        $classMetaData = $this->entityManager->getClassMetadata($this->entityClass);
+
+        $outputArray = [];
+
+        foreach ($classMetaData->discriminatorMap as $key => $className) {
+            $reflectionClass = new \ReflectionClass($className);
+            $outputArray[$reflectionClass->getShortName()] = $key;
+        }
+
+        return $outputArray;
     }
 
     protected function addParams($entity, Request $request): array

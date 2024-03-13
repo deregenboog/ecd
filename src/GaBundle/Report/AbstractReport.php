@@ -38,7 +38,7 @@ abstract class AbstractReport extends BaseAbstractReport
 
     protected $yDescription;
 
-    public function __construct($repositories)
+    public function __construct(iterable $repositories = [])
     {
         $this->repositories = $repositories;
     }

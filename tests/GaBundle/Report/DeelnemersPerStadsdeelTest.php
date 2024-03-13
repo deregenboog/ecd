@@ -35,6 +35,10 @@ class DeelnemersPerStadsdeelTest extends TestCase
                     'aantal_anonieme_deelnames' => 0,
                 ],
             ]);
+        $repositoryA->expects($this->any())
+            ->method('getRepositoryTitle')
+            ->willReturn("Groep A")
+        ;
         $repositoryB = $this->createMock(GroepRepository::class);
         $repositoryB->expects($this->once())
             ->method('countDeelnemersPerStadsdeel')
@@ -49,6 +53,10 @@ class DeelnemersPerStadsdeelTest extends TestCase
                 ],
             ]);
 
+        $repositoryB->expects($this->any())
+            ->method('getRepositoryTitle')
+            ->willReturn("Groep B")
+        ;
         $report = new DeelnemersPerStadsdeel([
             'Groep A' => $repositoryA,
             'Groep B' => $repositoryB,

@@ -23,6 +23,10 @@ class DeelnemersTotaalTest extends TestCase
             'aantal_anonieme_deelnames' => 10,
         ]);
 
+        $repository->expects($this->any())
+            ->method('getRepositoryTitle')
+            ->willReturn("0")
+        ;
         $report = new DeelnemersTotaal([$repository]);
         $report->setStartDate($startDate)->setEndDate($endDate);
 

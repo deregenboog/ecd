@@ -15,6 +15,12 @@ class GroepRepository extends EntityRepository implements DoelstellingRepository
 {
     use DoelstellingRepositoryTrait;
 
+
+    public function getRepositoryTitle(): string
+    {
+        $className = $this->getClassName();
+        return $className::getType();
+    }
     public function countDeelnemers(\DateTime $startDate, \DateTime $endDate)
     {
         $builder = $this->createQueryBuilder('groep')

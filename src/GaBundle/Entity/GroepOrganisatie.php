@@ -11,4 +11,9 @@ use Gedmo\Mapping\Annotation as Gedmo;
  */
 class GroepOrganisatie extends Groep
 {
+    public static function getType(): string
+    {
+        return "Organisatie";
+    }
+
 }
