@@ -3,10 +3,8 @@
 namespace OekraineBundle\Controller;
 
 use AppBundle\Controller\AbstractController;
-use AppBundle\Entity\AmocLand;
 use AppBundle\Entity\Klant;
 use AppBundle\Entity\Klant as AppKlant;
-use AppBundle\Entity\Land;
 use AppBundle\Exception\UserException;
 use AppBundle\Export\ExportInterface;
 use AppBundle\Form\AppDateType;
@@ -23,9 +21,7 @@ use OekraineBundle\Form\AanmeldingType;
 use OekraineBundle\Form\AfsluitingType;
 use OekraineBundle\Form\BezoekerFilterType;
 use OekraineBundle\Form\BezoekerType;
-use OekraineBundle\Pdf\PdfBrief;
 use OekraineBundle\Service\BezoekerDaoInterface;
-use OekraineBundle\Service\KlantDaoInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\EventDispatcher\GenericEvent;
 use Symfony\Component\Routing\Annotation\Route;
@@ -33,7 +29,6 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 
 /**
  * @Route("/bezoekers")
@@ -90,7 +85,7 @@ class BezoekersController extends AbstractController
             return $this->processForm($request, $entity);
         }
         else {
-            $searchEntity = $this->searchDao->find($entityId);
+            $searchEntity = $this->klantDao->find($entityId);
             if ($searchEntity) {
                 // redirect if already exists
                 $subEntity = $this->dao->findOneBySearchEntity($searchEntity);

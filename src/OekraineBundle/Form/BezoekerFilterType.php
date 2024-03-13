@@ -5,12 +5,11 @@ namespace OekraineBundle\Form;
 use AppBundle\Form\AppDateRangeType;
 use AppBundle\Form\FilterType;
 use AppBundle\Form\KlantFilterType as AppKlantFilterType;
+use AppBundle\Form\MedewerkerType;
 use Doctrine\ORM\EntityRepository;
 use OekraineBundle\Entity\Aanmelding;
 use OekraineBundle\Entity\Afsluiting;
-use OekraineBundle\Entity\Locatie;
 use OekraineBundle\Filter\BezoekerFilter;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -69,7 +68,7 @@ class BezoekerFilterType extends AbstractType
             'data_class' => BezoekerFilter::class,
             'data' => new BezoekerFilter(),
             'enabled_filters' => [
-                'appKlant' => ['id', 'voornaam', 'achternaam', 'geboortedatumRange', 'geslacht'],
+                'appKlant' => ['id', 'voornaam', 'achternaam', 'geboortedatumRange', 'geslacht', 'maatschappelijkWerker'],
                 'woonlocatie',
                 'huidigeStatus',
             ],
