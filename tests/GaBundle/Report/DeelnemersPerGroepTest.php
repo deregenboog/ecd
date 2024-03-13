@@ -27,14 +27,12 @@ class DeelnemersPerGroepTest extends TestCase
                     'aantal_deelnames' => 43,
                     'aantal_anonieme_deelnames' => 10,
                 ],
-                [
-                    'groepnaam' => 'Groep B',
-                    'aantal_activiteiten' => 33,
-                    'aantal_deelnemers' => 211,
-                    'aantal_deelnames' => 21,
-                    'aantal_anonieme_deelnames' => 0,
-                ],
             ]);
+        $repositoryA->expects($this->any())
+            ->method('getRepositoryTitle')
+            ->willReturn("Groep A")
+        ;
+
         $repositoryB = $this->createMock(GroepRepository::class);
         $repositoryB->expects($this->once())
             ->method('countDeelnemersPerGroep')
@@ -49,6 +47,11 @@ class DeelnemersPerGroepTest extends TestCase
                 ],
             ]);
 
+        $repositoryB->expects($this->any())
+            ->method('getRepositoryTitle')
+            ->willReturn("Groep C")
+        ;
+
         $report = new DeelnemersPerGroep([
             'A' => $repositoryA,
             'B' => $repositoryB,
@@ -56,7 +59,7 @@ class DeelnemersPerGroepTest extends TestCase
         $report->setStartDate($startDate)->setEndDate($endDate);
 
         $expected = [[
-            'title' => 'A',
+            'title' => 'Groep A',
             'yDescription' => 'Groep',
             'data' => [
                 'Groep A' => [
@@ -65,22 +68,16 @@ class DeelnemersPerGroepTest extends TestCase
                     'Aantal deelnames' => 43,
                     'Aantal anonieme deelnames' => 10,
                 ],
-                'Groep B' => [
-                    'Aantal activiteiten' => 33,
-                    'Aantal deelnemers' => 211,
-                    'Aantal deelnames' => 21,
-                    'Aantal anonieme deelnames' => 0,
-                ],
                 'Totaal' => [
-                    'Aantal activiteiten' => 88,
-                    'Aantal deelnemers' => 644,
-                    'Aantal deelnames' => 64,
+                    'Aantal activiteiten' => 55,
+                    'Aantal deelnemers' => 433,
+                    'Aantal deelnames' => 43,
                     'Aantal anonieme deelnames' => 10,
                 ],
             ],
         ],
         [
-            'title' => 'B',
+            'title' => 'Groep C',
             'yDescription' => 'Groep',
             'data' => [
                 'Groep C' => [
@@ -97,7 +94,6 @@ class DeelnemersPerGroepTest extends TestCase
                 ],
             ],
         ]];
-
         $this->assertSame($expected, $report->getReports());
     }
 }
