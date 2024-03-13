@@ -11,8 +11,8 @@ class DeelnemersPerStadsdeel extends AbstractReport
     protected function init()
     {
         $data = [];
-        foreach ($this->repositories as $group => $repository) {
-            $title = $repository->getRepositoryTitle();
+        foreach ($this->groupTypes->getTypeNames() as $title) {
+            $repository = $this->groupTypes->getType($title);
             $data[$title] = $repository->countDeelnemersPerStadsdeel($this->startDate, $this->endDate);
         }
         $this->data = $data;

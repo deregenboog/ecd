@@ -247,7 +247,4 @@ abstract class Groep
         return $this->einddatum instanceof \DateTime
             && $this->einddatum <= new \DateTime('today');
     }
-
-    abstract public static function getType(): string;
-
 }

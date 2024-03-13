@@ -11,7 +11,4 @@ use Gedmo\Mapping\Annotation as Gedmo;
  */
 class GroepErOpUit extends Groep
 {
-    public static function getType() : string{
-        return "Er Op Uit";
-    }
 }

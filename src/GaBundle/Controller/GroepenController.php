@@ -8,9 +8,8 @@ use GaBundle\Entity\Groep;
 use GaBundle\Form\GroepFilterType;
 use GaBundle\Form\GroepType;
 use GaBundle\Service\GroepDaoInterface;
-use GaBundle\Service\KlantLidmaatschapDaoInterface;
+use GaBundle\Service\GroupTypeContainer;
 use GaBundle\Service\LidmaatschapDaoInterface;
-use GaBundle\Service\VrijwilligerLidmaatschapDaoInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
@@ -47,12 +46,20 @@ class GroepenController extends AbstractController
      */
     protected $export;
 
-    public function __construct(GroepDaoInterface $dao, LidmaatschapDaoInterface $klantLidmaatschapDao, LidmaatschapDaoInterface $vrijwilligerLidmaatschapDao, AbstractExport $export)
-    {
+    private GroupTypeContainer $groupTypes;
+
+    public function __construct(
+        GroepDaoInterface $dao,
+        LidmaatschapDaoInterface $klantLidmaatschapDao,
+        LidmaatschapDaoInterface $vrijwilligerLidmaatschapDao,
+        AbstractExport $export,
+        GroupTypeContainer $groupTypes
+    ) {
         $this->dao = $dao;
         $this->klantLidmaatschapDao = $klantLidmaatschapDao;
         $this->vrijwilligerLidmaatschapDao = $vrijwilligerLidmaatschapDao;
         $this->export = $export;
+        $this->groupTypes = $groupTypes;
     }
 
     /**
@@ -62,7 +69,7 @@ class GroepenController extends AbstractController
     {
         if ($request->get('type')) {
             $this->forceRedirect = true;
-            $this->entityClass = str_replace('Groep', Groep::class, $request->get('type'));
+            $this->entityClass = $this->groupTypes->getType($request->get('type'))->getClassName();
 
             $entity = $this->createEntity();
             if ($entity instanceof Groep) {
@@ -70,34 +77,7 @@ class GroepenController extends AbstractController
             }
         }
 
-        $groupTypes = $this->getGroupTypes();
-        return ['groupTypes'=>$groupTypes];
-    }
-
-    /**
-     * Retrieves an array of group types.
-     *
-     * This method retrieves the group types available based on the entity class used
-     * in the current context. It uses the EntityManager instance to get the ClassMetadata
-     * for the entity class, then iterates through the discriminator map to build an array
-     * of group types. The array keys represent the short names of the entity classes, while
-     * the values represent the corresponding discriminator values.
-     *
-     * @return array An associative array of group types, where the keys are the short names
-     *               of entity classes and the values are the corresponding discriminator values.
-     */
-    private function getGroupTypes(): array
-    {
-        $classMetaData = $this->entityManager->getClassMetadata($this->entityClass);
-
-        $outputArray = [];
-
-        foreach ($classMetaData->discriminatorMap as $key => $className) {
-            $reflectionClass = new \ReflectionClass($className);
-            $outputArray[$reflectionClass->getShortName()] = $key;
-        }
-
-        return $outputArray;
+        return ['group_types' => $this->groupTypes->getTypeNames()];
     }
 
     protected function addParams($entity, Request $request): array
