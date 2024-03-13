@@ -3,13 +3,12 @@
 namespace InloopBundle\Entity;
 
 use AppBundle\Entity\Klant;
+use AppBundle\Entity\Medewerker;
 use AppBundle\Model\IdentifiableTrait;
 use AppBundle\Model\TimestampableTrait;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
-use InloopBundle\Service\LocatieDao;
-use InloopBundle\Service\LocatieDaoInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
@@ -170,6 +169,12 @@ class Schorsing
      * @Assert\NotNull
      */
     private $klant;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Medewerker")
+     * @Assert\NotNull
+     */
+    private $medewerker;
 
     /**
      * @var \DateTime
@@ -466,6 +471,18 @@ class Schorsing
     public function setKlant($klant)
     {
         $this->klant = $klant;
+
+        return $this;
+    }
+
+    public function getMedewerker(): ?Medewerker
+    {
+        return $this->medewerker;
+    }
+
+    public function setMedewerker(Medewerker $medewerker)
+    {
+        $this->medewerker = $medewerker;
 
         return $this;
     }

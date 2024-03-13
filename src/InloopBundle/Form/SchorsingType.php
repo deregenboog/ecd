@@ -5,6 +5,7 @@ namespace InloopBundle\Form;
 use AppBundle\Form\AppDateType;
 use AppBundle\Form\BaseType;
 use AppBundle\Form\JaNeeType;
+use AppBundle\Form\MedewerkerType;
 use InloopBundle\Entity\Schorsing;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
@@ -22,6 +23,7 @@ class SchorsingType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
+            ->add('medewerker', MedewerkerType::class)
             ->add('alleLocaties', CheckboxType::class, [
                 'mapped' => false,
                 'label' => 'Alle locaties',

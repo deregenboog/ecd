@@ -36,6 +36,10 @@
                     {{ form_errors(filter.datumTot.end) }}
                 </th>
                 <th>
+                    {{ form_widget(filter.medewerker) }}
+                    {{ form_errors(filter.medewerker) }}
+                </th>
+                <th>
                     {{ form_widget(filter.filter) }}
                     {{ form_widget(filter.download) }}
                 </th>
@@ -60,6 +64,7 @@
                 <th>
                     {{ knp_pagination_sortable(pagination, 'Einddatum', 'schorsing.datumTot') }}
                 </th>
+                <th>Medewerker</th>
                 <th>Terugkeergesprek geweest?</th>
             </tr>
         </thead>
@@ -88,6 +93,9 @@
                 </td>
                 <td>
                     {{ schorsing.datumTot|date('d-m-Y') }}
+                </td>
+                <td>
+                    {{ schorsing.medewerker }}
                 </td>
                 <td>
                     {{ schorsing.terugkeergesprekGehad ? html.tick }}

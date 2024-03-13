@@ -5,6 +5,7 @@ namespace InloopBundle\Form;
 use AppBundle\Form\AppDateRangeType;
 use AppBundle\Form\FilterType;
 use AppBundle\Form\KlantFilterType as AppKlantFilterType;
+use AppBundle\Form\MedewerkerType;
 use InloopBundle\Filter\SchorsingFilter;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -40,6 +41,13 @@ class SchorsingFilterType extends AbstractType
                 'required' => false,
             ]);
         }
+
+        if (in_array('medewerker', $options['enabled_filters'])) {
+            $builder->add('medewerker', MedewerkerType::class, [
+                'required' => false,
+                'preset' => false,
+            ]);
+        }
     }
 
     /**
@@ -62,6 +70,7 @@ class SchorsingFilterType extends AbstractType
                 'locatie',
                 'datumVan',
                 'datumTot',
+                'medewerker',
                 'filter',
                 'download',
             ],

@@ -3,6 +3,7 @@
 namespace InloopBundle\Entity;
 
 use AppBundle\Entity\Klant;
+use AppBundle\Entity\Medewerker;
 use AppBundle\Model\IdentifiableTrait;
 use AppBundle\Model\TimestampableTrait;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -66,6 +67,12 @@ class Incident
      */
     private Klant $klant;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Medewerker")
+     * @Assert\NotNull
+     */
+    private Medewerker $medewerker;
+
     public function __construct(?Klant $klant = null)
     {
         if(null!==$klant) {
@@ -89,6 +96,18 @@ class Incident
     public function setKlant(Klant $klant)
     {
         $this->klant = $klant;
+
+        return $this;
+    }
+
+    public function getMedewerker(): ?Medewerker
+    {
+        return $this->medewerker;
+    }
+
+    public function setMedewerker(Medewerker $medewerker): self
+    {
+        $this->medewerker = $medewerker;
 
         return $this;
     }

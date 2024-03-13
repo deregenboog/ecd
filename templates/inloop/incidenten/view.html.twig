@@ -93,6 +93,7 @@
                             <th>Locaties</th>
                             <th>Begindatum</th>
                             <th>Einddatum</th>
+                            <th>Medewerker</th>
                             <th>Redenen</th>
                             <th>Opmerking</th>
                             <th></th>
@@ -110,6 +111,7 @@
                                 </td>
                                 <td>{{ schorsing.datumVan|date('d-m-Y') }}</td>
                                 <td>{{ schorsing.datumTot|date('d-m-Y') }}</td>
+                                <td>{{ schorsing.medewerker }}</td>
                                 <td>
                                     <ul>
                                         {% for reden in schorsing.redenen %}

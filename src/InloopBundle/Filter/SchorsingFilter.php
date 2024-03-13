@@ -2,6 +2,7 @@
 
 namespace InloopBundle\Filter;
 
+use AppBundle\Entity\Medewerker;
 use AppBundle\Filter\FilterInterface;
 use AppBundle\Filter\KlantFilter as AppKlantFilter;
 use AppBundle\Form\Model\AppDateRangeModel;
@@ -14,6 +15,11 @@ class SchorsingFilter implements FilterInterface
      * @var Locatie
      */
     public $locatie;
+
+    /**
+     * @var Medewerker
+     */
+    public $medewerker;
 
     /**
      * @var AppDateRangeModel
@@ -36,6 +42,13 @@ class SchorsingFilter implements FilterInterface
             $builder
                 ->andWhere('locatie = :locatie')
                 ->setParameter('locatie', $this->locatie)
+            ;
+        }
+
+        if ($this->medewerker) {
+            $builder
+                ->andWhere('schorsing.medewerker = :schorsing_medewerker')
+                ->setParameter('schorsing_medewerker', $this->medewerker)
             ;
         }
 
