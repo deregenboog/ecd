@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\ErOpUitBunde\Event;
+namespace Tests\ErOpUitBundle\Event;
 
 use AppBundle\Entity\Klant as AppKlant;
 use AppBundle\Entity\Medewerker;
