@@ -71,46 +71,25 @@ services:
     GaBundle\Form\RapportageType:
 
     GaBundle\Report\DeelnemersTotaal:
-        arguments:
-          $repositories: !tagged_iterator ga.groep_type
-        tags:
-            - { name: ga.rapportage, title: Deelnemers totaal }
+        tags: ['ga.rapportage']
 
     GaBundle\Report\DeelnemersPerGroep:
-        arguments:
-          $repositories: !tagged_iterator ga.groep_type
-        tags:
-            - { name: ga.rapportage, title: Deelnemers per groep }
+        tags: ['ga.rapportage']
 
     GaBundle\Report\DeelnemersPerStadsdeel:
-        arguments:
-          $repositories: !tagged_iterator ga.groep_type
-        tags:
-            - { name: ga.rapportage, title: Deelnemers per stadsdeel }
+        tags: ['ga.rapportage']
 
     GaBundle\Report\DeelnemersPerGroepStadsdeel:
-        arguments:
-          $repositories: !tagged_iterator ga.groep_type
-        tags:
-            - { name: ga.rapportage, title: Deelnemers per groep en stadsdeel }
+        tags: ['ga.rapportage']
 
     GaBundle\Report\VrijwilligersTotaal:
-        arguments:
-          $repositories: !tagged_iterator ga.groep_type
-        tags:
-            - { name: ga.rapportage, title: Buurtmaatjes vrijwilligers totaal }
+        tags: ['ga.rapportage']
 
     GaBundle\Report\VrijwilligersPerGroep:
-        arguments:
-          $repositories: !tagged_iterator ga.groep_type
-        tags:
-            - { name: ga.rapportage, title: Buurtmaatjes vrijwilligers per groep }
+        tags: ['ga.rapportage']
 
     GaBundle\Report\VrijwilligersPerGroepStadsdeel:
-        arguments:
-          $repositories: !tagged_iterator ga.groep_type
-        tags:
-            - { name: ga.rapportage, title: Buurtmaatjes vrijwilligers per groep en stadsdeel }
+        tags: ['ga.rapportage']
 
     groep_metadata:
       class: Doctrine\ORM\Mapping\ClassMetadata

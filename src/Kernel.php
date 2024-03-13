@@ -4,6 +4,7 @@ namespace App;
 
 use AppBundle\DependencyInjection\Compiler\LdapCompilerPass;
 use AppBundle\DependencyInjection\Compiler\ReportsCompilerPass;
+use GaBundle\DependencyInjection\Compiler\GroepTypeCompilerPass;
 use Symfony\Bundle\FrameworkBundle\Kernel\MicroKernelTrait;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Kernel as BaseKernel;
@@ -31,6 +32,7 @@ class Kernel extends BaseKernel
     public function build(ContainerBuilder $container)
     {
         $container->addCompilerPass(new LdapCompilerPass());
+        $container->addCompilerPass(new GroepTypeCompilerPass());
 
         $this->addReportsCompilerPasses($container);
     }

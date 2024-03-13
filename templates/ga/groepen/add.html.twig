@@ -8,8 +8,8 @@
     {% else %}
         <p>Selecteer het type groep dat je wilt toevoegen:</p>
         <ul>
-            {% for groupType,groupName in groupTypes %}
-                <li>{{ html.link(groupName, path(route_base~'add', {type: groupType})) }}</li>
+            {% for group_type in group_types %}
+                <li>{{ html.link(group_type, path(route_base~'add', {type: group_type})) }}</li>
             {% endfor %}
         </ul>
     {% endif %}

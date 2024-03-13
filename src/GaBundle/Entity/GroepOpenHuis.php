@@ -11,9 +11,4 @@ use Gedmo\Mapping\Annotation as Gedmo;
  */
 class GroepOpenHuis extends Groep
 {
-    public static function getType(): string
-    {
-        return "Open Huis";
-    }
-
 }

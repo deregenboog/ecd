@@ -3,87 +3,19 @@
 namespace GaBundle\Report;
 
 use AppBundle\Report\AbstractReport as BaseAbstractReport;
-use Doctrine\ORM\EntityRepository;
+use GaBundle\Service\GroupTypeContainer;
 
 abstract class AbstractReport extends BaseAbstractReport
 {
     /**
-     * @var EntityRepository[]
+     * @var GroupTypeContainer
      */
-    protected $repositories;
+    protected $groupTypes;
 
-    /**
-     * @var \DateTime
-     */
-    protected $startDate;
+    protected array $data;
 
-    /**
-     * @var \DateTime
-     */
-    protected $endDate;
-
-    /**
-     * @var string
-     */
-    protected $title;
-
-    /**
-     * @var array
-     */
-    protected $reports = [];
-
-    protected $data;
-
-    protected $xDescription;
-
-    protected $yDescription;
-
-    public function __construct(iterable $repositories = [])
+    public function __construct(GroupTypeContainer $groupTypes)
     {
-        $this->repositories = $repositories;
-    }
-
-    public function getTitle()
-    {
-        return $this->title;
-    }
-
-    public function setTitle($title)
-    {
-        $this->title = $title;
-
-        return $this;
-    }
-
-    public function getStartDate()
-    {
-        return $this->startDate;
-    }
-
-    public function setStartDate(\DateTime $startDate)
-    {
-        $this->startDate = $startDate;
-
-        return $this;
-    }
-
-    public function getEndDate()
-    {
-        return $this->endDate;
-    }
-
-    public function setEndDate(\DateTime $endDate)
-    {
-        $this->endDate = $endDate;
-
-        return $this;
-    }
-
-    public function getReports()
-    {
-        $this->init();
-        $this->build();
-
-        return $this->reports;
+        $this->groupTypes = $groupTypes;
     }
 }
