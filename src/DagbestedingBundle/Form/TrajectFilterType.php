@@ -2,6 +2,7 @@
 
 namespace DagbestedingBundle\Form;
 
+use App\DagbestedingBundle\Form\ResultaatgebiedsoortSelectType;
 use AppBundle\Form\AppDateRangeType;
 use AppBundle\Form\BaseSelectType;
 use AppBundle\Form\FilterType;
@@ -44,9 +45,7 @@ class TrajectFilterType extends AbstractType
         }
 
         if (array_key_exists('resultaatgebied', $options['enabled_filters'])) {
-            $builder->add('resultaatgebied', ResultaatgebiedFilterType::class, [
-                'enabled_filters' => $options['enabled_filters']['resultaatgebied'],
-            ]);
+            $builder->add('resultaatgebied', ResultaatgebiedsoortSelectType::class);
         }
 
         if (in_array('trajectcoach', $options['enabled_filters'])) {

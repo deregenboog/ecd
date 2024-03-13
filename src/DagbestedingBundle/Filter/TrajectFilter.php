@@ -116,7 +116,10 @@ class TrajectFilter implements FilterInterface
         }
 
         if ($this->resultaatgebied) {
-            $this->resultaatgebied->applyTo($builder);
+            $builder
+                ->andWhere('resultaatgebiedsoort = :resultaatgebied')
+                ->setParameter('resultaatgebied', $this->resultaatgebied)
+            ;
         }
 
         if ($this->medewerker) {
