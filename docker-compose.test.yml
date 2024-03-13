@@ -11,5 +11,5 @@ services:
       dockerfile: Dockerfile.test
     volumes:
       - ${PWD}/build:/app/build
-      - ${PWD}/src:/var/www/html/src:ro
-      - ${PWD}/tests:/var/www/html/tests:ro
+      - ${PWD}/src:/app/src:ro
+      - ${PWD}/tests:/app/tests:ro
