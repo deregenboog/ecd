@@ -37,6 +37,12 @@
                     {{ form_errors(filter.woonlocatie) }}
                 </th>
                 <th>
+                </th>
+                <th>
+                    {{ form_widget(filter.appKlant.maatschappelijkWerker) }}
+                    {{ form_errors(filter.appKlant.maatschappelijkWerker) }}
+                </th>
+                <th>
                     {{ form_widget(filter.huidigeStatus) }}
                     {{ form_errors(filter.huidigeStatus) }}
                 </th>
@@ -71,6 +77,9 @@
                     Intakedatum
                 </th>
                 <th>
+                    Maatschappelijk werker
+                </th>
+                <th>
                     Dossierstatus
                 </th>
                 <th>
@@ -102,6 +111,9 @@
                     </td>
                     <td>
                         {{ bezoeker.laatsteIntake ? bezoeker.laatsteIntake.intakedatum|date('d-m-Y') }}
+                    </td>
+                    <td>
+                        {{ bezoeker.appKlant.maatschappelijkWerker }}
                     </td>
                     <td>
                         {{ bezoeker.huidigeStatus }}

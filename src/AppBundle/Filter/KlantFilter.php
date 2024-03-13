@@ -76,6 +76,11 @@ class KlantFilter implements FilterInterface
      */
     public $medewerker;
 
+    /**
+     * @var Medewerker
+     */
+    public $maatschappelijkWerker;
+
     public function applyTo(QueryBuilder $builder, $alias = 'klant')
     {
         if ($this->id) {
@@ -207,6 +212,13 @@ class KlantFilter implements FilterInterface
             $builder
                 ->andWhere("{$alias}.medewerker = :{$alias}_medewerker")
                 ->setParameter("{$alias}_medewerker", $this->medewerker)
+            ;
+        }
+
+        if ($this->maatschappelijkWerker) {
+            $builder
+                ->andWhere("{$alias}.maatschappelijkWerker = :{$alias}_maatschappelijkWerker")
+                ->setParameter("{$alias}_maatschappelijkWerker", $this->maatschappelijkWerker)
             ;
         }
     }

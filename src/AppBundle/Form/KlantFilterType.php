@@ -87,6 +87,13 @@ class KlantFilterType extends AbstractType
             ]);
         }
 
+        if (in_array('maatschappelijkWerker', $options['enabled_filters'])) {
+            $builder->add('maatschappelijkWerker', MedewerkerType::class, [
+                'required' => false,
+                'preset' => false,
+            ]);
+        }
+
         if (in_array('stadsdeel', $options['enabled_filters'])) {
             $builder->add('stadsdeel', StadsdeelSelectType::class, [
             ]);
