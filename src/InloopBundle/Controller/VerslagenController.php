@@ -64,7 +64,7 @@ class VerslagenController extends AbstractController
             throw new UserException("Kan geen verslag toevoegen aan een klant zonder een lopend MW dossier.");
         }
 
-        $entity = new Verslag($klant, Verslag::ACCESS_ALL);
+        $entity = new Verslag($klant, Verslag::TYPE_INLOOP);
 
         return $this->processForm($request, $entity);
     }
