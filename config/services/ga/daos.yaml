@@ -88,4 +88,5 @@ services:
         class: ArrayObject
         arguments:
             -
+              - { key: activiteit, dao: '@GaBundle\Service\ActiviteitDao' }
               - { key: dossier, dao: '@GaBundle\Service\DossierDao' }

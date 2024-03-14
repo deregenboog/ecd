@@ -35,6 +35,7 @@
     <ul class="nav nav-tabs">
         <li class="active"><a data-toggle="tab" href="#deelnemers">Deelnemers</a></li>
         <li><a data-toggle="tab" href="#vrijwilligers">Vrijwilligers</a></li>
+        <li><a data-toggle="tab" href="#verslagen">Verslagen</a></li>
     </ul>
     <div class="tab-content">
         <div id="deelnemers" class="tab-pane active">
@@ -42,6 +43,22 @@
         </div>
         <div id="vrijwilligers" class="tab-pane">
             {% include 'ga/deelnames/_list.html.twig' with {context: 'vrijwilligers'} %}
+        </div>
+        <div id="verslagen" class="tab-pane">
+            <h2>Verslagen</h2>
+            {{ html.link('Verslag toevoegen', path('ga_verslagen_add', {activiteit: entity.id}), 'add') }}
+            {% for verslag in entity.verslagen %}
+                <h3>{{ verslag.created|date('d-m-Y - H:i')~' uur' }}</h3>
+                <p>
+                    {{ html.link('Verslag bewerken', path('ga_verslagen_edit', {id: verslag.id}), 'edit') }}
+                </p>
+                <dl class="dl-horizontal">
+                    <dt>Medewerker</dt>
+                    <dd>{{ verslag.medewerker }}</dd>
+                    <dt>Opmerking</dt>
+                    <dd><div class="well">{{ verslag.opmerking|nl2br }}</div></dd>
+                </dl>
+            {% endfor %}
         </div>
     </div>
 {% endblock %}
