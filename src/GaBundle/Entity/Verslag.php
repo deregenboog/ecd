@@ -25,6 +25,12 @@ class Verslag
     protected $dossier;
 
     /**
+     * @ORM\ManyToOne(targetEntity="Activiteit", inversedBy="verslagen")
+     * @Gedmo\Versioned
+     */
+    protected $activiteit;
+
+    /**
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Medewerker")
      * @Gedmo\Versioned
      */
@@ -66,6 +72,18 @@ class Verslag
     public function setDossier($dossier)
     {
         $this->dossier = $dossier;
+
+        return $this;
+    }
+
+    public function getActiviteit(): ?Activiteit
+    {
+        return $this->activiteit;
+    }
+
+    public function setActiviteit(Activiteit $activiteit): self
+    {
+        $this->activiteit = $activiteit;
 
         return $this;
     }

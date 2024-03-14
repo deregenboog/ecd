@@ -84,6 +84,14 @@ class Activiteit
     protected $modified;
 
     /**
+     * @var ArrayCollection|Verslag[]
+     *
+     * @ORM\OneToMany(targetEntity="Verslag", mappedBy="activiteit", cascade={"persist"})
+     * @ORM\OrderBy({"id": "desc"})
+     */
+    protected $verslagen;
+
+    /**
      * @return int
      */
     public function getAantalAnoniemeDeelnemers()
@@ -104,6 +112,7 @@ class Activiteit
     public function __construct()
     {
         $this->deelnames = new ArrayCollection();
+        $this->verslagen = new ArrayCollection();
     }
 
     public function __toString()
@@ -235,5 +244,18 @@ class Activiteit
     public function isGeannuleerd()
     {
         return !is_null($this->annuleringsreden);
+    }
+
+    public function getVerslagen()
+    {
+        return $this->verslagen;
+    }
+
+    public function addVerslag(Verslag $verslag)
+    {
+        $this->verslagen[] = $verslag;
+        $verslag->setActiviteit($this);
+
+        return $this;
     }
 }
