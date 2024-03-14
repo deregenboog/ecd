@@ -13,3 +13,4 @@ services:
       - ${PWD}/build:/app/build
       - ${PWD}/src:/app/src:ro
       - ${PWD}/tests:/app/tests:ro
+      - ${PWD}/templates:/app/templates:ro
