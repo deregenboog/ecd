@@ -10,8 +10,8 @@
         {% endif %}
     </h1>
     <p>
-        {{ html.cancelLink(path(route_base~'index')) }}
-        {{ html.link('Annuleren', path(route_base~'index')) }}
+        {{ html.cancelLink(try_path(route_base~'index')) }}
+        {{ html.link('Annuleren', try_path(route_base~'index')) }}
     </p>
 {% endblock %}
 

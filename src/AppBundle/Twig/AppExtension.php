@@ -12,6 +12,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\EntityNotFoundException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\Routing\Exception\RouteNotFoundException;
 use Symfony\Polyfill\Intl\Icu\Exception\MethodArgumentValueNotImplementedException;
 use Twig\Environment;
 use Twig\Extension\AbstractExtension;
@@ -95,8 +96,10 @@ class AppExtension extends AbstractExtension implements GlobalsInterface
             new TwigFunction('isActivePath', [$this, 'isActivePath']),
             new TwigFunction('colgroup', [$this, 'colgroup'], ['is_safe' => ['html']]),
             new TwigFunction('asset', [$this, 'asset']),
-            new TwigFunction('sleep', [$this, 'sleep']),
-            ];
+            new TwigFunction('try_path', [$this, 'tryPath'], [
+                'needs_environment' => true,
+            ]),
+        ];
     }
 
     public function getFilters(): array
@@ -553,9 +556,22 @@ class AppExtension extends AbstractExtension implements GlobalsInterface
         return '';
     }
 
-
-    public function sleep($length=1)
+    public function tryPath(Environment $env, string $routeName, array $routeParameters = [], bool $relative = false): string
     {
-        sleep($length);
+        $c = $env->getFunction('path')->getCallable();
+
+        try {
+            return $c($routeName, $routeParameters, $relative);
+        } catch (RouteNotFoundException $e) {
+            //
+        }
+
+        try {
+            return $c('home');
+        } catch (RouteNotFoundException $e) {
+            //
+        }
+
+        return '/';
     }
 }
