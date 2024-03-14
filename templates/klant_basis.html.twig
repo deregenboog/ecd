@@ -3,8 +3,8 @@
     {% set module = app.request.get('module', 'Klant') %}
 {% endif %}
 
-{% include 'app/klanten/_persoonsgegevens.html.twig' with {klant: entity.klant} %}
-{% include 'app/klanten/_contactgegevens.html.twig' with {klant: entity.klant} %}
+{% include 'app/klanten/_persoonsgegevens.html.twig' %}
+{% include 'app/klanten/_contactgegevens.html.twig' %}
 
 {{ render(controller('AppBundle\\Controller\\KlantenController::_dienstenAction', { id: klant.id} )) }}
 
@@ -30,4 +30,4 @@
 </table>
 {% endif %}
 
-{% include 'app/klanten/_documenten.html.twig' with {klant: entity.klant} %}
+{% include 'app/klanten/_documenten.html.twig' %}
