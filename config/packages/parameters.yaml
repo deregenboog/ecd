@@ -121,3 +121,7 @@ parameters:
 #     - TwBundle\Entity\Klant
 #     - AppBundle\Entity\Toestemmingsformulier
 
+when@test:
+  parameters:
+    # default values for env vars (in case not defined)
+    env(DOCTRINE_USE_SAVEPOINTS): 'true'
