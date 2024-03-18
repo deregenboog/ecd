@@ -7,7 +7,11 @@ RUN npm install && yarn encore dev
 FROM php:7.4
 
 # install dependencies
-RUN apt-get update && apt-get install -y \
+ENV PANTHER_NO_SANDBOX=1
+ENV PANTHER_CHROME_ARGUMENTS='--disable-dev-shm-usage'
+RUN apt update && apt install -y \
+    chromium \
+    chromium-driver \
     default-mysql-client \
     g++ \
     libfreetype6-dev \
@@ -28,6 +32,7 @@ COPY --from=composer:2 /usr/bin/composer /usr/local/bin/composer
 
 # configure
 ENV APP_ENV=test
+ENV XDEBUG_MODE=off
 COPY docker/php/php.ini /usr/local/etc/php/
 RUN \
     # set timezone
@@ -50,8 +55,12 @@ RUN composer install --no-autoloader --no-scripts
 # copy application code
 COPY . .
 COPY docker/php/.env.test .env
-RUN composer install
+RUN composer dump-autoload --optimize
 
 COPY --from=assets --chown=${UID}:${GID} /app/public/build /app/public/build
+
+# override default front-controller, because Panther needs the application to
+# boot src/TestKernel (not src/Kernel) to be able to measure code coverage
+COPY tests/index.php public/index.php
 
 ENTRYPOINT [ "php" ]

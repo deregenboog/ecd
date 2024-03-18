@@ -4,7 +4,6 @@ namespace AppBundle\Form;
 
 use AppBundle\Entity\GgwGebied;
 use AppBundle\Export\GenericExport;
-use AppBundle\Filter\DownloadVrijwilligersFilter;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;

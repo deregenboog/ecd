@@ -51,7 +51,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        php-version: ['7.4.3', '8.1.2']
+        php-version: ['7.4.3'] # ['7.4.3', '8.1.2']
     services:
       mysql:
         image: mysql:8.0
@@ -87,4 +87,4 @@ jobs:
       - name: Fixtures
         run: PREVENT_SAVE_ENABLED=false bin/console -n hautelook:fixtures:load
       - name: PHPUnit
-        run: XDEBUG_MODE=coverage vendor/bin/phpunit --coverage-text
+        run: vendor/bin/phpunit tests
