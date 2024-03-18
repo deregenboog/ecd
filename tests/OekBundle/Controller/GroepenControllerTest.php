@@ -24,10 +24,6 @@ class GroepenControllerTest extends WebTestCase
         $this->assertGreaterThan(1, $headers->count());
 
         $headers->each(function ($header) use ($client) {
-            // @see https://github.com/KnpLabs/knp-components/issues/160
-            $request = Request::create($header->link()->getUri());
-            $_GET = $request->query->all();
-
             $client->click($header->link());
             $this->assertStatusCode(200, $client);
         });

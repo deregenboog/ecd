@@ -30,7 +30,7 @@ class SelectieFilter implements FilterInterface
     /**
      * @var array
      */
-    public $communicatie;
+    public $communicatie = [];
 
     public function applyTo(QueryBuilder $builder)
     {

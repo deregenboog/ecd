@@ -713,7 +713,7 @@ AppBundle\Entity\Medewerker:
         laatsteBezoek: '<dateTimeThisYear()>'
     medewerker_dagbesteding_admin:
         ldapGuid (unique): '<randomNumber()>'
-        roles: [ 'ROLE_DAGBESTEDING_BEHEER' ]
+        roles: [ 'ROLE_USER', 'ROLE_DAGBESTEDING_BEHEER' ]
         username: 'dagbesteding_admin'
         email: '<email()>'
         voornaam: 'Dagbesteding'
@@ -749,7 +749,7 @@ AppBundle\Entity\Medewerker:
         laatsteBezoek: '<dateTimeThisYear()>'
     medewerker_ga_admin:
         ldapGuid (unique): '<randomNumber()>'
-        roles: ['ROLE_USER','ROLE_GA_ADMIN']
+        roles: ['ROLE_USER','ROLE_GA_BEHEER']
         username: 'ga_admin'
         email: '<email()>'
         voornaam: 'GA'
@@ -771,6 +771,15 @@ AppBundle\Entity\Medewerker:
         username: 'iz_user'
         email: '<email()>'
         voornaam: 'IZ'
+        achternaam: 'User'
+        eersteBezoek: '<dateTimeThisYear()>'
+        laatsteBezoek: '<dateTimeThisYear()>'
+    medewerker_mw:
+        ldapGuid (unique): '<randomNumber()>'
+        roles: ['ROLE_USER', 'ROLE_MW' ]
+        username: 'mw_user'
+        email: '<email()>'
+        voornaam: 'MW'
         achternaam: 'User'
         eersteBezoek: '<dateTimeThisYear()>'
         laatsteBezoek: '<dateTimeThisYear()>'

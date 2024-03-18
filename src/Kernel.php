@@ -13,7 +13,7 @@ class Kernel extends BaseKernel
 {
     use MicroKernelTrait;
 
-    private $reports = [
+    protected $reports = [
         \AppBundle\Form\RapportageType::class => 'app.rapportage',
         \ClipBundle\Form\RapportageType::class => 'clip.rapportage',
         \DagbestedingBundle\Form\RapportageType::class => 'dagbesteding.rapportage',
@@ -36,7 +36,7 @@ class Kernel extends BaseKernel
         $this->addReportsCompilerPasses($container);
     }
 
-    private function addReportsCompilerPasses(ContainerBuilder $container)
+    protected function addReportsCompilerPasses(ContainerBuilder $container)
     {
         foreach ($this->reports as $serviceId => $tagId) {
             $container->addCompilerPass(new ReportsCompilerPass($serviceId, $tagId));

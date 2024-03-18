@@ -27,17 +27,14 @@ class LocatieSelectType extends AbstractType
         $resolver->setDefaults([
             'class' => Locatie::class,
             'placeholder' => '',
-            'query_builder' => function (Options $options) {
-                return function (EntityRepository $repository) use ($options) {
-                    $builder = $repository->createQueryBuilder('locatie')
-                        ->where('locatie.datumVan <= DATE(CURRENT_TIMESTAMP())')
-                        ->andWhere('locatie.datumTot IS NULL OR locatie.datumTot >= DATE(CURRENT_TIMESTAMP())')
-                        ->orderBy('locatie.naam')
-                    ;
+            'query_builder' => function (EntityRepository $repository) {
+                $builder = $repository->createQueryBuilder('locatie')
+                    ->where('locatie.datumVan <= DATE(CURRENT_TIMESTAMP())')
+                    ->andWhere('locatie.datumTot IS NULL OR locatie.datumTot >= DATE(CURRENT_TIMESTAMP())')
+                    ->orderBy('locatie.naam')
+                ;
 
-
-                    return $builder;
-                };
+                return $builder;
             },
         ]);
     }

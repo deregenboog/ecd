@@ -15,7 +15,9 @@ test: install
 	vendor/bin/phpunit
 
 docker-build:
-	docker compose build
+	docker compose build --build-arg UID=$$(id -u) --build-arg GID=$$(id -g)
+
+docker-reset-db:
 	docker compose up --force-recreate --wait database && sleep 1
 	docker compose run --rm php bin/console -n doctrine:migrations:sync-metadata-storage
 	docker compose run --rm php bin/console -n doctrine:migrations:migrate
@@ -23,7 +25,9 @@ docker-build:
 	docker compose run --rm php bin/console -n inloop:access:update
 
 docker-up:
-	docker compose up -d
+	XDEBUG_MODE=develop docker compose up -d
+
+docker-shell:
 	docker compose exec --user $$(id -u):$$(id -g) php bash
 
 docker-up-debug:
@@ -50,6 +54,12 @@ docker-test-setup:
 	docker compose -f docker-compose.test.yml run --rm -e PREVENT_SAVE_ENABLED=false test bin/console -n hautelook:fixtures:load
 
 docker-test-run:
+	docker compose -f docker-compose.test.yml run --rm \
+		--user $$(id -u):$$(id -g) \
+		-e SYMFONY_DEPRECATIONS_HELPER=max[direct]=0 \
+		test vendor/bin/phpunit $(tests)
+
+docker-test-coverage:
 	docker compose -f docker-compose.test.yml run --rm \
 		--user $$(id -u):$$(id -g) \
 		-e SYMFONY_DEPRECATIONS_HELPER=max[direct]=0 \
