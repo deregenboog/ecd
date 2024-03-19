@@ -26,6 +26,7 @@ COPY --from=composer:2 /usr/bin/composer /usr/local/bin/composer
 # configure
 ENV APP_ENV=dev
 COPY docker/php/php.ini /usr/local/etc/php/
+COPY docker/php/xdebug.ini /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
 RUN \
     # set timezone
     echo "Europe/Amsterdam" > /etc/timezone \
