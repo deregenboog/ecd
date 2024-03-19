@@ -151,4 +151,4 @@ when@test:
         dbal:
             connections:
                 default:
-                    use_savepoints: true
+                    use_savepoints: '%env(bool:DOCTRINE_USE_SAVEPOINTS)%'
