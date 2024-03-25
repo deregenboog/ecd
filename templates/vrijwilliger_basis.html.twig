@@ -49,6 +49,9 @@
     <dt>Opmerking</dt>
     <dd>{{ vrijwilliger.opmerking|nl2br }}</dd>
 </dl>
+
+{{ render(controller('AppBundle\\Controller\\VrijwilligersController::_dienstenAction', { id: vrijwilliger.id} )) }}
+
 <h2>Documenten</h2>
 <p>
     {{ html.link('Wijzigen', path('app_vrijwilligers_edit', {id: vrijwilliger.id}), 'edit') }}

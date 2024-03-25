@@ -79,6 +79,8 @@ services:
 
     IzBundle\Event\DienstenLookupSubscriber:
 
+    IzBundle\Event\DienstenVrijwilligerLookupSubscriber:
+
     iz.repository.doelstelling:
         class: Doctrine\ORM\EntityRepository
         factory: ["@doctrine", getRepository]

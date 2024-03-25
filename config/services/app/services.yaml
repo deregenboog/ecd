@@ -159,6 +159,8 @@ services:
 
     AppBundle\Event\DienstenLookupSubscriber:
 
+    AppBundle\Event\DienstenVrijwilligerLookupSubscriber:
+
     app.document.entities:
         class: ArrayObject
         arguments:

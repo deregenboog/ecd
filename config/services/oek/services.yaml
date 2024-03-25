@@ -41,8 +41,9 @@ services:
         arguments:
             $export: '@oek.export.wachtlijst'
 
-
     OekBundle\Event\DienstenLookupSubscriber:
+
+    OekBundle\Event\DienstenVrijwilligerLookupSubscriber:
 
     deelnemer_metadata:
         class: Doctrine\ORM\Mapping\ClassMetadata

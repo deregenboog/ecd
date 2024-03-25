@@ -6,6 +6,8 @@ use AppBundle\Entity\Document;
 use AppBundle\Entity\Overeenkomst;
 use AppBundle\Entity\Vog;
 use AppBundle\Entity\Vrijwilliger;
+use AppBundle\Event\DienstenVrijwilligerLookupEvent;
+use AppBundle\Event\Events;
 use AppBundle\Export\AbstractExport;
 use AppBundle\Form\ConfirmationType;
 use AppBundle\Form\VrijwilligerFilterType;
@@ -131,5 +133,33 @@ class VrijwilligersController extends AbstractController
             'form' => $form->createView(),
         ];
 
+    }
+
+    /**
+     * @Template
+     */
+    public function _dienstenAction($id)
+    {
+        return [
+            'diensten' => $this->lookupDiensten($id),
+        ];
+    }
+
+    protected function addParams($entity, Request $request): array
+    {
+        assert($entity instanceof Vrijwilliger);
+
+        return [
+            'diensten' => $this->lookupDiensten($entity->getId()),
+        ];
+    }
+
+
+    protected function lookupDiensten(int $vrijwilligerId): array
+    {
+        $event = new DienstenVrijwilligerLookupEvent($vrijwilligerId);
+        $this->eventDispatcher->dispatch($event, Events::DIENSTEN_VRIJWILLIGER_LOOKUP);
+
+        return $event->getDiensten();
     }
 }
