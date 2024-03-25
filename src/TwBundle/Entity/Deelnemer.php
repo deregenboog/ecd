@@ -513,7 +513,6 @@ abstract class Deelnemer implements KlantRelationInterface
     {
         foreach ($this->getHuurovereenkomsten() as $hoe) {
             /** @var Huurovereenkomst $hoe */
-            $hoe = $hoe;
             if ($hoe->isReservering() == false && $hoe->isActief() == true && $hoe->getAfsluitdatum() == null && $hoe->getStartdatum() != null
                 && $this->getAfsluitdatum() == null
             ) {
