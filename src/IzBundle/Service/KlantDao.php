@@ -5,13 +5,8 @@ namespace IzBundle\Service;
 use AppBundle\Entity\Klant;
 use AppBundle\Filter\FilterInterface;
 use AppBundle\Service\AbstractDao;
-use Doctrine\ORM\Query;
 use Doctrine\ORM\Query\Expr;
-use IzBundle\Entity\IzDeelnemer;
 use IzBundle\Entity\IzKlant;
-use IzBundle\Entity\Koppeling;
-use ShipMonk\Doctrine\MySql\IndexHint;
-use ShipMonk\Doctrine\MySql\UseIndexSqlWalker;
 
 class KlantDao extends AbstractDao implements KlantDaoInterface
 {
@@ -36,7 +31,7 @@ class KlantDao extends AbstractDao implements KlantDaoInterface
 
     protected $class = IzKlant::class;
 
-    public function findAll($page = null, FilterInterface $filter = null)
+    public function findAll($page = null, ?FilterInterface $filter = null)
     {
         $expr = new Expr();
 
@@ -49,19 +44,14 @@ class KlantDao extends AbstractDao implements KlantDaoInterface
             ->leftJoin('intake.medewerker', 'intakeMedewerker')
             ->leftJoin('izKlant.hulpvragen', 'hulpvraag')
             ->leftJoin('hulpvraag.project', 'project')
-            ->leftJoin('hulpvraag.medewerker', 'hulpvraagMedewerker', 'WITH', $expr->andX(
-                $expr->orX('hulpvraag.einddatum IS NULL', 'hulpvraag.einddatum > :now'),
-                $expr->orX('hulpvraag.koppelingEinddatum IS NULL', 'hulpvraag.koppelingEinddatum > :now')
-            ))
-            ->leftJoin('hulpvraag.hulpvraagsoort','hulpvraagsoort')
-            ->leftJoin('hulpvraag.doelgroepen','doelgroep')
-            ->setParameter('now', new \DateTime())
+            ->leftJoin('hulpvraag.medewerker', 'hulpvraagMedewerker')
+            ->leftJoin('hulpvraag.hulpvraagsoort', 'hulpvraagsoort')
+            ->leftJoin('hulpvraag.doelgroepen', 'doelgroep')
         ;
 
         if ($filter) {
             $filter->applyTo($builder);
         }
-
 
         if ($page) {
             return $this->paginator->paginate($builder, $page, $this->itemsPerPage, $this->paginationOptions);
@@ -71,13 +61,12 @@ class KlantDao extends AbstractDao implements KlantDaoInterface
     }
 
     /**
-     * @param Klant $klant
-     *
      * @return IzKlant
      */
     public function findOneByKlant(Klant $klant)
     {
         $this->entityManager->getFilters()->disable('foutieve_invoer');
+
         return $this->repository->findOneBy(['klant' => $klant]);
         $this->entityManager->getFilters()->enable('foutieve_invoer');
     }

@@ -2,7 +2,6 @@
 
 namespace IzBundle\Filter;
 
-use AppBundle\Doctrine\SqlExtractor;
 use AppBundle\Entity\Medewerker;
 use AppBundle\Filter\FilterInterface;
 use AppBundle\Filter\KlantFilter;
@@ -10,11 +9,9 @@ use AppBundle\Form\Model\AppDateRangeModel;
 use Doctrine\ORM\Query;
 use Doctrine\ORM\QueryBuilder;
 use IzBundle\Entity\Doelgroep;
-use IzBundle\Entity\Hulp;
 use IzBundle\Entity\Hulpvraag;
 use IzBundle\Entity\Hulpvraagsoort;
 use IzBundle\Entity\IzDeelnemer;
-use IzBundle\Entity\Koppeling;
 use IzBundle\Entity\Project;
 use ShipMonk\Doctrine\MySql\IndexHint;
 use ShipMonk\Doctrine\MySql\UseIndexSqlWalker;
@@ -113,24 +110,24 @@ class IzKlantFilter implements FilterInterface
         }
 
         if ($this->project) {
+            $builder
+                ->andWhere('hulpvraag.project = :project')
+                ->setParameter('project', $this->project)
+            ;
             switch ($this->actief) {
                 case self::ACTIEF_OOIT:
-                    $builder
-                        ->andWhere('hulpvraag.project = :project')
-                        ->setParameter('project', $this->project)
-                    ;
+                    // nothing to add
                     break;
                 case self::ACTIEF_NU:
                 default:
                     $builder
-                        ->andWhere('hulpvraag.project = :project')
-                        ->andWhere('hulpvraag.einddatum IS NULL')
-                        ->andWhere('hulpvraag.koppelingEinddatum IS NULL')
-                        ->setParameter('project', $this->project)
+                        ->andWhere('hulpvraag.einddatum IS NULL OR hulpvraag.einddatum > :now')
+                        ->andWhere('hulpvraag.koppelingEinddatum IS NULL OR hulpvraag.koppelingEinddatum > :now')
                     ;
                     break;
             }
         }
+
         if ($this->hulpvraagsoort) {
             if (!in_array('hulpvraagsoort', $builder->getAllAliases())) {
                 $builder->innerJoin('hulpvraag.hulpvraagsoort', 'hulpvraagsoort');
@@ -169,6 +166,19 @@ class IzKlantFilter implements FilterInterface
                 ->andWhere('hulpvraagMedewerker = :hulpvraagMedewerker')
                 ->setParameter('hulpvraagMedewerker', $this->hulpvraagMedewerker)
             ;
+            switch ($this->actief) {
+                case self::ACTIEF_OOIT:
+                    // nothing to add
+                    break;
+                case self::ACTIEF_NU:
+                default:
+                    $builder
+                        ->andWhere('hulpvraag.einddatum IS NULL OR hulpvraag.einddatum > :now')
+                        ->andWhere('hulpvraag.koppelingEinddatum IS NULL OR hulpvraag.koppelingEinddatum > :now')
+                        ->setParameter('now', new \DateTime())
+                    ;
+                    break;
+            }
         }
 
         if ($this->zonderActieveHulpvraag) {
