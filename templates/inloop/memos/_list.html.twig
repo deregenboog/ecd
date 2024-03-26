@@ -30,8 +30,9 @@
                 {{ html.editLink(path('inloop_memos_edit', {id: memo.id})) }}
                 {% if vrijwilliger is defined %}
                     {% set url = path('inloop_memos_delete', {id: memo.id, vrijwilliger: entity.id}) %}
+                    {{ html.deleteLink(url) }}
                 {% endif %}
-                {{ html.deleteLink(url) }}
+                {{ html.revisionsLink(entity) }}
             </td>
         </tr>
     {% endfor %}

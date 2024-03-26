@@ -13,6 +13,7 @@
                 {% if icon == 'connect' %}{% set icon = 'paperclip' %}{% endif %}
                 {% if icon == 'email' %}{% set icon = 'envelope' %}{% endif %}
                 {% if icon == 'all' %}{% set icon = 'modal-window' %}{% endif %}
+                {% if icon == 'list' %}{% set icon = 'th-list' %}{% endif %}
                 <span class="glyphicon glyphicon-{{ icon }}" aria-hidden="true"></span>
             {% endif %}
             {% if label %}
@@ -76,6 +77,18 @@
     <li role="presentation" class="{{ active ? "active" }}">
         <a href="{{ url }}" >{{ label }}</a>
     </li>
+{% endmacro %}
+
+{% macro revisionsLink(entity, label = false) %}
+    {% if is_granted('CONTROLLER_APP_REVISIONS') %}
+        {% import _self as self %}
+        {% set url = path('app_revisions_index', {'class': class(entity), 'id': entity.id}) %}
+        {% if label %}
+            {{ self.link('Revisies', url, 'list') }}
+        {% else %}
+            {{ self.iconLink(url, 'list', 'Revisies') }}
+        {% endif %}
+    {% endif %}
 {% endmacro %}
 
 {% macro tick() %}

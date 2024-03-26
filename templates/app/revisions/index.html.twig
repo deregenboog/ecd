@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block subnavigation %}
+{% endblock %}
+
+{% block content %}
+    <h1>{{ object_class|abbr_class(true) }} #{{ object_id }}</h1>
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>Datum</th>
+                <th>Gebruikersnaam</th>
+                <th>Actie</th>
+                <th>Wijzigingen</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for revision in revisions %}
+            <tr>
+                <td>{{ revision.logged_at|date('d-m-Y H:i:s') }}</td>
+                <td>{{ revision.username }}</td>
+                <td>{{ revision.action }}</td>
+                <td>
+                    {% if revision.changes is defined %}
+                        <ul>
+                        {% for field, change in revision.changes %}
+                            <li>{{ field }}:
+                                <del>{{ change.from }}</del>
+                                <ins>{{ change.to }}</ins>
+                            </li>
+                        {% endfor %}
+                        </ul>
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
