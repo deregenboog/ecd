@@ -1,4 +1,4 @@
-when@dev:
+when@dev: &dev
     services:
         AppBundle\Security\DevelopmentAuthenticator:
             arguments:
@@ -11,6 +11,8 @@ when@dev:
                 custom_authenticators:
                     - AppBundle\Security\DevelopmentAuthenticator
                 entry_point: AppBundle\Security\DevelopmentAuthenticator
+
+when@test: *dev
 
 #when@prod:
 #    security:

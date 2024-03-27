@@ -43,10 +43,10 @@ class VrijwilligerFilterType extends AbstractType
             ]);
         }
 
-        if (in_array('filterOpActiefAlleen', $options['enabled_filters'])) {
-            $builder->add('filterOpActiefAlleen', CheckboxType::class, [
+        if (in_array('actief', $options['enabled_filters'])) {
+            $builder->add('actief', CheckboxType::class, [
                 'required' => false,
-                'label'=>'Alleen actieve vrijwilligers'
+                'label'=> 'Alleen actieve vrijwilligers',
             ]);
         }
     }
@@ -65,7 +65,7 @@ class VrijwilligerFilterType extends AbstractType
                 'afsluitdatum',
                 'locatie',
                 'stadsdeel',
-                'filterOpActiefAlleen',
+                'actief',
                 'filter',
                 'download',
             ],
