@@ -17,6 +17,7 @@
 {#        {% if entity.deletable %}#}
 {#            {{ html.link(entity_name|capitalize~' verwijderen', path('inloop_vrijwilligers_delete', {id: entity.id}), 'delete') }}#}
 {#        {% endif %}#}
+        {{ html.revisionsLink(entity, true) }}
     </p>
 {% endblock %}
 
