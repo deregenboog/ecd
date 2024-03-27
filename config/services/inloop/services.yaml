@@ -134,6 +134,8 @@ services:
 
     InloopBundle\Event\DienstenLookupSubscriber:
 
+    InloopBundle\Event\DienstenVrijwilligerLookupSubscriber:
+
     InloopBundle\Event\RegistratieSubscriber:
 
     InloopBundle\Security\IntakeVoter:

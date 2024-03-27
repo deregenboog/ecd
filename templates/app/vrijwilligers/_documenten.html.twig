@@ -1,0 +1,37 @@
+{% import 'html.macro.twig' as html %}
+
+<h2>Documenten</h2>
+<dl class="dl-horizontal">
+    <dt>VOG aangevraagd</dt>
+    <dd>{{ entity.vogAangevraagd ? 'Ja' : 'Nee' }}</dd>
+    <dt>VOG</dt>
+    <dd>
+        {% if entity.vogAanwezig %}
+            {% if entity.vog %}
+                {{ html.link('VOG downloaden', vich_uploader_asset(entity.vog, 'file'), 'download') }}
+                {% if entity.vog.medewerker.id == app.user.id or is_granted('ROLE_ADMIN') %}
+                    {{ html.link('', path('app_vrijwilligers_deletedocument', {vrijwilliger: entity.id, documentId: entity.vog.id}), 'delete') }}
+                {% endif %}
+            {% else %}
+                Aanwezig
+            {% endif %}
+        {% else %}
+            {{ html.link('VOG toevoegen', path('app_documenten_add', {vrijwilliger: entity.id, type: 'vog'}), 'add') }}
+        {% endif %}
+    </dd>
+    <dt>Overeenkomst</dt>
+    <dd>
+        {% if entity.overeenkomstAanwezig %}
+            {% if entity.overeenkomst %}
+                {{ html.link('Overeenkomst downloaden', vich_uploader_asset(entity.overeenkomst, 'file'), 'download') }}
+                {% if entity.overeenkomst.medewerker.id == app.user.id or is_granted('ROLE_ADMIN') %}
+                    {{ html.link('', path('app_vrijwilligers_deletedocument', {vrijwilliger: entity.id, documentId: entity.overeenkomst.id}), 'delete') }}
+                {% endif %}
+            {% else %}
+                Aanwezig
+            {% endif %}
+        {% else %}
+            {{ html.link('Overeenkomst toevoegen', path('app_documenten_add', {vrijwilliger: entity.id, type: 'overeenkomst'}), 'add') }}
+        {% endif %}
+    </dd>
+</dl>

@@ -68,6 +68,8 @@ services:
 
     GaBundle\Event\DienstenLookupSubscriber:
 
+    GaBundle\Event\DienstenVrijwilligerLookupSubscriber:
+
     GaBundle\Form\RapportageType:
 
     GaBundle\Report\DeelnemersTotaal:
