@@ -104,10 +104,18 @@ class VerhuurderFilter implements FilterInterface
                 break;
         }
 
-        if ($this->gekoppeld) {
-//                ->andWhere('verhuurder.aanmelddatum <= :today')
-//                ->andWhere('verhuurder.afsluitdatum > :today OR verhuurder.afsluitdatum IS NULL')
-//                ->setParameter('today', new \DateTime('today'))
+        if (!is_null($this->gekoppeld)) {
+            $builder
+                ->leftJoin('verhuurder.huuraanbiedingen', 'huuraanbod', 'WITH', 'huuraanbod.afsluiting IS NULL')
+                ->leftJoin('huuraanbod.huurovereenkomst', 'huurovereenkomst', 'WITH',
+                    'huurovereenkomst.isReservering = false AND huurovereenkomst.startdatum IS NOT NULL AND huurovereenkomst.afsluitdatum IS NULL'
+                )
+            ;
+            if (true === $this->gekoppeld) {
+                $builder->andWhere('huurovereenkomst IS NOT NULL');
+            } elseif (false === $this->gekoppeld) {
+                $builder->andWhere('huurovereenkomst IS NULL');
+            }
         }
 
         if ($this->medewerker) {

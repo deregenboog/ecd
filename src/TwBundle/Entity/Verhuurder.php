@@ -31,10 +31,6 @@ class Verhuurder extends Deelnemer
     private $huuraanbiedingen;
 
     /**
-     *
-     */
-
-    /**
      * @var Pandeigenaar
      *
      * @ORM\ManyToOne(targetEntity="Pandeigenaar", inversedBy="verhuurders")
