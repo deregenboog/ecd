@@ -17,6 +17,7 @@ class Intakeverslag extends Verslag
     {
         $this->opmerking = <<<EOF
 <b>Wie is de deelnemer?</b>
+<br />
 <br />Wensen, motieven en re&euml;le perspectieven:
 <br /> <br />Sfeer en persoonlijkheid:
 <br /> <br />Vaardigheden, in de persoon gelegen factoren:
