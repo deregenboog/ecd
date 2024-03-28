@@ -68,6 +68,7 @@
         <li><a data-toggle="tab" href="#verslagen">Verslagen</a></li>
         <li><a data-toggle="tab" href="#opmerkingen">Opmerkingen</a></li>
         <li><a data-toggle="tab" href="#schorsingen">Schorsingen</a></li>
+        <li><a data-toggle="tab" href="#registraties">Laatste registraties</a></li>
     </ul>
     <div class="tab-content">
         <div id="info" class="tab-pane active">
@@ -156,6 +157,9 @@
             </p>
             #}
             {{ schorsingenMacro.schorsingenTabel(entity.verlopenSchorsingen, entity, allRows, route_base) }}
+        </div>
+        <div id="registraties" class="tab-pane">
+            {% include 'inloop/klanten/_registraties.html.twig' with {klant: entity} %}
         </div>
     </div>
 {% endblock %}
