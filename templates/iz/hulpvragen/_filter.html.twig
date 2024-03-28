@@ -1,6 +1,10 @@
 {{ form_start(filter) }}
     <tr>
-        <th colspan="9">
+        <th colspan="6">
+            {{ form_widget(filter.zoekterm) }}
+            {{ form_errors(filter.zoekterm) }}
+        </th>
+        <th colspan="3">
             <span class="pull-right">
                 {{ form_widget(filter.filter) }}
                 {{ form_widget(filter.download) }}

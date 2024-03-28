@@ -13,6 +13,7 @@ use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -76,6 +77,13 @@ class HulpaanbodFilterType extends AbstractType
             ]);
         }
 
+        if (in_array('zoekterm', $options['enabled_filters'])) {
+            $builder->add('zoekterm', TextType::class, [
+                'required' => false,
+                'attr' => ['placeholder' => 'Zoekterm'],
+            ]);
+        }
+
         if (in_array('filter', $options['enabled_filters'])) {
             $builder->add('filter', SubmitType::class, ['label' => 'Filteren']);
         }
@@ -100,6 +108,7 @@ class HulpaanbodFilterType extends AbstractType
                 'hulpvraagsoort',
                 'doelgroep',
                 'medewerker',
+                'zoekterm',
                 'filter',
                 'download',
             ],
