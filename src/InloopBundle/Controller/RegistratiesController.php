@@ -138,6 +138,7 @@ class RegistratiesController extends AbstractController
         $filter = new KlantFilter();
         $filter->locatie = $locatie;
         $filter->huidigeStatus = Aanmelding::class;
+        $filter->nuBinnen = false;
 
         $form = $this->getForm(KlantFilterType::class, $filter, [
             'attr' => ['class' => 'ajaxFilter'],

@@ -47,6 +47,11 @@ class KlantFilter implements FilterInterface
      */
     public $huidigeStatus;
 
+    /**
+     * @var bool
+     */
+    public $nuBinnen;
+
     public function applyTo(QueryBuilder $builder)
     {
         $builder
@@ -99,6 +104,15 @@ class KlantFilter implements FilterInterface
 
         if ($this->huidigeStatus) {
             $builder->andWhere($builder->expr()->isInstanceOf('status', $this->huidigeStatus));
+        }
+
+        if (true === $this->nuBinnen) {
+            $builder->join('klant.laatsteRegistratie', 'laatsteRegistratie', 'WITH', 'laatsteRegistratie.closed = false');
+        } elseif (false === $this->nuBinnen) {
+            $builder
+                ->leftJoin('klant.laatsteRegistratie', 'laatsteRegistratie', 'WITH', 'laatsteRegistratie.closed = false')
+                ->andWhere('laatsteRegistratie IS NULL')
+            ;
         }
 
         if ($this->klant) {
