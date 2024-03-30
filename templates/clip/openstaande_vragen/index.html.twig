@@ -91,33 +91,25 @@
 {% endblock %}
 
 {% block scripts %}
-<script>
-   window.onload = function(){
-      if($){
+    <script>
+        $(function() {
+            function vraag_hulpGezocht(vraag_id) {
+                $.post({
+                    url: `/clip/vragen/${vraag_id}/vraagHulp`,
+                }).done(function(data) {
+                    $(this).prop('checked', data.hulpCollegaGezocht);
 
-    $(function() {
+                    $(this).parent().parent().toggleClass('warning');
+                }).fail(function() {
+                    alert('Er is een fout opgetreden.')
+                });
+            };
 
-        function vraag_hulpGezocht(vraag_id) {
-            $.post({
-                url: `/clip/vragen/${vraag_id}/vraagHulp`,
-            }).done(function(data) {
-                $(this).prop('checked', data.hulpCollegaGezocht);
-
-                $(this).parent().parent().toggleClass('warning');
-            }).fail(function() {
-                alert('Er is een fout opgetreden.')
+            $('#vragen .hulpGezocht').on('click', function() {
+                var id = $(this).attr('data-id');
+                $(this).closest('tr').toggleClass('warning');
+                vraag_hulpGezocht(id);
             });
-        };
-
-        $('#vragen .hulpGezocht').on('click', function() {
-            var id = $(this).attr('data-id');
-            $(this).closest('tr').toggleClass('warning');
-            vraag_hulpGezocht(id);
         });
-
-    });
-
-      }
-   }
-   </script>
+    </script>
 {% endblock %}

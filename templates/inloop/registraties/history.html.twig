@@ -86,9 +86,8 @@
 {% endblock %}
 
 {% block scripts %}
-    {{ parent() }}
     <script>
         var locatie_id = {{ locatie.id }};
-   </script>
+    </script>
     {{ encore_entry_script_tags('inloophistory') }}
 {% endblock %}

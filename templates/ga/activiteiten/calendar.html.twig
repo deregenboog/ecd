@@ -15,9 +15,6 @@
     <script src="{{ asset('node_modules/fullcalendar/dist/fullcalendar.min.js') }}"></script>
     <script src="{{ asset('node_modules/fullcalendar/dist/locale/nl.js') }}"></script>
     <script>
-   window.onload = function(){
-      if($){
-
         $(function() {
             $('#calendar').fullCalendar({
                 locale: 'nl',
@@ -27,8 +24,5 @@
                 },
             })
         });
-
-      }
-   }
    </script>
 {% endblock %}

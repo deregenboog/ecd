@@ -11,12 +11,9 @@
     </p>
     {{ form(form) }}
 {% endblock %}
-{% macro tweedeFase() %}
+
+{% block scripts %}
     <script>
-   window.onload = function(){
-      if($){
-
-
         $(function() {
             var fieldTweedefase = $('form input#vrijwilliger_tweedeFase');
             var fieldStartDatum = $('form input#vrijwilliger_startDatum');
@@ -32,7 +29,7 @@
             }
 
 
-            fieldTweedefase.change(function(event){
+            fieldTweedefase.on('change', function(event){
                 if(this.checked){
                     fieldStartDatum.closest('.form-group').show();
                     fieldMedewerkerLocatie.closest('.form-group').show();
@@ -44,13 +41,5 @@
             });
 
         });
-
-
-
-      }
-   }
-   </script>
-{% endmacro %}
-{% block scripts %}
-   {{  _self.tweedeFase() }}
+    </script>
 {% endblock %}

@@ -24,53 +24,43 @@
 {% endmacro %}
 
 {% macro iconLink(url, icon, title) %}
-    {% import _self as self %}
-    {{ self.link(null, url, icon, title) }}
+    {{ _self.link(null, url, icon, title) }}
 {% endmacro %}
 
 {% macro viewLink(url) %}
-    {% import _self as self %}
-    {{ self.iconLink(url, 'view', 'Bekijken') }}
+    {{ _self.iconLink(url, 'view', 'Bekijken') }}
 {% endmacro %}
 
 {% macro addLink(url) %}
-    {% import _self as self %}
-    {{ self.iconLink(url, 'add', 'Toevoegen') }}
+    {{ _self.iconLink(url, 'add', 'Toevoegen') }}
 {% endmacro %}
 
 {% macro editLink(url) %}
-    {% import _self as self %}
-    {{ self.iconLink(url, 'edit', 'Wijzigen') }}
+    {{ _self.iconLink(url, 'edit', 'Wijzigen') }}
 {% endmacro %}
 
 {% macro deleteLink(url) %}
-    {% import _self as self %}
-    {{ self.iconLink(url, 'delete', 'Verwijderen') }}
+    {{ _self.iconLink(url, 'delete', 'Verwijderen') }}
 {% endmacro %}
 
 {% macro closeLink(url) %}
-    {% import _self as self %}
-    {{ self.iconLink(url, 'close', 'Afsluiten') }}
+    {{ _self.iconLink(url, 'close', 'Afsluiten') }}
 {% endmacro %}
 
 {% macro downloadLink(url) %}
-    {% import _self as self %}
-    {{ self.iconLink(url, 'download', 'Downloaden') }}
+    {{ _self.iconLink(url, 'download', 'Downloaden') }}
 {% endmacro %}
 
 {% macro cancelLink(url) %}
-    {% import _self as self %}
-    {{ self.iconLink(url, 'cancel', 'Annuleren') }}
+    {{ _self.iconLink(url, 'cancel', 'Annuleren') }}
 {% endmacro %}
 
 {% macro connectLink(url) %}
-    {% import _self as self %}
-    {{ self.iconLink(url, 'connect', 'Koppelen') }}
+    {{ _self.iconLink(url, 'connect', 'Koppelen') }}
 {% endmacro %}
 
 {% macro emailLink(url) %}
-    {% import _self as self %}
-    {{ self.iconLink(url, 'email', 'E-mailen') }}
+    {{ _self.iconLink(url, 'email', 'E-mailen') }}
 {% endmacro %}
 
 {% macro navLink(label, url, active) %}
@@ -81,12 +71,11 @@
 
 {% macro revisionsLink(entity, label = false) %}
     {% if is_granted('CONTROLLER_APP_REVISIONS') %}
-        {% import _self as self %}
-        {% set url = path('app_revisions_index', {'class': class(entity), 'id': entity.id}) %}
+            {% set url = path('app_revisions_index', {'class': class(entity), 'id': entity.id}) %}
         {% if label %}
-            {{ self.link('Revisies', url, 'list') }}
+            {{ _self.link('Revisies', url, 'list') }}
         {% else %}
-            {{ self.iconLink(url, 'list', 'Revisies') }}
+            {{ _self.iconLink(url, 'list', 'Revisies') }}
         {% endif %}
     {% endif %}
 {% endmacro %}
@@ -124,7 +113,7 @@
             let fieldset = $('form fieldset[name="{{ fieldsetName }}"]').first();
 
             //init onChange method
-            $(toggleId).change(function(){
+            $(toggleId).on('change', function(){
                 toggleFieldset(fieldset);
             });
 
@@ -175,10 +164,7 @@
                 }
             }
 
-            // console.log(initFieldsetStateHidden,initToggleStateHide);
-
             function toggleFieldset(fieldset){
-
                 fieldset.toggleClass('hide');
                 fieldset.children().each(
                     function(pos,el){

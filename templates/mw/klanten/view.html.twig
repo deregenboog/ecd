@@ -147,11 +147,7 @@
 
 {% block scripts %}
     <script>
-   window.onload = function(){
-      if($){
-
         $(function() {
-
             function opmerking_seen(opmerking_id) {
                 $.post({
                     url: `/inloop/opmerkingen/${opmerking_id}/updateGezien`,
@@ -200,10 +196,7 @@
                 schorsing_seen(id);
             });
         });
-
-      }
-   }
-   </script>
+    </script>
 {% endblock %}
 
 {% macro verslagProcessing(verslag, roleMw) %}

@@ -54,10 +54,7 @@
 
 {% block scripts %}
     {% if amoc_landen is defined %}
-    <script>
-    window.onload = function(){
-      if($){
-
+        <script>
             $(function() {
                 var amoc_landen = [];
                 {% for land in amoc_landen %}
@@ -67,7 +64,6 @@
                 var checkAmoc = function() {
                     var selected = parseInt($('select#klant_land').val());
                     if (amoc_landen.indexOf(selected) != -1) {
-                        console.log($('select#klant_land'));
                         $('select#klant_land').closest('div').append('<p>Personen uit dit land worden doorgestuurd naar AMOC West. Op het volgende scherm is een verwijsbrief uit te printen.</p>');
                     }
                 };
@@ -78,8 +74,6 @@
 
                 checkAmoc();
             });
-      }//end jquery
-   };//end onload
-   </script>
-{% endif %}
+        </script>
+    {% endif %}
 {% endblock %}

@@ -27,8 +27,6 @@ $(function() {
         var id = $(this).closest('tr').attr('data-id');
         remove(id);
     });
-
-
 });
 
 function init() {

@@ -43,11 +43,11 @@
 {% endblock %}
 
 {% block scripts %}
-    <script type="text/javascript">
+    <script>
         $(function() {
             // check all options if "Alle groepen" is chekced
             // uncheck all options if "Alle groepen" is unchecked
-            $('#selectie_alleGroepen').change(function() {
+            $('#selectie_alleGroepen').on('change', function() {
                 if ($('#selectie_alleGroepen').is(':checked')) {
                     $('#selectie_groepen input').prop('checked', true);
                 } else {
@@ -57,7 +57,7 @@
 
             // check "Alle groepen" if all options are checked
             // uncheck "Alle groepen" if not all options are checked
-            $('#selectie_groepen input').change(function() {
+            $('#selectie_groepen input').on('change', function() {
                 if ($('#selectie_groepen input').not(':checked').length > 0) {
                     $('#selectie_alleGroepen').prop('checked', false);
                 } else {
@@ -67,7 +67,7 @@
 
             // check all options if "Alle stadsdelen" is chekced
             // uncheck all options if "Alle stadsdelen" is unchecked
-            $('#selectie_alleStadsdelen').change(function() {
+            $('#selectie_alleStadsdelen').on('change', function() {
                 if ($('#selectie_alleStadsdelen').is(':checked')) {
                     $('#selectie_stadsdelen input').prop('checked', true);
                 } else {
@@ -77,7 +77,7 @@
 
             // check "Alle stadsdelen" if all options are checked
             // uncheck "Alle stadsdelen" if not all options are checked
-            $('#selectie_stadsdelen input').change(function() {
+            $('#selectie_stadsdelen input').on('change', function() {
                 if ($('#selectie_stadsdelen input').not(':checked').length > 0) {
                     $('#selectie_alleStadsdelen').prop('checked', false);
                 } else {

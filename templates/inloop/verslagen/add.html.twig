@@ -4,14 +4,16 @@
 {% set max_depth = 4 %}
 {% set col_width = (100/(max_depth))|round(0, 'floor') %}
 
-{% block content_top %}
-    <h1>{{ entity_name|capitalize }} toevoegen voor {{ entity.klant }}</h1>
-{% endblock %}
 {% if is_granted("ROLE_MW") %}
     {%  set roleMw = true %}
 {% else %}
     {%  set roleMw = false %}
 {% endif %}
+
+{% block content_top %}
+    <h1>{{ entity_name|capitalize }} toevoegen voor {{ entity.klant }}</h1>
+{% endblock %}
+
 {% block content %}
     {{ form_start(form) }}
     <div class="col-xs-6">
@@ -73,9 +75,7 @@
 
 {% block scripts %}
     <script>
-        window.onload = function() {
-        if($){
-            $(function() {
+        $(function() {
             var radios = $('table.inventarisaties input[type="radio"]');
             var cellsWithSelect = $('table.inventarisaties td:has(select)');
             var toggleSelect = function() {
@@ -109,7 +109,5 @@
             });
             toggleDuur();
         });
-      }
-   }
-   </script>
+    </script>
 {% endblock %}

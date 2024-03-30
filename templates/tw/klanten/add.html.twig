@@ -62,64 +62,55 @@
 {% endblock %}
 
 {% block scripts %}
-<script>
-   window.onload = function(){
-      if($){
+    <script>
+        /**
+        * OK, This should used more often and then made more generic, but for now:
+        *
+        * place a modal window in the html with the html.modalPaste macro. Give it a label and the function to perform when Go is pressed.
+        *
+        * The link which is pressed should have id pasteRaw. This has an attribute data-regex, which peforms the regex.
+        * The regex should contain named capturing groups which mach elements of the form, which it will try to match.
+        *
+        * For this, I used this regex:
+        * https://regex101.com/r/m4b8bW/1
+        */
+        $('#pasteRaw').on('click', function(){
+            $('#modalPaste').modal('show');
+        });
 
-    /**
-     * OK, This should used more often and then made more generic, but for now:
-     *
-     * place a modal window in the html with the html.modalPaste macro. Give it a label and the function to perform when Go is pressed.
-     *
-     * The link which is pressed should have id pasteRaw. This has an attribute data-regex, which peforms the regex.
-     * The regex should contain named capturing groups which mach elements of the form, which it will try to match.
-     *
-     * For this, I used this regex:
-     * https://regex101.com/r/m4b8bW/1
-     */
-    $('#pasteRaw').on('click', function(){
-        $('#modalPaste').modal('show');
-    });
-
-    var renderInput = function(buttonElm)
-    {
-        const r = $('#pasteRaw').first().attr('data-regex');
-        let regex = new RegExp(r,'gmu');
-
-        var pasteValue = $('#pasteValue').val();
-        var form = $('form').first();
-        const formName = form.attr('name');
-
-        // console.log(regex);
-        let output = regex.exec(pasteValue);
-        if ( undefined == output ) alert('Dit tooltje doet een soort patroon-matching en de invoer moet qua opmaak/formaat kloppen met het format dat er verwacht wordt. Er konden helaas geen automatische matches gevonden worden. Check de input of het werkt niet. Sorry.'); return;
-        // console.log(output)
-        let groups = output.groups
-        // console.log(groups);
-
-        for(const[name,value] of Object.entries(groups))
+        var renderInput = function(buttonElm)
         {
-            var elm = $('[name*='+name+']');
-            switch(elm.prop('nodeName')) {
-                case "INPUT":
-                    elm.val(value);
-                    elm.toggleClass("is-autoFilled");
-                    break;
-                case "SELECT":
-                    elm.find("option:contains('"+value+"')")
-                        .filter(function(i){
-                            return $(this).text() === value;
-                        })
-                        .attr("selected", true)
-                    elm.toggleClass("is-autoFilled");
-                    break;
+            const r = $('#pasteRaw').first().attr('data-regex');
+            let regex = new RegExp(r,'gmu');
+
+            var pasteValue = $('#pasteValue').val();
+            var form = $('form').first();
+            const formName = form.attr('name');
+
+            let output = regex.exec(pasteValue);
+            if ( undefined == output ) alert('Dit tooltje doet een soort patroon-matching en de invoer moet qua opmaak/formaat kloppen met het format dat er verwacht wordt. Er konden helaas geen automatische matches gevonden worden. Check de input of het werkt niet. Sorry.'); return;
+            let groups = output.groups
+
+            for(const[name,value] of Object.entries(groups))
+            {
+                var elm = $('[name*='+name+']');
+                switch(elm.prop('nodeName')) {
+                    case "INPUT":
+                        elm.val(value);
+                        elm.toggleClass("is-autoFilled");
+                        break;
+                    case "SELECT":
+                        elm.find("option:contains('"+value+"')")
+                            .filter(function(i){
+                                return $(this).text() === value;
+                            })
+                            .attr("selected", true)
+                        elm.toggleClass("is-autoFilled");
+                        break;
+                }
+
             }
-
+            $('#modalPaste').modal('hide');
         }
-        $('#modalPaste').modal('hide');
-    }
-
-      }
-   }
-   </script>
+    </script>
 {% endblock %}
