@@ -1,6 +1,5 @@
 {% extends 'base.html.twig' %}
 {% import 'html.macro.twig' as html %}
-{% import _self as macro %}
 
 {% block content %}
     <h1>{{ title }}</h1>
@@ -24,26 +23,26 @@
                 </tr>
             </thead>
             <tbody>
-                {{ macro.mergeRow(klanten, form.voornaam) }}
-                {{ macro.mergeRow(klanten, form.tussenvoegsel) }}
-                {{ macro.mergeRow(klanten, form.achternaam) }}
-                {{ macro.mergeRow(klanten, form.roepnaam) }}
-                {{ macro.mergeRow(klanten, form.geslacht) }}
-                {{ macro.mergeRow(klanten, form.geboortedatum, "if_date('d-m-Y')") }}
-                {{ macro.mergeRow(klanten, form.land) }}
-                {{ macro.mergeRow(klanten, form.nationaliteit) }}
-                {{ macro.mergeRow(klanten, form.bsn) }}
-                {{ macro.mergeRow(klanten, form.medewerker) }}
-                {{ macro.mergeRow(klanten, form.adres) }}
-                {{ macro.mergeRow(klanten, form.postcode) }}
-                {{ macro.mergeRow(klanten, form.plaats) }}
-                {{ macro.mergeRow(klanten, form.email) }}
-                {{ macro.mergeRow(klanten, form.mobiel) }}
-                {{ macro.mergeRow(klanten, form.telefoon) }}
-                {{ macro.mergeRow(klanten, form.opmerking) }}
-                {{ macro.mergeRow(klanten, form.geenPost, 'postvoorkeur') }}
-                {{ macro.mergeRow(klanten, form.geenEmail, 'emailvoorkeur') }}
-                {{ macro.mergeRow(klanten, form.doorverwijzenNaarAmoc, 'ja_nee') }}
+                {{ _self.mergeRow(klanten, form.voornaam) }}
+                {{ _self.mergeRow(klanten, form.tussenvoegsel) }}
+                {{ _self.mergeRow(klanten, form.achternaam) }}
+                {{ _self.mergeRow(klanten, form.roepnaam) }}
+                {{ _self.mergeRow(klanten, form.geslacht) }}
+                {{ _self.mergeRow(klanten, form.geboortedatum, "if_date('d-m-Y')") }}
+                {{ _self.mergeRow(klanten, form.land) }}
+                {{ _self.mergeRow(klanten, form.nationaliteit) }}
+                {{ _self.mergeRow(klanten, form.bsn) }}
+                {{ _self.mergeRow(klanten, form.medewerker) }}
+                {{ _self.mergeRow(klanten, form.adres) }}
+                {{ _self.mergeRow(klanten, form.postcode) }}
+                {{ _self.mergeRow(klanten, form.plaats) }}
+                {{ _self.mergeRow(klanten, form.email) }}
+                {{ _self.mergeRow(klanten, form.mobiel) }}
+                {{ _self.mergeRow(klanten, form.telefoon) }}
+                {{ _self.mergeRow(klanten, form.opmerking) }}
+                {{ _self.mergeRow(klanten, form.geenPost, 'postvoorkeur') }}
+                {{ _self.mergeRow(klanten, form.geenEmail, 'emailvoorkeur') }}
+                {{ _self.mergeRow(klanten, form.doorverwijzenNaarAmoc, 'ja_nee') }}
             </tbody>
         </table>
     {{ form_end(form) }}
@@ -51,9 +50,6 @@
 
 {% block scripts %}
     <script>
-   window.onload = function(){
-      if($){
-
         $(function() {
             $('.copy-paste').on('click', function() {
                 var value = $(this).children('.value').text();
@@ -72,9 +68,6 @@
                 }
             });
         });
-
-      }
-   }
    </script>
 {% endblock %}
 

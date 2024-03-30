@@ -1,6 +1,5 @@
 {% extends 'base.html.twig' %}
 {% import 'html.macro.twig' as html %}
-{% import _self as iz %}
 
 {% block content %}
     <h1>{{ title }}</h1>
@@ -118,7 +117,7 @@
                 </thead>
                 <tbody>
                     {% for koppeling in pagination %}
-                        <tr data-href="{{ path('iz_koppelingen_view', {id: koppeling.id}) }}" style="{{ iz.koppeling_warning_style(koppeling) }}">
+                        <tr data-href="{{ path('iz_koppelingen_view', {id: koppeling.id}) }}" style="{{ _self.koppeling_warning_style(koppeling) }}">
                             <td>
                                 {{ html.link(
                                     koppeling|naam_klant,
@@ -155,7 +154,7 @@
                                 {% endif %}
                             </td>
                             <td>
-                                {{ iz.koppeling_laatste_verslag(koppeling) }}
+                                {{ _self.koppeling_laatste_verslag(koppeling) }}
                             </td>
                             <td>
                                 <ul>
@@ -177,17 +176,6 @@
             {{ knp_pagination_render(pagination) }}
         </div>
     </div>
-{% endblock %}
-
-{% block scripts %}
-    <script type="text/javascript">
-        $(function() {
-            // make table rows clickable
-            $('form #medewerker').change(function() {
-                $(this).closest('form').trigger('submit');
-            });
-        });
-    </script>
 {% endblock %}
 
 {% macro koppeling_warning_style(koppeling) %}

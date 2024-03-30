@@ -8,13 +8,13 @@
 
 {% block scripts %}
 
-<script type="text/javascript">
+<script>
     $(function() {
         var fieldDoorverwijzenNaar = $('form input#deelname_doorverwezenNaar').closest('.form-group');
         var fieldDeelnameStatus = $('form select#deelname_status');
 
         fieldDoorverwijzenNaar.hide();
-        fieldDeelnameStatus.change(function(event){
+        fieldDeelnameStatus.on('change', function(event){
             this.value == 'Afgerond'? fieldDoorverwijzenNaar.show() : fieldDoorverwijzenNaar.hide();
         });
 

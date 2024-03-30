@@ -54,33 +54,26 @@
 
 {% block scripts %}
     <script>
-        window.onload = function(){
-            if($){
-                $(function() {
-                    {% if amoc_landen is defined %}
-                        var amoc_landen = [];
-                        {% for land in amoc_landen %}
-                        amoc_landen.push({{ land.id }});
-                        {% endfor %}
+        $(function() {
+            {% if amoc_landen is defined %}
+                var amoc_landen = [];
+                {% for land in amoc_landen %}
+                amoc_landen.push({{ land.id }});
+                {% endfor %}
 
-                        var checkAmoc = function() {
-                            var selected = parseInt($('select#klant_land').val());
-                            if (amoc_landen.indexOf(selected) != -1) {
-                                console.log($('select#klant_land'));
-                                $('select#klant_land').closest('div').append('<p>Personen uit dit land worden doorgestuurd naar AMOC West. Op het volgende scherm is een verwijsbrief uit te printen.</p>');
-                            }
-                        };
+                var checkAmoc = function() {
+                    var selected = parseInt($('select#klant_land').val());
+                    if (amoc_landen.indexOf(selected) != -1) {
+                        $('select#klant_land').closest('div').append('<p>Personen uit dit land worden doorgestuurd naar AMOC West. Op het volgende scherm is een verwijsbrief uit te printen.</p>');
+                    }
+                };
 
-                        $('select#klant_land').on('change', function() {
-                            checkAmoc();
-                        });
-
-                        checkAmoc();
-                    {% endif %}
+                $('select#klant_land').on('change', function() {
+                    checkAmoc();
                 });
 
-            }//end jquery
-        };//end onload
+                checkAmoc();
+            {% endif %}
+        });
     </script>
-
 {% endblock %}

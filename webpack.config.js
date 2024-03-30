@@ -36,7 +36,6 @@ Encore
      * and one CSS file (e.g. app.css) if your JavaScript imports CSS.
      */
     .addEntry('app', './assets/js/app.js')
-    .addEntry('global','./assets/css/global.scss')
     .addEntry('signin','./assets/css/signin.css')
 
     .addEntry('inloopindex','./assets/js/inloop/registraties/index.js')
@@ -46,6 +45,8 @@ Encore
     .addEntry('oekraineindex','./assets/js/oekraine/registraties/index.js')
     .addEntry('oekraineactive','./assets/js/oekraine/registraties/active.js')
     .addEntry('oekrainehistory','./assets/js/oekraine/registraties/history.js')
+
+    .splitEntryChunks()
 
     // will require an extra script tag for runtime.js
     // but, you probably want this, unless you're building a single-page app
@@ -67,16 +68,11 @@ Encore
     //.enableTypeScriptLoader()
 
     // enables Sass/SCSS support
-    .enableSassLoader()
-    .enableLessLoader()
+    // .enableSassLoader()
+    // .enableLessLoader()
 
     // uncomment if you're having problems with a jQuery plugin
     .autoProvidejQuery()
-    .autoProvideVariables({
-        $: 'jquery',
-        jQuery: 'jquery',
-        'window.jQuery': 'jquery',
-    })
 ;
 
 module.exports = Encore.getWebpackConfig();
