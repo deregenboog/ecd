@@ -77,13 +77,12 @@
 
         }
 
-        $repo.change(function() {
+        $repo.on('change', function() {
             // ... retrieve the corresponding form.
             var $form = $(this).closest('form');
             // Simulate form data, but only include the selected repository value.
             var data = {};
             data[$repo.attr('name')] = $repo.val();
-            // console.log(data);
 
             var $emptyKpi = $('#doelstelling_kpi');
             var $frmGrp = $emptyKpi.closest('form-group');
@@ -122,9 +121,6 @@
                     // kpi field now displays the appropriate kpi.
                 },
                 error : function(xhr, textStatus, errorThrown) {
-                    // console.log(xhr);
-                    // console.log(textStatus);
-                    // console.log(errorThrown);
                     $('html, body').css("cursor", "default");
                     alert('Ophalen KPIs mislukt. '+ errorThrown);
                 }

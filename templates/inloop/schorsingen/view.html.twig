@@ -1,6 +1,5 @@
 {% extends 'base-2-col.html.twig' %}
 {% import 'html.macro.twig' as html %}
-{% import _self as macro %}
 
 {% block content_top %}
     <h1>
@@ -48,16 +47,16 @@
             <dd>
                 <ul>
                     {% if entity.doelwitAgressie1 or entity.typeDoelwitAgressie1 %}
-                        <li>{{ entity.doelwitAgressie1 }} ({{ macro.doelwit(entity.typeDoelwitAgressie1) }})</li>
+                        <li>{{ entity.doelwitAgressie1 }} ({{ _self.doelwit(entity.typeDoelwitAgressie1) }})</li>
                     {% endif %}
                     {% if entity.doelwitAgressie2 or entity.typeDoelwitAgressie2 %}
-                        <li>{{ entity.doelwitAgressie2 }} ({{ macro.doelwit(entity.typeDoelwitAgressie2) }})</li>
+                        <li>{{ entity.doelwitAgressie2 }} ({{ _self.doelwit(entity.typeDoelwitAgressie2) }})</li>
                     {% endif %}
                     {% if entity.doelwitAgressie3 or entity.typeDoelwitAgressie3 %}
-                        <li>{{ entity.doelwitAgressie3 }} ({{ macro.doelwit(entity.typeDoelwitAgressie3) }})</li>
+                        <li>{{ entity.doelwitAgressie3 }} ({{ _self.doelwit(entity.typeDoelwitAgressie3) }})</li>
                     {% endif %}
                     {% if entity.doelwitAgressie4 or entity.typeDoelwitAgressie4 %}
-                        <li>{{ entity.doelwitAgressie4 }} ({{ macro.doelwit(entity.typeDoelwitAgressie4) }})</li>
+                        <li>{{ entity.doelwitAgressie4 }} ({{ _self.doelwit(entity.typeDoelwitAgressie4) }})</li>
                     {% endif %}
                 </ul>
             </dd>
@@ -88,7 +87,7 @@
             {% if 0 == entity.klant.huidigeSchorsingen|length %}
                 <p>Deze persoon is op dit moment niet geschorst.</p>
             {% else %}
-                {{ macro.schorsingenTabel(entity.klant.huidigeSchorsingen, entity, allRows, route_base) }}
+                {{ _self.schorsingenTabel(entity.klant.huidigeSchorsingen, entity, allRows, route_base) }}
             {% endif %}
             <h2>Verlopen schorsingen <small>({{ entity.klant.verlopenSchorsingen|length }} schorsingen)</small></h2>
             {#
@@ -96,7 +95,7 @@
                 {{ html.link('Alle schorsingen van '~entity.klant, path('inloop_schorsingen_index', {'schorsing_filter[klant][id]': entity.klant.id}), 'view') }}
             </p>
             #}
-            {{ macro.schorsingenTabel(entity.klant.verlopenSchorsingen, entity, allRows, route_base) }}
+            {{ _self.schorsingenTabel(entity.klant.verlopenSchorsingen, entity, allRows, route_base) }}
         </div>
     </div>
 {% endblock %}
@@ -176,9 +175,6 @@
 
 {% block scripts %}
     <script>
-
-        window.onload = function() {
-    if($){
         $(function() {
             function terugkeergesprekGehad(schorsing_id) {
                 $.post({
@@ -195,7 +191,5 @@
                 terugkeergesprekGehad(id);
             });
         });
-      }
-   }
    </script>
 {% endblock %}

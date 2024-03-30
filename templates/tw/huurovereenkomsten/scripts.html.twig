@@ -1,37 +1,22 @@
 {% block scripts %}
-<script>
-   window.onload = function(){
-      if($){
-
-
-    var checkRequired = function(){
-        if($('#huurovereenkomst_isReservering').prop('checked'))
-        {
-            var einddatum = $('#huurovereenkomst_einddatum');
-            einddatum.prop('required',true);
-            $('label[for="huurovereenkomst_einddatum"]').addClass('required');
-            // console.log(einddatum.get('value'));
-            var date = new Date();
-            // console.log(new Date(date.setMonth(date.getMonth()+2)));
-            if(einddatum.value == undefined)
-            {
-                $(einddatum).prop('value',date.getDate()+"-"+(date.getMonth()+3)+"-"+date.getFullYear()) ;
-                // console.log(einddatum);
+    <script>
+        var checkRequired = function(){
+            if ($('#huurovereenkomst_isReservering').prop('checked')) {
+                var einddatum = $('#huurovereenkomst_einddatum');
+                einddatum.prop('required',true);
+                $('label[for="huurovereenkomst_einddatum"]').addClass('required');
+                var date = new Date();
+                if (einddatum.value == undefined) {
+                    $(einddatum).prop('value',date.getDate()+"-"+(date.getMonth()+3)+"-"+date.getFullYear()) ;
+                }
+            } else {
+                $('#huurovereenkomst_einddatum').prop('required',false);
+                $('label[for="huurovereenkomst_einddatum"]').removeClass('required');
             }
-        }
-        else
-        {
-            $('#huurovereenkomst_einddatum').prop('required',false);
-            $('label[for="huurovereenkomst_einddatum"]').removeClass('required');
-        }
-    };
+        };
 
-    $('#huurovereenkomst_isReservering').change(function(){
-        checkRequired()
-    });
-
-
-      }
-   }
-   </script>
+        $('#huurovereenkomst_isReservering').on('change', function(){
+            checkRequired()
+        });
+    </script>
 {% endblock %}

@@ -1,6 +1,5 @@
 {% extends 'base.html.twig' %}
 {% import 'html.macro.twig' as html %}
-{% import _self as macro %}
 
 {% macro color(value) %}
     {% if value == 'A' %}
@@ -54,9 +53,9 @@
             {% for datum, dagdelen in traject.aanwezigheidByDateRangeAndProject(date_range, project) %}
                 <tr>
                     <td>{{ datum|date('d-m-Y') }}</td>
-                    <td>{{ macro.color(dagdelen.ochtend) }}</td>
-                    <td>{{ macro.color(dagdelen.middag) }}</td>
-                    <td>{{ macro.color(dagdelen.avond) }}</td>
+                    <td>{{ _self.color(dagdelen.ochtend) }}</td>
+                    <td>{{ _self.color(dagdelen.middag) }}</td>
+                    <td>{{ _self.color(dagdelen.avond) }}</td>
                 </tr>
             {% endfor %}
         </tbody>
