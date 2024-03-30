@@ -22,7 +22,7 @@ require('select2/dist/css/select2.min.css')
 
 
 //Perform something...
-$(document).ready(function() {
+$(document).on('ready', function() {
     $('select').select2();
 
     // add select-all and select-none to multi-select fields

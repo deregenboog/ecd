@@ -79,7 +79,7 @@ $(function() {
     };
 
     // make table rows clickable
-    $('table.table.table-hover tr').click(function(event) {
+    $('table.table.table-hover tr').on('click', function(event) {
         // do nothing when clicked on a link or input element
         if ('A' == event.target.tagName || $(event.target).is(':input')) {
             return;
@@ -104,12 +104,12 @@ $(function() {
         var currentFilterState = filter.serialize();
         if (currentFilterState != lastFilterState) {
             lastFilterState = currentFilterState;
-            filter.submit();
+            filter.trigger('submit');
         }
     }, 300);
     filter > $(':input').on('keyup', postFilterForm);
     filter > $(':input').on('change', postFilterForm);
-    filter.submit(function(event) {
+    filter.on('submit', function(event) {
         var url = window.location.pathname+'?'+filter.serialize();
         showLoader();
         $.get({
@@ -674,7 +674,7 @@ global.bedrijfSectorChange = bedrijfSectorChange;
 
 function startManagementReports() {
     console.log('startManagementReports');
-    $('form input[type=submit]').click(function(e) {
+    $('form input[type=submit]').on('click', function(e) {
         console.log('click');
         var form = $(this).parents('form');
         if ($('#optionsExcel').is(':checked')) {
@@ -704,7 +704,7 @@ global.startManagementReports = startManagementReports;
 
 function startVeegploegReports() {
     console.log('startVeegploegReports');
-    $('form input[type=submit]').click(function(e) {
+    $('form input[type=submit]').on('click', function(e) {
         console.log('click');
         var form = $(this).parents('form');
         if ($('#optionsExcel').is(':checked')) {
@@ -788,7 +788,7 @@ Ecd.pageLoaders.registratiesIndex = function() {
     });
 
     //clicking it will scroll up
-    $('#imgScrollup').click(function () {
+    $('#imgScrollup').on('click', function () {
         //scroll to the top using animation
         $('html,body').animate({scrollTop: 0}, 400);
     });
@@ -796,7 +796,7 @@ Ecd.pageLoaders.registratiesIndex = function() {
 
 Ecd.pageLoaders.schorsingenAdd = function() {
     //show-hide textbox on checkbox check
-    $('#RedenReden100').click(function () {
+    $('#RedenReden100').on('click', function () {
         if ($(this).is(':checked')) {
             $('.overig_reden').slideDown('fast');
         } else {
@@ -908,7 +908,7 @@ Ecd.verslag = function(tag,url) {
         cancel='verslag_cancel'+tag;
         toevoegen='toevoegen'+tag;
 
-        $('#'+save).click(function(){
+        $('#'+save).on('click', function(){
             tag=$(this).attr('id');
             var myRe = new RegExp('verslag_save', "gim");
             tag = tag.replace(myRe , '');
@@ -919,14 +919,14 @@ Ecd.verslag = function(tag,url) {
                 $('#'+div).html(data);
             });
         });
-        $('#'+toevoegen).click(function(){
+        $('#'+toevoegen).on('click', function(){
             tag=$(this).attr('id');
             var myRe = new RegExp('toevoegen', "gim");
             tag = tag.replace(myRe , '');
             $('#view_verslag'+tag).hide();
             $('#edit_verslag'+tag).show();
         });
-        $('#'+cancel).click(function(){
+        $('#'+cancel).on('click', function(){
             tag=$(this).attr('id');
             var myRe = new RegExp('verslag_cancel', "gim");
             tag = tag.replace(myRe , '');
@@ -1015,7 +1015,7 @@ Ecd.schorsing = function() {
             clear_betrokkenen();
         }
     }
-    $('input[name="data[Schorsing][agressie]"]').click(function() {
+    $('input[name="data[Schorsing][agressie]"]').on('click', function() {
         update();
     });
     $('#RedenReden'+options['violent_options'][0].toString()).change(function() {

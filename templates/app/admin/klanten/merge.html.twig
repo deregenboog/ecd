@@ -55,7 +55,7 @@
       if($){
 
         $(function() {
-            $('.copy-paste').click(function() {
+            $('.copy-paste').on('click', function() {
                 var value = $(this).children('.value').text();
                 var input = $(this).closest('tr').children('td:last').find(':input');
                 if ('INPUT' === input[0].nodeName) {
