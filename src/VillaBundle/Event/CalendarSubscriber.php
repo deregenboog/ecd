@@ -35,11 +35,13 @@ class CalendarSubscriber implements EventSubscriberInterface
       {
           $events = $this->dao->findOvernachtingenForDateRange($start, $end);
           foreach ($events as $overnachting) {
+              $event =  new Event(
+                      'Overnachting',
+                      $overnachting->getDatum(),
+              );
+              $event->addOption('id',$overnachting->getId());
                   $calendar->addEvent(
-                      new Event(
-                          'Overnachting',
-                          $overnachting->getDatum(),
-                      )
+                    $event
                   );
               }
 

@@ -74,10 +74,6 @@
 {% block scripts %}
     {{ encore_entry_script_tags('calendar') }}
 <script>
-    var editUrl = "{{ path('villa_overnachtingen_edit', {'id': 'replace_id'}) }}";
-    var addUrl = "{{ path('villa_overnachtingen_ajaxsubmit', {'slaper': entity.id}) }}";
-    var formUrl = "{{ path('villa_overnachtingen_ajaxform', {'overnachting[datum]': 'replace_date'}) }}";
-
 document.addEventListener('calendarInitialized', function(e) {
     // Access the additional data from the event's detail property
     // console.log('Calendar has been initialized with date info:', e.detail.dateInfo);
@@ -85,57 +81,54 @@ document.addEventListener('calendarInitialized', function(e) {
 
     let calendar = e.detail.calendar;
 
-    calendar.on("dateClick",function (info){
+    function handleDateClick({ dateStr }) {
+        const url = "{{ path('villa_overnachtingen_create', {'datum': 'replace_date','slaper': entity.id}) }}".replace('replace_date', dateStr);
+        console.log(url);
+        edit(url);
+    }
 
-        // Depending on whether it's a new event or an existing one, adjust the AJAX URL
-        let eventId = null;
+    function handleEventClick({ event }) {
+        const url = "{{ path('villa_overnachtingen_editAjax', {'id': 'replace_id'}) }}".replace('replace_id', event.id);
+        console.log(url);
+        edit(url);
+    }
 
-        editUrl = editUrl.replace('replace_id', (eventId||"") );
-        formUrl = formUrl.replace('replace_date', info.dateStr);
-        addUrl = addUrl.replace('replace_id',(eventId || "null") );
-
-        $.get(formUrl, function(data) {
-            // Load form into modal
-
-            $('#testModal .modal-body').html(data.formHtml);
-            $('#testModal').modal('show');
+    function edit(url) {
+        $.get(url).done(data => {
+            modalOpen(data.formHtml);
+            modalSave(url);
         });
+    }
 
-        // Setup save button click event
-        $('#saveEvent').off('click').on('click', function(e) {
+    function modalOpen(html) {
+        $('#testModal .modal-body').html(html);
+        $('#testModal').modal('show');
+    }
 
-            var $modal = $(this).closest('.modal');
+    function modalSave(url) {
+        $('#saveEvent').on('click', function(e) {
+            e.preventDefault();
 
-            var $form = $modal.find('form');
-            var formData = $form.serialize();
-
-            $.post(addUrl, formData, function(response) {
-                if(response.success == true) {
-
-                    $modal.modal('hide');
-                    calendar.refetchEvents(); // Refresh events on the calendar
-                }
-                else {
-                    alert("Something went wrong when saving the form. This is the error(s) I got back: "+response.errors.flatten);
+            const form = $('#testModal form')[0];
+            console.log(form);
+            $.ajax({
+                type: $(form).attr('method'),
+                url: url,
+                data: $(form).serialize(),
+                success: function(data) {
+                    if (data.success) {
+                        $('#testModal').modal('hide');
+                        calendar.refetchEvents();
+                    } else {
+                        // Error handling here
+                    }
                 }
             });
         });
+    }
 
-        // Optionally, setup delete button click event
-        $('#deleteEvent').off('click').on('click', function() {
-            if (eventId) {
-                $.post('/path/to/delete/event', { id: eventId }, function(response) {
-                    $('#eventModal').modal('hide');
-                    e.detail.calendar.refetchEvents(); // Refresh events
-                });
-            }
-        });
-
-    });
-
-    calendar.on("eventClick",function (info){
-        console.log(info);
-    });
+    calendar.on("dateClick", handleDateClick);
+    calendar.on("eventClick", handleEventClick);
 });
 
 </script>
