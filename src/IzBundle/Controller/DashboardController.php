@@ -128,6 +128,7 @@ class DashboardController extends SymfonyController
                 'hulpvraagsoort',
                 'doelgroep',
                 'medewerker',
+                'zoekterm',
                 'filter',
                 'download',
             ],

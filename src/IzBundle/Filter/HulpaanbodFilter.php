@@ -47,6 +47,11 @@ class HulpaanbodFilter implements FilterInterface
      */
     public $medewerker;
 
+    /**
+     * @var string
+     */
+    public $zoekterm;
+
     public function applyTo(QueryBuilder $builder)
     {
         if ($this->vrijwilliger) {
@@ -92,6 +97,24 @@ class HulpaanbodFilter implements FilterInterface
                 ->andWhere('hulpaanbod.medewerker = :medewerker')
                 ->setParameter('medewerker', $this->medewerker)
             ;
+        }
+
+        if ($this->zoekterm) {
+            $zoektermen = array_values(array_filter(
+                explode(' ', $this->zoekterm),
+                function($zoekterm): bool {
+                    return '' !== trim($zoekterm);
+                }
+            ));
+            foreach ($zoektermen as $i => $zoekterm) {
+                if ($i === 0) {
+                    $builder->join('hulpaanbod.verslagen', 'verslag');
+                }
+                $builder
+                    ->andWhere('verslag.opmerking LIKE :zoekterm_'.$i)
+                    ->setParameter('zoekterm_'.$i, '%'.$zoekterm.'%')
+                ;
+            }
         }
     }
 }
