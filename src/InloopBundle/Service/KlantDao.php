@@ -2,11 +2,9 @@
 
 namespace InloopBundle\Service;
 
-use AppBundle\Doctrine\SqlExtractor;
 use AppBundle\Entity\Klant;
 use AppBundle\Filter\FilterInterface;
 use AppBundle\Service\AbstractDao;
-use Doctrine\ORM\Query\Expr\Join;
 use InloopBundle\Entity\Aanmelding;
 
 class KlantDao extends AbstractDao implements KlantDaoInterface
@@ -30,11 +28,10 @@ class KlantDao extends AbstractDao implements KlantDaoInterface
 
     protected $alias = 'klant';
 
-    public function findAll($page = null, FilterInterface $filter = null)
+    public function findAll($page = null, ?FilterInterface $filter = null)
     {
         $builder = $this->getAllQueryBuilder($filter);
-//        $sql = $builder->getQuery()->getSQL();
-//        $params = $builder->getQuery()->getParameters();
+
         if ($page) {
             return $this->paginator->paginate($builder, $page, $this->itemsPerPage, $this->paginationOptions);
         }
@@ -42,19 +39,7 @@ class KlantDao extends AbstractDao implements KlantDaoInterface
         return $builder->getQuery()->getResult();
     }
 
-    public function findAllAangemeld($page = null, FilterInterface $filter = null)
-    {
-        $builder = $this->getAllQueryBuilder($filter);
-        $builder->andWhere("status INSTANCE OF  ".Aanmelding::class);
-        if ($page) {
-            return $this->paginator->paginate($builder, $page, $this->itemsPerPage, $this->paginationOptions);
-        }
-
-        return $builder->getQuery()->getResult();
-
-    }
-
-    public function getAllQueryBuilder(FilterInterface $filter = null)
+    public function getAllQueryBuilder(?FilterInterface $filter = null)
     {
         $builder = $this->repository->createQueryBuilder($this->alias)
             ->select($this->alias.', intake, geslacht, eersteIntake, laatsteIntake, laatsteIntakeLocatie, gebruikersruimte')
@@ -63,23 +48,19 @@ class KlantDao extends AbstractDao implements KlantDaoInterface
             ->leftJoin($this->alias.'.geslacht', 'geslacht')
             ->leftJoin($this->alias.'.laatsteIntake', 'laatsteIntake')
             ->leftJoin($this->alias.'.eersteIntake', 'eersteIntake')
-
             ->leftJoin('laatsteIntake.intakelocatie', 'laatsteIntakeLocatie')
             ->leftJoin('laatsteIntake.gebruikersruimte', 'gebruikersruimte')
-
             ->leftJoin('eersteIntake.intakelocatie', 'eersteIntakeLocatie')
         ;
 
         if ($filter) {
             $filter->applyTo($builder);
         }
-//        $sql = SqlExtractor::getFullSQL($builder->getQuery());
+
         return $builder;
     }
 
     /**
-     * @param Klant $klant
-     *
      * @return Klant
      */
     public function create(Klant $entity)
@@ -92,8 +73,6 @@ class KlantDao extends AbstractDao implements KlantDaoInterface
     }
 
     /**
-     * @param Klant $klant
-     *
      * @return Klant
      */
     public function update(Klant $entity)

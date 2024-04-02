@@ -4,12 +4,11 @@ namespace InloopBundle\Controller;
 
 use AppBundle\Controller\AbstractController;
 use AppBundle\Controller\DisableIndexActionTrait;
-use AppBundle\Doctrine\SqlExtractor;
 use AppBundle\Entity\Klant;
 use AppBundle\Export\ExportInterface;
 use AppBundle\Service\ECDHelper;
-use AppBundle\Twig\AppExtension;
 use Doctrine\ORM\EntityNotFoundException;
+use InloopBundle\Entity\Aanmelding;
 use InloopBundle\Entity\Locatie;
 use InloopBundle\Entity\LocatieType;
 use InloopBundle\Entity\Registratie;
@@ -27,11 +26,11 @@ use InloopBundle\Service\LocatieDaoInterface;
 use InloopBundle\Service\RegistratieDaoInterface;
 use InloopBundle\Service\SchorsingDaoInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
-use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\EventDispatcher\GenericEvent;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * @Route("/registraties")
@@ -113,8 +112,6 @@ class RegistratiesController extends AbstractController
             ->setParameter('naam',$locatieTypeStr)
             ;
 
-//        $sql = SqlExtractor::getFullSQL($locaties->getQuery());
-
         $locaties = $builder
             ->getQuery()
             ->getResult()
@@ -136,11 +133,12 @@ class RegistratiesController extends AbstractController
         $locatie = $request->get('locatie');
         $locatieType = $request->get('locatieType');
 
-
         $this->denyAccessUnlessGranted(Permissions::REGISTER, $locatie);
 
         $filter = new KlantFilter();
         $filter->locatie = $locatie;
+        $filter->huidigeStatus = Aanmelding::class;
+        $filter->nuBinnen = false;
 
         $form = $this->getForm(KlantFilterType::class, $filter, [
             'attr' => ['class' => 'ajaxFilter'],
@@ -157,14 +155,14 @@ class RegistratiesController extends AbstractController
             return [
                 'locatie' => $locatie,
                 'filter' => $form->createView(),
-                'locatieType'=>$locatieType,
+                'locatieType' => $locatieType,
             ];
         }
 
         $this->getEntityManager()->getFilters()->enable('overleden');
 
         $page = $request->get('page', 1);
-        $pagination = $this->klantDao->findAllAangemeld($page, $filter);
+        $pagination = $this->klantDao->findAll($page, $filter);
 
         return $this->render('inloop/registraties/_klanten.html.twig', [
             'locatie' => $locatie,
