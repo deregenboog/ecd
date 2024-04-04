@@ -6,6 +6,7 @@ namespace Tests\GaBundle\Report;
 
 use GaBundle\Report\DeelnemersPerGroep;
 use GaBundle\Repository\GroepRepository;
+use GaBundle\Service\GroupTypeContainer;
 use PHPUnit\Framework\TestCase;
 
 class DeelnemersPerGroepTest extends TestCase
@@ -28,10 +29,6 @@ class DeelnemersPerGroepTest extends TestCase
                     'aantal_anonieme_deelnames' => 10,
                 ],
             ]);
-        $repositoryA->expects($this->any())
-            ->method('getRepositoryTitle')
-            ->willReturn("Groep A")
-        ;
 
         $repositoryB = $this->createMock(GroepRepository::class);
         $repositoryB->expects($this->once())
@@ -47,15 +44,11 @@ class DeelnemersPerGroepTest extends TestCase
                 ],
             ]);
 
-        $repositoryB->expects($this->any())
-            ->method('getRepositoryTitle')
-            ->willReturn("Groep C")
-        ;
+        $types = new GroupTypeContainer();
+        $types->setType('Groep A', $repositoryA);
+        $types->setType('Groep B', $repositoryB);
 
-        $report = new DeelnemersPerGroep([
-            'A' => $repositoryA,
-            'B' => $repositoryB,
-        ]);
+        $report = new DeelnemersPerGroep($types);
         $report->setStartDate($startDate)->setEndDate($endDate);
 
         $expected = [[
@@ -77,7 +70,7 @@ class DeelnemersPerGroepTest extends TestCase
             ],
         ],
         [
-            'title' => 'Groep C',
+            'title' => 'Groep B',
             'yDescription' => 'Groep',
             'data' => [
                 'Groep C' => [
