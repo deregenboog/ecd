@@ -13,8 +13,9 @@ class VrijwilligersPerGroep extends AbstractReport
     protected function init()
     {
         $data = [];
-        foreach ($this->repositories as $group => $repository) {
-            $data[$group] = $repository->countVrijwilligersPerGroep($this->startDate, $this->endDate);
+        foreach ($this->groupTypes->getTypeNames() as $title) {
+            $repository = $this->groupTypes->getType($title);
+            $data[$title] = $repository->countVrijwilligersPerGroep($this->startDate, $this->endDate);
         }
         $this->data = $data;
     }

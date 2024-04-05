@@ -8,12 +8,9 @@
     {% else %}
         <p>Selecteer het type groep dat je wilt toevoegen:</p>
         <ul>
-            <li>{{ html.link('ErOpUit', path(route_base~'add', {type: 'GroepErOpUit'})) }}</li>
-            <li>{{ html.link('Buurtmaatjes', path(route_base~'add', {type: 'GroepBuurtmaatjes'})) }}</li>
-            <li>{{ html.link('Kwartiermaken', path(route_base~'add', {type: 'GroepKwartiermaken'})) }}</li>
-            <li>{{ html.link('OpenHuis', path(route_base~'add', {type: 'GroepOpenHuis'})) }}</li>
-            <li>{{ html.link('Organisatie', path(route_base~'add', {type: 'GroepOrganisatie'})) }}</li>
-            <li>{{ html.link('IZ', path(route_base~'add', {type: 'GroepIZ'})) }}</li>
+            {% for group_type in group_types %}
+                <li>{{ html.link(group_type, path(route_base~'add', {type: group_type})) }}</li>
+            {% endfor %}
         </ul>
     {% endif %}
 {% endblock %}

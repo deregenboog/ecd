@@ -81,7 +81,7 @@
                         {{ groep.actieveLidmaatschappen|length }}
                     </td>
                     <td>
-                        {{ groep.getType() }}
+                        {{ class(groep, false)|replace({'Groep': ''}) }}
                     </td>
                     <td>
                         {{ html.editLink(path(route_base~'edit', {id: groep.id})) }}

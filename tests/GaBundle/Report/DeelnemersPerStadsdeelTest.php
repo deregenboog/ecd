@@ -6,6 +6,7 @@ namespace Tests\GaBundle\Report;
 
 use GaBundle\Report\DeelnemersPerStadsdeel;
 use GaBundle\Repository\GroepRepository;
+use GaBundle\Service\GroupTypeContainer;
 use PHPUnit\Framework\TestCase;
 
 class DeelnemersPerStadsdeelTest extends TestCase
@@ -35,6 +36,7 @@ class DeelnemersPerStadsdeelTest extends TestCase
                     'aantal_anonieme_deelnames' => 0,
                 ],
             ]);
+
         $repositoryB = $this->createMock(GroepRepository::class);
         $repositoryB->expects($this->once())
             ->method('countDeelnemersPerStadsdeel')
@@ -49,10 +51,11 @@ class DeelnemersPerStadsdeelTest extends TestCase
                 ],
             ]);
 
-        $report = new DeelnemersPerStadsdeel([
-            'Groep A' => $repositoryA,
-            'Groep B' => $repositoryB,
-        ]);
+        $types = new GroupTypeContainer();
+        $types->setType('Groep A', $repositoryA);
+        $types->setType('Groep B', $repositoryB);
+
+        $report = new DeelnemersPerStadsdeel($types);
         $report->setStartDate($startDate)->setEndDate($endDate);
 
         $expected = [[

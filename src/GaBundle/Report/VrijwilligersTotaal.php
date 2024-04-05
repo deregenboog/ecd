@@ -11,13 +11,13 @@ class VrijwilligersTotaal extends AbstractReport
     protected function init()
     {
         $data = [];
-        foreach ($this->repositories as $group => $repository) {
+        foreach ($this->groupTypes->getTypeNames() as $title) {
+            $repository = $this->groupTypes->getType($title);
             $data[] = array_merge(
-                ['group' => $group],
+                ['group' => $title],
                 $repository->countVrijwilligers($this->startDate, $this->endDate)
             );
         }
-
         $this->data = $data;
     }
 

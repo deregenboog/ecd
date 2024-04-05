@@ -21,30 +21,48 @@ services:
         factory: ["@doctrine", getRepository]
         arguments:
             - GaBundle\Entity\GroepBuurtmaatjes
+        tags:
+            - {name: 'ga.groep_type', title: 'Buurtmaatjes'}
 
     ga.repository.groep_eropuit:
         class: Doctrine\ORM\EntityRepository
         factory: ["@doctrine", getRepository]
         arguments:
             - GaBundle\Entity\GroepErOpUit
+        tags:
+            - {name: 'ga.groep_type', title: 'ErOpUit'}
 
     ga.repository.groep_kwartiermaken:
         class: Doctrine\ORM\EntityRepository
         factory: ["@doctrine", getRepository]
         arguments:
             - GaBundle\Entity\GroepKwartiermaken
+        tags:
+            - {name: 'ga.groep_type', title: 'Kwartiermaken'}
 
     ga.repository.groep_openhuis:
         class: Doctrine\ORM\EntityRepository
         factory: ["@doctrine", getRepository]
         arguments:
             - GaBundle\Entity\GroepOpenHuis
+        tags:
+            - {name: 'ga.groep_type', title: 'OpenHuis'}
 
     ga.repository.groep_organisatie:
         class: Doctrine\ORM\EntityRepository
         factory: ["@doctrine", getRepository]
         arguments:
             - GaBundle\Entity\GroepOrganisatie
+        tags:
+            - {name: 'ga.groep_type', title: 'Organisatie'}
+
+    ga.repository.groep_iz:
+        class: Doctrine\ORM\EntityRepository
+        factory: [ "@doctrine", getRepository ]
+        arguments:
+            - GaBundle\Entity\GroepIZ
+        tags:
+            - {name: 'ga.groep_type', title: 'IZ'}
 
     ga.activiteit.entities:
         class: ArrayObject
