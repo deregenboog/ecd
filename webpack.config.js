@@ -38,13 +38,13 @@ Encore
     .addEntry('app', './assets/js/app.js')
     .addEntry('signin','./assets/css/signin.css')
 
-    .addEntry('inloopindex','./assets/js/inloop/registraties/index.js')
-    .addEntry('inloopactive','./assets/js/inloop/registraties/active.js')
-    .addEntry('inloophistory','./assets/js/inloop/registraties/history.js')
+    .addEntry('inloop-registraties-index','./assets/js/inloop/registraties/index.js')
+    .addEntry('inloop-registraties-active','./assets/js/inloop/registraties/active.js')
+    .addEntry('inloop-registraties-history','./assets/js/inloop/registraties/history.js')
 
-    .addEntry('oekraineindex','./assets/js/oekraine/registraties/index.js')
-    .addEntry('oekraineactive','./assets/js/oekraine/registraties/active.js')
-    .addEntry('oekrainehistory','./assets/js/oekraine/registraties/history.js')
+    .addEntry('oekraine-registraties-index','./assets/js/oekraine/registraties/index.js')
+    .addEntry('oekraine-registraties-active','./assets/js/oekraine/registraties/active.js')
+    .addEntry('oekraine-registraties-history','./assets/js/oekraine/registraties/history.js')
 
     .splitEntryChunks()
 
