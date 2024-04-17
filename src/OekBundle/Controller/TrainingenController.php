@@ -137,7 +137,7 @@ class TrainingenController extends AbstractChildController
             ->getResponse($filename);
     }
 
-    protected function beforeDelete($entity)
+    protected function beforeDelete($entity): void
     {
         //if delete is called, make sure all deelnames with status Verwijderd are removed otherwise FK constraint kicks in.
         foreach($entity->getDeelnames(true) as $dn)

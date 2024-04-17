@@ -30,13 +30,13 @@ class VerslagenController extends AbstractChildController
      */
     protected $entities;
 
-    protected function beforeCreate($entity)
+    protected function beforeCreate($entity): void
     {
         $this->updateEvaluatieDatum($entity);
         parent::beforeCreate($entity);
     }
 
-    protected function beforeUpdate($entity)
+    protected function beforeUpdate($entity): void
     {
         $this->updateEvaluatieDatum($entity);
         parent::beforeUpdate($entity);

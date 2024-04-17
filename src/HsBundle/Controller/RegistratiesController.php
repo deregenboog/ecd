@@ -66,17 +66,16 @@ class RegistratiesController extends AbstractChildController
         return $this->download($filter);
     }
 
-    public function beforeCreate($entity)
+    public function beforeCreate($entity): void
     {
         $this->beforeUpdate($entity);
     }
 
-    public function beforeUpdate($entity)
+    public function beforeUpdate($entity): void
     {
         $helper = new FactuurSubjectHelper();
         $helper->beforeUpdateEntity($entity,$this->getEntityManager());
     }
-
 
     /**
      * @Route("/add")

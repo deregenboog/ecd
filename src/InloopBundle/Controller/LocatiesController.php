@@ -26,6 +26,7 @@ class LocatiesController extends AbstractController
     protected $formClass = LocatieType::class;
     protected $filterFormClass = LocatieFilterType::class;
     protected $baseRouteName = 'inloop_locaties_';
+    protected $forceRedirect = true;
 
     /**
      * @var LocatieDaoInterface
@@ -51,10 +52,9 @@ class LocatiesController extends AbstractController
      * @param $locatie Locatie
      * @return void
      */
-    protected function afterCreate($locatie)
+    protected function afterCreate($locatie): void
     {
         $this->updateSchorsingen($locatie);
-
     }
 
     /**
@@ -116,11 +116,9 @@ class LocatiesController extends AbstractController
         {
             $this->addFlash("warning",sprintf("Let op: wanneer je een locatie aanpast denk dan goed na of er schorsingen zijn die hierdoor beinvloed kunnen worden (bv. doordat ze voor 'Alle locaties, behalve ...' gelden. De locatie kan dan niet automatisch worden toegevoegd aan die schorsing. Kijk dit zelf na!)"));
         }
-
-
     }
 
-    protected function beforeUpdate($locatie)
+    protected function beforeUpdate($locatie): void
     {
         $uow = $this->entityManager->getUnitOfWork();
         $uow->computeChangeSets();
@@ -135,7 +133,7 @@ class LocatiesController extends AbstractController
         }
     }
 
-    protected function afterUpdate($locatie)
+    protected function afterUpdate($locatie): void
     {
         $this->updateSchorsingen($locatie);
     }

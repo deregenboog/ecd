@@ -414,7 +414,6 @@ abstract class AbstractController extends SymfonyController
             throw new AppException(get_class($this).'::formClass not set!');
         }
 
-
         $form = $this->getForm($this->formClass, $entity, array_merge($this->formOptions, [
             'medewerker' => $this->getMedewerker(),
         ]));
@@ -446,7 +445,7 @@ abstract class AbstractController extends SymfonyController
                 $this->addFlash('danger', $message);
             }
 
-           return $this->afterFormSubmitted($request, $entity, $form);
+            return $this->afterFormSubmitted($request, $entity, $form);
         }
 
         return array_merge([
@@ -619,49 +618,40 @@ abstract class AbstractController extends SymfonyController
         return $this->entity;
     }
 
-    protected function beforeFind($id)
+    protected function beforeFind($id): void
     {
-        return;
     }
 
-    protected function afterFind($entity)
+    protected function afterFind($entity): void
     {
-        return;
     }
 
-    protected function beforeDelete($entity)
+    protected function beforeDelete($entity): void
     {
-        return;
     }
 
-    protected function afterDelete($entity)
+    protected function afterDelete($entity): void
     {
-        return;
     }
 
-    protected function beforeUpdate($entity)
+    protected function beforeUpdate($entity): void
     {
-        return;
     }
 
-    protected function afterUpdate($entity)
+    protected function afterUpdate($entity): void
     {
-        return;
     }
 
-    protected function beforeCreate($entity)
+    protected function beforeCreate($entity): void
     {
-        return;
     }
 
-    protected function afterCreate($entity)
+    protected function afterCreate($entity): void
     {
-        return;
     }
 
     protected function beforeGetForm(&$type,&$data,&$options): void
     {
-
     }
 
     protected function afterGetForm($form): Form
