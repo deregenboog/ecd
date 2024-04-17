@@ -39,12 +39,6 @@ class DienstenLookupSubscriber implements EventSubscriberInterface
     {
         $klant = $event->getKlant();
 
-//        /* @var $verslag Verslag */
-//        $verslag = $this->entityManager->getRepository(Verslag::class)->findOneBy(
-//            ['klant' => $klant],
-//            ['datum' => 'asc']
-//        );
-
         if ($klant->getHuidigeMwStatus()) {
             $dienst = new Dienst(
                 'Maatschappeljk werk',
@@ -52,7 +46,15 @@ class DienstenLookupSubscriber implements EventSubscriberInterface
             );
             $dienst->setOmschrijving($klant->getHuidigeMwStatus());
 
-//            $dienst->setVan($klant->getHuidigeMwStatus())
+            /** @var Verslag $verslag */
+            $verslag = $this->entityManager->getRepository(Verslag::class)->findOneBy(
+                ['klant' => $klant],
+                ['datum' => 'desc']
+            );
+            if ($verslag && $verslag->getMedewerker()) {
+                $dienst->setTitelMedewerker('contactpersoon')
+                    ->setMedewerker($verslag->getMedewerker());
+            }
 
             $event->addDienst($dienst);
         }

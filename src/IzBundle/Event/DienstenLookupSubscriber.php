@@ -6,7 +6,9 @@ use AppBundle\Event\DienstenLookupEvent;
 use AppBundle\Event\Events;
 use AppBundle\Model\Dienst;
 use Doctrine\ORM\EntityManagerInterface;
+use IzBundle\Entity\Hulpvraag;
 use IzBundle\Entity\IzKlant;
+use IzBundle\Entity\Verslag;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
@@ -38,7 +40,7 @@ class DienstenLookupSubscriber implements EventSubscriberInterface
     public function provideDienstenInfo(DienstenLookupEvent $event)
     {
         $klant = $event->getKlant();
-        /* @var $izKlant IzKlant */
+        /** @var IzKlant $izKlant */
         $izKlant = $this->entityManager->getRepository(IzKlant::class)
             ->findOneBy(['klant' => $klant]);
 
@@ -56,13 +58,29 @@ class DienstenLookupSubscriber implements EventSubscriberInterface
                 $dienst->setTot($izKlant->getAfsluitDatum());
             }
 
-            if ((is_array($izKlant->getHulpvragen()) || $izKlant->getHulpvragen() instanceof \Countable ? count($izKlant->getHulpvragen()) : 0) > 0) {
-                $laatsteHulpvraag = $izKlant->getHulpvragen()[0];
-                if ($laatsteHulpvraag->getMedewerker()) {
-                    $dienst
-                        ->setTitelMedewerker('coördinator')
-                        ->setMedewerker($laatsteHulpvraag->getMedewerker())
-                    ;
+            /** @var Hulpvraag $hulpvraag */
+            $hulpvraag = $this->entityManager->getRepository(Hulpvraag::class)->findOneBy(
+                ['izKlant' => $izKlant],
+                ['created' => 'desc']
+            );
+            if ($hulpvraag) {
+                $medewerker = $hulpvraag->getMedewerker();
+                if ($medewerker) {
+                    $dienst->setTitelMedewerker('coördinator')->setMedewerker($medewerker);
+                }
+            }
+
+            if (!$dienst->getMedewerker()) {
+                /** @var Verslag $verslag */
+                $verslag = $this->entityManager->getRepository(Verslag::class)->findOneBy(
+                    ['izDeelnemer' => $izKlant],
+                    ['created' => 'desc']
+                );
+                if ($verslag) {
+                    $medewerker = $verslag->getMedewerker();
+                    if ($medewerker) {
+                        $dienst->setTitelMedewerker('contactpersoon')->setMedewerker($medewerker);
+                    }
                 }
             }
 
