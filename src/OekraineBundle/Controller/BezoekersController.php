@@ -274,11 +274,6 @@ class BezoekersController extends AbstractController
         $bezoeker = $this->dao->find($id);
         $aanmelding = new Aanmelding($bezoeker, $this->getMedewerker());
 
-        if(in_array($bezoeker->getAppKlant()->getLand()->getNaam(),$this->getParameter('tbc_countries') ) )
-        {
-            $this->addFlash("danger","Let op: klant uit risicoland. Doorverwijzen naar GGD voor TBC controle.");
-        }
-
         $form = $this->getForm(AanmeldingType::class, $aanmelding);
         $form->handleRequest($this->getRequest());
         if ($form->isSubmitted() && $form->isValid()) {

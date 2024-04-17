@@ -7,8 +7,6 @@ services:
     _defaults:
         autowire: true
         autoconfigure: true
-        bind:
-            $tbc_countries: '%tbc_countries%'
 
     # commands
     AppBundle\Command\:
@@ -112,7 +110,6 @@ services:
             - '%kernel.default_locale%'
             - '%administrator_name%'
             - '%administrator_email%'
-            - '%tbc_months_period%'
             - '@AppBundle\Service\ECDHelper'
 
     AppBundle\Form\DoelstellingType:
@@ -127,8 +124,6 @@ services:
     AppBundle\Form\AddressType:
 
     AppBundle\Form\KlantType:
-        arguments:
-            $tbc_countries: '%tbc_countries%'
 
     AppBundle\Form\KlantMergeType:
 

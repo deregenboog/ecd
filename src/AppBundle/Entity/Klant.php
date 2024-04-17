@@ -342,18 +342,6 @@ class Klant extends Persoon
         return $this;
     }
 
-    public function getLaatsteTbcControle()
-    {
-        return $this->laatsteTbcControle;
-    }
-
-    public function setLaatsteTbcControle($laatsteTbcControle = null)
-    {
-        $this->laatsteTbcControle = $laatsteTbcControle;
-
-        return $this;
-    }
-
     public function getRegistraties()
     {
         return $this->registraties;

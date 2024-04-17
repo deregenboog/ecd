@@ -58,16 +58,10 @@ class KlantenController extends AbstractController
      */
     protected $locatieDao;
 
-    /**
-     * @var array List of countries where TBC check is mandatory
-     */
-    protected $tbc_countries = [];
-
-    public function __construct(KlantDaoInterface $dao, \AppBundle\Service\KlantDaoInterface $klantDao, LocatieDaoInterface $locatieDao, $tbc_countries = [])
+    public function __construct(KlantDaoInterface $dao, \AppBundle\Service\KlantDaoInterface $klantDao, LocatieDaoInterface $locatieDao)
     {
         $this->dao = $dao;
         $this->klantDao = $klantDao;
-        $this->tbc_countries = $tbc_countries;
         $this->locatieDao = $locatieDao;
     }
 
@@ -282,11 +276,6 @@ class KlantenController extends AbstractController
         $aanmelding = new Aanmelding($this->getMedewerker());
         $aanmelding->setKlant($klant);
 
-        if(in_array($klant->getLand()->getNaam(),$this->tbc_countries ) )
-        {
-            $this->addFlash("danger","Let op: klant uit risicoland. Doorverwijzen naar GGD voor TBC controle.");
-        }
-
         $form = $this->getForm(AanmeldingType::class, $aanmelding);
         $form->handleRequest($this->getRequest());
         if ($form->isSubmitted() && $form->isValid()) {
@@ -375,7 +364,6 @@ class KlantenController extends AbstractController
     {
         return [
             'amoc_landen' => $this->getAmocLanden(),
-            'tbc_countries' => $this->tbc_countries,
 
         ];
     }
@@ -425,8 +413,6 @@ class KlantenController extends AbstractController
 
     protected function doAdd(Request $request)
     {
-        $tbc_countries = $this->tbc_countries;
-        $tbc_countries_string = implode(", ",$tbc_countries);
         $klantId = $request->get('klant');
         if ('new' === $klantId) {
             $klant = new Klant($request);
@@ -449,10 +435,6 @@ class KlantenController extends AbstractController
             try {
                 $this->dao->create($inloopKlant);
                 $this->addFlash('success', ucfirst($this->entityName).' is opgeslagen.');
-                if(in_array($inloopKlant->getLand()->getNaam(),$tbc_countries))
-                {
-                    $this->addFlash("danger","Let op: klant uit risicoland. Doorverwijzen naar GGD voor TBC controle.");
-                }
 
                 return $this->redirectToView($inloopKlant);
             } catch(UserException $e) {
@@ -470,7 +452,6 @@ class KlantenController extends AbstractController
             'entity' => $inloopKlant,
             'creationForm' => $creationForm->createView(),
             'amoc_landen' => $this->getAmocLanden(),
-            'tbc_countries' => $tbc_countries,
         ];
     }
 }

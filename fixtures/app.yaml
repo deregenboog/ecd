@@ -824,7 +824,6 @@ AppBundle\Entity\Klant:
         mobiel: '<phoneNumber()>'
         telefoon: '<phoneNumber()>'
         email: '<email()>'
-        laatsteTbcControle: '<dateTimeThisYear()>'
         laatsteZrm: '<dateTimeThisYear()>'
         addIntake: '@intake_<current()>'
         huidigeStatus: '@aanmelding_<current()>'

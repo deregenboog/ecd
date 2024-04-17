@@ -23,15 +23,9 @@ class KlantType extends AbstractType
      */
     private $entityManager;
 
-    /**
-     * @var array TBC Countries from config parameter.
-     */
-    private $tbcCountries = [];
-
-    public function __construct(EntityManagerInterface $entityManager, array $tbc_countries)
+    public function __construct(EntityManagerInterface $entityManager)
     {
         $this->entityManager = $entityManager;
-        $this->tbcCountries = $tbc_countries;
     }
 
     /**
@@ -77,24 +71,12 @@ class KlantType extends AbstractType
             ->add('opmerking', AppTextareaType::class, ['required' => false])
             ->add('geenPost',null, ['label' => 'Geen post'])
             ->add('geenEmail')
-
         ;
-
-        if(null !== ($builder->getData()) && in_array((string)$builder->getData()->getLand(),$this->tbcCountries))
-        {
-            $builder->add('laatste_TBC_controle', AppDateType::class,
-                [
-                    'label' => 'TBC-check?',
-                    'required' => false,
-                ]
-            );
-        }
 
         $builder->addEventListener(FormEvents::SUBMIT, function (FormEvent $event){
             Klant::KoppelPostcodeWerkgebiedClosure($event, $this->entityManager);
         });
         $builder->add('submit', SubmitType::class);
-
     }
 
     /**

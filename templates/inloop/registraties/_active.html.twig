@@ -1,7 +1,7 @@
 {% import 'html.macro.twig' as html %}
 
 <table class="table table-hover table-fixed">
-    {{ colgroup(14, [15, 15, 15]) }}
+    {{ colgroup(13, [15, 15, 15]) }}
     <thead>
         <tr>
             <th>
@@ -38,9 +38,6 @@
             </th>
             <th>
                 Aantal spuiten
-            </th>
-            <th>
-                TBC-check
             </th>
             <th>
                 Schorsingen
@@ -105,20 +102,6 @@
                     <a id="aantalSpuiten">{{ registratie.aantalSpuiten }}</a>
                 {% else %}
                     <input id="aantalSpuiten" type="checkbox" {{ registratie.aantalSpuiten ? 'checked' }}/>
-                {% endif %}
-            </td>
-            <td>
-                {% if locatie.tbcCheck() %}
-                    {% if not registratie.klant.laatsteTbcControle %}
-                        <strong class="text-danger">onbekend</strong>
-                    {% else %}
-                        {% set valid_until = registratie.klant.laatsteTbcControle|date_modify('+'~tbc_months_period~'months') %}
-                        {% if valid_until <= today %}
-                            <strong class="text-danger">is verlopen</strong>
-                        {% else %}
-                            <strong class="text-warning">over {{ today|diff(valid_until).days|human_days }}</strong>
-                        {% endif %}
-                    {% endif %}
                 {% endif %}
             </td>
             <td>

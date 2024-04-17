@@ -39,21 +39,14 @@ class IntakesController extends AbstractController
      */
     protected $dao;
 
-    /**
-     * @var array|mixed $tbc_countries
-     * Array of countries (value=name) which klnanten needs to be tested against TBC and trhow a warning.
-     */
-    protected $tbc_countries = array();
-
     protected $accessStrategies = [];
 
     protected $amocVerblijfsstatus = "";
 
-    public function __construct(IntakeDaoInterface $dao, ContainerInterface $container, $tbc_countries = [], $accessStrategies = [], $amocVerblijfsstatus = '')
+    public function __construct(IntakeDaoInterface $dao, ContainerInterface $container, $accessStrategies = [], $amocVerblijfsstatus = '')
     {
         $this->container = $container;
         $this->dao = $dao;
-        $this->tbc_countries = $tbc_countries;
         $this->accessStrategies = $accessStrategies;
         $this->amocVerblijfsstatus = $amocVerblijfsstatus;
     }
@@ -212,7 +205,6 @@ class IntakesController extends AbstractController
     protected function addParams($entity, Request $request): array
     {
         return [
-            'tbc_countries' => $this->tbc_countries,
             'amocVerblijfsstatus' => $this->amocVerblijfsstatus,
             'accessStrategies' => json_encode($this->accessStrategies),
         ];

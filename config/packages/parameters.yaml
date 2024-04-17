@@ -19,13 +19,6 @@ parameters:
   ldap_base_dn: 'DC=cluster,DC=deregenboog'
   ldap_search_user: '%env(LDAP_SEARCH_USER)%'
   ldap_search_password: '%env(LDAP_SEARCH_PASSWORD)%'
-  tbc_months_period: 6
-  tbc_countries:
-    - Roemenië
-    - Bulgarije
-    - Estland
-    - Letland
-    - Litouwen
   access_strategies:
     amoc_stadhouderskade:
       - 'AMOC Stadhouderskade'

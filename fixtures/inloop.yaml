@@ -33,7 +33,6 @@ InloopBundle\Entity\Locatie:
         gebruikersruimte: false
         datumVan: '<dateTimeBetween("-30 days","now")>'
         maatschappelijkWerk: false
-        tbcCheck: true
     locatie_amoc_west:
         naam: 'AMOC West'
         locatieTypes: ['@lt_inloop','@lt_mw']
@@ -41,7 +40,6 @@ InloopBundle\Entity\Locatie:
         gebruikersruimte: false
         datumVan: '<dateTimeBetween("-30 days","now")>'
         maatschappelijkWerk: false
-        tbcCheck: true
     locatie_de_eik:
         naam: 'De Eik'
         locatieTypes: ['@lt_inloop']
@@ -248,7 +246,6 @@ AppBundle\Entity\Klant:
         mobiel: '<phoneNumber()>'
         telefoon: '<phoneNumber()>'
         email: '<email()>'
-        laatsteTbcControle: '<dateTimeThisDecade()>'
         laatsteZrm: '<dateTimeThisDecade()>'
         # addIntake: ['@intake_1']
         eersteIntake: '@intake_201'
@@ -276,7 +273,6 @@ AppBundle\Entity\Klant:
         mobiel: '<phoneNumber()>'
         telefoon: '<phoneNumber()>'
         email: '<email()>'
-        laatsteTbcControle: '<dateTimeThisDecade()>'
         laatsteZrm: '<dateTimeThisDecade()>'
         # addIntake: ['@intake_1']
         eersteIntake: '@intake_202'
@@ -304,7 +300,6 @@ AppBundle\Entity\Klant:
         mobiel: '<phoneNumber()>'
         telefoon: '<phoneNumber()>'
         email: '<email()>'
-        laatsteTbcControle: '<dateTimeThisDecade()>'
         laatsteZrm: '<dateTimeThisDecade()>'
         # addIntake: ['@intake_1']
         eersteIntake: '@intake_203'
@@ -332,7 +327,6 @@ AppBundle\Entity\Klant:
         mobiel: '<phoneNumber()>'
         telefoon: '<phoneNumber()>'
         email: '<email()>'
-        laatsteTbcControle: '<dateTimeThisDecade()>'
         laatsteZrm: '<dateTimeThisDecade()>'
         # addIntake: ['@intake_1']
         eersteIntake: '@intake_204'
@@ -360,7 +354,6 @@ AppBundle\Entity\Klant:
         mobiel: '<phoneNumber()>'
         telefoon: '<phoneNumber()>'
         email: '<email()>'
-        laatsteTbcControle: '<dateTimeThisDecade()>'
         laatsteZrm: '<dateTimeThisDecade()>'
         # addIntake: ['@intake_1']
         eersteIntake: '@intake_205'
@@ -388,7 +381,6 @@ AppBundle\Entity\Klant:
         mobiel: '<phoneNumber()>'
         telefoon: '<phoneNumber()>'
         email: '<email()>'
-        laatsteTbcControle: '<dateTimeThisDecade()>'
         laatsteZrm: '<dateTimeThisDecade()>'
         # addIntake: ['@intake_1']
         eersteIntake: '@intake_206'
@@ -416,7 +408,6 @@ AppBundle\Entity\Klant:
         mobiel: '<phoneNumber()>'
         telefoon: '<phoneNumber()>'
         email: '<email()>'
-        laatsteTbcControle: '<dateTimeThisDecade()>'
         laatsteZrm: '<dateTimeThisDecade()>'
         # addIntake: ['@intake_1']
         eersteIntake: '@intake_207'
