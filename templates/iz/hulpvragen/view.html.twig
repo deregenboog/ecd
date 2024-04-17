@@ -84,6 +84,18 @@
                     <thead>
                         {{ form_start(filter) }}
                             <tr>
+                                <th colspan="5">
+                                    {{ form_widget(filter.zoekterm) }}
+                                    {{ form_errors(filter.zoekterm) }}
+                                </th>
+                                <th colspan="4">
+                                    {{ form_widget(filter.matching) }}
+                                </th>
+                                <th>
+                                    {{ form_widget(filter.filter) }}
+                                </th>
+                            </tr>
+                            <tr>
                                 <th>
                                     {{ form_widget(filter.startdatum) }}
                                     {{ form_errors(filter.startdatum) }}
@@ -116,12 +128,11 @@
                                     {{ form_widget(filter.doelgroep) }}
                                     {{ form_errors(filter.doelgroep) }}
                                 </th>
-                                <th colspan="2">
-                                    {{ form_widget(filter.matching) }}
-                                    {{ form_errors(filter.matching) }}
+                                <th>
                                 </th>
                                 <th>
-                                    {{ form_widget(filter.filter) }}
+                                </th>
+                                <th>
                                 </th>
                             </tr>
                         {{ form_end(filter) }}
