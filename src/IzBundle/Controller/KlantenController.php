@@ -110,7 +110,7 @@ class KlantenController extends AbstractController
      */
     public function reopenAction(Request $request, $id)
     {
-        $this->getDoctrine()->getManager()->getFilters()->disable("foutieve_invoer");
+        $this->getEntityManager()->getFilters()->disable("foutieve_invoer");
         $entity = $this->dao->find($id);
 
         $form = $this->getForm(ConfirmationType::class);

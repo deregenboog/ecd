@@ -17,6 +17,13 @@ use Gedmo\Mapping\Annotation as Gedmo;
  */
 class Afsluiting
 {
+    const DOELGROEP_KLANT = 1;
+    const DOELGROEP_VRIJWILLIGER = 2;
+    const DOELGROEPEN_LABELS = [
+        self::DOELGROEP_KLANT => 'Deelnemers',
+        self::DOELGROEP_VRIJWILLIGER => 'Vrijwilligers',
+    ];
+
     use IdentifiableTrait;
     use NameableTrait;
     use ActivatableTrait;
@@ -51,4 +58,32 @@ class Afsluiting
      * @Gedmo\Versioned
      */
     protected $modified;
+
+    /**
+     * @ORM\Column(type="integer", nullable=false)
+     * @Gedmo\Versioned
+     */
+    protected $doelgroepen = self::DOELGROEP_KLANT + self::DOELGROEP_VRIJWILLIGER;
+
+    public function getDoelgroepen(): array
+    {
+        $doelgroep = [];
+        foreach (array_keys(self::DOELGROEPEN_LABELS) as $bit) {
+            if ($this->doelgroepen & $bit) {
+                $doelgroep[] = $bit;
+            }
+        }
+
+        return $doelgroep;
+    }
+
+    public function setDoelgroepen(array $doelgroepen): self
+    {
+        $this->doelgroepen = 0;
+        foreach ($doelgroepen as $doelgroep) {
+            $this->doelgroepen += $doelgroep;
+        }
+
+        return $this;
+    }
 }
