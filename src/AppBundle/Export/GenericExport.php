@@ -211,29 +211,10 @@ class GenericExport extends AbstractExport
     /**
      * @return string
      */
-    public function getServiceId(): string
-    {
-        return $this->serviceId;
-    }
-
-    /**
-     * @param string $serviceId
-     * @return GenericExport
-     */
-    public function setServiceId(string $serviceId): GenericExport
-    {
-        $this->serviceId = $serviceId;
-        return $this;
-    }
-
-    /**
-     * @return string
-     */
     public function getFriendlyName()
     {
         return $this->friendlyName;
     }
-
 
     /**
      * @return AbstractDao
@@ -243,7 +224,4 @@ class GenericExport extends AbstractExport
         if($this->dao == null) throw new ExportException("Geen DAO ingesteld voor deze download");
         return $this->dao;
     }
-
-
-
 }

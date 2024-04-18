@@ -42,13 +42,10 @@
                 {{ form_errors(filter.jaar) }}
             </th>
             <th>
-
             </th>
             <th>
-
             </th>
             <th>
-
             </th>
             <th>
                 {{ form_widget(filter.download) }}
@@ -97,9 +94,10 @@
                     {{ doelstelling.aantal }}
                 </td>
                 <td>
-                    {{ ((doelstelling.actueel / doelstelling.aantal) * 100)|round(1,'ceil')}}%
+                    {% if doelstelling.aantal > 0 %}
+                        {{ ((doelstelling.actueel / doelstelling.aantal) * 100)|round(1, 'ceil')}}%
+                    {% endif %}
                 </td>
-
                 <td>
                     {{ html.editLink(path(route_base~'edit', {id: doelstelling.id})) }}
                     {{ html.deleteLink(path(route_base~'delete', {id: doelstelling.id})) }}
