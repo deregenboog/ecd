@@ -5,6 +5,7 @@ namespace InloopBundle\Entity;
 use AppBundle\Model\IdentifiableTrait;
 use AppBundle\Model\NameableTrait;
 use AppBundle\Model\TimestampableTrait;
+use AppBundle\Util\DateTimeUtil;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -84,8 +85,6 @@ class Locatie
      * @ORM\OrderBy({"dagVanDeWeek": "ASC"})
      */
     private $locatietijden;
-
-    private $openingTimeCorrection = 30 * 60; // 30 minutes. correctie op de openingstijd. Openingstijd gaat een half uur eerder al open... en een half uur langer door.
 
     /**
      * @ORM\ManyToMany(targetEntity="Intake", mappedBy="specifiekeLocaties")
@@ -213,18 +212,34 @@ class Locatie
     }
 
     /**
-     * Off by 0. zondag = 0. zaterdag - 6.
-     * Gets locatietijden for day of week.
+     * Get the Locatietijd for a given moment (or now, is no moment is given).
+     * Returns null if the Locatie has no Locatietijd for the given moment.
      */
-    public function getLocatietijd(int $dayOfWeek): ?Locatietijd
+    public function getLocatietijd(?\DateTime $moment = null): ?Locatietijd
     {
-//        $dayOfWeek = (int) $dayOfWeek;
-        while ($dayOfWeek >= 7) {
-            $dayOfWeek = $dayOfWeek % 7;
+        if (!$moment instanceof \DateTime) {
+            $moment = new \DateTime();
         }
 
         foreach ($this->locatietijden as $locatietijd) {
-            if ($dayOfWeek === $locatietijd->getDagVanDeWeek()) {
+            // skip irrelevant cases
+            if (!in_array((int) $moment->format('w'), [$locatietijd->getOpeningsdag(), $locatietijd->getSluitingsdag()])) {
+                continue;
+            }
+
+            $openingstijd = DateTimeUtil::combine($moment, $locatietijd->getOpeningstijd())
+                ->modify(sprintf("-%d minutes", Locatietijd::CORRECTION_MINUTES));
+            if ($locatietijd->getOpeningsdag() !== (int) $moment->format('w')) {
+                $openingstijd->modify('-1 day');
+            }
+
+            $sluitingstijd = DateTimeUtil::combine($moment, $locatietijd->getSluitingstijd())
+                ->modify(sprintf("+%d minutes", Locatietijd::CORRECTION_MINUTES));
+            if ($locatietijd->getSluitingsdag() !== (int) $moment->format('w')) {
+                $sluitingstijd->modify('+1 day');
+            }
+
+            if ($moment >= $openingstijd && $moment <= $sluitingstijd) {
                 return $locatietijd;
             }
         }
@@ -253,100 +268,9 @@ class Locatie
         return $this;
     }
 
-    public function isOpen(\DateTime $date = null)
+    public function isOpen(?\DateTime $date = null): bool
     {
-        if (!$date instanceof \DateTime) {
-            $date = new \DateTime();
-        }
-        $openingstijd = new \DateTime();
-        $sluitingstijd = new \DateTime();
-        $debug['message'] = null;
-        $locatietijd = $this->getLocatietijd($date->format('w'));
-
-        if ($locatietijd) {
-            $openingstijd = (clone $locatietijd->getOpeningstijd())
-                ->setDate($date->format('Y'), $date->format('m'), $date->format('d'))
-                ->modify("-{$this->openingTimeCorrection} seconds");
-            $sluitingstijd = (clone $locatietijd->getSluitingstijd())
-                ->setDate($date->format('Y'), $date->format('m'), $date->format('d'))
-                ->modify("+{$this->openingTimeCorrection} seconds");
-
-            /**
-             * Dus stel dat de sluitingstijd 23:59 was en we tellen er 30 minuten bij op
-             * (hierboven)
-             * Dan kan het dus zijn dat openingstijd groter is dan de sluitingstijd. bv:
-             * openingstijd: 00:00
-             * sluitingstijd: 23:59
-             *
-             * - en +30 min =
-             * opening 23:30
-             * sluiting 00:29,
-             * dan dus + 1 dag want anders loopt het mis...
-             */
-            if ($openingstijd > $sluitingstijd) {
-                $sluitingstijd->modify('+1 day');
-            }
-
-            if ($date >= $openingstijd && $date <= $sluitingstijd) {
-                return true;
-            }
-
-            $debug['message'] = 'Er gaat iets mis in het berekenen van de openingstijd. Dag van de week: '."\n\n".$date->format('w');
-            $debug['date'] = $date;
-            $debug['openingstijd'] = $openingstijd;
-            $debug['sluitingstijd'] = $sluitingstijd;
-
-//            return $debug;
-        }
-
-        /**
-         * Ok, nu kan het dus zijn dat ie nog niet open is op de dag dat wordt gevraagd.
-         * Dat kan komen, doordat de sluitingstijd bv. na middernacht is. en dus eigenlijk de volgende dag.
-         * Op die 'volgende dag' is er dan bv geen locatietijd aanwezig. Bv nachtopvang
-         * die gaat open om 1500 en sluit om 0200
-         * maar 0200 is dan de volgende dag.
-         *
-         * dus we doen dan net, alsof het gister was... dat is die -1.
-         */
-        $locatietijd = $this->getLocatietijd($date->format('w') - 1);
-        if ($locatietijd && $locatietijd->getOpeningstijd() > $locatietijd->getSluitingstijd()) {
-            $openingstijd = (clone $locatietijd->getOpeningstijd())
-                ->setDate($date->format('Y'), $date->format('m'), $date->format('d'))
-                ->modify('-1 day')
-                ->modify("-{$this->openingTimeCorrection} seconds");
-            $sluitingstijd = (clone $locatietijd->getSluitingstijd())
-                ->setDate($date->format('Y'), $date->format('m'), $date->format('d'))
-                ->modify('-1 day')
-                ->modify("+{$this->openingTimeCorrection} seconds");
-            if ($openingstijd > $sluitingstijd) {
-                $sluitingstijd->modify('+1 day');
-            }
-            if ($date >= $openingstijd && $date <= $sluitingstijd) {
-                return true;
-            }
-
-            //geen $locatietijd, bv omdat er geen openingstijden zijn op die dag.
-            $debug['message'] .= '\n\nKan geen geschikte $locatietijd vinden voor dag van de week'."\n\n".$date->format('w');
-            $debug['message'] .= "\nOok de sluitingsdatum en dag terugzetten geeft niet het gewenste resultaat (in geval van sluiting na middernacht scenario)";
-            $debug['message'] .= "\n\nDate (nu): ".$date->format("d-m-Y H:i:s");
-            $debug['message'] .= "\nOpeningstijd: ".$openingstijd->format("d-m-Y H:i:s");
-            $debug['message'] .= "\nSluitingstijd: ".$sluitingstijd->format("d-m-Y H:i:s");
-            return $debug;
-
-            return false;
-
-        }
-
-
-    }
-
-    public function getClosingTimeByDayOfWeek($dayOfWeek)
-    {
-        foreach ($this->locatietijden as $locatietijd) {
-            if ($dayOfWeek == $locatietijd->getDagVanDeWeek()) {
-                return $locatietijd->getSluitingstijd();
-            }
-        }
+        return $this->getLocatietijd($date) instanceof Locatietijd;
     }
 
     public function isDeletable()
@@ -414,6 +338,4 @@ class Locatie
 
         return $r;
     }
-
-
 }

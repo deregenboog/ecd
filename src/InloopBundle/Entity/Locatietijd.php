@@ -19,6 +19,8 @@ class Locatietijd
     use IdentifiableTrait;
     use TimestampableTrait;
 
+    const CORRECTION_MINUTES = 30; // correctie op de openingstijd/sluitingstijd
+
     /**
      * @var Locatie
      *
@@ -29,6 +31,8 @@ class Locatietijd
     private $locatie;
 
     /**
+     * Integer representing the day of the week (0=Sunday, 6=Saturday).
+     *
      * @ORM\Column(name="dag_van_de_week", type="integer")
      * @Gedmo\Versioned
      */
@@ -50,7 +54,7 @@ class Locatietijd
     {
         return sprintf(
             '%s %s-%s (%s)',
-            DateTimeUtil::dayOfWeek($this->getDagVanDeWeek()),
+            DateTimeUtil::dayOfWeek($this->getOpeningsdag()),
             $this->openingstijd->format('H:i'),
             $this->sluitingstijd->format('H:i'),
             $this->locatie
@@ -75,11 +79,17 @@ class Locatietijd
         return $this;
     }
 
-    /**
-     * @return int
-     */
-    public function getDagVanDeWeek(): int
+    public function getOpeningsdag(): ?int
     {
+        return $this->dagVanDeWeek;
+    }
+
+    public function getSluitingsdag(): ?int
+    {
+        if ($this->openingstijd >= $this->sluitingstijd) {
+            return $this->dagVanDeWeek + 1;
+        }
+
         return $this->dagVanDeWeek;
     }
 

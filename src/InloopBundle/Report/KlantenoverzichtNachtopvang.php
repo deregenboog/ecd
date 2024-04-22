@@ -184,7 +184,7 @@ class KlantenoverzichtNachtopvang extends AbstractReport
 
         // Get the current day of the week 0 = sunday.
         $d = $dateTime->format('l');
-        $currentDayOfWeek = $dateTime->format('w');
+        $currentDayOfWeek = (int) $dateTime->format('w');
 
         // Calculate the difference between the current day and Monday (1 for Monday, 2 for Tuesday, etc.)
         $daysToAdd = ($currentDayOfWeek == 1) ? 0 : (1 - $currentDayOfWeek);

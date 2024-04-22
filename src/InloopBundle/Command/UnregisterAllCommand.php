@@ -60,40 +60,20 @@ class UnregisterAllCommand extends \Symfony\Component\Console\Command\Command
         $registrations = $this->registratieDao->findAutoCheckoutCandidates($type);
         $output->writeln(sprintf('Processing %d registrations', count($registrations)));
 
-        $closingTimes = [];
         foreach ($registrations as $registration) {
-            $locationId = $registration->getLocatie()->getId();
-            $dayOfWeek = $registration->getBinnen()->format('w');
-
-            if (!isset($closingTimes[$locationId][$dayOfWeek])) {
-                // cache closing time
-                $closingTimes[$locationId][$dayOfWeek] = $registration->getLocatie()->getClosingTimeByDayOfWeek($dayOfWeek);
+            $locatietijd = $registration->getLocatie()->getLocatietijd($registration->getBinnen());
+            if (!$locatietijd) {
+                continue;
             }
 
-            $closingTime = $closingTimes[$locationId][$dayOfWeek];
-            $buiten = DateTimeUtil::combine($registration->getBinnen(), $closingTime);
+            $buiten = DateTimeUtil::combine($registration->getBinnen(), $locatietijd->getSluitingstijd());
+            if ($locatietijd->getOpeningsdag() != $locatietijd->getSluitingsdag()) {
+                $buiten->modify('+1 day');
+            }
 
             // ignore if location is still open
             if ($this->now < $buiten) {
                 continue;
-            }
-
-            // take closing time of next day if checkin is greater than checkout
-            if ($registration->getBinnen() > $buiten) {
-                $nextDay = (clone $registration->getBinnen())->modify('+1 day');
-                $closingTime = $registration->getLocatie()->getClosingTimeByDayOfWeek($nextDay->format('w'));
-
-                // ignore if location is not open on the next day
-                if (!$closingTime) {
-                    continue;
-                }
-
-                $buiten = DateTimeUtil::combine($nextDay, $closingTime);
-
-                // ignore if location is still open
-                if ($this->now < $buiten) {
-                    continue;
-                }
             }
 
             assert($buiten >= $registration->getBinnen());
