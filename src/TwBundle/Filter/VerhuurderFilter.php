@@ -108,13 +108,15 @@ class VerhuurderFilter implements FilterInterface
             $builder
                 ->leftJoin('verhuurder.huuraanbiedingen', 'huuraanbod', 'WITH', 'huuraanbod.afsluiting IS NULL')
                 ->leftJoin('huuraanbod.huurovereenkomst', 'huurovereenkomst', 'WITH',
-                    'huurovereenkomst.isReservering = false AND huurovereenkomst.startdatum IS NOT NULL AND huurovereenkomst.afsluitdatum IS NULL'
+                    'huurovereenkomst.isReservering = false AND huurovereenkomst.startdatum IS NOT NULL AND (huurovereenkomst.afsluitdatum IS NULL OR huurovereenkomst.afsluitdatum > :today)'
                 )
             ;
+            $builder->setParameter('today', new \DateTime('today'));
             if (true === $this->gekoppeld) {
                 $builder->andWhere('huurovereenkomst IS NOT NULL');
             } elseif (false === $this->gekoppeld) {
-                $builder->andWhere('huurovereenkomst IS NULL');
+                $builder->andWhere('huurovereenkomst IS NULL')
+                ;
             }
         }
 
