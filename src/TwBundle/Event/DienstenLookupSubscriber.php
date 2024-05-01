@@ -60,6 +60,7 @@ class DienstenLookupSubscriber implements EventSubscriberInterface
             if ($deelnemer->getAfsluitdatum()) {
                 $dienst->setTot($deelnemer->getAfsluitdatum());
             }
+            $dienst->setEntity($deelnemer);
 
             $event->addDienst($dienst);
         }

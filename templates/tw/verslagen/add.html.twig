@@ -2,6 +2,6 @@
 {% import 'html.macro.twig' as html %}
 
 {% block content %}
-    <h1>Verslag toevoegen</h1>
+    <h1>Verslag toevoegen <span class="small">({{ type }})</span></h1>
     {{ form(form) }}
 {% endblock %}
