@@ -8,6 +8,7 @@ use AppBundle\Exception\UserException;
 use AppBundle\Export\ExportInterface;
 use AppBundle\Form\ConfirmationType;
 use AppBundle\Form\KlantFilterType as AppKlantFilterType;
+use Doctrine\Common\Collections\ArrayCollection;
 use phpDocumentor\Reflection\Types\Null_;
 use TwBundle\Entity\Klant;
 use TwBundle\Exception\TwException;
@@ -195,5 +196,38 @@ class KlantenController extends AbstractController
         }
         return $this->redirectToRoute('tw_klanten_view',['id'=>$klant->getId()]);
     }
+
+    protected function addParams($entity, Request $request): array
+    {
+        $params = [];
+
+
+        $deelnemer = $entity;
+        $appKlant = $entity->getAppKlant();
+
+
+        if (!$deelnemer || !$appKlant) {
+            return [];
+            throw $this->createNotFoundException('Unable to find Deelnemer/Klant entity.');
+        }
+
+        $deelnemerVerslagen = $deelnemer->getVerslagen();
+        $klantVerslagen = $appKlant->getVerslagen();
+
+        // A new ArrayCollection can be created by feeding an existing collection to it
+        $combinedVerslagen =
+            array_merge($deelnemerVerslagen->toArray(), $klantVerslagen->toArray())
+        ;
+        usort($combinedVerslagen, function($a, $b) {
+            // Assuming getCreatedAt() or similar method returns the DateTime object
+            return $b->getDatum() <=> $a->getDatum();
+        });
+
+        $params['verslagen'] = $combinedVerslagen;
+
+
+        return $params;
+    }
+
 
 }

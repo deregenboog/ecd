@@ -44,7 +44,10 @@ class VerslagenController extends SymfonyController
     public function add()
     {
         $entityManager = $this->getEntityManager();
-        $entity = $this->findEntity($entityManager);
+        $e = $this->findEntity($entityManager);
+        $entity = $e['entity'];
+        $type = $e['type'];
+
 
         $form = $this->getForm(VerslagType::class, new Verslag());
         $form->handleRequest($this->getRequest());
@@ -69,7 +72,10 @@ class VerslagenController extends SymfonyController
             return $this->redirectToRoute($routeBase.'_view', ['id' => $entity->getId()]);
         }
 
-        return ['form' => $form->createView()];
+        return [
+            'form' => $form->createView(),
+            'type'=>$type,
+        ];
     }
 
     /**
@@ -139,28 +145,36 @@ class VerslagenController extends SymfonyController
             case $this->getRequest()->query->has('klant'):
                 $class = Klant::class;
                 $id = $this->getRequest()->query->get('klant');
+                $type = "Klant";
                 break;
             case $this->getRequest()->query->has('verhuurder'):
                 $class = Verhuurder::class;
                 $id = $this->getRequest()->query->get('verhuurder');
+                $type = "Verhuurder";
                 break;
             case $this->getRequest()->query->has('huurverzoek'):
                 $class = Huurverzoek::class;
                 $id = $this->getRequest()->query->get('huurverzoek');
+                $type = "Huurverzoek";
                 break;
             case $this->getRequest()->query->has('huuraanbod'):
                 $class = Huuraanbod::class;
                 $id = $this->getRequest()->query->get('huuraanbod');
+                $type = "Huuraanbod";
                 break;
             case $this->getRequest()->query->has('huurovereenkomst'):
                 $class = Huurovereenkomst::class;
                 $id = $this->getRequest()->query->get('huurovereenkomst');
+                $type = "Koppeling";
                 break;
             default:
                 throw new TwException('Kan geen verslag aan deze entiteit toevoegen');
         }
 
-        return $entityManager->find($class, $id);
+        return [
+            'entity'=>$entityManager->find($class, $id),
+            'type'=>$type,
+            ];
     }
 
     private function resolveRouteBase($entity)

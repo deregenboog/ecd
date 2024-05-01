@@ -41,6 +41,9 @@ class Dienst
      */
     private $medewerker;
 
+    private $entity;
+
+
     public function __construct(?string $naam = null, ?string $url = null, ?string $omschrijving = null)
     {
         $this->naam = $naam;
@@ -182,5 +185,15 @@ class Dienst
         $this->medewerker = $medewerker;
 
         return $this;
+    }
+
+    public function getEntity()
+    {
+        return $this->entity;
+    }
+
+    public function setEntity($entity)
+    {
+        $this->entity = $entity;
     }
 }

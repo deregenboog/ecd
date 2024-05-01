@@ -1,6 +1,9 @@
 {% import 'html.macro.twig' as html %}
+{% import _self as verslagenMacro %}
+
 {% if klant is defined %}
     {% set url = path('tw_verslagen_add', {klant: klant.id}) %}
+    {% set mwAddVerslagUrl = path('mw_verslagen_add', {klant: klant.id}) %}
     {% set entity = klant %}
 {% elseif verhuurder is defined %}
     {% set url = path('tw_verslagen_add', {verhuurder: verhuurder.id}) %}
@@ -16,25 +19,111 @@
     {% set entity = huurovereenkomst %}
 {% endif %}
 
+{% if verslagen is not defined %}
+    {% set verslagen = entity.verslagen %}
+{% endif %}
+
 {% if list_title is defined %}
     <h3>{{ list_title }}</h3>
 {% else %}
+
     <h2>Verslagen</h2>
     <p>
         {{ html.addLink(url) }}
-        {{ html.link('Verslag toevoegen', url) }}
+        {{ html.link('Verslag toevoegen (TW)', url) }}
+
+        {% if huurovereenkomst is defined %}
+            &nbsp;|&nbsp;
+            {% set url = path('tw_verslagen_add', {klant: huurovereenkomst.huurverzoek.klant.id}) %}
+            {{ html.addLink(url) }}
+            {{ html.link('Klantverslag toevoegen', url) }}
+        {% endif %}
     </p>
 {% endif %}
+
+{% if is_granted("ROLE_MW") %}
+    {%  set roleMw = true %}
+{% else %}
+    {%  set roleMw = false %}
+{% endif %}
+
 <table class="table">
-    {% for verslag in entity.verslagen %}
-        <tr>
-            <td>{{ verslag.datum|date('d-m-Y') }}</td>
-            <td>{{ verslag.medewerker }}</td>
-            <td>{{ verslag.opmerking|nl2br }}</td>
-            <td>
-                {{ html.editLink(path('tw_verslagen_edit', {id: verslag.id})) }}
-                {{ html.deleteLink(path('tw_verslagen_delete', {id: verslag.id})) }}
-            </td>
-        </tr>
+    {% for verslag in verslagen %}
+        {{ verslagenMacro.verslagProcessing(verslag, roleMw) }}
     {% endfor %}
 </table>
+
+{% macro verslagProcessing(verslag, roleMw) %}
+
+    {% if verslag.type is defined
+        and (
+            (verslag.type == 1 and roleMw == true)
+            or (verslag.type == 1 and verslag.access == 2)
+            or verslag.type == 2
+            )
+    %}
+        {# MW/inloop verslag #}
+        <tr class="info">
+            <td colspan="6">
+                <div class="row">
+                    <div class="col-xs-8">
+                         <h4>
+                             (MW/Inloop) Verslag van {{ verslag.datum|date('d-m-Y') }}
+                        </h4>
+                    </div>
+                    <div class="col-xs-4 text-right">
+                        {{ html.link('Verslag bewerken', path('mw_verslagen_edit', {id: verslag.id}), 'edit') }}
+                    </div>
+                </div>
+                {% if verslag.type == 2 %}
+                    {% set class = "bg-info" %}
+                {% else %}
+                    {% set class = "bg-warning" %}
+                {% endif %}
+                <div class="row {{class}}">
+                    <div class="col-xs-6">
+                        <dl class="dl-horizontal">
+                            <dt>Locatie</dt>
+                            <dd>{{ verslag.locatie }}</dd>
+                            <dt>Medewerker</dt>
+                            <dd>{{ verslag.medewerker }}</dd>
+                        </dl>
+                    </div>
+                    <div class="col-xs-6">
+                        <dl class="dl-horizontal">
+                            <dt>Aantal contactmomenten</dt>
+                            <dd>{{ verslag.aantalContactmomenten }}</dd>
+
+                            <dt>Type</dt>
+                            <dd>{{ verslag.typeAsString }}</dd>
+                        </dl>
+                    </div>
+                </div>
+                <p class="well">{{ verslag.opmerking|raw|nl2br }}</p>
+            </td>
+        </tr>
+    {% elseif verslag.type is not defined %}
+        <tr>
+            <td colspan="5">
+                <div class="row">
+                    <div class="col-xs-8">
+                        <h4>TW verslag van {{ verslag.datum|date('d-m-Y') }}</h4>
+                    </div>
+                    <div class="col-xs-4 text-right">
+                        {{ html.editLink(path('tw_verslagen_edit', {id: verslag.id})) }}
+                        {{ html.deleteLink(path('tw_verslagen_delete', {id: verslag.id})) }}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-6">
+                        <dl class="dl-horizontal">
+                            <dt>Medewerker</dt>
+                            <dd>{{ verslag.medewerker }}</dd>
+                        </dl>
+                    </div>
+                </div>
+                <p class="well">{{ verslag.opmerking|raw|nl2br }}</p>
+            </td>
+        </tr>
+    {% endif %}
+{% endmacro %}

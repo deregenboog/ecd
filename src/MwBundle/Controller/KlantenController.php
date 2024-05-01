@@ -88,6 +88,52 @@ class KlantenController extends AbstractController
     {
         $response =  parent::viewAction($request, $id);
         if(is_array($response)) $response['allRows'] = $this->locatieDao->findAllActiveLocationsOfTypeInloop();
+
+
+        /**
+         * The regular view is altered to pass an adjusted set of verslagen to the view
+         *
+         * There is a need to merge the verslagen of klant and TW Deelnemer.
+         * Therefore we utilise this method to get the TW deelnemer and merge the verslagen.
+         */
+        $klant = $response['entity'];
+
+        $mwVerslagen = $klant->getVerslagen();
+        $response['verslagen'] = $mwVerslagen;
+
+        $event = new DienstenLookupEvent($klant->getId());
+        if ($event->getKlantId()) {
+            $this->eventDispatcher->dispatch($event,Events::DIENSTEN_LOOKUP);
+        }
+
+        $diensten = $event->getDiensten();
+        $deelnemer = null;
+        foreach($diensten as $dienst)
+        {
+            if($dienst->getNaam() == "Tijdelijk wonen")
+            {
+                $deelnemer = $dienst->getEntity();
+            }
+        }
+
+        if(null!==$deelnemer)
+        {
+            $twVerslagen = $deelnemer->getVerslagen();
+
+
+            $combinedVerslagen =
+                array_merge($twVerslagen->toArray(), $mwVerslagen->toArray())
+            ;
+            usort($combinedVerslagen, function($a, $b) {
+                // Assuming getCreatedAt() or similar method returns the DateTime object
+                return $b->getDatum() <=> $a->getDatum();
+            });
+
+            $response['verslagen'] = $combinedVerslagen;
+        }
+
+
+        //ga bij TW de deelnemer en de verslagen ophalen, combineer die. zet die in de repsonse array en pas de view aan.
         return $response;
     }
 
