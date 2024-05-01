@@ -29,7 +29,7 @@ class VerhuurderFilterTest extends DoctrineTestCase
             LEFT JOIN huuraanbod.huurovereenkomst huurovereenkomst WITH
                 huurovereenkomst.isReservering = false
                 AND huurovereenkomst.startdatum IS NOT NULL
-                AND huurovereenkomst.afsluitdatum IS NULL
+                AND (huurovereenkomst.afsluitdatum IS NULL OR huurovereenkomst.afsluitdatum > :today)
             WHERE huurovereenkomst IS NOT NULL';
         $this->assertEqualsIgnoringWhitespace($expected, (string) $builder);
 
@@ -42,7 +42,7 @@ class VerhuurderFilterTest extends DoctrineTestCase
             LEFT JOIN huuraanbod.huurovereenkomst huurovereenkomst WITH
                 huurovereenkomst.isReservering = false
                 AND huurovereenkomst.startdatum IS NOT NULL
-                AND huurovereenkomst.afsluitdatum IS NULL
+                AND (huurovereenkomst.afsluitdatum IS NULL OR huurovereenkomst.afsluitdatum > :today)
             WHERE huurovereenkomst IS NULL';
         $this->assertEqualsIgnoringWhitespace($expected, (string) $builder);
     }
