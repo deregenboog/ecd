@@ -17,6 +17,9 @@
         {{ form_row(form.locatie) }}
         {{ form_row(form.aantalContactmomenten) }}
         {{ form_row(form.access) }}
+        {% if form.delenTw is defined %}
+            {{ form_row(form.delenTw) }}
+        {% endif %}
 
         {{ form_row(form.opmerking) }}
         {{ form_row(form.submit) }}
@@ -42,6 +45,8 @@
                             <dd>{{ verslag.aantalContactmomenten }}</dd>
                             <dt>Type</dt>
                             <dd>{{ verslag.typeAsString }}</dd>
+                            <dt>Delen TW?</dt>
+                            <dd>{{ verslag.delenTw|ja_nee }}</dd>
                         </dl>
                     </div>
                     <div class="col-xs-12">

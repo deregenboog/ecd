@@ -11,6 +11,9 @@ services:
     TwBundle\Controller\:
         resource: '%kernel.project_dir%/src/TwBundle/Controller'
 
+    TwBundle\Form\:
+        resource: '%kernel.project_dir%/src/TwBundle/Form'
+
     TwBundle\Controller\DeelnamesController:
         arguments:
             $entities: '@tw.deelname.entities'

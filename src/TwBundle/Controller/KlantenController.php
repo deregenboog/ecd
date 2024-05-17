@@ -9,6 +9,7 @@ use AppBundle\Export\ExportInterface;
 use AppBundle\Form\ConfirmationType;
 use AppBundle\Form\KlantFilterType as AppKlantFilterType;
 use Doctrine\Common\Collections\ArrayCollection;
+use MwBundle\Entity\Verslag;
 use phpDocumentor\Reflection\Types\Null_;
 use TwBundle\Entity\Klant;
 use TwBundle\Exception\TwException;
@@ -212,11 +213,11 @@ class KlantenController extends AbstractController
         }
 
         $deelnemerVerslagen = $deelnemer->getVerslagen();
-        $klantVerslagen = $appKlant->getVerslagen();
+        $klantVerslagen = $this->getEntityManager()->getRepository(Verslag::class)->getTwVerslagenForKlant($appKlant);
 
         // A new ArrayCollection can be created by feeding an existing collection to it
         $combinedVerslagen =
-            array_merge($deelnemerVerslagen->toArray(), $klantVerslagen->toArray())
+            array_merge($deelnemerVerslagen->toArray(), $klantVerslagen)
         ;
         usort($combinedVerslagen, function($a, $b) {
             // Assuming getCreatedAt() or similar method returns the DateTime object

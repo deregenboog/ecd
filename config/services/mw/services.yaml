@@ -8,6 +8,9 @@ services:
         autowire: true
         autoconfigure: true
 
+    MwBundle\Form\:
+        resource: '%kernel.project_dir%/src/MwBundle/Form'
+
     MwBundle\Command\:
         resource: '%kernel.project_dir%/src/MwBundle/Command'
 

@@ -2,6 +2,7 @@
 
 namespace MwBundle\Repository;
 
+use AppBundle\Entity\Klant;
 use AppBundle\Repository\DoelstellingRepositoryInterface;
 use AppBundle\Repository\DoelstellingRepositoryTrait;
 use Doctrine\ORM\EntityRepository;
@@ -21,6 +22,18 @@ class VerslagRepository extends EntityRepository implements DoelstellingReposito
         $this->gezinNoodopvangLocaties = $gezinNoodopvangLocaties;
     }
 
+
+    public function getTwVerslagenForKlant(Klant $klant)
+    {
+        return $this->createQueryBuilder('v')
+            ->join('v.klant','klant')
+            ->where('v.delenTw = :delenTw')
+            ->andWhere('klant.id = :klantId')
+            ->setParameter('delenTw',true)
+            ->setParameter('klantId',$klant->getId())
+            ->getQuery()
+            ->getResult();
+    }
 
     public function getCategory(): string
     {

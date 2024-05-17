@@ -47,7 +47,7 @@ class DienstenLookupSubscriber implements EventSubscriberInterface
 
         if ($klant->getHuidigeMwStatus()) {
             $dienst = new Dienst(
-                'Maatschappeljk werk',
+                'Maatschappelijk werk',
                 $this->generator->generate('mw_klanten_view', ['id' => $klant->getId()])
             );
             $dienst->setOmschrijving($klant->getHuidigeMwStatus());

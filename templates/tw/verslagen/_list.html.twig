@@ -121,6 +121,12 @@
                             <dd>{{ verslag.medewerker }}</dd>
                         </dl>
                     </div>
+                    <div class="col-xs-6">
+                        <dl class="dl-horizontal">
+                            <dt>Delen met MW?</dt>
+                            <dd>{{ verslag.delenMw|ja_nee }}</dd>
+                        </dl>
+                    </div>
                 </div>
                 <p class="well">{{ verslag.opmerking|raw|nl2br }}</p>
             </td>
