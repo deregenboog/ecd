@@ -31,6 +31,7 @@ class Huurovereenkomst
             'Intermediare huurovereenkomst'=>'Intermediare  huurovereenkomst',
             'Kostgangerschap' => 'Kostgangerschap',
             'Kleine schuld, grote winst' => 'Kleine schuld, grote winst',
+            'Pensionovereenkomst' => 'Pensionovereenkomst',
             'Anders' => 'Anders',
         ];
     }
