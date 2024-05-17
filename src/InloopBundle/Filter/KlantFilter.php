@@ -108,11 +108,13 @@ class KlantFilter implements FilterInterface
 
         if (true === $this->nuBinnen) {
             $builder->join('klant.laatsteRegistratie', 'laatsteRegistratie', 'WITH', 'laatsteRegistratie.closed = false');
+
         } elseif (false === $this->nuBinnen) {
             $builder
-                ->leftJoin('klant.laatsteRegistratie', 'laatsteRegistratie', 'WITH', 'laatsteRegistratie.closed = false')
+                ->leftJoin('klant.laatsteRegistratie', 'laatsteRegistratie', 'WITH', 'laatsteRegistratie.closed = false  AND laatsteRegistratie.locatie = :locatie')
                 ->andWhere('laatsteRegistratie IS NULL')
             ;
+            $builder->setParameter("locatie",$this->locatie);
         }
 
         if ($this->klant) {
