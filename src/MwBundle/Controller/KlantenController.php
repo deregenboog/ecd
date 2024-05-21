@@ -107,22 +107,21 @@ class KlantenController extends AbstractController
         }
 
         $diensten = $event->getDiensten();
-        $deelnemer = null;
+        $twKlant = null;
         foreach($diensten as $dienst)
         {
             if($dienst->getNaam() == "Tijdelijk wonen")
             {
-                $deelnemer = $dienst->getEntity();
+                $twKlant = $dienst->getEntity();
             }
         }
 
-        if(null!==$deelnemer)
+        if(null!==$twKlant)
         {
-            $twVerslagen = $deelnemer->getVerslagen();
-
+            $twVerslagen = $this->getEntityManager()->getRepository(\TwBundle\Entity\Verslag::class)->getMwVerslagenForKlant($twKlant);
 
             $combinedVerslagen =
-                array_merge($twVerslagen->toArray(), $mwVerslagen->toArray())
+                array_merge($twVerslagen, $mwVerslagen->toArray())
             ;
             usort($combinedVerslagen, function($a, $b) {
                 // Assuming getCreatedAt() or similar method returns the DateTime object

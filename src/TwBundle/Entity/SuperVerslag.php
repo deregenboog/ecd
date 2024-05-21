@@ -4,6 +4,7 @@ namespace TwBundle\Entity;
 
 use AppBundle\Model\RequiredMedewerkerTrait;
 use AppBundle\Model\TimestampableTrait;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 
@@ -28,6 +29,13 @@ abstract class SuperVerslag
      */
     private $id;
 
+
+    /**
+     * @var ArrayCollection | Klant[]
+     * @ORM\ManyToMany(targetEntity="TwBundle\Entity\Klant", mappedBy="verslagen")
+     */
+    private $klant;
+
     /**
      * @var \DateTime
      *
@@ -41,6 +49,12 @@ abstract class SuperVerslag
      * @Gedmo\Versioned
      */
     private $opmerking;
+
+    /**
+     * @var boolean
+     * @ORM\Column(type="boolean", options={"default":0})
+     */
+    private $delenMw = false;
 
     /**
      * @var \DateTime
@@ -58,8 +72,13 @@ abstract class SuperVerslag
      */
     protected $modified;
 
-    public function __construct()
+    public function __construct(?Klant $klant = null)
     {
+        $this->klant = new ArrayCollection();
+        if(null !== $klant)
+        {
+            $this->klant->add($klant);
+        }
         $this->datum = new \DateTime();
     }
 
@@ -91,4 +110,20 @@ abstract class SuperVerslag
 
         return $this;
     }
+
+    public function isDelenMw(): bool
+    {
+        return $this->delenMw;
+    }
+
+    public function setDelenMw(bool $delenMw): void
+    {
+        $this->delenMw = $delenMw;
+    }
+
+    public function getKlant()
+    {
+        return $this->klant->first();
+    }
+
 }

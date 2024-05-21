@@ -14,7 +14,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
 /**
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="MwBundle\Repository\VerslagRepository")
  * @ORM\Table(
  *     name="verslagen",
  *     indexes={
@@ -44,7 +44,6 @@ class Verslag
     public static $accessTypes = [
         self::ACCESS_MW => "Leesbaar alleen binnen MW",
         self::ACCESS_ALL => "Leesbaar voor inloop en MW",
-
     ];
 
     protected static $types = [
@@ -113,6 +112,12 @@ class Verslag
      * @Gedmo\Versioned
      */
     private $access;
+
+    /**
+     * @var bool
+     * @ORM\Column(type="boolean",options={"default":0})
+     */
+    private $delenTw = false;
 
     /**
      * @var \DateTime
@@ -286,6 +291,18 @@ class Verslag
     {
         $this->aantalContactmomenten = $aantalContactmomenten;
     }
+
+    public function isDelenTw(): bool
+    {
+        return $this->delenTw;
+    }
+
+    public function setDelenTw(bool $delenTw): void
+    {
+        $this->delenTw = $delenTw;
+    }
+
+
 
     /**
      * @param ExecutionContextInterface $context

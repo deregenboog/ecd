@@ -2,6 +2,8 @@
 
 namespace MwBundle\Form;
 
+use AppBundle\Event\DienstenLookupEvent;
+use AppBundle\Event\Events;
 use AppBundle\Form\AppDateType;
 use AppBundle\Form\AppTextareaType;
 use AppBundle\Form\BaseType;
@@ -14,7 +16,10 @@ use MwBundle\Entity\Doorverwijzing;
 use MwBundle\Entity\Trajecthouder;
 use MwBundle\Entity\Verslag;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\EventDispatcher\EventDispatcher;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -25,11 +30,19 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class VerslagType extends AbstractType
 {
+    /** @var EventDispatcher */
+    private $eventDispatcher;
+    public function __construct(EventDispatcherInterface $eventDispatcher)
+    {
+        $this->eventDispatcher = $eventDispatcher;
+    }
+
     /**
      * {@inheritdoc}
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+
         $builder
             ->add('medewerker', MedewerkerType::class)
             ->add('datum', AppDateType::class, [
@@ -53,8 +66,34 @@ class VerslagType extends AbstractType
                     ],
                 ])
             ->add('submit', SubmitType::class)
-        ;
+            ->addEventListener(FormEvents::PRE_SET_DATA, function(FormEvent $event){
+                /** @var Verslag  $verslag */
+                $verslag = $event->getData();
 
+                $dienstenEvent = new DienstenLookupEvent($verslag->getKlant()->getId());
+                if ($dienstenEvent->getKlantId()) {
+                    $this->eventDispatcher->dispatch($dienstenEvent,Events::DIENSTEN_LOOKUP);
+                }
+
+                $diensten = $dienstenEvent->getDiensten();
+                $twKlant = null;
+                foreach($diensten as $dienst)
+                {
+                    if($dienst->getNaam() == "Tijdelijk wonen")
+                    {
+                        $twKlant = $dienst->getEntity();
+                    }
+                }
+
+                if($twKlant !== null)
+                {
+                     $event->getForm()->add('delenTw',CheckboxType::class,[
+                        'label'=>'Delen met TW?',
+                         'required'=>false,
+                        ]);
+                }
+            })
+        ;
     }
 
     /**

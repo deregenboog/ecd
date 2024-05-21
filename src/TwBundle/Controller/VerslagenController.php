@@ -6,6 +6,7 @@ use AppBundle\Controller\SymfonyController;
 use AppBundle\Exception\UserException;
 use AppBundle\Form\ConfirmationType;
 use Doctrine\ORM\EntityManagerInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use TwBundle\Entity\Huuraanbod;
 use TwBundle\Entity\Klant;
 use TwBundle\Entity\Huurovereenkomst;
