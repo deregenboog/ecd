@@ -11,6 +11,7 @@ use AppBundle\Form\ConfirmationType;
 use AppBundle\Form\KlantFilterType;
 use AppBundle\Service\KlantDaoInterface;
 use Doctrine\ORM\QueryBuilder;
+use Symfony\Component\HttpFoundation\Request;
 use TwBundle\Entity\Verhuurder;
 use TwBundle\Form\VerhuurderCloseType;
 use TwBundle\Form\VerhuurderFilterType;

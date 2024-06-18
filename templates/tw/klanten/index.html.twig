@@ -14,7 +14,7 @@
         <thead>
             {{ form_start(filter) }}
                 <tr>
-                    <th colspan="2"></th>
+
                     <th>
                         {{ form_label(filter.medewerker) }}
                         {{ form_widget(filter.medewerker) }}
@@ -149,7 +149,8 @@
                         {{ form_row(filter._token) }}
                     </th>
                 </tr>
-            </thead>{{ form_end(filter,{'render_rest':false}) }}
+            </thead>
+        {{ form_end(filter,{'render_rest':false}) }}
         <tbody>
             {% for klant in pagination %}
                 <tr data-href="{{ path(route_base~'view', {id: klant.id}) }}">

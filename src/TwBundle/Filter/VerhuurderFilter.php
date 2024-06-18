@@ -2,6 +2,7 @@
 
 namespace TwBundle\Filter;
 
+use AppBundle\Doctrine\SqlExtractor;
 use AppBundle\Entity\Medewerker;
 use AppBundle\Filter\FilterInterface;
 use AppBundle\Filter\KlantFilter;
@@ -36,7 +37,7 @@ class VerhuurderFilter implements FilterInterface
     /**
      * @var bool
      */
-    public $gekoppeld = null;
+    public $gekoppeld = false;
 
     /**
      * @var KlantFilter
@@ -108,22 +109,24 @@ class VerhuurderFilter implements FilterInterface
             $builder
                 ->leftJoin('verhuurder.huuraanbiedingen', 'huuraanbod', 'WITH', 'huuraanbod.afsluiting IS NULL')
                 ->leftJoin('huuraanbod.huurovereenkomst', 'huurovereenkomst', 'WITH',
-                    'huurovereenkomst.isReservering = false AND huurovereenkomst.startdatum IS NOT NULL AND (huurovereenkomst.afsluitdatum IS NULL OR huurovereenkomst.afsluitdatum > :today)'
+                    'huurovereenkomst.isReservering = false 
+                    AND huurovereenkomst.startdatum IS NOT NULL 
+                    AND (huurovereenkomst.afsluitdatum IS NULL OR huurovereenkomst.afsluitdatum > :today)'
                 )
             ;
             $builder->setParameter('today', new \DateTime('today'));
+
             if (true === $this->gekoppeld) {
                 $builder->andWhere('huurovereenkomst IS NOT NULL');
             } elseif (false === $this->gekoppeld) {
-                $builder->andWhere('huurovereenkomst IS NULL')
-                ;
+                //probleem is dat er meerdere huurovereenkomsten zijn per huuraanbod, en dat we niet weten op welke hij joint.
+                //dit werkt dus niet. Dan maar programmatisch in VerhuurderDao!
+                $builder->andWhere('huurovereenkomst IS NULL');
             }
         }
 
         if ($this->medewerker) {
             $builder
-//                ->leftJoin('huurder.ambulantOndersteuner','ambulantOndersteuner')
-//                ->andWhere('ambulantOndersteuner IS NULL')
                 ->andWhere('verhuurder.medewerker = :medewerker')
 
                 ->setParameter('medewerker', $this->medewerker);
@@ -132,5 +135,6 @@ class VerhuurderFilter implements FilterInterface
         if ($this->appKlant) {
             $this->appKlant->applyTo($builder, 'appKlant');
         }
+
     }
 }
