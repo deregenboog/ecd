@@ -89,6 +89,7 @@ services:
             -
                 Nummer: { expression: 'entity.getId()' }
                 Klant: { expression: 'entity.getKlant()' }
+                Emailadres Klant: { expression: 'entity.getKlant().getAppKlant().getEmail()' }
                 Verhuurder: { expression: 'entity.getVerhuurder()' }
                 Project: { expression: 'entity.getHuuraanbod().getProject()' }
                 Medewerker: { expression: 'entity.getMedewerker()' }
