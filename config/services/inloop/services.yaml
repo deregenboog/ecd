@@ -19,7 +19,8 @@ services:
         bind:
             $tbc_countries: '%tbc_countries%'
             $accessStrategies: '%access_strategies%'
-            $amocVerblijfsstatus: '%amoc_verblijfsstatus%'
+            $verblijfsstatusEuropeesBurger: '%verblijfsstatus_europees_burger%'
+            $verblijfsstatusIllegaal: '%verblijfsstatus_illegaal%'
 
     InloopBundle\Command\:
         resource: '%kernel.project_dir%/src/InloopBundle/Command'
@@ -90,7 +91,8 @@ services:
             - {'name': 'inloop.access_strategy', priority: 100}
 
     InloopBundle\Strategy\AmocWestStrategy:
-        tags: [{'name': 'inloop.access_strategy', priority: 90}]
+        tags:
+            - {'name': 'inloop.access_strategy', priority: 90}
 
     InloopBundle\Strategy\VillaWesterweideStrategy:
         tags:

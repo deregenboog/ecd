@@ -2,7 +2,6 @@
 
 namespace InloopBundle\Strategy;
 
-use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\QueryBuilder;
 use InloopBundle\Entity\Locatie;
 
@@ -10,24 +9,17 @@ final class ToegangOverigStrategy implements StrategyInterface
 {
     private $verblijsstatusNietRechthebbend;
 
-    /** @var Locatie */
-    private $locatie;
-
     /** @var array */
     private $intakeLocaties = [];
 
-    /** @var EntityManagerInterface */
-    private $em;
-
-    public function __construct(array $accessStrategies, string $amocVerblijfsstatus, EntityManagerInterface $em)
+    public function __construct(array $accessStrategies, string $verblijfsstatusEuropeesBurger)
     {
-        $this->em = $em;
         array_walk($accessStrategies, function ($v, $k) {
             $this->intakeLocaties = array_merge($this->intakeLocaties, $v);
         });
 
         $this->intakeLocaties = array_unique($this->intakeLocaties);
-        $this->verblijsstatusNietRechthebbend = $amocVerblijfsstatus;
+        $this->verblijsstatusNietRechthebbend = $verblijfsstatusEuropeesBurger;
     }
 
     public function supports(Locatie $locatie): bool

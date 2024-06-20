@@ -91,7 +91,7 @@ class ToegangType extends AbstractType
                 'locatietypes' => ['Inloop'],
             ])
             ->add('overigenToegangVan', AppDateType::class, [
-                'label' => 'Startdatum toegang overig)',
+                'label' => 'Startdatum toegang overig',
                 'required'=>false,
             ])
             ->add('gebruikersruimte', LocatieSelectType::class, [

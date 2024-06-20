@@ -90,7 +90,8 @@ parameters:
   iz_hulpsoorten_zonder_koppelingen:
     - timeout
     - 'Time out'
-  amoc_verblijfsstatus: 'Europees Burger (Niet Nederlands)'
+  verblijfsstatus_europees_burger: 'Europees Burger (Niet Nederlands)'
+  verblijfsstatus_illegaal: 'Illegaal (uit buiten Europa)'
   wachtlijst_locaties:
     - 'Wachtlijst T6 Project'
     - 'Wachtlijst Economisch Daklozen'

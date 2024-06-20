@@ -9,12 +9,7 @@ final class AmocStrategy implements StrategyInterface
 {
     private const ACCESS_STRATEGY_NAME = 'amoc_stadhouderskade';
 
-    /** @var Locatie */
-    private $locatie;
-
     private $amoc_locaties = [];
-
-    private $amocVerblijfsstatus = '';
 
     /**
      * Deze strategie houdt in dat alleen voor de AMOC locaties mensen geselecteerd worden die ofwel geen specifieke
@@ -22,10 +17,9 @@ final class AmocStrategy implements StrategyInterface
      *
      * Er wordt niet gekeken naar verblijfsstatus.
      */
-    public function __construct(array $accessStrategies, $amocVerblijfsstatus)
+    public function __construct(array $accessStrategies)
     {
         $this->amoc_locaties = $accessStrategies[self::ACCESS_STRATEGY_NAME];
-        $this->amocVerblijfsstatus = $amocVerblijfsstatus;
     }
 
     public function supports(Locatie $locatie): bool

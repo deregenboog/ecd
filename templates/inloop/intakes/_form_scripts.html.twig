@@ -7,15 +7,13 @@
                 var toegang = function (name) {
 
                     var check = function () {
-
-
-                        var statusId =  $("#" + name + "_toegang_verblijfsstatus").find(":selected").first().text()
-                        var intakelocatie =  $("#" + name + "_toegang_intakelocatie").find(":selected").first().text()
+                        var status = $("#" + name + "_toegang_verblijfsstatus").find(":selected").first().text()
+                        var intakelocatie = $("#" + name + "_toegang_intakelocatie").find(":selected").first().text()
                         var accessStrategies = {{ accessStrategies|raw }};
-                        var toegang_intakelocatieElm =  $("#" + name + "_toegang_toegangIntakelocatie");
+                        var toegang_intakelocatieElm = $("#" + name + "_toegang_toegangIntakelocatie");
 
-                        if (statusId == "{{ amocVerblijfsstatus }}") //AMOC (+west) klant
-                        {
+                        const statuses = ["{{ verblijfsstatus_europees_burger }}", "{{ verblijfsstatus_illegaal }}"];
+                        if (statuses.includes(status)) {
                             // $("#" + name + "_toegang_overigenToegangVan").prop("disabled", false);
                             var sixMonths = new Date();
                             var m = sixMonths.getMonth();
@@ -30,14 +28,10 @@
 
                             }
                             $("#" + name + "_toegang_overigenToegangVan").prop("readonly",false);
-                        }
-                        else  // niet amoc, geen datum regels.
-                        {
+                        } else {
                             $("#" + name + "_toegang_overigenToegangVan").val(null);
                             $("#" + name + "_toegang_overigenToegangVan").prop("readonly","readonly");
                         }
-
-
                     }//end check()
 
                     var verblijfsstatusElm = $("#" + name + "_toegang_verblijfsstatus");

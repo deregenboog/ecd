@@ -47,15 +47,24 @@ class IntakesController extends AbstractController
 
     protected $accessStrategies = [];
 
-    protected $amocVerblijfsstatus = "";
+    protected $verblijfsstatusEuropeesBurger;
 
-    public function __construct(IntakeDaoInterface $dao, ContainerInterface $container, $tbc_countries = [], $accessStrategies = [], $amocVerblijfsstatus = '')
-    {
+    protected $verblijfsstatusIllegaal;
+
+    public function __construct(
+        IntakeDaoInterface $dao,
+        ContainerInterface $container,
+        $tbc_countries = [],
+        $accessStrategies = [],
+        $verblijfsstatusEuropeesBurger = '',
+        $verblijfsstatusIllegaal = ''
+    ) {
         $this->container = $container;
         $this->dao = $dao;
         $this->tbc_countries = $tbc_countries;
         $this->accessStrategies = $accessStrategies;
-        $this->amocVerblijfsstatus = $amocVerblijfsstatus;
+        $this->verblijfsstatusEuropeesBurger = $verblijfsstatusEuropeesBurger;
+        $this->verblijfsstatusIllegaal = $verblijfsstatusIllegaal;
     }
 
     /**
@@ -213,7 +222,8 @@ class IntakesController extends AbstractController
     {
         return [
             'tbc_countries' => $this->tbc_countries,
-            'amocVerblijfsstatus' => $this->amocVerblijfsstatus,
+            'verblijfsstatus_europees_burger' => $this->verblijfsstatusEuropeesBurger,
+            'verblijfsstatus_illegaal' => $this->verblijfsstatusIllegaal,
             'accessStrategies' => json_encode($this->accessStrategies),
         ];
     }
