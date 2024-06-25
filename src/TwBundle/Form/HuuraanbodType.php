@@ -31,7 +31,7 @@ class HuuraanbodType extends AbstractType
             )
             ->add('project', ProjectSelectType::class)
             ->add('startdatum', AppDateType::class)
-            ->add('vormvanovereenkomst', VormVanOvereenkomstType::class,[
+            ->add('vormvanovereenkomst', VormVanOvereenkomstSelectType::class,[
 
             ])
             ->add('datumToestemmingAangevraagd', AppDateType::class, [

@@ -2,6 +2,7 @@
 
 namespace TwBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 
@@ -33,6 +34,12 @@ class VormVanOvereenkomst
      */
     private $huuraanbod;
 
+    /**
+     * @var Huurovereenkomst[]
+     * @ORM\OneToMany(targetEntity="Huurovereenkomst", mappedBy="vormVanOvereenkomst")
+     */
+    private $huurovereenkomsten;
+
 
     /**
      * @ORM\Column(type="date")
@@ -52,6 +59,8 @@ class VormVanOvereenkomst
     public function __construct()
     {
         $this->startdate = new \DateTime();
+        $this->huuraanbod = new ArrayCollection();
+        $this->huurovereenkomsten = new ArrayCollection();
     }
 
     public function __toString()
@@ -127,4 +136,29 @@ class VormVanOvereenkomst
     {
         $this->huuraanbod = $huuraanbod;
     }
+
+    public function getHuurovereenkomsten(): array
+    {
+        return $this->huurovereenkomsten;
+    }
+
+    public function addHuurovereenkomst(Huurovereenkomst $huurovereenkomst): void
+    {
+        if(!$this->huurovereenkomsten->contains($huurovereenkomst))
+        {
+            $this->huurovereenkomsten->add($huurovereenkomst);
+            $huurovereenkomst->setVormVanOvereenkomst($this);
+        }
+    }
+
+    public function removeHuurovereenkomst(Huurovereenkomst $huurovereenkomst): void
+    {
+        if(!$this->huurovereenkomsten->contains($huurovereenkomst))
+        {
+            $this->huurovereenkomsten->removeElement($huurovereenkomst);
+            $huurovereenkomst->setVormVanOvereenkomst(null);
+        }
+    }
+
+
 }
