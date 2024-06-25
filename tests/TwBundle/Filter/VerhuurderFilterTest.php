@@ -17,8 +17,13 @@ class VerhuurderFilterTest extends DoctrineTestCase
         // empty filter
         $builder = $this->getQueryBuilder();
         $filter->applyTo($builder);
-        $expected = 'SELECT FROM TwBundle\Entity\Verhuurder verhuurder';
-        $this->assertEquals($expected, (string) $builder);
+        $expected = 'SELECT FROM TwBundle\Entity\Verhuurder verhuurder
+            LEFT JOIN verhuurder.huuraanbiedingen huuraanbod WITH huuraanbod.afsluiting IS NULL 
+            LEFT JOIN huuraanbod.huurovereenkomst huurovereenkomst WITH huurovereenkomst.isReservering = false
+                    AND huurovereenkomst.startdatum IS NOT NULL
+                    AND (huurovereenkomst.afsluitdatum IS NULL OR huurovereenkomst.afsluitdatum > :today) 
+            WHERE huurovereenkomst IS NULL';
+        $this->assertEqualsIgnoringWhitespace($expected, (string) $builder);
 
         // gekoppeld
         $builder = $this->getQueryBuilder();
@@ -31,6 +36,7 @@ class VerhuurderFilterTest extends DoctrineTestCase
                 AND huurovereenkomst.startdatum IS NOT NULL
                 AND (huurovereenkomst.afsluitdatum IS NULL OR huurovereenkomst.afsluitdatum > :today)
             WHERE huurovereenkomst IS NOT NULL';
+
         $this->assertEqualsIgnoringWhitespace($expected, (string) $builder);
 
         // niet gekoppeld

@@ -5,6 +5,7 @@ namespace TwBundle\Service;
 use AppBundle\Filter\FilterInterface;
 use AppBundle\Model\UsesKlantTrait;
 use AppBundle\Service\AbstractDao;
+use Doctrine\Common\Collections\ArrayCollection;
 use Knp\Component\Pager\Pagination\PaginationInterface;
 use TwBundle\Entity\Verhuurder;
 
@@ -48,10 +49,35 @@ class VerhuurderDao extends AbstractDao implements VerhuurderDaoInterface
             ->leftJoin('verhuurder.project','project')
             ->andWhere('afsluiting.tonen IS NULL OR afsluiting.tonen = true')
         ;
-//        $builder = $this->repository->createQueryBuilder($this->alias)
-//            ->innerJoin($this->alias.'.klant', 'klant')
-//        ;
-        return parent::doFindAll($builder, $page, $filter);
+
+        /**
+         * Op de een of andere manier is het niet goed mogelijk dit via Doctrine te filteren.
+         * Het kan vast, maar ik krijg het nu niet voor elkaar.
+         * Punt is dat de join op huuraanbiedingen en huurovererenkomsten als cartesiaans product wordt gemaakt.
+         * en het er niet omgaat dat er een mogelijke match is in de join, maar dat de meest recente koppeling lopend is of niet.
+         * Dus moet je met WINDOW functies gaan werken,
+         * of self joins of wat dan ook.
+         * En dat is in doctrine niet zo fijn.
+         * Dus dan maar zo, na veel te lang geprobeerd te hebben...
+         *
+         *
+         */
+        if(null !== $filter->gekoppeld)
+        {
+            $result = parent::doFindAll($builder,null, $filter);
+            $filteredResult = new ArrayCollection();
+
+            foreach($result as $row)
+            {
+                if($filter->gekoppeld === $row->isGekoppeld())
+                {
+                    $filteredResult->add($row);
+                }
+            }
+            return $this->paginator->paginate($filteredResult, $page, $this->itemsPerPage, $this->paginationOptions);
+        }
+
+        return parent::doFindAll($builder,$page, $filter);
     }
 
 

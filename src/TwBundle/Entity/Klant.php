@@ -495,6 +495,27 @@ class Klant extends Deelnemer
         return $this;
     }
 
+    public function isGekoppeld()
+    {
+
+
+        $today = new \DateTime('today');
+        $hoes = $this->getHuurovereenkomsten();
+        foreach ($hoes as $hoe) {
+            /** @var Huurovereenkomst $hoe */
+            if ($hoe->isReservering() == false
+                && $hoe->isActief() == true
+                && ($hoe->getAfsluitdatum() == null || $hoe->getAfsluitdatum() > $today)
+                && $hoe->getStartdatum() != null
+
+                //&& $this->getAfsluitdatum() == null
+            ) {
+                return true;
+            }
+        }
+
+        return false;
+    }
 
 
     /**

@@ -509,18 +509,5 @@ abstract class Deelnemer implements KlantRelationInterface
 
     abstract public function getHuurovereenkomsten();
 
-    public function isGekoppeld()
-    {
-        $today = new \DateTime('today');
-        foreach ($this->getHuurovereenkomsten() as $hoe) {
-            /** @var Huurovereenkomst $hoe */
-            if ($hoe->isReservering() == false && $hoe->isActief() == true && ($hoe->getAfsluitdatum() == null || $hoe->getAfsluitdatum() > $today) && $hoe->getStartdatum() != null
-                && $this->getAfsluitdatum() == null
-            ) {
-                return true;
-            }
-        }
-
-        return false;
-    }
+    abstract public function isGekoppeld();
 }
