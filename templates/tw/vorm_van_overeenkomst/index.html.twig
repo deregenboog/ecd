@@ -1,0 +1,40 @@
+{% extends 'base.html.twig' %}
+{% import 'html.macro.twig' as html %}
+
+{% block content %}
+    <h1>{{ title }}</h1>
+    <p>
+        {{ html.addLink(path('tw_vormvanovereenkomst_add')) }}
+        {{ html.link('Vorm van overeenkomst toevoegen', path('tw_vormvanovereenkomst_add')) }}
+    </p>
+    <table class="table table-hover">
+        <tr>
+            <th>
+                {{ knp_pagination_sortable(pagination, '#', 'vormvanovereenkomst.id') }}
+            </th>
+            <th>
+                {{ knp_pagination_sortable(pagination, 'Label', 'vormvanovereenkomst.label') }}
+            </th>
+            <th>
+            </th>
+        </tr>
+        {% for vvo in pagination %}
+            <tr>
+                <td>
+                    {{ vvo.id }}
+                </td>
+                <td>
+                    {{ vvo.label }}
+                </td>
+                <td>
+                    {{ html.editLink(path('tw_vormvanovereenkomst_edit', {'id': vvo.id})) }}
+                    {{ html.deleteLink(path('tw_vormvanovereenkomst_delete', {'id': vvo.id})) }}
+                </td>
+            </tr>
+        {% endfor %}
+    </table>
+
+    <p>
+        {{ knp_pagination_render(pagination) }}
+    </p>
+{% endblock %}

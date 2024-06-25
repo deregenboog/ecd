@@ -53,6 +53,9 @@ class HuurovereenkomstType extends AbstractType
                 'required' => false,
                 'choices' => Huurovereenkomst::getVormChoices(),
             ])
+            ->add('vormVanOvereenkomst',VormVanOvereenkomstSelectType::class,[
+                'required'=>false,
+            ])
             ->add('huurovereenkomstType')
 
             ->add('submit', SubmitType::class, ['label' => 'Opslaan'])

@@ -74,6 +74,13 @@ class Huurovereenkomst
     private $vorm;
 
     /**
+     * @var VormVanOvereenkomst
+     * @ORM\ManyToOne(targetEntity="TwBundle\Entity\VormVanOvereenkomst",cascade={"persist"})
+     * @Gedmo\Versioned
+     */
+    private $vormVanOvereenkomst;
+
+    /**
      * @ORM\Column(type="date", nullable=true)
      * @Gedmo\Versioned
      */
@@ -429,4 +436,16 @@ class Huurovereenkomst
         $this->huurovereenkomstType = $huurovereenkomstType;
         return $this;
     }
+
+    public function getVormVanOvereenkomst(): ?VormVanOvereenkomst
+    {
+        return $this->vormVanOvereenkomst;
+    }
+
+    public function setVormVanOvereenkomst(?VormVanOvereenkomst $vormVanOvereenkomst): void
+    {
+        $this->vormVanOvereenkomst = $vormVanOvereenkomst;
+    }
+
+
 }
