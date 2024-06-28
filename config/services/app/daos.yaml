@@ -9,13 +9,5 @@ services:
         resource: '%kernel.project_dir%/src/AppBundle/Service/'
 
     AppBundle\Service\DoelstellingDao:
-        calls:
-            - method: setTokenStorage
-              arguments:
-                  - '@Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface'
-            - method: setAuthorizationChecker
-              arguments:
-                  - '@Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface'
-            - method: setDecisionManager
-              arguments:
-                  - '@security.access.decision_manager'
+        arguments:
+            $repositories: !tagged_iterator app.doelstelling

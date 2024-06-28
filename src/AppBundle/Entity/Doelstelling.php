@@ -46,6 +46,7 @@ class Doelstelling
     /**
      * @ORM\Column(type="integer")
      * @Gedmo\Versioned
+     * @Assert\GreaterThan(0)
      */
     private $aantal = 0;
 

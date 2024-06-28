@@ -114,8 +114,7 @@ services:
 
     AppBundle\Form\DoelstellingType:
         arguments:
-            - '@security.authorization_checker'
-            - '@AppBundle\Service\DoelstellingDao'
+            $repositories: !tagged_iterator app.doelstelling
 
     AppBundle\Security\DoelstellingVoter:
         arguments:

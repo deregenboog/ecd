@@ -2,17 +2,15 @@
 
 namespace AppBundle\Service;
 
-use AppBundle\Entity\Land;
 use AppBundle\Entity\Doelstelling;
 use AppBundle\Filter\DoelstellingFilter;
 use AppBundle\Filter\FilterInterface;
 use AppBundle\Repository\DoelstellingRepositoryInterface;
-use Exception;
-use Symfony\Component\DependencyInjection\Container;
+use Doctrine\ORM\EntityManagerInterface;
+use Knp\Component\Pager\PaginatorInterface;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Authorization\AccessDecisionManagerInterface;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
-use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
-use Twig\Token;
 
 class DoelstellingDao extends AbstractDao
 {
@@ -30,65 +28,53 @@ class DoelstellingDao extends AbstractDao
 
     protected $alias = 'doelstelling';
 
-    /**
-     * @var Container $serviceContainer
-     */
-    protected $serviceContainer;
+    protected AccessDecisionManagerInterface $decisionManager;
 
-    /**
-     * @var AccessDecisionManagerInterface $decisionManager;
-     */
-    protected $decisionManager;
+    protected TokenStorageInterface $tokenStorage;
 
-    /**
-     * @var
-     */
-    protected $tokenStorage;
+    protected AuthorizationCheckerInterface $authorizationChecker;
 
-    /**
-     * @var AuthorizationCheckerInterface
-     */
-    protected $authorizationChecker;
+    private iterable $repositories;
 
-
-    public function setTokenStorage(TokenStorageInterface $tokenStorage)
-    {
-        $this->tokenStorage = $tokenStorage;
-    }
-
-    public function setAuthorizationChecker(AuthorizationCheckerInterface $authorizationChecker)
-    {
-        $this->authorizationChecker = $authorizationChecker;
-    }
-    /**
-     * Sets decision manager via service definition. This way we can decide if user has access to certain doelstellingen.
-     * @param AccessDecisionManagerInterface $decisionManager
-     * @required
-     */
-    public function setDecisionManager(AccessDecisionManagerInterface $decisionManager)
-    {
+    public function __construct(
+        AccessDecisionManagerInterface $decisionManager,
+        TokenStorageInterface $tokenStorage,
+        AuthorizationCheckerInterface $authorizationChecker,
+        iterable $repositories,
+        EntityManagerInterface $entityManager,
+        ?PaginatorInterface $paginator = null,
+        $itemsPerPage = 10
+    ) {
         $this->decisionManager = $decisionManager;
+        $this->tokenStorage = $tokenStorage;
+        $this->authorizationChecker = $authorizationChecker;
+        $this->repositories = $repositories;
+
+        parent::__construct($entityManager, $paginator, $itemsPerPage);
     }
 
-    public function getAvailableDoelstellingcijfers($doelstellingRepo,$onlyAvailableOptions=true)
+    public function getAvailableDoelstellingcijfers($doelstellingRepo, $onlyAvailableOptions = true)
     {
         $builder = $this->repository->createQueryBuilder($this->alias);
         $vastgelegdeCijfers = $builder->getQuery()->getResult();
         $cijfers = $doelstellingRepo->getAvailableDoelstellingcijfers();
-        if($onlyAvailableOptions!==true) return $cijfers;
-        foreach ($cijfers as $k=>$cijfer) {
+        if (true !== $onlyAvailableOptions) {
+            return $cijfers;
+        }
 
-            $a = $cijfer;
-            $fullMethodRepoName = get_class($doelstellingRepo)."::".$cijfer->getLabel();
+        foreach ($cijfers as $i => $cijfer) {
+            $fullMethodRepoName = get_class($doelstellingRepo).'::'.$cijfer->getLabel();
             foreach ($vastgelegdeCijfers as $dbCijfer) {
-                if($dbCijfer->getRepository() == $fullMethodRepoName) unset($cijfers[$k]);
-
+                if ($dbCijfer->getRepository() == $fullMethodRepoName) {
+                    unset($cijfers[$i]);
+                }
             }
-      }
-        return $cijfers;
+        }
 
+        return $cijfers;
     }
-    public function findAll($page = null, FilterInterface $filter = null)
+
+    public function findAll($page = null, ?FilterInterface $filter = null)
     {
         $builder = $this->repository->createQueryBuilder($this->alias);
 
@@ -96,124 +82,98 @@ class DoelstellingDao extends AbstractDao
             $filter->applyTo($builder);
         }
 
-//        if ($page) {
-//            $paginatedResult = $this->paginator->paginate($builder, $page, $this->itemsPerPage, $this->paginationOptions);
-//        }
+        // if ($page) {
+        //     $paginatedResult = $this->paginator->paginate($builder, $page, $this->itemsPerPage, $this->paginationOptions);
+        // }
 
-        $result =  $builder->getQuery()->getResult();
+        $result = $builder->getQuery()->getResult();
 
-        //Results should be connected to the repositories used.
-        $result = $this->connectDoelstellingenInterfaceReposToResult($result,$filter);
-        if($page)
-        {
-            return $this->paginator->paginate($result,$page,$this->itemsPerPage,$this->paginationOptions);
+        // Results should be connected to the repositories used.
+        $result = $this->connectDoelstellingenInterfaceReposToResult($result, $filter);
+
+        if ($page) {
+            return $this->paginator->paginate($result, $page, $this->itemsPerPage, $this->paginationOptions);
         }
+
         return $result;
-
-
     }
 
     /**
      * This method connects the default doelstellingen results with the calculcated response from all the doelstellingen repositories.
      * It also takes into account if the user has the proper rights to view those results.
-     * @param $doelstellingen
-     * @return mixed
      */
-    private function connectDoelstellingenInterfaceReposToResult($doelstellingen,$filter = null)
+    private function connectDoelstellingenInterfaceReposToResult($doelstellingen, $filter = null)
     {
         $token = $this->tokenStorage->getToken();
-        $user = $token->getUser();
-        $roles = $user->getRoles();
-
-        $hasRoleDoelstellingenBeheer = $this->authorizationChecker->isGranted("ROLE_DOELSTELLING_BEHEER");
-        $hasRoleAdmin = $this->authorizationChecker->isGranted("ROLE_ADMIN");
-
+        $hasRoleDoelstellingenBeheer = $this->authorizationChecker->isGranted('ROLE_DOELSTELLING_BEHEER');
+        $hasRoleAdmin = $this->authorizationChecker->isGranted('ROLE_ADMIN');
         $fullAccess = ($hasRoleDoelstellingenBeheer || $hasRoleAdmin);
 
-        foreach($doelstellingen as $k=>$row)
-        {
-            /**
-             * @var Doelstelling $row
-             */
-            $repos = $row->getRepository();
+        foreach ($doelstellingen as $i => $doelstelling) {
+            /** @var Doelstelling $doelstelling */
 
-            $roleName = self::getRoleNameForRepositoryMethod($repos); //get Rolename for this repository to vote if user has access to this repository.
-
-            $canView = $this->decisionManager->decide($token,[$roleName]);
-            if(!$canView && !$fullAccess)
-            {
-                unset($doelstellingen[$k]);
+            $source = $doelstelling->getRepository();
+            $roleName = self::getRoleNameForRepositoryMethod($source); // get Rolename for this repository to vote if user has access to this repository.
+            $canView = $this->decisionManager->decide($token, [$roleName]);
+            if (!$canView && !$fullAccess) {
+                unset($doelstellingen[$i]);
                 continue;
             }
+
             $startdatum = $einddatum = null;
-            if($filter instanceof DoelstellingFilter)
-            {
+            if ($filter instanceof DoelstellingFilter) {
                 $startdatum = $filter->startdatum;
                 $einddatum = $filter->einddatum;
-                $numberOfDays = $einddatum->diff($startdatum)->format("%a");
-                $percentage = $numberOfDays/365;
-                $row->setRelativeAantal(ceil($row->getAantal() * $percentage));
+                $numberOfDays = $einddatum->diff($startdatum)->format('%a');
+                $percentage = $numberOfDays / 365;
+                $doelstelling->setRelativeAantal(ceil($doelstelling->getAantal() * $percentage));
             }
 
-            [$class, $method] = explode("::",$repos);
-            if(!$class || !$method) throw new Exception("Repository incorrect. Cannot retrieve doelstelling data from repository for $repos");
+            [$class, $method] = explode('::', $source);
+            if (!$class || !$method) {
+                throw new \Exception("Repository incorrect. Cannot retrieve doelstelling data from repository for $source");
+            }
+
             try {
-                /**
-                 * @var DoelstellingRepositoryInterface $r
-                 */
-                $r = $this->serviceContainer->get($class);
-                $doelstellingcijfer = $r->getDoelstelingcijfer($method);
+                /** @var DoelstellingRepositoryInterface $repository */
+                $repository = null;
+                foreach ($this->repositories as $repository) {
+                    if ($repository instanceof $class) {
+                        break;
+                    }
+                }
 
-                $row->setKostenplaats($doelstellingcijfer->getKpl());
-                $row->setRepositoryLabel($doelstellingcijfer->getLabel());
-
+                $doelstellingcijfer = $repository->getDoelstelingcijfer($method);
+                $doelstelling->setKostenplaats($doelstellingcijfer->getKpl());
+                $doelstelling->setRepositoryLabel($doelstellingcijfer->getLabel());
 
                 $c = $doelstellingcijfer->getClosure();
-                $n = $c($row,$startdatum,$einddatum);
-
-            }
-            catch(Exception $e)
-            {
-                $number = "!";
+                $n = $c($doelstelling, $startdatum, $einddatum);
+            } catch (\Exception $e) {
+                $n = '!';
             }
 
-            $row->setActueel($n);
-//            $row->setRepositoryLabel($method);
+            $doelstelling->setActueel($n);
         }
 
         return $doelstellingen;
-
     }
 
-    /**
-     * @param int $id
-     *
-     * @return Land
-     */
-    public function find($id)
+    public function find($id): ?Doelstelling
     {
         return parent::find($id);
     }
 
-    /**
-     * @param Doelstelling $prestatie
-     */
     public function create(Doelstelling $prestatie)
     {
         return $this->doCreate($prestatie);
     }
 
-    /**
-     *@param Doelstelling $prestatie
-     */
     public function update(Doelstelling $prestatie)
     {
         return $this->doUpdate($prestatie);
     }
 
-    /**
-     * @param Doelstelling $prestatie
-     */
     public function delete(Doelstelling $prestatie)
     {
         return $this->doDelete($prestatie);
@@ -234,6 +194,6 @@ class DoelstellingDao extends AbstractDao
 
     public static function getRoleNameForRepositoryMethod($repositoryMethodString)
     {
-        return "ROLE_".self::getBundleName($repositoryMethodString);//."_BEHEER";
+        return 'ROLE_'.self::getBundleName($repositoryMethodString); // ."_BEHEER";
     }
 }

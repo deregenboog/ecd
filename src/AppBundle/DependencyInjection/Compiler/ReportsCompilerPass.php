@@ -2,7 +2,6 @@
 
 namespace AppBundle\DependencyInjection\Compiler;
 
-use AppBundle\Exception\AppException;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Reference;
@@ -19,9 +18,6 @@ class ReportsCompilerPass implements CompilerPassInterface
         $this->tagId = $tagId;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function process(ContainerBuilder $container)
     {
         $definition = $container->getDefinition($this->serviceId);
@@ -33,20 +29,9 @@ class ReportsCompilerPass implements CompilerPassInterface
                 $reports[$category][$id] = new Reference($id);
             } else {
                 $reports[$id] = new Reference($id);
-
             }
         }
 
         $definition->addArgument($reports);
-    }
-
-    public function getServiceId(): string
-    {
-        return $this->serviceId;
-    }
-
-    public function getTagId(): string
-    {
-        return $this->tagId;
     }
 }

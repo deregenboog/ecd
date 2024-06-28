@@ -14,7 +14,6 @@ class Kernel extends BaseKernel
     use MicroKernelTrait;
 
     private $reports = [
-        \AppBundle\Form\DoelstellingType::class => 'app.doelstelling',
         \AppBundle\Form\RapportageType::class => 'app.rapportage',
         \ClipBundle\Form\RapportageType::class => 'clip.rapportage',
         \DagbestedingBundle\Form\RapportageType::class => 'dagbesteding.rapportage',
