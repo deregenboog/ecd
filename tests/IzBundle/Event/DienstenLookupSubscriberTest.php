@@ -26,19 +26,24 @@ class DienstenLookupSubscriberTest extends TestCase
     public function testProvideDienstenInfo()
     {
         $medewerker = (new Medewerker())->setVoornaam('Piet')->setAchternaam('Pietersen');
+        $hulpvraag = (new Hulpvraag())->setMedewerker($medewerker);
         $datumAanmelding = new \DateTime('2024-01-01');
         $datumAfsluiting = new \DateTime('2024-02-27');
         $klant = new Klant();
         $izKlant = new IzKlant($klant);
         $izKlant->setDatumAanmelding($datumAanmelding)->setAfsluitDatum($datumAfsluiting)
-            ->addHulpvraag((new Hulpvraag())->setMedewerker($medewerker));
+            ->addHulpvraag($hulpvraag);
 
-        $repository = $this->createMock(IzKlantRepository::class);
-        $repository->expects($this->once())->method('findOneBy')->with(['klant' => $klant])
-            ->willReturn($izKlant);
+        $izKlantRepository = $this->createMock(IzKlantRepository::class);
+        $izKlantRepository->expects($this->once())->method('findOneBy')
+            ->with(['klant' => $klant])->willReturn($izKlant);
+        $hulpvraagRepository = $this->createMock(IzKlantRepository::class);
+        $hulpvraagRepository->expects($this->once())->method('findOneBy')
+            ->with(['izKlant' => $izKlant])->willReturn($hulpvraag);
         $em = $this->createMock(EntityManagerInterface::class);
-        $em->expects($this->once())->method('getRepository')->with(IzKlant::class)
-            ->willReturn($repository);
+        $em->expects($this->exactly(2))->method('getRepository')
+            ->withConsecutive([IzKlant::class], [Hulpvraag::class])
+            ->willReturnOnConsecutiveCalls($izKlantRepository, $hulpvraagRepository);
 
         $generator = $this->createMock(UrlGeneratorInterface::class);
         $generator->expects($this->once())->method('generate')->willReturn('http://www.example.com/');
