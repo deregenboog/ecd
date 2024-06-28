@@ -42,6 +42,7 @@ class Schorsing
     /**
      * @ORM\Column(name="datum_tot", type="date")
      * @Assert\NotNull
+     * @Assert\GreaterThanOrEqual("today")
      */
     private $datumTot;
 
