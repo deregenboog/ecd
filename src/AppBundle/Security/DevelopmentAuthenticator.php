@@ -37,8 +37,8 @@ class DevelopmentAuthenticator extends AbstractAuthenticator
 
     public function supports(Request $request): bool
     {
-        // Only supported in 'dev' environment.
-        if ($this->env !== 'dev') {
+        // Only supported in 'dev' or 'test' environment.
+        if (!in_array($this->env, ['dev', 'test'])) {
             return false;
         }
 

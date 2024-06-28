@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Dagbesteding\Event;
+namespace Tests\DagbestedingBundle\Event;
 
 use AppBundle\Entity\Klant;
 use AppBundle\Entity\Medewerker;

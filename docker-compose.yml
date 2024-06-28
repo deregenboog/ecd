@@ -31,17 +31,6 @@ services:
       - ${PWD}/src:/var/www/html/src
       - ${PWD}/templates:/var/www/html/templates
       - ${PWD}/translations:/var/www/html/translations
-  node:
-    image: node
-    volumes:
-      - ${PWD}:/var/www/html
-    working_dir: /var/www/html
-    command:
-      - /bin/sh
-      - -c
-      - |
-        npm install
-        yarn encore dev
   database:
     build:
       context: docker/mysql

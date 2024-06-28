@@ -2,7 +2,7 @@ FROM php:7.4-fpm-bullseye
 
 # install dependencies
 #ldap needs libldap-common otherwise LDAP over SSL wont work due to some update in Debian.
-RUN apt-get update && apt-get install -y \
+RUN apt update && apt install -y \
         default-mysql-client \
         g++ \
         libfreetype6-dev \
@@ -25,6 +25,7 @@ COPY --from=composer:2 /usr/bin/composer /usr/local/bin/composer
 
 # configure
 ENV APP_ENV=dev
+ENV XDEBUG_MODE=develop
 COPY docker/php/php.ini /usr/local/etc/php/
 COPY docker/php/xdebug.ini /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
 RUN \
@@ -35,6 +36,10 @@ RUN \
     && echo "nl_NL.UTF-8 UTF-8" > /etc/locale.gen \
     && locale-gen
 
+ARG UID
+ARG GID
+USER ${UID}:${GID}
+
 # install PHP packages
 WORKDIR /var/www/html
 COPY composer.json composer.lock ./
@@ -43,4 +48,4 @@ RUN composer install --no-autoloader --no-scripts
 # copy application code
 COPY . .
 COPY docker/php/.env.dev .env
-RUN COMPOSER_ALLOW_SUPERUSER=1 composer install
+RUN composer dump-autoload --optimize
