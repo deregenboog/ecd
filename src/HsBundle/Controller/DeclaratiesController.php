@@ -78,25 +78,23 @@ class DeclaratiesController extends AbstractChildController
         }
 
         return $this->processForm($request, $declaratie);
-
-
     }
 
-    protected function beforeCreate($entity)
+    protected function beforeCreate($entity): void
     {
-        return $this->beforeUpdate($entity);
+        $this->beforeUpdate($entity);
     }
 
     /**
      * @param Declaratie $declaratie
      * @throws \HsBundle\Exception\InvoiceLockedException
      */
-    protected function beforeUpdate($declaratie)
+    protected function beforeUpdate($declaratie): void
     {
         $helper = new FactuurSubjectHelper();
         $helper->beforeUpdateEntity($declaratie,$this->getEntityManager());
-
     }
+
     /**
      * @Route("/{id}/delete")
      */
