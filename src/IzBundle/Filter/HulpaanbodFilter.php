@@ -111,7 +111,10 @@ class HulpaanbodFilter implements FilterInterface
                     $builder->join('hulpaanbod.verslagen', 'verslag');
                 }
                 $builder
-                    ->andWhere('verslag.opmerking LIKE :zoekterm_'.$i)
+                    ->andWhere($builder->expr()->orX(
+                        'hulpaanbod.info LIKE :zoekterm_'.$i,
+                        'verslag.opmerking LIKE :zoekterm_'.$i,
+                    ))
                     ->setParameter('zoekterm_'.$i, '%'.$zoekterm.'%')
                 ;
             }

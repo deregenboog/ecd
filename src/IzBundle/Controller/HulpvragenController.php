@@ -81,6 +81,7 @@ class HulpvragenController extends AbstractChildController
                     'vrijwilliger' => ['voornaam', 'achternaam', 'geslacht', 'geboortedatumRange', 'stadsdeel'],
                     'hulpvraagsoort',
                     'doelgroep',
+                    'zoekterm',
                     'filter',
                 ],
             ]);

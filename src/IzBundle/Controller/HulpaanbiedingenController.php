@@ -80,6 +80,7 @@ class HulpaanbiedingenController extends AbstractChildController
                     'klant' => ['voornaam', 'achternaam', 'geslacht', 'geboortedatumRange', 'stadsdeel'],
                     'hulpvraagsoort',
                     'doelgroep',
+                    'zoekterm',
                     'filter',
                 ],
             ]);

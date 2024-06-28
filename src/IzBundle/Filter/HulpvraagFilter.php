@@ -111,7 +111,10 @@ class HulpvraagFilter implements FilterInterface
                     $builder->join('hulpvraag.verslagen', 'verslag');
                 }
                 $builder
-                    ->andWhere('verslag.opmerking LIKE :zoekterm_'.$i)
+                    ->andWhere($builder->expr()->orX(
+                        'hulpvraag.info LIKE :zoekterm_'.$i,
+                        'verslag.opmerking LIKE :zoekterm_'.$i,
+                    ))
                     ->setParameter('zoekterm_'.$i, '%'.$zoekterm.'%')
                 ;
             }
