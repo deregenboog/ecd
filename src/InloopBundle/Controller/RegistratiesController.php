@@ -71,26 +71,13 @@ class RegistratiesController extends AbstractController
      */
     protected $export;
 
-    /**
-     * @var array TBC_Countries from config.
-     */
-    protected $tbc_countries = [];
-
-    /**
-     * @var int $tbc_months_period
-     */
-    protected $tbc_months_period = 0;
-
-    public function __construct(RegistratieDaoInterface $dao, KlantDaoInterface $klantDao, LocatieDaoInterface $locatieDao, SchorsingDaoInterface $schorsingDao, ExportInterface $export,
-        $tbc_countries = [], $tbc_months_period = 0)
+    public function __construct(RegistratieDaoInterface $dao, KlantDaoInterface $klantDao, LocatieDaoInterface $locatieDao, SchorsingDaoInterface $schorsingDao, ExportInterface $export)
     {
         $this->dao = $dao;
         $this->klantDao = $klantDao;
         $this->locatieDao = $locatieDao;
         $this->schorsingDao = $schorsingDao;
         $this->export = $export;
-        $this->tbc_months_period = $tbc_months_period;
-        $this->tbc_countries = $tbc_countries;
     }
 
     /**
@@ -340,20 +327,6 @@ class RegistratiesController extends AbstractController
             }
         }
 
-        /**
-         * 20190708
-         *tbcCheck hoeft niet meer van GGD voor gebruikersruimte. Nu allleen voor klanten uit tbc_countries voor alle locaties.
-         */
-        if (false && $locatie->isGebruikersruimte()
-            && $klant->getLaatsteIntake()->isMagGebruiken()
-            && !$klant->getLaatsteTbcControle()
-        ) {
-            $jsonVar['allow'] = false;
-            $jsonVar['message'] .= 'Deze klant heeft geen TBC controle gehad en kan niet worden ingecheckt bij een locatie met een gebruikersruimte.';
-
-            return new JsonResponse($jsonVar);
-        }
-
         $open = $locatie->isOpen();
         $open = true; //vanwege niet goed te traceren fouten (openingstijden kloppen, toch zegt ie gesloten) dit nu zo gedaan.
 
@@ -437,30 +410,6 @@ class RegistratiesController extends AbstractController
                 $jsonVar['message'] .= $sep.'Let op: deze persoon is 14 dagen of langer geschorst geweest en heeft een terugkeergesprek nodig.';
                 $sep = $separator;
                 $jsonVar['confirm'] = true;
-            }
-
-            /**
-             * TBC check hoeft niet meer voor alle klanten. Alleen voor klanten uit bepaalde landen (tbc_countries) voor alle locaties.
-             */
-            if (false && $locatie->isTbcCheck()) {
-
-                $tbcValid = $this->tbc_months_period * 30;
-                $newTbcCheckNeeded = (!$klant->getLaatsteTbcControle() || $klant->getLaatsteTbcControle()->diff(new \DateTime())->days > $tbcValid);
-                if ($newTbcCheckNeeded) {
-                    $jsonVar['message'] .= $sep.'Let op: deze persoon heeft een nieuwe TBC-check nodig. Toch inchecken?';
-                    $jsonVar['confirm'] = true;
-                    $sep = $separator;
-                }
-            }
-            $tbc_countries = $this->tbc_countries;
-
-
-            if( in_array($klant->getLand()->getNaam(),$tbc_countries)
-                && $klant->getLaatsteTbcControle() == null
-            ){
-                $jsonVar['message'] .= $sep.'Let op: deze persoon komt uit een risico land en heeft een TBC-check nodig. Toch inchecken?';
-                $jsonVar['confirm'] = true;
-                $sep = $separator;
             }
 
             if ((is_array($klant->getOpenstaandeOpmerkingen()) || $klant->getOpenstaandeOpmerkingen() instanceof \Countable ? count($klant->getOpenstaandeOpmerkingen()) : 0) > 0) {

@@ -30,10 +30,6 @@
     <dd>{{ klant.bsn }}</dd>
     <dt>Corona besmet vanaf</dt>
     <dd class="{{ klant.coronaBesmetVanaf? 'bg-danger' }}">{{ klant.coronaBesmetVanaf ? klant.coronaBesmetVanaf|date('d-m-Y') }}</dd>
-    {% if tbc_countries is defined and klant.land.getNaam() in tbc_countries %}
-        <dt>TBC-check?</dt>
-        <dd>{{ klant.laatsteTbcControle is empty ? "" : klant.laatsteTbcControle|date('d-m-Y') }}</dd>
-    {% endif %}
     <dt>Medewerker</dt>
     <dd>{{ klant.medewerker }}</dd>
     <dt>Maatschappelijk werker</dt>

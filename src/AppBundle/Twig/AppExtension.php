@@ -43,11 +43,6 @@ class AppExtension extends AbstractExtension implements GlobalsInterface
      */
     private $administratorEmail;
 
-    /**
-     * @var int
-     */
-    private $tbcMonthsPeriod;
-
     private $ecdHelper;
 
     public static function getRedirectUri(Request $request)
@@ -60,14 +55,12 @@ class AppExtension extends AbstractExtension implements GlobalsInterface
         $locale,
         $administratorName,
         $administratorEmail,
-        $tbcMonthsPeriod,
         ECDHelper $ecdHelper
     ) {
         $this->requestStack = $requestStack;
         $this->locale = $locale;
         $this->administratorName = $administratorName;
         $this->administratorEmail = $administratorEmail;
-        $this->tbcMonthsPeriod = $tbcMonthsPeriod;
         $this->ecdHelper = $ecdHelper;
     }
 
@@ -80,7 +73,6 @@ class AppExtension extends AbstractExtension implements GlobalsInterface
             'administrator_name' => $this->administratorName,
             'administrator_email' => $this->administratorEmail,
             'redirect_uri' => self::getRedirectUri($this->requestStack->getCurrentRequest()),
-            'tbc_months_period' => $this->tbcMonthsPeriod,
             'title' => null,
             'entity_name' => null,
             'route_base' => null,

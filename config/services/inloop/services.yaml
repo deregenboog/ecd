@@ -17,7 +17,6 @@ services:
         autowire: true
         autoconfigure: true
         bind:
-            $tbc_countries: '%tbc_countries%'
             $accessStrategies: '%access_strategies%'
             $amocVerblijfsstatus: '%amoc_verblijfsstatus%'
 
@@ -58,8 +57,6 @@ services:
     InloopBundle\Controller\RegistratiesController:
         arguments:
             $export: '@inloop.export.registraties'
-            $tbc_countries: '%tbc_countries%'
-            $tbc_months_period: '%tbc_months_period%'
 
     InloopBundle\Controller\SchorsingenController:
         arguments:

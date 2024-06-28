@@ -85,10 +85,6 @@ class KlantMergeType extends AbstractType
                 'label' => 'Doorverwijzen naar AMOC',
                 'required' => false,
             ])
-            ->add('laatsteTbcControle', AppDateType::class, [
-                'label' => 'Laatste TBC-controle',
-                'required' => false,
-            ])
             ->add('submit', SubmitType::class, ['label' => 'Samenvoegen'])
             ->addEventListener(FormEvents::SUBMIT, function (FormEvent $event) {
                 /* @var Klant $data */

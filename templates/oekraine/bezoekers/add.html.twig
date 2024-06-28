@@ -83,40 +83,4 @@
             });
         </script>
     {% endif %}
-    {% if tbc_countries is defined %}
-        <script>
-                $(function(){
-                    var tbc_countries = [];
-                    {% for country in tbc_countries %}
-                        tbc_countries.push("{{ country }}");
-                    {% endfor %}
-
-                    var checkTbc = function(tbc_countries,selectedCountry){
-                        if(jQuery.inArray(selectedCountry,tbc_countries) !== -1)
-                        {
-                            alert("Klant uit risicoland voor TBC besmetting. Naar GGD sturen voor TBC controle.");
-                            $('#klant_laatsteTbcControle').removeClass("hidden");
-                            $("label[for='klant_laatsteTbcControle']").removeClass("hidden");
-
-                        }
-                        else {
-                            $('#klant_laatsteTbcControle').addClass("hidden");
-                            $("label[for='klant_laatsteTbcControle']").addClass("hidden");
-
-                        }
-                        // console.log(event.data.tbc_countries,$(this).find("option:selected").text());
-                    };
-
-                    $('select#klant_land').change({'tbc_countries':tbc_countries},function(event){
-                        checkTbc(event.data.tbc_countries,$(this).find("option:selected").text() );
-                    });
-
-                    checkTbc(tbc_countries,$('select#klant_land option:selected').text())
-                });
-
-
-      }
-   }
-   </script>
-    {% endif %}
 {% endblock %}

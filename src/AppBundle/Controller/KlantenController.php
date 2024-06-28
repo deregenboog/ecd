@@ -49,18 +49,11 @@ class KlantenController extends AbstractController
      */
     protected $export;
 
-    /** @var array|mixed $tbc_countries List of countries where TBC check is mandatory */
-    protected $tbc_countries = [];
-
-    public function __construct(KlantDaoInterface $dao, KlantDaoInterface $searchDao, $export, $tbc_countries = [])
+    public function __construct(KlantDaoInterface $dao, KlantDaoInterface $searchDao, $export)
     {
         $this->searchDao=$searchDao;
         $this->dao=$dao;
         $this->export = $export;
-
-        $this->tbc_countries=$tbc_countries;
-
-
     }
 
     /**
@@ -163,7 +156,6 @@ class KlantenController extends AbstractController
 
         return [
             'diensten' => $event->getDiensten(),
-            'tbc_countries' => $this->tbc_countries
         ];
     }
 

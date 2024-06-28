@@ -160,26 +160,6 @@ class Locatie
         return $this;
     }
 
-    /**
-     * @deprecated
-     */
-    public function getTbcCheck()
-    {
-        return $this->tbcCheck;
-    }
-
-    public function isTbcCheck()
-    {
-        return $this->tbcCheck;
-    }
-
-    public function setTbcCheck($tbcCheck)
-    {
-        $this->tbcCheck = $tbcCheck;
-
-        return $this;
-    }
-
     public function getDatumVan()
     {
         return $this->datumVan;
