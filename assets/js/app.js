@@ -29,29 +29,36 @@ $(document).ready(function() {
     $('select[multiple]').each(function() {
         let selectElm = $(this);
 
-        let selectAll = $('<a>', {
-            text: 'Alles selecteren',
-            class: 'btn btn-default btn-xs',
-        });
-        selectAll.on('click', function(event) {
-            let values = [];
-            selectElm.find('option').each(function() {
-                values.push($(this).attr('value'));
-            })
-            selectElm.val(values).trigger('change');
-            event.stopPropagation();
-        });
-        selectElm.parent().append(selectAll);
+        let disableSelectAll = (typeof selectElm.attr('disable-select-all') !== 'undefined')
+        let disableSelectNone = (typeof selectElm.attr('disable-select-none') !== 'undefined')
 
-        let selectNone = $('<a>', {
-            text: 'Niets selecteren',
-            class: 'btn btn-default btn-xs',
-        });
-        selectNone.on('click', function(event) {
-            selectElm.val(null).trigger('change');
-            event.stopPropagation();
-        });
-        selectElm.parent().append(selectNone);
+        if (!disableSelectAll) {
+            let selectAll = $('<a>', {
+                text: 'Alles selecteren',
+                class: 'btn btn-default btn-xs',
+            });
+            selectAll.on('click', function(event) {
+                let values = [];
+                selectElm.find('option').each(function() {
+                    values.push($(this).attr('value'));
+                })
+                selectElm.val(values).trigger('change');
+                event.stopPropagation();
+            });
+            selectElm.parent().append(selectAll);
+        }
+
+        if (!disableSelectNone) {
+            let selectNone = $('<a>', {
+                text: 'Niets selecteren',
+                class: 'btn btn-default btn-xs',
+            });
+            selectNone.on('click', function(event) {
+                selectElm.val(null).trigger('change');
+                event.stopPropagation();
+            });
+            selectElm.parent().append(selectNone);
+        }
     })
 });
 $(function () {
