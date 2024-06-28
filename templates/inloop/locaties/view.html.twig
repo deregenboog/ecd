@@ -41,13 +41,11 @@
                 {% for locatietijd in entity.locatietijden %}
                     <tr>
                         <td>
-                            {{ locatietijd.dagVanDeWeek|day_of_week }}
+                            {{ locatietijd.openingsdag|day_of_week }}
                             {{ locatietijd.openingstijd|date('H:i') }}
                         </td>
                         <td>
-                            {{ (locatietijd.openingstijd > locatietijd.sluitingstijd)
-                                ? (1 + locatietijd.dagVanDeWeek)|day_of_week
-                                : locatietijd.dagVanDeWeek|day_of_week }}
+                            {{ locatietijd.sluitingsdag|day_of_week }}
                             {{ locatietijd.sluitingstijd|date('H:i') }}
                         </td>
                         <td>

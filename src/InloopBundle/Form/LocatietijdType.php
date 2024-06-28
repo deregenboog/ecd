@@ -19,7 +19,7 @@ class LocatietijdType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-        ->add('dagVanDeWeek', DagSelectType::class)
+            ->add('dagVanDeWeek', DagSelectType::class)
             ->add('openingstijd', AppTimeType::class)
             ->add('sluitingstijd', AppTimeType::class)
             ->add('submit', SubmitType::class)
