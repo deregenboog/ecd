@@ -79,6 +79,12 @@ services:
         tags:
             - { name: oek.rapportage, category: Deelnemers }
 
+    OekBundle\Report\DeelnemersPerTrainingStatus:
+        arguments:
+            - '@OekBundle\Repository\DeelnemerRepository'
+        tags:
+            - { name: oek.rapportage, category: Deelnemers }
+
     OekBundle\Report\DeelnemersVerwezenDoor:
         arguments:
             - '@OekBundle\Repository\DeelnemerRepository'

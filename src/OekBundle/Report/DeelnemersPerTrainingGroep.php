@@ -4,7 +4,7 @@ namespace OekBundle\Report;
 
 use AppBundle\Report\AbstractReport;
 use AppBundle\Report\Table;
-use OekBundle\Entity\DeelnameStatus;
+use OekBundle\Entity\DeelnameStatus as DS;
 use OekBundle\Repository\DeelnemerRepository;
 
 class DeelnemersPerTrainingGroep extends AbstractReport
@@ -28,27 +28,40 @@ class DeelnemersPerTrainingGroep extends AbstractReport
         $this->repository = $repository;
     }
 
+    /**
+     * Aantallen zijn cummulatief:
+     *  - aangemeld = aangemeld + gestart + gevolgd + afgerond
+     *  - gestart = gestart + gevolgd + afgerond
+     *  - gevolgd = gestart + gevolgd
+     *  - afgerond = afgerond
+     *
+     * @see https://github.com/deregenboog/ecd/issues/1037
+     */
     protected function init()
     {
-        /**
-         * Het is cummulatief. Zie #1037
-         * aantal aangemeld = alle statussen.
-        aantal gestart = Deelnamestatus: gestart + gevolgd + afgerond
-        aantal gevolgd = DS gestart + gevolgd
-        aantal afgerond = DS afgerond
-         */
+        $this->tables[DS::STATUS_AANGEMELD] = $this->repository->countByGroepAndTraining(
+            [DS::STATUS_AANGEMELD,DS::STATUS_GESTART,DS::STATUS_GEVOLGD,DS::STATUS_AFGEROND],
+            $this->startDate,
+            $this->endDate
+        );
 
-        $aangemeld = DeelnameStatus::STATUS_AANGEMELD;
-        $afgerond = DeelnameStatus::STATUS_AFGEROND;
-        $gestart = DeelnameStatus::STATUS_GESTART;
-        $gevolgd = DeelnameStatus::STATUS_GEVOLGD;
+        $this->tables[DS::STATUS_GESTART] = $this->repository->countByGroepAndTraining(
+            [DS::STATUS_GESTART, DS::STATUS_GEVOLGD, DS::STATUS_AFGEROND],
+            $this->startDate,
+            $this->endDate
+        );
 
-        $this->tables[$aangemeld] = $this->repository->countByGroepAndTraining([$aangemeld,$gestart,$gevolgd,$afgerond], $this->startDate, $this->endDate);
-        $this->tables[$gestart] = $this->repository->countByGroepAndTraining([$gestart,$gevolgd,$afgerond], $this->startDate, $this->endDate);
-        $this->tables[$gevolgd] = $this->repository->countByGroepAndTraining([$gevolgd,$afgerond], $this->startDate, $this->endDate);
-        $this->tables[$afgerond] = $this->repository->countByGroepAndTraining([$afgerond], $this->startDate, $this->endDate);
+        $this->tables[DS::STATUS_GEVOLGD] = $this->repository->countByGroepAndTraining(
+            [DS::STATUS_GEVOLGD, DS::STATUS_AFGEROND],
+            $this->startDate,
+            $this->endDate
+        );
 
-
+        $this->tables[DS::STATUS_AFGEROND] = $this->repository->countByGroepAndTraining(
+            [DS::STATUS_AFGEROND],
+            $this->startDate,
+            $this->endDate
+        );
     }
 
     protected function build()
