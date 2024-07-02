@@ -172,14 +172,3 @@
         </div>
     </div>
 {% endblock %}
-
-{% block scripts %}
-    <script type="text/javascript">
-        $(function() {
-            // make table rows clickable
-            $('form #medewerker').change(function() {
-                $(this).closest('form').submit();
-            });
-        });
-    </script>
-{% endblock %}

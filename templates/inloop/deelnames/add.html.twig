@@ -7,26 +7,14 @@
 
 {% block scripts %}
     <script>
-   window.onload = function(){
-      if($){
-
-
         $(function() {
             var fieldOverig = $('form input#deelname_overig').closest('.form-group');
             var fieldTraining = $('form select#deelname_training');
 
             fieldOverig.hide();
-            fieldTraining.change(function(event){
-
+            fieldTraining.on('change', function(event){
                 this.value == '3'?  fieldOverig.show(): fieldOverig.hide();
-
             });
-
         });
-
-
-
-      }
-   }
-   </script>
+    </script>
 {% endblock %}
