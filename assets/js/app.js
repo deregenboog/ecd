@@ -9,3 +9,6 @@ import 'select2/dist/css/select2.min.css';
 import './global.js';
 import '../css/regenboog-bootstrap.css';
 import '../css/spacing.css';
+
+// create global $ and jQuery variables
+global.$ = global.jQuery = $;
