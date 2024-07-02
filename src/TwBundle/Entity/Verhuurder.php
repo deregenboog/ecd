@@ -178,28 +178,12 @@ class Verhuurder extends Deelnemer
 
     public function isGekoppeld()
     {
-        //los van een eventuele koppeling moet worden gekeken of er een open huuraanbieding is.
-
-        $has = $this->getHuuraanbiedingen();
-        foreach($has as $ha) {
-            if (!$ha->getHuurovereenkomst()){
-
-                $afsluitdatum = $ha->getAfsluitdatum();
-                if(null === $afsluitdatum) return false;
-            }
-        }
-
-
-        //er zijn geen open huuraanbiedingen, dan kijken naar de huurovereenkomsten
         $today = new \DateTime('today');
-        $hoes = $this->getHuurovereenkomsten();
-        foreach ($hoes as $hoe) {
+        foreach ($this->getHuurovereenkomsten() as $overeenkomst) {
             /** @var Huurovereenkomst $hoe */
-            if ($hoe->isReservering() == false
-                && $hoe->isActief() == true
-                && ($hoe->getAfsluitdatum() == null || $hoe->getAfsluitdatum() > $today)
-                && $hoe->getStartdatum() != null
-
+            if ($overeenkomst->isReservering() == false
+                && $overeenkomst->getStartdatum() != null
+                && ($overeenkomst->getAfsluitdatum() == null || $overeenkomst->getAfsluitdatum() > $today)
             ) {
                 return true;
             }

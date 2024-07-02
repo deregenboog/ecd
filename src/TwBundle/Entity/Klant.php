@@ -497,18 +497,12 @@ class Klant extends Deelnemer
 
     public function isGekoppeld()
     {
-
-
         $today = new \DateTime('today');
-        $hoes = $this->getHuurovereenkomsten();
-        foreach ($hoes as $hoe) {
-            /** @var Huurovereenkomst $hoe */
-            if ($hoe->isReservering() == false
-                && $hoe->isActief() == true
-                && ($hoe->getAfsluitdatum() == null || $hoe->getAfsluitdatum() > $today)
-                && $hoe->getStartdatum() != null
-
-                //&& $this->getAfsluitdatum() == null
+        foreach ($this->getHuurovereenkomsten() as $overeenkomst) {
+            /** @var Huurovereenkomst $overeenkomst */
+            if ($overeenkomst->isReservering() == false
+                && $overeenkomst->getStartdatum() != null
+                && ($overeenkomst->getAfsluitdatum() == null || $overeenkomst->getAfsluitdatum() > $today)
             ) {
                 return true;
             }
