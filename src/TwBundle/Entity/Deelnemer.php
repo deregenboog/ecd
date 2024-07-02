@@ -506,7 +506,6 @@ abstract class Deelnemer implements KlantRelationInterface
         return $this;
     }
 
-
     abstract public function getHuurovereenkomsten();
 
     abstract public function isGekoppeld();
