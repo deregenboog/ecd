@@ -5,6 +5,7 @@ namespace TwBundle\Filter;
 use AppBundle\Entity\Medewerker;
 use AppBundle\Filter\FilterInterface;
 use AppBundle\Filter\KlantFilter;
+use Doctrine\ORM\Query\Expr;
 use Doctrine\ORM\QueryBuilder;
 use TwBundle\Entity\Project;
 
@@ -66,11 +67,13 @@ class VerhuurderFilter implements FilterInterface
                 ->setParameter('id', $this->id)
             ;
         }
+
         if ($this->project && (is_array($this->project) || $this->project instanceof \Countable ? count($this->project) : 0) > 0) {
             $builder
                 ->andWhere('verhuurder.project IN (:project)')
                 ->setParameter('project', $this->project);
         }
+
         if ($this->aanmelddatum) {
             if ($this->aanmelddatum->getStart()) {
                 $builder
@@ -105,29 +108,25 @@ class VerhuurderFilter implements FilterInterface
         }
 
         if (!is_null($this->gekoppeld)) {
-            $builder
-                ->leftJoin('verhuurder.huuraanbiedingen', 'huuraanbod', 'WITH', 'huuraanbod.afsluiting IS NULL')
-                ->leftJoin('huuraanbod.huurovereenkomst', 'huurovereenkomst', 'WITH',
-                    'huurovereenkomst.isReservering = false 
-                    AND huurovereenkomst.startdatum IS NOT NULL 
-                    AND (huurovereenkomst.afsluitdatum IS NULL OR huurovereenkomst.afsluitdatum > :today)'
-                )
-            ;
+            $subQuery = 'SELECT v.id
+                FROM TwBundle\Entity\Verhuurder v
+                INNER JOIN v.appKlant ak
+                INNER JOIN v.huuraanbiedingen aanbod
+                INNER JOIN aanbod.huurovereenkomst overeenkomst WITH
+                    overeenkomst.isReservering = false
+                    AND overeenkomst.startdatum IS NOT NULL
+                    AND (overeenkomst.afsluitdatum IS NULL OR overeenkomst.afsluitdatum > :today)';
             $builder->setParameter('today', new \DateTime('today'));
-
-            if (true === $this->gekoppeld) {
-                $builder->andWhere('huurovereenkomst IS NOT NULL');
-            } elseif (false === $this->gekoppeld) {
-                // probleem is dat er meerdere huurovereenkomsten zijn per huuraanbod, en dat we niet weten op welke hij joint.
-                // dit werkt dus niet. Dan maar programmatisch in VerhuurderDao!
-                $builder->andWhere('huurovereenkomst IS NULL');
+            if ($this->gekoppeld) {
+                $builder->where((new Expr())->in('verhuurder.id', $subQuery));
+            } else {
+                $builder->where((new Expr())->notIn('verhuurder.id', $subQuery));
             }
         }
 
         if ($this->medewerker) {
             $builder
                 ->andWhere('verhuurder.medewerker = :medewerker')
-
                 ->setParameter('medewerker', $this->medewerker);
         }
 

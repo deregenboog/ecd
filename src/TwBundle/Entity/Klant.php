@@ -335,7 +335,7 @@ class Klant extends Deelnemer
     /**
      * @return Project[]
      */
-    public function getProjecten()// : ?arraPersistentCollection
+    public function getProjecten()
     {
         return $this->projecten;
     }
@@ -449,15 +449,11 @@ class Klant extends Deelnemer
     public function isGekoppeld()
     {
         $today = new \DateTime('today');
-        $hoes = $this->getHuurovereenkomsten();
-        foreach ($hoes as $hoe) {
-            /** @var Huurovereenkomst $hoe */
-            if (false == $hoe->isReservering()
-                && true == $hoe->isActief()
-                && (null == $hoe->getAfsluitdatum() || $hoe->getAfsluitdatum() > $today)
-                && null != $hoe->getStartdatum()
-
-                // && $this->getAfsluitdatum() == null
+        foreach ($this->getHuurovereenkomsten() as $overeenkomst) {
+            /** @var Huurovereenkomst $overeenkomst */
+            if (false == $overeenkomst->isReservering()
+                && null != $overeenkomst->getStartdatum()
+                && (null == $overeenkomst->getAfsluitdatum() || $overeenkomst->getAfsluitdatum() > $today)
             ) {
                 return true;
             }

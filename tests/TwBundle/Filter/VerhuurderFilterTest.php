@@ -3,6 +3,7 @@
 namespace Tests\TwBundle\Filter;
 
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\Query\Expr;
 use Doctrine\ORM\QueryBuilder;
 use Tests\AppBundle\PHPUnit\DoctrineTestCase;
 use TwBundle\Entity\Verhuurder;
@@ -17,12 +18,14 @@ class VerhuurderFilterTest extends DoctrineTestCase
         // empty filter
         $builder = $this->getQueryBuilder();
         $filter->applyTo($builder);
-        $expected = 'SELECT FROM TwBundle\Entity\Verhuurder verhuurder
-            LEFT JOIN verhuurder.huuraanbiedingen huuraanbod WITH huuraanbod.afsluiting IS NULL 
-            LEFT JOIN huuraanbod.huurovereenkomst huurovereenkomst WITH huurovereenkomst.isReservering = false
-                    AND huurovereenkomst.startdatum IS NOT NULL
-                    AND (huurovereenkomst.afsluitdatum IS NULL OR huurovereenkomst.afsluitdatum > :today) 
-            WHERE huurovereenkomst IS NULL';
+        $expected = 'SELECT FROM TwBundle\Entity\Verhuurder verhuurder WHERE verhuurder.id NOT IN(SELECT v.id
+            FROM TwBundle\Entity\Verhuurder v
+            INNER JOIN v.appKlant ak
+            INNER JOIN v.huuraanbiedingen aanbod
+            INNER JOIN aanbod.huurovereenkomst overeenkomst WITH
+                overeenkomst.isReservering = false
+                AND overeenkomst.startdatum IS NOT NULL
+                AND (overeenkomst.afsluitdatum IS NULL OR overeenkomst.afsluitdatum > :today))';
         $this->assertEqualsIgnoringWhitespace($expected, (string) $builder);
 
         // gekoppeld
@@ -30,13 +33,16 @@ class VerhuurderFilterTest extends DoctrineTestCase
         $filter->gekoppeld = true;
         $filter->applyTo($builder);
         $expected = 'SELECT FROM TwBundle\Entity\Verhuurder verhuurder
-            LEFT JOIN verhuurder.huuraanbiedingen huuraanbod WITH huuraanbod.afsluiting IS NULL
-            LEFT JOIN huuraanbod.huurovereenkomst huurovereenkomst WITH
-                huurovereenkomst.isReservering = false
-                AND huurovereenkomst.startdatum IS NOT NULL
-                AND (huurovereenkomst.afsluitdatum IS NULL OR huurovereenkomst.afsluitdatum > :today)
-            WHERE huurovereenkomst IS NOT NULL';
-
+            WHERE verhuurder.id IN(
+                SELECT v.id
+                FROM TwBundle\Entity\Verhuurder v
+                INNER JOIN v.appKlant ak
+                INNER JOIN v.huuraanbiedingen aanbod
+                INNER JOIN aanbod.huurovereenkomst overeenkomst WITH
+                    overeenkomst.isReservering = false
+                    AND overeenkomst.startdatum IS NOT NULL
+                    AND (overeenkomst.afsluitdatum IS NULL OR overeenkomst.afsluitdatum > :today)
+                )';
         $this->assertEqualsIgnoringWhitespace($expected, (string) $builder);
 
         // niet gekoppeld
@@ -44,12 +50,16 @@ class VerhuurderFilterTest extends DoctrineTestCase
         $filter->gekoppeld = false;
         $filter->applyTo($builder);
         $expected = 'SELECT FROM TwBundle\Entity\Verhuurder verhuurder
-            LEFT JOIN verhuurder.huuraanbiedingen huuraanbod WITH huuraanbod.afsluiting IS NULL
-            LEFT JOIN huuraanbod.huurovereenkomst huurovereenkomst WITH
-                huurovereenkomst.isReservering = false
-                AND huurovereenkomst.startdatum IS NOT NULL
-                AND (huurovereenkomst.afsluitdatum IS NULL OR huurovereenkomst.afsluitdatum > :today)
-            WHERE huurovereenkomst IS NULL';
+            WHERE verhuurder.id NOT IN(
+                SELECT v.id
+                FROM TwBundle\Entity\Verhuurder v
+                INNER JOIN v.appKlant ak
+                INNER JOIN v.huuraanbiedingen aanbod
+                INNER JOIN aanbod.huurovereenkomst overeenkomst WITH
+                    overeenkomst.isReservering = false
+                    AND overeenkomst.startdatum IS NOT NULL
+                    AND (overeenkomst.afsluitdatum IS NULL OR overeenkomst.afsluitdatum > :today)
+                )';
         $this->assertEqualsIgnoringWhitespace($expected, (string) $builder);
     }
 
