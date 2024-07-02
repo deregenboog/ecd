@@ -1,6 +1,7 @@
 {% extends 'base.html.twig' %}
 {% import 'html.macro.twig' as html %}
 
+
 {% block content %}
     <h1>Koppeling maken</h1>
 
@@ -29,3 +30,6 @@
     {{ form(form) }}
 {% endblock %}
 
+{% block scripts %}
+{{ block("scripts", '@Tw/huurovereenkomsten/scripts.html.twig') }}
+{% endblock %}
