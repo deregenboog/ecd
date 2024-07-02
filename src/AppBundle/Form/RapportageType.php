@@ -80,11 +80,10 @@ class RapportageType extends AbstractType
             $builder->add('amoc_landen', AmocLandSelectType::class, [
                 'required' => true,
                 'multiple' => true,
-                // uncomment lines below to disable rendering of "Select all" and "Select none" buttons
-                // 'attr' => [
-                //     'disable-select-all' => null,
-                //     'disable-select-none' => null,
-                // ],
+                'attr' => [
+                    'select-all' => null,
+                    'select-none' => null,
+                ],
             ]);
         }
 

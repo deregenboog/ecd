@@ -29,10 +29,10 @@ $(document).ready(function() {
     $('select[multiple]').each(function() {
         let selectElm = $(this);
 
-        let disableSelectAll = (typeof selectElm.attr('disable-select-all') !== 'undefined')
-        let disableSelectNone = (typeof selectElm.attr('disable-select-none') !== 'undefined')
+        let enableSelectAll = (typeof selectElm.attr('select-all') !== 'undefined')
+        let enableSelectNone = (typeof selectElm.attr('select-none') !== 'undefined')
 
-        if (!disableSelectAll) {
+        if (enableSelectAll) {
             let selectAll = $('<a>', {
                 text: 'Alles selecteren',
                 class: 'btn btn-default btn-xs',
@@ -48,7 +48,7 @@ $(document).ready(function() {
             selectElm.parent().append(selectAll);
         }
 
-        if (!disableSelectNone) {
+        if (enableSelectNone) {
             let selectNone = $('<a>', {
                 text: 'Niets selecteren',
                 class: 'btn btn-default btn-xs',

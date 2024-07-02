@@ -41,7 +41,7 @@ services:
       - -c
       - |
         npm install
-        yarn encore dev
+        yarn encore dev --watch
   database:
     build:
       context: docker/mysql
