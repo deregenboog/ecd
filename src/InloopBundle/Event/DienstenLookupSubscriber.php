@@ -42,32 +42,31 @@ class DienstenLookupSubscriber implements EventSubscriberInterface
         if ($klant->getLaatsteIntake()) {
             $toegang = $this->entityManager->getRepository(Toegang::class)->findBy(['klant' => $klant]);
             if (count($toegang) > 0) {
+                $inloophuizen = [];
                 $gebruikersruimtes = [];
-                $nInloophuizen = 0;
                 foreach ($toegang as $t) {
                     if ($t->getLocatie()->isGebruikersruimte()) {
                         $gebruikersruimtes[] = (string) $t->getLocatie();
                     } else {
-                        $nInloophuizen++;
+                        $inloophuizen[] = (string) $t->getLocatie();
                     }
                 }
-                if ($nInloophuizen > 0) {
-                    $dienst = new Dienst(
+                if (count($inloophuizen) > 0) {
+                    sort($inloophuizen);
+                    $event->addDienst(new Dienst(
                         'Inloophuizen',
                         $this->generator->generate('inloop_klanten_view', ['id' => $klant->getId()]),
-                        'open dossier'
-                    );
-
-                    $event->addDienst($dienst);
+                        'open dossier',
+                        implode(', ', $inloophuizen)
+                    ));
                 }
                 if (count($gebruikersruimtes) > 0) {
                     sort($gebruikersruimtes);
-                    $dienst = new Dienst(
-                        'Gebr. ruimte',
+                    $event->addDienst(new Dienst(
+                        'Gebruikersruimte',
                         $this->generator->generate('inloop_klanten_view', ['id' => $klant->getId()]),
                         implode(', ', $gebruikersruimtes)
-                    );
-                    $event->addDienst($dienst);
+                    ));
                 }
             }
         }

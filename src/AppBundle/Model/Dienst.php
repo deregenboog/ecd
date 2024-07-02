@@ -22,6 +22,11 @@ class Dienst
     private $omschrijving;
 
     /**
+     * @var string
+     */
+    private $toelichting;
+
+    /**
      * @var \DateTime
      */
     private $van;
@@ -43,12 +48,16 @@ class Dienst
 
     private $entity;
 
-
-    public function __construct(?string $naam = null, ?string $url = null, ?string $omschrijving = null)
-    {
+    public function __construct(
+        ?string $naam = null,
+        ?string $url = null,
+        ?string $omschrijving = null,
+        ?string $toelichting = null
+    ) {
         $this->naam = $naam;
         $this->url = $url;
         $this->omschrijving = $omschrijving;
+        $this->toelichting = $toelichting;
     }
 
     /**
@@ -83,6 +92,18 @@ class Dienst
     public function setOmschrijving($omschrijving)
     {
         $this->omschrijving = $omschrijving;
+
+        return $this;
+    }
+
+    public function getToelichting(): ?string
+    {
+        return $this->toelichting;
+    }
+
+    public function setToelichting(string $toelichting)
+    {
+        $this->toelichting = $toelichting;
 
         return $this;
     }

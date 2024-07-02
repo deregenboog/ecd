@@ -10,7 +10,7 @@
                     <th>
                         {{ dienst.naam }}
                     </th>
-                    <td>
+                    <td {% if dienst.toelichting %}data-toggle="tooltip" data-placement="right" title="{{ dienst.toelichting }}"{% endif %}>
                         {% if dienst.url %}
                             {{ html.link(macro.dienst(dienst), dienst.url, 'view') }}
                         {% else %}
