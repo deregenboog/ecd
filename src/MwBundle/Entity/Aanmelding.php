@@ -35,10 +35,6 @@ class Aanmelding extends MwDossierStatus
         return $return;
     }
 
-
-
-
-
     /**
      * @PrePersist
      * @param \Doctrine\ORM\Event\LifecycleEventArgs $event
@@ -62,6 +58,4 @@ class Aanmelding extends MwDossierStatus
     {
         parent::parentValidate($context,$payload);
     }
-
-
 }

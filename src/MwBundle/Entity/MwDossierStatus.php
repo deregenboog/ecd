@@ -73,7 +73,7 @@ abstract class MwDossierStatus
     /**
      * @var Project
      *
-     * @ORM\ManyToOne(targetEntity="MwBundle\Entity\Project", inversedBy="aanmeldingen")
+     * @ORM\ManyToOne(targetEntity="MwBundle\Entity\Project")
      * @ORM\JoinColumn(nullable=false)
      * Assert\NotNull()
      * @Assert\Expression(
@@ -93,13 +93,12 @@ abstract class MwDossierStatus
     /**
      * @var BinnenViaOptieKlant
      *
-     * @ORM\ManyToOne(targetEntity="MwBundle\Entity\BinnenViaOptieKlant", inversedBy="aanmeldingen", )
+     * @ORM\ManyToOne(targetEntity="MwBundle\Entity\BinnenViaOptieKlant")
      * @ORM\JoinColumn(nullable=true, options={"default": 0})
      * @Gedmo\Versioned
      * @Assert\Expression("!this.isAangemeld() or value != null")
      */
     protected $binnenViaOptieKlant;
-
 
     public function __construct(Medewerker $medewerker = null)
     {

@@ -89,44 +89,51 @@
                     {{ knp_pagination_sortable(pagination, 'Gebruikersruimte', 'gebruikersruimte.naam') }}
                 </th>
                 <th>
-                    Verslaglocatie
+                    {{ knp_pagination_sortable(pagination, 'Verslaglocatie', 'locatie.naam') }}
                 </th>
                 <th>
                     {{ knp_pagination_sortable(pagination, 'Project', 'project.naam') }}
                 </th>
                 <th>
-                    {{ knp_pagination_sortable(pagination, 'Maatschappelijk werker', 'maatschappelijkWerker.voornaam') }}
+                    Maatschappelijk werker
                 </th>
                 <th>
-                    {{ knp_pagination_sortable(pagination, 'Laatste verslag', 'datumLaatsteVerslag') }}
+                    {{ knp_pagination_sortable(pagination, 'Laatste verslag', 'laatsteVerslag.datum') }}
                 </th>
-                <th>Mw Dossierstatus</th>
+                <th>
+                    MW dossierstatus
+                </th>
                 <th></th>
             </tr>
         </thead>
         <tbody>
-            {% for item in pagination %}
-                {% set klant = item[0] %}
-                {% set rowColorClass = '' %}
-                {% set ttactive = "" %}
-                {% set tttext = "" %}
-                {% if(date(item.datumLaatsteVerslag) < date("-6 months")) %}
-                    {%  set rowColorClass = 'danger' %}
-                    {% set ttactive = "tooltip" %}
-                    {% set tttext = "Laatste verslag meer dan 6 maanden geleden." %}
-                {% elseif(date(item.datumLaatsteVerslag) < date("-3 months")) %}
-                    {% set rowColorClass = 'warning' %}
-                    {% set ttactive = "tooltip" %}
-                    {% set tttext = "Laatste verslag meer dan 3 maanden geleden." %}
-                {% endif %}
-                {% if klant.briefadres is not null and date(klant.briefadres) < date("+6 weeks")  %}
-                    {% set rowColorClass = 'danger' %}
-                    {% set ttactive = "tooltip" %}
-                    {% set tttext = tttext ~ " Briefadres loopt binnenkort af." %}
+            {% for klant in pagination %}
+                {% set huidigeMwStatus = klant.mwStatussen[0] %}
+                {% set laatsteIntake = klant.intakes|length ? klant.intakes[0] %}
+                {% set laatsteVerslag = klant.verslagen|length ? klant.verslagen[0] %}
+
+                {% set class = '' %}
+                {% set messages = [] %}
+
+                {% if laatsteVerslag %}
+                    {% if date(laatsteVerslag.datum) < date("-6 months") %}
+                        {% set class = 'danger' %}
+                        {% set messages = messages|merge(["Laatste verslag meer dan 6 maanden geleden."]) %}
+                    {% elseif date(laatsteVerslag.datum) < date("-3 months") %}
+                        {% set class = 'warning' %}
+                        {% set messages = messages|merge(["Laatste verslag meer dan 3 maanden geleden."]) %}
+                    {% endif %}
                 {% endif %}
 
-                <tr href="#" data-toggle="{{ ttactive }}" title="{{ tttext }}" data-container="body"
-                        class="{{ rowColorClass }}" data-href="{{ path(route_base~'view', {id: klant.id}) }}">
+                {% if klant.briefadres %}
+                    {% if date(klant.briefadres) < date("+6 years") %}
+                        {% set class = 'danger' %}
+                        {% set messages = messages|merge(["Briefadres loopt binnenkort af."]) %}
+                    {% endif %}
+                {% endif %}
+
+                <tr href="#" {% if messages|length %}data-toggle="tooltip" data-container="body" title="{{ messages|join(" ") }}"{% endif %}
+                    class="{{ class }}" data-href="{{ path(route_base~'view', {id: klant.id}) }}">
                     <td>
                         {{ klant.id }}
                     </td>
@@ -140,42 +147,42 @@
                         {{ klant.geslacht }}
                     </td>
                     <td>
-                        {{ klant.laatsteIntake ? klant.laatsteIntake.gebruikersruimte }}
+                        {{ laatsteIntake ? laatsteIntake.gebruikersruimte }}
                     </td>
                     <td>
-                        {{ item.laatsteVerslagLocatie }}
+                        {{ laatsteVerslag ? laatsteVerslag.locatie }}
                     </td>
                     <td>
-                        {{ klant.huidigeMwStatus? klant.huidigeMwStatus.project }}
+                        {{ huidigeMwStatus.project }}
                     </td>
                     <td>
                         <ul>
-                            {% if klant.maatschappelijkWerker is defined and klant.maatschappelijkWerker is not null %}
-                                <li>{{ klant.maatschappelijkWerker }}</li>
-                            {% else %}
-                                {% set verslagMedewerker = null %}
-                                {% set i = 0 %}
-
-                                {% for verslag in klant.verslagen %}
-                                    {% if i < 3 and verslag.medewerker != verslagMedewerker %}
-                                        <li>{{ verslag.medewerker }}</li>
-                                        {% set i = i+1 %}
-                                    {% elseif loop.index == 3 %}
-                                        <li>(...({{ loop.length - 3 }}))</li>
-                                    {% endif %}
-                                    {% set verslagMedewerker = verslag.medewerker %}
-                                {% endfor %}
+                            {% set medewerkers = [huidigeMwStatus.medewerker] %}
+                            {% if klant.maatschappelijkWerker %}
+                                {% if klant.maatschappelijkWerker not in medewerkers %}
+                                    {% set medewerkers = medewerkers|merge([klant.maatschappelijkWerker]) %}
+                                {% endif %}
                             {% endif %}
+                            {% if laatsteVerslag %}
+                                {% if laatsteVerslag.medewerker not in medewerkers %}
+                                    {% set medewerkers = medewerkers|merge([laatsteVerslag.medewerker]) %}
+                                {% endif %}
+                            {% endif %}
+                            {% for medewerker in medewerkers %}
+                                <li>{{ medewerker }}</li>
+                            {% endfor %}
                         </ul>
                     </td>
                     <td>
-                        {{ item.datumLaatsteVerslag|if_date('d-m-Y') }}
+                        {{ laatsteVerslag ? laatsteVerslag.datum|date('d-m-Y') }}
                     </td>
                     <td>
-                        {{ klant.huidigeMwStatus }}
+                        {{ huidigeMwStatus }}
                     </td>
                     <td>
-                        {{ html.link('Verslag toevoegen', path('mw_verslagen_add', {klant: klant.id}), 'add') }}
+                        {% if instanceof(huidigeMwStatus, 'MwBundle\\Entity\\Aanmelding') %}
+                            {{ html.link('Verslag toevoegen', path('mw_verslagen_add', {klant: klant.id}), 'add') }}
+                        {% endif %}
                     </td>
                 </tr>
             {% endfor %}

@@ -103,6 +103,8 @@ doctrine:
                 time_diff: DoctrineExtensions\Query\Mysql\TimeDiff
                 time_to_sec: DoctrineExtensions\Query\Mysql\TimeToSec
                 year: Luxifer\DQL\Datetime\Year
+            numeric_functions:
+                first: AppBundle\Doctrine\FirstFunction
             string_functions:
                 concat_ws: Luxifer\DQL\String\ConcatWs
                 replace: DoctrineExtensions\Query\Mysql\Replace
