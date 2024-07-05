@@ -27,7 +27,12 @@
     </thead>
     <tbody>
         {% for klant in pagination %}
-            <tr data-id="{{ klant.id }}">
+            {% set huidige_schorsingen = klant.huidigeSchorsingen(locatie) %}
+            {% set class = "" %}
+            {% if huidige_schorsingen|length > 0 %}
+                {% set class = "danger" %}
+            {% endif %}
+            <tr data-id="{{ klant.id }}" class="{{ class }}">
                 <td>
                     <a class="checkin" title="Inchecken" style="margin-right: 1em;">
                         <span class="glyphicon glyphicon-log-in" aria-hidden="true"></span>
@@ -68,7 +73,7 @@
                 </td>
                 {% endif %}
                 <td>
-                    {% set huidige_schorsingen = klant.huidigeSchorsingen(locatie) %}
+
                     {% if huidige_schorsingen|length > 0 %}
                         <a href="{{ path('inloop_schorsingen_klantview', {klant: klant.id}) }}" class="text-danger">
                             {{ huidige_schorsingen|length }}

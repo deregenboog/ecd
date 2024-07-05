@@ -314,21 +314,21 @@ class RegistratiesController extends AbstractController
                 if (!$klant->getLaatsteRegistratie()->getBuiten()) {
                     if ($klant->getLaatsteRegistratie()->getLocatie() == $locatie) {
                         $jsonVar['allow'] = false;
-                        $jsonVar['message'] .= $sep.'Deze klant is op dit moment al ingecheckt op deze locatie.';
+                        $jsonVar['message'] .= $separator.'Deze klant is op dit moment al ingecheckt op deze locatie.';
                     } else {
                         $jsonVar['confirm'] = true;
-                        $jsonVar['message'] .= $sep.'Deze klant is op dit moment al ingecheckt op een andere locatie. Toch inchecken?';
-                        $sep = $separator;
+                        $jsonVar['message'] .= $separator.'Deze klant is op dit moment al ingecheckt op een andere locatie. Toch inchecken?';
+                        
                     }
 
-                    $sep = $separator;
+                    
                 } else {
                     $diff = $klant->getLaatsteRegistratie()->getBuiten()->diff(new \DateTime());
 
                     if ($diff->h < $h && 0 == $diff->d && 0 == $diff->m && 0 == $diff->y) {
                         $jsonVar['confirm'] = true;
-                        $jsonVar['message'] .= $sep.'Deze klant is minder dan een uur geleden uitgechecked. Opnieuw registreren?';
-                        $sep = $separator;
+                        $jsonVar['message'] .= $separator.'Deze klant is minder dan een uur geleden uitgechecked. Opnieuw registreren?';
+                        
                     }
                 }
             }
@@ -338,8 +338,7 @@ class RegistratiesController extends AbstractController
 
         if ($jsonVar['allow']) {
             if (($laatsteIntake = $klant->getLaatsteIntake()) == null) {
-                $jsonVar['message'] .= $sep.'Let op: deze persoon heeft geen intake. Toch inchecken?';
-                $sep = $separator;
+                $jsonVar['message'] .= $separator.'Let op: deze persoon heeft geen intake. Toch inchecken?';
                 $jsonVar['confirm'] = true;
             }
 
@@ -348,8 +347,8 @@ class RegistratiesController extends AbstractController
                 && $laatsteRegistratie->getBuiten()->diff(new \DateTime())->days > 730
                 && $klant->getLaatsteIntake()->getIntakedatum()->diff(new \DateTime())->days > 365
             ) {
-                $jsonVar['message'] .= $sep.'Let op: deze persoon heeft zich al twee jaar nergens meer geregistreerd en heeft een nieuwe intake nodig. Toch inchecken?';
-                $sep = $separator;
+                $jsonVar['message'] .= $separator.'Let op: deze persoon heeft zich al twee jaar nergens meer geregistreerd en heeft een nieuwe intake nodig. Toch inchecken?';
+                
                 $jsonVar['confirm'] = true;
             }
 
@@ -362,28 +361,29 @@ class RegistratiesController extends AbstractController
                 }
                 $l = $ECDHelper->filterAllRows($schorsingsLocaties, $alleLocaties);
 
-                $jsonVar['message'] .= $sep.'Let op: deze persoon is momenteel op deze locatie(s) geschorst: '.$l.'.  Toch inchecken?';
-                $sep = $separator;
+                $tmpMsg = $jsonVar['message'];
+                $jsonVar['message'] = '!! Let op: deze persoon is momenteel op deze locatie(s) geschorst: '.$l.'.  Toch inchecken?';
+                $jsonVar['message'] .= $separator.$tmpMsg;
+                
                 $jsonVar['confirm'] = true;
             }
 
             $terugkeergesprekNodig = $this->schorsingDao->findTerugkeergesprekNodigByKlantAndLocatie($klant, $locatie);
             if ((is_array($terugkeergesprekNodig) || $terugkeergesprekNodig instanceof \Countable ? count($terugkeergesprekNodig) : 0) > 0) {
-                $jsonVar['message'] .= $sep.'Let op: deze persoon is 14 dagen of langer geschorst geweest en heeft een terugkeergesprek nodig.';
-                $sep = $separator;
+                $jsonVar['message'] .= $separator.'Let op: deze persoon is 14 dagen of langer geschorst geweest en heeft een terugkeergesprek nodig.';
                 $jsonVar['confirm'] = true;
             }
 
             if ((is_array($klant->getOpenstaandeOpmerkingen()) || $klant->getOpenstaandeOpmerkingen() instanceof \Countable ? count($klant->getOpenstaandeOpmerkingen()) : 0) > 0) {
                 $opmerkingen = $klant->getOpenstaandeOpmerkingen()->toArray();
                 foreach ($opmerkingen as $opmerking) {
-                    $jsonVar['message'] .= $sep.'Openstaande opmerking ('.$opmerking->getCreated()->format('d-m-Y').'): '.$opmerking->getBeschrijving();
-                    $sep = $separator;
+                    $jsonVar['message'] .= $separator.'Openstaande opmerking ('.$opmerking->getCreated()->format('d-m-Y').'): '.$opmerking->getBeschrijving();
+                    
                 }
                 $jsonVar['confirm'] = true;
             }
         }
-
+        $jsonVar['message'] = trim($jsonVar['message'],PHP_EOL);
         return new JsonResponse($jsonVar);
     }
 
