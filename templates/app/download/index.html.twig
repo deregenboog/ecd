@@ -21,22 +21,16 @@
 {% endblock %}
 
 {% block scripts %}
-<script>
-   window.onload = function(){
-      if($){
-
-    $('#download_vrijwilligers_download').on('click',
-        function(event)
-        {
-            if($('form[name=download_vrijwilligers] :checkbox:checked').length < 1)
+    <script>
+        $('#download_vrijwilligers_download').on('click',
+            function(event)
             {
-                alert('Selecteer tenminste een onderdeel');
-                return false;
+                if($('form[name=download_vrijwilligers] :checkbox:checked').length < 1)
+                {
+                    alert('Selecteer tenminste een onderdeel');
+                    return false;
+                }
             }
-        }
-    );
-
-      }
-   }
+        );
    </script>
 {% endblock %}

@@ -1,5 +1,4 @@
 {% import 'html.macro.twig' as html %}
-{% import _self as macro %}
 
 {% if diensten is defined %}
     <h2>Diensten</h2>
@@ -12,9 +11,9 @@
                     </th>
                     <td {% if dienst.toelichting %}data-toggle="tooltip" data-placement="right" title="{{ dienst.toelichting }}"{% endif %}>
                         {% if dienst.url %}
-                            {{ html.link(macro.dienst(dienst), dienst.url, 'view') }}
+                            {{ html.link(_self.dienst(dienst), dienst.url, 'view') }}
                         {% else %}
-                            {{ macro.dienst(dienst) }}
+                            {{ _self.dienst(dienst) }}
                         {% endif %}
                     </td>
                 </tr>

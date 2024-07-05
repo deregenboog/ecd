@@ -1,4 +1,3 @@
-{% import _self as macro %}
 {% import 'html.macro.twig' as html %}
 {% import 'dagbesteding/macro.twig' as dagbestedingmacro %}
 
@@ -28,10 +27,10 @@
     <tr>
         <th>Maand</th>
         {% for deelname in entity.deelnames %}
-            <th>{{ macro.color('A', 'A') }}</th>
-            <th>{{ macro.color('Z', 'Z') }}</th>
-            <th>{{ macro.color('O', 'O') }}</th>
-            <th>{{ macro.color('V', 'V') }}</th>
+            <th>{{ _self.color('A', 'A') }}</th>
+            <th>{{ _self.color('Z', 'Z') }}</th>
+            <th>{{ _self.color('O', 'O') }}</th>
+            <th>{{ _self.color('V', 'V') }}</th>
             <th></th>
         {% endfor %}
     </tr>
@@ -40,16 +39,16 @@
             <td>{{ maand.maand|date('m-Y') }}</td>
             {% for project in maand.projecten %}
                 <td>
-                    {{ macro.color('A', project['A']) }}
+                    {{ _self.color('A', project['A']) }}
                 </td>
                 <td>
-                    {{ macro.color('Z', project['Z']) }}
+                    {{ _self.color('Z', project['Z']) }}
                 </td>
                 <td>
-                    {{ macro.color('O', project['O']) }}
+                    {{ _self.color('O', project['O']) }}
                 </td>
                 <td>
-                    {{ macro.color('V', project['V']) }}
+                    {{ _self.color('V', project['V']) }}
                 </td>
                 <td>
                     {{ html.viewLink(path('dagbesteding_trajecten_viewdagdelen', {

@@ -24,7 +24,7 @@
 {% endblock %}
 
 {% block scripts %}
-    <script type="text/javascript">
+    <script>
         var onChangeType = function() {
             if ($($('#client_connect_type')).is(':checked')) {
                 // show "Gekoppeld aan" and "Gekoppelde clienten"
@@ -82,17 +82,17 @@
             onChangeType();
             onChangeHoofdclient();
             onChangeGekoppeldeClienten();
-            $('#client_connect_type').change(function() {
+            $('#client_connect_type').on('change', function() {
                 onChangeType();
             });
-            $('#client_connect_hoofdclient').change(function() {
+            $('#client_connect_hoofdclient').on('change', function() {
                 onChangeHoofdclient();
             });
-            $('#client_connect_gekoppeldeClient').change(function() {
+            $('#client_connect_gekoppeldeClient').on('change', function() {
                 onChangeGekoppeldeClient();
                 onChangeGekoppeldeClienten();
             });
-            $('#client_connect_gekoppeldeClienten').change(function(){
+            $('#client_connect_gekoppeldeClienten').on('change', function(){
                 onChangeGekoppeldeClienten();
             });
         });
