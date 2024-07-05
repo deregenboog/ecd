@@ -12,9 +12,6 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class VrijwilligerFilterType extends AbstractType
 {
-    /**
-     * {@inheritdoc}
-     */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         if (in_array('id', $options['enabled_filters'])) {
@@ -97,9 +94,6 @@ class VrijwilligerFilterType extends AbstractType
         $builder->add('filter', SubmitType::class);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
@@ -116,9 +110,6 @@ class VrijwilligerFilterType extends AbstractType
         ]);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getParent(): ?string
     {
         return FilterType::class;

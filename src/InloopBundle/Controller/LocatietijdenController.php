@@ -7,11 +7,12 @@ use AppBundle\Controller\DisableIndexActionTrait;
 use InloopBundle\Entity\Locatietijd;
 use InloopBundle\Form\LocatietijdType;
 use InloopBundle\Service\LocatietijdDaoInterface;
-use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * @Route("/admin/locatietijden")
+ *
  * @Template
  */
 class LocatietijdenController extends AbstractChildController

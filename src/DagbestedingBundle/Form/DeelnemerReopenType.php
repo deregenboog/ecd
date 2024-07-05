@@ -11,17 +11,11 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class DeelnemerReopenType extends AbstractType
 {
-    /**
-     * {@inheritdoc}
-     */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->add('submit', SubmitType::class, ['label' => 'Heropenen']);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
@@ -29,9 +23,6 @@ class DeelnemerReopenType extends AbstractType
         ]);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getParent(): ?string
     {
         return BaseType::class;

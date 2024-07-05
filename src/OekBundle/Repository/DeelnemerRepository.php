@@ -74,21 +74,23 @@ class DeelnemerRepository extends EntityRepository implements DoelstellingReposi
     {
         $stadsdelenResult = $this->getStadsdelen();
         foreach ($stadsdelenResult as $stadsdeel) {
-            if(null == $werkgebied = $stadsdeel['werkgebiednaam']) continue;
+            if (null == $werkgebied = $stadsdeel['werkgebiednaam']) {
+                continue;
+            }
             $this->addDoelstellingcijfer(
-                "Aantal deelnemers dat een training heeft afgerond (per stadsdeel) in de periode.",
-                "1760",
+                'Aantal deelnemers dat een training heeft afgerond (per stadsdeel) in de periode.',
+                '1760',
                 "OEK ($werkgebied)",
-                function($doelstelling,$startdatum,$einddatum) use ($werkgebied) {
-                    $r = $this->countDeelnemersWithAfgerondeTrainingForStadsdeel($doelstelling,$startdatum,$einddatum,$werkgebied);
+                function ($doelstelling, $startdatum, $einddatum) use ($werkgebied) {
+                    $r = $this->countDeelnemersWithAfgerondeTrainingForStadsdeel($doelstelling, $startdatum, $einddatum, $werkgebied);
+
                     return $r;
                 }
             );
         }
-
     }
 
-    private function countDeelnemersWithAfgerondeTrainingForStadsdeel($doelstelling,$startdatum,$eindddatum,$stadsdeel)
+    private function countDeelnemersWithAfgerondeTrainingForStadsdeel($doelstelling, $startdatum, $eindddatum, $stadsdeel)
     {
         $builder = $this->getCountBuilder()
             ->innerJoin('klant.deelnames', 'deelname')
@@ -101,14 +103,16 @@ class DeelnemerRepository extends EntityRepository implements DoelstellingReposi
             ->setParameter('status', DeelnameStatus::STATUS_AFGEROND)
             ->setParameter('startDate', $startdatum)
             ->setParameter('endDate', $eindddatum)
-            ->setParameter('stadsdeel',$stadsdeel)
+            ->setParameter('stadsdeel', $stadsdeel)
 //            ->groupBy('groepnaam', 'trainingnaam')
         ;
+
         return $builder->getQuery()->getSingleScalarResult();
     }
+
     private function getStadsdelen()
     {
-        $builder =  $this->createQueryBuilder('training')
+        $builder = $this->createQueryBuilder('training')
             ->select('werkgebied.naam AS werkgebiednaam')
             ->innerJoin('training.deelnames', 'deelname')
             ->innerJoin('deelname.deelnemer', 'klant')
@@ -116,8 +120,8 @@ class DeelnemerRepository extends EntityRepository implements DoelstellingReposi
             ->leftJoin('appKlant.werkgebied', 'werkgebied')
             ->groupBy('werkgebiednaam');
 
-//        $sql = $builder->getQuery()->getSQL();
-//        $parameters = $builder->getQuery()->getParameters();
+        //        $sql = $builder->getQuery()->getSQL();
+        //        $parameters = $builder->getQuery()->getParameters();
         return $builder->getQuery()->getResult();
     }
 }

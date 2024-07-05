@@ -16,9 +16,6 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class DeelnemerFilterType extends AbstractType
 {
-    /**
-     * {@inheritdoc}
-     */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         if (array_key_exists('klant', $options['enabled_filters'])) {
@@ -73,17 +70,11 @@ class DeelnemerFilterType extends AbstractType
         $builder->add('filter', SubmitType::class, ['label' => 'Filteren']);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getParent(): ?string
     {
         return FilterType::class;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([

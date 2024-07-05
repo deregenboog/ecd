@@ -12,11 +12,14 @@ use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Entity
+ *
  * @ORM\Table(
  *     name="scip_projecten",
  *     indexes={}
  * )
+ *
  * @ORM\HasLifecycleCallbacks
+ *
  * @Gedmo\Loggable
  */
 class Project
@@ -68,9 +71,6 @@ class Project
         return $this->deelnames;
     }
 
-    /**
-     * @param Deelname $deelname
-     */
     public function addDeelname(Deelname $deelname)
     {
         $this->deelnames[] = $deelname;

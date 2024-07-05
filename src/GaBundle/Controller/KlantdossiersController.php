@@ -13,14 +13,14 @@ use GaBundle\Form\KlantdossierFilterType;
 use GaBundle\Form\KlantdossierType;
 use GaBundle\Service\KlantdossierDaoInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-use Symfony\Contracts\EventDispatcher\EventDispatcher;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Symfony\Contracts\EventDispatcher\EventDispatcher;
 
 /**
  * @Route("/klantdossiers")
+ *
  * @Template
  */
 class KlantdossiersController extends DossiersController

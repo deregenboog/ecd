@@ -26,7 +26,7 @@ class VraagDao extends AbstractDao implements VraagDaoInterface
 
     protected $alias = 'vraag';
 
-    public function findAll($page = null, FilterInterface $filter = null)
+    public function findAll($page = null, ?FilterInterface $filter = null)
     {
         $builder = $this->repository->createQueryBuilder($this->alias)
             ->innerJoin($this->alias.'.soort', 'vraagsoort')
@@ -46,7 +46,7 @@ class VraagDao extends AbstractDao implements VraagDaoInterface
         return $builder->getQuery()->getResult();
     }
 
-    public function findAllOpen($page = null, FilterInterface $filter = null)
+    public function findAllOpen($page = null, ?FilterInterface $filter = null)
     {
         $builder = $this->repository->createQueryBuilder($this->alias)
             ->innerJoin($this->alias.'.soort', 'vraagsoort')

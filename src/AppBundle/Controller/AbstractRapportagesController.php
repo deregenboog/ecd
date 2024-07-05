@@ -6,17 +6,17 @@ use AppBundle\Exception\AppException;
 use AppBundle\Exception\ReportException;
 use AppBundle\Export\ExportInterface;
 use AppBundle\Report\AbstractReport;
-use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Annotation\Route;
 
 abstract class AbstractRapportagesController extends SymfonyController
 {
     protected $title = 'Rapportages';
 
     /**
-     * @var iterable $reports
+     * @var iterable
      */
     protected $reports;
 
@@ -24,9 +24,6 @@ abstract class AbstractRapportagesController extends SymfonyController
 
     protected $export;
 
-    /**
-     * @param ExportInterface $export
-     */
     public function __construct(ExportInterface $export, iterable $reports)
     {
         $this->export = $export;
@@ -35,6 +32,7 @@ abstract class AbstractRapportagesController extends SymfonyController
 
     /**
      * @Route("/")
+     *
      * @Template
      */
     public function indexAction(Request $request)
@@ -49,7 +47,9 @@ abstract class AbstractRapportagesController extends SymfonyController
             // get reporting service
             /** @var AbstractReport $report */
             $report = $this->getReport($rapport);
-            if(!$report) throw new AppException("Report cannot be found");
+            if (!$report) {
+                throw new AppException('Report cannot be found');
+            }
 
             $formOptions = $report->getFormOptions();
         }
@@ -60,7 +60,9 @@ abstract class AbstractRapportagesController extends SymfonyController
         if ($form->isSubmitted() && $form->isValid()) {
             /* @var AbstractReport $report */
             $report = $this->getReport($form->get('rapport')->getData());
-            if(!$report) throw new AppException("Report not found");
+            if (!$report) {
+                throw new AppException('Report not found');
+            }
 
             $report->setFilter($form->getData());
 
@@ -94,11 +96,13 @@ abstract class AbstractRapportagesController extends SymfonyController
 
     protected function getReport($name)
     {
-        foreach($this->reports as $k=>$v)
-        {
+        foreach ($this->reports as $k => $v) {
             $c = get_class($v);
-            if($c == $name) return $v;
+            if ($c == $name) {
+                return $v;
+            }
         }
+
         return false;
     }
 
@@ -111,7 +115,7 @@ abstract class AbstractRapportagesController extends SymfonyController
             'startDate' => $report->getStartDate(),
             'endDate' => $report->getEndDate(),
             'reports' => $report->getReports(),
-            'totals' => '100'
+            'totals' => '100',
         ];
 
         $filename = sprintf(
@@ -123,6 +127,4 @@ abstract class AbstractRapportagesController extends SymfonyController
 
         return $this->export->create($data)->getResponse($filename);
     }
-
-
 }

@@ -6,8 +6,8 @@ use AppBundle\Controller\AbstractController;
 use IzBundle\Entity\Project;
 use IzBundle\Form\ProjectType;
 use IzBundle\Service\ProjectDaoInterface;
-use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * @Route("/admin/projecten")

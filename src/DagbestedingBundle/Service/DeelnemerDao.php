@@ -8,7 +8,6 @@ use AppBundle\Service\AbstractDao;
 use DagbestedingBundle\Entity\Deelnemer;
 use DagbestedingBundle\Entity\Document;
 use Doctrine\ORM\QueryBuilder;
-use IzBundle\Entity\IzKlant;
 
 class DeelnemerDao extends AbstractDao implements DeelnemerDaoInterface
 {
@@ -29,7 +28,7 @@ class DeelnemerDao extends AbstractDao implements DeelnemerDaoInterface
 
     protected $alias = 'deelnemer';
 
-    public function findAll($page = null, FilterInterface $filter = null)
+    public function findAll($page = null, ?FilterInterface $filter = null)
     {
         $builder = $this->repository->createQueryBuilder($this->alias)
             ->innerJoin('deelnemer.klant', 'klant')
@@ -49,8 +48,6 @@ class DeelnemerDao extends AbstractDao implements DeelnemerDaoInterface
     }
 
     /**
-     * @param Klant $klant
-     *
      * @return Deelnemer
      */
     public function findOneByKlant(Klant $klant)
@@ -135,51 +132,49 @@ class DeelnemerDao extends AbstractDao implements DeelnemerDaoInterface
     {
         /**
          * SELECT ddd.deelnemer_id FROM dagbesteding_documenten ddoc
-        INNER JOIN dagbesteding_deelnemer_document ddd on ddoc.id = ddd.document_id
-        WHERE ddoc.naam = 'VOG'
-        GROUP BY ddd.deelnemer_id
+         * INNER JOIN dagbesteding_deelnemer_document ddd on ddoc.id = ddd.document_id
+         * WHERE ddoc.naam = 'VOG'
+         * GROUP BY ddd.deelnemer_id.
          *
          * -- Eerst lijstje met iedereen met VOG maken
          */
-
-        $docBuilder = $this->repository->createQueryBuilder("deelnemer");
+        $docBuilder = $this->repository->createQueryBuilder('deelnemer');
         $docBuilder->select('deelnemer.id')
-            ->innerJoin("deelnemer.documenten","documenten")
-            ->innerJoin("deelnemer.klant","klant")
+            ->innerJoin('deelnemer.documenten', 'documenten')
+            ->innerJoin('deelnemer.klant', 'klant')
             ->where("documenten.naam = 'VOG'")
-            ->groupBy("deelnemer.id")
+            ->groupBy('deelnemer.id')
 
-            ;
+        ;
         $res = $docBuilder->getQuery()->getResult();
         $deelnemersMetVog = [];
-        foreach($res as $v){
-            $deelnemersMetVog[] = $v["id"];
+        foreach ($res as $v) {
+            $deelnemersMetVog[] = $v['id'];
         }
         /**
          * Basis:
          *
-         *
          * SELECT dd.id FROM dagbesteding_deelnemers dd LEFT JOIN dagbesteding_deelnemer_document ddd on dd.id = ddd.deelnemer_id
-        LEFT JOIN dagbesteding_documenten ddoc on ddd.document_id = ddoc.id
-        WHERE ddd.deelnemer_id IS NULL
+         * LEFT JOIN dagbesteding_documenten ddoc on ddd.document_id = ddoc.id
+         * WHERE ddd.deelnemer_id IS NULL
          * AND NOT IN  ()...
-        GROUP BY dd.id
+         * GROUP BY dd.id
          *
          * -- lijstje gebruiken om eruit te filteren.
          */
         $builder = $this->repository->createQueryBuilder($this->alias)
             ->select($this->alias.".id AS id, CONCAT_WS(' ',klant.voornaam, klant.tussenvoegsel, klant.achternaam) AS naam,
             project.naam AS projectNaam")
-            ->leftJoin($this->alias.".documenten","documenten")
-            ->innerJoin($this->alias.".klant","klant")
-            ->innerJoin($this->alias.".trajecten","traject")
-            ->leftJoin("traject.deelnames","deelnames")
-            ->leftJoin("deelnames.project","project")
-            ->where("documenten IS NULL")
-            ->andWhere($this->alias.".id NOT IN (:deelnemersMetVog)")
-            ->groupBy($this->alias.".id")
+            ->leftJoin($this->alias.'.documenten', 'documenten')
+            ->innerJoin($this->alias.'.klant', 'klant')
+            ->innerJoin($this->alias.'.trajecten', 'traject')
+            ->leftJoin('traject.deelnames', 'deelnames')
+            ->leftJoin('deelnames.project', 'project')
+            ->where('documenten IS NULL')
+            ->andWhere($this->alias.'.id NOT IN (:deelnemersMetVog)')
+            ->groupBy($this->alias.'.id')
             ->orderBy('klant.achternaam', 'ASC')
-            ->setParameter("deelnemersMetVog",$deelnemersMetVog)
+            ->setParameter('deelnemersMetVog', $deelnemersMetVog)
         ;
 
         $this->applyFilter($builder, $fase, $startdate, $enddate);
@@ -192,32 +187,30 @@ class DeelnemerDao extends AbstractDao implements DeelnemerDaoInterface
     {
         /**
          * SELECT ddd.deelnemer_id FROM dagbesteding_documenten ddoc
-        INNER JOIN dagbesteding_deelnemer_document ddd on ddoc.id = ddd.document_id
-        WHERE ddoc.naam = 'VOG'
-        GROUP BY ddd.deelnemer_id
+         * INNER JOIN dagbesteding_deelnemer_document ddd on ddoc.id = ddd.document_id
+         * WHERE ddoc.naam = 'VOG'
+         * GROUP BY ddd.deelnemer_id.
          *
          * -- Eerst lijstje met iedereen met VOG maken
          */
-
-        $docBuilder = $this->repository->createQueryBuilder("deelnemer");
+        $docBuilder = $this->repository->createQueryBuilder('deelnemer');
         $docBuilder->select('deelnemer.id')
-            ->innerJoin("deelnemer.documenten","documenten")
+            ->innerJoin('deelnemer.documenten', 'documenten')
             ->where("documenten.naam LIKE '%oestemmin%'")
-            ->groupBy("deelnemer.id");
+            ->groupBy('deelnemer.id');
         $res = $docBuilder->getQuery()->getResult();
         $deelnemersMet = [];
-        foreach($res as $v){
-            $deelnemersMet[] = $v["id"];
+        foreach ($res as $v) {
+            $deelnemersMet[] = $v['id'];
         }
         /**
          * Basis:
          *
-         *
          * SELECT dd.id FROM dagbesteding_deelnemers dd LEFT JOIN dagbesteding_deelnemer_document ddd on dd.id = ddd.deelnemer_id
-        LEFT JOIN dagbesteding_documenten ddoc on ddd.document_id = ddoc.id
-        WHERE ddd.deelnemer_id IS NULL
+         * LEFT JOIN dagbesteding_documenten ddoc on ddd.document_id = ddoc.id
+         * WHERE ddd.deelnemer_id IS NULL
          * AND NOT IN  ()...
-        GROUP BY dd.id
+         * GROUP BY dd.id
          *
          * -- lijstje gebruiken om eruit te filteren.
          */
@@ -225,22 +218,21 @@ class DeelnemerDao extends AbstractDao implements DeelnemerDaoInterface
             ->select($this->alias.".id AS id, CONCAT_WS(' ',klant.voornaam, klant.tussenvoegsel, klant.achternaam) AS naam,
             project.naam AS projectNaam")
 
-            ->leftJoin($this->alias.".documenten","documenten")
+            ->leftJoin($this->alias.'.documenten', 'documenten')
 
-
-            ->innerJoin($this->alias.".klant","klant")
-            ->innerJoin($this->alias.".trajecten","traject")
-            ->leftJoin("traject.deelnames","deelnames")
-            ->leftJoin("deelnames.project","project")
-            ->where("documenten IS NULL")
-            ->andWhere($this->alias.".id NOT IN (:deelnemersMet)")
-            ->groupBy($this->alias.".id")
+            ->innerJoin($this->alias.'.klant', 'klant')
+            ->innerJoin($this->alias.'.trajecten', 'traject')
+            ->leftJoin('traject.deelnames', 'deelnames')
+            ->leftJoin('deelnames.project', 'project')
+            ->where('documenten IS NULL')
+            ->andWhere($this->alias.'.id NOT IN (:deelnemersMet)')
+            ->groupBy($this->alias.'.id')
             ->orderBy('klant.achternaam', 'ASC')
-            ->setParameter("deelnemersMet",$deelnemersMet)
+            ->setParameter('deelnemersMet', $deelnemersMet)
         ;
 
         $this->applyFilter($builder, $fase, $startdate, $enddate);
-//        $q = $builder->getQuery()->getSQL();
+        //        $q = $builder->getQuery()->getSQL();
 
         return $builder->getQuery()->getResult();
     }
@@ -259,7 +251,7 @@ class DeelnemerDao extends AbstractDao implements DeelnemerDaoInterface
                 $builder
                     ->andWhere('traject.startdatum BETWEEN :startdate AND :enddate')
                     ->setParameter('startdate', $startdate)
-                    ->setParameter('enddate',$enddate)
+                    ->setParameter('enddate', $enddate)
 
                 ;
                 break;
@@ -267,7 +259,7 @@ class DeelnemerDao extends AbstractDao implements DeelnemerDaoInterface
                 $builder
                     ->andWhere('traject.einddatum BETWEEN :startdate AND :enddate')
                     ->setParameter('startdate', $startdate)
-                    ->setParameter('enddate',$enddate)
+                    ->setParameter('enddate', $enddate)
                 ;
                 break;
             case self::FASE_EINDSTAND:

@@ -9,12 +9,11 @@ use Knp\Component\Pager\Pagination\PaginationInterface;
 interface VerslavingDaoInterface
 {
     /**
-     * @param int             $page
-     * @param FilterInterface $filter
+     * @param int $page
      *
      * @return PaginationInterface
      */
-    public function findAll($page = null, FilterInterface $filter = null);
+    public function findAll($page = null, ?FilterInterface $filter = null);
 
     /**
      * @param int $id
@@ -23,18 +22,9 @@ interface VerslavingDaoInterface
      */
     public function find($id);
 
-    /**
-     * @param Verslaving $entity
-     */
     public function create(Verslaving $entity);
 
-    /**
-     * @param Verslaving $entity
-     */
     public function update(Verslaving $entity);
 
-    /**
-     * @param Verslaving $entity
-     */
     public function delete(Verslaving $entity);
 }

@@ -11,8 +11,11 @@ use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Entity
+ *
  * @ORM\Table(name="iz_via_personen")
+ *
  * @ORM\HasLifecycleCallbacks
+ *
  * @Gedmo\Loggable
  */
 class BinnengekomenVia
@@ -24,13 +27,16 @@ class BinnengekomenVia
 
     /**
      * @ORM\Column(type="string", length=50, nullable=true)
+     *
      * @Gedmo\Versioned
      */
     protected $naam;
 
     /**
      * @var bool
+     *
      * @ORM\Column(name="`active`", type="boolean", nullable=true)
+     *
      * @Gedmo\Versioned
      */
     protected $actief = true;
@@ -39,6 +45,7 @@ class BinnengekomenVia
      * @var \DateTime
      *
      * @ORM\Column(type="datetime", nullable=true)
+     *
      * @Gedmo\Versioned
      */
     protected $created;
@@ -47,6 +54,7 @@ class BinnengekomenVia
      * @var \DateTime
      *
      * @ORM\Column(type="datetime", nullable=true)
+     *
      * @Gedmo\Versioned
      */
     protected $modified;

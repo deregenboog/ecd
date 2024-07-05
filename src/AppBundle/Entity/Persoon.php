@@ -6,20 +6,18 @@ use AppBundle\Model\AddressTrait;
 use AppBundle\Model\IdentifiableTrait;
 use AppBundle\Model\PersonTrait;
 use AppBundle\Model\TimestampableTrait;
-use Doctrine\DBAL\Exception\DriverException;
-use Doctrine\DBAL\Exception\ReadOnlyException;
-use Doctrine\ORM\Event\PreUpdateEventArgs;
 use Doctrine\ORM\Mapping as ORM;
-use Doctrine\ORM\Persisters\PersisterException;
 use Gedmo\Mapping\Annotation as Gedmo;
-use InloopBundle\Entity\DossierStatus;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
 /**
  * @ORM\MappedSuperclass
+ *
  * @ORM\HasLifecycleCallbacks
+ *
  * @Gedmo\Loggable
+ *
  * @Gedmo\SoftDeleteable
  */
 class Persoon
@@ -38,53 +36,66 @@ class Persoon
 
     /**
      * @ORM\Column(name="BSN", type="string", nullable=true)
+     *
      * @Gedmo\Versioned
      */
     protected $bsn;
 
     /**
      * @var Medewerker
+     *
      * @ORM\ManyToOne(targetEntity="Medewerker", cascade={"persist"})
+     *
      * @Gedmo\Versioned
      */
     protected $medewerker;
 
     /**
      * @var Land
+     *
      * @ORM\ManyToOne(targetEntity="Land", cascade={"persist"})
+     *
      * @ORM\JoinColumn(nullable=false, options={"default":1})
+     *
      * @Gedmo\Versioned
      */
     protected $land;
 
     /**
      * @var Nationaliteit
+     *
      * @ORM\ManyToOne(targetEntity="Nationaliteit",cascade={"persist"})
+     *
      * @ORM\JoinColumn(nullable=false, options={"default":1})
+     *
      * @Gedmo\Versioned
      */
     protected $nationaliteit;
 
     /**
      * @ORM\Column(name="geen_post", type="boolean", nullable=true)
+     *
      * @Gedmo\Versioned
      */
     protected $geenPost = false;
 
     /**
      * @ORM\Column(name="geen_email", type="boolean", nullable=true)
+     *
      * @Gedmo\Versioned
      */
     protected $geenEmail = false;
 
     /**
      * @ORM\Column(type="text", nullable=true)
+     *
      * @Gedmo\Versioned
      */
     protected $opmerking;
 
     /**
      * @ORM\Column(type="boolean", nullable=true, options={"default": 0})
+     *
      * @Gedmo\Versioned
      */
     protected $disabled = false;
@@ -93,6 +104,7 @@ class Persoon
      * @var \DateTime
      *
      * @ORM\Column(type="datetime", nullable=true)
+     *
      * @Gedmo\Versioned
      */
     protected $created;
@@ -101,6 +113,7 @@ class Persoon
      * @var \DateTime
      *
      * @ORM\Column(type="datetime", nullable=true)
+     *
      * @Gedmo\Versioned
      */
     protected $modified;
@@ -226,8 +239,8 @@ class Persoon
      */
     public function validate(ExecutionContextInterface $context, $payload)
     {
-        if (!$this->voornaam && !$this->achternaam ||
-            (strlen(trim($this->voornaam)) < 1 && strlen(trim($this->achternaam)) < 1)
+        if (!$this->voornaam && !$this->achternaam
+            || (strlen(trim($this->voornaam)) < 1 && strlen(trim($this->achternaam)) < 1)
         ) {
             $context->buildViolation('Het is verplicht een voor- of achternaam in te vullen.')
                 ->atPath('achternaam')

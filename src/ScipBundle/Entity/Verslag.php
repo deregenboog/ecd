@@ -11,8 +11,11 @@ use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Entity
+ *
  * @ORM\Table(name="scip_verslagen")
+ *
  * @ORM\HasLifecycleCallbacks
+ *
  * @Gedmo\Loggable
  */
 class Verslag implements MedewerkerSubjectInterface
@@ -22,6 +25,7 @@ class Verslag implements MedewerkerSubjectInterface
 
     /**
      * @ORM\Column(type="text", nullable=true)
+     *
      * @Gedmo\Versioned
      */
     protected $tekst;
@@ -30,6 +34,7 @@ class Verslag implements MedewerkerSubjectInterface
      * @var Deelnemer
      *
      * @ORM\ManyToOne(targetEntity="Deelnemer", inversedBy="verslagen", fetch="EAGER")
+     *
      * @Gedmo\Versioned
      */
     protected $deelnemer;
@@ -38,6 +43,7 @@ class Verslag implements MedewerkerSubjectInterface
      * @var Medewerker
      *
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Medewerker")
+     *
      * @Gedmo\Versioned
      */
     protected $medewerker;
@@ -46,13 +52,16 @@ class Verslag implements MedewerkerSubjectInterface
      * @var \DateTime
      *
      * @ORM\Column(type="date")
+     *
      * @Gedmo\Versioned
      */
     protected $datum;
 
     /**
      * @var bool
+     *
      * @ORM\Column()
+     *
      * @Gedmo\Versioned
      */
     protected $isEvaluatie = false;
@@ -61,6 +70,7 @@ class Verslag implements MedewerkerSubjectInterface
      * @var \DateTime
      *
      * @ORM\Column(type="datetime")
+     *
      * @Gedmo\Versioned
      */
     protected $created;
@@ -69,6 +79,7 @@ class Verslag implements MedewerkerSubjectInterface
      * @var \DateTime
      *
      * @ORM\Column(type="datetime")
+     *
      * @Gedmo\Versioned
      */
     protected $modified;
@@ -122,9 +133,6 @@ class Verslag implements MedewerkerSubjectInterface
         return $this->datum;
     }
 
-    /**
-     * @param \DateTime $datum
-     */
     public function setDatum(\DateTime $datum)
     {
         $this->datum = $datum;
@@ -132,17 +140,11 @@ class Verslag implements MedewerkerSubjectInterface
         return $this;
     }
 
-    /**
-     * @return bool
-     */
     public function isEvaluatie(): bool
     {
         return $this->isEvaluatie;
     }
 
-    /**
-     * @param bool $isEvaluatie
-     */
     public function setIsEvaluatie(bool $isEvaluatie): void
     {
         $this->isEvaluatie = $isEvaluatie;

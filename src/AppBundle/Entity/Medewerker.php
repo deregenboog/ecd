@@ -6,23 +6,24 @@ use AppBundle\Model\IdentifiableTrait;
 use AppBundle\Model\NameTrait;
 use AppBundle\Model\TimestampableTrait;
 use Doctrine\ORM\Mapping as ORM;
-use Exception;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Component\Ldap\Security\LdapUser;
+use Symfony\Component\Security\Core\Role\Role;
 use Symfony\Component\Security\Core\User\EquatableInterface;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
-use Symfony\Component\Security\Core\Role\Role;
 
 /**
  * @ORM\Entity
  *
  * @ORM\Table(name="medewerkers")
  * ORM\Entity(repositoryClass="AppBundle\Repository\MedewerkerRepository")
+ *
  * @ORM\HasLifecycleCallbacks
+ *
  * @Gedmo\Loggable
  */
-class Medewerker implements UserInterface, PasswordAuthenticatedUserInterface,EquatableInterface
+class Medewerker implements UserInterface, PasswordAuthenticatedUserInterface, EquatableInterface
 {
     use IdentifiableTrait;
     use NameTrait;
@@ -86,6 +87,7 @@ class Medewerker implements UserInterface, PasswordAuthenticatedUserInterface,Eq
     public function setId($id)
     {
         $this->id = $id;
+
         return $this;
     }
 
@@ -204,9 +206,6 @@ class Medewerker implements UserInterface, PasswordAuthenticatedUserInterface,Eq
         return $this;
     }
 
-    /**
-     * @return mixed
-     */
     public function getEersteBezoek()
     {
         return $this->eersteBezoek;
@@ -309,9 +308,6 @@ class Medewerker implements UserInterface, PasswordAuthenticatedUserInterface,Eq
         return LdapUser::class === $class;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function isEqualTo(UserInterface $user): bool
     {
         if (!$user instanceof self) {
@@ -332,5 +328,4 @@ class Medewerker implements UserInterface, PasswordAuthenticatedUserInterface,Eq
 
         return true;
     }
-
 }

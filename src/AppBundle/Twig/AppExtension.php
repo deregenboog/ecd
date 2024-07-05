@@ -15,11 +15,11 @@ use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Routing\Exception\RouteNotFoundException;
 use Symfony\Polyfill\Intl\Icu\Exception\MethodArgumentValueNotImplementedException;
 use Twig\Environment;
+use Twig\Error\Error;
 use Twig\Extension\AbstractExtension;
 use Twig\Extension\GlobalsInterface;
 use Twig\TwigFilter;
 use Twig\TwigFunction;
-use Twig\Error\Error;
 
 class AppExtension extends AbstractExtension implements GlobalsInterface
 {
@@ -129,7 +129,7 @@ class AppExtension extends AbstractExtension implements GlobalsInterface
             new TwigFilter('if_date', [$this, 'ifDate'], [
                 'needs_environment' => true,
             ]),
-            new TwigFilter('filterAllRows',[$this->ecdHelper,'filterAllRows']),
+            new TwigFilter('filterAllRows', [$this->ecdHelper, 'filterAllRows']),
         ];
     }
 
@@ -207,7 +207,7 @@ class AppExtension extends AbstractExtension implements GlobalsInterface
         return NameFormatter::formatInformal($persoon);
     }
 
-    public function aanhef(Geslacht $geslacht = null)
+    public function aanhef(?Geslacht $geslacht = null)
     {
         if (!$geslacht) {
             return 'heer/mevrouw';
@@ -250,21 +250,16 @@ class AppExtension extends AbstractExtension implements GlobalsInterface
 
     public function moneyFilter($value, $currency = 'EUR')
     {
-
-
         try {
             $fmt = new \NumberFormatter($this->locale, \NumberFormatter::CURRENCY);
 
             return $fmt->formatCurrency($value, $currency);
         } catch (MethodArgumentValueNotImplementedException $e) {
-
         } catch (\Exception $e) {
-            //better safe than sorry?
+            // better safe than sorry?
         }
 
-        return $currency." ".$value;
-
-
+        return $currency.' '.$value;
     }
 
     /**
@@ -341,18 +336,17 @@ class AppExtension extends AbstractExtension implements GlobalsInterface
     /**
      * If mode is OR, if one of pattersn are matched, true is returned.
      * If mode is AND, all patterns must be matched.
-     * @param $patterns
-     * @param $mode
+     *
      * @return bool
      */
-    public function isActiveRoute($patterns, $mode="OR")
+    public function isActiveRoute($patterns, $mode = 'OR')
     {
         if (!is_array($patterns)) {
             $patterns = [$patterns];
         }
 
         $route = $this->requestStack->getCurrentRequest()->attributes->get('_route');
-        $routeParams = $this->requestStack->getCurrentRequest()->attributes->get('_route_params');//->getQueryString();
+        $routeParams = $this->requestStack->getCurrentRequest()->attributes->get('_route_params'); // ->getQueryString();
 
         $noMatches = 0;
         foreach ($patterns as $pattern) {
@@ -360,15 +354,12 @@ class AppExtension extends AbstractExtension implements GlobalsInterface
                 || 0 === strpos($route, 'app_'.$pattern)
                 || false !== in_array($pattern, (array) $routeParams)
             ) {
-                $noMatches++;
+                ++$noMatches;
             }
         }
-        if($noMatches > 0 && $mode == 'AND' && $noMatches == count($patterns))
-        {
+        if ($noMatches > 0 && 'AND' == $mode && $noMatches == count($patterns)) {
             return true;
-        }
-        elseif($noMatches > 0 && $mode == "OR")
-        {
+        } elseif ($noMatches > 0 && 'OR' == $mode) {
             return true;
         }
 
@@ -452,7 +443,7 @@ class AppExtension extends AbstractExtension implements GlobalsInterface
     {
         $values = [];
         foreach ($collection as $item) {
-            $values[] = (string) $item; //explicit cast to string...
+            $values[] = (string) $item; // explicit cast to string...
         }
 
         return implode($separator, $values);
@@ -542,6 +533,7 @@ class AppExtension extends AbstractExtension implements GlobalsInterface
     {
         if ($date) {
             $c = $env->getFilter('date')->getCallable();
+
             return $c($env, $date, $format, $timezone);
         }
 
@@ -555,13 +547,11 @@ class AppExtension extends AbstractExtension implements GlobalsInterface
         try {
             return $c($routeName, $routeParameters, $relative);
         } catch (RouteNotFoundException $e) {
-            //
         }
 
         try {
             return $c('home');
         } catch (RouteNotFoundException $e) {
-            //
         }
 
         return '/';

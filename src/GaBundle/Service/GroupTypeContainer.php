@@ -1,6 +1,7 @@
 <?php
 
 namespace GaBundle\Service;
+
 use Doctrine\ORM\EntityRepository;
 
 class GroupTypeContainer

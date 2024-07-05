@@ -14,9 +14,6 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class BehandelaarType extends AbstractType
 {
-    /**
-     * {@inheritdoc}
-     */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $behandelaar = $options['data'];
@@ -58,25 +55,19 @@ class BehandelaarType extends AbstractType
         ;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => Behandelaar ::class,
+            'data_class' => Behandelaar::class,
         ]);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getParent(): ?string
     {
         return BaseType::class;
     }
 
-    private function isNew(Behandelaar $behandelaar = null)
+    private function isNew(?Behandelaar $behandelaar = null)
     {
         return is_null($behandelaar) || is_null($behandelaar->getId());
     }

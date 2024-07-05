@@ -53,26 +53,26 @@ class DatabaseFixEncodingCommand extends Command
             'ñ',
         ];
 
-//         // @link http://stackoverflow.com/questions/3371697/replacing-accented-characters-php
-//         $replacements = [
-//             'Š', 'š', 'Ž', 'ž',
-//             'À', 'Á', 'Â', 'Ã', 'Ä', 'Å', 'Æ',
-//             'Ç',
-//             'È', 'É', 'Ê', 'Ë',
-//             'Ì', 'Í', 'Î', 'Ï',
-//             'Ñ',
-//             'Ò', 'Ó', 'Ô', 'Õ', 'Ö', 'Ø',
-//             'Ù', 'Ú', 'Û', 'Ü',
-//             'Ý',
-//             'Þ', 'ß'=>'Ss',
-//             'à', 'á', 'â', 'ã', 'ä', 'å', 'æ',
-//             'ç',
-//             'è', 'é', 'ê', 'ë',
-//             'ì', 'í', 'î', 'ï',
-//             'ð',
-//             'ñ', 'ò', 'ó', 'ô', 'õ',
-//             'ö', 'ø', 'ù', 'ú', 'û', 'ý', 'þ', 'ÿ'=>'y'
-//         ];
+        //         // @link http://stackoverflow.com/questions/3371697/replacing-accented-characters-php
+        //         $replacements = [
+        //             'Š', 'š', 'Ž', 'ž',
+        //             'À', 'Á', 'Â', 'Ã', 'Ä', 'Å', 'Æ',
+        //             'Ç',
+        //             'È', 'É', 'Ê', 'Ë',
+        //             'Ì', 'Í', 'Î', 'Ï',
+        //             'Ñ',
+        //             'Ò', 'Ó', 'Ô', 'Õ', 'Ö', 'Ø',
+        //             'Ù', 'Ú', 'Û', 'Ü',
+        //             'Ý',
+        //             'Þ', 'ß'=>'Ss',
+        //             'à', 'á', 'â', 'ã', 'ä', 'å', 'æ',
+        //             'ç',
+        //             'è', 'é', 'ê', 'ë',
+        //             'ì', 'í', 'î', 'ï',
+        //             'ð',
+        //             'ñ', 'ò', 'ó', 'ô', 'õ',
+        //             'ö', 'ø', 'ù', 'ú', 'û', 'ý', 'þ', 'ÿ'=>'y'
+        //         ];
 
         foreach ($replacements as $replacement) {
             $search = utf8_encode($replacement);
@@ -80,6 +80,7 @@ class DatabaseFixEncodingCommand extends Command
             $numRows = $this->connection->executeUpdate($query, [$search, $replacement]);
             $output->writeln($query." ({$numRows} affected)");
         }
+
         return 0;
     }
 }

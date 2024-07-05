@@ -12,6 +12,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * @Route("/admin/labels")
+ *
  * @Template
  */
 class LabelsController extends AbstractController

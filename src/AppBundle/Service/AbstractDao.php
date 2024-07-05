@@ -6,14 +6,11 @@ use AppBundle\Doctrine\SqlExtractor;
 use AppBundle\Entity\Klant;
 use AppBundle\Filter\FilterInterface;
 use AppBundle\Model\ActivatableInterface;
-use AppBundle\Service\AbstractDaoInterface;
 use AppBundle\Model\UsesKlantTrait;
 use Doctrine\DBAL\Exception\ForeignKeyConstraintViolationException;
 use Doctrine\ORM\EntityManagerInterface;
-use Doctrine\ORM\EntityNotFoundException;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\QueryBuilder;
-use Knp\Component\Pager\Paginator;
 use Knp\Component\Pager\PaginatorInterface;
 
 abstract class AbstractDao implements AbstractDaoInterface
@@ -51,7 +48,7 @@ abstract class AbstractDao implements AbstractDaoInterface
      */
     protected $searchEntityName = '';
 
-    public function __construct(EntityManagerInterface $entityManager, PaginatorInterface $paginator = null, $itemsPerPage=10)
+    public function __construct(EntityManagerInterface $entityManager, ?PaginatorInterface $paginator = null, $itemsPerPage = 10)
     {
         if (!$this->class) {
             throw new \RuntimeException('Class must be set');
@@ -63,7 +60,7 @@ abstract class AbstractDao implements AbstractDaoInterface
         $this->itemsPerPage = $itemsPerPage;
     }
 
-    public function findAll($page = null, FilterInterface $filter = null)
+    public function findAll($page = null, ?FilterInterface $filter = null)
     {
         if (!$this->alias) {
             throw new \RuntimeException('Alias must be set');
@@ -74,12 +71,12 @@ abstract class AbstractDao implements AbstractDaoInterface
         return $this->doFindAll($builder, $page, $filter);
     }
 
-    protected function doFindAll(QueryBuilder $builder, $page = 1, FilterInterface $filter = null)
+    protected function doFindAll(QueryBuilder $builder, $page = 1, ?FilterInterface $filter = null)
     {
         if ($filter) {
             $filter->applyTo($builder);
         }
-//       $sql = SqlExtractor::getFullSQL($builder->getQuery());
+        //       $sql = SqlExtractor::getFullSQL($builder->getQuery());
 
         if ($page) {
             return $this->paginator->paginate($builder, $page, $this->itemsPerPage, $this->paginationOptions);
@@ -92,14 +89,18 @@ abstract class AbstractDao implements AbstractDaoInterface
     {
         $entity = $this->repository->find($id);
         $this->tryLoadKlant($entity);
+
         return $entity;
     }
 
     public function findOneBySearchEntity($searchEntity)
     {
-        if(!$this->searchEntityName) throw new \Exception("SearchEntityName in DAO niet geset");
+        if (!$this->searchEntityName) {
+            throw new \Exception('SearchEntityName in DAO niet geset');
+        }
         $entity = $this->repository->findOneBy([$this->searchEntityName => $searchEntity]);
         $this->tryLoadKlant($entity);
+
         return $entity;
     }
 
@@ -123,37 +124,26 @@ abstract class AbstractDao implements AbstractDaoInterface
 
     protected function doDelete($entity)
     {
-        if($entity instanceof ActivatableInterface)// && $entity->isDeletable() === false
-        {
+        if ($entity instanceof ActivatableInterface) {// && $entity->isDeletable() === false
             $entity->setActief(false);
-        }
-        else if($entity instanceof ActivatableInterface && $entity->isDeletable() !== false)
-        {
-            try
-            {
+        } elseif ($entity instanceof ActivatableInterface && false !== $entity->isDeletable()) {
+            try {
                 $this->entityManager->remove($entity);
+            } catch (ForeignKeyConstraintViolationException $e) {
+                // ondanks dat ie isDeletable wel true zet, moet ie toch echt inactief worden gezet.
+                // Dubbele interpretatie van ' is deletable'....: mag de verwijder knop worden laten zien of niet....
             }
-            catch(ForeignKeyConstraintViolationException $e)
-            {
-                //ondanks dat ie isDeletable wel true zet, moet ie toch echt inactief worden gezet.
-                //Dubbele interpretatie van ' is deletable'....: mag de verwijder knop worden laten zien of niet....
-            }
-
-        }
-        else
-        {
+        } else {
             $this->entityManager->remove($entity);
         }
-//        $this->entityManager->remove($entity);
+        //        $this->entityManager->remove($entity);
         $this->entityManager->flush();
     }
 
     /**
-     * @param FilterInterface $filter
-     *
      * @return int
      */
-    public function countAll(FilterInterface $filter = null)
+    public function countAll(?FilterInterface $filter = null)
     {
         $builder = $this->repository->createQueryBuilder($this->alias)
             ->select("COUNT({$this->alias}.id)")
@@ -162,6 +152,7 @@ abstract class AbstractDao implements AbstractDaoInterface
         if ($filter) {
             $filter->applyTo($builder);
         }
+
         return $builder->getQuery()->getSingleScalarResult();
     }
 

@@ -13,14 +13,20 @@ use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Entity(repositoryClass="GaBundle\Repository\DeelnemerRepository")
+ *
  * @ORM\Table("ga_dossiers")
+ *
  * @ORM\HasLifecycleCallbacks
+ *
  * @ORM\InheritanceType("SINGLE_TABLE")
+ *
  * @ORM\DiscriminatorColumn(name="discr", type="string")
+ *
  * @ORM\DiscriminatorMap({
  *     "Klantdossier" = "Klantdossier",
  *     "Vrijwilligerdossier" = "Vrijwilligerdossier"
  * })
+ *
  * @Gedmo\Loggable
  */
 abstract class Dossier implements DocumentSubjectInterface
@@ -34,6 +40,7 @@ abstract class Dossier implements DocumentSubjectInterface
      * @var \DateTime
      *
      * @ORM\Column(type="date")
+     *
      * @Gedmo\Versioned
      */
     protected $aanmelddatum;
@@ -42,6 +49,7 @@ abstract class Dossier implements DocumentSubjectInterface
      * @var \DateTime
      *
      * @ORM\Column(type="date", nullable=true)
+     *
      * @Gedmo\Versioned
      */
     protected $afsluitdatum;
@@ -50,6 +58,7 @@ abstract class Dossier implements DocumentSubjectInterface
      * @var DossierAfsluitreden
      *
      * @ORM\ManyToOne(targetEntity="DossierAfsluitreden")
+     *
      * @Gedmo\Versioned
      */
     protected $afsluitreden;
@@ -79,6 +88,7 @@ abstract class Dossier implements DocumentSubjectInterface
      * @var ArrayCollection|Verslag[]
      *
      * @ORM\OneToMany(targetEntity="Verslag", mappedBy="dossier", cascade={"persist"})
+     *
      * @ORM\OrderBy({"id": "desc"})
      */
     protected $verslagen;
@@ -87,6 +97,7 @@ abstract class Dossier implements DocumentSubjectInterface
      * @var DocumentInterface[]
      *
      * @ORM\ManyToMany(targetEntity="Document", cascade={"persist","remove"}, fetch="EXTRA_LAZY")
+     *
      * @ORM\JoinTable(inverseJoinColumns={@ORM\JoinColumn(unique=true)})
      */
     protected $documenten;
@@ -95,6 +106,7 @@ abstract class Dossier implements DocumentSubjectInterface
      * @var \DateTime
      *
      * @ORM\Column(type="datetime")
+     *
      * @Gedmo\Versioned
      */
     protected $created;
@@ -103,6 +115,7 @@ abstract class Dossier implements DocumentSubjectInterface
      * @var \DateTime
      *
      * @ORM\Column(type="datetime")
+     *
      * @Gedmo\Versioned
      */
     protected $modified;
@@ -115,9 +128,6 @@ abstract class Dossier implements DocumentSubjectInterface
         return $this->aanmelddatum;
     }
 
-    /**
-     * @param \DateTime $aanmelddatum
-     */
     public function setAanmelddatum(\DateTime $aanmelddatum)
     {
         $this->aanmelddatum = $aanmelddatum;
@@ -133,9 +143,6 @@ abstract class Dossier implements DocumentSubjectInterface
         return $this->afsluitdatum;
     }
 
-    /**
-     * @param \DateTime $afsluitdatum
-     */
     public function setAfsluitdatum(\DateTime $afsluitdatum)
     {
         $this->afsluitdatum = $afsluitdatum;

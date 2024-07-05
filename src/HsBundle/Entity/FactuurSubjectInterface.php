@@ -10,18 +10,16 @@ interface FactuurSubjectInterface
     public function getDatum();
 
     /**
-     * @return \HsBundle\Entity\Klant
+     * @return Klant
      */
     public function getKlus();
 
     /**
-     * @return \HsBundle\Entity\Factuur
+     * @return Factuur
      */
     public function getFactuur();
 
     /**
-     * @param Factuur $factuur
-     *
      * @return self
      */
     public function setFactuur(Factuur $factuur);

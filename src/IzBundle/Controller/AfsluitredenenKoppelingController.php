@@ -6,8 +6,8 @@ use AppBundle\Controller\AbstractController;
 use IzBundle\Entity\AfsluitredenKoppeling;
 use IzBundle\Form\AfsluitredenKoppelingType;
 use IzBundle\Service\AfsluitredenKoppelingDaoInterface;
-use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * @Route("/admin/afsluitredenenkoppeling")

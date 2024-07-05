@@ -11,6 +11,6 @@ interface InventarisatieDaoInterface
     public function countInventarisaties(
         \DateTime $startdatum,
         \DateTime $einddatum,
-        Locatie $locatie = null
+        ?Locatie $locatie = null
     );
 }

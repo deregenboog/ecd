@@ -11,6 +11,7 @@ trait TimestampableTrait
      * @var \DateTime
      *
      * @ORM\Column(type="datetime", options={"default":"CURRENT_TIMESTAMP"})
+     *
      * @Gedmo\Versioned
      */
     protected $created;
@@ -19,12 +20,13 @@ trait TimestampableTrait
      * @var \DateTime
      *
      * @ORM\Column(type="datetime", options={"default":"CURRENT_TIMESTAMP"})
+     *
      * @Gedmo\Versioned
      */
     protected $modified;
 
-    /** @var ?DateTime $modifiedBefore Is set when preUpdate is called so other preUpdate events can check on the original unchanged field. */
-    protected $modifiedBefore = null;
+    /** @var ?DateTime Is set when preUpdate is called so other preUpdate events can check on the original unchanged field. */
+    protected $modifiedBefore;
 
     /**
      * @ORM\PrePersist
@@ -41,7 +43,6 @@ trait TimestampableTrait
     {
         $this->modifiedBefore = $this->modified;
         $this->modified = new \DateTime();
-
     }
 
     public function getCreated()

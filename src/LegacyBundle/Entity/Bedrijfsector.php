@@ -8,6 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * Bedrijfsectoren.
  *
  * @ORM\Table(name="bedrijfsectoren")
+ *
  * @ORM\Entity
  */
 class Bedrijfsector
@@ -23,7 +24,9 @@ class Bedrijfsector
      * @var int
      *
      * @ORM\Column(name="id", type="integer")
+     *
      * @ORM\Id
+     *
      * @ORM\GeneratedValue
      */
     private $id;

@@ -16,9 +16,13 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 /**
  * @ORM\Entity
+ *
  * @ORM\Table(name="scip_documenten")
+ *
  * @ORM\HasLifecycleCallbacks
+ *
  * @Gedmo\Loggable
+ *
  * @Vich\Uploadable
  */
 class Document implements DocumentInterface, MedewerkerSubjectInterface
@@ -33,21 +37,27 @@ class Document implements DocumentInterface, MedewerkerSubjectInterface
 
     /**
      * @var string
+     *
      * @ORM\Column
+     *
      * @Gedmo\Versioned
      */
     private $filename;
 
     /**
      * @var string
+     *
      * @ORM\Column(nullable=true)
+     *
      * @Gedmo\Versioned
      */
     private $type;
 
     /**
      * @var File
+     *
      * @Vich\UploadableField(mapping="scip_document", fileNameProperty="filename")
+     *
      * @Gedmo\Versioned
      */
     private $file;
@@ -56,6 +66,7 @@ class Document implements DocumentInterface, MedewerkerSubjectInterface
      * @var \DateTime
      *
      * @ORM\Column(type="datetime")
+     *
      * @Gedmo\Versioned
      */
     protected $created;
@@ -64,11 +75,12 @@ class Document implements DocumentInterface, MedewerkerSubjectInterface
      * @var \DateTime
      *
      * @ORM\Column(type="datetime")
+     *
      * @Gedmo\Versioned
      */
     protected $modified;
 
-    public function __construct(Medewerker $medewerker = null)
+    public function __construct(?Medewerker $medewerker = null)
     {
         if ($medewerker) {
             $this->medewerker = $medewerker;
@@ -104,7 +116,7 @@ class Document implements DocumentInterface, MedewerkerSubjectInterface
         return $this->type;
     }
 
-    public function setType(string $type = null)
+    public function setType(?string $type = null)
     {
         $this->type = $type;
 

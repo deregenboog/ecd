@@ -6,9 +6,6 @@ use Doctrine\ORM\Mapping\DefaultNamingStrategy;
 
 class DoctrineOrmNamingStrategy extends DefaultNamingStrategy
 {
-    /**
-     * {@inheritdoc}
-     */
     public function joinTableName($sourceEntity, $targetEntity, $propertyName = null): string
     {
         $prefix = '';

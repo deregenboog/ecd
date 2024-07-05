@@ -9,12 +9,11 @@ use MwBundle\Entity\Trajecthouder;
 interface TrajecthouderDaoInterface
 {
     /**
-     * @param int             $page
-     * @param FilterInterface $filter
+     * @param int $page
      *
      * @return PaginationInterface
      */
-    public function findAll($page = null, FilterInterface $filter = null);
+    public function findAll($page = null, ?FilterInterface $filter = null);
 
     /**
      * @param int $id
@@ -23,13 +22,7 @@ interface TrajecthouderDaoInterface
      */
     public function find($id);
 
-    /**
-     * @param Trajecthouder $entity
-     */
     public function create(Trajecthouder $entity);
 
-    /**
-     * @param Trajecthouder $entity
-     */
     public function update(Trajecthouder $entity);
 }

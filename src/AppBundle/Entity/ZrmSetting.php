@@ -9,7 +9,9 @@ use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Entity
+ *
  * @ORM\Table(name="zrm_settings")
+ *
  * @Gedmo\Loggable
  */
 class ZrmSetting
@@ -19,6 +21,7 @@ class ZrmSetting
 
     /**
      * @ORM\Column(name="request_module", type="string", length=50)
+     *
      * @Gedmo\Versioned
      */
     private $requestModule;
@@ -32,6 +35,7 @@ class ZrmSetting
 
     /**
      * @ORM\Column(type="boolean", nullable=true)
+     *
      * @Gedmo\Versioned
      */
     private $inkomen;
@@ -45,6 +49,7 @@ class ZrmSetting
 
     /**
      * @ORM\Column(type="boolean", nullable=true)
+     *
      * @Gedmo\Versioned
      */
     private $dagbesteding;
@@ -58,6 +63,7 @@ class ZrmSetting
 
     /**
      * @ORM\Column(type="boolean", nullable=true)
+     *
      * @Gedmo\Versioned
      */
     private $huisvesting;
@@ -71,6 +77,7 @@ class ZrmSetting
 
     /**
      * @ORM\Column(type="boolean", nullable=true)
+     *
      * @Gedmo\Versioned
      */
     private $gezinsrelaties;
@@ -84,6 +91,7 @@ class ZrmSetting
 
     /**
      * @ORM\Column(name="geestelijke_gezondheid", type="boolean", nullable=true)
+     *
      * @Gedmo\Versioned
      */
     private $geestelijkeGezondheid;
@@ -97,6 +105,7 @@ class ZrmSetting
 
     /**
      * @ORM\Column(name="fysieke_gezondheid", type="boolean", nullable=true)
+     *
      * @Gedmo\Versioned
      */
     private $fysiekeGezondheid;
@@ -110,6 +119,7 @@ class ZrmSetting
 
     /**
      * @ORM\Column(type="boolean", nullable=true)
+     *
      * @Gedmo\Versioned
      */
     private $verslaving;
@@ -123,6 +133,7 @@ class ZrmSetting
 
     /**
      * @ORM\Column(name="adl_vaardigheden", type="boolean", nullable=true)
+     *
      * @Gedmo\Versioned
      */
     private $adlVaardigheden;
@@ -136,6 +147,7 @@ class ZrmSetting
 
     /**
      * @ORM\Column(name="sociaal_netwerk", type="boolean", nullable=true)
+     *
      * @Gedmo\Versioned
      */
     private $sociaalNetwerk;
@@ -149,6 +161,7 @@ class ZrmSetting
 
     /**
      * @ORM\Column(name="maatschappelijke_participatie", type="boolean", nullable=true)
+     *
      * @Gedmo\Versioned
      */
     private $maatschappelijkeParticipatie;
@@ -162,6 +175,7 @@ class ZrmSetting
 
     /**
      * @ORM\Column(type="boolean", nullable=true)
+     *
      * @Gedmo\Versioned
      */
     private $justitie;
@@ -177,6 +191,7 @@ class ZrmSetting
      * @var \DateTime
      *
      * @ORM\Column(type="datetime", nullable=true)
+     *
      * @Gedmo\Versioned
      */
     protected $created;
@@ -185,6 +200,7 @@ class ZrmSetting
      * @var \DateTime
      *
      * @ORM\Column(type="datetime", nullable=true)
+     *
      * @Gedmo\Versioned
      */
     protected $modified;

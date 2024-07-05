@@ -13,6 +13,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * @Route("/wachtlijst")
+ *
  * @Template
  */
 class WachtlijstController extends AbstractController
@@ -61,7 +62,7 @@ class WachtlijstController extends AbstractController
 
         $page = $request->get('page', 1);
 
-        //Default actief=true in filter. For deelnemers is ok for wachtlijsten it fails because lack of afsluiting field in query. quickfix. Functionality is working as it should be.
+        // Default actief=true in filter. For deelnemers is ok for wachtlijsten it fails because lack of afsluiting field in query. quickfix. Functionality is working as it should be.
         $filter->actief = false;
 
         $pagination = $this->dao->findWachtlijst($page, $filter);

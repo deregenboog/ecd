@@ -13,9 +13,6 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class ActiviteitenReeksType extends AbstractType
 {
-    /**
-     * {@inheritdoc}
-     */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $activiteit = $options['data']->getActiviteit();
@@ -54,9 +51,6 @@ class ActiviteitenReeksType extends AbstractType
         ;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
@@ -64,9 +58,6 @@ class ActiviteitenReeksType extends AbstractType
         ]);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getParent(): ?string
     {
         return BaseType::class;

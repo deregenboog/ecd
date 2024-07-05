@@ -13,17 +13,15 @@ use Doctrine\ORM\EntityNotFoundException;
 use InloopBundle\Service\VerslagDaoInterface;
 use MwBundle\Entity\Aanmelding;
 use MwBundle\Entity\Verslag;
-use MwBundle\Form\VerslagModel;
 use MwBundle\Form\VerslagType;
-use MwBundle\Service\InventarisatieDao;
-use MwBundle\Service\InventarisatieDaoInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
-use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * @Route("/verslagen")
+ *
  * @Template
  */
 class VerslagenController extends AbstractController
@@ -53,15 +51,15 @@ class VerslagenController extends AbstractController
 
     /**
      * @Route("/add/{klant}")
+     *
      * @ParamConverter("klant", class="AppBundle\Entity\Klant")
      */
     public function addAction(Request $request)
     {
         $klant = $request->get('klant');
 
-        if(!$klant->getHuidigeMwStatus() instanceof Aanmelding)
-        {
-            throw new UserException("Kan geen verslag toevoegen aan een klant zonder een lopend MW dossier.");
+        if (!$klant->getHuidigeMwStatus() instanceof Aanmelding) {
+            throw new UserException('Kan geen verslag toevoegen aan een klant zonder een lopend MW dossier.');
         }
 
         $entity = new Verslag($klant, Verslag::TYPE_INLOOP);
@@ -75,8 +73,11 @@ class VerslagenController extends AbstractController
     public function editAction(Request $request, $id)
     {
         $entity = $this->dao->find($id);
-        /** Alleen mensen van MW mogen dat soort verslagen bewerken. Mocht iemand de URL manipuleren....  */
-        if($entity->getType() == 1 && !$this->isGranted("ROLE_MW")) throw new EntityNotFoundException("Kan verslag niet vinden.");
+        /* Alleen mensen van MW mogen dat soort verslagen bewerken. Mocht iemand de URL manipuleren.... */
+        if (1 == $entity->getType() && !$this->isGranted('ROLE_MW')) {
+            throw new EntityNotFoundException('Kan verslag niet vinden.');
+        }
+
         return $this->processForm($request, $entity);
     }
 

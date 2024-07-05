@@ -15,9 +15,6 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class KoppelingType extends AbstractType
 {
-    /**
-     * {@inheritdoc}
-     */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $hulpvraag = $options['data'];
@@ -56,9 +53,6 @@ class KoppelingType extends AbstractType
         ;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
@@ -66,9 +60,6 @@ class KoppelingType extends AbstractType
         ]);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getParent(): ?string
     {
         return BaseType::class;

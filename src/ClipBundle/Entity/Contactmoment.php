@@ -8,8 +8,11 @@ use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Entity
+ *
  * @ORM\Table(name="clip_contactmomenten")
+ *
  * @ORM\HasLifecycleCallbacks
+ *
  * @Gedmo\Loggable
  */
 class Contactmoment
@@ -19,7 +22,9 @@ class Contactmoment
 
     /**
      * @ORM\Id
+     *
      * @ORM\Column(type="integer")
+     *
      * @ORM\GeneratedValue
      */
     private $id;
@@ -28,12 +33,14 @@ class Contactmoment
      * @var \DateTime
      *
      * @ORM\Column(type="date")
+     *
      * @Gedmo\Versioned
      */
     private $datum;
 
     /**
      * @ORM\Column(type="text", nullable=true)
+     *
      * @Gedmo\Versioned
      */
     private $opmerking;
@@ -42,7 +49,9 @@ class Contactmoment
      * @var Vraag
      *
      * @ORM\ManyToOne(targetEntity="Vraag", inversedBy="contactmomenten")
+     *
      * @ORM\JoinColumn(nullable=false)
+     *
      * @Gedmo\Versioned
      */
     private $vraag;
@@ -51,6 +60,7 @@ class Contactmoment
      * @var \DateTime
      *
      * @ORM\Column(type="datetime")
+     *
      * @Gedmo\Versioned
      */
     protected $created;
@@ -59,6 +69,7 @@ class Contactmoment
      * @var \DateTime
      *
      * @ORM\Column(type="datetime")
+     *
      * @Gedmo\Versioned
      */
     protected $modified;

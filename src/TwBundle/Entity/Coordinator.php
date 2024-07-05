@@ -10,8 +10,11 @@ use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Entity
+ *
  * @ORM\Table(name="tw_coordinatoren")
+ *
  * @ORM\HasLifecycleCallbacks
+ *
  * @Gedmo\Loggable
  */
 class Coordinator
@@ -21,6 +24,7 @@ class Coordinator
 
     /**
      * @ORM\OneToOne(targetEntity="AppBundle\Entity\Medewerker")
+     *
      * @Gedmo\Versioned
      */
     private $medewerker;
@@ -29,6 +33,7 @@ class Coordinator
      * @var \DateTime
      *
      * @ORM\Column(type="datetime")
+     *
      * @Gedmo\Versioned
      */
     protected $created;
@@ -37,6 +42,7 @@ class Coordinator
      * @var \DateTime
      *
      * @ORM\Column(type="datetime")
+     *
      * @Gedmo\Versioned
      */
     protected $modified;

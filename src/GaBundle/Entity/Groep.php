@@ -11,10 +11,15 @@ use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Entity(repositoryClass="GaBundle\Repository\GroepRepository")
+ *
  * @ORM\Table(name="ga_groepen")
+ *
  * @ORM\HasLifecycleCallbacks
+ *
  * @ORM\InheritanceType("SINGLE_TABLE")
+ *
  * @ORM\DiscriminatorColumn(name="discr", type="string")
+ *
  * @ORM\DiscriminatorMap({
  *     "ErOpUit" = "GroepErOpUit",
  *     "Buurtmaatjes" = "GroepBuurtmaatjes",
@@ -23,6 +28,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
  *     "Organisatie" = "GroepOrganisatie",
  *     "IZ" = "GroepIZ"
  * })
+ *
  * @Gedmo\Loggable
  */
 abstract class Groep
@@ -32,13 +38,16 @@ abstract class Groep
 
     /**
      * @ORM\Id
+     *
      * @ORM\Column(type="integer")
+     *
      * @ORM\GeneratedValue
      */
     protected $id;
 
     /**
      * @ORM\Column(length=100)
+     *
      * @Gedmo\Versioned
      */
     protected $naam;
@@ -47,25 +56,30 @@ abstract class Groep
      * @var Werkgebied
      *
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Werkgebied")
+     *
      * @ORM\JoinColumn(name="werkgebied", referencedColumnName="naam")
+     *
      * @Gedmo\Versioned
      */
     protected $werkgebied;
 
     /**
      * @ORM\Column(type="boolean")
+     *
      * @Gedmo\Versioned
      */
     protected $activiteitenRegistreren = true;
 
     /**
      * @ORM\Column(type="date")
+     *
      * @Gedmo\Versioned
      */
     protected $startdatum;
 
     /**
      * @ORM\Column(type="date", nullable=true)
+     *
      * @Gedmo\Versioned
      */
     protected $einddatum;
@@ -81,6 +95,7 @@ abstract class Groep
      * @var Activiteit[]|ArrayCollection
      *
      * @ORM\OneToMany(targetEntity="Activiteit", mappedBy="groep", cascade={"persist"})
+     *
      * @ORM\OrderBy({"datum": "desc"})
      */
     protected $activiteiten;
@@ -89,6 +104,7 @@ abstract class Groep
      * @var \DateTime
      *
      * @ORM\Column(type="datetime")
+     *
      * @Gedmo\Versioned
      */
     protected $created;
@@ -97,6 +113,7 @@ abstract class Groep
      * @var \DateTime
      *
      * @ORM\Column(type="datetime")
+     *
      * @Gedmo\Versioned
      */
     protected $modified;

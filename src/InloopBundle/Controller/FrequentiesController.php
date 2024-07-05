@@ -6,11 +6,12 @@ use AppBundle\Controller\AbstractController;
 use InloopBundle\Entity\Frequentie;
 use InloopBundle\Form\FrequentieType;
 use InloopBundle\Service\FrequentieDaoInterface;
-use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * @Route("/admin/frequenties")
+ *
  * @Template
  */
 class FrequentiesController extends AbstractController

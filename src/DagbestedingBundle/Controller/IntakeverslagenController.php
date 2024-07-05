@@ -2,13 +2,11 @@
 
 namespace DagbestedingBundle\Controller;
 
+use AppBundle\Controller\AbstractChildController;
 use AppBundle\Controller\DisableIndexActionTrait;
 use DagbestedingBundle\Entity\Intakeverslag;
-use AppBundle\Controller\AbstractChildController;
-use DagbestedingBundle\Entity\Verslag;
 use DagbestedingBundle\Form\VerslagType;
 use DagbestedingBundle\Service\VerslagDaoInterface;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**

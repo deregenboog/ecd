@@ -4,7 +4,6 @@ namespace ClipBundle\Entity;
 
 use AppBundle\Entity\Medewerker;
 use AppBundle\Entity\Vrijwilliger as AppVrijwilliger;
-use AppBundle\Model\DocumentInterface;
 use AppBundle\Model\DocumentSubjectInterface;
 use AppBundle\Model\DocumentSubjectTrait;
 use AppBundle\Model\IdentifiableTrait;
@@ -15,13 +14,14 @@ use AppBundle\Model\TimestampableTrait;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
-use ClipBundle\Entity\Locatie;
-use ClipBundle\Entity\BinnenVia;
 
 /**
  * @ORM\Entity
+ *
  * @ORM\Table("clip_vrijwilligers")
+ *
  * @ORM\HasLifecycleCallbacks
+ *
  * @Gedmo\Loggable
  */
 class Vrijwilliger implements MemoSubjectInterface, DocumentSubjectInterface
@@ -36,7 +36,9 @@ class Vrijwilliger implements MemoSubjectInterface, DocumentSubjectInterface
      * @var Vrijwilliger
      *
      * @ORM\OneToOne(targetEntity="AppBundle\Entity\Vrijwilliger", cascade={"persist"})
+     *
      * @ORM\JoinColumn(nullable=false)
+     *
      * @Gedmo\Versioned
      */
     protected $vrijwilliger;
@@ -52,6 +54,7 @@ class Vrijwilliger implements MemoSubjectInterface, DocumentSubjectInterface
      * @var BinnenVia
      *
      * @ORM\ManyToOne(targetEntity="ClipBundle\Entity\BinnenVia")
+     *
      * @ORM\JoinColumn(name="binnen_via_id")
      */
     protected $binnenVia;
@@ -78,49 +81,57 @@ class Vrijwilliger implements MemoSubjectInterface, DocumentSubjectInterface
     protected $afsluitreden;
 
     /**
-     * @var boolean
+     * @var bool
+     *
      * @ORM\Column(type="boolean")
      */
     protected $stagiair = false;
 
     /**
      * @var \DateTime
+     *
      * @ORM\Column(type="date", nullable=true)
      */
     protected $startdatum;
 
     /**
      * @var Medewerker
+     *
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Medewerker")
      */
     protected $medewerkerLocatie;
 
     /**
      * @var string
+     *
      * @ORM\Column(nullable=true)
      */
     protected $notitieIntake;
 
     /**
      * @var \DateTime
+     *
      * @ORM\Column(type="datetime",nullable=true)
      */
     protected $datumNotitieIntake;
 
     /**
      * @var string
+     *
      * @ORM\Column(nullable=true)
      */
     protected $trainingOverig;
 
     /**
      * @var \DateTime
+     *
      * @ORM\Column(nullable=true)
      */
     protected $trainingOverigDatum;
 
     /**
      * @var ArrayCollection|Deelname[]
+     *
      * @ORM\OneToMany(targetEntity="Deelname",mappedBy="vrijwilliger", cascade={"persist"})
      */
     protected $trainingDeelnames;
@@ -129,7 +140,9 @@ class Vrijwilliger implements MemoSubjectInterface, DocumentSubjectInterface
      * @var MemoInterface[]
      *
      * @ORM\ManyToMany(targetEntity="Memo", cascade={"persist"})
+     *
      * @ORM\JoinTable(inverseJoinColumns={@ORM\JoinColumn(unique=true)})
+     *
      * @ORM\OrderBy({"datum": "desc", "id": "desc"})
      */
     protected $memos;
@@ -138,6 +151,7 @@ class Vrijwilliger implements MemoSubjectInterface, DocumentSubjectInterface
      * @var \DateTime
      *
      * @ORM\Column(type="datetime")
+     *
      * @Gedmo\Versioned
      */
     protected $created;
@@ -146,11 +160,12 @@ class Vrijwilliger implements MemoSubjectInterface, DocumentSubjectInterface
      * @var \DateTime
      *
      * @ORM\Column(type="datetime")
+     *
      * @Gedmo\Versioned
      */
     protected $modified;
 
-    public function __construct(AppVrijwilliger $vrijwilliger = null)
+    public function __construct(?AppVrijwilliger $vrijwilliger = null)
     {
         if ($vrijwilliger) {
             $this->vrijwilliger = $vrijwilliger;
@@ -159,7 +174,7 @@ class Vrijwilliger implements MemoSubjectInterface, DocumentSubjectInterface
         $this->trainingDeelnames = new ArrayCollection();
         $this->memos = new ArrayCollection();
         $this->documenten = new ArrayCollection();
-        $this->datumNotitieIntake = new \DateTime("now");
+        $this->datumNotitieIntake = new \DateTime('now');
     }
 
     public function __toString()
@@ -256,135 +271,86 @@ class Vrijwilliger implements MemoSubjectInterface, DocumentSubjectInterface
         return $this;
     }
 
-
     public function isActief()
     {
         return null === $this->afsluitdatum || $this->afsluitdatum > new \DateTime('today');
     }
 
-    /**
-     * @return Medewerker
-     */
     public function getMedewerker(): ?Medewerker
     {
         return $this->medewerker;
     }
 
-    /**
-     * @param Medewerker $medewerker
-     */
     public function setMedewerker(Medewerker $medewerker): void
     {
         $this->medewerker = $medewerker;
     }
 
-    /**
-     * @return bool
-     */
     public function isStagiair(): bool
     {
         return (bool) $this->stagiair;
     }
 
-    /**
-     * @param bool $stagiair
-     */
     public function setStagiair(bool $stagiair): void
     {
         $this->stagiair = $stagiair;
     }
 
-    /**
-     * @return \DateTime
-     */
     public function getStartdatum(): ?\DateTime
     {
         return $this->startdatum;
     }
 
-    /**
-     * @param \DateTime $startdatum
-     */
     public function setStartdatum(?\DateTime $startdatum): void
     {
         $this->startdatum = $startdatum;
     }
 
-    /**
-     * @return Medewerker
-     */
     public function getMedewerkerLocatie(): ?Medewerker
     {
         return $this->medewerkerLocatie;
     }
 
-    /**
-     * @param Medewerker $medewerkerLocatie
-     */
     public function setMedewerkerLocatie(?Medewerker $medewerkerLocatie): void
     {
         $this->medewerkerLocatie = $medewerkerLocatie;
     }
 
-    /**
-     * @return string
-     */
     public function getNotitieIntake(): ?string
     {
         return $this->notitieIntake;
     }
 
-    /**
-     * @param string $notitieIntake
-     */
     public function setNotitieIntake(?string $notitieIntake): void
     {
         $this->notitieIntake = $notitieIntake;
     }
 
-    /**
-     * @return \DateTime
-     */
     public function getDatumNotitieIntake(): ?\DateTime
     {
         return $this->datumNotitieIntake;
     }
 
-    /**
-     * @param \DateTime $datumNotitieIntake
-     */
     public function setDatumNotitieIntake(\DateTime $datumNotitieIntake): void
     {
         $this->datumNotitieIntake = $datumNotitieIntake;
     }
 
-    /**
-     * @return string
-     */
     public function getTrainingOverig(): ?string
     {
         return $this->trainingOverig;
     }
 
-    /**
-     * @param string $trainingOverig
-     */
     public function setTrainingOverig(string $trainingOverig): void
     {
         $this->trainingOverig = $trainingOverig;
     }
 
-    /**
-     * @return \DateTime
-     */
     public function getTrainingOverigDatum(): ?\DateTime
     {
         return $this->trainingOverigDatum;
     }
 
-    /**
-     * @param \DateTime $trainingOverigDatum
-     */
     public function setTrainingOverigDatum(\DateTime $trainingOverigDatum): void
     {
         $this->trainingOverigDatum = $trainingOverigDatum;

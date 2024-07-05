@@ -2,7 +2,6 @@
 
 namespace BuurtboerderijBundle\Controller;
 
-use AppBundle\AppBundle;
 use AppBundle\Controller\AbstractController;
 use AppBundle\Exception\UserException;
 use AppBundle\Export\AbstractExport;
@@ -13,13 +12,14 @@ use BuurtboerderijBundle\Form\VrijwilligerCloseType;
 use BuurtboerderijBundle\Form\VrijwilligerFilterType;
 use BuurtboerderijBundle\Form\VrijwilligerType;
 use BuurtboerderijBundle\Service\VrijwilligerDaoInterface;
-use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * @Route("/vrijwilligers")
+ *
  * @Template
  */
 class VrijwilligersController extends AbstractController
@@ -37,7 +37,6 @@ class VrijwilligersController extends AbstractController
 
     /**
      * @var AbstractExport
-     *
      */
     protected $export;
 
@@ -165,9 +164,9 @@ class VrijwilligersController extends AbstractController
                 $this->addFlash('success', ucfirst($this->entityName).' is opgeslagen.');
 
                 return $this->redirectToView($buurtboerderijVrijwilliger);
-            }  catch(UserException $e) {
+            } catch (UserException $e) {
                 $message = $e->getMessage();
-                $this->addFlash('danger',$message);
+                $this->addFlash('danger', $message);
             } catch (\Exception $e) {
                 $message = $this->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
                 $this->addFlash('danger', $message);

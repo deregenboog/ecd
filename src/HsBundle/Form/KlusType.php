@@ -18,9 +18,6 @@ class KlusType extends AbstractType
 {
     use MedewerkerTypeTrait;
 
-    /**
-     * {@inheritdoc}
-     */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
@@ -92,9 +89,6 @@ class KlusType extends AbstractType
         $builder->add('submit', SubmitType::class);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
@@ -102,9 +96,6 @@ class KlusType extends AbstractType
         ]);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getParent(): ?string
     {
         return BaseType::class;

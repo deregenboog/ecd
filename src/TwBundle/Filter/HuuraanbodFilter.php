@@ -62,7 +62,6 @@ class HuuraanbodFilter implements FilterInterface
      */
     public $appKlant;
 
-
     /**
      * @var Medewerker
      */
@@ -81,7 +80,6 @@ class HuuraanbodFilter implements FilterInterface
 
     public function applyTo(QueryBuilder $builder)
     {
-
         $this->huurovereenkomst->applyTo($builder);
 
         if ($this->id) {
@@ -105,11 +103,10 @@ class HuuraanbodFilter implements FilterInterface
                 ;
             }
         }
-        if($this->huurprijs)
-        {
+        if ($this->huurprijs) {
             $builder->andWhere('huuraanbod.huurprijs >= :low AND huuraanbod.huurprijs <= :high')
-                ->setParameter("low",$this->huurprijs->getLow())
-                ->setParameter("high",$this->huurprijs->getHigh());
+                ->setParameter('low', $this->huurprijs->getLow())
+                ->setParameter('high', $this->huurprijs->getHigh());
         }
 
         if ($this->afsluitdatum) {
@@ -154,32 +151,30 @@ class HuuraanbodFilter implements FilterInterface
                 ;
             }
         }
-        if($this->medewerker)
-        {
+        if ($this->medewerker) {
             $builder
                 ->andWhere('huuraanbod.medewerker = :medewerker')
-                ->setParameter('medewerker',$this->medewerker);
+                ->setParameter('medewerker', $this->medewerker);
         }
 
-        if ($this->actief === true) {
+        if (true === $this->actief) {
             $builder
                 ->andWhere('huuraanbod.afsluitdatum IS NULL OR huuraanbod.afsluitdatum > :now')
 //                ->andWhere('huurovereenkomst.id IS NULL')
                 ->setParameter('now', new \DateTime())
             ;
         }
-//        else {
-//            $builder
-//                ->andWhere('huurovereenkomst.id IS NULL');
-//        }
+        //        else {
+        //            $builder
+        //                ->andWhere('huurovereenkomst.id IS NULL');
+        //        }
 
         if ($this->appKlant) {
-            $this->appKlant->applyTo($builder,'appKlant');
+            $this->appKlant->applyTo($builder, 'appKlant');
         }
-        if($this->project && (is_array($this->project) || $this->project instanceof \Countable ? count($this->project) : 0)>0)
-        {
+        if ($this->project && (is_array($this->project) || $this->project instanceof \Countable ? count($this->project) : 0) > 0) {
             $builder->andWhere('huuraanbod.project IN (:project)')
-                ->setParameter("project",$this->project);
+                ->setParameter('project', $this->project);
         }
     }
 }

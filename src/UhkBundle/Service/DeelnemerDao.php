@@ -31,12 +31,12 @@ class DeelnemerDao extends AbstractDao implements DeelnemerDaoInterface
     /**
      * {inheritdoc}.
      */
-    public function findAll($page = null, FilterInterface $filter = null): PaginationInterface
+    public function findAll($page = null, ?FilterInterface $filter = null): PaginationInterface
     {
         $builder = $this->repository->createQueryBuilder($this->alias)
             ->innerJoin($this->alias.'.klant', 'klant')
             ->innerJoin($this->alias.'.verslagen', 'verslag')
-            ->leftJoin($this->alias.'.verslagen', 'v2','WITH','verslag.datum < v2.datum OR (verslag.datum = v2.datum AND verslag.id < v2.id)')
+            ->leftJoin($this->alias.'.verslagen', 'v2', 'WITH', 'verslag.datum < v2.datum OR (verslag.datum = v2.datum AND verslag.id < v2.id)')
 
         ;
 
@@ -46,16 +46,16 @@ class DeelnemerDao extends AbstractDao implements DeelnemerDaoInterface
     /**
      * {inheritdoc}.
      */
-    public function findByMedewerker(Medewerker $medewerker, $page = null, FilterInterface $filter = null): PaginationInterface
+    public function findByMedewerker(Medewerker $medewerker, $page = null, ?FilterInterface $filter = null): PaginationInterface
     {
-
         $builder = $this->repository->createQueryBuilder($this->alias)
             ->innerJoin($this->alias.'.klant', 'klant')
-            ->innerJoin($this->alias.".medewerker", 'medewerker')
+            ->innerJoin($this->alias.'.medewerker', 'medewerker')
             ->where('medewerker = :medewerker')
-            ->setParameter("medewerker",$medewerker)
+            ->setParameter('medewerker', $medewerker)
 
         ;
+
         return parent::doFindAll($builder, $page, $filter);
     }
 
@@ -81,8 +81,6 @@ class DeelnemerDao extends AbstractDao implements DeelnemerDaoInterface
     }
 
     /**
-     * @param string $name
-     *
      * @return Deelnemer
      */
     public function findOneByName(string $name)

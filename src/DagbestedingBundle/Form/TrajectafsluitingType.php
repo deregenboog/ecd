@@ -8,9 +8,6 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class TrajectafsluitingType extends AbstractType
 {
-    /**
-     * {@inheritdoc}
-     */
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
@@ -18,9 +15,6 @@ class TrajectafsluitingType extends AbstractType
         ]);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getParent(): ?string
     {
         return AfsluitingType::class;

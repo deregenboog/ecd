@@ -2,19 +2,13 @@
 
 namespace MwBundle\Form;
 
-use AppBundle\Entity\Medewerker;
 use AppBundle\Form\AppDateRangeType;
 use AppBundle\Form\FilterType;
 use AppBundle\Form\KlantFilterType as AppKlantFilterType;
 use AppBundle\Form\StadsdeelSelectType;
-use Doctrine\ORM\EntityRepository;
-use InloopBundle\Entity\Locatie;
 use InloopBundle\Form\LocatieSelectType;
-use MwBundle\Filter\WachtlijstFilter;
 use InloopBundle\Service\LocatieDao;
-use InloopBundle\Service\LocatieDaoInterface;
-use MwBundle\Entity\Verslag;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use MwBundle\Filter\WachtlijstFilter;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerAwareTrait;
 use Symfony\Component\Form\AbstractType;
@@ -27,20 +21,16 @@ class WachtlijstFilterType extends AbstractType implements ContainerAwareInterfa
 
     /**
      * WachtlijstFilterType constructor.
-     * @param  $wachtlijstLocaties
+     *
+     * @param $wachtlijstLocaties
      */
-    protected $wachtlijstLocaties = array();
-
+    protected $wachtlijstLocaties = [];
 
     public function __construct(LocatieDao $locatieDao)
     {
         $this->wachtlijstLocaties = $locatieDao->getWachtlijstLocaties();
     }
 
-
-    /**
-     * {@inheritdoc}
-     */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         if (array_key_exists('klant', $options['enabled_filters'])) {
@@ -50,9 +40,9 @@ class WachtlijstFilterType extends AbstractType implements ContainerAwareInterfa
         }
 
         if (in_array('locatie', $options['enabled_filters'])) {
-            $builder->add('locatie', LocatieSelectType::class,[
+            $builder->add('locatie', LocatieSelectType::class, [
                 'locatietypes' => ['Wachtlijst'],
-                'placeholder' => 'T6 wachtlijsten (default)'
+                'placeholder' => 'T6 wachtlijsten (default)',
             ]);
         }
         if (in_array('werkgebied', $options['enabled_filters'])) {
@@ -68,17 +58,11 @@ class WachtlijstFilterType extends AbstractType implements ContainerAwareInterfa
         }
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getParent(): ?string
     {
         return FilterType::class;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([

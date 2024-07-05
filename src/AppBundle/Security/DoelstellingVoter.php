@@ -2,11 +2,10 @@
 
 namespace AppBundle\Security;
 
-
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
+use Symfony\Component\Security\Core\Authorization\AccessDecisionManagerInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 use Symfony\Component\Security\Core\User\User;
-use Symfony\Component\Security\Core\Authorization\AccessDecisionManagerInterface;
 
 class DoelstellingVoter extends Voter
 {
@@ -27,23 +26,20 @@ class DoelstellingVoter extends Voter
     {
         if (!in_array($attribute, [self::EDIT])) {
             return false;
-        }
-        else if(!is_string($subject))
-        {
+        } elseif (!is_string($subject)) {
             return false;
         }
+
         return true;
     }
 
     protected function voteOnAttribute($attribute, $subject, TokenInterface $token): bool
     {
-
         /** @var User $user */
         $user = $token->getUser();
         $roles = $user->getRoles();
 
-
-        //list($class,$method) = explode("::",$subject);
+        // list($class,$method) = explode("::",$subject);
         $roleName = $this->getRoleNameForRepositoryMethod($subject);
 
         if ($this->decisionManager->decide($token, ['ROLE_ADMIN'])) {
@@ -55,6 +51,7 @@ class DoelstellingVoter extends Voter
         if ($this->decisionManager->decide($token, [$roleName])) {
             return true;
         }
+
         return false;
     }
 
@@ -73,6 +70,6 @@ class DoelstellingVoter extends Voter
 
     public function getRoleNameForRepositoryMethod($repositoryMethodString)
     {
-        return "ROLE_".$this->getBundleName($repositoryMethodString);//."_BEHEER";
+        return 'ROLE_'.$this->getBundleName($repositoryMethodString); // ."_BEHEER";
     }
 }

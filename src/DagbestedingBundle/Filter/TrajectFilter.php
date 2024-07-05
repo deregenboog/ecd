@@ -94,7 +94,6 @@ class TrajectFilter implements FilterInterface
      */
     public $zonderOndersteuningsplan;
 
-
     public function applyTo(QueryBuilder $builder)
     {
         if ($this->id) {
@@ -216,7 +215,6 @@ class TrajectFilter implements FilterInterface
                 ->setParameter('today', new \DateTime('today'))
             ;
         }
-
 
         if ($this->afwezig) {
             $builder

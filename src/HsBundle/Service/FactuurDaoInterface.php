@@ -13,7 +13,7 @@ interface FactuurDaoInterface
      *
      * @return PaginationInterface
      */
-    public function findAll($page = null, FilterInterface $filter = null);
+    public function findAll($page = null, ?FilterInterface $filter = null);
 
     /**
      * @param int $id
@@ -27,18 +27,9 @@ interface FactuurDaoInterface
      */
     public function createBatch(array $facturen);
 
-    /**
-     * @param Factuur $factuur
-     */
     public function create(Factuur $factuur);
 
-    /**
-     * @param Factuur $factuur
-     */
     public function update(Factuur $factuur);
 
-    /**
-     * @param Factuur $factuur
-     */
     public function delete(Factuur $factuur);
 }

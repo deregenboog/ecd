@@ -239,12 +239,13 @@ class IzKlantFilter implements FilterInterface
         $query
             ->setHint(UseIndexSqlWalker::class, [
                 IndexHint::use(Hulpvraag::IDX_DEELNEMER_DISCR_DELETED_EINDDATUM_KOPPELING, Hulpvraag::TABLE_NAME),
-                IndexHint::use(IzDeelnemer::IDX_ID_AFSLUITING_DELETED_MODEL, IzDeelnemer::TABLE_NAME)
+                IndexHint::use(IzDeelnemer::IDX_ID_AFSLUITING_DELETED_MODEL, IzDeelnemer::TABLE_NAME),
                 ])
-            ;
-//        $sql = SqlExtractor::getFullSQL($query);
+        ;
+        //        $sql = SqlExtractor::getFullSQL($query);
 
         $result = $query->getResult();
+
         return array_map(
             function (array $item) {
                 return $item['id'];

@@ -5,7 +5,6 @@ namespace DagbestedingBundle\Service;
 use AppBundle\Filter\FilterInterface;
 use AppBundle\Service\AbstractDao;
 use DagbestedingBundle\Entity\Traject;
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\QueryBuilder;
 
 class TrajectDao extends AbstractDao implements TrajectDaoInterface
@@ -29,7 +28,7 @@ class TrajectDao extends AbstractDao implements TrajectDaoInterface
 
     protected $alias = 'traject';
 
-    public function findAll($page = null, FilterInterface $filter = null)
+    public function findAll($page = null, ?FilterInterface $filter = null)
     {
         $builder = $this->repository->createQueryBuilder($this->alias)
             ->innerJoin($this->alias.'.trajectcoach', 'trajectcoach')
@@ -82,21 +81,21 @@ class TrajectDao extends AbstractDao implements TrajectDaoInterface
 
     public function getVerlengingenPerTrajectcoach(\DateTime $startdate, \DateTime $enddate)
     {
-        $builder = $this->repository->createQueryBuilder("traject");
+        $builder = $this->repository->createQueryBuilder('traject');
         $builder->select('appKlant.achternaam AS naam, trajectcoach.naam AS trajectCoach, traject.einddatum')
-            ->innerJoin("traject.trajectcoach","trajectcoach")
-            ->innerJoin("traject.deelnemer","deelnemer")
-            ->innerJoin("deelnemer.klant","appKlant")
-            ->where("traject.einddatum IS NULL OR traject.einddatu <= :two_months_from_now")
-            ->groupBy("traject.deelnemer")
-            ->orderBy("trajectcoach.naam", "ASC")
-            ->setParameter("two_months_from_now", new \DateTime("+2 MONTHS"))
+            ->innerJoin('traject.trajectcoach', 'trajectcoach')
+            ->innerJoin('traject.deelnemer', 'deelnemer')
+            ->innerJoin('deelnemer.klant', 'appKlant')
+            ->where('traject.einddatum IS NULL OR traject.einddatu <= :two_months_from_now')
+            ->groupBy('traject.deelnemer')
+            ->orderBy('trajectcoach.naam', 'ASC')
+            ->setParameter('two_months_from_now', new \DateTime('+2 MONTHS'))
         ;
 
         $this->applyFilter($builder, self::FASE_GESTART, $startdate, $enddate);
         $res = $builder->getQuery()->getResult();
 
-//        $sql = $builder->getQuery()->getSQL();
+        //        $sql = $builder->getQuery()->getSQL();
         return $res;
     }
 

@@ -6,8 +6,8 @@ use AppBundle\Controller\AbstractController;
 use IzBundle\Entity\Doelgroep;
 use IzBundle\Form\DoelgroepType;
 use IzBundle\Service\DoelgroepDaoInterface;
-use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * @Route("/admin/doelgroepen")

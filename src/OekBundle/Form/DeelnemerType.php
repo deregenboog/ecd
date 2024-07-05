@@ -17,9 +17,6 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class DeelnemerType extends AbstractType
 {
-    /**
-     * {@inheritdoc}
-     */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         /* @var $deelnemer Deelnemer */
@@ -62,9 +59,6 @@ class DeelnemerType extends AbstractType
         $builder->add('submit', SubmitType::class, ['label' => 'Opslaan']);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
@@ -72,9 +66,6 @@ class DeelnemerType extends AbstractType
         ]);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getParent(): ?string
     {
         return BaseType::class;

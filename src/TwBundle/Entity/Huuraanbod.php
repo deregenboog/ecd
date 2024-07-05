@@ -3,7 +3,6 @@
 namespace TwBundle\Entity;
 
 use AppBundle\Model\OptionalMedewerkerTrait;
-use AppBundle\Model\RequiredMedewerkerTrait;
 use AppBundle\Model\TimestampableTrait;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
@@ -11,8 +10,11 @@ use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Entity
+ *
  * @ORM\Table(name="tw_huuraanbiedingen")
+ *
  * @ORM\HasLifecycleCallbacks
+ *
  * @Gedmo\Loggable
  */
 class Huuraanbod
@@ -22,47 +24,59 @@ class Huuraanbod
 
     /**
      * @ORM\Id
+     *
      * @ORM\Column(type="integer")
+     *
      * @ORM\GeneratedValue
      */
     private $id;
 
     /**
      * @var Verhuurder
+     *
      * @ORM\ManyToOne(targetEntity="Verhuurder", inversedBy="huuraanbiedingen")
+     *
      * @Gedmo\Versioned
      */
     private $verhuurder;
 
     /**
      * @var VormVanOvereenkomst
+     *
      * @ORM\ManyToOne(targetEntity="VormVanOvereenkomst", inversedBy="huuraanbod")
+     *
      * @Gedmo\Versioned
      */
     private $vormvanovereenkomst;
 
     /**
      * @var Huurovereenkomst
+     *
      * @ORM\OneToOne(targetEntity="Huurovereenkomst", mappedBy="huuraanbod")
+     *
      * @Gedmo\Versioned
      */
     private $huurovereenkomst;
 
     /**
      * @var int
+     *
      * @ORM\Column(type="integer", nullable=true)
+     *
      * @Gedmo\Versioned
      */
     private $huurprijs;
 
     /**
      * @ORM\Column(type="date")
+     *
      * @Gedmo\Versioned
      */
     private $startdatum;
 
     /**
      * @ORM\Column(type="date", nullable=true)
+     *
      * @Gedmo\Versioned
      */
     private $afsluitdatum;
@@ -71,18 +85,21 @@ class Huuraanbod
      * @var HuuraanbodAfsluiting
      *
      * @ORM\ManyToOne(targetEntity="HuuraanbodAfsluiting", inversedBy="huuraanbiedingen", cascade={"persist"})
+     *
      * @Gedmo\Versioned
      */
     private $afsluiting;
 
     /**
      * @ORM\Column(type="date", nullable=true)
+     *
      * @Gedmo\Versioned
      */
     private $datumToestemmingAangevraagd;
 
     /**
      * @ORM\Column(type="date", nullable=true)
+     *
      * @Gedmo\Versioned
      */
     private $datumToestemmingToegekend;
@@ -91,7 +108,9 @@ class Huuraanbod
      * @var ArrayCollection|Verslag[]
      *
      * @ORM\ManyToMany(targetEntity="Verslag", cascade={"persist"})
+     *
      * @ORM\JoinTable(name="tw_huuraanbod_verslag")
+     *
      * @ORM\OrderBy({"datum" = "DESC", "id" = "DESC"})
      */
     private $verslagen;
@@ -100,6 +119,7 @@ class Huuraanbod
      * @var Project
      *
      * @ORM\ManyToOne(targetEntity="TwBundle\Entity\Project", inversedBy="huuraanbiedingen", cascade={"persist"})
+     *
      * @Gedmo\Versioned
      */
     private $project;
@@ -108,6 +128,7 @@ class Huuraanbod
      * @var \DateTime
      *
      * @ORM\Column(type="datetime")
+     *
      * @Gedmo\Versioned
      */
     protected $created;
@@ -116,6 +137,7 @@ class Huuraanbod
      * @var \DateTime
      *
      * @ORM\Column(type="datetime")
+     *
      * @Gedmo\Versioned
      */
     protected $modified;
@@ -167,7 +189,7 @@ class Huuraanbod
         return $this->startdatum;
     }
 
-    public function setStartdatum(\DateTime $startdatum = null)
+    public function setStartdatum(?\DateTime $startdatum = null)
     {
         $this->startdatum = $startdatum;
 
@@ -179,7 +201,7 @@ class Huuraanbod
         return $this->afsluitdatum;
     }
 
-    public function setAfsluitdatum(\DateTime $afsluitdatum = null)
+    public function setAfsluitdatum(?\DateTime $afsluitdatum = null)
     {
         $this->afsluitdatum = $afsluitdatum;
 
@@ -249,55 +271,37 @@ class Huuraanbod
         return $this;
     }
 
-    /**
-     * @return VormVanOvereenkomst
-     */
     public function getVormvanovereenkomst(): ?VormVanOvereenkomst
     {
         return $this->vormvanovereenkomst;
     }
 
-    /**
-     * @param VormVanOvereenkomst $vormvanovereenkomst
-     */
     public function setVormvanovereenkomst(?VormVanOvereenkomst $vormvanovereenkomst): void
     {
         $this->vormvanovereenkomst = $vormvanovereenkomst;
     }
 
-    /**
-     * @return Project
-     */
     public function getProject(): ?Project
     {
         return $this->project;
     }
 
-    /**
-     * @param Project $project
-     * @return Huuraanbod
-     */
     public function setProject(Project $project): Huuraanbod
     {
         $this->project = $project;
+
         return $this;
     }
 
-    /**
-     * @return int
-     */
     public function getHuurprijs(): ?int
     {
         return $this->huurprijs;
     }
 
-    /**
-     * @param int $huurprijs
-     * @return Huuraanbod
-     */
     public function setHuurprijs(int $huurprijs): Huuraanbod
     {
         $this->huurprijs = $huurprijs;
+
         return $this;
     }
 }

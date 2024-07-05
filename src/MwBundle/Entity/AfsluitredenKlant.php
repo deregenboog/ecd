@@ -12,8 +12,11 @@ use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Entity
+ *
  * @ORM\Table("mw_afsluitredenen_klanten")
+ *
  * @ORM\HasLifecycleCallbacks
+ *
  * @Gedmo\Loggable
  */
 class AfsluitredenKlant
@@ -26,7 +29,9 @@ class AfsluitredenKlant
 
     /**
      * @var bool
+     *
      * @ORM\Column(type="boolean")
+     *
      * @Gedmo\Versioned
      */
     protected $actief = true;
@@ -35,6 +40,7 @@ class AfsluitredenKlant
      * @var int
      *
      * @ORM\Column(type="integer")
+     *
      * @Gedmo\Versioned
      */
     private $gewicht = 0;
@@ -43,6 +49,7 @@ class AfsluitredenKlant
      * @var bool
      *
      * @ORM\Column(type="boolean")
+     *
      * @Gedmo\Versioned
      */
     private $land = false;
@@ -51,6 +58,7 @@ class AfsluitredenKlant
      * @var \DateTime
      *
      * @ORM\Column(type="datetime")
+     *
      * @Gedmo\Versioned
      */
     protected $created;
@@ -59,6 +67,7 @@ class AfsluitredenKlant
      * @var \DateTime
      *
      * @ORM\Column(type="datetime")
+     *
      * @Gedmo\Versioned
      */
     protected $modified;
@@ -74,6 +83,7 @@ class AfsluitredenKlant
 
         return $this;
     }
+
     public function isLand()
     {
         return $this->land;

@@ -5,17 +5,14 @@ namespace TwBundle\Form;
 use AppBundle\Form\BaseType;
 use AppBundle\Form\MedewerkerType;
 use Doctrine\ORM\EntityRepository;
-use TwBundle\Entity\Coordinator;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use TwBundle\Entity\Coordinator;
 
 class CoordinatorType extends AbstractType
 {
-    /**
-     * {@inheritdoc}
-     */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
@@ -31,9 +28,6 @@ class CoordinatorType extends AbstractType
         ;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
@@ -41,9 +35,6 @@ class CoordinatorType extends AbstractType
         ]);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getParent(): ?string
     {
         return BaseType::class;

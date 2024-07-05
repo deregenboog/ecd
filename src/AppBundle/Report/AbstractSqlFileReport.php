@@ -3,7 +3,6 @@
 namespace AppBundle\Report;
 
 use Doctrine\ORM\EntityManagerInterface;
-use LogicException;
 
 class AbstractSqlFileReport extends AbstractReport
 {
@@ -18,7 +17,6 @@ class AbstractSqlFileReport extends AbstractReport
     protected $sqlFile;
 
     protected $params = [];
-
 
     public function __construct(EntityManagerInterface $em, $sqlFile)
     {
@@ -56,9 +54,10 @@ class AbstractSqlFileReport extends AbstractReport
     {
         $this->params += [
             ':from' => sprintf("'%s'", $this->startDate->format('Y-m-d')),
-            ':until' =>  sprintf("'%s'", $this->endDate->format('Y-m-d')),
+            ':until' => sprintf("'%s'", $this->endDate->format('Y-m-d')),
         ];
     }
+
     protected function build()
     {
         foreach ($this->reports as $i => $report) {
@@ -117,14 +116,14 @@ class AbstractSqlFileReport extends AbstractReport
             $matches = [];
             preg_match('/-- HEAD:\s*(.*)\n/m', $report, $matches);
             if (empty($matches[1])) {
-                throw new LogicException('Head not found: '.$report);
+                throw new \LogicException('Head not found: '.$report);
             }
             $head = $matches[1];
 
             $matches = [];
             preg_match('/-- FIELDS:\s*(.*)\n/m', $report, $matches);
             if (empty($matches[1])) {
-                throw new LogicException('Fields not found: '.$report);
+                throw new \LogicException('Fields not found: '.$report);
             }
             $fields = $matches[1];
             $fields = preg_split("/[\s]*[;][\s]*/", $fields);

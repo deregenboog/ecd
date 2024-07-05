@@ -30,9 +30,6 @@ class RapportageType extends AbstractType
         }
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         if (in_array('locatie', $options['enabled_filters'])) {
@@ -102,9 +99,6 @@ class RapportageType extends AbstractType
         ;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
@@ -117,9 +111,6 @@ class RapportageType extends AbstractType
         ]);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getParent(): ?string
     {
         return BaseType::class;

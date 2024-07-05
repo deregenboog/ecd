@@ -15,9 +15,6 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class BetalingFilterType extends AbstractType
 {
-    /**
-     * {@inheritdoc}
-     */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         if (in_array('referentie', $options['enabled_filters'])) {
@@ -62,9 +59,6 @@ class BetalingFilterType extends AbstractType
         ;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
@@ -81,9 +75,6 @@ class BetalingFilterType extends AbstractType
         ]);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getParent(): ?string
     {
         return FilterType::class;

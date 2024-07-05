@@ -11,10 +11,14 @@ use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Entity
+ *
  * @ORM\Table(name="iz_intakes", indexes={
+ *
  *     @ORM\Index(name="iz_deelnemer_id", columns={"iz_deelnemer_id"})
  * })
+ *
  * @ORM\HasLifecycleCallbacks
+ *
  * @Gedmo\Loggable
  */
 class Intake
@@ -26,6 +30,7 @@ class Intake
      * @var \DateTime
      *
      * @ORM\Column(type="datetime", nullable=true)
+     *
      * @Gedmo\Versioned
      */
     protected $created;
@@ -36,78 +41,96 @@ class Intake
      * @todo Fix typo modifed => modified
      *
      * @ORM\Column(name="modifed", type="datetime", nullable=true)
+     *
      * @Gedmo\Versioned
      */
     protected $modified;
 
     /**
      * @ORM\Column(name="intake_datum", type="date", nullable=true)
+     *
      * @Gedmo\Versioned
      */
     private $intakeDatum;
 
     /**
      * @var bool
+     *
      * @ORM\Column(name="gezin_met_kinderen", type="boolean", nullable=true)
+     *
      * @Gedmo\Versioned
      */
     private $gezinMetKinderen;
 
     /**
      * @var bool
+     *
      * @ORM\Column(name="ongedocumenteerd", type="boolean", nullable=true)
+     *
      * @Gedmo\Versioned
      */
     private $ongedocumenteerd;
 
     /**
      * @ORM\Column(name="stagiair", type="boolean", nullable=true)
+     *
      * @Gedmo\Versioned
      */
     private $stagiair;
 
     /**
      * @var IzDeelnemer
+     *
      * @ORM\OneToOne(targetEntity="IzDeelnemer", inversedBy="intake")
+     *
      * @ORM\JoinColumn(name="iz_deelnemer_id", nullable=false)
+     *
      * @Gedmo\Versioned
      */
     private $izDeelnemer;
 
     /**
      * @var Medewerker
+     *
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Medewerker")
+     *
      * @Gedmo\Versioned
      */
     private $medewerker;
 
     /**
      * @var string
+     *
      * @ORM\Column(name="gesprek_verslag", type="text", length=65535, nullable=true)
+     *
      * @Gedmo\Versioned
      */
     private $gespreksverslag;
 
     /**
      * @ORM\Column(type="boolean", nullable=true)
+     *
      * @Gedmo\Versioned
      */
     protected $ondernemen;
 
     /**
      * @ORM\Column(type="boolean", nullable=true)
+     *
      * @Gedmo\Versioned
      */
     protected $overdag;
 
     /**
      * @ORM\Column(type="boolean", nullable=true)
+     *
      * @Gedmo\Versioned
      */
     protected $ontmoeten;
 
     /**
      * @ORM\Column(type="boolean", nullable=true)
+     *
      * @Gedmo\Versioned
      */
     protected $regelzaken;
@@ -145,9 +168,6 @@ class Intake
         return $this->intakeDatum;
     }
 
-    /**
-     * @param \DateTime $intakeDatum
-     */
     public function setIntakeDatum(\DateTime $intakeDatum)
     {
         $this->intakeDatum = $intakeDatum;
@@ -321,6 +341,6 @@ class Intake
 
     public function isOngedocumenteerd(): bool
     {
-        return $this->getOngedocumenteerd()??false;
+        return $this->getOngedocumenteerd() ?? false;
     }
 }

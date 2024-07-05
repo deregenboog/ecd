@@ -31,7 +31,7 @@ class InventarisatieDao extends AbstractDao implements InventarisatieDaoInterfac
     public function countInventarisaties(
         \DateTime $startdatum,
         \DateTime $einddatum,
-        Locatie $locatie = null
+        ?Locatie $locatie = null
     ) {
         $builder = $this->repository->getLeafsQueryBuilder()
             ->addSelect('COUNT(verslag.id) AS aantal_verslagen')

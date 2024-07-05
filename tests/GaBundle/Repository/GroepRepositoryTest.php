@@ -2,13 +2,8 @@
 
 namespace Tests\GaBundle\Repository;
 
-use AppBundle\Repository\DoelstellingRepositoryInterface;
 use Doctrine\ORM\Mapping\ClassMetadata;
-use GaBundle\Entity\Activiteit;
-use GaBundle\Entity\Deelname;
 use GaBundle\Entity\Groep;
-use GaBundle\Entity\Klantdossier;
-use GaBundle\Entity\Vrijwilligerdossier;
 use GaBundle\Repository\GroepRepository;
 use Tests\AppBundle\PHPUnit\DoctrineTestCase;
 

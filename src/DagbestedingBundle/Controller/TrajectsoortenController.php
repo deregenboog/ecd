@@ -6,8 +6,8 @@ use AppBundle\Controller\AbstractController;
 use DagbestedingBundle\Entity\Trajectsoort;
 use DagbestedingBundle\Form\TrajectsoortType;
 use DagbestedingBundle\Service\TrajectsoortDaoInterface;
-use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * @Route("/admin/trajectsoorten")

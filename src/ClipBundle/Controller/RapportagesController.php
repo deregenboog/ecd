@@ -3,7 +3,6 @@
 namespace ClipBundle\Controller;
 
 use AppBundle\Controller\AbstractRapportagesController;
-use AppBundle\Export\ExportInterface;
 use ClipBundle\Form\RapportageType;
 use Symfony\Component\Routing\Annotation\Route;
 

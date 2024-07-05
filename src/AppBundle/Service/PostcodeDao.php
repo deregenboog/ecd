@@ -21,7 +21,7 @@ class PostcodeDao extends AbstractDao implements PostcodeDaoInterface
 
     protected $alias = 'postcode';
 
-    public function findAll($page = null, FilterInterface $filter = null)
+    public function findAll($page = null, ?FilterInterface $filter = null)
     {
         $builder = $this->repository->createQueryBuilder($this->alias)
             ->leftJoin($this->alias.'.stadsdeel', 'stadsdeel')
@@ -41,25 +41,16 @@ class PostcodeDao extends AbstractDao implements PostcodeDaoInterface
         return parent::find($id);
     }
 
-    /**
-     * @param Postcode $postcode
-     */
     public function create(Postcode $postcode)
     {
         return $this->doCreate($postcode);
     }
 
-    /**
-     * @param Postcode $postcode
-     */
     public function update(Postcode $postcode)
     {
         return $this->doUpdate($postcode);
     }
 
-    /**
-     * @param Postcode $postcode
-     */
     public function delete(Postcode $postcode)
     {
         return $this->doDelete($postcode);

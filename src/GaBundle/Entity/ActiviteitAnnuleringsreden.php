@@ -10,8 +10,11 @@ use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Entity
+ *
  * @ORM\Table(name="ga_activiteitannuleringsredenen")
+ *
  * @ORM\HasLifecycleCallbacks
+ *
  * @Gedmo\Loggable
  */
 class ActiviteitAnnuleringsreden
@@ -24,6 +27,7 @@ class ActiviteitAnnuleringsreden
      * @var \DateTime
      *
      * @ORM\Column(type="datetime")
+     *
      * @Gedmo\Versioned
      */
     protected $created;
@@ -32,6 +36,7 @@ class ActiviteitAnnuleringsreden
      * @var \DateTime
      *
      * @ORM\Column(type="datetime")
+     *
      * @Gedmo\Versioned
      */
     protected $modified;

@@ -9,12 +9,11 @@ use Knp\Component\Pager\Pagination\PaginationInterface;
 interface ResultaatgebiedsoortDaoInterface
 {
     /**
-     * @param int             $page
-     * @param FilterInterface $filter
+     * @param int $page
      *
      * @return PaginationInterface
      */
-    public function findAll($page = null, FilterInterface $filter = null);
+    public function findAll($page = null, ?FilterInterface $filter = null);
 
     /**
      * @param int $id
@@ -23,18 +22,9 @@ interface ResultaatgebiedsoortDaoInterface
      */
     public function find($id);
 
-    /**
-     * @param Resultaatgebiedsoort $resultaatgebiedsoort
-     */
     public function create(Resultaatgebiedsoort $resultaatgebiedsoort);
 
-    /**
-     * @param Resultaatgebiedsoort $resultaatgebiedsoort
-     */
     public function update(Resultaatgebiedsoort $resultaatgebiedsoort);
 
-    /**
-     * @param Resultaatgebiedsoort $resultaatgebiedsoort
-     */
     public function delete(Resultaatgebiedsoort $resultaatgebiedsoort);
 }

@@ -9,9 +9,9 @@ use MwBundle\Entity\Document;
 use MwBundle\Entity\Vrijwilliger;
 use MwBundle\Form\DocumentType;
 use MwBundle\Service\DocumentDaoInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
 /**
  * @Route("/documenten")
@@ -46,19 +46,18 @@ class DocumentenController extends AbstractChildController
 
     /**
      * @Route("/add")
+     *
      * @Template
      */
     public function addAction(Request $request)
     {
         [$parentEntity, $this->parentDao] = $this->getParentConfig($request);
-        if($parentEntity instanceof Klant)
-        {
+        if ($parentEntity instanceof Klant) {
             $this->addMethod = null;
-        }
-        elseif($parentEntity instanceof Vrijwilliger)
-        {
+        } elseif ($parentEntity instanceof Vrijwilliger) {
             $this->addMethod = 'addDocument';
         }
+
         return parent::addAction($request);
     }
 

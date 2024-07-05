@@ -14,21 +14,22 @@ use InloopBundle\Pdf\PdfSchorsingNl;
 use InloopBundle\Service\LocatieDaoInterface;
 use InloopBundle\Service\SchorsingDaoInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\Mailer\Exception\TransportException;
 use Symfony\Component\Mailer\Mailer;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Address;
 use Symfony\Component\Routing\Annotation\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Router;
 
 /**
  * @Route("/schorsingen")
+ *
  * @Template
  */
 class SchorsingenController extends AbstractController
@@ -69,11 +70,11 @@ class SchorsingenController extends AbstractController
 
     /**
      * @Route("/")
+     *
      * @Template
      */
     public function indexAction(Request $request)
     {
-
         if (in_array('index', $this->disabledActions)) {
             throw new AccessDeniedHttpException();
         }
@@ -136,6 +137,7 @@ class SchorsingenController extends AbstractController
 
     /**
      * @Route("/add/{klant}")
+     *
      * @ParamConverter("klant", class="AppBundle\Entity\Klant")
      */
     public function addAction(Request $request)
@@ -150,17 +152,18 @@ class SchorsingenController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             try {
-                //als geen terugkeergesprek nodig, dan  op 0 zettne. Voorkomt vervuiling.
-                if(!$entity->heeftTerugkeergesprekNodig()) $entity->setTerugkeergesprekGehad(true);
+                // als geen terugkeergesprek nodig, dan  op 0 zettne. Voorkomt vervuiling.
+                if (!$entity->heeftTerugkeergesprekNodig()) {
+                    $entity->setTerugkeergesprekGehad(true);
+                }
 
                 $this->dao->create($entity);
                 $this->addFlash('success', ucfirst($this->entityName).' is opgeslagen.');
-
-            } catch(UserException $e) {
-//                $this->logger->error($e->getMessage(), ['exception' => $e]);
-                $message =  $e->getMessage();
+            } catch (UserException $e) {
+                //                $this->logger->error($e->getMessage(), ['exception' => $e]);
+                $message = $e->getMessage();
                 $this->addFlash('danger', $message);
-//                return $this->redirectToRoute('app_klanten_index');
+                //                return $this->redirectToRoute('app_klanten_index');
             } catch (\Exception $e) {
                 $this->logger->error($e->getMessage(), ['exception' => $e]);
                 $message = $this->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
@@ -217,22 +220,22 @@ class SchorsingenController extends AbstractController
 
         return new JsonResponse(['terugkeergesprekGehad' => $schorsing->isTerugkeergesprekGehad()]);
     }
+
     private function viewPdf(Schorsing $entity, $language)
     {
         $pdf = $this->createPdf($entity, $language);
         $response = new Response($pdf->Output(null, 'S'));
 
-//         $filename = sprintf('schorsing-%s.pdf', $entity->getDatumVan()->format('d-m-Y'));
+        //         $filename = sprintf('schorsing-%s.pdf', $entity->getDatumVan()->format('d-m-Y'));
         $response->headers->set('Content-type', 'application/pdf');
-//         $response->headers->set('Content-Disposition', sprintf('attachment; filename="%s";', $filename));
+        //         $response->headers->set('Content-Disposition', sprintf('attachment; filename="%s";', $filename));
         $response->headers->set('Content-Transfer-Encoding', 'binary');
 
         return $response;
     }
 
     /**
-     * @param Schorsing $entity
-     * @param string    $language
+     * @param string $language
      *
      * @return \TCPDF
      */
@@ -257,10 +260,8 @@ class SchorsingenController extends AbstractController
 
     private function sendSchorsingEmail(Schorsing $schorsing)
     {
-
-
         $message = (new TemplatedEmail())
-            ->addFrom(new Address('noreply@deregenboog.org','De Regenboog ECD'))
+            ->addFrom(new Address('noreply@deregenboog.org', 'De Regenboog ECD'))
             ->addTo($this->getParameter('agressie_mail'))
             ->subject('Bericht naar aanleiding van een schorsing waarbij sprake was van fysieke of verbale agressie')
             ->textTemplate('inloop\schorsingen\agressiemail.txt.twig')
@@ -278,31 +279,30 @@ class SchorsingenController extends AbstractController
         } catch (TransportException $e) {
             $this->addFlash('danger', 'E-mail kon niet verzonden worden.('.$e->getMessage().')');
         }
-
     }
 
     /**
      * Override this method so we can apply some own logic to handle submit logic.
      *
-     * @param Request $request
-     * @param $entity
-     * @param $form
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
      */
     protected function afterFormSubmitted(Request $request, $entity, $form = null)
     {
-
-        if(null == $form) return parent::afterFormSubmitted($request,$entity);
+        if (null == $form) {
+            return parent::afterFormSubmitted($request, $entity);
+        }
 
         $elm = $form->has('submitAndAddIncident');
-        if($elm && $form->get('submitAndAddIncident')->isClicked()) {
+        if ($elm && $form->get('submitAndAddIncident')->isClicked()) {
             $params = [
-                "locatie"=>$entity->getLocaties()->first()->getId(),
-                "klant"=>$entity->getKlant()->getId(),
-                "redirect"=>$request->get('redirect'),
+                'locatie' => $entity->getLocaties()->first()->getId(),
+                'klant' => $entity->getKlant()->getId(),
+                'redirect' => $request->get('redirect'),
             ];
-            return $this->redirectToRoute("inloop_incidenten_addprefilled",$params);
+
+            return $this->redirectToRoute('inloop_incidenten_addprefilled', $params);
         }
+
         return parent::afterFormSubmitted($request, $entity);
     }
 }

@@ -2,23 +2,25 @@
 
 namespace OekraineBundle\Entity;
 
-use AppBundle\Entity\Klant;
 use AppBundle\Entity\Medewerker;
 use AppBundle\Model\TimestampableTrait;
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Entity
+ *
  * @ORM\Table(
  *     name="oekraine_verslagen",
  *     indexes={
+ *
  *         @ORM\Index(name="idx_datum", columns={"datum"}),
  *         @ORM\Index(name="idx_locatie_id", columns={"locatie_id"})
  *     }
  * )
+ *
  * @ORM\HasLifecycleCallbacks
+ *
  * @Gedmo\Loggable
  */
 class Verslag
@@ -27,19 +29,23 @@ class Verslag
 
     /**
      * @ORM\Id
+     *
      * @ORM\Column(type="integer")
+     *
      * @ORM\GeneratedValue
      */
     private $id;
 
     /**
      * @ORM\Column(type="date")
+     *
      * @Gedmo\Versioned
      */
     private $datum;
 
     /**
      * @ORM\Column(type="text")
+     *
      * @Gedmo\Versioned
      */
     private $opmerking;
@@ -48,30 +54,35 @@ class Verslag
      * @var Bezoeker
      *
      * @ORM\ManyToOne(targetEntity="OekraineBundle\Entity\Bezoeker", inversedBy="verslagen")
+     *
      * @Gedmo\Versioned
      */
     private $bezoeker;
 
     /**
      * @ORM\ManyToOne(targetEntity="OekraineBundle\Entity\Locatie")
+     *
      * @Gedmo\Versioned
      */
     private $locatie;
 
     /**
      * @ORM\Column(name="medewerker", type="string", nullable=true)
+     *
      * @Gedmo\Versioned
      */
     private $naamMedewerker;
 
     /**
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Medewerker")
+     *
      * @Gedmo\Versioned
      */
     private $medewerker;
 
     /**
-     * @var integer
+     * @var int
+     *
      * @ORM\Column(type="integer", nullable=false)
      */
     private $aantalContactmomenten = 1;
@@ -81,15 +92,16 @@ class Verslag
     public const TYPE_INLOOP = 1;
 
     protected static $types = [
-        self::TYPE_PSYCH => "Psychologen verslag (Oekraine)",
-        self::TYPE_MW => "Maatschappelijk werk-verslag (Oekraine)",
-        self::TYPE_INLOOP => "Inloopverslag (Oekraine)",
+        self::TYPE_PSYCH => 'Psychologen verslag (Oekraine)',
+        self::TYPE_MW => 'Maatschappelijk werk-verslag (Oekraine)',
+        self::TYPE_INLOOP => 'Inloopverslag (Oekraine)',
     ];
 
     /**
      * @var int
      *
      * @ORM\Column(name="verslagType", type="integer", options={"default":1})
+     *
      * @Gedmo\Versioned
      */
     private $type = self::TYPE_MW;
@@ -99,14 +111,16 @@ class Verslag
     public const ACCESS_INLOOP = 1;
 
     public static $accessTypes = [
-        self::ACCESS_PSYCH => "Leesbaar voor MW-psychologen (Oekraine)",
-        self::ACCESS_MW => "Alleen leesbaar voor MW-ers (Oekraine)",
-        self::ACCESS_INLOOP => "Leesbaar voor inloop en MW (Oekraine)",
+        self::ACCESS_PSYCH => 'Leesbaar voor MW-psychologen (Oekraine)',
+        self::ACCESS_MW => 'Alleen leesbaar voor MW-ers (Oekraine)',
+        self::ACCESS_INLOOP => 'Leesbaar voor inloop en MW (Oekraine)',
     ];
 
     /**
      * @var int
+     *
      * @ORM\Column(name="accessType", type="integer", options={"default":1})
+     *
      * @Gedmo\Versioned
      */
     private $access = self::ACCESS_INLOOP;
@@ -133,9 +147,6 @@ class Verslag
         return $this->datum;
     }
 
-    /**
-     * @param \DateTime $datum
-     */
     public function setDatum(\DateTime $datum)
     {
         $this->datum = $datum;
@@ -156,28 +167,20 @@ class Verslag
      */
     public function setOpmerking($opmerking)
     {
-        $this->opmerking = utf8_encode($opmerking);;
+        $this->opmerking = utf8_encode($opmerking);
 
         return $this;
     }
 
-    /**
-     * @return Bezoeker
-     */
     public function getBezoeker(): Bezoeker
     {
         return $this->bezoeker;
     }
 
-    /**
-     * @param Bezoeker $bezoeker
-     */
     public function setBezoeker(Bezoeker $bezoeker): void
     {
         $this->bezoeker = $bezoeker;
     }
-
-
 
     /**
      * @return Locatie
@@ -187,9 +190,6 @@ class Verslag
         return $this->locatie;
     }
 
-    /**
-     * @param Locatie $locatie
-     */
     public function setLocatie(Locatie $locatie)
     {
         $this->locatie = $locatie;
@@ -205,9 +205,6 @@ class Verslag
         return $this->medewerker;
     }
 
-    /**
-     * @param Medewerker $medewerker
-     */
     public function setMedewerker(Medewerker $medewerker)
     {
         $this->medewerker = $medewerker;
@@ -215,27 +212,16 @@ class Verslag
         return $this;
     }
 
-    /**
-     * @return int
-     */
     public function getAantalContactmomenten(): int
     {
         return $this->aantalContactmomenten;
     }
 
-    /**
-     * @param int $aantalContactmomenten
-     */
     public function setAantalContactmomenten(int $aantalContactmomenten): void
     {
         $this->aantalContactmomenten = $aantalContactmomenten;
     }
 
-
-
-    /**
-     * @return int
-     */
     public function getType(): int
     {
         return $this->type;
@@ -246,31 +232,22 @@ class Verslag
         return self::$types[$this->getType()];
     }
 
-    /**
-     * @param int $type
-     */
     public function setType(int $type): void
     {
         if (!in_array($type, array_flip(self::$types))) {
-            throw new \InvalidArgumentException("Verslagtype kan alleen van types zijn zoals vermeld.");
+            throw new \InvalidArgumentException('Verslagtype kan alleen van types zijn zoals vermeld.');
         }
         $this->type = $type;
     }
 
-    /**
-     * @return int
-     */
     public function getAccess(): int
     {
         return $this->access;
     }
 
-    /**
-     * @param int $access
-     */
     public function setAccess(int $access): void
     {
-//        if(is_null($access)) $access = self::$accessTypes[self::ACCESS_INLOOP];
+        //        if(is_null($access)) $access = self::$accessTypes[self::ACCESS_INLOOP];
         $this->access = $access;
     }
 

@@ -28,15 +28,14 @@ class DeelnameDao extends AbstractDao implements DeelnameDaoInterface
     /**
      * {inheritdoc}.
      */
-    public function findAll($page = null, FilterInterface $filter = null)
+    public function findAll($page = null, ?FilterInterface $filter = null)
     {
         $builder = $this->repository->createQueryBuilder('training')
             ->leftJoin('training.deelnames', 'deelname')
             ->leftJoin('deelname.deelnemer', 'deelnemer')
             ->innerJoin('training.groep', 'groep')
             ->where('deelname.deelnameStatus != :status_verwijderd')
-            ->setParameter(":status_verwijderd", DeelnameStatus::STATUS_VERWIJDERD);
-        ;
+            ->setParameter(':status_verwijderd', DeelnameStatus::STATUS_VERWIJDERD);
 
         if ($filter) {
             $filter->applyTo($builder);

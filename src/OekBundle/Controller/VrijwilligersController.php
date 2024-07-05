@@ -6,7 +6,6 @@ use AppBundle\Controller\AbstractController;
 use AppBundle\Entity\Vrijwilliger as AppVrijwilliger;
 use AppBundle\Exception\UserException;
 use AppBundle\Export\ExportInterface;
-use AppBundle\Form\ConfirmationType;
 use AppBundle\Form\VrijwilligerFilterType as AppVrijwilligerFilterType;
 use OekBundle\Entity\Vrijwilliger;
 use OekBundle\Form\VrijwilligerFilterType;
@@ -15,11 +14,11 @@ use OekBundle\Service\VrijwilligerDaoInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * @Route("/vrijwilligers")
+ *
  * @Template
  */
 class VrijwilligersController extends AbstractController
@@ -128,11 +127,11 @@ class VrijwilligersController extends AbstractController
                 $this->addFlash('success', ucfirst($this->entityName).' is opgeslagen.');
 
                 return $this->redirectToRoute('oek_vrijwilligers_view', ['id' => $vrijwilliger->getId()]);
-            } catch(UserException $e) {
-//                $this->logger->error($e->getMessage(), ['exception' => $e]);
-                $message =  $e->getMessage();
+            } catch (UserException $e) {
+                //                $this->logger->error($e->getMessage(), ['exception' => $e]);
+                $message = $e->getMessage();
                 $this->addFlash('danger', $message);
-//                return $this->redirectToRoute('app_klanten_index');
+                //                return $this->redirectToRoute('app_klanten_index');
             } catch (\Exception $e) {
                 $message = $this->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
                 $this->addFlash('danger', $message);

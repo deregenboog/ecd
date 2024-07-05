@@ -9,7 +9,9 @@ use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Entity
+ *
  * @ORM\Table(name="registraties", indexes={
+ *
  *     @ORM\Index(name="klant_id", columns={"klant_id"}),
  *     @ORM\Index(name="idx_registraties_klant_id_locatie_id", columns={"klant_id", "locatie_id"}),
  *     @ORM\Index(name="idx_registraties_locatie_id_closed", columns={"locatie_id", "closed"}),
@@ -19,7 +21,9 @@ use Gedmo\Mapping\Annotation as Gedmo;
  *     @ORM\Index(name="locatie_date_binnen", columns={"locatie_id","binnen","douche","maaltijd","activering","veegploeg","kleding"}),
  *     @ORM\Index(name="locatie_date_klant", columns={"locatie_id","binnen","activering","veegploeg","klant_id"})
  * })
+ *
  * @ORM\HasLifecycleCallbacks
+ *
  * @Gedmo\Loggable
  */
 class Registratie
@@ -28,29 +32,38 @@ class Registratie
 
     /**
      * @var int
+     *
      * @ORM\Id
+     *
      * @ORM\Column(type="integer")
+     *
      * @ORM\GeneratedValue
      */
     private $id;
 
     /**
      * @var Locatie
+     *
      * @ORM\ManyToOne(targetEntity="Locatie")
+     *
      * @Gedmo\Versioned
      */
     private $locatie;
 
     /**
      * @var Klant
+     *
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Klant", inversedBy="registraties")
+     *
      * @Gedmo\Versioned
      */
     private $klant;
 
     /**
      * @var \DateTime
+     *
      * @ORM\Column(type="datetime")
+     *
      * @Gedmo\Versioned
      */
     private $binnen;
@@ -59,27 +72,34 @@ class Registratie
      * Used for indexing for improved performance.
      *
      * @var \DateTime
+     *
      * @ORM\Column(name="binnen_date", type="date", nullable=true)
      */
     private $binnenDate;
 
     /**
      * @var \DateTime
+     *
      * @ORM\Column(type="datetime", nullable=true)
+     *
      * @Gedmo\Versioned
      */
     private $buiten;
 
     /**
      * @var int
+     *
      * @ORM\Column(type="integer")
+     *
      * @Gedmo\Versioned
      */
     private $douche = 0;
 
     /**
      * @var int
+     *
      * @ORM\Column(type="integer")
+     *
      * @Gedmo\Versioned
      */
     private $mw = 0;
@@ -88,49 +108,63 @@ class Registratie
      * @deprecated
      *
      * @var int
+     *
      * @ORM\Column(type="integer")
+     *
      * @Gedmo\Versioned
      */
     private $gbrv = 0;
 
     /**
      * @var bool
+     *
      * @ORM\Column(type="boolean")
+     *
      * @Gedmo\Versioned
      */
     private $kleding = false;
 
     /**
      * @var bool
+     *
      * @ORM\Column(type="boolean")
+     *
      * @Gedmo\Versioned
      */
     private $maaltijd = false;
 
     /**
      * @var bool
+     *
      * @ORM\Column(type="boolean")
+     *
      * @Gedmo\Versioned
      */
     private $activering = false;
 
     /**
      * @var bool
+     *
      * @ORM\Column(type="boolean")
+     *
      * @Gedmo\Versioned
      */
     private $veegploeg = false;
 
     /**
      * @var int
+     *
      * @ORM\Column(type="integer", nullable=true)
+     *
      * @Gedmo\Versioned
      */
     private $aantalSpuiten = 0;
 
     /**
      * @var int
+     *
      * @ORM\Column(type="boolean", nullable=true)
+     *
      * @Gedmo\Versioned
      */
     private $closed = false;
@@ -139,6 +173,7 @@ class Registratie
      * @var \DateTime
      *
      * @ORM\Column(type="datetime", nullable=true)
+     *
      * @Gedmo\Versioned
      */
     protected $created;
@@ -147,6 +182,7 @@ class Registratie
      * @var \DateTime
      *
      * @ORM\Column(type="datetime", nullable=true)
+     *
      * @Gedmo\Versioned
      */
     protected $modified;
@@ -198,7 +234,7 @@ class Registratie
     private function setKlant(Klant $klant)
     {
         $this->klant = $klant;
-//         $klant->setLaatsteRegistratie($this);
+        //         $klant->setLaatsteRegistratie($this);
 
         return $this;
     }
@@ -312,17 +348,11 @@ class Registratie
         return $this;
     }
 
-    /**
-     * @return int
-     */
     public function getAantalSpuiten(): ?int
     {
         return $this->aantalSpuiten;
     }
 
-    /**
-     * @param int $aantalSpuiten
-     */
     public function setAantalSpuiten(int $aantalSpuiten): void
     {
         $this->aantalSpuiten = $aantalSpuiten;

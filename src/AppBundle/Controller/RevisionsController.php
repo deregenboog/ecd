@@ -5,12 +5,13 @@ namespace AppBundle\Controller;
 use Doctrine\ORM\EntityManagerInterface;
 use Gedmo\Loggable\Entity\LogEntry;
 use Gedmo\Loggable\LogEntryInterface;
-use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * @Route("/revisions")
+ *
  * @Template
  */
 class RevisionsController extends SymfonyController
@@ -25,6 +26,7 @@ class RevisionsController extends SymfonyController
 
     /**
      * @Route("/")
+     *
      * @Template
      */
     public function indexAction(Request $request)
@@ -52,7 +54,7 @@ class RevisionsController extends SymfonyController
                 case LogEntryInterface::ACTION_UPDATE:
                     foreach ($entry->getData() as $k => $v) {
                         $revision['changes'][$k] = [
-                            'from' => $i > 0 ? $revisions[$i-1]['changes'][$k]['to'] : null,
+                            'from' => $i > 0 ? $revisions[$i - 1]['changes'][$k]['to'] : null,
                             'to' => $v,
                         ];
                     }
@@ -64,7 +66,7 @@ class RevisionsController extends SymfonyController
         }
 
         foreach ($revisions as &$revision) {
-            if ($revision['action'] === LogEntryInterface::ACTION_CREATE) {
+            if (LogEntryInterface::ACTION_CREATE === $revision['action']) {
                 unset($revision['changes']);
             }
         }

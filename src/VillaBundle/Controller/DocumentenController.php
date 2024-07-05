@@ -4,10 +4,10 @@ namespace VillaBundle\Controller;
 
 use AppBundle\Controller\AbstractChildController;
 use AppBundle\Controller\DisableIndexActionTrait;
+use Symfony\Component\Routing\Annotation\Route;
 use VillaBundle\Entity\Document;
 use VillaBundle\Form\DocumentType;
 use VillaBundle\Service\DocumentDaoInterface;
-use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * @Route("/documenten")

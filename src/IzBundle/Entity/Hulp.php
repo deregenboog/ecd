@@ -4,7 +4,6 @@ namespace IzBundle\Entity;
 
 use AppBundle\Entity\Geslacht;
 use AppBundle\Entity\Medewerker;
-use AppBundle\Exception\UserException;
 use AppBundle\Model\TimestampableTrait;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
@@ -12,17 +11,25 @@ use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Entity
+ *
  * @ORM\Table(name="iz_koppelingen", indexes={
+ *
  *     @ORM\Index(name="discr", columns={"discr", "deleted"}),
  *     @ORM\Index(name="discr_2", columns={"discr", "deleted", "project_id"}),
  *     @ORM\Index(name="discr_3", columns={"discr", "deleted", "hulpvraagsoort_id"}),
  *     @ORM\Index(name="medewerker_id", columns={"medewerker_id", "discr", "deleted"})
  * })
+ *
  * @ORM\HasLifecycleCallbacks
+ *
  * @ORM\InheritanceType("SINGLE_TABLE")
+ *
  * @ORM\DiscriminatorColumn(name="discr", type="string")
+ *
  * @ORM\DiscriminatorMap({"hulpvraag" = "Hulpvraag", "hulpaanbod" = "Hulpaanbod"})
+ *
  * @Gedmo\Loggable
+ *
  * @Gedmo\SoftDeleteable
  */
 abstract class Hulp
@@ -36,7 +43,9 @@ abstract class Hulp
 
     /**
      * @ORM\Id
+     *
      * @ORM\Column(type="integer")
+     *
      * @ORM\GeneratedValue
      */
     protected $id;
@@ -50,66 +59,82 @@ abstract class Hulp
 
     /**
      * @ORM\Column(type="date", nullable=true)
+     *
      * @Gedmo\Versioned
      */
     protected $startdatum;
 
     /**
      * @ORM\Column(type="date", nullable=true)
+     *
      * @Gedmo\Versioned
      */
     protected $einddatum;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
+     *
      * @Gedmo\Versioned
      */
     protected $tussenevaluatiedatum;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
+     *
      * @Gedmo\Versioned
      */
     protected $eindevaluatiedatum;
 
     /**
      * @ORM\Column(name="koppeling_startdatum", type="date", nullable=true)
+     *
      * @Gedmo\Versioned
      */
     protected $koppelingStartdatum;
 
     /**
      * @ORM\Column(name="koppeling_einddatum", type="date", nullable=true)
+     *
      * @Gedmo\Versioned
      */
     protected $koppelingEinddatum;
 
     /**
      * @ORM\Column(name="koppeling_succesvol", type="boolean", nullable=true)
+     *
      * @Gedmo\Versioned
      */
     protected $koppelingSuccesvol;
 
     /**
      * @var Medewerker
+     *
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Medewerker")
+     *
      * @ORM\JoinColumn(nullable=false)
+     *
      * @Gedmo\Versioned
      */
     protected $medewerker;
 
     /**
      * @var Project
+     *
      * @ORM\ManyToOne(targetEntity="Project")
+     *
      * @ORM\JoinColumn(name="project_id", nullable=false)
+     *
      * @Gedmo\Versioned
      */
     protected $project;
 
     /**
      * @var EindeVraagAanbod
+     *
      * @ORM\ManyToOne(targetEntity="EindeVraagAanbod")
+     *
      * @ORM\JoinColumn(name="iz_vraagaanbod_id")
+     *
      * @Gedmo\Versioned
      */
     protected $eindeVraagAanbod;
@@ -118,22 +143,29 @@ abstract class Hulp
      * @var AfsluitredenKoppeling
      *
      * @ORM\ManyToOne(targetEntity="AfsluitredenKoppeling")
+     *
      * @ORM\JoinColumn(name="iz_eindekoppeling_id")
+     *
      * @Gedmo\Versioned
      */
     protected $afsluitredenKoppeling;
 
     /**
      * @var IzDeelnemer
+     *
      * @ORM\ManyToOne(targetEntity="IzDeelnemer", inversedBy="koppelingen")
+     *
      * @ORM\JoinColumn(name="iz_deelnemer_id", nullable=false)
+     *
      * @Gedmo\Versioned
      */
     private $izDeelnemer;
 
     /**
      * @var Verslag[]
+     *
      * @ORM\OneToMany(targetEntity="Verslag", mappedBy="koppeling", cascade={"persist"})
+     *
      * @ORM\OrderBy({"created": "desc"})
      */
     protected $verslagen;
@@ -149,6 +181,7 @@ abstract class Hulp
      * @var Doelgroep[]
      *
      * @ORM\ManyToMany(targetEntity="Doelgroep")
+     *
      * @ORM\JoinTable(
      *     name="iz_koppeling_doelgroep",
      *     joinColumns={@ORM\JoinColumn(name="koppeling_id")}
@@ -239,7 +272,7 @@ abstract class Hulp
         return $this->startdatum;
     }
 
-    public function setStartdatum(\DateTime $startdatum = null)
+    public function setStartdatum(?\DateTime $startdatum = null)
     {
         $this->startdatum = $startdatum;
 
@@ -261,7 +294,7 @@ abstract class Hulp
         return $this->einddatum;
     }
 
-    public function setEinddatum(\DateTime $einddatum = null)
+    public function setEinddatum(?\DateTime $einddatum = null)
     {
         $this->einddatum = $einddatum;
 
@@ -349,7 +382,7 @@ abstract class Hulp
         return $this->voorkeurGeslacht;
     }
 
-    public function setVoorkeurGeslacht(Geslacht $geslacht = null)
+    public function setVoorkeurGeslacht(?Geslacht $geslacht = null)
     {
         $this->voorkeurGeslacht = $geslacht;
 
@@ -391,7 +424,7 @@ abstract class Hulp
         return $this->getKoppeling() instanceof Koppeling;
     }
 
-    public function setTussenevaluatiedatum(\DateTime $datum = null)
+    public function setTussenevaluatiedatum(?\DateTime $datum = null)
     {
         $this->tussenevaluatiedatum = $datum;
         $this->getKoppeling()->setTussenevaluatiedatum($datum);
@@ -399,7 +432,7 @@ abstract class Hulp
         return $this;
     }
 
-    public function setEindevaluatiedatum(\DateTime $datum = null)
+    public function setEindevaluatiedatum(?\DateTime $datum = null)
     {
         $this->eindevaluatiedatum = $datum;
         $this->getKoppeling()->setEindevaluatiedatum($datum);
@@ -407,8 +440,7 @@ abstract class Hulp
         return $this;
     }
 
-
-    public function setKoppelingEinddatum(\DateTime $datum = null)
+    public function setKoppelingEinddatum(?\DateTime $datum = null)
     {
         $this->koppelingEinddatum = $datum;
         $this->getKoppeling()->setEinddatum($datum);
@@ -416,9 +448,6 @@ abstract class Hulp
         return $this;
     }
 
-    /**
-     * @param AfsluitredenKoppeling $afsluitreden
-     */
     public function setAfsluitredenKoppeling(?AfsluitredenKoppeling $afsluitreden)
     {
         $this->afsluitredenKoppeling = $afsluitreden;
@@ -427,9 +456,6 @@ abstract class Hulp
         return $this;
     }
 
-    /**
-     * @param bool $koppelingSuccesvol
-     */
     public function setKoppelingSuccesvol($succesvol)
     {
         $this->koppelingSuccesvol = (bool) $succesvol;

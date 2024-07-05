@@ -19,9 +19,6 @@ class DeclaratieType extends AbstractType
 {
     use MedewerkerTypeTrait;
 
-    /**
-     * {@inheritdoc}
-     */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $this->addMedewerkerType($builder, $options);
@@ -57,9 +54,6 @@ class DeclaratieType extends AbstractType
         $builder->add('submit', SubmitType::class);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
@@ -67,9 +61,6 @@ class DeclaratieType extends AbstractType
         ]);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getParent(): ?string
     {
         return BaseType::class;

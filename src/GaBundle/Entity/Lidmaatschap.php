@@ -9,8 +9,11 @@ use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Entity
+ *
  * @ORM\Table(name="ga_lidmaatschappen")
+ *
  * @ORM\HasLifecycleCallbacks
+ *
  * @Gedmo\Loggable
  */
 class Lidmaatschap
@@ -22,7 +25,9 @@ class Lidmaatschap
      * @var Groep
      *
      * @ORM\ManyToOne(targetEntity="Groep", inversedBy="lidmaatschappen")
+     *
      * @ORM\JoinColumn(nullable=false)
+     *
      * @Gedmo\Versioned
      */
     protected $groep;
@@ -31,44 +36,53 @@ class Lidmaatschap
      * @var Dossier
      *
      * @ORM\ManyToOne(targetEntity="Dossier", inversedBy="lidmaatschappen")
+     *
      * @ORM\JoinColumn(nullable=false)
+     *
      * @Gedmo\Versioned
      */
     protected $dossier;
 
     /**
      * @ORM\Column(type="date", nullable=true)
+     *
      * @Gedmo\Versioned
      */
     protected $startdatum;
 
     /**
      * @ORM\Column(type="date", nullable=true)
+     *
      * @Gedmo\Versioned
      */
     protected $einddatum;
 
     /**
      * @ORM\ManyToOne(targetEntity="LidmaatschapAfsluitreden")
+     *
      * @ORM\JoinColumn(name="groepsactiviteiten_reden_id")
+     *
      * @Gedmo\Versioned
      */
     protected $afsluitreden;
 
     /**
      * @ORM\Column(type="boolean", nullable=true)
+     *
      * @Gedmo\Versioned
      */
     protected $communicatieEmail = true;
 
     /**
      * @ORM\Column(type="boolean", nullable=true)
+     *
      * @Gedmo\Versioned
      */
     protected $communicatieTelefoon = true;
 
     /**
      * @ORM\Column(type="boolean", nullable=true)
+     *
      * @Gedmo\Versioned
      */
     protected $communicatiePost = true;
@@ -77,6 +91,7 @@ class Lidmaatschap
      * @var \DateTime
      *
      * @ORM\Column(type="datetime")
+     *
      * @Gedmo\Versioned
      */
     protected $created;
@@ -85,11 +100,12 @@ class Lidmaatschap
      * @var \DateTime
      *
      * @ORM\Column(type="datetime")
+     *
      * @Gedmo\Versioned
      */
     protected $modified;
 
-    public function __construct(Groep $groep = null, Dossier $dossier = null)
+    public function __construct(?Groep $groep = null, ?Dossier $dossier = null)
     {
         $this->startdatum = new \DateTime('today');
         $this->groep = $groep;

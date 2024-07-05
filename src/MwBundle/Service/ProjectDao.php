@@ -38,7 +38,7 @@ class ProjectDao extends AbstractDao implements ProjectDaoInterface
         $this->doDelete($project);
     }
 
-    protected function doFindAll(QueryBuilder $builder, $page = 1, FilterInterface $filter = null)
+    protected function doFindAll(QueryBuilder $builder, $page = 1, ?FilterInterface $filter = null)
     {
         $builder->innerJoin('project.medewerkers', 'medewerker');
 

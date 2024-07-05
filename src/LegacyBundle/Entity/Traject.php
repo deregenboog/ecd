@@ -8,6 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * Trajecten.
  *
  * @ORM\Table(name="trajecten", uniqueConstraints={@ORM\UniqueConstraint(name="uq_klant_id", columns={"klant_id"})})
+ *
  * @ORM\Entity
  */
 class Traject
@@ -86,7 +87,9 @@ class Traject
      * @var int
      *
      * @ORM\Column(name="id", type="integer")
+     *
      * @ORM\Id
+     *
      * @ORM\GeneratedValue
      */
     private $id;

@@ -6,22 +6,22 @@ use AppBundle\Controller\SymfonyController;
 use AppBundle\Exception\UserException;
 use AppBundle\Form\ConfirmationType;
 use Doctrine\ORM\EntityManagerInterface;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Annotation\Route;
 use TwBundle\Entity\Huuraanbod;
-use TwBundle\Entity\Klant;
 use TwBundle\Entity\Huurovereenkomst;
 use TwBundle\Entity\Huurverzoek;
+use TwBundle\Entity\Klant;
 use TwBundle\Entity\Verhuurder;
 use TwBundle\Entity\Verslag;
 use TwBundle\Exception\TwException;
 use TwBundle\Form\VerslagType;
 use TwBundle\Service\VerslagDaoInterface;
-use Symfony\Component\Routing\Annotation\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-use Symfony\Component\HttpFoundation\Request;
 
 /**
  * @Route("/verslagen")
+ *
  * @Template
  */
 class VerslagenController extends SymfonyController
@@ -49,7 +49,6 @@ class VerslagenController extends SymfonyController
         $entity = $e['entity'];
         $type = $e['type'];
 
-
         $form = $this->getForm(VerslagType::class, new Verslag());
         $form->handleRequest($this->getRequest());
         if ($form->isSubmitted() && $form->isValid()) {
@@ -58,11 +57,11 @@ class VerslagenController extends SymfonyController
                 $entityManager->persist($entity->addVerslag($form->getData()));
                 $entityManager->flush();
                 $this->addFlash('success', 'Verslag is toegevoegd.');
-            } catch(UserException $e) {
-//                $this->logger->error($e->getMessage(), ['exception' => $e]);
-                $message =  $e->getMessage();
+            } catch (UserException $e) {
+                //                $this->logger->error($e->getMessage(), ['exception' => $e]);
+                $message = $e->getMessage();
                 $this->addFlash('danger', $message);
-//                return $this->redirectToRoute('app_klanten_index');
+                //                return $this->redirectToRoute('app_klanten_index');
             } catch (\Exception $e) {
                 $message = $this->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
                 $this->addFlash('danger', $message);
@@ -75,7 +74,7 @@ class VerslagenController extends SymfonyController
 
         return [
             'form' => $form->createView(),
-            'type'=>$type,
+            'type' => $type,
         ];
     }
 
@@ -92,11 +91,11 @@ class VerslagenController extends SymfonyController
             try {
                 $this->dao->update($entity);
                 $this->addFlash('success', 'Verslag is bijgewerkt.');
-            } catch(UserException $e) {
-//                $this->logger->error($e->getMessage(), ['exception' => $e]);
-                $message =  $e->getMessage();
+            } catch (UserException $e) {
+                //                $this->logger->error($e->getMessage(), ['exception' => $e]);
+                $message = $e->getMessage();
                 $this->addFlash('danger', $message);
-//                return $this->redirectToRoute('app_klanten_index');
+                //                return $this->redirectToRoute('app_klanten_index');
             } catch (\Exception $e) {
                 $message = $this->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
                 $this->addFlash('danger', $message);
@@ -146,35 +145,35 @@ class VerslagenController extends SymfonyController
             case $this->getRequest()->query->has('klant'):
                 $class = Klant::class;
                 $id = $this->getRequest()->query->get('klant');
-                $type = "Klant";
+                $type = 'Klant';
                 break;
             case $this->getRequest()->query->has('verhuurder'):
                 $class = Verhuurder::class;
                 $id = $this->getRequest()->query->get('verhuurder');
-                $type = "Verhuurder";
+                $type = 'Verhuurder';
                 break;
             case $this->getRequest()->query->has('huurverzoek'):
                 $class = Huurverzoek::class;
                 $id = $this->getRequest()->query->get('huurverzoek');
-                $type = "Huurverzoek";
+                $type = 'Huurverzoek';
                 break;
             case $this->getRequest()->query->has('huuraanbod'):
                 $class = Huuraanbod::class;
                 $id = $this->getRequest()->query->get('huuraanbod');
-                $type = "Huuraanbod";
+                $type = 'Huuraanbod';
                 break;
             case $this->getRequest()->query->has('huurovereenkomst'):
                 $class = Huurovereenkomst::class;
                 $id = $this->getRequest()->query->get('huurovereenkomst');
-                $type = "Koppeling";
+                $type = 'Koppeling';
                 break;
             default:
                 throw new TwException('Kan geen verslag aan deze entiteit toevoegen');
         }
 
         return [
-            'entity'=>$entityManager->find($class, $id),
-            'type'=>$type,
+            'entity' => $entityManager->find($class, $id),
+            'type' => $type,
             ];
     }
 

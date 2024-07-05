@@ -14,13 +14,8 @@ interface ToegangsrechtDaoInterface
      *
      * @return PaginationInterface
      */
-    public function findAll($page = null, FilterInterface $filter = null);
+    public function findAll($page = null, ?FilterInterface $filter = null);
 
-    /**
-     * @param Medewerker $medewerker
-     *
-     * @return Toegangsrecht
-     */
     public function findOneByMedewerker(Medewerker $medewerker): ?Toegangsrecht;
 
     /**
@@ -30,18 +25,9 @@ interface ToegangsrechtDaoInterface
      */
     public function find($id);
 
-    /**
-     * @param Toegangsrecht $entity
-     */
     public function create(Toegangsrecht $entity);
 
-    /**
-     * @param Toegangsrecht $entity
-     */
     public function update(Toegangsrecht $entity);
 
-    /**
-     * @param Toegangsrecht $entity
-     */
     public function delete(Toegangsrecht $entity);
 }

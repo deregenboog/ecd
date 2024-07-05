@@ -10,7 +10,9 @@ use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Entity(repositoryClass="GaBundle\Repository\DeelnemerRepository")
+ *
  * @ORM\HasLifecycleCallbacks
+ *
  * @Gedmo\Loggable
  */
 class Klantdossier extends Dossier
@@ -19,11 +21,12 @@ class Klantdossier extends Dossier
      * @var Klant
      *
      * @ORM\OneToOne(targetEntity="AppBundle\Entity\Klant", cascade={"persist"})
+     *
      * @Gedmo\Versioned
      */
     private $klant;
 
-    public function __construct(Klant $klant = null)
+    public function __construct(?Klant $klant = null)
     {
         $this->klant = $klant;
         parent::__construct();

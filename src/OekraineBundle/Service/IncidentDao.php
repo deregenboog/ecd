@@ -2,10 +2,7 @@
 
 namespace OekraineBundle\Service;
 
-use AppBundle\Entity\Klant;
-use AppBundle\Filter\FilterInterface;
 use AppBundle\Service\AbstractDao;
-use OekraineBundle\Entity\Locatie;
 use OekraineBundle\Entity\Incident;
 
 class IncidentDao extends AbstractDao implements IncidentDaoInterface

@@ -12,12 +12,13 @@ use AppBundle\Service\AbstractDao;
 use DagbestedingBundle\Filter\TrajectFilter;
 use DagbestedingBundle\Form\TrajectFilterType;
 use DagbestedingBundle\Service\TrajectDaoInterface;
-use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * @Route("/mijn")
+ *
  * @Template
  */
 class DashboardController extends SymfonyController

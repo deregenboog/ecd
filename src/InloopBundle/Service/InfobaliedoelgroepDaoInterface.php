@@ -9,12 +9,11 @@ use Knp\Component\Pager\Pagination\PaginationInterface;
 interface InfobaliedoelgroepDaoInterface
 {
     /**
-     * @param int             $page
-     * @param FilterInterface $filter
+     * @param int $page
      *
      * @return PaginationInterface
      */
-    public function findAll($page = null, FilterInterface $filter = null);
+    public function findAll($page = null, ?FilterInterface $filter = null);
 
     /**
      * @param int $id
@@ -23,18 +22,9 @@ interface InfobaliedoelgroepDaoInterface
      */
     public function find($id);
 
-    /**
-     * @param Infobaliedoelgroep $entity
-     */
     public function create(Infobaliedoelgroep $entity);
 
-    /**
-     * @param Infobaliedoelgroep $entity
-     */
     public function update(Infobaliedoelgroep $entity);
 
-    /**
-     * @param Infobaliedoelgroep $entity
-     */
     public function delete(Infobaliedoelgroep $entity);
 }

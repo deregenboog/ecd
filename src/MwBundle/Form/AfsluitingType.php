@@ -13,8 +13,6 @@ use MwBundle\Entity\Resultaat;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\Extension\Core\Type\MoneyType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -25,9 +23,6 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class AfsluitingType extends AbstractType
 {
-    /**
-     * {@inheritdoc}
-     */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
@@ -46,54 +41,55 @@ class AfsluitingType extends AbstractType
                     return ['class' => 'land_'.(int) $reden->isLand()];
                 },
             ])
-            ->add('locatie', LocatieSelectType::class,[
-            'required'  =>true,
+            ->add('locatie', LocatieSelectType::class, [
+            'required' => true,
             ])
             ->add('resultaat', EntityType::class, [
-                'class'=>Resultaat::class,
+                'class' => Resultaat::class,
                 'required' => false,
-                'multiple'=>true,
-                'expanded'=>true,
+                'multiple' => true,
+                'expanded' => true,
                 'placeholder' => 'Resulta(a)t(en)',
                 'query_builder' => function (EntityRepository $repository) {
                     return $repository->createQueryBuilder('resultaat')
                         ->where('resultaat.actief = true')
                         ->orderBy('resultaat.naam')
-                        ;
+                    ;
                 },
-
             ])
             ->add('land', LandSelectType::class, [
                 'required' => false,
                 'placeholder' => '',
                 'label' => 'Land van bestemming',
             ])
-            ->add('datumRepatriering',AppDateType::class, ["required"=>false])
-            ->add('kosten',MoneyType::class,["required"=>false])
+            ->add('datumRepatriering', AppDateType::class, ['required' => false])
+            ->add('kosten', MoneyType::class, ['required' => false])
             ->add('zachteLanding')
             ->add('toelichting')
-            ->add('inloopSluiten',CheckboxType::class,[
-                'label'=>"Inloopdossier (indien aanwezig) ook sluiten?",
-                'required'=>false,
-                'mapped'=>false,
+            ->add('inloopSluiten', CheckboxType::class, [
+                'label' => 'Inloopdossier (indien aanwezig) ook sluiten?',
+                'required' => false,
+                'mapped' => false,
             ])
             ->add('submit', SubmitType::class, ['label' => 'Opslaan'])
         ;
 
         $builder->addEventListener(FormEvents::POST_SUBMIT, function (FormEvent $event) {
             $form = $event->getForm();
-            if ($form->get('reden')->getData()->isLand()){
-
-             if(!$form->get('land')->getData()) $form->get('land')->addError(new FormError('Selecteer een land'));
-            if(!$form->get('kosten')->getData()) $form->get('kosten')->addError(new FormError('Voer de kosten in'));
-            if(!$form->get('datumRepatriering')->getData()) $form->get('datumRepatriering')->addError(new FormError('Voer de datum in'));
+            if ($form->get('reden')->getData()->isLand()) {
+                if (!$form->get('land')->getData()) {
+                    $form->get('land')->addError(new FormError('Selecteer een land'));
+                }
+                if (!$form->get('kosten')->getData()) {
+                    $form->get('kosten')->addError(new FormError('Voer de kosten in'));
+                }
+                if (!$form->get('datumRepatriering')->getData()) {
+                    $form->get('datumRepatriering')->addError(new FormError('Voer de datum in'));
+                }
             }
         });
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
@@ -103,9 +99,6 @@ class AfsluitingType extends AbstractType
         ]);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getParent(): ?string
     {
         return BaseType::class;

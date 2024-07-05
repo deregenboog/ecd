@@ -13,7 +13,7 @@ interface DeclaratieDaoInterface
      *
      * @return PaginationInterface
      */
-    public function findAll($page = null, FilterInterface $filter = null);
+    public function findAll($page = null, ?FilterInterface $filter = null);
 
     /**
      * @param int $id
@@ -22,18 +22,9 @@ interface DeclaratieDaoInterface
      */
     public function find($id);
 
-    /**
-     * @param Declaratie $declaratie
-     */
     public function create(Declaratie $declaratie);
 
-    /**
-     * @param Declaratie $declaratie
-     */
     public function update(Declaratie $declaratie);
 
-    /**
-     * @param Declaratie $declaratie
-     */
     public function delete(Declaratie $declaratie);
 }

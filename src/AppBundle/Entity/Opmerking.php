@@ -10,10 +10,14 @@ use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Entity
+ *
  * @ORM\Table(name="opmerkingen", indexes={
+ *
  *     @ORM\Index(name="idx_opmerkingen_klant_id", columns={"klant_id"})
  * })
+ *
  * @ORM\HasLifecycleCallbacks
+ *
  * @Gedmo\Loggable
  */
 class Opmerking
@@ -26,7 +30,9 @@ class Opmerking
      * @var Klant
      *
      * @ORM\ManyToOne(targetEntity="Klant", inversedBy="opmerkingen")
+     *
      * @ORM\JoinColumn(nullable=false)
+     *
      * @Gedmo\Versioned
      */
     private $klant;
@@ -35,7 +41,9 @@ class Opmerking
      * @var Categorie
      *
      * @ORM\ManyToOne(targetEntity="Categorie")
+     *
      * @ORM\JoinColumn(nullable=false)
+     *
      * @Gedmo\Versioned
      */
     private $categorie;
@@ -44,6 +52,7 @@ class Opmerking
      * @var string
      *
      * @ORM\Column()
+     *
      * @Gedmo\Versioned
      */
     private $beschrijving;
@@ -52,6 +61,7 @@ class Opmerking
      * @var bool
      *
      * @ORM\Column(type="boolean", options={"default":0})
+     *
      * @Gedmo\Versioned
      */
     private $gezien = false;
@@ -60,6 +70,7 @@ class Opmerking
      * @var \DateTime
      *
      * @ORM\Column(type="datetime", nullable=true)
+     *
      * @Gedmo\Versioned
      */
     protected $created;
@@ -68,17 +79,18 @@ class Opmerking
      * @var \DateTime
      *
      * @ORM\Column(type="datetime", nullable=true)
+     *
      * @Gedmo\Versioned
      */
     protected $modified;
 
-    public function __construct(Klant $klant = null)
+    public function __construct(?Klant $klant = null)
     {
         $this->setKlant($klant);
     }
 
     /**
-     * @return \AppBundle\Entity\Klant
+     * @return Klant
      */
     public function getKlant()
     {
@@ -86,7 +98,7 @@ class Opmerking
     }
 
     /**
-     * @param \AppBundle\Entity\Klant $klant
+     * @param Klant $klant
      */
     public function setKlant($klant)
     {
@@ -96,7 +108,7 @@ class Opmerking
     }
 
     /**
-     * @return \AppBundle\Entity\Categorie
+     * @return Categorie
      */
     public function getCategorie()
     {
@@ -104,7 +116,7 @@ class Opmerking
     }
 
     /**
-     * @param \AppBundle\Entity\Categorie $categorie
+     * @param Categorie $categorie
      */
     public function setCategorie($categorie)
     {

@@ -2,29 +2,17 @@
 
 namespace OekraineBundle\Form;
 
-use AppBundle\Entity\Inkomen;
 use AppBundle\Form\AppDateType;
-use AppBundle\Form\AppTextareaType;
 use AppBundle\Form\BaseType;
-use AppBundle\Form\JaNeeType;
-use AppBundle\Form\MedewerkerType;
-use AppBundle\Form\ZrmType;
-use OekraineBundle\Entity\Instantie;
 use OekraineBundle\Entity\Intake;
-use OekraineBundle\Entity\Woonsituatie;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
-use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class ToegangType extends AbstractType
 {
-    /**
-     * {@inheritdoc}
-     */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
@@ -33,26 +21,18 @@ class ToegangType extends AbstractType
         $builder->add('submit', SubmitType::class);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getParent(): ?string
     {
         return BaseType::class;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
             'data_class' => Intake::class,
-            'validation_groups'=>'toegang'
+            'validation_groups' => 'toegang',
         ]);
     }
-
-
 
     public static function createToegang(FormBuilderInterface $builder, array $options)
     {
@@ -60,8 +40,7 @@ class ToegangType extends AbstractType
             ->create('toegang', null, [
                 'compound' => true,
                 'inherit_data' => true,
-                'required'=>true,
-
+                'required' => true,
             ])
             ->add('verblijfsstatus', VerblijfsstatusSelectType::class, [
                 'required' => true,
@@ -74,15 +53,15 @@ class ToegangType extends AbstractType
             ])
             ->add('amocToegangTot', AppDateType::class, [
                 'label' => 'Einddatum toegang AMOC',
-                'required'=>false,
+                'required' => false,
             ])
             ->add('ondroBongToegangVan', AppDateType::class, [
                 'label' => 'Startdatum toegang Zeeburg/Transformatorweg',
-                'required'=>false,
+                'required' => false,
             ])
             ->add('overigenToegangVan', AppDateType::class, [
                 'label' => 'Startdatum toegang overigen',
-                'required'=>false,
+                'required' => false,
             ])
             ->add('gebruikersruimte', LocatieSelectType::class, [
                 'required' => false,
@@ -90,5 +69,4 @@ class ToegangType extends AbstractType
             ])
         ;
     }
-
 }

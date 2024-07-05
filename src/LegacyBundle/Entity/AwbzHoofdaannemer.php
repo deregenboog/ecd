@@ -3,13 +3,14 @@
 namespace LegacyBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use AppBundle\Model\IdentifiableTrait;
 
 /**
  * @ORM\Entity
+ *
  * @ORM\Table(
  *     name="awbz_hoofdaannemers",
  *     indexes={
+ *
  *         @ORM\Index(name="idx_awbz_hoofdaannemers_klant_id", columns={"klant_id"}),
  *         @ORM\Index(name="idx_awbz_hoofdaannemers_hoofdaannemer_id", columns={"hoofdaannemer_id"})
  *     }
@@ -19,7 +20,9 @@ class AwbzHoofdaannemer
 {
     /**
      * @ORM\Column(type="integer")
+     *
      * @ORM\Id
+     *
      * @ORM\GeneratedValue
      */
     private $id;

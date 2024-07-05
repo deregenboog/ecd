@@ -10,7 +10,9 @@ trait MemoSubjectTrait
      * @var MemoInterface[]
      *
      * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Memo", cascade={"persist"})
+     *
      * @ORM\JoinTable(inverseJoinColumns={@ORM\JoinColumn(unique=true)})
+     *
      * @ORM\OrderBy({"datum": "desc", "id": "desc"})
      */
     protected $memos;
@@ -24,8 +26,6 @@ trait MemoSubjectTrait
     }
 
     /**
-     * @param MemoInterface $memo
-     *
      * @return self
      */
     public function addMemo(MemoInterface $memo)
@@ -36,8 +36,6 @@ trait MemoSubjectTrait
     }
 
     /**
-     * @param MemoInterface $memo
-     *
      * @return self
      */
     public function removeMemo(MemoInterface $memo)

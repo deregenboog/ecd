@@ -13,6 +13,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * @Route("/admin/toegangsrechten")
+ *
  * @Template
  */
 class ToegangsrechtenController extends AbstractController

@@ -3,8 +3,8 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Export\GenericExport;
-use AppBundle\Service\AbstractDao;
 use AppBundle\Form\DownloadVrijwilligersType;
+use AppBundle\Service\AbstractDao;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
@@ -26,6 +26,7 @@ class DownloadController extends AbstractController
 
     /**
      * @Route("/")
+     *
      * @Template
      */
     public function indexAction(Request $request)
@@ -74,7 +75,7 @@ class DownloadController extends AbstractController
 
         // create writer
         $writer = IOFactory::createWriter($spreadsheet, 'Xlsx');
-        $filename = sprintf("Download Vrijwilligers %s.xlsx", (new \DateTime())->format('Y-m-d'));
+        $filename = sprintf('Download Vrijwilligers %s.xlsx', (new \DateTime())->format('Y-m-d'));
 
         // write to output buffer
         // @see https://www.php.net/manual/en/wrappers.php.php

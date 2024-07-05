@@ -16,9 +16,6 @@ class BaseType extends AbstractType
     public const MODE_EDIT = 'edit';
     public const MODE_CLOSE = 'close';
 
-    /**
-     * {@inheritdoc}
-     */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event) {
@@ -28,9 +25,6 @@ class BaseType extends AbstractType
         });
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([

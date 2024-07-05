@@ -11,9 +11,13 @@ use Gedmo\SoftDeleteable\Traits\SoftDeleteable;
 
 /**
  * @ORM\Entity
+ *
  * @ORM\Table(name="iz_reserveringen")
+ *
  * @ORM\HasLifecycleCallbacks
+ *
  * @Gedmo\Loggable
+ *
  * @Gedmo\SoftDeleteable
  */
 class Reservering
@@ -32,28 +36,36 @@ class Reservering
 
     /**
      * @ORM\Column(type="date")
+     *
      * @Gedmo\Versioned
      */
     protected $startdatum;
 
     /**
      * @ORM\Column(type="date")
+     *
      * @Gedmo\Versioned
      */
     protected $einddatum;
 
     /**
      * @var Hulpvraag
+     *
      * @ORM\ManyToOne(targetEntity="Hulpvraag", inversedBy="reserveringen")
+     *
      * @ORM\JoinColumn(nullable=false)
+     *
      * @Gedmo\Versioned
      */
     protected $hulpvraag;
 
     /**
      * @var Hulpaanbod
+     *
      * @ORM\ManyToOne(targetEntity="Hulpaanbod", inversedBy="reserveringen")
+     *
      * @ORM\JoinColumn(nullable=false)
+     *
      * @Gedmo\Versioned
      */
     protected $hulpaanbod;
@@ -62,6 +74,7 @@ class Reservering
      * @var \DateTime
      *
      * @ORM\Column(type="datetime")
+     *
      * @Gedmo\Versioned
      */
     protected $created;
@@ -70,11 +83,12 @@ class Reservering
      * @var \DateTime
      *
      * @ORM\Column(type="datetime")
+     *
      * @Gedmo\Versioned
      */
     protected $modified;
 
-    public function __construct(Hulpvraag $hulpvraag = null, Hulpaanbod $hulpaanbod = null)
+    public function __construct(?Hulpvraag $hulpvraag = null, ?Hulpaanbod $hulpaanbod = null)
     {
         $this->hulpvraag = $hulpvraag;
         $this->hulpaanbod = $hulpaanbod;
@@ -111,7 +125,7 @@ class Reservering
         return $this->startdatum;
     }
 
-    public function setStartdatum(\DateTime $startdatum = null)
+    public function setStartdatum(?\DateTime $startdatum = null)
     {
         $this->startdatum = $startdatum;
 
@@ -123,7 +137,7 @@ class Reservering
         return $this->einddatum;
     }
 
-    public function setEinddatum(\DateTime $einddatum = null)
+    public function setEinddatum(?\DateTime $einddatum = null)
     {
         $this->einddatum = $einddatum;
 

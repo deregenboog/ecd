@@ -3,7 +3,6 @@
 namespace TwBundle\Form;
 
 use AppBundle\Form\BaseType;
-use TwBundle\Entity\Afsluitreden;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -12,9 +11,6 @@ use TwBundle\Entity\IntakeStatus;
 
 class IntakeStatusType extends AbstractType
 {
-    /**
-     * {@inheritdoc}
-     */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
@@ -24,9 +20,6 @@ class IntakeStatusType extends AbstractType
         ;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
@@ -34,9 +27,6 @@ class IntakeStatusType extends AbstractType
         ]);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getParent(): ?string
     {
         return BaseType::class;

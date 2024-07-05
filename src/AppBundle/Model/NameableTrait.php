@@ -9,6 +9,7 @@ trait NameableTrait
 {
     /**
      * @ORM\Column
+     *
      * @Gedmo\Versioned
      */
     protected $naam;

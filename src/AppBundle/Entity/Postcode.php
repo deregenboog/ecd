@@ -9,41 +9,52 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity
+ *
  * @ORM\Table(name="postcodes")
+ *
  * @Gedmo\Loggable
+ *
  * @UniqueEntity("postcode")
  */
 class Postcode
 {
     /**
      * @ORM\Id
+     *
      * @ORM\Column(type="string")
+     *
      * @Gedmo\Versioned
+     *
      * @Assert\Regex(pattern="/^[0-9]{4}\s?[A-Za-z]{2}$/", message="Dit is geen geldige postcode")
      */
     private $postcode;
 
     /**
      * @ORM\ManyToOne(targetEntity="Werkgebied")
+     *
      * @ORM\JoinColumn(name="stadsdeel", referencedColumnName="naam")
+     *
      * @Gedmo\Versioned
      */
     private $stadsdeel;
 
     /**
      * @ORM\ManyToOne(targetEntity="GgwGebied")
+     *
      * @ORM\JoinColumn(name="postcodegebied", referencedColumnName="naam")
+     *
      * @Gedmo\Versioned
      */
     private $postcodegebied;
 
     /**
      * @ORM\Column(name="`system`", type="boolean", options={"default" : 1})
+     *
      * @Gedmo\Versioned
      */
     private $system = true;
 
-    public function __construct($postcode = null, Werkgebied $stadsdeel = null, GgwGebied $postcodegebied = null)
+    public function __construct($postcode = null, ?Werkgebied $stadsdeel = null, ?GgwGebied $postcodegebied = null)
     {
         $this->postcode = $postcode;
         $this->stadsdeel = $stadsdeel;
@@ -84,7 +95,7 @@ class Postcode
         return $this->postcodegebied;
     }
 
-    public function setPostcodegebied(GgwGebied $postcodegebied = null)
+    public function setPostcodegebied(?GgwGebied $postcodegebied = null)
     {
         $this->postcodegebied = $postcodegebied;
 

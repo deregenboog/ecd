@@ -10,10 +10,12 @@ use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
- * Class Resultaat
- * @package MwBundle\Entity
+ * Class Resultaat.
+ *
  * @ORM\Entity
+ *
  * @ORM\Table(name="mw_resultaten")
+ *
  * @Gedmo\Loggable
  */
 class Resultaat
@@ -22,5 +24,4 @@ class Resultaat
     use NameableTrait;
     use ActivatableTrait;
     use NotDeletableTrait;
-
 }

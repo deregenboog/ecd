@@ -5,25 +5,20 @@ namespace HsBundle\Controller;
 use AppBundle\Controller\AbstractChildController;
 use AppBundle\Exception\AppException;
 use AppBundle\Exception\UserException;
-use AppBundle\Form\Model\AppDateRangeModel;
-use Doctrine\ORM\EntityManagerInterface;
 use HsBundle\Entity\Arbeider;
-use HsBundle\Entity\Creditfactuur;
 use HsBundle\Entity\Declaratie;
 use HsBundle\Entity\Factuur;
 use HsBundle\Entity\FactuurSubjectHelper;
-use HsBundle\Entity\Klant;
 use HsBundle\Entity\Klus;
-use HsBundle\Entity\Registratie;
 use HsBundle\Form\DeclaratieType;
 use HsBundle\Service\DeclaratieDaoInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
-
 /**
  * @Route("/declaraties")
+ *
  * @Template
  */
 class DeclaratiesController extends AbstractChildController
@@ -87,12 +82,13 @@ class DeclaratiesController extends AbstractChildController
 
     /**
      * @param Declaratie $declaratie
+     *
      * @throws \HsBundle\Exception\InvoiceLockedException
      */
     protected function beforeUpdate($declaratie): void
     {
         $helper = new FactuurSubjectHelper();
-        $helper->beforeUpdateEntity($declaratie,$this->getEntityManager());
+        $helper->beforeUpdateEntity($declaratie, $this->getEntityManager());
     }
 
     /**
@@ -134,11 +130,11 @@ class DeclaratiesController extends AbstractChildController
                 $this->beforeCreate($entity);
                 $this->dao->create($entity);
                 $this->addFlash('success', ucfirst($this->entityName).' is toegevoegd.');
-            } catch(UserException $e) {
-//                $this->logger->error($e->getMessage(), ['exception' => $e]);
-                $message =  $e->getMessage();
+            } catch (UserException $e) {
+                //                $this->logger->error($e->getMessage(), ['exception' => $e]);
+                $message = $e->getMessage();
                 $this->addFlash('danger', $message);
-//                return $this->redirectToRoute('app_klanten_index');
+                //                return $this->redirectToRoute('app_klanten_index');
             } catch (\Exception $e) {
                 $message = $this->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
                 $this->addFlash('danger', $message);
@@ -157,6 +153,4 @@ class DeclaratiesController extends AbstractChildController
             'form' => $form->createView(),
         ];
     }
-
-
 }

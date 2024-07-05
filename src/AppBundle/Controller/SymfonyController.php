@@ -43,7 +43,6 @@ abstract class SymfonyController extends AbstractController
      */
     protected $entityManager;
 
-
     public function __construct(PaginatorInterface $paginator, EntityManagerInterface $entityManager)
     {
         $this->paginator = $paginator;

@@ -2,8 +2,6 @@
 
 namespace MwBundle\Form;
 
-use AppBundle\Form\AppDateType;
-use AppBundle\Form\AppTimeType;
 use AppBundle\Form\BaseType;
 use OekBundle\Entity\Training;
 use Symfony\Component\Form\AbstractType;
@@ -13,9 +11,6 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class TrainingType extends AbstractType
 {
-    /**
-     * {@inheritdoc}
-     */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
@@ -24,9 +19,6 @@ class TrainingType extends AbstractType
         ;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
@@ -34,9 +26,6 @@ class TrainingType extends AbstractType
         ]);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getParent(): ?string
     {
         return BaseType::class;

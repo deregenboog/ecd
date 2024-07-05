@@ -11,6 +11,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * @Route("/dossiers")
+ *
  * @Template
  */
 abstract class DossiersController extends AbstractController

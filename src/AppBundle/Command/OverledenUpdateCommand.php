@@ -9,7 +9,6 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class OverledenUpdateCommand extends \Symfony\Component\Console\Command\Command
 {
-
     /**
      * @var EntityManagerInterface
      */
@@ -25,7 +24,6 @@ class OverledenUpdateCommand extends \Symfony\Component\Console\Command\Command
     {
         $this->setName('app:overleden:update');
     }
-
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
@@ -45,6 +43,7 @@ class OverledenUpdateCommand extends \Symfony\Component\Console\Command\Command
         $this->em->flush();
 
         $output->writeln('Finished!');
+
         return 0;
     }
 }

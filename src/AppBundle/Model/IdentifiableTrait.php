@@ -8,7 +8,9 @@ trait IdentifiableTrait
 {
     /**
      * @ORM\Id
+     *
      * @ORM\Column(type="integer")
+     *
      * @ORM\GeneratedValue
      */
     protected $id;

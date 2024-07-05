@@ -3,7 +3,6 @@
 namespace TwBundle\Report;
 
 use AppBundle\Report\AbstractReport;
-use TwBundle\Service\HuurovereenkomstAfsluitingDao;
 use TwBundle\Service\HuurovereenkomstAfsluitingDaoInterface;
 
 class Afsluitingen extends AbstractReport

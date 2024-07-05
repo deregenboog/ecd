@@ -13,6 +13,7 @@ class RegistratiesControllerTest extends WebTestCase
     public function testToegangInloophuis()
     {
         $this->markTestSkipped();
+
         return true;
 
         $medewerker = $this->getContainer()->get(MedewerkerDao::class)->findByUsername('inloop_user');
@@ -65,7 +66,7 @@ class RegistratiesControllerTest extends WebTestCase
     private function checkIntakeOnDiensten($id, $xPathExpression)
     {
         $crawler = $client->request('GET', "/inloop/intakes/$id/view");
-//        file_put_contents("/tmp/debug.html", $crawler->html());
+        //        file_put_contents("/tmp/debug.html", $crawler->html());
         $this->assertStatusCode(200, $client);
         $node = $crawler->filterXPath($xPathExpression);
         $this->assertTrue(1 == $node->count());

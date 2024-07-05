@@ -9,12 +9,11 @@ use Knp\Component\Pager\Pagination\PaginationInterface;
 interface PeriodeDaoInterface
 {
     /**
-     * @param int             $page
-     * @param FilterInterface $filter
+     * @param int $page
      *
      * @return PaginationInterface
      */
-    public function findAll($page = null, FilterInterface $filter = null);
+    public function findAll($page = null, ?FilterInterface $filter = null);
 
     /**
      * @param int $id
@@ -23,18 +22,9 @@ interface PeriodeDaoInterface
      */
     public function find($id);
 
-    /**
-     * @param Periode $entity
-     */
     public function create(Periode $entity);
 
-    /**
-     * @param Periode $entity
-     */
     public function update(Periode $entity);
 
-    /**
-     * @param Periode $entity
-     */
     public function delete(Periode $entity);
 }

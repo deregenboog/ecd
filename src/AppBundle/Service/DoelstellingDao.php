@@ -111,7 +111,6 @@ class DoelstellingDao extends AbstractDao
 
         foreach ($doelstellingen as $i => $doelstelling) {
             /** @var Doelstelling $doelstelling */
-
             $source = $doelstelling->getRepository();
             $roleName = self::getRoleNameForRepositoryMethod($source); // get Rolename for this repository to vote if user has access to this repository.
             $canView = $this->decisionManager->decide($token, [$roleName]);

@@ -10,11 +10,17 @@ use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Entity
+ *
  * @ORM\Table(name="zrm_reports")
+ *
  * @ORM\HasLifecycleCallbacks
+ *
  * @ORM\InheritanceType("SINGLE_TABLE")
+ *
  * @ORM\DiscriminatorColumn(name="discr", type="string", length=5)
+ *
  * @ORM\DiscriminatorMap({"zrmv1" = "ZrmV1", "zrmv2" = "ZrmV2"})
+ *
  * @Gedmo\Loggable
  */
 abstract class Zrm
@@ -30,25 +36,30 @@ abstract class Zrm
 
     /**
      * @ORM\ManyToOne(targetEntity="Klant", inversedBy="zrms")
+     *
      * @ORM\JoinColumn(nullable=false)
+     *
      * @Gedmo\Versioned
      */
     protected $klant;
 
     /**
      * @ORM\Column(length=50, nullable=true)
+     *
      * @Gedmo\Versioned
      */
     protected $model;
 
     /**
      * @ORM\Column(name="foreign_key", type="integer", nullable=true)
+     *
      * @Gedmo\Versioned
      */
     protected $foreignKey;
 
     /**
      * @ORM\Column(name="request_module", length=50)
+     *
      * @Gedmo\Versioned
      */
     protected $requestModule;
@@ -57,6 +68,7 @@ abstract class Zrm
      * @var \DateTime
      *
      * @ORM\Column(type="datetime", nullable=true)
+     *
      * @Gedmo\Versioned
      */
     protected $created;
@@ -65,6 +77,7 @@ abstract class Zrm
      * @var \DateTime
      *
      * @ORM\Column(type="datetime", nullable=true)
+     *
      * @Gedmo\Versioned
      */
     protected $modified;
@@ -77,7 +90,7 @@ abstract class Zrm
     /**
      * @return Zrm
      */
-    public static function create(\DateTime $datum = null, $requestModule = null)
+    public static function create(?\DateTime $datum = null, $requestModule = null)
     {
         $zrm = null;
         if (!$datum) {
@@ -98,7 +111,7 @@ abstract class Zrm
         return $zrm;
     }
 
-    public function __construct(Klant $klant = null)
+    public function __construct(?Klant $klant = null)
     {
         $this->klant = $klant;
     }

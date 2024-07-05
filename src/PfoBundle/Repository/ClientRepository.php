@@ -28,12 +28,12 @@ class ClientRepository extends EntityRepository implements DoelstellingRepositor
     public function countByStadsdeel(\DateTime $startDate, \DateTime $endDate)
     {
         $builder = $this->getCountBuilder()
-            ->addSelect("stadsdeel.naam AS stadsdeelnaam")
+            ->addSelect('stadsdeel.naam AS stadsdeelnaam')
             ->leftJoin('client.werkgebied', 'stadsdeel')
             ->innerJoin('client.verslagen', 'verslag')
             ->groupBy('stadsdeelnaam')
         ;
-//        dump($builder->getQuery()->getSQL());
+        //        dump($builder->getQuery()->getSQL());
         $this->applyReportFilter($builder, $startDate, $endDate);
 
         return $builder->getQuery()->getResult();
@@ -67,31 +67,28 @@ class ClientRepository extends EntityRepository implements DoelstellingRepositor
     {
         $this->addDoelstellingcijfer(
             "Aantal trajecten met externe clienten (groep is niet 'Intern') welke nog niet zijn afgesloten, of zijn afgesloten in dit tijdvak.",
-            "4130",
-            "PFO",
-            function($doelstelling,$startdatum,$einddatum){
-                $r = $this->getAantalClienten($doelstelling,$startdatum,$einddatum);
+            '4130',
+            'PFO',
+            function ($doelstelling, $startdatum, $einddatum) {
+                $r = $this->getAantalClienten($doelstelling, $startdatum, $einddatum);
+
                 return $r;
             }
         );
     }
 
-    private function getAantalClienten($doelstelling,$startdatum,$einddatum)
+    private function getAantalClienten($doelstelling, $startdatum, $einddatum)
     {
         $builder = $this->getCountBuilder();
-       $builder
-           ->innerJoin('client.groep', 'groep')
-           ->innerJoin('client.verslagen', 'verslag')
-           ->where('DATE(client.afsluitdatum) BETWEEN :startDate AND :endDate')
-           ->orWhere("client.afsluitdatum IS NULL")
-           ->setParameter("startDate",$startdatum)
-           ->setParameter("endDate",$einddatum)
-           ;
+        $builder
+            ->innerJoin('client.groep', 'groep')
+            ->innerJoin('client.verslagen', 'verslag')
+            ->where('DATE(client.afsluitdatum) BETWEEN :startDate AND :endDate')
+            ->orWhere('client.afsluitdatum IS NULL')
+            ->setParameter('startDate', $startdatum)
+            ->setParameter('endDate', $einddatum)
+        ;
 
-       return $builder->getQuery()->getSingleScalarResult();
-
-
+        return $builder->getQuery()->getSingleScalarResult();
     }
-
-
 }

@@ -2,13 +2,7 @@
 
 namespace AppBundle\Form;
 
-use AppBundle\Entity\Werkgebied;
-use AppBundle\Form\FilterType;
-use AppBundle\Form\ProjectSelectType;
-use Doctrine\ORM\EntityRepository;
-use AppBundle\Entity\Doelstelling;
 use AppBundle\Filter\DoelstellingFilter;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -16,9 +10,6 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class DoelstellingFilterType extends AbstractType
 {
-    /**
-     * {@inheritdoc}
-     */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $range = range(2017, (new \DateTime('next year'))->format('Y'));
@@ -47,9 +38,6 @@ class DoelstellingFilterType extends AbstractType
         ;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
@@ -61,9 +49,6 @@ class DoelstellingFilterType extends AbstractType
         ]);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getParent(): ?string
     {
         return FilterType::class;

@@ -11,7 +11,7 @@ class ManagementMW extends AbstractSqlFileReport
     public function __construct(EntityManagerInterface $em, $sqlFile)
     {
         $this->params += [
-            ':locatietypes' => "'".implode("','",[
+            ':locatietypes' => "'".implode("','", [
                 'Maatschappelijk werk',
                 'Wachtlijst',
                 'Virtueel',
@@ -19,5 +19,4 @@ class ManagementMW extends AbstractSqlFileReport
         ];
         parent::__construct($em, $sqlFile);
     }
-
 }

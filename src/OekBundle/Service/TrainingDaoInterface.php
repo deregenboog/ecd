@@ -13,7 +13,7 @@ interface TrainingDaoInterface
      *
      * @return PaginationInterface
      */
-    public function findAll($page = null, FilterInterface $filter = null);
+    public function findAll($page = null, ?FilterInterface $filter = null);
 
     /**
      * @param int $id
@@ -22,18 +22,9 @@ interface TrainingDaoInterface
      */
     public function find($id);
 
-    /**
-     * @param Training $entity
-     */
     public function create(Training $entity);
 
-    /**
-     * @param Training $entity
-     */
     public function update(Training $entity);
 
-    /**
-     * @param Training $entity
-     */
     public function delete(Training $entity);
 }

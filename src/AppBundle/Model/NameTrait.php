@@ -4,26 +4,26 @@ namespace AppBundle\Model;
 
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
-use Symfony\Component\Validator\Constraints as Assert;
-use Symfony\Component\Validator\Context\ExecutionContextInterface;
-
 
 trait NameTrait
 {
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     *
      * @Gedmo\Versioned
      */
     protected $voornaam;
 
     /**
      * @ORM\Column(type="string", nullable=true)
+     *
      * @Gedmo\Versioned
      */
     protected $tussenvoegsel;
 
     /**
      * @ORM\Column(type="string", nullable=true)
+     *
      * @Gedmo\Versioned
      */
     protected $achternaam;
@@ -100,6 +100,4 @@ trait NameTrait
 
         return $this;
     }
-
-
 }

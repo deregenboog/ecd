@@ -5,7 +5,6 @@ namespace IzBundle\Service;
 use AppBundle\Filter\FilterInterface;
 use AppBundle\Service\AbstractDao;
 use IzBundle\Entity\Hulpvraag;
-use IzBundle\Entity\Koppeling;
 
 class KoppelingDao extends AbstractDao implements KoppelingDaoInterface
 {
@@ -28,7 +27,7 @@ class KoppelingDao extends AbstractDao implements KoppelingDaoInterface
 
     protected $class = Hulpvraag::class;
 
-    public function findAll($page = null, FilterInterface $filter = null)
+    public function findAll($page = null, ?FilterInterface $filter = null)
     {
         $builder = $this->repository->createQueryBuilder('hulpvraag')
             ->addSelect('medewerkerHulpvraag, medewerkerHulpaanbod, project, izKlant, contactOntstaan, klant, hulpaanbod, izVrijwilliger, vrijwilliger, binnengekomenVia')
@@ -39,8 +38,8 @@ class KoppelingDao extends AbstractDao implements KoppelingDaoInterface
             ->innerJoin('hulpvraag.project', 'project')
             ->innerJoin('hulpvraag.medewerker', 'medewerkerHulpvraag')
             ->innerJoin('hulpvraag.hulpaanbod', 'hulpaanbod')
-            ->innerJoin('hulpvraag.hulpvraagsoort','hulpvraagsoort')
-            ->innerJoin('hulpvraag.doelgroepen','doelgroep')
+            ->innerJoin('hulpvraag.hulpvraagsoort', 'hulpvraagsoort')
+            ->innerJoin('hulpvraag.doelgroepen', 'doelgroep')
             ->innerJoin('hulpaanbod.medewerker', 'medewerkerHulpaanbod')
             ->innerJoin('hulpaanbod.izVrijwilliger', 'izVrijwilliger')
             ->innerJoin('izVrijwilliger.vrijwilliger', 'vrijwilliger')

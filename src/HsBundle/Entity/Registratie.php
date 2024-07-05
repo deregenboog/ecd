@@ -14,8 +14,11 @@ use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
 /**
  * @ORM\Entity
+ *
  * @ORM\Table(name="hs_registraties")
+ *
  * @Gedmo\Loggable
+ *
  * @ORM\HasLifecycleCallbacks
  */
 class Registratie implements FactuurSubjectInterface
@@ -25,79 +28,103 @@ class Registratie implements FactuurSubjectInterface
 
     /**
      * @var \DateTime
+     *
      * @ORM\Column(type="date")
+     *
      * @Gedmo\Versioned
      */
     private $datum;
 
     /**
      * @var \DateTime
+     *
      * @ORM\Column(type="time", nullable=true)
+     *
      * @Gedmo\Versioned
      */
     private $start;
 
     /**
      * @var \DateTime
+     *
      * @ORM\Column(type="time", nullable=true)
+     *
      * @Gedmo\Versioned
      */
     private $eind;
 
     /**
-     * @var integer
+     * @var int
+     *
      * @ORM\Column(type="integer", options={"default":0})
+     *
      * @Gedmo\Versioned
      */
     private $dagdelen = 0;
 
     /**
      * @var float
+     *
      * @ORM\Column(type="float", nullable=true)
+     *
      * @Gedmo\Versioned
      */
     private $reiskosten;
 
     /**
      * @var Klus
+     *
      * @ORM\ManyToOne(targetEntity="Klus", inversedBy="registraties")
+     *
      * @Gedmo\Versioned
      */
     private $klus;
 
     /**
      * @var Factuur
+     *
      * @ORM\ManyToOne(targetEntity="Factuur", inversedBy="registraties", cascade={"persist"})
+     *
      * @ORM\JoinColumn(onDelete="CASCADE")
+     *
      * @Gedmo\Versioned
      */
     private $factuur;
 
     /**
      * @var Arbeider
+     *
      * @ORM\ManyToOne(targetEntity="Arbeider", inversedBy="registraties")
+     *
      * @ORM\JoinColumn(nullable=false)
+     *
      * @Gedmo\Versioned
      */
     private $arbeider;
 
     /**
      * @var Activiteit
+     *
      * @ORM\ManyToOne(targetEntity="Activiteit")
+     *
      * @ORM\JoinColumn(nullable=false)
+     *
      * @Gedmo\Versioned
      */
     private $activiteit;
 
     /**
      * @var Medewerker
+     *
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Medewerker")
+     *
      * @ORM\JoinColumn(nullable=false)
+     *
      * @Gedmo\Versioned
      */
     private $medewerker;
 
-    public function __construct(Klus $klus = null, Arbeider $arbeider = null)
+    public function __construct(?Klus $klus = null, ?Arbeider $arbeider = null)
     {
         if ($klus) {
             $this->setKlus($klus);
@@ -110,14 +137,14 @@ class Registratie implements FactuurSubjectInterface
 
     public function __toString()
     {
-        if ($this->datum->format("Y") <= '2022') {
-            return $this->datum->format('d-m-Y') .' | '
+        if ($this->datum->format('Y') <= '2022') {
+            return $this->datum->format('d-m-Y').' | '
                 .$this->start->format('H:i').' - '
                 .$this->eind->format('H:i')
-                ;
+            ;
         } else {
             return $this->datum->format('d-m-Y')
-                ;
+            ;
         }
     }
 
@@ -231,7 +258,7 @@ class Registratie implements FactuurSubjectInterface
         return $this->factuur;
     }
 
-    public function setFactuur(Factuur $factuur = null)
+    public function setFactuur(?Factuur $factuur = null)
     {
         if ($this->factuur && $this->factuur->isLocked()) {
             throw new InvoiceLockedException();
@@ -272,7 +299,7 @@ class Registratie implements FactuurSubjectInterface
 
     public function getUren()
     {
-        if ($this->datum->format("Y") <= 2022) {
+        if ($this->datum->format('Y') <= 2022) {
             if (!$this->start || !$this->eind) {
                 return 0;
             }
@@ -281,28 +308,26 @@ class Registratie implements FactuurSubjectInterface
 
             return $seconds / 3600;
         } else {
-            return ($this->dagdelen * 2);//1 dagdeel = 2 uur.
+            return $this->dagdelen * 2; // 1 dagdeel = 2 uur.
         }
     }
 
     public function getDagdelen()
     {
-        if ($this->datum->format("Y") <= '2022') {
+        if ($this->datum->format('Y') <= '2022') {
             return $this->getUren() > 3 ? 2 : 1;
         } else {
             return $this->dagdelen;
         }
     }
 
-    /**
-     * @param int $dagdelen
-     */
     public function setDagdelen(int $dagdelen): self
     {
-        if ($this->datum->format("Y") <= "2022") {
-            throw new HsException("Kan geen dagdelen instellen op registraties voor 2023.");
+        if ($this->datum->format('Y') <= '2022') {
+            throw new HsException('Kan geen dagdelen instellen op registraties voor 2023.');
         }
         $this->dagdelen = $dagdelen;
+
         return $this;
     }
 
@@ -311,11 +336,11 @@ class Registratie implements FactuurSubjectInterface
      */
     public function validate(ExecutionContextInterface $context, $payload)
     {
-        if ($this->datum->format("Y") > '2022' && $this->dagdelen == 0) {
+        if ($this->datum->format('Y') > '2022' && 0 == $this->dagdelen) {
             $context->buildViolation('Het is verplicht het aantal dagdelen van deze registratie in te stellen.')
                 ->atPath('dagdelen')
                 ->addViolation();
-        } elseif ($this->datum->format("Y") <= '2022' && ($this->start == null || $this->eind == null)) {
+        } elseif ($this->datum->format('Y') <= '2022' && (null == $this->start || null == $this->eind)) {
             $context->buildViolation('Het is verplicht het de start en eindtijd van deze registratie in te stellen.')
                 ->atPath('start')
                 ->addViolation();

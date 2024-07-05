@@ -11,9 +11,6 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class AgressieDoelwitType extends AbstractType
 {
-    /**
-     * {@inheritdoc}
-     */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $i = $options['index'];
@@ -32,17 +29,11 @@ class AgressieDoelwitType extends AbstractType
         ;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getParent(): ?string
     {
         return BaseType::class;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([

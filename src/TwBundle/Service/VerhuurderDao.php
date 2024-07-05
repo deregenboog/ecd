@@ -6,7 +6,6 @@ use AppBundle\Filter\FilterInterface;
 use AppBundle\Model\UsesKlantTrait;
 use AppBundle\Service\AbstractDao;
 use Doctrine\Common\Collections\ArrayCollection;
-use Knp\Component\Pager\Pagination\PaginationInterface;
 use TwBundle\Entity\Verhuurder;
 
 class VerhuurderDao extends AbstractDao implements VerhuurderDaoInterface
@@ -25,7 +24,7 @@ class VerhuurderDao extends AbstractDao implements VerhuurderDaoInterface
             'verhuurder.wpi',
             'verhuurder.ksgw',
             'ambulantOndersteuner.achternaam',
-            'project.naam'
+            'project.naam',
         ],
 //        'wrap-queries'=>true,
     ];
@@ -39,18 +38,18 @@ class VerhuurderDao extends AbstractDao implements VerhuurderDaoInterface
     /**
      * {inheritdoc}.
      */
-    public function findAll($page = null, FilterInterface $filter = null)
+    public function findAll($page = null, ?FilterInterface $filter = null)
     {
         $builder = $this->repository->createQueryBuilder('verhuurder')
             ->innerJoin('verhuurder.appKlant', 'appKlant')
-            ->leftJoin('verhuurder.ambulantOndersteuner','ambulantOndersteuner')
+            ->leftJoin('verhuurder.ambulantOndersteuner', 'ambulantOndersteuner')
             ->leftJoin('appKlant.werkgebied', 'werkgebied')
             ->leftJoin('verhuurder.afsluiting', 'afsluiting')
-            ->leftJoin('verhuurder.project','project')
+            ->leftJoin('verhuurder.project', 'project')
             ->andWhere('afsluiting.tonen IS NULL OR afsluiting.tonen = true')
         ;
 
-        /**
+        /*
          * Op de een of andere manier is het niet goed mogelijk dit via Doctrine te filteren.
          * Het kan vast, maar ik krijg het nu niet voor elkaar.
          * Punt is dat de join op huuraanbiedingen en huurovererenkomsten als cartesiaans product wordt gemaakt.
@@ -62,24 +61,21 @@ class VerhuurderDao extends AbstractDao implements VerhuurderDaoInterface
          *
          *
          */
-        if(null !== $filter->gekoppeld)
-        {
-            $result = parent::doFindAll($builder,null, $filter);
+        if (null !== $filter->gekoppeld) {
+            $result = parent::doFindAll($builder, null, $filter);
             $filteredResult = new ArrayCollection();
 
-            foreach($result as $row)
-            {
-                if($filter->gekoppeld === $row->isGekoppeld())
-                {
+            foreach ($result as $row) {
+                if ($filter->gekoppeld === $row->isGekoppeld()) {
                     $filteredResult->add($row);
                 }
             }
+
             return $this->paginator->paginate($filteredResult, $page, $this->itemsPerPage, $this->paginationOptions);
         }
 
-        return parent::doFindAll($builder,$page, $filter);
+        return parent::doFindAll($builder, $page, $filter);
     }
-
 
     public function create(Verhuurder $entity)
     {

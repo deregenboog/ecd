@@ -10,13 +10,17 @@ use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Entity(repositoryClass="IzBundle\Repository\DoelgroepRepository")
+ *
  * @ORM\Table(
  *     name="iz_doelgroepen",
  *     uniqueConstraints={
+ *
  *         @ORM\UniqueConstraint(columns={"naam"})
  *     }
  * )
+ *
  * @ORM\HasLifecycleCallbacks
+ *
  * @Gedmo\Loggable
  */
 class Doelgroep

@@ -12,6 +12,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * @Route("/memos")
+ *
  * @Template
  */
 class MemosController extends AbstractChildController

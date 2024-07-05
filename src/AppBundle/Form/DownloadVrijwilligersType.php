@@ -2,29 +2,21 @@
 
 namespace AppBundle\Form;
 
-use AppBundle\Entity\GgwGebied;
 use AppBundle\Export\GenericExport;
-use Doctrine\ORM\EntityManagerInterface;
-use Doctrine\ORM\EntityRepository;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class DownloadVrijwilligersType extends AbstractType
 {
-    /**
-     * {@inheritdoc}
-     */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $choices = [];
         foreach ($options['download_services'] as $i => $service) {
-            /** @var int $i */
-            /** @var GenericExport $service */
+            /* @var int $i */
+            /* @var GenericExport $service */
             $choices[$service->getFriendlyName()] = $i;
         }
 

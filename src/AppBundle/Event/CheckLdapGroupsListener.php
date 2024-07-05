@@ -17,13 +17,10 @@ use Symfony\Component\Ldap\Exception\ConnectionException;
 use Symfony\Component\Ldap\LdapInterface;
 use Symfony\Component\Ldap\Security\LdapBadge;
 use Symfony\Component\Security\Core\Exception\BadCredentialsException;
-use Symfony\Component\Security\Core\Exception\LogicException;
-use Symfony\Component\Security\Core\Exception\UserNotFoundException;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Http\Authenticator\Passport\Credentials\PasswordCredentials;
 use Symfony\Component\Security\Http\Authenticator\Passport\UserPassportInterface;
 use Symfony\Component\Security\Http\Event\CheckPassportEvent;
-use function PHPUnit\Framework\throwException;
 
 /**
  * Verifies password credentials using an LDAP service whenever the
@@ -43,18 +40,16 @@ class CheckLdapGroupsListener implements EventSubscriberInterface
 
     private $extraFields;
 
-    public function __construct(ContainerInterface $ldapLocator, $ldapBaseDn, $ldapSearchUser, $ldapSearchPassword, $rolesGroups=[])
+    public function __construct(ContainerInterface $ldapLocator, $ldapBaseDn, $ldapSearchUser, $ldapSearchPassword, $rolesGroups = [])
     {
         $this->ldapLocator = $ldapLocator;
         $this->ldapBaseDn = $ldapBaseDn;
         $this->ldapSearchUser = $ldapSearchUser;
         $this->ldapSearchPassword = $ldapSearchPassword;
         $this->extraFields = [
-            "memberOf", //represents the groups where a user is member of in the AD.
+            'memberOf', // represents the groups where a user is member of in the AD.
         ];
         $this->rolesGroups = $rolesGroups;
-
-
     }
 
     public function onCheckPassport(CheckPassportEvent $event)
@@ -74,7 +69,6 @@ class CheckLdapGroupsListener implements EventSubscriberInterface
             throw new \LogicException(sprintf('LDAP authentication requires a passport containing a user and password credentials, authenticator "%s" does not fulfill these requirements.', \get_class($event->getAuthenticator())));
         }
 
-
         if (!$this->ldapLocator->has($ldapBadge->getLdapServiceId())) {
             throw new \LogicException(sprintf('Cannot check membership of groups using the "%s" ldap service, as such service is not found. Did you maybe forget to add the "ldap" service tag to this service?', $ldapBadge->getLdapServiceId()));
         }
@@ -87,38 +81,32 @@ class CheckLdapGroupsListener implements EventSubscriberInterface
         /** @var LdapInterface $ldap */
         $ldap = $this->ldapLocator->get($ldapBadge->getLdapServiceId());
         try {
-                $ldapBadge;
-                try {
-                    @$ldap->bind($this->ldapSearchUser, $this->ldapSearchPassword);
-                } catch (\Exception $e)
-                {
-                    throw new BadCredentialsException($e->getMessage());
+            try {
+                @$ldap->bind($this->ldapSearchUser, $this->ldapSearchPassword);
+            } catch (\Exception $e) {
+                throw new BadCredentialsException($e->getMessage());
+            }
+
+            $identifier = $ldap->escape($user->getUserIdentifier(), '', LdapInterface::ESCAPE_FILTER);
+            $query = str_replace(['{username}', '{user_identifier}'], $identifier, '(sAMAccountName={username})');
+            $search = $ldap->query($this->ldapBaseDn, $query, ['filter' => 0 == \count($this->extraFields) ? '*' : $this->extraFields]);
+
+            $entries = $search->execute();
+            $count = \count($entries);
+
+            if (1 !== $count) {
+                throw new BadCredentialsException('User returns more than one result.');
+            }
+
+            $entry = $entries[0];
+            $roles[] = 'ROLE_USER';
+            foreach ($entry->getAttribute('memberOf') as $groupLine) { // Iterate through each group entry line
+                if (false !== $key = array_search($groupLine, $this->rolesGroups)) { // Check if the group is in the mapping
+                    $roles[] = $key; // Map the group to the role the user will have
                 }
-
-                $identifier = $ldap->escape($user->getUserIdentifier(), '', LdapInterface::ESCAPE_FILTER);
-                $query = str_replace(['{username}', '{user_identifier}'], $identifier, "(sAMAccountName={username})");
-                $search = $ldap->query($this->ldapBaseDn, $query, ['filter' => 0 == \count($this->extraFields) ? '*' : $this->extraFields]);
-
-                $entries = $search->execute();
-                $count = \count($entries);
-
-                if($count !== 1)
-                {
-                    throw new BadCredentialsException("User returns more than one result.");
-                }
-
-                $entry = $entries[0];
-                $roles[] = 'ROLE_USER';
-                foreach ($entry->getAttribute('memberOf') as $groupLine) { // Iterate through each group entry line
-                    if (false !== $key = array_search($groupLine, $this->rolesGroups)) { // Check if the group is in the mapping
-                        $roles[] = $key; // Map the group to the role the user will have
-                    }
-                }
-                $user->setRoles($roles);
-                $user->setLdapGroups(implode(",",$entry->getAttribute('memberOf')));
-
-
-
+            }
+            $user->setRoles($roles);
+            $user->setLdapGroups(implode(',', $entry->getAttribute('memberOf')));
         } catch (ConnectionException $e) {
             throw new BadCredentialsException('Cannot connect to LDAP server to check groups.');
         }

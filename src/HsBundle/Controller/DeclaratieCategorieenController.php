@@ -12,6 +12,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * @Route("/admin/declaratiecategorieen")
+ *
  * @Template
  */
 class DeclaratieCategorieenController extends AbstractController

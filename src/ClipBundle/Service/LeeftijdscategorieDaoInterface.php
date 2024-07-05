@@ -9,12 +9,11 @@ use Knp\Component\Pager\Pagination\PaginationInterface;
 interface LeeftijdscategorieDaoInterface
 {
     /**
-     * @param int             $page
-     * @param FilterInterface $filter
+     * @param int $page
      *
      * @return PaginationInterface
      */
-    public function findAll($page = null, FilterInterface $filter = null);
+    public function findAll($page = null, ?FilterInterface $filter = null);
 
     /**
      * @param int $id
@@ -23,18 +22,9 @@ interface LeeftijdscategorieDaoInterface
      */
     public function find($id);
 
-    /**
-     * @param Leeftijdscategorie $leeftijdscategorie
-     */
     public function create(Leeftijdscategorie $leeftijdscategorie);
 
-    /**
-     * @param Leeftijdscategorie $leeftijdscategorie
-     */
     public function update(Leeftijdscategorie $leeftijdscategorie);
 
-    /**
-     * @param Leeftijdscategorie $leeftijdscategorie
-     */
     public function delete(Leeftijdscategorie $leeftijdscategorie);
 }

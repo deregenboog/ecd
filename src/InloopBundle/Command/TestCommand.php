@@ -17,6 +17,7 @@ class TestCommand extends \Symfony\Component\Console\Command\Command
      * @var \InloopBundle\Service\LocatieDao
      */
     private $locatieDao;
+
     public function __construct(\InloopBundle\Service\KlantDao $klantDao, \InloopBundle\Service\LocatieDao $locatieDao)
     {
         $this->klantDao = $klantDao;
@@ -36,8 +37,8 @@ class TestCommand extends \Symfony\Component\Console\Command\Command
 
         $locaties = $locatieDao->findAll();
 
-//         $locaties = [$locatieDao->find(21)];
-//         $klanten = [$klantDao->find(5612462)];
+        //         $locaties = [$locatieDao->find(21)];
+        //         $klanten = [$klantDao->find(5612462)];
 
         foreach (range(1, 500) as $page) {
             $klanten = $klantDao->findAll($page);
@@ -62,25 +63,25 @@ class TestCommand extends \Symfony\Component\Console\Command\Command
                     }
                     $output->writeln("Klant {$klant->getId()}, locatie {$locatie->getId()}: NOT OK!");
                     var_dump($oldJson, $newJson);
-                    die;
+                    exit;
                 }
             }
         }
 
-//         $output->writeln("Reden '{$this->redenPattern}' is niet uniek!");
-return 0;
+        //         $output->writeln("Reden '{$this->redenPattern}' is niet uniek!");
+        return 0;
     }
 
     private function getContent($url)
     {
-//         if (!$this->kernel) {
-//             $this->kernel = $this->getContainer()->get('kernel');
-//         }
+        //         if (!$this->kernel) {
+        //             $this->kernel = $this->getContainer()->get('kernel');
+        //         }
 
-//         $request = Request::create($url);
-//         $response = $this->kernel->handle($request);
+        //         $request = Request::create($url);
+        //         $response = $this->kernel->handle($request);
 
-//         return $response->getContent();
+        //         return $response->getContent();
 
         $curl = curl_init($url);
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);

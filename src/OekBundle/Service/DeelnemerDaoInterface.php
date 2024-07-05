@@ -14,7 +14,7 @@ interface DeelnemerDaoInterface
      *
      * @return PaginationInterface
      */
-    public function findAll($page = null, FilterInterface $filter = null);
+    public function findAll($page = null, ?FilterInterface $filter = null);
 
     /**
      * @param int $id
@@ -24,24 +24,13 @@ interface DeelnemerDaoInterface
     public function find($id);
 
     /**
-     * @param Klant $klant
-     *
      * @return Deelnemer
      */
     public function findOneByKlant(Klant $klant);
 
-    /**
-     * @param Deelnemer $deelnemer
-     */
     public function create(Deelnemer $deelnemer);
 
-    /**
-     * @param Deelnemer $deelnemer
-     */
     public function update(Deelnemer $deelnemer);
 
-    /**
-     * @param Deelnemer $deelnemer
-     */
     public function delete(Deelnemer $deelnemer);
 }

@@ -38,12 +38,11 @@ class KlantDao extends AbstractDao implements KlantDaoInterface, DoelstellingDao
     protected $alias = 'klant';
 
     /**
-     * @param int             $page
-     * @param FilterInterface $filter
+     * @param int $page
      *
      * @return PaginationInterface
      */
-    public function findAll($page = null, FilterInterface $filter = null)
+    public function findAll($page = null, ?FilterInterface $filter = null)
     {
         $builder = $this->getAllQueryBuilder($filter);
         $query = $builder->getQuery();
@@ -56,7 +55,7 @@ class KlantDao extends AbstractDao implements KlantDaoInterface, DoelstellingDao
         return $builder->getQuery()->getResult();
     }
 
-    public function getAllQueryBuilder(FilterInterface $filter = null)
+    public function getAllQueryBuilder(?FilterInterface $filter = null)
     {
         $builder = $this->repository->createQueryBuilder($this->alias)
             ->leftJoin("{$this->alias}.medewerker", 'medewerker')
@@ -73,11 +72,9 @@ class KlantDao extends AbstractDao implements KlantDaoInterface, DoelstellingDao
     }
 
     /**
-     * @param FilterInterface $filter
-     *
      * @return int
      */
-    public function countAll(FilterInterface $filter = null)
+    public function countAll(?FilterInterface $filter = null)
     {
         $builder = $this->repository->createQueryBuilder($this->alias)
             ->select("COUNT({$this->alias}.id)")
@@ -91,7 +88,6 @@ class KlantDao extends AbstractDao implements KlantDaoInterface, DoelstellingDao
         return $builder->getQuery()->getSingleScalarResult();
     }
 
-
     /**
      * @param int $id
      *
@@ -102,32 +98,25 @@ class KlantDao extends AbstractDao implements KlantDaoInterface, DoelstellingDao
         return parent::find($id);
     }
 
-    /**
-     * @param Klant $klant
-     */
     public function create(Klant $klant)
     {
         return $this->doCreate($klant);
     }
 
-    /**
-     * @param Klant $klant
-     */
     public function update(Klant $klant)
     {
         return $this->doUpdate($klant);
     }
 
-    /**
-     * @param Klant $klant
-     */
     public function delete(Klant $klant)
     {
         // @todo remove this when disabled field is no longer needed
         $klant->setDisabled(true);
         $partner = $klant->getPartner();
         $klant->setPartner(null);
-        if($partner !== null) $partner->setPartner(null);//wederkerig
+        if (null !== $partner) {
+            $partner->setPartner(null);
+        }// wederkerig
         $this->update($klant);
 
         return $this->doDelete($klant);
@@ -250,14 +239,14 @@ class KlantDao extends AbstractDao implements KlantDaoInterface, DoelstellingDao
 
     public function getKpis(): array
     {
-//        $sql = $builder->getQuery()->getSQL();
-//        $params = $builder->getQuery()->getParameters();
+        //        $sql = $builder->getQuery()->getSQL();
+        //        $params = $builder->getQuery()->getParameters();
 
-        return ["Aap"=>"0",1=>"noot",2=>"mies"];
+        return ['Aap' => '0', 1 => 'noot', 2 => 'mies'];
     }
 
     public static function getPrestatieLabel(): string
     {
-        return "Klanten";
+        return 'Klanten';
     }
 }

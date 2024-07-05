@@ -7,7 +7,9 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity
+ *
  * @ORM\Table(name="inloop_toegang")
+ *
  * @ORM\HasLifecycleCallbacks
  */
 class Toegang
@@ -16,6 +18,7 @@ class Toegang
      * @var Klant
      *
      * @ORM\Id
+     *
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Klant")
      */
     private $klant;
@@ -24,6 +27,7 @@ class Toegang
      * @var Locatie
      *
      * @ORM\Id
+     *
      * @ORM\ManyToOne(targetEntity="Locatie")
      */
     private $locatie;

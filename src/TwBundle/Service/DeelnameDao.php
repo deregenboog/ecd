@@ -2,13 +2,8 @@
 
 namespace TwBundle\Service;
 
-
-use AppBundle\Filter\FilterInterface;
 use AppBundle\Service\AbstractDao;
-
 use TwBundle\Entity\Deelname;
-use OekBundle\Entity\DeelnameStatus;
-
 
 class DeelnameDao extends AbstractDao implements DeelnameDaoInterface
 {

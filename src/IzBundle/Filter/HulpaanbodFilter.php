@@ -102,12 +102,12 @@ class HulpaanbodFilter implements FilterInterface
         if ($this->zoekterm) {
             $zoektermen = array_values(array_filter(
                 explode(' ', $this->zoekterm),
-                function($zoekterm): bool {
+                function ($zoekterm): bool {
                     return '' !== trim($zoekterm);
                 }
             ));
             foreach ($zoektermen as $i => $zoekterm) {
-                if ($i === 0) {
+                if (0 === $i) {
                     $builder->join('hulpaanbod.verslagen', 'verslag');
                 }
                 $builder

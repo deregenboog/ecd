@@ -44,7 +44,7 @@ class IntakeDao extends AbstractDao implements IntakeDaoInterface
         $this->eventDispatcher = $eventDispatcher;
     }
 
-    public function findAll($page = null, FilterInterface $filter = null)
+    public function findAll($page = null, ?FilterInterface $filter = null)
     {
         $builder = $this->repository->createQueryBuilder($this->alias)
             ->addSelect('klant, intakelocatie, geslacht')
@@ -64,20 +64,19 @@ class IntakeDao extends AbstractDao implements IntakeDaoInterface
             ->leftJoin("{$this->alias}.intakelocatie", 'intakelocatie')
             ->leftJoin('klant.geslacht', 'geslacht')
             ->where("klant.roepnaam LIKE 'Toegang%' ")
-            ->orderBy("klant.id", "asc")
+            ->orderBy('klant.id', 'asc')
 //            ->setMaxResults(5)
         ;
         $sql = $builder->getQuery()->getSQL();
-//        return parent::doFindAll($builder);
+        //        return parent::doFindAll($builder);
         $a = $builder->getQuery()->getArrayResult();
+
         return $builder;
 
-//        return $this->repository->findOneBy(['username' => $username]);
+        //        return $this->repository->findOneBy(['username' => $username]);
     }
 
     /**
-     * @param Intake $entity
-     *
      * @return Intake
      */
     public function create(Intake $entity)
@@ -90,8 +89,6 @@ class IntakeDao extends AbstractDao implements IntakeDaoInterface
     }
 
     /**
-     * @param Intake $entity
-     *
      * @return Intake
      */
     public function update(Intake $entity)

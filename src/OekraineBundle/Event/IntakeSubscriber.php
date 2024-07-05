@@ -3,12 +3,7 @@
 namespace OekraineBundle\Event;
 
 use OekraineBundle\Entity\Intake;
-use OekraineBundle\Service\AccessUpdater;
 use OekraineBundle\Service\BezoekerDao;
-use OekraineBundle\Service\KlantDaoInterface;
-use MwBundle\Entity\Aanmelding;
-use Psr\Log\LoggerInterface;
-use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
 
@@ -28,13 +23,12 @@ class IntakeSubscriber implements EventSubscriberInterface
 
     public function __construct(
     ) {
-
-
     }
 
     public static function getSubscribedEvents(): array
     {
-        return[];
+        return [];
+
         return [
             Events::INTAKE_CREATED => ['afterIntakeCreated'],
             Events::INTAKE_UPDATED => ['afterIntakeUpdated'],
@@ -47,7 +41,6 @@ class IntakeSubscriber implements EventSubscriberInterface
         if (!$intake instanceof Intake) {
             return;
         }
-
     }
 
     public function afterIntakeUpdated(GenericEvent $event)
@@ -56,8 +49,5 @@ class IntakeSubscriber implements EventSubscriberInterface
         if (!$intake instanceof Intake) {
             return;
         }
-
     }
-
-
 }

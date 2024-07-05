@@ -11,15 +11,14 @@ use InloopBundle\Entity\Vrijwilliger;
 use InloopBundle\Form\VrijwilligerCloseType;
 use InloopBundle\Form\VrijwilligerFilterType;
 use InloopBundle\Form\VrijwilligerType;
-use InloopBundle\Service\VrijwilligerDaoInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-use Symfony\Component\Debug\Exception\FatalThrowableError;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * @Route("/vrijwilligers")
+ *
  * @Template
  */
 abstract class VrijwilligersControllerAbstract extends AbstractController
@@ -33,9 +32,9 @@ abstract class VrijwilligersControllerAbstract extends AbstractController
     protected $formClassClose = VrijwilligerCloseType::class;
     protected $disabledActions = ['delete'];
 
-   protected $dao;
+    protected $dao;
 
-   protected AppVrijwilligerDaoInterface $vrijwilligerDao;
+    protected AppVrijwilligerDaoInterface $vrijwilligerDao;
 
     /**
      * @Route("/add")
@@ -67,17 +66,16 @@ abstract class VrijwilligersControllerAbstract extends AbstractController
      */
     public function openAction(Request $request, $id)
     {
-//        $this->formClass = VrijwilligerCloseType::class;
+        //        $this->formClass = VrijwilligerCloseType::class;
 
         $entity = $this->dao->find($id);
         $entity->setAfsluitdatum(null);
         $entity->setAfsluitreden(null);
 
         $this->dao->update($entity);
+
         return $this->redirectToRoute($this->baseRouteName.'view', ['id' => $id]);
-
     }
-
 
     protected function getDownloadFilename()
     {
@@ -92,7 +90,6 @@ abstract class VrijwilligersControllerAbstract extends AbstractController
         $filterForm->handleRequest($request);
 
         if ($filterForm->isSubmitted() && $filterForm->isValid()) {
-
             $count = (int) $this->vrijwilligerDao->countAll($filterForm->getData());
             if (0 === $count) {
                 $this->addFlash('info', sprintf('De zoekopdracht leverde geen resultaten op. Maak een nieuwe %s aan.', $this->entityName));
@@ -144,11 +141,11 @@ abstract class VrijwilligersControllerAbstract extends AbstractController
                 $this->addFlash('success', ucfirst($this->entityName).' is opgeslagen.');
 
                 return $this->redirectToRoute($this->baseRouteName.'view', ['id' => $vrijwilliger->getId()]);
-            } catch(UserException $e) {
-//                $this->logger->error($e->getMessage(), ['exception' => $e]);
-                $message =  $e->getMessage();
+            } catch (UserException $e) {
+                //                $this->logger->error($e->getMessage(), ['exception' => $e]);
+                $message = $e->getMessage();
                 $this->addFlash('danger', $message);
-//                return $this->redirectToRoute('app_klanten_index');
+                //                return $this->redirectToRoute('app_klanten_index');
             } catch (\Exception $e) {
                 $message = $this->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
                 $this->addFlash('danger', $message);

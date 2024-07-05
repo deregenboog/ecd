@@ -112,12 +112,12 @@ class KlantFilter implements FilterInterface
                     $builder->andWhere("{$this->alias}.actief = false");
                     break;
                 case self::STATUS_GEEN_NIEUWE_KLUSSEN:
-                    $builder->setParameter(":status",Klant::STATUS_GEEN_NIEUWE_KLUS);
+                    $builder->setParameter(':status', Klant::STATUS_GEEN_NIEUWE_KLUS);
                     $builder->andWhere("{$this->alias}.status = :status");
+                    // no break
                 default:
                     break;
             }
-
         }
 
         if (null !== $this->afwijkendFactuuradres) {

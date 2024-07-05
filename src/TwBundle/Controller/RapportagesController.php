@@ -4,12 +4,13 @@ namespace TwBundle\Controller;
 
 use AppBundle\Controller\AbstractRapportagesController;
 use AppBundle\Export\ExportInterface;
-use TwBundle\Form\RapportageType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\Routing\Annotation\Route;
+use TwBundle\Form\RapportageType;
 
 /**
  * @Route("/rapportages")
+ *
  * @Template
  */
 class RapportagesController extends AbstractRapportagesController
@@ -20,5 +21,4 @@ class RapportagesController extends AbstractRapportagesController
      * @var ExportInterface
      */
     protected $export;
-
 }

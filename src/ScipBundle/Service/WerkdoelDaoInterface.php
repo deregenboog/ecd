@@ -13,7 +13,7 @@ interface WerkdoelDaoInterface
      *
      * @return PaginationInterface
      */
-    public function findAll($page = null, FilterInterface $filter = null);
+    public function findAll($page = null, ?FilterInterface $filter = null);
 
     /**
      * @param int $id
@@ -22,18 +22,9 @@ interface WerkdoelDaoInterface
      */
     public function find($id);
 
-    /**
-     * @param Werkdoel $entity
-     */
     public function create(Werkdoel $entity);
 
-    /**
-     * @param Werkdoel $entity
-     */
     public function update(Werkdoel $entity);
 
-    /**
-     * @param Werkdoel $entity
-     */
     public function delete(Werkdoel $entity);
 }

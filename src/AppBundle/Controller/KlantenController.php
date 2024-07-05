@@ -10,17 +10,16 @@ use AppBundle\Export\AbstractExport;
 use AppBundle\Form\ConfirmationType;
 use AppBundle\Form\KlantFilterType;
 use AppBundle\Form\KlantType;
-use AppBundle\Service\KlantDao;
 use AppBundle\Service\KlantDaoInterface;
-use Doctrine\Common\Collections\Criteria;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
-use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
+use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * @Route("/klanten")
+ *
  * @Template
  */
 class KlantenController extends AbstractController
@@ -40,7 +39,6 @@ class KlantenController extends AbstractController
 
     /**
      * @var KlantDaoInterface
-     *
      */
     protected $dao;
 
@@ -51,8 +49,8 @@ class KlantenController extends AbstractController
 
     public function __construct(KlantDaoInterface $dao, KlantDaoInterface $searchDao, $export)
     {
-        $this->searchDao=$searchDao;
-        $this->dao=$dao;
+        $this->searchDao = $searchDao;
+        $this->dao = $dao;
         $this->export = $export;
     }
 
@@ -63,7 +61,7 @@ class KlantenController extends AbstractController
     {
         $event = new DienstenLookupEvent($id);
         if ($event->getKlantId()) {
-            $this->eventDispatcher->dispatch($event,Events::DIENSTEN_LOOKUP);
+            $this->eventDispatcher->dispatch($event, Events::DIENSTEN_LOOKUP);
         }
 
         return [
@@ -73,8 +71,6 @@ class KlantenController extends AbstractController
 
     /**
      * @Route("/{klant}/{documentId}/deleteDocument/")
-     * @param Request $request
-     * @param $documentId
      */
     public function deleteDocumentAction(Request $request, $klant, $documentId)
     {
@@ -84,17 +80,16 @@ class KlantenController extends AbstractController
 
         $klant = $this->dao->find($klant);
 
-        $docs = $klant->getDocumenten(); //->matching($criteria)->first();
+        $docs = $klant->getDocumenten(); // ->matching($criteria)->first();
         $entity = null;
-        foreach($docs as $d)
-        {
-            if($d->getId() == $documentId){
+        foreach ($docs as $d) {
+            if ($d->getId() == $documentId) {
                 $entity = $d;
                 break;
             }
         }
 
-        if(!$this->isGranted('ROLE_ADMIN')
+        if (!$this->isGranted('ROLE_ADMIN')
             && $entity->getMedewerker()->getId() != $this->getUser()->getId()
         ) {
             throw new AccessDeniedHttpException();
@@ -108,7 +103,6 @@ class KlantenController extends AbstractController
             if ($form->get('yes')->isClicked()) {
                 $viewUrl = $this->generateUrl($this->baseRouteName.'view', ['id' => $entity->getId()]);
 
-
                 $docs->removeElement($entity);
 
                 /**
@@ -118,7 +112,6 @@ class KlantenController extends AbstractController
                 $docDao->delete($entity);
 
                 $this->dao->update($klant);
-
 
                 $this->addFlash('success', 'Document is verwijderd.');
 
@@ -143,22 +136,21 @@ class KlantenController extends AbstractController
 
             'form' => $form->createView(),
         ];
-
     }
+
     protected function addParams($entity, Request $request): array
     {
         assert($entity instanceof Klant);
 
         $event = new DienstenLookupEvent($entity->getId());
         if ($event->getKlantId()) {
-            $this->eventDispatcher->dispatch($event,Events::DIENSTEN_LOOKUP);
+            $this->eventDispatcher->dispatch($event, Events::DIENSTEN_LOOKUP);
         }
 
         return [
             'diensten' => $event->getDiensten(),
         ];
     }
-
 
     /**
      * @Route("/{klant}/addPartner")
@@ -171,12 +163,12 @@ class KlantenController extends AbstractController
         }
 
         $redirect = $request->get('redirect');
-        $ret =  $this->doSearch($request);
+        $ret = $this->doSearch($request);
 
-        if(!is_array($ret)) { //when no match is found, not 'create new' but other behaviour...
-
+        if (!is_array($ret)) { // when no match is found, not 'create new' but other behaviour...
             $this->container->get('session')->getFlashBag()->clear();
             $this->addFlash('info', sprintf('De zoekopdracht leverde geen resultaten op. Zoek opnieuw of ga terug.'));
+
             return $this->doSearch(new Request());
         }
         $ret['klant'] = $klant;
@@ -189,28 +181,25 @@ class KlantenController extends AbstractController
     {
         $klant = $this->dao->find($klant);
         $partnerId = $request->get('partner');
-        if ($partnerId !== 'remove') {
-
+        if ('remove' !== $partnerId) {
             $partner = $this->dao->find($partnerId);
             $klant->setPartner($partner);
-            $partner->setPartner($klant);// wederkerig
+            $partner->setPartner($klant); // wederkerig
 
-            $this->addFlash("info",sprintf("Partner (%s) gekoppeld aan klant (%s) en vice versa",$partner,$klant));
-        } else if ($partnerId == 'remove')
-        {
+            $this->addFlash('info', sprintf('Partner (%s) gekoppeld aan klant (%s) en vice versa', $partner, $klant));
+        } elseif ('remove' == $partnerId) {
             $partner = $klant->getPartner();
             $klant->setPartner(null);
-            $partner->setPartner(null);//wederkerig
+            $partner->setPartner(null); // wederkerig
 
-            $this->addFlash("info",sprintf("Partner is verwijderd van klant (%s) en vice versa",$klant));
+            $this->addFlash('info', sprintf('Partner is verwijderd van klant (%s) en vice versa', $klant));
         }
 
         $this->dao->update($klant);
-        if($request->get('redirect'))
-        {
+        if ($request->get('redirect')) {
             return $this->redirect($request->get('redirect'));
         }
-        return $this->redirectToView($klant);
 
+        return $this->redirectToView($klant);
     }
 }

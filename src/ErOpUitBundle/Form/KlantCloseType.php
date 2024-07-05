@@ -15,9 +15,6 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class KlantCloseType extends AbstractType
 {
-    /**
-     * {@inheritdoc}
-     */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         /* @var $klant Klant */
@@ -36,9 +33,6 @@ class KlantCloseType extends AbstractType
         ;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
@@ -46,9 +40,6 @@ class KlantCloseType extends AbstractType
         ]);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getParent(): ?string
     {
         return BaseType::class;

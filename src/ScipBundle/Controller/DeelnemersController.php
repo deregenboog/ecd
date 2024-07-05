@@ -19,6 +19,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * @Route("/deelnemers")
+ *
  * @Template
  */
 class DeelnemersController extends AbstractController
@@ -55,6 +56,7 @@ class DeelnemersController extends AbstractController
 
     /**
      * @Route("/")
+     *
      * @Template
      */
     public function indexAction(Request $request)
@@ -78,6 +80,7 @@ class DeelnemersController extends AbstractController
 
     /**
      * @Route("/{id}/view")
+     *
      * @Template
      */
     public function viewAction(Request $request, $id)
@@ -91,6 +94,7 @@ class DeelnemersController extends AbstractController
 
     /**
      * @Route("/{id}/edit")
+     *
      * @Template
      */
     public function editAction(Request $request, $id)
@@ -104,6 +108,7 @@ class DeelnemersController extends AbstractController
 
     /**
      * @Route("/{id}/delete")
+     *
      * @Template
      */
     public function deleteAction(Request $request, $id)
@@ -167,20 +172,20 @@ class DeelnemersController extends AbstractController
 
         if ($creationForm->isSubmitted() && $creationForm->isValid()) {
             try {
-
                 $this->dao->create($deelnemer);
                 $this->addFlash('success', ucfirst($this->entityName).' is opgeslagen.');
 
-                $url = $this->generateUrl("scip_deelnames_add", [
-                    "deelnemer"=> $deelnemer->getId(),
-                    "redirect" => $this->generateUrl("scip_deelnemers_view",["id"=>$deelnemer->getId()]),
+                $url = $this->generateUrl('scip_deelnames_add', [
+                    'deelnemer' => $deelnemer->getId(),
+                    'redirect' => $this->generateUrl('scip_deelnemers_view', ['id' => $deelnemer->getId()]),
                 ]);
+
                 return $this->redirect($url);
-            } catch(UserException $e) {
-//                $this->logger->error($e->getMessage(), ['exception' => $e]);
-                $message =  $e->getMessage();
+            } catch (UserException $e) {
+                //                $this->logger->error($e->getMessage(), ['exception' => $e]);
+                $message = $e->getMessage();
                 $this->addFlash('danger', $message);
-//                return $this->redirectToRoute('app_klanten_index');
+                //                return $this->redirectToRoute('app_klanten_index');
             } catch (\Exception $e) {
                 $message = $this->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
                 $this->addFlash('danger', $message);

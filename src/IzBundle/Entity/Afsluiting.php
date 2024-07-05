@@ -11,8 +11,11 @@ use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Entity
+ *
  * @ORM\Table(name="iz_afsluitingen")
+ *
  * @ORM\HasLifecycleCallbacks
+ *
  * @Gedmo\Loggable
  */
 class Afsluiting
@@ -24,6 +27,7 @@ class Afsluiting
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     *
      * @Gedmo\Versioned
      */
     protected $naam;
@@ -32,6 +36,7 @@ class Afsluiting
      * @var bool
      *
      * @ORM\Column(name="`active`", type="boolean", nullable=true)
+     *
      * @Gedmo\Versioned
      */
     protected $actief = true;
@@ -40,6 +45,7 @@ class Afsluiting
      * @var \DateTime
      *
      * @ORM\Column(type="datetime", nullable=true)
+     *
      * @Gedmo\Versioned
      */
     protected $created;
@@ -48,6 +54,7 @@ class Afsluiting
      * @var \DateTime
      *
      * @ORM\Column(type="datetime", nullable=true)
+     *
      * @Gedmo\Versioned
      */
     protected $modified;

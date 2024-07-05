@@ -45,6 +45,7 @@ class SyncCommand extends \Symfony\Component\Console\Command\Command
         $this->syncAfsluitingen($input, $output);
         $this->syncKlantafsluitingen($input, $output);
         $this->syncVrijwilligerafsluitingen($input, $output);
+
         return 0;
     }
 

@@ -6,7 +6,6 @@ namespace Tests\GaBundle\Filter;
 
 use AppBundle\Entity\Medewerker;
 use AppBundle\Filter\KlantFilter;
-use AppBundle\Filter\VrijwilligerFilter;
 use AppBundle\Form\Model\AppDateRangeModel;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\QueryBuilder;

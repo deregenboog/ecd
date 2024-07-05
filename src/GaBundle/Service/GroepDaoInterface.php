@@ -9,12 +9,11 @@ use Knp\Component\Pager\Pagination\PaginationInterface;
 interface GroepDaoInterface
 {
     /**
-     * @param int             $page
-     * @param FilterInterface $filter
+     * @param int $page
      *
      * @return PaginationInterface
      */
-    public function findAll($page = null, FilterInterface $filter = null);
+    public function findAll($page = null, ?FilterInterface $filter = null);
 
     /**
      * @param int $id
@@ -23,18 +22,9 @@ interface GroepDaoInterface
      */
     public function find($id);
 
-    /**
-     * @param Groep $entity
-     */
     public function create(Groep $entity);
 
-    /**
-     * @param Groep $entity
-     */
     public function update(Groep $entity);
 
-    /**
-     * @param Groep $entity
-     */
     public function delete(Groep $entity);
 }

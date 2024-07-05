@@ -2,7 +2,6 @@
 
 namespace InloopBundle\Strategy;
 
-use AppBundle\Doctrine\SqlExtractor;
 use Doctrine\ORM\QueryBuilder;
 use InloopBundle\Entity\Locatie;
 

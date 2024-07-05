@@ -4,7 +4,6 @@ namespace TwBundle\Service;
 
 use AppBundle\Service\AbstractDao;
 use Doctrine\ORM\EntityManagerInterface;
-use Doctrine\ORM\EntityRepository;
 use TwBundle\Entity\FinancieelDocument;
 
 class FinancieelDocumentDao extends AbstractDao implements FinancieelDocumentDaoInterface

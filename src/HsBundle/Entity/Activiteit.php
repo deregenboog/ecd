@@ -12,8 +12,11 @@ use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Entity
+ *
  * @ORM\Table(name="hs_activiteiten")
+ *
  * @Gedmo\Loggable
+ *
  * @ORM\HasLifecycleCallbacks
  */
 class Activiteit
@@ -27,6 +30,7 @@ class Activiteit
      * @var \DateTime
      *
      * @ORM\Column(type="datetime")
+     *
      * @Gedmo\Versioned
      */
     protected $created;
@@ -35,6 +39,7 @@ class Activiteit
      * @var \DateTime
      *
      * @ORM\Column(type="datetime")
+     *
      * @Gedmo\Versioned
      */
     protected $modified;

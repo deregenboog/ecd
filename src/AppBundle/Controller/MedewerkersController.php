@@ -6,16 +6,17 @@ use AppBundle\Entity\Medewerker;
 use AppBundle\Export\AbstractExport;
 use AppBundle\Form\MedewerkerEditType;
 use AppBundle\Form\MedewerkerFilterType;
-use AppBundle\Form\MedewerkerType;
 use AppBundle\Service\MedewerkerDaoInterface;
-use Symfony\Component\Routing\Annotation\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * @Route("/medewerkers")
+ *
  * @Template
+ *
  * @IsGranted("ROLE_USERADMIN")
  */
 class MedewerkersController extends AbstractController
@@ -51,13 +52,12 @@ class MedewerkersController extends AbstractController
 
     /**
      * @Route("/{id}/view")
+     *
      * @Template
      */
     public function viewAction(Request $request, $id)
     {
-
         $entity = $this->dao->find($id);
-
 
         return [
             'entity' => $entity,
@@ -67,8 +67,9 @@ class MedewerkersController extends AbstractController
 
     /**
      * @Route("/{id}/delete")
-     * @param Request $request
+     *
      * @param int $id
+     *
      * @return array|\Symfony\Component\HttpFoundation\RedirectResponse
      */
     public function deleteAction(Request $request, $id)
@@ -76,7 +77,5 @@ class MedewerkersController extends AbstractController
         $this->forceRedirect = true;
 
         return parent::deleteAction($request, $id);
-
     }
-
 }

@@ -30,7 +30,7 @@ class DienstverlenerDao extends AbstractDao implements DienstverlenerDaoInterfac
     /**
      * {inheritdoc}.
      */
-    public function findAll($page = null, FilterInterface $filter = null)
+    public function findAll($page = null, ?FilterInterface $filter = null)
     {
         $builder = $this->repository->createQueryBuilder($this->alias)
             ->select("{$this->alias}, klant, klus, memo, document")
@@ -61,8 +61,6 @@ class DienstverlenerDao extends AbstractDao implements DienstverlenerDaoInterfac
     }
 
     /**
-     * @param Klant $klant
-     *
      * @return Dienstverlener
      */
     public function findOneByKlant(Klant $klant)
@@ -97,7 +95,7 @@ class DienstverlenerDao extends AbstractDao implements DienstverlenerDaoInterfac
     /**
      * {inheritdoc}.
      */
-    public function countByStadsdeel(\DateTime $start = null, \DateTime $end = null)
+    public function countByStadsdeel(?\DateTime $start = null, ?\DateTime $end = null)
     {
         $builder = $this->repository->createQueryBuilder('dienstverlener')
             ->select('COUNT(DISTINCT(klant.id)) AS aantal, werkgebied.naam AS stadsdeel')
@@ -121,7 +119,7 @@ class DienstverlenerDao extends AbstractDao implements DienstverlenerDaoInterfac
     /**
      * {inheritdoc}.
      */
-    public function countByGgwGebied(\DateTime $start = null, \DateTime $end = null)
+    public function countByGgwGebied(?\DateTime $start = null, ?\DateTime $end = null)
     {
         $builder = $this->repository->createQueryBuilder('dienstverlener')
             ->select('COUNT(DISTINCT(klant.id)) AS aantal, postcodegebied.naam AS ggwgebied')
@@ -145,7 +143,7 @@ class DienstverlenerDao extends AbstractDao implements DienstverlenerDaoInterfac
     /**
      * {inheritdoc}.
      */
-    public function countNewByStadsdeel(\DateTime $start = null, \DateTime $end = null)
+    public function countNewByStadsdeel(?\DateTime $start = null, ?\DateTime $end = null)
     {
         $builder = $this->repository->createQueryBuilder('dienstverlener')
             ->select('COUNT(DISTINCT(klant.id)) AS aantal, werkgebied.naam AS stadsdeel')
@@ -168,7 +166,7 @@ class DienstverlenerDao extends AbstractDao implements DienstverlenerDaoInterfac
     /**
      * {inheritdoc}.
      */
-    public function countNewByGgwGebied(\DateTime $start = null, \DateTime $end = null)
+    public function countNewByGgwGebied(?\DateTime $start = null, ?\DateTime $end = null)
     {
         $builder = $this->repository->createQueryBuilder('dienstverlener')
             ->select('COUNT(DISTINCT(klant.id)) AS aantal, postcodegebied.naam AS ggwgebied')

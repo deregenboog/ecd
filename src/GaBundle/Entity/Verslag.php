@@ -9,8 +9,11 @@ use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Entity
+ *
  * @ORM\Table(name="ga_verslagen")
+ *
  * @ORM\HasLifecycleCallbacks
+ *
  * @Gedmo\Loggable
  */
 class Verslag
@@ -20,24 +23,28 @@ class Verslag
 
     /**
      * @ORM\ManyToOne(targetEntity="Dossier", inversedBy="verslagen")
+     *
      * @Gedmo\Versioned
      */
     protected $dossier;
 
     /**
      * @ORM\ManyToOne(targetEntity="Activiteit", inversedBy="verslagen")
+     *
      * @Gedmo\Versioned
      */
     protected $activiteit;
 
     /**
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Medewerker")
+     *
      * @Gedmo\Versioned
      */
     protected $medewerker;
 
     /**
      * @ORM\Column(type="text", nullable=true)
+     *
      * @Gedmo\Versioned
      */
     protected $opmerking;
@@ -46,6 +53,7 @@ class Verslag
      * @var \DateTime
      *
      * @ORM\Column(type="datetime")
+     *
      * @Gedmo\Versioned
      */
     protected $created;
@@ -54,21 +62,16 @@ class Verslag
      * @var \DateTime
      *
      * @ORM\Column(type="datetime")
+     *
      * @Gedmo\Versioned
      */
     protected $modified;
 
-    /**
-     * @return mixed
-     */
     public function getDossier()
     {
         return $this->dossier;
     }
 
-    /**
-     * @param mixed $dossier
-     */
     public function setDossier($dossier)
     {
         $this->dossier = $dossier;
@@ -88,17 +91,11 @@ class Verslag
         return $this;
     }
 
-    /**
-     * @return mixed
-     */
     public function getMedewerker()
     {
         return $this->medewerker;
     }
 
-    /**
-     * @param mixed $medewerker
-     */
     public function setMedewerker($medewerker)
     {
         $this->medewerker = $medewerker;
@@ -106,17 +103,11 @@ class Verslag
         return $this;
     }
 
-    /**
-     * @return mixed
-     */
     public function getOpmerking()
     {
         return utf8_decode($this->opmerking);
     }
 
-    /**
-     * @param mixed $opmerking
-     */
     public function setOpmerking($opmerking)
     {
         $this->opmerking = utf8_encode($opmerking);

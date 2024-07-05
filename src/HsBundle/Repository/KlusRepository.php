@@ -13,9 +13,8 @@ use HsBundle\Entity\Klus;
 class KlusRepository extends EntityRepository implements DoelstellingRepositoryInterface
 {
     use DoelstellingRepositoryTrait;
+
     /**
-     * @param AppDateRangeModel $dateRange
-     *
      * @return Factuur
      */
     public function findNonLockedByKlantAndDateRange(Klant $klant, AppDateRangeModel $dateRange)
@@ -60,18 +59,18 @@ class KlusRepository extends EntityRepository implements DoelstellingRepositoryI
     public function initDoelstellingcijfers(): void
     {
         $this->addDoelstellingcijfer(
-            "Aantal afgerondde klussen",
-            "1179",
-            "Homeservice",
-            function($doelstelling,$startdatum,$einddatum)
-            {
-                $r =  $this->getAantalAfgerondeKlussen($doelstelling,$startdatum,$einddatum);
+            'Aantal afgerondde klussen',
+            '1179',
+            'Homeservice',
+            function ($doelstelling, $startdatum, $einddatum) {
+                $r = $this->getAantalAfgerondeKlussen($doelstelling, $startdatum, $einddatum);
+
                 return $r;
             }
         );
     }
 
-    private function getAantalAfgerondeKlussen($doelstelling,$startdatum,$einddatum)
+    private function getAantalAfgerondeKlussen($doelstelling, $startdatum, $einddatum)
     {
         return $this->createQueryBuilder('klus')
             ->select('COUNT(klus.id) AS aantal_klussen')
@@ -84,8 +83,6 @@ class KlusRepository extends EntityRepository implements DoelstellingRepositoryI
             ])
             ->getQuery()
             ->getSingleScalarResult()
-            ;
+        ;
     }
-
-
 }

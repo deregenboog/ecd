@@ -3,7 +3,6 @@
 namespace OekraineBundle\Report;
 
 use AppBundle\Entity\Geslacht;
-use AppBundle\Entity\Klant;
 use AppBundle\Report\AbstractReport;
 use AppBundle\Report\Listing;
 use Doctrine\ORM\EntityManagerInterface;
@@ -65,7 +64,7 @@ class Klantenoverzicht extends AbstractReport
     {
         $builder = $this->entityManager->getRepository(Bezoeker::class)->createQueryBuilder('bezoeker')
             ->select("CONCAT_WS(' ', klant.voornaam, klant.tussenvoegsel, klant.achternaam) AS naam, klant.roepnaam, klant.geboortedatum, COUNT(registratie.id) AS aantal")
-            ->innerJoin("bezoeker.appKlant","klant")
+            ->innerJoin('bezoeker.appKlant', 'klant')
             ->innerJoin('bezoeker.registraties', 'registratie')
             ->where('DATE(registratie.binnen) BETWEEN :start_date AND :end_date')
             ->groupBy('bezoeker.id')

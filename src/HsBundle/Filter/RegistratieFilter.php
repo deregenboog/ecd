@@ -38,12 +38,11 @@ class RegistratieFilter implements FilterInterface
 
     public function applyTo(QueryBuilder $builder)
     {
-        if($this->klus)
-        {
+        if ($this->klus) {
             $builder
                 ->andWhere('registratie.klus = :klus')
-                ->setParameter('klus',$this->klus)
-                ;
+                ->setParameter('klus', $this->klus)
+            ;
         }
 
         if ($this->arbeider) {

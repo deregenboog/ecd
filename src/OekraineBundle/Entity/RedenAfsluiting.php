@@ -8,7 +8,9 @@ use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Entity
+ *
  * @ORM\Table(name="oekraine_afsluiting_redenen")
+ *
  * @Gedmo\Loggable
  */
 class RedenAfsluiting
@@ -19,7 +21,9 @@ class RedenAfsluiting
      * @var int
      *
      * @ORM\Id
+     *
      * @ORM\Column(type="integer")
+     *
      * @ORM\GeneratedValue
      */
     private $id;
@@ -28,6 +32,7 @@ class RedenAfsluiting
      * @var string
      *
      * @ORM\Column(nullable=false)
+     *
      * @Gedmo\Versioned
      */
     private $naam;
@@ -36,6 +41,7 @@ class RedenAfsluiting
      * @var bool
      *
      * @ORM\Column(type="boolean")
+     *
      * @Gedmo\Versioned
      */
     private $actief = true;
@@ -44,6 +50,7 @@ class RedenAfsluiting
      * @var int
      *
      * @ORM\Column(type="integer")
+     *
      * @Gedmo\Versioned
      */
     private $gewicht = 0;
@@ -52,6 +59,7 @@ class RedenAfsluiting
      * @var bool
      *
      * @ORM\Column(type="boolean")
+     *
      * @Gedmo\Versioned
      */
     private $land = false;

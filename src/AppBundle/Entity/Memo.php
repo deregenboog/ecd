@@ -2,62 +2,76 @@
 
 namespace AppBundle\Entity;
 
-use AppBundle\Entity\Medewerker;
 use AppBundle\Model\MemoInterface;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Entity
+ *
  * @ORM\Table(name="inloop_memos")
+ *
  * @Gedmo\Loggable
  */
 class Memo implements MemoInterface
 {
     /**
      * @ORM\Id
+     *
      * @ORM\Column(type="integer")
+     *
      * @ORM\GeneratedValue
      */
     private $id;
 
     /**
      * @var \DateTime
+     *
      * @ORM\Column(type="datetime")
+     *
      * @Gedmo\Versioned
      */
     private $datum;
 
     /**
      * @var string
+     *
      * @ORM\Column(type="string")
+     *
      * @Gedmo\Versioned
      */
     private $onderwerp;
 
     /**
      * @var string
+     *
      * @ORM\Column(type="text")
+     *
      * @Gedmo\Versioned
      */
     private $memo;
 
     /**
      * @var bool
+     *
      * @ORM\Column(type="boolean")
+     *
      * @Gedmo\Versioned
      */
     private $intake = false;
 
     /**
      * @var Medewerker
+     *
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Medewerker")
+     *
      * @ORM\JoinColumn(nullable=false)
+     *
      * @Gedmo\Versioned
      */
     private $medewerker;
 
-    public function __construct(Medewerker $medewerker = null)
+    public function __construct(?Medewerker $medewerker = null)
     {
         if ($medewerker) {
             $this->medewerker = $medewerker;

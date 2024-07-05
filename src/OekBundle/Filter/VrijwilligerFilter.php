@@ -5,7 +5,6 @@ namespace OekBundle\Filter;
 use AppBundle\Filter\FilterInterface;
 use AppBundle\Form\Model\AppDateRangeModel;
 use Doctrine\ORM\QueryBuilder;
-use OekBundle\Entity\Vrijwilliger;
 
 class VrijwilligerFilter implements FilterInterface
 {
@@ -26,7 +25,6 @@ class VrijwilligerFilter implements FilterInterface
      */
     public $afsluitdatum;
 
-
     /**
      * @var \AppBundle\Filter\VrijwilligerFilter
      */
@@ -34,20 +32,14 @@ class VrijwilligerFilter implements FilterInterface
 
     public function applyTo(QueryBuilder $builder)
     {
-
-        if($this->actief == true)
-        {
-            $builder->andWhere("vrijwilliger.actief = 1")
-               ;
+        if (true == $this->actief) {
+            $builder->andWhere('vrijwilliger.actief = 1')
+            ;
+        } else {
+            $builder->andWhere('vrijwilliger.actief = 0 OR vrijwilliger.actief = 1')
+            ;
         }
-
-        else
-        {
-            $builder->andWhere("vrijwilliger.actief = 0 OR vrijwilliger.actief = 1")
-                ;
-        }
-        if($this->vrijwilliger)
-        {
+        if ($this->vrijwilliger) {
             $this->vrijwilliger->applyTo($builder, 'appVrijwilliger');
         }
 
@@ -80,7 +72,5 @@ class VrijwilligerFilter implements FilterInterface
                 ;
             }
         }
-
-
     }
 }

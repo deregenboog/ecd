@@ -13,7 +13,7 @@ interface VerwijzingDoorDaoInterface
      *
      * @return PaginationInterface
      */
-    public function findAll($page = null, FilterInterface $filter = null);
+    public function findAll($page = null, ?FilterInterface $filter = null);
 
     /**
      * @param int $id
@@ -22,18 +22,9 @@ interface VerwijzingDoorDaoInterface
      */
     public function find($id);
 
-    /**
-     * @param VerwijzingDoor $entity
-     */
     public function create(VerwijzingDoor $entity);
 
-    /**
-     * @param VerwijzingDoor $entity
-     */
     public function update(VerwijzingDoor $entity);
 
-    /**
-     * @param VerwijzingDoor $entity
-     */
     public function delete(VerwijzingDoor $entity);
 }

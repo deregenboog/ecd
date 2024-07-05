@@ -20,8 +20,7 @@ class TrainingRepository extends EntityRepository
             ->leftJoin('klant.werkgebied', 'werkgebied')
             ->andwhere('deelname.deelnameStatus != :status_verwijderd')
             ->groupBy('groepnaam', 'trainingnaam')
-            ->setParameter(":status_verwijderd", DeelnameStatus::STATUS_VERWIJDERD);
-        ;
+            ->setParameter(':status_verwijderd', DeelnameStatus::STATUS_VERWIJDERD);
 
         $this->applyReportFilter($builder, $startDate, $endDate);
 

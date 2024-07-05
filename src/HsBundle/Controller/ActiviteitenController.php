@@ -12,6 +12,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * @Route("/admin/activiteiten")
+ *
  * @Template
  */
 class ActiviteitenController extends AbstractController

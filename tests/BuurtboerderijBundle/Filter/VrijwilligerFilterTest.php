@@ -5,10 +5,9 @@ declare(strict_types=1);
 namespace Tests\BuurtboerderijBundle\Filter;
 
 use AppBundle\Form\Model\AppDateRangeModel;
-use BuurtboerderijBundle\Entity\Vrijwilliger;
 use BuurtboerderijBundle\Filter\VrijwilligerFilter;
-use Doctrine\ORM\QueryBuilder;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\QueryBuilder;
 use Tests\AppBundle\PHPUnit\DoctrineTestCase;
 
 class VrijwilligerFilterTest extends DoctrineTestCase

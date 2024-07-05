@@ -13,9 +13,6 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class TrainingType extends AbstractType
 {
-    /**
-     * {@inheritdoc}
-     */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         if (!isset($options['data']) || !$options['data']->getGroep()) {
@@ -29,15 +26,12 @@ class TrainingType extends AbstractType
             ->add('naam')
             ->add('locatie')
             ->add('startdatum', AppDateType::class)
-            ->add('starttijd', AppTimeType::class,['required'=>false])
-            ->add('einddatum', AppDateType::class,['required'=>false])
+            ->add('starttijd', AppTimeType::class, ['required' => false])
+            ->add('einddatum', AppDateType::class, ['required' => false])
             ->add('submit', SubmitType::class)
         ;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
@@ -45,9 +39,6 @@ class TrainingType extends AbstractType
         ]);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getParent(): ?string
     {
         return BaseType::class;

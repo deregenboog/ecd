@@ -10,23 +10,18 @@ use AppBundle\Form\ConfirmationType;
 use AppBundle\Form\KlantFilterType as AppKlantFilterType;
 use Doctrine\Common\Collections\ArrayCollection;
 use MwBundle\Entity\Verslag;
-use phpDocumentor\Reflection\Types\Null_;
-use TwBundle\Entity\Klant;
-use TwBundle\Exception\TwException;
-use TwBundle\Form\HuurderCloseType;
-use TwBundle\Form\KlantFilterType;
-use TwBundle\Form\HuurderSelectType;
-use TwBundle\Form\KlantRawType;
-use TwBundle\Form\KlantType;
-use TwBundle\Service\KlantDaoInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use Symfony\Component\Form\FormError;
+use TwBundle\Entity\Klant;
+use TwBundle\Form\HuurderCloseType;
+use TwBundle\Form\KlantFilterType;
+use TwBundle\Form\KlantType;
+use TwBundle\Service\KlantDaoInterface;
 
 /**
  * @Route("/klanten")
+ *
  * @Template
  */
 class KlantenController extends AbstractController
@@ -36,11 +31,10 @@ class KlantenController extends AbstractController
     protected $formClass = KlantType::class;
     protected $filterFormClass = KlantFilterType::class;
     protected $baseRouteName = 'tw_klanten_';
-    protected $addMethod = "addKlant";
+    protected $addMethod = 'addKlant';
     protected $searchFilterTypeClass = AppKlantFilterType::class;
     protected $searchEntity = AppKlant::class;
     protected $searchEntityName = 'appKlant';
-
 
     private $sortFieldWhitelist = [
         'klant.id',
@@ -93,11 +87,11 @@ class KlantenController extends AbstractController
                 $entityManager->flush();
 
                 $this->addFlash('success', 'Klant is afgesloten.');
-            } catch(UserException $e) {
-//                $this->logger->error($e->getMessage(), ['exception' => $e]);
-                $message =  $e->getMessage();
+            } catch (UserException $e) {
+                //                $this->logger->error($e->getMessage(), ['exception' => $e]);
+                $message = $e->getMessage();
                 $this->addFlash('danger', $message);
-//                return $this->redirectToRoute('app_klanten_index');
+                //                return $this->redirectToRoute('app_klanten_index');
             } catch (\Exception $e) {
                 $message = $this->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
                 $this->addFlash('danger', $message);
@@ -130,11 +124,11 @@ class KlantenController extends AbstractController
                     $entityManager->flush();
 
                     $this->addFlash('success', 'Klant is heropend.');
-                } catch(UserException $e) {
-//                $this->logger->error($e->getMessage(), ['exception' => $e]);
-                    $message =  $e->getMessage();
+                } catch (UserException $e) {
+                    //                $this->logger->error($e->getMessage(), ['exception' => $e]);
+                    $message = $e->getMessage();
                     $this->addFlash('danger', $message);
-//                return $this->redirectToRoute('app_klanten_index');
+                    //                return $this->redirectToRoute('app_klanten_index');
                 } catch (\Exception $e) {
                     $message = $this->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
                     $this->addFlash('danger', $message);
@@ -188,24 +182,22 @@ class KlantenController extends AbstractController
         // $entityManager = $this->getEntityManager();
         // $appKlant = $entityManager->find(AppKlant::class, $id);
         $klantRepo = $this->getEntityManager()->getRepository(Klant::class);
-        $klant = $klantRepo->findOneBy(['appKlant'=>$id]);
+        $klant = $klantRepo->findOneBy(['appKlant' => $id]);
 
-        if($klant==null)
-        {
-            //no klant... redirect to add
-            return $this->redirectToRoute('tw_klanten_add',['entity'=>$id]);
+        if (null == $klant) {
+            // no klant... redirect to add
+            return $this->redirectToRoute('tw_klanten_add', ['entity' => $id]);
         }
-        return $this->redirectToRoute('tw_klanten_view',['id'=>$klant->getId()]);
+
+        return $this->redirectToRoute('tw_klanten_view', ['id' => $klant->getId()]);
     }
 
     protected function addParams($entity, Request $request): array
     {
         $params = [];
 
-
         $deelnemer = $entity;
         $appKlant = $entity->getAppKlant();
-
 
         if (!$deelnemer || !$appKlant) {
             return [];
@@ -219,16 +211,13 @@ class KlantenController extends AbstractController
         $combinedVerslagen =
             array_merge($deelnemerVerslagen->toArray(), $klantVerslagen)
         ;
-        usort($combinedVerslagen, function($a, $b) {
+        usort($combinedVerslagen, function ($a, $b) {
             // Assuming getCreatedAt() or similar method returns the DateTime object
             return $b->getDatum() <=> $a->getDatum();
         });
 
         $params['verslagen'] = $combinedVerslagen;
 
-
         return $params;
     }
-
-
 }

@@ -14,6 +14,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * @Route("/projecten")
+ *
  * @Template
  */
 class ProjectenController extends AbstractController
@@ -32,6 +33,7 @@ class ProjectenController extends AbstractController
 
     /**
      * @Route("/")
+     *
      * @Template
      */
     public function indexAction(Request $request)
@@ -55,6 +57,7 @@ class ProjectenController extends AbstractController
 
     /**
      * @Route("/{id}/view")
+     *
      * @Template
      */
     public function viewAction(Request $request, $id)
@@ -68,6 +71,7 @@ class ProjectenController extends AbstractController
 
     /**
      * @Route("/{id}/edit")
+     *
      * @Template
      */
     public function editAction(Request $request, $id)
@@ -81,6 +85,7 @@ class ProjectenController extends AbstractController
 
     /**
      * @Route("/{id}/delete")
+     *
      * @Template
      */
     public function deleteAction(Request $request, $id)

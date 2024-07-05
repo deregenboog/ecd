@@ -14,9 +14,13 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 /**
  * @ORM\Entity
+ *
  * @ORM\Table(name="villa_documenten")
+ *
  * @ORM\HasLifecycleCallbacks
+ *
  * @Gedmo\Loggable
+ *
  * @Vich\Uploadable
  */
 class Document implements DocumentInterface
@@ -27,27 +31,31 @@ class Document implements DocumentInterface
 
     /**
      * @var string
+     *
      * @ORM\Column
+     *
      * @Gedmo\Versioned
      */
     private $naam;
 
     /**
      * @var string
+     *
      * @ORM\Column
+     *
      * @Gedmo\Versioned
      */
     private $filename;
 
     /**
      * @var File
+     *
      * @Vich\UploadableField(mapping="villa_document", fileNameProperty="filename")
      */
     private $file;
 
     /**
      * @var Medewerker
-     *
      */
     protected $medewerker;
 
@@ -55,6 +63,7 @@ class Document implements DocumentInterface
      * @var \DateTime
      *
      * @ORM\Column(type="datetime")
+     *
      * @Gedmo\Versioned
      */
     protected $created;
@@ -63,6 +72,7 @@ class Document implements DocumentInterface
      * @var \DateTime
      *
      * @ORM\Column(type="datetime")
+     *
      * @Gedmo\Versioned
      */
     protected $modified;
@@ -96,7 +106,7 @@ class Document implements DocumentInterface
         return $this->file;
     }
 
-    public function setFile(File $file = null)
+    public function setFile(?File $file = null)
     {
         $this->file = $file;
 

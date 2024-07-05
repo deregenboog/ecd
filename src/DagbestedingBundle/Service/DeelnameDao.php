@@ -27,7 +27,7 @@ class DeelnameDao extends AbstractDao implements DeelnameDaoInterface
     /**
      * {inheritdoc}.
      */
-    public function findAll($page = null, FilterInterface $filter = null)
+    public function findAll($page = null, ?FilterInterface $filter = null)
     {
         $builder = $this->repository->createQueryBuilder($this->alias)
             ->innerJoin($this->alias.'.traject', 'traject')
@@ -41,7 +41,7 @@ class DeelnameDao extends AbstractDao implements DeelnameDaoInterface
     /**
      * {inheritdoc}.
      */
-    public function findByMedewerker(Medewerker $medewerker, $page = null, FilterInterface $filter = null): array
+    public function findByMedewerker(Medewerker $medewerker, $page = null, ?FilterInterface $filter = null): array
     {
         $builder = $this->repository->createQueryBuilder($this->alias)
             ->innerJoin($this->alias.'.deelnemer', 'deelnemer')

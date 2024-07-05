@@ -12,7 +12,6 @@ class DeelnemersPerTrainingStatus extends DeelnemersPerTrainingGroep
 
     protected $xDescription = 'Status';
 
-
     protected function build()
     {
         // build data structure (to make sure all statuses are present in all tables)

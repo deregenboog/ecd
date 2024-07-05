@@ -15,9 +15,6 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class VrijwilligerType extends AbstractType
 {
-    /**
-     * {@inheritdoc}
-     */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         if ($options['data'] instanceof Vrijwilliger
@@ -45,8 +42,8 @@ class VrijwilligerType extends AbstractType
 
         $builder
             ->add('inschrijving', AppDateType::class)
-            ->add('uitschrijving', AppDateType::class,[
-                'required'=>false,
+            ->add('uitschrijving', AppDateType::class, [
+                'required' => false,
             ])
             ->add('actief')
             ->add('rijbewijs', null, ['label' => 'Rijbewijs'])
@@ -55,9 +52,6 @@ class VrijwilligerType extends AbstractType
         ;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
@@ -65,9 +59,6 @@ class VrijwilligerType extends AbstractType
         ]);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getParent(): ?string
     {
         return BaseType::class;

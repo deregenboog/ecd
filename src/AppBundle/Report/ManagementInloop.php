@@ -11,12 +11,10 @@ class ManagementInloop extends AbstractSqlFileReport
     public function __construct(EntityManagerInterface $em, $sqlFile)
     {
         $this->params += [
-          ':locatietypes' => "'".implode("','",[
+          ':locatietypes' => "'".implode("','", [
               'Inloop',
           ])."'",
         ];
         parent::__construct($em, $sqlFile);
     }
-
-
 }

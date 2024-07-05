@@ -3,18 +3,17 @@
 namespace TwBundle\Service;
 
 use AppBundle\Filter\FilterInterface;
-use TwBundle\Entity\BinnenVia;
 use Knp\Component\Pager\Pagination\PaginationInterface;
+use TwBundle\Entity\BinnenVia;
 
 interface BinnenViaDaoInterface
 {
     /**
-     * @param int             $page
-     * @param FilterInterface $filter
+     * @param int $page
      *
      * @return PaginationInterface
      */
-    public function findAll($page = null, FilterInterface $filter = null);
+    public function findAll($page = null, ?FilterInterface $filter = null);
 
     /**
      * @param int $id
@@ -23,18 +22,9 @@ interface BinnenViaDaoInterface
      */
     public function find($id);
 
-    /**
-     * @param BinnenVia $binnenVia
-     */
     public function create(BinnenVia $binnenVia);
 
-    /**
-     * @param BinnenVia $binnenVia
-     */
     public function update(BinnenVia $binnenVia);
 
-    /**
-     * @param BinnenVia $binnenVia
-     */
     public function delete(BinnenVia $binnenVia);
 }

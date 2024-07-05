@@ -4,14 +4,15 @@ namespace TwBundle\Controller;
 
 use AppBundle\Controller\SymfonyController;
 use AppBundle\Form\ConfirmationType;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Symfony\Component\Routing\Annotation\Route;
 use TwBundle\Entity\Pandeigenaar;
 use TwBundle\Form\PandeigenaarType;
 use TwBundle\Service\PandeigenaarDaoInterface;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * @Route("/admin/pandeigenaren")
+ *
  * @Template
  */
 class PandeigenarenController extends SymfonyController

@@ -4,18 +4,15 @@ namespace TwBundle\Form;
 
 use AppBundle\Form\AppDateType;
 use Doctrine\ORM\EntityRepository;
-use TwBundle\Entity\Huurverzoek;
-use TwBundle\Entity\HuurverzoekAfsluiting;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use TwBundle\Entity\Huurverzoek;
+use TwBundle\Entity\HuurverzoekAfsluiting;
 
 class HuurverzoekCloseType extends AbstractType
 {
-    /**
-     * {@inheritdoc}
-     */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $huurverzoek = $options['data'];
@@ -42,9 +39,6 @@ class HuurverzoekCloseType extends AbstractType
         ;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([

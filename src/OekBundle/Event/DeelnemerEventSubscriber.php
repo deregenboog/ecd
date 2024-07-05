@@ -2,7 +2,6 @@
 
 namespace OekBundle\Event;
 
-use Doctrine\Bundle\DoctrineBundle\EventSubscriber\EventSubscriberInterface;
 use Doctrine\Common\EventSubscriber;
 use Doctrine\ORM\Event\LifecycleEventArgs;
 use Doctrine\ORM\Events as DoctrineEvents;

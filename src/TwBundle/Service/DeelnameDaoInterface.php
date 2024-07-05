@@ -2,8 +2,6 @@
 
 namespace TwBundle\Service;
 
-use AppBundle\Filter\FilterInterface;
-use Knp\Component\Pager\Pagination\PaginationInterface;
 use TwBundle\Entity\Deelname;
 
 interface DeelnameDaoInterface
@@ -15,18 +13,9 @@ interface DeelnameDaoInterface
      */
     public function find($id);
 
-    /**
-     * @param Deelname $entity
-     */
     public function create(Deelname $entity);
 
-    /**
-     * @param Deelname $entity
-     */
     public function update(Deelname $entity);
 
-    /**
-     * @param Deelname $entity
-     */
     public function delete(Deelname $entity);
 }

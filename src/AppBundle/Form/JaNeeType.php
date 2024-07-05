@@ -8,9 +8,6 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class JaNeeType extends AbstractType
 {
-    /**
-     * {@inheritdoc}
-     */
     public function configureOptions(OptionsResolver $options)
     {
         $options->setDefaults([
@@ -22,9 +19,6 @@ class JaNeeType extends AbstractType
         ]);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getParent(): ?string
     {
         return ChoiceType::class;

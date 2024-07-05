@@ -30,7 +30,7 @@ class TestKernel extends Kernel
         $filter->includeDirectory(realpath(__DIR__));
 
         try {
-            $driver = (new Selector)->forLineCoverage($filter);
+            $driver = (new Selector())->forLineCoverage($filter);
         } catch (Exception $e) {
             return parent::handle($request, $type, $catch);
         }

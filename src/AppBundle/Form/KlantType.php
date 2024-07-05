@@ -3,11 +3,8 @@
 namespace AppBundle\Form;
 
 use AppBundle\Entity\Klant;
-use AppBundle\Entity\Postcode;
-use AppBundle\Util\PostcodeFormatter;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
-use Faker\Provider\Address;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -28,9 +25,6 @@ class KlantType extends AbstractType
         $this->entityManager = $entityManager;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
@@ -59,41 +53,34 @@ class KlantType extends AbstractType
             ->add('bsn', null, ['label' => 'BSN'])
             ->add('coronaBesmetVanaf', AppDateType::class, ['required' => false])
             ->add('medewerker', MedewerkerType::class, ['required' => true])
-            ->add('maatschappelijkWerker', MedewerkerType::class, ['required' => false,'preset'=>false])
+            ->add('maatschappelijkWerker', MedewerkerType::class, ['required' => false, 'preset' => false])
             ->add('adres')
             ->add('postcode')
             ->add('plaats')
-            ->add('briefadres',AppDateType::class,['label'=>'Is briefadres tot','required'=>false])
+            ->add('briefadres', AppDateType::class, ['label' => 'Is briefadres tot', 'required' => false])
             ->add('email')
             ->add('mobiel')
             ->add('telefoon')
 
             ->add('opmerking', AppTextareaType::class, ['required' => false])
-            ->add('geenPost',null, ['label' => 'Geen post'])
+            ->add('geenPost', null, ['label' => 'Geen post'])
             ->add('geenEmail')
         ;
 
-        $builder->addEventListener(FormEvents::SUBMIT, function (FormEvent $event){
+        $builder->addEventListener(FormEvents::SUBMIT, function (FormEvent $event) {
             Klant::KoppelPostcodeWerkgebiedClosure($event, $this->entityManager);
         });
         $builder->add('submit', SubmitType::class);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
             'data_class' => Klant::class,
             'data' => null,
-
         ]);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getParent(): ?string
     {
         return BaseType::class;

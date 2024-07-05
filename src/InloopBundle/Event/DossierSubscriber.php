@@ -3,13 +3,9 @@
 namespace InloopBundle\Event;
 
 use InloopBundle\Entity\DossierStatus;
-use InloopBundle\Entity\Intake;
 use InloopBundle\Service\AccessUpdater;
 use InloopBundle\Service\KlantDao;
 use InloopBundle\Service\KlantDaoInterface;
-use MwBundle\Entity\Aanmelding;
-use Psr\Log\LoggerInterface;
-use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
 
@@ -31,14 +27,12 @@ class DossierSubscriber implements EventSubscriberInterface
     ) {
         $this->klantDao = $klantDao;
         $this->accessUpdater = $accessUpdater;
-
     }
 
     public static function getSubscribedEvents(): array
     {
         return [
             Events::DOSSIER_CHANGED => ['afterDossierUpdated'],
-
         ];
     }
 
@@ -50,6 +44,5 @@ class DossierSubscriber implements EventSubscriberInterface
         }
 
         $this->accessUpdater->updateForClient($dossier->getKlant());
-
     }
 }

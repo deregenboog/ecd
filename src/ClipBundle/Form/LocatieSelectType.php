@@ -2,26 +2,19 @@
 
 namespace ClipBundle\Form;
 
-use Doctrine\ORM\EntityRepository;
 use ClipBundle\Entity\Locatie;
+use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\OptionsResolver\Options;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class LocatieSelectType extends AbstractType
 {
-    /**
-     * {@inheritdoc}
-     */
     public function getParent(): ?string
     {
         return EntityType::class;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([

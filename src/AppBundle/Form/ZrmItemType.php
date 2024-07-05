@@ -8,9 +8,6 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class ZrmItemType extends AbstractType
 {
-    /**
-     * {@inheritdoc}
-     */
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([

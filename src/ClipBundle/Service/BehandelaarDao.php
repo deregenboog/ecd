@@ -22,7 +22,7 @@ class BehandelaarDao extends AbstractDao implements BehandelaarDaoInterface
 
     protected $alias = 'behandelaar';
 
-    public function findAll($page = null, FilterInterface $filter = null)
+    public function findAll($page = null, ?FilterInterface $filter = null)
     {
         $builder = $this->repository->createQueryBuilder($this->alias)
             ->select($this->alias, 'medewerker')

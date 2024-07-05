@@ -12,13 +12,14 @@ use GaBundle\Form\ActiviteitFilterType;
 use GaBundle\Form\ActiviteitType;
 use GaBundle\Form\DeelnamesType;
 use GaBundle\Service\ActiviteitDaoInterface;
-use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * @Route("/activiteiten")
+ *
  * @Template
  */
 class ActiviteitenController extends AbstractChildController
@@ -54,6 +55,7 @@ class ActiviteitenController extends AbstractChildController
 
     /**
      * @Route("/calendar")
+     *
      * @Template
      */
     public function calendarAction()

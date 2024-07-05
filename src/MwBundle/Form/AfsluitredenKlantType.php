@@ -11,9 +11,6 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class AfsluitredenKlantType extends AbstractType
 {
-    /**
-     * {@inheritdoc}
-     */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
@@ -25,9 +22,6 @@ class AfsluitredenKlantType extends AbstractType
         ;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
@@ -35,9 +29,6 @@ class AfsluitredenKlantType extends AbstractType
         ]);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getParent(): ?string
     {
         return BaseType::class;

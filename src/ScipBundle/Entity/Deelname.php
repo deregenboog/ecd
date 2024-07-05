@@ -9,11 +9,14 @@ use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Entity
+ *
  * @ORM\Table(
  *     name="scip_deelnames",
  *     indexes={}
  * )
+ *
  * @ORM\HasLifecycleCallbacks
+ *
  * @Gedmo\Loggable
  */
 class Deelname
@@ -25,6 +28,7 @@ class Deelname
      * @var Deelnemer
      *
      * @ORM\ManyToOne(targetEntity="Deelnemer", inversedBy="deelnames")
+     *
      * @Gedmo\Versioned
      */
     private $deelnemer;
@@ -33,6 +37,7 @@ class Deelname
      * @var Project
      *
      * @ORM\ManyToOne(targetEntity="Project", inversedBy="deelnames")
+     *
      * @Gedmo\Versioned
      */
     private $project;
@@ -44,7 +49,7 @@ class Deelname
      */
     private $beschibaarheid;
 
-    public function __construct(Deelnemer $deelnemer = null, Project $project = null)
+    public function __construct(?Deelnemer $deelnemer = null, ?Project $project = null)
     {
         $this->deelnemer = $deelnemer;
         $this->project = $project;

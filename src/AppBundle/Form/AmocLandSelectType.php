@@ -11,9 +11,6 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class AmocLandSelectType extends AbstractType
 {
-    /**
-     * {@inheritdoc}
-     */
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
@@ -27,9 +24,6 @@ class AmocLandSelectType extends AbstractType
         ]);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getParent(): ?string
     {
         return EntityType::class;

@@ -4,7 +4,6 @@ namespace DagbestedingBundle\Form;
 
 use AppBundle\Form\BaseType;
 use DagbestedingBundle\Entity\Document;
-use Hoa\Compiler\Llk\Rule\Choice;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
@@ -14,9 +13,6 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class DocumentType extends AbstractType
 {
-    /**
-     * {@inheritdoc}
-     */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->add('naam');
@@ -25,9 +21,8 @@ class DocumentType extends AbstractType
             $builder->add('file', FileType::class, [
                 'label' => 'Document',
             ]);
-            $builder->add('type',ChoiceType::class,[
-
-                'choices'=>Document::TYPES,
+            $builder->add('type', ChoiceType::class, [
+                'choices' => Document::TYPES,
             ]);
         }
 
@@ -37,9 +32,6 @@ class DocumentType extends AbstractType
         ;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
@@ -47,9 +39,6 @@ class DocumentType extends AbstractType
         ]);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getParent(): ?string
     {
         return BaseType::class;

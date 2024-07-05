@@ -10,7 +10,6 @@ use Doctrine\ORM\EntityRepository;
 use IzBundle\Entity\Hulpaanbod;
 use IzBundle\Entity\Intake;
 use IzBundle\Entity\IzDeelnemer;
-use IzBundle\Entity\Project;
 use IzBundle\Filter\IzVrijwilligerFilter;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
@@ -22,9 +21,6 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class IzVrijwilligerFilterType extends AbstractType
 {
-    /**
-     * {@inheritdoc}
-     */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         if (in_array('afsluitDatum', $options['enabled_filters'])) {
@@ -58,7 +54,7 @@ class IzVrijwilligerFilterType extends AbstractType
         }
 
         if (in_array('project', $options['enabled_filters'])) {
-            $builder->add('project', ProjectSelectFilterType::class,[
+            $builder->add('project', ProjectSelectFilterType::class, [
             ]);
         }
 
@@ -147,9 +143,6 @@ class IzVrijwilligerFilterType extends AbstractType
         ;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
@@ -174,9 +167,6 @@ class IzVrijwilligerFilterType extends AbstractType
         ]);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getParent(): ?string
     {
         return FilterType::class;

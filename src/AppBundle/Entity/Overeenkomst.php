@@ -8,8 +8,11 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 /**
  * @ORM\Entity
+ *
  * @ORM\HasLifecycleCallbacks
+ *
  * @Gedmo\Loggable
+ *
  * @Vich\Uploadable
  */
 class Overeenkomst extends Document

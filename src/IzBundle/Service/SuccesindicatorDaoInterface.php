@@ -9,12 +9,11 @@ use Knp\Component\Pager\Pagination\PaginationInterface;
 interface SuccesindicatorDaoInterface
 {
     /**
-     * @param int             $page
-     * @param FilterInterface $filter
+     * @param int $page
      *
      * @return PaginationInterface
      */
-    public function findAll($page = null, FilterInterface $filter = null);
+    public function findAll($page = null, ?FilterInterface $filter = null);
 
     /**
      * @param int $id
@@ -23,18 +22,9 @@ interface SuccesindicatorDaoInterface
      */
     public function find($id);
 
-    /**
-     * @param Succesindicator $entity
-     */
     public function create(Succesindicator $entity);
 
-    /**
-     * @param Succesindicator $entity
-     */
     public function update(Succesindicator $entity);
 
-    /**
-     * @param Succesindicator $entity
-     */
     public function delete(Succesindicator $entity);
 }

@@ -18,7 +18,7 @@ class PdfBrief extends \TCPDF
         $this->SetSubject('Doorverwijsbrief AMOC');
 
         $this->AddPage();
-        $this->Image(('img/drg-logo-142px.jpg'), 10, 0, 40, 40);
+        $this->Image('img/drg-logo-142px.jpg', 10, 0, 40, 40);
         $this->writeHTMLCell(null, null, 15, 41, $this->spaceless($html));
     }
 

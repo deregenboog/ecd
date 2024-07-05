@@ -8,7 +8,6 @@ use InloopBundle\Entity\Document;
 use InloopBundle\Form\DocumentType;
 use InloopBundle\Service\DocumentDaoInterface;
 use Symfony\Component\Routing\Annotation\Route;
-use Vich\UploaderBundle\Handler\DownloadHandler;
 
 /**
  * @Route("/documenten")

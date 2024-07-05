@@ -13,9 +13,6 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class IzEmailMessageType extends AbstractType
 {
-    /**
-     * {@inheritdoc}
-     */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $emails = [];
@@ -29,7 +26,7 @@ class IzEmailMessageType extends AbstractType
                         $emails[] = $izDeelnemer->getVrijwilliger()->getEmail();
                         break;
                     default:
-                        continue;
+                        break;
                 }
             }
         }
@@ -50,9 +47,6 @@ class IzEmailMessageType extends AbstractType
         ;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
@@ -61,9 +55,6 @@ class IzEmailMessageType extends AbstractType
         ]);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getParent(): ?string
     {
         return EmailMessageType::class;

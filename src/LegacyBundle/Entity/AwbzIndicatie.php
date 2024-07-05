@@ -3,13 +3,14 @@
 namespace LegacyBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use AppBundle\Model\IdentifiableTrait;
 
 /**
  * @ORM\Entity
+ *
  * @ORM\Table(
  *     name="awbz_indicaties",
  *     indexes={
+ *
  *         @ORM\Index(name="idx_awbz_indicaties_klant_id", columns={"klant_id"})
  *     }
  * )
@@ -18,7 +19,9 @@ class AwbzIndicatie
 {
     /**
      * @ORM\Column(type="integer")
+     *
      * @ORM\Id
+     *
      * @ORM\GeneratedValue
      */
     private $id;
@@ -62,7 +65,6 @@ class AwbzIndicatie
      * @ORM\Column(type="date", nullable=true)
      */
     private $aangevraagd_datum;
-
 
     /**
      * @ORM\Column(type="boolean", nullable=true, options={"default" : 0})

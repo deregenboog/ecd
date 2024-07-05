@@ -6,8 +6,8 @@ use AppBundle\Controller\AbstractController;
 use IzBundle\Entity\Hulpvraagsoort;
 use IzBundle\Form\HulpvraagsoortType;
 use IzBundle\Service\HulpvraagsoortDaoInterface;
-use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * @Route("/admin/hulpvraagsoorten")

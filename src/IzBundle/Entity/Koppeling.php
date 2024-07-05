@@ -10,16 +10,18 @@ use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\HasLifeCycleCallbacks
+ *
  * @ORM\Table(name="iz_koppelingen",
  *     indexes={
+ *
  *       @ORM\Index(name="idx_deelnemer_discr_deleted_einddatum_koppeling", columns={"iz_deelnemer_id","discr","deleted","einddatum","iz_koppeling_id"})
  *     }
  * )
+ *
  * @Gedmo\Loggable()
  */
 class Koppeling
 {
-
     use TimestampableTrait;
     use IdentifiableTrait;
 
@@ -87,9 +89,6 @@ class Koppeling
         return $this->hulpvraag->getMedewerker();
     }
 
-    /**
-     * @param Medewerker $medewerker
-     */
     public function setMedewerker(Medewerker $medewerker)
     {
         if ($this->hulpvraag->getMedewerker() !== $medewerker) {
@@ -110,9 +109,6 @@ class Koppeling
         return $this->hulpvraag->getKoppelingStartdatum();
     }
 
-    /**
-     * @param \DateTime $startdatum
-     */
     public function setStartdatum(\DateTime $startdatum)
     {
         if ($this->hulpvraag->getKoppelingStartdatum() !== $startdatum) {
@@ -136,9 +132,6 @@ class Koppeling
         return $this->hulpvraag->getKoppelingEinddatum();
     }
 
-    /**
-     * @param \DateTime $einddatum
-     */
     public function setEinddatum(?\DateTime $einddatum)
     {
         if ($this->hulpvraag->getKoppelingEinddatum() !== $einddatum) {
@@ -159,9 +152,6 @@ class Koppeling
         return $this->hulpvraag->getTussenevaluatiedatum();
     }
 
-    /**
-     * @param \DateTime $datum
-     */
     public function setTussenevaluatiedatum(\DateTime $datum)
     {
         if ($this->hulpvraag->getTussenevaluatiedatum() !== $datum) {
@@ -182,9 +172,6 @@ class Koppeling
         return $this->hulpvraag->getEindevaluatiedatum();
     }
 
-    /**
-     * @param \DateTime $datum
-     */
     public function setEindevaluatiedatum(\DateTime $datum)
     {
         if ($this->hulpvraag->getEindevaluatiedatum() !== $datum) {

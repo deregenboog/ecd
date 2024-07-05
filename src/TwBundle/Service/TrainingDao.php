@@ -3,9 +3,7 @@
 namespace TwBundle\Service;
 
 use AppBundle\Service\AbstractDao;
-use TwBundle\Entity\Locatie;
 use TwBundle\Entity\Training;
-
 
 class TrainingDao extends AbstractDao implements TrainingDaoInterface
 {

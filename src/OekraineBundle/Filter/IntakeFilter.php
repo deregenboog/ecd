@@ -33,7 +33,6 @@ class IntakeFilter implements FilterInterface
 
     public function applyTo(QueryBuilder $builder)
     {
-
         if ($this->intakelocatie) {
             $builder
                 ->andWhere('intakelocatie = :locatie')
@@ -57,7 +56,7 @@ class IntakeFilter implements FilterInterface
         }
 
         if ($this->klant) {
-            $this->klant->applyTo($builder,'appKlant');
+            $this->klant->applyTo($builder, 'appKlant');
         }
     }
 }

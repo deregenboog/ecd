@@ -8,7 +8,6 @@ use GaBundle\Entity\Document;
 use GaBundle\Form\DocumentType;
 use GaBundle\Service\DocumentDaoInterface;
 use Symfony\Component\Routing\Annotation\Route;
-use Vich\UploaderBundle\Handler\DownloadHandler;
 
 /**
  * @Route("/documenten")

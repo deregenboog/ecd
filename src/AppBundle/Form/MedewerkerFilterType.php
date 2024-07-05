@@ -23,9 +23,6 @@ class MedewerkerFilterType extends AbstractType
         $this->roles = array_combine($roles, $roles);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         if (in_array('username', $options['enabled_filters'])) {
@@ -60,9 +57,6 @@ class MedewerkerFilterType extends AbstractType
         $builder->add('filter', SubmitType::class);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
@@ -73,14 +67,11 @@ class MedewerkerFilterType extends AbstractType
                 'naam',
                 'rol',
                 'actief',
-                'download'
+                'download',
             ],
         ]);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getParent(): ?string
     {
         return FilterType::class;

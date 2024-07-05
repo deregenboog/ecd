@@ -14,12 +14,11 @@ interface DagdeelDaoInterface
     public const FASE_EINDSTAND = 'eindstand';
 
     /**
-     * @param int             $page
-     * @param FilterInterface $filter
+     * @param int $page
      *
      * @return PaginationInterface
      */
-    public function findAll($page = null, FilterInterface $filter = null);
+    public function findAll($page = null, ?FilterInterface $filter = null);
 
     /**
      * @param int $id
@@ -28,19 +27,10 @@ interface DagdeelDaoInterface
      */
     public function find($id);
 
-    /**
-     * @param Dagdeel $dagdeel
-     */
     public function create(Dagdeel $dagdeel);
 
-    /**
-     * @param Dagdeel $dagdeel
-     */
     public function update(Dagdeel $dagdeel);
 
-    /**
-     * @param Dagdeel $dagdeel
-     */
     public function delete(Dagdeel $dagdeel);
 
     public function countByDeelnemer(\DateTime $startdate, \DateTime $enddate);

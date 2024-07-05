@@ -7,9 +7,7 @@ use AppBundle\Form\MedewerkerType;
 use AppBundle\Form\VrijwilligerFilterType;
 use Doctrine\ORM\EntityRepository;
 use IzBundle\Entity\Hulpaanbod;
-use IzBundle\Entity\Project;
 use IzBundle\Filter\HulpaanbodFilter;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -19,9 +17,6 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class HulpaanbodFilterType extends AbstractType
 {
-    /**
-     * {@inheritdoc}
-     */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         if (in_array('matching', $options['enabled_filters'])) {
@@ -44,7 +39,7 @@ class HulpaanbodFilterType extends AbstractType
         }
 
         if (in_array('project', $options['enabled_filters'])) {
-            $builder->add('project', ProjectSelectFilterType::class,[
+            $builder->add('project', ProjectSelectFilterType::class, [
             ]);
         }
 
@@ -93,9 +88,6 @@ class HulpaanbodFilterType extends AbstractType
         }
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
@@ -116,9 +108,6 @@ class HulpaanbodFilterType extends AbstractType
         ]);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getParent(): ?string
     {
         return KoppelingFilterType::class;

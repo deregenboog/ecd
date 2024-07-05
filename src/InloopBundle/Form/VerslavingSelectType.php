@@ -10,9 +10,6 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class VerslavingSelectType extends AbstractType
 {
-    /**
-     * {@inheritdoc}
-     */
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
@@ -28,9 +25,6 @@ class VerslavingSelectType extends AbstractType
         ]);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getParent(): ?string
     {
         return EntityType::class;

@@ -26,7 +26,7 @@ class MedewerkerType extends AbstractType
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        if ($options['preset'] && $options['preset'] == true) {
+        if ($options['preset'] && true == $options['preset']) {
             $builder->addEventListener(FormEvents::POST_SET_DATA, function (FormEvent $event) {
                 if (!$event->getData()) {
                     $form = $event->getForm();
@@ -36,9 +36,6 @@ class MedewerkerType extends AbstractType
         }
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
@@ -53,9 +50,6 @@ class MedewerkerType extends AbstractType
         ]);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getParent(): ?string
     {
         return EntityType::class;

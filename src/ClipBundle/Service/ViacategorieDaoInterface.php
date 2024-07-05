@@ -9,12 +9,11 @@ use Knp\Component\Pager\Pagination\PaginationInterface;
 interface ViacategorieDaoInterface
 {
     /**
-     * @param int             $page
-     * @param FilterInterface $filter
+     * @param int $page
      *
      * @return PaginationInterface
      */
-    public function findAll($page = null, FilterInterface $filter = null);
+    public function findAll($page = null, ?FilterInterface $filter = null);
 
     /**
      * @param int $id
@@ -23,18 +22,9 @@ interface ViacategorieDaoInterface
      */
     public function find($id);
 
-    /**
-     * @param Viacategorie $viacategorie
-     */
     public function create(Viacategorie $viacategorie);
 
-    /**
-     * @param Viacategorie $viacategorie
-     */
     public function update(Viacategorie $viacategorie);
 
-    /**
-     * @param Viacategorie $viacategorie
-     */
     public function delete(Viacategorie $viacategorie);
 }

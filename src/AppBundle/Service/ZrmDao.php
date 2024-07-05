@@ -24,12 +24,11 @@ class ZrmDao extends AbstractDao implements ZrmDaoInterface
     protected $alias = 'zrm';
 
     /**
-     * @param int             $page
-     * @param FilterInterface $filter
+     * @param int $page
      *
      * @return PaginationInterface
      */
-    public function findAll($page = null, FilterInterface $filter = null)
+    public function findAll($page = null, ?FilterInterface $filter = null)
     {
         $builder = $this->repository->createQueryBuilder($this->alias)
             ->innerJoin("{$this->alias}.klant", 'klant')
@@ -56,25 +55,16 @@ class ZrmDao extends AbstractDao implements ZrmDaoInterface
         return parent::find($id);
     }
 
-    /**
-     * @param Zrm $entity
-     */
     public function create(Zrm $entity)
     {
         return $this->doCreate($entity);
     }
 
-    /**
-     * @param Zrm $entity
-     */
     public function update(Zrm $entity)
     {
         return $this->doUpdate($entity);
     }
 
-    /**
-     * @param Zrm $entity
-     */
     public function delete(Zrm $entity)
     {
         return $this->doDelete($entity);

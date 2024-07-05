@@ -27,7 +27,7 @@ class VrijwilligerdossierDao extends AbstractDao implements VrijwilligerdossierD
 
     protected $alias = 'dossier';
 
-    public function findAll($page = null, FilterInterface $filter = null)
+    public function findAll($page = null, ?FilterInterface $filter = null)
     {
         $builder = $this->repository->createQueryBuilder($this->alias)
             ->select("{$this->alias}, vrijwilliger, werkgebied, lidmaatschap, groep")
@@ -42,8 +42,6 @@ class VrijwilligerdossierDao extends AbstractDao implements VrijwilligerdossierD
     }
 
     /**
-     * @param Vrijwilliger $vrijwilliger
-     *
      * @return Vrijwilligerdossier
      */
     public function findOneByVrijwilliger(Vrijwilliger $vrijwilliger)

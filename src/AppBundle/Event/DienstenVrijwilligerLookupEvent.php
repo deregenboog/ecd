@@ -42,6 +42,7 @@ class DienstenVrijwilligerLookupEvent extends Event
     public function setVrijwilliger(Vrijwilliger $vrijwilliger)
     {
         $this->vrijwilliger = $vrijwilliger;
+
         return $this;
     }
 

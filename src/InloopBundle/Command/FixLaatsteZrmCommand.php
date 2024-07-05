@@ -2,17 +2,13 @@
 
 namespace InloopBundle\Command;
 
-use Doctrine\Bundle\DoctrineBundle\Middleware\ConnectionNameAwareInterface;
 use Doctrine\DBAL\Connection;
-use Doctrine\DBAL\DriverManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class FixLaatsteZrmCommand extends \Symfony\Component\Console\Command\Command
 {
-
-
     /** @var Connection */
     protected $conn;
 
@@ -37,10 +33,10 @@ class FixLaatsteZrmCommand extends \Symfony\Component\Console\Command\Command
             ) AS laatste_zrm ON laatste_zrm.klant_id = klant.id
             SET klant.last_zrm = laatste_zrm.datum';
 
-
         $n = $this->conn->exec($sql);
 
         $output->writeln(sprintf('%d rows affected', $n));
+
         return 0;
     }
 }

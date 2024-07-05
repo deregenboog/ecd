@@ -7,28 +7,18 @@ use App\DagbestedingBundle\Form\TrajectsoortSelectType;
 use AppBundle\Form\AppDateType;
 use AppBundle\Form\BaseSelectType;
 use AppBundle\Form\BaseType;
-use DagbestedingBundle\Entity\Deelname;
 use DagbestedingBundle\Entity\Locatie;
-use DagbestedingBundle\Entity\Project;
-use DagbestedingBundle\Entity\Resultaatgebiedsoort;
 use DagbestedingBundle\Entity\Traject;
 use DagbestedingBundle\Entity\Trajectafsluiting;
 use DagbestedingBundle\Entity\Trajectcoach;
-use DagbestedingBundle\Entity\Trajectsoort;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class TrajectType extends AbstractType
 {
-    /**
-     * {@inheritdoc}
-     */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         switch ($options['mode']) {
@@ -41,11 +31,10 @@ class TrajectType extends AbstractType
                         'required' => true,
                         'placeholder' => 'Selecteer een item',
                     ])
-                    ->add('closeDeelnemer',CheckboxType::class,[
-                        'label'=>'Deelnemer ook afsluiten na afsluiten traject?',
-                        'mapped'=>false,
+                    ->add('closeDeelnemer', CheckboxType::class, [
+                        'label' => 'Deelnemer ook afsluiten na afsluiten traject?',
+                        'mapped' => false,
                         'required' => false,
-
                 ])
                     ->add('submit', SubmitType::class, ['label' => 'Afsluiten'])
                 ;
@@ -55,19 +44,19 @@ class TrajectType extends AbstractType
             case BaseType::MODE_EDIT:
             default:
                 $builder
-                    ->add('soort', TrajectsoortSelectType::class,[
-                        'required'=>true,
+                    ->add('soort', TrajectsoortSelectType::class, [
+                        'required' => true,
                     ])
-                    ->add('resultaatgebiedsoort', ResultaatgebiedsoortSelectType::class,[
-                        'required'=>true,
+                    ->add('resultaatgebiedsoort', ResultaatgebiedsoortSelectType::class, [
+                        'required' => true,
                     ])
                     ->add('ondersteuningsplanVerwerkt')
                     ->add('startdatum', AppDateType::class)
-                    ->add('evaluatiedatum', AppDateType::class,[
-                        'attr'=> [
-                            "placeholder"=>'dd-mm-jjjj: '.(new \DateTime())->modify(Traject::TERMIJN_EVALUATIE)->format("d-m-Y")
+                    ->add('evaluatiedatum', AppDateType::class, [
+                        'attr' => [
+                            'placeholder' => 'dd-mm-jjjj: '.(new \DateTime())->modify(Traject::TERMIJN_EVALUATIE)->format('d-m-Y'),
                         ],
-                        'required'=>false,
+                        'required' => false,
                     ])
                     ->add('trajectcoach', BaseSelectType::class, [
                         'class' => Trajectcoach::class,
@@ -85,9 +74,6 @@ class TrajectType extends AbstractType
         }
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
@@ -96,9 +82,6 @@ class TrajectType extends AbstractType
         ]);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getParent(): ?string
     {
         return BaseType::class;

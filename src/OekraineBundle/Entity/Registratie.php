@@ -2,21 +2,24 @@
 
 namespace OekraineBundle\Entity;
 
-use AppBundle\Entity\Klant;
 use AppBundle\Model\TimestampableTrait;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Entity
+ *
  * @ORM\Table(
  *     name="oekraine_registraties",
  *     indexes={
+ *
  *         @ORM\Index(columns={"bezoeker_id"}),
  *         @ORM\Index(columns={"locatie_id", "closed", "binnen_date"})
  *     }
  * )
+ *
  * @ORM\HasLifecycleCallbacks
+ *
  * @Gedmo\Loggable
  */
 class Registratie
@@ -25,29 +28,38 @@ class Registratie
 
     /**
      * @var int
+     *
      * @ORM\Id
+     *
      * @ORM\Column(type="integer")
+     *
      * @ORM\GeneratedValue
      */
     private $id;
 
     /**
      * @var Locatie
+     *
      * @ORM\ManyToOne(targetEntity="Locatie")
+     *
      * @Gedmo\Versioned
      */
     private $locatie;
 
     /**
      * @var Bezoeker
+     *
      * @ORM\ManyToOne(targetEntity="OekraineBundle\Entity\Bezoeker", inversedBy="registraties")
+     *
      * @Gedmo\Versioned
      */
     private $bezoeker;
 
     /**
      * @var \DateTime
+     *
      * @ORM\Column(type="datetime")
+     *
      * @Gedmo\Versioned
      */
     private $binnen;
@@ -56,27 +68,34 @@ class Registratie
      * Used for indexing for improved performance.
      *
      * @var \DateTime
+     *
      * @ORM\Column(name="binnen_date", type="date", nullable=true)
      */
     private $binnenDate;
 
     /**
      * @var \DateTime
+     *
      * @ORM\Column(type="datetime", nullable=true)
+     *
      * @Gedmo\Versioned
      */
     private $buiten;
 
     /**
      * @var int
+     *
      * @ORM\Column(type="integer")
+     *
      * @Gedmo\Versioned
      */
     private $douche = 0;
 
     /**
      * @var int
+     *
      * @ORM\Column(type="integer")
+     *
      * @Gedmo\Versioned
      */
     private $mw = 0;
@@ -85,49 +104,63 @@ class Registratie
      * @deprecated
      *
      * @var int
+     *
      * @ORM\Column(type="integer")
+     *
      * @Gedmo\Versioned
      */
     private $gbrv = 0;
 
     /**
      * @var bool
+     *
      * @ORM\Column(type="boolean")
+     *
      * @Gedmo\Versioned
      */
     private $kleding = false;
 
     /**
      * @var bool
+     *
      * @ORM\Column(type="boolean")
+     *
      * @Gedmo\Versioned
      */
     private $maaltijd = false;
 
     /**
      * @var bool
+     *
      * @ORM\Column(type="boolean")
+     *
      * @Gedmo\Versioned
      */
     private $activering = false;
 
     /**
      * @var bool
+     *
      * @ORM\Column(type="boolean")
+     *
      * @Gedmo\Versioned
      */
     private $veegploeg = false;
 
     /**
      * @var int
+     *
      * @ORM\Column(type="integer", nullable=true)
+     *
      * @Gedmo\Versioned
      */
     private $aantalSpuiten = 0;
 
     /**
      * @var int
+     *
      * @ORM\Column(type="boolean", nullable=true)
+     *
      * @Gedmo\Versioned
      */
     private $closed = false;
@@ -171,25 +204,17 @@ class Registratie
         return $this;
     }
 
-    /**
-     * @return Bezoeker
-     */
     public function getBezoeker(): Bezoeker
     {
         return $this->bezoeker;
     }
 
-    /**
-     * @param Bezoeker $bezoeker
-     * @return Registratie
-     */
     public function setBezoeker(Bezoeker $bezoeker): Registratie
     {
         $this->bezoeker = $bezoeker;
+
         return $this;
     }
-
-
 
     public function getBinnen()
     {
@@ -300,17 +325,11 @@ class Registratie
         return $this;
     }
 
-    /**
-     * @return int
-     */
     public function getAantalSpuiten(): ?int
     {
         return $this->aantalSpuiten;
     }
 
-    /**
-     * @param int $aantalSpuiten
-     */
     public function setAantalSpuiten(int $aantalSpuiten): void
     {
         $this->aantalSpuiten = $aantalSpuiten;

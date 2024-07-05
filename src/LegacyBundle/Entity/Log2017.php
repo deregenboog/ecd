@@ -6,7 +6,9 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity
+ *
  * @ORM\Table(name="logs_2017", indexes={
+ *
  *     @ORM\Index(name="idx_logs_model_foreign_key_created", columns={"model", "foreign_key", "created"}),
  *     @ORM\Index(name="idx_logs_model_foreign_key", columns={"model", "foreign_key"}),
  *     @ORM\Index(name="idx_logs_medewerker_id", columns={"medewerker_id"})
@@ -16,7 +18,9 @@ class Log2017
 {
     /**
      * @ORM\Id
+     *
      * @ORM\Column(type="integer")
+     *
      * @ORM\GeneratedValue
      */
     private $id;

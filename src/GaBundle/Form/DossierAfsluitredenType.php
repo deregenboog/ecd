@@ -11,9 +11,6 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class DossierAfsluitredenType extends AbstractType
 {
-    /**
-     * {@inheritdoc}
-     */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
@@ -22,9 +19,6 @@ class DossierAfsluitredenType extends AbstractType
         ;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
@@ -32,9 +26,6 @@ class DossierAfsluitredenType extends AbstractType
         ]);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getParent(): ?string
     {
         return BaseType::class;

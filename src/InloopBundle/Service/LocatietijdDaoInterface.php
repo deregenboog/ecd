@@ -9,12 +9,11 @@ use Knp\Component\Pager\Pagination\PaginationInterface;
 interface LocatietijdDaoInterface
 {
     /**
-     * @param int             $page
-     * @param FilterInterface $filter
+     * @param int $page
      *
      * @return PaginationInterface
      */
-    public function findAll($page = null, FilterInterface $filter = null);
+    public function findAll($page = null, ?FilterInterface $filter = null);
 
     /**
      * @param int $id
@@ -23,18 +22,9 @@ interface LocatietijdDaoInterface
      */
     public function find($id);
 
-    /**
-     * @param Locatietijd $locatietijd
-     */
     public function create(Locatietijd $locatietijd);
 
-    /**
-     * @param Locatietijd $locatietijd
-     */
     public function update(Locatietijd $locatietijd);
 
-    /**
-     * @param Locatietijd $locatietijd
-     */
     public function delete(Locatietijd $locatietijd);
 }

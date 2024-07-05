@@ -3,10 +3,10 @@
 namespace VillaBundle\Controller;
 
 use AppBundle\Controller\AbstractController;
+use Symfony\Component\Routing\Annotation\Route;
 use VillaBundle\Entity\Afsluitreden;
 use VillaBundle\Form\AfsluitredenType;
 use VillaBundle\Service\AfsluitredenDaoInterface;
-use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * @Route("/admin/afsluitredenen")

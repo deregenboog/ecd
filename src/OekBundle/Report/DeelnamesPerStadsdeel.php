@@ -4,15 +4,13 @@ namespace OekBundle\Report;
 
 use AppBundle\Report\AbstractReport;
 use AppBundle\Report\Table;
-use OekBundle\Entity\Deelname;
 use OekBundle\Repository\DeelnameRepository;
-use OekBundle\Repository\TrainingRepository;
 
 class DeelnamesPerStadsdeel extends AbstractReport
 {
     protected $title = 'Deelnames per stadsdeel';
 
-//    protected $xPath = 'stadsdeel';
+    //    protected $xPath = 'stadsdeel';
 
     protected $yPath = 'stadsdeel';
 

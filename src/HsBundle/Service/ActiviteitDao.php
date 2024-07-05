@@ -24,7 +24,7 @@ class ActiviteitDao extends AbstractDao implements ActiviteitDaoInterface
     /**
      * {inheritdoc}.
      */
-    public function findAll($page = null, FilterInterface $filter = null)
+    public function findAll($page = null, ?FilterInterface $filter = null)
     {
         $builder = $this->repository->createQueryBuilder($this->alias)
             ->select("{$this->alias}, klus")

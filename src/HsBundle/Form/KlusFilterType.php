@@ -4,6 +4,7 @@ namespace HsBundle\Form;
 
 use AppBundle\Form\AppDateRangeType;
 use AppBundle\Form\FilterType;
+use Doctrine\ORM\EntityRepository;
 use HsBundle\Entity\Activiteit;
 use HsBundle\Entity\Klus;
 use HsBundle\Filter\KlusFilter;
@@ -16,13 +17,9 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Doctrine\ORM\EntityRepository;
 
 class KlusFilterType extends AbstractType
 {
-    /**
-     * {@inheritdoc}
-     */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         if (in_array('id', $options['enabled_filters'])) {
@@ -89,7 +86,7 @@ class KlusFilterType extends AbstractType
                     return $repository->createQueryBuilder('activiteit')
                         ->orderBy('activiteit.naam')
                     ;
-                }
+                },
             ]);
         }
 
@@ -102,9 +99,6 @@ class KlusFilterType extends AbstractType
         }
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
@@ -123,9 +117,6 @@ class KlusFilterType extends AbstractType
         ]);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getParent(): ?string
     {
         return FilterType::class;

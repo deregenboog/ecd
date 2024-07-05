@@ -4,7 +4,6 @@ namespace ClipBundle\Event;
 
 use AppBundle\Entity\Postcode;
 use ClipBundle\Entity\Client;
-use Doctrine\Bundle\DoctrineBundle\EventSubscriber\EventSubscriberInterface;
 use Doctrine\Common\EventSubscriber;
 use Doctrine\ORM\Event\LifecycleEventArgs;
 use Doctrine\ORM\Events;

@@ -13,7 +13,7 @@ interface KlantDaoInterface
      *
      * @return PaginationInterface
      */
-    public function findAll($page = null, FilterInterface $filter = null);
+    public function findAll($page = null, ?FilterInterface $filter = null);
 
     /**
      * @param int $id
@@ -22,26 +22,17 @@ interface KlantDaoInterface
      */
     public function find($id);
 
-    /**
-     * @param Klant $klant
-     */
     public function create(Klant $klant);
 
-    /**
-     * @param Klant $klant
-     */
     public function update(Klant $klant);
 
-    /**
-     * @param Klant $klant
-     */
     public function delete(Klant $klant);
 
-    public function countByStadsdeel(\DateTime $start = null, \DateTime $end = null);
+    public function countByStadsdeel(?\DateTime $start = null, ?\DateTime $end = null);
 
-    public function countByGgwGebied(\DateTime $start = null, \DateTime $end = null);
+    public function countByGgwGebied(?\DateTime $start = null, ?\DateTime $end = null);
 
-    public function countNewByStadsdeel(\DateTime $start = null, \DateTime $end = null);
+    public function countNewByStadsdeel(?\DateTime $start = null, ?\DateTime $end = null);
 
-    public function countNewByGgwGebied(\DateTime $start = null, \DateTime $end = null);
+    public function countNewByGgwGebied(?\DateTime $start = null, ?\DateTime $end = null);
 }

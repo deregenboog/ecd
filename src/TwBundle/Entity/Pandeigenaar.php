@@ -13,8 +13,11 @@ use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Entity
+ *
  * @ORM\Table(name="tw_pandeigenaar")
+ *
  * @ORM\HasLifecycleCallbacks
+ *
  * @Gedmo\Loggable
  */
 class Pandeigenaar
@@ -36,6 +39,7 @@ class Pandeigenaar
      * @var PandeigenaarType
      *
      * @ORM\ManyToOne (targetEntity="TwBundle\Entity\PandeigenaarType", inversedBy="pandeigenaars", cascade={"persist"})
+     *
      * @ORM\JoinColumn(nullable=false)
      */
     private $pandeigenaarType;
@@ -44,6 +48,7 @@ class Pandeigenaar
      * @var \DateTime
      *
      * @ORM\Column(type="datetime")
+     *
      * @Gedmo\Versioned
      */
     protected $created;
@@ -52,6 +57,7 @@ class Pandeigenaar
      * @var \DateTime
      *
      * @ORM\Column(type="datetime")
+     *
      * @Gedmo\Versioned
      */
     protected $modified;
@@ -93,18 +99,11 @@ class Pandeigenaar
         return $this;
     }
 
-    /**
-     * @return PandeigenaarType
-     */
     public function getPandeigenaarType(): ?PandeigenaarType
     {
         return $this->pandeigenaarType;
     }
 
-    /**
-     * @param PandeigenaarType $pandeigenaarType
-     * @return Pandeigenaar
-     */
     public function setPandeigenaarType(PandeigenaarType $pandeigenaarType): Pandeigenaar
     {
         $this->pandeigenaarType = $pandeigenaarType;

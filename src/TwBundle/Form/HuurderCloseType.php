@@ -5,18 +5,15 @@ namespace TwBundle\Form;
 use AppBundle\Form\AppDateType;
 use AppBundle\Form\BaseType;
 use Doctrine\ORM\EntityRepository;
-use TwBundle\Entity\Klant;
-use TwBundle\Entity\KlantAfsluiting;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use TwBundle\Entity\Klant;
+use TwBundle\Entity\KlantAfsluiting;
 
 class HuurderCloseType extends AbstractType
 {
-    /**
-     * {@inheritdoc}
-     */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $huurder = $options['data'];
@@ -43,9 +40,6 @@ class HuurderCloseType extends AbstractType
         ;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
@@ -53,9 +47,6 @@ class HuurderCloseType extends AbstractType
         ]);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getParent(): ?string
     {
         return BaseType::class;

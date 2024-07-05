@@ -4,19 +4,15 @@ namespace TwBundle\Form;
 
 use AppBundle\Filter\FilterInterface;
 use AppBundle\Form\BaseType;
-use AppBundle\Form\StadsdeelSelectType;
 use Doctrine\ORM\EntityRepository;
-use TwBundle\Entity\Verhuurder;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use TwBundle\Entity\Verhuurder;
 
 class VerhuurderSelectType extends AbstractType
 {
-    /**
-     * {@inheritdoc}
-     */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
@@ -40,9 +36,6 @@ class VerhuurderSelectType extends AbstractType
         ;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
@@ -51,9 +44,6 @@ class VerhuurderSelectType extends AbstractType
         ]);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getParent(): ?string
     {
         return BaseType::class;

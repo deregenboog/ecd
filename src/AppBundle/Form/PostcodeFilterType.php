@@ -10,9 +10,6 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class PostcodeFilterType extends AbstractType
 {
-    /**
-     * {@inheritdoc}
-     */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         if (in_array('postcode', $options['enabled_filters'])) {
@@ -30,9 +27,6 @@ class PostcodeFilterType extends AbstractType
         $builder->add('filter', SubmitType::class);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
@@ -45,9 +39,6 @@ class PostcodeFilterType extends AbstractType
         ]);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getParent(): ?string
     {
         return FilterType::class;

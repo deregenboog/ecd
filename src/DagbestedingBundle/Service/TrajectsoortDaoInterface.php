@@ -9,12 +9,11 @@ use Knp\Component\Pager\Pagination\PaginationInterface;
 interface TrajectsoortDaoInterface
 {
     /**
-     * @param int             $page
-     * @param FilterInterface $filter
+     * @param int $page
      *
      * @return PaginationInterface
      */
-    public function findAll($page = null, FilterInterface $filter = null);
+    public function findAll($page = null, ?FilterInterface $filter = null);
 
     /**
      * @param int $id
@@ -23,18 +22,9 @@ interface TrajectsoortDaoInterface
      */
     public function find($id);
 
-    /**
-     * @param Trajectsoort $trajectsoort
-     */
     public function create(Trajectsoort $trajectsoort);
 
-    /**
-     * @param Trajectsoort $trajectsoort
-     */
     public function update(Trajectsoort $trajectsoort);
 
-    /**
-     * @param Trajectsoort $trajectsoort
-     */
     public function delete(Trajectsoort $trajectsoort);
 }

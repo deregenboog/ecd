@@ -2,9 +2,6 @@
 
 namespace AppBundle\Form;
 
-use AppBundle\Form\AppDateTimeType;
-use AppBundle\Form\BaseType;
-use AppBundle\Form\MedewerkerType;
 use AppBundle\Entity\Memo;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -14,9 +11,6 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class MemoType extends AbstractType
 {
-    /**
-     * {@inheritdoc}
-     */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
@@ -28,9 +22,6 @@ class MemoType extends AbstractType
         ;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
@@ -38,9 +29,6 @@ class MemoType extends AbstractType
         ]);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getParent(): ?string
     {
         return BaseType::class;

@@ -3,16 +3,13 @@
 namespace TwBundle\Form;
 
 use Doctrine\ORM\EntityRepository;
-use TwBundle\Entity\Project;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use TwBundle\Entity\Project;
 
 class ProjectSelectType extends AbstractType
 {
-    /**
-     * {@inheritdoc}
-     */
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
@@ -29,9 +26,6 @@ class ProjectSelectType extends AbstractType
         ]);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getParent(): ?string
     {
         return EntityType::class;

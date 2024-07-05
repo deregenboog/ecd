@@ -12,8 +12,11 @@ use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Entity
+ *
  * @ORM\Table(name="clip_clienten")
+ *
  * @ORM\HasLifecycleCallbacks
+ *
  * @Gedmo\Loggable
  */
 class Client
@@ -49,6 +52,7 @@ class Client
      * @var \DateTime
      *
      * @ORM\Column(name="aanmelddatum", type="date")
+     *
      * @Gedmo\Versioned
      */
     private $aanmelddatum;
@@ -57,6 +61,7 @@ class Client
      * @var string
      *
      * @ORM\Column(name="etniciteit", type="string", nullable=true)
+     *
      * @Gedmo\Versioned
      */
     private $etniciteit;
@@ -65,6 +70,7 @@ class Client
      * @var Viacategorie
      *
      * @ORM\ManyToOne(targetEntity="Viacategorie", inversedBy="clienten")
+     *
      * @Gedmo\Versioned
      */
     private $viacategorie;
@@ -73,7 +79,9 @@ class Client
      * @var ArrayCollection|Document[]
      *
      * @ORM\ManyToMany(targetEntity="Document", cascade={"persist"})
+     *
      * @ORM\JoinTable(name="clip_client_document")
+     *
      * @ORM\OrderBy({"id" = "DESC"})
      */
     private $documenten;
@@ -82,6 +90,7 @@ class Client
      * @var ArrayCollection|Vraag[]
      *
      * @ORM\OneToMany(targetEntity="Vraag", mappedBy="client", cascade={"persist"})
+     *
      * @ORM\OrderBy({"id" = "DESC"})
      */
     private $vragen;
@@ -97,6 +106,7 @@ class Client
      * @var \DateTime
      *
      * @ORM\Column(type="datetime")
+     *
      * @Gedmo\Versioned
      */
     protected $created;
@@ -105,6 +115,7 @@ class Client
      * @var \DateTime
      *
      * @ORM\Column(type="datetime")
+     *
      * @Gedmo\Versioned
      */
     protected $modified;
@@ -194,7 +205,7 @@ class Client
         return $this->viacategorie;
     }
 
-    public function setViacategorie(Viacategorie $viacategorie = null)
+    public function setViacategorie(?Viacategorie $viacategorie = null)
     {
         $this->viacategorie = $viacategorie;
 
@@ -234,17 +245,11 @@ class Client
         return $this;
     }
 
-    /**
-     * @return string
-     */
     public function getOrganisatie(): ?string
     {
         return $this->organisatie;
     }
 
-    /**
-     * @param string $organisatie
-     */
     public function setOrganisatie(?string $organisatie): void
     {
         $this->organisatie = $organisatie;

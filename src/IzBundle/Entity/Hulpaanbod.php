@@ -9,32 +9,41 @@ use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Entity(repositoryClass="IzBundle\Repository\HulpaanbodRepository")
+ *
  * @ORM\Table(name="iz_koppelingen")
+ *
  * @Gedmo\Loggable
  */
 class Hulpaanbod extends Hulp
 {
-    public const TABLE_NAME = 'iz_koppelingen'; //nessecary for INDEX OUTPUT WALKER see KoppelingenDao.
+    public const TABLE_NAME = 'iz_koppelingen'; // nessecary for INDEX OUTPUT WALKER see KoppelingenDao.
     public const IDX_DEELNEMER_DISCR_DELETED_EINDDATUM_KOPPELING = 'idx_deelnemer_discr_deleted_einddatum_koppeling';
 
     /**
      * @var IzVrijwilliger
+     *
      * @ORM\ManyToOne(targetEntity="IzVrijwilliger", inversedBy="hulpaanbiedingen")
+     *
      * @ORM\JoinColumn(name="iz_deelnemer_id")
+     *
      * @Gedmo\Versioned
      */
     private $izVrijwilliger;
 
     /**
      * @var Hulpvraag
+     *
      * @ORM\OneToOne(targetEntity="Hulpvraag")
+     *
      * @ORM\JoinColumn(name="iz_koppeling_id")
+     *
      * @Gedmo\Versioned
      */
     private $hulpvraag;
 
     /**
      * @var Hulpvraagsoort[]
+     *
      * @ORM\ManyToMany(targetEntity="Hulpvraagsoort")
      */
     protected $hulpvraagsoorten;
@@ -48,6 +57,7 @@ class Hulpaanbod extends Hulp
 
     /**
      * @deprecated
+     *
      * @ORM\Column(name="voorkeur_voor_nederlands", type="boolean", nullable=true)
      */
     private $voorkeurVoorNederlands;
@@ -63,6 +73,7 @@ class Hulpaanbod extends Hulp
 
     /**
      * @var ArrayCollection|Reservering[]
+     *
      * @ORM\OneToMany(targetEntity="Reservering", mappedBy="hulpaanbod")
      */
     protected $reserveringen;
@@ -194,7 +205,7 @@ class Hulpaanbod extends Hulp
         return $verslagen;
     }
 
-    public function setKoppelingStartdatum(\DateTime $startdatum = null)
+    public function setKoppelingStartdatum(?\DateTime $startdatum = null)
     {
         $this->koppelingStartdatum = $startdatum;
         $this->getKoppeling()->setStartdatum($startdatum);

@@ -26,7 +26,7 @@ class IntakeDao extends AbstractDao implements IntakeDaoInterface
 
     protected $alias = 'intake';
 
-    public function findAll($page = null, FilterInterface $filter = null)
+    public function findAll($page = null, ?FilterInterface $filter = null)
     {
         $builder = $this->repository->createQueryBuilder($this->alias)
             ->select("{$this->alias}, klant, medewerker")
@@ -38,8 +38,6 @@ class IntakeDao extends AbstractDao implements IntakeDaoInterface
     }
 
     /**
-     * @param Klant $klant
-     *
      * @return Intake
      */
     public function findOneByKlant(Klant $klant)

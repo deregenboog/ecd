@@ -38,7 +38,7 @@ class DienstenLookupSubscriber implements EventSubscriberInterface
     public function provideDienstenInfo(DienstenLookupEvent $event)
     {
         $klant = $event->getKlant();
-            //&& !$klant->getDisabled() && $klant->getHuidigeStatus()->isAangemeld() ?
+        // && !$klant->getDisabled() && $klant->getHuidigeStatus()->isAangemeld() ?
         if ($klant->getLaatsteIntake()) {
             $toegang = $this->entityManager->getRepository(Toegang::class)->findBy(['klant' => $klant]);
             if (count($toegang) > 0) {

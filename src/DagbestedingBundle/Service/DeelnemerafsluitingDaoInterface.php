@@ -21,18 +21,9 @@ interface DeelnemerafsluitingDaoInterface
      */
     public function find($id);
 
-    /**
-     * @param Deelnemerafsluiting $afsluiting
-     */
     public function create(Deelnemerafsluiting $afsluiting);
 
-    /**
-     * @param Deelnemerafsluiting $afsluiting
-     */
     public function update(Deelnemerafsluiting $afsluiting);
 
-    /**
-     * @param Deelnemerafsluiting $afsluiting
-     */
     public function delete(Deelnemerafsluiting $afsluiting);
 }

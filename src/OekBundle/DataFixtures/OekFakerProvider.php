@@ -16,7 +16,7 @@ final class OekFakerProvider extends Base
     {
         $aanmelding = new Aanmelding();
         $aanmelding
-            ->setDatum(DateTime::dateTimeBetween('-5 years', new \DateTime("first day of this year")))
+            ->setDatum(DateTime::dateTimeBetween('-5 years', new \DateTime('first day of this year')))
             ->setVerwijzing($verwijzing)
             ->setMedewerker($medewerker);
 
@@ -27,7 +27,7 @@ final class OekFakerProvider extends Base
     {
         $afsluiting = new Afsluiting();
         $afsluiting
-            ->setDatum(DateTime::dateTimeBetween(new \DateTime("first day of this year")) )
+            ->setDatum(DateTime::dateTimeBetween(new \DateTime('first day of this year')))
             ->setVerwijzing($verwijzing)
             ->setMedewerker($medewerker);
 

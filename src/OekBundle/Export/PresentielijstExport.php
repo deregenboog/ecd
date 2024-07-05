@@ -13,12 +13,7 @@ class PresentielijstExport extends AbstractExport
     public function create($training): ExportInterface
     {
         if (!$training instanceof Training) {
-            throw new AppException(sprintf(
-                '%s::create() expects object of type %s, %s given.',
-                self::class,
-                Training::class,
-                get_class($training)
-            ));
+            throw new AppException(sprintf('%s::create() expects object of type %s, %s given.', self::class, Training::class, get_class($training)));
         }
 
         $this->excel = new Spreadsheet();

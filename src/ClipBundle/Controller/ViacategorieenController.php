@@ -6,8 +6,8 @@ use AppBundle\Controller\AbstractController;
 use ClipBundle\Entity\Viacategorie;
 use ClipBundle\Form\ViacategorieType;
 use ClipBundle\Service\ViacategorieDaoInterface;
-use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * @Route("/admin/viacategorieen")

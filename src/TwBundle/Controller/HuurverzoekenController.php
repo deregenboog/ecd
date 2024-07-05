@@ -7,17 +7,18 @@ use AppBundle\Exception\UserException;
 use AppBundle\Export\ExportInterface;
 use AppBundle\Form\ConfirmationType;
 use Doctrine\ORM\QueryBuilder;
-use TwBundle\Entity\Klant;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Symfony\Component\Form\FormError;
+use Symfony\Component\Routing\Annotation\Route;
 use TwBundle\Entity\Huurverzoek;
+use TwBundle\Entity\Klant;
 use TwBundle\Form\HuurverzoekCloseType;
 use TwBundle\Form\HuurverzoekFilterType;
 use TwBundle\Form\HuurverzoekType;
-use Symfony\Component\Routing\Annotation\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-use Symfony\Component\Form\FormError;
 
 /**
  * @Route("/huurverzoeken")
+ *
  * @Template
  */
 class HuurverzoekenController extends SymfonyController
@@ -34,7 +35,7 @@ class HuurverzoekenController extends SymfonyController
         'huurovereenkomst.isReservering',
         'huurverzoek.isActief',
         'medewerker.achternaam',
-        'project.naam'
+        'project.naam',
     ];
 
     /**
@@ -48,19 +49,19 @@ class HuurverzoekenController extends SymfonyController
         $builder = $repository->createQueryBuilder('huurverzoek')
             ->leftJoin('huurverzoek.huurovereenkomst', 'huurovereenkomst')
             ->innerJoin('huurverzoek.klant', 'klant')
-            ->innerJoin('huurverzoek.medewerker','medewerker')
+            ->innerJoin('huurverzoek.medewerker', 'medewerker')
             ->innerJoin('klant.appKlant', 'appKlant')
-            ->leftJoin('klant.huisgenoot','huisgenoot')
+            ->leftJoin('klant.huisgenoot', 'huisgenoot')
             ->leftJoin('huisgenoot.appKlant', 'huisgenootKlant')
             ->leftJoin('appKlant.werkgebied', 'werkgebied')
             ->leftJoin('huurverzoek.afsluiting', 'afsluiting')
-            ->andWhere('huurovereenkomst.id IS NULL') //alleen actieve
+            ->andWhere('huurovereenkomst.id IS NULL') // alleen actieve
 //            ->andWhere('huurverzoek.afsluitdatum IS NULL OR huurverzoek.afsluitdatum > :now') // alleen actieve
 //            ->andWhere('huurovereenkomst.id IS NULL')
 //            ->orWhere('huurovereenkomst.isReservering = 1')
 //            ->andWhere('afsluiting.tonen IS NULL OR afsluiting.tonen = true')
         ;
-        $builder->setParameter("now",new \DateTime('now'));
+        $builder->setParameter('now', new \DateTime('now'));
 
         $filter = $this->getForm(HuurverzoekFilterType::class);
         $filter->handleRequest($this->getRequest());
@@ -213,11 +214,11 @@ class HuurverzoekenController extends SymfonyController
                 $entityManager->flush();
 
                 $this->addFlash('success', 'Huurverzoek is afgesloten.');
-            } catch(UserException $e) {
-//                $this->logger->error($e->getMessage(), ['exception' => $e]);
-                $message =  $e->getMessage();
+            } catch (UserException $e) {
+                //                $this->logger->error($e->getMessage(), ['exception' => $e]);
+                $message = $e->getMessage();
                 $this->addFlash('danger', $message);
-//                return $this->redirectToRoute('app_klanten_index');
+                //                return $this->redirectToRoute('app_klanten_index');
             } catch (\Exception $e) {
                 $message = $this->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
                 $this->addFlash('danger', $message);

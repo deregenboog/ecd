@@ -56,7 +56,6 @@ class IntakeSubscriber implements EventSubscriberInterface
 
     public function afterIntakeCreated(GenericEvent $event)
     {
-
         $intake = $event->getSubject();
         if (!$intake instanceof Intake) {
             return;
@@ -85,18 +84,18 @@ class IntakeSubscriber implements EventSubscriberInterface
 
     public function checkInloopDossier(Intake $intake)
     {
-        if($intake->getMedewerker() == null) return;
-
+        if (null == $intake->getMedewerker()) {
+            return;
+        }
 
         $klant = $intake->getKlant();
-        if($klant->getHuidigeStatus() == null)
-        {
-            $klant->setHuidigeStatus(new \InloopBundle\Entity\Aanmelding($intake->getMedewerker() ));
+        if (null == $klant->getHuidigeStatus()) {
+            $klant->setHuidigeStatus(new \InloopBundle\Entity\Aanmelding($intake->getMedewerker()));
         }
 
         $this->klantDao->update($klant);
-
     }
+
     public function sendIntakeNotification(Intake $intake)
     {
         $addresses = [];
@@ -115,20 +114,19 @@ class IntakeSubscriber implements EventSubscriberInterface
             return;
         }
 
-//        $content = $this->twig->render('InloopBundle:intakes:aanmelding.txt.twig', [
-//            'intake' => $intake,
-//        ]);
+        //        $content = $this->twig->render('InloopBundle:intakes:aanmelding.txt.twig', [
+        //            'intake' => $intake,
+        //        ]);
 
         $message = (new TemplatedEmail())
-            ->addFrom(new Address($intake->getMedewerker()->getEmail(),'ECD Inloop Intake ('.$intake->getMedewerker()->getNaam().')'))
-            ->subject("Verzoek (Inloop intake)")
+            ->addFrom(new Address($intake->getMedewerker()->getEmail(), 'ECD Inloop Intake ('.$intake->getMedewerker()->getNaam().')'))
+            ->subject('Verzoek (Inloop intake)')
             ->textTemplate('inloop\intakes\aanmelding.txt.twig')
             ->context([
-                'intake'=>$intake
+                'intake' => $intake,
             ])
         ;
-        foreach($addresses as $rcpt)
-        {
+        foreach ($addresses as $rcpt) {
             $message->addTo($rcpt);
         }
 

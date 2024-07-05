@@ -20,7 +20,7 @@ class TrajectcoachDao extends AbstractDao implements TrajectcoachDaoInterface
 
     protected $class = Trajectcoach::class;
 
-    public function findAll($page = null, FilterInterface $filter = null)
+    public function findAll($page = null, ?FilterInterface $filter = null)
     {
         $builder = $this->repository->createQueryBuilder('trajectcoach')
             ->leftJoin('trajectcoach.medewerker', 'medewerker');

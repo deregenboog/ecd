@@ -9,12 +9,11 @@ use Knp\Component\Pager\Pagination\PaginationInterface;
 interface BehandelaarDaoInterface
 {
     /**
-     * @param int             $page
-     * @param FilterInterface $filter
+     * @param int $page
      *
      * @return PaginationInterface
      */
-    public function findAll($page = null, FilterInterface $filter = null);
+    public function findAll($page = null, ?FilterInterface $filter = null);
 
     /**
      * @param int $id
@@ -23,18 +22,9 @@ interface BehandelaarDaoInterface
      */
     public function find($id);
 
-    /**
-     * @param Behandelaar $behandelaar
-     */
     public function create(Behandelaar $behandelaar);
 
-    /**
-     * @param Behandelaar $behandelaar
-     */
     public function update(Behandelaar $behandelaar);
 
-    /**
-     * @param Behandelaar $behandelaar
-     */
     public function delete(Behandelaar $behandelaar);
 }

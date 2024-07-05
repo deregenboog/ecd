@@ -79,6 +79,7 @@ class DocumentCopyCommand extends \Symfony\Component\Console\Command\Command
         }
 
         $output->writeln(sprintf('%d bestanden gekopieerd', $count));
+
         return 0;
     }
 }

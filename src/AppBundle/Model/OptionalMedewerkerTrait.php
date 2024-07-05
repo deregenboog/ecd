@@ -12,6 +12,7 @@ trait OptionalMedewerkerTrait
      * @var Medewerker
      *
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Medewerker", cascade={"persist"})
+     *
      * @Gedmo\Versioned
      */
     protected $medewerker;

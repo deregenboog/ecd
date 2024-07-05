@@ -11,8 +11,11 @@ use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Entity
+ *
  * @ORM\Table(name="dagbesteding_resultaatgebiedsoorten")
+ *
  * @ORM\HasLifecycleCallbacks
+ *
  * @Gedmo\Loggable
  */
 class Resultaatgebiedsoort
@@ -23,6 +26,7 @@ class Resultaatgebiedsoort
 
     /**
      * @var ArrayCollection|Resultaatgebied[]
+     *
      * @ORM\OneToMany(targetEntity="Resultaatgebied", mappedBy="soort")
      */
     private $resultaatgebieden;

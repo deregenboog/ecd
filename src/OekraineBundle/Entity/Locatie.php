@@ -8,8 +8,11 @@ use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Entity
+ *
  * @ORM\Table(name="oekraine_locaties")
+ *
  * @ORM\HasLifecycleCallbacks
+ *
  * @Gedmo\Loggable
  */
 class Locatie
@@ -18,30 +21,33 @@ class Locatie
 
     /**
      * @ORM\Id
+     *
      * @ORM\Column(type="integer")
+     *
      * @ORM\GeneratedValue
      */
     private $id;
 
     /**
      * @ORM\Column(name="naam")
+     *
      * @Gedmo\Versioned
      */
     private $naam;
 
-
     /**
      * @ORM\Column(name="datum_van", type="date")
+     *
      * @Gedmo\Versioned
      */
     private $datumVan;
 
     /**
      * @ORM\Column(name="datum_tot", type="date", nullable=true)
+     *
      * @Gedmo\Versioned
      */
     private $datumTot;
-
 
     public function __toString()
     {
@@ -64,8 +70,6 @@ class Locatie
 
         return $this;
     }
-
-
 
     public function getDatumVan()
     {
@@ -91,8 +95,7 @@ class Locatie
         return $this;
     }
 
-
-    public function isOpen(\DateTime $date = null)
+    public function isOpen(?\DateTime $date = null)
     {
         return true;
     }
@@ -104,11 +107,12 @@ class Locatie
 
     public function isActief(): bool
     {
-        $now = new \DateTime("now");
+        $now = new \DateTime('now');
 
-        if ($this->datumTot == null || ($this->datumVan < $now && $this->datumTot > $now)) {
+        if (null == $this->datumTot || ($this->datumVan < $now && $this->datumTot > $now)) {
             return true;
         }
+
         return false;
     }
 }

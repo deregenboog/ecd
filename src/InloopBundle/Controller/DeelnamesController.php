@@ -5,12 +5,9 @@ namespace InloopBundle\Controller;
 use AppBundle\Controller\AbstractChildController;
 use AppBundle\Controller\DisableIndexActionTrait;
 use InloopBundle\Entity\Deelname;
-use AppBundle\Entity\Memo;
 use InloopBundle\Form\DeelnameType;
-use AppBundle\Form\MemoType;
-use AppBundle\Service\MemoDaoInterface;
-use Symfony\Component\Routing\Annotation\Route;
 use InloopBundle\Service\DeelnameDaoInterface;
+use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * @Route("/deelnames")

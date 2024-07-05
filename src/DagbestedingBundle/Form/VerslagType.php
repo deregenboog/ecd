@@ -3,7 +3,6 @@
 namespace DagbestedingBundle\Form;
 
 use AppBundle\Form\AppDateType;
-use AppBundle\Form\AppTextareaType;
 use AppBundle\Form\BaseType;
 use DagbestedingBundle\Entity\Verslag;
 use FOS\CKEditorBundle\Form\Type\CKEditorType;
@@ -14,9 +13,6 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class VerslagType extends AbstractType
 {
-    /**
-     * {@inheritdoc}
-     */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
@@ -27,9 +23,6 @@ class VerslagType extends AbstractType
         ;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
@@ -37,9 +30,6 @@ class VerslagType extends AbstractType
         ]);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getParent(): ?string
     {
         return BaseType::class;

@@ -12,8 +12,11 @@ use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Entity
+ *
  * @ORM\Table(name="tw_projecten")
+ *
  * @ORM\HasLifecycleCallbacks
+ *
  * @Gedmo\Loggable
  */
 class Project
@@ -26,19 +29,23 @@ class Project
 
     /**
      * @var bool
+     *
      * @ORM\Column(name="`active`", type="boolean", options={"default":1})
+     *
      * @Gedmo\Versioned
      */
     protected $actief = true;
 
     /**
      * @ORM\Column(type="date")
+     *
      * @Gedmo\Versioned
      */
     private $startdatum;
 
     /**
      * @ORM\Column(type="date", nullable=true)
+     *
      * @Gedmo\Versioned
      */
     private $einddatum;
@@ -57,11 +64,10 @@ class Project
      */
     private $verhuurders;
 
-
-//    public function __toString()
-//    {
-//        return $this->getNaam();
-//    }
+    //    public function __toString()
+    //    {
+    //        return $this->getNaam();
+    //    }
 
     public function getStartdatum()
     {
@@ -80,7 +86,7 @@ class Project
         return $this->einddatum;
     }
 
-    public function setEinddatum(\DateTime $einddatum = null)
+    public function setEinddatum(?\DateTime $einddatum = null)
     {
         $this->einddatum = $einddatum;
 

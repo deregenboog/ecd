@@ -8,14 +8,16 @@ use AppBundle\Model\NameableTrait;
 use AppBundle\Model\NotDeletableTrait;
 use AppBundle\Model\OrderableTrait;
 use AppBundle\Model\TimestampableTrait;
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Entity
+ *
  * @ORM\Table(name="tw_inkomen")
+ *
  * @ORM\HasLifecycleCallbacks
+ *
  * @Gedmo\Loggable
  */
 class Inkomen
@@ -29,7 +31,9 @@ class Inkomen
 
     /**
      * @var bool
+     *
      * @ORM\Column(name="`active`", type="boolean", options={"default":1})
+     *
      * @Gedmo\Versioned
      */
     protected $actief = true;

@@ -28,7 +28,7 @@ class ProjectDao extends AbstractDao implements ProjectDaoInterface
     /**
      * {inheritdoc}.
      */
-    public function findAll($page = null, FilterInterface $filter = null): PaginationInterface
+    public function findAll($page = null, ?FilterInterface $filter = null): PaginationInterface
     {
         $builder = $this->repository->createQueryBuilder($this->alias);
 
@@ -38,7 +38,7 @@ class ProjectDao extends AbstractDao implements ProjectDaoInterface
     /**
      * {inheritdoc}.
      */
-    public function findByMedewerker(Medewerker $medewerker, $page = null, FilterInterface $filter = null): PaginationInterface
+    public function findByMedewerker(Medewerker $medewerker, $page = null, ?FilterInterface $filter = null): PaginationInterface
     {
         $builder = $this->repository->createQueryBuilder($this->alias)
             ->innerJoin($this->alias.'.toegangsrechten', 'toegangsrecht', 'WITH', 'toegangsrecht.medewerker = :medewerker')
@@ -49,8 +49,6 @@ class ProjectDao extends AbstractDao implements ProjectDaoInterface
     }
 
     /**
-     * @param string $kpl
-     *
      * @return Project
      */
     public function findOneByKpl(string $kpl)

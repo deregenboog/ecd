@@ -3,10 +3,10 @@
 namespace VillaBundle\Controller;
 
 use AppBundle\Controller\AbstractController;
+use Symfony\Component\Routing\Annotation\Route;
 use VillaBundle\Entity\BinnenVia;
 use VillaBundle\Form\BinnenViaType;
 use VillaBundle\Service\BinnenViaDaoInterface;
-use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * @Route("/admin/binnenvia")

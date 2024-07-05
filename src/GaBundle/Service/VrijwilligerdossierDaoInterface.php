@@ -10,16 +10,13 @@ use Knp\Component\Pager\Pagination\PaginationInterface;
 interface VrijwilligerdossierDaoInterface
 {
     /**
-     * @param int             $page
-     * @param FilterInterface $filter
+     * @param int $page
      *
      * @return PaginationInterface
      */
-    public function findAll($page = null, FilterInterface $filter = null);
+    public function findAll($page = null, ?FilterInterface $filter = null);
 
     /**
-     * @param Vrijwilliger $vrijwilliger
-     *
      * @return Vrijwilligerdossier
      */
     public function findOneByVrijwilliger(Vrijwilliger $vrijwilliger);
@@ -31,18 +28,9 @@ interface VrijwilligerdossierDaoInterface
      */
     public function find($id);
 
-    /**
-     * @param Vrijwilligerdossier $entity
-     */
     public function create(Vrijwilligerdossier $entity);
 
-    /**
-     * @param Vrijwilligerdossier $entity
-     */
     public function update(Vrijwilligerdossier $entity);
 
-    /**
-     * @param Vrijwilligerdossier $entity
-     */
     public function delete(Vrijwilligerdossier $entity);
 }

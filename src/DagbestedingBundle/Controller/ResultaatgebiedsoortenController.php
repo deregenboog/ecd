@@ -6,8 +6,8 @@ use AppBundle\Controller\AbstractController;
 use DagbestedingBundle\Entity\Resultaatgebiedsoort;
 use DagbestedingBundle\Form\ResultaatgebiedsoortType;
 use DagbestedingBundle\Service\ResultaatgebiedsoortDaoInterface;
-use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * @Route("/admin/resultaatgebiedsoorten")

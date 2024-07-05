@@ -39,9 +39,6 @@ class AppDateTimeType extends AbstractType
         });
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
@@ -53,9 +50,6 @@ class AppDateTimeType extends AbstractType
         ]);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getParent(): ?string
     {
         return DateTimeType::class;

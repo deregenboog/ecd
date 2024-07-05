@@ -14,7 +14,7 @@ class AppTimeRangeModel
      */
     private $end;
 
-    public function __construct(\DateTime $start = null, \DateTime $end = null)
+    public function __construct(?\DateTime $start = null, ?\DateTime $end = null)
     {
         $this->setStart($start);
         $this->setEnd($end);
@@ -31,7 +31,7 @@ class AppTimeRangeModel
         return $this->start;
     }
 
-    public function setStart(\DateTime $start = null)
+    public function setStart(?\DateTime $start = null)
     {
         $this->start = $start;
         $this->validate();
@@ -44,7 +44,7 @@ class AppTimeRangeModel
         return $this->end;
     }
 
-    public function setEnd(\DateTime $end = null)
+    public function setEnd(?\DateTime $end = null)
     {
         $this->end = $end;
         $this->validate();

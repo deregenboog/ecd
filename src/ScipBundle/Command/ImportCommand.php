@@ -80,6 +80,7 @@ class ImportCommand extends \Symfony\Component\Console\Command\Command
      * @var array
      */
     private $deelnemers = [];
+
     public function __construct(
         EntityManagerInterface $em,
         UploadHandler $uploader,
@@ -144,6 +145,7 @@ class ImportCommand extends \Symfony\Component\Console\Command\Command
         $this->output->writeln('');
         $this->output->writeln('Importeren documenten...');
         $this->processDocumenten($data, $path);
+
         return 0;
     }
 
@@ -165,9 +167,9 @@ class ImportCommand extends \Symfony\Component\Console\Command\Command
                 }
 
                 try {
-                    $iterator = new \DirectoryIterator($item->getPathname().'/'.'Vrijwilligersdossier');
+                    $iterator = new \DirectoryIterator($item->getPathname().'/Vrijwilligersdossier');
                 } catch (\UnexpectedValueException $e) {
-                    $iterator = new \DirectoryIterator($item->getPathname().'/'.'vrijwilligersdossier');
+                    $iterator = new \DirectoryIterator($item->getPathname().'/vrijwilligersdossier');
                 }
                 foreach ($iterator as $item) {
                     if ($item->isDir() && !$item->isDot()) {

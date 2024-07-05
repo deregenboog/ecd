@@ -22,7 +22,7 @@ class IntervisiegroepDao extends AbstractDao implements IntervisiegroepDaoInterf
 
     protected $class = Intervisiegroep::class;
 
-    public function findAll($page = null, FilterInterface $filter = null)
+    public function findAll($page = null, ?FilterInterface $filter = null)
     {
         $builder = $this->repository->createQueryBuilder('intervisiegroep')
             ->addSelect('medewerker')

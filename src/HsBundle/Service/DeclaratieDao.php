@@ -35,7 +35,6 @@ class DeclaratieDao extends AbstractDao implements DeclaratieDaoInterface
     {
         if ($entity->getFactuur()) {
             $entity->getFactuur()->calculateBedrag();
-
         }
         $this->doUpdate($entity);
     }

@@ -5,9 +5,9 @@ namespace OekraineBundle\Service;
 use AppBundle\Filter\FilterInterface;
 use AppBundle\Service\AbstractDao;
 use Doctrine\ORM\EntityManagerInterface;
+use Knp\Component\Pager\PaginatorInterface;
 use OekraineBundle\Entity\Intake;
 use OekraineBundle\Event\Events;
-use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
 
@@ -46,12 +46,12 @@ class IntakeDao extends AbstractDao implements IntakeDaoInterface
         $this->eventDispatcher = $eventDispatcher;
     }
 
-    public function findAll($page = null, FilterInterface $filter = null)
+    public function findAll($page = null, ?FilterInterface $filter = null)
     {
         $builder = $this->repository->createQueryBuilder($this->alias)
             ->addSelect('bezoeker,appKlant, woonlocatie, intakelocatie, geslacht')
             ->innerJoin("{$this->alias}.bezoeker", 'bezoeker')
-            ->innerJoin("bezoeker.appKlant", 'appKlant')
+            ->innerJoin('bezoeker.appKlant', 'appKlant')
             ->leftJoin("{$this->alias}.woonlocatie", 'woonlocatie')
             ->leftJoin("{$this->alias}.intakelocatie", 'intakelocatie')
             ->leftJoin('appKlant.geslacht', 'geslacht')
@@ -61,8 +61,6 @@ class IntakeDao extends AbstractDao implements IntakeDaoInterface
     }
 
     /**
-     * @param Intake $entity
-     *
      * @return Intake
      */
     public function create(Intake $entity)
@@ -75,8 +73,6 @@ class IntakeDao extends AbstractDao implements IntakeDaoInterface
     }
 
     /**
-     * @param Intake $entity
-     *
      * @return Intake
      */
     public function update(Intake $entity)

@@ -8,8 +8,11 @@ use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Entity
+ *
  * @ORM\Table(name="oek_deelname_statussen")
+ *
  * @ORM\HasLifecycleCallbacks
+ *
  * @Gedmo\Loggable
  */
 class DeelnameStatus
@@ -24,7 +27,9 @@ class DeelnameStatus
 
     /**
      * @ORM\Id
+     *
      * @ORM\Column(type="integer")
+     *
      * @ORM\GeneratedValue
      */
     private $id;
@@ -33,20 +38,25 @@ class DeelnameStatus
      * @var Deelname
      *
      * @ORM\ManyToOne(targetEntity="Deelname", cascade={"persist","remove"}, inversedBy="deelnameStatussen")
+     *
      * @ORM\JoinColumn(name="oekDeelname_id", nullable=false)
+     *
      * @Gedmo\Versioned
      */
     protected $deelname;
 
     /**
      * @ORM\Column(type="date")
+     *
      * @Gedmo\Versioned
      */
     private $datum;
 
     /**
      * @var string
+     *
      * @ORM\Column
+     *
      * @Gedmo\Versioned
      */
     private $status = self::STATUS_AANGEMELD;

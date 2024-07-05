@@ -3,9 +3,9 @@
 namespace TwBundle\Controller;
 
 use AppBundle\Controller\AbstractController;
+use Symfony\Component\Routing\Annotation\Route;
 use TwBundle\Entity\IntakeStatus;
 use TwBundle\Form\IntakeStatusType;
-use Symfony\Component\Routing\Annotation\Route;
 use TwBundle\Service\IntakeStatusDaoInterface;
 
 /**

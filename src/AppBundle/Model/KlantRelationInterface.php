@@ -12,7 +12,7 @@ interface KlantRelationInterface
     public function getKlant();
 
     /**
-     * @return string Name of klant field in entity.
+     * @return string name of klant field in entity
      */
     public function getKlantFieldName(): string;
 }

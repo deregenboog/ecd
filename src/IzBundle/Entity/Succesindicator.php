@@ -10,13 +10,17 @@ use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Entity
+ *
  * @ORM\Table(
  *     name="iz_succesindicatoren",
  *     uniqueConstraints={
+ *
  *         @ORM\UniqueConstraint(columns={"naam"})
  *     }
  * )
+ *
  * @ORM\HasLifecycleCallbacks
+ *
  * @Gedmo\Loggable
  */
 class Succesindicator
@@ -27,6 +31,7 @@ class Succesindicator
 
     /**
      * @deprecated
+     *
      * @ORM\Column(type="string", length=255)
      */
     private $discr;

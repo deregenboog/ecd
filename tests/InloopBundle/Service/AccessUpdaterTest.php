@@ -581,7 +581,7 @@ class AccessUpdaterTest extends DoctrineTestCase
             /**
              * Makes the query builder accessible for later inspection.
              */
-            public function getAllQueryBuilder(FilterInterface $filter = null)
+            public function getAllQueryBuilder(?FilterInterface $filter = null)
             {
                 $this->builder = parent::getAllQueryBuilder($filter);
 

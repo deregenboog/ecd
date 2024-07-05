@@ -10,33 +10,43 @@ use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Entity(repositoryClass="IzBundle\Repository\HulpvraagRepository")
+ *
  * @ORM\Table(name="iz_koppelingen")
+ *
  * @Gedmo\Loggable
  */
 class Hulpvraag extends Hulp
 {
-    public const TABLE_NAME = 'iz_koppelingen'; //nessecary for INDEX OUTPUT WALKER see KoppelingenDao.
+    public const TABLE_NAME = 'iz_koppelingen'; // nessecary for INDEX OUTPUT WALKER see KoppelingenDao.
     public const IDX_DEELNEMER_DISCR_DELETED_EINDDATUM_KOPPELING = 'idx_deelnemer_discr_deleted_einddatum_koppeling';
 
     /**
      * @var IzKlant
+     *
      * @ORM\ManyToOne(targetEntity="IzKlant", inversedBy="hulpvragen")
+     *
      * @ORM\JoinColumn(name="iz_deelnemer_id")
+     *
      * @Gedmo\Versioned
      */
     protected $izKlant;
 
     /**
      * @var Hulpaanbod
+     *
      * @ORM\OneToOne(targetEntity="Hulpaanbod")
+     *
      * @ORM\JoinColumn(name="iz_koppeling_id")
+     *
      * @Gedmo\Versioned
      */
     protected $hulpaanbod;
 
     /**
      * @var Hulpvraagsoort
+     *
      * @ORM\ManyToOne(targetEntity="Hulpvraagsoort")
+     *
      * @Gedmo\Versioned
      */
     protected $hulpvraagsoort;
@@ -50,18 +60,21 @@ class Hulpvraag extends Hulp
 
     /**
      * @deprecated
+     *
      * @ORM\Column(name="spreekt_nederlands", type="boolean", nullable=true, options={"default":1})
      */
     private $spreektNederlands;
 
     /**
      * @var ArrayCollection|Reservering[]
+     *
      * @ORM\OneToMany(targetEntity="Reservering", mappedBy="hulpvraag")
      */
     protected $reserveringen;
 
     /**
      * @var Succesindicator[]
+     *
      * @ORM\ManyToMany(targetEntity="Succesindicator")
      */
     private $succesindicatoren;
@@ -211,7 +224,7 @@ class Hulpvraag extends Hulp
         return $this->addVerslag($eindevaluatie);
     }
 
-    public function setKoppelingStartdatum(\DateTime $startdatum = null)
+    public function setKoppelingStartdatum(?\DateTime $startdatum = null)
     {
         $this->koppelingStartdatum = $startdatum;
         $this->getKoppeling()->setStartdatum($startdatum);

@@ -3,7 +3,6 @@
 namespace GaBundle\Service;
 
 use GaBundle\Form\ActiviteitenReeksModel;
-use Numbers_Words;
 use NumberToWords\NumberToWords;
 
 class ActiviteitenreeksGenerator
@@ -15,24 +14,22 @@ class ActiviteitenreeksGenerator
         // get first activity date
         $datum = clone $data->getPeriode()->getStart();
 
-        $nth = self::Nth($data->getFrequentie()); //change frequency to 'first' 'second' etc.
-        $month = $datum->format("M");
+        $nth = self::Nth($data->getFrequentie()); // change frequency to 'first' 'second' etc.
+        $month = $datum->format('M');
         switch ($data->getFrequentie()) {
             case 0:
-                $datum->modify("-1 day"); //to assert the 'next' includes also the date itself.
+                $datum->modify('-1 day'); // to assert the 'next' includes also the date itself.
                 $datum->modify(sprintf('next %s', $data->getWeekdag()));
                 break;
             case 1:
             case 2:
             case 3:
             case 4:
-
                 $datum->modify(sprintf('%s %s of %s', $nth, $data->getWeekdag(), $month));
-                if($datum <= $data->getPeriode()->getStart())
-                {
+                if ($datum <= $data->getPeriode()->getStart()) {
                     $datum->modify(sprintf('%s %s of next month', $nth, $data->getWeekdag()));
                 }
-//                $datum->modify(sprintf('+%d weeks', $data->getFrequentie() - 1));
+                //                $datum->modify(sprintf('+%d weeks', $data->getFrequentie() - 1));
                 break;
             case 5:
                 $month = $datum->format('m-Y');
@@ -40,14 +37,14 @@ class ActiviteitenreeksGenerator
                 $datum->modify(sprintf('+%d weeks', $data->getFrequentie() - 1));
                 if ($month !== $datum->format('m-Y')) {
                     var_dump('');
-                    die;
+                    exit;
                 }
                 break;
             default:
                 throw new \InvalidArgumentException('Invalid frequency');
         }
 
-//        $datum->modify("-1 day");//to assert the 'next' includes also the date itself.
+        //        $datum->modify("-1 day");//to assert the 'next' includes also the date itself.
         while ($datum >= $data->getPeriode()->getStart() && $datum <= $data->getPeriode()->getEnd()) {
             $activiteit = clone $data->getActiviteit();
             $activiteit
@@ -56,10 +53,8 @@ class ActiviteitenreeksGenerator
             ;
             $activiteiten[] = $activiteit;
 
-
             switch ($data->getFrequentie()) {
                 case 0:
-
                     $datum->modify(sprintf('next %s', $data->getWeekdag()));
                     break;
                 case 5:
@@ -74,20 +69,21 @@ class ActiviteitenreeksGenerator
                     }
                     break;
                 default:
-                    $datum->modify(sprintf('%s %s of next month',$nth, $data->getWeekdag()));
-                   // $datum->modify(sprintf('+%d weeks', $data->getFrequentie() - 1));
+                    $datum->modify(sprintf('%s %s of next month', $nth, $data->getWeekdag()));
+                    // $datum->modify(sprintf('+%d weeks', $data->getFrequentie() - 1));
                     break;
             }
         }
 
         return $activiteiten;
     }
+
     public static function Nth($n)
     {
         $nw = new NumberToWords();
         $numberTransformer = $nw->getNumberTransformer('en');
         $s = $numberTransformer->toWords($n);
-        $replacements = array(
+        $replacements = [
             'one' => 'first',
             'two' => 'second',
             'three' => 'third',
@@ -96,18 +92,19 @@ class ActiviteitenreeksGenerator
             'e' => 'th',
             'y' => 'ieth',
             '' => 'th',
-        );
-        foreach ($replacements as $from => $to)
-        {
+        ];
+        foreach ($replacements as $from => $to) {
             $count = 0;
-            $r = preg_replace('/' . $from . '$/', $to, $s, 1, $count);
-            if ($count)
+            $r = preg_replace('/'.$from.'$/', $to, $s, 1, $count);
+            if ($count) {
                 return $r;
+            }
         }
     }
 
-    public static function addOrdinalNumberSuffix($num) {
-        if (!in_array(($num % 100),array(11,12,13))){
+    public static function addOrdinalNumberSuffix($num)
+    {
+        if (!in_array($num % 100, [11, 12, 13])) {
             switch ($num % 10) {
                 // Handle 1st, 2nd, 3rd
                 case 1:  return $num.'st';
@@ -115,6 +112,7 @@ class ActiviteitenreeksGenerator
                 case 3:  return $num.'rd';
             }
         }
+
         return $num.'th';
     }
 }

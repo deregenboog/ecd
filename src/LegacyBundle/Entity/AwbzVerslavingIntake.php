@@ -3,12 +3,10 @@
 namespace LegacyBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use AppBundle\Model\IdentifiableTrait;
-use AppBundle\Entity\Verblijfsstatus;
-use AppBundle\Entity\Inkomen;
 
 /**
  * @ORM\Entity
+ *
  * @ORM\Table(
  *     name="awbz_intakes_verslavingen",
  *     indexes={
@@ -19,7 +17,9 @@ class AwbzVerslavingIntake
 {
     /**
      * @ORM\Column(type="integer")
+     *
      * @ORM\Id
+     *
      * @ORM\GeneratedValue
      */
     private $id;

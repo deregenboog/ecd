@@ -19,7 +19,7 @@ class CoordinatorDao extends AbstractDao implements CoordinatorDaoInterface
 
     protected $class = Coordinator::class;
 
-    public function findAll($page = null, FilterInterface $filter = null)
+    public function findAll($page = null, ?FilterInterface $filter = null)
     {
         $builder = $this->repository->createQueryBuilder('coordinator')
             ->innerJoin('coordinator.medewerker', 'medewerker');

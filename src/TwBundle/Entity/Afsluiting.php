@@ -9,10 +9,15 @@ use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Entity
+ *
  * @ORM\Table(name="tw_afsluitingen")
+ *
  * @ORM\InheritanceType("SINGLE_TABLE")
+ *
  * @ORM\HasLifecycleCallbacks
+ *
  * @ORM\DiscriminatorColumn(name="discr", type="string")
+ *
  * @ORM\DiscriminatorMap({
  *     "klant" = "KlantAfsluiting",
  *     "verhuurder" = "VerhuurderAfsluiting",
@@ -20,6 +25,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
  *     "huuraanbod" = "HuuraanbodAfsluiting",
  *     "huurovereenkomst" = "HuurovereenkomstAfsluiting"
  * })
+ *
  * @Gedmo\Loggable
  */
 abstract class Afsluiting
@@ -29,19 +35,23 @@ abstract class Afsluiting
 
     /**
      * @ORM\Id
+     *
      * @ORM\Column(type="integer")
+     *
      * @ORM\GeneratedValue
      */
     protected $id;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     *
      * @Gedmo\Versioned
      */
     protected $naam;
 
     /**
      * @ORM\Column(type="boolean", nullable=true)
+     *
      * @Gedmo\Versioned
      */
     protected $tonen = true;
@@ -50,6 +60,7 @@ abstract class Afsluiting
      * @var \DateTime
      *
      * @ORM\Column(type="datetime")
+     *
      * @Gedmo\Versioned
      */
     protected $created;
@@ -58,6 +69,7 @@ abstract class Afsluiting
      * @var \DateTime
      *
      * @ORM\Column(type="datetime")
+     *
      * @Gedmo\Versioned
      */
     protected $modified;
@@ -83,7 +95,6 @@ abstract class Afsluiting
 
         return $this;
     }
-
 
     public function isTonen()
     {

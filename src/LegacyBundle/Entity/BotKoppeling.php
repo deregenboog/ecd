@@ -8,6 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * BotKoppelingen.
  *
  * @ORM\Table(name="bot_koppelingen")
+ *
  * @ORM\Entity
  */
 class BotKoppeling
@@ -58,7 +59,9 @@ class BotKoppeling
      * @var int
      *
      * @ORM\Column(name="id", type="integer")
+     *
      * @ORM\Id
+     *
      * @ORM\GeneratedValue
      */
     private $id;

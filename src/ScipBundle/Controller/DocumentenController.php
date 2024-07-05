@@ -7,8 +7,8 @@ use ScipBundle\Entity\Document;
 use ScipBundle\Form\DocumentType;
 use ScipBundle\Security\Permissions;
 use ScipBundle\Service\DocumentDaoInterface;
-use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Annotation\Route;
 use Vich\UploaderBundle\Handler\DownloadHandler;
 
 /**
@@ -41,8 +41,6 @@ class DocumentenController extends AbstractChildController
         $document = $this->dao->findByFilename($filename);
 
         $this->denyAccessUnlessGranted(Permissions::ACCESS, $document);
-
-
 
         try {
             return $downloadHandler->downloadObject($document, 'file');

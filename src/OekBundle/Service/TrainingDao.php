@@ -4,8 +4,8 @@ namespace OekBundle\Service;
 
 use AppBundle\Filter\FilterInterface;
 use AppBundle\Service\AbstractDao;
-use OekBundle\Entity\Training;
 use OekBundle\Entity\DeelnameStatus;
+use OekBundle\Entity\Training;
 
 class TrainingDao extends AbstractDao implements TrainingDaoInterface
 {
@@ -28,15 +28,14 @@ class TrainingDao extends AbstractDao implements TrainingDaoInterface
     /**
      * {inheritdoc}.
      */
-    public function findAll($page = null, FilterInterface $filter = null)
+    public function findAll($page = null, ?FilterInterface $filter = null)
     {
         $builder = $this->repository->createQueryBuilder('training')
             ->leftJoin('training.deelnames', 'deelname')
             ->leftJoin('deelname.deelnemer', 'deelnemer')
             ->innerJoin('training.groep', 'groep')
             ->where('deelname.deelnameStatus != :status_verwijderd OR deelname IS NULL')
-            ->setParameter(":status_verwijderd",DeelnameStatus::STATUS_VERWIJDERD);
-        ;
+            ->setParameter(':status_verwijderd', DeelnameStatus::STATUS_VERWIJDERD);
 
         if ($filter) {
             $filter->applyTo($builder);

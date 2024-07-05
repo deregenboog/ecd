@@ -34,6 +34,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * @Route("/registraties")
+ *
  * @Template
  */
 class RegistratiesController extends AbstractController
@@ -82,22 +83,23 @@ class RegistratiesController extends AbstractController
 
     /**
      * @Route("/locatieSelect/{locatieType}", requirements={"locatieType" = "\S+"})
+     *
      * @ParamConverter("locatieType", class="InloopBundle\Entity\LocatieType", options={"mapping": {"locatieType"="naam"}})
      */
     public function locationSelectAction(Request $request, LocatieType $locatieType)
     {
-        $locatieTypeStr = (string)$locatieType;
+        $locatieTypeStr = (string) $locatieType;
 
         $builder = $this->getEntityManager()->getRepository(Locatie::class)
             ->createQueryBuilder('locatie')
-            ->leftJoin('locatie.locatieTypes','locatieTypes')
+            ->leftJoin('locatie.locatieTypes', 'locatieTypes')
             ->where('locatie.maatschappelijkWerk = false')
             ->andWhere('locatie.datumVan <= DATE(CURRENT_TIMESTAMP())')
             ->andWhere('locatie.datumTot > DATE(CURRENT_TIMESTAMP()) OR locatie.datumTot IS NULL')
             ->andWhere('locatieTypes.naam IN(:naam)')
             ->orderBy('locatie.naam')
-            ->setParameter('naam',$locatieTypeStr)
-            ;
+            ->setParameter('naam', $locatieTypeStr)
+        ;
 
         $locaties = $builder
             ->getQuery()
@@ -106,12 +108,13 @@ class RegistratiesController extends AbstractController
 
         return [
             'locaties' => $locaties,
-            'locatieType'=>$locatieTypeStr,
+            'locatieType' => $locatieTypeStr,
         ];
     }
 
     /**
      * @Route("/klanten/{locatieType}/{locatie}", name="inloop_registraties_klanten", requirements={"locatie" = "\d+", "locatieType"="\S+"})
+     *
      * @ParamConverter("locatie", class="InloopBundle\Entity\Locatie")
      * @ParamConverter("locatieType",class="InloopBundle\Entity\LocatieType",options={"mapping": {"locatieType"="naam"}})
      */
@@ -160,9 +163,10 @@ class RegistratiesController extends AbstractController
     }
 
     /**
-     * Route("/active/{locatie}")
+     * Route("/active/{locatie}").
      *
      * @Route("/active/{locatieType}/{locatie}", name="inloop_registraties_active", requirements={"locatie" = "\d+", "locatieType"="\S+"})
+     *
      * @ParamConverter("locatie", class="InloopBundle\Entity\Locatie")
      * @ParamConverter("locatieType",class="InloopBundle\Entity\LocatieType",options={"mapping": {"locatieType"="naam"}})
      */
@@ -183,7 +187,7 @@ class RegistratiesController extends AbstractController
             return [
                 'locatie' => $locatie,
                 'filter' => $form->createView(),
-                'locatieType'=>$locatieType,
+                'locatieType' => $locatieType,
             ];
         }
 
@@ -198,7 +202,7 @@ class RegistratiesController extends AbstractController
 
         return $this->render('inloop/registraties/_active.html.twig', [
             'locatie' => $locatie,
-            'locatieType'=>$locatieType,
+            'locatieType' => $locatieType,
             'filter' => isset($form) ? $form->createView() : null,
             'pagination' => $pagination,
             'geen_activering_klant_ids' => $event->getArgument('geen_activering_klant_ids'),
@@ -206,9 +210,10 @@ class RegistratiesController extends AbstractController
     }
 
     /**
-     * Route("/history/{locatie}")
+     * Route("/history/{locatie}").
      *
      * @Route("/history/{locatieType}/{locatie}", name="inloop_registraties_history", requirements={"locatie" = "\d+", "locatieType"="\S+"})
+     *
      * @ParamConverter("locatie", class="InloopBundle\Entity\Locatie")
      * @ParamConverter("locatieType",class="InloopBundle\Entity\LocatieType",options={"mapping": {"locatieType"="naam"}})
      */
@@ -228,7 +233,7 @@ class RegistratiesController extends AbstractController
             return [
                 'locatie' => $locatie,
                 'filter' => $form->createView(),
-                'locatieType'=>$locatieType,
+                'locatieType' => $locatieType,
             ];
         }
 
@@ -243,7 +248,7 @@ class RegistratiesController extends AbstractController
 
         return $this->render('inloop/registraties/_history.html.twig', [
             'locatie' => $locatie,
-            'locatieType'=>$locatieType,
+            'locatieType' => $locatieType,
             'filter' => isset($form) ? $form->createView() : null,
             'pagination' => $pagination,
             'geen_activering_klant_ids' => $event->getArgument('geen_activering_klant_ids'),
@@ -271,43 +276,43 @@ class RegistratiesController extends AbstractController
         $separator = PHP_EOL.PHP_EOL;
 
         $corona = $this->dao->checkCorona($klant);
-        if($corona)
-        {
+        if ($corona) {
             $jsonVar['confirm'] = true;
             $jsonVar['message'] = 'Klant is de afgelopen 11 dagen op een locatie geweest waar ook een corona besmette klant was in dezelfde tijd. Klant informeren en adviseren te laten testen bij klachten.';
+
             return new JsonResponse($jsonVar);
         }
 
-        /**
+        /*
          * Corona aanpassing; niet meer dan twee locaties sinds middernacht.
          */
-//        $registratiesSindsMiddernacht = $klant->getRegistratiesSinds(new \DateTime('today midnight'));
-//        if($registratiesSindsMiddernacht->count() >= 2) {
-//
-//            $nachtopvanglocaties = $this->getParameter('nachtopvang_locaties');
-//            if(in_array($locatie->getNaam(),$nachtopvanglocaties))
-//            {
-//                return new JsonResponse($jsonVar);
-//            }
-//
-//            //meer dan 2, kijken naar unieke locaties.
-//            $locaties = array();
-//            foreach ($registratiesSindsMiddernacht as $registratie) {
-//                $locaties[$registratie->getLocatie()->getId()] = $registratie->getLocatie()->getNaam();
-//            }
-//
-//            if (count($locaties) >= 2 ){
-//                $today = new \DateTime('today midnight');
-//                $numberOfRegsToday = $klant->getRegistratiesSinds(new \DateTime('today midnight'));
-//                $jsonVar['allow'] = false;
-//                $jsonVar['message'] = 'Ivm beperken contacten door Corona, maximaal 2 locaties per dag. Klant kan naar deze locaties: '.implode(", ",$locaties);
-//
-//                return new JsonResponse($jsonVar);
-//            }
-//
-//        }
+        //        $registratiesSindsMiddernacht = $klant->getRegistratiesSinds(new \DateTime('today midnight'));
+        //        if($registratiesSindsMiddernacht->count() >= 2) {
+        //
+        //            $nachtopvanglocaties = $this->getParameter('nachtopvang_locaties');
+        //            if(in_array($locatie->getNaam(),$nachtopvanglocaties))
+        //            {
+        //                return new JsonResponse($jsonVar);
+        //            }
+        //
+        //            //meer dan 2, kijken naar unieke locaties.
+        //            $locaties = array();
+        //            foreach ($registratiesSindsMiddernacht as $registratie) {
+        //                $locaties[$registratie->getLocatie()->getId()] = $registratie->getLocatie()->getNaam();
+        //            }
+        //
+        //            if (count($locaties) >= 2 ){
+        //                $today = new \DateTime('today midnight');
+        //                $numberOfRegsToday = $klant->getRegistratiesSinds(new \DateTime('today midnight'));
+        //                $jsonVar['allow'] = false;
+        //                $jsonVar['message'] = 'Ivm beperken contacten door Corona, maximaal 2 locaties per dag. Klant kan naar deze locaties: '.implode(", ",$locaties);
+        //
+        //                return new JsonResponse($jsonVar);
+        //            }
+        //
+        //        }
 
-        /**
+        /*
          * Voor gebruikersruimte geldt dat klant minimaal twee mnd geleden ingecheckt moet zijn op de ruimte zoals
          * staat ingesteld in de toegang (obv eerste intake).
          * Tevens moet de intake jonger dan 2 mnd zijn.
@@ -328,13 +333,13 @@ class RegistratiesController extends AbstractController
         }
 
         $open = $locatie->isOpen();
-        $open = true; //vanwege niet goed te traceren fouten (openingstijden kloppen, toch zegt ie gesloten) dit nu zo gedaan.
+        $open = true; // vanwege niet goed te traceren fouten (openingstijden kloppen, toch zegt ie gesloten) dit nu zo gedaan.
 
-        if ($open !== true) {
+        if (true !== $open) {
             $jsonVar['allow'] = false;
             $jsonVar['message'] = 'Deze locatie is nog niet open, klant kan nog niet inchecken!';
-//            $jsonVar['debug'] = $open;
-//
+            //            $jsonVar['debug'] = $open;
+            //
             $jsonVar['message'] .= "\n\n".$open['message'];
 
             return new JsonResponse($jsonVar);
@@ -368,21 +373,20 @@ class RegistratiesController extends AbstractController
         }
 
         if ($jsonVar['allow']) {
-            if(($laatsteIntake = $klant->getLaatsteIntake()) == null)
-            {
+            if (($laatsteIntake = $klant->getLaatsteIntake()) == null) {
                 $jsonVar['message'] .= $sep.'Let op: deze persoon heeft geen intake. Toch inchecken?';
                 $sep = $separator;
                 $jsonVar['confirm'] = true;
             }
-//            $newIntakeNeeded = ;
-            if ($laatsteIntake !== null && $laatsteIntake->getIntakedatum()->diff(new \DateTime())->days > 365) {
+            //            $newIntakeNeeded = ;
+            if (null !== $laatsteIntake && $laatsteIntake->getIntakedatum()->diff(new \DateTime())->days > 365) {
                 $jsonVar['message'] .= $sep.'Let op: deze persoon heeft momenteel een verlopen intake (> 1 jaar geleden). Toch inchecken?';
                 $sep = $separator;
                 $jsonVar['confirm'] = true;
             }
-            if (( ($laatsteRegistratie = $klant->getLaatsteRegistratie()) !== null)
-                && $laatsteRegistratie->getBuiten() !== null
-                && $laatsteRegistratie->getBuiten()->diff(new \DateTime() )->days > 730
+            if ((($laatsteRegistratie = $klant->getLaatsteRegistratie()) !== null)
+                && null !== $laatsteRegistratie->getBuiten()
+                && $laatsteRegistratie->getBuiten()->diff(new \DateTime())->days > 730
                 && $klant->getLaatsteIntake()->getIntakedatum()->diff(new \DateTime())->days > 365
             ) {
                 $jsonVar['message'] .= $sep.'Let op: deze persoon heeft zich al twee jaar nergens meer geregistreerd en heeft een nieuwe intake nodig. Toch inchecken?';
@@ -394,11 +398,10 @@ class RegistratiesController extends AbstractController
             if ((is_array($actieveSchorsingen) || $actieveSchorsingen instanceof \Countable ? count($actieveSchorsingen) : 0) > 0) {
                 $alleLocaties = $this->locatieDao->findAllActiveLocationsOfTypeInloop();
                 $schorsingsLocaties = [];
-                foreach($actieveSchorsingen as $schorsing)
-                {
-                    $schorsingsLocaties = array_merge($schorsing->getLocaties()->toArray(),$schorsingsLocaties);
+                foreach ($actieveSchorsingen as $schorsing) {
+                    $schorsingsLocaties = array_merge($schorsing->getLocaties()->toArray(), $schorsingsLocaties);
                 }
-                $l = $ECDHelper->filterAllRows($schorsingsLocaties,$alleLocaties);
+                $l = $ECDHelper->filterAllRows($schorsingsLocaties, $alleLocaties);
 
                 $jsonVar['message'] .= $sep.'Let op: deze persoon is momenteel op deze locatie(s) geschorst: '.$l.'.  Toch inchecken?';
                 $sep = $separator;
@@ -456,6 +459,7 @@ class RegistratiesController extends AbstractController
 
     /**
      * @Route("/{registratie}/delete")
+     *
      * @ParamConverter("registratie", class="InloopBundle\Entity\Registratie")
      */
     public function deleteAction(Request $request, $registratie)
@@ -474,13 +478,14 @@ class RegistratiesController extends AbstractController
     {
         $this->denyAccessUnlessGranted(Permissions::REGISTER, $locatie);
 
-        /**
+        /*
          * Wanneer een klant ergens incheckt, wordt hij eerst overal uitgecheckt.
          */
         $this->dao->checkoutKlantFromAllLocations($klant);
         $registratie = $this->dao->create(new Registratie($klant, $locatie));
         $klant->setLaatsteRegistratie($registratie);
         $this->klantDao->update($klant);
+
         return new JsonResponse();
     }
 

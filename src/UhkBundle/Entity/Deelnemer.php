@@ -21,11 +21,14 @@ use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Entity
+ *
  * @ORM\Table(
  *     name="uhk_deelnemers",
  *     indexes={}
  * )
+ *
  * @ORM\HasLifecycleCallbacks
+ *
  * @Gedmo\Loggable
  */
 class Deelnemer implements KlantRelationInterface, DocumentSubjectInterface
@@ -40,12 +43,13 @@ class Deelnemer implements KlantRelationInterface, DocumentSubjectInterface
      * @var Klant
      *
      * @ORM\OneToOne(targetEntity="AppBundle\Entity\Klant", cascade={"persist"})
+     *
      * @Gedmo\Versioned
      */
     private $klant;
 
-    //For KlantRelationInterface and usesKlantTrait.
-    private $klantFieldName = "klant";
+    // For KlantRelationInterface and usesKlantTrait.
+    private $klantFieldName = 'klant';
 
     /**
      * @var string
@@ -65,10 +69,10 @@ class Deelnemer implements KlantRelationInterface, DocumentSubjectInterface
      * @var \DateTime
      *
      * @ORM\Column(type="date")
+     *
      * @Gedmo\Versioned
      */
     protected $aanmelddatum;
-
 
     /**
      * @var Medewerker
@@ -81,17 +85,20 @@ class Deelnemer implements KlantRelationInterface, DocumentSubjectInterface
      * @var Collection|Verslag[]
      *
      * @ORM\OneToMany(targetEntity="Verslag", mappedBy="deelnemer", cascade={"persist"})
+     *
      * @ORM\OrderBy({"datum" = "DESC", "id" = "DESC"})
      */
     private $verslagen;
 
     /**
-     *
      * Override from trait due to orderBy parameter.
+     *
      * @var DocumentInterface[]
      *
      * @ORM\ManyToMany(targetEntity="Document", cascade={"persist","remove"}, fetch="EXTRA_LAZY")
+     *
      * @ORM\JoinTable(inverseJoinColumns={@ORM\JoinColumn(unique=true, onDelete="CASCADE")})
+     *
      * @ORM\OrderBy({"naam" = "ASC", "id" = "DESC"})
      */
     protected $documenten;
@@ -116,17 +123,11 @@ class Deelnemer implements KlantRelationInterface, DocumentSubjectInterface
         }
     }
 
-    /**
-     * @return Klant
-     */
     public function getKlant(): Klant
     {
         return $this->klant;
     }
 
-    /**
-     * @param Klant $klant
-     */
     public function setKlant(Klant $klant)
     {
         $this->klant = $klant;
@@ -134,9 +135,8 @@ class Deelnemer implements KlantRelationInterface, DocumentSubjectInterface
         return $this;
     }
 
-
     /**
-     * @return \AppBundle\Entity\Medewerker
+     * @return Medewerker
      */
     public function getMedewerker()
     {
@@ -144,7 +144,7 @@ class Deelnemer implements KlantRelationInterface, DocumentSubjectInterface
     }
 
     /**
-     * @param \AppBundle\Entity\Medewerker $medewerker
+     * @param Medewerker $medewerker
      */
     public function setMedewerker($medewerker)
     {
@@ -161,9 +161,6 @@ class Deelnemer implements KlantRelationInterface, DocumentSubjectInterface
         return $this->verslagen;
     }
 
-    /**
-     * @param Verslag $verslag
-     */
     public function addVerslag(Verslag $verslag)
     {
         $verslag->setDeelnemer($this);
@@ -172,55 +169,35 @@ class Deelnemer implements KlantRelationInterface, DocumentSubjectInterface
         return $this;
     }
 
-    /**
-     * @return string
-     */
     public function getContactpersoonNazorg(): ?string
     {
         return $this->contactpersoonNazorg;
     }
 
-    /**
-     * @param string $contactpersoonNazorg
-     */
     public function setContactpersoonNazorg(?string $contactpersoonNazorg): void
     {
         $this->contactpersoonNazorg = $contactpersoonNazorg;
     }
 
-
-    /**
-     * @return Medewerker
-     */
     public function getAanmelder(): ?Medewerker
     {
         return $this->aanmelder;
     }
 
-    /**
-     * @param Medewerker $aanmelder
-     */
     public function setAanmelder(Medewerker $aanmelder): void
     {
         $this->aanmelder = $aanmelder;
     }
 
-    /**
-     * @return \DateTime
-     */
     public function getAanmelddatum(): ?\DateTime
     {
         return $this->aanmelddatum;
     }
 
-    /**
-     * @param \DateTime $aanmeldDatum
-     */
     public function setAanmelddatum(\DateTime $aanmeldDatum): void
     {
         $this->aanmelddatum = $aanmeldDatum;
     }
-
 
     public function getKlantFieldName(): string
     {

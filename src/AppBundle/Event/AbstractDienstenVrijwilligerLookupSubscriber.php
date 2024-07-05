@@ -2,8 +2,6 @@
 
 namespace AppBundle\Event;
 
-use AppBundle\Event\DienstenVrijwilligerLookupEvent;
-use AppBundle\Event\Events;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;

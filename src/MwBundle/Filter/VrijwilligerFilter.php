@@ -76,8 +76,7 @@ class VrijwilligerFilter implements FilterInterface
             $builder->andWhere('locatie IN (:locatie)')->setParameter('locatie', $this->locatie);
         }
 
-        if($this->filterOpActiefAlleen == true)
-        {
+        if (true == $this->filterOpActiefAlleen) {
             $builder
                 ->andWhere('vrijwilliger.afsluitdatum IS NULL')
             ;

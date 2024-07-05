@@ -20,9 +20,6 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class TrajectFilterType extends AbstractType
 {
-    /**
-     * {@inheritdoc}
-     */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         if (in_array('id', $options['enabled_filters'])) {
@@ -102,22 +99,16 @@ class TrajectFilterType extends AbstractType
         }
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getParent(): ?string
     {
         return FilterType::class;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
             'data_class' => TrajectFilter::class,
-            'data'=>new TrajectFilter(),
+            'data' => new TrajectFilter(),
             'enabled_filters' => [
                 'klant' => ['naam'],
                 'soort',

@@ -6,7 +6,6 @@ namespace Tests\ErOpUitBundle\Controller;
 
 use AppBundle\Service\MedewerkerDao;
 use Liip\FunctionalTestBundle\Test\WebTestCase;
-use Symfony\Component\HttpFoundation\Request;
 
 class VrijwilligersControllerTest extends WebTestCase
 {
@@ -75,7 +74,7 @@ class VrijwilligersControllerTest extends WebTestCase
 
         $crawler = $client->submit($form);
         $rows = $crawler->filter('table.table tbody tr');
-//        $this->assertEquals(19, $rows->count());
+        //        $this->assertEquals(19, $rows->count());
         $this->assertLessThanOrEqual(1, $this->count());
     }
 }

@@ -13,15 +13,11 @@ class UpdateRecentRegistrationsCommand extends \Symfony\Component\Console\Comman
      */
     private $em;
 
-    /**
-     * @param EntityManagerInterface $em
-     */
     public function __construct(EntityManagerInterface $em)
     {
         $this->em = $em;
         parent::__construct();
     }
-
 
     protected function configure()
     {
@@ -30,7 +26,7 @@ class UpdateRecentRegistrationsCommand extends \Symfony\Component\Console\Comman
 
     protected function initialize(InputInterface $input, OutputInterface $output)
     {
-//        $this->em = $entityManager;
+        //        $this->em = $entityManager;
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
@@ -46,6 +42,7 @@ class UpdateRecentRegistrationsCommand extends \Symfony\Component\Console\Comman
 
         $sql = 'DELETE FROM registraties_recent WHERE max_buiten < (NOW() + INTERVAL -3 month);';
         $this->em->getConnection()->query($sql);
+
         return 0;
     }
 }

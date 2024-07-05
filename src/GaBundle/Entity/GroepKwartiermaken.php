@@ -7,6 +7,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Entity(repositoryClass="GaBundle\Repository\GroepRepository")
+ *
  * @Gedmo\Loggable
  */
 class GroepKwartiermaken extends Groep

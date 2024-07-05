@@ -10,7 +10,9 @@ use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Entity
+ *
  * @ORM\Table(name="redenen")
+ *
  * @Gedmo\Loggable
  */
 class SchorsingReden
@@ -23,6 +25,7 @@ class SchorsingReden
      * @var \DateTime
      *
      * @ORM\Column(type="datetime", nullable=true)
+     *
      * @Gedmo\Versioned
      */
     protected $created;
@@ -31,6 +34,7 @@ class SchorsingReden
      * @var \DateTime
      *
      * @ORM\Column(type="datetime", nullable=true)
+     *
      * @Gedmo\Versioned
      */
     protected $modified;

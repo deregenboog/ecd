@@ -2,18 +2,14 @@
 
 namespace OekraineBundle\Form;
 
-
 use AppBundle\Form\AppDateType;
 use AppBundle\Form\AppTextareaType;
 use AppBundle\Form\BaseType;
 use AppBundle\Form\JaNeeType;
 use AppBundle\Form\MedewerkerType;
-use AppBundle\Form\ZrmType;
 use InloopBundle\Form\LegitimatieSelectType;
-use OekraineBundle\Entity\Instantie;
-use OekraineBundle\Entity\Intake;
 use OekraineBundle\Entity\Inkomen;
-use OekraineBundle\Entity\Woonsituatie;
+use OekraineBundle\Entity\Intake;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
@@ -23,9 +19,6 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class IntakeType extends AbstractType
 {
-    /**
-     * {@inheritdoc}
-     */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
@@ -40,21 +33,14 @@ class IntakeType extends AbstractType
             ->add($this->createOndersteuning($builder, $options))
         ;
 
-
         $builder->add('submit', SubmitType::class);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getParent(): ?string
     {
         return BaseType::class;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
@@ -68,14 +54,13 @@ class IntakeType extends AbstractType
             ->create('algemeen', null, [
                 'compound' => true,
                 'inherit_data' => true,
-                'required'=>true,
+                'required' => true,
             ])
             ->add('medewerker', MedewerkerType::class)
             ->add('intakedatum', AppDateType::class)
             ->add('intakelocatie', LocatieSelectType::class)
-            ->add('geinformeerdOpslaanGegevens', CheckboxType::class,['required'=>true])
+            ->add('geinformeerdOpslaanGegevens', CheckboxType::class, ['required' => true])
         ;
-
     }
 
     private function createAdresgegevens(FormBuilderInterface $builder, array $options)
@@ -104,7 +89,6 @@ class IntakeType extends AbstractType
         ;
     }
 
-
     private function createLegitimatiebewijs(FormBuilderInterface $builder, array $options)
     {
         return $builder
@@ -117,7 +101,6 @@ class IntakeType extends AbstractType
             ->add('legitimatieGeldigTot', AppDateType::class)
         ;
     }
-
 
     private function createInkomen(FormBuilderInterface $builder, array $options)
     {
@@ -137,7 +120,6 @@ class IntakeType extends AbstractType
 
         ;
     }
-
 
     private function createOverigeHulpverlening(FormBuilderInterface $builder, array $options)
     {

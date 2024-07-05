@@ -3,15 +3,17 @@
 namespace MwBundle\Entity;
 
 use AppBundle\Model\IdentifiableTrait;
+use AppBundle\Model\TimestampableTrait;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
-use Gedmo\Timestampable\Traits\Timestampable;
-use AppBundle\Model\TimestampableTrait;
 
 /**
  * @ORM\Entity
+ *
  * @ORM\Table(name="inventarisaties_verslagen")
+ *
  * @ORM\HasLifecycleCallbacks
+ *
  * @Gedmo\Loggable
  */
 class Verslaginventarisatie
@@ -23,7 +25,9 @@ class Verslaginventarisatie
      * @var Verslag
      *
      * @ORM\ManyToOne(targetEntity="MwBundle\Entity\Verslag", inversedBy="verslaginventarisaties")
+     *
      * @ORM\JoinColumn(nullable=false, options={"default": 0})
+     *
      * @Gedmo\Versioned
      */
     private $verslag;
@@ -32,7 +36,9 @@ class Verslaginventarisatie
      * @var Inventarisatie
      *
      * @ORM\ManyToOne(targetEntity="Inventarisatie", inversedBy="verslaginventarisaties")
+     *
      * @ORM\JoinColumn(nullable=false, options={"default": 0})
+     *
      * @Gedmo\Versioned
      */
     private $inventarisatie;
@@ -41,7 +47,9 @@ class Verslaginventarisatie
      * @var Doorverwijzing
      *
      * @ORM\ManyToOne(targetEntity="Doorverwijzing")
+     *
      * @ORM\JoinColumn(name="doorverwijzer_id")
+     *
      * @Gedmo\Versioned
      */
     private $doorverwijzing;
@@ -50,6 +58,7 @@ class Verslaginventarisatie
      * @var \DateTime
      *
      * @ORM\Column(type="datetime", nullable=true)
+     *
      * @Gedmo\Versioned
      */
     protected $created;
@@ -58,11 +67,12 @@ class Verslaginventarisatie
      * @var \DateTime
      *
      * @ORM\Column(type="datetime", nullable=true)
+     *
      * @Gedmo\Versioned
      */
     protected $modified;
 
-    public function __construct(Verslag $verslag, Inventarisatie $inventarisatie, Doorverwijzing $doorverwijzing = null)
+    public function __construct(Verslag $verslag, Inventarisatie $inventarisatie, ?Doorverwijzing $doorverwijzing = null)
     {
         $this->verslag = $verslag;
         $this->inventarisatie = $inventarisatie;
@@ -77,10 +87,7 @@ class Verslaginventarisatie
         return $this->verslag;
     }
 
-    /**
-     * @param Verslag $verslag
-     */
-    public function setVerslag(Verslag $verslag = null)
+    public function setVerslag(?Verslag $verslag = null)
     {
         $this->verslag = $verslag;
 

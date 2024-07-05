@@ -17,6 +17,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * @Route("/vrijwilligerdossiers")
+ *
  * @Template
  */
 class VrijwilligerdossiersController extends DossiersController

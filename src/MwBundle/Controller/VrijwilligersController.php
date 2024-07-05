@@ -15,6 +15,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * @Route("/vrijwilligers")
+ *
  * @Template
  */
 class VrijwilligersController extends VrijwilligersControllerAbstract

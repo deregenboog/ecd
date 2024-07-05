@@ -13,7 +13,7 @@ interface PandeigenaarDaoInterface
      *
      * @return PaginationInterface
      */
-    public function findAll($page = null, FilterInterface $filter = null);
+    public function findAll($page = null, ?FilterInterface $filter = null);
 
     /**
      * @param int $id
@@ -22,18 +22,9 @@ interface PandeigenaarDaoInterface
      */
     public function find($id);
 
-    /**
-     * @param Pandeigenaar $pandeigenaar
-     */
     public function create(Pandeigenaar $pandeigenaar);
 
-    /**
-     * @param Pandeigenaar $pandeigenaar
-     */
     public function update(Pandeigenaar $pandeigenaar);
 
-    /**
-     * @param Pandeigenaar $pandeigenaar
-     */
     public function delete(Pandeigenaar $pandeigenaar);
 }

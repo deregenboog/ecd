@@ -11,8 +11,11 @@ use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Entity
+ *
  * @ORM\Table(name="dagbesteding_projecten")
+ *
  * @ORM\HasLifecycleCallbacks
+ *
  * @Gedmo\Loggable
  */
 class Project
@@ -23,7 +26,9 @@ class Project
 
     /**
      * @var bool
+     *
      * @ORM\Column(name="`active`", type="boolean", options={"default":1})
+     *
      * @Gedmo\Versioned
      */
     protected $actief = true;
@@ -37,6 +42,7 @@ class Project
      * @var ArrayCollection|Deelname[]
      *
      * @ORM\OneToMany(targetEntity="Deelname", mappedBy="project", cascade={"persist"})
+     *
      * @ORM\OrderBy({"id" = "DESC"})
      */
     private $deelnames;
@@ -45,13 +51,16 @@ class Project
      * @var ArrayCollection|Traject[]
      *
      * @ORM\ManyToMany(targetEntity="Traject", mappedBy="projecten", cascade={"persist"})
+     *
      * @ORM\JoinTable(name="dagbesteding_traject_project")
      */
     private $trajecten;
 
     /**
      * @var Locatie
+     *
      * @ORM\ManyToOne(targetEntity="DagbestedingBundle\Entity\Locatie", inversedBy="projecten")
+     *
      * @Gedmo\Versioned
      */
     protected $locatie;
@@ -60,7 +69,6 @@ class Project
     {
         return $this->getNaam();
     }
-
 
     /**
      * @return Deelname[]|ArrayCollection
@@ -72,63 +80,55 @@ class Project
 
     /**
      * @param Deelname[]|ArrayCollection $deelnames
+     *
      * @return Project
      */
     public function setDeelnames($deelnames)
     {
         $this->deelnames = $deelnames;
+
         return $this;
     }
 
     /**
-     * @param Deelname[]|ArrayCollection $deelnames
      * @return Project
      */
     public function addDeelname($deelname)
     {
         $this->deelnames[] = $deelname;
+
         return $this;
     }
-
 
     public function isDeletable()
     {
         return false;
     }
 
-    /**
-     * @return mixed
-     */
     public function getKpl()
     {
         return $this->kpl;
     }
 
     /**
-     * @param mixed $kpl
      * @return Project
      */
     public function setKpl($kpl)
     {
         $this->kpl = $kpl;
+
         return $this;
     }
 
-    /**
-     * @return Locatie
-     */
     public function getLocatie(): ?Locatie
     {
         return $this->locatie;
     }
 
-    /**
-     * @param Locatie $locatie
-     * @return Project
-     */
     public function setLocatie(Locatie $locatie): Project
     {
         $this->locatie = $locatie;
+
         return $this;
     }
 }

@@ -13,8 +13,11 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity
+ *
  * @ORM\Table(name="ga_activiteiten")
+ *
  * @ORM\HasLifecycleCallbacks
+ *
  * @Gedmo\Loggable
  */
 class Activiteit
@@ -26,18 +29,21 @@ class Activiteit
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
+     *
      * @Gedmo\Versioned
      */
     private $datum;
 
     /**
      * @ORM\Column(type="boolean", nullable=true)
+     *
      * @Gedmo\Versioned
      */
     private $afgesloten = false;
 
     /**
      * @var ArrayCollection|Deelname[]
+     *
      * @ORM\OneToMany(targetEntity="Deelname", mappedBy="activiteit", cascade={"persist"})
      */
     private $deelnames;
@@ -46,6 +52,7 @@ class Activiteit
      * @var Groep
      *
      * @ORM\ManyToOne(targetEntity="Groep", inversedBy="activiteiten")
+     *
      * @Gedmo\Versioned
      */
     private $groep;
@@ -54,6 +61,7 @@ class Activiteit
      * @var ActiviteitAnnuleringsreden
      *
      * @ORM\ManyToOne(targetEntity="ActiviteitAnnuleringsreden")
+     *
      * @Gedmo\Versioned
      */
     private $annuleringsreden;
@@ -62,7 +70,9 @@ class Activiteit
      * @var int
      *
      * @ORM\Column()
+     *
      * @Gedmo\Versioned
+     *
      * @Assert\GreaterThanOrEqual(0)
      */
     private $aantalAnoniemeDeelnemers = 0;
@@ -71,6 +81,7 @@ class Activiteit
      * @var \DateTime
      *
      * @ORM\Column(type="datetime")
+     *
      * @Gedmo\Versioned
      */
     protected $created;
@@ -79,6 +90,7 @@ class Activiteit
      * @var \DateTime
      *
      * @ORM\Column(type="datetime")
+     *
      * @Gedmo\Versioned
      */
     protected $modified;
@@ -87,6 +99,7 @@ class Activiteit
      * @var ArrayCollection|Verslag[]
      *
      * @ORM\OneToMany(targetEntity="Verslag", mappedBy="activiteit", cascade={"persist"})
+     *
      * @ORM\OrderBy({"id": "desc"})
      */
     protected $verslagen;
@@ -137,7 +150,7 @@ class Activiteit
         return $this->groep;
     }
 
-    public function setGroep(Groep $groep = null)
+    public function setGroep(?Groep $groep = null)
     {
         $this->groep = $groep;
 

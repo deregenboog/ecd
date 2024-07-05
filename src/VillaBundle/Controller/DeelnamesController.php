@@ -4,9 +4,9 @@ namespace VillaBundle\Controller;
 
 use AppBundle\Controller\AbstractChildController;
 use AppBundle\Controller\DisableIndexActionTrait;
+use Symfony\Component\Routing\Annotation\Route;
 use VillaBundle\Entity\Deelname;
 use VillaBundle\Form\DeelnameType;
-use Symfony\Component\Routing\Annotation\Route;
 use VillaBundle\Service\DeelnameDaoInterface;
 
 /**

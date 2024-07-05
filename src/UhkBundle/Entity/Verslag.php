@@ -11,8 +11,11 @@ use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Entity
+ *
  * @ORM\Table(name="uhk_verslagen")
+ *
  * @ORM\HasLifecycleCallbacks
+ *
  * @Gedmo\Loggable
  */
 class Verslag implements MedewerkerSubjectInterface
@@ -22,6 +25,7 @@ class Verslag implements MedewerkerSubjectInterface
 
     /**
      * @ORM\Column(type="text", nullable=true)
+     *
      * @Gedmo\Versioned
      */
     protected $tekst;
@@ -30,6 +34,7 @@ class Verslag implements MedewerkerSubjectInterface
      * @var Deelnemer
      *
      * @ORM\ManyToOne(targetEntity="Deelnemer", inversedBy="verslagen")
+     *
      * @Gedmo\Versioned
      */
     protected $deelnemer;
@@ -38,6 +43,7 @@ class Verslag implements MedewerkerSubjectInterface
      * @var Medewerker
      *
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Medewerker")
+     *
      * @Gedmo\Versioned
      */
     protected $medewerker;
@@ -46,6 +52,7 @@ class Verslag implements MedewerkerSubjectInterface
      * @var \DateTime
      *
      * @ORM\Column(type="date")
+     *
      * @Gedmo\Versioned
      */
     protected $datum;
@@ -54,6 +61,7 @@ class Verslag implements MedewerkerSubjectInterface
      * @var \DateTime
      *
      * @ORM\Column(type="datetime")
+     *
      * @Gedmo\Versioned
      */
     protected $created;
@@ -62,6 +70,7 @@ class Verslag implements MedewerkerSubjectInterface
      * @var \DateTime
      *
      * @ORM\Column(type="datetime")
+     *
      * @Gedmo\Versioned
      */
     protected $modified;
@@ -115,9 +124,6 @@ class Verslag implements MedewerkerSubjectInterface
         return $this->datum;
     }
 
-    /**
-     * @param \DateTime $datum
-     */
     public function setDatum(\DateTime $datum)
     {
         $this->datum = $datum;

@@ -9,12 +9,11 @@ use Knp\Component\Pager\Pagination\PaginationInterface;
 interface ContactpersoonDaoInterface
 {
     /**
-     * @param int             $page
-     * @param FilterInterface $filter
+     * @param int $page
      *
      * @return PaginationInterface
      */
-    public function findAll($page = null, FilterInterface $filter = null);
+    public function findAll($page = null, ?FilterInterface $filter = null);
 
     /**
      * @param int $id
@@ -23,18 +22,9 @@ interface ContactpersoonDaoInterface
      */
     public function find($id);
 
-    /**
-     * @param Contactpersoon $contactpersoon
-     */
     public function create(Contactpersoon $contactpersoon);
 
-    /**
-     * @param Contactpersoon $contactpersoon
-     */
     public function update(Contactpersoon $contactpersoon);
 
-    /**
-     * @param Contactpersoon $contactpersoon
-     */
     public function delete(Contactpersoon $contactpersoon);
 }

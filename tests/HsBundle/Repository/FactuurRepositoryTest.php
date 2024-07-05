@@ -26,7 +26,7 @@ class FactuurRepositoryTest extends DoctrineTestCase
         $this->expectDQL($em, $expectedDQL);
 
         $repository = new FactuurRepository($em, $metadata);
-        $repository->findNonLockedByKlantAndDateRange(new Klant, new AppDateRangeModel(new \DateTime(), new \DateTime()));
+        $repository->findNonLockedByKlantAndDateRange(new Klant(), new AppDateRangeModel(new \DateTime(), new \DateTime()));
     }
 
     public function testFindByKlantAndDateRange()
@@ -41,6 +41,6 @@ class FactuurRepositoryTest extends DoctrineTestCase
         $this->expectDQL($em, $expectedDQL);
 
         $repository = new FactuurRepository($em, $metadata);
-        $repository->findByKlantAndDateRange(new Klant, new AppDateRangeModel(new \DateTime(), new \DateTime()));
+        $repository->findByKlantAndDateRange(new Klant(), new AppDateRangeModel(new \DateTime(), new \DateTime()));
     }
 }

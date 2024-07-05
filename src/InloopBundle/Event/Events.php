@@ -15,5 +15,4 @@ class Events
     public const DOSSIER_CHANGED = 'inloop_dossier_changed';
 
     public const LOCATIE_CHANGED = 'inloop_locatie_changed';
-
 }

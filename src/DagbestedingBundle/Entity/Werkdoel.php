@@ -11,8 +11,11 @@ use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Entity
+ *
  * @ORM\Table(name="dagbesteding_werkdoelen")
+ *
  * @ORM\HasLifecycleCallbacks
+ *
  * @Gedmo\Loggable
  */
 class Werkdoel implements MedewerkerSubjectInterface
@@ -22,6 +25,7 @@ class Werkdoel implements MedewerkerSubjectInterface
 
     /**
      * @ORM\Column(type="text", nullable=true)
+     *
      * @Gedmo\Versioned
      */
     protected $tekst;
@@ -30,6 +34,7 @@ class Werkdoel implements MedewerkerSubjectInterface
      * @var Deelnemer
      *
      * @ORM\ManyToOne(targetEntity="Deelnemer")
+     *
      * @Gedmo\Versioned
      */
     protected $deelnemer;
@@ -38,6 +43,7 @@ class Werkdoel implements MedewerkerSubjectInterface
      * @var Traject
      *
      * @ORM\ManyToOne(targetEntity="DagbestedingBundle\Entity\Traject", inversedBy="werkdoelen")
+     *
      * @Gedmo\Versioned
      */
     protected $traject;
@@ -46,6 +52,7 @@ class Werkdoel implements MedewerkerSubjectInterface
      * @var Medewerker
      *
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Medewerker")
+     *
      * @Gedmo\Versioned
      */
     protected $medewerker;
@@ -54,6 +61,7 @@ class Werkdoel implements MedewerkerSubjectInterface
      * @var \DateTime
      *
      * @ORM\Column(type="date")
+     *
      * @Gedmo\Versioned
      */
     protected $datum;
@@ -62,6 +70,7 @@ class Werkdoel implements MedewerkerSubjectInterface
      * @var \DateTime
      *
      * @ORM\Column(type="datetime")
+     *
      * @Gedmo\Versioned
      */
     protected $created;
@@ -70,6 +79,7 @@ class Werkdoel implements MedewerkerSubjectInterface
      * @var \DateTime
      *
      * @ORM\Column(type="datetime")
+     *
      * @Gedmo\Versioned
      */
     protected $modified;
@@ -123,9 +133,6 @@ class Werkdoel implements MedewerkerSubjectInterface
         return $this->datum;
     }
 
-    /**
-     * @param \DateTime $datum
-     */
     public function setDatum(\DateTime $datum)
     {
         $this->datum = $datum;
@@ -133,21 +140,15 @@ class Werkdoel implements MedewerkerSubjectInterface
         return $this;
     }
 
-    /**
-     * @return Traject
-     */
     public function getTraject(): Traject
     {
         return $this->traject;
     }
 
-    /**
-     * @param Traject $traject
-     * @return Werkdoel
-     */
     public function setTraject(Traject $traject): Werkdoel
     {
         $this->traject = $traject;
+
         return $this;
     }
 }

@@ -25,7 +25,7 @@ class GroepDao extends AbstractDao implements GroepDaoInterface
     /**
      * {inheritdoc}.
      */
-    public function findAll($page = null, FilterInterface $filter = null)
+    public function findAll($page = null, ?FilterInterface $filter = null)
     {
         $builder = $this->repository->createQueryBuilder('groep')
             ->select(

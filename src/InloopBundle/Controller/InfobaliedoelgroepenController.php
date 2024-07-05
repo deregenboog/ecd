@@ -6,11 +6,12 @@ use AppBundle\Controller\AbstractController;
 use InloopBundle\Entity\Infobaliedoelgroep;
 use InloopBundle\Form\InfobaliedoelgroepType;
 use InloopBundle\Service\InfobaliedoelgroepDaoInterface;
-use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * @Route("/admin/infobaliedoelgroepen")
+ *
  * @Template
  */
 class InfobaliedoelgroepenController extends AbstractController

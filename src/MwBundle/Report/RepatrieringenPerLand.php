@@ -8,7 +8,6 @@ use AppBundle\Report\Table;
 use Doctrine\ORM\EntityManagerInterface;
 use MwBundle\Entity\Afsluiting;
 
-
 class RepatrieringenPerLand extends AbstractReport
 {
     protected $title = 'Repatriëringen per land van bestemming';
@@ -50,7 +49,6 @@ class RepatrieringenPerLand extends AbstractReport
                 'end_date' => $this->endDate,
             ])
         ;
-
 
         $this->tables[''] = $builder->getQuery()->getResult();
     }

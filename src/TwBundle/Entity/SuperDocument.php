@@ -12,12 +12,19 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 /**
  * @ORM\Entity
+ *
  * @ORM\Table(name="tw_superdocumenten")
+ *
  * @ORM\HasLifecycleCallbacks
+ *
  * @ORM\InheritanceType("SINGLE_TABLE")
+ *
  * @ORM\DiscriminatorColumn(name="class", type="string", length=12)
+ *
  * @ORM\DiscriminatorMap({"superdocument" = "SuperDocument", "document" = "Document", "financieel" = "FinancieelDocument"})
+ *
  * @Gedmo\Loggable
+ *
  * @Vich\Uploadable
  */
 abstract class SuperDocument implements DocumentInterface
@@ -27,14 +34,18 @@ abstract class SuperDocument implements DocumentInterface
 
     /**
      * @ORM\Id
+     *
      * @ORM\Column(type="integer")
+     *
      * @ORM\GeneratedValue
      */
     private $id;
 
     /**
      * @var string
+     *
      * @ORM\Column
+     *
      * @Gedmo\Versioned
      */
     private $naam;
@@ -48,13 +59,16 @@ abstract class SuperDocument implements DocumentInterface
 
     /**
      * @var string
+     *
      * @ORM\Column
+     *
      * @Gedmo\Versioned
      */
     private $filename;
 
     /**
      * @var File
+     *
      * @Vich\UploadableField(mapping="tw_document", fileNameProperty="filename")
      */
     private $file;
@@ -63,6 +77,7 @@ abstract class SuperDocument implements DocumentInterface
      * @var \DateTime
      *
      * @ORM\Column(type="datetime")
+     *
      * @Gedmo\Versioned
      */
     protected $created;
@@ -71,6 +86,7 @@ abstract class SuperDocument implements DocumentInterface
      * @var \DateTime
      *
      * @ORM\Column(type="datetime")
+     *
      * @Gedmo\Versioned
      */
     protected $modified;
@@ -114,7 +130,7 @@ abstract class SuperDocument implements DocumentInterface
         return $this->file;
     }
 
-    public function setFile(File $file = null)
+    public function setFile(?File $file = null)
     {
         $this->file = $file;
 

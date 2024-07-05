@@ -19,9 +19,6 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class AfsluitingType extends AbstractType
 {
-    /**
-     * {@inheritdoc}
-     */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
@@ -45,10 +42,10 @@ class AfsluitingType extends AbstractType
                 'placeholder' => '',
                 'label' => 'Land van bestemming',
             ])
-            ->add('mwSluiten',CheckboxType::class,[
-                'label'=>"MW dossier (indien aanwezig) ook sluiten?",
-                'required'=>false,
-                'mapped'=>false,
+            ->add('mwSluiten', CheckboxType::class, [
+                'label' => 'MW dossier (indien aanwezig) ook sluiten?',
+                'required' => false,
+                'mapped' => false,
             ])
             ->add('toelichting')
             ->add('submit', SubmitType::class, ['label' => 'Opslaan'])
@@ -62,9 +59,6 @@ class AfsluitingType extends AbstractType
         });
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
@@ -73,9 +67,6 @@ class AfsluitingType extends AbstractType
         ]);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getParent(): ?string
     {
         return BaseType::class;

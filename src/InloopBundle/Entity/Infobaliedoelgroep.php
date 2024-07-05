@@ -10,7 +10,9 @@ use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Entity
+ *
  * @ORM\Table(name="infobaliedoelgroepen")
+ *
  * @Gedmo\Loggable
  */
 class Infobaliedoelgroep

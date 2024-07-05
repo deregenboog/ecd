@@ -38,23 +38,23 @@ class GroepRepository extends EntityRepository implements DoelstellingRepository
     {
         /**
          * subquery in from ... ivm aggregatie.
-         * (SUM)
+         * (SUM).
          */
         /**
          * SELECT SUM(a.aantalAnoniemeDeelnemers)
-        FROM ga_activiteiten AS a
-        WHERE a.datum BETWEEN '2022-01-01 00:00:00' AND '2022-12-31 00:00:00'
-        AND a.groep_id = g0_.id
+         * FROM ga_activiteiten AS a
+         * WHERE a.datum BETWEEN '2022-01-01 00:00:00' AND '2022-12-31 00:00:00'
+         * AND a.groep_id = g0_.id.
          */
         $subselect = $this->createQueryBuilder('a3')
             ->select('SUM( a2.aantalAnoniemeDeelnemers) AS a')
-            ->resetDQLPart("from") //reset the from part as it points default to groep as we're in the groep repository.
-            ->from(Activiteit::class,'a2')
-            ->where("a2.groep = groep AND a2.datum BETWEEN :start AND :eind" )
+            ->resetDQLPart('from') // reset the from part as it points default to groep as we're in the groep repository.
+            ->from(Activiteit::class, 'a2')
+            ->where('a2.groep = groep AND a2.datum BETWEEN :start AND :eind')
             ->groupBy('a2.groep')
             ->setParameter('start', $startDate)
             ->setParameter('eind', $endDate)
-            ;
+        ;
 
         $builder = $this->createQueryBuilder('groep');
         $builder
@@ -62,7 +62,7 @@ class GroepRepository extends EntityRepository implements DoelstellingRepository
             ->addSelect('COUNT(DISTINCT activiteit) AS aantal_activiteiten')
             ->addSelect('COUNT(deelname) AS aantal_deelnames')
             ->addSelect('COUNT(DISTINCT klant) AS aantal_deelnemers')
-            ->addSelect("(".$subselect->getDQL().") aantal_anonieme_deelnames")
+            ->addSelect('('.$subselect->getDQL().') aantal_anonieme_deelnames')
             ->leftJoin('groep.werkgebied', 'werkgebied')
             ->leftJoin('groep.activiteiten', 'activiteit', 'WITH', 'activiteit.datum BETWEEN :start AND :eind')
             ->leftJoin('activiteit.deelnames', 'deelname', 'WITH', 'deelname.status = :aanwezig')
@@ -75,7 +75,7 @@ class GroepRepository extends EntityRepository implements DoelstellingRepository
             ->setParameter('aanwezig', Deelname::STATUS_AANWEZIG)
         ;
 
-//        $sql = SqlExtractor::getFullSQL($builder->getQuery());
+        //        $sql = SqlExtractor::getFullSQL($builder->getQuery());
         return $builder->getQuery()->getResult();
     }
 
@@ -223,77 +223,76 @@ class GroepRepository extends EntityRepository implements DoelstellingRepository
     public function initDoelstellingcijfers(): void
     {
         /**
-         * Buurtrestaurants
-         *
+         * Buurtrestaurants.
          */
         $builder = $this->createQueryBuilder('groep')
             ->select('groep.naam')
-            ->andWhere("groep.naam LIKE :buurtrestaurantPrefix")
-            ->setParameter('buurtrestaurantPrefix', "RBR %")
+            ->andWhere('groep.naam LIKE :buurtrestaurantPrefix')
+            ->setParameter('buurtrestaurantPrefix', 'RBR %')
         ;
 
         $result = $builder->getQuery()->getResult();
         foreach ($result as $buurtrestaurant) {
             $this->addDoelstellingcijfer(
-                "Aantal dagen (avonden) dat er een activiteit is die valt binnen een groep waarvan de naam begint met RBR.",
-                "1174",
-                $buurtrestaurant['naam']." (avonden open)",
-                function($doelstelling, $startdatum, $einddatum) use ($buurtrestaurant) {
-                    return $this->getBuurtrestaurantsAvondenOpen($doelstelling,$startdatum,$einddatum, $buurtrestaurant);
+                'Aantal dagen (avonden) dat er een activiteit is die valt binnen een groep waarvan de naam begint met RBR.',
+                '1174',
+                $buurtrestaurant['naam'].' (avonden open)',
+                function ($doelstelling, $startdatum, $einddatum) use ($buurtrestaurant) {
+                    return $this->getBuurtrestaurantsAvondenOpen($doelstelling, $startdatum, $einddatum, $buurtrestaurant);
                 });
 
             $this->addDoelstellingcijfer(
-                "Aantal geregistreerde en anonieme deelnemers aan activiteit die valt binnen eem groep waarvan de naam begint met RBR.",
-                "1174",$buurtrestaurant['naam']." (bezoekers)",
-                function($doelstelling, $startdatum, $einddatum) use ($buurtrestaurant) {
-                    $r =  $this->getBuurtrestaurantsAantalDeelnemers($doelstelling,$startdatum,$einddatum, $buurtrestaurant);
-                return $r['aantal_deelnemers'] + $r['aantal_anonieme_deelnemers'];
+                'Aantal geregistreerde en anonieme deelnemers aan activiteit die valt binnen eem groep waarvan de naam begint met RBR.',
+                '1174', $buurtrestaurant['naam'].' (bezoekers)',
+                function ($doelstelling, $startdatum, $einddatum) use ($buurtrestaurant) {
+                    $r = $this->getBuurtrestaurantsAantalDeelnemers($doelstelling, $startdatum, $einddatum, $buurtrestaurant);
+
+                    return $r['aantal_deelnemers'] + $r['aantal_anonieme_deelnemers'];
                 });
         }
-        /**
+        /*
          * ErOpUit
          */
         $this->addDoelstellingcijfer(
-            "Aantal deelnemers + anonieme deelnemers aan activiteiten die binnen een groep vallen die begint met EOU, plus de groep Losse uitjes.",
-            '1173', "ErOpUit",
-            function($doelstelling,$startdatum, $einddatum)
-            {
-                $r =  $this->getAantalErOpUitDeelnemers($doelstelling,$startdatum,$einddatum);
+            'Aantal deelnemers + anonieme deelnemers aan activiteiten die binnen een groep vallen die begint met EOU, plus de groep Losse uitjes.',
+            '1173', 'ErOpUit',
+            function ($doelstelling, $startdatum, $einddatum) {
+                $r = $this->getAantalErOpUitDeelnemers($doelstelling, $startdatum, $einddatum);
+
                 return $r['aantal_deelnemers'] + $r['aantal_anonieme_deelnemers'];
             }
         );
 
         /**
-         * PsyCafe
+         * PsyCafe.
          */
-        $prefix = "PSY%";
+        $prefix = 'PSY%';
         $this->addDoelstellingcijfer(
-            "Aantal deelnemers + anonieme deelnemers aan activiteiten die binnen een groep vallen die begint met PSY.",
-            '1176', "PsyCafe",
-            function($doelstelling,$startdatum, $einddatum) use ($prefix)
-            {
-                $r =  $this->getAantalDeelnemersForPrefix($doelstelling,$startdatum,$einddatum,$prefix);
+            'Aantal deelnemers + anonieme deelnemers aan activiteiten die binnen een groep vallen die begint met PSY.',
+            '1176', 'PsyCafe',
+            function ($doelstelling, $startdatum, $einddatum) use ($prefix) {
+                $r = $this->getAantalDeelnemersForPrefix($doelstelling, $startdatum, $einddatum, $prefix);
+
                 return $r['aantal_deelnemers'] + $r['aantal_anonieme_deelnemers'];
             }
         );
 
         /**
-         * Sportactiviteiten
+         * Sportactiviteiten.
          */
-        $prefix = "Sport%";
+        $prefix = 'Sport%';
         $this->addDoelstellingcijfer(
-            "Aantal deelnemers + anonieme deelnemers aan activiteiten die binnen een groep vallen die begint met Sport.",
-            '1736', "Sportactiviteiten",
-            function($doelstelling,$startdatum, $einddatum) use ($prefix)
-            {
-                $r =  $this->getAantalDeelnemersForPrefix($doelstelling,$startdatum,$einddatum,$prefix);
+            'Aantal deelnemers + anonieme deelnemers aan activiteiten die binnen een groep vallen die begint met Sport.',
+            '1736', 'Sportactiviteiten',
+            function ($doelstelling, $startdatum, $einddatum) use ($prefix) {
+                $r = $this->getAantalDeelnemersForPrefix($doelstelling, $startdatum, $einddatum, $prefix);
+
                 return $r['aantal_deelnemers'] + $r['aantal_anonieme_deelnemers'];
             }
         );
-
     }
 
-    private function getBuurtrestaurantsAvondenOpen($doelstelling, \DateTime $startDate, \DateTime $endDate,$buurtrestaurant)
+    private function getBuurtrestaurantsAvondenOpen($doelstelling, \DateTime $startDate, \DateTime $endDate, $buurtrestaurant)
     {
         $builder = $this->createQueryBuilder('groep')
             ->select('COUNT(DISTINCT activiteit) AS aantal_activiteiten')
@@ -311,14 +310,14 @@ class GroepRepository extends EntityRepository implements DoelstellingRepository
 //            ->orderBy('groep.naam')
             ->setParameter('start', $startDate)
             ->setParameter('eind', $endDate)
-            ->setParameter('groepnaam',$buurtrestaurant['naam'])
+            ->setParameter('groepnaam', $buurtrestaurant['naam'])
 //            ->setParameter('aanwezig', Deelname::STATUS_AANWEZIG)
         ;
-        return $builder->getQuery()->getSingleScalarResult();
 
+        return $builder->getQuery()->getSingleScalarResult();
     }
 
-    private function getBuurtrestaurantsAantalDeelnemers($doelstelling, \DateTime $startDate, \DateTime $endDate,$buurtrestaurant)
+    private function getBuurtrestaurantsAantalDeelnemers($doelstelling, \DateTime $startDate, \DateTime $endDate, $buurtrestaurant)
     {
         $builder = $this->createQueryBuilder('groep')
 //            ->select('COUNT(DISTINCT activiteit) AS aantal_activiteiten')
@@ -336,11 +335,11 @@ class GroepRepository extends EntityRepository implements DoelstellingRepository
 //            ->orderBy('groep.naam')
             ->setParameter('start', $startDate)
             ->setParameter('eind', $endDate)
-            ->setParameter('groepnaam',$buurtrestaurant['naam'])
+            ->setParameter('groepnaam', $buurtrestaurant['naam'])
             ->setParameter('aanwezig', Deelname::STATUS_AANWEZIG)
         ;
-        return $builder->getQuery()->getSingleResult();
 
+        return $builder->getQuery()->getSingleResult();
     }
 
     private function getAantalErOpUitDeelnemers($doelstelling, \DateTime $startDate, \DateTime $endDate)
@@ -362,12 +361,12 @@ class GroepRepository extends EntityRepository implements DoelstellingRepository
 //            ->orderBy('groep.naam')
             ->setParameter('start', $startDate)
             ->setParameter('eind', $endDate)
-            ->setParameter('EOUprefix',"EOU %")
-            ->setParameter('groepnaam','Losse uitjes')
+            ->setParameter('EOUprefix', 'EOU %')
+            ->setParameter('groepnaam', 'Losse uitjes')
             ->setParameter('aanwezig', Deelname::STATUS_AANWEZIG)
         ;
-        return $builder->getQuery()->getSingleResult();
 
+        return $builder->getQuery()->getSingleResult();
     }
 
     private function getAantalDeelnemersForPrefix($doelstelling, \DateTime $startDate, \DateTime $endDate, $prefix)
@@ -388,10 +387,10 @@ class GroepRepository extends EntityRepository implements DoelstellingRepository
 //            ->orderBy('groep.naam')
             ->setParameter('start', $startDate)
             ->setParameter('eind', $endDate)
-            ->setParameter('prefix',$prefix)
+            ->setParameter('prefix', $prefix)
             ->setParameter('aanwezig', Deelname::STATUS_AANWEZIG)
         ;
-        return $builder->getQuery()->getSingleResult();
 
+        return $builder->getQuery()->getSingleResult();
     }
 }

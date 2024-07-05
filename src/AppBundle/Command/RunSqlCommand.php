@@ -9,7 +9,6 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class RunSqlCommand extends \Symfony\Component\Console\Command\Command
 {
-
     /**
      * @var EntityManagerInterface
      */
@@ -23,7 +22,7 @@ class RunSqlCommand extends \Symfony\Component\Console\Command\Command
 
     protected function configure()
     {
-        ini_set("memory_limit","512M");
+        ini_set('memory_limit', '512M');
         $this
             ->setName('app:run-sql')
             ->setHelp('Executes the given SQL-script.')
@@ -51,6 +50,7 @@ class RunSqlCommand extends \Symfony\Component\Console\Command\Command
         }
 
         $output->writeln('Done!');
+
         return 0;
     }
 }

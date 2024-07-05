@@ -6,20 +6,25 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity
+ *
  * @ORM\Table(name="registraties_2010", indexes={
+ *
  *     @ORM\Index(name="idx_registraties_klant_id_locatie_id", columns={"klant_id", "locatie_id"}),
  *     @ORM\Index(name="idx_registraties_locatie_id_closed", columns={"locatie_id", "closed"}),
  *     @ORM\Index(name="IDX_FB4123F43C427B2F", columns={"klant_id"}),
  *     @ORM\Index(name="IDX_FB4123F44947630C", columns={"locatie_id"}),
  *     @ORM\Index(name="IDX_FB4123F44947630C4C74DE4C5E4E404", columns={"locatie_id", "closed", "binnen_date"})
  * })
+ *
  * @ORM\HasLifecycleCallbacks
  */
 class Registratie2010
 {
     /**
      * @ORM\Id
+     *
      * @ORM\Column(type="integer")
+     *
      * @ORM\GeneratedValue
      */
     private $id;

@@ -15,8 +15,11 @@ use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
 /**
  * @ORM\Entity
+ *
  * @ORM\Table(name="clip_behandelaars")
+ *
  * @ORM\HasLifecycleCallbacks
+ *
  * @Gedmo\Loggable
  */
 class Behandelaar implements ActivatableInterface
@@ -27,12 +30,14 @@ class Behandelaar implements ActivatableInterface
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     *
      * @Gedmo\Versioned
      */
     private $naam;
 
     /**
      * @ORM\Column(name="display_name", type="string", length=255, nullable=true)
+     *
      * @Gedmo\Versioned
      */
     private $displayName;

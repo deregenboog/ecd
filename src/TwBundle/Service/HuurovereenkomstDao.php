@@ -28,7 +28,7 @@ class HuurovereenkomstDao extends AbstractDao implements HuurovereenkomstDaoInte
             'huurovereenkomst.isReservering',
             'huurovereenkomst.opzegbriefVerstuurd',
             'appKlant.automatischeIncasso',
-            'project.naam'
+            'project.naam',
         ],
     ];
 
@@ -36,7 +36,7 @@ class HuurovereenkomstDao extends AbstractDao implements HuurovereenkomstDaoInte
 
     protected $alias = 'huurovereenkomst';
 
-    protected function doFindAll(QueryBuilder $builder, $page = 1, FilterInterface $filter = null)
+    protected function doFindAll(QueryBuilder $builder, $page = 1, ?FilterInterface $filter = null)
     {
         $builder
             ->innerJoin('huurovereenkomst.huurverzoek', 'huurverzoek')
@@ -44,7 +44,7 @@ class HuurovereenkomstDao extends AbstractDao implements HuurovereenkomstDaoInte
             ->innerJoin('huurovereenkomst.medewerker', 'medewerker')
             ->innerJoin('huurverzoek.klant', 'klant')
             ->innerJoin('huuraanbod.verhuurder', 'verhuurder')
-            ->innerJoin('huuraanbod.project','project')
+            ->innerJoin('huuraanbod.project', 'project')
 
             ->innerJoin('klant.appKlant', 'appKlant')
             ->innerJoin('verhuurder.appKlant', 'verhuurderKlant')
@@ -74,14 +74,14 @@ class HuurovereenkomstDao extends AbstractDao implements HuurovereenkomstDaoInte
     {
         $builder = $this->getCountBuilder($startdate, $enddate)
 
-            ->addSelect("project.naam AS groep")
+            ->addSelect('project.naam AS groep')
             ->innerJoin('huurovereenkomst.huuraanbod', 'huuraanbod')
             ->innerJoin('huuraanbod.project', 'project')
             ->andWhere("{$this->alias}.startdatum <= :end")
             ->andWhere("{$this->alias}.einddatum IS NULL OR {$this->alias}.einddatum >= :start")
             ->groupBy('project.id')
         ;
-//        $sql = $builder->getQuery()->getSQL();
+        //        $sql = $builder->getQuery()->getSQL();
 
         return $builder->getQuery()->getResult();
     }
@@ -90,11 +90,11 @@ class HuurovereenkomstDao extends AbstractDao implements HuurovereenkomstDaoInte
     {
         $builder = $this->getCountBuilder($startdate, $enddate)
 
-            ->addSelect("vormvanovereenkomst.label AS groep")
+            ->addSelect('vormvanovereenkomst.label AS groep')
             ->innerJoin('huurovereenkomst.huuraanbod', 'huuraanbod')
             ->leftJoin('huuraanbod.vormvanovereenkomst', 'vormvanovereenkomst')
-            ->andWhere("vormvanovereenkomst.startdate <= :end")
-            ->andWhere("vormvanovereenkomst.enddate IS NULL OR vormvanovereenkomst.enddate >= :start")
+            ->andWhere('vormvanovereenkomst.startdate <= :end')
+            ->andWhere('vormvanovereenkomst.enddate IS NULL OR vormvanovereenkomst.enddate >= :start')
             ->andWhere("{$this->alias}.startdatum <= :end")
             ->andWhere("{$this->alias}.einddatum IS NULL OR {$this->alias}.einddatum >= :start")
             ->groupBy('vormvanovereenkomst.id')
@@ -114,7 +114,6 @@ class HuurovereenkomstDao extends AbstractDao implements HuurovereenkomstDaoInte
 
         return $builder->getQuery()->getResult();
     }
-
 
     public function countByPandeigenaar(\DateTime $startdate, \DateTime $enddate)
     {
@@ -144,7 +143,6 @@ class HuurovereenkomstDao extends AbstractDao implements HuurovereenkomstDaoInte
         return $builder->getQuery()->getResult();
     }
 
-
     public function countByStadsdeel(\DateTime $startdate, \DateTime $enddate)
     {
         $builder = $this->getCountBuilder($startdate, $enddate)
@@ -163,6 +161,7 @@ class HuurovereenkomstDao extends AbstractDao implements HuurovereenkomstDaoInte
 
         return $builder->getQuery()->getResult();
     }
+
     public function countByPlaats(\DateTime $startdate, \DateTime $enddate)
     {
         $builder = $this->getCountBuilder($startdate, $enddate)

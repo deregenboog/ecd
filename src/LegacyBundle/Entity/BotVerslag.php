@@ -8,6 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * BotVerslagen.
  *
  * @ORM\Table(name="bot_verslagen", indexes={@ORM\Index(name="idx_bto_verslagen_klant_id", columns={"klant_id"})})
+ *
  * @ORM\Entity
  */
 class BotVerslag
@@ -58,7 +59,9 @@ class BotVerslag
      * @var int
      *
      * @ORM\Column(name="id", type="integer")
+     *
      * @ORM\Id
+     *
      * @ORM\GeneratedValue
      */
     private $id;

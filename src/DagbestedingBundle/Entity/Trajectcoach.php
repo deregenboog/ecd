@@ -15,8 +15,11 @@ use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
 /**
  * @ORM\Entity
+ *
  * @ORM\Table(name="dagbesteding_trajectcoaches")
+ *
  * @ORM\HasLifecycleCallbacks
+ *
  * @Gedmo\Loggable
  */
 class Trajectcoach
@@ -28,12 +31,14 @@ class Trajectcoach
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     *
      * @Gedmo\Versioned
      */
     private $naam;
 
     /**
      * @ORM\Column(name="display_name", type="string", length=255, nullable=true)
+     *
      * @Gedmo\Versioned
      */
     private $displayName;
@@ -49,6 +54,7 @@ class Trajectcoach
      * @var \DateTime
      *
      * @ORM\Column(type="datetime")
+     *
      * @Gedmo\Versioned
      */
     protected $created;
@@ -57,6 +63,7 @@ class Trajectcoach
      * @var \DateTime
      *
      * @ORM\Column(type="datetime")
+     *
      * @Gedmo\Versioned
      */
     protected $modified;

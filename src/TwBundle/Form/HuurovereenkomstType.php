@@ -6,23 +6,19 @@ use AppBundle\Form\AppDateType;
 use AppBundle\Form\BaseType;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\Query\Expr\Orx;
-use TwBundle\Entity\Huuraanbod;
-use TwBundle\Entity\Huurovereenkomst;
-use TwBundle\Entity\Huurverzoek;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use Symfony\Component\Form\Extension\Core\Type\RadioType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use TwBundle\Entity\Huuraanbod;
+use TwBundle\Entity\Huurovereenkomst;
+use TwBundle\Entity\Huurverzoek;
 
 class HuurovereenkomstType extends AbstractType
 {
-    /**
-     * {@inheritdoc}
-     */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         if ($options['data'] instanceof Huurovereenkomst) {
@@ -41,8 +37,7 @@ class HuurovereenkomstType extends AbstractType
         $builder
             ->add('isReservering', CheckboxType::class, [
                 'required' => false,
-                'label'=> 'Is deze koppeling een reservering?'
-
+                'label' => 'Is deze koppeling een reservering?',
             ])
             ->add('medewerker', MedewerkerType::class)
             ->add('startdatum', AppDateType::class)
@@ -53,8 +48,8 @@ class HuurovereenkomstType extends AbstractType
                 'required' => false,
                 'choices' => Huurovereenkomst::getVormChoices(),
             ])
-            ->add('vormVanOvereenkomst',VormVanOvereenkomstSelectType::class,[
-                'required'=>false,
+            ->add('vormVanOvereenkomst', VormVanOvereenkomstSelectType::class, [
+                'required' => false,
             ])
             ->add('huurovereenkomstType')
 
@@ -62,9 +57,6 @@ class HuurovereenkomstType extends AbstractType
         ;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
@@ -72,7 +64,7 @@ class HuurovereenkomstType extends AbstractType
         ]);
     }
 
-    private function addHuurverzoek(FormBuilderInterface $builder, Huurovereenkomst $huurovereenkomst = null)
+    private function addHuurverzoek(FormBuilderInterface $builder, ?Huurovereenkomst $huurovereenkomst = null)
     {
         $builder->add('huurverzoek', EntityType::class, [
             'class' => Huurverzoek::class,
@@ -105,7 +97,7 @@ class HuurovereenkomstType extends AbstractType
         ]);
     }
 
-    private function addHuuraanbod(FormBuilderInterface $builder, Huurovereenkomst $huurovereenkomst = null)
+    private function addHuuraanbod(FormBuilderInterface $builder, ?Huurovereenkomst $huurovereenkomst = null)
     {
         $builder->add('huuraanbod', EntityType::class, [
             'class' => Huuraanbod::class,
@@ -114,7 +106,7 @@ class HuurovereenkomstType extends AbstractType
                 $builder = $repository->createQueryBuilder('huuraanbod')
                     ->leftJoin('huuraanbod.huurovereenkomst', 'huurovereenkomst')
                     ->where('huurovereenkomst.id IS NULL')
-                    ->orderBy('huuraanbod.startdatum','DESC')
+                    ->orderBy('huuraanbod.startdatum', 'DESC')
                 ;
 
                 if ($huurovereenkomst instanceof Huurovereenkomst
@@ -138,9 +130,6 @@ class HuurovereenkomstType extends AbstractType
         ]);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getParent(): ?string
     {
         return BaseType::class;

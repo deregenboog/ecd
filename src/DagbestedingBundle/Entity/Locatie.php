@@ -10,8 +10,11 @@ use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Entity
+ *
  * @ORM\Table(name="dagbesteding_locaties")
+ *
  * @ORM\HasLifecycleCallbacks
+ *
  * @Gedmo\Loggable
  */
 class Locatie
@@ -21,11 +24,11 @@ class Locatie
     use ActivatableTrait;
 
     /**
-     * @var Project[] $projecten
+     * @var Project[]
+     *
      * @ORM\OneToMany(targetEntity="DagbestedingBundle\Entity\Project", mappedBy="locatie", cascade={"persist","remove"} )
      */
     protected $projecten;
-
 
     public function isDeletable()
     {

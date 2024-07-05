@@ -5,8 +5,8 @@ namespace InloopBundle\Service;
 use AppBundle\Entity\Klant;
 use AppBundle\Filter\FilterInterface;
 use AppBundle\Service\AbstractDao;
-use InloopBundle\Entity\Locatie;
 use InloopBundle\Entity\Incident;
+use InloopBundle\Entity\Locatie;
 
 class IncidentDao extends AbstractDao implements IncidentDaoInterface
 {
@@ -26,7 +26,7 @@ class IncidentDao extends AbstractDao implements IncidentDaoInterface
 
     protected $alias = 'incident';
 
-    public function findAll($page = null, FilterInterface $filter = null)
+    public function findAll($page = null, ?FilterInterface $filter = null)
     {
         $builder = $this->repository->createQueryBuilder($this->alias)
             ->select($this->alias.', klant, geslacht, locatie')

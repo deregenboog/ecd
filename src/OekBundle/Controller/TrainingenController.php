@@ -11,10 +11,7 @@ use OekBundle\Form\TrainingFilterType;
 use OekBundle\Form\TrainingType;
 use OekBundle\Service\TrainingDaoInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-use Symfony\Bridge\Twig\Mime\TemplatedEmail;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Mailer\Exception\TransportException;
-use Symfony\Component\Mailer\Mailer;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Address;
 use Symfony\Component\Mime\Email;
@@ -22,6 +19,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * @Route("/trainingen")
+ *
  * @Template
  */
 class TrainingenController extends AbstractChildController
@@ -77,16 +75,13 @@ class TrainingenController extends AbstractChildController
         $form->handleRequest($this->getRequest());
 
         if ($form->isSubmitted() && $form->isValid()) {
-
-
             $message = (new Email())
-                ->addFrom(new Address($this->getMedewerker()->getEmail(),$this->getMedewerker()->getNaam()))
-                ->addTo(new Address($this->getMedewerker()->getEmail(),'Op eigen kracht trainingen ('.$this->getMedewerker()->getNaam().')'))
+                ->addFrom(new Address($this->getMedewerker()->getEmail(), $this->getMedewerker()->getNaam()))
+                ->addTo(new Address($this->getMedewerker()->getEmail(), 'Op eigen kracht trainingen ('.$this->getMedewerker()->getNaam().')'))
                 ->subject($form->get('subject')->getData())
                 ->text($form->get('text')->getData())
             ;
-            foreach(explode(", ",$form->get('to')->getData()) as $rcpt)
-            {
+            foreach (explode(', ', $form->get('to')->getData()) as $rcpt) {
                 $message->addTo($rcpt);
             }
 
@@ -139,16 +134,14 @@ class TrainingenController extends AbstractChildController
 
     protected function beforeDelete($entity): void
     {
-        //if delete is called, make sure all deelnames with status Verwijderd are removed otherwise FK constraint kicks in.
-        foreach($entity->getDeelnames(true) as $dn)
-        {
-            //ok deelnamestatus moet ook verwijderd worden... hoe een mooiere manier om childs te verwijderen
-            //sowieso: klopt die FKC wel?
+        // if delete is called, make sure all deelnames with status Verwijderd are removed otherwise FK constraint kicks in.
+        foreach ($entity->getDeelnames(true) as $dn) {
+            // ok deelnamestatus moet ook verwijderd worden... hoe een mooiere manier om childs te verwijderen
+            // sowieso: klopt die FKC wel?
             // wat houdt verwijderd in? moet dat niet zijn: gestopt.
             //
-            if($dn->getStatus() == DeelnameStatus::STATUS_VERWIJDERD){ //most recent = verwijderd, dus alle voorliggende mogen ook weg.
-                foreach($dn->getDeelnameStatussen() as $ds)
-                {
+            if (DeelnameStatus::STATUS_VERWIJDERD == $dn->getStatus()) { // most recent = verwijderd, dus alle voorliggende mogen ook weg.
+                foreach ($dn->getDeelnameStatussen() as $ds) {
                     $this->entityManager->remove($ds);
                 }
             }

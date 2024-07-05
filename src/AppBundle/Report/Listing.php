@@ -43,8 +43,10 @@ class Listing
             foreach ($this->xLabels as $xLabel) {
                 $nPath = $this->columns[$xLabel];
                 $val = $row[$nPath];
-                //dit is vast niet hoe het bedoeld is, maar hoe dan wel kom ik even niet uit :-S
-                if ($val instanceof \DateTime) $val = $val->format("d-m-Y");
+                // dit is vast niet hoe het bedoeld is, maar hoe dan wel kom ik even niet uit :-S
+                if ($val instanceof \DateTime) {
+                    $val = $val->format('d-m-Y');
+                }
                 $values[$xLabel] = $val;
             }
             $data[$i + 1] = $values;

@@ -7,6 +7,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Entity
+ *
  * @Gedmo\Loggable
  */
 class VerwijzingDoor extends Verwijzing

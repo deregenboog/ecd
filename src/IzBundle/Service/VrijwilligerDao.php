@@ -30,7 +30,7 @@ class VrijwilligerDao extends AbstractDao implements VrijwilligerDaoInterface
 
     protected $class = IzVrijwilliger::class;
 
-    public function findAll($page = null, FilterInterface $filter = null)
+    public function findAll($page = null, ?FilterInterface $filter = null)
     {
         $expr = new Expr();
 
@@ -48,8 +48,8 @@ class VrijwilligerDao extends AbstractDao implements VrijwilligerDaoInterface
                 $expr->orX('hulpaanbod.einddatum IS NULL', 'hulpaanbod.einddatum > :now'),
                 $expr->orX('hulpaanbod.koppelingEinddatum IS NULL', 'hulpaanbod.koppelingEinddatum > :now')
             ))
-            ->leftJoin('hulpaanbod.hulpvraagsoorten','hulpvraagsoort')
-            ->leftJoin('hulpaanbod.doelgroepen','doelgroep')
+            ->leftJoin('hulpaanbod.hulpvraagsoorten', 'hulpvraagsoort')
+            ->leftJoin('hulpaanbod.doelgroepen', 'doelgroep')
             ->setParameter('now', new \DateTime())
         ;
 
@@ -61,23 +61,22 @@ class VrijwilligerDao extends AbstractDao implements VrijwilligerDaoInterface
             return $this->paginator->paginate($builder, $page, $this->itemsPerPage, $this->paginationOptions);
         }
 
-//        $sql = $builder->getQuery()->getSQL();
+        //        $sql = $builder->getQuery()->getSQL();
         $r = $builder->getQuery()->getResult();
-//        $i = count($r);
+
+        //        $i = count($r);
         return $r;
     }
 
     /**
-     * @param Vrijwilliger $vrijwilliger
-     *
      * @return IzVrijwilliger
      */
     public function findOneByVrijwilliger(Vrijwilliger $vrijwilliger)
     {
-
         $this->entityManager->getFilters()->disable('foutieve_invoer');
         $vw = $this->repository->findOneBy(['vrijwilliger' => $vrijwilliger]);
         $this->entityManager->getFilters()->enable('foutieve_invoer');
+
         return $vw;
     }
 

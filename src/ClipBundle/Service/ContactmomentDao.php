@@ -25,7 +25,7 @@ class ContactmomentDao extends AbstractDao implements ContactmomentDaoInterface
 
     protected $alias = 'contactmoment';
 
-    public function findAll($page = null, FilterInterface $filter = null)
+    public function findAll($page = null, ?FilterInterface $filter = null)
     {
         $builder = $this->repository->createQueryBuilder($this->alias)
             ->innerJoin($this->alias.'.behandelaar', 'behandelaar')

@@ -2,29 +2,22 @@
 
 namespace DagbestedingBundle\Form;
 
-use AppBundle\Entity\Medewerker;
 use AppBundle\Form\BaseType;
 use AppBundle\Form\DummyChoiceType;
-use Doctrine\ORM\EntityRepository;
 use DagbestedingBundle\Entity\Deelname;
+use Doctrine\ORM\EntityRepository;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 class DeelnameType extends AbstractType
 {
-
-    /**
-     * {@inheritdoc}
-     */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         /* @var $deelname Deelname */
         $deelname = $options['data'];
-
 
         if ($deelname && $deelname->getProject()) {
             $builder->add('project', DummyChoiceType::class, [
@@ -33,7 +26,7 @@ class DeelnameType extends AbstractType
         } else {
             $builder->add('project', ProjectSelectType::class, [
                 'required' => true,
-                'placeholder' => ''
+                'placeholder' => '',
             ]);
         }
 
@@ -43,17 +36,17 @@ class DeelnameType extends AbstractType
                 'dummy_label' => (string) $deelname->getTraject(),
             ]);
         } else {
-//            $builder->add('traject', null, [
-//                'label' => 'Traject',
-//                'required' => true,
-//                'placeholder' => '',
-//                'query_builder' => function (EntityRepository $repository) {
-//                    return $repository->createQueryBuilder('deelnemer')
-//                        ->innerJoin('deelnemer.klant', 'klant')
-//                        ->orderBy('klant.achternaam, klant.voornaam')
-//                    ;
-//                },
-//            ]);
+            //            $builder->add('traject', null, [
+            //                'label' => 'Traject',
+            //                'required' => true,
+            //                'placeholder' => '',
+            //                'query_builder' => function (EntityRepository $repository) {
+            //                    return $repository->createQueryBuilder('deelnemer')
+            //                        ->innerJoin('deelnemer.klant', 'klant')
+            //                        ->orderBy('klant.achternaam, klant.voornaam')
+            //                    ;
+            //                },
+            //            ]);
         }
 
         $builder
@@ -67,9 +60,6 @@ class DeelnameType extends AbstractType
         ;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
@@ -77,9 +67,6 @@ class DeelnameType extends AbstractType
         ]);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getParent(): ?string
     {
         return BaseType::class;

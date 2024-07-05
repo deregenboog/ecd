@@ -19,5 +19,4 @@ interface HuurovereenkomstDaoInterface
     public function countByAfsluitreden(\DateTime $startdate, \DateTime $enddate);
 
     public function countByStadsdeel(\DateTime $startdate, \DateTime $enddate);
-
 }

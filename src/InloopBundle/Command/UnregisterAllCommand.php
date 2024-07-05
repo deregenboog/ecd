@@ -18,6 +18,7 @@ class UnregisterAllCommand extends \Symfony\Component\Console\Command\Command
      * @var RegistratieDaoInterface
      */
     private $registratieDao;
+
     public function __construct(\InloopBundle\Service\RegistratieDao $registratieDao)
     {
         $this->registratieDao = $registratieDao;
@@ -52,6 +53,7 @@ class UnregisterAllCommand extends \Symfony\Component\Console\Command\Command
         }
 
         $output->writeln('Complete!');
+
         return 0;
     }
 

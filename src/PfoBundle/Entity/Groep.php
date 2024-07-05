@@ -10,8 +10,11 @@ use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Entity()
+ *
  * @ORM\Table(name="pfo_groepen")
+ *
  * @ORM\HasLifecycleCallbacks
+ *
  * @Gedmo\Loggable
  */
 class Groep
@@ -22,6 +25,7 @@ class Groep
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     *
      * @Gedmo\Versioned
      */
     protected $naam;
@@ -30,6 +34,7 @@ class Groep
      * @var \DateTime
      *
      * @ORM\Column(type="date", nullable=true)
+     *
      * @Gedmo\Versioned
      */
     private $startdatum;
@@ -38,6 +43,7 @@ class Groep
      * @var \DateTime
      *
      * @ORM\Column(type="date", nullable=true)
+     *
      * @Gedmo\Versioned
      */
     private $einddatum;
@@ -50,9 +56,6 @@ class Groep
         return $this->startdatum;
     }
 
-    /**
-     * @param \DateTime $afsluitdatum
-     */
     public function setStartdatum(\DateTime $startdatum)
     {
         $this->startdatum = $startdatum;
@@ -68,9 +71,6 @@ class Groep
         return $this->einddatum;
     }
 
-    /**
-     * @param \DateTime $einddatum
-     */
     public function setEinddatum(\DateTime $einddatum)
     {
         $this->einddatum = $einddatum;

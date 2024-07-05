@@ -8,10 +8,10 @@ use AppBundle\Form\ConfirmationType;
 use AppBundle\Model\MedewerkerSubjectInterface;
 use AppBundle\Service\AbstractDao;
 use Doctrine\DBAL\Exception\ForeignKeyConstraintViolationException;
-use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
+use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Routing\Exception\RouteNotFoundException;
 
 abstract class AbstractChildController extends AbstractController
@@ -43,6 +43,7 @@ abstract class AbstractChildController extends AbstractController
 
     /**
      * @Route("/add")
+     *
      * @Template
      */
     public function addAction(Request $request)
@@ -76,8 +77,7 @@ abstract class AbstractChildController extends AbstractController
                 $this->persistEntity($entity, $parentEntity);
                 $this->afterCreate($entity);
                 $this->addFlash('success', ucfirst($this->entityName).' is toegevoegd.');
-            } catch(UserException $e)
-            {
+            } catch (UserException $e) {
                 $message = $e->getMessage();
                 $this->addFlash('danger', $message);
             } catch (\Exception $e) {
@@ -97,19 +97,20 @@ abstract class AbstractChildController extends AbstractController
             return $this->redirectToView($entity);
         }
 
-
         $return = [
             'entity' => $entity,
             'parent_entity' => $parentEntity,
             'form' => $form->createView(),
         ];
-        return array_merge($return,$this->addParams($entity,$request));
 
+        return array_merge($return, $this->addParams($entity, $request));
     }
 
     /**
      * @Route("/{id}/delete/")
+     *
      * @TODO Nagaan of hier wel autorisatie op zit (nee?)
+     *
      * @Template
      */
     public function deleteAction(Request $request, $id)
@@ -128,13 +129,10 @@ abstract class AbstractChildController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $url = $request->get('redirect');
             if ($form->get('yes')->isClicked()) {
-
                 try {
                     $viewUrl = $this->generateUrl($this->baseRouteName.'view', ['id' => $entity->getId()]);
-                }
-                catch(RouteNotFoundException $e)
-                {
-                   $viewUrl = "";
+                } catch (RouteNotFoundException $e) {
+                    $viewUrl = '';
                 }
                 $this->beforeDelete($entity);
                 if ($parentEntity && $this->deleteMethod) {
@@ -142,14 +140,10 @@ abstract class AbstractChildController extends AbstractController
                     $this->parentDao->update($parentEntity);
                 }
 
-
-
-                try{
+                try {
                     $this->dao->delete($entity);
                     $this->addFlash('success', ucfirst($this->entityName).' is verwijderd.');
-                }
-                catch(ForeignKeyConstraintViolationException $exception)
-                {
+                } catch (ForeignKeyConstraintViolationException $exception) {
                     /**
                      * Regex to filter out the foreign key which prevents the deletion.
                      * From there, with class metadata and reflection, the tablename gets matched to the entity,
@@ -161,22 +155,19 @@ abstract class AbstractChildController extends AbstractController
 
                     preg_match_all($re, $exception->getMessage(), $matches, PREG_SET_ORDER, 0);
                     $entityRaw = null;
-                    if( sizeof($matches) > 0 && is_array($matches[0]) && null !== $matches[0][1] )
-                    {
+                    if (sizeof($matches) > 0 && is_array($matches[0]) && null !== $matches[0][1]) {
                         $entityRaw = $matches[0][1];
                     }
                     $md = $this->entityManager->getMetadataFactory()->getAllMetadata();
                     $entityName = "'onbekend'";
-                    foreach($md as $classMetadata)
-                    {
-                        if($classMetadata->getTableName() == $entityRaw) {
+                    foreach ($md as $classMetadata) {
+                        if ($classMetadata->getTableName() == $entityRaw) {
                             $refl = $classMetadata->getReflectionClass();
                             $entityName = $refl->getShortName();
                         }
-
                     }
 
-                    $this->addFlash('danger', ucfirst($this->entityName).sprintf(' kan niet verwijderd worden omdat er nog een of meerdere onderdelen van het type %s aanwezig zijn. Verwijder deze eerst om verder te gaan.',strtolower($entityName) ) );
+                    $this->addFlash('danger', ucfirst($this->entityName).sprintf(' kan niet verwijderd worden omdat er nog een of meerdere onderdelen van het type %s aanwezig zijn. Verwijder deze eerst om verder te gaan.', strtolower($entityName)));
                 }
                 $this->afterDelete($entity);
 
@@ -196,10 +187,11 @@ abstract class AbstractChildController extends AbstractController
 
         $return = [
             'entity' => $entity,
-            'entity_name'=>$this->entityName,
+            'entity_name' => $this->entityName,
             'form' => $form->createView(),
         ];
-        return array_merge($return, $this->addParams($entity,$request));
+
+        return array_merge($return, $this->addParams($entity, $request));
     }
 
     protected function persistEntity($entity, $parentEntity)

@@ -8,8 +8,11 @@ use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Entity
+ *
  * @ORM\Table(name="clip_locaties")
+ *
  * @ORM\HasLifecycleCallbacks
+ *
  * @Gedmo\Loggable
  */
 class Locatie
@@ -18,25 +21,30 @@ class Locatie
 
     /**
      * @ORM\Id
+     *
      * @ORM\Column(type="integer")
+     *
      * @ORM\GeneratedValue
      */
     private $id;
 
     /**
      * @ORM\Column(name="naam")
+     *
      * @Gedmo\Versioned
      */
     private $naam;
 
     /**
      * @ORM\Column(name="datum_van", type="date")
+     *
      * @Gedmo\Versioned
      */
     private $datumVan;
 
     /**
      * @ORM\Column(name="datum_tot", type="date", nullable=true)
+     *
      * @Gedmo\Versioned
      */
     private $datumTot;
@@ -45,6 +53,7 @@ class Locatie
      * @var \DateTime
      *
      * @ORM\Column(type="datetime")
+     *
      * @Gedmo\Versioned
      */
     protected $created;
@@ -53,6 +62,7 @@ class Locatie
      * @var \DateTime
      *
      * @ORM\Column(type="datetime")
+     *
      * @Gedmo\Versioned
      */
     protected $modified;
@@ -79,7 +89,6 @@ class Locatie
         return $this;
     }
 
-
     public function getDatumVan()
     {
         return $this->datumVan;
@@ -103,7 +112,6 @@ class Locatie
 
         return $this;
     }
-
 
     public function isDeletable()
     {

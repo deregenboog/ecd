@@ -13,7 +13,7 @@ interface AardRelatieDaoInterface
      *
      * @return PaginationInterface
      */
-    public function findAll($page = null, FilterInterface $filter = null);
+    public function findAll($page = null, ?FilterInterface $filter = null);
 
     /**
      * @param int $id
@@ -22,18 +22,9 @@ interface AardRelatieDaoInterface
      */
     public function find($id);
 
-    /**
-     * @param AardRelatie $entity
-     */
     public function create(AardRelatie $entity);
 
-    /**
-     * @param AardRelatie $entity
-     */
     public function update(AardRelatie $entity);
 
-    /**
-     * @param AardRelatie $entity
-     */
     public function delete(AardRelatie $entity);
 }

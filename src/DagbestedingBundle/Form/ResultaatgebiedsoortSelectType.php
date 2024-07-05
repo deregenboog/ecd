@@ -11,17 +11,11 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class ResultaatgebiedsoortSelectType extends AbstractType
 {
-    /**
-     * {@inheritdoc}
-     */
     public function getParent(): ?string
     {
         return EntityType::class;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
@@ -29,11 +23,12 @@ class ResultaatgebiedsoortSelectType extends AbstractType
             'placeholder' => 'Kies een resultaatgebied',
             'required' => false,
             'query_builder' => function (Options $options) {
-                return function (EntityRepository $repository) use ($options) {
+                return function (EntityRepository $repository) {
                     $builder = $repository->createQueryBuilder('resultaatgebiedsoort')
                         ->where('resultaatgebiedsoort.actief = true')
                         ->orderBy('resultaatgebiedsoort.naam')
                     ;
+
                     return $builder;
                 };
             },

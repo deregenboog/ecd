@@ -7,6 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity()
+ *
  * @ORM\Table("zrm_v2_reports")
  */
 class ZrmV2Report
@@ -94,24 +95,28 @@ class ZrmV2Report
 
     /**
      * @deprecated
+     *
      * @ORM\Column(type="integer")
      */
     private $klant_id;
 
     /**
      * @deprecated
+     *
      * @ORM\Column
      */
     private $model;
 
     /**
      * @deprecated
+     *
      * @ORM\Column(type="integer")
      */
     private $foreign_key;
 
     /**
      * @deprecated
+     *
      * @ORM\Column
      */
     private $request_module;

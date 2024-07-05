@@ -9,12 +9,11 @@ use Knp\Component\Pager\Pagination\PaginationInterface;
 interface ActiviteitDaoInterface
 {
     /**
-     * @param int             $page
-     * @param FilterInterface $filter
+     * @param int $page
      *
      * @return PaginationInterface
      */
-    public function findAll($page = null, FilterInterface $filter = null);
+    public function findAll($page = null, ?FilterInterface $filter = null);
 
     /**
      * @param int $id
@@ -23,9 +22,6 @@ interface ActiviteitDaoInterface
      */
     public function find($id);
 
-    /**
-     * @param Activiteit $entity
-     */
     public function create(Activiteit $entity);
 
     /**
@@ -33,13 +29,7 @@ interface ActiviteitDaoInterface
      */
     public function createBatch(array $entities);
 
-    /**
-     * @param Activiteit $entity
-     */
     public function update(Activiteit $entity);
 
-    /**
-     * @param Activiteit $entity
-     */
     public function delete(Activiteit $entity);
 }

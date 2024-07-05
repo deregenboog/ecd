@@ -10,9 +10,6 @@ use Doctrine\ORM\EntityRepository;
 use IzBundle\Entity\Hulpvraag;
 use IzBundle\Entity\Intake;
 use IzBundle\Entity\IzDeelnemer;
-use IzBundle\Entity\Project;
-use IzBundle\Form\DoelgroepSelectType;
-use IzBundle\Form\HulpvraagsoortSelectType;
 use IzBundle\Filter\IzKlantFilter;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
@@ -24,9 +21,6 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class IzKlantFilterType extends AbstractType
 {
-    /**
-     * {@inheritdoc}
-     */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         if (in_array('afsluitDatum', $options['enabled_filters'])) {
@@ -60,7 +54,7 @@ class IzKlantFilterType extends AbstractType
         }
 
         if (in_array('project', $options['enabled_filters'])) {
-            $builder->add('project', ProjectSelectFilterType::class,[
+            $builder->add('project', ProjectSelectFilterType::class, [
             ]);
         }
         if (in_array('hulpvraagsoort', $options['enabled_filters'])) {
@@ -146,9 +140,6 @@ class IzKlantFilterType extends AbstractType
         ;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
@@ -173,9 +164,6 @@ class IzKlantFilterType extends AbstractType
         ]);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getParent(): ?string
     {
         return FilterType::class;

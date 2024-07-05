@@ -6,25 +6,21 @@ use AppBundle\Form\AppDateType;
 use AppBundle\Form\AppTextareaType;
 use AppBundle\Form\BaseType;
 use AppBundle\Form\KlantType;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use TwBundle\Entity\Verhuurder;
-use TwBundle\Entity\Verslag;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use TwBundle\Entity\Verhuurder;
+use TwBundle\Entity\Verslag;
 
 class VerhuurderType extends AbstractType
 {
-    /**
-     * {@inheritdoc}
-     */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-
         $verhuurder = $options['data'];
         $appKlant = $verhuurder->getAppKlant();
 
@@ -40,10 +36,9 @@ class VerhuurderType extends AbstractType
         }
 
         $builder
-            ->add('begeleider',  null,[
-                'required'=>false,
+            ->add('begeleider', null, [
+                'required' => false,
 //                'preset'=>false,
-
             ])
             ->add('project', ProjectSelectType::class)
             ->add('aanmelddatum', AppDateType::class)
@@ -55,12 +50,12 @@ class VerhuurderType extends AbstractType
             ->add('ksgw')
             ->add('inkomen')
             ->add('aanvullingInkomen')
-            ->add('huurtoeslag', ChoiceType::class,['choices' => [
+            ->add('huurtoeslag', ChoiceType::class, ['choices' => [
                     'Ja' => '1',
                     'Nee' => '0',
                     'Onbekend' => null,
                 ],
-                'required'=>false,
+                'required' => false,
             ])
             ->add('kwijtschelding')
             ->add('samenvatting', AppTextareaType::class)
@@ -91,9 +86,6 @@ class VerhuurderType extends AbstractType
         $builder->add('submit', SubmitType::class, ['label' => 'Opslaan']);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
@@ -101,9 +93,6 @@ class VerhuurderType extends AbstractType
         ]);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getParent(): ?string
     {
         return BaseType::class;

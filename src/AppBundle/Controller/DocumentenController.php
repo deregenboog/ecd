@@ -9,7 +9,6 @@ use AppBundle\Entity\Vog;
 use AppBundle\Form\DocumentType;
 use AppBundle\Service\DocumentDaoInterface;
 use Symfony\Component\Routing\Annotation\Route;
-use Vich\UploaderBundle\Handler\DownloadHandler;
 
 /**
  * @Route("/documenten")

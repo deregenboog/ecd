@@ -25,7 +25,7 @@ class AutoCloseCommand extends \Symfony\Component\Console\Command\Command
 
     private $defaultUsername = 'jvloo';
 
-    /** @var EntityManagerInterface  */
+    /** @var EntityManagerInterface */
     private $entityManager;
 
     public function __construct(EntityManagerInterface $entityManager)
@@ -33,7 +33,6 @@ class AutoCloseCommand extends \Symfony\Component\Console\Command\Command
         $this->entityManager = $entityManager;
         parent::__construct();
     }
-
 
     protected function configure()
     {
@@ -47,7 +46,6 @@ class AutoCloseCommand extends \Symfony\Component\Console\Command\Command
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-
         try {
             $reden = $this->entityManager->getRepository(RedenAfsluiting::class)->createQueryBuilder('reden')
                 ->where('reden.naam LIKE :reden')
@@ -69,7 +67,7 @@ class AutoCloseCommand extends \Symfony\Component\Console\Command\Command
             $defaultMedewerker = $this->entityManager->getRepository(Medewerker::class)
                 ->createQueryBuilder('medewerker')
                 ->where('medewerker.username = :defaultUsername')
-                ->setParameter("defaultUsername",$this->defaultUsername)
+                ->setParameter('defaultUsername', $this->defaultUsername)
                 ->getQuery()
                 ->getSingleResult()
             ;
@@ -83,7 +81,6 @@ class AutoCloseCommand extends \Symfony\Component\Console\Command\Command
             return 0;
         }
 
-
         $builder = $this->entityManager->getRepository(Klant::class)->createQueryBuilder('klant')
             ->innerJoin(Registratie::class, 'registratie', 'WITH', 'registratie.klant = klant')
             ->leftJoin('klant.huidigeStatus', 'status')
@@ -93,8 +90,8 @@ class AutoCloseCommand extends \Symfony\Component\Console\Command\Command
             ->setParameter('long_time_ago', new \DateTime(sprintf('-%d years', $this->years)))
             ->setMaxResults($input->getArgument('batch-size'));
 
-//        $sql = SqlExtractor::getFullSQL($builder->getQuery());
-//        $output->writeln($sql);
+        //        $sql = SqlExtractor::getFullSQL($builder->getQuery());
+        //        $output->writeln($sql);
         $klanten = $builder
             ->getQuery()
             ->getResult();
@@ -120,6 +117,7 @@ class AutoCloseCommand extends \Symfony\Component\Console\Command\Command
         if (!$input->getOption('dry-run')) {
             $this->entityManager->flush();
         }
+
         return 0;
     }
 }

@@ -11,22 +11,19 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class ProjectSelectFilterType extends AbstractType
 {
-    /**
-     * {@inheritdoc}
-     */
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
             'placeholder' => '',
             'class' => Project::class,
-            'required'=>false,
+            'required' => false,
             'query_builder' => function (EntityRepository $repo) {
                 $builder = $repo->createQueryBuilder('p');
                 $builder
-                    ->innerJoin(Hulpvraag::class,"koppeling", "WITH","koppeling.project = p")
+                    ->innerJoin(Hulpvraag::class, 'koppeling', 'WITH', 'koppeling.project = p')
 //                    ->where("koppeling.id IS NOT NULL")
-                    ->where("koppeling.einddatum IS NULL")
-                    ->andWhere("koppeling.hulpaanbod IS NULL")
+                    ->where('koppeling.einddatum IS NULL')
+                    ->andWhere('koppeling.hulpaanbod IS NULL')
 //                    ->andWhere("koppeling.afsluiting IS NULL")
                     ->orWhere($builder->expr()->andX(
                         'p.startdatum <= :now',
@@ -35,15 +32,13 @@ class ProjectSelectFilterType extends AbstractType
                     ->orderBy('p.naam', 'ASC')
                     ->setParameter('now', new \DateTime())
                 ;
-//                $sql = SqlExtractor::getFullSQL($builder->getQuery());
+
+                //                $sql = SqlExtractor::getFullSQL($builder->getQuery());
                 return $builder;
             },
         ]);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getParent(): ?string
     {
         return EntityType::class;

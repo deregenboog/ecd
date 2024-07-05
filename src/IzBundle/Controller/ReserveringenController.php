@@ -10,12 +10,13 @@ use IzBundle\Form\ReserveringType;
 use IzBundle\Service\HulpaanbodDaoInterface;
 use IzBundle\Service\HulpvraagDaoInterface;
 use IzBundle\Service\ReserveringDaoInterface;
-use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * @Route("/reserveringen")
+ *
  * @Template
  */
 class ReserveringenController extends AbstractController

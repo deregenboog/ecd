@@ -8,9 +8,8 @@ use Doctrine\ORM\EntityRepository;
 use HsBundle\Entity\Activiteit;
 use HsBundle\Entity\Arbeider;
 use HsBundle\Entity\Dienstverlener;
-use HsBundle\Entity\Vrijwilliger;
 use HsBundle\Entity\Klus;
-
+use HsBundle\Entity\Vrijwilliger;
 use HsBundle\Filter\RegistratieFilter;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
@@ -21,9 +20,6 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class RegistratieFilterType extends AbstractType
 {
-    /**
-     * {@inheritdoc}
-     */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         if (in_array('arbeider', $options['enabled_filters'])) {
@@ -49,13 +45,12 @@ class RegistratieFilterType extends AbstractType
                 },
             ]);
         }
-        if(in_array('klus',$options['enabled_filters'])) {
+        if (in_array('klus', $options['enabled_filters'])) {
             $builder
                 ->add('klus', EntityType::class, [
-                   'required'=>false,
-                    'label'=>'Klus',
-                    'class'=> Klus::class
-
+                   'required' => false,
+                    'label' => 'Klus',
+                    'class' => Klus::class,
                 ]);
         }
         if (in_array('datum', $options['enabled_filters'])) {
@@ -86,9 +81,6 @@ class RegistratieFilterType extends AbstractType
         }
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
@@ -106,9 +98,6 @@ class RegistratieFilterType extends AbstractType
         ]);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getParent(): ?string
     {
         return FilterType::class;

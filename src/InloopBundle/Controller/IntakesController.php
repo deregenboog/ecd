@@ -4,10 +4,8 @@ namespace InloopBundle\Controller;
 
 use AppBundle\Controller\AbstractController;
 use AppBundle\Exception\UserException;
-use AppBundle\Export\ExportInterface;
 use Doctrine\ORM\EntityNotFoundException;
 use InloopBundle\Entity\Intake;
-use InloopBundle\Form\FirstIntakeType;
 use InloopBundle\Form\IntakeAndToegangType;
 use InloopBundle\Form\IntakeFilterType;
 use InloopBundle\Form\IntakeType;
@@ -17,13 +15,14 @@ use InloopBundle\Security\Permissions;
 use InloopBundle\Service\IntakeDaoInterface;
 use Psr\Container\ContainerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
-use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * @Route("/intakes")
+ *
  * @Template
  */
 class IntakesController extends AbstractController
@@ -41,7 +40,7 @@ class IntakesController extends AbstractController
 
     protected $accessStrategies = [];
 
-    protected $amocVerblijfsstatus = "";
+    protected $amocVerblijfsstatus = '';
 
     public function __construct(IntakeDaoInterface $dao, ContainerInterface $container, $accessStrategies = [], $amocVerblijfsstatus = '')
     {
@@ -69,6 +68,7 @@ class IntakesController extends AbstractController
 
     /**
      * @Route("/add/{klant}")
+     *
      * @ParamConverter("klant", class="AppBundle\Entity\Klant")
      */
     public function addAction(Request $request)
@@ -79,7 +79,7 @@ class IntakesController extends AbstractController
             $entity = clone $klant->getLaatsteIntake();
             $this->getEntityManager()->detach($entity);
             $klant->addIntake($entity);
-            $this->formClass = IntakeType::class;//because it is not the first one, dont show toegang form.
+            $this->formClass = IntakeType::class; // because it is not the first one, dont show toegang form.
         } else {
             $entity = new Intake($klant);
         }
@@ -94,11 +94,11 @@ class IntakesController extends AbstractController
             try {
                 $this->dao->create($entity);
                 $this->addFlash('success', ucfirst($this->entityName).' is opgeslagen.');
-            } catch(UserException $e) {
-//                $this->logger->error($e->getMessage(), ['exception' => $e]);
-                $message =  $e->getMessage();
+            } catch (UserException $e) {
+                //                $this->logger->error($e->getMessage(), ['exception' => $e]);
+                $message = $e->getMessage();
                 $this->addFlash('danger', $message);
-//                return $this->redirectToRoute('app_klanten_index');
+                //                return $this->redirectToRoute('app_klanten_index');
             } catch (\Exception $e) {
                 $this->logger->error($e->getMessage(), ['exception' => $e]);
                 $message = $this->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
@@ -111,9 +111,8 @@ class IntakesController extends AbstractController
         return array_merge([
             'entity' => $entity,
             'form' => $form->createView(),
-            'redirect'=>$request->get('redirect')
+            'redirect' => $request->get('redirect'),
         ], $this->addParams($entity, $request));
-
     }
 
     /**
@@ -121,14 +120,11 @@ class IntakesController extends AbstractController
      */
     public function editAction(Request $request, $id)
     {
+        $entity = $this->dao->find($id);
 
-         $entity = $this->dao->find($id);
-
-        if($entity === null)
-        {
-            throw new EntityNotFoundException("Kan intake niet laden.");
+        if (null === $entity) {
+            throw new EntityNotFoundException('Kan intake niet laden.');
         }
-
 
         $this->denyAccessUnlessGranted(
             Permissions::EDIT,
@@ -142,17 +138,13 @@ class IntakesController extends AbstractController
             'Je kan alleen intakes wijzigen die door jezelf zijn aangemaakt.'
         );
 
-
-        if($entity->getId() == $entity->getKlant()->getEersteIntake()->getId())
-        {
-            $this->formClass = IntakeAndToegangType::class;//because it is not the first one, dont show toegang form.
-        }
-        else {
-            $this->formClass = IntakeType::class;//because it is not the first one, dont show toegang form.
+        if ($entity->getId() == $entity->getKlant()->getEersteIntake()->getId()) {
+            $this->formClass = IntakeAndToegangType::class; // because it is not the first one, dont show toegang form.
+        } else {
+            $this->formClass = IntakeType::class; // because it is not the first one, dont show toegang form.
         }
 
         return $this->processForm($request, $entity);
-
     }
 
     /**
@@ -166,7 +158,6 @@ class IntakesController extends AbstractController
 
         return $return;
     }
-
 
     /**
      * @Route("/form.pdf")

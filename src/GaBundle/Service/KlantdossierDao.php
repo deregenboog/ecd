@@ -26,7 +26,7 @@ class KlantdossierDao extends AbstractDao implements KlantdossierDaoInterface
 
     protected $alias = 'dossier';
 
-    public function findAll($page = null, FilterInterface $filter = null)
+    public function findAll($page = null, ?FilterInterface $filter = null)
     {
         $builder = $this->repository->createQueryBuilder($this->alias)
             ->select("{$this->alias}, klant, werkgebied, lidmaatschap, groep")
@@ -40,9 +40,7 @@ class KlantdossierDao extends AbstractDao implements KlantdossierDaoInterface
     }
 
     /**
-     * @param Klant $klant
-     *
-     * @return KlantDossier
+     * @return Klantdossier
      */
     public function findOneByKlant(Klant $klant)
     {

@@ -9,12 +9,11 @@ use Knp\Component\Pager\Pagination\PaginationInterface;
 interface PostcodeDaoInterface
 {
     /**
-     * @param int             $page
-     * @param FilterInterface $filter
+     * @param int $page
      *
      * @return PaginationInterface
      */
-    public function findAll($page = null, FilterInterface $filter = null);
+    public function findAll($page = null, ?FilterInterface $filter = null);
 
     /**
      * @param int $id
@@ -23,18 +22,9 @@ interface PostcodeDaoInterface
      */
     public function find($id);
 
-    /**
-     * @param Postcode $postcode
-     */
     public function create(Postcode $postcode);
 
-    /**
-     * @param Postcode $postcode
-     */
     public function update(Postcode $postcode);
 
-    /**
-     * @param Postcode $postcode
-     */
     public function delete(Postcode $postcode);
 }

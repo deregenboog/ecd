@@ -10,9 +10,6 @@ use Symfony\Component\Form\FormBuilderInterface;
 
 class LabelType extends AbstractType
 {
-    /**
-     * {@inheritdoc}
-     */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
@@ -26,9 +23,6 @@ class LabelType extends AbstractType
         ;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getParent(): ?string
     {
         return BaseType::class;

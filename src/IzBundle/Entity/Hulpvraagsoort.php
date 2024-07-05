@@ -10,16 +10,21 @@ use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Entity(repositoryClass="IzBundle\Repository\HulpvraagsoortRepository")
+ *
  * @ORM\Table(
  *     name="iz_hulpvraagsoorten",
  *     indexes={
+ *
  *         @ORM\Index(name="id", columns={"id", "naam"})
  *     },
  *     uniqueConstraints={
+ *
  *         @ORM\UniqueConstraint(name="UNIQ_86CE34D4FC4DB938", columns={"naam"})
  *     }
  * )
+ *
  * @ORM\HasLifecycleCallbacks
+ *
  * @Gedmo\Loggable
  */
 class Hulpvraagsoort

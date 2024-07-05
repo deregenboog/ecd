@@ -7,6 +7,9 @@ use AppBundle\Exception\UserException;
 use AppBundle\Export\ExportInterface;
 use AppBundle\Form\ConfirmationType;
 use Doctrine\ORM\EntityManagerInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Annotation\Route;
 use TwBundle\Entity\Huuraanbod;
 use TwBundle\Entity\Huurovereenkomst;
 use TwBundle\Entity\Huurverzoek;
@@ -15,12 +18,10 @@ use TwBundle\Form\HuurovereenkomstCloseType;
 use TwBundle\Form\HuurovereenkomstFilterType;
 use TwBundle\Form\HuurovereenkomstType;
 use TwBundle\Service\HuurovereenkomstDaoInterface;
-use Symfony\Component\Routing\Annotation\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-use Symfony\Component\HttpFoundation\Request;
 
 /**
  * @Route("/huurovereenkomsten")
+ *
  * @Template
  */
 class HuurovereenkomstenController extends AbstractController
@@ -74,11 +75,11 @@ class HuurovereenkomstenController extends AbstractController
                 $entityManager->flush();
 
                 $this->addFlash('success', 'Huurovereenkomst is opgeslagen.');
-            } catch(UserException $e) {
-//                $this->logger->error($e->getMessage(), ['exception' => $e]);
-                $message =  $e->getMessage();
+            } catch (UserException $e) {
+                //                $this->logger->error($e->getMessage(), ['exception' => $e]);
+                $message = $e->getMessage();
                 $this->addFlash('danger', $message);
-//                return $this->redirectToRoute('app_klanten_index');
+                //                return $this->redirectToRoute('app_klanten_index');
             } catch (\Exception $e) {
                 $message = $this->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
                 $this->addFlash('danger', $message);
@@ -106,11 +107,11 @@ class HuurovereenkomstenController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             try {
                 $entityManager->flush();
-            } catch(UserException $e) {
-//                $this->logger->error($e->getMessage(), ['exception' => $e]);
-                $message =  $e->getMessage();
+            } catch (UserException $e) {
+                //                $this->logger->error($e->getMessage(), ['exception' => $e]);
+                $message = $e->getMessage();
                 $this->addFlash('danger', $message);
-//                return $this->redirectToRoute('app_klanten_index');
+                //                return $this->redirectToRoute('app_klanten_index');
             } catch (\Exception $e) {
                 $message = $this->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
                 $this->addFlash('danger', $message);
@@ -140,11 +141,11 @@ class HuurovereenkomstenController extends AbstractController
                     $entityManager->flush();
 
                     $this->addFlash('success', 'Koppeling is heropend.');
-                } catch(UserException $e) {
-//                $this->logger->error($e->getMessage(), ['exception' => $e]);
-                    $message =  $e->getMessage();
+                } catch (UserException $e) {
+                    //                $this->logger->error($e->getMessage(), ['exception' => $e]);
+                    $message = $e->getMessage();
                     $this->addFlash('danger', $message);
-//                return $this->redirectToRoute('app_klanten_index');
+                    //                return $this->redirectToRoute('app_klanten_index');
                 } catch (\Exception $e) {
                     $message = $this->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
                     $this->addFlash('danger', $message);

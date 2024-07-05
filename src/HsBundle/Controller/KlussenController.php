@@ -16,6 +16,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * @Route("/klussen")
+ *
  * @Template
  */
 class KlussenController extends AbstractChildController
@@ -74,14 +75,11 @@ class KlussenController extends AbstractChildController
      */
     public function heropenenAction(Request $request, $id)
     {
-
-
-        $entity = $this->dao->find($id);;
+        $entity = $this->dao->find($id);
         $entity->setAnnuleringsdatum(null);
         $this->dao->update($entity);
         $this->addFlash('success', ucfirst($this->entityName).' is opgeslagen.');
 
         return $this->redirectToView($entity);
-
     }
 }

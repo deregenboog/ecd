@@ -129,15 +129,13 @@ class DeelnemerFilter implements FilterInterface
             }
         }
 
-        if ($this->actief == 'true') {
+        if ('true' == $this->actief) {
             $builder
                 ->andWhere('aanmelding.datum <= :today')
                 ->andWhere('afsluiting.datum > :today OR afsluiting.datum IS NULL')
                 ->setParameter('today', new \DateTime('today'))
             ;
-        }
-        elseif ($this->actief == 'false')
-        {
+        } elseif ('false' == $this->actief) {
             $builder
                 ->andWhere('afsluiting.datum <= :today')
                 ->setParameter('today', new \DateTime('today'))

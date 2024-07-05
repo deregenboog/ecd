@@ -4,7 +4,6 @@ namespace MwBundle\Report;
 
 use AppBundle\Report\AbstractReport;
 use AppBundle\Report\Grid;
-use MwBundle\Entity\Klant;
 use MwBundle\Service\KlantDao;
 
 class Resultaten extends AbstractReport
@@ -18,8 +17,8 @@ class Resultaten extends AbstractReport
     protected $nPath = 'aantal';
 
     protected $columns = [
-        'Klanten'=>'aantal',
-        'Verslagen'=>'aantalVerslagen'
+        'Klanten' => 'aantal',
+        'Verslagen' => 'aantalVerslagen',
     ];
 
     protected $yDescription = 'Locatienaam';
@@ -52,13 +51,13 @@ class Resultaten extends AbstractReport
             $this->startDate,
             $this->endDate
         );
-//        $sql = $this->getFullSQL($query);
+        //        $sql = $this->getFullSQL($query);
         $this->result = $query->getResult();
     }
 
     protected function build()
     {
-        $table = new Grid($this->result, $this->columns,$this->yPath);
+        $table = new Grid($this->result, $this->columns, $this->yPath);
         $table
             ->setStartDate($this->startDate)
             ->setEndDate($this->endDate)

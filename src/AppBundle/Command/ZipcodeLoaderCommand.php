@@ -83,9 +83,10 @@ class ZipcodeLoaderCommand extends \Symfony\Component\Console\Command\Command
         $this->entityManager->flush();
         fclose($handle);
 
-//        $this->postLoad();
+        //        $this->postLoad();
 
         $output->writeln($i.' postcodes opgeslagen');
+
         return 0;
     }
 

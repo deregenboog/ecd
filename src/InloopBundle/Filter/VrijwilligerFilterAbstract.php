@@ -5,7 +5,6 @@ namespace InloopBundle\Filter;
 use AppBundle\Filter\FilterInterface;
 use AppBundle\Form\Model\AppDateRangeModel;
 use Doctrine\ORM\QueryBuilder;
-use InloopBundle\Entity\Locatie;
 
 abstract class VrijwilligerFilterAbstract implements FilterInterface
 {
@@ -73,8 +72,7 @@ abstract class VrijwilligerFilterAbstract implements FilterInterface
             $builder->andWhere('locaties IN (:locaties)')->setParameter('locaties', $this->locaties);
         }
 
-        if($this->filterOpActiefAlleen == true)
-        {
+        if (true == $this->filterOpActiefAlleen) {
             $builder
                 ->andWhere('vrijwilliger.afsluitdatum IS NULL')
             ;
