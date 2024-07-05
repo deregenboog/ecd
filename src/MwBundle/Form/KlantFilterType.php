@@ -3,34 +3,22 @@
 namespace MwBundle\Form;
 
 use AppBundle\Entity\Medewerker;
-use AppBundle\Entity\Werkgebied;
 use AppBundle\Form\AppDateRangeType;
 use AppBundle\Form\FilterType;
-use AppBundle\Form\MedewerkerFilterType as AppMedewerkerFilterType;
+use AppBundle\Form\JaNeeType;
 use AppBundle\Form\KlantFilterType as AppKlantFilterType;
-use AppBundle\Form\WerkgebiedSelectType;
 use Doctrine\ORM\EntityRepository;
-use GaBundle\Form\SelectieType;
-use InloopBundle\Entity\Locatie;
 use InloopBundle\Form\LocatieSelectType;
-use MwBundle\Entity\Aanmelding;
-use MwBundle\Entity\MwDossierStatus;
-use MwBundle\Entity\Project;
 use MwBundle\Entity\Verslag;
 use MwBundle\Filter\KlantFilter;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Validator\Constraints\Choice;
 
 class KlantFilterType extends AbstractType
 {
-    /**
-     * {@inheritdoc}
-     */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         if (array_key_exists('klant', $options['enabled_filters'])) {
@@ -38,44 +26,28 @@ class KlantFilterType extends AbstractType
                 'enabled_filters' => $options['enabled_filters']['klant'],
             ]);
         }
-//        if (array_key_exists('verslag', $options['enabled_filters'])) {
-//            $builder->add('verslag', EntityType::class, [
-//                'required' => false,
-//                'class'=>Medewerker::class,
-//
-//            ]);
-//        }
-        if (in_array('maatschappelijkWerker', $options['enabled_filters'])) {
 
+        if (in_array('maatschappelijkWerker', $options['enabled_filters'])) {
             $builder->add('maatschappelijkWerker', EntityType::class, [
                 'required' => false,
-                'class'=>Medewerker::class,
+                'class' => Medewerker::class,
                 'query_builder' => function (EntityRepository $repository) {
                     $builder = $repository->createQueryBuilder('medewerker')
-                        ->select("medewerker")
+                        ->select('medewerker')
                         ->innerJoin(Verslag::class, 'verslag', 'WITH', 'verslag.medewerker = medewerker')
                         ->where('verslag.type = 1')
-//                        ->orderBy('medewerker.voornaam')
                         ->groupBy('verslag.medewerker')
-                        ;
-                    $sql = $builder->getQuery()->getSQL();
-                    return $builder;
+                        ->orderBy('medewerker.voornaam')
                     ;
+
+                    return $builder;
                 },
             ]);
-
         }
         if (in_array('gebruikersruimte', $options['enabled_filters'])) {
             $builder->add('gebruikersruimte', LocatieSelectType::class, [
                 'required' => false,
                 'gebruikersruimte' => true,
-            ]);
-        }
-
-
-        if (in_array('laatsteIntakeDatum', $options['enabled_filters'])) {
-            $builder->add('laatsteIntakeDatum', AppDateRangeType::class, [
-                'required' => false,
             ]);
         }
 
@@ -93,17 +65,16 @@ class KlantFilterType extends AbstractType
 
         if (in_array('huidigeMwStatus', $options['enabled_filters'])) {
             $builder->add('huidigeMwStatus', ChoiceType::class, [
-
-                'choices'=>['Aangemeld'=>'Aanmelding','Afgesloten'=>'Afsluiting'],
+                'choices' => ['Aangemeld' => 'Aanmelding', 'Afgesloten' => 'Afsluiting'],
                 'required' => false,
-               'data'=>'Aanmelding'
-
+                'data' => 'Aanmelding',
             ]);
         }
 
-        if (in_array('gezin', $options['enabled_filters'])) {
-            $builder->add('isGezin', ChoiceType::class, [
-                'choices'=>['Ja'=>'1','Nee'=>'0', 'Onbekend'=>'null'],
+        if (in_array('isGezin', $options['enabled_filters'])) {
+            $builder->add('isGezin', JaNeeType::class, [
+                'placeholder' => 'Ja/Nee',
+                'expanded' => false,
                 'required' => false,
             ]);
         }
@@ -111,14 +82,10 @@ class KlantFilterType extends AbstractType
         if (in_array('project', $options['enabled_filters'])) {
             $builder->add('project', ProjectSelectType::class, [
                 'required' => false,
-
             ]);
         }
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
@@ -131,18 +98,14 @@ class KlantFilterType extends AbstractType
                 'laatsteVerslagLocatie',
                 'laatsteVerslagDatum',
                 'huidigeMwStatus',
-                'gezin',
+                'isGezin',
                 'project',
-//                'verslag' => ['medewerker'],
                 'filter',
                 'download',
             ],
         ]);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getParent(): ?string
     {
         return FilterType::class;
