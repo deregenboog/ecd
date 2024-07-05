@@ -275,42 +275,6 @@ class RegistratiesController extends AbstractController
         $sep = '';
         $separator = PHP_EOL.PHP_EOL;
 
-        $corona = $this->dao->checkCorona($klant);
-        if ($corona) {
-            $jsonVar['confirm'] = true;
-            $jsonVar['message'] = 'Klant is de afgelopen 11 dagen op een locatie geweest waar ook een corona besmette klant was in dezelfde tijd. Klant informeren en adviseren te laten testen bij klachten.';
-
-            return new JsonResponse($jsonVar);
-        }
-
-        /*
-         * Corona aanpassing; niet meer dan twee locaties sinds middernacht.
-         */
-        //        $registratiesSindsMiddernacht = $klant->getRegistratiesSinds(new \DateTime('today midnight'));
-        //        if($registratiesSindsMiddernacht->count() >= 2) {
-        //
-        //            $nachtopvanglocaties = $this->getParameter('nachtopvang_locaties');
-        //            if(in_array($locatie->getNaam(),$nachtopvanglocaties))
-        //            {
-        //                return new JsonResponse($jsonVar);
-        //            }
-        //
-        //            //meer dan 2, kijken naar unieke locaties.
-        //            $locaties = array();
-        //            foreach ($registratiesSindsMiddernacht as $registratie) {
-        //                $locaties[$registratie->getLocatie()->getId()] = $registratie->getLocatie()->getNaam();
-        //            }
-        //
-        //            if (count($locaties) >= 2 ){
-        //                $today = new \DateTime('today midnight');
-        //                $numberOfRegsToday = $klant->getRegistratiesSinds(new \DateTime('today midnight'));
-        //                $jsonVar['allow'] = false;
-        //                $jsonVar['message'] = 'Ivm beperken contacten door Corona, maximaal 2 locaties per dag. Klant kan naar deze locaties: '.implode(", ",$locaties);
-        //
-        //                return new JsonResponse($jsonVar);
-        //            }
-        //
-        //        }
 
         /*
          * Voor gebruikersruimte geldt dat klant minimaal twee mnd geleden ingecheckt moet zijn op de ruimte zoals
@@ -378,12 +342,7 @@ class RegistratiesController extends AbstractController
                 $sep = $separator;
                 $jsonVar['confirm'] = true;
             }
-            //            $newIntakeNeeded = ;
-            if (null !== $laatsteIntake && $laatsteIntake->getIntakedatum()->diff(new \DateTime())->days > 365) {
-                $jsonVar['message'] .= $sep.'Let op: deze persoon heeft momenteel een verlopen intake (> 1 jaar geleden). Toch inchecken?';
-                $sep = $separator;
-                $jsonVar['confirm'] = true;
-            }
+
             if ((($laatsteRegistratie = $klant->getLaatsteRegistratie()) !== null)
                 && null !== $laatsteRegistratie->getBuiten()
                 && $laatsteRegistratie->getBuiten()->diff(new \DateTime())->days > 730
