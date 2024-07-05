@@ -49,7 +49,17 @@
     </thead>
     <tbody>
         {% for registratie in pagination %}
-        <tr data-id="{{ registratie.id }}" data-href="{{ path('inloop_klanten_view', {id: registratie.klant.id}) }}">
+
+            {% set rowColor = "" %}
+            {% set ttactive = "" %}
+            {% set tttext = "" %}
+            {% set laatsteIntake = registratie.klant.getLaatsteIntake %}
+            {% if laatsteIntake and laatsteIntake.intakeDatum < date("-1 year") %}
+                {% set rowColor = "warning" %}
+                {% set ttactive = "tooltip" %}
+                {% set tttext = "Klant heeft herintake nodig." %}
+            {% endif %}
+        <tr href="#" data-toggle="{{ ttactive }}" title="{{ tttext }}" data-container="body" data-id="{{ registratie.id }}" data-href="{{ path('inloop_klanten_view', {id: registratie.klant.id}) }}" class="{{ rowColor }}">
             <td>
                 <a class="remove" title="Registratie ongedaan maken" style="margin-right: 1em;">
                     <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
@@ -136,3 +146,7 @@
         </a>
     </p>
 {% endif %}
+
+<script type="text/javascript">
+    $('[data-toggle="tooltip"]').tooltip();
+</script>
