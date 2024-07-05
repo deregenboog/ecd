@@ -24,7 +24,7 @@ class SyncDossierstatusCommand extends \Symfony\Component\Console\Command\Comman
     }
 
     /**
-     * Creates mwDossierStatus for MW klanten die gesynchroniseerd is aan het inloopdossier, als ze die hebben.
+     * Creates DossierStatus for MW klanten die gesynchroniseerd is aan het inloopdossier, als ze die hebben.
      * Zo niet dan maakt ie sowieso een nieuwe aan.
      */
     protected function configure()

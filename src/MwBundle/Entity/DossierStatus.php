@@ -35,7 +35,7 @@ use Symfony\Component\Validator\Context\ExecutionContextInterface;
  *
  * @Gedmo\Loggable
  */
-abstract class MwDossierStatus
+abstract class DossierStatus
 {
     use IdentifiableTrait;
     use TimestampableTrait;
@@ -171,7 +171,7 @@ abstract class MwDossierStatus
         return $this->project;
     }
 
-    public function setProject(Project $project): MwDossierStatus
+    public function setProject(Project $project): self
     {
         $this->project = $project;
 

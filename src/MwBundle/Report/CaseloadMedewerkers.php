@@ -5,8 +5,8 @@ namespace MwBundle\Report;
 use AppBundle\Report\AbstractReport;
 use AppBundle\Report\Grid;
 use InloopBundle\Service\LocatieDao;
+use MwBundle\Service\DossierStatusDao;
 use MwBundle\Service\KlantDao;
-use MwBundle\Service\MwDossierStatusDao;
 use MwBundle\Service\VerslagDao;
 
 class CaseloadMedewerkers extends AbstractReport
@@ -34,14 +34,14 @@ class CaseloadMedewerkers extends AbstractReport
     /** @var KlantDao */
     protected $klantDao;
 
-    /** @var MwDossierStatusDao */
+    /** @var DossierStatusDao */
     protected $mdsDao;
 
     private $actieveKlanten;
 
     private $resultContactmomentenPerMedewerker;
 
-    public function __construct(VerslagDao $dao, LocatieDao $locatieDao, KlantDao $klantDao, MwDossierStatusDao $mdsDao)
+    public function __construct(VerslagDao $dao, LocatieDao $locatieDao, KlantDao $klantDao, DossierStatusDao $mdsDao)
     {
         $this->dao = $dao;
         $this->locatieDao = $locatieDao;

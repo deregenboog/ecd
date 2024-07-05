@@ -16,7 +16,7 @@ use Symfony\Component\Validator\Context\ExecutionContextInterface;
  *
  * @Gedmo\Loggable
  */
-class Aanmelding extends MwDossierStatus
+class Aanmelding extends DossierStatus
 {
     public function __toString()
     {

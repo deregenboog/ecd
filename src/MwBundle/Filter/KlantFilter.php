@@ -11,7 +11,7 @@ use Doctrine\ORM\QueryBuilder;
 use InloopBundle\Entity\Locatie;
 use MwBundle\Entity\Aanmelding;
 use MwBundle\Entity\Afsluiting;
-use MwBundle\Entity\MwDossierStatus;
+use MwBundle\Entity\DossierStatus;
 use MwBundle\Entity\Project;
 use MwBundle\Entity\Verslag;
 
@@ -61,7 +61,7 @@ class KlantFilter implements FilterInterface
     public $project;
 
     /**
-     * @var MwDossierStatus;
+     * @var DossierStatus;
      */
     public $huidigeMwStatus = 'Aanmelding';
 

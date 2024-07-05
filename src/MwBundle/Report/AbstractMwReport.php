@@ -5,8 +5,8 @@ namespace MwBundle\Report;
 use AppBundle\Report\AbstractReport;
 use AppBundle\Report\Grid;
 use InloopBundle\Service\LocatieDao;
+use MwBundle\Service\DossierStatusDao;
 use MwBundle\Service\KlantDao;
-use MwBundle\Service\MwDossierStatusDao;
 use MwBundle\Service\VerslagDao;
 
 abstract class AbstractMwReport extends AbstractReport
@@ -34,7 +34,7 @@ abstract class AbstractMwReport extends AbstractReport
     /** @var KlantDao */
     protected $klantDao;
 
-    /** @var MwDossierStatusDao */
+    /** @var DossierStatusDao */
     protected $mdsDao;
 
     protected $actieveKlanten;
@@ -47,7 +47,7 @@ abstract class AbstractMwReport extends AbstractReport
     protected $resultAfsluitingen;
     protected $resultDoorlooptijd;
 
-    public function __construct(VerslagDao $dao, LocatieDao $locatieDao, KlantDao $klantDao, MwDossierStatusDao $mdsDao, $locaties = [])
+    public function __construct(VerslagDao $dao, LocatieDao $locatieDao, KlantDao $klantDao, DossierStatusDao $mdsDao, $locaties = [])
     {
         $this->locaties = $locaties;
         $this->dao = $dao;

@@ -3,11 +3,11 @@
 namespace MwBundle\Service;
 
 use AppBundle\Service\AbstractDao;
-use MwBundle\Entity\MwDossierStatus;
+use MwBundle\Entity\DossierStatus;
 
-class MwDossierStatusDao extends AbstractDao
+class DossierStatusDao extends AbstractDao
 {
-    protected $class = MwDossierStatus::class;
+    protected $class = DossierStatus::class;
 
     protected $alias = 'dossierstatus';
 
@@ -106,16 +106,16 @@ class MwDossierStatusDao extends AbstractDao
         LAG(class) OVER (PARTITION BY klant_id ORDER BY datum) AS prev_class,
         LEAD(class) OVER (PARTITION BY klant_id ORDER BY datum) AS next_class,
         ROW_NUMBER() OVER (PARTITION BY klant_id ORDER BY datum DESC) AS row_num
-       
+
     FROM
-        mw_dossier_statussen 
-        
+        mw_dossier_statussen
+
 )
 SELECT
   e.klant_id
 FROM
     EventPairs e
-  
+
 WHERE
         (
           (e.class = 'Afsluiting'
@@ -125,7 +125,7 @@ WHERE
           (
              e.class = 'Aanmelding'
           )
-      ) 
+      )
       AND e.row_num = 1
 
 ";
@@ -164,7 +164,7 @@ WHERE
         LAG(datum) OVER (PARTITION BY klant_id ORDER BY datum) AS prev_datum,
         LAG(class) OVER (PARTITION BY klant_id ORDER BY datum) AS prev_class
     FROM
-        mw_dossier_statussen 
+        mw_dossier_statussen
 )
 
 SELECT
@@ -206,9 +206,9 @@ GROUP BY reden_id"; // wrap into subquery.
         class,
         datum,
         LAG(datum) OVER (PARTITION BY klant_id ORDER BY datum) AS prev_datum,
-        LAG(class) OVER (PARTITION BY klant_id ORDER BY datum) AS prev_class        
+        LAG(class) OVER (PARTITION BY klant_id ORDER BY datum) AS prev_class
     FROM
-        mw_dossier_statussen 
+        mw_dossier_statussen
 )
 SELECT
     mar.naam AS naam,

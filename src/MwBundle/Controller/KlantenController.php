@@ -27,8 +27,8 @@ use MwBundle\Form\AanmeldingType;
 use MwBundle\Form\AfsluitingType;
 use MwBundle\Form\InfoType;
 use MwBundle\Form\KlantFilterType;
+use MwBundle\Service\DossierStatusDao;
 use MwBundle\Service\KlantDaoInterface;
-use MwBundle\Service\MwDossierStatusDao;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;
@@ -280,7 +280,7 @@ class KlantenController extends AbstractController
                 // redirect if already exists
                 $mwKlant = $this->dao->find($klantId);
                 if ($mwKlant && !$mwKlant->getHuidigeMwStatus() instanceof Aanmelding) {
-                    return $this->redirectToRoute('mw_klanten_addmwdossierstatus', ['id' => $klantId]);
+                    return $this->redirectToRoute('mw_klanten_adddossierstatus', ['id' => $klantId]);
                 }
                 $this->addFlash('warning', 'Deze klant is al aangemeld. Wanneer u de klant opnieuw wilt aanmelden dient het dossier eerst gesloten te worden.');
 
@@ -297,7 +297,7 @@ class KlantenController extends AbstractController
                 $this->dao->create($mwKlant);
                 $this->addFlash('success', ucfirst($this->entityName).' is opgeslagen.');
 
-                return $this->redirectToRoute('mw_klanten_addmwdossierstatus', ['id' => $mwKlant->getId()]);
+                return $this->redirectToRoute('mw_klanten_adddossierstatus', ['id' => $mwKlant->getId()]);
             } catch (UserException $e) {
                 $message = $e->getMessage();
                 $this->addFlash('danger', $message);
@@ -417,7 +417,7 @@ class KlantenController extends AbstractController
     /**
      * @Route("/{id}/dossierstatus/add")
      */
-    public function addMwDossierStatusAction(Request $request, $id)
+    public function addDossierStatusAction(Request $request, $id)
     {
         /** @var Klant $klant */
         $klant = $this->dao->find($id);
@@ -464,7 +464,7 @@ class KlantenController extends AbstractController
     /**
      * @Route("/{id}/dossierstatus/{statusId}/edit")]
      */
-    public function editMwDossierStatusAction(Request $request, $id, $statusId)
+    public function editDossierStatusAction(Request $request, $id, $statusId)
     {
         $klant = $this->dao->find($id);
         $mwStatus = $klant->getMwStatus($statusId);
@@ -521,9 +521,9 @@ class KlantenController extends AbstractController
      *
      * @Template("delete.html.twig")
      */
-    public function deleteMwDossierStatusAction(Request $request, $id, $statusId)
+    public function deleteDossierStatusAction(Request $request, $id, $statusId)
     {
-        $this->dao = new MwDossierStatusDao($this->entityManager, new Paginator($this->eventDispatcher));
+        $this->dao = new DossierStatusDao($this->entityManager, new Paginator($this->eventDispatcher));
         $return = parent::deleteAction($request, $statusId);
 
         if (is_array($return)) {
@@ -544,7 +544,7 @@ class KlantenController extends AbstractController
             $klant = $this->dao->find($id);
             // Wanneer klant nog niet bestat, dossier aanmaken
             if (!$klant->getHuidigeMwStatus() instanceof Aanmelding) {
-                return $this->redirectToRoute('mw_klanten_addmwdossierstatus', [
+                return $this->redirectToRoute('mw_klanten_adddossierstatus', [
                     'id' => $klant->getId(),
                     'redirect' => $this->generateUrl('mw_klanten_addhiprio', [
                         'id' => $klant->getId(),

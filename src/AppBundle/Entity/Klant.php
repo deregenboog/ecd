@@ -15,8 +15,8 @@ use InloopBundle\Entity\Registratie;
 use InloopBundle\Entity\Schorsing;
 use MwBundle\Entity\Aanmelding;
 use MwBundle\Entity\BinnenViaOptieKlant;
+use MwBundle\Entity\DossierStatus as MwDossierStatus;
 use MwBundle\Entity\Info;
-use MwBundle\Entity\MwDossierStatus;
 use MwBundle\Entity\Verslag;
 use Symfony\Component\HttpFoundation\Request;
 use TheIconic\NameParser\Parser;
@@ -174,7 +174,7 @@ class Klant extends Persoon
     /**
      * @var MwDossierStatus[]
      *
-     * @ORM\OneToMany(targetEntity="MwBundle\Entity\MwDossierStatus", mappedBy="klant")
+     * @ORM\OneToMany(targetEntity="MwBundle\Entity\DossierStatus", mappedBy="klant")
      *
      * @ORM\OrderBy({"datum" = "ASC","id" = "ASC"})
      * oudste eerst... eerst op datum, dan op id.
@@ -184,7 +184,7 @@ class Klant extends Persoon
     /**
      * @var MwDossierStatus
      *
-     * @ORM\OneToOne(targetEntity="MwBundle\Entity\MwDossierStatus", cascade={"persist"})
+     * @ORM\OneToOne(targetEntity="MwBundle\Entity\DossierStatus", cascade={"persist"})
      *
      * @Gedmo\Versioned
      */

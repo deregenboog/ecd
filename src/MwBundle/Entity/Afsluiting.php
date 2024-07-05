@@ -14,7 +14,7 @@ use Symfony\Component\Validator\Context\ExecutionContextInterface;
  *
  * @Gedmo\Loggable
  */
-class Afsluiting extends MwDossierStatus
+class Afsluiting extends DossierStatus
 {
     /**
      * @var AfsluitredenKlant

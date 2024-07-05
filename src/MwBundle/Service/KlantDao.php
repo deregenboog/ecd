@@ -145,7 +145,7 @@ class KlantDao extends AbstractDao implements KlantDaoInterface
      */
     public function findAllAfsluitredenenAfgeslotenKlantenForLocaties($startdatum, $einddatum, $locaties = [])
     {
-        // Gebruik MwDossierStatus om dit soort dingen op te vragen.
+        // Gebruik DossierStatus om dit soort dingen op te vragen.
         return false;
     }
 
@@ -156,7 +156,7 @@ class KlantDao extends AbstractDao implements KlantDaoInterface
      */
     public function findAllNieuweKlantenForLocaties($startdatum, $einddatum, $locaties = [])
     {
-        // Gebruik MwDossierStatus om dit soort dingen op te vragen.
+        // Gebruik DossierStatus om dit soort dingen op te vragen.
         return false;
     }
 

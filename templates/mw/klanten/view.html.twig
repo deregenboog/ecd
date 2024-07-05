@@ -41,7 +41,7 @@
         {% if entity.huidigeMwStatus? instanceof(entity.huidigeMwStatus, "MwBundle\\Entity\\Aanmelding") %}
 
            {% if is_granted("ROLE_MW_BEHEER") %}
-               {{ html.link('Wijzigen', path('mw_klanten_editmwdossierstatus', {id: entity.id, statusId: entity.aanmelding.id}), 'edit') }}
+               {{ html.link('Wijzigen', path('mw_klanten_editdossierstatus', {id: entity.id, statusId: entity.aanmelding.id}), 'edit') }}
            {% endif %}
 
             {{ html.link('Mw dossier afsluiten', path(route_base~'close', {id: entity.id}), 'close') }}
@@ -53,7 +53,7 @@
         {% for status in entity.mwStatussen|sort((a, b) => b.datum <=> a.datum ?: b.id <=> a.id) %}
             <li>
                 {% if is_granted("ROLE_ADMIN") %}
-                    {{ html.link(status, path('mw_klanten_editmwdossierstatus', {id: status.klant.id, statusId: status.id}), 'edit') }} {{ html.link('', path('mw_klanten_deletemwdossierstatus', {id: status.klant.id, statusId: status.id}), 'remove') }}
+                    {{ html.link(status, path('mw_klanten_editdossierstatus', {id: status.klant.id, statusId: status.id}), 'edit') }} {{ html.link('', path('mw_klanten_deletedossierstatus', {id: status.klant.id, statusId: status.id}), 'remove') }}
                 {% else %}
                     {{ status }}
                 {% endif %}
