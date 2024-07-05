@@ -7,12 +7,11 @@ use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Entity
+ *
  * @Gedmo\Loggable
  */
 class Intakeverslag extends Verslag
 {
-
-
     public function __construct()
     {
         $this->opmerking = <<<EOF
@@ -51,6 +50,5 @@ class Intakeverslag extends Verslag
 <br />Werk & opleiding/ financi&euml;n/ huisvesting/ gezondheid/ middelengebruik/ justitie/ talen
 
 EOF;
-
     }
 }

@@ -20,10 +20,11 @@ class DocumentDao extends AbstractDao implements DocumentDaoInterface
         return $this->repository->find($id);
     }
 
-    public function findAll($page = null, FilterInterface $filter = null)
+    public function findAll($page = null, ?FilterInterface $filter = null)
     {
-      throw new AppException("No findAll on DocumentDao. Who called me........?");
+        throw new AppException('No findAll on DocumentDao. Who called me........?');
     }
+
     public function findByFilename($filename)
     {
         return $this->repository->findOneByFilename($filename);

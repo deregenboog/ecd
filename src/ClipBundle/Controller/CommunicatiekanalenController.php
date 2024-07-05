@@ -6,12 +6,13 @@ use AppBundle\Controller\AbstractController;
 use ClipBundle\Entity\Communicatiekanaal;
 use ClipBundle\Form\CommunicatiekanaalType;
 use ClipBundle\Service\CommunicatiekanaalDaoInterface;
-use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * @Route("/admin/communicatiekanalen")
+ *
  * @Template
  */
 class CommunicatiekanalenController extends AbstractController

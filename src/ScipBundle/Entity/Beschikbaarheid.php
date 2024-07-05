@@ -8,11 +8,14 @@ use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Entity
+ *
  * @ORM\Table(
  *     name="scip_beschikbaarheid",
  *     indexes={}
  * )
+ *
  * @ORM\HasLifecycleCallbacks
+ *
  * @Gedmo\Loggable
  */
 class Beschikbaarheid
@@ -23,6 +26,7 @@ class Beschikbaarheid
      * @var Deelname
      *
      * @ORM\OneToOne(targetEntity="Deelname", inversedBy="beschibaarheid")
+     *
      * @Gedmo\Versioned
      */
     private $deelname;
@@ -31,6 +35,7 @@ class Beschikbaarheid
      * @var \DateTime
      *
      * @ORM\Column(type="time", nullable=true)
+     *
      * @Gedmo\Versioned
      */
     private $maandagVan;
@@ -39,6 +44,7 @@ class Beschikbaarheid
      * @var \DateTime
      *
      * @ORM\Column(type="time", nullable=true)
+     *
      * @Gedmo\Versioned
      */
     private $maandagTot;
@@ -47,6 +53,7 @@ class Beschikbaarheid
      * @var \DateTime
      *
      * @ORM\Column(type="time", nullable=true)
+     *
      * @Gedmo\Versioned
      */
     private $dinsdagVan;
@@ -55,6 +62,7 @@ class Beschikbaarheid
      * @var \DateTime
      *
      * @ORM\Column(type="time", nullable=true)
+     *
      * @Gedmo\Versioned
      */
     private $dinsdagTot;
@@ -63,6 +71,7 @@ class Beschikbaarheid
      * @var \DateTime
      *
      * @ORM\Column(type="time", nullable=true)
+     *
      * @Gedmo\Versioned
      */
     private $woensdagVan;
@@ -71,6 +80,7 @@ class Beschikbaarheid
      * @var \DateTime
      *
      * @ORM\Column(type="time", nullable=true)
+     *
      * @Gedmo\Versioned
      */
     private $woensdagTot;
@@ -79,6 +89,7 @@ class Beschikbaarheid
      * @var \DateTime
      *
      * @ORM\Column(type="time", nullable=true)
+     *
      * @Gedmo\Versioned
      */
     private $donderdagVan;
@@ -87,6 +98,7 @@ class Beschikbaarheid
      * @var \DateTime
      *
      * @ORM\Column(type="time", nullable=true)
+     *
      * @Gedmo\Versioned
      */
     private $donderdagTot;
@@ -95,6 +107,7 @@ class Beschikbaarheid
      * @var \DateTime
      *
      * @ORM\Column(type="time", nullable=true)
+     *
      * @Gedmo\Versioned
      */
     private $vrijdagVan;
@@ -103,6 +116,7 @@ class Beschikbaarheid
      * @var \DateTime
      *
      * @ORM\Column(type="time", nullable=true)
+     *
      * @Gedmo\Versioned
      */
     private $vrijdagTot;
@@ -111,6 +125,7 @@ class Beschikbaarheid
      * @var \DateTime
      *
      * @ORM\Column(type="time", nullable=true)
+     *
      * @Gedmo\Versioned
      */
     private $zaterdagVan;
@@ -119,6 +134,7 @@ class Beschikbaarheid
      * @var \DateTime
      *
      * @ORM\Column(type="time", nullable=true)
+     *
      * @Gedmo\Versioned
      */
     private $zaterdagTot;
@@ -127,6 +143,7 @@ class Beschikbaarheid
      * @var \DateTime
      *
      * @ORM\Column(type="time", nullable=true)
+     *
      * @Gedmo\Versioned
      */
     private $zondagVan;
@@ -135,11 +152,12 @@ class Beschikbaarheid
      * @var \DateTime
      *
      * @ORM\Column(type="time", nullable=true)
+     *
      * @Gedmo\Versioned
      */
     private $zondagTot;
 
-    public function __construct(Deelname $deelname = null)
+    public function __construct(?Deelname $deelname = null)
     {
         $this->deelname = $deelname;
     }
@@ -152,9 +170,6 @@ class Beschikbaarheid
         return $this->deelname;
     }
 
-    /**
-     * @param Deelname $deelname
-     */
     public function setDeelname(Deelname $deelname)
     {
         $this->deelname = $deelname;

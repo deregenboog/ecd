@@ -2,7 +2,6 @@
 
 namespace TwBundle\Service;
 
-
 use TwBundle\Entity\FinancieelDocument;
 
 interface FinancieelDocumentDaoInterface
@@ -21,18 +20,9 @@ interface FinancieelDocumentDaoInterface
      */
     public function findByFilename($filename);
 
-    /**
-     * @param FinancieelDocument $document
-     */
     public function create(FinancieelDocument $document);
 
-    /**
-     * @param FinancieelDocument $document
-     */
     public function update(FinancieelDocument $document);
 
-    /**
-     * @param FinancieelDocument $document
-     */
     public function delete(FinancieelDocument $document);
 }

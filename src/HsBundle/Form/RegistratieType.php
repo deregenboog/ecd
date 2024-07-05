@@ -14,7 +14,6 @@ use HsBundle\Entity\Vrijwilliger;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
-use Symfony\Component\Form\Extension\Core\Type\MoneyType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -23,9 +22,6 @@ class RegistratieType extends AbstractType
 {
     use MedewerkerTypeTrait;
 
-    /**
-     * {@inheritdoc}
-     */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         /* @var $registratie Registratie */
@@ -96,26 +92,20 @@ class RegistratieType extends AbstractType
             ])
             ->add('datum', AppDateType::class)
         ;
-        if((new \DateTime('now'))->format("Y") <= '2022' )
-        {
+        if ((new \DateTime('now'))->format('Y') <= '2022') {
             $builder
                 ->add('start', AppTimeType::class)
                 ->add('eind', AppTimeType::class)
             ;
-        }
-        else {
+        } else {
             $builder
                 ->add('dagdelen', IntegerType::class)
             ;
         }
 
-
         $builder->add('submit', SubmitType::class);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
@@ -123,9 +113,6 @@ class RegistratieType extends AbstractType
         ]);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getParent(): ?string
     {
         return BaseType::class;

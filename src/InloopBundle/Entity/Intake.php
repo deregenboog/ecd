@@ -21,8 +21,11 @@ use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
 /**
  * @ORM\Entity
+ *
  * @ORM\Table(name="intakes")
+ *
  * @Gedmo\Loggable
+ *
  * @UniqueEntity({"klant", "intakedatum"}, message="Deze klant heeft al een intake op deze datum")
  */
 class Intake
@@ -33,7 +36,9 @@ class Intake
      * @var int
      *
      * @ORM\Id
+     *
      * @ORM\Column(type="integer")
+     *
      * @ORM\GeneratedValue
      */
     private $id;
@@ -42,7 +47,9 @@ class Intake
      * @var Klant
      *
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Klant", inversedBy="intakes")
+     *
      * @Gedmo\Versioned
+     *
      * @Assert\NotNull
      */
     private $klant;
@@ -51,7 +58,9 @@ class Intake
      * @var Medewerker
      *
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Medewerker", cascade={"persist"})
+     *
      * @Gedmo\Versioned
+     *
      * @Assert\NotNull
      */
     private $medewerker;
@@ -60,7 +69,9 @@ class Intake
      * @var Locatie
      *
      * @ORM\ManyToOne(targetEntity="Locatie")
+     *
      * @ORM\JoinColumn(name="locatie2_id")
+     *
      * @Gedmo\Versioned
      */
     private $intakelocatie;
@@ -69,7 +80,9 @@ class Intake
      * @var Locatie
      *
      * @ORM\ManyToOne(targetEntity="Locatie")
+     *
      * @ORM\JoinColumn(name="locatie1_id")
+     *
      * @Gedmo\Versioned
      */
     private $gebruikersruimte;
@@ -78,7 +91,9 @@ class Intake
      * @var Locatie
      *
      * @ORM\ManyToOne(targetEntity="Locatie")
+     *
      * @ORM\JoinColumn(name="locatie3_id")
+     *
      * @Gedmo\Versioned
      */
     private $locatie3;
@@ -87,19 +102,24 @@ class Intake
      * @var Locatie
      *
      * @ORM\ManyToMany(targetEntity="Locatie", inversedBy="accessIntakes")
+     *
      * @ORM\JoinTable(name="locaties_accessintakes")
+     *
      * @var Collection<int, Locatie>
      */
     private Collection $specifiekeLocaties;
-
 
     /**
      * @var \DateTime
      *
      * @ORM\Column(name="datum_intake", type="date", nullable=true)
+     *
      * @Gedmo\Versioned
+     *
      * @Assert\NotNull
+     *
      * @Assert\Type("\DateTime")
+     *
      * @NoFutureDate
      */
     private $intakedatum;
@@ -108,7 +128,9 @@ class Intake
      * @var \DateTime
      *
      * @ORM\Column(name="overigen_toegang_van", type="date", nullable=true)
+     *
      * @Gedmo\Versioned
+     *
      * @Assert\Type("\DateTime", groups={"toegang"})
      */
     private $overigenToegangVan;
@@ -117,6 +139,7 @@ class Intake
      * @var string
      *
      * @ORM\Column(nullable=true)
+     *
      * @Gedmo\Versioned
      */
     private $postadres;
@@ -125,7 +148,9 @@ class Intake
      * @var string
      *
      * @ORM\Column(length=7, nullable=true)
+     *
      * @Gedmo\Versioned
+     *
      * @Assert\Length(min=6,max=7)
      */
     private $postcode;
@@ -134,6 +159,7 @@ class Intake
      * @var string
      *
      * @ORM\Column(nullable=true)
+     *
      * @Gedmo\Versioned
      */
     private $woonplaats;
@@ -142,6 +168,7 @@ class Intake
      * @var string
      *
      * @ORM\Column(nullable=true)
+     *
      * @Gedmo\Versioned
      */
     private $telefoonnummer;
@@ -150,6 +177,7 @@ class Intake
      * @var bool
      *
      * @ORM\Column(name="toegang_inloophuis", type="boolean", nullable=true)
+     *
      * @Gedmo\Versioned
      */
     private $toegangInloophuis;
@@ -158,6 +186,7 @@ class Intake
      * @var bool
      *
      * @ORM\Column(name="mag_gebruiken", type="boolean", nullable=true)
+     *
      * @Gedmo\Versioned
      */
     private $magGebruiken;
@@ -166,7 +195,9 @@ class Intake
      * @var Inkomen[]
      *
      * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Inkomen")
+     *
      * @ORM\JoinTable(name="inkomens_intakes")
+     *
      * @Assert\Count(min=1, minMessage="Selecteer tenminste één optie")
      */
     private $inkomens;
@@ -182,7 +213,9 @@ class Intake
      * @var Verblijfsstatus
      *
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Verblijfsstatus")
+     *
      * @ORM\JoinColumn(name="verblijfstatus_id")
+     *
      * @Assert\NotNull(groups={"toegang"})
      */
     private $verblijfsstatus;
@@ -212,6 +245,7 @@ class Intake
      * @var Woonsituatie
      *
      * @ORM\ManyToOne(targetEntity="InloopBundle\Entity\Woonsituatie")
+     *
      * @Assert\NotNull
      */
     private $woonsituatie;
@@ -220,7 +254,9 @@ class Intake
      * @var \DateTime
      *
      * @ORM\Column(name="verblijf_in_NL_sinds", type="date", nullable=true)
+     *
      * @Assert\Type("\DateTime")
+     *
      * @NoFutureDate
      */
     private $verblijfInNederlandSinds;
@@ -229,8 +265,11 @@ class Intake
      * @var \DateTime
      *
      * @ORM\Column(name="verblijf_in_amsterdam_sinds", type="date", nullable=true)
+     *
      * @Assert\NotNull
+     *
      * @Assert\Type("\DateTime")
+     *
      * @NoFutureDate
      */
     private $verblijfInAmsterdamSinds;
@@ -253,6 +292,7 @@ class Intake
      * @var string
      *
      * @ORM\Column(name="verwachting_dienstaanbod", type="text", length=65535, nullable=true)
+     *
      * @Assert\NotBlank
      */
     private $verwachtingDienstaanbod;
@@ -261,6 +301,7 @@ class Intake
      * @var string
      *
      * @ORM\Column(name="toekomstplannen", type="text", length=65535, nullable=true)
+     *
      * @Assert\NotBlank
      */
     private $toekomstplannen;
@@ -304,6 +345,7 @@ class Intake
      * @var bool
      *
      * @ORM\Column(type="boolean", nullable=true)
+     *
      * @Assert\NotNull
      */
     private $doelgroep;
@@ -316,7 +358,6 @@ class Intake
     private $infobaliedoelgroep;
 
     /**
-     *
      * @var Verslaving
      *
      * @ORM\ManyToOne(targetEntity="Verslaving")
@@ -324,28 +365,28 @@ class Intake
     private $primaireProblematiek;
 
     /**
-     *
      * @var Frequentie
      *
      * @ORM\ManyToOne(targetEntity="Frequentie")
+     *
      * @ORM\JoinColumn(name="primaireproblematieksfrequentie_id")
      */
     private $primaireProblematiekFrequentie;
 
     /**
-     *
      * @var Periode
      *
      * @ORM\ManyToOne(targetEntity="Periode")
+     *
      * @ORM\JoinColumn(name="primaireproblematieksperiode_id")
      */
     private $primaireProblematiekPeriode;
 
     /**
-     *
      * @var Gebruikswijze
      *
      * @ORM\ManyToMany(targetEntity="Gebruikswijze")
+     *
      * @ORM\JoinTable(
      *     name="intakes_primaireproblematieksgebruikswijzen",
      *     inverseJoinColumns=@ORM\JoinColumn(name="primaireproblematieksgebruikswijze_id")
@@ -357,6 +398,7 @@ class Intake
      * @var Verslaving[]
      *
      * @ORM\ManyToMany(targetEntity="Verslaving")
+     *
      * @ORM\JoinTable(name="intakes_verslavingen")
      */
     private $verslavingen;
@@ -365,6 +407,7 @@ class Intake
      * @var Frequentie
      *
      * @ORM\ManyToOne(targetEntity="Frequentie")
+     *
      * @ORM\JoinColumn(name="verslavingsfrequentie_id")
      */
     private $frequentie;
@@ -373,6 +416,7 @@ class Intake
      * @var Periode
      *
      * @ORM\ManyToOne(targetEntity="Periode")
+     *
      * @ORM\JoinColumn(name="verslavingsperiode_id")
      */
     private $periode;
@@ -381,6 +425,7 @@ class Intake
      * @var Gebruikswijze[]
      *
      * @ORM\ManyToMany(targetEntity="Gebruikswijze")
+     *
      * @ORM\JoinTable(
      *     name="intakes_verslavingsgebruikswijzen",
      *     inverseJoinColumns=@ORM\JoinColumn(name="verslavingsgebruikswijze_id")
@@ -406,6 +451,7 @@ class Intake
      * @var Instantie[]
      *
      * @ORM\ManyToMany(targetEntity="Instantie")
+     *
      * @ORM\JoinTable(name="instanties_intakes")
      */
     private $instanties;
@@ -419,6 +465,7 @@ class Intake
 
     /**
      * @ORM\Column(name="geinformeerd_opslaan_gegevens", type="boolean")
+     *
      * @Gedmo\Versioned
      */
     protected $geinformeerdOpslaanGegevens = false;
@@ -427,6 +474,7 @@ class Intake
      * @var \DateTime
      *
      * @ORM\Column(type="datetime", nullable=true)
+     *
      * @Gedmo\Versioned
      */
     protected $created;
@@ -435,11 +483,12 @@ class Intake
      * @var \DateTime
      *
      * @ORM\Column(type="datetime", nullable=true)
+     *
      * @Gedmo\Versioned
      */
     protected $modified;
 
-    public function __construct(Klant $klant = null)
+    public function __construct(?Klant $klant = null)
     {
         $this->created = new \DateTime();
         $this->modified = new \DateTime();
@@ -480,7 +529,7 @@ class Intake
     }
 
     /**
-     * @param \AppBundle\Entity\Medewerker $medewerker
+     * @param Medewerker $medewerker
      */
     public function setMedewerker($medewerker)
     {
@@ -489,9 +538,6 @@ class Intake
         return $this;
     }
 
-    /**
-     * @param \DateTime $intakedatum
-     */
     public function setIntakedatum(\DateTime $intakedatum)
     {
         $this->intakedatum = $intakedatum;
@@ -499,10 +545,7 @@ class Intake
         return $this;
     }
 
-    /**
-     * @param \DateTime $overigenToegangVan
-     */
-    public function setOverigenToegangVan(\DateTime $overigenToegangVan = null)
+    public function setOverigenToegangVan(?\DateTime $overigenToegangVan = null)
     {
         $this->overigenToegangVan = $overigenToegangVan;
 
@@ -529,9 +572,6 @@ class Intake
         return $this;
     }
 
-    /**
-     * @param Verblijfsstatus $verblijfsstatus
-     */
     public function setVerblijfsstatus(Verblijfsstatus $verblijfsstatus)
     {
         $this->verblijfsstatus = $verblijfsstatus;
@@ -540,7 +580,7 @@ class Intake
     }
 
     /**
-     * @param \AppBundle\Entity\Legitimatie $legitimatie
+     * @param Legitimatie $legitimatie
      */
     public function setLegitimatie($legitimatie)
     {
@@ -559,10 +599,7 @@ class Intake
         return $this;
     }
 
-    /**
-     * @param \DateTime $legitimatieGeldigTot
-     */
-    public function setLegitimatieGeldigTot(\DateTime $legitimatieGeldigTot = null)
+    public function setLegitimatieGeldigTot(?\DateTime $legitimatieGeldigTot = null)
     {
         $this->legitimatieGeldigTot = $legitimatieGeldigTot;
 
@@ -570,7 +607,7 @@ class Intake
     }
 
     /**
-     * @param \InloopBundle\Entity\Woonsituatie $woonsituatie
+     * @param Woonsituatie $woonsituatie
      */
     public function setWoonsituatie($woonsituatie)
     {
@@ -579,20 +616,14 @@ class Intake
         return $this;
     }
 
-    /**
-     * @param \DateTime $verblijfInNederlandSinds
-     */
-    public function setVerblijfInNederlandSinds(\DateTime $verblijfInNederlandSinds = null)
+    public function setVerblijfInNederlandSinds(?\DateTime $verblijfInNederlandSinds = null)
     {
         $this->verblijfInNederlandSinds = $verblijfInNederlandSinds;
 
         return $this;
     }
 
-    /**
-     * @param \DateTime $verblijfInAmsterdamSinds
-     */
-    public function setVerblijfInAmsterdamSinds(\DateTime $verblijfInAmsterdamSinds = null)
+    public function setVerblijfInAmsterdamSinds(?\DateTime $verblijfInAmsterdamSinds = null)
     {
         $this->verblijfInAmsterdamSinds = $verblijfInAmsterdamSinds;
 
@@ -620,7 +651,7 @@ class Intake
     }
 
     /**
-     * @param \InloopBundle\Entity\Verslaving $primaireProblematiek
+     * @param Verslaving $primaireProblematiek
      */
     public function setPrimaireProblematiek($primaireProblematiek)
     {
@@ -630,7 +661,7 @@ class Intake
     }
 
     /**
-     * @param \InloopBundle\Entity\Frequentie $primaireProblematiekFrequentie
+     * @param Frequentie $primaireProblematiekFrequentie
      */
     public function setPrimaireProblematiekFrequentie($primaireProblematiekFrequentie)
     {
@@ -640,7 +671,7 @@ class Intake
     }
 
     /**
-     * @param \InloopBundle\Entity\Periode $primaireProblematiekPeriode
+     * @param Periode $primaireProblematiekPeriode
      */
     public function setPrimaireProblematiekPeriode($primaireProblematiekPeriode)
     {
@@ -650,7 +681,7 @@ class Intake
     }
 
     /**
-     * @param \InloopBundle\Entity\Gebruikswijze $primaireProblematiekGebruikswijzen
+     * @param Gebruikswijze $primaireProblematiekGebruikswijzen
      */
     public function setPrimaireProblematiekGebruikswijzen($primaireProblematiekGebruikswijzen)
     {
@@ -727,10 +758,7 @@ class Intake
         return $this->infobaliedoelgroep;
     }
 
-    /**
-     * @param Infobaliedoelgroep $infobaliedoelgroep
-     */
-    public function setInfobaliedoelgroep(Infobaliedoelgroep $infobaliedoelgroep = null)
+    public function setInfobaliedoelgroep(?Infobaliedoelgroep $infobaliedoelgroep = null)
     {
         $this->infobaliedoelgroep = $infobaliedoelgroep;
 
@@ -745,10 +773,7 @@ class Intake
         return $this->eersteGebruik;
     }
 
-    /**
-     * @param \DateTime $eersteGebruik
-     */
-    public function setEersteGebruik(\DateTime $eersteGebruik = null)
+    public function setEersteGebruik(?\DateTime $eersteGebruik = null)
     {
         $this->eersteGebruik = $eersteGebruik;
 
@@ -756,7 +781,7 @@ class Intake
     }
 
     /**
-     * @return \InloopBundle\Entity\Frequentie
+     * @return Frequentie
      */
     public function getFrequentie()
     {
@@ -764,7 +789,7 @@ class Intake
     }
 
     /**
-     * @param \InloopBundle\Entity\Frequentie $frequentie
+     * @param Frequentie $frequentie
      */
     public function setFrequentie($frequentie)
     {
@@ -774,7 +799,7 @@ class Intake
     }
 
     /**
-     * @return \InloopBundle\Entity\Periode
+     * @return Periode
      */
     public function getPeriode()
     {
@@ -782,7 +807,7 @@ class Intake
     }
 
     /**
-     * @param \InloopBundle\Entity\Periode $periode
+     * @param Periode $periode
      */
     public function setPeriode($periode)
     {
@@ -835,18 +860,15 @@ class Intake
         return $this->primaireProblematiek;
     }
 
-
     public function getPrimaireProblematiekFrequentie()
     {
         return $this->primaireProblematiekFrequentie;
     }
 
-
     public function getPrimaireProblematiekPeriode()
     {
         return $this->primaireProblematiekPeriode;
     }
-
 
     public function getPrimaireProblematiekGebruikswijzen()
     {
@@ -1104,7 +1126,7 @@ class Intake
         return $this->intakelocatie;
     }
 
-    public function setIntakelocatie(Locatie $locatie = null)
+    public function setIntakelocatie(?Locatie $locatie = null)
     {
         $this->intakelocatie = $locatie;
 
@@ -1116,7 +1138,7 @@ class Intake
         return $this->gebruikersruimte;
     }
 
-    public function setGebruikersruimte(Locatie $locatie = null)
+    public function setGebruikersruimte(?Locatie $locatie = null)
     {
         $this->gebruikersruimte = $locatie;
 
@@ -1128,7 +1150,7 @@ class Intake
         return $this->locatie3;
     }
 
-    public function setLocatie3(Locatie $locatie = null)
+    public function setLocatie3(?Locatie $locatie = null)
     {
         $this->locatie3 = $locatie;
 
@@ -1214,73 +1236,65 @@ class Intake
         return $this;
     }
 
-    /**
-     * @return bool
-     */
     public function isGeinformeerdOpslaanGegevens(): bool
     {
         return $this->geinformeerdOpslaanGegevens;
     }
 
-    /**
-     * @param bool $geinformeerdOpslaanGegevens
-     */
     public function setGeinformeerdOpslaanGegevens(bool $geinformeerdOpslaanGegevens): void
     {
         $this->geinformeerdOpslaanGegevens = $geinformeerdOpslaanGegevens;
     }
 
-    /**
-     * @return Collection
-     */
     public function getSpecifiekeLocaties(): Collection
     {
         return $this->specifiekeLocaties;
     }
 
-    /**
-     * @param Collection $specifiekeLocaties
-     */
     public function setSpecifiekeLocaties(Collection $specifiekeLocaties): void
     {
         $this->specifiekeLocaties = $specifiekeLocaties;
     }
 
-
     /**
-     * Assert\Callback
+     * Assert\Callback.
      */
     public function validate(ExecutionContextInterface $context, $payload)
     {
         return;
         $root = $context->getRoot();
         if ($root instanceof Form && $root->getName()) {
-            if ($root->getName() == "toegang") {
+            if ('toegang' == $root->getName()) {
             }
         }
+
         return $context->getValidator()->validate();
     }
 
     /**
      * @deprecated
+     *
      * @ORM\Column(type="integer", nullable=true)
      */
     private $klant_id_before_constraint;
 
     /**
      * @deprecated
+     *
      * @ORM\Column(type="integer", nullable=true)
      */
     private $medewerker_id_before_constraint;
 
     /**
      * @deprecated
+     *
      * @ORM\Column(type="boolean", nullable=true, options={"default":0})
      */
     private $toegang_vrouwen_nacht_opvang;
 
     /**
      * @deprecated
+     *
      * @ORM\Column(type="integer", nullable=true)
      */
     private $woonsituatie_id_before_constraint;

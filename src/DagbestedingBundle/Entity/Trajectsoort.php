@@ -11,8 +11,11 @@ use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Entity
+ *
  * @ORM\Table(name="dagbesteding_trajectsoorten")
+ *
  * @ORM\HasLifecycleCallbacks
+ *
  * @Gedmo\Loggable
  */
 class Trajectsoort
@@ -23,6 +26,7 @@ class Trajectsoort
 
     /**
      * @var ArrayCollection|Traject[]
+     *
      * @ORM\OneToMany(targetEntity="Traject", mappedBy="soort")
      */
     private $trajecten;

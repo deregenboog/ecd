@@ -6,7 +6,6 @@ use AppBundle\Entity\Vrijwilliger as AppVrijwilliger;
 use AppBundle\Filter\FilterInterface;
 use AppBundle\Service\AbstractDao;
 use VillaBundle\Entity\Vrijwilliger;
-use InloopBundle\Service\VrijwilligerDaoAbstract;
 
 class VrijwilligerDao extends AbstractDao implements VrijwilligerDaoInterface
 {
@@ -31,7 +30,7 @@ class VrijwilligerDao extends AbstractDao implements VrijwilligerDaoInterface
     /**
      * {inheritdoc}.
      */
-    public function findAll($page = null, FilterInterface $filter = null)
+    public function findAll($page = null, ?FilterInterface $filter = null)
     {
         $builder = $this->repository->createQueryBuilder($this->alias)
             ->select("{$this->alias}, appVrijwilliger")
@@ -61,11 +60,6 @@ class VrijwilligerDao extends AbstractDao implements VrijwilligerDaoInterface
         return parent::find($id);
     }
 
-    /**
-     * @param AppVrijwilliger $vrijwilliger
-     *
-     * @return Vrijwilliger
-     */
     public function findOneByVrijwilliger(AppVrijwilliger $vrijwilliger): ?Vrijwilliger
     {
         return $this->repository->findOneBy(['vrijwilliger' => $vrijwilliger]);
@@ -98,7 +92,7 @@ class VrijwilligerDao extends AbstractDao implements VrijwilligerDaoInterface
     /**
      * {inheritdoc}.
      */
-    public function countByStadsdeel(\DateTime $start = null, \DateTime $end = null)
+    public function countByStadsdeel(?\DateTime $start = null, ?\DateTime $end = null)
     {
         $builder = $this->repository->createQueryBuilder('vrijwilliger')
             ->select('COUNT(DISTINCT(appVrijwilliger.id)) AS aantal, werkgebied.naam AS stadsdeel')
@@ -122,7 +116,7 @@ class VrijwilligerDao extends AbstractDao implements VrijwilligerDaoInterface
     /**
      * {inheritdoc}.
      */
-    public function countNewByStadsdeel(\DateTime $start = null, \DateTime $end = null)
+    public function countNewByStadsdeel(?\DateTime $start = null, ?\DateTime $end = null)
     {
         $builder = $this->repository->createQueryBuilder('vrijwilliger')
             ->select('COUNT(DISTINCT(appVrijwilliger.id)) AS aantal, werkgebied.naam AS stadsdeel')
@@ -141,8 +135,4 @@ class VrijwilligerDao extends AbstractDao implements VrijwilligerDaoInterface
 
         return $builder->getQuery()->getResult();
     }
-
-
-
-
 }

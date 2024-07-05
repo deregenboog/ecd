@@ -5,34 +5,29 @@ namespace TwBundle\Form;
 use AppBundle\Form\AppDateType;
 use AppBundle\Form\AppTextareaType;
 use AppBundle\Form\BaseType;
-use TwBundle\Entity\Huuraanbod;
-use TwBundle\Entity\Verslag;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use TwBundle\Entity\Huuraanbod;
+use TwBundle\Entity\Verslag;
 
 class HuuraanbodType extends AbstractType
 {
-    /**
-     * {@inheritdoc}
-     */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
             ->add('medewerker', MedewerkerType::class,
                 [
-                    'preset'=>false,
-                    'required'=>false,
+                    'preset' => false,
+                    'required' => false,
                 ]
-
             )
             ->add('project', ProjectSelectType::class)
             ->add('startdatum', AppDateType::class)
-            ->add('vormvanovereenkomst', VormVanOvereenkomstSelectType::class,[
-
+            ->add('vormvanovereenkomst', VormVanOvereenkomstSelectType::class, [
             ])
             ->add('datumToestemmingAangevraagd', AppDateType::class, [
                 'required' => false,
@@ -67,9 +62,6 @@ class HuuraanbodType extends AbstractType
         $builder->add('submit', SubmitType::class, ['label' => 'Opslaan']);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
@@ -77,9 +69,6 @@ class HuuraanbodType extends AbstractType
         ]);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getParent(): ?string
     {
         return BaseType::class;

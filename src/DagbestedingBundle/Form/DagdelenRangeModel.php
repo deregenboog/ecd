@@ -95,13 +95,13 @@ class DagdelenRangeModel
         return $this->traject;
     }
 
-//     public function getProject()
-//     {
-//         return $this->project;
-//     }
+    //     public function getProject()
+    //     {
+    //         return $this->project;
+    //     }
 
-//     public function getDateRange()
-//     {
-//         return $this->dateRange;
-//     }
+    //     public function getDateRange()
+    //     {
+    //         return $this->dateRange;
+    //     }
 }

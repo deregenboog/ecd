@@ -12,27 +12,35 @@ use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Entity
+ *
  * @ORM\Table(
  *     name="iz_deelnemers",
  *     uniqueConstraints={@ORM\UniqueConstraint(name="unique_model_foreign_key_idx", columns={"model", "foreign_key"})},
  *     indexes={
+ *
  *      @ORM\Index(name="idx_id_afsluiting_deleted_model",columns={"id","iz_afsluiting_id","deleted","model"})
  *     }
  * )
+ *
  * @ORM\HasLifecycleCallbacks
+ *
  * @ORM\InheritanceType("SINGLE_TABLE")
+ *
  * @ORM\DiscriminatorColumn(name="model", type="string", length=50)
+ *
  * @ORM\DiscriminatorMap({"Klant" = "IzKlant", "Vrijwilliger" = "IzVrijwilliger"})
+ *
  * @Gedmo\Loggable
+ *
  * @Gedmo\SoftDeleteable
  */
 abstract class IzDeelnemer
 {
-    public const IDX_ID_AFSLUITING_DELETED_MODEL = "idx_id_afsluiting_deleted_model"; //nessecary for OUTUT INDEX WALKER. See KopplingenDao
-    public const TABLE_NAME = "iz_deelnemers";
     use IdentifiableTrait;
     use TimestampableTrait;
     use OptionalMedewerkerTrait;
+    public const IDX_ID_AFSLUITING_DELETED_MODEL = 'idx_id_afsluiting_deleted_model'; // nessecary for OUTUT INDEX WALKER. See KopplingenDao
+    public const TABLE_NAME = 'iz_deelnemers';
 
     /**
      * @var \DateTime
@@ -43,26 +51,32 @@ abstract class IzDeelnemer
 
     /**
      * @var ArrayCollection|Hulp[]
+     *
      * @ORM\OneToMany(targetEntity="Hulp", mappedBy="izDeelnemer")
      */
     private $koppelingen;
 
     /**
      * @var Intake
+     *
      * @ORM\OneToOne(targetEntity="Intake", mappedBy="izDeelnemer", cascade={"persist"})
+     *
      * @Gedmo\Versioned
      */
     protected $intake;
 
     /**
      * @ORM\Column(name="datum_aanmelding", type="date", nullable=true)
+     *
      * @Gedmo\Versioned
      */
     protected $datumAanmelding;
 
     /**
      * @var Collection<int, Project>
+     *
      * @ORM\ManyToMany(targetEntity="Project")
+     *
      * @ORM\JoinTable(
      *     name="iz_deelnemers_iz_projecten",
      *     joinColumns={@ORM\JoinColumn(name="iz_deelnemer_id")},
@@ -73,14 +87,18 @@ abstract class IzDeelnemer
 
     /**
      * @ORM\Column(name="datumafsluiting", type="date", nullable=true)
+     *
      * @Gedmo\Versioned
      */
     protected $afsluitDatum;
 
     /**
      * @var Afsluiting
+     *
      * @ORM\ManyToOne(targetEntity="Afsluiting")
+     *
      * @ORM\JoinColumn(name="iz_afsluiting_id")
+     *
      * @Gedmo\Versioned
      */
     protected $afsluiting;
@@ -89,6 +107,7 @@ abstract class IzDeelnemer
      * @var string
      *
      * @ORM\Column(type="text", nullable=true)
+     *
      * @Gedmo\Versioned
      */
     protected $notitie;
@@ -97,7 +116,9 @@ abstract class IzDeelnemer
      * @var Verslag[]
      *
      * @ORM\OneToMany(targetEntity="Verslag", mappedBy="izDeelnemer", cascade={"persist"})
+     *
      * @ORM\JoinColumn(name="iz_verslagen")
+     *
      * @ORM\OrderBy({"created"="desc"})
      */
     protected $verslagen;
@@ -106,7 +127,9 @@ abstract class IzDeelnemer
      * @var Document[]
      *
      * @ORM\ManyToMany(targetEntity="Document", cascade={"persist"})
+     *
      * @ORM\JoinTable(name="iz_deelnemers_documenten", inverseJoinColumns={@ORM\JoinColumn(onDelete="CASCADE", unique=true)})
+     *
      * @ORM\OrderBy({"created": "DESC"})
      */
     protected $documenten;
@@ -115,6 +138,7 @@ abstract class IzDeelnemer
      * @var \DateTime
      *
      * @ORM\Column(type="datetime", nullable=true)
+     *
      * @Gedmo\Versioned
      */
     protected $created;
@@ -123,6 +147,7 @@ abstract class IzDeelnemer
      * @var \DateTime
      *
      * @ORM\Column(type="datetime", nullable=true)
+     *
      * @Gedmo\Versioned
      */
     protected $modified;
@@ -140,7 +165,7 @@ abstract class IzDeelnemer
         return $this->afsluiting;
     }
 
-    public function setAfsluiting(Afsluiting $afsluiting = null)
+    public function setAfsluiting(?Afsluiting $afsluiting = null)
     {
         $this->afsluiting = $afsluiting;
 
@@ -177,7 +202,7 @@ abstract class IzDeelnemer
         return $this->afsluitDatum;
     }
 
-    public function setAfsluitDatum(\DateTime $afsluitdatum = null)
+    public function setAfsluitDatum(?\DateTime $afsluitdatum = null)
     {
         $this->afsluitDatum = $afsluitdatum;
 
@@ -204,9 +229,6 @@ abstract class IzDeelnemer
         return $this->datumAanmelding;
     }
 
-    /**
-     * @param \DateTime $datum
-     */
     public function setDatumAanmelding(\DateTime $datum)
     {
         $this->datumAanmelding = $datum;

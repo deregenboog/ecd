@@ -14,9 +14,13 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 /**
  * @ORM\Entity
+ *
  * @ORM\Table(name="hs_documenten")
+ *
  * @ORM\HasLifecycleCallbacks
+ *
  * @Gedmo\Loggable
+ *
  * @Vich\Uploadable
  */
 class Document
@@ -28,14 +32,18 @@ class Document
 
     /**
      * @var string
+     *
      * @ORM\Column
+     *
      * @Gedmo\Versioned
      */
     private $filename;
 
     /**
      * @var File
+     *
      * @Vich\UploadableField(mapping="hs_document", fileNameProperty="filename")
+     *
      * @Gedmo\Versioned
      */
     private $file;
@@ -44,6 +52,7 @@ class Document
      * @var \DateTime
      *
      * @ORM\Column(type="datetime")
+     *
      * @Gedmo\Versioned
      */
     protected $created;
@@ -52,11 +61,12 @@ class Document
      * @var \DateTime
      *
      * @ORM\Column(type="datetime")
+     *
      * @Gedmo\Versioned
      */
     protected $modified;
 
-    public function __construct(Medewerker $medewerker = null)
+    public function __construct(?Medewerker $medewerker = null)
     {
         if ($medewerker) {
             $this->medewerker = $medewerker;

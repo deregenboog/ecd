@@ -2,24 +2,27 @@
 
 namespace LegacyBundle\Entity;
 
-use Doctrine\ORM\Mapping as ORM;
-use AppBundle\Entity\Medewerker;
 use AppBundle\Entity\Klant;
+use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Table(
  *     name="hi5_evaluaties",
  *     indexes={
+ *
  *         @ORM\Index(name="idx_hi5_evaluaties_klant_id", columns={"klant_id"})
  *     }
  * )
+ *
  * @ORM\Entity
  */
 class Hi5Evaluatie
 {
     /**
      * @ORM\Column(name="id", type="integer")
+     *
      * @ORM\Id
+     *
      * @ORM\GeneratedValue
      */
     private $id;

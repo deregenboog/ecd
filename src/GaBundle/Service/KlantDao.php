@@ -13,7 +13,7 @@ class KlantDao extends AbstractDao implements KlantDaoInterface
 
     protected $alias = 'klant';
 
-    public function findAll($page = null, FilterInterface $filter = null)
+    public function findAll($page = null, ?FilterInterface $filter = null)
     {
         $builder = $this->repository->createQueryBuilder($this->alias)
             ->select("{$this->alias}, intake, medewerker, werkgebied")

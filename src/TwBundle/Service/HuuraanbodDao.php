@@ -33,22 +33,22 @@ class HuuraanbodDao extends AbstractDao
 
     protected $alias = 'huuraanbod';
 
-    protected function doFindAll(QueryBuilder $builder, $page = 1, FilterInterface $filter = null)
+    protected function doFindAll(QueryBuilder $builder, $page = 1, ?FilterInterface $filter = null)
     {
         $builder
             ->leftJoin('huuraanbod.huurovereenkomst', 'huurovereenkomst')
             ->innerJoin('huuraanbod.verhuurder', 'verhuurder')
             ->innerJoin('verhuurder.appKlant', 'appKlant')
-            ->innerJoin('huuraanbod.medewerker','medewerker')
+            ->innerJoin('huuraanbod.medewerker', 'medewerker')
             ->leftJoin('appKlant.werkgebied', 'werkgebied')
             ->leftJoin('huuraanbod.afsluiting', 'afsluiting')
             ->leftJoin('huuraanbod.project', 'project')
-            ->andWhere('huurovereenkomst.id IS NULL') //alleen actieve
+            ->andWhere('huurovereenkomst.id IS NULL') // alleen actieve
 //            ->andWhere('huuraanbod.afsluitdatum IS NULL OR huuraanbod.afsluitdatum > :now') // alleen actieve
 //            ->orWhere('huurovereenkomst.isReservering = 1')
             ->andWhere('afsluiting.tonen IS NULL OR afsluiting.tonen = true')
         ;
-        $builder->setParameter("now",new \DateTime('now'));
+        $builder->setParameter('now', new \DateTime('now'));
 
         return parent::doFindAll($builder, $page, $filter);
     }
@@ -67,6 +67,4 @@ class HuuraanbodDao extends AbstractDao
     {
         $this->doDelete($huuraanbod);
     }
-
-   
 }

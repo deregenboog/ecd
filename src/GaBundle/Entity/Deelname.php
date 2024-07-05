@@ -9,11 +9,14 @@ use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Entity
+ *
  * @ORM\Table(
  *     name="ga_deelnames",
  *     uniqueConstraints={@ORM\UniqueConstraint(name="unique_activiteit_dossier_idx", columns={"activiteit_id", "dossier_id"})}
  * )
+ *
  * @ORM\HasLifecycleCallbacks
+ *
  * @Gedmo\Loggable
  */
 class Deelname
@@ -28,7 +31,9 @@ class Deelname
      * @var Activiteit
      *
      * @ORM\ManyToOne(targetEntity="Activiteit", inversedBy="deelnames")
+     *
      * @ORM\JoinColumn(nullable=false)
+     *
      * @Gedmo\Versioned
      */
     protected $activiteit;
@@ -37,7 +42,9 @@ class Deelname
      * @var Dossier
      *
      * @ORM\ManyToOne(targetEntity="Dossier", inversedBy="deelnames")
+     *
      * @ORM\JoinColumn(nullable=false)
+     *
      * @Gedmo\Versioned
      */
     protected $dossier;
@@ -48,6 +55,7 @@ class Deelname
      * @var DeelnameStatus
      *
      * @ORM\Column()
+     *
      * @Gedmo\Versioned
      */
     protected $status = self::STATUS_AANWEZIG;
@@ -56,6 +64,7 @@ class Deelname
      * @var \DateTime
      *
      * @ORM\Column(type="datetime")
+     *
      * @Gedmo\Versioned
      */
     protected $created;
@@ -64,11 +73,12 @@ class Deelname
      * @var \DateTime
      *
      * @ORM\Column(type="datetime")
+     *
      * @Gedmo\Versioned
      */
     protected $modified;
 
-    public function __construct(Activiteit $activiteit = null, Dossier $dossier = null)
+    public function __construct(?Activiteit $activiteit = null, ?Dossier $dossier = null)
     {
         $this->activiteit = $activiteit;
         $this->dossier = $dossier;

@@ -11,18 +11,21 @@ use AppBundle\Model\TimestampableTrait;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
-use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="PfoBundle\Repository\ClientRepository")
+ *
  * @ORM\Table(
  *     name="pfo_clienten",
  *     indexes={
+ *
  *         @ORM\Index(name="idx_pfo_clienten_roepnaam", columns={"roepnaam"}),
  *         @ORM\Index(name="idx_pfo_clienten_achternaam", columns={"achternaam"})
  *     }
  * )
+ *
  * @ORM\HasLifecycleCallbacks
+ *
  * @Gedmo\Loggable
  */
 class Client
@@ -41,26 +44,32 @@ class Client
 
     /**
      * @ORM\Column(name="roepnaam", type="string", nullable=true)
+     *
      * @Gedmo\Versioned
      */
     protected $voornaam;
 
     /**
      * @var \DateTime
+     *
      * @ORM\Column(type="date", nullable=true)
+     *
      * @Gedmo\Versioned
      */
     protected $geboortedatum;
 
     /**
      * @var Geslacht
+     *
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Geslacht")
+     *
      * @Gedmo\Versioned
      */
     protected $geslacht;
 
     /**
      * @ORM\Column(type="string", nullable=true, length=50)
+     *
      * @Gedmo\Versioned
      */
     protected $postcode;
@@ -69,21 +78,25 @@ class Client
      * @var Medewerker
      *
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Medewerker", cascade={"persist"})
+     *
      * @Gedmo\Versioned
      */
     protected $medewerker;
 
     /**
      * @ORM\Column(name="telefoon_mobiel", type="string", nullable=true)
+     *
      * @Gedmo\Versioned
      */
-    //protected $mobiel;
+    // protected $mobiel;
 
     /**
      * @var Groep
      *
      * @ORM\ManyToOne(targetEntity="Groep")
+     *
      * @ORM\JoinColumn(name="groep")
+     *
      * @Gedmo\Versioned
      */
     private $groep;
@@ -92,7 +105,9 @@ class Client
      * @var AardRelatie
      *
      * @ORM\ManyToOne(targetEntity="AardRelatie")
+     *
      * @ORM\JoinColumn(name="aard_relatie")
+     *
      * @Gedmo\Versioned
      */
     private $aardRelatie;
@@ -101,6 +116,7 @@ class Client
      * @var bool
      *
      * @ORM\Column(name="dubbele_diagnose", type="integer", nullable=true)
+     *
      * @Gedmo\Versioned
      */
     private $dubbeleDiagnose;
@@ -109,6 +125,7 @@ class Client
      * @var bool
      *
      * @ORM\Column(name="eerdere_hulpverlening", type="boolean", nullable=true)
+     *
      * @Gedmo\Versioned
      */
     private $eerdereHulpverlening;
@@ -117,6 +134,7 @@ class Client
      * @var string
      *
      * @ORM\Column(type="text", nullable=true)
+     *
      * @Gedmo\Versioned
      */
     private $notitie;
@@ -125,6 +143,7 @@ class Client
      * @var string
      *
      * @ORM\Column(type="text", nullable=true)
+     *
      * @Gedmo\Versioned
      */
     private $via;
@@ -133,6 +152,7 @@ class Client
      * @var string
      *
      * @ORM\Column(type="text", nullable=true)
+     *
      * @Gedmo\Versioned
      */
     private $hulpverleners;
@@ -141,6 +161,7 @@ class Client
      * @var string
      *
      * @ORM\Column(type="text", nullable=true)
+     *
      * @Gedmo\Versioned
      */
     private $contacten;
@@ -149,6 +170,7 @@ class Client
      * @var \DateTime
      *
      * @ORM\Column(name="begeleidings_formulier", type="date", nullable=true)
+     *
      * @Gedmo\Versioned
      */
     private $begeleidingsformulierOverhandigd;
@@ -157,6 +179,7 @@ class Client
      * @var \DateTime
      *
      * @ORM\Column(name="brief_huisarts", type="date", nullable=true)
+     *
      * @Gedmo\Versioned
      */
     private $briefHuisartsVerstuurd;
@@ -165,6 +188,7 @@ class Client
      * @var \DateTime
      *
      * @ORM\Column(name="evaluatie_formulier", type="date", nullable=true)
+     *
      * @Gedmo\Versioned
      */
     private $evaluatieformulierOverhandigd;
@@ -173,6 +197,7 @@ class Client
      * @var \DateTime
      *
      * @ORM\Column(name="datum_afgesloten", type="date", nullable=true)
+     *
      * @Gedmo\Versioned
      */
     private $afsluitdatum;
@@ -181,6 +206,7 @@ class Client
      * @var Verslag[]
      *
      * @ORM\ManyToMany(targetEntity="Verslag", mappedBy="clienten", cascade={"persist"})
+     *
      * @ORM\OrderBy({"created": "DESC"})
      */
     private $verslagen;
@@ -189,10 +215,12 @@ class Client
      * @var Document[]
      *
      * @ORM\ManyToMany(targetEntity="Document", cascade={"persist"})
+     *
      * @ORM\JoinTable(
      *     name="pfo_clienten_documenten",
      *     inverseJoinColumns={@ORM\JoinColumn(unique=true, onDelete="CASCADE")}
      * )
+     *
      * @ORM\OrderBy({"created": "DESC"})
      */
     private $documenten;
@@ -201,6 +229,7 @@ class Client
      * @var Client[]
      *
      * @ORM\ManyToMany(targetEntity="Client", inversedBy="gekoppeldeClienten", cascade={"persist"})
+     *
      * @ORM\JoinTable(
      *     name="pfo_clienten_supportgroups",
      *     joinColumns={@ORM\JoinColumn(name="pfo_supportgroup_client_id")},
@@ -232,9 +261,6 @@ class Client
         return $this->groep;
     }
 
-    /**
-     * @param Groep $groep
-     */
     public function setGroep(Groep $groep)
     {
         $this->groep = $groep;
@@ -250,9 +276,6 @@ class Client
         return $this->aardRelatie;
     }
 
-    /**
-     * @param AardRelatie $aardRelatie
-     */
     public function setAardRelatie(AardRelatie $aardRelatie)
     {
         $this->aardRelatie = $aardRelatie;
@@ -376,10 +399,7 @@ class Client
         return $this->begeleidingsformulierOverhandigd;
     }
 
-    /**
-     * @param \DateTime $begeleidingsformulierOverhandigd
-     */
-    public function setBegeleidingsformulierOverhandigd(\DateTime $begeleidingsformulierOverhandigd = null)
+    public function setBegeleidingsformulierOverhandigd(?\DateTime $begeleidingsformulierOverhandigd = null)
     {
         $this->begeleidingsformulierOverhandigd = $begeleidingsformulierOverhandigd;
 
@@ -394,10 +414,7 @@ class Client
         return $this->briefHuisartsVerstuurd;
     }
 
-    /**
-     * @param \DateTime $briefHuisartsVerstuurd
-     */
-    public function setBriefHuisartsVerstuurd(\DateTime $briefHuisartsVerstuurd = null)
+    public function setBriefHuisartsVerstuurd(?\DateTime $briefHuisartsVerstuurd = null)
     {
         $this->briefHuisartsVerstuurd = $briefHuisartsVerstuurd;
 
@@ -412,10 +429,7 @@ class Client
         return $this->evaluatieformulierOverhandigd;
     }
 
-    /**
-     * @param \DateTime $evaluatieformulierOverhandigd
-     */
-    public function setEvaluatieformulierOverhandigd(\DateTime $evaluatieformulierOverhandigd = null)
+    public function setEvaluatieformulierOverhandigd(?\DateTime $evaluatieformulierOverhandigd = null)
     {
         $this->evaluatieformulierOverhandigd = $evaluatieformulierOverhandigd;
 
@@ -430,10 +444,7 @@ class Client
         return $this->afsluitdatum;
     }
 
-    /**
-     * @param \DateTime $afsluitdatum
-     */
-    public function setAfsluitdatum(\DateTime $afsluitdatum = null)
+    public function setAfsluitdatum(?\DateTime $afsluitdatum = null)
     {
         $this->afsluitdatum = $afsluitdatum;
 
@@ -445,7 +456,7 @@ class Client
         return $this->geboortedatum;
     }
 
-    public function setGeboortedatum(\DateTime $geboortedatum = null)
+    public function setGeboortedatum(?\DateTime $geboortedatum = null)
     {
         $this->geboortedatum = $geboortedatum;
 
@@ -457,7 +468,7 @@ class Client
         return $this->geslacht;
     }
 
-    public function setGeslacht(Geslacht $geslacht = null)
+    public function setGeslacht(?Geslacht $geslacht = null)
     {
         $this->geslacht = $geslacht;
 
@@ -558,8 +569,6 @@ class Client
     }
 
     /**
-     * @param Document $document
-     *
      * @return self
      */
     public function addDocument(Document $document)
@@ -570,8 +579,6 @@ class Client
     }
 
     /**
-     * @param Document $document
-     *
      * @return self
      */
     public function removeDocument(Document $document)
@@ -593,7 +600,7 @@ class Client
         }
     }
 
-    public function setHoofdclient(self $client = null)
+    public function setHoofdclient(?self $client = null)
     {
         $this->hoofdclienten = new ArrayCollection([]);
 

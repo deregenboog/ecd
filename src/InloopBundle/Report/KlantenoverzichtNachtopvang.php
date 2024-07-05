@@ -2,7 +2,6 @@
 
 namespace InloopBundle\Report;
 
-use AppBundle\Doctrine\SqlExtractor;
 use AppBundle\Entity\Geslacht;
 use AppBundle\Entity\Klant;
 use AppBundle\Report\AbstractReport;
@@ -63,10 +62,10 @@ class KlantenoverzichtNachtopvang extends AbstractReport
             $this->geslacht = $filter['geslacht'];
         }
 
-         parent::setFilter($filter);
+        parent::setFilter($filter);
         $this->weekStartDate = $this->getFirstMondayOfWeek($this->startDate);
         $this->weekEndDate = clone $this->weekStartDate;
-        $this->weekEndDate->modify("+6 days");
+        $this->weekEndDate->modify('+6 days');
 
         $this->setEndDate($this->weekEndDate);
         $this->setStartDate($this->weekStartDate);
@@ -79,8 +78,8 @@ class KlantenoverzichtNachtopvang extends AbstractReport
         $builder = $this->entityManager->getRepository(Klant::class)->createQueryBuilder('klant')
             ->select("CONCAT_WS(' ', klant.voornaam, klant.tussenvoegsel, klant.achternaam) AS naam, klant.roepnaam, klant.geboortedatum, locatie.naam AS locatienaam, COUNT(registratie.id) AS aantal")
             ->innerJoin('klant.registraties', 'registratie')
-            ->innerJoin('registratie.locatie','locatie')
-            ->innerJoin('locatie.locatieTypes','locatieTypes')
+            ->innerJoin('registratie.locatie', 'locatie')
+            ->innerJoin('locatie.locatieTypes', 'locatieTypes')
             ->where('DATE(registratie.binnen) BETWEEN :start_date AND :end_date')
             ->andWhere("locatieTypes.naam = 'Nachtopvang'")
             ->groupBy('klant.id, locatie.id')
@@ -108,10 +107,9 @@ class KlantenoverzichtNachtopvang extends AbstractReport
 
     protected function init()
     {
-        $locaties = $this->dao->findAllActiveLocationsOfTypes(["Nachtopvang"]);
+        $locaties = $this->dao->findAllActiveLocationsOfTypes(['Nachtopvang']);
 
         foreach ($locaties as $locatie) {
-
             $builder = $this->entityManager->getRepository(Klant::class)->createQueryBuilder('klant')
                 ->select(
                     "CONCAT_WS(' ', klant.voornaam, klant.tussenvoegsel, klant.achternaam) AS naam,
@@ -129,40 +127,37 @@ class KlantenoverzichtNachtopvang extends AbstractReport
                 ->innerJoin('klant.registraties', 'r')
                 ->innerJoin('klant.land', 'land')
                 ->innerJoin('klant.nationaliteit', 'nationaliteit')
-                ->leftJoin('r.locatie','locatie')
+                ->leftJoin('r.locatie', 'locatie')
                 ->where('r.binnen BETWEEN :start_date AND :end_date')
-                ->andWhere("locatie.naam = :locatienaam")
+                ->andWhere('locatie.naam = :locatienaam')
                 ->groupBy('klant.id')
                 ->orderBy('klant.achternaam')
                 ->setParameters([
                     'start_date' => $this->weekStartDate,
                     'end_date' => $this->weekEndDate,
-                    "locatienaam"=>$locatie->getNaam(),
+                    'locatienaam' => $locatie->getNaam(),
                 ]);
 
             $this->data[$locatie->getNaam()][] = $builder->getQuery()->getResult();
         }
-
     }
 
     protected function build()
     {
-
-        foreach($this->data as $locatieNaam=>$locatieData)
-        {
-            $tmpDate = clone ($this->weekStartDate);
+        foreach ($this->data as $locatieNaam => $locatieData) {
+            $tmpDate = clone $this->weekStartDate;
             foreach ($locatieData as $title => $data) {
                 $listing = new Listing($data, ['Naam' => 'naam',
-                        'Geboortedatum'=> 'geboortedatum',
+                        'Geboortedatum' => 'geboortedatum',
 //                        'Geboorteland'=> 'landnaam',
-                        'Nationaliteit'=> 'nationaliteitnaam',
-                        "Aantal maandag ({$tmpDate->format("d-m")})" => "monday_count",
-                        "Aantal dinsdag ({$tmpDate->modify("+1 day")->format("d-m")})" => "tuesday_count",
-                        "Aantal woensdag ({$tmpDate->modify("+1 day")->format("d-m")})" => "wednesday_count",
-                        "Aantal donderdag ({$tmpDate->modify("+1 day")->format("d-m")})" => "thursday_count",
-                        "Aantal vrijdag ({$tmpDate->modify("+1 day")->format("d-m")})" => "friday_count",
-                        "Aantal zaterdag ({$tmpDate->modify("+1 day")->format("d-m")})" => "saturday_count",
-                        "Aantal zondag ({$tmpDate->modify("+1 day")->format("d-m")})" => "sunday_count",
+                        'Nationaliteit' => 'nationaliteitnaam',
+                        "Aantal maandag ({$tmpDate->format('d-m')})" => 'monday_count',
+                        "Aantal dinsdag ({$tmpDate->modify('+1 day')->format('d-m')})" => 'tuesday_count',
+                        "Aantal woensdag ({$tmpDate->modify('+1 day')->format('d-m')})" => 'wednesday_count',
+                        "Aantal donderdag ({$tmpDate->modify('+1 day')->format('d-m')})" => 'thursday_count',
+                        "Aantal vrijdag ({$tmpDate->modify('+1 day')->format('d-m')})" => 'friday_count',
+                        "Aantal zaterdag ({$tmpDate->modify('+1 day')->format('d-m')})" => 'saturday_count',
+                        "Aantal zondag ({$tmpDate->modify('+1 day')->format('d-m')})" => 'sunday_count',
                     ]
                 );
                 $listing->setStartDate($this->weekStartDate)->setEndDate($this->weekEndDate);
@@ -173,11 +168,11 @@ class KlantenoverzichtNachtopvang extends AbstractReport
                 ];
             }
         }
-
     }
 
-    protected function getFirstMondayOfWeek(\DateTime $dateTime): \DateTime {
-//        $dateTime = new \DateTime("2023-12-03");
+    protected function getFirstMondayOfWeek(\DateTime $dateTime): \DateTime
+    {
+        //        $dateTime = new \DateTime("2023-12-03");
 
         // Set the time to midnight to avoid issues with time
         $dateTime->setTime(0, 0, 1);
@@ -187,7 +182,7 @@ class KlantenoverzichtNachtopvang extends AbstractReport
         $currentDayOfWeek = $dateTime->format('w');
 
         // Calculate the difference between the current day and Monday (1 for Monday, 2 for Tuesday, etc.)
-        $daysToAdd = ($currentDayOfWeek == 1) ? 0 : (1 - $currentDayOfWeek);
+        $daysToAdd = (1 == $currentDayOfWeek) ? 0 : (1 - $currentDayOfWeek);
 
         // Modify the date to get the (first) Monday of the week
         $dateTime->modify("+$daysToAdd days");

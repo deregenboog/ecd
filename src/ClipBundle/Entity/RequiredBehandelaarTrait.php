@@ -11,7 +11,9 @@ trait RequiredBehandelaarTrait
      * @var Behandelaar
      *
      * @ORM\ManyToOne(targetEntity="Behandelaar")
+     *
      * @ORM\JoinColumn(nullable=false)
+     *
      * @Gedmo\Versioned
      */
     protected $behandelaar;

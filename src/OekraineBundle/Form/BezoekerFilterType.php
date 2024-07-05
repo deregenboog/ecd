@@ -2,11 +2,8 @@
 
 namespace OekraineBundle\Form;
 
-use AppBundle\Form\AppDateRangeType;
 use AppBundle\Form\FilterType;
 use AppBundle\Form\KlantFilterType as AppKlantFilterType;
-use AppBundle\Form\MedewerkerType;
-use Doctrine\ORM\EntityRepository;
 use OekraineBundle\Entity\Aanmelding;
 use OekraineBundle\Entity\Afsluiting;
 use OekraineBundle\Filter\BezoekerFilter;
@@ -18,9 +15,6 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class BezoekerFilterType extends AbstractType
 {
-    /**
-     * {@inheritdoc}
-     */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         if (array_key_exists('appKlant', $options['enabled_filters'])) {
@@ -51,17 +45,11 @@ class BezoekerFilterType extends AbstractType
         ;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getParent(): ?string
     {
         return FilterType::class;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([

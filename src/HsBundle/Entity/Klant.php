@@ -3,7 +3,6 @@
 namespace HsBundle\Entity;
 
 use AppBundle\Entity\Geslacht;
-use AppBundle\Model\ActivatableTrait;
 use AppBundle\Model\AddressTrait;
 use AppBundle\Model\IdentifiableTrait;
 use AppBundle\Model\NameTrait;
@@ -15,10 +14,14 @@ use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Entity
+ *
  * @ORM\Table(name="hs_klanten", uniqueConstraints={
+ *
  *     @ORM\UniqueConstraint(name="unique_erp_id_idx", columns={"erp_id"})
  * })
+ *
  * @ORM\HasLifecycleCallbacks
+ *
  * @Gedmo\Loggable
  */
 class Klant implements MemoSubjectInterface, DocumentSubjectInterface
@@ -37,64 +40,78 @@ class Klant implements MemoSubjectInterface, DocumentSubjectInterface
 
     /**
      * @ORM\Column(name="erp_id", type="integer", nullable=true)
+     *
      * @Gedmo\Versioned
      */
     private $erpId;
 
     /**
      * @ORM\Column(type="string", nullable=true)
+     *
      * @Gedmo\Versioned
      */
     private $bsn;
 
     /**
      * @ORM\Column(type="string", nullable=true)
+     *
      * @Gedmo\Versioned
      */
     private $rekeningnummer;
 
     /**
      * @var Geslacht
+     *
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Geslacht")
+     *
      * @ORM\JoinColumn(nullable=false)
+     *
      * @Gedmo\Versioned
      */
     private $geslacht;
 
     /**
      * @ORM\Column(type="date")
+     *
      * @Gedmo\Versioned
      */
     private $inschrijving;
 
     /**
      * @ORM\Column(type="date", nullable=true)
+     *
      * @Gedmo\Versioned
      */
     private $uitschrijving;
 
     /**
      * @ORM\Column(type="date", nullable=true)
+     *
      * @Gedmo\Versioned
      */
     private $laatsteContact;
 
     /**
      * !LET OP: actief betekent in de context van HS: heeft geen lopende/openstaande klussen. Dus niet een soort 'verwijderen'.
+     *
      * @ORM\Column(type="boolean")
+     *
      * @Gedmo\Versioned
      */
     private $actief = false;
 
     /**
      * @ORM\Column(type="string", nullable=true)
+     *
      * @Gedmo\Versioned
      */
     protected $postcode;
 
     /**
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\GgwGebied")
+     *
      * @ORM\JoinColumn(name="postcodegebied", referencedColumnName="naam")
+     *
      * @Gedmo\Versioned
      */
     private $postcodegebied;
@@ -103,6 +120,7 @@ class Klant implements MemoSubjectInterface, DocumentSubjectInterface
      * @var \DateTime
      *
      * @ORM\Column(type="datetime")
+     *
      * @Gedmo\Versioned
      */
     protected $created;
@@ -111,51 +129,60 @@ class Klant implements MemoSubjectInterface, DocumentSubjectInterface
      * @var \DateTime
      *
      * @ORM\Column(type="datetime")
+     *
      * @Gedmo\Versioned
      */
     protected $modified;
 
     protected static $statussen = [
-        "Nieuwe klussen mogelijk" => self::STATUS_OK,
-        "Geen nieuwe klussen" => self::STATUS_GEEN_NIEUWE_KLUS,
+        'Nieuwe klussen mogelijk' => self::STATUS_OK,
+        'Geen nieuwe klussen' => self::STATUS_GEEN_NIEUWE_KLUS,
     ];
 
     /**
      * @var int
      *
      * @ORM\Column(type="integer", options={"default":1})
+     *
      * @Gedmo\Versioned
      */
     private $status = self::STATUS_OK;
 
     /**
      * @var string
+     *
      * @ORM\Column(type="text", nullable=true)
+     *
      * @Gedmo\Versioned
      */
     private $bewindvoerder;
 
     /**
      * @var ArrayCollection|Klus[]
+     *
      * @ORM\OneToMany(targetEntity="Klus", mappedBy="klant", cascade={"persist"})
+     *
      * @ORM\OrderBy({"startdatum": "desc", "einddatum": "desc", "id": "desc"})
      */
     private $klussen;
 
     /**
      * @var ArrayCollection|Factuur[]
+     *
      * @ORM\OneToMany(targetEntity="Factuur", mappedBy="klant", cascade={"persist"})
      */
     private $facturen;
 
     /**
      * @ORM\Column(type="decimal", scale=2)
+     *
      * @Gedmo\Versioned
      */
     private $saldo = 0.0;
 
     /**
      * @ORM\Column(type="boolean")
+     *
      * @Gedmo\Versioned
      */
     private $afwijkendFactuuradres = false;
@@ -241,7 +268,7 @@ class Klant implements MemoSubjectInterface, DocumentSubjectInterface
         return 0 === count($this->klussen)
             && 0 === count($this->facturen)
             && 0 === count($this->memos)
-            ;
+        ;
     }
 
     public function isActief()
@@ -256,17 +283,11 @@ class Klant implements MemoSubjectInterface, DocumentSubjectInterface
         return $this;
     }
 
-    /**
-     * @return int
-     */
     public function getStatus(): int
     {
         return $this->status;
     }
 
-    /**
-     * @return string
-     */
     public function getStatusAsString(): string
     {
         return array_search($this->status, self::$statussen);
@@ -277,13 +298,10 @@ class Klant implements MemoSubjectInterface, DocumentSubjectInterface
         return self::$statussen;
     }
 
-    /**
-     * @param int $status
-     * @return Klant
-     */
     public function setStatus(int $status): Klant
     {
         $this->status = $status;
+
         return $this;
     }
 

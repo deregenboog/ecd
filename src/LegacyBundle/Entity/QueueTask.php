@@ -8,6 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * QueueTasks.
  *
  * @ORM\Table(name="queue_tasks", indexes={@ORM\Index(name="idx_queue_tasks_status_modified", columns={"modified", "status"})})
+ *
  * @ORM\Entity
  */
 class QueueTask
@@ -93,7 +94,9 @@ class QueueTask
      * @var int
      *
      * @ORM\Column(name="id", type="integer")
+     *
      * @ORM\Id
+     *
      * @ORM\GeneratedValue
      */
     private $id;

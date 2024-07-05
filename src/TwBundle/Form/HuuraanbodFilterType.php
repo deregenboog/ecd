@@ -6,26 +6,17 @@ use AppBundle\Form\AppDateRangeType;
 use AppBundle\Form\AppIntRangeType;
 use AppBundle\Form\FilterType;
 use AppBundle\Form\KlantFilterType;
-use AppBundle\Form\MedewerkerType;
-use AppBundle\Form\Model\AppIntRangeModel;
 use Doctrine\ORM\EntityRepository;
-use Symfony\Component\Form\Extension\Core\Type\IntegerType;
-use TwBundle\Entity\Huuraanbod;
-use TwBundle\Entity\Klant;
-use TwBundle\Entity\Verhuurder;
-use TwBundle\Filter\HuuraanbodFilter;
-use TwBundle\Filter\HuurovereenkomstFilter;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use TwBundle\Entity\Huuraanbod;
+use TwBundle\Filter\HuuraanbodFilter;
 
 class HuuraanbodFilterType extends AbstractType
 {
-    /**
-     * {@inheritdoc}
-     */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         if (in_array('id', $options['enabled_filters'])) {
@@ -41,15 +32,13 @@ class HuuraanbodFilterType extends AbstractType
         }
 
         if (in_array('huurprijs', $options['enabled_filters'])) {
-
             $builder
                 ->add('huurprijs', AppIntRangeType::class, [
-                    'required'=>false,
+                    'required' => false,
 //                    'label'=>'',
                 ])
 
             ;
-
         }
         if (in_array('startdatum', $options['enabled_filters'])) {
             $builder->add('startdatum', AppDateRangeType::class, [
@@ -76,7 +65,7 @@ class HuuraanbodFilterType extends AbstractType
         if (in_array('medewerker', $options['enabled_filters'])) {
             $builder->add('medewerker', \TwBundle\Form\MedewerkerType::class, [
                 'required' => false,
-                'preset'=>false
+                'preset' => false,
 //                'query_builder' => function (EntityRepository $repository) {
 //                    return $repository->createQueryBuilder('medewerker')
 //                        ->innerJoin(Huuraanbod::class, 'huuraanbod', 'WITH', 'huuraanbod.medewerker = medewerker')
@@ -95,15 +84,13 @@ class HuuraanbodFilterType extends AbstractType
             $builder->add('huurovereenkomst', HuurovereenkomstFilterType::class, [
                 'enabled_filters' => $options['enabled_filters']['huurovereenkomst'],
                 'empty_data' => ['isReservering' => true],
-
-
             ]);
         }
         if (in_array('project', $options['enabled_filters'])) {
             $builder->add('project', ProjectSelectFilterType::class, [
                 'label' => 'Project',
                 'required' => false,
-                'multiple'=>true,
+                'multiple' => true,
 //                'data' => false,
             ]);
         }
@@ -113,26 +100,18 @@ class HuuraanbodFilterType extends AbstractType
         ;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getParent(): ?string
     {
         return FilterType::class;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function configureOptions(OptionsResolver $resolver)
     {
-
-
         $resolver->setDefaults([
             'data_class' => HuuraanbodFilter::class,
             'data' => new HuuraanbodFilter(),
             'enabled_filters' => [
-                'appKlant' => ['naam','plaats'],
+                'appKlant' => ['naam', 'plaats'],
                 'startdatum',
                 'actief',
                 'datumToestemmingAangevraagd',
@@ -140,8 +119,7 @@ class HuuraanbodFilterType extends AbstractType
                 'huurprijs',
                 'medewerker',
                 'project',
-                'huurovereenkomst'=>['isReservering'],
-
+                'huurovereenkomst' => ['isReservering'],
             ],
         ]);
     }

@@ -31,7 +31,7 @@ class VrijwilligerDao extends AbstractDao implements VrijwilligerDaoInterface
     /**
      * {inheritdoc}.
      */
-    public function findAll($page = null, FilterInterface $filter = null)
+    public function findAll($page = null, ?FilterInterface $filter = null)
     {
         $builder = $this->repository->createQueryBuilder($this->alias)
             ->select("{$this->alias}, basisvrijwilliger, klus, memo, document")
@@ -65,8 +65,6 @@ class VrijwilligerDao extends AbstractDao implements VrijwilligerDaoInterface
     }
 
     /**
-     * @param AppVrijwilliger $vrijwilliger
-     *
      * @return Dienstverlener
      */
     public function findOneByVrijwilliger(AppVrijwilliger $vrijwilliger)
@@ -101,7 +99,7 @@ class VrijwilligerDao extends AbstractDao implements VrijwilligerDaoInterface
     /**
      * {inheritdoc}.
      */
-    public function countByStadsdeel(\DateTime $start = null, \DateTime $end = null)
+    public function countByStadsdeel(?\DateTime $start = null, ?\DateTime $end = null)
     {
         $builder = $this->repository->createQueryBuilder('vrijwilliger')
             ->select('COUNT(DISTINCT(basisvrijwilliger.id)) AS aantal, werkgebied.naam AS stadsdeel')
@@ -125,7 +123,7 @@ class VrijwilligerDao extends AbstractDao implements VrijwilligerDaoInterface
     /**
      * {inheritdoc}.
      */
-    public function countByGgwGebied(\DateTime $start = null, \DateTime $end = null)
+    public function countByGgwGebied(?\DateTime $start = null, ?\DateTime $end = null)
     {
         $builder = $this->repository->createQueryBuilder('vrijwilliger')
             ->select('COUNT(DISTINCT(basisvrijwilliger.id)) AS aantal, postcodegebied.naam AS ggwgebied')
@@ -149,7 +147,7 @@ class VrijwilligerDao extends AbstractDao implements VrijwilligerDaoInterface
     /**
      * {inheritdoc}.
      */
-    public function countNewByStadsdeel(\DateTime $start = null, \DateTime $end = null)
+    public function countNewByStadsdeel(?\DateTime $start = null, ?\DateTime $end = null)
     {
         $builder = $this->repository->createQueryBuilder('vrijwilliger')
             ->select('COUNT(DISTINCT(basisvrijwilliger.id)) AS aantal, werkgebied.naam AS stadsdeel')
@@ -172,7 +170,7 @@ class VrijwilligerDao extends AbstractDao implements VrijwilligerDaoInterface
     /**
      * {inheritdoc}.
      */
-    public function countNewByGgwGebied(\DateTime $start = null, \DateTime $end = null)
+    public function countNewByGgwGebied(?\DateTime $start = null, ?\DateTime $end = null)
     {
         $builder = $this->repository->createQueryBuilder('vrijwilliger')
             ->select('COUNT(DISTINCT(basisvrijwilliger.id)) AS aantal, postcodegebied.naam AS ggwgebied')

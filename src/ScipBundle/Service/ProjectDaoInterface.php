@@ -10,21 +10,14 @@ use ScipBundle\Entity\Project;
 interface ProjectDaoInterface
 {
     /**
-     * @param int             $page
-     * @param FilterInterface $filter
-     *
-     * @return PaginationInterface
+     * @param int $page
      */
-    public function findAll($page = null, FilterInterface $filter = null): PaginationInterface;
+    public function findAll($page = null, ?FilterInterface $filter = null): PaginationInterface;
 
     /**
-     * @param Medewerker      $medewerker
-     * @param int             $page
-     * @param FilterInterface $filter
-     *
-     * @return PaginationInterface
+     * @param int $page
      */
-    public function findByMedewerker(Medewerker $medewerker, $page = null, FilterInterface $filter = null): PaginationInterface;
+    public function findByMedewerker(Medewerker $medewerker, $page = null, ?FilterInterface $filter = null): PaginationInterface;
 
     /**
      * @param int $id
@@ -34,25 +27,14 @@ interface ProjectDaoInterface
     public function find($id);
 
     /**
-     * @param string $kpl
-     *
      * @return Project
      */
     public function findOneByKpl(string $kpl);
 
-    /**
-     * @param Project $entity
-     */
     public function create(Project $entity);
 
-    /**
-     * @param Project $entity
-     */
     public function update(Project $entity);
 
-    /**
-     * @param Project $entity
-     */
     public function delete(Project $entity);
 
     public function setItemsPerPage(int $itemsPerPage);

@@ -11,11 +11,14 @@ use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Entity
+ *
  * @ORM\Table(
  *     name="scip_toegangsrechten",
  *     indexes={}
  * )
+ *
  * @ORM\HasLifecycleCallbacks
+ *
  * @Gedmo\Loggable
  */
 class Toegangsrecht
@@ -26,6 +29,7 @@ class Toegangsrecht
      * @var Medewerker
      *
      * @ORM\OneToOne(targetEntity="AppBundle\Entity\Medewerker")
+     *
      * @Gedmo\Versioned
      */
     private $medewerker;
@@ -42,9 +46,6 @@ class Toegangsrecht
         $this->projecten = new ArrayCollection();
     }
 
-    /**
-     * @return Medewerker
-     */
     public function getMedewerker(): ?Medewerker
     {
         return $this->medewerker;

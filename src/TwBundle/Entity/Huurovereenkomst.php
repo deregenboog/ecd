@@ -11,8 +11,11 @@ use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Entity
+ *
  * @ORM\Table(name="tw_huurovereenkomsten")
+ *
  * @ORM\HasLifecycleCallbacks
+ *
  * @Gedmo\Loggable
  */
 class Huurovereenkomst
@@ -24,11 +27,11 @@ class Huurovereenkomst
     {
         return [
             'Hospitaverhuur' => 'Hospitaverhuur',
-            'Hospitaovereenkomst met kostgangerschap' =>'Hospitaovereenkomst met kostgangerschap',
-            '(Onder)huur onzelfstandige woonruimte'=>'(Onder)huur onzelfstandige woonruimte',
-            '(Onder)huur zelfstandige woonruimte'=>'(Onder)huur zelfstandige woonruimte',
-            'Gebruikersovereenkomst'=>'Gebruikersovereenkomst',
-            'Intermediare huurovereenkomst'=>'Intermediare  huurovereenkomst',
+            'Hospitaovereenkomst met kostgangerschap' => 'Hospitaovereenkomst met kostgangerschap',
+            '(Onder)huur onzelfstandige woonruimte' => '(Onder)huur onzelfstandige woonruimte',
+            '(Onder)huur zelfstandige woonruimte' => '(Onder)huur zelfstandige woonruimte',
+            'Gebruikersovereenkomst' => 'Gebruikersovereenkomst',
+            'Intermediare huurovereenkomst' => 'Intermediare  huurovereenkomst',
             'Kostgangerschap' => 'Kostgangerschap',
             'Kleine schuld, grote winst' => 'Kleine schuld, grote winst',
             'Pensionovereenkomst' => 'Pensionovereenkomst',
@@ -38,50 +41,60 @@ class Huurovereenkomst
 
     /**
      * @ORM\Id
+     *
      * @ORM\Column(type="integer")
+     *
      * @ORM\GeneratedValue
      */
     private $id;
 
     /**
      * @ORM\Column(type="date")
+     *
      * @Gedmo\Versioned
      */
     private $startdatum;
 
     /**
      * @ORM\Column(type="date", nullable=true)
+     *
      * @Gedmo\Versioned
      */
     private $opzegdatum;
 
     /**
      * @ORM\Column(name="opzegbrief_verstuurd", type="boolean")
+     *
      * @Gedmo\Versioned
      */
     private $opzegbriefVerstuurd = false;
 
     /**
      * @ORM\Column(type="date", nullable=true)
+     *
      * @Gedmo\Versioned
      */
     private $einddatum;
 
     /**
      * @ORM\Column(length=50, nullable=true)
+     *
      * @Gedmo\Versioned
      */
     private $vorm;
 
     /**
      * @var VormVanOvereenkomst
+     *
      * @ORM\ManyToOne(targetEntity="TwBundle\Entity\VormVanOvereenkomst",cascade={"persist"})
+     *
      * @Gedmo\Versioned
      */
     private $vormVanOvereenkomst;
 
     /**
      * @ORM\Column(type="date", nullable=true)
+     *
      * @Gedmo\Versioned
      */
     private $afsluitdatum;
@@ -90,20 +103,25 @@ class Huurovereenkomst
      * @var HuurovereenkomstAfsluiting
      *
      * @ORM\ManyToOne(targetEntity="HuurovereenkomstAfsluiting", inversedBy="huurovereenkomsten", cascade={"persist"})
+     *
      * @Gedmo\Versioned
      */
     private $afsluiting;
 
     /**
      * @var Huuraanbod
+     *
      * @ORM\OneToOne(targetEntity="Huuraanbod", inversedBy="huurovereenkomst")
+     *
      * @Gedmo\Versioned
      */
     private $huuraanbod;
 
     /**
      * @var Huurverzoek
+     *
      * @ORM\OneToOne(targetEntity="Huurverzoek", inversedBy="huurovereenkomst")
+     *
      * @Gedmo\Versioned
      */
     private $huurverzoek;
@@ -112,6 +130,7 @@ class Huurovereenkomst
      * @var ArrayCollection|Verslag[]
      *
      * @ORM\ManyToMany(targetEntity="Verslag", cascade={"persist"},fetch="LAZY")
+     *
      * @ORM\JoinTable(name="tw_huurovereenkomst_verslag",
      *      joinColumns={@ORM\JoinColumn(name="huurovereenkomst_id", referencedColumnName="id")},
      *     inverseJoinColumns={@ORM\JoinColumn(name="verslag_id", referencedColumnName="id")}
@@ -123,6 +142,7 @@ class Huurovereenkomst
      * @var ArrayCollection|FinancieelVerslag[]
      *
      * @ORM\ManyToMany(targetEntity="FinancieelVerslag", cascade={"persist"}, fetch="LAZY")
+     *
      * @ORM\JoinTable(name="tw_huurovereenkomst_finverslag",
      *      joinColumns={@ORM\JoinColumn(name="huurovereenkomst_id", referencedColumnName="id")},
      *     inverseJoinColumns={@ORM\JoinColumn(name="verslag_id", referencedColumnName="id")}
@@ -134,6 +154,7 @@ class Huurovereenkomst
      * @var ArrayCollection|Document[]
      *
      * @ORM\ManyToMany(targetEntity="Document", cascade={"persist"}, fetch="LAZY")
+     *
      * @ORM\JoinTable(name="tw_huurovereenkomst_document",
      *     joinColumns={@ORM\JoinColumn(name="huurovereenkomst_id", referencedColumnName="id")},
      *     inverseJoinColumns={@ORM\JoinColumn(name="document_id", referencedColumnName="id")}
@@ -145,6 +166,7 @@ class Huurovereenkomst
      * @var ArrayCollection|FinancieelDocument[]
      *
      * @ORM\ManyToMany(targetEntity="FinancieelDocument", cascade={"persist"})
+     *
      * @ORM\JoinTable(name="tw_huurovereenkomst_findocument",
      *      joinColumns={@ORM\JoinColumn(name="huurovereenkomst_id", referencedColumnName="id")},
      *     inverseJoinColumns={@ORM\JoinColumn(name="document_id", referencedColumnName="id")}
@@ -154,7 +176,9 @@ class Huurovereenkomst
 
     /**
      * @var bool
+     *
      * @ORM\Column(type="boolean")
+     *
      * @Gedmo\Versioned()
      */
     private $isReservering = false;
@@ -163,6 +187,7 @@ class Huurovereenkomst
      * @var HuurovereenkomstType
      *
      * @ORM\ManyToOne(targetEntity="HuurovereenkomstType", cascade={"persist"})
+     *
      * @Gedmo\Versioned
      */
     private $huurovereenkomstType;
@@ -171,6 +196,7 @@ class Huurovereenkomst
      * @var \DateTime
      *
      * @ORM\Column(type="datetime")
+     *
      * @Gedmo\Versioned
      */
     protected $created;
@@ -179,6 +205,7 @@ class Huurovereenkomst
      * @var \DateTime
      *
      * @ORM\Column(type="datetime")
+     *
      * @Gedmo\Versioned
      */
     protected $modified;
@@ -186,7 +213,7 @@ class Huurovereenkomst
     public function __construct()
     {
         $this->startdatum = new \DateTime();
-//        $this->einddatum = new \DateTime("+two months");
+        //        $this->einddatum = new \DateTime("+two months");
         $this->verslagen = new ArrayCollection();
         $this->documenten = new ArrayCollection();
     }
@@ -211,7 +238,7 @@ class Huurovereenkomst
         return $this->startdatum;
     }
 
-    public function setStartdatum(\DateTime $startdatum = null)
+    public function setStartdatum(?\DateTime $startdatum = null)
     {
         $this->startdatum = $startdatum;
 
@@ -223,7 +250,7 @@ class Huurovereenkomst
         return $this->afsluitdatum;
     }
 
-    public function setAfsluitdatum(\DateTime $afsluitdatum = null)
+    public function setAfsluitdatum(?\DateTime $afsluitdatum = null)
     {
         $this->afsluitdatum = $afsluitdatum;
 
@@ -320,6 +347,7 @@ class Huurovereenkomst
     public function addFinancieelDocument(FinancieelDocument $document)
     {
         $this->financieledocumenten[] = $document;
+
         return $this;
     }
 
@@ -342,6 +370,7 @@ class Huurovereenkomst
     public function addFinancieelVerslag(FinancieelVerslag $verslag)
     {
         $this->financieleverslagen[] = $verslag;
+
         return $this;
     }
 
@@ -403,37 +432,25 @@ class Huurovereenkomst
         return $this;
     }
 
-    /**
-     * @return bool
-     */
     public function isReservering(): bool
     {
         return $this->isReservering;
     }
 
-    /**
-     * @param bool $isReservering
-     */
     public function setIsReservering(bool $isReservering): void
     {
         $this->isReservering = $isReservering;
     }
 
-    /**
-     * @return HuurovereenkomstType
-     */
     public function getHuurovereenkomstType(): ?HuurovereenkomstType
     {
         return $this->huurovereenkomstType;
     }
 
-    /**
-     * @param HuurovereenkomstType $huurovereenkomstType
-     * @return Huurovereenkomst
-     */
     public function setHuurovereenkomstType(HuurovereenkomstType $huurovereenkomstType): Huurovereenkomst
     {
         $this->huurovereenkomstType = $huurovereenkomstType;
+
         return $this;
     }
 
@@ -446,6 +463,4 @@ class Huurovereenkomst
     {
         $this->vormVanOvereenkomst = $vormVanOvereenkomst;
     }
-
-
 }

@@ -142,7 +142,7 @@ class KlantFilter implements FilterInterface
             }
         }
 
-        if ($this->geslacht && (is_array($this->geslacht) || $this->geslacht instanceof \Countable ? count($this->geslacht) : 0)>0) {
+        if ($this->geslacht && (is_array($this->geslacht) || $this->geslacht instanceof \Countable ? count($this->geslacht) : 0) > 0) {
             $builder
                 ->andWhere("{$alias}.geslacht IN (:{$alias}_geslacht)")
                 ->setParameter("{$alias}_geslacht", $this->geslacht)
@@ -150,7 +150,7 @@ class KlantFilter implements FilterInterface
         }
 
         if ($this->bsn) {
-            $tmpBsn = substr($this->bsn,1,strlen($this->bsn)-2);
+            $tmpBsn = substr($this->bsn, 1, strlen($this->bsn) - 2);
             $builder
                 ->andWhere("{$alias}.bsn LIKE :{$alias}_bsn")
                 ->setParameter("{$alias}_bsn", "%{$tmpBsn}%")
@@ -180,8 +180,7 @@ class KlantFilter implements FilterInterface
         }
 
         if ($this->stadsdeel) {
-            if($this->stadsdeel->getNaam() == 'Overig')
-            {
+            if ('Overig' == $this->stadsdeel->getNaam()) {
                 $builder
                     ->andWhere("({$alias}.werkgebied = :{$alias}_stadsdeel OR {$alias}.werkgebied IS NULL)")
                     ->setParameter("{$alias}_stadsdeel", $this->stadsdeel)

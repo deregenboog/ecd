@@ -10,8 +10,11 @@ use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Entity
+ *
  * @ORM\Table(name="tw_huurverzoeken")
+ *
  * @ORM\HasLifecycleCallbacks
+ *
  * @Gedmo\Loggable
  */
 class Huurverzoek
@@ -21,34 +24,41 @@ class Huurverzoek
 
     /**
      * @ORM\Id
+     *
      * @ORM\Column(type="integer")
+     *
      * @ORM\GeneratedValue
      */
     private $id;
 
     /**
      * @var Klant
+     *
      * @ORM\ManyToOne(targetEntity="Klant", inversedBy="huurverzoeken")
+     *
      * @Gedmo\Versioned
      */
     private $klant;
 
-
     /**
      * @var Huurovereenkomst
+     *
      * @ORM\OneToOne(targetEntity="Huurovereenkomst", mappedBy="huurverzoek")
+     *
      * @Gedmo\Versioned
      */
     private $huurovereenkomst;
 
     /**
      * @ORM\Column(type="date")
+     *
      * @Gedmo\Versioned
      */
     private $startdatum;
 
     /**
      * @ORM\Column(type="date", nullable=true)
+     *
      * @Gedmo\Versioned
      */
     private $afsluitdatum;
@@ -57,6 +67,7 @@ class Huurverzoek
      * @var HuurverzoekAfsluiting
      *
      * @ORM\ManyToOne(targetEntity="HuurverzoekAfsluiting", inversedBy="huurverzoeken", cascade={"persist"})
+     *
      * @Gedmo\Versioned
      */
     private $afsluiting;
@@ -65,14 +76,18 @@ class Huurverzoek
      * @var ArrayCollection|Verslag[]
      *
      * @ORM\ManyToMany(targetEntity="Verslag", cascade={"persist"})
+     *
      * @ORM\JoinTable(name="tw_huurverzoek_verslag")
+     *
      * @ORM\OrderBy({"datum" = "DESC", "id" = "DESC"})
      */
     private $verslagen;
 
     /**
      * @var Project[]
+     *
      * @ORM\ManyToMany(targetEntity="Project")
+     *
      * @ORM\JoinTable(
      *     name="tw_huurverzoeken_tw_projecten",
      *     joinColumns={@ORM\JoinColumn(name="tw_huurverzoek_id")},
@@ -85,6 +100,7 @@ class Huurverzoek
      * @var \DateTime
      *
      * @ORM\Column(type="datetime")
+     *
      * @Gedmo\Versioned
      */
     protected $created;
@@ -93,6 +109,7 @@ class Huurverzoek
      * @var \DateTime
      *
      * @ORM\Column(type="datetime")
+     *
      * @Gedmo\Versioned
      */
     protected $modified;
@@ -144,7 +161,7 @@ class Huurverzoek
         return $this->startdatum;
     }
 
-    public function setStartdatum(\DateTime $startdatum = null)
+    public function setStartdatum(?\DateTime $startdatum = null)
     {
         $this->startdatum = $startdatum;
 
@@ -156,7 +173,7 @@ class Huurverzoek
         return $this->afsluitdatum;
     }
 
-    public function setAfsluitdatum(\DateTime $afsluitdatum = null)
+    public function setAfsluitdatum(?\DateTime $afsluitdatum = null)
     {
         $this->afsluitdatum = $afsluitdatum;
 
@@ -205,18 +222,18 @@ class Huurverzoek
     /**
      * @return Project[]
      */
-    public function getProjecten() //: ?array
+    public function getProjecten() // : ?array
     {
         return $this->projecten;
     }
 
     /**
      * @param Project[] $projecten
-     * @return Huurverzoek
      */
     public function setProjecten($projecten): Huurverzoek
     {
         $this->projecten = $projecten;
+
         return $this;
     }
 }

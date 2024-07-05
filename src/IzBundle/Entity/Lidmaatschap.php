@@ -9,8 +9,11 @@ use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Entity
+ *
  * @ORM\Table(name="iz_deelnemers_iz_intervisiegroepen")
+ *
  * @ORM\HasLifecycleCallbacks
+ *
  * @Gedmo\Loggable
  */
 class Lidmaatschap
@@ -22,6 +25,7 @@ class Lidmaatschap
      * @var Intervisiegroep
      *
      * @ORM\ManyToOne(targetEntity="Intervisiegroep", inversedBy="lidmaatschappen")
+     *
      * @ORM\JoinColumn(name="iz_intervisiegroep_id", nullable=false)
      */
     private $intervisiegroep;
@@ -30,6 +34,7 @@ class Lidmaatschap
      * @var \DateTime
      *
      * @ORM\Column(type="datetime", nullable=true)
+     *
      * @Gedmo\Versioned
      */
     protected $created;
@@ -38,6 +43,7 @@ class Lidmaatschap
      * @var \DateTime
      *
      * @ORM\Column(type="datetime", nullable=true)
+     *
      * @Gedmo\Versioned
      */
     protected $modified;
@@ -46,6 +52,7 @@ class Lidmaatschap
      * @var IzVrijwilliger
      *
      * @ORM\ManyToOne(targetEntity="IzVrijwilliger", inversedBy="lidmaatschappen")
+     *
      * @ORM\JoinColumn(name="iz_deelnemer_id", nullable=false)
      */
     private $vrijwilliger;

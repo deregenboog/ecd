@@ -27,12 +27,11 @@ class VrijwilligerDao extends AbstractDao implements VrijwilligerDaoInterface
     protected $alias = 'vrijwilliger';
 
     /**
-     * @param int             $page
-     * @param FilterInterface $filter
+     * @param int $page
      *
      * @return PaginationInterface
      */
-    public function findAll($page = null, FilterInterface $filter = null)
+    public function findAll($page = null, ?FilterInterface $filter = null)
     {
         $builder = $this->repository->createQueryBuilder($this->alias)
             ->leftJoin("{$this->alias}.medewerker", 'medewerker')
@@ -53,11 +52,9 @@ class VrijwilligerDao extends AbstractDao implements VrijwilligerDaoInterface
     }
 
     /**
-     * @param FilterInterface $filter
-     *
      * @return int
      */
-    public function countAll(FilterInterface $filter = null)
+    public function countAll(?FilterInterface $filter = null)
     {
         $builder = $this->repository->createQueryBuilder($this->alias)
             ->select("COUNT({$this->alias}.id)")
@@ -81,25 +78,16 @@ class VrijwilligerDao extends AbstractDao implements VrijwilligerDaoInterface
         return parent::find($id);
     }
 
-    /**
-     * @param Vrijwilliger $vrijwilliger
-     */
     public function create(Vrijwilliger $vrijwilliger)
     {
         return $this->doCreate($vrijwilliger);
     }
 
-    /**
-     * @param Vrijwilliger $vrijwilliger
-     */
     public function update(Vrijwilliger $vrijwilliger)
     {
         return $this->doUpdate($vrijwilliger);
     }
 
-    /**
-     * @param Vrijwilliger $vrijwilliger
-     */
     public function delete(Vrijwilliger $vrijwilliger)
     {
         // @todo remove this when disabled field is no longer needed

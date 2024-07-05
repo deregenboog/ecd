@@ -32,8 +32,6 @@ class EcdRoutingExtension extends AbstractExtension
     }
 
     /**
-     * {@inheritdoc}
-     *
      * @return TwigFunction[]
      */
     public function getFunctions(): array
@@ -45,7 +43,7 @@ class EcdRoutingExtension extends AbstractExtension
         ];
     }
 
-    function routeExists($name)
+    public function routeExists($name)
     {
         return (null === $this->router->getRouteCollection()->get($name)) ? false : true;
     }
@@ -142,8 +140,8 @@ class EcdRoutingExtension extends AbstractExtension
             $argsNode->hasNode(1) ? $argsNode->getNode(1) : null
         );
 
-        if (null === $paramsNode || $paramsNode instanceof ArrayExpression && \count($paramsNode) <= 2 &&
-            (!$paramsNode->hasNode(1) || $paramsNode->getNode(1) instanceof ConstantExpression)
+        if (null === $paramsNode || $paramsNode instanceof ArrayExpression && \count($paramsNode) <= 2
+            && (!$paramsNode->hasNode(1) || $paramsNode->getNode(1) instanceof ConstantExpression)
         ) {
             return ['html'];
         }
@@ -151,9 +149,6 @@ class EcdRoutingExtension extends AbstractExtension
         return [];
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getName(): string
     {
         return 'routing';

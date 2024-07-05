@@ -13,17 +13,24 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 /**
  * @ORM\Entity
+ *
  * @ORM\Table(name="documenten")
+ *
  * @ORM\HasLifecycleCallbacks
+ *
  * @ORM\InheritanceType("SINGLE_TABLE")
+ *
  * @ORM\DiscriminatorColumn(name="discr", type="string", length=15)
+ *
  * @ORM\DiscriminatorMap({
  *     "document" = "Document",
  *     "vog" = "Vog",
  *     "overeenkomst" = "Overeenkomst",
  *     "toestemming" = "Toestemmingsformulier"
  * })
+ *
  * @Gedmo\Loggable
+ *
  * @Vich\Uploadable
  */
 class Document implements DocumentInterface
@@ -34,13 +41,16 @@ class Document implements DocumentInterface
 
     /**
      * @var string
+     *
      * @ORM\Column
+     *
      * @Gedmo\Versioned
      */
     protected $filename;
 
     /**
      * @var File
+     *
      * @Vich\UploadableField(mapping="app_document", fileNameProperty="filename")
      */
     protected $file;
@@ -49,6 +59,7 @@ class Document implements DocumentInterface
      * @var \DateTime
      *
      * @ORM\Column(type="datetime")
+     *
      * @Gedmo\Versioned
      */
     protected $created;
@@ -57,6 +68,7 @@ class Document implements DocumentInterface
      * @var \DateTime
      *
      * @ORM\Column(type="datetime")
+     *
      * @Gedmo\Versioned
      */
     protected $modified;
@@ -64,7 +76,8 @@ class Document implements DocumentInterface
     public function __toString()
     {
         $x = new \ReflectionClass($this);
-        return $x->getShortName()." ".$this->getFilename();
+
+        return $x->getShortName().' '.$this->getFilename();
     }
 
     public function getFilename()
@@ -84,7 +97,7 @@ class Document implements DocumentInterface
         return $this->file;
     }
 
-    public function setFile(File $file = null)
+    public function setFile(?File $file = null)
     {
         $this->file = $file;
 

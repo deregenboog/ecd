@@ -10,14 +10,20 @@ use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Entity
+ *
  * @ORM\Table(name="oek_dossier_statussen")
+ *
  * @ORM\HasLifecycleCallbacks
+ *
  * @ORM\InheritanceType("SINGLE_TABLE")
+ *
  * @ORM\DiscriminatorColumn(name="class", type="string")
+ *
  * @ORM\DiscriminatorMap({
  *     "OekAanmelding" = "Aanmelding",
  *     "OekAfsluiting" = "Afsluiting"
  * })
+ *
  * @Gedmo\Loggable
  */
 abstract class DossierStatus
@@ -30,20 +36,25 @@ abstract class DossierStatus
      * @var Deelnemer
      *
      * @ORM\ManyToOne(targetEntity="Deelnemer")
+     *
      * @ORM\JoinColumn(name="oekKlant_id", nullable=false)
+     *
      * @Gedmo\Versioned
      */
     protected $deelnemer;
 
     /**
      * @ORM\Column(type="date")
+     *
      * @Gedmo\Versioned
      */
     protected $datum;
 
     /**
      * @ORM\ManyToOne(targetEntity="Verwijzing")
+     *
      * @ORM\JoinColumn(nullable=false)
+     *
      * @Gedmo\Versioned
      */
     protected $verwijzing;
@@ -52,6 +63,7 @@ abstract class DossierStatus
      * @var \DateTime
      *
      * @ORM\Column(type="datetime")
+     *
      * @Gedmo\Versioned
      */
     protected $created;
@@ -60,6 +72,7 @@ abstract class DossierStatus
      * @var \DateTime
      *
      * @ORM\Column(type="datetime")
+     *
      * @Gedmo\Versioned
      */
     protected $modified;

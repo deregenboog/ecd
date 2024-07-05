@@ -32,7 +32,6 @@ final class ToegangOverigStrategy implements StrategyInterface
 
     public function supports(Locatie $locatie): bool
     {
-
         if ($locatie->isGebruikersruimte()) {
             return false;
         }

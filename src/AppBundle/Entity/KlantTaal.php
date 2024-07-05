@@ -8,12 +8,15 @@ use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Entity
+ *
  * @ORM\Table(
  *     name="klant_taal",
  *     uniqueConstraints={
+ *
  *         @ORM\UniqueConstraint(columns={"klant_id", "taal_id"})
  *     }
  * )
+ *
  * @Gedmo\Loggable
  */
 class KlantTaal
@@ -24,7 +27,9 @@ class KlantTaal
      * @var Klant
      *
      * @ORM\ManyToOne(targetEntity="Klant", inversedBy="klantTalen")
+     *
      * @ORM\JoinColumn(nullable=false)
+     *
      * @Gedmo\Versioned
      */
     private $klant;
@@ -33,7 +38,9 @@ class KlantTaal
      * @var Taal
      *
      * @ORM\ManyToOne(targetEntity="Taal")
+     *
      * @ORM\JoinColumn(nullable=false)
+     *
      * @Gedmo\Versioned
      */
     private $taal;
@@ -42,6 +49,7 @@ class KlantTaal
      * @var bool
      *
      * @ORM\Column(type="boolean")
+     *
      * @Gedmo\Versioned
      */
     private $voorkeur = false;

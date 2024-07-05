@@ -2,25 +2,18 @@
 
 namespace MwBundle\Form;
 
-
 use Doctrine\ORM\EntityRepository;
-use Entity\Repository\CategoryRepository;
 use MwBundle\Entity\BinnenViaOptieKlant;
-use MwBundle\Entity\BinnenViaOptieVW;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class BinnenViaOptieKlantSelectType extends AbstractType
 {
-
-    /**
-     * {@inheritdoc}
-     */
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'class'=> BinnenViaOptieKlant::class,
+            'class' => BinnenViaOptieKlant::class,
             'label' => 'Binnen via',
             'placeholder' => '',
             'query_builder' => function (EntityRepository $repository) {
@@ -28,15 +21,10 @@ class BinnenViaOptieKlantSelectType extends AbstractType
                     ->orderBy('binnenViaOptiesKlant.naam');
             },
         ]);
-
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getParent(): ?string
     {
         return EntityType::class;
     }
-
 }

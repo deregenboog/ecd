@@ -6,12 +6,9 @@ use AppBundle\Form\AppDateType;
 use AppBundle\Form\AppTextareaType;
 use AppBundle\Form\BaseType;
 use AppBundle\Form\MedewerkerType;
-
 use Doctrine\ORM\EntityRepository;
 use IzBundle\Entity\Hulp;
 use IzBundle\Entity\Hulpaanbod;
-use IzBundle\Form\ProjectSelectType;
-
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -21,9 +18,6 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 class HulpaanbodType extends AbstractType
 {
-    /**
-     * {@inheritdoc}
-     */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
@@ -91,9 +85,6 @@ class HulpaanbodType extends AbstractType
         ;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
@@ -101,9 +92,6 @@ class HulpaanbodType extends AbstractType
         ]);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getParent(): ?string
     {
         return BaseType::class;

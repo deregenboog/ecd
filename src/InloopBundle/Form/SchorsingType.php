@@ -16,9 +16,6 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class SchorsingType extends AbstractType
 {
-    /**
-     * {@inheritdoc}
-     */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
@@ -29,7 +26,7 @@ class SchorsingType extends AbstractType
             ->add('locaties', LocatieSelectType::class, [
                 'multiple' => true,
                 'expanded' => true,
-                'locatietypes' => ['Inloop']
+                'locatietypes' => ['Inloop'],
             ])
             ->add('datumTot', AppDateType::class, [
                 'label' => 'Schorsen t/m',
@@ -80,30 +77,22 @@ class SchorsingType extends AbstractType
             ->add('bijzonderheden', null, ['required' => false])
             ->add('submit', SubmitType::class)
 
-
         ;
         $builder->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event) {
-            if(!$event->getData()->getId())
-            {
+            if (!$event->getData()->getId()) {
                 $event->getForm()
-                    ->add('submitAndAddIncident', SubmitType::class,[
-                        'label'=>'Opslaan en incident toevoegen'
+                    ->add('submitAndAddIncident', SubmitType::class, [
+                        'label' => 'Opslaan en incident toevoegen',
                     ]);
             }
         });
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getParent(): ?string
     {
         return BaseType::class;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([

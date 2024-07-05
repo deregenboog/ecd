@@ -2,12 +2,9 @@
 
 namespace HsBundle\Event;
 
-
-use Doctrine\Bundle\DoctrineBundle\EventSubscriber\EventSubscriberInterface;
 use Doctrine\Common\EventArgs;
 use Doctrine\Common\EventSubscriber;
 use Doctrine\ORM\EntityManagerInterface;
-use Doctrine\ORM\Event\LifecycleEventArgs;
 use Doctrine\ORM\Event\PostPersistEventArgs;
 use Doctrine\ORM\Event\PostRemoveEventArgs;
 use Doctrine\ORM\Event\PostUpdateEventArgs;
@@ -15,7 +12,6 @@ use Doctrine\ORM\Events;
 use HsBundle\Entity\Betaling;
 use HsBundle\Entity\Factuur;
 use HsBundle\Entity\Klant;
-
 
 class KlantUpdater implements EventSubscriber
 {

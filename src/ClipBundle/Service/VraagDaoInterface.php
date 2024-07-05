@@ -9,20 +9,18 @@ use Knp\Component\Pager\Pagination\PaginationInterface;
 interface VraagDaoInterface
 {
     /**
-     * @param int             $page
-     * @param FilterInterface $filter
+     * @param int $page
      *
      * @return PaginationInterface
      */
-    public function findAll($page = null, FilterInterface $filter = null);
+    public function findAll($page = null, ?FilterInterface $filter = null);
 
     /**
-     * @param int             $page
-     * @param FilterInterface $filter
+     * @param int $page
      *
      * @return PaginationInterface
      */
-    public function findAllOpen($page = null, FilterInterface $filter = null);
+    public function findAllOpen($page = null, ?FilterInterface $filter = null);
 
     /**
      * @param int $id
@@ -31,19 +29,10 @@ interface VraagDaoInterface
      */
     public function find($id);
 
-    /**
-     * @param Vraag $vraag
-     */
     public function create(Vraag $vraag);
 
-    /**
-     * @param Vraag $vraag
-     */
     public function update(Vraag $vraag);
 
-    /**
-     * @param Vraag $vraag
-     */
     public function delete(Vraag $vraag);
 
     public function countByCommunicatiekanaal(\DateTime $startdate, \DateTime $enddate);

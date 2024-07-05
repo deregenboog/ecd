@@ -9,7 +9,6 @@ use AppBundle\Filter\FilterInterface;
 use AppBundle\Form\ConfirmationType;
 use HsBundle\Entity\Creditfactuur;
 use HsBundle\Entity\Factuur;
-use HsBundle\Entity\Klant;
 use HsBundle\Exception\HsException;
 use HsBundle\Exception\InvoiceLockedException;
 use HsBundle\Form\CreditfactuurType;
@@ -25,6 +24,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * @Route("/facturen")
+ *
  * @Template
  */
 class FacturenController extends AbstractChildController
@@ -135,12 +135,11 @@ class FacturenController extends AbstractChildController
      */
     public function editAction(Request $request, $id)
     {
-        $this->denyAccessUnlessGranted("ROLE_HOMESERVICE_BEHEER");
+        $this->denyAccessUnlessGranted('ROLE_HOMESERVICE_BEHEER');
         $this->formClass = CreditfactuurType::class;
         $entity = $this->dao->find($id);
-        if($entity->isLocked())
-        {
-            throw new InvoiceLockedException("Een definitieve factuur kan niet meer bewerkt worden");
+        if ($entity->isLocked()) {
+            throw new InvoiceLockedException('Een definitieve factuur kan niet meer bewerkt worden');
         }
 
         return parent::editAction($request, $id);
@@ -151,17 +150,14 @@ class FacturenController extends AbstractChildController
      */
     public function deleteAction(Request $request, $id)
     {
-
-        $this->denyAccessUnlessGranted("ROLE_HOMESERVICE_BEHEER");
+        $this->denyAccessUnlessGranted('ROLE_HOMESERVICE_BEHEER');
 
         $entity = $this->dao->find($id);
-        if($entity->isLocked())
-        {
-            throw new InvoiceLockedException("Een definitieve factuur kan niet meer verwijderd worden");
+        if ($entity->isLocked()) {
+            throw new InvoiceLockedException('Een definitieve factuur kan niet meer verwijderd worden');
         }
+
         return parent::deleteAction($request, $id);
-
-
     }
 
     /**
@@ -191,6 +187,7 @@ class FacturenController extends AbstractChildController
 
     /**
      * @Route("/{id}/oninbaar")
+     *
      * @Template
      */
     public function oninbaarAction(Request $request, $id)
@@ -218,6 +215,7 @@ class FacturenController extends AbstractChildController
 
     /**
      * @Route("/{id}/inbaar")
+     *
      * @Template
      */
     public function inbaarAction(Request $request, $id)
@@ -373,7 +371,7 @@ class FacturenController extends AbstractChildController
         $pdf = $this->createPdf($entity);
         $response = new Response($pdf->Output(null, 'S'));
 
-//        $filename = sprintf('homeservice-factuur-%s.pdf', $entity);
+        //        $filename = sprintf('homeservice-factuur-%s.pdf', $entity);
         $filename = sprintf('homeservice-factuur-%s-%s.pdf', $entity, $entity->getKlant());
         $response->headers->set('Content-type', 'application/pdf');
         $response->headers->set('Content-Disposition', sprintf('attachment; filename="%s";', $filename));
@@ -383,8 +381,6 @@ class FacturenController extends AbstractChildController
     }
 
     /**
-     * @param Factuur $entity
-     *
      * @return \TCPDF
      */
     private function createPdf(Factuur $entity)

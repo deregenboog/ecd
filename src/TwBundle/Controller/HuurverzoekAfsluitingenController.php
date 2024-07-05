@@ -2,12 +2,13 @@
 
 namespace TwBundle\Controller;
 
-use TwBundle\Entity\HuurverzoekAfsluiting;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\Routing\Annotation\Route;
+use TwBundle\Entity\HuurverzoekAfsluiting;
 
 /**
  * @Route("/admin/huurverzoekafsluitingen")
+ *
  * @Template
  */
 class HuurverzoekAfsluitingenController extends AfsluitingenController

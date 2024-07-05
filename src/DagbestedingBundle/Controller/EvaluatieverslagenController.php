@@ -2,18 +2,15 @@
 
 namespace DagbestedingBundle\Controller;
 
+use AppBundle\Controller\AbstractChildController;
 use AppBundle\Controller\DisableIndexActionTrait;
 use DagbestedingBundle\Entity\Evaluatieverslag;
-use DagbestedingBundle\Entity\Intakeverslag;
-use AppBundle\Controller\AbstractChildController;
-use DagbestedingBundle\Entity\Verslag;
 use DagbestedingBundle\Form\VerslagType;
 use DagbestedingBundle\Service\VerslagDaoInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * @Route("/evaluatieverslagen")
-
  */
 class EvaluatieverslagenController extends AbstractChildController
 {

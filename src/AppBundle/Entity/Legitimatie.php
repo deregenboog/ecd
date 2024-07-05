@@ -10,8 +10,11 @@ use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Entity
+ *
  * @ORM\Table(name="legitimaties")
+ *
  * @ORM\HasLifecycleCallbacks
+ *
  * @Gedmo\Loggable
  */
 class Legitimatie
@@ -22,12 +25,14 @@ class Legitimatie
 
     /**
      * @ORM\Column(name="datum_van", type="date")
+     *
      * @Gedmo\Versioned
      */
     private $datumVan;
 
     /**
      * @ORM\Column(name="datum_tot", type="date", nullable=true)
+     *
      * @Gedmo\Versioned
      */
     private $datumTot;
@@ -36,6 +41,7 @@ class Legitimatie
      * @var \DateTime
      *
      * @ORM\Column(type="datetime", nullable=true)
+     *
      * @Gedmo\Versioned
      */
     protected $created;
@@ -44,6 +50,7 @@ class Legitimatie
      * @var \DateTime
      *
      * @ORM\Column(type="datetime", nullable=true)
+     *
      * @Gedmo\Versioned
      */
     protected $modified;

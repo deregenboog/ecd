@@ -10,8 +10,11 @@ use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Entity
+ *
  * @ORM\Table(name="verslavingsperiodes")
+ *
  * @ORM\HasLifecycleCallbacks
+ *
  * @Gedmo\Loggable
  */
 class Periode
@@ -24,6 +27,7 @@ class Periode
      * @var \DateTime
      *
      * @ORM\Column(name="datum_van", type="date")
+     *
      * @Gedmo\Versioned
      */
     private $datumVan;
@@ -32,6 +36,7 @@ class Periode
      * @var \DateTime
      *
      * @ORM\Column(name="datum_tot", type="date", nullable=true)
+     *
      * @Gedmo\Versioned
      */
     private $datumTot;
@@ -49,9 +54,6 @@ class Periode
         return $this->datumVan;
     }
 
-    /**
-     * @param \DateTime $datumVan
-     */
     public function setDatumVan(\DateTime $datumVan)
     {
         $this->datumVan = $datumVan;
@@ -67,10 +69,7 @@ class Periode
         return $this->datumTot;
     }
 
-    /**
-     * @param \DateTime $datumTot
-     */
-    public function setDatumTot(\DateTime $datumTot = null)
+    public function setDatumTot(?\DateTime $datumTot = null)
     {
         $this->datumTot = $datumTot;
 

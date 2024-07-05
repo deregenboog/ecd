@@ -13,6 +13,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * @Route("/intakes")
+ *
  * @Template
  */
 class IntakesController extends AbstractChildController
@@ -43,6 +44,7 @@ class IntakesController extends AbstractChildController
 
     /**
      * @Route("/{id}/view")
+     *
      * @Template
      */
     public function viewAction(Request $request, $id)

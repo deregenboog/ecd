@@ -22,34 +22,31 @@ class LocatieFilter implements FilterInterface
      */
     public $locatieTypes;
 
-    public function applyTo(QueryBuilder $builder) {
-
-        if($this->naam) {
+    public function applyTo(QueryBuilder $builder)
+    {
+        if ($this->naam) {
             $builder
                 ->andWhere('locatie.naam LIKE :naam')
-                ->setParameter('naam',"%".$this->naam."%");
-
+                ->setParameter('naam', '%'.$this->naam.'%');
         }
 
-        if($this->locatieTypes)
-        {
+        if ($this->locatieTypes) {
             $builder
-                ->innerJoin('locatie.locatieTypes','locatieTypes')
+                ->innerJoin('locatie.locatieTypes', 'locatieTypes')
 
                 ->andWhere('locatieTypes IN (:locatietypes)')
-                ->setParameter('locatietypes',$this->locatieTypes);
-
+                ->setParameter('locatietypes', $this->locatieTypes);
         }
 
         if (null !== $this->status) {
-            if ($this->status == self::STATUS_ACTIEF) {
+            if (self::STATUS_ACTIEF == $this->status) {
                 $builder
                     ->andWhere('locatie.datumVan <= :today')
                     ->andWhere('locatie.datumTot >= :today OR locatie.datumTot IS NULL')
                     ->setParameter('today', new \DateTime('today'))
                 ;
             }
-            if ($this->status == self::STATUS_INACTIEF) {
+            if (self::STATUS_INACTIEF == $this->status) {
                 $builder
                     ->andWhere('locatie.datumVan <= :today')
                     ->andWhere('locatie.datumTot <= :today OR locatie.datumTot IS NULL')

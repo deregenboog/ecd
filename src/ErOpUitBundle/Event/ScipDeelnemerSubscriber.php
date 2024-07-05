@@ -4,8 +4,8 @@ namespace ErOpUitBundle\Event;
 
 use ErOpUitBundle\Entity\Klant;
 use ErOpUitBundle\Service\KlantDaoInterface;
-use ScipBundle\Event\Events;
 use ScipBundle\Entity\Deelnemer;
+use ScipBundle\Event\Events;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
 

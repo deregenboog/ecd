@@ -3,11 +3,8 @@
 namespace MwBundle\Controller;
 
 use AppBundle\Controller\AbstractController;
-use MwBundle\Entity\AfsluitredenKlant;
 use MwBundle\Entity\Resultaat;
-use MwBundle\Form\AfsluitredenKlantType;
 use MwBundle\Form\ResultaatType;
-use MwBundle\Service\AfsluitredenKlantDao;
 use MwBundle\Service\ResultaatDaoInterface;
 use Symfony\Component\Routing\Annotation\Route;
 

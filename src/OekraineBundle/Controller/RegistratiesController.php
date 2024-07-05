@@ -6,9 +6,9 @@ use AppBundle\Controller\AbstractController;
 use AppBundle\Entity\Klant;
 use AppBundle\Export\ExportInterface;
 use Doctrine\ORM\EntityNotFoundException;
+use OekraineBundle\Entity\Bezoeker;
 use OekraineBundle\Entity\Locatie;
 use OekraineBundle\Entity\Registratie;
-use OekraineBundle\Entity\Bezoeker;
 use OekraineBundle\Event\Events;
 use OekraineBundle\Filter\BezoekerFilter;
 use OekraineBundle\Filter\RegistratieFilter;
@@ -21,16 +21,16 @@ use OekraineBundle\Security\Permissions;
 use OekraineBundle\Service\BezoekerDaoInterface;
 use OekraineBundle\Service\LocatieDaoInterface;
 use OekraineBundle\Service\RegistratieDaoInterface;
-use OekraineBundle\Service\SchorsingDaoInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
-use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\EventDispatcher\GenericEvent;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * @Route("/registraties")
+ *
  * @Template
  */
 class RegistratiesController extends AbstractController
@@ -90,6 +90,7 @@ class RegistratiesController extends AbstractController
 
     /**
      * @Route("/{locatie}", requirements={"locatie" = "\d+"})
+     *
      * @ParamConverter("locatie", class="OekraineBundle\Entity\Locatie")
      */
     public function indexAction(Request $request)
@@ -207,6 +208,7 @@ class RegistratiesController extends AbstractController
     /**
      * This logic is copied from original code base. Candidate for refactoring.
      * ...
+     *
      * @todo
      *
      * @Route("/jsonCanRegister/{bezoeker}/{locatie}")
@@ -223,7 +225,6 @@ class RegistratiesController extends AbstractController
 
         $sep = '';
         $separator = PHP_EOL.PHP_EOL;
-
 
         try {
             if ($bezoeker->getLaatsteRegistratie()) {
@@ -253,47 +254,45 @@ class RegistratiesController extends AbstractController
         }
 
         if ($jsonVar['allow']) {
-            if(($laatsteIntake = $bezoeker->getLaatsteIntake()) == null)
-            {
+            if (($laatsteIntake = $bezoeker->getLaatsteIntake()) == null) {
                 $jsonVar['message'] .= $sep.'Let op: deze persoon heeft geen intake. Toch inchecken?';
                 $sep = $separator;
                 $jsonVar['confirm'] = true;
             }
-//            $newIntakeNeeded = ;
-            if ($laatsteIntake !== null && $laatsteIntake->getIntakedatum()->diff(new \DateTime())->days > 365) {
+            //            $newIntakeNeeded = ;
+            if (null !== $laatsteIntake && $laatsteIntake->getIntakedatum()->diff(new \DateTime())->days > 365) {
                 $jsonVar['message'] .= $sep.'Let op: deze persoon heeft momenteel een verlopen intake (> 1 jaar geleden). Toch inchecken?';
                 $sep = $separator;
                 $jsonVar['confirm'] = true;
             }
-            if (( ($laatsteRegistratie = $bezoeker->getLaatsteRegistratie()) !== null) && $laatsteRegistratie->getBuiten() !== null  && $laatsteRegistratie->getBuiten()->diff(new \DateTime() )->days > 730  ) {
+            if ((($laatsteRegistratie = $bezoeker->getLaatsteRegistratie()) !== null) && null !== $laatsteRegistratie->getBuiten() && $laatsteRegistratie->getBuiten()->diff(new \DateTime())->days > 730) {
                 $jsonVar['message'] .= $sep.'Let op: deze persoon heeft zich al twee jaar nergens meer geregistreerd en heeft een nieuwe intake nodig. Toch inchecken?';
                 $sep = $separator;
                 $jsonVar['confirm'] = true;
             }
 
-//            $actieveSchorsingen = $this->schorsingDao->findActiefByKlantAndLocatie($bezoeker, $locatie);
-//            if (count($actieveSchorsingen) > 0) {
-//                $jsonVar['message'] .= $sep.'Let op: deze persoon is momenteel op deze locatie geschorst. Toch inchecken?';
-//                $sep = $separator;
-//                $jsonVar['confirm'] = true;
-//            }
-//
-//            $terugkeergesprekNodig = $this->schorsingDao->findTerugkeergesprekNodigByKlantAndLocatie($bezoeker, $locatie);
-//            if (count($terugkeergesprekNodig) > 0) {
-//                $jsonVar['message'] .= $sep.'Let op: deze persoon is 14 dagen of langer geschorst geweest en heeft een terugkeergesprek nodig.';
-//                $sep = $separator;
-//                $jsonVar['confirm'] = true;
-//            }
+            //            $actieveSchorsingen = $this->schorsingDao->findActiefByKlantAndLocatie($bezoeker, $locatie);
+            //            if (count($actieveSchorsingen) > 0) {
+            //                $jsonVar['message'] .= $sep.'Let op: deze persoon is momenteel op deze locatie geschorst. Toch inchecken?';
+            //                $sep = $separator;
+            //                $jsonVar['confirm'] = true;
+            //            }
+            //
+            //            $terugkeergesprekNodig = $this->schorsingDao->findTerugkeergesprekNodigByKlantAndLocatie($bezoeker, $locatie);
+            //            if (count($terugkeergesprekNodig) > 0) {
+            //                $jsonVar['message'] .= $sep.'Let op: deze persoon is 14 dagen of langer geschorst geweest en heeft een terugkeergesprek nodig.';
+            //                $sep = $separator;
+            //                $jsonVar['confirm'] = true;
+            //            }
 
-
-//            if (count($bezoeker->getOpenstaandeOpmerkingen()) > 0) {
-//                $opmerkingen = $bezoeker->getOpenstaandeOpmerkingen()->toArray();
-//                foreach ($opmerkingen as $opmerking) {
-//                    $jsonVar['message'] .= $sep.'Openstaande opmerking ('.$opmerking->getCreated()->format('d-m-Y').'): '.$opmerking->getBeschrijving();
-//                    $sep = $separator;
-//                }
-//                $jsonVar['confirm'] = true;
-//            }
+            //            if (count($bezoeker->getOpenstaandeOpmerkingen()) > 0) {
+            //                $opmerkingen = $bezoeker->getOpenstaandeOpmerkingen()->toArray();
+            //                foreach ($opmerkingen as $opmerking) {
+            //                    $jsonVar['message'] .= $sep.'Openstaande opmerking ('.$opmerking->getCreated()->format('d-m-Y').'): '.$opmerking->getBeschrijving();
+            //                    $sep = $separator;
+            //                }
+            //                $jsonVar['confirm'] = true;
+            //            }
         }
 
         return new JsonResponse($jsonVar);
@@ -330,6 +329,7 @@ class RegistratiesController extends AbstractController
 
     /**
      * @Route("/{registratie}/delete")
+     *
      * @ParamConverter("registratie", class="OekraineBundle\Entity\Registratie")
      */
     public function deleteAction(Request $request, $registratie)
@@ -348,13 +348,14 @@ class RegistratiesController extends AbstractController
     {
         $this->denyAccessUnlessGranted(Permissions::REGISTER, $locatie);
 
-        /**
+        /*
          * Wanneer een klant ergens incheckt, wordt hij eerst overal uitgecheckt.
          */
         $this->dao->checkoutBezoekerFromAllLocations($bezoeker);
         $registratie = $this->dao->create(new Registratie($bezoeker, $locatie));
         $bezoeker->addRegistratie($registratie);
         $this->bezoekerDao->update($bezoeker);
+
         return new JsonResponse();
     }
 }

@@ -23,15 +23,16 @@ use OekraineBundle\Form\BezoekerFilterType;
 use OekraineBundle\Form\BezoekerType;
 use OekraineBundle\Service\BezoekerDaoInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
-use Symfony\Component\EventDispatcher\GenericEvent;
-use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Symfony\Component\EventDispatcher\GenericEvent;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * @Route("/bezoekers")
+ *
  * @Template
  */
 class BezoekersController extends AbstractController
@@ -44,7 +45,7 @@ class BezoekersController extends AbstractController
     protected $filterFormClass = BezoekerFilterType::class;
     protected $baseRouteName = 'oekraine_bezoekers_';
 
-    protected $addMethod = "addBezoeker";
+    protected $addMethod = 'addBezoeker';
     protected $searchFilterTypeClass = AppKlantFilterType::class;
     protected $searchEntity = AppKlant::class;
     protected $searchEntityName = 'appKlant';
@@ -77,14 +78,11 @@ class BezoekersController extends AbstractController
 
         if ('new' === $entityId) {
             $searchEntity = new $this->searchEntity();
-        }
-        else if($entityId == null)
-        {
+        } elseif (null == $entityId) {
             $entity = new $this->entityClass();
 
             return $this->processForm($request, $entity);
-        }
-        else {
+        } else {
             $searchEntity = $this->klantDao->find($entityId);
             if ($searchEntity) {
                 // redirect if already exists
@@ -101,17 +99,15 @@ class BezoekersController extends AbstractController
 
         if ($creationForm->isSubmitted() && $creationForm->isValid()) {
             try {
-
                 $aanmelding = new Aanmelding($subEntity);
                 $subEntity->setHuidigeStatus($aanmelding);
 
-
                 $this->dao->create($subEntity);
-                $this->addFlash('success', ucfirst($this->entityName) . ' is opgeslagen.');
+                $this->addFlash('success', ucfirst($this->entityName).' is opgeslagen.');
 
                 return $this->redirectToView($subEntity);
             } catch (UserException $e) {
-                $message =  $e->getMessage();
+                $message = $e->getMessage();
                 $this->addFlash('danger', $message);
             } catch (\Exception $e) {
                 $message = $this->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
@@ -129,6 +125,7 @@ class BezoekersController extends AbstractController
 
     /**
      * @Route("/{klant}/rapportage")
+     *
      * @ParamConverter("klant", class="OekraineBundle\Entity\Bezoeker")
      */
     public function viewReport(Request $request, Bezoeker $bezoeker)
@@ -241,18 +238,16 @@ class BezoekersController extends AbstractController
                 $this->eventDispatcher->dispatch(new GenericEvent($afsluiting), Events::DOSSIER_CHANGED);
 
                 $this->addFlash('success', 'Oekrainedossier is afgesloten');
-
-            } catch(UserException $e) {
-//                $this->logger->error($e->getMessage(), ['exception' => $e]);
-                $message =  $e->getMessage();
+            } catch (UserException $e) {
+                //                $this->logger->error($e->getMessage(), ['exception' => $e]);
+                $message = $e->getMessage();
                 $this->addFlash('danger', $message);
-//                return $this->redirectToRoute('app_klanten_index');
+                //                return $this->redirectToRoute('app_klanten_index');
             } catch (\Exception $e) {
                 $message = $this->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
                 $this->addFlash('danger', $message);
             }
 
-//
             if ($url = $request->get('redirect')) {
                 return $this->redirect($url);
             }
@@ -282,15 +277,14 @@ class BezoekersController extends AbstractController
                 $entityManager->persist($aanmelding);
                 $entityManager->flush();
 
-
                 $this->eventDispatcher->dispatch(new GenericEvent($aanmelding), Events::DOSSIER_CHANGED);
 
                 $this->addFlash('success', 'Inloopdossier is heropend');
-            } catch(UserException $e) {
-//                $this->logger->error($e->getMessage(), ['exception' => $e]);
-                $message =  $e->getMessage();
+            } catch (UserException $e) {
+                //                $this->logger->error($e->getMessage(), ['exception' => $e]);
+                $message = $e->getMessage();
                 $this->addFlash('danger', $message);
-//                return $this->redirectToRoute('app_klanten_index');
+                //                return $this->redirectToRoute('app_klanten_index');
             } catch (\Exception $e) {
                 $message = $this->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
                 $this->addFlash('danger', $message);
@@ -366,7 +360,6 @@ class BezoekersController extends AbstractController
         ];
     }
 
-
     protected function doSearch(Request $request)
     {
         $filterForm = $this->getForm(AppKlantFilterType::class, null, [
@@ -403,7 +396,6 @@ class BezoekersController extends AbstractController
         if ('new' === $bezoekerId) {
             $bezoeker = new Klant();
         } else {
-
             $bezoeker = $this->klantDao->find($bezoekerId);
             $bezoeker = $this->dao->findByKlantId($bezoekerId);
             if ($bezoeker) {
@@ -414,12 +406,10 @@ class BezoekersController extends AbstractController
             }
         }
 
-        if(null == $bezoeker)
-        {
+        if (null == $bezoeker) {
             $bezoeker = new Bezoeker();
         }
         $bezoeker->setAppKlant($bezoeker);
-
 
         $creationForm = $this->getForm(BezoekerType::class, $bezoeker);
         $creationForm->handleRequest($request);
@@ -428,9 +418,10 @@ class BezoekersController extends AbstractController
             try {
                 $this->dao->create($bezoeker);
                 $this->addFlash('success', ucfirst($this->entityName).' is opgeslagen.');
+
                 return $this->redirectToView($bezoeker);
-            } catch(UserException $e) {
-                $message =  $e->getMessage();
+            } catch (UserException $e) {
+                $message = $e->getMessage();
                 $this->addFlash('danger', $message);
             } catch (\Exception $e) {
                 $message = $this->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';

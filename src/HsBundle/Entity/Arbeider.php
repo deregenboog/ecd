@@ -10,10 +10,15 @@ use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Entity
+ *
  * @ORM\Table("hs_arbeiders")
+ *
  * @ORM\InheritanceType("JOINED")
+ *
  * @ORM\DiscriminatorMap({"dienstverlener" = "Dienstverlener", "vrijwilliger" = "Vrijwilliger"})
+ *
  * @ORM\HasLifecycleCallbacks
+ *
  * @Gedmo\Loggable
  */
 abstract class Arbeider
@@ -22,31 +27,37 @@ abstract class Arbeider
 
     /**
      * @ORM\Id
+     *
      * @ORM\Column(type="integer")
+     *
      * @ORM\GeneratedValue
      */
     protected $id;
 
     /**
      * @ORM\Column(type="boolean")
+     *
      * @Gedmo\Versioned
      */
     protected $actief = true;
 
     /**
      * @ORM\Column(type="date")
+     *
      * @Gedmo\Versioned
      */
     protected $inschrijving;
 
     /**
      * @ORM\Column(type="date", nullable=true)
+     *
      * @Gedmo\Versioned
      */
     protected $uitschrijving;
 
     /**
      * @ORM\Column(type="boolean", nullable=true)
+     *
      * @Gedmo\Versioned
      */
     protected $rijbewijs;
@@ -57,7 +68,9 @@ abstract class Arbeider
 
     /**
      * @var ArrayCollection|Registratie[]
+     *
      * @ORM\OneToMany(targetEntity="Registratie", mappedBy="arbeider")
+     *
      * @ORM\OrderBy({"datum": "desc", "start": "desc", "eind": "desc"})
      */
     protected $registraties;
@@ -88,32 +101,27 @@ abstract class Arbeider
         return $this;
     }
 
-    /**
-     * @return mixed
-     */
     public function getUitschrijving()
     {
         return $this->uitschrijving;
     }
 
     /**
-     * @param mixed $uitschrijving
      * @return Arbeider
      */
     public function setUitschrijving($uitschrijving)
     {
         $this->uitschrijving = $uitschrijving;
+
         return $this;
     }
-
-
 
     public function getKlussen()
     {
         return $this->klussen;
     }
 
-    public function getRegistraties(Klus $klus = null)
+    public function getRegistraties(?Klus $klus = null)
     {
         $criteria = Criteria::create()->orderBy([
             'datum' => Criteria::ASC,

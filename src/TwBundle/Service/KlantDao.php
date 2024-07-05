@@ -5,7 +5,6 @@ namespace TwBundle\Service;
 use AppBundle\Filter\FilterInterface;
 use AppBundle\Service\AbstractDao;
 use Doctrine\ORM\EntityManagerInterface;
-use Knp\Component\Pager\Pagination\PaginationInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use TwBundle\Entity\Klant;
 
@@ -34,7 +33,6 @@ class KlantDao extends AbstractDao implements KlantDaoInterface
             'geslacht.volledig',
             'bindingRegio.naam',
             'shortlist.achternaam',
-
         ],
     ];
 
@@ -45,7 +43,7 @@ class KlantDao extends AbstractDao implements KlantDaoInterface
 
     public function __construct(EntityManagerInterface $entityManager, PaginatorInterface $paginator, $itemsPerPage)
     {
-        parent::__construct($entityManager,$paginator,$itemsPerPage);
+        parent::__construct($entityManager, $paginator, $itemsPerPage);
 
         $this->entityManager->getFilters()->disable('zichtbaar');
     }
@@ -53,27 +51,28 @@ class KlantDao extends AbstractDao implements KlantDaoInterface
     /**
      * {inheritdoc}.
      */
-    public function findAll($page = null, FilterInterface $filter = null)
+    public function findAll($page = null, ?FilterInterface $filter = null)
     {
         $builder = $this->repository->createQueryBuilder('klant')
             ->innerJoin('klant.appKlant', 'appKlant')
-            ->leftJoin('appKlant.geslacht','geslacht')
-            ->leftJoin('klant.intakeStatus','intakeStatus')
-            ->leftJoin('klant.bindingRegio','bindingRegio')
-            ->leftJoin('klant.shortlist','shortlist')
-            ->innerJoin('klant.projecten','project')
-            ->leftJoin('klant.ambulantOndersteuner','ambulantOndersteuner')
+            ->leftJoin('appKlant.geslacht', 'geslacht')
+            ->leftJoin('klant.intakeStatus', 'intakeStatus')
+            ->leftJoin('klant.bindingRegio', 'bindingRegio')
+            ->leftJoin('klant.shortlist', 'shortlist')
+            ->innerJoin('klant.projecten', 'project')
+            ->leftJoin('klant.ambulantOndersteuner', 'ambulantOndersteuner')
             ->leftJoin('appKlant.werkgebied', 'werkgebied')
             ->leftJoin('klant.afsluiting', 'afsluiting')
-            ->leftJoin('klant.medewerker','medewerker')
+            ->leftJoin('klant.medewerker', 'medewerker')
             ->andWhere('(afsluiting.tonen IS NULL OR afsluiting.tonen = true)')
         ;
-//        $builder = $this->repository->createQueryBuilder($this->alias)
-//            ->innerJoin($this->alias.'.klant', 'klant')
-//        ;
+        //        $builder = $this->repository->createQueryBuilder($this->alias)
+        //            ->innerJoin($this->alias.'.klant', 'klant')
+        //        ;
 
         return parent::doFindAll($builder, $page, $filter);
     }
+
     public function create(Klant $entity)
     {
         $this->doCreate($entity);
@@ -81,9 +80,9 @@ class KlantDao extends AbstractDao implements KlantDaoInterface
 
     public function update(Klant $entity)
     {
-        //update huisgenoot ook, maar werkt niet want bij unsetten gaat het fout
-        //computeChangeSet op UnitOfWork werkt niet, zie https://stackoverflow.com/questions/9057558/is-there-a-built-in-way-to-get-all-of-the-changed-updated-fields-in-a-doctrine-2
-//        $updatedEntities = $this->entityManager->getUnitOfWork()->getScheduledEntityUpdates();
+        // update huisgenoot ook, maar werkt niet want bij unsetten gaat het fout
+        // computeChangeSet op UnitOfWork werkt niet, zie https://stackoverflow.com/questions/9057558/is-there-a-built-in-way-to-get-all-of-the-changed-updated-fields-in-a-doctrine-2
+        //        $updatedEntities = $this->entityManager->getUnitOfWork()->getScheduledEntityUpdates();
 
         $this->doUpdate($entity);
     }

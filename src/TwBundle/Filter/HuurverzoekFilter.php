@@ -47,7 +47,6 @@ class HuurverzoekFilter implements FilterInterface
      */
     public $klant;
 
-
     /**
      * @var Medewerker
      */
@@ -63,7 +62,6 @@ class HuurverzoekFilter implements FilterInterface
         $this->huurovereenkomst = new HuurovereenkomstFilter();
         $this->huurovereenkomst->isReservering = true;
     }
-
 
     public function applyTo(QueryBuilder $builder)
     {
@@ -103,12 +101,11 @@ class HuurverzoekFilter implements FilterInterface
                 ;
             }
         }
-        if($this->medewerker)
-        {
+        if ($this->medewerker) {
             $builder
 
                 ->andWhere('huurverzoek.medewerker = :medewerker')
-                ->setParameter('medewerker',$this->medewerker);
+                ->setParameter('medewerker', $this->medewerker);
         }
         if ($this->huurovereenkomst) {
             $this->huurovereenkomst->applyTo($builder);
@@ -120,32 +117,27 @@ class HuurverzoekFilter implements FilterInterface
 //                ->andWhere('huurovereenkomst.id IS NOT NULL')
                 ->setParameter('now', new \DateTime())
             ;
-        }
-        else {
-//            $builder
-//                ->andWhere('huurovereenkomst.id IS NULL');
+        } else {
+            //            $builder
+            //                ->andWhere('huurovereenkomst.id IS NULL');
         }
 
         if ($this->klant) {
-            $this->klant->applyTo($builder,'appKlant');
+            $this->klant->applyTo($builder, 'appKlant');
         }
         if ($this->huisgenoot) {
-
             $builder->andWhere('klant.huisgenoot = :huisgenoot')
-                ->setParameter("huisgenoot",$this->huisgenoot);
+                ->setParameter('huisgenoot', $this->huisgenoot);
         }
 
-        if($this->project && (is_array($this->project) || $this->project instanceof \Countable ? count($this->project) : 0)>0)
-        {
+        if ($this->project && (is_array($this->project) || $this->project instanceof \Countable ? count($this->project) : 0) > 0) {
             $builder->innerJoin('huurverzoek.projecten', 'project')
                 ->andWhere('project.id IN (:project)')
-                ->setParameter("project",$this->project);
+                ->setParameter('project', $this->project);
         }
 
         $q = $builder->getQuery();
         $dql = $builder->getDQL();
         $sql = $q->getSQL();
-
-
     }
 }

@@ -3,11 +3,7 @@
 namespace Tests\HsBundle\Repository;
 
 use AppBundle\Form\Model\AppDateRangeModel;
-use AppBundle\Repository\DoelstellingRepositoryInterface;
-use AppBundle\Repository\DoelstellingRepositoryTrait;
-use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\Mapping\ClassMetadata;
-use HsBundle\Entity\Factuur;
 use HsBundle\Entity\Klant;
 use HsBundle\Entity\Klus;
 use HsBundle\Repository\KlusRepository;
@@ -30,7 +26,7 @@ class KlusRepositoryTest extends DoctrineTestCase
         $this->expectDQL($em, $expectedDQL);
 
         $repository = new KlusRepository($em, $metadata);
-        $repository->findNonLockedByKlantAndDateRange(new Klant, new AppDateRangeModel(new \DateTime(), new \DateTime()));
+        $repository->findNonLockedByKlantAndDateRange(new Klant(), new AppDateRangeModel(new \DateTime(), new \DateTime()));
     }
 
     public function testFindByKlantAndDateRange()
@@ -45,6 +41,6 @@ class KlusRepositoryTest extends DoctrineTestCase
         $this->expectDQL($em, $expectedDQL);
 
         $repository = new KlusRepository($em, $metadata);
-        $repository->findByKlantAndDateRange(new Klant, new AppDateRangeModel(new \DateTime(), new \DateTime()));
+        $repository->findByKlantAndDateRange(new Klant(), new AppDateRangeModel(new \DateTime(), new \DateTime()));
     }
 }

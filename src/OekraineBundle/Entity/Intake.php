@@ -11,14 +11,15 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
-use Symfony\Component\Form\Form;
 use Symfony\Component\Validator\Constraints as Assert;
-use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
 /**
  * @ORM\Entity
+ *
  * @ORM\Table(name="oekraine_intakes")
+ *
  * @Gedmo\Loggable
+ *
  * @UniqueEntity({"bezoeker", "intakedatum"}, message="Deze klant heeft al een intake op deze datum")
  */
 class Intake
@@ -29,7 +30,9 @@ class Intake
      * @var int
      *
      * @ORM\Id
+     *
      * @ORM\Column(type="integer")
+     *
      * @ORM\GeneratedValue
      */
     private $id;
@@ -38,6 +41,7 @@ class Intake
      * @var Bezoeker
      *
      * @ORM\ManyToOne(targetEntity="OekraineBundle\Entity\Bezoeker", inversedBy="intakes")
+     *
      * @Gedmo\Versioned
      */
     private $bezoeker;
@@ -46,7 +50,9 @@ class Intake
      * @var Medewerker
      *
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Medewerker")
+     *
      * @Gedmo\Versioned
+     *
      * @Assert\NotNull
      */
     private $medewerker;
@@ -55,7 +61,9 @@ class Intake
      * @var Locatie
      *
      * @ORM\ManyToOne(targetEntity="OekraineBundle\Entity\Locatie")
+     *
      * @ORM\JoinColumn(name="intakelocatie_id")
+     *
      * @Gedmo\Versioned
      */
     private $intakelocatie;
@@ -64,7 +72,9 @@ class Intake
      * @var Locatie
      *
      * @ORM\ManyToOne(targetEntity="OekraineBundle\Entity\Locatie")
+     *
      * @ORM\JoinColumn(name="woonlocatie_id")
+     *
      * @Gedmo\Versioned
      */
     private $woonlocatie;
@@ -73,18 +83,22 @@ class Intake
      * @var string
      *
      * @ORM\Column(nullable=true)
+     *
      * @Gedmo\Versioned
      */
     private $kamernummer;
-
 
     /**
      * @var \DateTime
      *
      * @ORM\Column(name="datum_intake", type="date", nullable=true)
+     *
      * @Gedmo\Versioned
+     *
      * @Assert\NotNull
+     *
      * @Assert\Type("\DateTime")
+     *
      * @NoFutureDate
      */
     private $intakedatum;
@@ -93,6 +107,7 @@ class Intake
      * @var string
      *
      * @ORM\Column(nullable=true)
+     *
      * @Gedmo\Versioned
      */
     private $postadres;
@@ -101,6 +116,7 @@ class Intake
      * @var string
      *
      * @ORM\Column(nullable=true)
+     *
      * @Gedmo\Versioned
      */
     private $postcode;
@@ -109,6 +125,7 @@ class Intake
      * @var string
      *
      * @ORM\Column(nullable=true)
+     *
      * @Gedmo\Versioned
      */
     private $woonplaats;
@@ -117,6 +134,7 @@ class Intake
      * @var string
      *
      * @ORM\Column(nullable=true)
+     *
      * @Gedmo\Versioned
      */
     private $telefoonnummer;
@@ -125,7 +143,9 @@ class Intake
      * @var Inkomen[]
      *
      * @ORM\ManyToMany(targetEntity="OekraineBundle\Entity\Inkomen")
+     *
      * @ORM\JoinTable(name="oekraine_inkomens_intakes")
+     *
      * @Assert\Count(min=1, minMessage="Selecteer tenminste één optie")
      */
     private $inkomens;
@@ -141,7 +161,9 @@ class Intake
      * @var Verblijfsstatus
      *
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Verblijfsstatus")
+     *
      * @ORM\JoinColumn(name="verblijfstatus_id")
+     *
      * @Assert\NotNull(groups={"toegang"})
      */
     private $verblijfsstatus;
@@ -171,7 +193,9 @@ class Intake
      * @var \DateTime
      *
      * @ORM\Column(name="verblijf_in_NL_sinds", type="date", nullable=true)
+     *
      * @Assert\Type("\DateTime")
+     *
      * @NoFutureDate
      */
     private $verblijfInNederlandSinds;
@@ -180,8 +204,11 @@ class Intake
      * @var \DateTime
      *
      * @ORM\Column(name="verblijf_in_amsterdam_sinds", type="date", nullable=true)
+     *
      * @Assert\NotNull
+     *
      * @Assert\Type("\DateTime")
+     *
      * @NoFutureDate
      */
     private $verblijfInAmsterdamSinds;
@@ -199,7 +226,6 @@ class Intake
      * @ORM\Column(name="medische_achtergrond", type="text", nullable=true)
      */
     private $medischeAchtergrond;
-
 
     /**
      * @var string
@@ -236,15 +262,14 @@ class Intake
      */
     private $hulpverlening = false;
 
-
-
     /**
      * @ORM\Column(name="geinformeerd_opslaan_gegevens", type="boolean")
+     *
      * @Gedmo\Versioned
      */
     protected $geinformeerdOpslaanGegevens = false;
 
-    public function __construct(Bezoeker $bezoeker = null)
+    public function __construct(?Bezoeker $bezoeker = null)
     {
         $this->setBezoeker($bezoeker);
         $this->created = new \DateTime();
@@ -270,7 +295,7 @@ class Intake
     }
 
     /**
-     * @param \AppBundle\Entity\Medewerker $medewerker
+     * @param Medewerker $medewerker
      */
     public function setMedewerker($medewerker)
     {
@@ -279,16 +304,12 @@ class Intake
         return $this;
     }
 
-    /**
-     * @param \DateTime $intakedatum
-     */
     public function setIntakedatum(\DateTime $intakedatum)
     {
         $this->intakedatum = $intakedatum;
 
         return $this;
     }
-
 
     /**
      * @param Inkomen[] $inkomens
@@ -310,9 +331,6 @@ class Intake
         return $this;
     }
 
-    /**
-     * @param Verblijfsstatus $verblijfsstatus
-     */
     public function setVerblijfsstatus(Verblijfsstatus $verblijfsstatus)
     {
         $this->verblijfsstatus = $verblijfsstatus;
@@ -321,7 +339,7 @@ class Intake
     }
 
     /**
-     * @param \AppBundle\Entity\Legitimatie $legitimatie
+     * @param Legitimatie $legitimatie
      */
     public function setLegitimatie($legitimatie)
     {
@@ -340,30 +358,21 @@ class Intake
         return $this;
     }
 
-    /**
-     * @param \DateTime $legitimatieGeldigTot
-     */
-    public function setLegitimatieGeldigTot(\DateTime $legitimatieGeldigTot = null)
+    public function setLegitimatieGeldigTot(?\DateTime $legitimatieGeldigTot = null)
     {
         $this->legitimatieGeldigTot = $legitimatieGeldigTot;
 
         return $this;
     }
 
-    /**
-     * @param \DateTime $verblijfInNederlandSinds
-     */
-    public function setVerblijfInNederlandSinds(\DateTime $verblijfInNederlandSinds = null)
+    public function setVerblijfInNederlandSinds(?\DateTime $verblijfInNederlandSinds = null)
     {
         $this->verblijfInNederlandSinds = $verblijfInNederlandSinds;
 
         return $this;
     }
 
-    /**
-     * @param \DateTime $verblijfInAmsterdamSinds
-     */
-    public function setVerblijfInAmsterdamSinds(\DateTime $verblijfInAmsterdamSinds = null)
+    public function setVerblijfInAmsterdamSinds(?\DateTime $verblijfInAmsterdamSinds = null)
     {
         $this->verblijfInAmsterdamSinds = $verblijfInAmsterdamSinds;
 
@@ -430,7 +439,6 @@ class Intake
         return $this;
     }
 
-
     /**
      * @return string
      */
@@ -467,24 +475,17 @@ class Intake
         return $this;
     }
 
-    /**
-     * @return bool
-     */
     public function isWerkhulp(): ?bool
     {
         return $this->werkhulp;
     }
 
-    /**
-     * @param bool $werkhulp
-     * @return Intake
-     */
     public function setWerkhulp(bool $werkhulp): Intake
     {
         $this->werkhulp = $werkhulp;
+
         return $this;
     }
-
 
     /**
      * @return bool
@@ -585,24 +586,17 @@ class Intake
         return $this->id;
     }
 
-    /**
-     * @return Bezoeker
-     */
     public function getBezoeker(): ?Bezoeker
     {
         return $this->bezoeker;
     }
 
-    /**
-     * @param Bezoeker $bezoeker
-     * @return Intake
-     */
     public function setBezoeker(Bezoeker $bezoeker): Intake
     {
         $this->bezoeker = $bezoeker;
+
         return $this;
     }
-
 
     public function getIntakedatum()
     {
@@ -614,49 +608,36 @@ class Intake
         return $this->woonlocatie;
     }
 
-    public function setWoonlocatie(Locatie $locatie = null)
+    public function setWoonlocatie(?Locatie $locatie = null)
     {
         $this->woonlocatie = $locatie;
 
         return $this;
     }
 
-    /**
-     * @return Locatie
-     */
     public function getIntakelocatie(): ?Locatie
     {
         return $this->intakelocatie;
     }
 
-    /**
-     * @param Locatie $intakelocatie
-     * @return Intake
-     */
     public function setIntakelocatie(Locatie $intakelocatie): Intake
     {
         $this->intakelocatie = $intakelocatie;
+
         return $this;
     }
 
-    /**
-     * @return string
-     */
     public function getKamernummer(): ?string
     {
         return $this->kamernummer;
     }
 
-    /**
-     * @param string $kamernummer
-     * @return Intake
-     */
     public function setKamernummer(string $kamernummer): Intake
     {
         $this->kamernummer = $kamernummer;
+
         return $this;
     }
-
 
     public function getInkomens()
     {
@@ -672,7 +653,6 @@ class Intake
     {
         return $this->medewerker;
     }
-
 
     public function getLegitimatie()
     {
@@ -694,17 +674,11 @@ class Intake
         return $this->inkomenOverig;
     }
 
-    /**
-     * @return bool
-     */
     public function isGeinformeerdOpslaanGegevens(): bool
     {
         return $this->geinformeerdOpslaanGegevens;
     }
 
-    /**
-     * @param bool $geinformeerdOpslaanGegevens
-     */
     public function setGeinformeerdOpslaanGegevens(bool $geinformeerdOpslaanGegevens): void
     {
         $this->geinformeerdOpslaanGegevens = $geinformeerdOpslaanGegevens;

@@ -11,14 +11,20 @@ use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Entity(repositoryClass="MwBundle\Repository\DossierStatusRepository")
+ *
  * @ORM\Table(name="mw_binnen_via")
+ *
  * @ORM\HasLifecycleCallbacks
+ *
  * @ORM\InheritanceType("SINGLE_TABLE")
+ *
  * @ORM\DiscriminatorColumn(name="class", type="string")
+ *
  * @ORM\DiscriminatorMap({
  *     "BinnenViaOptieVW" = "BinnenViaOptieVW",
  *     "BinnenViaOptieKlant" = "BinnenViaOptieKlant"
  * })
+ *
  * @Gedmo\Loggable
  */
 abstract class BinnenVia
@@ -32,6 +38,7 @@ abstract class BinnenVia
      * @var \DateTime
      *
      * @ORM\Column(type="datetime")
+     *
      * @Gedmo\Versioned
      */
     protected $created;
@@ -40,6 +47,7 @@ abstract class BinnenVia
      * @var \DateTime
      *
      * @ORM\Column(type="datetime")
+     *
      * @Gedmo\Versioned
      */
     protected $modified;

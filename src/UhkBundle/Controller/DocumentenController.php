@@ -4,10 +4,10 @@ namespace UhkBundle\Controller;
 
 use AppBundle\Controller\AbstractChildController;
 use AppBundle\Controller\DisableIndexActionTrait;
+use Symfony\Component\Routing\Annotation\Route;
 use UhkBundle\Entity\Document;
 use UhkBundle\Form\DocumentType;
 use UhkBundle\Service\DocumentDaoInterface;
-use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * @Route("/documenten")

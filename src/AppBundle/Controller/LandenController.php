@@ -5,15 +5,16 @@ namespace AppBundle\Controller;
 use AppBundle\Entity\Land;
 use AppBundle\Form\LandFilterType;
 use AppBundle\Form\LandType;
-use AppBundle\Service\LandDao;
 use AppBundle\Service\LandDaoInterface;
-use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * @Route("/admin/landen")
+ *
  * @Template
+ *
  * @IsGranted("ROLE_ADMIN")
  */
 class LandenController extends AbstractController

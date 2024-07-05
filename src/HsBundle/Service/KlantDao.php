@@ -29,7 +29,7 @@ class KlantDao extends AbstractDao implements KlantDaoInterface
     /**
      * {inheritdoc}.
      */
-    public function findAll($page = null, FilterInterface $filter = null)
+    public function findAll($page = null, ?FilterInterface $filter = null)
     {
         $builder = $this->repository->createQueryBuilder($this->alias)
             ->select("{$this->alias}, factuur, betaling, klus")
@@ -86,7 +86,7 @@ class KlantDao extends AbstractDao implements KlantDaoInterface
     /**
      * {inheritdoc}.
      */
-    public function countByStadsdeel(\DateTime $start = null, \DateTime $end = null)
+    public function countByStadsdeel(?\DateTime $start = null, ?\DateTime $end = null)
     {
         $builder = $this->repository->createQueryBuilder('klant')
             ->select('COUNT(DISTINCT(klant.id)) AS aantal, werkgebied.naam AS stadsdeel')
@@ -109,7 +109,7 @@ class KlantDao extends AbstractDao implements KlantDaoInterface
     /**
      * {inheritdoc}.
      */
-    public function countByGgwGebied(\DateTime $start = null, \DateTime $end = null)
+    public function countByGgwGebied(?\DateTime $start = null, ?\DateTime $end = null)
     {
         $builder = $this->repository->createQueryBuilder('klant')
             ->select('COUNT(DISTINCT(klant.id)) AS aantal, postcodegebied.naam AS ggwgebied')
@@ -132,7 +132,7 @@ class KlantDao extends AbstractDao implements KlantDaoInterface
     /**
      * {inheritdoc}.
      */
-    public function countNewByStadsdeel(\DateTime $start = null, \DateTime $end = null)
+    public function countNewByStadsdeel(?\DateTime $start = null, ?\DateTime $end = null)
     {
         $builder = $this->repository->createQueryBuilder('klant')
             ->select('COUNT(DISTINCT(klant.id)) AS aantal, werkgebied.naam AS stadsdeel')
@@ -154,7 +154,7 @@ class KlantDao extends AbstractDao implements KlantDaoInterface
     /**
      * {inheritdoc}.
      */
-    public function countNewByGgwGebied(\DateTime $start = null, \DateTime $end = null)
+    public function countNewByGgwGebied(?\DateTime $start = null, ?\DateTime $end = null)
     {
         $builder = $this->repository->createQueryBuilder('klant')
             ->select('COUNT(DISTINCT(klant.id)) AS aantal, postcodegebied.naam AS ggwgebied')

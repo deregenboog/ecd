@@ -8,15 +8,16 @@ use AppBundle\Model\TimestampableTrait;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
-use InloopBundle\Service\LocatieDao;
-use InloopBundle\Service\LocatieDaoInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
 /**
  * @ORM\Entity(repositoryClass="InloopBundle\Repository\SchorsingRepository")
+ *
  * @ORM\Table(name="schorsingen")
+ *
  * @ORM\HasLifecycleCallbacks
+ *
  * @Gedmo\Loggable
  */
 class Schorsing
@@ -35,13 +36,16 @@ class Schorsing
 
     /**
      * @ORM\Column(name="datum_van", type="date")
+     *
      * @Assert\NotNull
      */
     private $datumVan;
 
     /**
      * @ORM\Column(name="datum_tot", type="date")
+     *
      * @Assert\NotNull
+     *
      * @Assert\GreaterThanOrEqual("today")
      */
     private $datumTot;
@@ -143,31 +147,38 @@ class Schorsing
 
     /**
      * @deprecated
+     *
      * @ORM\ManyToOne(targetEntity="Locatie")
      */
     private $locatie;
 
     /**
      * @ORM\ManyToMany(targetEntity="Locatie")
+     *
      * @ORM\JoinTable(name="schorsing_locatie")
+     *
      * @Assert\Count(min=1, minMessage="Selecteer tenminste één locatie")
      */
     private $locaties;
 
     /**
      * @ORM\ManyToMany(targetEntity="SchorsingReden")
+     *
      * @ORM\JoinTable(
      *     name="schorsingen_redenen",
      *     joinColumns={@ORM\JoinColumn(name="schorsing_id")},
      *     inverseJoinColumns={@ORM\JoinColumn(name="reden_id")}
      * ).
+     *
      * @Assert\Count(min=1, minMessage="Selecteer tenminste één reden")
      */
     private $redenen;
 
     /**
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Klant", inversedBy="schorsingen")
+     *
      * @ORM\JoinColumn(nullable=false)
+     *
      * @Assert\NotNull
      */
     private $klant;
@@ -176,6 +187,7 @@ class Schorsing
      * @var \DateTime
      *
      * @ORM\Column(type="datetime")
+     *
      * @Gedmo\Versioned
      */
     protected $created;
@@ -184,18 +196,18 @@ class Schorsing
      * @var \DateTime
      *
      * @ORM\Column(type="datetime")
+     *
      * @Gedmo\Versioned
      */
     protected $modified;
 
-    public function __construct(Klant $klant = null)
+    public function __construct(?Klant $klant = null)
     {
         $this->setKlant($klant);
         $this->setDatumVan(new \DateTime());
         $this->locaties = new ArrayCollection();
         $this->redenen = new ArrayCollection();
     }
-
 
     public function __toString()
     {
@@ -262,21 +274,15 @@ class Schorsing
         return $this;
     }
 
-    /**
-     * @return bool
-     */
     public function isTerugkeergesprekGehad(): bool
     {
         return $this->terugkeergesprekGehad;
     }
 
-    /**
-     * @param bool $terugkeergesprekGehad
-     * @return Schorsing
-     */
     public function setTerugkeergesprekGehad(bool $terugkeergesprekGehad): Schorsing
     {
         $this->terugkeergesprekGehad = $terugkeergesprekGehad;
+
         return $this;
     }
 
@@ -449,6 +455,7 @@ class Schorsing
     public function getLocaties()
     {
         $l = $this->locaties;
+
         return $this->locaties;
     }
 

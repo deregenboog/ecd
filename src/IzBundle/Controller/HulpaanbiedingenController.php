@@ -13,12 +13,13 @@ use IzBundle\Form\HulpaanbodType;
 use IzBundle\Form\HulpvraagFilterType;
 use IzBundle\Service\HulpaanbodDaoInterface;
 use IzBundle\Service\HulpvraagDaoInterface;
-use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * @Route("/hulpaanbiedingen")
+ *
  * @Template
  */
 class HulpaanbiedingenController extends AbstractChildController

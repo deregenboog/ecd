@@ -2,13 +2,10 @@
 
 namespace LegacyBundle\Entity;
 
+use AppBundle\Entity\Klant;
+use AppBundle\Entity\Legitimatie;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
-use Doctrine\Common\Collections\Collection;
-use AppBundle\Entity\Klant;
-use AppBundle\Entity\Medewerker;
-use AppBundle\Entity\Legitimatie;
-use InloopBundle\Entity\Locatie;
 
 /**
  * Hi5Intakes.
@@ -17,14 +14,18 @@ use InloopBundle\Entity\Locatie;
  *     name="hi5_intakes",
  *     indexes={@ORM\Index(name="idx_hi5_intakes_klant_id", columns={"klant_id"})}
  * )
+ *
  * @ORM\Entity
+ *
  * @Gedmo\Loggable
  */
 class Hi5Intake
 {
     /**
      * @ORM\Column(name="id", type="integer")
+     *
      * @ORM\Id
+     *
      * @ORM\GeneratedValue
      */
     private $id;
@@ -162,7 +163,7 @@ class Hi5Intake
     /**
      * @ORM\Column(type="integer", nullable=true)
      */
-     private $primaireproblematieksperiode_id;
+    private $primaireproblematieksperiode_id;
 
     /**
      * @ORM\Column(name="eerste_gebruik", type="date", nullable=true)

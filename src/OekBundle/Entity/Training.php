@@ -12,8 +12,11 @@ use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Entity(repositoryClass="OekBundle\Repository\TrainingRepository")
+ *
  * @ORM\Table(name="oek_trainingen")
+ *
  * @ORM\HasLifecycleCallbacks
+ *
  * @Gedmo\Loggable
  */
 class Training implements KlantRelationInterface
@@ -23,44 +26,53 @@ class Training implements KlantRelationInterface
 
     /**
      * @ORM\Column(type="string")
+     *
      * @Gedmo\Versioned
      */
     private $naam;
 
     /**
      * @ORM\Column(type="date")
+     *
      * @Gedmo\Versioned
      */
     private $startdatum;
 
     /**
      * @ORM\Column(type="time",nullable=true)
+     *
      * @Gedmo\Versioned
      */
     private $starttijd;
 
     /**
      * @ORM\Column(type="date", nullable=true)
+     *
      * @Gedmo\Versioned
      */
     private $einddatum;
 
     /**
      * @ORM\Column(type="string", nullable=true)
+     *
      * @Gedmo\Versioned
      */
     private $locatie;
 
     /**
      * @var ArrayCollection|Deelname[]
+     *
      * @ORM\OneToMany(targetEntity="Deelname", mappedBy="training")
      */
     private $deelnames;
 
     /**
      * @var Groep
+     *
      * @ORM\ManyToOne(targetEntity="Groep", inversedBy="trainingen")
+     *
      * @ORM\JoinColumn(name="oekGroep_id", nullable=false)
+     *
      * @Gedmo\Versioned
      */
     private $groep;
@@ -69,6 +81,7 @@ class Training implements KlantRelationInterface
      * @var \DateTime
      *
      * @ORM\Column(type="datetime")
+     *
      * @Gedmo\Versioned
      */
     protected $created;
@@ -77,6 +90,7 @@ class Training implements KlantRelationInterface
      * @var \DateTime
      *
      * @ORM\Column(type="datetime")
+     *
      * @Gedmo\Versioned
      */
     protected $modified;
@@ -164,12 +178,12 @@ class Training implements KlantRelationInterface
     {
         $deelnames = new ArrayCollection();
         foreach ($this->deelnames as $dn) {
-
-            if ($withVerwijderd === false && $dn->getStatus() === DeelnameStatus::STATUS_VERWIJDERD) {
+            if (false === $withVerwijderd && DeelnameStatus::STATUS_VERWIJDERD === $dn->getStatus()) {
                 continue;
             }
             $deelnames->add($dn);
         }
+
         return $deelnames;
     }
 
@@ -177,7 +191,7 @@ class Training implements KlantRelationInterface
     {
         $deelnemers = new ArrayCollection();
         foreach ($this->deelnames as $deelname) {
-            if ($deelname->getStatus() == DeelnameStatus::STATUS_VERWIJDERD) {
+            if (DeelnameStatus::STATUS_VERWIJDERD == $deelname->getStatus()) {
                 continue;
             }
             $deelnemers->add($deelname->getDeelnemer());
@@ -205,11 +219,15 @@ class Training implements KlantRelationInterface
 
     public function getKlant(): ?Klant
     {
-         if($deelname = $this->getDeelnames()->first()) return $deelname->getDeelnemer()->getKlant();
-         return null;
+        if ($deelname = $this->getDeelnames()->first()) {
+            return $deelname->getDeelnemer()->getKlant();
+        }
+
+        return null;
     }
+
     public function getKlantFieldName(): string
     {
-        return "Deelnames";
+        return 'Deelnames';
     }
 }

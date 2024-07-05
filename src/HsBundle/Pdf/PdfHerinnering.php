@@ -21,13 +21,10 @@ class PdfHerinnering extends \TCPDF
         $this->SetSubject('Betalingsherinnering Homeservice');
 
         $this->AddPage();
-        $this->Image(('img/drg-logo-142px.jpg'), 10, 0, 40, 40);
+        $this->Image('img/drg-logo-142px.jpg', 10, 0, 40, 40);
         $this->writeHTMLCell(null, null, 15, 10, $html);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function Footer()
     {
         $this->SetY(-15);

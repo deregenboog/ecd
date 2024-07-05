@@ -3,10 +3,8 @@
 namespace InloopBundle\Service;
 
 use AppBundle\Doctrine\SqlExtractor;
-use AppBundle\Filter\FilterInterface;
 use AppBundle\Service\AbstractDao;
 use Doctrine\ORM\EntityManagerInterface;
-use Doctrine\ORM\QueryBuilder;
 use InloopBundle\Entity\Locatie;
 use InloopBundle\Event\Events;
 use Knp\Component\Pager\PaginatorInterface;
@@ -48,56 +46,61 @@ class LocatieDao extends AbstractDao implements LocatieDaoInterface
     public function findAllActiveLocations()
     {
         $builder = $this->repository->createQueryBuilder($this->alias);
-        $builder->where("(locatie.datumTot IS NULL OR locatie.datumTot > :now)")
-                ->andWhere("locatie.datumVan <= :now")
-                ->setParameter(":now", (new \DateTime('now'))->format("Y-m-d"))
-            ;
-        return $this->doFindAll($builder,null);
+        $builder->where('(locatie.datumTot IS NULL OR locatie.datumTot > :now)')
+                ->andWhere('locatie.datumVan <= :now')
+                ->setParameter(':now', (new \DateTime('now'))->format('Y-m-d'))
+        ;
+
+        return $this->doFindAll($builder, null);
     }
-    public function findAllActiveLocationsOfTypes(array $types,$mode = "OR")
+
+    public function findAllActiveLocationsOfTypes(array $types, $mode = 'OR')
     {
         $builder = $this->repository->createQueryBuilder($this->alias);
-        $builder->innerJoin("locatie.locatieTypes","locatieTypes")
-            ->where("(locatie.datumTot IS NULL OR locatie.datumTot > :now)")
-            ->andWhere("locatie.datumVan <= :now")
-            ->andWhere("locatieTypes.naam IN (:locatietypes)")
+        $builder->innerJoin('locatie.locatieTypes', 'locatieTypes')
+            ->where('(locatie.datumTot IS NULL OR locatie.datumTot > :now)')
+            ->andWhere('locatie.datumVan <= :now')
+            ->andWhere('locatieTypes.naam IN (:locatietypes)')
 
-            ->setParameter("now", (new \DateTime('now'))->format("Y-m-d"))
-            ->setParameter("locatietypes",$types)
+            ->setParameter('now', (new \DateTime('now'))->format('Y-m-d'))
+            ->setParameter('locatietypes', $types)
         ;
-        //['Inloop']
+        // ['Inloop']
 
-//        $sql = SqlExtractor::getFullSQL($builder->getQuery());
-        return $this->doFindAll($builder,null);
+        //        $sql = SqlExtractor::getFullSQL($builder->getQuery());
+        return $this->doFindAll($builder, null);
     }
+
     public function findAllActiveLocationsOfTypeInloop()
     {
         $builder = $this->repository->createQueryBuilder($this->alias);
-        $builder->innerJoin("locatie.locatieTypes","locatieTypes")
-            ->where("(locatie.datumTot IS NULL OR locatie.datumTot > :now)")
-            ->andWhere("locatie.datumVan <= :now")
-            ->andWhere("locatieTypes.naam IN (:locatietypes)")
+        $builder->innerJoin('locatie.locatieTypes', 'locatieTypes')
+            ->where('(locatie.datumTot IS NULL OR locatie.datumTot > :now)')
+            ->andWhere('locatie.datumVan <= :now')
+            ->andWhere('locatieTypes.naam IN (:locatietypes)')
 
-            ->setParameter("now", (new \DateTime('now'))->format("Y-m-d"))
-            ->setParameter("locatietypes",['Inloop'])
+            ->setParameter('now', (new \DateTime('now'))->format('Y-m-d'))
+            ->setParameter('locatietypes', ['Inloop'])
         ;
-//        $sql = SqlExtractor::getFullSQL($builder->getQuery());
-        return $this->doFindAll($builder,null);
+
+        //        $sql = SqlExtractor::getFullSQL($builder->getQuery());
+        return $this->doFindAll($builder, null);
     }
 
     public function findAllActiveLocationsOfTypeMW()
     {
         $builder = $this->repository->createQueryBuilder($this->alias);
-        $builder->innerJoin("locatie.locatieTypes","locatieTypes")
-            ->where("(locatie.datumTot IS NULL OR locatie.datumTot > :now)")
-            ->andWhere("locatie.datumVan <= :now")
-            ->andWhere("locatieTypes.naam IN (:locatietypes)")
+        $builder->innerJoin('locatie.locatieTypes', 'locatieTypes')
+            ->where('(locatie.datumTot IS NULL OR locatie.datumTot > :now)')
+            ->andWhere('locatie.datumVan <= :now')
+            ->andWhere('locatieTypes.naam IN (:locatietypes)')
 
-            ->setParameter("now", (new \DateTime('now'))->format("Y-m-d"))
-            ->setParameter("locatietypes",['Maatschappelijk werk'])
+            ->setParameter('now', (new \DateTime('now'))->format('Y-m-d'))
+            ->setParameter('locatietypes', ['Maatschappelijk werk'])
         ;
-//        $sql = SqlExtractor::getFullSQL($builder->getQuery());
-        return $this->doFindAll($builder,null);
+
+        //        $sql = SqlExtractor::getFullSQL($builder->getQuery());
+        return $this->doFindAll($builder, null);
     }
 
     public function create(Locatie $locatie)
@@ -120,15 +123,16 @@ class LocatieDao extends AbstractDao implements LocatieDaoInterface
 
     public function getWachtlijstLocaties()
     {
-        $builder = $this->entityManager->createQueryBuilder("locatie");
-        $builder->select("locatie.naam")
-            ->from(Locatie::class,"locatie")
-            ->innerJoin('locatie.locatieTypes','locatietypes')
-            ->where("locatie.wachtlijst > 0")
+        $builder = $this->entityManager->createQueryBuilder('locatie');
+        $builder->select('locatie.naam')
+            ->from(Locatie::class, 'locatie')
+            ->innerJoin('locatie.locatieTypes', 'locatietypes')
+            ->where('locatie.wachtlijst > 0')
             ->andWhere('locatietypes.naam IN (:locatietypes)')
-            ->setParameter('locatietypes',['Wachtlijst']);
-        ;
+            ->setParameter('locatietypes', ['Wachtlijst']);
+
         $wachtlijstlocaties = $builder->getQuery()->getResult();
+
         return $wachtlijstlocaties;
     }
 }

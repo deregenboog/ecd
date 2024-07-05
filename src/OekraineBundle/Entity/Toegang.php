@@ -2,12 +2,13 @@
 
 namespace OekraineBundle\Entity;
 
-use AppBundle\Entity\Klant;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity
+ *
  * @ORM\Table(name="oekraine_toegang")
+ *
  * @ORM\HasLifecycleCallbacks
  */
 class Toegang
@@ -16,6 +17,7 @@ class Toegang
      * @var Bezoeker
      *
      * @ORM\Id
+     *
      * @ORM\ManyToOne(targetEntity="OekraineBundle\Entity\Bezoeker")
      */
     private $bezoeker;
@@ -24,6 +26,7 @@ class Toegang
      * @var Locatie
      *
      * @ORM\Id
+     *
      * @ORM\ManyToOne(targetEntity="Locatie")
      */
     private $locatie;

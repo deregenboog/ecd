@@ -4,10 +4,8 @@ namespace AppBundle\Entity;
 
 use AppBundle\Model\DocumentSubjectTrait;
 use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\Mapping as ORM;
-use Doctrine\ORM\PersistentCollection;
 use Gedmo\Mapping\Annotation as Gedmo;
 use InloopBundle\Entity\DossierStatus;
 use InloopBundle\Entity\Incident;
@@ -25,12 +23,15 @@ use TheIconic\NameParser\Parser;
 
 /**
  * @ORM\Entity
+ *
  * @ORM\Table(
  *     name="klanten",
  *     uniqueConstraints={
+ *
  *         @ORM\UniqueConstraint(columns={"huidigeStatus_id", "deleted"})
  *      },
  *     indexes={
+ *
  *         @ORM\Index(name="idx_klanten_werkgebied", columns={"werkgebied"}),
  *         @ORM\Index(name="idx_klanten_postcodegebied", columns={"postcodegebied"}),
  *         @ORM\Index(name="idx_klanten_geboortedatum", columns={"geboortedatum"}),
@@ -39,6 +40,7 @@ use TheIconic\NameParser\Parser;
  *         @ORM\Index(name="corona_besmet_idx", columns={"corona_besmet_vanaf"})
  *     }
  * )
+ *
  * @Gedmo\Loggable
  */
 class Klant extends Persoon
@@ -47,13 +49,16 @@ class Klant extends Persoon
 
     /**
      * @var \DateTime Moment tot wanneer dit adres een briefadres is
+     *
      * @ORM\Column(nullable=true, type="date")
+     *
      * @Gedmo\Versioned()
      */
     protected $briefadres;
 
     /**
      * @ORM\Column(name="MezzoID", type="integer")
+     *
      * @Gedmo\Versioned
      */
     private $mezzoId = 0;
@@ -62,6 +67,7 @@ class Klant extends Persoon
      * @var ArrayCollection<Intake>
      *
      * @ORM\OneToMany(targetEntity="InloopBundle\Entity\Intake", mappedBy="klant")
+     *
      * @ORM\OrderBy({"intakedatum" = "DESC", "id" = "DESC"})
      */
     private $intakes;
@@ -70,6 +76,7 @@ class Klant extends Persoon
      * @var Zrm[]
      *
      * @ORM\OneToMany(targetEntity="Zrm", mappedBy="klant",cascade={"persist"})
+     *
      * @ORM\OrderBy({"created" = "DESC", "id" = "DESC"})
      */
     private $zrms;
@@ -78,6 +85,7 @@ class Klant extends Persoon
      * @var Verslag[]
      *
      * @ORM\OneToMany(targetEntity="MwBundle\Entity\Verslag", mappedBy="klant")
+     *
      * @ORM\OrderBy({"datum" = "DESC", "id" = "DESC"})
      */
     private $verslagen;
@@ -86,6 +94,7 @@ class Klant extends Persoon
      * @var ArrayCollection<Registratie>
      *
      * @ORM\OneToMany(targetEntity="InloopBundle\Entity\Registratie", mappedBy="klant")
+     *
      * @ORM\OrderBy({"id" = "DESC"})
      */
     private $registraties;
@@ -94,6 +103,7 @@ class Klant extends Persoon
      * @var Schorsing[]
      *
      * @ORM\OneToMany(targetEntity="InloopBundle\Entity\Schorsing", mappedBy="klant")
+     *
      * @ORM\OrderBy({"id" = "DESC"})
      */
     private $schorsingen;
@@ -102,12 +112,14 @@ class Klant extends Persoon
      * @var Incident[]
      *
      * @ORM\OneToMany(targetEntity="InloopBundle\Entity\Incident", mappedBy="klant", cascade={"persist"})
+     *
      * @ORM\OrderBy({"id" = "DESC"})
      */
     private $incidenten;
 
     /**
      * @ORM\Column(name="laatste_TBC_controle", type="date", nullable=true)
+     *
      * @Gedmo\Versioned
      */
     private $laatsteTbcControle;
@@ -116,6 +128,7 @@ class Klant extends Persoon
      * @var \DateTime
      *
      * @ORM\Column(name="first_intake_date", type="date", nullable=true)
+     *
      * @Gedmo\Versioned
      */
     private $eersteIntakeDatum;
@@ -124,7 +137,9 @@ class Klant extends Persoon
      * @var Intake
      *
      * @ORM\ManyToOne(targetEntity="InloopBundle\Entity\Intake", cascade={"persist"})
+     *
      * @ORM\JoinColumn(name="first_intake_id")
+     *
      * @Gedmo\Versioned
      */
     private $eersteIntake;
@@ -133,7 +148,9 @@ class Klant extends Persoon
      * @var Intake
      *
      * @ORM\ManyToOne(targetEntity="InloopBundle\Entity\Intake")
+     *
      * @ORM\JoinColumn(name="laste_intake_id")
+     *
      * @Gedmo\Versioned
      */
     private $laatsteIntake;
@@ -142,6 +159,7 @@ class Klant extends Persoon
      * @var DossierStatus
      *
      * @ORM\OneToOne(targetEntity="InloopBundle\Entity\DossierStatus", cascade={"persist"})
+     *
      * @Gedmo\Versioned
      */
     private $huidigeStatus;
@@ -157,6 +175,7 @@ class Klant extends Persoon
      * @var MwDossierStatus[]
      *
      * @ORM\OneToMany(targetEntity="MwBundle\Entity\MwDossierStatus", mappedBy="klant")
+     *
      * @ORM\OrderBy({"datum" = "ASC","id" = "ASC"})
      * oudste eerst... eerst op datum, dan op id.
      */
@@ -166,12 +185,14 @@ class Klant extends Persoon
      * @var MwDossierStatus
      *
      * @ORM\OneToOne(targetEntity="MwBundle\Entity\MwDossierStatus", cascade={"persist"})
+     *
      * @Gedmo\Versioned
      */
     private $huidigeMwStatus;
 
     /**
      * @var BinnenViaOptieKlant
+     *
      * @ORM\ManyToOne(targetEntity="MwBundle\Entity\BinnenViaOptieKlant", cascade={"persist"})
      */
     private $mwBinnenViaOptieKlant;
@@ -180,6 +201,7 @@ class Klant extends Persoon
      * @var Info
      *
      * @ORM\OneToOne(targetEntity="MwBundle\Entity\Info", cascade={"persist"})
+     *
      * @ORM\JoinColumn(name="info_id")
      */
     private $info;
@@ -188,19 +210,23 @@ class Klant extends Persoon
      * @var Registratie
      *
      * @ORM\OneToOne(targetEntity="InloopBundle\Entity\Registratie")
+     *
      * @ORM\JoinColumn(name="laatste_registratie_id")
+     *
      * @Gedmo\Versioned
      */
     private $laatsteRegistratie;
 
     /**
      * @ORM\Column(name="last_zrm", type="date", nullable=true)
+     *
      * @Gedmo\Versioned
      */
     protected $laatsteZrm;
 
     /**
      * @ORM\Column(type="boolean")
+     *
      * @Gedmo\Versioned
      */
     private $overleden = false;
@@ -209,6 +235,7 @@ class Klant extends Persoon
      * @var bool
      *
      * @ORM\Column(name="doorverwijzen_naar_amoc", type="boolean", nullable=true, options={"default":0})
+     *
      * @Gedmo\Versioned
      */
     private $doorverwijzenNaarAmoc = false;
@@ -217,6 +244,7 @@ class Klant extends Persoon
      * @var Klant
      *
      * @ORM\ManyToOne(targetEntity="Klant")
+     *
      * @Gedmo\Versioned
      */
     private $merged;
@@ -225,12 +253,14 @@ class Klant extends Persoon
      * @var Opmerking[]
      *
      * @ORM\OneToMany(targetEntity="Opmerking", mappedBy="klant")
+     *
      * @ORM\OrderBy({"id" = "DESC"})
      */
     private $opmerkingen;
 
     /**
      * @ORM\Column(name="corona_besmet_vanaf", type="date", nullable=true)
+     *
      * @Gedmo\Versioned
      */
     protected $coronaBesmetVanaf;
@@ -243,19 +273,23 @@ class Klant extends Persoon
      * @var Klant
      *
      * @ORM\OneToOne(targetEntity="AppBundle\Entity\Klant", cascade={"persist"})
+     *
      * @Gedmo\Versioned
      */
     protected $partner;
 
     /**
      * @var Medewerker
+     *
      * @ORM\ManyToOne(targetEntity="Medewerker", cascade={"persist"} )
+     *
      * @Gedmo\Versioned
      */
     protected $maatschappelijkWerker;
 
     /**
      * @var KlantTaal[]|ArrayCollection
+     *
      * @ORM\OneToMany(targetEntity="KlantTaal", mappedBy="klant", cascade={"persist"})
      */
     protected $klantTalen;
@@ -285,9 +319,10 @@ class Klant extends Persoon
         $this->incidenten = new ArrayCollection();
         $this->klantTalen = new ArrayCollection();
 
-        if($request)//ik vind dit een heel slecht verhaal, ookal heb ik het zelf gemaakt :( doe er wat aan!
-        {
-            if(!$naam = $request->get('naam') ) $naam = "";
+        if ($request) {// ik vind dit een heel slecht verhaal, ookal heb ik het zelf gemaakt :( doe er wat aan!
+            if (!$naam = $request->get('naam')) {
+                $naam = '';
+            }
             $naamParts = $this::parseNaam($naam);
 
             $this->setVoornaam($naamParts['voornaam']);
@@ -296,11 +331,10 @@ class Klant extends Persoon
         }
     }
 
-    public static function parseNaam(string $name = ""): array
+    public static function parseNaam(string $name = ''): array
     {
         $parser = new Parser();
         $parsedName = $parser->parse($name);
-
 
         $naamParts['voornaam'] = '';
         $naamParts['roepnaam'] = '';
@@ -317,9 +351,8 @@ class Klant extends Persoon
         $naamParts['achternaam'] = $parsedName->getLastName(true);
 
         return $naamParts;
-
-
     }
+
     /**
      * @see https://www.doctrine-project.org/projects/doctrine-orm/en/2.5/cookbook/implementing-wakeup-or-clone.html#safely-implementing-clone
      */
@@ -370,9 +403,8 @@ class Klant extends Persoon
     public function getLaatsteRegistratie(): ?Registratie
     {
         /**
-         Waarom dit zo is en niet gewoon de laatste registratie... geen idee. dit is robuust als de ;aatste registratie niet klopt,
-         maar ja.
-         *
+         * Waarom dit zo is en niet gewoon de laatste registratie... geen idee. dit is robuust als de ;aatste registratie niet klopt,
+         * maar ja.
          */
         $registraties = $this->getRecenteRegistraties(1);
 
@@ -481,14 +513,17 @@ class Klant extends Persoon
     public function setIncidenten(array $incidenten): Klant
     {
         $this->incidenten = $incidenten;
+
         return $this;
     }
 
     public function addIncident(Incident $incident): Klant
     {
         $this->incidenten->add($incident);
+
         return $this;
     }
+
     public function getIntakes()
     {
         return $this->intakes;
@@ -496,7 +531,7 @@ class Klant extends Persoon
 
     public function addIntake(Intake $intake)
     {
-        /**
+        /*
          * dd 20191203 dit ging fout want intakedatum was nog niet gevuld omdat vanuit nieuwe intake constructor addIntake werd aangeroepen en
          * pas daarna de intakedatum werd gevuld.
          *
@@ -526,7 +561,6 @@ class Klant extends Persoon
 
         return $this;
     }
-
 
     public function getHuidigeStatus()
     {
@@ -576,10 +610,12 @@ class Klant extends Persoon
     {
         return $this->verslagen->count();
     }
+
     public function getEersteVerslag()
     {
         return $this->verslagen->first();
     }
+
     public function getOpmerkingen()
     {
         return $this->opmerkingen;
@@ -607,17 +643,11 @@ class Klant extends Persoon
         return $this->eersteIntakeDatum;
     }
 
-    /**
-     * @return Intake
-     */
     public function getEersteIntake(): ?Intake
     {
         return $this->eersteIntake;
     }
 
-    /**
-     * @param Intake $eersteIntake
-     */
     public function setEersteIntake(Intake $eersteIntake): void
     {
         $this->eersteIntake = $eersteIntake;
@@ -627,7 +657,7 @@ class Klant extends Persoon
     {
         $laatsteRegistratie = null;
         foreach ($this->registraties as $registratie) {
-            if ($laatsteRegistratie == null || $registratie->getBinnen() > $laatsteRegistratie->getBinnen()) {
+            if (null == $laatsteRegistratie || $registratie->getBinnen() > $laatsteRegistratie->getBinnen()) {
                 $laatsteRegistratie = $registratie;
             }
         }
@@ -636,10 +666,10 @@ class Klant extends Persoon
         $eersteIntake = null;
         $laatsteIntake = null;
         foreach ($this->intakes as $intake) {
-            if ($eersteIntake == null || $intake->getIntakedatum() < $eersteIntake->getIntakedatum()) {
+            if (null == $eersteIntake || $intake->getIntakedatum() < $eersteIntake->getIntakedatum()) {
                 $eersteIntake = $intake;
             }
-            if ($laatsteIntake == null || $intake->getIntakedatum() > $laatsteIntake->getIntakedatum()) {
+            if (null == $laatsteIntake || $intake->getIntakedatum() > $laatsteIntake->getIntakedatum()) {
                 $laatsteIntake = $intake;
             }
         }
@@ -680,6 +710,7 @@ class Klant extends Persoon
         if (null !== $this->getToestemmingsformulier()) {
             return true;
         }
+
         return false;
     }
 
@@ -691,29 +722,27 @@ class Klant extends Persoon
         return $this->mwStatussen;
         $prevDosStat = null;
         $t = [];
-//        removal of duplicate entries.
+        //        removal of duplicate entries.
         foreach ($this->mwStatussen as $mwDosStat) {
             if (!$prevDosStat instanceof $mwDosStat) {
                 $t[] = $mwDosStat;
             }
             $prevDosStat = $mwDosStat;
         }
+
         return $t;
     }
 
     /**
      * @param MwDossierStatus[] $mwStatussen
-     * @return Klant
      */
     public function setMwStatussen(array $mwStatussen): Klant
     {
         $this->mwStatussen = $mwStatussen;
+
         return $this;
     }
 
-    /**
-     * @return MwDossierStatus
-     */
     public function getHuidigeMwStatus(): ?MwDossierStatus
     {
         return $this->huidigeMwStatus;
@@ -727,6 +756,7 @@ class Klant extends Persoon
                 $binnenViaOptieKlant = $mwStatus->getBinnenViaOptieKlant();
             }
         }
+
         return $binnenViaOptieKlant;
     }
 
@@ -738,85 +768,68 @@ class Klant extends Persoon
             }
         }
     }
-    /**
-     * @param MwDossierStatus $huidigeMwStatus
-     * @return Klant
-     */
+
     public function setHuidigeMwStatus(MwDossierStatus $huidigeMwStatus): Klant
     {
         $this->huidigeMwStatus = $huidigeMwStatus;
+
         return $this;
     }
 
-    /**
-     * @param $meestRecent
-     * @return Aanmelding|null
-     */
-    public function getAanmelding($meestRecent=true): ?Aanmelding
+    public function getAanmelding($meestRecent = true): ?Aanmelding
     {
         $aanmelding = null;
-        foreach($this->mwStatussen as $mds)
-        {
-            if($mds instanceof Aanmelding){
+        foreach ($this->mwStatussen as $mds) {
+            if ($mds instanceof Aanmelding) {
                 $aanmelding = $mds;
-                if(!$meestRecent) break; //als het niet de meest recente moet zijn, pakt hij de eerste die hij tegenkomt. anders gaat ie door tot de laatste = meest recente aanmelding
+                if (!$meestRecent) {
+                    break;
+                } // als het niet de meest recente moet zijn, pakt hij de eerste die hij tegenkomt. anders gaat ie door tot de laatste = meest recente aanmelding
             }
-
         }
+
         return $aanmelding;
     }
-    /**
-     * @return mixed
-     */
+
     public function getCoronaBesmetVanaf()
     {
         return $this->coronaBesmetVanaf;
     }
 
     /**
-     * @param mixed $coronaBesmetVanaf
      * @return Klant
      */
     public function setCoronaBesmetVanaf($coronaBesmetVanaf)
     {
         $this->coronaBesmetVanaf = $coronaBesmetVanaf;
+
         return $this;
     }
 
-
-    /**
-     * @return Klant
-     */
     public function getPartner(): ?Klant
     {
         return $this->partner;
     }
 
     /**
-     * @param Klant $partner
      * @return Persoon
      */
     public function setPartner(?Klant $partner)
     {
         $this->partner = $partner;
+
         return $this;
     }
 
-    /**
-     * @return Medewerker
-     */
     public function getMaatschappelijkWerker(): ?Medewerker
     {
         return $this->maatschappelijkWerker;
     }
 
-    /**
-     * @param Medewerker $maatschappelijkWerker
-     * @return Klant
-     */
     public function setMaatschappelijkWerker(?Medewerker $maatschappelijkWerker): Klant
     {
         $this->maatschappelijkWerker = $maatschappelijkWerker;
+
         return $this;
     }
 
@@ -908,43 +921,28 @@ class Klant extends Persoon
         return $this->removeOverigeTaal($taal);
     }
 
-    /**
-     * @return Info
-     */
     public function getInfo(): ?Info
     {
         return $this->info;
     }
 
-    /**
-     * @param Info $info
-     */
     public function setInfo(?Info $info): void
     {
         $this->info = $info;
     }
 
-    /**
-     * @return \DateTime
-     */
     public function getBriefadres(): ?\DateTime
     {
         return $this->briefadres;
     }
 
-    /**
-     * @param \DateTime $briefadres
-     */
     public function setBriefadres(?\DateTime $briefadres): void
     {
         $this->briefadres = $briefadres;
     }
 
-    /**
-     * @return bool
-     */
     public function isBriefadres(): bool
     {
-        return (bool)$this->briefadres;
+        return (bool) $this->briefadres;
     }
 }

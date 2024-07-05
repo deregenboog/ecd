@@ -3,10 +3,10 @@
 namespace TwBundle\Controller;
 
 use AppBundle\Controller\AbstractController;
+use Symfony\Component\Routing\Annotation\Route;
 use TwBundle\Entity\Afsluitreden;
 use TwBundle\Form\AfsluitredenType;
 use TwBundle\Service\AfsluitredenDaoInterface;
-use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * @Route("/afsluitredenen")

@@ -8,6 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * Notities.
  *
  * @ORM\Table(name="notities", indexes={@ORM\Index(name="idx_notities_klant_id", columns={"klant_id"})})
+ *
  * @ORM\Entity
  */
 class Notities
@@ -58,7 +59,9 @@ class Notities
      * @var int
      *
      * @ORM\Column(name="id", type="integer")
+     *
      * @ORM\Id
+     *
      * @ORM\GeneratedValue
      */
     private $id;

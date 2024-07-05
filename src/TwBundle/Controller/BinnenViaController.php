@@ -3,10 +3,10 @@
 namespace TwBundle\Controller;
 
 use AppBundle\Controller\AbstractController;
+use Symfony\Component\Routing\Annotation\Route;
 use TwBundle\Entity\BinnenVia;
 use TwBundle\Form\BinnenViaType;
 use TwBundle\Service\BinnenViaDaoInterface;
-use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * @Route("/binnenvia")

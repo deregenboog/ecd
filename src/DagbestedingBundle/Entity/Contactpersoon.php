@@ -7,8 +7,11 @@ use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Entity
+ *
  * @ORM\Table(name="dagbesteding_contactpersonen")
+ *
  * @ORM\HasLifecycleCallbacks
+ *
  * @Gedmo\Loggable
  */
 class Contactpersoon
@@ -23,7 +26,9 @@ class Contactpersoon
      * @var int
      *
      * @ORM\Id
+     *
      * @ORM\Column(type="integer")
+     *
      * @ORM\GeneratedValue
      */
     private $id;
@@ -32,6 +37,7 @@ class Contactpersoon
      * @var string
      *
      * @ORM\Column(type="string")
+     *
      * @Gedmo\Versioned
      */
     private $soort;
@@ -40,6 +46,7 @@ class Contactpersoon
      * @var string
      *
      * @ORM\Column(type="string")
+     *
      * @Gedmo\Versioned
      */
     private $naam;
@@ -48,6 +55,7 @@ class Contactpersoon
      * @var string
      *
      * @ORM\Column(type="string", nullable=true)
+     *
      * @Gedmo\Versioned
      */
     private $telefoon;
@@ -56,6 +64,7 @@ class Contactpersoon
      * @var string
      *
      * @ORM\Column(type="string", nullable=true)
+     *
      * @Gedmo\Versioned
      */
     private $email;
@@ -64,6 +73,7 @@ class Contactpersoon
      * @var string
      *
      * @ORM\Column(type="text", nullable=true)
+     *
      * @Gedmo\Versioned
      */
     private $opmerking;
@@ -72,6 +82,7 @@ class Contactpersoon
      * @var Deelnemer
      *
      * @ORM\ManyToOne(targetEntity="Deelnemer", inversedBy="contactpersonen")
+     *
      * @Gedmo\Versioned
      */
     private $deelnemer;

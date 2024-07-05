@@ -41,7 +41,6 @@ class Managementrapportage extends AbstractReport
      */
     private $projecten;
 
-
     public function __construct(
         HulpvraagRepository $repository,
         DoelstellingRepository $doelstellingRepository,

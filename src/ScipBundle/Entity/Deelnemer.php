@@ -18,11 +18,14 @@ use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Entity
+ *
  * @ORM\Table(
  *     name="scip_deelnemers",
  *     indexes={}
  * )
+ *
  * @ORM\HasLifecycleCallbacks
+ *
  * @Gedmo\Loggable
  */
 class Deelnemer implements DocumentSubjectInterface
@@ -39,6 +42,7 @@ class Deelnemer implements DocumentSubjectInterface
      * @var Klant
      *
      * @ORM\OneToOne(targetEntity="AppBundle\Entity\Klant", cascade={"persist"})
+     *
      * @Gedmo\Versioned
      */
     private $klant;
@@ -100,6 +104,7 @@ class Deelnemer implements DocumentSubjectInterface
      * @var Collection|Verslag[]
      *
      * @ORM\OneToMany(targetEntity="Verslag", mappedBy="deelnemer", cascade={"persist"})
+     *
      * @ORM\OrderBy({"datum" = "DESC", "id" = "DESC"})
      */
     private $verslagen;
@@ -108,17 +113,19 @@ class Deelnemer implements DocumentSubjectInterface
      * @var Collection|Werkdoel[]
      *
      * @ORM\OneToMany(targetEntity="Werkdoel", mappedBy="deelnemer", cascade={"persist"})
+     *
      * @ORM\OrderBy({"datum" = "DESC", "id" = "DESC"})
      */
     private $werkdoelen;
 
     /**
      * @var \DateTime
+     *
      * @ORM\Column(type="date", nullable=true)
      */
     private $evaluatiedatum;
 
-    public function __construct(Klant $klant = null)
+    public function __construct(?Klant $klant = null)
     {
         $this->klant = $klant;
         $this->deelnames = new ArrayCollection();
@@ -144,9 +151,6 @@ class Deelnemer implements DocumentSubjectInterface
         return $this->klant;
     }
 
-    /**
-     * @param Klant $klant
-     */
     public function setKlant(Klant $klant)
     {
         $this->klant = $klant;
@@ -162,9 +166,6 @@ class Deelnemer implements DocumentSubjectInterface
         return $this->deelnames;
     }
 
-    /**
-     * @param Deelname $deelname
-     */
     public function addDeelname(Deelname $deelname)
     {
         $this->deelnames[] = $deelname;
@@ -180,9 +181,6 @@ class Deelnemer implements DocumentSubjectInterface
         return $this->labels;
     }
 
-    /**
-     * @param Label $label
-     */
     public function addLabel(Label $label)
     {
         $this->labels[] = $label;
@@ -197,17 +195,11 @@ class Deelnemer implements DocumentSubjectInterface
         }
     }
 
-    /**
-     * @return mixed
-     */
     public function getStatussen()
     {
         return $this->statussen;
     }
 
-    /**
-     * @param mixed $statussen
-     */
     public function setStatussen($statussen)
     {
         $this->statussen = $statussen;
@@ -234,7 +226,7 @@ class Deelnemer implements DocumentSubjectInterface
     }
 
     /**
-     * @return \AppBundle\Entity\Medewerker
+     * @return Medewerker
      */
     public function getMedewerker()
     {
@@ -242,7 +234,7 @@ class Deelnemer implements DocumentSubjectInterface
     }
 
     /**
-     * @param \AppBundle\Entity\Medewerker $medewerker
+     * @param Medewerker $medewerker
      */
     public function setMedewerker($medewerker)
     {
@@ -279,9 +271,6 @@ class Deelnemer implements DocumentSubjectInterface
         return $this->functie;
     }
 
-    /**
-     * @param string $functie
-     */
     public function setFunctie(?string $functie = null)
     {
         $this->functie = $functie;
@@ -297,9 +286,6 @@ class Deelnemer implements DocumentSubjectInterface
         return $this->werkbegeleider;
     }
 
-    /**
-     * @param string $werkbegeleider
-     */
     public function setWerkbegeleider(?string $werkbegeleider = null)
     {
         $this->werkbegeleider = $werkbegeleider;
@@ -315,9 +301,6 @@ class Deelnemer implements DocumentSubjectInterface
         return $this->risNummer;
     }
 
-    /**
-     * @param string $risNummer
-     */
     public function setRisNummer(?string $risNummer = null)
     {
         $this->risNummer = $risNummer;
@@ -333,9 +316,6 @@ class Deelnemer implements DocumentSubjectInterface
         return $this->verslagen;
     }
 
-    /**
-     * @param Verslag $verslag
-     */
     public function addVerslag(Verslag $verslag)
     {
         $verslag->setDeelnemer($this);
@@ -352,9 +332,6 @@ class Deelnemer implements DocumentSubjectInterface
         return $this->werkdoelen;
     }
 
-    /**
-     * @param Werkdoel $werkdoel
-     */
     public function addWerkdoel(Werkdoel $werkdoel)
     {
         $werkdoel->setDeelnemer($this);
@@ -385,17 +362,11 @@ class Deelnemer implements DocumentSubjectInterface
         return false;
     }
 
-    /**
-     * @return \DateTime
-     */
     public function getEvaluatiedatum(): ?\DateTime
     {
         return $this->evaluatiedatum;
     }
 
-    /**
-     * @param \DateTime $evaluatieDatum
-     */
     public function setEvaluatiedatum(?\DateTime $evaluatiedatum): void
     {
         $this->evaluatiedatum = $evaluatiedatum;

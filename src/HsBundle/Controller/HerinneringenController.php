@@ -15,6 +15,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * @Route("/herinneringen")
+ *
  * @Template
  */
 class HerinneringenController extends AbstractChildController

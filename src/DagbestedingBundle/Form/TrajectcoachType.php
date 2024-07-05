@@ -15,9 +15,6 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class TrajectcoachType extends AbstractType
 {
-    /**
-     * {@inheritdoc}
-     */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $trajectcoach = $options['data'];
@@ -59,9 +56,6 @@ class TrajectcoachType extends AbstractType
         ;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
@@ -69,15 +63,12 @@ class TrajectcoachType extends AbstractType
         ]);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getParent(): ?string
     {
         return BaseType::class;
     }
 
-    private function isNew(Trajectcoach $trajectcoach = null)
+    private function isNew(?Trajectcoach $trajectcoach = null)
     {
         return is_null($trajectcoach) || is_null($trajectcoach->getId());
     }

@@ -12,9 +12,6 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class KlantFilterType extends AbstractType
 {
-    /**
-     * {@inheritdoc}
-     */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         if (in_array('id', $options['enabled_filters'])) {
@@ -56,7 +53,7 @@ class KlantFilterType extends AbstractType
             $builder->add('geslacht', EntityType::class, [
                 'class' => Geslacht::class,
                 'required' => false,
-                'multiple'=>true,
+                'multiple' => true,
             ]);
         }
 
@@ -110,9 +107,6 @@ class KlantFilterType extends AbstractType
         $builder->add('filter', SubmitType::class);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
@@ -129,9 +123,6 @@ class KlantFilterType extends AbstractType
         ]);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getParent(): ?string
     {
         return FilterType::class;

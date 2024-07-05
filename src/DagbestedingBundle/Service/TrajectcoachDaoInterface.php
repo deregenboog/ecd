@@ -21,18 +21,9 @@ interface TrajectcoachDaoInterface
      */
     public function find($id);
 
-    /**
-     * @param Trajectcoach $Trajectcoach
-     */
     public function create(Trajectcoach $Trajectcoach);
 
-    /**
-     * @param Trajectcoach $Trajectcoach
-     */
     public function update(Trajectcoach $Trajectcoach);
 
-    /**
-     * @param Trajectcoach $Trajectcoach
-     */
     public function delete(Trajectcoach $Trajectcoach);
 }

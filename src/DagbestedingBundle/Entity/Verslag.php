@@ -10,11 +10,17 @@ use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Entity
+ *
  * @ORM\Table(name="dagbesteding_verslagen")
+ *
  * @ORM\HasLifecycleCallbacks
+ *
  * @Gedmo\Loggable
+ *
  * @ORM\InheritanceType("SINGLE_TABLE")
+ *
  * @ORM\DiscriminatorColumn(name="discr", type="string", length=15)
+ *
  * @ORM\DiscriminatorMap({
  *     "verslag" = "Verslag",
  *     "intake" = "Intakeverslag",
@@ -31,25 +37,30 @@ class Verslag
      * @var \DateTime
      *
      * @ORM\Column(type="datetime")
+     *
      * @Gedmo\Versioned
      */
     protected $datum;
 
     /**
      * @ORM\Column(type="text", nullable=true)
+     *
      * @Gedmo\Versioned
      */
     protected $opmerking;
 
     /**
      * @var Deelnemer
+     *
      * @ORM\ManyToOne(targetEntity="DagbestedingBundle\Entity\Deelnemer",inversedBy="verslagen")
      */
     protected $deelnemer;
 
     /**
      * @var int
+     *
      * @ORM\Column()
+     *
      * @deprecated Can be removed after succesful migration of data // 20230712 JTB
      */
     protected $traject_id;
@@ -58,6 +69,7 @@ class Verslag
      * @var \DateTime
      *
      * @ORM\Column(type="datetime")
+     *
      * @Gedmo\Versioned
      */
     protected $created;
@@ -66,6 +78,7 @@ class Verslag
      * @var \DateTime
      *
      * @ORM\Column(type="datetime")
+     *
      * @Gedmo\Versioned
      */
     protected $modified;
@@ -99,20 +112,13 @@ class Verslag
         return $this;
     }
 
-    /**
-     * @return Deelnemer
-     */
     public function getDeelnemer(): Deelnemer
     {
         return $this->deelnemer;
     }
 
-    /**
-     * @param Deelnemer $deelnemer
-     */
     public function setDeelnemer(Deelnemer $deelnemer): void
     {
         $this->deelnemer = $deelnemer;
     }
-
 }

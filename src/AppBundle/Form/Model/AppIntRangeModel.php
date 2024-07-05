@@ -36,11 +36,13 @@ class AppIntRangeModel
 
     /**
      * @param int $low
+     *
      * @return AppIntRangeModel
      */
     public function setLow($low)
     {
         $this->low = $low;
+
         return $this;
     }
 
@@ -54,15 +56,15 @@ class AppIntRangeModel
 
     /**
      * @param int $high
+     *
      * @return AppIntRangeModel
      */
     public function setHigh($high)
     {
         $this->high = $high;
+
         return $this;
     }
-
-
 
     private function validate()
     {
@@ -70,7 +72,7 @@ class AppIntRangeModel
             && $this->high instanceof \DateTime
             && $this->high > $this->low
         ) {
-            //?
+            // ?
         }
     }
 }

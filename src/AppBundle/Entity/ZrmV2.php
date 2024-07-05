@@ -7,85 +7,100 @@ use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Entity
+ *
  * @ORM\HasLifecycleCallbacks
+ *
  * @Gedmo\Loggable
  */
 class ZrmV2 extends Zrm
 {
     /**
      * @ORM\Column(type="integer", nullable=true)
+     *
      * @Gedmo\Versioned
      */
     private $financien;
 
     /**
      * @ORM\Column(name="werk_opleiding", type="integer", nullable=true)
+     *
      * @Gedmo\Versioned
      */
     private $werkOpleiding;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
+     *
      * @Gedmo\Versioned
      */
     private $tijdsbesteding;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
+     *
      * @Gedmo\Versioned
      */
     private $huisvesting;
 
     /**
      * @ORM\Column(name="huiselijke_relaties", type="integer", nullable=true)
+     *
      * @Gedmo\Versioned
      */
     private $huiselijkeRelaties;
 
     /**
      * @ORM\Column(name="geestelijke_gezondheid", type="integer", nullable=true)
+     *
      * @Gedmo\Versioned
      */
     private $geestelijkeGezondheid;
 
     /**
      * @ORM\Column(name="lichamelijke_gezondheid", type="integer", nullable=true)
+     *
      * @Gedmo\Versioned
      */
     private $lichamelijkeGezondheid;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
+     *
      * @Gedmo\Versioned
      */
     private $middelengebruik;
 
     /**
      * @ORM\Column(name="basale_adl", type="integer", nullable=true)
+     *
      * @Gedmo\Versioned
      */
     private $basaleAdl;
 
     /**
      * @ORM\Column(name="instrumentele_adl", type="integer", nullable=true)
+     *
      * @Gedmo\Versioned
      */
     private $instrumenteleAdl;
 
     /**
      * @ORM\Column(name="sociaal_netwerk", type="integer", nullable=true)
+     *
      * @Gedmo\Versioned
      */
     private $sociaalNetwerk;
 
     /**
      * @ORM\Column(name="maatschappelijke_participatie", type="integer", nullable=true)
+     *
      * @Gedmo\Versioned
      */
     private $maatschappelijkeParticipatie;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
+     *
      * @Gedmo\Versioned
      */
     private $justitie;

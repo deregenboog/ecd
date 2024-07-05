@@ -11,7 +11,9 @@ use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Entity
+ *
  * @ORM\Table(name="locatie_type")
+ *
  * @Gedmo\Loggable
  */
 class LocatieType
@@ -22,6 +24,7 @@ class LocatieType
 
     /**
      * @var ArrayCollection|Locatie[]
+     *
      * @ORM\ManyToMany(targetEntity="Locatie", mappedBy="locatieTypes")
      */
     protected $locaties;
@@ -30,6 +33,7 @@ class LocatieType
      * @var \DateTime
      *
      * @ORM\Column(type="datetime", nullable=true)
+     *
      * @Gedmo\Versioned
      */
     protected $created;
@@ -38,8 +42,8 @@ class LocatieType
      * @var \DateTime
      *
      * @ORM\Column(type="datetime", nullable=true)
+     *
      * @Gedmo\Versioned
      */
     protected $modified;
-
 }

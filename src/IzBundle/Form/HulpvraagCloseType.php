@@ -13,9 +13,6 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class HulpvraagCloseType extends AbstractType
 {
-    /**
-     * {@inheritdoc}
-     */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
@@ -28,7 +25,7 @@ class HulpvraagCloseType extends AbstractType
                 'label' => 'Afsluitreden',
                 'required' => true,
                 'placeholder' => '',
-                'query_builder' => function (EntityRepository $repository) use ($options) {
+                'query_builder' => function (EntityRepository $repository) {
                     return $repository->createQueryBuilder('einde')
                         ->orderBy('einde.naam')
                     ;
@@ -38,9 +35,6 @@ class HulpvraagCloseType extends AbstractType
         ;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
@@ -48,9 +42,6 @@ class HulpvraagCloseType extends AbstractType
         ]);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getParent(): ?string
     {
         return BaseType::class;

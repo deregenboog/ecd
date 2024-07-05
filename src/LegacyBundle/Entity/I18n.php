@@ -8,6 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * I18n.
  *
  * @ORM\Table(name="i18n", indexes={@ORM\Index(name="locale", columns={"locale"}), @ORM\Index(name="model", columns={"model"}), @ORM\Index(name="row_id", columns={"foreign_key"}), @ORM\Index(name="field", columns={"field"})})
+ *
  * @ORM\Entity
  */
 class I18n
@@ -51,7 +52,9 @@ class I18n
      * @var int
      *
      * @ORM\Column(name="id", type="integer")
+     *
      * @ORM\Id
+     *
      * @ORM\GeneratedValue
      */
     private $id;

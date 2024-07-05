@@ -9,12 +9,11 @@ use Knp\Component\Pager\Pagination\PaginationInterface;
 interface WoonsituatieDaoInterface
 {
     /**
-     * @param int             $page
-     * @param FilterInterface $filter
+     * @param int $page
      *
      * @return PaginationInterface
      */
-    public function findAll($page = null, FilterInterface $filter = null);
+    public function findAll($page = null, ?FilterInterface $filter = null);
 
     /**
      * @param int $id
@@ -23,18 +22,9 @@ interface WoonsituatieDaoInterface
      */
     public function find($id);
 
-    /**
-     * @param Woonsituatie $entity
-     */
     public function create(Woonsituatie $entity);
 
-    /**
-     * @param Woonsituatie $entity
-     */
     public function update(Woonsituatie $entity);
 
-    /**
-     * @param Woonsituatie $entity
-     */
     public function delete(Woonsituatie $entity);
 }

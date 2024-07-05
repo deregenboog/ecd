@@ -8,7 +8,6 @@ use AppBundle\Entity\Klant;
 use AppBundle\Entity\Land;
 use AppBundle\Report\AbstractReport;
 use AppBundle\Report\Table;
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManagerInterface;
 use InloopBundle\Entity\Intake;
 use InloopBundle\Entity\Locatie;
@@ -77,11 +76,10 @@ class EUBurgers extends AbstractReport
                 ->select('locatie.id')
             ;
 
-
             $this->locatieArray = array_map(function ($row) {
                 return (int) $row['id'];
             }, $builder->getQuery()->getScalarResult());
-            $this->locatie = implode(",", $this->locatieArray);
+            $this->locatie = implode(',', $this->locatieArray);
         }
 
         if (array_key_exists('geslacht', $filter)) {
@@ -313,11 +311,9 @@ class EUBurgers extends AbstractReport
             $builder->andWhere('klant.land IN (:landen)')->setParameter('landen', $this->landen);
         }
 
-//        $sql = SqlExtractor::getFullSQL($builder->getQuery());
+        //        $sql = SqlExtractor::getFullSQL($builder->getQuery());
         $klanten = $builder->getQuery()->getResult();
-        //@todo deze klantenlijst wordt al gefilterd op delete en disabled dus dat hoeft niet in de joins verderop.
-
-
+        // @todo deze klantenlijst wordt al gefilterd op delete en disabled dus dat hoeft niet in de joins verderop.
 
         if ($this->locatie instanceof Locatie) {
             $builder = $registratieRepository->createQueryBuilder('registratie')
@@ -376,7 +372,7 @@ class EUBurgers extends AbstractReport
             foreach ($tmp_klanten as $klant) {
                 $klanten[$klant['id']] = $klant['laatste_intake_id'];
             }
-            /**
+            /*
              * $locatie = null dus alle locaties...
              *
              */
@@ -399,7 +395,7 @@ class EUBurgers extends AbstractReport
 
         $count['totalClients'] = count($klanten);
 
-        $count['totalNewClients']  = $klantRepository->createQueryBuilder('klant')
+        $count['totalNewClients'] = $klantRepository->createQueryBuilder('klant')
             ->select('COUNT(klant.id) as cnt')
             ->where('klant.id IN (:ids)')
             ->andWhere('klant.created >= :start_date')
@@ -416,12 +412,11 @@ class EUBurgers extends AbstractReport
             ->andWhere('registratie.binnen >= :start_date')
             ->andWhere('registratie.binnen < :end_date')
             ->setParameter('ids', array_keys($klanten))
-            ->setParameter('locatie',$this->locatieArray)
+            ->setParameter('locatie', $this->locatieArray)
             ->setParameter('start_date', $startDate)
             ->setParameter('end_date', $endDatePlusOneDay)
             ->getQuery()
             ->getSingleScalarResult();
-
 
         $q = $registratieRepository->createQueryBuilder('registratie')
             ->select('COUNT(registratie.id) AS cnt')
@@ -553,6 +548,4 @@ class EUBurgers extends AbstractReport
 
         return $count;
     }
-
-
 }

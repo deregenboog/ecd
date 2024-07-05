@@ -11,17 +11,11 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class LocatieSelectType extends AbstractType
 {
-    /**
-     * {@inheritdoc}
-     */
     public function getParent(): ?string
     {
         return EntityType::class;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
@@ -41,18 +35,17 @@ class LocatieSelectType extends AbstractType
                     }
                     if ($options['locatietypes']) {
                         $builder
-                            ->leftJoin('locatie.locatieTypes','locatieTypes')
+                            ->leftJoin('locatie.locatieTypes', 'locatieTypes')
                             ->andWhere('locatieTypes.naam IN (:locatietypes)')
-                            ->setParameter('locatietypes',$options['locatietypes'])
+                            ->setParameter('locatietypes', $options['locatietypes'])
                         ;
-
                     }
 
                     return $builder;
                 };
             },
             'gebruikersruimte' => false,
-            'locatietypes'=>[],
+            'locatietypes' => [],
         ]);
     }
 }

@@ -8,9 +8,13 @@ use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Entity(repositoryClass="Gedmo\Tree\Entity\Repository\NestedTreeRepository")
+ *
  * @ORM\Table(name="inventarisaties")
+ *
  * @ORM\HasLifecycleCallbacks
+ *
  * @Gedmo\Tree(type="nested")
+ *
  * @Gedmo\Loggable
  */
 class Inventarisatie
@@ -21,6 +25,7 @@ class Inventarisatie
      * @var int
      *
      * @ORM\Column(name="`order`", type="integer", nullable=true)
+     *
      * @Gedmo\Versioned
      */
     private $order;
@@ -29,7 +34,9 @@ class Inventarisatie
      * @var Inventarisatie
      *
      * @ORM\ManyToOne(targetEntity="Inventarisatie", inversedBy="children")
+     *
      * @Gedmo\TreeParent
+     *
      * @Gedmo\Versioned
      */
     private $parent;
@@ -38,6 +45,7 @@ class Inventarisatie
      * @var Inventarisatie[]
      *
      * @ORM\OneToMany(targetEntity="Inventarisatie", mappedBy="parent")
+     *
      * @ORM\OrderBy({"left" = "ASC"})
      */
     private $children;
@@ -46,6 +54,7 @@ class Inventarisatie
      * @var bool
      *
      * @ORM\Column(type="boolean")
+     *
      * @Gedmo\Versioned
      */
     private $actief = true;
@@ -54,6 +63,7 @@ class Inventarisatie
      * @var string
      *
      * @ORM\Column(type="string", nullable=true)
+     *
      * @Gedmo\Versioned
      */
     private $type;
@@ -62,6 +72,7 @@ class Inventarisatie
      * @var string
      *
      * @ORM\Column(type="string")
+     *
      * @Gedmo\Versioned
      */
     private $titel;
@@ -70,6 +81,7 @@ class Inventarisatie
      * @var string
      *
      * @ORM\Column(type="string")
+     *
      * @Gedmo\Versioned
      */
     private $actie;
@@ -78,6 +90,7 @@ class Inventarisatie
      * @var \DateTime
      *
      * @ORM\Column(type="date")
+     *
      * @Gedmo\Versioned
      */
     private $startdatum;
@@ -86,6 +99,7 @@ class Inventarisatie
      * @var \DateTime
      *
      * @ORM\Column(type="date", nullable=true)
+     *
      * @Gedmo\Versioned
      */
     private $einddatum;
@@ -94,7 +108,9 @@ class Inventarisatie
      * @var int
      *
      * @ORM\Column(name="lft", type="integer", nullable=true)
+     *
      * @Gedmo\TreeLeft
+     *
      * @Gedmo\Versioned
      */
     private $left;
@@ -103,7 +119,9 @@ class Inventarisatie
      * @var int
      *
      * @ORM\Column(name="rght", type="integer", nullable=true)
+     *
      * @Gedmo\TreeRight
+     *
      * @Gedmo\Versioned
      */
     private $right;
@@ -112,7 +130,9 @@ class Inventarisatie
      * @var int
      *
      * @ORM\Column(type="integer", length=3, nullable=true)
+     *
      * @Gedmo\TreeLevel
+     *
      * @Gedmo\Versioned
      */
     private $depth;
@@ -155,9 +175,6 @@ class Inventarisatie
         return $this->parent;
     }
 
-    /**
-     * @param Inventarisatie $parent
-     */
     public function setParent(self $parent)
     {
         $this->parent = $parent;

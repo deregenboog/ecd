@@ -24,16 +24,17 @@ use InloopBundle\Pdf\PdfBrief;
 use InloopBundle\Service\KlantDaoInterface;
 use InloopBundle\Service\LocatieDaoInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
-use Symfony\Component\EventDispatcher\GenericEvent;
-use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Symfony\Component\EventDispatcher\GenericEvent;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * @Route("/klanten")
+ *
  * @Template
  */
 class KlantenController extends AbstractController
@@ -68,15 +69,18 @@ class KlantenController extends AbstractController
 
     /**
      * @Route("/{id}/view")
+     *
      * @Template
      */
     public function viewAction(Request $request, $id)
     {
         $response = parent::viewAction($request, $id);
-        if(is_array($response)) $response['allRows'] = $this->locatieDao->findAllActiveLocationsOfTypeInloop();
+        if (is_array($response)) {
+            $response['allRows'] = $this->locatieDao->findAllActiveLocationsOfTypeInloop();
+        }
 
         /**
-         * The regular view is altered to pass an adjusted set of verslagen to the view
+         * The regular view is altered to pass an adjusted set of verslagen to the view.
          *
          * There is a need to merge the verslagen of klant and TW Deelnemer.
          * Therefor we utilise this method to get the TW deelnemer and merge the verslagen.
@@ -93,23 +97,19 @@ class KlantenController extends AbstractController
 
         $diensten = $event->getDiensten();
         $deelnemer = null;
-        foreach($diensten as $dienst)
-        {
-            if($dienst->getNaam() == "Tijdelijk wonen")
-            {
+        foreach ($diensten as $dienst) {
+            if ('Tijdelijk wonen' == $dienst->getNaam()) {
                 $deelnemer = $dienst->getEntity();
             }
         }
 
-        if(null!==$deelnemer)
-        {
+        if (null !== $deelnemer) {
             $twVerslagen = $deelnemer->getVerslagen();
-
 
             $combinedVerslagen =
                 array_merge($twVerslagen->toArray(), $mwVerslagen->toArray())
             ;
-            usort($combinedVerslagen, function($a, $b) {
+            usort($combinedVerslagen, function ($a, $b) {
                 // Assuming getCreatedAt() or similar method returns the DateTime object
                 return $b->getDatum() <=> $a->getDatum();
             });
@@ -134,6 +134,7 @@ class KlantenController extends AbstractController
 
     /**
      * @Route("/{klant}/rapportage")
+     *
      * @ParamConverter("klant", class="AppBundle\Entity\Klant")
      */
     public function viewReport(Request $request, Klant $klant)
@@ -243,6 +244,7 @@ class KlantenController extends AbstractController
 
     /**
      * @Route("/{klant}/amoc.pdf")
+     *
      * @ParamConverter("klant", class="AppBundle\Entity\Klant")
      */
     public function amocAction(Klant $klant)
@@ -278,24 +280,20 @@ class KlantenController extends AbstractController
                 $this->eventDispatcher->dispatch(new GenericEvent($afsluiting), Events::DOSSIER_CHANGED);
 
                 $this->addFlash('success', 'Inloopdossier is afgesloten');
-
-            } catch(UserException $e) {
-//                $this->logger->error($e->getMessage(), ['exception' => $e]);
-                $message =  $e->getMessage();
+            } catch (UserException $e) {
+                //                $this->logger->error($e->getMessage(), ['exception' => $e]);
+                $message = $e->getMessage();
                 $this->addFlash('danger', $message);
-//                return $this->redirectToRoute('app_klanten_index');
+                //                return $this->redirectToRoute('app_klanten_index');
             } catch (\Exception $e) {
                 $message = $this->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
                 $this->addFlash('danger', $message);
             }
 
-            if(array_key_exists("mwSluiten",$request->get('afsluiting')) )
-            {
-                if($klant->getHuidigeMwStatus() instanceof \MwBundle\Entity\Aanmelding)
-                {
-                    return $this->redirectToRoute("mw_klanten_close",["id"=>$id,"redirect"=>$this->generateUrl("inloop_klanten_index")]);
+            if (array_key_exists('mwSluiten', $request->get('afsluiting'))) {
+                if ($klant->getHuidigeMwStatus() instanceof \MwBundle\Entity\Aanmelding) {
+                    return $this->redirectToRoute('mw_klanten_close', ['id' => $id, 'redirect' => $this->generateUrl('inloop_klanten_index')]);
                 }
-
             }
             if ($url = $request->get('redirect')) {
                 return $this->redirect($url);
@@ -331,11 +329,11 @@ class KlantenController extends AbstractController
                 $this->eventDispatcher->dispatch(new GenericEvent($aanmelding), Events::DOSSIER_CHANGED);
 
                 $this->addFlash('success', 'Inloopdossier is heropend');
-            } catch(UserException $e) {
-//                $this->logger->error($e->getMessage(), ['exception' => $e]);
-                $message =  $e->getMessage();
+            } catch (UserException $e) {
+                //                $this->logger->error($e->getMessage(), ['exception' => $e]);
+                $message = $e->getMessage();
                 $this->addFlash('danger', $message);
-//                return $this->redirectToRoute('app_klanten_index');
+                //                return $this->redirectToRoute('app_klanten_index');
             } catch (\Exception $e) {
                 $message = $this->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
                 $this->addFlash('danger', $message);
@@ -407,7 +405,6 @@ class KlantenController extends AbstractController
     {
         return [
             'amoc_landen' => $this->getAmocLanden(),
-
         ];
     }
 
@@ -428,15 +425,17 @@ class KlantenController extends AbstractController
         ]);
         $filterForm->handleRequest($request);
 
-        $naam = "";
-        if($filter = $request->get('klant_filter')) $naam = $filter["naam"];
+        $naam = '';
+        if ($filter = $request->get('klant_filter')) {
+            $naam = $filter['naam'];
+        }
 
         if ($filterForm->isSubmitted() && $filterForm->isValid()) {
             $count = (int) $this->klantDao->countAll($filterForm->getData());
             if (0 === $count) {
                 $this->addFlash('info', sprintf('De zoekopdracht leverde geen resultaten op. Maak een nieuwe %s aan.', $this->entityName));
 
-                return $this->redirectToRoute($this->baseRouteName.'add', ['klant' => 'new','naam'=>$naam ]);
+                return $this->redirectToRoute($this->baseRouteName.'add', ['klant' => 'new', 'naam' => $naam]);
             }
 
             if ($count > 100) {
@@ -480,8 +479,8 @@ class KlantenController extends AbstractController
                 $this->addFlash('success', ucfirst($this->entityName).' is opgeslagen.');
 
                 return $this->redirectToView($inloopKlant);
-            } catch(UserException $e) {
-                $message =  $e->getMessage();
+            } catch (UserException $e) {
+                $message = $e->getMessage();
                 $this->addFlash('danger', $message);
             } catch (\Exception $e) {
                 $message = $this->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';

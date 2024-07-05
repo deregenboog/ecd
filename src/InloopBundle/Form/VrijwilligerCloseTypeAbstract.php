@@ -13,9 +13,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 class VrijwilligerCloseTypeAbstract extends AbstractType
 {
     protected $class;
-    /**
-     * {@inheritdoc}
-     */
+
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
@@ -38,9 +36,6 @@ class VrijwilligerCloseTypeAbstract extends AbstractType
         ;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
@@ -48,9 +43,6 @@ class VrijwilligerCloseTypeAbstract extends AbstractType
         ]);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getParent(): ?string
     {
         return BaseType::class;

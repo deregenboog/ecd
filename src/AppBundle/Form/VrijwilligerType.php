@@ -3,10 +3,8 @@
 namespace AppBundle\Form;
 
 use AppBundle\Entity\Overeenkomst;
-use AppBundle\Entity\Postcode;
 use AppBundle\Entity\Vog;
 use AppBundle\Entity\Vrijwilliger;
-use AppBundle\Util\PostcodeFormatter;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Component\Form\AbstractType;
@@ -23,16 +21,11 @@ class VrijwilligerType extends AbstractType
      */
     private $entityManager;
 
-
     public function __construct(EntityManagerInterface $entityManager)
     {
         $this->entityManager = $entityManager;
     }
 
-
-    /**
-     * {@inheritdoc}
-     */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
@@ -103,7 +96,7 @@ class VrijwilligerType extends AbstractType
                 })
             ;
         }
-        $builder->addEventListener(FormEvents::SUBMIT, function(FormEvent $event){
+        $builder->addEventListener(FormEvents::SUBMIT, function (FormEvent $event) {
             Vrijwilliger::KoppelPostcodeWerkgebiedClosure($event, $this->entityManager);
         });
 
@@ -112,9 +105,6 @@ class VrijwilligerType extends AbstractType
         ;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
@@ -123,9 +113,6 @@ class VrijwilligerType extends AbstractType
         ]);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getParent(): ?string
     {
         return BaseType::class;

@@ -10,16 +10,13 @@ use Knp\Component\Pager\Pagination\PaginationInterface;
 interface KlantdossierDaoInterface
 {
     /**
-     * @param int             $page
-     * @param FilterInterface $filter
+     * @param int $page
      *
      * @return PaginationInterface
      */
-    public function findAll($page = null, FilterInterface $filter = null);
+    public function findAll($page = null, ?FilterInterface $filter = null);
 
     /**
-     * @param Klant $klant
-     *
      * @return Klantdossier
      */
     public function findOneByKlant(Klant $klant);
@@ -31,18 +28,9 @@ interface KlantdossierDaoInterface
      */
     public function find($id);
 
-    /**
-     * @param Klantdossier $entity
-     */
     public function create(Klantdossier $entity);
 
-    /**
-     * @param Klantdossier $entity
-     */
     public function update(Klantdossier $entity);
 
-    /**
-     * @param Klantdossier $entity
-     */
     public function delete(Klantdossier $entity);
 }

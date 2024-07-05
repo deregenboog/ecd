@@ -4,7 +4,6 @@ namespace HsBundle\Entity;
 
 use AppBundle\Entity\Medewerker;
 use AppBundle\Model\TimestampableTrait;
-use HsBundle\Entity\Klus;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
@@ -12,8 +11,11 @@ use HsBundle\Exception\InvoiceLockedException;
 
 /**
  * @ORM\Entity
+ *
  * @ORM\Table(name="hs_declaraties")
+ *
  * @Gedmo\Loggable
+ *
  * @ORM\HasLifecycleCallbacks
  */
 class Declaratie implements DocumentSubjectInterface, FactuurSubjectInterface
@@ -23,67 +25,87 @@ class Declaratie implements DocumentSubjectInterface, FactuurSubjectInterface
 
     /**
      * @ORM\Id
+     *
      * @ORM\Column(type="integer")
+     *
      * @ORM\GeneratedValue
      */
     private $id;
 
     /**
      * @var \DateTime
+     *
      * @ORM\Column(type="date")
+     *
      * @Gedmo\Versioned
      */
     private $datum;
 
     /**
      * @var string
+     *
      * @ORM\Column(type="text")
+     *
      * @Gedmo\Versioned
      */
     private $info;
 
     /**
      * @var float
+     *
      * @ORM\Column(type="float")
+     *
      * @Gedmo\Versioned
      */
     private $bedrag;
 
     /**
      * @var Klus
+     *
      * @ORM\ManyToOne(targetEntity="Klus", inversedBy="declaraties")
+     *
      * @ORM\JoinColumn(onDelete="CASCADE")
+     *
      * @Gedmo\Versioned
      */
     private $klus;
 
     /**
      * @var Factuur
+     *
      * @ORM\ManyToOne(targetEntity="Factuur", inversedBy="declaraties", cascade={"persist"})
+     *
      * @ORM\JoinColumn(nullable=false)
+     *
      * @Gedmo\Versioned
      */
     private $factuur;
 
     /**
      * @var DeclaratieCategorie
+     *
      * @ORM\ManyToOne(targetEntity="DeclaratieCategorie", inversedBy="declaraties")
+     *
      * @ORM\JoinColumn(nullable=false)
+     *
      * @Gedmo\Versioned
      */
     private $declaratieCategorie;
 
     /**
      * @var Medewerker
+     *
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Medewerker")
+     *
      * @ORM\JoinColumn(nullable=false)
+     *
      * @Gedmo\Versioned
      */
     private $medewerker;
 
     private $document;
 
-    public function __construct(Klus $klus = null, Medewerker $medewerker = null)
+    public function __construct(?Klus $klus = null, ?Medewerker $medewerker = null)
     {
         if ($klus) {
             $this->setKlus($klus);
@@ -99,9 +121,8 @@ class Declaratie implements DocumentSubjectInterface, FactuurSubjectInterface
 
     public function __toString()
     {
-        return $this->getDatum()->format("d-m-Y")." ".$this->getInfo().". € ".$this->getBedrag();
+        return $this->getDatum()->format('d-m-Y').' '.$this->getInfo().'. € '.$this->getBedrag();
     }
-
 
     public function getId()
     {
@@ -145,7 +166,7 @@ class Declaratie implements DocumentSubjectInterface, FactuurSubjectInterface
         return $this->factuur;
     }
 
-    public function setFactuur(Factuur $factuur = null)
+    public function setFactuur(?Factuur $factuur = null)
     {
         if ($this->factuur && $this->factuur->isLocked()) {
             throw new InvoiceLockedException();
@@ -221,12 +242,11 @@ class Declaratie implements DocumentSubjectInterface, FactuurSubjectInterface
         if (count($this->documenten) > 0) {
             return $this->documenten[0];
         }
+
         return null;
     }
 
     /**
-     * @param Document $document
-     *
      * @return self
      */
     public function setDocument(Document $document)

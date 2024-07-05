@@ -10,8 +10,11 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity
+ *
  * @ORM\Table(name="oekraine_incidenten")
+ *
  * @ORM\HasLifecycleCallbacks
+ *
  * @Gedmo\Loggable
  */
 class Incident
@@ -21,6 +24,7 @@ class Incident
 
     /**
      * @ORM\Column(name="datum", type="date")
+     *
      * @Assert\NotNull
      */
     private $datum;
@@ -58,12 +62,14 @@ class Incident
 
     /**
      * @ORM\ManyToOne(targetEntity="Bezoeker", inversedBy="incidenten", cascade={"persist"})
+     *
      * @ORM\JoinColumn(nullable=false)
+     *
      * @Assert\NotNull
      */
     private $bezoeker;
 
-    public function __construct(Bezoeker $bezoeker = null)
+    public function __construct(?Bezoeker $bezoeker = null)
     {
         $this->setBezoeker($bezoeker);
         $this->setDatum(new \DateTime());
@@ -95,102 +101,78 @@ class Incident
     }
 
     /**
-     * @param mixed $datum
      * @return Incident
      */
     public function setDatum($datum)
     {
         $this->datum = $datum;
+
         return $this;
     }
 
-    /**
-     * @return mixed
-     */
     public function getOpmerking()
     {
         return utf8_decode($this->opmerking);
     }
 
     /**
-     * @param mixed $opmerking
      * @return Incident
      */
     public function setOpmerking($opmerking)
     {
-        $this->opmerking = utf8_encode($opmerking);;
+        $this->opmerking = utf8_encode($opmerking);
+
         return $this;
     }
 
-    /**
-     * @return bool
-     */
     public function isPolitie(): bool
     {
         return $this->politie;
     }
 
-    /**
-     * @param bool $politie
-     * @return Incident
-     */
     public function setPolitie(bool $politie): Incident
     {
         $this->politie = $politie;
+
         return $this;
     }
 
-    /**
-     * @return bool
-     */
     public function isAmbulance(): bool
     {
         return $this->ambulance;
     }
 
-    /**
-     * @param bool $ambulance
-     * @return Incident
-     */
     public function setAmbulance(bool $ambulance): Incident
     {
         $this->ambulance = $ambulance;
+
         return $this;
     }
 
-    /**
-     * @return bool
-     */
     public function isCrisisdienst(): bool
     {
         return $this->crisisdienst;
     }
 
-    /**
-     * @param bool $crisisdienst
-     * @return Incident
-     */
     public function setCrisisdienst(bool $crisisdienst): Incident
     {
         $this->crisisdienst = $crisisdienst;
+
         return $this;
     }
 
-    /**
-     * @return mixed
-     */
     public function getLocatie()
     {
         return $this->locatie;
     }
 
     /**
-     * @param mixed $locatie
      * @return Incident
      */
     public function setLocatie($locatie)
     {
         $this->locatie = $locatie;
+
         return $this;
     }
 }

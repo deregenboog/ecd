@@ -12,8 +12,11 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity
+ *
  * @ORM\Table(name="hs_klussen")
+ *
  * @Gedmo\Loggable
+ *
  * @ORM\HasLifecycleCallbacks
  */
 class Klus implements MemoSubjectInterface
@@ -30,51 +33,65 @@ class Klus implements MemoSubjectInterface
 
     /**
      * @ORM\Id
+     *
      * @ORM\Column(type="integer")
+     *
      * @ORM\GeneratedValue
      */
     private $id;
 
     /**
      * @var \DateTime
+     *
      * @ORM\Column(type="date")
+     *
      * @Gedmo\Versioned
      */
     private $startdatum;
 
     /**
      * @var \DateTime
+     *
      * @ORM\Column(type="date", nullable=true)
+     *
      * @Gedmo\Versioned
      */
     private $einddatum;
 
     /**
      * @var \DateTime
+     *
      * @ORM\Column(type="date", nullable=true)
+     *
      * @Gedmo\Versioned
      */
     private $annuleringsdatum;
 
     /**
      * @var \DateTime
+     *
      * @ORM\Column(type="date", nullable=true)
+     *
      * @Gedmo\Versioned
      */
     private $onHoldTot;
 
-
     /**
      * @var bool
+     *
      * @ORM\Column(type="boolean")
+     *
      * @Gedmo\Versioned
      */
     private $onHold = false;
 
     /**
      * @var string
+     *
      * @ORM\Column(nullable=false)
+     *
      * @Gedmo\Versioned
+     *
      * @Assert\Choice(choices={
      *     Klus::STATUS_OPENSTAAND,
      *     Klus::STATUS_IN_BEHANDELING,
@@ -87,48 +104,61 @@ class Klus implements MemoSubjectInterface
 
     /**
      * @var Klant
+     *
      * @ORM\ManyToOne(targetEntity="Klant", inversedBy="klussen", cascade={"persist"})
+     *
      * @ORM\JoinColumn(onDelete="CASCADE")
+     *
      * @Gedmo\Versioned
      */
     private $klant;
 
     /**
      * @var Activiteit[]
+     *
      * @ORM\ManyToMany(targetEntity="Activiteit", inversedBy="klussen")
+     *
      * @ORM\JoinColumn(nullable=false)
+     *
      * @Assert\Count(min=1, minMessage="Selecteer tenminste één activiteit")
      */
     private $activiteiten;
 
     /**
      * @var ArrayCollection|Dienstverlener[]
+     *
      * @ORM\ManyToMany(targetEntity="Dienstverlener", inversedBy="klussen")
      */
     private $dienstverleners;
 
     /**
      * @var ArrayCollection|Vrijwilliger[]
+     *
      * @ORM\ManyToMany(targetEntity="Vrijwilliger", inversedBy="klussen")
      */
     private $vrijwilligers;
 
     /**
      * @var ArrayCollection|Registratie[]
+     *
      * @ORM\OneToMany(targetEntity="Registratie", mappedBy="klus")
      */
     private $registraties;
 
     /**
      * @var ArrayCollection|Declaratie[]
+     *
      * @ORM\OneToMany(targetEntity="Declaratie", mappedBy="klus", cascade={"persist"})
      */
     private $declaraties;
 
     /**
      * @var Medewerker
+     *
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Medewerker")
+     *
      * @ORM\JoinColumn(nullable=false)
+     *
      * @Gedmo\Versioned
      */
     private $medewerker;
@@ -137,6 +167,7 @@ class Klus implements MemoSubjectInterface
      * @var Document[]
      *
      * @ORM\ManyToMany(targetEntity="Document", cascade={"persist"})
+     *
      * @ORM\JoinTable(name="hs_klus_document", inverseJoinColumns={@ORM\JoinColumn(unique=true)})
      */
     protected $documenten;
@@ -145,12 +176,14 @@ class Klus implements MemoSubjectInterface
      * @var Memo[]
      *
      * @ORM\ManyToMany(targetEntity="Memo", cascade={"persist"})
+     *
      * @ORM\JoinTable(name="hs_klus_memo", inverseJoinColumns={@ORM\JoinColumn(unique=true)})
+     *
      * @ORM\OrderBy({"datum": "desc", "id": "desc"})
      */
     protected $memos;
 
-    public function __construct(Klant $klant = null, Medewerker $medewerker = null)
+    public function __construct(?Klant $klant = null, ?Medewerker $medewerker = null)
     {
         $this->klant = $klant;
         $this->medewerker = $medewerker;
@@ -371,7 +404,7 @@ class Klus implements MemoSubjectInterface
         return $this->einddatum;
     }
 
-    public function setEinddatum(\DateTime $einddatum = null)
+    public function setEinddatum(?\DateTime $einddatum = null)
     {
         $this->einddatum = $einddatum;
 
@@ -385,7 +418,7 @@ class Klus implements MemoSubjectInterface
         return $this->annuleringsdatum;
     }
 
-    public function setAnnuleringsdatum(\DateTime $annuleringsdatum = null)
+    public function setAnnuleringsdatum(?\DateTime $annuleringsdatum = null)
     {
         $this->annuleringsdatum = $annuleringsdatum;
 
@@ -433,26 +466,18 @@ class Klus implements MemoSubjectInterface
         return $this;
     }
 
-    /**
-     * @return \DateTime
-     */
     public function getOnHoldTot(): ?\DateTime
     {
         return $this->onHoldTot;
     }
 
-    /**
-     * @param \DateTime $onHoldTot
-     * @return Klus
-     */
     public function setOnHoldTot(?\DateTime $onHoldTot): Klus
     {
         $this->onHoldTot = $onHoldTot;
         $this->updateStatus();
+
         return $this;
     }
-
-
 
     public function getStatus()
     {

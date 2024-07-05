@@ -8,8 +8,11 @@ use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Entity
+ *
  * @ORM\Table(name="talen")
+ *
  * @ORM\HasLifecycleCallbacks
+ *
  * @Gedmo\Loggable
  */
 class Taal
@@ -18,31 +21,37 @@ class Taal
 
     /**
      * @ORM\Id
+     *
      * @ORM\Column(type="integer")
+     *
      * @ORM\GeneratedValue
      */
     private $id;
 
     /**
      * @ORM\Column(type="boolean")
+     *
      * @Gedmo\Versioned
+     *
      * @var bool
      */
     private $favoriet = false;
 
     /**
      * @ORM\Column(type="string")
+     *
      * @Gedmo\Versioned
      */
     private $afkorting = '';
 
     /**
      * @ORM\Column(type="string")
+     *
      * @Gedmo\Versioned
      */
     private $naam;
 
-    public function __construct($naam = null, $afkorting = '', $favoriet=null)
+    public function __construct($naam = null, $afkorting = '', $favoriet = null)
     {
         $this->naam = $naam;
         $this->afkorting = $afkorting;

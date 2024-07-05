@@ -4,9 +4,9 @@ namespace TwBundle\Controller;
 
 use AppBundle\Controller\AbstractChildController;
 use AppBundle\Controller\DisableIndexActionTrait;
+use Symfony\Component\Routing\Annotation\Route;
 use TwBundle\Entity\Deelname;
 use TwBundle\Form\DeelnameType;
-use Symfony\Component\Routing\Annotation\Route;
 use TwBundle\Service\DeelnameDaoInterface;
 
 /**

@@ -2,7 +2,7 @@
 
 namespace HsBundle\Event;
 
-use     AppBundle\Event\DienstenLookupEvent;
+use AppBundle\Event\DienstenLookupEvent;
 use AppBundle\Event\Events;
 use AppBundle\Model\Dienst;
 use HsBundle\Entity\Dienstverlener;

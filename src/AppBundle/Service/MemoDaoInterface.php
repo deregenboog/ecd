@@ -2,8 +2,8 @@
 
 namespace AppBundle\Service;
 
-use AppBundle\Filter\FilterInterface;
 use AppBundle\Entity\Memo;
+use AppBundle\Filter\FilterInterface;
 use Knp\Component\Pager\Pagination\PaginationInterface;
 
 interface MemoDaoInterface
@@ -13,7 +13,7 @@ interface MemoDaoInterface
      *
      * @return PaginationInterface
      */
-    public function findAll($page = null, FilterInterface $filter = null);
+    public function findAll($page = null, ?FilterInterface $filter = null);
 
     /**
      * @param int $id
@@ -22,18 +22,9 @@ interface MemoDaoInterface
      */
     public function find($id);
 
-    /**
-     * @param Memo $memo
-     */
     public function create(Memo $memo);
 
-    /**
-     * @param Memo $memo
-     */
     public function update(Memo $memo);
 
-    /**
-     * @param Memo $memo
-     */
     public function delete(Memo $memo);
 }

@@ -16,7 +16,7 @@ class Koppelingen extends AbstractReport
 
     protected $nPath = 'aantal';
 
-//    protected $xPath = 'ddd';
+    //    protected $xPath = 'ddd';
 
     protected $xDescription = 'Actieve koppelingen binnen de opgegeven periode';
 
@@ -41,10 +41,10 @@ class Koppelingen extends AbstractReport
     protected function init()
     {
         $this->koppelingenPerProjectData = $this->projectDao->countKoppelingenPerProject($this->startDate, $this->endDate);
-        $koppelingenPerProject = new Table($this->koppelingenPerProjectData, "status", $this->yPath, $this->nPath);
-//        $koppelingenPerProject->setStartDate($this->startDate)->setEndDate($this->endDate);
+        $koppelingenPerProject = new Table($this->koppelingenPerProjectData, 'status', $this->yPath, $this->nPath);
+        //        $koppelingenPerProject->setStartDate($this->startDate)->setEndDate($this->endDate);
 
-        //$this->tables['Koppelingen per project'] = $this->koppelingenPerProjectData;
+        // $this->tables['Koppelingen per project'] = $this->koppelingenPerProjectData;
         $this->tables['Koppelingen per vorm'] = $this->dao->countByVorm($this->startDate, $this->endDate);
         $this->tables['Koppelingen per Vorm van overeenkomst'] = $this->dao->countByVormvanovereenkomst($this->startDate, $this->endDate);
         $this->tables['Koppelingen per pandeigenaar'] = $this->dao->countByPandeigenaar($this->startDate, $this->endDate);
@@ -55,7 +55,6 @@ class Koppelingen extends AbstractReport
 
     protected function build()
     {
-
         $this->buildProjectTable($this->koppelingenPerProjectData);
         parent::build();
 
@@ -70,21 +69,20 @@ class Koppelingen extends AbstractReport
 
     private function buildProjectTable($result)
     {
-        $table = new Grid($result, $this->columns, "groep");
+        $table = new Grid($result, $this->columns, 'groep');
         $table
             ->setStartDate($this->startDate)
             ->setEndDate($this->endDate)
             ->setYSort(false)
             ->setYTotals(true);
 
-        $data =  $table->render();
+        $data = $table->render();
         $report = [
             'title' => 'Koppelingen per project',
-            'xDescription' => "Koppelingen binnen de opgegeven periode",
+            'xDescription' => 'Koppelingen binnen de opgegeven periode',
             'yDescription' => $this->yDescription,
             'data' => $data,
         ];
-
 
         $this->reports[] = $report;
     }

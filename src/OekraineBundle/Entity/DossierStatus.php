@@ -2,7 +2,6 @@
 
 namespace OekraineBundle\Entity;
 
-use AppBundle\Entity\Klant;
 use AppBundle\Entity\Medewerker;
 use AppBundle\Model\OptionalMedewerkerTrait;
 use AppBundle\Model\TimestampableTrait;
@@ -11,14 +10,20 @@ use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Entity(repositoryClass="OekraineBundle\Repository\DossierStatusRepository")
+ *
  * @ORM\Table(name="oekraine_dossier_statussen")
+ *
  * @ORM\HasLifecycleCallbacks
+ *
  * @ORM\InheritanceType("SINGLE_TABLE")
+ *
  * @ORM\DiscriminatorColumn(name="class", type="string")
+ *
  * @ORM\DiscriminatorMap({
  *     "Aanmelding" = "Aanmelding",
  *     "Afsluiting" = "Afsluiting"
  * })
+ *
  * @Gedmo\Loggable
  */
 abstract class DossierStatus
@@ -28,7 +33,9 @@ abstract class DossierStatus
 
     /**
      * @ORM\Id
+     *
      * @ORM\Column(type="integer")
+     *
      * @ORM\GeneratedValue
      */
     protected $id;
@@ -37,18 +44,21 @@ abstract class DossierStatus
      * @var Bezoeker
      *
      * @ORM\ManyToOne(targetEntity="OekraineBundle\Entity\Bezoeker", inversedBy="dossierStatussen")
+     *
      * @ORM\JoinColumn(nullable=false)
+     *
      * @Gedmo\Versioned
      */
     protected $bezoeker;
 
     /**
      * @ORM\Column(type="date")
+     *
      * @Gedmo\Versioned
      */
     protected $datum;
 
-    public function __construct(Bezoeker $bezoeker, Medewerker $medewerker = null)
+    public function __construct(Bezoeker $bezoeker, ?Medewerker $medewerker = null)
     {
         $this->bezoeker = $bezoeker;
         $bezoeker->setDossierStatus($this);
@@ -62,25 +72,17 @@ abstract class DossierStatus
         return $this->id;
     }
 
-    /**
-     * @return Bezoeker
-     */
     public function getBezoeker(): Bezoeker
     {
         return $this->bezoeker;
     }
 
-    /**
-     * @param Bezoeker $bezoeker
-     * @return DossierStatus
-     */
     public function setBezoeker(Bezoeker $bezoeker): DossierStatus
     {
         $this->bezoeker = $bezoeker;
+
         return $this;
     }
-
-
 
     public function getDatum()
     {

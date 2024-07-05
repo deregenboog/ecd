@@ -9,9 +9,13 @@ use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Entity
+ *
  * @ORM\Table(name="clip_vragen")
+ *
  * @ORM\HasLifecycleCallbacks
+ *
  * @Gedmo\Loggable
+ *
  * @Gedmo\SoftDeleteable
  */
 class Vraag
@@ -21,7 +25,9 @@ class Vraag
 
     /**
      * @ORM\Id
+     *
      * @ORM\Column(type="integer")
+     *
      * @ORM\GeneratedValue
      */
     private $id;
@@ -35,6 +41,7 @@ class Vraag
 
     /**
      * @ORM\Column(type="string")
+     *
      * @Gedmo\Versioned
      */
     protected $omschrijving;
@@ -43,7 +50,9 @@ class Vraag
      * @var Client
      *
      * @ORM\ManyToOne(targetEntity="Client", inversedBy="vragen")
+     *
      * @ORM\JoinColumn(nullable=false)
+     *
      * @Gedmo\Versioned
      */
     protected $client;
@@ -52,7 +61,9 @@ class Vraag
      * @var Vraagsoort
      *
      * @ORM\ManyToOne(targetEntity="Vraagsoort", inversedBy="vragen")
+     *
      * @ORM\JoinColumn(nullable=false)
+     *
      * @Gedmo\Versioned
      */
     protected $soort;
@@ -61,6 +72,7 @@ class Vraag
      * @var Hulpvrager
      *
      * @ORM\ManyToOne(targetEntity="Hulpvrager", inversedBy="vragen")
+     *
      * @Gedmo\Versioned
      */
     protected $hulpvrager;
@@ -69,6 +81,7 @@ class Vraag
      * @var Communicatiekanaal
      *
      * @ORM\ManyToOne(targetEntity="Communicatiekanaal", inversedBy="vragen")
+     *
      * @Gedmo\Versioned
      */
     protected $communicatiekanaal;
@@ -77,18 +90,21 @@ class Vraag
      * @var Leeftijdscategorie
      *
      * @ORM\ManyToOne(targetEntity="Leeftijdscategorie", inversedBy="vragen")
+     *
      * @Gedmo\Versioned
      */
     protected $leeftijdscategorie;
 
     /**
      * @ORM\Column(type="date")
+     *
      * @Gedmo\Versioned
      */
     protected $startdatum;
 
     /**
      * @ORM\Column(type="date", nullable=true)
+     *
      * @Gedmo\Versioned
      */
     private $afsluitdatum;
@@ -97,7 +113,9 @@ class Vraag
      * @var ArrayCollection|Document[]
      *
      * @ORM\ManyToMany(targetEntity="Document", cascade={"persist"})
+     *
      * @ORM\JoinTable(name="clip_vraag_document")
+     *
      * @ORM\OrderBy({"id" = "DESC"})
      */
     private $documenten;
@@ -106,12 +124,14 @@ class Vraag
      * @var ArrayCollection|Contactmoment[]
      *
      * @ORM\OneToMany(targetEntity="Contactmoment", mappedBy="vraag", cascade={"persist"})
+     *
      * @ORM\OrderBy({"datum" = "DESC", "id" = "DESC"})
      */
     protected $contactmomenten;
 
     /**
-     * @var boolean
+     * @var bool
+     *
      * @ORM\Column(nullable=true)
      */
     protected $hulpCollegaGezocht = false;
@@ -120,6 +140,7 @@ class Vraag
      * @var \DateTime
      *
      * @ORM\Column(type="datetime")
+     *
      * @Gedmo\Versioned
      */
     protected $created;
@@ -128,6 +149,7 @@ class Vraag
      * @var \DateTime
      *
      * @ORM\Column(type="datetime")
+     *
      * @Gedmo\Versioned
      */
     protected $modified;
@@ -138,7 +160,7 @@ class Vraag
         $this->contactmomenten = new ArrayCollection();
 
         $this->setStartdatum(new \DateTime());
-        $contactmoment = ($contactmoment == null) ? new Contactmoment() : $contactmoment;
+        $contactmoment = (null == $contactmoment) ? new Contactmoment() : $contactmoment;
         $this->setContactmoment($contactmoment);
     }
 
@@ -158,25 +180,23 @@ class Vraag
 
     public function setBehandelaar(?Behandelaar $behandelaar)
     {
-
-        /**
+        /*
          * issue #825 open vragen: geen behandelaar bij een open vraag dus.
          */
         // initial Contactmoment has the same Behandelaar as this Vraag
-//        $t = count($this->contactmomenten);
-//        $cm = $this->getContactmoment();
-//        $cmin = is_null($cm->getBehandelaar());
-//        $bin = is_null($behandelaar);
-//        $c = count($this->contactmomenten);
+        //        $t = count($this->contactmomenten);
+        //        $cm = $this->getContactmoment();
+        //        $cmin = is_null($cm->getBehandelaar());
+        //        $bin = is_null($behandelaar);
+        //        $c = count($this->contactmomenten);
 
-//        if (1 === count($this->contactmomenten) && is_null($this->getContactmoment()->getBehandelaar()) && !is_null($behandelaar)) {
-//
-//            $this->contactmomenten[0]->setBehandelaar($behandelaar);
-//
-//        }
+        //        if (1 === count($this->contactmomenten) && is_null($this->getContactmoment()->getBehandelaar()) && !is_null($behandelaar)) {
+        //
+        //            $this->contactmomenten[0]->setBehandelaar($behandelaar);
+        //
+        //        }
 
         $this->behandelaar = $behandelaar;
-
 
         return $this;
     }
@@ -210,7 +230,7 @@ class Vraag
         return $this->hulpvrager;
     }
 
-    public function setHulpvrager(Hulpvrager $hulpvrager = null)
+    public function setHulpvrager(?Hulpvrager $hulpvrager = null)
     {
         $this->hulpvrager = $hulpvrager;
 
@@ -255,6 +275,7 @@ class Vraag
     {
         $this->contactmomenten[] = $contactmoment;
         $contactmoment->setVraag($this);
+
         return $this;
     }
 
@@ -266,15 +287,14 @@ class Vraag
         if (count($this->contactmomenten) > 0) {
             return $this->contactmomenten->last();
         }
+
         return null;
     }
 
     /**
      * Sets the initial contactmoment.
      *
-     * @param Contactmoment $contactmoment
-     *
-     * @return \ClipBundle\Entity\Vraag
+     * @return Vraag
      */
     public function setContactmoment(Contactmoment $contactmoment)
     {
@@ -286,7 +306,7 @@ class Vraag
         return $this->leeftijdscategorie;
     }
 
-    public function setLeeftijdscategorie(Leeftijdscategorie $leeftijdscategorie = null)
+    public function setLeeftijdscategorie(?Leeftijdscategorie $leeftijdscategorie = null)
     {
         $this->leeftijdscategorie = $leeftijdscategorie;
 
@@ -313,7 +333,7 @@ class Vraag
         return $this->communicatiekanaal;
     }
 
-    public function setCommunicatiekanaal(Communicatiekanaal $communicatiekanaal = null)
+    public function setCommunicatiekanaal(?Communicatiekanaal $communicatiekanaal = null)
     {
         $this->communicatiekanaal = $communicatiekanaal;
 
@@ -351,17 +371,11 @@ class Vraag
         return $this;
     }
 
-    /**
-     * @return bool
-     */
     public function isHulpCollegaGezocht(): ?bool
     {
         return $this->hulpCollegaGezocht;
     }
 
-    /**
-     * @param bool $hulpCollegaGezocht
-     */
     public function setHulpCollegaGezocht(bool $hulpCollegaGezocht): void
     {
         $this->hulpCollegaGezocht = $hulpCollegaGezocht;

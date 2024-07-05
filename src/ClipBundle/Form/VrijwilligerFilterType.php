@@ -4,7 +4,6 @@ namespace ClipBundle\Form;
 
 use AppBundle\Form\AppDateRangeType;
 use AppBundle\Form\FilterType;
-use AppBundle\Form\JaNeeType;
 use AppBundle\Form\VrijwilligerFilterType as AppVrijwilligerFilterType;
 use ClipBundle\Filter\VrijwilligerFilter;
 use Symfony\Component\Form\AbstractType;
@@ -14,9 +13,6 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class VrijwilligerFilterType extends AbstractType
 {
-    /**
-     * {@inheritdoc}
-     */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         if (key_exists('vrijwilliger', $options['enabled_filters'])) {
@@ -46,14 +42,11 @@ class VrijwilligerFilterType extends AbstractType
         if (in_array('actief', $options['enabled_filters'])) {
             $builder->add('actief', CheckboxType::class, [
                 'required' => false,
-                'label'=> 'Alleen actieve vrijwilligers',
+                'label' => 'Alleen actieve vrijwilligers',
             ]);
         }
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
@@ -72,9 +65,6 @@ class VrijwilligerFilterType extends AbstractType
         ]);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getParent(): ?string
     {
         return FilterType::class;

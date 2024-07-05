@@ -14,9 +14,6 @@ use Symfony\Component\Form\FormBuilderInterface;
 
 class DeelnemerType extends AbstractType
 {
-    /**
-     * {@inheritdoc}
-     */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         /* @var $deelnemer Deelnemer */
@@ -64,9 +61,6 @@ class DeelnemerType extends AbstractType
         ;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getParent(): ?string
     {
         return BaseType::class;

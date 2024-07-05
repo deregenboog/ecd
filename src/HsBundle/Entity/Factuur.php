@@ -13,11 +13,17 @@ use HsBundle\Exception\InvoiceNotLockedException;
 
 /**
  * @ORM\Entity(repositoryClass="HsBundle\Repository\FactuurRepository")
+ *
  * @ORM\Table(name="hs_facturen")
+ *
  * @ORM\InheritanceType("SINGLE_TABLE")
+ *
  * @ORM\DiscriminatorColumn(name="class", type="string")
+ *
  * @ORM\DiscriminatorMap({"Factuur" = "Factuur", "Creditfactuur" = "Creditfactuur"})
+ *
  * @ORM\HasLifecycleCallbacks
+ *
  * @Gedmo\Loggable
  */
 class Factuur
@@ -27,79 +33,98 @@ class Factuur
 
     /**
      * @ORM\Column(type="string")
+     *
      * @Gedmo\Versioned
      */
     protected $nummer;
 
     /**
      * @ORM\Column(type="date")
+     *
      * @Gedmo\Versioned
      */
     protected $datum;
 
     /**
      * @ORM\Column(type="string")
+     *
      * @Gedmo\Versioned
      */
     protected $betreft;
 
     /**
      * @ORM\Column(type="decimal", scale=2)
+     *
      * @Gedmo\Versioned
      */
     protected $bedrag;
 
     /**
      * @ORM\Column(type="boolean")
+     *
      * @Gedmo\Versioned
      */
     private $locked = false;
 
     /**
      * @ORM\Column(type="boolean", options={"default":0})
+     *
      * @Gedmo\Versioned
      */
     protected $oninbaar = false;
 
     /**
      * @var Klant
+     *
      * @ORM\ManyToOne(targetEntity="Klant", inversedBy="facturen")
+     *
      * @ORM\JoinColumn(onDelete="CASCADE")
+     *
      * @Gedmo\Versioned
      */
     protected $klant;
 
     /**
      * @var ArrayCollection|Registratie[]
+     *
      * @ORM\OneToMany(targetEntity="Registratie", mappedBy="factuur", cascade={"persist"})
+     *
      * @ORM\JoinColumn(onDelete="SET NULL")
+     *
      * @ORM\OrderBy({"datum": "desc", "id": "desc"})
      */
     private $registraties;
 
     /**
      * @var ArrayCollection|Declaratie[]
+     *
      * @ORM\OneToMany(targetEntity="Declaratie", mappedBy="factuur", cascade={"persist"})
+     *
      * @ORM\JoinColumn(onDelete="SET NULL")
+     *
      * @ORM\OrderBy({"datum": "desc", "id": "desc"})
      */
     private $declaraties;
 
     /**
      * @var ArrayCollection|Betaling[]
+     *
      * @ORM\OneToMany(targetEntity="Betaling", mappedBy="factuur", cascade={"persist"})
+     *
      * @ORM\OrderBy({"datum": "desc", "id": "desc"})
      */
     private $betalingen;
 
     /**
      * @var ArrayCollection|Herinnering[]
+     *
      * @ORM\OneToMany(targetEntity="Herinnering", mappedBy="factuur", cascade={"persist"})
+     *
      * @ORM\OrderBy({"datum": "desc", "id": "desc"})
      */
     private $herinneringen;
 
-    public function __construct(Klant $klant, $nummer = null, $betreft = null, AppDateRangeModel $dateRange = null)
+    public function __construct(Klant $klant, $nummer = null, $betreft = null, ?AppDateRangeModel $dateRange = null)
     {
         $klant->addFactuur($this);
 
@@ -111,12 +136,12 @@ class Factuur
         $this->registraties = new ArrayCollection();
         $this->herinneringen = new ArrayCollection();
 
-        /**
+        /*
          * When an invoice is made during registraties, see if there is a daterange available and if so, set invoice to last date of that month instead of the current month.
          *
          */
         if (null !== $dateRange) {
-            $this->datum = new \DateTime('last day of '.$dateRange->getEnd()->format("M Y"));
+            $this->datum = new \DateTime('last day of '.$dateRange->getEnd()->format('M Y'));
         } else {
             $this->datum = new \DateTime('last day of this month');
         }
@@ -215,7 +240,6 @@ class Factuur
 
         $this->registraties->removeElement($registratie);
 
-
         $this->updateDatum();
         $this->calculateBedrag();
 
@@ -239,11 +263,11 @@ class Factuur
 
         $this->declaraties->add($declaratie);
 
-
         $this->updateDatum();
         $this->calculateBedrag();
 
         $declaratie->setFactuur($this);
+
         return $this;
     }
 
@@ -374,8 +398,6 @@ class Factuur
      * #824
      * Krijg vragen hierover; is ongewenst. Alleen de factuurdatum moet op laatste dag van de maand; niet de interne factuurregels (#824, ingetreden sinds #641)
      * Volgens mij kan dit ook anders door dit alleen te doen wanneer de factuur definitief gemaakt wordt. En in concept dan gewoon een tekstveld maken waarin dat gezegd wordt.
-     *
-     *
      */
     private function updateDatum()
     {
@@ -383,44 +405,42 @@ class Factuur
             return;
         }
 
-        //#873 dit werd op 'vandaag' gezet. Dus bij registratie in het verleden leverde dat soms (andere maand)
+        // #873 dit werd op 'vandaag' gezet. Dus bij registratie in het verleden leverde dat soms (andere maand)
         // problemen op. Want huidig > registratie. En dan kon hij geen facturen vinden binnen de daterange en
         // maakte telkens een nieuwe aan met foute factuurdatum. Daarom een datum in het verleden.
-        $datum = new \DateTime("1970-01-01");
-
+        $datum = new \DateTime('1970-01-01');
 
         foreach ($this->declaraties as $declaratie) {
             if ($declaratie->getDatum() > $datum) {
-                //190820 even laten staan voor als blijkt dat ik toch te kort doorde bocht ben gegaan.
-//                $datum->setDate(
-//                    $declaratie->getDatum()->format("Y"),
-//                    $declaratie->getDatum()->format("m"),
-//                    $declaratie->getDatum()->format("d")
-//                );
+                // 190820 even laten staan voor als blijkt dat ik toch te kort doorde bocht ben gegaan.
+                //                $datum->setDate(
+                //                    $declaratie->getDatum()->format("Y"),
+                //                    $declaratie->getDatum()->format("m"),
+                //                    $declaratie->getDatum()->format("d")
+                //                );
 
-                //update datum to most advanced datum.
+                // update datum to most advanced datum.
                 $datum = $declaratie->getDatum();
             }
         }
         foreach ($this->registraties as $registratie) {
             if ($registratie->getDatum() > $datum) {
-//                $datum->setDate(
-//                    $registratie->getDatum()->format("Y"),
-//                    $registratie->getDatum()->format("m"),
-//                    $registratie->getDatum()->format("d")
-//                );
+                //                $datum->setDate(
+                //                    $registratie->getDatum()->format("Y"),
+                //                    $registratie->getDatum()->format("m"),
+                //                    $registratie->getDatum()->format("d")
+                //                );
                 $datum = $registratie->getDatum();
             }
         }
 
-        //Deze manier om laatste dag van die maand te berekenen vervangen door last day of ...
-//        $yearMonth = $datum->format('Y-m');
-//        while ($yearMonth == $datum->format('Y-m')) {
-//            $datum->modify('+1 day');
-//        }
-//        $datum->modify('-1 day');
+        // Deze manier om laatste dag van die maand te berekenen vervangen door last day of ...
+        //        $yearMonth = $datum->format('Y-m');
+        //        while ($yearMonth == $datum->format('Y-m')) {
+        //            $datum->modify('+1 day');
+        //        }
+        //        $datum->modify('-1 day');
 
-
-        $this->datum = new \DateTime("last day of ".$datum->format("M Y"));
+        $this->datum = new \DateTime('last day of '.$datum->format('M Y'));
     }
 }

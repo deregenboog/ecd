@@ -11,7 +11,9 @@ use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Entity
+ *
  * @ORM\HasLifecycleCallbacks
+ *
  * @Gedmo\Loggable
  */
 class Vrijwilligerdossier extends Dossier
@@ -22,11 +24,12 @@ class Vrijwilligerdossier extends Dossier
      * @var Vrijwilliger
      *
      * @ORM\OneToOne(targetEntity="AppBundle\Entity\Vrijwilliger", cascade={"persist"})
+     *
      * @Gedmo\Versioned
      */
     private $vrijwilliger;
 
-    public function __construct(Vrijwilliger $vrijwilliger = null)
+    public function __construct(?Vrijwilliger $vrijwilliger = null)
     {
         $this->vrijwilliger = $vrijwilliger;
         parent::__construct();

@@ -6,9 +6,7 @@ use AppBundle\Exception\ReportException;
 use AppBundle\Report\Table;
 use IzBundle\Entity\Doelstelling;
 use IzBundle\Entity\Project;
-use IzBundle\Repository\DoelstellingRepository;
 use IzBundle\Repository\HulpvraagRepository;
-use IzBundle\Repository\ProjectRepository;
 
 class HulpvraagsoortPerDoelgroepPerStadsdeelBeginstand extends AbstractReport
 {
@@ -36,13 +34,10 @@ class HulpvraagsoortPerDoelgroepPerStadsdeelBeginstand extends AbstractReport
      */
     private $projecten;
 
-
     public function __construct(
         HulpvraagRepository $repository
-
     ) {
         $this->repository = $repository;
-
     }
 
     protected function init()
@@ -52,7 +47,7 @@ class HulpvraagsoortPerDoelgroepPerStadsdeelBeginstand extends AbstractReport
         }
 
         $this->queue = new \SplPriorityQueue();
-//        $this->initTotal();
+        //        $this->initTotal();
         $this->initStadsdelen();
 
         foreach ($this->queue as $data) {
@@ -67,32 +62,28 @@ class HulpvraagsoortPerDoelgroepPerStadsdeelBeginstand extends AbstractReport
 
     private function initStadsdelen()
     {
-
         $stadsdelenData = $this->repository->getStadsdelen($this->startDate, $this->endDate);
 
-        $stadsdelen = array();
-        foreach($stadsdelenData as $r)
-        {
-            if($r['stadsdeel'] === null){
-                $r['stadsdeel'] = "Overig";
+        $stadsdelen = [];
+        foreach ($stadsdelenData as $r) {
+            if (null === $r['stadsdeel']) {
+                $r['stadsdeel'] = 'Overig';
             }
 
-            $stadsdelen[$r['stadsdeel']] = $this->repository->countDoelgroepenPerHulpvraagsoortPerStadsdeel( $this->startDate, $this->endDate,["type"=>"beginstand","stadsdeel"=>$r['stadsdeel'] ]);
+            $stadsdelen[$r['stadsdeel']] = $this->repository->countDoelgroepenPerHulpvraagsoortPerStadsdeel($this->startDate, $this->endDate, ['type' => 'beginstand', 'stadsdeel' => $r['stadsdeel']]);
         }
-        $stadsdelen["Alles"] = $this->repository->countDoelgroepenPerHulpvraagsoortPerStadsdeel( $this->startDate, $this->endDate,[ "type"=>"beginstand","stadsdeel"=>"Alles" ]);
+        $stadsdelen['Alles'] = $this->repository->countDoelgroepenPerHulpvraagsoortPerStadsdeel($this->startDate, $this->endDate, ['type' => 'beginstand', 'stadsdeel' => 'Alles']);
 
-
-        //fix overig...
-        array_walk($stadsdelen['Overig'],function(&$val,$key){
-            if($val['stadsdeel'] == null) $val['stadsdeel'] = 'Overig';
+        // fix overig...
+        array_walk($stadsdelen['Overig'], function (&$val, $key) {
+            if (null == $val['stadsdeel']) {
+                $val['stadsdeel'] = 'Overig';
+            }
         });
 
-
-
-
-//        $stadsdelen = array_unique(array_column($data, 'stadsdeel'));
+        //        $stadsdelen = array_unique(array_column($data, 'stadsdeel'));
         $priority = 40;
-        foreach ($stadsdelen as $stadsdeel=>$data) {
+        foreach ($stadsdelen as $stadsdeel => $data) {
             $this->queue->insert(
                 ['Stadsdeel '.$stadsdeel => array_filter($data, function ($item) use ($stadsdeel) {
                     return $item['stadsdeel'] === $stadsdeel;
@@ -102,7 +93,6 @@ class HulpvraagsoortPerDoelgroepPerStadsdeelBeginstand extends AbstractReport
         }
     }
 
-
     protected function build()
     {
         foreach ($this->data as $title => $data) {
@@ -110,21 +100,19 @@ class HulpvraagsoortPerDoelgroepPerStadsdeelBeginstand extends AbstractReport
             $table->setXSort(false)->setXTotals(false);
             $data = $table->render();
 
-//            foreach ($data as &$row) {
-//                if (!isset($row['Prestatie'])) {
-//                    $row['Prestatie'] = 0;
-//                }
-//                if (!isset($row['Doelstelling'])) {
-//                    $row['Doelstelling'] = 0;
-//                }
-//                if (0 == $row['Doelstelling']) {
-//                    $row['Behaald percentage'] = 0;
-//                } else {
-//                    $row['Behaald percentage'] = 100 * round($row['Prestatie'] / $row['Doelstelling'], 2);
-//                }
-//            }
-
-
+            //            foreach ($data as &$row) {
+            //                if (!isset($row['Prestatie'])) {
+            //                    $row['Prestatie'] = 0;
+            //                }
+            //                if (!isset($row['Doelstelling'])) {
+            //                    $row['Doelstelling'] = 0;
+            //                }
+            //                if (0 == $row['Doelstelling']) {
+            //                    $row['Behaald percentage'] = 0;
+            //                } else {
+            //                    $row['Behaald percentage'] = 100 * round($row['Prestatie'] / $row['Doelstelling'], 2);
+            //                }
+            //            }
 
             $this->reports[] = [
                 'title' => $title,

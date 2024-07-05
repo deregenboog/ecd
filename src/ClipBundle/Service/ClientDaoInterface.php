@@ -14,12 +14,11 @@ interface ClientDaoInterface
     public const FASE_EINDSTAND = 'eindstand';
 
     /**
-     * @param int             $page
-     * @param FilterInterface $filter
+     * @param int $page
      *
      * @return PaginationInterface
      */
-    public function findAll($page = null, FilterInterface $filter = null);
+    public function findAll($page = null, ?FilterInterface $filter = null);
 
     /**
      * @param int $id
@@ -28,18 +27,9 @@ interface ClientDaoInterface
      */
     public function find($id);
 
-    /**
-     * @param Client $client
-     */
     public function create(Client $client);
 
-    /**
-     * @param Client $client
-     */
     public function update(Client $client);
 
-    /**
-     * @param Client $client
-     */
     public function delete(Client $client);
 }

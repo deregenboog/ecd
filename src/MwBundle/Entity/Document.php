@@ -15,9 +15,13 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 /**
  * @ORM\Entity
+ *
  * @ORM\Table(name="mw_documenten")
+ *
  * @ORM\HasLifecycleCallbacks
+ *
  * @Gedmo\Loggable
+ *
  * @Vich\Uploadable
  */
 class Document implements DocumentInterface
@@ -28,21 +32,27 @@ class Document implements DocumentInterface
 
     /**
      * @var string
+     *
      * @ORM\Column
+     *
      * @Gedmo\Versioned
      */
     private $naam;
 
     /**
      * @var string
+     *
      * @ORM\Column
+     *
      * @Gedmo\Versioned
      */
     private $filename;
 
     /**
      * @var File
+     *
      * @Vich\UploadableField(mapping="mw_document", fileNameProperty="filename")
+     *
      * @Gedmo\Versioned
      */
     private $file;
@@ -58,6 +68,7 @@ class Document implements DocumentInterface
      * @var Medewerker
      *
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Medewerker", cascade={"persist"})
+     *
      * @Gedmo\Versioned
      */
     protected $medewerker;
@@ -66,6 +77,7 @@ class Document implements DocumentInterface
      * @var \DateTime
      *
      * @ORM\Column(type="datetime")
+     *
      * @Gedmo\Versioned
      */
     protected $created;
@@ -74,11 +86,12 @@ class Document implements DocumentInterface
      * @var \DateTime
      *
      * @ORM\Column(type="datetime")
+     *
      * @Gedmo\Versioned
      */
     protected $modified;
 
-    public function __construct($klant = null, Medewerker $medewerker = null)
+    public function __construct($klant = null, ?Medewerker $medewerker = null)
     {
         if ($klant instanceof Klant) {
             $this->klant = $klant;

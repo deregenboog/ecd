@@ -53,7 +53,7 @@ class KlantFilter implements FilterInterface
     public $klant;
 
     /**
-     * @var boolean
+     * @var bool
      */
     public $isGezin;
 
@@ -67,13 +67,12 @@ class KlantFilter implements FilterInterface
 
     public function applyTo(QueryBuilder $builder)
     {
-            if ($this->gebruikersruimte) {
+        if ($this->gebruikersruimte) {
             $builder
                 ->andWhere('laatsteIntake.gebruikersruimte = :gebruikersruimte')
                 ->setParameter('gebruikersruimte', $this->gebruikersruimte)
             ;
         }
-
 
         if ($this->laatsteVerslagLocatie) {
             $builder
@@ -82,20 +81,19 @@ class KlantFilter implements FilterInterface
             ;
         }
 
-//        if($this->verslag)
-//        {
-//            $builder
-//                ->andWhere('verslag.medewerker = :medewerker')
-//                ->setParameter('medewerker',$this->verslag)
-//                ;
-//
-//        }
-        if($this->maatschappelijkWerker)
-        {
+        //        if($this->verslag)
+        //        {
+        //            $builder
+        //                ->andWhere('verslag.medewerker = :medewerker')
+        //                ->setParameter('medewerker',$this->verslag)
+        //                ;
+        //
+        //        }
+        if ($this->maatschappelijkWerker) {
             $builder
                 ->andWhere('maatschappelijkWerker = :maatschappelijkWerker')
 
-                ->setParameter('maatschappelijkWerker',$this->maatschappelijkWerker)
+                ->setParameter('maatschappelijkWerker', $this->maatschappelijkWerker)
             ;
         }
 
@@ -129,44 +127,36 @@ class KlantFilter implements FilterInterface
             }
         }
 
-        if($this->huidigeMwStatus == 'Aanmelding')
-        {
+        if ('Aanmelding' == $this->huidigeMwStatus) {
             $builder
                 ->andWhere($builder->expr()->isInstanceOf('huidigeMwStatus', Aanmelding::class));
-        }
-        else if($this->huidigeMwStatus == 'Afsluiting') {
+        } elseif ('Afsluiting' == $this->huidigeMwStatus) {
             $builder
                 ->andWhere($builder->expr()->isInstanceOf('huidigeMwStatus', Afsluiting::class));
         }
-        if($this->isGezin=='1')
-        {
+        if ('1' == $this->isGezin) {
             $builder
                 ->andWhere('info.isGezin = 1');
-        }
-        elseif($this->isGezin=="0")
-        {
+        } elseif ('0' == $this->isGezin) {
             $builder
                 ->andWhere('info.isGezin = 0');
-        }
-        elseif($this->isGezin=="null")
-        {
+        } elseif ('null' == $this->isGezin) {
             $builder
                 ->andWhere('info.isGezin = 0 OR info.isGezin IS NULL or info.isGezin =1 ');
         }
 
-        if($this->project)
-        {
+        if ($this->project) {
             $builder
-                ->innerJoin("huidigeMwStatus.project","project")
-                ->andWhere("project = :project")
-                ->setParameter("project",$this->project);
+                ->innerJoin('huidigeMwStatus.project', 'project')
+                ->andWhere('project = :project')
+                ->setParameter('project', $this->project);
         }
 
         if ($this->klant) {
             $this->klant->applyTo($builder);
         }
 
-//        $sql = SqlExtractor::getFullSQL($builder->getQuery());
+        //        $sql = SqlExtractor::getFullSQL($builder->getQuery());
     }
 
     public function isDirty()
@@ -174,13 +164,12 @@ class KlantFilter implements FilterInterface
         $isDirty = false;
         $r = new \ReflectionClass($this);
         $d = $r->getDefaultProperties();
-        foreach($r->getProperties() as $prop)
-        {
-            if($prop->getValue($this) != $d[$prop->getName()])
-            {
+        foreach ($r->getProperties() as $prop) {
+            if ($prop->getValue($this) != $d[$prop->getName()]) {
                 return true;
             }
         }
+
         return $isDirty;
     }
 }

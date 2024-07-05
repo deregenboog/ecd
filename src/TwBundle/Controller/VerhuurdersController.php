@@ -2,7 +2,6 @@
 
 namespace TwBundle\Controller;
 
-use AppBundle\Controller\AbstractChildController;
 use AppBundle\Controller\AbstractController;
 use AppBundle\Entity\Klant as AppKlant;
 use AppBundle\Exception\UserException;
@@ -10,21 +9,20 @@ use AppBundle\Export\ExportInterface;
 use AppBundle\Form\ConfirmationType;
 use AppBundle\Form\KlantFilterType;
 use AppBundle\Service\KlantDaoInterface;
-use Doctrine\ORM\QueryBuilder;
-use Symfony\Component\HttpFoundation\Request;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\FormError;
+use Symfony\Component\Routing\Annotation\Route;
 use TwBundle\Entity\Verhuurder;
 use TwBundle\Form\VerhuurderCloseType;
 use TwBundle\Form\VerhuurderFilterType;
 use TwBundle\Form\VerhuurderSelectType;
 use TwBundle\Form\VerhuurderType;
 use TwBundle\Service\VerhuurderDaoInterface;
-use Symfony\Component\Routing\Annotation\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use Symfony\Component\Form\FormError;
 
 /**
  * @Route("/verhuurders")
+ *
  * @Template
  */
 class VerhuurdersController extends AbstractController
@@ -35,7 +33,7 @@ class VerhuurdersController extends AbstractController
     protected $formClass = VerhuurderType::class;
     protected $filterFormClass = VerhuurderFilterType::class;
     protected $baseRouteName = 'tw_verhuurders_';
-    protected $addMethod = "addVerhuurder";
+    protected $addMethod = 'addVerhuurder';
     protected $searchFilterTypeClass = KlantFilterType::class;
     protected $searchEntity = AppKlant::class;
     protected $searchEntityName = 'appKlant';
@@ -65,9 +63,9 @@ class VerhuurdersController extends AbstractController
     protected function getDownloadFilename()
     {
         $filename = sprintf('tw-verhuurders-%s.xlsx', (new \DateTime())->format('d-m-Y'));
+
         return $filename;
     }
-
 
     /**
      * @Route("/{id}/view")
@@ -192,11 +190,11 @@ class VerhuurdersController extends AbstractController
                 $entityManager->flush();
 
                 $this->addFlash('success', 'Verhuurder is afgesloten.');
-            } catch(UserException $e) {
-//                $this->logger->error($e->getMessage(), ['exception' => $e]);
-                $message =  $e->getMessage();
+            } catch (UserException $e) {
+                //                $this->logger->error($e->getMessage(), ['exception' => $e]);
+                $message = $e->getMessage();
                 $this->addFlash('danger', $message);
-//                return $this->redirectToRoute('app_klanten_index');
+                //                return $this->redirectToRoute('app_klanten_index');
             } catch (\Exception $e) {
                 $message = $this->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
                 $this->addFlash('danger', $message);
@@ -229,11 +227,11 @@ class VerhuurdersController extends AbstractController
                     $entityManager->flush();
 
                     $this->addFlash('success', 'Klant is heropend.');
-                } catch(UserException $e) {
-//                $this->logger->error($e->getMessage(), ['exception' => $e]);
-                    $message =  $e->getMessage();
+                } catch (UserException $e) {
+                    //                $this->logger->error($e->getMessage(), ['exception' => $e]);
+                    $message = $e->getMessage();
                     $this->addFlash('danger', $message);
-//                return $this->redirectToRoute('app_klanten_index');
+                    //                return $this->redirectToRoute('app_klanten_index');
                 } catch (\Exception $e) {
                     $message = $this->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
                     $this->addFlash('danger', $message);

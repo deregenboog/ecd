@@ -48,7 +48,7 @@ class KlantTest extends TestCase
         $klant->getIntakes()->add($eersteIntake);
         $klant->getIntakes()->add($laatsteIntake);
 
-//        $intakes = $klant->getIntakes();
+        //        $intakes = $klant->getIntakes();
 
         $klant->updateCalculatedFields(); // this one was messy. Cleared it up. Only got called in merge.
 

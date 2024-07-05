@@ -172,11 +172,11 @@ class KoppelingFilter implements FilterInterface
             ;
         }
 
-//        if ($this->hulpaanbodMedewerker) {
-//            $builder
-//                ->andWhere('hulpaanbod.medewerker = :hulpaanbodMedewerker')
-//                ->setParameter('hulpaanbodMedewerker', $this->hulpaanbodMedewerker)
-//            ;
-//        }
+        //        if ($this->hulpaanbodMedewerker) {
+        //            $builder
+        //                ->andWhere('hulpaanbod.medewerker = :hulpaanbodMedewerker')
+        //                ->setParameter('hulpaanbodMedewerker', $this->hulpaanbodMedewerker)
+        //            ;
+        //        }
     }
 }

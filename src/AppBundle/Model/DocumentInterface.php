@@ -14,7 +14,7 @@ interface DocumentInterface
 
     public function setFile(File $file);
 
-//    public function getDiscr();
-//
-//    public function setDiscr(string $discr);
+    //    public function getDiscr();
+    //
+    //    public function setDiscr(string $discr);
 }

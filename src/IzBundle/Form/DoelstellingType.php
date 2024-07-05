@@ -3,7 +3,6 @@
 namespace IzBundle\Form;
 
 use AppBundle\Form\BaseType;
-use IzBundle\Form\ProjectSelectType;
 use IzBundle\Entity\Doelstelling;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -13,9 +12,6 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class DoelstellingType extends AbstractType
 {
-    /**
-     * {@inheritdoc}
-     */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $range = range(2017, (new \DateTime('next year'))->format('Y'));
@@ -39,9 +35,6 @@ class DoelstellingType extends AbstractType
         ;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([

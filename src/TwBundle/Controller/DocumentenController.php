@@ -7,22 +7,23 @@ use AppBundle\Exception\UserException;
 use AppBundle\Form\ConfirmationType;
 use Doctrine\ORM\EntityManagerInterface;
 use InloopBundle\Security\Permissions;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use TwBundle\Entity\Document;
-use TwBundle\Entity\Klant;
 use TwBundle\Entity\Huurovereenkomst;
+use TwBundle\Entity\Klant;
 use TwBundle\Entity\Verhuurder;
 use TwBundle\Entity\Vrijwilliger;
 use TwBundle\Exception\TwException;
 use TwBundle\Form\DocumentType;
 use TwBundle\Service\DocumentDaoInterface;
-use Symfony\Component\Routing\Annotation\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-use Symfony\Component\HttpFoundation\Request;
 use Vich\UploaderBundle\Handler\DownloadHandler;
 
 /**
  * @Route("/documenten")
+ *
  * @Template
  */
 class DocumentenController extends SymfonyController
@@ -47,7 +48,7 @@ class DocumentenController extends SymfonyController
     {
         $document = $this->dao->findByFilename($filename);
 
-//        $downloadHandler = $this->get('vich_uploader.download_handler');
+        //        $downloadHandler = $this->get('vich_uploader.download_handler');
 
         return $downloadHandler->downloadObject($document, 'file');
     }
@@ -68,11 +69,11 @@ class DocumentenController extends SymfonyController
                 $entityManager->persist($entity->addDocument($form->getData()));
                 $entityManager->flush();
                 $this->addFlash('success', 'Document is toegevoegd.');
-            } catch(UserException $e) {
-//                $this->logger->error($e->getMessage(), ['exception' => $e]);
-                $message =  $e->getMessage();
+            } catch (UserException $e) {
+                //                $this->logger->error($e->getMessage(), ['exception' => $e]);
+                $message = $e->getMessage();
                 $this->addFlash('danger', $message);
-//                return $this->redirectToRoute('app_klanten_index');
+                //                return $this->redirectToRoute('app_klanten_index');
             } catch (\Exception $e) {
                 $message = $this->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
                 $this->addFlash('danger', $message);
@@ -99,10 +100,8 @@ class DocumentenController extends SymfonyController
                 $entity,
                 'Je kunt alleen documenten wijzigen/verwijderen die door jezelf zijn aangemaakt. Een beheerder kan bestanden wel wijzigen.'
             );
-        }
-        catch(AccessDeniedException $e)
-        {
-            $this->addFlash("danger",$e->getMessage());
+        } catch (AccessDeniedException $e) {
+            $this->addFlash('danger', $e->getMessage());
             if ($url = $request->get('redirect')) {
                 return $this->redirect($url);
             }
@@ -114,11 +113,11 @@ class DocumentenController extends SymfonyController
             try {
                 $this->dao->update($entity);
                 $this->addFlash('success', 'Document is bijgewerkt.');
-            } catch(UserException $e) {
-//                $this->logger->error($e->getMessage(), ['exception' => $e]);
-                $message =  $e->getMessage();
+            } catch (UserException $e) {
+                //                $this->logger->error($e->getMessage(), ['exception' => $e]);
+                $message = $e->getMessage();
                 $this->addFlash('danger', $message);
-//                return $this->redirectToRoute('app_klanten_index');
+                //                return $this->redirectToRoute('app_klanten_index');
             } catch (\Exception $e) {
                 $message = $this->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
                 $this->addFlash('danger', $message);
@@ -147,10 +146,8 @@ class DocumentenController extends SymfonyController
                 $entity,
                 'Je kunt alleen documenten wijzigen/verwijderen die door jezelf zijn aangemaakt. Een beheerder kan bestanden wel wijzigen.'
             );
-        }
-        catch(AccessDeniedException $e)
-        {
-            $this->addFlash("danger",$e->getMessage());
+        } catch (AccessDeniedException $e) {
+            $this->addFlash('danger', $e->getMessage());
             if ($url = $request->get('redirect')) {
                 return $this->redirect($url);
             }

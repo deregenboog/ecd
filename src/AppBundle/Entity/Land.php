@@ -9,8 +9,11 @@ use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Entity
+ *
  * @ORM\Table(name="landen")
+ *
  * @ORM\HasLifecycleCallbacks
+ *
  * @Gedmo\Loggable
  */
 class Land
@@ -20,18 +23,21 @@ class Land
 
     /**
      * @ORM\Column(name="AFK2", type="string", length=5)
+     *
      * @Gedmo\Versioned
      */
     private $afkorting2;
 
     /**
      * @ORM\Column(name="AFK3", type="string", length=5)
+     *
      * @Gedmo\Versioned
      */
     private $afkorting3;
 
     /**
      * @ORM\Column(type="string")
+     *
      * @Gedmo\Versioned
      */
     private $land;
@@ -40,6 +46,7 @@ class Land
      * @var \DateTime
      *
      * @ORM\Column(type="datetime", nullable=true)
+     *
      * @Gedmo\Versioned
      */
     protected $created;
@@ -48,6 +55,7 @@ class Land
      * @var \DateTime
      *
      * @ORM\Column(type="datetime", nullable=true)
+     *
      * @Gedmo\Versioned
      */
     protected $modified;

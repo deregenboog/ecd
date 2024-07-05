@@ -12,16 +12,13 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class ProjectType extends AbstractType
 {
-    /**
-     * {@inheritdoc}
-     */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
             ->add('naam')
             ->add('medewerkers', MedewerkerType::class, [
                 'required' => true,
-                'preset'=> false,
+                'preset' => false,
                 'multiple' => true,
             ])
             ->add('actief')
@@ -29,9 +26,6 @@ class ProjectType extends AbstractType
         ;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
@@ -39,9 +33,6 @@ class ProjectType extends AbstractType
         ]);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getParent(): ?string
     {
         return BaseType::class;

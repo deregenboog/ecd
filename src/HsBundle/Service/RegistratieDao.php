@@ -32,7 +32,7 @@ class RegistratieDao extends AbstractDao implements RegistratieDaoInterface
     /**
      * {inheritdoc}.
      */
-    public function findAll($page = null, FilterInterface $filter = null)
+    public function findAll($page = null, ?FilterInterface $filter = null)
     {
         $builder = $this->repository->createQueryBuilder($this->alias)
             ->select($this->alias.', klus, klant, werkgebied')
@@ -88,7 +88,7 @@ class RegistratieDao extends AbstractDao implements RegistratieDaoInterface
     /**
      * {inheritdoc}.
      */
-    public function countUrenByStadsdeel(\DateTime $start = null, \DateTime $end = null)
+    public function countUrenByStadsdeel(?\DateTime $start = null, ?\DateTime $end = null)
     {
         $builder = $this->repository->createQueryBuilder('registratie')
             ->select('SUM(time_to_sec(time_diff(registratie.eind, registratie.start))/3600) AS aantal')
@@ -118,7 +118,7 @@ class RegistratieDao extends AbstractDao implements RegistratieDaoInterface
     /**
      * {inheritdoc}.
      */
-    public function countUrenByGgwGebied(\DateTime $start = null, \DateTime $end = null)
+    public function countUrenByGgwGebied(?\DateTime $start = null, ?\DateTime $end = null)
     {
         $builder = $this->repository->createQueryBuilder('registratie')
             ->select('SUM(time_to_sec(time_diff(registratie.eind, registratie.start))/3600) AS aantal')
@@ -148,7 +148,7 @@ class RegistratieDao extends AbstractDao implements RegistratieDaoInterface
     /**
      * {inheritdoc}.
      */
-    public function countUrenByKlant(\DateTime $start = null, \DateTime $end = null)
+    public function countUrenByKlant(?\DateTime $start = null, ?\DateTime $end = null)
     {
         $builder = $this->repository->createQueryBuilder('registratie')
             ->select('SUM(time_to_sec(time_diff(registratie.eind, registratie.start))/3600) AS aantal')
@@ -177,7 +177,7 @@ class RegistratieDao extends AbstractDao implements RegistratieDaoInterface
     /**
      * {inheritdoc}.
      */
-    public function countUrenByKlus(\DateTime $start = null, \DateTime $end = null)
+    public function countUrenByKlus(?\DateTime $start = null, ?\DateTime $end = null)
     {
         $builder = $this->repository->createQueryBuilder('registratie')
             ->select('SUM(time_to_sec(time_diff(registratie.eind, registratie.start))/3600) AS aantal')
@@ -208,7 +208,7 @@ class RegistratieDao extends AbstractDao implements RegistratieDaoInterface
     /**
      * {inheritdoc}.
      */
-    public function countUrenByActiviteit(\DateTime $start = null, \DateTime $end = null)
+    public function countUrenByActiviteit(?\DateTime $start = null, ?\DateTime $end = null)
     {
         $builder = $this->repository->createQueryBuilder('registratie')
             ->select('SUM(time_to_sec(time_diff(registratie.eind, registratie.start))/3600) AS aantal')
@@ -236,7 +236,7 @@ class RegistratieDao extends AbstractDao implements RegistratieDaoInterface
     /**
      * {inheritdoc}.
      */
-    public function countUrenByDienstverlener(\DateTime $start = null, \DateTime $end = null)
+    public function countUrenByDienstverlener(?\DateTime $start = null, ?\DateTime $end = null)
     {
         $builder = $this->repository->createQueryBuilder('registratie')
             ->select('SUM(time_to_sec(time_diff(registratie.eind, registratie.start))/3600) AS aantal')
@@ -266,7 +266,7 @@ class RegistratieDao extends AbstractDao implements RegistratieDaoInterface
     /**
      * {inheritdoc}.
      */
-    public function countUrenByVrijwilliger(\DateTime $start = null, \DateTime $end = null)
+    public function countUrenByVrijwilliger(?\DateTime $start = null, ?\DateTime $end = null)
     {
         $builder = $this->repository->createQueryBuilder('registratie')
             ->select('SUM(time_to_sec(time_diff(registratie.eind, registratie.start))/3600) AS aantal')

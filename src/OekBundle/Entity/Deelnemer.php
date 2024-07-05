@@ -4,9 +4,9 @@ namespace OekBundle\Entity;
 
 use AppBundle\Entity\Klant;
 use AppBundle\Model\IdentifiableTrait;
+use AppBundle\Model\KlantRelationInterface;
 use AppBundle\Model\RequiredMedewerkerTrait;
 use AppBundle\Model\TimestampableTrait;
-use AppBundle\Model\KlantRelationInterface;
 use AppBundle\Service\NameFormatter;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityNotFoundException;
@@ -15,8 +15,11 @@ use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Entity(repositoryClass="OekBundle\Repository\DeelnemerRepository")
+ *
  * @ORM\Table(name="oek_klanten")
+ *
  * @ORM\HasLifecycleCallbacks
+ *
  * @Gedmo\Loggable
  */
 class Deelnemer implements KlantRelationInterface
@@ -31,11 +34,13 @@ class Deelnemer implements KlantRelationInterface
      * @var DossierStatus[]
      *
      * @ORM\ManyToMany(targetEntity="DossierStatus", cascade={"persist"})
+     *
      * @ORM\JoinTable(
      *     name="oekklant_oekdossierstatus",
      *     joinColumns={@ORM\JoinColumn(name="oekklant_id")},
      *     inverseJoinColumns={@ORM\JoinColumn(name="oekdossierstatus_id")}
      * )
+     *
      * @ORM\OrderBy({"datum": "desc", "id": "desc"})
      */
     private $dossierStatussen;
@@ -46,7 +51,9 @@ class Deelnemer implements KlantRelationInterface
      * @var DossierStatus
      *
      * @ORM\ManyToOne(targetEntity="DossierStatus", cascade={"persist"})
+     *
      * @ORM\JoinColumn(name="oekDossierStatus_id")
+     *
      * @Gedmo\Versioned
      */
     private $dossierStatus;
@@ -57,7 +64,9 @@ class Deelnemer implements KlantRelationInterface
      * @var Aanmelding
      *
      * @ORM\ManyToOne(targetEntity="Aanmelding")
+     *
      * @ORM\JoinColumn(name="oekAanmelding_id")
+     *
      * @Gedmo\Versioned
      */
     private $aanmelding;
@@ -68,34 +77,43 @@ class Deelnemer implements KlantRelationInterface
      * @var Afsluiting
      *
      * @ORM\ManyToOne(targetEntity="Afsluiting")
+     *
      * @ORM\JoinColumn(name="oekAfsluiting_id")
+     *
      * @Gedmo\Versioned
      */
     private $afsluiting;
 
     /**
      * @var Klant
+     *
      * @ORM\OneToOne(targetEntity="AppBundle\Entity\Klant", cascade={"persist"})
+     *
      * @ORM\JoinColumn(name="klant_id", nullable=false)
+     *
      * @Gedmo\Versioned
      */
     private $klant;
 
     /**
      * @var ArrayCollection|Lidmaatschap[]
+     *
      * @ORM\OneToMany(targetEntity="Lidmaatschap", mappedBy="deelnemer")
      */
     private $lidmaatschappen;
 
     /**
      * @var ArrayCollection|Deelname[]
+     *
      * @ORM\OneToMany(targetEntity="Deelname", mappedBy="deelnemer")
      */
     private $deelnames;
 
     /**
      * @var bool
+     *
      * @ORM\Column(type="boolean")
+     *
      * @Gedmo\Versioned
      */
     private $voedselbankklant = false;
@@ -104,6 +122,7 @@ class Deelnemer implements KlantRelationInterface
      * @var string
      *
      * @ORM\Column(type="text", nullable=true)
+     *
      * @Gedmo\Versioned
      */
     private $opmerking;
@@ -112,6 +131,7 @@ class Deelnemer implements KlantRelationInterface
      * @var \DateTime
      *
      * @ORM\Column(type="datetime")
+     *
      * @Gedmo\Versioned
      */
     protected $created;
@@ -120,11 +140,12 @@ class Deelnemer implements KlantRelationInterface
      * @var \DateTime
      *
      * @ORM\Column(type="datetime")
+     *
      * @Gedmo\Versioned
      */
     protected $modified;
 
-    public function __construct(Klant $klant = null)
+    public function __construct(?Klant $klant = null)
     {
         $this->klant = $klant;
 
@@ -310,6 +331,6 @@ class Deelnemer implements KlantRelationInterface
 
     public function getKlantFieldName(): string
     {
-        return "klant";
+        return 'klant';
     }
 }

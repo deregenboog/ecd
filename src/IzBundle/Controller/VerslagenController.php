@@ -7,12 +7,13 @@ use AppBundle\Controller\DisableIndexActionTrait;
 use IzBundle\Entity\Verslag;
 use IzBundle\Form\VerslagType;
 use IzBundle\Service\VerslagDaoInterface;
-use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * @Route("/verslagen")
+ *
  * @Template
  */
 class VerslagenController extends AbstractChildController

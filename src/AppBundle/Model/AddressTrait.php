@@ -3,8 +3,8 @@
 namespace AppBundle\Model;
 
 use AppBundle\Entity\GgwGebied;
+use AppBundle\Entity\Persoon;
 use AppBundle\Entity\Postcode;
-use AppBundle\Entity\Vrijwilliger;
 use AppBundle\Entity\Werkgebied;
 use AppBundle\Util\PostcodeFormatter;
 use Doctrine\ORM\EntityManagerInterface;
@@ -12,68 +12,76 @@ use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Validator\Constraints as Assert;
-use AppBundle\Entity\Persoon;
 
 trait AddressTrait
 {
     /**
      * @ORM\Column(type="string", nullable=true)
+     *
      * @Gedmo\Versioned
      */
     protected $adres;
 
     /**
      * @ORM\Column(type="string", length=6, nullable=true)
+     *
      * @Gedmo\Versioned
      */
     protected $postcode;
 
     /**
      * @ORM\Column(type="string", nullable=true)
+     *
      * @Gedmo\Versioned
      */
     protected $plaats;
 
     /**
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Werkgebied")
+     *
      * @ORM\JoinColumn(name="werkgebied", referencedColumnName="naam")
+     *
      * @Gedmo\Versioned
      */
     private $werkgebied;
 
     /**
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\GgwGebied")
+     *
      * @ORM\JoinColumn(name="postcodegebied", referencedColumnName="naam", options={"length":50})
+     *
      * @Gedmo\Versioned
      */
     private $postcodegebied;
 
     /**
      * @ORM\Column(type="string", nullable=true)
+     *
      * @Gedmo\Versioned
+     *
      * @Assert\Email
      */
     protected $email;
 
     /**
      * @ORM\Column(type="string", nullable=true)
+     *
      * @Gedmo\Versioned
      */
     protected $mobiel;
 
     /**
      * @ORM\Column(type="string", nullable=true)
+     *
      * @Gedmo\Versioned
      */
     protected $telefoon;
-
 
     public static function KoppelPostcodeWerkgebiedClosure(FormEvent $event, $em)
     {
         /* @var Persoon $data */
         $data = $event->getData();
-        self::_koppelPostcodeWerkgebied($data,$em);
-
+        self::_koppelPostcodeWerkgebied($data, $em);
     }
 
     private static function _koppelPostcodeWerkgebied($data, $em)
@@ -88,10 +96,8 @@ trait AddressTrait
                         ->setWerkgebied($postcode->getStadsdeel())
                         ->setPostcodegebied($postcode->getPostcodegebied())
                     ;
-                }
-                else
-                {
-                    //wissen stadsdeel en postcodegebied; geen koppeling mogelijk; naw postcode buiten regio.
+                } else {
+                    // wissen stadsdeel en postcodegebied; geen koppeling mogelijk; naw postcode buiten regio.
                     $data
                         ->setWerkgebied(null)
                         ->setPostcodegebied(null)
@@ -105,8 +111,9 @@ trait AddressTrait
 
     public function koppelPostcodeWerkgebied(EntityManagerInterface $entityManager)
     {
-       self::_koppelPostcodeWerkgebied($this,$entityManager);
+        self::_koppelPostcodeWerkgebied($this, $entityManager);
     }
+
     public function getEmail()
     {
         return $this->email;
@@ -184,7 +191,7 @@ trait AddressTrait
         return $this->werkgebied;
     }
 
-    public function setWerkgebied(Werkgebied $werkgebied = null)
+    public function setWerkgebied(?Werkgebied $werkgebied = null)
     {
         $this->werkgebied = $werkgebied;
 
@@ -196,13 +203,10 @@ trait AddressTrait
         return $this->postcodegebied;
     }
 
-    public function setPostcodegebied(GgwGebied $postcodegebied = null)
+    public function setPostcodegebied(?GgwGebied $postcodegebied = null)
     {
         $this->postcodegebied = $postcodegebied;
 
         return $this;
     }
-
-
-
 }

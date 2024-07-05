@@ -25,10 +25,10 @@ class VragenModel extends Vraag
         $vragen = [];
         $cm = null;
         foreach ($this->soorten as $soort) {
-            $cm = (null === $cm)? $this->getContactmoment():clone($cm);
-            //duplicate each contactmoment otherwise it gets only stored for one vraag.
+            $cm = (null === $cm) ? $this->getContactmoment() : clone ($cm);
+            // duplicate each contactmoment otherwise it gets only stored for one vraag.
 
-            $vraag = new Vraag( $cm);
+            $vraag = new Vraag($cm);
             $vraag
                 ->setSoort($soort)
 //                ->setContactmoment()
@@ -41,7 +41,7 @@ class VragenModel extends Vraag
                 ->setStartdatum($this->getStartdatum())
 
             ;
-          //  $vraag->getContactmoment()->setOpmerking($this->getContactmoment()->getOpmerking());
+            //  $vraag->getContactmoment()->setOpmerking($this->getContactmoment()->getOpmerking());
 
             $vragen[] = $vraag;
         }

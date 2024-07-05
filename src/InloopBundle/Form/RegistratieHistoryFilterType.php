@@ -8,17 +8,11 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class RegistratieHistoryFilterType extends AbstractType
 {
-    /**
-     * {@inheritdoc}
-     */
     public function getParent(): ?string
     {
         return RegistratieFilterType::class;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([

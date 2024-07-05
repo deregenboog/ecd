@@ -16,13 +16,14 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use InloopBundle\Entity\Locatie;
-use MwBundle\Entity\BinnenVia;
-use PHPUnit\Framework\Error\Deprecated;
 
 /**
  * @ORM\Entity
+ *
  * @ORM\Table("mw_vrijwilligers")
+ *
  * @ORM\HasLifecycleCallbacks
+ *
  * @Gedmo\Loggable
  */
 class Vrijwilliger implements MemoSubjectInterface, DocumentSubjectInterface
@@ -37,7 +38,9 @@ class Vrijwilliger implements MemoSubjectInterface, DocumentSubjectInterface
      * @var Vrijwilliger
      *
      * @ORM\OneToOne(targetEntity="AppBundle\Entity\Vrijwilliger", cascade={"persist"})
+     *
      * @ORM\JoinColumn(nullable=false)
+     *
      * @Gedmo\Versioned
      */
     protected $vrijwilliger;
@@ -53,6 +56,7 @@ class Vrijwilliger implements MemoSubjectInterface, DocumentSubjectInterface
      * @var BinnenViaOptieVW
      *
      * @ORM\ManyToOne(targetEntity="MwBundle\Entity\BinnenViaOptieVW")
+     *
      * @ORM\JoinColumn(name="binnen_via_id")
      */
     protected $binnenVia;
@@ -79,37 +83,43 @@ class Vrijwilliger implements MemoSubjectInterface, DocumentSubjectInterface
     protected $afsluitreden;
 
     /**
-     * @var boolean
+     * @var bool
+     *
      * @ORM\Column(type="boolean")
      */
     protected $stagiair = false;
 
     /**
      * @var string
+     *
      * @ORM\Column(type="text", nullable=true)
      */
     protected $notitieIntake;
 
     /**
      * @var \DateTime
+     *
      * @ORM\Column(type="datetime",nullable=true)
      */
     protected $datumNotitieIntake;
 
     /**
      * @var string
+     *
      * @ORM\Column(nullable=true)
      */
     protected $trainingOverig;
 
     /**
      * @var \DateTime
+     *
      * @ORM\Column(nullable=true)
      */
     protected $trainingOverigDatum;
 
     /**
      * @var ArrayCollection|Deelname[]
+     *
      * @ORM\OneToMany(targetEntity="Deelname",mappedBy="vrijwilliger", cascade={"persist"})
      */
     protected $trainingDeelnames;
@@ -118,6 +128,7 @@ class Vrijwilliger implements MemoSubjectInterface, DocumentSubjectInterface
      * @var \DateTime
      *
      * @ORM\Column(type="datetime")
+     *
      * @Gedmo\Versioned
      */
     protected $created;
@@ -126,18 +137,19 @@ class Vrijwilliger implements MemoSubjectInterface, DocumentSubjectInterface
      * @var \DateTime
      *
      * @ORM\Column(type="datetime")
+     *
      * @Gedmo\Versioned
      */
     protected $modified;
 
-    public function __construct(AppVrijwilliger $vrijwilliger = null)
+    public function __construct(?AppVrijwilliger $vrijwilliger = null)
     {
         if ($vrijwilliger) {
             $this->vrijwilliger = $vrijwilliger;
         }
         $this->locaties = new ArrayCollection();
         $this->trainingDeelnames = new ArrayCollection();
-        $this->datumNotitieIntake = new \DateTime("now");
+        $this->datumNotitieIntake = new \DateTime('now');
     }
 
     public function __toString()
@@ -191,7 +203,6 @@ class Vrijwilliger implements MemoSubjectInterface, DocumentSubjectInterface
         return $this;
     }
 
-
     public function getAfsluitredenVrijwilliger()
     {
         return $this->afsluitreden;
@@ -240,98 +251,61 @@ class Vrijwilliger implements MemoSubjectInterface, DocumentSubjectInterface
         return null === $this->afsluitdatum || $this->afsluitdatum > new \DateTime('today');
     }
 
-    /**
-     * @return Medewerker
-     */
     public function getMedewerker(): ?Medewerker
     {
         return $this->medewerker;
     }
 
-    /**
-     * @param Medewerker $medewerker
-     */
     public function setMedewerker(Medewerker $medewerker): void
     {
         $this->medewerker = $medewerker;
     }
 
-    /**
-     * @return bool
-     */
     public function isStagiair(): bool
     {
         return (bool) $this->stagiair;
     }
 
-    /**
-     * @param bool $stagiair
-     */
     public function setStagiair(bool $stagiair): void
     {
         $this->stagiair = $stagiair;
     }
 
-
-    /**
-     * @return string
-     */
     public function getNotitieIntake(): ?string
     {
         return $this->notitieIntake;
     }
 
-    /**
-     * @param string $notitieIntake
-     */
     public function setNotitieIntake(?string $notitieIntake): void
     {
         $this->notitieIntake = $notitieIntake;
     }
 
-    /**
-     * @return \DateTime
-     */
     public function getDatumNotitieIntake(): ?\DateTime
     {
         return $this->datumNotitieIntake;
     }
 
-    /**
-     * @param \DateTime $datumNotitieIntake
-     */
     public function setDatumNotitieIntake(\DateTime $datumNotitieIntake): void
     {
         $this->datumNotitieIntake = $datumNotitieIntake;
     }
 
-    /**
-     * @return string
-     */
     public function getTrainingOverig(): ?string
     {
         return $this->trainingOverig;
     }
 
-    /**
-     * @param string $trainingOverig
-     */
     public function setTrainingOverig(string $trainingOverig): void
     {
         $this->trainingOverig = $trainingOverig;
     }
 
-    /**
-     * @return \DateTime
-     */
     public function getTrainingOverigDatum(): ?\DateTime
     {
         return $this->trainingOverigDatum;
     }
 
-    /**
-     * @param \DateTime $trainingOverigDatum
-     */
     public function setTrainingOverigDatum(\DateTime $trainingOverigDatum): void
     {
         $this->trainingOverigDatum = $trainingOverigDatum;

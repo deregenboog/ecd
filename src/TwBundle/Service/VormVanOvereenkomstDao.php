@@ -3,7 +3,6 @@
 namespace TwBundle\Service;
 
 use AppBundle\Service\AbstractDao;
-
 use TwBundle\Entity\VormVanOvereenkomst;
 
 class VormVanOvereenkomstDao extends AbstractDao implements VormVanOvereenkomstDaoInterface
@@ -35,5 +34,4 @@ class VormVanOvereenkomstDao extends AbstractDao implements VormVanOvereenkomstD
     {
         $this->doDelete($vormVanOvereenkomst);
     }
-
 }

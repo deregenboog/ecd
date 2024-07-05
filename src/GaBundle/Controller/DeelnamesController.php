@@ -17,6 +17,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * @Route("/deelnames")
+ *
  * @Template
  */
 class DeelnamesController extends AbstractChildController

@@ -13,7 +13,7 @@ interface AfsluitingDaoInterface
      *
      * @return PaginationInterface
      */
-    public function findAll($page = null, FilterInterface $filter = null);
+    public function findAll($page = null, ?FilterInterface $filter = null);
 
     /**
      * @param int $id
@@ -22,18 +22,9 @@ interface AfsluitingDaoInterface
      */
     public function find($id);
 
-    /**
-     * @param Afsluiting $afsluiting
-     */
     public function create(Afsluiting $afsluiting);
 
-    /**
-     * @param Afsluiting $afsluiting
-     */
     public function update(Afsluiting $afsluiting);
 
-    /**
-     * @param Afsluiting $afsluiting
-     */
     public function delete(Afsluiting $afsluiting);
 }

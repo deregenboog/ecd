@@ -14,12 +14,13 @@ use DagbestedingBundle\Form\DagdelenRangeType;
 use DagbestedingBundle\Form\TrajectFilterType;
 use DagbestedingBundle\Form\TrajectType;
 use DagbestedingBundle\Service\TrajectDaoInterface;
-use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * @Route("/trajecten")
+ *
  * @Template
  */
 class TrajectenController extends AbstractChildController
@@ -124,19 +125,18 @@ class TrajectenController extends AbstractChildController
             try {
                 $this->dao->update($entity);
                 $this->addFlash('success', $this->entityName.' is afgesloten.');
-            } catch(UserException $e) {
-//                $this->logger->error($e->getMessage(), ['exception' => $e]);
-                $message =  $e->getMessage();
+            } catch (UserException $e) {
+                //                $this->logger->error($e->getMessage(), ['exception' => $e]);
+                $message = $e->getMessage();
                 $this->addFlash('danger', $message);
-//                return $this->redirectToRoute('app_klanten_index');
-            }  catch (\Exception $e) {
+                //                return $this->redirectToRoute('app_klanten_index');
+            } catch (\Exception $e) {
                 $message = $this->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
                 $this->addFlash('danger', $message);
             }
-            if($cd = $form->get('closeDeelnemer')->getData() !== false)
-            {
-                //redirect to close deelnemer.
-                return $this->redirectToRoute('dagbesteding_deelnemers_close',["id"=>$entity->getDeelnemer()->getId()]);
+            if ($cd = false !== $form->get('closeDeelnemer')->getData()) {
+                // redirect to close deelnemer.
+                return $this->redirectToRoute('dagbesteding_deelnemers_close', ['id' => $entity->getDeelnemer()->getId()]);
             }
 
             return $this->redirectToView($entity);
@@ -169,12 +169,12 @@ class TrajectenController extends AbstractChildController
                     $entity->open();
                     $this->dao->update($entity);
                     $this->addFlash('success', $this->entityName.' is heropend.');
-                } catch(UserException $e) {
-//                $this->logger->error($e->getMessage(), ['exception' => $e]);
-                    $message =  $e->getMessage();
+                } catch (UserException $e) {
+                    //                $this->logger->error($e->getMessage(), ['exception' => $e]);
+                    $message = $e->getMessage();
                     $this->addFlash('danger', $message);
-//                return $this->redirectToRoute('app_klanten_index');
-                }  catch (\Exception $e) {
+                    //                return $this->redirectToRoute('app_klanten_index');
+                } catch (\Exception $e) {
                     $message = $this->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
                     $this->addFlash('danger', $message);
                 }
@@ -224,12 +224,12 @@ class TrajectenController extends AbstractChildController
                     $this->dao->update($form->getData()->getTraject());
                 }
                 $this->addFlash('success', 'De dagdelen zijn opgeslagen.');
-            } catch(UserException $e) {
-//                $this->logger->error($e->getMessage(), ['exception' => $e]);
-                $message =  $e->getMessage();
+            } catch (UserException $e) {
+                //                $this->logger->error($e->getMessage(), ['exception' => $e]);
+                $message = $e->getMessage();
                 $this->addFlash('danger', $message);
-//                return $this->redirectToRoute('app_klanten_index');
-            }  catch (\Exception $e) {
+                //                return $this->redirectToRoute('app_klanten_index');
+            } catch (\Exception $e) {
                 $message = $this->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
                 $this->addFlash('danger', $message);
             }
@@ -247,6 +247,4 @@ class TrajectenController extends AbstractChildController
             'form' => $form->createView(),
         ];
     }
-
-
 }

@@ -2,10 +2,7 @@
 
 namespace OekraineBundle\Service;
 
-use AppBundle\Doctrine\SqlExtractor;
 use AppBundle\Service\AbstractDao;
-use Doctrine\ORM\QueryBuilder;
-use MwBundle\Entity\Aanmelding;
 use OekraineBundle\Entity\Verslag;
 
 class VerslagDao extends AbstractDao implements VerslagDaoInterface
@@ -29,32 +26,25 @@ class VerslagDao extends AbstractDao implements VerslagDaoInterface
         $this->doDelete($entity);
     }
 
-
     public function countUniqueKlantenVoorLocaties(
         \DateTime $startdatum,
         \DateTime $einddatum,
         $locatieNamen
     ) {
-
-
         $builder = $this->repository->createQueryBuilder('verslagen');
 
-        $builder = self::buildUniqueKlantenVoorLocatiesQuery($builder,$startdatum,$einddatum,$locatieNamen);
+        $builder = self::buildUniqueKlantenVoorLocatiesQuery($builder, $startdatum, $einddatum, $locatieNamen);
 
         return $builder->getQuery();
-
     }
 
-
-
-    public function countKlantenZonderZorg(\DateTime $startdatum,\DateTime $einddatum,$locatieNamen)
+    public function countKlantenZonderZorg(\DateTime $startdatum, \DateTime $einddatum, $locatieNamen)
     {
         /**
          * SELECT SUM(c.c) AS numContacten, SUM(d.c) FROM (SELECT COUNT(id) AS c FROM `verslagen` `v` WHERE `v`.`locatie_id` = 5 AND `v`.`contactsoort_id` = 1 AND v.`datum` between '2018-01-01' AND '2019-01-01'
-        GROUP BY klant_id
-        HAVING COUNT(klant_id) < 5) AS c
+         * GROUP BY klant_id
+         * HAVING COUNT(klant_id) < 5) AS c.
          */
-
         $query = "
         (SELECT SUM(c.c) AS numContacten, 'Minder dan vijf' AS label
                     FROM 
@@ -75,24 +65,24 @@ class VerslagDao extends AbstractDao implements VerslagDaoInterface
                         HAVING COUNT(DISTINCT v.id) >= 5) AS d)";
         $conn = $this->entityManager->getConnection();
         $statement = $conn->prepare($query);
-        //['locatienamen'=>$locatieNamen,'contactsoortid'=>1,'startdatum'=>$startdatum->format("Y-m-d"),'einddatum'=>$einddatum->format("Y-m-d")]
-        $statement->bindValue("locatienamen",implode(", ",$locatieNamen));
-        $statement->bindValue("contactsoortid",3);
-        $statement->bindValue("startdatum",$startdatum,"datetime");
-        $statement->bindValue("einddatum",$einddatum,"datetime");
+        // ['locatienamen'=>$locatieNamen,'contactsoortid'=>1,'startdatum'=>$startdatum->format("Y-m-d"),'einddatum'=>$einddatum->format("Y-m-d")]
+        $statement->bindValue('locatienamen', implode(', ', $locatieNamen));
+        $statement->bindValue('contactsoortid', 3);
+        $statement->bindValue('startdatum', $startdatum, 'datetime');
+        $statement->bindValue('einddatum', $einddatum, 'datetime');
 
         $result = $statement->executeQuery();
-        return $result;
 
+        return $result;
     }
 
-    public function getTotalUniqueKlantenForLocaties($startdatum,$einddatum,$locaties): array
+    public function getTotalUniqueKlantenForLocaties($startdatum, $einddatum, $locaties): array
     {
-        $builder = $this->repository->createQueryBuilder("verslagen");
-        /**
+        $builder = $this->repository->createQueryBuilder('verslagen');
+        /*
          * SELECT COUNT(DISTINCT v.klant_id) AS totKlanten FROM verslagen v INNER JOIN locaties l ON v.locatie_id = l.id
-        WHERE l.naam IN ("De Meeuw","Claverhuis","Gravestein","Postoost","Havelaar","\'t Blommetje","Tagrijn","Casa Jepie")
-        AND (v.datum BETWEEN '2020-01-01 00:00:00' AND '2021-05-28 00:00:00')
+         * WHERE l.naam IN ("De Meeuw","Claverhuis","Gravestein","Postoost","Havelaar","\'t Blommetje","Tagrijn","Casa Jepie")
+         * AND (v.datum BETWEEN '2020-01-01 00:00:00' AND '2021-05-28 00:00:00')
          */
         $builder->select('COUNT(DISTINCT verslagen.bezoeker) AS Klanten')
             ->leftJoin('verslagen.locatie', 'locatie')
@@ -101,10 +91,10 @@ class VerslagDao extends AbstractDao implements VerslagDaoInterface
             ->setParameters([
                 'startdatum' => $startdatum,
                 'einddatum' => $einddatum,
-                'locaties' => $locaties
+                'locaties' => $locaties,
             ])
 //            ->groupBy('locatie.naam')
-            ;
+        ;
 
         return $builder->getQuery()->getSingleResult();
     }
@@ -124,12 +114,10 @@ class VerslagDao extends AbstractDao implements VerslagDaoInterface
         ->setParameters([
             'startdatum' => $startdatum,
             'einddatum' => $einddatum,
-            'locaties' => $locaties
+            'locaties' => $locaties,
         ])
         ->groupBy('locatie.naam');
 
         return $builder;
     }
-
-
 }

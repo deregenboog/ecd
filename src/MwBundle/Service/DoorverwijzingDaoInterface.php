@@ -9,12 +9,11 @@ use MwBundle\Entity\Doorverwijzing;
 interface DoorverwijzingDaoInterface
 {
     /**
-     * @param int             $page
-     * @param FilterInterface $filter
+     * @param int $page
      *
      * @return PaginationInterface
      */
-    public function findAll($page = null, FilterInterface $filter = null);
+    public function findAll($page = null, ?FilterInterface $filter = null);
 
     /**
      * @param int $id
@@ -23,13 +22,7 @@ interface DoorverwijzingDaoInterface
      */
     public function find($id);
 
-    /**
-     * @param Doorverwijzing $entity
-     */
     public function create(Doorverwijzing $entity);
 
-    /**
-     * @param Doorverwijzing $entity
-     */
     public function update(Doorverwijzing $entity);
 }

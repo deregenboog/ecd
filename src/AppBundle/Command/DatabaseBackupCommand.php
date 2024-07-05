@@ -14,7 +14,6 @@ use BackupManager\Filesystems\FilesystemProvider;
 use BackupManager\Filesystems\LocalFilesystem;
 use BackupManager\Manager;
 use Doctrine\DBAL\Connection;
-use Doctrine\DBAL\DriverManager;
 use Doctrine\DBAL\Tools\DsnParser;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Console\Command\Command;
@@ -55,7 +54,7 @@ class DatabaseBackupCommand extends Command
 
     protected function configure()
     {
-        ini_set("memory_limit","512M");
+        ini_set('memory_limit', '512M');
         $this
             ->setName('app:database:backup')
             ->addOption('keep', 'k', InputOption::VALUE_OPTIONAL, 'Number of backups to keep', 5)
@@ -126,7 +125,7 @@ class DatabaseBackupCommand extends Command
         $databases->add(new MysqlDatabase());
 
         $compressors = new CompressorProvider();
-//        $compressors->add(new GzipCompressor());
+        //        $compressors->add(new GzipCompressor());
         $compressors->add(new NullCompressor());
 
         $filename = sprintf('%s-%s.sql', $connection->getDatabase(), (new \DateTime())->format('YmdHis'));
@@ -139,6 +138,7 @@ class DatabaseBackupCommand extends Command
         $command = ['ls', '-tp', '|', 'grep', '-v', '\'/$\'', '|', 'tail', '-n', '+%d', '|', 'xargs', '-I', '{}', 'rm', '--', '{}'];
         $process = new Process($command, $backupDir);
         $process->run();
+
         return 0;
     }
 }

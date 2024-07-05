@@ -18,12 +18,11 @@ class EconomischDaklozen extends AbstractReport
     protected $nPath = 'aantal';
 
     protected $columns = [
-        'Klanten'=>'aantal',
-        'Aantal contactmomenten'=>'aantalContactmomenten',
+        'Klanten' => 'aantal',
+        'Aantal contactmomenten' => 'aantalContactmomenten',
         ];
 
     protected $yDescription = 'Locatienaam';
-
 
     protected $tables = [];
 
@@ -57,7 +56,6 @@ class EconomischDaklozen extends AbstractReport
 
     protected function init()
     {
-
         $this->result = $this->dao->countUniqueKlantenVoorLocaties(
             $this->startDate,
             $this->endDate,
@@ -68,8 +66,7 @@ class EconomischDaklozen extends AbstractReport
 
     protected function build()
     {
-
-        $table = new Grid($this->result, $this->columns,$this->yPath);
+        $table = new Grid($this->result, $this->columns, $this->yPath);
         $table
             ->setStartDate($this->startDate)
             ->setEndDate($this->endDate)
@@ -77,26 +74,19 @@ class EconomischDaklozen extends AbstractReport
             ->setYTotals(true)
         ;
 
-
-
-
-         $report = [
-            'title' => 'Economisch daklozen',
-            'xDescription' => $this->xDescription,
-            'yDescription' => $this->yDescription,
-            'data' => $table->render(),
+        $report = [
+           'title' => 'Economisch daklozen',
+           'xDescription' => $this->xDescription,
+           'yDescription' => $this->yDescription,
+           'data' => $table->render(),
         ];
-         //$report['data']['Totaal'];
-        foreach($this->columns as $k=>$c)
-        {
-            if(isset($this->resultUnique[$k]))
-            {
+        // $report['data']['Totaal'];
+        foreach ($this->columns as $k => $c) {
+            if (isset($this->resultUnique[$k])) {
                 $report['data']['Uniek'][$c] = $this->resultUnique[$k];
+            } else {
+                $report['data']['Uniek'][$c] = '';
             }
-            else{
-                $report['data']['Uniek'][$c] = "";
-            }
-
         }
 
         $this->reports[] = $report;

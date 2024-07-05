@@ -6,11 +6,8 @@ use AppBundle\Entity\Medewerker;
 use AppBundle\Exception\UserException;
 use AppBundle\Security\LdapUserProvider;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Component\Ldap\Security\LdapUser;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
-use Symfony\Component\Security\Core\Exception\AuthenticationCredentialsNotFoundException;
-use Symfony\Component\Security\Csrf\TokenStorage\TokenStorageInterface;
 use Symfony\Component\Security\Http\Event\LoginSuccessEvent;
 
 class LoginEventListener implements \Symfony\Component\EventDispatcher\EventSubscriberInterface
@@ -37,23 +34,23 @@ class LoginEventListener implements \Symfony\Component\EventDispatcher\EventSubs
     public function onLoginSuccess(LoginSuccessEvent $event)
     {
         /** @var Medewerker $ldapUser */
-        $ldapUser = $event->getUser(); //user made by ldapUserProvider is only a mockup user. No check to database yet.
+        $ldapUser = $event->getUser(); // user made by ldapUserProvider is only a mockup user. No check to database yet.
 
         if (!$ldapUser->isActief()) {
-            throw new UserException(sprintf('Gebruiker %s is inactief in ECD en mag niet inloggen.', $ldapUser->getUserIdentifier()),403 );
+            throw new UserException(sprintf('Gebruiker %s is inactief in ECD en mag niet inloggen.', $ldapUser->getUserIdentifier()), 403);
         }
 
         $repository = $this->em->getRepository(Medewerker::class);
         $username = $ldapUser->getUserIdentifier();
         $medewerker = $repository->findOneByUsername($username);
 
-        if ($medewerker == null || $medewerker->getUsername() == null) {
+        if (null == $medewerker || null == $medewerker->getUsername()) {
             $medewerker = new Medewerker();
             $medewerker->setEersteBezoek(new \DateTime());
             $medewerker->setUsername($ldapUser->getUserIdentifier());
         }
 
-        //update all ldap fields with each logon.
+        // update all ldap fields with each logon.
         $medewerker
             ->setLdapGuid($ldapUser->getLdapGuid())
             ->setLdapGroups($ldapUser->getLdapGroups())
@@ -63,7 +60,6 @@ class LoginEventListener implements \Symfony\Component\EventDispatcher\EventSubs
             ->setVoornaam($ldapUser->getVoornaam())
             ->setAchternaam($ldapUser->getAchternaam())
             ->setLaatsteBezoek(new \DateTime());
-        ;
 
         $this->em->persist($medewerker);
         $this->em->flush();

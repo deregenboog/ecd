@@ -9,11 +9,14 @@ use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Entity
+ *
  * @ORM\Table(
  *     name="dagbesteding_deelnames",
  *     indexes={}
  * )
+ *
  * @ORM\HasLifecycleCallbacks
+ *
  * @Gedmo\Loggable
  */
 class Deelname
@@ -25,6 +28,7 @@ class Deelname
      * @var Traject
      *
      * @ORM\ManyToOne(targetEntity="DagbestedingBundle\Entity\Traject", inversedBy="deelnames")
+     *
      * @Gedmo\Versioned
      */
     private $traject;
@@ -33,6 +37,7 @@ class Deelname
      * @var Project
      *
      * @ORM\ManyToOne(targetEntity="DagbestedingBundle\Entity\Project", inversedBy="deelnames")
+     *
      * @Gedmo\Versioned
      */
     private $project;
@@ -48,11 +53,12 @@ class Deelname
      * @var bool
      *
      * @ORM\Column(name="`active`", type="boolean", options={"default":1})
+     *
      * @Gedmo\Versioned
      */
     protected $actief = true;
 
-    public function __construct(Traject $traject = null, Project $project = null)
+    public function __construct(?Traject $traject = null, ?Project $project = null)
     {
         $this->traject = $traject;
         $this->project = $project;

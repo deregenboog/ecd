@@ -51,7 +51,7 @@ class RegistratieFilter implements FilterInterface
 
         if ($this->woonlocatie) {
             $builder
-                ->innerJoin("registratie.bezoeker.intake","intake")
+                ->innerJoin('registratie.bezoeker.intake', 'intake')
                 ->andWhere('intake.woonlocatie = :woonlocatie')
                 ->setParameter('woonlocatie', $this->woonlocatie)
             ;
@@ -87,9 +87,8 @@ class RegistratieFilter implements FilterInterface
             }
         }
 
-
         if ($this->klant) {
-            $this->klant->applyTo($builder,'appKlant');
+            $this->klant->applyTo($builder, 'appKlant');
         }
     }
 }

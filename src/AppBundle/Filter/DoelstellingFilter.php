@@ -2,15 +2,11 @@
 
 namespace AppBundle\Filter;
 
-use AppBundle\Entity\Werkgebied;
-use AppBundle\Filter\FilterInterface;
 use AppBundle\Form\AppDateType;
 use Doctrine\ORM\QueryBuilder;
-use IzBundle\Entity\Project;
 
 class DoelstellingFilter implements FilterInterface
 {
-
     /**
      * @var string
      */
@@ -43,9 +39,9 @@ class DoelstellingFilter implements FilterInterface
 
     public function __construct()
     {
-        $this->jaar = date("Y");
+        $this->jaar = date('Y');
         $this->startdatum = new \DateTime('first day of January this year');
-        $this->einddatum = (AppDateType::getLastFullQuarterEnd());
+        $this->einddatum = AppDateType::getLastFullQuarterEnd();
     }
 
     public function applyTo(QueryBuilder $builder)
@@ -53,7 +49,7 @@ class DoelstellingFilter implements FilterInterface
         if ($this->repository) {
             $builder
                 ->andWhere('doelstelling.repository LIKE :repo')
-                ->setParameter('repo', "%".$this->repository."%")
+                ->setParameter('repo', '%'.$this->repository.'%')
             ;
         }
         if ($this->jaar) {
@@ -76,6 +72,5 @@ class DoelstellingFilter implements FilterInterface
                 ->setParameter('kostenplaats', $this->kostenplaats)
             ;
         }
-
     }
 }

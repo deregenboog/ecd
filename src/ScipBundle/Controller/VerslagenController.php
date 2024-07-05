@@ -44,13 +44,15 @@ class VerslagenController extends AbstractChildController
 
     protected function updateEvaluatieDatum(Verslag $entity)
     {
-        //Verslag is geen evaluatieverslag
-        if(!$entity->isEvaluatie()) return;
+        // Verslag is geen evaluatieverslag
+        if (!$entity->isEvaluatie()) {
+            return;
+        }
 
-        //Versag is evaluatieverslag, maar de datum ligt te ver in het verleden - voordat er geevalueerd moet worden. Doe niks, maar doe wel melding
-        if($entity->getDeelnemer()->getEvaluatiedatum() !== null && $entity->getDatum() < $entity->getDeelnemer()->getEvaluatiedatum()->modify("-1 week") )
-        {
+        // Versag is evaluatieverslag, maar de datum ligt te ver in het verleden - voordat er geevalueerd moet worden. Doe niks, maar doe wel melding
+        if (null !== $entity->getDeelnemer()->getEvaluatiedatum() && $entity->getDatum() < $entity->getDeelnemer()->getEvaluatiedatum()->modify('-1 week')) {
             $this->addFlash('warning', 'Evaluatiedatum niet verwijderd, verslagdatum ligt meer dan een week voor evaluatiedatum.');
+
             return;
         }
 

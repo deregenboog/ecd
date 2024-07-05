@@ -4,10 +4,9 @@ declare(strict_types=1);
 
 namespace Tests\GaBundle\Report;
 
-use Doctrine\ORM\EntityRepository;
+use GaBundle\Report\DeelnemersPerGroepStadsdeel;
 use GaBundle\Repository\GroepRepository;
 use GaBundle\Service\GroupTypeContainer;
-use GaBundle\Report\DeelnemersPerGroepStadsdeel;
 use PHPUnit\Framework\TestCase;
 
 class DeelnemersPerGroepStadsdeelTest extends TestCase

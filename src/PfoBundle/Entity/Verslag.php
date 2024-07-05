@@ -11,8 +11,11 @@ use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Entity(repositoryClass="PfoBundle\Repository\VerslagRepository")
+ *
  * @ORM\Table(name="pfo_verslagen")
+ *
  * @ORM\HasLifecycleCallbacks
+ *
  * @Gedmo\Loggable
  */
 class Verslag
@@ -22,21 +25,27 @@ class Verslag
 
     /**
      * @var string
+     *
      * @ORM\Column(name="contact_type", type="string", length=50, nullable=true)
+     *
      * @Gedmo\Versioned
      */
     private $type;
 
     /**
      * @var string
+     *
      * @ORM\Column(type="text", length=65535, nullable=true)
+     *
      * @Gedmo\Versioned
      */
     private $verslag;
 
     /**
      * @var Medewerker
+     *
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Medewerker")
+     *
      * @Gedmo\Versioned
      */
     private $medewerker;
@@ -45,6 +54,7 @@ class Verslag
      * @var Client[]
      *
      * @ORM\ManyToMany(targetEntity="Client", inversedBy="verslagen")
+     *
      * @ORM\JoinTable(
      *     name="pfo_clienten_verslagen",
      *     joinColumns={@ORM\JoinColumn(name="pfo_verslag_id")},
@@ -57,6 +67,7 @@ class Verslag
      * @var \DateTime
      *
      * @ORM\Column(type="datetime")
+     *
      * @Gedmo\Versioned
      */
     protected $created;
@@ -65,11 +76,12 @@ class Verslag
      * @var \DateTime
      *
      * @ORM\Column(type="datetime")
+     *
      * @Gedmo\Versioned
      */
     protected $modified;
 
-    public function __construct(Medewerker $medewerker = null)
+    public function __construct(?Medewerker $medewerker = null)
     {
         if ($medewerker) {
             $this->medewerker = $medewerker;

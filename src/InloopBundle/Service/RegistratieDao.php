@@ -58,7 +58,7 @@ class RegistratieDao extends AbstractDao implements RegistratieDaoInterface
         $this->eventDispatcher = $eventDispatcher;
     }
 
-    public function findAll($page = null, FilterInterface $filter = null)
+    public function findAll($page = null, ?FilterInterface $filter = null)
     {
         $builder = $this->repository->createQueryBuilder($this->alias)
             ->select("{$this->alias}, klant, locatie, geslacht")
@@ -90,10 +90,9 @@ class RegistratieDao extends AbstractDao implements RegistratieDaoInterface
     public function checkCorona(Klant $klant)
     {
         $locatiesGeweest = [];
-        //vind alle registraties van deze klant
+        // vind alle registraties van deze klant
         $recenteRegistraties = $klant->getRegistratiesSinds(new \DateTime('today -11 days'));
-        foreach($recenteRegistraties as $registratie)
-        {
+        foreach ($recenteRegistraties as $registratie) {
             $locatiesGeweest[] = $registratie->getLocatie();
         }
 
@@ -103,10 +102,10 @@ class RegistratieDao extends AbstractDao implements RegistratieDaoInterface
         $builder = $this->repository->createQueryBuilder($this->alias)
             ->innerJoin("{$this->alias}.locatie", 'locatie', 'WITH', 'locatie IN (:locaties)')
             ->innerJoin("{$this->alias}.klant", 'klant')
-            ->where("registratie.binnen >= :vanaf")
-            ->andWhere("registratie.buiten <= :totEnMet OR registratie.buiten IS NULL")
-            ->andWhere("klant.coronaBesmetVanaf >= :vanaf")
-            ->andWhere("klant.coronaBesmetVanaf <= :totEnMet")
+            ->where('registratie.binnen >= :vanaf')
+            ->andWhere('registratie.buiten <= :totEnMet OR registratie.buiten IS NULL')
+            ->andWhere('klant.coronaBesmetVanaf >= :vanaf')
+            ->andWhere('klant.coronaBesmetVanaf <= :totEnMet')
             ->orderBy("{$this->alias}.binnen", 'DESC')
             ->setParameters([
                 'locaties' => $locatiesGeweest,
@@ -116,42 +115,41 @@ class RegistratieDao extends AbstractDao implements RegistratieDaoInterface
         ;
 
         $registratiesBesmetteKlanten = $builder->getQuery()->getResult();
-        foreach($registratiesBesmetteKlanten as $besmetteRegistratie)
-        {
+        foreach ($registratiesBesmetteKlanten as $besmetteRegistratie) {
             $besmetteKlant = $besmetteRegistratie->getKlant();
-            /**
+            /*
              * Check bij registraties van huidige klant of deze gematcht kunnen worden met een besmette klant.
              */
-            foreach($recenteRegistraties as $registratie){
-
+            foreach ($recenteRegistraties as $registratie) {
                 $binnen = $registratie->getBinnen();
                 $buiten = $registratie->getBuiten();
-                if(is_null($buiten)) $buiten = $binnen;
+                if (is_null($buiten)) {
+                    $buiten = $binnen;
+                }
                 $locatie = $registratie->getLocatie();
 
                 /**
-                 * zoek een match van de besmette klant op de locatie en datum van een recente registratie van in te checken persoon
+                 * zoek een match van de besmette klant op de locatie en datum van een recente registratie van in te checken persoon.
                  */
                 $criteria = Criteria::create()
-                    //besmet persoon moet pas naar buiten zijn gegaan toen gezond persoon binnen was
+                    // besmet persoon moet pas naar buiten zijn gegaan toen gezond persoon binnen was
                     ->where(Criteria::expr()->gte('buiten', $binnen))
-                    //en besmet persoon moet binnen zijn geweest voordat gezond persoon naar buiten ging
+                    // en besmet persoon moet binnen zijn geweest voordat gezond persoon naar buiten ging
                     ->andWhere(Criteria::expr()->lte('binnen', $buiten))
-                    //op de locatie waar ik was.
-                    ->andWhere(Criteria::expr()->eq("locatie",$locatie))
+                    // op de locatie waar ik was.
+                    ->andWhere(Criteria::expr()->eq('locatie', $locatie))
                     ->orderBy(['id' => 'DESC'])
                 ;
-               $match = $besmetteKlant->getRegistraties()->matching($criteria);
-               if((is_array($match) || $match instanceof \Countable ? count($match) : 0) > 0)
-               {
-                   return true; //match gevonden: op locatie en binnen tijdsvak aanwezig met besmet persoon.
-               }
+                $match = $besmetteKlant->getRegistraties()->matching($criteria);
+                if ((is_array($match) || $match instanceof \Countable ? count($match) : 0) > 0) {
+                    return true; // match gevonden: op locatie en binnen tijdsvak aanwezig met besmet persoon.
+                }
             }
-
-
         }
+
         return false;
     }
+
     /**
      * @param bool $type the value of either self::TYPE_DAY of self::TYPE_NIGHT
      *
@@ -171,10 +169,9 @@ class RegistratieDao extends AbstractDao implements RegistratieDaoInterface
 
     public function create(Registratie $entity)
     {
-         parent::doCreate($entity);
+        parent::doCreate($entity);
 
         return $entity;
-
     }
 
     public function update(Registratie $entity)
@@ -189,7 +186,7 @@ class RegistratieDao extends AbstractDao implements RegistratieDaoInterface
         return parent::doDelete($entity);
     }
 
-    public function checkout(Registratie $registratie, \DateTime $time = null)
+    public function checkout(Registratie $registratie, ?\DateTime $time = null)
     {
         if ($registratie->getBuiten()) {
             return false;
@@ -273,7 +270,7 @@ class RegistratieDao extends AbstractDao implements RegistratieDaoInterface
         return $builder->getQuery()->getResult();
     }
 
-    public function findActive($page = null, FilterInterface $filter = null)
+    public function findActive($page = null, ?FilterInterface $filter = null)
     {
         // show all in one page
         $this->itemsPerPage = 10000;
@@ -290,7 +287,7 @@ class RegistratieDao extends AbstractDao implements RegistratieDaoInterface
         return parent::doFindAll($builder, $page, $filter);
     }
 
-    public function findHistory($page = null, FilterInterface $filter = null)
+    public function findHistory($page = null, ?FilterInterface $filter = null)
     {
         $builder = $this->repository->createQueryBuilder($this->alias)
             ->select("{$this->alias}, locatie, klant, huidigeStatus, schorsing, opmerking")

@@ -8,10 +8,8 @@ use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\ParameterType;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Query\QueryException;
-use Doctrine\ORM\QueryBuilder;
 use InloopBundle\Entity\Aanmelding;
 use InloopBundle\Entity\Locatie;
-use InloopBundle\Filter\KlantFilter;
 
 class AccessUpdater
 {
@@ -51,8 +49,7 @@ class AccessUpdater
         KlantDao $klantDao,
         LocatieDao $locatieDao,
         iterable $strategies
-    )
-    {
+    ) {
         $this->em = $em;
         $this->klantDao = $klantDao;
         $this->locatieDao = $locatieDao;
@@ -89,8 +86,8 @@ class AccessUpdater
             'klanten' => Connection::PARAM_INT_ARRAY,
         ];
 
-        if($locatie->isActief()) {
-//            dump($params);
+        if ($locatie->isActief()) {
+            //            dump($params);
             $this->em->getConnection()->executeQuery('DELETE FROM inloop_toegang
                 WHERE locatie_id = :locatie AND klant_id NOT IN (:klanten)', $params, $types);
 
@@ -98,11 +95,9 @@ class AccessUpdater
             SELECT id, :locatie FROM klanten
             WHERE id IN (:klanten)
             AND id NOT IN (SELECT klant_id FROM inloop_toegang WHERE locatie_id = :locatie)', $params, $types);
-        }
-        else // locatie gesloten. geen toegang.
-        {
+        } else { // locatie gesloten. geen toegang.
             $this->em->getConnection()->executeQuery('DELETE FROM inloop_toegang
-                WHERE locatie_id = :locatie',['locatie'=>$locatie->getId()],['locatie'=>ParameterType::INTEGER]);
+                WHERE locatie_id = :locatie', ['locatie' => $locatie->getId()], ['locatie' => ParameterType::INTEGER]);
         }
 
         if (!$wasEnabled) {
@@ -114,7 +109,7 @@ class AccessUpdater
     {
         $wasEnabled = $this->em->getFilters()->isEnabled('overleden');
         $this->em->getFilters()->enable('overleden');
-        $this->log("Updating access for ".$klant->getNaam());
+        $this->log('Updating access for '.$klant->getNaam());
 
         $locaties = $this->locatieDao->findAllActiveLocationsOfTypes(['Inloop', 'Nachtopvang']);
         foreach ($locaties as $locatie) {
@@ -133,18 +128,16 @@ class AccessUpdater
             ];
 
             if (in_array($klant->getId(), $klantIds)) {
-                $this->log("Access granted");
+                $this->log('Access granted');
                 try {
                     $this->em->getConnection()->executeQuery('INSERT INTO inloop_toegang (klant_id, locatie_id)
                     VALUES (:klant, :locatie)', $params, $types);
-                }catch(\Exception $e)
-                {
+                } catch (\Exception $e) {
                     // do nothing
                     //
                 }
-
             } else {
-                $this->log("Access denied");
+                $this->log('Access denied');
                 $this->em->getConnection()->executeQuery('DELETE FROM inloop_toegang
                     WHERE locatie_id = :locatie AND klant_id = :klant', $params, $types);
             }
@@ -174,7 +167,6 @@ class AccessUpdater
          *
          * Dus moet er gestapeld kunnen worden.
          */
-
         $supportedStrategies = [];
 
         foreach ($this->strategies as $strategy) {
@@ -190,7 +182,7 @@ class AccessUpdater
         return $supportedStrategies;
     }
 
-    private function getKlantIds(Locatie $locatie, Klant $klant = null)
+    private function getKlantIds(Locatie $locatie, ?Klant $klant = null)
     {
         // build query for finding clients
         $builder = $this->klantDao->getAllQueryBuilder();
@@ -208,15 +200,13 @@ class AccessUpdater
                 ->setParameter('klant_id', $klant->getId());
         }
 
-//        $sql = SqlExtractor::getFullSQL($builder->getQuery());
+        //        $sql = SqlExtractor::getFullSQL($builder->getQuery());
 
         try {
             $result = $builder->getQuery()->getResult();
-        }
-        catch(QueryException $e)
-        {
+        } catch (QueryException $e) {
             $query = $builder->getQuery();
-//            $sql = SqlExtractor::getFullSQL($query);
+            //            $sql = SqlExtractor::getFullSQL($query);
             $result = [];
         }
 
@@ -229,8 +219,7 @@ class AccessUpdater
 
     private function log($msg)
     {
-        if($this->debug == true)
-        {
+        if (true == $this->debug) {
             echo $msg."\n";
         }
     }

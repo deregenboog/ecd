@@ -25,7 +25,7 @@ class DagdeelDao extends AbstractDao implements DagdeelDaoInterface
 
     protected $alias = 'dagdeel';
 
-    public function findAll($page = null, FilterInterface $filter = null)
+    public function findAll($page = null, ?FilterInterface $filter = null)
     {
         $builder = $this->repository->createQueryBuilder($this->alias)
             ->select('dagdeel, project, traject, deelnemer, klant')

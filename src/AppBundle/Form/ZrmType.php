@@ -12,9 +12,6 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class ZrmType extends AbstractType
 {
-    /**
-     * {@inheritdoc}
-     */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         if (isset($options['data']) && !$options['data'] instanceof Zrm) {
@@ -30,8 +27,8 @@ class ZrmType extends AbstractType
             $builder->add($field, ZrmItemType::class, ['label' => $label]);
         }
 
-        if (!isset($options['request_module']) &&
-            !(isset($options['data']) && $options['data']->getRequestModule())
+        if (!isset($options['request_module'])
+            && !(isset($options['data']) && $options['data']->getRequestModule())
         ) {
             $builder->add('requestModule', ChoiceType::class, [
                 'required' => true,
@@ -46,14 +43,11 @@ class ZrmType extends AbstractType
             ]);
         }
 
-        $builder->add('medewerker', MedewerkerType::class,['preset'=>true]);
+        $builder->add('medewerker', MedewerkerType::class, ['preset' => true]);
 
         $builder->add('submit', SubmitType::class);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([

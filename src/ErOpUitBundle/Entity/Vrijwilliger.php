@@ -13,8 +13,11 @@ use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Entity
+ *
  * @ORM\Table(name="eropuit_vrijwilligers")
+ *
  * @ORM\HasLifecycleCallbacks
+ *
  * @Gedmo\Loggable
  */
 class Vrijwilliger
@@ -27,19 +30,23 @@ class Vrijwilliger
      * @var AppVrijwilliger
      *
      * @ORM\OneToOne(targetEntity="AppBundle\Entity\Vrijwilliger", cascade={"persist"})
+     *
      * @ORM\JoinColumn(nullable=false)
+     *
      * @Gedmo\Versioned
      */
     private $vrijwilliger;
 
     /**
      * @ORM\Column(type="date")
+     *
      * @Gedmo\Versioned
      */
     private $inschrijfdatum;
 
     /**
      * @ORM\Column(type="date", nullable=true)
+     *
      * @Gedmo\Versioned
      */
     private $uitschrijfdatum;
@@ -70,6 +77,7 @@ class Vrijwilliger
      * @var \DateTime
      *
      * @ORM\Column(type="datetime")
+     *
      * @Gedmo\Versioned
      */
     protected $created;
@@ -78,11 +86,12 @@ class Vrijwilliger
      * @var \DateTime
      *
      * @ORM\Column(type="datetime")
+     *
      * @Gedmo\Versioned
      */
     protected $modified;
 
-    public function __construct(AppVrijwilliger $vrijwilliger = null)
+    public function __construct(?AppVrijwilliger $vrijwilliger = null)
     {
         if ($vrijwilliger) {
             $this->vrijwilliger = $vrijwilliger;

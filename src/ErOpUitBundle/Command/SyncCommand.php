@@ -20,7 +20,7 @@ class SyncCommand extends \Symfony\Component\Console\Command\Command
         parent::__construct();
     }
 
-     protected function configure()
+    protected function configure()
     {
         $this
             ->setName('eropuit:sync')
@@ -34,6 +34,7 @@ class SyncCommand extends \Symfony\Component\Console\Command\Command
         $this->syncAfsluitingen($input, $output);
         $this->syncKlantdossiers($input, $output);
         $this->syncVrijwilligerdossiers($input, $output);
+
         return 0;
     }
 

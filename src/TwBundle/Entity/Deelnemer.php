@@ -8,7 +8,6 @@ use AppBundle\Model\KlantRelationInterface;
 use AppBundle\Model\OptionalMedewerkerTrait;
 use AppBundle\Model\TimestampableTrait;
 use AppBundle\Model\UsesKlantTrait;
-use AppBundle\Service\KlantDaoInterface;
 use AppBundle\Service\NameFormatter;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityNotFoundException;
@@ -17,11 +16,17 @@ use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Entity
+ *
  * @ORM\Table(name="tw_deelnemers")
+ *
  * @ORM\InheritanceType("SINGLE_TABLE")
+ *
  * @ORM\DiscriminatorColumn(name="model", type="string")
+ *
  * @ORM\DiscriminatorMap({"Klant" = "Klant", "Verhuurder" = "Verhuurder"})
+ *
  * @ORM\HasLifecycleCallbacks
+ *
  * @Gedmo\Loggable
  */
 abstract class Deelnemer implements KlantRelationInterface
@@ -34,7 +39,9 @@ abstract class Deelnemer implements KlantRelationInterface
      * @var int
      *
      * @ORM\Id
+     *
      * @ORM\Column(type="integer")
+     *
      * @ORM\GeneratedValue
      */
     protected $id;
@@ -43,6 +50,7 @@ abstract class Deelnemer implements KlantRelationInterface
      * @var \DateTime
      *
      * @ORM\Column(name="aanmelddatum", type="date")
+     *
      * @Gedmo\Versioned
      */
     protected $aanmelddatum;
@@ -51,6 +59,7 @@ abstract class Deelnemer implements KlantRelationInterface
      * @var \DateTime
      *
      * @ORM\Column(name="afsluitdatum", type="date", nullable=true)
+     *
      * @Gedmo\Versioned
      */
     protected $afsluitdatum;
@@ -59,6 +68,7 @@ abstract class Deelnemer implements KlantRelationInterface
      * @var string
      *
      * @ORM\Column(type="string", nullable=true)
+     *
      * @Gedmo\Versioned
      */
     protected $rekeningnummer;
@@ -67,12 +77,14 @@ abstract class Deelnemer implements KlantRelationInterface
      * @var bool
      *
      * @ORM\Column(type="boolean")
+     *
      * @Gedmo\Versioned
      */
     protected $wpi = false;
 
     /**
      * @var Inkomen
+     *
      * @ORM\ManyToOne(targetEntity="TwBundle\Entity\Inkomen",cascade={"persist"})
      */
     protected $inkomen;
@@ -81,6 +93,7 @@ abstract class Deelnemer implements KlantRelationInterface
      * @var string
      *
      * @ORM\Column(type="string", nullable=true)
+     *
      * @Gedmo\Versioned
      */
     protected $klantmanager;
@@ -89,7 +102,9 @@ abstract class Deelnemer implements KlantRelationInterface
      * @var AppKlant
      *
      * @ORM\OneToOne(targetEntity="AppBundle\Entity\Klant", cascade={"persist"})
+     *
      * @ORM\JoinColumn(nullable=false)
+     *
      * @Gedmo\Versioned
      */
     protected $appKlant;
@@ -98,7 +113,9 @@ abstract class Deelnemer implements KlantRelationInterface
      * @var ArrayCollection|Verslag[]
      *
      * @ORM\ManyToMany(targetEntity="Verslag", cascade={"persist"})
+     *
      * @ORM\JoinTable(name="tw_deelnemer_verslag")
+     *
      * @ORM\OrderBy({"datum" = "DESC", "id" = "DESC"})
      */
     protected $verslagen;
@@ -107,61 +124,72 @@ abstract class Deelnemer implements KlantRelationInterface
      * @var ArrayCollection|Document[]
      *
      * @ORM\ManyToMany(targetEntity="Document", cascade={"persist"})
+     *
      * @ORM\JoinTable(name="tw_deelnemer_document")
+     *
      * @ORM\OrderBy({"datum" = "DESC", "id" = "DESC"})
      */
     protected $documenten;
 
     /**
      * @var Medewerker
+     *
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Medewerker")
      */
     private $ambulantOndersteuner;
 
     /**
      * @var string
+     *
      * @ORM\Column(type="string", nullable=true)
      */
     private $begeleider;
 
     /**
      * @var Dagbesteding
+     *
      * @ORM\ManyToOne(targetEntity="TwBundle\Entity\Dagbesteding",cascade={"persist"})
      */
     private $dagbesteding;
 
     /**
      * @var Ritme
+     *
      * @ORM\ManyToOne(targetEntity="TwBundle\Entity\Ritme",cascade={"persist"})
      */
     private $ritme;
 
     /**
      * @var Huisdieren
+     *
      * @ORM\ManyToOne(targetEntity="TwBundle\Entity\Huisdieren",cascade={"persist"})
      */
     private $huisdieren;
 
     /**
      * @var Roken
+     *
      * @ORM\ManyToOne(targetEntity="TwBundle\Entity\Roken",cascade={"persist"})
      */
     private $roken;
 
     /**
      * @var Softdrugs
+     *
      * @ORM\ManyToOne(targetEntity="TwBundle\Entity\Softdrugs",cascade={"persist"})
      */
     private $softdrugs;
 
     /**
      * @var Alcohol
+     *
      * @ORM\ManyToOne(targetEntity="TwBundle\Entity\Alcohol",cascade={"persist"})
      */
     private $alcohol;
 
     /**
      * @var Traplopen
+     *
      * @ORM\ManyToOne(targetEntity="TwBundle\Entity\Traplopen",cascade={"persist"})
      */
     private $traplopen;
@@ -170,6 +198,7 @@ abstract class Deelnemer implements KlantRelationInterface
      * @var \DateTime
      *
      * @ORM\Column(type="datetime")
+     *
      * @Gedmo\Versioned
      */
     protected $created;
@@ -178,137 +207,94 @@ abstract class Deelnemer implements KlantRelationInterface
      * @var \DateTime
      *
      * @ORM\Column(type="datetime")
+     *
      * @Gedmo\Versioned
      */
     protected $modified;
 
-    /**
-     * @return Dagbesteding
-     */
     public function getDagbesteding(): ?Dagbesteding
     {
         return $this->dagbesteding;
     }
 
-    /**
-     * @param Dagbesteding $dagbesteding
-     * @return Klant
-     */
     public function setDagbesteding(Dagbesteding $dagbesteding): Klant
     {
         $this->dagbesteding = $dagbesteding;
+
         return $this;
     }
 
-    /**
-     * @return Ritme
-     */
     public function getRitme(): ?Ritme
     {
         return $this->ritme;
     }
 
-    /**
-     * @param Ritme $ritme
-     * @return Klant
-     */
     public function setRitme(Ritme $ritme): ?Klant
     {
         $this->ritme = $ritme;
+
         return $this;
     }
 
-    /**
-     * @return Huisdieren
-     */
     public function getHuisdieren(): ?Huisdieren
     {
         return $this->huisdieren;
     }
 
-    /**
-     * @param Huisdieren $huisdieren
-     * @return Klant
-     */
     public function setHuisdieren(Huisdieren $huisdieren): Klant
     {
         $this->huisdieren = $huisdieren;
+
         return $this;
     }
 
-    /**
-     * @return Roken
-     */
     public function getRoken(): ?Roken
     {
         return $this->roken;
     }
 
-    /**
-     * @param Roken $roken
-     * @return Klant
-     */
     public function setRoken(Roken $roken): Klant
     {
         $this->roken = $roken;
+
         return $this;
     }
 
-    /**
-     * @return Softdrugs
-     */
     public function getSoftdrugs(): ?Softdrugs
     {
         return $this->softdrugs;
     }
 
-    /**
-     * @param Softdrugs $softdrugs
-     * @return Klant
-     */
     public function setSoftdrugs(Softdrugs $softdrugs): Klant
     {
         $this->softdrugs = $softdrugs;
+
         return $this;
     }
 
-    /**
-     * @return Alcohol
-     */
     public function getAlcohol(): ?Alcohol
     {
         return $this->alcohol;
     }
 
-    /**
-     * @param Alcohol $alcohol
-     * @return Deelnemer
-     */
     public function setAlcohol(Alcohol $alcohol): Deelnemer
     {
         $this->alcohol = $alcohol;
+
         return $this;
     }
 
-
-    /**
-     * @return Traplopen
-     */
     public function getTraplopen(): ?Traplopen
     {
         return $this->traplopen;
     }
 
-    /**
-     * @param Traplopen $traplopen
-     * @return Klant
-     */
     public function setTraplopen(Traplopen $traplopen): Klant
     {
         $this->traplopen = $traplopen;
+
         return $this;
     }
-
 
     public function __construct()
     {
@@ -321,10 +307,10 @@ abstract class Deelnemer implements KlantRelationInterface
      * Dit gaf een exceptie bij koppelingen maken in de view van een huurverzoek. Onderstaande __toString code uit de OekBundle gehaald. Lijkt me prima.
      * @190627 Laat dit even staan voor de zekerheid. jtborger
      */
-//    public function __toString()
-//    {
-//        return (string) $this->klant;
-//    }
+    //    public function __toString()
+    //    {
+    //        return (string) $this->klant;
+    //    }
 
     public function __toString()
     {
@@ -340,7 +326,7 @@ abstract class Deelnemer implements KlantRelationInterface
         return $this->id;
     }
 
-    public function getKlant(): \AppBundle\Entity\Klant
+    public function getKlant(): AppKlant
     {
         return $this->appKlant;
     }
@@ -450,62 +436,42 @@ abstract class Deelnemer implements KlantRelationInterface
 
     public function getKlantFieldName(): string
     {
-        return "klant";
+        return 'klant';
     }
 
-
-    /**
-     * @return Medewerker
-     */
     public function getAmbulantOndersteuner(): ?Medewerker
     {
         return $this->ambulantOndersteuner;
     }
 
-    /**
-     * @param Medewerker $ambulantOndersteuner
-     */
     public function setAmbulantOndersteuner(?Medewerker $ambulantOndersteuner): void
     {
         $this->ambulantOndersteuner = $ambulantOndersteuner;
     }
 
-    /**
-     * @return Inkomen
-     */
     public function getInkomen(): ?Inkomen
     {
         return $this->inkomen;
     }
 
-    /**
-     * @param Inkomen $inkomen
-     * @return Deelnemer
-     */
     public function setInkomen(Inkomen $inkomen): Deelnemer
     {
         $this->inkomen = $inkomen;
+
         return $this;
     }
 
-    /**
-     * @return string
-     */
     public function getBegeleider(): ?string
     {
         return $this->begeleider;
     }
 
-    /**
-     * @param string $begeleider
-     * @return Klant
-     */
     public function setBegeleider(string $begeleider): Klant
     {
         $this->begeleider = $begeleider;
+
         return $this;
     }
-
 
     abstract public function getHuurovereenkomsten();
 

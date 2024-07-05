@@ -31,7 +31,7 @@ class DeelnemerDao extends AbstractDao implements DeelnemerDaoInterface
     /**
      * {inheritdoc}.
      */
-    public function findAll($page = null, FilterInterface $filter = null)
+    public function findAll($page = null, ?FilterInterface $filter = null)
     {
         $builder = $this->repository->createQueryBuilder($this->alias)
             ->innerJoin($this->alias.'.klant', 'klant')
@@ -47,7 +47,7 @@ class DeelnemerDao extends AbstractDao implements DeelnemerDaoInterface
     /**
      * {inheritdoc}.
      */
-    public function findByMedewerker(Medewerker $medewerker, $page = null, FilterInterface $filter = null): PaginationInterface
+    public function findByMedewerker(Medewerker $medewerker, $page = null, ?FilterInterface $filter = null): PaginationInterface
     {
         $builder = $this->repository->createQueryBuilder($this->alias)
             ->innerJoin($this->alias.'.klant', 'klant')
@@ -82,8 +82,6 @@ class DeelnemerDao extends AbstractDao implements DeelnemerDaoInterface
     }
 
     /**
-     * @param string $name
-     *
      * @return Deelnemer
      */
     public function findOneByName(string $name)

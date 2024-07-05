@@ -3,7 +3,6 @@
 namespace AppBundle\Model;
 
 use AppBundle\Entity\Geslacht;
-use AppBundle\Service\NameFormatter;
 use Doctrine\ORM\EntityNotFoundException;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
@@ -15,21 +14,27 @@ trait PersonTrait
 
     /**
      * @ORM\Column(type="string", nullable=true)
+     *
      * @Gedmo\Versioned
      */
     protected $roepnaam;
 
     /**
      * @var \DateTime
+     *
      * @ORM\Column(type="date", nullable=true)
+     *
      * @Gedmo\Versioned
      */
     protected $geboortedatum;
 
     /**
      * @var Geslacht
+     *
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Geslacht", cascade={"persist"})
+     *
      * @ORM\JoinColumn(nullable=false, options={"default":0})
+     *
      * @Gedmo\Versioned
      */
     protected $geslacht;
@@ -120,7 +125,7 @@ trait PersonTrait
         return $this->geboortedatum;
     }
 
-    public function setGeboortedatum(\DateTime $geboortedatum = null)
+    public function setGeboortedatum(?\DateTime $geboortedatum = null)
     {
         $this->geboortedatum = $geboortedatum;
 
@@ -132,7 +137,7 @@ trait PersonTrait
         return $this->geslacht;
     }
 
-    public function setGeslacht(Geslacht $geslacht = null)
+    public function setGeslacht(?Geslacht $geslacht = null)
     {
         $this->geslacht = $geslacht;
 

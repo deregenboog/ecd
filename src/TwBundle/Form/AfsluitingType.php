@@ -9,9 +9,6 @@ use Symfony\Component\Form\FormBuilderInterface;
 
 class AfsluitingType extends AbstractType
 {
-    /**
-     * {@inheritdoc}
-     */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
@@ -22,9 +19,6 @@ class AfsluitingType extends AbstractType
         ;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getParent(): ?string
     {
         return BaseType::class;

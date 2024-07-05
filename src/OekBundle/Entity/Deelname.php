@@ -12,8 +12,11 @@ use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Entity
+ *
  * @ORM\Table(name="oek_deelnames")
+ *
  * @ORM\HasLifecycleCallbacks
+ *
  * @Gedmo\Loggable
  */
 class Deelname implements KlantRelationInterface
@@ -25,7 +28,9 @@ class Deelname implements KlantRelationInterface
      * @var Training
      *
      * @ORM\ManyToOne(targetEntity="Training", inversedBy="deelnames")
+     *
      * @ORM\JoinColumn(name="oekTraining_id", nullable=false)
+     *
      * @Gedmo\Versioned
      */
     private $training;
@@ -34,7 +39,9 @@ class Deelname implements KlantRelationInterface
      * @var Deelnemer
      *
      * @ORM\ManyToOne(targetEntity="Deelnemer", inversedBy="deelnames")
+     *
      * @ORM\JoinColumn(name="oekKlant_id", nullable=false)
+     *
      * @Gedmo\Versioned
      */
     private $deelnemer;
@@ -45,6 +52,7 @@ class Deelname implements KlantRelationInterface
      * @var ArrayCollection|DeelnameStatus[]
      *
      * @ORM\OneToMany(targetEntity="DeelnameStatus", mappedBy="deelname")
+     *
      * @ORM\OrderBy({"datum": "desc", "id": "desc"})
      */
     private $deelnameStatussen;
@@ -55,14 +63,18 @@ class Deelname implements KlantRelationInterface
      * @var DeelnameStatus
      *
      * @ORM\OneToOne(targetEntity="DeelnameStatus", cascade={"persist"})
+     *
      * @ORM\JoinColumn(name="oekDeelnameStatus_id")
+     *
      * @Gedmo\Versioned
      */
     private $deelnameStatus;
 
     /**
      * @var string
+     *
      * @ORM\Column(nullable=true)
+     *
      * @Gedmo\Versioned
      */
     private $doorverwezenNaar;
@@ -71,6 +83,7 @@ class Deelname implements KlantRelationInterface
      * @var \DateTime
      *
      * @ORM\Column(type="datetime")
+     *
      * @Gedmo\Versioned
      */
     protected $created;
@@ -79,11 +92,12 @@ class Deelname implements KlantRelationInterface
      * @var \DateTime
      *
      * @ORM\Column(type="datetime")
+     *
      * @Gedmo\Versioned
      */
     protected $modified;
 
-    public function __construct(Training $training = null, Deelnemer $deelnemer = null)
+    public function __construct(?Training $training = null, ?Deelnemer $deelnemer = null)
     {
         $this->training = $training;
         $this->deelnemer = $deelnemer;
@@ -148,7 +162,7 @@ class Deelname implements KlantRelationInterface
 
     public function isDeletable()
     {
-        return (DeelnameStatus::STATUS_AANGEMELD === $this->deelnameStatus->getStatus() || DeelnameStatus::STATUS_VERWIJDERD === $this->getDeelnameStatus());
+        return DeelnameStatus::STATUS_AANGEMELD === $this->deelnameStatus->getStatus() || DeelnameStatus::STATUS_VERWIJDERD === $this->getDeelnameStatus();
     }
 
     public function getKlant(): Klant
@@ -158,20 +172,14 @@ class Deelname implements KlantRelationInterface
 
     public function getKlantFieldName(): string
     {
-        return "Deelnemer";
+        return 'Deelnemer';
     }
 
-    /**
-     * @return string
-     */
     public function getDoorverwezenNaar(): ?string
     {
         return $this->doorverwezenNaar;
     }
 
-    /**
-     * @param string $doorverwezenNaar
-     */
     public function setDoorverwezenNaar(?string $doorverwezenNaar): void
     {
         $this->doorverwezenNaar = $doorverwezenNaar;

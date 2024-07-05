@@ -6,11 +6,12 @@ use AppBundle\Controller\AbstractController;
 use InloopBundle\Entity\Periode;
 use InloopBundle\Form\PeriodeType;
 use InloopBundle\Service\PeriodeDaoInterface;
-use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * @Route("/admin/periodes")
+ *
  * @Template
  */
 class PeriodesController extends AbstractController

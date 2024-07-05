@@ -9,11 +9,17 @@ use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Entity
+ *
  * @ORM\Table(name="doorverwijzers")
+ *
  * @ORM\HasLifecycleCallbacks
+ *
  * @ORM\InheritanceType("SINGLE_TABLE")
+ *
  * @ORM\DiscriminatorColumn(name="type", type="string", length=255)
+ *
  * @ORM\DiscriminatorMap({"Doorverwijzer" = "Doorverwijzing", "Trajecthouder" = "Trajecthouder"})
+ *
  * @Gedmo\Loggable
  */
 abstract class Verwijzing
@@ -25,6 +31,7 @@ abstract class Verwijzing
      * @var string
      *
      * @ORM\Column(type="string")
+     *
      * @Gedmo\Versioned
      */
     protected $naam;
@@ -33,6 +40,7 @@ abstract class Verwijzing
      * @var \DateTime
      *
      * @ORM\Column(type="date")
+     *
      * @Gedmo\Versioned
      */
     protected $startdatum;
@@ -41,6 +49,7 @@ abstract class Verwijzing
      * @var \DateTime
      *
      * @ORM\Column(type="date", nullable=true)
+     *
      * @Gedmo\Versioned
      */
     protected $einddatum;
@@ -49,6 +58,7 @@ abstract class Verwijzing
      * @var \DateTime
      *
      * @ORM\Column(type="datetime", nullable=true)
+     *
      * @Gedmo\Versioned
      */
     protected $created;
@@ -57,6 +67,7 @@ abstract class Verwijzing
      * @var \DateTime
      *
      * @ORM\Column(type="datetime", nullable=true)
+     *
      * @Gedmo\Versioned
      */
     protected $modified;

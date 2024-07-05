@@ -8,8 +8,11 @@ use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Entity
+ *
  * @ORM\Table(name="hs_betalingen")
+ *
  * @Gedmo\Loggable
+ *
  * @ORM\HasLifecycleCallbacks()
  */
 class Betaling
@@ -17,39 +20,48 @@ class Betaling
     use TimestampableTrait;
     /**
      * @ORM\Id
+     *
      * @ORM\Column(type="integer")
+     *
      * @ORM\GeneratedValue
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", nullable=true)
+     *
      * @Gedmo\Versioned
      */
     private $referentie;
 
     /**
      * @ORM\Column(type="date")
+     *
      * @Gedmo\Versioned
      */
     private $datum;
 
     /**
      * @ORM\Column(type="text", nullable=true)
+     *
      * @Gedmo\Versioned
      */
     private $info;
 
     /**
      * @ORM\Column(type="decimal", scale=2)
+     *
      * @Gedmo\Versioned
      */
     private $bedrag;
 
     /**
      * @var Factuur
+     *
      * @ORM\ManyToOne(targetEntity="Factuur", inversedBy="betalingen")
+     *
      * @ORM\JoinColumn(nullable=false, onDelete="CASCADE")
+     *
      * @Gedmo\Versioned
      */
     private $factuur;

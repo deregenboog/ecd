@@ -15,9 +15,9 @@ class KoppelingenRepository extends EntityRepository implements DoelstellingRepo
      */
     private $hulpvraagRepository;
 
-    private static $projectenBeginstand = null;
+    private static $projectenBeginstand;
 
-    private static $projectenGestart = null;
+    private static $projectenGestart;
 
     private $kplProjectenSpecifiek = [];
 
@@ -77,7 +77,7 @@ class KoppelingenRepository extends EntityRepository implements DoelstellingRepo
     public function setSpecifiekeProjecten($arr)
     {
         foreach ($arr as $item) {
-            $this->kplProjectenSpecifiek[$item["kpl"]] = $item["label"];
+            $this->kplProjectenSpecifiek[$item['kpl']] = $item['label'];
         }
     }
 
@@ -93,110 +93,106 @@ class KoppelingenRepository extends EntityRepository implements DoelstellingRepo
 
     public function initDoelstellingcijfers(): void
     {
-
-
         foreach ($this->kplProjectenSpecifiek as $kpl => $label) {
             $this->addDoelstellingcijfer(
                 "Beginstand koppelingen + gestartte koppelingen periode waabij project = $label",
                 $kpl,
                 $label,
-                function($doelstelling,$startdatum,$einddatum) use ($label)
-                {
-                    $r = $this->getKoppelingenForProject($label,$startdatum,$einddatum);
+                function ($doelstelling, $startdatum, $einddatum) use ($label) {
+                    $r = $this->getKoppelingenForProject($label, $startdatum, $einddatum);
+
                     return $r;
                 }
             );
         }
 
         $this->addDoelstellingcijfer(
-            "1,6% van de beginstand koppelingen + gestartte koppelingen periode van alle IZ projecten minus de specifiek gerapporteerden",
-            "2172",
-            "De bres matrix",
-            function($doelstelling,$startdatum,$einddatum) use ($label)
-            {
-                $r = $this->getKoppelingenForBasis($startdatum,$einddatum,0.016);
+            '1,6% van de beginstand koppelingen + gestartte koppelingen periode van alle IZ projecten minus de specifiek gerapporteerden',
+            '2172',
+            'De bres matrix',
+            function ($doelstelling, $startdatum, $einddatum) {
+                $r = $this->getKoppelingenForBasis($startdatum, $einddatum, 0.016);
+
                 return $r;
             }
         );
         $this->addDoelstellingcijfer(
-            "3,2% van de beginstand koppelingen + gestartte koppelingen periode van alle IZ projecten minus de specifiek gerapporteerden",
-            "2178",
-            "Vrienden matrix",
-            function($doelstelling,$startdatum,$einddatum) use ($label)
-            {
-                $r = $this->getKoppelingenForBasis($startdatum,$einddatum,0.032);
+            '3,2% van de beginstand koppelingen + gestartte koppelingen periode van alle IZ projecten minus de specifiek gerapporteerden',
+            '2178',
+            'Vrienden matrix',
+            function ($doelstelling, $startdatum, $einddatum) {
+                $r = $this->getKoppelingenForBasis($startdatum, $einddatum, 0.032);
+
                 return $r;
             }
         );
 
         $this->addDoelstellingcijfer(
-            "De beginstand koppelingen + gestartte koppelingen periode van alle IZ projecten minus de specifiek gerapporteerden.",
-            "2200",
-            "IZ Sociale basis",
-            function($doelstelling,$startdatum,$einddatum)
-            {
-                $r = $this->getKoppelingenForBasis($startdatum,$einddatum,0.952);
+            'De beginstand koppelingen + gestartte koppelingen periode van alle IZ projecten minus de specifiek gerapporteerden.',
+            '2200',
+            'IZ Sociale basis',
+            function ($doelstelling, $startdatum, $einddatum) {
+                $r = $this->getKoppelingenForBasis($startdatum, $einddatum, 0.952);
+
                 return $r;
             }
         );
-
-
     }
 
-    private function getKoppelingenForProject($projectNaam,$startdatum,$einddatum)
+    private function getKoppelingenForProject($projectNaam, $startdatum, $einddatum)
     {
-        $this->initProjectenCounter($startdatum,$einddatum);
+        $this->initProjectenCounter($startdatum, $einddatum);
         $gestart = 0;
-        if(array_key_exists($projectNaam,self::$projectenGestart) )
-        {
+        if (array_key_exists($projectNaam, self::$projectenGestart)) {
             $gestart = self::$projectenGestart[$projectNaam];
         }
 
         $beginstand = 0;
-        if(array_key_exists($projectNaam,self::$projectenBeginstand))
-        {
+        if (array_key_exists($projectNaam, self::$projectenBeginstand)) {
             $beginstand = self::$projectenBeginstand[$projectNaam];
         }
 
-        return $beginstand+$gestart;
+        return $beginstand + $gestart;
     }
 
-    private function getKoppelingenForBasis($startdatum,$einddatum,$factor)
+    private function getKoppelingenForBasis($startdatum, $einddatum, $factor)
     {
-        $this->initProjectenCounter($startdatum,$einddatum);
+        $this->initProjectenCounter($startdatum, $einddatum);
 
         $aantalTotaal = 0;
-        foreach (self::$projectenBeginstand as $label=>$aantal) {
-            if(in_array($label,$this->kplProjectenSpecifiek)) continue;
-            $aantalTotaal +=$aantal;
+        foreach (self::$projectenBeginstand as $label => $aantal) {
+            if (in_array($label, $this->kplProjectenSpecifiek)) {
+                continue;
+            }
+            $aantalTotaal += $aantal;
         }
-        foreach (self::$projectenGestart as $label=>$aantal) {
-            if(in_array($label,$this->kplProjectenSpecifiek)) continue;
-            $aantalTotaal+=$aantal;
+        foreach (self::$projectenGestart as $label => $aantal) {
+            if (in_array($label, $this->kplProjectenSpecifiek)) {
+                continue;
+            }
+            $aantalTotaal += $aantal;
         }
-        return ceil($aantalTotaal * $factor);
 
+        return ceil($aantalTotaal * $factor);
     }
 
-    private function initProjectenCounter($startdatum,$einddatum)
+    private function initProjectenCounter($startdatum, $einddatum)
     {
-        if(!is_array(self::$projectenBeginstand))
-        {
-            self::$projectenBeginstand = $this->hulpvraagRepository->countKoppelingenByProject("beginstand",$startdatum,$einddatum);
-            $t = array();
+        if (!is_array(self::$projectenBeginstand)) {
+            self::$projectenBeginstand = $this->hulpvraagRepository->countKoppelingenByProject('beginstand', $startdatum, $einddatum);
+            $t = [];
             foreach (self::$projectenBeginstand as $arr) {
-                $t[$arr["projectnaam"]] = $arr["aantal"];
+                $t[$arr['projectnaam']] = $arr['aantal'];
             }
             self::$projectenBeginstand = $t;
         }
 
-        if(!is_array(self::$projectenGestart))
-        {
-            self::$projectenGestart = $this->hulpvraagRepository->countKoppelingenByProject("gestart",$startdatum,$einddatum);
+        if (!is_array(self::$projectenGestart)) {
+            self::$projectenGestart = $this->hulpvraagRepository->countKoppelingenByProject('gestart', $startdatum, $einddatum);
 
-            $t = array();
+            $t = [];
             foreach (self::$projectenGestart as $arr) {
-                $t[$arr["projectnaam"]] = $arr["aantal"];
+                $t[$arr['projectnaam']] = $arr['aantal'];
             }
             self::$projectenGestart = $t;
         }

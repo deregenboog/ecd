@@ -17,6 +17,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * @Route("/klanten")
+ *
  * @Template
  */
 class KlantenController extends AbstractController
@@ -61,11 +62,10 @@ class KlantenController extends AbstractController
                     'klant' => $klant->getId(),
                     'redirect' => $this->generateUrl('hs_klanten_view', ['id' => $klant->getId()]).'#memos',
                 ]);
-            } catch(UserException $e) {
+            } catch (UserException $e) {
                 $message = $e->getMessage();
                 $this->addFlash('danger', $message);
-            }
-            catch (\Exception $e) {
+            } catch (\Exception $e) {
                 $message = $this->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
                 $this->addFlash('danger', $message);
             }
@@ -80,10 +80,12 @@ class KlantenController extends AbstractController
 
     /**
      * @Route("/{id}/delete")
+     *
      * @Template
-     * @var Request $request
-     * @var int $id
-     * @var bool Check $actief on entity.
+     *
+     * @var Request
+     * @var int
+     * @var bool    check on entity
      */
     public function deleteAction(Request $request, $id)
     {
@@ -101,13 +103,10 @@ class KlantenController extends AbstractController
             if ($form->get('yes')->isClicked()) {
                 $viewUrl = $this->generateUrl($this->baseRouteName.'view', ['id' => $entity->getId()]);
 
-                if($entity->isDeletable() )
-                {
+                if ($entity->isDeletable()) {
                     $this->dao->delete($entity);
                     $this->addFlash('success', ucfirst($this->entityName).' is verwijderd.');
-                }
-                else
-                {
+                } else {
                     $this->addFlash('error', ucfirst($this->entityName).'heeft nog facturen/klussen of andere gegevens aan zich gekoppeld en is daarom niet verwijderd.');
                 }
 

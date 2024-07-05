@@ -55,12 +55,15 @@ class ReportExport extends AbstractExport
             $sheet->getCell([1, $row])
                 ->setValue('Totaal aantal rijen')
                 ->getStyle()->getFont()->setBold(true);
-            if(!empty($report['data']))
-            {
+            if (!empty($report['data'])) {
                 $numDataRows = 0;
                 $numDataRows = count($report['data']);
-                if(isset($report['data']["Totaal"])) $numDataRows--;
-                if(isset($report['data']["Uniek"])) $numDataRows--;
+                if (isset($report['data']['Totaal'])) {
+                    --$numDataRows;
+                }
+                if (isset($report['data']['Uniek'])) {
+                    --$numDataRows;
+                }
 
                 $sheet->getCell([2, $row])
                     ->setValue($numDataRows)

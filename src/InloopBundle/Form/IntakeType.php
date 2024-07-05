@@ -11,7 +11,6 @@ use AppBundle\Form\MedewerkerType;
 use AppBundle\Form\ZrmType;
 use InloopBundle\Entity\Instantie;
 use InloopBundle\Entity\Intake;
-use InloopBundle\Entity\Toegang;
 use InloopBundle\Entity\Woonsituatie;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
@@ -22,9 +21,6 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class IntakeType extends AbstractType
 {
-    /**
-     * {@inheritdoc}
-     */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
@@ -42,38 +38,31 @@ class IntakeType extends AbstractType
             ->add($this->createOndersteuning($builder, $options))
         ;
 
-
         if ($options['data']->getZrm()) {
             $builder->add('zrm', ZrmType::class, [
                 'label' => 'ZRM',
                 'data_class' => get_class($options['data']->getZrm()),
                 'request_module' => 'Intake',
-                'required'=>false,
+                'required' => false,
             ]);
-//            $builder->get('zrm')->remove("medewerker"); // erg irritant dat ook hier een medewerker wordt laten zien. @TODO keertje weghalen? navragen
+        //            $builder->get('zrm')->remove("medewerker"); // erg irritant dat ook hier een medewerker wordt laten zien. @TODO keertje weghalen? navragen
         } else {
             $builder->add('zrm', ZrmType::class, [
                 'label' => 'ZRM',
                 'request_module' => 'Intake',
-                'required'=>false,
+                'required' => false,
             ]);
-//            $builder->get('zrm')->remove("medewerker");
+            //            $builder->get('zrm')->remove("medewerker");
         }
 
         $builder->add('submit', SubmitType::class);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getParent(): ?string
     {
         return BaseType::class;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
@@ -87,18 +76,17 @@ class IntakeType extends AbstractType
             ->create('algemeen', null, [
                 'compound' => true,
                 'inherit_data' => true,
-                'required'=>true,
+                'required' => true,
             ])
             ->add('medewerker', MedewerkerType::class)
             ->add('intakedatum', AppDateType::class)
             ->add('intakelocatie', LocatieSelectType::class, [
                 'required' => true,
-                'placeholder'=>'',
-                'locatietypes'=>['Inloop'],
+                'placeholder' => '',
+                'locatietypes' => ['Inloop'],
             ])
-            ->add('geinformeerdOpslaanGegevens', CheckboxType::class,['required'=>true])
+            ->add('geinformeerdOpslaanGegevens', CheckboxType::class, ['required' => true])
         ;
-
     }
 
     protected function createAdresgegevens(FormBuilderInterface $builder, array $options)
@@ -124,7 +112,6 @@ class IntakeType extends AbstractType
 
         ;
     }
-
 
     protected function createLegitimatiebewijs(FormBuilderInterface $builder, array $options)
     {
@@ -231,7 +218,7 @@ class IntakeType extends AbstractType
                 'required' => true,
                 'placeholder' => '',
             ])
-            ;
+        ;
     }
 
     protected function createOverigeHulpverlening(FormBuilderInterface $builder, array $options)

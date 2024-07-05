@@ -10,7 +10,7 @@ final class TwFakerProvider extends Base
     /**
      * @return \DateTime|null
      */
-    public function afsluitdatum(\DateTime $startdatum = null)
+    public function afsluitdatum(?\DateTime $startdatum = null)
     {
         if ($startdatum) {
             return DateTime::dateTimeBetween($startdatum);

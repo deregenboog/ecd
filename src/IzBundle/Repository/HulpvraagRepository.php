@@ -5,7 +5,6 @@ namespace IzBundle\Repository;
 use AppBundle\Exception\ReportException;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\QueryBuilder;
-use http\Exception\InvalidArgumentException;
 
 class HulpvraagRepository extends EntityRepository
 {
@@ -35,28 +34,33 @@ class HulpvraagRepository extends EntityRepository
         return $builder->getQuery()->getResult();
     }
 
-
     public function getStadsdelen(\DateTime $startDate, \DateTime $endDate)
     {
-        $builder = $this->createQueryBuilder("hulpvraag")
+        $builder = $this->createQueryBuilder('hulpvraag')
             ->select('werkgebied.naam AS stadsdeel')
-            ->innerJoin('hulpvraag.izKlant','izKlant')
-            ->innerJoin('izKlant.klant','klant')
-            ->leftJoin('klant.werkgebied','werkgebied')
+            ->innerJoin('hulpvraag.izKlant', 'izKlant')
+            ->innerJoin('izKlant.klant', 'klant')
+            ->leftJoin('klant.werkgebied', 'werkgebied')
             ->groupBy('werkgebied.naam')
         ;
         $this->applyKoppelingenReportFilter($builder, 'gestart', $startDate, $endDate);
+
         return $builder->getQuery()->getResult();
     }
+
     public function countDoelgroepenPerHulpvraagsoortPerStadsdeel(\DateTime $startDate, \DateTime $endDate, $options)
     {
-        if(!isset($options['type'])) throw new ReportException("Missing type option");
+        if (!isset($options['type'])) {
+            throw new ReportException('Missing type option');
+        }
 
         $stadsdeel = null;
-        if(isset($options['stadsdeel'])) $stadsdeel = $options['stadsdeel'];
+        if (isset($options['stadsdeel'])) {
+            $stadsdeel = $options['stadsdeel'];
+        }
 
-        $builder = $this->createQueryBuilder("hulpvraag")
-            ->select("COUNT(hulpvraag.id) AS aantal")
+        $builder = $this->createQueryBuilder('hulpvraag')
+            ->select('COUNT(hulpvraag.id) AS aantal')
             ->addSelect('hulpvraagsoort.naam AS hulpvraagsoortnaam')
             ->addSelect('doelgroepen.naam AS doelgroepnaam')
             ->innerJoin('hulpvraag.hulpvraagsoort', 'hulpvraagsoort')
@@ -65,30 +69,28 @@ class HulpvraagRepository extends EntityRepository
             ->innerJoin('izKlant.klant', 'klant')
             ->leftJoin('klant.werkgebied', 'werkgebied')
             ->groupBy('hulpvraagsoortnaam, doelgroepnaam');
-//hacky... pleg.
-        if ($stadsdeel !== 'Alles') {
+        // hacky... pleg.
+        if ('Alles' !== $stadsdeel) {
             $builder->addSelect('werkgebied.naam AS stadsdeel');
-        } else if ($stadsdeel === 'Alles')
-        {
+        } elseif ('Alles' === $stadsdeel) {
             $builder->addSelect("'Alles' AS stadsdeel");
         }
 
-        if($stadsdeel === 'Overig') {
+        if ('Overig' === $stadsdeel) {
             $builder->where('werkgebied.naam IS NULL');
-        }
-        else if($stadsdeel !== 'Overig' && $stadsdeel !== 'Alles')
-        {
+        } elseif ('Overig' !== $stadsdeel && 'Alles' !== $stadsdeel) {
             $builder
                 ->where('werkgebied.naam = :stadsdeel')
-                ->setParameter(":stadsdeel",$stadsdeel);
+                ->setParameter(':stadsdeel', $stadsdeel);
         }
 
         $reportType = $options['type'];
         $this->applyKoppelingenReportFilter($builder, $reportType, $startDate, $endDate);
         $sql = $builder->getQuery()->getSQL();
-        return $builder->getQuery()->getResult();
 
+        return $builder->getQuery()->getResult();
     }
+
     public function countHulpvragenByProjectAndStadsdeel($report, \DateTime $startDate, \DateTime $endDate)
     {
         $builder = $this->getHulpvragenCountBuilder()
@@ -203,18 +205,18 @@ class HulpvraagRepository extends EntityRepository
         return $builder->getQuery()->getResult();
     }
 
-//    public function countKoppelingenByDoelgroepAndStadsdeel($report, \DateTime $startDate, \DateTime $endDate)
-//    {
-//        $builder = $this->getKoppelingenCountBuilder()
-//            ->addSelect('doelgroep.naam AS doelgroepnaam')
-//            ->addSelect('werkgebied.naam AS stadsdeel')
-//            ->leftJoin('klant.werkgebied', 'werkgebied')
-//            ->innerJoin('hulpvraag.doelgroepen', 'doelgroep')
-//            ->groupBy('project', 'stadsdeel');
-//        $this->applyKoppelingenReportFilter($builder, $report, $startDate, $endDate);
-//
-//        return $builder->getQuery()->getResult();
-//    }
+    //    public function countKoppelingenByDoelgroepAndStadsdeel($report, \DateTime $startDate, \DateTime $endDate)
+    //    {
+    //        $builder = $this->getKoppelingenCountBuilder()
+    //            ->addSelect('doelgroep.naam AS doelgroepnaam')
+    //            ->addSelect('werkgebied.naam AS stadsdeel')
+    //            ->leftJoin('klant.werkgebied', 'werkgebied')
+    //            ->innerJoin('hulpvraag.doelgroepen', 'doelgroep')
+    //            ->groupBy('project', 'stadsdeel');
+    //        $this->applyKoppelingenReportFilter($builder, $report, $startDate, $endDate);
+    //
+    //        return $builder->getQuery()->getResult();
+    //    }
 
     public function countKoppelingenByProjectAndStadsdeel($report, \DateTime $startDate, \DateTime $endDate)
     {
@@ -300,7 +302,7 @@ class HulpvraagRepository extends EntityRepository
             ->select('COUNT(hulpvraag.id) AS aantal')
             ->innerJoin('hulpvraag.izKlant', 'izKlant')
             ->innerJoin('izKlant.klant', 'klant')
-            ;
+        ;
     }
 
     private function getKoppelingenCountBuilder()
@@ -312,7 +314,7 @@ class HulpvraagRepository extends EntityRepository
             ->innerJoin('hulpvraag.hulpaanbod', 'hulpaanbod')
             ->innerJoin('hulpaanbod.izVrijwilliger', 'izVrijwilliger')
             ->innerJoin('izVrijwilliger.vrijwilliger', 'vrijwilliger')
-            ;
+        ;
     }
 
     private function applyHulpvragenReportFilter(QueryBuilder $builder, $report, \DateTime $startDate, \DateTime $endDate)

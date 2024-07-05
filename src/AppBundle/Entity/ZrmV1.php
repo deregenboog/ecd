@@ -7,7 +7,9 @@ use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Entity
+ *
  * @ORM\HasLifecycleCallbacks
+ *
  * @Gedmo\Loggable
  */
 class ZrmV1 extends Zrm
@@ -16,6 +18,7 @@ class ZrmV1 extends Zrm
      * @var int
      *
      * @ORM\Column(type="integer", nullable=true)
+     *
      * @Gedmo\Versioned
      */
     private $inkomen;
@@ -24,6 +27,7 @@ class ZrmV1 extends Zrm
      * @var int
      *
      * @ORM\Column(type="integer", nullable=true)
+     *
      * @Gedmo\Versioned
      */
     private $dagbesteding;
@@ -32,6 +36,7 @@ class ZrmV1 extends Zrm
      * @var int
      *
      * @ORM\Column(type="integer", nullable=true)
+     *
      * @Gedmo\Versioned
      */
     private $huisvesting;
@@ -40,6 +45,7 @@ class ZrmV1 extends Zrm
      * @var int
      *
      * @ORM\Column(type="integer", nullable=true)
+     *
      * @Gedmo\Versioned
      */
     private $gezinsrelaties;
@@ -48,6 +54,7 @@ class ZrmV1 extends Zrm
      * @var int
      *
      * @ORM\Column(name="geestelijke_gezondheid", type="integer", nullable=true)
+     *
      * @Gedmo\Versioned
      */
     private $geestelijkeGezondheid;
@@ -56,6 +63,7 @@ class ZrmV1 extends Zrm
      * @var int
      *
      * @ORM\Column(name="fysieke_gezondheid", type="integer", nullable=true)
+     *
      * @Gedmo\Versioned
      */
     private $fysiekeGezondheid;
@@ -64,6 +72,7 @@ class ZrmV1 extends Zrm
      * @var int
      *
      * @ORM\Column(type="integer", nullable=true)
+     *
      * @Gedmo\Versioned
      */
     private $verslaving;
@@ -72,6 +81,7 @@ class ZrmV1 extends Zrm
      * @var int
      *
      * @ORM\Column(name="adl_vaardigheden", type="integer", nullable=true)
+     *
      * @Gedmo\Versioned
      */
     private $adlVaardigheden;
@@ -80,6 +90,7 @@ class ZrmV1 extends Zrm
      * @var int
      *
      * @ORM\Column(name="sociaal_netwerk", type="integer", nullable=true)
+     *
      * @Gedmo\Versioned
      */
     private $sociaalNetwerk;
@@ -88,6 +99,7 @@ class ZrmV1 extends Zrm
      * @var int
      *
      * @ORM\Column(name="maatschappelijke_participatie", type="integer", nullable=true)
+     *
      * @Gedmo\Versioned
      */
     private $maatschappelijkeParticipatie;
@@ -96,6 +108,7 @@ class ZrmV1 extends Zrm
      * @var int
      *
      * @ORM\Column(type="integer", nullable=true)
+     *
      * @Gedmo\Versioned
      */
     private $justitie;

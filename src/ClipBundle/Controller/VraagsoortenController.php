@@ -6,8 +6,8 @@ use AppBundle\Controller\AbstractController;
 use ClipBundle\Entity\Vraagsoort;
 use ClipBundle\Form\VraagsoortType;
 use ClipBundle\Service\VraagsoortDaoInterface;
-use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * @Route("/admin/vraagsoorten")

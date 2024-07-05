@@ -25,7 +25,7 @@ class ToegangsrechtDao extends AbstractDao implements ToegangsrechtDaoInterface
     /**
      * {inheritdoc}.
      */
-    public function findAll($page = null, FilterInterface $filter = null)
+    public function findAll($page = null, ?FilterInterface $filter = null)
     {
         $builder = $this->repository->createQueryBuilder($this->alias)
             ->innerJoin($this->alias.'.medewerker', 'medewerker')
@@ -34,11 +34,6 @@ class ToegangsrechtDao extends AbstractDao implements ToegangsrechtDaoInterface
         return parent::doFindAll($builder, $page, $filter);
     }
 
-    /**
-     * @param Medewerker $medewerker
-     *
-     * @return Toegangsrecht
-     */
     public function findOneByMedewerker(Medewerker $medewerker): ?Toegangsrecht
     {
         return $this->repository->findOneBy(['medewerker' => $medewerker]);

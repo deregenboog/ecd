@@ -66,8 +66,6 @@ class IntakeModel
         return $this->intake->setOngedocumenteerd($ongedocumenteerd);
     }
 
-
-
     public function isStagiair()
     {
         return $this->intake->isStagiair();
@@ -80,9 +78,8 @@ class IntakeModel
 
     public function getVerslag()
     {
-      if($this->intake->getIzDeelnemer() instanceof IzKlant)
-      {
-          return <<<EOF
+        if ($this->intake->getIzDeelnemer() instanceof IzKlant) {
+            return <<<EOF
 -Koppel informatie
 -Hulpvraag
 -Interesses en zingeving
@@ -90,10 +87,8 @@ class IntakeModel
 -Overige relevante informatie
 
 EOF;
-
-      }elseif($this->intake->getIzDeelnemer() instanceof IzVrijwilliger)
-      {
-          return <<<EOF
+        } elseif ($this->intake->getIzDeelnemer() instanceof IzVrijwilliger) {
+            return <<<EOF
 -Koppel informatie
 -Hulpaanbod
 -Interesses en zingeving
@@ -101,10 +96,7 @@ EOF;
 -Overige relevante informatie
 
 EOF;
-
-      }
-
-
+        }
     }
 
     public function setVerslag($opmerking)

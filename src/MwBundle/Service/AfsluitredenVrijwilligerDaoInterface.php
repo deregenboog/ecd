@@ -3,18 +3,17 @@
 namespace MwBundle\Service;
 
 use AppBundle\Filter\FilterInterface;
-use MwBundle\Entity\AfsluitredenVrijwilliger;
 use Knp\Component\Pager\Pagination\PaginationInterface;
+use MwBundle\Entity\AfsluitredenVrijwilliger;
 
 interface AfsluitredenVrijwilligerDaoInterface
 {
     /**
-     * @param int             $page
-     * @param FilterInterface $filter
+     * @param int $page
      *
      * @return PaginationInterface
      */
-    public function findAll($page = null, FilterInterface $filter = null);
+    public function findAll($page = null, ?FilterInterface $filter = null);
 
     /**
      * @param int $id
@@ -23,13 +22,7 @@ interface AfsluitredenVrijwilligerDaoInterface
      */
     public function find($id);
 
-    /**
-     * @param AfsluitredenVrijwilliger $entity
-     */
     public function create(AfsluitredenVrijwilliger $entity);
 
-    /**
-     * @param AfsluitredenVrijwilliger $entity
-     */
     public function update(AfsluitredenVrijwilliger $entity);
 }

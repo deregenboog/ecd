@@ -7,7 +7,9 @@ use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Entity
+ *
  * @ORM\Table(name="hs_herinneringen")
+ *
  * @Gedmo\Loggable
  */
 class Herinnering
@@ -24,26 +26,32 @@ class Herinnering
 
     /**
      * @ORM\Id
+     *
      * @ORM\Column(type="integer")
+     *
      * @ORM\GeneratedValue
      */
     private $id;
 
     /**
      * @ORM\Column(type="date")
+     *
      * @Gedmo\Versioned
      */
     private $datum;
 
     /**
      * @ORM\Column
+     *
      * @Gedmo\Versioned
      */
     private $type;
 
     /**
      * @var Factuur
+     *
      * @ORM\ManyToOne(targetEntity="Factuur", inversedBy="herinneringen")
+     *
      * @Gedmo\Versioned
      */
     private $factuur;

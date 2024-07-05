@@ -13,7 +13,7 @@ interface BetalingDaoInterface
      *
      * @return PaginationInterface
      */
-    public function findAll($page = null, FilterInterface $filter = null);
+    public function findAll($page = null, ?FilterInterface $filter = null);
 
     /**
      * @param int $id
@@ -22,18 +22,9 @@ interface BetalingDaoInterface
      */
     public function find($id);
 
-    /**
-     * @param Betaling $betaling
-     */
     public function create(Betaling $betaling);
 
-    /**
-     * @param Betaling $betaling
-     */
     public function update(Betaling $betaling);
 
-    /**
-     * @param Betaling $betaling
-     */
     public function delete(Betaling $betaling);
 }

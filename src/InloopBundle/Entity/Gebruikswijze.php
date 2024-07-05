@@ -10,7 +10,9 @@ use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Entity
+ *
  * @ORM\Table(name="verslavingsgebruikswijzen")
+ *
  * @Gedmo\Loggable
  */
 class Gebruikswijze
@@ -23,6 +25,7 @@ class Gebruikswijze
      * @var \DateTime
      *
      * @ORM\Column(name="datum_van", type="date")
+     *
      * @Gedmo\Versioned
      */
     private $datumVan;
@@ -31,6 +34,7 @@ class Gebruikswijze
      * @var \DateTime
      *
      * @ORM\Column(name="datum_tot", type="date", nullable=true)
+     *
      * @Gedmo\Versioned
      */
     private $datumTot;
@@ -39,6 +43,7 @@ class Gebruikswijze
      * @var \DateTime
      *
      * @ORM\Column(type="datetime", nullable=true)
+     *
      * @Gedmo\Versioned
      */
     protected $created;
@@ -47,6 +52,7 @@ class Gebruikswijze
      * @var \DateTime
      *
      * @ORM\Column(type="datetime", nullable=true)
+     *
      * @Gedmo\Versioned
      */
     protected $modified;
@@ -64,9 +70,6 @@ class Gebruikswijze
         return $this->datumVan;
     }
 
-    /**
-     * @param \DateTime $datumVan
-     */
     public function setDatumVan(\DateTime $datumVan)
     {
         $this->datumVan = $datumVan;
@@ -82,10 +85,7 @@ class Gebruikswijze
         return $this->datumTot;
     }
 
-    /**
-     * @param \DateTime $datumTot
-     */
-    public function setDatumTot(\DateTime $datumTot = null)
+    public function setDatumTot(?\DateTime $datumTot = null)
     {
         $this->datumTot = $datumTot;
 

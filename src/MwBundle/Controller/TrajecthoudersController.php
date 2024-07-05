@@ -6,11 +6,12 @@ use AppBundle\Controller\AbstractController;
 use MwBundle\Entity\Trajecthouder;
 use MwBundle\Form\TrajecthouderType;
 use MwBundle\Service\TrajecthouderDaoInterface;
-use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * @Route("/trajecthouders")
+ *
  * @Template
  */
 class TrajecthoudersController extends AbstractController

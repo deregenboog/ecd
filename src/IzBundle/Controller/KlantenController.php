@@ -15,15 +15,16 @@ use IzBundle\Form\IzDeelnemerCloseType;
 use IzBundle\Form\IzKlantFilterType;
 use IzBundle\Form\IzKlantType;
 use IzBundle\Service\KlantDaoInterface;
-use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\EventDispatcher\GenericEvent;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * @Route("/klanten")
+ *
  * @Template
  */
 class KlantenController extends AbstractController
@@ -72,10 +73,11 @@ class KlantenController extends AbstractController
     /**
      * @Route("/{documentId}/deleteDocument")
      */
-    public function deleteDocumentAction(Request $request,$documentId)
+    public function deleteDocumentAction(Request $request, $documentId)
     {
         $klant = $this->dao->findKlantByDocId($documentId);
     }
+
     /**
      * @Route("/{id}/close")
      */
@@ -110,7 +112,7 @@ class KlantenController extends AbstractController
      */
     public function reopenAction(Request $request, $id)
     {
-        $this->getDoctrine()->getManager()->getFilters()->disable("foutieve_invoer");
+        $this->getDoctrine()->getManager()->getFilters()->disable('foutieve_invoer');
         $entity = $this->dao->find($id);
 
         $form = $this->getForm(ConfirmationType::class);
@@ -174,10 +176,10 @@ class KlantenController extends AbstractController
                 // redirect if already exists
                 $izKlant = $this->dao->findOneByKlant($klant);
                 if ($izKlant) {
-                    if($izKlant->isAfgesloten())
-                    {
-                        return $this->redirectToRoute("iz_klanten_reopen",["id"=>$izKlant->getId()]);
+                    if ($izKlant->isAfgesloten()) {
+                        return $this->redirectToRoute('iz_klanten_reopen', ['id' => $izKlant->getId()]);
                     }
+
                     return $this->redirectToView($izKlant);
                 }
             }
@@ -193,11 +195,11 @@ class KlantenController extends AbstractController
                 $this->addFlash('success', ucfirst($this->entityName).' is opgeslagen.');
 
                 return $this->redirectToView($izKlant);
-            } catch(UserException $e) {
-//                $this->logger->error($e->getMessage(), ['exception' => $e]);
-                $message =  $e->getMessage();
+            } catch (UserException $e) {
+                //                $this->logger->error($e->getMessage(), ['exception' => $e]);
+                $message = $e->getMessage();
                 $this->addFlash('danger', $message);
-//                return $this->redirectToRoute('app_klanten_index');
+                //                return $this->redirectToRoute('app_klanten_index');
             } catch (\Exception $e) {
                 $message = $this->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
                 $this->addFlash('danger', $message);

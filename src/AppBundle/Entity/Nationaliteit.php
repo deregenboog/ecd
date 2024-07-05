@@ -10,8 +10,11 @@ use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Entity
+ *
  * @ORM\Table(name="nationaliteiten")
+ *
  * @ORM\HasLifecycleCallbacks
+ *
  * @Gedmo\Loggable
  */
 class Nationaliteit
@@ -22,6 +25,7 @@ class Nationaliteit
 
     /**
      * @ORM\Column(type="string")
+     *
      * @Gedmo\Versioned
      */
     private $afkorting;
@@ -30,6 +34,7 @@ class Nationaliteit
      * @var \DateTime
      *
      * @ORM\Column(type="datetime", nullable=true)
+     *
      * @Gedmo\Versioned
      */
     protected $created;
@@ -38,6 +43,7 @@ class Nationaliteit
      * @var \DateTime
      *
      * @ORM\Column(type="datetime", nullable=true)
+     *
      * @Gedmo\Versioned
      */
     protected $modified;

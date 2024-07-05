@@ -4,7 +4,6 @@ namespace OekraineBundle\Controller;
 
 use AppBundle\Controller\AbstractController;
 use AppBundle\Exception\UserException;
-use AppBundle\Export\ExportInterface;
 use Doctrine\ORM\EntityNotFoundException;
 use OekraineBundle\Entity\Intake;
 use OekraineBundle\Form\IntakeFilterType;
@@ -14,13 +13,14 @@ use OekraineBundle\Pdf\PdfIntake;
 use OekraineBundle\Security\Permissions;
 use OekraineBundle\Service\IntakeDaoInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
-use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * @Route("/intakes")
+ *
  * @Template
  */
 class IntakesController extends AbstractController
@@ -59,6 +59,7 @@ class IntakesController extends AbstractController
 
     /**
      * @Route("/add/{bezoeker}")
+     *
      * @ParamConverter("bezoeker", class="OekraineBundle\Entity\Bezoeker")
      */
     public function addAction(Request $request)
@@ -82,11 +83,11 @@ class IntakesController extends AbstractController
             try {
                 $this->dao->create($entity);
                 $this->addFlash('success', ucfirst($this->entityName).' is opgeslagen.');
-            } catch(UserException $e) {
-//                $this->logger->error($e->getMessage(), ['exception' => $e]);
-                $message =  $e->getMessage();
+            } catch (UserException $e) {
+                //                $this->logger->error($e->getMessage(), ['exception' => $e]);
+                $message = $e->getMessage();
                 $this->addFlash('danger', $message);
-//                return $this->redirectToRoute('app_bezoekeren_index');
+                //                return $this->redirectToRoute('app_bezoekeren_index');
             } catch (\Exception $e) {
                 $this->logger->error($e->getMessage(), ['exception' => $e]);
                 $message = $this->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
@@ -107,27 +108,25 @@ class IntakesController extends AbstractController
      */
     public function editAction(Request $request, $id)
     {
-         $entity = $this->dao->find($id);
+        $entity = $this->dao->find($id);
 
-        if($entity === null)
-        {
-            throw new EntityNotFoundException("Kan intake niet laden.");
+        if (null === $entity) {
+            throw new EntityNotFoundException('Kan intake niet laden.');
         }
 
-//        $this->denyAccessUnlessGranted(
-//            Permissions::EDIT,
-//            $entity,
-//            'Je kan alleen intakes wijzigen die in de afgelopen week zijn aangemaakt.'
-//        );
+        //        $this->denyAccessUnlessGranted(
+        //            Permissions::EDIT,
+        //            $entity,
+        //            'Je kan alleen intakes wijzigen die in de afgelopen week zijn aangemaakt.'
+        //        );
 
-//        $this->denyAccessUnlessGranted(
-//            Permissions::OWNER,
-//            $entity,
-//            'Je kan alleen intakes wijzigen die door jezelf zijn aangemaakt.'
-//        );
+        //        $this->denyAccessUnlessGranted(
+        //            Permissions::OWNER,
+        //            $entity,
+        //            'Je kan alleen intakes wijzigen die door jezelf zijn aangemaakt.'
+        //        );
 
         return $this->processForm($request, $entity);
-
     }
 
     /**
@@ -137,10 +136,9 @@ class IntakesController extends AbstractController
     {
         $this->formClass = ToegangType::class;
         $entity = $this->dao->find($id);
+
         return $this->processForm($request, $entity);
-
     }
-
 
     /**
      * @Route("/form.pdf")
@@ -179,8 +177,6 @@ class IntakesController extends AbstractController
     protected function addParams($entity, Request $request): array
     {
         return [
-
-
         ];
     }
 }

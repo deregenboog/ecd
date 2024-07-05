@@ -2,10 +2,8 @@
 
 namespace OekraineBundle\Service;
 
-use AppBundle\Entity\Klant;
 use AppBundle\Filter\FilterInterface;
 use AppBundle\Service\AbstractDao;
-use Doctrine\ORM\Query\Expr\Join;
 use OekraineBundle\Entity\Aanmelding;
 use OekraineBundle\Entity\Bezoeker;
 
@@ -32,7 +30,7 @@ class BezoekerDao extends AbstractDao implements BezoekerDaoInterface
     protected $alias = 'bezoeker';
     protected $searchEntityName = 'appKlant';
 
-    public function findAll($page = null, FilterInterface $filter = null)
+    public function findAll($page = null, ?FilterInterface $filter = null)
     {
         $builder = $this->getAllQueryBuilder($filter);
         if ($page) {
@@ -42,13 +40,13 @@ class BezoekerDao extends AbstractDao implements BezoekerDaoInterface
         return $builder->getQuery()->getResult();
     }
 
-    public function getAllQueryBuilder(FilterInterface $filter = null)
+    public function getAllQueryBuilder(?FilterInterface $filter = null)
     {
         $builder = $this->repository->createQueryBuilder($this->alias)
             ->select($this->alias.', appKlant, intakes, geslacht')
 //            ->innerJoin('appKlant.huidigeStatus', 'status')
-            ->innerJoin($this->alias.'.appKlant','appKlant')
-            ->leftJoin('appKlant.intakes', 'intakes')//, "WITH","appKlant.eersteIntake = intake")
+            ->innerJoin($this->alias.'.appKlant', 'appKlant')
+            ->leftJoin('appKlant.intakes', 'intakes')// , "WITH","appKlant.eersteIntake = intake")
             ->leftJoin('appKlant.geslacht', 'geslacht')
         ;
 
@@ -61,25 +59,22 @@ class BezoekerDao extends AbstractDao implements BezoekerDaoInterface
 
     public function findByKlantId($bezoekerId)
     {
-        return $this->repository->findOneBy(["appKlant"=>$bezoekerId]);
+        return $this->repository->findOneBy(['appKlant' => $bezoekerId]);
     }
+
     /**
-     * @param Bezoeker $bezoeker
-     *
      * @return Bezoeker
      */
     public function create(Bezoeker $entity)
     {
-//
-//        $aanmelding = new Aanmelding($entity);
-//        $entity->setHuidigeStatus($aanmelding);
+        //
+        //        $aanmelding = new Aanmelding($entity);
+        //        $entity->setHuidigeStatus($aanmelding);
 
         return parent::doCreate($entity);
     }
 
     /**
-     * @param Bezoeker $bezoeker
-     *
      * @return Bezoeker
      */
     public function update(Bezoeker $entity)

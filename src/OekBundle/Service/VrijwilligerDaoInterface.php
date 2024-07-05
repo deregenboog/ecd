@@ -10,12 +10,11 @@ use OekBundle\Entity\Vrijwilliger;
 interface VrijwilligerDaoInterface
 {
     /**
-     * @param int             $page
-     * @param FilterInterface $filter
+     * @param int $page
      *
      * @return PaginationInterface
      */
-    public function findAll($page = null, FilterInterface $filter = null);
+    public function findAll($page = null, ?FilterInterface $filter = null);
 
     /**
      * @param int $id
@@ -25,28 +24,17 @@ interface VrijwilligerDaoInterface
     public function find($id);
 
     /**
-     * @param AppVrijwilliger $vrijwilliger
-     *
      * @return Vrijwilliger
      */
     public function findOneByVrijwilliger(AppVrijwilliger $vrijwilliger);
 
-    /**
-     * @param Vrijwilliger $vrijwilliger
-     */
     public function create(Vrijwilliger $vrijwilliger);
 
-    /**
-     * @param Vrijwilliger $vrijwilliger
-     */
     public function update(Vrijwilliger $vrijwilliger);
 
-    /**
-     * @param Vrijwilliger $vrijwilliger
-     */
     public function delete(Vrijwilliger $vrijwilliger);
 
-    public function countByStadsdeel(\DateTime $start = null, \DateTime $end = null);
+    public function countByStadsdeel(?\DateTime $start = null, ?\DateTime $end = null);
 
-    public function countNewByStadsdeel(\DateTime $start = null, \DateTime $end = null);
+    public function countNewByStadsdeel(?\DateTime $start = null, ?\DateTime $end = null);
 }

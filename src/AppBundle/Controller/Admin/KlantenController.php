@@ -5,19 +5,17 @@ namespace AppBundle\Controller\Admin;
 use AppBundle\Controller\AbstractController;
 use AppBundle\Controller\DisableIndexActionTrait;
 use AppBundle\Entity\Klant;
-use AppBundle\Exception\UserException;
 use AppBundle\Form\KlantMergeType;
-use AppBundle\Service\KlantDao;
 use AppBundle\Service\KlantDaoInterface;
 use Doctrine\ORM\EntityManagerInterface;
-use Monolog\Logger;
 use Psr\Log\LoggerInterface;
-use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * @Route("/admin/klanten")
+ *
  * @Template
  */
 class KlantenController extends AbstractController
@@ -46,6 +44,7 @@ class KlantenController extends AbstractController
 
     /**
      * @Route("/duplicates/{mode}")
+     *
      * @Template
      */
     public function duplicatesAction($mode = null)
@@ -56,7 +55,7 @@ class KlantenController extends AbstractController
 
         $duplicates = $this->dao->findDuplicates($mode);
 
-        return[
+        return [
             'mode' => $mode,
             'duplicates' => $duplicates,
         ];
@@ -64,6 +63,7 @@ class KlantenController extends AbstractController
 
     /**
      * @Route("/admin/merge/{ids}")
+     *
      * @Template
      */
     public function mergeAction(Request $request, $ids)
@@ -99,7 +99,7 @@ class KlantenController extends AbstractController
                 $em->commit();
 
                 $this->addFlash('success', 'De dossiers zijn samengevoegd.');
-            }  catch (\Exception $e) {
+            } catch (\Exception $e) {
                 $em->rollback();
 
                 $this->logger->error($e->getMessage(), ['exception' => $e]);
@@ -125,9 +125,8 @@ class KlantenController extends AbstractController
     }
 
     /**
-     * @param Klant           $entity  new entity
-     * @param Klant[]         $klanten original entities
-     * @param EntityManagerInterface   $em
+     * @param Klant   $entity  new entity
+     * @param Klant[] $klanten original entities
      */
     private function moveAssociations($entity, $klanten, EntityManagerInterface $em)
     {
@@ -167,9 +166,8 @@ class KlantenController extends AbstractController
     }
 
     /**
-     * @param Klant           $entity  new entity
-     * @param Klant[]         $klanten
-     * @param EntityManagerInterface   $em
+     * @param Klant   $entity  new entity
+     * @param Klant[] $klanten
      */
     private function disableMerged($entity, $klanten, EntityManagerInterface $em)
     {

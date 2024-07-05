@@ -9,17 +9,16 @@ use MwBundle\Service\VerslagDao;
 
 class ZonderZorg extends AbstractReport
 {
-
     protected $title = 'Zonder zorg';
 
     protected $xPath = 'type';
 
     protected $yPath = 'label';
 
-//    protected $nPath = 'aantal';
+    //    protected $nPath = 'aantal';
 
     protected $columns = [
-        'Klanten'=>'numContacten',
+        'Klanten' => 'numContacten',
     ];
 
     protected $yDescription = 'Aantal contacten';
@@ -57,36 +56,31 @@ class ZonderZorg extends AbstractReport
     protected function init()
     {
         $result = $this->dao->countKlantenZonderZorg($this->startDate, $this->endDate, $this->zonderzorg_locaties);
-//        $sql = $this->getFullSQL($query);
+        //        $sql = $this->getFullSQL($query);
         $rows = $result->fetchAllAssociative();
-//        foreach($rows as $row)
-//        {
-//
-//            $d[] = ['Aantal'=> $row['numContacten']];
-//        }
+        //        foreach($rows as $row)
+        //        {
+        //
+        //            $d[] = ['Aantal'=> $row['numContacten']];
+        //        }
         $this->result = $rows;
-
-
-
     }
 
     protected function build()
     {
-
-        $table = new Grid($this->result, $this->columns,$this->yPath);
+        $table = new Grid($this->result, $this->columns, $this->yPath);
         $table
             ->setStartDate($this->startDate)
             ->setEndDate($this->endDate)
             ->setYSort(false)
             ->setYTotals(true)
         ;
-         $report = [
-            'title' => 'Zonder zorg (face-to-face)',
-            'xDescription' => $this->xDescription,
-            'yDescription' => $this->yDescription,
-            'data' => $table->render(),
+        $report = [
+           'title' => 'Zonder zorg (face-to-face)',
+           'xDescription' => $this->xDescription,
+           'yDescription' => $this->yDescription,
+           'data' => $table->render(),
         ];
-
 
         $this->reports[] = $report;
     }

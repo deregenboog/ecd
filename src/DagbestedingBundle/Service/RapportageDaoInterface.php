@@ -9,12 +9,11 @@ use Knp\Component\Pager\Pagination\PaginationInterface;
 interface RapportageDaoInterface
 {
     /**
-     * @param int             $page
-     * @param FilterInterface $filter
+     * @param int $page
      *
      * @return PaginationInterface
      */
-    public function findAll($page = null, FilterInterface $filter = null);
+    public function findAll($page = null, ?FilterInterface $filter = null);
 
     /**
      * @param int $id
@@ -23,18 +22,9 @@ interface RapportageDaoInterface
      */
     public function find($id);
 
-    /**
-     * @param Rapportage $rapportage
-     */
     public function create(Rapportage $rapportage);
 
-    /**
-     * @param Rapportage $rapportage
-     */
     public function update(Rapportage $rapportage);
 
-    /**
-     * @param Rapportage $rapportage
-     */
     public function delete(Rapportage $rapportage);
 }

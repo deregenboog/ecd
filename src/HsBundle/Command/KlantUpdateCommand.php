@@ -9,7 +9,6 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class KlantUpdateCommand extends \Symfony\Component\Console\Command\Command
 {
-
     /** @var EntityManagerInterface */
     protected $em;
 
@@ -26,8 +25,6 @@ class KlantUpdateCommand extends \Symfony\Component\Console\Command\Command
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-
-
         // find klussen
         $klussen = $this->em->getRepository(Klus::class)->createQueryBuilder('klus')
             ->where('klus.einddatum <= :today')
@@ -64,7 +61,7 @@ class KlantUpdateCommand extends \Symfony\Component\Console\Command\Command
             $this->em->flush();
         }
         $output->writeln(sprintf('%d on hold klussen open gezet', is_array($klussen) || $klussen instanceof \Countable ? count($klussen) : 0));
-        return 0;
 
+        return 0;
     }
 }

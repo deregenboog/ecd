@@ -9,24 +9,28 @@ trait HulpverlenerTrait
 {
     /**
      * @ORM\Column(name="hulpverlener_naam", type="string", nullable=true)
+     *
      * @Gedmo\Versioned
      */
     private $naamHulpverlener;
 
     /**
      * @ORM\Column(name="hulpverlener_organisatie", type="string", nullable=true)
+     *
      * @Gedmo\Versioned
      */
     private $organisatieHulpverlener;
 
     /**
      * @ORM\Column(name="hulpverlener_telefoon", type="string", nullable=true)
+     *
      * @Gedmo\Versioned
      */
     private $telefoonHulpverlener;
 
     /**
      * @ORM\Column(name="hulpverlener_email", type="string", nullable=true)
+     *
      * @Gedmo\Versioned
      */
     private $emailHulpverlener;

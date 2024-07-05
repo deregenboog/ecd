@@ -2,16 +2,16 @@
 
 namespace LegacyBundle\Entity;
 
-use Doctrine\ORM\Mapping as ORM;
-use AppBundle\Model\IdentifiableTrait;
-use AppBundle\Entity\Verblijfsstatus;
 use AppBundle\Entity\Inkomen;
+use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity
+ *
  * @ORM\Table(
  *     name="awbz_intakes",
  *     indexes={
+ *
  *         @ORM\Index(name="idx_awbz_intakes_klant_id", columns={"klant_id"})
  *     }
  * )
@@ -20,7 +20,9 @@ class AwbzIntake
 {
     /**
      * @ORM\Column(type="integer")
+     *
      * @ORM\Id
+     *
      * @ORM\GeneratedValue
      */
     private $id;

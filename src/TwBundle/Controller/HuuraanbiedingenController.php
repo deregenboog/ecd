@@ -9,18 +9,18 @@ use AppBundle\Form\ConfirmationType;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\QueryBuilder;
 use Knp\Component\Pager\PaginatorInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Symfony\Component\Form\FormError;
+use Symfony\Component\Routing\Annotation\Route;
 use TwBundle\Entity\Huuraanbod;
 use TwBundle\Entity\Verhuurder;
 use TwBundle\Form\HuuraanbodCloseType;
 use TwBundle\Form\HuuraanbodFilterType;
 use TwBundle\Form\HuuraanbodType;
-use Symfony\Component\Routing\Annotation\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-use Symfony\Component\Form\FormError;
-
 
 /**
  * @Route("/huuraanbiedingen")
+ *
  * @Template
  */
 class HuuraanbiedingenController extends SymfonyController
@@ -45,14 +45,13 @@ class HuuraanbiedingenController extends SymfonyController
         'huuraanbod.huurprijs',
     ];
 
-    protected $export = null;
+    protected $export;
 
     public function __construct(PaginatorInterface $paginator, EntityManagerInterface $entityManager, $export)
     {
         $this->export = $export;
-        parent::__construct($paginator,$entityManager);
+        parent::__construct($paginator, $entityManager);
     }
-
 
     /**
      * @Route("/")
@@ -66,16 +65,16 @@ class HuuraanbiedingenController extends SymfonyController
             ->leftJoin('huuraanbod.huurovereenkomst', 'huurovereenkomst')
             ->innerJoin('huuraanbod.verhuurder', 'verhuurder')
             ->innerJoin('verhuurder.appKlant', 'appKlant')
-            ->innerJoin('huuraanbod.medewerker','medewerker')
+            ->innerJoin('huuraanbod.medewerker', 'medewerker')
             ->leftJoin('appKlant.werkgebied', 'werkgebied')
             ->leftJoin('huuraanbod.afsluiting', 'afsluiting')
             ->leftJoin('huuraanbod.project', 'project')
-            ->andWhere('huurovereenkomst.id IS NULL') //alleen actieve
+            ->andWhere('huurovereenkomst.id IS NULL') // alleen actieve
 //            ->andWhere('huuraanbod.afsluitdatum IS NULL OR huuraanbod.afsluitdatum > :now') // alleen actieve
 //            ->orWhere('huurovereenkomst.isReservering = 1')
             ->andWhere('afsluiting.tonen IS NULL OR afsluiting.tonen = true')
         ;
-        $builder->setParameter("now",new \DateTime('now'));
+        $builder->setParameter('now', new \DateTime('now'));
 
         $filter = $this->getForm(HuuraanbodFilterType::class);
 
@@ -106,7 +105,7 @@ class HuuraanbiedingenController extends SymfonyController
         $filename = sprintf('tw-huuraanbiedingen-%s.xlsx', (new \DateTime())->format('d-m-Y'));
 
         /* @var $this->export ExportInterface */
-//        $export = $this->container->get('tw.export.huuraanbiedingen');
+        //        $export = $this->container->get('tw.export.huuraanbiedingen');
 
         return $this->export->create($huuraanbiedingen)->getResponse($filename);
     }
@@ -221,11 +220,11 @@ class HuuraanbiedingenController extends SymfonyController
                 $entityManager->flush();
 
                 $this->addFlash('success', 'Huuraanbod is afgesloten.');
-            } catch(UserException $e) {
-//                $this->logger->error($e->getMessage(), ['exception' => $e]);
-                $message =  $e->getMessage();
+            } catch (UserException $e) {
+                //                $this->logger->error($e->getMessage(), ['exception' => $e]);
+                $message = $e->getMessage();
                 $this->addFlash('danger', $message);
-//                return $this->redirectToRoute('app_klanten_index');
+                //                return $this->redirectToRoute('app_klanten_index');
             } catch (\Exception $e) {
                 $message = $this->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
                 $this->addFlash('danger', $message);

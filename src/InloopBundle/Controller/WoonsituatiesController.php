@@ -6,11 +6,12 @@ use AppBundle\Controller\AbstractController;
 use InloopBundle\Entity\Woonsituatie;
 use InloopBundle\Form\WoonsituatieType;
 use InloopBundle\Service\WoonsituatieDaoInterface;
-use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * @Route("/admin/woonsituaties")
+ *
  * @Template
  */
 class WoonsituatiesController extends AbstractController

@@ -6,11 +6,12 @@ use AppBundle\Controller\AbstractController;
 use OekraineBundle\Entity\Locatie;
 use OekraineBundle\Form\LocatieType;
 use OekraineBundle\Service\LocatieDaoInterface;
-use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * @Route("/admin/locaties")
+ *
  * @Template
  */
 class LocatiesController extends AbstractController

@@ -38,13 +38,14 @@ class DenyAccessCommand extends \Symfony\Component\Console\Command\Command
         foreach ($klanten as $klant) {
             // deny access
             $output->writeln(sprintf('Toegang ontzeggen voor klant #%d', $klant->getId()));
-//             $klant->getLaatsteIntake()->setToegangInloophuis(false);
-//             break;
+            //             $klant->getLaatsteIntake()->setToegangInloophuis(false);
+            //             break;
         }
 
-//         $this->manager->flush();
+        //         $this->manager->flush();
 
         $output->writeln('Succesvol afgerond');
+
         return 0;
     }
 

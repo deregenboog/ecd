@@ -10,12 +10,13 @@ use GaBundle\Form\GroepType;
 use GaBundle\Service\GroepDaoInterface;
 use GaBundle\Service\GroupTypeContainer;
 use GaBundle\Service\LidmaatschapDaoInterface;
-use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * @Route("/groepen")
+ *
  * @Template
  */
 class GroepenController extends AbstractController

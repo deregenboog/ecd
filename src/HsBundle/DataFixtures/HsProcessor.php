@@ -2,16 +2,13 @@
 
 namespace HsBundle\DataFixtures;
 
+use Fidry\AliceDataFixtures\ProcessorInterface;
 use HsBundle\Entity\Klus;
 use HsBundle\Entity\Registratie;
-use Fidry\AliceDataFixtures\ProcessorInterface;
 
 final class HsProcessor implements ProcessorInterface
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function preProcess(string $fixtureId, $object):void
+    public function preProcess(string $fixtureId, $object): void
     {
         if ($object instanceof Klus) {
             $object->getKlant()->addKlus($object);
@@ -22,10 +19,7 @@ final class HsProcessor implements ProcessorInterface
         }
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function postProcess(string $fixtureId,$object):void
+    public function postProcess(string $fixtureId, $object): void
     {
         // do nothing
     }

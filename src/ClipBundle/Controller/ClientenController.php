@@ -8,11 +8,12 @@ use ClipBundle\Entity\Client;
 use ClipBundle\Form\ClientFilterType;
 use ClipBundle\Form\ClientType;
 use ClipBundle\Service\ClientDaoInterface;
-use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * @Route("/clienten")
+ *
  * @Template
  */
 class ClientenController extends AbstractController

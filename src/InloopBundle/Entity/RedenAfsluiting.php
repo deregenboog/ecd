@@ -11,7 +11,9 @@ use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Entity
+ *
  * @ORM\Table(name="inloop_afsluiting_redenen")
+ *
  * @Gedmo\Loggable
  */
 class RedenAfsluiting
@@ -25,6 +27,7 @@ class RedenAfsluiting
      * @var string
      *
      * @ORM\Column(nullable=false)
+     *
      * @Gedmo\Versioned
      */
     protected $naam;
@@ -33,6 +36,7 @@ class RedenAfsluiting
      * @var bool
      *
      * @ORM\Column(type="boolean")
+     *
      * @Gedmo\Versioned
      */
     protected $actief = true;
@@ -41,6 +45,7 @@ class RedenAfsluiting
      * @var int
      *
      * @ORM\Column(type="integer", options={"default":0})
+     *
      * @Gedmo\Versioned
      */
     private $gewicht = 0;
@@ -49,6 +54,7 @@ class RedenAfsluiting
      * @var bool
      *
      * @ORM\Column(type="boolean")
+     *
      * @Gedmo\Versioned
      */
     private $land = false;
@@ -57,6 +63,7 @@ class RedenAfsluiting
      * @var \DateTime
      *
      * @ORM\Column(type="datetime")
+     *
      * @Gedmo\Versioned
      */
     protected $created;
@@ -65,6 +72,7 @@ class RedenAfsluiting
      * @var \DateTime
      *
      * @ORM\Column(type="datetime")
+     *
      * @Gedmo\Versioned
      */
     protected $modified;

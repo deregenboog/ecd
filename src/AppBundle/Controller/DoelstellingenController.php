@@ -2,19 +2,19 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\Entity\Doelstelling;
 use AppBundle\Exception\AppException;
 use AppBundle\Exception\UserException;
 use AppBundle\Export\ExportInterface;
-use AppBundle\Form\DoelstellingType;
-use AppBundle\Model\MedewerkerSubjectInterface;
-use AppBundle\Entity\Doelstelling;
 use AppBundle\Filter\DoelstellingFilter;
 use AppBundle\Form\DoelstellingFilterType;
+use AppBundle\Form\DoelstellingType;
+use AppBundle\Model\MedewerkerSubjectInterface;
 use AppBundle\Service\DoelstellingDao;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\Routing\Annotation\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
 /**
  * This controller/doelstellingen module works as follows:
@@ -63,7 +63,7 @@ class DoelstellingenController extends AbstractController
      */
     protected $dao;
 
-    protected $baseRouteName = "app_doelstellingen_";
+    protected $baseRouteName = 'app_doelstellingen_';
 
     /**
      * @var ExportInterface
@@ -78,6 +78,7 @@ class DoelstellingenController extends AbstractController
 
     /**
      * @Route("/")
+     *
      * @Template
      */
     public function indexAction(Request $request)
@@ -132,11 +133,10 @@ class DoelstellingenController extends AbstractController
                     $this->dao->create($entity);
                 }
                 $this->addFlash('success', ucfirst($this->entityName).' is opgeslagen.');
-            }catch(UserException $e) {
+            } catch (UserException $e) {
                 $message = $e->getMessage();
-                $this->addFlash('danger',$message);
-            }
-            catch (\Exception $e) {
+                $this->addFlash('danger', $message);
+            } catch (\Exception $e) {
                 $this->logger->error($e->getMessage(), ['exception' => $e]);
                 $message = $this->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
                 $this->addFlash('danger', $message);

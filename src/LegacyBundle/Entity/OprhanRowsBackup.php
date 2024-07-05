@@ -9,16 +9,18 @@ use Doctrine\ORM\Mapping as ORM;
  * created 20230207.
  *
  * @ORM\Table(name="orphan_rows_backup")
+ *
  * @ORM\Entity
  */
 class OprhanRowsBackup
 {
-
     /**
      * @var int
      *
      * @ORM\Column(name="id", type="integer")
+     *
      * @ORM\Id
+     *
      * @ORM\GeneratedValue
      */
     private $id;
@@ -44,7 +46,6 @@ class OprhanRowsBackup
      */
     private $orphanColName;
 
-
     /**
      * @var int
      *
@@ -59,13 +60,10 @@ class OprhanRowsBackup
      */
     private $orphanId;
 
-
     /**
      * @var string
      *
      *  @ORM\Column(name="extra_row_data", type="text", nullable=true)
      */
     private $extraRowData;
-
-
 }

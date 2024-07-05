@@ -39,6 +39,7 @@ class FixLaatsteRegistratieCommand extends \Symfony\Component\Console\Command\Co
         $n = $this->conn->exec($sql);
 
         $output->writeln(sprintf('%d rows affected', $n));
+
         return 0;
     }
 }

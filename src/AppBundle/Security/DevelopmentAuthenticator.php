@@ -23,8 +23,7 @@ use Symfony\Component\Security\Http\EntryPoint\AuthenticationEntryPointInterface
  *
  * NOTE: NEVER USE THIS AUTHENTICATOR IN PRODUCTION!
  */
-class DevelopmentAuthenticator extends AbstractAuthenticator
-    implements AuthenticationEntryPointInterface
+class DevelopmentAuthenticator extends AbstractAuthenticator implements AuthenticationEntryPointInterface
 {
     private string $env;
     private RouterInterface $router;
@@ -73,7 +72,7 @@ class DevelopmentAuthenticator extends AbstractAuthenticator
         ));
     }
 
-    public function start(Request $request, AuthenticationException $authException = null): Response
+    public function start(Request $request, ?AuthenticationException $authException = null): Response
     {
         return new RedirectResponse($this->router->generate('login'));
     }
@@ -85,15 +84,15 @@ class DevelopmentAuthenticator extends AbstractAuthenticator
 
     public function onAuthenticationFailure(Request $request, AuthenticationException $exception): ?Response
     {
-        /**
+        /*
          * when returning null, the request continues, thus the next authenticator in the chain_provider will be called.
          * We want this to happen to fall back to other authenticators.
          */
         return null;
-        //return new RedirectResponse($this->router->generate('logout'));
+        // return new RedirectResponse($this->router->generate('logout'));
     }
 
-    public function isPublicIP($ip=NULL) : bool
+    public function isPublicIP($ip = null): bool
     {
         return filter_var(
             $ip,

@@ -40,8 +40,7 @@ class AccessUpdater
         EntityManagerInterface $em,
         BezoekerDaoInterface $bezoekerDao,
         LocatieDaoInterface $locatieDao
-    )
-    {
+    ) {
         $this->em = $em;
         $this->bezoekerDao = $bezoekerDao;
         $this->locatieDao = $locatieDao;
@@ -56,7 +55,6 @@ class AccessUpdater
 
     public function updateForLocation(Locatie $locatie)
     {
-
         $wasEnabled = $this->em->getFilters()->isEnabled('overleden');
 
         $this->em->getFilters()->enable('overleden');
@@ -76,7 +74,7 @@ class AccessUpdater
             'klanten' => Connection::PARAM_INT_ARRAY,
         ];
 
-        if($locatie->isActief()) {
+        if ($locatie->isActief()) {
             $this->em->getConnection()->executeQuery('DELETE FROM oekraine_toegang
                 WHERE locatie_id = :locatie AND bezoeker_id NOT IN (:klanten)', $params, $types);
 
@@ -84,11 +82,9 @@ class AccessUpdater
             SELECT id, :locatie FROM klanten
             WHERE id IN (:klanten)
             AND id NOT IN (SELECT bezoeker_id FROM oekraine_toegang WHERE locatie_id = :locatie)', $params, $types);
-        }
-        else // locatie gesloten. geen toegang.
-        {
+        } else { // locatie gesloten. geen toegang.
             $this->em->getConnection()->executeQuery('DELETE FROM oekraine_toegang
-                WHERE locatie_id = :locatie',['locatie'=>$locatie->getId()],['locatie'=>ParameterType::INTEGER]);
+                WHERE locatie_id = :locatie', ['locatie' => $locatie->getId()], ['locatie' => ParameterType::INTEGER]);
         }
 
         if (!$wasEnabled) {
@@ -100,24 +96,23 @@ class AccessUpdater
     {
         $wasEnabled = $this->em->getFilters()->isEnabled('overleden');
         $this->em->getFilters()->enable('overleden');
-        $this->log("Updating access for ".$bezoeker->getAppKlant()->getNaam());
+        $this->log('Updating access for '.$bezoeker->getAppKlant()->getNaam());
 
         foreach ($this->getLocations() as $locatie) {
             $this->log($locatie);
             $strategy = $this->getStrategy($locatie);
-            $this->log("Strategy used: ".get_class($strategy));
+            $this->log('Strategy used: '.get_class($strategy));
 
             $filter = new BezoekerFilter($strategy);
-            $filter->huidigeStatus = Aanmelding::class; //alleen klanten met een inloopdossier mogen toegang.
+            $filter->huidigeStatus = Aanmelding::class; // alleen klanten met een inloopdossier mogen toegang.
 
             $builder = $this->bezoekerDao->getAllQueryBuilder($filter);
             $builder
                 ->andWhere('bezoeker.id = :klant_id')
                 ->setParameter('klant_id', $bezoeker->getId());
 
-//            $sql = $builder->getQuery()->getSQL();
+            //            $sql = $builder->getQuery()->getSQL();
             $this->log($builder->getQuery()->getSQL());
-
 
             $bezoekerIds = $this->getKlantIds($builder);
 
@@ -131,18 +126,16 @@ class AccessUpdater
             ];
 
             if (in_array($bezoeker->getId(), $bezoekerIds)) {
-                $this->log("Access granted");
+                $this->log('Access granted');
                 try {
                     $this->em->getConnection()->executeQuery('INSERT INTO oekraine_toegang (bezoeker_id, locatie_id)
                     VALUES (:klant, :locatie)', $params, $types);
-                }catch(\Exception $e)
-                {
+                } catch (\Exception $e) {
                     // do nothing
                     //
                 }
-
             } else {
-                $this->log("Access denied");
+                $this->log('Access denied');
                 $this->em->getConnection()->executeQuery('DELETE FROM oekraine_toegang
                     WHERE locatie_id = :locatie AND bezoeker_id = :klant', $params, $types);
             }
@@ -176,7 +169,6 @@ class AccessUpdater
          * Dwz: strategie is van toepassing op de locatie(s), dan wordt er alleen mogelijk toegang verleend tot die locaties, en niet tot andere locaties.
          * mogelijk = aan de hand van de gestelde criteria.
          * Dus locatie is mutual exclusive. De eerste strategie die geldt voor de locatie, is de gene die bepaald op klant toegang heeft.
-         *
          */
         $strategies = [
             new GebruikersruimteStrategy(),
@@ -189,7 +181,6 @@ class AccessUpdater
             if ($strategy->supports($locatie)) {
                 return $strategy;
             }
-
         }
 
         throw new \LogicException('No supported strategy found!');
@@ -198,18 +189,17 @@ class AccessUpdater
     private function getKlantIds(QueryBuilder $builder)
     {
         $klantIdArray = $builder->select('bezoeker.id')->distinct(true)->getQuery()->getResult();
+
         return array_map(
             function ($klantId) {
                 return $klantId['id'];
             }, $klantIdArray
-
         );
     }
 
     private function log($msg)
     {
-        if($this->debug == true)
-        {
+        if (true == $this->debug) {
             echo $msg."\n";
         }
     }

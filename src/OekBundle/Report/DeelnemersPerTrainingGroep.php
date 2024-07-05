@@ -40,7 +40,7 @@ class DeelnemersPerTrainingGroep extends AbstractReport
     protected function init()
     {
         $this->tables[DS::STATUS_AANGEMELD] = $this->repository->countByGroepAndTraining(
-            [DS::STATUS_AANGEMELD,DS::STATUS_GESTART,DS::STATUS_GEVOLGD,DS::STATUS_AFGEROND],
+            [DS::STATUS_AANGEMELD, DS::STATUS_GESTART, DS::STATUS_GEVOLGD, DS::STATUS_AFGEROND],
             $this->startDate,
             $this->endDate
         );

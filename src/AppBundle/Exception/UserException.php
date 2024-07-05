@@ -9,18 +9,17 @@ use Symfony\Component\HttpKernel\Exception\HttpException;
  */
 class UserException extends HttpException
 {
-
-    public function __construct($code, $message=null)
+    public function __construct($code, $message = null)
     {
-        //BW compatible...
-        if($message==null){
+        // BW compatible...
+        if (null == $message) {
             $message = $code;
             $code = 500;
         }
-        if(!is_int($code)) {
+        if (!is_int($code)) {
             $code = 500;
-            $message .= " Errorcode is not int: ".$code;
+            $message .= ' Errorcode is not int: '.$code;
         }
-        parent::__construct($code,$message);
+        parent::__construct($code, $message);
     }
 }

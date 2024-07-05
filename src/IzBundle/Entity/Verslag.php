@@ -6,20 +6,25 @@ use AppBundle\Entity\Medewerker;
 use AppBundle\Model\IdentifiableTrait;
 use AppBundle\Model\TimestampableTrait;
 use Doctrine\ORM\Mapping as ORM;
-use ErOpUitBundle\Form\KlantCloseType;
 use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Entity
+ *
  * @ORM\Table(name="iz_verslagen")
+ *
  * @ORM\HasLifecycleCallbacks
+ *
  * @ORM\InheritanceType("SINGLE_TABLE")
+ *
  * @ORM\DiscriminatorColumn(name="discr", type="string", length=15)
+ *
  * @ORM\DiscriminatorMap({
  *     "verslag" = "Verslag",
  *     "tussenevaluatie" = "Tussenevaluatie",
  *     "eindevaluatie" = "Eindevaluatie"
  * })
+ *
  * @Gedmo\Loggable
  */
 class Verslag
@@ -29,30 +34,40 @@ class Verslag
 
     /**
      * @ORM\Column(type="text", nullable=true)
+     *
      * @Gedmo\Versioned
      */
     protected $opmerking;
 
     /**
      * @var IzDeelnemer
+     *
      * @ORM\ManyToOne(targetEntity="IzDeelnemer", inversedBy="verslagen")
+     *
      * @ORM\JoinColumn(name="iz_deelnemer_id", nullable=false)
+     *
      * @Gedmo\Versioned
      */
     protected $izDeelnemer;
 
     /**
      * @var Hulp
+     *
      * @ORM\ManyToOne(targetEntity="Hulp", inversedBy="verslagen")
+     *
      * @ORM\JoinColumn(name="iz_koppeling_id")
+     *
      * @Gedmo\Versioned
      */
     protected $koppeling;
 
     /**
      * @var Medewerker
+     *
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Medewerker")
+     *
      * @ORM\JoinColumn(nullable=false)
+     *
      * @Gedmo\Versioned
      */
     protected $medewerker;
@@ -61,6 +76,7 @@ class Verslag
      * @var \DateTime
      *
      * @ORM\Column(type="datetime", nullable=true)
+     *
      * @Gedmo\Versioned
      */
     protected $created;
@@ -69,6 +85,7 @@ class Verslag
      * @var \DateTime
      *
      * @ORM\Column(type="datetime", nullable=true)
+     *
      * @Gedmo\Versioned
      */
     protected $modified;

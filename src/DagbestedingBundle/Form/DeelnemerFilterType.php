@@ -8,17 +8,12 @@ use AppBundle\Form\KlantFilterType;
 use DagbestedingBundle\Filter\DeelnemerFilter;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Validator\Constraints\Choice;
 
 class DeelnemerFilterType extends AbstractType
 {
-    /**
-     * {@inheritdoc}
-     */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         if (array_key_exists('klant', $options['enabled_filters'])) {
@@ -49,7 +44,7 @@ class DeelnemerFilterType extends AbstractType
         if (in_array('actief', $options['enabled_filters'])) {
             $builder->add('actief', CheckboxType::class, [
                 'required' => false,
-                'label'=>'Alleen actieve deelnemers tonen',
+                'label' => 'Alleen actieve deelnemers tonen',
             ]);
         }
 
@@ -66,22 +61,16 @@ class DeelnemerFilterType extends AbstractType
         ;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getParent(): ?string
     {
         return FilterType::class;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
             'data_class' => DeelnemerFilter::class,
-            'data'=> new DeelnemerFilter(),
+            'data' => new DeelnemerFilter(),
             'enabled_filters' => [
                 'klant' => ['id', 'naam', 'stadsdeel'],
                 'medewerker',

@@ -3,40 +3,26 @@
 namespace MwBundle\Controller;
 
 use AppBundle\Controller\AbstractController;
-use AppBundle\Exception\AppException;
-use AppBundle\Exception\UserException;
-use AppBundle\Export\ExportInterface;
-use Doctrine\ORM\EntityNotFoundException;
 use InloopBundle\Entity\Intake;
-use Knp\Component\Pager\Pagination\SlidingPagination;
-use MwBundle\Exception\MwException;
-use MwBundle\Form\WachtlijstFilterType;
 use InloopBundle\Form\IntakeType;
-use InloopBundle\Form\ToegangType;
-use InloopBundle\Pdf\PdfIntake;
-use InloopBundle\Security\Permissions;
-use InloopBundle\Service\IntakeDaoInterface;
+use MwBundle\Form\WachtlijstFilterType;
 use MwBundle\Service\WachtlijstDaoInterface;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
-use Symfony\Component\HttpFoundation\Cookie;
-use Symfony\Component\HttpFoundation\Session\Flash\FlashBag;
-use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
-use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Symfony\Component\HttpFoundation\Cookie;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
-use TwBundle\Exception\TwException;
+use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * @Route("/wachtlijst")
+ *
  * @Template
  */
 class WachtlijstController extends AbstractController
 {
     protected $title = 'Wachtlijst (intakes / verslag)';
-//    protected $entityName = 'intake';
-//    protected $entityClass = Intake::class;
-//    protected $formClass = IntakeType::class;
+    //    protected $entityName = 'intake';
+    //    protected $entityClass = Intake::class;
+    //    protected $formClass = IntakeType::class;
     protected $filterFormClass = WachtlijstFilterType::class;
     protected $baseRouteName = 'mw_wachtlijst_';
 
@@ -60,18 +46,17 @@ class WachtlijstController extends AbstractController
 
     /**
      * @Route("/")
+     *
      * @Template
      */
     public function indexAction(Request $request)
     {
-        $ret =  parent::indexAction($request);
-        if(!$request->get('wachtlijst_filter'))
-        {
-            $this->addFlash("warning","De onderstaande lijst is die op basis van Intakes (T6). Als je een STED wachtlijst selecteert worden deze pas in de lijst geladen. (Omdat de wachtlijsten en combinatie zijn van inloop intakes of mw verslagen).");
+        $ret = parent::indexAction($request);
+        if (!$request->get('wachtlijst_filter')) {
+            $this->addFlash('warning', 'De onderstaande lijst is die op basis van Intakes (T6). Als je een STED wachtlijst selecteert worden deze pas in de lijst geladen. (Omdat de wachtlijsten en combinatie zijn van inloop intakes of mw verslagen).');
         }
+
         // later cookie toevoegen om filter te onthouden
         return $ret;
-
     }
-
 }

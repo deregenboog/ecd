@@ -38,6 +38,7 @@ class FixEersteIntakeCommand extends \Symfony\Component\Console\Command\Command
         $n = $this->conn->exec($sql);
 
         $output->writeln(sprintf('%d rows affected', $n));
+
         return 0;
     }
 }

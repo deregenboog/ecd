@@ -10,11 +10,17 @@ use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Entity()
+ *
  * @ORM\Table(name="tw_superverslagen")
+ *
  * @ORM\HasLifecycleCallbacks
+ *
  * @ORM\InheritanceType("SINGLE_TABLE")
+ *
  * @ORM\DiscriminatorColumn(name="class", type="string",length=12)
+ *
  * @ORM\DiscriminatorMap({"superverslag" = "SuperVerslag", "verslag" = "Verslag", "financieel" = "FinancieelVerslag"})
+ *
  * @Gedmo\Loggable()
  */
 abstract class SuperVerslag
@@ -24,14 +30,16 @@ abstract class SuperVerslag
 
     /**
      * @ORM\Id
+     *
      * @ORM\Column(type="integer")
+     *
      * @ORM\GeneratedValue
      */
     private $id;
 
-
     /**
-     * @var ArrayCollection | Klant[]
+     * @var ArrayCollection|Klant[]
+     *
      * @ORM\ManyToMany(targetEntity="TwBundle\Entity\Klant", mappedBy="verslagen")
      */
     private $klant;
@@ -40,18 +48,21 @@ abstract class SuperVerslag
      * @var \DateTime
      *
      * @ORM\Column(type="datetime")
+     *
      * @Gedmo\Versioned
      */
     private $datum;
 
     /**
      * @ORM\Column(type="text", nullable=true)
+     *
      * @Gedmo\Versioned
      */
     private $opmerking;
 
     /**
-     * @var boolean
+     * @var bool
+     *
      * @ORM\Column(type="boolean", options={"default":0})
      */
     private $delenMw = false;
@@ -60,6 +71,7 @@ abstract class SuperVerslag
      * @var \DateTime
      *
      * @ORM\Column(type="datetime")
+     *
      * @Gedmo\Versioned
      */
     protected $created;
@@ -68,6 +80,7 @@ abstract class SuperVerslag
      * @var \DateTime
      *
      * @ORM\Column(type="datetime")
+     *
      * @Gedmo\Versioned
      */
     protected $modified;
@@ -75,8 +88,7 @@ abstract class SuperVerslag
     public function __construct(?Klant $klant = null)
     {
         $this->klant = new ArrayCollection();
-        if(null !== $klant)
-        {
+        if (null !== $klant) {
             $this->klant->add($klant);
         }
         $this->datum = new \DateTime();
@@ -125,5 +137,4 @@ abstract class SuperVerslag
     {
         return $this->klant->first();
     }
-
 }

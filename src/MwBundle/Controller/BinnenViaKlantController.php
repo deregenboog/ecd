@@ -5,8 +5,6 @@ namespace MwBundle\Controller;
 use AppBundle\Controller\AbstractController;
 use MwBundle\Entity\BinnenViaOptieKlant;
 use MwBundle\Form\BinnenViaOptieKlantType;
-use MwBundle\Form\BinnenViaType;
-use MwBundle\Service\BinnenViaKlantDaoInterface;
 use MwBundle\Service\BinnenViaDaoInterface;
 use Symfony\Component\Routing\Annotation\Route;
 

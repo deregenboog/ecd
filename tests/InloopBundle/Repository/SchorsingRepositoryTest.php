@@ -4,11 +4,7 @@ namespace Tests\InloopBundle\Repository;
 
 use AppBundle\Entity\Geslacht;
 use AppBundle\Form\Model\AppDateRangeModel;
-use Doctrine\ORM\EntityManager;
-use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Mapping\ClassMetadata;
-use Doctrine\ORM\QueryBuilder;
-use InloopBundle\Entity\DossierStatus;
 use InloopBundle\Entity\Locatie;
 use InloopBundle\Entity\Schorsing;
 use InloopBundle\Repository\SchorsingRepository;

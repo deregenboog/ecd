@@ -10,8 +10,11 @@ use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Entity(repositoryClass="IzBundle\Repository\ProjectRepository")
+ *
  * @ORM\Table(name="iz_projecten")
+ *
  * @Gedmo\Loggable
+ *
  * @ORM\HasLifecycleCallbacks()
  */
 class Project
@@ -25,30 +28,35 @@ class Project
 
     /**
      * @ORM\Column(type="string", nullable=true)
+     *
      * @Gedmo\Versioned
      */
     protected $naam;
 
     /**
      * @ORM\Column(type="date", nullable=true)
+     *
      * @Gedmo\Versioned
      */
     private $startdatum;
 
     /**
      * @ORM\Column(type="date", nullable=true)
+     *
      * @Gedmo\Versioned
      */
     private $einddatum;
 
     /**
      * @ORM\Column(name="heeft_koppelingen", type="boolean", nullable=true)
+     *
      * @Gedmo\Versioned
      */
     private $heeftKoppelingen = true;
 
     /**
      * @ORM\Column(name="prestatie_strategy")
+     *
      * @Gedmo\Versioned
      */
     private $prestatieStrategy = self::STRATEGY_PRESTATIE_TOTAL;
@@ -82,7 +90,7 @@ class Project
         return $this->einddatum;
     }
 
-    public function setEinddatum(\DateTime $einddatum = null)
+    public function setEinddatum(?\DateTime $einddatum = null)
     {
         $this->einddatum = $einddatum;
 

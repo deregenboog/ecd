@@ -6,9 +6,8 @@ use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\AccessDecisionManagerInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 use TwBundle\Entity\Document;
-use TwBundle\Security\Permissions;
 
-class  DocumentVoter extends Voter
+class DocumentVoter extends Voter
 {
     private $decisionManager;
 

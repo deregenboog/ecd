@@ -9,12 +9,11 @@ use Knp\Component\Pager\Pagination\PaginationInterface;
 interface HulpvraagDaoInterface
 {
     /**
-     * @param int             $page
-     * @param FilterInterface $filter
+     * @param int $page
      *
      * @return PaginationInterface
      */
-    public function findAll($page = null, FilterInterface $filter = null);
+    public function findAll($page = null, ?FilterInterface $filter = null);
 
     /**
      * @param int $id
@@ -23,18 +22,9 @@ interface HulpvraagDaoInterface
      */
     public function find($id);
 
-    /**
-     * @param Hulpvraag $entity
-     */
     public function create(Hulpvraag $entity);
 
-    /**
-     * @param Hulpvraag $entity
-     */
     public function update(Hulpvraag $entity);
 
-    /**
-     * @param Hulpvraag $entity
-     */
     public function delete(Hulpvraag $entity);
 }

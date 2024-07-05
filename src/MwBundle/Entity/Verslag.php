@@ -6,7 +6,6 @@ use AppBundle\Entity\Klant;
 use AppBundle\Entity\Medewerker;
 use AppBundle\Model\IdentifiableTrait;
 use AppBundle\Model\TimestampableTrait;
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use InloopBundle\Entity\Locatie;
@@ -15,9 +14,11 @@ use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
 /**
  * @ORM\Entity(repositoryClass="MwBundle\Repository\VerslagRepository")
+ *
  * @ORM\Table(
  *     name="verslagen",
  *     indexes={
+ *
  *         @ORM\Index(name="id", columns={"id", "klant_id", "created"}),
  *         @ORM\Index(name="klant_id", columns={"klant_id", "verslagType"}),
  *         @ORM\Index(name="klant_id_med_id", columns={"klant_id", "medewerker_id", "verslagType"}),
@@ -26,14 +27,15 @@ use Symfony\Component\Validator\Context\ExecutionContextInterface;
  *          @ORM\Index(name="idx_verslagtype_medewerker", columns={"verslagType","medewerker_id"}),
  *     }
  * )
+ *
  * @ORM\HasLifecycleCallbacks
+ *
  * @Gedmo\Loggable
  */
 class Verslag
 {
     use IdentifiableTrait;
     use TimestampableTrait;
-
 
     public const TYPE_MW = 1;
     public const TYPE_INLOOP = 2;
@@ -42,24 +44,25 @@ class Verslag
     public const ACCESS_ALL = 2;
 
     public static $accessTypes = [
-        self::ACCESS_MW => "Leesbaar alleen binnen MW",
-        self::ACCESS_ALL => "Leesbaar voor inloop en MW",
+        self::ACCESS_MW => 'Leesbaar alleen binnen MW',
+        self::ACCESS_ALL => 'Leesbaar voor inloop en MW',
     ];
 
     protected static $types = [
-        self::TYPE_MW => "Maatschappelijk werk-verslag",
-        self::TYPE_INLOOP => "Inloopverslag",
+        self::TYPE_MW => 'Maatschappelijk werk-verslag',
+        self::TYPE_INLOOP => 'Inloopverslag',
     ];
 
     /**
      * @ORM\Column(type="date", nullable=true)
-     * @Gedmo\Versioned
      *
+     * @Gedmo\Versioned
      */
     private $datum;
 
     /**
      * @ORM\Column(type="text", length=65535, nullable=true)
+     *
      * @Gedmo\Versioned
      */
     private $opmerking;
@@ -68,53 +71,60 @@ class Verslag
      * @var Klant
      *
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Klant", inversedBy="verslagen")
+     *
      * @Gedmo\Versioned
      */
     private $klant;
 
     /**
      * @ORM\ManyToOne(targetEntity="InloopBundle\Entity\Locatie")
+     *
      * @Gedmo\Versioned
      */
     private $locatie;
 
     /**
      * @ORM\Column(name="medewerker", type="string", nullable=true)
+     *
      * @Gedmo\Versioned
      */
     private $naamMedewerker;
 
     /**
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Medewerker")
+     *
      * @Gedmo\Versioned
      */
     private $medewerker;
 
-
     /**
-     * @var integer
+     * @var int
+     *
      * @ORM\Column(type="integer", nullable=false)
      */
     private $aantalContactmomenten = 1;
-
 
     /**
      * @var int
      *
      * @ORM\Column(name="verslagType", type="integer", options={"default":1})
+     *
      * @Gedmo\Versioned
      */
     private $type = self::TYPE_MW;
 
     /**
      * @var int
+     *
      * @ORM\Column(name="accessType", type="integer", options={"default":1})
+     *
      * @Gedmo\Versioned
      */
     private $access;
 
     /**
      * @var bool
+     *
      * @ORM\Column(type="boolean",options={"default":0})
      */
     private $delenTw = false;
@@ -123,6 +133,7 @@ class Verslag
      * @var \DateTime
      *
      * @ORM\Column(type="datetime", nullable=true)
+     *
      * @Gedmo\Versioned
      */
     protected $created;
@@ -131,6 +142,7 @@ class Verslag
      * @var \DateTime
      *
      * @ORM\Column(type="datetime", nullable=true)
+     *
      * @Gedmo\Versioned
      */
     protected $modified;
@@ -151,9 +163,6 @@ class Verslag
         return $this->datum;
     }
 
-    /**
-     * @param \DateTime $datum
-     */
     public function setDatum(\DateTime $datum)
     {
         $this->datum = $datum;
@@ -187,9 +196,6 @@ class Verslag
         return $this->klant;
     }
 
-    /**
-     * @param Klant $klant
-     */
     public function setKlant(Klant $klant)
     {
         $this->klant = $klant;
@@ -205,9 +211,6 @@ class Verslag
         return $this->locatie;
     }
 
-    /**
-     * @param Locatie $locatie
-     */
     public function setLocatie(Locatie $locatie)
     {
         $this->locatie = $locatie;
@@ -223,9 +226,6 @@ class Verslag
         return $this->medewerker;
     }
 
-    /**
-     * @param Medewerker $medewerker
-     */
     public function setMedewerker(Medewerker $medewerker)
     {
         $this->medewerker = $medewerker;
@@ -233,11 +233,6 @@ class Verslag
         return $this;
     }
 
-
-
-    /**
-     * @return int
-     */
     public function getType(): int
     {
         return $this->type;
@@ -248,45 +243,30 @@ class Verslag
         return self::$types[$this->getType()];
     }
 
-    /**
-     * @param int $type
-     */
     public function setType(int $type): void
     {
         if (!in_array($type, array_flip(self::$types))) {
-            throw new \InvalidArgumentException("Verslagtype kan alleen van types zijn zoals vermeld.");
+            throw new \InvalidArgumentException('Verslagtype kan alleen van types zijn zoals vermeld.');
         }
         $this->type = $type;
     }
 
-    /**
-     * @return int
-     */
     public function getAccess(): int
     {
         return $this->access;
     }
 
-    /**
-     * @param int $access
-     */
     public function setAccess(int $access): void
     {
-//        if(is_null($access)) $access = self::$accessTypes[self::ACCESS_INLOOP];
+        //        if(is_null($access)) $access = self::$accessTypes[self::ACCESS_INLOOP];
         $this->access = $access;
     }
 
-    /**
-     * @return int
-     */
     public function getAantalContactmomenten(): int
     {
         return $this->aantalContactmomenten;
     }
 
-    /**
-     * @param int $aantalContactmomenten
-     */
     public function setAantalContactmomenten(int $aantalContactmomenten): void
     {
         $this->aantalContactmomenten = $aantalContactmomenten;
@@ -302,23 +282,18 @@ class Verslag
         $this->delenTw = $delenTw;
     }
 
-
-
     /**
-     * @param ExecutionContextInterface $context
-     * @param $payload
      * @return void
+     *
      * @Assert\Callback()
      */
     public function validate(ExecutionContextInterface $context, $payload)
     {
-        //Kijk of, wanneer het dossier gesloten is, de datum niet na de afgesloten datum ligt.
-        if(!$this->getKlant()->getHuidigeMwStatus() instanceof Aanmelding && $this->datum > $this->getKlant()->getHuidigeMwStatus()->getDatum()) {
-
-            $context->buildViolation('De datum van dit verslag mag niet groter zijn dan de datum waarop het dossier is afgesloten. ('.$this->getKlant()->getHuidigeMwStatus()->getDatum()->format("d-m-Y").")")
+        // Kijk of, wanneer het dossier gesloten is, de datum niet na de afgesloten datum ligt.
+        if (!$this->getKlant()->getHuidigeMwStatus() instanceof Aanmelding && $this->datum > $this->getKlant()->getHuidigeMwStatus()->getDatum()) {
+            $context->buildViolation('De datum van dit verslag mag niet groter zijn dan de datum waarop het dossier is afgesloten. ('.$this->getKlant()->getHuidigeMwStatus()->getDatum()->format('d-m-Y').')')
                 ->atPath('datum')
                 ->addViolation();
         }
     }
-
 }

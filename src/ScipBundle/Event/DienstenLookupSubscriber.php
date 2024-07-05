@@ -4,9 +4,7 @@ namespace ScipBundle\Event;
 
 use AppBundle\Event\DienstenLookupEvent;
 use AppBundle\Event\Events;
-use AppBundle\Model\Dienst;
 use Doctrine\ORM\EntityManagerInterface;
-use ScipBundle\Entity\Deelnemer;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
@@ -37,7 +35,6 @@ class DienstenLookupSubscriber implements EventSubscriberInterface
 
     public function provideDienstenInfo(DienstenLookupEvent $event)
     {
-        return; //scip is er al lang uit.
-
+        return; // scip is er al lang uit.
     }
 }

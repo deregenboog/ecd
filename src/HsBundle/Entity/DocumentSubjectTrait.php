@@ -10,6 +10,7 @@ trait DocumentSubjectTrait
      * @var Document[]
      *
      * @ORM\ManyToMany(targetEntity="Document", cascade={"persist"})
+     *
      * @ORM\JoinTable(inverseJoinColumns={@ORM\JoinColumn(unique=true)})
      */
     protected $documenten;
@@ -23,8 +24,6 @@ trait DocumentSubjectTrait
     }
 
     /**
-     * @param Document $document
-     *
      * @return self
      */
     public function addDocument(Document $document)
@@ -35,8 +34,6 @@ trait DocumentSubjectTrait
     }
 
     /**
-     * @param Document $document
-     *
      * @return self
      */
     public function removeDocument(Document $document)

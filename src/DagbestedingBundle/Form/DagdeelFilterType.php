@@ -18,9 +18,6 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class DagdeelFilterType extends AbstractType
 {
-    /**
-     * {@inheritdoc}
-     */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         if (array_key_exists('klant', $options['enabled_filters'])) {
@@ -29,11 +26,11 @@ class DagdeelFilterType extends AbstractType
             ]);
         }
 
-//         if (array_key_exists('traject', $options['enabled_filters'])) {
-//             $builder->add('traject', KlantFilterType::class, [
-//                 'enabled_filters' => $options['enabled_filters']['klant'],
-//             ]);
-//         }
+        //         if (array_key_exists('traject', $options['enabled_filters'])) {
+        //             $builder->add('traject', KlantFilterType::class, [
+        //                 'enabled_filters' => $options['enabled_filters']['klant'],
+        //             ]);
+        //         }
 
         if (in_array('project', $options['enabled_filters'])) {
             $builder->add('project', BaseSelectType::class, [
@@ -66,17 +63,11 @@ class DagdeelFilterType extends AbstractType
         ;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getParent(): ?string
     {
         return FilterType::class;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([

@@ -9,7 +9,6 @@ use Doctrine\ORM\EntityRepository;
 use OekraineBundle\Entity\Afsluiting;
 use OekraineBundle\Entity\RedenAfsluiting;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormError;
@@ -19,9 +18,6 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class AfsluitingType extends AbstractType
 {
-    /**
-     * {@inheritdoc}
-     */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
@@ -57,9 +53,6 @@ class AfsluitingType extends AbstractType
         });
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
@@ -68,9 +61,6 @@ class AfsluitingType extends AbstractType
         ]);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getParent(): ?string
     {
         return BaseType::class;

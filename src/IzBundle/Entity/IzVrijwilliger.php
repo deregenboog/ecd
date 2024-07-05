@@ -12,27 +12,34 @@ use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Entity(repositoryClass="IzBundle\Repository\IzVrijwilligerRepository")
+ *
  * @Gedmo\Loggable
  */
 class IzVrijwilliger extends IzDeelnemer
 {
     /**
      * @var Vrijwilliger
+     *
      * @ORM\OneToOne(targetEntity="AppBundle\Entity\Vrijwilliger", cascade={"persist"})
+     *
      * @ORM\JoinColumn(name="foreign_key")
+     *
      * @Gedmo\Versioned
      */
     protected $vrijwilliger;
 
     /**
      * @var ArrayCollection|Hulpaanbod[]
+     *
      * @ORM\OneToMany(targetEntity="Hulpaanbod", mappedBy="izVrijwilliger", cascade={"persist"})
+     *
      * @ORM\OrderBy({"startdatum" = "DESC", "koppelingStartdatum" = "DESC"})
      */
     private $hulpaanbiedingen;
 
     /**
      * @var ArrayCollection|Lidmaatschap[]
+     *
      * @ORM\OneToMany(targetEntity="Lidmaatschap", mappedBy="vrijwilliger", cascade={"persist"},fetch="EXTRA_LAZY")
      */
     private $lidmaatschappen;
@@ -41,12 +48,14 @@ class IzVrijwilliger extends IzDeelnemer
      * @var BinnengekomenVia
      *
      * @ORM\ManyToOne(targetEntity="BinnengekomenVia",fetch="EXTRA_LAZY")
+     *
      * @ORM\JoinColumn(name="binnengekomen_via")
+     *
      * @Gedmo\Versioned
      */
     protected $binnengekomenVia;
 
-    public function __construct(Vrijwilliger $vrijwilliger = null)
+    public function __construct(?Vrijwilliger $vrijwilliger = null)
     {
         $this->vrijwilliger = $vrijwilliger;
         $this->datumAanmelding = new \DateTime('today');
@@ -171,7 +180,7 @@ class IzVrijwilliger extends IzDeelnemer
         return $this->binnengekomenVia;
     }
 
-    public function setBinnengekomenVia(BinnengekomenVia $binnengekomenVia = null)
+    public function setBinnengekomenVia(?BinnengekomenVia $binnengekomenVia = null)
     {
         $this->binnengekomenVia = $binnengekomenVia;
 
@@ -190,6 +199,7 @@ class IzVrijwilliger extends IzDeelnemer
         usort($intervisiegroepen, function (Intervisiegroep $a, Intervisiegroep $b) {
             $naamA = $a->getNaam();
             $naamB = $b->getNaam();
+
             return $naamB <=> $naamA;
         });
 
@@ -216,7 +226,7 @@ class IzVrijwilliger extends IzDeelnemer
 
     public function isCloseable()
     {
-        return !$this->isAfgesloten() &&
-            0 === (is_array($this->getOpenHulpaanbiedingen()) || $this->getOpenHulpaanbiedingen() instanceof \Countable ? count($this->getOpenHulpaanbiedingen()) : 0) + (is_array($this->getActieveKoppelingen()) || $this->getActieveKoppelingen() instanceof \Countable ? count($this->getActieveKoppelingen()) : 0);
+        return !$this->isAfgesloten()
+            && 0 === (is_array($this->getOpenHulpaanbiedingen()) || $this->getOpenHulpaanbiedingen() instanceof \Countable ? count($this->getOpenHulpaanbiedingen()) : 0) + (is_array($this->getActieveKoppelingen()) || $this->getActieveKoppelingen() instanceof \Countable ? count($this->getActieveKoppelingen()) : 0);
     }
 }

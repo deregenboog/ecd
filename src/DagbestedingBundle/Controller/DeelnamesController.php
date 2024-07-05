@@ -4,10 +4,9 @@ namespace DagbestedingBundle\Controller;
 
 use AppBundle\Controller\AbstractChildController;
 use AppBundle\Export\ExportInterface;
-use DagbestedingBundle\Entity\Traject;
 use DagbestedingBundle\Entity\Deelname;
-use DagbestedingBundle\Entity\Deelnemer;
 use DagbestedingBundle\Entity\Project;
+use DagbestedingBundle\Entity\Traject;
 use DagbestedingBundle\Form\DeelnameType;
 use DagbestedingBundle\Service\DeelnameDaoInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
@@ -16,6 +15,7 @@ use Vich\UploaderBundle\Handler\DownloadHandler;
 
 /**
  * @Route("/deelnames")
+ *
  * @Template
  */
 class DeelnamesController extends AbstractChildController

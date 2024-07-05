@@ -3,10 +3,7 @@
 namespace OekBundle\Repository;
 
 use Doctrine\ORM\EntityRepository;
-use OekBundle\Entity\Aanmelding;
-use OekBundle\Entity\Afsluiting;
 use OekBundle\Entity\DeelnameStatus;
-use OekBundle\Report\AbstractDeelnemersVerwezen;
 
 class DeelnameRepository extends EntityRepository
 {
@@ -19,11 +16,11 @@ class DeelnameRepository extends EntityRepository
         ;
     }
 
-    public function getAantalDeelnamesPerStadsdeel($startdatum,$eindddatum)
+    public function getAantalDeelnamesPerStadsdeel($startdatum, $eindddatum)
     {
         $builder = $this->getCountBuilder()
-            ->innerjoin('deelnemer.klant','appKlant')
-            ->innerJoin("appKlant.werkgebied",'werkgebied')
+            ->innerjoin('deelnemer.klant', 'appKlant')
+            ->innerJoin('appKlant.werkgebied', 'werkgebied')
             ->addSelect('werkgebied.naam AS stadsdeel')
             ->innerJoin('deelname.deelnameStatussen', 'deelnameStatus')
             ->innerJoin('deelname.training', 'training')
@@ -37,11 +34,13 @@ class DeelnameRepository extends EntityRepository
 
             ->groupBy('werkgebied.naam')
         ;
+
         return $builder->getQuery()->getResult();
     }
+
     private function getStadsdelen()
     {
-        $builder =  $this->createQueryBuilder('training')
+        $builder = $this->createQueryBuilder('training')
             ->select('werkgebied.naam AS werkgebiednaam')
             ->innerJoin('training.deelnames', 'deelname')
             ->innerJoin('deelname.deelnemer', 'klant')
@@ -49,8 +48,8 @@ class DeelnameRepository extends EntityRepository
             ->leftJoin('appKlant.werkgebied', 'werkgebied')
             ->groupBy('werkgebiednaam');
 
-//        $sql = $builder->getQuery()->getSQL();
-//        $parameters = $builder->getQuery()->getParameters();
+        //        $sql = $builder->getQuery()->getSQL();
+        //        $parameters = $builder->getQuery()->getParameters();
         return $builder->getQuery()->getResult();
     }
 }

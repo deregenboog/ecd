@@ -6,8 +6,8 @@ use AppBundle\Controller\AbstractController;
 use MwBundle\Entity\Project;
 use MwBundle\Form\ProjectType;
 use MwBundle\Service\ProjectDaoInterface;
-use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * @Route("/admin/projecten")

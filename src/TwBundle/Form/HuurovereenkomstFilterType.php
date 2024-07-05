@@ -7,8 +7,6 @@ use AppBundle\Form\AppDateRangeType;
 use AppBundle\Form\FilterType;
 use AppBundle\Form\KlantFilterType;
 use Doctrine\ORM\EntityRepository;
-use TwBundle\Entity\Huurovereenkomst;
-use TwBundle\Filter\HuurovereenkomstFilter;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
@@ -16,12 +14,11 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use TwBundle\Entity\Huurovereenkomst;
+use TwBundle\Filter\HuurovereenkomstFilter;
 
 class HuurovereenkomstFilterType extends AbstractType
 {
-    /**
-     * {@inheritdoc}
-     */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         if (in_array('id', $options['enabled_filters'])) {
@@ -90,14 +87,13 @@ class HuurovereenkomstFilterType extends AbstractType
         }
 
         if (in_array('actief', $options['enabled_filters'])) {
-
-            $builder->add('actief', ChoiceType::class,[
+            $builder->add('actief', ChoiceType::class, [
                 'choices' => [
                     'Lopende koppelingen' => 'lopend',
                     'Afgesloten koppelingen' => 'afgesloten',
-                    'Alle koppelingen' => 'all'
+                    'Alle koppelingen' => 'all',
                   ],
-                'data'=>true,
+                'data' => true,
             ]);
         }
         if (in_array('opzegbriefVerstuurd', $options['enabled_filters'])) {
@@ -109,22 +105,21 @@ class HuurovereenkomstFilterType extends AbstractType
         }
         if (in_array('isReservering', $options['enabled_filters'])) {
             $isReservering = false;
-           if($options['data'] && is_null($options['data']->isReservering) && is_array($options['empty_data'])) {
-               if(isset($options['empty_data']['isReservering'])) $isReservering = $options['empty_data']['isReservering'];
-           }
-
+            if ($options['data'] && is_null($options['data']->isReservering) && is_array($options['empty_data'])) {
+                if (isset($options['empty_data']['isReservering'])) {
+                    $isReservering = $options['empty_data']['isReservering'];
+                }
+            }
 
             $builder->add('isReservering', CheckboxType::class, [
                 'required' => false,
                 'label' => 'Reserveringen',
                 'data' => $isReservering,
-
             ]);
         }
 
         if (array_key_exists('klant', $options['enabled_filters'])
-            && in_array('aanmelddatum', $options['enabled_filters']['klant']))
-        {
+            && in_array('aanmelddatum', $options['enabled_filters']['klant'])) {
             $builder->add('aanmelddatum', AppDateRangeType::class, [
                 'required' => false,
             ]);
@@ -143,17 +138,11 @@ class HuurovereenkomstFilterType extends AbstractType
         ;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getParent(): ?string
     {
         return FilterType::class;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([

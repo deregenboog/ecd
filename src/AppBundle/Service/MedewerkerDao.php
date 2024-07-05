@@ -26,19 +26,17 @@ class MedewerkerDao extends AbstractDao implements MedewerkerDaoInterface
      */
     public function find($id)
     {
-
         return $this->repository->find($id);
     }
 
     /**
-     * @param string $username
-     *
      * @return Medewerker
      */
     public function findByUsername(string $username)
     {
-            return $this->repository->findOneBy(['username' => $username]);
+        return $this->repository->findOneBy(['username' => $username]);
     }
+
     /**
      * @param Medewerker $entity
      */

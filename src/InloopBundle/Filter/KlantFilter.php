@@ -6,7 +6,6 @@ use AppBundle\Filter\FilterInterface;
 use AppBundle\Filter\KlantFilter as AppKlantFilter;
 use AppBundle\Form\Model\AppDateRangeModel;
 use Doctrine\ORM\QueryBuilder;
-use InloopBundle\Entity\Aanmelding;
 use InloopBundle\Entity\Locatie;
 use InloopBundle\Entity\Toegang;
 
@@ -108,13 +107,12 @@ class KlantFilter implements FilterInterface
 
         if (true === $this->nuBinnen) {
             $builder->join('klant.laatsteRegistratie', 'laatsteRegistratie', 'WITH', 'laatsteRegistratie.closed = false');
-
         } elseif (false === $this->nuBinnen) {
             $builder
                 ->leftJoin('klant.laatsteRegistratie', 'laatsteRegistratie', 'WITH', 'laatsteRegistratie.closed = false  AND laatsteRegistratie.locatie = :locatie')
                 ->andWhere('laatsteRegistratie IS NULL')
             ;
-            $builder->setParameter("locatie",$this->locatie);
+            $builder->setParameter('locatie', $this->locatie);
         }
 
         if ($this->klant) {

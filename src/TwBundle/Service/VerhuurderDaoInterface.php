@@ -13,7 +13,7 @@ interface VerhuurderDaoInterface
      *
      * @return PaginationInterface
      */
-    public function findAll($page = null, FilterInterface $filter = null);
+    public function findAll($page = null, ?FilterInterface $filter = null);
 
     /**
      * @param int $id
@@ -22,19 +22,10 @@ interface VerhuurderDaoInterface
      */
     public function find($id);
 
-    /**
-     * @param Verhuurder $entity
-     */
     public function create(Verhuurder $entity);
 
-    /**
-     * @param Verhuurder $entity
-     */
     public function update(Verhuurder $entity);
 
-    /**
-     * @param Verhuurder $entity
-     */
     public function delete(Verhuurder $entity);
 
     public function countAangemeld(\DateTime $startdate, \DateTime $enddate);

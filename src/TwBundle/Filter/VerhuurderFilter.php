@@ -2,7 +2,6 @@
 
 namespace TwBundle\Filter;
 
-use AppBundle\Doctrine\SqlExtractor;
 use AppBundle\Entity\Medewerker;
 use AppBundle\Filter\FilterInterface;
 use AppBundle\Filter\KlantFilter;
@@ -52,7 +51,7 @@ class VerhuurderFilter implements FilterInterface
     /**
      * @var Medewerker
      */
-    public $medewerker = null;
+    public $medewerker;
 
     /**
      * @var Project
@@ -119,8 +118,8 @@ class VerhuurderFilter implements FilterInterface
             if (true === $this->gekoppeld) {
                 $builder->andWhere('huurovereenkomst IS NOT NULL');
             } elseif (false === $this->gekoppeld) {
-                //probleem is dat er meerdere huurovereenkomsten zijn per huuraanbod, en dat we niet weten op welke hij joint.
-                //dit werkt dus niet. Dan maar programmatisch in VerhuurderDao!
+                // probleem is dat er meerdere huurovereenkomsten zijn per huuraanbod, en dat we niet weten op welke hij joint.
+                // dit werkt dus niet. Dan maar programmatisch in VerhuurderDao!
                 $builder->andWhere('huurovereenkomst IS NULL');
             }
         }
@@ -135,6 +134,5 @@ class VerhuurderFilter implements FilterInterface
         if ($this->appKlant) {
             $this->appKlant->applyTo($builder, 'appKlant');
         }
-
     }
 }

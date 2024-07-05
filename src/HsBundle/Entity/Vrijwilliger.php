@@ -15,8 +15,11 @@ use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
 /**
  * @ORM\Entity
+ *
  * @ORM\Table("hs_vrijwilligers")
+ *
  * @ORM\HasLifecycleCallbacks
+ *
  * @Gedmo\Loggable
  */
 class Vrijwilliger extends Arbeider implements MemoSubjectInterface, DocumentSubjectInterface
@@ -28,15 +31,20 @@ class Vrijwilliger extends Arbeider implements MemoSubjectInterface, DocumentSub
 
     /**
      * @var Vrijwilliger
+     *
      * @ORM\OneToOne(targetEntity="AppBundle\Entity\Vrijwilliger", cascade={"persist"})
+     *
      * @ORM\JoinColumn(nullable=false)
+     *
      * @Gedmo\Versioned
      */
     protected $vrijwilliger;
 
     /**
      * @var ArrayCollection|Klus[]
+     *
      * @ORM\ManyToMany(targetEntity="Klus", mappedBy="vrijwilligers")
+     *
      * @ORM\OrderBy({"startdatum": "desc"})
      */
     protected $klussen;
@@ -45,21 +53,23 @@ class Vrijwilliger extends Arbeider implements MemoSubjectInterface, DocumentSub
      * @var Document[]
      *
      * @ORM\ManyToMany(targetEntity="Document", cascade={"persist"})
+     *
      * @ORM\JoinTable(name="hs_vrijwilliger_document", inverseJoinColumns={@ORM\JoinColumn(unique=true)})
      */
     protected $documenten;
-
 
     /**
      * @var Memo[]
      *
      * @ORM\ManyToMany(targetEntity="Memo", cascade={"persist"})
+     *
      * @ORM\JoinTable(name="hs_vrijwilliger_memo", inverseJoinColumns={@ORM\JoinColumn(unique=true)})
+     *
      * @ORM\OrderBy({"datum": "desc", "id": "desc"})
      */
     protected $memos;
 
-    public function __construct(AppVrijwilliger $vrijwilliger = null)
+    public function __construct(?AppVrijwilliger $vrijwilliger = null)
     {
         if ($vrijwilliger) {
             $this->vrijwilliger = $vrijwilliger;
@@ -84,7 +94,7 @@ class Vrijwilliger extends Arbeider implements MemoSubjectInterface, DocumentSub
 
     public function getVrijwilliger()
     {
-        /**
+        /*
          * Because vrijwilliger can be disabled and this is implemented via an SQL filter. Doctrine just gets an empty object somehow so it seems.
          * Thus, all goes well until the point a field of vrijwilliger is called (in a template for example).
          * But then its too late to catch exceptions.
@@ -92,7 +102,7 @@ class Vrijwilliger extends Arbeider implements MemoSubjectInterface, DocumentSub
          */
         try {
             $this->vrijwilliger->getCreated();
-        } catch (\Doctrine\ORM\EntityNotFoundException $e) {
+        } catch (EntityNotFoundException $e) {
             return null;
         }
 
@@ -118,7 +128,7 @@ class Vrijwilliger extends Arbeider implements MemoSubjectInterface, DocumentSub
      */
     public function validate(ExecutionContextInterface $context, $payload)
     {
-        if ($this->actief === false && !$this->uitschrijving
+        if (false === $this->actief && !$this->uitschrijving
         ) {
             $context->buildViolation('Het is verplicht een uitschrijf datum in te vullen als iemand inactief is.')
                 ->atPath('uitschrijving')

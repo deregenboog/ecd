@@ -8,7 +8,9 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity
+ *
  * @ORM\HasLifecycleCallbacks
+ *
  * @Gedmo\Loggable
  */
 class Afsluiting extends DossierStatus
@@ -17,19 +19,23 @@ class Afsluiting extends DossierStatus
      * @var RedenAfsluiting
      *
      * @ORM\ManyToOne(targetEntity="RedenAfsluiting")
+     *
      * @Gedmo\Versioned
+     *
      * @Assert\NotNull
      */
     protected $reden;
 
     /**
      * @ORM\Column(type="text", nullable=true)
+     *
      * @Gedmo\Versioned
      */
     protected $toelichting;
 
     /**
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Land")
+     *
      * @Gedmo\Versioned
      */
     protected $land;

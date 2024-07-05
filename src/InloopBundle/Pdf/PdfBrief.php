@@ -18,10 +18,10 @@ class PdfBrief extends \TCPDF
         $this->SetSubject('Doorverwijsbrief AMOC');
 
         $this->AddPage();
-        $this->Image(('img/drg-logo-142px.jpg'), null, null, 40, 40,null,null,null,false,300,'R');
+        $this->Image('img/drg-logo-142px.jpg', null, null, 40, 40, null, null, null, false, 300, 'R');
         $this->writeHTMLCell(null, null, 15, 20, $this->spaceless($html));
         $this->AddPage();
-        $this->Image(('img/map_amoc_west.png'), null, null, 1137 , 1472,'PNG',null,null,false,300,'C',false,false,0,false,false,true);
+        $this->Image('img/map_amoc_west.png', null, null, 1137, 1472, 'PNG', null, null, false, 300, 'C', false, false, 0, false, false, true);
     }
 
     private function spaceless($html)

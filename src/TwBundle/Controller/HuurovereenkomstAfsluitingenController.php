@@ -2,13 +2,14 @@
 
 namespace TwBundle\Controller;
 
-use TwBundle\Entity\HuurovereenkomstAfsluiting;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\Routing\Annotation\Route;
+use TwBundle\Entity\HuurovereenkomstAfsluiting;
 use TwBundle\Service\HuurovereenkomstAfsluitingDaoInterface;
 
 /**
  * @Route("/admin/huurovereenkomstafsluitingen")
+ *
  * @Template
  */
 class HuurovereenkomstAfsluitingenController extends AfsluitingenController

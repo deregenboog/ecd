@@ -21,9 +21,6 @@ class DeelnameType extends AbstractType
     public const MODE_ADD = 'add';
     public const MODE_EDIT = 'edit';
 
-    /**
-     * {@inheritdoc}
-     */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         if (self::MODE_ADD === $options['mode']) {
@@ -50,7 +47,7 @@ class DeelnameType extends AbstractType
                 'label' => 'Training',
                 'placeholder' => 'Selecteer een training',
                 'class' => Training::class,
-                'query_builder' => function (EntityRepository $repository) use ($deelname) {
+                'query_builder' => function (EntityRepository $repository) {
                     return $repository->createQueryBuilder('training')
                         ->where('training.einddatum >= :now OR (training.einddatum IS NULL AND training.startdatum >= :now)')
                         ->setParameter('now', new \DateTime('today'))
@@ -74,7 +71,7 @@ class DeelnameType extends AbstractType
                     $builder = $repository->createQueryBuilder('deelnemer')
                         ->select('deelnemer, klant')
                         ->innerJoin('deelnemer.klant', 'klant')
-                        ->leftJoin('deelnemer.afsluiting','afsluiting')
+                        ->leftJoin('deelnemer.afsluiting', 'afsluiting')
                         ->where('afsluiting IS NULL')
                         ->orderBy('klant.achternaam')
                         ->addOrderBy('klant.voornaam')
@@ -100,16 +97,12 @@ class DeelnameType extends AbstractType
         $builder->add('status', ChoiceType::class, [
             'choices' => array_combine($statuses, $statuses),
         ])
-            ->add('doorverwezenNaar',null,[
-                'required'=>false
+            ->add('doorverwezenNaar', null, [
+                'required' => false,
             ])
         ;
-
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
@@ -118,9 +111,6 @@ class DeelnameType extends AbstractType
         ]);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getParent(): ?string
     {
         return BaseType::class;

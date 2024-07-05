@@ -2,18 +2,16 @@
 
 namespace DagbestedingBundle\Entity;
 
-use DagbestedingBundle\Entity\Verslag;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Entity
+ *
  * @Gedmo\Loggable
  */
 class Evaluatieverslag extends Verslag
 {
-
-
     public function __construct()
     {
         $this->opmerking = <<<EOF

@@ -25,7 +25,8 @@ class UpdateAccessCommand extends \Symfony\Component\Console\Command\Command
      * @var KlantDaoInterface
      */
     private $klantDao;
-    public function __construct(\InloopBundle\Service\AccessUpdater $accessUpdater, \InloopBundle\Service\LocatieDao $locatieDao, \InloopBundle\Service\KlantDao $klantDao)
+
+    public function __construct(AccessUpdater $accessUpdater, \InloopBundle\Service\LocatieDao $locatieDao, \InloopBundle\Service\KlantDao $klantDao)
     {
         $this->accessUpdater = $accessUpdater;
         parent::__construct();
@@ -78,6 +79,7 @@ class UpdateAccessCommand extends \Symfony\Component\Console\Command\Command
         $output->writeln('Updating access rules for all active locations...');
         $this->accessUpdater->updateAll();
         $output->writeln('Finished!');
+
         return 0;
     }
 }

@@ -4,16 +4,15 @@ namespace OekraineBundle\Event;
 
 class Events
 {
-    const CHECKOUT = 'checkout';
+    public const CHECKOUT = 'checkout';
 
-    const GEEN_ACTIVERING = 'geen_activering';
+    public const GEEN_ACTIVERING = 'geen_activering';
 
-    const INTAKE_CREATED = 'oekraine_intake_created';
+    public const INTAKE_CREATED = 'oekraine_intake_created';
 
-    const INTAKE_UPDATED = 'oekraine_intake_updated';
+    public const INTAKE_UPDATED = 'oekraine_intake_updated';
 
-    const DOSSIER_CHANGED = 'oekraine_dossier_changed';
+    public const DOSSIER_CHANGED = 'oekraine_dossier_changed';
 
-    const LOCATIE_CHANGED = 'oekraine_locatie_changed';
-
+    public const LOCATIE_CHANGED = 'oekraine_locatie_changed';
 }

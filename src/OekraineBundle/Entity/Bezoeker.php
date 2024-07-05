@@ -16,8 +16,11 @@ use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Entity
+ *
  * @ORM\Table(name="oekraine_bezoekers")
+ *
  * @ORM\HasLifecycleCallbacks
+ *
  * @Gedmo\Loggable
  */
 class Bezoeker implements DocumentSubjectInterface
@@ -31,7 +34,9 @@ class Bezoeker implements DocumentSubjectInterface
      * @var AppKlant
      *
      * @ORM\OneToOne(targetEntity="AppBundle\Entity\Klant", cascade={"persist"})
+     *
      * @ORM\JoinColumn(nullable=false)
+     *
      * @Gedmo\Versioned
      */
     private $appKlant;
@@ -40,6 +45,7 @@ class Bezoeker implements DocumentSubjectInterface
      * @var DossierStatus
      *
      * @ORM\OneToOne(targetEntity="DossierStatus", cascade={"persist"})
+     *
      * @Gedmo\Versioned
      */
     private $dossierStatus;
@@ -48,6 +54,7 @@ class Bezoeker implements DocumentSubjectInterface
      * @var DossierStatus[]
      *
      * @ORM\OneToMany(targetEntity="DossierStatus", mappedBy="bezoeker")
+     *
      * @ORM\OrderBy({"datum" = "DESC", "id" = "DESC"})
      */
     private $dossierStatussen;
@@ -56,6 +63,7 @@ class Bezoeker implements DocumentSubjectInterface
      * @var Intake
      *
      * @ORM\OneToOne(targetEntity="Intake", cascade={"persist"})
+     *
      * @Gedmo\Versioned
      */
     private $intake;
@@ -64,6 +72,7 @@ class Bezoeker implements DocumentSubjectInterface
      * @var Intake[]
      *
      * @ORM\OneToMany(targetEntity="Intake", mappedBy="bezoeker", fetch="EAGER")
+     *
      * @ORM\OrderBy({"intakedatum" = "DESC", "id" = "DESC"})
      */
     private $intakes;
@@ -72,6 +81,7 @@ class Bezoeker implements DocumentSubjectInterface
      * @var Registratie[]
      *
      * @ORM\OneToMany(targetEntity="Registratie", mappedBy="bezoeker")
+     *
      * @ORM\OrderBy({"binnen" = "DESC", "id" = "DESC"})
      */
     private $registraties;
@@ -80,6 +90,7 @@ class Bezoeker implements DocumentSubjectInterface
      * @var Verslag[]
      *
      * @ORM\OneToMany(targetEntity="Verslag", mappedBy="bezoeker", cascade={"persist"})
+     *
      * @ORM\OrderBy({"datum" = "DESC", "id" = "DESC"})
      */
     private $verslagen;
@@ -88,11 +99,12 @@ class Bezoeker implements DocumentSubjectInterface
      * @var Incident[]
      *
      * @ORM\OneToMany(targetEntity="Incident", mappedBy="bezoeker", cascade={"persist"})
+     *
      * @ORM\OrderBy({"datum" = "DESC", "id" = "DESC"})
      */
     private $incidenten;
 
-    public function __construct(AppKlant $klant = null)
+    public function __construct(?AppKlant $klant = null)
     {
         if ($klant) {
             $this->appKlant = $klant;
@@ -113,39 +125,27 @@ class Bezoeker implements DocumentSubjectInterface
         }
     }
 
-    /**
-     * @return AppKlant
-     */
     public function getAppKlant(): AppKlant
     {
         return $this->appKlant;
     }
 
-    /**
-     * @param AppKlant $appKlant
-     * @return Bezoeker
-     */
     public function setAppKlant(AppKlant $appKlant): Bezoeker
     {
         $this->appKlant = $appKlant;
+
         return $this;
     }
 
-    /**
-     * @return DossierStatus
-     */
     public function getDossierStatus(): ?DossierStatus
     {
         return $this->dossierStatus;
     }
 
-    /**
-     * @param DossierStatus $dossierStatus
-     * @return Bezoeker
-     */
     public function setDossierStatus(DossierStatus $dossierStatus): Bezoeker
     {
         $this->dossierStatus = $dossierStatus;
+
         return $this;
     }
 
@@ -163,31 +163,27 @@ class Bezoeker implements DocumentSubjectInterface
     {
         return $this->dossierStatussen;
     }
-    /**
-     * @return Intake
-     */
+
     public function getIntake(): ?Intake
     {
         return $this->intake;
     }
 
-    /**
-     * @param Intake $intake
-     * @return Bezoeker
-     */
     public function addIntake(Intake $intake): Bezoeker
     {
         $this->intakes->add($intake);
         $this->intake = $intake;
+
         return $this;
     }
 
     public function getLaatsteIntake()
     {
         $e = $this->intakes->last();
-        if ($e == false) {
+        if (false == $e) {
             $e = null;
         }
+
         return $e;
     }
 
@@ -195,31 +191,25 @@ class Bezoeker implements DocumentSubjectInterface
     {
         return $this->intakes;
     }
-    /**
-     * @return Registratie
-     */
+
     public function getLaatsteRegistratie(): ?Registratie
     {
         $r = end($this->registraties);
-        if ($r == false) {
+        if (false == $r) {
             $r = null;
         }
 
         return $r;
     }
 
-
-    /**
-     * @param Registratie $registratie
-     * @return Bezoeker
-     */
     public function addRegistratie(Registratie $registratie): Bezoeker
     {
         $this->registraties->add($registratie);
+
         return $this;
     }
 
-    public function getRecenteRegistraties($num=5)
+    public function getRecenteRegistraties($num = 5)
     {
         return $this->registraties;
     }
@@ -240,9 +230,6 @@ class Bezoeker implements DocumentSubjectInterface
         $this->verslagen = $verslagen;
     }
 
-    /**
-     * @param Verslag $verslag
-     */
     public function addVerslag(Verslag $verslag): void
     {
         $this->verslagen[] = $verslag;

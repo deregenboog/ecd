@@ -5,15 +5,17 @@ namespace AppBundle\Entity;
 use AppBundle\Model\DocumentSubjectTrait;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
-use Symfony\Component\Debug\Exception\FatalErrorException;
 
 /**
  * @ORM\Entity
+ *
  * @ORM\Table(name="vrijwilligers", indexes={
+ *
  *     @ORM\Index(name="idx_vrijwilligers_werkgebied", columns={"werkgebied"}),
  *     @ORM\Index(name="idx_vrijwilligers_postcodegebied", columns={"postcodegebied"}),
  *     @ORM\Index(name="idx_vrijwilligers_geboortedatum", columns={"geboortedatum"})
  * })
+ *
  * @Gedmo\Loggable
  */
 class Vrijwilliger extends Persoon
@@ -22,18 +24,21 @@ class Vrijwilliger extends Persoon
 
     /**
      * @ORM\Column(name="vog_aangevraagd", type="boolean", options={"default": 0})
+     *
      * @Gedmo\Versioned
      */
     protected $vogAangevraagd = false;
 
     /**
      * @ORM\Column(name="vog_aanwezig", type="boolean", options={"default": 0})
+     *
      * @Gedmo\Versioned
      */
     protected $vogAanwezig = false;
 
     /**
      * @ORM\Column(name="overeenkomst_aanwezig", type="boolean", options={"default": 0})
+     *
      * @Gedmo\Versioned
      */
     protected $overeenkomstAanwezig = false;

@@ -12,8 +12,11 @@ use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Entity
+ *
  * @ORM\Table(name="ga_intakes")
+ *
  * @ORM\HasLifecycleCallbacks
+ *
  * @Gedmo\Loggable
  */
 class Intake
@@ -23,20 +26,25 @@ class Intake
 
     /**
      * @var Medewerker
+     *
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Medewerker")
+     *
      * @ORM\JoinColumn(nullable=false)
+     *
      * @Gedmo\Versioned
      */
     protected $medewerker;
 
     /**
      * @ORM\Column(type="text", nullable=true)
+     *
      * @Gedmo\Versioned
      */
     protected $gespreksverslag;
 
     /**
      * @ORM\Column(type="date", nullable=true)
+     *
      * @Gedmo\Versioned
      */
     protected $intakedatum;
@@ -45,60 +53,70 @@ class Intake
      * @var Dossier
      *
      * @ORM\OneToOne(targetEntity="Dossier", inversedBy="intake")
+     *
      * @Gedmo\Versioned
      */
     protected $dossier;
 
     /**
      * @ORM\Column(type="boolean", nullable=true)
+     *
      * @Gedmo\Versioned
      */
     protected $ondernemen;
 
     /**
      * @ORM\Column(type="boolean", nullable=true)
+     *
      * @Gedmo\Versioned
      */
     protected $overdag;
 
     /**
      * @ORM\Column(type="boolean", nullable=true)
+     *
      * @Gedmo\Versioned
      */
     protected $ontmoeten;
 
     /**
      * @ORM\Column(type="boolean", nullable=true)
+     *
      * @Gedmo\Versioned
      */
     protected $regelzaken;
 
     /**
      * @ORM\Column(name="informele_zorg", type="boolean", nullable=true)
+     *
      * @Gedmo\Versioned
      */
     protected $informeleZorg;
 
     /**
      * @ORM\Column(type="boolean", nullable=true)
+     *
      * @Gedmo\Versioned
      */
     protected $dagbesteding;
 
     /**
      * @ORM\Column(type="boolean", nullable=true)
+     *
      * @Gedmo\Versioned
      */
     protected $inloophuis;
 
     /**
      * @ORM\Column(type="boolean", nullable=true)
+     *
      * @Gedmo\Versioned
      */
     protected $hulpverlening;
 
     /**
      * @ORM\Column(name="gezin_met_kinderen", type="boolean", nullable=true)
+     *
      * @Gedmo\Versioned
      */
     protected $gezinMetKinderen;
@@ -107,6 +125,7 @@ class Intake
      * @var \DateTime
      *
      * @ORM\Column(type="datetime")
+     *
      * @Gedmo\Versioned
      */
     protected $created;
@@ -115,6 +134,7 @@ class Intake
      * @var \DateTime
      *
      * @ORM\Column(type="datetime")
+     *
      * @Gedmo\Versioned
      */
     protected $modified;

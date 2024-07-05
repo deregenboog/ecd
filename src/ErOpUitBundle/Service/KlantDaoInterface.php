@@ -14,7 +14,7 @@ interface KlantDaoInterface
      *
      * @return PaginationInterface
      */
-    public function findAll($page = null, FilterInterface $filter = null);
+    public function findAll($page = null, ?FilterInterface $filter = null);
 
     /**
      * @param int $id
@@ -24,24 +24,13 @@ interface KlantDaoInterface
     public function find($id);
 
     /**
-     * @param AppKlant $appKlant
-     *
      * @return Klant
      */
     public function findOneByKlant(AppKlant $appKlant);
 
-    /**
-     * @param Klant $klant
-     */
     public function create(Klant $klant);
 
-    /**
-     * @param Klant $klant
-     */
     public function update(Klant $klant);
 
-    /**
-     * @param Klant $klant
-     */
     public function delete(Klant $klant);
 }

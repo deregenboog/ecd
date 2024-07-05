@@ -11,6 +11,7 @@ class DashboardController extends AbstractController
 {
     /**
      * @Route("/", name="home")
+     *
      * @Template
      */
     public function indexAction(Request $request)

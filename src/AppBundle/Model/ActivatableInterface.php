@@ -4,7 +4,6 @@ namespace AppBundle\Model;
 
 interface ActivatableInterface
 {
-
     public function isActief();
 
     public function getActief();
@@ -12,5 +11,4 @@ interface ActivatableInterface
     public function setActief(bool $actief);
 
     public function isDeletable();
-
 }

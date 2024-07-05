@@ -17,9 +17,6 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class VrijwilligerdossierType extends AbstractType
 {
-    /**
-     * {@inheritdoc}
-     */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $dossier = $options['data'];
@@ -38,9 +35,6 @@ class VrijwilligerdossierType extends AbstractType
         $builder->add('submit', SubmitType::class);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
@@ -48,15 +42,12 @@ class VrijwilligerdossierType extends AbstractType
         ]);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getParent(): ?string
     {
         return BaseType::class;
     }
 
-    private function hasVrijwilliger(Vrijwilligerdossier $dossier = null)
+    private function hasVrijwilliger(?Vrijwilligerdossier $dossier = null)
     {
         return $dossier && $dossier->getVrijwilliger() instanceof Vrijwilliger && $dossier->getVrijwilliger()->getId();
     }

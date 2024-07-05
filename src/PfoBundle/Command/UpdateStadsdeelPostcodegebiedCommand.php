@@ -2,12 +2,9 @@
 
 namespace PfoBundle\Command;
 
-use AppBundle\Entity\Klant;
 use Doctrine\ORM\EntityManagerInterface;
 use PfoBundle\Entity\Client;
-use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class UpdateStadsdeelPostcodegebiedCommand extends \Symfony\Component\Console\Command\Command
@@ -44,12 +41,13 @@ class UpdateStadsdeelPostcodegebiedCommand extends \Symfony\Component\Console\Co
         foreach ($clienten as $client) {
             /* @var Client $client */
             $client->koppelPostcodeWerkgebied($this->em);
-            $output->writeln("Update ".$client->getNaam());
+            $output->writeln('Update '.$client->getNaam());
         }
 
         $this->em->flush();
 
         $output->writeln('Finished!');
+
         return 0;
     }
 }

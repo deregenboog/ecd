@@ -5,16 +5,17 @@ namespace InloopBundle\Entity;
 use AppBundle\Entity\Klant;
 use AppBundle\Model\IdentifiableTrait;
 use AppBundle\Model\TimestampableTrait;
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Component\Validator\Constraints as Assert;
-use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
 /**
  * @ORM\Entity
+ *
  * @ORM\Table(name="inloop_incidenten")
+ *
  * @ORM\HasLifecycleCallbacks
+ *
  * @Gedmo\Loggable
  */
 class Incident
@@ -24,6 +25,7 @@ class Incident
 
     /**
      * @ORM\Column(name="datum", type="date")
+     *
      * @Assert\NotNull
      */
     private $datum;
@@ -61,14 +63,16 @@ class Incident
 
     /**
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Klant", inversedBy="incidenten", cascade={"persist"})
+     *
      * @ORM\JoinColumn(nullable=false)
+     *
      * @Assert\NotNull
      */
     private Klant $klant;
 
     public function __construct(?Klant $klant = null)
     {
-        if(null!==$klant) {
+        if (null !== $klant) {
             $this->setKlant($klant);
         }
 
@@ -78,7 +82,7 @@ class Incident
     public function __toString()
     {
         // TODO: Implement __toString() method.
-        return $this->getDatum()->format("d-m-Y");
+        return $this->getDatum()->format('d-m-Y');
     }
 
     public function getKlant()
@@ -102,102 +106,78 @@ class Incident
     }
 
     /**
-     * @param mixed $datum
      * @return Incident
      */
     public function setDatum($datum)
     {
         $this->datum = $datum;
+
         return $this;
     }
 
-    /**
-     * @return mixed
-     */
     public function getOpmerking()
     {
         return utf8_decode($this->opmerking);
     }
 
     /**
-     * @param mixed $opmerking
      * @return Incident
      */
     public function setOpmerking($opmerking)
     {
         $this->opmerking = utf8_encode($opmerking);
+
         return $this;
     }
 
-    /**
-     * @return bool
-     */
     public function isPolitie(): bool
     {
         return $this->politie;
     }
 
-    /**
-     * @param bool $politie
-     * @return Incident
-     */
     public function setPolitie(bool $politie): Incident
     {
         $this->politie = $politie;
+
         return $this;
     }
 
-    /**
-     * @return bool
-     */
     public function isAmbulance(): bool
     {
         return $this->ambulance;
     }
 
-    /**
-     * @param bool $ambulance
-     * @return Incident
-     */
     public function setAmbulance(bool $ambulance): Incident
     {
         $this->ambulance = $ambulance;
+
         return $this;
     }
 
-    /**
-     * @return bool
-     */
     public function isCrisisdienst(): bool
     {
         return $this->crisisdienst;
     }
 
-    /**
-     * @param bool $crisisdienst
-     * @return Incident
-     */
     public function setCrisisdienst(bool $crisisdienst): Incident
     {
         $this->crisisdienst = $crisisdienst;
+
         return $this;
     }
 
-    /**
-     * @return mixed
-     */
     public function getLocatie()
     {
         return $this->locatie;
     }
 
     /**
-     * @param mixed $locatie
      * @return Incident
      */
     public function setLocatie($locatie)
     {
         $this->locatie = $locatie;
+
         return $this;
     }
 }

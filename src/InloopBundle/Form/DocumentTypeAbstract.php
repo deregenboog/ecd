@@ -4,7 +4,6 @@ namespace InloopBundle\Form;
 
 use AppBundle\Form\BaseType;
 use AppBundle\Form\MedewerkerType;
-use InloopBundle\Entity\Document;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -14,9 +13,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 class DocumentTypeAbstract extends AbstractType
 {
     protected $dataClass;
-    /**
-     * {@inheritdoc}
-     */
+
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
@@ -29,9 +26,6 @@ class DocumentTypeAbstract extends AbstractType
         ;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
@@ -39,9 +33,6 @@ class DocumentTypeAbstract extends AbstractType
         ]);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getParent(): ?string
     {
         return BaseType::class;

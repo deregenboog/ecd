@@ -27,7 +27,7 @@ class SchorsingDao extends AbstractDao implements SchorsingDaoInterface
 
     protected $alias = 'schorsing';
 
-    public function findAll($page = null, FilterInterface $filter = null)
+    public function findAll($page = null, ?FilterInterface $filter = null)
     {
         $builder = $this->repository->createQueryBuilder($this->alias)
             ->select($this->alias.', klant, geslacht, locatie')

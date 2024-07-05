@@ -6,22 +6,20 @@ use AppBundle\Controller\SymfonyController;
 use AppBundle\Exception\UserException;
 use AppBundle\Form\ConfirmationType;
 use Doctrine\ORM\EntityManagerInterface;
-use TwBundle\Entity\Document;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Annotation\Route;
 use TwBundle\Entity\FinancieelDocument;
-use TwBundle\Entity\Klant;
 use TwBundle\Entity\Huurovereenkomst;
+use TwBundle\Entity\Klant;
 use TwBundle\Entity\Verhuurder;
 use TwBundle\Exception\TwException;
 use TwBundle\Form\DocumentType;
-use TwBundle\Service\DocumentDaoInterface;
 use TwBundle\Service\FinancieelDocumentDaoInterface;
-use TwBundle\Service\FinancieelVerslagDaoInterface;
-use Symfony\Component\Routing\Annotation\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-use Symfony\Component\HttpFoundation\Request;
 
 /**
  * @Route("/financiele_documenten")
+ *
  * @Template
  */
 class FinancieleDocumentenController extends SymfonyController
@@ -61,11 +59,11 @@ class FinancieleDocumentenController extends SymfonyController
                 $entityManager->persist($entity->addFinancieelDocument($form->getData()));
                 $entityManager->flush();
                 $this->addFlash('success', 'Document is toegevoegd.');
-            } catch(UserException $e) {
-//                $this->logger->error($e->getMessage(), ['exception' => $e]);
-                $message =  $e->getMessage();
+            } catch (UserException $e) {
+                //                $this->logger->error($e->getMessage(), ['exception' => $e]);
+                $message = $e->getMessage();
                 $this->addFlash('danger', $message);
-//                return $this->redirectToRoute('app_klanten_index');
+                //                return $this->redirectToRoute('app_klanten_index');
             } catch (\Exception $e) {
                 $message = $this->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
                 $this->addFlash('danger', $message);
@@ -86,17 +84,17 @@ class FinancieleDocumentenController extends SymfonyController
     {
         $entity = $this->dao->find($id);
 
-        $form = $this->getForm(DocumentType::class, $entity);;
+        $form = $this->getForm(DocumentType::class, $entity);
         $form->handleRequest($this->getRequest());
         if ($form->isSubmitted() && $form->isValid()) {
             try {
                 $this->dao->update($entity);
                 $this->addFlash('success', 'Document is bijgewerkt.');
-            } catch(UserException $e) {
-//                $this->logger->error($e->getMessage(), ['exception' => $e]);
-                $message =  $e->getMessage();
+            } catch (UserException $e) {
+                //                $this->logger->error($e->getMessage(), ['exception' => $e]);
+                $message = $e->getMessage();
                 $this->addFlash('danger', $message);
-//                return $this->redirectToRoute('app_klanten_index');
+                //                return $this->redirectToRoute('app_klanten_index');
             } catch (\Exception $e) {
                 $message = $this->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
                 $this->addFlash('danger', $message);

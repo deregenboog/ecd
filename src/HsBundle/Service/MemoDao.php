@@ -23,7 +23,7 @@ class MemoDao extends AbstractDao implements MemoDaoInterface
     /**
      * {inheritdoc}.
      */
-    public function findAll($page = null, FilterInterface $filter = null)
+    public function findAll($page = null, ?FilterInterface $filter = null)
     {
         return parent::findAll($page);
     }

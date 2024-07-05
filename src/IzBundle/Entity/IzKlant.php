@@ -12,29 +12,38 @@ use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Entity(repositoryClass="IzBundle\Repository\IzKlantRepository")
+ *
  * @Gedmo\Loggable
  */
 class IzKlant extends IzDeelnemer
 {
     /**
      * @var Klant
+     *
      * @ORM\OneToOne(targetEntity="AppBundle\Entity\Klant", cascade={"persist"})
+     *
      * @ORM\JoinColumn(name="foreign_key")
+     *
      * @Gedmo\Versioned
      */
     protected $klant;
 
     /**
      * @var ArrayCollection|Hulpvraag[]
+     *
      * @ORM\OneToMany(targetEntity="Hulpvraag", mappedBy="izKlant", cascade={"persist"})
+     *
      * @ORM\OrderBy({"startdatum" = "DESC", "koppelingStartdatum" = "DESC"})
      */
     private $hulpvragen;
 
     /**
      * @var ContactOntstaan
+     *
      * @ORM\ManyToOne(targetEntity="ContactOntstaan")
+     *
      * @ORM\JoinColumn(name="contact_ontstaan")
+     *
      * @Gedmo\Versioned
      */
     private $contactOntstaan;
@@ -43,6 +52,7 @@ class IzKlant extends IzDeelnemer
      * @var string
      *
      * @ORM\Column(name="organisatie", length=100, nullable=true)
+     *
      * @Gedmo\Versioned
      */
     private $organisatieAanmelder;
@@ -51,6 +61,7 @@ class IzKlant extends IzDeelnemer
      * @var string
      *
      * @ORM\Column(name="naam_aanmelder", length=100, nullable=true)
+     *
      * @Gedmo\Versioned
      */
     private $naamAanmelder;
@@ -59,6 +70,7 @@ class IzKlant extends IzDeelnemer
      * @var string
      *
      * @ORM\Column(name="email_aanmelder", length=100, nullable=true)
+     *
      * @Gedmo\Versioned
      */
     private $emailAanmelder;
@@ -67,6 +79,7 @@ class IzKlant extends IzDeelnemer
      * @var string
      *
      * @ORM\Column(name="telefoon_aanmelder", length=100, nullable=true)
+     *
      * @Gedmo\Versioned
      */
     private $telefoonAanmelder;
@@ -75,6 +88,7 @@ class IzKlant extends IzDeelnemer
      * @var \DateTime
      *
      * @ORM\Column(type="datetime")
+     *
      * @Gedmo\Versioned
      */
     protected $created;
@@ -83,11 +97,12 @@ class IzKlant extends IzDeelnemer
      * @var \DateTime
      *
      * @ORM\Column(type="datetime")
+     *
      * @Gedmo\Versioned
      */
     protected $modified;
 
-    public function __construct(Klant $klant = null)
+    public function __construct(?Klant $klant = null)
     {
         $this->klant = $klant;
         $this->datumAanmelding = new \DateTime('today');
@@ -211,7 +226,7 @@ class IzKlant extends IzDeelnemer
         return $this->contactOntstaan;
     }
 
-    public function setContactOntstaan(ContactOntstaan $contactOntstaan = null)
+    public function setContactOntstaan(?ContactOntstaan $contactOntstaan = null)
     {
         $this->contactOntstaan = $contactOntstaan;
 
@@ -292,9 +307,8 @@ class IzKlant extends IzDeelnemer
 
     public function isCloseable()
     {
-
-//        return !$this->isAfgesloten() &&
-//            0 === count($this->getOpenHulpvragen()) + count($this->getActieveKoppelingen());
+        //        return !$this->isAfgesloten() &&
+        //            0 === count($this->getOpenHulpvragen()) + count($this->getActieveKoppelingen());
 
         /**
          * in theorie zou hierboven een < 0 waarde uit kunnen komen als de koppelingen en hulpvragen telling niet klopt,
@@ -306,6 +320,6 @@ class IzKlant extends IzDeelnemer
         $oh = ($oh < 0) ? 0 : $oh;
         $ak = ($ak < 0) ? 0 : $ak;
 
-        return ($afgesloten === false && $oh+$ak === 0);
+        return false === $afgesloten && 0 === $oh + $ak;
     }
 }

@@ -3,11 +3,9 @@
 namespace TwBundle\Controller;
 
 use AppBundle\Controller\AbstractController;
-use TwBundle\Entity\VormVanOvereenkomst;
-use TwBundle\Form\VormVanOvereenkomstSelectType;
-
-use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Annotation\Route;
+use TwBundle\Entity\VormVanOvereenkomst;
 use TwBundle\Form\VormVanOvereenkomstType;
 use TwBundle\Service\VormVanOvereenkomstDaoInterface;
 

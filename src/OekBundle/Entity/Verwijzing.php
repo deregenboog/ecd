@@ -2,7 +2,6 @@
 
 namespace OekBundle\Entity;
 
-use AppBundle\Model\ActivatableTrait;
 use AppBundle\Model\IdentifiableTrait;
 use AppBundle\Model\TimestampableTrait;
 use Doctrine\ORM\Mapping as ORM;
@@ -10,14 +9,20 @@ use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Entity
+ *
  * @ORM\Table(name="oek_verwijzingen")
+ *
  * @ORM\HasLifecycleCallbacks
+ *
  * @ORM\InheritanceType("SINGLE_TABLE")
+ *
  * @ORM\DiscriminatorColumn(name="class", type="string")
+ *
  * @ORM\DiscriminatorMap({
  *     "OekVerwijzingDoor" = "VerwijzingDoor",
  *     "OekVerwijzingNaar" = "VerwijzingNaar"
  * })
+ *
  * @Gedmo\Loggable
  */
 abstract class Verwijzing
@@ -29,6 +34,7 @@ abstract class Verwijzing
      * @var string
      *
      * @ORM\Column(nullable=false)
+     *
      * @Gedmo\Versioned
      */
     private $naam;
@@ -37,6 +43,7 @@ abstract class Verwijzing
      * @var bool
      *
      * @ORM\Column(type="boolean", nullable=true)
+     *
      * @Gedmo\Versioned
      */
     private $actief = true;
@@ -45,6 +52,7 @@ abstract class Verwijzing
      * @var \DateTime
      *
      * @ORM\Column(type="datetime")
+     *
      * @Gedmo\Versioned
      */
     protected $created;
@@ -53,6 +61,7 @@ abstract class Verwijzing
      * @var \DateTime
      *
      * @ORM\Column(type="datetime")
+     *
      * @Gedmo\Versioned
      */
     protected $modified;

@@ -3,18 +3,17 @@
 namespace MwBundle\Service;
 
 use AppBundle\Filter\FilterInterface;
-use MwBundle\Entity\AfsluitredenKlant;
 use Knp\Component\Pager\Pagination\PaginationInterface;
+use MwBundle\Entity\AfsluitredenKlant;
 
 interface AfsluitredenKlantDaoInterface
 {
     /**
-     * @param int             $page
-     * @param FilterInterface $filter
+     * @param int $page
      *
      * @return PaginationInterface
      */
-    public function findAll($page = null, FilterInterface $filter = null);
+    public function findAll($page = null, ?FilterInterface $filter = null);
 
     /**
      * @param int $id
@@ -23,13 +22,7 @@ interface AfsluitredenKlantDaoInterface
      */
     public function find($id);
 
-    /**
-     * @param AfsluitredenKlant $entity
-     */
     public function create(AfsluitredenKlant $entity);
 
-    /**
-     * @param AfsluitredenKlant $entity
-     */
     public function update(AfsluitredenKlant $entity);
 }

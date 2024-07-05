@@ -9,7 +9,9 @@ use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Entity
+ *
  * @ORM\HasLifecycleCallbacks
+ *
  * @Gedmo\Loggable
  */
 class Verhuurder extends Deelnemer
@@ -18,6 +20,7 @@ class Verhuurder extends Deelnemer
      * @var VerhuurderAfsluiting
      *
      * @ORM\ManyToOne(targetEntity="VerhuurderAfsluiting", inversedBy="verhuurders", cascade={"persist"})
+     *
      * @Gedmo\Versioned
      */
     protected $afsluiting;
@@ -26,6 +29,7 @@ class Verhuurder extends Deelnemer
      * @var ArrayCollection|Huuraanbod[]
      *
      * @ORM\OneToMany(targetEntity="Huuraanbod", mappedBy="verhuurder", cascade={"persist"})
+     *
      * @ORM\OrderBy({"startdatum" = "DESC", "id" = "DESC"})
      */
     private $huuraanbiedingen;
@@ -34,6 +38,7 @@ class Verhuurder extends Deelnemer
      * @var Pandeigenaar
      *
      * @ORM\ManyToOne(targetEntity="Pandeigenaar", inversedBy="verhuurders")
+     *
      * @Gedmo\Versioned
      */
     private $pandeigenaar;
@@ -42,6 +47,7 @@ class Verhuurder extends Deelnemer
      * @var string
      *
      * @ORM\Column(name="pandeigenaar_toelichting", nullable=true)
+     *
      * @Gedmo\Versioned
      */
     private $pandeigenaarToelichting;
@@ -52,6 +58,7 @@ class Verhuurder extends Deelnemer
      * @var bool
      *
      * @ORM\Column(type="boolean")
+     *
      * @Gedmo\Versioned
      */
     private $ksgw = false;
@@ -60,21 +67,22 @@ class Verhuurder extends Deelnemer
      * @var Project
      *
      * @ORM\ManyToOne(targetEntity="TwBundle\Entity\Project", inversedBy="verhuurders", cascade={"persist"})
+     *
      * @Gedmo\Versioned
      */
     private $project;
 
     /**
-     * @var integer
+     * @var int
+     *
      * @ORM\Column(type="integer", nullable=true)
      */
     private $verhuurprijs;
 
-    /** @var boolean
+    /** @var bool
      * @ORM\Column(type="boolean",nullable=true)
      */
     private $huurtoeslag;
-
 
     /**
      * @var AanvullingInkomen
@@ -94,12 +102,14 @@ class Verhuurder extends Deelnemer
 
     /**
      * @var string
+     *
      * @ORM\Column(type="text", nullable=true)
+     *
      * @Gedmo\Versioned
      */
     private $samenvatting;
 
-    public function __construct(AppKlant $appKlant = null)
+    public function __construct(?AppKlant $appKlant = null)
     {
         if (null !== $appKlant) {
             $this->appKlant = $appKlant;
@@ -178,28 +188,27 @@ class Verhuurder extends Deelnemer
 
     public function isGekoppeld()
     {
-        //los van een eventuele koppeling moet worden gekeken of er een open huuraanbieding is.
+        // los van een eventuele koppeling moet worden gekeken of er een open huuraanbieding is.
 
         $has = $this->getHuuraanbiedingen();
-        foreach($has as $ha) {
-            if (!$ha->getHuurovereenkomst()){
-
+        foreach ($has as $ha) {
+            if (!$ha->getHuurovereenkomst()) {
                 $afsluitdatum = $ha->getAfsluitdatum();
-                if(null === $afsluitdatum) return false;
+                if (null === $afsluitdatum) {
+                    return false;
+                }
             }
         }
 
-
-        //er zijn geen open huuraanbiedingen, dan kijken naar de huurovereenkomsten
+        // er zijn geen open huuraanbiedingen, dan kijken naar de huurovereenkomsten
         $today = new \DateTime('today');
         $hoes = $this->getHuurovereenkomsten();
         foreach ($hoes as $hoe) {
             /** @var Huurovereenkomst $hoe */
-            if ($hoe->isReservering() == false
-                && $hoe->isActief() == true
-                && ($hoe->getAfsluitdatum() == null || $hoe->getAfsluitdatum() > $today)
-                && $hoe->getStartdatum() != null
-
+            if (false == $hoe->isReservering()
+                && true == $hoe->isActief()
+                && (null == $hoe->getAfsluitdatum() || $hoe->getAfsluitdatum() > $today)
+                && null != $hoe->getStartdatum()
             ) {
                 return true;
             }
@@ -256,93 +265,63 @@ class Verhuurder extends Deelnemer
         return $this;
     }
 
-    /**
-     * @return Project
-     */
     public function getProject(): ?Project
     {
         return $this->project;
     }
 
-    /**
-     * @param Project $project
-     * @return Verhuurder
-     */
     public function setProject(Project $project): Verhuurder
     {
         $this->project = $project;
+
         return $this;
     }
 
-    /**
-     * @return Kwijtschelding
-     */
     public function getKwijtschelding(): ?Kwijtschelding
     {
         return $this->kwijtschelding;
     }
 
-    /**
-     * @param Kwijtschelding $kwijtschelding
-     * @return Verhuurder
-     */
     public function setKwijtschelding(?Kwijtschelding $kwijtschelding): Verhuurder
     {
         $this->kwijtschelding = $kwijtschelding;
+
         return $this;
     }
 
-    /**
-     * @return int
-     */
     public function getVerhuurprijs(): ?int
     {
         return $this->verhuurprijs;
     }
 
-    /**
-     * @param int $verhuurprijs
-     * @return Verhuurder
-     */
     public function setVerhuurprijs(int $verhuurprijs): Verhuurder
     {
         $this->verhuurprijs = $verhuurprijs;
+
         return $this;
     }
 
-    /**
-     * @return bool|null
-     */
     public function isHuurtoeslag(): ?bool
     {
         return $this->huurtoeslag;
     }
 
-    /**
-     * @param bool|null $huurtoeslag
-     * @return Verhuurder
-     */
     public function setHuurtoeslag(?bool $huurtoeslag): Verhuurder
     {
         $this->huurtoeslag = $huurtoeslag;
+
         return $this;
     }
 
-    /**
-     * @return AanvullingInkomen
-     */
     public function getAanvullingInkomen(): ?AanvullingInkomen
     {
         return $this->aanvullingInkomen;
     }
 
-    /**
-     * @param AanvullingInkomen $aanvullingInkomen
-     * @return Verhuurder
-     */
     public function setAanvullingInkomen(?AanvullingInkomen $aanvullingInkomen): Verhuurder
     {
         $this->aanvullingInkomen = $aanvullingInkomen;
+
         return $this;
     }
 

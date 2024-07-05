@@ -9,9 +9,6 @@ use Symfony\Component\Form\FormBuilderInterface;
 
 class EmailMessageType extends AbstractType
 {
-    /**
-     * {@inheritdoc}
-     */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
@@ -65,9 +62,6 @@ class EmailMessageType extends AbstractType
         ;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getParent(): ?string
     {
         return BaseType::class;

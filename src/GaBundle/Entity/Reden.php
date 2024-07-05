@@ -10,8 +10,11 @@ use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Entity
+ *
  * @ORM\Table(name="ga_redenen")
+ *
  * @ORM\HasLifecycleCallbacks
+ *
  * @Gedmo\Loggable
  */
 class Reden
@@ -22,6 +25,7 @@ class Reden
 
     /**
      * @ORM\Column(length=100, nullable=true)
+     *
      * @Gedmo\Versioned
      */
     protected $naam;
@@ -30,6 +34,7 @@ class Reden
      * @var \DateTime
      *
      * @ORM\Column(type="datetime")
+     *
      * @Gedmo\Versioned
      */
     protected $created;
@@ -38,6 +43,7 @@ class Reden
      * @var \DateTime
      *
      * @ORM\Column(type="datetime")
+     *
      * @Gedmo\Versioned
      */
     protected $modified;

@@ -13,8 +13,11 @@ use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Entity
+ *
  * @ORM\Table(name="tw_pandeigenaartype")
+ *
  * @ORM\HasLifecycleCallbacks
+ *
  * @Gedmo\Loggable
  */
 class PandeigenaarType
@@ -27,7 +30,9 @@ class PandeigenaarType
 
     /**
      * @var bool
+     *
      * @ORM\Column(name="`active`", type="boolean", options={"default":1})
+     *
      * @Gedmo\Versioned
      */
     protected $actief = true;
@@ -43,6 +48,7 @@ class PandeigenaarType
      * @var \DateTime
      *
      * @ORM\Column(type="datetime")
+     *
      * @Gedmo\Versioned
      */
     protected $created;
@@ -51,6 +57,7 @@ class PandeigenaarType
      * @var \DateTime
      *
      * @ORM\Column(type="datetime")
+     *
      * @Gedmo\Versioned
      */
     protected $modified;

@@ -4,9 +4,9 @@ namespace OekraineBundle\Service;
 
 use AppBundle\Service\AbstractDao;
 use Doctrine\ORM\EntityManagerInterface;
+use Knp\Component\Pager\PaginatorInterface;
 use OekraineBundle\Entity\Locatie;
 use OekraineBundle\Event\Events;
-use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
 
@@ -62,11 +62,12 @@ class LocatieDao extends AbstractDao implements LocatieDaoInterface
 
     public function getWachtlijstLocaties()
     {
-        $builder = $this->entityManager->createQueryBuilder("locatie");
-        $builder->select("locatie.naam")
-            ->from(Locatie::class,"locatie")
-            ->where("locatie.wachtlijst > 0");
+        $builder = $this->entityManager->createQueryBuilder('locatie');
+        $builder->select('locatie.naam')
+            ->from(Locatie::class, 'locatie')
+            ->where('locatie.wachtlijst > 0');
         $wachtlijstlocaties = $builder->getQuery()->getResult();
+
         return $wachtlijstlocaties;
     }
 }

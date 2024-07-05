@@ -129,17 +129,11 @@ class Table
         return $this;
     }
 
-    /**
-     * @return bool
-     */
     public function isNullAsNill(): bool
     {
         return $this->nullAsNill;
     }
 
-    /**
-     * @param bool $nullAsNill
-     */
     public function setNullAsNill(bool $nullAsNill): void
     {
         $this->nullAsNill = $nullAsNill;
@@ -211,41 +205,41 @@ class Table
             }
         }
 
-//         if ($this->report) {
-//             $data = $this->convertToLinks($data);
-//         }
+        //         if ($this->report) {
+        //             $data = $this->convertToLinks($data);
+        //         }
 
         return $data;
     }
 
-//     protected function convertToLinks(array $data)
-//     {
-//         $helper = new \HtmlHelper();
+    //     protected function convertToLinks(array $data)
+    //     {
+    //         $helper = new \HtmlHelper();
 
-//         foreach ($data as $x => $row) {
-//             foreach ($row as $y => $value) {
-//                 if (!$x || !$y) {
-//                     continue;
-//                 }
-//                 $url = [
-//                     'controller' => $this->controller,
-//                     'action' => $this->action,
-//                     'Query.name' => $this->report,
-//                     'Query.from' => $this->startDate->format('Y-m-d'),
-//                     'Query.until' => $this->endDate->format('Y-m-d'),
-//                 ];
-//                 if ($this->xPath && 'Totaal' !== $y) {
-//                     $url[$this->xPath] = $y;
-//                 }
-//                 if ($this->yPath && 'Totaal' !== $x) {
-//                     $url[$this->yPath] = $x;
-//                 }
-//                 $data[$x][$y] = $helper->link($value, $url);
-//             }
-//         }
+    //         foreach ($data as $x => $row) {
+    //             foreach ($row as $y => $value) {
+    //                 if (!$x || !$y) {
+    //                     continue;
+    //                 }
+    //                 $url = [
+    //                     'controller' => $this->controller,
+    //                     'action' => $this->action,
+    //                     'Query.name' => $this->report,
+    //                     'Query.from' => $this->startDate->format('Y-m-d'),
+    //                     'Query.until' => $this->endDate->format('Y-m-d'),
+    //                 ];
+    //                 if ($this->xPath && 'Totaal' !== $y) {
+    //                     $url[$this->xPath] = $y;
+    //                 }
+    //                 if ($this->yPath && 'Totaal' !== $x) {
+    //                     $url[$this->yPath] = $x;
+    //                 }
+    //                 $data[$x][$y] = $helper->link($value, $url);
+    //             }
+    //         }
 
-//         return $data;
-//     }
+    //         return $data;
+    //     }
 
     protected function getAxisLabels()
     {
@@ -273,7 +267,7 @@ class Table
 
     protected function initializePivotStructure($xLabels, $yLabels)
     {
-        $zero = ($this->nullAsNill)?null:0;
+        $zero = ($this->nullAsNill) ? null : 0;
         $data = [];
         foreach ($yLabels as $yLabel) {
             foreach ($xLabels as $xLabel) {

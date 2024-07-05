@@ -16,12 +16,13 @@ use IzBundle\Form\KoppelingType;
 use IzBundle\Service\HulpaanbodDaoInterface;
 use IzBundle\Service\HulpvraagDaoInterface;
 use IzBundle\Service\KoppelingDaoInterface;
-use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * @Route("/koppelingen")
+ *
  * @Template
  */
 class KoppelingenController extends AbstractController
@@ -128,22 +129,22 @@ class KoppelingenController extends AbstractController
         return $this->redirectToView($entity);
     }
 
-//     protected function download(FilterInterface $filter)
-//     {
-//         if (!$this->export) {
-//             throw new AppException(get_class($this).'::export not set!');
-//         }
+    //     protected function download(FilterInterface $filter)
+    //     {
+    //         if (!$this->export) {
+    //             throw new AppException(get_class($this).'::export not set!');
+    //         }
 
-//         ini_set('memory_limit', '512M');
+    //         ini_set('memory_limit', '512M');
 
-//         $filename = $this->getDownloadFilename();
-//         $hulpvragen = $this->dao->findAll(null, $filter);
+    //         $filename = $this->getDownloadFilename();
+    //         $hulpvragen = $this->dao->findAll(null, $filter);
 
-//         $converter = function(Hulpvraag $hulpvraag) {
-//             return new Koppeling($hulpvraag, $hulpvraag->getHulpaanbod());
-//         };
-//         $koppelingen = array_map($converter, $hulpvragen);
+    //         $converter = function(Hulpvraag $hulpvraag) {
+    //             return new Koppeling($hulpvraag, $hulpvraag->getHulpaanbod());
+    //         };
+    //         $koppelingen = array_map($converter, $hulpvragen);
 
-//         return $this->export->create($koppelingen)->getResponse($filename);
-//     }
+    //         return $this->export->create($koppelingen)->getResponse($filename);
+    //     }
 }

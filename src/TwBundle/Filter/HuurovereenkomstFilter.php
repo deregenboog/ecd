@@ -60,7 +60,6 @@ class HuurovereenkomstFilter implements FilterInterface
      */
     public $opzegbriefVerstuurd;
 
-
     /**
      * @var Klant
      */
@@ -131,9 +130,7 @@ class HuurovereenkomstFilter implements FilterInterface
                     ->andWhere('huurovereenkomst.einddatum >= :einddatum_van OR huurovereenkomst.einddatum IS NULL')
                     ->setParameter('einddatum_van', $this->einddatum->getStart())
                 ;
-            }
-            elseif($this->einddatum->getStart())
-            {
+            } elseif ($this->einddatum->getStart()) {
                 $builder
                     ->andWhere('huurovereenkomst.einddatum >= :einddatum_van')
                     ->setParameter('einddatum_van', $this->einddatum->getStart())
@@ -145,7 +142,6 @@ class HuurovereenkomstFilter implements FilterInterface
                     ->setParameter('einddatum_tot', $this->einddatum->getEnd())
                 ;
             }
-
         }
 
         if ($this->vorm) {
@@ -173,12 +169,10 @@ class HuurovereenkomstFilter implements FilterInterface
             $builder
                 ->andWhere('huurovereenkomst.isReservering = 0  OR huurovereenkomst IS NULL')
             ;
-        }
-        else if($this->isReservering == true)
-        {
-            //INCLUDES reserveringen, not ONLY reserveringen.
+        } elseif (true == $this->isReservering) {
+            // INCLUDES reserveringen, not ONLY reserveringen.
             $builder
-                //->andWhere('huurovereenkomst.isReservering IS NULL OR huurovereenkomst.isReservering = 0')
+                // ->andWhere('huurovereenkomst.isReservering IS NULL OR huurovereenkomst.isReservering = 0')
                 ->orWhere('huurovereenkomst.isReservering = 1')
             ;
         }
@@ -196,25 +190,22 @@ class HuurovereenkomstFilter implements FilterInterface
                 ;
             }
         }
-        if ($this->actief == 'lopend') {
+        if ('lopend' == $this->actief) {
             $builder
                 ->andWhere('huurovereenkomst.afsluitdatum IS NULL OR huurovereenkomst.afsluitdatum > :now')
                 ->setParameter('now', new \DateTime())
             ;
-        }else if($this->actief == 'afgesloten') {
+        } elseif ('afgesloten' == $this->actief) {
             $builder
                 ->andWhere('huurovereenkomst.afsluitdatum IS NOT NULL AND huurovereenkomst.afsluitdatum <= :now')
                 ->setParameter('now', new \DateTime())
             ;
-        }else if($this->actief == 'all') {
-
-        }
-        else
-        {
-//            $builder
-//                ->andWhere('huurovereenkomst.afsluitdatum IS NOT NULL AND huurovereenkomst.afsluitdatum <= :now')
-//                ->setParameter('now', new \DateTime())
-//            ;
+        } elseif ('all' == $this->actief) {
+        } else {
+            //            $builder
+            //                ->andWhere('huurovereenkomst.afsluitdatum IS NOT NULL AND huurovereenkomst.afsluitdatum <= :now')
+            //                ->setParameter('now', new \DateTime())
+            //            ;
         }
         if ($this->opzegbriefVerstuurd) {
             $builder
@@ -224,7 +215,7 @@ class HuurovereenkomstFilter implements FilterInterface
         }
 
         if ($this->klant) {
-            $this->klant->applyTo($builder,'appKlant');
+            $this->klant->applyTo($builder, 'appKlant');
         }
 
         if ($this->verhuurderKlant) {
@@ -237,10 +228,9 @@ class HuurovereenkomstFilter implements FilterInterface
                 ->setParameter('medewerker', $this->medewerker)
             ;
         }
-        if($this->project && (is_array($this->project) || $this->project instanceof \Countable ? count($this->project) : 0)>0)
-        {
+        if ($this->project && (is_array($this->project) || $this->project instanceof \Countable ? count($this->project) : 0) > 0) {
             $builder->andWhere('huuraanbod.project IN (:project)')
-                ->setParameter("project",$this->project);
+                ->setParameter('project', $this->project);
         }
 
         $d = $builder->getQuery()->getDQL();

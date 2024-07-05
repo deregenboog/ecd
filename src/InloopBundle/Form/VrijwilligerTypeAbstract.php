@@ -7,7 +7,6 @@ use AppBundle\Form\AppDateTimeType;
 use AppBundle\Form\AppDateType;
 use AppBundle\Form\AppTextareaType;
 use AppBundle\Form\BaseType;
-use AppBundle\Form\JaNeeType;
 use AppBundle\Form\MedewerkerType;
 use AppBundle\Form\VrijwilligerType as AppVrijwilligerType;
 use Doctrine\ORM\EntityRepository;
@@ -15,22 +14,19 @@ use InloopBundle\Entity\Vrijwilliger;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class VrijwilligerTypeAbstract extends AbstractType
 {
-    protected $dataClass; //Vrijwilliger::class;
+    protected $dataClass; // Vrijwilliger::class;
     protected $locatieSelectClass = LocatieSelectType::class;
-    /**
-     * {@inheritdoc}
-     */
+
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        if (//$options['data'] instanceof Vrijwilliger &&
-            $options['data']->getVrijwilliger() instanceof AppVrijwilliger &&
-            $options['data']->getVrijwilliger()->getId()
+        if (// $options['data'] instanceof Vrijwilliger &&
+            $options['data']->getVrijwilliger() instanceof AppVrijwilliger
+            && $options['data']->getVrijwilliger()->getId()
         ) {
             $builder->add('vrijwilliger', null, [
                 'disabled' => true,
@@ -73,42 +69,34 @@ class VrijwilligerTypeAbstract extends AbstractType
                 'multiple' => true,
             ])
             ->add('medewerker', MedewerkerType::class, ['required' => true])
-            ->add('stagiair',CheckboxType::class, [
-            'required' => false
+            ->add('stagiair', CheckboxType::class, [
+            'required' => false,
             ])
-            ->add('notitieIntake',AppTextareaType::class,['required' => false])
+            ->add('notitieIntake', AppTextareaType::class, ['required' => false])
 //            ->add('datumNotitieIntake',AppDateTimeType::class, [
 //                'data' => new \DateTime('now'),
 //                'label'=>'Notitiedatum',
 //                'required'=>false,
 //            ])
-            ->add('tweedeFase',CheckboxType::class,['mapped'=>false,'required'=>false])
-            ->add('startDatum',AppDateType::class, [
-
-                'required' =>false,
-
+            ->add('tweedeFase', CheckboxType::class, ['mapped' => false, 'required' => false])
+            ->add('startDatum', AppDateType::class, [
+                'required' => false,
             ])
             ->add('medewerkerLocatie', MedewerkerType::class, [
                 'required' => false,
-                'preset'=>false
+                'preset' => false,
             ])
             ->add('submit', SubmitType::class)
         ;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => $this->dataClass
+            'data_class' => $this->dataClass,
         ]);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getParent(): ?string
     {
         return BaseType::class;

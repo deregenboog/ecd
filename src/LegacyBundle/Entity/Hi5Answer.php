@@ -8,6 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * Hi5Answers.
  *
  * @ORM\Table(name="hi5_answers")
+ *
  * @ORM\Entity
  */
 class Hi5Answer
@@ -16,7 +17,9 @@ class Hi5Answer
      * @var int
      *
      * @ORM\Column(name="id", type="integer")
+     *
      * @ORM\Id
+     *
      * @ORM\GeneratedValue
      */
     private $id;

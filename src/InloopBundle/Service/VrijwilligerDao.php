@@ -2,9 +2,6 @@
 
 namespace InloopBundle\Service;
 
-use AppBundle\Entity\Vrijwilliger as AppVrijwilliger;
-use AppBundle\Filter\FilterInterface;
-use AppBundle\Service\AbstractDao;
 use InloopBundle\Entity\Vrijwilliger;
 
 class VrijwilligerDao extends VrijwilligerDaoAbstract implements VrijwilligerDaoInterface
@@ -26,6 +23,4 @@ class VrijwilligerDao extends VrijwilligerDaoAbstract implements VrijwilligerDao
     protected $class = Vrijwilliger::class;
 
     protected $alias = 'vrijwilliger';
-
-
 }

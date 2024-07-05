@@ -4,7 +4,6 @@ namespace AppBundle\Controller;
 
 use AppBundle\Entity\Memo;
 use AppBundle\Form\MemoType;
-use AppBundle\Service\MemoDaoInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**

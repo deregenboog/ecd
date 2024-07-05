@@ -8,6 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * Contactjournals.
  *
  * @ORM\Table(name="contactjournals", indexes={@ORM\Index(name="idx_contactjournals_klant_id", columns={"klant_id"})})
+ *
  * @ORM\Entity
  */
 class Contactjournals
@@ -65,7 +66,9 @@ class Contactjournals
      * @var int
      *
      * @ORM\Column(name="id", type="integer")
+     *
      * @ORM\Id
+     *
      * @ORM\GeneratedValue
      */
     private $id;

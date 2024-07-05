@@ -14,15 +14,16 @@ use IzBundle\Form\IzDeelnemerCloseType;
 use IzBundle\Form\IzVrijwilligerFilterType;
 use IzBundle\Form\IzVrijwilligerType;
 use IzBundle\Service\VrijwilligerDaoInterface;
-use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\EventDispatcher\GenericEvent;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * @Route("/vrijwilligers")
+ *
  * @Template
  */
 class VrijwilligersController extends AbstractController
@@ -101,7 +102,7 @@ class VrijwilligersController extends AbstractController
      */
     public function reopenAction(Request $request, $id)
     {
-        $this->getDoctrine()->getManager()->getFilters()->disable("foutieve_invoer");
+        $this->getDoctrine()->getManager()->getFilters()->disable('foutieve_invoer');
         $entity = $this->dao->find($id);
 
         $form = $this->getForm(ConfirmationType::class);
@@ -165,10 +166,10 @@ class VrijwilligersController extends AbstractController
                 // redirect if already exists
                 $izVrijwilliger = $this->dao->findOneByVrijwilliger($vrijwilliger);
                 if ($izVrijwilliger) {
-                    if($izVrijwilliger->isAfgesloten())
-                    {
-                        return $this->redirectToRoute("iz_vrijwilligers_reopen",["id"=>$izVrijwilliger->getId()]);
+                    if ($izVrijwilliger->isAfgesloten()) {
+                        return $this->redirectToRoute('iz_vrijwilligers_reopen', ['id' => $izVrijwilliger->getId()]);
                     }
+
                     return $this->redirectToView($izVrijwilliger);
                 }
             }
@@ -184,11 +185,11 @@ class VrijwilligersController extends AbstractController
                 $this->addFlash('success', ucfirst($this->entityName).' is opgeslagen.');
 
                 return $this->redirectToView($izVrijwilliger);
-            } catch(UserException $e) {
-//                $this->logger->error($e->getMessage(), ['exception' => $e]);
-                $message =  $e->getMessage();
+            } catch (UserException $e) {
+                //                $this->logger->error($e->getMessage(), ['exception' => $e]);
+                $message = $e->getMessage();
                 $this->addFlash('danger', $message);
-//                return $this->redirectToRoute('app_klanten_index');
+                //                return $this->redirectToRoute('app_klanten_index');
             } catch (\Exception $e) {
                 $message = $this->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
                 $this->addFlash('danger', $message);

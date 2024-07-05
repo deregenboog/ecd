@@ -30,7 +30,7 @@ class DeelnemerDao extends AbstractDao implements DeelnemerDaoInterface
     /**
      * {inheritdoc}.
      */
-    public function findAll($page = null, FilterInterface $filter = null)
+    public function findAll($page = null, ?FilterInterface $filter = null)
     {
         $builder = $this->repository->createQueryBuilder($this->alias)
             ->select("{$this->alias}, klant, aanmelding, afsluiting, verwijzingAanmelding, verwijzingAfsluiting, dossierStatus, deelname, training")
@@ -56,7 +56,7 @@ class DeelnemerDao extends AbstractDao implements DeelnemerDaoInterface
         return $builder->getQuery()->getResult();
     }
 
-    public function findWachtlijst($page = null, FilterInterface $filter = null)
+    public function findWachtlijst($page = null, ?FilterInterface $filter = null)
     {
         $builder = $this->repository->createQueryBuilder('deelnemer')
             ->select('deelnemer, klant, aanmelding, verwijzingAanmelding, dossierStatus, lidmaatschap, groep')
@@ -95,8 +95,6 @@ class DeelnemerDao extends AbstractDao implements DeelnemerDaoInterface
     }
 
     /**
-     * @param Klant $klant
-     *
      * @return Deelnemer
      */
     public function findOneByKlant(Klant $klant)

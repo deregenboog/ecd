@@ -10,8 +10,11 @@ use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Entity
+ *
  * @ORM\Table(name="locatie_tijden")
+ *
  * @ORM\HasLifecycleCallbacks
+ *
  * @Gedmo\Loggable
  */
 class Locatietijd
@@ -23,25 +26,30 @@ class Locatietijd
      * @var Locatie
      *
      * @ORM\ManyToOne(targetEntity="Locatie", inversedBy="locatietijden")
+     *
      * @ORM\JoinColumn(nullable=false)
+     *
      * @Gedmo\Versioned
      */
     private $locatie;
 
     /**
      * @ORM\Column(name="dag_van_de_week", type="integer")
+     *
      * @Gedmo\Versioned
      */
     private $dagVanDeWeek;
 
     /**
      * @ORM\Column(name="openingstijd", type="time")
+     *
      * @Gedmo\Versioned
      */
     private $openingstijd;
 
     /**
      * @ORM\Column(name="sluitingstijd", type="time")
+     *
      * @Gedmo\Versioned
      */
     private $sluitingstijd;
@@ -65,9 +73,6 @@ class Locatietijd
         return $this->locatie;
     }
 
-    /**
-     * @param Locatie $locatie
-     */
     public function setLocatie(Locatie $locatie)
     {
         $this->locatie = $locatie;
@@ -75,9 +80,6 @@ class Locatietijd
         return $this;
     }
 
-    /**
-     * @return int
-     */
     public function getDagVanDeWeek(): int
     {
         return $this->dagVanDeWeek;
@@ -101,9 +103,6 @@ class Locatietijd
         return $this->openingstijd;
     }
 
-    /**
-     * @param \DateTime $openingstijd
-     */
     public function setOpeningstijd(\DateTime $openingstijd)
     {
         $this->openingstijd = $openingstijd;
@@ -119,9 +118,6 @@ class Locatietijd
         return $this->sluitingstijd;
     }
 
-    /**
-     * @param \DateTime $sluitingstijd
-     */
     public function setSluitingstijd(\DateTime $sluitingstijd)
     {
         $this->sluitingstijd = $sluitingstijd;

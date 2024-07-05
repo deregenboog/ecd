@@ -9,12 +9,11 @@ use TwBundle\Entity\VormVanOvereenkomst;
 interface VormVanOvereenkomstDaoInterface
 {
     /**
-     * @param int             $page
-     * @param FilterInterface $filter
+     * @param int $page
      *
      * @return PaginationInterface
      */
-    public function findAll($page = null, FilterInterface $filter = null);
+    public function findAll($page = null, ?FilterInterface $filter = null);
 
     /**
      * @param int $id
@@ -23,18 +22,9 @@ interface VormVanOvereenkomstDaoInterface
      */
     public function find($id);
 
-    /**
-     * @param VormVanOvereenkomst $entity
-     */
     public function create(VormVanOvereenkomst $entity);
 
-    /**
-     * @param VormVanOvereenkomst $entity
-     */
     public function update(VormVanOvereenkomst $entity);
 
-    /**
-     * @param VormVanOvereenkomst $entity
-     */
     public function delete(VormVanOvereenkomst $entity);
 }

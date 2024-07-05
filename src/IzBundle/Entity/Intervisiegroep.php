@@ -13,8 +13,11 @@ use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Entity
+ *
  * @ORM\Table(name="iz_intervisiegroepen")
+ *
  * @ORM\HasLifecycleCallbacks
+ *
  * @Gedmo\Loggable
  */
 class Intervisiegroep
@@ -25,6 +28,7 @@ class Intervisiegroep
 
     /**
      * @ORM\Column(type="string", length=100, nullable=true)
+     *
      * @Gedmo\Versioned
      */
     protected $naam;
@@ -52,6 +56,7 @@ class Intervisiegroep
 
     /**
      * @var ArrayCollection|Lidmaatschap[]
+     *
      * @ORM\OneToMany(targetEntity="Lidmaatschap", mappedBy="intervisiegroep", cascade={"persist"})
      */
     private $lidmaatschappen;
@@ -60,6 +65,7 @@ class Intervisiegroep
      * @var \DateTime
      *
      * @ORM\Column(type="datetime", nullable=true)
+     *
      * @Gedmo\Versioned
      */
     protected $created;
@@ -68,6 +74,7 @@ class Intervisiegroep
      * @var \DateTime
      *
      * @ORM\Column(type="datetime", nullable=true)
+     *
      * @Gedmo\Versioned
      */
     protected $modified;
@@ -115,7 +122,7 @@ class Intervisiegroep
     }
 
     /**
-     * @return \AppBundle\Entity\Medewerker
+     * @return Medewerker
      */
     public function getMedewerker()
     {
@@ -123,7 +130,7 @@ class Intervisiegroep
     }
 
     /**
-     * @param \AppBundle\Entity\Medewerker $medewerker
+     * @param Medewerker $medewerker
      */
     public function setMedewerker($medewerker)
     {
@@ -152,6 +159,7 @@ class Intervisiegroep
         usort($vrijwilligers, function (IzVrijwilliger $a, IzVrijwilliger $b) {
             $naamA = $a->getVrijwilliger()->getNaam();
             $naamB = $b->getVrijwilliger()->getNaam();
+
             return $naamB <=> $naamA;
         });
 
@@ -178,6 +186,7 @@ class Intervisiegroep
         usort($lidmaatschappen, function (Lidmaatschap $a, Lidmaatschap $b) {
             $naamA = $a->getVrijwilliger()->getVrijwilliger()->getNaam();
             $naamB = $b->getVrijwilliger()->getVrijwilliger()->getNaam();
+
             return $naamB <=> $naamA;
         });
 

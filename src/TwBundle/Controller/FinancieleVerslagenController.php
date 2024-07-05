@@ -6,21 +6,22 @@ use AppBundle\Controller\SymfonyController;
 use AppBundle\Exception\UserException;
 use AppBundle\Form\ConfirmationType;
 use Doctrine\ORM\EntityManagerInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Annotation\Route;
+use TwBundle\Entity\FinancieelVerslag;
 use TwBundle\Entity\Huuraanbod;
-use TwBundle\Entity\Klant;
 use TwBundle\Entity\Huurovereenkomst;
 use TwBundle\Entity\Huurverzoek;
+use TwBundle\Entity\Klant;
 use TwBundle\Entity\Verhuurder;
-use TwBundle\Entity\FinancieelVerslag;
 use TwBundle\Exception\TwException;
 use TwBundle\Form\VerslagType;
 use TwBundle\Service\FinancieelVerslagDaoInterface;
-use Symfony\Component\Routing\Annotation\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-use Symfony\Component\HttpFoundation\Request;
 
 /**
  * @Route("/financiele_verslagen")
+ *
  * @Template
  */
 class FinancieleVerslagenController extends SymfonyController
@@ -48,11 +49,11 @@ class FinancieleVerslagenController extends SymfonyController
                 $entityManager->persist($entity->addFinancieelVerslag($form->getData()));
                 $entityManager->flush();
                 $this->addFlash('success', 'Verslag is toegevoegd.');
-            } catch(UserException $e) {
-//                $this->logger->error($e->getMessage(), ['exception' => $e]);
-                $message =  $e->getMessage();
+            } catch (UserException $e) {
+                //                $this->logger->error($e->getMessage(), ['exception' => $e]);
+                $message = $e->getMessage();
                 $this->addFlash('danger', $message);
-//                return $this->redirectToRoute('app_klanten_index');
+                //                return $this->redirectToRoute('app_klanten_index');
             } catch (\Exception $e) {
                 $message = $this->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
                 $this->addFlash('danger', $message);
@@ -79,11 +80,11 @@ class FinancieleVerslagenController extends SymfonyController
             try {
                 $this->dao->update($entity);
                 $this->addFlash('success', 'Verslag is bijgewerkt.');
-            } catch(UserException $e) {
-//                $this->logger->error($e->getMessage(), ['exception' => $e]);
-                $message =  $e->getMessage();
+            } catch (UserException $e) {
+                //                $this->logger->error($e->getMessage(), ['exception' => $e]);
+                $message = $e->getMessage();
                 $this->addFlash('danger', $message);
-//                return $this->redirectToRoute('app_klanten_index');
+                //                return $this->redirectToRoute('app_klanten_index');
             } catch (\Exception $e) {
                 $message = $this->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
                 $this->addFlash('danger', $message);

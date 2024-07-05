@@ -47,7 +47,6 @@ class VraagFilter implements FilterInterface
 
     /**
      * @var bool
-     *
      */
     public $hulpCollegaGezocht;
 
@@ -115,12 +114,10 @@ class VraagFilter implements FilterInterface
             $this->client->applyTo($builder);
         }
 
-        if($this->hulpCollegaGezocht)
-        {
+        if ($this->hulpCollegaGezocht) {
             $builder
                 ->andWhere('vraag.hulpCollegaGezocht = :hulpGezocht')
-                ->setParameter('hulpGezocht',$this->hulpCollegaGezocht);
-
+                ->setParameter('hulpGezocht', $this->hulpCollegaGezocht);
         }
     }
 }

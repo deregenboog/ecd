@@ -118,6 +118,7 @@ class KoppelingenSplitCommand extends \Symfony\Component\Console\Command\Command
         ;
         $table->render();
         $output->writeln('Totaal: '.(is_array($hulpvragen) || $hulpvragen instanceof \Countable ? count($hulpvragen) : 0));
+
         return 0;
     }
 

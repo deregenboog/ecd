@@ -3,20 +3,17 @@
 namespace HsBundle\Entity;
 
 use AppBundle\Form\Model\AppDateRangeModel;
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManagerInterface;
-use Doctrine\ORM\Mapping as ORM;
-use Gedmo\Mapping\Annotation as Gedmo;
 use HsBundle\Exception\InvoiceLockedException;
-use HsBundle\Exception\InvoiceNotLockedException;
 
 class FactuurSubjectHelper
 {
     private $entityManager;
+
     /**
      * @param FactuurSubjectInterface $entity
-     * @param EntityManagerInterface $entityManager
-     * @throws \HsBundle\Exception\InvoiceLockedException
+     *
+     * @throws InvoiceLockedException
      */
     public function beforeUpdateEntity($entity, EntityManagerInterface $entityManager)
     {
@@ -42,8 +39,7 @@ class FactuurSubjectHelper
             $factuur->addRegistratie($entity);
         }
 
-
-        /**
+        /*
          * If oudeFactuur is not the same, then the old factuur must be saved manually because there is no relation anymore with the basic entity.
          */
         if (null !== $oudeFactuur && $oudeFactuur->getId() !== $factuur->getId()) {
@@ -53,10 +49,10 @@ class FactuurSubjectHelper
                 $oudeFactuur->removeRegistratie($entity);
             }
 
-            if ($oudeFactuur->getBedrag() == 0) {
+            if (0 == $oudeFactuur->getBedrag()) {
                 $entityManager->remove($oudeFactuur);
             } else {
-                $entityManager->persist(($oudeFactuur));
+                $entityManager->persist($oudeFactuur);
             }
         }
     }
@@ -67,10 +63,10 @@ class FactuurSubjectHelper
             new \DateTime('first day of '.$date->format('M Y')),
             new \DateTime('last day of '.$date->format('M Y'))
         );
-//        return new AppDateRangeModel(
-//            new \DateTime('first day of january '.$date->format('Y')),
-//            new \DateTime('last day of december '.$date->format('Y'))
-//        );
+        //        return new AppDateRangeModel(
+        //            new \DateTime('first day of january '.$date->format('Y')),
+        //            new \DateTime('last day of december '.$date->format('Y'))
+        //        );
     }
 
     private function findOrCreateFactuur(

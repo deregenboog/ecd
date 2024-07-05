@@ -3,7 +3,6 @@
 namespace GaBundle\Form;
 
 use AppBundle\Form\AppDateRangeType;
-use AppBundle\Form\AppTimeRangeType;
 use AppBundle\Form\FilterType;
 use GaBundle\Filter\ActiviteitFilter;
 use Symfony\Component\Form\AbstractType;
@@ -13,9 +12,6 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class ActiviteitFilterType extends AbstractType
 {
-    /**
-     * {@inheritdoc}
-     */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         if (in_array('naam', $options['enabled_filters'])) {
@@ -45,9 +41,6 @@ class ActiviteitFilterType extends AbstractType
         }
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
@@ -63,9 +56,6 @@ class ActiviteitFilterType extends AbstractType
         ]);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getParent(): ?string
     {
         return FilterType::class;

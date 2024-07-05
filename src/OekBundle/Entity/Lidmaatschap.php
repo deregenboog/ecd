@@ -9,8 +9,11 @@ use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Entity
+ *
  * @ORM\Table(name="oek_lidmaatschappen")
+ *
  * @ORM\HasLifecycleCallbacks
+ *
  * @Gedmo\Loggable
  */
 class Lidmaatschap
@@ -22,7 +25,9 @@ class Lidmaatschap
      * @var Groep
      *
      * @ORM\ManyToOne(targetEntity="Groep", inversedBy="lidmaatschappen", cascade={"persist"})
+     *
      * @ORM\JoinColumn(name="oekGroep_id", nullable=false)
+     *
      * @Gedmo\Versioned
      */
     private $groep;
@@ -31,7 +36,9 @@ class Lidmaatschap
      * @var Deelnemer
      *
      * @ORM\ManyToOne(targetEntity="Deelnemer", inversedBy="lidmaatschappen", cascade={"persist"})
+     *
      * @ORM\JoinColumn(name="oekKlant_id", nullable=false)
+     *
      * @Gedmo\Versioned
      */
     private $deelnemer;
@@ -40,6 +47,7 @@ class Lidmaatschap
      * @var \DateTime
      *
      * @ORM\Column(type="datetime")
+     *
      * @Gedmo\Versioned
      */
     protected $created;
@@ -48,11 +56,12 @@ class Lidmaatschap
      * @var \DateTime
      *
      * @ORM\Column(type="datetime")
+     *
      * @Gedmo\Versioned
      */
     protected $modified;
 
-    public function __construct(Groep $groep = null, Deelnemer $deelnemer = null)
+    public function __construct(?Groep $groep = null, ?Deelnemer $deelnemer = null)
     {
         $this->groep = $groep;
         $this->deelnemer = $deelnemer;

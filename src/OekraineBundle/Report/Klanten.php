@@ -38,7 +38,7 @@ class Klanten extends AbstractReport
     /** @var LocatieDao */
     private $locatieDao;
 
-    /** @var BezoekerDao  */
+    /** @var BezoekerDao */
     private $bezoekerDao;
 
     private $resultKlantenVerslagen;
@@ -46,7 +46,7 @@ class Klanten extends AbstractReport
 
     public function __construct(VerslagDao $dao, LocatieDao $locatieDao, BezoekerDao $bezoekerDao)
     {
-//        $this->locaties = $locaties;
+        //        $this->locaties = $locaties;
         $this->dao = $dao;
         $this->locatieDao = $locatieDao;
 
@@ -54,25 +54,24 @@ class Klanten extends AbstractReport
 
         $this->filterLocations($locatieDao->findAll());
 
-//        $this->yLookupCollection = new \stdClass();
+        //        $this->yLookupCollection = new \stdClass();
     }
 
     private function filterLocations($allLocations)
     {
-        /**
+        /*
          * Filter: (gekopieerd van MW, laten staan voor evt later gebruik)
          */
-        foreach($allLocations as $k=> $locatie)
-        {
-//            $naam = $locatie->getNaam();
-//            if(strpos($naam, "Zonder ") !== false
-//                || strpos($naam,"T6") !== false
-//                || strpos($naam,"STED") !== false
-//                || strpos($naam,"Wachtlijst") !== false
-//            ) {
-//                //skip locatie
-//                continue;
-//            }
+        foreach ($allLocations as $k => $locatie) {
+            //            $naam = $locatie->getNaam();
+            //            if(strpos($naam, "Zonder ") !== false
+            //                || strpos($naam,"T6") !== false
+            //                || strpos($naam,"STED") !== false
+            //                || strpos($naam,"Wachtlijst") !== false
+            //            ) {
+            //                //skip locatie
+            //                continue;
+            //            }
             $this->locaties[] = $locatie->getNaam();
         }
     }
@@ -99,21 +98,21 @@ class Klanten extends AbstractReport
 
         $this->resultKlantenVerslagen = $query->getResult();
 
-        $this->resultKlantenVerslagenTotalUnique = $this->dao->getTotalUniqueKlantenForLocaties($this->startDate,$this->endDate,$this->locaties);
+        $this->resultKlantenVerslagenTotalUnique = $this->dao->getTotalUniqueKlantenForLocaties($this->startDate, $this->endDate, $this->locaties);
     }
 
     protected function buildAantalKlantenVerslagenContactmomenten()
     {
         $columns = [
-            'Klanten'=>'aantalKlanten',
-            'Verslagen'=>'aantalVerslagen',
-            'Aantal inloopverslagen'=>'aantalTypeInloop',
-            'Aantal MW verslagen'=>'aantalTypeMW',
-            'Aantal Mental Coach verslagen'=>'aantalTypePsych',
-            'Aantal contactmomenten'=>'aantalContactmomenten'
+            'Klanten' => 'aantalKlanten',
+            'Verslagen' => 'aantalVerslagen',
+            'Aantal inloopverslagen' => 'aantalTypeInloop',
+            'Aantal MW verslagen' => 'aantalTypeMW',
+            'Aantal Mental Coach verslagen' => 'aantalTypePsych',
+            'Aantal contactmomenten' => 'aantalContactmomenten',
         ];
 
-        $table = new Grid($this->resultKlantenVerslagen, $columns,"locatienaam");
+        $table = new Grid($this->resultKlantenVerslagen, $columns, 'locatienaam');
         $table
             ->setStartDate($this->startDate)
             ->setEndDate($this->endDate)
@@ -122,23 +121,19 @@ class Klanten extends AbstractReport
         ;
 
         $report = [
-            'title' => "Aantal klanten en verslagen",
+            'title' => 'Aantal klanten en verslagen',
 //            'xDescription' => $this->xDescription,
-            'yDescription' => "Locatienaam",
+            'yDescription' => 'Locatienaam',
             'data' => $table->render(),
-            'yLookupCollection' => ["Totaal" => "<b>Totaal</b>"],
+            'yLookupCollection' => ['Totaal' => '<b>Totaal</b>'],
         ];
 
-        foreach($columns as $k=>$c)
-        {
-            if(isset($this->resultKlantenVerslagenTotalUnique[$k]))
-            {
+        foreach ($columns as $k => $c) {
+            if (isset($this->resultKlantenVerslagenTotalUnique[$k])) {
                 $report['data']['Uniek'][$c] = $this->resultKlantenVerslagenTotalUnique[$k];
+            } else {
+                $report['data']['Uniek'][$c] = '';
             }
-            else{
-                $report['data']['Uniek'][$c] = "";
-            }
-
         }
 
         return $report;

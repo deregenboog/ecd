@@ -7,16 +7,17 @@ use AppBundle\Exception\UserException;
 use AppBundle\Form\ConfirmationType;
 use AppBundle\Form\PostcodeFilterType;
 use AppBundle\Form\PostcodeType;
-use AppBundle\Service\PostcodeDao;
 use AppBundle\Service\PostcodeDaoInterface;
-use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * @Route("/admin/postcodes")
+ *
  * @Template
+ *
  * @IsGranted("ROLE_ADMIN")
  */
 class PostcodesController extends AbstractController
@@ -39,6 +40,7 @@ class PostcodesController extends AbstractController
 
     /**
      * @Route("/add")
+     *
      * @Template
      */
     public function addAction(Request $request)
@@ -53,9 +55,9 @@ class PostcodesController extends AbstractController
             try {
                 $this->dao->create($entity);
                 $this->addFlash('success', ucfirst($this->entityName).' is opgeslagen.');
-            } catch(UserException $e) {
+            } catch (UserException $e) {
                 $message = $e->getMessage();
-                $this->addFlash('danger',$message);
+                $this->addFlash('danger', $message);
             } catch (\Exception $e) {
                 $this->logger->error($e->getMessage(), ['exception' => $e]);
                 $message = $this->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
@@ -73,6 +75,7 @@ class PostcodesController extends AbstractController
 
     /**
      * @Route("/{id}/edit")
+     *
      * @Template
      */
     public function editAction(Request $request, $id)
@@ -92,9 +95,9 @@ class PostcodesController extends AbstractController
             try {
                 $this->dao->update($entity);
                 $this->addFlash('success', ucfirst($this->entityName).' is opgeslagen.');
-            } catch(UserException $e) {
+            } catch (UserException $e) {
                 $message = $e->getMessage();
-                $this->addFlash('danger',$message);
+                $this->addFlash('danger', $message);
             } catch (\Exception $e) {
                 $this->logger->error($e->getMessage(), ['exception' => $e]);
                 $message = $this->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
@@ -112,6 +115,7 @@ class PostcodesController extends AbstractController
 
     /**
      * @Route("/{id}/delete")
+     *
      * @Template
      */
     public function deleteAction(Request $request, $id)

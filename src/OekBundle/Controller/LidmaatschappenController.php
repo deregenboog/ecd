@@ -13,6 +13,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * @Route("/lidmaatschappen")
+ *
  * @Template
  */
 class LidmaatschappenController extends SymfonyController

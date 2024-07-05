@@ -14,9 +14,13 @@ use Symfony\Component\Config\Definition\Exception\Exception;
 
 /**
  * @ORM\Entity
+ *
  * @ORM\Table(name="dagbesteding_trajecten")
+ *
  * @ORM\HasLifecycleCallbacks
+ *
  * @Gedmo\Loggable
+ *
  * @Gedmo\SoftDeleteable
  */
 class Traject
@@ -29,61 +33,77 @@ class Traject
 
     /**
      * @var Deelnemer
+     *
      * @ORM\ManyToOne(targetEntity="Deelnemer", inversedBy="trajecten")
+     *
      * @ORM\JoinColumn(nullable=false)
+     *
      * @Gedmo\Versioned
      */
     private $deelnemer;
 
     /**
      * @var Trajectsoort
+     *
      * @ORM\ManyToOne(targetEntity="Trajectsoort", inversedBy="trajecten")
+     *
      * @ORM\JoinColumn(nullable=false)
+     *
      * @Gedmo\Versioned
      */
     private $soort;
 
     /**
      * @var Resultaatgebied
+     *
      * @ORM\OneToOne(targetEntity="Resultaatgebied", cascade={"persist"})
+     *
      * @Gedmo\Versioned
      */
     private $resultaatgebied;
 
     /**
      * @var ArrayCollection|Resultaatgebied[]
+     *
      * @ORM\OneToMany(targetEntity="Resultaatgebied", mappedBy="traject", cascade={"persist"})
+     *
      * @ORM\OrderBy({"startdatum" = "DESC", "id" = "DESC"})
      */
     private $resultaatgebieden;
 
     /**
      * @var ArrayCollection|Dagdeel[]
+     *
      * @ORM\OneToMany(targetEntity="Dagdeel", mappedBy="traject", cascade={"persist"}, orphanRemoval=true)
+     *
      * @ORM\OrderBy({"datum" = "DESC", "id" = "DESC"})
      */
     private $dagdelen;
 
     /**
      * @ORM\Column(type="date")
+     *
      * @Gedmo\Versioned
      */
     private $startdatum;
 
     /**
      * @var \DateTime
+     *
      * @ORM\Column(type="date", nullable=true)
      */
     private $evaluatiedatum;
 
     /**
      * @ORM\Column(type="date")
+     *
      * @Gedmo\Versioned
      */
     private $einddatum;
 
     /**
      * @ORM\Column(type="date", nullable=true)
+     *
      * @Gedmo\Versioned
      */
     private $afsluitdatum;
@@ -92,6 +112,7 @@ class Traject
      * @var Trajectcoach
      *
      * @ORM\ManyToOne(targetEntity="Trajectcoach", inversedBy="trajecten", cascade={"persist"})
+     *
      * @Gedmo\Versioned
      */
     private $trajectcoach;
@@ -100,16 +121,18 @@ class Traject
      * @var Trajectafsluiting
      *
      * @ORM\ManyToOne(targetEntity="Trajectafsluiting", cascade={"persist"})
+     *
      * @Gedmo\Versioned
      */
     private $afsluiting;
-
 
     /**
      * @var ArrayCollection|Locatie[]
      *
      * @ORM\ManyToMany(targetEntity="Locatie")
+     *
      * @ORM\JoinTable(name="dagbesteding_traject_locatie")
+     *
      * @ORM\OrderBy({"naam" = "ASC"})
      */
     private $locaties;
@@ -118,6 +141,7 @@ class Traject
      * @var ArrayCollection|Project[]
      *
      * @ORM\ManyToMany(targetEntity="Project", inversedBy="trajecten", cascade={"persist"})
+     *
      * @ORM\OrderBy({"naam" = "ASC"})
      */
     private $projecten;
@@ -126,6 +150,7 @@ class Traject
      * @var ArrayCollection|Deelname[]
      *
      * @ORM\OneToMany(targetEntity="Deelname", mappedBy="traject", cascade={"persist"})
+     *
      * @ORM\OrderBy({"id" = "DESC"})
      */
     private $deelnames;
@@ -134,6 +159,7 @@ class Traject
      * @var bool
      *
      * @ORM\Column(type="boolean", nullable=true)
+     *
      * @Gedmo\Versioned
      */
     private $ondersteuningsplanVerwerkt;
@@ -190,25 +216,25 @@ class Traject
         return $this->startdatum;
     }
 
-    public function setStartdatum(\DateTime $startdatum = null)
+    public function setStartdatum(?\DateTime $startdatum = null)
     {
         if ($this->startdatum) {
-//            $rapportagedatum = clone $this->startdatum;
-//            $rapportagedatum->modify(self::TERMIJN_EVALUATIE);
-//            $einddatum = clone $this->startdatum;
-//            $einddatum->modify(self::TERMIJN_EIND);
-//            foreach ($this->rapportages as $rapportage) {
-//                if ($rapportage->isDeletable()
-//                    && in_array($rapportage->getDatum(), [$rapportagedatum, $einddatum])
-//                ) {
-//                    $this->removeRapportage($rapportage);
-//                }
-//            }
+            //            $rapportagedatum = clone $this->startdatum;
+            //            $rapportagedatum->modify(self::TERMIJN_EVALUATIE);
+            //            $einddatum = clone $this->startdatum;
+            //            $einddatum->modify(self::TERMIJN_EIND);
+            //            foreach ($this->rapportages as $rapportage) {
+            //                if ($rapportage->isDeletable()
+            //                    && in_array($rapportage->getDatum(), [$rapportagedatum, $einddatum])
+            //                ) {
+            //                    $this->removeRapportage($rapportage);
+            //                }
+            //            }
         }
 
         $this->startdatum = $startdatum;
 
-        if (null!==$this->getEvaluatiedatum()) {
+        if (null !== $this->getEvaluatiedatum()) {
             $evaluatiedatum = clone $startdatum;
             $evaluatiedatum->modify(self::TERMIJN_EVALUATIE);
             $this->setEvaluatiedatum($evaluatiedatum);
@@ -216,7 +242,7 @@ class Traject
 
         $einddatum = clone $startdatum;
         $einddatum->modify(self::TERMIJN_EIND);
-//        $this->addRapportage(new Rapportage($einddatum));
+        //        $this->addRapportage(new Rapportage($einddatum));
         $this->setEinddatum($einddatum);
 
         return $this;
@@ -227,16 +253,13 @@ class Traject
         return $this->afsluitdatum;
     }
 
-    public function setAfsluitdatum(\DateTime $afsluitdatum = null)
+    public function setAfsluitdatum(?\DateTime $afsluitdatum = null)
     {
         $this->afsluitdatum = $afsluitdatum;
 
         return $this;
     }
 
-    /**
-     * @return \DateTime
-     */
     public function getEvaluatiedatum(): ?\DateTime
     {
         return $this->evaluatiedatum;
@@ -244,15 +267,14 @@ class Traject
 
     /**
      * @param \DateTime $evaluatiedatum
-     * @return Traject
      */
     public function setEvaluatiedatum($evaluatiedatum): Traject
     {
-//        $evaluatiedatum = $evaluatiedatum ?? (new \DateTime())->modify(self::TERMIJN_EVALUATIE);
+        //        $evaluatiedatum = $evaluatiedatum ?? (new \DateTime())->modify(self::TERMIJN_EVALUATIE);
         $this->evaluatiedatum = $evaluatiedatum;
+
         return $this;
     }
-
 
     public function isDeletable(): bool
     {
@@ -264,8 +286,6 @@ class Traject
     {
         return null === $this->afsluiting;
     }
-
-
 
     public function getAfsluiting()
     {
@@ -279,26 +299,17 @@ class Traject
         return $this;
     }
 
-
-    /**
-     * @return Trajectcoach
-     */
     public function getTrajectcoach(): ?Trajectcoach
     {
         return $this->trajectcoach;
     }
 
-    /**
-     * @param Trajectcoach $trajectcoach
-     * @return Traject
-     */
     public function setTrajectcoach(?Trajectcoach $trajectcoach): Traject
     {
         $this->trajectcoach = $trajectcoach;
+
         return $this;
     }
-
-
 
     public function getSoort()
     {
@@ -366,12 +377,12 @@ class Traject
 
     public function getProjecten($inclusiefHistorischeProjecten = false)
     {
-        return new Exception("Projecten niet meer beschikbaar op traject. Alleen via deelname");
+        return new Exception('Projecten niet meer beschikbaar op traject. Alleen via deelname');
     }
 
     public function addProject(Project $project)
     {
-        return new Exception("Projecten niet meer beschikbaar op traject. Alleen via deelname");
+        return new Exception('Projecten niet meer beschikbaar op traject. Alleen via deelname');
     }
 
     /**
@@ -384,14 +395,15 @@ class Traject
 
     /**
      * @param Deelname[]|ArrayCollection $deelnames
+     *
      * @return Traject
      */
     public function addDeelname($deelnames)
     {
         $this->deelnames[] = $deelnames;
+
         return $this;
     }
-
 
     public function getEinddatum()
     {
@@ -436,9 +448,6 @@ class Traject
 
         return $this;
     }
-
-
-
 
     public function countDagdelenByMonth()
     {

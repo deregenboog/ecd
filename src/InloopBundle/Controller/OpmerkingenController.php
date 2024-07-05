@@ -9,13 +9,14 @@ use InloopBundle\Entity\Locatie;
 use InloopBundle\Form\OpmerkingType;
 use InloopBundle\Service\OpmerkingDaoInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
-use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * @Route("/opmerkingen")
+ *
  * @Template
  */
 class OpmerkingenController extends AbstractController
@@ -39,6 +40,7 @@ class OpmerkingenController extends AbstractController
     /**
      * @Route("/{klant}", requirements={"klant"="\d+"}, defaults={"locatie" = null})
      * @Route("/{klant}/{locatie}", requirements={"klant"="\d+", "locatie"="\d+"})
+     *
      * @ParamConverter("klant", class="AppBundle\Entity\Klant")
      * @ParamConverter("locatie", class="InloopBundle\Entity\Locatie")
      */
@@ -63,6 +65,7 @@ class OpmerkingenController extends AbstractController
 
     /**
      * @Route("/add/{klant}")
+     *
      * @ParamConverter("klant", class="AppBundle\Entity\Klant")
      */
     public function addAction(Request $request)
@@ -75,6 +78,7 @@ class OpmerkingenController extends AbstractController
 
     /**
      * @Route("/{opmerking}/delete", methods={"POST"})
+     *
      * @ParamConverter("opmerking", class="AppBundle\Entity\Opmerking")
      */
     public function deleteAction(Request $request, $opmerking)

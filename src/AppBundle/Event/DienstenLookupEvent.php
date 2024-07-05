@@ -6,9 +6,7 @@ use AppBundle\Entity\Klant;
 use AppBundle\Model\Dienst;
 use Symfony\Contracts\EventDispatcher\Event;
 
-
 class DienstenLookupEvent extends Event
-
 {
     /**
      * @var int
@@ -44,6 +42,7 @@ class DienstenLookupEvent extends Event
     public function setKlant(Klant $klant)
     {
         $this->klant = $klant;
+
         return $this;
     }
 
@@ -55,6 +54,7 @@ class DienstenLookupEvent extends Event
     public function addDienst(Dienst $dienst)
     {
         $this->diensten[] = $dienst;
+
         return $this;
     }
 }

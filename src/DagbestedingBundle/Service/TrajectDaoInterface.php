@@ -14,12 +14,11 @@ interface TrajectDaoInterface
     public const FASE_EINDSTAND = 'eindstand';
 
     /**
-     * @param int             $page
-     * @param FilterInterface $filter
+     * @param int $page
      *
      * @return PaginationInterface
      */
-    public function findAll($page = null, FilterInterface $filter = null);
+    public function findAll($page = null, ?FilterInterface $filter = null);
 
     /**
      * @param int $id
@@ -28,19 +27,10 @@ interface TrajectDaoInterface
      */
     public function find($id);
 
-    /**
-     * @param Traject $traject
-     */
     public function create(Traject $traject);
 
-    /**
-     * @param Traject $traject
-     */
     public function update(Traject $traject);
 
-    /**
-     * @param Traject $traject
-     */
     public function delete(Traject $traject);
 
     public function countByAfsluiting($fase, \DateTime $startdate, \DateTime $enddate);

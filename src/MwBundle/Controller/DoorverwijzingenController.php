@@ -6,11 +6,12 @@ use AppBundle\Controller\AbstractController;
 use MwBundle\Entity\Doorverwijzing;
 use MwBundle\Form\DoorverwijzingType;
 use MwBundle\Service\DoorverwijzingDaoInterface;
-use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * @Route("/admin/doorverwijzingen")
+ *
  * @Template
  */
 class DoorverwijzingenController extends AbstractController

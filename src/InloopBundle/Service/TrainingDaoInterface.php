@@ -9,12 +9,11 @@ use Knp\Component\Pager\Pagination\PaginationInterface;
 interface TrainingDaoInterface
 {
     /**
-     * @param int             $page
-     * @param FilterInterface $filter
+     * @param int $page
      *
      * @return PaginationInterface
      */
-    public function findAll($page = null, FilterInterface $filter = null);
+    public function findAll($page = null, ?FilterInterface $filter = null);
 
     /**
      * @param int $id
@@ -23,18 +22,9 @@ interface TrainingDaoInterface
      */
     public function find($id);
 
-    /**
-     * @param Training $vwtraining
-     */
     public function create(Training $vwtraining);
 
-    /**
-     * @param Training $vwtraining
-     */
     public function update(Training $vwtraining);
 
-    /**
-     * @param Training $vwtraining
-     */
     public function delete(Training $vwtraining);
 }

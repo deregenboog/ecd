@@ -2,9 +2,8 @@
 
 namespace AppBundle\Service;
 
-use AppBundle\Filter\FilterInterface;
-use AppBundle\Service\AbstractDao;
 use AppBundle\Entity\Memo;
+use AppBundle\Filter\FilterInterface;
 
 class MemoDao extends AbstractDao implements MemoDaoInterface
 {
@@ -22,7 +21,7 @@ class MemoDao extends AbstractDao implements MemoDaoInterface
     /**
      * {inheritdoc}.
      */
-    public function findAll($page = null, FilterInterface $filter = null)
+    public function findAll($page = null, ?FilterInterface $filter = null)
     {
         return parent::findAll($page);
     }

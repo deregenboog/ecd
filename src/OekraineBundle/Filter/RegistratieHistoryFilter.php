@@ -17,7 +17,7 @@ class RegistratieHistoryFilter extends RegistratieFilter
 
     public function applyTo(QueryBuilder $builder)
     {
-//        $builder->innerJoin(RecenteRegistratie::class, 'recenteRegistratie', 'WITH', 'registratie = recenteRegistratie.registratie');
+        //        $builder->innerJoin(RecenteRegistratie::class, 'recenteRegistratie', 'WITH', 'registratie = recenteRegistratie.registratie');
 
         parent::applyTo($builder);
     }

@@ -13,7 +13,7 @@ interface VerslagDaoInterface
      *
      * @return PaginationInterface
      */
-    public function findAll($page = null, FilterInterface $filter = null);
+    public function findAll($page = null, ?FilterInterface $filter = null);
 
     /**
      * @param int $id
@@ -22,18 +22,9 @@ interface VerslagDaoInterface
      */
     public function find($id);
 
-    /**
-     * @param Verslag $entity
-     */
     public function create(Verslag $entity);
 
-    /**
-     * @param Verslag $entity
-     */
     public function update(Verslag $entity);
 
-    /**
-     * @param Verslag $entity
-     */
     public function delete(Verslag $entity);
 }

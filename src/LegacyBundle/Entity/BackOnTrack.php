@@ -8,6 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * BackOnTracks.
  *
  * @ORM\Table(name="back_on_tracks", indexes={@ORM\Index(name="idx_back_on_tracks_dates", columns={"startdatum", "einddatum"})})
+ *
  * @ORM\Entity
  */
 class BackOnTrack
@@ -58,7 +59,9 @@ class BackOnTrack
      * @var int
      *
      * @ORM\Column(name="id", type="integer")
+     *
      * @ORM\Id
+     *
      * @ORM\GeneratedValue
      */
     private $id;

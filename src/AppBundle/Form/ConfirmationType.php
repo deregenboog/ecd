@@ -9,9 +9,6 @@ use Symfony\Component\Form\FormBuilderInterface;
 
 class ConfirmationType extends AbstractType
 {
-    /**
-     * {@inheritdoc}
-     */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
@@ -21,9 +18,6 @@ class ConfirmationType extends AbstractType
         ;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getParent(): ?string
     {
         return BaseType::class;

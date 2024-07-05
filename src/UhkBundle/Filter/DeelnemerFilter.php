@@ -28,7 +28,7 @@ class DeelnemerFilter implements FilterInterface
     public $deelnemer;
 
     /**
-     * @var \AppBundle\Filter\MedewerkerFilter
+     * @var MedewerkerFilter
      */
     public $medewerker;
 
@@ -48,11 +48,10 @@ class DeelnemerFilter implements FilterInterface
             $this->klant->applyTo($builder);
         }
 
-        if($this->deelnemer) {
+        if ($this->deelnemer) {
             $this->deelnemer->applyTo($builder);
         }
-        if($this->medewerker)
-        {
+        if ($this->medewerker) {
             if ($this->medewerker) {
                 $builder
                     ->andWhere('deelnemer.medewerker = :medewerker')
@@ -76,10 +75,9 @@ class DeelnemerFilter implements FilterInterface
             }
         }
 
-        if($this->actief)
-        {
-            $builder->andWhere("deelnemer.actief = :actief")
-                ->setParameter('actief',$this->actief);
+        if ($this->actief) {
+            $builder->andWhere('deelnemer.actief = :actief')
+                ->setParameter('actief', $this->actief);
         }
     }
 }

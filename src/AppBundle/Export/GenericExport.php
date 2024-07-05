@@ -39,16 +39,15 @@ class GenericExport extends AbstractExport
     /**
      * @var string
      */
-    protected $friendlyName = null;
+    protected $friendlyName;
 
     /**
      * @var AbstractDao
      */
-    protected $dao = null;
+    protected $dao;
 
-    public function __construct($class, array $configuration, $friendlyName=null, $dao=null)
+    public function __construct($class, array $configuration, $friendlyName = null, $dao = null)
     {
-
         $this->class = $class;
         $this->configuration = $configuration;
         $this->headers = $this->getHeaders($configuration);
@@ -155,7 +154,9 @@ class GenericExport extends AbstractExport
     {
         $this->excel = new Spreadsheet();
         $sheet = $this->excel->getActiveSheet();
-        if (null!==$this->friendlyName)  $sheet->setTitle($this->friendlyName);
+        if (null !== $this->friendlyName) {
+            $sheet->setTitle($this->friendlyName);
+        }
 
         $column = 1;
         foreach ($this->headers as $header) {
@@ -168,7 +169,8 @@ class GenericExport extends AbstractExport
 
         return $sheet;
     }
-    public function getSheet($idx=0)
+
+    public function getSheet($idx = 0)
     {
         return $this->excel->getSheet($idx);
     }
@@ -195,11 +197,12 @@ class GenericExport extends AbstractExport
 
     public function getFriendlyClassname()
     {
-        if(!$this->friendlyName)
-        {
-            $path = explode("\\",$this->class);
+        if (!$this->friendlyName) {
+            $path = explode('\\', $this->class);
+
             return array_pop($path);
         }
+
         return $this->friendlyName;
     }
 
@@ -221,7 +224,10 @@ class GenericExport extends AbstractExport
      */
     public function getDao()
     {
-        if($this->dao == null) throw new ExportException("Geen DAO ingesteld voor deze download");
+        if (null == $this->dao) {
+            throw new ExportException('Geen DAO ingesteld voor deze download');
+        }
+
         return $this->dao;
     }
 }

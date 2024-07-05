@@ -4,8 +4,8 @@ namespace ClipBundle\Filter;
 
 use AppBundle\Filter\FilterInterface;
 use AppBundle\Form\Model\AppDateRangeModel;
-use Doctrine\ORM\QueryBuilder;
 use ClipBundle\Entity\Locatie;
+use Doctrine\ORM\QueryBuilder;
 
 class VrijwilligerFilter implements FilterInterface
 {
@@ -39,7 +39,7 @@ class VrijwilligerFilter implements FilterInterface
     public function applyTo(QueryBuilder $builder)
     {
         if ($this->vrijwilliger) {
-//            $this->vrijwilliger->applyTo($builder, 'appVrijwilliger');
+            //            $this->vrijwilliger->applyTo($builder, 'appVrijwilliger');
         }
 
         if ($this->aanmelddatum) {
@@ -79,8 +79,7 @@ class VrijwilligerFilter implements FilterInterface
             ;
         }
 
-        if($this->actief == true)
-        {
+        if (true == $this->actief) {
             $builder
                 ->andWhere('vrijwilliger.afsluitdatum IS NULL')
             ;

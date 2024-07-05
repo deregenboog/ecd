@@ -6,7 +6,6 @@ namespace Tests\ErOpUitBundle\Controller;
 
 use AppBundle\Service\MedewerkerDao;
 use Liip\FunctionalTestBundle\Test\WebTestCase;
-use Symfony\Component\HttpFoundation\Request;
 
 class KlantenControllerTest extends WebTestCase
 {

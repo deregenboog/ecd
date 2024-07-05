@@ -13,12 +13,12 @@ use GaBundle\Form\EmailMessageType;
 use GaBundle\Form\SelectieType;
 use GaBundle\Service\KlantdossierDaoInterface;
 use GaBundle\Service\VrijwilligerdossierDaoInterface;
-use Symfony\Component\Mailer\Mailer;
-use Symfony\Component\Mime\Message;
-use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Mailer\Mailer;
+use Symfony\Component\Mime\Message;
+use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * @Route("/selecties")
@@ -31,7 +31,7 @@ class SelectiesController extends SymfonyController
     protected $klantDossierDao;
 
     /**
-     * @var VrijwilligerDossierDaoInterface
+     * @var VrijwilligerdossierDaoInterface
      */
     protected $vrijwilligerDossierDao;
 
@@ -40,7 +40,7 @@ class SelectiesController extends SymfonyController
      */
     protected $export;
 
-    public function __construct(KlantDossierDaoInterface $klantDossierDao, VrijwilligerdossierDaoInterface $vrijwilligerDossierDao, SelectionExport $export)
+    public function __construct(KlantdossierDaoInterface $klantDossierDao, VrijwilligerdossierDaoInterface $vrijwilligerDossierDao, SelectionExport $export)
     {
         $this->klantDossierDao = $klantDossierDao;
         $this->vrijwilligerDossierDao = $vrijwilligerDossierDao;
@@ -49,6 +49,7 @@ class SelectiesController extends SymfonyController
 
     /**
      * @Route("/")
+     *
      * @Template
      */
     public function indexAction(Request $request)
@@ -80,39 +81,40 @@ class SelectiesController extends SymfonyController
      */
     public function emailAction(Request $request)
     {
-//        $form = $this->getForm(EmailMessageType::class);
-//        $form->handleRequest($this->getRequest());
-//
-//        if ($form->isSubmitted() && $form->isValid()) {
-//            /** @var Mailer $mailer */
-//            $mailer = $this->container->get('mailer');
-//
-//            /** @var Message $message */
-//            $message = $mailer->createMessage()
-//                ->setFrom($form->get('from')->getData())
-//                ->setTo(explode(', ', $form->get('to')->getData()))
-//                ->setSubject($form->get('subject')->getData())
-//                ->setBody($form->get('text')->getData(), 'text/plain')
-//            ;
-//
-//            try {
-//                $sent = $mailer->send($message);
-//                if ($sent) {
-//                    $this->addFlash('success', 'E-mail is verzonden.');
-//                } else {
-//                    $this->addFlash('danger', 'E-mail kon niet verzonden worden.');
-//                }
-//            } catch(UserException $e) {
-////                $this->logger->error($e->getMessage(), ['exception' => $e]);
-//                $message =  $e->getMessage();
-//                $this->addFlash('danger', $message);
-////                return $this->redirectToRoute('app_klanten_index');
-//            } catch (\Exception $e) {
-//                $message = $this->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
-//                $this->addFlash('danger', $message);
-//            }
-//        }
+        //        $form = $this->getForm(EmailMessageType::class);
+        //        $form->handleRequest($this->getRequest());
+        //
+        //        if ($form->isSubmitted() && $form->isValid()) {
+        //            /** @var Mailer $mailer */
+        //            $mailer = $this->container->get('mailer');
+        //
+        //            /** @var Message $message */
+        //            $message = $mailer->createMessage()
+        //                ->setFrom($form->get('from')->getData())
+        //                ->setTo(explode(', ', $form->get('to')->getData()))
+        //                ->setSubject($form->get('subject')->getData())
+        //                ->setBody($form->get('text')->getData(), 'text/plain')
+        //            ;
+        //
+        //            try {
+        //                $sent = $mailer->send($message);
+        //                if ($sent) {
+        //                    $this->addFlash('success', 'E-mail is verzonden.');
+        //                } else {
+        //                    $this->addFlash('danger', 'E-mail kon niet verzonden worden.');
+        //                }
+        //            } catch(UserException $e) {
+        // //                $this->logger->error($e->getMessage(), ['exception' => $e]);
+        //                $message =  $e->getMessage();
+        //                $this->addFlash('danger', $message);
+        // //                return $this->redirectToRoute('app_klanten_index');
+        //            } catch (\Exception $e) {
+        //                $message = $this->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
+        //                $this->addFlash('danger', $message);
+        //            }
+        //        }
         $this->addFlash('success', 'E-mails versturen via selecties is uitgeschakeld.');
+
         return $this->redirectToRoute('ga_selecties_index');
     }
 

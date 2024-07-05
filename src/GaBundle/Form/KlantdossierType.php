@@ -16,9 +16,6 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class KlantdossierType extends AbstractType
 {
-    /**
-     * {@inheritdoc}
-     */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $dossier = $options['data'];
@@ -36,9 +33,6 @@ class KlantdossierType extends AbstractType
         $builder->add('submit', SubmitType::class);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
@@ -46,15 +40,12 @@ class KlantdossierType extends AbstractType
         ]);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getParent(): ?string
     {
         return BaseType::class;
     }
 
-    private function hasKlant(Klantdossier $dossier = null)
+    private function hasKlant(?Klantdossier $dossier = null)
     {
         return $dossier && $dossier->getKlant() instanceof Klant && $dossier->getKlant()->getId();
     }

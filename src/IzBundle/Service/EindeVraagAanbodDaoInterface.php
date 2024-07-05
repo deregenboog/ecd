@@ -9,12 +9,11 @@ use Knp\Component\Pager\Pagination\PaginationInterface;
 interface EindeVraagAanbodDaoInterface
 {
     /**
-     * @param int             $page
-     * @param FilterInterface $filter
+     * @param int $page
      *
      * @return PaginationInterface
      */
-    public function findAll($page = null, FilterInterface $filter = null);
+    public function findAll($page = null, ?FilterInterface $filter = null);
 
     /**
      * @param int $id
@@ -23,18 +22,9 @@ interface EindeVraagAanbodDaoInterface
      */
     public function find($id);
 
-    /**
-     * @param EindeVraagAanbod $entity
-     */
     public function create(EindeVraagAanbod $entity);
 
-    /**
-     * @param EindeVraagAanbod $entity
-     */
     public function update(EindeVraagAanbod $entity);
 
-    /**
-     * @param EindeVraagAanbod $entity
-     */
     public function delete(EindeVraagAanbod $entity);
 }

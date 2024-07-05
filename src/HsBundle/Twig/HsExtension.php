@@ -42,13 +42,15 @@ class HsExtension extends AbstractExtension
 
     public function getTests(): array
     {
-        return array (
-            new TwigFilter("instanceof",array($this,"isInstanceOf")),
-        );
+        return [
+            new TwigFilter('instanceof', [$this, 'isInstanceOf']),
+        ];
     }
 
-    public function isInstanceOf($var,$instance) {
+    public function isInstanceOf($var, $instance)
+    {
         $reflectionClass = new \ReflectionClass($instance);
+
         return $reflectionClass->isInstance($var);
     }
 }

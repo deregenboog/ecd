@@ -2,12 +2,10 @@
 
 namespace ClipBundle\Form;
 
-
-use InloopBundle\Form\VrijwilligerCloseTypeAbstract;
 use ClipBundle\Entity\Vrijwilliger;
+use InloopBundle\Form\VrijwilligerCloseTypeAbstract;
 
 class VrijwilligerCloseType extends VrijwilligerCloseTypeAbstract
 {
     protected $class = Vrijwilliger::class;
-
 }

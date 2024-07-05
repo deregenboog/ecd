@@ -12,9 +12,6 @@ use Symfony\Component\Form\AbstractType;
 
 abstract class DossierSelectType extends AbstractType
 {
-    /**
-     * {@inheritdoc}
-     */
     public function getParent(): ?string
     {
         return EntityType::class;

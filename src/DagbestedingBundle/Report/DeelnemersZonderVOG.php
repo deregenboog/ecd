@@ -31,14 +31,12 @@ class DeelnemersZonderVOG extends AbstractReport
     {
         $data = $this->dao->deelnemersZonderVOG(DeelnemerDaoInterface::FASE_GESTART, $this->startDate, $this->endDate);
 
-
-        $listing = new Listing($data, ['Deelnemer nummer'=>'id','Naam' => 'naam','Project(en)'=>'projectNaam']);
+        $listing = new Listing($data, ['Deelnemer nummer' => 'id', 'Naam' => 'naam', 'Project(en)' => 'projectNaam']);
         $listing->setStartDate($this->startDate)->setEndDate($this->endDate);
 
-            $this->reports[] = [
-                'title' => "Deelnemers zonder VOG",
-                'data' => $listing->render(),
-            ];
-
+        $this->reports[] = [
+            'title' => 'Deelnemers zonder VOG',
+            'data' => $listing->render(),
+        ];
     }
 }

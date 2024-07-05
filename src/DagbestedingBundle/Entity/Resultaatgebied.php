@@ -8,8 +8,11 @@ use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Entity
+ *
  * @ORM\Table(name="dagbesteding_resultaatgebieden")
+ *
  * @ORM\HasLifecycleCallbacks
+ *
  * @Gedmo\Loggable
  */
 class Resultaatgebied
@@ -17,32 +20,39 @@ class Resultaatgebied
     use TimestampableTrait;
     /**
      * @ORM\Id
+     *
      * @ORM\Column(type="integer")
+     *
      * @ORM\GeneratedValue
      */
     private $id;
 
     /**
      * @var Traject
+     *
      * @ORM\ManyToOne(targetEntity="Traject", inversedBy="resultaatgebieden")
+     *
      * @Gedmo\Versioned
      */
     private $traject;
 
     /**
      * @var Resultaatgebiedsoort
+     *
      * @ORM\ManyToOne(targetEntity="Resultaatgebiedsoort", inversedBy="resultaatgebieden")
+     *
      * @Gedmo\Versioned
      */
     private $soort;
 
     /**
      * @ORM\Column(type="date")
+     *
      * @Gedmo\Versioned
      */
     private $startdatum;
 
-    public function __construct(Resultaatgebiedsoort $soort = null)
+    public function __construct(?Resultaatgebiedsoort $soort = null)
     {
         $this->soort = $soort;
         $this->setStartdatum(new \DateTime());
@@ -75,7 +85,7 @@ class Resultaatgebied
         return $this->startdatum;
     }
 
-    public function setStartdatum(\DateTime $startdatum = null)
+    public function setStartdatum(?\DateTime $startdatum = null)
     {
         $this->startdatum = $startdatum;
 

@@ -43,7 +43,7 @@ class HulpaanbodDao extends AbstractDao implements HulpaanbodDaoInterface
 
     protected $hulpsoortenZonderKoppelingen = [];
 
-    public function findAll($page = null, FilterInterface $filter = null)
+    public function findAll($page = null, ?FilterInterface $filter = null)
     {
         $builder = $this->repository->createQueryBuilder('hulpaanbod')
             ->innerJoin('hulpaanbod.izVrijwilliger', 'izVrijwilliger')
@@ -52,8 +52,8 @@ class HulpaanbodDao extends AbstractDao implements HulpaanbodDaoInterface
             ->innerJoin('hulpaanbod.medewerker', 'medewerker')
             ->innerJoin('izVrijwilliger.vrijwilliger', 'vrijwilliger')
             ->leftJoin('vrijwilliger.werkgebied', 'werkgebied')
-            ->innerJoin('hulpaanbod.hulpvraagsoorten','hulpvraagsoort')
-            ->innerJoin('hulpaanbod.doelgroepen','doelgroep')
+            ->innerJoin('hulpaanbod.hulpvraagsoorten', 'hulpvraagsoort')
+            ->innerJoin('hulpaanbod.doelgroepen', 'doelgroep')
             ->where('hulpaanbod.hulpvraag IS NULL')
             ->andWhere('hulpaanbod.einddatum IS NULL')
             ->andWhere('izVrijwilliger.afsluiting IS NULL')
@@ -85,14 +85,13 @@ class HulpaanbodDao extends AbstractDao implements HulpaanbodDaoInterface
         $this->doDelete($entity);
     }
 
-    public function findMatching(Hulpvraag $hulpvraag, $page = null, HulpaanbodFilter $filter = null)
+    public function findMatching(Hulpvraag $hulpvraag, $page = null, ?HulpaanbodFilter $filter = null)
     {
-
         $builder = $this->repository->createQueryBuilder('hulpaanbod')
             ->select('hulpaanbod, izVrijwilliger, vrijwilliger')
             ->innerJoin('hulpaanbod.project', 'project', 'WITH', 'project.heeftKoppelingen = true')
             ->innerJoin('hulpaanbod.izVrijwilliger', 'izVrijwilliger')
-            ->leftJoin('hulpaanbod.hulpvraagsoorten', 'hulpvraagsoort') //,'WITH', 'hulpvraagsoort.naam NOT IN (:hulpsoortenZonderKoppelingen)')
+            ->leftJoin('hulpaanbod.hulpvraagsoorten', 'hulpvraagsoort') // ,'WITH', 'hulpvraagsoort.naam NOT IN (:hulpsoortenZonderKoppelingen)')
             ->leftJoin('hulpaanbod.doelgroepen', 'doelgroep')
             ->innerJoin('izVrijwilliger.intake', 'intake')
             ->innerJoin('izVrijwilliger.vrijwilliger', 'vrijwilliger')
@@ -106,36 +105,36 @@ class HulpaanbodDao extends AbstractDao implements HulpaanbodDaoInterface
             ->andWhere('izVrijwilliger.afsluitDatum IS NULL') // vrijwilliger niet afgesloten
             ->orderBy('hulpaanbod.startdatum', 'ASC')
             ->setParameter('today', new \DateTime('today'))
-            //->setParameter('hulpsoortenZonderKoppelingen',$this->hulpsoortenZonderKoppelingen)
+            // ->setParameter('hulpsoortenZonderKoppelingen',$this->hulpsoortenZonderKoppelingen)
         ;
 
         /**
          * SELECT izk.id, izk.iz_deelnemer_id, SUM(IF (iz_ha_hvs.hulpvraagsoort_id=16, 1, 0)) AS exclude
          * FROM `iz_hulpaanbod_hulpvraagsoort` iz_ha_hvs INNER JOIN iz_koppelingen AS izk ON iz_ha_hvs.hulpaanbod_id = izk.id
          * WHERE iz_ha_hvs.hulpvraagsoort_id = 16
-         * GROUP BY iz_ha_hvs.hulpaanbod_id DESC
+         * GROUP BY iz_ha_hvs.hulpaanbod_id DESC.
          */
         $geenDeelnemerMetHulpTimeout = $this->repository->createQueryBuilder('hulpaanbod')
 //            ->select('hulpaanbod.id, izVrijwilliger.id), SUM(CASE WHEN hulpvraagsoorten.id = 16 THEN 1 ELSE 0 END) as exclude')
                 ->select('hulpaanbod.id, izVrijwilliger.id')
             ->innerJoin('hulpaanbod.hulpvraagsoorten', 'hulpvraagsoorten')
-            ->innerJoin('hulpaanbod.izVrijwilliger','izVrijwilliger')
+            ->innerJoin('hulpaanbod.izVrijwilliger', 'izVrijwilliger')
 
             ->where('hulpvraagsoorten.naam IN(:hulpvraagsoortenZonderKoppelingen)')
             ->andWhere('hulpaanbod.einddatum IS NULL')
             ->andWhere('hulpaanbod.koppelingEinddatum IS NULL')
             ->andWhere('hulpaanbod.koppelingStartdatum IS NULL')
             ->groupBy('hulpaanbod.id')
-            ->setParameter('hulpvraagsoortenZonderKoppelingen',$this->hulpsoortenZonderKoppelingen)
-            ;
+            ->setParameter('hulpvraagsoortenZonderKoppelingen', $this->hulpsoortenZonderKoppelingen)
+        ;
 
-//        $sql = SqlExtractor::getFullSQL($geenDeelnemerMetHulpTimeout->getQuery());
+        //        $sql = SqlExtractor::getFullSQL($geenDeelnemerMetHulpTimeout->getQuery());
         $r = $geenDeelnemerMetHulpTimeout->getQuery()->getResult();
-        if(is_array($r) || $r instanceof \Countable ? count($r) : 0) {
+        if (is_array($r) || $r instanceof \Countable ? count($r) : 0) {
             $builder
                 ->andWhere('izVrijwilliger NOT IN (:excludeTimeoutDeelnemers)')
-                ->setParameter("excludeTimeoutDeelnemers",$r)
-                ;
+                ->setParameter('excludeTimeoutDeelnemers', $r)
+            ;
         }
         // hulpaanbod niet gereserveerd
         $gereserveerdeHulpaanbiedingen = $this->repository->createQueryBuilder('hulpaanbod')
@@ -233,7 +232,7 @@ class HulpaanbodDao extends AbstractDao implements HulpaanbodDaoInterface
                 ;
             }
         }
-//        $sql = SqlExtractor::getFullSQL($builder->getQuery());
+        //        $sql = SqlExtractor::getFullSQL($builder->getQuery());
 
         return $this->paginator->paginate($builder, $page, $this->itemsPerPage, $this->paginationOptions);
     }

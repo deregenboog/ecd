@@ -3,15 +3,15 @@
 namespace ClipBundle\Controller;
 
 use AppBundle\Export\ExportInterface;
-use ClipBundle\Entity\Vraag;
 use ClipBundle\Filter\VraagFilter;
 use ClipBundle\Service\VraagDaoInterface;
-use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * @Route("/openstaandevragen")
+ *
  * @Template
  */
 class OpenstaandeVragenController extends AbstractVragenController

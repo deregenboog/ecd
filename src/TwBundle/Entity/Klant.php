@@ -7,15 +7,15 @@ use AppBundle\Entity\Medewerker;
 use AppBundle\Entity\Zrm;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
-use Doctrine\ORM\PersistentCollection;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Validator\Context\ExecutionContextInterface;
-use TwBundle\Entity\Project;
 
 /**
  * @ORM\Entity
+ *
  * @ORM\HasLifecycleCallbacks
+ *
  * @Gedmo\Loggable
  */
 class Klant extends Deelnemer
@@ -24,6 +24,7 @@ class Klant extends Deelnemer
      * @var KlantAfsluiting
      *
      * @ORM\ManyToOne(targetEntity="KlantAfsluiting", inversedBy="huurders", cascade={"persist"})
+     *
      * @Gedmo\Versioned
      */
     protected $afsluiting;
@@ -32,6 +33,7 @@ class Klant extends Deelnemer
      * @var ArrayCollection|Huurverzoek[]
      *
      * @ORM\OneToMany(targetEntity="Huurverzoek", mappedBy="klant", cascade={"persist"})
+     *
      * @ORM\OrderBy({"startdatum" = "DESC", "id" = "DESC"})
      */
     private $huurverzoeken;
@@ -40,6 +42,7 @@ class Klant extends Deelnemer
      * @var bool
      *
      * @ORM\Column(type="boolean", nullable=true)
+     *
      * @Gedmo\Versioned
      */
     private $automatischeIncasso;
@@ -48,7 +51,9 @@ class Klant extends Deelnemer
      * @var InschrijvingWoningnet
      *
      * @ORM\ManyToOne (targetEntity="TwBundle\Entity\InschrijvingWoningnet")
+     *
      * @ORM\JoinColumn (nullable=true)
+     *
      * @Gedmo\Versioned
      */
     private $inschrijvingWoningnet;
@@ -57,39 +62,48 @@ class Klant extends Deelnemer
      * @var bool
      *
      * @ORM\Column(type="boolean", nullable=true)
+     *
      * @Gedmo\Versioned
      */
     private $waPolis;
 
     /**
      * @var Huurbudget
+     *
      * @ORM\ManyToOne(targetEntity="Huurbudget",cascade={"persist"})
+     *
      * @ORM\OrderBy({"maxValue" = "ASC"})
      */
     private $huurbudget;
 
     /**
      * @var DuurThuisloos
+     *
      * @ORM\ManyToOne(targetEntity="TwBundle\Entity\DuurThuisloos",cascade={"persist"})
+     *
      * @ORM\OrderBy({"maxValue" = "ASC"})
      */
     private $duurThuisloos;
 
     /**
      * @var Werk
+     *
      * @ORM\ManyToOne(targetEntity="TwBundle\Entity\Werk",cascade={"persist"})
      */
     private $werk;
 
     /**
-     * @var boolean
+     * @var bool
+     *
      * @ORM\Column (nullable=true)
      */
     private $inkomensverklaring;
 
     /**
      * @var Project[]
+     *
      * @ORM\ManyToMany(targetEntity="Project")
+     *
      * @ORM\JoinTable(
      *     name="tw_huurders_tw_projecten",
      *     joinColumns={@ORM\JoinColumn(name="tw_huurder_id")},
@@ -107,44 +121,51 @@ class Klant extends Deelnemer
 
     /**
      * @var Regio
+     *
      * @ORM\ManyToOne(targetEntity="TwBundle\Entity\Regio",cascade={"persist"})
      */
     private $bindingRegio;
 
     /**
      * @var MoScreening
+     *
      * @ORM\ManyToOne(targetEntity="TwBundle\Entity\MoScreening",cascade={"persist"})
      */
     private $moScreening;
 
     /**
      * @var IntakeStatus
+     *
      * @ORM\ManyToOne(targetEntity="TwBundle\Entity\IntakeStatus",cascade={"persist"})
      */
     private $intakeStatus;
 
     /**
      * @var Medewerker
+     *
      * @ORM\ManyToOne (targetEntity="AppBundle\Entity\Medewerker",cascade={"persist"})
      */
     private $shortlist;
 
     /**
      * @var string
+     *
      * @ORM\Column(nullable=true)
      */
-    private $toelichtingInkomen = null;
+    private $toelichtingInkomen;
 
     /**
      * @var Klant
+     *
      * @ORM\OneToOne(targetEntity="Klant")
+     *
      * @ORM\JoinColumn(name="huisgenoot_id", referencedColumnName="id")
+     *
      * @Gedmo\Versioned
      */
     private $huisgenoot;
 
-
-    public function __construct(AppKlant $klant = null)
+    public function __construct(?AppKlant $klant = null)
     {
         if (null !== $klant) {
             $this->appKlant = $klant;
@@ -228,7 +249,6 @@ class Klant extends Deelnemer
         return $huurovereenkomsten;
     }
 
-
     public function getAfsluiting()
     {
         return $this->afsluiting;
@@ -237,6 +257,7 @@ class Klant extends Deelnemer
     public function setAfsluiting(KlantAfsluiting $afsluiting)
     {
         $this->afsluiting = $afsluiting;
+
         return $this;
     }
 
@@ -244,6 +265,7 @@ class Klant extends Deelnemer
     {
         return $this->automatischeIncasso;
     }
+
     public function isAutomatischeIncasso()
     {
         return $this->automatischeIncasso;
@@ -252,21 +274,19 @@ class Klant extends Deelnemer
     public function setAutomatischeIncasso($automatischeIncasso)
     {
         $this->automatischeIncasso = (bool) $automatischeIncasso;
+
         return $this;
     }
 
-    /**
-     * @return InschrijvingWoningnet
-     */
     public function getInschrijvingWoningnet(): ?InschrijvingWoningnet
     {
         return $this->inschrijvingWoningnet;
     }
 
-
-    public function setInschrijvingWoningnet(InschrijvingWoningnet  $inschrijvingWoningnet)
+    public function setInschrijvingWoningnet(InschrijvingWoningnet $inschrijvingWoningnet)
     {
         $this->inschrijvingWoningnet = $inschrijvingWoningnet;
+
         return $this;
     }
 
@@ -278,52 +298,35 @@ class Klant extends Deelnemer
     public function setWaPolis($waPolis)
     {
         $this->waPolis = (bool) $waPolis;
+
         return $this;
     }
 
-    /**
-     * @return Huurbudget
-     */
     public function getHuurbudget(): ?Huurbudget
     {
         return $this->huurbudget;
     }
 
-    /**
-     * @param Huurbudget $huurbudget
-     */
     public function setHuurbudget(Huurbudget $huurbudget): void
     {
         $this->huurbudget = $huurbudget;
     }
 
-    /**
-     * @return DuurThuisloos
-     */
     public function getDuurThuisloos(): ?DuurThuisloos
     {
         return $this->duurThuisloos;
     }
 
-    /**
-     * @param DuurThuisloos $duurThuisloos
-     */
     public function setDuurThuisloos(?DuurThuisloos $duurThuisloos): void
     {
         $this->duurThuisloos = $duurThuisloos;
     }
 
-    /**
-     * @return Werk
-     */
     public function getWerk(): ?Werk
     {
         return $this->werk;
     }
 
-    /**
-     * @param Werk $werk
-     */
     public function setWerk(?Werk $werk): void
     {
         $this->werk = $werk;
@@ -332,183 +335,129 @@ class Klant extends Deelnemer
     /**
      * @return Project[]
      */
-    public function getProjecten()//: ?arraPersistentCollection
+    public function getProjecten()// : ?arraPersistentCollection
     {
         return $this->projecten;
     }
 
     /**
      * @param Project[] $projecten
-     * @return Klant
      */
     public function setProjecten($projecten): Klant
     {
         $this->projecten = $projecten;
+
         return $this;
     }
 
-
-    /**
-     * @return Zrm
-     */
     public function getZrm(): ?Zrm
     {
         return $this->zrm;
     }
 
-    /**
-     * @param Zrm $zrm
-     */
     public function setZrm(Zrm $zrm)
     {
-        $zrm->setRequestModule("TwHuurder");
+        $zrm->setRequestModule('TwHuurder');
         $zrm->setKlant($this->getKlant());
         $this->zrm = $zrm;
     }
 
-    /**
-     * @return Regio
-     */
     public function getBindingRegio(): ?Regio
     {
         return $this->bindingRegio;
     }
 
-    /**
-     * @param Regio $bindingRegio
-     * @return Klant
-     */
     public function setBindingRegio(Regio $bindingRegio): Klant
     {
         $this->bindingRegio = $bindingRegio;
+
         return $this;
     }
 
-    /**
-     * @return MoScreening
-     */
     public function getMoScreening(): ?MoScreening
     {
         return $this->moScreening;
     }
 
-    /**
-     * @param MoScreening $moScreening
-     * @return Klant
-     */
     public function setMoScreening(MoScreening $moScreening): Klant
     {
         $this->moScreening = $moScreening;
+
         return $this;
     }
 
-    /**
-     * @return IntakeStatus
-     */
     public function getIntakeStatus(): ?IntakeStatus
     {
         return $this->intakeStatus;
     }
 
-    /**
-     * @param IntakeStatus $intakeStatus
-     * @return Klant
-     */
     public function setIntakeStatus(IntakeStatus $intakeStatus): Klant
     {
         $this->intakeStatus = $intakeStatus;
+
         return $this;
     }
 
-
-    /**
-     * @return bool|null
-     */
     public function isInkomensverklaring(): ?bool
     {
         return $this->inkomensverklaring;
     }
 
-    /**
-     * @param bool|null $inkomensverklaring
-     * @return Deelnemer
-     */
     public function setInkomensverklaring(?bool $inkomensverklaring): Deelnemer
     {
         $this->inkomensverklaring = $inkomensverklaring;
+
         return $this;
     }
 
-    /**
-     * @return string|null
-     */
     public function getToelichtingInkomen(): ?string
     {
         return $this->toelichtingInkomen;
     }
 
-    /**
-     * @param string|null $toelichtingInkomen
-     * @return Klant
-     */
     public function setToelichtingInkomen(?string $toelichtingInkomen): Klant
     {
         $this->toelichtingInkomen = $toelichtingInkomen;
+
         return $this;
     }
 
-
-
-    /**
-     * @return Medewerker|null
-     */
     public function getShortlist(): ?Medewerker
     {
         return $this->shortlist;
     }
 
-    /**
-     * @param Medewerker|null $shortlist
-     * @return Klant
-     */
     public function setShortlist(?Medewerker $shortlist): Klant
     {
         $this->shortlist = $shortlist;
+
         return $this;
     }
 
-    /**
-     * @return Klant
-     */
     public function getHuisgenoot(): ?Klant
     {
         return $this->huisgenoot;
     }
 
-    /**
-     * @param Klant $huisgenoot
-     * @return Klant
-     */
     public function setHuisgenoot(?Klant $huisgenoot): ?Klant
     {
         $this->huisgenoot = $huisgenoot;
+
         return $this;
     }
 
     public function isGekoppeld()
     {
-
-
         $today = new \DateTime('today');
         $hoes = $this->getHuurovereenkomsten();
         foreach ($hoes as $hoe) {
             /** @var Huurovereenkomst $hoe */
-            if ($hoe->isReservering() == false
-                && $hoe->isActief() == true
-                && ($hoe->getAfsluitdatum() == null || $hoe->getAfsluitdatum() > $today)
-                && $hoe->getStartdatum() != null
+            if (false == $hoe->isReservering()
+                && true == $hoe->isActief()
+                && (null == $hoe->getAfsluitdatum() || $hoe->getAfsluitdatum() > $today)
+                && null != $hoe->getStartdatum()
 
-                //&& $this->getAfsluitdatum() == null
+                // && $this->getAfsluitdatum() == null
             ) {
                 return true;
             }
@@ -517,15 +466,14 @@ class Klant extends Deelnemer
         return false;
     }
 
-
     /**
      * @Assert\Callback
      */
     public function validate(ExecutionContextInterface $context, $payload)
     {
         return;
-        //Wijziging: MO screening toch niet verplicht als geen ZRM.
-        if ((!$this->moScreening || $this->moScreening->getLabel() =="Niet gescreend") && !$this->zrm->getJustitie()) {
+        // Wijziging: MO screening toch niet verplicht als geen ZRM.
+        if ((!$this->moScreening || 'Niet gescreend' == $this->moScreening->getLabel()) && !$this->zrm->getJustitie()) {
             $context->buildViolation('Zrm is verplicht wanneer er geen MO screening is geweest. Maak de Zrm of pas de screening aan.')
                 ->atPath('moScreening')
                 ->addViolation();

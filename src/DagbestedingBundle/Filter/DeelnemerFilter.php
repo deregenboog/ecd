@@ -91,10 +91,8 @@ class DeelnemerFilter implements FilterInterface
             }
         }
 
-        if($this->actief)
-        {
+        if ($this->actief) {
             $builder->andWhere('(deelnemer.afsluitdatum IS NULL OR deelnemer.afsluitdatum >= DATE(\'now\'))');
-
         }
         if ($this->zonderTraject) {
             $builder->leftJoin('deelnemer.trajecten', 'traject')->andWhere('traject.id IS NULL');

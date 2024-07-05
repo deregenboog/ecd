@@ -7,11 +7,12 @@ use AppBundle\Controller\DisableIndexActionTrait;
 use IzBundle\Entity\Document;
 use IzBundle\Form\DocumentType;
 use IzBundle\Service\DocumentDaoInterface;
-use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * @Route("/documenten")
+ *
  * @Template
  */
 class DocumentenController extends AbstractChildController

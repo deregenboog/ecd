@@ -8,6 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * Gd27.
  *
  * @ORM\Table(name="gd27")
+ *
  * @ORM\Entity
  */
 class Gd27
@@ -107,7 +108,9 @@ class Gd27
      * @var int
      *
      * @ORM\Column(name="idd", type="integer")
+     *
      * @ORM\Id
+     *
      * @ORM\GeneratedValue
      */
     private $idd;

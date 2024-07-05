@@ -30,7 +30,7 @@ class KlusDao extends AbstractDao implements KlusDaoInterface
     /**
      * {inheritdoc}.
      */
-    public function findAll($page = null, FilterInterface $filter = null)
+    public function findAll($page = null, ?FilterInterface $filter = null)
     {
         $builder = $this->repository->createQueryBuilder($this->alias)
             ->select("{$this->alias}, klant, activiteit, declaratie, memo, registratie")
@@ -80,7 +80,7 @@ class KlusDao extends AbstractDao implements KlusDaoInterface
     /**
      * {inheritdoc}.
      */
-    public function countByStadsdeel(\DateTime $start = null, \DateTime $end = null)
+    public function countByStadsdeel(?\DateTime $start = null, ?\DateTime $end = null)
     {
         $builder = $this->repository->createQueryBuilder('klus')
             ->select('COUNT(DISTINCT klus.id) AS aantal, werkgebied.naam AS stadsdeel')
@@ -103,7 +103,7 @@ class KlusDao extends AbstractDao implements KlusDaoInterface
     /**
      * {inheritdoc}.
      */
-    public function countByGgwGebied(\DateTime $start = null, \DateTime $end = null)
+    public function countByGgwGebied(?\DateTime $start = null, ?\DateTime $end = null)
     {
         $builder = $this->repository->createQueryBuilder('klus')
             ->select('COUNT(DISTINCT klus.id) AS aantal, postcodegebied.naam AS ggwgebied')
@@ -126,7 +126,7 @@ class KlusDao extends AbstractDao implements KlusDaoInterface
     /**
      * {inheritdoc}.
      */
-    public function countDienstverlenersByStadsdeel(\DateTime $start = null, \DateTime $end = null)
+    public function countDienstverlenersByStadsdeel(?\DateTime $start = null, ?\DateTime $end = null)
     {
         $builder = $this->repository->createQueryBuilder('klus')
             ->select('COUNT(DISTINCT klus.id) AS aantal, werkgebied.naam AS stadsdeel')
@@ -151,7 +151,7 @@ class KlusDao extends AbstractDao implements KlusDaoInterface
     /**
      * {inheritdoc}.
      */
-    public function countDienstverlenersByGgwGebied(\DateTime $start = null, \DateTime $end = null)
+    public function countDienstverlenersByGgwGebied(?\DateTime $start = null, ?\DateTime $end = null)
     {
         $builder = $this->repository->createQueryBuilder('klus')
             ->select('COUNT(DISTINCT klus.id) AS aantal, postcodegebied.naam AS ggwgebied')
@@ -176,7 +176,7 @@ class KlusDao extends AbstractDao implements KlusDaoInterface
     /**
      * {inheritdoc}.
      */
-    public function countVrijwilligersByStadsdeel(\DateTime $start = null, \DateTime $end = null)
+    public function countVrijwilligersByStadsdeel(?\DateTime $start = null, ?\DateTime $end = null)
     {
         $builder = $this->repository->createQueryBuilder('klus')
             ->select('COUNT(DISTINCT klus.id) AS aantal, werkgebied.naam AS stadsdeel')
@@ -201,7 +201,7 @@ class KlusDao extends AbstractDao implements KlusDaoInterface
     /**
      * {inheritdoc}.
      */
-    public function countVrijwilligersByGgwGebied(\DateTime $start = null, \DateTime $end = null)
+    public function countVrijwilligersByGgwGebied(?\DateTime $start = null, ?\DateTime $end = null)
     {
         $builder = $this->repository->createQueryBuilder('klus')
             ->select('COUNT(DISTINCT klus.id) AS aantal, postcodegebied.naam AS ggwgebied')

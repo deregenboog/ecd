@@ -5,19 +5,15 @@ namespace ScipBundle\Form;
 use AppBundle\Entity\Medewerker;
 use AppBundle\Form\BaseSelectType;
 use Doctrine\ORM\EntityRepository;
-use Doctrine\ORM\Query\Expr\Join;
 use ScipBundle\Entity\Project;
-use ScipBundle\Entity\Toegangsrecht;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\OptionsResolver\Options;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
-use Symfony\Component\Security\Core\Authorization\AccessDecisionManager;
 use Symfony\Component\Security\Core\Authorization\AuthorizationChecker;
 
 class ProjectSelectType extends AbstractType
 {
-
     /**
      * @var Medewerker
      */
@@ -33,46 +29,37 @@ class ProjectSelectType extends AbstractType
      */
     private $securityAuthorizationChecker;
 
-    public function __construct(TokenStorageInterface $tokenStorage,AuthorizationChecker $securityAuthorizationChecker )
+    public function __construct(TokenStorageInterface $tokenStorage, AuthorizationChecker $securityAuthorizationChecker)
     {
         $this->medewerker = $tokenStorage->getToken()->getUser();
         $this->roles = $tokenStorage->getToken()->getRoles();
         $this->securityAuthorizationChecker = $securityAuthorizationChecker;
-
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function configureOptions(OptionsResolver $resolver)
     {
-
         $resolver->setDefaults([
             'class' => Project::class,
             'preset' => false,
-            'query_builder' =>
-                function (Options $options) {
-                    return function (EntityRepository $repository) use ($options) {
-                        $builder = $repository->createQueryBuilder('projecten')
-                            ->select('projecten')
-                            ->leftJoin("projecten.toegangsrechten","toegang")
+            'query_builder' => function (Options $options) {
+                return function (EntityRepository $repository) {
+                    $builder = $repository->createQueryBuilder('projecten')
+                        ->select('projecten')
+                        ->leftJoin('projecten.toegangsrechten', 'toegang')
 
-                            ->orderBy('projecten.naam');
-                        if ($this->medewerker && !$this->securityAuthorizationChecker->isGranted("ROLE_SCIP_BEHEER")){
-                            $builder
-                                ->where('toegang.medewerker = :medewerker')
-                                ->setParameter('medewerker',$this->medewerker->getId());
-                        }
-                        return $builder;
-                    };
-                }
+                        ->orderBy('projecten.naam');
+                    if ($this->medewerker && !$this->securityAuthorizationChecker->isGranted('ROLE_SCIP_BEHEER')) {
+                        $builder
+                            ->where('toegang.medewerker = :medewerker')
+                            ->setParameter('medewerker', $this->medewerker->getId());
+                    }
+
+                    return $builder;
+                };
+            },
             ]);
-
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getParent(): ?string
     {
         return BaseSelectType::class;

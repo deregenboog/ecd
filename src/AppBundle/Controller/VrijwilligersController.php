@@ -2,7 +2,6 @@
 
 namespace AppBundle\Controller;
 
-use AppBundle\Entity\Document;
 use AppBundle\Entity\Overeenkomst;
 use AppBundle\Entity\Vog;
 use AppBundle\Entity\Vrijwilliger;
@@ -12,16 +11,16 @@ use AppBundle\Export\AbstractExport;
 use AppBundle\Form\ConfirmationType;
 use AppBundle\Form\VrijwilligerFilterType;
 use AppBundle\Form\VrijwilligerType;
-use AppBundle\Service\VrijwilligerDao;
 use AppBundle\Service\VrijwilligerDaoInterface;
 use Doctrine\Common\Collections\Criteria;
-use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
+use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * @Route("/vrijwilligers")
+ *
  * @Template
  */
 class VrijwilligersController extends AbstractController
@@ -48,11 +47,8 @@ class VrijwilligersController extends AbstractController
         $this->export = $export;
     }
 
-
     /**
      * @Route("/{vrijwilliger}/{documentId}/deleteDocument/")
-     * @param Request $request
-     * @param $documentId
      */
     public function deleteDocumentAction(Request $request, $vrijwilliger, $documentId)
     {
@@ -62,18 +58,17 @@ class VrijwilligersController extends AbstractController
 
         $vrijwilliger = $this->dao->find($vrijwilliger);
 
-        //$criteria = Criteria::create()->where(Criteria::expr()->eq("id", $documentId));
-        $docs = $vrijwilliger->getDocumenten(); //->matching($criteria)->first();
+        // $criteria = Criteria::create()->where(Criteria::expr()->eq("id", $documentId));
+        $docs = $vrijwilliger->getDocumenten(); // ->matching($criteria)->first();
         $entity = null;
-        foreach($docs as $d)
-        {
-            if($d->getId() == $documentId){
+        foreach ($docs as $d) {
+            if ($d->getId() == $documentId) {
                 $entity = $d;
                 break;
             }
         }
 
-        if(!$this->isGranted('ROLE_ADMIN') && $entity !== null
+        if (!$this->isGranted('ROLE_ADMIN') && null !== $entity
             && $entity->getMedewerker()->getId() != $this->getUser()->getId()
         ) {
             throw new AccessDeniedHttpException();
@@ -91,24 +86,19 @@ class VrijwilligersController extends AbstractController
                 /**
                  * Somehow, it wont remove...
                  */
-               $docDao = new \AppBundle\Service\DocumentDao($this->getEntityManager());
-               $docDao->delete($entity);
+                $docDao = new \AppBundle\Service\DocumentDao($this->getEntityManager());
+                $docDao->delete($entity);
 
-                if($entity instanceof Vog)
-                {
+                if ($entity instanceof Vog) {
                     $vrijwilliger->setVogAanwezig(false);
-                }
-                else if($entity instanceof Overeenkomst)
-                {
+                } elseif ($entity instanceof Overeenkomst) {
                     $vrijwilliger->setOvereenkomstAanwezig(false);
                 }
-
 
                 $this->dao->update($vrijwilliger);
 
                 $shortname = new \ReflectionClass($entity);
                 $shortname = $shortname->getShortName();
-
 
                 $this->addFlash('success', $shortname.' is verwijderd.');
 
@@ -132,7 +122,6 @@ class VrijwilligersController extends AbstractController
             'entity' => $entity,
             'form' => $form->createView(),
         ];
-
     }
 
     /**
@@ -153,7 +142,6 @@ class VrijwilligersController extends AbstractController
             'diensten' => $this->lookupDiensten($entity->getId()),
         ];
     }
-
 
     protected function lookupDiensten(int $vrijwilligerId): array
     {

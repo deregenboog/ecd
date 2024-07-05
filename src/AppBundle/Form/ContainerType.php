@@ -8,17 +8,11 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class ContainerType extends AbstractType
 {
-    /**
-     * {@inheritdoc}
-     */
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(['inherit_data' => true]);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getParent(): ?string
     {
         return FormType::class;

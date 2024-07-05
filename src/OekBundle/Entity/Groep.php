@@ -11,8 +11,11 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity
+ *
  * @ORM\Table(name="oek_groepen")
+ *
  * @ORM\HasLifecycleCallbacks
+ *
  * @Gedmo\Loggable
  */
 class Groep
@@ -21,32 +24,39 @@ class Groep
 
     /**
      * @ORM\Id
+     *
      * @ORM\Column(type="integer")
+     *
      * @ORM\GeneratedValue
      */
     private $id;
 
     /**
      * @ORM\Column(type="string")
+     *
      * @Gedmo\Versioned
      */
     private $naam;
 
     /**
      * @ORM\Column(name="aantal_bijeenkomsten", type="integer")
+     *
      * @Gedmo\Versioned
+     *
      * @Assert\GreaterThan(0)
      */
     private $aantalBijeenkomsten;
 
     /**
      * @var ArrayCollection|Deelname[]
+     *
      * @ORM\OneToMany(targetEntity="Lidmaatschap", mappedBy="groep")
      */
     private $lidmaatschappen;
 
     /**
      * @var ArrayCollection|Training[]
+     *
      * @ORM\OneToMany(targetEntity="Training", mappedBy="groep")
      */
     private $trainingen;
@@ -55,6 +65,7 @@ class Groep
      * @var \DateTime
      *
      * @ORM\Column(type="datetime")
+     *
      * @Gedmo\Versioned
      */
     protected $created;
@@ -63,6 +74,7 @@ class Groep
      * @var \DateTime
      *
      * @ORM\Column(type="datetime")
+     *
      * @Gedmo\Versioned
      */
     protected $modified;
@@ -151,7 +163,7 @@ class Groep
 
     public function isDeletable()
     {
-        return 0 == $this->lidmaatschappen->count() &&
-               0 == $this->trainingen->count();
+        return 0 == $this->lidmaatschappen->count()
+               && 0 == $this->trainingen->count();
     }
 }

@@ -5,13 +5,11 @@ namespace Tests\DagbestedingBundle\Filter;
 use AppBundle\Entity\Medewerker;
 use AppBundle\Filter\KlantFilter;
 use AppBundle\Form\Model\AppDateRangeModel;
-use DagbestedingBundle\Entity\Deelnemer;
 use DagbestedingBundle\Entity\Locatie;
 use DagbestedingBundle\Entity\Project;
 use DagbestedingBundle\Entity\Traject;
 use DagbestedingBundle\Entity\Trajectcoach;
 use DagbestedingBundle\Entity\Trajectsoort;
-use DagbestedingBundle\Filter\ResultaatgebiedFilter;
 use DagbestedingBundle\Filter\TrajectFilter;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Query\Parameter;
@@ -149,6 +147,5 @@ class TrajectFilterTest extends TestCase
         $filter->klant = $this->createMock(KlantFilter::class);
         $filter->klant->expects($this->once())->method('applyTo')->with($builder);
         $filter->applyTo($builder);
-
     }
 }

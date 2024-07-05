@@ -13,18 +13,9 @@ interface FinancieelVerslagDaoInterface
      */
     public function find($id);
 
-    /**
-     * @param FinancieelVerslag $verslag
-     */
     public function create(FinancieelVerslag $verslag);
 
-    /**
-     * @param FinancieelVerslag $verslag
-     */
     public function update(FinancieelVerslag $verslag);
 
-    /**
-     * @param FinancieelVerslag $verslag
-     */
     public function delete(FinancieelVerslag $verslag);
 }

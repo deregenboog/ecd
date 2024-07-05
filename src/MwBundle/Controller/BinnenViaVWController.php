@@ -5,7 +5,6 @@ namespace MwBundle\Controller;
 use AppBundle\Controller\AbstractController;
 use MwBundle\Entity\BinnenViaOptieVW;
 use MwBundle\Form\BinnenViaOptieVWType;
-use MwBundle\Form\BinnenViaType;
 use MwBundle\Service\BinnenViaDaoInterface;
 use Symfony\Component\Routing\Annotation\Route;
 

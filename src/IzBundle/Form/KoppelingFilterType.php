@@ -11,9 +11,7 @@ use Doctrine\ORM\EntityRepository;
 use IzBundle\Entity\Hulp;
 use IzBundle\Entity\Hulpaanbod;
 use IzBundle\Entity\Hulpvraag;
-use IzBundle\Entity\Project;
 use IzBundle\Filter\KoppelingFilter;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -22,9 +20,6 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class KoppelingFilterType extends AbstractType
 {
-    /**
-     * {@inheritdoc}
-     */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         if (in_array('koppelingStartdatum', $options['enabled_filters'])) {
@@ -66,7 +61,7 @@ class KoppelingFilterType extends AbstractType
         }
 
         if (in_array('project', $options['enabled_filters'])) {
-            $builder->add('project', ProjectSelectFilterType::class,[
+            $builder->add('project', ProjectSelectFilterType::class, [
             ]);
         }
 
@@ -95,7 +90,7 @@ class KoppelingFilterType extends AbstractType
                         ->where('medewerker.actief = :true')
                         ->setParameter('true', true)
                         ->orderBy('medewerker.voornaam', 'ASC')
-                        ;
+                    ;
                 },
                 'preset' => $options['preset_medewerker'],
             ]);
@@ -112,7 +107,7 @@ class KoppelingFilterType extends AbstractType
                         ->where('medewerker.actief = :true')
                         ->setParameter('true', true)
                         ->orderBy('medewerker.voornaam', 'ASC')
-                        ;
+                    ;
                 },
                 'preset' => $options['preset_medewerker'],
             ]);
@@ -127,9 +122,10 @@ class KoppelingFilterType extends AbstractType
                         ->innerJoin(Hulp::class, 'hulp', 'WITH', 'hulp.medewerker = medewerker')
                         ->where('medewerker.actief = true')
                         ->orderBy('medewerker.voornaam', 'ASC')
-                        ->groupBy("medewerker.id")
+                        ->groupBy('medewerker.id')
                     ;
-//                    $sql = SqlExtractor::getFullSQL($builder->getQuery());
+
+                    //                    $sql = SqlExtractor::getFullSQL($builder->getQuery());
                     return $builder;
                 },
                 'preset' => $options['preset_medewerker'],
@@ -145,9 +141,6 @@ class KoppelingFilterType extends AbstractType
         }
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
@@ -172,9 +165,6 @@ class KoppelingFilterType extends AbstractType
         ]);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getParent(): ?string
     {
         return FilterType::class;

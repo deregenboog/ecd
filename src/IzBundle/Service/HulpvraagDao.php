@@ -39,7 +39,7 @@ class HulpvraagDao extends AbstractDao implements HulpvraagDaoInterface
 
     protected $hulpsoortenZonderKoppelingen = [];
 
-    public function findAll($page = null, FilterInterface $filter = null)
+    public function findAll($page = null, ?FilterInterface $filter = null)
     {
         $builder = $this->repository->createQueryBuilder('hulpvraag')
             ->innerJoin('hulpvraag.izKlant', 'izKlant')
@@ -48,8 +48,8 @@ class HulpvraagDao extends AbstractDao implements HulpvraagDaoInterface
             ->innerJoin('hulpvraag.medewerker', 'medewerker')
             ->innerJoin('izKlant.klant', 'klant')
             ->leftJoin('klant.werkgebied', 'werkgebied')
-            ->innerJoin('hulpvraag.hulpvraagsoort','hulpvraagsoort')
-            ->innerJoin('hulpvraag.doelgroepen','doelgroep')
+            ->innerJoin('hulpvraag.hulpvraagsoort', 'hulpvraagsoort')
+            ->innerJoin('hulpvraag.doelgroepen', 'doelgroep')
             ->where('hulpvraag.hulpaanbod IS NULL')
             ->andWhere('hulpvraag.einddatum IS NULL')
             ->andWhere('izKlant.afsluiting IS NULL')
@@ -81,9 +81,8 @@ class HulpvraagDao extends AbstractDao implements HulpvraagDaoInterface
         $this->doDelete($entity);
     }
 
-    public function findMatching(Hulpaanbod $hulpaanbod, $page = null, HulpvraagFilter $filter = null)
+    public function findMatching(Hulpaanbod $hulpaanbod, $page = null, ?HulpvraagFilter $filter = null)
     {
-
         $builder = $this->repository->createQueryBuilder('hulpvraag')
             ->select('hulpvraag, izKlant, klant')
             ->innerJoin('hulpvraag.project', 'project', 'WITH', 'project.heeftKoppelingen = true')
@@ -101,7 +100,7 @@ class HulpvraagDao extends AbstractDao implements HulpvraagDaoInterface
             ->andWhere('hulpvraagsoort.naam NOT IN (:hulpvraagsoortenZonderKoppelingen)')
             ->orderBy('hulpvraag.startdatum', 'ASC')
             ->setParameter('today', new \DateTime('today'))
-            ->setParameter('hulpvraagsoortenZonderKoppelingen',$this->hulpsoortenZonderKoppelingen)
+            ->setParameter('hulpvraagsoortenZonderKoppelingen', $this->hulpsoortenZonderKoppelingen)
         ;
 
         // hulpvraag niet gereserveerd

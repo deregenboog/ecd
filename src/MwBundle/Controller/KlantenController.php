@@ -12,36 +12,37 @@ use AppBundle\Exception\UserException;
 use AppBundle\Export\ExportInterface;
 use AppBundle\Form\BaseType;
 use AppBundle\Form\KlantFilterType as AppKlantFilterType;
-use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Mapping as ORM;
 use InloopBundle\Entity\Locatie;
+use InloopBundle\Form\KlantType;
 use InloopBundle\Service\LocatieDaoInterface;
 use Knp\Component\Pager\Paginator;
-use Knp\Component\Pager\PaginatorInterface;
 use MwBundle\Entity\Aanmelding;
 use MwBundle\Entity\Afsluiting;
+use MwBundle\Entity\Document;
+use MwBundle\Entity\Info;
 use MwBundle\Entity\Project;
 use MwBundle\Entity\Verslag;
 use MwBundle\Form\AanmeldingType;
 use MwBundle\Form\AfsluitingType;
-use InloopBundle\Form\KlantType;
-use MwBundle\Entity\Document;
-use MwBundle\Entity\Info;
 use MwBundle\Form\InfoType;
 use MwBundle\Form\KlantFilterType;
 use MwBundle\Service\KlantDaoInterface;
 use MwBundle\Service\MwDossierStatusDao;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * @Route("/klanten")
+ *
  * @Template
+ *
  * @ORM\Embeddable
+ *
  * @ORM\Entity
+ *
  * @ORM\Table(name="klanten_controller")
  */
 class KlantenController extends AbstractController
@@ -86,12 +87,13 @@ class KlantenController extends AbstractController
      */
     public function viewAction(Request $request, $id)
     {
-        $response =  parent::viewAction($request, $id);
-        if(is_array($response)) $response['allRows'] = $this->locatieDao->findAllActiveLocationsOfTypeInloop();
-
+        $response = parent::viewAction($request, $id);
+        if (is_array($response)) {
+            $response['allRows'] = $this->locatieDao->findAllActiveLocationsOfTypeInloop();
+        }
 
         /**
-         * The regular view is altered to pass an adjusted set of verslagen to the view
+         * The regular view is altered to pass an adjusted set of verslagen to the view.
          *
          * There is a need to merge the verslagen of klant and TW Deelnemer.
          * Therefore we utilise this method to get the TW deelnemer and merge the verslagen.
@@ -103,27 +105,24 @@ class KlantenController extends AbstractController
 
         $event = new DienstenLookupEvent($klant->getId());
         if ($event->getKlantId()) {
-            $this->eventDispatcher->dispatch($event,Events::DIENSTEN_LOOKUP);
+            $this->eventDispatcher->dispatch($event, Events::DIENSTEN_LOOKUP);
         }
 
         $diensten = $event->getDiensten();
         $twKlant = null;
-        foreach($diensten as $dienst)
-        {
-            if($dienst->getNaam() == "Tijdelijk wonen")
-            {
+        foreach ($diensten as $dienst) {
+            if ('Tijdelijk wonen' == $dienst->getNaam()) {
                 $twKlant = $dienst->getEntity();
             }
         }
 
-        if(null!==$twKlant)
-        {
+        if (null !== $twKlant) {
             $twVerslagen = $this->getEntityManager()->getRepository(\TwBundle\Entity\Verslag::class)->getMwVerslagenForKlant($twKlant);
 
             $combinedVerslagen =
                 array_merge($twVerslagen, $mwVerslagen->toArray())
             ;
-            usort($combinedVerslagen, function($a, $b) {
+            usort($combinedVerslagen, function ($a, $b) {
                 // Assuming getCreatedAt() or similar method returns the DateTime object
                 return $b->getDatum() <=> $a->getDatum();
             });
@@ -131,8 +130,7 @@ class KlantenController extends AbstractController
             $response['verslagen'] = $combinedVerslagen;
         }
 
-
-        //ga bij TW de deelnemer en de verslagen ophalen, combineer die. zet die in de repsonse array en pas de view aan.
+        // ga bij TW de deelnemer en de verslagen ophalen, combineer die. zet die in de repsonse array en pas de view aan.
         return $response;
     }
 
@@ -154,7 +152,7 @@ class KlantenController extends AbstractController
     public function infoEditAction(Request $request, Klant $klant)
     {
         $em = $this->getEntityManager();
-        //$entity = $em->getRepository(Info::class)->findOneBy(['klant' => $klant]);
+        // $entity = $em->getRepository(Info::class)->findOneBy(['klant' => $klant]);
         $entity = $klant->getInfo();
         if (!$entity) {
             $entity = new Info($klant);
@@ -169,8 +167,8 @@ class KlantenController extends AbstractController
                 $em->persist($klant);
                 $em->flush();
                 $this->addFlash('success', 'Info is opgeslagen.');
-            } catch(UserException $e) {
-                $message =  $e->getMessage();
+            } catch (UserException $e) {
+                $message = $e->getMessage();
                 $this->addFlash('danger', $message);
             } catch (\Exception $e) {
                 $this->logger->error($e->getMessage(), ['exception' => $e]);
@@ -282,10 +280,11 @@ class KlantenController extends AbstractController
                 // redirect if already exists
                 $mwKlant = $this->dao->find($klantId);
                 if ($mwKlant && !$mwKlant->getHuidigeMwStatus() instanceof Aanmelding) {
-                    return $this->redirectToRoute("mw_klanten_addmwdossierstatus",["id"=>$klantId]);
+                    return $this->redirectToRoute('mw_klanten_addmwdossierstatus', ['id' => $klantId]);
                 }
-                $this->addFlash("warning","Deze klant is al aangemeld. Wanneer u de klant opnieuw wilt aanmelden dient het dossier eerst gesloten te worden.");
-                return $this->redirectToRoute("mw_klanten_view",["id"=>$klantId]);
+                $this->addFlash('warning', 'Deze klant is al aangemeld. Wanneer u de klant opnieuw wilt aanmelden dient het dossier eerst gesloten te worden.');
+
+                return $this->redirectToRoute('mw_klanten_view', ['id' => $klantId]);
             }
         }
 
@@ -298,9 +297,9 @@ class KlantenController extends AbstractController
                 $this->dao->create($mwKlant);
                 $this->addFlash('success', ucfirst($this->entityName).' is opgeslagen.');
 
-                return $this->redirectToRoute("mw_klanten_addmwdossierstatus",["id"=>$mwKlant->getId()]);
-            } catch(UserException $e) {
-                $message =  $e->getMessage();
+                return $this->redirectToRoute('mw_klanten_addmwdossierstatus', ['id' => $mwKlant->getId()]);
+            } catch (UserException $e) {
+                $message = $e->getMessage();
                 $this->addFlash('danger', $message);
             } catch (\Exception $e) {
                 $message = $this->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
@@ -325,19 +324,18 @@ class KlantenController extends AbstractController
         $klant = $this->dao->find($id);
 
         $hds = $klant->getHuidigeMwStatus();
-        if(!$hds instanceof Aanmelding){
-            throw new UserException("Kan geen dossier sluiten dat nu niet aangemeld is.");
+        if (!$hds instanceof Aanmelding) {
+            throw new UserException('Kan geen dossier sluiten dat nu niet aangemeld is.');
         }
         $afsluiting = new Afsluiting($this->getMedewerker());
         $afsluiting->setKlant($klant);
 
-
-        /**
+        /*
          * Copy project data from aanmelding to afsluiting so the project gets maintained in de afsluiting.
          */
-        if(null !== $klant->getAanmelding() && null !== $project = $klant->getAanmelding()->getProject()){
+        if (null !== $klant->getAanmelding() && null !== $project = $klant->getAanmelding()->getProject()) {
             $afsluiting->setProject($project);
-        };
+        }
 
         $form = $this->getForm(AfsluitingType::class, $afsluiting);
         $form->handleRequest($this->getRequest());
@@ -349,20 +347,17 @@ class KlantenController extends AbstractController
                 $entityManager->flush();
 
                 $this->addFlash('success', 'Mw dossier is afgesloten');
-            } catch(UserException $e) {
-                $message =  $e->getMessage();
+            } catch (UserException $e) {
+                $message = $e->getMessage();
                 $this->addFlash('danger', $message);
             } catch (\Exception $e) {
                 $message = $this->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
                 $this->addFlash('danger', $message);
             }
-            if(array_key_exists("inloopSluiten",$request->get('afsluiting')) )
-            {
-                if($klant->getHuidigeStatus() instanceof \InloopBundle\Entity\Aanmelding)
-                {
-                    return $this->redirectToRoute("inloop_klanten_close",["id"=>$id,"redirect"=>$this->generateUrl("mw_klanten_index")]);
+            if (array_key_exists('inloopSluiten', $request->get('afsluiting'))) {
+                if ($klant->getHuidigeStatus() instanceof \InloopBundle\Entity\Aanmelding) {
+                    return $this->redirectToRoute('inloop_klanten_close', ['id' => $id, 'redirect' => $this->generateUrl('mw_klanten_index')]);
                 }
-
             }
             if ($url = $request->get('redirect')) {
                 return $this->redirect($url);
@@ -386,7 +381,6 @@ class KlantenController extends AbstractController
         $aanmelding = new Aanmelding($this->getMedewerker());
         $aanmelding->setKlant($klant);
 
-
         $form = $this->getForm(AanmeldingType::class, $aanmelding);
         $form->handleRequest($this->getRequest());
         if ($form->isSubmitted() && $form->isValid()) {
@@ -397,11 +391,11 @@ class KlantenController extends AbstractController
                 $entityManager->flush();
 
                 $this->addFlash('success', 'Mw dossier is heropend');
-            } catch(UserException $e) {
-//                $this->logger->error($e->getMessage(), ['exception' => $e]);
-                $message =  $e->getMessage();
+            } catch (UserException $e) {
+                //                $this->logger->error($e->getMessage(), ['exception' => $e]);
+                $message = $e->getMessage();
                 $this->addFlash('danger', $message);
-//                return $this->redirectToRoute('app_klanten_index');
+                //                return $this->redirectToRoute('app_klanten_index');
             } catch (\Exception $e) {
                 $message = $this->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
                 $this->addFlash('danger', $message);
@@ -431,12 +425,11 @@ class KlantenController extends AbstractController
         $entity = new Aanmelding($this->getMedewerker());
         $entity->setKlant($klant);
         $info = $klant->getInfo();
-        if(!$info)
-        {
+        if (!$info) {
             $info = new Info($klant);
         }
 
-        $form = $this->getForm(AanmeldingType::class,$entity);
+        $form = $this->getForm(AanmeldingType::class, $entity);
         $form->handleRequest($this->getRequest());
         if ($form->isSubmitted() && $form->isValid()) {
             try {
@@ -447,8 +440,8 @@ class KlantenController extends AbstractController
                 $entityManager->flush();
 
                 $this->addFlash('success', 'Mw dossier is aangemaakt');
-            } catch(UserException $e) {
-                $message =  $e->getMessage();
+            } catch (UserException $e) {
+                $message = $e->getMessage();
                 $this->addFlash('danger', $message);
             } catch (\Exception $e) {
                 $message = $this->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
@@ -468,7 +461,6 @@ class KlantenController extends AbstractController
         ];
     }
 
-
     /**
      * @Route("/{id}/dossierstatus/{statusId}/edit")]
      */
@@ -478,22 +470,17 @@ class KlantenController extends AbstractController
         $mwStatus = $klant->getMwStatus($statusId);
 
         $type = null;
-        //prevents certain fields from being edited (like project)
+        // prevents certain fields from being edited (like project)
         $formEditMode = BaseType::MODE_EDIT;
 
-        if($mwStatus instanceof Aanmelding)
-        {
+        if ($mwStatus instanceof Aanmelding) {
             $type = AanmeldingType::class;
-            if($mwStatus->getProject() == null)//possibly an old aanmelding without project. Possible to set even while editting.
-            {
+            if (null == $mwStatus->getProject()) {// possibly an old aanmelding without project. Possible to set even while editting.
                 $formEditMode = BaseType::MODE_ADD;
             }
-        }
-        else if($mwStatus instanceof Afsluiting)
-        {
+        } elseif ($mwStatus instanceof Afsluiting) {
             $type = AfsluitingType::class;
         }
-
 
         $form = $this->getForm($type, $mwStatus, ['mode' => $formEditMode]);
         $form->handleRequest($this->getRequest());
@@ -508,8 +495,8 @@ class KlantenController extends AbstractController
                 }
 
                 $this->addFlash('success', 'Mw dossier is gewijzigd');
-            } catch(UserException $e) {
-                $message =  $e->getMessage();
+            } catch (UserException $e) {
+                $message = $e->getMessage();
                 $this->addFlash('danger', $message);
             } catch (\Exception $e) {
                 $message = $this->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
@@ -531,20 +518,20 @@ class KlantenController extends AbstractController
 
     /**
      * @Route("/{id}/dossierstatus/{statusId}/delete")]
+     *
      * @Template("delete.html.twig")
      */
     public function deleteMwDossierStatusAction(Request $request, $id, $statusId)
     {
         $this->dao = new MwDossierStatusDao($this->entityManager, new Paginator($this->eventDispatcher));
-        $return = parent::deleteAction($request,$statusId);
+        $return = parent::deleteAction($request, $statusId);
 
-        if(is_array($return)){
+        if (is_array($return)) {
             $return['entity_name'] = 'Dossierstatus';
         }
+
         return $return;
-
     }
-
 
     /**
      * @Route("/{id}/addHiPrio/")
@@ -554,54 +541,49 @@ class KlantenController extends AbstractController
         $klant = null;
         $entityManager = $this->getEntityManager();
         try {
-                $klant = $this->dao->find($id);
-                //Wanneer klant nog niet bestat, dossier aanmaken
-                if(!$klant->getHuidigeMwStatus() instanceof Aanmelding)
-                {
-                    return $this->redirectToRoute('mw_klanten_addmwdossierstatus',[
-                        'id'=>$klant->getId(),
-                        'redirect'=>$this->generateUrl("mw_klanten_addhiprio",[
-                            'id'=>$klant->getId(),
-                        ])
-                    ]);
-                }
+            $klant = $this->dao->find($id);
+            // Wanneer klant nog niet bestat, dossier aanmaken
+            if (!$klant->getHuidigeMwStatus() instanceof Aanmelding) {
+                return $this->redirectToRoute('mw_klanten_addmwdossierstatus', [
+                    'id' => $klant->getId(),
+                    'redirect' => $this->generateUrl('mw_klanten_addhiprio', [
+                        'id' => $klant->getId(),
+                    ]),
+                ]);
+            }
 
-                $locatieRep = $this->getEntityManager()->getRepository(Locatie::class);
-                $locatie = $locatieRep->findOneBy(['naam'=>'Wachtlijst STED']);
+            $locatieRep = $this->getEntityManager()->getRepository(Locatie::class);
+            $locatie = $locatieRep->findOneBy(['naam' => 'Wachtlijst STED']);
 
             $v = $klant->getAantalVerslagen();
 
-                //als nieuwste verslag niet op wachtlijst is, dan op wachtlijst zetten
-                if($klant->getAantalVerslagen() < 1 || $klant->getVerslagen()->first()->getLocatie() !== $locatie) {
-                    $verslag = new Verslag($klant);
-                    $verslag->setDatum(new \DateTime());
-                    $verslag->setOpmerking("Toegevoegd vanuit TW");
-                    $verslag->setMedewerker($this->getMedewerker());
-                    $verslag->setLocatie($locatie);
-                    $verslag->setAccess(Verslag::ACCESS_MW);
+            // als nieuwste verslag niet op wachtlijst is, dan op wachtlijst zetten
+            if ($klant->getAantalVerslagen() < 1 || $klant->getVerslagen()->first()->getLocatie() !== $locatie) {
+                $verslag = new Verslag($klant);
+                $verslag->setDatum(new \DateTime());
+                $verslag->setOpmerking('Toegevoegd vanuit TW');
+                $verslag->setMedewerker($this->getMedewerker());
+                $verslag->setLocatie($locatie);
+                $verslag->setAccess(Verslag::ACCESS_MW);
 
-                    $entityManager->persist($verslag);
-                    $entityManager->flush();
-                    $this->addFlash('success', 'Klant is op Wachtlijst Economisch Daklozen gezet');
-                }
-                else
-                {
-                    $this->addFlash('danger', 'Klant staat al op Wachtlijst Economisch Daklozen.');
-                }
-
-            } catch(UserException $e) {
-                $message =  $e->getMessage();
-                $this->addFlash('danger', $message);
-            } catch (\Exception $e) {
-                $message = $this->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
-                $this->addFlash('danger', $message);
+                $entityManager->persist($verslag);
+                $entityManager->flush();
+                $this->addFlash('success', 'Klant is op Wachtlijst Economisch Daklozen gezet');
+            } else {
+                $this->addFlash('danger', 'Klant staat al op Wachtlijst Economisch Daklozen.');
             }
+        } catch (UserException $e) {
+            $message = $e->getMessage();
+            $this->addFlash('danger', $message);
+        } catch (\Exception $e) {
+            $message = $this->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
+            $this->addFlash('danger', $message);
+        }
 
-            if ($url = $request->get('redirect')) {
-                return $this->redirect($url);
-            }
+        if ($url = $request->get('redirect')) {
+            return $this->redirect($url);
+        }
 
-            return $this->redirectToView($klant);
-
+        return $this->redirectToView($klant);
     }
 }

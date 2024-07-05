@@ -15,9 +15,6 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class VraagFilterType extends AbstractType
 {
-    /**
-     * {@inheritdoc}
-     */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         if (in_array('id', $options['enabled_filters'])) {
@@ -44,8 +41,7 @@ class VraagFilterType extends AbstractType
         }
 
         if (in_array('behandelaar', $options['enabled_filters'])) {
-            $builder->add('behandelaar', BehandelaarFilterType::class,[
-
+            $builder->add('behandelaar', BehandelaarFilterType::class, [
             ]);
         }
 
@@ -65,20 +61,13 @@ class VraagFilterType extends AbstractType
                 'required' => false,
             ]);
         }
-
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getParent(): ?string
     {
         return FilterType::class;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([

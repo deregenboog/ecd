@@ -15,6 +15,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * @Route("/clienten")
+ *
  * @Template
  */
 class ClientenController extends AbstractController

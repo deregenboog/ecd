@@ -3,7 +3,6 @@
 namespace InloopBundle\Controller;
 
 use AppBundle\Controller\AbstractRapportagesController;
-use AppBundle\Export\ExportInterface;
 use InloopBundle\Form\RapportageType;
 use Symfony\Component\Routing\Annotation\Route;
 

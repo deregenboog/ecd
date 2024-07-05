@@ -11,6 +11,7 @@ trait OptionalBehandelaarTrait
      * @var Behandelaar
      *
      * @ORM\ManyToOne(targetEntity="Behandelaar")
+     *
      * @Gedmo\Versioned
      */
     protected $behandelaar;

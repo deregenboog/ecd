@@ -11,8 +11,11 @@ use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Entity
+ *
  * @ORM\Table(name="dagbesteding_rapportages")
+ *
  * @ORM\HasLifecycleCallbacks
+ *
  * @Gedmo\Loggable
  */
 class Rapportage
@@ -23,7 +26,9 @@ class Rapportage
 
     /**
      * @var Traject
+     *
      * @ORM\ManyToOne(targetEntity="Traject")
+     *
      * @Gedmo\Versioned
      */
     private $traject;
@@ -32,6 +37,7 @@ class Rapportage
      * @var \DateTime
      *
      * @ORM\Column(type="date")
+     *
      * @Gedmo\Versioned
      */
     private $datum;
@@ -40,7 +46,9 @@ class Rapportage
      * @var ArrayCollection|Document[]
      *
      * @ORM\ManyToMany(targetEntity="Document", cascade={"persist"})
+     *
      * @ORM\JoinTable(name="dagbesteding_rapportage_document")
+     *
      * @ORM\OrderBy({"id" = "DESC"})
      */
     private $documenten;
@@ -49,6 +57,7 @@ class Rapportage
      * @var \DateTime
      *
      * @ORM\Column(type="datetime")
+     *
      * @Gedmo\Versioned
      */
     protected $created;
@@ -57,11 +66,12 @@ class Rapportage
      * @var \DateTime
      *
      * @ORM\Column(type="datetime")
+     *
      * @Gedmo\Versioned
      */
     protected $modified;
 
-    public function __construct(\DateTime $datum = null)
+    public function __construct(?\DateTime $datum = null)
     {
         $this->datum = $datum;
 

@@ -6,7 +6,6 @@ use AppBundle\Exception\AppException;
 use AppBundle\Exception\UserException;
 use AppBundle\Export\ExportInterface;
 use AppBundle\Filter\FilterInterface;
-use AppBundle\Form\BaseType;
 use AppBundle\Form\ConfirmationType;
 use AppBundle\Model\MedewerkerSubjectInterface;
 use AppBundle\Service\AbstractDao;
@@ -14,18 +13,16 @@ use Doctrine\DBAL\Exception\ForeignKeyConstraintViolationException;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityNotFoundException;
 use Psr\Log\LoggerInterface;
-use Symfony\Bridge\Monolog\Logger;
-use Symfony\Component\Form\Form;
-use Symfony\Component\HttpFoundation\Session\Flash\FlashBag;
-use Symfony\Component\Routing\Exception\InvalidParameterException;
-use Symfony\Component\Routing\Exception\RouteNotFoundException;
-use Symfony\Contracts\EventDispatcher\EventDispatcher;
-use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Symfony\Bridge\Monolog\Logger;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Symfony\Component\Form\Form;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Exception\InvalidParameterException;
+use Symfony\Component\Routing\Exception\RouteNotFoundException;
 use Vich\UploaderBundle\Handler\DownloadHandler;
 
 abstract class AbstractController extends SymfonyController
@@ -59,20 +56,23 @@ abstract class AbstractController extends SymfonyController
 
     /**
      * If adding entities needs searching for klanten or vrijwiliigers (as is the case with many modules)
-     * then one needs to search first for existing entities. this is done with this filter type
+     * then one needs to search first for existing entities. this is done with this filter type.
+     *
      * @var string
      */
     protected $searchFilterTypeClass;
 
     /**
      * This is the dao used for searching entities and if they exist.
+     *
      * @var AbstractDao
      */
     protected $searchDao;
 
     /**
      * This entity is created when there is no existing.
-     * (ie. klant or vrvijwilliger)
+     * (ie. klant or vrvijwilliger).
+     *
      * @var object Entity to create when nothing found
      */
     protected $searchEntity;
@@ -116,9 +116,7 @@ abstract class AbstractController extends SymfonyController
      */
     protected $logger;
 
-
     /**
-     * @param EventDispatcherInterface $eventDispatcher
      * @required
      */
     public function setEventDispatcher(EventDispatcherInterface $eventDispatcher)
@@ -127,8 +125,8 @@ abstract class AbstractController extends SymfonyController
     }
 
     /**
-     * @param LoggerInterface $logger
      * @required
+     *
      * @return void
      */
     public function setLogger(LoggerInterface $logger)
@@ -136,10 +134,9 @@ abstract class AbstractController extends SymfonyController
         $this->logger = $logger;
     }
 
-
     /**
-     * @param EntityManagerInterface $entityManager
      * @required
+     *
      * @return void
      */
     public function setEntityManager(EntityManagerInterface $entityManager)
@@ -163,6 +160,7 @@ abstract class AbstractController extends SymfonyController
 
     /**
      * @Route("/")
+     *
      * @Template
      */
     public function indexAction(Request $request)
@@ -225,11 +223,13 @@ abstract class AbstractController extends SymfonyController
     public function downloadAction(DownloadHandler $downloadHandler, $filename)
     {
         $document = $this->dao->findByFilename($filename);
+
         return $downloadHandler->downloadObject($document, 'file');
     }
 
     /**
      * @Route("/{id}/view")
+     *
      * @Template
      */
     public function viewAction(Request $request, $id)
@@ -241,26 +241,19 @@ abstract class AbstractController extends SymfonyController
         $this->beforeFind($id);
         $entity = false;
         $message = null;
-        try
-        {
+        try {
             $entity = $this->dao->find($id);
-
-        }
-        catch(EntityNotFoundException $entityNotFoundException)
-        {
+        } catch (EntityNotFoundException $entityNotFoundException) {
             $message = $this->getParameter('kernel.debug') ? $entityNotFoundException->getMessage() : 'Kan '.$this->entityClass.' niet inladen. Waarschijnlijk omdat deze verwijderd of inactief is.';
-
-        } catch (UserException $e)
-        {
+        } catch (UserException $e) {
             $message = $e->getMessage();
-        }
-        catch(\Exception $exception){
+        } catch (\Exception $exception) {
             $message = $this->getParameter('kernel.debug') ? $exception->getMessage() : 'Kan '.$this->entityClass.' niet inladen. Onbekende fout.';
-
         }
-        if($message){
+        if ($message) {
             $this->addFlash('danger', $message);
-            return $this->redirect($request->get("redirect"));
+
+            return $this->redirect($request->get('redirect'));
         }
 
         $this->afterFind($entity);
@@ -272,11 +265,13 @@ abstract class AbstractController extends SymfonyController
         $params = ['entity' => $entity];
 
         $params = array_merge($params, $this->addParams($entity, $request));
+
         return $params;
     }
 
     /**
      * @Route("/add")
+     *
      * @Template
      */
     public function addAction(Request $request)
@@ -284,20 +279,15 @@ abstract class AbstractController extends SymfonyController
         if (in_array('add', $this->disabledActions)) {
             throw new AccessDeniedHttpException();
         }
-        if (!isset($this->addMethod) || !is_callable($this, $this->addMethod) && !isset($this->searchFilterTypeClass))
-        {
+        if (!isset($this->addMethod) || !is_callable($this, $this->addMethod) && !isset($this->searchFilterTypeClass)) {
             return $this->doAdd($request);
-        }
-        else if(isset($this->searchFilterTypeClass))
-        {
+        } elseif (isset($this->searchFilterTypeClass)) {
             if ($request->get('entity')) {
                 return $this->doAdd($request);
             }
 
             return $this->doSearch($request);
-        }
-        else
-        {
+        } else {
             return $this->{$this->addMethod}($request);
         }
     }
@@ -308,14 +298,11 @@ abstract class AbstractController extends SymfonyController
 
         if ('new' === $entityId) {
             $searchEntity = new $this->searchEntity();
-        }
-        else if($entityId == null)
-        {
+        } elseif (null == $entityId) {
             $entity = new $this->entityClass();
 
             return $this->processForm($request, $entity);
-        }
-        else {
+        } else {
             $searchEntity = $this->searchDao->find($entityId);
             if ($searchEntity) {
                 // redirect if already exists
@@ -331,16 +318,15 @@ abstract class AbstractController extends SymfonyController
         $creationForm->handleRequest($request);
 
         if ($creationForm->isSubmitted() && $creationForm->isValid()) {
-
             try {
                 $this->beforeCreate($subEntity);
                 $this->dao->create($subEntity);
                 $this->afterCreate($subEntity);
-                $this->addFlash('success', ucfirst($this->entityName) . ' is opgeslagen.');
+                $this->addFlash('success', ucfirst($this->entityName).' is opgeslagen.');
 
                 return $this->redirectToView($subEntity);
             } catch (UserException $e) {
-                $message =  $e->getMessage();
+                $message = $e->getMessage();
                 $this->addFlash('danger', $message);
             } catch (\Exception $e) {
                 $message = $this->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
@@ -358,12 +344,13 @@ abstract class AbstractController extends SymfonyController
 
     protected function doSearch(Request $request)
     {
-        if(!isset($this->searchFilterTypeClass)) return;
+        if (!isset($this->searchFilterTypeClass)) {
+            return;
+        }
         $filterForm = $this->getForm($this->searchFilterTypeClass, null, [
             'enabled_filters' => ['id', 'naam', 'bsn', 'geboortedatum'],
         ]);
         $filterForm->handleRequest($request);
-
 
         if ($filterForm->isSubmitted() && $filterForm->isValid()) {
             $count = (int) $this->searchDao->countAll($filterForm->getData());
@@ -384,7 +371,6 @@ abstract class AbstractController extends SymfonyController
             return [
                 'zoekresultaten' => $this->searchDao->findAll(null, $filterForm->getData()),
                 'filterForm' => $filterForm->createView(),
-
             ];
         }
 
@@ -395,6 +381,7 @@ abstract class AbstractController extends SymfonyController
 
     /**
      * @Route("/{id}/edit")
+     *
      * @Template
      */
     public function editAction(Request $request, $id)
@@ -434,10 +421,9 @@ abstract class AbstractController extends SymfonyController
                     $this->afterCreate($entity);
                 }
                 $this->addFlash('success', ucfirst($this->entityName).' is opgeslagen.');
-
-            } catch(UserException $e) {
-//                $this->logger->error($e->getMessage(), ['exception' => $e]);
-                $message =  $e->getMessage();
+            } catch (UserException $e) {
+                //                $this->logger->error($e->getMessage(), ['exception' => $e]);
+                $message = $e->getMessage();
                 $this->addFlash('danger', $message);
             } catch (\Exception $e) {
                 $this->logger->error($e->getMessage(), ['exception' => $e]);
@@ -451,23 +437,26 @@ abstract class AbstractController extends SymfonyController
         return array_merge([
             'entity' => $entity,
             'form' => $form->createView(),
-            'redirect'=>$request->get('redirect')
+            'redirect' => $request->get('redirect'),
         ], $this->addParams($entity, $request));
     }
 
     protected function getForm($type, $data = null, array $options = [])
     {
-        $this->beforeGetForm($type,$data,$options);
+        $this->beforeGetForm($type, $data, $options);
         $form = parent::getForm($type, $data, $options);
+
         return $this->afterGetForm($form);
     }
 
     /**
      * @Route("/{id}/delete")
+     *
      * @Template
-     * @var Request $request
-     * @var int $id
-     * @var bool Check $actief on entity.
+     *
+     * @var Request
+     * @var int
+     * @var bool    check on entity
      */
     public function deleteAction(Request $request, $id)
     {
@@ -485,16 +474,12 @@ abstract class AbstractController extends SymfonyController
             if ($form->get('yes')->isClicked()) {
                 $viewUrl = $this->generateUrl($this->baseRouteName.'view', ['id' => $id]);
 
-                try{
-
+                try {
                     $this->beforeDelete($entity);
-                    if(method_exists($entity,"setActief"))
-                    {
+                    if (method_exists($entity, 'setActief')) {
                         $entity->setActief(false);
                         $this->dao->update($entity);
-                    }
-                    else
-                    {
+                    } else {
                         $this->dao->delete($entity);
                     }
                     $this->afterDelete($entity);
@@ -507,9 +492,7 @@ abstract class AbstractController extends SymfonyController
                     }
 
                     return $this->redirectToIndex();
-                }
-                catch(ForeignKeyConstraintViolationException $exception)
-                {
+                } catch (ForeignKeyConstraintViolationException $exception) {
                     /**
                      * Regex to filter out the foreign key which prevents the deletion.
                      * From there, with class metadata and reflection, the tablename gets matched to the entity,
@@ -521,25 +504,20 @@ abstract class AbstractController extends SymfonyController
 
                     preg_match_all($re, $exception->getMessage(), $matches, PREG_SET_ORDER, 0);
                     $entityRaw = null;
-                    if( sizeof($matches) > 0 && is_array($matches[0]) && null !== $matches[0][1] )
-                    {
+                    if (sizeof($matches) > 0 && is_array($matches[0]) && null !== $matches[0][1]) {
                         $entityRaw = $matches[0][1];
                     }
                     $md = $this->entityManager->getMetadataFactory()->getAllMetadata();
                     $entityName = "'onbekend'";
-                    foreach($md as $classMetadata)
-                    {
-                        if($classMetadata->getTableName() == $entityRaw) {
+                    foreach ($md as $classMetadata) {
+                        if ($classMetadata->getTableName() == $entityRaw) {
                             $refl = $classMetadata->getReflectionClass();
                             $entityName = $refl->getShortName();
                         }
-
                     }
 
-                    $this->addFlash('danger', ucfirst($this->entityName).sprintf(' kan niet verwijderd worden omdat er nog een of meerdere onderdelen van het type %s aanwezig zijn. Verwijder deze eerst om verder te gaan.',strtolower($entityName) ) );
+                    $this->addFlash('danger', ucfirst($this->entityName).sprintf(' kan niet verwijderd worden omdat er nog een of meerdere onderdelen van het type %s aanwezig zijn. Verwijder deze eerst om verder te gaan.', strtolower($entityName)));
                 }
-
-
             } else {
                 if (isset($url)) {
                     return $this->redirect($url);
@@ -555,7 +533,6 @@ abstract class AbstractController extends SymfonyController
         ];
     }
 
-
     protected function redirectToIndex()
     {
         if (!$this->baseRouteName) {
@@ -564,9 +541,8 @@ abstract class AbstractController extends SymfonyController
 
         try {
             $url = $this->generateUrl($this->baseRouteName.'index');
-        } catch (RouteNotFoundException $e)
-        {
-            $url = $this->generateUrl("home");
+        } catch (RouteNotFoundException $e) {
+            $url = $this->generateUrl('home');
         }
 
         return $this->redirect($url);
@@ -577,44 +553,40 @@ abstract class AbstractController extends SymfonyController
         if (!$this->baseRouteName) {
             throw new AppException(get_class($this).'::baseRouteName not set!');
         }
-        $url = "/";
+        $url = '/';
         try {
-           $url = $this->generateUrl($this->baseRouteName.'view', ['id' => $entity->getId()]);
-        }
-        catch (RouteNotFoundException $e)
-        {
-                $this->redirectToIndex();
-        }
-        catch (InvalidParameterException $e)
-        {
+            $url = $this->generateUrl($this->baseRouteName.'view', ['id' => $entity->getId()]);
+        } catch (RouteNotFoundException $e) {
+            $this->redirectToIndex();
+        } catch (InvalidParameterException $e) {
             $this->redirectToIndex();
         }
 
         return $this->redirect($url);
-
     }
-
 
     protected function createEntity($parentEntity = null)
     {
         $entity = $this->getEntity();
-        if($parentEntity!== null)
-        {
+        if (null !== $parentEntity) {
             $class = (new \ReflectionClass($parentEntity))->getShortName();
-            if(is_callable([$entity,"set".$class])) {
-                $entity->{"set".ucfirst($class)}($parentEntity);
+            if (is_callable([$entity, 'set'.$class])) {
+                $entity->{'set'.ucfirst($class)}($parentEntity);
             }
         }
+
         return $entity;
     }
 
     /**
-     * Can be overriden to implement ie. logic to fill the new entity with data from controller/request
+     * Can be overriden to implement ie. logic to fill the new entity with data from controller/request.
+     *
      * @return object
      */
     protected function getEntity()
     {
-        $this->entity =  $this->entity ?? new $this->entityClass();
+        $this->entity = $this->entity ?? new $this->entityClass();
+
         return $this->entity;
     }
 
@@ -650,7 +622,7 @@ abstract class AbstractController extends SymfonyController
     {
     }
 
-    protected function beforeGetForm(&$type,&$data,&$options): void
+    protected function beforeGetForm(&$type, &$data, &$options): void
     {
     }
 

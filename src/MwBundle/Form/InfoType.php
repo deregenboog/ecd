@@ -16,21 +16,15 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class InfoType extends AbstractType
 {
-    /**
-     * {@inheritdoc}
-     */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-
-
         $ris = $builder->create('risForm', ContainerType::class, ['label' => 'RIS'])
             ->add('risDatumTot', AppDateType::class, ['required' => false])
         ;
 
-
-//        $trajectbegeleider = $builder->create('trajectbegeleiderForm', ContainerType::class, ['label' => 'Trajectbegeleider/maatschappelijk werker'])
-//            ->add('trajectbegeleider', MedewerkerType::class, ['required' => false])
-//        ;
+        //        $trajectbegeleider = $builder->create('trajectbegeleiderForm', ContainerType::class, ['label' => 'Trajectbegeleider/maatschappelijk werker'])
+        //            ->add('trajectbegeleider', MedewerkerType::class, ['required' => false])
+        //        ;
 
         $trajecthouder = $builder->create('trajecthouderForm', ContainerType::class, ['label' => 'Hulpverlening extern'])
             ->add('trajecthouderExternOrganisatie', null, ['label' => 'Organisatie', 'required' => false])
@@ -98,9 +92,6 @@ class InfoType extends AbstractType
         ;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
@@ -108,9 +99,6 @@ class InfoType extends AbstractType
         ]);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getParent(): ?string
     {
         return BaseType::class;

@@ -52,29 +52,29 @@ class KlantTest extends TestCase
         $klus->setEinddatum(new \DateTime('today'));
         $this->assertFalse($klant->isActief());
 
-//         $dienstverlener = new Dienstverlener();
-//         $klus->addDienstverlener($dienstverlener);
-//         $this->assertEquals(Klus::STATUS_IN_BEHANDELING, $klus->getStatus());
+        //         $dienstverlener = new Dienstverlener();
+        //         $klus->addDienstverlener($dienstverlener);
+        //         $this->assertEquals(Klus::STATUS_IN_BEHANDELING, $klus->getStatus());
 
-//         $klus->setOnHold(true);
-//         $this->assertEquals(Klus::STATUS_ON_HOLD, $klus->getStatus());
+        //         $klus->setOnHold(true);
+        //         $this->assertEquals(Klus::STATUS_ON_HOLD, $klus->getStatus());
 
-//         $klus->removeDienstverlener($dienstverlener);
-//         $this->assertEquals(Klus::STATUS_ON_HOLD, $klus->getStatus());
+        //         $klus->removeDienstverlener($dienstverlener);
+        //         $this->assertEquals(Klus::STATUS_ON_HOLD, $klus->getStatus());
 
-//         $klus->setOnHold(false);
-//         $this->assertEquals(Klus::STATUS_OPENSTAAND, $klus->getStatus());
+        //         $klus->setOnHold(false);
+        //         $this->assertEquals(Klus::STATUS_OPENSTAAND, $klus->getStatus());
 
-//         $klus->addDienstverlener($dienstverlener);
-//         $this->assertEquals(Klus::STATUS_IN_BEHANDELING, $klus->getStatus());
+        //         $klus->addDienstverlener($dienstverlener);
+        //         $this->assertEquals(Klus::STATUS_IN_BEHANDELING, $klus->getStatus());
 
-//         $klus->setEinddatum(new \DateTime('tomorrow'));
-//         $this->assertEquals(Klus::STATUS_IN_BEHANDELING, $klus->getStatus());
+        //         $klus->setEinddatum(new \DateTime('tomorrow'));
+        //         $this->assertEquals(Klus::STATUS_IN_BEHANDELING, $klus->getStatus());
 
-//         $klus->setEinddatum(new \DateTime('today'));
-//         $this->assertEquals(Klus::STATUS_AFGEROND, $klus->getStatus());
+        //         $klus->setEinddatum(new \DateTime('today'));
+        //         $this->assertEquals(Klus::STATUS_AFGEROND, $klus->getStatus());
 
-//         $klus->setOnHold(true);
-//         $this->assertEquals(Klus::STATUS_AFGEROND, $klus->getStatus());
+        //         $klus->setOnHold(true);
+        //         $this->assertEquals(Klus::STATUS_AFGEROND, $klus->getStatus());
     }
 }

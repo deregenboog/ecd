@@ -15,9 +15,6 @@ class MemoType extends AbstractType
 {
     use MedewerkerTypeTrait;
 
-    /**
-     * {@inheritdoc}
-     */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $this->addMedewerkerType($builder, $options);
@@ -30,9 +27,6 @@ class MemoType extends AbstractType
         ;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
@@ -40,9 +34,6 @@ class MemoType extends AbstractType
         ]);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getParent(): ?string
     {
         return BaseType::class;

@@ -4,9 +4,8 @@ namespace MwBundle\Report;
 
 use AppBundle\Report\AbstractReport;
 use AppBundle\Report\Grid;
-use MwBundle\Service\KlantDao;
-use InloopBundle\Entity\Locatie;
 use InloopBundle\Service\LocatieDao;
+use MwBundle\Service\KlantDao;
 use MwBundle\Service\MwDossierStatusDao;
 use MwBundle\Service\VerslagDao;
 
@@ -16,28 +15,26 @@ class CaseloadMedewerkers extends AbstractReport
 
     protected $xPath = 'type';
 
-//    protected $yPath = 'locatienaam';
+    //    protected $yPath = 'locatienaam';
 
     protected $nPath = 'aantal';
 
-
-//    protected $yDescription = 'Locatienaam';
-
+    //    protected $yDescription = 'Locatienaam';
 
     protected $tables = [];
 
     /**
-     * Locaties die voor dit rapport gelden
+     * Locaties die voor dit rapport gelden.
      */
     protected $locaties;
 
     /** @var LocatieDao */
     protected $locatieDao;
 
-    /** @var KlantDao  */
+    /** @var KlantDao */
     protected $klantDao;
 
-    /** @var MwDossierStatusDao  */
+    /** @var MwDossierStatusDao */
     protected $mdsDao;
 
     private $actieveKlanten;
@@ -52,8 +49,7 @@ class CaseloadMedewerkers extends AbstractReport
 
         $this->klantDao = $klantDao;
 
-//        $this->filterLocations($locatieDao->findAllActiveLocationsOfTypeMW());
-
+        //        $this->filterLocations($locatieDao->findAllActiveLocationsOfTypeMW());
     }
 
     public function setFilter(array $filter)
@@ -71,25 +67,21 @@ class CaseloadMedewerkers extends AbstractReport
 
     protected function init()
     {
-        //Haal klantenIds op die actief waren in de periode. Dus ze waren actief en zijn afgesloten, of ze zijn aangemeld en weer afgesloten, of nog niet afgesloten.
-        //Bruikbaar in andere queries.
-        $this->actieveKlanten = $this->mdsDao->getActiveKlantIdsForPeriod($this->startDate,$this->endDate);
+        // Haal klantenIds op die actief waren in de periode. Dus ze waren actief en zijn afgesloten, of ze zijn aangemeld en weer afgesloten, of nog niet afgesloten.
+        // Bruikbaar in andere queries.
+        $this->actieveKlanten = $this->mdsDao->getActiveKlantIdsForPeriod($this->startDate, $this->endDate);
 
         $this->resultContactmomentenPerMedewerker = $this->dao->countContactmomentenPerMedewerker($this->startDate, $this->endDate, $this->actieveKlanten);
-
-
     }
 
-
-
-    protected function buildAantalContactmomentenPerMedewerker($data,$titel)
+    protected function buildAantalContactmomentenPerMedewerker($data, $titel)
     {
         $columns = [
-            'Aantal contactmomenten'=>'aantal',
-            'Aantal verslagen'=>'aantalVerslagen'
+            'Aantal contactmomenten' => 'aantal',
+            'Aantal verslagen' => 'aantalVerslagen',
 //            'Afsluitreden'=>'naam',
         ];
-        $table = new Grid($data, $columns,"naam");
+        $table = new Grid($data, $columns, 'naam');
         $table
             ->setStartDate($this->startDate)
             ->setEndDate($this->endDate)
@@ -99,14 +91,15 @@ class CaseloadMedewerkers extends AbstractReport
 
         $report = [
             'title' => $titel,
-            'yDescription' => "Medewerker",
+            'yDescription' => 'Medewerker',
             'data' => $table->render(),
         ];
+
         return $report;
     }
 
     protected function build()
     {
-        $this->reports[] = $this->buildAantalContactmomentenPerMedewerker($this->resultContactmomentenPerMedewerker,'Aantal verslagen en contactmomenten per medewerker');
+        $this->reports[] = $this->buildAantalContactmomentenPerMedewerker($this->resultContactmomentenPerMedewerker, 'Aantal verslagen en contactmomenten per medewerker');
     }
 }

@@ -23,7 +23,7 @@ class ClientDao extends AbstractDao implements ClientDaoInterface
 
     protected $alias = 'client';
 
-    public function findAll($page = null, FilterInterface $filter = null)
+    public function findAll($page = null, ?FilterInterface $filter = null)
     {
         $builder = $this->repository->createQueryBuilder($this->alias)
             ->leftJoin($this->alias.'.werkgebied', 'werkgebied')

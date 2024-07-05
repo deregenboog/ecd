@@ -8,32 +8,39 @@ use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Entity
+ *
  * @ORM\Table(name="hs_declaratie_categorieen")
+ *
  * @Gedmo\Loggable
  */
 class DeclaratieCategorie
 {
     /**
      * @ORM\Id
+     *
      * @ORM\Column(type="integer")
+     *
      * @ORM\GeneratedValue
      */
     private $id;
 
     /**
      * @ORM\Column(type="string")
+     *
      * @Gedmo\Versioned
      */
     private $naam;
 
     /**
      * @ORM\Column(type="datetime")
+     *
      * @Gedmo\Versioned
      */
     private $created;
 
     /**
      * @ORM\Column(type="datetime")
+     *
      * @Gedmo\Versioned
      */
     private $modified;

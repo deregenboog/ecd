@@ -2,7 +2,6 @@
 
 namespace InloopBundle\Form;
 
-
 use InloopBundle\Entity\Vrijwilliger;
 
 class VrijwilligerCloseType extends VrijwilligerCloseTypeAbstract

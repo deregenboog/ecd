@@ -6,7 +6,6 @@ use AppBundle\Entity\Vrijwilliger as AppVrijwilliger;
 use AppBundle\Filter\FilterInterface;
 use AppBundle\Service\AbstractDao;
 use OekBundle\Entity\Vrijwilliger;
-use OekBundle\Entity\Memo;
 
 class VrijwilligerDao extends AbstractDao implements VrijwilligerDaoInterface
 {
@@ -28,7 +27,7 @@ class VrijwilligerDao extends AbstractDao implements VrijwilligerDaoInterface
     /**
      * {inheritdoc}.
      */
-    public function findAll($page = null, FilterInterface $filter = null)
+    public function findAll($page = null, ?FilterInterface $filter = null)
     {
         $builder = $this->repository->createQueryBuilder($this->alias)
             ->select("{$this->alias}, appVrijwilliger")
@@ -40,9 +39,7 @@ class VrijwilligerDao extends AbstractDao implements VrijwilligerDaoInterface
         if ($filter && $filter->vrijwilliger) {
             $filter->vrijwilliger->alias = 'appVrijwilliger';
             $filter->applyTo($builder);
-        }
-        else if($filter)
-        {
+        } elseif ($filter) {
             $filter->applyTo($builder);
         }
 
@@ -62,8 +59,6 @@ class VrijwilligerDao extends AbstractDao implements VrijwilligerDaoInterface
     }
 
     /**
-     * @param AppVrijwilliger $vrijwilliger
-     *
      * @return Vrijwilliger
      */
     public function findOneByVrijwilliger(AppVrijwilliger $vrijwilliger)
@@ -92,24 +87,23 @@ class VrijwilligerDao extends AbstractDao implements VrijwilligerDaoInterface
      */
     public function delete(Vrijwilliger $entity)
     {
-
-//        $entity->setActief((int)$entity::STATUS_VERWIJDERD);
-//        $this->doUpdate($entity);
+        //        $entity->setActief((int)$entity::STATUS_VERWIJDERD);
+        //        $this->doUpdate($entity);
         $this->doDelete($entity);
     }
 
     /**
      * {inheritdoc}.
      */
-    public function countByStadsdeel(\DateTime $start = null, \DateTime $end = null)
+    public function countByStadsdeel(?\DateTime $start = null, ?\DateTime $end = null)
     {
         $builder = $this->repository->createQueryBuilder('vrijwilliger')
             ->select('COUNT(DISTINCT(appVrijwilliger.id)) AS aantal, werkgebied.naam AS stadsdeel')
             ->innerJoin('vrijwilliger.vrijwilliger', 'appVrijwilliger')
             ->leftJoin('appVrijwilliger.werkgebied', 'werkgebied')
             ->innerJoin('vrijwilliger.registraties', 'registratie')
-            ->where("vrijwilliger.actief != :status_verwijderd")
-            ->setParameter(":status_verwijderd", Vrijwilliger::STATUS_VERWIJDERD)
+            ->where('vrijwilliger.actief != :status_verwijderd')
+            ->setParameter(':status_verwijderd', Vrijwilliger::STATUS_VERWIJDERD)
             ->groupBy('stadsdeel')
         ;
 
@@ -127,14 +121,14 @@ class VrijwilligerDao extends AbstractDao implements VrijwilligerDaoInterface
     /**
      * {inheritdoc}.
      */
-    public function countNewByStadsdeel(\DateTime $start = null, \DateTime $end = null)
+    public function countNewByStadsdeel(?\DateTime $start = null, ?\DateTime $end = null)
     {
         $builder = $this->repository->createQueryBuilder('vrijwilliger')
             ->select('COUNT(DISTINCT(appVrijwilliger.id)) AS aantal, werkgebied.naam AS stadsdeel')
             ->innerJoin('vrijwilliger.vrijwilliger', 'appVrijwilliger')
             ->leftJoin('appVrijwilliger.werkgebied', 'werkgebied')
-            ->where("vrijwilliger.actief != :status_verwijderd")
-            ->setParameter(":status_verwijderd", Vrijwilliger::STATUS_VERWIJDERD)
+            ->where('vrijwilliger.actief != :status_verwijderd')
+            ->setParameter(':status_verwijderd', Vrijwilliger::STATUS_VERWIJDERD)
             ->groupBy('stadsdeel')
         ;
 

@@ -19,9 +19,6 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class IntakeType extends AbstractType
 {
-    /**
-     * {@inheritdoc}
-     */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         /* @var $intake Intake */
@@ -56,17 +53,16 @@ class IntakeType extends AbstractType
                     ])
                 ;
 
-
-//                if ($intake->getZrm()) {
-//                    $builder->add('zrm', ZrmType::class, [
-//                        'data_class' => get_class($intake->getZrm()),
-//                        'request_module' => 'IzIntake',
-//                    ]);
-//                } else {
-//                    $builder->add('zrm', ZrmType::class, [
-//                        'request_module' => 'IzIntake',
-//                    ]);
-//                }
+            //                if ($intake->getZrm()) {
+            //                    $builder->add('zrm', ZrmType::class, [
+            //                        'data_class' => get_class($intake->getZrm()),
+            //                        'request_module' => 'IzIntake',
+            //                    ]);
+            //                } else {
+            //                    $builder->add('zrm', ZrmType::class, [
+            //                        'request_module' => 'IzIntake',
+            //                    ]);
+            //                }
             } elseif ($intake->getIzDeelnemer() instanceof IzVrijwilliger) {
                 $builder->add('stagiair', CheckboxType::class, [
                     'required' => false,
@@ -77,9 +73,6 @@ class IntakeType extends AbstractType
         $builder->add('submit', SubmitType::class);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([

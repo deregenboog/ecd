@@ -9,14 +9,18 @@ use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
 /**
  * @ORM\Entity(repositoryClass="IzBundle\Repository\DoelstellingRepository")
+ *
  * @ORM\Table(
  *     name="iz_doelstellingen",
  *     uniqueConstraints={
+ *
  *         @ORM\UniqueConstraint(name="unique_project_jaar_stadsdeel_idx", columns={"project_id", "jaar", "stadsdeel"}),
  *         @ORM\UniqueConstraint(name="unique_project_jaar_categorie_idx", columns={"project_id", "jaar", "categorie"})
  *     }
  * )
+ *
  * @ORM\HasLifecycleCallbacks
+ *
  * @Gedmo\Loggable
  */
 class Doelstelling
@@ -26,38 +30,46 @@ class Doelstelling
 
     /**
      * @ORM\Id
+     *
      * @ORM\Column(type="integer")
+     *
      * @ORM\GeneratedValue
      */
     private $id;
 
     /**
      * @ORM\ManyToOne(targetEntity="Project")
+     *
      * @Gedmo\Versioned
      */
     private $project;
 
     /**
      * @ORM\Column(type="integer")
+     *
      * @Gedmo\Versioned
      */
     private $jaar;
 
     /**
      * @ORM\Column(nullable=true)
+     *
      * @Gedmo\Versioned
      */
     private $categorie;
 
     /**
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Werkgebied")
+     *
      * @ORM\JoinColumn(name="stadsdeel", referencedColumnName="naam")
+     *
      * @Gedmo\Versioned
      */
     private $stadsdeel;
 
     /**
      * @ORM\Column(type="integer")
+     *
      * @Gedmo\Versioned
      */
     private $aantal = 0;

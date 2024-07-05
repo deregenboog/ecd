@@ -10,7 +10,9 @@ trait MemoSubjectTrait
      * @var Memo[]
      *
      * @ORM\ManyToMany(targetEntity="Memo", cascade={"persist"})
+     *
      * @ORM\JoinTable(name="hs_klant_memo", inverseJoinColumns={@ORM\JoinColumn(unique=true)})
+     *
      * @ORM\OrderBy({"datum": "desc", "id": "desc"})
      */
     protected $memos;
@@ -24,8 +26,6 @@ trait MemoSubjectTrait
     }
 
     /**
-     * @param Memo $memo
-     *
      * @return self
      */
     public function addMemo(Memo $memo)
@@ -36,8 +36,6 @@ trait MemoSubjectTrait
     }
 
     /**
-     * @param Memo $memo
-     *
      * @return self
      */
     public function removeMemo(Memo $memo)

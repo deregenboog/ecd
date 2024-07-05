@@ -44,6 +44,5 @@ class DossierSubscriber implements EventSubscriberInterface
         }
 
         $this->accessUpdater->updateForClient($dossier->getBezoeker());
-
     }
 }

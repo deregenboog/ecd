@@ -2,7 +2,6 @@
 
 namespace TwBundle\Form;
 
-use AppBundle\Entity\Medewerker;
 use AppBundle\Form\AppDateRangeType;
 use AppBundle\Form\FilterType;
 use AppBundle\Form\KlantFilterType as AppKlantFilterType;
@@ -33,16 +32,13 @@ use TwBundle\Filter\KlantFilter;
 class KlantFilterType extends AbstractType
 {
     /** @var EntityManagerInterface */
-    private $entityManager = null;
+    private $entityManager;
 
     public function __construct(EntityManagerInterface $entityManager)
     {
         $this->entityManager = $entityManager;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         if (array_key_exists('appKlant', $options['enabled_filters'])) {
@@ -52,49 +48,49 @@ class KlantFilterType extends AbstractType
             StadsdeelSelectType::$showOnlyZichtbaar = 0;
         }
 
-//        if (in_array('automatischeIncasso', $options['enabled_filters'])) {
-//            $builder->add('automatischeIncasso', ChoiceType::class, [
-//                'required' => false,
-//                'choices' => [
-//                    'Ja' => 1,
-//                    'Nee' => 0,
-//                ],
-//            ]);
-//        }
+        //        if (in_array('automatischeIncasso', $options['enabled_filters'])) {
+        //            $builder->add('automatischeIncasso', ChoiceType::class, [
+        //                'required' => false,
+        //                'choices' => [
+        //                    'Ja' => 1,
+        //                    'Nee' => 0,
+        //                ],
+        //            ]);
+        //        }
 
-//        if (in_array('inschrijvingWoningnet', $options['enabled_filters'])) {
-//            $builder->add('inschrijvingWoningnet', ChoiceType::class, [
-//                'required' => false,
-//                'choices' => [
-//                    'Ja' => 1,
-//                    'Nee' => 0,
-//                ],
-//            ]);
-//        }
-//
-//        if (in_array('waPolis', $options['enabled_filters'])) {
-//            $builder->add('waPolis', ChoiceType::class, [
-//                'required' => false,
-//                'choices' => [
-//                    'Ja' => 1,
-//                    'Nee' => 0,
-//                ],
-//            ]);
-//        }
-//
-//        if (in_array('wpi', $options['enabled_filters'])) {
-//            $builder->add('wpi', CheckboxType::class, [
-//                'required' => false,
-//            ]);
-//        }
+        //        if (in_array('inschrijvingWoningnet', $options['enabled_filters'])) {
+        //            $builder->add('inschrijvingWoningnet', ChoiceType::class, [
+        //                'required' => false,
+        //                'choices' => [
+        //                    'Ja' => 1,
+        //                    'Nee' => 0,
+        //                ],
+        //            ]);
+        //        }
+        //
+        //        if (in_array('waPolis', $options['enabled_filters'])) {
+        //            $builder->add('waPolis', ChoiceType::class, [
+        //                'required' => false,
+        //                'choices' => [
+        //                    'Ja' => 1,
+        //                    'Nee' => 0,
+        //                ],
+        //            ]);
+        //        }
+        //
+        //        if (in_array('wpi', $options['enabled_filters'])) {
+        //            $builder->add('wpi', CheckboxType::class, [
+        //                'required' => false,
+        //            ]);
+        //        }
         if (in_array('medewerker', $options['enabled_filters'])) {
-            $builder->add('medewerker', \TwBundle\Form\MedewerkerType::class, [
+            $builder->add('medewerker', MedewerkerType::class, [
                 'required' => false,
                 'preset' => false,
             ]);
         }
         if (in_array('shortlist', $options['enabled_filters'])) {
-            $builder->add('shortlist', \TwBundle\Form\MedewerkerType::class, [
+            $builder->add('shortlist', MedewerkerType::class, [
                 'required' => false,
                 'preset' => false,
             ]);
@@ -105,11 +101,11 @@ class KlantFilterType extends AbstractType
             ]);
         }
 
-//        if (in_array('afsluitdatum', $options['enabled_filters'])) {
-//            $builder->add('afsluitdatum', AppDateRangeType::class, [
-//                'required' => false,
-//            ]);
-//        }
+        //        if (in_array('afsluitdatum', $options['enabled_filters'])) {
+        //            $builder->add('afsluitdatum', AppDateRangeType::class, [
+        //                'required' => false,
+        //            ]);
+        //        }
 
         if (in_array('gekoppeld', $options['enabled_filters'])) {
             $builder->add('gekoppeld', ChoiceType::class, [
@@ -160,7 +156,7 @@ class KlantFilterType extends AbstractType
             ]);
         }
 
-        //extra filtervelden
+        // extra filtervelden
         $builder
             ->add('dagbesteding', ChoiceType::class, [
                 'required' => false,
@@ -177,9 +173,9 @@ class KlantFilterType extends AbstractType
                 'required' => false,
                 'multiple' => true,
                 'choices' => [
-                    'Onbekend'=>null,
-                    'Ja'=>true,
-                    'Nee'=>false
+                    'Onbekend' => null,
+                    'Ja' => true,
+                    'Nee' => false,
                 ],
             ])
             ->add('huisdieren', ChoiceType::class, [
@@ -228,17 +224,11 @@ class KlantFilterType extends AbstractType
         ;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getParent(): ?string
     {
         return FilterType::class;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
@@ -287,15 +277,15 @@ class KlantFilterType extends AbstractType
      */
     public function finishView(FormView $view, FormInterface $form, array $options)
     {
-//        foreach($view->children as $k=>$formElm)
-//        {
-//            if(($c = $form->get($k)->getConfig()) && $c->getOption('multiple')===true )
-//            {
-//                $newChoice = new ChoiceView(array(), '100', 'Onbekend'); // <- new option
-//                array_unshift($formElm->vars['choices'], $newChoice);//<- adding the new option to the start
-//            }
-//
-//        }
+        //        foreach($view->children as $k=>$formElm)
+        //        {
+        //            if(($c = $form->get($k)->getConfig()) && $c->getOption('multiple')===true )
+        //            {
+        //                $newChoice = new ChoiceView(array(), '100', 'Onbekend'); // <- new option
+        //                array_unshift($formElm->vars['choices'], $newChoice);//<- adding the new option to the start
+        //            }
+        //
+        //        }
     }
 
     private function loadChoices($class)

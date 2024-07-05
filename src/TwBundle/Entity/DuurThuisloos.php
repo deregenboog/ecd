@@ -7,14 +7,16 @@ use AppBundle\Model\IdentifiableTrait;
 use AppBundle\Model\NameableTrait;
 use AppBundle\Model\NotDeletableTrait;
 use AppBundle\Model\TimestampableTrait;
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Entity
+ *
  * @ORM\Table(name="tw_duurthuisloos")
+ *
  * @ORM\HasLifecycleCallbacks
+ *
  * @Gedmo\Loggable
  */
 class DuurThuisloos
@@ -27,7 +29,9 @@ class DuurThuisloos
 
     /**
      * @var bool
+     *
      * @ORM\Column(name="`active`", type="boolean", options={"default":1})
+     *
      * @Gedmo\Versioned
      */
     protected $actief = true;
@@ -49,9 +53,9 @@ class DuurThuisloos
     private function mndJr($val)
     {
         if ($val < 12) {
-            return $val ." mnd";
+            return $val.' mnd';
         } else {
-            return ($val/12) ." Jr";
+            return ($val / 12).' Jr';
         }
     }
 }

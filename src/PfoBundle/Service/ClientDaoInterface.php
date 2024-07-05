@@ -13,7 +13,7 @@ interface ClientDaoInterface
      *
      * @return PaginationInterface
      */
-    public function findAll($page = null, FilterInterface $filter = null);
+    public function findAll($page = null, ?FilterInterface $filter = null);
 
     /**
      * @param int $id
@@ -22,18 +22,9 @@ interface ClientDaoInterface
      */
     public function find($id);
 
-    /**
-     * @param Client $entity
-     */
     public function create(Client $entity);
 
-    /**
-     * @param Client $entity
-     */
     public function update(Client $entity);
 
-    /**
-     * @param Client $entity
-     */
     public function delete(Client $entity);
 }

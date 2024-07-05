@@ -23,7 +23,7 @@ class ActiviteitDao extends AbstractDao implements ActiviteitDaoInterface
 
     protected $alias = 'activiteit';
 
-    public function findAll($page = null, FilterInterface $filter = null)
+    public function findAll($page = null, ?FilterInterface $filter = null)
     {
         $builder = $this->repository->createQueryBuilder($this->alias)
             ->leftJoin("{$this->alias}.groep", 'groep')

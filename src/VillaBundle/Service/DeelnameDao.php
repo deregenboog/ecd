@@ -2,10 +2,8 @@
 
 namespace VillaBundle\Service;
 
-use AppBundle\Filter\FilterInterface;
 use AppBundle\Service\AbstractDao;
 use VillaBundle\Entity\Deelname;
-use OekBundle\Entity\DeelnameStatus;
 
 class DeelnameDao extends AbstractDao implements DeelnameDaoInterface
 {

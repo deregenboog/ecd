@@ -3,14 +3,15 @@
 namespace MwBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use MwBundle\Entity\Resultaat;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
 /**
  * @ORM\Entity
+ *
  * @ORM\HasLifecycleCallbacks
+ *
  * @Gedmo\Loggable
  */
 class Afsluiting extends MwDossierStatus
@@ -19,13 +20,16 @@ class Afsluiting extends MwDossierStatus
      * @var AfsluitredenKlant
      *
      * @ORM\ManyToOne(targetEntity="AfsluitredenKlant")
+     *
      * @Gedmo\Versioned
+     *
      * @Assert\NotNull
      */
     protected $reden;
 
     /**
      * @ORM\Column(type="text", nullable=true)
+     *
      * @Gedmo\Versioned
      */
     protected $toelichting;
@@ -34,8 +38,11 @@ class Afsluiting extends MwDossierStatus
      * @var Resultaat
      *
      * @ORM\ManyToMany(targetEntity="Resultaat")
+     *
      * @ORM\JoinTable(name="mw_afsluiting_resultaat")
+     *
      * @ORM\JoinColumn(nullable=false)
+     *
      * @Assert\Expression(
      *     "!this.getRedenHeeftResultaatNodig()",
      *     message="Als de begeleiding is afgerond of overgedragen is er een resultaat nodig."
@@ -45,24 +52,28 @@ class Afsluiting extends MwDossierStatus
 
     /**
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Land")
+     *
      * @Gedmo\Versioned
      */
     protected $land;
 
     /**
-     * @var boolean
+     * @var bool
+     *
      * @ORM\Column(type="boolean", nullable=true)
      */
     protected $zachteLanding;
 
     /**
      * @var int
+     *
      * @ORM\Column(nullable=true)
      */
     protected $kosten;
 
     /**
      * @var \DateTime
+     *
      * @ORM\Column(type="date", nullable="true")
      */
     protected $datumRepatriering;
@@ -75,7 +86,6 @@ class Afsluiting extends MwDossierStatus
             $this->reden,
             $this->medewerker,
             $this->locatie,
-
         );
     }
 
@@ -87,6 +97,7 @@ class Afsluiting extends MwDossierStatus
     public function setReden(AfsluitredenKlant $reden)
     {
         $this->reden = $reden;
+
         return $this;
     }
 
@@ -95,17 +106,14 @@ class Afsluiting extends MwDossierStatus
         /**
          * Afsluitredenen die over begeleiding gaan (afgerond, overgedragen) hebben een resultaat nodig. Andere afsluitredenen niet.
          */
-        $pos = strpos($this->reden,"Begeleiding");
+        $pos = strpos($this->reden, 'Begeleiding');
 
-
-        if($pos!==false && count($this->getResultaat()) > 0)
-        {
+        if (false !== $pos && count($this->getResultaat()) > 0) {
+            return false;
+        } elseif (false === $pos) {
             return false;
         }
-        else if($pos === false)
-        {
-            return false;
-        }
+
         return true;
     }
 
@@ -133,91 +141,64 @@ class Afsluiting extends MwDossierStatus
         return $this;
     }
 
-    /**
-     * @return mixed
-     */
     public function getResultaat()
     {
         return $this->resultaat;
     }
 
     /**
-     * @param mixed $resultaat
      * @return Afsluiting
      */
     public function setResultaat($resultaat)
     {
         $this->resultaat = $resultaat;
+
         return $this;
     }
 
-
-    /**
-     * @return bool
-     */
     public function isZachteLanding(): ?bool
     {
         return $this->zachteLanding;
     }
 
-    /**
-     * @param bool $zachteLanding
-     */
     public function setZachteLanding(?bool $zachteLanding): void
     {
         $this->zachteLanding = $zachteLanding;
     }
 
-    /**
-     * @return int
-     */
     public function getKosten(): ?int
     {
         return $this->kosten;
     }
 
-    /**
-     * @param int $kosten
-     */
     public function setKosten(?int $kosten): void
     {
         $this->kosten = $kosten;
     }
 
-    /**
-     * @return \DateTime
-     */
     public function getDatumRepatriering(): ?\DateTime
     {
         return $this->datumRepatriering;
     }
 
-    /**
-     * @param \DateTime $datumRepatriering
-     */
     public function setDatumRepatriering(?\DateTime $datumRepatriering): void
     {
         $this->datumRepatriering = $datumRepatriering;
     }
-
 
     /**
      * @Assert\Callback
      */
     public function validate(ExecutionContextInterface $context, $payload)
     {
-
-        //make sure that if afsluitreen is changed or is not a land, the other fields get unset.
-        //otherwise it would screw up statistics.
-        if(!$this->reden->isLand())
-        {
+        // make sure that if afsluitreen is changed or is not a land, the other fields get unset.
+        // otherwise it would screw up statistics.
+        if (!$this->reden->isLand()) {
             $this->setZachteLanding(null);
             $this->setKosten(null);
             $this->setLand(null);
             $this->setDatumRepatriering(null);
         }
-        parent::parentValidate($context,$payload);
+        parent::parentValidate($context, $payload);
     }
-
-
 }

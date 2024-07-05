@@ -4,18 +4,19 @@ namespace DagbestedingBundle\Entity;
 
 use AppBundle\Entity\Klant;
 use AppBundle\Model\IdentifiableTrait;
-use AppBundle\Model\OptionalMedewerkerTrait;
 use AppBundle\Model\RequiredMedewerkerTrait;
 use AppBundle\Model\TimestampableTrait;
 use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Entity
+ *
  * @ORM\Table(name="dagbesteding_deelnemers")
+ *
  * @ORM\HasLifecycleCallbacks
+ *
  * @Gedmo\Loggable
  */
 class Deelnemer
@@ -28,6 +29,7 @@ class Deelnemer
      * @var string
      *
      * @ORM\Column(nullable=true)
+     *
      * @Gedmo\Versioned
      */
     private $risDossiernummer;
@@ -36,6 +38,7 @@ class Deelnemer
      * @var \DateTime
      *
      * @ORM\Column(name="aanmelddatum", type="date")
+     *
      * @Gedmo\Versioned
      */
     private $aanmelddatum;
@@ -44,6 +47,7 @@ class Deelnemer
      * @var \DateTime
      *
      * @ORM\Column(name="afsluitdatum", type="date", nullable=true)
+     *
      * @Gedmo\Versioned
      */
     private $afsluitdatum;
@@ -52,6 +56,7 @@ class Deelnemer
      * @var Afsluiting
      *
      * @ORM\ManyToOne(targetEntity="Afsluiting", cascade={"persist"})
+     *
      * @Gedmo\Versioned
      */
     private $afsluiting;
@@ -60,7 +65,9 @@ class Deelnemer
      * @var Klant
      *
      * @ORM\OneToOne(targetEntity="AppBundle\Entity\Klant", cascade={"persist"})
+     *
      * @ORM\JoinColumn(nullable=false)
+     *
      * @Gedmo\Versioned
      */
     private $klant;
@@ -70,6 +77,7 @@ class Deelnemer
      *
      * @ORM\OneToMany(targetEntity="Verslag", mappedBy="deelnemer", cascade={"persist"})
      * ORM\JoinTable(name="dagbesteding_deelnemer_verslag")
+     *
      * @ORM\OrderBy({"datum" = "DESC", "id" = "DESC"})
      */
     private $verslagen;
@@ -79,6 +87,7 @@ class Deelnemer
      *
      * @ORM\OneToMany(targetEntity="Document", mappedBy="deelnemer", cascade={"persist"})
      * ORM\JoinTable(name="dagbesteding_deelnemer_document")
+     *
      * @ORM\OrderBy({"id" = "DESC"})
      */
     private $documenten;
@@ -87,6 +96,7 @@ class Deelnemer
      * @var ArrayCollection|Traject[]
      *
      * @ORM\OneToMany(targetEntity="Traject", mappedBy="deelnemer", cascade={"persist"})
+     *
      * @ORM\OrderBy({"id" = "DESC"})
      */
     private $trajecten;
@@ -95,6 +105,7 @@ class Deelnemer
      * @var ArrayCollection|Contactpersoon[]
      *
      * @ORM\OneToMany(targetEntity="Contactpersoon", mappedBy="deelnemer", cascade={"persist"})
+     *
      * @ORM\OrderBy({"soort" = "DESC"})
      */
     private $contactpersonen;
@@ -103,6 +114,7 @@ class Deelnemer
      * @var ArrayCollection|Werkdoel[]
      *
      * @ORM\OneToMany(targetEntity="DagbestedingBundle\Entity\Werkdoel", mappedBy="deelnemer", cascade={"persist"})
+     *
      * @ORM\OrderBy({"datum" = "DESC", "id" = "DESC"})
      */
     private $werkdoelen;
@@ -118,6 +130,7 @@ class Deelnemer
      * @var \DateTime
      *
      * @ORM\Column(type="datetime")
+     *
      * @Gedmo\Versioned
      */
     protected $created;
@@ -126,6 +139,7 @@ class Deelnemer
      * @var \DateTime
      *
      * @ORM\Column(type="datetime")
+     *
      * @Gedmo\Versioned
      */
     protected $modified;
@@ -178,7 +192,7 @@ class Deelnemer
         return $this->afsluitdatum;
     }
 
-    public function setAfsluitdatum(\DateTime $afsluitdatum = null)
+    public function setAfsluitdatum(?\DateTime $afsluitdatum = null)
     {
         $this->afsluitdatum = $afsluitdatum;
 
@@ -200,12 +214,14 @@ class Deelnemer
     public function addIntakeverslag(Intakeverslag $intakeverslag): self
     {
         $this->verslagen->add($intakeverslag);
+
         return $this;
     }
 
     public function addEvaluatieverslag(Evaluatieverslag $evaluatieverslag): self
     {
         $this->verslagen->add($evaluatieverslag);
+
         return $this;
     }
 
@@ -231,16 +247,17 @@ class Deelnemer
 
     /**
      * @param Werkdoel[]|ArrayCollection $werkdoelen
+     *
      * @return Deelnemer
      */
     public function setWerkdoelen($werkdoelen)
     {
         $this->werkdoelen = $werkdoelen;
+
         return $this;
     }
 
     /**
-     * @param Werkdoel $werkdoel
      * @return $this
      */
     public function addWerkdoel(Werkdoel $werkdoel)
@@ -314,25 +331,17 @@ class Deelnemer
         return $this;
     }
 
-    /**
-     * @return string
-     */
     public function getWerkbegeleider(): ?string
     {
         return $this->werkbegeleider;
     }
 
-    /**
-     * @param string $werkbegeleider
-     * @return Deelnemer
-     */
     public function setWerkbegeleider(?string $werkbegeleider): Deelnemer
     {
         $this->werkbegeleider = $werkbegeleider;
+
         return $this;
     }
-
-
 
     public function reopen()
     {

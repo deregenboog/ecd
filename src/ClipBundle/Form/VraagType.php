@@ -15,9 +15,6 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class VraagType extends AbstractType
 {
-    /**
-     * {@inheritdoc}
-     */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         /* @var $vraag Vraag */
@@ -48,21 +45,19 @@ class VraagType extends AbstractType
         $this->addEmptyClientFields($builder, $vraag->getClient());
 
         $builder
-            ->add('hulpCollegaGezocht',CheckboxType::class,[
-                'required'=>false,
+            ->add('hulpCollegaGezocht', CheckboxType::class, [
+                'required' => false,
             ])
             ->add('startdatum', AppDateType::class)
             ->add('behandelaar', BehandelaarSelectType::class, [
                 'medewerker' => $options['medewerker'],
-                'current' => $options['data'] ? $options['data']->getBehandelaar() :null,
+                'current' => $options['data'] ? $options['data']->getBehandelaar() : null,
                 'required' => false,
-
             ])
         ;
 
         if (1 === (is_array($vraag->getContactmomenten()) || $vraag->getContactmomenten() instanceof \Countable ? count($vraag->getContactmomenten()) : 0)) {
             $this->addEmptyContactmomentFields($builder, $vraag->getContactmoment());
-
         }
 
         $builder->add('submit', SubmitType::class);
@@ -121,9 +116,6 @@ class VraagType extends AbstractType
         }
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
@@ -131,15 +123,12 @@ class VraagType extends AbstractType
         ]);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getParent(): ?string
     {
         return BaseType::class;
     }
 
-    protected function isNew(Vraag $vraag = null)
+    protected function isNew(?Vraag $vraag = null)
     {
         return is_null($vraag) || is_null($vraag->getId());
     }

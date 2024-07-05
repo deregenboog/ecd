@@ -3,11 +3,11 @@
 namespace TwBundle\Controller;
 
 use AppBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Annotation\Route;
 use TwBundle\Entity\Project;
 use TwBundle\Form\ProjectType;
 use TwBundle\Service\ProjectDaoInterface;
-use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\HttpFoundation\Request;
 
 /**
  * @Route("/admin/projecten")

@@ -11,14 +11,20 @@ use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Entity(repositoryClass="InloopBundle\Repository\DossierStatusRepository")
+ *
  * @ORM\Table(name="inloop_dossier_statussen")
+ *
  * @ORM\HasLifecycleCallbacks
+ *
  * @ORM\InheritanceType("SINGLE_TABLE")
+ *
  * @ORM\DiscriminatorColumn(name="class", type="string")
+ *
  * @ORM\DiscriminatorMap({
  *     "Aanmelding" = "Aanmelding",
  *     "Afsluiting" = "Afsluiting"
  * })
+ *
  * @Gedmo\Loggable
  */
 abstract class DossierStatus
@@ -28,7 +34,9 @@ abstract class DossierStatus
 
     /**
      * @ORM\Id
+     *
      * @ORM\Column(type="integer")
+     *
      * @ORM\GeneratedValue
      */
     protected $id;
@@ -37,13 +45,16 @@ abstract class DossierStatus
      * @var Klant
      *
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Klant", inversedBy="statussen")
+     *
      * @ORM\JoinColumn(nullable=false)
+     *
      * @Gedmo\Versioned
      */
     protected $klant;
 
     /**
      * @ORM\Column(type="date")
+     *
      * @Gedmo\Versioned
      */
     protected $datum;
@@ -52,6 +63,7 @@ abstract class DossierStatus
      * @var \DateTime
      *
      * @ORM\Column(type="datetime")
+     *
      * @Gedmo\Versioned
      */
     protected $created;
@@ -60,11 +72,12 @@ abstract class DossierStatus
      * @var \DateTime
      *
      * @ORM\Column(type="datetime")
+     *
      * @Gedmo\Versioned
      */
     protected $modified;
 
-    public function __construct(Medewerker $medewerker = null)
+    public function __construct(?Medewerker $medewerker = null)
     {
         $this->medewerker = $medewerker;
         $this->datum = new \DateTime('now');

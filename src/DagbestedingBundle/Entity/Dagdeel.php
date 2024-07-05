@@ -8,11 +8,14 @@ use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Entity
+ *
  * @ORM\Table(
  *     name="dagbesteding_dagdelen",
  *     uniqueConstraints={@ORM\UniqueConstraint(name="unique_traject_datum_dagdeel_idx", columns={"traject_id", "datum", "dagdeel"})}
  * )
+ *
  * @ORM\HasLifecycleCallbacks
+ *
  * @Gedmo\Loggable
  */
 class Dagdeel
@@ -36,49 +39,58 @@ class Dagdeel
 
     /**
      * @ORM\Id
+     *
      * @ORM\Column(type="integer")
+     *
      * @ORM\GeneratedValue
      */
     private $id;
 
     /**
      * @var Traject
+     *
      * @ORM\ManyToOne(targetEntity="Traject", inversedBy="dagdelen")
+     *
      * @ORM\JoinColumn(nullable=false)
+     *
      * @Gedmo\Versioned
      */
     private $traject;
 
     /**
      * @var Project
+     *
      * @ORM\ManyToOne(targetEntity="Project")
+     *
      * @ORM\JoinColumn(nullable=false)
+     *
      * @Gedmo\Versioned
      */
     private $project;
 
     /**
      * @ORM\Column(type="date")
+     *
      * @Gedmo\Versioned
      */
     private $datum;
 
     /**
      * @ORM\Column(nullable=false)
+     *
      * @Gedmo\Versioned
      */
     private $dagdeel;
 
     /**
      * @ORM\Column(nullable=false)
+     *
      * @Gedmo\Versioned
      */
     private $aanwezigheid;
 
     /**
-     * @param Project   $project
-     * @param \DateTime $datum
-     * @param string    $dagdeel
+     * @param string $dagdeel
      *
      * @throws \InvalidArgumentException
      */
@@ -104,7 +116,7 @@ class Dagdeel
         return $this->traject;
     }
 
-    public function setTraject(Traject $traject = null)
+    public function setTraject(?Traject $traject = null)
     {
         $this->traject = $traject;
 
@@ -116,12 +128,12 @@ class Dagdeel
         return $this->datum;
     }
 
-//     public function setDatum($datum)
-//     {
-//         $this->datum = $datum;
+    //     public function setDatum($datum)
+    //     {
+    //         $this->datum = $datum;
 
-//         return $this;
-//     }
+    //         return $this;
+    //     }
 
     public function getDagdeel()
     {
@@ -133,16 +145,14 @@ class Dagdeel
         return $this->project;
     }
 
-//     public function setDagdeel($dagdeel)
-//     {
-//         $this->dagdeel = $dagdeel;
+    //     public function setDagdeel($dagdeel)
+    //     {
+    //         $this->dagdeel = $dagdeel;
 
-//         return $this;
-//     }
+    //         return $this;
+    //     }
 
     /**
-     * @param Dagdeel $dagdeel
-     *
      * @return bool
      */
     public function isEqualTo(self $dagdeel)

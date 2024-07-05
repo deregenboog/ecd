@@ -9,9 +9,6 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class MedewerkerType extends AbstractType
 {
-    /**
-     * {@inheritdoc}
-     */
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
@@ -19,14 +16,11 @@ class MedewerkerType extends AbstractType
                 return $repository->createQueryBuilder('medewerker')
                     ->innerJoin(Trajectcoach::class, 'trajectcoach', 'WITH', 'trajectcoach.medewerker = medewerker AND trajectcoach.actief = 1')
                     ->orderBy('medewerker.voornaam')
-                    ;
+                ;
             },
         ]);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getParent(): ?string
     {
         return \AppBundle\Form\MedewerkerType::class;
