@@ -1,5 +1,3 @@
-version: '3.9'
-
 services:
   test-database:
     build:
@@ -9,8 +7,11 @@ services:
     build:
       context: .
       dockerfile: Dockerfile.test
+    environment:
+      PANTHER_ERROR_SCREENSHOT_DIR: ./.panther/screenshots
     volumes:
+      - ${PWD}/.panther/screenshots:/app/.panther/screenshots
       - ${PWD}/build:/app/build
       - ${PWD}/src:/app/src:ro
-      - ${PWD}/tests:/app/tests:ro
       - ${PWD}/templates:/app/templates:ro
+      - ${PWD}/tests:/app/tests:ro

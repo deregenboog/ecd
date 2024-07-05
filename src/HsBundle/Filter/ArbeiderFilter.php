@@ -5,7 +5,7 @@ namespace HsBundle\Filter;
 use AppBundle\Filter\FilterInterface;
 use Doctrine\ORM\QueryBuilder;
 
-class ArbeiderFilter implements FilterInterface
+abstract class ArbeiderFilter implements FilterInterface
 {
     public const STATUS_ACTIVE = 'Actief';
     public const STATUS_NON_ACTIVE = 'Niet actief';

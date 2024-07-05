@@ -4,6 +4,7 @@ namespace ClipBundle\Filter;
 
 use AppBundle\Entity\Werkgebied;
 use AppBundle\Filter\FilterInterface;
+use AppBundle\Form\Model\AppDateRangeModel;
 use Doctrine\ORM\QueryBuilder;
 
 class ClientFilter implements FilterInterface
@@ -24,12 +25,12 @@ class ClientFilter implements FilterInterface
     public $stadsdeel;
 
     /**
-     * @var \DateTime
+     * @var AppDateRangeModel
      */
     public $aanmelddatum;
 
     /**
-     * @var \DateTime
+     * @var AppDateRangeModel
      */
     public $afsluitdatum;
 
@@ -62,14 +63,14 @@ class ClientFilter implements FilterInterface
         if ($this->aanmelddatum) {
             if ($this->aanmelddatum->getStart()) {
                 $builder
-                ->andWhere('client.aanmelddatum >= :aanmelddatum_van')
-                ->setParameter('aanmelddatum_van', $this->aanmelddatum->getStart())
+                    ->andWhere('client.aanmelddatum >= :aanmelddatum_van')
+                    ->setParameter('aanmelddatum_van', $this->aanmelddatum->getStart())
                 ;
             }
             if ($this->aanmelddatum->getEnd()) {
                 $builder
-                ->andWhere('client.aanmelddatum <= :aanmelddatum_tot')
-                ->setParameter('aanmelddatum_tot', $this->aanmelddatum->getEnd())
+                    ->andWhere('client.aanmelddatum <= :aanmelddatum_tot')
+                    ->setParameter('aanmelddatum_tot', $this->aanmelddatum->getEnd())
                 ;
             }
         }
@@ -77,14 +78,14 @@ class ClientFilter implements FilterInterface
         if ($this->afsluitdatum) {
             if ($this->afsluitdatum->getStart()) {
                 $builder
-                ->andWhere('client.afsluitdatum >= :afsluitdatum_van')
-                ->setParameter('afsluitdatum_van', $this->afsluitdatum->getStart())
+                    ->andWhere('client.afsluitdatum >= :afsluitdatum_van')
+                    ->setParameter('afsluitdatum_van', $this->afsluitdatum->getStart())
                 ;
             }
             if ($this->afsluitdatum->getEnd()) {
                 $builder
-                ->andWhere('client.afsluitdatum <= :afsluitdatum_tot')
-                ->setParameter('afsluitdatum_tot', $this->afsluitdatum->getEnd())
+                    ->andWhere('client.afsluitdatum <= :afsluitdatum_tot')
+                    ->setParameter('afsluitdatum_tot', $this->afsluitdatum->getEnd())
                 ;
             }
         }
