@@ -6,6 +6,7 @@ use AppBundle\Entity\Medewerker;
 use AppBundle\Filter\FilterInterface;
 use AppBundle\Filter\KlantFilter as AppKlantFilter;
 use AppBundle\Filter\NullFilterTrait;
+use Doctrine\ORM\Query\Expr;
 use Doctrine\ORM\QueryBuilder;
 use TwBundle\Entity\Alcohol;
 use TwBundle\Entity\Dagbesteding;
@@ -163,32 +164,19 @@ class KlantFilter implements FilterInterface
         }
 
         if (!is_null($this->gekoppeld)) {
-            if (false == $this->gekoppeld) {// alleen ongekoppeld
-                $builder->leftJoin($alias.'.huurverzoeken', 'huurverzoeken', 'WITH', '(huurverzoeken.afsluiting IS NULL)')
-//                    ->orWhere('huurverzoeken IS NULL')
-                    ->leftJoin('huurverzoeken.huurovereenkomst', 'huurovereenkomst')
-//                    ->andWhere('huurovereenkomst IS NULL')
-                    // ->leftJoin("huurverzoeken.huurovereenkomst","huurovereenkomst")
-                    ->andWhere('(huurovereenkomst IS NULL
-                        OR huurverzoeken IS NULL
-                        OR
-                        (
-                            huurovereenkomst IS NOT NULL
-                            AND huurovereenkomst.isReservering = true
-                        )
-                    )
-                    ')
-                ;
-            } elseif (true == $this->gekoppeld) {
-                $builder->leftJoin($alias.'.huurverzoeken', 'huurverzoeken')
-                    ->leftJoin('huurverzoeken.huurovereenkomst', 'huurovereenkomst')
-                    ->andWhere('huurovereenkomst.id IS NOT NULL
-                        AND (
-                            huurovereenkomst.isReservering = false AND
-                            (huurovereenkomst.afsluitdatum IS NULL AND
-                            huurovereenkomst.startdatum IS NOT NULL)
-                            )
-                    ');
+            $subQuery = 'SELECT k.id
+                FROM TwBundle\Entity\Klant k
+                INNER JOIN k.appKlant ak
+                INNER JOIN k.huurverzoeken verzoek
+                INNER JOIN verzoek.huurovereenkomst overeenkomst WITH
+                    overeenkomst.isReservering = false
+                    AND overeenkomst.startdatum IS NOT NULL
+                    AND (overeenkomst.afsluitdatum IS NULL OR overeenkomst.afsluitdatum > :today)';
+            $builder->setParameter('today', new \DateTime('today'));
+            if ($this->gekoppeld) {
+                $builder->where((new Expr())->in($alias.'.id', $subQuery));
+            } else {
+                $builder->where((new Expr())->notIn($alias.'.id', $subQuery));
             }
         }
 
