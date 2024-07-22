@@ -12,7 +12,7 @@
     {{ form(form) }}
 {% endblock %}
 
-{% block scripts %}
+{% macro tweedeFase() %}
     <script>
         $(function() {
             var fieldTweedefase = $('form input#vrijwilliger_tweedeFase');
@@ -40,4 +40,7 @@
             });
         });
    </script>
+{% endmacro %}
+{% block scripts %}
+{{  _self.tweedeFase() }}
 {% endblock %}
