@@ -13,6 +13,7 @@ fos_ck_editor:
     input_sync: true
     configs:
         basic:
+            versionCheck: false
             disableNativeSpellChecker: false
             removePlugins: 'liststyle,tabletools,tableselection,contextmenu'
             enterMode: CKEDITOR.ENTER_BR
