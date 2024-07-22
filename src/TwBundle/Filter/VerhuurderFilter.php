@@ -36,7 +36,7 @@ class VerhuurderFilter implements FilterInterface
     /**
      * @var bool
      */
-    public $gekoppeld = false;
+    public $gekoppeld = null;
 
     /**
      * @var KlantFilter
