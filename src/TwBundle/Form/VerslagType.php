@@ -39,6 +39,7 @@ class VerslagType extends AbstractType
             ->add('opmerking', AppTextareaType::class)
             ->add('delenMw', CheckboxType::class, [
                 'label' => 'Delen met MW?',
+                'required'=>false,
             ])
             ->add('submit', SubmitType::class, ['label' => 'Opslaan'])
 
