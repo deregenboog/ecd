@@ -18,6 +18,10 @@ services:
         arguments:
             $entities: '@villa.document.entities'
 
+    VillaBundle\Controller\MemosController:
+        arguments:
+            $entities: '@villa.memo.entities'
+
     VillaBundle\Controller\VrijwilligersController:
         arguments:
             $export: '@villa.export.vrijwilliger'
@@ -27,3 +31,13 @@ services:
         arguments:
             -
               - { key: vrijwilliger, dao: '@VillaBundle\Service\VrijwilligerDao' }
+
+    villa.deelname.entities:
+        class: ArrayObject
+        arguments:
+            - - { key: vrijwilliger, dao: '@VillaBundle\Service\VrijwilligerDao' }
+
+    villa.memo.entities:
+        class: ArrayObject
+        arguments:
+            - - { key: vrijwilliger, dao: '@VillaBundle\Service\VrijwilligerDao' }
