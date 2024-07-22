@@ -2,7 +2,7 @@
   "name": "ecd",
   "dependencies": {
     "bootstrap": "^3.4.1",
-    "ckeditor4": "^4.24.0",
+    "ckeditor4": "4.22.1",
     "fullcalendar": "^6.1.11",
     "jquery": "3.3",
     "lodash": "^4.17.21",
