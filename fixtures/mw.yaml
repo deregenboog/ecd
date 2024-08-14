@@ -4,6 +4,8 @@ MwBundle\Entity\BinnenViaOptieKlant:
     mw_binnen_via_klant_5:
         naam: '<word()>'
         actief: false
+    mw_binnen_via_klant_6:
+        naam: 'Inloophuizen'
 
 MwBundle\Entity\BinnenViaOptieVW:
     mw_binnen_via_vw_{1..4}:
@@ -29,6 +31,10 @@ MwBundle\Entity\Project:
         naam: '<word()>'
         medewerkers: '5x @medewerker*'
         actief: false
+    mw_project_6:
+        naam: 'AMW'
+        medewerkers: '2x @medewerker*'
+        actief: true
 
 MwBundle\Entity\Aanmelding:
     mw_aanmelding_{1..25}:
