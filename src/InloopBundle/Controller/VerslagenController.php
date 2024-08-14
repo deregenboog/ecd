@@ -12,6 +12,9 @@ use AppBundle\Export\ExportInterface;
 use Doctrine\ORM\EntityNotFoundException;
 use InloopBundle\Service\VerslagDaoInterface;
 use MwBundle\Entity\Aanmelding;
+use MwBundle\Entity\BinnenViaOptieKlant;
+use MwBundle\Entity\MwDossierStatus;
+use MwBundle\Entity\Project;
 use MwBundle\Entity\Verslag;
 use MwBundle\Form\VerslagType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
@@ -59,7 +62,17 @@ class VerslagenController extends AbstractController
         $klant = $request->get('klant');
 
         if (!$klant->getHuidigeMwStatus() instanceof Aanmelding) {
-            throw new UserException('Kan geen verslag toevoegen aan een klant zonder een lopend MW dossier.');
+
+            /**
+             * When verslagen are added to a klant, this is formally an MW activity.
+             *Therefore, there should be an MW file present. If this is not the case,
+             * one is created so the verslag can be added.
+             */
+            $mwAanmelding = $this->createMwDossier($klant, $request);
+            $klant->setHuidigeMwStatus($mwAanmelding);
+            $this->entityManager->persist($klant);
+            $this->entityManager->flush();
+            $this->addFlash("info", "Klant had geen MW dossier. Automatisch MW dossier aangemaakt zodat het verslag kan worden toegevoegd.");
         }
 
         $entity = new Verslag($klant, Verslag::TYPE_INLOOP);
@@ -67,6 +80,23 @@ class VerslagenController extends AbstractController
         return $this->processForm($request, $entity);
     }
 
+    private function createMwDossier(Klant $klant, Request $request): MwDossierStatus
+    {
+        $mwProjectRepo = $this->entityManager->getRepository(Project::class);
+        $defaultProject = $mwProjectRepo->findOneBy(['naam'=>'AMW']);
+
+        $binnenViaRepo = $this->entityManager->getRepository(BinnenViaOptieKlant::class);
+        $defaultBinnenViaOptie = $binnenViaRepo->findOneBy(['naam'=>'Inloophuizen']);
+
+        $mwDossier = new Aanmelding($this->getMedewerker());
+        $mwDossier->setDatum(new \DateTime());
+        $mwDossier->setKlant($klant);
+        $mwDossier->setLocatie($request->get('locatie'));
+        $mwDossier->setProject($defaultProject);
+        $mwDossier->setBinnenViaOptieKlant($defaultBinnenViaOptie);
+
+        return $mwDossier;
+    }
     /**
      * @Route("/{id}/edit")
      */
