@@ -72,7 +72,7 @@ class VerhuurderFilterType extends AbstractType
                     'Niet gekoppeld' => false,
                 ],
                 'required' => false,
-                'data' => false,
+                'data' => null,
             ]);
         }
 
