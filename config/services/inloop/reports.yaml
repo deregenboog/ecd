@@ -5,6 +5,10 @@ services:
 
     InloopBundle\Form\RapportageType:
 
+    InloopBundle\Report\EUBurgersNew:
+        tags:
+            - { name: inloop.rapportage }
+
     InloopBundle\Report\EUBurgers:
         tags:
             - { name: inloop.rapportage }

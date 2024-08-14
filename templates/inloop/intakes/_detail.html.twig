@@ -24,7 +24,7 @@
     <dt>Verblijfsstatus</dt>
     <dd>{{ entity.Verblijfsstatus }}</dd>
 </dl>
-{% if entity.klant.eersteIntake %}
+{% if entity.klant.eersteIntake and entity.Verblijfsstatus %}
     {% include 'inloop/intakes/_locatieToegang.html.twig' with {entity: entity.klant.eersteIntake, verblijfsstatusId: entity.Verblijfsstatus.id} %}
 {% endif %}
 <h2>Legitimatie</h2>
