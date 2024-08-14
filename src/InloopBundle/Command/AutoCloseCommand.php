@@ -17,7 +17,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class AutoCloseCommand extends \Symfony\Component\Console\Command\Command
 {
-    private $years = 1;
+    private $years = 2;
 
     private $toelichting = 'Automatisch door systeem afgesloten.';
 
