@@ -82,7 +82,8 @@ class AutoCloseCommand extends \Symfony\Component\Console\Command\Command
         }
 
         $builder = $this->entityManager->getRepository(Klant::class)->createQueryBuilder('klant')
-            ->innerJoin(Registratie::class, 'registratie', 'WITH', 'registratie.klant = klant')
+            ->select('klant, registratie.binnen AS laatsteRegistratieDatum')
+            ->leftJoin(Registratie::class, 'registratie', 'WITH', 'registratie.klant = klant')
             ->leftJoin('klant.huidigeStatus', 'status')
             ->where('status NOT INSTANCE OF '.Afsluiting::class)
             ->groupBy('klant.id')
@@ -90,8 +91,7 @@ class AutoCloseCommand extends \Symfony\Component\Console\Command\Command
             ->setParameter('long_time_ago', new \DateTime(sprintf('-%d years', $this->years)))
             ->setMaxResults($input->getArgument('batch-size'));
 
-        //        $sql = SqlExtractor::getFullSQL($builder->getQuery());
-        //        $output->writeln($sql);
+
         $klanten = $builder
             ->getQuery()
             ->getResult();
@@ -103,14 +103,72 @@ class AutoCloseCommand extends \Symfony\Component\Console\Command\Command
             $this->toelichting
         ));
 
+
         foreach ($klanten as $klant) {
+            $laatsteRegistratieDatum = $klant['laatsteRegistratieDatum'];
+//            dump($laatsteRegistratieDatum);
+            $laatsteRegistratieDatum = $laatsteRegistratieDatum->modify('+'.$this->years.' years');
+//            dump($laatsteRegistratieDatum);
+            $klant = $klant[0];
             $output->writeln(sprintf(' - klant %d afsluiten', $klant->getId()));
 
             if (!$input->getOption('dry-run')) {
+
                 $afsluiting = new Afsluiting($defaultMedewerker);
                 $afsluiting->setKlant($klant);
+                $afsluiting->setDatum($laatsteRegistratieDatum);
                 $afsluiting->setReden($reden)->setToelichting($this->toelichting);
+
                 $this->entityManager->persist($afsluiting);
+                $klant->setHuidigeStatus($afsluiting);
+                $this->entityManager->persist($klant);
+
+            }
+        }
+
+        // now find klanten who did never register but have an aanmelding.
+        $builder = $this->entityManager->getRepository(Klant::class)->createQueryBuilder('klant')
+            ->select('klant', 'laatsteIntake.intakedatum AS laatsteIntakeDatum')
+            ->leftJoin(Registratie::class, 'registratie', 'WITH', 'registratie.klant = klant')
+            ->leftJoin('klant.huidigeStatus', 'status')
+            ->innerJoin('klant.laatsteIntake','laatsteIntake')
+            ->where('status NOT INSTANCE OF '.Afsluiting::class)
+            ->andWhere('registratie.id IS NULL')
+            ->andWhere('laatsteIntake.intakedatum < :long_time_ago')
+            ->groupBy('klant.id')
+            ->setParameter('long_time_ago', new \DateTime(sprintf('-%d years', $this->years)))
+            ->setMaxResults($input->getArgument('batch-size'));
+
+
+        $klanten = $builder
+            ->getQuery()
+            ->getResult();
+
+        $output->writeln(sprintf(
+            '%d klanten gevonden om af te sluiten met die na intake nooit een inloophuis hebben bezocht. Reden: %s, toelichting %s"',
+            is_array($klanten) || $klanten instanceof \Countable ? count($klanten) : 0,
+            $reden->getNaam(),
+            $this->toelichting
+        ));
+
+
+        foreach ($klanten as $klant) {
+            $laatsteIntakeDatum = $klant['laatsteIntakeDatum'];
+            $laatsteIntakeDatum = $laatsteIntakeDatum->modify('+'.$this->years.' years');
+            $klant = $klant[0];
+            $output->writeln(sprintf(' - klant %d afsluiten', $klant->getId()));
+
+            if (!$input->getOption('dry-run')) {
+
+                $afsluiting = new Afsluiting($defaultMedewerker);
+                $afsluiting->setKlant($klant);
+                $afsluiting->setDatum($laatsteIntakeDatum);
+                $afsluiting->setReden($reden)->setToelichting($this->toelichting);
+
+                $this->entityManager->persist($afsluiting);
+                $klant->setHuidigeStatus($afsluiting);
+                $this->entityManager->persist($klant);
+
             }
         }
 

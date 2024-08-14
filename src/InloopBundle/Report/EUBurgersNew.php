@@ -10,6 +10,8 @@ use AppBundle\Report\AbstractReport;
 use AppBundle\Report\Table;
 use Doctrine\ORM\EntityManagerInterface;
 use InloopBundle\Entity\Aanmelding;
+use InloopBundle\Entity\Afsluiting;
+use InloopBundle\Entity\DossierStatus;
 use InloopBundle\Entity\Intake;
 use InloopBundle\Entity\Locatie;
 use InloopBundle\Entity\Registratie;
@@ -18,9 +20,9 @@ use MwBundle\Entity\Doorverwijzing;
 use MwBundle\Entity\Verslag;
 use MwBundle\Entity\Verslaginventarisatie;
 
-class EUBurgers extends AbstractReport
+class EUBurgersNew extends AbstractReport
 {
-    protected $title = 'EU burgers';
+    protected $title = 'EU burgers nieuwe stijl';
 
     /**
      * @var Land[]
@@ -162,6 +164,10 @@ class EUBurgers extends AbstractReport
                     $periode => $count[0]['averageAge'],
                     $referentie => $count[1]['averageAge'],
                 ],
+                'Totaal aantal klanten met aanmelding' => [
+                    $periode => $count[0]['totalClients'],
+                    $referentie => $count[1]['totalClients'],
+                ],
             ],
         ];
 
@@ -182,7 +188,7 @@ class EUBurgers extends AbstractReport
         }
 
         $table = new Table($perLand, 'periode', 'land', 'aantal');
-        $table->setXTotals(false)->setYTotals(false)->setXSort(false);
+        $table->setXTotals(false)->setYTotals(true)->setXSort(false);
         $this->reports[] = [
             'title' => 'Aantal ingeschreven personen per land',
             'yDescription' => 'Land',
@@ -206,7 +212,7 @@ class EUBurgers extends AbstractReport
         }
 
         $table = new Table($perLeeftijd, 'periode', 'leeftijd', 'aantal');
-        $table->setXTotals(false)->setYTotals(false)->setXSort(false);
+        $table->setXTotals(false)->setYTotals(true)->setXSort(false);
         $this->reports[] = [
             'title' => 'Leeftijd',
             'yDescription' => 'Leeftijd',
@@ -230,7 +236,7 @@ class EUBurgers extends AbstractReport
         }
 
         $table = new Table($perProblematiek, 'periode', 'problematiek', 'aantal');
-        $table->setXTotals(false)->setYTotals(false)->setXSort(false);
+        $table->setXTotals(false)->setYTotals(true)->setXSort(false);
         $this->reports[] = [
             'title' => 'Primaire problematiek',
             'yDescription' => 'Problematiek',
@@ -254,7 +260,7 @@ class EUBurgers extends AbstractReport
         }
 
         $table = new Table($perDoorverwijzing, 'periode', 'doorverwijzing', 'aantal');
-        $table->setXTotals(false)->setYTotals(false)->setXSort(false);
+        $table->setXTotals(false)->setYTotals(true)->setXSort(false);
         $this->reports[] = [
             'title' => 'Doorverwijzingen',
             'yDescription' => 'Doorverwijzing',
@@ -298,12 +304,36 @@ class EUBurgers extends AbstractReport
         $klantRepository = $this->entityManager->getRepository(Klant::class);
         $registratieRepository = $this->entityManager->getRepository(Registratie::class);
 
-        $builder = $klantRepository->createQueryBuilder('klant')
-            ->select('klant.id, intake.id AS laatste_intake_id')
-            ->innerJoin('klant.laatsteIntake', 'intake')
-            ->andWhere('klant.created < :created')->setParameter('created', $endDatePlusOneDay)
-//            ->andWhere(sprintf('klant.huidigeStatus INSTANCE OF %s',Aanmelding::class))
+        $dossierStatusRepository = $this->entityManager->getRepository(DossierStatus::class);
+
+        $newBuilder = $klantRepository->createQueryBuilder('klant');
+        $newBuilder->select('klant.id,intake.id AS laatste_intake_id')
+            ->innerJoin('klant.laatsteIntake','intake')
+            ->leftJoin('klant.statussen','a', 'WITH','a INSTANCE OF '.Aanmelding::class)
+            ->leftJoin('klant.statussen','af','WITH','af INSTANCE OF '.Afsluiting::class)
+
+            ->where('a.datum <= :endDate')
+            ->andWhere(('af.datum IS NULL OR af.datum > :startDate'))
+            ->groupBy('klant.id')
+            ->setParameter('startDate',$startDate)
+            ->setParameter('endDate',$endDatePlusOneDay)
+//            ->setParameter('aanmelding','Aanmelding')
         ;
+//        if (count((array) $this->landen) > 0) {
+//            $newBuilder->andWhere('klant.land IN (:landen)')->setParameter('landen', $this->landen);
+//        }
+
+
+        $klantenWithAanmeldingInPeriod = $newBuilder->getQuery()->getResult();
+
+
+        $builder = $newBuilder;
+//        $builder = $klantRepository->createQueryBuilder('klant')
+//            ->select('klant.id, intake.id AS laatste_intake_id')
+//            ->innerJoin('klant.laatsteIntake', 'intake')
+//            ->andWhere('klant.created < :created')
+//            ->setParameter('created', $endDatePlusOneDay)
+//        ;
 
         if ($this->geslacht instanceof Geslacht) {
             $builder->andWhere('klant.geslacht = :geslacht')->setParameter('geslacht', $this->geslacht);
@@ -313,7 +343,7 @@ class EUBurgers extends AbstractReport
             $builder->andWhere('klant.land IN (:landen)')->setParameter('landen', $this->landen);
         }
 
-                $sql = SqlExtractor::getFullSQL($builder->getQuery());
+//        $sql = SqlExtractor::getFullSQL($builder->getQuery());
         $klanten = $builder->getQuery()->getResult();
         // @todo deze klantenlijst wordt al gefilterd op delete en disabled dus dat hoeft niet in de joins verderop.
 
@@ -379,6 +409,7 @@ class EUBurgers extends AbstractReport
                 $klanten[$klant['id']] = $klant['laatste_intake_id'];
             }
         }
+        $x = count($klanten);
 
         foreach ($this->landen as $land) {
             $count['amoc_landen'][$land->getId()] = $land->getNaam();
@@ -395,12 +426,13 @@ class EUBurgers extends AbstractReport
         }
 
         $count['totalClients'] = count($klanten);
+        $klant_ids = array_keys($klanten);
 
         $count['totalNewClients'] = $klantRepository->createQueryBuilder('klant')
             ->select('COUNT(klant.id) as cnt')
             ->where('klant.id IN (:ids)')
-            ->andWhere('klant.created >= :start_date')
-            ->setParameter('ids', array_keys($klanten))
+            ->andWhere('klant.created >= :start_date') // this should be replaced with an aanmelding in the period.
+            ->setParameter('ids', $klant_ids)
             ->setParameter('start_date', $startDate)
             ->getQuery()
             ->getSingleScalarResult();
@@ -412,7 +444,7 @@ class EUBurgers extends AbstractReport
             ->andWhere('registratie.locatie IN (:locatie)')
             ->andWhere('registratie.binnen >= :start_date')
             ->andWhere('registratie.binnen < :end_date')
-            ->setParameter('ids', array_keys($klanten))
+            ->setParameter('ids', $klant_ids)
             ->setParameter('locatie', $this->locatieArray)
             ->setParameter('start_date', $startDate)
             ->setParameter('end_date', $endDatePlusOneDay)
@@ -426,27 +458,13 @@ class EUBurgers extends AbstractReport
             ->andWhere('registratie.locatie IN (:locatie)')
             ->andWhere('registratie.binnen >= :start_date')
             ->andWhere('registratie.binnen < :end_date')
-            ->setParameter('ids', array_keys($klanten))
+            ->setParameter('ids', $klant_ids)
             ->setParameter('locatie', $this->locatieArray)
             ->setParameter('start_date', $startDate)
             ->setParameter('end_date', $endDatePlusOneDay)
             ->getQuery();
 
         $count['totalVisits'] = $q->getSingleScalarResult();
-
-        $tbuilder = $registratieRepository->createQueryBuilder('registratie');
-        $tbuilder
-        ->select('COUNT(registratie.id) AS cnt')
-        ->innerJoin('registratie.klant', 'klant')
-        ->where('klant.id IN (:ids)')
-        ->andWhere('registratie.locatie IN (:locatie)')
-        ->andWhere('registratie.binnen >= :start_date')
-        ->andWhere('registratie.binnen < :end_date')
-        ->setParameter('ids', array_keys($klanten))
-        ->setParameter('locatie', $this->locatieArray)
-        ->setParameter('start_date', $startDate)
-        ->setParameter('end_date', $endDatePlusOneDay)
-        ;
 
         $builder = $this->entityManager->getRepository(Verslag::class)->createQueryBuilder('verslag')
             ->select('klant.id')
@@ -455,7 +473,7 @@ class EUBurgers extends AbstractReport
             ->andWhere('verslag.locatie IN (:locatie)')
             ->andWhere('verslag.datum >= :start_date')
             ->andWhere('verslag.datum < :end_date')
-            ->setParameter('ids', array_keys($klanten))
+            ->setParameter('ids', $klant_ids)
             ->setParameter('locatie', $this->locatieArray)
             ->setParameter('start_date', $startDate)
             ->setParameter('end_date', $endDatePlusOneDay)
@@ -488,9 +506,7 @@ class EUBurgers extends AbstractReport
             ->where('klant.id IN (:ids)')
             ->groupBy('land.id')
             ->orderBy('land.id')
-            ->setParameters([
-                'ids' => array_keys($klanten),
-            ])
+            ->setParameter('ids',$klant_ids)
             ->getQuery()
             ->getResult();
         foreach ($result as $row) {
