@@ -51,7 +51,7 @@ class Opmerking
     /**
      * @var string
      *
-     * @ORM\Column()
+     * @ORM\Column(type="text")
      *
      * @Gedmo\Versioned
      */

@@ -85,7 +85,7 @@ class LdapUserProvider extends \Symfony\Component\Ldap\Security\LdapUserProvider
             ->setRoles($roles)
             ->setLdapGuid($objectguid)
             ->setLdapGroups($entry->getAttribute('memberOf'))
-            ->setActief($isAccountEnabled)
+            ->setActief(1)
             ->setEmail($entry->getAttribute('mail')[0])
             ->setVoornaam($entry->getAttribute('givenName')[0])
             ->setAchternaam($entry->getAttribute('sn')[0])
