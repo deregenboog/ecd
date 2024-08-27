@@ -9,7 +9,7 @@
                     <th>
                         {{ dienst.naam }}
                     </th>
-                    <td {% if dienst.toelichting %}data-toggle="tooltip" data-placement="right" title="{{ dienst.toelichting }}"{% endif %}>
+                    <td {% if dienst.toelichting %}data-toggle="tooltip" data-placement="right" data-html="true" title="{{ dienst.toelichting }}"{% endif %}>
                         {% if dienst.url %}
                             {{ html.link(_self.dienst(dienst), dienst.url, 'view') }}
                         {% else %}

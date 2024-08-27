@@ -56,8 +56,8 @@ class DienstenLookupSubscriber implements EventSubscriberInterface
                     $event->addDienst(new Dienst(
                         'Inloophuizen',
                         $this->generator->generate('inloop_klanten_view', ['id' => $klant->getId()]),
-                        'open dossier',
-                        implode(', ', $inloophuizen)
+                        sprintf('%s',$klant->getHuidigeStatus()),
+                        implode('<br/>', $inloophuizen)
                     ));
                 }
                 if (count($gebruikersruimtes) > 0) {
