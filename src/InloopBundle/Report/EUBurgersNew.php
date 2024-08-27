@@ -266,6 +266,30 @@ class EUBurgersNew extends AbstractReport
             'yDescription' => 'Doorverwijzing',
             'data' => $table->render(),
         ];
+
+        $perGeslacht = [];
+        foreach ($count[0]['geslacht'] as $i => $cnt) {
+            $perGeslacht[] = [
+                'periode' => $periode,
+                'geslacht' => $i,
+                'aantal' => $cnt,
+            ];
+        }
+        foreach ($count[1]['geslacht'] as $i => $cnt) {
+            $perGeslacht[] = [
+                'periode' => $referentie,
+                'geslacht' => $i,
+                'aantal' => $cnt,
+            ];
+        }
+
+        $table = new Table($perGeslacht, 'periode', 'geslacht', 'aantal');
+        $table->setXTotals(false)->setYTotals(true)->setXSort(false);
+        $this->reports[] = [
+            'title' => 'Geslacht',
+            'yDescription' => 'Geslacht',
+            'data' => $table->render(),
+        ];
     }
 
     protected function build()
@@ -546,6 +570,19 @@ class EUBurgersNew extends AbstractReport
             $count['averageAge'] = round($sum_ages / $cnt_ages, 1);
         } else {
             $count['averageAge'] = '--';
+        }
+
+        $result = $klantRepository->createQueryBuilder('klant')
+            ->select('geslacht.volledig AS geslachtLabel, COUNT(klant.geslacht) AS cnt')
+            ->innerJoin('klant.geslacht','geslacht')
+            ->where('klant.id IN (:ids) AND klant.geslacht IS NOT NULL')
+            ->groupBy('klant.geslacht')
+            ->orderBy('klant.geslacht')
+            ->setParameter('ids', array_keys($klanten))
+            ->getQuery()
+            ->getResult();
+        foreach($result as $values) {
+            $count['geslacht'][$values['geslachtLabel']] = $values['cnt'];
         }
 
         $result = $this->entityManager->getRepository(Intake::class)->createQueryBuilder('intake')
