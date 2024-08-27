@@ -17,7 +17,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class AutoCloseCommand extends \Symfony\Component\Console\Command\Command
 {
-    private $years = 2;
+    private $months = 6;
 
     private $toelichting = 'Automatisch door systeem afgesloten.';
 
@@ -38,7 +38,7 @@ class AutoCloseCommand extends \Symfony\Component\Console\Command\Command
     {
         $this
             ->setName('inloop:automatisch-afsluiten')
-            ->setHelp(sprintf('Sluit inloopdossiers automatisch af als er %d jaar geen inloophuis bezocht is.', $this->years))
+            ->setHelp(sprintf('Sluit inloopdossiers automatisch af als er %d maanden geen inloophuis bezocht is.', $this->months))
             ->addArgument('batch-size', InputArgument::OPTIONAL, 'Batch size', 500)
             ->addOption('dry-run')
         ;
@@ -88,7 +88,7 @@ class AutoCloseCommand extends \Symfony\Component\Console\Command\Command
             ->where('status NOT INSTANCE OF '.Afsluiting::class)
             ->groupBy('klant.id')
             ->having('MAX(registratie.binnen) < :long_time_ago')
-            ->setParameter('long_time_ago', new \DateTime(sprintf('-%d years', $this->years)))
+            ->setParameter('long_time_ago', new \DateTime(sprintf('-%d months', $this->months)))
             ->setMaxResults($input->getArgument('batch-size'));
 
 
@@ -107,7 +107,7 @@ class AutoCloseCommand extends \Symfony\Component\Console\Command\Command
         foreach ($klanten as $klant) {
             $laatsteRegistratieDatum = $klant['laatsteRegistratieDatum'];
 //            dump($laatsteRegistratieDatum);
-            $laatsteRegistratieDatum = $laatsteRegistratieDatum->modify('+'.$this->years.' years');
+            $laatsteRegistratieDatum = $laatsteRegistratieDatum->modify('+'.$this->months.' months');
 //            dump($laatsteRegistratieDatum);
             $klant = $klant[0];
             $output->writeln(sprintf(' - klant %d afsluiten', $klant->getId()));
@@ -136,7 +136,7 @@ class AutoCloseCommand extends \Symfony\Component\Console\Command\Command
             ->andWhere('registratie.id IS NULL')
             ->andWhere('laatsteIntake.intakedatum < :long_time_ago')
             ->groupBy('klant.id')
-            ->setParameter('long_time_ago', new \DateTime(sprintf('-%d years', $this->years)))
+            ->setParameter('long_time_ago', new \DateTime(sprintf('-%d months', $this->months)))
             ->setMaxResults($input->getArgument('batch-size'));
 
 
@@ -154,7 +154,7 @@ class AutoCloseCommand extends \Symfony\Component\Console\Command\Command
 
         foreach ($klanten as $klant) {
             $laatsteIntakeDatum = $klant['laatsteIntakeDatum'];
-            $laatsteIntakeDatum = $laatsteIntakeDatum->modify('+'.$this->years.' years');
+            $laatsteIntakeDatum = $laatsteIntakeDatum->modify('+'.$this->months.' months');
             $klant = $klant[0];
             $output->writeln(sprintf(' - klant %d afsluiten', $klant->getId()));
 
