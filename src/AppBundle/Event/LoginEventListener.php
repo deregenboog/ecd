@@ -37,7 +37,7 @@ class LoginEventListener implements \Symfony\Component\EventDispatcher\EventSubs
         $ldapUser = $event->getUser(); // user made by ldapUserProvider is only a mockup user. No check to database yet.
 
         if (!$ldapUser->isActief()) {
-            throw new UserException(sprintf('Gebruiker %s is inactief in ECD en mag niet inloggen.', $ldapUser->getUserIdentifier()), 403);
+            throw new UserException(403, sprintf('Gebruiker %s is inactief in ECD en mag niet inloggen.', $ldapUser->getUserIdentifier()));
         }
 
         $repository = $this->em->getRepository(Medewerker::class);
