@@ -15,19 +15,27 @@ RUN apt update && apt install -y \
         libzip-dev \
         locales \
         zlib1g-dev \
-    && pecl install xdebug-3.1.6 && docker-php-ext-enable xdebug \
     # of dit nodig is weet ik nog niet; keertje bouwen zonder.
     && ln -s /usr/include/sasl/sasl.h /usr/lib/x86_64-linux-gnu/sasl.h \
     && docker-php-ext-configure ldap --with-libdir=lib/x86_64-linux-gnu --with-ldap-sasl \
     && docker-php-ext-configure gd --with-freetype=/usr/include/ --with-jpeg=/usr/include/ \
-    && docker-php-ext-install gd intl ldap mysqli pdo_mysql zip
+    && docker-php-ext-configure opcache --enable-opcache \
+    && docker-php-ext-install opcache gd intl ldap mysqli pdo_mysql zip \
+    && pecl install xdebug-3.1.6 && docker-php-ext-enable xdebug
 COPY --from=composer:2 /usr/bin/composer /usr/local/bin/composer
 
 # configure
-ENV APP_ENV=dev
-ENV XDEBUG_MODE=debug
+ENV APP_ENV=dev \
+    XDEBUG_MODE=debug \
+    PHP_OPCACHE_VALIDATE_TIMESTAMPS="1" \
+    PHP_OPCACHE_MAX_ACCELERATED_FILES="10000" \
+    PHP_OPCACHE_MEMORY_CONSUMPTION="192" \
+    PHP_OPCACHE_MAX_WASTED_PERCENTAGE="10"
+
 COPY docker/php/php.ini /usr/local/etc/php/
+COPY docker/php/opcache.ini /usr/local/etc/php/conf.d/docker-php-ext-opcache.ini
 COPY docker/php/xdebug.ini /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
+
 RUN \
     # set timezone
     echo "Europe/Amsterdam" > /etc/timezone \

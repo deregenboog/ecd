@@ -1,7 +1,7 @@
 parameters:
   # default values for env vars (in case not defined)
   env(PREVENT_SAVE_ENABLED): 'true'
-
+  container.dumper.inline_factories: true
 #  application_version: 'abc'
   database_server_version: '8'
   cache_type: file_system
