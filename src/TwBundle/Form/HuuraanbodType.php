@@ -22,7 +22,7 @@ class HuuraanbodType extends AbstractType
             ->add('medewerker', MedewerkerType::class,
                 [
                     'preset' => false,
-                    'required' => false,
+                    'required' => true,
                 ]
             )
             ->add('project', ProjectSelectType::class)
