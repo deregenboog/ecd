@@ -290,6 +290,30 @@ class EUBurgersNew extends AbstractReport
             'yDescription' => 'Geslacht',
             'data' => $table->render(),
         ];
+
+        $perGeslachtLeeftijd = [];
+        foreach ($count[0]['geslachtLeeftijd'] as $i => $cnt) {
+            $perGeslachtLeeftijd[] = [
+                'periode' => $periode,
+                'geslacht' => $i,
+                'aantal' => $cnt,
+            ];
+        }
+        foreach ($count[1]['geslachtLeeftijd'] as $i => $cnt) {
+            $perGeslachtLeeftijd[] = [
+                'periode' => $referentie,
+                'geslacht' => $i,
+                'aantal' => $cnt,
+            ];
+        }
+
+        $table = new Table($perGeslachtLeeftijd, 'periode', 'geslacht', 'aantal');
+        $table->setXTotals(false)->setYTotals(true)->setXSort(false);
+        $this->reports[] = [
+            'title' => 'Gem. leeftijd per geslacht',
+            'yDescription' => 'Geslacht',
+            'data' => $table->render(),
+        ];
     }
 
     protected function build()
@@ -341,23 +365,10 @@ class EUBurgersNew extends AbstractReport
             ->groupBy('klant.id')
             ->setParameter('startDate',$startDate)
             ->setParameter('endDate',$endDatePlusOneDay)
-//            ->setParameter('aanmelding','Aanmelding')
         ;
-//        if (count((array) $this->landen) > 0) {
-//            $newBuilder->andWhere('klant.land IN (:landen)')->setParameter('landen', $this->landen);
-//        }
-
-
-        $klantenWithAanmeldingInPeriod = $newBuilder->getQuery()->getResult();
 
 
         $builder = $newBuilder;
-//        $builder = $klantRepository->createQueryBuilder('klant')
-//            ->select('klant.id, intake.id AS laatste_intake_id')
-//            ->innerJoin('klant.laatsteIntake', 'intake')
-//            ->andWhere('klant.created < :created')
-//            ->setParameter('created', $endDatePlusOneDay)
-//        ;
 
         if ($this->geslacht instanceof Geslacht) {
             $builder->andWhere('klant.geslacht = :geslacht')->setParameter('geslacht', $this->geslacht);
@@ -367,7 +378,6 @@ class EUBurgersNew extends AbstractReport
             $builder->andWhere('klant.land IN (:landen)')->setParameter('landen', $this->landen);
         }
 
-//        $sql = SqlExtractor::getFullSQL($builder->getQuery());
         $klanten = $builder->getQuery()->getResult();
         // @todo deze klantenlijst wordt al gefilterd op delete en disabled dus dat hoeft niet in de joins verderop.
 
@@ -573,7 +583,7 @@ class EUBurgersNew extends AbstractReport
         }
 
         $result = $klantRepository->createQueryBuilder('klant')
-            ->select('geslacht.volledig AS geslachtLabel, COUNT(klant.geslacht) AS cnt')
+            ->select('geslacht.volledig AS geslachtLabel, AVG(CURRENT_DATE() - klant.geboortedatum) AS gemLeeftijdDag, COUNT(klant.geslacht) AS cnt')
             ->innerJoin('klant.geslacht','geslacht')
             ->where('klant.id IN (:ids) AND klant.geslacht IS NOT NULL')
             ->groupBy('klant.geslacht')
@@ -584,6 +594,15 @@ class EUBurgersNew extends AbstractReport
         foreach($result as $values) {
             $count['geslacht'][$values['geslachtLabel']] = $values['cnt'];
         }
+        foreach($result as $values) {
+            $count['geslachtLeeftijd'][$values['geslachtLabel']] = round($values['gemLeeftijdDag']/362.25,1);
+        }
+        if(count($result) < 1) {
+            $count['geslacht']['---'] = 0;
+            $count['geslachtLeeftijd']['---'] = 0;
+        }
+
+
 
         $result = $this->entityManager->getRepository(Intake::class)->createQueryBuilder('intake')
             ->select('problematiek.id, COUNT(klant.id) AS cnt')
