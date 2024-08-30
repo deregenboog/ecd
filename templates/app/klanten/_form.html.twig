@@ -1,7 +1,7 @@
-<div class="container-fluid">
+<div class="container-fluid border-subform">
     <div class="row">
         <div class="col-xs-6">
-            <h2>Persoonsgegevens</h2>
+            <h3>Persoonsgegevens</h3>
             {{ form_row(form.voornaam) }}
             {{ form_row(form.tussenvoegsel) }}
             {{ form_row(form.achternaam) }}
@@ -17,7 +17,7 @@
             {{ form_row(form.overleden) }}
         </div>
         <div class="col-xs-6">
-            <h2>Contactgegevens</h2>
+            <h3>Contactgegevens</h3>
             {{ form_row(form.adres) }}
             {{ form_row(form.postcode) }}
             {{ form_row(form.plaats) }}
@@ -31,12 +31,13 @@
     </div>
     <div class="row">
         <div class="col-xs-6">
-            <h2>Opmerking</h2>
+            <h4>Opmerking</h4>
             {{ form_row(form.opmerking, {label: false}) }}
         </div>
         <div class="col-xs-6">
-            <h2>Medewerker</h2>
-            {{ form_row(form.medewerker, {label: false}) }}
+            <h4>Medewerker</h4>
+            {{ form_row(form.medewerker, ) }}
+            {{ form_row(form.maatschappelijkWerker) }}
             {% if form.submit is defined %}
                 <span class="pull-right">
                     {{ form_row(form.submit) }}
