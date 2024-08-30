@@ -108,7 +108,7 @@ class HulpaanbodFilter implements FilterInterface
             ));
             foreach ($zoektermen as $i => $zoekterm) {
                 if (0 === $i) {
-                    $builder->join('hulpaanbod.verslagen', 'verslag');
+                    $builder->leftJoin('hulpaanbod.verslagen', 'verslag');
                 }
                 $builder
                     ->andWhere($builder->expr()->orX(
