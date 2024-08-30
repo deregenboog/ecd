@@ -2,6 +2,7 @@
 
 namespace OekraineBundle\Filter;
 
+use AppBundle\Entity\Medewerker;
 use AppBundle\Filter\FilterInterface;
 use AppBundle\Filter\KlantFilter as AppKlantFilter;
 use Doctrine\ORM\QueryBuilder;
@@ -40,6 +41,11 @@ class BezoekerFilter implements FilterInterface
      * @var Locatie
      */
     public $woonlocatie;
+
+    /**
+     * @var Medewerker
+     */
+    public $mentalCoach;
 
     public function __construct(?StrategyInterface $strategy = null)
     {
@@ -81,6 +87,13 @@ class BezoekerFilter implements FilterInterface
                 ->innerJoin('bezoeker.intake', 'intake')
                 ->andWhere('intake.woonlocatie = :woonlocatie')
                 ->setParameter('woonlocatie', $this->woonlocatie)
+            ;
+        }
+        if ($this->mentalCoach) {
+            $builder
+                ->innerJoin('bezoeker.mentalCoach', 'mentalCoach')
+                ->andWhere('mentalCoach = :mentalCoach')
+                ->setParameter('mentalCoach', $this->mentalCoach)
             ;
         }
 

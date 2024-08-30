@@ -30,13 +30,28 @@
 
 {% block content_right %}
     <ul class="nav nav-tabs">
-        <li class="active"><a data-toggle="tab" href="#intake">Laatste intake</a></li>
+        <li class="active"><a data-toggle="tab" href="#dossier">Dossier</a></li>
+        <li><a data-toggle="tab" href="#intake">Laatste intake</a></li>
         <li><a data-toggle="tab" href="#verslagen">Verslagen</a></li>
         <li><a data-toggle="tab" href="#documenten">Documenten</a></li>
         <li><a data-toggle="tab" href="#incidenten">Incidenten</a></li>
     </ul>
     <div class="tab-content">
-        <div id="intake" class="tab-pane active">
+        <div id="dossier" class="tab-pane active">
+            <h2>Dossier</h2>
+            {{ html.link('Wijzigen', path('oekraine_bezoekers_edit', {id: entity.id}), 'edit') }}
+            <div class="row">
+                <div class="col-xs-6">
+                    <dl  class="dl-horizontal">
+                        <dt>Mental coach</dt>
+                        <dd>{{ entity.getMentalCoach }}</dd>
+
+                    </dl>
+                </div>
+            </div>
+
+        </div>
+        <div id="intake" class="tab-pane">
             <h2>Laatste intake</h2>
             {% if entity.laatsteIntake %}
                 <p>
