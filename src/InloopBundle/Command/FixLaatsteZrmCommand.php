@@ -31,7 +31,7 @@ class FixLaatsteZrmCommand extends \Symfony\Component\Console\Command\Command
                 FROM zrm_reports
                 GROUP BY klant_id
             ) AS laatste_zrm ON laatste_zrm.klant_id = klant.id
-            SET klant.last_zrm = laatste_zrm.datum';
+            SET klant.last_zrm = DATE (laatste_zrm.datum)';
 
         $n = $this->conn->exec($sql);
 
