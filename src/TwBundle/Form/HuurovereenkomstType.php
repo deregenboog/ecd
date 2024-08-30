@@ -44,10 +44,6 @@ class HuurovereenkomstType extends AbstractType
             ->add('opzegdatum', AppDateType::class, ['required' => false])
             ->add('opzegbriefVerstuurd', null, ['required' => false])
             ->add('einddatum', AppDateType::class, ['required' => false])
-            ->add('vorm', ChoiceType::class, [
-                'required' => false,
-                'choices' => Huurovereenkomst::getVormChoices(),
-            ])
             ->add('vormVanOvereenkomst', VormVanOvereenkomstSelectType::class, [
                 'required' => false,
             ])

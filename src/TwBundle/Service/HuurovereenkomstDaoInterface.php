@@ -12,8 +12,6 @@ interface HuurovereenkomstDaoInterface
 
     public function delete(Huurovereenkomst $entity);
 
-    public function countByVorm(\DateTime $startdate, \DateTime $enddate);
-
     public function countByPandeigenaar(\DateTime $startdate, \DateTime $enddate);
 
     public function countByAfsluitreden(\DateTime $startdate, \DateTime $enddate);

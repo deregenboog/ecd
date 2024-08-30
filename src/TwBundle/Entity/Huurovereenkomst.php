@@ -23,21 +23,6 @@ class Huurovereenkomst
     use TimestampableTrait;
     use RequiredMedewerkerTrait;
 
-    public static function getVormChoices()
-    {
-        return [
-            'Hospitaverhuur' => 'Hospitaverhuur',
-            'Hospitaovereenkomst met kostgangerschap' => 'Hospitaovereenkomst met kostgangerschap',
-            '(Onder)huur onzelfstandige woonruimte' => '(Onder)huur onzelfstandige woonruimte',
-            '(Onder)huur zelfstandige woonruimte' => '(Onder)huur zelfstandige woonruimte',
-            'Gebruikersovereenkomst' => 'Gebruikersovereenkomst',
-            'Intermediare huurovereenkomst' => 'Intermediare  huurovereenkomst',
-            'Kostgangerschap' => 'Kostgangerschap',
-            'Kleine schuld, grote winst' => 'Kleine schuld, grote winst',
-            'Pensionovereenkomst' => 'Pensionovereenkomst',
-            'Anders' => 'Anders',
-        ];
-    }
 
     /**
      * @ORM\Id
@@ -75,13 +60,6 @@ class Huurovereenkomst
      * @Gedmo\Versioned
      */
     private $einddatum;
-
-    /**
-     * @ORM\Column(length=50, nullable=true)
-     *
-     * @Gedmo\Versioned
-     */
-    private $vorm;
 
     /**
      * @var VormVanOvereenkomst
@@ -408,16 +386,6 @@ class Huurovereenkomst
         $this->einddatum = $einddatum;
 
         return $this;
-    }
-
-    public function getVorm()
-    {
-        return $this->vorm;
-    }
-
-    public function setVorm($vorm)
-    {
-        $this->vorm = $vorm;
     }
 
     public function isOpzegbriefVerstuurd()

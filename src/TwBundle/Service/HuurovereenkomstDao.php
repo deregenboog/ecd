@@ -23,7 +23,6 @@ class HuurovereenkomstDao extends AbstractDao implements HuurovereenkomstDaoInte
             'huurovereenkomst.startdatum',
             'huurovereenkomst.opzegdatum',
             'huurovereenkomst.einddatum',
-            'huurovereenkomst.vorm',
             'huurovereenkomst.afsluitdatum',
             'huurovereenkomst.isReservering',
             'huurovereenkomst.opzegbriefVerstuurd',
@@ -98,18 +97,6 @@ class HuurovereenkomstDao extends AbstractDao implements HuurovereenkomstDaoInte
             ->andWhere("{$this->alias}.startdatum <= :end")
             ->andWhere("{$this->alias}.einddatum IS NULL OR {$this->alias}.einddatum >= :start")
             ->groupBy('vormvanovereenkomst.id')
-        ;
-
-        return $builder->getQuery()->getResult();
-    }
-
-    public function countByVorm(\DateTime $startdate, \DateTime $enddate)
-    {
-        $builder = $this->getCountBuilder($startdate, $enddate)
-            ->addSelect("{$this->alias}.vorm AS groep")
-            ->andWhere("{$this->alias}.startdatum <= :end")
-            ->andWhere("{$this->alias}.einddatum IS NULL OR {$this->alias}.einddatum >= :start")
-            ->groupBy('groep')
         ;
 
         return $builder->getQuery()->getResult();
