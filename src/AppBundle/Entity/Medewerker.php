@@ -254,6 +254,12 @@ class Medewerker implements UserInterface, PasswordAuthenticatedUserInterface, E
      */
     public function getRoles()
     {
+        //extra check if roles is not empty; cause it can be an array or json (string) check on both.
+        //defaults to [] but can be overriden somehow. ?
+        if(!is_array($this->roles)
+            && (!is_string($this->roles) && strlen($this->roles) < 1)
+        ) $this->roles = [];
+
         return $this->roles;
     }
 
