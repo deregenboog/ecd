@@ -2,7 +2,6 @@
 {% import 'html.macro.twig' as html %}
 
 {% block content %}
-    <h1>{{ entity_name|capitalize }} toevoegen</h1>
     {% if klanten is defined and filterForm.vars.errors|length == 0 %}
         <p>
             Selecteer de gewenste {{ entity_name }} in onderstaande lijst of klik op
@@ -52,9 +51,9 @@
             </div>
         {% else %}
             {{ form_start(creationForm) }}
-                <h2>Basisgegevens</h2>
+                <h2>Basisgegevens klant</h2>
                 {% include 'app/klanten/_form.html.twig' with {form: creationForm.klant} %}
-                <h2>Informele Zorg</h2>
+                <h2>Informele Zorg deelnemer</h2>
                 {{ form(creationForm) }}
             {{ form_end(creationForm) }}
         {% endif %}

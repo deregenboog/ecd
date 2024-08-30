@@ -139,3 +139,8 @@ div.sub-content, ul.nav-tabs.sub-content > li.active > a
 {
     background-color:#eeeeee;
 }
+
+.border-subform
+{
+    border:1px solid #ddd;
+}
