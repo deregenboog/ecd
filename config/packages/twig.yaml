@@ -1,6 +1,7 @@
 twig:
     default_path: '%kernel.project_dir%/templates'
     paths:
+        'templates/form': 'Form'
         'templates/app': 'App'
         'templates/buurtboerderij': 'Buurtboerderij'
         'templates/clip': 'Clip'
@@ -22,8 +23,6 @@ twig:
     strict_variables: '%kernel.debug%'
     exception_controller: null
     form_themes:
-        # - form_div_layout.html.twig
-        # - bootstrap_3_horizontal_layout.html.twig
         - form/app.html.twig
         - mw/form.html.twig
         - form/zrm.html.twig

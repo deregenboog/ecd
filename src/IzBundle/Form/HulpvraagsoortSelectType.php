@@ -24,9 +24,11 @@ class HulpvraagsoortSelectType extends AbstractType
             },
             'choice_attr' => function (Hulpvraagsoort $hulpvraagsoort) {
                 if ($hulpvraagsoort->getToelichting()) {
-                    return ['title' => $hulpvraagsoort->getToelichting()];
+                    return [
+                        'title' => $hulpvraagsoort->getToelichting(),
+                        'data-toggle'=>'tooltip',
+                    ];
                 }
-
                 return [];
             },
         ]);
