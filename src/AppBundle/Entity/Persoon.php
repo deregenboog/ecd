@@ -224,6 +224,15 @@ class Persoon
         return $this;
     }
 
+    public function isJarigVandaag(): bool
+    {
+        $today = new \DateTime();
+        $birthdate = $this->getGeboortedatum();
+        if(!$birthdate instanceof \DateTime ) return false;
+
+        return $birthdate->format('m-d') === $today->format('m-d');
+    }
+
     /**
      * SoftDeleteable, so it's safe to return true.
      *
