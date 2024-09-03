@@ -147,6 +147,24 @@ $(function () {
     });
 });
 
+$(function() {
+    // copy title from input to label
+    $('input[type="radio"], input[type="checkbox"]').each(function() {
+
+        if ($(this).attr('title')) {
+            $(this).closest('label').attr('title', $(this).attr('title'));
+        }
+        if ($(this).attr('data-toggle')) {
+            let labelElm = $(this).closest('label');
+            labelElm.attr('data-toggle', 'tooltip');
+            labelElm.attr('title', $(this).attr('data-original-title') );
+            labelElm.tooltip();
+            $(this).tooltip('disable');
+        }
+    })
+});
+
+
 showLoader = function () {
     $("#ajaxContainer").hide();
     $("#loader").show();
