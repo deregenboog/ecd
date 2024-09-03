@@ -348,12 +348,14 @@ class RegistratiesController extends AbstractController
                 && $klant->getLaatsteIntake()->getIntakedatum()->diff(new \DateTime())->days > 365
             ) {
                 $jsonVar['message'] .= $separator.'Let op: deze persoon heeft zich al twee jaar nergens meer geregistreerd en heeft een nieuwe intake nodig. Toch inchecken?';
-                
+
                 $jsonVar['confirm'] = true;
             }
 
             $actieveSchorsingen = $this->schorsingDao->findActiefByKlantAndLocatie($klant, $locatie);
-            if ((is_array($actieveSchorsingen) || $actieveSchorsingen instanceof \Countable ? count($actieveSchorsingen) : 0) > 0) {
+            if ((is_array($actieveSchorsingen) || $actieveSchorsingen instanceof \Countable ? count(
+                    $actieveSchorsingen
+                ) : 0) > 0) {
                 $alleLocaties = $this->locatieDao->findAllActiveLocationsOfTypeInloop();
                 $schorsingsLocaties = [];
                 foreach ($actieveSchorsingen as $schorsing) {
@@ -364,23 +366,34 @@ class RegistratiesController extends AbstractController
                 $tmpMsg = $jsonVar['message'];
                 $jsonVar['message'] = '!! Let op: deze persoon is momenteel op deze locatie(s) geschorst: '.$l.'.  Toch inchecken?';
                 $jsonVar['message'] .= $separator.$tmpMsg;
-                
+
                 $jsonVar['confirm'] = true;
             }
 
             $terugkeergesprekNodig = $this->schorsingDao->findTerugkeergesprekNodigByKlantAndLocatie($klant, $locatie);
-            if ((is_array($terugkeergesprekNodig) || $terugkeergesprekNodig instanceof \Countable ? count($terugkeergesprekNodig) : 0) > 0) {
+            if ((is_array($terugkeergesprekNodig) || $terugkeergesprekNodig instanceof \Countable ? count(
+                    $terugkeergesprekNodig
+                ) : 0) > 0) {
                 $jsonVar['message'] .= $separator.'Let op: deze persoon is 14 dagen of langer geschorst geweest en heeft een terugkeergesprek nodig.';
                 $jsonVar['confirm'] = true;
             }
 
-            if ((is_array($klant->getOpenstaandeOpmerkingen()) || $klant->getOpenstaandeOpmerkingen() instanceof \Countable ? count($klant->getOpenstaandeOpmerkingen()) : 0) > 0) {
+            if ((is_array($klant->getOpenstaandeOpmerkingen()) || $klant->getOpenstaandeOpmerkingen(
+                ) instanceof \Countable ? count($klant->getOpenstaandeOpmerkingen()) : 0) > 0) {
                 $opmerkingen = $klant->getOpenstaandeOpmerkingen()->toArray();
                 foreach ($opmerkingen as $opmerking) {
-                    $jsonVar['message'] .= $separator.'Openstaande opmerking ('.$opmerking->getCreated()->format('d-m-Y').'): '.$opmerking->getBeschrijving();
-                    
+                    $jsonVar['message'] .= $separator.'Openstaande opmerking ('.$opmerking->getCreated()->format(
+                            'd-m-Y'
+                        ).'): '.$opmerking->getBeschrijving();
+
                 }
                 $jsonVar['confirm'] = true;
+            }
+
+            if ($klant->isJarigVandaag())
+            {
+                $jsonVar['confirm'] = true;
+                $jsonVar['message'] .= $separator.'!! Hiep hiep hoera !! Let op: klant is jarig vandaag!';
             }
         }
         $jsonVar['message'] = trim($jsonVar['message'],PHP_EOL);
