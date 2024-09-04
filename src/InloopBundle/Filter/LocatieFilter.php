@@ -42,14 +42,14 @@ class LocatieFilter implements FilterInterface
             if (self::STATUS_ACTIEF == $this->status) {
                 $builder
                     ->andWhere('locatie.datumVan <= :today')
-                    ->andWhere('locatie.datumTot >= :today OR locatie.datumTot IS NULL')
+                    ->andWhere('(locatie.datumTot >= :today OR locatie.datumTot IS NULL)')
                     ->setParameter('today', new \DateTime('today'))
                 ;
             }
             if (self::STATUS_INACTIEF == $this->status) {
                 $builder
                     ->andWhere('locatie.datumVan <= :today')
-                    ->andWhere('locatie.datumTot <= :today OR locatie.datumTot IS NULL')
+                    ->andWhere('(locatie.datumTot <= :today)')
                     ->setParameter('today', new \DateTime('today'))
                 ;
             }
