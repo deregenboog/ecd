@@ -3,10 +3,12 @@
 namespace OekraineBundle\Entity;
 
 use AppBundle\Entity\Klant as AppKlant;
+use AppBundle\Entity\Medewerker;
 use AppBundle\Model\DocumentSubjectInterface;
 use AppBundle\Model\DocumentSubjectTrait;
 use AppBundle\Model\IdentifiableTrait;
 use AppBundle\Model\NotDeletableTrait;
+use AppBundle\Model\OptionalMedewerkerTrait;
 use AppBundle\Model\TimestampableTrait;
 use AppBundle\Service\NameFormatter;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -29,6 +31,7 @@ class Bezoeker implements DocumentSubjectInterface
     use DocumentSubjectTrait;
     use TimestampableTrait;
     use NotDeletableTrait;
+
 
     /**
      * @var AppKlant
@@ -103,6 +106,16 @@ class Bezoeker implements DocumentSubjectInterface
      * @ORM\OrderBy({"datum" = "DESC", "id" = "DESC"})
      */
     private $incidenten;
+
+    /**
+     * @var Medewerker
+     *
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Medewerker", cascade={"persist"})
+     *
+     * @Gedmo\Versioned
+     */
+    protected $mentalCoach;
+
 
     public function __construct(?AppKlant $klant = null)
     {
@@ -246,6 +259,18 @@ class Bezoeker implements DocumentSubjectInterface
 
         return $this;
     }
+
+    public function getMentalCoach(): ?Medewerker
+    {
+        return $this->mentalCoach;
+    }
+
+    public function setMentalCoach(?Medewerker $mentalCoach): void
+    {
+        $this->mentalCoach = $mentalCoach;
+    }
+
+
 
     public function isDeletable()
     {

@@ -31,10 +31,9 @@ class BezoekerType extends AbstractType
                 'label' => 'Klant',
             ]);
         }
-        $builder
-//            ->add('medewerker', MedewerkerType::class, ['required' => true])
-//            ->add('intake',IntakeType::class)
-
+        $builder->add('mentalCoach', MedewerkerType::class, [
+            'required'=>false,
+        ])
         ->add('submit', SubmitType::class)
         ;
     }

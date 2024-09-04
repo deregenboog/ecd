@@ -4,6 +4,7 @@ namespace OekraineBundle\Form;
 
 use AppBundle\Form\FilterType;
 use AppBundle\Form\KlantFilterType as AppKlantFilterType;
+use AppBundle\Form\MedewerkerSelectType;
 use OekraineBundle\Entity\Aanmelding;
 use OekraineBundle\Entity\Afsluiting;
 use OekraineBundle\Filter\BezoekerFilter;
@@ -26,6 +27,14 @@ class BezoekerFilterType extends AbstractType
         if (in_array('woonlocatie', $options['enabled_filters'])) {
             $builder->add('woonlocatie', LocatieSelectType::class, [
                 'required' => false,
+            ]);
+        }
+        if (in_array('mentalCoach', $options['enabled_filters'])) {
+            $builder->add('mentalCoach', MedewerkerSelectType::class, [
+                'required' => false,
+                'roles'=>  [
+                        'ROLE_OEKRAINE_PSYCH',
+                    ],
             ]);
         }
 
@@ -58,6 +67,7 @@ class BezoekerFilterType extends AbstractType
             'enabled_filters' => [
                 'appKlant' => ['id', 'voornaam', 'achternaam', 'geboortedatumRange', 'geslacht', 'maatschappelijkWerker'],
                 'woonlocatie',
+                'mentalCoach',
                 'huidigeStatus',
             ],
         ]);

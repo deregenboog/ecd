@@ -65,6 +65,7 @@ services:
                 Intake legitimatie: { expression: 'entity.getLaatsteIntake().getLegitimatie()', condition: 'entity.getLaatsteIntake()' }
                 Intake inkomen: { expression: 'entity.getLaatsteIntake().getInkomens()', condition: 'entity.getLaatsteIntake()' }
                 Dossierstatus: { expression: 'entity.getDossierStatus()'}
+                Mental coach: { expression: 'entity.getMentalCoach()'}
 #                Binnen: { expression: 'entity.getBinnen()', type: 'datetime' }
 #                Buiten: { expression: 'entity.getBuiten()', type: 'datetime' }
 #                Maaltijd: { expression: 'entity.isMaaltijd()' }

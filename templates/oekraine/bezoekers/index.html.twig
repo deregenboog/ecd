@@ -43,6 +43,10 @@
                     {{ form_errors(filter.appKlant.maatschappelijkWerker) }}
                 </th>
                 <th>
+                    {{ form_widget(filter.mentalCoach) }}
+                    {{ form_errors(filter.mentalCoach) }}
+                </th>
+                <th>
                     {{ form_widget(filter.huidigeStatus) }}
                     {{ form_errors(filter.huidigeStatus) }}
                 </th>
@@ -80,6 +84,9 @@
                     Maatschappelijk werker
                 </th>
                 <th>
+                    Mental Coach
+                </th>
+                <th>
                     Dossierstatus
                 </th>
                 <th>
@@ -114,6 +121,9 @@
                     </td>
                     <td>
                         {{ bezoeker.appKlant.maatschappelijkWerker }}
+                    </td>
+                    <td>
+                        {{ bezoeker.mentalCoach }}
                     </td>
                     <td>
                         {{ bezoeker.huidigeStatus }}
