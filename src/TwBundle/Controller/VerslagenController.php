@@ -54,7 +54,8 @@ class VerslagenController extends SymfonyController
         if ($form->isSubmitted() && $form->isValid()) {
             $routeBase = $this->resolveRouteBase($entity);
             try {
-                $entityManager->persist($entity->addVerslag($form->getData()));
+                $verslagData = $form->getData();
+                $entityManager->persist($entity->addVerslag($verslagData));
                 $entityManager->flush();
                 $this->addFlash('success', 'Verslag is toegevoegd.');
             } catch (UserException $e) {

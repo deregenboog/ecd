@@ -182,9 +182,15 @@ class Klant extends Deelnemer
 
     public function reopen()
     {
-        $this->afsluitdatum = null;
-        $this->afsluiting = null;
+        $verslag = new Verslag($this);
+        $verslag->setDatum(new \DateTime());
+        $verslag->setMedewerker($this->getMedewerker());
+        $verslag->setOpmerking(sprintf("Dossier heropend. Eerder afgesloten met als reden: '%s', op %s",$this->getAfsluiting(), $this->getAfsluitdatum()->format("d-m-Y")));
 
+        $this->setAfsluitdatum(null);
+        $this->setAfsluiting(null);
+
+        $this->addVerslag($verslag);
         return $this;
     }
 
@@ -254,7 +260,7 @@ class Klant extends Deelnemer
         return $this->afsluiting;
     }
 
-    public function setAfsluiting(KlantAfsluiting $afsluiting)
+    public function setAfsluiting(?KlantAfsluiting $afsluiting)
     {
         $this->afsluiting = $afsluiting;
 
