@@ -129,17 +129,18 @@ class Verhuurder extends Deelnemer
     {
         $today = new \DateTime('today');
 
-        $actieveHuuraanbiedingen = array_filter($this->huuraanbiedingen->toArray(), function (Huuraanbod $huuraanbod) use ($today) {
-            if ($huuraanbod->getAfsluitdatum() && $huuraanbod->getAfsluitdatum() <= $today) {
-                return false;
-            }
-            $huurovereenkomst = $huuraanbod->getHuurovereenkomst();
-            if ($huurovereenkomst && $huurovereenkomst->getAfsluitdatum() && $huurovereenkomst->getAfsluitdatum() <= $today) {
-                return false;
-            }
+        $actieveHuuraanbiedingen = array_filter($this->huuraanbiedingen->toArray(),
+            function (Huuraanbod $huuraanbod) use ($today) {
+                if ($huuraanbod->getAfsluitdatum() && $huuraanbod->getAfsluitdatum() >= $today) {
+                    return false;
+                }
+                $huurovereenkomst = $huuraanbod->getHuurovereenkomst();
+                if ($huurovereenkomst && $huurovereenkomst->getAfsluitdatum() && $huurovereenkomst->getAfsluitdatum() <= $today) {
+                    return false;
+                }
 
-            return true;
-        });
+                return true;
+            });
 
         return 0 === count($actieveHuuraanbiedingen);
     }
@@ -246,9 +247,24 @@ class Verhuurder extends Deelnemer
         return $this->afsluiting;
     }
 
-    public function setAfsluiting(VerhuurderAfsluiting $afsluiting)
+    public function setAfsluiting(?VerhuurderAfsluiting $afsluiting)
     {
         $this->afsluiting = $afsluiting;
+
+        return $this;
+    }
+
+    public function reopen()
+    {
+        $verslag = new Verslag();
+        $verslag->setDatum(new \DateTime());
+        $verslag->setMedewerker($this->getMedewerker());
+        $verslag->setOpmerking(sprintf("Dossier heropend. Eerder afgesloten met als reden: '%s', op %s",$this->getAfsluiting(), $this->getAfsluitdatum()->format("d-m-Y")));
+
+
+        $this->setAfsluitdatum(null);
+        $this->setAfsluiting(null);
+        $this->addVerslag($verslag);
 
         return $this;
     }

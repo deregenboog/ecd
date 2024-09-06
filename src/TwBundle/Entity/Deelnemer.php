@@ -360,7 +360,7 @@ abstract class Deelnemer implements KlantRelationInterface
         return $this->afsluitdatum;
     }
 
-    public function setAfsluitdatum(\DateTime $afsluitdatum)
+    public function setAfsluitdatum(?\DateTime $afsluitdatum)
     {
         $this->afsluitdatum = $afsluitdatum;
 
@@ -370,7 +370,6 @@ abstract class Deelnemer implements KlantRelationInterface
     public function reopen()
     {
         $this->afsluitdatum = null;
-
         return $this;
     }
 
