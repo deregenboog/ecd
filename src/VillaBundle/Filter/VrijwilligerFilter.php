@@ -39,7 +39,7 @@ class VrijwilligerFilter implements FilterInterface
     public function applyTo(QueryBuilder $builder)
     {
         if ($this->vrijwilliger) {
-            //            $this->vrijwilliger->applyTo($builder, 'appVrijwilliger');
+                        $this->vrijwilliger->applyTo($builder, 'appVrijwilliger');
         }
 
         if ($this->aanmelddatum) {

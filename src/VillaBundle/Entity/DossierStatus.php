@@ -18,8 +18,8 @@ use Gedmo\Mapping\Annotation as Gedmo;
  * @ORM\InheritanceType("SINGLE_TABLE")
  * @ORM\DiscriminatorColumn(name="class", type="string")
  * @ORM\DiscriminatorMap({
- *     "VillaAanmelding" = "Aanmelding",
- *     "VillaAfsluiting" = "Afsluiting"
+ *     "Aanmelding" = "Aanmelding",
+ *     "Afsluiting" = "Afsluiting"
  * })
  * @Gedmo\Loggable
  */

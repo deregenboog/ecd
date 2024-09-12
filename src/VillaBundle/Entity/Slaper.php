@@ -3,6 +3,7 @@
 namespace VillaBundle\Entity;
 
 use AppBundle\Entity\Klant;
+use AppBundle\Exception\UserException;
 use AppBundle\Model\DossierStatusTrait;
 use AppBundle\Model\HasDossierStatusInterface;
 use AppBundle\Model\HasDossierStatusTrait;
@@ -18,6 +19,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\PersistentCollection;
 use Gedmo\Mapping\Annotation as Gedmo;
 use VillaBundle\Entity\DossierStatus;
+use VillaBundle\Service\OvernachtingenCalculator;
 
 /**
  * @ORM\Entity
@@ -110,13 +112,41 @@ class Slaper implements KlantRelationInterface, HasDossierStatusInterface
     private $overnachtingen;
 
 
+    private $defaultOvernachtingsRecht = [
+        Slaper::TYPE_LOGEER=>42,
+        Slaper::TYPE_RESPIJT=>37,
+    ];
     public function __construct(Klant $klant = null)
     {
-        $this->initializeTrait();
         $this->overnachtingen = new ArrayCollection();
-
+        $this->initializeTrait();
         $this->appKlant = $klant;
 
+    }
+
+
+
+    public function getOvernachtingsRechtForYear($year): int
+    {
+        switch($year)
+        {
+            case '2022':
+                $overnachtingenRecht = [
+                    Slaper::TYPE_LOGEER=>12,
+                    Slaper::TYPE_RESPIJT=>17,
+                ];
+                break;
+            case '2024':
+                $overnachtingenRecht = [
+                    Slaper::TYPE_LOGEER=>42,
+                    Slaper::TYPE_RESPIJT=>37,
+                ];
+                break;
+            default:
+                $overnachtingenRecht = $this->defaultOvernachtingsRecht;
+        }
+
+        return $overnachtingenRecht[$this->getType()];
     }
 
     public function __toString()
@@ -174,6 +204,14 @@ class Slaper implements KlantRelationInterface, HasDossierStatusInterface
     public function setType(int $type): void
     {
         $this->type = $type;
+    }
+
+    /**
+     * @return int
+     */
+    public function getTypeAsString(): string
+    {
+        return self::$types[$this->type];
     }
 
     /**
@@ -253,8 +291,48 @@ class Slaper implements KlantRelationInterface, HasDossierStatusInterface
         }
     }
 
+    /**
+     * Gets the balance of overnight stays.
+     *
+     * This method calculates the balance of overnight stays based on the number of
+     * overnight stays within the last 12 months from the current date of the dossier.
+     *
+     * @return int The balance of overnight stays within the last 12 months.
+     */
+    public function getOvernachtingenUsed(): int
+    {
+        $nachtenGebruikt = 0;
 
+        $mostRecentAanmelding = $this->getMostRecentDossierStatusOfType(Aanmelding::class);
+        if(null === $mostRecentAanmelding) throw new UserException("Kan geen recente aanmelding vinden. Er is iets niet goed aan dit dossier lijkt het.");
+        $startDatumPlus12M = (clone $mostRecentAanmelding->getDatum())->add(\DateInterval::createFromDateString("12 month") );
+        $startDatum = $mostRecentAanmelding->getDatum();
 
+        foreach ($this->overnachtingen as $overnachting) {;
+            if ($overnachting->getDatum() >= $startDatum
+            && $overnachting->getDatum() <= $startDatumPlus12M
+            ) {
+                $nachtenGebruikt++;
+            }
+        }
+
+        return $nachtenGebruikt;
+    }
+
+    /**
+     * Calculate the overnights per slaper,
+     * with entitled overnights per year per type.
+     *
+     * @return int The saldo calculated
+     */
+    public function calculateSaldo(): int
+    {
+
+        $recht = $this->getOvernachtingsRechtForYear($this->getDossierStatus()->getDatum()->format('Y'));
+        $used = $this->getOvernachtingenUsed();
+
+        return $recht - $used;
+    }
 
     public function getKlant(): ?Klant
     {

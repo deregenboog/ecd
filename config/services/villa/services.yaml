@@ -7,6 +7,9 @@ services:
         autowire: true
         autoconfigure: true
 
+    VillaBundle\Command\:
+        resource: '%kernel.project_dir%/src/VillaBundle/Command'
+
     VillaBundle\Controller\:
         resource: '%kernel.project_dir%/src/VillaBundle/Controller'
 
@@ -57,4 +60,4 @@ services:
         arguments:
             - - { key: vrijwilliger, dao: '@VillaBundle\Service\VrijwilligerDao' }
 
-    VillaBundle\Event\CalendarSubscriber:
+    VillaBundle\Event\CalendarSubscriber: ~

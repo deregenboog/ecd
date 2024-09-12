@@ -4,6 +4,7 @@ namespace VillaBundle\Form;
 
 use App\VillaBundle\Form\DossierStatussenType;
 use AppBundle\Entity\Klant;
+use AppBundle\Form\AppDateType;
 use AppBundle\Form\AppTextareaType;
 use AppBundle\Form\BaseDossierStatusType;
 use AppBundle\Form\BaseType;
@@ -58,7 +59,6 @@ class SlaperType extends BaseDossierStatusType
         }
 
 //        $this->addDossierStatusField($builder);
-
 
         $builder->add('type', ChoiceType::class,[
             'choices'=>array_flip(Slaper::$types),

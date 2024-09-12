@@ -6,11 +6,13 @@ use AppBundle\Form\AppDateType;
 use AppBundle\Form\BaseType;
 use AppBundle\Form\MedewerkerType;
 use Doctrine\ORM\EntityRepository;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use VillaBundle\Entity\Afsluiting;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use VillaBundle\Entity\AfsluitredenSlaper;
 
 class AfsluitingType extends AbstractType
 {
@@ -21,7 +23,9 @@ class AfsluitingType extends AbstractType
     {
         $builder
             ->add('datum', AppDateType::class, ['data' => new \DateTime('today'), 'required' => true])
-
+            ->add('reden',EntityType::class,[
+                'class'=>AfsluitredenSlaper::class
+            ])
             ->add('medewerker', MedewerkerType::class)
             ->add('submit', SubmitType::class, ['label' => 'Opslaan'])
         ;

@@ -3,6 +3,8 @@
 namespace VillaBundle\Controller;
 
 use AppBundle\Controller\AbstractChildController;
+use AppBundle\Controller\AbstractController;
+use AppBundle\Controller\DisableIndexActionTrait;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -20,12 +22,13 @@ use VillaBundle\Service\OvernachtingDaoInterface;
  * @Route("/overnachtingen")
  *
  */
-class OvernachtingenController extends AbstractChildController
+class OvernachtingenController extends AbstractController
 {
+    use DisableIndexActionTrait;
+
     protected $entityName = 'Overnachting';
     protected $entityClass = Overnachting::class;
     protected $formClass = OvernachtingType::class;
-    protected $addMethod = 'addOvernachting';
     protected $allowEmpty = true;
     protected $baseRouteName = 'villa_overnachtingen_';
 
@@ -46,7 +49,19 @@ class OvernachtingenController extends AbstractChildController
     }
 
     /**
-     * @Route("/create/{datum}/{slaper}", name="villa_overnachtingen_create", methods={"GET", "POST"})
+     * @Route("/")
+     * @param Request $request
+     * @return void
+     */
+    public function indexAction(Request $request)
+    {
+        //faux. for testing, the default index route is disabled with the trait
+        //for the calendar which is used, the index route should exist.
+        return new Response();
+    }
+
+    /**
+     * @Route("/create/{datum}/{slaper}")
      * @ParamConverter("slaper", class="VillaBundle\Entity\Slaper")
      */
     public function createOvernachtingAction(Request $request, ?string $datum = null, ?Slaper $slaper = null)
@@ -73,17 +88,15 @@ class OvernachtingenController extends AbstractChildController
     }
 
     /**
-     * @Route("/edit/{id}/", name="villa_overnachtingen_editAjax")
+     * @Route("/edit/{id}/")
      */
     public function editOvernachtingAction(Request $request, Overnachting $overnachting)
     {
-
-
         $form = $this->getForm(OvernachtingType::class, $overnachting, ['method' => $request->getMethod()]);
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            dump($overnachting);
+
             $this->entityManager->flush();
             return new JsonResponse(['success' => true, 'message' => 'Entity updated successfully'], Response::HTTP_OK);
         }
@@ -92,9 +105,9 @@ class OvernachtingenController extends AbstractChildController
         return new JsonResponse(['formHtml' => $formHtml, 'success' => true ]);
     }
     /**
-     * @Route("/ajax/delete/{id}", methods={"POST"})
+     * @Route("/delete/{id}")
      */
-    public function ajaxDeleteAction(Request $request, int $id): Response
+    public function deleteOvernachtingAction(Request $request, int $id): Response
     {
         $entity = $this->dao->find($id);
         if (!$entity) {

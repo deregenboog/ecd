@@ -11,6 +11,7 @@ use Doctrine\ORM\EntityRepository;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\FormInterface;
 use VillaBundle\Entity\Aanmelding;
 use VillaBundle\Entity\VerwijzingDoor;
 use Symfony\Component\Form\AbstractType;
@@ -27,7 +28,6 @@ class AanmeldingType extends AbstractType
     {
         $builder
             ->add('datum', AppDateType::class, [
-                'data' => new \DateTime('today'),
                 'required' => true
             ])
 //            ->add('datum', DateTimeType::class)

@@ -13,3 +13,19 @@
 .fc th {
     font-weight: inherit;
 }
+
+
+.fc-day
+{
+    cursor:pointer;
+}
+a.fc-daygrid-week-number,a.fc-daygrid-week-number:hover, a.fc-daygrid-day-number,  a.fc-daygrid-day-number:hover
+{
+    cursor: default;
+    text-decoration:none;
+}
+
+.fc-daygrid-event-harness
+{
+    cursor:default;
+}

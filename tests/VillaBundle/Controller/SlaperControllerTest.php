@@ -7,7 +7,7 @@ namespace Tests\VillaBundle\Controller;
 use AppBundle\Service\MedewerkerDao;
 use Liip\FunctionalTestBundle\Test\WebTestCase;
 
-class VrijwilligerControllerTest extends WebTestCase
+class SlaperControllerTest extends WebTestCase
 {
     public function testSortColumns()
     {
@@ -17,7 +17,7 @@ class VrijwilligerControllerTest extends WebTestCase
         $medewerker = $this->getContainer()->get(MedewerkerDao::class)->findByUsername('villa_user');
         $client->loginUser($medewerker);
 
-        $crawler = $client->request('GET', '/villa/vrijwilligers/');
+        $crawler = $client->request('GET', '/villa/slapers/');
 
         $this->assertStatusCode(200, $client);
 

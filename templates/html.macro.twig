@@ -105,10 +105,28 @@
 </div>
 {% endmacro %}
 
-{% macro modalWindow(modalId, title, body, onclick) %}
+{% macro calendar(title,indexPath,entityId) %}
+    {% set modalWindowId = title|lower ~"Id" %}
+    <script>
+        var calendarEventData = {
+            indexUrl: "{{ indexPath }}",
+            entityId: "{{ entityId }}",
+            modalWindowId: "{{ modalWindowId }}"
+        }
+    </script>
+    <div id="calendar-holder" data-events-url="{{ path('fc_load_events') }}" data-calendar-id="villa-slapers" data-entity-id="{{ entityId }}" >
+
+    </div>
+    {{ _self.modalWindow(modalWindowId,title) }}
+
+    {{ encore_entry_link_tags('calendar') }}
+    {{ encore_entry_script_tags('calendar') }}
+
+{% endmacro %}
+{% macro modalWindow(modalWindowId,title) %}
 <!-- Modal -->
-<script> let modalWindowId = "#{{ modalId }}"; </script>
-<div class="modal fade" id="{{ modalId }}" tabindex="-1" role="dialog" aria-labelledby="eventModalLabel" aria-hidden="true">
+
+<div class="modal fade" id="{{ modalWindowId }}" tabindex="-1" role="dialog" aria-labelledby="eventModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -121,8 +139,7 @@
 
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary" id="saveEvent">Save changes</button>
+                <button type="button" id="sluiten" class="btn btn-secondary" data-dismiss="modal">Sluiten</button>
             </div>
         </div>
     </div>

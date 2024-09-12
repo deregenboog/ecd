@@ -13,7 +13,7 @@ interface OvernachtingDaoInterface
      */
     public function find($id);
 
-    public function findOvernachtingenForDateRange($start, $end);
+    public function findOvernachtingenByEntityIdForDateRange(int $entityId, $start, $end);
 
     /**
      * @param Overnachting $overnachting

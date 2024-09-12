@@ -2,13 +2,21 @@
 
 namespace VillaBundle\Service;
 
+use AppBundle\Doctrine\SqlExtractor;
 use AppBundle\Entity\Klant;
 use AppBundle\Filter\FilterInterface;
+use AppBundle\Model\DaoHasDossierStatusInterface;
+use AppBundle\Model\DaoHasDossierStatusTrait;
 use AppBundle\Service\AbstractDao;
+use Doctrine\DBAL\Result;
+use VillaBundle\Entity\Aanmelding;
+use VillaBundle\Entity\DossierStatus;
 use VillaBundle\Entity\Slaper;
 
-class SlaperDao extends AbstractDao implements SlaperDaoInterface
+class SlaperDao extends AbstractDao implements SlaperDaoInterface,DaoHasDossierStatusInterface
 {
+    use DaoHasDossierStatusTrait;
+
     protected $paginationOptions = [
         'defaultSortFieldName' => 'appKlant.achternaam',
         'defaultSortDirection' => 'asc',
@@ -25,16 +33,23 @@ class SlaperDao extends AbstractDao implements SlaperDaoInterface
     protected $searchEntityName = 'appKlant';
 
 
+
     /**
      * {inheritdoc}.
      */
     public function findAll($page = null, FilterInterface $filter = null)
     {
+        // First, execute a query to get the maximum id and maximum datum for each slaaper
+
+
         $builder = $this->repository->createQueryBuilder($this->alias)
             ->select("{$this->alias}, appKlant")
-            ->innerJoin('slaper.appKlant', 'appKlant')
+            ->innerJoin($this->alias.'.appKlant', 'appKlant')
             ->leftJoin('appKlant.werkgebied', 'werkgebied')
+
         ;
+        $this->addDossierStatusToQueryBuilder($builder, $this->alias, 'dossierStatussen', 'slaper', DossierStatus::class);
+
 
         if ($filter) {
             if ($filter->klant) {
@@ -42,10 +57,12 @@ class SlaperDao extends AbstractDao implements SlaperDaoInterface
             }
             $filter->applyTo($builder);
         }
-
+//
         if ($page <= 0) {
             return $builder->getQuery()->getResult();
         }
+
+
 
         return $this->paginator->paginate($builder, $page, $this->itemsPerPage, $this->paginationOptions);
     }

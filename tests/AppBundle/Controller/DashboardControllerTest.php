@@ -113,7 +113,7 @@ class DashboardControllerTest extends WebTestCase
             ],
             [
                 'villa_user',
-                ['Vrijwilligers', 'Villa'],
+                ['Klanten', 'Vrijwilligers', 'Villa'],
             ],
         ];
     }

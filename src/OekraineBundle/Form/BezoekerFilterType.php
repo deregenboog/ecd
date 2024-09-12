@@ -32,6 +32,7 @@ class BezoekerFilterType extends AbstractType
         if (in_array('mentalCoach', $options['enabled_filters'])) {
             $builder->add('mentalCoach', MedewerkerSelectType::class, [
                 'required' => false,
+                'multiple'=>false,
                 'roles'=>  [
                         'ROLE_OEKRAINE_PSYCH',
                     ],

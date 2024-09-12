@@ -2,6 +2,7 @@
 {% import 'html.macro.twig' as html %}
 
 {% block content_top %}
+
     <h1>{{ entity_name|capitalize }} {{ entity }}</h1>
     {% if entity.dossierStatus?entity.dossierStatus.afgesloten %}
         <p class="alert alert-danger">
@@ -10,12 +11,14 @@
             {{ html.link('Dossier heropenen', path(route_base~'open', {id: entity.id}), 'open') }}
         </p>
     {% endif %}
+
     <p>
         {% if entity.dossierStatus?entity.dossierStatus.aangemeld %}
             {{ html.link('Status wijzigen', path('villa_slapers_editdossierstatus', {id: entity.id}), 'edit') }}
             {{ html.link('Dossier afsluiten', path(route_base~'close', {id: entity.id}), 'close') }}
-        {% endif %}
+
 {#        {{ html.link('Klantrapportage bekijken', path(route_base~'viewreport', {klant: entity.id}), 'list') }}#}
+        {% endif %}
     </p>
 
 {% endblock %}
@@ -23,7 +26,11 @@
 {% block content_left %}
     <ul>
         {% for status in entity.dossierStatussen %}
-            <li>{{ status }}</li>
+            <li>{{ status }}
+                {% if(is_granted("ROLE_VILLA_BEHEER") and entity.dossierStatussen|length > 1 and not loop.last) %}
+                    {{ html.link('', path('villa_slapers_deletedossierstatus', {id: entity.id, statusId: status.id}), 'remove') }}
+                {% endif %}
+            </li>
         {% endfor %}
     </ul>
     {% include 'klant_basis.html.twig' with {klant: entity.appKlant} %}
@@ -41,96 +48,93 @@
         <div id="dossier" class="tab-pane active">
             <h2>Dossier</h2>
             <p>
-                {{ html.link('Dossier wijzigen', path('villa_slapers_edit', {id: entity.id})) }}
+                {% if instanceof(entity.huidigeDossierStatus,"VillaBundle\\Entity\\Aanmelding")  %}
+                    {{ html.link('Dossier wijzigen', path('villa_slapers_edit', {id: entity.id})) }}
+                {% endif %}
             </p>
             <dl class="dl-horizontal">
-                <dt>Aanmelddatum</dt><dd>{{ entity.dossierStatus.datum|if_date('d-m-Y') }}</dd>
+                <dt>Type</dt><dd>{{ entity.typeAsString }}</dd>
                 <dt>Medewerker aanmelding</dt><dd>{{ entity.medewerker }}</dd>
                 <dt>Contactpersoon</dt><dd>{{ entity.contactpersoon }}</dd>
                 <dt>Contactgegevens contactpersoon</dt><dd>{{ entity.contactgegevensContactpersoon }}</dd>
 {#                <dt>Notitie datum</dt><dd class="text-info">{{ entity.datumNotitieIntake|if_date('d-m-Y') }}</dd>#}
                 <dt>Reden slapen</dt><dd>{{ entity.redenSlapen|raw }}</dd>
                 <dt>Opmerking</dt><dd>{{ entity.opmerking }}</dd>
+                <dt>Saldo</dt><dd id="overnachtingenSaldo">{{ entity.calculateSaldo }} nachten</dd>
             </dl>
         </div>
         <div id="nachten" class="tab-pane">
             <h2>Overnachtingen</h2>
-            <a href="#">Nieuwe overnachting</a>
-
-            <div id="calendar-holder" data-events-url="{{ path('fc_load_events') }}" data-calendar-id="villa-slapers">
-
-            </div>
+                {{ html.calendar("Overnachtingen",path("villa_overnachtingen_index"),entity.id) }}
         </div>
-
     </div>
-    {{  html.modalWindow('testModal','Test','<h2>Hallo</h2>',"function(){alert(1);}") }}
-{% endblock %}
 
+{% endblock %}
 {% block stylesheets %}
-    {{ parent() }}
-    {{ encore_entry_link_tags('calendar') }}
+    <style>
+        /* bootstrap hack: fix content width inside hidden tabs */
+        .tab-content > .tab-pane:not(.active),
+        .pill-content > .pill-pane:not(.active) {
+            display: block;
+            height: 0;
+            overflow-y: hidden;
+        }
+        /* bootstrap hack end */
+    </style>
+{{ parent() }}
 {% endblock %}
 
 {% block scripts %}
-    {{ encore_entry_script_tags('calendar') }}
-<script>
-document.addEventListener('calendarInitialized', function(e) {
-    // Access the additional data from the event's detail property
-    // console.log('Calendar has been initialized with date info:', e.detail.dateInfo);
-    // Example: You can now use the date info or other details as needed
+    <script>
+        let dossierStatus = '{{ entity.dossierStatus.shortClassname }}';
 
-    let calendar = e.detail.calendar;
+        document.addEventListener('calendarInitialized', function(e) {
 
-    function handleDateClick({ dateStr }) {
-        const url = "{{ path('villa_overnachtingen_create', {'datum': 'replace_date','slaper': entity.id}) }}".replace('replace_date', dateStr);
-        console.log(url);
-        edit(url);
-    }
-
-    function handleEventClick({ event }) {
-        const url = "{{ path('villa_overnachtingen_editAjax', {'id': 'replace_id'}) }}".replace('replace_id', event.id);
-        console.log(url);
-        edit(url);
-    }
-
-    function edit(url) {
-        $.get(url).done(data => {
-            modalOpen(data.formHtml);
-            modalSave(url);
-        });
-    }
-
-    function modalOpen(html) {
-        $('#testModal .modal-body').html(html);
-        $('#testModal').modal('show');
-    }
-
-    function modalSave(url) {
-        $('#saveEvent').on('click', function(e) {
-            e.preventDefault();
-
-            const form = $('#testModal form')[0];
-            console.log(form);
-            $.ajax({
-                type: $(form).attr('method'),
-                url: url,
-                data: $(form).serialize(),
-                success: function(data) {
-                    if (data.success) {
-                        $('#testModal').modal('hide');
-                        calendar.refetchEvents();
-                    } else {
-                        // Error handling here
-                    }
+            var f = function (e,mode){
+                //update the saldo...
+                var t = $('#overnachtingenSaldo');
+                var saldo = parseInt(t.text());
+                if (isNaN(saldo))
+                {
+                    console.log("Saldo kan niet worden geupdate in de interface.");
+                    return;
                 }
-            });
+                switch (mode){
+                    case "add":
+                        saldo--;
+                        break;
+                    case "remove":
+                        saldo++;
+                        break;
+                }
+
+                t.text(saldo.toString());
+
+            }
+        //need to add the listener after the event is initialized
+        document.addEventListener('calendarSavedEvent', function (e){
+            f(e, 'add');
         });
-    }
+        document.addEventListener('calendarRemovedEvent', function (e){
+            f(e,'remove')
+        });
 
-    calendar.on("dateClick", handleDateClick);
-    calendar.on("eventClick", handleEventClick);
-});
+        if(dossierStatus == 'Afsluiting')
+        {
+            var calendar = e.detail.calendar;
 
-</script>
+            calendar.off("dateClick");
+            calendar.on("dateClick", function (dateStr){
+                alert("Kan geen nachten toevoegen aan gesloten dossier.");
+
+            });
+            calendar.off("eventClick");
+            calendar.on("eventClick", function (dateStr){
+                alert("Kan geen nachten wijzgen van een gesloten dossier.");
+
+            });
+        }
+    });
+    </script>
+    {{ parent() }}
 {% endblock %}
-

@@ -2,6 +2,7 @@
 
 namespace VillaBundle\Service;
 
+use AppBundle\Doctrine\SqlExtractor;
 use AppBundle\Service\AbstractDao;
 use Doctrine\ORM\EntityManagerInterface;
 use DoctrineExtensions\Query\Mysql\Over;
@@ -21,16 +22,18 @@ class OvernachtingDao extends AbstractDao implements OvernachtingDaoInterface
         return $this->repository->find($id);
     }
 
-    public function findOvernachtingenForDateRange($start, $end)
+    public function findOvernachtingenByEntityIdForDateRange(int $entityId, $start, $end)
     {
-        return $this->repository
+        $query = $this->repository
             ->createQueryBuilder('overnachting')
             ->where('overnachting.datum BETWEEN :start AND :end')
+            ->andWhere('overnachting.slaper = :slaper')
             ->setParameter('start', $start->format('Y-m-d H:i:s'))
             ->setParameter('end', $end->format('Y-m-d H:i:s'))
-            ->getQuery()
-            ->getResult()
-        ;
+            ->setParameter('slaper',$entityId)
+            ->getQuery();
+
+        return $query->getResult();
     }
     public function create(Overnachting $overnachting)
     {

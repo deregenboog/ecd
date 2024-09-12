@@ -6,14 +6,17 @@ use AppBundle\Controller\AbstractController;
 use AppBundle\Controller\DossierStatusControllerInterface;
 use AppBundle\Controller\DossierStatusControllerTrait;
 use AppBundle\Entity\Klant as AppKlant;
+use AppBundle\Exception\UserException;
 use AppBundle\Export\ExportInterface;
 use AppBundle\Form\KlantFilterType as AppKlantFilterType;
+use AppBundle\Model\HasDossierStatusInterface;
 use AppBundle\Service\KlantDao;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use VillaBundle\Entity\Afsluiting;
 use VillaBundle\Entity\Slaper;
 use VillaBundle\Form\SlaperFilterType;
 use VillaBundle\Form\SlaperType;
@@ -66,72 +69,74 @@ class SlapersController extends AbstractController implements DossierStatusContr
     protected function getDownloadFilename()
     {
 
-        return sprintf('op-eigen-kracht-slapers-%s.xlsx', (new \DateTime())->format('d-m-Y'));
+        return sprintf('villa-slapers-%s.xlsx', (new \DateTime())->format('d-m-Y'));
     }
 
-    /**
-     * @Route("/ajax/form/{id}", name="ajax_form", defaults={"id"=null}, methods={"GET"})
-     */
-    public function ajaxFormAction(Request $request, ?int $id = null): Response
-    {
-        $entity = $id ? $this->dao->find($id) : new $this->entityClass();
-        if (!$entity) {
-            return new JsonResponse(['error' => 'Entity not found'], Response::HTTP_NOT_FOUND);
-        }
-
-        $form = $this->getForm($this->formClass, $entity, $this->formOptions);
-        $formHtml = $this->renderView('edit.html.twig', [
-            'form' => $form->createView(),
-        ]);
-
-        return new JsonResponse(['formHtml' => $formHtml]);
-    }
 
     /**
-     * @Route("/ajax/submit/{id}", name="ajax_submit", defaults={"id"=null}, methods={"POST"})
+     * @Route("/{id}/open")
+     * @Template("open.html.twig")
      */
-    public function ajaxSubmitAction(Request $request, ?int $id = null): Response
-    {
-        $entity = $id ? $this->dao->find($id) : new $this->entityClass();
-        if (!$entity && $id) {
-            return new JsonResponse(['error' => 'Entity not found'], Response::HTTP_NOT_FOUND);
-        }
-
-        $form = $this->getForm($this->formClass, $entity, array_merge($this->formOptions, ['method' => 'POST']));
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $this->entityManager->persist($entity);
-            $this->entityManager->flush();
-
-            return new JsonResponse(['success' => true, 'message' => 'Entity saved successfully']);
-        }
-
-        // Form not valid, return the form errors
-        $errors = []; // Implement logic to extract form errors
-        return new JsonResponse(['success' => false, 'errors' => $errors], Response::HTTP_BAD_REQUEST);
-    }
-
-    /**
-     * @Route("/ajax/delete/{id}", name="ajax_delete", methods={"POST"})
-     */
-    public function ajaxDeleteAction(Request $request, int $id): Response
+    public function openAction(Request $request, $id)
     {
         $entity = $this->dao->find($id);
-        if (!$entity) {
-            return new JsonResponse(['error' => 'Entity not found'], Response::HTTP_NOT_FOUND);
+
+        if(!$entity instanceof HasDossierStatusInterface)
+        {
+            throw new UserException("Kan geen dossierstatus bewerken van een entiteit die geen dossierstatus heeft.");
         }
 
-        try {
-            $this->beforeDelete($entity);
-            $this->entityManager->remove($entity);
-            $this->entityManager->flush();
-            $this->afterDelete($entity);
-
-            return new JsonResponse(['success' => true, 'message' => 'Entity deleted successfully']);
-        } catch (\Exception $e) {
-            return new JsonResponse(['error' => 'Could not delete entity'], Response::HTTP_BAD_REQUEST);
+        $hDs = $entity->getHuidigeDossierstatus();
+        if(get_class($hDs) !== $hDs->getClosedClass() )
+        {
+            throw new UserException("Kan dossier niet openen want er is geen geldige dossierstatus (afgesloten).");
         }
+
+        $aanmeldingClassname = $hDs->getOpenClass();
+        $pDs = $entity->getPreviousDossierStatus();
+
+        $lastYear = (new \DateTime('now'))->modify('-12 months');
+
+
+        if(null !== $pDs && $pDs instanceof $aanmeldingClassname && $pDs->getDatum() >= $lastYear)
+        {
+            throw new UserException("Kan dossier niet openen want de vorige startdatum is korter dan 12 maanden geleden. Verwijder de afsluiting om het dossier opnieuw te openen.");
+        }
+
+        $aanmelding = new $aanmeldingClassname();
+        $entity->addDossierStatus($aanmelding);
+
+        $form = $this->getForm($aanmelding->getFormType(), $aanmelding);
+        $form->handleRequest($this->getRequest());
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            try {
+                $this->dao->update($entity);
+                $this->addFlash('success', 'Het dossier is (opnieuw) geopend.');
+
+                return $this->redirectToRoute($this->baseRouteName.'view', ['id' => $entity->getId()]);
+            } catch(UserException $e) {
+                $message =  $e->getMessage();
+                $this->addFlash('danger', $message);
+            } catch (\Exception $e) {
+                $message = $this->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
+                $this->addFlash('danger', $message);
+            }
+        }
+
+        return [
+            'form' => $form->createView(),
+            'entity' => $entity,
+        ];
     }
 
+    public function beforeEdit($entity): void
+    {
+        /** @var Slaper $entity */
+        $entity;
+        if($entity->getHuidigeDossierStatus() instanceof Afsluiting)
+        {
+            throw new UserException("Kan geen dossier bewerken dat afgesloten is.");
+        }
+    }
 }

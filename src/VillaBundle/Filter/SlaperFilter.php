@@ -10,6 +10,7 @@ use OekBundle\Entity\DeelnameStatus;
 use OekBundle\Entity\Slaper;
 use OekBundle\Entity\Groep;
 use OekBundle\Entity\Training;
+use VillaBundle\Entity\Aanmelding;
 
 class SlaperFilter implements FilterInterface
 {
@@ -30,14 +31,19 @@ class SlaperFilter implements FilterInterface
     public $afsluitdatum;
 
     /**
-     * @var bool
+     * @var type zorg.
      */
-    public $actief = true;
+    public $type;
 
     /**
      * @var KlantFilter
      */
     public $klant;
+
+    /**
+     * @var string
+     */
+    public $dossierStatus = Aanmelding::class;
 
     public function applyTo(QueryBuilder $builder)
     {
@@ -48,54 +54,52 @@ class SlaperFilter implements FilterInterface
             ;
         }
 
-
-        if ($this->aanmelddatum) {
-            if ($this->aanmelddatum->getStart()) {
+        if($this->type)
+        {
+            if ($this->type) {
                 $builder
-                    ->andWhere('aanmelding.datum >= :aanmelddatum_van')
-                    ->setParameter('aanmelddatum_van', $this->aanmelddatum->getStart())
-                ;
-            }
-            if ($this->aanmelddatum->getEnd()) {
-                $builder
-                    ->andWhere('aanmelding.datum <= :aanmelddatum_tot')
-                    ->setParameter('aanmelddatum_tot', $this->aanmelddatum->getEnd())
-                ;
+                    ->andWhere('slaper.type = :slaper_type')
+                    ->setParameter('slaper_type', $this->type);
             }
         }
 
-        if ($this->afsluitdatum) {
-            if ($this->afsluitdatum->getStart()) {
-                $builder
-                    ->andWhere('afsluiting.datum >= :afsluitdatum_van')
-                    ->setParameter('afsluitdatum_van', $this->afsluitdatum->getStart())
-                ;
-            }
-            if ($this->afsluitdatum->getEnd()) {
-                $builder
-                    ->andWhere('afsluiting.datum <= :afsluitdatum_tot')
-                    ->setParameter('afsluitdatum_tot', $this->afsluitdatum->getEnd())
-                ;
-            }
-        }
+//        if ($this->aanmelddatum) {
+//            if ($this->aanmelddatum->getStart()) {
+//                $builder
+//                    ->andWhere('aanmelding.datum >= :aanmelddatum_van')
+//                    ->setParameter('aanmelddatum_van', $this->aanmelddatum->getStart())
+//                ;
+//            }
+//            if ($this->aanmelddatum->getEnd()) {
+//                $builder
+//                    ->andWhere('aanmelding.datum <= :aanmelddatum_tot')
+//                    ->setParameter('aanmelddatum_tot', $this->aanmelddatum->getEnd())
+//                ;
+//            }
+//        }
+//
+//        if ($this->afsluitdatum) {
+//            if ($this->afsluitdatum->getStart()) {
+//                $builder
+//                    ->andWhere('afsluiting.datum >= :afsluitdatum_van')
+//                    ->setParameter('afsluitdatum_van', $this->afsluitdatum->getStart())
+//                ;
+//            }
+//            if ($this->afsluitdatum->getEnd()) {
+//                $builder
+//                    ->andWhere('afsluiting.datum <= :afsluitdatum_tot')
+//                    ->setParameter('afsluitdatum_tot', $this->afsluitdatum->getEnd())
+//                ;
+//            }
+//        }
 
-//        if ($this->actief == 'true') {
-//            $builder
-//                ->andWhere('aanmelding.datum <= :today')
-//                ->andWhere('afsluiting.datum > :today OR afsluiting.datum IS NULL')
-//                ->setParameter('today', new \DateTime('today'))
-//            ;
-//        }
-//        elseif ($this->actief == 'false')
-//        {
-//            $builder
-//                ->andWhere('afsluiting.datum <= :today')
-//                ->setParameter('today', new \DateTime('today'))
-//            ;
-//        }
+
+        if ($this->dossierStatus) {
+            $builder->andWhere($builder->expr()->isInstanceOf('ds', $this->dossierStatus));
+        }
 
         if ($this->klant) {
-            $this->klant->applyTo($builder);
+            $this->klant->applyTo($builder,'appKlant');
         }
     }
 }

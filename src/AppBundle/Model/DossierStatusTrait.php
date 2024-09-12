@@ -7,12 +7,14 @@ namespace AppBundle\Model;
 use AppBundle\Exception\AppException;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
+use Symfony\Component\Validator\Constraints as Assert;
 use function PHPUnit\Framework\throwException;
 
 trait DossierStatusTrait
 {
     /**
      * @ORM\Column(type="date")
+     * @Assert\LessThanOrEqual("today",message="Datum van dossierstatus kan niet in de toekomst liggen")
      * @Gedmo\Versioned()
      */
     protected $datum;
@@ -38,6 +40,10 @@ trait DossierStatusTrait
     public function initializeDossierStatusTrait()
     {
         $this->mapClasses();
+        if(null === $this->datum)
+        {
+            $this->datum = new \DateTime('today');
+        }
     }
 
 
@@ -85,6 +91,12 @@ trait DossierStatusTrait
         return $this->isAfgesloten();
     }
 
+    public function getShortClassname(): string
+    {
+        $reflection = new \ReflectionClass($this);
+        $shortName = $reflection->getShortName();
+        return $shortName;
+    }
     /**
      * @ORM\PostLoad
      */

@@ -675,6 +675,24 @@ AppBundle\Entity\Medewerker:
         achternaam: 'Borger'
         eersteBezoek: '<dateTimeThisYear()>'
         laatsteBezoek: '<dateTimeThisYear()>'
+    medewerker_jvloo:
+        ldapGuid (unique): '<randomNumber()>'
+        username: 'jvloo'
+        roles: [ 'ROLE_INLOOP_BEHEER' ]
+        email: '<email()>'
+        voornaam: 'Janneke'
+        achternaam: 'van Loo'
+        eersteBezoek: '<dateTimeThisYear()>'
+        laatsteBezoek: '<dateTimeThisYear()>'
+    medewerker_edrooij:
+        ldapGuid (unique): '<randomNumber()>'
+        username: 'edrooij'
+        roles: [ 'ROLE_VILLA_BEHEER' ]
+        email: '<email()>'
+        voornaam: 'Eva'
+        achternaam: 'de Rooij'
+        eersteBezoek: '<dateTimeThisYear()>'
+        laatsteBezoek: '<dateTimeThisYear()>'
     medewerker_clip:
         ldapGuid (unique): '<randomNumber()>'
         username: 'clip_user'

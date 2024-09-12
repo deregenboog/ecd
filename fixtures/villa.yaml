@@ -1,0 +1,80 @@
+VillaBundle\Entity\BinnenVia:
+    villa_binnen_via_{1..4}:
+        naam: '<word()>'
+    villa_binnen_via_5:
+        naam: '<word()>'
+        actief: false
+
+VillaBundle\Entity\AfsluitredenSlaper:
+    villa_afsluitreden_slaper_1:
+        naam: 'Overleden'
+        actief: 1
+    villa_afsluitreden_slaper_2:
+            naam: 'Automatisch afgesloten 12 maanden na startdatum.'
+            actief: 1
+    villa_afsluitreden_slaper_{3..4}:
+        naam: '<word()>'
+        actief: 1
+
+VillaBundle\Entity\Slaper:
+    villa_slaper_{1..20}:
+        appKlant: '@klant_<current()>'
+        medewerker: '@medewerker_*'
+        type: '<numberBetween(1,2)>'
+        contactpersoon: '<firstName()> <lastName()>'
+        redenSlapen: '<text()>'
+
+VillaBundle\Entity\Overnachting:
+    villa_overnachting_{1..4}:
+        slaper: '@villa_slaper_1'
+        datum (unique): '<dateTimeThisYear()>'
+        opmerking: '50%? <text()>'
+    villa_overnachting_{9..12}:
+        slaper: '@villa_slaper_2'
+        datum (unique): '<dateTimeThisYear()>'
+        opmerking: '50%? <text()>'
+    villa_overnachting_{13..17}:
+        slaper: '@villa_slaper_3'
+        datum (unique): '<dateTimeThisYear()>'
+        opmerking: '50%? <text()>'
+    villa_overnachting_{18..22}:
+        slaper: '@villa_slaper_4'
+        datum (unique): '<dateTimeThisYear()>'
+        opmerking: '50%? <text()>'
+    villa_overnachting_{23..28}:
+        slaper: '@villa_slaper_5'
+        datum (unique): '<dateTimeThisYear()>'
+        opmerking: '50%? <text()>'
+    villa_overnachting_{29..34}:
+        slaper: '@villa_slaper_6'
+        datum (unique): '<dateTimeThisYear()>'
+        opmerking: '50%? <text()>'
+#    villa_overnachting_{35..39}:
+#        slaper: '@villa_slaper_7'
+#        datum (unique): '<dateTimeThisYear()>'
+#        opmerking: '50%? <text()>'
+#    villa_overnachting_{40..43}:
+#        slaper: '@villa_slaper_8'
+#        datum (unique): '<dateTimeThisYear()>'
+#        opmerking: '50%? <text()>'
+
+VillaBundle\Entity\Aanmelding:
+    villa_aanmelding_{1..20}:
+        medewerker: '@medewerker_*'
+        slaper: '@villa_slaper_<current()>'
+        datum: '<dateTimeBetween("-180 days","-30 days")>'
+
+VillaBundle\Entity\Afsluiting:
+    villa_afsluiting_{15..20}:
+        medewerker: '@medewerker_*'
+        slaper: '@villa_slaper_<current()>'
+        reden: '@villa_afsluitreden_slaper*'
+        datum: '<dateTimeBetween("-29 days","now")>'
+
+VillaBundle\Entity\Vrijwilliger:
+    villa_vrijwilliger_{11..20}:
+        vrijwilliger: '@vrijwilliger_<current()>'
+        medewerker: '@medewerker_*'
+        aanmelddatum: '<dateTimeThisDecade()>'
+        binnenVia: '@villa_binnen_via_*'
+        notitieIntake: '<text()>'

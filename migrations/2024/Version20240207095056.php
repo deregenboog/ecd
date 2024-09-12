@@ -36,6 +36,8 @@ final class Version20240207095056 extends AbstractMigration
 
 
         $this->addSql('ALTER TABLE villa_overnachtingen ADD CONSTRAINT FK_359057AC876498D2 FOREIGN KEY (slaper_id) REFERENCES villa_slapers (id)');
+        $this->addSql('ALTER TABLE `villa_overnachtingen` ADD UNIQUE (`datum`, `slaper_id`)');
+
 
 
     }

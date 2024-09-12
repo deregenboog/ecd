@@ -12,6 +12,7 @@
             Beheer <span class="caret"></span>
         </a>
         <ul class="dropdown-menu">
+            {{ html.navLink('Afsluitredenen slapers', path('villa_afsluitredenenslapers_index'), isActiveRoute('villa_afsluitredeneslapers_')) }}
             {{ html.navLink('Afsluitredenen vrijwilligers', path('villa_afsluitredenenvrijwilligers_index'), isActiveRoute('villa_afsluitredenenvrijwilligers_')) }}
             {{ html.navLink('Binnen via-opties (VW-ers)', path('villa_binnenvia_index'), isActiveRoute('villa_binnenvia_')) }}
         </ul>

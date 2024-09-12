@@ -10,6 +10,9 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use VillaBundle\Entity\Aanmelding;
+use VillaBundle\Entity\Afsluiting;
+use VillaBundle\Entity\Slaper;
 use VillaBundle\Filter\SlaperFilter;
 
 class SlaperFilterType extends AbstractType
@@ -40,13 +43,24 @@ class SlaperFilterType extends AbstractType
                 'required' => false,
             ]);
         }
+        if (in_array('type', $options['enabled_filters'])) {
+            $builder->add('type', ChoiceType::class, [
+                'required' => false,
+                'choices'=>
+                    [
+                        Slaper::$types[Slaper::TYPE_RESPIJT]=>Slaper::TYPE_RESPIJT,
+                        Slaper::$types[Slaper::TYPE_LOGEER]=>Slaper::TYPE_LOGEER,
+                    ],
+            ]);
+        }
 
-        if (in_array('status', $options['enabled_filters'])) {
-            $builder->add('actief', ChoiceType::class, [
+        if (in_array('dossierStatus', $options['enabled_filters'])) {
+            $builder->add('dossierStatus', ChoiceType::class, [
                 'required' => false,
                 'choices' => [
-                    'Actief' => 'true',
-                    'Niet actief' => 'false',
+                    'Alle dossiers' => null,
+                    'Aangemeld' => Aanmelding::class,
+                    'Afgesloten' => Afsluiting::class,
                 ],
             ]);
         }
@@ -69,10 +83,11 @@ class SlaperFilterType extends AbstractType
             'data_class' => SlaperFilter::class,
             'data' => new SlaperFilter(),
             'enabled_filters' => [
-                'klant' => ['id', 'naam'],
-                'aanmelddatum',
-                'afsluitdatum',
-                'status',
+                'klant' => ['id', 'naam','stadsdeel'],
+//                'aanmelddatum',
+//                'afsluitdatum',
+                'dossierStatus',
+                'type',
             ],
         ]);
     }

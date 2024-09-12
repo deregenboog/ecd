@@ -1,4 +1,4 @@
-{% extends 'base.html.twig' %}
+    {% extends 'base.html.twig' %}
 {% import 'html.macro.twig' as html %}
 
 {% block content %}
@@ -29,8 +29,17 @@
                     {{ form_errors(filter.klant.naam) }}
                 </th>
                 <th>
-{#                    {{ form_widget(filter.filterOpActiefAlleen) }}#}
-{#                    {{ form_errors(filter.filterOpActiefAlleen) }}#}
+                    {{ form_widget(filter.dossierStatus) }}
+                    {{ form_errors(filter.dossierStatus) }}
+                </th>
+                <th>
+                    {{ form_widget(filter.type) }}
+                    {{ form_errors(filter.type) }}
+                </th>
+                <th></th>
+                <th>
+                    {{ form_widget(filter.klant.stadsdeel) }}
+                    {{ form_errors(filter.klant.stadsdeel) }}
                 </th>
 
             </tr>
@@ -43,11 +52,12 @@
                 {{ knp_pagination_sortable(pagination, 'Slaper', 'appKlant.achternaam') }}
             </th>
             <th>
-                {{ knp_pagination_sortable(pagination, 'Status', 'slaper.dossierstatus') }}
+                Status
             </th>
             <th>
-                Actief
+                {{ knp_pagination_sortable(pagination, 'Type', 'slaper.type') }}
             </th>
+            <th>Saldo nachten</th>
             <th>
                 {{ knp_pagination_sortable(pagination, 'Stadsdeel', 'werkgebied.naam') }}
             </th>
@@ -61,15 +71,14 @@
                 {{ slaper }}
             </td>
             <td>
-{#                {{ slaper.dossierstatus.datum|date('d-m-Y') }}#}
+                {{ slaper.dossierstatus }}
             </td>
             <td>
-{#                {% if not slaper.actief %}#}
-{#                    {{ slaper.afsluitdatum|if_date('d-m-Y') }}#}
-{#                    ({{ slaper.afsluitreden }})#}
-{#                {% endif %}#}
+                {{ slaper.typeAsString }}
             </td>
-{#            <td>{{ slaper.actief|ja_nee }}</td>#}
+            <td>
+                {{ slaper.calculateSaldo }}
+            </td>
             <td>
                 {{ slaper.appKlant.werkgebied }}
             </td>

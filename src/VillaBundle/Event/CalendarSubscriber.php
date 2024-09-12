@@ -31,18 +31,19 @@ class CalendarSubscriber implements EventSubscriberInterface
         $filters = $calendar->getFilters();
 
 
-      if($filters['calendar-id'] == 'villa-slapers')
+
+      if($filters['calendar-id'] == 'villa-slapers' && null !== $filters['entity-id'] && is_numeric($filters['entity-id']))
       {
-          $events = $this->dao->findOvernachtingenForDateRange($start, $end);
+          $events = $this->dao->findOvernachtingenByEntityIdForDateRange($filters['entity-id'],$start, $end);
           foreach ($events as $overnachting) {
               $event =  new Event(
                       'Overnachting',
                       $overnachting->getDatum(),
               );
+              $event->setAllDay(true);
+
               $event->addOption('id',$overnachting->getId());
-                  $calendar->addEvent(
-                    $event
-                  );
+              $calendar->addEvent($event);
               }
 
       }

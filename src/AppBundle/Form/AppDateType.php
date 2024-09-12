@@ -27,8 +27,10 @@ class AppDateType extends AbstractType
         $resolver->setDefaults([
             'widget' => 'single_text',
             'format' => 'dd-MM-yyyy',
-            'attr' => ['placeholder' => 'dd-mm-jjjj'],
-            'attr'=> ['readonly'=>false],
+            'attr' => [
+                'placeholder' => 'dd-mm-jjjj',
+                'readonly'=>false
+            ],
             'html5' => false,
         ]);
     }
