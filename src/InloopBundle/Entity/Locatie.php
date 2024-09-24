@@ -329,13 +329,14 @@ class Locatie
         }
     }
 
-    public function getClosingTimeByDayOfWeek($dayOfWeek)
+    public function getClosingTimeByDayOfWeek(int $dayOfWeek): ?\DateTime
     {
         foreach ($this->locatietijden as $locatietijd) {
             if ($dayOfWeek == $locatietijd->getDagVanDeWeek()) {
                 return $locatietijd->getSluitingstijd();
             }
         }
+        return null;
     }
 
     public function isDeletable()
