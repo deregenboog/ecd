@@ -19,9 +19,8 @@ class BaseType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event) {
-            foreach ($event->getForm()->all() as $child) {
-                $this->removeSubmitTypes($child);
-            }
+
+            $this->removeSubmitTypes($event->getForm());
         });
     }
 
@@ -35,7 +34,7 @@ class BaseType extends AbstractType
     private function removeSubmitTypes(FormInterface $form)
     {
         foreach ($form->all() as $name => $child) {
-            if ($child->getConfig()->getType()->getInnerType() instanceof SubmitType) {
+            if ($form->getParent() !== null && $child->getConfig()->getType()->getInnerType() instanceof SubmitType) {
                 $form->remove($name);
             } else {
                 $this->removeSubmitTypes($child);

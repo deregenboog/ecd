@@ -148,6 +148,9 @@ security:
             - CONTROLLER_APP_VRIJWILLIGERS
         ROLE_VILLA:
             - CONTROLLER_APP_VRIJWILLIGERS
+            - CONTROLLER_APP_KLANTEN
+        ROLE_VILLA_BEHEER:
+              - ROLE_VILLA
         ROLE_PZ:
             - ROLE_USERADMIN
         ROLE_ADMIN:
@@ -199,7 +202,7 @@ security:
             - ROLE_PROGRAMMACOORDINATOR
             - ROLE_MANAGEMENT
             - ROLE_SPORT
-            - ROLE_VILLA
+            - ROLE_VILLA_BEHEER
         CONTROLLER_APP_KLANTEN:
             - CONTROLLER_APP_DOCUMENTEN
         CONTROLLER_APP_VRIJWILLIGERS:
@@ -247,9 +250,9 @@ parameters:
         ROLE_REPORT: "CN=ECD Report,CN=Users,DC=cluster,DC=deregenboog"
         ROLE_OEK: "CN=ECD Op Eigen Kracht,CN=Users,DC=cluster,DC=deregenboog"
         ROLE_OEK_BEHEER: "CN=ECD Op Eigen Kracht Beheer,CN=Users,DC=cluster,DC=deregenboog"
-        ROLE_TW: "CN=ECD Onder de Pannen,CN=Users,DC=cluster,DC=deregenboog" #bw compatiblity
+        ROLE_TW2: "CN=ECD Onder de Pannen,CN=Users,DC=cluster,DC=deregenboog" #bw compatiblity
         ROLE_TW_BEHEER: "CN=ECD Onder de Pannen Beheer,CN=Users,DC=cluster,DC=deregenboog" #bw comp.
-        ROLE_TW2: "CN=ECD Tijdelijk Wonen,CN=Users,DC=cluster,DC=deregenboog"
+        ROLE_TW: "CN=ECD Tijdelijk Wonen,CN=Users,DC=cluster,DC=deregenboog"
         ROLE_TW_BEHEER2: "CN=ECD Tijdelijk Wonen Beheer,CN=Users,DC=cluster,DC=deregenboog"
         ROLE_DAGBESTEDING: "CN=ECD Dagbesteding,CN=Users,DC=cluster,DC=deregenboog"
         ROLE_DAGBESTEDING_BEHEER: "CN=ECD Dagbesteding Beheer,CN=Users,DC=cluster,DC=deregenboog"

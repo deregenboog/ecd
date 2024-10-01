@@ -386,13 +386,19 @@ abstract class AbstractController extends SymfonyController
      */
     public function editAction(Request $request, $id)
     {
+
         if (in_array('edit', $this->disabledActions)) {
             throw new AccessDeniedHttpException();
         }
 
         $entity = $this->dao->find($id);
+        $this->beforeEdit($entity);
 
-        return $this->processForm($request, $entity);
+        $return = $this->processForm($request, $entity);
+
+        $this->afterEdit($entity);
+
+        return $return;
     }
 
     protected function processForm(Request $request, $entity = null)
@@ -603,6 +609,14 @@ abstract class AbstractController extends SymfonyController
     }
 
     protected function afterDelete($entity): void
+    {
+    }
+
+    protected function beforeEdit($entity): void
+    {
+    }
+
+    protected function afterEdit($entity): void
     {
     }
 

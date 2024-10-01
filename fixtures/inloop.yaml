@@ -177,6 +177,14 @@ InloopBundle\Entity\Locatie:
         datumVan: '<dateTimeBetween("-30 days","now")>'
         datumTot: '<dateTimeBetween("now","+2 years")>'
         maatschappelijkWerk: true
+    locatie_wachtlijst_sted:
+        naam: 'Wachtlijst STED'
+        locatieTypes: [ '@lt_wachtlijst' ]
+        nachtopvang: false
+        gebruikersruimte: false
+        datumVan: '<dateTimeBetween("-30 days","now")>'
+        datumTot: '<dateTimeBetween("now","+2 years")>'
+        maatschappelijkWerk: false
 
 InloopBundle\Entity\Woonsituatie:
     woonsituatie_1:

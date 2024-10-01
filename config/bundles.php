@@ -24,5 +24,6 @@ return [
     Stof\DoctrineExtensionsBundle\StofDoctrineExtensionsBundle::class => ['all' => true],
     Symfony\WebpackEncoreBundle\WebpackEncoreBundle::class => ['all' => true],
     Vich\UploaderBundle\VichUploaderBundle::class => ['all' => true],
+    CalendarBundle\CalendarBundle::class => ['all'=>true],
     DAMA\DoctrineTestBundle\DAMADoctrineTestBundle::class => ['test' => true],
 ];

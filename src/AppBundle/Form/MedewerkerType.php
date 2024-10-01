@@ -17,7 +17,7 @@ class MedewerkerType extends AbstractType
     /**
      * @var Medewerker
      */
-    private $medewerker;
+    protected $medewerker;
 
     public function __construct(TokenStorageInterface $tokenStorage)
     {

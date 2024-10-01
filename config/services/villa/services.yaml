@@ -7,6 +7,9 @@ services:
         autowire: true
         autoconfigure: true
 
+    VillaBundle\Command\:
+        resource: '%kernel.project_dir%/src/VillaBundle/Command'
+
     VillaBundle\Controller\:
         resource: '%kernel.project_dir%/src/VillaBundle/Controller'
 
@@ -18,6 +21,10 @@ services:
         arguments:
             $entities: '@villa.document.entities'
 
+    VillaBundle\Controller\OvernachtingenController:
+        arguments:
+            $entities: '@villa.overnachting.entities'
+
     VillaBundle\Controller\MemosController:
         arguments:
             $entities: '@villa.memo.entities'
@@ -26,11 +33,22 @@ services:
         arguments:
             $export: '@villa.export.vrijwilliger'
 
+    VillaBundle\Controller\SlapersController:
+        arguments:
+            $export: '@villa.export.slaper'
+
+
     villa.document.entities:
         class: ArrayObject
         arguments:
             -
               - { key: vrijwilliger, dao: '@VillaBundle\Service\VrijwilligerDao' }
+
+    villa.overnachting.entities:
+        class: ArrayObject
+        arguments:
+            -
+                - { key: slaper, dao: '@VillaBundle\Service\SlaperDao' }
 
     villa.deelname.entities:
         class: ArrayObject
@@ -41,3 +59,5 @@ services:
         class: ArrayObject
         arguments:
             - - { key: vrijwilliger, dao: '@VillaBundle\Service\VrijwilligerDao' }
+
+    VillaBundle\Event\CalendarSubscriber: ~

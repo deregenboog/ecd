@@ -529,12 +529,12 @@ class AppExtension extends AbstractExtension implements GlobalsInterface
      * Like default date filter, but prints nothing if no date is provided
      * (instead of printing todays date).
      */
-    public function ifDate(Environment $env, $date, $format = null, $timezone = null)
+    public function ifDate(Environment $env, $date, $format = null, $timezone = "Europe/Amsterdam")
     {
         if ($date) {
-            $c = $env->getFilter('date')->getCallable();
+            if(!$date instanceof \DateTime) throw new AppException("Kan deze datum niet laden.");
 
-            return $c($env, $date, $format, $timezone);
+            return $date->format($format);//$c($env, $date, $format, $timezone);
         }
 
         return '';

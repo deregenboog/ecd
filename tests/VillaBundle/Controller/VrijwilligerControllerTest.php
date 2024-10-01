@@ -11,7 +11,6 @@ class VrijwilligerControllerTest extends WebTestCase
 {
     public function testSortColumns()
     {
-        $this->markTestSkipped();
 
         $client = static::createClient();
 

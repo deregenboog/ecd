@@ -83,6 +83,7 @@
         "symfony/validator": "5.4.*",
         "symfony/webpack-encore-bundle": "^1.8",
         "symfony/yaml": "5.4.*",
+        "tattali/calendar-bundle": "^1.2.3",
         "tecnickcom/tcpdf": "^6.2",
         "tedivm/stash": "^0.17.6",
         "theiconic/name-parser": "^1.2",

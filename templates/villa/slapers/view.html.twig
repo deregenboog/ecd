@@ -1,0 +1,140 @@
+{% extends 'base-2-col.html.twig' %}
+{% import 'html.macro.twig' as html %}
+
+{% block content_top %}
+
+    <h1>{{ entity_name|capitalize }} {{ entity }}</h1>
+    {% if entity.dossierStatus?entity.dossierStatus.afgesloten %}
+        <p class="alert alert-danger">
+            Dit dossier is afgesloten op ({{ entity.dossierStatus.datum|date("d-m-Y") }}).
+            {% if entity.dossierStatus.resultaat is defined%} Resultaat: {{ entity.dossierStatus.resultaat|join(', ') }} {% endif %}
+            {{ html.link('Dossier heropenen', path(route_base~'open', {id: entity.id}), 'open') }}
+        </p>
+    {% endif %}
+
+    <p>
+        {% if entity.dossierStatus?entity.dossierStatus.aangemeld %}
+            {{ html.link('Status wijzigen', path('villa_slapers_editdossierstatus', {id: entity.id}), 'edit') }}
+            {{ html.link('Dossier afsluiten', path(route_base~'close', {id: entity.id}), 'close') }}
+
+{#        {{ html.link('Klantrapportage bekijken', path(route_base~'viewreport', {klant: entity.id}), 'list') }}#}
+        {% endif %}
+    </p>
+
+{% endblock %}
+
+{% block content_left %}
+    <ul>
+        {% for status in entity.dossierStatussen %}
+            <li>{{ status }}
+                {% if(is_granted("ROLE_VILLA_BEHEER") and entity.dossierStatussen|length > 1 and not loop.last) %}
+                    {{ html.link('', path('villa_slapers_deletedossierstatus', {id: entity.id, statusId: status.id}), 'remove') }}
+                {% endif %}
+            </li>
+        {% endfor %}
+    </ul>
+    {% include 'klant_basis.html.twig' with {klant: entity.appKlant} %}
+
+
+{% endblock %}
+
+{% block content_right %}
+    <ul class="nav nav-tabs">
+        <li class="active"><a data-toggle="tab" href="#dossier">Dossier</a></li>
+        <li><a data-toggle="tab" href="#nachten">Nachten</a></li>
+
+    </ul>
+    <div class="tab-content">
+        <div id="dossier" class="tab-pane active">
+            <h2>Dossier</h2>
+            <p>
+                {% if instanceof(entity.huidigeDossierStatus,"VillaBundle\\Entity\\Aanmelding")  %}
+                    {{ html.link('Dossier wijzigen', path('villa_slapers_edit', {id: entity.id})) }}
+                {% endif %}
+            </p>
+            <dl class="dl-horizontal">
+                <dt>Type</dt><dd>{{ entity.typeAsString }}</dd>
+                <dt>Medewerker aanmelding</dt><dd>{{ entity.medewerker }}</dd>
+                <dt>Contactpersoon</dt><dd>{{ entity.contactpersoon }}</dd>
+                <dt>Contactgegevens contactpersoon</dt><dd>{{ entity.contactgegevensContactpersoon }}</dd>
+{#                <dt>Notitie datum</dt><dd class="text-info">{{ entity.datumNotitieIntake|if_date('d-m-Y') }}</dd>#}
+                <dt>Reden slapen</dt><dd>{{ entity.redenSlapen|raw }}</dd>
+                <dt>Opmerking</dt><dd>{{ entity.opmerking }}</dd>
+                <dt>Saldo</dt><dd id="overnachtingenSaldo">{{ entity.calculateSaldo }} nachten</dd>
+            </dl>
+        </div>
+        <div id="nachten" class="tab-pane">
+            <h2>Overnachtingen</h2>
+                {{ html.calendar("Overnachtingen",path("villa_overnachtingen_index"),entity.id) }}
+        </div>
+    </div>
+
+{% endblock %}
+{% block stylesheets %}
+    <style>
+        /* bootstrap hack: fix content width inside hidden tabs */
+        .tab-content > .tab-pane:not(.active),
+        .pill-content > .pill-pane:not(.active) {
+            display: block;
+            height: 0;
+            overflow-y: hidden;
+        }
+        /* bootstrap hack end */
+    </style>
+{{ parent() }}
+{% endblock %}
+
+{% block scripts %}
+    <script>
+        let dossierStatus = '{{ entity.dossierStatus.shortClassname }}';
+
+        document.addEventListener('calendarInitialized', function(e) {
+
+            var f = function (e,mode){
+                //update the saldo...
+                var t = $('#overnachtingenSaldo');
+                var saldo = parseInt(t.text());
+                if (isNaN(saldo))
+                {
+                    console.log("Saldo kan niet worden geupdate in de interface.");
+                    return;
+                }
+                switch (mode){
+                    case "add":
+                        saldo--;
+                        break;
+                    case "remove":
+                        saldo++;
+                        break;
+                }
+
+                t.text(saldo.toString());
+
+            }
+        //need to add the listener after the event is initialized
+        document.addEventListener('calendarSavedEvent', function (e){
+            f(e, 'add');
+        });
+        document.addEventListener('calendarRemovedEvent', function (e){
+            f(e,'remove')
+        });
+
+        if(dossierStatus == 'Afsluiting')
+        {
+            var calendar = e.detail.calendar;
+
+            calendar.off("dateClick");
+            calendar.on("dateClick", function (dateStr){
+                alert("Kan geen nachten toevoegen aan gesloten dossier.");
+
+            });
+            calendar.off("eventClick");
+            calendar.on("eventClick", function (dateStr){
+                alert("Kan geen nachten wijzgen van een gesloten dossier.");
+
+            });
+        }
+    });
+    </script>
+    {{ parent() }}
+{% endblock %}

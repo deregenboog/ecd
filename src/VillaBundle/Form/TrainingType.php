@@ -3,7 +3,7 @@
 namespace VillaBundle\Form;
 
 use AppBundle\Form\BaseType;
-use OekBundle\Entity\Training;
+use VillaBundle\Entity\Training;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
