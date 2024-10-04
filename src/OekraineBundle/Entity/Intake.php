@@ -632,7 +632,7 @@ class Intake
         return $this->kamernummer;
     }
 
-    public function setKamernummer(string $kamernummer): Intake
+    public function setKamernummer(?string $kamernummer): Intake
     {
         $this->kamernummer = $kamernummer;
 

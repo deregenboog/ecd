@@ -31,19 +31,21 @@ class MedewerkerSelectType extends AbstractType
             'required'=>false,
             'roles'=>[],
             'placeholder' => '',
+            'label'=>'',
         ]);
 
     }
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('medewerkers', EntityType::class, [
+        $builder->add('medewerker', EntityType::class, [
             'class' => Medewerker::class,
             'placeholder' => 'Selecteer een medewerker',
             'choice_label' => function(?Medewerker $medewerker) {
                 return $medewerker ? $medewerker->getNaam() : '';
             },
             'multiple'=>false,
+            'label'=>false,
             'query_builder' => function (EntityRepository $er) use ($options) {
                 $roles = $options['roles'];
                 $query = $er->createQueryBuilder('m')
@@ -61,17 +63,17 @@ class MedewerkerSelectType extends AbstractType
                 return $query;
             },
         ]);
-//        $builder->addEventListener(FormEvents::SUBMIT, function (SubmitEvent $event) {
-//            $data = $event->getData();
-//            if (isset($data['medewerker'])
-//                && is_array($data['medewerker'])
-//                && count($data['medewerker']) === 1
-//                && $data['medewerker'][0] === null)
-//            {
-//                $data['medewerker'] = null;
-//            }
-//            $event->setData($data);
-//        });
+        $builder->addEventListener(FormEvents::SUBMIT, function (SubmitEvent $event) {
+            $data = $event->getData();
+            if (isset($data['medewerker'])
+                && is_array($data['medewerker'])
+                && count($data['medewerker']) === 1
+                && $data['medewerker'][0] === null)
+            {
+                $data['medewerker'] = null;
+            }
+            $event->setData($data['medewerker']);
+        });
     }
 
 }

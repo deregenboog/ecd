@@ -45,11 +45,11 @@ VillaBundle\Entity\Overnachting:
         slaper: '@villa_slaper_5'
         datum (unique): '<dateTimeThisYear()>'
         opmerking: '50%? <text()>'
-    villa_overnachting_{29..34}:
-        slaper: '@villa_slaper_6'
-        datum (unique): '<dateTimeThisYear()>'
-        opmerking: '50%? <text()>'
-#    villa_overnachting_{35..39}:
+#    villa_overnachting_{29..33}:
+#        slaper: '@villa_slaper_6'
+#        datum (unique): '<dateTimeThisYear()>'
+#        opmerking: '50%? <text()>'
+#    villa_overnachting_{34..38}:
 #        slaper: '@villa_slaper_7'
 #        datum (unique): '<dateTimeThisYear()>'
 #        opmerking: '50%? <text()>'
