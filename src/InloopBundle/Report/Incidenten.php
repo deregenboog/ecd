@@ -53,7 +53,7 @@ class Incidenten extends AbstractReport
     {
         $builder = $this->entityManager->getRepository(Incident::class)->createQueryBuilder('incident')
             ->select('COUNT(incident.id) AS incidenten, SUM(incident.politie) AS politie, SUM(incident.ambulance) AS ambulance, SUM(incident.crisisdienst) as crisisdienst, locatie.naam AS locatienaam')
-            ->innerJoin('incident.locatie', 'locatie')
+            ->leftJoin('incident.locatie', 'locatie')
             ->where('DATE(incident.datum) BETWEEN :start_date AND :end_date')
             ->groupBy('incident.locatie')
             ->setParameters([
