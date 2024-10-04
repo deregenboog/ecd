@@ -6,6 +6,7 @@ use AppBundle\Entity\Klant;
 use AppBundle\Form\BaseType;
 use AppBundle\Form\DummyChoiceType;
 use AppBundle\Form\KlantType;
+use AppBundle\Form\MedewerkerSelectType;
 use AppBundle\Form\MedewerkerType;
 use OekraineBundle\Entity\Bezoeker;
 use Symfony\Component\Form\AbstractType;
@@ -31,8 +32,10 @@ class BezoekerType extends AbstractType
                 'label' => 'Klant',
             ]);
         }
-        $builder->add('mentalCoach', MedewerkerType::class, [
+        $builder->add('mentalCoach', MedewerkerSelectType::class, [
             'required'=>false,
+            'label'=> 'Mental coach',
+            'roles'=>['ROLE_OEKRAINE_PSYCH']
         ])
         ->add('submit', SubmitType::class)
         ;

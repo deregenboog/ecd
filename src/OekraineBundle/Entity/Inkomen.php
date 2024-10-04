@@ -2,6 +2,7 @@
 
 namespace OekraineBundle\Entity;
 
+use AppBundle\Model\NameableTrait;
 use AppBundle\Model\TimestampableTrait;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
@@ -18,6 +19,8 @@ use Gedmo\Mapping\Annotation as Gedmo;
 class Inkomen
 {
     use TimestampableTrait;
+    use NameableTrait;
+
 
     /**
      * @ORM\Id
@@ -28,12 +31,6 @@ class Inkomen
      */
     private $id;
 
-    /**
-     * @ORM\Column(name="naam")
-     *
-     * @Gedmo\Versioned
-     */
-    private $naam;
 
     /**
      * @ORM\Column(name="datum_van", type="date")

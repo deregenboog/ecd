@@ -819,6 +819,33 @@ AppBundle\Entity\Medewerker:
         achternaam: 'User'
         eersteBezoek: '<dateTimeThisYear()>'
         laatsteBezoek: '<dateTimeThisYear()>'
+    medewerker_oekraine:
+        ldapGuid (unique): '<randomNumber()>'
+        roles: [ 'ROLE_USER','ROLE_OEKRAINE' ]
+        username: 'oekraine_user'
+        email: '<email()>'
+        voornaam: 'Oer'
+        achternaam: 'Kraine user'
+        eersteBezoek: '<dateTimeThisYear()>'
+        laatsteBezoek: '<dateTimeThisYear()>'
+    medewerker_oekraine_beheer:
+        ldapGuid (unique): '<randomNumber()>'
+        roles: [ 'ROLE_USER','ROLE_OEKRAINE_BEHEER' ]
+        username: 'oekraine_beheer'
+        email: '<email()>'
+        voornaam: 'Beheer'
+        achternaam: 'Oekraine'
+        eersteBezoek: '<dateTimeThisYear()>'
+        laatsteBezoek: '<dateTimeThisYear()>'
+    medewerker_oekraine_psych:
+        ldapGuid (unique): '<randomNumber()>'
+        roles: [ 'ROLE_USER','ROLE_OEKRAINE_PSYCH' ]
+        username: 'oerkaine_user_psych'
+        email: '<email()>'
+        voornaam: 'Oekraine Mental'
+        achternaam: 'Coach'
+        eersteBezoek: '<dateTimeThisYear()>'
+        laatsteBezoek: '<dateTimeThisYear()>'
     medewerker_villa:
         ldapGuid (unique): '<randomNumber()>'
         username: 'villa_user'

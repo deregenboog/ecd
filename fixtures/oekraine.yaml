@@ -12,6 +12,44 @@ OekraineBundle\Entity\Locatie:
         datumVan: '<dateTimeBetween("-30 days","now")>'
         datumTot: '<dateTimeBetween("now","+2 weeks")>'
 
-#OekraineBundle\Entity\Bezoeker:
-#    bezoeker_{1..50}:
-#        appKlant: '@klant_<current()>'
+OekraineBundle\Entity\Inkomen:
+    oekraine_inkomen_werk:
+        naam: 'Loon uit werk'
+        datumVan: '<dateTimeBetween("-30 days","now")>'
+        datumTot: '<dateTimeBetween("now","+2 years")>'
+    oekraine_inkomen_uitkering:
+        naam: 'Uitkering'
+        datumVan: '<dateTimeBetween("-30 days","now")>'
+        datumTot: '<dateTimeBetween("now","+2 years")>'
+
+OekraineBundle\Entity\Bezoeker:
+    oekraine_bezoeker_{1..25}:
+        appKlant: '@klant_<current()>'
+
+OekraineBundle\Entity\Aanmelding:
+    oekraine_aanmelding_{1..25}:
+        __construct: ['@oekraine_bezoeker_<current()>','@medewerker*']
+
+OekraineBundle\Entity\Intake:
+    oekraine_intake_{1..25}:
+        __construct: ['@oekraine_bezoeker_<current()>']
+        medewerker: '@medewerker*'
+        intakelocatie: '@oekraine_locatie_*'
+        woonlocatie: '@oekraine_locatie_*'
+        kamernummer: '50%? <numberBetween(22,345)>'
+        postadres: '60%? <streetAddress()>'
+        postcode: '<postcode()>'
+        woonplaats: '<city()>'
+        verblijfsstatus: '@verblijfsstatus*'
+        legitimatie: '@legitimatie*'
+        legitimatieGeldigTot: '<dateTimeBetween("-2 years","+5 year")>'
+        verblijfInNederlandSinds: '<dateTimeBetween("-5 years","-1 week")>'
+        verblijfInAmsterdamSinds: '<($verblijfInNederlandSinds)>'
+        geinformeerdOpslaanGegevens: true
+        informeleZorg: '<boolean(50)>'
+        werkHulp: '<boolean(50)>'
+        hulpverlening: '<boolean(50)>'
+        indruk: '<sentence(100)>'
+        toekomstplannen: '40%? <sentence(100)>'
+        opmerkingAndereInstanties: '40%? <sentence(100)>'
+        medischeAchtergrond: '40%? <sentence(100)>'
