@@ -78,6 +78,7 @@ class KlantType extends AbstractType
         $resolver->setDefaults([
             'data_class' => Klant::class,
             'data' => null,
+            'bsn_required'=>false,
         ]);
     }
 
