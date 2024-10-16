@@ -292,7 +292,6 @@ abstract class AbstractController extends SymfonyController
             if ($request->get('entity') || $request->get('klant')) {
                 return $this->doAdd($request);
             }
-
             return $this->doSearch($request);
         } else {
             return $this->{$this->addMethod}($request);

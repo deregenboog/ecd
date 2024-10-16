@@ -3,7 +3,7 @@
 
 {% block content_top %}
     <h1>{{ entity_name|capitalize }} toevoegen</h1>
-    {% if redirect_uri is null and route_exists(route_base~'index') %}
+    {% if route_exists(route_base~'index') %}
         {{ html.link('Annuleren', path(route_base~'index',{redirect: redirect_uri}), 'cancel') }}
     {% elseif redirect_uri is defined %}
         {{ html.link('Annuleren', redirect_uri, 'cancel') }}
