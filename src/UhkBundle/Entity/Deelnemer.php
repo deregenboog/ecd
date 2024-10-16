@@ -96,9 +96,7 @@ class Deelnemer implements KlantRelationInterface, DocumentSubjectInterface
      * @var DocumentInterface[]
      *
      * @ORM\ManyToMany(targetEntity="Document", cascade={"persist","remove"}, fetch="EXTRA_LAZY")
-     *
      * @ORM\JoinTable(inverseJoinColumns={@ORM\JoinColumn(unique=true, onDelete="CASCADE")})
-     *
      * @ORM\OrderBy({"naam" = "ASC", "id" = "DESC"})
      */
     protected $documenten;
@@ -123,12 +121,12 @@ class Deelnemer implements KlantRelationInterface, DocumentSubjectInterface
         }
     }
 
-    public function getKlant(): Klant
+    public function getKlant(): ?Klant
     {
         return $this->klant;
     }
 
-    public function setKlant(Klant $klant)
+    public function setKlant(?Klant $klant)
     {
         $this->klant = $klant;
 

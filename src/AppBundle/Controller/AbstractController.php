@@ -117,6 +117,11 @@ abstract class AbstractController extends SymfonyController
     protected $logger;
 
     /**
+     * @var string
+     */
+    protected $addMethod;
+
+    /**
      * @required
      */
     public function setEventDispatcher(EventDispatcherInterface $eventDispatcher)
@@ -279,13 +284,14 @@ abstract class AbstractController extends SymfonyController
         if (in_array('add', $this->disabledActions)) {
             throw new AccessDeniedHttpException();
         }
-        if (!isset($this->addMethod) || !is_callable($this, $this->addMethod) && !isset($this->searchFilterTypeClass)) {
+        if (
+            ( !isset($this->addMethod) || !is_callable($this, $this->addMethod) )
+            && !isset($this->searchFilterTypeClass)) {
             return $this->doAdd($request);
         } elseif (isset($this->searchFilterTypeClass)) {
-            if ($request->get('entity')) {
+            if ($request->get('entity') || $request->get('klant')) {
                 return $this->doAdd($request);
             }
-
             return $this->doSearch($request);
         } else {
             return $this->{$this->addMethod}($request);

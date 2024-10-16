@@ -67,7 +67,7 @@
         </tr>
         {% for deelnemer in pagination %}
             {% set class = '' %}
-            {% if date(deelnemer.verslagen.first().datum) < date('-3months') %}
+            {% if deelnemer.verslagen.first() and date(deelnemer.verslagen.first().datum) < date('-3months') %}
                 {% set class = 'info' %}
             {% endif %}
         <tr data-href="{{ path('uhk_deelnemers_view', {id: deelnemer.id}) }}" class="{{ class }} {{ not deelnemer.actief ? 'danger' }}">
