@@ -8,6 +8,7 @@ use AppBundle\Exception\UserException;
 use AppBundle\Form\ConfirmationType;
 use AppBundle\Form\KlantFilterType;
 use AppBundle\Service\KlantDaoInterface;
+use InloopBundle\Service\KlantDao;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\Finder\Exception\AccessDeniedException;
 use Symfony\Component\Form\FormError;
@@ -31,7 +32,10 @@ class DeelnemersController extends AbstractController
     protected $entityClass = Deelnemer::class;
     protected $formClass = DeelnemerType::class;
     protected $filterFormClass = DeelnemerFilterType::class;
+    protected $searchFilterTypeClass = KlantFilterType::class;
+    protected $searchEntity = Klant::class;
     protected $baseRouteName = 'uhk_deelnemers_';
+    protected $forceRedirect = true;
     //    protected $disabledActions = ['delete'];
 
     /**
@@ -53,61 +57,11 @@ class DeelnemersController extends AbstractController
     {
         $this->dao = $dao;
         $this->klantDao = $klantDao;
+        $this->searchDao = $klantDao;
         $this->verslagDao = $verslagDao;
     }
 
-    /**
-     * @Route("/add")
-     */
-    public function addAction(Request $request)
-    {
-        if ($request->get('klant')) {
-            return $this->doAdd($request);
-        }
 
-        return $this->doSearch($request);
-    }
-
-    /**
-     * @Route("/{id}/view")
-     *
-     * @Template
-     */
-    public function viewAction(Request $request, $id)
-    {
-        $entity = $this->dao->find($id);
-
-        //        $this->denyAccessUnlessGranted(Permissions::ACCESS, $entity);
-
-        return parent::viewAction($request, $id);
-    }
-
-    /**
-     * @Route("/{id}/edit")
-     *
-     * @Template
-     */
-    public function editAction(Request $request, $id)
-    {
-        $entity = $this->dao->find($id);
-
-        //        $this->denyAccessUnlessGranted(Permissions::ACCESS, $entity);
-
-        return parent::editAction($request, $id);
-    }
-
-    /**
-     * @Route("/{id}/delete")
-     *
-     * @Template
-     */
-    public function deleteAction(Request $request, $id)
-    {
-        $entity = $this->dao->find($id);
-        //        $this->denyAccessUnlessGanted(Permissions::ACCESS, $entity);
-
-        return parent::deleteAction($request, $id);
-    }
 
     /**
      * @Route("/{id}/open")
@@ -166,78 +120,4 @@ class DeelnemersController extends AbstractController
         ];
     }
 
-    protected function doSearch(Request $request)
-    {
-        $filterForm = $this->getForm(KlantFilterType::class, null, [
-            'enabled_filters' => ['id', 'naam', 'bsn', 'geboortedatum'],
-        ]);
-        $filterForm->handleRequest($request);
-
-        if ($filterForm->isSubmitted() && $filterForm->isValid()) {
-            $count = (int) $this->klantDao->countAll($filterForm->getData());
-            if (0 === $count) {
-                $this->addFlash('info', sprintf('De zoekopdracht leverde geen resultaten op. Maak een nieuwe %s aan.', $this->entityName));
-
-                return $this->redirectToRoute($this->baseRouteName.'add', ['klant' => 'new']);
-            }
-
-            if ($count > 100) {
-                $filterForm->addError(new FormError('De zoekopdracht leverde teveel resultaten op. Probeer het opnieuw met een specifiekere zoekopdracht.'));
-            }
-
-            return [
-                'filterForm' => $filterForm->createView(),
-                'klanten' => $this->klantDao->findAll(null, $filterForm->getData()),
-            ];
-        }
-
-        return [
-            'filterForm' => $filterForm->createView(),
-        ];
-    }
-
-    protected function doAdd(Request $request)
-    {
-        $klantId = $request->get('klant');
-        if ('new' === $klantId) {
-            $klant = new Klant();
-        } else {
-            $klant = $this->klantDao->find($klantId);
-            if ($klant) {
-                // redirect if already exists
-                $deelnemer = $this->dao->findOneByKlant($klant);
-                if ($deelnemer) {
-                    return $this->redirectToView($deelnemer);
-                }
-            }
-        }
-
-        $deelnemer = new Deelnemer($klant, $this->getMedewerker());
-        $creationForm = $this->getForm(DeelnemerType::class, $deelnemer);
-        $creationForm->handleRequest($request);
-
-        if ($creationForm->isSubmitted() && $creationForm->isValid()) {
-            try {
-                $this->dao->create($deelnemer);
-                $this->addFlash('success', ucfirst($this->entityName).' is opgeslagen.');
-
-                return $this->redirectToView($deelnemer);
-            } catch (UserException $e) {
-                //                $this->logger->error($e->getMessage(), ['exception' => $e]);
-                $message = $e->getMessage();
-                $this->addFlash('danger', $message);
-                //                return $this->redirectToRoute('app_klanten_index');
-            } catch (\Exception $e) {
-                $message = $this->getParameter('kernel.debug') ? $e->getMessage() : 'Er is een fout opgetreden.';
-                $this->addFlash('danger', $message);
-            }
-
-            return $this->redirectToIndex();
-        }
-
-        return [
-            'entity' => $deelnemer,
-            'creationForm' => $creationForm->createView(),
-        ];
-    }
 }
