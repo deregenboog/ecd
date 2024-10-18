@@ -38,6 +38,7 @@ class DeelnemersController extends AbstractController
     protected $forceRedirect = true;
     //    protected $disabledActions = ['delete'];
 
+
     /**
      * @var DeelnemerDaoInterface
      */
