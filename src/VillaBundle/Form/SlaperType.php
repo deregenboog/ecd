@@ -46,13 +46,13 @@ class SlaperType extends BaseDossierStatusType
             if($slaper->getKlant()->getBsn() == "") {
                 $help = 'Bestaande klant heeft geen BSN. Graag later aanpassen aan op de basis klantkaart.';
             }
-            $builder->add('klant', DummyChoiceType::class, [
+            $builder->add('appKlant', DummyChoiceType::class, [
                 'dummy_label' => (string) $slaper,
                 'help'=>$help,
                 'priority'=>1000,
             ]);
         } else {
-            $builder->add('klant', KlantType::class,[
+            $builder->add('appKlant', KlantType::class,[
                 'bsn_required'=>true,
                 'priority'=>1000,
             ]);

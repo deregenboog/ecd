@@ -39,7 +39,7 @@ class SlapersController extends AbstractController implements DossierStatusContr
 
     protected $searchFilterTypeClass = AppKlantFilterType::class;
     protected $searchEntity = AppKlant::class;
-    protected $searchEntityName = 'appKlant';
+
 
 //    protected $addMethod = 'doAdd';
 
