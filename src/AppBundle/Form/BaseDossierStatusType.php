@@ -3,11 +3,13 @@
 namespace AppBundle\Form;
 
 use AppBundle\Model\HasDossierStatusInterface;
+use Assert\Assertion;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\Valid;
 use VillaBundle\Entity\Aanmelding;
 
 /**
@@ -42,6 +44,7 @@ class BaseDossierStatusType extends BaseType
 //                        'submit_button' => false,
                     ],
                     'label'=>'Dossierstatus',
+                    'constraints'=> new Valid(), //anders wordt deze relatie niet gevalideerd.
                     'priority'=>100,
                 ]);
             }
