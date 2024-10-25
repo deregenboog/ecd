@@ -304,7 +304,7 @@ class Slaper implements KlantRelationInterface, HasDossierStatusInterface
         $nachtenGebruikt = 0;
 
         $mostRecentAanmelding = $this->getMostRecentDossierStatusOfType(Aanmelding::class);
-        if(null === $mostRecentAanmelding) throw new UserException("Kan geen recente aanmelding vinden. Er is iets niet goed aan dit dossier lijkt het.");
+        if(null === $mostRecentAanmelding) throw new UserException("Kan geen recente aanmelding vinden. Er is iets niet goed aan dit dossier lijkt het. Appklant ID: ".$this->appKlant->getId());
         $startDatumPlus12M = (clone $mostRecentAanmelding->getDatum())->add(\DateInterval::createFromDateString("12 month") );
         $startDatum = $mostRecentAanmelding->getDatum();
 
