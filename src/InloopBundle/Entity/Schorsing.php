@@ -238,13 +238,13 @@ class Schorsing
         return $this;
     }
 
-    public function getOpmerking()
+    public function getOpmerking(): string
     {
         if(is_null($this->opmerking)) return "";
         return mb_convert_encoding($this->opmerking, 'ISO-8859-1','UTF-8');
     }
 
-    public function setOpmerking($opmerking = "")
+    public function setOpmerking(string $opmerking = "")
     {
         $this->opmerking = mb_convert_encoding($opmerking, 'UTF-8', 'ISO-8859-1');
 

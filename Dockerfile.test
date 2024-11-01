@@ -4,7 +4,7 @@ COPY assets assets
 COPY package.json package-lock.json webpack.config.js yarn.lock ./
 RUN npm install && yarn encore dev
 
-FROM php:7.4
+FROM php:8.3
 
 # install dependencies
 ENV PANTHER_NO_SANDBOX=1
@@ -24,7 +24,7 @@ RUN apt update && apt install -y \
     libzip-dev \
     locales \
     zlib1g-dev \
-    && pecl install xdebug-3.1.6 && docker-php-ext-enable xdebug \
+    && pecl install xdebug && docker-php-ext-enable xdebug \
     && docker-php-ext-configure ldap --with-libdir=lib/x86_64-linux-gnu --with-ldap-sasl \
     && docker-php-ext-configure gd --with-freetype=/usr/include/ --with-jpeg=/usr/include/ \
     && docker-php-ext-install gd intl ldap mysqli pdo_mysql zip

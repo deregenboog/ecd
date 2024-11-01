@@ -1,4 +1,4 @@
-FROM php:7.4-fpm-bullseye
+FROM php:8.3-fpm-bullseye
 
 # install dependencies
 #ldap needs libldap-common otherwise LDAP over SSL wont work due to some update in Debian.
@@ -21,7 +21,7 @@ RUN apt update && apt install -y \
     && docker-php-ext-configure gd --with-freetype=/usr/include/ --with-jpeg=/usr/include/ \
     && docker-php-ext-configure opcache --enable-opcache \
     && docker-php-ext-install opcache gd intl ldap mysqli pdo_mysql zip \
-    && pecl install xdebug-3.1.6 && docker-php-ext-enable xdebug
+    && pecl install xdebug && docker-php-ext-enable xdebug
 COPY --from=composer:2 /usr/bin/composer /usr/local/bin/composer
 
 # configure
