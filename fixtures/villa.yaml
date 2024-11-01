@@ -27,23 +27,23 @@ VillaBundle\Entity\Slaper:
 VillaBundle\Entity\Overnachting:
     villa_overnachting_{1..4}:
         slaper: '@villa_slaper_1'
-        datum (unique): '<dateTimeThisYear()>'
+        datum (unique): '<dateTimeBetween("2024-01-01","now()")>'
         opmerking: '<text()>'
     villa_overnachting_{9..12}:
         slaper: '@villa_slaper_2'
-        datum (unique): '<dateTimeThisYear()>'
+        datum (unique): '<dateTimeBetween("2024-01-01","now()")>'
         opmerking: '<text()>'
     villa_overnachting_{13..17}:
         slaper: '@villa_slaper_3'
-        datum (unique): '<dateTimeThisYear()>'
+        datum (unique): '<dateTimeBetween("2024-01-01","now()")>'
         opmerking: '<text()>'
     villa_overnachting_{18..22}:
         slaper: '@villa_slaper_4'
-        datum (unique): '<dateTimeThisYear()>'
+        datum (unique): '<dateTimeBetween("2024-01-01","now()")>'
         opmerking: '<text()>'
     villa_overnachting_{23..28}:
         slaper: '@villa_slaper_5'
-        datum (unique): '<dateTimeThisYear()>'
+        datum (unique): '<dateTimeBetween("2024-01-01","now()")>'
         opmerking: '<text()>'
 #    villa_overnachting_{29..33}:
 #        slaper: '@villa_slaper_6'
