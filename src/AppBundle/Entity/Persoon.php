@@ -202,12 +202,12 @@ class Persoon
 
     public function getOpmerking()
     {
-        return utf8_decode($this->opmerking);
+        return mb_convert_encoding($this->opmerking, 'ISO-8859-1','UTF-8');
     }
 
     public function setOpmerking($opmerking)
     {
-        $this->opmerking = utf8_encode($opmerking);
+        $this->opmerking = mb_convert_encoding($opmerking, 'UTF-8', 'ISO-8859-1');
 
         return $this;
     }
