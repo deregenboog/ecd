@@ -14,6 +14,7 @@ class STED extends AbstractMwReport
          */
         foreach ($allLocations as $locatie) {
             $naam = $locatie->getNaam();
+            if($naam === null) $naam = "";
             if (
                 (
                     false !== strpos($naam, 'STED ')
