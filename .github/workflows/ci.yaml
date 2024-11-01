@@ -9,7 +9,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        php-version: ['7.4.3', '8.1.2']
+        php-version: ['7.4.3', '8.3.6']
     steps:
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
@@ -33,7 +33,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        php-version: ['7.4.3', '8.1.2']
+        php-version: ['7.4.3', '8.3.6']
     steps:
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
@@ -51,7 +51,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        php-version: ['7.4.3'] # ['7.4.3', '8.1.2']
+        php-version: ['7.4.3', '8.3.6'] # ['7.4.3', '8.1.2']
     services:
       mysql:
         image: mysql:8.0
