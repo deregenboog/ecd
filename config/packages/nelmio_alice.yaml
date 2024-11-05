@@ -3,14 +3,14 @@ when@dev: &dev
         functions_blacklist:
             - 'current'
             - 'shuffle'
-            - 'date'
-            - 'time'
+#            - 'date'
+#            - 'time'
             - 'file'
             - 'md5'
             - 'sha1'
         locale: '%kernel.default_locale%'
-        seed: 1
+        seed: 12345
         loading_limit: 5
-        max_unique_values_retry: 5
+        max_unique_values_retry: 10
 
 when@test: *dev
