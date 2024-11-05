@@ -11,6 +11,6 @@ when@dev: &dev
         locale: '%kernel.default_locale%'
         seed: 12345
         loading_limit: 5
-        max_unique_values_retry: 10
+        max_unique_values_retry: 50
 
 when@test: *dev
