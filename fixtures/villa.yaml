@@ -25,38 +25,38 @@ VillaBundle\Entity\Slaper:
         redenSlapen: '<text()>'
 
 VillaBundle\Entity\Overnachting:
-    villa_overnachting_{1..4}:
-        slaper: '@villa_slaper_1'
-        datum (unique): '<dateTimeThisYear()>'
-        opmerking: '50%? <text()>'
-    villa_overnachting_{9..12}:
-        slaper: '@villa_slaper_2'
-        datum (unique): '<dateTimeThisYear()>'
-        opmerking: '50%? <text()>'
-    villa_overnachting_{13..17}:
-        slaper: '@villa_slaper_3'
-        datum (unique): '<dateTimeThisYear()>'
-        opmerking: '50%? <text()>'
-    villa_overnachting_{18..22}:
-        slaper: '@villa_slaper_4'
-        datum (unique): '<dateTimeThisYear()>'
-        opmerking: '50%? <text()>'
-    villa_overnachting_{23..28}:
-        slaper: '@villa_slaper_5'
-        datum (unique): '<dateTimeThisYear()>'
-        opmerking: '50%? <text()>'
+    villa_overnachting_{1..50}:
+        slaper: '@villa_slaper_*'
+        datum (unique): '<dateTimeBetween("2024-01-01","2024-12-30")>'
+        opmerking: '<text()>'
+#    villa_overnachting_{9..12}:
+#        slaper: '@villa_slaper_2'
+#        datum (unique): '<dateTimeBetween("2024-05-01","2024-11-30")>'
+#        opmerking: '<text()>'
+#    villa_overnachting_{13..17}:
+#        slaper: '@villa_slaper_3'
+#        datum (unique): '<dateTimeBetween("2024-04-01","2024-10-30")>'
+#        opmerking: '<text()>'
+#    villa_overnachting_{18..22}:
+#        slaper: '@villa_slaper_4'
+#        datum (unique): '<dateTimeBetween("2024-03-01","2024-09-30")>'
+#        opmerking: '<text()>'
+#    villa_overnachting_{23..28}:
+#        slaper: '@villa_slaper_5'
+#        datum (unique): '<dateTimeBetween("2024-02-01","2024-08-30")>'
+#        opmerking: '<text()>'
 #    villa_overnachting_{29..33}:
 #        slaper: '@villa_slaper_6'
 #        datum (unique): '<dateTimeThisYear()>'
-#        opmerking: '50%? <text()>'
+#        opmerking: '<text()>'
 #    villa_overnachting_{34..38}:
 #        slaper: '@villa_slaper_7'
 #        datum (unique): '<dateTimeThisYear()>'
-#        opmerking: '50%? <text()>'
+#        opmerking: '<text()>'
 #    villa_overnachting_{40..43}:
 #        slaper: '@villa_slaper_8'
 #        datum (unique): '<dateTimeThisYear()>'
-#        opmerking: '50%? <text()>'
+#        opmerking: '<text()>'
 
 VillaBundle\Entity\Aanmelding:
     villa_aanmelding_{1..20}:

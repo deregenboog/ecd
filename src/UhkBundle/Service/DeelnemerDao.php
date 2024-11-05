@@ -25,8 +25,8 @@ class DeelnemerDao extends AbstractDao implements DeelnemerDaoInterface
     ];
 
     protected $class = Deelnemer::class;
-
     protected $alias = 'deelnemer';
+    protected $searchEntityName = 'klant';
 
     /**
      * {inheritdoc}.
