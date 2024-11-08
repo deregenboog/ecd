@@ -85,17 +85,19 @@ class Overnachting
     /**
      * @return string|null
      */
-    public function getOpmerking(): ?string
+    public function getOpmerking(): string
     {
-        return $this->opmerking;
+        if(is_null($this->opmerking)) return "";
+        return mb_convert_encoding($this->opmerking, 'ISO-8859-1','UTF-8');
     }
 
     /**
      * @param string|null $opmerking
      */
-    public function setOpmerking(?string $opmerking): void
+    public function setOpmerking(string $opmerking = "")
     {
-        $this->opmerking = $opmerking;
+        $this->opmerking = mb_convert_encoding($opmerking, 'UTF-8', 'ISO-8859-1');
+        return $this;
     }
 
 

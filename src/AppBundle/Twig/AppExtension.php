@@ -349,6 +349,7 @@ class AppExtension extends AbstractExtension implements GlobalsInterface
         $routeParams = $this->requestStack->getCurrentRequest()->attributes->get('_route_params'); // ->getQueryString();
 
         $noMatches = 0;
+        if($route === null) $route = "";
         foreach ($patterns as $pattern) {
             if (0 === strpos($route, $pattern)
                 || 0 === strpos($route, 'app_'.$pattern)
@@ -373,6 +374,7 @@ class AppExtension extends AbstractExtension implements GlobalsInterface
         }
 
         $path = $this->requestStack->getCurrentRequest()->getPathInfo();
+        if($path === null) $path = "";
         foreach ($patterns as $pattern) {
             if (1 === strpos($path, $pattern)) {
                 return true;

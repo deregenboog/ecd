@@ -15,6 +15,7 @@ class BegeleidThuis extends AbstractMwReport
          */
         foreach ($allLocations as $k => $locatie) {
             $naam = $locatie->getNaam();
+            if($naam === null) $naam = "";
             if (false === strpos($naam, 'Zonder ')
                 && false === strpos($naam, 'Vriendenhuis')
                 && false === strpos($naam, 'Omslag')

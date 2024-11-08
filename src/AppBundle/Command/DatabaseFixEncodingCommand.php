@@ -75,7 +75,7 @@ class DatabaseFixEncodingCommand extends Command
         //         ];
 
         foreach ($replacements as $replacement) {
-            $search = utf8_encode($replacement);
+            $search = mb_convert_encoding($replacement, 'UTF-8', 'ISO-8859-1');
             $query = "UPDATE `{$table}` SET `{$field}` = REPLACE(`{$field}`, '{$search}', '{$replacement}');";
             $numRows = $this->connection->executeUpdate($query, [$search, $replacement]);
             $output->writeln($query." ({$numRows} affected)");

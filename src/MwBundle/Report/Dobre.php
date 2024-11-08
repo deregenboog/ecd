@@ -15,6 +15,7 @@ class Dobre extends AbstractMwReport
          */
         foreach ($allLocations as $k => $locatie) {
             $naam = $locatie->getNaam();
+            if($naam === null) $naam = "";
             if (false === strpos($naam, 'Dobre ')
             ) {
                 // skip locatie

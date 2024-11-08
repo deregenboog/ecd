@@ -95,6 +95,7 @@ class PreventSaveForDateRangeEventListener
             $changeset = $uow->getEntityChangeSet($entity);
             foreach ($matches as $fieldname) {
                 $type = $metadata->getTypeOfField($fieldname);
+                if($type === null) $type = "";
                 if (strpos($type, "date") !== false) //catch date and datetime as well..
                 {
 
@@ -177,6 +178,7 @@ class PreventSaveForDateRangeEventListener
                 foreach($leMatches as $leFieldname)
                 {
                     $type = $leMetadata->getTypeOfField($leFieldname);
+                    if($type === null) $type = "";
                     if(strpos($type,"date") !== false) //catch date and datetime as well..
                     {
                         $datumValue = $leMetadata->getFieldValue($linkedEntity,$leFieldname); //werkt niet bij relaties; lazy loading?.

@@ -13,6 +13,7 @@ class T6 extends AbstractMwReport
          */
         foreach ($allLocations as $k => $locatie) {
             $naam = $locatie->getNaam();
+            if($naam === null) $naam = "";
             if (false !== strpos($naam, 'T6 ')
                 || false !== strpos($naam, 'Wachtlijst T6')
             ) {

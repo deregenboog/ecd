@@ -106,6 +106,7 @@ class Afsluiting extends MwDossierStatus
         /**
          * Afsluitredenen die over begeleiding gaan (afgerond, overgedragen) hebben een resultaat nodig. Andere afsluitredenen niet.
          */
+        if($this->reden === null) $this->reden = "";
         $pos = strpos($this->reden, 'Begeleiding');
 
         if (false !== $pos && count($this->getResultaat()) > 0) {

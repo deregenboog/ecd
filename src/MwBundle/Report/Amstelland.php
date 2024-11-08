@@ -13,6 +13,7 @@ class Amstelland extends AbstractMwReport
          */
         foreach ($allLocations as $k => $locatie) {
             $naam = $locatie->getNaam();
+            if($naam === null) $naam = "";
             if (false !== strpos($naam, 'Amstelland')
             ) {
                 $this->locaties[] = $locatie->getNaam();
