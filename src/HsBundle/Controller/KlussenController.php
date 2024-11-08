@@ -76,9 +76,9 @@ class KlussenController extends AbstractChildController
     public function heropenenAction(Request $request, $id)
     {
         $entity = $this->dao->find($id);
-        $entity->setAnnuleringsdatum(null);
+        $entity->setEinddatum(null);
         $this->dao->update($entity);
-        $this->addFlash('success', ucfirst($this->entityName).' is opgeslagen.');
+        $this->addFlash('success', ucfirst($this->entityName).' is heropend.');
 
         return $this->redirectToView($entity);
     }
