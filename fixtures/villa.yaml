@@ -24,6 +24,7 @@ VillaBundle\Entity\Slaper:
         contactpersoon: '<firstName()> <lastName()>'
         redenSlapen: '<text()>'
 
+
 # dateTimeBetween gives a datetime with seconds, which are truncated in the entity when saved as the unique key is on the date only.
 #this gives collisions on the constraint. For now it is not opportune to fix this.
 
