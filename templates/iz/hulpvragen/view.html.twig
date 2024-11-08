@@ -42,6 +42,8 @@
         <dd>{{ entity.dagdeel ?: 'Geen voorkeur' }}</dd>
         <dt>Geschikt voor expat</dt>
         <dd>{{ entity.geschiktVoorExpat ? 'Ja' : 'Nee' }}</dd>
+        <dt>Geschikt voor stagiair</dt>
+        <dd>{{ entity.stagiair ? 'Ja' : 'Nee' }}</dd>
         <dt>Voorkeur geslacht</dt>
         <dd>{{ entity.voorkeurGeslacht ?: 'Geen voorkeur' }}</dd>
         <dt>Matchingsinformatie</dt>
@@ -162,6 +164,9 @@
                             <th>
                                 {{ knp_pagination_sortable(kandidaten, 'Expat', 'hulpaanbod.expat') }}
                             </th>
+                            <th>
+                                Stagiair
+                            </th>
                             <th>Matchingsinformatie</th>
                             <th>
                             </th>
@@ -202,6 +207,7 @@
                                     {% endif %}
                                 </td>
                                 <td>{{ hulpaanbod.expat ? 'Ja' : 'Nee' }}</td>
+                                <td>{{ hulpaanbod.stagiair ? 'Ja' : 'Nee' }}</td>
                                 <td>{{ hulpaanbod.info }}</td>
                                 <td>
                                     {{ html.link('Reserveren', path('iz_reserveringen_add', {hulpvraag: entity.id, hulpaanbod: hulpaanbod.id}), 'tag') }}

@@ -61,6 +61,11 @@ class Project
      */
     private $prestatieStrategy = self::STRATEGY_PRESTATIE_TOTAL;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $kleur;
+
     public function getHeeftKoppelingen()
     {
         return $this->heeftKoppelingen;
@@ -108,4 +113,22 @@ class Project
 
         return $this;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getKleur():?string
+    {
+        return $this->kleur;
+    }
+
+    /**
+     * @param mixed $kleur
+     */
+    public function setKleur(?string $kleur): void
+    {
+        $this->kleur = $kleur;
+    }
+
+
 }

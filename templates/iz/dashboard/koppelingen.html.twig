@@ -188,8 +188,12 @@
             or koppeling.eindevaluatiedatum|date_modify('-2 weeks') < today
         %}
             {{ 'background-color: orange; color: white' }}
+        {% elseif koppeling.project.kleur is not empty %}
+            {{ 'background-color: ' ~ koppeling.project.kleur ~ '; color: ' ~ koppeling.project.kleur|contrast_color}}
         {% endif %}
+
     {% endif %}
+
 {% endmacro %}
 
 {% macro koppeling_laatste_verslag(koppeling) %}

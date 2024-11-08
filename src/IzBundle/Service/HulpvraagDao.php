@@ -143,6 +143,11 @@ class HulpvraagDao extends AbstractDao implements HulpvraagDaoInterface
                 $builder->andWhere('hulpvraag.geschiktVoorExpat = true');
             }
 
+            // stagiair
+            if ($hulpaanbod->isStagiair()) {
+                $builder->andWhere('hulpvraag.stagiair = true');
+            }
+
             // geslacht
             if ($hulpaanbod->getVoorkeurGeslacht()) {
                 $builder
