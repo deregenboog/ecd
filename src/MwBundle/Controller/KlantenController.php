@@ -116,7 +116,7 @@ class KlantenController extends AbstractController
             }
         }
 
-        if (null !== $twKlant) {
+        if (null !== $twKlant && $twKlant instanceof \TwBundle\Entity\Klant) {
             $twVerslagen = $this->getEntityManager()->getRepository(\TwBundle\Entity\Verslag::class)->getMwVerslagenForKlant($twKlant);
 
             $combinedVerslagen =

@@ -45,9 +45,12 @@ class DienstenLookupSubscriber implements EventSubscriberInterface
         $deelnemer = $deelnemer->findOneBy(['appKlant' => $klant]);
 
         if ($deelnemer instanceof Deelnemer) {
+            $type = "";
             if ($deelnemer instanceof Klant) {
+                $type = "Klant";
                 $url = $this->generator->generate('tw_klanten_view', ['id' => $deelnemer->getId()]);
             } elseif ($deelnemer instanceof Verhuurder) {
+                $type = "Verhuurder";
                 $url = $this->generator->generate('tw_verhuurders_view', ['id' => $deelnemer->getId()]);
             }
 
@@ -55,6 +58,7 @@ class DienstenLookupSubscriber implements EventSubscriberInterface
 
             if ($deelnemer->getAanmelddatum()) {
                 $dienst->setVan($deelnemer->getAanmelddatum());
+                $dienst->setOmschrijving(sprintf("(%s)",$type));
             }
 
             if ($deelnemer->getAfsluitdatum()) {
