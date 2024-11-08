@@ -210,6 +210,13 @@ abstract class Hulp
      */
     protected $reserveringen;
 
+    /**
+     * @var bool
+     *
+     * @ORM\Column(name="stagiair", type="boolean")
+     */
+    protected $stagiair = false;
+
     public function __construct()
     {
         $this->startdatum = new \DateTime('today');
@@ -414,6 +421,18 @@ abstract class Hulp
             }
         }
     }
+
+    public function isStagiair(): bool
+    {
+        return $this->stagiair;
+    }
+
+    public function setStagiair(bool $stagiair): void
+    {
+        $this->stagiair = $stagiair;
+    }
+
+
 
     abstract public function getKoppeling();
 

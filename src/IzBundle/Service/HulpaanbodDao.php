@@ -176,6 +176,11 @@ class HulpaanbodDao extends AbstractDao implements HulpaanbodDaoInterface
                 $builder->andWhere('hulpaanbod.expat IS NULL OR hulpaanbod.expat = false');
             }
 
+            // stagiair
+            if (!$hulpvraag->isStagiair()) {
+                $builder->andWhere('hulpaanbod.stagiair IS NULL OR hulpaanbod.stagiair = false');
+            }
+
             // geslacht
             if ($hulpvraag->getVoorkeurGeslacht()) {
                 $builder

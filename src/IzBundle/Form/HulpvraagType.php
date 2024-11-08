@@ -66,6 +66,10 @@ class HulpvraagType extends AbstractType
             ->add('geschiktVoorExpat', null, [
                 'required' => false,
             ])
+            ->add('stagiair', null, [
+                'required' => false,
+                'label'=> 'Geschikt voor stagiair'
+            ])
             ->add('voorkeurGeslacht', null, [
                 'required' => false,
                 'placeholder' => 'Geen voorkeur',

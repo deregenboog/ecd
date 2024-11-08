@@ -130,6 +130,10 @@ class AppExtension extends AbstractExtension implements GlobalsInterface
                 'needs_environment' => true,
             ]),
             new TwigFilter('filterAllRows', [$this->ecdHelper, 'filterAllRows']),
+            new TwigFilter('hex2dec', function ($hexValue) {
+                return hexdec($hexValue);
+            }),
+            new TwigFilter('contrast_color', [$this, 'calculateContrastColor']),
         ];
     }
 
@@ -558,4 +562,16 @@ class AppExtension extends AbstractExtension implements GlobalsInterface
 
         return '/';
     }
+
+    public function calculateContrastColor($hexColor)
+    {
+        $r = hexdec(substr($hexColor, 1, 2));
+        $g = hexdec(substr($hexColor, 3, 2));
+        $b = hexdec(substr($hexColor, 5, 2));
+
+        $brightness = ($r * 299 + $g * 587 + $b * 114) / 1000;
+
+        return $brightness > 128 ? '#000000' : '#FFFFFF';
+    }
+
 }

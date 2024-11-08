@@ -55,6 +55,8 @@ class IzVrijwilliger extends IzDeelnemer
      */
     protected $binnengekomenVia;
 
+
+
     public function __construct(?Vrijwilliger $vrijwilliger = null)
     {
         $this->vrijwilliger = $vrijwilliger;

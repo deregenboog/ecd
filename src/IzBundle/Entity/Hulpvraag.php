@@ -58,6 +58,10 @@ class Hulpvraag extends Hulp
      */
     private $geschiktVoorExpat = false;
 
+    //set default value.
+    protected $stagiair = true;
+
+
     /**
      * @deprecated
      *
