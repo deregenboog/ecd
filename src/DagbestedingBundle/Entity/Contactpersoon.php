@@ -151,7 +151,7 @@ class Contactpersoon
         return mb_convert_encoding($this->opmerking,'ISO-8859-1','UTF-8');
     }
 
-    public function setOpmerking(string $opmerking = "")
+    public function setOpmerking(?string $opmerking = "")
     {
         $this->opmerking = mb_convert_encoding($opmerking, 'UTF-8', 'ISO-8859-1');
         return $this;

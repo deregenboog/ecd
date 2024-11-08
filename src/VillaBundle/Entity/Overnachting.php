@@ -32,7 +32,7 @@ class Overnachting
     /** @var string
      * @ORM\Column(type="string", nullable=true)
      */
-    private $opmerking = null;
+    private $opmerking = "";
 
 
     /**
@@ -40,14 +40,6 @@ class Overnachting
      * @ORM\Column(type="date",nullable=true)
      */
     protected $datum;
-
-    /**
-     * @param Slaper $slaper
-     */
-    public function __ddddconstruct(Slaper $slaper)
-    {
-        $this->slaper = $slaper;
-    }
 
 
     /**
@@ -87,14 +79,13 @@ class Overnachting
      */
     public function getOpmerking(): string
     {
-        if(is_null($this->opmerking)) return "";
-        return mb_convert_encoding($this->opmerking, 'ISO-8859-1','UTF-8');
+        return mb_convert_encoding($this->opmerking ?? "", 'ISO-8859-1','UTF-8');
     }
 
     /**
      * @param string|null $opmerking
      */
-    public function setOpmerking(string $opmerking = "")
+    public function setOpmerking(?string $opmerking = "")
     {
         $this->opmerking = mb_convert_encoding($opmerking, 'UTF-8', 'ISO-8859-1');
         return $this;
