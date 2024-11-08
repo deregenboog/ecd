@@ -24,11 +24,14 @@ VillaBundle\Entity\Slaper:
         contactpersoon: '<firstName()> <lastName()>'
         redenSlapen: '<text()>'
 
-VillaBundle\Entity\Overnachting:
-    villa_overnachting_{1..50}:
-        slaper: '@villa_slaper_*'
-        datum (unique): '<dateTimeBetween("2024-01-01","2024-12-30")>'
-        opmerking: '<text()>'
+# dateTimeBetween gives a datetime with seconds, which are truncated in the entity when saved as the unique key is on the date only.
+#this gives collisions on the constraint. For now it is not opportune to fix this.
+
+#VillaBundle\Entity\Overnachting:
+#    villa_overnachting_{1..50}:
+#        slaper: '@villa_slaper_*'
+#        datum (unique): '<dateTimeBetween("2024-01-01","2024-12-30")>'
+#        opmerking: '<text()>'
 #    villa_overnachting_{9..12}:
 #        slaper: '@villa_slaper_2'
 #        datum (unique): '<dateTimeBetween("2024-05-01","2024-11-30")>'
