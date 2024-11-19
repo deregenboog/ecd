@@ -33,7 +33,6 @@ class UnregisterAllCommand extends \Symfony\Component\Console\Command\Command
     protected function initialize(InputInterface $input, OutputInterface $output)
     {
         $this->now = new \DateTime();
-        $this->registratieDao = $this->registratieDao;
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
@@ -73,6 +72,12 @@ class UnregisterAllCommand extends \Symfony\Component\Console\Command\Command
             }
 
             $closingTime = $closingTimes[$locationId][$dayOfWeek];
+
+            // ignore if there is no closing time for this day
+            if (!$closingTime) {
+                continue;
+            }
+
             $buiten = DateTimeUtil::combine($registration->getBinnen(), $closingTime);
 
             // ignore if location is still open
