@@ -84,6 +84,7 @@ class Locatie extends AbstractReport
                 'Kleding' => ['Aantal' => $count['clothes']],
                 'Douches' => ['Aantal' => $count['shower']],
                 'Activering' => ['Aantal' => $count['activation']],
+                'Spuiten' => ['Aantal' => $count['spuiten']],
             ],
         ];
 
@@ -121,7 +122,7 @@ class Locatie extends AbstractReport
         }
 
         $sql = "CREATE TEMPORARY TABLE tmp_registrations
-            SELECT k.id AS klant_id, voornaam, tussenvoegsel, achternaam, douche, kleding, maaltijd, activering, locatie_id, k.created, binnen
+            SELECT k.id AS klant_id, voornaam, tussenvoegsel, achternaam, douche, kleding, maaltijd, activering, aantalSpuiten, locatie_id, k.created, binnen
             FROM klanten k
             JOIN registraties r ON r.klant_id = k.id
             WHERE {$where} ";
@@ -144,13 +145,15 @@ class Locatie extends AbstractReport
                 SUM(ABS(douche)) AS douche,
                 SUM(kleding) AS kleding,
                 SUM(maaltijd) AS maaltijd,
-                SUM(activering) AS activering
+                SUM(activering) AS activering,
+                SUM(aantalSpuiten) AS spuiten
             FROM tmp_registrations';
         $r = $this->entityManager->getConnection()->fetchAllAssociative($sql);
         $count['shower'] = $r[0]['douche'];
         $count['clothes'] = $r[0]['kleding'];
         $count['meals'] = $r[0]['maaltijd'];
         $count['activation'] = $r[0]['activering'];
+        $count['spuiten'] = $r[0]['spuiten'];
 
         $schorsingRepository = $this->entityManager->getRepository(Schorsing::class);
         $builder = $schorsingRepository->createQueryBuilder('schorsing')->select('COUNT(schorsing.id)');
