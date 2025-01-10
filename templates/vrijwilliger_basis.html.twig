@@ -64,7 +64,7 @@
         {% if vrijwilliger.vogAanwezig %}
             {% if vrijwilliger.vog %}
                 {{ html.link('VOG downloaden', vich_uploader_asset(vrijwilliger.vog, 'file'), 'download') }}
-                {% if vrijwilliger.vog.medewerker.id == app.user.id %}
+                {% if vrijwilliger.vog.medewerker.id == app.user.id or is_granted('ROLE_SECRETARIAAT') %}
                     {{ html.link('', path('app_vrijwilligers_deletedocument', {vrijwilliger: vrijwilliger.id, documentId: vrijwilliger.vog.id}), 'delete') }}
                 {% endif %}
             {% else %}
@@ -79,7 +79,7 @@
         {% if vrijwilliger.overeenkomstAanwezig %}
             {% if vrijwilliger.overeenkomst %}
                 {{ html.link('Overeenkomst downloaden', vich_uploader_asset(vrijwilliger.overeenkomst, 'file'), 'download') }}
-                {% if vrijwilliger.overeenkomst.medewerker.id == app.user.id %}
+                {% if vrijwilliger.overeenkomst.medewerker.id == app.user.id or is_granted('ROLE_SECRETARIAAT') %}
                     {{ html.link('', path('app_vrijwilligers_deletedocument', {vrijwilliger: vrijwilliger.id, documentId: vrijwilliger.overeenkomst.id}), 'delete') }}
                 {% endif %}
             {% else %}
