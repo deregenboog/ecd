@@ -6,7 +6,7 @@
     <dd>
         {% if klant.toestemmingsformulier %}
             {{ html.link('Toestemmingsformulier downloaden', vich_uploader_asset(klant.toestemmingsformulier, 'file'), 'download') }}
-            {% if klant.toestemmingsformulier.medewerker.id == app.user.id or is_granted('ROLE_ADMIN') %}
+            {% if klant.toestemmingsformulier.medewerker.id == app.user.id or is_granted('ROLE_SECRETARIAAT') %}
                 {{ html.link('', path('app_klanten_deletedocument', {klant: klant.id, documentId: klant.toestemmingsformulier.id}), 'delete') }}
             {% endif %}
         {% else %}

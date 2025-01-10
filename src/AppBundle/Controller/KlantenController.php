@@ -89,7 +89,7 @@ class KlantenController extends AbstractController
             }
         }
 
-        if (!$this->isGranted('ROLE_ADMIN')
+        if (!$this->isGranted('ROLE_SECRETARIAAT')
             && $entity->getMedewerker()->getId() != $this->getUser()->getId()
         ) {
             throw new AccessDeniedHttpException();
