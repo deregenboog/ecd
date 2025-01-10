@@ -97,7 +97,7 @@ services:
                 Opzegdatum: { expression: 'entity.getOpzegdatum()', type: 'date' }
                 Einddatum: { expression: 'entity.getEinddatum()', type: 'date' }
                 Plaats: { expression: 'entity.getVerhuurder().getAppKlant().getPlaats()' }
-                Vorm: { expression: 'entity.getVorm()' }
+                Vorm: { expression: 'entity.getVormVanOvereenkomst()' }
                 Afsluitdatum: { expression: 'entity.getAfsluitdatum()', type: 'date' }
                 Afsluitreden: { expression: 'entity.getAfsluiting()' }
                 Automatische incasso: { expression: 'entity.getKlant().isAutomatischeIncasso() ? "ja" : "nee"' }
