@@ -205,14 +205,24 @@ class Vrijwilliger implements MemoSubjectInterface, DocumentSubjectInterface
 
     public function getAfsluitredenVrijwilliger()
     {
+        return $this->getAfsluitreden();
+    }
+
+    public function getAfsluitreden()
+    {
         return $this->afsluitreden;
     }
 
-    public function setAfsluitredenVrijwilliger(?AfsluitredenVrijwilliger $afsluitreden)
+    public function setAfsluitreden(?AfsluitredenVrijwilliger $afsluitreden)
     {
         $this->afsluitreden = $afsluitreden;
 
         return $this;
+    }
+
+    public function setAfsluitredenVrijwilliger(?AfsluitredenVrijwilliger $afsluitreden)
+    {
+        return $this->setAfsluitreden($afsluitreden);
     }
 
     public function getBinnenVia()
