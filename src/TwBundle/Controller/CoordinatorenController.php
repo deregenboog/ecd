@@ -134,7 +134,7 @@ class CoordinatorenController extends SymfonyController
 
         return [
             'form' => $form->createView(),
-            'coordinator' => $coordinator,
+            'entity' => $coordinator,
         ];
     }
 }
