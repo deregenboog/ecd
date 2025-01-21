@@ -138,8 +138,8 @@ class Slaper implements KlantRelationInterface, HasDossierStatusInterface
                 break;
             case '2024':
                 $overnachtingenRecht = [
-                    Slaper::TYPE_LOGEER=>42,
-                    Slaper::TYPE_RESPIJT=>37,
+                    Slaper::TYPE_LOGEER=>36,
+                    Slaper::TYPE_RESPIJT=>42,
                 ];
                 break;
             default:
