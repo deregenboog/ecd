@@ -40,13 +40,13 @@ services:
         tags:
             - {name: 'ga.groep_type', title: 'Kwartiermaken'}
 
-    ga.repository.groep_openhuis:
+    ga.repository.groep_Buurtrestaurants:
         class: Doctrine\ORM\EntityRepository
         factory: ["@doctrine", getRepository]
         arguments:
-            - GaBundle\Entity\GroepOpenHuis
+            - GaBundle\Entity\GroepBuurtrestaurants
         tags:
-            - {name: 'ga.groep_type', title: 'OpenHuis'}
+            - {name: 'ga.groep_type', title: 'Buurtrestaurants'}
 
     ga.repository.groep_organisatie:
         class: Doctrine\ORM\EntityRepository

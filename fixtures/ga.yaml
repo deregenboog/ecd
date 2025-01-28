@@ -36,9 +36,9 @@ GaBundle\Entity\GroepKwartiermaken:
         werkgebied: '@werkgebied_*'
         activiteitenRegistreren: true
 
-GaBundle\Entity\GroepOpenHuis:
+GaBundle\Entity\GroepBuurtrestaurants:
     ga_groep_{7..8}:
-        naam: 'Open Huis groep <current()>'
+        naam: 'Buurtrestaurants groep <current()>'
         werkgebied: '@werkgebied_*'
         activiteitenRegistreren: true
 
