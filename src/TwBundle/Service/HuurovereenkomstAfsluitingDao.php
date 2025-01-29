@@ -53,4 +53,19 @@ class HuurovereenkomstAfsluitingDao extends AbstractDao implements Huurovereenko
 
         return $builder->getQuery()->getResult();
     }
+
+    public function countByKlant(\DateTime $start, \DateTime $end)
+    {
+        $builder = $this->repository->createQueryBuilder($this->alias)
+            ->select("COUNT({$this->alias}.id) AS aantal",  'afsluiting.naam AS afsluitreden')
+            ->innerJoin("{$this->alias}.huurovereenkomsten", 'huurovereenkomst')
+            ->innerJoin('huurovereenkomst.huuraanbod', 'huuraanbod')
+            ->where('huurovereenkomst.afsluitdatum BETWEEN :start AND :end')
+            ->andWhere('huurovereenkomst.isReservering = 0')
+            ->groupBy('afsluiting.id')
+            ->setParameters(['start' => $start, 'end' => $end])
+        ;
+
+        return $builder->getQuery()->getResult();
+    }
 }
