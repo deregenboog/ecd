@@ -33,6 +33,13 @@
             om een nieuwe ZRM toe te voegen.
         </p>
     {% endif %}
+    {% if not entity.toestemmingsformulier %}
+        <p class="text-danger">
+            LET OP: geen toestemmingsformulier aanwezig. Klik
+            {{ html.link('hier', path('app_documenten_add', {klant: entity.id, type: 'toestemming'})) }}
+            om een Toestemmingsformulier toe te voegen.
+        </p>
+    {% endif %}
 {% endblock %}
 
 {% block content_left %}
