@@ -24,7 +24,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
  *     "ErOpUit" = "GroepErOpUit",
  *     "Buurtmaatjes" = "GroepBuurtmaatjes",
  *     "Kwartiermaken" = "GroepKwartiermaken",
- *     "OpenHuis" = "GroepOpenHuis",
+ *     "Buurtrestaurants" = "GroepBuurtrestaurants",
  *     "Organisatie" = "GroepOrganisatie",
  *     "IZ" = "GroepIZ"
  * })

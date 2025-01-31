@@ -38,7 +38,7 @@ class GroepenControllerTest extends WebTestCase
         $this->assertEquals(1, $crawler->selectLink('ErOpUit')->count());
         $this->assertEquals(1, $crawler->selectLink('Buurtmaatjes')->count());
         $this->assertEquals(1, $crawler->selectLink('Kwartiermaken')->count());
-        $this->assertEquals(1, $crawler->selectLink('OpenHuis')->count());
+        $this->assertEquals(1, $crawler->selectLink('Buurtrestaurants')->count());
         $this->assertEquals(1, $crawler->selectLink('Organisatie')->count());
 
         $crawler = $client->click($crawler->selectLink('ErOpUit')->link());
