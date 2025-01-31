@@ -110,3 +110,6 @@ TwBundle\Entity\Huurovereenkomst:
         medewerker: '@medewerker_*'
         startdatum: '<dateTimeThisYear()>'
         einddatum: '50%? <afsluitdatum($startdatum)>'
+TwBundle\Entity\Regio:
+    tw_binding_regio_{1..5}:
+        naam: 'REGIO <current()>'
