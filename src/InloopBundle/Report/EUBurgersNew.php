@@ -76,8 +76,7 @@ class EUBurgersNew extends AbstractReport
             $this->locatie = $filter['locatie'];
 
             $builder = $this->entityManager->getRepository(Locatie::class)->createQueryBuilder('locatie')
-                ->select('locatie.id')
-            ;
+                ->select('locatie.id');
 
             $this->locatieArray = array_map(function ($row) {
                 return (int) $row['id'];
@@ -134,7 +133,7 @@ class EUBurgersNew extends AbstractReport
 
         $this->reports[] = [
             'title' => 'Landen',
-            'data' => ['Klanten uit' => ['' => implode($count[0]['amoc_landen'], ', ')]],
+            'data' => ['Klanten uit' => ['' => implode(', ', $count[0]['amoc_landen'])]],
         ];
 
         $this->reports[] = [
@@ -308,7 +307,12 @@ class EUBurgersNew extends AbstractReport
         }
 
         $table = new Table($perGeslachtLeeftijd, 'periode', 'geslacht', 'aantal');
-        $table->setXTotals(false)->setYTotals(true)->setXSort(false);
+        $table->setXTotals(false)
+            ->setYTotals(false)
+            ->setXSort(false)
+            ->setYSort(false)
+        ;
+
         $this->reports[] = [
             'title' => 'Gem. leeftijd per geslacht',
             'yDescription' => 'Geslacht',
@@ -356,15 +360,15 @@ class EUBurgersNew extends AbstractReport
 
         $newBuilder = $klantRepository->createQueryBuilder('klant');
         $newBuilder->select('klant.id,intake.id AS laatste_intake_id')
-            ->innerJoin('klant.laatsteIntake','intake')
-            ->leftJoin('klant.statussen','a', 'WITH','a INSTANCE OF '.Aanmelding::class)
-            ->leftJoin('klant.statussen','af','WITH','af INSTANCE OF '.Afsluiting::class)
+            ->innerJoin('klant.laatsteIntake', 'intake')
+            ->leftJoin('klant.statussen', 'a', 'WITH', 'a INSTANCE OF ' . Aanmelding::class)
+            ->leftJoin('klant.statussen', 'af', 'WITH', 'af INSTANCE OF ' . Afsluiting::class)
 
             ->where('a.datum <= :endDate')
             ->andWhere(('af.datum IS NULL OR af.datum > :startDate'))
             ->groupBy('klant.id')
-            ->setParameter('startDate',$startDate)
-            ->setParameter('endDate',$endDatePlusOneDay)
+            ->setParameter('startDate', $startDate)
+            ->setParameter('endDate', $endDatePlusOneDay)
         ;
 
 
@@ -388,8 +392,7 @@ class EUBurgersNew extends AbstractReport
                 ->where('klant IN (:klanten)')->setParameter('klanten', $klanten)
                 ->andWhere('registratie.locatie IN (:locatie)')->setParameter('locatie', $this->locatieArray)
                 ->andWhere('registratie.binnen >= :start_date')->setParameter('start_date', $startDate)
-                ->andWhere('registratie.binnen < :end_date')->setParameter('end_date', $endDatePlusOneDay)
-            ;
+                ->andWhere('registratie.binnen < :end_date')->setParameter('end_date', $endDatePlusOneDay);
             $klanten_list = array_map(function ($row) {
                 return $row['id'];
             }, $builder->getQuery()->getScalarResult());
@@ -400,8 +403,7 @@ class EUBurgersNew extends AbstractReport
                 ->where('klant IN (:klanten)')->setParameter('klanten', $klanten)
                 ->andWhere('verslag.locatie IN (:locatie)')->setParameter('locatie', $this->locatieArray)
                 ->andWhere('verslag.datum >= :start_date')->setParameter('start_date', $startDate)
-                ->andWhere('verslag.datum < :end_date')->setParameter('end_date', $endDatePlusOneDay)
-            ;
+                ->andWhere('verslag.datum < :end_date')->setParameter('end_date', $endDatePlusOneDay);
             $klanten_list_verslag = array_map(function ($row) {
                 return $row['id'];
             }, $builder->getQuery()->getScalarResult());
@@ -410,8 +412,7 @@ class EUBurgersNew extends AbstractReport
                 ->select('klant.id')
                 ->innerJoin('intake.klant', 'klant')
                 ->where('klant IN (:klanten)')->setParameter('klanten', $klanten)
-                ->andWhere('intake.intakelocatie IN (:locatie)')->setParameter('locatie', $this->locatieArray)
-            ;
+                ->andWhere('intake.intakelocatie IN (:locatie)')->setParameter('locatie', $this->locatieArray);
             $klanten_list_intake = array_map(function ($row) {
                 return $row['id'];
             }, $builder->getQuery()->getScalarResult());
@@ -510,8 +511,7 @@ class EUBurgersNew extends AbstractReport
             ->setParameter('ids', $klant_ids)
             ->setParameter('locatie', $this->locatieArray)
             ->setParameter('start_date', $startDate)
-            ->setParameter('end_date', $endDatePlusOneDay)
-        ;
+            ->setParameter('end_date', $endDatePlusOneDay);
         $verslagen = array_map(function ($row) {
             return $row['id'];
         }, $builder->getQuery()->getScalarResult());
@@ -525,8 +525,7 @@ class EUBurgersNew extends AbstractReport
             ->innerJoin('verslaginventarisatie.doorverwijzing', 'doorverwijzing')
             ->where('verslag.id IN (:ids)')
             ->groupBy('doorverwijzing.id')
-            ->setParameter('ids', array_keys($verslagen))
-        ;
+            ->setParameter('ids', array_keys($verslagen));
         $result = $builder->getQuery()->getResult();
         foreach ($result as $row) {
             $count['count_per_doorverwijzing'][$row['id']] = $row['cnt'];
@@ -540,7 +539,7 @@ class EUBurgersNew extends AbstractReport
             ->where('klant.id IN (:ids)')
             ->groupBy('land.id')
             ->orderBy('land.id')
-            ->setParameter('ids',$klant_ids)
+            ->setParameter('ids', $klant_ids)
             ->getQuery()
             ->getResult();
         foreach ($result as $row) {
@@ -583,26 +582,35 @@ class EUBurgersNew extends AbstractReport
         }
 
         $result = $klantRepository->createQueryBuilder('klant')
-            ->select('geslacht.volledig AS geslachtLabel, AVG(CURRENT_DATE() - klant.geboortedatum) AS gemLeeftijdDag, COUNT(klant.geslacht) AS cnt')
-            ->innerJoin('klant.geslacht','geslacht')
+            ->select('geslacht.volledig AS geslachtLabel, AVG(DATEDIFF(CURRENT_DATE() , klant.geboortedatum)) AS gemLeeftijdDag, COUNT(klant.geslacht) AS cnt')
+            ->innerJoin('klant.geslacht', 'geslacht')
             ->where('klant.id IN (:ids) AND klant.geslacht IS NOT NULL')
             ->groupBy('klant.geslacht')
             ->orderBy('klant.geslacht')
             ->setParameter('ids', array_keys($klanten))
             ->getQuery()
             ->getResult();
-        foreach($result as $values) {
+
+        foreach ($result as $values) {
             $count['geslacht'][$values['geslachtLabel']] = $values['cnt'];
         }
-        foreach($result as $values) {
-            $count['geslachtLeeftijd'][$values['geslachtLabel']] = round($values['gemLeeftijdDag']/362.25,1);
+
+        $avrageAgeTotal = 0;
+        $countTotal = 0;
+
+        foreach ($result as $values) {
+            $avrage = round($values['gemLeeftijdDag'] / 365.25, 1);
+            $avrageAgeTotal += $avrage;
+            $countTotal ++;
+            $count['geslachtLeeftijd'][$values['geslachtLabel']] = $avrage;
         }
-        if(count($result) < 1) {
+
+        if (count($result) < 1) {
             $count['geslacht']['---'] = 0;
             $count['geslachtLeeftijd']['---'] = 0;
+        } else {
+            $count['geslachtLeeftijd']['Totaal'] = $countTotal > 0 ? round($avrageAgeTotal / $countTotal, 1) : 0;
         }
-
-
 
         $result = $this->entityManager->getRepository(Intake::class)->createQueryBuilder('intake')
             ->select('problematiek.id, COUNT(klant.id) AS cnt')
@@ -613,8 +621,7 @@ class EUBurgersNew extends AbstractReport
             ->orderBy('problematiek.id')
             ->setParameter('intakes', $klanten)
             ->getQuery()
-            ->getResult()
-        ;
+            ->getResult();
         foreach ($result as $row) {
             $count['primaryProblems'][$row['id']] = $row['cnt'];
         }
