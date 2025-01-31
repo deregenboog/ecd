@@ -40,7 +40,7 @@ services:
         tags:
             - {name: 'ga.groep_type', title: 'Kwartiermaken'}
 
-    ga.repository.groep_Buurtrestaurants:
+    ga.repository.groep_buurtrestaurants:
         class: Doctrine\ORM\EntityRepository
         factory: ["@doctrine", getRepository]
         arguments:
