@@ -8,6 +8,7 @@ use AppBundle\Form\TaalType;
 use AppBundle\Service\TaalDaoInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\Routing\Annotation\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
 /**
  * @Route("/admin/talen")
