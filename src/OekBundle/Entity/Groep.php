@@ -79,6 +79,16 @@ class Groep
      */
     protected $modified;
 
+    /**
+     * @var bool
+     * 
+     * @ORM\Column(type="boolean")
+     *
+     * @Gedmo\Versioned
+     */
+    protected $actief = true;
+    
+
     public function __construct()
     {
         $this->lidmaatschappen = new ArrayCollection();
@@ -165,5 +175,17 @@ class Groep
     {
         return 0 == $this->lidmaatschappen->count()
                && 0 == $this->trainingen->count();
+    }
+
+    public function setActief($actief)
+    {
+        $this->actief = $actief;
+
+        return $this;
+    }
+
+    public function getActief()
+    {
+        return $this->actief;
     }
 }
