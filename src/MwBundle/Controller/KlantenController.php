@@ -130,6 +130,15 @@ class KlantenController extends AbstractController
             $response['verslagen'] = $combinedVerslagen;
         }
 
+        $toestemmingsformulier = $response['entity']->getToestemmingsformulier();
+
+        if($toestemmingsformulier == null){
+            $this->addFlash(
+               'danger',
+               'LET OP: geen toestemmingsformulier aanwezig.'
+            );
+        }
+
         // ga bij TW de deelnemer en de verslagen ophalen, combineer die. zet die in de repsonse array en pas de view aan.
         return $response;
     }
