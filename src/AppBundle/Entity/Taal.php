@@ -29,7 +29,7 @@ class Taal
     private $id;
 
     /**
-     * @ORM\Column(type="boolean")
+     * @ORM\Column(type="boolean", options={"default": false})
      *
      * @Gedmo\Versioned
      *
@@ -73,9 +73,22 @@ class Taal
         return $this->afkorting;
     }
 
+    public function setAfkorting($afkorting)
+    {
+        $this->afkorting = $afkorting;
+        return $this;
+    }
+
     public function getNaam()
     {
         return $this->naam;
+    }
+
+    public function setNaam($naam)
+    {
+        $this->naam = $naam;
+
+        return $this;
     }
 
     public function isFavoriet(): bool
