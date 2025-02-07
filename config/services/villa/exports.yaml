@@ -40,6 +40,11 @@ services:
         - VillaBundle\Entity\Slaper
         - Nummer: { expression: 'entity.getAppKlant().getId()' }
 
+    villa.export.logeeropvang:
+      class: AppBundle\Export\GenericExport
+      arguments:
+        - VillaBundle\Entity\Slaper
+        - Nummer: { expression: 'entity.getAppKlant().getId()' }
 
     villa.export.report:
         class: AppBundle\Export\ReportExport
