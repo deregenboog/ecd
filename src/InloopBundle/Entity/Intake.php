@@ -105,7 +105,7 @@ class Intake
      *
      * @ORM\JoinTable(name="locaties_accessintakes")
      *
-     * @var Collection<int, Locatie>
+     * @var Collection<int, Locatie>|array
      */
     private Collection $specifiekeLocaties;
 
@@ -1246,14 +1246,22 @@ class Intake
         $this->geinformeerdOpslaanGegevens = $geinformeerdOpslaanGegevens;
     }
 
-    public function getSpecifiekeLocaties(): Collection
+    public function getSpecifiekeLocaties()
     {
         return $this->specifiekeLocaties;
     }
 
-    public function setSpecifiekeLocaties(Collection $specifiekeLocaties): void
+    /**
+     * @param Collection|array $specifiekeLocaties
+     * @return void
+     */
+    public function setSpecifiekeLocaties($specifiekeLocaties): void
     {
-        $this->specifiekeLocaties = $specifiekeLocaties;
+        if (is_array($specifiekeLocaties)) {
+            $this->specifiekeLocaties = new ArrayCollection($specifiekeLocaties);
+        } else {
+            $this->specifiekeLocaties = $specifiekeLocaties;
+        }
     }
 
     /**

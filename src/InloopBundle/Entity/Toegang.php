@@ -11,6 +11,10 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="inloop_toegang")
  *
  * @ORM\HasLifecycleCallbacks
+ *
+ *
+ * Let op: dit is enkel de weerslag van de 'berekening' waar iemand toegang toe heeft.
+ * Dit wordt (nog) niet gebruikt om te bewerken oid. Wordt gevuld vanuit de AccessUpdater.
  */
 class Toegang
 {
