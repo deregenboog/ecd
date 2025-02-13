@@ -26,6 +26,7 @@ class Kernel extends BaseKernel
         \OekraineBundle\Form\RapportageType::class => 'oekraine.rapportage',
         \PfoBundle\Form\RapportageType::class => 'pfo.rapportage',
         \TwBundle\Form\RapportageType::class => 'tw.rapportage',
+        \VillaBundle\Form\RapportageType::class => 'villa.rapportage',
     ];
 
     public function build(ContainerBuilder $container)
