@@ -20,7 +20,7 @@
         <dt>Naam</dt>
         <dd>{{ entity.naam }}</dd>
         <dt>Actief</dt>
-        <dd class="{{ entity.actief ? '' : 'text-danger' }}">{{ entity.actief ? 'Ja' : 'Nee' }}</dd>
+        <dd class="{{ entity.actief ? '' : 'text-danger' }}">{{ entity.actief | ja_nee }}</dd>
     </dl>
 {% endblock %}
 

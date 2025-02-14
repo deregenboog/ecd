@@ -38,7 +38,7 @@
                 <td>{{ groep.aantalBijeenkomsten }}</td>
                 <td>{{ row.lidmaatschappen }}</td>
                 <td>{{ row.trainingen }}</td>
-                <td>{{ groep.actief ? 'Ja' : 'Nee' }}</td>
+                <td>{{ groep.actief | ja_nee }}</td>
             </tr>
         {% endfor %}
     </table>

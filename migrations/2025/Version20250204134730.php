@@ -14,16 +14,16 @@ final class Version20250204134730 extends AbstractMigration
 {
     public function getDescription(): string
     {
-        return 'Add actief field to oek_groepen';
+        return 'Add active field to oek_groepen';
     }
 
     public function up(Schema $schema): void
     {
-        $this->addSql('ALTER TABLE oek_groepen ADD actief TINYINT(1) NOT NULL DEFAULT 1');
+        $this->addSql('ALTER TABLE oek_groepen ADD active TINYINT(1) NOT NULL DEFAULT 1');
     }
 
     public function down(Schema $schema): void
     {
-        $this->addSql('ALTER TABLE oek_groepen DROP actief');
+        $this->addSql('ALTER TABLE oek_groepen DROP active');
     }
 }

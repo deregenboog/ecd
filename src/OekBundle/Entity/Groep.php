@@ -2,6 +2,7 @@
 
 namespace OekBundle\Entity;
 
+use AppBundle\Model\ActivatableTrait;
 use AppBundle\Model\TimestampableTrait;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Criteria;
@@ -21,6 +22,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 class Groep
 {
     use TimestampableTrait;
+    use ActivatableTrait;
 
     /**
      * @ORM\Id
@@ -78,16 +80,6 @@ class Groep
      * @Gedmo\Versioned
      */
     protected $modified;
-
-    /**
-     * @var bool
-     * 
-     * @ORM\Column(type="boolean")
-     *
-     * @Gedmo\Versioned
-     */
-    protected $actief = true;
-    
 
     public function __construct()
     {
@@ -175,17 +167,5 @@ class Groep
     {
         return 0 == $this->lidmaatschappen->count()
                && 0 == $this->trainingen->count();
-    }
-
-    public function setActief($actief)
-    {
-        $this->actief = $actief;
-
-        return $this;
-    }
-
-    public function getActief()
-    {
-        return $this->actief;
     }
 }
