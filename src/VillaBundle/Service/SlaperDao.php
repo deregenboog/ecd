@@ -102,4 +102,87 @@ class SlaperDao extends AbstractDao implements SlaperDaoInterface,DaoHasDossierS
     {
         $this->doDelete($entity);
     }
+
+    /**
+     * Count slapers with their overnachtingen grouped by type
+     *
+     * @param \DateTime $startDate
+     * @param \DateTime $endDate
+     * @return array
+     */
+    // In SlaperDao.php
+
+    /**
+     * Count slapers with their overnachtingen grouped by type
+     */
+    public function countOvernachtingenByType(\DateTime $startDate, \DateTime $endDate): array
+    {
+        $qb = $this->repository->createQueryBuilder('s')
+            ->select('
+            s.type,
+            COUNT(o.id) as aantal
+        ')
+            ->innerJoin('s.appKlant', 'k')
+            ->leftJoin('s.overnachtingen', 'o', 'WITH', 'o.datum BETWEEN :startDate AND :endDate')
+            ->groupBy('s.type')
+            ->orderBy('s.type', 'ASC')
+            ->setParameter('startDate', $startDate)
+            ->setParameter('endDate', $endDate)
+        ;
+
+        $results = $qb->getQuery()->getResult();
+        return $this->transformSlaperTypes($results);
+    }
+
+    /**
+     * Count unique slapers grouped by type
+     */
+    public function countSlapersByType(\DateTime $startDate, \DateTime $endDate): array
+    {
+        $qb = $this->repository->createQueryBuilder('s')
+            ->select('
+            s.type,
+            COUNT(DISTINCT k.id) as aantal
+        ')
+            ->innerJoin('s.appKlant', 'k')
+            ->innerJoin('s.overnachtingen', 'o', 'WITH', 'o.datum BETWEEN :startDate AND :endDate')
+            ->groupBy('s.type')
+            ->orderBy('s.type', 'ASC')
+            ->setParameter('startDate', $startDate)
+            ->setParameter('endDate', $endDate)
+        ;
+
+        $results = $qb->getQuery()->getResult();
+        return $this->transformSlaperTypes($results);
+    }
+
+    private function transformSlaperTypes(array $results): array
+    {
+        // Zorg dat we alle mogelijke types hebben, ook als er geen slapers voor zijn
+        $transformedResults = [];
+        foreach (Slaper::$types as $typeId => $typeLabel) {
+            $transformedResults[] = [
+                'type' => $typeLabel,
+                'aantal' => 0
+            ];
+        }
+
+        // Update de aantallen voor de types die we hebben gevonden
+        foreach ($results as $row) {
+            $typeId = $row['type'];
+            if (isset(Slaper::$types[$typeId])) {
+                $typeLabel = Slaper::$types[$typeId];
+
+                // Find and update the correct entry
+                foreach ($transformedResults as &$transformed) {
+                    if ($transformed['type'] === $typeLabel) {
+                        $transformed['aantal'] = (int)$row['aantal'];
+                        break;
+                    }
+                }
+            }
+        }
+
+        return $transformedResults;
+    }
 }
