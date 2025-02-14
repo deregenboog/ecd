@@ -222,6 +222,8 @@ security:
             - CONTROLLER_APP_VRIJWILLIGERS
         ROLE_GLOBALDOWNLOAD:
             - CONTROLLER_APP_DOWNLOAD
+        ROLE_CLIP_ALLEEN_CLIENTEN:
+            - ROLE_USER
 
 
 parameters:
