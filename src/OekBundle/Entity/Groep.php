@@ -148,8 +148,8 @@ class Groep
     {
         $criteria = Criteria::create()
             ->where(Criteria::expr()->gte('einddatum', new \DateTime()))
+            ->orWhere(Criteria::expr()->gte('startdatum', new \DateTime()))
         ;
-
         return $this->trainingen->matching($criteria);
     }
 

@@ -1,0 +1,13 @@
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+
+    VillaBundle\Form\RapportageType:
+
+    VillaBundle\Report\Slapers:
+        arguments:
+            - '@VillaBundle\Service\SlaperDaoInterface'
+        tags:
+            - { name: villa.rapportage }
+
