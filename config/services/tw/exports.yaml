@@ -41,9 +41,7 @@ services:
                 Aanmelddatum: { expression: 'entity.getAanmelddatum()', type: 'date' }
                 Afsluitdatum: { expression: 'entity.getAfsluitdatum()', type: 'date' }
                 Geslacht: { expression: 'entity.getAppKlant().getGeslacht()' }
-                Voornaam: { expression: 'entity.getAppKlant().getVoornaam()' }
-                Tussenvoegsel: { expression: 'entity.getAppKlant().getTussenvoegsel()' }
-                Achternaam: { expression: 'entity.getAppKlant().getAchternaam()' }
+                Verhuurder: { expression: 'entity.getAppKlant()' }
                 Geboortedatum: { expression: 'entity.getAppKlant().getGeboortedatum()', type: 'date' }
                 E-mail: { expression: 'entity.getAppKlant().getEmail()' }
                 Adres: { expression: 'entity.getAppKlant().getAdres()' }
