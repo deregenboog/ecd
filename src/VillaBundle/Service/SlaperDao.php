@@ -156,33 +156,39 @@ class SlaperDao extends AbstractDao implements SlaperDaoInterface,DaoHasDossierS
         return $this->transformSlaperTypes($results);
     }
 
-    private function transformSlaperTypes(array $results): array
+    /**
+     * Get slapers with their overnachtingen count for a given period
+     */
+    public function getSlapersWithOvernachtingen(\DateTime $startDate, \DateTime $endDate): array
     {
-        // Zorg dat we alle mogelijke types hebben, ook als er geen slapers voor zijn
-        $transformedResults = [];
-        foreach (Slaper::$types as $typeId => $typeLabel) {
-            $transformedResults[] = [
-                'type' => $typeLabel,
-                'aantal' => 0
-            ];
+        $qb = $this->repository->createQueryBuilder('s')
+            ->select('
+            k.id,
+            CONCAT_WS(\' \', k.achternaam, k.tussenvoegsel, k.voornaam) as naam,
+            s.type,
+            COUNT(o.id) as aantal
+        ')
+            ->innerJoin('s.appKlant', 'k')
+            ->leftJoin('s.overnachtingen', 'o', 'WITH', 'o.datum BETWEEN :startDate AND :endDate')
+            ->having('aantal > 0')
+            ->groupBy('k.id, k.achternaam, k.voornaam')
+            ->orderBy('k.achternaam, k.voornaam', 'ASC')
+            ->setParameter('startDate', $startDate)
+            ->setParameter('endDate', $endDate)
+        ;
+
+        $results = $qb->getQuery()->getResult();
+        return $this->transformSlaperTypes($results);
+    }
+
+    /**
+     * Transform type IDs to their readable labels in a result set
+     */
+    private function transformSlaperTypes($results): array
+    {
+        foreach ($results as $key => $row) {
+            $results[$key]['type'] = Slaper::$types[$row['type']] ?? $row['type'];
         }
-
-        // Update de aantallen voor de types die we hebben gevonden
-        foreach ($results as $row) {
-            $typeId = $row['type'];
-            if (isset(Slaper::$types[$typeId])) {
-                $typeLabel = Slaper::$types[$typeId];
-
-                // Find and update the correct entry
-                foreach ($transformedResults as &$transformed) {
-                    if ($transformed['type'] === $typeLabel) {
-                        $transformed['aantal'] = (int)$row['aantal'];
-                        break;
-                    }
-                }
-            }
-        }
-
-        return $transformedResults;
+        return $results;
     }
 }
