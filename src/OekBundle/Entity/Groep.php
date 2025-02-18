@@ -2,6 +2,7 @@
 
 namespace OekBundle\Entity;
 
+use AppBundle\Model\ActivatableTrait;
 use AppBundle\Model\TimestampableTrait;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Criteria;
@@ -21,6 +22,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 class Groep
 {
     use TimestampableTrait;
+    use ActivatableTrait;
 
     /**
      * @ORM\Id
