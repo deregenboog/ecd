@@ -6,8 +6,8 @@
 </ol>
 <ul class="nav nav-tabs">
     {{ html.navLink('Vrijwilligers', path('villa_vrijwilligers_index'), isActiveRoute('villa_vrijwilligers_')) }}
-    {{ html.navLink('Respijtzorg', path('villa_slapers_index', { 'slaper_filter': { 'type': 1 } }), isActiveRoute('villa_slapers_')) }}
-    {{ html.navLink('Logeeropvang', path('villa_logeeropvang_index',{ 'slaper_filter': { 'type': 2 } }), isActiveRoute('villa_logeeropvang_')) }}
+    {{ html.navLink('Respijtzorg', path('villa_slapers_slapersopvangtype', { 'opvangType': 'Slapers', 'slaper_filter': { 'type': 1 } }), isActiveRoute(['villa_slapers_','Slapers'],"AND")) }}
+    {{ html.navLink('Logeeropvang', path('villa_slapers_slapersopvangtype',{ 'opvangType': 'Logeeropvang', 'slaper_filter': { 'type': 2 } }), isActiveRoute(['villa_slapers_','Logeeropvang'],"AND")) }}
     <li role="presentation" class="dropdown {{ isActivePath('villa/admin') ? 'active' }}">
         <a class="dropdown-toggle active" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
             Beheer <span class="caret"></span>

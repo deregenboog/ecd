@@ -12,6 +12,7 @@ use AppBundle\Form\KlantFilterType as AppKlantFilterType;
 use AppBundle\Model\HasDossierStatusInterface;
 use AppBundle\Service\KlantDao;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -72,6 +73,15 @@ class SlapersController extends AbstractController implements DossierStatusContr
         return sprintf('villa-slapers-%s.xlsx', (new \DateTime())->format('d-m-Y'));
     }
 
+    /**
+     * @Route("/opvangtype/{opvangType}", requirements={"opvangType" = "\S+"})   -> refactor naar opvangtype
+     */
+    public function slapersOpvangtypeAction(Request $request, $opvangType)
+    {
+        return [
+            'opvangType' => $opvangType,
+        ];
+    }
 
     /**
      * @Route("/{id}/open")

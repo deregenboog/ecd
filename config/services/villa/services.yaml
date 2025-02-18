@@ -37,10 +37,6 @@ services:
         arguments:
             $export: '@villa.export.slaper'
 
-    VillaBundle\Controller\LogeerOpvangController:
-        arguments:
-            $export: '@villa.export.logeeropvang'
-
     villa.document.entities:
         class: ArrayObject
         arguments:
