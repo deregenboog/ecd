@@ -74,14 +74,14 @@ class VerhuurderFilter implements FilterInterface
         if ($this->aanmelddatum) {
             if ($this->aanmelddatum->getStart()) {
                 $builder
-                ->andWhere('verhuurder.aanmelddatum >= :aanmelddatum_van')
-                ->setParameter('aanmelddatum_van', $this->aanmelddatum->getStart())
+                    ->andWhere('verhuurder.aanmelddatum >= :aanmelddatum_van')
+                    ->setParameter('aanmelddatum_van', $this->aanmelddatum->getStart())
                 ;
             }
             if ($this->aanmelddatum->getEnd()) {
                 $builder
-                ->andWhere('verhuurder.aanmelddatum <= :aanmelddatum_tot')
-                ->setParameter('aanmelddatum_tot', $this->aanmelddatum->getEnd())
+                    ->andWhere('verhuurder.aanmelddatum <= :aanmelddatum_tot')
+                    ->setParameter('aanmelddatum_tot', $this->aanmelddatum->getEnd())
                 ;
             }
         }
@@ -105,21 +105,21 @@ class VerhuurderFilter implements FilterInterface
         }
 
         if (!is_null($this->gekoppeld)) {
-            $builder
-                ->leftJoin('verhuurder.huuraanbiedingen', 'huuraanbod', 'WITH', 'huuraanbod.afsluiting IS NULL')
-                ->leftJoin('huuraanbod.huurovereenkomst', 'huurovereenkomst', 'WITH',
-                    'huurovereenkomst.isReservering = false 
-                    AND huurovereenkomst.startdatum IS NOT NULL 
-                    AND (huurovereenkomst.afsluitdatum IS NULL OR huurovereenkomst.afsluitdatum > :today)'
-                )
-            ;
-            $builder->setParameter('today', new \DateTime('today'));
+            $builder->leftJoin('verhuurder.huuraanbiedingen', 'huuraanbod', 'WITH', 'huuraanbod.afsluiting IS NULL');
+            $builder->leftJoin(
+                'huuraanbod.huurovereenkomst',
+                'huurovereenkomst',
+                'WITH',
+                'huurovereenkomst.isReservering = FALSE
+                    AND huurovereenkomst.startdatum IS NOT NULL
+                    AND huurovereenkomst.startdatum <= :today
+                    AND (huurovereenkomst.einddatum IS NULL OR huurovereenkomst.einddatum >= :today)',
+            )
+                ->setParameter('today', new \DateTime('today'));;
 
             if (true === $this->gekoppeld) {
                 $builder->andWhere('huurovereenkomst IS NOT NULL');
-            } elseif (false === $this->gekoppeld) {
-                // probleem is dat er meerdere huurovereenkomsten zijn per huuraanbod, en dat we niet weten op welke hij joint.
-                // dit werkt dus niet. Dan maar programmatisch in VerhuurderDao!
+            } else {
                 $builder->andWhere('huurovereenkomst IS NULL');
             }
         }
