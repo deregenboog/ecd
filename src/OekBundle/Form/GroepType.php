@@ -16,6 +16,7 @@ class GroepType extends AbstractType
         $builder
             ->add('naam')
             ->add('aantalBijeenkomsten')
+            ->add('actief')
             ->add('submit', SubmitType::class, ['label' => 'Opslaan'])
         ;
     }
