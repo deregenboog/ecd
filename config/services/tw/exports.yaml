@@ -90,7 +90,9 @@ services:
                 Nummer: { expression: 'entity.getId()' }
                 Klant: { expression: 'entity.getKlant()' }
                 Emailadres Klant: { expression: 'entity.getKlant().getAppKlant().getEmail()' }
-                Verhuurder: { expression: 'entity.getVerhuurder()' }
+                Voornaam: { expression: 'entity.getKlant().getAppKlant().getVoornaam()' }
+                Tussenvoegsel: { expression: 'entity.getKlant().getAppKlant().getTussenvoegsel()' }
+                Achternaam: { expression: 'entity.getKlant().getAppKlant().getAchternaam()' }
                 Project: { expression: 'entity.getHuuraanbod().getProject()' }
                 Medewerker: { expression: 'entity.getMedewerker()' }
                 Startdatum: { expression: 'entity.getStartdatum()', type: 'date' }
