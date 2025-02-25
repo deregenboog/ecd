@@ -90,14 +90,16 @@ services:
                 Nummer: { expression: 'entity.getId()' }
                 Klant: { expression: 'entity.getKlant()' }
                 Emailadres Klant: { expression: 'entity.getKlant().getAppKlant().getEmail()' }
-                Verhuurder: { expression: 'entity.getVerhuurder()' }
+                Voornaam: { expression: 'entity.getKlant().getAppKlant().getVoornaam()' }
+                Tussenvoegsel: { expression: 'entity.getKlant().getAppKlant().getTussenvoegsel()' }
+                Achternaam: { expression: 'entity.getKlant().getAppKlant().getAchternaam()' }
                 Project: { expression: 'entity.getHuuraanbod().getProject()' }
                 Medewerker: { expression: 'entity.getMedewerker()' }
                 Startdatum: { expression: 'entity.getStartdatum()', type: 'date' }
                 Opzegdatum: { expression: 'entity.getOpzegdatum()', type: 'date' }
                 Einddatum: { expression: 'entity.getEinddatum()', type: 'date' }
                 Plaats: { expression: 'entity.getVerhuurder().getAppKlant().getPlaats()' }
-                Vorm: { expression: 'entity.getVorm()' }
+                Vorm: { expression: 'entity.getVormVanOvereenkomst()' }
                 Afsluitdatum: { expression: 'entity.getAfsluitdatum()', type: 'date' }
                 Afsluitreden: { expression: 'entity.getAfsluiting()' }
                 Automatische incasso: { expression: 'entity.getKlant().isAutomatischeIncasso() ? "ja" : "nee"' }

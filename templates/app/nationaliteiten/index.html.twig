@@ -1,0 +1,48 @@
+{% extends 'base.html.twig' %}
+{% import 'html.macro.twig' as html %}
+
+{% block content %}
+	<h1>{{ title }}</h1>
+	<p>
+		{{ html.addLink(path(route_base~'add')) }}
+		{{ html.link(entity_name|capitalize~' toevoegen', path(route_base~'add')) }}
+	</p>
+	<table class="table table-hover">
+		<thead>
+			{{ form_start(filter) }}
+			<tr>
+				<th>
+					{{ form_widget(filter.naam) }}
+					{{ form_errors(filter.naam) }}
+				</th>
+				<th>
+					<span class="pull-right">
+						{{ form_widget(filter.filter) }}
+					</span>
+				</th>
+			</tr>
+			{{ form_end(filter) }}
+			<tr>
+				<th>
+					{{ knp_pagination_sortable(pagination, 'Nationaliteit', 'nationaliteit.naam') }}
+				</th>
+				<th></th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for nationaliteit in pagination %}
+				<tr>
+					<td>
+						{{ nationaliteit.naam }}
+					</td>
+					<td>
+						{{ html.editLink(path('app_nationaliteiten_edit', {id: nationaliteit.id})) }}
+					</td>
+				</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+	<p>
+		{{ knp_pagination_render(pagination) }}
+	</p>
+{% endblock %}

@@ -1,6 +1,7 @@
 imports:
     - { resource: daos.yaml }
     - { resource: exports.yaml }
+    - { resource: reports.yaml }
 
 services:
     _defaults:
@@ -33,6 +34,11 @@ services:
         arguments:
             $export: '@villa.export.vrijwilliger'
 
+    VillaBundle\Controller\RapportagesController:
+        arguments:
+            $export: '@villa.export.report'
+            $reports: !tagged_iterator villa.rapportage
+
     VillaBundle\Controller\SlapersController:
         arguments:
             $export: '@villa.export.slaper'
@@ -40,6 +46,7 @@ services:
     VillaBundle\Controller\LogeerOpvangController:
         arguments:
             $export: '@villa.export.logeeropvang'
+
 
     villa.document.entities:
         class: ArrayObject

@@ -39,12 +39,26 @@ services:
       arguments:
         - VillaBundle\Entity\Slaper
         - Nummer: { expression: 'entity.getAppKlant().getId()' }
+          Voornaam: { expression: 'entity.getAppKlant().getVoornaam()' }
+          Tussenvoegsel: { expression: 'entity.getAppKlant().getTussenvoegsel()' }
+          Achternaam: { expression: 'entity.getAppKlant().getAchternaam()' }
+          BSN: { expression: 'entity.getAppKlant().getBSN()' }
+          Type: { expression: 'entity.getTypeAsString()' }
+          Aantal overnachtingen: { expression: 'entity.getOvernachtingenUsed()' }
+          Saldo: { expression: 'entity.calculateSaldo()' }
 
     villa.export.logeeropvang:
       class: AppBundle\Export\GenericExport
       arguments:
         - VillaBundle\Entity\Slaper
         - Nummer: { expression: 'entity.getAppKlant().getId()' }
+          Voornaam: { expression: 'entity.getAppKlant().getVoornaam()' }
+          Tussenvoegsel: { expression: 'entity.getAppKlant().getTussenvoegsel()' }
+          Achternaam: { expression: 'entity.getAppKlant().getAchternaam()' }
+          BSN: { expression: 'entity.getAppKlant().getBSN()' }
+          Type: { expression: 'entity.getTypeAsString()' }
+          Aantal overnachtingen: { expression: 'entity.getOvernachtingenUsed()' }
+          Saldo: { expression: 'entity.calculateSaldo()' }
 
     villa.export.report:
         class: AppBundle\Export\ReportExport

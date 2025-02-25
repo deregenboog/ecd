@@ -222,6 +222,11 @@ class KlantFilter implements FilterInterface
             $this->appKlant->applyTo($builder, 'appKlant');
         }
 
+        if ($this->bindingRegio && (is_array($this->bindingRegio) || $this->bindingRegio instanceof \Countable ? count($this->bindingRegio) : 0) > 0) {
+            $builder->andWhere($alias.'.bindingRegio IN (:regio)')
+                ->setParameter('regio', $this->bindingRegio);
+        }
+
         if ($this->shortlist) {
             $builder->andWhere('shortlist = :shortlist')
                 ->setParameter('shortlist', $this->shortlist);

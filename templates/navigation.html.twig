@@ -58,7 +58,7 @@
     {{ html.navLink('Uit het Krijt', path('uhk_index'), isActiveRoute('uhk_')) }}
 {% endif %}
 {% if is_granted('ROLE_VILLA') %}
-    {{ html.navLink('Villa', path('villa_slapers_index', { 'slaper_filter': {'type' : 1 } } ), isActiveRoute('villa_')) }}
+    {{ html.navLink('Villa', path('villa_slapers_indextype', { 'type' : 1 } ), isActiveRoute('villa_')) }}
 {% endif %}
 {% if is_granted('ROLE_ADMIN') %}
     <li role="presentation" class="dropdown {{ isActivePath('inloop/admin') ? 'active' }}">
@@ -68,6 +68,8 @@
         <ul class="dropdown-menu">
             {{ html.navLink('Landen', path('app_landen_index'), isActiveRoute('app_landen_')) }}
             {{ html.navLink('Postcodes', path('app_postcodes_index'), isActiveRoute('app_postcodes_')) }}
+            {{ html.navLink('Nationaliteiten', path('app_nationaliteiten_index'), isActiveRoute('app_nationaliteiten_')) }}
+            {{ html.navLink('Talen', path('app_talen_index'), isActiveRoute('app_talen_')) }}
             {# @todo
             {{ html.navLink('Geslachten', path('app_geslachten_index'), isActiveRoute('app_geslachten_')) }}
             {{ html.navLink('Inkomens', path('app_geslachten_index'), isActiveRoute('app_geslachten_')) }}

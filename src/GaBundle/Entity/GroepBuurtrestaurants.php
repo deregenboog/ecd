@@ -10,6 +10,6 @@ use Gedmo\Mapping\Annotation as Gedmo;
  *
  * @Gedmo\Loggable
  */
-class GroepOpenHuis extends Groep
+class GroepBuurtrestaurants extends Groep
 {
 }

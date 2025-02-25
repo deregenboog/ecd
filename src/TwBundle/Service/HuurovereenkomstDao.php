@@ -122,8 +122,8 @@ class HuurovereenkomstDao extends AbstractDao implements HuurovereenkomstDaoInte
         $builder = $this->getCountBuilder($startdate, $enddate)
             ->addSelect('afsluitreden.naam AS groep')
             ->innerJoin("{$this->alias}.afsluiting", 'afsluitreden')
-            ->andWhere("{$this->alias}.startdatum <= :end")
-            ->andWhere("{$this->alias}.einddatum >= :start")
+            ->andWhere("{$this->alias}.startdatum >= :start")
+            ->andWhere("{$this->alias}.afsluitdatum <= :end")
             ->groupBy('groep')
         ;
 
