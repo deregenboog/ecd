@@ -16,26 +16,7 @@ class DeelnemerRepository extends EntityRepository implements DoelstellingReposi
 
     public function countByGroepAndTraining($status, \DateTime $startDate, \DateTime $endDate)
     {
-        $builder = $this->getCountBuilder()
-            ->addSelect('groep.naam AS groepnaam')
-            ->addSelect('training.naam AS trainingnaam')
-            ->innerJoin('klant.deelnames', 'deelname')
-            ->innerJoin('deelname.deelnameStatussen', 'deelnameStatus')
-            ->innerJoin('deelname.training', 'training')
-            ->innerJoin('training.groep', 'groep')
-            ->where('deelnameStatus.status IN (:status)')
-            ->andWhere('deelnameStatus.datum BETWEEN :startDate AND :endDate')
-            ->setParameter('status', $status)
-            ->setParameter('startDate', $startDate)
-            ->setParameter('endDate', $endDate)
-            ->groupBy('groepnaam', 'trainingnaam');
-
-        return $builder->getQuery()->getResult();
-    }
-
-    public function countByGroepAndTrainingFull($status, \DateTime $startDate, \DateTime $endDate)
-    {
-        $builder = $this->createQueryBuilder('klant')
+        $builder =  $this->createQueryBuilder('klant')
             ->select('COUNT(DISTINCT klant.id) AS aantal')
             ->addSelect('groep.naam AS groepnaam')
             ->addSelect('training.naam AS trainingnaam')
@@ -56,9 +37,10 @@ class DeelnemerRepository extends EntityRepository implements DoelstellingReposi
                 ->innerJoin('subKlant.deelnames', 'subDeelname')
                 ->innerJoin('subDeelname.deelnameStatussen', 'subDeelnameStatus')
                 ->where('subDeelnameStatus.status = :statusVerwijderd')
+                ->andWhere('subDeelnameStatus.datum BETWEEN :startDate AND :endDate')
                 ->getDQL() .
             ')')
-            ->setParameter('statusVerwijderd', DeelnameStatus::STATUS_VERWIJDERD)
+            ->setParameter('statusVerwijderd', DeelnameStatus::STATUS_VERWIJDERD)    
         ;
 
         return $builder->getQuery()->getResult();
