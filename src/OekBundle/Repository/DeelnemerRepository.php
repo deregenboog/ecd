@@ -28,7 +28,37 @@ class DeelnemerRepository extends EntityRepository implements DoelstellingReposi
             ->setParameter('status', $status)
             ->setParameter('startDate', $startDate)
             ->setParameter('endDate', $endDate)
+            ->groupBy('groepnaam', 'trainingnaam');
+
+        return $builder->getQuery()->getResult();
+    }
+
+    public function countByGroepAndTrainingFull($status, \DateTime $startDate, \DateTime $endDate)
+    {
+        $builder = $this->createQueryBuilder('klant')
+            ->select('COUNT(DISTINCT klant.id) AS aantal')
+            ->addSelect('groep.naam AS groepnaam')
+            ->addSelect('training.naam AS trainingnaam')
+            ->addSelect('klant.id AS OID')
+            ->innerJoin('klant.deelnames', 'deelname')
+            ->innerJoin('deelname.deelnameStatussen', 'deelnameStatus')
+            ->innerJoin('deelname.training', 'training')
+            ->innerJoin('training.groep', 'groep')
+            ->where('deelnameStatus.status IN (:status)')
+            ->andWhere('deelnameStatus.datum BETWEEN :startDate AND :endDate')
+            ->setParameter('status', $status)
+            ->setParameter('startDate', $startDate)
+            ->setParameter('endDate', $endDate)
             ->groupBy('groepnaam', 'trainingnaam')
+            ->having('klant.id NOT IN (' .
+                $this->createQueryBuilder('subKlant')
+                ->select('subKlant.id')
+                ->innerJoin('subKlant.deelnames', 'subDeelname')
+                ->innerJoin('subDeelname.deelnameStatussen', 'subDeelnameStatus')
+                ->where('subDeelnameStatus.status = :statusVerwijderd')
+                ->getDQL() .
+            ')')
+            ->setParameter('statusVerwijderd', DeelnameStatus::STATUS_VERWIJDERD)
         ;
 
         return $builder->getQuery()->getResult();
@@ -51,8 +81,7 @@ class DeelnemerRepository extends EntityRepository implements DoelstellingReposi
             ->andWhere('dossierStatus.datum BETWEEN :startDate AND :endDate')
             ->setParameter('startDate', $startDate)
             ->setParameter('endDate', $endDate)
-            ->groupBy('verwijzingsoort')
-        ;
+            ->groupBy('verwijzingsoort');
 
         return $builder->getQuery()->getResult();
     }
@@ -104,7 +133,7 @@ class DeelnemerRepository extends EntityRepository implements DoelstellingReposi
             ->setParameter('startDate', $startdatum)
             ->setParameter('endDate', $eindddatum)
             ->setParameter('stadsdeel', $stadsdeel)
-//            ->groupBy('groepnaam', 'trainingnaam')
+            //            ->groupBy('groepnaam', 'trainingnaam')
         ;
 
         return $builder->getQuery()->getSingleScalarResult();
