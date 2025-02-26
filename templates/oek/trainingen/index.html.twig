@@ -70,7 +70,7 @@
                 <td>
                     {{ html.link(training.groep, path('oek_groepen_view', {id: training.groep.id})) }}
                 </td>
-                <td>{{ training.deelnemers.count() }}</td>
+                <td>{{ training.count_deelnemers }}</td>
                 <td>
                     {{ training.startdatum ? training.startdatum|date('d-m-Y') }}
                     {{ training.starttijd ? training.starttijd|date('H:i') ~ ' uur' }}

@@ -4,11 +4,15 @@ namespace OekBundle\Controller;
 
 use AppBundle\Controller\AbstractChildController;
 use AppBundle\Export\ExportInterface;
+use DateTime;
 use OekBundle\Entity\DeelnameStatus;
 use OekBundle\Entity\Training;
 use OekBundle\Form\EmailMessageType;
 use OekBundle\Form\TrainingFilterType;
 use OekBundle\Form\TrainingType;
+use OekBundle\Report\DeelnemersPerTrainingGroep;
+use OekBundle\Repository\DeelnameRepository;
+use OekBundle\Repository\DeelnemerRepository;
 use OekBundle\Service\TrainingDaoInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\Mailer\Exception\TransportException;
@@ -16,6 +20,7 @@ use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Address;
 use Symfony\Component\Mime\Email;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * @Route("/trainingen")
@@ -57,6 +62,22 @@ class TrainingenController extends AbstractChildController
         $this->entities = $entities;
         $this->exportPresentielijst = $exportPresentielijst;
         $this->exportDeelnemerslijst = $exportDeelnemerslijst;
+    }
+
+    /**
+     * @Route("/")
+     * @Template("oek/trainingen/index.html.twig")
+     */
+    public function indexTrainingAction(Request $request, DeelnemerRepository $deelnemerRepository){
+        $result = parent::indexAction($request);
+        $items = $result['pagination']->getItems();
+
+        foreach($items as $item){
+            $item->count_deelnemers = $deelnemerRepository->getAantalDeelnamesPerTraining($item->getId());
+        }
+
+        $result['pagination']->setItems($items);
+        return $result;
     }
 
     /**

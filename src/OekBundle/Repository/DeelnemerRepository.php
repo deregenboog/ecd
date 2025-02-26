@@ -9,6 +9,7 @@ use OekBundle\Entity\Aanmelding;
 use OekBundle\Entity\Afsluiting;
 use OekBundle\Entity\DeelnameStatus;
 use OekBundle\Report\AbstractDeelnemersVerwezen;
+use OekBundle\Entity\DeelnameStatus as DS;
 
 class DeelnemerRepository extends EntityRepository implements DoelstellingRepositoryInterface
 {
@@ -123,5 +124,23 @@ class DeelnemerRepository extends EntityRepository implements DoelstellingReposi
         //        $sql = $builder->getQuery()->getSQL();
         //        $parameters = $builder->getQuery()->getParameters();
         return $builder->getQuery()->getResult();
+    }
+
+    public function getAantalDeelnamesPerTraining($trainingId) {
+        $status = [DS::STATUS_AANGEMELD, DS::STATUS_GESTART, DS::STATUS_GEVOLGD, DS::STATUS_AFGEROND];
+        
+        $builder = $this->getCountBuilder()
+            ->innerJoin('klant.deelnames', 'deelname')
+            ->innerJoin('deelname.deelnameStatussen', 'deelnameStatus')
+            ->innerJoin('deelname.training', 'training')
+            ->where('deelnameStatus.status IN (:status)')
+            ->andWhere('training.id = :trainingId')
+            ->setParameter('status', $status)
+            ->setParameter('trainingId', $trainingId)
+        ;
+
+        $res = $builder->getQuery()->getResult();
+
+        return $res[0]['aantal'];
     }
 }
