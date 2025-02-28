@@ -1,0 +1,32 @@
+<div class="form-inline">
+    <div class="form-group">
+        <input class="group_action" type="checkbox" onclick="$('.group_action').prop('checked', $(this).prop('checked'))">
+    </div>
+    <div class="form-group">
+        <select id="group-action-select" class="form-control">
+            <option value=".douche">Douche</option>
+            <option value=".kleding">Kleding</option>
+            <option value=".maaltijd">Maaltijd</option>
+            <option value=".veegploeg">Veegploeg</option>
+            <option value=".mw">MW</option>
+        </select>
+    </div>
+    <div class="form-group">
+        <button id="group-action-button" class="btn btn-primary">Apply</button>
+    </div>
+</div>
+
+<script type="text/javascript">
+	$("#group-action-button").on("click", ()=>{
+        var action = $("#group-action-select").val();
+        if($(`${action}`).length && confirm("Are you sure?")){
+            for(var element of $(`${action}`)){
+                const checkbox = $(element).closest("tr").find(".group_action");
+                const isChecked = $(checkbox).prop('checked');
+                if(isChecked) {
+                    element.click("multi");
+                }
+            }
+        }
+    })
+</script>
