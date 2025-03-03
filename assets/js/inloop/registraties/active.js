@@ -68,13 +68,19 @@ $(function() {
    });
 });
 
+/// to check ajax request already in progress. it helps to avoid multiple ajax request at same time.
+var busyInit = false;
+
 function init() {
+    if(busyInit) return;
+    busyInit = true;
     showLoader();
     $.get({
         url: window.location.href+'&ajax=1',
     }).done(function(response) {
         $('#ajaxContainer').html(response);
         hideLoader();
+        busyInit = false;
     });
 }
 
