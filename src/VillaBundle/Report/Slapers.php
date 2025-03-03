@@ -16,6 +16,7 @@ class Slapers extends AbstractReport
 
     protected $overnachtingenTable;
     protected $slapersTable;
+    protected $slapersDetailTable;
 
     public function __construct(SlaperDaoInterface $dao)
     {
@@ -26,6 +27,7 @@ class Slapers extends AbstractReport
     {
         $this->overnachtingenTable = $this->dao->countOvernachtingenByType($this->startDate, $this->endDate);
         $this->slapersTable = $this->dao->countSlapersByType($this->startDate, $this->endDate);
+        $this->slapersDetailTable = $this->dao->getSlapersWithOvernachtingen($this->startDate, $this->endDate);
     }
 
     protected function build()

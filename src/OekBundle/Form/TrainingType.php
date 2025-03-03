@@ -5,6 +5,7 @@ namespace OekBundle\Form;
 use AppBundle\Form\AppDateType;
 use AppBundle\Form\AppTimeType;
 use AppBundle\Form\BaseType;
+use OekBundle\Entity\Groep;
 use OekBundle\Entity\Training;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -17,8 +18,13 @@ class TrainingType extends AbstractType
     {
         if (!isset($options['data']) || !$options['data']->getGroep()) {
             $builder->add('groep', null, [
+                'class' => Groep::class,
                 'label' => 'Groep',
                 'placeholder' => 'Selecteer een item',
+                'query_builder' => function ( $er) {
+                    return $er->createQueryBuilder('groep')
+                        ->where('groep.actief = 1');
+                },
             ]);
         }
 

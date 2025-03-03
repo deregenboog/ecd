@@ -24,6 +24,7 @@ class LidmaatschapType extends AbstractType
                 'query_builder' => function (EntityRepository $repository) use ($options) {
                     return $repository->createQueryBuilder('groep')
                         ->where('groep = :groep')
+                        ->andWhere('groep.actief=1')
                         ->setParameter('groep', $options['data']->getGroep())
                     ;
                 },
@@ -44,7 +45,7 @@ class LidmaatschapType extends AbstractType
                             ->setParameter('groepen', $options['data']->getDeelnemer()->getGroepen())
                         ;
                     }
-
+                    $builder->andWhere('groep.actief=1');
                     return $builder;
                 },
             ]);

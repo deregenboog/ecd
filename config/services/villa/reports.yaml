@@ -11,3 +11,9 @@ services:
         tags:
             - { name: villa.rapportage }
 
+    VillaBundle\Report\OverzichtSlapers:
+        arguments:
+            - '@VillaBundle\Service\SlaperDaoInterface'
+        tags:
+            - { name: villa.rapportage }
+

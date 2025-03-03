@@ -139,4 +139,17 @@ class SlapersController extends AbstractController implements DossierStatusContr
             throw new UserException("Kan geen dossier bewerken dat afgesloten is.");
         }
     }
+
+    /**
+     * @Route("/type/{type?}")
+     * @Template("villa/slapers/index.html.twig")
+     */
+    public function indexTypeAction(Request $request){
+        $type = $request->get('type', 1);
+        $filters = $request->query->get('slaper_filter', []); 
+        $filters['type'] = $type; 
+        $request->query->set('slaper_filter', $filters); 
+
+        return parent::indexAction($request);
+    }
 }
