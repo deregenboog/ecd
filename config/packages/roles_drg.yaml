@@ -100,11 +100,13 @@ security:
         ROLE_GA_BEHEER:
             - ROLE_GA
             - ROLE_EROPUIT_BEHEER
-        ROLE_CLIP: []
+        ROLE_CLIP: 
+            - ROLE_CLIP_ALLEEN_CLIENTEN
         ROLE_CLIP_BEHEER:
             - ROLE_CLIP
             - ROLE_CLIP_VRIJWILLIGERS
             - CONTROLLER_APP_VRIJWILLIGERS
+            - ROLE_CLIP_ALLEEN_CLIENTEN
         ROLE_DAGBESTEDING: []
         ROLE_DAGBESTEDING_BEHEER:
             - ROLE_DAGBESTEDING
@@ -203,6 +205,7 @@ security:
             - ROLE_MANAGEMENT
             - ROLE_SPORT
             - ROLE_VILLA_BEHEER
+            - ROLE_CLIP_ALLEEN_CLIENTEN
         CONTROLLER_APP_KLANTEN:
             - CONTROLLER_APP_DOCUMENTEN
         CONTROLLER_APP_VRIJWILLIGERS:

@@ -6,5 +6,5 @@ when@dev:
     framework:
         profiler:
             only_exceptions: false
-            collect: true
+            collect: false
             enabled: true
