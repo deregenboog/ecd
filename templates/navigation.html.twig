@@ -27,6 +27,11 @@
 {% if is_granted('ROLE_CLIP') %}
     {{ html.navLink('CLIP', path('clip_index'), isActiveRoute('clip_')) }}
 {% endif %}
+
+{% if is_granted('ROLE_USER') and 'ROLE_CLIP_ALLEEN_CLIENTEN' in app.user.getRoles() %}
+    {{ html.navLink('CLIP Cliënten', path('clip_clienten_index'), isActiveRoute('clip_clienten_')) }}
+{% endif %}
+
 {% if is_granted('ROLE_DAGBESTEDING') %}
     {{ html.navLink('Dagbesteding', path('dagbesteding_index'), isActiveRoute('dagbesteding_')) }}
 {% endif %}

@@ -864,6 +864,15 @@ AppBundle\Entity\Medewerker:
         achternaam: '<lastname()>'
         eersteBezoek: '<dateTimeThisYear()>'
         laatsteBezoek: '<dateTimeThisYear()>'
+    medewerker_clip_user:
+        ldapGuid (unique): '<randomNumber()>'
+        username: 'medewerker_clip_clienten'
+        roles: ['ROLE_CLIP_ALLEEN_CLIENTEN']
+        email: '<email()>'
+        voornaam: 'Clip'
+        achternaam: 'User'
+        eersteBezoek: '<dateTimeThisYear()>'
+        laatsteBezoek: '<dateTimeThisYear()>'
 
 AppBundle\Entity\Klant:
     klant_{1..25}:
