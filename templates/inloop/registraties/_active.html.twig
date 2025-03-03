@@ -5,7 +5,7 @@
 	<thead>
 		<tr>
 			<th>
-				<input class="group_action" type="checkbox" onclick="$('.group_action').prop('checked', $(this).prop('checked'))">
+				<input class="group_action" type="checkbox" onclick="$('.group_action').prop('checked', $(this).prop('checked')).trigger('change')">
 				<span style="margin-left: 2em;">
 					{{ knp_pagination_sortable(pagination, 'Voornaam', 'klant.voornaam') }}
 				</span>
