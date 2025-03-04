@@ -298,6 +298,22 @@ class Deelnemer
         return $this->trajecten;
     }
 
+    public function getOpenTrajecten()
+    {
+        $result = [];
+        foreach($this->getTrajecten() as $traject) {
+            if(null == $traject->getAfsluiting()){
+                $result[] = $traject;
+            }
+        }
+        return $result;
+    }
+
+    public function hasOpenTrijecten(): bool 
+    {
+        return 0 < count($this->getOpenTrajecten());
+    }
+
     public function addTraject(Traject $traject)
     {
         $this->trajecten[] = $traject;
