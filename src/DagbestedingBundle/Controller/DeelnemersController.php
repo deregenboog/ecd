@@ -162,9 +162,10 @@ class DeelnemersController extends AbstractController
                 $countTrajecten = count($trajecten);
 
                 foreach ($trajecten as $traject) {
-                    $afs = $form->get('afsluiting_trajecten')->getData();
-                    $traject->setAfsluiting($afs);
-                    $traject->setAfsluitdatum($entity->getAfsluitdatum());
+                    if($afs = $form->get('afsluiting_trajecten')->getData()) {
+                        $traject->setAfsluiting($afs);
+                        $traject->setAfsluitdatum($entity->getAfsluitdatum());
+                    }
                 }
                 
                 $this->dao->update($entity);
