@@ -1,5 +1,9 @@
 {% import 'html.macro.twig' as html %}
 
+{% set partial_template = '/villa/_edit.ajax.html.twig' %}
+{% if partial_template is defined %}
+    {% include partial_template %}
+{% endif %}
 
 {{ form(form) }}
 
