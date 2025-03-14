@@ -101,6 +101,19 @@ class Deelnemer implements KlantRelationInterface, DocumentSubjectInterface
      */
     protected $documenten;
 
+    /**
+     * @var Project[]
+     *
+     * @ORM\ManyToMany(targetEntity="Project")
+     *
+     * @ORM\JoinTable(
+     *     name="uhk_deelnemers_uhk_projecten",
+     *     joinColumns={@ORM\JoinColumn(name="uhk_deelnemer_id")},
+     *     inverseJoinColumns={@ORM\JoinColumn(name="uhk_project_id")}
+     * )
+     */
+    protected $projecten;
+
     public function __construct(?Klant $klant = null, ?Medewerker $medewerker = null)
     {
         $this->klant = $klant;
@@ -200,5 +213,17 @@ class Deelnemer implements KlantRelationInterface, DocumentSubjectInterface
     public function getKlantFieldName(): string
     {
         return $this->klantFieldName;
+    }
+
+    public function getProjecten(): ?Project
+    {
+        // We will develop it if needed more than one project.
+        return $this->projecten[0] ?? null;
+    }
+
+    public function setProjecten(?Project $projecten): void
+    {
+        // We will develop it if needed more than one project.
+        $this->projecten = $projecten ? [$projecten] : [];
     }
 }
