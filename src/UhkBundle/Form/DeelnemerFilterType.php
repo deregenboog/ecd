@@ -17,6 +17,12 @@ class DeelnemerFilterType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        if (array_key_exists('projecten', $options['enabled_filters'])) {
+            $builder->add('projecten', ProjectSelectType::class, [
+                'required' => false,
+            ]);
+        }
+
         if (array_key_exists('klant', $options['enabled_filters'])) {
             $builder->add('klant', KlantFilterType::class, [
                 'enabled_filters' => $options['enabled_filters']['klant'],
@@ -64,7 +70,7 @@ class DeelnemerFilterType extends AbstractType
                 'medewerker',
                 'filter',
                 'actief',
-//                'download',
+                'projecten'=> ['color', 'naam', 'uhk_project_id']
             ],
         ]);
     }

@@ -20,6 +20,7 @@ use UhkBundle\Form\DeelnemerType;
 use UhkBundle\Security\Permissions;
 use UhkBundle\Service\DeelnemerDaoInterface;
 use UhkBundle\Service\VerslagDaoInterface;
+use UhkBundle\Service\ProjectDaoInterface;
 
 /**
  * @Route("/deelnemers")
@@ -54,12 +55,18 @@ class DeelnemersController extends AbstractController
      */
     protected $verslagDao;
 
-    public function __construct(DeelnemerDaoInterface $dao, KlantDaoInterface $klantDao, VerslagDaoInterface $verslagDao)
+    /**
+     * @var ProjectDaoInterface
+     */
+    protected $projectDao;
+
+    public function __construct(DeelnemerDaoInterface $dao, KlantDaoInterface $klantDao, VerslagDaoInterface $verslagDao, ProjectDaoInterface $projectDao)
     {
         $this->dao = $dao;
         $this->klantDao = $klantDao;
         $this->searchDao = $klantDao;
         $this->verslagDao = $verslagDao;
+        $this->projectDao = $projectDao;
     }
 
 

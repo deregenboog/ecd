@@ -42,10 +42,22 @@ class DeelnemerFilter implements FilterInterface
      */
     public $verslagDatum;
 
+    /**
+     * @var ProjectSelectType
+     */
+    public $projecten;
+
     public function applyTo(QueryBuilder $builder)
     {
         if ($this->klant) {
             $this->klant->applyTo($builder);
+        }
+
+        if ($this->projecten) {
+            $builder
+                ->andWhere('projecten = :projecten')
+                ->setParameter('projecten', $this->projecten)
+            ;
         }
 
         if ($this->deelnemer) {

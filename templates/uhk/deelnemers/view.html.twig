@@ -37,6 +37,10 @@
                     <dd>{{ entity.medewerker }}</dd>
                     <dt>Aanmelddatum</dt>
                     <dd>{{ entity.aanmelddatum|if_date('d-m-Y') }}</dd>
+                    <dt>Project</dt>
+                    <dd>
+                        <label class="label" style="background-color: {{ entity.projecten.color ?? '' }}; color:#000">{{ entity.projecten.naam ?? '' }}</label>
+                    </dd>
                 </dl>
                 <dl class="dl-horizontal">
                     <dt>Aanmelder</dt>

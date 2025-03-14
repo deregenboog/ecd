@@ -2,99 +2,108 @@
 {% import 'html.macro.twig' as html %}
 
 {% block content %}
-    <h1>{{ title }}</h1>
-    <p>
-        {{ html.link(entity_name|capitalize~' toevoegen', path('uhk_deelnemers_add'), 'add') }}
-    </p>
-    <table class="table table-hover">
-        {{ form_start(filter) }}
-            <tr>
-                <th colspan="6">
-                    <span class="pull-right">
-                        {{ form_widget(filter.filter) }}
+	<h1>{{ title }}</h1>
+	<p>
+		{{ html.link(entity_name|capitalize~' toevoegen', path('uhk_deelnemers_add'), 'add') }}
+	</p>
+	<table class="table table-hover">
+		{{ form_start(filter) }}
+		<tr>
+			<th colspan="7">
+				<span class="pull-right">
+					{{ form_widget(filter.filter) }}
+				</span>
+			</th>
+		</tr>
+		<tr>
+			<th>
+				{{ form_widget(filter.klant.id) }}
+				{{ form_errors(filter.klant.id) }}
+			</th>
+			<th>
+				{{ form_widget(filter.projecten) }}
+				{{ form_errors(filter.projecten) }}
+			</th>
+			<th>
+				{{ form_widget(filter.klant.naam) }}
+				{{ form_errors(filter.klant.naam) }}
+			</th>
+			<th>
+				{{ form_widget(filter.klant.stadsdeel) }}
+				{{ form_errors(filter.klant.stadsdeel) }}
+			</th>
+			<th>
+				{{ form_widget(filter.aanmelddatum.start) }}
+				{{ form_errors(filter.aanmelddatum.start) }}
+				{{ form_widget(filter.aanmelddatum.end) }}
+				{{ form_errors(filter.aanmelddatum.end) }}
+			</th>
+			<th>
+				{{ form_errors(filter.medewerker) }}
+				{{ form_widget(filter.medewerker) }}
+			</th>
+			<th>
+				{{ form_errors(filter.actief) }}
+				{{ form_widget(filter.actief) }}
+			</th>
+		</tr>
+		{{ form_end(filter) }}
+		<tr>
+			<th>
+				{{ knp_pagination_sortable(pagination, '#', 'klant.id') }}
+			</th>
+			<th>
+				{{ knp_pagination_sortable(pagination, 'Project', 'projecten.naam') }}
+			</th>
+			<th>
+				{{ knp_pagination_sortable(pagination, 'Deelnemer', 'klant.achternaam') }}
+			</th>
+			<th>
+				Stadsdeel
+			</th>
+			<th>
+				{{ knp_pagination_sortable(pagination, 'Aanmelddatum', 'deelnemer.aanmelddatum') }}
+			</th>
+			<th>
+				Medewerker
+			</th>
+			<th>
+				{{ knp_pagination_sortable(pagination, 'Actief', 'deelnemer.actief') }}
+			</th>
+		</tr>
+		{% for deelnemer in pagination %}
+			{% set class = '' %}
+			{% if deelnemer.verslagen.first() and date(deelnemer.verslagen.first().datum) < date('-3months') %}
+				{% set class = 'info' %}
+			{% endif %}
+			<tr data-href="{{ path('uhk_deelnemers_view', {id: deelnemer.id}) }}" class="{{ class }} {{ not deelnemer.actief ? 'danger' }}">
+				<td>
+					{{ deelnemer.klant.id }}
+				</td>
+				<td>
+					<label class="label" style="background-color: {{ deelnemer.projecten.color ?? '' }}; color:#000">{{ deelnemer.projecten.naam ?? '' }}</label>
+				</td>
+				<td>
+					{{ deelnemer }}
+				</td>
+				<td>
+					{{ deelnemer.klant.werkgebied }}
+				</td>
+				<td>
+					{{ deelnemer.aanmelddatum|date('d-m-Y') }}
+				</td>
+				<td>
+					{{ deelnemer.medewerker }}
+				</td>
+				<td>
+					{{ deelnemer.actief ? 'Actief' : 'Inactief' }}
+				</td>
 
-                    </span>
-                </th>
-            </tr>
-            <tr>
-                <th>
-                    {{ form_widget(filter.klant.id) }}
-                    {{ form_errors(filter.klant.id) }}
-                </th>
-                <th>
-                    {{ form_widget(filter.klant.naam) }}
-                    {{ form_errors(filter.klant.naam) }}
-                </th>
-                <th>
-                    {{ form_widget(filter.klant.stadsdeel) }}
-                    {{ form_errors(filter.klant.stadsdeel) }}
-                </th>
-                <th>
-                    {{ form_widget(filter.aanmelddatum.start) }}
-                    {{ form_errors(filter.aanmelddatum.start) }}
-                    {{ form_widget(filter.aanmelddatum.end) }}
-                    {{ form_errors(filter.aanmelddatum.end) }}
-                </th>
-                <th>
-                    {{ form_errors(filter.medewerker) }}
-                    {{ form_widget(filter.medewerker) }}
-                </th>
-                <th>
-                    {{ form_errors(filter.actief) }}
-                    {{ form_widget(filter.actief) }}
-                </th>
-            </tr>
-        {{ form_end(filter) }}
-        <tr>
-            <th>
-                {{ knp_pagination_sortable(pagination, '#', 'klant.id') }}
-            </th>
-            <th>
-                {{ knp_pagination_sortable(pagination, 'Deelnemer', 'klant.achternaam') }}
-            </th>
-            <th>
-                Stadsdeel
-            </th>
-            <th>
-                {{ knp_pagination_sortable(pagination, 'Aanmelddatum', 'deelnemer.aanmelddatum') }}
-            </th>
-            <th>
-                Medewerker
-            </th>
-            <th>
-                {{ knp_pagination_sortable(pagination, 'Actief', 'deelnemer.actief') }}
-            </th>
-        </tr>
-        {% for deelnemer in pagination %}
-            {% set class = '' %}
-            {% if deelnemer.verslagen.first() and date(deelnemer.verslagen.first().datum) < date('-3months') %}
-                {% set class = 'info' %}
-            {% endif %}
-        <tr data-href="{{ path('uhk_deelnemers_view', {id: deelnemer.id}) }}" class="{{ class }} {{ not deelnemer.actief ? 'danger' }}">
-            <td>
-                {{ deelnemer.klant.id }}
-            </td>
-            <td>
-                {{ deelnemer }}
-            </td>
-            <td>
-                {{ deelnemer.klant.werkgebied }}
-            </td>
-            <td>
-                {{ deelnemer.aanmelddatum|date('d-m-Y') }}
-            </td>
-            <td>
-                {{ deelnemer.medewerker }}
-            </td>
-            <td>
-                {{ deelnemer.actief ? 'Actief' : 'Inactief' }}
-            </td>
+			</tr>
+		{% endfor %}
+	</table>
 
-        </tr>
-        {% endfor %}
-    </table>
-
-    <p>
-        {{ knp_pagination_render(pagination) }}
-    </p>
+	<p>
+		{{ knp_pagination_render(pagination) }}
+	</p>
 {% endblock %}
