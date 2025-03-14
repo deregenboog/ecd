@@ -20,6 +20,7 @@ class DeelnemerDao extends AbstractDao implements DeelnemerDaoInterface
             'klant.voornaam',
             'klant.achternaam',
             'deelnemer.type',
+            'projecten.naam',
         ],
         'wrap-queries' => true, // because of HAVING clause in filter
     ];
@@ -37,6 +38,8 @@ class DeelnemerDao extends AbstractDao implements DeelnemerDaoInterface
             ->innerJoin($this->alias.'.klant', 'klant')
             ->leftJoin($this->alias.'.verslagen', 'verslag')
             ->leftJoin($this->alias.'.verslagen', 'v2', 'WITH', 'verslag.datum < v2.datum OR (verslag.datum = v2.datum AND verslag.id < v2.id)')
+            ->leftJoin($this->alias.'.projecten', 'projecten')
+            ->leftJoin($this->alias.'.projecten', 'v3', 'WITH', 'projecten.id = v3.id')
 
         ;
 

@@ -11,6 +11,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use UhkBundle\Entity\Deelnemer;
+use UhkBundle\Entity\Project;
 
 class DeelnemerType extends AbstractType
 {
@@ -47,12 +48,21 @@ class DeelnemerType extends AbstractType
                 'required' => true,
             ]);
         }
-
+        
         $builder
             ->add('medewerker', MedewerkerType::class, [
                 'label' => 'Medewerker',
                 'required' => true,
             ])
+            ->add(
+                'Projecten', 
+                ProjectSelectType::class, 
+                [
+                    'label' => 'Project',
+                    //'multiple' => true, 
+                    'required' => false
+                ]
+            )
             ->add('submit', SubmitType::class);
     }
 
