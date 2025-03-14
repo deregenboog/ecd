@@ -13,11 +13,13 @@ services:
         arguments:
             -
                 - { key: bezoeker, dao: '@OekraineBundle\Service\BezoekerDao' }
+                - { key: vrijwilliger, dao: '@OekraineBundle\Service\VrijwilligerDao' }
 
     oekraine.memo.entities:
         class: ArrayObject
         arguments:
-            - []
+            -
+              - { key: vrijwilliger, dao: '@OekraineBundle\Service\VrijwilligerDao' }
 
     oekraine.incident.entities:
         class: ArrayObject
@@ -30,3 +32,9 @@ services:
         arguments:
             -
                 - { key: bezoeker, dao: '@OekraineBundle\Service\BezoekerDao' }
+    
+    oekraine.deelname.entities:
+        class: ArrayObject
+        arguments:
+            -
+                - { key: vrijwilliger, dao: '@OekraineBundle\Service\VrijwilligerDao' }

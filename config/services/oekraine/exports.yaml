@@ -80,3 +80,61 @@ services:
 
     oekraine.export.report:
         class: AppBundle\Export\ReportExport
+    
+    oekraine.export.vrijwilliger:
+        class: AppBundle\Export\GenericExport
+        arguments:
+            - OekraineBundle\Entity\Vrijwilliger
+            -
+                Nummer: { expression: 'entity.getVrijwilliger().getId()' }
+                Aanmelddatum: { expression: 'entity.getAanmelddatum()', type: 'date' }
+                Startdatum: { expression: 'entity.getStartdatum()', type: 'date' }
+                Afsluitdatum: { expression: 'entity.getAfsluitdatum()', type: 'date' }
+                Geslacht: { expression: 'entity.getVrijwilliger().getGeslacht()' }
+                Voornaam: { expression: 'entity.getVrijwilliger().getVoornaam()' }
+                Tussenvoegsel: { expression: 'entity.getVrijwilliger().getTussenvoegsel()' }
+                Achternaam: { expression: 'entity.getVrijwilliger().getAchternaam()' }
+                Geboortedatum: { expression: 'entity.getVrijwilliger().getGeboortedatum()', type: 'date' }
+                Adres: { expression: 'entity.getVrijwilliger().getAdres()' }
+                Postcode: { expression: 'entity.getVrijwilliger().getPostcode()' }
+                Woonplaats: { expression: 'entity.getVrijwilliger().getPlaats()' }
+                E-mail: { expression: 'entity.getVrijwilliger().getEmail()' }
+                Mobiel: { expression: 'entity.getVrijwilliger().getMobiel()' }
+                Telefoon: { expression: 'entity.getVrijwilliger().getTelefoon()' }
+                Werkgebied: { expression: 'entity.getVrijwilliger().getWerkgebied()' }
+                GGW-gebied: { expression: 'entity.getVrijwilliger().getPostcodegebied()' }
+                Stagiair: { expression: 'entity.isStagiair()' }
+                Postvoorkeur: { expression: 'entity.getVrijwilliger().getGeenPost()==false?"Post":"Geen Post"' }
+                Emailvoorkeur: { expression: 'entity.getVrijwilliger().getGeenEmail()==false?"Email":"Geen Email"' }
+                Medewerker Intake: { expression: 'entity.getMedewerker()' }
+                Medewerker Locatie: { expression: 'entity.getMedewerkerLocatie()' }
+                Binnengekomen via: { expression: 'entity.getBinnenVia()' }
+                Locaties: { expression: 'entity.getLocaties()' }
+                VOG aangevraagd: { expression: 'entity.getVrijwilliger().getVogAangevraagd()' }
+                VOG aanwezig: { expression: 'entity.getVrijwilliger().getVogAanwezig()' }
+                Overeenkomst aanwezig: { expression: 'entity.getVrijwilliger().getOvereenkomstAanwezig()' }
+
+    oekraine.export.vrijwilligerdownload:
+        class: AppBundle\Export\GenericExport
+        arguments:
+            - OekraineBundle\Entity\Vrijwilliger
+            - Rubriek: { expression: '"OekraineVrijwilliger"' }
+              Nummer: { expression: 'entity.getVrijwilliger().getId()' }
+              Startdatum: { expression: 'entity.getStartdatum()', type: 'date' }
+              Afsluitdatum: { expression: 'entity.getAfsluitdatum()', type: 'date' }
+              Geslacht: { expression: 'entity.getVrijwilliger().getGeslacht()' }
+              Voornaam: { expression: 'entity.getVrijwilliger().getVoornaam()' }
+              Tussenvoegsel: { expression: 'entity.getVrijwilliger().getTussenvoegsel()' }
+              Achternaam: { expression: 'entity.getVrijwilliger().getAchternaam()' }
+              Geboortedatum: { expression: 'entity.getVrijwilliger().getGeboortedatum()', type: 'date' }
+              E-mail: { expression: 'entity.getVrijwilliger().getEmail()' }
+              Adres: { expression: 'entity.getVrijwilliger().getAdres()' }
+              Postcode: { expression: 'entity.getVrijwilliger().getPostcode()' }
+              Woonplaats: { expression: 'entity.getVrijwilliger().getPlaats()' }
+              Werkgebied: { expression: 'entity.getVrijwilliger().getWerkgebied()' }
+              Postvoorkeur: { expression: 'entity.getVrijwilliger().getGeenPost() ? "Geen post" : "Wel post"' }
+              E-mailvoorkeur: { expression: 'entity.getVrijwilliger().getGeenEmail() ? "Geen e-mail" : "Wel e-mail"' }
+            - 'Vrijwilligers Oekraine'
+            - '@OekraineBundle\Service\VrijwilligerDao'
+        tags:
+            - { name: app.downloads }

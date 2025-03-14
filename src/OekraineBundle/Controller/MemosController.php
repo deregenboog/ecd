@@ -4,7 +4,9 @@ namespace OekraineBundle\Controller;
 
 use AppBundle\Controller\DisableIndexActionTrait;
 use AppBundle\Controller\MemosControllerAbstract;
-use AppBundle\Service\MemoDaoInterface;
+use OekraineBundle\Entity\Memo;
+use OekraineBundle\Form\MemoType;
+use OekraineBundle\Service\MemoDaoInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -14,6 +16,9 @@ class MemosController extends MemosControllerAbstract
 {
     use DisableIndexActionTrait;
 
+    protected $baseRouteName = 'oekraine_memos_';
+    protected $entityClass = Memo::class;
+    protected $formClass = MemoType::class;
     /**
      * @var MemoDaoInterface
      */
