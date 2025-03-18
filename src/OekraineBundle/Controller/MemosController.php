@@ -4,7 +4,8 @@ namespace OekraineBundle\Controller;
 
 use AppBundle\Controller\DisableIndexActionTrait;
 use AppBundle\Controller\MemosControllerAbstract;
-use OekraineBundle\Entity\Memo;
+use AppBundle\Entity\Memo;
+use AppBundle\Service\MemoDaoInterface as ServiceMemoDaoInterface;
 use OekraineBundle\Form\MemoType;
 use OekraineBundle\Service\MemoDaoInterface;
 use Symfony\Component\Routing\Annotation\Route;
@@ -29,7 +30,7 @@ class MemosController extends MemosControllerAbstract
      */
     protected $entities;
 
-    public function __construct(MemoDaoInterface $dao, \ArrayObject $entities)
+    public function __construct(ServiceMemoDaoInterface $dao, \ArrayObject $entities)
     {
         $this->dao = $dao;
         $this->entities = $entities;

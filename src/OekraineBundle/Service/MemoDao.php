@@ -2,12 +2,13 @@
 
 namespace OekraineBundle\Service;
 
-use OekraineBundle\Entity\Memo;
+use AppBundle\Entity\Memo;
 use AppBundle\Filter\FilterInterface;
 use AppBundle\Service\AbstractDao;
+use AppBundle\Service\MemoDaoInterface as ServiceMemoDaoInterface;
 use OekraineBundle\Service\MemoDaoInterface;
 
-class MemoDao extends AbstractDao implements MemoDaoInterface
+class MemoDao extends AbstractDao implements ServiceMemoDaoInterface
 {
     protected $paginationOptions = [
         'defaultSortFieldName' => 'medewerker.voornaam',

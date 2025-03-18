@@ -2,10 +2,10 @@
 
 namespace OekraineBundle\Form;
 
+use AppBundle\Entity\Memo;
 use AppBundle\Form\AppDateTimeType;
 use AppBundle\Form\BaseType;
 use AppBundle\Form\MedewerkerType;
-use OekraineBundle\Entity\Memo;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;

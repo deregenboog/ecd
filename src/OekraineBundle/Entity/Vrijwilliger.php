@@ -7,7 +7,8 @@ use AppBundle\Entity\Vrijwilliger as AppVrijwilliger;
 use AppBundle\Model\DocumentSubjectInterface;
 use AppBundle\Model\DocumentSubjectTrait;
 use AppBundle\Model\IdentifiableTrait;
-use OekraineBundle\Entity\MemoSubjectInterface;
+use AppBundle\Model\MemoSubjectInterface as ModelMemoSubjectInterface;
+use AppBundle\Model\MemoSubjectTrait;
 use AppBundle\Model\RequiredMedewerkerTrait;
 use AppBundle\Model\TimestampableTrait;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -24,7 +25,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
  *
  * @Gedmo\Loggable
  */
-class Vrijwilliger implements MemoSubjectInterface, DocumentSubjectInterface
+class Vrijwilliger implements ModelMemoSubjectInterface, DocumentSubjectInterface
 {
     use IdentifiableTrait;
     use TimestampableTrait;
