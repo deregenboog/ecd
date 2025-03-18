@@ -5,8 +5,8 @@ namespace OekraineBundle\Controller;
 use AppBundle\Controller\DisableIndexActionTrait;
 use AppBundle\Controller\MemosControllerAbstract;
 use AppBundle\Entity\Memo;
+use AppBundle\Form\MemoType;
 use AppBundle\Service\MemoDaoInterface as ServiceMemoDaoInterface;
-use OekraineBundle\Form\MemoType;
 use OekraineBundle\Service\MemoDaoInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
