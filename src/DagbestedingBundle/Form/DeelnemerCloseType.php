@@ -27,7 +27,7 @@ class DeelnemerCloseType extends AbstractType
             ])
         ;
         /// check if there are open trajecten
-        if ($builder->getData()->hasOpenTrijecten()) {
+        if ($builder->getData()->hasOpenTrajecten()) {
             /// This is a custom field for afsluitings of trajects of this deelnemer.
             $builder->add('afsluiting_trajecten', AfsluitingSelectType::class, [
                 'class' => Trajectafsluiting::class,

@@ -309,7 +309,7 @@ class Deelnemer
         return $result;
     }
 
-    public function hasOpenTrijecten(): bool 
+    public function hasOpenTrajecten(): bool 
     {
         return 0 < count($this->getOpenTrajecten());
     }
