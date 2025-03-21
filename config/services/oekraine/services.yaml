@@ -103,3 +103,12 @@ services:
                   - '%spuitomruil_locaties%'
         tags:
             - app.doelstelling
+
+    OekraineBundle\Controller\VrijwilligersController:
+        arguments:
+            $dao: '@OekraineBundle\Service\VrijwilligerDao'
+            $export: '@oekraine.export.vrijwilliger'
+    
+    OekraineBundle\Controller\DeelnamesController:
+        arguments:
+            $entities: '@oekraine.deelname.entities'
