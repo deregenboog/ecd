@@ -9,6 +9,8 @@ use AppBundle\Export\GenericExport;
 use AppBundle\Form\KlantFilterType;
 use AppBundle\Service\KlantDaoInterface;
 use DagbestedingBundle\Entity\Deelnemer;
+use DagbestedingBundle\Entity\Traject;
+use DagbestedingBundle\Entity\Trajectafsluiting;
 use DagbestedingBundle\Form\DeelnemerCloseType;
 use DagbestedingBundle\Form\DeelnemerFilterType;
 use DagbestedingBundle\Form\DeelnemerReopenType;
@@ -156,8 +158,20 @@ class DeelnemersController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             try {
-                $this->dao->update($entity);
+                $trajecten = $entity->getOpenTrajecten();
+                $countTrajecten = count($trajecten);
 
+                foreach ($trajecten as $traject) {
+                    if($afs = $form->get('afsluiting_trajecten')->getData()) {
+                        $traject->setAfsluiting($afs);
+                        $traject->setAfsluitdatum($entity->getAfsluitdatum());
+                    }
+                }
+                
+                $this->dao->update($entity);
+                if($countTrajecten > 0) {
+                    $this->addFlash('success', $countTrajecten.' trajecten zijn afgesloten.');
+                }
                 $this->addFlash('success', $this->entityName.' is afgesloten.');
             } catch (UserException $e) {
                 //                $this->logger->error($e->getMessage(), ['exception' => $e]);
