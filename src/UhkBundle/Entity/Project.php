@@ -28,15 +28,6 @@ class Project
     use NotDeletableTrait;
 
     /**
-     * @var bool
-     *
-     * @ORM\Column(name="`active`", type="boolean", options={"default":1})
-     *
-     * @Gedmo\Versioned
-     */
-    protected $actief = true;
-
-    /**
      * @var Deelnemer[]
      *
      * @ORM\OneToMany(targetEntity="UhkBundle\Entity\Deelnemer",mappedBy="project")
