@@ -3,32 +3,33 @@
 namespace OekraineBundle\Form;
 
 use AppBundle\Form\BaseType;
-use OekraineBundle\Entity\Afsluitreden;
+use OekraineBundle\Entity\Training;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class AfsluitredenType extends AbstractType
+class TrainingType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
             ->add('naam')
-            ->add('actief')
+            ->add('actief', CheckboxType::class, ['required' => false])
             ->add('submit', SubmitType::class)
         ;
-    }
-
-    public function configureOptions(OptionsResolver $resolver)
-    {
-        $resolver->setDefaults([
-            'data_class' => Afsluitreden::class,
-        ]);
     }
 
     public function getParent(): ?string
     {
         return BaseType::class;
+    }
+
+    public function configureOptions(OptionsResolver $resolver)
+    {
+        $resolver->setDefaults([
+            'class' => Training::class,
+        ]);
     }
 }

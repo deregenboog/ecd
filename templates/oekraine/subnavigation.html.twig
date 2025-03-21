@@ -6,6 +6,7 @@
 </ol>
 <ul class="nav nav-tabs">
     {{ html.navLink('Bezoekersregistratie', path('oekraine_registraties_locationselect'), isActiveRoute('oekraine_registraties_')) }}
+    {{ html.navLink('Vrijwilligers', path('oekraine_vrijwilligers_index'), isActiveRoute('oekraine_vrijwilligers_')) }}
     {% if is_granted('ROLE_OEKRAINE') %}
         {{ html.navLink('Bezoekers', path('oekraine_bezoekers_index'), isActiveRoute('oekraine_bezoekers_')) }}
         {{ html.navLink('Intakes', path('oekraine_intakes_index'), isActiveRoute('oekraine_intakes_')) }}
@@ -20,6 +21,9 @@
             </a>
             <ul class="dropdown-menu">
                 {{ html.navLink('Locaties', path('oekraine_locaties_index'), isActiveRoute('oekraine_locaties_')) }}
+                {{ html.navLink('Binnen via-opties', path('oekraine_binnenvia_index'), isActiveRoute('oekraine_binnenvia_')) }}
+                {{ html.navLink('Trainingen vrijwilligers', path('oekraine_trainingen_index'), isActiveRoute('oekraine_training_')) }}
+                {{ html.navLink('Afsluitredenen vrijwilligers', path('oekraine_afsluitredenenvrijwilligers_index'), isActiveRoute('oekraine_afsluitredenenvrijwilligers_')) }}
             </ul>
         </li>
     {% endif %}
