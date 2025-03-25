@@ -56,7 +56,7 @@
             {% endif %}
         </dd>
         <dt>Opzegbrief verstuurd</dt>
-        <dd>{{ entity.opzegbriefVerstuurd ? 'Ja' : 'Nee' }}</dd>
+        <dd>{{ entity.opzegbriefVerstuurd | ja_nee }}</dd>
         <dt>Einddatum</dt>
         <dd>{{ entity.einddatum ? entity.einddatum|date('d-m-Y') }}</dd>
         <dt>Vorm van overeenkomst</dt>
@@ -67,6 +67,8 @@
         <dd>{{ entity.afsluitdatum ? entity.afsluitdatum|date('d-m-Y') }}</dd>
         <dt>Reden afsluiting</dt>
         <dd>{{ entity.afsluiting ? entity.afsluiting }}</dd>
+        <dt>heeft de huurder<br> een AVP?</dt>
+        <dd>{{ entity.huurderAVP | ja_nee }}</dd>
     </dl>
 {% endblock %}
 
