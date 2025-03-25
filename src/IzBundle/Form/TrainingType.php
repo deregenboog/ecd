@@ -3,7 +3,7 @@
 namespace IzBundle\Form;
 
 use AppBundle\Form\BaseType;
-use izBundle\Entity\Training;
+use IzBundle\Entity\Training;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
