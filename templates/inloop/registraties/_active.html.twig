@@ -1,152 +1,167 @@
 {% import 'html.macro.twig' as html %}
 
 <table class="table table-hover table-fixed">
-    {{ colgroup(13, [15, 15, 15]) }}
-    <thead>
-        <tr>
-            <th>
-                <span style="margin-left: 2em;">
-                    {{ knp_pagination_sortable(pagination, 'Voornaam', 'klant.voornaam') }}
-                </span>
-            </th>
-            <th>
-                {{ knp_pagination_sortable(pagination, 'Achternaam', 'klant.achternaam') }}
-            </th>
-            <th>
-                {{ knp_pagination_sortable(pagination, 'Binnen', 'registratie.binnen') }}
-            </th>
-            <th>
-                Buiten
-            </th>
-            <th>
-                {{ knp_pagination_sortable(pagination, 'Douche', 'registratie.douche') }}
-            </th>
-            <th>
-                {{ knp_pagination_sortable(pagination, 'Kleding', 'registratie.kleding') }}
-            </th>
-            <th>
-                {{ knp_pagination_sortable(pagination, 'Maaltijd', 'registratie.maaltijd') }}
-            </th>
-            <th>
-                {{ knp_pagination_sortable(pagination, 'Veegploeg', 'registratie.veegploeg') }}
-            </th>
-            <th>
-                {{ knp_pagination_sortable(pagination, 'Activering', 'registratie.activering') }}
-            </th>
-            <th>
-                {{ knp_pagination_sortable(pagination, 'MW', 'registratie.mw') }}
-            </th>
-            <th>
-                Aantal spuiten
-            </th>
-            <th>
-                Schorsingen
-            </th>
-            <th>
-                Opmerkingen
-            </th>
-        </tr>
-    </thead>
-    <tbody>
-        {% for registratie in pagination %}
+	{{ colgroup(13, [15, 15, 15]) }}
+	<thead>
+		<tr>
+			<th>
+				<input class="group_action" type="checkbox" onclick="$('.group_action').prop('checked', $(this).prop('checked')).trigger('change')">
+				<span style="margin-left: 2em;">
+					{{ knp_pagination_sortable(pagination, 'Voornaam', 'klant.voornaam') }}
+				</span>
+			</th>
+			<th>
+				{{ knp_pagination_sortable(pagination, 'Achternaam', 'klant.achternaam') }}
+			</th>
+			<th>
+				{{ knp_pagination_sortable(pagination, 'Binnen', 'registratie.binnen') }}
+			</th>
+			<th>
+				Buiten
+			</th>
+			<th>
+				{{ knp_pagination_sortable(pagination, 'Douche', 'registratie.douche') }}
+			</th>
+			<th>
+				{{ knp_pagination_sortable(pagination, 'Kleding', 'registratie.kleding') }}
+			</th>
+			<th>
+				{{ knp_pagination_sortable(pagination, 'Maaltijd', 'registratie.maaltijd') }}
+			</th>
+			<th>
+				{{ knp_pagination_sortable(pagination, 'Veegploeg', 'registratie.veegploeg') }}
+			</th>
+			<th>
+				{{ knp_pagination_sortable(pagination, 'Activering', 'registratie.activering') }}
+			</th>
+			<th>
+				{{ knp_pagination_sortable(pagination, 'MW', 'registratie.mw') }}
+			</th>
+			<th>
+				Aantal spuiten
+			</th>
+			<th>
+				Schorsingen
+			</th>
+			<th>
+				Opmerkingen
+			</th>
+		</tr>
+	</thead>
+	<tbody>
+		{% for registratie in pagination %}
 
-            {% set rowColor = "" %}
-            {% set ttactive = "" %}
-            {% set tttext = "" %}
-            {% set laatsteIntake = registratie.klant.getLaatsteIntake %}
-            {% if laatsteIntake and laatsteIntake.intakeDatum < date("-1 year") %}
-                {% set rowColor = "warning" %}
-                {% set ttactive = "tooltip" %}
-                {% set tttext = "Klant heeft herintake nodig." %}
-            {% endif %}
-        <tr href="#" data-toggle="{{ ttactive }}" title="{{ tttext }}" data-container="body" data-id="{{ registratie.id }}" data-href="{{ path('inloop_klanten_view', {id: registratie.klant.id}) }}" class="{{ rowColor }}">
-            <td>
-                <a class="remove" title="Registratie ongedaan maken" style="margin-right: 1em;">
-                    <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
-                </a>
-                {{ registratie.klant.voornaam }}
-                {% if registratie.klant.roepnaam %}({{ registratie.klant.roepnaam }}){% endif %}
-            </td>
-            <td>
-                {% if registratie.klant.tussenvoegsel %}{{ registratie.klant.tussenvoegsel }}{% endif %}
-                {{ registratie.klant.achternaam }}
-            </td>
-            <td>
-                {{ registratie.binnen|date('H:i') }} uur ({{ registratie.binnen|date('d-m-Y') }})<br>
-            </td>
-            <td>
-                <a class="checkout" title="Uitchecken">
-                    <span class="glyphicon glyphicon-log-out" aria-hidden="true"></span>
-                </a>
-            </td>
-            <td>
-                {% if registratie.douche > 0 %}
-                    <a class="douche">{{ registratie.douche }}</a>
-                {% else %}
-                    <input class="douche" type="checkbox" {{ registratie.douche ? 'checked' }}/>
-                {% endif %}
-            </td>
-            <td>
-                <input class="kleding" type="checkbox" {{ registratie.kleding ? 'checked' }}/>
-            </td>
-            <td>
-                <input class="maaltijd" type="checkbox" {{ registratie.maaltijd ? 'checked' }}/>
-            </td>
-            <td>
-                <input class="veegploeg" type="checkbox" {{ registratie.veegploeg ? 'checked' }}/>
-            </td>
-            <td>
-                {% if registratie.klant.id not in geen_activering_klant_ids %}
-                    <input class="activering" type="checkbox" {{ registratie.activering ? 'checked' }}/>
-                {% endif %}
-            </td>
-            <td>
-                {% if registratie.mw > 0 %}
-                    <a class="mw">{{ registratie.mw }}</a>
-                {% else %}
-                    <input class="mw" type="checkbox" {{ registratie.mw ? 'checked' }}/>
-                {% endif %}
-            </td>
-            <td>
-                {% if registratie.aantalSpuiten > 0 %}
-                    <a id="aantalSpuiten">{{ registratie.aantalSpuiten }}</a>
-                {% else %}
-                    <input id="aantalSpuiten" type="checkbox" {{ registratie.aantalSpuiten ? 'checked' }}/>
-                {% endif %}
-            </td>
-            <td>
-                <a href="{{ path('inloop_schorsingen_klantview', {klant: registratie.klant.id}) }}">
-                    {% if registratie.klant.huidigeSchorsingen|length > 0 %}
-                        <strong class="text-danger">
-                            {{ registratie.klant.huidigeSchorsingen|length }}
-                            {{ registratie.klant.huidigeSchorsingen|length == 1 ? 'schorsing' : 'schorsingen' }}
-                        </strong>
-                    {% else %}
-                        {{ registratie.klant.ongezieneSchorsingen|length > 0 ? 'schorsing verlopen' : 'geen' }}
-                    {% endif %}
-                </a>
-            </td>
-            <td>
-                <a href="{{ path('inloop_opmerkingen_index_1', {klant: registratie.klant.id, locatie: registratie.locatie.id}) }}">
-                    {{ registratie.klant.openstaandeOpmerkingen|length > 0 ? registratie.klant.openstaandeOpmerkingen|length~' opmerkingen' : 'geen' }}
-                </a>
-            </td>
-        </tr>
-        {% endfor %}
-    </tbody>
+			{% set rowColor = "" %}
+			{% set ttactive = "" %}
+			{% set tttext = "" %}
+			{% set laatsteIntake = registratie.klant.getLaatsteIntake %}
+			{% if laatsteIntake and laatsteIntake.intakeDatum < date("-1 year") %}
+				{% set rowColor = "warning" %}
+				{% set ttactive = "tooltip" %}
+				{% set tttext = "Klant heeft herintake nodig." %}
+			{% endif %}
+			<tr href="#" data-toggle="{{ ttactive }}" title="{{ tttext }}" data-container="body" data-id="{{ registratie.id }}" data-href="{{ path('inloop_klanten_view', {id: registratie.klant.id}) }}" class="{{ rowColor }}">
+				<td>
+					<input type="checkbox" class="group_action">
+					<a class="remove" title="Registratie ongedaan maken" style="margin-right: 1em;">
+						<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+					</a>
+					{{ registratie.klant.voornaam }}
+					{% if registratie.klant.roepnaam %}({{ registratie.klant.roepnaam }})
+					{% endif %}
+				</td>
+				<td>
+					{% if registratie.klant.tussenvoegsel %}
+						{{ registratie.klant.tussenvoegsel }}
+					{% endif %}
+					{{ registratie.klant.achternaam }}
+				</td>
+				<td>
+					{{ registratie.binnen|date('H:i') }}
+					uur ({{ registratie.binnen|date('d-m-Y') }})<br>
+				</td>
+				<td>
+					<a class="checkout" title="Uitchecken">
+						<span class="glyphicon glyphicon-log-out" aria-hidden="true"></span>
+					</a>
+				</td>
+				<td>
+					{% if registratie.douche > 0 %}
+						<a class="douche">{{ registratie.douche }}</a>
+					{% else %}
+						<input class="douche" type="checkbox" {{ registratie.douche ? 'checked' }}/>
+					{% endif %}
+				</td>
+				<td>
+					<input class="kleding" type="checkbox" {{ registratie.kleding ? 'checked' }}/>
+				</td>
+				<td>
+					<input class="maaltijd" type="checkbox" {{ registratie.maaltijd ? 'checked' }}/>
+				</td>
+				<td>
+					<input class="veegploeg" type="checkbox" {{ registratie.veegploeg ? 'checked' }}/>
+				</td>
+				<td>
+					{% if registratie.klant.id not in geen_activering_klant_ids %}
+						<input class="activering" type="checkbox" {{ registratie.activering ? 'checked' }}/>
+					{% endif %}
+				</td>
+				<td>
+					{% if registratie.mw > 0 %}
+						<a class="mw">{{ registratie.mw }}</a>
+					{% else %}
+						<input class="mw" type="checkbox" {{ registratie.mw ? 'checked' }}/>
+					{% endif %}
+				</td>
+				<td>
+					{% if registratie.aantalSpuiten > 0 %}
+						<a id="aantalSpuiten">{{ registratie.aantalSpuiten }}</a>
+					{% else %}
+						<input id="aantalSpuiten" type="checkbox" {{ registratie.aantalSpuiten ? 'checked' }}/>
+					{% endif %}
+				</td>
+				<td>
+					<a href="{{ path('inloop_schorsingen_klantview', {klant: registratie.klant.id}) }}">
+						{% if registratie.klant.huidigeSchorsingen|length > 0 %}
+							<strong class="text-danger">
+								{{ registratie.klant.huidigeSchorsingen|length }}
+								{{ registratie.klant.huidigeSchorsingen|length == 1 ? 'schorsing' : 'schorsingen' }}
+							</strong>
+						{% else %}
+							{{ registratie.klant.ongezieneSchorsingen|length > 0 ? 'schorsing verlopen' : 'geen' }}
+						{% endif %}
+					</a>
+				</td>
+				<td>
+					<a href="{{ path('inloop_opmerkingen_index_1', {klant: registratie.klant.id, locatie: registratie.locatie.id}) }}">
+						{{ registratie.klant.openstaandeOpmerkingen|length > 0 ? registratie.klant.openstaandeOpmerkingen|length~' opmerkingen' : 'geen' }}
+					</a>
+				</td>
+			</tr>
+		{% endfor %}
+	</tbody>
+	<tfooter>
+		<tr>
+			<th colspan="100">
+                {{ include('/inloop/registraties/group_action/_active.html.twig') }}
+			</th>
+		</tr>
+	</tfooter>
 </table>
 <p>
-    {{ knp_pagination_render(pagination) }}
+	{{ knp_pagination_render(pagination) }}
 </p>
 {%  if pagination.totalItemCount > 0 %}
-    <p class="pull-right">
-        <a class="checkout-all" title="Alle bezoekers uitchecken" data-id="{{ locatie.id }}">
-            <span class="glyphicon glyphicon-log-out" aria-hidden="true"></span>
-            Alle bezoekers van {{ locatie }} uitchecken
-        </a>
-    </p>
+	<p class="pull-right">
+		<a class="checkout-all" title="Alle bezoekers uitchecken" data-id="{{ locatie.id }}">
+			<span class="glyphicon glyphicon-log-out" aria-hidden="true"></span>
+			Alle bezoekers van
+			{{ locatie }}
+			uitchecken
+		</a>
+	</p>
 {% endif %}
 
 <script type="text/javascript">
-    $('[data-toggle="tooltip"]').tooltip();
+	$('[data-toggle="tooltip"]').tooltip();
 </script>
