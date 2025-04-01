@@ -75,7 +75,12 @@ services:
 
     IzBundle\Controller\VrijwilligersController:
         arguments:
+            $dao: '@IzBundle\Service\VrijwilligerDao'
             $export: '@iz.export.vrijwilligers'
+
+    IzBundle\Controller\DeelnamesController:
+        arguments:
+            $entities: '@iz.deelname.entities'
 
     IzBundle\Event\DienstenLookupSubscriber:
 
