@@ -28,6 +28,11 @@ class EUBurgers extends AbstractReport
     protected $landen;
 
     /**
+     * @var Nationaliteit[]
+     */
+    protected $nationaliteiten;
+
+    /**
      * @var Locatie
      */
     protected $locatie;
@@ -64,6 +69,7 @@ class EUBurgers extends AbstractReport
                 'geslacht',
                 'referentieperiode',
                 'amoc_landen',
+                'nationaliteiten',
             ],
         ];
     }
@@ -91,6 +97,10 @@ class EUBurgers extends AbstractReport
             $this->landen = $filter['amoc_landen'];
         }
 
+        if (array_key_exists('nationaliteiten', $filter)) {
+            $this->nationaliteiten = $filter['nationaliteiten'];
+        }
+
         if (array_key_exists('referentieperiode', $filter)) {
             $this->referentieperiode = $filter['referentieperiode'];
         }
@@ -102,6 +112,10 @@ class EUBurgers extends AbstractReport
     {
         $count = [];
         if (!$this->landen || 0 === count((array) $this->landen)) {
+            return;
+        }
+
+        if (!$this->nationaliteiten || 0 === count((array) $this->nationaliteiten)) {
             return;
         }
 
@@ -285,6 +299,7 @@ class EUBurgers extends AbstractReport
             'doorverwijzingen_count' => null,
             'averageAge' => null,
             'amoc_landen' => [],
+            'nationaliteiten' => [],
             'clientsPerCountry' => [],
             'ages' => [],
             'primaryProblems' => [],
@@ -382,6 +397,10 @@ class EUBurgers extends AbstractReport
 
         foreach ($this->landen as $land) {
             $count['amoc_landen'][$land->getId()] = $land->getNaam();
+        }
+
+        foreach ($this->nationaliteiten as $nationaliteit) {
+            $count['nationaliteiten'][$nationaliteit->getId()] = $land->getNaam();
         }
 
         $verslavingen = $this->entityManager->getRepository(Verslaving::class)->findAll();
