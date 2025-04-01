@@ -277,6 +277,7 @@ parameters:
         ROLE_UHK_BEHEER: "CN=ECD Uit het Krijt Beheer,CN=Users,DC=cluster,DC=deregenboog"
         ROLE_SPORT: "CN=ECD Sport,CN=Users,DC=cluster,DC=deregenboog"
         ROLE_VILLA: "CN=ECD Villa,CN=Users,DC=cluster,DC=deregenboog"
+        ROLE_VILLA_BEHEER: "CN=ECD Villa Beheer,CN=Users,DC=cluster,DC=deregenboog"
         ROLE_PZ: "CN=ECD PZ,CN=Users,DC=cluster,DC=deregenboog"
         ROLE_OEKRAINE: "CN=ECD Oekraine,CN=Users,DC=cluster,DC=deregenboog"
         ROLE_OEKRAINE_LOCATIEHOOFD: "CN=ECD Oekraine Locatiehoofd,CN=Users,DC=cluster,DC=deregenboog"
