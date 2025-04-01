@@ -119,7 +119,6 @@ document.addEventListener('calendarInitialized', function(e) {
     function actionHandler(url, event) {
         $.get(url).done(data => {
             modalOpen(data.formHtml);
-            console.log(data.formHtml);
             moveButtons();
             modalAddEvents(url);
         });
