@@ -57,24 +57,6 @@ class Deelname
      */
     protected $datum;
 
-    /**
-     * @var \DateTime
-     *
-     * @ORM\Column(type="datetime")
-     *
-     * @Gedmo\Versioned
-     */
-    protected $created;
-
-    /**
-     * @var \DateTime
-     *
-     * @ORM\Column(type="datetime")
-     *
-     * @Gedmo\Versioned
-     */
-    protected $modified;
-
     public function __construct(?IzVrijwilliger $vrijwilliger = null)
     {
         $this->vrijwilliger = $vrijwilliger;
@@ -121,4 +103,9 @@ class Deelname
     {
         $this->overig = $overig;
     }
+
+     public function __toString() 
+     {
+        return $this->training->getNaam();
+     }
 }
