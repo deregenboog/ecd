@@ -28,6 +28,13 @@
                     <a href="{{ path('iz_vrijwilligers_view', {id: vrijwilliger.id, _fragment: 'intervisiegroepen'}) }}">Intervisiegroepen</a>
                 {% endif %}
             </li>
+            <li class="{{ current == 'trainingen' ? 'active' }}">
+                {% if current_route == 'iz_vrijwilligers_view' %}
+                    <a data-toggle="tab" href="#trainingen">Trainingen</a>
+                {% else %}
+                    <a href="{{ path('iz_vrijwilligers_view', {id: vrijwilliger.id, _fragment: 'trainingen'}) }}">Trainingen</a>
+                {% endif %}
+            </li>
             <li class="{{ current == 'verslagen' ? 'active' }}">
                 {% if current_route == 'iz_vrijwilligers_view' %}
                     <a data-toggle="tab" href="#verslagen">Verslagen</a>

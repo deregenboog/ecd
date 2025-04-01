@@ -82,7 +82,6 @@ class OvernachtingenController extends AbstractController
             $this->entityManager->flush();
             return new JsonResponse(['success' => true, 'message' => 'Entity created successfully'], Response::HTTP_OK);
         }
-
         $formHtml = $this->renderView('edit.ajax.html.twig', ['form' => $form->createView()]);
         return new JsonResponse(['formHtml' => $formHtml, 'success' => false]);
     }
