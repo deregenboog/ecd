@@ -82,13 +82,6 @@ class OvernachtingenController extends AbstractController
             $this->entityManager->flush();
             return new JsonResponse(['success' => true, 'message' => 'Entity created successfully'], Response::HTTP_OK);
         }
-        $saldo = $slaper->calculateSaldo();
-        if(is_numeric($saldo) & ($saldo > 0 && $saldo < 4)){
-            $this->addFlash('warning', 'Let op, deze slaper heeft nog '.$saldo.' overnachtingen.');
-        }
-        if(is_numeric($saldo) & $saldo <= 0 ){
-            $this->addFlash('danger', 'Let op, deze slaper heeft geen overnachtingen meer beschikbaar.');
-        }
         $formHtml = $this->renderView('edit.ajax.html.twig', ['form' => $form->createView()]);
         return new JsonResponse(['formHtml' => $formHtml, 'success' => false]);
     }
