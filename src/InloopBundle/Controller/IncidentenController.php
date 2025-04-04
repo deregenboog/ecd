@@ -3,11 +3,14 @@
 namespace InloopBundle\Controller;
 
 use AppBundle\Controller\AbstractChildController;
+use AppBundle\Controller\AbstractController;
+use AppBundle\Controller\AbstractIncidentenController;
 use AppBundle\Controller\DisableIndexActionTrait;
+use AppBundle\Service\IncidentDaoInterface;
 use InloopBundle\Entity\Incident;
 use InloopBundle\Entity\Locatie;
 use InloopBundle\Form\IncidentType;
-use InloopBundle\Service\IncidentDaoInterface;
+use InloopBundle\Service\IncidentDao;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
@@ -29,7 +32,7 @@ class IncidentenController extends AbstractChildController
     protected $addMethod = 'addIncident';
 
     /**
-     * @var IncidentDaoInterface
+     * @var IncidentDao
      */
     protected $dao;
 
@@ -38,7 +41,7 @@ class IncidentenController extends AbstractChildController
      */
     protected $entities;
 
-    public function __construct(IncidentDaoInterface $dao, \ArrayObject $entities)
+    public function __construct(IncidentDao $dao, \ArrayObject $entities)
     {
         $this->dao = $dao;
         $this->entities = $entities;
@@ -49,7 +52,7 @@ class IncidentenController extends AbstractChildController
      *
      * @ParamConverter("locatie", class="InloopBundle\Entity\Locatie")
      *
-     * @Template("inloop/incidenten/add.html.twig")
+     * @Template("app/incidenten/add.html.twig")
      */
     public function addPrefilledAction(Request $request, Locatie $locatie)
     {
