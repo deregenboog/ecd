@@ -335,6 +335,22 @@ class Slaper implements KlantRelationInterface, HasDossierStatusInterface
         return $recht - $used;
     }
 
+    public function remainingSaldoMessage(){
+        $saldo = $this->calculateSaldo();
+        if($saldo > 0 && $saldo < 4){
+            return [
+                'type' => 'warning',
+                'message' => 'Let op, deze slaper heeft nog '.$saldo.' overnachtingen.',
+            ];
+        }
+        if($saldo <= 0 ){
+            return [
+                'type' => 'danger',
+                'message' => 'Let op, deze slaper heeft geen overnachtingen meer beschikbaar.',
+            ];
+        }
+    }
+
     public function getKlant(): ?Klant
     {
         return $this->getAppKlant();
