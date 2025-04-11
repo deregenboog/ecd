@@ -26,3 +26,8 @@ services:
             -
               - { key: klant, dao: '@MwBundle\Service\KlantDao' }
               - { key: vrijwilliger, dao: '@MwBundle\Service\VrijwilligerDao' }
+
+    mw.incident.entities:
+        class: ArrayObject
+        arguments:
+            - - { key: klant, dao: '@MwBundle\Service\KlantDao' }

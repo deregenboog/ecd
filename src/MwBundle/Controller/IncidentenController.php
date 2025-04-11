@@ -1,16 +1,16 @@
 <?php
 
-namespace InloopBundle\Controller;
+namespace MwBundle\Controller;
 
 use AppBundle\Controller\AbstractChildController;
 use AppBundle\Controller\AbstractController;
 use AppBundle\Controller\AbstractIncidentenController;
 use AppBundle\Controller\DisableIndexActionTrait;
 use AppBundle\Service\IncidentDaoInterface;
-use AppBundle\Entity\Incident;
+use MwBundle\Entity\Incident;
 use InloopBundle\Entity\Locatie;
-use InloopBundle\Form\IncidentType;
-use InloopBundle\Service\IncidentDao;
+use MwBundle\Form\IncidentType;
+use MwBundle\Service\IncidentDao;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
@@ -28,7 +28,7 @@ class IncidentenController extends AbstractChildController
     protected $entityName = 'Incident';
     protected $entityClass = Incident::class;
     protected $formClass = IncidentType::class;
-    protected $baseRouteName = 'inloop_incidenten_';
+    protected $baseRouteName = 'mw_incidenten_';
     protected $addMethod = 'addIncident';
 
     /**
@@ -52,7 +52,7 @@ class IncidentenController extends AbstractChildController
      *
      * @ParamConverter("locatie", class="InloopBundle\Entity\Locatie")
      *
-     * @Template("app/incidenten/add.html.twig")
+     * @Template("wm/incidenten/add.html.twig")
      */
     public function addPrefilledAction(Request $request, Locatie $locatie)
     {

@@ -1,11 +1,11 @@
 <?php
 
-namespace InloopBundle\Service;
+namespace MwBundle\Service;
 
 use AppBundle\Entity\Klant;
 use AppBundle\Filter\FilterInterface;
 use AppBundle\Service\AbstractDao;
-use AppBundle\Entity\Incident;
+use MwBundle\Entity\Incident;
 use InloopBundle\Entity\Locatie;
 
 class IncidentDao extends AbstractDao 

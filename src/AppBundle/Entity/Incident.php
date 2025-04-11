@@ -1,6 +1,6 @@
 <?php
 
-namespace InloopBundle\Entity;
+namespace AppBundle\Entity;
 
 use AppBundle\Entity\Klant;
 use AppBundle\Model\IdentifiableTrait;
@@ -22,5 +22,25 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class Incident implements IncidentInterface
 {
-    use IncidentTrail;    
+    use IncidentTrail;   
+
+    /**
+     * @ORM\ManyToOne(targetEntity="InloopBundle\Entity\Locatie")
+     */
+    private $locatie;
+    
+    public function getLocatie()
+    {
+        return $this->locatie;
+    }
+
+    /**
+     * @return Incident
+     */
+    public function setLocatie($locatie)
+    {
+        $this->locatie = $locatie;
+
+        return $this;
+    }
 }

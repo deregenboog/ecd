@@ -43,10 +43,7 @@ trait IncidentTrail
      */
     private $crisisdienst = false;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="Locatie")
-     */
-    private $locatie;
+    
 
     /**
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Klant", inversedBy="incidenten", cascade={"persist"})
@@ -154,18 +151,5 @@ trait IncidentTrail
         return $this;
     }
 
-    public function getLocatie()
-    {
-        return $this->locatie;
-    }
-
-    /**
-     * @return Incident
-     */
-    public function setLocatie($locatie)
-    {
-        $this->locatie = $locatie;
-
-        return $this;
-    }
+    
 }

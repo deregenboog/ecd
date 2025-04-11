@@ -3,7 +3,7 @@
 
         <h2>Incidenten <small>({{ klant.incidenten|length }} incidenten)</small></h2>
         <p>
-            {{ html.link('Incident toevoegen', path('inloop_incidenten_add', {'klant': klant.id}), 'add') }}
+           {{ html.link('Incident toevoegen', path('mw_incidenten_add', {'klant': klant.id}), 'add') }}
         </p>
         <table class="table table-hover">
             <thead>
@@ -27,9 +27,9 @@
                         <td>{{ incident.ambulance|ja_nee }}</td>
                         <td>{{ incident.crisisdienst|ja_nee }}</td>
                         <td>
-                            {{ html.link('Wijzigen', path('inloop_incidenten_edit', {id: incident.id}), 'edit') }}
+                            {{ html.link('Wijzigen', path('mw_incidenten_edit', {id: incident.id}), 'edit') }}
                             {% if is_granted('ROLE_TEAMLEIDERS') %}
-                                {{ html.link('Verwijderen', path('inloop_incidenten_delete', {id: incident.id}), 'delete') }}
+                                {{ html.link('Verwijderen', path('mw_incidenten_delete', {id: incident.id}), 'delete') }}
                             {% endif %}
                         </td>
                     </tr>
