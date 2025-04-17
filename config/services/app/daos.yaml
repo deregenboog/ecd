@@ -11,3 +11,8 @@ services:
     AppBundle\Service\DoelstellingDao:
         arguments:
             $repositories: !tagged_iterator app.doelstelling
+
+    app.incident.entities:
+        class: ArrayObject
+        arguments:
+            - - { key: klant, dao: '@AppBundle\Service\KlantDao' }

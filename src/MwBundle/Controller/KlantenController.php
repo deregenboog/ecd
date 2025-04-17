@@ -21,6 +21,7 @@ use MwBundle\Entity\Aanmelding;
 use MwBundle\Entity\Afsluiting;
 use MwBundle\Entity\Document;
 use MwBundle\Entity\Info;
+use MwBundle\Entity\MwKlant;
 use MwBundle\Entity\Project;
 use MwBundle\Entity\Verslag;
 use MwBundle\Form\AanmeldingType;
@@ -48,7 +49,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class KlantenController extends AbstractController
 {
     protected $entityName = 'klant';
-    protected $entityClass = Klant::class;
+    protected $entityClass = MwKlant::class;
     protected $formClass = KlantType::class;
     protected $filterFormClass = KlantFilterType::class;
     protected $baseRouteName = 'mw_klanten_';

@@ -1,12 +1,11 @@
 <?php
 
-namespace InloopBundle\Service;
+namespace AppBundle\Service;
 
 use AppBundle\Entity\Klant;
 use AppBundle\Filter\FilterInterface;
 use AppBundle\Service\AbstractDao;
-use InloopBundle\Entity\Incident;
-use InloopBundle\Entity\Locatie;
+use AppBundle\Entity\Incident;
 
 class IncidentDao extends AbstractDao 
 {
@@ -17,7 +16,6 @@ class IncidentDao extends AbstractDao
             'klant.id',
             'klant.achternaam',
             'geslacht.volledig',
-            'locatie.naam',
             'incident.datum',
         ],
     ];
@@ -29,10 +27,9 @@ class IncidentDao extends AbstractDao
     public function findAll($page = null, ?FilterInterface $filter = null)
     {
         $builder = $this->repository->createQueryBuilder($this->alias)
-            ->select($this->alias.', klant, geslacht, locatie')
+            ->select($this->alias.', klant, geslacht')
             ->innerJoin($this->alias.'.klant', 'klant')
             ->leftJoin('klant.geslacht', 'geslacht')
-            ->leftJoin($this->alias.'.locatie', 'locatie')
         ;
 
         if ($filter) {
@@ -53,38 +50,6 @@ class IncidentDao extends AbstractDao
             ->where("{$this->alias}.datumTot >= DATE(CURRENT_TIMESTAMP())")
             ->setParameters([
                 'klant' => $klant,
-            ])
-        ;
-
-        return $builder->getQuery()->getResult();
-    }
-
-    public function findTerugkeergesprekNodigByKlantAndLocatie(Klant $klant, Locatie $locatie)
-    {
-        $builder = $this->repository->createQueryBuilder($this->alias)
-            ->innerJoin("{$this->alias}.klant", 'klant', 'WITH', 'klant = :klant')
-            ->innerJoin("{$this->alias}.locaties", 'locatie', 'WITH', 'locatie = :locatie')
-            ->where("{$this->alias}.datumTot <= DATE(CURRENT_TIMESTAMP())")
-            ->andWhere("DATEDIFF({$this->alias}.datumTot, {$this->alias}.datumVan) >= 14")
-            ->andWhere("{$this->alias}.terugkeergesprekGehad = false")
-            ->setParameters([
-                'klant' => $klant,
-                'locatie' => $locatie,
-            ])
-        ;
-
-        return $builder->getQuery()->getResult();
-    }
-
-    public function findActiefByKlantAndLocatie(Klant $klant, Locatie $locatie)
-    {
-        $builder = $this->repository->createQueryBuilder($this->alias)
-            ->innerJoin("{$this->alias}.klant", 'klant', 'WITH', 'klant = :klant')
-            ->innerJoin("{$this->alias}.locaties", 'locatie', 'WITH', 'locatie = :locatie')
-            ->where("{$this->alias}.datumTot >= DATE(CURRENT_TIMESTAMP())")
-            ->setParameters([
-                'klant' => $klant,
-                'locatie' => $locatie,
             ])
         ;
 

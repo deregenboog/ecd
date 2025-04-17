@@ -111,7 +111,7 @@ class Klant extends Persoon
     /**
      * @var Incident[]
      *
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Incident", mappedBy="klant", cascade={"persist"})
+     * @ORM\OneToMany(targetEntity="Incident", mappedBy="klant", cascade={"persist"})
      *
      * @ORM\OrderBy({"id" = "DESC"})
      */

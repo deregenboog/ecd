@@ -1,12 +1,30 @@
 <?php
 
-namespace AppBundle\Model;
+namespace InloopBundle\Entity;
 
 use AppBundle\Entity\Klant;
+use AppBundle\Model\IdentifiableTrait;
 use AppBundle\Model\IncidentInterface;
+use AppBundle\Model\TimestampableTrait;
+use AppBundle\Entity\Incident as AppIncident;
+use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
+use Symfony\Component\Validator\Constraints as Assert;
 
-trait IncidentTrail
+/**
+ * @ORM\Entity
+ *
+ * @ORM\Table(name="inloop_incidenten")
+ *
+ * @ORM\HasLifecycleCallbacks
+ *
+ * @Gedmo\Loggable
+ */
+class Incident extends AppIncident
 {
+    use IdentifiableTrait;
+    use TimestampableTrait;
+
     /**
      * @ORM\Column(name="datum", type="date")
      *
@@ -50,11 +68,6 @@ trait IncidentTrail
      * @Assert\NotNull
      */
     private Klant $klant;
-
-    /**
-     * @ORM\ManyToOne(targetEntity="InloopBundle\Entity\Locatie")
-     */
-    private $locatie;
 
     public function __construct(?Klant $klant = null)
     {
@@ -153,7 +166,10 @@ trait IncidentTrail
         return $this;
     }
 
-    
+    /**
+     * @ORM\ManyToOne(targetEntity="InloopBundle\Entity\Locatie")
+     */
+    private $locatie;
     
     public function getLocatie()
     {
@@ -169,6 +185,4 @@ trait IncidentTrail
 
         return $this;
     }
-
-    
 }
