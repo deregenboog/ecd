@@ -8,17 +8,20 @@
         <table class="table table-hover">
             <thead>
                 <tr>
+                    <th>Locatie</th>
                     <th>Datum</th>
                     <th>Opmerking</th>
                     <th>Politie</th>
                     <th>Ambulance</th>
                     <th>Crisisdienst</th>
+                    <th>Type</th>
                     <th></th>
                 </tr>
             </thead>
             <tbody>
                 {% for incident in klant.incidenten %}
                     <tr>
+                        <td>{{ incident.locatie }}</td>
                         <td>{{ incident.datum|if_date('d-m-Y') }}</td>
                         <td>{{ incident.opmerking }}</td>
                         <td>{{ incident.politie|ja_nee }}</td>

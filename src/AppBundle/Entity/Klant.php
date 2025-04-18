@@ -3,12 +3,12 @@
 namespace AppBundle\Entity;
 
 use AppBundle\Model\DocumentSubjectTrait;
+use AppBundle\Model\IncidentInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use InloopBundle\Entity\DossierStatus;
-use AppBundle\Entity\Incident;
 use InloopBundle\Entity\Intake;
 use InloopBundle\Entity\Locatie;
 use InloopBundle\Entity\Registratie;
@@ -109,9 +109,9 @@ class Klant extends Persoon
     private $schorsingen;
 
     /**
-     * @var Incident[]
+     * @var BaseIncident[]
      *
-     * @ORM\OneToMany(targetEntity="Incident", mappedBy="klant", cascade={"persist"})
+     * @ORM\OneToMany(targetEntity="BaseIncident", mappedBy="klant", cascade={"persist"})
      *
      * @ORM\OrderBy({"id" = "DESC"})
      */
@@ -500,7 +500,7 @@ class Klant extends Persoon
     }
 
     /**
-     * @return Incident[]
+     * @return BaseIncident[]
      */
     public function getIncidenten()
     {
@@ -508,7 +508,7 @@ class Klant extends Persoon
     }
 
     /**
-     * @param Incident[] $incidenten
+     * @param BaseIncident[] $incidenten
      */
     public function setIncidenten(array $incidenten): Klant
     {
@@ -517,7 +517,7 @@ class Klant extends Persoon
         return $this;
     }
 
-    public function addIncident(Incident $incident): Klant
+    public function addIncident(BaseIncident $incident): Klant
     {
         $this->incidenten->add($incident);
 

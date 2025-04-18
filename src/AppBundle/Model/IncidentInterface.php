@@ -29,4 +29,8 @@ interface IncidentInterface
     public function isCrisisdienst(): bool;
 
     public function setCrisisdienst(bool $crisisdienst);
+
+    public function getLocatie();
+
+    public function setLocatie($locatie);
 }

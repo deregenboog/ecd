@@ -2,10 +2,11 @@
 
 namespace AppBundle\Form;
 
+use AppBundle\Entity\Incident;
 use AppBundle\Form\AppDateType;
 use AppBundle\Form\BaseType;
 use AppBundle\Form\JaNeeType;
-use AppBundle\Entity\Incident;
+use InloopBundle\Form\LocatieSelectType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -16,6 +17,10 @@ class IncidentType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
+            ->add('locatie', LocatieSelectType::class, [
+                'multiple' => false,
+                'expanded' => false,
+            ])
             ->add('datum', AppDateType::class, [
                 'label' => 'Datum',
             ])
