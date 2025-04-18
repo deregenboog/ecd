@@ -8,6 +8,10 @@ services:
         autowire: true
         autoconfigure: true
 
+
+    VillaBundle\Form\:
+        resource: '%kernel.project_dir%/src/VillaBundle/Form'
+
     VillaBundle\Command\:
         resource: '%kernel.project_dir%/src/VillaBundle/Command'
 

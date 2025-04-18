@@ -453,7 +453,7 @@ abstract class Deelnemer implements KlantRelationInterface
         return $this->inkomen;
     }
 
-    public function setInkomen(Inkomen $inkomen): Deelnemer
+    public function setInkomen(?Inkomen $inkomen): Deelnemer
     {
         $this->inkomen = $inkomen;
 

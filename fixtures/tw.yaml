@@ -80,6 +80,11 @@ TwBundle\Entity\Klant:
         werk: '@tw_werk_*'
         duurthuisloos: '@tw_duurthuisloos_*'
         intakestatus: '@tw_intakestatus_*'
+    
+    tw_klant_{1..2}:
+        appKlant: '@klant_<current()>'
+        projecten: ['@tw_project_odp', '@tw_project_tod']
+        medewerker: '@medewerker_<current()>'
 
 TwBundle\Entity\Verhuurder:
     tw_verhuurder_{1..10}:
@@ -113,3 +118,8 @@ TwBundle\Entity\Huurovereenkomst:
 TwBundle\Entity\Regio:
     tw_binding_regio_{1..5}:
         naam: 'REGIO <current()>'
+
+TwBundle\Entity\VormVanOvereenkomst:
+    tw_vormvanovereenkomst_{1..5}:
+        label: 'Vorm van overeenkomst <current()>'
+

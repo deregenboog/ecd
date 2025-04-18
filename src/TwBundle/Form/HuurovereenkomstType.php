@@ -48,6 +48,10 @@ class HuurovereenkomstType extends AbstractType
                 'required' => false,
             ])
             ->add('huurovereenkomstType')
+            ->add('huurderAVP', null, [
+                    'required' => false, 
+                    'label' => 'de huurder heeft een AVP (aansprakelijkheidsverzekering Particulieren)'
+            ])
 
             ->add('submit', SubmitType::class, ['label' => 'Opslaan'])
         ;
