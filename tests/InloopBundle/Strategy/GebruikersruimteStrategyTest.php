@@ -51,7 +51,7 @@ class GebruikersruimteStrategyTest extends DoctrineTestCase
             LEFT JOIN klant.registraties registratie WITH registratie.locatie = :locatie_id
             LEFT JOIN InloopBundle\Entity\RecenteRegistratie recent WITH recent.klant = klant AND recent.locatie = :locatie_id
             LEFT JOIN recent.registratie recenteRegistratie WITH DATE(recenteRegistratie.buiten) > :two_months_ago
-            WHERE (eersteIntake.toegangInloophuis = true AND eersteIntakeGebruikersruimte.id = :locatie_id)
+            WHERE eersteIntake.toegangInloophuis = true
             GROUP BY klant.id
             HAVING COUNT(recenteRegistratie) > 0 OR COUNT(registratie.id) = 0 OR MAX(laatsteIntake.intakedatum) > :two_months_ago";
         $this->assertEqualsIgnoringWhitespace($expectedDQL, $builder->getDQL());
