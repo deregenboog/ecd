@@ -2,7 +2,7 @@
 
 namespace InloopBundle\Entity;
 
-use AppBundle\Entity\BaseIncident;
+use AppBundle\Entity\Incident as BaseIncident;
 use AppBundle\Entity\Klant;
 use AppBundle\Model\IdentifiableTrait;
 use AppBundle\Model\IncidentInterface;
@@ -16,7 +16,6 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
  *
  * @ORM\HasLifecycleCallbacks
  * @Gedmo\Loggable
- * @Vich\Uploadable
  */
 class Incident extends BaseIncident
 {

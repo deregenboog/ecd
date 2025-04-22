@@ -109,9 +109,9 @@ class Klant extends Persoon
     private $schorsingen;
 
     /**
-     * @var BaseIncident[]
+     * @var Incident[]
      *
-     * @ORM\OneToMany(targetEntity="BaseIncident", mappedBy="klant", cascade={"persist"})
+     * @ORM\OneToMany(targetEntity="Incident", mappedBy="klant", cascade={"persist"})
      *
      * @ORM\OrderBy({"id" = "DESC"})
      */
@@ -500,7 +500,7 @@ class Klant extends Persoon
     }
 
     /**
-     * @return BaseIncident[]
+     * @return Incident[]
      */
     public function getIncidenten()
     {
@@ -508,7 +508,7 @@ class Klant extends Persoon
     }
 
     /**
-     * @param BaseIncident[] $incidenten
+     * @param Incident[] $incidenten
      */
     public function setIncidenten(array $incidenten): Klant
     {
@@ -517,7 +517,7 @@ class Klant extends Persoon
         return $this;
     }
 
-    public function addIncident(BaseIncident $incident): Klant
+    public function addIncident(Incident $incident): Klant
     {
         $this->incidenten->add($incident);
 
