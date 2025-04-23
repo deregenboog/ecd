@@ -16,6 +16,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use AppBundle\Controller\IncidentenController as AppIncidenetenController;
 
 /**
  * @Route("/incidenten")
@@ -23,29 +24,9 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
  * @Template
  * 
  */
-class IncidentenController extends AbstractChildController
+class IncidentenController extends AppIncidenetenController
 {
-    use DisableIndexActionTrait;
-
-    protected $entityName = 'Incident';
     protected $entityClass = Incident::class;
     protected $formClass = IncidentType::class;
     protected $baseRouteName = 'eropuit_klanten_';
-    protected $addMethod = 'addIncident';
-
-    /**
-     * @var IncidentDao
-     */
-    protected $dao;
-
-    /**
-     * @var \ArrayObject
-     */
-    protected $entities;
-
-    public function __construct(IncidentDao $dao, \ArrayObject $entities)
-    {
-        $this->dao = $dao;
-        $this->entities = $entities;
-    }
 }

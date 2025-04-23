@@ -1,8 +1,9 @@
 {% import 'html.macro.twig' as html %}
 
         <h2>Incidenten <small>({{ klant.incidenten|length }} incidenten)</small></h2>
+        {% set part =  route_base | split('_')[0] %}
         <p>
-           {{ html.link('Incident toevoegen', path('app_incidenten_add', {'klant': klant.id}), 'add') }}
+           {{ html.link('Incident toevoegen', path(part~'_incidenten_add', {'klant': klant.id}), 'add') }}
         </p>
         <table class="table table-hover">
             <thead>
