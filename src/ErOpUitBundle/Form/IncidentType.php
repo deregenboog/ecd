@@ -11,40 +11,9 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use AppBundle\Form\IncidentType as AppIncidentType;
 
-class IncidentType extends AbstractType
+class IncidentType extends AppIncidentType
 {
-    public function buildForm(FormBuilderInterface $builder, array $options)
-    {
-        $builder
-            ->add('datum', AppDateType::class, [
-                'label' => 'Datum',
-            ])
-            ->add('politie', JaNeeType::class, [
-                'label' => 'Is de politie gebeld?',
-            ])
-            ->add('ambulance', JaNeeType::class, [
-                'label' => 'Is de ambulance gebeld?',
-            ])
-            ->add('crisisdienst', JaNeeType::class, [
-                'label' => 'Is de crisisdienst gebeld?',
-            ])
-            ->add('opmerking', null, ['required' => false])
-
-            ->add('submit', SubmitType::class)
-        ;
-    }
-
-    public function getParent(): ?string
-    {
-        return BaseType::class;
-    }
-
-    public function configureOptions(OptionsResolver $resolver)
-    {
-        $resolver->setDefaults([
-            'data_class' => Incident::class,
-//            'attr' => ['novalidate' => 'novalidate'],
-        ]);
-    }
+    protected $entityType = Incident::class;
 }

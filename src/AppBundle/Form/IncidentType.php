@@ -14,6 +14,8 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class IncidentType extends AbstractType
 {
+    protected $entityType = Incident::class;
+
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
@@ -43,8 +45,7 @@ class IncidentType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => Incident::class,
-//            'attr' => ['novalidate' => 'novalidate'],
+            'data_class' => $this->entityType,
         ]);
     }
 }
