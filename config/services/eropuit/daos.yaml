@@ -7,4 +7,9 @@ services:
 
     ErOpUitBundle\Service\:
         resource: '%kernel.project_dir%/src/ErOpUitBundle/Service/'
+    
+    eropuit.incident.entities:
+        class: ArrayObject
+        arguments:
+            - - { key: klant, dao: '@ErOpUitBundle\Service\KlantDao' }
 

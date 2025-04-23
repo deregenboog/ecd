@@ -18,7 +18,8 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\DiscriminatorMap({
  *     "inloop" = "InloopBundle\Entity\Incident",
  *     "app" = "AppBundle\Entity\Incident",
- *     "mw" = "MwBundle\Entity\Incident"
+ *     "mw" = "MwBundle\Entity\Incident",
+ *     "eropuit" = "ErOpUitBundle\Entity\Incident"
  * })
  * @Gedmo\Loggable
  */

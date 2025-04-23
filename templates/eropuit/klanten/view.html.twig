@@ -2,40 +2,61 @@
 {% import 'html.macro.twig' as html %}
 
 {% block content_top %}
-    <h1>{{ title }} {{ entity }}</h1>
+	<h1>{{ title }}
+		{{ entity }}</h1>
 {% endblock %}
 
 {% block content_left %}
-    {% include 'klant_basis.html.twig' with {klant: entity.klant} %}
+	{% include 'klant_basis.html.twig' with {klant: entity.klant} %}
 {% endblock %}
 
 {% block content_right %}
-    <h2>ErOpUit-kalender</h2>
-    <p>
-        {% if entity.uitschrijfdatum %}
-            <p class="alert alert-warning">
-                Deze {{ entity_name }} is uitgeschreven.
-            </p>
-            {{ html.link('Inschrijven', path(route_base~'reopen', {id: entity.id}), 'open') }}
-        {% else %}
-            {{ html.link('Wijzigen', path(route_base~'edit', {id: entity.id}), 'edit') }}
-            {{ html.link('Uitschrijven', path(route_base~'close', {id: entity.id}), 'close') }}
-        {% endif %}
-    </p>
-    <dl class="dl-horizontal">
-        <dt>Inschrijfdatum</dt>
-        <dd>{{ entity.inschrijfdatum|date('d-m-Y') }}</dd>
-        <dt>Uitschrijfdatum</dt>
-        <dd>{{ entity.uitschrijfdatum ? entity.uitschrijfdatum|date('d-m-Y') }}</dd>
-        <dt>Uitschrijfreden</dt>
-        <dd>{{ entity.uitschrijfreden }}</dd>
-    </dl>
-    <dl class="dl-horizontal">
-        <dt>Communicatie e-mail</dt>
-        <dd>{{ entity.communicatieEmail ? 'Ja' :'Nee' }}</dd>
-        <dt>Communicatie post</dt>
-        <dd>{{ entity.communicatiePost ? 'Ja' :'Nee' }}</dd>
-        <dt>Communicatie telefoon</dt>
-        <dd>{{ entity.communicatieTelefoon ? 'Ja' :'Nee' }}</dd>
-    </dl>
+	<ul class="nav nav-tabs">
+		<li class="active">
+			<a data-toggle="tab" href="#eropuit-kalender">ErOpUit-kalender</a>
+		</li>
+		<li>
+			<a data-toggle="tab" href="#incidenten">Incidenten</a>
+		</li>
+	</ul>
+	<div class="tab-content">
+		<div id="eropuit-kalender" class="tab-pane active">
+			<h2>ErOpUit-kalender</h2>
+			<p>
+				{% if entity.uitschrijfdatum %}
+					<p class="alert alert-warning">
+						Deze
+						{{ entity_name }}
+						is uitgeschreven.
+					</p>
+					{{ html.link('Inschrijven', path(route_base~'reopen', {id: entity.id}), 'open') }}
+				{% else %}
+					{{ html.link('Wijzigen', path(route_base~'edit', {id: entity.id}), 'edit') }}
+					{{ html.link('Uitschrijven', path(route_base~'close', {id: entity.id}), 'close') }}
+				{% endif %}
+			</p>
+			<dl class="dl-horizontal">
+				<dt>Inschrijfdatum</dt>
+				<dd>{{ entity.inschrijfdatum|date('d-m-Y') }}</dd>
+				<dt>Uitschrijfdatum</dt>
+				<dd>{{ entity.uitschrijfdatum ? entity.uitschrijfdatum|date('d-m-Y') }}</dd>
+				<dt>Uitschrijfreden</dt>
+				<dd>{{ entity.uitschrijfreden }}</dd>
+			</dl>
+			<dl class="dl-horizontal">
+				<dt>Communicatie e-mail</dt>
+				<dd>{{ entity.communicatieEmail ? 'Ja' :'Nee' }}</dd>
+				<dt>Communicatie post</dt>
+				<dd>{{ entity.communicatiePost ? 'Ja' :'Nee' }}</dd>
+				<dt>Communicatie telefoon</dt>
+				<dd>{{ entity.communicatieTelefoon ? 'Ja' :'Nee' }}</dd>
+			</dl>
+		</div>
+
+		<div id="incidenten" class="tab-pane">
+			<div id="incidenten" class="tab-pane">
+				{% include 'eropuit/incidenten/_list.html.twig' with {klant: entity.klant} %}
+			</div>
+		</div>
+	</div>
 {% endblock %}
