@@ -6,7 +6,6 @@ use AppBundle\Entity\Incident;
 use AppBundle\Form\AppDateType;
 use AppBundle\Form\BaseType;
 use AppBundle\Form\JaNeeType;
-use InloopBundle\Form\LocatieSelectType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;

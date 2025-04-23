@@ -301,15 +301,15 @@ class Deelnemer
     public function getOpenTrajecten()
     {
         $result = [];
-        foreach($this->getTrajecten() as $traject) {
-            if(null == $traject->getAfsluiting()){
+        foreach ($this->getTrajecten() as $traject) {
+            if (null == $traject->getAfsluiting()) {
                 $result[] = $traject;
             }
         }
         return $result;
     }
 
-    public function hasOpenTrajecten(): bool 
+    public function hasOpenTrajecten(): bool
     {
         return 0 < count($this->getOpenTrajecten());
     }
@@ -365,5 +365,10 @@ class Deelnemer
         $this->afsluiting = null;
 
         return $this;
+    }
+
+    public function addIncident(Incident $incident): Klant
+    {
+        return $this->klant->addIncident($incident);;
     }
 }

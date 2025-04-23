@@ -19,7 +19,8 @@ use Symfony\Component\Validator\Constraints as Assert;
  *     "inloop" = "InloopBundle\Entity\Incident",
  *     "app" = "AppBundle\Entity\Incident",
  *     "mw" = "MwBundle\Entity\Incident",
- *     "eropuit" = "ErOpUitBundle\Entity\Incident"
+ *     "eropuit" = "ErOpUitBundle\Entity\Incident",
+ *     "dagbesteding" = "DagbestedingBundle\Entity\Incident"
  * })
  * @Gedmo\Loggable
  */

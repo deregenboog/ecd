@@ -126,3 +126,12 @@ services:
     DagbestedingBundle\Event\DienstenLookupSubscriber:
 
     DagbestedingBundle\Event\GeenActiveringSubscriber:
+
+    dagbesteding.incident.entities:
+        class: ArrayObject
+        arguments:
+            - - { key: klant, dao: '@DagbestedingBundle\Service\DeelnemerDao' }
+
+    DagbestedingBundle\Controller\IncidentenController:
+        arguments:
+            $entities: '@dagbesteding.incident.entities'

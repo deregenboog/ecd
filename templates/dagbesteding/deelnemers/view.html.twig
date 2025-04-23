@@ -49,7 +49,7 @@
         <li><a data-toggle="tab" href="#projectplan">Projectplan</a></li>
         <li><a data-toggle="tab" href="#documenten">Documenten</a></li>
         <li><a data-toggle="tab" href="#werkdoelen">Werkdoelen</a></li>
-
+        <li><a data-toggle="tab" href="#incidenten">Incidenten</a></li>
     </ul>
     <div class="tab-content">
         <div id="trajecten" class="tab-pane active">
@@ -78,6 +78,9 @@
         </div>
         <div id="werkdoelen" class="tab-pane">
             {% include 'dagbesteding/werkdoelen/_list.html.twig' with {deelnemer: entity} %}
+        </div>
+        <div id="incidenten" class="tab-pane">
+            {% include 'app/incidenten/_list.html.twig' with {klant: entity.klant} %}
         </div>
     </div>
 {% endblock %}
