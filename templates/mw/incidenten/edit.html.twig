@@ -4,7 +4,7 @@
 {% block content_right %}
     <h1>{{ entity_name|capitalize }} bewerken</h1>
     <p>
-        {{ html.link('Annuleren', path(route_base~'view', {id: entity.id}), 'cancel') }}
+        {{ html.link('Annuleren', path(route_base~'view', {id: entity.klant.id}), 'cancel') }}
     </p>
     {{ form(form) }}
 {% endblock %}

@@ -1,6 +1,6 @@
 <?php
 
-namespace InloopBundle\Entity;
+namespace MwBundle\Entity;
 
 use AppBundle\Entity\Incident as BaseIncident;
 use AppBundle\Entity\Klant;
@@ -9,6 +9,7 @@ use AppBundle\Model\IncidentInterface;
 use AppBundle\Model\TimestampableTrait;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
+use MwBundle\Entity\IncidentInfo;
 use Symfony\Component\Validator\Constraints as Assert;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
@@ -22,13 +23,13 @@ class Incident extends BaseIncident
 {
     /**
      * @var ?IncidentInfo
-     * @ORM\OneToOne(targetEntity="IncidentInfo", mappedBy="incident", cascade={"persist", "remove"})
+     * @ORM\OneToOne(targetEntity="MwBundle\Entity\IncidentInfo", mappedBy="incident", cascade={"persist", "remove"})
      */
     private $incidentInfo;
 
     public function getIncidentType(): string
     {
-        return 'inloop';
+        return 'mw';
     }
 
     public function getIncidentInfo(): ?IncidentInfo

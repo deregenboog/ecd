@@ -17,7 +17,8 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\DiscriminatorColumn(name="discr", type="string", length=255)
  * @ORM\DiscriminatorMap({
  *     "inloop" = "InloopBundle\Entity\Incident",
- *     "app" = "AppBundle\Entity\Incident"
+ *     "app" = "AppBundle\Entity\Incident",
+ *     "mw" = "MwBundle\Entity\Incident"
  * })
  * @Gedmo\Loggable
  */
@@ -67,6 +68,11 @@ class Incident implements IncidentInterface
      * @Assert\NotNull
      */
     private Klant $klant;
+
+    public function getIncidentType(): string
+    {
+        return 'app';
+    }
 
     public function __construct(?Klant $klant = null)
     {

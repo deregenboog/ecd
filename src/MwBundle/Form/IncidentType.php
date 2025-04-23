@@ -5,7 +5,6 @@ namespace MwBundle\Form;
 use AppBundle\Form\AppDateType;
 use AppBundle\Form\BaseType;
 use AppBundle\Form\JaNeeType;
-use InloopBundle\Form\LocatieSelectType;
 use MwBundle\Entity\Incident;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -17,9 +16,9 @@ class IncidentType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('locatie', LocatieSelectType::class, [
-                'multiple' => false,
-                'expanded' => false,
+            ->add('incidentInfo', IncidentInfoType::class, [
+                'label' => 'Incident Informatie',
+                'required' => false,
             ])
             ->add('datum', AppDateType::class, [
                 'label' => 'Datum',
@@ -48,7 +47,7 @@ class IncidentType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Incident::class,
-//            'attr' => ['novalidate' => 'novalidate'],
+            //            'attr' => ['novalidate' => 'novalidate'],
         ]);
     }
 }

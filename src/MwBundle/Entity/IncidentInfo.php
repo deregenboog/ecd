@@ -1,14 +1,15 @@
 <?php
 
-namespace InloopBundle\Entity;
+namespace MwBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use AppBundle\Entity\Incident as BaseIncident;
+use InloopBundle\Entity\Locatie;
 
 /**
  * @ORM\Entity
- * @ORM\Table(name="inloop_incident_info")
+ * @ORM\Table(name="mw_incident_info")
  * @Gedmo\Loggable
  */
 class IncidentInfo
@@ -27,6 +28,7 @@ class IncidentInfo
     private $incident;
 
     /**
+     * @var Locatie
      * @ORM\OneToOne(targetEntity="InloopBundle\Entity\Locatie")
      * @ORM\JoinColumn(name="locatie_id", referencedColumnName="id", nullable=false)
      */

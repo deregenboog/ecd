@@ -13,7 +13,6 @@
                     <th>Politie</th>
                     <th>Ambulance</th>
                     <th>Crisisdienst</th>
-                    <th>Type</th>
                     <th></th>
                 </tr>
             </thead>
@@ -26,7 +25,7 @@
                         <td>{{ incident.ambulance|ja_nee }}</td>
                         <td>{{ incident.crisisdienst|ja_nee }}</td>
                         <td>
-                            {{ html.link('Wijzigen', path('app_incidenten_edit', {id: incident.id}), 'edit') }}
+                            {{ html.link('Wijzigen', path((incident.incidentType)~'_incidenten_edit', {id: incident.id}), 'edit') }}
                             {% if is_granted('ROLE_TEAMLEIDERS') %}
                                 {{ html.link('Verwijderen', path('app_incidenten_delete', {id: incident.id}), 'delete') }}
                             {% endif %}

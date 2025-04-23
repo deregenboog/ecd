@@ -125,6 +125,9 @@ doctrine:
             inloop_incidenten:
                 class: InloopBundle\Doctrine\IncidentenFilter
                 enabled: false
+            mw_incidenten:
+                class: MwBundle\Doctrine\IncidentenFilter
+                enabled: false
             overleden:
                 class: AppBundle\Doctrine\OverledenFilter
                 enabled: false
