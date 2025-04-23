@@ -30,7 +30,7 @@ class IncidentenController extends AbstractChildController
     protected $entityName = 'Incident';
     protected $entityClass = Incident::class;
     protected $formClass = IncidentType::class;
-    protected $baseRouteName = 'app_incidenten_';
+    protected $baseRouteName = 'app_klanten_';
     protected $addMethod = 'addIncident';
 
     /**

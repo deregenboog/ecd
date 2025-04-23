@@ -28,7 +28,7 @@ class IncidentenController extends AbstractChildController
     protected $entityName = 'Incident';
     protected $entityClass = Incident::class;
     protected $formClass = IncidentType::class;
-    protected $baseRouteName = 'inloop_incidenten_';
+    protected $baseRouteName = 'inloop_klanten_';
     protected $addMethod = 'addIncident';
 
     /**

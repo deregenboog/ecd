@@ -30,7 +30,7 @@ interface IncidentInterface
 
     public function setCrisisdienst(bool $crisisdienst);
 
-    public function getLocatie();
+    // public function getLocatie();
 
-    public function setLocatie($locatie);
+    // public function setLocatie($locatie);
 }

@@ -11,6 +11,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Component\Validator\Constraints as Assert;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
+
 /**
  * @ORM\Entity
  *
@@ -19,5 +20,33 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
  */
 class Incident extends BaseIncident
 {
-}
+    /**
+     * @var ?IncidentInfo
+     * @ORM\OneToOne(targetEntity="IncidentInfo", mappedBy="incident", cascade={"persist", "remove"})
+     */
+    private $incidentInfo;
 
+    public function getIncidentInfo(): ?IncidentInfo
+    {
+        return $this->incidentInfo;
+    }
+
+    public function setIncidentInfo(?IncidentInfo $incidentInfo): self
+    {
+        $this->incidentInfo = $incidentInfo;
+
+        // Set the owning side of the relation
+        if ($incidentInfo !== null && $incidentInfo->getIncident() !== $this) {
+            $incidentInfo->setIncident($this);
+        }
+
+        return $this;
+    }
+
+    public function getLocatie():string {
+        if ($this->incidentInfo !== null && $this->incidentInfo->getLocatie() !== null) {
+            return $this->incidentInfo->getLocatie()->getNaam();
+        }
+        return "-----";
+    }
+}

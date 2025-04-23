@@ -17,10 +17,6 @@ class IncidentType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('locatie', LocatieSelectType::class, [
-                'multiple' => false,
-                'expanded' => false,
-            ])
             ->add('datum', AppDateType::class, [
                 'label' => 'Datum',
             ])

@@ -11,7 +11,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity
- * @ORM\Table(name="inloop_incidenten")
+ * @ORM\Table(name="incidenten")
  * @ORM\HasLifecycleCallbacks
  * @ORM\InheritanceType("SINGLE_TABLE")
  * @ORM\DiscriminatorColumn(name="discr", type="string", length=255)
@@ -25,26 +25,6 @@ class Incident implements IncidentInterface
 {
     use IdentifiableTrait;
     use TimestampableTrait;
-
-    /**
-     * @ORM\ManyToOne(targetEntity="InloopBundle\Entity\Locatie")
-     */
-    private $locatie;
-
-    public function getLocatie()
-    {
-        return $this->locatie;
-    }
-
-    /**
-     * @return $this
-     */
-    public function setLocatie($locatie)
-    {
-        $this->locatie = $locatie;
-
-        return $this;
-    }
     
     /**
      * @ORM\Column(name="datum", type="date")
