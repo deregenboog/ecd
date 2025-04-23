@@ -77,6 +77,10 @@ services:
         arguments:
             $export: '@iz.export.vrijwilligers'
 
+    IzBundle\Controller\DeelnamesController:
+        arguments:
+            $entities: '@iz.deelname.entities'
+
     IzBundle\Event\DienstenLookupSubscriber:
 
     IzBundle\Event\DienstenVrijwilligerLookupSubscriber:

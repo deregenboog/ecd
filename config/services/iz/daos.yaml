@@ -54,6 +54,12 @@ services:
             -
               - { key: intervisiegroep, dao: '@IzBundle\Service\IntervisiegroepDao' }
               - { key: vrijwilliger, dao: '@IzBundle\Service\VrijwilligerDao' }
+    
+    iz.deelname.entities:
+        class: ArrayObject
+        arguments:
+            -
+                - { key: vrijwilliger, dao: '@IzBundle\Service\VrijwilligerDao' }
 
     iz.verslag.entities:
         class: ArrayObject

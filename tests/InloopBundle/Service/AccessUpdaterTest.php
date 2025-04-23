@@ -230,7 +230,7 @@ class AccessUpdaterTest extends DoctrineTestCase
             LEFT JOIN recent.registratie recenteRegistratie WITH DATE(recenteRegistratie.buiten) > :two_months_ago
             WHERE (
                 ((eersteIntake.toegangInloophuis = true AND :locatie IN (specifiekeLocaties)))
-                OR ((eersteIntake.toegangInloophuis = true AND eersteIntakeGebruikersruimte.id = :locatie_id))
+                OR eersteIntake.toegangInloophuis = true
             )
             AND status INSTANCE OF InloopBundle\Entity\Aanmelding
             GROUP BY klant.id
