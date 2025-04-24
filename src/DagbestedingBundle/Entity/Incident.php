@@ -24,14 +24,4 @@ class Incident extends BaseIncident
     {
         return 'dagbesteding';
     }
-
-    public function getKlant()  
-    {
-        return parent::getKlant();
-    }
-    public function setKlant($klant)
-    {
-        parent::setKlant($klant->getKlant());
-        return $this;
-    }
 }

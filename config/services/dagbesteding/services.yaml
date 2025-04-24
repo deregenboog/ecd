@@ -130,7 +130,7 @@ services:
     dagbesteding.incident.entities:
         class: ArrayObject
         arguments:
-            - - { key: klant, dao: '@DagbestedingBundle\Service\DeelnemerDao' }
+            - - { key: klant, dao: '@AppBundle\Service\KlantDao' }
 
     DagbestedingBundle\Controller\IncidentenController:
         arguments:

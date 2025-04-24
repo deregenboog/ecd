@@ -74,7 +74,9 @@ class KlantenController extends AbstractController
      */
     public function viewAction(Request $request, $id)
     {
-        $this->entityManager->getFilters()->enable('inloop_incidenten');
+        $this->entityManager->getFilters()->enable('incidenten')
+            ->setParameter('discr', 'inloop')
+        ;
         $response = parent::viewAction($request, $id);
         if (is_array($response)) {
             $response['allRows'] = $this->locatieDao->findAllActiveLocationsOfTypeInloop();

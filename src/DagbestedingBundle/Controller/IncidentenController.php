@@ -14,6 +14,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use AppBundle\Controller\IncidentenController as AppIncidenetenController;
+use AppBundle\Service\IncidentDao;
 use DagbestedingBundle\Entity\Incident;
 use DagbestedingBundle\Form\IncidentType;
 
@@ -25,7 +26,11 @@ use DagbestedingBundle\Form\IncidentType;
  */
 class IncidentenController extends AppIncidenetenController
 {
+    use DisableIndexActionTrait;
+
+    protected $entityName = 'Incident';
     protected $entityClass = Incident::class;
     protected $formClass = IncidentType::class;
-    protected $baseRouteName = 'dagbesteding_deelnemers_';
+    protected $baseRouteName = 'app_klanten_';
+    protected $addMethod = 'addIncident';
 }

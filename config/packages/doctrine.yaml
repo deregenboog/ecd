@@ -122,14 +122,8 @@ doctrine:
             foutieve_invoer:
                 class: IzBundle\Doctrine\FoutieveInvoerFilter
                 enabled: true
-            inloop_incidenten:
-                class: InloopBundle\Doctrine\IncidentenFilter
-                enabled: false
-            eropuit_incidenten:
-                class: ErOpUitBundle\Doctrine\IncidentenFilter
-                enabled: false
-            mw_incidenten:
-                class: MwBundle\Doctrine\IncidentenFilter
+            incidenten:
+                class: AppBundle\Doctrine\IncidentenFilter
                 enabled: false
             overleden:
                 class: AppBundle\Doctrine\OverledenFilter

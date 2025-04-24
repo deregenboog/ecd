@@ -369,6 +369,6 @@ class Deelnemer
 
     public function addIncident(Incident $incident): Klant
     {
-        return $this->klant->addIncident($incident);;
+        return $this->getKlant()->addIncident($incident);
     }
 }

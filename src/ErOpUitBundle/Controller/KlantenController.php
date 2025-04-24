@@ -174,7 +174,9 @@ class KlantenController extends AbstractController
      */
     public function viewAction(Request $request, $id)
     {
-        $this->entityManager->getFilters()->enable('eropuit_incidenten');
+        $this->entityManager->getFilters()->enable('incidenten')
+            ->setParameter('discr', 'eropuit')
+        ;
         return parent::viewAction($request, $id);
     }
 }
