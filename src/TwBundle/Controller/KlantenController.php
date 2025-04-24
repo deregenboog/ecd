@@ -220,4 +220,14 @@ class KlantenController extends AbstractController
 
         return $params;
     }
+
+    /**
+     * @Route("/{id}/view")
+     */
+    public function viewAction(Request $request, $id){
+        $this->entityManager->getFilters()->enable('incidenten')
+            ->setParameter('discr', 'tw')
+        ;
+        return parent::viewAction($request, $id);
+    }
 }

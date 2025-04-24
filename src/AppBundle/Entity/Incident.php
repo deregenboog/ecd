@@ -22,6 +22,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  *     "eropuit" = "ErOpUitBundle\Entity\Incident",
  *     "dagbesteding" = "DagbestedingBundle\Entity\Incident",
  *     "iz" = "IzBundle\Entity\Incident",
+ *     "tw" = "TwBundle\Entity\Incident",
  * })
  * @Gedmo\Loggable
  */
