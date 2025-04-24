@@ -322,4 +322,19 @@ class IzKlant extends IzDeelnemer
 
         return false === $afgesloten && 0 === $oh + $ak;
     }
+
+    public function getIncidenten()
+    {
+        return $this->klant->getIncidenten();
+    }
+
+    public function addIncident($incident)
+    {
+        return $this->klant->addIncident($incident);
+    }
+
+    public function setIncidenten($incidenten)
+    {
+        return $this->klant->setIncidenten($incidenten);
+    }
 }

@@ -20,7 +20,8 @@ use Symfony\Component\Validator\Constraints as Assert;
  *     "app" = "AppBundle\Entity\Incident",
  *     "mw" = "MwBundle\Entity\Incident",
  *     "eropuit" = "ErOpUitBundle\Entity\Incident",
- *     "dagbesteding" = "DagbestedingBundle\Entity\Incident"
+ *     "dagbesteding" = "DagbestedingBundle\Entity\Incident",
+ *     "iz" = "IzBundle\Entity\Incident",
  * })
  * @Gedmo\Loggable
  */
