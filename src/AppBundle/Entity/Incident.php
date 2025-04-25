@@ -25,6 +25,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  *     "tw" = "TwBundle\Entity\Incident",
  *     "uhk" = "UhkBundle\Entity\Incident",
  *     "villa" = "VillaBundle\Entity\Incident",
+ *     "hs_dienstverleners" = "HsBundle\Entity\DienstverlenersIncident",
  * })
  * @Gedmo\Loggable
  */
@@ -73,7 +74,7 @@ class Incident implements IncidentInterface
      *
      * @Assert\NotNull
      */
-    private Klant $klant;
+    private  $klant;
 
     public function getIncidentType(): string
     {
@@ -99,7 +100,7 @@ class Incident implements IncidentInterface
         return $this->klant;
     }
 
-    public function setKlant(Klant $klant)
+    public function setKlant($klant)
     {
         $this->klant = $klant;
 

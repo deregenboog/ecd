@@ -8,7 +8,7 @@ interface IncidentInterface
 {
     public function getKlant();
 
-    public function setKlant(Klant $klant);
+    public function setKlant($klant);
 
     public function getDatum(): ?\DateTime;
 

@@ -1,0 +1,18 @@
+{% extends 'base-2-col.html.twig' %}
+{% import 'html.macro.twig' as html %}
+
+{% block content_top %}
+    <h1>{{ entity_name|capitalize }} toevoegen</h1>
+{% endblock %}
+
+{% block content_left %}
+     {% include 'hs/klanten/basic_klant.html.twig' with {entity: entity.klant} %}
+{% endblock %}
+
+{% block content_right %}
+    <h2>{{ entity_name|capitalize }}</h2>
+    <p>
+       {{ html.link('Annuleren', path(route_base~'view', {id: entity.klant.id}), 'cancel') }}
+    </p>
+    {{ form(form) }}
+{% endblock %}

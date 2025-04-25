@@ -143,4 +143,15 @@ class DienstverlenersController extends AbstractController
             'creationForm' => $creationForm->createView(),
         ];
     }
+
+    /**
+     * @Route("/{id}/view")
+     */
+    public function viewAction(Request $request, $id)
+    {
+        $this->entityManager->getFilters()->enable('incidenten')
+            ->setParameter('discr', 'hs_dienstverleners')
+        ;
+        return parent::viewAction($request, $id);
+    }
 }

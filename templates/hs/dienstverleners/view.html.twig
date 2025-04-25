@@ -43,6 +43,7 @@
         <li><a data-toggle="tab" href="#registraties">Uren</a></li>
         <li><a data-toggle="tab" href="#memos">Dienstverlenerinfo</a></li>
         <li><a data-toggle="tab" href="#documenten">Documenten</a></li>
+        <li><a data-toggle="tab" href="#incidenten">Incidenten</a></li>
     </ul>
     <div class="tab-content">
         <div id="klussen" class="tab-pane active">
@@ -56,6 +57,9 @@
         </div>
         <div id="documenten" class="tab-pane">
             {% include 'hs/documenten/_list.html.twig' with {dienstverlener: entity} %}
+        </div>
+        <div id="incidenten" class="tab-pane">
+            {% include 'hs/dienstverleners/incidenten/_list.html.twig' with {klant: entity.klant} %}
         </div>
     </div>
 {% endblock %}

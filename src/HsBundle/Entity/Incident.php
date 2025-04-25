@@ -1,50 +1,24 @@
 <?php
-namespace AppBundle\Entity;
+namespace HsBundle\Entity;
 
-use AppBundle\Entity\Klant;
 use AppBundle\Model\IdentifiableTrait;
 use AppBundle\Model\IncidentInterface;
 use AppBundle\Model\TimestampableTrait;
+use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity
- * @ORM\Table(name="inloop_incidenten")
+ * @ORM\Table(name="hs_incidenten")
  * @ORM\HasLifecycleCallbacks
- * @ORM\InheritanceType("SINGLE_TABLE")
- * @ORM\DiscriminatorColumn(name="discr", type="string", length=255)
- * @ORM\DiscriminatorMap({
- *     "app" = "AppBundle\Entity\Incident",
- *     "inloop" = "InloopBundle\Entity\Incident"
- * })
  * @Gedmo\Loggable
  */
-abstract class BaseIncident implements IncidentInterface 
+class Incident implements IncidentInterface
 {
-    use IdentifiableTrait;
     use TimestampableTrait;
-
-    /**
-     * @ORM\ManyToOne(targetEntity="InloopBundle\Entity\Locatie")
-     */
-    private $locatie;
-
-    public function getLocatie()
-    {
-        return $this->locatie;
-    }
-
-    /**
-     * @return $this
-     */
-    public function setLocatie($locatie)
-    {
-        $this->locatie = $locatie;
-
-        return $this;
-    }
+    use IdentifiableTrait;
     
     /**
      * @ORM\Column(name="datum", type="date")
@@ -80,13 +54,18 @@ abstract class BaseIncident implements IncidentInterface
     private $crisisdienst = false;
 
     /**
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Klant", inversedBy="incidenten", cascade={"persist"})
+     * @ORM\ManyToOne(targetEntity="Klant", inversedBy="incidenten", cascade={"persist"})
      *
      * @ORM\JoinColumn(nullable=false)
      *
      * @Assert\NotNull
      */
-    private $klant;
+    private Klant $klant;
+
+    public function getIncidentType(): string
+    {
+        return 'hs';
+    }
 
     public function __construct(?Klant $klant = null)
     {
@@ -123,7 +102,7 @@ abstract class BaseIncident implements IncidentInterface
     }
 
     /**
-     * @return BaseIncident
+     * @return Incident
      */
     public function setDatum($datum)
     {
@@ -139,7 +118,7 @@ abstract class BaseIncident implements IncidentInterface
     }
 
     /**
-     * @return BaseIncident
+     * @return Incident
      */
     public function setOpmerking(?string $opmerking = "")
     {
@@ -153,7 +132,7 @@ abstract class BaseIncident implements IncidentInterface
         return $this->politie;
     }
 
-    public function setPolitie(bool $politie): IncidentInterface
+    public function setPolitie(bool $politie): Incident
     {
         $this->politie = $politie;
 
@@ -165,7 +144,7 @@ abstract class BaseIncident implements IncidentInterface
         return $this->ambulance;
     }
 
-    public function setAmbulance(bool $ambulance): IncidentInterface
+    public function setAmbulance(bool $ambulance): Incident
     {
         $this->ambulance = $ambulance;
 
@@ -177,11 +156,10 @@ abstract class BaseIncident implements IncidentInterface
         return $this->crisisdienst;
     }
 
-    public function setCrisisdienst(bool $crisisdienst): IncidentInterface
+    public function setCrisisdienst(bool $crisisdienst): Incident
     {
         $this->crisisdienst = $crisisdienst;
 
         return $this;
     }
-
 }
