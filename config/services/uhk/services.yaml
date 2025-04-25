@@ -23,3 +23,7 @@ services:
         arguments:
             -
                 - { key: deelnemer, dao: '@UhkBundle\Service\DeelnemerDao' }
+
+    UhkBundle\Controller\IncidentenController:
+        arguments:
+            $entities: '@app.incident.entities'

@@ -23,6 +23,8 @@ use Symfony\Component\Validator\Constraints as Assert;
  *     "dagbesteding" = "DagbestedingBundle\Entity\Incident",
  *     "iz" = "IzBundle\Entity\Incident",
  *     "tw" = "TwBundle\Entity\Incident",
+ *     "uhk" = "UhkBundle\Entity\Incident",
+ *     "villa" = "VillaBundle\Entity\Incident",
  * })
  * @Gedmo\Loggable
  */
