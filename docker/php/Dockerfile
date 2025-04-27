@@ -56,4 +56,5 @@ RUN composer install --no-autoloader --no-scripts
 # copy application code
 COPY . .
 COPY docker/php/.env.dev .env
+COPY docker/php/.env.test .env.test
 RUN composer dump-autoload --optimize

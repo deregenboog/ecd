@@ -47,9 +47,14 @@ class DienstenLookupSubscriber implements EventSubscriberInterface
                 foreach ($toegang as $t) {
                     if ($t->getLocatie()->isGebruikersruimte()) {
                         $gebruikersruimtes[] = (string) $t->getLocatie();
-                    } else {
+                    } else if(strpos($t->getLocatie()->getNaam(), 'WKR') === false && strpos($t->getLocatie()->getNaam(), 'winteropvang') === false) {
                         $inloophuizen[] = (string) $t->getLocatie();
                     }
+                    else
+                    {
+                        $winter[] = (string) $t->getLocatie();
+                    }
+
                 }
                 if (count($inloophuizen) > 0) {
                     sort($inloophuizen);
@@ -66,6 +71,15 @@ class DienstenLookupSubscriber implements EventSubscriberInterface
                         'Gebruikersruimte',
                         $this->generator->generate('inloop_klanten_view', ['id' => $klant->getId()]),
                         implode(', ', $gebruikersruimtes)
+                    ));
+                }
+                if (count($winter) > 0) {
+                    sort($winter);
+                    $event->addDienst(new Dienst(
+                        'Winteropvang',
+                        $this->generator->generate('inloop_klanten_view', ['id' => $klant->getId()]),
+                        sprintf('%s',$klant->getHuidigeStatus()),
+                        implode('<br/>', $winter)
                     ));
                 }
             }

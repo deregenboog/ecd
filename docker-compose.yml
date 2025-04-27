@@ -28,6 +28,7 @@ services:
       - ${PWD}/public:/var/www/html/public
       - ${PWD}/src:/var/www/html/src
       - ${PWD}/templates:/var/www/html/templates
+      - ${PWD}/tests:/var/www/html/tests
       - ${PWD}/translations:/var/www/html/translations
   node:
     image: node
