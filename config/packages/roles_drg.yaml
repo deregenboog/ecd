@@ -12,7 +12,7 @@ security:
             - ROLE_INLOOP_REGISTRATIES
             - ROLE_INLOOP_OPMERKINGEN
         ROLE_INLOOP:
-            - ROLE_NO_ACCESS_KLANTEN_VRIJWILLIGERS
+            - ROLE_NO_ACCESS_KLANTEN
             #- CONTROLLER_APP_KLANTEN
         ROLE_INLOOP_INTAKES:
             - ROLE_INLOOP
@@ -27,7 +27,7 @@ security:
             - ROLE_INLOOP
         ROLE_INLOOP_VRIJWILLIGERS:
             - ROLE_INLOOP
-            - ROLE_NO_ACCESS_KLANTEN_VRIJWILLIGERS
+            - ROLE_NO_ACCESS_VRIJWILLIGERS
             #- CONTROLLER_APP_VRIJWILLIGERS
         ROLE_INLOOP_BEHEER:
             - ROLE_INLOOP
@@ -50,7 +50,8 @@ security:
             - ROLE_MW_BEHEER
             - ROLE_INLOOP_BEHEER
         ROLE_MLO:
-            - ROLE_NO_ACCESS_KLANTEN_VRIJWILLIGERS
+            - ROLE_NO_ACCESS_KLANTEN
+            - ROLE_NO_ACCESS_VRIJWILLIGERS
             #- CONTROLLER_APP_KLANTEN
             #- CONTROLLER_APP_VRIJWILLIGERS
             - CONTROLLER_APP_ZRMS
@@ -68,7 +69,7 @@ security:
             - ROLE OEKRAINE
             - ROLE_OEKRAINE_LOCATIEHOOFD
         ROLE_MW:
-            - ROLE_NO_ACCESS_KLANTEN_VRIJWILLIGERS
+            - ROLE_NO_ACCESS_KLANTEN
             #- CONTROLLER_APP_KLANTEN
             - CONTROLLER_APP_RAPPORTAGES
             - CONTROLLER_APP_DOELSTELLINGEN
@@ -79,7 +80,7 @@ security:
         ROLE_VOLUNTEERS:
             - ROLE_INLOOP_REGISTRATIES
         ROLE_STAGE:
-            - ROLE_NO_ACCESS_KLANTEN_VRIJWILLIGERS
+            - ROLE_NO_ACCESS_KLANTEN
             #- CONTROLLER_APP_KLANTEN
             - CONTROLLER_APP_ZRMS
             - ROLE_INLOOP_INTAKES
@@ -92,7 +93,8 @@ security:
             - ROLE_PFO_BEHEER #andersom geredeneerd. Historisch zo gegegroeid. Beheer is om consistent te zijn met de rest van ECD.
         ROLE_IZ:
             - ROLE_EROPUIT
-            - ROLE_NO_ACCESS_KLANTEN_VRIJWILLIGERS
+            - ROLE_NO_ACCESS_KLANTEN
+            - ROLE_NO_ACCESS_VRIJWILLIGERS
             #- CONTROLLER_APP_KLANTEN
             #- CONTROLLER_APP_VRIJWILLIGERS
             - CONTROLLER_APP_ZRMS
@@ -100,7 +102,8 @@ security:
             - ROLE_IZ
         ROLE_GA:
             - ROLE_EROPUIT
-            - ROLE_NO_ACCESS_KLANTEN_VRIJWILLIGERS
+            - ROLE_NO_ACCESS_KLANTEN
+            - ROLE_NO_ACCESS_VRIJWILLIGERS
             #- CONTROLLER_APP_KLANTEN
             #- CONTROLLER_APP_VRIJWILLIGERS
             - CONTROLLER_ATTACHMENTS
@@ -112,14 +115,15 @@ security:
         ROLE_CLIP_BEHEER:
             - ROLE_CLIP
             - ROLE_CLIP_VRIJWILLIGERS
-            - ROLE_NO_ACCESS_KLANTEN_VRIJWILLIGERS
+            - ROLE_NO_ACCESS_VRIJWILLIGERS
             #- CONTROLLER_APP_VRIJWILLIGERS
             - ROLE_CLIP_ALLEEN_CLIENTEN
         ROLE_DAGBESTEDING: []
         ROLE_DAGBESTEDING_BEHEER:
             - ROLE_DAGBESTEDING
         ROLE_HOMESERVICE:
-            - ROLE_NO_ACCESS_KLANTEN_VRIJWILLIGERS
+            - ROLE_NO_ACCESS_KLANTEN
+            - ROLE_NO_ACCESS_VRIJWILLIGERS
             #- CONTROLLER_APP_KLANTEN
             #- CONTROLLER_APP_VRIJWILLIGERS
             - ROLE_HS
@@ -129,7 +133,8 @@ security:
         ROLE_HS_BEHEER: [] #to be in line with the bundle naming...
         ROLE_HS: []
         ROLE_TW:
-            - ROLE_NO_ACCESS_KLANTEN_VRIJWILLIGERS
+            - ROLE_NO_ACCESS_KLANTEN
+            - ROLE_NO_ACCESS_VRIJWILLIGERS
             #- CONTROLLER_APP_KLANTEN
             #- CONTROLLER_APP_VRIJWILLIGERS
             - ROLE_TW_VRIJWILLIGERS
@@ -152,16 +157,17 @@ security:
             - CONTROLLER_APP_ZRMS
         ROLE_UHK_BEHEER:
             - ROLE_UHK
-            - ROLE_NO_ACCESS_KLANTEN_VRIJWILLIGERS
+            - ROLE_NO_ACCESS_KLANTEN
             #- CONTROLLER_APP_KLANTEN
         ROLE_EROPUIT_BEHEER:
             - ROLE_EROPUIT
         ROLE_EROPUIT: []
         ROLE_BUURTBOERDERIJ:
-            - ROLE_NO_ACCESS_KLANTEN_VRIJWILLIGERS
+            - ROLE_NO_ACCESS_VRIJWILLIGERS
             #- CONTROLLER_APP_VRIJWILLIGERS
         ROLE_VILLA:
-            - ROLE_NO_ACCESS_KLANTEN_VRIJWILLIGERS
+            - ROLE_NO_ACCESS_KLANTEN
+            - ROLE_NO_ACCESS_VRIJWILLIGERS
             #- CONTROLLER_APP_VRIJWILLIGERS
             #- CONTROLLER_APP_KLANTEN
         ROLE_VILLA_BEHEER:
@@ -240,7 +246,9 @@ security:
             - CONTROLLER_APP_DOWNLOAD
         ROLE_CLIP_ALLEEN_CLIENTEN:
             - ROLE_USER
-        ROLE_NO_ACCESS_KLANTEN_VRIJWILLIGERS:
+        ROLE_NO_ACCESS_KLANTEN:
+
+        ROLE_NO_ACCESS_VRIJWILLIGERS:
             #- ROLE_INLOOP
             #- ROLE_INLOOP_VRIJWILLIGERS
             #- ROLE_MLO
