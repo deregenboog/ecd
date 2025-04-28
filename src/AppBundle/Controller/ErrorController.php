@@ -22,7 +22,7 @@ class ErrorController extends AbstractController
     {
         if ($exception instanceof HttpExceptionInterface && $exception->getStatusCode() === 403) {
             $uri = $request->getRequestUri();
-            $user = $this->getUser()?->getUserIdentifier() ?? 'anoniem';
+            $user = $this->getUser() ? $this->getUser()->getUserIdentifier() : 'anoniem';
 
             // refactoren
             if (
