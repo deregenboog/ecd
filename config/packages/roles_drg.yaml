@@ -247,19 +247,24 @@ security:
         ROLE_CLIP_ALLEEN_CLIENTEN:
             - ROLE_USER
         ROLE_NO_ACCESS_KLANTEN:
-
-        ROLE_NO_ACCESS_VRIJWILLIGERS:
             #- ROLE_INLOOP
-            #- ROLE_INLOOP_VRIJWILLIGERS
             #- ROLE_MLO
             #- ROLE_MW
             #- ROLE_STAGE
             #- ROLE_IZ
             #- ROLE_GA
-            #- ROLE_CLIP_BEHEER
             #- ROLE_HOMESERVICE
             #- ROLE_TW
             #- ROLE_UHK_BEHEER
+            #- ROLE_VILLA
+        ROLE_NO_ACCESS_VRIJWILLIGERS:
+            #- ROLE_INLOOP_VRIJWILLIGERS
+            #- ROLE_MLO
+            #- ROLE_IZ
+            #- ROLE_GA
+            #- ROLE_CLIP_BEHEER
+            #- ROLE_HOMESERVICE
+            #- ROLE_TW
             #- ROLE_BUURTBOEDERIJ
             #- ROLE_VILLA
 
