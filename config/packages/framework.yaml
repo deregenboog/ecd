@@ -18,6 +18,8 @@ framework:
         gc_maxlifetime: 28800 # 8 hours
         save_path: '%kernel.project_dir%/var/sessions'
 
+    error_controller: 'AppBundle\Controller\ErrorController::show'
+
     #esi: true
     #fragments: true
     php_errors:

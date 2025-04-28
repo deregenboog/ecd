@@ -1,9 +1,9 @@
 {% import 'html.macro.twig' as html %}
 
-{% if is_granted('CONTROLLER_APP_KLANTEN') %}
+{% if is_granted('CONTROLLER_APP_KLANTEN') or is_granted('ROLE_NO_ACCESS_KLANTEN_VRIJWILLIGERS') %}
     {{ html.navLink('Klanten', path('app_klanten_index'), isActiveRoute('app_klanten_') or isActiveRoute('app_zrms_')) }}
 {% endif %}
-{% if is_granted('CONTROLLER_APP_VRIJWILLIGERS') %}
+{% if is_granted('CONTROLLER_APP_VRIJWILLIGERS') or is_granted('ROLE_NO_ACCESS_KLANTEN_VRIJWILLIGERS') %}
     {{ html.navLink('Vrijwilligers', path('app_vrijwilligers_index'), isActiveRoute('app_vrijwilligers_')) }}
 {% endif %}
 {% if is_granted('ROLE_USERADMIN') %}
