@@ -19,3 +19,8 @@ services:
         arguments:
             -
               - { key: client, dao: '@PfoBundle\Service\ClientDao' }
+
+    pfo.incident.entities:
+        class: ArrayObject
+        arguments:
+            - - { key: client, dao: '@PfoBundle\Service\ClientDao' }

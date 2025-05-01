@@ -57,3 +57,11 @@ services:
             - PfoBundle\Entity\Verslag
 
     PfoBundle\Form\RapportageType:
+
+    PfoBundle\Controller\IncidentenController:
+        arguments:
+            $entities: '@pfo.incident.entities'
+
+    
+
+

@@ -86,6 +86,7 @@
 
         <li><a data-toggle="tab" href="{{ verslagLink }}" >{{ verslagIcon|raw }}Verslagen</a></li>
         <li><a data-toggle="tab" href="#documenten">Documenten</a></li>
+        <li><a data-toggle="tab" href="#incidenten">Incidenten</a></li>
     </ul>
     <div class="tab-content">
         <div id="koppelingen" class="tab-pane active">
@@ -116,6 +117,9 @@
         </div>
         <div id="documenten" class="tab-pane">
             {% include 'pfo/documenten/_list.html.twig' with {client: entity} %}
+        </div>
+        <div id="incidenten" class="tab-pane">
+            {% include 'pfo/incidenten/_list.html.twig' with {client: entity} %}
         </div>
     </div>
 {% endblock %}
