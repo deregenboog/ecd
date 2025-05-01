@@ -45,7 +45,6 @@ class Incidenten extends AbstractReport
         $builder = $this->entityManager
             ->getRepository(Incident::class)
             ->createQueryBuilder('incident')
-
             ->where('DATE(incident.datum) BETWEEN :start_date AND :end_date')
             ->setParameters([
                 'start_date' => $this->startDate,

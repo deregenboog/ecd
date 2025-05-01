@@ -67,6 +67,6 @@ services:
     hs.incident.entities:
         class: ArrayObject
         arguments:
-            - - { key: client, dao: '@HsBundle\Service\KlantDao' }
+            - - { key: klant, dao: '@HsBundle\Service\KlantDao' }
     
 
