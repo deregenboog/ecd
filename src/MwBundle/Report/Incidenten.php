@@ -1,11 +1,11 @@
 <?php
 
-namespace InloopBundle\Report;
+namespace MwBundle\Report;
 
 use AppBundle\Report\AbstractReport;
 use AppBundle\Report\Listing;
 use Doctrine\ORM\EntityManagerInterface;
-use InloopBundle\Entity\Incident;
+use MwBundle\Entity\Incident;
 use InloopBundle\Entity\Locatie;
 
 class Incidenten extends AbstractReport

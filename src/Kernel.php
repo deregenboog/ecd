@@ -16,7 +16,7 @@ class Kernel extends BaseKernel
     protected $reports = [
         \AppBundle\Form\RapportageType::class => 'app.rapportage',
         \ClipBundle\Form\RapportageType::class => 'clip.rapportage',
-        \DagbestedingBundle\Form\RapportageType::class => 'dagbesteding.rapportage',
+        \DagbestedingBundle\Form\ReportingType::class => 'dagbesteding.rapportage',
         \GaBundle\Form\RapportageType::class => 'ga.rapportage',
         \HsBundle\Form\RapportageType::class => 'hs.rapportage',
         \InloopBundle\Form\RapportageType::class => 'inloop.rapportage',
