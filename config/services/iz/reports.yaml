@@ -198,3 +198,7 @@ services:
             - "@iz.repository.iz_vrijwilliger"
         tags:
             - { name: iz.rapportage, category: Vrijwilligers }
+    
+    IzBundle\Report\Incidenten:
+        tags:
+            - { name: iz.rapportage }

@@ -27,6 +27,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  *     "villa" = "VillaBundle\Entity\Incident",
  *     "hs_dienstverleners" = "HsBundle\Entity\DienstverlenersIncident",
  * })
+ * 
  * @Gedmo\Loggable
  */
 class Incident implements IncidentInterface 
@@ -175,5 +176,10 @@ class Incident implements IncidentInterface
         $this->crisisdienst = $crisisdienst;
 
         return $this;
+    }
+
+    public function getDiscriminator(): string
+    {
+        return $this->getIncidentType();
     }
 }
