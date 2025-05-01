@@ -8,7 +8,7 @@ use Doctrine\ORM\Query\Filter\SQLFilter;
 
 class IncidentenFilter extends SQLFilter
 {
-    public function addFilterConstraint(ClassMetadata $targetEntity, $targetTableAlias)
+    public function addFilterConstraint(ClassMetadata $targetEntity, $targetTableAlias): string
     {
         $traits = $targetEntity->name;
         if (in_array($traits, [Incident::class])) {

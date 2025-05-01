@@ -7,8 +7,6 @@ use AppBundle\Report\Listing;
 use Doctrine\ORM\EntityManagerInterface;
 use AppBundle\Entity\Incident;
 
-use function PHPSTORM_META\type;
-
 class Incidenten extends AbstractReport
 {
     protected $title = 'Incidenten';
