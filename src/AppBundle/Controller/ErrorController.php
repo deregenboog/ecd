@@ -36,7 +36,7 @@ class ErrorController extends AbstractController
                     'reden' => $exception->getMessage()
                 ]);
 
-                return $this->render('security/access_denied.html.twig', [], new Response('', 403));
+                return $this->render('security/access_denied_algemene_klantenvw_lijst.html.twig', [], new Response('', 403));
             }
 
             // Alle andere 403's, laad standaard 403 template

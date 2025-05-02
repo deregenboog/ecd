@@ -13,7 +13,7 @@
         <thead>
             {{ form_start(filter) }}
                 <tr>
-                    <th colspan="4">
+                    <th colspan="5">
                         <span class="pull-right">
                             {{ form_widget(filter.filter) }}
                             {{ form_widget(filter.download) }}
@@ -33,6 +33,7 @@
                     <th>
                         {{ form_widget(filter.actief) }}
                     </th>
+                    <th></th>
                 </tr>
             {{ form_end(filter) }}
             <tr>
@@ -48,6 +49,7 @@
                 <th>
                     {{ knp_pagination_sortable(pagination, 'Actief', 'medewerker.actief') }}
                 </th>
+                <th>Impersonate</th>
             </tr>
         </thead>
         <tbody>
@@ -69,6 +71,7 @@
                 <td>
                     {{ medewerker.actief|ja_nee }}
                 </td>
+                <td><a href="/?_switch_user={{ medewerker.username }}">Overnemen</a></td>
             </tr>
             {% endfor %}
         </tbody>
