@@ -14,18 +14,18 @@ final class Version20250502100542 extends AbstractMigration
 {
     public function getDescription(): string
     {
-        return 'Vlierbos locatie';
+        return 'Flierbos locatie';
     }
 
     public function up(Schema $schema): void
     {
         // this up() migration is auto-generated, please modify it to your needs
-        $this->addSql("INSERT INTO `locaties` (`id`, `naam`, `nachtopvang`, `gebruikersruimte`, `datum_van`, `datum_tot`, `created`, `modified`, `maatschappelijkwerk`, `tbc_check`, `wachtlijst`) VALUES (NULL, 'Vlierbos', '0', '0', '2025-05-01', NULL, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, '0', '0', '0'), (NULL, '', '0', '0', '2025-05-01', NULL, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, '0', '0', '0')");
+        $this->addSql("INSERT INTO `locaties` (`id`, `naam`, `nachtopvang`, `gebruikersruimte`, `datum_van`, `datum_tot`, `created`, `modified`, `maatschappelijkwerk`, `tbc_check`, `wachtlijst`) VALUES (NULL, 'Flierbos', '0', '0', '2025-05-01', NULL, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, '0', '0', '0'), (NULL, '', '0', '0', '2025-05-01', NULL, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, '0', '0', '0')");
         $this->addSql("INSERT INTO `inloop_locatie_locatietype` (locatie_id,locatietype_id)
                     SELECT l.id, lt.id
                     FROM
                     locaties l, locatie_type lt
-                    WHERE l.naam = 'Vlierbos'
+                    WHERE l.naam = 'Flierbos'
                     AND lt.naam = 'Inloop'"
         );
 
@@ -41,7 +41,7 @@ final class Version20250502100542 extends AbstractMigration
             ) 
             SELECT 
                 NULL, 
-                (SELECT id FROM `locaties` WHERE naam = 'Vlierbos'), 
+                (SELECT id FROM `locaties` WHERE naam = 'Flierbos'), 
                 dagen.dag_nummer, 
                 '18:00', 
                 '11:00', 
