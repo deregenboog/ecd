@@ -13,13 +13,13 @@
     </div>
     <div class="form-group">
         <select id="group-action-value" class="form-control">
-            <option value="check">Check all</option>
-            <option value="uncheck">Uncheck all</option>
-            <option value="change">Change all</option>
+            <option value="check">Alles aanvinken</option>
+            <option value="uncheck">Alles uitvinken</option>
+{#            <option value="change">Change all</option>#}{# deze evt toevoegen als 'toggle' maar voor nu mss verwarrend voor gebruikers #}
         </select>
     </div>
     <div class="form-group">
-        <button id="group-action-button" class="btn btn-primary">Apply</button>
+        <button id="group-action-button" class="btn btn-primary">Toepassen</button>
     </div>
 </div>
 
@@ -30,7 +30,7 @@
         var valueType = $("#group-action-value").val();
         
         /// Check if the action exists and if the user is sure
-        if($(`${action}`).length && confirm("Are you sure?")){
+        if($(`${action}`).length && confirm("Weet je zeker dat je alle geselecteerde rijen wilt verwerken?")){
             for(var element of $(`${action}`)){
                 const checkbox = $(element).closest("tr").find(".group_action");
                 const isChecked = $(checkbox).prop('checked');
