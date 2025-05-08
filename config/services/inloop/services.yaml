@@ -89,7 +89,7 @@ services:
     InloopBundle\Strategy\AmocWestStrategy:
         tags: [{'name': 'inloop.access_strategy', priority: 90}]
 
-    InloopBundle\Strategy\VlierbosStrategy:
+    InloopBundle\Strategy\FlierbosStrategy:
         tags: [ { 'name': 'inloop.access_strategy', priority: 89 } ]
 
     InloopBundle\Strategy\VillaWesterweideStrategy:

@@ -29,11 +29,11 @@ parameters:
     amoc_west:
       - 'AMOC West'
       - 'Nachtopvang DRG'
-      - 'Vlierbos'
-    vlierbos:
+      - 'Flierbos'
+    flierbos:
       - 'AMOC West'
       - 'Nachtopvang DRG'
-      - 'Vlierbos'
+      - 'Flierbos'
   economisch_daklozen_locaties:
     - 'STED Amstelland'
     - 'STED Centrum'
