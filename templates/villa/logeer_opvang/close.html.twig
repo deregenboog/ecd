@@ -1,0 +1,55 @@
+{% extends 'base.html.twig' %}
+{% import 'html.macro.twig' as html %}
+
+{% block content %}
+    <h1>MW dossier afsluiten</h1>
+    {{ form_start(form) }}
+    {{ form_row(form.datum) }}
+    {{ form_row(form.reden) }}
+    {{ form_row(form.locatie) }}
+    {{ form.land is defined ? form_row(form.land) }}
+    {{ form_row(form.resultaat) }}
+    {{ form_row(form.toelichting) }}
+    {{ form_row(form.submit) }}
+    {{ form_end(form) }}
+{% endblock %}
+
+{% block scripts %}
+    <script>
+   window.onload = function(){
+      if($){
+
+        $(function() {
+            var toggleCountry = function() {
+                var selectedElm = $('select#afsluiting_reden option:selected');
+                if (/land_1/i.test(selectedElm.attr('class'))) {
+                    $('#afsluiting_land').closest('.form-group').show();
+                } else {
+                    $('#afsluiting_land option:selected').prop('selected', false);
+                    $('#afsluiting_land').closest('.form-group').hide();
+                }
+            };
+
+            $('select#afsluiting_reden').on('change', function() {
+                toggleCountry();
+            });
+
+            toggleCountry();
+
+            // $('form[name=afsluiting]').on('submit',function(){
+            //
+            //     var atLeastOneIsChecked = $('input[name="afsluiting[resultaat][]"]:checked').length > 0;
+            //     if(!atLeastOneIsChecked)
+            //     {
+            //         alert('Er moet tenminste een resultaat aangevinkt zijn.');
+            //         $('#afsluiting_resultaat').focus();
+            //         return false;
+            //     }
+            //
+            // });
+        });
+
+      }
+   }
+   </script>
+{% endblock %}

@@ -1,0 +1,8 @@
+{% extends 'base.html.twig' %}
+{% import 'html.macro.twig' as html %}
+
+{% block content %}
+    <h1>{{ entity_name|capitalize }} afsluiten</h1>
+    {{ html.link('Annuleren', path(route_base~'view', {id: entity.id}), 'cancel') }}
+    {{ form(form) }}
+{% endblock %}

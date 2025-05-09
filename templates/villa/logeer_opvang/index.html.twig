@@ -1,0 +1,92 @@
+{% extends 'base.html.twig' %}
+{% import 'html.macro.twig' as html %}
+
+{% block content %}
+    <h1>{{ title }}</h1>
+
+    <p>
+        {{ html.addLink(path('villa_logeeropvang_add')) }}
+        {{ html.link(entity_name|capitalize~' toevoegen', path('villa_logeeropvang_add')) }}
+    </p>
+
+    <table class="table table-hover">
+        {{ form_start(filter) }}
+            <tr>
+                <th colspan="7">
+                    <span class="pull-right">
+                        {{ form_widget(filter.filter) }}
+                        {{ form_widget(filter.download) }}
+                    </span>
+                </th>
+            </tr>
+            <tr>
+                <th>
+                    {{ form_widget(filter.klant.id) }}
+                    {{ form_errors(filter.klant.id) }}
+                </th>
+                <th>
+                    {{ form_widget(filter.klant.naam) }}
+                    {{ form_errors(filter.klant.naam) }}
+                </th>
+                <th>
+                    {{ form_widget(filter.dossierStatus) }}
+                    {{ form_errors(filter.dossierStatus) }}
+                </th>
+                <th>
+                    {{ form_widget(filter.type) }}
+                    {{ form_errors(filter.type) }}
+                </th>
+                <th></th>
+                <th>
+                    {{ form_widget(filter.klant.stadsdeel) }}
+                    {{ form_errors(filter.klant.stadsdeel) }}
+                </th>
+
+            </tr>
+        {{ form_end(filter) }}
+        <tr>
+            <th>
+                {{ knp_pagination_sortable(pagination, '#', 'appKlant.id') }}
+            </th>
+            <th>
+                {{ knp_pagination_sortable(pagination, 'Slaper', 'appKlant.achternaam') }}
+            </th>
+            <th>
+                Status
+            </th>
+            <th>
+                {{ knp_pagination_sortable(pagination, 'Type', 'slaper.type') }}
+            </th>
+            <th>Saldo nachten</th>
+            <th>
+                {{ knp_pagination_sortable(pagination, 'Stadsdeel', 'werkgebied.naam') }}
+            </th>
+        </tr>
+        {% for slaper in pagination %}
+        <tr data-href="{{ path('villa_logeeropvang_view', {id: slaper.id}) }}" class="">
+            <td>
+                {{ slaper.appKlant.id }}
+            </td>
+            <td>
+                {{ slaper }}
+            </td>
+            <td>
+                {{ slaper.dossierstatus }}
+            </td>
+            <td>
+                {{ slaper.typeAsString }}
+            </td>
+            <td>
+                {{ slaper.calculateSaldo }}
+            </td>
+            <td>
+                {{ slaper.appKlant.werkgebied }}
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    <p>
+        {{ knp_pagination_render(pagination) }}
+    </p>
+{% endblock %}

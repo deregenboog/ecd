@@ -55,6 +55,12 @@ class IzVrijwilliger extends IzDeelnemer
      */
     protected $binnengekomenVia;
 
+    /**
+     * @var ArrayCollection|Deelname[]
+     *
+     * @ORM\OneToMany(targetEntity="Deelname",mappedBy="vrijwilliger", cascade={"persist", "remove"})
+     */
+    protected $trainingDeelnames;
 
 
     public function __construct(?Vrijwilliger $vrijwilliger = null)
@@ -230,5 +236,31 @@ class IzVrijwilliger extends IzDeelnemer
     {
         return !$this->isAfgesloten()
             && 0 === (is_array($this->getOpenHulpaanbiedingen()) || $this->getOpenHulpaanbiedingen() instanceof \Countable ? count($this->getOpenHulpaanbiedingen()) : 0) + (is_array($this->getActieveKoppelingen()) || $this->getActieveKoppelingen() instanceof \Countable ? count($this->getActieveKoppelingen()) : 0);
+    }
+
+    /**
+     * @return ArrayCollection|Deelname[]
+     */
+    public function getTrainingDeelnames()
+    {
+        return $this->trainingDeelnames;
+    }
+
+    /**
+     * @param ArrayCollection|Deelname[] $trainingDeelnames
+     */
+    public function setTrainingDeelnames($trainingDeelnames): void
+    {
+        $this->trainingDeelnames = $trainingDeelnames;
+    }
+
+    public function addDeelname(Deelname $deelname)
+    {
+        $this->trainingDeelnames[] = $deelname;
+    }
+
+    public function removeDeelname(Deelname $deelname)
+    {
+        $this->trainingDeelnames->removeElement($deelname);
     }
 }

@@ -188,6 +188,14 @@ class Huurovereenkomst
      */
     protected $modified;
 
+
+    /**
+     * @var bool
+     * @ORM\Column(type="boolean")
+     * @Gedmo\Versioned
+     */
+    protected $huurderAVP;
+
     public function __construct()
     {
         $this->startdatum = new \DateTime();
@@ -430,5 +438,15 @@ class Huurovereenkomst
     public function setVormVanOvereenkomst(?VormVanOvereenkomst $vormVanOvereenkomst): void
     {
         $this->vormVanOvereenkomst = $vormVanOvereenkomst;
+    }
+
+    public function getHuurderAVP(): ?bool
+    {
+        return $this->huurderAVP;
+    }
+
+    public function setHuurderAVP(?bool $huurderAVP): void
+    {
+        $this->huurderAVP = $huurderAVP;
     }
 }

@@ -65,6 +65,9 @@
         </div>
         <div id="nachten" class="tab-pane">
             <h2>Overnachtingen</h2>
+                {% if entity.remainingSaldoMessage %}
+                    <div class="alert alert-{{ entity.remainingSaldoMessage.type }}" role="alert">{{ entity.remainingSaldoMessage.message }}</div>
+                {% endif %}
                 {{ html.calendar("Overnachtingen",path("villa_overnachtingen_index"),entity.id) }}
         </div>
     </div>

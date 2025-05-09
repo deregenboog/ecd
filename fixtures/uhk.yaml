@@ -12,6 +12,18 @@ UhkBundle\Entity\Verslag:
         datum: '<dateTimeThisDecade()>'
         medewerker: '@medewerker_*'
 
+UhkBundle\Entity\Project:
+    uhk_project_red:
+        naam: 'Project Red'
+        color: '#FFCCCC'
+    uhk_project_blue:
+        naam: 'Project Blue'
+        color: '#CCCCFF'
+    uhk_project_green:
+        naam: 'Project Green'
+        color: '#CCFFCC'
+
+
 #UhkBundle\Entity\Beschikbaarheid:
 #    uhk_beschikbaarheid_{1..10}:
 #        deelname: '@uhk_deelname_*'

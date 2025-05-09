@@ -181,6 +181,8 @@ AppBundle\Entity\Land:
         __construct: ['Kazachstan']
     land_Macedonië:
         __construct: ['Macedonië']
+    land_Malta:
+        __construct: [ 'Malta' ]
     land_Servië:
         __construct: ['Servië']
     land_Bonaire:
@@ -655,6 +657,54 @@ AppBundle\Entity\AmocLand:
         __construct: ['@land_België']
     amoc_ro:
         __construct: ['@land_Roemenië']
+    amoc_de:
+        __construct: [ '@land_Duitsland' ]
+    amoc_at:
+        __construct: [ '@land_Oostenrijk' ]
+    amoc_es:
+        __construct: [ '@land_Spanje' ]
+    amoc_it:
+        __construct: [ '@land_Italië' ]
+    amoc_nl:
+        __construct: [ '@land_Nederland' ]
+    amoc_pt:
+        __construct: [ '@land_Portugal' ]
+    amoc_gr:
+        __construct: [ '@land_Griekenland' ]
+    amoc_pl:
+        __construct: [ '@land_Polen' ]
+    amoc_cz:
+        __construct: [ '@land_Tsjechië' ]
+    amoc_hu:
+        __construct: [ '@land_Hongarije' ]
+    amoc_se:
+        __construct: [ '@land_Zweden' ]
+    amoc_fi:
+        __construct: [ '@land_Finland' ]
+    amoc_ie:
+        __construct: [ '@land_Ierland' ]
+    amoc_dk:
+        __construct: [ '@land_Denemarken' ]
+    amoc_sk:
+        __construct: [ '@land_Slowakije' ]
+    amoc_si:
+        __construct: [ '@land_Slovenië' ]
+    amoc_lv:
+        __construct: [ '@land_Letland' ]
+    amoc_lt:
+        __construct: [ '@land_Litouwen' ]
+    amoc_ee:
+        __construct: [ '@land_Estland' ]
+    amoc_bg:
+        __construct: [ '@land_Bulgarije' ]
+    amoc_hr:
+        __construct: [ '@land_Kroatië' ]
+    amoc_cy:
+        __construct: [ '@land_Cyprus' ]
+    amoc_mt:
+        __construct: [ '@land_Malta' ]
+    amoc_lu:
+        __construct: [ '@land_Luxemburg']
 
 AppBundle\Entity\Medewerker:
     admin:
@@ -864,6 +914,15 @@ AppBundle\Entity\Medewerker:
         achternaam: '<lastname()>'
         eersteBezoek: '<dateTimeThisYear()>'
         laatsteBezoek: '<dateTimeThisYear()>'
+    medewerker_clip_user:
+        ldapGuid (unique): '<randomNumber()>'
+        username: 'medewerker_clip_clienten'
+        roles: ['ROLE_CLIP_ALLEEN_CLIENTEN']
+        email: '<email()>'
+        voornaam: 'Clip'
+        achternaam: 'User'
+        eersteBezoek: '<dateTimeThisYear()>'
+        laatsteBezoek: '<dateTimeThisYear()>'
 
 AppBundle\Entity\Klant:
     klant_{1..25}:
@@ -1056,3 +1115,4 @@ AppBundle\Entity\ZrmSetting:
         justitie: 0
     zrm_settings_6:
         request_module: 'IzIntake'
+

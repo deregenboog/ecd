@@ -1,0 +1,46 @@
+{% extends 'base.html.twig' %}
+{% import 'html.macro.twig' as html %}
+
+{% block content %}
+    <h1>{{ title }}</h1>
+    <p>
+        {{ html.addLink(path(route_base~'add')) }}
+        {{ html.link(entity_name|capitalize ~ ' toevoegen', path(route_base~'add')) }}
+    </p>
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>
+                    {{ knp_pagination_sortable(pagination, 'Naam', 'project.naam') }}
+                </th>
+                <th>
+                    {{ knp_pagination_sortable(pagination, 'Actief', 'project.actief') }}
+                </th>
+                <th>
+                    {{ knp_pagination_sortable(pagination, 'Kleur', 'project.color') }}
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for entity in pagination %}
+            <tr>
+                <td>
+                    {{ entity.naam }}
+                </td>
+                <td>
+                    {{ entity.actief | ja_nee() }}
+                </td>
+                <td>
+                    <span class="label" style="background-color: {{ entity.color }}; color:#000">{{ entity.color }}</span>
+                </td>
+                <td>
+                    {{ html.editLink(path(route_base~'edit', {id: entity.id})) }}
+                    {# {{ html.deleteLink(path(route_base~'delete', {id: entity.id})) }} #}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {{ knp_pagination_render(pagination) }}
+{% endblock %}

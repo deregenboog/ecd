@@ -12,7 +12,8 @@ security:
             - ROLE_INLOOP_REGISTRATIES
             - ROLE_INLOOP_OPMERKINGEN
         ROLE_INLOOP:
-            - CONTROLLER_APP_KLANTEN
+            - ROLE_NO_ACCESS_KLANTEN
+            #- CONTROLLER_APP_KLANTEN
         ROLE_INLOOP_INTAKES:
             - ROLE_INLOOP
             - ROLE_INLOOP_KLANTEN
@@ -26,7 +27,8 @@ security:
             - ROLE_INLOOP
         ROLE_INLOOP_VRIJWILLIGERS:
             - ROLE_INLOOP
-            - CONTROLLER_APP_VRIJWILLIGERS
+            - ROLE_NO_ACCESS_VRIJWILLIGERS
+            #- CONTROLLER_APP_VRIJWILLIGERS
         ROLE_INLOOP_BEHEER:
             - ROLE_INLOOP
             - ROLE_INLOOP_INTAKES
@@ -48,8 +50,10 @@ security:
             - ROLE_MW_BEHEER
             - ROLE_INLOOP_BEHEER
         ROLE_MLO:
-            - CONTROLLER_APP_KLANTEN
-            - CONTROLLER_APP_VRIJWILLIGERS
+            - ROLE_NO_ACCESS_KLANTEN
+            - ROLE_NO_ACCESS_VRIJWILLIGERS
+            #- CONTROLLER_APP_KLANTEN
+            #- CONTROLLER_APP_VRIJWILLIGERS
             - CONTROLLER_APP_ZRMS
             - ROLE_INLOOP_INTAKES
             - ROLE_INLOOP_REGISTRATIES
@@ -65,7 +69,8 @@ security:
             - ROLE OEKRAINE
             - ROLE_OEKRAINE_LOCATIEHOOFD
         ROLE_MW:
-            - CONTROLLER_APP_KLANTEN
+            - ROLE_NO_ACCESS_KLANTEN
+            #- CONTROLLER_APP_KLANTEN
             - CONTROLLER_APP_RAPPORTAGES
             - CONTROLLER_APP_DOELSTELLINGEN
             - CONTROLLER_APP_ZRMS
@@ -75,7 +80,8 @@ security:
         ROLE_VOLUNTEERS:
             - ROLE_INLOOP_REGISTRATIES
         ROLE_STAGE:
-            - CONTROLLER_APP_KLANTEN
+            - ROLE_NO_ACCESS_KLANTEN
+            #- CONTROLLER_APP_KLANTEN
             - CONTROLLER_APP_ZRMS
             - ROLE_INLOOP_INTAKES
             - ROLE_INLOOP_REGISTRATIES
@@ -87,30 +93,39 @@ security:
             - ROLE_PFO_BEHEER #andersom geredeneerd. Historisch zo gegegroeid. Beheer is om consistent te zijn met de rest van ECD.
         ROLE_IZ:
             - ROLE_EROPUIT
-            - CONTROLLER_APP_KLANTEN
-            - CONTROLLER_APP_VRIJWILLIGERS
+            - ROLE_NO_ACCESS_KLANTEN
+            - ROLE_NO_ACCESS_VRIJWILLIGERS
+            #- CONTROLLER_APP_KLANTEN
+            #- CONTROLLER_APP_VRIJWILLIGERS
             - CONTROLLER_APP_ZRMS
         ROLE_IZ_BEHEER:
             - ROLE_IZ
         ROLE_GA:
             - ROLE_EROPUIT
-            - CONTROLLER_APP_KLANTEN
-            - CONTROLLER_APP_VRIJWILLIGERS
+            - ROLE_NO_ACCESS_KLANTEN
+            - ROLE_NO_ACCESS_VRIJWILLIGERS
+            #- CONTROLLER_APP_KLANTEN
+            #- CONTROLLER_APP_VRIJWILLIGERS
             - CONTROLLER_ATTACHMENTS
         ROLE_GA_BEHEER:
             - ROLE_GA
             - ROLE_EROPUIT_BEHEER
-        ROLE_CLIP: []
+        ROLE_CLIP: 
+            - ROLE_CLIP_ALLEEN_CLIENTEN
         ROLE_CLIP_BEHEER:
             - ROLE_CLIP
             - ROLE_CLIP_VRIJWILLIGERS
-            - CONTROLLER_APP_VRIJWILLIGERS
+            - ROLE_NO_ACCESS_VRIJWILLIGERS
+            #- CONTROLLER_APP_VRIJWILLIGERS
+            - ROLE_CLIP_ALLEEN_CLIENTEN
         ROLE_DAGBESTEDING: []
         ROLE_DAGBESTEDING_BEHEER:
             - ROLE_DAGBESTEDING
         ROLE_HOMESERVICE:
-            - CONTROLLER_APP_KLANTEN
-            - CONTROLLER_APP_VRIJWILLIGERS
+            - ROLE_NO_ACCESS_KLANTEN
+            - ROLE_NO_ACCESS_VRIJWILLIGERS
+            #- CONTROLLER_APP_KLANTEN
+            #- CONTROLLER_APP_VRIJWILLIGERS
             - ROLE_HS
         ROLE_HOMESERVICE_BEHEER:
             - ROLE_HOMESERVICE
@@ -118,8 +133,10 @@ security:
         ROLE_HS_BEHEER: [] #to be in line with the bundle naming...
         ROLE_HS: []
         ROLE_TW:
-            - CONTROLLER_APP_KLANTEN
-            - CONTROLLER_APP_VRIJWILLIGERS
+            - ROLE_NO_ACCESS_KLANTEN
+            - ROLE_NO_ACCESS_VRIJWILLIGERS
+            #- CONTROLLER_APP_KLANTEN
+            #- CONTROLLER_APP_VRIJWILLIGERS
             - ROLE_TW_VRIJWILLIGERS
         ROLE_TW_BEHEER:
             - ROLE_TW
@@ -131,7 +148,7 @@ security:
         ROLE_OEK_BEHEER:
             - ROLE_OEK
         ROLE_SCIP:
-            - CONTROLLER_APP_KLANTEN
+            #- CONTROLLER_APP_KLANTEN
         ROLE_SCIP_BEHEER:
             - ROLE_SCIP
         ROLE_SKIP_BEHEER:
@@ -140,15 +157,19 @@ security:
             - CONTROLLER_APP_ZRMS
         ROLE_UHK_BEHEER:
             - ROLE_UHK
-            - CONTROLLER_APP_KLANTEN
+            - ROLE_NO_ACCESS_KLANTEN
+            #- CONTROLLER_APP_KLANTEN
         ROLE_EROPUIT_BEHEER:
             - ROLE_EROPUIT
         ROLE_EROPUIT: []
         ROLE_BUURTBOERDERIJ:
-            - CONTROLLER_APP_VRIJWILLIGERS
+            - ROLE_NO_ACCESS_VRIJWILLIGERS
+            #- CONTROLLER_APP_VRIJWILLIGERS
         ROLE_VILLA:
-            - CONTROLLER_APP_VRIJWILLIGERS
-            - CONTROLLER_APP_KLANTEN
+            - ROLE_NO_ACCESS_KLANTEN
+            - ROLE_NO_ACCESS_VRIJWILLIGERS
+            #- CONTROLLER_APP_VRIJWILLIGERS
+            #- CONTROLLER_APP_KLANTEN
         ROLE_VILLA_BEHEER:
               - ROLE_VILLA
         ROLE_PZ:
@@ -203,6 +224,7 @@ security:
             - ROLE_MANAGEMENT
             - ROLE_SPORT
             - ROLE_VILLA_BEHEER
+            - ROLE_CLIP_ALLEEN_CLIENTEN
         CONTROLLER_APP_KLANTEN:
             - CONTROLLER_APP_DOCUMENTEN
         CONTROLLER_APP_VRIJWILLIGERS:
@@ -222,7 +244,29 @@ security:
             - CONTROLLER_APP_VRIJWILLIGERS
         ROLE_GLOBALDOWNLOAD:
             - CONTROLLER_APP_DOWNLOAD
-
+        ROLE_CLIP_ALLEEN_CLIENTEN:
+            - ROLE_USER
+        ROLE_NO_ACCESS_KLANTEN:
+            #- ROLE_INLOOP
+            #- ROLE_MLO
+            #- ROLE_MW
+            #- ROLE_STAGE
+            #- ROLE_IZ
+            #- ROLE_GA
+            #- ROLE_HOMESERVICE
+            #- ROLE_TW
+            #- ROLE_UHK_BEHEER
+            #- ROLE_VILLA
+        ROLE_NO_ACCESS_VRIJWILLIGERS:
+            #- ROLE_INLOOP_VRIJWILLIGERS
+            #- ROLE_MLO
+            #- ROLE_IZ
+            #- ROLE_GA
+            #- ROLE_CLIP_BEHEER
+            #- ROLE_HOMESERVICE
+            #- ROLE_TW
+            #- ROLE_BUURTBOEDERIJ
+            #- ROLE_VILLA
 
 parameters:
     roles_groups:
@@ -272,6 +316,7 @@ parameters:
         ROLE_UHK_BEHEER: "CN=ECD Uit het Krijt Beheer,CN=Users,DC=cluster,DC=deregenboog"
         ROLE_SPORT: "CN=ECD Sport,CN=Users,DC=cluster,DC=deregenboog"
         ROLE_VILLA: "CN=ECD Villa,CN=Users,DC=cluster,DC=deregenboog"
+        ROLE_VILLA_BEHEER: "CN=ECD Villa Beheer,CN=Users,DC=cluster,DC=deregenboog"
         ROLE_PZ: "CN=ECD PZ,CN=Users,DC=cluster,DC=deregenboog"
         ROLE_OEKRAINE: "CN=ECD Oekraine,CN=Users,DC=cluster,DC=deregenboog"
         ROLE_OEKRAINE_LOCATIEHOOFD: "CN=ECD Oekraine Locatiehoofd,CN=Users,DC=cluster,DC=deregenboog"
