@@ -152,4 +152,14 @@ class SlapersController extends AbstractController implements DossierStatusContr
 
         return parent::indexAction($request);
     }
+
+    /**
+     * @Route("/{id}/view")
+     */
+    public function viewAction(Request $request, $id){
+        $this->entityManager->getFilters()->enable('incidenten')
+            ->setParameter('discr', 'villa')
+        ;
+        return parent::viewAction($request, $id);
+    }
 }

@@ -21,6 +21,7 @@
         <li><a data-toggle="tab" href="#verslagen">Verslagen</a></li>
         <li><a data-toggle="tab" href="#nazorg">Nazorg</a></li>
         <li><a data-toggle="tab" href="#documenten">Documenten</a></li>
+        <li><a data-toggle="tab" href="#incidenten">Incidenten</a></li>
     </ul>
     <div class="tab-content">
         <div id="intake" class="tab-pane active">
@@ -66,6 +67,9 @@
         </div>
         <div id="documenten" class="tab-pane">
             {% include 'uhk/documenten/_list.html.twig' with {deelnemer: entity} %}
+        </div>
+        <div id="incidenten" class="tab-pane">
+            {% include 'app/incidenten/_list.html.twig' with {klant: entity.klant} %}
         </div>
     </div>
 {% endblock %}
