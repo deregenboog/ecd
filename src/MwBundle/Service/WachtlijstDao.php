@@ -31,7 +31,6 @@ class WachtlijstDao extends AbstractDao implements WachtlijstDaoInterface
             'werkgebied.naam',
             'geslacht.volledig',
             'intakelocatie.naam',
-//            'laatsteIntake.intakedatum',
             'laatsteIntake.intakedatum',
             'eersteIntake.intakelocatie.naam',
             'intake.created',
@@ -47,6 +46,7 @@ class WachtlijstDao extends AbstractDao implements WachtlijstDaoInterface
     protected $wachtlijstLocaties = [];
 
     protected $actualWachtlijstLocaties = [];
+
     /**
      * @var EventDispatcherInterface
      */

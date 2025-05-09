@@ -20,9 +20,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class WachtlijstController extends AbstractController
 {
     protected $title = 'Wachtlijst (intakes / verslag)';
-    //    protected $entityName = 'intake';
-    //    protected $entityClass = Intake::class;
-    //    protected $formClass = IntakeType::class;
+
     protected $filterFormClass = WachtlijstFilterType::class;
     protected $baseRouteName = 'mw_wachtlijst_';
 
