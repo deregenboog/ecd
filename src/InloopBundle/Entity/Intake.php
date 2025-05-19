@@ -13,11 +13,14 @@ use AppBundle\Validator\NoFutureDate;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Exception;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Form\Form;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Validator\Context\ExecutionContextInterface;
+
+use function PHPSTORM_META\type;
 
 /**
  * @ORM\Entity
@@ -488,6 +491,15 @@ class Intake
      */
     protected $modified;
 
+    /**
+     * @var ?AccessFields
+     *
+     * @ORM\OneToOne(targetEntity="InloopBundle\Entity\AccessFields", cascade={"persist", "remove"})
+     * @ORM\JoinColumn(name="klant_id", referencedColumnName="id", nullable=true, onDelete="CASCADE")
+     * @Gedmo\Versioned
+     */
+    private $accessFields = null;
+
     public function __construct(?Klant $klant = null)
     {
         $this->created = new \DateTime();
@@ -520,6 +532,7 @@ class Intake
         $this->dagbesteding = null;
         $this->inloophuis = null;
         $this->hulpverlening = null;
+        $this->accessFields = null;
 
         if ($this->zrm && get_class($this->zrm) === get_class(Zrm::create())) {
             $this->zrm = clone $this->zrm;
@@ -1306,4 +1319,24 @@ class Intake
      * @ORM\Column(type="integer", nullable=true)
      */
     private $woonsituatie_id_before_constraint;
+
+    public function getAccessFields(): ?AccessFields
+    {
+        return $this->accessFields;
+    }
+
+    public function setAccessFields(?AccessFields $accessFields): self
+    {
+        $this->accessFields = $accessFields ?: null;
+        return $this;
+    }
+
+    public function hasAccessFields(): bool
+    {
+        try {
+            return null !== $this->getAccessFields()->getIntakedatum();
+        } catch (\Throwable $e) {
+            return false;
+        }
+    }
 }

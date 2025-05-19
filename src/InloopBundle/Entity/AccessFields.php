@@ -2,8 +2,8 @@
 
 namespace InloopBundle\Entity;
 
-use AppBundle\Entity\Klant;
 use AppBundle\Entity\Verblijfsstatus;
+use AppBundle\Model\IdentifiableTrait;
 use AppBundle\Model\TimestampableTrait;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -17,25 +17,13 @@ use Gedmo\Mapping\Annotation as Gedmo;
  */
 class AccessFields
 {
-    use TimestampableTrait;
-
     /**
      * @var int
      *
      * @ORM\Id
      * @ORM\Column(type="integer")
-     * @ORM\GeneratedValue
      */
     private $id;
-
-    /**
-     * @var Klant
-     *
-     * @ORM\OneToOne(targetEntity="AppBundle\Entity\Klant")
-     * @ORM\JoinColumn(name="klant_id", referencedColumnName="id", nullable=false)
-     * @Gedmo\Versioned
-     */
-    private $klant;
 
     /**
      * @var \DateTime
@@ -72,10 +60,9 @@ class AccessFields
     private $toegangInloophuis;
 
     /**
-     * @var Locatie
-     *
      * @ORM\ManyToMany(targetEntity="Locatie")
      * @ORM\JoinTable(name="inloop_access_fields_locaties")
+     * @ORM\JoinColumn(name="accessfields_id")
      * @var Collection<int, Locatie>
      */
     private Collection $specifiekeLocaties;
@@ -91,33 +78,18 @@ class AccessFields
     /**
      * @var Locatie
      *
-     * @ORM\ManyToOne(targetEntity="Locatie")
+     * @ORM\ManyToOne(targetEntity="InloopBundle\Entity\Locatie")
      * @ORM\JoinColumn(name="gebruikersruimte_id")
      * @Gedmo\Versioned
      */
     private $gebruikersruimte;
 
     public function __construct()
-    {
+    {   
         $this->specifiekeLocaties = new ArrayCollection();
-    }
-
-    // Getters and setters
-
-    public function getId(): ?int
-    {
-        return $this->id;
-    }
-
-    public function getKlant(): ?Klant
-    {
-        return $this->klant;
-    }
-
-    public function setKlant(Klant $klant): self
-    {
-        $this->klant = $klant;
-        return $this;
+        $this->created = new \DateTime();
+        $this->modified = new \DateTime();
+        $this->intakedatum = new \DateTime();
     }
 
     public function getIntakedatum(): ?\DateTime
@@ -204,5 +176,16 @@ class AccessFields
     {
         $this->gebruikersruimte = $gebruikersruimte;
         return $this;
+    }
+
+    public function setId($id): self
+    {
+        $this->id = $id;
+        return $this;
+    }
+
+    public function getId()
+    {
+        return $this->id;
     }
 }

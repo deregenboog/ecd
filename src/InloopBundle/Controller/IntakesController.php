@@ -5,6 +5,7 @@ namespace InloopBundle\Controller;
 use AppBundle\Controller\AbstractController;
 use AppBundle\Exception\UserException;
 use Doctrine\ORM\EntityNotFoundException;
+use InloopBundle\Entity\AccessFields;
 use InloopBundle\Entity\Intake;
 use InloopBundle\Form\IntakeAndToegangType;
 use InloopBundle\Form\IntakeFilterType;
@@ -143,7 +144,7 @@ class IntakesController extends AbstractController
         } else {
             $this->formClass = IntakeType::class; // because it is not the first one, dont show toegang form.
         }
-
+        
         return $this->processForm($request, $entity);
     }
 
@@ -155,7 +156,6 @@ class IntakesController extends AbstractController
         $this->formClass = ToegangType::class;
         $entity = $this->dao->find($id);
         $return = $this->processForm($request, $entity);
-
         return $return;
     }
 

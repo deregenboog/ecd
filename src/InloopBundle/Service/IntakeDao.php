@@ -5,6 +5,7 @@ namespace InloopBundle\Service;
 use AppBundle\Filter\FilterInterface;
 use AppBundle\Service\AbstractDao;
 use Doctrine\ORM\EntityManagerInterface;
+use InloopBundle\Entity\AccessFields;
 use InloopBundle\Entity\Intake;
 use InloopBundle\Event\Events;
 use Knp\Component\Pager\PaginatorInterface;

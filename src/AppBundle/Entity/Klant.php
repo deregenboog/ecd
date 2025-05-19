@@ -184,7 +184,7 @@ class Klant extends Persoon
     /**
      * @var MwDossierStatus
      *
-     * @ORM\OneToOne(targetEntity="MwBundle\Entity\MwDossierStatus", cascade={"persist"})
+     * @ORM\OneToOne(targetEntity="MwBundle\Entity\MwDossierStatus")
      *
      * @Gedmo\Versioned
      */

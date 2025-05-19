@@ -15,4 +15,8 @@ class Events
     public const DOSSIER_CHANGED = 'inloop_dossier_changed';
 
     public const LOCATIE_CHANGED = 'inloop_locatie_changed';
+
+    public const ACCESS_FIELDS_CREATED = 'inloop_accessfieds_created';
+
+    public const ACCESS_FIELDS_UPDATED = 'inloop_accessfieds_upldated';
 }

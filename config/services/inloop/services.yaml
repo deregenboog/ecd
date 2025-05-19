@@ -71,6 +71,10 @@ services:
             $dao: '@InloopBundle\Service\VrijwilligerDao'
             $export: '@inloop.export.vrijwilliger'
 
+    InloopBundle\Controller\AccessFieldsController:
+        arguments:
+            $dao: '@InloopBundle\Service\AccessFieldsDao'
+
     InloopBundle\Service\AccessUpdater:
         arguments:
             $strategies: !tagged_iterator 'inloop.access_strategy'
