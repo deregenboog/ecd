@@ -27,6 +27,37 @@ final class Version20250519142448 extends AbstractMigration
         $this->addSql('ALTER TABLE inloop_access_fields ADD CONSTRAINT FK_2ABBA00DFB34A317 FOREIGN KEY (gebruikersruimte_id) REFERENCES locaties (id)');
         $this->addSql('ALTER TABLE inloop_access_fields_locaties ADD CONSTRAINT FK_36F075296F81BDFF FOREIGN KEY (accessfields_id) REFERENCES inloop_access_fields (id) ON DELETE CASCADE');
         $this->addSql('ALTER TABLE inloop_access_fields_locaties ADD CONSTRAINT FK_36F075294947630C FOREIGN KEY (locatie_id) REFERENCES locaties (id) ON DELETE CASCADE');
+
+        $this->addSql('INSERT INTO inloop_access_fields (
+                id,
+                intake_datum,
+                verblijfstatus_id,
+                intakelocatie_id,
+                toegang_inloophuis,
+                overigen_toegang_van,
+                gebruikersruimte_id
+            )
+            SELECT
+                i.id,
+                i.datum_intake,
+                i.verblijfstatus_id,
+                i.locatie2_id,
+                i.toegang_inloophuis,
+                i.overigen_toegang_van,
+                i.locatie1_id
+            FROM intakes i
+        ');
+
+        // Migrate specifieke_locaties
+        $this->addSql('INSERT INTO inloop_access_fields_locaties (accessfields_id, locatie_id) 
+            (
+                SELECT
+                    la.intake_id,
+                    la.locatie_id 
+                FROM locaties_accessintakes la
+                JOIN inloop_access_fields iaf 
+                    ON intake_id = iaf.id
+            )');
     }
 
     public function down(Schema $schema): void
