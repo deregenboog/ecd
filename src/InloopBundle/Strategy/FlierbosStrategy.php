@@ -45,14 +45,14 @@ final class FlierbosStrategy implements StrategyInterface
 //            ->setParameter('toegestaneLocatiesVoorIntakelocatie', $this->intakeLocaties);
 
         $builder
-            ->leftJoin('eersteIntake.verblijfsstatus', 'verblijfsstatus')
+            ->leftJoin('eaf.verblijfsstatus', 'verblijfsstatus')
             ->orWhere(
-                $builder->expr()->andX('eersteIntake.toegangInloophuis = true',
+                $builder->expr()->andX('eaf.toegangInloophuis = true',
                'eersteIntakeLocatie.naam IN (:toegestaneLocatiesVoorIntakelocatie)'
 
                 ),
                 $builder->expr()->orX(
-                    'eersteIntake.verblijfsstatus IS NULL',
+                    'eaf.verblijfsstatus IS NULL',
                     'verblijfsstatus.naam != :niet_rechthebbend',
                 ),
             )

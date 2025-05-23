@@ -39,7 +39,7 @@ final class AmocStrategy implements StrategyInterface
      */
     public function buildQuery(QueryBuilder $builder, Locatie $locatie)
     {
-        $builder->orWhere("( eersteIntake.toegangInloophuis = true AND (eersteIntakeLocatie.naam = 'AMOC Stadhouderskade' OR (eersteIntakeLocatie.naam = 'AMOC West' AND eersteIntake.intakedatum < :four_months_ago) ) )");
+        $builder->orWhere("( eaf.toegangInloophuis = true AND (eersteIntakeLocatie.naam = 'AMOC Stadhouderskade' OR (eersteIntakeLocatie.naam = 'AMOC West' AND eaf.intakedatum < :four_months_ago) ) )");
         $builder->setParameter('four_months_ago', new \DateTime('-4 months'));
     }
 }

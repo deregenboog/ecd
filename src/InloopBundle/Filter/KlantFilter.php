@@ -73,17 +73,17 @@ class KlantFilter implements FilterInterface
         }
 
         if ($this->gebruikersruimte) {
+            // @FARHAD
             $builder
-                ->andWhere('laatsteIntake.gebruikersruimte = :gebruikersruimte')
-                ->setParameter('gebruikersruimte', $this->gebruikersruimte)
-            ;
+                ->andWhere('gebruikersruimte = :gebruikersruimte')
+                ->setParameter('gebruikersruimte', $this->gebruikersruimte);
         }
 
         if ($this->laatsteIntakeLocatie) {
+            // @FARHAD
             $builder
-                ->andWhere('laatsteIntake.intakelocatie = :laatste_intake_locatie')
-                ->setParameter('laatste_intake_locatie', $this->laatsteIntakeLocatie)
-            ;
+                ->andWhere('laatsteIntakeLocatie = :laatste_intake_locatie')
+                ->setParameter('laatste_intake_locatie', $this->laatsteIntakeLocatie);
         }
 
         if ($this->laatsteIntakeDatum) {

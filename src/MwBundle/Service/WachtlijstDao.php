@@ -33,7 +33,7 @@ class WachtlijstDao extends AbstractDao implements WachtlijstDaoInterface
             'intakelocatie.naam',
 //            'laatsteIntake.intakedatum',
             'laatsteIntake.intakedatum',
-            'eersteIntake.intakelocatie.naam',
+            'eaf.intakelocatie.naam',
             'intake.created',
             'verslag.datum',
         ],

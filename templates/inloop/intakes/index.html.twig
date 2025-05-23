@@ -66,6 +66,7 @@
         <tbody>
             {% for intake in pagination %}
             <tr data-href="{{ path('inloop_intakes_view', {id: intake.id}) }}">
+            {% dump(intake) %}
                 <td>
                     {{ intake.klant.id }}
                 </td>
@@ -80,7 +81,8 @@
                     {{ intake.klant.geslacht }}
                 </td>
                 <td>
-                    {{ intake.intakelocatie }}
+                    {# @FARHAD #}
+                    {{ intake.accessFields.intakelocatie }}
                 </td>
                 <td>
                     {{ intake.intakedatum|date('d-m-Y') }}

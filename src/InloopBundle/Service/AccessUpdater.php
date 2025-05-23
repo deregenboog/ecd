@@ -85,7 +85,6 @@ class AccessUpdater
             'locatie' => ParameterType::INTEGER,
             'klanten' => Connection::PARAM_INT_ARRAY,
         ];
-
         if ($locatie->isActief()) {
             //            dump($params);
             $this->em->getConnection()->executeQuery('DELETE FROM inloop_toegang
@@ -206,6 +205,8 @@ class AccessUpdater
             $result = $builder->getQuery()->getResult();
         } catch (QueryException $e) {
             $query = $builder->getQuery();
+            dump($e);
+            exit(1);
             //            $sql = SqlExtractor::getFullSQL($query);
             $result = [];
         }

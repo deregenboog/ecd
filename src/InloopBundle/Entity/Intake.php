@@ -68,27 +68,27 @@ class Intake
      */
     private $medewerker;
 
-    /**
-     * @var Locatie
-     *
-     * @ORM\ManyToOne(targetEntity="Locatie")
-     *
-     * @ORM\JoinColumn(name="locatie2_id")
-     *
-     * @Gedmo\Versioned
-     */
-    private $intakelocatie;
+    // @FARHAD/**
+    //  * @var Locatie
+    //  *
+    //  * @ORM\ManyToOne(targetEntity="Locatie")
+    //  *
+    //  * @ORM\JoinColumn(name="locatie2_id")
+    //  *
+    //  * @Gedmo\Versioned
+    //  */
+    // private $intakelocatie;
 
-    /**
-     * @var Locatie
-     *
-     * @ORM\ManyToOne(targetEntity="Locatie")
-     *
-     * @ORM\JoinColumn(name="locatie1_id")
-     *
-     * @Gedmo\Versioned
-     */
-    private $gebruikersruimte;
+    // @FARHAD/**
+    //  * @var Locatie
+    //  *
+    //  * @ORM\ManyToOne(targetEntity="Locatie")
+    //  *
+    //  * @ORM\JoinColumn(name="locatie1_id")
+    //  *
+    //  * @Gedmo\Versioned
+    //  */
+    // private $gebruikersruimte;
 
     /**
      * @var Locatie
@@ -101,16 +101,16 @@ class Intake
      */
     private $locatie3;
 
-    /**
-     * @var Locatie
-     *
-     * @ORM\ManyToMany(targetEntity="Locatie", inversedBy="accessIntakes")
-     *
-     * @ORM\JoinTable(name="locaties_accessintakes")
-     *
-     * @var Collection<int, Locatie>|array
-     */
-    private Collection $specifiekeLocaties;
+    // @FARHAD/**
+    //  * @var Locatie
+    //  *
+    //  * @ORM\ManyToMany(targetEntity="Locatie", inversedBy="accessIntakes")
+    //  *
+    //  * @ORM\JoinTable(name="locaties_accessintakes")
+    //  *
+    //  * @var Collection<int, Locatie>|array
+    //  */
+    // private Collection $specifiekeLocaties;
 
     /**
      * @var \DateTime
@@ -127,16 +127,16 @@ class Intake
      */
     private $intakedatum;
 
-    /**
-     * @var \DateTime
-     *
-     * @ORM\Column(name="overigen_toegang_van", type="date", nullable=true)
-     *
-     * @Gedmo\Versioned
-     *
-     * @Assert\Type("\DateTime", groups={"toegang"})
-     */
-    private $overigenToegangVan;
+    // @FARHAD/**
+    //  * @var \DateTime
+    //  *
+    //  * @ORM\Column(name="overigen_toegang_van", type="date", nullable=true)
+    //  *
+    //  * @Gedmo\Versioned
+    //  *
+    //  * @Assert\Type("\DateTime", groups={"toegang"})
+    //  */
+    // private $overigenToegangVan;
 
     /**
      * @var string
@@ -176,14 +176,14 @@ class Intake
      */
     private $telefoonnummer;
 
-    /**
-     * @var bool
-     *
-     * @ORM\Column(name="toegang_inloophuis", type="boolean", nullable=true)
-     *
-     * @Gedmo\Versioned
-     */
-    private $toegangInloophuis;
+    // @FARHAD/**
+    //  * @var bool
+    //  *
+    //  * @ORM\Column(name="toegang_inloophuis", type="boolean", nullable=true)
+    //  *
+    //  * @Gedmo\Versioned
+    //  */
+    // private $toegangInloophuis;
 
     /**
      * @var bool
@@ -212,16 +212,16 @@ class Intake
      */
     private $inkomenOverig;
 
-    /**
-     * @var Verblijfsstatus
-     *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Verblijfsstatus")
-     *
-     * @ORM\JoinColumn(name="verblijfstatus_id")
-     *
-     * @Assert\NotNull(groups={"toegang"})
-     */
-    private $verblijfsstatus;
+    // @FARHAD/**
+    //  * @var Verblijfsstatus
+    //  *
+    //  * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Verblijfsstatus")
+    //  *
+    //  * @ORM\JoinColumn(name="verblijfstatus_id")
+    //  *
+    //  * @Assert\NotNull(groups={"toegang"})
+    //  */
+    // private $verblijfsstatus;
 
     /**
      * @var Legitimatie
@@ -585,12 +585,12 @@ class Intake
         return $this;
     }
 
-    public function setVerblijfsstatus(Verblijfsstatus $verblijfsstatus)
-    {
-        $this->verblijfsstatus = $verblijfsstatus;
+    // @FARHAD public function setVerblijfsstatus(Verblijfsstatus $verblijfsstatus)
+    // {
+    //     $this->verblijfsstatus = $verblijfsstatus;
 
-        return $this;
-    }
+    //     return $this;
+    // }
 
     /**
      * @param Legitimatie $legitimatie
@@ -1175,10 +1175,10 @@ class Intake
         return $this->inkomens;
     }
 
-    public function getVerblijfsstatus()
-    {
-        return $this->verblijfsstatus;
-    }
+    //@FARHAD public function getVerblijfsstatus()
+    // {
+    //     return $this->verblijfsstatus;
+    // }
 
     public function getMedewerker()
     {
@@ -1259,23 +1259,23 @@ class Intake
         $this->geinformeerdOpslaanGegevens = $geinformeerdOpslaanGegevens;
     }
 
-    public function getSpecifiekeLocaties()
-    {
-        return $this->specifiekeLocaties;
-    }
+    // @FARHAD public function getSpecifiekeLocaties()
+    // {
+    //     return $this->specifiekeLocaties;
+    // }
 
-    /**
-     * @param Collection|array $specifiekeLocaties
-     * @return void
-     */
-    public function setSpecifiekeLocaties($specifiekeLocaties): void
-    {
-        if (is_array($specifiekeLocaties)) {
-            $this->specifiekeLocaties = new ArrayCollection($specifiekeLocaties);
-        } else {
-            $this->specifiekeLocaties = $specifiekeLocaties;
-        }
-    }
+    // @FARHAD /**
+    //  * @param Collection|array $specifiekeLocaties
+    //  * @return void
+    //  */
+    // public function setSpecifiekeLocaties($specifiekeLocaties): void
+    // {
+    //     if (is_array($specifiekeLocaties)) {
+    //         $this->specifiekeLocaties = new ArrayCollection($specifiekeLocaties);
+    //     } else {
+    //         $this->specifiekeLocaties = $specifiekeLocaties;
+    //     }
+    // }
 
     /**
      * Assert\Callback.

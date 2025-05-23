@@ -5,7 +5,7 @@
 
 	{{ html.link('Wijzigen', path('inloop_intakes_edittoegang', {id: entity.id,access:true}), 'edit') }}
 
-	<dl class="dl-horizontal" data-verblijfsstatus-id="{{ verblijfsstatusId }}">
+	{#@FARHAD <dl class="dl-horizontal" data-verblijfsstatus-id="{{ verblijfsstatusId }}">
 		<dt>Intakelocatie</dt>
 		<dd>{{ entity.intakelocatie }}</dd>
 		<dt>Toegang inloophuis</dt>
@@ -16,7 +16,7 @@
 		<dd>{{ entity.overigenToegangVan|if_date('d-m-Y') }}</dd>
 		<dt>Toegang gebruikersruimte</dt>
 		<dd>{{ entity.gebruikersruimte }}</dd>
-	</dl>
+	</dl> #}
 
 	<div class="bg-danger text-info">
 		<h2>Locatiekeuze / toegang</h2>

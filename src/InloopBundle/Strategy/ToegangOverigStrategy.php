@@ -54,19 +54,20 @@ final class ToegangOverigStrategy implements StrategyInterface
          * waarbij Villa Zaanstad als intakelocatie een uitzondering heeft: die mogen hier niet komen.
          */
 
+        // @FARHAD
         $builder
-            ->leftJoin('eersteIntake.verblijfsstatus', 'verblijfsstatus')
+            ->leftJoin('eaf.verblijfsstatus', 'verblijfsstatus')
             ->orWhere(
-                $builder->expr()->andX('eersteIntake.toegangInloophuis = true',
+                $builder->expr()->andX('eaf.toegangInloophuis = true',
                     $builder->expr()->orX('eersteIntakeLocatie.naam != :villa_westerweide',
                         'eersteIntakeLocatie.naam IS NULL'),
                     $builder->expr()->orX(
-                        'eersteIntake.verblijfsstatus IS NULL',
+                        'eaf.verblijfsstatus IS NULL',
                         'verblijfsstatus.naam != :niet_rechthebbend',
 
                         $builder->expr()->andX(
                             'verblijfsstatus.naam = :niet_rechthebbend',
-                            'eersteIntake.overigenToegangVan <= :today'
+                            'eaf.overigenToegangVan <= :today'
                         ),
                     ),
                 )

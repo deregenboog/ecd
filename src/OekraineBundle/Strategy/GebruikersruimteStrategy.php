@@ -24,7 +24,7 @@ class GebruikersruimteStrategy implements StrategyInterface
     public function buildQuery(QueryBuilder $builder)
     {
         $builder
-            ->innerJoin('eersteIntake.gebruikersruimte', 'eersteIntakeGebruikersruimte')
+            ->innerJoin('eaf.gebruikersruimte', 'eersteIntakeGebruikersruimte')
             ->leftJoin('klant.registraties', 'registratie', 'WITH', 'registratie.locatie = :locatie_id')
             ->leftJoin(RecenteRegistratie::class, 'recent', 'WITH', 'recent.klant = klant AND recent.locatie = :locatie_id')
             ->leftJoin('recent.registratie', 'recenteRegistratie', 'WITH', 'DATE(recenteRegistratie.buiten) > :two_months_ago')

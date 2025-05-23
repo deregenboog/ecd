@@ -35,7 +35,7 @@ final class AmocWestStrategy implements StrategyInterface
     public function buildQuery(QueryBuilder $builder, Locatie $locatie)
     {
         $builder
-            ->orWhere('(eersteIntake.toegangInloophuis = true AND eersteIntakeLocatie.naam IN (:toegestaneLocatiesVoorIntakelocatie))')
+            ->orWhere('(eaf.toegangInloophuis = true AND eersteIntakeLocatie.naam IN (:toegestaneLocatiesVoorIntakelocatie))')
             ->setParameter('toegestaneLocatiesVoorIntakelocatie', $this->intakeLocaties);
     }
 }

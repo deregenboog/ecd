@@ -35,7 +35,7 @@ final class VillaWesterweideStrategy implements StrategyInterface
      */
     public function buildQuery(QueryBuilder $builder, Locatie $locatie)
     {
-        $builder->orWhere('( eersteIntake.toegangInloophuis = true AND eersteIntakeLocatie.naam IN (:toegestaneLocatiesVoorIntakelocatie) )');
+        $builder->orWhere('( eaf.toegangInloophuis = true AND eersteIntakeLocatie.naam IN (:toegestaneLocatiesVoorIntakelocatie) )');
         $builder->setParameter('toegestaneLocatiesVoorIntakelocatie', $this->intakeLocaties);
     }
 }

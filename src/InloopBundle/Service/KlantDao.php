@@ -42,16 +42,19 @@ class KlantDao extends AbstractDao implements KlantDaoInterface
     public function getAllQueryBuilder(?FilterInterface $filter = null)
     {
         $builder = $this->repository->createQueryBuilder($this->alias)
-            ->select($this->alias.', intake, geslacht, eersteIntake, laatsteIntake, laatsteIntakeLocatie, gebruikersruimte')
+            ->select($this->alias . ', intake, geslacht, eersteIntake, laatsteIntake, laf, laatsteIntakeLocatie, gebruikersruimte, eaf, eersteIntakeLocatie')
             ->innerJoin('klant.huidigeStatus', 'status')
-            ->leftJoin($this->alias.'.intakes', 'intake')// , "WITH","klant.eersteIntake = intake")
-            ->leftJoin($this->alias.'.geslacht', 'geslacht')
-            ->leftJoin($this->alias.'.laatsteIntake', 'laatsteIntake')
-            ->leftJoin($this->alias.'.eersteIntake', 'eersteIntake')
-            ->leftJoin('laatsteIntake.intakelocatie', 'laatsteIntakeLocatie')
-            ->leftJoin('laatsteIntake.gebruikersruimte', 'gebruikersruimte')
-            ->leftJoin('eersteIntake.intakelocatie', 'eersteIntakeLocatie')
-        ;
+            ->leftJoin($this->alias . '.intakes', 'intake')
+            ->leftJoin($this->alias . '.geslacht', 'geslacht')
+            ->leftJoin($this->alias . '.laatsteIntake', 'laatsteIntake')
+            ->leftJoin($this->alias . '.eersteIntake', 'eersteIntake')
+
+            ->leftJoin('laatsteIntake.accessFields', 'laf')
+            ->leftJoin('laf.intakelocatie', 'laatsteIntakeLocatie')
+            ->leftJoin('laf.gebruikersruimte', 'gebruikersruimte')
+
+            ->leftJoin('eersteIntake.accessFields', 'eaf')
+            ->leftJoin('eaf.intakelocatie', 'eersteIntakeLocatie');
 
         if ($filter) {
             $filter->applyTo($builder);
@@ -59,6 +62,8 @@ class KlantDao extends AbstractDao implements KlantDaoInterface
 
         return $builder;
     }
+
+
 
     /**
      * @return Klant

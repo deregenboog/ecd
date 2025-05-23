@@ -51,11 +51,14 @@ class DenyAccessCommand extends \Symfony\Component\Console\Command\Command
 
     private function getKlanten()
     {
+        // @FARHAD
         return $this->manager->getRepository(Klant::class)->createQueryBuilder('klant')
             ->select('klant, intake')
-            ->innerJoin('klant.laatsteIntake', 'intake', 'WITH', 'intake.toegangInloophuis = 1 AND intake.magGebruiken = 1')
+            ->innerJoin('klant.laatsteIntake', 'intake')
+            ->innerJoin('intake.accessFields', 'af')
             ->innerJoin(Registratie::class, 'registratie', 'WITH', 'registratie.klant = klant')
             ->innerJoin('registratie.locatie', 'locatie', 'WITH', 'locatie.gebruikersruimte = 1')
+            ->where('af.toegangInloophuis = 1 AND intake.magGebruiken = 1')
             ->groupBy('klant.id')
             ->having('MAX(registratie.binnen) < :date')
             ->setParameter('date', new \DateTime($this->interval))

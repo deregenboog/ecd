@@ -22,8 +22,8 @@ final class SpecificLocationStrategy implements StrategyInterface
          * Selecteer alle klanten die specifieke locaties hebben genoemd in hun toegangsprofiel.
          */
         $builder
-            ->leftJoin('eersteIntake.specifiekeLocaties', 'specifiekeLocaties')
-            ->orWhere('(eersteIntake.toegangInloophuis = true AND :locatie IN (specifiekeLocaties) )')
+            ->leftJoin('eaf.specifiekeLocaties', 'specifiekeLocaties')
+            ->orWhere('(eaf.toegangInloophuis = true AND :locatie IN (specifiekeLocaties) )')
             ->setParameter('locatie', $locatie)
         ;
     }
