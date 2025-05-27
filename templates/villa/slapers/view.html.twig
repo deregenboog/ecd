@@ -41,8 +41,8 @@
 {% block content_right %}
     <ul class="nav nav-tabs">
         <li class="active"><a data-toggle="tab" href="#dossier">Dossier</a></li>
-        <li><a data-toggle="tab" href="#nachten">Nachten</a></li>
-
+        <li><a data-toggle="tab" href="#nachten">Nachten</a></li> 
+        <li><a data-toggle="tab" href="#incidenten">incidenten</a></li> 
     </ul>
     <div class="tab-content">
         <div id="dossier" class="tab-pane active">
@@ -69,6 +69,9 @@
                     <div class="alert alert-{{ entity.remainingSaldoMessage.type }}" role="alert">{{ entity.remainingSaldoMessage.message }}</div>
                 {% endif %}
                 {{ html.calendar("Overnachtingen",path("villa_overnachtingen_index"),entity.id) }}
+        </div>
+        <div id="incidenten" class="tab-pane">
+            {% include 'app/incidenten/_list.html.twig' with {klant: entity.appKlant} %}
         </div>
     </div>
 

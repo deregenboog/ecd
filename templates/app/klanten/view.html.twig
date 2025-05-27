@@ -2,54 +2,70 @@
 {% import 'html.macro.twig' as html %}
 
 {% block content_top %}
-    <h1>{{ entity_name|capitalize }} {{ entity }}</h1>
-    <p>
-        {{ html.link('Wijzigen', path(route_base~'edit', {id: entity.id}), 'edit') }}
+	<h1>{{ entity_name|capitalize }}
+		{{ entity }}</h1>
+	<p>
+		{{ html.link('Wijzigen', path(route_base~'edit', {id: entity.id}), 'edit') }}
 
-        {% if is_granted('ROLE_ADMIN') %}
-            {{ html.link('Verwijderen', path(route_base~'delete', {id: entity.id}), 'delete') }}
-        {% endif %}
-    </p>
+		{% if is_granted('ROLE_ADMIN') %}
+			{{ html.link('Verwijderen', path(route_base~'delete', {id: entity.id}), 'delete') }}
+		{% endif %}
+	</p>
 {% endblock %}
 
 {% block content_left %}
-    {% include 'app/klanten/_persoonsgegevens.html.twig' with {klant: entity} %}
-    {% include 'app/klanten/_contactgegevens.html.twig' with {klant: entity} %}
-    <h2>Medewerker</h2>
-    <dl class="dl-horizontal">
-        <dt>Medewerker</dt>
-        <dd>{{ entity.medewerker }}</dd>
-    </dl>
-    <h2>Opmerking</h2>
-    <dl class="dl-horizontal">
-        <dt>Opmerking</dt>
-        <dd>{{ entity.opmerking|nl2br }}</dd>
-    </dl>
+	{% include 'app/klanten/_persoonsgegevens.html.twig' with {klant: entity} %}
+	{% include 'app/klanten/_contactgegevens.html.twig' with {klant: entity} %}
+	<h2>Medewerker</h2>
+	<dl class="dl-horizontal">
+		<dt>Medewerker</dt>
+		<dd>{{ entity.medewerker }}</dd>
+	</dl>
+	<h2>Opmerking</h2>
+	<dl class="dl-horizontal">
+		<dt>Opmerking</dt>
+		<dd>{{ entity.opmerking|nl2br }}</dd>
+	</dl>
 {% endblock %}
 
 {% block content_right %}
-    {% include 'app/klanten/_diensten.html.twig' %}
-    <h2>ZRMs</h2>
-    <p>
-        {{ html.viewLink(path('app_zrms_index', {'zrm_filter[klant][id]': entity.id})) }}
-        {{ html.link('ZRM-overzicht', path('app_zrms_index', {'zrm_filter[klant][id]': entity.id})) }}
-        {{ html.addLink(path('app_zrms_add', {klant: entity.id})) }}
-        {{ html.link('ZRM toevoegen', path('app_zrms_add', {klant: entity.id})) }}
-    </p>
-    <table class="table table-hover">
-        <tr>
-            <th>Module</th>
-            <th>Datum</th>
-        </tr>
-        {% for zrm in entity.zrms %}
-            <tr data-href="{{ path('app_zrms_view', {id: zrm.id}) }}">
-                <td>
-                    {{ zrm.requestModule }}
-                </td>
-                <td>
-                    {{ zrm.created|date('d-m-Y') }}
-                </td>
-            </tr>
-        {% endfor %}
-    </table>
+	<ul class="nav nav-tabs">
+		<li class="active">
+			<a data-toggle="tab" href="#diensten">Diensten</a>
+		</li>
+		<li>
+			<a data-toggle="tab" href="#incidenten">Incidenten</a>
+		</li>
+	</ul>
+	<div class="tab-content">
+		<div id="diensten" class="tab-pane active">
+			{% include 'app/klanten/_diensten.html.twig' %}
+			<h2>ZRMs</h2>
+			<p>
+				{{ html.viewLink(path('app_zrms_index', {'zrm_filter[klant][id]': entity.id})) }}
+				{{ html.link('ZRM-overzicht', path('app_zrms_index', {'zrm_filter[klant][id]': entity.id})) }}
+				{{ html.addLink(path('app_zrms_add', {klant: entity.id})) }}
+				{{ html.link('ZRM toevoegen', path('app_zrms_add', {klant: entity.id})) }}
+			</p>
+			<table class="table table-hover">
+				<tr>
+					<th>Module</th>
+					<th>Datum</th>
+				</tr>
+				{% for zrm in entity.zrms %}
+					<tr data-href="{{ path('app_zrms_view', {id: zrm.id}) }}">
+						<td>
+							{{ zrm.requestModule }}
+						</td>
+						<td>
+							{{ zrm.created|date('d-m-Y') }}
+						</td>
+					</tr>
+				{% endfor %}
+			</table>
+		</div>
+        <div id="incidenten" class="tab-pane">
+            {% include 'app/incidenten/_list.html.twig' with {klant: entity} %}
+        </div>
+	</div>
 {% endblock %}

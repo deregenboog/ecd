@@ -70,6 +70,10 @@ services:
     TwBundle\Security\DocumentVoter:
         arguments:
             - "@security.access.decision_manager"
+    
+    TwBundle\Controller\IncidentenController:
+        arguments:
+            $entities: '@app.incident.entities'
 
 when@dev: &dev
     services:

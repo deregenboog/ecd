@@ -72,5 +72,8 @@
         <div id="afsluiting" class="tab-pane">
             {% include 'iz/afsluitingen/_detail.html.twig' with {klant: entity} %}
         </div>
+        <div id="incidenten" class="tab-pane">
+            {% include 'app/incidenten/_list.html.twig' with {klant: entity} %}
+        </div>
     </div>
 {% endblock %}
