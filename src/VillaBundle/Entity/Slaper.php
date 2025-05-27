@@ -113,8 +113,8 @@ class Slaper implements KlantRelationInterface, HasDossierStatusInterface
 
 
     private $defaultOvernachtingsRecht = [
-        Slaper::TYPE_LOGEER=>42,
-        Slaper::TYPE_RESPIJT=>37,
+        Slaper::TYPE_LOGEER=>36,
+        Slaper::TYPE_RESPIJT=>42,
     ];
     public function __construct(Klant $klant = null)
     {
@@ -130,7 +130,7 @@ class Slaper implements KlantRelationInterface, HasDossierStatusInterface
     {
         switch($year)
         {
-            case '2022':
+            case '2022': //faux
                 $overnachtingenRecht = [
                     Slaper::TYPE_LOGEER=>12,
                     Slaper::TYPE_RESPIJT=>17,

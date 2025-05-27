@@ -60,7 +60,7 @@
 {#                <dt>Notitie datum</dt><dd class="text-info">{{ entity.datumNotitieIntake|if_date('d-m-Y') }}</dd>#}
                 <dt>Reden slapen</dt><dd>{{ entity.redenSlapen|raw }}</dd>
                 <dt>Opmerking</dt><dd>{{ entity.opmerking|raw }}</dd>
-                <dt>Saldo</dt><dd id="overnachtingenSaldo">{{ entity.calculateSaldo }} nachten</dd>
+                <dt>Saldo</dt><dd id="overnachtingenSaldo">{{ entity.calculateSaldo }} van de {{ entity.getOvernachtingsRechtForYear(date('now','Y')) }} nachten resterend.</dd>
             </dl>
         </div>
         <div id="nachten" class="tab-pane">

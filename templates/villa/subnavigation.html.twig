@@ -5,9 +5,9 @@
     <li class="active">{{ title }}</li>
 </ol>
 <ul class="nav nav-tabs">
-    {{ html.navLink('Vrijwilligers', path('villa_vrijwilligers_index'), isActiveRoute('villa_vrijwilligers_')) }}
     {{ html.navLink('Respijtzorg', path('villa_slapers_indextype', { 'type': 1 }), isActiveRoute(['villa_slapers_indextype','1'], 'AND')) }}
     {{ html.navLink('Logeeropvang', path('villa_slapers_indextype',{ 'type': 2 }), isActiveRoute(['villa_slapers_indextype','2'], 'AND')) }}
+    {{ html.navLink('Vrijwilligers', path('villa_vrijwilligers_index'), isActiveRoute('villa_vrijwilligers_')) }}
     {{ html.navLink('Rapportages', path('villa_rapportages_index'), isActiveRoute('villa_rapportages_')) }}
 
     <li role="presentation" class="dropdown {{ isActivePath('villa/admin') ? 'active' }}">
