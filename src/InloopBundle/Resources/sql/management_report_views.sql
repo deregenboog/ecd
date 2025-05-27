@@ -1,6 +1,6 @@
 -- VISITS
 DROP TABLE IF EXISTS `tmp_visits`;
-CREATE TABLE `tmp_visits` IGNORE AS
+CREATE TABLE `tmp_visits` IGNORE AS #// vervangen door create or replace.
     SELECT
         `r`.`locatie_id`,
         `r`.`klant_id`,
