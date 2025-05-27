@@ -77,7 +77,7 @@
                 {{ slaper.typeAsString }}
             </td>
             <td>
-                {{ slaper.calculateSaldo }}
+                ({{ slaper.calculateSaldo }}/{{ slaper.getOvernachtingsRechtForYear(date('now','Y')) }})
             </td>
             <td>
                 {{ slaper.appKlant.werkgebied }}
