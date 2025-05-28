@@ -2,6 +2,7 @@
 
 namespace InloopBundle\Entity;
 
+use AppBundle\Entity\Klant;
 use AppBundle\Entity\Verblijfsstatus;
 use AppBundle\Model\IdentifiableTrait;
 use AppBundle\Model\TimestampableTrait;
@@ -9,6 +10,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity
@@ -17,13 +19,18 @@ use Gedmo\Mapping\Annotation as Gedmo;
  */
 class AccessFields
 {
+    use IdentifiableTrait;
+
     /**
-     * @var int
+     * @var Klant
      *
-     * @ORM\Id
-     * @ORM\Column(type="integer")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Klant", inversedBy="inloop_access_fields")
+     *
+     * @Gedmo\Versioned
+     *
+     * @Assert\NotNull
      */
-    private $id;
+    private $klant;
 
     /**
      * @var \DateTime
@@ -84,12 +91,20 @@ class AccessFields
      */
     private $gebruikersruimte;
 
-    public function __construct()
+    /**
+    * @var Intake
+    */
+    private ?Intake $intake = null;
+
+    public function __construct(?Intake $intake = null)
     {   
         $this->specifiekeLocaties = new ArrayCollection();
         $this->created = new \DateTime();
         $this->modified = new \DateTime();
         $this->intakedatum = new \DateTime();
+        if($intake){
+            $this->setIntake($intake);
+        }
     }
 
     public function getIntakedatum(): ?\DateTime
@@ -178,14 +193,26 @@ class AccessFields
         return $this;
     }
 
-    public function setId($id): self
+    public function getKlant()
     {
-        $this->id = $id;
+        return $this->klant;
+    }
+
+    public function setKlant(Klant $klant)
+    {
+        $this->klant = $klant;
+
         return $this;
     }
 
-    public function getId()
+    public function getIntake(): ?Intake
     {
-        return $this->id;
+        return $this->intake;
+    }
+
+    public function setIntake(?Intake $intake): self
+    {
+        $this->intake = $intake;
+        return $this;
     }
 }

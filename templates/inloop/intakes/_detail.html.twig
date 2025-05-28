@@ -23,8 +23,8 @@
     <dd>{{ entity.verblijfInAmsterdamSinds ? entity.verblijfInAmsterdamSinds|date('d-m-Y') }}</dd>
     <dt>Verblijfsstatus</dt>
     <dd>
-        @FARHAD
-        {# {{ entity.Verblijfsstatus }} #}
+        {# #FARHAD #}
+        {{ entity.accessFields ? entity.accessFields.Verblijfsstatus }}
     </dd>
 </dl>
 {% if entity.hasAccessFields() and entity.accessFields.Verblijfsstatus %}

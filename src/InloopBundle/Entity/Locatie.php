@@ -101,7 +101,7 @@ class Locatie
     private $openingTimeCorrection = 30 * 60; // 30 minutes. correctie op de openingstijd. Openingstijd gaat een half uur eerder al open... en een half uur langer door.
 
     /**
-     * @FARHAD
+     * #FARHAD
      * @ORM\ManyToMany(targetEntity="AccessFields", mappedBy="specifiekeLocaties")
      *
      * @var Collection<int, AccessFields>

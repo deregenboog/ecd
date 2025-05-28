@@ -81,8 +81,8 @@
                     {{ intake.klant.geslacht }}
                 </td>
                 <td>
-                    {# @FARHAD #}
-                    {{ intake.accessFields.intakelocatie }}
+                    {# #FARHAD #}
+                    {{ intake.accessFields ? intake.accessFields.intakelocatie }}
                 </td>
                 <td>
                     {{ intake.intakedatum|date('d-m-Y') }}

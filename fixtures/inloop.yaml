@@ -612,19 +612,20 @@ InloopBundle\Entity\Intake:
         medewerker: '@medewerker_*'
         intakedatum: '<dateTimeThisYear()>'
         doelgroep: true
-        toegangInloophuis: true
-        intakelocatie: '@locatie_*'
-        klant: '@klant_*'
-        verblijfsstatus: '@verblijfsstatus_*'
+        #FARHAD toegangInloophuis: true
+        #FARHAD intakelocatie: '@locatie_*'
+        klant: '@klant_<current()>'
+        #FARHAD verblijfsstatus: '@verblijfsstatus_*'
         informeleZorg: '<numberBetween(0, 1)>'
         inloophuis: 1
         dagbesteding: '<numberBetween(0, 1)>'
         hulpverlening: '<numberBetween(0, 1)>'
+        accessFields: '@access_fields_<current()>'
     intake_201: #toegangAllesAmocWestOverigNu
         medewerker: '@medewerker_inloop'
         intakedatum: '<dateTimeBetween("-6 days","now")>'
-        toegangInloophuis: true
-        intakelocatie: '@locatie_amoc_west'
+        #FARHAD toegangInloophuis: true
+        #FARHAD intakelocatie: '@locatie_amoc_west'
         doelgroep: true
         verblijfInAmsterdamSinds: '<dateTimeThisDecade()>'
         inkomens: ['@inkomen_uitkering']
@@ -636,14 +637,14 @@ InloopBundle\Entity\Intake:
         dagbesteding: 0
         hulpverlening: 0
         klant: '@klant_201'
-        verblijfsstatus: '@verblijfsstatus_7'
+        #FARHAD verblijfsstatus: '@verblijfsstatus_7'
         overigenToegangVan: '<dateTimeBetween("-1 days","-1 days")>'
         zrm: '@zrm_201'
     intake_202: #toegangAmocStadhoduerskade
         medewerker: '@medewerker_inloop'
         intakedatum: '<dateTimeBetween("-6 days","now")>'
-        toegangInloophuis: true
-        intakelocatie: '@locatie_amoc'
+        #FARHAD toegangInloophuis: true
+        #FARHAD intakelocatie: '@locatie_amoc'
         doelgroep: true
         verblijfInAmsterdamSinds: '<dateTimeThisDecade()>'
         inkomens: ['@inkomen_uitkering']
@@ -655,17 +656,17 @@ InloopBundle\Entity\Intake:
         dagbesteding: 0
         hulpverlening: 0
         klant: '@klant_202'
-        verblijfsstatus: '@verblijfsstatus_7'
+        #FARHAD verblijfsstatus: '@verblijfsstatus_7'
         overigenToegangVan: '<dateTimeBetween("+30 days","+30 days")>'
         zrm: '@zrm_202'
     intake_203: #toegangzeeburg
         medewerker: '@medewerker_inloop'
         intakedatum: '<dateTimeBetween("-6 days","now")>'
-        toegangInloophuis: true
-        intakelocatie: '@locatie_amoc'
+        #FARHAD toegangInloophuis: true
+        #FARHAD intakelocatie: '@locatie_amoc'
         doelgroep: true
         verblijfInAmsterdamSinds: '<dateTimeThisDecade()>'
-        specifiekeLocaties: ['@locatie_zeeburg']
+        #FARHAD specifiekeLocaties: ['@locatie_zeeburg']
         inkomens: ['@inkomen_uitkering']
         verwachtingDienstaanbod: 'test'
         toekomstplannen: 'test'
@@ -675,14 +676,14 @@ InloopBundle\Entity\Intake:
         dagbesteding: 0
         hulpverlening: 0
         klant: '@klant_203'
-        verblijfsstatus: '@verblijfsstatus_7'
+        #FARHAD verblijfsstatus: '@verblijfsstatus_7'
         overigenToegangVan: '<dateTimeBetween("+30 days","+30 days")>'
         zrm: '@zrm_203'
     intake_204: #toeganggeen
         medewerker: '@medewerker_inloop'
         intakedatum: '<dateTimeBetween("-6 days","now")>'
-        toegangInloophuis: false
-        intakelocatie: '@locatie_amoc'
+        #FARHAD toegangInloophuis: false
+        #FARHAD intakelocatie: '@locatie_amoc'
         doelgroep: true
         verblijfInAmsterdamSinds: '<dateTimeThisDecade()>'
         inkomens: ['@inkomen_uitkering']
@@ -694,14 +695,14 @@ InloopBundle\Entity\Intake:
         dagbesteding: 0
         hulpverlening: 0
         klant: '@klant_204'
-        verblijfsstatus: '@verblijfsstatus_7'
+        #FARHAD verblijfsstatus: '@verblijfsstatus_7'
         overigenToegangVan: '<dateTimeBetween("+30 days","+30 days")>'
         zrm: '@zrm_204'
     intake_205: #toegangLegaal
         medewerker: '@medewerker_inloop'
         intakedatum: '<dateTimeBetween("-6 days","now")>'
-        toegangInloophuis: true
-        intakelocatie: '@locatie_makom'
+        #FARHAD toegangInloophuis: true
+        #FARHAD intakelocatie: '@locatie_makom'
         doelgroep: true
         verblijfInAmsterdamSinds: '<dateTimeThisDecade()>'
         inkomens: ['@inkomen_uitkering']
@@ -713,14 +714,14 @@ InloopBundle\Entity\Intake:
         dagbesteding: 0
         hulpverlening: 0
         klant: '@klant_205'
-        verblijfsstatus: '@verblijfsstatus_1'
+        #FARHAD verblijfsstatus: '@verblijfsstatus_1'
         overigenToegangVan: '<dateTimeBetween("+30 days","+30 days")>'
         zrm: '@zrm_205'
     intake_206: #toegangAmocWest
         medewerker: '@medewerker_inloop'
         intakedatum: '<dateTimeBetween("-6 days","now")>'
-        toegangInloophuis: true
-        intakelocatie: '@locatie_amoc_west'
+        #FARHAD toegangInloophuis: true
+        #FARHAD intakelocatie: '@locatie_amoc_west'
         doelgroep: true
         verblijfInAmsterdamSinds: '<dateTimeThisDecade()>'
         inkomens: [ '@inkomen_uitkering' ]
@@ -732,14 +733,14 @@ InloopBundle\Entity\Intake:
         dagbesteding: 0
         hulpverlening: 0
         klant: '@klant_206'
-        verblijfsstatus: '@verblijfsstatus_7'
+        #FARHAD verblijfsstatus: '@verblijfsstatus_7'
         overigenToegangVan: '<dateTimeBetween("+30 days","+30 days")>'
         zrm: '@zrm_206'
     intake_207: #toegangVillaZaanstad
         medewerker: '@medewerker_inloop'
         intakedatum: '<dateTimeBetween("-6 days","now")>'
-        toegangInloophuis: true
-        intakelocatie: '@locate_villa_westerweide'
+        #FARHAD toegangInloophuis: true
+        #FARHAD intakelocatie: '@locate_villa_westerweide'
         doelgroep: true
         verblijfInAmsterdamSinds: '<dateTimeThisDecade()>'
         inkomens: [ '@inkomen_uitkering' ]
@@ -751,17 +752,17 @@ InloopBundle\Entity\Intake:
         dagbesteding: 0
         hulpverlening: 0
         klant: '@klant_207'
-        verblijfsstatus: '@verblijfsstatus_1'
+        #FARHAD verblijfsstatus: '@verblijfsstatus_1'
         overigenToegangVan: '<dateTimeBetween("+30 days","+30 days")>'
         zrm: '@zrm_207'
     intake_208: #toegangGebruikersruimte
         medewerker: '@medewerker_inloop'
         intakedatum: '<dateTimeBetween("-6 days","now")>'
-        toegangInloophuis: true
-        intakelocatie: '@locatie_amoc'
+        #FARHAD toegangInloophuis: true
+        #FARHAD intakelocatie: '@locatie_amoc'
         doelgroep: true
         verblijfInAmsterdamSinds: '<dateTimeThisDecade()>'
-        gebruikersruimte: '@locatie_amoc_gebruikersruimte'
+        #FARHAD gebruikersruimte: '@locatie_amoc_gebruikersruimte'
         inkomens: [ '@inkomen_uitkering' ]
         verwachtingDienstaanbod: 'test'
         toekomstplannen: 'test'
@@ -771,10 +772,21 @@ InloopBundle\Entity\Intake:
         dagbesteding: 0
         hulpverlening: 0
         klant: '@klant_208'
-        verblijfsstatus: '@verblijfsstatus_1'
+        #FARHAD verblijfsstatus: '@verblijfsstatus_1'
         overigenToegangVan: '<dateTimeBetween("+30 days","+30 days")>'
         zrm: '@zrm_208'
 
+InloopBundle\Entity\AccessFields:
+    access_fields_{1..25}:
+        toegangInloophuis: '<numberBetween(0, 1)>'
+        intakelocatie: '@locatie_*'
+        verblijfsstatus: '@verblijfsstatus_*'
+        klant: '@klant_<current()>'
+        intakedatum: '<dateTimeBetween("-6 days","now")>'
+        specifiekeLocaties: ['@locatie_zeeburg']
+        overigenToegangVan: '<dateTimeBetween("+30 days","+30 days")>'
+        gebruikersruimte: '@locatie_amoc_gebruikersruimte'
+        
 InloopBundle\Entity\Locatietijd:
     loctijd0_{@locatie_*}:
         dagVanDeWeek: '0'

@@ -5,7 +5,7 @@
 
 	{{ html.link('Wijzigen', path('inloop_intakes_edittoegang', {id: entity.id,access:true}), 'edit') }}
 
-	{#@FARHAD <dl class="dl-horizontal" data-verblijfsstatus-id="{{ verblijfsstatusId }}">
+	{##FARHAD <dl class="dl-horizontal" data-verblijfsstatus-id="{{ verblijfsstatusId }}">
 		<dt>Intakelocatie</dt>
 		<dd>{{ entity.intakelocatie }}</dd>
 		<dt>Toegang inloophuis</dt>
@@ -17,11 +17,11 @@
 		<dt>Toegang gebruikersruimte</dt>
 		<dd>{{ entity.gebruikersruimte }}</dd>
 	</dl> #}
-
+	
 	<div class="bg-danger text-info">
 		<h2>Locatiekeuze / toegang</h2>
 		{% if entity.hasAccessFields() %}
-			{{ html.link('Wijzigen', path('inloop_accessfields_edit', {id: entity.id,access:true}), 'edit') }}
+			{{ html.link('Wijzigen', path('inloop_accessfields_edit', {id: entity.accessFields.id,access:true}), 'edit') }}
 			{% set accessFields = entity.accessFields %}
 			<dl class="dl-horizontal" data-verblijfsstatus-id="{{ verblijfsstatusId }}">
 				<dt>Intakelocatie</dt>

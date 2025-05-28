@@ -51,7 +51,7 @@ class DenyAccessCommand extends \Symfony\Component\Console\Command\Command
 
     private function getKlanten()
     {
-        // @FARHAD
+        // #FARHAD
         return $this->manager->getRepository(Klant::class)->createQueryBuilder('klant')
             ->select('klant, intake')
             ->innerJoin('klant.laatsteIntake', 'intake')

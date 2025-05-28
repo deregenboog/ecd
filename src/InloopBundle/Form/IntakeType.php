@@ -72,7 +72,8 @@ class IntakeType extends AbstractType
 
     protected function createAlgemeen(FormBuilderInterface $builder, array $options)
     {
-        return $builder
+        // #FARHAD
+        $res = $builder
             ->create('algemeen', null, [
                 'compound' => true,
                 'inherit_data' => true,
@@ -80,13 +81,19 @@ class IntakeType extends AbstractType
             ])
             ->add('medewerker', MedewerkerType::class)
             ->add('intakedatum', AppDateType::class)
+        ;
+        
+        $res->create('accessFields', null, ['inherit_data' => false, 'compound' => true])
             ->add('intakelocatie', LocatieSelectType::class, [
                 'required' => true,
                 'placeholder' => '',
                 'locatietypes' => ['Inloop'],
             ])
-            ->add('geinformeerdOpslaanGegevens', CheckboxType::class, ['required' => true])
         ;
+
+        $res->add('geinformeerdOpslaanGegevens', CheckboxType::class, ['required' => true]);
+
+        return $res;
     }
 
     protected function createAdresgegevens(FormBuilderInterface $builder, array $options)

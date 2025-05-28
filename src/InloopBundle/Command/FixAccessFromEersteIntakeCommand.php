@@ -27,7 +27,7 @@ class FixAccessFromEersteIntakeCommand extends \Symfony\Component\Console\Comman
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        // @FARHAD TA INJA OMADAM
+        // #FARHAD TA INJA OMADAM
         $sql = 'UPDATE
                     klanten AS k 
                     LEFT JOIN intakes fi ON fi.id = k.first_intake_id
@@ -38,9 +38,9 @@ class FixAccessFromEersteIntakeCommand extends \Symfony\Component\Console\Comman
                     faf.verblijfstatus_id = laf.verblijfstatus_id,
                     faf.toegang_inloophuis = laf.toegang_inloophuis, 
                     faf.gebruikersruimte_id=  laf.gebruikersruimte_id, 
-                    -- @FARHAD ? @JAN IN DIGE CHIYE????
+                    -- #FARHAD ? @JAN IN DIGE CHIYE????
                     fi.locatie3_id=  li.locatie3_id, 
-                    -- @FARHAD ? @JAN UNKNOWN
+                    -- #FARHAD ? @JAN UNKNOWN
                     fi.amoc_toegang_tot = li.amoc_toegang_tot,
                     fi.ondro_bong_toegang_van = li.ondro_bong_toegang_van, 
                     faf.overigen_toegang_van = laf.overigen_toegang_van 

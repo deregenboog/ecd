@@ -37,10 +37,15 @@ class AccessFieldsController extends AbstractController
      * @var AccessFieldsDaoInterface
      */
     protected $dao;
+    /**
+     * @var IntakeDaoInterface
+     */
+    protected $intakeDao;
 
-    public function __construct(AccessFieldsDaoInterface $dao)
+    public function __construct(AccessFieldsDaoInterface $dao, IntakeDaoInterface $intakeDao)
     {
         $this->dao = $dao;
+        $this->intakeDao = $intakeDao;
     }
 
     /**
@@ -50,6 +55,10 @@ class AccessFieldsController extends AbstractController
      */
     public function addAction(Request $request)
     {
+        $intake = $this->intakeDao->find($request->get('id'));
+        if (!$intake) {
+            throw new EntityNotFoundException('Intake not found');
+        }
         $entity = $this->dao->find($request->get('id'));
         $klant = $request->get('klant');
         
@@ -58,8 +67,8 @@ class AccessFieldsController extends AbstractController
             $this->getEntityManager()->detach($entity);
             $this->formClass = IntakeType::class; // because it is not the first one, dont show toegang form.
         } else {
-            $entity = new AccessFields();
-            $entity->setId($klant->getId());
+            $entity = new AccessFields($intake);
+            $entity->setKlant($klant);
         }
 
         $form = $this->getForm($this->formClass, $entity);
@@ -69,6 +78,8 @@ class AccessFieldsController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             try {
                 $this->dao->create($entity);
+                $intake->setAccessFields($entity);
+                $this->intakeDao->update($intake);
                 $this->addFlash('success', ucfirst($this->entityName).' is opgeslagen.');
             } catch (UserException $e) {
                 $message = $e->getMessage();

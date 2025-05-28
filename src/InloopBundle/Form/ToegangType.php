@@ -49,37 +49,44 @@ class ToegangType extends AbstractType
                 'label' => 'Intakedatum eerste intake',
             ]);
         }
-        $x
-             ->add('verblijfsstatus', VerblijfsstatusSelectType::class, [
-                 'required' => true,
-             ]);
-        if (!($builder->has('algemeen') && $builder->get('algemeen')->has('intakelocatie'))) {
-            $x->
-            add('intakelocatie', LocatieSelectType::class, [
-                'required' => true,
-                'placeholder' => '',
-                'locatietypes' => ['Inloop'],
-            ]);
-        }
-        $x
-            ->add('toegangInloophuis', CheckboxType::class, [
-                'required' => false,
-            ])
-            ->add('specifiekeLocaties', LocatieSelectType::class, [
-                'required' => false,
-                'multiple' => true,
-                'locatietypes' => ['Inloop'],
-            ])
-            ->add('overigenToegangVan', AppDateType::class, [
-                'label' => 'Startdatum toegang overig)',
-                'required' => false,
-            ])
-            ->add('gebruikersruimte', LocatieSelectType::class, [
-                'required' => false,
-                'gebruikersruimte' => true,
-                'placeholder' => 'Kies een gebruikersruimte',
-            ])
-        ;
+
+        // @TODO #FARHAD: check if this is needed, it seems to be a duplicate of the one in AccessFieldsType
+        // If so, we should refactor this to use the same form type
+        $x->add('accessFields', AccessFieldsType::class, [
+            'required' => true,
+        ]);
+
+        // #FARHAD $x
+        //      ->add('verblijfsstatus', VerblijfsstatusSelectType::class, [
+        //          'required' => true,
+        //      ]);
+        // if (!($builder->has('algemeen') && $builder->get('algemeen')->has('intakelocatie'))) {
+        //     $x->
+        //     add('intakelocatie', LocatieSelectType::class, [
+        //         'required' => true,
+        //         'placeholder' => '',
+        //         'locatietypes' => ['Inloop'],
+        //     ]);
+        // }
+        // $x
+        //     ->add('toegangInloophuis', CheckboxType::class, [
+        //         'required' => false,
+        //     ])
+        //     ->add('specifiekeLocaties', LocatieSelectType::class, [
+        //         'required' => false,
+        //         'multiple' => true,
+        //         'locatietypes' => ['Inloop'],
+        //     ])
+        //     ->add('overigenToegangVan', AppDateType::class, [
+        //         'label' => 'Startdatum toegang overig)',
+        //         'required' => false,
+        //     ])
+        //     ->add('gebruikersruimte', LocatieSelectType::class, [
+        //         'required' => false,
+        //         'gebruikersruimte' => true,
+        //         'placeholder' => 'Kies een gebruikersruimte',
+        //     ])
+        // ;
 
         return $x;
     }

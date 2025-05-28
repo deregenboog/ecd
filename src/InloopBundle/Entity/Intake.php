@@ -68,7 +68,7 @@ class Intake
      */
     private $medewerker;
 
-    // @FARHAD/**
+    // #FARHAD/**
     //  * @var Locatie
     //  *
     //  * @ORM\ManyToOne(targetEntity="Locatie")
@@ -79,7 +79,7 @@ class Intake
     //  */
     // private $intakelocatie;
 
-    // @FARHAD/**
+    // #FARHAD/**
     //  * @var Locatie
     //  *
     //  * @ORM\ManyToOne(targetEntity="Locatie")
@@ -101,7 +101,7 @@ class Intake
      */
     private $locatie3;
 
-    // @FARHAD/**
+    // #FARHAD/**
     //  * @var Locatie
     //  *
     //  * @ORM\ManyToMany(targetEntity="Locatie", inversedBy="accessIntakes")
@@ -127,7 +127,7 @@ class Intake
      */
     private $intakedatum;
 
-    // @FARHAD/**
+    // #FARHAD/**
     //  * @var \DateTime
     //  *
     //  * @ORM\Column(name="overigen_toegang_van", type="date", nullable=true)
@@ -176,7 +176,7 @@ class Intake
      */
     private $telefoonnummer;
 
-    // @FARHAD/**
+    // #FARHAD/**
     //  * @var bool
     //  *
     //  * @ORM\Column(name="toegang_inloophuis", type="boolean", nullable=true)
@@ -212,7 +212,7 @@ class Intake
      */
     private $inkomenOverig;
 
-    // @FARHAD/**
+    // #FARHAD/**
     //  * @var Verblijfsstatus
     //  *
     //  * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Verblijfsstatus")
@@ -492,10 +492,8 @@ class Intake
     protected $modified;
 
     /**
-     * @var ?AccessFields
-     *
-     * @ORM\OneToOne(targetEntity="InloopBundle\Entity\AccessFields", cascade={"persist", "remove"})
-     * @ORM\JoinColumn(name="klant_id", referencedColumnName="id", nullable=true, onDelete="CASCADE")
+     * @var AccessFields
+     * @ORM\ManyToOne(targetEntity="AccessFields",cascade={"persist"})
      * @Gedmo\Versioned
      */
     private $accessFields = null;
@@ -585,7 +583,7 @@ class Intake
         return $this;
     }
 
-    // @FARHAD public function setVerblijfsstatus(Verblijfsstatus $verblijfsstatus)
+    // #FARHAD public function setVerblijfsstatus(Verblijfsstatus $verblijfsstatus)
     // {
     //     $this->verblijfsstatus = $verblijfsstatus;
 
@@ -1117,46 +1115,46 @@ class Intake
         return $this;
     }
 
-    public function isToegangInloophuis()
-    {
-        return $this->toegangInloophuis;
-    }
+    //#FARHAD public function isToegangInloophuis()
+    // {
+    //     return $this->toegangInloophuis;
+    // }
 
-    public function setToegangInloophuis($toegangInloophuis)
-    {
-        $this->toegangInloophuis = $toegangInloophuis;
+    // public function setToegangInloophuis($toegangInloophuis)
+    // {
+    //     $this->toegangInloophuis = $toegangInloophuis;
 
-        return $this;
-    }
+    //     return $this;
+    // }
 
     public function getIntakedatum()
     {
         return $this->intakedatum;
     }
 
-    public function getIntakelocatie()
-    {
-        return $this->intakelocatie;
-    }
+    //#FARHAD public function getIntakelocatie()
+    // {
+    //     return $this->intakelocatie;
+    // }
 
-    public function setIntakelocatie(?Locatie $locatie = null)
-    {
-        $this->intakelocatie = $locatie;
+    // public function setIntakelocatie(?Locatie $locatie = null)
+    // {
+    //     $this->intakelocatie = $locatie;
 
-        return $this;
-    }
+    //     return $this;
+    // }
 
-    public function getGebruikersruimte()
-    {
-        return $this->gebruikersruimte;
-    }
+    //#FARHAD public function getGebruikersruimte()
+    // {
+    //     return $this->gebruikersruimte;
+    // }
 
-    public function setGebruikersruimte(?Locatie $locatie = null)
-    {
-        $this->gebruikersruimte = $locatie;
+    // public function setGebruikersruimte(?Locatie $locatie = null)
+    // {
+    //     $this->gebruikersruimte = $locatie;
 
-        return $this;
-    }
+    //     return $this;
+    // }
 
     public function getLocatie3()
     {
@@ -1175,20 +1173,25 @@ class Intake
         return $this->inkomens;
     }
 
-    //@FARHAD public function getVerblijfsstatus()
-    // {
-    //     return $this->verblijfsstatus;
-    // }
+    // #FARHAD 
+    public function getVerblijfsstatus()
+    {
+        if($this->accessFields && $this->accessFields->getVerblijfsstatus()) {
+            return $this->accessFields->getVerblijfsstatus();
+        }
+        return null;
+        //return $this->verblijfsstatus;
+    }
 
     public function getMedewerker()
     {
         return $this->medewerker;
     }
 
-    public function getOverigenToegangVan()
-    {
-        return $this->overigenToegangVan;
-    }
+    //#FARHAD public function getOverigenToegangVan()
+    // {
+    //     return $this->overigenToegangVan;
+    // }
 
     public function getLegitimatie()
     {
@@ -1259,12 +1262,12 @@ class Intake
         $this->geinformeerdOpslaanGegevens = $geinformeerdOpslaanGegevens;
     }
 
-    // @FARHAD public function getSpecifiekeLocaties()
+    // #FARHAD public function getSpecifiekeLocaties()
     // {
     //     return $this->specifiekeLocaties;
     // }
 
-    // @FARHAD /**
+    // #FARHAD /**
     //  * @param Collection|array $specifiekeLocaties
     //  * @return void
     //  */

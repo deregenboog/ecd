@@ -108,16 +108,16 @@
                         {{ klant.geslacht }}
                     </td>
                     <td>
-                        {# @FARHAD #}
-                        {{ klant.laatsteIntake.accessFields ? klant.laatsteIntake.accessFields.gebruikersruimte }}
+                        {# #FARHAD #}
+                        {{ klant.laatsteIntake ? klant.laatsteIntake.accessFields ? klant.laatsteIntake.accessFields.gebruikersruimte }}
                     </td>
                     <td>
-                        {# @FARHAD #}
-                        {{ klant.laatsteIntake.accessFields ? klant.laatsteIntake.accessFields.intakelocatie }}
+                        {# #FARHAD #}
+                        {{ klant.laatsteIntake ? klant.laatsteIntake.accessFields ? klant.laatsteIntake.accessFields.intakelocatie }}
                     </td>
                     <td>
-                        {# @FARHAD #}
-                        {{ klant.laatsteIntake.accessFields ? klant.laatsteIntake.intakedatum|date('d-m-Y') }}
+                        {# #FARHAD #}
+                        {{ klant.laatsteIntake ? klant.laatsteIntake.accessFields ? klant.laatsteIntake.intakedatum|date('d-m-Y') }}
                     </td>
                     <td>
                         {{ klant.huidigeStatus }}

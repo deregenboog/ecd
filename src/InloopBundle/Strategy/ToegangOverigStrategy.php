@@ -54,7 +54,7 @@ final class ToegangOverigStrategy implements StrategyInterface
          * waarbij Villa Zaanstad als intakelocatie een uitzondering heeft: die mogen hier niet komen.
          */
 
-        // @FARHAD
+        // #FARHAD
         $builder
             ->leftJoin('eaf.verblijfsstatus', 'verblijfsstatus')
             ->orWhere(

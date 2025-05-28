@@ -47,7 +47,7 @@ class IntakeDao extends AbstractDao implements IntakeDaoInterface
 
     public function findAll($page = null, ?FilterInterface $filter = null)
     {
-        // @FARHAD
+        // #FARHAD
         $builder = $this->repository->createQueryBuilder($this->alias)
             ->addSelect('klant, geslacht, accessFields, intakelocatie') // include the extra fields
             ->innerJoin("{$this->alias}.klant", 'klant')

@@ -8,7 +8,6 @@
 <h2>Adresgegevens</h2>
 {{ form_widget(form.adresgegevens) }}
     {{ form_errors(form.adresgegevens) }}
-
     {% if entity.klant.eersteIntake is same as(entity) %}
         <h2 id="locatiekeuze">Locatiekeuze</h2>
         {{ form_widget(form.toegang) }}
