@@ -108,4 +108,9 @@ class AccessFieldsController extends AbstractController
         $entity = $this->dao->find($id);
         return $this->processForm($request, $entity);
     }
+
+    public function indexAction(Request $request)
+    {
+       return parent::indexAction($request);
+    }
 }

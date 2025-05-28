@@ -14,18 +14,6 @@ use Symfony\Component\EventDispatcher\GenericEvent;
 
 class AccessFieldsDao extends AbstractDao implements AccessFieldsDaoInterface
 {
-    protected $paginationOptions = [
-        'defaultSortFieldName' => 'intake.intakedatum',
-        'defaultSortDirection' => 'desc',
-        'sortFieldWhitelist' => [
-            'intake.intakedatum',
-            'klant.id',
-            'klant.achternaam',
-            'geslacht.volledig',
-            'intakelocatie.naam',
-        ],
-    ];
-
     protected $class = AccessFields::class;
 
     protected $alias = 'accessFields';

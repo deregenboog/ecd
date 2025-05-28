@@ -66,7 +66,6 @@
         <tbody>
             {% for intake in pagination %}
             <tr data-href="{{ path('inloop_intakes_view', {id: intake.id}) }}">
-            {% dump(intake) %}
                 <td>
                     {{ intake.klant.id }}
                 </td>
