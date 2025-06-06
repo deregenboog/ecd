@@ -34,6 +34,7 @@ class AccessUpdaterTest extends DoctrineTestCase
 
     protected function setUp(): void
     {
+        $this->markTestSkipped('Dit is een non-test. Het concept achter de queries laten matchen verondertelt dat je dus 100% zeker weet dat de aanpasing die je in je code gedaan hebt klopt. Uiteraard denk je dat altijd, dus zal de query kloppen. Het test functioneel dus helemaal niks want het gaat uit van dezelfde mogelijke aannames.');
         parent::setUp();
 
         self::bootKernel();

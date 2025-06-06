@@ -8,9 +8,16 @@
         <ul class="nav navbar-nav navbar-right">
             {% if is_granted("IS_AUTHENTICATED_FULLY") %}
                 <li class="pull-left">
+                    {% if not is_granted("IS_IMPERSONATOR") %}
                     <a href="{{ path('home') }}">
                         Ingelogd als {{ app.user.naam }}
                     </a>
+                    {% else %}
+                        <a href="{{ impersonation_exit_path(path("home")) }}">
+                            !! Ingelogd als {{ app.user.naam }} (Klik hier om terug te gaan) !!
+                        </a>
+
+                    {% endif %}
                 </li>
                 <li>
                     <a href="{{ path('logout') }}">

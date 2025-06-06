@@ -29,6 +29,11 @@ parameters:
     amoc_west:
       - 'AMOC West'
       - 'Nachtopvang DRG'
+      - 'Flierbos'
+    flierbos:
+      - 'AMOC West'
+      - 'Nachtopvang DRG'
+      - 'Flierbos'
   economisch_daklozen_locaties:
     - 'STED Amstelland'
     - 'STED Centrum'
@@ -84,9 +89,6 @@ parameters:
     - timeout
     - 'Time out'
   amoc_verblijfsstatus: 'Europees Burger (Niet Nederlands)'
-  wachtlijst_locaties:
-    - 'Wachtlijst T6 Project'
-    - 'Wachtlijst Economisch Daklozen'
   informele_zorg_mail: '%env(INFORMELE_ZORG_MAIL)%'
   dagbesteding_mail: '%env(DAGBESTEDING_MAIL)%'
   inloophuis_mail: '%env(INLOOPHUIS_MAIL)%'

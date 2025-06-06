@@ -1,0 +1,71 @@
+<div class="form-inline">
+    <div class="form-group">
+        <input class="group_action" type="checkbox" onclick="$('.group_action').prop('checked', $(this).prop('checked')).trigger('change')">
+    </div>
+    <div class="form-group">
+        <select id="group-action-select" onchange="$('.group_action').trigger('change')" class="form-control">
+            <option value=".douche">Douche</option>
+            <option value=".kleding">Kleding</option>
+            <option value=".maaltijd">Maaltijd</option>
+            <option value=".veegploeg">Veegploeg</option>
+            <option value=".activering">Activering</option>
+            <option value=".mw">MW</option>
+        </select>
+    </div>
+    <div class="form-group">
+        <select id="group-action-value" class="form-control">
+            <option value="check">Alles aanvinken</option>
+            <option value="uncheck">Alles uitvinken</option>
+{#            <option value="change">Change all</option>#}{# deze evt toevoegen als 'toggle' maar voor nu mss verwarrend voor gebruikers #}
+        </select>
+    </div>
+    <div class="form-group">
+        <button id="group-action-button" class="btn btn-primary">Toepassen</button>
+    </div>
+</div>
+
+<script type="text/javascript">
+    /// To add a new action, add a new option to the select element
+	$("#group-action-button").on("click", ()=>{
+        var action = $("#group-action-select").val();
+        var valueType = $("#group-action-value").val();
+        
+        /// Check if the action exists and if the user is sure
+        if($(`${action}`).length && confirm("Weet je zeker dat je alle geselecteerde rijen wilt verwerken?")){
+            for(var element of $(`${action}`)){
+                const checkbox = $(element).closest("tr").find(".group_action");
+                const isChecked = $(checkbox).prop('checked');
+                if(isChecked) {
+                    /// Call the click event on the element based on the value type (check, uncheck, change)
+                    /// 'check' means that the element should be checked
+                    /// 'uncheck' means that the element should be unchecked
+                    /// 'change' means that the element should be change to the opposite state
+                    if(valueType == 'check' && !$(element).prop('checked')){
+                        $(element).trigger("click");
+                    } else if(valueType == 'uncheck' && $(element).prop('checked')) {
+                        $(element).trigger("click");
+                    } else if(valueType == 'change') {
+                        $(element).trigger("click");
+                    }
+                }
+            }
+        }
+    })
+
+    /// Change the background color of the cell when the checkbox is checked
+    $(".group_action").on("change", function(){
+        var checked = $(this).prop('checked');
+        var action = $("#group-action-select").val();
+        $(this).closest('tr')
+            .find(action)
+            .closest('td')
+            .css('background-color', checked ? '#FF550055' : '#00000000')
+        ;
+
+        $("#group-action-select option:not(:selected)").each(function (index,option){
+            $($(option).val()).closest('td')
+                .css('background-color', '#00000000')
+            ;
+        });
+    });
+</script>
