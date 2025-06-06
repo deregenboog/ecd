@@ -7,12 +7,14 @@ use AppBundle\Exception\UserException;
 use AppBundle\Export\AbstractExport;
 use AppBundle\Form\ConfirmationType;
 use AppBundle\Form\VrijwilligerFilterType as AppVrijwilligerFilterType;
+use AppBundle\Security\VrijwilligerVoter;
 use BuurtboerderijBundle\Entity\Vrijwilliger;
 use BuurtboerderijBundle\Form\VrijwilligerCloseType;
 use BuurtboerderijBundle\Form\VrijwilligerFilterType;
 use BuurtboerderijBundle\Form\VrijwilligerType;
 use BuurtboerderijBundle\Service\VrijwilligerDaoInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -54,6 +56,7 @@ class VrijwilligersController extends AbstractController
 
     /**
      * @Route("/add")
+     * @IsGranted(VrijwilligerVoter::USER_VRIJWILLIGER_ACTIONS)
      */
     public function addAction(Request $request)
     {
@@ -66,6 +69,7 @@ class VrijwilligersController extends AbstractController
 
     /**
      * @Route("/{id}/close")
+     * @IsGranted(VrijwilligerVoter::USER_VRIJWILLIGER_ACTIONS)
      */
     public function closeAction(Request $request, $id)
     {
@@ -83,6 +87,7 @@ class VrijwilligersController extends AbstractController
 
     /**
      * @Route("/{id}/reopen")
+     * @IsGranted(VrijwilligerVoter::USER_VRIJWILLIGER_ACTIONS)
      */
     public function reopenAction(Request $request, $id)
     {
@@ -138,6 +143,9 @@ class VrijwilligersController extends AbstractController
         ];
     }
 
+    /*
+    * @IsGranted(VrijwilligerVoter::USER_VRIJWILLIGER_ACTIONS)
+    */
     protected function doAdd(Request $request)
     {
         $vrijwilligerId = $request->get('vrijwilliger');
