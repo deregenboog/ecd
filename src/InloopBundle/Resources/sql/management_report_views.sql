@@ -1,6 +1,6 @@
 -- VISITS
 DROP TABLE IF EXISTS `tmp_visits`;
-CREATE TABLE `tmp_visits` IGNORE AS #// vervangen door create or replace.
+CREATE TABLE `tmp_visits` AS #// vervangen door create or replace. #IGNORE weggehaald om te zien wat er gebeurt via warnings en logs.
     SELECT
         `r`.`locatie_id`,
         `r`.`klant_id`,
