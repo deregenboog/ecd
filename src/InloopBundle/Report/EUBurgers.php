@@ -313,7 +313,7 @@ class EUBurgers extends AbstractReport
             $builder->andWhere('klant.land IN (:landen)')->setParameter('landen', $this->landen);
         }
 
-                $sql = SqlExtractor::getFullSQL($builder->getQuery());
+//        $sql = SqlExtractor::getFullSQL($builder->getQuery());
         $klanten = $builder->getQuery()->getResult();
         // @todo deze klantenlijst wordt al gefilterd op delete en disabled dus dat hoeft niet in de joins verderop.
 

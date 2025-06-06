@@ -359,17 +359,14 @@ class EUBurgersNew extends AbstractReport
         $dossierStatusRepository = $this->entityManager->getRepository(DossierStatus::class);
 
         $newBuilder = $klantRepository->createQueryBuilder('klant');
-        $newBuilder->select('klant.id,intake.id AS laatste_intake_id')
+        $newBuilder->select('klant.id, intake.id AS laatste_intake_id')
             ->innerJoin('klant.laatsteIntake', 'intake')
-            ->leftJoin('klant.statussen', 'a', 'WITH', 'a INSTANCE OF ' . Aanmelding::class)
-            ->leftJoin('klant.statussen', 'af', 'WITH', 'af INSTANCE OF ' . Afsluiting::class)
-
-            ->where('a.datum <= :endDate')
-            ->andWhere(('af.datum IS NULL OR af.datum > :startDate'))
+            ->leftJoin('klant.huidigeStatus', 'hs')
+            ->where('hs.datum <= :endDate')
+            ->andWhere('(hs INSTANCE OF ' . Aanmelding::class . ' OR (hs INSTANCE OF ' . Afsluiting::class . ' AND hs.datum > :startDate))')
             ->groupBy('klant.id')
             ->setParameter('startDate', $startDate)
-            ->setParameter('endDate', $endDatePlusOneDay)
-        ;
+            ->setParameter('endDate', $endDatePlusOneDay);
 
 
         $builder = $newBuilder;
@@ -382,6 +379,7 @@ class EUBurgersNew extends AbstractReport
             $builder->andWhere('klant.land IN (:landen)')->setParameter('landen', $this->landen);
         }
 
+//        $sql = SqlExtractor::getFullSQL($builder->getQuery());
         $klanten = $builder->getQuery()->getResult();
         // @todo deze klantenlijst wordt al gefilterd op delete en disabled dus dat hoeft niet in de joins verderop.
 
