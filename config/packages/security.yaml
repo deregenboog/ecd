@@ -124,4 +124,12 @@ security:
         - { path: ^/uhk/admin, roles: ROLE_UHK_BEHEER }
         - { path: ^/uhk, roles: ROLE_UHK }
         - { path: ^/villa, roles: ROLE_VILLA }
+        - { path: ^/vrijwilligers/.*/edit, roles: ROLE_USER_VRIJWILLIGER_ACTIONS }
+        - { path: ^/vrijwilligers/.*/delete, roles: ROLE_USER_VRIJWILLIGER_ACTIONS }
+        - { path: ^/vrijwilligers/add, roles: ROLE_USER_VRIJWILLIGER_ACTIONS }
+        - { path: ^/vrijwilligers, roles: ROLE_USER_VRIJWILLIGER_VIEW }
+        - { path: ^/klanten/.*/edit, roles:  ROLE_USER_KLANTEN_ACTIONS }
+        - { path: ^/klanten/.*/delete, roles: ROLE_USER_KLANTEN_ACTIONS }
+        - { path: ^/klanten/add, roles: ROLE_USER_KLANTEN_ACTIONS }
+        - { path: ^/klanten, roles: ROLE_USER_KLANTEN_VIEW }
         - { path: ^/, roles: CONTROLLER_ACCESS_VOTER }
