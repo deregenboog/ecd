@@ -13,6 +13,7 @@ use AppBundle\Form\KlantType;
 use AppBundle\Service\KlantDaoInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\Routing\Annotation\Route;
@@ -52,6 +53,18 @@ class KlantenController extends AbstractController
         $this->searchDao = $searchDao;
         $this->dao = $dao;
         $this->export = $export;
+    }
+
+    /**
+     * @Route("/")
+     *
+     * @Template
+     * 
+     * @isGranted("ROLE_SECRETARIAAT")
+     */
+    public function indexAction(Request $request)
+    {
+        return parent::indexAction($request);
     }
 
     /**
