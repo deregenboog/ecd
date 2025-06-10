@@ -2,9 +2,9 @@
 
 namespace InloopBundle\Service;
 
-use AppBundle\Entity\Klant;
 use AppBundle\Filter\FilterInterface;
 use Doctrine\ORM\QueryBuilder;
+use AppBundle\Entity\Klant;
 use Knp\Component\Pager\Pagination\PaginationInterface;
 
 interface KlantDaoInterface

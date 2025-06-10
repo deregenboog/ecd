@@ -84,3 +84,10 @@ services:
             - '@HsBundle\Service\RegistratieDao'
         tags:
             - { name: hs.rapportage, category: Uren }
+
+    HsBundle\Report\KlantenIncidenten:
+        tags:
+            - { name: hs.rapportage, category: Incidenten }
+    HsBundle\Report\DienstverlenersIncidenten:
+        tags:
+            - { name: hs.rapportage, category: Incidenten }

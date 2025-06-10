@@ -106,3 +106,7 @@ services:
                   - "%economisch_daklozen_locaties%"
         tags:
             - app.doelstelling
+
+    MwBundle\Controller\IncidentenController:
+        arguments:
+            $entities: '@mw.incident.entities'

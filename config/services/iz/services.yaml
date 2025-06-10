@@ -142,6 +142,10 @@ services:
         tags:
             - app.doelstelling
 
+    IzBundle\Controller\IncidentenController:
+        arguments:
+            $entities: '@app.incident.entities'
+
 when@dev: &dev
     services:
         _defaults:

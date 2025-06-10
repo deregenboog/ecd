@@ -219,4 +219,9 @@ class Klant
     {
         return false;
     }
+
+    public function addIncident(Incident $incident): AppKlant
+    {
+        return $this->getKlant()->addIncident($incident);
+    }
 }
