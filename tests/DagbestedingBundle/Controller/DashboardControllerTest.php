@@ -4,19 +4,25 @@ declare(strict_types=1);
 
 namespace Tests\DagbestedingBundle\Controller;
 
-use Tests\AppBundle\PHPUnit\PantherWithCoverageTestCase;
 
-class DashboardControllerTest extends PantherWithCoverageTestCase
+use Liip\FunctionalTestBundle\Test\WebTestCase;
+use Symfony\Component\HttpFoundation\Request;
+
+
+class DashboardControllerTest extends WebTestCase
 {
-    public function testDashboardPages()
-    {
-        $client = static::createPantherClient();
 
-        $client->request('GET', '/login');
-        $client->submitForm('Inloggen', [
-            '_username' => 'dagbesteding_user',
-            '_password' => 'dagbesteding_user',
-        ]);
+    public function testIndexPages()
+    {
+        $client = static::createClient();
+
+        $user = static::getContainer()
+            ->get(\AppBundle\Service\MedewerkerDao::class)
+            ->findByUsername('dagbesteding_user');
+        $client->loginUser($user);
+
+        $crawler = $client->request(Request::METHOD_GET, '/dagbesteding/mijn/trajecten');
+        $this->assertResponseIsSuccessful();
 
         $client->request('GET', '/dagbesteding/mijn/trajecten');
         $this->assertSelectorTextContains('h2', 'Actieve trajecten');
@@ -29,5 +35,7 @@ class DashboardControllerTest extends PantherWithCoverageTestCase
 
         $client->request('GET', '/dagbesteding/mijn/ondersteuningsplan');
         $this->assertSelectorTextContains('h2', 'Zonder ondersteuningsplan');
+
     }
+
 }
