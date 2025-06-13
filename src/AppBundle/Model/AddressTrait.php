@@ -7,6 +7,7 @@ use AppBundle\Entity\Persoon;
 use AppBundle\Entity\Postcode;
 use AppBundle\Entity\Werkgebied;
 use AppBundle\Util\PostcodeFormatter;
+use Doctrine\Common\Annotations\Annotation\Required;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
@@ -59,7 +60,8 @@ trait AddressTrait
      *
      * @Gedmo\Versioned
      *
-     * @Assert\Email
+     * @Assert\Email()
+     * @Assert\NotBlank()
      */
     protected $email;
 
