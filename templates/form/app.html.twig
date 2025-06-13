@@ -7,12 +7,41 @@
             dit formulier en klik nogmaals op "Opslaan".
         </div>
     {%- endif %}
+        
     {# Add the id attribute to existing form attributes #}
     {% set attr = form.vars.attr|merge({'id': form.vars.id}) %}
     {# Call the parent form_start block with the updated attr variable:
        In theory, this does allow the form to inherit attributes from its parent form,
        create new attributes, or overwrite existing ones #}
     {{ parent(form.vars | merge({'attr': attr})) }}
+    {# extra block for form properties #}
+    {% block scripts %}
+        {# if custom propery has set, then do the magic and show the popup#}
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                const form = document.getElementById('afsluiting');
+                for (let element of form.elements) {
+                    console.log("Element:");
+                    console.log(element);
+                }
+            });
+            /*
+            loop door alle form children
+            als field heeft propery X (dan is nog de vraag hoe we die shizzle custom properties geven) confirmBoxMessage
+            */
+            /*
+                document.addEventListener('submit', function(event) {
+                    event.preventDefault(); // prevent actual submission (optional)
+                }
+            */
+            /* document.getElementById('FORMID').addEventListener('submit',function(evt){
+                var out = window.confirm('Zoude gij dat nou wel doen jonguh');
+                if(!out){
+                    evt.preventDefault();
+                }
+            });*/
+        </script>
+    {% endblock %}
 
 {%- endblock form_start %}
 
