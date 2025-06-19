@@ -14,32 +14,76 @@
        In theory, this does allow the form to inherit attributes from its parent form,
        create new attributes, or overwrite existing ones #}
     {{ parent(form.vars | merge({'attr': attr})) }}
+
+    <!-- Modal voor Afsluiting Bevestiging -->
+    <div class="modal fade" id="afsluitingConfirmModal" tabindex="-1" role="dialog" aria-labelledby="afsluitingModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="afsluitingModalLabel">Bevestig actie</h4>
+                </div>
+                <div class="modal-body">
+                    <!-- De inhoud van de modal body kan dynamisch worden aangepast door JavaScript -->
+                    <p>Weet u zeker dat u deze actie wilt uitvoeren?</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Annuleren</button>
+                    <button type="button" class="btn btn-primary" id="afsluitingConfirmBtn">Bevestigen</button>
+                </div>
+            </div>
+        </div>
+    </div>
     {# extra block for form properties #}
     {% block scripts %}
         {# if custom propery has set, then do the magic and show the popup#}
         <script>
-            document.addEventListener('DOMContentLoaded', function () {
-                const form = document.getElementById('afsluiting');
-                for (let element of form.elements) {
-                    console.log("Element:");
-                    console.log(element);
+            $(document).ready(function() {
+                console.log("DOCUMENT READY!");
+                const $formToConfirm = $('#afsluiting'); // Target form ID
+                const $afsluitingRedenDropdown = $('#afsluiting_reden'); // Dropdown ID for onchange event
+
+                if ($formToConfirm.length) {
+                    // Define IDs for the modal and confirm button
+                    const modalId = 'afsluitingConfirmModal';
+                    const confirmButtonId = 'afsluitingConfirmBtn';
+
+                    const $modalElement = $('#' + modalId);
+                    const $confirmButton = $('#' + confirmButtonId);
+                    console.log("formToConfirm form is present");
+                    // Proceed only if the dropdown, modal, and confirm button exist for the onchange logic
+                    if ($afsluitingRedenDropdown.length && $modalElement.length && $confirmButton.length) {
+                        console.log("form button and logic are present");
+                        // Event listener for the dropdown change
+                        $afsluitingRedenDropdown.on('change', function() {
+                            console.log("on change the reden dropdown");
+                            // Check if the selected option's value is '5' (for "Foutieve invoer")
+                            if ($(this).val() === '5') {
+                                // Optional: populate modal body with specific text
+                                $modalElement.find('.modal-body').html('<p>U heeft "Foutieve invoer" geselecteerd. Weet u zeker dat u wilt afsluiten met deze reden?</p>');
+                                $modalElement.modal('show'); // Show the modal
+                            }
+                        });
+
+                        // Click handler for the modal's confirm button
+                        // This submits the form when the modal is confirmed.
+                        $confirmButton.on('click', function() {
+                            $formToConfirm.get(0).submit(); // Submit the form programmatically
+                        });
+                    } else {
+                        // Log warnings if essential elements for the onchange confirmation are missing
+                        if (!$afsluitingRedenDropdown.length) {
+                            console.warn(`Dropdown met ID 'afsluiting_reden' niet gevonden. De 'onchange' bevestiging voor 'Foutieve invoer' werkt niet.`);
+                        }
+                        if (!$modalElement.length) {
+                            console.warn(`Modal element met ID '${modalId}' niet gevonden. De 'onchange' bevestiging voor 'Foutieve invoer' werkt niet.`);
+                        }
+                        if ($modalElement.length && !$confirmButton.length) { // Modal exists but button is missing
+                            console.warn(`Bevestigingsknop met ID '${confirmButtonId}' niet gevonden in modal '${modalId}'. De 'onchange' bevestiging voor 'Foutieve invoer' werkt niet.`);
+                        }
+                    }
                 }
             });
-            /*
-            loop door alle form children
-            als field heeft propery X (dan is nog de vraag hoe we die shizzle custom properties geven) confirmBoxMessage
-            */
-            /*
-                document.addEventListener('submit', function(event) {
-                    event.preventDefault(); // prevent actual submission (optional)
-                }
-            */
-            /* document.getElementById('FORMID').addEventListener('submit',function(evt){
-                var out = window.confirm('Zoude gij dat nou wel doen jonguh');
-                if(!out){
-                    evt.preventDefault();
-                }
-            });*/
         </script>
     {% endblock %}
 
