@@ -48,3 +48,7 @@ services:
             $class: "@eou_klant_metadata"
         tags:
             - app.doelstelling
+    
+    ErOpUitBundle\Controller\IncidentenController:
+        arguments:
+            $entities: '@eropuit.incident.entities'

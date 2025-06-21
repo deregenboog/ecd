@@ -40,6 +40,10 @@ services:
     AppBundle\Controller\ZrmsController:
         arguments:
             $entities: '@app.zrm.entities'
+    
+    AppBundle\Controller\IncidentenController:
+        arguments:
+            $entities: '@app.incident.entities'
 
     AppBundle\Controller\DocumentenController:
         arguments:
@@ -176,4 +180,6 @@ services:
 
     sensio_framework_extra.view.guesser: # overrides default template guesser
         class: AppBundle\Twig\TemplateGuesser
+
+    
 

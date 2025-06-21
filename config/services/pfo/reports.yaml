@@ -20,3 +20,6 @@ services:
             - "@pfo.repository.client"
         tags:
             - { name: pfo.rapportage, category: Personen }
+    PfoBundle\Report\Incidenten:
+        tags:
+            - { name: pfo.rapportage}

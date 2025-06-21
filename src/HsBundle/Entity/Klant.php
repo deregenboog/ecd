@@ -187,10 +187,20 @@ class Klant implements MemoSubjectInterface, DocumentSubjectInterface
      */
     private $afwijkendFactuuradres = false;
 
+    /**
+     * @var Incident[]
+     *
+     * @ORM\OneToMany(targetEntity="Incident", mappedBy="klant", cascade={"persist"})
+     *
+     * @ORM\OrderBy({"id" = "DESC"})
+     */
+    private $incidenten;
+
     public function __construct()
     {
         $this->klussen = new ArrayCollection();
         $this->facturen = new ArrayCollection();
+        $this->incidenten = new ArrayCollection();
         $this->inschrijving = new \DateTime('now');
     }
 
@@ -445,5 +455,29 @@ class Klant implements MemoSubjectInterface, DocumentSubjectInterface
         }
 
         $this->setActief($actief);
+    }
+
+    /**
+     * @return Incident[]
+     */
+    public function getIncidenten()
+    {
+        return $this->incidenten;
+    }
+
+    /**
+     * @param Incident[] $incidenten
+     */
+    public function setIncidenten(array $incidenten): Klant
+    {
+        $this->incidenten = $incidenten;
+
+        return $this;
+    }
+
+    public function addIncident(Incident $incident): Klant
+    {
+        $this->incidenten[] = $incident;
+        return $this;
     }
 }
