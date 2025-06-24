@@ -16,5 +16,7 @@
         <dd>{{ entity.overigenToegangVan|if_date('d-m-Y') }}</dd>
         <dt>Toegang gebruikersruimte</dt>
         <dd>{{ entity.gebruikersruimte }}</dd>
+        <dt>Beschikking wachtlijstbegeleiding?</dt>
+        <dd>{{ entity.beschikkingWachtlijstbegeleiding ? 'Ja' : 'Nee' }}</dd>
     </dl>
 {% endif %}

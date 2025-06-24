@@ -1,13 +1,13 @@
 <?php
 
-namespace App\InloopBundle\Strategy;
+namespace InloopBundle\Strategy;
 
 use Doctrine\ORM\QueryBuilder;
 use InloopBundle\Entity\Locatie;
 use InloopBundle\Entity\RecenteRegistratie;
 use InloopBundle\Strategy\StrategyInterface;
 
-final class WachtlijstbemiddelingStrategy implements StrategyInterface
+final class WachtlijstbegeleidingStrategy implements StrategyInterface
 {
     /**
      * Deze strategie werkt alleen voor gebruikersruimtes.
@@ -19,6 +19,7 @@ final class WachtlijstbemiddelingStrategy implements StrategyInterface
         if(strpos($locatie->getNaam(), 'WLB') !== false){
             return true;
         }
+        return false;
     }
 
     public function buildQuery(QueryBuilder $builder, Locatie $locatie)

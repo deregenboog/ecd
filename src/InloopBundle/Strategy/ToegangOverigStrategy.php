@@ -35,6 +35,9 @@ final class ToegangOverigStrategy implements StrategyInterface
         if ($locatie->isGebruikersruimte()) {
             return false;
         }
+        if(strpos($locatie->getNaam(), 'WLB') !== false){
+            return false;
+        }
 
         // Make sure the location is not specified in intake related rules.
         return !in_array($locatie->getNaam(), $this->intakeLocaties);
@@ -52,6 +55,7 @@ final class ToegangOverigStrategy implements StrategyInterface
          * - of de veblijfsstatus niet gelijk is aan 'Niet rechthebben, (uit EU behalve NL)
          * - OF de verblijffstatus WEL gelijk is aan 'niet rechthebbend' EN de toegang 'overigen' al is ingegaan (in het verleden ligt)
          * waarbij Villa Zaanstad als intakelocatie een uitzondering heeft: die mogen hier niet komen.
+
          */
 
         $builder
@@ -60,6 +64,7 @@ final class ToegangOverigStrategy implements StrategyInterface
                 $builder->expr()->andX('eersteIntake.toegangInloophuis = true',
                     $builder->expr()->orX('eersteIntakeLocatie.naam != :villa_westerweide',
                         'eersteIntakeLocatie.naam IS NULL'),
+
                     $builder->expr()->orX(
                         'eersteIntake.verblijfsstatus IS NULL',
                         'verblijfsstatus.naam != :niet_rechthebbend',

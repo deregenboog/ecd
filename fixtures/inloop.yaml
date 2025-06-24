@@ -185,6 +185,20 @@ InloopBundle\Entity\Locatie:
         datumVan: '<dateTimeBetween("-30 days","now")>'
         datumTot: '<dateTimeBetween("now","+2 years")>'
         maatschappelijkWerk: false
+    locatie_wlb_zeeburg:
+        naam: 'WLB Zeeburg'
+        locatieTypes: [ '@lt_inloop' ]
+        nachtopvang: false
+        gebruikersruimte: false
+        datumVan: '<dateTimeBetween("-30 days","now")>'
+        maatschappelijkWerk: true
+    locatie_wlb_oudwest:
+        naam: 'WLB Oud West'
+        locatieTypes: [ '@lt_inloop' ]
+        nachtopvang: false
+        gebruikersruimte: false
+        datumVan: '<dateTimeBetween("-30 days","now")>'
+        maatschappelijkWerk: true
 
 InloopBundle\Entity\Woonsituatie:
     woonsituatie_1:
