@@ -182,6 +182,16 @@ class Intake
      */
     private $toegangInloophuis;
 
+
+    /**
+     * @var bool
+     *
+     * @ORM\Column(name="beschikking_wachtlijstbegeleiding", type="boolean", nullable=false,options={"default"=false})
+     *
+     * @Gedmo\Versioned
+     */
+    private $beschikkingWachtlijstbegeleiding = false;
+
     /**
      * @var bool
      *
@@ -1156,6 +1166,18 @@ class Intake
 
         return $this;
     }
+
+    public function isBeschikkingWachtlijstbegeleiding(): bool
+    {
+        return $this->beschikkingWachtlijstbegeleiding??false;
+    }
+
+    public function setBeschikkingWachtlijstbegeleiding(bool $beschikkingWachtlijstbegeleiding): void
+    {
+        $this->beschikkingWachtlijstbegeleiding = $beschikkingWachtlijstbegeleiding;
+    }
+
+
 
     public function getInkomens()
     {

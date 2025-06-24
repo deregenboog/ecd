@@ -108,6 +108,10 @@ services:
         tags:
             - {'name': 'inloop.access_strategy', priority: 50}
 
+    InloopBundle\Strategy\WachtlijstbegeleidingStrategy:
+        tags:
+            - {'name': 'inloop.access_strategy', priority: 45}
+
     InloopBundle\Strategy\ToegangOverigStrategy:
         tags:
             - {'name': 'inloop.access_strategy', priority: 40}
