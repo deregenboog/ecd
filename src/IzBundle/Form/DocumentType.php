@@ -10,8 +10,6 @@ use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Validator\Constraints\All;
-use Symfony\Component\Validator\Constraints\File;
 
 class DocumentType extends AbstractType
 {
@@ -20,22 +18,8 @@ class DocumentType extends AbstractType
         $builder->add('naam');
 
         if (!$options['data']->getId()) {
-            /*$builder->add('file', FileType::class, [
+            $builder->add('file', FileType::class, [
                 'label' => 'Document',
-            ]);*/
-            $builder->add('documenten', FileType::class, [
-                'label' => 'Documenten (selecteer meerdere bestanden)',
-                'multiple' => true,
-                'mapped' => false,
-                'required' => true,
-                'constraints' => [
-                    new All([
-                        new File([
-                            'maxSize' => '5M', 
-                            
-                        ]),
-                    ]),
-                ],
             ]);
         }
 
