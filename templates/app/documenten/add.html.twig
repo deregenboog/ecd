@@ -16,5 +16,10 @@
 {% endblock %}
 
 {% block content %}
-    {{ form(form) }}
+    {# Check if max_files is defined before passing it to the form rendering #}
+    {% set form_options = {} %}
+    {% if max_files is defined %}
+        {% set form_options = {'max_files': max_files} %}
+    {% endif %}
+    {{ form(form, form_options) }}
 {% endblock %}
