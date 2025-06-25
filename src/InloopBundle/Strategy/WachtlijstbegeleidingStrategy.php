@@ -25,9 +25,7 @@ final class WachtlijstbegeleidingStrategy implements StrategyInterface
     public function buildQuery(QueryBuilder $builder, Locatie $locatie)
     {
         $builder
-            ->AndWhere('eersteIntake.toegangInloophuis = true AND eersteIntake.beschikkingWachtlijstbegeleiding = true')
-//            ->groupBy('klant.id')
-            ->setParameter('locatie_id', $locatie->getId())
+            ->orWhere('eersteIntake.toegangInloophuis = true AND eersteIntake.beschikkingWachtlijstbegeleiding = true')
         ;
     }
 }

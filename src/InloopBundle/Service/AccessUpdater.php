@@ -28,7 +28,7 @@ class AccessUpdater
      */
     private $locatieDao;
 
-    private $debug = true;
+    private $debug = false;
 
     private iterable $strategies;
 

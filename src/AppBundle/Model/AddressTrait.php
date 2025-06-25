@@ -61,7 +61,6 @@ trait AddressTrait
      * @Gedmo\Versioned
      *
      * @Assert\Email()
-     * @Assert\NotBlank()
      */
     protected $email;
 
