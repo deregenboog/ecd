@@ -184,6 +184,11 @@ class AccessUpdater
 
     private function getKlantIds(Locatie $locatie, ?Klant $klant = null)
     {
+        /**
+         * Om te kijken welke klanten toegang hebben voor een locatie pakken we alle klanten,
+         * en vervoglens worden die dmv where statements in de strategies uitgesloten als ze niet aan bepaalde voorwaarden voldoen.
+         *
+         */
         // build query for finding clients
         $builder = $this->klantDao->getAllQueryBuilder();
         $builder->select('klant.id')->distinct(true);
@@ -200,7 +205,7 @@ class AccessUpdater
                 ->setParameter('klant_id', $klant->getId());
         }
 
-        //        $sql = SqlExtractor::getFullSQL($builder->getQuery());
+        $sql = SqlExtractor::getFullSQL($builder->getQuery());
 
         try {
             $result = $builder->getQuery()->getResult();

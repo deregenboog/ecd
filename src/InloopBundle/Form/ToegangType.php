@@ -78,6 +78,10 @@ class ToegangType extends AbstractType
                 'gebruikersruimte' => true,
                 'placeholder' => 'Kies een gebruikersruimte',
             ])
+            ->add('beschikkingWachtlijstbegeleiding', CheckboxType::class, [
+                'required' => false,
+
+            ])
         ;
 
         return $x;

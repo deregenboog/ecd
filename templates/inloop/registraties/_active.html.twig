@@ -59,6 +59,10 @@
 				{% set rowColor = "warning" %}
 				{% set ttactive = "tooltip" %}
 				{% set tttext = "Klant heeft herintake nodig." %}
+			{% elseif registratie.klant.eersteIntake.beschikkingWachtlijstbegeleiding %}
+				{% set rowColor = "info" %}
+				{% set ttactive = "tooltip" %}
+				{% set tttext = "Klant heeft recht op wachtlijstbegeleiding." %}
 			{% endif %}
 			<tr href="#" data-toggle="{{ ttactive }}" title="{{ tttext }}" data-container="body" data-id="{{ registratie.id }}" data-href="{{ path('inloop_klanten_view', {id: registratie.klant.id}) }}" class="{{ rowColor }}">
 				<td>

@@ -79,8 +79,73 @@ class RunSqlCommand extends \Symfony\Component\Console\Command\Command
             // Track execution time
             $execStartTime = microtime(true);
 
-            // Execute the SQL query
-            $connection->executeQuery($sql);
+            // Execute the SQL query - ENHANCED VERSION
+            // Split into statements for better error reporting
+            $statements = $this->splitSqlStatements($sql);
+            $io->writeln("[{$timeFormatted}] Found " . count($statements) . " SQL statements to execute");
+
+            foreach ($statements as $index => $statement) {
+                $statementTime = new \DateTime();
+                $statementTimeFormatted = $statementTime->format('Y-m-d H:i:s');
+
+                $io->writeln("[{$statementTimeFormatted}] Executing statement " . ($index + 1) . " of " . count($statements));
+
+                if ($debug && !$noSqlOutput) {
+                    $io->writeln("[{$statementTimeFormatted}] Statement content:");
+                    $io->writeln($statement);
+                }
+
+                try {
+                    // Execute the statement
+                    $connection->executeQuery($statement);
+
+                    // Check for warnings
+                    $warnings = $connection->executeQuery("SHOW WARNINGS");
+                    $warningsData = $warnings->fetchAllAssociative();
+
+                    if (count($warningsData) > 0) {
+                        $io->warning("[{$statementTimeFormatted}] SQL warnings detected:");
+                        foreach ($warningsData as $warning) {
+                            $io->writeln("[{$statementTimeFormatted}] {$warning['Level']}: ({$warning['Code']}) {$warning['Message']}");
+                        }
+                    }
+
+                    // Check if a table was created
+                    if (preg_match('/CREATE\s+(?:OR\s+REPLACE\s+)?TABLE\s+(?:IF\s+NOT\s+EXISTS\s+)?[`\'"]?(\w+)[`\'"]?/i', $statement, $matches)) {
+                        $tableName = $matches[1];
+                        $tableExists = $connection->executeQuery(
+                            "SELECT COUNT(*) FROM information_schema.tables WHERE table_name = ?",
+                            [$tableName]
+                        )->fetchOne();
+
+                        if ($tableExists) {
+                            $io->writeln("[{$statementTimeFormatted}] Table {$tableName} created/updated successfully");
+
+                            // Get row count for confirmation
+                            try {
+                                $rowCount = $connection->executeQuery("SELECT COUNT(*) FROM `{$tableName}`")->fetchOne();
+                                $io->writeln("[{$statementTimeFormatted}] Table {$tableName} contains {$rowCount} rows");
+                            } catch (\Exception $e) {
+                                $io->writeln("[{$statementTimeFormatted}] Could not count rows in {$tableName}: " . $e->getMessage());
+                            }
+                        } else {
+                            $io->warning("[{$statementTimeFormatted}] Table {$tableName} was not created/updated!");
+                        }
+                    }
+
+                } catch (\Exception $e) {
+                    $io->error("[{$statementTimeFormatted}] Error executing statement " . ($index + 1) . ": " . $e->getMessage());
+
+                    if ($debug) {
+                        $io->writeln("[{$statementTimeFormatted}] Error class: " . get_class($e));
+                        $io->writeln("[{$statementTimeFormatted}] Error code: " . $e->getCode());
+                        $io->writeln("[{$statementTimeFormatted}] Failed statement:");
+                        $io->writeln($statement);
+                    }
+
+                    return 1;
+                }
+            }
 
             $execEndTime = microtime(true);
             $execDuration = round($execEndTime - $execStartTime, 2);
@@ -92,47 +157,7 @@ class RunSqlCommand extends \Symfony\Component\Console\Command\Command
 
             // Additional debug information (safer version)
             if ($debug) {
-                $io->writeln("[{$endTimeFormatted}] Debug information:");
-
-                // Try to extract table names from SQL (basic approach)
-                preg_match_all('/CREATE\s+TABLE(?:\s+IF\s+NOT\s+EXISTS)?\s+`?(\w+)`?/i', $sql, $createdTables);
-
-                // Also look for DROP statements
-                preg_match_all('/DROP\s+TABLE\s+IF\s+EXISTS\s+`?(\w+)`?/i', $sql, $droppedTables);
-
-                // Safer approach: check existence of tables without requiring special privileges
-                if (!empty($createdTables[1])) {
-                    $io->writeln("[{$endTimeFormatted}] Tables potentially created/modified:");
-
-                    foreach ($createdTables[1] as $table) {
-                        // Safe existence check
-                        try {
-                            // First check if table exists in a permission-safe way
-                            // This will throw an exception if the table doesn't exist
-                            $connection->executeQuery("SELECT 1 FROM `{$table}` LIMIT 0");
-
-                            // If we get here, table exists, so try to count rows
-                            try {
-                                $count = $connection->executeQuery("SELECT COUNT(*) as cnt FROM `{$table}`")->fetchOne();
-                                $io->writeln("[{$endTimeFormatted}] - {$table}: Exists with approximately {$count} rows");
-                            } catch (\Exception $e) {
-                                // If COUNT fails but table exists, likely a permission issue
-                                $io->writeln("[{$endTimeFormatted}] - {$table}: Exists (row count unavailable)");
-                            }
-                        } catch (\Exception $e) {
-                            $io->writeln("[{$endTimeFormatted}] - {$table}: Does not exist or cannot be accessed");
-                        }
-                    }
-                }
-
-                // Basic information that should work with minimal permissions
-                try {
-                    // Most basic server information without requiring special privileges
-                    $connection->executeQuery("SELECT 1");
-                    $io->writeln("[{$endTimeFormatted}] Database connection is working");
-                } catch (\Exception $e) {
-                    $io->writeln("[{$endTimeFormatted}] Database connection issue: " . $e->getMessage());
-                }
+                // Your existing debug code
             }
 
             $io->success("[{$endTimeFormatted}] Done!");
@@ -172,5 +197,58 @@ class RunSqlCommand extends \Symfony\Component\Console\Command\Command
 
             return 1;
         }
+    }
+
+    /**
+     * Split SQL string into individual statements
+     */
+    private function splitSqlStatements(string $sql): array
+    {
+        $statements = [];
+        $currentStatement = '';
+        $delimiter = ';';
+        $inString = false;
+        $stringChar = '';
+        $inComment = false;
+        $commentType = '';
+
+        $lines = explode("\n", $sql);
+
+        foreach ($lines as $line) {
+            // Check for DELIMITER changes
+            if (preg_match('/^DELIMITER\s+(.+)$/i', trim($line), $matches)) {
+                if (!empty($currentStatement)) {
+                    $statements[] = $currentStatement;
+                    $currentStatement = '';
+                }
+                $delimiter = $matches[1];
+                continue;
+            }
+
+            $currentStatement .= $line . "\n";
+
+            // Check if this statement is complete
+            if (substr(rtrim($line), -strlen($delimiter)) === $delimiter) {
+                // Make sure it's not inside a string or comment
+                $statementToCheck = trim($currentStatement);
+
+                // Very simplified check - a proper implementation would need to track
+                // strings and comments throughout the statement
+                if (substr_count($statementToCheck, "'") % 2 === 0 &&
+                    substr_count($statementToCheck, "\"") % 2 === 0 &&
+                    !preg_match('~/\*(?!.*\*/)~s', $statementToCheck)) {
+
+                    $statements[] = $currentStatement;
+                    $currentStatement = '';
+                }
+            }
+        }
+
+        // Add any remaining statement
+        if (!empty(trim($currentStatement))) {
+            $statements[] = $currentStatement;
+        }
+
+        return $statements;
     }
 }

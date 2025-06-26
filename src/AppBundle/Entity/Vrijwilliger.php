@@ -5,6 +5,7 @@ namespace AppBundle\Entity;
 use AppBundle\Model\DocumentSubjectTrait;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity
@@ -42,6 +43,17 @@ class Vrijwilliger extends Persoon
      * @Gedmo\Versioned
      */
     protected $overeenkomstAanwezig = false;
+
+
+    /**
+     * @ORM\Column(type="string", nullable=true)
+     *
+     * @Gedmo\Versioned
+     *
+     * @Assert\Email()
+     * @Assert\NotBlank()
+     */
+    protected $email;
 
     /**
      * @return bool
