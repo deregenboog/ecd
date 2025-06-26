@@ -181,13 +181,12 @@ $(function() {
             // Event listener for the dropdown change
             $afsluitingRedenDropdown.on('change', function() {
                 // Check if the selected option's value is '5' (for "Foutieve invoer")
-                if ($(this).val() === '5') {
+                if ($(this).find('option:selected').text() === 'Foutieve invoer'){
                     // Optional: populate modal body with specific text
-                    $modalElement.find('.modal-body').html('<p>U heeft "Foutieve invoer" geselecteerd. Weet u zeker dat u wilt afsluiten met deze reden?</p>');
+                    $modalElement.find('.modal-body').html('<p>Wanneer ‘Foutieve invoer’ als afsluitreden wordt gekozen, verdwijnt deze gegevens en de daaraan gekoppelde gegevens uit beeld.<br/>Ze zijn niet weg, maar voor een gebruiker niet meer tevoorschijn te halen.<br/>Deze afsluitreden mag alleen gebruikt worden als iets verkeerd is ingevoerd (bv. bij een verkeerde naam). Anders niet.</p>');
                     $modalElement.modal('show'); // Show the modal
                 }
             });
-
             // Click handler for the modal's confirm button
             // This submits the form when the modal is confirmed.
             $confirmButton.on('click', function() {

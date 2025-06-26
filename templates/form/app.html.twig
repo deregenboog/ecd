@@ -15,17 +15,16 @@
        create new attributes, or overwrite existing ones #}
     {{ parent(form.vars | merge({'attr': attr})) }}
 
-    <!-- Modal voor Afsluiting Bevestiging -->
+    <!-- Modal for Afsluiting confirmation -->
     <div class="modal fade" id="afsluitingConfirmModal" tabindex="-1" role="dialog" aria-labelledby="afsluitingModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title" id="afsluitingModalLabel">Bevestig actie</h4>
+                    <h4 class="modal-title" id="afsluitingModalLabel">Let op!</h4>
                 </div>
                 <div class="modal-body">
-                    <!-- De inhoud van de modal body kan dynamisch worden aangepast door JavaScript -->
-                    <p>Weet u zeker dat u deze actie wilt uitvoeren?</p>
+                    <!-- content is dynamically filled through javascript -->
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Annuleren</button>
