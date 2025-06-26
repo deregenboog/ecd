@@ -24,10 +24,7 @@ class AfsluitingType extends AbstractType
         $builder
             ->add('datum', AppDateType::class, ['data' => new \DateTime('today'), 'required' => true])
             ->add('reden',EntityType::class,[
-                'class'=>AfsluitredenSlaper::class,
-                 'attr' => [
-                    'data-check' => 'true',
-                ],
+                'class'=>AfsluitredenSlaper::class
             ])
             ->add('medewerker', MedewerkerType::class)
             ->add('submit', SubmitType::class, ['label' => 'Opslaan'])
