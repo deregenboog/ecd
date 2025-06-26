@@ -70,7 +70,7 @@ class KlantDao extends AbstractDao implements KlantDaoInterface
          */
         $builder = $this->repository->createQueryBuilder($this->alias);
         $builder
-            ->select('klant, laatsteIntake, gebruikersruimte')
+            ->select('klant, laatsteIntake, gebruikersruimte,laatsteAccessFields')
             ->addSelect('verslag.datum AS datumLaatsteVerslag')
             ->addSelect('locatie.naam AS laatsteVerslagLocatie')
             ->addSelect('info.isGezin AS isGezin')
@@ -90,11 +90,12 @@ class KlantDao extends AbstractDao implements KlantDaoInterface
             ->leftJoin($this->alias.'.geslacht', 'geslacht')
             ->leftJoin($this->alias.'.intakes', 'intake')
             ->leftJoin($this->alias.'.laatsteIntake', 'laatsteIntake')
-            ->leftJoin('laatsteIntake.intakelocatie', 'laatsteIntakeLocatie')
+            ->leftJoin('laatsteIntake.accessFields', 'laatsteAccessFields')
+            ->leftJoin('laatsteAccessFields.intakelocatie', 'laatsteIntakeLocatie')
             ->leftJoin('verslag.locatie', 'locatie')
             ->leftJoin($this->alias.'.huidigeMwStatus', 'huidigeMwStatus')
             ->leftJoin('huidigeMwStatus.project', 'project')
-            ->leftJoin('laatsteIntake.gebruikersruimte', 'gebruikersruimte')
+            ->leftJoin('laatsteAccessFields.gebruikersruimte', 'gebruikersruimte')
 
             ->groupBy('klant.achternaam, klant.id')
         ;

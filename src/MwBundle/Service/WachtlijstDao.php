@@ -108,7 +108,10 @@ class WachtlijstDao extends AbstractDao implements WachtlijstDaoInterface
             ->leftJoin('klant.eersteIntake', 'intake')
             ->leftJoin('klant.laatsteIntake', 'laatsteIntake')
 
-            ->leftJoin('intake.intakelocatie', 'intakelocatie')
+            //#FARHAD->leftJoin('intake.intakelocatie', 'intakelocatie')
+            ->leftJoin('intake.accessFields', 'accessFields')
+            ->leftJoin('accessFields.intakelocatie', 'intakelocatie')
+            
             ->leftJoin('klant.werkgebied', 'werkgebied')
             ->leftJoin('klant.verslagen', 'verslag')
 //            ->leftJoin("verslag.locatie","verslaglocatie")
