@@ -124,6 +124,11 @@
                     {% set ttactive = "tooltip" %}
                     {% set tttext = tttext ~ " Briefadres loopt binnenkort af." %}
                 {% endif %}
+                {% if klant.eersteIntake is not null and klant.eersteIntake.beschikkingWachtlijstbegeleiding %}
+                    {% set rowColorClass = "info" %}
+                    {% set ttactive = "tooltip" %}
+                    {% set tttext = tttext ~ "Klant heeft recht op wachtlijstbegeleiding." %}
+                {% endif %}
 
                 <tr href="#" data-toggle="{{ ttactive }}" title="{{ tttext }}" data-container="body"
                         class="{{ rowColorClass }}" data-href="{{ path(route_base~'view', {id: klant.id}) }}">

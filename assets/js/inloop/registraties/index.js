@@ -41,6 +41,8 @@ function init() {
         url: window.location.href+'&ajax=1',
     }).done(function(response) {
         $('#ajaxContainer').html(response);
+        $('#ajaxContainer [data-toggle="tooltip"]').tooltip();
+
         hideLoader();
     });
 }

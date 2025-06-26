@@ -14,6 +14,7 @@ use AppBundle\Form\VrijwilligerType;
 use AppBundle\Service\VrijwilligerDaoInterface;
 use Doctrine\Common\Collections\Criteria;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\Routing\Annotation\Route;
@@ -45,6 +46,18 @@ class VrijwilligersController extends AbstractController
     {
         $this->dao = $dao;
         $this->export = $export;
+    }
+
+    /**
+     * @Route("/")
+     *
+     * @Template
+     * 
+     * @isGranted("ROLE_SECRETARIAAT")
+     */
+    public function indexAction(Request $request)
+    {
+        return parent::indexAction($request);
     }
 
     /**
