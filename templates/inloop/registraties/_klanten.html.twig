@@ -55,10 +55,10 @@
                 </td>
                 {% if klant.laatsteIntake %}
                 <td>
-                    {{ klant.laatsteIntake.gebruikersruimte ?: '-' }}
+                    #FARHAD {{ klant.laatsteIntake.accessFields.gebruikersruimte ?: '-' }}
                 </td>
                 <td>
-                    {{ klant.laatsteIntake.intakelocatie ?: '-' }}
+                    #FARHAD {{ klant.laatsteIntake.accessFields.intakelocatie ?: '-' }}
                 </td>
                 <td>
                     {{ klant.laatsteIntake.locatie3 ?: '-' }}

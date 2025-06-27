@@ -1,0 +1,49 @@
+
+<script >
+    $(function () {
+        var toegang = function (name) {
+            var check = function () {
+                var statusId =  $("#" + name + "_toegang_verblijfsstatus").find(":selected").first().text()
+                var intakelocatie =  $("#" + name + "_toegang_intakelocatie").find(":selected").first().text()
+                var accessStrategies = {{ accessStrategies|raw }};
+                var toegang_intakelocatieElm =  $("#" + name + "_toegang_toegangIntakelocatie");
+
+                if (statusId == "{{ amocVerblijfsstatus }}") //AMOC (+west) klant
+                {
+                    // $("#" + name + "_toegang_overigenToegangVan").prop("disabled", false);
+                    var sixMonths = new Date();
+                    var m = sixMonths.getMonth();
+                    sixMonths.setMonth(m + 4);
+                    var options = {
+                        year: 'numeric',
+                        month: '2-digit',
+                        day: '2-digit',
+                    }
+                    if ($("#" + name + "_toegang_overigenToegangVan").val() == "") {
+                        $("#" + name + "_toegang_overigenToegangVan").val(sixMonths.toLocaleDateString('nl-NL',options));
+
+                    }
+                    $("#" + name + "_toegang_overigenToegangVan").prop("readonly",false);
+                }
+                else  // niet amoc, geen datum regels.
+                {
+                    $("#" + name + "_toegang_overigenToegangVan").val(null);
+                    $("#" + name + "_toegang_overigenToegangVan").prop("readonly","readonly");
+                }
+            }
+
+            var verblijfsstatusElm = $("#" + name + "_toegang_verblijfsstatus");
+            var intakelocatieElm = $("#" + name + "_toegang_intakelocatie");
+
+            verblijfsstatusElm.on('change', function () {
+                check();
+            });
+
+            intakelocatieElm.on('change',function(){ check(); } );
+
+            check(); // init.
+        };
+
+        toegang($("form").first().attr("name"));
+    });
+</script>

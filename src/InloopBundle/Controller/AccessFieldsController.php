@@ -42,10 +42,15 @@ class AccessFieldsController extends AbstractController
      */
     protected $intakeDao;
 
-    public function __construct(AccessFieldsDaoInterface $dao, IntakeDaoInterface $intakeDao)
+    protected $amocVerblijfsstatus = '';
+    protected $accessStrategies = [];
+
+    public function __construct(AccessFieldsDaoInterface $dao, IntakeDaoInterface $intakeDao, $accessStrategies = [],$amocVerblijfsstatus = '')
     {
         $this->dao = $dao;
         $this->intakeDao = $intakeDao;
+        $this->accessStrategies = $accessStrategies;
+        $this->amocVerblijfsstatus = $amocVerblijfsstatus;
     }
 
     /**
@@ -112,5 +117,13 @@ class AccessFieldsController extends AbstractController
     public function indexAction(Request $request)
     {
        return parent::indexAction($request);
+    }
+
+    protected function addParams($entity, Request $request): array
+    {
+        return [
+            'amocVerblijfsstatus' => $this->amocVerblijfsstatus,
+            'accessStrategies' => json_encode($this->accessStrategies),
+        ];
     }
 }
