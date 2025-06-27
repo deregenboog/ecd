@@ -63,3 +63,10 @@ services:
             -
               - { key: arbeider, dao: '@HsBundle\Service\ArbeiderDao' }
               - { key: klus, dao: '@HsBundle\Service\KlusDao' }
+
+    hs.incident.entities:
+        class: ArrayObject
+        arguments:
+            - - { key: klant, dao: '@HsBundle\Service\KlantDao' }
+    
+

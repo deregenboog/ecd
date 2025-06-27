@@ -75,3 +75,7 @@ services:
             - - { key: vrijwilliger, dao: '@VillaBundle\Service\VrijwilligerDao' }
 
     VillaBundle\Event\CalendarSubscriber: ~
+
+    VillaBundle\Controller\IncidentenController:
+        arguments:
+            $entities: '@app.incident.entities'

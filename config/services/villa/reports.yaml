@@ -17,3 +17,7 @@ services:
         tags:
             - { name: villa.rapportage }
 
+    VillaBundle\Report\Incidenten:
+        tags:
+            - { name: villa.rapportage }
+

@@ -79,6 +79,7 @@
         <li><a data-toggle="tab" href="#verslagen">Verslagen</a></li>
         <li><a data-toggle="tab" href="#documenten">Documenten</a></li>
         <li><a data-toggle="tab" href="#zrm">ZRM</a></li>
+        <li><a data-toggle="tab" href="#incidenten">Incidenten</a></li>
     </ul>
     <div class="tab-content">
         <div id="dossier" class="tab-pane active">
@@ -139,6 +140,9 @@
             {% if entity.zrm %}
                 {% include 'app/zrms/_detail.html.twig' with {entity: entity.zrm} %}
             {% endif %}
+        </div>
+        <div id="incidenten" class="tab-pane">
+            {% include 'app/incidenten/_list.html.twig' with {klant: entity} %}
         </div>
     </div>
 {% endblock %}

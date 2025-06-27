@@ -30,3 +30,6 @@ services:
         tags:
             - { name: tw.rapportage }
 
+    TwBundle\Report\Incidenten:
+        tags:
+            - { name: tw.rapportage }

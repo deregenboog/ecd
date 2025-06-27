@@ -98,6 +98,14 @@ services:
         arguments:
             - 'HsBundle\Entity\Klus'
 
+    HsBundle\Controller\DienstverlenersIncidentenController:
+        arguments:
+            $entities: '@app.incident.entities'
+    
+    HsBundle\Controller\IncidentenController:
+        arguments:
+            $entities: '@hs.incident.entities'
+
 when@dev: &dev
     services:
         _defaults:
