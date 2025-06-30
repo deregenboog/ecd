@@ -99,8 +99,8 @@ class AccessFields
     public function __construct(?Intake $intake = null)
     {   
         $this->specifiekeLocaties = new ArrayCollection();
-        $this->created = new \DateTime();
-        $this->modified = new \DateTime();
+        // #FARHAD $this->created = new \DateTime();
+        // #FARHAD $this->modified = new \DateTime();
         $this->intakedatum = new \DateTime();
         if($intake){
             $this->setIntake($intake);
