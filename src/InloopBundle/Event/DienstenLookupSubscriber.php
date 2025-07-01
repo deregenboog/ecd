@@ -73,6 +73,8 @@ class DienstenLookupSubscriber implements EventSubscriberInterface
                         implode(', ', $gebruikersruimtes)
                     ));
                 }
+
+                /// #FARHAD: winteropvang added here via Jan, its the reason why the Diensten are diffrent with the Master branch
                 if (count($winter) > 0) {
                     sort($winter);
                     $event->addDienst(new Dienst(

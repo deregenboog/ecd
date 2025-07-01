@@ -178,8 +178,10 @@ class Locatie extends AbstractReport
         ;
 
         if ($this->locatie instanceof Entity\Locatie) {
+            // @TODO #FARHAD here should be changed to use the intake location from AccessFields
             $builder
-                ->andWhere('intake.intakelocatie = :locatie OR intake.gebruikersruimte = :locatie OR intake.locatie3 = :locatie')
+                ->innerJoin('intake.accessFields', 'accessFields')
+                ->andWhere('accessFields.intakelocatie = :locatie OR accessFields.gebruikersruimte = :locatie OR intake.locatie3 = :locatie')
                 ->setParameter('locatie', $this->locatie)
             ;
         }
