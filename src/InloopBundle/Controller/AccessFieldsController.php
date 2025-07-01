@@ -56,7 +56,6 @@ class AccessFieldsController extends AbstractController
     /**
      * @Route("/add/{id}")
      *
-     * @ParamConverter("klant", class="AppBundle\Entity\Klant")
      */
     public function addAction(Request $request)
     {
@@ -65,16 +64,10 @@ class AccessFieldsController extends AbstractController
             throw new EntityNotFoundException('Intake not found');
         }
         $entity = $this->dao->find($request->get('id'));
-        $klant = $request->get('klant');
+        $klant = $intake->getKlant();
         
-        if ($entity) {
-            $entity = clone $klant->getLaatsteIntake();
-            $this->getEntityManager()->detach($entity);
-            $this->formClass = IntakeType::class; // because it is not the first one, dont show toegang form.
-        } else {
-            $entity = new AccessFields($intake);
-            $entity->setKlant($klant);
-        }
+        $entity = new AccessFields($intake);
+        $entity->setKlant($klant);
 
         $form = $this->getForm($this->formClass, $entity);
 

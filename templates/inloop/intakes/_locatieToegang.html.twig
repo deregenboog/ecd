@@ -1,9 +1,9 @@
 {% import 'html.macro.twig' as html %}
 {% if entity is not null and entity.id is not empty  %}
-	<h2>Locatiekeuze / toegang</h2>
+	{# <h2>Locatiekeuze / toegang</h2> #}
 	{#{% if is_granted('edit', entity) and is_granted('owner', entity) %}#}
 
-	{{ html.link('Wijzigen', path('inloop_intakes_edittoegang', {id: entity.id,access:true}), 'edit') }}
+	{# {{ html.link('Wijzigen', path('inloop_intakes_edittoegang', {id: entity.id,access:true}), 'edit') }} #}
 
 	{##FARHAD <dl class="dl-horizontal" data-verblijfsstatus-id="{{ verblijfsstatusId }}">
 		<dt>Intakelocatie</dt>
@@ -18,27 +18,25 @@
 		<dd>{{ entity.gebruikersruimte }}</dd>
 	</dl> #}
 	
-	<div class="bg-danger text-info">
-		<h2>Locatiekeuze / toegang</h2>
-		{% if entity.hasAccessFields() %}
-			{{ html.link('Wijzigen', path('inloop_accessfields_edit', {id: entity.accessFields.id,access:true}), 'edit') }}
-			{% set accessFields = entity.accessFields %}
-			<dl class="dl-horizontal" data-verblijfsstatus-id="{{ verblijfsstatusId }}">
-				<dt>Intakelocatie</dt>
-				{% if accessFields.intakelocatie is defined %}
-					<dd>{{ accessFields.intakelocatie }}</dd>
-				{% endif %}
-				<dt>Toegang inloophuis</dt>
-				<dd>{{ accessFields.toegangInloophuis ? 'Ja' : 'Nee' }}</dd>
-				<dt>Toegang specifieke locaties</dt>
-				<dd>{{ accessFields.specifiekeLocaties|implode }}</dd>
-				<dt>Startdatum toegang overigen</dt>
-				<dd>{{ accessFields.overigenToegangVan|if_date('d-m-Y') }}</dd>
-				<dt>Toegang gebruikersruimte</dt>
-				<dd>{{ accessFields.gebruikersruimte }}</dd>
-			</dl>
-		{% else %}
-			{{ html.link('Wijzigen', path('inloop_accessfields_add', {id: entity.id,access:true}), 'add') }}
-		{% endif %}
-	</div>
+	<h2>Locatiekeuze / toegang</h2>
+	{% if entity.hasAccessFields() %}
+		{{ html.link('Wijzigen', path('inloop_accessfields_edit', {id: entity.accessFields.id,access:true}), 'edit') }}
+		{% set accessFields = entity.accessFields %}
+		<dl class="dl-horizontal" data-verblijfsstatus-id="{{ verblijfsstatusId }}">
+			<dt>Intakelocatie</dt>
+			{% if accessFields.intakelocatie is defined %}
+				<dd>{{ accessFields.intakelocatie }}</dd>
+			{% endif %}
+			<dt>Toegang inloophuis</dt>
+			<dd>{{ accessFields.toegangInloophuis ? 'Ja' : 'Nee' }}</dd>
+			<dt>Toegang specifieke locaties</dt>
+			<dd>{{ accessFields.specifiekeLocaties|implode }}</dd>
+			<dt>Startdatum toegang overigen</dt>
+			<dd>{{ accessFields.overigenToegangVan|if_date('d-m-Y') }}</dd>
+			<dt>Toegang gebruikersruimte</dt>
+			<dd>{{ accessFields.gebruikersruimte }}</dd>
+		</dl>
+	{% else %}
+		{{ html.link('Wijzigen', path('inloop_accessfields_add', {id: entity.id,access:true}), 'add') }}
+	{% endif %}
 {% endif %}

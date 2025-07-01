@@ -1,0 +1,39 @@
+{% extends 'base-2-col.html.twig' %}
+{% import 'html.macro.twig' as html %}
+
+{% block content_top %}
+     <h1>Toegang wijzigen</h1>
+    {% if redirect_uri is null and route_exists(route_base~'index') %}
+        {{ html.link('Annuleren', path(route_base~'index',{redirect: redirect_uri}), 'cancel') }}
+    {% elseif redirect_uri is defined %}
+        {{ html.link('Annuleren', redirect_uri, 'cancel') }}
+    {% endif %}
+{% endblock %}
+
+{% block content_left %}
+    <p>
+        Om klanten toegang te geven tot inloophuizen worden de onderstaande velden gebruikt. <br />
+        Het werkt als volgt:
+        <ol>
+            <li>Klanten hebben geen toegang tot een van de inloophuizen wanneer het vinkje 'Toegang inloophuizen' <b>uit</b> staat.</li>
+            <li>Alleen inloophuizen zonder specifieke toegangsregels zijn voor algemeen gebruik toegankelijk.</li>
+            <li>Klanten met de verblijfsstatus '{{amocVerblijfsstatus}}', hebben alleen toegang tot de algemene inloophuizen vanaf de 'Startdatum toegang overig'.</li>
+            <li>Extra of specifieke toegang kan via 'Specifieke locaties' worden opgegeven (en staat los van alle andere regels).</li>
+            <li>Afhankelijk van de intakelocatie: </li>
+            <ol>
+                <li>AMOC Stadhouderskade is alleen toegankelijk als je een intake hebt gehad op AMOC Stadhouderskade, of als de eerste intake op AMOC West is afgenomen en dit langer dan 4 maanden geleden is.</li>
+                <li>AMOC West is alleen toegankelijk als je een intake op AMOC West hebt gehad</li>
+                <li>Villa Zaanstad is alleen toegankelijk als je een intake in Villa Zaanstand hebt gehad.</li>
+            </ol>
+            <li>Voor de gebruikersruimte is alleen de geselecteerde gebruikersruimte toegankelijk, waarbij de overige regels (intake niet ouder dan 2mnd, recent geweest) in acht worden genomen.</li>
+        </ol>
+    </p>
+{% endblock %}
+
+{% block content_right %}
+    {{ form(form) }}
+{% endblock %}
+
+{% block scripts %}
+    {% include 'inloop/access_fields/_form_scripts.html.twig' %}
+{% endblock %}

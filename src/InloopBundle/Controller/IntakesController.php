@@ -148,16 +148,16 @@ class IntakesController extends AbstractController
         return $this->processForm($request, $entity);
     }
 
-    /**
-     * @Route("/{id}/editToegang")
-     */
-    public function editToegangAction(Request $request, $id)
-    {
-        $this->formClass = ToegangType::class;
-        $entity = $this->dao->find($id);
-        $return = $this->processForm($request, $entity);
-        return $return;
-    }
+    //#FARHAD /**
+    //  * @Route("/{id}/editToegang")
+    //  */
+    // public function editToegangAction(Request $request, $id)
+    // {
+    //     $this->formClass = ToegangType::class;
+    //     $entity = $this->dao->find($id);
+    //     $return = $this->processForm($request, $entity);
+    //     return $return;
+    // }
 
     /**
      * @Route("/form.pdf")
