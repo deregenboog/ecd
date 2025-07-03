@@ -40,7 +40,7 @@ class DocumentType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Document::class, // MwBundle\Entity\Document
-            'max_files' => 1, // Default value if not overridden by the controller
+            'max_files' => 2, // Default value if not overridden by the controller
         ]);
 
         $resolver->setAllowedTypes('max_files', 'int');

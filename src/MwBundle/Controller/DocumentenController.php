@@ -98,29 +98,18 @@ class DocumentenController extends AbstractChildController
 
             if (is_array($uploadedFiles) && count($uploadedFiles) > 0) {
                 foreach ($uploadedFiles as $uploadedFile) {
-                    $documentEntity = new $this->entityClass();
-                    $documentEntity->setFile($uploadedFile);
-
-                    $documentEntity->setNaam($uploadedFile->getClientOriginalName());
-                    if ($selectedMedewerker instanceof \AppBundle\Entity\Medewerker) {
-                        $documentEntity->setMedewerker($selectedMedewerker);
-                    } else {
+                    if (!$selectedMedewerker instanceof \AppBundle\Entity\Medewerker) {
                         $this->logger->error('Poging tot opslaan document zonder geldige medewerker. Dit is niet toegestaan en zou door formuliervalidatie voorkomen moeten worden.', ['document_name' => $uploadedFile->getClientOriginalName(), 'selected_medewerker_type' => is_object($selectedMedewerker) ? get_class($selectedMedewerker) : gettype($selectedMedewerker)]);
                         $this->addFlash('danger', "Fout bij opslaan bestand {$uploadedFile->getClientOriginalName()}: Medewerker is niet (correct) geselecteerd/opgegeven. Document niet opgeslagen.");
                         continue;
                     }
 
-                    if (null !== $parentEntity && $this->addMethod && method_exists($parentEntity, $this->addMethod)) {
+                    $documentEntity = new $this->entityClass($parentEntity, $selectedMedewerker);
+                    $documentEntity->setFile($uploadedFile);
+                    $documentEntity->setNaam($uploadedFile->getClientOriginalName());
 
+                    if (null !== $parentEntity && $this->addMethod && method_exists($parentEntity, $this->addMethod)) {
                         $parentEntity->{$this->addMethod}($documentEntity);
-                    } elseif (null !== $parentEntity && $parentEntity instanceof Klant) {
-                        if (method_exists($documentEntity, 'setKlant')) {
-                            $documentEntity->setKlant($parentEntity);
-                        } else {
-                            $this->logger->error('Document entity is missing setKlant method, cannot associate with Klant.', ['parent_id' => $parentEntity->getId()]);
-                            $this->addFlash('danger', "Fout bij opslaan bestand {$uploadedFile->getClientOriginalName()}: Interne configuratiefout, document kon niet aan klant gekoppeld worden.");
-                            continue;
-                        }
                     }
 
                     try {
