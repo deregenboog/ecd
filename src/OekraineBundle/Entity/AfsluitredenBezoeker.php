@@ -13,7 +13,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
 /**
  * @ORM\Entity
  *
- * @ORM\Table("oekraine_afsluitredenen_bezoekers")
+ * @ORM\Table("oekraine_afsluiting_redenen")
  *
  * @ORM\HasLifecycleCallbacks
  *
@@ -26,6 +26,33 @@ class AfsluitredenBezoeker
     use ActivatableTrait;
     use TimestampableTrait;
     use NotDeletableTrait;
+
+    /**
+     * @var bool
+     *
+     * @ORM\Column(type="boolean")
+     *
+     * @Gedmo\Versioned
+     */
+    protected $actief = true;
+
+    /**
+     * @var int
+     *
+     * @ORM\Column(type="integer")
+     *
+     * @Gedmo\Versioned
+     */
+    private $gewicht = 0;
+
+    /**
+     * @var bool
+     *
+     * @ORM\Column(type="boolean")
+     *
+     * @Gedmo\Versioned
+     */
+    private $land = false;
 
     /**
      * @var \DateTime
@@ -44,4 +71,28 @@ class AfsluitredenBezoeker
      * @Gedmo\Versioned
      */
     protected $modified;
+
+    public function getGewicht()
+    {
+        return $this->gewicht;
+    }
+
+    public function setGewicht($gewicht)
+    {
+        $this->gewicht = $gewicht;
+
+        return $this;
+    }
+
+    public function isLand()
+    {
+        return $this->land;
+    }
+
+    public function setLand($land)
+    {
+        $this->land = $land;
+
+        return $this;
+    }
 }
