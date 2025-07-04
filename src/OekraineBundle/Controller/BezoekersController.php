@@ -9,6 +9,7 @@ use AppBundle\Exception\UserException;
 use AppBundle\Export\ExportInterface;
 use AppBundle\Form\AppDateType;
 use AppBundle\Form\KlantFilterType as AppKlantFilterType;
+use OekraineBundle\Filter\BezoekerFilter;
 use OekraineBundle\Entity\Aanmelding;
 use OekraineBundle\Entity\Afsluiting;
 use OekraineBundle\Entity\Bezoeker;
@@ -27,6 +28,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\EventDispatcher\GenericEvent;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormError;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -70,6 +72,41 @@ class BezoekersController extends AbstractController
         $this->dao = $dao;
         $this->klantDao = $klantDao;
         $this->export = $export;
+    }
+
+    /**
+     * @Route("/")
+     *
+     * @param Request $request
+     *
+     * @return array|Response
+     */
+    public function indexAction(Request $request)
+    {
+        $page = $request->get('page', 1);
+
+        $filter = new BezoekerFilter();
+
+        $form = $this->getForm($this->filterFormClass);
+        if (!$request->query->has($form->getName())) {
+            $filter->huidigeStatus = Aanmelding::class;
+            $form = $this->getForm($this->filterFormClass, $filter);
+        }
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            if ($form->has('download') && $form->get('download')->isClicked()) {
+                return $this->export->create($form->getData());
+            }
+        }
+
+        $pagination = $this->dao->findAll($page, $form->getData());
+
+        return [
+            'filter' => $form->createView(),
+            'pagination' => $pagination,
+        ];
     }
 
     protected function doAdd(Request $request)
