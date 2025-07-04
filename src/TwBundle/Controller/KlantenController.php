@@ -120,7 +120,7 @@ class KlantenController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             if ($form->get('yes')->isClicked()) {
                 try {
-                    $huurder->reopen();
+                    $huurder->reopen($this->getUser());
                     $entityManager->flush();
 
                     $this->addFlash('success', 'Klant is heropend.');
