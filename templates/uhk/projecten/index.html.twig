@@ -36,7 +36,7 @@
                 </td>
                 <td>
                     {{ html.editLink(path(route_base~'edit', {id: entity.id})) }}
-                    {# {{ html.deleteLink(path(route_base~'delete', {id: entity.id})) }} #}
+                    {{ html.deleteLink(path(route_base~'delete', {id: entity.id})) }}
                 </td>
             </tr>
             {% endfor %}
