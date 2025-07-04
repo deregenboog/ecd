@@ -44,14 +44,15 @@ class AmocStrategyTest extends DoctrineTestCase
         $builder = new QueryBuilder($em);
 
         $this->strategy->buildQuery($builder, new Locatie());
+        // #FARHAD
         $expectedDQL = "SELECT
             WHERE (
-                eersteIntake.toegangInloophuis = true
+                eaf.toegangInloophuis = true
                 AND (
                     eersteIntakeLocatie.naam = 'AMOC Stadhouderskade'
                     OR (
                         eersteIntakeLocatie.naam = 'AMOC West'
-                        AND eersteIntake.intakedatum < :four_months_ago
+                        AND eaf.intakedatum < :four_months_ago
                     )
                 )
             )";

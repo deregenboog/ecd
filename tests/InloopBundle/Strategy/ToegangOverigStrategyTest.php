@@ -48,20 +48,21 @@ class ToegangOverigStrategyTest extends DoctrineTestCase
         $builder = (new QueryBuilder($em))->select('klant')->from(Klant::class, 'klant');
 
         $this->strategy->buildQuery($builder, new Locatie());
+        // #FARHAD
         $expectedDQL = "SELECT klant
             FROM AppBundle\Entity\Klant klant
-            LEFT JOIN eersteIntake.verblijfsstatus verblijfsstatus
-            WHERE eersteIntake.toegangInloophuis = true
+            LEFT JOIN eaf.verblijfsstatus verblijfsstatus
+            WHERE eaf.toegangInloophuis = true
                 AND (
                     eersteIntakeLocatie.naam != :villa_westerweide
                     OR eersteIntakeLocatie.naam IS NULL
                 )
                 AND (
-                    eersteIntake.verblijfsstatus IS NULL
+                    eaf.verblijfsstatus IS NULL
                     OR verblijfsstatus.naam != :niet_rechthebbend
                     OR (
                         verblijfsstatus.naam = :niet_rechthebbend
-                        AND eersteIntake.overigenToegangVan <= :today
+                        AND eaf.overigenToegangVan <= :today
                     )
                 )";
         $this->assertEqualsIgnoringWhitespace($expectedDQL, $builder->getDQL());

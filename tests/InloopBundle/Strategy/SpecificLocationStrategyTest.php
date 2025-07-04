@@ -42,10 +42,11 @@ class SpecificLocationStrategyTest extends DoctrineTestCase
         $builder = (new QueryBuilder($em))->select('klant')->from(Klant::class, 'klant');
 
         $this->strategy->buildQuery($builder, new Locatie());
+        // #FARHAD
         $expectedDQL = "SELECT klant
             FROM AppBundle\Entity\Klant klant
-            LEFT JOIN eersteIntake.specifiekeLocaties specifiekeLocaties
-            WHERE (eersteIntake.toegangInloophuis = true
+            LEFT JOIN eaf.specifiekeLocaties specifiekeLocaties
+            WHERE (eaf.toegangInloophuis = true
                 AND :locatie IN (specifiekeLocaties))";
         $this->assertEqualsIgnoringWhitespace($expectedDQL, $builder->getDQL());
     }

@@ -72,8 +72,10 @@ class AccessRightsTest extends WebTestCase
         $this->assertNotNull($klant, "Klant '$klantNaam' niet gevonden in fixtures");
         $this->accessUpdater->updateForClient($klant);
         $actualLocaties = $this->getActualLocaties($klant);
+        
         sort($expectedLocaties);
         sort($actualLocaties);
+        
         $this->assertEquals(
             $expectedLocaties,
             $actualLocaties,
@@ -142,6 +144,7 @@ class AccessRightsTest extends WebTestCase
             'villa_zaanstad_toegang' => [
                 'klantNaam' => 'ToegangVillaZaanstad',
                 'verwachteLocaties' => [
+                    /* #FARHAD*/ 'AMOC West',
                     'Villa Westerweide',
                     'Makom (winteropvang)',
                     'Slotermeerlaan (WKR)',
@@ -167,6 +170,8 @@ class AccessRightsTest extends WebTestCase
                     'Transformatorweg',
                     'Vrouwen Nacht Opvang',
                     'Zeeburg',
+                    /* #FARHAD */'Blaka Watra Gebruikersruimte',
+                    /* #FARHAD */'Princehof Gebruikersruimte',
                 ],
                 'message' => 'Klant met gebruikersruimte toegang moet toegang hebben tot alle gebruikersruimtes'
             ]

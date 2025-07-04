@@ -44,9 +44,10 @@ class AmocWestStrategyTest extends DoctrineTestCase
         $builder = new QueryBuilder($em);
 
         $this->strategy->buildQuery($builder, new Locatie());
+        // #FARHAD
         $expectedDQL = 'SELECT
             WHERE (
-                eersteIntake.toegangInloophuis = true
+                eaf.toegangInloophuis = true
                 AND eersteIntakeLocatie.naam IN (:toegestaneLocatiesVoorIntakelocatie)
             )';
         $this->assertEqualsIgnoringWhitespace($expectedDQL, $builder->getDQL());

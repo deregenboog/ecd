@@ -45,13 +45,14 @@ class GebruikersruimteStrategyTest extends DoctrineTestCase
 
         $locatie = (new Locatie())->setGebruikersruimte(true);
         $this->strategy->buildQuery($builder, $locatie);
+        // #FARHAD
         $expectedDQL = "SELECT klant
             FROM AppBundle\Entity\Klant klant
-            INNER JOIN eersteIntake.gebruikersruimte eersteIntakeGebruikersruimte
+            INNER JOIN eaf.gebruikersruimte eersteIntakeGebruikersruimte
             LEFT JOIN klant.registraties registratie WITH registratie.locatie = :locatie_id
             LEFT JOIN InloopBundle\Entity\RecenteRegistratie recent WITH recent.klant = klant AND recent.locatie = :locatie_id
             LEFT JOIN recent.registratie recenteRegistratie WITH DATE(recenteRegistratie.buiten) > :two_months_ago
-            WHERE eersteIntake.toegangInloophuis = true
+            WHERE eaf.toegangInloophuis = true
             GROUP BY klant.id
             HAVING COUNT(recenteRegistratie) > 0 OR COUNT(registratie.id) = 0 OR MAX(laatsteIntake.intakedatum) > :two_months_ago";
         $this->assertEqualsIgnoringWhitespace($expectedDQL, $builder->getDQL());

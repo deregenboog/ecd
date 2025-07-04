@@ -640,6 +640,7 @@ InloopBundle\Entity\Intake:
         #FARHAD verblijfsstatus: '@verblijfsstatus_7'
         #FARHAD overigenToegangVan: '<dateTimeBetween("-1 days","-1 days")>'
         zrm: '@zrm_201'
+        accessFields: '@access_fields_201'
     intake_202: #toegangAmocStadhoduerskade
         medewerker: '@medewerker_inloop'
         intakedatum: '<dateTimeBetween("-6 days","now")>'
@@ -659,6 +660,7 @@ InloopBundle\Entity\Intake:
         #FARHAD verblijfsstatus: '@verblijfsstatus_7'
         #FARHAD overigenToegangVan: '<dateTimeBetween("+30 days","+30 days")>'
         zrm: '@zrm_202'
+        accessFields: '@access_fields_202'
     intake_203: #toegangzeeburg
         medewerker: '@medewerker_inloop'
         intakedatum: '<dateTimeBetween("-6 days","now")>'
@@ -679,6 +681,7 @@ InloopBundle\Entity\Intake:
         #FARHAD verblijfsstatus: '@verblijfsstatus_7'
         #FARHAD overigenToegangVan: '<dateTimeBetween("+30 days","+30 days")>'
         zrm: '@zrm_203'
+        accessFields: '@access_fields_203'
     intake_204: #toeganggeen
         medewerker: '@medewerker_inloop'
         intakedatum: '<dateTimeBetween("-6 days","now")>'
@@ -698,6 +701,7 @@ InloopBundle\Entity\Intake:
         #FARHAD verblijfsstatus: '@verblijfsstatus_7'
         #FARHAD overigenToegangVan: '<dateTimeBetween("+30 days","+30 days")>'
         zrm: '@zrm_204'
+        accessFields: '@access_fields_204'
     intake_205: #toegangLegaal
         medewerker: '@medewerker_inloop'
         intakedatum: '<dateTimeBetween("-6 days","now")>'
@@ -717,6 +721,7 @@ InloopBundle\Entity\Intake:
         #FARHAD verblijfsstatus: '@verblijfsstatus_1'
         #FARHAD overigenToegangVan: '<dateTimeBetween("+30 days","+30 days")>'
         zrm: '@zrm_205'
+        accessFields: '@access_fields_205'
     intake_206: #toegangAmocWest
         medewerker: '@medewerker_inloop'
         intakedatum: '<dateTimeBetween("-6 days","now")>'
@@ -736,6 +741,7 @@ InloopBundle\Entity\Intake:
         #FARHAD verblijfsstatus: '@verblijfsstatus_7'
         #FARHAD overigenToegangVan: '<dateTimeBetween("+30 days","+30 days")>'
         zrm: '@zrm_206'
+        accessFields: '@access_fields_206'
     intake_207: #toegangVillaZaanstad
         medewerker: '@medewerker_inloop'
         intakedatum: '<dateTimeBetween("-6 days","now")>'
@@ -755,6 +761,7 @@ InloopBundle\Entity\Intake:
         #FARHAD verblijfsstatus: '@verblijfsstatus_1'
         #FARHAD overigenToegangVan: '<dateTimeBetween("+30 days","+30 days")>'
         zrm: '@zrm_207'
+        accessFields: '@access_fields_207'
     intake_208: #toegangGebruikersruimte
         medewerker: '@medewerker_inloop'
         intakedatum: '<dateTimeBetween("-6 days","now")>'
@@ -775,6 +782,7 @@ InloopBundle\Entity\Intake:
         #FARHAD verblijfsstatus: '@verblijfsstatus_1'
         #FARHAD overigenToegangVan: '<dateTimeBetween("+30 days","+30 days")>'
         zrm: '@zrm_208'
+        accessFields: '@access_fields_208'
 
 InloopBundle\Entity\AccessFields:
     access_fields_{1..25}:
@@ -784,6 +792,72 @@ InloopBundle\Entity\AccessFields:
         klant: '@klant_<current()>'
         intakedatum: '<dateTimeBetween("-6 days","now")>'
         specifiekeLocaties: ['@locatie_zeeburg']
+        overigenToegangVan: '<dateTimeBetween("+30 days","+30 days")>'
+        gebruikersruimte: '@locatie_amoc_gebruikersruimte'
+        
+    access_fields_201:
+        toegangInloophuis: true
+        intakelocatie: '@locatie_amoc_west'
+        verblijfsstatus: '@verblijfsstatus_7'
+        klant: '@klant_201'
+        intakedatum: '<dateTimeBetween("-6 days","now")>'
+        overigenToegangVan: '<dateTimeBetween("-1 days","-1 days")>'
+
+    access_fields_202:
+        toegangInloophuis: true
+        intakelocatie: '@locatie_amoc'
+        verblijfsstatus: '@verblijfsstatus_7'
+        klant: '@klant_202'
+        intakedatum: '<dateTimeBetween("-6 days","now")>'
+        overigenToegangVan: '<dateTimeBetween("+30 days","+30 days")>'
+
+    access_fields_203:
+        toegangInloophuis: true
+        intakelocatie: '@locatie_amoc'
+        verblijfsstatus: '@verblijfsstatus_7'
+        klant: '@klant_203'
+        intakedatum: '<dateTimeBetween("-6 days","now")>'
+        overigenToegangVan: '<dateTimeBetween("+30 days","+30 days")>'
+        specifiekeLocaties: ['@locatie_zeeburg']
+    
+    access_fields_204:
+        toegangInloophuis: false
+        intakelocatie: '@locatie_amoc'
+        verblijfsstatus: '@verblijfsstatus_7'
+        klant: '@klant_204'
+        intakedatum: '<dateTimeBetween("-6 days","now")>'
+        overigenToegangVan: '<dateTimeBetween("+30 days","+30 days")>'
+    
+    access_fields_205:
+        toegangInloophuis: true
+        intakelocatie: '@locatie_makom'
+        verblijfsstatus: '@verblijfsstatus_1'
+        klant: '@klant_205'
+        intakedatum: '<dateTimeBetween("-6 days","now")>'
+        overigenToegangVan: '<dateTimeBetween("+30 days","+30 days")>'
+    
+    access_fields_206:
+        toegangInloophuis: true
+        intakelocatie: '@locatie_amoc_west'
+        verblijfsstatus: '@verblijfsstatus_7'
+        klant: '@klant_206'
+        intakedatum: '<dateTimeBetween("-6 days","now")>'
+        overigenToegangVan: '<dateTimeBetween("+30 days","+30 days")>'
+    
+    access_fields_207:
+        toegangInloophuis: true
+        intakelocatie: '@locate_villa_westerweide'
+        verblijfsstatus: '@verblijfsstatus_1'
+        klant: '@klant_207'
+        intakedatum: '<dateTimeBetween("-6 days","now")>'
+        overigenToegangVan: '<dateTimeBetween("+30 days","+30 days")>'
+
+    access_fields_208:
+        toegangInloophuis: true
+        intakelocatie: '@locatie_amoc'
+        verblijfsstatus: '@verblijfsstatus_1'
+        klant: '@klant_208'
+        intakedatum: '<dateTimeBetween("-6 days","now")>'
         overigenToegangVan: '<dateTimeBetween("+30 days","+30 days")>'
         gebruikersruimte: '@locatie_amoc_gebruikersruimte'
         
