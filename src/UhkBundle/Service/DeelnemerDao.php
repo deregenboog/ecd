@@ -120,4 +120,17 @@ class DeelnemerDao extends AbstractDao implements DeelnemerDaoInterface
     {
         $this->doDelete($entity);
     }
+
+    /**
+     * {inheritdoc}.
+     */
+    public function countByProjectId(int $projectId): int {
+        $qb = $this->repository->createQueryBuilder($this->alias)
+            ->select('COUNT(deelnemer.id)')
+            ->innerJoin($this->alias.'.projecten', 'projecten')
+            ->where('projecten.id = :projectId')
+            ->setParameter('projectId', $projectId);
+
+        return (int) $qb->getQuery()->getSingleScalarResult();
+    }
 }

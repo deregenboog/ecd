@@ -48,4 +48,11 @@ interface DeelnemerDaoInterface
     public function update(Deelnemer $entity);
 
     public function delete(Deelnemer $entity);
+
+    /**
+     * @param int $projectId
+     *
+     * @return int
+     */
+    public function countByProjectId(int $projectId): int;
 }
