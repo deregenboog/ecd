@@ -2,7 +2,7 @@
 
 <h2>Documenten</h2>
 <p>
-    {{ html.link('Document toevoegen', path('mw_documenten_add', {klant: klant.id}), 'upload') }}
+    {{ html.link('Document(en) toevoegen', path('mw_documenten_add', {klant: klant.id}), 'upload') }}
 </p>
 <table class="table table-hover">
     {% for document in documenten %}
