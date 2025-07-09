@@ -164,6 +164,49 @@ $(function() {
     })
 });
 
+$(function() {
+    const $formToConfirm = $('#afsluiting'); // Target form ID
+    const $afsluitingRedenDropdown = $('#afsluiting_reden'); // Dropdown ID for onchange event
+
+    if ($formToConfirm.length) {
+        // Define IDs for the modal and confirm button
+        const modalId = 'afsluitingConfirmModal';
+        const confirmButtonId = 'afsluitingConfirmBtn';
+
+        const $modalElement = $('#' + modalId);
+        const $confirmButton = $('#' + confirmButtonId);
+
+        // Proceed only if the dropdown, modal, and confirm button exist for the onchange logic
+        if ($afsluitingRedenDropdown.length && $modalElement.length && $confirmButton.length) {
+            // Event listener for the dropdown change
+            $afsluitingRedenDropdown.on('change', function() {
+                // Check if the selected option's value is '5' (for "Foutieve invoer")
+                if ($(this).find('option:selected').text() === 'Foutieve invoer'){
+                    // Optional: populate modal body with specific text
+                    $modalElement.find('.modal-body').html('<p>Wanneer ‘Foutieve invoer’ als afsluitreden wordt gekozen, verdwijnt deze gegevens en de daaraan gekoppelde gegevens uit beeld.<br/>Ze zijn niet weg, maar voor een gebruiker niet meer tevoorschijn te halen.<br/>Deze afsluitreden mag alleen gebruikt worden als iets verkeerd is ingevoerd (bv. bij een verkeerde naam). Anders niet.</p>');
+                    $modalElement.modal('show'); // Show the modal
+                }
+            });
+            // Click handler for the modal's confirm button
+            // This submits the form when the modal is confirmed.
+            $confirmButton.on('click', function() {
+                $formToConfirm.get(0).submit(); // Submit the form programmatically
+            });
+        } else {
+            // Log warnings if essential elements for the onchange confirmation are missing
+            if (!$afsluitingRedenDropdown.length) {
+                console.warn(`Dropdown met ID 'afsluiting_reden' niet gevonden. De 'onchange' bevestiging voor 'Foutieve invoer' werkt niet.`);
+            }
+            if (!$modalElement.length) {
+                console.warn(`Modal element met ID '${modalId}' niet gevonden. De 'onchange' bevestiging voor 'Foutieve invoer' werkt niet.`);
+            }
+            if ($modalElement.length && !$confirmButton.length) { // Modal exists but button is missing
+                console.warn(`Bevestigingsknop met ID '${confirmButtonId}' niet gevonden in modal '${modalId}'. De 'onchange' bevestiging voor 'Foutieve invoer' werkt niet.`);
+            }
+        }
+    }
+});
+
 
 showLoader = function () {
     $("#ajaxContainer").hide();
