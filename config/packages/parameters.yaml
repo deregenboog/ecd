@@ -34,6 +34,8 @@ parameters:
       - 'AMOC West'
       - 'Nachtopvang DRG'
       - 'Flierbos'
+    eu_burgers:
+      - 'Nachtopvang Amoc West'
   economisch_daklozen_locaties:
     - 'STED Amstelland'
     - 'STED Centrum'
