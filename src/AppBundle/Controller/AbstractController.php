@@ -478,6 +478,15 @@ abstract class AbstractController extends SymfonyController
 
         $entity = $this->dao->find($id);
 
+        try{
+            if(!$this->beforeDeleteCheck($entity)) {
+                return $this->redirectToIndex();
+            }
+        } catch (\Exception $e) {
+            $this->addFlash('danger', ucfirst($this->entityName).' kan niet verwijderd worden: '.$e->getMessage());
+            return $this->redirectToIndex();
+        }
+
         $form = $this->getForm(ConfirmationType::class);
         $form->handleRequest($request);
 
@@ -488,7 +497,7 @@ abstract class AbstractController extends SymfonyController
 
                 try {
                     $this->beforeDelete($entity);
-                    if (method_exists($entity, 'setActief')) {
+                    if ($this->checkSoftDelete($entity)) {
                         $entity->setActief(false);
                         $this->dao->update($entity);
                     } else {
@@ -613,6 +622,19 @@ abstract class AbstractController extends SymfonyController
     protected function beforeDelete($entity): void
     {
     }
+
+    /// Check if the entity can be deleted.
+    protected function beforeDeleteCheck($entity): bool
+    {
+        return true;
+    }
+
+    /// If the entity is soft-deletable, then this method can be used to check if it should be soft-deleted.
+    protected function checkSoftDelete($entity): bool
+    {
+        return method_exists($entity, 'setActief');
+    }
+    
 
     protected function afterDelete($entity): void
     {

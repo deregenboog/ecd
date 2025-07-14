@@ -51,50 +51,18 @@ class ProjectenController extends AbstractController
         return $this->redirectToIndex();
     }
 
-    /**
-     * @Route("/{id}/delete")
-     *
-     * @Template
-     *
-     * @var Request
-     * @var int
-     */
-    public function deleteAction(Request $request, $id)
-    {
-        $project = $this->dao->find($id);
-        $projectName = $project->getNaam();
-        $countDeelnemers = $this->daoDeelnemers->countByProjectId($project->getId());
-
+    protected function beforeDeleteCheck($entity): bool {
+        $countDeelnemers = $this->daoDeelnemers->countByProjectId($entity->getId());
         if ($countDeelnemers > 0) {
-            $this->addFlash(
-                'danger',
-                "Dit project ($projectName) kan niet worden verwijderd, omdat er al deelnemers ($countDeelnemers) aan gekoppeld zijn." .
-                    " Verwijder eerst de deelnemers voordat je het project verwijdert."
+            throw new \Exception(
+                "Dit project ({$entity->getNaam()}) kan niet worden verwijderd, omdat er al deelnemers ({$countDeelnemers}) aan gekoppeld zijn." .
+                " Verwijder eerst de deelnemers voordat je het project verwijdert."
             );
-            return $this->redirectToIndex();
-        } else {
-
-            $project = $this->dao->find($id);
-
-            $form = $this->getForm(ConfirmationType::class);
-            $form->handleRequest($request);
-
-            if ($form->isSubmitted() && $form->isValid()) {
-                if ($form->get('yes')->isClicked()) {
-                    $this->beforeDelete($project);
-                    $this->dao->delete($project);
-                    $this->afterDelete($project);
-                    $this->addFlash('success', ucfirst($this->entityName) . ' is verwijderd. ('.$projectName.')');
-                    return $this->redirectToIndex();
-                } else {
-                    return $this->redirectToView($project);
-                }
-            }
-
-            return [
-                'entity' => $project,
-                'form' => $form->createView(),
-            ];
         }
+        return true;
+    }
+
+    protected function checkSoftDelete($entity): bool {
+        return false;
     }
 }
