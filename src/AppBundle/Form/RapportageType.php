@@ -84,6 +84,17 @@ class RapportageType extends AbstractType
             ]);
         }
 
+        if (in_array('nationaliteiten', $options['enabled_filters'])) {
+            $builder->add('nationaliteiten', NationaliteitSelectType::class, [
+                'required' => false,
+                'multiple' => true,
+                'attr' => [
+                    'select-all' => null,
+                    'select-none' => null,
+                ],
+            ]);
+        }
+
         $builder
             ->add('rapport', ChoiceType::class, [
                 'required' => true,

@@ -6,6 +6,7 @@ use AppBundle\Doctrine\SqlExtractor;
 use AppBundle\Entity\Geslacht;
 use AppBundle\Entity\Klant;
 use AppBundle\Entity\Land;
+use AppBundle\Entity\Nationaliteit;
 use AppBundle\Report\AbstractReport;
 use AppBundle\Report\Table;
 use Doctrine\ORM\EntityManagerInterface;
@@ -28,6 +29,11 @@ class EUBurgersNew extends AbstractReport
      * @var Land[]
      */
     protected $landen;
+
+    /**
+     * @var Nationaliteit[]
+     */
+    protected $nationaliteiten;
 
     /**
      * @var Locatie
@@ -66,6 +72,7 @@ class EUBurgersNew extends AbstractReport
                 'geslacht',
                 'referentieperiode',
                 'amoc_landen',
+                'nationaliteiten',
             ],
         ];
     }
@@ -90,6 +97,10 @@ class EUBurgersNew extends AbstractReport
 
         if (array_key_exists('amoc_landen', $filter)) {
             $this->landen = $filter['amoc_landen'];
+        }
+
+        if (array_key_exists('nationaliteiten', $filter)) {
+            $this->nationaliteiten = $filter['nationaliteiten'];
         }
 
         if (array_key_exists('referentieperiode', $filter)) {
@@ -134,6 +145,13 @@ class EUBurgersNew extends AbstractReport
         $this->reports[] = [
             'title' => 'Landen',
             'data' => ['Klanten uit' => ['' => implode(', ', $count[0]['amoc_landen'])]],
+        ];
+
+        $availableNationaliteiten = [];
+        
+        $this->reports[] = [
+            'title' => 'Nationaliteiten',
+            'data' => ['Klanten nationaliteiten' => ['' => implode(', ', $count[0]['nationaliteiten'])]],
         ];
 
         $this->reports[] = [
@@ -191,6 +209,31 @@ class EUBurgersNew extends AbstractReport
         $this->reports[] = [
             'title' => 'Aantal ingeschreven personen per land',
             'yDescription' => 'Land',
+            'data' => $table->render(),
+        ];
+
+        $perNationaliteit = [];
+
+        foreach ($count[0]['clientsPerNationaliteit'] as $i => $cnt) {
+            $perNationaliteit[] = [
+                'periode' => $periode,
+                'nationaliteit' => $count[0]['nationaliteiten'][$i] ?? 'Niet-geselecteerde nationaliteiten',
+                'aantal' => $cnt,
+            ];
+        }
+        foreach ($count[1]['clientsPerNationaliteit'] as $i => $cnt) {
+            $perNationaliteit[] = [
+                'periode' => $referentie,
+                'nationaliteit' => $count[1]['nationaliteiten'][$i] ?? 'Niet-geselecteerde nationaliteiten',
+                'aantal' => $cnt,
+            ];
+        }
+
+        $table = new Table($perNationaliteit, 'periode', 'nationaliteit', 'aantal');
+        $table->setXTotals(false)->setYTotals(true)->setXSort(false);
+        $this->reports[] = [
+            'title' => 'Aantal ingeschreven personen per nationaliteit',
+            'yDescription' => 'Nationaliteit',
             'data' => $table->render(),
         ];
 
@@ -343,7 +386,9 @@ class EUBurgersNew extends AbstractReport
             'doorverwijzingen_count' => null,
             'averageAge' => null,
             'amoc_landen' => [],
+            'nationaliteiten' => [],
             'clientsPerCountry' => [],
+            'clientsPerNationaliteit' => [],
             'ages' => [],
             'primaryProblems' => [],
             'count_per_doorverwijzing' => [],
@@ -448,6 +493,10 @@ class EUBurgersNew extends AbstractReport
             $count['amoc_landen'][$land->getId()] = $land->getNaam();
         }
 
+        foreach ($this->nationaliteiten as $nationaliteit) {
+            $count['nationaliteiten'][$nationaliteit->getId()] = $nationaliteit->getNaam();
+        }
+
         $verslavingen = $this->entityManager->getRepository(Verslaving::class)->findAll();
         foreach ($verslavingen as $verslaving) {
             $count['primaireproblematiek'][$verslaving->getId()] = $verslaving->getNaam();
@@ -542,6 +591,20 @@ class EUBurgersNew extends AbstractReport
             ->getResult();
         foreach ($result as $row) {
             $count['clientsPerCountry'][$row['id']] = $row['cnt'];
+        }
+
+        $count['clientsPerNationaliteit'] = [];
+        $result = $klantRepository->createQueryBuilder('klant')
+            ->select('nationaliteit.id, COUNT(klant.id) as cnt')
+            ->innerJoin('klant.nationaliteit', 'nationaliteit')
+            ->where('klant.id IN (:ids)')
+            ->groupBy('nationaliteit.id')
+            ->orderBy('nationaliteit.id')
+            ->setParameter('ids', $klant_ids)
+            ->getQuery()
+            ->getResult();
+        foreach ($result as $row) {
+            $count['clientsPerNationaliteit'][$row['id']] = $row['cnt'];
         }
 
         $today = new \DateTime('today');
