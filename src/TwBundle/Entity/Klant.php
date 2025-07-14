@@ -490,4 +490,19 @@ class Klant extends Deelnemer
                 ->addViolation();
         }
     }
+
+    public function getIncidenten()
+    {
+        return $this->getKlant()->getIncidenten();
+    }
+
+    public function addIncident($incident)
+    {
+        return $this->getKlant()->addIncident($incident);
+    }
+
+    public function setIncidenten($incidenten)
+    {
+        return $this->getKlant()->setIncidenten($incidenten);
+    }
 }
