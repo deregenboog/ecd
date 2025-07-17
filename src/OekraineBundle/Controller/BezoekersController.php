@@ -86,22 +86,23 @@ class BezoekersController extends AbstractController
         $page = $request->get('page', 1);
 
         $filter = new BezoekerFilter();
-
-        $form = $this->getForm($this->filterFormClass);
+        
+        $form = $this->getForm($this->filterFormClass, $filter);
+        
         if (!$request->query->has($form->getName())) {
-            $filter->huidigeStatus = Aanmelding::class;
-            $form = $this->getForm($this->filterFormClass, $filter);
+            // Stel een standaardfilter in wanneer de pagina voor het eerst wordt geladen.
+            $filter->huidigeStatus = 'Aanmelding';
         }
-
+        
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             if ($form->has('download') && $form->get('download')->isClicked()) {
-                return $this->export->create($form->getData());
+                return $this->export->create($filter);
             }
         }
-
-        $pagination = $this->dao->findAll($page, $form->getData());
+        
+        $pagination = $this->dao->findAll($page, $filter);
 
         return [
             'filter' => $form->createView(),
