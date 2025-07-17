@@ -147,6 +147,11 @@ class EUBurgers extends AbstractReport
         ];
 
         $this->reports[] = [
+            'title' => 'Nationaliteiten',
+            'data' => ['Klanten uit' => ['' => implode(', ',$count[0]['nationaliteiten'], )]],
+        ];
+
+        $this->reports[] = [
             'title' => 'Basisstatistieken',
             'data' => [
                 'Nieuwe klanten binnen periode' => [
