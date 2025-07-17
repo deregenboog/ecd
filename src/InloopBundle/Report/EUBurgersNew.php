@@ -26,11 +26,6 @@ class EUBurgersNew extends AbstractReport
     protected $title = 'EU burgers nieuwe stijl';
 
     /**
-     * @var Land[]
-     */
-    protected $landen;
-
-    /**
      * @var Nationaliteit[]
      */
     protected $nationaliteiten;
@@ -71,7 +66,6 @@ class EUBurgersNew extends AbstractReport
                 'einddatum',
                 'geslacht',
                 'referentieperiode',
-                'amoc_landen',
                 'nationaliteiten',
             ],
         ];
@@ -95,10 +89,6 @@ class EUBurgersNew extends AbstractReport
             $this->geslacht = $filter['geslacht'];
         }
 
-        if (array_key_exists('amoc_landen', $filter)) {
-            $this->landen = $filter['amoc_landen'];
-        }
-
         if (array_key_exists('nationaliteiten', $filter)) {
             $this->nationaliteiten = $filter['nationaliteiten'];
         }
@@ -113,7 +103,7 @@ class EUBurgersNew extends AbstractReport
     protected function init()
     {
         $count = [];
-        if (!$this->landen || 0 === count((array) $this->landen)) {
+        if (!$this->nationaliteiten || 0 === count((array) $this->nationaliteiten)) {
             return;
         }
 
@@ -142,13 +132,6 @@ class EUBurgersNew extends AbstractReport
         $periode = sprintf('%s - %s', $this->startDate->format('d-m-Y'), $this->endDate->format('d-m-Y'));
         $referentie = sprintf('%s - %s', $refStartDate->format('d-m-Y'), $refEndDate->format('d-m-Y'));
 
-        $this->reports[] = [
-            'title' => 'Landen',
-            'data' => ['Klanten uit' => ['' => implode(', ', $count[0]['amoc_landen'])]],
-        ];
-
-        $availableNationaliteiten = [];
-        
         $this->reports[] = [
             'title' => 'Nationaliteiten',
             'data' => ['Klanten nationaliteiten' => ['' => implode(', ', $count[0]['nationaliteiten'])]],
@@ -186,30 +169,6 @@ class EUBurgersNew extends AbstractReport
                     $referentie => $count[1]['totalClients'],
                 ],
             ],
-        ];
-
-        $perLand = [];
-        foreach ($count[0]['clientsPerCountry'] as $i => $cnt) {
-            $perLand[] = [
-                'periode' => $periode,
-                'land' => $count[0]['amoc_landen'][$i],
-                'aantal' => $cnt,
-            ];
-        }
-        foreach ($count[1]['clientsPerCountry'] as $i => $cnt) {
-            $perLand[] = [
-                'periode' => $referentie,
-                'land' => $count[1]['amoc_landen'][$i],
-                'aantal' => $cnt,
-            ];
-        }
-
-        $table = new Table($perLand, 'periode', 'land', 'aantal');
-        $table->setXTotals(false)->setYTotals(true)->setXSort(false);
-        $this->reports[] = [
-            'title' => 'Aantal ingeschreven personen per land',
-            'yDescription' => 'Land',
-            'data' => $table->render(),
         ];
 
         $perNationaliteit = [];
@@ -420,8 +379,8 @@ class EUBurgersNew extends AbstractReport
             $builder->andWhere('klant.geslacht = :geslacht')->setParameter('geslacht', $this->geslacht);
         }
 
-        if (count((array) $this->landen) > 0) {
-            $builder->andWhere('klant.land IN (:landen)')->setParameter('landen', $this->landen);
+        if (count((array) $this->nationaliteiten) > 0) {
+            $builder->andWhere('klant.nationaliteit IN (:nationaliteiten)')->setParameter('nationaliteiten', $this->nationaliteiten);
         }
 
 //        $sql = SqlExtractor::getFullSQL($builder->getQuery());
@@ -486,11 +445,6 @@ class EUBurgersNew extends AbstractReport
             foreach ($tmp_klanten as $klant) {
                 $klanten[$klant['id']] = $klant['laatste_intake_id'];
             }
-        }
-        $x = count($klanten);
-
-        foreach ($this->landen as $land) {
-            $count['amoc_landen'][$land->getId()] = $land->getNaam();
         }
 
         foreach ($this->nationaliteiten as $nationaliteit) {

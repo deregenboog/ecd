@@ -86,7 +86,7 @@ class RapportageType extends AbstractType
 
         if (in_array('nationaliteiten', $options['enabled_filters'])) {
             $builder->add('nationaliteiten', NationaliteitSelectType::class, [
-                'required' => false,
+                'required' => true,
                 'multiple' => true,
                 'attr' => [
                     'select-all' => null,

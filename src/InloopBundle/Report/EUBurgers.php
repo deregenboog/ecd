@@ -23,10 +23,10 @@ class EUBurgers extends AbstractReport
 {
     protected $title = 'EU burgers';
 
-    /**
-     * @var Land[]
-     */
-    protected $landen;
+    // /**
+    //  * @var Land[]
+    //  */
+    // protected $landen;
 
     /**
      * @var Nationaliteit[]
@@ -69,7 +69,7 @@ class EUBurgers extends AbstractReport
                 'einddatum',
                 'geslacht',
                 'referentieperiode',
-                'amoc_landen',
+                //'amoc_landen',
                 'nationaliteiten',
             ],
         ];
@@ -94,9 +94,9 @@ class EUBurgers extends AbstractReport
             $this->geslacht = $filter['geslacht'];
         }
 
-        if (array_key_exists('amoc_landen', $filter)) {
-            $this->landen = $filter['amoc_landen'];
-        }
+        // if (array_key_exists('amoc_landen', $filter)) {
+        //     $this->landen = $filter['amoc_landen'];
+        // }
         
         if (array_key_exists('nationaliteiten', $filter)) {
             $this->nationaliteiten = $filter['nationaliteiten'];
@@ -112,7 +112,7 @@ class EUBurgers extends AbstractReport
     protected function init()
     {
         $count = [];
-        if (!$this->landen || 0 === count((array) $this->landen)) {
+        if (!$this->nationaliteiten || 0 === count((array) $this->nationaliteiten)) {
             return;
         }
 
@@ -140,11 +140,6 @@ class EUBurgers extends AbstractReport
 
         $periode = sprintf('%s - %s', $this->startDate->format('d-m-Y'), $this->endDate->format('d-m-Y'));
         $referentie = sprintf('%s - %s', $refStartDate->format('d-m-Y'), $refEndDate->format('d-m-Y'));
-
-        $this->reports[] = [
-            'title' => 'Landen',
-            'data' => ['Klanten uit' => ['' => implode(', ',$count[0]['amoc_landen'], )]],
-        ];
 
         $this->reports[] = [
             'title' => 'Nationaliteiten',
@@ -179,30 +174,6 @@ class EUBurgers extends AbstractReport
                     $referentie => $count[1]['averageAge'],
                 ],
             ],
-        ];
-
-        $perLand = [];
-        foreach ($count[0]['clientsPerCountry'] as $i => $cnt) {
-            $perLand[] = [
-                'periode' => $periode,
-                'land' => $count[0]['amoc_landen'][$i],
-                'aantal' => $cnt,
-            ];
-        }
-        foreach ($count[1]['clientsPerCountry'] as $i => $cnt) {
-            $perLand[] = [
-                'periode' => $referentie,
-                'land' => $count[1]['amoc_landen'][$i],
-                'aantal' => $cnt,
-            ];
-        }
-
-        $table = new Table($perLand, 'periode', 'land', 'aantal');
-        $table->setXTotals(false)->setYTotals(false)->setXSort(false);
-        $this->reports[] = [
-            'title' => 'Aantal ingeschreven personen per land',
-            'yDescription' => 'Land',
-            'data' => $table->render(),
         ];
 
         $perNationaliteit = [];
@@ -325,7 +296,6 @@ class EUBurgers extends AbstractReport
             'totalVerslagen' => null,
             'doorverwijzingen_count' => null,
             'averageAge' => null,
-            'amoc_landen' => [],
             'nationaliteiten' => [],
             'clientsPerCountry' => [],
             'ages' => [],
@@ -351,8 +321,8 @@ class EUBurgers extends AbstractReport
             $builder->andWhere('klant.geslacht = :geslacht')->setParameter('geslacht', $this->geslacht);
         }
 
-        if (count((array) $this->landen) > 0) {
-            $builder->andWhere('klant.land IN (:landen)')->setParameter('landen', $this->landen);
+        if (count((array) $this->nationaliteiten) > 0) {
+            $builder->andWhere('klant.nationaliteit IN (:nationaliteiten)')->setParameter('nationaliteiten', $this->nationaliteiten);
         }
 
 //        $sql = SqlExtractor::getFullSQL($builder->getQuery());
@@ -420,10 +390,6 @@ class EUBurgers extends AbstractReport
             foreach ($tmp_klanten as $klant) {
                 $klanten[$klant['id']] = $klant['laatste_intake_id'];
             }
-        }
-
-        foreach ($this->landen as $land) {
-            $count['amoc_landen'][$land->getId()] = $land->getNaam();
         }
 
         foreach ($this->nationaliteiten as $nationaliteit) {
