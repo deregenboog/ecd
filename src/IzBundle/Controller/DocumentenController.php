@@ -4,14 +4,10 @@ namespace IzBundle\Controller;
 
 use AppBundle\Controller\AbstractChildController;
 use AppBundle\Controller\DisableIndexActionTrait;
-use AppBundle\Exception\AppException;
-use AppBundle\Exception\UserException;
-use AppBundle\Model\MedewerkerSubjectInterface;
 use IzBundle\Entity\Document;
 use IzBundle\Form\DocumentType;
 use IzBundle\Service\DocumentDaoInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
