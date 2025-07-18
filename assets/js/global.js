@@ -192,17 +192,6 @@ $(function() {
             $confirmButton.on('click', function() {
                 $formToConfirm.get(0).submit(); // Submit the form programmatically
             });
-        } else {
-            // Log warnings if essential elements for the onchange confirmation are missing
-            if (!$afsluitingRedenDropdown.length) {
-                console.warn(`Dropdown met ID 'afsluiting_reden' niet gevonden. De 'onchange' bevestiging voor 'Foutieve invoer' werkt niet.`);
-            }
-            if (!$modalElement.length) {
-                console.warn(`Modal element met ID '${modalId}' niet gevonden. De 'onchange' bevestiging voor 'Foutieve invoer' werkt niet.`);
-            }
-            if ($modalElement.length && !$confirmButton.length) { // Modal exists but button is missing
-                console.warn(`Bevestigingsknop met ID '${confirmButtonId}' niet gevonden in modal '${modalId}'. De 'onchange' bevestiging voor 'Foutieve invoer' werkt niet.`);
-            }
         }
     }
 });
