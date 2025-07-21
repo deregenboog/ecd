@@ -29,7 +29,7 @@ class KlantDao extends AbstractDao implements KlantDaoInterface
             'datumLaatsteVerslag',
             'aantalVerslagen',
         ],
-//        'wrap-queries' => true, // because of HAVING clause in filter
+       'wrap-queries' => true, // because of HAVING clause in filter
     ];
 
     protected $class = Klant::class;
@@ -69,34 +69,29 @@ class KlantDao extends AbstractDao implements KlantDaoInterface
          * @var KlantFilter $filter
          */
         $builder = $this->repository->createQueryBuilder($this->alias);
+
         $builder
-            ->select('klant, laatsteIntake, gebruikersruimte')
+            // SELECT
+            ->addSelect('klant')
+            ->addSelect('laatsteIntake')
+            ->addSelect('gebruikersruimte')
             ->addSelect('verslag.datum AS datumLaatsteVerslag')
             ->addSelect('locatie.naam AS laatsteVerslagLocatie')
             ->addSelect('info.isGezin AS isGezin')
             ->addSelect('COUNT(DISTINCT verslag.id) AS aantalVerslagen')
-
-        ;
-
-        $builder
+            // JOINS
+            ->join('MwBundle\Entity\MwDossierStatus', 'dossierstatus', 'WITH', 'dossierstatus.klant = klant')
             ->leftJoin($this->alias.'.verslagen', 'verslag')
-            ->leftJoin('verslag.medewerker', 'medewerker')
-             ->leftJoin('klant.info', 'info');
-
-        $builder
-            ->leftJoin('klant.maatschappelijkWerker', 'maatschappelijkWerker')
             ->leftJoin($this->alias.'.verslagen', 'v2', 'WITH', 'verslag.klant = v2.klant AND (verslag.datum < v2.datum OR (verslag.datum = v2.datum AND verslag.id < v2.id))')
-            ->where('v2.id IS NULL')
-            ->leftJoin($this->alias.'.geslacht', 'geslacht')
-            ->leftJoin($this->alias.'.intakes', 'intake')
+            ->leftJoin('klant.info', 'info')
             ->leftJoin($this->alias.'.laatsteIntake', 'laatsteIntake')
             ->leftJoin('laatsteIntake.intakelocatie', 'laatsteIntakeLocatie')
             ->leftJoin('verslag.locatie', 'locatie')
             ->leftJoin($this->alias.'.huidigeMwStatus', 'huidigeMwStatus')
-            ->leftJoin('huidigeMwStatus.project', 'project')
             ->leftJoin('laatsteIntake.gebruikersruimte', 'gebruikersruimte')
-
-            ->groupBy('klant.achternaam, klant.id')
+            // CONDITIONS
+            ->where('v2.id IS NULL')
+            ->groupBy('klant.id')
         ;
 
         if ($filter) {
@@ -104,35 +99,7 @@ class KlantDao extends AbstractDao implements KlantDaoInterface
         }
 
         if ($page) {
-            /**
-             * Vanwege de vele left joins in deze query is de total count niet te optimaliseren (door mij) onder de <900ms.
-             * Dat vind ik lang. Temeer omdat in veel gevallen die total count niet bijster interessant is.
-             *
-             * In de default configuratie van het filter wordt daarom de total count niet geteld. Dat scheelt een eerste snelle klik.
-             * Zodra je dan filtert gaat het sowieso sneller en wordt het juiste getal getoont.
-             */
-            $dql = $builder->getDQL();
-            $params = $builder->getParameters();
-            //            $sql = $builder->getQuery()->getSQL();
-
-            $count = 11111;
-            if ($filter->isDirty()) {
-                $builder->resetDQLPart('select');
-                $builder->select('klant.id'); // select only one column for count query.
-
-                $countQuery = $builder->getQuery();
-                $fullSql = SqlExtractor::getFullSQL($countQuery); // including bound parameters.
-
-                $countSql = 'SELECT COUNT(*) AS count FROM ('.$fullSql.') tmp'; // wrap into subquery.
-                $countStmt = $this->entityManager->getConnection()->prepare($countSql);
-                $result = $countStmt->executeQuery();
-                $count = $result->fetchOne(0);
-            }
-            $query = $this->entityManager->createQuery($dql)->setHint('knp_paginator.count', $count);
-
-            $query->setParameters($params);
-
-            return $this->paginator->paginate($query, $page, $this->itemsPerPage, $this->paginationOptions);
+            return $this->paginator->paginate($builder->getQuery(), $page, $this->itemsPerPage, $this->paginationOptions);
         }
 
         return $builder->getQuery()->getResult();
