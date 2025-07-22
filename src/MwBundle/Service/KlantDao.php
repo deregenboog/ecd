@@ -297,6 +297,8 @@ GROUP BY
             ->leftJoin('verslag.locatie', 'locatie')
             ->leftJoin($this->alias.'.huidigeMwStatus', 'huidigeMwStatus')
             ->leftJoin('laatsteIntake.gebruikersruimte', 'gebruikersruimte')
+            // JOINs For Sorting
+            ->leftJoin($this->alias.'.geslacht', 'geslacht')
             // CONDITIONs
             //->where('v2.id IS NULL')
             ->groupBy('klant.id')
