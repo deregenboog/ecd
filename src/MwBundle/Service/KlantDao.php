@@ -299,6 +299,7 @@ GROUP BY
             ->leftJoin('laatsteIntake.gebruikersruimte', 'gebruikersruimte')
             // JOINs For Sorting
             ->leftJoin($this->alias.'.geslacht', 'geslacht')
+            ->leftJoin('huidigeMwStatus.project', 'project')
             // CONDITIONs
             //->where('v2.id IS NULL')
             ->groupBy('klant.id')
