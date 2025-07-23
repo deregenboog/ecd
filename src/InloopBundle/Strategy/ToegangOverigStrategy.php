@@ -35,7 +35,8 @@ final class ToegangOverigStrategy implements StrategyInterface
         if ($locatie->isGebruikersruimte()) {
             return false;
         }
-        if(strpos($locatie->getNaam(), 'WLB') !== false){
+        $naam = $locatie->getNaam();
+        if ($naam !== null && strpos($naam, 'WLB') !== false) {
             return false;
         }
 

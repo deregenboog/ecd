@@ -1,10 +1,10 @@
 when@dev:
     web_profiler:
-        toolbar: true
+        toolbar: "%env(bool:ENABLE_PROFILER)%" #zie .env.dist
         intercept_redirects: false
 
     framework:
         profiler:
             only_exceptions: false
-            collect: true
+            collect: "%env(bool:ENABLE_PROFILER)%" #zie .env.dist
             enabled: true
