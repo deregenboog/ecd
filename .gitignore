@@ -64,3 +64,6 @@ yarn-error.log
 /config/secrets/prod/prod.decrypt.private.php
 /var/
 ###< symfony/framework-bundle ###
+
+### Mutagen
+/.mutagen.yml.lock
