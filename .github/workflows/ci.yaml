@@ -3,7 +3,7 @@ on:
   - push
 env:
   DATABASE_URL: "mysql://ecd:ecd@127.0.0.1:3306/ecd?serverVersion=8.0&charset=utf8"
-  SYMFONY_DEPRECATIONS_HELPER: "max[self]=1"
+  SYMFONY_DEPRECATIONS_HELPER: "max[self]=0"
 jobs:
   lint:
     runs-on: ubuntu-latest
