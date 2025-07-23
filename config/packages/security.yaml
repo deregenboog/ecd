@@ -5,12 +5,12 @@ when@dev: &dev
                 - '%kernel.environment%'
                 - '@router'
     security:
-        firewalls:
-            main:
-                provider: chain_provider
-                custom_authenticators:
-                    - AppBundle\Security\DevelopmentAuthenticator
-                entry_point: AppBundle\Security\DevelopmentAuthenticator
+#        firewalls:
+#            main:
+#                provider: chain_provider
+#                custom_authenticators:
+#                    - AppBundle\Security\DevelopmentAuthenticator
+#                entry_point: AppBundle\Security\DevelopmentAuthenticator
 
 when@test: *dev
 
@@ -30,11 +30,16 @@ security:
     providers:
         chain_provider:
             chain:
-                providers: [database,ecd_ldap]
+                providers: [saml_provider,database,ecd_ldap]
+#                providers: [database,ecd_ldap]
         database:
             entity:
                 class: 'AppBundle\Entity\Medewerker'
                 property: 'username'
+        saml_provider:
+            saml:
+                user_class: 'AppBundle\Entity\Medewerker'
+                default_roles: ['ROLE_USER']
         ecd_ldap:
             ldap:
                 service: Symfony\Component\Ldap\Ldap
@@ -59,8 +64,10 @@ security:
            #anonymous: ~
             # Here we use the chained provider defined previously...
             provider: chain_provider
+            entry_point: saml
+#            entry_point: form_login_ldap
             pattern: ^/
-            logout: ~
+            #logout: ~
             # https://symfony.com/doc/current/security/impersonating_user.html
             switch_user: { role: ROLE_ADMIN }
             form_login_ldap:
@@ -69,6 +76,16 @@ security:
                 dn_string: 'DEREGENBOOG\{username}'
                 login_path: login
                 check_path: login
+            saml:
+                # Match SAML attribute 'uid' with username.
+                # Uses getNameId() method by default.
+                username_attribute: uid
+                # Use the attribute's friendlyName instead of the name
+                use_attribute_friendly_name: true
+                check_path: saml_acs
+                login_path: saml_login
+            logout:
+                path: saml_logout
         login:
            # anonymous: ~
             pattern: ^/login$
@@ -78,6 +95,8 @@ security:
     access_control:
         - { path: ^/fc-load-events, roles: ROLE_USER }
         - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/saml/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/saml/metadata, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/admin/klanten, roles: ROLE_TEAMLEIDERS }
         - { path: ^/admin, roles: ROLE_ADMIN }
         - { path: ^/medewerkers, roles: ROLE_USERADMIN }
