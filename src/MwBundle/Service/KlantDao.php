@@ -29,14 +29,14 @@ class KlantDao extends AbstractDao implements KlantDaoInterface
             'datumLaatsteVerslag',
             'aantalVerslagen',
         ],
-//        'wrap-queries' => true, // because of HAVING clause in filter
+       'wrap-queries' => false, // because of HAVING clause in filter
     ];
 
     protected $class = Klant::class;
 
     protected $alias = 'klant';
 
-    public function findAll($page = null, ?FilterInterface $filter = null)
+    public function findAll($page = null, ?FilterInterface $filter = null, $hasSort = false)
     {
         //        @TODO: Query herschrijven zodat ie voldoen aan FULL GROUP BY. zie https://www.percona.com/blog/2019/05/13/solve-query-failures-regarding-only_full_group_by-sql-mode/
 
@@ -69,72 +69,66 @@ class KlantDao extends AbstractDao implements KlantDaoInterface
          * @var KlantFilter $filter
          */
         $builder = $this->repository->createQueryBuilder($this->alias);
+
         $builder
-            ->select('klant, laatsteIntake, gebruikersruimte')
+            // SELECTs
+            ->addSelect('laatsteIntake')
             ->addSelect('verslag.datum AS datumLaatsteVerslag')
             ->addSelect('locatie.naam AS laatsteVerslagLocatie')
-            ->addSelect('info.isGezin AS isGezin')
             ->addSelect('COUNT(DISTINCT verslag.id) AS aantalVerslagen')
 
-        ;
+            // JOINs
+            ->join('MwBundle\Entity\MwDossierStatus', 'dossierstatus', 'WITH', 'dossierstatus.klant = klant')
 
-        $builder
+            // LEFT JOINs
             ->leftJoin($this->alias.'.verslagen', 'verslag')
-            ->leftJoin('verslag.medewerker', 'medewerker')
-             ->leftJoin('klant.info', 'info');
-
-        $builder
-            ->leftJoin('klant.maatschappelijkWerker', 'maatschappelijkWerker')
-            ->leftJoin($this->alias.'.verslagen', 'v2', 'WITH', 'verslag.klant = v2.klant AND (verslag.datum < v2.datum OR (verslag.datum = v2.datum AND verslag.id < v2.id))')
-            ->where('v2.id IS NULL')
-            ->leftJoin($this->alias.'.geslacht', 'geslacht')
-            ->leftJoin($this->alias.'.intakes', 'intake')
             ->leftJoin($this->alias.'.laatsteIntake', 'laatsteIntake')
-            ->leftJoin('laatsteIntake.intakelocatie', 'laatsteIntakeLocatie')
             ->leftJoin('verslag.locatie', 'locatie')
             ->leftJoin($this->alias.'.huidigeMwStatus', 'huidigeMwStatus')
-            ->leftJoin('huidigeMwStatus.project', 'project')
-            ->leftJoin('laatsteIntake.gebruikersruimte', 'gebruikersruimte')
-
-            ->groupBy('klant.achternaam, klant.id')
+            ->leftJoin('dossierstatus.project', 'project') // SORTING & FILTERING
         ;
+        // JOINs For Sorting
+        if($hasSort){
+            $builder
+                ->leftJoin($this->alias.'.geslacht', 'geslacht')
+                ->leftJoin('klant.maatschappelijkWerker', 'maatschappelijkWerker') // SORTING & FILTERING
+                ->leftJoin('laatsteIntake.gebruikersruimte', 'gebruikersruimte') // SORTING & FILTERING
+            ;
+        }
 
+        // CONDITIONs
+        $builder->groupBy('klant.id');
         if ($filter) {
             $filter->applyTo($builder);
         }
-
+        
         if ($page) {
-            /**
-             * Vanwege de vele left joins in deze query is de total count niet te optimaliseren (door mij) onder de <900ms.
-             * Dat vind ik lang. Temeer omdat in veel gevallen die total count niet bijster interessant is.
-             *
-             * In de default configuratie van het filter wordt daarom de total count niet geteld. Dat scheelt een eerste snelle klik.
-             * Zodra je dan filtert gaat het sowieso sneller en wordt het juiste getal getoont.
-             */
-            $dql = $builder->getDQL();
-            $params = $builder->getParameters();
-            //            $sql = $builder->getQuery()->getSQL();
+            $this->paginationOptions['distinct'] = false; // disable count for this query
+            // https://github.com/KnpLabs/KnpPaginatorBundle/blob/master/docs/manual_counting.md
+            $builderCount = $this->repository->createQueryBuilder($this->alias);
+            $builderCount
+                ->select('COUNT(DISTINCT klant.id)')
+                ->join('MwBundle\Entity\MwDossierStatus', 'dossierstatus', 'WITH', 'dossierstatus.klant = klant')
+                ->leftJoin($this->alias.'.huidigeMwStatus', 'huidigeMwStatus')
+            ;
 
-            $count = 11111;
-            if ($filter->isDirty()) {
-                $builder->resetDQLPart('select');
-                $builder->select('klant.id'); // select only one column for count query.
-
-                $countQuery = $builder->getQuery();
-                $fullSql = SqlExtractor::getFullSQL($countQuery); // including bound parameters.
-
-                $countSql = 'SELECT COUNT(*) AS count FROM ('.$fullSql.') tmp'; // wrap into subquery.
-                $countStmt = $this->entityManager->getConnection()->prepare($countSql);
-                $result = $countStmt->executeQuery();
-                $count = $result->fetchOne(0);
+            if ($filter && $filter->isDirty()) {
+                $builderCount
+                    ->leftJoin($this->alias.'.verslagen', 'verslag')
+                    ->leftJoin($this->alias.'.laatsteIntake', 'laatsteIntake')
+                    ->leftJoin('verslag.locatie', 'locatie')
+                    ->leftJoin('dossierstatus.project', 'project') // SORTING & FILTERING
+                ;
+                $filter->applyTo($builderCount);
             }
-            $query = $this->entityManager->createQuery($dql)->setHint('knp_paginator.count', $count);
 
-            $query->setParameters($params);
+            $builderCount->setParameters($builder->getParameters());
+            $count = $builderCount->getQuery()->getSingleScalarResult();
+            $query = $builder->getQuery();
 
+            $query->setHint('knp_paginator.count', $count);
             return $this->paginator->paginate($query, $page, $this->itemsPerPage, $this->paginationOptions);
         }
-
         return $builder->getQuery()->getResult();
     }
 

@@ -187,7 +187,8 @@ abstract class AbstractController extends SymfonyController
             $filter = null;
         }
         $page = $request->get('page', 1);
-        $pagination = $this->dao->findAll($page, $filter);
+        $hasSort = $request->get('sort', false);
+        $pagination = $this->dao->findAll($page, $filter, $hasSort);
 
         return [
             'filter' => isset($form) ? $form->createView() : null,

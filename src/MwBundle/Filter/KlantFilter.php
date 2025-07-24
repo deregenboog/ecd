@@ -136,18 +136,20 @@ class KlantFilter implements FilterInterface
         }
         if ('1' == $this->isGezin) {
             $builder
+                ->leftJoin('klant.info', 'info')
                 ->andWhere('info.isGezin = 1');
         } elseif ('0' == $this->isGezin) {
             $builder
+                ->leftJoin('klant.info', 'info')
                 ->andWhere('info.isGezin = 0');
         } elseif ('null' == $this->isGezin) {
             $builder
+                ->leftJoin('klant.info', 'info')
                 ->andWhere('info.isGezin = 0 OR info.isGezin IS NULL or info.isGezin =1 ');
         }
 
         if ($this->project) {
             $builder
-                ->innerJoin('huidigeMwStatus.project', 'project')
                 ->andWhere('project = :project')
                 ->setParameter('project', $this->project);
         }
