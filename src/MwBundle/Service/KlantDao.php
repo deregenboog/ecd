@@ -29,14 +29,14 @@ class KlantDao extends AbstractDao implements KlantDaoInterface
             'datumLaatsteVerslag',
             'aantalVerslagen',
         ],
-       'wrap-queries' => true, // because of HAVING clause in filter
+       'wrap-queries' => false, // because of HAVING clause in filter
     ];
 
     protected $class = Klant::class;
 
     protected $alias = 'klant';
 
-    public function findAll($page = null, ?FilterInterface $filter = null)
+    public function findAll($page = null, ?FilterInterface $filter = null, $hasSort = false)
     {
         //        @TODO: Query herschrijven zodat ie voldoen aan FULL GROUP BY. zie https://www.percona.com/blog/2019/05/13/solve-query-failures-regarding-only_full_group_by-sql-mode/
 
@@ -85,26 +85,50 @@ class KlantDao extends AbstractDao implements KlantDaoInterface
             ->leftJoin($this->alias.'.laatsteIntake', 'laatsteIntake')
             ->leftJoin('verslag.locatie', 'locatie')
             ->leftJoin($this->alias.'.huidigeMwStatus', 'huidigeMwStatus')
-
-            // JOINs For Sorting
-            // #OPTIMIZATION it needs an ability here to separate sorting queries from the main query (same as in filtering)
-            ->leftJoin($this->alias.'.geslacht', 'geslacht')
             ->leftJoin('dossierstatus.project', 'project') // SORTING & FILTERING
-            ->leftJoin('klant.maatschappelijkWerker', 'maatschappelijkWerker') // SORTING & FILTERING
-            ->leftJoin('laatsteIntake.gebruikersruimte', 'gebruikersruimte') // SORTING & FILTERING
-            
-            // CONDITIONs
-            ->groupBy('klant.id')
         ;
+        // JOINs For Sorting
+        if($hasSort){
+            $builder
+                ->leftJoin($this->alias.'.geslacht', 'geslacht')
+                ->leftJoin('klant.maatschappelijkWerker', 'maatschappelijkWerker') // SORTING & FILTERING
+                ->leftJoin('laatsteIntake.gebruikersruimte', 'gebruikersruimte') // SORTING & FILTERING
+            ;
+        }
 
+        // CONDITIONs
+        $builder->groupBy('klant.id');
         if ($filter) {
             $filter->applyTo($builder);
         }
         
         if ($page) {
-            return $this->paginator->paginate($builder->getQuery(), $page, $this->itemsPerPage, $this->paginationOptions);
-        }
+            $this->paginationOptions['distinct'] = false; // disable count for this query
+            // https://github.com/KnpLabs/KnpPaginatorBundle/blob/master/docs/manual_counting.md
+            $builderCount = $this->repository->createQueryBuilder($this->alias);
+            $builderCount
+                ->select('COUNT(DISTINCT klant.id)')
+                ->join('MwBundle\Entity\MwDossierStatus', 'dossierstatus', 'WITH', 'dossierstatus.klant = klant')
+                ->leftJoin($this->alias.'.huidigeMwStatus', 'huidigeMwStatus')
+            ;
 
+            if ($filter && $filter->isDirty()) {
+                $builderCount
+                    ->leftJoin($this->alias.'.verslagen', 'verslag')
+                    ->leftJoin($this->alias.'.laatsteIntake', 'laatsteIntake')
+                    ->leftJoin('verslag.locatie', 'locatie')
+                    ->leftJoin('dossierstatus.project', 'project') // SORTING & FILTERING
+                ;
+                $filter->applyTo($builderCount);
+            }
+
+            $builderCount->setParameters($builder->getParameters());
+            $count = $builderCount->getQuery()->getSingleScalarResult();
+            $query = $builder->getQuery();
+
+            $query->setHint('knp_paginator.count', $count);
+            return $this->paginator->paginate($query, $page, $this->itemsPerPage, $this->paginationOptions);
+        }
         return $builder->getQuery()->getResult();
     }
 
