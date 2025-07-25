@@ -5,9 +5,9 @@ services:
       dockerfile: Dockerfile
     ports:
       - 8080:80
+      - 8443:443
     volumes:
       - ${PWD}/public:/var/www/html/public
-      - ${PWD}/docker/nginx/default.conf:/etc/nginx/conf.d/default.conf
     depends_on:
       - php
   php:

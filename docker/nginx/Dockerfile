@@ -1,3 +1,4 @@
 FROM nginx:latest
 
-COPY default.conf /etc/nginx/conf.d
+COPY default-ssl.conf /etc/nginx/conf.d/default.conf
+COPY ssl/ /etc/nginx/ssl/

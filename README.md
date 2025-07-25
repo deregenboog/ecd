@@ -57,7 +57,60 @@ scoop install mutagen
 - load database fixtures `php bin/console hautelook:fixtures:load --no-interaction`
 - install web related dependencies using NPM (node package manager): `npm install` (if you have npm installed locally, otherwise do so)
 
-The ECD web-application should now be accessible by pointing your web-browser to [http://localhost:8080/](http://localhost:8080/). PhpMyAdmin is available at port 81 for easy database access: [http://localhost:81/](http://localhost:81/) (user: ecd, password: ecd).
+The ECD web-application should now be accessible by pointing your web-browser to:
+- **HTTP:** [http://localhost:8080/](http://localhost:8080/) (redirects to HTTPS)
+- **HTTPS:** [https://localhost:8443/](https://localhost:8443/) (recommended for SAML testing)
+
+PhpMyAdmin is available at port 81 for easy database access: [http://localhost:81/](http://localhost:81/) (user: ecd, password: ecd).
+
+### SSL/HTTPS Support
+
+The development environment includes full SSL/HTTPS support for testing SAML authentication and other features requiring secure connections.
+
+#### SSL Certificate
+A self-signed SSL certificate is automatically generated during the Docker build process and configured for `localhost`. The certificate includes:
+- Common Name: `localhost`
+- Subject Alternative Names: `localhost`, `*.localhost`, `127.0.0.1`
+- Valid for 365 days from generation
+
+#### Browser Security Warning
+Your browser will show a security warning for the self-signed certificate. This is normal for local development. To proceed:
+- **Chrome:** Click "Advanced" → "Proceed to localhost (unsafe)"
+- **Firefox:** Click "Advanced" → "Accept the Risk and Continue"
+- **Safari:** Click "Show Details" → "Visit this website"
+
+#### Permanently Trust SSL Certificate (Recommended)
+
+To avoid browser warnings permanently, add the SSL certificate to your system's trusted store:
+
+**macOS:**
+```bash
+sudo security add-trusted-cert -d -r trustRoot -k /Library/Keychains/System.keychain docker/nginx/ssl/localhost.crt
+```
+
+**Windows:**
+1. Open `docker/nginx/ssl/localhost.crt` 
+2. Click "Install Certificate..."
+3. Choose "Local Machine" → "Next"
+4. Select "Place all certificates in the following store"
+5. Click "Browse" → Select "Trusted Root Certification Authorities" → "OK"
+6. Click "Next" → "Finish"
+
+**Linux:**
+```bash
+# Ubuntu/Debian
+sudo cp docker/nginx/ssl/localhost.crt /usr/local/share/ca-certificates/localhost.crt
+sudo update-ca-certificates
+
+# CentOS/RHEL/Fedora
+sudo cp docker/nginx/ssl/localhost.crt /etc/pki/ca-trust/source/anchors/
+sudo update-ca-trust
+```
+
+After installing the certificate, restart your browser to apply the changes.
+
+#### SAML/SSO Testing
+For testing SAML authentication with external providers (Microsoft, etc.), use the HTTPS URL: `https://localhost:8443` as your application's base URL in the SAML configuration.
 
 ## Development Setup
 
@@ -106,7 +159,7 @@ This setup automatically provides two development modes:
    ```
    Name: ecd-docker
    Host: localhost
-   Port: 8080
+   Port: 8080 (HTTP) or 8443 (HTTPS)
    Debugger: Xdebug
    ☑️ Use path mappings
    ```
@@ -168,13 +221,17 @@ Create/edit `.vscode/launch.json` in your project root:
 
 **Check which PHP pool is being used:**
 ```bash
-# Fast pool (no debugging)
+# Fast pool (no debugging) - HTTP
 curl -I http://localhost:8080/ | grep X-FPM-Backend
-# Should show: 127.0.0.1:9000
+# Fast pool (no debugging) - HTTPS
+curl -I -k https://localhost:8443/ | grep X-FPM-Backend
+# Should show: php:9000
 
-# Debug pool (with Xdebug)
+# Debug pool (with Xdebug) - HTTP
 curl -I -H "Cookie: XDEBUG_SESSION=PHPSTORM" http://localhost:8080/ | grep X-FPM-Backend
-# Should show: 127.0.0.1:9001
+# Debug pool (with Xdebug) - HTTPS
+curl -I -k -H "Cookie: XDEBUG_SESSION=PHPSTORM" https://localhost:8443/ | grep X-FPM-Backend
+# Should show: php:9001
 ```
 
 **Common issues:**
