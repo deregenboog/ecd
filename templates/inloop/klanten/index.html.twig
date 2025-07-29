@@ -90,7 +90,20 @@
         </thead>
         <tbody>
             {% for klant in pagination %}
-                <tr data-href="{{ path('inloop_klanten_view', {id: klant.id}) }}">
+                {% set class = "" %}
+                {% set ttactive = "" %}
+                {% set tttext = "" %}
+
+                {% if klant.eersteIntake.beschikkingWachtlijstbegeleiding %}
+                    {% set class = "info" %}
+                    {% set ttactive = "tooltip" %}
+                    {% set tttext = "Klant heeft recht op wachtlijstbegeleiding." %}
+                {% endif %}
+                <tr data-href="{{ path('inloop_klanten_view', {id: klant.id}) }}" 
+                    class="{{ class }}"
+                    data-toggle="{{ ttactive }}"
+                    title="{{ tttext }}"
+                >
                     <td>
                         {{ klant.id }}
                     </td>
