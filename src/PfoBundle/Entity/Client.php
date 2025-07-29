@@ -245,12 +245,22 @@ class Client
      */
     private $gekoppeldeClienten;
 
+    /**
+     * @var Incident[]
+     *
+     * @ORM\OneToMany(targetEntity="Incident", mappedBy="client", cascade={"persist"})
+     *
+     * @ORM\OrderBy({"id" = "DESC"})
+     */
+    private $incidenten;
+
     public function __construct()
     {
         $this->verslagen = new ArrayCollection();
         $this->documenten = new ArrayCollection();
         $this->hoofdclienten = new ArrayCollection();
         $this->gekoppeldeClienten = new ArrayCollection();
+        $this->incidenten = new ArrayCollection();
     }
 
     /**
@@ -623,6 +633,30 @@ class Client
             $client->setHoofdclient($this);
         }
 
+        return $this;
+    }
+
+    /**
+     * @return Incident[]
+     */
+    public function getIncidenten()
+    {
+        return $this->incidenten;
+    }
+
+    /**
+     * @param Incident[] $incidenten
+     */
+    public function setIncidenten(array $incidenten): Client
+    {
+        $this->incidenten = $incidenten;
+
+        return $this;
+    }
+
+    public function addIncident(Incident $incident): Client
+    {
+        $this->incidenten[] = $incident;
         return $this;
     }
 }
