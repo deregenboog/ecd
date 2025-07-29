@@ -70,6 +70,15 @@ class HulpvraagType extends AbstractType
                 'required' => false,
                 'label'=> 'Geschikt voor stagiair'
             ])
+            ->add('maatjeMinderFysiek', null, [
+                'required' => false,
+            ])
+            ->add('maatjeMinderFrequent', null, [
+                'required' => false,
+            ])
+            ->add('maatjeMinderLang', null, [
+                'required' => false,
+            ])
             ->add('voorkeurGeslacht', null, [
                 'required' => false,
                 'placeholder' => 'Geen voorkeur',
