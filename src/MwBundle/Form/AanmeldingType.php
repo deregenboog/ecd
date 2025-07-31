@@ -2,6 +2,7 @@
 
 namespace MwBundle\Form;
 
+use AppBundle\Entity\Medewerker;
 use AppBundle\Form\AppDateType;
 use AppBundle\Form\BaseSelectType;
 use AppBundle\Form\BaseType;
@@ -17,6 +18,9 @@ class AanmeldingType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        $openMet = $options['open_via'] ?? null;
+        $medewerker = $options['data'] instanceof Aanmelding ? $options['data']->getMedeWerker() : null;
+
         $builder
             ->add('datum', AppDateType::class)
             ->add('locatie', LocatieSelectType::class, [
@@ -29,8 +33,24 @@ class AanmeldingType extends AbstractType
                 'required' => true,
             ])
             ->add('binnenViaOptieKlant', BinnenViaOptieKlantSelectType::class)
-            ->add('submit', SubmitType::class)
         ;
+
+        /// Dit wordt gebruikt wanneer een andere verantwoordelijke dit dossier aan het openen is
+        if($openMet){
+            $builder->add('open_via', \Symfony\Component\Form\Extension\Core\Type\ChoiceType::class, [
+                'label' => 'Nieuwe verantwoordelijke medewerker',
+                'choices' => [
+                    'Te openen door mij ('.$medewerker->getNaam().')' => 'huidige_beheerder',
+                    'Te openen door de vorige verantwoordelijke ('.$openMet->getNaam().')' => 'vorige_beheerder',
+                ],
+                'expanded' => true,
+                'multiple' => false,
+                'required' => true,
+                'mapped' => false,
+            ]);
+        }
+
+        $builder->add('submit', SubmitType::class);
     }
 
     public function configureOptions(OptionsResolver $resolver)
@@ -39,7 +59,8 @@ class AanmeldingType extends AbstractType
             'data_class' => Aanmelding::class,
             'class' => Aanmelding::class,
             'mode' => BaseType::MODE_ADD,
-            // 'allow_extra_fields' => true,
+            'allow_extra_fields' => true,
+            'open_via' => null,
         ]);
     }
 
