@@ -81,6 +81,14 @@ class BezoekerFilter implements FilterInterface
         //        if ($this->huidigeStatus) {
         //            $builder->andWhere($builder->expr()->isInstanceOf('status', $this->huidigeStatus));
         //        }
+        
+        if($this->huidigeStatus){
+            $builder
+                ->innerJoin('bezoeker.dossierStatus', 'dossierStatus')
+                ->andWhere('dossierStatus INSTANCE OF :huidigeStatus')
+                ->setParameter('huidigeStatus', $this->huidigeStatus)
+            ;
+        }
 
         if ($this->woonlocatie) {
             $builder
