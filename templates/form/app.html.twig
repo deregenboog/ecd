@@ -7,12 +7,32 @@
             dit formulier en klik nogmaals op "Opslaan".
         </div>
     {%- endif %}
+        
     {# Add the id attribute to existing form attributes #}
     {% set attr = form.vars.attr|merge({'id': form.vars.id}) %}
     {# Call the parent form_start block with the updated attr variable:
        In theory, this does allow the form to inherit attributes from its parent form,
        create new attributes, or overwrite existing ones #}
     {{ parent(form.vars | merge({'attr': attr})) }}
+
+    <!-- Modal for Afsluiting confirmation -->
+    <div class="modal fade" id="afsluitingConfirmModal" tabindex="-1" role="dialog" aria-labelledby="afsluitingModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="afsluitingModalLabel">Let op!</h4>
+                </div>
+                <div class="modal-body">
+                    <!-- content is dynamically filled through javascript -->
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Annuleren</button>
+                    <button type="button" class="btn btn-primary" id="afsluitingConfirmBtn">Bevestigen</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
 {%- endblock form_start %}
 
