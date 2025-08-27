@@ -1,12 +1,12 @@
 when@dev: &dev
   hslavich_onelogin_saml:
       sp:
-        entityId: 'http://ecd.test:8080/saml/metadata'
+        entityId: 'https://ecd.test:8443/saml/metadata'
         assertionConsumerService:
-          url: 'http://ecd.test:8080/saml/acs'
+          url: 'https://ecd.test:8443/saml/acs'
           binding: 'urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST'
         singleLogoutService:
-          url: 'http://ecd.test:8080/saml/logout'
+          url: 'https://ecd.test:8443/saml/logout'
           binding: 'urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect'
         privateKey: ''
 
@@ -24,16 +24,16 @@ hslavich_onelogin_saml:
       binding: 'urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect'
     x509cert: 'MIIC8DCCAdigAwIBAgIQKWWVk1a91p9BQIA+9kaLDzANBgkqhkiG9w0BAQsFADA0MTIwMAYDVQQDEylNaWNyb3NvZnQgQXp1cmUgRmVkZXJhdGVkIFNTTyBDZXJ0aWZpY2F0ZTAeFw0yNTA3MTgxMzMxMzdaFw0yODA3MTgxMzMxMzhaMDQxMjAwBgNVBAMTKU1pY3Jvc29mdCBBenVyZSBGZWRlcmF0ZWQgU1NPIENlcnRpZmljYXRlMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA514S3c5+oA+TpefN6S26PFF9Wk/UAZp3u2oMRJN/wkRHavl9VyudUnQdclz7F6q+lwP55yNeOrRPQWiN3wcYK4raG0RHhmZ6eB/5eV0duDF1yOO2w8DFNvvxXHZCkCleDwt9RdYk9m75Spc4ToThjqaE6H1wdffrcDjFzLxvx9uSGiOa8Y0y+ocXQkbrIveRxRrMpvKHmCWiznzeH4zVIWcSlkMcA6UP68eqLKXmvBZYoO9ScuaC6qofm4V9Lcsg5jbaGeCNouZhVbusHT2f6WAO0ak3I1oW2FxvPocVREiBsWlA7w2ZQ/6polLFGdmPZbcsEYGpNEqlznL39WehtQIDAQABMA0GCSqGSIb3DQEBCwUAA4IBAQDMpxRNIbzoBCMPXSdSu273NI+LVzUq2ugscsFXC98oCQ0SwWVGueiZ6SgUsjETxtZaHBhe7FnXtGBx1ETWl2RNalILZtVJ7JRLf0S2Oi8QzShMwfEdZBZL/vRr+dWxFwkkckZ/JBhVCN1KvJXhOz0YkGfyciGDW6mw0UTH9VYolMHiv9Q2u1nALaSgst8LdGfmpAOYk2K9hfVaI+asBGn3KzXxcb4PKmcpbr+NruHPn6ecZei2iDv0UCy/e4idXAyk/TVaL8UR2YTjnqypZmpLiR/J2mhu2nuwBSy44uW7Vlhptj0F2SsHx56dxbZfOmB/+cUo6bbYicGq7NupfEF+'
   sp:
-    entityId: 'https://ecd.deregenboog.org/saml/metadata'
+    entityId: 'https://ecd.test:8443/saml/metadata'
     assertionConsumerService:
-      url: 'https://ecd.deregenboog.org/saml/acs'
+      url: 'https://ecd.test:8443/saml/acs'
       binding: 'urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST'
     singleLogoutService:
-      url: 'https://ecd.deregenboog.org/saml/logout'
+      url: 'https://ecd.test:8443/saml/logout'
       binding: 'urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect'
     privateKey: ''
   # Optional settings
-  baseurl: 'https://ecd.deregenboog.org'
+  baseurl: 'https://ecd.test:8443'
   strict: true
   debug: true
   security:

@@ -78,6 +78,12 @@ services:
 
     AppBundle\Security\ControllerVoter:
 
+    AppBundle\Security\SamlUserFactory:
+        tags:
+            - { name: hslavich_onelogin_saml.user_factory }
+
+    AppBundle\Security\DebuggingSamlUserProvider:
+
     AppBundle\Event\LoginEventListener:
         arguments:
             $tokenStorage: '@security.untracked_token_storage'
