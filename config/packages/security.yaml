@@ -30,14 +30,11 @@ security:
     providers:
         chain_provider:
             chain:
-                providers: [saml_provider,debugging_database,ecd_ldap]
-#                providers: [database,ecd_ldap]
+                providers: [database, ecd_ldap]  # Database first, dan LDAP
         database:
             entity:
                 class: 'AppBundle\Entity\Medewerker'
                 property: 'username'
-        debugging_database:
-            id: 'AppBundle\Security\DebuggingSamlUserProvider'
         saml_provider:
             saml:
                 user_class: 'AppBundle\Entity\Medewerker'
@@ -49,7 +46,6 @@ security:
                 search_dn: "%ldap_search_user%"
                 search_password: '%ldap_search_password%'
                 default_roles: ROLE_USER
-#                uid_key: 'username'
                 extra_fields:
                     - givenName
                     - sn
@@ -64,27 +60,26 @@ security:
         main:
             lazy: true
            #anonymous: ~
-            # Here we use the chained provider defined previously...
-            provider: chain_provider
-            entry_point: saml
-#            entry_point: form_login_ldap
+            provider: database
+            entry_point: saml #form_login_ldap of saml
             pattern: ^/
-            #logout: ~
             # https://symfony.com/doc/current/security/impersonating_user.html
             switch_user: { role: ROLE_ADMIN }
             form_login_ldap:
                 service: Symfony\Component\Ldap\Ldap
-#                provider: chain_provider
+                provider: chain_provider
                 dn_string: 'DEREGENBOOG\{username}'
                 login_path: login
                 check_path: login
             saml:
                 # Uses getNameId() method by default.
-                # username_attribute: uid
-                # Use the attribute's friendlyName instead of the name
-                use_attribute_friendly_name: true
+                username_attribute: 'http://schemas.microsoft.com/identity/claims/objectidentifier' #dit is de GUID voor gebruikers in Entra/Azure.
+                # Use the attribute's friendlyName instead of the name # dit werkt niet voor microsoft?
+                use_attribute_friendly_name: false
                 check_path: saml_acs
                 login_path: saml_login
+                persist_user: true
+                user_factory: 'AppBundle\Security\SamlUserFactory'
             logout:
                 path: saml_logout
         login:
@@ -98,6 +93,7 @@ security:
         - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/saml/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/saml/metadata, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/saml/logout, roles: ROLE_USER }
         - { path: ^/admin/klanten, roles: ROLE_TEAMLEIDERS }
         - { path: ^/admin, roles: ROLE_ADMIN }
         - { path: ^/medewerkers, roles: ROLE_USERADMIN }

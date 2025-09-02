@@ -67,3 +67,11 @@ yarn-error.log
 
 ### Mutagen
 /.mutagen.yml.lock
+
+### secrets ###
+*.key
+*.pem
+certs/
+certificates/
+ssl/
+docker/nginx/ssl/

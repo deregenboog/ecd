@@ -10,4 +10,4 @@ logout:
   path: /logout
   defaults:
     _controller: Symfony\Bundle\FrameworkBundle\Controller\RedirectController::redirectAction
-    route: login
+    route: saml_logout
