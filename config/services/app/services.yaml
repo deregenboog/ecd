@@ -79,10 +79,8 @@ services:
     AppBundle\Security\ControllerVoter:
 
     AppBundle\Security\SamlUserFactory:
-        tags:
-            - { name: hslavich_onelogin_saml.user_factory }
-
-    AppBundle\Security\DebuggingSamlUserProvider:
+        arguments:
+            $entityManager: '@doctrine.orm.default_entity_manager'
 
     AppBundle\Event\LoginEventListener:
         arguments:
@@ -90,13 +88,9 @@ services:
         tags:
             - { name: kernel.event_listener, event: Symfony\Component\Security\Http\Event\LoginSuccessEvent, method: onLoginSuccess }
 
-    AppBundle\Event\CheckLdapGroupsListener:
+    AppBundle\Event\CheckSamlGroupsListener:
         arguments:
-            - '@security.ldap_locator'
-            - '%ldap_base_dn%'
-            - '%env(LDAP_SEARCH_USER)%'
-            - '%env(LDAP_SEARCH_PASSWORD)%'
-            - '%roles_groups%'
+            - '%saml_roles_groups%'
         tags:
             - { name: kernel.event_listener, event: Symfony\Component\Security\Http\Event\CheckPassportEvent, method: onCheckPassport }
 

@@ -33,39 +33,50 @@ class LoginEventListener implements \Symfony\Component\EventDispatcher\EventSubs
      */
     public function onLoginSuccess(LoginSuccessEvent $event)
     {
-        /** @var Medewerker $ldapUser */
-        $ldapUser = $event->getUser(); // user made by ldapUserProvider is only a mockup user. No check to database yet.
+        /** @var Medewerker $user */
+        $user = $event->getUser();
 
-        if (!$ldapUser->isActief()) {
-            throw new UserException(403, sprintf('Gebruiker %s is inactief in ECD en mag niet inloggen.', $ldapUser->getUserIdentifier()));
+        if (!$user->isActief()) {
+            throw new UserException(403, sprintf('Gebruiker %s is inactief in ECD en mag niet inloggen.', $user->getUserIdentifier()));
         }
 
-        $repository = $this->em->getRepository(Medewerker::class);
-        $username = $ldapUser->getUserIdentifier();
-        $medewerker = $repository->findOneByUsername($username);
+        // Detect authentication method via authenticator type
+        $authenticator = $event->getAuthenticator();
+        $isLdapAuth = $authenticator instanceof \Symfony\Component\Ldap\Security\LdapAuthenticator;
+        
+        if($isLdapAuth) { // extra logic for ldap
+            $repository = $this->em->getRepository(Medewerker::class);
+            $username = $user->getUserIdentifier();
+            $medewerker = $repository->findOneByUsername($username);
 
-        if (null == $medewerker || null == $medewerker->getUsername()) {
-            $medewerker = new Medewerker();
-            $medewerker->setEersteBezoek(new \DateTime());
-            $medewerker->setUsername($ldapUser->getUserIdentifier());
+            if (null == $medewerker || null == $medewerker->getUsername()) {
+                $medewerker = new Medewerker();
+                $medewerker->setEersteBezoek(new \DateTime());
+                $medewerker->setUsername($user->getUserIdentifier());
+            }
+
+            // update all ldap fields with each logon.
+            $medewerker
+                ->setLdapGuid($user->getLdapGuid())
+                ->setLdapGroups($user->getLdapGroups())
+                ->setEmail($user->getEmail())
+                ->setActief($user->isActief())
+                ->setRoles($user->getRoles())
+                ->setVoornaam($user->getVoornaam())
+                ->setAchternaam($user->getAchternaam())
+                ->setLaatsteBezoek(new \DateTime());
+
+            // Login user
+            $token = new UsernamePasswordToken($medewerker, 'main', $medewerker->getRoles());
+            $this->tokenStorage->setToken($token);
+        } else {
+            // SAML: user is already from database, just use it
+            $medewerker = $user;
         }
-
-        // update all ldap fields with each logon.
-        $medewerker
-            ->setLdapGuid($ldapUser->getLdapGuid())
-            ->setLdapGroups($ldapUser->getLdapGroups())
-            ->setEmail($ldapUser->getEmail())
-            ->setActief($ldapUser->isActief())
-            ->setRoles($ldapUser->getRoles())
-            ->setVoornaam($ldapUser->getVoornaam())
-            ->setAchternaam($ldapUser->getAchternaam())
-            ->setLaatsteBezoek(new \DateTime());
-
+        
+        //for ldap and saml, persistence is necessary.
         $this->em->persist($medewerker);
         $this->em->flush();
-        // Login user
-        $token = new UsernamePasswordToken($medewerker, 'main', $medewerker->getRoles());
-        $this->tokenStorage->setToken($token);
 
         return $medewerker;
     }

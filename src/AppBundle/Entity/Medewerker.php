@@ -7,6 +7,7 @@ use AppBundle\Model\NameTrait;
 use AppBundle\Model\TimestampableTrait;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
+use Hslavich\OneloginSamlBundle\Security\User\SamlUserInterface;
 use Symfony\Component\Ldap\Security\LdapUser;
 use Symfony\Component\Security\Core\Role\Role;
 use Symfony\Component\Security\Core\User\EquatableInterface;
@@ -23,7 +24,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
  *
  * @Gedmo\Loggable
  */
-class Medewerker implements UserInterface, PasswordAuthenticatedUserInterface, EquatableInterface
+class Medewerker implements UserInterface, PasswordAuthenticatedUserInterface, EquatableInterface, SamlUserInterface
 {
     use IdentifiableTrait;
     use NameTrait;
@@ -58,9 +59,14 @@ class Medewerker implements UserInterface, PasswordAuthenticatedUserInterface, E
     private $groepen = [];
 
     /**
-     * @ORM\Column(name="ldap_groups", type="json", nullable=true)
+     * ORM\Column(name="ldap_groups", type="json", nullable=true)
      */
     private $ldapGroups = [];
+
+    /**
+     * @ORM\Column(name="ldap_groups", type="json", nullable=true)
+     */
+    private $samlGroups = [];
 
     /**
      * @ORM\Column(name="eerste_bezoek", type="datetime")
@@ -115,7 +121,7 @@ class Medewerker implements UserInterface, PasswordAuthenticatedUserInterface, E
 
     public function getUserIdentifier(): string
     {
-        return $this->username;
+        return $this->username ?? '';
     }
 
     public function getUsername(): string
@@ -208,7 +214,7 @@ class Medewerker implements UserInterface, PasswordAuthenticatedUserInterface, E
 
     public function getEersteBezoek()
     {
-        return $this->eersteBezoek;
+        return $this->eersteBezoek ?? '1970-01-01';
     }
 
     /**
@@ -334,4 +340,52 @@ class Medewerker implements UserInterface, PasswordAuthenticatedUserInterface, E
 
         return true;
     }
+
+    public function setSamlAttributes(array $attributes)
+    {
+        $this->samlAttributes = $attributes;
+        $this->guid = $this->samlAttributes['http://schemas.microsoft.com/identity/claims/objectidentifier'][0];
+        $this->username = $this->guid; //username obv emailadres is niet uniek...
+        $this->achternaam = $this->samlAttributes['http://schemas.microsoft.com/identity/claims/displayname'][0];
+        $this->email = $this->samlAttributes['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress'][0];
+        $this->samlGroups = $this->samlAttributes['http://schemas.microsoft.com/ws/2008/06/identity/claims/groups'];
+        $this->setLaatsteBezoek(new \DateTime());
+    }
+
+    public function getSamlGroups(): array
+    {
+        return $this->samlGroups;
+    }
+
+    public function setSamlGroups(array $samlGroups): self
+    {
+        $this->samlGroups = $samlGroups;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getGuid()
+    {
+        return $this->guid;
+    }
+
+    /**
+     * @param mixed $guid
+     */
+    public function setGuid($guid): self
+    {
+        $this->guid = $guid;
+        return $this;
+    }
+
+
+
+
+
+
+
+
+
 }
