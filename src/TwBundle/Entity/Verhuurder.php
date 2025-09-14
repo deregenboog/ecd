@@ -3,6 +3,8 @@
 namespace TwBundle\Entity;
 
 use AppBundle\Entity\Klant as AppKlant;
+use AppBundle\Entity\Medewerker;
+use AppBundle\Exception\UserException;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
@@ -254,11 +256,14 @@ class Verhuurder extends Deelnemer
         return $this;
     }
 
-    public function reopen()
+    public function reopen(Medewerker $medewerker = null)
     {
+        if (null === $medewerker) {
+            throw new UserException("Kan dossier niet heropenen omdat er geen medewerker bekend is. Hier gaat iets niet goed");
+        }
         $verslag = new Verslag();
         $verslag->setDatum(new \DateTime());
-        $verslag->setMedewerker($this->getMedewerker());
+        $verslag->setMedewerker($medewerker);
         $verslag->setOpmerking(sprintf("Dossier heropend. Eerder afgesloten met als reden: '%s', op %s",$this->getAfsluiting(), $this->getAfsluitdatum()->format("d-m-Y")));
 
 

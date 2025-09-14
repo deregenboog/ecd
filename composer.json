@@ -60,6 +60,7 @@
         "doctrine/doctrine-migrations-bundle": "^3.2",
         "doctrine/orm": "^2.14",
         "friendsofsymfony/ckeditor-bundle": "^2.4",
+        "hslavich/oneloginsaml-bundle": "^2.10",
         "knplabs/knp-paginator-bundle": "^5",
         "kwn/number-to-words": "^2.6",
         "luxifer/doctrine-functions": "^1.4",

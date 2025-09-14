@@ -92,6 +92,10 @@ services:
     InloopBundle\Strategy\FlierbosStrategy:
         tags: [ { 'name': 'inloop.access_strategy', priority: 89 } ]
 
+    InloopBundle\Strategy\EUBurgers:
+        tags:
+            - { 'name': 'inloop.access_strategy', priority: 88 }
+
     InloopBundle\Strategy\VillaWesterweideStrategy:
         tags:
             - {'name': 'inloop.access_strategy', priority: 80}

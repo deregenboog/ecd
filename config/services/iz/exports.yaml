@@ -115,6 +115,7 @@ services:
                 Telefoon aanmelder: { expression: 'entity.getIzKlant().getTelefoonAanmelder()' }
                 Doelgroep: { expression: 'entity.getDoelgroep()' }
                 Hulpvraagsoort: { expression: 'entity.getHulpvraagsoort()' }
+                Geschikt voor stagiair: { expression: 'entity.isStagiair()' }
 
     iz.export.hulpaanbiedingen:
         class: AppBundle\Export\GenericExport

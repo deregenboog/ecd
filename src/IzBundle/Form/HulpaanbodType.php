@@ -67,6 +67,15 @@ class HulpaanbodType extends AbstractType
             ->add('stagiair', null, [
                 'required' => false,
             ])
+            ->add('maatjeMinderFysiek', null, [
+                'required' => false,
+            ])
+            ->add('maatjeMinderFrequent', null, [
+                'required' => false,
+            ])
+            ->add('maatjeMinderLang', null, [
+                'required' => false,
+            ])
             ->add('voorkeurGeslacht', null, [
                 'required' => false,
                 'placeholder' => 'Geen voorkeur',

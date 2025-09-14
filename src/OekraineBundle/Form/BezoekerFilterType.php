@@ -43,8 +43,8 @@ class BezoekerFilterType extends AbstractType
             $builder->add('huidigeStatus', ChoiceType::class, [
                 'required' => false,
                 'choices' => [
-                    'Aangemeld' => Aanmelding::class,
-                    'Afgesloten' => Afsluiting::class,
+                    'Aangemeld' => 'Aanmelding',
+                    'Afgesloten' => 'Afsluiting',
                 ],
             ]);
         }
