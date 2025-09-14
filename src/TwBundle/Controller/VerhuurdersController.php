@@ -156,7 +156,7 @@ class VerhuurdersController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             if ($form->get('yes')->isClicked()) {
                 try {
-                    $verhuurder->reopen();
+                    $verhuurder->reopen($this->getUser());
                     $entityManager->flush();
 
                     $this->addFlash('success', 'Klant is heropend.');

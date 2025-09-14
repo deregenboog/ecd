@@ -61,6 +61,27 @@ class Hulpvraag extends Hulp
     //set default value.
     protected $stagiair = true;
 
+    /**
+     * @var bool
+     *
+     * @ORM\Column(name="maatje_minder_fysiek", type="boolean")
+     */
+    private $maatjeMinderFysiek = false;
+
+    /**
+     * @var bool
+     *
+     * @ORM\Column(name="maatje_minder_frequent", type="boolean")
+     */
+    private $maatjeMinderFrequent = false;
+    
+    /**
+     * @var bool
+     *
+     * @ORM\Column(name="maatje_minder_lang", type="boolean")
+     */
+    private $maatjeMinderLang = false;
+
 
     /**
      * @deprecated
@@ -174,6 +195,42 @@ class Hulpvraag extends Hulp
         $this->geschiktVoorExpat = (bool) $geschiktVoorExpat;
 
         return $this;
+    }
+
+    public function setMaatjeMinderFysiek($maatjeMinderFysiek)
+    {
+        $this->maatjeMinderFysiek = (bool) $maatjeMinderFysiek;
+
+        return $this;
+    }
+
+    public function isMaatjeMinderFysiek()
+    {
+        return $this->maatjeMinderFysiek;
+    }
+
+    public function setMaatjeMinderFrequent($maatjeMinderFrequent)
+    {
+        $this->maatjeMinderFrequent = (bool) $maatjeMinderFrequent;
+
+        return $this;
+    }
+
+    public function isMaatjeMinderFrequent()
+    {
+        return $this->maatjeMinderFrequent;
+    }
+
+    public function setMaatjeMinderLang($maatjeMinderLang)
+    {
+        $this->maatjeMinderLang = (bool) $maatjeMinderLang;
+
+        return $this;
+    }
+
+    public function isMaatjeMinderLang()
+    {
+        return $this->maatjeMinderLang;
     }
 
     public function getVerslagen($includeRelated = true)

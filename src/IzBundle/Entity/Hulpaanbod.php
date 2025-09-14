@@ -56,6 +56,27 @@ class Hulpaanbod extends Hulp
     private $expat = false;
 
     /**
+     * @var bool
+     *
+     * @ORM\Column(name="maatje_minder_fysiek", type="boolean")
+     */
+    private $maatjeMinderFysiek = false;
+
+    /**
+     * @var bool
+     *
+     * @ORM\Column(name="maatje_minder_frequent", type="boolean")
+     */
+    private $maatjeMinderFrequent = false;
+    
+    /**
+     * @var bool
+     *
+     * @ORM\Column(name="maatje_minder_lang", type="boolean")
+     */
+    private $maatjeMinderLang = false;
+
+    /**
      * @deprecated
      *
      * @ORM\Column(name="voorkeur_voor_nederlands", type="boolean", nullable=true)
@@ -165,6 +186,42 @@ class Hulpaanbod extends Hulp
         $this->expat = (bool) $expat;
 
         return $this;
+    }
+
+    public function setMaatjeMinderFysiek($maatjeMinderFysiek)
+    {
+        $this->maatjeMinderFysiek = (bool) $maatjeMinderFysiek;
+
+        return $this;
+    }
+
+    public function isMaatjeMinderFysiek()
+    {
+        return $this->maatjeMinderFysiek;
+    }
+
+    public function setMaatjeMinderFrequent($maatjeMinderFrequent)
+    {
+        $this->maatjeMinderFrequent = (bool) $maatjeMinderFrequent;
+
+        return $this;
+    }
+
+    public function isMaatjeMinderFrequent()
+    {
+        return $this->maatjeMinderFrequent;
+    }
+
+    public function setMaatjeMinderLang($maatjeMinderLang)
+    {
+        $this->maatjeMinderLang = (bool) $maatjeMinderLang;
+
+        return $this;
+    }
+
+    public function isMaatjeMinderLang()
+    {
+        return $this->maatjeMinderLang;
     }
 
     /**

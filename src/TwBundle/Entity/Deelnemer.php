@@ -367,7 +367,7 @@ abstract class Deelnemer implements KlantRelationInterface
         return $this;
     }
 
-    public function reopen()
+    public function reopen(Medewerker $medewerker = null)
     {
         $this->afsluitdatum = null;
         return $this;

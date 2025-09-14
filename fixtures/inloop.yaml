@@ -199,6 +199,13 @@ InloopBundle\Entity\Locatie:
         gebruikersruimte: false
         datumVan: '<dateTimeBetween("-30 days","now")>'
         maatschappelijkWerk: true
+    locatie_nachtopvang_amoc_west:
+        naam: 'Nachtopvang Amoc West'
+        locatieTypes: [ '@lt_inloop' ]
+        nachtopvang: false
+        gebruikersruimte: false
+        datumVan: '<dateTimeBetween("-30 days","now")>'
+        maatschappelijkWerk: true
 
 InloopBundle\Entity\Woonsituatie:
     woonsituatie_1:
@@ -248,7 +255,7 @@ InloopBundle\Entity\Aanmelding:
     aanmelding_{1..25}:
         __construct: [ '@medewerker_inloop' ]
         klant: '@klant_<current()>'
-    aanmelding_{201..207}:
+    aanmelding_{201..208}:
         __construct: ['@medewerker_inloop']
         klant: '@klant_<current()>'
 
@@ -445,6 +452,33 @@ AppBundle\Entity\Klant:
         land: '@land_*'
         nationaliteit: '@nationaliteit_*'
         huidigeStatus: '@aanmelding_207'
+    klant_208:
+        roepnaam: 'ToegangNachtopvangAmocWest'
+        voornaam: 'Test'
+        achternaam: 'Inloop'
+        geslacht: '@geslacht_*'
+        geboortedatum: '<dateTimeThisDecade()>'
+        adres: '<streetAddress()>'
+        postcode: '<postcode()>'
+        plaats: '<city()>'
+        mobiel: '<phoneNumber()>'
+        telefoon: '<phoneNumber()>'
+        email: '<email()>'
+        laatsteZrm: '<dateTimeThisDecade()>'
+        # addIntake: ['@intake_1']
+        eersteIntake: '@intake_208'
+        laatsteIntake: '@intake_208'
+        # laatsteRegistratie: '@registratie_*'
+        overleden: '0'
+        disabled: '0'
+        werkgebied: '80%? @werkgebied_*'
+        postcodegebied: '80%? @ggw_gebied_*'
+        geenPost: '10%? 1 : 0'
+        geenEmail: '10%? 1 : 0'
+        medewerker: '@medewerker_*'
+        land: '@land_Roemenië'
+        nationaliteit: '@nationaliteit_Roemeense'
+        huidigeStatus: '@aanmelding_208'
 
 AppBundle\Entity\ZrmV2:
     zrm_201:
@@ -572,6 +606,24 @@ AppBundle\Entity\ZrmV2:
         requestModule: 'intakes'
         klant: '@klant_207'
         foreignKey: 7
+        model: 'ZrmV2'
+    zrm_208:
+        financien: 0
+        werkOpleiding: 0
+        tijdsbesteding: 0
+        huisvesting: 0
+        huiselijkeRelaties: 0
+        geestelijkeGezondheid: 0
+        lichamelijkeGezondheid: 0
+        middelenGebruik: 0
+        basaleAdl: 0
+        instrumenteleAdl: 0
+        sociaalNetwerk: 0
+        maatschappelijkeParticipatie: 0
+        justitie: 0
+        requestModule: 'intakes'
+        klant: '@klant_208'
+        foreignKey: 6
         model: 'ZrmV2'
 
 InloopBundle\Entity\Intake:
@@ -720,6 +772,25 @@ InloopBundle\Entity\Intake:
         verblijfsstatus: '@verblijfsstatus_1'
         overigenToegangVan: '<dateTimeBetween("+30 days","+30 days")>'
         zrm: '@zrm_207'
+    intake_208: #toegangNachtopvangAmocWestEU
+        medewerker: '@medewerker_inloop'
+        intakedatum: '<dateTimeBetween("-6 days","now")>'
+        toegangInloophuis: true
+        intakelocatie: '@locatie_nachtopvang_amoc_west'
+        doelgroep: true
+        verblijfInAmsterdamSinds: '<dateTimeThisDecade()>'
+        inkomens: [ '@inkomen_uitkering' ]
+        verwachtingDienstaanbod: 'test'
+        toekomstplannen: 'test'
+        woonsituatie: '@woonsituatie_*'
+        informeleZorg: 0
+        inloophuis: 1
+        dagbesteding: 0
+        hulpverlening: 0
+        klant: '@klant_208'
+        verblijfsstatus: '@verblijfsstatus_7'
+        overigenToegangVan: '<dateTimeBetween("+30 days","+30 days")>'
+        zrm: '@zrm_208'
 
 InloopBundle\Entity\Locatietijd:
     loctijd0_{@locatie_*}:

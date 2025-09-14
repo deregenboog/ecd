@@ -389,11 +389,24 @@ class KlantenController extends AbstractController
         $klant = $this->dao->find($id);
         $aanmelding = new Aanmelding($this->getMedewerker());
         $aanmelding->setKlant($klant);
+        $vorigeBeheerder = $klant->getAanmelding()->getMedewerker();
+        if($vorigeBeheerder->getId() !== $this->getMedewerker()->getId()) {
+            $this->addFlash('danger', 'U bent niet de verantwoordelijke medewerker ('.$vorigeBeheerder->getNaam().') voor deze klant `'.$klant->getNaam().'`. Als u het dossier opent, moet u een nieuwe verantwoordelijke medewerker selecteren.');
+        } else {
+            $vorigeBeheerder = null;
+        }
 
-        $form = $this->getForm(AanmeldingType::class, $aanmelding);
+        $form = $this->getForm(AanmeldingType::class, $aanmelding, [
+            'open_via' => $vorigeBeheerder,
+        ]);
+
         $form->handleRequest($this->getRequest());
         if ($form->isSubmitted() && $form->isValid()) {
             try {
+                if($vorigeBeheerder && $form->get('open_via')->getData() == "vorige_beheerder") {
+                    $aanmelding->setMedewerker($vorigeBeheerder);
+                }
+
                 $entityManager = $this->getEntityManager();
                 $klant->setHuidigeMwStatus($aanmelding);
                 $entityManager->persist($klant);

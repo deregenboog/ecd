@@ -1,0 +1,29 @@
+sync:
+  defaults:
+    permissions:
+      defaultFileMode: 0644      # rw-r--r--
+      defaultDirectoryMode: 0755  # rwxr-xr-x
+  src:
+    alpha: "./src"
+    beta: "docker://ecd-master-php-1/var/www/html/src"
+  config:
+    alpha: "./config"
+    beta: "docker://ecd-master-php-1/var/www/html/config"
+  templates:
+    alpha: "./templates"
+    beta: "docker://ecd-master-php-1/var/www/html/templates"
+  public:
+    alpha: "./public"
+    beta: "docker://ecd-master-php-1/var/www/html/public"
+  bin:
+    alpha: "./bin"
+    beta: "docker://ecd-master-php-1/var/www/html/bin"
+  fixtures:
+    alpha: "./fixtures"
+    beta: "docker://ecd-master-php-1/var/www/html/fixtures"
+  migrations:
+    alpha: "./migrations"
+    beta: "docker://ecd-master-php-1/var/www/html/migrations"
+  translations:
+    alpha: "./translations"
+    beta: "docker://ecd-master-php-1/var/www/html/translations"
