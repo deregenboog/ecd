@@ -31,9 +31,9 @@ class VerhuurderFilterTest extends DoctrineTestCase
                 WITH 
                     huurovereenkomst.isReservering = FALSE
                     AND huurovereenkomst.startdatum IS NOT NULL
-                    AND huurovereenkomst.startdatum <= :today
-                    AND (huurovereenkomst.einddatum IS NULL 
-                    OR huurovereenkomst.einddatum >= :today) 
+                    AND (huurovereenkomst.startdatum <= :today
+                    OR (huurovereenkomst.einddatum IS NULL 
+                    OR huurovereenkomst.einddatum >= :today)) 
             WHERE 
                 huurovereenkomst IS NOT NULL';
 
@@ -51,9 +51,9 @@ class VerhuurderFilterTest extends DoctrineTestCase
                 WITH 
                     huurovereenkomst.isReservering = FALSE
                     AND huurovereenkomst.startdatum IS NOT NULL
-                    AND huurovereenkomst.startdatum <= :today
-                    AND (huurovereenkomst.einddatum IS NULL 
-                    OR huurovereenkomst.einddatum >= :today) 
+                    AND (huurovereenkomst.startdatum <= :today
+                    OR (huurovereenkomst.einddatum IS NULL 
+                    OR huurovereenkomst.einddatum >= :today)) 
             WHERE 
                 huurovereenkomst IS NULL';
 
