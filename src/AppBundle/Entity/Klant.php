@@ -3,12 +3,12 @@
 namespace AppBundle\Entity;
 
 use AppBundle\Model\DocumentSubjectTrait;
+use AppBundle\Model\IncidentInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use InloopBundle\Entity\DossierStatus;
-use InloopBundle\Entity\Incident;
 use InloopBundle\Entity\Intake;
 use InloopBundle\Entity\Locatie;
 use InloopBundle\Entity\Registratie;
@@ -111,7 +111,7 @@ class Klant extends Persoon
     /**
      * @var Incident[]
      *
-     * @ORM\OneToMany(targetEntity="InloopBundle\Entity\Incident", mappedBy="klant", cascade={"persist"})
+     * @ORM\OneToMany(targetEntity="Incident", mappedBy="klant", cascade={"persist"})
      *
      * @ORM\OrderBy({"id" = "DESC"})
      */

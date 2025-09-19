@@ -3,7 +3,7 @@
 
         <h2>Incidenten <small>({{ klant.incidenten|length }} incidenten)</small></h2>
         <p>
-            {{ html.link('Incident toevoegen', path('inloop_incidenten_add', {'klant': klant.id}), 'add') }}
+           {{ html.link('Incident toevoegen', path('inloop_incidenten_add', {'klant': klant.id}), 'add') }}
         </p>
         <table class="table table-hover">
             <thead>

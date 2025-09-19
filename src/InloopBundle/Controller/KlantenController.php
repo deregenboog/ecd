@@ -74,11 +74,13 @@ class KlantenController extends AbstractController
      */
     public function viewAction(Request $request, $id)
     {
+        $this->entityManager->getFilters()->enable('incidenten')
+            ->setParameter('discr', 'inloop')
+        ;
         $response = parent::viewAction($request, $id);
         if (is_array($response)) {
             $response['allRows'] = $this->locatieDao->findAllActiveLocationsOfTypeInloop();
         }
-
         /**
          * The regular view is altered to pass an adjusted set of verslagen to the view.
          *
@@ -86,10 +88,9 @@ class KlantenController extends AbstractController
          * Therefor we utilise this method to get the TW deelnemer and merge the verslagen.
          */
         $klant = $response['entity'];
-
         $mwVerslagen = $klant->getVerslagen();
         $response['verslagen'] = $mwVerslagen;
-
+        
         $event = new DienstenLookupEvent($klant->getId());
         if ($event->getKlantId()) {
             $this->eventDispatcher->dispatch($event, \AppBundle\Event\Events::DIENSTEN_LOOKUP);

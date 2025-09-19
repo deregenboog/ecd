@@ -8,7 +8,7 @@ use AppBundle\Service\AbstractDao;
 use InloopBundle\Entity\Incident;
 use InloopBundle\Entity\Locatie;
 
-class IncidentDao extends AbstractDao implements IncidentDaoInterface
+class IncidentDao extends AbstractDao 
 {
     protected $paginationOptions = [
         'defaultSortFieldName' => 'incident.datum',
@@ -52,7 +52,7 @@ class IncidentDao extends AbstractDao implements IncidentDaoInterface
             ->innerJoin("{$this->alias}.klant", 'klant', 'WITH', 'klant = :klant')
             ->where("{$this->alias}.datumTot >= DATE(CURRENT_TIMESTAMP())")
             ->setParameters([
-                'klant' => klant,
+                'klant' => $klant,
             ])
         ;
 

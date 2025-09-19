@@ -48,3 +48,7 @@ services:
     AppBundle\Report\ZrmV2ScorePerPostcodegebied:
         tags:
             - { name: app.rapportage, category: ZRM }
+
+    AppBundle\Report\Incidenten:
+        tags:
+            - { name: app.rapportage }

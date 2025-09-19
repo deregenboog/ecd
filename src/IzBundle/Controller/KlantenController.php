@@ -227,4 +227,15 @@ class KlantenController extends AbstractController
             'diensten' => $event->getDiensten(),
         ];
     }
+
+    /**
+     * @Route("/{id}/view")
+     */
+    public function viewAction(Request $request, $id)
+    {
+        $this->entityManager->getFilters()->enable('incidenten')
+            ->setParameter('discr', 'iz')
+        ;
+        return parent::viewAction($request, $id);
+    }
 }

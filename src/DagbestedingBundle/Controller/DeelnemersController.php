@@ -226,4 +226,14 @@ class DeelnemersController extends AbstractController
             'form' => $form->createView(),
         ];
     }
+
+    /**
+     * @Route("/{id}/view")
+     */
+    public function viewAction(Request $request, $id)
+    {
+        $filter = $this->entityManager->getFilters()->enable('incidenten');
+        $filter->setParameter('discr', 'dagbesteding');
+        return parent::viewAction($request, $id);
+    }
 }

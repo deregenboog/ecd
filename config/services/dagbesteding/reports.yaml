@@ -3,7 +3,7 @@ services:
         autowire: true
         autoconfigure: true
 
-    DagbestedingBundle\Form\RapportageType:
+    DagbestedingBundle\Form\ReportingType:
 
     DagbestedingBundle\Report\Activering:
         arguments:
@@ -64,3 +64,7 @@ services:
             - '@DagbestedingBundle\Service\TrajectDao'
         tags:
             - { name: dagbesteding.rapportage, category: Trajecten }
+
+    DagbestedingBundle\Report\Incidenten:
+        tags:
+            - { name: dagbesteding.rapportage }

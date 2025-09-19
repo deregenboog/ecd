@@ -1,0 +1,38 @@
+{% import 'html.macro.twig' as html %}
+
+        <h2>Incidenten <small>({{ klant.incidenten|length }} incidenten)</small></h2>
+        {% set part =  route_base | split('_')[0] %}
+        <p>
+           {{ html.link('Incident toevoegen', path(part~'_incidenten_add', {'klant': klant.id}), 'add') }}
+        </p>
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>Datum</th>
+                    <th>Opmerking</th>
+                    <th>Politie</th>
+                    <th>Ambulance</th>
+                    <th>Crisisdienst</th>
+                    <th>Type</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for incident in klant.incidenten %}
+                    <tr>
+                        <td>{{ incident.datum|if_date('d-m-Y') }}</td>
+                        <td>{{ incident.opmerking }}</td>
+                        <td>{{ incident.politie|ja_nee }}</td>
+                        <td>{{ incident.ambulance|ja_nee }}</td>
+                        <td>{{ incident.crisisdienst|ja_nee }}</td>
+                        <td>{{ incident.incidentType|upper }}</td>
+                        <td>
+                            {{ html.link('Wijzigen', path((incident.incidentType)~'_incidenten_edit', {id: incident.id}), 'edit') }}
+                            {% if is_granted('ROLE_TEAMLEIDERS') %}
+                                {{ html.link('Verwijderen', path('app_incidenten_delete', {id: incident.id}), 'delete') }}
+                            {% endif %}
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>

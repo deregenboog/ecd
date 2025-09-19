@@ -68,3 +68,7 @@ services:
             - '%zonderzorg_locaties%'
         tags:
             - { name: mw.rapportage, category: Archief }
+    
+    MwBundle\Report\Incidenten:
+        tags:
+            - { name: mw.rapportage }
